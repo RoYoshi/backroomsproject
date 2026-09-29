@@ -86,6 +86,23 @@
     cx.restore();
     return { near, d, dx, dy };
   }
+  /* the cartograph lying on the floor: a small device that hums with its own faint light, so it can be spotted in the dark */
+  function drawItem(it, p, cam, sc, t, los) {
+    const dx = it[0] - p.x, dy = it[1] - p.y, d = Math.hypot(dx, dy);
+    if (d > 640) return;
+    if (d > 60 && los && los(p.x, p.y, Math.atan2(dy, dx), d) < d - 26) return;
+    const sx = W / 2 + (it[0] - cam.x) * sc, sy = H / 2 + (it[1] - cam.y) * sc, a = (1 - d / 640) * .8 + .15, fl = .75 + .25 * Math.sin(t * 9 + it[0]) * Math.sin(t * 3.1);
+    cx.save(); cx.translate(sx, sy); cx.scale(sc, sc);
+    const gr = cx.createRadialGradient(0, 0, 2, 0, 0, 46); gr.addColorStop(0, `rgba(190,255,220,${.30 * a * fl})`); gr.addColorStop(1, 'rgba(190,255,220,0)'); cx.fillStyle = gr; cx.fillRect(-50, -50, 100, 100);
+    cx.rotate(.5);
+    cx.fillStyle = `rgba(40,42,32,${.95 * a})`; cx.strokeStyle = `rgba(8,8,6,${a})`; cx.lineWidth = 1.4; cx.beginPath(); cx.roundRect(-8, -11, 16, 22, 3); cx.fill(); cx.stroke();
+    cx.fillStyle = `rgba(6,16,10,${a})`; cx.fillRect(-6, -9, 12, 12);
+    const j = Math.floor(t * 5), r = k => { const x = Math.sin(k * 12.9 + j * 4.1 + it[1]) * 43758.5; return x - Math.floor(x); };
+    cx.strokeStyle = `rgba(220,210,130,${.9 * a * fl})`; cx.lineWidth = .8; cx.beginPath(); cx.moveTo(-5 + r(1), -7); cx.lineTo(1 + r(2), -7 + r(3)); cx.lineTo(1, 0); cx.lineTo(5, r(4)); cx.stroke();
+    cx.fillStyle = `rgba(255,80,70,${a * (Math.sin(t * 6) > 0 ? 1 : .25)})`; cx.fillRect(2, 6, 2, 2);
+    cx.restore();
+    if (Math.random() < .25) { cx.fillStyle = `rgba(140,255,230,${.5 * a})`; cx.fillRect(sx + (Math.random() - .5) * 40 * sc, sy + (Math.random() - .5) * 30 * sc, 3 * sc, 1.5 * sc); }
+  }
   window.__glitchFrame = ({ p, cam, sc, los, W: w, H: h, t, run }) => {
     dpr = devicePixelRatio || 1; W = w; H = h;
     if (cv.width !== W * dpr || cv.height !== H * dpr) { cv.width = W * dpr; cv.height = H * dpr; }
@@ -96,6 +113,7 @@
       const time = performance.now() / 1000;
       for (const g of list) { const r = drawWall(g, p, cam, sc, time, los); if (r && (!best || r.near > best.near)) best = r; }
     }
+    if (run) for (const it of (window.__items || [])) drawItem(it, p, cam, sc, performance.now() / 1000, los);
     const near = best ? best.near : 0;
     updateSnd(run ? near : 0, best ? Math.max(-.8, Math.min(.8, best.dx / 400)) : 0, t);
     fx.style.opacity = near > .45 ? Math.min(.9, (near - .45) * 1.6) : 0;

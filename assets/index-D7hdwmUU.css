@@ -121,3 +121,45 @@ body.gl-out #game canvas,body.gl-out #mp{animation:glOut 1.4s ease-in forwards}
 #won .stats{color:#d7cda9;letter-spacing:1px;font-size:12px;margin:0 0 18px}
 #won .soon{letter-spacing:6px;color:#8ff;font-size:13px;margin:0 0 12px}
 #won{overflow:auto}#won h2{font-size:clamp(34px,9vh,55px)}
+
+/* ---- v13: inventory, light parts, cartograph ---- */
+#inventory{position:fixed;left:36px;top:122px;z-index:9;width:340px;max-width:calc(100vw - 56px);max-height:calc(100dvh - 250px);overflow:auto;padding:18px 18px 20px;background:linear-gradient(#1d1809f2,#141006f5);border:1px solid #c4b57855;box-shadow:0 18px 60px #000a;color:#f4efd5;font-size:12px;animation:invIn .18s ease-out}
+#inventory[hidden]{display:none}
+@keyframes invIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.inv-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.inv-head b{font:500 26px/1 Barlow Condensed,sans-serif;letter-spacing:4px}
+.inv-head span{color:#b9ac7c;font-size:10px;letter-spacing:1px}
+.inv-label{letter-spacing:2px;color:#d9c47a;font-size:10px;margin:14px 0 8px}
+.inv-equip{display:flex;gap:12px;align-items:center;background:#0d0a03aa;border:1px solid #c4b57833;padding:8px}
+#invLight{width:112px;height:112px;flex:none;background:radial-gradient(#3a3216,#0000 72%)}
+.inv-equip-info h3{margin:0 0 6px;font:500 20px/1 Barlow Condensed,sans-serif;letter-spacing:3px}
+.inv-equip-info p{margin:0 0 8px;color:#cdbf92;font-size:11px;line-height:1.55}
+.inv-sw{display:flex;gap:5px}.inv-sw i{width:13px;height:13px;border:1px solid #fff5;border-radius:2px}.inv-sw i.beam{border-radius:50%;box-shadow:0 0 8px currentColor}
+.inv-kinds{display:flex;gap:6px;margin-top:8px}.inv-kinds button{flex:1;padding:8px 4px;font-size:10px;letter-spacing:1px}
+.inv-kinds button.on{background:#ebd47e;color:#302510;border-color:#f8e4a2}
+.inv-row{display:flex;gap:6px;margin-top:6px}.inv-row button{flex:1;padding:9px 6px;font-size:10px;letter-spacing:1px}.inv-row button.off{color:#a9a07c}
+#inventory kbd{border:1px solid #c4b57866;border-bottom-width:2px;padding:1px 5px;margin-left:4px;font-size:9px;color:#efe3ad}
+.inv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.inv-slot{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px;background:#0d0a03aa;border:1px solid #c4b57826;color:#8f8560;font-size:9px;letter-spacing:1px}
+.inv-slot.full{color:#f4efd5;border-color:#c4b57866}.inv-slot.sel{border-color:#f3d98a;box-shadow:0 0 0 1px #f3d98a88 inset}
+.inv-ic{width:44px;height:44px}
+.inv-detail{margin-top:10px;padding:10px;background:#0d0a03aa;border:1px solid #c4b57826;min-height:54px}
+.inv-detail h4{margin:2px 0 6px;font:500 20px/1 Barlow Condensed,sans-serif;letter-spacing:3px}.inv-detail p{margin:0 0 10px;color:#cdbf92;font-size:11px;line-height:1.6}
+.inv-tag{font-size:9px;letter-spacing:2px;color:#8fe0d0}.inv-empty{color:#a9a07c!important;margin:0!important}
+.inv-detail button{padding:9px 12px;font-size:10px;letter-spacing:1px}
+#invToast{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);z-index:12;text-align:center;pointer-events:none;background:#1d1809ee;border:1px solid #f3d98a88;padding:12px 22px;letter-spacing:2px;color:#ffefa8;box-shadow:0 0 40px #f3d98a22}
+#invToast[hidden]{display:none}#invToast b{display:block;font:500 18px Barlow Condensed,sans-serif;letter-spacing:4px}#invToast span{display:block;margin-top:5px;font-size:10px;color:#cdbf92;letter-spacing:1px}
+#invToast.in{animation:toastIn .35s ease-out}@keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+.light-parts{grid-column:1/-1;margin-top:2px;padding-top:10px;border-top:1px solid #ac985944}
+#lightZoom{display:block;width:100%;height:170px;margin-bottom:10px;background:radial-gradient(#4a3f1c,#0000 75%)}
+.lp-head{display:flex;justify-content:space-between;align-items:center;letter-spacing:2px;font-size:11px;color:#f3d98a;margin-bottom:10px}.lp-head button{padding:6px 10px;font-size:10px}
+.lp-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.lp-fields label{margin:0;font-size:13px;letter-spacing:.2px}.lp-fields input[type=color]{height:38px;margin-top:6px;padding:4px;cursor:pointer}
+/* the cartograph: a crude device, not a map */
+#mapPanel{background:linear-gradient(#26241a,#171610)!important;border:2px solid #4b4837!important;border-radius:14px!important;padding:16px 16px 12px!important;box-shadow:0 20px 80px #000c,inset 0 0 0 4px #0b0b08!important}
+#mapPanel>div:first-child{letter-spacing:3px;color:#b8b48a;font-size:10px;margin-bottom:8px}
+#map{border:6px solid #0b0b08;border-radius:6px;box-shadow:inset 0 0 30px #000;filter:contrast(1.08) saturate(.85)}
+#mapPanel p{color:#8f9a6a!important;letter-spacing:2px;margin:8px 0 0!important}#mapPanel b{color:#fff1a7!important}
+@media (width<=700px){#inventory{left:12px;top:96px;width:calc(100vw - 24px);max-height:calc(100dvh - 200px)}}
+#mapPanel{top:196px!important;width:min(430px,92vw)!important;max-height:calc(100dvh - 210px);overflow:auto}
+.inv-slot{aspect-ratio:1.3}
+#inventory{max-height:calc(100dvh - 215px)}

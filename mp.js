@@ -27,11 +27,11 @@ const N = window.__net = {
       window.__killer = me === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
     }
   },
-  join() { exited = false; window.__glitchSolo = false; if (!N.on) window.__glitches = []; tx({ t: 'join' }); setTimeout(applyBodies, 80); },
+  join() { exited = false; window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
   respawn() { handled = Math.max(handled, mseq); tx({ t: 'respawn' }); },
   bodyMade(t) {                                    // our own corpse is finished: tell the server so everyone can see it
     tx({ t: 'b', n: t.name, x: Math.round(t.x), y: Math.round(t.y), a: +t.angle.toFixed(3), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
-      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color,
+      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment),
       bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)] });
   },
 };
@@ -59,6 +59,7 @@ function connect() {
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
     else if (m.t === 'bodies') { bodiesList = m.b || []; applyBodies(); }
     else if (m.t === 'exit') doExit(m.secs);
+    else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {
       const now = performance.now(), seen = new Set();
       for (const p of m.p) {
@@ -73,7 +74,7 @@ function connect() {
     }
   };
   ws.onclose = () => {
-    N.on = false; snap = null; window.__glitchSolo = false; window.__glitches = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null);
+    N.on = false; snap = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null);
     net.textContent = everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
     adm.unlocked = false; renderAdmin();
     if (!kicked) setTimeout(connect, Math.min(8000, 1000 * ++retry));
@@ -116,7 +117,7 @@ function applyServerState(dt) {
     else { sm.off = true; sm.x = sm.y = -9e4; sm.state = 'lurk'; }
   });
   A.V.blackout = !!s.b;
-  window.__glitches = s.gw || [];
+  window.__glitches = s.gw || []; window.__items = s.it || [];
 }
 /* ---------- glitched walls: touching one takes you out of Level 0 ---------- */
 function doExit(secs) {
@@ -145,11 +146,36 @@ function soloGlitches(p) {
   for (const g of window.__glitches) if (Math.hypot(p.x - g[0], p.y - g[1]) < 54) { N.exitLocal(); break; }
 }
 
+/* ---------- the cartograph: one rare item per world, lying on the floor until somebody walks over it ---------- */
+let lastPick = 0;
+function giveItem(id) { if (window.__inv) window.__inv.give(id, true); }
+function itemsFrame(p) {
+  const list = window.__items || [], A = window.__api;
+  if (!list.length || !A) return;
+  const now = performance.now();
+  for (let i = 0; i < list.length; i++) {
+    const it = list[i];
+    if (Math.hypot(p.x - it[0], p.y - it[1]) > 46) continue;
+    if (window.__inv && window.__inv.has(it[2])) continue;               // you already carry one
+    if (N.on) { if (now - lastPick > 700) { lastPick = now; tx({ t: 'pick' }); } }
+    else { list.splice(i, 1); giveItem(it[2]); }
+    return;
+  }
+}
+function soloItem() {                                                    // offline: drop one somewhere far from the start
+  const A = window.__api; if (!A || !A.zc || window.__itemSolo === true) return; window.__itemSolo = true;
+  for (let t = 0; t < 8000; t++) {
+    const tx0 = Math.random() * 96 | 0, ty0 = Math.random() * 72 | 0; if (!A.zc(tx0, ty0)) continue;
+    const x = (tx0 + .5) * 96, y = (ty0 + .5) * 96; if (!A.sl(x, y) || Math.hypot(x - A.Ic.x, y - A.Ic.y) < 1800) continue;
+    window.__items = [[Math.round(x), Math.round(y), 'cartograph']]; return;
+  }
+}
+
 /* ---------- everyone's bodies (one per player) ---------- */
 const hasBody = id => bodiesList.some(b => b.k === id);
 function toRec(b) {
   return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa,
-    appearance: parseLook(b.lk), equipment: { ...b.eq }, blood: b.bl.map(([x, y, seed]) => ({ x, y, seed })), dropped: { x: b.dr[0], y: b.dr[1], angle: b.dr[2] }, hat: { x: b.ht[0], y: b.ht[1], angle: b.ht[2] } };
+    appearance: parseLook(b.lk), equipment: { kind: b.eq.kind, color: b.eq.color, parts: { [b.eq.kind]: partObj(b.eq.kind, b.eq.parts) } }, blood: b.bl.map(([x, y, seed]) => ({ x, y, seed })), dropped: { x: b.dr[0], y: b.dr[1], angle: b.dr[2] }, hat: { x: b.ht[0], y: b.ht[1], angle: b.ht[2] } };
 }
 function applyBodies() { const A = window.__api; if (A && myId) A.H.id = myId; if (A && A.bodies) A.bodies(bodiesList.map(toRec)); }
 
@@ -198,6 +224,9 @@ document.body.appendChild(tip);
 let mx = -1e3, my = -1e3;
 addEventListener('pointermove', e => { if (e.pointerType === 'mouse') { mx = e.clientX; my = e.clientY; } });
 let view = null;
+/* light parts <-> 'c1,c2,c3' strings (order comes from the game's own part table) */
+const partList = eq => { const A = window.__api; if (!A || !A.gear || !eq) return ''; const P = A.gear.parts(eq, eq.kind); return A.gear.defs[eq.kind].map(d => P[d[0]]).join(','); };
+const partObj = (kind, s) => { const A = window.__api, defs = A && A.gear && A.gear.defs[kind]; if (!defs) return {}; const v = String(s || '').split(','), o = {}; defs.forEach((d, i) => { if (/^#[0-9a-f]{6}$/i.test(v[i])) o[d[0]] = v[i]; }); return o; };
 const parseLook = s => { const [hat, texture, hands, main, backpack] = String(s || 'none|plain|#e6bb76|#ffcc77|none').split('|'); return { hat, texture, hands, main, backpack }; };
 function dropAvatar(o) { if (o.av) { o.av.parent && o.av.parent.removeChild(o.av); o.av.destroy({ children: true }); o.av = null; } }
 setInterval(() => { for (const [id, o] of [...peers]) if (!peers.has(id)) dropAvatar(o); }, 2000);
@@ -216,15 +245,15 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
     o.dist = (o.dist || 0) + step;
     o.ang = o.ang === undefined ? o.a : o.ang + angDiff(o.a, o.ang) * .35;
     if (A && A.mkAvatar && layer) {
-      if (!o.av) { o.look = parseLook(o.lk); o.gear = { kind: o.k || 'flashlight', color: o.c || '#ffe7b2' }; o.av = A.mkAvatar(o.look, o.gear); layer.addChild(o.av); }
-      Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2';
+      if (!o.av) { o.look = parseLook(o.lk); o.gear = { kind: o.k || 'flashlight', color: o.c || '#ffe7b2', parts: {} }; o.av = A.mkAvatar(o.look, o.gear); layer.addChild(o.av); }
+      Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2'; o.gear.parts[o.gear.kind] = partObj(o.gear.kind, o.lp);
       o.src = Object.assign(o.src || {}, { x: o.x, y: o.y, angle: o.ang, vx: o.vx, vy: o.vy, distance: o.dist });
       o.av.update(now, !!o.l && !o.d, false, o.src);
       if (o.d) { o.av.__key = o.id; o.av.deathPose(1, 0, false); }
       o.av.visible = !(o.d && hasBody(o.id));                   // their finished corpse takes over
     }
     const dx = o.x - p.x, dy = o.y - p.y, dist = Math.hypot(dx, dy);
-    if (dist < 950) lights.push({ x: o.x, y: o.y, angle: o.ang, kind: o.k || 'flashlight', color: o.c || '#ffe7b2', on: !!o.l, dead: !!o.d });
+    const bm = o.av && o.av.beam; if (dist < 950) lights.push({ x: bm ? bm.x : o.x, y: bm ? bm.y : o.y, angle: bm ? bm.angle : o.ang, kind: o.k || 'flashlight', color: o.c || '#ffe7b2', on: !!o.l, dead: !!o.d });
     /* hover: only for wanderers you can actually see (in line of sight and lit) */
     const sx = W / 2 + (o.x - cam.x) * sc, sy = H / 2 + (o.y - cam.y) * sc;
     const dm = Math.hypot(mx - sx, my - sy);
@@ -238,7 +267,7 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
     tip.style.left = hover.sx + 'px'; tip.style.top = (hover.sy - 26 * sc) + 'px'; tip.style.display = 'block';
   } else tip.style.display = 'none';
 }
-N.peerScreen = () => peers.size && view ? [...peers.values()].map(o => ({ n: o.n, look: o.lk, kind: o.k, color: o.c, lightOn: o.l, hasAvatar: !!o.av,
+N.peerScreen = () => peers.size && view ? [...peers.values()].map(o => ({ n: o.n, look: o.lk, kind: o.k, color: o.c, lp: o.lp, lightOn: o.l, hasAvatar: !!o.av,
   sx: view.W / 2 + (o.x - view.cam.x) * view.sc, sy: view.H / 2 + (o.y - view.cam.y) * view.sc })) : [];
 
 
@@ -284,6 +313,7 @@ function renderAdminData() {
     `<div class="adm-sec">WORLD SPEED</div><div class="adm-row wrap">${sp(0.5)}${sp(1)}${sp(2)}${sp(3)}</div>` +
     `<div class="adm-sec">LIGHTS</div><div class="adm-row wrap">` + ['auto', 'on', 'off'].map(m => btn(m === 'auto' ? 'AUTO' : 'BLACKOUT ' + m.toUpperCase(), `data-c="blackout" data-mode="${m}"`, d.bo === m)).join('') + '</div>' +
     `<div class="adm-sec">GLITCHED WALLS · ${d.gw}</div><div class="adm-row wrap">` + btn('GO TO NEAREST', 'data-c="glitch" data-mode="tp"') + btn('MOVE THEM', 'data-c="glitch" data-mode="new"') + '</div>' +
+    `<div class="adm-sec">CARTOGRAPH · ${d.it ? 'ON THE FLOOR' : 'TAKEN'}</div><div class="adm-row wrap">` + btn('GO TO IT', 'data-c="item" data-mode="tp"') + btn('MOVE IT', 'data-c="item" data-mode="new"') + btn('GIVE ME ONE', 'data-a="give"') + '</div>' +
     `<div class="adm-sec">RUN</div><div class="adm-row wrap">` + btn('NEW RUN FOR EVERYONE', 'data-c="world" data-confirm="Reset the whole world?"') + '</div>';
   if (players !== adm.sigP) { $a('admPlayers').innerHTML = '<div class="adm-sec">WANDERERS</div>' + players; adm.sigP = players; }
   if (world !== adm.sigW) { $a('admWorld').innerHTML = world; adm.sigW = world; }
@@ -296,6 +326,7 @@ panel.addEventListener('click', e => {
   if (b.dataset.a === 'close') { adm.open = false; renderAdmin(); return; }
   if (b.dataset.a === 'unlock') return unlock();
   if (b.dataset.a === 'msg') return sendMsg();
+  if (b.dataset.a === 'give') { giveItem('cartograph'); return; }
   if (!b.dataset.c) return;
   if (b.dataset.confirm && !confirm(b.dataset.confirm)) return;
   const o = { t: 'a', c: b.dataset.c };
@@ -422,7 +453,8 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, H);
 
   if (N.on) applyServerState(t);
-  else if (started && !exited) soloGlitches(p);
+  else if (started && !exited) { soloGlitches(p); if (!(window.__items && window.__items.length) && window.__itemSolo !== true) soloItem(); }
+  if (run && !exited) itemsFrame(p);
   humUpdate();
   if (window.__glitchFrame) window.__glitchFrame({ p, cam, sc, los, W, H, t, run: run && !exited });
   const note = document.getElementById('onlineNote'); if (note) note.hidden = !N.on;
@@ -433,7 +465,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
     lastSend = now;
     ws.send(JSON.stringify({
       t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),
-      a: +p.angle.toFixed(2), r: p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, k: p.equipment?.kind,
+      a: +p.angle.toFixed(2), r: p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, k: p.equipment?.kind, lp: partList(p.equipment),
       n: (document.getElementById('nameplate')?.textContent || 'WANDERER').slice(0, 20), c: p.equipment?.color,
       lk: window.__api ? [window.__api.look.hat, window.__api.look.texture, window.__api.look.hands, window.__api.look.main, window.__api.look.backpack].join('|') : undefined,
     }));

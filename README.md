@@ -137,3 +137,9 @@ This build includes a visual refinement pass focused on making entities read as 
 - **Bodies**: a finished corpse is broadcast to everyone in the room. Each player has at most one body: dying again replaces the old one.
 - **Admin panel**: +/- HOUND and SMILER buttons (respecting the 3 / 5 caps) and glitch-wall buttons (new set / teleport to one).
 - New file `glitch.js` (glitched wall renderer + static audio). Upload it along with everything else.
+
+## Inventory, cartograph, hand-held lights v13
+- **TAB = inventory** (a side drawer; the game keeps running). It shows your equipped light with a live close-up, quick switch between Flashlight / Chestlamp / Torch, the light toggle, and what you carry. `inventory.js` is new.
+- **No default map.** The map is now the **Cartograph**, a rare paranormal device: one lies somewhere in every world (visible as a faint flicker when you have line of sight). Walk over it to pick it up, then press **M**. Its sketch is crude on purpose: jittery lines, missing chunks, a drifting position dot, and it gets less reliable the farther from you it looks. Items are wiped on NEW RUN. Admin panel: GO TO IT / MOVE IT / GIVE ME ONE.
+- **Light source redesign + parts**: new art for all three lights. Customize → *Light parts* lets you recolour every element (Flashlight: body, head, button, grip; Torch: handle, wrap, cord; Chestlamp: strap, housing, bracket) plus the beam colour, with a zoomed live preview. Other players, dropped gear and corpses use your colours.
+- **Lights move with the hand**: the flashlight and torch beam now start at the hand, lag slightly behind your aim, and shuffle/sway with your stride (more when sprinting). Other players' beams do the same. The beam origin is clamped so it never pokes through a wall.

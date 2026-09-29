@@ -109,6 +109,9 @@ function spawnSmilers(n){
 
 /* --- glitched walls: the way out of Level 0 --- */
 let glitches=[];
+/* one rare find per world: a paranormal cartograph lying somewhere in the halls (first to reach it keeps it) */
+let items=[];
+function makeItems(){const p=randomSpot(1800,glitches,700);return p?[{id:`cartograph`,x:Math.round(p.x),y:Math.round(p.y)}]:[]}
 function makeGlitches(n=3){
   const out=[],dirs=[[1,0],[-1,0],[0,1],[0,-1]];
   for(let t=0;t<6000&&out.length<n;t++){
@@ -147,7 +150,7 @@ function spawnMonsters(nh,ns){
 function resetWorld(){
   Lc();runT=0;SG=14;PR=0;spawnT=rnd(70,150);packT=0;justCaught=false;
   spawnMonsters(Math.random()<.5?1:2,2+((Math.random()*4)|0));      // 1-2 hounds to begin with (up to 3 later), 2-5 smilers
-  glitches=makeGlitches(3);
+  glitches=makeGlitches(3);items=makeItems();
   bodies.clear();bodyVer++;
 }
 function addPlayer(id){
@@ -190,7 +193,7 @@ const r1=n=>Math.round(n*10)/10;
 function entities(){
   return {h:hounds.map(h=>({i:h.id,x:r1(h.g.x),y:r1(h.g.y),a:+h.g.angle.toFixed(3),s:h.g.state,d:Math.round(h.g.distance),g:+h.g.grace.toFixed(1),k:h.pack?h.pack.id:0})),
     m:q.map(e=>({x:r1(e.x),y:r1(e.y),a:+e.angle.toFixed(3),s:e.state,d:Math.round(e.distance)})),
-    b:V.blackout?1:0,p:+PR.toFixed(3),gw:glitches.map(g=>[Math.round(g.x),Math.round(g.y),g.nx,g.ny])};
+    b:V.blackout?1:0,p:+PR.toFixed(3),gw:glitches.map(g=>[Math.round(g.x),Math.round(g.y),g.nx,g.ny]),it:items.map(i=>[i.x,i.y,i.id])};
 }
 const admin={
   freeze(on){frozen=!!on},
@@ -200,6 +203,8 @@ const admin={
   resetMonsters(){spawnMonsters(Math.random()<.5?1:2,2+((Math.random()*4)|0));SG=8;runT=Math.min(runT,60)},
   resetWorld(){resetWorld();for(const p of players)if(p.active)spawn(p)},
   newGlitches(){glitches=makeGlitches(3)},
+  newItem(){items=makeItems()},
+  nearestItem(x,y){let b=null,bd=1/0;for(const i of items){const d=Math.hypot(i.x-x,i.y-y);if(d<bd){bd=d;b=i}}return b},
   addHound(){if(hounds.length>=MAX_HOUNDS)return false;const h=newHound(1500,alive());if(h)h.g.grace=0;return !!h},
   removeHound(){const h=hounds[hounds.length-1];if(h)killHound(h);return !!h},
   addSmiler(){if(q.length>=MAX_SMILERS)return false;const p=randomSpot(1200,q.concat(hounds.map(h=>h.g)),900);if(!p)return false;q.push({x:p.x,y:p.y,origin:{x:p.x,y:p.y},angle:0,state:`lurk`,distance:0,route:[],repath:0,lost:0,notice:0,wait:0,memory:{x:p.x,y:p.y},goal:{x:p.x,y:p.y},side:q.length%2?1:-1});return true},
@@ -213,9 +218,10 @@ const admin={
     }
     return false;
   },
-  info(){return {fz:frozen?1:0,sp:speed,bo:bmode,hn:hounds.length,sn:q.length,gw:glitches.length,pk:packs.length,hs:hounds.map(h=>h.g.state).join(`,`)}},
+  info(){return {fz:frozen?1:0,sp:speed,bo:bmode,hn:hounds.length,sn:q.length,gw:glitches.length,it:items.length,pk:packs.length,hs:hounds.map(h=>h.g.state).join(`,`)}},
 };
-resetWorld();return {players,addPlayer,removePlayer,join,respawn,step,entities,resetWorld,admin,setBody,
+function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;return items.splice(i,1)[0].id}
+resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,step,entities,resetWorld,admin,setBody,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},
   debug:{G,q,V,Ic,hounds,packs,get glitches(){return glitches}}};
 

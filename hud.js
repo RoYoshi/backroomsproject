@@ -34,7 +34,7 @@
   const row = (k, v) => `<p><span>${k}</span><b>${v}</b></p>`;
   panel.innerHTML = `
 <div class="st-tabs" role="tablist"><button data-tab="controls">CONTROLS</button><button data-tab="custom">CUSTOMIZE</button><button data-tab="audio">AUDIO</button></div>
-<section data-pane="controls"><div class="st-rows">${row('Move', 'W A S D / ARROWS')}${row('Sprint', 'HOLD SHIFT')}${row('Aim handheld light', 'MOUSE')}${row('Toggle light', 'F')}${row('Toggle map', 'M')}${row('Pause / resume', 'ESC')}</div><p class="st-note">Touch devices get an on-screen pad. Sprinting drains stamina and is louder.</p></section>
+<section data-pane="controls"><div class="st-rows">${row('Move', 'W A S D / ARROWS')}${row('Sprint', 'HOLD SHIFT')}${row('Aim handheld light', 'MOUSE')}${row('Toggle light', 'F')}${row('Inventory', 'TAB')}${row('Cartograph (once found)', 'M')}${row('Pause / resume', 'ESC')}</div><p class="st-note">Touch devices get an on-screen pad. Sprinting drains stamina and is louder.</p></section>
 <section data-pane="custom">
   <h3>WANDERER &amp; LIGHT</h3>
   <p class="st-note">Hat, colours, backpack, light source. Other players see it.</p>
