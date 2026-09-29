@@ -164,7 +164,7 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
       Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2';
       o.src = Object.assign(o.src || {}, { x: o.x, y: o.y, angle: o.ang, vx: o.vx, vy: o.vy, distance: o.dist });
       o.av.update(now, !!o.l && !o.d, false, o.src);
-      if (o.d) o.av.deathPose(1, 0, false);
+      if (o.d) { o.av.__key = o.id; o.av.deathPose(1, 0, false); }
     }
     const dx = o.x - p.x, dy = o.y - p.y, dist = Math.hypot(dx, dy);
     if (dist < 950) lights.push({ x: o.x, y: o.y, angle: o.ang, kind: o.k || 'flashlight', color: o.c || '#ffe7b2', on: !!o.l, dead: !!o.d });
@@ -324,6 +324,13 @@ function humUpdate() {
   }
   if (!bo && tt > nextDip) { nextDip = tt + 9 + Math.random() * 18; dipEnd = tt + .06 + Math.random() * .12; }   // ballast struggling
   if (tt < dipEnd) level *= .3;
+  const F = window.__sfx;
+  if (F && F.has('hum')) {                                                   // user-supplied hum replaces the synthesized one
+    hum.out.gain.setTargetAtTime(0, now, .05);
+    if (bo !== prevBo) { prevBo = bo; if (F.has('blackout')) F.play('blackout'); }
+    F.loop('hum', bo ? .03 : Math.min(1, level), bo || li < 0 ? 0 : Math.max(-.7, Math.min(.7, (A.lamps[li].x - P.x) / 450)));
+    return;
+  }
   if (bo !== prevBo) {
     prevBo = bo; const g = hum.out.gain; g.cancelScheduledValues(now);
     if (bo) { g.setTargetAtTime(.02, now, .04); humThunk(hum, now); humPop(hum, .8, now); holdUntil = now + .4; }
@@ -387,6 +394,6 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   game.style.transform = k > .55 ? `translate(${(Math.random() - .5) * k * 5}px,${(Math.random() - .5) * k * 5}px)` : '';
   light.style.opacity = k > .35 && Math.random() < k * .09 ? .35 + Math.random() * .4 : 1;
   stingCd -= t;
-  if (k > .45 && stingCd <= 0) { stingCd = 9 + Math.random() * 10; burst(.35, .12 * k); }
+  if (k > .45 && stingCd <= 0) { stingCd = 9 + Math.random() * 10; if (!(window.__sfx && window.__sfx.play('sting', { vol: Math.min(1, .5 + k) }))) burst(.35, .12 * k); }
 };
 })();

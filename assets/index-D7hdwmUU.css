@@ -54,19 +54,61 @@ button.adm[data-c=kick]{border-color:#8c343a;color:#e2a6a0}
 #settings .st-prev .stam{display:inline-flex;align-items:center;gap:6px}
 #settings .st-prev i{display:inline-block;width:48px;height:5px;border:1px solid #9b895155;background:#201b10;overflow:hidden}
 #settings .st-prev em{display:block;width:82%;height:100%;background:var(--hc,#e6cf77)}
-/* HUD variables (set by hud.js) */
-#hud{transform:scale(var(--hs,1));transform-origin:left bottom;opacity:var(--ho,1)}
-.coordinates{transform:scale(var(--hs,1));transform-origin:right bottom;opacity:var(--ho,1)}
-.location{transform:scale(var(--hs,1));transform-origin:right top}
-body.playing .location{opacity:calc(.8 * var(--ho,1))}
-.walk{max-width:calc(80vw / var(--hs,1))}
-body.hudc #hud *,body.hudc .location *,body.hudc .coordinates *,body.hudc .location,body.hudc .coordinates{color:var(--hc)!important}
-body.hudc .keyline,body.hudc .coordinates span:last-child,body.hudc .location>span:last-child{opacity:.72}
-body.hudc .staminaHud em{background:var(--hc)!important}
-body.hudc .staminaHud em[style*="width: 0"],body.hudc .staminaHud em[style*="width: 1"]{background:#ad6d55!important}
-body.hudc .staminaHud i{border-color:var(--hc)}
-body.hud-nokeys .keyline,body.hud-nocoords .coordinates,body.hud-notitle .location{display:none!important}
-body.captured .location{opacity:.22!important}
-/* full stamina (width: 100%) also matched the "low" selector above */
-.staminaHud em[style*="width: 100"]{background:#e6cf77}
-body.hudc .staminaHud em[style*="width: 100"]{background:var(--hc)!important}
+/* ---- v11 HUD: unified, smooth, customizable (variables set by hud.js) ---- */
+:root{--hv:#f3e7a7;--hd:#c8c2a2;--ht:#efe9cc;--hs:1;--ho:1}
+body.hudc{--hv:var(--hc);--hd:color-mix(in srgb,var(--hc) 64%,#0000);--ht:var(--hc)}
+#hud,.coordinates,.location,header{transition:opacity .6s ease}
+#hud{transform:scale(var(--hs));transform-origin:left bottom;opacity:var(--ho);isolation:isolate}
+.coordinates{transform:scale(var(--hs));transform-origin:right bottom;opacity:var(--ho);isolation:isolate;font-variant-numeric:tabular-nums}
+.location{transform:scale(var(--hs));transform-origin:right top;opacity:calc(.92 * var(--ho));isolation:isolate}
+body.playing .location{opacity:calc(.92 * var(--ho))}
+body.loc-quiet .location{opacity:calc(.4 * var(--ho))}
+body.captured header,body.captured .location,body.captured #hud,body.captured .coordinates{opacity:.2}
+/* soft scrims so the text melts into the scene instead of floating on it */
+#hud::before,.coordinates::before,.location::before{content:"";position:absolute;z-index:-1;pointer-events:none}
+#hud::before{inset:-46px -90px -34px -46px;background:radial-gradient(ellipse 75% 85% at 18% 88%,#040704c4,#0400 72%)}
+.coordinates::before{inset:-30px -34px -22px -90px;background:radial-gradient(ellipse 80% 90% at 90% 90%,#040704a8,#0400 72%)}
+.location::before{inset:-26px -30px -26px -90px;background:radial-gradient(ellipse 80% 90% at 92% 30%,#0407049a,#0400 72%)}
+#hud .walk{display:flex;align-items:center;flex-wrap:wrap;gap:6px 0;margin:0 0 15px;font-size:11px;letter-spacing:1.6px;max-width:calc(80vw / var(--hs));text-shadow:0 1px 6px #000c}
+#hud .walk>span{display:inline-flex;align-items:center;white-space:nowrap;color:var(--hd)!important}
+#hud .walk>span+span{margin-left:15px;padding-left:15px;position:relative}
+#hud .walk>span+span::before{content:"";position:absolute;left:0;top:50%;height:11px;margin-top:-5px;width:1px;background:var(--hd);opacity:.32}
+#hud b,#hud .objective b,#hud .staminaHud>b{color:var(--hv)!important;font-weight:500;margin-left:7px}
+#hud .walk #nameplate{color:var(--ht)!important;letter-spacing:2px}
+#hud .keyline{display:flex;gap:18px;font-size:11px;color:var(--hd)!important;text-shadow:0 1px 6px #000c;transition:opacity 1.4s ease}
+#hud .keyline span{color:var(--hd)!important}
+#hud .keyline kbd{color:var(--hv)!important;border-bottom-color:var(--hd)}
+body.hint-dim #hud .keyline{opacity:.26}
+.coordinates{gap:5px;text-shadow:0 1px 6px #000c}
+.coordinates span,.coordinates span:first-child{color:var(--hd)!important}
+.coordinates span:first-child{color:var(--hv)!important}
+.location{text-shadow:0 2px 12px #000b}
+.location .eyebrow,.location>span:last-child{color:var(--hd)!important}
+.location h1,.location h1 b{color:var(--ht)!important}
+/* stamina: smooth, state-coloured */
+.staminaHud i{width:58px!important;height:4px!important;border:0!important;border-radius:3px;background:#ffffff1f!important;overflow:hidden;margin-left:2px}
+.staminaHud em{border-radius:3px;background:var(--hv)!important;transition:width .32s cubic-bezier(.2,.8,.2,1),background-color .4s ease,box-shadow .4s ease!important;box-shadow:0 0 8px color-mix(in srgb,var(--hv) 55%,#0000)}
+.staminaHud em[data-lv=mid]{background:#e3a94e!important;box-shadow:0 0 8px #e3a94e80}
+.staminaHud em[data-lv=low]{background:#c9503f!important;box-shadow:0 0 8px #c9503f99;animation:stamLow .9s ease-in-out infinite}
+@keyframes stamLow{50%{opacity:.55}}
+/* evidence pips */
+.pips{display:inline-flex;gap:5px;margin-left:11px;align-items:center}
+.pips i{display:block;width:6px;height:6px;border:1px solid var(--hd);transform:rotate(45deg) scale(1);transition:background-color .4s ease,border-color .4s ease,box-shadow .4s ease}
+.pips i.on{background:var(--hv);border-color:var(--hv);box-shadow:0 0 7px color-mix(in srgb,var(--hv) 70%,#0000)}
+.pips i.pop{animation:pipPop .8s cubic-bezier(.2,.8,.2,1)}
+@keyframes pipPop{0%{transform:rotate(45deg) scale(2.3)}100%{transform:rotate(45deg) scale(1)}}
+/* value changes crossfade in; HUD eases in when the run starts */
+.swap{animation:hudSwap .45s ease both}
+@keyframes hudSwap{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+#hud:not([hidden]) .walk{animation:hudIn .9s cubic-bezier(.2,.7,.2,1) both}
+#hud:not([hidden]) .keyline{animation:hudIn .9s .18s cubic-bezier(.2,.7,.2,1) both}
+@keyframes hudIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+body.hud-nokeys #hud .keyline,body.hud-nocoords .coordinates,body.hud-notitle .location{display:none!important}
+/* header controls: quiet glass */
+.tools button{backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:background-color .25s,border-color .25s,color .25s,transform .15s}
+.tools button:hover{border-color:#e6cf7799;transform:translateY(-1px)}
+/* settings panel eases in/out */
+#settings{opacity:0;transform:translateY(-6px);transition:opacity .18s ease,transform .18s ease;pointer-events:none}
+#settings.open{opacity:1;transform:none;pointer-events:auto}
+#settings section:not([hidden]){animation:hudSwap .25s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

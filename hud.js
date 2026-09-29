@@ -2,7 +2,7 @@
    Independent of the network layer, so it works offline / solo too. Preferences are kept in localStorage. */
 (() => {
   const KEY = 'fb_settings_v1';
-  const DEF = { c: '', s: 1, o: 1, keys: true, coords: true, title: true, vol: 1 };
+  const DEF = { c: '', s: 1, o: 1, keys: true, coords: true, title: true, auto: true, vol: 1 };
   let S = { ...DEF };
   try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
@@ -19,6 +19,7 @@
     r.setProperty('--hs', S.s); r.setProperty('--ho', S.o);
     if (S.c) r.setProperty('--hc', S.c); else r.removeProperty('--hc');
     b.toggle('hudc', !!S.c); b.toggle('hud-nokeys', !S.keys); b.toggle('hud-nocoords', !S.coords); b.toggle('hud-notitle', !S.title);
+    if (!S.auto) b.remove('hint-dim');
     window.__vol = S.vol;
     const Z = window.__api && window.__api.audio && window.__api.audio();
     if (Z && Z.gain && !Z.muted) Z.gain.gain.setTargetAtTime(.14 * S.vol, Z.context.currentTime, .05);
@@ -45,6 +46,7 @@
   <label class="st-slide">SIZE <output id="stSizeV"></output><input type="range" id="stSize" min="50" max="200" step="5"></label>
   <label class="st-slide">OPACITY <output id="stOpV"></output><input type="range" id="stOp" min="30" max="100" step="5"></label>
   <label class="st-chk"><input type="checkbox" id="stKeys"> Key hints (bottom-left)</label>
+  <label class="st-chk"><input type="checkbox" id="stAuto"> Fade key hints after a while</label>
   <label class="st-chk"><input type="checkbox" id="stCoords"> Coordinates (bottom-right)</label>
   <label class="st-chk"><input type="checkbox" id="stTitle"> Level title (top-right)</label>
   <button class="st-btn dim" data-act="reset" type="button">RESET HUD</button>
@@ -61,7 +63,7 @@
     $('stSize').value = Math.round(S.s * 100); $('stSizeV').textContent = Math.round(S.s * 100) + '%';
     $('stOp').value = Math.round(S.o * 100); $('stOpV').textContent = Math.round(S.o * 100) + '%';
     $('stVol').value = Math.round(S.vol * 100); $('stVolV').textContent = Math.round(S.vol * 100) + '%';
-    $('stKeys').checked = S.keys; $('stCoords').checked = S.coords; $('stTitle').checked = S.title;
+    $('stKeys').checked = S.keys; $('stAuto').checked = S.auto; $('stCoords').checked = S.coords; $('stTitle').checked = S.title;
     if (S.c) $('stColor').value = S.c;
     panel.querySelectorAll('#stSw button').forEach(b => b.classList.toggle('on', b.dataset.c === S.c));
     panel.querySelector('.st-pick').classList.toggle('on', !!S.c && !SW.some(x => x[0] === S.c));
@@ -75,14 +77,18 @@
     panel.style.left = Math.max(8, Math.min(innerWidth - w - 8, r.right - w)) + 'px';
     panel.style.maxHeight = Math.max(160, innerHeight - r.bottom - 24) + 'px';
   }
+  let closeT = 0;
   const open = v => {
-    panel.hidden = !v; btn.setAttribute('aria-expanded', v ? 'true' : 'false'); btn.classList.toggle('on', v); btn.textContent = v ? 'SETTINGS ▴' : 'SETTINGS ▾';
+    clearTimeout(closeT);
+    if (v) { panel.hidden = false; void panel.offsetWidth; panel.classList.add('open'); }
+    else { panel.classList.remove('open'); closeT = setTimeout(() => { panel.hidden = true; }, 190); }
+    btn.setAttribute('aria-expanded', v ? 'true' : 'false'); btn.classList.toggle('on', v); btn.textContent = v ? 'SETTINGS ▴' : 'SETTINGS ▾';
     if (v) { sync(); show(tab); }
   };
-  btn.addEventListener('click', e => { e.stopPropagation(); open(panel.hidden); });
-  addEventListener('resize', () => { if (!panel.hidden) place(); });
-  document.addEventListener('pointerdown', e => { if (!panel.hidden && !panel.contains(e.target) && e.target !== btn && !$('appearancePanel')?.contains(e.target)) open(false); });
-  document.addEventListener('keydown', e => { if (!panel.hidden && e.key === 'Escape') { e.stopImmediatePropagation(); e.preventDefault(); open(false); btn.focus(); } }, true);
+  btn.addEventListener('click', e => { e.stopPropagation(); open(!panel.classList.contains('open')); });
+  addEventListener('resize', () => { if (panel.classList.contains('open')) place(); });
+  document.addEventListener('pointerdown', e => { if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn && !$('appearancePanel')?.contains(e.target)) open(false); });
+  document.addEventListener('keydown', e => { if (panel.classList.contains('open') && e.key === 'Escape') { e.stopImmediatePropagation(); e.preventDefault(); open(false); btn.focus(); } }, true);
   panel.addEventListener('keydown', e => e.stopPropagation());      // typing/arrowing in sliders must not move the wanderer
   panel.addEventListener('keyup', e => e.stopPropagation());
 
@@ -93,15 +99,42 @@
     if (b.dataset.c !== undefined && b.closest('#stSw')) return set('c', b.dataset.c);
     if (b.dataset.act === 'appearance') { open(false); $('customize')?.click(); }
     else if (b.dataset.act === 'mute') { $('sound')?.click(); }
-    else if (b.dataset.act === 'reset') { Object.assign(S, { c: '', s: 1, o: 1, keys: true, coords: true, title: true }); apply(); save(); sync(); }
+    else if (b.dataset.act === 'reset') { Object.assign(S, { c: '', s: 1, o: 1, keys: true, coords: true, title: true, auto: true }); apply(); save(); sync(); }
   });
   $('stColor').addEventListener('input', e => set('c', e.target.value.toLowerCase()));
   $('stSize').addEventListener('input', e => set('s', e.target.value / 100));
   $('stOp').addEventListener('input', e => set('o', e.target.value / 100));
   $('stVol').addEventListener('input', e => set('vol', e.target.value / 100));
   $('stKeys').addEventListener('change', e => set('keys', e.target.checked));
+  $('stAuto').addEventListener('change', e => { set('auto', e.target.checked); if (e.target.checked) armHint(); });
   $('stCoords').addEventListener('change', e => set('coords', e.target.checked));
   $('stTitle').addEventListener('change', e => set('title', e.target.checked));
+
+  /* ---------- HUD polish: pips, crossfades, stamina state, auto-fading hints ---------- */
+  let hintT = 0, locT = 0;
+  const armHint = () => { clearTimeout(hintT); document.body.classList.remove('hint-dim'); if (S.auto) hintT = setTimeout(() => document.body.classList.add('hint-dim'), 14000); };
+  const quietLoc = () => { clearTimeout(locT); document.body.classList.remove('loc-quiet'); locT = setTimeout(() => document.body.classList.add('loc-quiet'), 7000); };
+  const swap = el => { if (!el) return; el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); };
+  function initHud() {
+    const ev = $('evidenceCount'), obs = (el, fn, o) => el && new MutationObserver(fn).observe(el, o || { childList: true, characterData: true, subtree: true });
+    if (ev && !document.querySelector('.pips')) {
+      const pips = document.createElement('span'); pips.className = 'pips'; pips.setAttribute('aria-hidden', 'true'); pips.innerHTML = '<i></i>'.repeat(8); ev.parentElement.appendChild(pips);
+      let last = 0;
+      const upd = () => { const m = /(\d+)\s*\/\s*(\d+)/.exec(ev.textContent); if (!m) return; const n = +m[1];
+        [...pips.children].forEach((p, i) => p.classList.toggle('on', i < n));
+        if (n > last && pips.children[n - 1]) { const p = pips.children[n - 1]; p.classList.remove('pop'); void p.offsetWidth; p.classList.add('pop'); swap(ev); }
+        last = n; };
+      obs(ev, upd); upd();
+    }
+    ['pace', 'lightStatus', 'nameplate'].forEach(id => { const el = $(id); let prev = el && el.textContent; obs(el, () => { if (el.textContent !== prev) { prev = el.textContent; swap(el); } }); });
+    const sec = $('sector'); let sprev = sec && sec.textContent; obs(sec, () => { if (sec.textContent !== sprev) { sprev = sec.textContent; swap(sec); quietLoc(); } });
+    const sf = $('staminaFill'); let lv = '';
+    obs(sf, () => { const m = /width:\s*([\d.]+)%/.exec(sf.getAttribute('style') || ''); if (!m) return; const w = +m[1], n = w < 25 ? 'low' : w < 55 ? 'mid' : 'ok'; if (n !== lv) { lv = n; sf.dataset.lv = n; } }, { attributes: true, attributeFilter: ['style'] });
+    const hud = $('hud'); let shown = false;
+    obs(hud, () => { const v = !hud.hidden; if (v && !shown) { armHint(); quietLoc(); } shown = v; }, { attributes: true, attributeFilter: ['hidden'] });
+    if (hud && !hud.hidden) { shown = true; armHint(); quietLoc(); }
+  }
+  initHud();
 
   apply(); sync();
   /* audio context is created on first user gesture; re-apply the stored volume once it exists */

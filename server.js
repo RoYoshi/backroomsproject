@@ -14,13 +14,25 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|mp\.js|hud\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|mp\.js|hud\.js|gore\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {
   let u = decodeURIComponent(req.url.split('?')[0]);
   if (u === '/') u = '/index.html';
   const f = path.join(ROOT, path.normalize(u));
+  // drop-in custom sounds: any files in ./sounds are listed and served (see sounds/README.txt)
+  const AUDIO = { '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.m4a': 'audio/mp4', '.aac': 'audio/aac', '.flac': 'audio/flac', '.webm': 'audio/webm' };
+  if (u === '/sounds' || u === '/sounds/') {
+    let l = []; try { l = fs.readdirSync(path.join(ROOT, 'sounds')).filter(n => AUDIO[path.extname(n).toLowerCase()]); } catch (e) {}
+    res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); return res.end(JSON.stringify(l));
+  }
+  if (/^\/sounds\/[\w.\- ]+$/.test(u) && AUDIO[path.extname(u).toLowerCase()] && f.startsWith(path.join(ROOT, 'sounds'))) {
+    return fs.readFile(f, (e, b) => {
+      if (e) { res.writeHead(404); return res.end('Not found'); }
+      res.writeHead(200, { 'Content-Type': AUDIO[path.extname(f).toLowerCase()], 'Cache-Control': 'public, max-age=300', 'Content-Length': b.length }); res.end(b);
+    });
+  }
   if (!f.startsWith(ROOT) || !SERVE.test(u)) { res.writeHead(404); return res.end('Not found'); }
   fs.readFile(f, (e, b) => {
     if (e) { res.writeHead(404); return res.end('Not found'); }
