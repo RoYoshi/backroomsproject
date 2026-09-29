@@ -8,7 +8,7 @@ const cv = document.getElementById('mp'), cx = cv.getContext('2d'), dread = docu
   game = document.getElementById('game'), light = document.getElementById('light'),
   net = Object.assign(document.createElement('div'), { id: 'net', textContent: 'SOLO' });
 document.body.appendChild(net);
-const room = new URLSearchParams(location.search).get('room') || 'main';
+const room = (new URLSearchParams(location.search).get('room') || 'main').slice(0, 24).replace(/[^\w-]/g, '') || 'main';
 
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
 let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
@@ -27,7 +27,7 @@ const N = window.__net = {
       window.__killer = me === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
     }
   },
-  join() { exited = false; window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
+  join() { exited = false; window.__glitchSolo = false; window.__itemSolo = false; N.t0 = performance.now() / 1000; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
   respawn() { handled = Math.max(handled, mseq); tx({ t: 'respawn' }); },
   leave() { tx({ t: 'leave' }); },
   fx: m => startFx(m),
@@ -82,7 +82,8 @@ function connect() {
   };
   ws.onclose = () => {
     for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null);
-    net.textContent = everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
+    myId = null; peersN = 0; me = ''; mseq = handled = 0; bodiesList = []; applyBodies();
+    net.textContent = kicked ? 'DISCONNECTED · REMOVED' : everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
     adm.unlocked = false; renderAdmin();
     if (!kicked) setTimeout(connect, Math.min(8000, 1000 * ++retry));
   };
@@ -188,15 +189,16 @@ function applyBodies() { const A = window.__api; if (A && myId) A.H.id = myId; i
 
 /* ---------- audio ---------- */
 let ac, drone, dg, beatT = 0;
-const soundOn = () => /ON/.test(document.getElementById('sound')?.textContent || 'ON');
+const soundOn = () => { const z = window.__api?.audio?.(); return !!(z && !z.muted && (window.__vol ?? 1) > 0); };
 function initAudio() {
-  if (ac) return;
+  if (ac) { if (ac.state === 'suspended' && !window.__api?.paused?.()) ac.resume().catch(() => {}); return; }
+  const z = window.__api?.audio?.(); if (!z?.context || !z.gain) return;
   try {
-    ac = new AudioContext();
+    ac = z.context;
     drone = ac.createOscillator(); drone.type = 'sawtooth'; drone.frequency.value = 43;
     const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 140;
     dg = ac.createGain(); dg.gain.value = 0;
-    drone.connect(f).connect(dg).connect(ac.destination); drone.start();
+    drone.connect(f).connect(dg).connect(z.gain); drone.start();
   } catch {}
 }
 addEventListener('pointerdown', initAudio); addEventListener('keydown', initAudio);
@@ -205,15 +207,20 @@ function thump(v, f) {
   const o = ac.createOscillator(), g = ac.createGain(), n = ac.currentTime;
   o.frequency.setValueAtTime(f, n); o.frequency.exponentialRampToValueAtTime(38, n + .16);
   g.gain.setValueAtTime(v, n); g.gain.exponentialRampToValueAtTime(.001, n + .2);
-  o.connect(g).connect(ac.destination); o.start(n); o.stop(n + .22);
+  o.connect(g).connect(window.__api.audio().gain); o.start(n); o.stop(n + .22);
+  o.onended = () => { o.disconnect(); g.disconnect(); };
 }
 function burst(len, v) {
   if (!ac || !soundOn()) return;
   const b = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = b.getChannelData(0);
   for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) ** 1.5;
-  const s = ac.createBufferSource(), g = ac.createGain(); g.gain.value = v; s.buffer = b; s.connect(g).connect(ac.destination); s.start();
+  const s = ac.createBufferSource(), g = ac.createGain(); g.gain.value = v; s.buffer = b; s.connect(g).connect(window.__api.audio().gain); s.start();
+  s.onended = () => { s.disconnect(); g.disconnect(); };
 }
-new MutationObserver(() => { if (document.body.classList.contains('captured')) burst(1.1, .9); })
+let wasCaptured = false;
+new MutationObserver(() => { const captured = document.body.classList.contains('captured');
+  if (captured && !wasCaptured) burst(1.1, .9);
+  wasCaptured = captured; })
   .observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
 /* online note on the pause screen */
@@ -236,7 +243,7 @@ const partList = eq => { const A = window.__api; if (!A || !A.gear || !eq) retur
 const partObj = (kind, s) => { const A = window.__api, defs = A && A.gear && A.gear.defs[kind]; if (!defs) return {}; const v = String(s || '').split(','), o = {}; defs.forEach((d, i) => { if (/^#[0-9a-f]{6}$/i.test(v[i])) o[d[0]] = v[i]; }); return o; };
 const parseLook = s => { const [hat, texture, hands, main, backpack] = String(s || 'none|plain|#e6bb76|#ffcc77|none').split('|'); return { hat, texture, hands, main, backpack }; };
 function dropAvatar(o) { if (o.av) { o.av.parent && o.av.parent.removeChild(o.av); o.av.destroy({ children: true }); o.av = null; } }
-setInterval(() => { for (const [id, o] of [...peers]) if (!peers.has(id)) dropAvatar(o); }, 2000);
+// Avatars are destroyed when snapshots remove a peer or the connection closes.
 
 /* ---------- other players' deaths and vanishings, replayed for everybody in line of sight ---------- */
 const fxs = window.__fxs = [];
@@ -296,12 +303,13 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
   view = { cam, sc, W, H };
   for (const o of peers.values()) {
     const px = o.x, py = o.y;
-    o.x += (o.tx - o.x) * .3; o.y += (o.ty - o.y) * .3;
+    const posEase = 1 - Math.exp(-21.4 * dt), velEase = 1 - Math.exp(-17.26 * dt), turnEase = 1 - Math.exp(-25.85 * dt);
+    o.x += (o.tx - o.x) * posEase; o.y += (o.ty - o.y) * posEase;
     const step = Math.hypot(o.x - px, o.y - py), inv = 1 / Math.max(dt, .001);
-    o.vx = (o.vx || 0) + (((o.x - px) * inv) - (o.vx || 0)) * .25;
-    o.vy = (o.vy || 0) + (((o.y - py) * inv) - (o.vy || 0)) * .25;
+    o.vx = (o.vx || 0) + (((o.x - px) * inv) - (o.vx || 0)) * velEase;
+    o.vy = (o.vy || 0) + (((o.y - py) * inv) - (o.vy || 0)) * velEase;
     o.dist = (o.dist || 0) + step;
-    o.ang = o.ang === undefined ? o.a : o.ang + angDiff(o.a, o.ang) * .35;
+    o.ang = o.ang === undefined ? o.a : o.ang + angDiff(o.a, o.ang) * turnEase;
     if (A && A.mkAvatar && layer) {
       if (!o.av) { o.look = parseLook(o.lk); o.gear = { kind: o.k || 'flashlight', color: o.c || '#ffe7b2', parts: {} }; o.av = A.mkAvatar(o.look, o.gear); layer.addChild(o.av); }
       Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2'; o.gear.parts[o.gear.kind] = partObj(o.gear.kind, o.lp);
@@ -527,8 +535,8 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   if (ws && ws.readyState === 1 && now - lastSend > (started ? 50 : 250)) {
     lastSend = now;
     ws.send(JSON.stringify({
-      t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),
-      a: +p.angle.toFixed(2), r: p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, k: p.equipment?.kind, lp: partList(p.equipment),
+      t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: run ? Math.round(p.vx) : 0, vy: run ? Math.round(p.vy) : 0,
+      a: +p.angle.toFixed(2), r: run && p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, k: p.equipment?.kind, lp: partList(p.equipment),
       n: (document.getElementById('nameplate')?.textContent || 'WANDERER').slice(0, 20), c: p.equipment?.color,
       f: window.__api && window.__api.fall ? +window.__api.fall().toFixed(2) : -1,
       lk: window.__api ? [window.__api.look.hat, window.__api.look.texture, window.__api.look.hands, window.__api.look.main, window.__api.look.backpack].join('|') : undefined,
@@ -543,6 +551,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   if (run) { d = Math.hypot(G.x - p.x, G.y - p.y); for (const s of q) d = Math.min(d, Math.hypot(s.x - p.x, s.y - p.y)); }
   const target = run ? Math.max(0, Math.min(1, 1 - d / 620)) : 0;
   k += (target - k) * Math.min(1, t * (target > k ? 3 : .8));
+  if (!ac) initAudio();
   if (dg && ac) dg.gain.value = soundOn() ? k * k * .16 : 0;
   beatT -= t;
   if (k > .08 && beatT <= 0) { beatT = .95 - .6 * k; thump(.5 * k + .1, 70); setTimeout(() => thump(.35 * k + .06, 58), 140); }

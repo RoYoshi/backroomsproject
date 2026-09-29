@@ -16,7 +16,7 @@ Run:
 `./run_linux.sh`
 
 Or manually:
-`node server.js 8000` (Node 16+; serves the game, runs the shared monsters and relays players; no npm install needed)
+`node server.js 8000` (Node 18+; serves the game, runs the shared monsters and relays players; no npm install needed)
 
 Then open:
 `http://localhost:8000`
@@ -83,7 +83,7 @@ This build includes a visual refinement pass focused on making entities read as 
 ## Refinement pass v4
 
 - Asset URLs (HTML + carpet texture) changed from root-relative to relative, so the build works from sub-folders and static hosts.
-- Local launchers bind to 127.0.0.1 only.
+- The server listens on all network interfaces by default; set HOST=127.0.0.1 for a local-only session.
 
 ## Refinement pass v5
 
@@ -170,3 +170,29 @@ New file: `camcorder.js` (add to your repo). Legacy saves migrate: chestlamp →
 - **NEW RUN** (pause menu) makes your body fade out of existence for everyone, leaving only your light source on the floor (it replaces your previous body). Then a menu offers **SPAWN**, **CUSTOMIZE** or **END** (back to the title screen; you leave the world).
 - The inventory no longer has a Customize button; use Settings / the header.
 - Server: new `fx` and `leave` messages (`server.js`, `sim.js`), `mp.js` replays them.
+
+
+## v15.1 — interface and reliability refinement
+
+This build is based on the supplied v15 ZIP. It remains separate from the pending v16 entity redesign.
+
+- A quieter header puts Controls, Customize and Audio inside Settings. The settings preview now shows the glitched-wall objective, and lists camcorder N / wheel / Z controls.
+- Inventory gains a close button, clearer device descriptions, a live-world warning and a BAG button on touch devices. Short screens and small windows have scrollable panels with tighter spacing.
+- Movement keys release reliably when panels consume keyboard events. Typing or operating menus cannot trigger movement, light toggles or camera shortcuts. Camera aim stays still over interface panels. Keyboard focus loops through visible, enabled modal controls; device cards and settings tabs support arrow navigation.
+- The wanderer name saves on this device. Click the connection badge to show/copy the current room link. A clipboard fallback selects the link for manual copying.
+- Dread drone, heartbeat and capture bursts use the existing audio master bus. Master volume and mute now cover these sounds too, without creating a second AudioContext. Capture bursts play once when capture begins, rather than again whenever a body class changes.
+- Peer movement and turning ease consistently at different frame rates. Paused clients send zero movement/sprint values. Disconnects clear stale remote bodies and peers. Room names follow the server's normalization.
+- Solo NEW RUN restores the rare Cartograph pickup. New-run inventory notifications clear with the inventory.
+- Malformed percent-encoded HTTP paths return 400 instead of throwing in the server. The two polish assets are explicitly served. Server startup reports a busy port clearly. Launchers wait for the server to be listening before opening the browser, and explain when Node is missing.
+
+### Running this build
+
+Use Node 18 or later. Run `node server.js 8000` or the included launcher. The server listens on all network interfaces by default, as in v15. Set `HOST=127.0.0.1` for a local-only session. Other players must be able to reach the server address; a localhost link only works on your own computer. Do not run index.html directly from a file URL.
+
+### Carrying this polish into v16
+
+The companion `v15.1-refinement-patch.zip` contains a unified diff and merge notes. Apply/merge that diff against v16; do not replace its compiled game bundle with this older bundle. All interface CSS is in `polish.css`, and the extra interface behavior is in `polish.js`. The only compiled-bundle change exposes `__api.input.clear()` and `__api.input.release(code)` using the existing movement-key Set. Monster logic, attacks, death animations, the map and night-vision tuning are unchanged.
+
+### Verification
+
+Passed syntax checks for every JavaScript file; live HTTP checks for all 20 local page assets; malformed URL handling; private source routes; audio listing; a real two-client room plus an isolated third client; customization replication and leaving a room. VM checks passed for input release, paused movement packets, room normalization, solo pickup reset, audio master routing/mute, one-shot capture bursts, reconnect cleanup and peer smoothing at 30/60/144 Hz. The checks did not include a rendered browser playthrough; layout and touch feel still need in-game review.

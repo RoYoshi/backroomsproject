@@ -7,6 +7,7 @@ const createSim = require('./sim.js');
 const gz = new Map();
 
 const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = __dirname, MAX_ROOM = 8;
+const HOST = process.env.HOST || '0.0.0.0';
 // Admin passcode. Override on the host with the ADMIN_PASSCODE environment variable (recommended).
 const ADMIN_PASS = process.env.ADMIN_PASSCODE || 'smoor';
 const sha = s => crypto.createHash('sha256').update(String(s)).digest();
@@ -14,11 +15,13 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|mp\.js|hud\.js|gore\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|mp\.js|hud\.js|gore\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|polish\.js|polish\.css|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {
-  let u = decodeURIComponent(req.url.split('?')[0]);
+  let u;
+  try { u = decodeURIComponent(req.url.split('?')[0]); }
+  catch { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Invalid URL'); }
   if (u === '/') u = '/index.html';
   const f = path.join(ROOT, path.normalize(u));
   // drop-in custom sounds: any files in ./sounds are listed and served (see sounds/README.txt)
@@ -223,4 +226,19 @@ setInterval(() => {
   }
 }, TICK_MS);
 
-srv.listen(PORT, () => console.log(`The Far Backrooms → http://localhost:${PORT}  (share  ?room=NAME  to group up)`));
+srv.on('error', err => {
+  console.error(err.code === 'EADDRINUSE' ? `Port ${PORT} is already in use. Start with: node server.js ANOTHER_PORT` : `Could not start server: ${err.message}`);
+  process.exit(1);
+});
+
+srv.listen(PORT, HOST, () => {
+  const url = `http://localhost:${PORT}`;
+  console.log(`The Far Backrooms → ${url}  (share  ?room=NAME  to group up)`);
+  if (process.argv.includes('--open')) {
+    const { spawn } = require('child_process');
+    const command = process.platform === 'win32' ? 'cmd' : process.platform === 'darwin' ? 'open' : 'xdg-open';
+    const args = process.platform === 'win32' ? ['/c', 'start', '""', url] : [url];
+    const child = spawn(command, args, { detached: true, stdio: 'ignore' });
+    child.on('error', () => console.log(`Open ${url} in your browser.`)); child.unref();
+  }
+});
