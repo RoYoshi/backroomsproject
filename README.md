@@ -16,7 +16,7 @@ Run:
 `./run_linux.sh`
 
 Or manually:
-`node server.js 8000` (Node 16+; serves the game and the multiplayer relay, no npm install needed)
+`node server.js 8000` (Node 16+; serves the game, runs the shared monsters and relays players; no npm install needed)
 
 Then open:
 `http://localhost:8000`
@@ -96,3 +96,13 @@ This build includes a visual refinement pass focused on making entities read as 
 - **Freeze fixed:** the original footstep audio code (`footstep()` in `assets/index-DKbV5Nv9.js`) shadowed the audio-context variable inside its noise loop, throwing "Cannot access 'a' before initialization" on the first footstep after audio started. That error aborted the frame loop, so the game froze a moment after you began walking.
 - **Safety net:** the frame loop now catches errors and always schedules the next frame, so a future audio or effects bug can't freeze the game.
 - **UI:** the online/room label moved under the title so it no longer overlaps the controls bar.
+
+## Server-side entities v7
+
+- `sim.js` holds the map, pathfinding and the Hound / Smiler AI, extracted from the game's own bundle and generalised from one player to many. `server.js` runs one simulation per `?room=NAME`.
+- **Shared world:** every player in a room sees the same Hound, Smilers and blackouts. Each monster tracks the most relevant living player (spotted first, then loudest, then nearest).
+- **Server decides catches.** Only the caught player gets the death sequence; the monsters then lose track and search for a few seconds. RESPAWN puts you back at the start with a short grace period.
+- **Shared evidence:** traces are collected as a team. When the eighth is found everyone gets the win screen. NEW RUN resets the world once it is the first player back in.
+- Pausing does not stop the world online (the pause screen says so).
+- **Solo fallback:** with no server (static hosting, `file://`, dropped connection) the game uses its built-in single-player AI as before.
+- Server only serves `index.html`, `mp.js` and `assets/`; `server.js` and `sim.js` are never sent to browsers.

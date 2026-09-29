@@ -1,41 +1,122 @@
-// Zero-dependency static server + WebSocket relay.  Run: node server.js [port]
-const http=require('http'),fs=require('fs'),path=require('path'),crypto=require('crypto');
-const PORT=+process.argv[2]||process.env.PORT||8000,ROOT=__dirname,MAX_ROOM=8;
-const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.png':'image/png'};
-const srv=http.createServer((req,res)=>{
- let u=decodeURIComponent(req.url.split('?')[0]);if(u==='/')u='/index.html';
- const f=path.join(ROOT,path.normalize(u));
- if(!f.startsWith(ROOT)||/server\.js$/.test(f)){res.writeHead(403);return res.end()}
- fs.readFile(f,(e,b)=>{if(e){res.writeHead(404);return res.end('Not found')}
-  res.writeHead(200,{'Content-Type':types[path.extname(f)]||'application/octet-stream'});res.end(b)})});
-const rooms=new Map();let nextId=1;
-function frame(str){const b=Buffer.from(str),n=b.length;
- const h=n<126?Buffer.from([0x81,n]):n<65536?Buffer.from([0x81,126,n>>8,n&255]):null;
- return h?Buffer.concat([h,b]):null}
-srv.on('upgrade',(req,sock)=>{
- const url=new URL(req.url,'http://x');
- if(url.pathname!=='/ws'||!req.headers['sec-websocket-key'])return sock.destroy();
- const room=(url.searchParams.get('room')||'main').slice(0,24).replace(/[^\w-]/g,'');
- const set=rooms.get(room)||new Map();rooms.set(room,set);
- if(set.size>=MAX_ROOM)return sock.destroy();
- sock.write('HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: '+
-  crypto.createHash('sha1').update(req.headers['sec-websocket-key']+'258EAFA5-E914-47DA-95CA-C5AB0DC85B11').digest('base64')+'\r\n\r\n');
- const id=nextId++,me={sock,state:null,last:0};set.set(id,me);
- sock.write(frame(JSON.stringify({t:'hi',id})));
- let buf=Buffer.alloc(0);
- sock.on('data',d=>{buf=Buffer.concat([buf,d]);
-  while(buf.length>=2){const op=buf[0]&15;let len=buf[1]&127,off=2;
-   if(len===126){if(buf.length<4)return;len=buf.readUInt16BE(2);off=4}else if(len===127)return sock.destroy();
-   if(buf.length<off+4+len)return;const mask=buf.slice(off,off+4),pl=Buffer.from(buf.slice(off+4,off+4+len));
-   for(let i=0;i<len;i++)pl[i]^=mask[i&3];buf=buf.slice(off+4+len);
-   if(op===8)return sock.end();
-   if(op===1&&len<300){try{const m=JSON.parse(pl),now=Date.now();
-    if(m.t==='p'&&now-me.last>40&&isFinite(m.x)&&isFinite(m.y)){me.last=now;
-     me.state={id,x:m.x|0,y:m.y|0,a:+m.a||0,n:String(m.n||'').slice(0,20),c:/^#[0-9a-f]{6}$/i.test(m.c)?m.c:'#ffe7b2',d:m.d?1:0,r:m.r?1:0,ts:now}}}catch{}}}});
- const bye=()=>{set.delete(id);if(!set.size)rooms.delete(room)};
- sock.on('close',bye);sock.on('error',bye);
+// Static file server + WebSocket game server (zero dependencies).  Run: node server.js [port]
+// Each ?room=NAME is an independent world with its own server-side Hound, Smilers,
+// blackout timer and shared evidence (see sim.js).
+const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto');
+const createSim = require('./sim.js');
+
+const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = __dirname, MAX_ROOM = 8;
+const TICK_MS = 25, SNAP_EVERY = 2;            // simulate ~40 Hz, broadcast ~20 Hz
+const SERVE = /^\/(index\.html|mp\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
+
+const srv = http.createServer((req, res) => {
+  let u = decodeURIComponent(req.url.split('?')[0]);
+  if (u === '/') u = '/index.html';
+  const f = path.join(ROOT, path.normalize(u));
+  if (!f.startsWith(ROOT) || !SERVE.test(u)) { res.writeHead(404); return res.end('Not found'); }
+  fs.readFile(f, (e, b) => {
+    if (e) { res.writeHead(404); return res.end('Not found'); }
+    res.writeHead(200, { 'Content-Type': types[path.extname(f)] || 'application/octet-stream' });
+    res.end(b);
+  });
 });
-setInterval(()=>{const now=Date.now();for(const set of rooms.values()){
- const all=[...set.values()].filter(c=>c.state&&now-c.state.ts<5000).map(c=>c.state);
- for(const [id,c] of set){const f=frame(JSON.stringify({t:'s',p:all.filter(s=>s.id!==id)}));if(f&&!c.sock.destroyed)c.sock.write(f)}}},66);
-srv.listen(PORT,()=>console.log(`The Far Backrooms → http://localhost:${PORT}  (share  ?room=NAME  to group up)`));
+
+const rooms = new Map();
+let nextId = 1;
+
+function frame(str) {
+  const b = Buffer.from(str), n = b.length;
+  const h = n < 126 ? Buffer.from([0x81, n]) : n < 65536 ? Buffer.from([0x81, 126, n >> 8, n & 255]) : null;
+  return h ? Buffer.concat([h, b]) : null;
+}
+const send = (c, obj) => { const f = frame(JSON.stringify(obj)); if (f && !c.sock.destroyed) c.sock.write(f); };
+const num = (v, lo, hi) => Math.max(lo, Math.min(hi, +v || 0));
+
+function getRoom(name) {
+  let r = rooms.get(name);
+  if (!r) { r = { name, clients: new Map(), sim: createSim(), acc: 0, last: Date.now(), tick: 0 }; rooms.set(name, r); }
+  return r;
+}
+
+srv.on('upgrade', (req, sock) => {
+  const url = new URL(req.url, 'http://x');
+  if (url.pathname !== '/ws' || !req.headers['sec-websocket-key']) return sock.destroy();
+  const name = (url.searchParams.get('room') || 'main').slice(0, 24).replace(/[^\w-]/g, '') || 'main';
+  const room = getRoom(name);
+  if (room.clients.size >= MAX_ROOM) return sock.destroy();
+  sock.write('HTTP/1.1 101 Switching Protocols\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Accept: ' +
+    crypto.createHash('sha1').update(req.headers['sec-websocket-key'] + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11').digest('base64') + '\r\n\r\n');
+  sock.setNoDelay(true);
+
+  const id = nextId++;
+  const player = room.sim.addPlayer(id);
+  const me = { sock, id, player, last: 0, name: 'WANDERER', color: '#ffe7b2', angle: 0, sprint: 0 };
+  room.clients.set(id, me);
+  send(me, { t: 'hi', id, sim: 1 });
+
+  function onMessage(m) {
+    if (m.t === 'p') {
+      const now = Date.now();
+      if (now - me.last < 30 || !isFinite(m.x) || !isFinite(m.y)) return;
+      me.last = now;
+      const p = player;
+      if (!p.dead) {                       // a caught player's body stays where it fell
+        p.x = num(m.x, 0, 96 * 96); p.y = num(m.y, 0, 72 * 96);
+        p.vx = num(m.vx, -500, 500); p.vy = num(m.vy, -500, 500);
+      }
+      p.angle = +m.a || 0; p.sprinting = !!m.r; p.light = m.l !== 0;
+      p.equipment.kind = ['flashlight', 'chestlamp', 'torch'].includes(m.k) ? m.k : 'flashlight';
+      me.name = String(m.n || 'WANDERER').slice(0, 20);
+      if (/^#[0-9a-f]{6}$/i.test(m.c)) me.color = m.c;
+      me.angle = p.angle; me.sprint = m.r ? 1 : 0;
+    } else if (m.t === 'join') room.sim.join(player);
+    else if (m.t === 'respawn') room.sim.respawn(player);
+    else if (m.t === 'c') { if (isFinite(m.x) && isFinite(m.y) && !player.dead) { player.x = num(m.x, 0, 96 * 96); player.y = num(m.y, 0, 72 * 96); } room.sim.collect(player, m.i | 0); }
+  }
+
+  let buf = Buffer.alloc(0);
+  sock.on('data', d => {
+    buf = Buffer.concat([buf, d]);
+    while (buf.length >= 2) {
+      const op = buf[0] & 15; let len = buf[1] & 127, off = 2;
+      if (len === 126) { if (buf.length < 4) return; len = buf.readUInt16BE(2); off = 4; } else if (len === 127) return sock.destroy();
+      if (buf.length < off + 4 + len) return;
+      const mask = buf.slice(off, off + 4), pl = Buffer.from(buf.slice(off + 4, off + 4 + len));
+      for (let i = 0; i < len; i++) pl[i] ^= mask[i & 3];
+      buf = buf.slice(off + 4 + len);
+      if (op === 8) return sock.end();
+      if (op === 9) { sock.write(Buffer.from([0x8a, 0])); continue; }       // ping -> pong
+      if (op === 1 && len < 300) { try { onMessage(JSON.parse(pl)); } catch (e) { /* ignore bad input */ } }
+    }
+  });
+  const bye = () => {
+    if (!room.clients.delete(id)) return;
+    room.sim.removePlayer(player);
+    if (!room.clients.size) rooms.delete(name);       // empty world is thrown away
+  };
+  sock.on('close', bye); sock.on('error', bye);
+});
+
+setInterval(() => {
+  const now = Date.now();
+  for (const room of rooms.values()) {
+    const dt = Math.min(0.25, (now - room.last) / 1000); room.last = now;
+    room.acc += dt;
+    let n = 0;
+    while (room.acc >= 1 / 60 && n++ < 15) { room.sim.step(1 / 60); room.acc -= 1 / 60; }
+    if (++room.tick % SNAP_EVERY) continue;
+
+    const ent = room.sim.entities();
+    const peers = [];
+    for (const c of room.clients.values()) {
+      if (!c.player.active) continue;
+      peers.push({ id: c.id, x: Math.round(c.player.x), y: Math.round(c.player.y), a: +c.angle.toFixed(2),
+        n: c.name, c: c.color, d: c.player.dead ? 1 : 0, r: c.sprint });
+    }
+    for (const c of room.clients.values()) {
+      send(c, { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq });
+    }
+  }
+}, TICK_MS);
+
+srv.listen(PORT, () => console.log(`The Far Backrooms → http://localhost:${PORT}  (share  ?room=NAME  to group up)`));
