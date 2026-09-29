@@ -1,4 +1,4 @@
-/* Inventory (TAB), light-source part customisation, and the cartograph item.
+/* Inventory (TAB), light-source loadout + part customisation, and the cartograph item.
  *
  * - TAB opens a side drawer: your equipped light (with a live, close-up picture) and what you are carrying.
  *   The game keeps running while it is open; it is not a pause menu.
@@ -8,12 +8,25 @@
  * The light art itself lives in the game bundle (window.__api.gear.draw); this file only re-plays it onto a 2D canvas for previews. */
 (() => {
   const $ = id => document.getElementById(id);
-  const KINDS = { flashlight: 'Flashlight', chestlamp: 'Chestlamp', torch: 'Torch' };
+  const KINDS = { flashlight: 'Flashlight', headlamp: 'Headlamp', lantern: 'Lantern', camcorder: 'Night Vision Camcorder' };
   const KIND_TEXT = {
-    flashlight: 'A narrow handheld beam. It rides in your hand, so it lags behind your aim and shuffles as you walk.',
-    chestlamp: 'A wide, short beam strapped to your chest. It points where you move.',
-    torch: 'A short, flickering light in every direction. It sways in your fist as you walk.',
+    flashlight: 'A long, narrow, soft-edged beam that follows your mouse. The best reach there is, but it sees almost nothing to the sides.',
+    headlamp: 'A wider cone strapped to your head. Hands-free and always where you look, with a shorter reach and a slightly dimmer beam.',
+    lantern: 'A warm camping lantern carried at your side. It lights a circle around you, not what lies ahead. Short to medium reach.',
+    camcorder: 'Gives off no light at all. Raise it and see the dark through the lens: grainy green-gray, zoomable with the wheel. The night-vision sensor overheats, so watch TEMP.',
   };
+  const CARD_TEXT = {
+    flashlight: 'Longest reach. Narrow, soft-edged beam that follows your mouse.',
+    headlamp: 'Hands-free. Wider, shorter cone that follows where you look.',
+    lantern: 'Warm glow all around you. Short reach, no aim needed.',
+    camcorder: 'No light. Night vision through the lens; it overheats.',
+  };
+  const KIND_STATS = {           // [reach, spread] out of 5, shown on the loadout cards
+    flashlight: [5, 1], headlamp: [3, 3], lantern: [2, 5], camcorder: null,
+  };
+  const KIND_KEYS = { camcorder: 'F raise / lower · N night vision · WHEEL zoom' };
+  const DEF_COL = { flashlight: '#ffe7b2', headlamp: '#fff0c8', lantern: '#ffc98a', camcorder: '#ffe7b2' };
+  const DRAW_X = { cr: 1, hat: 'none' };
   const ITEMS = {
     cartograph: {
       name: 'CARTOGRAPH', tag: 'PARANORMAL DEVICE',
@@ -62,17 +75,18 @@
     fill(v) { const [c, a] = this._col(v); this.c.save(); this.c.globalAlpha = a; this.c.fillStyle = c; this.c.fill(this._path()); this.c.restore(); this.done = true; return this; }
     stroke(v) { const [c, a] = this._col(v); this.c.save(); this.c.globalAlpha = a; this.c.strokeStyle = c; this.c.lineWidth = v.width ?? 1; this.c.lineCap = v.cap || 'butt'; this.c.lineJoin = v.join || 'miter'; this.c.stroke(this._path()); this.c.restore(); this.done = true; return this; }
   }
-  function paintLight(cv, kind, scale, t, tilt) {
+  function paintLight(cv, kind, scale, t, tilt, colour) {
     const A = window.__api; if (!A || !A.gear || !cv) return;
     const g = A.gear, eq = g.eq, c = cv.getContext('2d'), dpr = devicePixelRatio || 1, W = cv.clientWidth || cv.width / dpr, H = cv.clientHeight || cv.height / dpr;
     if (cv.width !== Math.round(W * dpr) || cv.height !== Math.round(H * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
     c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H);
-    const P = g.parts(eq, kind), col = parseInt(eq.color.slice(1), 16);
+    const hex = colour || eq.color, P = g.parts(eq, kind), col = parseInt(hex.slice(1), 16);
     // soft pool of light behind it
-    const gr = c.createRadialGradient(W / 2, H / 2, 4, W / 2, H / 2, Math.min(W, H) * .55); gr.addColorStop(0, eq.color + '55'); gr.addColorStop(1, eq.color + '00'); c.fillStyle = gr; c.fillRect(0, 0, W, H);
-    const SPAN = { flashlight: [34, -8], torch: [58, -16], chestlamp: [36, -8] }[kind] || [34, -8], k = Math.min(W, H) * scale / SPAN[0];
-    c.save(); c.translate(W / 2, H / 2); c.rotate(tilt + Math.sin(t * 1.1) * .04); c.scale(k, k); c.translate(0, -SPAN[1]);
-    g.draw(new Rec(c), kind, P, col, true, t, -1);
+    if (kind !== 'camcorder') { const gr = c.createRadialGradient(W / 2, H / 2, 4, W / 2, H / 2, Math.min(W, H) * .55); gr.addColorStop(0, hex + '55'); gr.addColorStop(1, hex + '00'); c.fillStyle = gr; c.fillRect(0, 0, W, H); }
+    else { const gr = c.createRadialGradient(W / 2, H / 2, 4, W / 2, H / 2, Math.min(W, H) * .55); gr.addColorStop(0, '#5cff7a22'); gr.addColorStop(1, '#5cff7a00'); c.fillStyle = gr; c.fillRect(0, 0, W, H); }
+    const SPAN = { flashlight: [34, -8, 0], headlamp: [40, -11, 0], lantern: [28, -9, 0], camcorder: [31, -2, -6.5] }[kind] || [34, -8, 0], k = Math.min(W, H) * scale / SPAN[0];
+    c.save(); c.translate(W / 2, H / 2); c.rotate((kind === 'headlamp' ? tilt * .25 : tilt) + Math.sin(t * 1.1) * .04); c.scale(k, k); c.translate(-SPAN[2], -SPAN[1]);
+    g.draw(new Rec(c), kind, P, col, true, t, -1, DRAW_X);
     c.restore();
   }
   function paintCartograph(cv, t) {
@@ -99,9 +113,8 @@
     <div class="inv-label">EQUIPPED · LIGHT</div>
     <div class="inv-equip">
       <canvas id="invLight" width="132" height="132"></canvas>
-      <div class="inv-equip-info"><h3 id="invLightName">FLASHLIGHT</h3><p id="invLightText"></p><div class="inv-sw" id="invSw"></div></div>
+      <div class="inv-equip-info"><h3 id="invLightName">FLASHLIGHT</h3><p id="invLightText"></p><p class="inv-keys" id="invKeys"></p><div class="inv-sw" id="invSw"></div></div>
     </div>
-    <div class="inv-kinds" id="invKinds"></div>
     <div class="inv-row"><button id="invToggle" type="button">LIGHT ON <kbd>F</kbd></button><button id="invCustom" type="button">CUSTOMIZE</button></div>
     <div class="inv-label">CARRYING</div>
     <div class="inv-grid" id="invGrid"></div>
@@ -112,7 +125,7 @@
   function swatches() {
     const A = window.__api; if (!A || !A.gear) return '';
     const g = A.gear, k = g.eq.kind, P = g.parts(g.eq, k);
-    return g.defs[k].map(d => `<i title="${d[1]}" style="background:${P[d[0]]}"></i>`).join('') + `<i title="Beam" class="beam" style="background:${g.eq.color}"></i>`;
+    return g.defs[k].map(d => `<i title="${d[1]}" style="background:${P[d[0]]}"></i>`).join('') + (k === 'camcorder' ? '' : `<i title="Beam" class="beam" style="background:${g.eq.color}"></i>`);
   }
   function render() {
     const A = window.__api; if (!A || !A.gear) return;
@@ -120,9 +133,9 @@
     $('invLightName').textContent = KINDS[k].toUpperCase();
     $('invLightText').textContent = KIND_TEXT[k];
     $('invSw').innerHTML = swatches();
-    $('invKinds').innerHTML = Object.keys(KINDS).map(x => `<button type="button" data-kind="${x}" class="${x === k ? 'on' : ''}">${KINDS[x]}</button>`).join('');
-    const on = /ON/.test(($('lightStatus') && $('lightStatus').textContent) || 'ON');
-    $('invToggle').innerHTML = (on ? 'LIGHT ON' : 'LIGHT OFF') + ' <kbd>F</kbd>'; $('invToggle').classList.toggle('off', !on);
+    $('invKeys').textContent = KIND_KEYS[k] || '';
+    const st = ($('lightStatus') && $('lightStatus').textContent) || 'ON', on = /\bON\b|RAISED/.test(st) && !/LOWERED/.test(st);
+    $('invToggle').innerHTML = (k === 'camcorder' ? (on ? 'RAISED' : 'LOWERED') : on ? 'LIGHT ON' : 'LIGHT OFF') + ' <kbd>F</kbd>'; $('invToggle').classList.toggle('off', !on);
     const slots = 6, grid = [];
     for (let i = 0; i < slots; i++) {
       const id = inv.items[i];
@@ -148,7 +161,7 @@
       root.querySelectorAll('.inv-ic').forEach(cv => paintCartograph(cv, t));
     }
     const ap = $('appearancePanel');
-    if (ap && !ap.hidden && A && A.gear) paintLight($('lightZoom'), A.gear.eq.kind, .82, t, -.42);
+    if (ap && !ap.hidden && A && A.gear) { paintLight($('lightZoom'), A.gear.eq.kind, .82, t, -.42); document.querySelectorAll('#lightCards canvas').forEach(cv => paintLight(cv, cv.dataset.kind, .8, t, -.42, cv.dataset.kind === A.gear.eq.kind ? A.gear.eq.color : DEF_COL[cv.dataset.kind])); }
     if (inv.open || (ap && !ap.hidden)) raf = requestAnimationFrame(frame);
   }
   const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
@@ -180,9 +193,8 @@
   root.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
     const A = window.__api;
-    if (b.dataset.kind) { const s = $('lightKind'); s.value = b.dataset.kind; s.dispatchEvent(new Event('change', { bubbles: true })); buildParts(); render(); return; }
     if (b.id === 'invToggle') { $('touchFlash').click(); setTimeout(render, 30); return; }
-    if (b.id === 'invCustom') { close(); $('customize').click(); setTimeout(() => { const p = $('lightParts'); if (p) p.scrollIntoView({ block: 'center' }); }, 60); return; }
+    if (b.id === 'invCustom') { close(); $('customize').click(); buildCards(); setTimeout(() => { const p = $('lightParts'); if (p) p.scrollIntoView({ block: 'center' }); }, 60); return; }
     if (b.classList.contains('inv-slot')) { inv.sel = +b.dataset.i; render(); return; }
     if (b.id === 'invUse') { if (A && A.map) A.map(); setTimeout(render, 30); return; }
   });
@@ -190,13 +202,62 @@
   setInterval(() => { if (inv.open) { const s = ($('lightStatus') || {}).textContent || ''; if (s !== ctx.last) { ctx.last = s; render(); } } }, 400);
 
   /* ---------- light parts (Customize panel) ---------- */
+  /* ---------- loadout cards (Customize panel) ---------- */
+  const css = document.createElement('style');
+  css.textContent = `
+#lightCards{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 2px}
+#lightCards .lc{display:grid;grid-template-columns:64px 1fr;gap:4px 10px;align-items:center;text-align:left;padding:8px 9px;background:#0b1413;border:1px solid #75807555;color:#cdd7cf;cursor:pointer;font:11px IBM Plex Mono,monospace;letter-spacing:.6px}
+#lightCards .lc:hover:not(:disabled){border-color:#c9d99a}
+#lightCards .lc.on{border-color:#e9d98a;background:#1a170a}
+#lightCards .lc:disabled{cursor:not-allowed;opacity:.55}
+#lightCards .lc.on:disabled{opacity:1}
+#lightCards canvas{width:64px;height:64px;grid-row:1/3;background:#070c0b;border:1px solid #ffffff10}
+#lightCards b{font-weight:600;letter-spacing:1.4px;font-size:11px;color:#f2ead0;align-self:end}
+#lightCards small{font-size:9.5px;line-height:1.35;color:#9fada4;align-self:start;letter-spacing:.3px}
+#lightCards i{display:block;font-style:normal;color:#e9d98a;font-size:9px;letter-spacing:1px;margin-top:3px}
+#lightLock{grid-column:1/-1;font:10px/1.5 IBM Plex Mono,monospace;letter-spacing:.8px;color:#f0b48a;margin:2px 0 0}
+.inv-keys{font-size:9.5px;letter-spacing:.8px;color:#c9d99a;margin:4px 0 2px}
+#loadoutBtn{margin-top:10px;background:none;border:1px solid #75807588;color:#cdd7cf;padding:9px 14px;letter-spacing:2px;font:11px IBM Plex Mono,monospace;cursor:pointer}
+#loadoutBtn:hover{border-color:#e9d98a;color:#f2ead0}
+@media (max-width:560px){#lightCards{grid-template-columns:1fr}}`;
+  document.head.appendChild(css);
+  const cards = Object.assign(document.createElement('div'), { id: 'lightCards', role: 'radiogroup' }), lockNote = Object.assign(document.createElement('p'), { id: 'lightLock' });
+  const bar = n => '▮'.repeat(n) + '▯'.repeat(5 - n);
+  function loadoutLocked() { const A = window.__api, c = $('caught'); return !!(A && A.started && A.started() && (!c || c.hidden)); }
+  function buildCards() {
+    const A = window.__api; if (!A || !A.gear) return;
+    const k0 = A.gear.eq.kind, lock = loadoutLocked();
+    cards.innerHTML = Object.keys(KINDS).map(k => {
+      const st = KIND_STATS[k], line = st ? `REACH ${bar(st[0])} SPREAD ${bar(st[1])}` : 'NO LIGHT · NIGHT VISION';
+      return `<button type="button" class="lc ${k === k0 ? 'on' : ''}" data-kind="${k}" role="radio" aria-checked="${k === k0}" ${lock ? 'disabled' : ''}><canvas data-kind="${k}" width="64" height="64"></canvas><b>${KINDS[k].toUpperCase()}</b><small>${CARD_TEXT[k]}<i>${line}</i></small></button>`;
+    }).join('');
+    lockNote.textContent = lock ? 'LOADOUT LOCKED · you carry one device per run. Get caught and choose again, or reload to start over.' : '';
+    lockNote.hidden = !lock;
+    const sel = $('lightKind'), lab = sel && sel.closest('label'); if (lab) lab.style.display = 'none';
+    const lc = $('lightColor'), lcl = lc && lc.closest('label'); if (lcl) lcl.style.display = k0 === 'camcorder' ? 'none' : '';
+    const d = $('lightDescription'); if (d) d.style.display = 'none';
+    const host = $('lightParts'); if (host && cards.parentNode !== host.parentNode) { host.parentNode.insertBefore(lockNote, host); host.parentNode.insertBefore(cards, lockNote); }
+    kick();
+  }
+  cards.addEventListener('click', e => {
+    const b = e.target.closest('button.lc'); if (!b || b.disabled || loadoutLocked()) return;
+    const k = b.dataset.kind, s = $('lightKind'); if (!s || s.value === k) return;
+    s.value = k; s.dispatchEvent(new Event('change', { bubbles: true }));
+    const lc = $('lightColor'); if (lc && Object.values(DEF_COL).includes(String(lc.value).toLowerCase())) { lc.value = DEF_COL[k]; lc.dispatchEvent(new Event('input', { bubbles: true })); }
+    buildCards(); buildParts(); render();
+  });
+  // caught screen: pick a different device before respawning
+  const lo = Object.assign(document.createElement('button'), { id: 'loadoutBtn', type: 'button', textContent: 'CHANGE LOADOUT' });
+  const cp = document.querySelector('#caught .panel'); if (cp) cp.appendChild(lo);
+  lo.addEventListener('click', () => { window.__loadout = true; $('customize').click(); });
+  ['doneAppearance', 'closeAppearance'].forEach(id => { const b = $(id); b && b.addEventListener('click', () => { window.__loadout = false; }); });
   const zoom = Object.assign(document.createElement('canvas'), { id: 'lightZoom', width: 260, height: 170 });
   function buildParts() {
     const host = $('lightParts'), A = window.__api; if (!host || !A || !A.gear) return;
     const g = A.gear, k = g.eq.kind, P = g.parts(g.eq, k);
     host.innerHTML = `<div class="lp-head"><span>${KINDS[k].toUpperCase()} · PARTS</span><button type="button" id="lpReset">RESET</button></div>` +
       `<div class="lp-fields">${g.defs[k].map(d => `<label>${d[1]}<input type="color" data-part="${d[0]}" value="${P[d[0]]}"></label>`).join('')}</div>`;
-    host.insertBefore(zoom, host.firstChild);
+    host.insertBefore(zoom, host.firstChild); buildCards();
     zoom.setAttribute('aria-label', 'Close-up of your light source');
     kick();
   }
@@ -208,8 +269,8 @@
     if (!(e.target instanceof Element) || e.target.id !== 'lpReset') return;
     const g = window.__api.gear, k = g.eq.kind; g.eq.parts[k] = Object.fromEntries(g.defs[k].map(d => [d[0], d[2]])); g.save(); buildParts(); render();
   });
-  document.addEventListener('change', e => { if (e.target && e.target.id === 'lightKind') { buildParts(); render(); } });
-  const cust = $('customize'); if (cust) cust.addEventListener('click', () => setTimeout(() => { buildParts(); kick(); }, 30));
+  document.addEventListener('change', e => { if (e.target && e.target.id === 'lightKind') { buildParts(); buildCards(); render(); } });
+  const cust = $('customize'); if (cust) cust.addEventListener('click', () => setTimeout(() => { buildParts(); buildCards(); kick(); }, 30));
   const init = () => { if (window.__api && window.__api.gear) { buildParts(); render(); } else setTimeout(init, 300); };
   init();
   // used by tests

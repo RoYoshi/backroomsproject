@@ -14,7 +14,7 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|mp\.js|hud\.js|gore\.js|glitch\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|mp\.js|hud\.js|gore\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {
@@ -57,6 +57,8 @@ function frame(str) {
 }
 const send = (c, obj) => { const f = frame(JSON.stringify(obj)); if (f && !c.sock.destroyed) c.sock.write(f); };
 const num = (v, lo, hi) => Math.max(lo, Math.min(hi, +v || 0));
+const KINDS = ['flashlight', 'headlamp', 'lantern', 'camcorder'], LEGACY = { chestlamp: 'headlamp', torch: 'lantern' };
+const kindOf = k => KINDS.includes(k) ? k : (LEGACY[k] || 'flashlight');
 const cleanParts = s => { const a = String(s || '').split(','); return a.length >= 3 && a.length <= 5 && a.every(c => /^#[0-9a-f]{6}$/i.test(c)) ? a.join(',') : ''; };
 const HEX = /^#[0-9a-f]{6}$/i, DEFAULT_LOOK = 'none|plain|#e6bb76|#ffcc77|none';
 function cleanLook(s) {                       // hat|texture|hands|main|backpack, validated
@@ -132,7 +134,7 @@ srv.on('upgrade', (req, sock) => {
         p.vx = num(m.vx, -500, 500); p.vy = num(m.vy, -500, 500);
       }
       p.angle = +m.a || 0; p.sprinting = !!m.r; p.light = m.l !== 0;
-      p.equipment.kind = ['flashlight', 'chestlamp', 'torch'].includes(m.k) ? m.k : 'flashlight';
+      p.equipment.kind = kindOf(m.k);
       me.name = String(m.n || 'WANDERER').slice(0, 20);
       if (HEX.test(m.c)) me.color = m.c;
       me.look = cleanLook(m.lk) || me.look; me.lp = cleanParts(m.lp);
@@ -152,7 +154,7 @@ srv.on('upgrade', (req, sock) => {
       const n3 = a => [num(a && a[0], 0, 9216), num(a && a[1], 0, 6912), num(a && a[2], -20, 20)];
       room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
         sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : 'Hound', aa: num(m.aa, -20, 20),
-        lk: cleanLook(m.lk) || me.look, eq: { kind: ['flashlight', 'chestlamp', 'torch'].includes(m.ek) ? m.ek : 'flashlight', color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
+        lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
         bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht) });
     }
   }

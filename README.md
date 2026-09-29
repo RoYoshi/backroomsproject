@@ -143,3 +143,22 @@ This build includes a visual refinement pass focused on making entities read as 
 - **No default map.** The map is now the **Cartograph**, a rare paranormal device: one lies somewhere in every world (visible as a faint flicker when you have line of sight). Walk over it to pick it up, then press **M**. Its sketch is crude on purpose: jittery lines, missing chunks, a drifting position dot, and it gets less reliable the farther from you it looks. Items are wiped on NEW RUN. Admin panel: GO TO IT / MOVE IT / GIVE ME ONE.
 - **Light source redesign + parts**: new art for all three lights. Customize → *Light parts* lets you recolour every element (Flashlight: body, head, button, grip; Torch: handle, wrap, cord; Chestlamp: strap, housing, bracket) plus the beam colour, with a zoomed live preview. Other players, dropped gear and corpses use your colours.
 - **Lights move with the hand**: the flashlight and torch beam now start at the hand, lag slightly behind your aim, and shuffle/sway with your stride (more when sprinting). Other players' beams do the same. The beam origin is clamped so it never pokes through a wall.
+
+## Selectable light sources + Night Vision Camcorder v14
+
+Pick **one** device in CUSTOMIZE (cards with preview + description). It is locked for the run; you can choose again after being caught ("CHANGE LOADOUT"). It syncs to other players.
+
+| Device | What it does |
+|---|---|
+| Flashlight | Longest reach, narrow soft-edged cone that follows the mouse. |
+| Headlamp | Wider, shorter, slightly dimmer cone worn on the head (shows on hats/beanies/bare head). |
+| Lantern | Warm camping lantern carried at your side: near-circular light, short-medium reach. |
+| Night Vision Camcorder | Emits **no light**. `F` raises/lowers it, `N` toggles night vision, mouse wheel (or `Z`) zooms 1x/2x/4x. |
+
+Night vision is not x-ray: it only brightens what is already inside your current line of sight (walls, corners and doors still block it), zoom only narrows the picture. NV is local to you; other players just see you holding the camera and it lights nothing for them.
+
+**Overheating (no batteries):** NV heats up while on and cools while off. Grain gets worse at 50 / 75 / 90 % heat; at 100 % the sensor shuts down ("NV SENSOR OVERHEATED"), the camcorder stays raised, and NV returns after the lockout + cooldown. Defaults: ~35 s continuous, 9 s lockout, ~20 s full cool. All numbers are in `CFG` at the top of `camcorder.js` (`NV_MAX_HEAT`, `NV_HEAT_RATE`, `NV_COOL_RATE`, `NV_REENABLE_THRESHOLD`, `NV_OVERHEAT_LOCKOUT`, zoom levels, grain/shake).
+
+**Entity NV effects:** `window.__cam.registerFx(kind, {onlyNV, gain, obscure, distort, interfere, static, glitch})`. Nothing is registered by default, so hounds/smilers look as before under NV; add behaviours per entity in one line.
+
+New file: `camcorder.js` (add to your repo). Legacy saves migrate: chestlamp → headlamp, torch → lantern.
