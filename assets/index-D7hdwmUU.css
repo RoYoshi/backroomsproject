@@ -6,3 +6,18 @@
 #net{position:fixed;left:38px;top:84px;font-size:11px;letter-spacing:1.5px;color:#9ba7a2;pointer-events:none;z-index:6}
 body.captured #dread{opacity:1!important;background:#400;animation:flashout 1.4s forwards}
 @keyframes flashout{0%{background:#fff}12%{background:#a00}100%{background:#100}}
+#peerTip{position:fixed;z-index:7;pointer-events:none;display:none;transform:translate(-50%,-100%);white-space:nowrap;font:500 11px IBM Plex Mono,monospace;letter-spacing:1.5px;color:#e3e8df;background:#0a1413d9;border:1px solid #75807577;padding:5px 9px}
+#adminPanel{position:fixed;z-index:9;left:38px;top:120px;width:340px;max-height:calc(100vh - 230px);overflow:auto;background:#0a1413f2;border:1px solid #75807577;padding:14px 16px;font:11px IBM Plex Mono,monospace;letter-spacing:1px;color:#cfd8cb;scrollbar-width:thin}
+#adminPanel[hidden],#adminMsg[hidden],#kicked[hidden]{display:none}
+#adminPanel label{margin:0 0 6px}
+#adminPanel input{padding:8px 10px;font-size:12px;width:100%}
+.adm-head{display:flex;align-items:center;gap:6px;margin-bottom:12px;color:#b9cb91}.adm-head b{font:600 15px Barlow Condensed,sans-serif;letter-spacing:3px}.adm-head span{color:#8d9e94;flex:1}
+.adm-row{display:flex;gap:6px;align-items:center}.adm-row.wrap{flex-wrap:wrap}
+.adm-sec{margin:14px 0 7px;color:#b7c49c;font-size:10px;letter-spacing:2px}
+.adm-note{color:#c9877b;margin:8px 0 0;min-height:14px}
+.adm-player{padding:8px 0;border-top:1px solid #75807533}.adm-player i{color:#8d9e94;font-style:normal;font-size:10px}
+button.adm{padding:5px 8px;font-size:10px;letter-spacing:1px;white-space:nowrap}
+button.adm.on{background:#b9cb91;color:#16221c;border-color:#c4d6a0}
+button.adm[data-c=kick]{border-color:#8c343a;color:#e2a6a0}
+#adminMsg{position:fixed;z-index:8;top:150px;left:50%;transform:translateX(-50%);max-width:min(560px,86vw);padding:13px 20px;text-align:center;font:500 13px IBM Plex Mono,monospace;letter-spacing:1.5px;color:#f0f3e9;background:#111a17e6;border:1px solid #b9cb9199}
+#kicked{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;background:#000;color:#e3e8df}

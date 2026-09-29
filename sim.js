@@ -10,7 +10,9 @@ var el=[1,2,3,4,5,6,7,8].map(e=>{let t=Oc[e],n=(t.x+t.w*.48)*96,r=(t.y+t.h*.55)*
 /* ---------- multiplayer glue (added) ---------- */
 const players=[];
 let won=false;
-const alive=()=>players.filter(p=>p.active&&!p.dead&&p.safe<=0);
+const alive=()=>players.filter(p=>p.active&&!p.dead&&p.safe<=0&&!p.god);
+let frozen=false,speed=1,bmode=`auto`;
+const GHOST={x:-9e4,y:-9e4,vx:0,vy:0,angle:0,sprinting:false,light:false,equipment:{kind:`flashlight`}};
 function nearestAlive(from){let b=null,bd=1/0;for(const p of alive()){const d=Math.hypot(p.x-from.x,p.y-from.y);if(d<bd){bd=d;b=p}}return b}
 function catchPlayer(p,by){
   p.dead=by;p.dseq++;
@@ -48,11 +50,13 @@ function collect(p,i){
 }
 function step(dt){
   for(const p of players)if(p.safe>0)p.safe-=dt;
-  if(won)return;
-  if(!alive().length)return;          // the halls hold their breath while nobody is alive
-  Rc(dt);G.pressure=nl()/el.length;
-  const f=houndTarget();
-  if(f)Il(f,f.sprinting,dt,f.light);
+  if(won||frozen)return;
+  if(!players.some(p=>p.active&&!p.dead))return;   // the halls hold their breath while nobody is alive
+  dt*=speed;
+  if(bmode===`auto`)Rc(dt);else V.blackout=bmode===`on`;
+  G.pressure=nl()/el.length;
+  const f=houndTarget()||GHOST;
+  Il(f,f.sprinting,dt,f.light);
   zl(dt);
 }
 const r1=n=>Math.round(n*10)/10;
@@ -61,7 +65,25 @@ function entities(){
     m:q.map(e=>({x:r1(e.x),y:r1(e.y),a:+e.angle.toFixed(3),s:e.state,d:Math.round(e.distance)})),
     b:V.blackout?1:0,ev:el.map(e=>e.found?1:0).join(``),w:won?1:0};
 }
-return {players,addPlayer,removePlayer,join,respawn,collect,step,entities,resetWorld,
+const admin={
+  freeze(on){frozen=!!on},
+  speed(v){speed=Math.max(.25,Math.min(3,+v||1))},
+  blackout(mode){bmode=[`on`,`off`,`auto`].includes(mode)?mode:`auto`;if(bmode===`auto`)V.elapsed=0},
+  god(p){p.god=!p.god;return p.god},
+  completeEvidence(){for(const e of el)e.found=true;won=true},
+  resetEvidence(){tl();won=false},
+  resetMonsters(){Nl()},
+  resetWorld(){resetWorld();for(const p of players)if(p.active)spawn(p)},
+  summon(x,y){                       // drop the Hound a short way from (x,y) and point it at that spot
+    for(const d of [420,320,520,260,600])for(let k=0;k<16;k++){
+      const a=k/16*Math.PI*2,px=x+Math.cos(a)*d,py=y+Math.sin(a)*d;
+      if(sl(px,py)){G.x=px;G.y=py;G.grace=0;Object.assign(G.memory,{x,y,vx:0,vy:0,age:0,confidence:1});jl(`investigate`,{x,y});El=0;return true}
+    }
+    return false;
+  },
+  info(){return {fz:frozen?1:0,sp:speed,bo:bmode,ev:nl(),hs:G.state,won:won?1:0}},
+};
+return {players,addPlayer,removePlayer,join,respawn,collect,step,entities,resetWorld,admin,
   get won(){return won},debug:{G,q,V,el,Ic}};
 
 };
