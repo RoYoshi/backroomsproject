@@ -112,3 +112,12 @@ body.hud-nokeys #hud .keyline,body.hud-nocoords .coordinates,body.hud-notitle .l
 #settings.open{opacity:1;transform:none;pointer-events:auto}
 #settings section:not([hidden]){animation:hudSwap .25s ease both}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+#glitchFx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+#glitchTear{position:fixed;inset:0;pointer-events:none;z-index:4;opacity:0;mix-blend-mode:screen;background:repeating-linear-gradient(0deg,#00fff020 0 2px,#0000 2px 5px),linear-gradient(90deg,#ff2a6d18,#0000 30%,#05d9e818 70%,#0000);animation:glTear .18s steps(2) infinite}
+@keyframes glTear{0%{transform:translate(0,0)}50%{transform:translate(-6px,2px) skewX(1.5deg)}100%{transform:translate(5px,-3px)}}
+body.gl-out #game canvas,body.gl-out #mp{animation:glOut 1.4s ease-in forwards}
+@keyframes glOut{0%{filter:none;transform:none}30%{filter:hue-rotate(90deg) saturate(3) contrast(1.5);transform:translateX(-8px) skewX(2deg)}60%{filter:hue-rotate(200deg) invert(.5) contrast(2);transform:translateX(12px) scaleY(1.03)}100%{filter:brightness(3) contrast(3);transform:scale(1.08)}}
+#won .stats{color:#d7cda9;letter-spacing:1px;font-size:12px;margin:0 0 18px}
+#won .soon{letter-spacing:6px;color:#8ff;font-size:13px;margin:0 0 12px}
+#won{overflow:auto}#won h2{font-size:clamp(34px,9vh,55px)}

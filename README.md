@@ -128,3 +128,12 @@ This build includes a visual refinement pass focused on making entities read as 
 - **Death animation kept**, but the look is now grounded: organic blood pools with gradient depth, wet highlights and dark clotted cores, elongated cast-off spatter, striated drag smears, and a fast arterial spray on impact (`gore.js`). Corpses (and dead players seen by others) carry real-looking wounds: claw rakes with torn pale skin lips, wet red rims and dark depth for Hound kills, puncture wounds with bruising for Smiler kills, blood-soaked clothing and grey-blue livor. Each body's wounds are unique but stable.
 - **HUD**: unified bar with soft scrims instead of floating text, dividers, diamond evidence pips that light up (with a pop) when you find one, smoothly animated stamina bar that turns amber then red, crossfades when values change, eased entrance, key hints that fade out after ~14 s (toggle in Settings), and a level title that quiets itself. Settings panel eases in/out.
 - **Your own sounds**: drop files into `sounds/` (see `sounds/README.txt`): `death_hound`, `death_smiler`, `death`, `collect`, `step`, `hum`, `ambient`, `blackout`, `sting` (mp3/ogg/wav/m4a/flac). Missing ones keep the built-in synth. Numbered variants play at random.
+
+## Entity overhaul, glitched walls, shared bodies v12
+- **Hounds**: up to 3, spawned at random. They patrol alone, and hounds that find each other can join into a pack (one leads, the others flank) before drifting apart again. Server-side (`sim.js`), so every player sees the same hounds.
+- **Smilers**: up to 5, scattered at random around the map at the start of each world.
+- **Lights on top**: ceiling fixtures are drawn above players and monsters, slightly see-through (84%), with a small parallax shift so the view feels top-down.
+- **Objective**: the evidence is gone. Each world has 3 glitched walls; walk into one to leave Level 0. The exit screen is a "Level 1 — coming soon" placeholder with a **Restart Level 0** button.
+- **Bodies**: a finished corpse is broadcast to everyone in the room. Each player has at most one body: dying again replaces the old one.
+- **Admin panel**: +/- HOUND and SMILER buttons (respecting the 3 / 5 caps) and glitch-wall buttons (new set / teleport to one).
+- New file `glitch.js` (glitched wall renderer + static audio). Upload it along with everything else.

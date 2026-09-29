@@ -1,6 +1,6 @@
 /* Network + dread layer.
- * - Talks to server.js over a WebSocket. When connected, the server owns the Hound, Smilers,
- *   blackouts and evidence; this file mirrors them into the game's own objects every frame.
+ * - Talks to server.js over a WebSocket. When connected, the server owns the Hounds, Smilers,
+ *   blackouts, glitched walls and dead bodies; this file mirrors them into the game's own objects every frame.
  * - Falls back to the game's built-in single-player AI when there is no server.
  * - Also draws other wanderers and adds the proximity scare effects. */
 (() => {
@@ -11,18 +11,29 @@ document.body.appendChild(net);
 const room = new URLSearchParams(location.search).get('room') || 'main';
 
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
-let snap = null, me = '', mseq = 0, handled = 0, wonShown = false, peersN = 0, kicked = false;
+let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
+let bodiesList = [];                              // corpses from the server (everyone's, one per player)
+const hMap = new Map(), hSlots = [null, null, null];
+window.__hounds = hSlots;
 const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', sigP: '', sigW: '' };
-const peers = new Map(), pending = {};          // pending: evidence indices we just picked up locally
+const peers = new Map();
 const N = window.__net = {
   on: false,
   tick() {                                          // called by the game's fixed-step loop while online
     const A = window.__api;
-    if (A && me && mseq > handled && !A.G.caught) { handled = mseq; A.G.caught = true; A.G.caughtBy = me; }
+    if (A && me && mseq > handled && !A.G.caught) {
+      handled = mseq; A.G.caught = true; A.G.caughtBy = me;
+      let b = -1, bd = 1e18; for (const o of hMap.values()) { const d = Math.hypot(o.x - A.H.x, o.y - A.H.y); if (d < bd) { bd = d; b = o.slot; } }
+      window.__killer = me === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
+    }
   },
-  join() { tx({ t: 'join' }); },
+  join() { exited = false; window.__glitchSolo = false; if (!N.on) window.__glitches = []; tx({ t: 'join' }); setTimeout(applyBodies, 80); },
   respawn() { handled = Math.max(handled, mseq); tx({ t: 'respawn' }); },
-  collected(i) { const H = window.__api && window.__api.H; if (i >= 0 && H) { pending[i] = performance.now(); tx({ t: 'c', i, x: Math.round(H.x), y: Math.round(H.y) }); } },
+  bodyMade(t) {                                    // our own corpse is finished: tell the server so everyone can see it
+    tx({ t: 'b', n: t.name, x: Math.round(t.x), y: Math.round(t.y), a: +t.angle.toFixed(3), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
+      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color,
+      bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)] });
+  },
 };
 const tx = o => { if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); };
 
@@ -36,7 +47,7 @@ function connect() {
   };
   ws.onmessage = e => {
     let m; try { m = JSON.parse(e.data); } catch { return; }
-    if (m.t === 'hi') myId = m.id;
+    if (m.t === 'hi') { myId = m.id; const A = window.__api; if (A) A.H.id = myId; }
     else if (m.t === 'admin') {
       adm.unlocked = !!m.ok; adm.err = m.ok ? '' : (m.wait ? 'TOO MANY TRIES · WAIT ' + m.wait + 'S' : 'WRONG PASSCODE');
       if (!m.ok) adm.pass = null;
@@ -46,6 +57,8 @@ function connect() {
     else if (m.t === 'revive') { const A = window.__api; A && A.revive(); }
     else if (m.t === 'msg') showMsg(m.text, m.from);
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
+    else if (m.t === 'bodies') { bodiesList = m.b || []; applyBodies(); }
+    else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 's') {
       const now = performance.now(), seen = new Set();
       for (const p of m.p) {
@@ -60,7 +73,7 @@ function connect() {
     }
   };
   ws.onclose = () => {
-    N.on = false; snap = null; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = [];
+    N.on = false; snap = null; window.__glitchSolo = false; window.__glitches = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null);
     net.textContent = everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
     adm.unlocked = false; renderAdmin();
     if (!kicked) setTimeout(connect, Math.min(8000, 1000 * ++retry));
@@ -82,20 +95,63 @@ function applyServerState(dt) {
   const A = window.__api, s = snap;
   if (!A || !s) return;
   const k = 1 - Math.exp(-dt * 15);
-  follow(A.G, s.h, k); A.G.grace = s.h.g; A.G.pressure = s.h.p;
-  s.m.forEach((t, i) => A.q[i] && follow(A.q[i], t, k));
-  A.V.blackout = !!s.b;
-  let changed = false; const now = performance.now();
-  A.el.forEach((e, i) => {
-    let f = s.ev[i] === '1';
-    if (!f && pending[i] && now - pending[i] < 2500) f = true;    // our own pickup, server not caught up yet
-    if (f !== e.found) { e.found = f; changed = true; }
+  /* hounds: every hound has its own client-side copy in a fixed slot; the game's built-in hound object (G) mirrors the nearest one */
+  const ids = new Set();
+  for (const t of s.h) {
+    ids.add(t.i);
+    let o = hMap.get(t.i);
+    if (!o) { const sl = hSlots.indexOf(null); if (sl < 0) continue; o = { x: t.x, y: t.y, angle: t.a, state: t.s, distance: t.d, grace: t.g, slot: sl, id: t.i }; hMap.set(t.i, o); hSlots[sl] = o; }
+    follow(o, t, k); o.grace = t.g; o.pack = t.k;
+  }
+  for (const [id, o] of hMap) if (!ids.has(id)) { hSlots[o.slot] = null; hMap.delete(id); }
+  let best = null, bd = 1e18;
+  for (const o of hMap.values()) { const d = Math.hypot(o.x - A.H.x, o.y - A.H.y); if (d < bd) { bd = d; best = o; } }
+  const G = A.G;
+  if (best) { G.x = best.x; G.y = best.y; G.angle = best.angle; G.state = best.state; G.distance = best.distance; G.grace = best.grace; }
+  else { G.x = G.y = -9e4; G.state = 'patrol'; G.grace = 99; }
+  G.pressure = s.p || 0;
+  /* smilers: up to five; unused slots are parked far away and hidden */
+  A.q.forEach((sm, i) => {
+    if (i < s.m.length) { sm.off = false; follow(sm, s.m[i], k); }
+    else { sm.off = true; sm.x = sm.y = -9e4; sm.state = 'lurk'; }
   });
-  if (changed) A.yu();
-  if (s.w && !wonShown && A.started()) { A.win(); }
-  if (wonShown && !s.w && A.unwin) A.unwin();
-  wonShown = !!s.w;
+  A.V.blackout = !!s.b;
+  window.__glitches = s.gw || [];
 }
+/* ---------- glitched walls: touching one takes you out of Level 0 ---------- */
+function doExit(secs) {
+  const A = window.__api; if (!A || exited) return; exited = true;
+  const box = document.getElementById('wonStats'); if (box) box.textContent = 'Time in Level 0 · ' + Math.floor((secs || 0) / 60) + ':' + String((secs || 0) % 60).padStart(2, '0');
+  document.body.classList.add('gl-out');
+  if (window.__glitchSound) window.__glitchSound.burst();
+  setTimeout(() => { A.win(); document.body.classList.remove('gl-out'); }, 950);
+}
+N.exitLocal = () => doExit(Math.round(performance.now() / 1000 - (N.t0 || 0)));
+/* offline fallback (no server): pick three glitched walls locally and let the player leave through them */
+function soloGlitches(p) {
+  const A = window.__api; if (!A || !A.zc) return;
+  if (window.__glitchSolo !== true) {
+    const out = [], dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]]; N.t0 = performance.now() / 1000;
+    for (let t = 0; t < 8000 && out.length < 3; t++) {
+      const tx = Math.random() * 96 | 0, ty = Math.random() * 72 | 0; if (!A.zc(tx, ty)) continue;
+      const d = dirs[Math.random() * 4 | 0], nx = tx + d[0], ny = ty + d[1]; if (nx < 1 || ny < 1 || nx > 94 || ny > 70 || !A.Hc(nx, ny)) continue;
+      const cx = (tx + .5) * 96, cy = (ty + .5) * 96; if (!A.sl(cx, cy)) continue;
+      const x = cx + d[0] * 48, y = cy + d[1] * 48;
+      if (Math.hypot(x - A.Ic.x, y - A.Ic.y) < 2600 || out.some(o => Math.hypot(o[0] - x, o[1] - y) < 2600)) continue;
+      out.push([Math.round(x), Math.round(y), d[0], d[1]]);
+    }
+    window.__glitches = out; window.__glitchSolo = true;
+  }
+  for (const g of window.__glitches) if (Math.hypot(p.x - g[0], p.y - g[1]) < 54) { N.exitLocal(); break; }
+}
+
+/* ---------- everyone's bodies (one per player) ---------- */
+const hasBody = id => bodiesList.some(b => b.k === id);
+function toRec(b) {
+  return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa,
+    appearance: parseLook(b.lk), equipment: { ...b.eq }, blood: b.bl.map(([x, y, seed]) => ({ x, y, seed })), dropped: { x: b.dr[0], y: b.dr[1], angle: b.dr[2] }, hat: { x: b.ht[0], y: b.ht[1], angle: b.ht[2] } };
+}
+function applyBodies() { const A = window.__api; if (A && myId) A.H.id = myId; if (A && A.bodies) A.bodies(bodiesList.map(toRec)); }
 
 /* ---------- audio ---------- */
 let ac, drone, dg, beatT = 0;
@@ -165,6 +221,7 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
       o.src = Object.assign(o.src || {}, { x: o.x, y: o.y, angle: o.ang, vx: o.vx, vy: o.vy, distance: o.dist });
       o.av.update(now, !!o.l && !o.d, false, o.src);
       if (o.d) { o.av.__key = o.id; o.av.deathPose(1, 0, false); }
+      o.av.visible = !(o.d && hasBody(o.id));                   // their finished corpse takes over
     }
     const dx = o.x - p.x, dy = o.y - p.y, dist = Math.hypot(dx, dy);
     if (dist < 950) lights.push({ x: o.x, y: o.y, angle: o.ang, kind: o.k || 'flashlight', color: o.c || '#ffe7b2', on: !!o.l, dead: !!o.d });
@@ -221,11 +278,12 @@ function renderAdminData() {
       (you ? '' : btn('KICK', `data-c="kick" data-id="${pl.id}" data-confirm="Kick ${esc(pl.n)}?"`)) + '</div></div>';
   }).join('');
   const sp = v => btn(v + '×', `data-c="speed" data-v="${v}"`, d.sp === v);
-  const world = `<div class="adm-sec">MONSTERS · HOUND ${esc(d.hs).toUpperCase()}</div><div class="adm-row wrap">` +
-    btn(d.fz ? 'FROZEN' : 'FREEZE', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SUMMON HOUND TO ME', 'data-c="summon"') + btn('RESET', 'data-c="monsters"') + '</div>' +
+  const world = `<div class="adm-sec">MONSTERS · ${d.hn} HOUND${d.hn === 1 ? '' : 'S'} (MAX 3)${d.pk ? ' · PACK' : ''} · ${d.sn} SMILER${d.sn === 1 ? '' : 'S'} (MAX 5)</div><div class="adm-row wrap">` +
+    btn(d.fz ? 'FROZEN' : 'FREEZE', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SUMMON HOUND TO ME', 'data-c="summon"') + btn('RESPAWN ALL', 'data-c="monsters"') + '</div>' +
+    `<div class="adm-row wrap">` + btn('+ HOUND', 'data-c="hounds" data-mode="add"') + btn('− HOUND', 'data-c="hounds" data-mode="remove"') + btn('+ SMILER', 'data-c="smilers" data-mode="add"') + btn('− SMILER', 'data-c="smilers" data-mode="remove"') + '</div>' +
     `<div class="adm-sec">WORLD SPEED</div><div class="adm-row wrap">${sp(0.5)}${sp(1)}${sp(2)}${sp(3)}</div>` +
     `<div class="adm-sec">LIGHTS</div><div class="adm-row wrap">` + ['auto', 'on', 'off'].map(m => btn(m === 'auto' ? 'AUTO' : 'BLACKOUT ' + m.toUpperCase(), `data-c="blackout" data-mode="${m}"`, d.bo === m)).join('') + '</div>' +
-    `<div class="adm-sec">EVIDENCE ${d.ev} / 8${d.won ? ' · CLEARED' : ''}</div><div class="adm-row wrap">` + btn('COMPLETE ALL', 'data-c="evidence" data-mode="all"') + btn('RESET', 'data-c="evidence" data-mode="reset"') + '</div>' +
+    `<div class="adm-sec">GLITCHED WALLS · ${d.gw}</div><div class="adm-row wrap">` + btn('GO TO NEAREST', 'data-c="glitch" data-mode="tp"') + btn('MOVE THEM', 'data-c="glitch" data-mode="new"') + '</div>' +
     `<div class="adm-sec">RUN</div><div class="adm-row wrap">` + btn('NEW RUN FOR EVERYONE', 'data-c="world" data-confirm="Reset the whole world?"') + '</div>';
   if (players !== adm.sigP) { $a('admPlayers').innerHTML = '<div class="adm-sec">WANDERERS</div>' + players; adm.sigP = players; }
   if (world !== adm.sigW) { $a('admWorld').innerHTML = world; adm.sigW = world; }
@@ -364,7 +422,9 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, H);
 
   if (N.on) applyServerState(t);
+  else if (started && !exited) soloGlitches(p);
   humUpdate();
+  if (window.__glitchFrame) window.__glitchFrame({ p, cam, sc, los, W, H, t, run: run && !exited });
   const note = document.getElementById('onlineNote'); if (note) note.hidden = !N.on;
 
   /* --- network send --- */

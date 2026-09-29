@@ -14,7 +14,7 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|mp\.js|hud\.js|gore\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|mp\.js|hud\.js|gore\.js|glitch\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {
@@ -84,9 +84,15 @@ function adminCommand(room, me, m) {
     case 'freeze': log(`freeze ${!!m.on}`); A.freeze(m.on); break;
     case 'speed': log(`speed ${m.v}`); A.speed(m.v); break;
     case 'blackout': log(`blackout ${m.mode}`); A.blackout(m.mode); break;
-    case 'evidence': log(`evidence ${m.mode}`); if (m.mode === 'all') A.completeEvidence(); else A.resetEvidence(); break;
+    case 'hounds': log(`hound ${m.mode}`); if (m.mode === 'add') A.addHound(); else A.removeHound(); break;
+    case 'smilers': log(`smiler ${m.mode}`); if (m.mode === 'add') A.addSmiler(); else A.removeSmiler(); break;
+    case 'glitch':
+      log(`glitch ${m.mode}`);
+      if (m.mode === 'new') A.newGlitches();
+      else { const g = A.nearestGlitch(me.player.x, me.player.y); if (g) { const x = g.x - g.nx * 96, y = g.y - g.ny * 96; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); } }
+      break;
     case 'monsters': log('reset monsters'); A.resetMonsters(); break;
-    case 'summon': log('summon hound'); A.summon(me.player.x, me.player.y); break;
+    case 'summon': log('summon nearest hound'); A.summon(me.player.x, me.player.y); break;
     case 'world': log('reset world'); A.resetWorld(); for (const c of room.clients.values()) if (c.player.active) send(c, { t: 'tp', x: c.player.x, y: c.player.y }); break;
     case 'msg': { const text = String(m.text || '').slice(0, 140).trim(); if (text) { log(`broadcast "${text}"`); for (const c of room.clients.values()) send(c, { t: 'msg', text, from: me.name }); } break; }
   }
@@ -105,7 +111,7 @@ srv.on('upgrade', (req, sock) => {
   const id = nextId++;
   const player = room.sim.addPlayer(id);
   const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
-  const me = { sock, id, player, last: 0, name: 'WANDERER', color: '#ffe7b2', angle: 0, sprint: 0, look: DEFAULT_LOOK, admin: false };
+  const me = { sock, id, player, exitSent: 0, bv: 0, last: 0, name: 'WANDERER', color: '#ffe7b2', angle: 0, sprint: 0, look: DEFAULT_LOOK, admin: false };
   room.clients.set(id, me);
   send(me, { t: 'hi', id, sim: 1 });
 
@@ -134,7 +140,14 @@ srv.on('upgrade', (req, sock) => {
       else { if (++f.n >= 5) { f.until = now + 60000; f.n = 0; } fails.set(ip, f); console.log(`[admin] ${me.name}#${id} wrong admin passcode (room ${name})`); send(me, { t: 'admin', ok: false, wait: f.until > now ? 60 : 0 }); }
     }
     else if (m.t === 'a') { if (me.admin) adminCommand(room, me, m); }
-    else if (m.t === 'c') { if (isFinite(m.x) && isFinite(m.y) && !player.dead) { player.x = num(m.x, 0, 96 * 96); player.y = num(m.y, 0, 72 * 96); } room.sim.collect(player, m.i | 0); }
+    else if (m.t === 'b') {                 // the finished corpse of a player we already know was caught; one per player
+      if (!player.dead) return;
+      const n3 = a => [num(a && a[0], 0, 9216), num(a && a[1], 0, 6912), num(a && a[2], -20, 20)];
+      room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
+        sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : 'Hound', aa: num(m.aa, -20, 20),
+        lk: cleanLook(m.lk) || me.look, eq: { kind: ['flashlight', 'chestlamp', 'torch'].includes(m.ek) ? m.ek : 'flashlight', color: HEX.test(m.ec) ? m.ec : '#ffe7b2' },
+        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht) });
+    }
   }
 
   let buf = Buffer.alloc(0);
@@ -149,7 +162,7 @@ srv.on('upgrade', (req, sock) => {
       buf = buf.slice(off + 4 + len);
       if (op === 8) return sock.end();
       if (op === 9) { sock.write(Buffer.from([0x8a, 0])); continue; }       // ping -> pong
-      if (op === 1 && len < 400) { try { onMessage(JSON.parse(pl)); } catch (e) { /* ignore bad input */ } }
+      if (op === 1 && len < 1400) { try { onMessage(JSON.parse(pl)); } catch (e) { /* ignore bad input */ } }
     }
   });
   const bye = () => {
@@ -180,7 +193,11 @@ setInterval(() => {
     const sendAd = room.tick % (SNAP_EVERY * ADMIN_EVERY) === 0;
     let ad = null;
     if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0 })) });
+    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()] });
+    let bm = null;
     for (const c of room.clients.values()) {
+      if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }
+      if (c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; send(c, bm || (bm = bodyMsg())); }
       const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq };
       if (c.admin && ad) { msg.ad = ad; msg.you = c.id; }
       send(c, msg);

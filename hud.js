@@ -110,22 +110,13 @@
   $('stCoords').addEventListener('change', e => set('coords', e.target.checked));
   $('stTitle').addEventListener('change', e => set('title', e.target.checked));
 
-  /* ---------- HUD polish: pips, crossfades, stamina state, auto-fading hints ---------- */
+  /* ---------- HUD polish: crossfades, stamina state, auto-fading hints ---------- */
   let hintT = 0, locT = 0;
   const armHint = () => { clearTimeout(hintT); document.body.classList.remove('hint-dim'); if (S.auto) hintT = setTimeout(() => document.body.classList.add('hint-dim'), 14000); };
   const quietLoc = () => { clearTimeout(locT); document.body.classList.remove('loc-quiet'); locT = setTimeout(() => document.body.classList.add('loc-quiet'), 7000); };
   const swap = el => { if (!el) return; el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); };
   function initHud() {
-    const ev = $('evidenceCount'), obs = (el, fn, o) => el && new MutationObserver(fn).observe(el, o || { childList: true, characterData: true, subtree: true });
-    if (ev && !document.querySelector('.pips')) {
-      const pips = document.createElement('span'); pips.className = 'pips'; pips.setAttribute('aria-hidden', 'true'); pips.innerHTML = '<i></i>'.repeat(8); ev.parentElement.appendChild(pips);
-      let last = 0;
-      const upd = () => { const m = /(\d+)\s*\/\s*(\d+)/.exec(ev.textContent); if (!m) return; const n = +m[1];
-        [...pips.children].forEach((p, i) => p.classList.toggle('on', i < n));
-        if (n > last && pips.children[n - 1]) { const p = pips.children[n - 1]; p.classList.remove('pop'); void p.offsetWidth; p.classList.add('pop'); swap(ev); }
-        last = n; };
-      obs(ev, upd); upd();
-    }
+    const obs = (el, fn, o) => el && new MutationObserver(fn).observe(el, o || { childList: true, characterData: true, subtree: true });
     ['pace', 'lightStatus', 'nameplate'].forEach(id => { const el = $(id); let prev = el && el.textContent; obs(el, () => { if (el.textContent !== prev) { prev = el.textContent; swap(el); } }); });
     const sec = $('sector'); let sprev = sec && sec.textContent; obs(sec, () => { if (sec.textContent !== sprev) { sprev = sec.textContent; swap(sec); quietLoc(); } });
     const sf = $('staminaFill'); let lv = '';
