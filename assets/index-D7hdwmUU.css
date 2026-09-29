@@ -21,3 +21,52 @@ button.adm.on{background:#b9cb91;color:#16221c;border-color:#c4d6a0}
 button.adm[data-c=kick]{border-color:#8c343a;color:#e2a6a0}
 #adminMsg{position:fixed;z-index:8;top:150px;left:50%;transform:translateX(-50%);max-width:min(560px,86vw);padding:13px 20px;text-align:center;font:500 13px IBM Plex Mono,monospace;letter-spacing:1.5px;color:#f0f3e9;background:#111a17e6;border:1px solid #b9cb9199}
 #kicked{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;text-align:center;background:#000;color:#e3e8df}
+
+/* ---- v10: settings dropdown + HUD customization ---- */
+#customize,#help{display:none}
+#settingsBtn.on{background:#241f12f2;border-color:#e6cf7799}
+#settings{position:fixed;z-index:9;width:min(360px,calc(100vw - 16px));overflow:auto;background:#0a1413f5;border:1px solid #75807588;box-shadow:0 14px 40px #000a;padding:0 0 14px;font:11px IBM Plex Mono,monospace;letter-spacing:1px;color:#cfd8cb;scrollbar-width:thin;pointer-events:auto}
+#settings[hidden],#settings [hidden]{display:none}
+#settings .st-tabs{display:flex;border-bottom:1px solid #75807555;position:sticky;top:0;background:#0a1413;z-index:1}
+#settings .st-tabs button{flex:1;background:0 0;border:0;border-bottom:2px solid transparent;padding:12px 4px;font-size:10px;color:#9ba99f}
+#settings .st-tabs button.on{color:#f3e7a7;border-bottom-color:#e6cf77}
+#settings section{padding:12px 16px 0}
+#settings h3{margin:16px 0 8px;font:600 11px Barlow Condensed,sans-serif;letter-spacing:3px;color:#e6cf77;border-bottom:1px solid #75807533;padding-bottom:5px}
+#settings h3:first-child{margin-top:4px}
+#settings .st-rows p{display:flex;justify-content:space-between;gap:12px;margin:0;padding:7px 0;border-bottom:1px solid #7580751f}
+#settings .st-rows span{color:#9ba99f}#settings .st-rows b{font-weight:500;color:#e8e2c4;text-align:right}
+#settings .st-note{color:#8d9e94;font-size:10px;letter-spacing:.5px;line-height:1.5;margin:8px 0}
+#settings .st-btn{display:block;width:100%;margin:8px 0 0;padding:10px;font-size:10px;letter-spacing:2px}
+#settings .st-btn.dim{opacity:.75}
+#settings .st-label{color:#9ba99f;font-size:10px;margin:10px 0 6px}
+#settings .st-sw{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+#settings .st-sw button{width:26px;height:26px;padding:0;border-radius:50%;background:var(--sw);border:2px solid #0a1413;box-shadow:0 0 0 1px #75807599}
+#settings .st-sw button.on,#settings .st-pick.on{box-shadow:0 0 0 2px #f3e7a7}
+#settings .st-pick{position:relative;width:26px;height:26px;border-radius:50%;overflow:hidden;background:conic-gradient(#f55,#fd5,#5f5,#5df,#55f,#f5f,#f55);box-shadow:0 0 0 1px #75807599;cursor:pointer;margin:0}
+#settings .st-pick input{position:absolute;inset:-6px;width:40px;height:40px;opacity:0;cursor:pointer;padding:0;border:0}
+#settings .st-slide{display:grid;grid-template-columns:1fr auto;gap:4px 8px;margin:12px 0 0;color:#9ba99f;font-size:10px}
+#settings .st-slide input{grid-column:1/3;width:100%;accent-color:#e6cf77;margin:0}
+#settings .st-slide output{color:#f3e7a7}
+#settings .st-chk{display:flex;align-items:center;gap:9px;margin:10px 0 0;color:#cfd8cb;font-size:11px;cursor:pointer}
+#settings .st-chk input{accent-color:#e6cf77;width:15px;height:15px;margin:0}
+#settings .st-prev{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;background:#050b0acc;border:1px solid #7580753a;padding:12px;font-size:calc(11px * var(--ps,1));letter-spacing:1.4px;color:var(--hc,#d8cfaa);opacity:var(--ho,1)}
+#settings .st-prev b{font-weight:500;color:var(--hc,#f3e7a7);margin-left:6px}
+#settings .st-prev .stam{display:inline-flex;align-items:center;gap:6px}
+#settings .st-prev i{display:inline-block;width:48px;height:5px;border:1px solid #9b895155;background:#201b10;overflow:hidden}
+#settings .st-prev em{display:block;width:82%;height:100%;background:var(--hc,#e6cf77)}
+/* HUD variables (set by hud.js) */
+#hud{transform:scale(var(--hs,1));transform-origin:left bottom;opacity:var(--ho,1)}
+.coordinates{transform:scale(var(--hs,1));transform-origin:right bottom;opacity:var(--ho,1)}
+.location{transform:scale(var(--hs,1));transform-origin:right top}
+body.playing .location{opacity:calc(.8 * var(--ho,1))}
+.walk{max-width:calc(80vw / var(--hs,1))}
+body.hudc #hud *,body.hudc .location *,body.hudc .coordinates *,body.hudc .location,body.hudc .coordinates{color:var(--hc)!important}
+body.hudc .keyline,body.hudc .coordinates span:last-child,body.hudc .location>span:last-child{opacity:.72}
+body.hudc .staminaHud em{background:var(--hc)!important}
+body.hudc .staminaHud em[style*="width: 0"],body.hudc .staminaHud em[style*="width: 1"]{background:#ad6d55!important}
+body.hudc .staminaHud i{border-color:var(--hc)}
+body.hud-nokeys .keyline,body.hud-nocoords .coordinates,body.hud-notitle .location{display:none!important}
+body.captured .location{opacity:.22!important}
+/* full stamina (width: 100%) also matched the "low" selector above */
+.staminaHud em[style*="width: 100"]{background:#e6cf77}
+body.hudc .staminaHud em[style*="width: 100"]{background:var(--hc)!important}
