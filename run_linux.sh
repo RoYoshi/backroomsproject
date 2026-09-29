@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-set -e
 cd "$(dirname "$0")"
-if ! command -v node >/dev/null; then
-  echo "Install Node.js 18 or later, then run this launcher again."
-  exit 1
-fi
-exec node server.js 8000 --open
+echo "Starting The Far Backrooms at http://localhost:8000"
+(command -v xdg-open >/dev/null && xdg-open http://localhost:8000 >/dev/null 2>&1 &) || true
+exec node server.js 8000

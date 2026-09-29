@@ -16,7 +16,7 @@ Run:
 `./run_linux.sh`
 
 Or manually:
-`node server.js 8000` (Node 18+; serves the game, runs the shared monsters and relays players; no npm install needed)
+`node server.js 8000` (Node 16+; serves the game, runs the shared monsters and relays players; no npm install needed)
 
 Then open:
 `http://localhost:8000`
@@ -83,7 +83,7 @@ This build includes a visual refinement pass focused on making entities read as 
 ## Refinement pass v4
 
 - Asset URLs (HTML + carpet texture) changed from root-relative to relative, so the build works from sub-folders and static hosts.
-- The server listens on all network interfaces by default; set HOST=127.0.0.1 for a local-only session.
+- Local launchers bind to 127.0.0.1 only.
 
 ## Refinement pass v5
 
@@ -171,28 +171,88 @@ New file: `camcorder.js` (add to your repo). Legacy saves migrate: chestlamp →
 - The inventory no longer has a Customize button; use Settings / the header.
 - Server: new `fx` and `leave` messages (`server.js`, `sim.js`), `mp.js` replays them.
 
+## Movement, living entities and a real death system v16
 
-## v15.1 — interface and reliability refinement
+**Upload:** the new `world.js`, `move.js`, `ai.js`, `ents.js`, and the updated `sim.js`, `server.js`, `mp.js`, `index.html`, `gore.js`, `assets/index-DKbV5Nv9.js`, `README.md`, `package.json`. (`ai.js`, `sim.js` and `server.js` run only on the server and are never sent to browsers.) The optional `dev/` folder is the test suite; the game does not need it.
 
-This build is based on the supplied v15 ZIP. It remains separate from the pending v16 entity redesign.
+### Movement
 
-- A quieter header puts Controls, Customize and Audio inside Settings. The settings preview now shows the glitched-wall objective, and lists camcorder N / wheel / Z controls.
-- Inventory gains a close button, clearer device descriptions, a live-world warning and a BAG button on touch devices. Short screens and small windows have scrollable panels with tighter spacing.
-- Movement keys release reliably when panels consume keyboard events. Typing or operating menus cannot trigger movement, light toggles or camera shortcuts. Camera aim stays still over interface panels. Keyboard focus loops through visible, enabled modal controls; device cards and settings tabs support arrow navigation.
-- The wanderer name saves on this device. Click the connection badge to show/copy the current room link. A clipboard fallback selects the link for manual copying.
-- Dread drone, heartbeat and capture bursts use the existing audio master bus. Master volume and mute now cover these sounds too, without creating a second AudioContext. Capture bursts play once when capture begins, rather than again whenever a body class changes.
-- Peer movement and turning ease consistently at different frame rates. Paused clients send zero movement/sprint values. Disconnects clear stale remote bodies and peers. Room names follow the server's normalization.
-- Solo NEW RUN restores the rare Cartograph pickup. New-run inventory notifications clear with the inventory.
-- Malformed percent-encoded HTTP paths return 400 instead of throwing in the server. The two polish assets are explicitly served. Server startup reports a busy port clearly. Launchers wait for the server to be listening before opening the browser, and explain when Node is missing.
+Keys: **W A S D** move · **Shift** run · **C** crouch (toggle) · **C while running** slide · walk into a low obstacle to vault · crouch (or just walk into a low gap) to crawl.
 
-### Running this build
+| State | Speed | Heard from about | Notes |
+|---|---|---|---|
+| Stand | 0 | nothing | silent, fastest stamina regeneration |
+| Walk | 172 px/s | 240 px | costs nothing |
+| Run | 285 px/s | 640 px | about 9-10 s (2,600 px) from full stamina |
+| Crouch | 92 px/s | 85 px moving, 0 still | lower profile (harder to see), regenerates |
+| Crawl | 54 px/s | 95 px | automatic when crouched under something too low |
+| Slide | momentum only | 460 px | needs running speed |
+| Vault | 0.3 / 0.46 / 0.8 s | 520 / 360 / 170 px | fast / normal / slow, never labelled |
 
-Use Node 18 or later. Run `node server.js 8000` or the included launcher. The server listens on all network interfaces by default, as in v15. Set `HOST=127.0.0.1` for a local-only session. Other players must be able to reach the server address; a localhost link only works on your own computer. Do not run index.html directly from a file URL.
+- **Stamina never turns a mechanic off.** Exhausted: the run key just walks (148 px/s) and a fast vault becomes a normal or slow one; tired slides are shorter; you can always walk, crouch, crawl and vault. Feedback is breathing, a heavier animation and footsteps, not a big bar.
+- **Slides** carry your speed and depend on the floor: carpet is short (~80 px), concrete medium (~150 px), wet tile long (~300 px). Steering is limited, a slide can pass under a committed lunge, and a short cooldown stops slide-chaining.
+- **Vaults** are contextual (windows, counters, low walls, furniture, fallen shelving, machinery; there are few in Level 0). Quality comes from your state: run = fast (costs stamina), walk = normal, crouch = slow (free). Approach angles are generous; a very oblique approach just bumps.
+- Other players see all of it: crouch, crawl, slide, vault, exhausted breathing, knocked down and struggling poses are relayed by the server.
 
-### Carrying this polish into v16
+### Entity AI (`ai.js`, server only)
 
-The companion `v15.1-refinement-patch.zip` contains a unified diff and merge notes. Apply/merge that diff against v16; do not replace its compiled game bundle with this older bundle. All interface CSS is in `polish.css`, and the extra interface behavior is in `polish.js`. The only compiled-bundle change exposes `__api.input.clear()` and `__api.input.release(code)` using the existing movement-key Set. Monster logic, attacks, death animations, the map and night-vision tuning are unchanged.
+Hounds and Smilers are built from the same parts (perception, memory, personality, state machine, traversal, capture) and only differ in their data.
 
-### Verification
+- **Perception, not omniscience.** Vision needs a line of sight (walls block it) and light or a short range in the dark, and your posture scales how visible you are. Hearing works from a sound bus: every step, slide, vault, landing and tired breath is an event with a radius that walls muffle. A player standing still and silent is very hard to find unless something walks right up to you.
+- **Memory and searching.** An entity keeps a last known position, direction and age; confidence fades with its MEMORY trait. It searches from where it last had you, fans out, gives up and goes back to roaming. It never homes in on a quiet, crouching player.
+- **Personality.** 14 traits per species (intelligence, sadism, hunger, patience, curiosity, caution, territoriality, aggression, persistence, social, hearing, vision, light sensitivity, memory) with per-individual variation, so two hounds in the same room behave differently. Group awareness only uses what an entity has actually seen or heard.
+- **States:** DORMANT, ROAMING, CURIOUS, ALERT, WATCHING, STALKING, HUNTING, SEARCHING, CAUTIOUS, FRUSTRATED, EXCITED, FEEDING, PLAYING, RETREATING; Smilers add HIDDEN, FOLLOWING, PROVOKED, ATTACKING, DISAPPEARING. Nothing is scripted; stories come from these systems meeting the level and each other.
+- **Traversal limits per species** (vault, crouch, crawl, slide, doors, tight gaps, turning, acceleration). Hounds vault fast and can crawl; Smilers vault slowly, cannot crouch or crawl, but open doors.
+- **Level of detail.** Within 1,900 px of a player an entity senses about 9 times a second, out to 3,800 px about 3 times a second, and beyond that it sleeps and drifts. The shipped population costs about 0.05 ms per 60 Hz step; snapshots are about 1 KB every 50 ms.
 
-Passed syntax checks for every JavaScript file; live HTTP checks for all 20 local page assets; malformed URL handling; private source routes; audio listing; a real two-client room plus an isolated third client; customization replication and leaving a room. VM checks passed for input release, paused movement packets, room normalization, solo pickup reset, audio master routing/mute, one-shot capture bursts, reconnect cleanup and peer smoothing at 30/60/144 Hz. The checks did not include a rendered browser playthrough; layout and touch feel still need in-game review.
+**Hound** (distorted, on all fours; strong hearing): stalks and shadows prey, fast in a straight line, poor at sharp turns, commits to lunges and needs a moment to recover after a miss. There are no invincibility frames: a late sidestep beats a lunge, standing still does not. Hounds near each other form packs and answer each other's growls. After a kill it is worked up, feeds, guards the body and goes for anyone who comes near it.
+
+**Smiler** ("darkness with a face"): moves outside strong light, never teleports, fades away if lit (a flashlight only lights it within about 215 px), watches, follows, and only goes for someone who is alone. Groups get followed, not engaged. Running provokes it, and a blackout makes it bolder.
+
+### Caught is not dead
+
+When something catches you it first weighs up the situation (others close by or approaching, how secure the spot is, its own temperament):
+
+- **Quick kill** when others are near or coming, or it is hungry/aggressive.
+- **Play** when you are isolated and it is sadistic enough: you are knocked down, held, dragged or allowed to crawl, and the next big decision usually comes 5-15 s later. It may release you (false hope; run and it hunts you again, stay and it may let you go) or kill you.
+- **Interruption:** a light, a loud noise or someone running up can change its mind, depending on who it is.
+
+**Hound kills:** A lunge at the throat · B dragged down from the side or behind · C slammed into a wall (only when a real wall is right there) · D exhausted prey taken from behind.
+**Smiler kills:** A rush out of the darkness · B cornered in a dead end (slow approach, then sudden) · C light failure (rare, only for a lone player standing in light: the lamps flicker, the grin is closer each time) · D played with.
+Recent kills are remembered so the same death is not chosen over and over.
+
+**Bodies** stay in the halls until that player dies again or the world resets (one per player). To make them expire, set the `BODY_TTL` environment variable (seconds; default 0 = never). What a fallen player carried stays: a flashlight keeps its beam, a lantern keeps lighting the floor, a camcorder lies dark.
+
+### Admin (passcode `smoor`, or `ADMIN_PASSCODE`)
+
+New in the admin panel's **AI TOOLS** row: **AI DEBUG** (an overlay for admins only: state, target, last known position and its age, vision range, last heard sound, search goal, path, mood, capture decision, tier), **+ HOUND NEAR** and **+ SMILER NEAR** (still capped at 3 / 5). The MONSTERS row also has **SUMMON HOUND TO ME**. Debug data is sent only to unlocked admins who switched it on.
+
+### Notes
+
+- Offline/solo mode (no server) keeps the built-in single-player monster AI, with the new visuals and movement. Only the server runs the new AI.
+- Player movement is still computed in each player's browser (as before); entities, kills and catches are decided only on the server.
+- Entity and capture sounds are procedural. They were rendered offline and measured (audible, no clipping or clicks, fade out, stereo position) but not judged by ear.
+- `dev/` (optional): the scenario suite. `node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_capture.js s_system.js` (54 scenarios on the real simulation), `node dev/tests/live.js` (real server + two clients), `python3 dev/tests/move_test.py`, `python3 dev/tests/audio_test.py` (the last two need `pip install playwright`). See `dev/README.md`.
+
+### Test results (v16)
+
+Everything ran headless in the build sandbox: the real `sim.js` + `ai.js`, the real `server.js`, and software-rendered Chromium. Each figure is from the last complete run of that suite.
+
+| Suite | What it covers | Result |
+|---|---|---|
+| `dev/tests/run.js` (54 scenarios) | perception, hearing, memory, personality, hound and smiler behaviour, capture / release / interruption, level of detail, performance, snapshot size, stuck recovery, wall clipping, pop-in, determinism, population caps, body persistence | **54 / 54 pass** |
+| `dev/tests/live.js` | real server + two WebSocket clients: file whitelist, snapshots and sync, admin lock-out, no faked deaths or bodies, debug-feed isolation, bandwidth | **17 / 17 checks pass** |
+| `dev/tests/move_test.py` | speeds, states, stamina, slides by surface, three vault qualities, crawl, what the server hears | **14 / 14 pass** |
+| `dev/tests/audio_test.py` | every entity and capture sound rendered offline and measured: audible, no clipping or clicks, fades out, stereo position | **17 / 17 cues pass** |
+| Browser smoke checks | admin AI DEBUG overlay (admins only), other players' movement poses, server-driven capture visuals (held / down / crawl / release), corpse and left-behind light, light-failure flicker, solo (no server) mode | pass |
+
+Two real bugs turned up in the last round and are fixed in this build: every entity and capture sound was silent (a master gain of 0), and smiler group memory expired too fast (groups were engaged instead of followed).
+
+### Not verified / known limits
+
+- **Sound was measured, not heard.** No person has listened to the entity and capture audio yet; expect to adjust levels and tone by ear.
+- **Headless only.** All browser checks used software rendering on localhost. Not tried: a real GPU, phones or tablets, real network latency or packet loss, Render's free-tier CPU (the ~0.05 ms per step figure is from the sandbox).
+- **No human playtest.** The release / false-hope and "played with" sequences are verified in the simulation (C03, S10, H12) and their visuals were driven through the server in a browser, but nobody has played a long session. Timers, ranges and kill weights are tuned by measurement and will want tuning by feel.
+- **Movement is client-side** (as before), so a modified client can cheat its own movement. Entities, catches and kills are decided only on the server.
+- **Solo / offline mode** keeps the older built-in monster AI (new visuals and movement, old behaviour).
+- **Packaging check.** The command-approval service was intermittently unavailable while this package was being assembled. Every shipped file was copied byte-for-byte from the tested working tree and verified against it; the packaged folder itself was re-checked with one final run of the 54 scenarios only. `live.js`, `move_test.py` and `audio_test.py` were last run against the working tree, not the packaged folder.

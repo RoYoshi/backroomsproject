@@ -1,27 +1,26 @@
 // Static file server + WebSocket game server (zero dependencies).  Run: node server.js [port]
-// Each ?room=NAME is an independent world with its own server-side Hound, Smilers,
-// blackout timer and shared evidence (see sim.js).
+// Each ?room=NAME is an independent world with its own server-side Hounds, Smilers (ai.js, driven by sim.js),
+// blackout timer and shared evidence.  sim.js and ai.js are never served to browsers.
 const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto');
 const zlib = require('zlib');
 const createSim = require('./sim.js');
 const gz = new Map();
 
 const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = __dirname, MAX_ROOM = 8;
-const HOST = process.env.HOST || '0.0.0.0';
 // Admin passcode. Override on the host with the ADMIN_PASSCODE environment variable (recommended).
 const ADMIN_PASS = process.env.ADMIN_PASSCODE || 'smoor';
+// How long (seconds) a dead player's body stays in the halls. 0 (default) = until the world resets or that player dies again. Override with the BODY_TTL environment variable.
+const BODY_TTL = Math.max(0, +process.env.BODY_TTL || 0);
 const sha = s => crypto.createHash('sha256').update(String(s)).digest();
 const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|mp\.js|hud\.js|gore\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|polish\.js|polish\.css|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {
-  let u;
-  try { u = decodeURIComponent(req.url.split('?')[0]); }
-  catch { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Invalid URL'); }
+  let u = decodeURIComponent(req.url.split('?')[0]);
   if (u === '/') u = '/index.html';
   const f = path.join(ROOT, path.normalize(u));
   // drop-in custom sounds: any files in ./sounds are listed and served (see sounds/README.txt)
@@ -72,7 +71,7 @@ function cleanLook(s) {                       // hat|texture|hands|main|backpack
 
 function getRoom(name) {
   let r = rooms.get(name);
-  if (!r) { r = { name, clients: new Map(), sim: createSim(), acc: 0, last: Date.now(), tick: 0 }; rooms.set(name, r); }
+  if (!r) { r = { name, clients: new Map(), sim: createSim({ bodyTtl: BODY_TTL }), acc: 0, last: Date.now(), tick: 0 }; rooms.set(name, r); }
   return r;
 }
 
@@ -103,7 +102,9 @@ function adminCommand(room, me, m) {
       else { const g = A.nearestItem(me.player.x, me.player.y); if (g) { const x = g.x + 70, y = g.y; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); } }
       break;
     case 'monsters': log('reset monsters'); A.resetMonsters(); break;
-    case 'summon': log('summon nearest hound'); A.summon(me.player.x, me.player.y); break;
+    case 'debug': me.dbg = !!m.on; log(`ai debug ${me.dbg}`); break;
+    case 'near': log(`spawn ${m.k} near`); A.addNear(m.k === 'smiler' ? 'smiler' : 'hound', me.player.x, me.player.y); break;
+    case 'summon': log('summon nearest hound'); A.summon(me.player.x, me.player.y, me.player.id); break;
     case 'world': log('reset world'); A.resetWorld(); for (const c of room.clients.values()) if (c.player.active) send(c, { t: 'tp', x: c.player.x, y: c.player.y }); break;
     case 'msg': { const text = String(m.text || '').slice(0, 140).trim(); if (text) { log(`broadcast "${text}"`); for (const c of room.clients.values()) send(c, { t: 'msg', text, from: me.name }); } break; }
   }
@@ -129,6 +130,7 @@ srv.on('upgrade', (req, sock) => {
   function onMessage(m) {
     if (m.t === 'p') {
       const now = Date.now();
+      if (m.mv) room.sim.hearMove(player, m.mv);            // state / stamina / vault + slide noises: processed even if the position is throttled
       if (now - me.last < 30 || !isFinite(m.x) || !isFinite(m.y)) return;
       me.last = now;
       const p = player;
@@ -150,6 +152,7 @@ srv.on('upgrade', (req, sock) => {
       if (!k || !player.active || t - (me.fxAt || 0) < 1500 || (k === 'death' && !player.dead)) return;
       me.fxAt = t; if (k === 'vanish') player.safe = Math.max(player.safe, 4);
       const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
+        v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0,
         lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep) };
       for (const c of room.clients.values()) if (c !== me) send(c, out);
     }
@@ -167,7 +170,7 @@ srv.on('upgrade', (req, sock) => {
       room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
         sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
-        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht) });
+        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0 });
     }
   }
 
@@ -209,9 +212,12 @@ setInterval(() => {
       if (!c.player.active) continue;
       peers.push({ id: c.id, x: Math.round(c.player.x), y: Math.round(c.player.y), a: +c.angle.toFixed(2),
         n: c.name, c: c.color, d: c.player.dead ? 1 : 0, r: c.sprint,
-        k: c.player.equipment.kind, l: c.player.light ? 1 : 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall });
+        k: c.player.equipment.kind, l: c.player.light ? 1 : 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall,
+        mv: [c.player.st | 0, Math.round(c.player.sp || 0), Math.round(c.player.stamina == null ? 100 : c.player.stamina), c.player.ex | 0] });
     }
     const sendAd = room.tick % (SNAP_EVERY * ADMIN_EVERY) === 0;
+    const wantDbg = room.tick % (SNAP_EVERY * 3) === 0 && [...room.clients.values()].some(c => c.admin && c.dbg);
+    const dbgList = wantDbg ? room.sim.debugInfo() : null;
     let ad = null;
     if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0 })) });
     const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()] });
@@ -219,26 +225,13 @@ setInterval(() => {
     for (const c of room.clients.values()) {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }
       if (c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; send(c, bm || (bm = bodyMsg())); }
-      const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq };
+      const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player) };
+      if (c.player.dead && c.player.kill) msg.mk = c.player.kill;
       if (c.admin && ad) { msg.ad = ad; msg.you = c.id; }
+      if (c.admin && c.dbg && dbgList) msg.dbg = dbgList;
       send(c, msg);
     }
   }
 }, TICK_MS);
 
-srv.on('error', err => {
-  console.error(err.code === 'EADDRINUSE' ? `Port ${PORT} is already in use. Start with: node server.js ANOTHER_PORT` : `Could not start server: ${err.message}`);
-  process.exit(1);
-});
-
-srv.listen(PORT, HOST, () => {
-  const url = `http://localhost:${PORT}`;
-  console.log(`The Far Backrooms → ${url}  (share  ?room=NAME  to group up)`);
-  if (process.argv.includes('--open')) {
-    const { spawn } = require('child_process');
-    const command = process.platform === 'win32' ? 'cmd' : process.platform === 'darwin' ? 'open' : 'xdg-open';
-    const args = process.platform === 'win32' ? ['/c', 'start', '""', url] : [url];
-    const child = spawn(command, args, { detached: true, stdio: 'ignore' });
-    child.on('error', () => console.log(`Open ${url} in your browser.`)); child.unref();
-  }
-});
+srv.listen(PORT, () => console.log(`The Far Backrooms → http://localhost:${PORT}  (share  ?room=NAME  to group up)`));

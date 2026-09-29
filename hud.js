@@ -4,14 +4,9 @@
   const KEY = 'fb_settings_v1';
   const DEF = { c: '', s: 1, o: 1, keys: true, coords: true, title: true, auto: true, vol: 1 };
   let S = { ...DEF };
-  try {
-    const stored = JSON.parse(localStorage.getItem(KEY) || '{}');
-    if (stored && typeof stored === 'object' && !Array.isArray(stored)) {
-      for (const k of Object.keys(DEF)) if (typeof stored[k] === typeof DEF[k]) S[k] = stored[k];
-    }
-  } catch (e) {}
+  try { Object.assign(S, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
-  const clamp = (v, a, b) => Number.isFinite(+v) ? Math.min(b, Math.max(a, +v)) : a;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, +v || 0));
   const HEX = /^#[0-9a-f]{6}$/i;
   const SW = [['', 'DEFAULT', '#f3e7a7'], ['#ffb347', 'AMBER'], ['#8dff9f', 'GREEN'], ['#6fe6ff', 'CYAN'], ['#ffffff', 'WHITE'], ['#ff6b5e', 'RED'], ['#d59bff', 'VIOLET']];
   const $ = id => document.getElementById(id);
@@ -32,20 +27,20 @@
 
   /* ---------- UI ---------- */
   const btn = Object.assign(document.createElement('button'), { id: 'settingsBtn', type: 'button', textContent: 'SETTINGS ▾' });
-  btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-controls', 'settings'); btn.setAttribute('aria-expanded', 'false');
+  btn.setAttribute('aria-haspopup', 'true'); btn.setAttribute('aria-expanded', 'false');
   const tools = document.querySelector('.tools'); if (tools) tools.insertBefore(btn, $('sound')?.nextSibling || null);
 
   const panel = document.createElement('div'); panel.id = 'settings'; panel.hidden = true; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Settings');
   const row = (k, v) => `<p><span>${k}</span><b>${v}</b></p>`;
   panel.innerHTML = `
-<div class="st-tabs" role="tablist"><button id="stTabControls" data-tab="controls" role="tab" aria-controls="stPaneControls">CONTROLS</button><button id="stTabCustom" data-tab="custom" role="tab" aria-controls="stPaneCustom">CUSTOMIZE</button><button id="stTabAudio" data-tab="audio" role="tab" aria-controls="stPaneAudio">AUDIO</button></div>
-<section id="stPaneControls" data-pane="controls" role="tabpanel" aria-labelledby="stTabControls"><div class="st-rows">${row('Move', 'W A S D / ARROWS')}${row('Sprint', 'HOLD SHIFT')}${row('Aim handheld light', 'MOUSE')}${row('Light / raise camcorder', 'F')}${row('Camcorder night vision', 'N')}${row('Camcorder zoom', 'WHEEL / Z')}${row('Inventory', 'TAB')}${row('Cartograph (once found)', 'M')}${row('Pause / resume', 'ESC')}</div><p class="st-note">Touch devices get an on-screen pad. Sprinting drains stamina and is louder.</p></section>
-<section id="stPaneCustom" data-pane="custom" role="tabpanel" aria-labelledby="stTabCustom">
+<div class="st-tabs" role="tablist"><button data-tab="controls">CONTROLS</button><button data-tab="custom">CUSTOMIZE</button><button data-tab="audio">AUDIO</button></div>
+<section data-pane="controls"><div class="st-rows">${row('Move', 'W A S D / ARROWS')}${row('Sprint', 'HOLD SHIFT')}${row('Aim handheld light', 'MOUSE')}${row('Toggle light', 'F')}${row('Inventory', 'TAB')}${row('Cartograph (once found)', 'M')}${row('Pause / resume', 'ESC')}</div><p class="st-note">Touch devices get an on-screen pad. Sprinting drains stamina and is louder.</p></section>
+<section data-pane="custom">
   <h3>WANDERER &amp; LIGHT</h3>
   <p class="st-note">Hat, colours, backpack, light source. Other players see it.</p>
   <button class="st-btn" data-act="appearance" type="button">OPEN CHARACTER EDITOR</button>
   <h3>HUD</h3>
-  <div class="st-prev" id="stPrev"><span>OBJECTIVE <b>FIND A GLITCHED WALL</b></span><span>WALKING</span><span class="stam">STAMINA <b>82</b><i><em></em></i></span></div>
+  <div class="st-prev" id="stPrev"><span>EVIDENCE <b>3 / 8</b></span><span>WALKING</span><span class="stam">STAMINA <b>82</b><i><em></em></i></span></div>
   <div class="st-label">COLOUR</div>
   <div class="st-sw" id="stSw">${SW.map(([c, n, show]) => `<button type="button" data-c="${c}" title="${n}" aria-label="${n}" style="--sw:${c || show}"></button>`).join('')}<label class="st-pick" title="Custom colour"><input type="color" id="stColor" value="#f3e7a7"></label></div>
   <label class="st-slide">SIZE <output id="stSizeV"></output><input type="range" id="stSize" min="50" max="200" step="5"></label>
@@ -56,7 +51,7 @@
   <label class="st-chk"><input type="checkbox" id="stTitle"> Level title (top-right)</label>
   <button class="st-btn dim" data-act="reset" type="button">RESET HUD</button>
 </section>
-<section id="stPaneAudio" data-pane="audio" role="tabpanel" aria-labelledby="stTabAudio">
+<section data-pane="audio">
   <label class="st-slide">MASTER VOLUME <output id="stVolV"></output><input type="range" id="stVol" min="0" max="100" step="5"></label>
   <button class="st-btn" data-act="mute" type="button">TOGGLE SOUND</button>
   <p class="st-note">Headphones recommended. Volume covers ambience, footsteps, hum and monsters.</p>
@@ -75,7 +70,7 @@
     const p = $('stPrev'); p.style.setProperty('--ps', Math.min(S.s, 1.4));
   }
   let tab = 'controls';
-  const show = t => { tab = t; panel.querySelectorAll('[data-tab]').forEach(b => { const on = b.dataset.tab === t; b.classList.toggle('on', on); b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; }); panel.querySelectorAll('[data-pane]').forEach(s => s.hidden = s.dataset.pane !== t); place(); };
+  const show = t => { tab = t; panel.querySelectorAll('[data-tab]').forEach(b => b.classList.toggle('on', b.dataset.tab === t)); panel.querySelectorAll('[data-pane]').forEach(s => s.hidden = s.dataset.pane !== t); place(); };
   function place() {
     const r = btn.getBoundingClientRect(), w = panel.offsetWidth || 360;
     panel.style.top = Math.round(r.bottom + 8) + 'px';
@@ -88,21 +83,14 @@
     if (v) { panel.hidden = false; void panel.offsetWidth; panel.classList.add('open'); }
     else { panel.classList.remove('open'); closeT = setTimeout(() => { panel.hidden = true; }, 190); }
     btn.setAttribute('aria-expanded', v ? 'true' : 'false'); btn.classList.toggle('on', v); btn.textContent = v ? 'SETTINGS ▴' : 'SETTINGS ▾';
-    if (v) { window.__api?.input?.clear(); sync(); show(tab); }
-    document.body.classList.toggle('settings-open', v);
+    if (v) { sync(); show(tab); }
   };
   btn.addEventListener('click', e => { e.stopPropagation(); open(!panel.classList.contains('open')); });
   addEventListener('resize', () => { if (panel.classList.contains('open')) place(); });
   document.addEventListener('pointerdown', e => { if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== btn && !$('appearancePanel')?.contains(e.target)) open(false); });
   document.addEventListener('keydown', e => { if (panel.classList.contains('open') && e.key === 'Escape') { e.stopImmediatePropagation(); e.preventDefault(); open(false); btn.focus(); } }, true);
   panel.addEventListener('keydown', e => e.stopPropagation());      // typing/arrowing in sliders must not move the wanderer
-  panel.addEventListener('keyup', e => { window.__api?.input?.release(e.code); e.stopPropagation(); });
-  panel.querySelector('.st-tabs').addEventListener('keydown', e => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
-    const tabs = [...panel.querySelectorAll('[data-tab]')], i = tabs.findIndex(b => b.dataset.tab === tab);
-    const j = e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
-    e.preventDefault(); show(tabs[j].dataset.tab); tabs[j].focus();
-  });
+  panel.addEventListener('keyup', e => e.stopPropagation());
 
   const set = (k, v) => { S[k] = v; apply(); save(); sync(); };
   panel.addEventListener('click', e => {

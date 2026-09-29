@@ -8,14 +8,18 @@ const cv = document.getElementById('mp'), cx = cv.getContext('2d'), dread = docu
   game = document.getElementById('game'), light = document.getElementById('light'),
   net = Object.assign(document.createElement('div'), { id: 'net', textContent: 'SOLO' });
 document.body.appendChild(net);
-const room = (new URLSearchParams(location.search).get('room') || 'main').slice(0, 24).replace(/[^\w-]/g, '') || 'main';
+const room = new URLSearchParams(location.search).get('room') || 'main';
 
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
 let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
 let bodiesList = [];                              // corpses from the server (everyone's, one per player)
 const hMap = new Map(), hSlots = [null, null, null];
+const sSlot = [null, null, null, null, null];     // entity id living in each of the game's five smiler objects
 window.__hounds = hSlots;
-const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', sigP: '', sigW: '' };
+let cpNow = 0, killSeq = -1, graceUntil = 0;      // what the server says is holding us / which death we already announced / the spawn grace
+const EN = () => window.__ents;
+if (EN()) EN().onFail = f => EN().smilerVoice(f.x, f.y, 'blackout');      // a lamp going out has a sound of its own
+const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', sigP: '', sigW: '', dbg: false };
 const peers = new Map();
 const N = window.__net = {
   on: false,
@@ -23,19 +27,21 @@ const N = window.__net = {
     const A = window.__api;
     if (A && me && mseq > handled && !A.G.caught) {
       handled = mseq; A.G.caught = true; A.G.caughtBy = me;
-      let b = -1, bd = 1e18; for (const o of hMap.values()) { const d = Math.hypot(o.x - A.H.x, o.y - A.H.y); if (d < bd) { bd = d; b = o.slot; } }
+      const K = window.__kill; let b = -1;
+      if (K && K.slot >= 0) b = K.slot; else { let bd = 1e18; for (const o of hMap.values()) { const d = Math.hypot(o.x - A.H.x, o.y - A.H.y); if (d < bd) { bd = d; b = o.slot; } } }
       window.__killer = me === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
     }
   },
-  join() { exited = false; window.__glitchSolo = false; window.__itemSolo = false; N.t0 = performance.now() / 1000; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
-  respawn() { handled = Math.max(handled, mseq); tx({ t: 'respawn' }); },
+  join() { exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
+  respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; window.__kill = null; tx({ t: 'respawn' }); },
   leave() { tx({ t: 'leave' }); },
   fx: m => startFx(m),
-  deathStart(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'death', c: d.kind, x: Math.round(d.victim.x), y: Math.round(d.victim.y), a: +d.victim.angle.toFixed(3), sx: Math.round(d.source.x), sy: Math.round(d.source.y) })); },
+  deathStart(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'death', c: d.kind, x: Math.round(d.victim.x), y: Math.round(d.victim.y), a: +d.victim.angle.toFixed(3), sx: Math.round(d.source.x), sy: Math.round(d.source.y),
+    v: d.variant || 'A', w: d.wall ? [Math.round(d.wall.x), Math.round(d.wall.y), +d.wall.ang.toFixed(3)] : 0 })); },
   vanish(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'vanish', x: Math.round(d.x), y: Math.round(d.y), a: +d.a.toFixed(3) })); },
   bodyMade(t) {                                    // our own corpse is finished: tell the server so everyone can see it
     tx({ t: 'b', n: t.name, x: Math.round(t.x), y: Math.round(t.y), a: +t.angle.toFixed(3), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
-      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment),
+      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment), lo: t.lo ? 1 : 0,
       bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)] });
   },
 };
@@ -75,16 +81,19 @@ function connect() {
         Object.assign(o, p, { tx: p.x, ty: p.y, seen: now }); peers.set(p.id, o);
       }
       for (const [id, o] of peers) if (!seen.has(id)) { dropAvatar(o); peers.delete(id); }
-      peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0;
-      if (m.e) { snap = m.e; N.on = true; }
+      peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0;
+      if (m.mk && m.ms !== killSeq) { killSeq = m.ms; announceKill(m.mk); }          // who killed us, how, and where the wall is
+      if (m.e) { snap = m.e; N.on = true; entitySignals(m.e); }
+      if (m.dbg && EN()) EN().setDebug(m.dbg);
       if (m.ad) { adm.data = m.ad; adm.you = m.you; renderAdminData(); }
     }
   };
   ws.onclose = () => {
-    for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null);
-    myId = null; peersN = 0; me = ''; mseq = handled = 0; bodiesList = []; applyBodies();
-    net.textContent = kicked ? 'DISCONNECTED · REMOVED' : everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
-    adm.unlocked = false; renderAdmin();
+    for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; cpNow = 0; window.__kill = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null); sSlot.fill(null);
+    if (EN()) { EN().setDebug(null); EN().drawDebug(); EN().setFails([]); }
+    if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; }
+    net.textContent = everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
+    adm.unlocked = false; adm.dbg = false; renderAdmin();
     if (!kicked) setTimeout(connect, Math.min(8000, 1000 * ++retry));
   };
 }
@@ -92,40 +101,63 @@ connect();
 
 /* ---------- mirror the server's monsters into the game ---------- */
 const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
-function follow(o, t, k) {                          // smooth toward the server position, snap if far
-  const px = o.x, py = o.y;
-  if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; } else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; }
-  o.angle += angDiff(t.a, o.angle) * k;
-  o.distance += Math.hypot(o.x - px, o.y - py);
-  if (Math.abs(o.distance - t.d) > 150) o.distance = t.d;
-  o.state = t.s;
+/* the kill the server just made: which entity, which variant (A-D), where the wall is.  The death sequence in the bundle reads this. */
+function announceKill(k) {
+  const K = window.__kill = Object.assign({}, k, { at: performance.now(), slot: -1 });
+  if (K.k === 'Hound') { const o = hMap.get(K.e); K.slot = o ? o.slot : -1; } else K.slot = sSlot.indexOf(K.e);
+}
+/* sounds the entities make (positional, voiced by ents.js) and lamps the smilers are killing */
+function entitySignals(e) {
+  const E = EN(); if (!E) return;
+  for (const q of e.sn || []) if (Array.isArray(q) && ['growl', 'snarl', 'lungecue', 'guard', 'kill'].includes(q[0])) E.houndVoice(q[1], q[2], q[0], q[3]);
+  E.setFails(e.lf || []);
 }
 function applyServerState(dt) {
-  const A = window.__api, s = snap;
-  if (!A || !s) return;
-  const k = 1 - Math.exp(-dt * 15);
-  /* hounds: every hound has its own client-side copy in a fixed slot; the game's built-in hound object (G) mirrors the nearest one */
+  const A = window.__api, s = snap, E = EN();
+  if (!A || !s || !E) return;
+  /* hounds: every hound has its own client-side copy in a fixed slot; the game's own hound object (G) mirrors the nearest one */
   const ids = new Set();
   for (const t of s.h) {
     ids.add(t.i);
     let o = hMap.get(t.i);
-    if (!o) { const sl = hSlots.indexOf(null); if (sl < 0) continue; o = { x: t.x, y: t.y, angle: t.a, state: t.s, distance: t.d, grace: t.g, slot: sl, id: t.i }; hMap.set(t.i, o); hSlots[sl] = o; }
-    follow(o, t, k); o.grace = t.g; o.pack = t.k;
+    if (!o) { const sl = hSlots.indexOf(null); if (sl < 0) continue; o = { x: t.x, y: t.y, angle: t.a, state: 'ROAMING', ls: 'patrol', act: '', distance: 0, slot: sl, id: t.i }; hMap.set(t.i, o); hSlots[sl] = o; }
+    E.slotH(o, t, dt);
   }
   for (const [id, o] of hMap) if (!ids.has(id)) { hSlots[o.slot] = null; hMap.delete(id); }
   let best = null, bd = 1e18;
   for (const o of hMap.values()) { const d = Math.hypot(o.x - A.H.x, o.y - A.H.y); if (d < bd) { bd = d; best = o; } }
-  const G = A.G;
-  if (best) { G.x = best.x; G.y = best.y; G.angle = best.angle; G.state = best.state; G.distance = best.distance; G.grace = best.grace; }
-  else { G.x = G.y = -9e4; G.state = 'patrol'; G.grace = 99; }
-  G.pressure = s.p || 0;
-  /* smilers: up to five; unused slots are parked far away and hidden */
+  const G = A.G, grace = Math.max(0, graceUntil - performance.now() / 1000);
+  if (best) { G.x = best.x; G.y = best.y; G.angle = best.angle; G.state = best.ls; G.distance = best.distance; }
+  else { G.x = G.y = -9e4; G.state = 'patrol'; }
+  G.grace = grace; G.pressure = s.p || 0;
+  /* smilers: up to five, each keeps its own one of the game's smiler objects; unused ones are parked far away and hidden */
+  const sid = new Set();
+  for (const t of s.m) {
+    sid.add(t.i);
+    let i = sSlot.indexOf(t.i);
+    if (i < 0) { i = sSlot.indexOf(null); if (i < 0) continue; sSlot[i] = t.i; const o = A.q[i]; o.x = t.x; o.y = t.y; o.angle = t.a; o.distance = 0; }
+    A.q[i].off = false; E.slotS(A.q[i], t, dt);
+  }
   A.q.forEach((sm, i) => {
-    if (i < s.m.length) { sm.off = false; follow(sm, s.m[i], k); }
-    else { sm.off = true; sm.x = sm.y = -9e4; sm.state = 'lurk'; }
+    if (sSlot[i] !== null && !sid.has(sSlot[i])) sSlot[i] = null;
+    if (sSlot[i] === null) { sm.off = true; sm.x = sm.y = -9e4; sm.state = 'lurk'; sm.ls = 'lurk'; sm.face = 0; }
   });
   A.V.blackout = !!s.b;
   window.__glitches = s.gw || []; window.__items = s.it || [];
+}
+/* held by something: the server says down / crawl / (dragged toward a point).  move.js does the rest, this adds the sounds and the flash */
+let cpPrev = '', hitFlash = 0;
+function applyCaught() {
+  const A = window.__api, mv = window.__mv, E = EN(); if (!A || !mv) return;
+  const cp = N.on && !A.G.caught ? cpNow : 0, ph = cp ? cp.ph : '';
+  mv.down = cp && ph !== 'release' ? (ph === 'crawl' ? 'crawl' : 'down') : 0;
+  mv.dragTo = mv.down && cp.d ? cp.d : null;
+  if (ph !== cpPrev) {
+    if (E && ph === 'down' && !cpPrev) { E.sfxKnock(); hitFlash = 1; }
+    else if (E && ph === 'crawl') E.sfxGasp();
+    else if (E && !ph && cpPrev) E.sfxRelease();
+    cpPrev = ph;
+  }
 }
 /* ---------- glitched walls: touching one takes you out of Level 0 ---------- */
 function doExit(secs) {
@@ -182,23 +214,22 @@ function soloItem() {                                                    // offl
 /* ---------- everyone's bodies (one per player) ---------- */
 const hasBody = id => bodiesList.some(b => b.k === id);
 function toRec(b) {
-  return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa,
+  return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa, lo: b.lo ? 1 : 0,
     appearance: parseLook(b.lk), equipment: { kind: b.eq.kind, color: b.eq.color, parts: { [b.eq.kind]: partObj(b.eq.kind, b.eq.parts) } }, blood: b.bl.map(([x, y, seed]) => ({ x, y, seed })), dropped: { x: b.dr[0], y: b.dr[1], angle: b.dr[2] }, hat: { x: b.ht[0], y: b.ht[1], angle: b.ht[2] } };
 }
 function applyBodies() { const A = window.__api; if (A && myId) A.H.id = myId; if (A && A.bodies) A.bodies(bodiesList.map(toRec)); }
 
 /* ---------- audio ---------- */
 let ac, drone, dg, beatT = 0;
-const soundOn = () => { const z = window.__api?.audio?.(); return !!(z && !z.muted && (window.__vol ?? 1) > 0); };
+const soundOn = () => /ON/.test(document.getElementById('sound')?.textContent || 'ON');
 function initAudio() {
-  if (ac) { if (ac.state === 'suspended' && !window.__api?.paused?.()) ac.resume().catch(() => {}); return; }
-  const z = window.__api?.audio?.(); if (!z?.context || !z.gain) return;
+  if (ac) return;
   try {
-    ac = z.context;
+    ac = new AudioContext();
     drone = ac.createOscillator(); drone.type = 'sawtooth'; drone.frequency.value = 43;
     const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 140;
     dg = ac.createGain(); dg.gain.value = 0;
-    drone.connect(f).connect(dg).connect(z.gain); drone.start();
+    drone.connect(f).connect(dg).connect(ac.destination); drone.start();
   } catch {}
 }
 addEventListener('pointerdown', initAudio); addEventListener('keydown', initAudio);
@@ -207,20 +238,15 @@ function thump(v, f) {
   const o = ac.createOscillator(), g = ac.createGain(), n = ac.currentTime;
   o.frequency.setValueAtTime(f, n); o.frequency.exponentialRampToValueAtTime(38, n + .16);
   g.gain.setValueAtTime(v, n); g.gain.exponentialRampToValueAtTime(.001, n + .2);
-  o.connect(g).connect(window.__api.audio().gain); o.start(n); o.stop(n + .22);
-  o.onended = () => { o.disconnect(); g.disconnect(); };
+  o.connect(g).connect(ac.destination); o.start(n); o.stop(n + .22);
 }
 function burst(len, v) {
   if (!ac || !soundOn()) return;
   const b = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = b.getChannelData(0);
   for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) ** 1.5;
-  const s = ac.createBufferSource(), g = ac.createGain(); g.gain.value = v; s.buffer = b; s.connect(g).connect(window.__api.audio().gain); s.start();
-  s.onended = () => { s.disconnect(); g.disconnect(); };
+  const s = ac.createBufferSource(), g = ac.createGain(); g.gain.value = v; s.buffer = b; s.connect(g).connect(ac.destination); s.start();
 }
-let wasCaptured = false;
-new MutationObserver(() => { const captured = document.body.classList.contains('captured');
-  if (captured && !wasCaptured) burst(1.1, .9);
-  wasCaptured = captured; })
+new MutationObserver(() => { if (document.body.classList.contains('captured')) burst(1.1, .9); })
   .observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
 /* online note on the pause screen */
@@ -243,7 +269,7 @@ const partList = eq => { const A = window.__api; if (!A || !A.gear || !eq) retur
 const partObj = (kind, s) => { const A = window.__api, defs = A && A.gear && A.gear.defs[kind]; if (!defs) return {}; const v = String(s || '').split(','), o = {}; defs.forEach((d, i) => { if (/^#[0-9a-f]{6}$/i.test(v[i])) o[d[0]] = v[i]; }); return o; };
 const parseLook = s => { const [hat, texture, hands, main, backpack] = String(s || 'none|plain|#e6bb76|#ffcc77|none').split('|'); return { hat, texture, hands, main, backpack }; };
 function dropAvatar(o) { if (o.av) { o.av.parent && o.av.parent.removeChild(o.av); o.av.destroy({ children: true }); o.av = null; } }
-// Avatars are destroyed when snapshots remove a peer or the connection closes.
+setInterval(() => { for (const [id, o] of [...peers]) if (!peers.has(id)) dropAvatar(o); }, 2000);
 
 /* ---------- other players' deaths and vanishings, replayed for everybody in line of sight ---------- */
 const fxs = window.__fxs = [];
@@ -262,9 +288,9 @@ function startFx(m) {
   const now = performance.now() / 1000, av = A.mkAvatar(look, gear); av.__key = m.id; av.__cause = m.c; layer.addChild(av);
   const f = { id: m.id, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id) };
   if (m.k === 'death') {
-    const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat });
+    const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat }, { v: m.v, w: m.w });
     f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground, jl.debris);
-    f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'pursue', off: false, side: 0 }) : new A.Wl(); layer.addChild(f.att);
+    f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'ATTACKING', off: false, side: 0 }) : new A.Wl(); layer.addChild(f.att);
     f.cause = m.c; f.kill = { h: -1, s: -1 };                                    // hide the real monster that made the kill while its attack replays
     let bd = 240; for (const o of hMap.values()) { const d = Math.hypot(o.x - m.sx, o.y - m.sy); if (d < bd) { bd = d; f.kill.h = o.slot; } }
     bd = 240; (A.q || []).forEach((s, i) => { const d = Math.hypot(s.x - m.sx, s.y - m.sy); if (!s.off && d < bd) { bd = d; f.kill.s = i; } });
@@ -289,12 +315,30 @@ function updateFx(now) {
     f.av.update(now, false, false, f.src);
     f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24);
     f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
-    if (f.cause === 'Smiler') f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); else f.att.attackPose(jl.grip, jl.impact);
+    if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60); } else f.att.attackPose(jl.grip, jl.impact, jl.variant);
     if (!done) { if (f.kill.h >= 0) window.__fxKill.add(f.kill.h); if (f.kill.s >= 0) window.__fxKillS.add(f.kill.s); }
     else { f.doneAt = f.doneAt || now; const nb = bodiesList.find(x => x.k === f.id); if ((nb && (!f.old || nb.x !== f.old.x || nb.y !== f.old.y || nb.a !== f.old.a)) || now - f.doneAt > 8) { killFx(f); fxs.splice(i, 1); } }
   }
 }
 
+/* how another wanderer moves, from what the server relays: [state, speed, stamina, exhausted] -> the pose data the avatar code reads */
+const SNAMES = (window.WORLD && window.WORLD.SN) || ['stand', 'walk', 'run', 'crouch', 'crawl', 'slide', 'vault', 'down'];
+function peerMv(o, now) {
+  const a = o.mv; if (!Array.isArray(a)) return undefined;
+  const s = SNAMES[a[0]] || 'stand';
+  if (o.mvS !== s) { o.mvS = s; o.mvT0 = now; }
+  const t = now - (o.mvT0 || now);
+  return { s, t, sp: a[1] || 0, st: a[2] === undefined ? 100 : a[2], ex: a[3] ? 1 : 0, vp: s === 'vault' ? Math.min(1, t / .55) : 0, lean: o.mvLean || 1, tw: s === 'down' && (a[1] || 0) > 4 ? 1 : 0 };
+}
+/* what a fallen wanderer left behind can still shine: a flashlight lying on its side keeps its beam, a lantern keeps lighting the floor */
+function bodyLights(p, out) {
+  const A = window.__api; if (!A || !A.bodyList) return;
+  for (const b of A.bodyList()) {
+    if (!b.lo || b.cause === 'Vanish' || !b.equipment || b.equipment.kind === 'camcorder' || !b.dropped) continue;
+    if (Math.hypot(b.dropped.x - p.x, b.dropped.y - p.y) > 950) continue;
+    out.push({ x: b.dropped.x, y: b.dropped.y, angle: b.dropped.angle, kind: b.equipment.kind, color: b.equipment.color, on: true, dead: false });
+  }
+}
 function drawPeers(p, cam, sc, los, dt, W, H) {
   const A = window.__api; const lights = []; let hover = null, best = 1e9;
   const layer = A && A.layer && A.layer();
@@ -303,17 +347,16 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
   view = { cam, sc, W, H };
   for (const o of peers.values()) {
     const px = o.x, py = o.y;
-    const posEase = 1 - Math.exp(-21.4 * dt), velEase = 1 - Math.exp(-17.26 * dt), turnEase = 1 - Math.exp(-25.85 * dt);
-    o.x += (o.tx - o.x) * posEase; o.y += (o.ty - o.y) * posEase;
+    o.x += (o.tx - o.x) * .3; o.y += (o.ty - o.y) * .3;
     const step = Math.hypot(o.x - px, o.y - py), inv = 1 / Math.max(dt, .001);
-    o.vx = (o.vx || 0) + (((o.x - px) * inv) - (o.vx || 0)) * velEase;
-    o.vy = (o.vy || 0) + (((o.y - py) * inv) - (o.vy || 0)) * velEase;
+    o.vx = (o.vx || 0) + (((o.x - px) * inv) - (o.vx || 0)) * .25;
+    o.vy = (o.vy || 0) + (((o.y - py) * inv) - (o.vy || 0)) * .25;
     o.dist = (o.dist || 0) + step;
-    o.ang = o.ang === undefined ? o.a : o.ang + angDiff(o.a, o.ang) * turnEase;
+    o.ang = o.ang === undefined ? o.a : o.ang + angDiff(o.a, o.ang) * .35;
     if (A && A.mkAvatar && layer) {
       if (!o.av) { o.look = parseLook(o.lk); o.gear = { kind: o.k || 'flashlight', color: o.c || '#ffe7b2', parts: {} }; o.av = A.mkAvatar(o.look, o.gear); layer.addChild(o.av); }
       Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2'; o.gear.parts[o.gear.kind] = partObj(o.gear.kind, o.lp);
-      o.src = Object.assign(o.src || {}, { x: o.x, y: o.y, angle: o.ang, vx: o.vx, vy: o.vy, distance: o.dist });
+      o.src = Object.assign(o.src || {}, { x: o.x, y: o.y, angle: o.ang, vx: o.vx, vy: o.vy, distance: o.dist, mv: peerMv(o, now) });
       o.av.update(now, !!o.l && !o.d, false, o.src);
       if (o.d) { o.av.__key = o.id; o.av.deathPose(1, 0, false); if (o.dAt === undefined) o.dAt = now; } else o.dAt = undefined;
       if (o.f >= 0 && o.f < 1 && !o.d) {                          // they are still falling in
@@ -332,7 +375,9 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
       best = dm; hover = { o, sx, sy };          // every wanderer carries a small aura, so anyone in line of sight is visible
     }
   }
+  bodyLights(p, lights);
   window.__peerLights = lights;
+  if (EN() && N.on) EN().drawDebug(cx, view);                                 // admin-only overlay (the server only sends its data to unlocked admins who switched it on)
   if (hover) {
     tip.textContent = (hover.o.n || 'WANDERER') + (hover.o.d ? ' · DOWN' : '');
     tip.style.left = hover.sx + 'px'; tip.style.top = (hover.sy - 26 * sc) + 'px'; tip.style.display = 'block';
@@ -381,6 +426,7 @@ function renderAdminData() {
   const world = `<div class="adm-sec">MONSTERS · ${d.hn} HOUND${d.hn === 1 ? '' : 'S'} (MAX 3)${d.pk ? ' · PACK' : ''} · ${d.sn} SMILER${d.sn === 1 ? '' : 'S'} (MAX 5)</div><div class="adm-row wrap">` +
     btn(d.fz ? 'FROZEN' : 'FREEZE', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SUMMON HOUND TO ME', 'data-c="summon"') + btn('RESPAWN ALL', 'data-c="monsters"') + '</div>' +
     `<div class="adm-row wrap">` + btn('+ HOUND', 'data-c="hounds" data-mode="add"') + btn('− HOUND', 'data-c="hounds" data-mode="remove"') + btn('+ SMILER', 'data-c="smilers" data-mode="add"') + btn('− SMILER', 'data-c="smilers" data-mode="remove"') + '</div>' +
+    `<div class="adm-sec">AI TOOLS</div><div class="adm-row wrap">` + btn(adm.dbg ? 'AI DEBUG ON' : 'AI DEBUG', `data-c="debug" data-on="${adm.dbg ? 0 : 1}"`, adm.dbg) + btn('+ HOUND NEAR', 'data-c="near" data-k="hound"') + btn('+ SMILER NEAR', 'data-c="near" data-k="smiler"') + '</div>' +
     `<div class="adm-sec">WORLD SPEED</div><div class="adm-row wrap">${sp(0.5)}${sp(1)}${sp(2)}${sp(3)}</div>` +
     `<div class="adm-sec">LIGHTS</div><div class="adm-row wrap">` + ['auto', 'on', 'off'].map(m => btn(m === 'auto' ? 'AUTO' : 'BLACKOUT ' + m.toUpperCase(), `data-c="blackout" data-mode="${m}"`, d.bo === m)).join('') + '</div>' +
     `<div class="adm-sec">GLITCHED WALLS · ${d.gw}</div><div class="adm-row wrap">` + btn('GO TO NEAREST', 'data-c="glitch" data-mode="tp"') + btn('MOVE THEM', 'data-c="glitch" data-mode="new"') + '</div>' +
@@ -404,7 +450,9 @@ panel.addEventListener('click', e => {
   if (b.dataset.id) o.id = +b.dataset.id;
   if (b.dataset.v) o.v = +b.dataset.v;
   if (b.dataset.mode) o.mode = b.dataset.mode;
+  if (b.dataset.k) o.k = b.dataset.k;
   if (b.dataset.on !== undefined) o.on = +b.dataset.on;
+  if (o.c === 'debug') { adm.dbg = !!o.on; if (!adm.dbg && EN()) EN().setDebug(null); adm.sigW = ''; renderAdminData(); }
   tx(o);
 });
 panel.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') { if (e.target.id === 'admPass') unlock(); else if (e.target.id === 'admText') sendMsg(); } if (e.key === 'Escape') { adm.open = false; renderAdmin(); } });
@@ -523,8 +571,8 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   if (cv.width !== W * dpr || cv.height !== H * dpr) { cv.width = W * dpr; cv.height = H * dpr; }
   cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, H);
 
-  if (N.on) applyServerState(t);
-  else if (started && !exited) { soloGlitches(p); if (!(window.__items && window.__items.length) && window.__itemSolo !== true) soloItem(); }
+  if (N.on) { applyServerState(t); applyCaught(); if (EN() && window.__api) EN().entAudio(t, hSlots, window.__api.q); }
+  else { if (window.__mv && window.__mv.down) { window.__mv.down = 0; window.__mv.dragTo = null; } if (started && !exited) { soloGlitches(p); if (!(window.__items && window.__items.length) && window.__itemSolo !== true) soloItem(); } }
   if (run && !exited) itemsFrame(p);
   humUpdate();
   if (window.__glitchFrame) window.__glitchFrame({ p, cam, sc, los, W, H, t, run: run && !exited });
@@ -535,11 +583,12 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   if (ws && ws.readyState === 1 && now - lastSend > (started ? 50 : 250)) {
     lastSend = now;
     ws.send(JSON.stringify({
-      t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: run ? Math.round(p.vx) : 0, vy: run ? Math.round(p.vy) : 0,
-      a: +p.angle.toFixed(2), r: run && p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, k: p.equipment?.kind, lp: partList(p.equipment),
+      t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),
+      a: +p.angle.toFixed(2), r: p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, k: p.equipment?.kind, lp: partList(p.equipment),
       n: (document.getElementById('nameplate')?.textContent || 'WANDERER').slice(0, 20), c: p.equipment?.color,
       f: window.__api && window.__api.fall ? +window.__api.fall().toFixed(2) : -1,
       lk: window.__api ? [window.__api.look.hat, window.__api.look.texture, window.__api.look.hands, window.__api.look.main, window.__api.look.backpack].join('|') : undefined,
+      mv: started && window.__mv ? window.__mv.net() : undefined,           // how we move: state, speed, stamina, vault / slide noises - the entities hear these
     }));
     net.textContent = N.on ? 'ONLINE · ROOM ' + room.toUpperCase() + ' · ' + (peersN + 1) + ' WANDERER' + (peersN ? 'S' : '') + ' · SHARED MONSTERS' + (adm.unlocked ? ' · ADMIN' : '')
                            : 'CONNECTING…';
@@ -551,11 +600,12 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   if (run) { d = Math.hypot(G.x - p.x, G.y - p.y); for (const s of q) d = Math.min(d, Math.hypot(s.x - p.x, s.y - p.y)); }
   const target = run ? Math.max(0, Math.min(1, 1 - d / 620)) : 0;
   k += (target - k) * Math.min(1, t * (target > k ? 3 : .8));
-  if (!ac) initAudio();
   if (dg && ac) dg.gain.value = soundOn() ? k * k * .16 : 0;
   beatT -= t;
   if (k > .08 && beatT <= 0) { beatT = .95 - .6 * k; thump(.5 * k + .1, 70); setTimeout(() => thump(.35 * k + .06, 58), 140); }
-  dread.style.opacity = k < .05 ? 0 : Math.min(1, k * 1.15) * (.75 + .25 * Math.sin(now / (140 - 70 * k)));
+  hitFlash = Math.max(0, hitFlash - t * 1.6);
+  const dv = k < .05 ? 0 : Math.min(1, k * 1.15) * (.75 + .25 * Math.sin(now / (140 - 70 * k)));
+  dread.style.opacity = Math.max(dv, hitFlash * .95);
   game.style.transform = k > .55 ? `translate(${(Math.random() - .5) * k * 5}px,${(Math.random() - .5) * k * 5}px)` : '';
   light.style.opacity = k > .35 && Math.random() < k * .09 ? .35 + Math.random() * .4 : 1;
   stingCd -= t;

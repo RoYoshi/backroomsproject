@@ -94,7 +94,7 @@
           .lineTo(b.x + Math.cos(a) * l * f, b.y + Math.sin(a) * l * f).stroke({ color: 0xa3201a, width: 1.6 * (1 - f) + .6, alpha: .8 * (1 - f), cap: 'round' });
       }
     }
-    if (t > 2.03 && d.bursts.length) { const b = d.bursts[d.bursts.length - 1]; smear(g, b.x, b.y, d.body.x, d.body.y, b.seed + 9, 1 - clamp((t - 2) / 3)); }
+    if (t > (d.dw ? d.dw[0] : 2.03) && d.bursts.length) { const b = d.bursts[d.bursts.length - 1]; smear(g, b.x, b.y, d.body.x, d.body.y, b.seed + 9, 1 - clamp((t - 2) / 3)); }
   }
 
   /* ---------- static remains for corpses ---------- */

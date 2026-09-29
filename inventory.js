@@ -4,7 +4,7 @@
  *   The game keeps running while it is open; it is not a pause menu.
  * - There is no map by default. The Cartograph is a rare paranormal device that lies somewhere in each world; once you carry it,
  *   M opens its crude, unstable sketch of the halls.
- * - The "Light parts" block in the Customize panel lets you colour every element of your flashlight / headlamp / lantern / camcorder.
+ * - The "Light parts" block in the Customize panel lets you colour every element of your flashlight / torch / chestlamp.
  * The light art itself lives in the game bundle (window.__api.gear.draw); this file only re-plays it onto a 2D canvas for previews. */
 (() => {
   const $ = id => document.getElementById(id);
@@ -24,7 +24,7 @@
   const KIND_STATS = {           // [reach, spread] out of 5, shown on the loadout cards
     flashlight: [5, 1], headlamp: [3, 3], lantern: [2, 5], camcorder: null,
   };
-  const KIND_KEYS = { camcorder: 'F raise / lower · N night vision · WHEEL / Z zoom' };
+  const KIND_KEYS = { camcorder: 'F raise / lower · N night vision · WHEEL zoom' };
   const DEF_COL = { flashlight: '#ffe7b2', headlamp: '#fff0c8', lantern: '#ffc98a', camcorder: '#ffe7b2' };
   const DRAW_X = { cr: 1, hat: 'none' };
   const ITEMS = {
@@ -45,7 +45,7 @@
       if (found) { toast('FOUND · ' + ITEMS[id].name, 'Press TAB to see what you are carrying. M opens it.'); const A = window.__api, z = A && A.audio && A.audio(); try { z && z.collect && z.collect(); } catch { } }
       render(); return true;
     },
-    reset() { this.items = []; this.sel = -1; clearTimeout(toastT); toastEl.hidden = true; close(); render(); },
+    reset() { this.items = []; this.sel = -1; close(); render(); },
     toggle() { this.open ? close() : openInv(); },
     close() { close(); },
   };
@@ -108,9 +108,9 @@
 
   /* ---------- DOM ---------- */
   const root = document.createElement('aside');
-  root.id = 'inventory'; root.hidden = true; root.setAttribute('aria-label', 'Inventory'); root.setAttribute('role', 'dialog'); root.setAttribute('aria-modal', 'false');
+  root.id = 'inventory'; root.hidden = true; root.setAttribute('aria-label', 'Inventory');
   root.innerHTML = `
-    <div class="inv-head"><b>INVENTORY</b><button id="invClose" type="button" aria-label="Close inventory">✕</button></div><p class="inv-live">THE WORLD KEEPS MOVING · TAB TO CLOSE</p>
+    <div class="inv-head"><b>INVENTORY</b><span><kbd>TAB</kbd> to close</span></div>
     <div class="inv-label">EQUIPPED · LIGHT</div>
     <div class="inv-equip">
       <canvas id="invLight" width="132" height="132"></canvas>
@@ -167,15 +167,14 @@
   }
   const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
   function blocked() {
-    return ['dialog', 'caught', 'won', 'menu', 'runMenu'].some(id => { const el = $(id); return el && !el.hidden; }) || !($('appearancePanel') || {}).hidden;
+    return ['dialog', 'caught', 'won', 'menu'].some(id => { const el = $(id); return el && !el.hidden; }) || !($('appearancePanel') || {}).hidden;
   }
   function openInv() {
     const A = window.__api; if (!A || !A.started() || blocked()) return;
-    window.__api?.input?.clear();
+    inv.open = true; root.hidden = false; render(); kick();
     if (inv.sel < 0 && inv.items.length) inv.sel = 0;
-    inv.open = true; root.hidden = false; document.body.classList.add('inventory-open'); render(); kick();
   }
-  function close() { inv.open = false; root.hidden = true; document.body.classList.remove('inventory-open'); if (root.contains(document.activeElement)) document.activeElement.blur(); }
+  function close() { inv.open = false; root.hidden = true; }
 
   /* ---------- input ---------- */
   addEventListener('keydown', e => {
@@ -183,7 +182,7 @@
     const tgt = e.target, typing = tgt instanceof HTMLInputElement || tgt instanceof HTMLSelectElement || tgt instanceof HTMLTextAreaElement;
     if (e.code === 'Tab') {
       if (($('appearancePanel') || {}).hidden === false) return;                 // the customize panel keeps its own focus trap
-      if (typing || (tgt instanceof Element && tgt.closest('#settings,#adminPanel,#dialog,#caught,#won,#menu,#runMenu'))) return;
+      if (typing && tgt.id !== 'name') return;
       e.preventDefault(); e.stopImmediatePropagation();
       if (!e.repeat) inv.toggle();
       return;
@@ -195,7 +194,6 @@
   root.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;
     const A = window.__api;
-    if (b.id === 'invClose') { close(); return; }
     if (b.id === 'invToggle') { $('touchFlash').click(); setTimeout(render, 30); return; }
     if (b.classList.contains('inv-slot')) { inv.sel = +b.dataset.i; render(); return; }
     if (b.id === 'invUse') { if (A && A.map) A.map(); setTimeout(render, 30); return; }
@@ -224,14 +222,6 @@
 @media (max-width:560px){#lightCards{grid-template-columns:1fr}}`;
   document.head.appendChild(css);
   const cards = Object.assign(document.createElement('div'), { id: 'lightCards', role: 'radiogroup' }), lockNote = Object.assign(document.createElement('p'), { id: 'lightLock' });
-  cards.setAttribute('aria-label', 'Choose one light device per run');
-  cards.addEventListener('keydown', e => {
-    if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key) || loadoutLocked()) return;
-    const choices = [...cards.querySelectorAll('button.lc:not(:disabled)')], i = choices.indexOf(document.activeElement);
-    if (!choices.length) return;
-    const j = e.key === 'Home' ? 0 : e.key === 'End' ? choices.length - 1 : (Math.max(i, 0) + (['ArrowLeft', 'ArrowUp'].includes(e.key) ? -1 : 1) + choices.length) % choices.length;
-    e.preventDefault(); choices[j].click(); cards.querySelectorAll('button.lc')[j]?.focus();
-  });
   const bar = n => '▮'.repeat(n) + '▯'.repeat(5 - n);
   function loadoutLocked() { const A = window.__api, c = $('caught'); return !!(A && A.started && A.started() && (!c || c.hidden)); }
   function buildCards() {
@@ -239,9 +229,9 @@
     const k0 = A.gear.eq.kind, lock = loadoutLocked();
     cards.innerHTML = Object.keys(KINDS).map(k => {
       const st = KIND_STATS[k], line = st ? `REACH ${bar(st[0])} SPREAD ${bar(st[1])}` : 'NO LIGHT · NIGHT VISION';
-      return `<button type="button" class="lc ${k === k0 ? 'on' : ''}" data-kind="${k}" role="radio" aria-checked="${k === k0}" tabindex="${k === k0 ? 0 : -1}" ${lock ? 'disabled' : ''}><canvas data-kind="${k}" width="64" height="64"></canvas><b>${KINDS[k].toUpperCase()}</b><small>${CARD_TEXT[k]}<i>${line}</i></small></button>`;
+      return `<button type="button" class="lc ${k === k0 ? 'on' : ''}" data-kind="${k}" role="radio" aria-checked="${k === k0}" ${lock ? 'disabled' : ''}><canvas data-kind="${k}" width="64" height="64"></canvas><b>${KINDS[k].toUpperCase()}</b><small>${CARD_TEXT[k]}<i>${line}</i></small></button>`;
     }).join('');
-    lockNote.textContent = lock ? 'LOADOUT LOCKED · you carry one device per run. Choose again after capture or use NEW RUN in the pause menu.' : '';
+    lockNote.textContent = lock ? 'LOADOUT LOCKED · you carry one device per run. Get caught and choose again, or reload to start over.' : '';
     lockNote.hidden = !lock;
     const sel = $('lightKind'), lab = sel && sel.closest('label'); if (lab) lab.style.display = 'none';
     const lc = $('lightColor'), lcl = lc && lc.closest('label'); if (lcl) lcl.style.display = k0 === 'camcorder' ? 'none' : '';
