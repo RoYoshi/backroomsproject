@@ -162,3 +162,11 @@ Night vision is not x-ray: it only brightens what is already inside your current
 **Entity NV effects:** `window.__cam.registerFx(kind, {onlyNV, gain, obscure, distort, interfere, static, glitch})`. Nothing is registered by default, so hounds/smilers look as before under NV; add behaviours per entity in one line.
 
 New file: `camcorder.js` (add to your repo). Legacy saves migrate: chestlamp → headlamp, torch → lantern.
+
+## Global deaths, falling spawns, New Run menu v15
+
+- **Deaths play out for everyone.** When a wanderer is caught, everyone in line of sight sees the same attack, blood and collapse (not just a finished corpse).
+- **Random, falling spawns.** Every spawn/respawn picks a random open spot away from monsters and you drop in from above (shadow, thud, dust, camera shake). Other players see you fall too.
+- **NEW RUN** (pause menu) makes your body fade out of existence for everyone, leaving only your light source on the floor (it replaces your previous body). Then a menu offers **SPAWN**, **CUSTOMIZE** or **END** (back to the title screen; you leave the world).
+- The inventory no longer has a Customize button; use Settings / the header.
+- Server: new `fx` and `leave` messages (`server.js`, `sim.js`), `mp.js` replays them.

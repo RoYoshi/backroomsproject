@@ -29,12 +29,17 @@ const N = window.__net = {
   },
   join() { exited = false; window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
   respawn() { handled = Math.max(handled, mseq); tx({ t: 'respawn' }); },
+  leave() { tx({ t: 'leave' }); },
+  fx: m => startFx(m),
+  deathStart(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'death', c: d.kind, x: Math.round(d.victim.x), y: Math.round(d.victim.y), a: +d.victim.angle.toFixed(3), sx: Math.round(d.source.x), sy: Math.round(d.source.y) })); },
+  vanish(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'vanish', x: Math.round(d.x), y: Math.round(d.y), a: +d.a.toFixed(3) })); },
   bodyMade(t) {                                    // our own corpse is finished: tell the server so everyone can see it
     tx({ t: 'b', n: t.name, x: Math.round(t.x), y: Math.round(t.y), a: +t.angle.toFixed(3), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
       lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment),
       bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)] });
   },
 };
+const fxBase = A => ({ lk: [A.look.hat, A.look.texture, A.look.hands, A.look.main, A.look.backpack].join('|'), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
 const tx = o => { if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); };
 
 function connect() {
@@ -58,6 +63,7 @@ function connect() {
     else if (m.t === 'msg') showMsg(m.text, m.from);
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
     else if (m.t === 'bodies') { bodiesList = m.b || []; applyBodies(); }
+    else if (m.t === 'fx') startFx(m);
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {
@@ -65,6 +71,7 @@ function connect() {
       for (const p of m.p) {
         seen.add(p.id);
         const o = peers.get(p.id) || { x: p.x, y: p.y };
+        if (Math.hypot(p.x - o.x, p.y - o.y) > 400) { o.x = p.x; o.y = p.y; }      // respawned somewhere else: don't glide across the map
         Object.assign(o, p, { tx: p.x, ty: p.y, seen: now }); peers.set(p.id, o);
       }
       for (const [id, o] of peers) if (!seen.has(id)) { dropAvatar(o); peers.delete(id); }
@@ -74,7 +81,7 @@ function connect() {
     }
   };
   ws.onclose = () => {
-    N.on = false; snap = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null);
+    for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null);
     net.textContent = everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
     adm.unlocked = false; renderAdmin();
     if (!kicked) setTimeout(connect, Math.min(8000, 1000 * ++retry));
@@ -231,10 +238,61 @@ const parseLook = s => { const [hat, texture, hands, main, backpack] = String(s 
 function dropAvatar(o) { if (o.av) { o.av.parent && o.av.parent.removeChild(o.av); o.av.destroy({ children: true }); o.av = null; } }
 setInterval(() => { for (const [id, o] of [...peers]) if (!peers.has(id)) dropAvatar(o); }, 2000);
 
+/* ---------- other players' deaths and vanishings, replayed for everybody in line of sight ---------- */
+const fxs = window.__fxs = [];
+const fxActive = id => fxs.some(f => f.id === id && !f.gone);
+window.__hideBodies = new Set(); window.__fxKill = new Set(); window.__fxKillS = new Set();
+const sm = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+function killFx(f) {
+  f.gone = true;
+  for (const x of [f.av, f.jl && f.jl.blood, f.jl && f.jl.foreground, f.jl && f.jl.debris, f.att]) { if (!x) continue; try { x.parent && x.parent.removeChild(x); x.destroy({ children: true }); } catch { } }
+  window.__hideBodies.delete('r' + f.id);
+}
+function startFx(m) {
+  const A = window.__api, layer = A && A.layer && A.layer(); if (!A || !layer || !A.mkAvatar || !A.Jl || m.id === myId) return;
+  for (const f of fxs) if (f.id === m.id) f.end = true;                          // a newer event for the same player replaces the older one
+  const look = parseLook(m.lk), gear = { kind: m.ek || 'flashlight', color: m.ec || '#ffe7b2', parts: {} }; gear.parts[gear.kind] = partObj(gear.kind, m.ep);
+  const now = performance.now() / 1000, av = A.mkAvatar(look, gear); av.__key = m.id; av.__cause = m.c; layer.addChild(av);
+  const f = { id: m.id, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id) };
+  if (m.k === 'death') {
+    const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat });
+    f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground, jl.debris);
+    f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'pursue', off: false, side: 0 }) : new A.Wl(); layer.addChild(f.att);
+    f.cause = m.c; f.kill = { h: -1, s: -1 };                                    // hide the real monster that made the kill while its attack replays
+    let bd = 240; for (const o of hMap.values()) { const d = Math.hypot(o.x - m.sx, o.y - m.sy); if (d < bd) { bd = d; f.kill.h = o.slot; } }
+    bd = 240; (A.q || []).forEach((s, i) => { const d = Math.hypot(s.x - m.sx, s.y - m.sy); if (!s.off && d < bd) { bd = d; f.kill.s = i; } });
+    if (m.c === 'Smiler') f.kill.h = -1; else f.kill.s = -1;
+    window.__hideBodies.add('r' + m.id);
+  }
+  fxs.push(f);
+}
+function updateFx(now) {
+  const A = window.__api; window.__fxKill.clear(); window.__fxKillS.clear();
+  for (let i = fxs.length - 1; i >= 0; i--) {
+    const f = fxs[i], t = now - f.t0;
+    if (f.end || !A) { killFx(f); fxs.splice(i, 1); continue; }
+    if (f.k === 'vanish') {
+      f.av.update(now, false, false, f.src); f.av.gear.visible = false;
+      const v = Math.min(1, t / 2.7), s = sm(.22, .95, v), fl = Math.sin(now * 47) > .55 && v > .35 && v < .9 ? .35 : 0;
+      f.av.alpha = Math.max(0, 1 - s - fl * (1 - s)); f.av.scale.set(1 - .06 * s); f.av.x += Math.sin(now * 61) * (1 - s) * s * 4;
+      if (t > 2.8) { killFx(f); fxs.splice(i, 1); }
+      continue;
+    }
+    const jl = f.jl, done = jl.frame(now), b = jl.body;
+    f.av.update(now, false, false, f.src);
+    f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24);
+    f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
+    if (f.cause === 'Smiler') f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); else f.att.attackPose(jl.grip, jl.impact);
+    if (!done) { if (f.kill.h >= 0) window.__fxKill.add(f.kill.h); if (f.kill.s >= 0) window.__fxKillS.add(f.kill.s); }
+    else { f.doneAt = f.doneAt || now; const nb = bodiesList.find(x => x.k === f.id); if ((nb && (!f.old || nb.x !== f.old.x || nb.y !== f.old.y || nb.a !== f.old.a)) || now - f.doneAt > 8) { killFx(f); fxs.splice(i, 1); } }
+  }
+}
+
 function drawPeers(p, cam, sc, los, dt, W, H) {
   const A = window.__api; const lights = []; let hover = null, best = 1e9;
   const layer = A && A.layer && A.layer();
   const now = performance.now() / 1000;
+  updateFx(now);
   view = { cam, sc, W, H };
   for (const o of peers.values()) {
     const px = o.x, py = o.y;
@@ -249,8 +307,13 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
       Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2'; o.gear.parts[o.gear.kind] = partObj(o.gear.kind, o.lp);
       o.src = Object.assign(o.src || {}, { x: o.x, y: o.y, angle: o.ang, vx: o.vx, vy: o.vy, distance: o.dist });
       o.av.update(now, !!o.l && !o.d, false, o.src);
-      if (o.d) { o.av.__key = o.id; o.av.deathPose(1, 0, false); }
-      o.av.visible = !(o.d && hasBody(o.id));                   // their finished corpse takes over
+      if (o.d) { o.av.__key = o.id; o.av.deathPose(1, 0, false); if (o.dAt === undefined) o.dAt = now; } else o.dAt = undefined;
+      if (o.f >= 0 && o.f < 1 && !o.d) {                          // they are still falling in
+        const k = .62, p2 = o.f;
+        if (p2 < k) { const h = p2 / k, hs = h * h * (3 - 2 * h), z = 1 + (1 - hs) * (1 - hs) * 1.25; o.av.scale.set(z, z); o.av.alpha = Math.min(1, p2 / .22); o.av.rotation += (1 - hs) * 1.7; }
+        else { const u = (p2 - k) / (1 - k), b = Math.exp(-u * 5) * Math.sin(u * 22); o.av.scale.set(1 + .11 * b, 1 - .11 * b); o.av.alpha = 1; }
+      } else if (!o.d) { o.av.scale.set(1, 1); o.av.alpha = 1; }
+      o.av.visible = !(fxActive(o.id) || (o.d && (hasBody(o.id) || now - o.dAt < .6)));     // their replayed death / finished corpse takes over
     }
     const dx = o.x - p.x, dy = o.y - p.y, dist = Math.hypot(dx, dy);
     const bm = o.av && o.av.beam; if (dist < 950) lights.push({ x: bm ? bm.x : o.x, y: bm ? bm.y : o.y, angle: bm ? bm.angle : o.ang, kind: o.k || 'flashlight', color: o.c || '#ffe7b2', on: !!o.l, dead: !!o.d });
@@ -467,6 +530,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
       t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),
       a: +p.angle.toFixed(2), r: p.sprinting ? 1 : 0, l: lightOn ? 1 : 0, k: p.equipment?.kind, lp: partList(p.equipment),
       n: (document.getElementById('nameplate')?.textContent || 'WANDERER').slice(0, 20), c: p.equipment?.color,
+      f: window.__api && window.__api.fall ? +window.__api.fall().toFixed(2) : -1,
       lk: window.__api ? [window.__api.look.hat, window.__api.look.texture, window.__api.look.hands, window.__api.look.main, window.__api.look.backpack].join('|') : undefined,
     }));
     net.textContent = N.on ? 'ONLINE · ROOM ' + room.toUpperCase() + ' · ' + (peersN + 1) + ' WANDERER' + (peersN ? 'S' : '') + ' · SHARED MONSTERS' + (adm.unlocked ? ' · ADMIN' : '')

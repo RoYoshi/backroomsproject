@@ -138,9 +138,18 @@ srv.on('upgrade', (req, sock) => {
       me.name = String(m.n || 'WANDERER').slice(0, 20);
       if (HEX.test(m.c)) me.color = m.c;
       me.look = cleanLook(m.lk) || me.look; me.lp = cleanParts(m.lp);
-      me.angle = p.angle; me.sprint = m.r ? 1 : 0;
+      me.angle = p.angle; me.sprint = m.r ? 1 : 0; me.fall = m.f >= 0 && m.f <= 1 ? +m.f : -1;
     } else if (m.t === 'join') room.sim.join(player);
     else if (m.t === 'respawn') room.sim.respawn(player);
+    else if (m.t === 'leave') room.sim.leave(player);                       // NEW RUN -> END / menu: no longer in the world
+    else if (m.t === 'fx') {                                                // replay someone's death / vanishing for everybody else
+      const t = Date.now(), k = m.k === 'death' ? 'death' : m.k === 'vanish' ? 'vanish' : '';
+      if (!k || !player.active || t - (me.fxAt || 0) < 1500 || (k === 'death' && !player.dead)) return;
+      me.fxAt = t; if (k === 'vanish') player.safe = Math.max(player.safe, 4);
+      const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
+        lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep) };
+      for (const c of room.clients.values()) if (c !== me) send(c, out);
+    }
     else if (m.t === 'pick') { if (player.active && !player.dead) { const it = room.sim.takeItem(player); if (it) send(me, { t: 'got', item: it }); } }
     else if (m.t === 'admin') {
       const now = Date.now(), f = fails.get(ip) || { n: 0, until: 0 };
@@ -150,10 +159,10 @@ srv.on('upgrade', (req, sock) => {
     }
     else if (m.t === 'a') { if (me.admin) adminCommand(room, me, m); }
     else if (m.t === 'b') {                 // the finished corpse of a player we already know was caught; one per player
-      if (!player.dead) return;
+      if (!player.dead && m.c !== 'Vanish') return;
       const n3 = a => [num(a && a[0], 0, 9216), num(a && a[1], 0, 6912), num(a && a[2], -20, 20)];
       room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
-        sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : 'Hound', aa: num(m.aa, -20, 20),
+        sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
         bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht) });
     }
@@ -197,7 +206,7 @@ setInterval(() => {
       if (!c.player.active) continue;
       peers.push({ id: c.id, x: Math.round(c.player.x), y: Math.round(c.player.y), a: +c.angle.toFixed(2),
         n: c.name, c: c.color, d: c.player.dead ? 1 : 0, r: c.sprint,
-        k: c.player.equipment.kind, l: c.player.light ? 1 : 0, lk: c.look, lp: c.lp || '' });
+        k: c.player.equipment.kind, l: c.player.light ? 1 : 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall });
     }
     const sendAd = room.tick % (SNAP_EVERY * ADMIN_EVERY) === 0;
     let ad = null;

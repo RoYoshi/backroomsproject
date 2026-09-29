@@ -166,6 +166,7 @@ function join(p){
   if(!others)resetWorld();
 }
 function respawn(p){if(p.active)spawn(p)}
+function leave(p){p.active=false;p.dead=``}
 function step(dt){
   for(const p of players)if(p.safe>0)p.safe-=dt;
   for(const p of players)if(p.active&&!p.dead&&!p.exited&&true)              // touching a glitched wall takes you out
@@ -221,7 +222,7 @@ const admin={
   info(){return {fz:frozen?1:0,sp:speed,bo:bmode,hn:hounds.length,sn:q.length,gw:glitches.length,it:items.length,pk:packs.length,hs:hounds.map(h=>h.g.state).join(`,`)}},
 };
 function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;return items.splice(i,1)[0].id}
-resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,step,entities,resetWorld,admin,setBody,
+resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,leave,step,entities,resetWorld,admin,setBody,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},
   debug:{G,q,V,Ic,hounds,packs,get glitches(){return glitches}}};
 

@@ -47,6 +47,7 @@
     },
     reset() { this.items = []; this.sel = -1; close(); render(); },
     toggle() { this.open ? close() : openInv(); },
+    close() { close(); },
   };
 
   /* ---------- toast ---------- */
@@ -115,7 +116,7 @@
       <canvas id="invLight" width="132" height="132"></canvas>
       <div class="inv-equip-info"><h3 id="invLightName">FLASHLIGHT</h3><p id="invLightText"></p><p class="inv-keys" id="invKeys"></p><div class="inv-sw" id="invSw"></div></div>
     </div>
-    <div class="inv-row"><button id="invToggle" type="button">LIGHT ON <kbd>F</kbd></button><button id="invCustom" type="button">CUSTOMIZE</button></div>
+    <div class="inv-row"><button id="invToggle" type="button">LIGHT ON <kbd>F</kbd></button></div>
     <div class="inv-label">CARRYING</div>
     <div class="inv-grid" id="invGrid"></div>
     <div class="inv-detail" id="invDetail"></div>`;
@@ -194,7 +195,6 @@
     const b = e.target.closest('button'); if (!b) return;
     const A = window.__api;
     if (b.id === 'invToggle') { $('touchFlash').click(); setTimeout(render, 30); return; }
-    if (b.id === 'invCustom') { close(); $('customize').click(); buildCards(); setTimeout(() => { const p = $('lightParts'); if (p) p.scrollIntoView({ block: 'center' }); }, 60); return; }
     if (b.classList.contains('inv-slot')) { inv.sel = +b.dataset.i; render(); return; }
     if (b.id === 'invUse') { if (A && A.map) A.map(); setTimeout(render, 30); return; }
   });
