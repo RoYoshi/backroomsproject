@@ -3,6 +3,6 @@
 .staminaHud{display:inline-flex;align-items:center;gap:7px;color:#d8cfaa}.staminaHud>b{min-width:22px;color:#f3e7a7;font-weight:500}.staminaHud i{width:72px;height:5px;background:#201b10;border:1px solid #9b895155;display:inline-block;overflow:hidden}.staminaHud em{height:100%;width:100%;display:block;background:#e6cf77;transition:width .12s linear}.staminaHud em[style*="width: 0"],.staminaHud em[style*="width: 1"]{background:#ad6d55}#mapPanel{width:min(610px,94vw)}@media (width<=700px){.staminaHud i{width:48px}.staminaHud{gap:4px}}
 #mp{position:fixed;inset:0;pointer-events:none}
 #dread{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:5;background:radial-gradient(ellipse at center,#0000 25%,#300 70%,#000 105%)}
-#net{position:fixed;left:38px;bottom:22px;font-size:11px;letter-spacing:1.5px;color:#9ba7a2;pointer-events:none;z-index:6}
+#net{position:fixed;left:38px;top:84px;font-size:11px;letter-spacing:1.5px;color:#9ba7a2;pointer-events:none;z-index:6}
 body.captured #dread{opacity:1!important;background:#400;animation:flashout 1.4s forwards}
 @keyframes flashout{0%{background:#fff}12%{background:#a00}100%{background:#100}}
