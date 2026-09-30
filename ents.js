@@ -300,6 +300,12 @@ function paintFace(gfx, f, t, alpha, seed) {
   }
 }
 
+/* SPECIES CONCEALMENT (v20): the smiler is the one entity whose presence is tied to how legible its spot is to the viewer.
+ * It is fed `read` = __light.readability() (the local player's eye: light + distance + night vision), never a generic entity-lighting alpha.
+ * In the dark it thins to a smudge (never below .12, so the glow on the darkness layer can still take over); once clearly readable it is solid.
+ * Hounds and other physical entities do NOT use this: their opacity is material and only their brightness follows the light. */
+E.smilerPresence = function (read, view) { return read > .72 ? 1 : Math.max(.12, read); };
+
 E.drawSmiler = function (view, sm_, t, dt, vis, o) {
   if (!view.__smiler) E.initSmiler(view);
   const S = view.__s, f = clamp(sm_.face === undefined ? (sm_.state === 'watch' || sm_.state === 'pursue' ? 1 : .7) : sm_.face, 0, 1);

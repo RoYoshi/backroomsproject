@@ -16,7 +16,7 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|light\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {

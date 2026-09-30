@@ -298,3 +298,15 @@ Most of the brief was already true of the v16 smiler (no aggression UI, nothing 
 - **Bug fixed**: a freshly spawned smiler never relocated until it had been hidden once (it could sit in one place forever). Now it moves on after 8-30 s. A crouched or edge-of-range player is therefore an advantage, not immunity.
 - **Sight floor**: something within about 230 px is noticed whatever its posture.
 - **Tests**: `dev/tests/s_smiler2.js` (23 checks: the 13-tactic anti-cheese matrix, memory, micro-behaviours, light events, disengagement, spawn, no-teleport, quirks, no-aggression-UI scan); `dev/tests/smiler_view.py` photographs the exposure budget.
+
+## v20 - Part 1A: entity visibility and the lighting foundation
+
+**What was wrong.** Every hound's opacity was `alpha = Ul(x, y)`, a "how legible is this spot to my eye" value (flashlight, lamps, distance, night vision), smoothed toward 1 above 0.72. The darkness overlay (`drawLight`) already paints the world black and cuts light out where lamps, torches and the player's small aura reach, clipped to line of sight. So a hound in the dark was darkened twice: once by the overlay (correct) and once by becoming see-through (the ghosting). The smiler used the same generic hook for its deliberate concealment. Server AI and hearing were already separate (`ai.js` `geo.lightLevel`, sound bus) and read nothing from the client.
+
+**What changed**
+- **`light.js` (new, client-only): the shared lighting query.** `__light.sample(x, y, lightOn)` returns ambient, lamp (wall-occluded, flicker applied, off in a blackout), own torch and other players' lights (occluded), direct, total, dark, dominant light direction and flicker. It reuses one output object, so there is no per-call allocation. `__light.readability()` is the player-eye legibility value, used only by species concealment. `__light.shade()` maps light to material brightness. `__light.occluders()` and `__light.ray()` expose wall-block and ray data for later shadows and flashlight occlusion. Nothing in it sets an alpha.
+- **Hound = physical.** Opacity is material: 1, times explicit effects only (the camcorder effect hook; the existing fade-in when a hound first becomes visible). Light changes its brightness through a tint (58-100 %, eased), never its alpha. The darkness overlay still does the real darkening, so in the dark it reads as a dark silhouette, not a ghost. The death-lab x-ray is unchanged (debug only).
+- **Smiler = species concealment.** It is fed `__light.readability()` and turned into presence by its own `__ents.smilerPresence()` (`ents_src/20_smiler.js`). The behaviour is identical to before but now explicit and separate from generic entity lighting.
+- `__api.lightOn()` (read-only) exposes whether the local light is on.
+- No server, snapshot or AI change. Lighting presentation is client-side.
+- **Test:** `dev/tests/light_test.py` (15 browser checks: opacity in bright, partial and dark light, boundary crossing every frame, shade ordering and smoothness, no NaN, smiler concealment, two-client agreement, a death preview, no runtime errors, and that no AI or sim code reads presentation values).
