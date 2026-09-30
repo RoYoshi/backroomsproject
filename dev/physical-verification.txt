@@ -1,0 +1,45 @@
+Codex v16 physical deaths — verification
+
+PASS Hound A: fixed-step replay is identical at 30/60/144 fps
+PASS Hound A: body/hand clearance, reach, continuity and settling
+PASS Hound B: fixed-step replay is identical at 30/60/144 fps
+PASS Hound B: body/hand clearance, reach, continuity and settling
+PASS Hound C: fixed-step replay is identical at 30/60/144 fps
+PASS Hound C: body/hand clearance, reach, continuity and settling
+PASS Hound D: fixed-step replay is identical at 30/60/144 fps
+PASS Hound D: body/hand clearance, reach, continuity and settling
+PASS Smiler A: fixed-step replay is identical at 30/60/144 fps
+PASS Smiler A: body/hand clearance, reach, continuity and settling
+PASS Smiler B: fixed-step replay is identical at 30/60/144 fps
+PASS Smiler B: body/hand clearance, reach, continuity and settling
+PASS Smiler C: fixed-step replay is identical at 30/60/144 fps
+PASS Smiler C: body/hand clearance, reach, continuity and settling
+PASS Smiler D: fixed-step replay is identical at 30/60/144 fps
+PASS Smiler D: body/hand clearance, reach, continuity and settling
+PASS Hound wall slam produces a real collision and recoil
+PASS Hound impact creates independent hand lag rather than a rigid group
+PASS Smiler starts still, then moves continuously toward darkness
+PASS Carpet stops the tackle earlier than wet tile
+PASS Hound/flashlight: shipped animation becomes the exact shipped corpse pose
+PASS Hound/headlamp: shipped animation becomes the exact shipped corpse pose
+PASS Hound/lantern: shipped animation becomes the exact shipped corpse pose
+PASS Hound/camcorder: shipped animation becomes the exact shipped corpse pose
+PASS Smiler/flashlight: shipped animation becomes the exact shipped corpse pose
+PASS Smiler/headlamp: shipped animation becomes the exact shipped corpse pose
+PASS Smiler/lantern: shipped animation becomes the exact shipped corpse pose
+PASS Smiler/camcorder: shipped animation becomes the exact shipped corpse pose
+PASS Replay preserves initial live hands and accessory configuration
+PASS Physical bodies and hands stay clear of actual Level 0 corners and furniture
+30 physical motion / renderer checks passed
+
+PASS client physics is served; server source stays private
+PASS seeded initial hands/body are relayed intact to another player
+PASS finished hands, equipment and beam pose persist in shared corpse state
+PASS a living client cannot create a death replay or corpse
+PASS a late joiner receives the same settled corpse pose
+PASS malformed physical poses are rejected with a legacy-safe fallback
+6 multiplayer transport checks passed; corpse packet 472/1400 bytes
+
+Renderer integration patch reproduced the delivered bundle exactly.
+JavaScript syntax checks passed for the new module, modified bundle, mp.js and server.js.
+Comparison clip reviewed from the actual procedural renderer hooks. Full browser playtest not performed.

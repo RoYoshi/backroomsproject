@@ -36,13 +36,13 @@ const N = window.__net = {
   respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; window.__kill = null; tx({ t: 'respawn' }); },
   leave() { tx({ t: 'leave' }); },
   fx: m => startFx(m),
-  deathStart(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'death', c: d.kind, x: Math.round(d.victim.x), y: Math.round(d.victim.y), a: +d.victim.angle.toFixed(3), sx: Math.round(d.source.x), sy: Math.round(d.source.y),
-    v: d.variant || 'A', w: d.wall ? [Math.round(d.wall.x), Math.round(d.wall.y), +d.wall.ang.toFixed(3)] : 0 })); },
+  deathStart(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'death', c: d.kind, x: d.victim.x, y: d.victim.y, a: d.victim.angle, sx: d.source.x, sy: d.source.y,
+    v: d.variant || 'A', mi: d.motionInitial || null, w: d.wall ? [d.wall.x, d.wall.y, d.wall.ang] : 0 })); },
   vanish(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'vanish', x: Math.round(d.x), y: Math.round(d.y), a: +d.a.toFixed(3) })); },
   bodyMade(t) {                                    // our own corpse is finished: tell the server so everyone can see it
-    tx({ t: 'b', n: t.name, x: Math.round(t.x), y: Math.round(t.y), a: +t.angle.toFixed(3), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
-      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment), lo: t.lo ? 1 : 0,
-      bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)] });
+    tx({ t: 'b', n: t.name, x: +t.x.toFixed(4), y: +t.y.toFixed(4), a: +t.angle.toFixed(6), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
+      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment), lo: t.lo ? 1 : 0, ps: t.pose || null,
+      bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [+t.dropped.x.toFixed(4), +t.dropped.y.toFixed(4), +t.dropped.angle.toFixed(6)], ht: [+t.hat.x.toFixed(4), +t.hat.y.toFixed(4), +t.hat.angle.toFixed(6)] });
   },
 };
 const fxBase = A => ({ lk: [A.look.hat, A.look.texture, A.look.hands, A.look.main, A.look.backpack].join('|'), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
@@ -214,7 +214,7 @@ function soloItem() {                                                    // offl
 /* ---------- everyone's bodies (one per player) ---------- */
 const hasBody = id => bodiesList.some(b => b.k === id);
 function toRec(b) {
-  return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa, lo: b.lo ? 1 : 0,
+  return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa, lo: b.lo ? 1 : 0, pose: b.ps || null,
     appearance: parseLook(b.lk), equipment: { kind: b.eq.kind, color: b.eq.color, parts: { [b.eq.kind]: partObj(b.eq.kind, b.eq.parts) } }, blood: b.bl.map(([x, y, seed]) => ({ x, y, seed })), dropped: { x: b.dr[0], y: b.dr[1], angle: b.dr[2] }, hat: { x: b.ht[0], y: b.ht[1], angle: b.ht[2] } };
 }
 function applyBodies() { const A = window.__api; if (A && myId) A.H.id = myId; if (A && A.bodies) A.bodies(bodiesList.map(toRec)); }
@@ -288,7 +288,7 @@ function startFx(m) {
   const now = performance.now() / 1000, av = A.mkAvatar(look, gear); av.__key = m.id; av.__cause = m.c; layer.addChild(av);
   const f = { id: m.id, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id) };
   if (m.k === 'death') {
-    const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat }, { v: m.v, w: m.w });
+    const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, appearance: look }, { v: m.v, w: m.w, mi: m.mi });
     f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground, jl.debris);
     f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'ATTACKING', off: false, side: 0 }) : new A.Wl(); layer.addChild(f.att);
     f.cause = m.c; f.kill = { h: -1, s: -1 };                                    // hide the real monster that made the kill while its attack replays
@@ -313,7 +313,7 @@ function updateFx(now) {
     }
     const jl = f.jl, done = jl.frame(now), b = jl.body;
     f.av.update(now, false, false, f.src);
-    f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24);
+    f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24, jl.physicalPose);
     f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
     if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60); } else f.att.attackPose(jl.grip, jl.impact, jl.variant);
     if (!done) { if (f.kill.h >= 0) window.__fxKill.add(f.kill.h); if (f.kill.s >= 0) window.__fxKillS.add(f.kill.s); }

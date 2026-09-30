@@ -16,8 +16,23 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|world\.js|move\.js|ents\.js|death-motion\.js|mp\.js|hud\.js|gore\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
+
+// Only compact visual state is accepted. Existing dead/active checks still own
+// whether a death is allowed; these fields cannot create gameplay actors.
+function finiteArray(a, n, lo, hi) {
+  return Array.isArray(a) && a.length === n && a.every(v => typeof v === 'number' && Number.isFinite(v) && v >= lo && v <= hi) ? a.slice() : null;
+}
+function cleanPhysical(p, initial = false) {
+  if (!p || typeof p !== 'object' || !Number.isInteger(p.seed) || p.seed < 0 || p.seed > 4294967295) return null;
+  const h = Array.isArray(p.h) && p.h.length === 2 && p.h.map(a => finiteArray(a, 2, -42, 42));
+  const b = finiteArray(p.b, 3, -Math.PI, Math.PI);
+  if (!h || h.some(a => !a) || !b || b[0] < .75 || b[0] > 1.3 || b[1] < .75 || b[1] > 1.3 || h[0][0] > -2 || h[1][0] < 2) return null;
+  if (initial) { const gv = finiteArray(p.gv, 3, -42, 42); return gv ? { seed: p.seed, h, b, gv } : null; }
+  const g = finiteArray(p.g, 3, -42, 42);
+  return p.v === 1 && g ? { v: 1, seed: p.seed, h, b, g, gd: p.gd ? 1 : 0, hd: p.hd ? 1 : 0 } : null;
+}
 
 const srv = http.createServer((req, res) => {
   let u = decodeURIComponent(req.url.split('?')[0]);
@@ -152,7 +167,7 @@ srv.on('upgrade', (req, sock) => {
       if (!k || !player.active || t - (me.fxAt || 0) < 1500 || (k === 'death' && !player.dead)) return;
       me.fxAt = t; if (k === 'vanish') player.safe = Math.max(player.safe, 4);
       const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
-        v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0,
+        v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0, mi: cleanPhysical(m.mi, true),
         lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep) };
       for (const c of room.clients.values()) if (c !== me) send(c, out);
     }
@@ -170,7 +185,7 @@ srv.on('upgrade', (req, sock) => {
       room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
         sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
-        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0 });
+        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0, ps: cleanPhysical(m.ps) });
     }
   }
 

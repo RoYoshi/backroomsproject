@@ -1,3 +1,5 @@
+> Codex physical-death comparison build: see [PHYSICAL-DEATHS.md](PHYSICAL-DEATHS.md) for changes, validation and Claude merge instructions.
+
 # The Far Backrooms — Recovered Production Build
 
 This directory was reconstructed from the HAR capture of the deployed game.
