@@ -1,18 +1,18 @@
 """Remote-spectator check: Alice is killed (admin death preview, real kill path); Bob, standing near, watches the replay of the same death.
    python3 death_spectator.py [outdir] [kind-variant e.g. hound-A]   -> sheet_spectator_<kind><V>.jpg (top: Alice's own view, bottom: Bob's)"""
-import os, sys, asyncio, subprocess, time
+import os, tempfile, sys, asyncio, subprocess, time
 _HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))
 from playwright.async_api import async_playwright
 from PIL import Image
 ARGS=['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']
-PORT=int(os.environ.get('PORT','9150')); OUT=sys.argv[1] if len(sys.argv)>1 else '/tmp/spec'; WHICH=sys.argv[2] if len(sys.argv)>2 else 'hound-A'; os.makedirs(OUT,exist_ok=True)
+PORT=int(os.environ.get('PORT','9150')); OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(tempfile.gettempdir(),'spec'); WHICH=sys.argv[2] if len(sys.argv)>2 else 'hound-A'; os.makedirs(OUT,exist_ok=True)
 kind,var=WHICH.split('-')
 OPEN="""()=>{ const A=__api; for(let y=200;y<6700;y+=48) for(let x=200;x<9000;x+=48){ if(!A.sl(x,y,24)) continue; if((window.__glitches||[]).some(g=>Math.hypot(g.x-x,g.y-y)<260)||(A.lamps||[]).some(l=>Math.hypot(l.x-x,l.y-y)<700)) continue; let ok=true; for(let i=0;i<8;i++) if(A.Uc(x,y,i/8*6.283,300)<280){ok=false;break} if(ok) return [x,y]; } return null }"""
 async def join(c,name):
     P=await c.new_page(); errs=[]; P.on('pageerror',lambda e:errs.append(str(e)[:300]))
     await P.goto(f'http://localhost:{PORT}/?room=spec'); await P.wait_for_timeout(2200)
-    await P.fill('#name',name); await P.evaluate("document.getElementById('enter').click()"); await P.wait_for_timeout(5500); return P,errs
+    await P.fill('#name',name); await P.evaluate("document.getElementById('enter').click(); window.__net && __net.testAuth && __net.testAuth('smoor')"); await P.wait_for_timeout(5500); return P,errs
 async def main():
     srv=subprocess.Popen(['node','server.js',str(PORT)],cwd=ROOT,stdout=open(os.path.join(OUT,'server.log'),'w'),stderr=subprocess.STDOUT); time.sleep(1.2)
     try:

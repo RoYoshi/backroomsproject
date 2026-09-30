@@ -1,6 +1,6 @@
 /* numeric checks of dphys.js: continuity, rest, wall respect, determinism.  node phys_test.js [verbose] */
 const fs = require('fs'), vm = require('vm'), path = require('path');
-const win = {}; vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../../g/dphys.js'), 'utf8'), { window: win, Math });
+const win = {}; vm.runInNewContext(fs.readFileSync(path.join(require('../paths.js'), 'dphys.js'), 'utf8'), { window: win, Math });
 const P = win.__dphys, verbose = process.argv[2] === 'v';
 const hyp = Math.hypot;
 // a room: floor everywhere, walls as blocks at given rects

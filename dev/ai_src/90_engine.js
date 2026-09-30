@@ -138,12 +138,15 @@ function create(cfg) {
   }
   /* an entity that has not gone anywhere for a long while is stuck: set it back on open floor and let it think again */
   function watchdog(e, dt) {
-    const w = e.wd; w.t += dt;
-    if (w.t < 6) return;
-    const moved = Math.hypot(e.x - w.x, e.y - w.y); w.x = e.x; w.y = e.y; w.t = 0;
+    const w = e.wd;
     const idle = e.act === 'listen' || e.act === 'rest' || e.act === 'feed' || e.state === S.HIDDEN || e.state === S.WATCHING || e.state === S.PLAYING || e.state === S.ALERT || e.state === S.CURIOUS || e.state === S.DORMANT || e.state === S.CAUTIOUS || e.state === S.EXCITED || e.state === S.FRUSTRATED || e.act === 'sniff' || e.act === 'freeze' || e.cap;   // standing still on purpose is not being stuck
+    // a hound: only time spent trying to move counts toward 'stuck' (a pause to listen, then walking back past the same spot, is not being stuck).
+    // (smilers keep the original rule: every 6 s, not moving 26 px while not idle - their behaviour tests are tuned against it)
+    if (e.kind === 'hound') { if (!idle) w.t += dt; } else w.t += dt;
+    w.u = (w.u || 0) + dt; if (w.u < 6) return; w.u = 0;                   // looked at every 6 s
+    let stuck = false; if (w.t >= 6) { stuck = Math.hypot(e.x - w.x, e.y - w.y) < 26 && (e.kind === 'hound' || !idle); w.x = e.x; w.y = e.y; w.t = 0; }
     const embedded = !e.trav && !geo.clear(e.x, e.y, 12, e.mode || 'walk');
-    if ((moved < 26 && !idle) || embedded) {
+    if (stuck || embedded) {
       e.unstuck = (e.unstuck || 0) + 1; const nv = navOf(e); nv.recover++; if (embedded) { nv.emergency++; eng.note(`${tagOf(e.kind, e.id)} EMERGENCY un-embed at ${Math.round(e.x)},${Math.round(e.y)}`); }
       const c = geo.snap(e.x, e.y, e.caps, 4);
       if (embedded && c >= 0) { e.x = geo.cx(c); e.y = geo.cy(c); }

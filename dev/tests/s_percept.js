@@ -81,23 +81,25 @@ const ahead = (lk, g) => { const h = Math.atan2(lk.vy || 0, lk.vx || 0), dx = g.
 add('P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming', () => {
   const rs = over([1, 2, 3, 4, 5, 6], s => {
     const w = World(s), p = w.player(5400, LONG.y, {}), h = w.hound(4900, LONG.y); h.ang = 0;
-    p.go(6200, LONG.y, 'run'); let vanished = false, vt = 0, lk = null, firstSearchGoal = null, gaveUp = -1, confAtVanish = 0, conf20 = null;
+    p.go(6200, LONG.y, 'run'); let vanished = false, vt = 0, lk = null, firstSearchGoal = null, gaveUp = -1, confAtVanish = 0, conf20 = null, found = -1, confFound = 0, lastConf = 0;
     w.run(150, (ww, t) => {
       const r = h.mem.p.get(p.id);
       if (!vanished && r && r.seen && t > 1.2) {                                                    // it has just seen the player: now the player is gone (quiet, dark, far away)
         vanished = true; vt = t; lk = { x: r.lkx, y: r.lky, vx: r.lvx, vy: r.lvy }; confAtVanish = r.conf; p.x = 7500; p.y = LONG.y; p.light = false; p.stop('crouch'); p.stamina = 100;
       }
-      if (vanished) {
+      if (vanished && found < 0 && r && r.seen && t - vt > 1) { found = t - vt; confFound = lastConf; }   // a roaming hound came across the crouched player again (legitimately, close by): memory is judged up to here
+      if (vanished && r) lastConf = r.conf;
+      if (vanished && found < 0) {
         if (!firstSearchGoal && h.state === 'SEARCHING' && h.search && h.search.goal) firstSearchGoal = { x: h.search.goal.x, y: h.search.goal.y };
         if (conf20 === null && t - vt > 20 && r) conf20 = r.conf;
         if (gaveUp < 0 && t - vt > 3 && (h.state === 'ROAMING' || h.state === 'DORMANT') && h.mem.p.get(p.id) && h.mem.p.get(p.id).conf < .5) gaveUp = t - vt;
       }
     }, 3);
-    const r = h.mem.p.get(p.id);
-    return { ok: vanished && !!firstSearchGoal && (Math.hypot(firstSearchGoal.x - lk.x, firstSearchGoal.y - lk.y) < 400 || ahead(lk, firstSearchGoal)) && gaveUp > 0 && (!r || r.conf < .2) && (conf20 === null || conf20 < confAtVanish), vanished, gaveUp: +gaveUp.toFixed(1), conf: r ? +r.conf.toFixed(2) : 0 };
+    const r = h.mem.p.get(p.id), confEnd = found >= 0 ? confFound : r ? r.conf : 0;
+    return { ok: vanished && !!firstSearchGoal && (Math.hypot(firstSearchGoal.x - lk.x, firstSearchGoal.y - lk.y) < 400 || ahead(lk, firstSearchGoal)) && gaveUp > 0 && confEnd < .2 && (conf20 === null || conf20 < confAtVanish), vanished, gaveUp: +gaveUp.toFixed(1), conf: +confEnd.toFixed(2), found };
   });
   const c = rs.filter(r => r.vanished);
-  return { ok: rate(rs) >= .8 && c.length >= 5, note: `${rs.filter(r => r.ok).length}/${rs.length}: it searched the last known spot, gave up after ~${avg(rs.filter(r => r.gaveUp > 0).map(r => r.gaveUp)).toFixed(0)}s and its memory of the player had decayed (conf ${avg(rs.map(r => r.conf)).toFixed(2)} at 150s)` };
+  return { ok: rate(rs) >= .8 && c.length >= 5, note: `${rs.filter(r => r.ok).length}/${rs.length}: it searched the last known spot, gave up after ~${avg(rs.filter(r => r.gaveUp > 0).map(r => r.gaveUp)).toFixed(0)}s and its memory of the player had decayed (conf ${avg(rs.map(r => r.conf)).toFixed(2)} at 150 s, or just before a roaming hound came across the crouched player again: ${rs.filter(r => r.found >= 0).map(r => r.found.toFixed(0) + ' s').join(', ') || 'never'})` };
 });
 add('P09 no impossible information: a silent player two rooms away leaves no trace in a roaming hound\'s memory', () => {
   const rs = over([1, 2, 3, 4, 5], s => {

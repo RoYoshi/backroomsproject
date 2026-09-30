@@ -48,7 +48,6 @@ function run(strategy, i, opt = {}) {
     if (p.juke) { p.juke.t -= DT; if (p.juke.t <= 0) { const j = p.juke; p.juke = null; if (j.path) p.route(j.path, p.stamina > 5 && !p.ex ? 'run' : 'walk'); else p.stop(); } }
     w.step(); t += DT;
     if (opt.hook) { const hr = opt.hook(w, h, p, t, P); if (hr) return hr; }                          // a test can take over the player mid-run
-    if (opt.hook) { const hr = opt.hook(w, h, p, t, P); if (hr) return hr; }                          // a test can take over the player mid-run
     if (process.env.TRACE && Math.round(t * 60) % 30 === 0) { const rr = h.mem.p.get(p.id); console.log(t.toFixed(1), h.state, h.act, 'd', Math.round(Math.hypot(h.x - p.x, h.y - p.y)), 'blind', (h.chaseBlind || 0).toFixed(1), 'ear', h.dbg.pursuit && h.dbg.pursuit.ear, 'hLoudAge', rr ? (w.eng.now - rr.hLoud).toFixed(1) : '-', 'heardAge', rr ? (w.eng.now - rr.heardAt).toFixed(1) : '-', 'conf', rr ? rr.conf.toFixed(2) : '-', 'st', p.st, 'sp', Math.round(p.sp), 'tier', h.tier, h.dbg.disengage || ''); }
     if (p.caught || p.dead) { caught = true; break; }
     if (ENG.has(h.state)) notEng = 0; else notEng += DT;

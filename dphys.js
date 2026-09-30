@@ -390,6 +390,43 @@
       return S;
     } catch (e) { console.error('dphys', e); return null; }
   }
+  /* the numbers of each death variant: how far the body is knocked (kn), dragged (dr), when the blows land (hits) and the bundle's timing knobs.
+   * One table, read by the bundle's death class (through ents.deathPlan) and by the server's fallback aftermath (simulate below). */
+  function PLAN(kind, v, wallDist) {
+    const P = { v, kn: 34, dr: kind === 'Hound' ? 128 : 86, hits: null, kt: [.08, .36], dw: [2.03, 3.12], spin: 1.65, squish: 1 };
+    if (kind === 'Hound') {
+      if (v === 'A') { P.kn = 46; P.dr = 40; P.hits = [.2, .62, 1.05, 1.55]; P.spin = 1.9; }
+      else if (v === 'B') { P.kn = 12; P.dr = 140; P.hits = [.3, .85, 1.5, 2.1]; P.dw = [.9, 2.2]; P.spin = 1.2; }
+      else if (v === 'C') { P.kn = clamp((wallDist ?? 40) - 17, 0, 110); P.dr = 0; P.kt = [.04, .2]; P.hits = [.2, .21, .8, 1.4]; P.spin = 2.2; }
+      else { P.kn = 24; P.dr = 26; P.hits = [.45, .95, 1.55]; P.spin = .3; P.squish = 1.9; }
+    } else {
+      if (v === 'B') { P.kn = 0; P.dr = 0; P.hits = [.7, 1.2, 1.7]; P.spin = 1.4; }
+      else if (v === 'C') { P.kn = 18; P.dr = 36; P.hits = [.55, 1.1, 1.6]; }
+      else if (v === 'D') { P.kn = 26; P.dr = 70; P.hits = [.6, 1.2, 1.8]; P.dw = [1.6, 3.0]; }
+    }
+    return P;
+  }
+  /* the whole death, start to rest, without a screen: the same inputs the death class gives begin(), the same knock / drag limits
+   * (the bundle's safeDistance: 4 px steps while a 22 px circle is clear), the same seed.  Used by the server when a victim's own client
+   * never reports its corpse (it disconnected): the aftermath is this simulation's last frame, as it would have been on the victim's screen. */
+  function simulate(o) {
+    const kind = o.kind === 'Smiler' ? 'Smiler' : 'Hound', v = /^[ABCD]$/.test(o.v) ? o.v : 'A', vic = o.victim, src = o.src;
+    const wall = o.w && o.w.length === 3 ? { x: o.w[0], y: o.w[1], ang: o.w[2] } : null;
+    const P = PLAN(kind, v, wall ? hyp(wall.x - vic.x, wall.y - vic.y) : 40), ang = Math.atan2(vic.y - src.y, vic.x - src.x);
+    const safe = (p, a, n) => { let r = 0; for (let i = 4; i <= n && o.clear(p.x + Math.cos(a) * i, p.y + Math.sin(a) * i, 22); i += 4) r = i; return r; };
+    const knock = safe(vic, ang, P.kn), i0 = { x: vic.x + Math.cos(ang) * knock, y: vic.y + Math.sin(ang) * knock }, drag = safe(i0, ang + PI, P.dr);
+    const dur = (DURS[kind] || DURS.Hound)[v] || 4.4;
+    const S = create({ kind, v, victim: { x: vic.x, y: vic.y, angle: vic.angle, vx: o.vx || 0, vy: o.vy || 0 }, src: { x: src.x, y: src.y }, dir: ang,
+      hits: P.hits || [.24, .74, 1.2, 1.7], kn: knock, drag, seed: hsh(vic.x, vic.y, v + kind), exhausted: !!o.exhausted, eqKind: o.eqKind || 'flashlight', hat: o.hat || 'none', walls: o.walls, dur });
+    const bursts = []; let evi = 0;
+    for (let t = 0; t <= dur + 1e-9; t = Math.min(dur, t + 1 / 60)) {        // the frames a screen would have drawn: blood lands where the jaws are at each blow
+      advance(S, t);
+      while (evi < S.ev.length) { const q = S.ev[evi++]; if (q.k === 'hit') { const dx = S.at.x - S.b.x, dy = S.at.y - S.b.y, d = hyp(dx, dy) || 1; bursts.push({ x: S.b.x + dx / d * 9, y: S.b.y + dy / d * 9, seed: q.i }); } }
+      if (t >= dur) break;
+    }
+    const pz = pose(S);
+    return { S, kind, v, angle: ang, dur, body: { x: S.b.x, y: S.b.y, angle: S.b.th, scaleX: pz.sx, scaleY: pz.sy }, attacker: { x: S.at.x, y: S.at.y, angle: S.at.a }, bursts, remains: remains({ ph: S }) };
+  }
   const lab = () => window.__dlab;
   /* the death's own clock: real time, or - for the admin's death lab - slowed, paused or stepped */
   function clock(jl, e) {
@@ -432,5 +469,5 @@
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0 };
   }
 
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains };
+  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, DURS };
 })();

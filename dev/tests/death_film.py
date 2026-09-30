@@ -1,12 +1,12 @@
 """Death animation lab, headless: plays every death frame by frame (the death lab's paused clock) and writes contact sheets.
    python3 death_film.py [outdir] [only]   e.g. python3 death_film.py /tmp/film hound-B     (needs playwright + Pillow)"""
-import os, sys, asyncio, subprocess, time, json
+import os, tempfile, sys, asyncio, subprocess, time, json
 _HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))
 from playwright.async_api import async_playwright
 from PIL import Image
 ARGS=['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']
-PORT=int(os.environ.get('PORT','8983')); OUT=sys.argv[1] if len(sys.argv)>1 else '/tmp/film'; ONLY=sys.argv[2] if len(sys.argv)>2 else ''
+PORT=int(os.environ.get('PORT','8983')); OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(tempfile.gettempdir(),'film'); ONLY=sys.argv[2] if len(sys.argv)>2 else ''
 STEP=int(os.environ.get('STEP','6')); os.makedirs(OUT,exist_ok=True)
 WALL_SPOT="""()=>{ const A=__api; for(let y=200;y<6700;y+=48) for(let x=200;x<9000;x+=48){ if(!A.sl(x,y,24)) continue; if((window.__glitches||[]).some(g=>Math.hypot(g.x-x,g.y-y)<260)||(A.lamps||[]).some(l=>Math.hypot(l.x-x,l.y-y)<230)) continue;
   for(let i=0;i<8;i++){ const a=i/8*Math.PI*2, d=A.Uc(x,y,a,240); if(d>72&&d<108&&A.Uc(x,y,a+.5,240)>60&&A.Uc(x,y,a-.5,240)>60&&A.Uc(x,y,a+Math.PI,240)>150) return [x,y,a+Math.PI]; } } return null }"""
@@ -19,7 +19,7 @@ async def main():
             b=await p.chromium.launch(args=ARGS); c=await b.new_context(viewport={'width':760,'height':520}); A=await c.new_page(); errs=[]
             A.on('pageerror',lambda e:errs.append(str(e)[:300])); A.on('console',lambda m:errs.append(m.text[:200]) if m.type=='error' and 'ERR_TUNNEL' not in m.text and 'favicon' not in m.text else None)
             await A.goto(f'http://localhost:{PORT}/?room=film'); await A.wait_for_timeout(2200)
-            await A.fill('#name','Alice'); await A.evaluate("document.getElementById('enter').click()"); await A.wait_for_timeout(5500)
+            await A.fill('#name','Alice'); await A.evaluate("document.getElementById('enter').click(); window.__net && __net.testAuth && __net.testAuth('smoor')"); await A.wait_for_timeout(5500)
             click=lambda sel: A.evaluate("s=>{const e=document.querySelector(s); if(e){e.click(); return true} return false}",sel)
             await A.keyboard.press('Backquote'); await A.fill('#admPass','smoor'); await A.keyboard.press('Enter'); await A.wait_for_timeout(1400)
             await click('[data-a=tab][data-t=monsters]')

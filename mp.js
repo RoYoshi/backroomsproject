@@ -35,6 +35,7 @@ const N = window.__net = {
   join() { exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
   respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; window.__kill = null; tx({ t: 'respawn' }); },
   leave() { tx({ t: 'leave' }); },
+  testAuth(pass) { N._auth = pass; tx({ t: 'admin', pass, quiet: 1 }); },     // automated tests: admin authority (for their debug teleports) without opening the admin panel
   fx: m => startFx(m),
   deathStart(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'death', c: d.kind, x: Math.round(d.victim.x), y: Math.round(d.victim.y), a: +d.victim.angle.toFixed(3), sx: Math.round(d.source.x), sy: Math.round(d.source.y),
     vx: Math.round((A.H && A.H.vx) || 0), vy: Math.round((A.H && A.H.vy) || 0), ex: A.H && (A.H.exhausted || A.H.stamina < 22) ? 1 : 0, v: d.variant || 'A', w: d.wall ? [Math.round(d.wall.x), Math.round(d.wall.y), +d.wall.ang.toFixed(3)] : 0 })); },
@@ -54,13 +55,16 @@ function connect() {
   if (location.protocol === 'file:') return;
   try { ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?room=' + encodeURIComponent(room)); } catch { return; }
   ws.onopen = () => {
+    netReset();                                                                // a connection is a new server timeline
     retry = 0; handled = 0; mseq = 0; me = ''; everConnected = true;
     const A = window.__api; if (A && A.started()) tx({ t: 'join' });      // re-enter the world after a reconnect
     if (adm.pass) tx({ t: 'admin', pass: adm.pass });                         // stay unlocked across reconnects (kept in memory only)
+    if (N._auth) tx({ t: 'admin', pass: N._auth, quiet: 1 });
   };
   ws.onmessage = e => {
     let m; try { m = JSON.parse(e.data); } catch { return; }
     if (m.t === 'hi') { myId = m.id; const A = window.__api; if (A) A.H.id = myId; }
+    else if (m.t === 'admin' && m.q) { /* a test's quiet unlock: nothing to show */ }
     else if (m.t === 'admin') {
       adm.unlocked = !!m.ok; adm.err = m.ok ? '' : (m.wait ? 'TOO MANY TRIES · WAIT ' + m.wait + 'S' : 'WRONG PASSCODE');
       if (!m.ok) adm.pass = null;
@@ -96,6 +100,7 @@ function connect() {
     }
   };
   ws.onclose = () => {
+    netReset();
     for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; cpNow = 0; window.__kill = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null); sSlot.fill(null);
     if (EN()) { EN().clearDebug(); EN().dbgCfg.on = false; EN().drawDebug(); EN().setFails([]); }
     if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; }
@@ -123,9 +128,16 @@ function entitySignals(e) {
  * drawn ~100 ms in the past, interpolated between the two samples around that moment (shortest-arc facing), so motion is even whatever the packet
  * timing - instead of chasing the newest snapshot (which surged after each packet and stalled when one was late).  If packets stop it extrapolates
  * for at most 150 ms, then holds.  A jump of more than 300 px between samples (respawn / admin move) is never smoothed across. */
-const NET = { off: null, hist: new Map(), DELAY: .1 };
+const NET = { off: null, hist: new Map(), DELAY: .1, lastSt: null, epoch: 0, onEpoch: null };
+/* a new server timeline: a new connection, or a server clock that went backwards (a room thrown away and made again starts its clock at 0 and
+ * reuses entity ids).  Everything tied to the old timeline goes: the pose histories (so an id cannot inherit an old pose) and the clock offset. */
+function netReset() { NET.off = null; NET.hist.clear(); NET.lastSt = null; NET.epoch++; if (NET.onEpoch) NET.onEpoch(); }
 function netHist(e, nowMs) {
   if (typeof e.st !== 'number') return;
+  // snapshots arrive in order (one TCP stream) and the clock only moves forward within a world: a step back of more than 0.25 s - or a leap of
+  // more than 30 s - is a different world.  Ordinary jitter never does that (it changes arrival times, not the server's clock).
+  if (NET.lastSt !== null && (e.st < NET.lastSt - .25 || e.st > NET.lastSt + 30)) netReset();
+  NET.lastSt = e.st;
   const arr = nowMs / 1000, smp = e.st - arr;                                // server clock minus our clock, plus this packet's latency
   NET.off = NET.off === null || smp > NET.off ? smp : NET.off - Math.min(.02, NET.off - smp) * .05;    // follow the fastest packets; drift down slowly
   const put = (k, t) => { let h = NET.hist.get(k); if (!h) NET.hist.set(k, h = []); if (h.length && h[h.length - 1].t >= e.st) return; h.push({ t: e.st, x: t.x, y: t.y, a: t.a }); if (h.length > 8) h.shift(); h.seen = e.st; };
@@ -148,6 +160,7 @@ function netPose(key) {
   return h[h.length - 1];
 }
 window.__netPose = netPose; window.__NET = NET;
+NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); };           // entity slots belong to the old world too
 function applyServerState(dt) {
   const A = window.__api, s = snap, E = EN();
   if (!A || !s || !E) return;

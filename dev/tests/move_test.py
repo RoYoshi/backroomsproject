@@ -118,7 +118,7 @@ async def main():
         c=await b.new_context(viewport={'width':640,'height':420}); pg=await c.new_page()
         errs=[]; pg.on('pageerror',lambda e:errs.append(str(e)[:300]))
         await pg.goto(f'http://localhost:{PORT}/'); await pg.wait_for_timeout(2500)
-        await pg.fill('#name','Tester'); await pg.click('#enter'); await pg.wait_for_timeout(5000)
+        await pg.fill('#name','Tester'); await pg.click('#enter'); await pg.evaluate("()=>window.__net && __net.testAuth && __net.testAuth('smoor')"); await pg.wait_for_timeout(5000)
         await pg.keyboard.press('Escape'); await pg.wait_for_timeout(500)          # pause the game loop: only our steps move the player
         print('paused', await pg.evaluate("()=>__api.paused()"))
         r=await pg.evaluate(JS)

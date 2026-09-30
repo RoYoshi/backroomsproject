@@ -1,4 +1,4 @@
-/* CHASE / SEARCH / HIDING / CRAWLSPACES acceptance (Part 1C).  Real AI, real level, real stamina rules (the harness mirrors move.js).
+/* CHASE / SEARCH / HIDING / CRAWLSPACES acceptance (Part 1C).  Real AI, real level; players move with the game's own move.js (dev/move_model.js lists what is still not the real client).
  * Numbered as in the Part 1C brief (section 38).  Nothing here gives an entity information a player could not give it: the tests check that. */
 'use strict';
 const { World, DT, dist, geo, rate, avg, pick } = require('./lib.js');
@@ -47,18 +47,22 @@ add('C3 it does not track the hidden prey exactly: after losing it, its goals co
 });
 add('C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)', () => {
   // the MID setup of the escape bench (a hound that heard the prey ~520 px away in the dark; the prey sprints, breaks sight and walks on quietly);
-  // the first time the hound is searching within earshot (750 px) with the prey out of its sight, the prey panics and sprints again
+  // the first time the hound is searching within 750 px with the prey out of its sight - and the prey has the legs to run (not exhausted) -
+  // the prey panics and sprints.  Measured: did the hound hear that run, and how long from the first loud step it heard to hunting again.
   const rs = [];
   for (let i = 0; i < 40 && rs.length < 10; i++) {
-    let sprintAt = -1;
+    let sprintAt = -1, sprintNow = 0, heardAt = -1;
     const r = E.run('break-walk', i, { light: false, startD: 520, lim: 60, hook: (w, h, p, t, P) => {
-      if (sprintAt < 0) { if (h.state === 'SEARCHING' && dist(h, p) < 750 && lostSight(w, h, p) && !h.mem.p.get(p.id).seen) { sprintAt = t; p.quiet = true; p.panic = true; const q = hideSpot(w, p, h, P, i + 7); if (q) p.pathTo(q.x, q.y, 'run'); else p.mode = 'run'; } return null; }
+      const rr = h.mem.p.get(p.id);
+      if (sprintAt < 0) { if (h.state === 'SEARCHING' && dist(h, p) < 750 && lostSight(w, h, p) && !rr.seen && !p.ex) { sprintAt = t; sprintNow = w.eng.now; p.quiet = true; p.panic = true; const q = hideSpot(w, p, h, P, i + 7); if (q) p.pathTo(q.x, q.y, 'run'); else p.mode = 'run'; } return null; }
       if (p.mode === 'walk' && !p.ex) p.mode = 'run';
-      if (h.state === 'HUNTING') return { reAt: t - sprintAt };
-      if (t - sprintAt > 6) return { reAt: -1 };
+      if (heardAt < 0 && rr && rr.hLoud > sprintNow) heardAt = t;
+      if (h.state === 'HUNTING') return { reAt: t - sprintAt, byEar: heardAt >= 0 ? t - heardAt : -1 };
+      if (t - sprintAt > 6) return { reAt: -1, byEar: -1, heard: heardAt >= 0 };
       return null; } });
     if (r && r.reAt !== undefined) rs.push(r); }
-  return { ok: rs.length >= 4 && rate(rs, r => r.reAt >= 0 && r.reAt < 2) >= .75, note: `${rs.length} runs where the prey had slipped away quietly (the hound searching within earshot) and then broke into a run: back to the hunt within 2 s in ${(rate(rs, r => r.reAt >= 0 && r.reAt < 2) * 100) | 0}% (avg ${avg(rs.filter(r => r.reAt >= 0).map(r => r.reAt)).toFixed(2)} s)` };
+  const heard = rs.filter(r => r.reAt >= 0 || r.heard), fast = rate(heard, r => r.reAt >= 0 && r.byEar >= 0 && r.byEar < 1);
+  return { ok: rs.length >= 6 && heard.length >= rs.length * .6 && fast >= .9, note: `${rs.length} runs where the prey had slipped away quietly (the hound searching within 750 px) and then broke into a run; the hound heard the run in ${heard.length}; of those it was hunting again within 1 s of the first loud step it heard in ${(fast * 100) | 0}% (avg ${avg(heard.filter(r => r.byEar >= 0).map(r => r.byEar)).toFixed(2)} s; from the prey's first step: ${avg(rs.filter(r => r.reAt >= 0).map(r => r.reAt)).toFixed(2)} s); not heard (walls / distance) ${rs.length - heard.length}` };
 });
 add('C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you', () => {
   const quiet = [], stay = [];
@@ -178,3 +182,8 @@ add('C19 / C20 no geometry clipping and no NaN in chases, searches and crawlspac
 });
 module.exports = S;
 S.hunt = hunt; S.hideSpot = hideSpot;
+add('B1 (test infrastructure) the escape bench calls a test hook exactly once per simulation step', () => {
+  let calls = 0; const ts = new Set();
+  for (let i = 0; i < 20 && !calls; i++) E.run('straight', i, { light: false, startD: 520, lim: 6, hook: (w, h, p, t) => { calls++; ts.add(t.toFixed(6)); return null; } });   // the first seed with a valid start
+  return { ok: calls > 100 && calls === ts.size, note: `${calls} hook calls over ${ts.size} distinct steps` };
+});

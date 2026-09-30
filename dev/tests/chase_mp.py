@@ -1,11 +1,11 @@
 """Part 1C browser check: launch with no errors, the SEARCH + MEMORY and CRAWLSPACES debug layers, a hunt that loses the player.
    python3 chase_mp.py [outdir]   -> prints JSON; writes crawl_overlay.jpg (crawlspaces + the selected hound's search/memory layer) and chase_overlay.jpg"""
-import os, sys, asyncio, subprocess, time, json
+import os, tempfile, sys, asyncio, subprocess, time, json
 _HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))
 from playwright.async_api import async_playwright
 ARGS=['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']
-PORT=int(os.environ.get('PORT','9352')); OUT=sys.argv[1] if len(sys.argv)>1 else '/tmp/chase_mp'; os.makedirs(OUT,exist_ok=True)
+PORT=int(os.environ.get('PORT','9352')); OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(tempfile.gettempdir(),'chase_mp'); os.makedirs(OUT,exist_ok=True)
 async def main():
     srv=subprocess.Popen(['node','server.js',str(PORT)],cwd=ROOT,stdout=open(os.path.join(OUT,'server.log'),'w'),stderr=subprocess.STDOUT); time.sleep(1.2)
     R={}
@@ -14,7 +14,7 @@ async def main():
             b=await p.chromium.launch(args=ARGS)
             c=await b.new_context(viewport={'width':900,'height':600}); A=await c.new_page(); errs=[]
             A.on('pageerror',lambda e:errs.append(str(e)[:300])); A.on('console',lambda m:errs.append(m.text[:200]) if m.type=='error' and 'ERR_TUNNEL' not in m.text and 'fonts.g' not in m.text and 'favicon' not in m.text else None)
-            await A.goto(f'http://localhost:{PORT}/?room=chase'); await A.wait_for_timeout(2200); await A.fill('#name','Alice'); await A.evaluate("document.getElementById('enter').click()"); await A.wait_for_timeout(5000)
+            await A.goto(f'http://localhost:{PORT}/?room=chase'); await A.wait_for_timeout(2200); await A.fill('#name','Alice'); await A.evaluate("document.getElementById('enter').click(); window.__net && __net.testAuth && __net.testAuth('smoor')"); await A.wait_for_timeout(5000)
             click=lambda sel: A.evaluate("s=>{const e=document.querySelector(s); if(e){e.click(); return true} return false}",sel)
             await A.keyboard.press('Backquote'); await A.fill('#admPass','smoor'); await A.keyboard.press('Enter'); await A.wait_for_timeout(1200)
             await click('[data-a=tab][data-t=monsters]')

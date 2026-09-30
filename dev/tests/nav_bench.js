@@ -124,7 +124,7 @@ function pursuit(F, n) {
 
 /* a player circles a counter-sized obstacle (the level's counters / pillars) forever; the hound hunts (real AI) */
 function obstacleLoop(F) {
-  const out = []; const W = require('../../g/world.js');
+  const out = []; const W = require(require('../paths.js') + '/world.js');
   const props = (W.PROPS || []).filter(p => p.type === 'low' && (p.kind === 'counter' || p.kind === 'machine' || p.kind === 'shelf'));
   for (const [k, pr] of props.entries()) {
     const cx = (pr.tx + pr.tw / 2) * 96, cy = (pr.ty + pr.th / 2) * 96, rx = pr.tw * 48 + 70, ry = pr.th * 48 + 70;

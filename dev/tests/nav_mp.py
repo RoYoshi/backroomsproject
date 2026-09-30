@@ -2,12 +2,12 @@
    python3 nav_mp.py [outdir]    -> prints JSON; writes nav_overlay.jpg
    Alice (admin) summons a hound from across the level; Bob, a second client, records where he draws it every animation frame.
    Evenness = how much the drawn speed varies frame to frame while the hound runs (lower is smoother; server-side speed is nearly constant)."""
-import os, sys, asyncio, subprocess, time, json
+import os, tempfile, sys, asyncio, subprocess, time, json
 _HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))
 from playwright.async_api import async_playwright
 ARGS=['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']
-PORT=int(os.environ.get('PORT','9350')); OUT=sys.argv[1] if len(sys.argv)>1 else '/tmp/nav_mp'; os.makedirs(OUT,exist_ok=True)
+PORT=int(os.environ.get('PORT','9350')); OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(tempfile.gettempdir(),'nav_mp'); os.makedirs(OUT,exist_ok=True)
 REC="""(ms)=>new Promise(res=>{ const out=[]; const t0=performance.now(); const f=()=>{ const v=__api.layer().children.filter(c=>c.__hound&&c.visible&&c.g); if(v.length) out.push([performance.now(), v[0].x, v[0].y, v[0].rotation]); if(performance.now()-t0<ms) requestAnimationFrame(f); else res(out) }; requestAnimationFrame(f) })"""
 async def main():
     srv=subprocess.Popen(['node','server.js',str(PORT)],cwd=ROOT,stdout=open(os.path.join(OUT,'server.log'),'w'),stderr=subprocess.STDOUT); time.sleep(1.2)
@@ -18,7 +18,7 @@ async def main():
             async def join(name):
                 c=await b.new_context(viewport={'width':760,'height':520}); P=await c.new_page(); errs=[]
                 P.on('pageerror',lambda e:errs.append(str(e)[:300])); P.on('console',lambda m:errs.append(m.text[:200]) if m.type=='error' and 'ERR_TUNNEL' not in m.text and 'fonts.g' not in m.text and 'favicon' not in m.text else None)
-                await P.goto(f'http://localhost:{PORT}/?room=nav'); await P.wait_for_timeout(2200); await P.fill('#name',name); await P.evaluate("document.getElementById('enter').click()"); await P.wait_for_timeout(5000); return P,errs
+                await P.goto(f'http://localhost:{PORT}/?room=nav'); await P.wait_for_timeout(2200); await P.fill('#name',name); await P.evaluate("document.getElementById('enter').click(); window.__net && __net.testAuth && __net.testAuth('smoor')"); await P.wait_for_timeout(5000); return P,errs
             A,ea=await join('Alice'); B,eb=await join('Bob')
             click=lambda P,sel: P.evaluate("s=>{const e=document.querySelector(s); if(e){e.click(); return true} return false}",sel)
             await A.keyboard.press('Backquote'); await A.fill('#admPass','smoor'); await A.keyboard.press('Enter'); await A.wait_for_timeout(1200)

@@ -115,18 +115,54 @@ function addPlayer(id){
 function removePlayer(p){const i=players.indexOf(p);if(i>=0)players.splice(i,1)}
 function spawn(p){Object.assign(p,{x:Ic.x,y:Ic.y,vx:0,vy:0,dead:``,safe:3,exited:false,caught:null,kill:null,st:0,sp:0,stamina:100,ex:0});p.evq.length=0}
 function join(p){
+  if(p.active&&p.caught&&!p.dead)return false;                         // no walking out of a capture through the menu: it ends in a death or a release
   const others=players.some(o=>o!==p&&o.active&&!o.exited);
   p.active=true;spawn(p);p.t0=runT;
   if(!others)resetWorld();
+  return true;
 }
-function respawn(p){if(p.pvEnt){eng.remove(p.pvEnt);p.pvEnt=0}if(p.active)spawn(p)}
+/* the player lifecycle.  respawn is the way back from a death: legal only for an active player who is dead, or whom an admin has
+   revived (revive clears the death and leaves a one-time permit).  A living player - free or held in a capture - cannot respawn: that
+   would be a free teleport home with full stamina and spawn protection.  Returns whether it happened. */
+function canRespawn(p){return !!(p.active&&(p.dead||p.reviveOk))}
+function respawn(p){if(!canRespawn(p))return false;if(p.pvEnt){eng.remove(p.pvEnt);p.pvEnt=0}p.reviveOk=false;spawn(p);return true}
 function leave(p){p.active=false;p.dead=``;p.caught=null}
 
+/* movement validation (server.js): could a body get from a to b?  Only real walls and full-height furniture count ('any' mode: every
+   crawl hole, table and vaultable prop is passable, since the client's own movement handles those).  Short hops are checked along the
+   segment; a long one (packets bunched up after a lag spike) needs a walkable route no longer than the distance budget. */
+function moveOk(x0,y0,x1,y1,budget){
+  WORLD.setMode(`any`);
+  try{
+    if(!sl(x1,y1,4))return false;
+    const d=Math.hypot(x1-x0,y1-y0);if(d<1)return true;
+    let clearLine=true;for(let s=8;s<d;s+=8){const k=s/d;if(!sl(x0+(x1-x0)*k,y0+(y1-y0)*k,3)){clearLine=false;break}}
+    if(clearLine)return true;
+    if(d<120)return false;
+    const r=eng.geo.path(x0,y0,x1,y1,{CAN_VAULT:true,CAN_CRAWL:true,CAN_USE_TIGHT_GAPS:true});
+    if(!r||!r.length)return false;
+    let L=0,px=x0,py=y0;for(const w of r){L+=Math.hypot(w.x-px,w.y-py);px=w.x;py=w.y}
+    return L<=budget*1.25+60;
+  }finally{WORLD.setMode(`walk`)}
+}
+/* where a client may put itself when it starts a run or respawns: the client picks its own spawn (open floor away from the monsters, the
+   bundle's Xrs); the server only checks it is such a spot (with some margin for how far the monsters moved while the packet travelled) */
+function spawnOk(x,y){
+  if(!sl(x,y,20))return false;
+  for(const e of eng.entities){const d=Math.hypot(e.x-x,e.y-y);if(e.kind===`hound`&&d<1100)return false;if(e.kind===`smiler`&&d<600&&e.state!==`HIDDEN`)return false}
+  return true;
+}
 /* what the client tells us about how it is moving: state, speed, stamina and a few discrete noises (vault, landing, slide) */
 function hearMove(p,m){
   if(!m||typeof m!==`object`)return;
   const c=(v,lo,hi)=>Math.max(lo,Math.min(hi,+v||0));
   p.st=c(m.s,0,7)|0;p.stamina=c(m.st,0,100);p.ex=m.ex?1:0;p.sp=c(m.sp,0,600);
+  // a claim cannot be quieter than the movement the server actually accepted (server.js measures it over ~0.5 s): moving fast while
+  // claiming to stand / crouch / crawl is heard as the gait that speed needs; walking pace claimed at running speed is heard as running
+  const ov=p.obsV||0;
+  if(ov>p.sp)p.sp=Math.min(600,ov);
+  if((p.st===0||p.st===3||p.st===4)&&ov>150)p.st=ov>250?2:1;
+  else if(p.st===1&&ov>245)p.st=2;
   if(Array.isArray(m.ev))for(const e of m.ev.slice(0,6))if(Array.isArray(e)&&p.evq.length<12)p.evq.push([e[0]|0,c(e[1],0,100)]);
 }
 /* the numbers the AI reads about each player, refreshed every step */
@@ -234,7 +270,8 @@ const admin={
     cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
 };
 function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;eng.sound({x:p.x,y:p.y,r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
-resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,leave,step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
+resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,
+  clearAt:(x,y,r)=>sl(x,y,r),blockersAt:(x,y)=>Bc(x,y),step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},
   debug:{V,Ic,get glitches(){return glitches}}};

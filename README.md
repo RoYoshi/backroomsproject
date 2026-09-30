@@ -384,7 +384,7 @@ Most of the brief was already true of the v16 smiler (no aggression UI, nothing 
   - One that can crawl goes in.
   - A crawlspace is not a safe box.
 - **Crouching is not invisibility.** It lowers the vision range, but a still, crouched player right in front of a hound in the dark is still noticed. The vision floor is now 150 px.
-- **Exhaustion matters physically.** Acceleration drops to 62% while exhausted, and recovery ends at 36 stamina, not 24. The test harness now mirrors `move.js` exactly.
+- **Exhaustion matters physically.** Acceleration drops to 62% while exhausted, and recovery ends at 36 stamina, not 24. (v22 claimed the test harness mirrored `move.js` exactly; it did not - see v22.1, where the harness runs `move.js` itself.)
 - **Watchdog fix.** The stuck-detector no longer resets a hound that is deliberately standing still (frustrated pacing, sniffing, freezing). Before, it silently turned a search into wandering.
 - **Debug overlay** (admin DEBUG tab, section "CHASE · SEARCH · HIDING"):
   - SEARCH + MEMORY: last known position and heading, uncertainty ring and estimate, last heard sound, search goal and its kind, phase, legs, time left, memory age, exits tried, times re-acquired by ear, and the give-up reason.
@@ -403,3 +403,34 @@ Most of the brief was already true of the v16 smiler (no aggression UI, nothing 
 A hound 320-420 px behind a seen runner catches ~93-100%. An exhausted runner is caught in ~2.5 s.
 
 **Not done in this part (by design):** the visual cut-away, cast shadows, advanced shading, the Smiler overhaul, the menu and 2.5D.
+
+## v22.1 - Part 1 audit remediation (targeted fixes only)
+
+Fixes for the concrete findings of the independent Part 1 audit. No rebalancing, no Part 2. Details and numbers are in the delivery report; in short:
+
+1. **Malformed URLs.** `server.js` no longer crashes on a bad percent-escape (`/%`). It answers `400 Bad request` without paths or stack traces and keeps serving.
+2. **Reconnect / new world.** `mp.js` clears interpolation history, the clock offset and entity slots at every connection boundary, and whenever the server clock steps back more than 0.25 s or jumps ahead more than 30 s. An id reused by a new room can no longer inherit an old pose. Ordinary jitter never triggers a reset.
+3. **Respawn lifecycle** (`sim.js`: `canRespawn` / `respawn` / `join`):
+   - A respawn is accepted only from a legal state: the player is active and either dead, or revived by an admin (a one-time permit).
+   - A living player cannot respawn, whether free or held in a capture.
+   - A held player cannot start a new run either.
+   - A refused request is answered with the player's real position.
+4. **Movement validation** (`server.js` + `sim.moveOk` / `sim.spawnOk`):
+   - Every non-admin player has a distance budget. It refills at 360 px/s (130 px/s while held, 0 while dead) and holds up to 1.5 s of movement, with 28 px of slack counted as debt.
+   - A move must fit the budget and must not cross walls or full-height furniture. Props that the client's own movement handles are passable.
+   - A long hop after a lag burst is accepted only if a real route that short exists (at most 3 such route checks per second).
+   - A refused move keeps the server's position. The client is corrected at once if it is more than 220 px off, or after 0.6 s of repeated refusals.
+   - Spawn, respawn and admin moves reset the check. In-flight packets are ignored for 0.9 s afterwards.
+   - The first position after a join or respawn is the client's own spawn choice, as before. It is accepted only on open floor away from the monsters.
+   - Admins are not checked, because their debug tools move them from the client.
+   - Noise claims can't be quieter than the movement the server accepted. A client claiming to stand still while moving fast is heard as walking or running.
+5. **Death aftermath survives a disconnect** (`death_srv.js`):
+   - The server keeps each committed death until its corpse exists.
+   - If the victim's client has not sent its replay within 1.5 s, or has gone, the server sends the replay itself.
+   - If the corpse has not arrived when the death would have ended, the server makes it. The window is plus 0.6 s once the victim is gone, or plus 8 s while it is still connected.
+   - The fallback corpse comes from the same physical death: `dphys.js` runs on the server with the same inputs, and the death plan numbers are now one shared table (`dphys.PLAN`).
+   - Bodies are keyed by player id, so there is never a second corpse or a second dropped light.
+6. **Chase test model.** Scripted players now move with the real `move.js` (`dev/move_model.js`). The remaining differences are listed in that file.
+7. **Package-relative dev paths.** The tools and tests use `dev/paths.js`, and the build scripts write into the game folder they belong to.
+8. **Escape bench.** The duplicate hook call was removed (test B1).
+9. **Hound watchdog.** The corrected tests exposed this: a hound that paused to listen and then walked back past its old spot was reset as "stuck" and stopped dead. The watchdog now counts only a hound's time spent trying to move. Smilers keep the original rule.

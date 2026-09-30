@@ -1,4 +1,4 @@
-const WORLD=require('../g/world.js');const sim=require('./sim_geo.js')();const D=sim.debug;
+const WORLD=require(require('./paths.js') + '/world.js');const sim=require('./sim_geo.js')();const D=sim.debug;
 console.log('props',WORLD.PROPS.length);
 const bad=[];
 for(const p of WORLD.PROPS){

@@ -60,7 +60,7 @@
    *   crawl - crouched crawlers get through wall holes and under furniture */
   const W = { T, PROPS, LOW, UNDER, GAPS, mode: 'walk' };
   W.setMode = m => { W.mode = m; };
-  W.blocks = p => p.type === 'low' || p.type === 'window' || (p.type === 'under' && W.mode === 'walk') || (p.type === 'gap' && W.mode !== 'crawl');
+  W.blocks = p => W.mode !== 'any' && (p.type === 'low' || p.type === 'window' || (p.type === 'under' && W.mode === 'walk') || (p.type === 'gap' && W.mode !== 'crawl'));      // 'any': only walls and full-height furniture (the server's movement check)
 
   /* add prop rects near (x,y) to a list of blocking rects (called from the game's / sim's Bc) */
   W.addNear = function (list, x, y) {

@@ -1,12 +1,12 @@
 """Kill commitment, live: Alice is killed by a hound (death lab preview, real kill path) while Bob stands close by and watches.
    Records, every 200 ms for 9 s: where Bob sees the real hound (its view, when visible), the death-replay attacker, and the server's hound.
    python3 commit_mp.py [outdir]"""
-import os, sys, asyncio, subprocess, time, json
+import os, tempfile, sys, asyncio, subprocess, time, json
 _HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))
 from playwright.async_api import async_playwright
 ARGS=['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']
-PORT=int(os.environ.get('PORT','9330')); OUT=sys.argv[1] if len(sys.argv)>1 else '/tmp/commit_mp'; os.makedirs(OUT,exist_ok=True)
+PORT=int(os.environ.get('PORT','9330')); OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(tempfile.gettempdir(),'commit_mp'); os.makedirs(OUT,exist_ok=True)
 async def main():
     srv=subprocess.Popen(['node','server.js',str(PORT)],cwd=ROOT,stdout=open(os.path.join(OUT,'server.log'),'w'),stderr=subprocess.STDOUT); time.sleep(1.2)
     try:
@@ -14,7 +14,7 @@ async def main():
             b=await p.chromium.launch(args=ARGS)
             async def join(name):
                 c=await b.new_context(viewport={'width':640,'height':440}); P=await c.new_page(); errs=[]; P.on('pageerror',lambda e:errs.append(str(e)[:300]))
-                await P.goto(f'http://localhost:{PORT}/?room=commit'); await P.wait_for_timeout(2200); await P.fill('#name',name); await P.evaluate("document.getElementById('enter').click()"); await P.wait_for_timeout(5000); return P,errs
+                await P.goto(f'http://localhost:{PORT}/?room=commit'); await P.wait_for_timeout(2200); await P.fill('#name',name); await P.evaluate("document.getElementById('enter').click(); window.__net && __net.testAuth && __net.testAuth('smoor')"); await P.wait_for_timeout(5000); return P,errs
             A,ea=await join('Alice'); B,eb=await join('Bob')
             click=lambda P,sel: P.evaluate("s=>{const e=document.querySelector(s); if(e){e.click(); return true} return false}",sel)
             await A.keyboard.press('Backquote'); await A.fill('#admPass','smoor'); await A.keyboard.press('Enter'); await A.wait_for_timeout(1200)

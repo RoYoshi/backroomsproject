@@ -19,7 +19,7 @@ async def enter(b,name,room):
     pg.on('console',lambda m:pg.errs.append('console.error: '+m.text[:160]) if m.type=='error' and 'favicon' not in m.text else None)
     pg.on('dialog',lambda d:asyncio.ensure_future(d.accept()))
     await pg.goto(f'http://localhost:{PORT}/?room={room}'); await pg.wait_for_timeout(2200)
-    await pg.fill('#name',name); await pg.evaluate("document.getElementById('enter').click()"); await pg.wait_for_timeout(1500)
+    await pg.fill('#name',name); await pg.evaluate("document.getElementById('enter').click(); window.__net && __net.testAuth && __net.testAuth('smoor')"); await pg.wait_for_timeout(1500)
     await pg.evaluate("""()=>{ Object.defineProperty(window,'__kill',{configurable:true,get(){return this.__kv||null},set(v){this.__kv=v; if(v) window.__killLog=(window.__killLog||[]).concat([{v:v.v,k:v.k,w:v.w?1:0}])}}) }""")   # the game consumes the record when the death starts: keep a copy
     return pg
 

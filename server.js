@@ -20,7 +20,10 @@ const SERVE = /^\/(index\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {
-  let u = decodeURIComponent(req.url.split('?')[0]);
+  let u;
+  try { u = decodeURIComponent(String(req.url || '/').split('?')[0]); }
+  catch (e) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Bad request'); }       // malformed %-escapes (e.g. "/%"): refuse, never crash
+  if (u.includes('\0')) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Bad request'); }
   if (u === '/') u = '/index.html';
   const f = path.join(ROOT, path.normalize(u));
   // drop-in custom sounds: any files in ./sounds are listed and served (see sounds/README.txt)
@@ -51,6 +54,77 @@ const srv = http.createServer((req, res) => {
 
 const rooms = new Map();
 let nextId = 1;
+const deathSrv = require('./death_srv.js');
+
+/* Movement validation.  Movement stays client-side; the server only refuses what a body cannot do.  Every player has a distance budget
+ * that refills at VMAX px/s (the fastest legal motion - a sprint-slide or a fast vault - plus ~20 %) and holds at most BURST seconds of it,
+ * so packets that arrive bunched after a lag spike still fit.  A move must fit the budget and not pass through walls (sim.moveOk).
+ * A refused move leaves the server's position where it was; if the client keeps claiming somewhere else it is sent a correction.
+ * Held in a capture the budget is small (the drag and a crawl); dead it is zero.  Server-side moves (spawn, respawn, admin tools) reset
+ * it, with a short grace in which in-flight packets from before the move are ignored instead of corrected.  Admins are not checked:
+ * their debug tools move them from the client. */
+const MV = { VMAX: 360, VHELD: 130, BURST: 1.5, SLACK: 28, SNAP: 220, GRACE: 900 };
+function mvReset(me, grace = true) { const p = me.player; me.mv = { t: Date.now(), bud: MV.VMAX * MV.BURST, grace: grace ? Date.now() + MV.GRACE : 0, bad: 0, badAt: 0, paths: 0, pathT: 0, hist: [[Date.now(), p.x, p.y]] }; p.obsV = 0; }
+function mvAccept(me, x, y) {
+  const p = me.player, v = me.mv, now = Date.now();
+  v.hist.push([now, x, y]); while (v.hist.length > 2 && now - v.hist[1][0] > 500) v.hist.shift();
+  const h0 = v.hist[0], el = (now - h0[0]) / 1000;
+  p.obsV = el > .2 ? Math.hypot(x - h0[1], y - h0[2]) / el : p.obsV;        // what the server saw it do, over the last ~0.5 s
+  p.x = x; p.y = y;
+}
+function mvCheck(room, me, x, y) {
+  const p = me.player; if (!me.mv) mvReset(me, false);
+  const v = me.mv, now = Date.now(), dt = Math.min(MV.BURST, Math.max(0, (now - v.t) / 1000)); v.t = now;
+  const cap = p.dead ? 0 : p.caught ? MV.VHELD : MV.VMAX;
+  v.bud = Math.min(cap * MV.BURST, v.bud + cap * dt);
+  const d = Math.hypot(x - p.x, y - p.y);
+  let ok = d <= v.bud + MV.SLACK;
+  if (ok && d > 0.5) {
+    if (d >= 120) { if (now - v.pathT > 1000) { v.pathT = now; v.paths = 0; } ok = ++v.paths <= 3 && room.sim.moveOk(p.x, p.y, x, y, v.bud + MV.SLACK); }      // at most 3 route checks a second
+    else ok = room.sim.moveOk(p.x, p.y, x, y, v.bud + MV.SLACK);
+  }
+  if (ok) { v.bud = Math.max(-MV.SLACK, v.bud - d); v.bad = 0; mvAccept(me, x, y); return true; }       // the slack is a debt, not a free allowance per packet
+  me.mvRefused = (me.mvRefused | 0) + 1;
+  if (now < v.grace) return false;                                          // packets sent before a server-side move: ignore them
+  if (!v.bad) v.badAt = now; v.bad++;
+  if (d > MV.SNAP || now - v.badAt > 600) { v.bad = 0; v.grace = now + MV.GRACE; me.mvCorr = (me.mvCorr | 0) + 1; send(me, { t: 'tp', x: Math.round(p.x), y: Math.round(p.y) }); }
+  return false;
+}
+/* a server-side move of a player (spawn, admin tools): set it, tell the client when asked, and restart the movement check from there */
+/* Death aftermath.  When the server commits a death it keeps the event (kill record + the victim's look and gear) until the corpse exists.
+ * The victim's client normally sends the replay ('fx') and then the corpse ('b').  If it has not sent the replay 1.5 s after the kill -
+ * or has disconnected - the server sends the same replay itself; if the corpse has not come when the death would have finished
+ * (plus 8 s of slack while the victim is still connected, 0.6 s once it is gone), the server makes it from the same physical simulation
+ * (death_srv.js).  Bodies are keyed by player id, so a late client corpse simply replaces the server's: never two. */
+function aftStart(room, c) {
+  const p = c.player; c.aftSeq = p.dseq;
+  room.afts = (room.afts || []).filter(a => a.id !== c.id);
+  room.afts.push({ id: c.id, seq: p.dseq, at: Date.now(), kill: Object.assign({}, p.kill), fx: false, body: false,
+    info: { name: c.name, look: c.look, ek: p.equipment.kind, ec: HEX.test(c.color) ? c.color : '#ffe7b2', ep: c.lp || '', vx: p.vx, vy: p.vy, ex: p.ex || (p.stamina != null && p.stamina < 22) ? 1 : 0, light: p.light } });
+}
+const aftOf = (room, id) => (room.afts || []).find(a => a.id === id && !a.body);
+function aftTick(room) {
+  if (!room.afts || !room.afts.length) return;
+  const now = Date.now();
+  for (const a of room.afts) {
+    const victim = room.clients.get(a.id), gone = !victim || victim.player.dseq !== a.seq && !victim.player.dead;
+    if (!a.fx && (gone || now - a.at > 1500)) {
+      a.fx = true; a.fxSrv = true; const out = deathSrv.fxFor(a.id, a.kill, a.info);
+      for (const c of room.clients.values()) if (c.id !== a.id) send(c, out);
+    }
+    if (!a.body && now > a.at + (deathSrv.durOf(a.kill) + (gone ? .6 : 8)) * 1000) {
+      a.body = true;
+      try {
+        const R = deathSrv.bodyFor(a.id, a.kill, a.info, room.sim);
+        room.sim.setBody(a.id, R.body); a.srvBody = true;
+        if (a.kill.k !== 'Smiler' && room.sim.killerEnd) room.sim.killerEnd(a.id, R.attacker.x, R.attacker.y, R.attacker.angle);
+        console.log(`[death] room=${room.name} #${a.id}: the victim's client never reported its corpse - the server made it`);
+      } catch (e) { console.error('[death] fallback failed', e && e.message); }
+    }
+  }
+  room.afts = room.afts.filter(a => !a.body || now - a.at < 60000);
+}
+function moveTo(me, x, y, tell = true) { Object.assign(me.player, { x, y }); if (tell) send(me, { t: 'tp', x, y }); mvReset(me); }
 
 function frame(str) {
   const b = Buffer.from(str), n = b.length;
@@ -84,10 +158,10 @@ function adminCommand(room, me, m) {
     case 'kick':
       if (target && target !== me) { log(`kick ${target.name}#${target.id}`); res(true, 'KICKED ' + who(target)); send(target, { t: 'kick' }); setTimeout(() => { try { target.sock.write(Buffer.from([0x88, 0])); target.sock.end(); } catch (e) {} }, 150); }
       break;
-    case 'revive': if (target) { log(`revive ${target.name}`); target.player.dead = ''; target.player.safe = 3; A.endPreview(target.player); send(target, { t: 'revive' }); res(true, 'REVIVED ' + who(target)); } break;
+    case 'revive': if (target) { log(`revive ${target.name}`); target.player.dead = ''; target.player.reviveOk = true; target.player.safe = 3; A.endPreview(target.player); send(target, { t: 'revive' }); res(true, 'REVIVED ' + who(target)); } break;
     case 'god': if (target) { const on = A.god(target.player); log(`god ${target.name} -> ${on}`); res(true, 'GOD MODE ' + (on ? 'ON' : 'OFF') + ' · ' + who(target)); } break;
-    case 'bring': if (target && target !== me) { log(`bring ${target.name}`); const { x, y } = me.player; Object.assign(target.player, { x, y }); send(target, { t: 'tp', x, y }); res(true, 'BROUGHT ' + who(target)); } break;
-    case 'goto': if (target && target !== me) { log(`goto ${target.name}`); const { x, y } = target.player; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); res(true, 'WENT TO ' + who(target)); } break;
+    case 'bring': if (target && target !== me) { log(`bring ${target.name}`); const { x, y } = me.player; moveTo(target, x, y); res(true, 'BROUGHT ' + who(target)); } break;
+    case 'goto': if (target && target !== me) { log(`goto ${target.name}`); const { x, y } = target.player; moveTo(me, x, y); res(true, 'WENT TO ' + who(target)); } break;
     case 'freeze': log(`freeze ${!!m.on}`); A.freeze(m.on); res(true, m.on ? 'WORLD FROZEN' : 'WORLD RUNNING'); break;
     case 'speed': log(`speed ${m.v}`); A.speed(m.v); res(true, 'WORLD SPEED ×' + A.info().sp); break;
     case 'blackout': log(`blackout ${m.mode}`); A.blackout(m.mode); res(true, 'LIGHTS: ' + (m.mode === 'on' ? 'BLACKOUT ON' : m.mode === 'off' ? 'BLACKOUT OFF' : 'AUTO')); break;
@@ -96,12 +170,12 @@ function adminCommand(room, me, m) {
     case 'glitch':
       log(`glitch ${m.mode}`);
       if (m.mode === 'new') { A.newGlitches(); res(true, 'GLITCHED WALLS MOVED'); }
-      else { const g = A.nearestGlitch(me.player.x, me.player.y); if (g) { const x = g.x - g.nx * 96, y = g.y - g.ny * 96; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); res(true, 'AT THE NEAREST GLITCHED WALL'); } }
+      else { const g = A.nearestGlitch(me.player.x, me.player.y); if (g) { const x = g.x - g.nx * 96, y = g.y - g.ny * 96; moveTo(me, x, y); res(true, 'AT THE NEAREST GLITCHED WALL'); } }
       break;
     case 'item':
       log(`item ${m.mode}`);
       if (m.mode === 'new') { A.newItem(); res(true, 'CARTOGRAPH MOVED'); }
-      else { const g = A.nearestItem(me.player.x, me.player.y); if (g) { const x = g.x + 70, y = g.y; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); res(true, 'AT THE CARTOGRAPH'); } else res(false, 'THE CARTOGRAPH HAS BEEN TAKEN'); }
+      else { const g = A.nearestItem(me.player.x, me.player.y); if (g) { const x = g.x + 70, y = g.y; moveTo(me, x, y); res(true, 'AT THE CARTOGRAPH'); } else res(false, 'THE CARTOGRAPH HAS BEEN TAKEN'); }
       break;
     case 'monsters': log('reset monsters'); A.resetMonsters(); res(true, 'MONSTERS RESPAWNED'); break;
     case 'debug':
@@ -113,10 +187,10 @@ function adminCommand(room, me, m) {
       log(`preview death ${k} ${v}: ${r.ok ? 'ok' : r.why}`); res(r.ok, r.ok ? `PLAYING ${k.toUpperCase()} ${v}` : String(r.why).toUpperCase()); break;
     }
     case 'capmode': { const cm = A.captureMode(m.mode); log(`capture style ${cm}`); res(true, 'CAPTURE STYLE: ' + (cm === 'quick' ? 'ALWAYS QUICK KILLS' : cm === 'play' ? 'ALWAYS PLAY WITH THE VICTIM' : 'AUTO (THE ENTITY DECIDES)')); break; }
-    case 'entgoto': { const e = A.entityAt(m.eid), s = e && A.spotNear(e.x, e.y); if (s) { Object.assign(me.player, s); send(me, { t: 'tp', x: s.x, y: s.y }); log(`goto entity ${m.eid}`); res(true, 'WENT TO ENTITY #' + (m.eid | 0)); } else res(false, 'NO SUCH ENTITY'); break; }
+    case 'entgoto': { const e = A.entityAt(m.eid), s = e && A.spotNear(e.x, e.y); if (s) { moveTo(me, s.x, s.y); log(`goto entity ${m.eid}`); res(true, 'WENT TO ENTITY #' + (m.eid | 0)); } else res(false, 'NO SUCH ENTITY'); break; }
     case 'nav': { const r = room.sim.navCmd(m.eid | 0, String(m.cmd || ''), me.player); log(`nav ${m.cmd} #${m.eid}`); res(!!r, r ? 'ENTITY #' + (m.eid | 0) + ': ' + r : 'NO SUCH ENTITY'); break; }
     case 'entdel': { const ok = A.removeEntity(m.eid); log(`remove entity ${m.eid}`); res(ok, ok ? 'ENTITY #' + (m.eid | 0) + ' REMOVED' : 'NO SUCH ENTITY'); break; }
-    case 'world': log('reset world'); A.resetWorld(); for (const c of room.clients.values()) if (c.player.active) send(c, { t: 'tp', x: c.player.x, y: c.player.y }); res(true, 'NEW RUN FOR EVERYONE'); break;
+    case 'world': log('reset world'); A.resetWorld(); for (const c of room.clients.values()) { if (c.player.active) send(c, { t: 'tp', x: c.player.x, y: c.player.y }); mvReset(c); } res(true, 'NEW RUN FOR EVERYONE'); break;
     case 'msg': { const text = String(m.text || '').slice(0, 140).trim(); if (text) { log(`broadcast "${text}"`); for (const c of room.clients.values()) send(c, { t: 'msg', text, from: me.name }); res(true, 'SENT'); } break; }
   }
 }
@@ -146,8 +220,17 @@ srv.on('upgrade', (req, sock) => {
       me.last = now;
       const p = player;
       if (!p.dead) {                       // a caught player's body stays where it fell
-        p.x = num(m.x, 0, 96 * 96); p.y = num(m.y, 0, 72 * 96);
-        p.vx = num(m.vx, -500, 500); p.vy = num(m.vy, -500, 500);
+        const x = num(m.x, 0, 96 * 96), y = num(m.y, 0, 72 * 96);
+        let ok = true;
+        if (me.admin) { if (!me.mv) mvReset(me, false); mvAccept(me, x, y); me.mv.bud = MV.VMAX * MV.BURST; }     // admin debug tools move the admin from its own client
+        else if (!p.active) { p.x = x; p.y = y; }                              // in the menu: not in the world, nothing to check
+        else if (me.spawnNext) {                                              // the first position after a join / respawn: where the client chose to spawn
+          me.spawnNext = false;
+          if (room.sim.spawnOk(x, y)) { p.x = x; p.y = y; mvReset(me, false); }
+          else { me.mv.grace = 0; ok = mvCheck(room, me, x, y); }               // not a spawn spot: an ordinary move from the server's spawn point (corrected at once if it is not one)
+        }
+        else ok = mvCheck(room, me, x, y);                                     // refused: the position stays; the rest of the packet still counts
+        if (ok) { p.vx = num(m.vx, -500, 500); p.vy = num(m.vy, -500, 500); }
       }
       p.angle = +m.a || 0; p.sprinting = !!m.r; p.light = m.l !== 0;
       p.equipment.kind = kindOf(m.k);
@@ -155,13 +238,17 @@ srv.on('upgrade', (req, sock) => {
       if (HEX.test(m.c)) me.color = m.c;
       me.look = cleanLook(m.lk) || me.look; me.lp = cleanParts(m.lp);
       me.angle = p.angle; me.sprint = m.r ? 1 : 0; me.fall = m.f >= 0 && m.f <= 1 ? +m.f : -1;
-    } else if (m.t === 'join') room.sim.join(player);
-    else if (m.t === 'respawn') room.sim.respawn(player);
+    } else if (m.t === 'join') { if (room.sim.join(player)) { mvReset(me); me.spawnNext = true; } else send(me, { t: 'tp', x: Math.round(player.x), y: Math.round(player.y) }); }
+    else if (m.t === 'respawn') {                                          // only from a death (or an admin revive): see sim.respawn
+      if (room.sim.respawn(player)) { mvReset(me); me.spawnNext = true; }
+      else { me.respawnRefused = (me.respawnRefused | 0) + 1; send(me, { t: 'tp', x: Math.round(player.x), y: Math.round(player.y) }); }
+    }
     else if (m.t === 'leave') room.sim.leave(player);                       // NEW RUN -> END / menu: no longer in the world
     else if (m.t === 'fx') {                                                // replay someone's death / vanishing for everybody else
       const t = Date.now(), k = m.k === 'death' ? 'death' : m.k === 'vanish' ? 'vanish' : '';
       if (!k || !player.active || t - (me.fxAt || 0) < 1500 || (k === 'death' && !player.dead)) return;
       me.fxAt = t; if (k === 'vanish') player.safe = Math.max(player.safe, 4);
+      if (k === 'death') { const a = aftOf(room, id); if (a) { if (a.fx) return; a.fx = true; } }        // the server already replayed it for this victim: not twice
       const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
         v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0,
         lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep), vx: num(m.vx, -900, 900), vy: num(m.vy, -900, 900), ex: m.ex ? 1 : 0 };
@@ -171,7 +258,7 @@ srv.on('upgrade', (req, sock) => {
     else if (m.t === 'admin') {
       const now = Date.now(), f = fails.get(ip) || { n: 0, until: 0 };
       if (now < f.until) return send(me, { t: 'admin', ok: false, wait: Math.ceil((f.until - now) / 1000) });
-      if (passOk(m.pass)) { me.admin = true; fails.delete(ip); console.log(`[admin] ${me.name}#${id} unlocked admin (room ${name})`); send(me, { t: 'admin', ok: true }); }
+      if (passOk(m.pass)) { me.admin = true; fails.delete(ip); console.log(`[admin] ${me.name}#${id} unlocked admin (room ${name})`); send(me, { t: 'admin', ok: true, q: m.quiet ? 1 : 0 }); }
       else { if (++f.n >= 5) { f.until = now + 60000; f.n = 0; } fails.set(ip, f); console.log(`[admin] ${me.name}#${id} wrong admin passcode (room ${name})`); send(me, { t: 'admin', ok: false, wait: f.until > now ? 60 : 0 }); }
     }
     else if (m.t === 'a') { if (me.admin) adminCommand(room, me, m); }
@@ -180,6 +267,7 @@ srv.on('upgrade', (req, sock) => {
       if (!player.dead && m.c !== 'Vanish') return;
       const n3 = a => [num(a && a[0], 0, 9216), num(a && a[1], 0, 6912), num(a && a[2], -20, 20)];
       if (m.c === 'Hound' && Array.isArray(m.ka) && room.sim.killerEnd) room.sim.killerEnd(id, num(m.ka[0], 0, 9216), num(m.ka[1], 0, 6912), num(m.ka[2], -20, 20));   // where the kill animation left the hound
+      { const a = aftOf(room, id); if (a) a.body = true; }                 // the victim's own corpse: the server's fallback is not needed
       room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
         sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
@@ -222,6 +310,8 @@ setInterval(() => {
     if (n) { const per = Number(process.hrtime.bigint() - h0) / 1e6 / n; room.pf.ms += (per - room.pf.ms) * .05; room.pf.max = Math.max(per, room.pf.max * .995); }      // milliseconds per 60 Hz step (average / recent worst)
     if (++room.tick % SNAP_EVERY) continue;
 
+    for (const c of room.clients.values()) if (c.player.dead && c.player.kill && c.aftSeq !== c.player.dseq) aftStart(room, c);
+    aftTick(room);
     const ent = room.sim.entities();
     const peers = [];
     for (const c of room.clients.values()) {

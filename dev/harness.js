@@ -1,9 +1,11 @@
-/* Scenario harness: drives the real server simulation (sim.js + ai.js) with scripted puppet players, headless and deterministic. */
+/* Scenario harness: drives the real server simulation (sim.js + ai.js) with scripted players, headless and deterministic.
+ * Players move with the game's own move.js (see move_model.js for what is and is not the real client). */
 'use strict';
 const GAME = require('./paths.js');
 const createSim = require(GAME + '/sim.js');
 const WORLD = require(GAME + '/world.js');
 const AI = require(GAME + '/ai.js');
+const { makeMover } = require('./move_model.js');
 const DT = 1 / 60;
 const SP = { stand: 0, walk: 172, run: 285, crouch: 92, crawl: 54, slide: 230 }, ST = { stand: 0, walk: 1, run: 2, crouch: 3, crawl: 4, slide: 5, vault: 6, down: 7 };
 
@@ -26,6 +28,7 @@ function World(seed = 1, opts = {}) {
     p.stop = (mode = 'stand') => { p.tx = null; p.path = null; p.mode = mode; };
     p.pathTo = (tx, ty, mode = 'walk') => { const r = eng.geo.path(p.x, p.y, tx, ty, { CAN_VAULT: false }); if (r) p.route(r.map(q => ({ x: q.x, y: q.y })), mode); return !!r; };
     p.exhaust = () => { p.stamina = 0; p.ex = 1; };
+    p.slide = () => { p.slideNow = true; };                                            // press the slide key (while running)
     w.players.push(p); return p;
   };
   w.hound = (x, y, o) => { const e = eng.spawn('hound', x, y, o); e.tier = 'near'; return e; };
@@ -49,37 +52,27 @@ function World(seed = 1, opts = {}) {
     return out.sort((a, b) => b.len - a.len);
   };
 
-  function collide(p, dx, dy, mode) {
-    const r = 14, mm = mode === 'crawl' ? 'crawl' : mode === 'crouch' ? 'walk' : 'walk';
-    for (const ax of [0, 1]) {
-      if (ax === 0) p.x += dx; else p.y += dy;
-      for (const t of ad.blockers(p.x, p.y, mm)) {
-        const nx = Math.max(t.x, Math.min(p.x, t.x + t.w)), ny = Math.max(t.y, Math.min(p.y, t.y + t.h)), ddx = p.x - nx, ddy = p.y - ny, d = Math.hypot(ddx, ddy);
-        if (d < r) { if (d > 0) { p.x += ddx / d * (r - d); p.y += ddy / d * (r - d); } }
-      }
-    }
-  }
+  /* every scripted player is moved by the game's own move.js (move_model.js): the same acceleration, stamina, exhaustion, deep carpet,
+   * crouch / crawl, vaults and collision as the browser.  The bot only chooses a direction, whether to run and whether to crouch. */
   function drive(p) {
-    if (p.dead || p.caught) { p.vx = p.vy = 0; if (p.caught) { const cap = p.caught; p.st = cap.phase === 'down' ? 7 : 4; } return; }
+    const M = p.mover || (p.mover = makeMover(sim, WORLD, () => w.t)), H = M.H;
+    if (Math.hypot(H.x - p.x, H.y - p.y) > .5) { H.x = p.x; H.y = p.y; H.vx = H.vy = 0; }        // a test put the player somewhere: start from rest there
+    H.stamina = p.stamina; H.exhausted = !!p.ex;
+    if (p.dead) { p.vx = p.vy = 0; H.vx = H.vy = 0; return; }
+    M.hold(p.caught ? sim.capInfo(p) : 0);
     let tgt = p.tx;
-    if (p.path && p.path.length) { tgt = p.path[0]; if (Math.hypot(tgt.x - p.x, tgt.y - p.y) < 20) { p.path.shift(); tgt = p.path[0] || null; if (!tgt) { p.mode = 'stand'; } } }
-    let mode = p.mode;
-    if (mode === 'run' && (p.stamina <= 0 || p.ex)) mode = 'walk';
-    const MV = WORLD.MOVE;                                             // the game's own numbers (move.js does the same on the client)
-    let v = SP[mode] || 0; if (p.ex && mode === 'walk') v = MV.exhaustedWalk;
-    if (mode === 'run') v = MV.walk + (MV.run - MV.walk) * (.42 + .58 * Math.min(1, Math.max(0, p.stamina / 32)));     // running slows as stamina drops
-    if (tgt && v > 0) {
-      const dx = tgt.x - p.x, dy = tgt.y - p.y, d = Math.hypot(dx, dy);
-      if (d < 4 && !p.path) { p.tx = null; v = 0; }
-      else { p.angle = Math.atan2(dy, dx); p.vx = dx / d * v; p.vy = dy / d * v; }
-    } else { p.vx = p.vy = 0; v = 0; }
-    if (v > 0) collide(p, p.vx * DT, p.vy * DT, mode);
-    p.sp = v; p.st = ST[mode] | 0; p.sprinting = mode === 'run' && v > 0;
-    const R = MV.staminaRegen, still = v === 0;
-    if (mode === 'run' && v > 0) p.stamina = Math.max(0, p.stamina - MV.staminaDrainRun * DT);
-    else p.stamina = Math.min(100, p.stamina + (still ? (mode === 'crouch' ? R.crouch : mode === 'crawl' ? R.crawl : R.stand) : mode === 'crouch' ? R.crouchWalk : mode === 'crawl' ? R.crawl : R.walk) * (p.ex ? .7 : 1) * DT);
-    if (p.stamina <= .1) p.ex = 1; else if (p.ex && p.stamina >= MV.recoverAt) p.ex = 0;
-    p.wdist = (p.wdist || 0) + v * DT;
+    if (p.path && p.path.length) { tgt = p.path[0]; if (Math.hypot(tgt.x - p.x, tgt.y - p.y) < 20) { p.path.shift(); tgt = p.path[0] || null; if (!tgt) { p.mode = p.mode === 'crouch' || p.mode === 'crawl' ? p.mode : 'stand'; } } }
+    const mode = p.mode; let ix = 0, iy = 0;
+    if (tgt && mode !== 'stand') {
+      const dx = tgt.x - p.x, dy = tgt.y - p.y, d = Math.hypot(dx, dy), sp0 = Math.hypot(H.vx, H.vy);
+      if (!p.path && d < Math.max(5, sp0 / 14)) { if (sp0 < 20 || d < 3) p.tx = null; }      // arriving: let go of the keys and coast to a stop, as a player does
+      else { ix = dx; iy = dy; } }
+    M.step(ix, iy, mode === 'run', mode === 'crouch' || mode === 'crawl', DT, p.slideNow); p.slideNow = false;
+    const sp = Math.hypot(H.vx, H.vy);
+    if (ix || iy) p.angle = Math.atan2(iy, ix); H.angle = p.angle;
+    p.x = H.x; p.y = H.y; p.vx = H.vx; p.vy = H.vy; p.stamina = H.stamina; p.ex = H.exhausted ? 1 : 0; p.sprinting = !!H.sprinting;
+    sim.hearMove(p, M.net()); p.stamina = H.stamina;                      // exactly what the client sends (state, speed, stamina, exhaustion, vault / slide noises); the exact stamina stays with the body
+    p.wdist = (p.wdist || 0) + sp * DT;
   }
   w.step = function () {
     for (const p of w.players) if (p.active) drive(p);

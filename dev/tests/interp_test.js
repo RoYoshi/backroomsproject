@@ -41,4 +41,36 @@ for (const [name, late] of cases) {
   ok = ok && pass;
   console.log((pass ? 'PASS ' : 'FAIL ') + name + `: drawn speed varies ${(n.cv * 100).toFixed(1)} % frame to frame (was ${(o.cv * 100).toFixed(1)} %), mean ${n.speed} px/s (true 292; was ${o.speed}), biggest single-frame move ${n.maxStep} px (was ${o.maxStep}), biggest facing change per frame ${n.turn} rad (was ${o.turn})`);
 }
+/* a new world (audit fix): the room is thrown away and made again - its clock starts near 0 and it reuses entity id 1.  The client must draw the
+ * new world at once, not stay frozen on the old one's last pose.  Stepping the same stream through code given as `code` (the fixed mp.js, or an
+ * older one passed with OLD_MP=path) shows the difference. */
+function newWorld(code, gapMs) {
+  const a2 = code.indexOf('const NET = {'), b2 = code.indexOf('window.__netPose');
+  const M = new Function('performance', 'window', code.slice(a2, b2) + '\nreturn { NET, netHist, netPose };')(performance, window);
+  NOW = 0; let at = 0;
+  for (let k = 0; k <= 40; k++) { at = k * 50; NOW = at; M.netHist({ st: 60 + k * .05, h: [{ i: 1, x: 5000, y: 3000, a: 0 }] }, at); }         // old world: h1 standing at x 5000
+  const t0 = at + gapMs; let firstNear = -1; const ep0 = M.NET.epoch;
+  for (let k = 0; k <= 40; k++) {
+    at = t0 + k * 50; M.netHist({ st: 1 + k * .05, h: [{ i: 1, x: 1000 + k * 14, y: 1200, a: 0 }] }, at);                                       // new world: h1 near x 1000, walking
+    for (let f = 0; f < 3; f++) { NOW = at + f * 16.7; const q = M.netPose('h1'); if (firstNear < 0 && q && Math.abs(q.x - 1000) < 700) firstNear = NOW - t0; }
+  }
+  NOW = at; const last = M.netPose('h1');
+  return { firstNear, lastX: last ? Math.round(last.x) : null, epochs: M.NET.epoch !== undefined ? M.NET.epoch - ep0 : null };
+}
+/* ordinary jitter and a repeated / reordered snapshot never reset anything */
+function jitterKeeps(code) {
+  const a2 = code.indexOf('const NET = {'), b2 = code.indexOf('window.__netPose');
+  const M = new Function('performance', 'window', code.slice(a2, b2) + '\nreturn { NET, netHist, netPose };')(performance, window);
+  const R = rng(7); let resets = 0, ep = M.NET.epoch;
+  for (let k = 0; k < 200; k++) { const st = 100 + k * .05; NOW = k * 50 + R() * 90; M.netHist({ st: k % 17 === 5 ? st - .05 : st, h: [{ i: 1, x: k * 14, y: 0, a: 0 }] }, NOW); if (M.NET.epoch !== ep) { resets++; ep = M.NET.epoch; } }
+  return { resets, hist: M.NET.hist.get('h1').length };
+}
+{
+  const nw = newWorld(src, 400), jk = jitterKeeps(src);
+  const pass = nw.firstNear >= 0 && nw.firstNear < 250 && Math.abs(nw.lastX - 1560) < 120 && nw.epochs === 1 && jk.resets === 0 && jk.hist >= 6;
+  ok = ok && pass;
+  let old = '';
+  if (process.env.OLD_MP) { const o = newWorld(fs.readFileSync(process.env.OLD_MP, 'utf8'), 400); old = ` (the code in ${path.basename(process.env.OLD_MP)}: ${o.firstNear < 0 ? 'never' : Math.round(o.firstNear) + ' ms'}, still drawn at x ${o.lastX} after 2 s)`; }
+  console.log((pass ? 'PASS ' : 'FAIL ') + `new world with a lower clock and a reused id: drawn in the new world ${Math.round(nw.firstNear)} ms after its first snapshot, at x ${nw.lastX} after 2 s (new world truth 1560), timeline resets ${nw.epochs}${old}; 200 jittered / reordered snapshots in one world: resets ${jk.resets}, history kept (${jk.hist} samples)`);
+}
 console.log(ok ? 'interpolation checks passed' : 'SOME FAILED'); process.exitCode = ok ? 0 : 1;

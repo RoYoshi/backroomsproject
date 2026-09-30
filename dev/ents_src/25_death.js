@@ -6,18 +6,11 @@
 E.deathPlan = function (jl, kind, K) {
   const v = K && /^[ABCD]$/.test(K.v) ? K.v : 'A';
   const wall = K && K.w && K.w.length === 3 ? { x: K.w[0], y: K.w[1], ang: K.w[2] } : null;
-  const P = { v, wall, kn: 34, dr: kind === 'Hound' ? 128 : 86, hits: null, kt: [.08, .36], dw: [2.03, 3.12], spin: 1.65, squish: 1, black: null };
-  if (kind === 'Hound') {
-    if (v === 'A') { P.kn = 46; P.dr = 40; P.hits = [.2, .62, 1.05, 1.55]; P.spin = 1.9; }                               // at the throat: knocked hard, held down
-    else if (v === 'B') { P.kn = 12; P.dr = 140; P.hits = [.3, .85, 1.5, 2.1]; P.dw = [.9, 2.2]; P.spin = 1.2; }             // pulled down and dragged away
-    else if (v === 'C') {                                                                                                  // slammed into a wall that is really there
-      const d = wall ? Math.hypot(wall.x - jl.victim.x, wall.y - jl.victim.y) : 40;
-      P.kn = clamp(d - 17, 0, 110); P.dr = 0; P.kt = [.04, .2]; P.hits = [.2, .21, .8, 1.4]; P.spin = 2.2;
-    } else { P.kn = 24; P.dr = 26; P.hits = [.45, .95, 1.55]; P.spin = .3; P.squish = 1.9; }                                // D: nothing left, goes down in a heap
-  } else {
-    if (v === 'B') { P.kn = 0; P.dr = 0; P.hits = [.7, 1.2, 1.7]; P.spin = 1.4; P.black = t => sm(.05, .12, t) * (1 - sm(.85, 1.6, t)); }   // cornered: it closes, everything goes black, the body falls where it stood
-    else if (v === 'C') { P.kn = 18; P.dr = 36; P.hits = [.55, 1.1, 1.6]; P.black = t => sm(.02, .07, t) * (1 - sm(.4, .9, t)) * .8; }         // the lights failed: the last dark
-    else if (v === 'D') { P.kn = 26; P.dr = 70; P.hits = [.6, 1.2, 1.8]; P.dw = [1.6, 3.0]; }                                                // it has played long enough
+  // the numbers (knock, drag, blows, timing) live in dphys.js: one table for this death class and for the server's fallback aftermath
+  const P = Object.assign(window.__dphys.PLAN(kind, v, wall ? Math.hypot(wall.x - jl.victim.x, wall.y - jl.victim.y) : 40), { wall, black: null });
+  if (kind !== 'Hound') {                                                                                                       // the smiler's blackouts
+    if (v === 'B') P.black = t => sm(.05, .12, t) * (1 - sm(.85, 1.6, t));                                                    // cornered: it closes, everything goes black, the body falls where it stood
+    else if (v === 'C') P.black = t => sm(.02, .07, t) * (1 - sm(.4, .9, t)) * .8;                                            // the lights failed: the last dark
   }
   return P;
 };

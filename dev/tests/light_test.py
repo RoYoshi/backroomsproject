@@ -1,11 +1,11 @@
 """Part 1A objective QA: entity visibility vs lighting.   python3 light_test.py [outdir]   (needs playwright; writes light_report.json + 3 screenshots)
    Pins a real (frozen) hound / smiler at chosen spots through the live client and records every frame: view alpha, tint, light sample."""
-import os, sys, asyncio, subprocess, time, json
+import os, tempfile, sys, asyncio, subprocess, time, json
 _HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))
 from playwright.async_api import async_playwright
 ARGS=['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']
-PORT=int(os.environ.get('PORT','9310')); OUT=sys.argv[1] if len(sys.argv)>1 else '/tmp/light_qa'; os.makedirs(OUT,exist_ok=True)
+PORT=int(os.environ.get('PORT','9310')); OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(tempfile.gettempdir(),'light_qa'); os.makedirs(OUT,exist_ok=True)
 
 SPOTS="""()=>{ const A=__api, L=A.lamps, free=(x,y)=>A.sl(x,y,26);
   const near=(x,y)=>Math.min(...L.map(l=>Math.hypot(l.x-x,l.y-y)));
@@ -36,7 +36,7 @@ async def main():
                 c=await b.new_context(viewport={'width':760,'height':520}); P=await c.new_page(); errs=[]
                 P.on('pageerror',lambda e:errs.append(str(e)[:300])); P.on('console',lambda m:errs.append(m.text[:200]) if m.type=='error' and 'ERR_TUNNEL' not in m.text and 'fonts.g' not in m.text and 'favicon' not in m.text else None)
                 await P.goto(f'http://localhost:{PORT}/?room=light'); await P.wait_for_timeout(2200)
-                await P.fill('#name',name); await P.evaluate("document.getElementById('enter').click()"); await P.wait_for_timeout(5000); return P,errs
+                await P.fill('#name',name); await P.evaluate("document.getElementById('enter').click(); window.__net && __net.testAuth && __net.testAuth('smoor')"); await P.wait_for_timeout(5000); return P,errs
             A,ea=await join('Alice')
             click=lambda P,sel: P.evaluate("s=>{const e=document.querySelector(s); if(e){e.click(); return true} return false}",sel)
             ok('light module loaded', await A.evaluate("()=>!!window.__light&&typeof __light.sample==='function'"))

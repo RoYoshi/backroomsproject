@@ -68,7 +68,7 @@ async def main():
         async with async_playwright() as p:
             b=await p.chromium.launch(args=ARGS); c=await b.new_context(viewport={'width':800,'height':500}); pg=await c.new_page(); errs=[]
             pg.on('pageerror',lambda e:errs.append(str(e)[:200]))
-            await pg.goto(f'http://localhost:{PORT}/'); await pg.wait_for_timeout(2500); await pg.fill('#name','T'); await pg.evaluate("document.getElementById('enter').click()"); await pg.wait_for_timeout(4500)
+            await pg.goto(f'http://localhost:{PORT}/'); await pg.wait_for_timeout(2500); await pg.fill('#name','T'); await pg.evaluate("document.getElementById('enter').click(); window.__net && __net.testAuth && __net.testAuth('smoor')"); await pg.wait_for_timeout(4500)
             await pg.evaluate("()=>__api.tp(5000,3504)"); await pg.wait_for_timeout(500)
             names=['hound_growl','hound_guard','hound_snarl','hound_lungecue','hound_kill','hound_step','hound_breath_hard','hound_breath_idle','hound_scrape','smiler_form','smiler_rush','lamp_out','knock','gasp','release','hound_far','hound_left']
             res=await pg.evaluate(JS,names); rows=[]

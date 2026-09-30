@@ -4,12 +4,20 @@ Nothing here is needed to play or host the game; `server.js` never serves this f
 
 ## What it is
 
-`harness.js` runs the **real** `sim.js` + `ai.js` (the same code the server runs) headless at 60 Hz with scripted "puppet" players, so a scenario is a few lines: put a player and an entity somewhere, run the clock, look at what the simulation did. Entities are never scripted; the scenarios only set the stage and measure what emerges. Everything is seeded and deterministic (scenario Y08 checks that).
+`harness.js` runs the **real** `sim.js` + `ai.js` (the same code the server runs) headless at 60 Hz with scripted players, so a scenario is a few lines: put a player and an entity somewhere, run the clock, look at what the simulation did. Entities are never scripted; the scenarios only set the stage and measure what emerges. Everything is seeded and deterministic (scenario Y08 checks that).
+
+Since v22.1 the scripted players move with the game's own **`move.js`** (`move_model.js` runs one copy per player): acceleration, exhausted acceleration, stamina, recovery at 36, deep carpet, crouch / crawl, vaults, slides, the 15 px body and the level's collision are the browser's. What is still not a real client is listed at the top of `move_model.js`: the bot steers straight at its next waypoint and lets go of the keys as it arrives, sets crouch as a state instead of pressing C, faces where it moves, and runs at a fixed 1/60 s with no network (live_chase.js covers the network path). Benchmarks from it are measurements of bots, not of how fair a chase feels to a person.
+
+All paths are package-relative (`paths.js`: `../g` in the working tree, `..` in the shipped package), so the commands below work from the extracted zip as they are, from any directory.
 
 ## Run
 
 ```
-node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_smiler2.js s_capture.js s_system.js s_admin.js s_commit.js s_nav.js s_chase.js    # 114 scenarios (s_nav = Part 1B navigation, s_chase = Part 1C chase / search / hiding / crawlspaces)
+node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_smiler2.js s_capture.js s_system.js s_admin.js s_commit.js s_nav.js s_chase.js s_audit.js    # 122 scenarios (s_nav = Part 1B, s_chase = Part 1C, s_audit = audit fixes in the simulation)
+node dev/tests/audit_net.js                                              # audit fixes on the wire (real server + sockets): malformed URLs, respawn rules, movement validation, spawn choice, death aftermath on disconnect
+node dev/tests/phys_test.js                                              # the physical death simulation (dphys.js)
+python3 dev/tests/play_mp.py                                             # browser: an ordinary player moving around online is never corrected by the movement check
+python3 dev/tests/fallback_parity.py                                     # browser: the server's fallback corpse == the corpse the victim's own browser made
 node dev/tests/escape_bench.js all 16                                    # escape rates by player strategy (MID=1 / FAR=1 / DARK=1 for the dark, farther starts)
 node dev/tests/live_chase.js break-walk 6                                # the same chase through the real server + WebSocket at the client's send rate
 python3 dev/tests/chase_mp.py                                           # browser: the SEARCH + MEMORY and CRAWLSPACES debug layers, no errors
@@ -23,7 +31,7 @@ python3 dev/tests/audio_test.py                                                 
 node dev/tests/play_server.js 8000 play                                               # the real server, but entities always "play" with a caught victim (or `quick`): for watching the held / down / crawl / release visuals
 ```
 
-`run.js`, `live.js`, `move_test.py` and `audio_test.py` exit with code 1 if anything fails.
+`run.js`, `live.js`, `audit_net.js`, `interp_test.js`, `phys_test.js`, `move_test.py`, `play_mp.py`, `fallback_parity.py` and `audio_test.py` exit with code 1 if anything fails. The browser checks give their test pages admin authority (`__net.testAuth`) because they move them with the client-side debug teleport, which the server's movement check refuses from ordinary players.
 
 ## Scenarios (54, on the real simulation)
 

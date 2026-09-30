@@ -21,7 +21,7 @@ class Client {
     this.ws.onmessage = ev => {
       this.raw += String(ev.data).length; const m = JSON.parse(ev.data); this.msgs.push(m.t);
       if (m.t === 'hi') this.id = m.id; else if (m.t === 's') { this.last = m; this.nSnap++; this.snaps.push(m); if (this.snaps.length > 400) this.snaps.shift(); }
-      else if (m.t === 'fx') this.fx.push(m); else if (m.t === 'bodies') this.bodies = m; else if (m.t === 'admin') this.admin = m; else if (m.t === 'got') this.got.push(m); else if (m.t === 'tp') this.tps++;
+      else if (m.t === 'fx') this.fx.push(m); else if (m.t === 'bodies') this.bodies = m; else if (m.t === 'admin') this.admin = m; else if (m.t === 'got') this.got.push(m); else if (m.t === 'tp') { this.tps++; this.pos = { x: m.x, y: m.y }; }      // like the real client: the server moved us (admin tool / movement correction)
     };
     this.pos = { x: 5000, y: 3504 }; this.mv = [0, 0, 100, 0]; this.timer = null;
   }
@@ -59,11 +59,11 @@ class Client {
 
     /* L4: a normal client cannot use admin, fake deaths, fake bodies or fake entities */
     const count = s => (s.e.h ? s.e.h.length : 0) + (s.e.m ? s.e.m.length : 0);
-    const before = count(A.last);
+    const before = count(A.last), tpA0 = A.tps, tpB0 = B.tps;                   // (a spawn choice the server refused may already have moved someone: only moves during this check count)
     for (const c of ['near', 'hounds', 'smilers', 'summon', 'world', 'monsters', 'blackout', 'god', 'freeze', 'speed', 'kick', 'revive', 'msg']) A.send({ t: 'a', c, k: 'hound', mode: 'add', id: B.id, on: 1, v: 9, text: 'hi' });
     A.send({ t: 'fx', k: 'death', v: 'C', x: 5000, y: 3504, c: 'Hound' }); A.send({ t: 'b', c: 'Hound', x: 5000, y: 3504, n: 'ALICE' }); A.send({ t: 'admin', pass: 'nope' });
     await sleep(700);
-    check('L4 without the passcode no admin command works, a living player cannot send a death replay or a corpse', count(B.last) === before && B.fx.length === 0 && (!B.bodies || !B.bodies.b.length) && A.admin && A.admin.ok === false && B.tps === 0 && A.tps === 0 && !B.msgs.includes('kick') && !B.msgs.includes('msg'), `entities ${before} -> ${count(B.last)}; fx ${B.fx.length}; bodies ${B.bodies ? B.bodies.b.length : 0}; admin reply ${JSON.stringify(A.admin)}`);
+    check('L4 without the passcode no admin command works, a living player cannot send a death replay or a corpse', count(B.last) === before && B.fx.length === 0 && (!B.bodies || !B.bodies.b.length) && A.admin && A.admin.ok === false && B.tps === tpB0 && A.tps === tpA0 && !B.msgs.includes('kick') && !B.msgs.includes('msg'), `entities ${before} -> ${count(B.last)}; fx ${B.fx.length}; bodies ${B.bodies ? B.bodies.b.length : 0}; admin reply ${JSON.stringify(A.admin)}`);
 
     /* L5: the kill flow. Alice unlocks admin (right passcode), drops a hound on herself, stands still; the server decides everything */
     A.send({ t: 'admin', pass: 'smoor' }); await sleep(300);
