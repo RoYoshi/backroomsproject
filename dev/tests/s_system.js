@@ -68,7 +68,7 @@ add('Y05 turning and snapping: headings change smoothly (no per-tick flips), spe
       if (!p.path || !p.path.length) p.route([{ x: p.x + 250, y: p.y }, { x: p.x - 250, y: p.y + 80 }], 'walk');
       const dh = Math.abs(angD(h.ang, ha)), ds = Math.abs(angD(sm.ang, sa)); ha = h.ang; sa = sm.ang; ticks++;
       if (!h.trav && h.tier !== 'far') { hMax = Math.max(hMax, dh); if (dh > .2) hOver++; } if (!sm.trav && sm.tier !== 'far') { sMax = Math.max(sMax, ds); if (ds > .2) sOver++; }
-      const ah = Math.abs(h.speed - hv) / DT; hv = h.speed; if (ah > aMax && h.tier !== 'far') aMax = ah; if (ah > 4500 && h.tier !== 'far') accOver++;
+      const ah = Math.abs(h.speed - hv) / DT; hv = h.speed; if (h.act !== 'lunge' && !h.cap && ah > aMax && h.tier !== 'far') aMax = ah; if (h.act !== 'lunge' && !h.cap && ah > 4500 && h.tier !== 'far') accOver++;   // (the take-off of a lunge is a deliberate burst, not a glitch)
       sv = sm.speed;
     }, 1);
   }

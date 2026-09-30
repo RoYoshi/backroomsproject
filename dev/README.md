@@ -9,7 +9,7 @@ Nothing here is needed to play or host the game; `server.js` never serves this f
 ## Run
 
 ```
-node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_capture.js s_system.js    # 54 scenarios, about 30 s
+node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_smiler2.js s_capture.js s_system.js s_admin.js    # 82 scenarios (s_smiler2 = v19 smiler behaviour + anti-cheese matrix)
 ONLY=H09 node dev/tests/run.js s_hound.js                                             # one scenario (regex on the name)
 DATA=1 node dev/tests/run.js s_smiler.js                                              # extra data for failures
 node dev/tests/live.js                                                                # real server.js + two WebSocket clients (needs Node 22+: built-in WebSocket)

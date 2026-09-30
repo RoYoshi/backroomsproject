@@ -199,9 +199,10 @@ function updateVision(e, eng, dt, cands) {
     if (e.sp.lightSensitive) lightF *= 1 - e.tr.LIGHT_SENS * .15 * own;         // glare doesn't help a smiler see, it hurts
     const motion = .7 + .5 * clamp(p.sp / 172, 0, 1.4);
     range *= lightF * (POSTURE_VIS[p.st] || 1) * motion * (e.act === 'listen' ? .8 : 1);
-    if (d <= Math.max(range, 70)) {
+    const floor = cfg.floor || 70;                                            // something crouched in the dark right beside it is noticed regardless of posture
+    if (d <= Math.max(range, floor)) {
       const bearing = Math.atan2(dy, dx), inFov = d < 110 || Math.abs(angDiff(bearing, e.ang + (e.head || 0))) <= cfg.fov / 2;
-      if (inFov && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, 70), .55), .08, 1); }
+      if (inFov && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
     }
     r.seen = vis; r.dist = d;
     if (vis) {
@@ -482,6 +483,7 @@ function assess(eng, e, pv, attack) {
   return { threats: th, danger, approaching, seeing, iso: clamp(1 - danger * 1.1, 0, 1), deadEnd: arcs.arcs <= 1 && arcs.frac < .34, arcs, lit, rel, facing: Math.abs(rel) > 2.0, behind: Math.abs(rel) < 1.0 };
 }
 function chooseMode(eng, e, ctx) {
+  if (eng.forceCapture) return eng.forceCapture;                        // admin override (DEATHS tab): every catch is a quick kill / every catch is played with
   const sp = e.sp.capture, q = sp.quick(e, ctx);
   return eng.rng() < q ? 'quick' : 'play';
 }
@@ -513,9 +515,10 @@ const rand = (eng, a, b) => a + eng.rng() * (b - a);
 function killNow(eng, cap, pv, e, why) {
   if (cap.phase === 'done') return;
   const ctx = cap.phase === 'grab' ? cap.ctx : assess(eng, e, pv, cap.attack || {});
-  const ang = Math.atan2(pv.y - e.y, pv.x - e.x);
+  const ang = Math.atan2(pv.y - e.y, pv.x - e.x), forced = cap.attack && cap.attack.preview ? cap.attack.variant : null;
+  if (forced) why = 'preview';
   ctx.wall = wallBehind(eng.geo, pv.x, pv.y, Math.cos(ang), Math.sin(ang));       // the wall the victim would be driven into: decided once, used for the choice and the record
-  const variant = pickVariant(eng, e, pv, ctx, cap.attack || {});
+  const variant = forced || pickVariant(eng, e, pv, ctx, cap.attack || {});       // a preview (admin) names its variant and leaves the "recent kills" memory alone
   const geo = { ax: e.x, ay: e.y, aa: ang, wall: variant === 'C' ? ctx.wall : null };
   cap.variant = variant; cap.phase = 'done'; cap.why = why;
   pv.alive = false;                                                        // dead from this instant: nothing else gets to capture or kill the same person in this very tick
@@ -525,6 +528,26 @@ function killNow(eng, cap, pv, e, why) {
   if (eng.sites.length > 12) eng.sites.shift();
   finishCapture(eng, cap, pv, e);
   e.sp.capture.afterKill && e.sp.capture.afterKill(eng, e, ctx, pv);
+}
+/* admin aid (DEATHS tab): play ONE chosen death on a player through the real capture / kill path.  The entity is set down a step away, on the side that makes that
+ * variant honest (for the hound's C: a real wall behind the victim), then the ordinary quick capture runs - so the kill record, the events, what the entity does
+ * afterwards and everything the clients replay are exactly what a natural death produces. */
+function previewKill(eng, e, variant, pv) {
+  const geo = eng.geo, V = /^[ABCD]$/.test(variant) ? variant : 'A', hound = e.kind === 'hound';
+  if (!pv || !pv.alive || pv.caught || e.cap) return { ok: false, why: 'busy: already caught or dead' };
+  const fwd = pv.angle, wantC = hound && V === 'C';
+  const base = hound ? { A: fwd, B: fwd + Math.PI - .7, C: fwd, D: fwd + Math.PI }[V] : fwd;     // where the attacker stands, as an angle seen from the victim
+  const offs = [0, .3, -.3, .6, -.6, .9, -.9, 1.25, -1.25, 1.6, -1.6, 2.0, -2.0, 2.5, -2.5, Math.PI];
+  for (const off of offs) for (const r of hound ? [54, 44, 34] : [50, 42, 34]) {
+    const a = base + off, ax = pv.x + Math.cos(a) * r, ay = pv.y + Math.sin(a) * r;
+    if (!geo.clear(ax, ay, e.rc, 'walk') || !geo.los(ax, ay, pv.x, pv.y)) continue;
+    if (wantC && !wallBehind(geo, pv.x, pv.y, Math.cos(a + Math.PI), Math.sin(a + Math.PI))) continue;
+    e.x = ax; e.y = ay; e.ang = a + Math.PI; e.path = []; e.trav = null; e.lunge = null; e.aim = null; e.speed = 0; e.tier = 'near'; e.tierT = 1; e.wd = { x: ax, y: ay, t: 0 };
+    if (e.kind === 'smiler' && V === 'C') eng.lightFail(pv.x, pv.y, 560, 1.4);             // the lamps flicker out around the victim, as in a real light failure
+    const cap = beginCapture(eng, e, pv, { force: 'quick', preview: true, variant: V, dir: e.ang, speed: 0, style: 'preview' });
+    return cap ? { ok: true, v: V, eid: e.id } : { ok: false, why: 'the capture did not start' };
+  }
+  return { ok: false, why: wantC ? 'no wall about 1-2 body lengths from you: stand near a wall first' : 'no room to attack from here' };
 }
 function finishCapture(eng, cap, pv, e) { cap.phase = 'done'; if (e && e.cap === cap) e.cap = null; if (pv && pv.caught === cap) pv.caught = null; const i = eng.caps.indexOf(cap); if (i >= 0) eng.caps.splice(i, 1); }
 function releaseVictim(eng, cap, pv, e, why) {
@@ -1029,19 +1052,22 @@ HOUND.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y * 
 
 /* ---------------------------------------------------------------- SMILER: darkness with a face.  Patient, watchful, tied to the light. */
 const SACT = { '': 0, watch: 1, follow: 2, wait: 3, creep: 4, rush: 5, fade: 6, cornered: 7, lightfail: 8, stare: 9, back: 10, circle: 11, block: 12, hold: 13 };
+const QUIRKS = ['bold', 'patient', 'curious', 'revealer', 'cautious'];
 const LIT_MAX = .5;                                                        // above this a smiler will not stand in the light
 const SMILER = {
   name: 'Smiler', kind: 'smiler', initial: S.HIDDEN, radius: 23, clearance: 21, vTop: 250, turnPenalty: .3, roamSpeed: 80,
   traits: { INTELLIGENCE: .86, SADISM: .58, HUNGER: .12, PATIENCE: .9, CURIOSITY: .58, CAUTION: .66, TERRITORIALITY: .7, AGGRESSION: .5, PERSISTENCE: .62, SOCIAL: .72, HEARING: .42, VISION: .92, LIGHT_SENS: .86, MEMORY: .82 },
   jitter: .13,
   caps: { CAN_VAULT: true, VAULT_SPEED: .6, CAN_CROUCH: false, CAN_CRAWL: false, CAN_SLIDE: false, CAN_OPEN_DOORS: true, CAN_BREAK_DOORS: false, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.1, ACCELERATION: 520 },
-  vision: { range: 1000, fov: 2.4, dark: true, gain: 2.4 },
+  vision: { range: 1000, fov: 2.4, dark: true, gain: 2.4, floor: 230 },
   lightSensitive: true,
   speeds: { roam: 84, follow: 108, stalk: 88, creep: 44, rush: 246, retreat: 178 },
-  init(eng, e) { e.face = 0; e.faceT = 0; e.exposed = 0; e.watch = null; e.follow = null; e.style = null; e.special = null; e.disap = null; e.post = { x: e.x, y: e.y }; e.cool.special = rand(eng, 60, 200); e.rushT = 0; },
+  init(eng, e) { e.face = 0; e.faceT = 0; e.exposed = 0; e.watch = null; e.follow = null; e.style = null; e.special = null; e.disap = null; e.post = { x: e.x, y: e.y }; e.cool.special = rand(eng, 60, 200); e.rushT = 0;
+    e.quirk = eng.rng() < .14 ? QUIRKS[(eng.rng() * QUIRKS.length) | 0] : null;        // a small chance of an unusual individual: still the same creature, still the same rules
+    e.enc = new Map(); e.seenFails = new WeakSet(); e.blackSeen = false; e.glance = null; e.rvT = 0; e.lastForm = -99; e.hiddenFor = 0; e.waitMore = rand(eng, 8, 30); },   // (a smiler that has just appeared also moves on after a while: before this it waited forever until it had been hidden once)
   pathCost(eng, e) {
-    const geo = eng.geo, black = eng.geo.a.blackout();
-    return j => (!black && geo.lamp[j] >= .2 ? 520 : 0);
+    const geo = eng.geo, black = eng.geo.a.blackout(), pen = e.quirk === 'bold' ? 300 : 520;
+    return j => (!black && geo.lamp[j] >= .2 ? pen : 0);
   },
 };
 const litAt = (eng, x, y) => eng.geo.lightLevel(x, y, eng.lightPlayers());
@@ -1052,6 +1078,13 @@ function darkCellNear(eng, e, R, minD = 0, from = null, prefer = null) {
     if (c < 0 || geo.cls[c] !== 1) continue;
     const p = { x: geo.cx(c), y: geo.cy(c) }, lit = litAt(eng, p.x, p.y); if (lit > LIT_MAX * .8) continue;
     let sc = -lit * 300 - Math.hypot(p.x - e.x, p.y - e.y) * .4 + (prefer ? prefer(p) : 0) + eng.rng() * 40;
+    for (const pl of eng.pl) {                                                // believable repositioning (spec 49/51): never just behind someone, never in the open in front of them;
+      if (!pl.alive) continue; const dd = Math.hypot(p.x - pl.x, p.y - pl.y); if (dd > 900) continue;
+      const rel = Math.abs(angDiff(Math.atan2(p.y - pl.y, p.x - pl.x), pl.angle)), see = eng.geo.los(p.x, p.y, pl.x, pl.y);
+      if (rel > 2.3 && dd < 650) sc -= 260;                                    // directly behind them: the "spawned behind me" cheat
+      if (see && dd < 520) sc -= 160;
+      else if (see && rel > .9 && rel < 1.9 && dd > 380) sc += 30;             // the edge of where they are looking, out of their way, is fair
+    }
     if (sc > bs) { bs = sc; best = p; }
   }
   return best;
@@ -1082,17 +1115,92 @@ function sPrey(eng, e) {                                                    // p
     if (r.conf < .05 && !r.seen) continue;
     const pv = eng.playerById(r.id); if (!pv || !pv.alive || pv.caught) continue;
     const others = othersNear(eng, e, r);
-    const s = r.aw * .5 + r.conf * .5 + (others === 0 ? .7 : -.35 * others) - Math.hypot(r.lkx - e.x, r.lky - e.y) / 5000 + (r.ex ? .2 : 0) + (r.light ? -.05 : .05);
+    const s = r.aw * .5 + r.conf * .5 + (others === 0 ? .7 : -.35 * others) - Math.hypot(r.lkx - e.x, r.lky - e.y) / 5000 + (r.ex ? .2 : 0) + (r.light ? -.05 : .05) + encFor(e, r.id).ran * .06 - encFor(e, r.id).lit * .1;
     if (s > bs) { bs = s; best = { r, pv, alone: others === 0, others }; }
   }
   return best;
 }
+/* it does not call somebody "alone" on a first glance: it has had a proper long look at them and nobody else has shown up */
+const soloKnown = (eng, e, r) => eng.now - r.first > 14 && eng.now - r.seenAt < 4;
 function sExposure(eng, e, dt) {
   if (e.state === S.PLAYING || e.state === S.ATTACKING || e.state === S.DISAPPEARING || e.trav) { e.exposed = 0; return false; }
   const lit = litAt(eng, e.x, e.y); e.dbg.lit = +lit.toFixed(2); e.lit = lit;
-  if (lit > .62 - e.tr.LIGHT_SENS * .08 || (lit > LIT_MAX && e.state === S.HIDDEN)) e.exposed += dt; else e.exposed = Math.max(0, e.exposed - dt * 2);
-  if (e.exposed > .22) { beginDisappear(eng, e, 'lit'); return true; }
+  const qb = e.quirk === 'bold' ? .07 : e.quirk === 'cautious' ? -.07 : 0;
+  if (lit > .62 + qb - e.tr.LIGHT_SENS * .08 || (lit > LIT_MAX + qb && e.state === S.HIDDEN)) e.exposed += dt; else e.exposed = Math.max(0, e.exposed - dt * 2);
+  if (e.exposed > .22) { const bp = beamOn(eng, e); if (bp && e.seenNow.has(bp.id)) encOf(e, bp.id).lit = Math.min(6, encOf(e, bp.id).lit + 1); beginDisappear(eng, e, 'lit'); return true; }
   return false;
+}
+/* ENCOUNTER MEMORY (spec 47): a short list per person, kept only while the creature's ordinary memory keeps it, never a profile that outlives the encounter.
+ * lit = how often they lit me up, ran = how much they ran, calm = how long they stayed still and easy, lostAt = when I lost sight of them. */
+function encOf(e, id) { let c = e.enc.get(id); if (!c) { if (e.enc.size >= 8) e.enc.delete(e.enc.keys().next().value); e.enc.set(id, c = { lit: 0, ran: 0, calm: 0, lostAt: -99, was: false, esc: 0 }); } return c; }
+function encTick(eng, e, dt) {
+  const k = Math.exp(-dt / (memHalfLife(e) * 2.2 + 20));
+  for (const c of e.enc.values()) { c.lit *= k; c.ran *= k; c.calm *= k; c.esc *= k; }
+  for (const id of e.enc.keys()) if (!eng.byId.has(id)) e.enc.delete(id);
+  for (const id of e.seenNow) {
+    const r = e.mem.p.get(id), c = encOf(e, id); if (!r) continue;
+    if (r.st === 2 && r.dist < 900) c.ran = Math.min(5, c.ran + dt * .25);
+    else if (Math.hypot(r.lvx, r.lvy) < 40) c.calm = Math.min(5, c.calm + dt * .06);
+    if (!c.was && eng.now - c.lostAt < 40 && eng.now - c.lostAt > 3) c.esc = Math.max(0, c.esc - .5);   // it found them again: they did not get away
+    c.was = true;
+  }
+  for (const [id, c] of e.enc) if (c.was && !e.seenNow.has(id)) { c.was = false; c.lostAt = eng.now; }
+  e.dbg.enc = [...e.enc].map(([id, c]) => id + ':l' + c.lit.toFixed(1) + '/r' + c.ran.toFixed(1) + '/c' + c.calm.toFixed(1)).join(' ');
+  e.dbg.quirk = e.quirk || '-';
+}
+const encFor = (e, id) => e.enc.get(id) || { lit: 0, ran: 0, calm: 0, lostAt: -99, esc: 0 };
+function beamOn(eng, e) {                                                   // a torch that is actually pointing at this creature (its own geometry, not a screen)
+  for (const p of eng.lightPlayers()) { const d = dist(e.x, e.y, p.x, p.y); if (d < 800 && Math.abs(angDiff(Math.atan2(e.y - p.y, e.x - p.x), p.angle)) < .42) return p; }
+  return null;
+}
+/* a watcher (the person it is following/watching) is looking its way */
+const observedBy = (e, pv, r, cone = .55, R = 900) => r && r.seen && dist(e.x, e.y, pv.x, pv.y) < R && Math.abs(angDiff(Math.atan2(e.y - pv.y, e.x - pv.x), pv.angle)) < cone;
+
+/* SPEC 52: a lamp failing is information, not a trigger.  What a smiler makes of it is a weighted roll; "nothing" is one of the answers */
+function lightEvent(eng, e, near) {
+  const pr = sPrey(eng, e), q = e.quirk;
+  const opts = [{ k: 'reveal', w: 1.2 + (q === 'revealer' ? 1.4 : 0) }, { k: 'closer', w: pr ? .9 * (pr.alone ? 1 : .3) * (q === 'bold' ? 1.6 : q === 'cautious' ? .3 : 1) : 0 },
+    { k: 'shift', w: .8 }, { k: 'vanish', w: .55 + (q === 'cautious' ? .8 : 0) }, { k: 'nothing', w: 1.5 + (q === 'patient' ? 1.2 : 0) }];
+  const pick = pickW(eng.rng, opts); e.dbg.lightEv = pick + '@' + eng.now.toFixed(0);
+  if (e.state === S.PROVOKED || e.state === S.ATTACKING || e.state === S.PLAYING || e.state === S.DISAPPEARING) return;
+  if (pick === 'reveal') { e.reveal = { until: eng.now + rand(eng, 1.5, 4) }; sFace(e, 1); }
+  else if (pick === 'closer' && pr) {
+    const g = darkCellNear(eng, e, 380, 90, e, p => -Math.abs(dist(p.x, p.y, pr.r.lkx, pr.r.lky) - Math.max(260, dist(e.x, e.y, pr.r.lkx, pr.r.lky) * .72)) * .5);
+    if (g) { plan(eng, e, g.x, g.y); e.nud = { goal: g, until: eng.now + 5 }; }
+  } else if (pick === 'shift') { const g = darkCellNear(eng, e, 420, 140, e); if (g) { plan(eng, e, g.x, g.y); e.nud = { goal: g, until: eng.now + 6 }; } }
+  else if (pick === 'vanish') beginDisappear(eng, e, 'lights-out', 200);
+}
+function watchLights(eng, e) {
+  const black = eng.geo.a.blackout();
+  if (black && !e.blackSeen) { e.blackSeen = true; lightEvent(eng, e); } else if (!black) e.blackSeen = false;
+  for (const f of eng.geo.fails) if (!e.seenFails.has(f) && f.until > eng.now) { e.seenFails.add(f); if (!(e.att && e.att.kind === 'lightfail') && dist(f.x, f.y, e.x, e.y) < f.r + 500 && eng.rng() < .75) lightEvent(eng, e); }
+}
+/* SPEC 57: small systemic reactions that cost almost nothing.  Called every tick; they only nudge head, face and a step or two. */
+function micro(eng, e, dt, thinkNow) {
+  const now = eng.now, still = e.state === S.HIDDEN || e.state === S.WATCHING || (e.state === S.FOLLOWING && e.act === 'wait');
+  if (e.reveal && now > e.reveal.until) e.reveal = null;
+  if (e.reveal && e.state !== S.DISAPPEARING) sFace(e, 1);
+  if (e.nud) {                                                            // a couple of steps toward a slightly better dark spot, creeping
+    const N = e.nud; if (now > N.until || !e.path.length || dist(e.x, e.y, N.goal.x, N.goal.y) < 30 || e.state === S.DISAPPEARING || e.state === S.PROVOKED || e.state === S.ATTACKING || e.state === S.PLAYING) e.nud = null;
+    else if (e.state === S.HIDDEN || e.state === S.WATCHING) { const nx = e.path[0], l = nx ? litAt(eng, nx.x, nx.y) : 0; if (l < LIT_MAX || eng.geo.a.blackout()) follow(eng, e, dt, e.sp.speeds.creep, { arrive: 26 }); else e.nud = null; }
+  }
+  if (!e.hear || now - e.hear.t > 2.4 || !still || e.nud) e.hearHead = 0;
+  else { const a = angDiff(Math.atan2(e.hear.y - e.y, e.hear.x - e.x), e.ang); e.hearHead = clamp(a, -.9, .9) * .7; if (e.state === S.HIDDEN && Math.abs(a) > .6) faceToward(e, e.hear.x, e.hear.y, dt, .7); }
+  if (e.state === S.WATCHING && !e.nud) {
+    const w = e.watch, others = [...e.seenNow].filter(id => !w || id !== w.rid);
+    if (!e.glance && others.length && thinkNow && eng.rng() < .05) { const o = eng.playerById(others[0]); if (o) e.glance = { until: now + rand(eng, .7, 1.6), x: o.x, y: o.y }; }
+    if (e.glance && now > e.glance.until) e.glance = null;
+    if (e.glance) e.hearHead = clamp(angDiff(Math.atan2(e.glance.y - e.y, e.glance.x - e.x), e.ang), -1, 1) * .8;
+    if (e.quirk === 'revealer' && thinkNow) { e.rvT -= .12; if (e.rvT <= 0) { e.rvT = rand(eng, 2.4, 5.5); sFace(e, e.faceT > .5 ? .12 : 1); } }
+    const bp = beamOn(eng, e);
+    if (bp && e.lit > .3 && e.lit < .62 && thinkNow) {                           // the edge of a torch beam reaches it: one small step back into the dark
+      const away = Math.atan2(e.y - bp.y, e.x - bp.x), tx = e.x + Math.cos(away) * 46, ty = e.y + Math.sin(away) * 46;
+      if (eng.geo.clear(tx, ty, 21, 'walk') && litAt(eng, tx, ty) < e.lit) { e.moved = moveCollide(eng, e, Math.cos(away) * 22, Math.sin(away) * 22); e.dbg.backed = (e.dbg.backed || 0) + 1; }
+    } else if (e.lit > .32 && thinkNow && !e.nud && eng.rng() < .25) {        // keeps itself in the dark: a step to a darker neighbouring spot
+      const g = darkCellNear(eng, e, 170, 50, e); if (g && litAt(eng, g.x, g.y) < e.lit - .12) { plan(eng, e, g.x, g.y); e.nud = { goal: g, until: now + 3 }; }
+    }
+  }
+  e.head = (e.head || 0) + ((e.hearHead || 0) - (e.head || 0)) * Math.min(1, dt * 2.2) * (e.state === S.WATCHING && !e.glance && e.watch && e.mem.p.get(e.watch.rid)?.seen ? 0 : 1);
 }
 function beginDisappear(eng, e, why, minD = 260) {
   const from = e.mem.p.size ? bestLead(e, eng.now) : null;
@@ -1103,14 +1211,18 @@ function beginDisappear(eng, e, why, minD = 260) {
   sFace(e, 0);
 }
 function beginHidden(eng, e) { setState(e, S.HIDDEN, ''); e.post = { x: e.x, y: e.y }; e.watch = null; e.hiddenFor = 0; e.waitMore = rand(eng, 6, 20) * (.6 + e.tr.PATIENCE); sFace(e, 0); e.target = null; e.style = null; }
-function beginWatch(eng, e, r) { setState(e, S.WATCHING, 'watch'); e.target = r.id; e.watch = { until: eng.now + rand(eng, 4, 13) * (.6 + e.tr.PATIENCE * .8), rid: r.id }; sFace(e, 1); }
-function beginFollow(eng, e, r) { setState(e, S.FOLLOWING, 'follow'); e.target = r.id; e.follow = { since: eng.now, until: eng.now + rand(eng, 25, 70) * (.6 + e.tr.PERSISTENCE), rid: r.id, goalT: 0 }; sFace(e, .55); }
+function beginWatch(eng, e, r) { setState(e, S.WATCHING, 'watch'); e.target = r.id; e.watch = { until: eng.now + rand(eng, 4, 13) * (.6 + e.tr.PATIENCE * .8) * (e.quirk === 'patient' ? 1.7 : e.quirk === 'bold' ? .7 : 1), rid: r.id }; sFace(e, 1); }
+function beginFollow(eng, e, r) {
+  const en = encFor(e, r.id), hunt = eng.rng() < clamp(.34 + e.tr.AGGRESSION * .3 + e.tr.SADISM * .15 + en.ran * .05 - en.lit * .05 + (e.quirk === 'bold' ? .15 : e.quirk === 'cautious' ? -.15 : 0), .1, .85);   // decided when it starts following, not each tick: a follow may simply never go anywhere
+  e.dbg.intent = hunt ? 'hunt' : 'loiter';
+  setState(e, S.FOLLOWING, 'follow'); e.hunt = hunt; e.target = r.id; e.follow = { since: eng.now, until: eng.now + rand(eng, 25, 70) * (.6 + e.tr.PERSISTENCE) * (e.quirk === 'patient' ? 2.4 : 1), rid: r.id, goalT: 0, frz: 0, obsT: -99 }; sFace(e, .55); }
 function beginStalk(eng, e, r, style) { setState(e, S.STALKING, 'creep'); e.target = r.id; e.style = style || 'rush'; e.stalk = { since: eng.now, hold: 0, rid: r.id }; sFace(e, .85); }
 
 function smilerTick(eng, e, dt, thinkNow) {
   const now = eng.now, black = eng.geo.a.blackout();
   e.face += clamp(e.faceT - e.face, -dt * (e.faceT > e.face ? .8 : 1.4), dt * (e.faceT > e.face ? .8 : 1.4));
   e.cool.special = Math.max(0, (e.cool.special || 0) - dt);
+  encTick(eng, e, dt); watchLights(eng, e);
   if (sExposure(eng, e, dt) && e.state !== S.DISAPPEARING) return null;
   let res = null; const wasHidden = e.state === S.HIDDEN;
   switch (e.state) {
@@ -1122,10 +1234,19 @@ function smilerTick(eng, e, dt, thinkNow) {
         const prey = sPrey(eng, e);
         if (prey && prey.r.aw > .3) {
           e.head = angDiff(Math.atan2(prey.pv.y - e.y, prey.pv.x - e.x), e.ang) * .5;
-          const boldness = e.tr.CURIOSITY * .5 + (prey.alone ? .35 : -.2) + (black ? .15 : 0) + e.mood.boredom * .2;
+          const en = encFor(e, prey.r.id), boldness = e.tr.CURIOSITY * .5 + (prey.alone ? .35 : -.2) + (black ? .15 : 0) + e.mood.boredom * .2 + en.calm * .04 - en.lit * .07 + (e.quirk === 'bold' ? .2 : e.quirk === 'cautious' ? -.15 : 0);
           if (prey.r.dist < 1000 && e.hiddenFor > .8 && eng.rng() < clamp(boldness, .04, .8) * .16) { beginWatch(eng, e, prey.r); break; }
           if (!prey.alone && eng.rng() < .012 && e.tr.SOCIAL > .4) beginFollow(eng, e, prey.r);         // groups are followed, not engaged
-          if (prey.r.dist < 190 && e.hiddenFor > .5) { beginDisappear(eng, e, 'too-close'); break; }
+          if (prey.r.dist < (e.quirk === 'cautious' ? 300 : 190) && e.hiddenFor > .5) { beginDisappear(eng, e, 'too-close'); break; }
+        }
+      } else {
+        // it lost sight of somebody a little while ago and has not forgotten: it comes to look, from the dark, rather than starting from nothing
+        for (const [id, c] of e.enc) {
+          const r = e.mem.p.get(id), pv = eng.playerById(id); if (!r || !pv || !pv.alive || pv.caught) continue;
+          if (eng.now - c.lostAt < 45 && eng.now - c.lostAt > 4 && r.conf > .18 && e.hiddenFor > 2 && eng.rng() < .012 * (.5 + e.tr.PERSISTENCE)) { beginFollow(eng, e, r); e.dbg.returned = (e.dbg.returned || 0) + 1; break; }
+        }
+        if (e.quirk === 'curious' && e.hear && eng.now - e.hear.t < 3 && !e.relocating && eng.rng() < .04) {         // the odd one goes to look at a noise instead of at the person
+          const g = darkCellNear(eng, e, 500, 120, { x: e.hear.x, y: e.hear.y }); if (g) { plan(eng, e, g.x, g.y); e.relocating = { goal: g }; e.hiddenFor = 0; e.dbg.investigated = (e.dbg.investigated || 0) + 1; }
         }
       }
       if (e.hiddenFor > e.waitMore && (e.mood.boredom > .5 || eng.rng() < .01)) { beginDisappear(eng, e, 'relocate', 700); e.disap.reloc = true; }
@@ -1139,10 +1260,10 @@ function smilerTick(eng, e, dt, thinkNow) {
       if (thinkNow) {
         const d = dist(e.x, e.y, pv.x, pv.y);
         const beam = e.lit > .45;
-        if (d < 240 || beam) { beginDisappear(eng, e, d < 240 ? 'approached' : 'beam'); break; }
+        const near = e.quirk === 'cautious' ? 340 : 240; if (d < near || beam) { const bp = beam && beamOn(eng, e); if (bp) encOf(e, bp.id).lit = Math.min(6, encOf(e, bp.id).lit + 1); beginDisappear(eng, e, d < near ? 'approached' : 'beam'); break; }
         if (now > w.until) {
           const prey = sPrey(eng, e), alone = prey && prey.alone;
-          const pick = pickW(eng.rng, [{ k: 'follow', w: alone ? 1.6 : .8 }, { k: 'again', w: .6 }, { k: 'fade', w: .8 + (1 - e.tr.CURIOSITY) }, { k: 'stalk', w: alone && e.tr.AGGRESSION > .3 ? .7 + e.tr.SADISM * .5 : 0 }]);
+          const pick = pickW(eng.rng, [{ k: 'follow', w: alone ? 1.6 : .8 }, { k: 'again', w: .6 }, { k: 'fade', w: .8 + (1 - e.tr.CURIOSITY) }, { k: 'stalk', w: alone && soloKnown(eng, e, r) && e.tr.AGGRESSION > .3 ? .7 + e.tr.SADISM * .5 : 0 }]);
           if (pick === 'follow') beginFollow(eng, e, r); else if (pick === 'again') w.until = now + rand(eng, 3, 9); else if (pick === 'stalk') beginStalk(eng, e, r); else beginDisappear(eng, e, 'watched');
         }
       }
@@ -1161,16 +1282,19 @@ function smilerTick(eng, e, dt, thinkNow) {
         if (g) { F.goal = g; plan(eng, e, g.x, g.y); }
         else if (d > 1500) F.goal = null;
       }
+      const obs = observedBy(e, pv, r, .5, 900); if (obs) F.obsT = now; F.frz = obs ? F.frz + dt : Math.max(0, F.frz - dt * .5);
+      if (F.frz > 12) { beginDisappear(eng, e, 'watched-too-long'); break; }                                // standing still forever under its eye does not make it wait forever
       if (F.goal && d > 380) {
         const nxt = e.path[0] || F.goal, l = litAt(eng, nxt.x, nxt.y);
-        if (l > LIT_MAX && !black) { stopMoving(eng, e, dt); setAct(e, 'wait'); }                               // the edge of the light: it waits there, grinning
+        if (obs || now - F.obsT < 1.3) { stopMoving(eng, e, dt); setAct(e, 'wait'); faceToward(e, tx, ty, dt, 1.4); }                 // looked at: it stops; and stays stopped a moment after they look back
+        else if (l > LIT_MAX && !black) { stopMoving(eng, e, dt); setAct(e, 'wait'); }                               // the edge of the light: it waits there, grinning
         else { setAct(e, 'follow'); follow(eng, e, dt, e.sp.speeds.follow * (r.seen ? 1 : .9), { arrive: 30 }); }
       } else { stopMoving(eng, e, dt); if (r.seen) faceToward(e, tx, ty, dt, 2); }
       if (thinkNow) {
         const prey = sPrey(eng, e);
         if (prey && prey.r === r && r.seen) {
           const dark = litAt(eng, pv.x, pv.y) < .45 || black;
-          if (prey.alone && dark && now - F.since > 6 && eng.rng() < (.08 + e.tr.AGGRESSION * .1) * (black ? 2 : 1) * (prey.r.ex ? 1.5 : 1)) { beginStalk(eng, e, r); break; }
+          const en = encFor(e, r.id); if (prey.alone && (e.hunt || (r.ex && eng.rng() < .3) || r.st === 2 && eng.rng() < .3) && soloKnown(eng, e, r) && dark && now - F.since > 6 && eng.rng() < (.08 + e.tr.AGGRESSION * .1) * (black ? 2 : 1) * (prey.r.ex ? 1.5 : 1) * (1 + en.ran * .25) * (1 - Math.min(.6, en.lit * .12)) * (e.quirk === 'bold' ? 1.5 : e.quirk === 'cautious' ? .5 : 1)) { beginStalk(eng, e, r); break; }
           if (!prey.alone && eng.rng() < .015) { beginDisappear(eng, e, 'group'); break; }
         }
         if (e.lit > .5) beginDisappear(eng, e, 'lit');
@@ -1217,6 +1341,10 @@ function smilerTick(eng, e, dt, thinkNow) {
       const P = e.provoked, r = P && e.mem.p.get(P.rid), pv = r && eng.playerById(r.id);
       if (!P || !r || !pv || !pv.alive || pv.caught) { beginDisappear(eng, e, 'lost-prey'); break; }
       e.rushT += dt; sFace(e, 1);
+      if (thinkNow && e.rushT > .8 && dist(e.x, e.y, pv.x, pv.y) > 130) {                                    // committed, but not latched: if the prey is no longer alone, or lit, it goes back to watching
+        const grp = othersNear(eng, e, r), lit = litAt(eng, pv.x, pv.y) > .75;
+        if ((grp > 0 && eng.rng() < .35) || (lit && eng.rng() < .2)) { e.dbg.stoodDown = (e.dbg.stoodDown || 0) + 1; beginWatch(eng, e, r); e.watch.until = now + rand(eng, 3, 7); stopMoving(eng, e, dt); break; }
+      }
       const gx = pv.x + pv.vx * .18, gy = pv.y + pv.vy * .18;
       if (eng.geo.lineClear(e.x, e.y, pv.x, pv.y, 16, 'walk')) { e.path = [{ x: gx, y: gy }]; e.goal = { x: gx, y: gy }; e.goalKey = 'direct'; e.pathAge = 0; } else goTo(eng, e, pv.x, pv.y, { every: .35 });
       const nxt = e.path[0], nl = nxt ? litAt(eng, nxt.x, nxt.y) : 0;
@@ -1269,6 +1397,7 @@ function smilerTick(eng, e, dt, thinkNow) {
     }
     default: beginHidden(eng, e);
   }
+  micro(eng, e, dt, thinkNow);
   // relocation after DISAPPEARING(reloc): drift to the new post in the dark
   if (e.relocating && e.state === S.HIDDEN && wasHidden) { const g = e.relocating.goal; if (e.path.length && dist(e.x, e.y, g.x, g.y) > 40 && !e.seenNow.size) { const nxt = e.path[0], l = litAt(eng, nxt.x, nxt.y); if (l < LIT_MAX || black) follow(eng, e, dt, e.sp.speeds.roam, { arrive: 30 }); } else { e.relocating = null; e.post = { x: e.x, y: e.y }; } }
   return res;
@@ -1361,10 +1490,22 @@ function create(cfg) {
     rng, geo: new Geo(cfg.adapter), now: 0, ticks: 0, entities: [], nextId: 1, caps: [], capId: 0, sites: [], recentKills: {}, pressure: 0,
     events: [], sounds: [], pl: [], byId: new Map(), hash: new Hash(), lights: [], pst: new Map(), packT: 0,
     stats: { sense: 0, paths: 0, sounds: 0, capture: 0 },
-    debugOn: false,
+    debugOn: false, forceCapture: null, log: [], logSeq: 0,
   };
   const geo = eng.geo;
-  eng.emit = ev => { if (eng.events.length < 200) eng.events.push(ev); };
+  /* a short human-readable trail of what the entities decided (state changes, catches, kills, releases, lamp failures): the admin DEBUG tab reads it */
+  eng.note = function (text) { this.log.push({ s: ++this.logSeq, t: +this.now.toFixed(1), x: text }); if (this.log.length > 60) this.log.shift(); };
+  const tagOf = (kind, id) => String(kind || '?')[0].toUpperCase() + '#' + id;
+  eng.emit = ev => {
+    if (eng.events.length < 200) eng.events.push(ev);
+    switch (ev.t) {
+      case 'caught': eng.note(`${tagOf(ev.kind, ev.eid)} caught P${ev.pid} (${ev.ph})`); break;
+      case 'kill': eng.note(`${tagOf(ev.kind, ev.eid)} KILLED P${ev.pid} · variant ${ev.variant} · ${ev.why}`); break;
+      case 'release': eng.note(`E#${ev.eid} released P${ev.pid} · ${ev.why}`); break;
+      case 'phase': eng.note(`E#${ev.eid} P${ev.pid} now ${ev.ph}`); break;
+      case 'lightfail': eng.note(`lamps fail near ${Math.round(ev.x)},${Math.round(ev.y)} for ${(+ev.dur).toFixed(1)}s`); break;
+    }
+  };
 
   /* ------------------------------------------------------------ what the engine may know about people: a list handed in every step */
   eng.setPlayers = function (list) {
@@ -1505,6 +1646,7 @@ function create(cfg) {
     playerNoise(dt);
     if (geo.fails.length) geo.fails = geo.fails.filter(f => f.until > now);
     for (const e of this.entities) {
+      if (e.state !== e.lgS) { if (e.lgS !== undefined) this.note(`${tagOf(e.kind, e.id)} ${e.lgS} -> ${e.state}${e.act ? ' /' + e.act : ''}`); e.lgS = e.state; }
       e.t += dt; e.stateT += dt; e.actT += dt;
       e.tierT -= dt; if (e.tierT <= 0) { e.tierT = .4 + this.rng() * .15; const nt = tierOf(e, this); if (nt !== e.tier) onTier(e, nt); }
       if (e.deaf > 0) e.deaf -= dt;
@@ -1520,6 +1662,9 @@ function create(cfg) {
     for (const cap of this.caps.slice()) capStep(this, cap, dt);
     this.packT -= dt; if (this.packT <= 0) { this.packT = .5; packs(); }
   };
+
+  /* admin aid (DEATHS tab): one chosen death on one player, through the real kill path (see previewKill in the capture part) */
+  eng.previewKill = function (e, variant, pv) { return previewKill(this, e, variant, pv); };
 
   /* admin aid: put an entity at (x,y) and set it on the trail of a spot */
   eng.summon = function (e, x, y, tx, ty, pid) {
@@ -1559,7 +1704,7 @@ function create(cfg) {
         path: e.path.slice(0, 7).map(w => [Math.round(w.x), Math.round(w.y)]),
         pu: e.dbg.pursuit || null,
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
-        tr: e.kind === 'hound' ? undefined : undefined,
+        sm: e.kind === 'smiler' ? { q: e.quirk || '-', enc: e.dbg.enc || '', le: e.dbg.lightEv || '', ex: +(e.exposed || 0).toFixed(2), rt: e.dbg.returned | 0, bk: e.dbg.backed | 0, sd: e.dbg.stoodDown | 0, iv: e.dbg.investigated | 0 } : undefined,
       });
     }
     return out;

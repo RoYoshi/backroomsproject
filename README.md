@@ -1,5 +1,3 @@
-> Codex v16.2 fluid-motion review build: see [FLUID-MOTION.md](FLUID-MOTION.md) for animation changes, replay-lab controls, tests, preview evidence and remaining browser QA.
-
 # The Far Backrooms — Recovered Production Build
 
 This directory was reconstructed from the HAR capture of the deployed game.
@@ -18,7 +16,7 @@ Run:
 `./run_linux.sh`
 
 Or manually:
-`node server.js 8000` (Node 18+; serves the game, runs the shared monsters and relays players; no npm install needed)
+`node server.js 8000` (Node 16+; serves the game, runs the shared monsters and relays players; no npm install needed)
 
 Then open:
 `http://localhost:8000`
@@ -258,3 +256,45 @@ Two real bugs turned up in the last round and are fixed in this build: every ent
 - **Movement is client-side** (as before), so a modified client can cheat its own movement. Entities, catches and kills are decided only on the server.
 - **Solo / offline mode** keeps the older built-in monster AI (new visuals and movement, old behaviour).
 - **Packaging check.** The command-approval service was intermittently unavailable while this package was being assembled. Every shipped file was copied byte-for-byte from the tested working tree and verified against it; the packaged folder itself was re-checked with one final run of the 54 scenarios only. `live.js`, `move_test.py` and `audio_test.py` were last run against the working tree, not the packaged folder.
+
+## Admin panel v2, death previews, debug mode, pause fix v17
+
+- **Pause fix.** Death animations no longer depend on the game being un-paused. When the server kills you while the pause screen is up, the pause screen closes and the death starts at once (`mp.js`, plus `unpause` in the bundle's `__api`).
+- **Admin panel** (backtick, passcode `smoor` / `ADMIN_PASSCODE`) now has tabs: PLAYERS (live state and position, teleport, give, revive), MONSTERS (entity list with GO TO / REMOVE, spawn near, remove), DEATHS, WORLD, DEBUG. Live text is patched in place so buttons are never rebuilt under the mouse. A status line shows the server's answer to every command (`ares` message). The panel can be docked left or right.
+- **DEATHS tab.** *Preview death*: play Hound A–D or Smiler A–D on yourself through the real kill path (record, events, replay for other players). Hound C needs a wall behind you and says so if there is none. After the death you are revived and put back where it happened; a monster made just for the preview is removed at revive. *Capture style*: AUTO / ALWAYS QUICK / ALWAYS PLAY (replaces the old dev-only play server).
+- **Debug mode** (DEBUG tab). AI overlay with layers: AI entities, you + hearing radius, server timings, AI event log. Also ping, FPS, COPY REPORT. Only unlocked admins receive debug data.
+- New server messages: `ares`, `ping`/`pong`, `preview`, `capmode`, `entgoto`, `entdel`. Non-admins cannot use them.
+- Tests: `dev/tests/s_admin.js` (A01–A05) and `dev/tests/admin_test.py` (two real browsers: tabs, all 8 previews, pause fix, debug overlay). Browser test was run under slow software rendering; a few timing-dependent checks needed generous waits. The full 59-scenario sim regression was not re-run after the final small preview-cleanup change (v16's 54 passed; A01–A05 passed before it).
+
+## Physical deaths v18 (`dphys.js`)
+
+The eight deaths (Hound A-D, Smiler A-D) are no longer scripted poses. Each one is a small physics simulation that the local victim and every spectator's replay run from the same event parameters, so it looks the same everywhere and the network cost is unchanged (the `fx` message only gained the victim's velocity and an exhausted flag).
+
+- **Architecture.** `dphys.js` (new, loaded before the bundle) holds a lightweight fixed-step (240 Hz) simulation. The bundle's death class calls `__dphys.begin / clock / frame / remains`; `ents.js` (`attackFromSim`) poses the Hound from the same simulation; `gore.js` draws blood along the real path; `mp.js` carries the extra fields (hands, trail, hat) to the server and to spectators. If `dphys.js` fails to load, the old scripted death still plays.
+- **Procedural motion.** Attacker = point mass on a damped spring with real contact against the victim and the walls. Victim = position, velocity, angle, angular velocity, ground friction, a short squash impulse along the impact axis. A grip rope (spring + damper on a point of the body) makes a dragged body trail behind and turn with the pull. The authored part is only when the grip / drag / release happens and how hard the victim resists (fresh vs exhausted, fading with time). Everything between is integrated.
+- **Hands.** Each hand is its own point mass on a spring anchored to the body: it lags on acceleration, overshoots on stopping, is thrown outward by an impact, pushes toward the attacker with uneven timing, plants on the floor during a drag (resisting the pull) and slips, then goes slack and trails. Arm length is limited, hands collide with walls. The avatar's hands are drawn from these positions; no arms are drawn.
+- **Collision.** Body, hands, attacker, light and hat collide with the level's wall blocks (circle vs block), so nothing passes through a wall. A wall impact removes the body's velocity, squashes it briefly, rebounds a little, spins it from the tangential friction, and the hands keep going.
+- **Equipment.** The light and the hat leave the body with its velocity, slide with friction, spin, hit walls and stop; the beam follows the light's orientation. The light leaves at a physical event of each variant (second blow, wall impact, start of the drag, the pull of the Smiler). The hat is knocked off only by a violent enough hit.
+- **Corpse.** The corpse record is the last configuration of the simulation (position, angle, squash, both hand positions, the light's and the hat's final positions, the blood trail). Nothing is hidden and respawned. States: ACTIVE, SETTLING, SLEEPING (a sleeping death costs nothing).
+- **Blood.** Smaller pools and fewer, shorter drops; spray only at the moment of a blow at the jaws; the drag smear follows the path the body really took.
+- **Camera.** One damped impulse per real impact (contact, wall) instead of continuous shake.
+- **Death lab** (admin panel, DEATHS tab): speed 1 / 0.5 / 0.25x, pause, step 1 frame / 6, x-ray attacker, "show paths / forces" overlay (body path, velocity, spin, hand targets vs hands, light path, attacker path, wall hits, phase and settle state), place me (open room / near a wall / in a corner), replay last.
+- **Tests.** `dev/tests/phys_test.js` (node): continuity, no wall clipping, determinism, sampling independence and a 240-run matrix. `dev/tests/death_film.py`: renders each death frame by frame in a real browser into contact sheets.
+
+## v19 - the Smiler: exposure, intent and memory (spec 44-59)
+
+Most of the brief was already true of the v16 smiler (no aggression UI, nothing but a face that forms, real fade-outs, dark-only spawns, sparse audio). What changed:
+
+- **Exposure budget** (`ents_src/20_smiler.js`). The grin is always the readable part. The body and arms are drawn as an impression: dim by default, more only at commitment (rush, attack, death), at very close range, or in the first second or two of a glimpse. The longer someone stares at it, the *less* of it there is to study (mist thickens, body fades). The reach posture eases in and out instead of switching (no readable "attack pose"). Death interactions still show it fully.
+- **Encounter memory** (`ai_src/60_smiler.js`, `encTick`). A short list per person (lit me / ran / stayed calm / when I lost them / escaped), decayed by the creature's own memory half-life and bounded to eight people - not a profile. Being lit makes it warier of that person, running makes them more interesting, calm makes it bolder, and after losing sight of someone (a stalk that lost sight keeps the memory for many seconds) it can come back and look from the dark.
+- **Intent is rolled once per follow** (`hunt` / `loiter`), so a follow may simply never go anywhere. Nobody is called "alone" on a first glance (`soloKnown`: a long look and nobody else has shown up), so groups are followed, not engaged.
+- **Micro-behaviours** (`micro`): head turns to a sound, glances at a second person, stops when looked at (and stays stopped a moment after they look back, but staring cannot freeze it forever), one step back when a torch beam edge reaches it, steps to a darker neighbouring spot to stay in the dark, pauses at the light boundary. All systemic, no scripted sequence.
+- **Light failure is information** (`lightEvent`): when lamps fail near it (or a blackout starts) it rolls one of *reveal the grin / move closer / shift / vanish / nothing*. The old "three stages then a kill" light-failure attack is unchanged and still rare (cooldown 4-7 minutes).
+- **Disengagement**: a committed rush can stand down to watching when the prey is joined by someone or lit; withdrawing from light/beams and losing nerve were already real.
+- **Rare individuals**: about 14% of smilers get one quirk (bold, patient, curious, revealer, cautious) that shifts thresholds and timings inside the same rules.
+- **Believable positions**: repositioning candidates are penalised directly behind a person or in the open in front of them (no "spawned behind me"); first spawn is scored for dark, out of sight, near the light/dark boundary or half-hidden by walls (`smilerSpot` in `sim_glue.js`). Everything is walked; nothing teleports.
+- **Audio**: the face-forming swell is limited to once per 30 s per smiler; nothing loops.
+- **Debug only**: quirk, exposure, encounter list, last light reaction and counters appear in the debug overlay and the admin entity dump; never in normal play.
+- **Bug fixed**: a freshly spawned smiler never relocated until it had been hidden once (it could sit in one place forever). Now it moves on after 8-30 s. A crouched or edge-of-range player is therefore an advantage, not immunity.
+- **Sight floor**: something within about 230 px is noticed whatever its posture.
+- **Tests**: `dev/tests/s_smiler2.js` (23 checks: the 13-tactic anti-cheese matrix, memory, micro-behaviours, light events, disengagement, spawn, no-teleport, quirks, no-aggression-UI scan); `dev/tests/smiler_view.py` photographs the exposure budget.

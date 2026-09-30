@@ -47,7 +47,7 @@ E.slotS = function (o, t, dt) {
 const HC = { line: 0x0d0b0a, skin: 0x453e38, skinHi: 0x7b6f61, limb: 0x37312c, limbHi: 0x6f6456, bone: 0xc4b89f, hair: 0x080706, hair2: 0x1b1917, mouth: 0x140506, tooth: 0xddd4bd, gum: 0x552126, eye: 0xaea690 };
 const ANC = { fl: { x: -12, y: -19 }, fr: { x: 12, y: -19 }, rl: { x: -9, y: 22 }, rr: { x: 9, y: 22 } };     // shoulders and hips
 const NEU = { fl: { x: -23, y: -76 }, fr: { x: 23, y: -76 }, rl: { x: -29, y: 57 }, rr: { x: 29, y: 57 } };   // where the hands and feet come down (hands well ahead of the head, feet behind the hips)
-const PHASE = { fl: 0, rr: .07, fr: .48, rl: .61 };                                                              // diagonal gait
+const PHASE = { fl: 0, rr: 0, fr: .5, rl: .5 };                                                              // diagonal gait
 const LIMBS = ['fl', 'fr', 'rl', 'rr'];
 const L1 = { fl: 31, fr: 31, rl: 29, rr: 29 }, L2 = { fl: 36, fr: 36, rl: 33, rr: 33 };                        // upper arm / forearm, thigh / shin
 
@@ -133,7 +133,7 @@ E.poseHound = function (view, g, t, dt) {
 };
 
 E.paintHound = function (view, P, t, dt) {
-  const S = gs(view), sh = view.shadow, bd = view.body, hd = view.head; S.paintDt = Math.min(.04, Math.max(0, dt || 0));
+  const S = gs(view), sh = view.shadow, bd = view.body, hd = view.head;
   sh.clear(); bd.clear(); hd.clear();
   const cr = P.crouch, sy = P.sy * (1 - .06 * cr);
   // ground shadow (higher off the floor in the air = further and fainter) + planted-hand shadows
@@ -204,16 +204,10 @@ function headPaint(hd, hx, hy, hr, jaw, S, t, whip) {
   for (let i = 0; i < N; i++) {
     const a = i / N * TAU + .35, base = R(Math.cos(a) * 6, Math.sin(a) * 7 + 2), L = (17 + (i * 7 % 13)) * (1 + whip * .35);
     const sw = Math.sin(t * (2.1 + (i % 5) * .35) + i * 1.7 + S.seed) * (3 + whip * 5);
-    const dragX = -S.vl * .05, dragY = S.vf * .065 * (i % 3 === 0 ? 1.15 : 1);
+    const dragX = -S.vl * .05, dragY = -S.vf * .065 * (i % 3 === 0 ? 1.15 : 1);
     const tx = base[0] + Math.cos(a) * L * .55 + sw + dragX, ty = base[1] + Math.sin(a) * L * .55 + 3 + dragY * 1;
-    const strand = S.hair[i] || (S.hair[i] = { x: tx, y: ty, vx: 0, vy: 0 });
-    const hdt = S.paintDt || 0, k = 13, decay = Math.exp(-k * hdt);
-    const ex = strand.x - tx, ey = strand.y - ty, jx = strand.vx + k * ex, jy = strand.vy + k * ey;
-    strand.x = tx + (ex + jx * hdt) * decay; strand.y = ty + (ey + jy * hdt) * decay;
-    strand.vx = (strand.vx - k * jx * hdt) * decay; strand.vy = (strand.vy - k * jy * hdt) * decay;
-    const hx2 = strand.x, hy2 = strand.y;
-    const cx = (base[0] + hx2) / 2 + Math.sin(a) * 4 + sw * .4, cy = (base[1] + hy2) / 2 - Math.cos(a) * 3;
-    hd.moveTo(base[0], base[1]).quadraticCurveTo(cx, cy, hx2, hy2).stroke({ color: i % 4 === 0 ? HC.hair2 : HC.hair, width: 1.7 + (i % 3) * .55, cap: 'round' });
+    const cx = (base[0] + tx) / 2 + Math.sin(a) * 4 + sw * .4, cy = (base[1] + ty) / 2 - Math.cos(a) * 3;
+    hd.moveTo(base[0], base[1]).quadraticCurveTo(cx, cy, tx, ty).stroke({ color: i % 4 === 0 ? HC.hair2 : HC.hair, width: 1.7 + (i % 3) * .55, cap: 'round' });
   }
 }
 
@@ -223,8 +217,35 @@ E.drawHound = function (view, g, t, dt) {
   E.paintHound(view, P, t, dt);
 };
 /* the kill: forelimbs hooked forward, jaws wide, the body slung low over the victim.  grip/impact come from the death timeline */
-E.attackHound = function (view, grip, impact, variant) {
+/* driven by the death simulation (dphys.js): the paws go to the places on the victim's body the jaws are actually holding, the hips and hind feet follow
+ * the distance travelled (so they never skate), the head goes to the grip, and the load on the rope shows as a lower, harder crouch */
+function attackFromSim(view, jl, impact) {
+  const S = jl.ph, at = S.at, b = S.b, t = jl.elapsed, rot = at.a + Math.PI / 2, c = Math.cos(rot), sn = Math.sin(rot);
+  const loc = (x, y) => { const dx = x - at.x, dy = y - at.y; return { x: dx * c + dy * sn, y: -dx * sn + dy * c }; };
+  const ux = Math.cos(at.a), uy = Math.sin(at.a), px = -uy, py = ux, contact = S.contactT >= 0 && t >= S.contactT;
+  const n1 = S.nz[4], n2 = S.nz[5], str = clamp(at.str || 0, 0, 1.2), sp = Math.hypot(at.vx, at.vy);
+  const P = { hand: {}, lift: { fl: 1, fr: 1, rl: .1, rr: .1 }, air: 0, whip: 1, lean: 0, sx: 1 };
+  // fore paws: reaching out ahead until they meet the body, then on it: shoulder and flank, each with its own small irregular motion
+  const lead = contact ? 1 : clamp(1 - (S.contactT < 0 ? Math.max(0, Math.hypot(b.x - at.x, b.y - at.y) - 34) / 70 : 0), 0, 1);
+  for (const [n, side] of [['fl', -1], ['fr', 1]]) {
+    const wob = (side < 0 ? n1(t * 1.3) : n2(t * 1.1)) * (2.5 + impact * 3);
+    const tgt = loc(b.x + px * side * 25 + ux * 8 + wob * px * .5, b.y + py * side * 25 + uy * 8 + wob * py * .5), reachY = -76 + 10 * side * 0;
+    P.hand[n] = { x: tgt.x * lead + side * (16 + impact * 3) * (1 - lead), y: clamp(tgt.y * lead + reachY * (1 - lead), -74, -34) };
+    P.lift[n] = contact ? (side < 0 ? .12 + .3 * Math.max(0, n2(t * .8)) : .12 + .3 * Math.max(0, n1(t * .9))) : 1;
+  }
+  // hind paws: they step with the distance the hound has covered
+  const w = at.walk || 0, step = Math.min(1, sp / 60);
+  for (const [n, side, ph] of [['rl', -1, 0], ['rr', 1, 2.7]]) { const sw = Math.sin(w * .16 + ph) * 7 * step; P.hand[n] = { x: side * (23 + str * 3), y: 40 + sw - str * 3 }; P.lift[n] = step > .1 ? clamp(.5 - Math.cos(w * .16 + ph) * .5, .05, .9) * step : .1; }
+  // head: to the grip point, dipping into every blow, hanging lower under load
+  const grip = loc(b.x, b.y), bite = at.bite || 0;
+  P.hx = clamp(grip.x * .25, -9, 9) + n1(t * 2.2) * bite * 3; P.hy = -47 + impact * 4 + bite * 9 + str * 4; P.hr = clamp(Math.atan2(grip.x, -grip.y) * .5, -.5, .5) + n2(t * 3) * bite * .4;
+  P.jaw = clamp(.55 + bite * .4 + (contact ? .2 : 0) + impact * .15, 0, 1); P.sy = 1.08 + S.pitch * .12 - str * .06 - impact * .05; P.bend = n1(t * .7) * 3 + str * 5 * (grip.x > 0 ? 1 : -1) + Math.sin(w * .08) * 2 * step;
+  P.crouch = clamp(.45 + str * .35 + (contact ? .1 : 0), 0, .9);
+  E.paintHound(view, P, t, .016);
+}
+E.attackHound = function (view, grip, impact, variant, jl) {
   if (!view.__hound) E.initHound(view);
+  if (jl && jl.ph) return attackFromSim(view, jl, impact);
   const S = gs(view), t = performance.now() / 1000, reach = 68 + grip * 6 - impact * 6;
   const P = { hand: { fl: { x: -15 - impact * 4, y: -reach }, fr: { x: 15 + impact * 4, y: -reach }, rl: { x: -23, y: 40 }, rr: { x: 23, y: 40 } }, lift: { fl: 1, fr: 1, rl: .1, rr: .1 },
     hx: Math.sin(t * 24) * impact * 3, hy: -47 + impact * 5, hr: Math.sin(t * 19) * impact * .5, jaw: clamp(.6 + grip * .4 + impact * .3, 0, 1), sy: 1.1 - impact * .1, sx: 1, bend: Math.sin(t * 30) * impact * 4, crouch: .5, air: 0, whip: 1, lean: 0 };
@@ -282,6 +303,14 @@ function paintFace(gfx, f, t, alpha, seed) {
 E.drawSmiler = function (view, sm_, t, dt, vis, o) {
   if (!view.__smiler) E.initSmiler(view);
   const S = view.__s, f = clamp(sm_.face === undefined ? (sm_.state === 'watch' || sm_.state === 'pursue' ? 1 : .7) : sm_.face, 0, 1);
+  /* EXPOSURE BUDGET: the face is always the readable part; the rest of the creature is an impression.  It is shown more only at commitment, at a very
+   * close range, or in the first moment of a glimpse - and the longer somebody stares at it, the less of it there is to study. */
+  const HH = window.__api && window.__api.H, dd = HH ? Math.hypot(view.x - HH.x, view.y - HH.y) : 600;
+  if (S.look === undefined) S.look = 0;
+  if (vis > .3 && dd < 760) S.look = Math.min(24, S.look + dt); else S.look = Math.max(0, S.look - dt * .6);
+  const commit = sm_.state === 'ATTACKING' || sm_.state === 'PROVOKED' || sm_.state === 'PLAYING' || sm_.special || sm_.act === 'rush' ? 1 : 0;
+  let reveal = Math.max(commit, sm(300, 110, dd) * .8, (1 - sm(1.2, 3.5, S.look)) * .55, o && o.reveal || 0);
+  const study = commit ? 0 : sm(5, 15, S.look) * .5;
   S.fx += (f - S.fx) * (1 - Math.exp(-dt * 6));
   const ff = S.fx, dark = 1 - clamp(vis, 0, 1);
   // mist / darkness: soft black blobs drifting around the body
@@ -292,7 +321,8 @@ E.drawSmiler = function (view, sm_, t, dt, vis, o) {
   }
   // long limp arms, swaying slowly; fingers far too long
   const ag = view.arms; ag.clear();
-  const sway = Math.sin(t * .8 + S.seed) * 4, reach = sm_.act === 'rush' || sm_.state === 'PROVOKED' ? -14 : 0;
+  S.rch = (S.rch || 0) + ((sm_.act === 'rush' || sm_.state === 'PROVOKED' || commit ? -14 : 0) - (S.rch || 0)) * (1 - Math.exp(-dt * 3.2));   // reach eases in and out: no posture switch to read
+  const sway = Math.sin(t * .8 + S.seed) * 4, reach = S.rch;
   for (const sx of [-1, 1]) {
     const bx = sx * 22, sw = sway * sx;
     const ex = sx * (38 + sw * .4), ey = 22 + reach, hx2 = sx * (46 + sw), hy2 = 56 + reach * 1.5 + Math.sin(t * 1.1 + sx) * 3;
@@ -306,8 +336,8 @@ E.drawSmiler = function (view, sm_, t, dt, vis, o) {
   bg.ellipse(0, -2, 31, 12).fill({ color: SC.black, alpha: .97 });
   bg.poly([-8, 30, -13, 58, -7, 60, -1, 34, 2, 34, 8, 60, 14, 57, 9, 30]).fill({ color: SC.black2, alpha: .9 });
   bg.ellipse(-6, 4, 6, 14).fill({ color: SC.rim, alpha: .16 });
-  const bodyAlpha = clamp(.12 + sm(.18, .78, vis) * .88, 0, 1);
-  bg.alpha = bodyAlpha; ag.alpha = bodyAlpha * .9; view.mist.alpha = .35 + dark * .4;
+  const bodyAlpha = clamp(.12 + sm(.18, .78, vis) * .88, 0, 1) * clamp(.36 + .64 * reveal, 0, 1) * (1 - study);
+  bg.alpha = bodyAlpha; ag.alpha = bodyAlpha * (.4 + .5 * reveal); view.mist.alpha = clamp(.35 + dark * .4 + study * .5, 0, 1);
   // face
   const fa = clamp(.18 + ff * .82, 0, 1);
   paintFace(view.face, ff, t, .94 * fa, S.seed);
@@ -369,7 +399,7 @@ E.deathPlan = function (jl, kind, K) {
 const hsh = (i, s) => { const x = Math.sin(i * 12.9898 + s * 78.233) * 43758.5453; return x - Math.floor(x); };
 E.deathExtras = function (g, jl, t) {
   if (jl.kind !== 'Hound' || jl.variant !== 'C' || !jl.wall) return;
-  const at = jl.kt[1] * .9; if (t < at) return;
+  const at = jl.ph && jl.ph.wallHit ? jl.ph.wallHit.t : jl.kt[1] * .9; if (t < at) return;
   const w = jl.wall, back = w.ang + Math.PI, k = clamp((t - at) / .55, 0, 1), fresh = 1 - clamp((t - .2) / 9, 0, 1), col = fresh > .5 ? 0x7a1512 : 0x4a0b0a;
   const px = -Math.sin(w.ang), py = Math.cos(w.ang);
   // where the body struck: a wet smear running along the base of the wall, and spray thrown back off it
@@ -547,7 +577,7 @@ E.entAudio = function (dt, hounds, smilers) {
     if (!s || s.off) return; const st = AS.ss.get(s) || (AS.ss.set(s, { f: 0, rush: false, click: 0 }), AS.ss.get(s));
     const f = s.face === undefined ? 0 : s.face, d = Math.hypot(s.x - H.x, s.y - H.y);
     if (d < 1300) {
-      if (f > .55 && st.f <= .55) { E.smilerVoice(s.x, s.y, 'form'); E.smilerVoice(s.x, s.y, 'click'); }
+      if (f > .55 && st.f <= .55 && (performance.now() - (st.at || -1e9)) > 30000) { st.at = performance.now(); E.smilerVoice(s.x, s.y, 'form'); E.smilerVoice(s.x, s.y, 'click'); }   // rare and never a proximity radar: at most once in half a minute per smiler
       const rush = s.act === 'rush' || s.state === 'PROVOKED'; if (rush && !st.rush) E.smilerVoice(s.x, s.y, 'rush'); st.rush = rush;
     }
     st.f = f;
@@ -556,11 +586,26 @@ E.entAudio = function (dt, hounds, smilers) {
 /* touchdowns reported by the gait code */
 E.footfall = function (o, spd, limb) { const d = Math.hypot(o.x - API().H.x, o.y - API().H.y); if (d < 1100 && spd > 25) E.houndStep(o.x, o.y, spd, limb); };
 
-/* ---------------------------------------------------------------- admin-only AI debug overlay (never drawn for ordinary players)
- * Shows, for every entity the server sends: state / act, target, last known player position and how stale it is, vision range,
- * the last sound it heard, its search goal, its current path, mood, the capture decision, tier and how many players are near. */
+/* ---------------------------------------------------------------- admin-only DEBUG MODE overlay (never drawn for ordinary players)
+ * Layers (each can be switched on its own in the admin panel's DEBUG tab):
+ *   ai   - every entity the server sends: state / act, target, last known position and how stale it is, vision range, the last sound it heard,
+ *          its search goal, its path, mood, the capture decision, tier and how many players are near
+ *   you  - your own movement state, speed, stamina, surface, how visible you are and how far you are heard right now (dashed circle)
+ *   srv  - server timings: milliseconds per 60 Hz step, snapshot size, senses / paths per second, tiers, ping, frame rate
+ *   log  - what the entities decided, as it happens: state changes, catches, kills (with variant and reason), releases, lamp failures */
 E.dbg = null; E.dbgAt = 0;
+E.dbgCfg = { on: false, ai: true, you: true, srv: true, log: true, compact: false, side: 'right' };
+E.dbgX = { lg: [], pf: null, ping: -1, at: 0 };
+E.fps = 60; let fpsT = 0;
 E.setDebug = function (list) { E.dbg = list; E.dbgAt = performance.now(); };
+/* the extras that ride along with the entity list: new event-log lines and the server's own timings */
+E.setDebugX = function (dx) {
+  if (!dx) return; const now = performance.now();
+  for (const l of dx.lg || []) E.dbgX.lg.push({ s: l[0], t: l[1], x: l[2], at: now });
+  if (E.dbgX.lg.length > 40) E.dbgX.lg.splice(0, E.dbgX.lg.length - 40);
+  if (dx.pf) E.dbgX.pf = dx.pf; E.dbgX.at = now;
+};
+E.clearDebug = function () { E.dbg = null; E.dbgX = { lg: [], pf: null, ping: -1, at: 0 }; };
 let dbgCv = null;
 /* its own canvas above the darkness layer: the overlay must be readable in the dark, and it exists only while an unlocked admin has it on */
 function dbgCtx(on) {
@@ -570,11 +615,27 @@ function dbgCtx(on) {
   if (dbgCv.width !== W * dpr || dbgCv.height !== H * dpr) { dbgCv.width = W * dpr; dbgCv.height = H * dpr; }
   const c = dbgCv.getContext('2d'); c.setTransform(dpr, 0, 0, dpr, 0, 0); c.clearRect(0, 0, W, H); return c;
 }
-E.drawDebug = function (cx0, view) {
-  const list = E.dbg, on = !!(list && list.length && view), cx = dbgCtx(on); if (!on || !cx) return;
+const MONO = '11px ui-monospace,Consolas,monospace';
+/* a small panel of text lines; returns the y below it */
+function dbox(cx, x, y, w, title, lines, col, colors) {
+  const h = 18 + lines.length * 13 + 6;
+  cx.save(); cx.globalAlpha = 1; cx.fillStyle = 'rgba(0,0,0,.7)'; cx.fillRect(x, y, w, h); cx.strokeStyle = col; cx.globalAlpha = .55; cx.strokeRect(x + .5, y + .5, w - 1, h - 1); cx.globalAlpha = 1;
+  cx.fillStyle = col; cx.font = 'bold 11px ui-monospace,Consolas,monospace'; cx.fillText(title, x + 8, y + 5);
+  cx.font = MONO; lines.forEach((l, i) => { cx.fillStyle = colors && colors[i] || '#cfd8cb'; cx.fillText(l, x + 8, y + 20 + i * 13); });
+  cx.restore(); return y + h + 6;
+}
+/* how far you are heard from right now (the same radii the server uses, scaled by the floor) */
+function hearRadius(mv, H) {
+  const W = window.WORLD; if (!W || !W.NOISE) return 0; const N = W.NOISE, s = mv.s, moving = (mv.speed || 0) > 12; let r = 0;
+  if (s === 'walk') r = N.walk; else if (s === 'run') r = N.run; else if (s === 'crouch') r = moving ? N.crouchMove : 0; else if (s === 'crawl') r = moving ? N.crawl : 0; else if (s === 'slide') r = N.slide;
+  else if (s === 'vault') r = [N.vaultSlow, N.vaultNormal, N.vaultFast][mv.q | 0] || N.vaultNormal;
+  const su = W.SURF && W.SURF[mv.surf]; if (su && su.step) r *= su.step;
+  if (H.exhausted) r = Math.max(r, N.exhaled * .6);
+  return Math.round(r);
+}
+function drawEntities(cx, view, list, cfg, stale) {
   const { cam, sc, W, H } = view, X = x => W / 2 + (x - cam.x) * sc, Y = y => H / 2 + (y - cam.y) * sc;
-  cx.save(); cx.font = '11px ui-monospace,Consolas,monospace'; cx.textBaseline = 'top';
-  const stale = performance.now() - E.dbgAt > 1500; cx.globalAlpha = stale ? .35 : 1;
+  cx.save(); cx.font = MONO; cx.textBaseline = 'top'; cx.globalAlpha = stale ? .35 : 1;
   for (const d of list) {
     const col = d.k === 'hound' ? '#ff9a5c' : '#9fe8ff', x = X(d.x), y = Y(d.y);
     // vision radius (dashed) and body
@@ -582,27 +643,90 @@ E.drawDebug = function (cx0, view) {
     cx.globalAlpha = stale ? .35 : 1;
     cx.beginPath(); cx.arc(x, y, 5, 0, TAU); cx.fillStyle = col; cx.fill();
     cx.beginPath(); cx.moveTo(x, y); cx.lineTo(x + Math.cos(d.a) * 26 * sc, y + Math.sin(d.a) * 26 * sc); cx.stroke();
-    // path
-    if (d.path && d.path.length) { cx.strokeStyle = 'rgba(120,255,140,.8)'; cx.beginPath(); cx.moveTo(x, y); for (const p of d.path) cx.lineTo(X(p[0]), Y(p[1])); cx.stroke(); }
-    // last known position of its target (with age) and the line to it
-    if (d.lk) {
-      const lx = X(d.lk.x), ly = Y(d.lk.y); cx.strokeStyle = d.lk.seen ? '#ff4d4d' : '#ffd24d'; cx.setLineDash([3, 4]); cx.beginPath(); cx.moveTo(x, y); cx.lineTo(lx, ly); cx.stroke(); cx.setLineDash([]);
-      cx.beginPath(); cx.rect(lx - 5, ly - 5, 10, 10); cx.stroke(); cx.fillStyle = cx.strokeStyle; cx.fillText('LKP ' + d.lk.age + 's c' + d.lk.c, lx + 8, ly - 5);
+    if (!cfg.compact) {
+      // path
+      if (d.path && d.path.length) { cx.strokeStyle = 'rgba(120,255,140,.8)'; cx.beginPath(); cx.moveTo(x, y); for (const p of d.path) cx.lineTo(X(p[0]), Y(p[1])); cx.stroke(); }
+      // last known position of its target (with age) and the line to it
+      if (d.lk) {
+        const lx = X(d.lk.x), ly = Y(d.lk.y); cx.strokeStyle = d.lk.seen ? '#ff4d4d' : '#ffd24d'; cx.setLineDash([3, 4]); cx.beginPath(); cx.moveTo(x, y); cx.lineTo(lx, ly); cx.stroke(); cx.setLineDash([]);
+        cx.beginPath(); cx.rect(lx - 5, ly - 5, 10, 10); cx.stroke(); cx.fillStyle = cx.strokeStyle; cx.fillText('LKP ' + d.lk.age + 's c' + d.lk.c, lx + 8, ly - 5);
+      }
+      if (d.hr) { const hx = X(d.hr.x), hy = Y(d.hr.y); cx.strokeStyle = '#d68cff'; cx.beginPath(); cx.arc(hx, hy, 7, 0, TAU); cx.stroke(); cx.fillStyle = '#d68cff'; cx.fillText('HEARD ' + d.hr.ty + ' ' + d.hr.t + 's I' + d.hr.I, hx + 9, hy - 4); }
+      if (d.sg) { const sx = X(d.sg.x), sy = Y(d.sg.y); cx.strokeStyle = '#7aa2ff'; cx.beginPath(); cx.moveTo(sx - 6, sy); cx.lineTo(sx + 6, sy); cx.moveTo(sx, sy - 6); cx.lineTo(sx, sy + 6); cx.stroke(); cx.fillStyle = '#7aa2ff'; cx.fillText('SEARCH', sx + 8, sy + 2); }
     }
-    if (d.hr) { const hx = X(d.hr.x), hy = Y(d.hr.y); cx.strokeStyle = '#d68cff'; cx.beginPath(); cx.arc(hx, hy, 7, 0, TAU); cx.stroke(); cx.fillStyle = '#d68cff'; cx.fillText('HEARD ' + d.hr.ty + ' ' + d.hr.t + 's I' + d.hr.I, hx + 9, hy - 4); }
-    if (d.sg) { const sx = X(d.sg.x), sy = Y(d.sg.y); cx.strokeStyle = '#7aa2ff'; cx.beginPath(); cx.moveTo(sx - 6, sy); cx.lineTo(sx + 6, sy); cx.moveTo(sx, sy - 6); cx.lineTo(sx, sy + 6); cx.stroke(); cx.fillStyle = '#7aa2ff'; cx.fillText('SEARCH', sx + 8, sy + 2); }
     // label block
-    const lines = [`${d.k.toUpperCase()}#${d.i}  ${d.s}${d.ac && d.ac !== '-' ? '/' + d.ac : ''}  tier:${d.tier}`,
-      `tgt:${d.tg || '-'}  v:${d.v}  near:${d.near}` + (d.lit !== undefined ? '  lit:' + d.lit : ''),
-      `mood a${d.mood[0]} f${d.mood[1]} e${d.mood[2]} b${d.mood[3]}`];
-    if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
-    if (d.cd) lines.push('decide: ' + Object.entries(d.cd).map(([k, v]) => k + ':' + v).join(' ').slice(0, 60));
-    if (d.pu) lines.push('pursuit ' + (d.pu.blind !== undefined ? 'blind ' + d.pu.blind + 's' : 'seen'));
+    const lines = [`${d.k.toUpperCase()}#${d.i}  ${d.s}${d.ac && d.ac !== '-' ? '/' + d.ac : ''}  tier:${d.tier}`];
+    if (!cfg.compact) {
+      lines.push(`tgt:${d.tg || '-'}  v:${d.v}  near:${d.near}` + (d.lit !== undefined ? '  lit:' + d.lit : ''), `mood a${d.mood[0]} f${d.mood[1]} e${d.mood[2]} b${d.mood[3]}`);
+      if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
+      if (d.cd) lines.push('decide: ' + Object.entries(d.cd).map(([k, v]) => k + ':' + v).join(' ').slice(0, 60));
+      if (d.sm) lines.push('quirk ' + d.sm.q + ' exposed ' + d.sm.ex + (d.sm.le ? ' light:' + d.sm.le : '') + (d.sm.enc ? ' enc[' + d.sm.enc + ']' : ''));   // internal values: debug mode only, never in normal play
+      if (d.pu) lines.push('pursuit ' + (d.pu.blind !== undefined ? 'blind ' + d.pu.blind + 's' : 'seen'));
+    } else if (d.cp) lines[0] += `  ${d.cp.m}/${d.cp.ph}`;
     const w = Math.max(...lines.map(l => cx.measureText(l).width)) + 10, h = lines.length * 13 + 6;
     cx.fillStyle = 'rgba(0,0,0,.66)'; cx.fillRect(x + 10, y - h - 6, w, h); cx.fillStyle = col;
     lines.forEach((l, i) => cx.fillText(l, x + 15, y - h - 3 + i * 13));
   }
-  cx.globalAlpha = 1; cx.fillStyle = 'rgba(0,0,0,.7)'; cx.fillRect(W / 2 - 112, 6, 224, 22); cx.fillStyle = '#9dff9d'; cx.fillText('AI DEBUG · ' + list.length + ' ENTITIES  (admin)', W / 2 - 106, 11);
+  cx.restore();
+}
+function drawYou(cx, view) {
+  const A = window.__api, mv = window.__mv; if (!A || !mv || !A.H) return null;
+  const { cam, sc, W, H } = view, X = x => W / 2 + (x - cam.x) * sc, Y = y => H / 2 + (y - cam.y) * sc, P = A.H, r = hearRadius(mv, P);
+  cx.save();
+  if (r > 0) {                                           // how far you are heard right now
+    cx.strokeStyle = '#7fe0ff'; cx.lineWidth = 1.2; cx.setLineDash([6, 6]); cx.globalAlpha = .55; cx.beginPath(); cx.arc(X(P.x), Y(P.y), r * sc, 0, TAU); cx.stroke(); cx.setLineDash([]);
+    cx.globalAlpha = .9; cx.fillStyle = '#7fe0ff'; cx.font = MONO; cx.textBaseline = 'top'; cx.fillText('heard within ~' + r + ' px', X(P.x) + 6, Y(P.y) - r * sc - 15);
+  }
+  cx.restore();
+  const sector = (document.getElementById('sector') || {}).textContent || '';
+  return { r, lines: [`state ${String(mv.s).toUpperCase()}${mv.down ? ' (' + mv.down + ')' : ''}   speed ${Math.round(mv.speed || 0)} px/s`, `stamina ${Math.round(P.stamina)}${P.exhausted ? '  EXHAUSTED' : ''}`,
+    `x ${Math.round(P.x)}  y ${Math.round(P.y)}  ${mv.surf || ''}`, sector, `visibility x${(mv.prof === undefined ? 1 : mv.prof).toFixed(2)}   heard ${r ? '~' + r + ' px' : 'nowhere (silent)'}`].filter(Boolean) };
+}
+/* the death lab's overlay: what the death simulation is doing, drawn over the world (admin only, off in normal play) */
+function drawDeathViz(cx, view) {
+  const A = window.__api, d = A && A.death && A.death(), S = d && d.active && d.ph; if (!S) return;
+  const { cam, sc, W, H } = view, X = x => W / 2 + (x - cam.x) * sc, Y = y => H / 2 + (y - cam.y) * sc, b = S.b, tr = S.trace;
+  cx.save(); cx.lineWidth = 1.4; cx.font = MONO; cx.textBaseline = 'top';
+  const path = (pts, col, dash) => { if (pts.length < 2) return; cx.strokeStyle = col; cx.setLineDash(dash || []); cx.beginPath(); cx.moveTo(X(pts[0][0]), Y(pts[0][1])); for (let i = 1; i < pts.length; i++) cx.lineTo(X(pts[i][0]), Y(pts[i][1])); cx.stroke(); cx.setLineDash([]); };
+  path(tr.b, '#9dff9d'); path(tr.h0, '#ffb15c', [3, 3]); path(tr.h1, '#7fe0ff', [3, 3]); path(tr.eq, '#ffe36b'); path(tr.at, '#ff6f61', [5, 4]);
+  const dot = (x, y, r, col, fill) => { cx.beginPath(); cx.arc(X(x), Y(y), r, 0, TAU); if (fill) { cx.fillStyle = col; cx.fill(); } else { cx.strokeStyle = col; cx.stroke(); } };
+  const c = Math.cos(b.th), sn = Math.sin(b.th);
+  S.h.forEach((h, i) => { const col = i ? '#7fe0ff' : '#ffb15c', lx = h.anc.x + h.off.x, ly = h.anc.y + h.off.y, tx = h.brace ? h.brace.x : b.x + lx * c - ly * sn, ty = h.brace ? h.brace.y : b.y + lx * sn + ly * c;
+    cx.strokeStyle = col; cx.globalAlpha = .5; cx.beginPath(); cx.moveTo(X(h.x), Y(h.y)); cx.lineTo(X(tx), Y(ty)); cx.stroke(); cx.globalAlpha = 1; dot(tx, ty, 4, col, false); dot(h.x, h.y, 3, col, true);
+    if (h.brace) { cx.fillStyle = col; cx.fillText('brace', X(h.brace.x) + 6, Y(h.brace.y) - 4); } });
+  for (const [x, y, t] of tr.hit) { cx.strokeStyle = '#ff4d4d'; cx.beginPath(); cx.moveTo(X(x) - 6, Y(y) - 6); cx.lineTo(X(x) + 6, Y(y) + 6); cx.moveTo(X(x) + 6, Y(y) - 6); cx.lineTo(X(x) - 6, Y(y) + 6); cx.stroke(); }
+  if (S.eq.has) dot(S.eq.x, S.eq.y, 4, '#ffe36b', !S.eq.held);
+  cx.strokeStyle = '#ffffff'; cx.beginPath(); cx.moveTo(X(b.x), Y(b.y)); cx.lineTo(X(b.x + b.vx * .3), Y(b.y + b.vy * .3)); cx.stroke();      // velocity (x0.3 s)
+  cx.strokeStyle = '#d9a3ff'; cx.beginPath(); cx.arc(X(b.x), Y(b.y), 24 * sc, b.th, b.th + clamp(b.om * .25, -2.6, 2.6), b.om < 0); cx.stroke();      // angular velocity
+  const fs = Math.hypot(b.vx, b.vy);
+  const L = [`t ${d.elapsed.toFixed(2)}s   phase ${S.phase}   ${S.state}`, `speed ${Math.round(fs)} px/s   spin ${b.om.toFixed(1)} rad/s`, `squash ${b.sq.toFixed(2)}   res ${S.res.toFixed(2)}${S.exh < 1 ? '  EXHAUSTED' : ''}`, `light ${S.eq.has ? (S.eq.held ? 'held' : S.eq.st.toLowerCase()) : 'headlamp'}   hat ${S.hat.has ? (S.hat.on ? 'on' : S.hat.st.toLowerCase()) : '-'}`];
+  cx.fillStyle = 'rgba(0,0,0,.72)'; cx.fillRect(10, H - 92, 250, 78); cx.fillStyle = '#9dff9d'; L.forEach((t, i) => cx.fillText(t, 18, H - 86 + i * 17));
+  cx.restore();
+}
+E.drawDebug = function (cx0, view) {
+  const cfg = E.dbgCfg, lab = window.__dlab, viz = !!(lab && lab.viz && view), on = !!(cfg.on && view), cx = dbgCtx(on || viz); if (!(on || viz) || !cx) return;
+  if (viz) drawDeathViz(cx, view);
+  if (!on) return;
+  const { W, H } = view, now = performance.now();
+  if (fpsT) { const f = 1000 / Math.max(1, now - fpsT); E.fps += (f - E.fps) * .05; } fpsT = now;
+  const list = E.dbg, stale = now - E.dbgAt > 1500;
+  if (cfg.ai && list && list.length) drawEntities(cx, view, list, cfg, stale);
+  cx.save(); cx.font = MONO; cx.textBaseline = 'top';
+  const bw = 268, bx = cfg.side === 'left' ? 12 : W - bw - 12; let by = 64;
+  if (cfg.you) { const y = drawYou(cx, view); if (y) by = dbox(cx, bx, by, bw, 'YOU', y.lines, '#7fe0ff'); }
+  if (cfg.srv) {
+    const p = E.dbgX.pf, ping = E.dbgX.ping, tiers = { n: 0, m: 0, f: 0 }; for (const d of list || []) tiers[d.tier[0]]++;
+    const ln = p ? [`sim ${p.ms} ms/step  (worst ${p.mx})   ${p.ms > 4 ? 'SLOW' : 'ok'}`, `snapshot ${p.kb} KB   players ${p.pl}`, `senses ${p.se}/s   paths ${p.pa}/s`, `entities ${(list || []).length}   near ${tiers.n} · mid ${tiers.m} · far ${tiers.f}`,
+      `ping ${ping >= 0 ? Math.round(ping) + ' ms' : '...'}   fps ${Math.round(E.fps)}`] : ['waiting for the server...'];
+    by = dbox(cx, bx, by, bw, 'SERVER', ln, '#9dff9d', p && p.ms > 4 ? [ '#ff8a7a'] : null);
+  }
+  if (cfg.log) {
+    const L = E.dbgX.lg.slice(-11), cols = [];
+    const ln = L.length ? L.map(l => { const a = (now - l.at) / 1000; cols.push(/KILLED/.test(l.x) ? '#ff6f61' : /caught|released|now /.test(l.x) ? '#ffb15c' : /lamps/.test(l.x) ? '#ffe36b' : a > 30 ? '#7d8a80' : '#b9c7bc'); return ('[' + l.t.toFixed(0) + '] ' + l.x).slice(0, 44); }) : ['(nothing yet)'];
+    by = dbox(cx, bx, by, bw, 'AI EVENTS', ln, '#ffb15c', cols);
+  }
+  cx.globalAlpha = 1; cx.fillStyle = 'rgba(0,0,0,.7)'; const title = 'DEBUG MODE' + (cfg.ai ? ' · ' + (list ? list.length : 0) + ' ENTITIES' : '') + '  (admin)', tw = cx.measureText(title).width + 20;
+  cx.fillRect(W / 2 - tw / 2, 6, tw, 22); cx.fillStyle = '#9dff9d'; cx.fillText(title, W / 2 - tw / 2 + 10, 11);
   cx.restore();
 };
 
