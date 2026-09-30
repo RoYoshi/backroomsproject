@@ -23,7 +23,7 @@ class Client {
       if (m.t === 'hi') this.id = m.id; else if (m.t === 's') { this.last = m; this.nSnap++; this.snaps.push(m); if (this.snaps.length > 400) this.snaps.shift(); }
       else if (m.t === 'fx') this.fx.push(m); else if (m.t === 'bodies') this.bodies = m; else if (m.t === 'admin') this.admin = m; else if (m.t === 'got') this.got.push(m); else if (m.t === 'tp') { this.tps++; this.pos = { x: m.x, y: m.y }; }      // like the real client: the server moved us (admin tool / movement correction)
     };
-    this.pos = { x: 5000, y: 3504 }; this.mv = [0, 0, 100, 0]; this.timer = null;
+    this.pos = { x: 5000, y: 3504 }; this.mv = { s: 0, st: 100, ex: 0, sp: 0, ev: [] }; this.timer = null;      // the movement report in the real client's format (move.js mv.net): standing, fresh
   }
   send(o) { if (this.ws.readyState === 1) this.ws.send(JSON.stringify(o)); }
   start(x, y) { this.pos = { x, y }; this.timer = setInterval(() => this.send({ t: 'p', x: this.pos.x, y: this.pos.y, vx: 0, vy: 0, a: 0, r: 0, l: 1, k: 'flashlight', n: this.name, c: '#ffe7b2', mv: this.mv }), 50); }
@@ -70,6 +70,7 @@ class Client {
     check('L5 the right passcode unlocks admin (even after one wrong guess) for that connection only', A.admin && A.admin.ok === true, JSON.stringify(A.admin));
     // wait out spawn protection, then send the hound
     await sleep(3500);
+    A.mv = { s: 0, st: 0, ex: 1, sp: 0, ev: [] };                           // Alice stands there winded (breathing hard: audible). Until v22.2 this fixture sent a malformed report the server read as stamina 0; now it says so
     A.send({ t: 'a', c: 'near', k: 'hound' });
     let died = -1, t0 = Date.now();
     while (Date.now() - t0 < 70000) { if (A.last && A.last.me) { died = (Date.now() - t0) / 1000; break; } await sleep(100); }

@@ -141,6 +141,7 @@ async function walk(c, x0, y0, x1, y1, speed, o = {}) {
     check('S1 a new run / respawn: the client\'s own spawn choice (open floor, no monster near) is accepted as it always was', js && Math.hypot(js.x - 3300, js.y - LY) < 3 && j.tps.length === tpJ, `J chose 3300,${LY}: observer sees ${js && js.x},${js && js.y}; corrections ${j.tps.length - tpJ}`);
     adm.pos(7000, LY); await sleep(150); adm.pos(7000, LY); await sleep(150); adm.tx({ t: 'a', c: 'near', k: 'hound' }); await sleep(400);
     const hd = ((obs.last && obs.last.e && obs.last.e.h) || []).find(q => Math.hypot(q.x - Ic.x, q.y - Ic.y) > 2000);      // the one placed out by the corridor, far from the spawn point
+    j.tx({ t: 'fx', k: 'vanish', x: 3300, y: LY, a: 0 }); await sleep(2300); j.tx({ t: 'leave' }); await sleep(100);      // a proper new run (v22.2 lifecycle): the vanish, then back to the menu
     j.tx({ t: 'join' }); await sleep(100); const tpJ2 = j.tps.length; if (hd) j.pos(hd.x + 60, hd.y); await sleep(500); const js2 = obs.peer(j.id);
     check('S2 ...but a "spawn" right next to a hound is refused (join is not a teleport)', hd && js2 && Math.hypot(js2.x - hd.x, js2.y - hd.y) > 500 && j.tps.length > tpJ2, `hound at ${hd && Math.round(hd.x)},${hd && Math.round(hd.y)}; J claimed a spawn 60 px from it; observer sees J at ${js2 && js2.x},${js2 && js2.y}; corrections ${j.tps.length - tpJ2}`);
     for (const c of [adm, a, obs, late, w2, j]) try { c.ws.close(); } catch { }

@@ -106,8 +106,9 @@ function addPlayer(id){
 }
 function removePlayer(p){const i=players.indexOf(p);if(i>=0)players.splice(i,1)}
 function spawn(p){Object.assign(p,{x:Ic.x,y:Ic.y,vx:0,vy:0,dead:``,safe:3,exited:false,caught:null,kill:null,st:0,sp:0,stamina:100,ex:0});p.evq.length=0}
-function join(p){
-  if(p.active&&p.caught&&!p.dead)return false;                         // no walking out of a capture through the menu: it ends in a death or a release
+function join(p,now=Date.now()/1000){
+  const L=lifeOf(p);if(L===`held`||(L===`alive`&&!vanished(p,now)))return false;       // no walking out of a capture, no new run without the new-run sequence
+  p.vanishOk=false;                                                    // a vanish opens one new run (its 30 s cooldown still counts)
   const others=players.some(o=>o!==p&&o.active&&!o.exited);
   p.active=true;spawn(p);p.t0=runT;
   if(!others)resetWorld();
@@ -118,7 +119,18 @@ function join(p){
    would be a free teleport home with full stamina and spawn protection.  Returns whether it happened. */
 function canRespawn(p){return !!(p.active&&(p.dead||p.reviveOk))}
 function respawn(p){if(!canRespawn(p))return false;if(p.pvEnt){eng.remove(p.pvEnt);p.pvEnt=0}p.reviveOk=false;spawn(p);return true}
-function leave(p){p.active=false;p.dead=``;p.caught=null}
+/* the rest of the lifecycle (v22.2).  A player is in the MENU (not in the world), ALIVE, HELD (in a capture) or DEAD.
+ *   join   (start a run)  from the menu or from death; from ALIVE only as the end of a finished new-run vanish; never while HELD
+ *   leave  (to the menu)  from death, or from ALIVE as the end of a finished vanish; never while HELD (the body stays in the capture)
+ *   vanish (the client's NEW RUN sequence: 2.7 s on screen, protected, standing still) only while ALIVE, at most once every 30 s
+ *   disconnect while HELD = the capture is forfeited: the holder kills (forfeit), so a reconnect is a new player after a death, not an escape
+ * The server passes its clock (seconds); a finished vanish is one started 2 to 20 s ago. */
+const lifeOf=p=>!p.active?`menu`:p.dead?`dead`:p.caught?`held`:`alive`;
+const VANISH_MIN=2,VANISH_MAX=20,VANISH_CD=30;
+const vanished=(p,now)=>!!p.vanishOk&&now-p.vanishAt>=VANISH_MIN&&now-p.vanishAt<=VANISH_MAX;       // a finished vanish not used yet
+function vanish(p,now=Date.now()/1000){if(lifeOf(p)!==`alive`)return false;if(p.vanishAt!=null&&now-p.vanishAt<VANISH_CD)return false;p.vanishAt=now;p.vanishOk=true;p.safe=Math.max(p.safe,4);return true}
+function forfeit(p){if(lifeOf(p)!==`held`)return false;const ok=eng.forfeitCapture(p);processEvents();return ok}
+function leave(p,now=Date.now()/1000){const L=lifeOf(p);if(L===`held`||(L===`alive`&&!vanished(p,now)))return false;if(L===`alive`)p.vanishOk=false;p.active=false;p.dead=``;p.caught=null;return true}
 
 /* movement validation (server.js): could a body get from a to b?  Only real walls and full-height furniture count ('any' mode: every
    crawl hole, table and vaultable prop is passable, since the client's own movement handles those).  Short hops are checked along the
@@ -146,16 +158,25 @@ function spawnOk(x,y){
 }
 /* what the client tells us about how it is moving: state, speed, stamina and a few discrete noises (vault, landing, slide) */
 function hearMove(p,m){
-  if(!m||typeof m!==`object`)return;
+  if(!m||typeof m!==`object`||Array.isArray(m))return false;
   const c=(v,lo,hi)=>Math.max(lo,Math.min(hi,+v||0));
   p.st=c(m.s,0,7)|0;p.stamina=c(m.st,0,100);p.ex=m.ex?1:0;p.sp=c(m.sp,0,600);
-  // a claim cannot be quieter than the movement the server actually accepted (server.js measures it over ~0.5 s): moving fast while
-  // claiming to stand / crouch / crawl is heard as the gait that speed needs; walking pace claimed at running speed is heard as running
-  const ov=p.obsV||0;
-  if(ov>p.sp)p.sp=Math.min(600,ov);
-  if((p.st===0||p.st===3||p.st===4)&&ov>150)p.st=ov>250?2:1;
-  else if(p.st===1&&ov>245)p.st=2;
+  p.claimSt=p.st;p.claimSp=p.sp;
   if(Array.isArray(m.ev))for(const e of m.ev.slice(0,6))if(Array.isArray(e)&&p.evq.length<12)p.evq.push([e[0]|0,c(e[1],0,100)]);
+  return true;
+}
+/* the gait the AI hears, from the movement the server actually accepted (server.js measures it over ~0.5 s, p.obsV) - applied on every
+   position update whether or not the client sent its movement report.  A report may add detail (crouch, crawl, slide and vault noises) but
+   can never make the player quieter than that movement: fast while claiming to stand / crouch / crawl is heard as the gait the speed needs,
+   walking claimed at running speed is heard as running.  With no (or a malformed) report the gait is the quietest one that speed allows. */
+function gaitFloor(p,claimed){
+  const ov=p.obsV||0;let st,sp;
+  if(claimed){st=p.claimSt|0;sp=p.claimSp||0}
+  else{st=ov<20?0:ov<=106?3:ov<=225?1:2;sp=ov}
+  if(ov>sp)sp=Math.min(600,ov);
+  if((st===0||st===3||st===4)&&ov>150)st=ov>225?2:1;                       // (a walk is 172 px/s, 148 winded; a sprint 285, 236 on deep carpet: 225 lies between, with room for packet timing)
+  else if(st===1&&ov>225)st=2;
+  p.st=st;p.sp=sp;
 }
 /* the numbers the AI reads about each player, refreshed every step */
 function feed(){
@@ -174,6 +195,7 @@ function processEvents(){
       const g=ev.geo;
       p.kill={v:ev.variant,k:ev.kind,e:ev.eid,ax:Math.round(g.ax),ay:Math.round(g.ay),aa:+g.aa.toFixed(3),w:g.wall?[Math.round(g.wall.x),Math.round(g.wall.y),+g.wall.ang.toFixed(3)]:0,
         x:Math.round(ev.victim.x),y:Math.round(ev.victim.y),a:+ev.victim.a.toFixed(3),why:ev.why};
+      if(opts.onDeath)opts.onDeath(p);                                  // the death is committed: the server keeps its aftermath from this instant (server.js)
     }
   }
 }
@@ -262,7 +284,7 @@ const admin={
     cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
 };
 function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;eng.sound({x:p.x,y:p.y,r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
-resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,
+resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,vanish,forfeit,gaitFloor,lifeOf,
   clearAt:(x,y,r)=>sl(x,y,r),blockersAt:(x,y)=>Bc(x,y),step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},

@@ -67,9 +67,9 @@ const MV = { VMAX: 360, VHELD: 130, BURST: 1.5, SLACK: 28, SNAP: 220, GRACE: 900
 function mvReset(me, grace = true) { const p = me.player; me.mv = { t: Date.now(), bud: MV.VMAX * MV.BURST, grace: grace ? Date.now() + MV.GRACE : 0, bad: 0, badAt: 0, paths: 0, pathT: 0, hist: [[Date.now(), p.x, p.y]] }; p.obsV = 0; }
 function mvAccept(me, x, y) {
   const p = me.player, v = me.mv, now = Date.now();
-  v.hist.push([now, x, y]); while (v.hist.length > 2 && now - v.hist[1][0] > 500) v.hist.shift();
+  v.hist.push([now, x, y]); while (v.hist.length > 2 && now - v.hist[1][0] >= 500) v.hist.shift();       // keeps the newest sample that is at least 0.5 s old as the base
   const h0 = v.hist[0], el = (now - h0[0]) / 1000;
-  p.obsV = el > .2 ? Math.hypot(x - h0[1], y - h0[2]) / el : p.obsV;        // what the server saw it do, over the last ~0.5 s
+  if (el >= .5) p.obsV = Math.hypot(x - h0[1], y - h0[2]) / el;            // what the server saw it do over at least 0.5 s (packets bunched by lag average out instead of spiking)
   p.x = x; p.y = y;
 }
 function mvCheck(room, me, x, y) {
@@ -79,7 +79,7 @@ function mvCheck(room, me, x, y) {
   v.bud = Math.min(cap * MV.BURST, v.bud + cap * dt);
   const d = Math.hypot(x - p.x, y - p.y);
   let ok = d <= v.bud + MV.SLACK;
-  if (ok && d > 0.5) {
+  if (ok && d > 0) {                                                        // every accepted move keeps collision legality, however small (tiny steps must not add up through a wall)
     if (d >= 120) { if (now - v.pathT > 1000) { v.pathT = now; v.paths = 0; } ok = ++v.paths <= 3 && room.sim.moveOk(p.x, p.y, x, y, v.bud + MV.SLACK); }      // at most 3 route checks a second
     else ok = room.sim.moveOk(p.x, p.y, x, y, v.bud + MV.SLACK);
   }
@@ -145,7 +145,7 @@ function cleanLook(s) {                       // hat|texture|hands|main|backpack
 
 function getRoom(name) {
   let r = rooms.get(name);
-  if (!r) { r = { name, clients: new Map(), sim: createSim({ bodyTtl: BODY_TTL }), acc: 0, last: Date.now(), tick: 0, pf: { ms: 0, max: 0, snapB: 0, sense: 0, paths: 0, at: Date.now() } }; rooms.set(name, r); }
+  if (!r) { const room = r = { name, clients: new Map(), sim: createSim({ bodyTtl: BODY_TTL, onDeath: p => { const c = room.clients.get(p.id); if (c) aftStart(room, c); } }), acc: 0, last: Date.now(), tick: 0, pf: { ms: 0, max: 0, snapB: 0, sense: 0, paths: 0, at: Date.now() } }; rooms.set(name, r); }
   return r;
 }
 
@@ -215,8 +215,8 @@ srv.on('upgrade', (req, sock) => {
   function onMessage(m) {
     if (m.t === 'p') {
       const now = Date.now();
-      if (m.mv) room.sim.hearMove(player, m.mv);            // state / stamina / vault + slide noises: processed even if the position is throttled
-      if (now - me.last < 30 || !isFinite(m.x) || !isFinite(m.y)) return;
+      if (m.mv && room.sim.hearMove(player, m.mv)) me.mvAt = now;           // state / stamina / vault + slide noises: processed even if the position is throttled
+      if (now - me.last < 30 || !isFinite(m.x) || !isFinite(m.y)) { room.sim.gaitFloor(player, now - (me.mvAt || 0) < 500); return; }
       me.last = now;
       const p = player;
       if (!p.dead) {                       // a caught player's body stays where it fell
@@ -232,22 +232,24 @@ srv.on('upgrade', (req, sock) => {
         else ok = mvCheck(room, me, x, y);                                     // refused: the position stays; the rest of the packet still counts
         if (ok) { p.vx = num(m.vx, -500, 500); p.vy = num(m.vy, -500, 500); }
       }
+      room.sim.gaitFloor(p, now - (me.mvAt || 0) < 500);                     // what the AI hears can never be quieter than the accepted movement, report or not
       p.angle = +m.a || 0; p.sprinting = !!m.r; p.light = m.l !== 0;
       p.equipment.kind = kindOf(m.k);
       me.name = String(m.n || 'WANDERER').slice(0, 20);
       if (HEX.test(m.c)) me.color = m.c;
       me.look = cleanLook(m.lk) || me.look; me.lp = cleanParts(m.lp);
       me.angle = p.angle; me.sprint = m.r ? 1 : 0; me.fall = m.f >= 0 && m.f <= 1 ? +m.f : -1;
-    } else if (m.t === 'join') { if (room.sim.join(player)) { mvReset(me); me.spawnNext = true; } else send(me, { t: 'tp', x: Math.round(player.x), y: Math.round(player.y) }); }
+    } else if (m.t === 'join') { if (room.sim.join(player, Date.now() / 1000)) { mvReset(me); me.spawnNext = true; } else send(me, { t: 'tp', x: Math.round(player.x), y: Math.round(player.y) }); }
     else if (m.t === 'respawn') {                                          // only from a death (or an admin revive): see sim.respawn
       if (room.sim.respawn(player)) { mvReset(me); me.spawnNext = true; }
       else { me.respawnRefused = (me.respawnRefused | 0) + 1; send(me, { t: 'tp', x: Math.round(player.x), y: Math.round(player.y) }); }
     }
-    else if (m.t === 'leave') room.sim.leave(player);                       // NEW RUN -> END / menu: no longer in the world
+    else if (m.t === 'leave') { if (!room.sim.leave(player, Date.now() / 1000)) me.leaveRefused = (me.leaveRefused | 0) + 1; }      // to the menu: only from death or at the end of a new-run vanish, never while held (sim.js lifecycle)
     else if (m.t === 'fx') {                                                // replay someone's death / vanishing for everybody else
       const t = Date.now(), k = m.k === 'death' ? 'death' : m.k === 'vanish' ? 'vanish' : '';
       if (!k || !player.active || t - (me.fxAt || 0) < 1500 || (k === 'death' && !player.dead)) return;
-      me.fxAt = t; if (k === 'vanish') player.safe = Math.max(player.safe, 4);
+      if (k === 'vanish' && !room.sim.vanish(player, t / 1000)) return;       // the new-run sequence: only while alive and free, once every 30 s (it protects for 4 s)
+      me.fxAt = t;
       if (k === 'death') { const a = aftOf(room, id); if (a) { if (a.fx) return; a.fx = true; } }        // the server already replayed it for this victim: not twice
       const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
         v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0,
@@ -293,7 +295,9 @@ srv.on('upgrade', (req, sock) => {
     }
   });
   const bye = () => {
-    if (!room.clients.delete(id)) return;
+    if (!room.clients.has(id)) return;
+    if (player.caught && !player.dead) room.sim.forfeit(player);          // walking out of a capture is a death (its aftermath is recorded before we go), not an escape
+    room.clients.delete(id);
     room.sim.removePlayer(player);
     if (!room.clients.size) rooms.delete(name);       // empty world is thrown away
   };

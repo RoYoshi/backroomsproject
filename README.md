@@ -434,3 +434,21 @@ Fixes for the concrete findings of the independent Part 1 audit. No rebalancing,
 7. **Package-relative dev paths.** The tools and tests use `dev/paths.js`, and the build scripts write into the game folder they belong to.
 8. **Escape bench.** The duplicate hook call was removed (test B1).
 9. **Hound watchdog.** The corrected tests exposed this: a hound that paused to listen and then walked back past its old spot was reset as "stuck" and stopped dead. The watchdog now counts only a hound's time spent trying to move. Smilers keep the original rule.
+
+## v22.2 - Part 1 follow-up (the four defects left after the v22.1 verification)
+
+1. **Capture lifecycle** (`sim.js`: `join` / `leave` / `vanish` / `forfeit`, `server.js`). A player is in the MENU, ALIVE, HELD (in a capture) or DEAD.
+   - While HELD, every exit is closed: respawn, join, leave (so leave -> join no longer escapes) and the NEW RUN vanish (which used to give 4 s of protection).
+   - Closing the connection while held forfeits the capture: the holder kills there and then through the ordinary kill path. The death leaves its replay and corpse, and a reconnect is a new player after a death, not the held one set free.
+   - While ALIVE, a new run is only the game's own NEW RUN sequence: the vanish (2.7 s on screen), then leave, then join. The server accepts the leave or join 2-20 s after the vanish, and allows one vanish every 30 s.
+   - A bare join or leave from a living player does nothing.
+   - Death -> respawn, death -> new run, admin revive -> respawn, joining from the menu, the glitched-wall exit and reconnecting are unchanged.
+2. **Sub-pixel wall bypass** (`server.js`). Every accepted move now gets the collision check, however small. Before, moves of 0.5 px or less skipped it and could add up through a wall.
+3. **Silent running without a movement report** (`sim.js` `gaitFloor`, `server.js`).
+   - The gait the AI hears is set on every position update from the movement the server accepted, measured over at least 0.5 s. It no longer depends on the client's report.
+   - A report can add detail, but can never make the player quieter than that movement.
+   - With no report, or a garbled one, the gait is the quietest one that speed allows: standing, crouch pace, walk or run.
+   - The observed speed is measured over at least 0.5 s, so packets bunched by lag do not spike it.
+4. **Death aftermath race** (`sim.js` `onDeath`, `server.js`). The aftermath record is now made at the moment the server commits the death, not later in a broadcast scan. A victim that closes at once, even with the close frame right behind the command, still leaves exactly one replay and one corpse. The client's own replay and corpse remain the normal path.
+
+Nothing else changed: no tuning, no AI change, no change to the death look or physics.

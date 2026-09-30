@@ -74,4 +74,20 @@ add('L7 the server fallback corpse is the physical death run to rest: determinis
   }
   return { ok: out.every(o => o.same && o.clear && o.gear && o.hands), note: `8 deaths: identical twice ${out.filter(o => o.same).length}/8, corpse on open floor ${out.filter(o => o.clear).length}/8, light dropped ${out.filter(o => o.gear).length}/8, hands ${out.filter(o => o.hands).length}/8; bodies came to rest ${out.map(o => Math.round(o.moved)).join(', ')} px from where the kill began` };
 });
+add('L8 lifecycle (v22.2): held - leave is refused too, so leave -> join cannot escape; walking out (disconnect) forfeits the capture as a death', () => {
+  const rs = []; for (let s = 1; s <= 14 && rs.length < 4; s++) { const A = held(s); if (!A) continue; const { w, v } = A;
+    const lv = w.sim.leave(v), jn = w.sim.join(v), stillHeld = !!v.caught && !v.dead && v.active;
+    const ff = w.sim.forfeit(v); rs.push({ lv, jn, stillHeld, ff, dead: v.dead, kill: v.kill && v.kill.why }); }
+  return { ok: rs.length >= 3 && rs.every(r => r.lv === false && r.jn === false && r.stillHeld && r.ff === true && r.dead && r.kill === 'forfeit'),
+    note: `${rs.length} holds: leave ${rs.map(r => r.lv).join(',')}; then join ${rs.map(r => r.jn).join(',')}; still held ${rs.filter(r => r.stillHeld).length}/${rs.length}; forfeit -> ${rs.map(r => (r.dead || 'alive') + '/' + r.kill).join(',')}` };
+});
+add('L9 lifecycle (v22.2): a living player starts a new run only through the NEW RUN sequence (vanish, 2 s or more, then leave / join), once per 30 s', () => {
+  const w = World(6), p = w.player(X0, Y0, {}); const t = 1000;
+  const a = w.sim.join(p, t), b = w.sim.leave(p, t);                               // bare join / leave while alive
+  const v1 = w.sim.vanish(p, t), early = w.sim.leave(p, t + 1), ok = w.sim.leave(p, t + 2.7), inMenu = !p.active, j = w.sim.join(p, t + 5);
+  const v2 = w.sim.vanish(p, t + 10), l2 = w.sim.leave(p, t + 13), v3 = w.sim.vanish(p, t + 31), l3 = w.sim.leave(p, t + 34);
+  const d = World(7), q = d.player(X0, Y0, {}); q.dead = 'Hound'; const dj = d.sim.join(q, t);            // from death: a new run is fine
+  return { ok: a === false && b === false && v1 && early === false && ok && inMenu && j && v2 === false && l2 === false && v3 && l3 && dj,
+    note: `bare join ${a}, bare leave ${b}; vanish ${v1}, leave after 1 s ${early}, after 2.7 s ${ok} (menu ${inMenu}), join ${j}; vanish again 10 s later ${v2} (leave ${l2}); 31 s later ${v3} (leave ${l3}); join from death ${dj}` };
+});
 module.exports = S;

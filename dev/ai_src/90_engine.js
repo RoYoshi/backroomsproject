@@ -248,6 +248,8 @@ function create(cfg) {
 
   /* admin aid (DEATHS tab): one chosen death on one player, through the real kill path (see previewKill in the capture part) */
   eng.previewKill = function (e, variant, pv) { return previewKill(this, e, variant, pv); };
+  /* a held victim who walks out of the world (its connection closes) forfeits the capture: the holder kills it there and then, through the ordinary kill path */
+  eng.forfeitCapture = function (pv) { const cap = pv && pv.caught; if (!cap || cap.phase === 'done') return false; const e = this.entities.find(q => q.id === cap.eid); if (!e) return false; killNow(this, cap, pv, e, 'forfeit'); return true; };
 
   /* admin aid: put an entity at (x,y) and set it on the trail of a spot */
   eng.summon = function (e, x, y, tx, ty, pid) {

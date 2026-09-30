@@ -13,8 +13,10 @@ All paths are package-relative (`paths.js`: `../g` in the working tree, `..` in 
 ## Run
 
 ```
-node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_smiler2.js s_capture.js s_system.js s_admin.js s_commit.js s_nav.js s_chase.js s_audit.js    # 122 scenarios (s_nav = Part 1B, s_chase = Part 1C, s_audit = audit fixes in the simulation)
+node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_smiler2.js s_capture.js s_system.js s_admin.js s_commit.js s_nav.js s_chase.js s_audit.js    # 124 scenarios (s_nav = Part 1B, s_chase = Part 1C, s_audit = audit fixes in the simulation)
 node dev/tests/audit_net.js                                              # audit fixes on the wire (real server + sockets): malformed URLs, respawn rules, movement validation, spawn choice, death aftermath on disconnect
+node dev/tests/audit_net2.js                                             # v22.2 follow-up on the wire: capture escape sequences, sub-pixel walls, silent running without a report, real move.js traces, the death-disconnect race
+python3 dev/tests/lifecycle_mp.py                                        # browser: NEW RUN (vanish -> run menu -> play again) and RETRY after a death still work for an ordinary player
 node dev/tests/phys_test.js                                              # the physical death simulation (dphys.js)
 python3 dev/tests/play_mp.py                                             # browser: an ordinary player moving around online is never corrected by the movement check
 python3 dev/tests/fallback_parity.py                                     # browser: the server's fallback corpse == the corpse the victim's own browser made
@@ -31,7 +33,7 @@ python3 dev/tests/audio_test.py                                                 
 node dev/tests/play_server.js 8000 play                                               # the real server, but entities always "play" with a caught victim (or `quick`): for watching the held / down / crawl / release visuals
 ```
 
-`run.js`, `live.js`, `audit_net.js`, `interp_test.js`, `phys_test.js`, `move_test.py`, `play_mp.py`, `fallback_parity.py` and `audio_test.py` exit with code 1 if anything fails. The browser checks give their test pages admin authority (`__net.testAuth`) because they move them with the client-side debug teleport, which the server's movement check refuses from ordinary players.
+`run.js`, `live.js`, `audit_net.js`, `audit_net2.js`, `lifecycle_mp.py`, `interp_test.js`, `phys_test.js`, `move_test.py`, `play_mp.py`, `fallback_parity.py` and `audio_test.py` exit with code 1 if anything fails. The browser checks give their test pages admin authority (`__net.testAuth`) because they move them with the client-side debug teleport, which the server's movement check refuses from ordinary players.
 
 ## Scenarios (54, on the real simulation)
 
