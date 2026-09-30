@@ -1,0 +1,193 @@
+REGRESSIONS
+PASS P01 noticing distance: run > walk > crouch (resting hound, corridor)  [614ms]
+       run 1075px  walk 839px  crouch 414px
+PASS P02 light beam makes a walker easier to notice (hound)  [266ms]
+       light on 839px  off 267px
+PASS P03 standing still: a hound that is not looking never finds a silent standing player 300px away behind it  [113ms]
+       100% stayed unnoticed (hound facing away, 300px, silent stander)
+PASS P04 walls block sight: a hound never SEES a player through a wall at 150px  [1229ms]
+       14 wall-separated pairs, seen through wall in 0
+PASS P05 hearing: a running player is heard through a wall (hound turns to it); a crouch-walker at the same spot is not  [1598ms]
+       run heard 26/26, crouch-walk heard 0/26 (through one wall, ~300px)
+PASS P06 hearing radius: sliding / vaulting / landing are loud events, a standing player is silent  [20ms]
+       heard while standing 0; after slide+vault events 2 (vault,slide)
+PASS P07 exhausted breathing is audible only close by  [22ms]
+       900px away: 0 sounds; 180px away: 1
+PASS P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming  [340ms]
+       5/6: it searched the last known spot, gave up after ~37s and its memory of the player had decayed (conf 0.17 at 150s)
+PASS P09 no impossible information: a silent player two rooms away leaves no trace in a roaming hound's memory  [132ms]
+       5/5 runs: no record at all of the hidden player (hound stayed >~1000px away)
+PASS P10 social awareness: a second player behind walls, silent, is not counted as a threat; a runner approaching is  [17ms]
+       hound memory of the far witness: none
+PASS P11 personality: same species, different individuals (trait variation within bounds)  [12ms]
+       hound AGGRESSION mean 0.80 sd 0.070; smilers light-sensitive: 20/20
+PASS P12 traversal caps: hound vaults, smiler vaults slower, nobody squeezes through wall holes without CAN_USE_TIGHT_GAPS; crawl only when allowed  [14ms]
+       vault link used true, without CAN_VAULT false; hole path len no-tight 18 vs tight 10; VAULT_SPEED hound 1.2 smiler 0.6
+PASS H01 bait a lunge and sidestep: a late sidestep beats it most of the time; standing still does not  [427ms]
+       sidestep evades 91%   standing still is caught 91%
+PASS H02 no i-frames: a lunge that connects catches you whatever you were doing (walking/running); a slide can pass under it  [446ms]
+       walking away is caught 10/10; a sliding player evaded 2/10 (slide passes under a lunge)
+PASS H03 chase outcomes in the long corridor: a fresh runner with a head start lasts; an exhausted one is caught fast  [528ms]
+       runner with a 450px lead survives 8s+ in 100%; exhausted caught 100% (avg 3.8s); walker caught 100%
+PASS H04 lunges start only when in range, roughly aligned and with a clear line  [256ms]
+       16/16 runs produced a lunge, 0 outside range/alignment limits
+PASS H05 poor sharp turning: the hound turns much slower at full speed than at a crawl  [187ms]
+       p95 turn rate at speed>230: 1.48 rad/s (2424 samples); at slow speed 0.00 (36)
+PASS H06 after a missed lunge it recovers (skids, turns slowly) before it runs again  [167ms]
+       87% recover >0.9s before regaining speed (gaps 1.32,0,1.38,1.15,1.33,1.2,1.37,1.45)
+PASS H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [1700ms]
+       reached 13/13: ROAMING, ALERT, SEARCHING, HUNTING, FEEDING, CURIOUS, EXCITED, STALKING, PLAYING, FRUSTRATED, CAUTIOUS, RETREATING, DORMANT
+PASS H08 searching is logical: it starts at the last known position, fans out around it, and does not home in on a quiet crouching player  [224ms]
+       100% began at the lead and fanned out around it (avg 8.5 goals; mean goal distance to the lead 174px vs to the real player 1642px); found the hidden player in 0/10
+PASS H09 the wall impact only ever happens against a wall that is really there  [1691ms]
+       open ground: C 0/36; wall behind: C 19/60 (bad wall records 0)
+PASS H10 exhausted prey: variant D only ever for a player with nothing left (and is the usual end for one caught from behind)  [3389ms]
+       exhausted: D 43/76; fresh: D 0/75
+PASS H11 no repeated identical death selection (variant history is respected)  [42ms]
+       89 kills: {"A":26,"B":28,"C":35,"D":0}, longest identical streak 2
+PASS H12 after a kill: it is worked up (EXCITED), then feeds; an intruder at the body is guarded against and hunted  [168ms]
+       80% excited -> fed -> reacted to an intruder (excited 10, fed 10, guard 0, hunt/stalk 8, intruder caught 9)
+PASS H13 pack instinct: hounds near each other share a pack id, and one hound sounding off draws the others  [266ms]
+       100% of runs formed a pack and drew a second hound (largest pack seen 3)
+PASS H14 far hounds sleep and wake: no perception when far; awake when a player is near  [18ms]
+       tier far=far, perception ticks while far 0; after a player arrives: near
+PASS S01 a smiler dropped in the light does not stay there: it fades within a moment and is back in the dark  [227ms]
+       100% faded within .6 s (avg 0.23s); most it ever stood still in strong light 0.23s, most total time lit while escaping 3.00s
+PASS S02 a flashlight beam on a smiler makes it fade (its own reason: "lit"); it never keeps standing in the beam  [221ms]
+       100% faded within .8 s of being lit (12 valid runs; first lit at 0.02s, faded at 0.23s; reasons lit)
+PASS S03 no teleporting: smilers and hounds move a bounded distance every tick, whatever they are doing  [955ms]
+       16 runs of 150s; biggest single-tick step: smiler 7.9px (471px/s), hound 8.9px (535px/s) @{"t":116.98,"s":"PLAYING","x":5596,"y":4616}
+PASS S04 smiler state coverage: HIDDEN, WATCHING, FOLLOWING, STALKING, PROVOKED/ATTACKING, PLAYING, DISAPPEARING arise on their own  [1614ms]
+       visited HIDDEN, WATCHING, DISAPPEARING, STALKING, PROVOKED, PLAYING, FOLLOWING, ATTACKING (12 kills)
+PASS S05 running provokes it: a runner within its reach is rushed out of the darkness at once (variant A); a person standing still much less so  [425ms]
+       provoked within 2 s: runners 91% (12 runs) vs standing 25% (12 runs); runner kills that were variant A: 100% of 8
+PASS S06 cornered in a dead end: the smiler closes slowly and the kill is the "cornered" one (variant B)  [254ms]
+       12 dead-end setups, 5 kills, 100% variant B (BBBBB)
+PASS S07 light failure: rare, only for someone standing in the light, three stages each one closer, then a kill (variant C)  [233ms]
+       6/10 runs triggered it; 5 showed three stages each closer (distances 351>225>140 | 461>292>189 | 390>250>152); kills C--C--; cooldown after use 329,232,271,270,192,302s
+PASS S08 groups are followed, not engaged: people together are never stalked or killed by a smiler; a lone player is  [1737ms]
+       stalked: lone 33% vs groups 0%; killed: lone 25% vs groups 0% (12/12 runs of 400s)
+PASS S09 blackout makes them bolder: with the lights out a smiler crosses lamp-lit floor it normally avoids  [615ms]
+       fraction of time standing on lamp-lit floor: lights on 0.4% vs blackout 9.8%
+PASS S10 "play" style: a smiler that plays keeps its victim down and watched for seconds, then kills (D) or lets go  [249ms]
+       14 runs; 10 deaths, 100% variant D; victim held down avg 14.1s before the kill; false hope shown in 4
+PASS C01 quick or play depends on the situation: others approaching -> almost always a quick kill; an isolated victim -> the playful kinds toy with it  [3342ms]
+       share of captures that became play: hound alone 13% / with someone running up 0%;  smiler alone 68% / with someone running up 0%
+PASS C02 CAUGHT is not DEAD: a played-with victim stays alive and held; the next major decision comes after a tense 4-21 s and never in a rush  [1006ms]
+       60 played captures: first decision due 4.4-16.8s after the grab, later ones 4.6-11.8s apart; total time held 4.3-42.1s (median 10.1s); victim alive and CAUGHT throughout in 60/60
+PASS C03 false hope: a released victim may be hunted again if it runs, and is left alone if it does not  [2193ms]
+       46 releases in 120 played captures; those who ran were caught again in 24 (16 died), those who stayed put were let go in 15
+PASS C04 interruption: someone running up with a light changes its mind within a moment - it kills (or lets go), depending on who it is  [984ms]
+       60 played captures interrupted by a runner with a light: kill 49, let go 11, no reaction 0; median time to react 0.2s after they set off
+PASS C05 after a quick kill it reads the room: with others coming it defends, attacks the next or leaves; alone it settles  [1762ms]
+       with company: hound {"HUNTING":17,"HUNTING/wind":12,"HUNTING/lunge":1}, smiler {"DISAPPEARING/fade":30}; alone: hound {"EXCITED/pace":26,"FEEDING":4}, smiler {"WATCHING/watch":30}
+PASS C06 the death itself: one kill per life, the record carries variant / geometry, the body is where the victim fell, no repeat kills  [172ms]
+       100% of 12 deaths were clean: exactly one kill event, dseq 1, victim record with variant and position, no lingering capture
+PASS C07 spawn protection and admin god mode: nothing captures a protected player; unprotected, the very same attack lands  [521ms]
+       100% of 8 runs: never captured while spawn-protected (3 s) or in god mode; the same attack on an unprotected player lands
+PASS C08 two hunters, one victim: exactly one capture; the other reacts to the kill (it does not double-kill)  [159ms]
+       100% of 10 double-hunter runs produced exactly one kill and one death
+PASS Y01 level of detail: perception runs at full rate near a player, at a reduced rate further out, and not at all while an entity is far away  [48ms]
+       perception updates per second: near 8.6, mid 2.7, far 0.0 (the far hound spent 12.6 s in the far tier before its coarse drift brought it into range)
+PASS Y02 performance: the shipped population and a stress population fit the frame budget  [151ms]
+       per 60 Hz step: shipped (3 hounds, 5 smilers, 4 players) avg 0.02ms p99 0.11ms; stress (10+12 entities, 8 players) avg 0.07ms p99 0.38ms  [budget 16.7ms]
+PASS Y03 snapshot size: what goes over the wire every 50 ms stays small (entities are quantised; nothing per-player-private is sent)  [68ms]
+       entity snapshot avg 913 B, max 948 B (~17.8 KB/s per client at 20 Hz before gzip); internal AI state leaked: false
+PASS Y04 stuck entities: one embedded in a wall is set back on open floor and one that cannot go anywhere does not stand frozen forever  [454ms]
+       6/6 embedded hounds recovered onto open floor; longest motionless spell of an unoccupied roaming hound over 18 hound-minutes: 0.1s
+PASS Y05 turning and snapping: headings change smoothly (no per-tick flips), speeds change within acceleration limits  [337ms]
+       over 72000 ticks: biggest heading step per 1/60 s hound 0.13 rad (8 rad/s), smiler 0.00; ticks above 0.2 rad: hound 0, smiler 0; biggest hound acceleration 3600 px/s²
+PASS Y06 no wall clipping: over long emergent runs no entity ever stands inside solid geometry (vaults excepted)  [189ms]
+       81440 samples of entity positions (every 2nd tick, 8 seeds x 150 s, 2 hounds + a smiler each), 0 inside solid geometry
+PASS Y07 pop-in: a smiler only appears or vanishes by fading (its visibility changes at a bounded rate); entities are only ever spawned out of sight  [1149ms]
+       12000 ticks of stalking / being lit: fastest fade-in 0.80/s (limit .8/s ≈ 1.25 s), fastest fade-out 1.40/s (limit 1.4/s ≈ 0.7 s), 11 fade-outs observed; 4 director spawns over 4 x 20 min, nearest to a living player 2664px
+PASS Y08 determinism: the same seed and the same inputs give the same world (no stray randomness, safe for tests and replays)  [51ms]
+       two identical runs ended in exactly the same state: 6044.311098488366|3502.0850787476647|0.04945500526159741|EXCITED|5352|696|HIDDEN
+PASS Y09 population caps and bodies over a long session: at most 3 hounds and 5 smilers; one body per player, at most 24  [834ms]
+       25 min of play with one wanderer: most hounds at once 3, most smilers 5, deaths 19 = kill events 19 = dseq 19; bodies held 19 (cap 24)
+PASS Y10 bodies persist for the configured time: forever by default, or BODY_TTL seconds  [35ms]
+       default: body still there after 40 s; BODY_TTL=12: removed at 12.0s and clients told (bodyVer bumped: true)
+
+54/54 passed
+
+
+PHYSICAL-TESTS
+PASS Hound A: fixed-step replay is identical at 30/60/144 fps
+PASS Hound A: body/hand clearance, reach, continuity and settling
+PASS Hound B: fixed-step replay is identical at 30/60/144 fps
+PASS Hound B: body/hand clearance, reach, continuity and settling
+PASS Hound C: fixed-step replay is identical at 30/60/144 fps
+PASS Hound C: body/hand clearance, reach, continuity and settling
+PASS Hound D: fixed-step replay is identical at 30/60/144 fps
+PASS Hound D: body/hand clearance, reach, continuity and settling
+PASS Smiler A: fixed-step replay is identical at 30/60/144 fps
+PASS Smiler A: body/hand clearance, reach, continuity and settling
+PASS Smiler B: fixed-step replay is identical at 30/60/144 fps
+PASS Smiler B: body/hand clearance, reach, continuity and settling
+PASS Smiler C: fixed-step replay is identical at 30/60/144 fps
+PASS Smiler C: body/hand clearance, reach, continuity and settling
+PASS Smiler D: fixed-step replay is identical at 30/60/144 fps
+PASS Smiler D: body/hand clearance, reach, continuity and settling
+PASS Hound wall slam produces a real collision and recoil
+PASS Hound impact creates independent hand lag rather than a rigid group
+PASS Smiler starts still, then moves continuously toward darkness
+PASS Carpet stops the tackle earlier than wet tile
+PASS Hound/flashlight: shipped animation becomes the exact shipped corpse pose
+PASS Hound/headlamp: shipped animation becomes the exact shipped corpse pose
+PASS Hound/lantern: shipped animation becomes the exact shipped corpse pose
+PASS Hound/camcorder: shipped animation becomes the exact shipped corpse pose
+PASS Smiler/flashlight: shipped animation becomes the exact shipped corpse pose
+PASS Smiler/headlamp: shipped animation becomes the exact shipped corpse pose
+PASS Smiler/lantern: shipped animation becomes the exact shipped corpse pose
+PASS Smiler/camcorder: shipped animation becomes the exact shipped corpse pose
+PASS Replay preserves initial live hands and accessory configuration
+PASS Physical bodies and hands stay clear of actual Level 0 corners and furniture
+30 physical motion / renderer checks passed
+
+
+MATRIX-TESTS
+120 animation configurations passed, including 1×/0.25× replay of the 96-case core matrix
+Max 120 Hz step 3.62px; max pre-sleep velocity 0.225px/s; max contact distance 115.4px
+Largest physical payload 822 bytes + 350-byte envelope; 2978ms for acceptance matrix
+
+
+RENDER-TESTS
+PASS Hound A: real Graphics at 1×/0.25×, simple player, continuous attacker handoff
+PASS Hound B: real Graphics at 1×/0.25×, simple player, continuous attacker handoff
+PASS Hound C: real Graphics at 1×/0.25×, simple player, continuous attacker handoff
+PASS Hound D: real Graphics at 1×/0.25×, simple player, continuous attacker handoff
+PASS Smiler A: real Graphics at 1×/0.25×, simple player, continuous attacker handoff
+PASS Smiler B: real Graphics at 1×/0.25×, simple player, continuous attacker handoff
+PASS Smiler C: real Graphics at 1×/0.25×, simple player, continuous attacker handoff
+PASS Smiler D: real Graphics at 1×/0.25×, simple player, continuous attacker handoff
+PASS remote body-first: same avatar and attacker survive event cleanup
+PASS remote body-late: same avatar and attacker survive event cleanup
+10 renderer and remote handoff checks passed
+
+
+LAB-TESTS
+PASS unauthorized lab stays closed
+PASS pause and fixed 120 Hz frame-step
+PASS reset/play and 0.25× rate
+PASS all eight variants, corpse/no-gore toggle and live-world isolation
+PASS closing destroys the sandbox and stops its frame loop
+5 debug-controller checks passed (browser/WebGL startup remains unverified)
+
+
+NETWORK-TESTS
+PASS client physics/lab are served; server source stays private
+PASS handshake provides a clock for timestamped remote events
+PASS server owns attacker, variant, seed and timestamp; compact live pose is relayed
+PASS early corpse publication is rejected while the physical event is active
+PASS server derives the exact collision-aware endpoint and ignores spoofed body/light transforms
+PASS a living client cannot create a death replay or corpse
+PASS late joiner receives the same settled corpse, equipment and decals
+PASS malformed pose cannot bypass an authoritative physical event
+PASS older physical events and clients without pose data retain their original corpse timing
+9 multiplayer transport checks passed; corpse packet 685/1400 bytes
+
+
+INTEGRATION
+Production server launched; 24 HTML-referenced assets served identically.
+9 foundation files unchanged. Readable renderer patch reproduces shipped bundle.
+Interactive browser QA blocked by ERR_BLOCKED_BY_CLIENT. Native-canvas preview is not a browser capture.

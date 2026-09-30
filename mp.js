@@ -11,6 +11,7 @@ document.body.appendChild(net);
 const room = new URLSearchParams(location.search).get('room') || 'main';
 
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
+let serverClockOffset = 0;
 let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
 let bodiesList = [];                              // corpses from the server (everyone's, one per player)
 const hMap = new Map(), hSlots = [null, null, null];
@@ -19,7 +20,7 @@ window.__hounds = hSlots;
 let cpNow = 0, killSeq = -1, graceUntil = 0;      // what the server says is holding us / which death we already announced / the spawn grace
 const EN = () => window.__ents;
 if (EN()) EN().onFail = f => EN().smilerVoice(f.x, f.y, 'blackout');      // a lamp going out has a sound of its own
-const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', dbg: false };
+const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', sigP: '', sigW: '', dbg: false };
 const peers = new Map();
 const N = window.__net = {
   on: false,
@@ -36,13 +37,13 @@ const N = window.__net = {
   respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; window.__kill = null; tx({ t: 'respawn' }); },
   leave() { tx({ t: 'leave' }); },
   fx: m => startFx(m),
-  deathStart(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'death', c: d.kind, x: Math.round(d.victim.x), y: Math.round(d.victim.y), a: +d.victim.angle.toFixed(3), sx: Math.round(d.source.x), sy: Math.round(d.source.y),
-    vx: Math.round((A.H && A.H.vx) || 0), vy: Math.round((A.H && A.H.vy) || 0), ex: A.H && (A.H.exhausted || A.H.stamina < 22) ? 1 : 0, v: d.variant || 'A', w: d.wall ? [Math.round(d.wall.x), Math.round(d.wall.y), +d.wall.ang.toFixed(3)] : 0 })); },
+  deathStart(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'death', c: d.kind, x: d.victim.x, y: d.victim.y, a: d.victim.angle, sx: d.source.x, sy: d.source.y,
+    v: d.variant || 'A', mi: d.motionInitial || null, age: Math.max(0, performance.now() / 1000 - d.startAt), w: d.wall ? [d.wall.x, d.wall.y, d.wall.ang] : 0 })); },
   vanish(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'vanish', x: Math.round(d.x), y: Math.round(d.y), a: +d.a.toFixed(3) })); },
   bodyMade(t) {                                    // our own corpse is finished: tell the server so everyone can see it
-    tx({ t: 'b', n: t.name, x: Math.round(t.x), y: Math.round(t.y), a: +t.angle.toFixed(3), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
-      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment), lo: t.lo ? 1 : 0,
-      bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)], hd: t.hands ? [].concat(...t.hands) : 0, tr: t.trail || 0, ho: t.hatOn ? 1 : 0, ph: t.hands ? 1 : 0 });
+    tx({ t: 'b', n: t.name, x: +t.x.toFixed(4), y: +t.y.toFixed(4), a: +t.angle.toFixed(6), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
+      lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment), lo: t.lo ? 1 : 0, ps: t.pose || null,
+      bl: t.blood.map(b => [+b.x.toFixed(4), +b.y.toFixed(4), b.seed, b.at || 0, b.angle || 0]), dr: [+t.dropped.x.toFixed(4), +t.dropped.y.toFixed(4), +t.dropped.angle.toFixed(6)], ht: [+t.hat.x.toFixed(4), +t.hat.y.toFixed(4), +t.hat.angle.toFixed(6)] });
   },
 };
 const fxBase = A => ({ lk: [A.look.hat, A.look.texture, A.look.hands, A.look.main, A.look.backpack].join('|'), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
@@ -58,7 +59,7 @@ function connect() {
   };
   ws.onmessage = e => {
     let m; try { m = JSON.parse(e.data); } catch { return; }
-    if (m.t === 'hi') { myId = m.id; const A = window.__api; if (A) A.H.id = myId; }
+    if (m.t === 'hi') { myId = m.id; if (m.ts) serverClockOffset = Date.now() - m.ts; const A = window.__api; if (A) A.H.id = myId; }
     else if (m.t === 'admin') {
       adm.unlocked = !!m.ok; adm.err = m.ok ? '' : (m.wait ? 'TOO MANY TRIES · WAIT ' + m.wait + 'S' : 'WRONG PASSCODE');
       if (!m.ok) adm.pass = null;
@@ -67,11 +68,6 @@ function connect() {
     else if (m.t === 'tp') { const A = window.__api; A && A.tp(m.x, m.y); }
     else if (m.t === 'revive') { const A = window.__api; A && A.revive(); }
     else if (m.t === 'msg') showMsg(m.text, m.from);
-    else if (m.t === 'ares') {                                                // the server's one-line answer to an admin command
-      adm.res = { ok: !!m.ok, msg: String(m.msg || ''), at: performance.now() }; renderStatus();
-      if (adm.rv && adm.rv.stage === 0) { if (!m.ok) adm.rv = null; else if (adm.opts.close && /^PLAYING/.test(adm.res.msg)) { adm.open = false; renderAdmin(); } }
-    }
-    else if (m.t === 'pong') { const E = EN(); if (E) { const r = performance.now() - (+m.ts || 0); E.dbgX.ping = E.dbgX.ping < 0 ? r : E.dbgX.ping + (r - E.dbgX.ping) * .3; } }
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
     else if (m.t === 'bodies') { bodiesList = m.b || []; applyBodies(); }
     else if (m.t === 'fx') startFx(m);
@@ -87,15 +83,15 @@ function connect() {
       }
       for (const [id, o] of peers) if (!seen.has(id)) { dropAvatar(o); peers.delete(id); }
       peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0;
-      if (m.mk && m.ms !== killSeq) { killSeq = m.ms; announceKill(m.mk); }          // who killed us, how, and where the wall is
+      if (m.mk && m.ms !== killSeq) { killSeq = m.ms; announceKill(m.mk, m.ms); }          // who killed us, how, and where the wall is
       if (m.e) { snap = m.e; N.on = true; entitySignals(m.e); }
-      if (m.dbg && EN()) { EN().setDebug(m.dbg); if (m.dx) EN().setDebugX(m.dx); }
+      if (m.dbg && EN()) EN().setDebug(m.dbg);
       if (m.ad) { adm.data = m.ad; adm.you = m.you; renderAdminData(); }
     }
   };
   ws.onclose = () => {
     for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; cpNow = 0; window.__kill = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null); sSlot.fill(null);
-    if (EN()) { EN().clearDebug(); EN().dbgCfg.on = false; EN().drawDebug(); EN().setFails([]); }
+    if (EN()) { EN().setDebug(null); EN().drawDebug(); EN().setFails([]); }
     if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; }
     net.textContent = everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
     adm.unlocked = false; adm.dbg = false; renderAdmin();
@@ -107,8 +103,8 @@ connect();
 /* ---------- mirror the server's monsters into the game ---------- */
 const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
 /* the kill the server just made: which entity, which variant (A-D), where the wall is.  The death sequence in the bundle reads this. */
-function announceKill(k) {
-  const K = window.__kill = Object.assign({}, k, { at: performance.now(), slot: -1 });
+function announceKill(k, seq) {
+  const K = window.__kill = Object.assign({}, k, { seq, at: performance.now(), slot: -1 });
   if (K.k === 'Hound') { const o = hMap.get(K.e); K.slot = o ? o.slot : -1; } else K.slot = sSlot.indexOf(K.e);
 }
 /* sounds the entities make (positional, voiced by ents.js) and lamps the smilers are killing */
@@ -219,9 +215,8 @@ function soloItem() {                                                    // offl
 /* ---------- everyone's bodies (one per player) ---------- */
 const hasBody = id => bodiesList.some(b => b.k === id);
 function toRec(b) {
-  return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa, lo: b.lo ? 1 : 0,
-    appearance: parseLook(b.lk), equipment: { kind: b.eq.kind, color: b.eq.color, parts: { [b.eq.kind]: partObj(b.eq.kind, b.eq.parts) } }, blood: b.bl.map(([x, y, seed]) => ({ x, y, seed })), dropped: { x: b.dr[0], y: b.dr[1], angle: b.dr[2] }, hat: { x: b.ht[0], y: b.ht[1], angle: b.ht[2] },
-    ...(b.ph && Array.isArray(b.hd) && b.hd.length === 4 ? { hands: [[b.hd[0], b.hd[1]], [b.hd[2], b.hd[3]]], hatOn: b.ho ? 1 : 0, trail: Array.isArray(b.tr) ? b.tr : [], ph: 1 } : {}) };
+  return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y) + ':' + (b.ps?.seed || 'legacy'), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa, lo: b.lo ? 1 : 0, pose: b.ps || null,
+    appearance: parseLook(b.lk), equipment: { kind: b.eq.kind, color: b.eq.color, parts: { [b.eq.kind]: partObj(b.eq.kind, b.eq.parts) } }, blood: b.bl.map(([x, y, seed, at, angle]) => ({ x, y, seed, at: at || 0, angle: angle || 0 })), dropped: { x: b.dr[0], y: b.dr[1], angle: b.dr[2] }, hat: { x: b.ht[0], y: b.ht[1], angle: b.ht[2] } };
 }
 function applyBodies() { const A = window.__api; if (A && myId) A.H.id = myId; if (A && A.bodies) A.bodies(bodiesList.map(toRec)); }
 
@@ -284,7 +279,7 @@ window.__hideBodies = new Set(); window.__fxKill = new Set(); window.__fxKillS =
 const sm = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 function killFx(f) {
   f.gone = true;
-  for (const x of [f.av, f.jl && f.jl.blood, f.jl && f.jl.foreground, f.jl && f.jl.debris, f.att]) { if (!x) continue; try { x.parent && x.parent.removeChild(x); x.destroy({ children: true }); } catch { } }
+  for (const x of [f.transferred ? null : f.av, f.jl && f.jl.blood, f.jl && f.jl.foreground, f.jl && f.jl.debris, f.attTransferred ? null : f.att]) { if (!x) continue; try { x.parent && x.parent.removeChild(x); x.destroy({ children: true }); } catch { } }
   window.__hideBodies.delete('r' + f.id);
 }
 function startFx(m) {
@@ -294,7 +289,8 @@ function startFx(m) {
   const now = performance.now() / 1000, av = A.mkAvatar(look, gear); av.__key = m.id; av.__cause = m.c; layer.addChild(av);
   const f = { id: m.id, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id) };
   if (m.k === 'death') {
-    const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: m.ex ? 1 : 0 }, { v: m.v, w: m.w });
+    const age = m.at ? Math.max(0, Math.min(1, (Date.now() - serverClockOffset - m.at) / 1000)) : 0;
+    const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now - age, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, appearance: look }, { v: m.v, w: m.w, mi: m.mi, legacy: !(m.mi?.v === 2 || m.mi?.mv && m.mi?.av) });
     f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground, jl.debris);
     f.att = m.c === 'Smiler' ? new A.Gl({ x: m.sx, y: m.sy, angle: 0, state: 'ATTACKING', off: false, side: 0 }) : new A.Wl(); layer.addChild(f.att);
     f.cause = m.c; f.kill = { h: -1, s: -1 };                                    // hide the real monster that made the kill while its attack replays
@@ -318,12 +314,26 @@ function updateFx(now) {
       continue;
     }
     const jl = f.jl, done = jl.frame(now), b = jl.body;
-    f.av.update(now, false, false, f.src);
-    f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24, jl);
-    f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
-    if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60); } else f.att.attackPose(jl.grip, jl.impact, jl.variant, jl);
+    if (!f.transferred) {
+      f.av.update(now, false, false, f.src);
+      f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24, jl.physicalPose);
+    }
+    if (!f.attTransferred) {
+      f.att.visible = !!jl.motion || !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
+      if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60, jl); } else f.att.attackPose(jl.grip, jl.impact, jl.variant, jl);
+    }
     if (!done) { if (f.kill.h >= 0) window.__fxKill.add(f.kill.h); if (f.kill.s >= 0) window.__fxKillS.add(f.kill.s); }
-    else { f.doneAt = f.doneAt || now; const nb = bodiesList.find(x => x.k === f.id); if ((nb && (!f.old || nb.x !== f.old.x || nb.y !== f.old.y || nb.a !== f.old.a)) || now - f.doneAt > 8) { killFx(f); fxs.splice(i, 1); } }
+    else {
+      f.doneAt = f.doneAt || now;
+      if (!f.attTransferred && jl.motion && window.__deathMotion && A.replaceEntity) {
+        const slot = f.cause === 'Hound' ? f.kill.h : f.kill.s;
+        if (slot >= 0 && A.replaceEntity(f.cause, slot, f.att)) { window.__deathMotion.returnAttacker(f.att, jl, now); f.attTransferred = true; }
+      }
+      if (!f.attTransferred && jl.motion) f.att.alpha = 1 - sm(0, .55, now - f.doneAt);
+      const nb = bodiesList.find(x => x.k === f.id); if ((nb && (!f.old || nb.ps?.seed !== f.old.ps?.seed || nb.x !== f.old.x || nb.y !== f.old.y || nb.a !== f.old.a) && (!jl.motion || f.attTransferred || now - f.doneAt > .55)) || now - f.doneAt > 8) {
+      if (nb?.ps?.v === 2 && window.__deathMotion) { window.__deathMotion.registerCorpse('r' + f.id, f.av); f.transferred = true; }
+      killFx(f); fxs.splice(i, 1);
+    } }
   }
 }
 
@@ -342,7 +352,8 @@ function bodyLights(p, out) {
   for (const b of A.bodyList()) {
     if (!b.lo || b.cause === 'Vanish' || !b.equipment || b.equipment.kind === 'camcorder' || !b.dropped) continue;
     if (Math.hypot(b.dropped.x - p.x, b.dropped.y - p.y) > 950) continue;
-    out.push({ x: b.dropped.x, y: b.dropped.y, angle: b.hands ? b.dropped.angle - Math.PI / 2 : b.dropped.angle, kind: b.equipment.kind, color: b.equipment.color, on: true, dead: false });
+    const tip = b.pose?.v === 2 ? window.DeathMotion.victimLightTip(b.equipment.kind) : 0;
+    out.push({ x: b.dropped.x + Math.cos(b.dropped.angle) * tip, y: b.dropped.y + Math.sin(b.dropped.angle) * tip, angle: b.dropped.angle, kind: b.equipment.kind, color: b.equipment.color, on: true, dead: false });
   }
 }
 function drawPeers(p, cam, sc, los, dt, W, H) {
@@ -394,36 +405,13 @@ N.peerScreen = () => peers.size && view ? [...peers.values()].map(o => ({ n: o.n
 
 
 
-/* ---------- admin menu (press ` ) ----------
- * Tabs: PLAYERS · MONSTERS · DEATHS (preview any death on yourself, choose the capture style) · WORLD · DEBUG (debug mode with the AI overlay).
- * Everything the panel does is a command to the server; the server answers each one with a one-line status (ares). */
+/* ---------- admin menu (press ` ) ---------- */
 const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const LS = { get(k, d) { try { const v = localStorage.getItem('adm.' + k); return v === null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem('adm.' + k, JSON.stringify(v)); } catch { } } };
-const TABS = [['players', 'PLAYERS'], ['monsters', 'MONSTERS'], ['deaths', 'DEATHS'], ['world', 'WORLD'], ['debug', 'DEBUG']];
-adm.tab = LS.get('tab', 'players'); if (!TABS.some(t => t[0] === adm.tab)) adm.tab = 'players';
-adm.side = LS.get('side', 'left') === 'right' ? 'right' : 'left';
-adm.lay = Object.assign({ ai: true, you: true, srv: true, log: true, compact: false }, LS.get('lay', {}));
-adm.opts = Object.assign({ close: true, auto: true, back: true }, LS.get('opts', {}));
-adm.sig = ''; adm.res = null; adm.rv = null;
-document.head.appendChild(Object.assign(document.createElement('style'), { id: 'admStyle2', textContent: `
-#adminPanel{width:364px}#adminPanel.right{left:auto;right:38px}
-.adm-tabs{display:flex;gap:1px;margin:-4px -6px 10px;border-bottom:1px solid #75807555}
-.adm-tab{flex:1;padding:8px 0 7px;font:600 10px IBM Plex Mono,monospace;letter-spacing:1.3px;color:#8d9e94;background:none;border:0;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px}
-.adm-tab:hover{color:#cfd8cb}.adm-tab.on{color:#eef4da;border-bottom-color:#b9cb91}
-.adm-status{min-height:15px;margin-top:12px;padding-top:9px;border-top:1px solid #75807533;font-size:10px;letter-spacing:1.4px;color:#9dff9d}.adm-status.bad{color:#ffb0a0}
-.adm-sub{color:#8d9e94;font-size:10px;margin:1px 0 7px;letter-spacing:.6px}
-.adm-help{color:#8d9e94;font-size:10px;line-height:1.5;letter-spacing:.5px;margin:8px 0 0}
-.adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-button.adm.adm-pv{display:block;white-space:normal;text-align:left;padding:8px 9px;line-height:1.35}button.adm.adm-pv b{color:#b9cb91;margin-right:5px;font-size:12px}button.adm.adm-pv small{display:block;color:#8d9e94;font-size:9px;letter-spacing:.4px;margin-top:2px}
-button.adm.adm-big{width:100%;padding:11px 8px;font-size:12px;letter-spacing:2px}
-.adm-ent{display:flex;align-items:center;gap:6px;padding:6px 0;border-top:1px solid #75807522}.adm-ent .k{width:34px;font-weight:600}.adm-ent .k.h{color:#ff9a5c}.adm-ent .k.s{color:#9fe8ff}.adm-ent .st{flex:1;color:#aab6ac;font-size:10px;letter-spacing:.4px}
-` }));
 const panel = document.createElement('div'); panel.id = 'adminPanel'; panel.hidden = true;
-panel.innerHTML = `<div class="adm-head"><b>ADMIN</b><span id="admWho"></span><button class="adm" data-a="dock" title="Move the panel to the other side of the screen" aria-label="Move the panel">⇄</button><button class="adm" data-a="close" aria-label="Close admin">✕</button></div>
+panel.innerHTML = `<div class="adm-head"><b>ADMIN</b><span id="admWho"></span><button class="adm" data-a="close" aria-label="Close admin">✕</button></div>
 <div id="admLogin"><label for="admPass">PASSCODE</label><div class="adm-row"><input id="admPass" type="password" autocomplete="off" maxlength="40"><button class="adm" data-a="unlock">UNLOCK</button></div><p class="adm-note" id="admErr"></p></div>
-<div id="admMain" hidden><div class="adm-tabs" id="admTabs"></div><div id="admBody"></div>
-<div id="admBroadcast"><div class="adm-sec">BROADCAST</div><div class="adm-row"><input id="admText" maxlength="140" placeholder="Message to everyone" autocomplete="off"><button class="adm" data-a="msg">SEND</button></div></div>
-<div class="adm-status" id="admStatus"></div></div>`;
+<div id="admMain" hidden><div id="admPlayers"></div><div id="admWorld"></div>
+<div class="adm-sec">BROADCAST</div><div class="adm-row"><input id="admText" maxlength="140" placeholder="Message to everyone" autocomplete="off"><button class="adm" data-a="msg">SEND</button></div></div>`;
 document.body.appendChild(panel);
 const banner = Object.assign(document.createElement('div'), { id: 'adminMsg', hidden: true }); document.body.appendChild(banner);
 const kickedBox = Object.assign(document.createElement('div'), { id: 'kicked', hidden: true, innerHTML: '<div><h2>Removed by an admin.</h2><p>Reload the page to rejoin.</p></div>' }); document.body.appendChild(kickedBox);
@@ -433,183 +421,62 @@ function showMsg(text, from) {
   clearTimeout(msgTimer); msgTimer = setTimeout(() => { banner.hidden = true; }, 8000);
 }
 const $a = id => document.getElementById(id);
-const SNM = (window.WORLD && window.WORLD.SN) || ['stand', 'walk', 'run', 'crouch', 'crawl', 'slide', 'vault', 'down'];
-const btn = (label, attrs, on, cls) => `<button class="adm${on ? ' on' : ''}${cls ? ' ' + cls : ''}" ${attrs}>${label}</button>`;
-let liveMap = {};                                                     // text that changes every update (positions, states): patched in place so buttons are never rebuilt under the mouse
-const live = (key, text) => { liveMap[key] = String(text); return `<span data-live="${key}">${esc(text)}</span>`; };
-const rowW = h => `<div class="adm-row wrap">${h}</div>`;
-const sec = t => `<div class="adm-sec">${t}</div>`;
-
-function bodyPlayers(d) {
-  const mine = d.pl.find(p => p.id === adm.you);
-  return sec('WANDERERS · ' + d.pl.length) + d.pl.map(pl => {
-    const you = pl.id === adm.you, tags = [you ? 'YOU' : '', pl.ad ? 'ADMIN' : '', !pl.a ? 'MENU' : '', pl.d ? 'DOWN' : '', pl.g ? 'GOD' : ''].filter(Boolean).join(' · ');
-    const line = (SNM[pl.st] || 'stand') + ' · ' + pl.x + ',' + pl.y + (!you && mine ? ' · ' + Math.round(Math.hypot(pl.x - mine.x, pl.y - mine.y)) + ' px away' : '');
-    return `<div class="adm-player"><div><b>${esc(pl.n || 'WANDERER')}</b> <i>${tags}</i></div><div class="adm-sub">${live('p' + pl.id, line)}</div><div class="adm-row wrap">` +
-      (you ? '' : btn('BRING', `data-c="bring" data-id="${pl.id}"`) + btn('GO TO', `data-c="goto" data-id="${pl.id}"`)) +
-      (pl.d ? btn('REVIVE', `data-c="revive" data-id="${pl.id}"`) : '') + btn('GOD', `data-c="god" data-id="${pl.id}"`, pl.g) +
-      (you ? '' : btn('KICK', `data-c="kick" data-id="${pl.id}" data-confirm="Kick ${esc(pl.n)}?"`)) + '</div></div>';
-  }).join('');
-}
-function bodyMonsters(d) {
-  const mine = d.pl.find(p => p.id === adm.you), sp = v => btn(v + '×', `data-c="speed" data-v="${v}"`, d.sp === v);
-  const ents = (d.es || []).slice().sort((a, b) => a[0] - b[0]);
-  return sec(`MONSTERS · ${d.hn} HOUND${d.hn === 1 ? '' : 'S'} (MAX 3)${d.pk ? ' · PACK' : ''} · ${d.sn} SMILER${d.sn === 1 ? '' : 'S'} (MAX 5)`) +
-    rowW(btn(d.fz ? 'FROZEN' : 'FREEZE', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SUMMON HOUND TO ME', 'data-c="summon"') + btn('RESPAWN ALL', 'data-c="monsters"')) +
-    `<div class="adm-row wrap" style="margin-top:6px">` + btn('+ HOUND', 'data-c="hounds" data-mode="add"') + btn('− HOUND', 'data-c="hounds" data-mode="remove"') + btn('+ SMILER', 'data-c="smilers" data-mode="add"') + btn('− SMILER', 'data-c="smilers" data-mode="remove"') + '</div>' +
-    sec('PUT ONE NEAR ME') + rowW(btn('+ HOUND NEAR', 'data-c="near" data-k="hound"') + btn('+ SMILER NEAR', 'data-c="near" data-k="smiler"')) +
-    sec('WORLD SPEED') + rowW(sp(0.25) + sp(0.5) + sp(1) + sp(2) + sp(3)) +
-    sec('ENTITIES · ' + ents.length) + (ents.length ? ents.map(e => {
-      const dist = mine ? ' · ' + Math.round(Math.hypot(e[3] - mine.x, e[4] - mine.y)) + ' px' : '';
-      return `<div class="adm-ent"><span class="k ${e[1] ? 's' : 'h'}">${e[1] ? 'S' : 'H'}#${e[0]}</span><span class="st">${live('e' + e[0], e[2] + ' · ' + ({ n: 'near', m: 'mid', f: 'far' }[e[5]] || e[5]) + (e[6] ? ' · HOLDING SOMEONE' : '') + dist)}</span>` + btn('GO TO', `data-c="entgoto" data-eid="${e[0]}"`) + btn('REMOVE', `data-c="entdel" data-eid="${e[0]}"`) + '</div>';
-    }).join('') : '<p class="adm-help">No entities right now.</p>');
-}
-/* ---- the death lab: the clock, the x-ray and the overlay are client-side (window.__dlab, read by dphys.js and the debug renderer); placing is a teleport ---- */
-const DL = () => window.__dlab || (window.__dlab = { on: false, paused: false, speed: 1, step: 0, xray: false, viz: false });
-function labSet(k, v) {
-  const L = DL();
-  if (k === 'speed') L.speed = +v; else if (k === 'pause') L.paused = !L.paused; else if (k === 'step') { L.paused = true; L.step = (L.step | 0) + (+v || 1); }
-  else if (k === 'xray') L.xray = !L.xray; else if (k === 'viz') L.viz = !L.viz; else if (k === 'reset') { L.speed = 1; L.paused = false; L.step = 0; }
-  L.on = L.speed !== 1 || L.paused;
-}
-function findSpot(kind) {
-  const A = window.__api; if (!A || !A.sl || !A.Uc) return null; const H = A.H, gl = window.__glitches || [], lamps = A.lamps || [], TAU2 = Math.PI * 2;
-  const ok = (x, y) => A.sl(x, y, 24) && !gl.some(g => Math.hypot(g.x - x, g.y - y) < 260) && !lamps.some(l => Math.hypot(l.x - x, l.y - y) < 230);
-  const ray = (x, y, a) => A.Uc(x, y, a, 260);
-  for (let R = 0; R < 3200; R += 64) {
-    const n = Math.max(1, Math.round(R / 40)) * 4;
-    for (let i = 0; i < n; i++) {
-      const a0 = i / n * TAU2, x = H.x + Math.cos(a0) * R, y = H.y + Math.sin(a0) * R; if (!ok(x, y)) continue;
-      if (kind === 'open') { let good = true; for (let k = 0; k < 8; k++) if (ray(x, y, k / 8 * TAU2) < 210) { good = false; break; } if (good) return { x, y, a: 0, n: 'OPEN ROOM' }; }
-      else for (let k = 0; k < 16; k++) {
-        const a = k / 16 * TAU2;
-        if (kind === 'wall') { const dd = ray(x, y, a); if (dd > 72 && dd < 108 && ray(x, y, a + .5) > 60 && ray(x, y, a - .5) > 60 && ray(x, y, a + Math.PI) > 150) return { x, y, a: a + Math.PI, n: 'NEAR A WALL' }; }
-        else { const d1 = ray(x, y, a), d2 = ray(x, y, a + Math.PI / 2); if (d1 > 60 && d1 < 115 && d2 > 60 && d2 < 115 && ray(x, y, a + Math.PI) > 150 && ray(x, y, a + Math.PI * 1.5) > 150) return { x, y, a: a + Math.PI * 1.25, n: 'IN A CORNER' }; }
-      }
-    }
-  }
-  return null;
-}
-function bodyDeaths(d) {
-  const cm = d.cm || 'auto', cb = (m, l) => btn(l, `data-c="capmode" data-mode="${m}"`, cm === m);
-  const pv = (k, v, t, sub) => `<button class="adm adm-pv" data-c="preview" data-k="${k}" data-var="${v}"><b>${v}</b>${t}<small>${sub}</small></button>`;
-  const tg = (o, l) => btn(l, `data-a="opt" data-o="${o}"`, adm.opts[o]);
-  const L = DL(), sp = v => btn(v + '×', `data-a="dl" data-k="speed" data-v="${v}"`, L.speed === v), dl = (k, t, on, v) => btn(t, `data-a="dl" data-k="${k}"${v !== undefined ? ` data-v="${v}"` : ''}`, on);
-  const lab = sec('DEATH LAB · WATCH IT SLOWLY') + rowW(sp(1) + sp(.5) + sp(.25) + dl('pause', L.paused ? '▶ PLAY' : '❚❚ PAUSE', L.paused) + dl('step', 'STEP 1 FRAME', false, 1) + dl('step', 'STEP 6', false, 6)) +
-    rowW(dl('xray', 'X-RAY ATTACKER', L.xray) + dl('viz', 'SHOW PATHS · FORCES', L.viz) + btn('REPLAY LAST', 'data-a="replay"') + dl('reset', 'RESET CLOCK', false)) +
-    sec('PLACE ME FIRST') + rowW(btn('OPEN ROOM', 'data-a="place" data-w="open"') + btn('NEAR A WALL', 'data-a="place" data-w="wall"') + btn('IN A CORNER', 'data-a="place" data-w="corner"')) +
-    '<p class="adm-help">The clock, x-ray and overlay only change what YOU see. Set the speed or pause before you press a death button; the panel stays open if CLOSE THE PANEL is off. Green: body path · white: velocity · purple: spin · orange/blue: hands (ring = where the spring wants it, dot = where it is) · yellow: the light · red dashed: attacker · red x: wall hits.</p>';
-  return lab + sec('CAPTURE STYLE (FOR REAL CATCHES)') + rowW(cb('auto', 'AUTO') + cb('quick', 'ALWAYS QUICK') + cb('play', 'ALWAYS PLAY')) +
-    '<p class="adm-help">AUTO: each entity decides. QUICK: every catch is an instant kill. PLAY: every catch is a held victim (down, crawl, dragged, maybe let go) for 5-15 s before the kill. Set PLAY, then SUMMON A HOUND, to watch the long version.</p>' +
-    sec('PLAY A DEATH ON ME · HOUND') + `<div class="adm-grid">${pv('hound', 'A', 'THROAT', 'lunge from the front, held down')}${pv('hound', 'B', 'DRAGGED', 'pulled down and dragged away')}${pv('hound', 'C', 'WALL SLAM', 'needs a wall 1-2 body lengths off')}${pv('hound', 'D', 'EXHAUSTED', 'goes down in a heap')}</div>` +
-    sec('PLAY A DEATH ON ME · SMILER') + `<div class="adm-grid">${pv('smiler', 'A', 'RUSH', 'out of the dark, arms reaching')}${pv('smiler', 'B', 'CORNERED', 'it closes in, everything goes black')}${pv('smiler', 'C', 'LIGHT FAILURE', 'the lamps die, one last dark')}${pv('smiler', 'D', 'PLAYED WITH', 'knocked back, dragged, slow')}</div>` +
-    sec('AFTER IT PLAYS') + rowW(tg('close', 'CLOSE THE PANEL') + tg('auto', 'AUTO-REVIVE') + tg('back', 'BACK TO THIS SPOT')) +
-    '<p class="adm-help">This runs the real kill on you: everyone in the room sees it and your body stays. It works through god mode and spawn protection, uses the nearest free hound or smiler, and tells you here if it cannot be done.</p>';
-}
-function bodyWorld(d) {
-  return sec('LIGHTS') + rowW(['auto', 'on', 'off'].map(m => btn(m === 'auto' ? 'AUTO' : 'BLACKOUT ' + m.toUpperCase(), `data-c="blackout" data-mode="${m}"`, d.bo === m)).join('')) +
-    sec(`GLITCHED WALLS · ${d.gw}`) + rowW(btn('GO TO NEAREST', 'data-c="glitch" data-mode="tp"') + btn('MOVE THEM', 'data-c="glitch" data-mode="new"')) +
-    sec(`CARTOGRAPH · ${d.it ? 'ON THE FLOOR' : 'TAKEN'}`) + rowW(btn('GO TO IT', 'data-c="item" data-mode="tp"') + btn('MOVE IT', 'data-c="item" data-mode="new"') + btn('GIVE ME ONE', 'data-a="give"')) +
-    sec('RUN') + rowW(btn('NEW RUN FOR EVERYONE', 'data-c="world" data-confirm="Reset the whole world?"'));
-}
-function bodyDebug(d) {
-  const L = (k, t) => btn(t, `data-a="lay" data-l="${k}"`, adm.lay[k]);
-  return sec('DEBUG MODE') + `<button class="adm adm-big${adm.dbg ? ' on' : ''}" data-a="dbg">${adm.dbg ? '● DEBUG MODE ON' : '○ DEBUG MODE OFF'}</button>` +
-    '<p class="adm-help">An overlay for admins only. The server sends its data to you alone, and only while this is on.</p>' +
-    sec('LAYERS') + rowW(L('ai', 'AI ENTITIES') + L('you', 'YOU + HEARING') + L('srv', 'SERVER') + L('log', 'AI EVENTS')) +
-    sec('ENTITY LABELS') + rowW(btn('FULL', 'data-a="lab" data-v="0"', !adm.lay.compact) + btn('COMPACT', 'data-a="lab" data-v="1"', adm.lay.compact)) +
-    sec('TOOLS') + rowW(btn('COPY REPORT', 'data-a="copy"') + btn(d.fz ? 'UNFREEZE' : 'FREEZE THE HALLS', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SLOW MOTION 0.25×', 'data-c="speed" data-v="0.25"', d.sp === .25) + btn('NORMAL SPEED', 'data-c="speed" data-v="1"', d.sp === 1)) +
-    '<p class="adm-help">AI ENTITIES: dashed ring = how far it can see; red line = last known position of its target (yellow: only heard or remembered); purple = last sound it heard; blue cross = where it is searching; green = its path; the label shows state, target, mood, capture. YOU: your state, stamina and the dashed ring of how far you are heard right now. COPY REPORT puts the room, players, entities, recent events and timings on the clipboard, ready to paste into a bug report.</p>';
-}
-const BODIES = { players: bodyPlayers, monsters: bodyMonsters, deaths: bodyDeaths, world: bodyWorld, debug: bodyDebug };
-function renderTabs() { $a('admTabs').innerHTML = TABS.map(([k, n]) => `<button class="adm-tab${adm.tab === k ? ' on' : ''}" data-a="tab" data-t="${k}">${n}</button>`).join(''); }
-function renderStatus() {
-  const el = $a('admStatus'); if (!el) return;
-  const r = adm.res, fresh = r && performance.now() - r.at < 6000;
-  el.textContent = fresh ? r.msg : ''; el.classList.toggle('bad', !!(fresh && !r.ok));
-}
 function renderAdmin() {
-  panel.hidden = !adm.open; panel.classList.toggle('right', adm.side === 'right');
+  if (window.__deathLab) window.__deathLab.authorize(adm.unlocked);
+  panel.hidden = !adm.open;
   $a('admLogin').hidden = adm.unlocked; $a('admMain').hidden = !adm.unlocked;
   $a('admErr').textContent = ws && ws.readyState === 1 ? adm.err : 'Admin needs the online server (not available in solo mode).';
   $a('admWho').textContent = adm.unlocked ? ' · ROOM ' + room.toUpperCase() : '';
   if (adm.open && !adm.unlocked) setTimeout(() => $a('admPass').focus(), 0);
-  if (adm.unlocked) { renderTabs(); adm.sig = ''; renderAdminData(); renderStatus(); }
+  if (adm.unlocked) renderAdminData();
 }
 function renderAdminData() {
   const d = adm.data; if (!adm.open || !adm.unlocked || !d) return;
-  liveMap = {};
-  const html = (BODIES[adm.tab] || bodyPlayers)(d), sig = adm.tab + '|' + html.replace(/(<span data-live="[^"]+">)[^<]*(<\/span>)/g, '$1$2'), body = $a('admBody');
-  if (sig !== adm.sig) { body.innerHTML = html; adm.sig = sig; }
-  else for (const el of body.querySelectorAll('[data-live]')) { const t = liveMap[el.dataset.live]; if (t !== undefined && el.textContent !== t) el.textContent = t; }
-  $a('admBroadcast').hidden = adm.tab !== 'players';
+  const btn = (label, attrs, on) => `<button class="adm${on ? ' on' : ''}" ${attrs}>${label}</button>`;
+  const players = d.pl.map(pl => {
+    const you = pl.id === adm.you, tags = [you ? 'YOU' : '', pl.ad ? 'ADMIN' : '', !pl.a ? 'MENU' : '', pl.d ? 'DOWN' : '', pl.g ? 'GOD' : ''].filter(Boolean).join(' · ');
+    return `<div class="adm-player"><div><b>${esc(pl.n || 'WANDERER')}</b> <i>${tags}</i></div><div class="adm-row wrap">` +
+      (you ? '' : btn('BRING', `data-c="bring" data-id="${pl.id}"`) + btn('GO TO', `data-c="goto" data-id="${pl.id}"`)) +
+      (pl.d ? btn('REVIVE', `data-c="revive" data-id="${pl.id}"`) : '') + btn('GOD', `data-c="god" data-id="${pl.id}"`, pl.g) +
+      (you ? '' : btn('KICK', `data-c="kick" data-id="${pl.id}" data-confirm="Kick ${esc(pl.n)}?"`)) + '</div></div>';
+  }).join('');
+  const sp = v => btn(v + '×', `data-c="speed" data-v="${v}"`, d.sp === v);
+  const world = `<div class="adm-sec">MONSTERS · ${d.hn} HOUND${d.hn === 1 ? '' : 'S'} (MAX 3)${d.pk ? ' · PACK' : ''} · ${d.sn} SMILER${d.sn === 1 ? '' : 'S'} (MAX 5)</div><div class="adm-row wrap">` +
+    btn(d.fz ? 'FROZEN' : 'FREEZE', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SUMMON HOUND TO ME', 'data-c="summon"') + btn('RESPAWN ALL', 'data-c="monsters"') + '</div>' +
+    `<div class="adm-row wrap">` + btn('+ HOUND', 'data-c="hounds" data-mode="add"') + btn('− HOUND', 'data-c="hounds" data-mode="remove"') + btn('+ SMILER', 'data-c="smilers" data-mode="add"') + btn('− SMILER', 'data-c="smilers" data-mode="remove"') + '</div>' +
+    `<div class="adm-sec">AI TOOLS</div><div class="adm-row wrap">` + btn(adm.dbg ? 'AI DEBUG ON' : 'AI DEBUG', `data-c="debug" data-on="${adm.dbg ? 0 : 1}"`, adm.dbg) + btn('+ HOUND NEAR', 'data-c="near" data-k="hound"') + btn('+ SMILER NEAR', 'data-c="near" data-k="smiler"') + '</div>' +
+    `<div class="adm-sec">DEATH MOTION</div><div class="adm-row wrap">` + btn('OPEN ANIMATION LAB', 'data-a="deathlab"') + '</div>' +
+    `<div class="adm-sec">WORLD SPEED</div><div class="adm-row wrap">${sp(0.5)}${sp(1)}${sp(2)}${sp(3)}</div>` +
+    `<div class="adm-sec">LIGHTS</div><div class="adm-row wrap">` + ['auto', 'on', 'off'].map(m => btn(m === 'auto' ? 'AUTO' : 'BLACKOUT ' + m.toUpperCase(), `data-c="blackout" data-mode="${m}"`, d.bo === m)).join('') + '</div>' +
+    `<div class="adm-sec">GLITCHED WALLS · ${d.gw}</div><div class="adm-row wrap">` + btn('GO TO NEAREST', 'data-c="glitch" data-mode="tp"') + btn('MOVE THEM', 'data-c="glitch" data-mode="new"') + '</div>' +
+    `<div class="adm-sec">CARTOGRAPH · ${d.it ? 'ON THE FLOOR' : 'TAKEN'}</div><div class="adm-row wrap">` + btn('GO TO IT', 'data-c="item" data-mode="tp"') + btn('MOVE IT', 'data-c="item" data-mode="new"') + btn('GIVE ME ONE', 'data-a="give"') + '</div>' +
+    `<div class="adm-sec">RUN</div><div class="adm-row wrap">` + btn('NEW RUN FOR EVERYONE', 'data-c="world" data-confirm="Reset the whole world?"') + '</div>';
+  if (players !== adm.sigP) { $a('admPlayers').innerHTML = '<div class="adm-sec">WANDERERS</div>' + players; adm.sigP = players; }
+  if (world !== adm.sigW) { $a('admWorld').innerHTML = world; adm.sigW = world; }
 }
 function toggleAdmin() { adm.open = !adm.open; renderAdmin(); }
 function unlock() { const v = $a('admPass').value; if (!v) return; adm.pass = v; adm.err = ''; tx({ t: 'admin', pass: v }); $a('admPass').value = ''; }
 function sendMsg() { const el = $a('admText'), text = el.value.trim(); if (text) { tx({ t: 'a', c: 'msg', text }); el.value = ''; } }
-/* debug mode: the master switch tells the server to start (or stop) sending its data; the layers only decide what is drawn here */
-function applyDbg() {
-  const E = EN(); if (E) { Object.assign(E.dbgCfg, adm.lay, { on: adm.dbg, side: adm.side === 'left' ? 'right' : 'left' }); if (!adm.dbg) E.clearDebug(); }
-  LS.set('lay', adm.lay);
-}
-function copyText(text) {
-  const fallback = () => { const ta = Object.assign(document.createElement('textarea'), { value: text }); ta.style.cssText = 'position:fixed;left:-999px;top:0'; document.body.appendChild(ta); ta.select(); let ok = false; try { ok = document.execCommand('copy'); } catch { } ta.remove(); return ok; };
-  if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).then(() => true, () => fallback());
-  return Promise.resolve(fallback());
-}
-function report() {
-  const A = window.__api, E = EN(), d = adm.data || {}, mv = window.__mv || {};
-  return JSON.stringify({
-    when: new Date().toISOString(), room, you: adm.you, at: A ? { x: Math.round(A.H.x), y: Math.round(A.H.y), stamina: Math.round(A.H.stamina) } : null, move: { state: mv.s, speed: Math.round(mv.speed || 0), surface: mv.surf },
-    world: { frozen: d.fz, speed: d.sp, blackout: d.bo, hounds: d.hn, smilers: d.sn, capture: d.cm }, players: d.pl, entities: d.es, ai: E && E.dbg, log: E && E.dbgX.lg.map(l => '[' + l.t + '] ' + l.x), server: E && E.dbgX.pf, ping: E && E.dbgX.ping, fps: E && Math.round(E.fps), agent: navigator.userAgent,
-  }, null, 1);
-}
-/* after "play a death on me": wait for the death to run, revive (optional), and put the admin back where the preview was (optional) - so the next preview is one click away */
-function previewTick() {
-  const A = window.__api, r = adm.rv; if (!r || !A) return;
-  const now = performance.now();
-  if (now - r.t0 > 60000 || !adm.unlocked) { adm.rv = null; return; }
-  if (r.stage === 0) { if (A.G.caught) r.stage = 1; else if (now - r.t0 > 8000) adm.rv = null; }
-  else if (r.stage === 1) { if (A.G.caught && A.death && A.death().finished) { r.stage = 2; r.t1 = now; } }
-  else if (r.stage === 2) {
-    if (adm.opts.auto && !r.sent && now - r.t1 > 1300) { r.sent = true; tx({ t: 'a', c: 'revive', id: myId }); }
-    if (!A.G.caught) r.stage = 3;
-  } else if (r.stage === 3 && A.fall && A.fall() < 0) { if (adm.opts.back) { A.tp(r.pos.x, r.pos.y); A.H.angle = r.pos.a; } adm.rv = null; }
-}
 panel.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  const a = b.dataset.a;
-  if (a === 'close') { adm.open = false; renderAdmin(); return; }
-  if (a === 'unlock') return unlock();
-  if (a === 'msg') return sendMsg();
-  if (a === 'give') { giveItem('cartograph'); return; }
-  if (a === 'dock') { adm.side = adm.side === 'left' ? 'right' : 'left'; LS.set('side', adm.side); applyDbg(); renderAdmin(); return; }
-  if (a === 'tab') { adm.tab = b.dataset.t; LS.set('tab', adm.tab); renderAdmin(); return; }
-  if (a === 'dbg') { adm.dbg = !adm.dbg; applyDbg(); tx({ t: 'a', c: 'debug', on: adm.dbg ? 1 : 0 }); adm.sig = ''; renderAdminData(); return; }
-  if (a === 'lay') { adm.lay[b.dataset.l] = !adm.lay[b.dataset.l]; applyDbg(); adm.sig = ''; renderAdminData(); return; }
-  if (a === 'lab') { adm.lay.compact = b.dataset.v === '1'; applyDbg(); adm.sig = ''; renderAdminData(); return; }
-  if (a === 'dl') { labSet(b.dataset.k, b.dataset.v); adm.sig = ''; renderAdminData(); return; }
-  if (a === 'place') { const sp = findSpot(b.dataset.w), A = window.__api; adm.res = sp && A ? (A.tp(sp.x, sp.y), A.H.angle = sp.a, { ok: true, msg: 'MOVED YOU: ' + sp.n, at: performance.now() }) : { ok: false, msg: 'NO SUCH SPOT NEARBY - WALK SOMEWHERE ELSE FIRST', at: performance.now() }; renderStatus(); return; }
-  if (a === 'replay') { const r = adm.lastPv; if (!r) { adm.res = { ok: false, msg: 'NOTHING TO REPLAY YET', at: performance.now() }; renderStatus(); return; } const A = window.__api; adm.rv = A ? { stage: 0, t0: performance.now(), pos: { x: A.H.x, y: A.H.y, a: A.H.angle } } : null; tx({ t: 'a', c: 'preview', k: r.k, var: r.var }); return; }
-  if (a === 'opt') { adm.opts[b.dataset.o] = !adm.opts[b.dataset.o]; LS.set('opts', adm.opts); adm.sig = ''; renderAdminData(); return; }
-  if (a === 'copy') { copyText(report()).then(ok => { adm.res = { ok, msg: ok ? 'REPORT COPIED TO THE CLIPBOARD' : 'COULD NOT COPY: CLIPBOARD BLOCKED', at: performance.now() }; renderStatus(); }); return; }
+  if (b.dataset.a === 'close') { adm.open = false; renderAdmin(); return; }
+  if (b.dataset.a === 'unlock') return unlock();
+  if (b.dataset.a === 'msg') return sendMsg();
+  if (b.dataset.a === 'give') { giveItem('cartograph'); return; }
+  if (b.dataset.a === 'deathlab' && adm.unlocked && window.__deathLab) { window.__deathLab.authorize(true); window.__deathLab.open(); adm.open = false; renderAdmin(); return; }
   if (!b.dataset.c) return;
   if (b.dataset.confirm && !confirm(b.dataset.confirm)) return;
   const o = { t: 'a', c: b.dataset.c };
   if (b.dataset.id) o.id = +b.dataset.id;
-  if (b.dataset.eid) o.eid = +b.dataset.eid;
   if (b.dataset.v) o.v = +b.dataset.v;
   if (b.dataset.mode) o.mode = b.dataset.mode;
   if (b.dataset.k) o.k = b.dataset.k;
-  if (b.dataset.var) o.var = b.dataset.var;
   if (b.dataset.on !== undefined) o.on = +b.dataset.on;
-  if (o.c === 'preview') { adm.lastPv = { k: o.k, var: o.var }; const A = window.__api; adm.rv = A ? { stage: 0, t0: performance.now(), pos: { x: A.H.x, y: A.H.y, a: A.H.angle } } : null; }
+  if (o.c === 'debug') { adm.dbg = !!o.on; if (!adm.dbg && EN()) EN().setDebug(null); adm.sigW = ''; renderAdminData(); }
   tx(o);
 });
 panel.addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Enter') { if (e.target.id === 'admPass') unlock(); else if (e.target.id === 'admText') sendMsg(); } if (e.key === 'Escape') { adm.open = false; renderAdmin(); } });
 addEventListener('keydown', e => { if (e.code === 'Backquote' && !(e.target instanceof HTMLInputElement)) { e.preventDefault(); toggleAdmin(); } });
-setInterval(() => { if (adm.dbg && adm.unlocked) tx({ t: 'ping', ts: performance.now() }); }, 1000);
-setInterval(renderStatus, 1000);
 
 /* ---------- fluorescent light hum ---------- */
 /* Modelled on an old magnetic ballast: a 60 Hz mains buzz that is strongest at 120 Hz with a long tail of
@@ -724,10 +591,6 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   if (cv.width !== W * dpr || cv.height !== H * dpr) { cv.width = W * dpr; cv.height = H * dpr; }
   cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, H);
 
-  /* the halls do not stop for the pause screen: a kill the server has just made starts OUR death sequence at once.  (It is started from the game's fixed-step loop,
-   * which does not run while paused, so without this the death would only begin - late, and with its sound suspended - once you closed the pause menu.) */
-  { const A = window.__api; if (N.on && me && mseq > handled && A && !A.G.caught && A.paused && A.paused() && A.unpause) A.unpause(); }
-  previewTick();
   if (N.on) { applyServerState(t); applyCaught(); if (EN() && window.__api) EN().entAudio(t, hSlots, window.__api.q); }
   else { if (window.__mv && window.__mv.down) { window.__mv.down = 0; window.__mv.dragTo = null; } if (started && !exited) { soloGlitches(p); if (!(window.__items && window.__items.length) && window.__itemSolo !== true) soloItem(); } }
   if (run && !exited) itemsFrame(p);

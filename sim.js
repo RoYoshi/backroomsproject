@@ -103,7 +103,7 @@ function join(p){
   p.active=true;spawn(p);p.t0=runT;
   if(!others)resetWorld();
 }
-function respawn(p){if(p.pvEnt){eng.remove(p.pvEnt);p.pvEnt=0}if(p.active)spawn(p)}
+function respawn(p){if(p.active)spawn(p)}
 function leave(p){p.active=false;p.dead=``;p.caught=null}
 
 /* what the client tells us about how it is moving: state, speed, stamina and a few discrete noises (vault, landing, slide) */
@@ -187,39 +187,17 @@ const admin={
     if(eng.count(kind)>=(kind===`hound`?MAX_HOUNDS:MAX_SMILERS))return false;
     const p=placeNear(kind,x,y);if(!p)return false;eng.spawn(kind,p.x,p.y);return true;
   },
-  captureMode(m){eng.forceCapture=m===`quick`||m===`play`?m:null;return eng.forceCapture||`auto`},
-  previewKill(p,kind,variant){              // DEATHS tab: one chosen death on this player, through the real capture / kill path (works through god mode and spawn protection)
-    kind=kind===`smiler`?`smiler`:`hound`;
-    if(!p.active||p.dead||p.exited)return {ok:false,why:`you are not in the halls right now`};
-    if(p.caught)return {ok:false,why:`you are already caught`};
-    feed();const was=p.alive;p.alive=true;      // the engine's view of the players is refreshed first (the world may be frozen)
-    let e=ofKind(kind).filter(o=>!o.cap).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y))[0],fresh=false;
-    if(!e){
-      if(eng.count(kind)>=(kind===`hound`?MAX_HOUNDS:MAX_SMILERS)){p.alive=was;return {ok:false,why:`every ${kind} is busy`}}
-      const at=placeNear(kind,p.x,p.y)||{x:p.x,y:p.y};e=eng.spawn(kind,at.x,at.y);fresh=true;
-    }
-    const r=eng.previewKill(e,variant,p);
-    if(!r.ok){p.alive=was;if(fresh)eng.remove(e.id);return r}
-    processEvents();                        // apply the kill now (also while the world is frozen)
-    p.pvEnt=fresh?e.id:0;                   // a monster made just for the preview is taken away again when the victim is revived
-    return r;
-  },
-  removeEntity(id){return eng.remove(id|0)},
-  endPreview(p){if(p&&p.pvEnt){eng.remove(p.pvEnt);p.pvEnt=0}},
-  spotNear(x,y){for(const r of [90,140,200,270])for(let i=0;i<16;i++){const a=i/16*Math.PI*2,px=x+Math.cos(a)*r,py=y+Math.sin(a)*r;if(sl(px,py,16)&&eng.geo.los(px,py,x,y))return {x:Math.round(px),y:Math.round(py)}}return null},
-  entityAt(id){const e=ents().find(o=>o.id===(id|0));return e?{x:e.x,y:e.y}:null},
   nearestGlitch(x,y){let b=null,bd=1/0;for(const g of glitches){const d=Math.hypot(g.x-x,g.y-y);if(d<bd){bd=d;b=g}}return b},
   summon(x,y,pid){                       // drop the nearest Hound a short way from (x,y) and set it on the trail
     const h=ofKind(`hound`).sort((a,b)=>Math.hypot(a.x-x,a.y-y)-Math.hypot(b.x-x,b.y-y))[0];if(!h)return false;
     const p=placeNear(`hound`,x,y);if(!p)return false;
     return eng.summon(h,p.x,p.y,x,y,pid);
   },
-  info(){const hs=ofKind(`hound`);return {fz:frozen?1:0,sp:speed,bo:bmode,hn:hs.length,sn:eng.count(`smiler`),gw:glitches.length,it:items.length,pk:new Set(hs.map(h=>h.pack).filter(Boolean)).size,hs:hs.map(h=>h.state).join(`,`),dbg:debugOn?1:0,
-    cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
+  info(){const hs=ofKind(`hound`);return {fz:frozen?1:0,sp:speed,bo:bmode,hn:hs.length,sn:eng.count(`smiler`),gw:glitches.length,it:items.length,pk:new Set(hs.map(h=>h.pack).filter(Boolean)).size,hs:hs.map(h=>h.state).join(`,`),dbg:debugOn?1:0}},
 };
 function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;eng.sound({x:p.x,y:p.y,r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
 resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,leave,step,entities,resetWorld,admin,setBody,hearMove,capInfo,
-  debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
+  debugInfo:()=>eng.debugInfo(),get debugOn(){return debugOn},engine:eng,adapter,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},
   debug:{V,Ic,get glitches(){return glitches}}};
 
