@@ -1,4 +1,4 @@
-v10/* dphys.js - lightweight procedural physics for the death animations (v18).
+/* dphys.js - lightweight procedural physics for the death animations (v18).
  *
  * One small simulation per death, shared by the local victim and by every spectator's replay (the bundle's death class calls it; nothing else does).
  * It is deliberately NOT a physics engine: a handful of point masses and springs stepped at a fixed 240 Hz, so the same event parameters give the
