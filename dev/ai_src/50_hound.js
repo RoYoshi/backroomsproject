@@ -174,7 +174,7 @@ function hHunt(eng, e, dt, thinkNow) {
     // predicted interception point, but never through walls: plan to it, aim straight when the way is clear
     const lead = clamp(dist(e.x, e.y, tgt.x, tgt.y) / 420, 0, .55) * (.5 + e.tr.INTELLIGENCE);
     const gx = tgt.x + tgt.vx * lead, gy = tgt.y + tgt.vy * lead;
-    if (eng.geo.lineClear(e.x, e.y, tgt.x, tgt.y, 16, 'walk') && dist(e.x, e.y, tgt.x, tgt.y) < 620) { e.path = [{ x: gx, y: gy }]; e.goal = { x: gx, y: gy }; e.goalKey = 'direct'; e.pathAge = 0; }
+    if (directOk(eng, e, tgt.x, tgt.y, 620) && (Math.hypot(gx - tgt.x, gy - tgt.y) < 8 || directOk(eng, e, gx, gy, 700))) directTo(eng, e, gx, gy);   // straight at it only when the body itself fits the line (it used to test 16 px: it scraped doorframes)
     else goTo(eng, e, gx, gy, { every: .45 });
     e.dbg.pursuit = { x: gx, y: gy };
   } else {

@@ -295,7 +295,7 @@ function smilerTick(eng, e, dt, thinkNow) {
         if ((grp > 0 && eng.rng() < .35) || (lit && eng.rng() < .2)) { e.dbg.stoodDown = (e.dbg.stoodDown || 0) + 1; beginWatch(eng, e, r); e.watch.until = now + rand(eng, 3, 7); stopMoving(eng, e, dt); break; }
       }
       const gx = pv.x + pv.vx * .18, gy = pv.y + pv.vy * .18;
-      if (eng.geo.lineClear(e.x, e.y, pv.x, pv.y, 16, 'walk')) { e.path = [{ x: gx, y: gy }]; e.goal = { x: gx, y: gy }; e.goalKey = 'direct'; e.pathAge = 0; } else goTo(eng, e, pv.x, pv.y, { every: .35 });
+      if (directOk(eng, e, pv.x, pv.y, 2000) && directOk(eng, e, gx, gy, 2000)) directTo(eng, e, gx, gy); else goTo(eng, e, pv.x, pv.y, { every: .35 });
       const nxt = e.path[0], nl = nxt ? litAt(eng, nxt.x, nxt.y) : 0;
       if (nl > .68 && !black && dist(e.x, e.y, pv.x, pv.y) > 90) { stopMoving(eng, e, dt); setAct(e, 'wait'); e.rushBlocked = (e.rushBlocked || 0) + dt; if (e.rushBlocked > 1.4) { e.rushBlocked = 0; beginDisappear(eng, e, 'light-wall'); break; } }
       else { e.rushBlocked = 0; setAct(e, 'rush'); follow(eng, e, dt, e.sp.speeds.rush, { arrive: 8, noSlow: false }); }

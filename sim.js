@@ -90,6 +90,7 @@ function makeGlitches(n=3){
 /* --- bodies: one per player, visible to everyone (client sends the finished record) --- */
 const bodies=new Map(),bodyT=new Map();let bodyVer=1,clockT=0,pruneT=0;
 const BODY_TTL=Math.max(0,+opts.bodyTtl||0);          // seconds a body stays in the halls; 0 = until the world resets or its owner dies again (server.js: BODY_TTL env)
+function navCmd(eid,cmd,p){const e=eng.entities.find(o=>o.id===eid);if(!e)return null;return eng.navCmd(e,cmd,p)}
 function killerEnd(id,x,y,a){return eng.commitEnd(id,x,y,a)}
 function setBody(id,rec){bodies.delete(id);bodies.set(id,rec);bodyT.set(id,clockT);while(bodies.size>MAX_BODIES){const k=bodies.keys().next().value;bodies.delete(k);bodyT.delete(k)}bodyVer++}
 function pruneBodies(dt){
@@ -168,7 +169,7 @@ function step(dt){
 const r1=n=>Math.round(n*10)/10;
 function entities(){
   const s=eng.snapshot();
-  return {h:s.h,m:s.m,b:V.blackout?1:0,p:+PR.toFixed(3),gw:glitches.map(g=>[Math.round(g.x),Math.round(g.y),g.nx,g.ny]),it:items.map(i=>[i.x,i.y,i.id]),
+  return {st:+clockT.toFixed(3),h:s.h,m:s.m,b:V.blackout?1:0,p:+PR.toFixed(3),gw:glitches.map(g=>[Math.round(g.x),Math.round(g.y),g.nx,g.ny]),it:items.map(i=>[i.x,i.y,i.id]),
     lf:eng.geo.fails.map(f=>[Math.round(f.x),Math.round(f.y),Math.round(f.r),+(f.until-eng.now).toFixed(2)]),sn:eng.drainSounds().slice(-24)};
 }
 const ofKind=k=>ents().filter(e=>e.kind===k);
@@ -233,7 +234,7 @@ const admin={
     cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
 };
 function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;eng.sound({x:p.x,y:p.y,r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
-resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,leave,step,entities,resetWorld,admin,setBody,killerEnd,hearMove,capInfo,
+resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,leave,step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},
   debug:{V,Ic,get glitches(){return glitches}}};

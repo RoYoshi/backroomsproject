@@ -143,7 +143,7 @@ function create(cfg) {
     const idle = e.act === 'listen' || e.act === 'rest' || e.act === 'feed' || e.state === S.HIDDEN || e.state === S.WATCHING || e.state === S.PLAYING || e.state === S.ALERT || e.state === S.CURIOUS || e.state === S.DORMANT || e.state === S.CAUTIOUS || e.state === S.EXCITED || e.cap;
     const embedded = !e.trav && !geo.clear(e.x, e.y, 12, e.mode || 'walk');
     if ((moved < 26 && !idle) || embedded) {
-      e.unstuck = (e.unstuck || 0) + 1;
+      e.unstuck = (e.unstuck || 0) + 1; const nv = navOf(e); nv.recover++; if (embedded) { nv.emergency++; eng.note(`${tagOf(e.kind, e.id)} EMERGENCY un-embed at ${Math.round(e.x)},${Math.round(e.y)}`); }
       const c = geo.snap(e.x, e.y, e.caps, 4);
       if (embedded && c >= 0) { e.x = geo.cx(c); e.y = geo.cy(c); }
       e.path = []; e.trav = null; e.aim = null; e.pathAge = 99; e.goalKey = ''; e.speed = 0;
@@ -181,13 +181,66 @@ function create(cfg) {
       let thinkNow = false;
       if (e.thinkT <= 0) { e.thinkT = e.tier === 'near' ? .1 : .35; thinkNow = true; sense(e, e.senseDt); e.senseDt = 0; }
       e.pathAge += dt;
+      if (e.navGo) { navGoStep(this, e, dt); watchdog(e, dt); continue; }        // debug/test: pure navigation, no species decisions
       const res = e.sp.tick(this, e, dt, thinkNow);
       if (res && res.pv && res.pv.alive && !res.pv.caught && !e.cap) { this.stats.capture++; beginCapture(this, e, res.pv, { dir: res.dir, speed: res.speed, style: res.style }); }
       watchdog(e, dt);
     }
+    separate(dt);
     for (const cap of this.caps.slice()) capStep(this, cap, dt);
     this.packT -= dt; if (this.packT <= 0) { this.packT = .5; packs(); }
   };
+
+  /* ENTITY-ENTITY SEPARATION: mild, wall-respecting.  Bodies may press (hounds crowd each other more than smilers do) but never sit inside each other
+   * for long.  n is at most a handful, so this is a plain pair loop.  Busy bodies (a capture, a kill, a vault, a lunge) are not pushed. */
+  function separate(dt) {
+    const E = eng.entities;
+    for (let i = 0; i < E.length; i++) for (let j = i + 1; j < E.length; j++) {
+      const a = E[i], b = E[j]; if (a.tier === 'far' || b.tier === 'far') continue;
+      const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy), both = a.kind === 'hound' && b.kind === 'hound', want = (a.r + b.r) * (both ? .72 : .9);
+      if (d >= want) continue;
+      const nx = d > 1e-3 ? dx / d : Math.cos(a.id), ny = d > 1e-3 ? dy / d : Math.sin(a.id), push = Math.min(want - d, 140 * dt) * .5;
+      const fa = !(a.cap || a.commit || a.trav || a.lunge), fb = !(b.cap || b.commit || b.trav || b.lunge);
+      if (!fa && !fb) continue; const ka = fa && fb ? 1 : fa ? 2 : 0, kb = fa && fb ? 1 : fb ? 2 : 0;
+      if (ka) moveCollide(eng, a, -nx * push * ka, -ny * push * ka);
+      if (kb) moveCollide(eng, b, nx * push * kb, ny * push * kb);
+      navOf(a).sep = (navOf(a).sep || 0) + 1;
+    }
+  }
+  /* debug/test navigation: drive an entity through the real route + steering + locomotion + collision to (x,y) (or after a player), nothing else.
+   * {x, y} or {pid}; speed = px/s; clears itself on arrival unless keep. */
+  function navGoStep(eng, e, dt) {
+    const g = e.navGo; let gx = g.x, gy = g.y;
+    if (g.pid) { const p = eng.playerById(g.pid); if (!p) { e.navGo = null; return; } gx = p.x; gy = p.y; }
+    if (g.direct !== false && directOk(eng, e, gx, gy, 700)) { directTo(eng, e, gx, gy); }
+    else goTo(eng, e, gx, gy, { every: g.every ?? 1.1 });
+    follow(eng, e, dt, g.speed || e.sp.speeds.roam || 100, { arrive: g.arrive ?? 20 });
+    g.t = (g.t || 0) + dt;
+    if (!g.pid && Math.hypot(gx - e.x, gy - e.y) < (g.arrive ?? 20) + 4) { g.done = g.t; if (!g.keep) e.navGo = null; }
+  }
+  /* the navigation record for the admin overlay: full route, the aim point, wanted heading vs actual motion, stuck timer, why it last re-planned */
+  function navDebug(e) {
+    const n = navOf(e), c = e.caps;
+    return { rt: e.path.slice(0, 18).map(w => [Math.round(w.x), Math.round(w.y), w.link ? 1 : (w.c | 0) > 1 ? 2 : 0]), car: e.carrot ? [Math.round(e.carrot.x), Math.round(e.carrot.y)] : null,
+      want: e.want !== undefined ? +e.want.toFixed(2) : null, vx: Math.round(e.vel.x), vy: Math.round(e.vel.y), sp: Math.round(e.speed), st: +e.stuck.toFixed(2),
+      dir: e.goalKey === 'direct' ? 1 : 0, why: n.why.slice(-5).map(w => w[1] + '@' + w[0]), goal: e.goal ? [Math.round(e.goal.x), Math.round(e.goal.y)] : null,
+      rc: e.rc, r: e.r, caps: (c.CAN_VAULT ? 'V' : '-') + (c.CAN_CRAWL ? 'C' : '-') + (c.CAN_USE_TIGHT_GAPS ? 'T' : '-') + (c.CAN_BREAK_DOORS ? 'B' : '-'),
+      n: [n.plans, n.contacts, n.bonks, n.stuckN, n.recover, n.emergency], go: e.navGo ? (e.navGo.pid ? 'follow' : 'goto') : '' };
+  }
+  /* admin navigation commands on one entity (DEBUG tab) */
+  eng.navCmd = function (e, cmd, pv) {
+    switch (cmd) {
+      case 'follow': this.navGo(e, { pid: pv.id, speed: e.kind === 'hound' ? e.sp.speeds.chase : e.sp.speeds.follow, keep: true, arrive: 60 }); return 'FOLLOWING YOU (navigation only)';
+      case 'come': this.navGo(e, { x: pv.x, y: pv.y, speed: e.kind === 'hound' ? e.sp.speeds.chase : e.sp.speeds.follow, arrive: 40 }); return 'COMING TO WHERE YOU STAND';
+      case 'hunt': { e.navGo = null; const r = rec(e, pv.id); r.aw = 1; r.seen = true; r.seenAt = this.now; r.lkx = pv.x; r.lky = pv.y; r.conf = 1; if (e.kind === 'hound') { beginHunt(this, e, r, 'debug'); return 'HUNTING YOU (real AI)'; } beginStalk(this, e, r); return 'STALKING YOU (real AI)'; }
+      case 'clear': e.navGo = null; e.target = null; e.path = []; e.goal = null; e.goalKey = ''; if (e.kind === 'hound') setState(e, S.ROAMING); return 'TARGET AND ROUTE CLEARED';
+      case 'repath': if (!e.goal) return 'NO GOAL TO RE-PLAN'; plan(this, e, e.goal.x, e.goal.y, { why: 'debug' }); return 'RE-PLANNED';
+      case 'noroute': e.path = []; e.goalKey = ''; e.carrot = null; return 'ROUTE DROPPED';
+      case 'unstuck': e.stuck = 0; e.nudge = 0; e.unst = null; return 'STUCK STATE RESET';
+    }
+    return 'UNKNOWN';
+  };
+  eng.navGo = function (e, o) { e.navGo = o ? Object.assign({}, o) : null; if (o) { e.path = []; e.goalKey = ''; e.tier = 'near'; e.tierT = 99; } return true; };
 
   /* admin aid (DEATHS tab): one chosen death on one player, through the real kill path (see previewKill in the capture part) */
   eng.previewKill = function (e, variant, pv) { return previewKill(this, e, variant, pv); };
@@ -228,6 +281,7 @@ function create(cfg) {
         cp: cap ? { m: cap.mode, ph: cap.phase, v: cap.variant, t: +cap.t.toFixed(1), d: +Math.max(0, cap.decideAt - cap.t).toFixed(1), n: cap.plays } : null,
         cd: e.dbg.capture || null,
         path: e.path.slice(0, 7).map(w => [Math.round(w.x), Math.round(w.y)]),
+        nv: navDebug(e),
         pu: e.dbg.pursuit || null,
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
         sm: e.kind === 'smiler' ? { q: e.quirk || '-', enc: e.dbg.enc || '', le: e.dbg.lightEv || '', ex: +(e.exposed || 0).toFixed(2), rt: e.dbg.returned | 0, bk: e.dbg.backed | 0, sd: e.dbg.stoodDown | 0, iv: e.dbg.investigated | 0 } : undefined,

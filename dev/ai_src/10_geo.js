@@ -4,9 +4,10 @@
 const STATIC = new Map();
 const OL = 21;                                   // clearance radius the game's own nav grid uses
 const DIRS = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]];
+const WALL_COST = [30, 12, 3, 0];                  // route cost per cell by clearance: a hall is crossed down its middle unless the long way round is much longer
 function buildStatic(a) {
   const cols = a.cols, rows = a.rows, N = cols * rows, cs = a.cell;
-  const cls = new Uint8Array(N), lamp = new Float32Array(N), links = new Map();
+  const cls = new Uint8Array(N), lamp = new Float32Array(N), links = new Map(), clr = new Uint8Array(N);
   const cx = i => (i % cols + .5) * cs, cy = i => (Math.floor(i / cols) + .5) * cs;
   for (let i = 0; i < N; i++) {
     const x = cx(i), y = cy(i);
@@ -14,6 +15,9 @@ function buildStatic(a) {
     if (a.clear(x, y, OL, 'walk')) cls[i] = 1;
     else if (a.clear(x, y, OL, 'crawl')) { const z = WORLD.lowZone(x, y, 10); cls[i] = z && z.type === 'gap' ? 3 : 2; }
   }
+  // clearance field: how much room a walkable cell has around it (0: barely body-wide ... 3: 52 px or more).  Routes prefer roomy cells, so they run
+  // down the middle of halls and through the middle of doorways instead of along the wall at touching distance.  Built once per process.
+  for (let i = 0; i < N; i++) { if (cls[i] !== 1) continue; const x = cx(i), y = cy(i); clr[i] = a.clear(x, y, 52, 'walk') ? 3 : a.clear(x, y, 40, 'walk') ? 2 : a.clear(x, y, 30, 'walk') ? 1 : 0; }
   // lamp light on the floor (what a light-fearing monster avoids); LOS-tested like the game's own Ul()
   for (let i = 0; i < N; i++) {
     if (!cls[i] && !a.floor(Math.floor(cx(i) / 96), Math.floor(cy(i) / 96))) continue;
@@ -37,7 +41,7 @@ function buildStatic(a) {
       addLink(i, j, cx(i), cy(i), cx(j), cy(j), p); addLink(j, i, cx(j), cy(j), cx(i), cy(i), p);
     }
   }
-  return { cls, lamp, links, cols, rows, N, cs, cx, cy, cellAt };
+  return { cls, lamp, links, clr, cols, rows, N, cs, cx, cy, cellAt };
 }
 
 class Geo {
@@ -91,7 +95,7 @@ class Geo {
     const s = this.snap(x0, y0, caps), g = this.snap(x1, y1, caps, 6);
     if (s < 0 || g < 0) return null;
     if (s === g) return [{ x: x1, y: y1 }];
-    const cols = this.cols, N = this.N, cs = this.cs, st = ++this.stamp, gen = this.gen, gs = this.gs, from = this.from, heap = this.heap, hf = this.hf, links = this.links, cls = this.cls;
+    const cols = this.cols, N = this.N, cs = this.cs, st = ++this.stamp, gen = this.gen, gs = this.gs, from = this.from, heap = this.heap, hf = this.hf, links = this.links, cls = this.cls, clr = this.clr;
     let hn = 0;
     const gx = this.cx(g), gy = this.cy(g), costFn = opts.cost, maxNodes = opts.maxNodes || 14000, canVault = caps.CAN_VAULT;
     const h = i => { const dx = Math.abs(this.cx(i) - gx), dy = Math.abs(this.cy(i) - gy); return (dx + dy) + (Math.SQRT2 - 2) * Math.min(dx, dy); };
@@ -110,7 +114,7 @@ class Geo {
         const nc = c + dc, nr = r + dr; if (nc < 0 || nr < 0 || nc >= cols || nr >= this.rows) continue;
         const j = nr * cols + nc; if (!this.passableFor(j, caps)) continue;
         if (dc && dr && (!this.passableFor(r * cols + nc, caps) || !this.passableFor(nr * cols + c, caps))) continue;   // no corner cutting
-        let step = (dc && dr ? 67.9 : 48) * (cls[j] === 1 ? 1 : cls[j] === 2 ? 2.2 : 4);
+        let step = (dc && dr ? 67.9 : 48) * (cls[j] === 1 ? 1 : cls[j] === 2 ? 2.2 : 4) + WALL_COST[clr[j]] * (cls[j] === 1 ? 1 : 0);
         if (costFn) { const ex = costFn(j); if (ex === Infinity) continue; step += ex; }
         const ng = gs[i] + step;
         if (gen[j] !== st || ng < gs[j]) { gen[j] = st; gs[j] = ng; from[j] = i; hf[j] = ng + h(j); push(j); linkOf.delete(j); }

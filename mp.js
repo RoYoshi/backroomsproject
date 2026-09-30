@@ -90,7 +90,7 @@ function connect() {
       for (const [id, o] of peers) if (!seen.has(id)) { dropAvatar(o); peers.delete(id); }
       peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0;
       if (m.mk && m.ms !== killSeq) { killSeq = m.ms; announceKill(m.mk); }          // who killed us, how, and where the wall is
-      if (m.e) { snap = m.e; N.on = true; entitySignals(m.e); }
+      if (m.e) { snap = m.e; N.on = true; entitySignals(m.e); netHist(m.e, now); }
       if (m.dbg && EN()) { EN().setDebug(m.dbg); if (m.dx) EN().setDebugX(m.dx); }
       if (m.ad) { adm.data = m.ad; adm.you = m.you; renderAdminData(); }
     }
@@ -119,6 +119,35 @@ function entitySignals(e) {
   for (const q of e.sn || []) if (Array.isArray(q) && ['growl', 'snarl', 'lungecue', 'guard', 'kill'].includes(q[0])) E.houndVoice(q[1], q[2], q[0], q[3]);
   E.setFails(e.lf || []);
 }
+/* SNAPSHOT INTERPOLATION (Part 1B).  The server sends ~20 snapshots a second with its own clock (st).  Each entity keeps a short history of them and is
+ * drawn ~100 ms in the past, interpolated between the two samples around that moment (shortest-arc facing), so motion is even whatever the packet
+ * timing - instead of chasing the newest snapshot (which surged after each packet and stalled when one was late).  If packets stop it extrapolates
+ * for at most 150 ms, then holds.  A jump of more than 300 px between samples (respawn / admin move) is never smoothed across. */
+const NET = { off: null, hist: new Map(), DELAY: .1 };
+function netHist(e, nowMs) {
+  if (typeof e.st !== 'number') return;
+  const arr = nowMs / 1000, smp = e.st - arr;                                // server clock minus our clock, plus this packet's latency
+  NET.off = NET.off === null || smp > NET.off ? smp : NET.off - Math.min(.02, NET.off - smp) * .05;    // follow the fastest packets; drift down slowly
+  const put = (k, t) => { let h = NET.hist.get(k); if (!h) NET.hist.set(k, h = []); if (h.length && h[h.length - 1].t >= e.st) return; h.push({ t: e.st, x: t.x, y: t.y, a: t.a }); if (h.length > 8) h.shift(); h.seen = e.st; };
+  for (const t of e.h || []) put('h' + t.i, t);
+  for (const t of e.m || []) put('m' + t.i, t);
+  for (const [k, h] of NET.hist) if (e.st - h.seen > 5) NET.hist.delete(k);
+}
+const angD2 = (a, b) => { let d = (a - b) % (Math.PI * 2); if (d > Math.PI) d -= Math.PI * 2; else if (d < -Math.PI) d += Math.PI * 2; return d; };
+function netPose(key) {
+  const h = NET.hist.get(key); if (!h || !h.length || NET.off === null) return null;
+  const rt = performance.now() / 1000 + NET.off - NET.DELAY;
+  if (rt <= h[0].t) return h[0];
+  for (let i = h.length - 1; i > 0; i--) {
+    const a = h[i - 1], b = h[i]; if (rt < a.t) continue;
+    if (Math.hypot(b.x - a.x, b.y - a.y) > 300) return rt >= b.t ? b : a;
+    if (rt <= b.t) { const u = (rt - a.t) / Math.max(1e-3, b.t - a.t); return { x: a.x + (b.x - a.x) * u, y: a.y + (b.y - a.y) * u, a: a.a + angD2(b.a, a.a) * u }; }
+    const ex = Math.min(rt - b.t, .15), u = ex / Math.max(1e-3, b.t - a.t);                      // past the newest sample: carry on briefly
+    return { x: b.x + (b.x - a.x) * u, y: b.y + (b.y - a.y) * u, a: b.a + angD2(b.a, a.a) * Math.min(u, 1) };
+  }
+  return h[h.length - 1];
+}
+window.__netPose = netPose; window.__NET = NET;
 function applyServerState(dt) {
   const A = window.__api, s = snap, E = EN();
   if (!A || !s || !E) return;
@@ -128,7 +157,7 @@ function applyServerState(dt) {
     ids.add(t.i);
     let o = hMap.get(t.i);
     if (!o) { const sl = hSlots.indexOf(null); if (sl < 0) continue; o = { x: t.x, y: t.y, angle: t.a, state: 'ROAMING', ls: 'patrol', act: '', distance: 0, slot: sl, id: t.i }; hMap.set(t.i, o); hSlots[sl] = o; }
-    E.slotH(o, t, dt);
+    E.slotH(o, t, dt, netPose('h' + t.i));
   }
   for (const [id, o] of hMap) if (!ids.has(id)) { hSlots[o.slot] = null; hMap.delete(id); }
   let best = null, bd = 1e18;
@@ -143,7 +172,7 @@ function applyServerState(dt) {
     sid.add(t.i);
     let i = sSlot.indexOf(t.i);
     if (i < 0) { i = sSlot.indexOf(null); if (i < 0) continue; sSlot[i] = t.i; const o = A.q[i]; o.x = t.x; o.y = t.y; o.angle = t.a; o.distance = 0; }
-    A.q[i].off = false; E.slotS(A.q[i], t, dt);
+    A.q[i].off = false; E.slotS(A.q[i], t, dt, netPose('m' + t.i));
   }
   A.q.forEach((sm, i) => {
     if (sSlot[i] !== null && !sid.has(sSlot[i])) sSlot[i] = null;
@@ -404,7 +433,7 @@ const LS = { get(k, d) { try { const v = localStorage.getItem('adm.' + k); retur
 const TABS = [['players', 'PLAYERS'], ['monsters', 'MONSTERS'], ['deaths', 'DEATHS'], ['world', 'WORLD'], ['debug', 'DEBUG']];
 adm.tab = LS.get('tab', 'players'); if (!TABS.some(t => t[0] === adm.tab)) adm.tab = 'players';
 adm.side = LS.get('side', 'left') === 'right' ? 'right' : 'left';
-adm.lay = Object.assign({ ai: true, you: true, srv: true, log: true, compact: false }, LS.get('lay', {}));
+adm.lay = Object.assign({ ai: true, you: true, srv: true, log: true, compact: false, nav: false, col: false, grid: false, links: false }, LS.get('lay', {})); adm.sel = 0;
 adm.opts = Object.assign({ close: true, auto: true, back: true }, LS.get('opts', {}));
 adm.sig = ''; adm.res = null; adm.rv = null;
 document.head.appendChild(Object.assign(document.createElement('style'), { id: 'admStyle2', textContent: `
@@ -482,6 +511,8 @@ function findSpot(kind) {
     const n = Math.max(1, Math.round(R / 40)) * 4;
     for (let i = 0; i < n; i++) {
       const a0 = i / n * TAU2, x = H.x + Math.cos(a0) * R, y = H.y + Math.sin(a0) * R; if (!ok(x, y)) continue;
+      if (kind === 'door') { for (const [ax, px] of [[0, Math.PI / 2], [Math.PI / 2, 0]]) { const w = ray(x, y, px) + ray(x, y, px + Math.PI); if (w < 200 && w > 70 && ray(x, y, ax) > 250 && ray(x, y, ax + Math.PI) > 250) { const sx = x + Math.cos(ax + Math.PI) * 170, sy = y + Math.sin(ax + Math.PI) * 170; if (ok(sx, sy)) return { x: sx, y: sy, a: ax, n: 'BEFORE A DOORWAY' }; } } continue; }
+      if (kind === 'pillar') { let hit = 0, nearA = 0; for (let k = 0; k < 16; k++) { const d = ray(x, y, k / 16 * TAU2); if (d < 130) { hit++; nearA = k / 16 * TAU2; } } if (hit >= 2 && hit <= 5 && ray(x, y, nearA + Math.PI) > 240) { const gx = x + Math.cos(nearA) * 200, gy = y + Math.sin(nearA) * 200; if (!A.sl(gx, gy, 10) && ok(x, y)) return { x, y, a: nearA, n: 'BY A PILLAR / WALL END' }; } continue; }
       if (kind === 'open') { let good = true; for (let k = 0; k < 8; k++) if (ray(x, y, k / 8 * TAU2) < 210) { good = false; break; } if (good) return { x, y, a: 0, n: 'OPEN ROOM' }; }
       else for (let k = 0; k < 16; k++) {
         const a = k / 16 * TAU2;
@@ -520,6 +551,12 @@ function bodyDebug(d) {
     '<p class="adm-help">An overlay for admins only. The server sends its data to you alone, and only while this is on.</p>' +
     sec('LAYERS') + rowW(L('ai', 'AI ENTITIES') + L('you', 'YOU + HEARING') + L('srv', 'SERVER') + L('log', 'AI EVENTS')) +
     sec('ENTITY LABELS') + rowW(btn('FULL', 'data-a="lab" data-v="0"', !adm.lay.compact) + btn('COMPACT', 'data-a="lab" data-v="1"', adm.lay.compact)) +
+    sec('NAVIGATION') + rowW(L('nav', 'ROUTES') + L('col', 'COLLISION') + L('grid', 'WALKABLE') + L('links', 'VAULT LINKS')) +
+    rowW(btn('SELECT NEAREST', 'data-a="navsel" data-v="near"') + btn('NEXT ENTITY', 'data-a="navsel" data-v="next"') + btn(adm.sel ? 'SELECTED #' + adm.sel + ' ✕' : 'NONE SELECTED', 'data-a="navsel" data-v="none"', !!adm.sel)) +
+    rowW(btn('FOLLOW ME', 'data-c="nav" data-cmd="follow"') + btn('COME HERE', 'data-c="nav" data-cmd="come"') + btn('HUNT ME (AI)', 'data-c="nav" data-cmd="hunt"') + btn('CLEAR TARGET', 'data-c="nav" data-cmd="clear"')) +
+    rowW(btn('FORCE REPATH', 'data-c="nav" data-cmd="repath"') + btn('DROP ROUTE', 'data-c="nav" data-cmd="noroute"') + btn('RESET STUCK', 'data-c="nav" data-cmd="unstuck"') + btn('GO TO IT', 'data-a="navgo"')) +
+    rowW(btn('ME → DOORWAY', 'data-a="place" data-w="door"') + btn('ME → PILLAR', 'data-a="place" data-w="pillar"') + btn('ME → CORNER', 'data-a="place" data-w="corner"') + btn('ME → OPEN ROOM', 'data-a="place" data-w="open"')) +
+    '<p class="adm-help">ROUTES: green = the route (orange = a vault, violet = crawl), white cross = the aim point it steers at, blue arrow = the heading it wants, white arrow = how it actually moves, dashed yellow = running straight at the goal. The selected entity also shows why it last re-planned, its stuck timer and counters (routes / wall touches / hard hits / stuck / recoveries / emergencies). COLLISION: its collision circle and the wall blocks around it. WALKABLE: floor near you, brighter = more room. FOLLOW / COME are navigation only; HUNT ME runs the real AI.</p>' +
     sec('TOOLS') + rowW(btn('COPY REPORT', 'data-a="copy"') + btn(d.fz ? 'UNFREEZE' : 'FREEZE THE HALLS', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SLOW MOTION 0.25×', 'data-c="speed" data-v="0.25"', d.sp === .25) + btn('NORMAL SPEED', 'data-c="speed" data-v="1"', d.sp === 1)) +
     '<p class="adm-help">AI ENTITIES: dashed ring = how far it can see; red line = last known position of its target (yellow: only heard or remembered); purple = last sound it heard; blue cross = where it is searching; green = its path; the label shows state, target, mood, capture. YOU: your state, stamina and the dashed ring of how far you are heard right now. COPY REPORT puts the room, players, entities, recent events and timings on the clipboard, ready to paste into a bug report.</p>';
 }
@@ -591,6 +628,14 @@ panel.addEventListener('click', e => {
   if (a === 'lay') { adm.lay[b.dataset.l] = !adm.lay[b.dataset.l]; applyDbg(); adm.sig = ''; renderAdminData(); return; }
   if (a === 'lab') { adm.lay.compact = b.dataset.v === '1'; applyDbg(); adm.sig = ''; renderAdminData(); return; }
   if (a === 'dl') { labSet(b.dataset.k, b.dataset.v); adm.sig = ''; renderAdminData(); return; }
+  if (a === 'navsel') {
+    const L = (EN() && EN().dbg) || [], A = window.__api; if (b.dataset.v === 'none') adm.sel = 0;
+    else if (!L.length) adm.res = { ok: false, msg: 'TURN DEBUG MODE ON FIRST (the list comes from the server)', at: performance.now() };
+    else if (b.dataset.v === 'near' && A) { let bd = 1e18; for (const d of L) { const dd = Math.hypot(d.x - A.H.x, d.y - A.H.y); if (dd < bd) { bd = dd; adm.sel = d.i; } } }
+    else { const ids = L.map(d => d.i).sort((x, y) => x - y), k = ids.indexOf(adm.sel); adm.sel = ids[(k + 1) % ids.length]; }
+    if (EN()) EN().navSel = adm.sel; renderAdminData(); return;
+  }
+  if (a === 'navgo') { const d = ((EN() && EN().dbg) || []).find(q => q.i === adm.sel); if (d) tx({ t: 'a', c: 'entgoto', eid: d.i }); else { adm.res = { ok: false, msg: 'SELECT AN ENTITY FIRST', at: performance.now() }; renderStatus(); } return; }
   if (a === 'place') { const sp = findSpot(b.dataset.w), A = window.__api; adm.res = sp && A ? (A.tp(sp.x, sp.y), A.H.angle = sp.a, { ok: true, msg: 'MOVED YOU: ' + sp.n, at: performance.now() }) : { ok: false, msg: 'NO SUCH SPOT NEARBY - WALK SOMEWHERE ELSE FIRST', at: performance.now() }; renderStatus(); return; }
   if (a === 'replay') { const r = adm.lastPv; if (!r) { adm.res = { ok: false, msg: 'NOTHING TO REPLAY YET', at: performance.now() }; renderStatus(); return; } const A = window.__api; adm.rv = A ? { stage: 0, t0: performance.now(), pos: { x: A.H.x, y: A.H.y, a: A.H.angle } } : null; tx({ t: 'a', c: 'preview', k: r.k, var: r.var }); return; }
   if (a === 'opt') { adm.opts[b.dataset.o] = !adm.opts[b.dataset.o]; LS.set('opts', adm.opts); adm.sig = ''; renderAdminData(); return; }
@@ -605,6 +650,8 @@ panel.addEventListener('click', e => {
   if (b.dataset.k) o.k = b.dataset.k;
   if (b.dataset.var) o.var = b.dataset.var;
   if (b.dataset.on !== undefined) o.on = +b.dataset.on;
+  if (b.dataset.cmd) o.cmd = b.dataset.cmd;
+  if (o.c === 'nav') { if (!adm.sel) { adm.res = { ok: false, msg: 'SELECT AN ENTITY FIRST', at: performance.now() }; renderStatus(); return; } o.eid = adm.sel; }
   if (o.c === 'preview') { adm.lastPv = { k: o.k, var: o.var }; const A = window.__api; adm.rv = A ? { stage: 0, t0: performance.now(), pos: { x: A.H.x, y: A.H.y, a: A.H.angle } } : null; }
   tx(o);
 });

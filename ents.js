@@ -24,19 +24,19 @@ const HLS = { HUNTING: 'chase', STALKING: 'stalk', SEARCHING: 'search', CURIOUS:
 const SLS = { WATCHING: 'watch', FOLLOWING: 'stalk', STALKING: 'stalk', PROVOKED: 'pursue', ATTACKING: 'pursue', PLAYING: 'pursue' };
 
 /* ---------------------------------------------------------------- snapshot -> slot objects (smoothed for display) */
-E.slotH = function (o, t, dt) {
+E.slotH = function (o, t, dt, ip) {
   const k = 1 - Math.exp(-dt * 15), px = o.x, py = o.y;
-  if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; o.angle = t.a; }
-  else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; }
-  o.angle += angDiff(t.a, o.angle) * (1 - Math.exp(-dt * 14));
+  if (ip) { o.x = ip.x; o.y = ip.y; o.angle = ip.a; }                                  // interpolated on the server clock (mp.js netPose)
+  else if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; o.angle = t.a; }
+  else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; o.angle += angDiff(t.a, o.angle) * (1 - Math.exp(-dt * 14)); }
   o.distance += Math.hypot(o.x - px, o.y - py);
   o.state = E.tab.s[t.s] || 'ROAMING'; o.ls = HLS[o.state] || 'patrol'; o.act = E.tab.h[t.ac] || ''; o.v = t.v; o.head = t.h; o.lunge = t.l; o.tg = t.tg; o.cp = t.cp; o.pack = t.k; o.net = 1;
 };
-E.slotS = function (o, t, dt) {
+E.slotS = function (o, t, dt, ip) {
   const k = 1 - Math.exp(-dt * 12), px = o.x, py = o.y;
-  if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; o.angle = t.a; }
-  else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; }
-  o.angle += angDiff(t.a, o.angle) * (1 - Math.exp(-dt * 10));
+  if (ip) { o.x = ip.x; o.y = ip.y; o.angle = ip.a; }
+  else if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; o.angle = t.a; }
+  else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; o.angle += angDiff(t.a, o.angle) * (1 - Math.exp(-dt * 10)); }
   o.distance = (o.distance || 0) + Math.hypot(o.x - px, o.y - py);
   o.state = E.tab.s[t.s] || 'HIDDEN'; o.ls = SLS[o.state] || 'lurk'; o.act = E.tab.m[t.ac] || ''; o.v = t.v; o.face = t.f; o.head = t.h; o.tg = t.tg; o.cp = t.cp; o.lit = t.lt; o.special = t.sp; o.net = 1; o.sid = t.i;
 };
@@ -660,8 +660,13 @@ function drawEntities(cx, view, list, cfg, stale) {
       if (d.hr) { const hx = X(d.hr.x), hy = Y(d.hr.y); cx.strokeStyle = '#d68cff'; cx.beginPath(); cx.arc(hx, hy, 7, 0, TAU); cx.stroke(); cx.fillStyle = '#d68cff'; cx.fillText('HEARD ' + d.hr.ty + ' ' + d.hr.t + 's I' + d.hr.I, hx + 9, hy - 4); }
       if (d.sg) { const sx = X(d.sg.x), sy = Y(d.sg.y); cx.strokeStyle = '#7aa2ff'; cx.beginPath(); cx.moveTo(sx - 6, sy); cx.lineTo(sx + 6, sy); cx.moveTo(sx, sy - 6); cx.lineTo(sx, sy + 6); cx.stroke(); cx.fillStyle = '#7aa2ff'; cx.fillText('SEARCH', sx + 8, sy + 2); }
     }
+    const sel = E.navSel && d.i === E.navSel;
+    if (sel) { cx.strokeStyle = '#ffffff'; cx.lineWidth = 2; cx.beginPath(); cx.arc(x, y, 34 * sc, 0, TAU); cx.stroke(); cx.lineWidth = 1; }
+    if (d.nv && (cfg.nav || sel)) drawNav(cx, view, d, x, y, X, Y, sel);
+    if (d.nv && cfg.col) drawCol(cx, view, d, x, y, X, Y);
     // label block
     const lines = [`${d.k.toUpperCase()}#${d.i}  ${d.s}${d.ac && d.ac !== '-' ? '/' + d.ac : ''}  tier:${d.tier}`];
+    if (d.nv && sel) { const n = d.nv; lines.push(`NAV ${n.dir ? 'DIRECT' : 'ROUTE ' + n.rt.length + ' pts'}  sp ${n.sp}  stuck ${n.st}s  r${n.r}/rc${n.rc}  caps ${n.caps}${n.go ? '  [' + n.go + ']' : ''}`, `repath: ${n.why.slice(-3).join('  ') || '-'}`, `routes ${n.n[0]}  touches ${n.n[1]}  hits ${n.n[2]}  stuck ${n.n[3]}  recov ${n.n[4]}  EMERG ${n.n[5]}`); }
     if (!cfg.compact) {
       lines.push(`tgt:${d.tg || '-'}  v:${d.v}  near:${d.near}` + (d.lit !== undefined ? '  lit:' + d.lit : ''), `mood a${d.mood[0]} f${d.mood[1]} e${d.mood[2]} b${d.mood[3]}`);
       if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
@@ -673,6 +678,50 @@ function drawEntities(cx, view, list, cfg, stale) {
     cx.fillStyle = 'rgba(0,0,0,.66)'; cx.fillRect(x + 10, y - h - 6, w, h); cx.fillStyle = col;
     lines.forEach((l, i) => cx.fillText(l, x + 15, y - h - 3 + i * 13));
   }
+  cx.restore();
+}
+/* NAVIGATION layers (Part 1B) */
+function drawNav(cx, view, d, x, y, X, Y, sel) {
+  const n = d.nv, sc = view.sc; cx.save(); cx.globalAlpha = 1;
+  if (n.dir && n.goal) { cx.strokeStyle = '#ffe36b'; cx.setLineDash([6, 5]); cx.beginPath(); cx.moveTo(x, y); cx.lineTo(X(n.goal[0]), Y(n.goal[1])); cx.stroke(); cx.setLineDash([]); }
+  else if (n.rt.length) {
+    cx.lineWidth = sel ? 2.5 : 1.5; let px = x, py = y;
+    for (const w of n.rt) { cx.strokeStyle = w[2] === 1 ? '#ffa04d' : w[2] === 2 ? '#c38cff' : '#6dff8a'; cx.beginPath(); cx.moveTo(px, py); px = X(w[0]); py = Y(w[1]); cx.lineTo(px, py); cx.stroke(); cx.fillStyle = cx.strokeStyle; cx.fillRect(px - 2.5, py - 2.5, 5, 5); }
+    cx.lineWidth = 1;
+  }
+  if (n.car) { const a = X(n.car[0]), b = Y(n.car[1]); cx.strokeStyle = '#ffffff'; cx.beginPath(); cx.moveTo(a - 5, b - 5); cx.lineTo(a + 5, b + 5); cx.moveTo(a + 5, b - 5); cx.lineTo(a - 5, b + 5); cx.stroke(); }
+  const arrow = (a, len, col) => { const ex = x + Math.cos(a) * len, ey = y + Math.sin(a) * len; cx.strokeStyle = col; cx.lineWidth = 2; cx.beginPath(); cx.moveTo(x, y); cx.lineTo(ex, ey); cx.lineTo(ex - Math.cos(a - .4) * 7, ey - Math.sin(a - .4) * 7); cx.moveTo(ex, ey); cx.lineTo(ex - Math.cos(a + .4) * 7, ey - Math.sin(a + .4) * 7); cx.stroke(); cx.lineWidth = 1; };
+  if (n.want !== null) arrow(n.want, 38 * sc, '#5fb4ff');
+  const v = Math.hypot(n.vx, n.vy); if (v > 5) arrow(Math.atan2(n.vy, n.vx), Math.min(70, v * .22) * sc, '#ffffff');
+  if (n.st > .15) { cx.fillStyle = '#ff6f61'; cx.fillText('STUCK ' + n.st + 's', x + 10, y + 12); }
+  cx.restore();
+}
+function drawCol(cx, view, d, x, y, X, Y) {
+  const n = d.nv, sc = view.sc, A = window.__api; cx.save();
+  cx.strokeStyle = '#ff5d5d'; cx.beginPath(); cx.arc(x, y, n.rc * sc, 0, TAU); cx.stroke();
+  cx.setLineDash([2, 3]); cx.strokeStyle = '#ffb0b0'; cx.beginPath(); cx.arc(x, y, n.r * sc, 0, TAU); cx.stroke(); cx.setLineDash([]);
+  if (A && A.Bc) { cx.strokeStyle = 'rgba(255,93,93,.55)'; for (const b of A.Bc(d.x, d.y)) if (Math.abs(b.x + b.w / 2 - d.x) < 200 && Math.abs(b.y + b.h / 2 - d.y) < 200) cx.strokeRect(X(b.x), Y(b.y), b.w * sc, b.h * sc); }
+  cx.restore();
+}
+/* walkable floor near the camera, brighter = more room (the same radii the server's clearance field uses); cached per camera cell */
+let gridCache = { key: '', pts: [] };
+function drawGrid(cx, view) {
+  const A = window.__api; if (!A || !A.sl) return; const { cam, sc, W, H } = view, X = x => W / 2 + (x - cam.x) * sc, Y = y => H / 2 + (y - cam.y) * sc;
+  const key = Math.round(cam.x / 96) + ',' + Math.round(cam.y / 96) + ',' + Math.round(sc * 10);
+  if (gridCache.key !== key) {
+    const pts = [], hw = W / 2 / sc + 48, hh = H / 2 / sc + 48;
+    for (let gy = Math.floor((cam.y - hh) / 48); gy <= (cam.y + hh) / 48; gy++) for (let gx = Math.floor((cam.x - hw) / 48); gx <= (cam.x + hw) / 48; gx++) {
+      const x = gx * 48 + 24, y = gy * 48 + 24; if (!A.sl(x, y, 21)) continue; pts.push([x, y, A.sl(x, y, 52) ? 3 : A.sl(x, y, 40) ? 2 : A.sl(x, y, 30) ? 1 : 0]);
+    }
+    gridCache = { key, pts };
+  }
+  cx.save(); for (const [x, y, c] of gridCache.pts) { cx.fillStyle = ['rgba(255,120,80,.55)', 'rgba(255,220,90,.45)', 'rgba(140,255,140,.35)', 'rgba(120,200,255,.25)'][c]; cx.fillRect(X(x) - 3, Y(y) - 3, 6, 6); } cx.restore();
+}
+function drawLinks(cx, view) {
+  const W0 = window.WORLD; if (!W0 || !W0.LOW) return; const { cam, sc, W, H } = view, X = x => W / 2 + (x - cam.x) * sc, Y = y => H / 2 + (y - cam.y) * sc;
+  cx.save(); cx.strokeStyle = '#ffa04d'; cx.fillStyle = '#ffa04d';
+  for (const p of W0.LOW) { const r = p.rect, half = (p.cross === 'y' ? r.h : r.w) / 2 + 30; const A1 = p.cross === 'y' ? [p.cx, p.cy - half] : [p.cx - half, p.cy], B1 = p.cross === 'y' ? [p.cx, p.cy + half] : [p.cx + half, p.cy];
+    cx.setLineDash([4, 3]); cx.beginPath(); cx.moveTo(X(A1[0]), Y(A1[1])); cx.lineTo(X(B1[0]), Y(B1[1])); cx.stroke(); cx.setLineDash([]); cx.fillText('VAULT ' + (p.kind || ''), X(p.cx) + 6, Y(p.cy) - 6); }
   cx.restore();
 }
 function drawYou(cx, view) {
@@ -716,6 +765,8 @@ E.drawDebug = function (cx0, view) {
   const { W, H } = view, now = performance.now();
   if (fpsT) { const f = 1000 / Math.max(1, now - fpsT); E.fps += (f - E.fps) * .05; } fpsT = now;
   const list = E.dbg, stale = now - E.dbgAt > 1500;
+  if (cfg.grid) drawGrid(cx, view);
+  if (cfg.links) drawLinks(cx, view);
   if (cfg.ai && list && list.length) drawEntities(cx, view, list, cfg, stale);
   cx.save(); cx.font = MONO; cx.textBaseline = 'top';
   const bw = 268, bx = cfg.side === 'left' ? 12 : W - bw - 12; let by = 64;

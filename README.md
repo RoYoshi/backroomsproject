@@ -318,3 +318,48 @@ Most of the brief was already true of the v16 smiler (no aggression UI, nothing 
 - The commitment is measured in world time, so it pauses with the world (admin freeze, or a room with nobody alive) like everything else.
 - **Tests:** `dev/tests/s_commit.js` (hold, no second capture during it, decision after, per-variant length, report validation) and `dev/tests/commit_mp.py` (two browsers: the spectator never sees the real hound leave during the death, and it reappears where the animation ended). Scenario tests that assumed the old instant after-kill decision now wait for the commitment. H12 now counts any reaction to the intruder over 20 seeds.
 - **Known, not changed:** after a kill the smiler is meant to linger grinning at the body, but its watch gives up at once because its target is dead. It was only visible before in frozen test worlds.
+
+## v21 - Part 1B: pathfinding and navigation
+
+**Measured first.** `dev/tests/nav_bench.js` drives the real movement code on the real level: 40 hound and 20 smiler routes across rooms, all 57 narrow doorways approached at 0/30/60 degrees (792 passes), two bodies through one door, real-AI chases through 3+ rooms, and loops round wall islands. The build before this pass arrived everywhere and never got stuck. What it did wrong, by layer:
+- **Route (A):** the nav grid calls a cell walkable when its centre clears 21 px, exactly the body's collision radius, so the cheapest route hugged walls at touching distance. Moving targets re-planned on every 48 px cell they crossed (smiler routes ~23 plans each, chases ~1.9 A* searches a second).
+- **Local steering (B):** the look-ahead accepted lines exactly body-wide, so any heading lag touched the wall. Nothing slowed a hound before a bend it physically could not take at speed (at 292 px/s its turning circle is ~200 px). Direct pursuit checked a 16 px line for a 21 px body. There was no way round a corner that cut into the chosen line.
+- **Locomotion / collision (C/D):** a body facing a wall kept ~75 % speed while turning and scraped along it. Stuck detection ignored slow pushing. Nothing separated entities (two hounds came within 23 px, bodies 26 px each).
+- **Network (E):** clients chased the newest 20 Hz snapshot with an exponential ease. The drawn speed surged after every packet (24.8 % frame-to-frame variation at a steady run, 45 % with late packets).
+
+**What changed**
+- **Route** (`ai_src/10_geo.js`, `30_entity.js`)
+  - A clearance field is built once: every walkable cell knows how much room it has (<30 / 30 / 40 / 52+ px). A* pays extra for cramped cells, so routes run down the middle of halls and through the middle of doorways.
+  - Routes are string-pulled (1584 grid cells become 30 waypoints over 30 routes), taking as much margin as the place allows. Bends are eased away from wall ends. Vault links and crawl cells are never smoothed across.
+- **Repath hysteresis:** a moving goal slides the end of the route along. The route is extended by one leg when the goal slips round a corner, and fully re-planned only when the goal moved more than ~12 % of the distance or the route can no longer reach it. Every re-plan records why (`goal-moved`, `goal-behind-corner`, `from-direct`, `stuck`, `stuck-alternate`, `off-route`, `refresh`, `debug`).
+- **Local steering:**
+  - A look-ahead "carrot" moves along the route (farther at speed) and is low-passed, so bends are rounded without dither.
+  - Corner braking comes from each species' own turn rate: a hound slows to ~200-250 px/s for sharp bends and still carries momentum.
+  - A three-ray feeler brakes for walls ahead, and a body nose to a wall stops and turns on the spot.
+  - When the line to the next point clips a corner, it slides round it on a consistent side.
+  - Direct pursuit (hound hunt, smiler rush, debug moves) needs the body's real radius, with hysteresis between straight pursuit and following the route.
+- **Stuck ladder:** a side-step at 0.35 s, a new route at 0.9 s, an alternate route that keeps off the spot on the second time, then the route is dropped. The old 6 s watchdog stays as the last resort and now logs `EMERGENCY un-embed` (0 in every test).
+- **Collision:** fast moves (lunges) are taken in 10 px steps. Mild entity separation respects walls: hounds may crowd, and busy bodies (capture, kill, vault, lunge) are not pushed.
+- **Network:** snapshots carry the server clock (`st`). Clients keep a short history per entity and draw it 100 ms in the past, interpolated with shortest-arc facing. If packets stop it extrapolates for up to 150 ms, and never smooths across a teleport.
+- **Debug (admin, DEBUG tab, NAVIGATION):**
+  - Layers: ROUTES (route with vault/crawl colours, aim point, wanted heading vs actual motion, direct-pursuit line, stuck timer), COLLISION (collision circle, body radius, nearby wall blocks), WALKABLE (floor near you shaded by clearance), VAULT LINKS.
+  - Selection: select nearest / next entity. The selected one shows route length, why it last re-planned, stuck timer, radii, capabilities and counters (routes / wall touches / hard hits / stuck / recoveries / emergencies).
+  - Commands: FOLLOW ME and COME HERE (navigation only), HUNT ME (real AI), CLEAR TARGET, FORCE REPATH, DROP ROUTE, RESET STUCK, GO TO IT.
+  - Teleports: ME → DOORWAY / PILLAR / CORNER / OPEN ROOM.
+- **Not changed:** species decisions, speeds, perception, memory, capture and kills, the smiler's light avoidance (still a route cost), and capability flags.
+
+**Results (the build before this pass → now, same fixtures)**
+
+| | before | now |
+|---|---|---|
+| hound wall-contact ticks per route / per doorway pass / at 60 degrees | 9.0 / 2.43 / 5.42 | 0.8 / 0.29 / 0.67 |
+| smiler wall-contact ticks per route / per doorway pass | 2.5 / 0.86 | 0.8 / 0.21 |
+| hard hits (bonks) per hound route / per real-AI chase | 0.2 / 0.4 | 0 / 0 |
+| real-AI chase: contact ticks, A* searches per second (avg / worst) | 11.6, 1.90 / 2.82 | 2.1, 0.57 / 1.72 |
+| heading wobbles per doorway pass (avg / worst) | 0.75 / - | 0.28 / 3 |
+| two bodies through one doorway: deepest overlap | 23 px apart (no separation) | 43 px avg, deep overlap 0.03 s max |
+| drawn speed variation, remote client (steady / late packets) | 24.8 % / 45.3 % | 6.6 % / 7.6 % |
+| A* cost per search (avg / p95) | 1.17 / 5.5 ms | 1.14 / 5.6 ms |
+| sim step, busy world (3 hounds, 5 smilers, 4 players) | ~0.12 ms | ~0.14 ms (+~13 %: smoothing and steering checks) |
+
+**Tests:** `dev/tests/s_nav.js` (12 acceptance scenarios: reach, solids/NaN, doorways, simplification, obstacle loops, doorway reversals, capabilities, two through one door, 3-room chase, LOS lost, stuck recovery, cost), `nav_bench.js` (the numbers above), `interp_test.js` (the real client interpolation code against a jittery stream), `nav_mp.py` (two browsers: launch, overlay, commands).
