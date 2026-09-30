@@ -6,16 +6,18 @@ const KIND_GLARE = { flashlight: 1, headlamp: .85, lantern: .8, camcorder: .2 };
 function newMemory() { return { p: new Map(), sounds: [], others: new Map(), visited: new Map() }; }
 function rec(e, id) {
   let r = e.mem.p.get(id);
-  if (!r) e.mem.p.set(id, r = { id, aw: 0, seen: false, seenAt: -99, heardAt: -99, lkx: 0, lky: 0, lvx: 0, lvy: 0, conf: 0, hx: 0, hy: 0, st: 0, stamina: 100, ex: 0, prof: 1, light: false, iso: 0, first: -99, lost: 0 });
+  if (!r) e.mem.p.set(id, r = { id, aw: 0, seen: false, seenAt: -99, heardAt: -99, lkx: 0, lky: 0, lvx: 0, lvy: 0, conf: 0, hx: 0, hy: 0, st: 0, stamina: 100, ex: 0, prof: 1, light: false, iso: 0, first: -99, lost: 0, hLoud: -99, hvx: 0, hvy: 0, crawl: null, crawlAt: -99 });
   return r;
 }
 function memAge(e, r, now) { return now - Math.max(r.seenAt, r.heardAt); }
 function memHalfLife(e) { return lerp(7, 46, e.tr.MEMORY); }        // seconds until an old sighting is (mostly) forgotten
 /* where might the player be now?  the last known position pushed along its last heading, with growing uncertainty */
-function estimate(e, r, now) {
+function estimate(e, r, now, geo) {
   const age = Math.max(0, now - r.seenAt), sp = Math.hypot(r.lvx, r.lvy);
   const dur = Math.min(age, 3.2) * (sp > 20 ? 1 : 0), k = sp > 1 ? 1 / sp : 0;
-  return { x: r.lkx + r.lvx * k * Math.min(sp * dur * .55, 520), y: r.lky + r.lvy * k * Math.min(sp * dur * .55, 520), unc: 60 + Math.min(1100, sp * age * .5 + age * 18) };
+  let D = Math.min(sp * dur * .55, 520);
+  if (geo && D > 0) D = Math.max(0, Math.min(D, geo.ray(r.lkx, r.lky, Math.atan2(r.lvy, r.lvx), D + 40) - 34));   // it went that way - but not through a wall
+  return { x: r.lkx + r.lvx * k * D, y: r.lky + r.lvy * k * D, unc: 60 + Math.min(1100, sp * age * .5 + age * 18) };
 }
 
 function updateVision(e, eng, dt, cands) {
@@ -37,12 +39,15 @@ function updateVision(e, eng, dt, cands) {
     const floor = cfg.floor || 70;                                            // something crouched in the dark right beside it is noticed regardless of posture
     if (d <= Math.max(range, floor)) {
       const bearing = Math.atan2(dy, dx), inFov = d < 110 || Math.abs(angDiff(bearing, e.ang + (e.head || 0))) <= cfg.fov / 2;
-      if (inFov && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
+      // under an occluder (a table, the wall round a hole) a body can only be made out from close by, whatever the light: not visible from across the room
+      const cz = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y) : null;
+      if (inFov && (!cz || d < cz.reveal) && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
     }
     r.seen = vis; r.dist = d;
     if (vis) {
       r.aw = Math.min(1, r.aw + strength * dt * (cfg.gain || 3.2));
       if (r.seenAt < now - 6) r.first = now;
+      const cw = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y, 34) : null; if (cw) { r.crawl = cw.id; r.crawlAt = now; } else if (now - r.crawlAt > 2) r.crawl = null;   // seen going into (or at the mouth of) a crawlspace: remembered
       r.seenAt = now; r.lkx = p.x; r.lky = p.y; r.lvx = p.vx; r.lvy = p.vy; r.conf = 1; r.st = p.st; r.stamina = p.stamina; r.ex = p.ex; r.prof = p.prof; r.light = p.light; r.lost = 0;
       e.seenNow.add(p.id);
     }
@@ -53,7 +58,8 @@ function updateVision(e, eng, dt, cands) {
 /* the sound bus delivers each event to every entity once */
 function hearEvent(e, eng, ev) {
   const geo = eng.geo, d = Math.hypot(ev.x - e.x, ev.y - e.y);
-  let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
+  const focus = ev.src > 0 && ev.src === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
+  let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * focus * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
   if (d > eff * 1.05) return;
   const clear = geo.los(e.x, e.y, ev.x, ev.y);
   if (!clear) eff *= .6;
@@ -67,6 +73,8 @@ function hearEvent(e, eng, ev) {
   e.mem.sounds.unshift(h); if (e.mem.sounds.length > 8) e.mem.sounds.pop();
   if (ev.src > 0) {
     const r = rec(e, ev.src);
+    const loud = I > .3 || ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land';
+    if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (hx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (hy - r.hy) / pdt, .5); } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
     r.heardAt = eng.now; r.hx = hx; r.hy = hy; r.aw = Math.min(1, r.aw + I * .9);
     if (eng.now - r.seenAt > 1.2) {                                              // not in sight: the sound is all we have
       const k = Math.min(1, I * 1.4 + .25);

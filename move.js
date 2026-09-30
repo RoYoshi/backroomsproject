@@ -225,7 +225,7 @@ function stepInner(ix, iy, run, dt) {
   H.sprinting = want === 'run';
 
   /* steer */
-  const acc = want === 'run' ? 15 : want === 'crawl' ? 11 : want === 'crouch' ? 13 : 17, u = 1 - Math.exp(-acc * dt);
+  const acc = (want === 'run' ? 15 : want === 'crawl' ? 11 : want === 'crouch' ? 13 : 17) * (exh ? (M.exhaustedAcc || 1) : 1), u = 1 - Math.exp(-acc * dt);   // spent legs: slower to get going and to change direction
   H.vx += (dx * target - H.vx) * u; H.vy += (dy * target - H.vy) * u;
   mv.prof = W.PROFILE[want];
 

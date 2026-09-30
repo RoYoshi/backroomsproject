@@ -52,8 +52,8 @@ add('C4 noise gives the prey away: a prey that has slipped away quietly and then
   for (let i = 0; i < 40 && rs.length < 10; i++) {
     let sprintAt = -1;
     const r = E.run('break-walk', i, { light: false, startD: 520, lim: 60, hook: (w, h, p, t, P) => {
-      if (sprintAt < 0) { if (h.state === 'SEARCHING' && dist(h, p) < 750 && lostSight(w, h, p) && !h.mem.p.get(p.id).seen) { sprintAt = t; p.quiet = true; const q = hideSpot(w, p, h, P, i + 7); if (q) p.pathTo(q.x, q.y, 'run'); else p.mode = 'run'; } return null; }
-      p.mode = p.ex ? 'walk' : 'run';
+      if (sprintAt < 0) { if (h.state === 'SEARCHING' && dist(h, p) < 750 && lostSight(w, h, p) && !h.mem.p.get(p.id).seen) { sprintAt = t; p.quiet = true; p.panic = true; const q = hideSpot(w, p, h, P, i + 7); if (q) p.pathTo(q.x, q.y, 'run'); else p.mode = 'run'; } return null; }
+      if (p.mode === 'walk' && !p.ex) p.mode = 'run';
       if (h.state === 'HUNTING') return { reAt: t - sprintAt };
       if (t - sprintAt > 6) return { reAt: -1 };
       return null; } });

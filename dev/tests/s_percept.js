@@ -76,6 +76,8 @@ add('P07 exhausted breathing is audible only close by', () => {
   far.x = 3400 + 180; w.run(10, keep);
   return { ok: farHeard === 0 && h.heardCount > 0, note: `900px away: ${farHeard} sounds; 180px away: ${h.heardCount}` };
 });
+/* (Part 1C) a search may start ahead of the last sighting along the way the prey was going (the runner went that way), not only on the spot */
+const ahead = (lk, g) => { const h = Math.atan2(lk.vy || 0, lk.vx || 0), dx = g.x - lk.x, dy = g.y - lk.y, fw = dx * Math.cos(h) + dy * Math.sin(h), lat = Math.abs(-dx * Math.sin(h) + dy * Math.cos(h)); return fw > 0 && fw < 1300 && lat < 200; };   // (as far as a runner gets in the seconds the hound was blind)
 add('P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming', () => {
   const rs = over([1, 2, 3, 4, 5, 6], s => {
     const w = World(s), p = w.player(5400, LONG.y, {}), h = w.hound(4900, LONG.y); h.ang = 0;
@@ -83,7 +85,7 @@ add('P08 memory: the last known position is used, then goes stale; the hound giv
     w.run(150, (ww, t) => {
       const r = h.mem.p.get(p.id);
       if (!vanished && r && r.seen && t > 1.2) {                                                    // it has just seen the player: now the player is gone (quiet, dark, far away)
-        vanished = true; vt = t; lk = { x: r.lkx, y: r.lky }; confAtVanish = r.conf; p.x = 7500; p.y = LONG.y; p.light = false; p.stop('crouch'); p.stamina = 100;
+        vanished = true; vt = t; lk = { x: r.lkx, y: r.lky, vx: r.lvx, vy: r.lvy }; confAtVanish = r.conf; p.x = 7500; p.y = LONG.y; p.light = false; p.stop('crouch'); p.stamina = 100;
       }
       if (vanished) {
         if (!firstSearchGoal && h.state === 'SEARCHING' && h.search && h.search.goal) firstSearchGoal = { x: h.search.goal.x, y: h.search.goal.y };
@@ -92,7 +94,7 @@ add('P08 memory: the last known position is used, then goes stale; the hound giv
       }
     }, 3);
     const r = h.mem.p.get(p.id);
-    return { ok: vanished && !!firstSearchGoal && Math.hypot(firstSearchGoal.x - lk.x, firstSearchGoal.y - lk.y) < 400 && gaveUp > 0 && (!r || r.conf < .2) && (conf20 === null || conf20 < confAtVanish), vanished, gaveUp: +gaveUp.toFixed(1), conf: r ? +r.conf.toFixed(2) : 0 };
+    return { ok: vanished && !!firstSearchGoal && (Math.hypot(firstSearchGoal.x - lk.x, firstSearchGoal.y - lk.y) < 400 || ahead(lk, firstSearchGoal)) && gaveUp > 0 && (!r || r.conf < .2) && (conf20 === null || conf20 < confAtVanish), vanished, gaveUp: +gaveUp.toFixed(1), conf: r ? +r.conf.toFixed(2) : 0 };
   });
   const c = rs.filter(r => r.vanished);
   return { ok: rate(rs) >= .8 && c.length >= 5, note: `${rs.filter(r => r.ok).length}/${rs.length}: it searched the last known spot, gave up after ~${avg(rs.filter(r => r.gaveUp > 0).map(r => r.gaveUp)).toFixed(0)}s and its memory of the player had decayed (conf ${avg(rs.map(r => r.conf)).toFixed(2)} at 150s)` };

@@ -363,3 +363,43 @@ Most of the brief was already true of the v16 smiler (no aggression UI, nothing 
 | sim step, busy world (3 hounds, 5 smilers, 4 players) | ~0.12 ms | ~0.14 ms (+~13 %: smoothing and steering checks) |
 
 **Tests:** `dev/tests/s_nav.js` (12 acceptance scenarios: reach, solids/NaN, doorways, simplification, obstacle loops, doorway reversals, capabilities, two through one door, 3-room chase, LOS lost, stuck recovery, cost), `nav_bench.js` (the numbers above), `interp_test.js` (the real client interpolation code against a jittery stream), `nav_mp.py` (two browsers: launch, overlay, commands).
+
+## v22 - Part 1C: chase pressure, escape, search and hiding
+
+**Audit - why escaping was too easy.** Measured with a scripted player on the real AI (`dev/tests/escape_bench.js`) and over the real server and WebSocket (`dev/tests/live_chase.js`). With a hound that heard you ~520 px away in the dark, a straight sprint escaped 69% of the time. The causes:
+- Once sight broke, the hound ignored the prey's own running noise. It hunted "blind" on a projection and dropped to a slow search after a few seconds, even though the prey was sprinting loudly right ahead of it.
+- The search started with a stop to "think", then crawled at search speed (134 px/s against a 285 px/s runner) toward the last seen spot. It never went the way the prey was heading.
+- The last-known projection ran through walls, so the hound aimed at dead ends.
+- Hiding and crawlspaces had no rules. A body under a table was as visible as one in the open, and nothing reasoned about where a crawlspace comes out.
+
+**What changed (no speed buffs; hound chase 292, player run 285 as before):**
+- **Pursuit by ear.** While its prey is making loud noise (run, slide, vault, landing), a hunting hound steers on the sound and its heard direction instead of losing the trail. The blind-chase timer runs at 12% while it can hear you.
+- **Reacquisition.** A searching or frustrated hound that hears its remembered prey run goes straight back to hunting, with no new detection wait. It only sharpens its hearing (focus ×1.3) for its own target's loud sounds; walking stays quiet.
+- **Memory.** The last-known estimate projects along your heading but stops at walls. Uncertainty grows with time and is shown in the debug overlay.
+- **Geometry-aware search.** The first goal is down the way you were going, at the next opening. Candidates are openings in 12 directions (doorways and corridors read as long free rays), weighted toward your heading early and widening later. Other candidates are a crawlspace's other exits and recent sounds. While the trail is warm it moves at up to 0.9× chase speed with short sniff pauses.
+- **Giving up is a decision with a reason:** "memory faded", "searched the likely places", "ran out of patience", "nowhere left to look", "no target", "lost track: the prey is far out of range", or "stuck: the watchdog reset it".
+- **Personality.** PERSISTENCE and CURIOSITY size the search. INTELLIGENCE sets how much it trusts your heading. AGGRESSION sets how long the trail stays "warm". PATIENCE sets how long it waits at a crawl exit.
+- **Crawlspaces are real subspaces** (`WORLD.CRAWL`, shared with the client). Each has an interior, an upper occluder with a height (data for a future cut-away or 2.5D view), exits with facing, and the capability it needs. A body inside is only seen close by (150 px under tables, 110 px in wall gaps).
+  - An entity that saw you go in and cannot follow goes round to the other exits, or waits and listens at one.
+  - One that can crawl goes in.
+  - A crawlspace is not a safe box.
+- **Crouching is not invisibility.** It lowers the vision range, but a still, crouched player right in front of a hound in the dark is still noticed. The vision floor is now 150 px.
+- **Exhaustion matters physically.** Acceleration drops to 62% while exhausted, and recovery ends at 36 stamina, not 24. The test harness now mirrors `move.js` exactly.
+- **Watchdog fix.** The stuck-detector no longer resets a hound that is deliberately standing still (frustrated pacing, sniffing, freezing). Before, it silently turned a search into wandering.
+- **Debug overlay** (admin DEBUG tab, section "CHASE · SEARCH · HIDING"):
+  - SEARCH + MEMORY: last known position and heading, uncertainty ring and estimate, last heard sound, search goal and its kind, phase, legs, time left, memory age, exits tried, times re-acquired by ear, and the give-up reason.
+  - CRAWLSPACES: interior, occluder, exits, what each needs, and whether the selected entity can use it or must go round.
+  - ME → CRAWLSPACE puts you at the nearest crawl entrance.
+
+**Escape numbers now** (hound heard you ~520 px away, dark, 15-16 runs each):
+
+| Strategy | Before | Now |
+|---|---|---|
+| Straight sprint | 31% caught | 60% caught |
+| Break sight, then walk quietly | - | 60% escape |
+| Crouch still where it lost you | - | 80% caught |
+| Crawlspace | - | 38% caught, 31% escape, 31% still circling |
+
+A hound 320-420 px behind a seen runner catches ~93-100%. An exhausted runner is caught in ~2.5 s.
+
+**Not done in this part (by design):** the visual cut-away, cast shadows, advanced shading, the Smiler overhaul, the menu and 2.5D.

@@ -9,7 +9,10 @@ Nothing here is needed to play or host the game; `server.js` never serves this f
 ## Run
 
 ```
-node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_smiler2.js s_capture.js s_system.js s_admin.js s_commit.js s_nav.js    # 98 scenarios (s_nav = Part 1B navigation acceptance)
+node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_smiler2.js s_capture.js s_system.js s_admin.js s_commit.js s_nav.js s_chase.js    # 114 scenarios (s_nav = Part 1B navigation, s_chase = Part 1C chase / search / hiding / crawlspaces)
+node dev/tests/escape_bench.js all 16                                    # escape rates by player strategy (MID=1 / FAR=1 / DARK=1 for the dark, farther starts)
+node dev/tests/live_chase.js break-walk 6                                # the same chase through the real server + WebSocket at the client's send rate
+python3 dev/tests/chase_mp.py                                           # browser: the SEARCH + MEMORY and CRAWLSPACES debug layers, no errors
 node dev/tests/nav_bench.js                                             # navigation numbers (routes, 792 doorway passes, chases, loops)
 node dev/tests/interp_test.js                                           # client snapshot interpolation vs the old chase (s_smiler2 = v19 smiler behaviour + anti-cheese matrix)
 ONLY=H09 node dev/tests/run.js s_hound.js                                             # one scenario (regex on the name)

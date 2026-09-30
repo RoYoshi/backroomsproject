@@ -7,7 +7,7 @@
  *   srv  - server timings: milliseconds per 60 Hz step, snapshot size, senses / paths per second, tiers, ping, frame rate
  *   log  - what the entities decided, as it happens: state changes, catches, kills (with variant and reason), releases, lamp failures */
 E.dbg = null; E.dbgAt = 0;
-E.dbgCfg = { on: false, ai: true, you: true, srv: true, log: true, compact: false, side: 'right' };
+E.dbgCfg = { on: false, ai: true, you: true, srv: true, log: true, compact: false, side: 'right', search: false, crawl: false };
 E.dbgX = { lg: [], pf: null, ping: -1, at: 0 };
 E.fps = 60; let fpsT = 0;
 E.setDebug = function (list) { E.dbg = list; E.dbgAt = performance.now(); };
@@ -71,6 +71,7 @@ function drawEntities(cx, view, list, cfg, stale) {
     if (sel) { cx.strokeStyle = '#ffffff'; cx.lineWidth = 2; cx.beginPath(); cx.arc(x, y, 34 * sc, 0, TAU); cx.stroke(); cx.lineWidth = 1; }
     if (d.nv && (cfg.nav || sel)) drawNav(cx, view, d, x, y, X, Y, sel);
     if (d.nv && cfg.col) drawCol(cx, view, d, x, y, X, Y);
+    if (d.se && (cfg.search || sel)) drawSearch(cx, view, d, x, y, X, Y, sel);
     // label block
     const lines = [`${d.k.toUpperCase()}#${d.i}  ${d.s}${d.ac && d.ac !== '-' ? '/' + d.ac : ''}  tier:${d.tier}`];
     if (d.nv && sel) { const n = d.nv; lines.push(`NAV ${n.dir ? 'DIRECT' : 'ROUTE ' + n.rt.length + ' pts'}  sp ${n.sp}  stuck ${n.st}s  r${n.r}/rc${n.rc}  caps ${n.caps}${n.go ? '  [' + n.go + ']' : ''}`, `repath: ${n.why.slice(-3).join('  ') || '-'}`, `routes ${n.n[0]}  touches ${n.n[1]}  hits ${n.n[2]}  stuck ${n.n[3]}  recov ${n.n[4]}  EMERG ${n.n[5]}`); }
@@ -79,11 +80,38 @@ function drawEntities(cx, view, list, cfg, stale) {
       if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
       if (d.cd) lines.push('decide: ' + Object.entries(d.cd).map(([k, v]) => k + ':' + v).join(' ').slice(0, 60));
       if (d.sm) lines.push('quirk ' + d.sm.q + ' exposed ' + d.sm.ex + (d.sm.le ? ' light:' + d.sm.le : '') + (d.sm.enc ? ' enc[' + d.sm.enc + ']' : ''));   // internal values: debug mode only, never in normal play
-      if (d.pu) lines.push('pursuit ' + (d.pu.blind !== undefined ? 'blind ' + d.pu.blind + 's' : 'seen'));
+      if (d.pu) lines.push('pursuit ' + (d.pu.blind !== undefined ? 'blind ' + d.pu.blind + 's' : 'seen') + (d.pu.ear ? ' (by ear)' : ''));
+      if (d.se && (cfg.search || sel)) { const q = d.se; lines.push(`SEARCH ${q.why || '-'} ${q.ph || ''} legs ${q.legs || '-'} t${q.t} left ${q.left}s  heard-again x${q.rq}`, `memory ${q.mem !== null ? q.mem + 's old' : '-'}  unsure ±${q.est ? q.est[2] : '-'} px${q.cz ? '  saw it go into ' + q.cz : ''}${q.tried.length ? '  tried ' + q.tried.join(',') : ''}`); if (q.g) lines.push(`looking: ${q.g[2]}${q.g[3] ? ' (' + q.g[3] + ' exit)' : ''}`); if (q.dis) lines.push('GAVE UP: ' + q.dis); }
     } else if (d.cp) lines[0] += `  ${d.cp.m}/${d.cp.ph}`;
     const w = Math.max(...lines.map(l => cx.measureText(l).width)) + 10, h = lines.length * 13 + 6;
     cx.fillStyle = 'rgba(0,0,0,.66)'; cx.fillRect(x + 10, y - h - 6, w, h); cx.fillStyle = col;
     lines.forEach((l, i) => cx.fillText(l, x + 15, y - h - 3 + i * 13));
+  }
+  cx.restore();
+}
+/* SEARCH + MEMORY (Part 1C): what the entity believes, and where it is looking */
+function drawSearch(cx, view, d, x, y, X, Y, sel) {
+  const q = d.se, sc = view.sc; cx.save(); cx.lineWidth = sel ? 2 : 1.2;
+  if (d.lk) {
+    const lx = X(d.lk.x), ly = Y(d.lk.y); cx.strokeStyle = '#ffb347'; cx.strokeRect(lx - 6, ly - 6, 12, 12);
+    if (q.hd !== null) { const ex = lx + Math.cos(q.hd) * 60 * sc, ey = ly + Math.sin(q.hd) * 60 * sc; cx.beginPath(); cx.moveTo(lx, ly); cx.lineTo(ex, ey); cx.lineTo(ex - Math.cos(q.hd - .4) * 8, ey - Math.sin(q.hd - .4) * 8); cx.moveTo(ex, ey); cx.lineTo(ex - Math.cos(q.hd + .4) * 8, ey - Math.sin(q.hd + .4) * 8); cx.stroke(); }
+  }
+  if (q.est) { const ex = X(q.est[0]), ey = Y(q.est[1]); cx.strokeStyle = 'rgba(255,179,71,.7)'; cx.setLineDash([4, 5]); cx.beginPath(); cx.arc(ex, ey, Math.max(8, q.est[2] * sc), 0, TAU); cx.stroke(); cx.setLineDash([]); cx.beginPath(); cx.arc(ex, ey, 3, 0, TAU); cx.fillStyle = '#ffb347'; cx.fill(); if (sel) cx.fillText('ESTIMATE', ex + 6, ey + 4); }
+  if (q.heard && q.heard[2] < 15) { const hx = X(q.heard[0]), hy = Y(q.heard[1]); cx.strokeStyle = '#d68cff'; cx.beginPath(); cx.arc(hx, hy, 9, 0, TAU); cx.stroke(); if (sel) { cx.fillStyle = '#d68cff'; cx.fillText('HEARD YOU ' + q.heard[2] + 's', hx + 11, hy - 4); } }
+  if (q.g) { const gx = X(q.g[0]), gy = Y(q.g[1]); cx.strokeStyle = '#7aa2ff'; cx.setLineDash([2, 4]); cx.beginPath(); cx.moveTo(x, y); cx.lineTo(gx, gy); cx.stroke(); cx.setLineDash([]); cx.beginPath(); cx.moveTo(gx - 7, gy); cx.lineTo(gx + 7, gy); cx.moveTo(gx, gy - 7); cx.lineTo(gx, gy + 7); cx.stroke(); cx.fillStyle = '#7aa2ff'; cx.fillText('SEARCH: ' + q.g[2], gx + 9, gy + 2); }
+  cx.restore();
+}
+/* CRAWLSPACES (Part 1C): the data a future cut-away view will use - inside, what covers it, the ways in and out, who can use it */
+function drawCrawl(cx, view, sel) {
+  const W0 = window.WORLD; if (!W0 || !W0.CRAWL) return; const { cam, sc, W, H } = view, X = x => W / 2 + (x - cam.x) * sc, Y = y => H / 2 + (y - cam.y) * sc;
+  cx.save(); cx.font = MONO; cx.textBaseline = 'top';
+  for (const c of W0.CRAWL) {
+    const i = c.interior, o = c.occluder.rect; if (Math.abs(c.cx - cam.x) > W / sc && Math.abs(c.cy - cam.y) > H / sc) continue;
+    const can = sel && sel.cc ? (c.needs === 'CAN_CRAWL' ? sel.cc[0] : sel.cc[1]) : null;
+    cx.fillStyle = 'rgba(90,220,255,.16)'; cx.fillRect(X(i.x), Y(i.y), i.w * sc, i.h * sc); cx.strokeStyle = '#5adcff'; cx.lineWidth = 1.2; cx.strokeRect(X(i.x), Y(i.y), i.w * sc, i.h * sc);
+    cx.setLineDash([5, 4]); cx.strokeStyle = 'rgba(255,255,255,.55)'; cx.strokeRect(X(o.x), Y(o.y), o.w * sc, o.h * sc); cx.setLineDash([]);
+    for (const x of c.exits) { cx.beginPath(); cx.arc(X(x.x), Y(x.y), 4, 0, TAU); cx.fillStyle = can === null ? '#5adcff' : can ? '#6dff8a' : '#ff6f61'; cx.fill(); cx.strokeStyle = cx.fillStyle; cx.beginPath(); cx.moveTo(X(x.x), Y(x.y)); cx.lineTo(X(x.x + x.nx * 22), Y(x.y + x.ny * 22)); cx.stroke(); }
+    cx.fillStyle = '#5adcff'; cx.fillText(`${c.id} ${c.type} h${c.height} ${c.needs.replace('CAN_', '').toLowerCase()} · ${c.exits.length} exits${can === null ? '' : can ? ' · #' + sel.i + ' CAN USE' : ' · #' + sel.i + ' GOES ROUND'}`, X(i.x), Y(i.y + i.h) + 4);
   }
   cx.restore();
 }
@@ -174,6 +202,7 @@ E.drawDebug = function (cx0, view) {
   const list = E.dbg, stale = now - E.dbgAt > 1500;
   if (cfg.grid) drawGrid(cx, view);
   if (cfg.links) drawLinks(cx, view);
+  if (cfg.crawl) drawCrawl(cx, view, (list || []).find(d => d.i === E.navSel));
   if (cfg.ai && list && list.length) drawEntities(cx, view, list, cfg, stale);
   cx.save(); cx.font = MONO; cx.textBaseline = 'top';
   const bw = 268, bx = cfg.side === 'left' ? 12 : W - bw - 12; let by = 64;

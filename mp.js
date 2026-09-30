@@ -433,7 +433,7 @@ const LS = { get(k, d) { try { const v = localStorage.getItem('adm.' + k); retur
 const TABS = [['players', 'PLAYERS'], ['monsters', 'MONSTERS'], ['deaths', 'DEATHS'], ['world', 'WORLD'], ['debug', 'DEBUG']];
 adm.tab = LS.get('tab', 'players'); if (!TABS.some(t => t[0] === adm.tab)) adm.tab = 'players';
 adm.side = LS.get('side', 'left') === 'right' ? 'right' : 'left';
-adm.lay = Object.assign({ ai: true, you: true, srv: true, log: true, compact: false, nav: false, col: false, grid: false, links: false }, LS.get('lay', {})); adm.sel = 0;
+adm.lay = Object.assign({ ai: true, you: true, srv: true, log: true, compact: false, nav: false, col: false, grid: false, links: false, search: false, crawl: false }, LS.get('lay', {})); adm.sel = 0;
 adm.opts = Object.assign({ close: true, auto: true, back: true }, LS.get('opts', {}));
 adm.sig = ''; adm.res = null; adm.rv = null;
 document.head.appendChild(Object.assign(document.createElement('style'), { id: 'admStyle2', textContent: `
@@ -507,6 +507,7 @@ function findSpot(kind) {
   const A = window.__api; if (!A || !A.sl || !A.Uc) return null; const H = A.H, gl = window.__glitches || [], lamps = A.lamps || [], TAU2 = Math.PI * 2;
   const ok = (x, y) => A.sl(x, y, 24) && !gl.some(g => Math.hypot(g.x - x, g.y - y) < 260) && !lamps.some(l => Math.hypot(l.x - x, l.y - y) < 230);
   const ray = (x, y, a) => A.Uc(x, y, a, 260);
+  if (kind === 'crawl') { const W0 = window.WORLD; let b = null, bd = 1e9; for (const c of (W0 && W0.CRAWL) || []) for (const x of c.exits) { const d = Math.hypot(x.x - H.x, x.y - H.y); if (d < bd && A.sl(x.x + x.nx * 30, x.y + x.ny * 30, 22)) { bd = d; b = { x: x.x + x.nx * 30, y: x.y + x.ny * 30, a: Math.atan2(-x.ny, -x.nx), n: 'OUTSIDE CRAWLSPACE ' + c.id + ' (' + x.face + ' side) - CROUCH + CRAWL IN' }; } } return b; }
   for (let R = 0; R < 3200; R += 64) {
     const n = Math.max(1, Math.round(R / 40)) * 4;
     for (let i = 0; i < n; i++) {
@@ -556,6 +557,8 @@ function bodyDebug(d) {
     rowW(btn('FOLLOW ME', 'data-c="nav" data-cmd="follow"') + btn('COME HERE', 'data-c="nav" data-cmd="come"') + btn('HUNT ME (AI)', 'data-c="nav" data-cmd="hunt"') + btn('CLEAR TARGET', 'data-c="nav" data-cmd="clear"')) +
     rowW(btn('FORCE REPATH', 'data-c="nav" data-cmd="repath"') + btn('DROP ROUTE', 'data-c="nav" data-cmd="noroute"') + btn('RESET STUCK', 'data-c="nav" data-cmd="unstuck"') + btn('GO TO IT', 'data-a="navgo"')) +
     rowW(btn('ME → DOORWAY', 'data-a="place" data-w="door"') + btn('ME → PILLAR', 'data-a="place" data-w="pillar"') + btn('ME → CORNER', 'data-a="place" data-w="corner"') + btn('ME → OPEN ROOM', 'data-a="place" data-w="open"')) +
+    sec('CHASE · SEARCH · HIDING') + rowW(L('search', 'SEARCH + MEMORY') + L('crawl', 'CRAWLSPACES') + btn('ME → CRAWLSPACE', 'data-a="place" data-w="crawl"') + btn('HUNT ME (AI)', 'data-c="nav" data-cmd="hunt"')) +
+    '<p class="adm-help">SEARCH + MEMORY (every hound, full detail on the selected one): amber square = where it last had you, amber arrow = the way it saw you going, dashed ring = how unsure it is where you are now (the estimate at its centre), violet = the last sound it heard from you, blue cross = where it is searching and why (continue = down the way you went, exit = a crawlspace exit, enter = going in, sound = a noise). The label shows the search phase, legs searched, time left, memory age and the reason it gave up. CRAWLSPACES: cyan = the space inside, dashed = what covers it from above (table top / wall), dots = the ways in and out, and whether the selected entity can use it (green) or must go round (red).</p>' +
     '<p class="adm-help">ROUTES: green = the route (orange = a vault, violet = crawl), white cross = the aim point it steers at, blue arrow = the heading it wants, white arrow = how it actually moves, dashed yellow = running straight at the goal. The selected entity also shows why it last re-planned, its stuck timer and counters (routes / wall touches / hard hits / stuck / recoveries / emergencies). COLLISION: its collision circle and the wall blocks around it. WALKABLE: floor near you, brighter = more room. FOLLOW / COME are navigation only; HUNT ME runs the real AI.</p>' +
     sec('TOOLS') + rowW(btn('COPY REPORT', 'data-a="copy"') + btn(d.fz ? 'UNFREEZE' : 'FREEZE THE HALLS', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SLOW MOTION 0.25×', 'data-c="speed" data-v="0.25"', d.sp === .25) + btn('NORMAL SPEED', 'data-c="speed" data-v="1"', d.sp === 1)) +
     '<p class="adm-help">AI ENTITIES: dashed ring = how far it can see; red line = last known position of its target (yellow: only heard or remembered); purple = last sound it heard; blue cross = where it is searching; green = its path; the label shows state, target, mood, capture. YOU: your state, stamina and the dashed ring of how far you are heard right now. COPY REPORT puts the room, players, entities, recent events and timings on the clipboard, ready to paste into a bug report.</p>';

@@ -175,16 +175,18 @@ const KIND_GLARE = { flashlight: 1, headlamp: .85, lantern: .8, camcorder: .2 };
 function newMemory() { return { p: new Map(), sounds: [], others: new Map(), visited: new Map() }; }
 function rec(e, id) {
   let r = e.mem.p.get(id);
-  if (!r) e.mem.p.set(id, r = { id, aw: 0, seen: false, seenAt: -99, heardAt: -99, lkx: 0, lky: 0, lvx: 0, lvy: 0, conf: 0, hx: 0, hy: 0, st: 0, stamina: 100, ex: 0, prof: 1, light: false, iso: 0, first: -99, lost: 0 });
+  if (!r) e.mem.p.set(id, r = { id, aw: 0, seen: false, seenAt: -99, heardAt: -99, lkx: 0, lky: 0, lvx: 0, lvy: 0, conf: 0, hx: 0, hy: 0, st: 0, stamina: 100, ex: 0, prof: 1, light: false, iso: 0, first: -99, lost: 0, hLoud: -99, hvx: 0, hvy: 0, crawl: null, crawlAt: -99 });
   return r;
 }
 function memAge(e, r, now) { return now - Math.max(r.seenAt, r.heardAt); }
 function memHalfLife(e) { return lerp(7, 46, e.tr.MEMORY); }        // seconds until an old sighting is (mostly) forgotten
 /* where might the player be now?  the last known position pushed along its last heading, with growing uncertainty */
-function estimate(e, r, now) {
+function estimate(e, r, now, geo) {
   const age = Math.max(0, now - r.seenAt), sp = Math.hypot(r.lvx, r.lvy);
   const dur = Math.min(age, 3.2) * (sp > 20 ? 1 : 0), k = sp > 1 ? 1 / sp : 0;
-  return { x: r.lkx + r.lvx * k * Math.min(sp * dur * .55, 520), y: r.lky + r.lvy * k * Math.min(sp * dur * .55, 520), unc: 60 + Math.min(1100, sp * age * .5 + age * 18) };
+  let D = Math.min(sp * dur * .55, 520);
+  if (geo && D > 0) D = Math.max(0, Math.min(D, geo.ray(r.lkx, r.lky, Math.atan2(r.lvy, r.lvx), D + 40) - 34));   // it went that way - but not through a wall
+  return { x: r.lkx + r.lvx * k * D, y: r.lky + r.lvy * k * D, unc: 60 + Math.min(1100, sp * age * .5 + age * 18) };
 }
 
 function updateVision(e, eng, dt, cands) {
@@ -206,12 +208,15 @@ function updateVision(e, eng, dt, cands) {
     const floor = cfg.floor || 70;                                            // something crouched in the dark right beside it is noticed regardless of posture
     if (d <= Math.max(range, floor)) {
       const bearing = Math.atan2(dy, dx), inFov = d < 110 || Math.abs(angDiff(bearing, e.ang + (e.head || 0))) <= cfg.fov / 2;
-      if (inFov && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
+      // under an occluder (a table, the wall round a hole) a body can only be made out from close by, whatever the light: not visible from across the room
+      const cz = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y) : null;
+      if (inFov && (!cz || d < cz.reveal) && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
     }
     r.seen = vis; r.dist = d;
     if (vis) {
       r.aw = Math.min(1, r.aw + strength * dt * (cfg.gain || 3.2));
       if (r.seenAt < now - 6) r.first = now;
+      const cw = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y, 34) : null; if (cw) { r.crawl = cw.id; r.crawlAt = now; } else if (now - r.crawlAt > 2) r.crawl = null;   // seen going into (or at the mouth of) a crawlspace: remembered
       r.seenAt = now; r.lkx = p.x; r.lky = p.y; r.lvx = p.vx; r.lvy = p.vy; r.conf = 1; r.st = p.st; r.stamina = p.stamina; r.ex = p.ex; r.prof = p.prof; r.light = p.light; r.lost = 0;
       e.seenNow.add(p.id);
     }
@@ -222,7 +227,8 @@ function updateVision(e, eng, dt, cands) {
 /* the sound bus delivers each event to every entity once */
 function hearEvent(e, eng, ev) {
   const geo = eng.geo, d = Math.hypot(ev.x - e.x, ev.y - e.y);
-  let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
+  const focus = ev.src > 0 && ev.src === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
+  let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * focus * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
   if (d > eff * 1.05) return;
   const clear = geo.los(e.x, e.y, ev.x, ev.y);
   if (!clear) eff *= .6;
@@ -236,6 +242,8 @@ function hearEvent(e, eng, ev) {
   e.mem.sounds.unshift(h); if (e.mem.sounds.length > 8) e.mem.sounds.pop();
   if (ev.src > 0) {
     const r = rec(e, ev.src);
+    const loud = I > .3 || ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land';
+    if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (hx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (hy - r.hy) / pdt, .5); } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
     r.heardAt = eng.now; r.hx = hx; r.hy = hy; r.aw = Math.min(1, r.aw + I * .9);
     if (eng.now - r.seenAt > 1.2) {                                              // not in sight: the sound is all we have
       const k = Math.min(1, I * 1.4 + .25);
@@ -777,7 +785,7 @@ const HOUND = {
   traits: { INTELLIGENCE: .25, SADISM: .12, HUNGER: .72, PATIENCE: .3, CURIOSITY: .45, CAUTION: .3, TERRITORIALITY: .5, AGGRESSION: .82, PERSISTENCE: .72, SOCIAL: .45, HEARING: .86, VISION: .5, LIGHT_SENS: .12, MEMORY: .35 },
   jitter: .13,
   caps: { CAN_VAULT: true, VAULT_SPEED: 1.2, CAN_CROUCH: true, CAN_CRAWL: true, CAN_SLIDE: false, CAN_OPEN_DOORS: false, CAN_BREAK_DOORS: true, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.4, ACCELERATION: 880 },
-  vision: { range: 640, fov: 2.7, dark: false, gain: 3.0 },
+  vision: { range: 640, fov: 2.7, dark: false, gain: 3.0, floor: 150 },   // floor: a body this close in front of it is noticed whatever its posture (crouching is not invisibility)
   speeds: { roam: 92, stalk: 84, investigate: 122, search: 134, chase: 292, retreat: 235, frustrated: 150 },
   init(eng, e) { e.roam = { goal: null, until: 0, nextListen: rand(eng, 4, 11) }; e.lunge = null; e.recover = 0; e.search = null; e.feed = null; e.chaseBlind = 0; e.growlAt = 0; e.rest = 0; },
 };
@@ -825,52 +833,100 @@ function hRoam(eng, e, dt) {
   if (R.goal) { const st = follow(eng, e, dt, hSpeed(e, 'roam', eng), {}); if (st === 'nopath') R.goal = null; e.head = Math.sin(e.t * .9) * .3; } else stopMoving(eng, e, dt);
 }
 
-/* SEARCHING: check the last known position, listen, then likely paths.  Wrong guesses are allowed. -------------------------------- */
-function beginSearch(eng, e, r, why) {
-  setState(e, S.SEARCHING, 'freeze');
-  e.search = { rid: r ? r.id : 0, started: eng.now, goal: null, phase: 'go', legs: 0, visited: [], why, until: eng.now + lerp(11, 36, e.tr.PERSISTENCE) * (.75 + .5 * (1 - e.tr.PATIENCE)), pause: 0, first: true };
-  e.dbg.searchWhy = why;
-  if (r) { const est = estimate(e, r, eng.now); e.search.goal = { x: r.lkx, y: r.lky }; e.search.est = est; }
+/* SEARCHING (Part 1C): losing sight starts a search, it does not reset the hound.  It keeps what it knew - where it last saw the prey, which way it
+ * was going and how fast, when, the last sound it made, whether it went into a crawlspace - and works outward from it:
+ *   lkp       run to where the prey should be now: the last sighting pushed along its heading, stopped short of walls
+ *   continue  check the ways out that carry on in that direction (doorways, the rest of a corridor), then the plausible alternatives: the heading
+ *             counts for less the longer the search goes on and the less sure it is (INTELLIGENCE reads the heading better)
+ *   exits     the other openings of a crawlspace the prey went into - it cannot know which way the prey left, only which ways there are
+ *   watch     a patient hound may stop at a crawl exit and listen
+ * A loud sound from the prey (running, a slide, a vault) ends the search: the chase is back on.  A quiet one draws it there.
+ * How long it keeps at it depends on the evidence (how recent, how sure, sounds) and on the hound (PERSISTENCE, CURIOSITY, PATIENCE); when it gives
+ * up it says why (debug).  Nothing here reads where the prey really is. */
+function searchBudget(e, r, now) {
+  const fresh = r ? clamp(1 - (now - Math.max(r.seenAt, r.heardAt)) / 12, 0, 1) : 0;
+  return { dur: lerp(10, 30, e.tr.PERSISTENCE) * (.7 + .5 * fresh) * (.85 + .3 * e.tr.CURIOSITY), legs: 3 + Math.round(e.tr.CURIOSITY * 4 + e.tr.PERSISTENCE * 2) };
 }
+function beginSearch(eng, e, r, why) {
+  setState(e, S.SEARCHING, why === 'lost' ? '' : 'freeze');                    // straight on after the prey: no stop to "think" when it has only just vanished
+  const B = searchBudget(e, r, eng.now);
+  e.search = { rid: r ? r.id : 0, started: eng.now, goal: null, phase: 'lkp', legs: 0, visited: [], why, until: eng.now + B.dur, maxLegs: B.legs, pause: 0, first: why !== 'lost', exitsTried: [] };
+  e.dbg.searchWhy = why; e.dbg.disengage = '';
+  if (r) { const est = estimate(e, r, eng.now, eng.geo); e.search.goal = { x: est.x, y: est.y, k: 'lkp' }; e.search.est = est; e.search.hd = Math.atan2(r.lvy, r.lvx); e.search.sp = Math.hypot(r.lvx, r.lvy); }
+}
+/* the places worth looking, scored.  anchor = where the prey most likely is now (memory), heading = which way it was going */
 function pickSearchGoal(eng, e, s) {
-  const r = e.mem.p.get(s.rid), now = eng.now;
-  const base = r ? estimate(e, r, now) : { x: e.x, y: e.y, unc: 500 };
-  const hd = r ? Math.atan2(r.lvy, r.lvx) : e.ang, sp = r ? Math.hypot(r.lvx, r.lvy) : 0;
+  const r = e.mem.p.get(s.rid), now = eng.now, geo = eng.geo;
+  const base = r ? estimate(e, r, now, geo) : { x: e.x, y: e.y, unc: 500 };
+  const hd = s.hd ?? (r ? Math.atan2(r.lvy, r.lvx) : e.ang), moving = (s.sp || 0) > 30;
+  const prog = clamp((now - s.started) / Math.max(4, s.until - s.started), 0, 1), wH = moving ? lerp(260, 60, prog) * (.55 + .7 * e.tr.INTELLIGENCE) : 0;
   let best = null, bs = -1e9;
-  const R = Math.max(260, Math.min(1100, base.unc * .9));
-  for (let i = 0; i < 14; i++) {
-    const a = eng.rng() * TAU, d = rand(eng, 120, R);
-    const gx = base.x + Math.cos(a) * d, gy = base.y + Math.sin(a) * d, cell = eng.geo.cellAt(gx, gy);
-    if (cell < 0 || eng.geo.cls[cell] !== 1) continue;
-    const p = { x: eng.geo.cx(cell), y: eng.geo.cy(cell) };
-    let sc = -Math.hypot(p.x - base.x, p.y - base.y) * .3 + (sp > 30 ? Math.cos(angDiff(Math.atan2(p.y - base.y, p.x - base.x), hd)) * 240 : 0) - Math.hypot(p.x - e.x, p.y - e.y) * .12 + eng.rng() * 110;
-    for (const v of s.visited) if (Math.hypot(v.x - p.x, v.y - p.y) < 260) { sc -= 320; break; }
-    if (e.mem.visited.has(cell) && now - e.mem.visited.get(cell) < 40) sc -= 200;
-    if (sc > bs) { bs = sc; best = p; }
+  const consider = (x, y, sc, k, extra) => {
+    const c = geo.cellAt(x, y); if (c < 0 || geo.cls[c] !== 1) { const q = geo.snap(x, y, e.caps, 2); if (q < 0) return; x = geo.cx(q); y = geo.cy(q); }
+    for (const v of s.visited) if (Math.hypot(v.x - x, v.y - y) < 230) { sc -= 420; break; }
+    sc -= Math.hypot(x - e.x, y - e.y) * .1 + eng.rng() * (40 + 90 * (1 - e.tr.INTELLIGENCE));
+    if (sc > bs) { bs = sc; best = Object.assign({ x, y, k }, extra || {}); }
+  };
+  // 1) the ways out from where it should be: openings in 12 directions (a doorway or a corridor reads as a long free ray)
+  for (let i = 0; i < 12; i++) {
+    const a = i / 12 * TAU, L = geo.ray(base.x, base.y, a, 700); if (L < 230) continue;
+    const d = Math.min(L - 50, (moving && prog < .35 ? 520 : 260 + 200 * prog) + e.tr.CURIOSITY * 80);            // early on it looks well down the way the prey was going
+    consider(base.x + Math.cos(a) * d, base.y + Math.sin(a) * d, 120 + Math.cos(angDiff(a, hd)) * wH + Math.min(L, 700) * .12, 'continue');
   }
+  // 2) a crawlspace it saw the prey go into: its exits (the other faces first: the prey went in from this side)
+  const cz = r && r.crawl && now - r.crawlAt < 30 ? WORLD.CRAWL.find(c => c.id === r.crawl) : null;
+  if (cz) {
+    const can = WORLD.canCrawl(e.caps, cz), entry = Math.atan2(r.lky - cz.cy, r.lkx - cz.cx);
+    if (can && !s.exitsTried.includes('in')) consider(cz.cx, cz.cy, 520, 'enter', { cz: cz.id });
+    for (const x of cz.exits) {
+      if (!geo.clear(x.x, x.y, e.rc, 'walk') || s.exitsTried.includes(x.face + ':' + Math.round(x.x) + ',' + Math.round(x.y))) continue;
+      const other = Math.cos(angDiff(Math.atan2(x.ny, x.nx), entry)) < .3 ? 1 : 0;
+      consider(x.x, x.y, (can ? 200 : 460) + other * 220 + e.tr.PATIENCE * 60, 'exit', { cz: cz.id, face: x.face, key: x.face + ':' + Math.round(x.x) + ',' + Math.round(x.y) });
+    }
+  }
+  // 3) a sound it heard from the prey since it lost it
+  if (r && r.heardAt > s.started - 1 && now - r.heardAt < 8) consider(r.hx, r.hy, 480 - (now - r.heardAt) * 30, 'sound');
   return best;
 }
 function hSearch(eng, e, dt, thinkNow) {
   const s = e.search; if (!s) { setState(e, S.ROAMING); return; }
-  const now = eng.now;
+  const now = eng.now, r = e.mem.p.get(s.rid);
+  const giveUp = why => { e.dbg.disengage = why; e.mood.frustration = Math.min(1, e.mood.frustration + .25); setState(e, S.FRUSTRATED, 'pace'); e.frus = { until: now + rand(eng, 2, 4.5) }; };
+  e.dbg.search = { ph: s.phase, legs: s.legs + '/' + s.maxLegs, t: +(now - s.started).toFixed(1), left: +(s.until - now).toFixed(1), g: s.goal ? [Math.round(s.goal.x), Math.round(s.goal.y), s.goal.k] : null, unc: r ? Math.round(estimate(e, r, now).unc) : 0, cz: r && r.crawl || '' };
   if (e.act === 'freeze') {                                                // a beat to listen on arrival / first snap decision
     stopMoving(eng, e, dt); e.head = Math.sin(e.t * 2.1) * .55;
     if (e.actT > (s.first ? rand(eng, .25, .6) : rand(eng, .7, 1.7))) { s.first = false; setAct(e, 'sniff'); s.pause = 0; }
     return;
   }
-  if (e.act === 'sniff' && s.phase === 'pause') {
-    stopMoving(eng, e, dt); e.head = Math.sin(e.t * 3.2) * .6; s.pause += dt;
-    if (s.pause > rand(eng, .9, 2.2)) { s.phase = 'go'; s.goal = pickSearchGoal(eng, e, s); s.legs++; setAct(e, ''); e.mood.frustration = Math.min(1, e.mood.frustration + .07); }
+  if (s.phase === 'watch') {                                               // waiting at a crawl exit, listening
+    stopMoving(eng, e, dt); setAct(e, 'listen'); e.head = Math.sin(e.t * 1.4) * .5; s.pause += dt;
+    if (s.pause > s.watchFor) { s.phase = 'go'; s.goal = null; setAct(e, ''); }
     return;
   }
-  if (now > s.until || s.legs > 7) { e.mood.frustration = Math.min(1, e.mood.frustration + .25); setState(e, S.FRUSTRATED, 'pace'); e.frus = { until: now + rand(eng, 2, 4.5) }; return; }
-  if (!s.goal) { s.goal = pickSearchGoal(eng, e, s); if (!s.goal) { setState(e, S.ROAMING); return; } }
+  if (e.act === 'sniff' && s.phase === 'pause') {
+    stopMoving(eng, e, dt); e.head = Math.sin(e.t * 3.2) * .6; s.pause += dt;
+    const warm = r ? clamp(1 - (now - Math.max(r.seenAt, r.heardAt)) / 8, 0, 1) : 0;
+    if (s.pause > rand(eng, .5, 1.3) * (1.2 - e.tr.AGGRESSION * .5) * (1 - .7 * warm)) { s.phase = 'go'; s.goal = pickSearchGoal(eng, e, s); s.legs++; setAct(e, ''); e.mood.frustration = Math.min(1, e.mood.frustration + .05); }
+    return;
+  }
+  // giving up is a decision with a reason: the evidence has run out, the plausible places are done, or it has simply spent its patience
+  const conf = r ? r.conf : 0;
+  if (!r) { giveUp('no target'); return; }
+  if (conf < .12 && s.legs >= 2) { giveUp('memory faded'); return; }
+  if (s.legs > s.maxLegs) { giveUp('searched the likely places'); return; }
+  if (now > s.until && conf < .5) { giveUp('ran out of patience'); return; }
+  if (!s.goal) { s.goal = pickSearchGoal(eng, e, s); if (!s.goal) { giveUp('nowhere left to look'); return; } }
   goTo(eng, e, s.goal.x, s.goal.y, { every: 1.5 });
-  const st = follow(eng, e, dt, hSpeed(e, s.why === 'sound' ? 'investigate' : 'search', eng), {});
+  const fresh = clamp(1 - (now - Math.max(r.seenAt, r.heardAt)) / (5 + 5 * e.tr.AGGRESSION), 0, 1);     // while the trail is warm it moves like it is still chasing, through the likely routes
+  const v = lerp(hSpeed(e, s.why === 'sound' ? 'investigate' : 'search', eng) * (.9 + .3 * e.tr.AGGRESSION), hSpeed(e, 'chase', eng) * .9, s.phase === 'lkp' || s.goal.k === 'continue' || s.goal.k === 'sound' ? fresh : fresh * .5);
+  const st = follow(eng, e, dt, v, {});
   e.head = Math.sin(e.t * 1.6) * .35;
   if (st === 'arrived' || st === 'nopath' || dist(e.x, e.y, s.goal.x, s.goal.y) < 50) {
     const c = eng.geo.cellAt(e.x, e.y); if (c >= 0) e.mem.visited.set(c, now); s.visited.push({ x: s.goal.x, y: s.goal.y });
-    s.phase = 'pause'; setAct(e, 'sniff'); s.pause = 0; s.goal = null;
+    if (s.goal.key) s.exitsTried.push(s.goal.key); if (s.goal.k === 'enter') s.exitsTried.push('in');
+    const atExit = s.goal.k === 'exit';
+    s.phase = atExit && eng.rng() < .35 + e.tr.PATIENCE ? 'watch' : 'pause'; s.watchFor = rand(eng, 2.5, 7) * (.5 + e.tr.PATIENCE); s.pause = 0; s.goal = null;
+    setAct(e, s.phase === 'watch' ? 'listen' : 'sniff');
   }
 }
 
@@ -944,15 +1000,20 @@ function hHunt(eng, e, dt, thinkNow) {
     if (lungeCheck(eng, e, r, tgt) && eng.rng() < 1 - Math.pow(.04, dt * (1 + e.tr.AGGRESSION))) { startLunge(eng, e, tgt); return; }
     // predicted interception point, but never through walls: plan to it, aim straight when the way is clear
     const lead = clamp(dist(e.x, e.y, tgt.x, tgt.y) / 420, 0, .55) * (.5 + e.tr.INTELLIGENCE);
-    const gx = tgt.x + tgt.vx * lead, gy = tgt.y + tgt.vy * lead;
+    let LD = Math.hypot(tgt.vx, tgt.vy) * lead; if (LD > 1) LD = Math.max(0, Math.min(LD, eng.geo.ray(tgt.x, tgt.y, Math.atan2(tgt.vy, tgt.vx), LD + 30) - 26));   // the lead stops at walls: a prey pressed against one is not "ahead" of itself
+    const sv = Math.hypot(tgt.vx, tgt.vy) || 1, gx = tgt.x + tgt.vx / sv * LD, gy = tgt.y + tgt.vy / sv * LD;
     if (directOk(eng, e, tgt.x, tgt.y, 620) && (Math.hypot(gx - tgt.x, gy - tgt.y) < 8 || directOk(eng, e, gx, gy, 700))) directTo(eng, e, gx, gy);   // straight at it only when the body itself fits the line (it used to test 16 px: it scraped doorframes)
     else goTo(eng, e, gx, gy, { every: .45 });
     e.dbg.pursuit = { x: gx, y: gy };
   } else {
-    e.chaseBlind += dt;
-    const est = estimate(e, r, now);
+    // out of sight but not out of hearing: fresh loud footsteps (running, sliding, vaulting) keep the hunt going, aimed where they are heading.
+    // Only silence lets the blind clock run at full speed - a prey that goes quiet is the one that gets away.
+    const byEar = now - r.hLoud < .9 && now - r.heardAt < .9, justNow = now - r.seenAt < .6;
+    e.chaseBlind += dt * (byEar ? .12 : 1);
+    // for a moment after losing sight it keeps going for where it last saw it (a flicker at the edge of vision must not swap the goal back and forth)
+    const est = justNow ? { x: r.lkx, y: r.lky } : byEar ? { x: r.hx + r.hvx * .35, y: r.hy + r.hvy * .35 } : estimate(e, r, now, eng.geo);
     goTo(eng, e, est.x, est.y, { every: .5 });
-    e.dbg.pursuit = { x: est.x, y: est.y, blind: +e.chaseBlind.toFixed(1) };
+    e.dbg.pursuit = { x: Math.round(est.x), y: Math.round(est.y), blind: +e.chaseBlind.toFixed(1), ear: byEar ? 1 : 0 };
     if (e.chaseBlind > lerp(1.4, 4.6, e.tr.PERSISTENCE)) { beginSearch(eng, e, r, 'lost'); e.mood.frustration = Math.min(1, e.mood.frustration + .15); return; }
   }
   const st = follow(eng, e, dt, hSpeed(e, 'chase', eng), { arrive: 10, noSlow: false });
@@ -1017,6 +1078,8 @@ function hReact(eng, e) {
       e.wake = 1; if (e.state === S.DORMANT) setState(e, S.ROAMING, ''); else setAct(e, '');
       if (loud && eng.rng() < .55 + e.tr.AGGRESSION * .35) { setState(e, S.ALERT, 'freeze'); e.alert = { until: now + rand(eng, .35, .85) * (1.2 - e.tr.AGGRESSION * .5), rid: h.src, toward: { x: h.x, y: h.y } }; }
       else if (h.I > .12) { setState(e, S.CURIOUS, 'freeze'); e.cur = { until: now + rand(eng, .6, 1.5), toward: { x: h.x, y: h.y }, n: 0, rid: h.src }; }
+    } else if ((e.state === S.SEARCHING || e.state === S.FRUSTRATED) && loud && r.conf > .2 && dist(e.x, e.y, h.x, h.y) < 1000 && (!e.search || !e.search.rid || e.search.rid === r.id || !e.mem.p.get(e.search.rid)?.conf)) {
+      beginHunt(eng, e, r, 'heard-run'); e.dbg.reacquired = (e.dbg.reacquired || 0) + 1;                       // it heard the prey running: no new detection needed
     } else if (e.state === S.SEARCHING || e.state === S.FRUSTRATED) {
       if (h.I > .1) { const s = e.search; if (e.state === S.FRUSTRATED) beginSearch(eng, e, r, 'sound'); else { e.search.why = 'sound'; } e.search.goal = { x: h.x, y: h.y }; e.search.phase = 'go'; e.search.until = Math.max(e.search.until, now + 10); setAct(e, ''); if (loud && r.st === 2) beginHunt(eng, e, r, 'heard-run'); }
     } else if (e.state === S.STALKING && (h.type === 'run')) { beginHunt(eng, e, r, 'stalk-heard-run'); }
@@ -1768,6 +1831,7 @@ function create(cfg) {
     const was = e.tier; e.tier = nt;
     if (nt === 'far') e.farSince = eng.now;
     if (was === 'far' && e.farSince !== undefined) { decayMemory(e, Math.max(0, eng.now - e.farSince), eng.now); e.farSince = undefined; }     // a sleeper's memory of the last hours fades all the same
+    if (nt === 'far' && (e.state === S.HUNTING || e.state === S.SEARCHING || e.state === S.STALKING)) e.dbg.disengage = 'lost track: the prey is far out of range';
     if (nt === 'far' && !e.cap) { e.path = []; e.trav = null; e.lunge = null; e.speed = 0; if (e.kind === 'hound') { if (e.state !== S.DORMANT) { setState(e, S.DORMANT); if (e.roam) e.roam.goal = null; } e.farT = 0; } else if (e.state !== S.HIDDEN) beginHidden(eng, e); }
     if (was === 'far' && nt !== 'far') { e.wake = 1; e.thinkT = 0; if (e.state === S.DORMANT && e.kind === 'hound') setState(e, S.ROAMING); }
   }
@@ -1784,14 +1848,14 @@ function create(cfg) {
     const w = e.wd; w.t += dt;
     if (w.t < 6) return;
     const moved = Math.hypot(e.x - w.x, e.y - w.y); w.x = e.x; w.y = e.y; w.t = 0;
-    const idle = e.act === 'listen' || e.act === 'rest' || e.act === 'feed' || e.state === S.HIDDEN || e.state === S.WATCHING || e.state === S.PLAYING || e.state === S.ALERT || e.state === S.CURIOUS || e.state === S.DORMANT || e.state === S.CAUTIOUS || e.state === S.EXCITED || e.cap;
+    const idle = e.act === 'listen' || e.act === 'rest' || e.act === 'feed' || e.state === S.HIDDEN || e.state === S.WATCHING || e.state === S.PLAYING || e.state === S.ALERT || e.state === S.CURIOUS || e.state === S.DORMANT || e.state === S.CAUTIOUS || e.state === S.EXCITED || e.state === S.FRUSTRATED || e.act === 'sniff' || e.act === 'freeze' || e.cap;   // standing still on purpose is not being stuck
     const embedded = !e.trav && !geo.clear(e.x, e.y, 12, e.mode || 'walk');
     if ((moved < 26 && !idle) || embedded) {
       e.unstuck = (e.unstuck || 0) + 1; const nv = navOf(e); nv.recover++; if (embedded) { nv.emergency++; eng.note(`${tagOf(e.kind, e.id)} EMERGENCY un-embed at ${Math.round(e.x)},${Math.round(e.y)}`); }
       const c = geo.snap(e.x, e.y, e.caps, 4);
       if (embedded && c >= 0) { e.x = geo.cx(c); e.y = geo.cy(c); }
       e.path = []; e.trav = null; e.aim = null; e.pathAge = 99; e.goalKey = ''; e.speed = 0;
-      if (e.kind === 'hound' && e.state !== S.HUNTING) { setState(e, S.ROAMING); e.roam.goal = null; }
+      if (e.kind === 'hound' && e.state !== S.HUNTING) { if (e.state === S.SEARCHING || e.state === S.STALKING) e.dbg.disengage = 'stuck: the watchdog reset it'; setState(e, S.ROAMING); e.roam.goal = null; }
       if (e.kind === 'smiler' && e.state !== S.HIDDEN && e.state !== S.PLAYING) beginHidden(eng, e);
     }
   }
@@ -1927,6 +1991,15 @@ function create(cfg) {
         path: e.path.slice(0, 7).map(w => [Math.round(w.x), Math.round(w.y)]),
         nv: navDebug(e),
         pu: e.dbg.pursuit || null,
+        cc: [e.caps.CAN_CRAWL ? 1 : 0, e.caps.CAN_USE_TIGHT_GAPS ? 1 : 0],
+        se: (() => {                                                                 // Part 1C: what it believes and why it is looking where it is looking
+          const S0 = e.search, ds = e.dbg.search, r = best, est = r ? estimate(e, r, this.now, this.geo) : null;
+          if (!S0 && !r && !e.dbg.disengage) return null;
+          return { why: e.dbg.searchWhy || '', ph: ds ? ds.ph : '', legs: ds ? ds.legs : '', t: ds ? ds.t : 0, left: ds ? ds.left : 0, g: S0 && S0.goal ? [Math.round(S0.goal.x), Math.round(S0.goal.y), S0.goal.k, S0.goal.face || ''] : null,
+            est: est ? [Math.round(est.x), Math.round(est.y), Math.round(est.unc)] : null, hd: r && Math.hypot(r.lvx, r.lvy) > 5 ? +Math.atan2(r.lvy, r.lvx).toFixed(2) : null,
+            heard: r && r.heardAt > -50 ? [Math.round(r.hx), Math.round(r.hy), +(this.now - r.heardAt).toFixed(1)] : null, mem: r ? +(this.now - Math.max(r.seenAt, r.heardAt)).toFixed(1) : null,
+            dis: e.dbg.disengage || '', cz: r && r.crawl && this.now - r.crawlAt < 30 ? r.crawl : '', tried: S0 ? S0.exitsTried.slice() : [], rq: e.dbg.reacquired | 0 };
+        })(),
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
         sm: e.kind === 'smiler' ? { q: e.quirk || '-', enc: e.dbg.enc || '', le: e.dbg.lightEv || '', ex: +(e.exposed || 0).toFixed(2), rt: e.dbg.returned | 0, bk: e.dbg.backed | 0, sd: e.dbg.stoodDown | 0, iv: e.dbg.investigated | 0 } : undefined,
       });

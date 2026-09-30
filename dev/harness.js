@@ -64,8 +64,10 @@ function World(seed = 1, opts = {}) {
     let tgt = p.tx;
     if (p.path && p.path.length) { tgt = p.path[0]; if (Math.hypot(tgt.x - p.x, tgt.y - p.y) < 20) { p.path.shift(); tgt = p.path[0] || null; if (!tgt) { p.mode = 'stand'; } } }
     let mode = p.mode;
-    if (mode === 'run' && p.stamina <= 0) mode = 'walk';
-    let v = SP[mode] || 0; if (p.ex) v = Math.min(v, 148);
+    if (mode === 'run' && (p.stamina <= 0 || p.ex)) mode = 'walk';
+    const MV = WORLD.MOVE;                                             // the game's own numbers (move.js does the same on the client)
+    let v = SP[mode] || 0; if (p.ex && mode === 'walk') v = MV.exhaustedWalk;
+    if (mode === 'run') v = MV.walk + (MV.run - MV.walk) * (.42 + .58 * Math.min(1, Math.max(0, p.stamina / 32)));     // running slows as stamina drops
     if (tgt && v > 0) {
       const dx = tgt.x - p.x, dy = tgt.y - p.y, d = Math.hypot(dx, dy);
       if (d < 4 && !p.path) { p.tx = null; v = 0; }
@@ -73,8 +75,10 @@ function World(seed = 1, opts = {}) {
     } else { p.vx = p.vy = 0; v = 0; }
     if (v > 0) collide(p, p.vx * DT, p.vy * DT, mode);
     p.sp = v; p.st = ST[mode] | 0; p.sprinting = mode === 'run' && v > 0;
-    if (mode === 'run' && v > 0) p.stamina = Math.max(0, p.stamina - 10.5 * DT); else p.stamina = Math.min(100, p.stamina + (mode === 'stand' ? 24 : mode === 'crouch' || mode === 'walk' ? 9 : 8) * DT);
-    if (p.stamina <= 0) p.ex = 1; else if (p.ex && p.stamina > 24) p.ex = 0;
+    const R = MV.staminaRegen, still = v === 0;
+    if (mode === 'run' && v > 0) p.stamina = Math.max(0, p.stamina - MV.staminaDrainRun * DT);
+    else p.stamina = Math.min(100, p.stamina + (still ? (mode === 'crouch' ? R.crouch : mode === 'crawl' ? R.crawl : R.stand) : mode === 'crouch' ? R.crouchWalk : mode === 'crawl' ? R.crawl : R.walk) * (p.ex ? .7 : 1) * DT);
+    if (p.stamina <= .1) p.ex = 1; else if (p.ex && p.stamina >= MV.recoverAt) p.ex = 0;
     p.wdist = (p.wdist || 0) + v * DT;
   }
   w.step = function () {

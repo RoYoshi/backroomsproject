@@ -35,7 +35,7 @@ function run(strategy, i, opt = {}) {
   while (t < lim) {
     const vis = seenBy(w, h, p); if (vis) p.lastH = { x: h.x, y: h.y };
     if (!vis && broke < 0 && t > .5) broke = t;
-    if (strategy === 'break-walk' && broke >= 0 && p.mode === 'run') p.mode = 'walk';
+    if (strategy === 'break-walk' && broke >= 0 && p.mode === 'run' && !p.panic) p.mode = 'walk';
     // smart: break its sight, keep running a little to make distance, then go quiet and take a different turn from the one it saw you heading for
     if (strategy === 'smart' && broke >= 0 && !p.quiet && t - broke > 2.2) { p.quiet = true; const hd = Math.atan2(p.vy, p.vx); let q = null; for (let k = 0; k < 40 && !q; k++) { const c = P[(i * 37 + k * 211) % P.length], d = Math.hypot(c.x - p.x, c.y - p.y); if (d > 600 && d < 1600 && Math.cos(Math.atan2(c.y - p.y, c.x - p.x) - hd) < .2 && Math.hypot(c.x - p.lastH.x, c.y - p.lastH.y) > Math.hypot(p.x - p.lastH.x, p.y - p.lastH.y) + 400 && w.eng.geo.path(p.x, p.y, c.x, c.y, { CAN_VAULT: false })) q = c; } if (q) p.pathTo(q.x, q.y, 'walk'); else p.mode = 'walk'; }
     if (strategy === 'smart' && p.quiet && !p.path?.length && !p.tx && !hid) { hid = true; p.stop('crouch'); }
@@ -47,6 +47,7 @@ function run(strategy, i, opt = {}) {
     if (opt.juke && vis && h.act === 'wind' && !p.juke && Math.hypot(h.x - p.x, h.y - p.y) < 360) { const a0 = Math.atan2(p.y - h.y, p.x - h.x) + (i % 2 ? 1.35 : -1.35), jx = p.x + Math.cos(a0) * 140, jy = p.y + Math.sin(a0) * 140; if (w.ad.clear(jx, jy, 18, 'walk')) { p.juke = { t: .45, path: p.path, tx: p.tx }; p.go(jx, jy, p.stamina > 5 ? 'run' : 'walk'); } }
     if (p.juke) { p.juke.t -= DT; if (p.juke.t <= 0) { const j = p.juke; p.juke = null; if (j.path) p.route(j.path, p.stamina > 5 && !p.ex ? 'run' : 'walk'); else p.stop(); } }
     w.step(); t += DT;
+    if (opt.hook) { const hr = opt.hook(w, h, p, t, P); if (hr) return hr; }                          // a test can take over the player mid-run
     if (opt.hook) { const hr = opt.hook(w, h, p, t, P); if (hr) return hr; }                          // a test can take over the player mid-run
     if (process.env.TRACE && Math.round(t * 60) % 30 === 0) { const rr = h.mem.p.get(p.id); console.log(t.toFixed(1), h.state, h.act, 'd', Math.round(Math.hypot(h.x - p.x, h.y - p.y)), 'blind', (h.chaseBlind || 0).toFixed(1), 'ear', h.dbg.pursuit && h.dbg.pursuit.ear, 'hLoudAge', rr ? (w.eng.now - rr.hLoud).toFixed(1) : '-', 'heardAge', rr ? (w.eng.now - rr.heardAt).toFixed(1) : '-', 'conf', rr ? rr.conf.toFixed(2) : '-', 'st', p.st, 'sp', Math.round(p.sp), 'tier', h.tier, h.dbg.disengage || ''); }
     if (p.caught || p.dead) { caught = true; break; }
