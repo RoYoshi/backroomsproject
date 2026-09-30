@@ -426,6 +426,7 @@ function moodTick(e, dt) {
   if (e.state === S.ROAMING || e.state === S.HIDDEN || e.state === S.DORMANT) m.boredom = Math.min(1, m.boredom + dt * .01); else m.boredom = Math.max(0, m.boredom - dt * .1);
 }
 function tierOf(e, eng) {
+  if (e.cap || e.commit) return 'near';                                  // a capture or a kill still playing out is always fully simulated (it has a clock to finish)
   const near = eng.nearestPlayerDist(e.x, e.y);
   return near < 1900 ? 'near' : near < 3800 ? 'mid' : 'far';
 }
@@ -527,7 +528,36 @@ function killNow(eng, cap, pv, e, why) {
   eng.sites.push({ x: pv.x, y: pv.y, t: eng.now, kind: e.kind, pid: pv.id, fed: 0 });
   if (eng.sites.length > 12) eng.sites.shift();
   finishCapture(eng, cap, pv, e);
+  if (e.kind === 'hound') { beginCommit(eng, e, pv, variant, ctx); return; }
   e.sp.capture.afterKill && e.sp.capture.afterKill(eng, e, ctx, pv);
+}
+/* KILL COMMITMENT (v20): a hound that kills stays on its kill for as long as the death takes to play out on every screen (the clients' death lengths,
+ * dphys.js DURS), ignoring everyone else; only then does it make its after-kill decision (next victim / guard / feed / leave) - with the situation as it is THEN.
+ * The victim's client reports where the attacker ended up in the animation (drag etc.); the hound is set down there if that spot is close and clear. */
+const KILL_DUR = { A: 4.5, B: 4.7, C: 4.3, D: 4.5 };
+function beginCommit(eng, e, pv, variant, ctx) {
+  e.commit = { pid: pv.id, v: variant, x: e.x, y: e.y, until: eng.now + (KILL_DUR[variant] || 4.5) + .25, ctx, body: false };
+  e.path = []; e.trav = null; e.lunge = null; e.aim = null; e.speed = 0; e.target = null; setAct(e, 'feed');
+  e.dbg.commit = variant;
+}
+function commitTick(eng, e, dt) {                                            // true while committed (the species tick does nothing else)
+  const c = e.commit; if (!c) return false;
+  stopMoving(eng, e, dt); if (e.act !== 'feed') setAct(e, 'feed');
+  if (eng.now < c.until || (!c.body && eng.now < c.until + 1.5)) return true;   // (waits a moment for the victim's report of where the animation left it)
+  e.commit = null; e.dbg.commit = null; setAct(e, '');
+  const pv = eng.playerById(c.pid);
+  let ctx = c.ctx; try { if (pv) ctx = assess(eng, e, pv, {}); } catch (_) { }
+  e.sp.capture.afterKill && e.sp.capture.afterKill(eng, e, ctx, pv || { id: c.pid, x: c.x, y: c.y });
+  return false;
+}
+function commitEnd(eng, pid, x, y, a) {                                      // the victim's client: "the animation left the attacker here"
+  for (const e of eng.entities) {
+    const c = e.commit; if (!c || c.pid !== pid || c.body) continue;
+    c.body = true;
+    if (!Number.isFinite(x) || !Number.isFinite(y) || Math.hypot(x - c.x, y - c.y) > 320 || !eng.geo.clear(x, y, e.rc, 'walk')) return false;
+    e.x = x; e.y = y; if (Number.isFinite(a)) e.ang = a; e.wd = { x, y, t: 0 }; return true;
+  }
+  return false;
 }
 /* admin aid (DEATHS tab): play ONE chosen death on a player through the real capture / kill path.  The entity is set down a step away, on the side that makes that
  * variant honest (for the hound's C: a real wall behind the victim), then the ordinary quick capture runs - so the kill record, the events, what the entity does
@@ -860,6 +890,7 @@ function hReact(eng, e) {
 function houndTick(eng, e, dt, thinkNow) {
   const now = eng.now;
   e.cool.lunge = Math.max(0, (e.cool.lunge || 0) - dt);
+  if (e.commit && commitTick(eng, e, dt)) return null;               // committed to a kill: nothing else happens until it is over
   if (thinkNow) hReact(eng, e);
   let res = null;
   switch (e.state) {
@@ -1525,6 +1556,7 @@ function create(cfg) {
     this.emit({ t: 'lightfail', x, y, r, dur });
   };
   eng.blackout = () => geo.a.blackout();
+  eng.commitEnd = function (pid, x, y, a) { return commitEnd(this, pid, x, y, a); };
 
   /* ------------------------------------------------------------ the sound bus: an event goes to every entity once; each decides what it makes of it */
   eng.sound = function (ev) {

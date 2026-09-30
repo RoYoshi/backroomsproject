@@ -50,6 +50,7 @@ function create(cfg) {
     this.emit({ t: 'lightfail', x, y, r, dur });
   };
   eng.blackout = () => geo.a.blackout();
+  eng.commitEnd = function (pid, x, y, a) { return commitEnd(this, pid, x, y, a); };
 
   /* ------------------------------------------------------------ the sound bus: an event goes to every entity once; each decides what it makes of it */
   eng.sound = function (ev) {

@@ -178,6 +178,7 @@ srv.on('upgrade', (req, sock) => {
     else if (m.t === 'b') {                 // the finished corpse of a player we already know was caught; one per player
       if (!player.dead && m.c !== 'Vanish') return;
       const n3 = a => [num(a && a[0], 0, 9216), num(a && a[1], 0, 6912), num(a && a[2], -20, 20)];
+      if (m.c === 'Hound' && Array.isArray(m.ka) && room.sim.killerEnd) room.sim.killerEnd(id, num(m.ka[0], 0, 9216), num(m.ka[1], 0, 6912), num(m.ka[2], -20, 20));   // where the kill animation left the hound
       room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
         sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },

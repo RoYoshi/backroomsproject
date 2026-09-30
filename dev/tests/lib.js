@@ -57,4 +57,9 @@ function tracker(w, e) {
   };
   return T;
 }
-module.exports = { floorNear, pick, tracker, H, World, DT, WORLD, AI, stateNames, dist, TAU, LONG, geo, over, rate, avg };
+/* a far, hidden, crouched bystander: keeps a scenario world running after its only victim dies (the server pauses a room with nobody alive) */
+function bystander(w, x = 5000, y = LONG.y) {
+  const G = geo(), c = G.dark.find(d => Math.hypot(d.x - x, d.y - y) > 3200 && w.ad.clear(d.x, d.y, 24, 'walk'));
+  const q = w.player(c.x, c.y, { light: false }); q.stop('crouch'); return q;
+}
+module.exports = { bystander, floorNear, pick, tracker, H, World, DT, WORLD, AI, stateNames, dist, TAU, LONG, geo, over, rate, avg };

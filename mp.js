@@ -42,9 +42,11 @@ const N = window.__net = {
   bodyMade(t) {                                    // our own corpse is finished: tell the server so everyone can see it
     tx({ t: 'b', n: t.name, x: Math.round(t.x), y: Math.round(t.y), a: +t.angle.toFixed(3), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
       lk: [t.appearance.hat, t.appearance.texture, t.appearance.hands, t.appearance.main, t.appearance.backpack].join('|'), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment), lo: t.lo ? 1 : 0,
-      bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)], hd: t.hands ? [].concat(...t.hands) : 0, tr: t.trail || 0, ho: t.hatOn ? 1 : 0, ph: t.hands ? 1 : 0 });
+      bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)], hd: t.hands ? [].concat(...t.hands) : 0, tr: t.trail || 0, ho: t.hatOn ? 1 : 0, ph: t.hands ? 1 : 0, ka: kaOf(t) });
   },
 };
+/* where the kill animation left the attacker (its world position and heading), so the server's hound carries on from there instead of popping back */
+const kaOf = t => { const D = window.__api && window.__api.death && window.__api.death(); const at = D && D.attacker; return t.cause === 'Hound' && at && Number.isFinite(at.x) ? [Math.round(at.x), Math.round(at.y), +(at.angle || 0).toFixed(3)] : 0; };
 const fxBase = A => ({ lk: [A.look.hat, A.look.texture, A.look.hands, A.look.main, A.look.backpack].join('|'), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
 const tx = o => { if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); };
 

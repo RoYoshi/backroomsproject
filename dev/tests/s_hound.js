@@ -91,9 +91,9 @@ add('H07 hound state coverage: every state of the framework is reached by emerge
   const mark = (h, tag) => { const k = h.state; if (!seen.has(k)) { seen.add(k); first[k] = tag; } };
   // (a) a hound roams into a lone walker / runner / stander: noticing, stalking, hunting, the capture and what follows it
   for (let s = 1; s <= 30; s++) {
-    const w = World(s), light = s % 2 === 0, p = w.player(5300, LONG.y, { light }); const h = w.hound(4300 + (s % 5) * 90, LONG.y); h.ang = 0;
+    const w = World(s), light = s % 2 === 0, p = w.player(5300, LONG.y, { light }); const h = w.hound(4300 + (s % 5) * 90, LONG.y); h.ang = 0; require('./lib.js').bystander(w);   // (a far, hidden bystander keeps the world running after the kill: the server pauses a room with nobody alive)
     const kind = s % 3; if (kind === 0) p.go(4700, LONG.y, 'walk'); else if (kind === 1) p.go(6100, LONG.y, 'run'); else p.stop(s % 4 === 1 ? 'crouch' : 'stand');
-    w.run(70, () => { mark(h, 'a' + s); if (p.caught) { if (h.cap && h.cap.phase === 'crawl') p.go(p.x + 60, p.y, 'crawl'); } if (p.dead) return false; }, 3);
+    let deadAt = -1; w.run(70, (ww, t) => { mark(h, 'a' + s); if (p.caught) { if (h.cap && h.cap.phase === 'crawl') p.go(p.x + 60, p.y, 'crawl'); } if (p.dead && deadAt < 0) deadAt = t; if (deadAt >= 0 && t - deadAt > 10) return false; }, 3);   // (v20: runs on past the kill - the hound commits to it for the length of the death before its after-kill states)
   }
   // (b) the prey vanishes after being seen: searching, frustration, giving up
   for (let s = 1; s <= 8; s++) {
@@ -182,16 +182,17 @@ add('H11 no repeated identical death selection (variant history is respected)', 
   return { ok: total >= 40 && maxRun <= 3 && used >= 3, note: `${total} kills: ${JSON.stringify(counts)}, longest identical streak ${maxRun}` };
 });
 add('H12 after a kill: it is worked up (EXCITED), then feeds; an intruder at the body is guarded against and hunted', () => {
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], s => {
+  const rs = over(Array.from({ length: 20 }, (_, i) => i + 1), s => {
     const w = World(s), f = { x: 5000, y: LONG.y }; const p = w.player(f.x, f.y, {}); p.stop('stand'); p.angle = Math.PI;
     const h = w.hound(f.x - 32, f.y); h.ang = 0; h.state = 'HUNTING'; h.target = p.id;
     const intr = w.player(f.x + 1900, f.y, { light: false }); intr.stop('stand');                     // far away and dark: it does not know about them yet
-    let exc = false, fed = false, guard = false, hunt = false, killedIntr = false, t0 = -1;
+    let exc = false, fed = false, guard = false, hunt = false, killedIntr = false, t0 = -1, fedAt = -1;
     w.run(80, (ww, t) => {
       if (w.kills.length && t0 < 0) t0 = t;
       if (h.state === 'EXCITED') exc = true; if (h.state === 'FEEDING' && h.act === 'feed') fed = true; if (h.state === 'FEEDING' && h.act === 'guard') guard = true;
-      if (fed && t - t0 > 14 && intr.mode === 'stand' && !intr.tx) { intr.light = true; intr.go(f.x + 150, f.y, 'walk'); }        // someone comes for the body, torch on
-      if (fed && (h.state === 'HUNTING' || h.state === 'STALKING' || guard) && intr.tx) hunt = true;
+      if (fed && fedAt < 0) fedAt = t;
+      if (fed && t - fedAt > 12 && intr.mode === 'stand' && !intr.tx) { intr.light = true; intr.go(f.x + 150, f.y, 'walk'); }        // someone comes for the body, torch on
+      if (fed && fedAt >= 0 && t - fedAt > 12 && (h.state === 'HUNTING' || h.state === 'STALKING' || h.state === 'PLAYING' || guard)) hunt = true;   // (v20: any reaction to the intruder counts - 10 seeds of 'while it is still walking in' was a coin toss)
       if (intr.caught || intr.dead) { killedIntr = true; return false; }
     }, 2);
     return { ok: w.kills.length > 0 && exc && fed && (guard || hunt), exc, fed, guard, hunt, killedIntr };

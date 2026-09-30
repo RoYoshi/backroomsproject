@@ -257,6 +257,7 @@ function hReact(eng, e) {
 function houndTick(eng, e, dt, thinkNow) {
   const now = eng.now;
   e.cool.lunge = Math.max(0, (e.cool.lunge || 0) - dt);
+  if (e.commit && commitTick(eng, e, dt)) return null;               // committed to a kill: nothing else happens until it is over
   if (thinkNow) hReact(eng, e);
   let res = null;
   switch (e.state) {

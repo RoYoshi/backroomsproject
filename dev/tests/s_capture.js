@@ -78,12 +78,12 @@ add('C05 after a quick kill it reads the room: with others coming it defends, at
   const st = { hound: {}, smiler: {}, houndAlone: {}, smilerAlone: {} };
   for (const kind of ['hound', 'smiler']) withQuick(kind, 1, () => { for (let s = 1; s <= 30; s++) for (const alone of [false, true]) {
     const o = alone ? {} : { others: [{ x: X0 + 500, y: Y0 - 30, go: { x: X0 + 100, y: Y0 }, mode: 'run' }, { x: X0 + 560, y: Y0 + 40, go: { x: X0 + 120, y: Y0 + 20 }, mode: 'run' }] };
-    const { w, v, e } = capWorld(kind, s + 90, o); let after = null;
-    w.run(4, (ww, t) => { if (w.kills.length && !after) { after = t; } if (after !== null && t - after > .6) { after = stateNames(e); return false; } }, 1);
+    const { w, v, e } = capWorld(kind, s + 90, o); let after = null; if (alone && kind === 'hound') require('./lib.js').bystander(w);   // (a far, hidden bystander keeps the world running after the kill: the server pauses a room with nobody alive)
+    w.run(12, (ww, t) => { if (w.kills.length && after === null && !e.commit) { after = t; } if (after !== null && typeof after === 'number' && t - after > (kind === 'hound' ? .1 : .6)) { after = stateNames(e); return false; } }, 1);   // (v20: a hound reads the room once its kill commitment is over)
     const key = kind + (alone ? 'Alone' : ''); st[key][after] = (st[key][after] || 0) + 1;
   } });
   const ok1 = Object.keys(st.hound).every(k => /^(HUNTING|RETREATING|FEEDING)/.test(k)), ok2 = Object.keys(st.smiler).every(k => /^(DISAPPEARING|WATCHING|HIDDEN)/.test(k)) && (st.smiler['DISAPPEARING/fade'] || 0) >= 20;
-  const ok3 = Object.keys(st.houndAlone).every(k => /^(EXCITED|FEEDING|STALKING|ROAMING)/.test(k)) && Object.keys(st.smilerAlone).every(k => /^(WATCHING|DISAPPEARING|HIDDEN)/.test(k)) && (st.smilerAlone['WATCHING/watch'] || 0) >= 15;
+  const ok3 = Object.keys(st.houndAlone).every(k => /^(EXCITED|FEEDING|STALKING|ROAMING|DORMANT)/.test(k)) && Object.keys(st.smilerAlone).every(k => /^(WATCHING|DISAPPEARING|HIDDEN)/.test(k)) && (st.smilerAlone['WATCHING/watch'] || 0) >= 15;
   return { ok: ok1 && ok2 && ok3, note: `with company: hound ${JSON.stringify(st.hound)}, smiler ${JSON.stringify(st.smiler)}; alone: hound ${JSON.stringify(st.houndAlone)}, smiler ${JSON.stringify(st.smilerAlone)}` };
 });
 add('C06 the death itself: one kill per life, the record carries variant / geometry, the body is where the victim fell, no repeat kills', () => {

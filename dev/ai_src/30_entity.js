@@ -142,6 +142,7 @@ function moodTick(e, dt) {
   if (e.state === S.ROAMING || e.state === S.HIDDEN || e.state === S.DORMANT) m.boredom = Math.min(1, m.boredom + dt * .01); else m.boredom = Math.max(0, m.boredom - dt * .1);
 }
 function tierOf(e, eng) {
+  if (e.cap || e.commit) return 'near';                                  // a capture or a kill still playing out is always fully simulated (it has a clock to finish)
   const near = eng.nearestPlayerDist(e.x, e.y);
   return near < 1900 ? 'near' : near < 3800 ? 'mid' : 'far';
 }
