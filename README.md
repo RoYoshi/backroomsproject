@@ -1,5 +1,3 @@
-> Codex physical-death comparison build: see [PHYSICAL-DEATHS.md](PHYSICAL-DEATHS.md) for changes, validation and Claude merge instructions.
-
 # The Far Backrooms — Recovered Production Build
 
 This directory was reconstructed from the HAR capture of the deployed game.
@@ -258,3 +256,27 @@ Two real bugs turned up in the last round and are fixed in this build: every ent
 - **Movement is client-side** (as before), so a modified client can cheat its own movement. Entities, catches and kills are decided only on the server.
 - **Solo / offline mode** keeps the older built-in monster AI (new visuals and movement, old behaviour).
 - **Packaging check.** The command-approval service was intermittently unavailable while this package was being assembled. Every shipped file was copied byte-for-byte from the tested working tree and verified against it; the packaged folder itself was re-checked with one final run of the 54 scenarios only. `live.js`, `move_test.py` and `audio_test.py` were last run against the working tree, not the packaged folder.
+
+## Admin panel v2, death previews, debug mode, pause fix v17
+
+- **Pause fix.** Death animations no longer depend on the game being un-paused. When the server kills you while the pause screen is up, the pause screen closes and the death starts at once (`mp.js`, plus `unpause` in the bundle's `__api`).
+- **Admin panel** (backtick, passcode `smoor` / `ADMIN_PASSCODE`) now has tabs: PLAYERS (live state and position, teleport, give, revive), MONSTERS (entity list with GO TO / REMOVE, spawn near, remove), DEATHS, WORLD, DEBUG. Live text is patched in place so buttons are never rebuilt under the mouse. A status line shows the server's answer to every command (`ares` message). The panel can be docked left or right.
+- **DEATHS tab.** *Preview death*: play Hound A–D or Smiler A–D on yourself through the real kill path (record, events, replay for other players). Hound C needs a wall behind you and says so if there is none. After the death you are revived and put back where it happened; a monster made just for the preview is removed at revive. *Capture style*: AUTO / ALWAYS QUICK / ALWAYS PLAY (replaces the old dev-only play server).
+- **Debug mode** (DEBUG tab). AI overlay with layers: AI entities, you + hearing radius, server timings, AI event log. Also ping, FPS, COPY REPORT. Only unlocked admins receive debug data.
+- New server messages: `ares`, `ping`/`pong`, `preview`, `capmode`, `entgoto`, `entdel`. Non-admins cannot use them.
+- Tests: `dev/tests/s_admin.js` (A01–A05) and `dev/tests/admin_test.py` (two real browsers: tabs, all 8 previews, pause fix, debug overlay). Browser test was run under slow software rendering; a few timing-dependent checks needed generous waits. The full 59-scenario sim regression was not re-run after the final small preview-cleanup change (v16's 54 passed; A01–A05 passed before it).
+
+## Physical deaths v18 (`dphys.js`)
+
+The eight deaths (Hound A-D, Smiler A-D) are no longer scripted poses. Each one is a small physics simulation that the local victim and every spectator's replay run from the same event parameters, so it looks the same everywhere and the network cost is unchanged (the `fx` message only gained the victim's velocity and an exhausted flag).
+
+- **Architecture.** `dphys.js` (new, loaded before the bundle) holds a lightweight fixed-step (240 Hz) simulation. The bundle's death class calls `__dphys.begin / clock / frame / remains`; `ents.js` (`attackFromSim`) poses the Hound from the same simulation; `gore.js` draws blood along the real path; `mp.js` carries the extra fields (hands, trail, hat) to the server and to spectators. If `dphys.js` fails to load, the old scripted death still plays.
+- **Procedural motion.** Attacker = point mass on a damped spring with real contact against the victim and the walls. Victim = position, velocity, angle, angular velocity, ground friction, a short squash impulse along the impact axis. A grip rope (spring + damper on a point of the body) makes a dragged body trail behind and turn with the pull. The authored part is only when the grip / drag / release happens and how hard the victim resists (fresh vs exhausted, fading with time). Everything between is integrated.
+- **Hands.** Each hand is its own point mass on a spring anchored to the body: it lags on acceleration, overshoots on stopping, is thrown outward by an impact, pushes toward the attacker with uneven timing, plants on the floor during a drag (resisting the pull) and slips, then goes slack and trails. Arm length is limited, hands collide with walls. The avatar's hands are drawn from these positions; no arms are drawn.
+- **Collision.** Body, hands, attacker, light and hat collide with the level's wall blocks (circle vs block), so nothing passes through a wall. A wall impact removes the body's velocity, squashes it briefly, rebounds a little, spins it from the tangential friction, and the hands keep going.
+- **Equipment.** The light and the hat leave the body with its velocity, slide with friction, spin, hit walls and stop; the beam follows the light's orientation. The light leaves at a physical event of each variant (second blow, wall impact, start of the drag, the pull of the Smiler). The hat is knocked off only by a violent enough hit.
+- **Corpse.** The corpse record is the last configuration of the simulation (position, angle, squash, both hand positions, the light's and the hat's final positions, the blood trail). Nothing is hidden and respawned. States: ACTIVE, SETTLING, SLEEPING (a sleeping death costs nothing).
+- **Blood.** Smaller pools and fewer, shorter drops; spray only at the moment of a blow at the jaws; the drag smear follows the path the body really took.
+- **Camera.** One damped impulse per real impact (contact, wall) instead of continuous shake.
+- **Death lab** (admin panel, DEATHS tab): speed 1 / 0.5 / 0.25x, pause, step 1 frame / 6, x-ray attacker, "show paths / forces" overlay (body path, velocity, spin, hand targets vs hands, light path, attacker path, wall hits, phase and settle state), place me (open room / near a wall / in a corner), replay last.
+- **Tests.** `dev/tests/phys_test.js` (node): continuity, no wall clipping, determinism, sampling independence and a 240-run matrix. `dev/tests/death_film.py`: renders each death frame by frame in a real browser into contact sheets.

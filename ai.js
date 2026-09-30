@@ -482,6 +482,7 @@ function assess(eng, e, pv, attack) {
   return { threats: th, danger, approaching, seeing, iso: clamp(1 - danger * 1.1, 0, 1), deadEnd: arcs.arcs <= 1 && arcs.frac < .34, arcs, lit, rel, facing: Math.abs(rel) > 2.0, behind: Math.abs(rel) < 1.0 };
 }
 function chooseMode(eng, e, ctx) {
+  if (eng.forceCapture) return eng.forceCapture;                        // admin override (DEATHS tab): every catch is a quick kill / every catch is played with
   const sp = e.sp.capture, q = sp.quick(e, ctx);
   return eng.rng() < q ? 'quick' : 'play';
 }
@@ -513,9 +514,10 @@ const rand = (eng, a, b) => a + eng.rng() * (b - a);
 function killNow(eng, cap, pv, e, why) {
   if (cap.phase === 'done') return;
   const ctx = cap.phase === 'grab' ? cap.ctx : assess(eng, e, pv, cap.attack || {});
-  const ang = Math.atan2(pv.y - e.y, pv.x - e.x);
+  const ang = Math.atan2(pv.y - e.y, pv.x - e.x), forced = cap.attack && cap.attack.preview ? cap.attack.variant : null;
+  if (forced) why = 'preview';
   ctx.wall = wallBehind(eng.geo, pv.x, pv.y, Math.cos(ang), Math.sin(ang));       // the wall the victim would be driven into: decided once, used for the choice and the record
-  const variant = pickVariant(eng, e, pv, ctx, cap.attack || {});
+  const variant = forced || pickVariant(eng, e, pv, ctx, cap.attack || {});       // a preview (admin) names its variant and leaves the "recent kills" memory alone
   const geo = { ax: e.x, ay: e.y, aa: ang, wall: variant === 'C' ? ctx.wall : null };
   cap.variant = variant; cap.phase = 'done'; cap.why = why;
   pv.alive = false;                                                        // dead from this instant: nothing else gets to capture or kill the same person in this very tick
@@ -525,6 +527,26 @@ function killNow(eng, cap, pv, e, why) {
   if (eng.sites.length > 12) eng.sites.shift();
   finishCapture(eng, cap, pv, e);
   e.sp.capture.afterKill && e.sp.capture.afterKill(eng, e, ctx, pv);
+}
+/* admin aid (DEATHS tab): play ONE chosen death on a player through the real capture / kill path.  The entity is set down a step away, on the side that makes that
+ * variant honest (for the hound's C: a real wall behind the victim), then the ordinary quick capture runs - so the kill record, the events, what the entity does
+ * afterwards and everything the clients replay are exactly what a natural death produces. */
+function previewKill(eng, e, variant, pv) {
+  const geo = eng.geo, V = /^[ABCD]$/.test(variant) ? variant : 'A', hound = e.kind === 'hound';
+  if (!pv || !pv.alive || pv.caught || e.cap) return { ok: false, why: 'busy: already caught or dead' };
+  const fwd = pv.angle, wantC = hound && V === 'C';
+  const base = hound ? { A: fwd, B: fwd + Math.PI - .7, C: fwd, D: fwd + Math.PI }[V] : fwd;     // where the attacker stands, as an angle seen from the victim
+  const offs = [0, .3, -.3, .6, -.6, .9, -.9, 1.25, -1.25, 1.6, -1.6, 2.0, -2.0, 2.5, -2.5, Math.PI];
+  for (const off of offs) for (const r of hound ? [54, 44, 34] : [50, 42, 34]) {
+    const a = base + off, ax = pv.x + Math.cos(a) * r, ay = pv.y + Math.sin(a) * r;
+    if (!geo.clear(ax, ay, e.rc, 'walk') || !geo.los(ax, ay, pv.x, pv.y)) continue;
+    if (wantC && !wallBehind(geo, pv.x, pv.y, Math.cos(a + Math.PI), Math.sin(a + Math.PI))) continue;
+    e.x = ax; e.y = ay; e.ang = a + Math.PI; e.path = []; e.trav = null; e.lunge = null; e.aim = null; e.speed = 0; e.tier = 'near'; e.tierT = 1; e.wd = { x: ax, y: ay, t: 0 };
+    if (e.kind === 'smiler' && V === 'C') eng.lightFail(pv.x, pv.y, 560, 1.4);             // the lamps flicker out around the victim, as in a real light failure
+    const cap = beginCapture(eng, e, pv, { force: 'quick', preview: true, variant: V, dir: e.ang, speed: 0, style: 'preview' });
+    return cap ? { ok: true, v: V, eid: e.id } : { ok: false, why: 'the capture did not start' };
+  }
+  return { ok: false, why: wantC ? 'no wall about 1-2 body lengths from you: stand near a wall first' : 'no room to attack from here' };
 }
 function finishCapture(eng, cap, pv, e) { cap.phase = 'done'; if (e && e.cap === cap) e.cap = null; if (pv && pv.caught === cap) pv.caught = null; const i = eng.caps.indexOf(cap); if (i >= 0) eng.caps.splice(i, 1); }
 function releaseVictim(eng, cap, pv, e, why) {
@@ -1361,10 +1383,22 @@ function create(cfg) {
     rng, geo: new Geo(cfg.adapter), now: 0, ticks: 0, entities: [], nextId: 1, caps: [], capId: 0, sites: [], recentKills: {}, pressure: 0,
     events: [], sounds: [], pl: [], byId: new Map(), hash: new Hash(), lights: [], pst: new Map(), packT: 0,
     stats: { sense: 0, paths: 0, sounds: 0, capture: 0 },
-    debugOn: false,
+    debugOn: false, forceCapture: null, log: [], logSeq: 0,
   };
   const geo = eng.geo;
-  eng.emit = ev => { if (eng.events.length < 200) eng.events.push(ev); };
+  /* a short human-readable trail of what the entities decided (state changes, catches, kills, releases, lamp failures): the admin DEBUG tab reads it */
+  eng.note = function (text) { this.log.push({ s: ++this.logSeq, t: +this.now.toFixed(1), x: text }); if (this.log.length > 60) this.log.shift(); };
+  const tagOf = (kind, id) => String(kind || '?')[0].toUpperCase() + '#' + id;
+  eng.emit = ev => {
+    if (eng.events.length < 200) eng.events.push(ev);
+    switch (ev.t) {
+      case 'caught': eng.note(`${tagOf(ev.kind, ev.eid)} caught P${ev.pid} (${ev.ph})`); break;
+      case 'kill': eng.note(`${tagOf(ev.kind, ev.eid)} KILLED P${ev.pid} · variant ${ev.variant} · ${ev.why}`); break;
+      case 'release': eng.note(`E#${ev.eid} released P${ev.pid} · ${ev.why}`); break;
+      case 'phase': eng.note(`E#${ev.eid} P${ev.pid} now ${ev.ph}`); break;
+      case 'lightfail': eng.note(`lamps fail near ${Math.round(ev.x)},${Math.round(ev.y)} for ${(+ev.dur).toFixed(1)}s`); break;
+    }
+  };
 
   /* ------------------------------------------------------------ what the engine may know about people: a list handed in every step */
   eng.setPlayers = function (list) {
@@ -1505,6 +1539,7 @@ function create(cfg) {
     playerNoise(dt);
     if (geo.fails.length) geo.fails = geo.fails.filter(f => f.until > now);
     for (const e of this.entities) {
+      if (e.state !== e.lgS) { if (e.lgS !== undefined) this.note(`${tagOf(e.kind, e.id)} ${e.lgS} -> ${e.state}${e.act ? ' /' + e.act : ''}`); e.lgS = e.state; }
       e.t += dt; e.stateT += dt; e.actT += dt;
       e.tierT -= dt; if (e.tierT <= 0) { e.tierT = .4 + this.rng() * .15; const nt = tierOf(e, this); if (nt !== e.tier) onTier(e, nt); }
       if (e.deaf > 0) e.deaf -= dt;
@@ -1520,6 +1555,9 @@ function create(cfg) {
     for (const cap of this.caps.slice()) capStep(this, cap, dt);
     this.packT -= dt; if (this.packT <= 0) { this.packT = .5; packs(); }
   };
+
+  /* admin aid (DEATHS tab): one chosen death on one player, through the real kill path (see previewKill in the capture part) */
+  eng.previewKill = function (e, variant, pv) { return previewKill(this, e, variant, pv); };
 
   /* admin aid: put an entity at (x,y) and set it on the trail of a spot */
   eng.summon = function (e, x, y, tx, ty, pid) {

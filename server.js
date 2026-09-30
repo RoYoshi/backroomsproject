@@ -16,23 +16,8 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|world\.js|move\.js|ents\.js|death-motion\.js|mp\.js|hud\.js|gore\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
-
-// Only compact visual state is accepted. Existing dead/active checks still own
-// whether a death is allowed; these fields cannot create gameplay actors.
-function finiteArray(a, n, lo, hi) {
-  return Array.isArray(a) && a.length === n && a.every(v => typeof v === 'number' && Number.isFinite(v) && v >= lo && v <= hi) ? a.slice() : null;
-}
-function cleanPhysical(p, initial = false) {
-  if (!p || typeof p !== 'object' || !Number.isInteger(p.seed) || p.seed < 0 || p.seed > 4294967295) return null;
-  const h = Array.isArray(p.h) && p.h.length === 2 && p.h.map(a => finiteArray(a, 2, -42, 42));
-  const b = finiteArray(p.b, 3, -Math.PI, Math.PI);
-  if (!h || h.some(a => !a) || !b || b[0] < .75 || b[0] > 1.3 || b[1] < .75 || b[1] > 1.3 || h[0][0] > -2 || h[1][0] < 2) return null;
-  if (initial) { const gv = finiteArray(p.gv, 3, -42, 42); return gv ? { seed: p.seed, h, b, gv } : null; }
-  const g = finiteArray(p.g, 3, -42, 42);
-  return p.v === 1 && g ? { v: 1, seed: p.seed, h, b, g, gd: p.gd ? 1 : 0, hd: p.hd ? 1 : 0 } : null;
-}
 
 const srv = http.createServer((req, res) => {
   let u = decodeURIComponent(req.url.split('?')[0]);
@@ -86,42 +71,52 @@ function cleanLook(s) {                       // hat|texture|hands|main|backpack
 
 function getRoom(name) {
   let r = rooms.get(name);
-  if (!r) { r = { name, clients: new Map(), sim: createSim({ bodyTtl: BODY_TTL }), acc: 0, last: Date.now(), tick: 0 }; rooms.set(name, r); }
+  if (!r) { r = { name, clients: new Map(), sim: createSim({ bodyTtl: BODY_TTL }), acc: 0, last: Date.now(), tick: 0, pf: { ms: 0, max: 0, snapB: 0, sense: 0, paths: 0, at: Date.now() } }; rooms.set(name, r); }
   return r;
 }
 
 function adminCommand(room, me, m) {
   const sim = room.sim, target = room.clients.get(m.id | 0), A = sim.admin;
   const log = what => console.log(`[admin] room=${room.name} ${me.name}#${me.id}: ${what}`);
+  const res = (ok, msg) => send(me, { t: 'ares', ok: !!ok, msg: String(msg).slice(0, 90) });         // a one-line answer for the panel's status bar
+  const who = c => String(c.name || 'WANDERER').toUpperCase();
   switch (m.c) {
     case 'kick':
-      if (target && target !== me) { log(`kick ${target.name}#${target.id}`); send(target, { t: 'kick' }); setTimeout(() => { try { target.sock.write(Buffer.from([0x88, 0])); target.sock.end(); } catch (e) {} }, 150); }
+      if (target && target !== me) { log(`kick ${target.name}#${target.id}`); res(true, 'KICKED ' + who(target)); send(target, { t: 'kick' }); setTimeout(() => { try { target.sock.write(Buffer.from([0x88, 0])); target.sock.end(); } catch (e) {} }, 150); }
       break;
-    case 'revive': if (target) { log(`revive ${target.name}`); target.player.dead = ''; target.player.safe = 3; send(target, { t: 'revive' }); } break;
-    case 'god': if (target) log(`god ${target.name} -> ${A.god(target.player)}`); break;
-    case 'bring': if (target && target !== me) { log(`bring ${target.name}`); const { x, y } = me.player; Object.assign(target.player, { x, y }); send(target, { t: 'tp', x, y }); } break;
-    case 'goto': if (target && target !== me) { log(`goto ${target.name}`); const { x, y } = target.player; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); } break;
-    case 'freeze': log(`freeze ${!!m.on}`); A.freeze(m.on); break;
-    case 'speed': log(`speed ${m.v}`); A.speed(m.v); break;
-    case 'blackout': log(`blackout ${m.mode}`); A.blackout(m.mode); break;
-    case 'hounds': log(`hound ${m.mode}`); if (m.mode === 'add') A.addHound(); else A.removeHound(); break;
-    case 'smilers': log(`smiler ${m.mode}`); if (m.mode === 'add') A.addSmiler(); else A.removeSmiler(); break;
+    case 'revive': if (target) { log(`revive ${target.name}`); target.player.dead = ''; target.player.safe = 3; A.endPreview(target.player); send(target, { t: 'revive' }); res(true, 'REVIVED ' + who(target)); } break;
+    case 'god': if (target) { const on = A.god(target.player); log(`god ${target.name} -> ${on}`); res(true, 'GOD MODE ' + (on ? 'ON' : 'OFF') + ' · ' + who(target)); } break;
+    case 'bring': if (target && target !== me) { log(`bring ${target.name}`); const { x, y } = me.player; Object.assign(target.player, { x, y }); send(target, { t: 'tp', x, y }); res(true, 'BROUGHT ' + who(target)); } break;
+    case 'goto': if (target && target !== me) { log(`goto ${target.name}`); const { x, y } = target.player; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); res(true, 'WENT TO ' + who(target)); } break;
+    case 'freeze': log(`freeze ${!!m.on}`); A.freeze(m.on); res(true, m.on ? 'WORLD FROZEN' : 'WORLD RUNNING'); break;
+    case 'speed': log(`speed ${m.v}`); A.speed(m.v); res(true, 'WORLD SPEED ×' + A.info().sp); break;
+    case 'blackout': log(`blackout ${m.mode}`); A.blackout(m.mode); res(true, 'LIGHTS: ' + (m.mode === 'on' ? 'BLACKOUT ON' : m.mode === 'off' ? 'BLACKOUT OFF' : 'AUTO')); break;
+    case 'hounds': { log(`hound ${m.mode}`); const add = m.mode === 'add', ok = add ? A.addHound() : A.removeHound(); res(ok, ok ? (add ? 'HOUND ADDED' : 'HOUND REMOVED') : (add ? 'CANNOT ADD: LIMIT OF 3 OR NO SPOT' : 'NO HOUNDS TO REMOVE')); break; }
+    case 'smilers': { log(`smiler ${m.mode}`); const add = m.mode === 'add', ok = add ? A.addSmiler() : A.removeSmiler(); res(ok, ok ? (add ? 'SMILER ADDED' : 'SMILER REMOVED') : (add ? 'CANNOT ADD: LIMIT OF 5 OR NO SPOT' : 'NO SMILERS TO REMOVE')); break; }
     case 'glitch':
       log(`glitch ${m.mode}`);
-      if (m.mode === 'new') A.newGlitches();
-      else { const g = A.nearestGlitch(me.player.x, me.player.y); if (g) { const x = g.x - g.nx * 96, y = g.y - g.ny * 96; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); } }
+      if (m.mode === 'new') { A.newGlitches(); res(true, 'GLITCHED WALLS MOVED'); }
+      else { const g = A.nearestGlitch(me.player.x, me.player.y); if (g) { const x = g.x - g.nx * 96, y = g.y - g.ny * 96; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); res(true, 'AT THE NEAREST GLITCHED WALL'); } }
       break;
     case 'item':
       log(`item ${m.mode}`);
-      if (m.mode === 'new') A.newItem();
-      else { const g = A.nearestItem(me.player.x, me.player.y); if (g) { const x = g.x + 70, y = g.y; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); } }
+      if (m.mode === 'new') { A.newItem(); res(true, 'CARTOGRAPH MOVED'); }
+      else { const g = A.nearestItem(me.player.x, me.player.y); if (g) { const x = g.x + 70, y = g.y; Object.assign(me.player, { x, y }); send(me, { t: 'tp', x, y }); res(true, 'AT THE CARTOGRAPH'); } else res(false, 'THE CARTOGRAPH HAS BEEN TAKEN'); }
       break;
-    case 'monsters': log('reset monsters'); A.resetMonsters(); break;
-    case 'debug': me.dbg = !!m.on; log(`ai debug ${me.dbg}`); break;
-    case 'near': log(`spawn ${m.k} near`); A.addNear(m.k === 'smiler' ? 'smiler' : 'hound', me.player.x, me.player.y); break;
-    case 'summon': log('summon nearest hound'); A.summon(me.player.x, me.player.y, me.player.id); break;
-    case 'world': log('reset world'); A.resetWorld(); for (const c of room.clients.values()) if (c.player.active) send(c, { t: 'tp', x: c.player.x, y: c.player.y }); break;
-    case 'msg': { const text = String(m.text || '').slice(0, 140).trim(); if (text) { log(`broadcast "${text}"`); for (const c of room.clients.values()) send(c, { t: 'msg', text, from: me.name }); } break; }
+    case 'monsters': log('reset monsters'); A.resetMonsters(); res(true, 'MONSTERS RESPAWNED'); break;
+    case 'debug':
+      me.dbg = !!m.on; if (me.dbg) me.dbgSeq = Math.max(0, sim.logSeq - 14); log(`ai debug ${me.dbg}`); break;
+    case 'near': { const k = m.k === 'smiler' ? 'smiler' : 'hound', ok = A.addNear(k, me.player.x, me.player.y); log(`spawn ${k} near`); res(ok, ok ? k.toUpperCase() + ' PLACED NEAR YOU' : 'LIMIT REACHED OR NO SPOT NEARBY'); break; }
+    case 'summon': { const ok = A.summon(me.player.x, me.player.y, me.player.id); log('summon nearest hound'); res(ok, ok ? 'A HOUND IS COMING FOR YOU' : 'NO FREE HOUND TO SUMMON'); break; }
+    case 'preview': {                                                             // DEATHS tab: one chosen death on the admin, through the real kill path
+      const k = m.k === 'smiler' ? 'smiler' : 'hound', v = /^[ABCD]$/.test(m.var) ? m.var : 'A', r = A.previewKill(me.player, k, v);
+      log(`preview death ${k} ${v}: ${r.ok ? 'ok' : r.why}`); res(r.ok, r.ok ? `PLAYING ${k.toUpperCase()} ${v}` : String(r.why).toUpperCase()); break;
+    }
+    case 'capmode': { const cm = A.captureMode(m.mode); log(`capture style ${cm}`); res(true, 'CAPTURE STYLE: ' + (cm === 'quick' ? 'ALWAYS QUICK KILLS' : cm === 'play' ? 'ALWAYS PLAY WITH THE VICTIM' : 'AUTO (THE ENTITY DECIDES)')); break; }
+    case 'entgoto': { const e = A.entityAt(m.eid), s = e && A.spotNear(e.x, e.y); if (s) { Object.assign(me.player, s); send(me, { t: 'tp', x: s.x, y: s.y }); log(`goto entity ${m.eid}`); res(true, 'WENT TO ENTITY #' + (m.eid | 0)); } else res(false, 'NO SUCH ENTITY'); break; }
+    case 'entdel': { const ok = A.removeEntity(m.eid); log(`remove entity ${m.eid}`); res(ok, ok ? 'ENTITY #' + (m.eid | 0) + ' REMOVED' : 'NO SUCH ENTITY'); break; }
+    case 'world': log('reset world'); A.resetWorld(); for (const c of room.clients.values()) if (c.player.active) send(c, { t: 'tp', x: c.player.x, y: c.player.y }); res(true, 'NEW RUN FOR EVERYONE'); break;
+    case 'msg': { const text = String(m.text || '').slice(0, 140).trim(); if (text) { log(`broadcast "${text}"`); for (const c of room.clients.values()) send(c, { t: 'msg', text, from: me.name }); res(true, 'SENT'); } break; }
   }
 }
 
@@ -167,8 +162,8 @@ srv.on('upgrade', (req, sock) => {
       if (!k || !player.active || t - (me.fxAt || 0) < 1500 || (k === 'death' && !player.dead)) return;
       me.fxAt = t; if (k === 'vanish') player.safe = Math.max(player.safe, 4);
       const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
-        v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0, mi: cleanPhysical(m.mi, true),
-        lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep) };
+        v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0,
+        lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep), vx: num(m.vx, -900, 900), vy: num(m.vy, -900, 900), ex: m.ex ? 1 : 0 };
       for (const c of room.clients.values()) if (c !== me) send(c, out);
     }
     else if (m.t === 'pick') { if (player.active && !player.dead) { const it = room.sim.takeItem(player); if (it) send(me, { t: 'got', item: it }); } }
@@ -179,13 +174,16 @@ srv.on('upgrade', (req, sock) => {
       else { if (++f.n >= 5) { f.until = now + 60000; f.n = 0; } fails.set(ip, f); console.log(`[admin] ${me.name}#${id} wrong admin passcode (room ${name})`); send(me, { t: 'admin', ok: false, wait: f.until > now ? 60 : 0 }); }
     }
     else if (m.t === 'a') { if (me.admin) adminCommand(room, me, m); }
+    else if (m.t === 'ping') { const t = Date.now(); if (t - (me.pingAt || 0) > 400) { me.pingAt = t; send(me, { t: 'pong', ts: +m.ts || 0 }); } }
     else if (m.t === 'b') {                 // the finished corpse of a player we already know was caught; one per player
       if (!player.dead && m.c !== 'Vanish') return;
       const n3 = a => [num(a && a[0], 0, 9216), num(a && a[1], 0, 6912), num(a && a[2], -20, 20)];
       room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
         sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
-        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0, ps: cleanPhysical(m.ps) });
+        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0,
+        ph: m.ph && Array.isArray(m.hd) && m.hd.length === 4 ? 1 : 0, hd: Array.isArray(m.hd) && m.hd.length === 4 ? m.hd.map(v => num(v, -80, 80)) : 0, ho: m.ho ? 1 : 0,
+        tr: (Array.isArray(m.tr) ? m.tr : []).slice(0, 24).map(q => [num(q && q[0], 0, 9216), num(q && q[1], 0, 6912)]) });
     }
   }
 
@@ -217,8 +215,9 @@ setInterval(() => {
   for (const room of rooms.values()) {
     const dt = Math.min(0.25, (now - room.last) / 1000); room.last = now;
     room.acc += dt;
-    let n = 0;
+    let n = 0; const h0 = process.hrtime.bigint();
     while (room.acc >= 1 / 60 && n++ < 15) { room.sim.step(1 / 60); room.acc -= 1 / 60; }
+    if (n) { const per = Number(process.hrtime.bigint() - h0) / 1e6 / n; room.pf.ms += (per - room.pf.ms) * .05; room.pf.max = Math.max(per, room.pf.max * .995); }      // milliseconds per 60 Hz step (average / recent worst)
     if (++room.tick % SNAP_EVERY) continue;
 
     const ent = room.sim.entities();
@@ -233,8 +232,15 @@ setInterval(() => {
     const sendAd = room.tick % (SNAP_EVERY * ADMIN_EVERY) === 0;
     const wantDbg = room.tick % (SNAP_EVERY * 3) === 0 && [...room.clients.values()].some(c => c.admin && c.dbg);
     const dbgList = wantDbg ? room.sim.debugInfo() : null;
+    let dbgPerf = null;
+    if (wantDbg) {
+      const st = room.sim.engStats, nowT = Date.now(), dtp = Math.max(.2, (nowT - room.pf.at) / 1000);
+      room.pf.snapB = JSON.stringify({ p: peers, e: ent }).length;
+      dbgPerf = { ms: +room.pf.ms.toFixed(3), mx: +room.pf.max.toFixed(2), kb: +(room.pf.snapB / 1024).toFixed(2), se: Math.round((st.sense - room.pf.sense) / dtp), pa: Math.round((st.paths - room.pf.paths) / dtp), pl: peers.length };
+      room.pf.sense = st.sense; room.pf.paths = st.paths; room.pf.at = nowT;
+    }
     let ad = null;
-    if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0 })) });
+    if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0, st: c.player.st | 0, x: Math.round(c.player.x), y: Math.round(c.player.y) })) });
     const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()] });
     let bm = null;
     for (const c of room.clients.values()) {
@@ -243,7 +249,11 @@ setInterval(() => {
       const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player) };
       if (c.player.dead && c.player.kill) msg.mk = c.player.kill;
       if (c.admin && ad) { msg.ad = ad; msg.you = c.id; }
-      if (c.admin && c.dbg && dbgList) msg.dbg = dbgList;
+      if (c.admin && c.dbg && dbgList) {
+        msg.dbg = dbgList;
+        const lg = room.sim.logSince(c.dbgSeq | 0); if (lg.length) { c.dbgSeq = lg[lg.length - 1].s; }
+        msg.dx = { lg: lg.map(l => [l.s, l.t, l.x]), pf: dbgPerf };                    // event log (only what is new) + server timings
+      }
       send(c, msg);
     }
   }

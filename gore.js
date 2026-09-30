@@ -41,10 +41,10 @@
   /* ---------- cast-off spatter: elongated teardrops with a tail pointing back to the source ---------- */
   function spatterSet(seed, base) {
     const r = rng(seed * 104729 + 7), out = [];
-    for (let i = 0; i < 46; i++) {
+    for (let i = 0; i < 20; i++) {
       const cone = r() < .72 ? (r() - .5) * 1.9 : Math.PI + (r() - .5) * 2.6;      // mostly forward, some back-spray
-      const dist = 9 + Math.pow(r(), 1.7) * 104;
-      out.push({ a: base + cone, d: dist, s: .7 + Math.pow(r(), 2.2) * 3.4, el: 1 + Math.min(4.5, dist / 26) * (.6 + r() * .6), c: r() });
+      const dist = 7 + Math.pow(r(), 1.7) * 56;
+      out.push({ a: base + cone, d: dist, s: .6 + Math.pow(r(), 2.2) * 2.4, el: 1 + Math.min(4.5, dist / 26) * (.6 + r() * .6), c: r() });
     }
     return out;
   }
@@ -74,13 +74,29 @@
     for (let k = 0; k < 4; k++) { const t = .25 + r() * .7; g.ellipse(x0 + dx * t + nx * (r() - .5) * 14, y0 + dy * t + ny * (r() - .5) * 14, 3 + r() * 4, 2 + r() * 3).fill({ color: shade(3, dry), alpha: .55 }); }
   }
 
+  /* ---------- a smear laid down along the path the body really took (dragged bodies leave a trail that bends where they bent) ---------- */
+  function smearPath(g, pts, seed, fresh, upto) {
+    if (!pts || pts.length < 2) return; const dry = 1 - fresh, r = rng(seed * 31 + 5), n = Math.min(pts.length, upto || pts.length);
+    for (let i = 1; i < n; i++) {
+      const a = pts[i - 1], b = pts[i], k = i / n, w = 6 + 8 * Math.sin(Math.min(1, k * 1.3) * Math.PI * .5);
+      g.moveTo(a[0], a[1]).lineTo(b[0], b[1]).stroke({ color: shade(2, dry), width: w * 1.25, alpha: .22, cap: 'round', join: 'round' });
+      g.moveTo(a[0], a[1]).lineTo(b[0], b[1]).stroke({ color: shade(1, dry), width: w * .8, alpha: .28, cap: 'round', join: 'round' });
+    }
+    for (let k = 0; k < 4; k++) {                                                       // a few striations that peel off the main streak
+      const off = (r() - .5) * 9, s0 = Math.floor(r() * n * .4), e0 = Math.min(n - 1, s0 + Math.floor(n * (.4 + r() * .5)));
+      if (e0 - s0 < 2) continue; const first = pts[s0]; g.moveTo(first[0] + off, first[1]);
+      for (let i = s0 + 1; i <= e0; i++) g.lineTo(pts[i][0] + off * (1 + (i - s0) / 12), pts[i][1] - off * .3);
+      g.stroke({ color: shade(k % 3, dry), width: .8 + r() * 1.4, alpha: .22 + r() * .2, cap: 'round' });
+    }
+  }
+
   /* ---------- live death animation (called every frame in place of the old drawBlood) ---------- */
   function fx(g, d, t, floor) {
     g.clear();
     for (const b of d.bursts) {
       const r = t - b.at; if (r < 0) continue;
       const geo = b.geo || (b.geo = { shape: poolShape(b.seed + 1 + (d.kind === 'Smiler' ? 40 : 0)), drops: spatterSet(b.seed + 3, d.angle) });
-      const grow = 1 - Math.pow(1 - clamp(r / 1.3), 3), R = 5 + grow * 14, fresh = 1 - clamp(r / 9);
+      const grow = 1 - Math.pow(1 - clamp(r / 1.6), 3), R = 4 + grow * 7.5, fresh = 1 - clamp(r / 9);
       drawPool(g, b.x, b.y, R, geo.shape, fresh, b.seed, d.direction.x, d.direction.y);
       const sp = clamp(r * 3.4);
       for (const s of geo.drops) {
@@ -88,13 +104,14 @@
         if (!floor(x, y)) continue;
         drop(g, x, y, s.a, s.s * (.6 + .4 * sp), 1 + (s.el - 1) * (r < .3 ? 1 : .55), shade(s.c < .5 ? 1 : 2, 1 - fresh), .9);
       }
-      if (r < .22) for (let k = 0; k < 7; k++) {          // arterial spray: short bright arcs that die fast
-        const a = d.angle + (k - 3) * .32 + Math.sin(b.seed * 5 + k) * .2, l = 30 + (k * 37 + b.seed * 13) % 60, f = r / .22;
+      if (r < .16) for (let k = 0; k < 4; k++) {          // arterial spray: short bright arcs that die fast
+        const a = d.angle + (k - 1.5) * .34 + Math.sin(b.seed * 5 + k) * .2, l = 14 + (k * 37 + b.seed * 13) % 26, f = r / .16;
         g.moveTo(b.x + Math.cos(a) * l * f * .35, b.y + Math.sin(a) * l * f * .35)
           .lineTo(b.x + Math.cos(a) * l * f, b.y + Math.sin(a) * l * f).stroke({ color: 0xa3201a, width: 1.6 * (1 - f) + .6, alpha: .8 * (1 - f), cap: 'round' });
       }
     }
-    if (t > (d.dw ? d.dw[0] : 2.03) && d.bursts.length) { const b = d.bursts[d.bursts.length - 1]; smear(g, b.x, b.y, d.body.x, d.body.y, b.seed + 9, 1 - clamp((t - 2) / 3)); }
+    if (d.ph) { if (d.trail && d.trail.length > 1 && d.bursts.length) smearPath(g, d.trail, d.bursts[0].seed + 9, 1 - clamp((t - 1) / 4)); }
+    else if (t > (d.dw ? d.dw[0] : 2.03) && d.bursts.length) { const b = d.bursts[d.bursts.length - 1]; smear(g, b.x, b.y, d.body.x, d.body.y, b.seed + 9, 1 - clamp((t - 2) / 3)); }
   }
 
   /* ---------- static remains for corpses ---------- */
@@ -105,12 +122,12 @@
       const shape = poolShape(b.seed + 1 + (rec.cause === 'Smiler' ? 40 : 0));
       const spr = spatterSet(b.seed + 3, rec.attackAngle);
       for (const s of spr) { const x = b.x + Math.cos(s.a) * s.d, y = b.y + Math.sin(s.a) * s.d; if (floor(x, y)) drop(g, x, y, s.a, s.s, 1 + (s.el - 1) * .55, shade(s.c < .5 ? 1 : 2, dry), .85); }
-      drawPool(g, b.x, b.y, 17 + (i % 2) * 2, shape, 1 - dry + .12, b.seed, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle));
+      drawPool(g, b.x, b.y, rec.hands ? 9 + (i % 2) * 1.5 : 17 + (i % 2) * 2, shape, 1 - dry + .12, b.seed, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle));
     });
     const last = rec.blood[rec.blood.length - 1];
-    if (last) smear(g, last.x, last.y, rec.x, rec.y, last.seed + 9, .1);
-    // a large settled pool under the torso
-    drawPool(g, rec.x, rec.y, 25, poolShape(hash(String(rec.id)) % 997), .28, 1, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle));
+    if (rec.trail && rec.trail.length > 1) smearPath(g, rec.trail, (last ? last.seed : 1) + 9, .1); else if (last && !rec.hands) smear(g, last.x, last.y, rec.x, rec.y, last.seed + 9, .1);
+    // the pool under the torso (smaller when the body came to rest where it fell: it did not lie in it for long)
+    drawPool(g, rec.x, rec.y, rec.hands ? 15 : 25, poolShape(hash(String(rec.id)) % 997), .28, 1, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle));
   }
 
   /* ---------- wounds drawn ON the avatar (local coords: torso ~ x -14..14, y -14..10) ---------- */
