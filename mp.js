@@ -429,7 +429,7 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
   window.__peerLights = lights;
   if (EN() && N.on) EN().drawDebug(cx, view);                                 // admin-only overlay (the server only sends its data to unlocked admins who switched it on)
   if (hover) {
-    tip.textContent = (hover.o.n || 'WANDERER') + (hover.o.d ? ' · DOWN' : '');
+    tip.textContent = (hover.o.n || 'WANDERER') + (hover.o.d ? ' · DEAD' : '');
     tip.style.left = hover.sx + 'px'; tip.style.top = (hover.sy - 26 * sc) + 'px'; tip.style.display = 'block';
   } else tip.style.display = 'none';
 }
