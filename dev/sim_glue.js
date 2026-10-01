@@ -8,7 +8,7 @@ const RND=AI.mkRng(SIM_SEED);
 var PR=0;const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
 const players=[];
 let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,debugOn=false;
-const MAX_HOUNDS=3,MAX_SMILERS=5,MAX_BODIES=24;
+const MAX_HOUNDS=50,MAX_SMILERS=50,MAX_BODIES=24;
 const rnd=(a,b)=>a+RND()*(b-a);
 const SNn=WORLD.SN;
 const isAlive=p=>p.active&&!p.dead&&!p.exited&&p.safe<=0&&!p.god;
