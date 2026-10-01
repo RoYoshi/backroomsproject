@@ -81,7 +81,7 @@ function drawEntities(cx, view, list, cfg, stale) {
       if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
       if (d.cd) lines.push('decide: ' + Object.entries(d.cd).map(([k, v]) => k + ':' + v).join(' ').slice(0, 60));
       if (d.sm) { const m = d.sm;                                                     // (Part 2D) the canon Smiler: why it is doing this - debug mode only, never in normal play
-        lines.push(`WHY ${m.why || '-'}`, `agitation ${m.ag}${m.agw ? ' (' + m.agw + ')' : ''}  light on it ${m.lit}${m.w ? '  WATCHED BY P' + m.w + ' ' + m.ht + 's' : ''}${m.dw !== null ? '  target kept ' + m.dw + 's' : ''}`);
+        lines.push(`WHY ${m.why || '-'}`, `agitation ${m.ag}${m.agw ? ' (' + m.agw + ')' : ''}  light on it ${m.lit}${m.w ? '  WATCHED BY P' + m.w + ' ' + m.ht + 's' : ''}${m.dw !== null ? '  target kept ' + m.dw + 's' : ''}${m.cl ? '  walked in ' + m.cl + 'px' : ''}`);
         if (m.ab || m.rt) lines.push((m.ab ? 'abandoned: ' + m.ab : '') + (m.rt ? '  switched: ' + m.rt : ''));
         if (sel) lines.push(`patience ${m.pz.pat} curiosity ${m.pz.cur} persistence ${m.pz.per} boldness ${m.pz.bold}  eye contact ${m.ec.map(c => 'P' + c[0] + ' ' + c[1] + 's').join(', ') || '-'}  strikes ${m.st}`); }
       if (d.dec && (cfg.evid || sel)) { const q = d.dec; lines.push(`DECIDE ${q.s}${q.a ? '/' + q.a : ''}: ${q.why || '-'}${q.tq !== null ? '  tgt conf ' + q.tq : ''}`); if (q.rt) lines.push('retarget: ' + q.rt); if (q.lt) lines.push('light: ' + q.lt + (q.fl !== null && q.fl < 5 ? '  (beam in its eyes ' + q.fl + 's ago)' : '')); }

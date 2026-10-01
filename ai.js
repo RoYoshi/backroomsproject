@@ -1505,6 +1505,8 @@ HOUND.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y * 
  *     /hold          sustained eye contact (held, not a one-frame glance): it does not come at the one watching it.  Somebody moving away slowly
  *                    while watching it is let go.  Somebody who just stands there is not: it creeps in and drifts sideways (keep looking or lose it),
  *                    and at close range even small sounds count.  Watching it is counterplay, not a shield.
+ *   (close range)    walking in on it is not covered by the hold (v23.1.2): coming at it raises agitation however hard you stare, and somebody who
+ *                    has walked in to point-blank (< 140 px) and is not backing off is struck.  Its own creep never counts as their advance.
  *   (multiplayer)    a fresh light it observes elsewhere draws it off somebody it is only watching in the dark (once per person in a while), but
  *                    not off somebody holding it with their eyes; the unlit person it left does not pull it back unless it walks right into them.
  *   PROVOKED/chase   a light carrier in view and agitation over its threshold: it chases (canon).  Running is the right answer now; the light going
@@ -1593,6 +1595,11 @@ function watcher(e) { for (const [id, a] of e.att) if (a.t >= EC_ON) return id; 
 function sRadial(eng, e, r, tdt) {
   const P = perc(eng, e, r), d = Math.hypot(P.x - e.x, P.y - e.y);
   if (r.seen && r.dPrev !== undefined && tdt > 0) r.dRate = lerp(r.dRate || 0, (d - r.dPrev) / tdt, .5); else if (!r.seen) r.dRate = 0;
+  // (v23.1.2) close-range pressure: how fast THEY are coming at it (their own velocity toward it, seen), and how far they have walked in on it
+  // lately (decays over ~6 s).  Its own creep never counts - only the person closing the gap.
+  const adv = r.seen && d > 1 ? (P.vx * (e.x - P.x) + P.vy * (e.y - P.y)) / d : 0;
+  r.adv = lerp(r.adv || 0, adv, .5);
+  if (tdt > 0) r.closed = Math.max(0, (r.closed || 0) * Math.exp(-tdt / 6) + (r.seen && adv > 15 ? adv * tdt : 0));
   r.dPrev = d; return { P, d };
 }
 /* ---------------------------------------------------------------- target choice: who it is working on (Smiler-specific commitment, see below) */
@@ -1631,6 +1638,8 @@ function sAgitation(eng, e, tdt, tgt, d) {
   if (e.inv && now - e.inv.t < .5 && (e.inv.c || 0) > .5) { g += .06; why.push('fresh light'); }
   if (tgt && tgt.seen && d < Pm.loom * 1.6) { g += .05; why.push('close'); }
   const w = watcher(e); if (w) { g *= .35; g += .015; why.push('being watched'); }
+  // (v23.1.2) somebody walking in on it: eye contact does not soften this - the gaze holds it back, it does not license coming closer
+  for (const id of e.seenNow) { const r = e.mem.p.get(id); if (!r || (r.adv || 0) < 20) continue; const dd = r.dist || 1e9; if (dd < 450) { g += .12 + .45 * (1 - dd / 450); why.push('approached it'); break; } }
   if (g > 0) e.ag += g * Pm.gain * tdt; else e.ag -= Pm.decay * (e.seenNow.size ? .5 : 1) * tdt;
   e.ag = clamp(e.ag, 0, 1); e.agWhy = why.join(', ');
 }
@@ -1647,12 +1656,27 @@ function sPanic(eng, e) {
   }
   return null;
 }
+/* (v23.1.2) close-range pressure - somebody who walked in on it, to point-blank range.  Gameplay inference, not canon text: the canon way out is
+ * to keep eye contact and move AWAY slowly; closing in on it is the opposite, so it does not get the protection of the hold.  A quiet person who
+ * stays put or backs away is never struck for proximity (amendment 3): its own creep stops at its looming distance and never counts as their
+ * advance; only the distance THEY closed (r.closed, from their own movement) does. */
+const PB = 140;
+function sIntrude(eng, e) {
+  if (e.state === S.PROVOKED || e.state === S.ATTACKING) return null;
+  for (const id of e.seenNow) {
+    const r = e.mem.p.get(id); if (!r || tgtGone(eng, e, r)) continue;
+    const d = r.dist || 1e9; if (d > PB) continue;
+    if ((r.closed || 0) > 40 && (r.adv || 0) > -10) return r;                // walked in on it and still not backing off
+    if (e.ag > .85 && (r.adv || 0) > 15) return r;                             // already wound up: any step toward it, this close
+  }
+  return null;
+}
 /* noise: a loud sound close by (at high agitation, and very close, small ones too) */
 function sNoise(eng, e) {
   const h = e.hear; if (!h || h.t <= e.lastHearT) return null; e.lastHearT = h.t;
   if (h.src < 0) return null;
   const d = Math.hypot(h.x - e.x, h.y - e.y), loud = h.type === 'run' || h.type === 'slide' || h.type === 'vault' || h.type === 'land' || h.I > .5;
-  const small = e.ag > .7 && d < 200 && h.I > .08;
+  const small = e.ag > .7 && ((d < 230 && h.I > .08) || (d < 120 && h.I > .02));     // (v23.1.2: right beside it, even a crouched step)
   if (!((loud && d < 520 + 200 * e.tr.HEARING) || small)) return { weak: true, h, d };
   return { h, d, r: h.src > 0 ? e.mem.p.get(h.src) : null };
 }
@@ -1667,6 +1691,7 @@ function sThink(eng, e) {
   sAgitation(eng, e, tdt, tgt, d);
   // canon triggers first
   const pr = sPanic(eng, e); if (pr) { beginStrike(eng, e, pr, `P${pr.id} retreated fast in front of it (panic)`); return; }
+  const ir = sIntrude(eng, e); if (ir) { const c = Math.round(ir.closed || 0); ir.closed = 0; beginStrike(eng, e, ir, `P${ir.id} walked in on it to point-blank (${Math.round(ir.dist)} px, closed ${c} px)`); return; }
   const nz = sNoise(eng, e);
   if (nz && !nz.weak && e.state !== S.ATTACKING) {
     if (nz.r && nz.r.seen && e.state !== S.PROVOKED && !(now < e.grace && nz.r === tgt)) { beginStrike(eng, e, nz.r, `a loud ${nz.h.type} from P${nz.r.id}, close`); return; }
@@ -1834,7 +1859,7 @@ function smilerTick(eng, e, dt, thinkNow) {
   const res = sMove(eng, e, dt);
   e.dbg.sm = { ag: +e.ag.toFixed(2), agw: e.agWhy, lit: +e.lit.toFixed(2), w: watcher(e), ht: +e.holdT.toFixed(1), why: e.dbg.why, ab: e.dbg.ab, rt: e.dbg.retarget || '',
     pz: { pat: +e.pz.patience.toFixed(2), cur: +e.pz.curiosity.toFixed(2), per: +e.pz.persistence.toFixed(2), bold: +e.pz.bold.toFixed(2) },
-    ec: [...e.att].filter(([, a]) => a.t > 0).map(([id, a]) => [id, +a.t.toFixed(1)]), dw: e.target > 0 ? +(eng.now - (e.tgtSince ?? eng.now)).toFixed(1) : null, st: e.dbg.strikes | 0 };
+    ec: [...e.att].filter(([, a]) => a.t > 0).map(([id, a]) => [id, +a.t.toFixed(1)]), cl: e.target > 0 && e.mem.p.get(e.target) ? Math.round(e.mem.p.get(e.target).closed || 0) : 0, dw: e.target > 0 ? +(eng.now - (e.tgtSince ?? eng.now)).toFixed(1) : null, st: e.dbg.strikes | 0 };
   return res;
 }
 

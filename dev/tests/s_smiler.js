@@ -18,6 +18,7 @@
  *   SM13 (10) state validity over long mixed runs: finite, valid targets and states, legal transitions, never inside walls, never stuck forever
  *   SM14 no teleporting: bounded movement every tick (walked, not jumped)
  *   SM16 multiplayer: a light elsewhere draws it off somebody it only watches in the dark (once); eye contact keeps it
+ *   SM17 close-range pressure (v23.1.2): eye contact does not let you walk up to it; standing still / side-stepping is not punished
  *   SM15 presentation: no limbs drawn; the face's glow has its own channel (not the generic alpha); no aggression UI outside debug */
 'use strict';
 const fs = require('fs'), path = require('path');
@@ -241,15 +242,15 @@ add('SM10 hold is counterplay, not immunity: standing and staring, it creeps in 
     const fixed = Math.atan2(s.y - p.y, s.x - p.x); p.look = fixed; let broke = false; w.run(12, () => { const a = s.att.get(p.id); if (a && a.t === 0) broke = true; }, 1);
     // up close and agitated (eyes back on it): a careful crouched shuffle stays below its hearing (stealth still works); one ordinary walking step
     // sideways - a small sound, not a loud one - is now enough
-    s.ag = Math.max(s.ag, .8); p.look = () => Math.atan2(s.y - p.y, s.x - p.x); let shuffleStruck = false, struck = false, near = false;
-    if (dist(s, p) < 200) { near = true; const side = fixed + Math.PI / 2;
-      p.go(p.x + Math.cos(side) * 60, p.y + Math.sin(side) * 60, 'crouch'); w.run(2.5, () => { if (s.state === 'ATTACKING' || p.caught) shuffleStruck = true; }, 1);
+    s.ag = Math.max(s.ag, .8); p.look = () => Math.atan2(s.y - p.y, s.x - p.x); let shuffleStruck = false, struck = false, near = false, shWhy = '';
+    if (dist(s, p) < 200) { near = true; const side = Math.atan2(s.y - p.y, s.x - p.x) + Math.PI / 2;    // square to where it is now (not toward it)
+      p.go(p.x + Math.cos(side) * 60, p.y + Math.sin(side) * 60, 'crouch'); w.run(2.5, () => { if ((s.state === 'ATTACKING' || p.caught) && !shuffleStruck) { shuffleStruck = true; shWhy = s.dbg.why; } }, 1);
       if (!shuffleStruck) { s.ag = Math.max(s.ag, .8); p.go(p.x - Math.cos(side) * 90, p.y - Math.sin(side) * 90, 'walk'); w.run(2.5, () => { if (s.state === 'ATTACKING' || p.caught) struck = true; }, 1); } }
-    rs.push({ crept: Math.round(crept), drift, withdrew, broke, near, shuffleStruck, struck, close: Math.round(minD) });
+    rs.push({ crept: Math.round(crept), drift, withdrew, broke, near, shuffleStruck, shWhy, struck, close: Math.round(minD) });
   }
   const nr = rs.filter(r => r.near);
   return { ok: rs.length >= 5 && rate(rs, r => r.crept > 150 && !r.withdrew) >= .8 && rate(rs, r => r.drift) >= .7 && rate(rs, r => r.broke) >= .7 && nr.length >= 4 && rate(nr, r => !r.shuffleStruck) >= .75 && rate(nr, r => r.struck) >= .75,
-    note: `${rs.length} stand-offs: it closed in (avg ${avg(rs.map(r => r.crept)) | 0} px, to ${avg(rs.map(r => r.close)) | 0} px) and did not go away while watched ${rs.filter(r => r.crept > 150 && !r.withdrew).length}; drifted sideways ${rs.filter(r => r.drift).length}; a fixed gaze lost it ${rs.filter(r => r.broke).length}; up close (${nr.length}): a crouched shuffle set it off ${nr.filter(r => r.shuffleStruck).length}, then one walking step set it off ${nr.filter(r => r.struck).length}` };
+    note: `${rs.length} stand-offs: it closed in (avg ${avg(rs.map(r => r.crept)) | 0} px, to ${avg(rs.map(r => r.close)) | 0} px) and did not go away while watched ${rs.filter(r => r.crept > 150 && !r.withdrew).length}; drifted sideways ${rs.filter(r => r.drift).length}; a fixed gaze lost it ${rs.filter(r => r.broke).length}; up close (${nr.length}): a crouched shuffle set it off ${nr.filter(r => r.shuffleStruck).length}${nr.some(r => r.shWhy) ? ' ("' + nr.find(r => r.shWhy).shWhy + '")' : ''}, then one walking step set it off ${nr.filter(r => r.struck).length}` };
 });
 
 add('SM11 multiplayer: one watches it in the dark, another walks about with a light - it works on the light, settles (no flicker), and a lit player it has never seen never wins', () => {
@@ -347,6 +348,29 @@ add('SM16 multiplayer: a light elsewhere draws it off somebody it only watches i
   for (let i = 1; i <= 16; i++) { const a = run(i, false); if (a) un.push(a); const h = run(i, true); if (h) held.push(h); }
   return { ok: un.length >= 8 && un.filter(r => r.pulls).length >= 3 && un.every(r => r.pulls <= 1) && held.length >= 6 && held.every(r => r.pulls === 0),
     note: `not watched back (${un.length}): drawn off to the light ${un.filter(r => r.pulls).length}, of which went on to the carrier ${un.filter(r => r.pulls && r.onB).length}; pulled more than once ${un.filter(r => r.pulls > 1).length}; held by eye contact (${held.length}): drawn off ${held.filter(r => r.pulls).length}` };
+});
+
+add('SM17 close-range pressure: holding its eyes does not let you walk up to it - walking, crouching or inching in on it ends in a strike; standing still or backing away does not', () => {
+  const R = {}; const modes = ['walk', 'crouch', 'inch', 'still', 'sidestep'];
+  for (const mode of modes) { R[mode] = [];
+    for (let i = 1; i <= 8; i++) {
+      const A = setup(i, { light: false, face: true, lo: 380, hi: 600, room: true }); if (!A) continue; const { w, p, s } = A;
+      if (w.until(6, () => /hold|creep|drift/.test(s.act)) < 0) continue;
+      let struck = null, minD = 1e9, k = 0;
+      w.run(30, (ww, t) => {
+        const d = dist(s, p), ux = (s.x - p.x) / d, uy = (s.y - p.y) / d; minD = Math.min(minD, d);
+        if (mode === 'walk' || mode === 'crouch') { if (d > 40 && k++ % 20 === 0) p.go(s.x, s.y, mode); }
+        else if (mode === 'inch') { if (k++ % 240 === 0) p.go(p.x + ux * 35, p.y + uy * 35, 'crouch'); }        // 35 px crouched, then a 4 s pause, again and again
+        else if (mode === 'sidestep') { if (k++ % 240 === 0) { const sd = (k / 240) % 2 ? 1 : -1; p.go(p.x - uy * 40 * sd, p.y + ux * 40 * sd, 'crouch'); } }   // re-positioning sideways only
+        if (s.state === 'ATTACKING' && !struck) struck = { d: Math.round(d), why: s.dbg.why };
+        if (p.dead || struck) return false;
+      }, 1);
+      R[mode].push({ struck: !!struck, d: struck ? struck.d : Math.round(minD), why: struck ? struck.why : '' });
+    }
+  }
+  const r = m => R[m].filter(x => x.struck).length, n = m => R[m].length;
+  const ok = modes.every(m => n(m) >= 6) && ['walk', 'crouch', 'inch'].every(m => r(m) / n(m) >= .8) && r('still') === 0 && r('sidestep') === 0 && R.walk.filter(x => x.struck).every(x => x.d >= 90);
+  return { ok, note: `holding eye contact the whole time - walked at it: struck ${r('walk')}/${n('walk')} (at ${avg(R.walk.filter(x => x.struck).map(x => x.d)) | 0} px, "${(R.walk.find(x => x.why) || {}).why}"); crouched at it: ${r('crouch')}/${n('crouch')}; inched in (35 px, 4 s pauses): ${r('inch')}/${n('inch')}; stood still while it crept in: ${r('still')}/${n('still')}; side-stepped only: ${r('sidestep')}/${n('sidestep')}` };
 });
 
 S.helpers = { darkPair, setup, watchRun, litWallSetups };

@@ -85,6 +85,7 @@ node dev/tests/play_server.js 8000 play                                         
 - **SM14** no teleporting
 - **SM15** presentation: no limbs; the face glow is its own channel; no aggression UI outside debug
 - **SM16** multiplayer: a light elsewhere draws it off somebody it only watches (once); eye contact keeps it
+- **SM17** close-range pressure (v23.1.2): walking / crouching / inching in on it while holding its eyes ends in a strike; standing still or side-stepping does not
 
 ### perf_smiler.js / smiler2d_view.py - Part 2 stage 2D
 - `perf_smiler.js`: the server step with the shipped population, a worst-case Smiler population (10 smilers, 8 lit players each facing one, blackout) and evidence contention (10 smilers and 8 lit players with sweeping, snapping beams in one spot). `GAMEDIR=/other/build` compares builds.

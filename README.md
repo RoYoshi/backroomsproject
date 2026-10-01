@@ -522,3 +522,9 @@ Tests: `dev/tests/s_smiler.js` (SM01-SM16), `dev/tests/perf_smiler.js`, `dev/tes
 
 ### v23.1.1 (2D QA)
 - Smiler chase speed 255 px/s (was 232: too easy to outrun). Still below a fresh sprint (285 px/s) and above a winded or deep-carpet sprint (~236): a fresh runner who reacts at once gains only a little ground; getting away takes stamina, routing and breaking line of sight (light off: it loses you).
+
+### v23.1.2 (2D QA) - close-range pressure
+- Eye contact holds the Smiler back; it no longer lets you walk up to it. Coming at it raises its agitation however hard you stare (eye contact does not soften this), and somebody who has walked in on it to point-blank range (< 140 px) and is not backing off is struck. Walking, crouching or inching in all count; only the distance the player closed counts, never the Smiler's own creep.
+- Still safe: standing your ground while it creeps in and drifts, side-stepping to keep it in view, backing away slowly (let go).
+- Right beside it (< 120 px) and agitated, even a crouched step is heard as a trigger; the "small sound up close" radius is 230 px (was 200).
+- Gameplay inference, not canon text: the canon advice is to keep eye contact and move *away* slowly; approaching is the opposite, so it is not protected by the hold. Test: `s_smiler.js` SM17.
