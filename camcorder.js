@@ -14,7 +14,7 @@
                            the torches), plus a little spill at the lens.  Without the sensor nobody sees it: not this
                            player with NV off, not another player without NV, and never the monsters (it is not sent to the
                            AI at all - server.js keeps it on the connection, not on the player the simulation sees).
-     HEAT comes from the emitter: HIGH ~30 s to overheat, LOW ~75 s, emitter OFF none (the sensor alone does not heat).
+     HEAT comes from the emitter: HIGH ~18 s to overheat, LOW ~75 s, emitter OFF none (the sensor alone does not heat).
                            An overheated emitter shuts down (the sensor stays on) until it has cooled to half.
      OVEREXPOSURE          HIGH (and LOW, less) pointed at a surface close to the lens floods the picture: the near
                            image blooms and distant detail washes out, easing in and out.
@@ -48,7 +48,7 @@
     NV_BRIGHTNESS: .95,       // overall night-vision picture gain (CSS brightness)
     // the IR illuminator (v23): range px, core / outer field (rad), strength, heat per second, distance at which a surface starts to flood the sensor
     IR: { 1: { name: 'LOW', range: 340, core: .5, arc: 1.05, power: .72, heat: 100 / 75, bloomR: 80, bloom: .65 },
-          2: { name: 'HIGH', range: 560, core: .5, arc: 1.05, power: .86, heat: 100 / 30, bloomR: 115, bloom: 1 } },
+          2: { name: 'HIGH', range: 560, core: .5, arc: 1.05, power: .86, heat: 100 / 18, bloomR: 115, bloom: 1 } },
     IR_DEFAULT: 1,
     SENSOR_GAIN: 1.45,        // how much the sensor amplifies visible light (lamps) on screen
     SHAKE_BASE: .5, SHAKE_ZOOM: 1.6,
@@ -117,6 +117,7 @@
 body.cam-raised #camFx{display:block;-webkit-backdrop-filter:saturate(.5) contrast(1.06) brightness(1.05);backdrop-filter:saturate(.5) contrast(1.06) brightness(1.05)}
 body.cam-nv #camFx{-webkit-backdrop-filter:grayscale(1) sepia(1) hue-rotate(58deg) saturate(2.4) brightness(var(--b)) contrast(1.18);backdrop-filter:grayscale(1) sepia(1) hue-rotate(58deg) saturate(2.4) brightness(var(--b)) contrast(1.18)}
 body.cam-nv #camFx::before{content:"";position:absolute;inset:0;background:#0aff3a0a;mix-blend-mode:screen}
+body:not(.cam-nv) #camBloom{display:none}
 #camBloom{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;mix-blend-mode:screen;background:radial-gradient(circle at 50% 50%,#eaffe6 0,#c8ffcf66 10%,#a8f0b022 26%,#0000 46%)}
 #camGrain{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;image-rendering:pixelated;display:none;mix-blend-mode:normal}
 body.cam-raised #camGrain{display:block}
@@ -332,13 +333,14 @@ body.cam-kind #touch .camBtn{display:inline-block}
       b.classList.toggle('cam-kind', kind === 'camcorder');
       b.classList.toggle('cam-raised', S.active);
       b.classList.toggle('cam-nv', S.active && nvOn);
+      bloomEl.style.opacity = S.active && nvOn ? (S.bloom * .5).toFixed(3) : '0';      // (lowered / NV off: gone at once, not left over)
+      if (!S.active || !nvOn) S.bloom = 0;
       if (!S.active) { if (S.msgT > 0) { S.msgT = 0; const m = $('camMsg'); m && m.classList.remove('on'); } return; }
       if (S.msgT > 0) { S.msgT -= dt; if (S.msgT <= 0) { const m = $('camMsg'); m && m.classList.remove('on'); } }
       if (S.hint > 0) { S.hint -= dt; const h = $('camHint'); h && h.classList.toggle('on', S.hint > 0); }
       // brightness flicker when unstable
       const flick = nvOn ? (st >= 3 ? .78 + Math.random() * .5 : st === 2 ? .94 + Math.random() * .12 : 1) : 1;
       fx.style.setProperty('--b', (CFG.NV_BRIGHTNESS * flick * (1 + .28 * S.bloom)).toFixed(2));
-      bloomEl.style.opacity = nvOn ? (S.bloom * .5).toFixed(3) : '0';
       this._hud(st, z);
       this._grain(nvOn, st, z);
       // recording tear

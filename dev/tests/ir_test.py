@@ -4,8 +4,8 @@
      R2  it is a beam, not a disc: off to the side and behind the player stays dark (the old NV lit a 640 px circle all round)
      R3  sensor only (emitter OFF) and NV off: no infrared on screen at all
      R4  walls stop it: aimed at a wall, nothing is lit beyond it; readability of a point behind the wall is unchanged
-     R5  heat comes from the emitter: HIGH heats ~2.5x faster than LOW, OFF not at all; an overheated emitter shuts down, the sensor stays on
-     R6  overexposure: HIGH against a wall at the lens floods the sensor (bloom), the open corridor does not
+     R5  heat comes from the emitter: HIGH heats ~4x faster than LOW (~18 s vs ~75 s), OFF not at all; an overheated emitter shuts down, the sensor stays on
+     R6  overexposure: HIGH against a wall at the lens floods the sensor (bloom), the open corridor does not; lowering the camcorder clears it at once
      R7  other players: another camcorder's infrared is visible only through this player's own night-vision sensor
      R8  nothing breaks: no page errors on either client
      R9  a concealing creature's legibility under NV follows the infrared: along the beam, not to the side, not past its range, not with NV off
@@ -75,7 +75,7 @@ async def main():
             R['R3']=not any(lit(off,i) for i in range(1,8)) and off['axis'][5]>=base[5]-10
             # R4: aim at a wall close by - nothing beyond it gets lit, and readability behind it does not change
             wall=await A.evaluate("""()=>{ const A=__api; for(let y=1000;y<6400;y+=48) for(let x=1200;x<8400;x+=48){ if(!A.sl(x,y,26)) continue; for(let k=0;k<8;k++){ const a=k*Math.PI/4, d=A.Uc(x,y,a,400); if(d>90&&d<160){ const bx=x+Math.cos(a)*(d+90), by=y+Math.sin(a)*(d+90); return {x,y,a,d,bx,by} } } } return null }""")
-            await setir(A,2); await A.evaluate(AIM,[wall['x'],wall['y'],wall['a']]); await A.wait_for_timeout(900)
+            await setir(A,2); await A.evaluate(AIM,[wall['x'],wall['y'],wall['a']]); await A.wait_for_timeout(900); await frames(A,8)
             rd_on=await A.evaluate("([x,y])=>__light.readability(x,y,__api.lightOn())",[wall['bx'],wall['by']])
             ir_beyond=await A.evaluate("([x,y])=>__cam.irAt(x,y)",[wall['bx'],wall['by']]); ir_front=await A.evaluate("([x,y,a,d])=>__cam.irAt(x+Math.cos(a)*(d-30),y+Math.sin(a)*(d-30))",[wall['x'],wall['y'],wall['a'],wall['d']])
             await setir(A,0); await A.wait_for_timeout(400); rd_off=await A.evaluate("([x,y])=>__light.readability(x,y,__api.lightOn())",[wall['bx'],wall['by']])
@@ -85,8 +85,13 @@ async def main():
             await setir(A,2); await A.evaluate(AIM,[wall['x']+__import__('math').cos(wall['a'])*(wall['d']-45),wall['y']+__import__('math').sin(wall['a'])*(wall['d']-45),wall['a']]); await waitGame(A,1.5)
             bl_wall=await A.evaluate("()=>__cam.bloom")
             await A.screenshot(path=os.path.join(OUT,'ir_overexposed.png'))
+            # ...and lowering the camcorder right there clears it at once (v23.0.1: it used to stay on screen)
+            await A.keyboard.press('KeyF'); await frames(A,3)
+            gone=await A.evaluate("()=>{const e=document.getElementById('camBloom'); const cs=getComputedStyle(e); return cs.display==='none'||+cs.opacity===0}")
+            await A.keyboard.press('KeyF'); await frames(A,3)
+            R['bloom cleared on lowering']=gone
             await A.evaluate(AIM,[4000,LY,0]); await waitGame(A,3); bl_open=await A.evaluate("()=>__cam.bloom")
-            R['bloom']={'45 px from a wall':round(bl_wall,2),'open corridor':round(bl_open,2)}; R['R6']=bl_wall>.5 and bl_open<.05
+            R['bloom']={'45 px from a wall':round(bl_wall,2),'open corridor':round(bl_open,2)}; R['R6']=bl_wall>.5 and bl_open<.05 and R['bloom cleared on lowering']
             await A.screenshot(path=os.path.join(OUT,'ir_high_corridor.png'))
             # R5 heat (the game's own clock: run each setting 4 s)
             heat={}
@@ -95,7 +100,7 @@ async def main():
             await A.evaluate("()=>{__cam.S.ir=2; __cam.S.heat=99.5; __cam.S.locked=false}"); await waitGame(A,.7)
             lock=await A.evaluate("()=>({locked:__cam.S.locked, ir:__cam.ir, nv:__cam.nv, hud:(document.getElementById('camNv')||{}).textContent})")
             R['heat per s']=heat; R['overheat']=lock
-            R['R5']=heat['HIGH']>2.5 and 1.0<heat['LOW']<1.8 and heat['OFF']<=0 and heat['HIGH']/max(.01,heat['LOW'])>2 and lock['locked'] and lock['ir']==0 and lock['nv']
+            R['R5']=heat['HIGH']>4.5 and 1.0<heat['LOW']<1.8 and heat['OFF']<=0 and heat['HIGH']/max(.01,heat['LOW'])>2 and lock['locked'] and lock['ir']==0 and lock['nv']
             await A.evaluate("()=>{__cam.S.heat=0; __cam.S.locked=false; __cam.S.ir=2}")
             # R7 peers: B stands behind A in the same corridor; A's HIGH beam goes east.  B: torch off -> no infrared; B camcorder NV (own emitter off) -> A's beam shows
             B=await page('B')
