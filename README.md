@@ -482,3 +482,18 @@ The law of Part 2: **the server may know the truth; an entity acts only on evide
 8. **Debug** (admin only, DEBUG tab -> EVIDENCE + LEADS): leads as dashed uncertainty rings by type, the investigation goal, evidence diamonds on its record, and in the label: the decision with its stated reason, any retarget, the last light it noticed, eye contact, and (selected entity) its traits.
 
 Tests: `dev/tests/s_evidence.js` (E1-E10) and `dev/tests/perf_light.js` (8 lit players around every near-tier monster). Known items unchanged: admin T8, live.js L5b (stochastic). Sound attribution: hearing still tells one player's footsteps from another's, as in Part 1 - a 2F item (multiplayer: conflicting evidence).
+
+## v23.0 (Part 2, stage 2C-IR) - night vision as active infrared
+
+The camcorder's night vision is now a **sensor** plus an **IR illuminator**, not an infinite green filter.
+
+1. **The illuminator** (`camcorder.js`, drawn by the bundle's own wall-clipped light fan): a directional infrared beam with a strong core (~0.5 rad) and a weaker outer field (~1.05 rad), a smooth fall-off to nothing at its range, stopped by walls (through a doorway it carries on), plus a little spill at the lens. The old 640 px circle all round the player is gone.
+   - **B** cycles the emitter: OFF / LOW (~340 px) / HIGH (~560 px). LOW is the default. Touch: the IR button.
+   - **N** is the sensor. With the emitter OFF it still amplifies visible light (lamps) but lights nothing itself.
+2. **Heat comes from the emitter**: HIGH overheats in ~30 s, LOW in ~75 s, emitter OFF (sensor only) not at all and the camera cools. An overheated **emitter** shuts down for at least 9 s and until it has cooled to half; the sensor stays on (HUD: IR HOT). No batteries - heat is the only resource. The grain / flicker / shake stages still follow the heat; the whine only while the emitter runs.
+3. **Overexposure**: the emitter's core on a surface close to the lens (HIGH ~115 px, LOW ~80 px, weaker) floods the sensor - the near picture blooms and distant detail washes out. It eases in (~0.16 s) and out (~0.45 s), so sweeping past a pillar is a flash, not a strobe.
+4. **Legibility follows the light**: under NV a creature that conceals itself (the Smiler) is legible where visible light or infrared actually reaches it - along the beam, within its range, not round a corner - instead of everywhere within 640 px. `__light.sample()` reports infrared (`ir`) only while the local sensor is on.
+5. **Infrared is visible only through a night-vision sensor**: without NV it is not drawn at all; another player's camcorder beam is drawn only while this player's own NV is on.
+6. **Outside the AI by construction**: the client sends the emitter level (`ir`); `server.js` keeps it on the connection (`me.ir`), never on the player object the simulation and AI receive, and relays it to the other clients for their sensors. Only a raised camcorder can carry it (clamped 0-2). ai.js / sim.js do not name it. A raised camcorder emits no visible light (2C).
+
+Tests: `dev/tests/s_ir.js` (I1-I3: no infrared in the simulation; OFF vs HIGH -> identical AI decisions tick by tick; a raised camcorder is no light), `dev/tests/ir_net.js` (N1-N4, real server), `dev/tests/ir_test.py` (R1-R9 in a browser: range profile, beam not disc, sensor-only / NV off, walls, heat, overexposure, peers, legibility). Not changed: lighting of torches / lamps, the Hounds, the Smilers, movement, deaths.

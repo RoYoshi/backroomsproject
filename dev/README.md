@@ -113,6 +113,13 @@ node dev/tests/play_server.js 8000 play                                         
 - **E9** target commitment: no switch inside the 1.5 s dwell unless the prey is truly lost
 - **E10** bounded and finite: leads <= 6, evidence <= 4 per record, finite numbers, confidences in [0,1], valid states
 
+### s_ir.js / ir_net.js / ir_test.py - Part 2 stage 2C-IR: infrared
+- **I1** ai.js / sim.js never name infrared; server.js keeps it on the connection, not the player
+- **I2** OFF vs HIGH on every camcorder (and on the player objects under every client name, as if leaked): identical AI decisions, tick by tick
+- **I3** a raised camcorder is no visible light to the AI
+- **N1-N4** (real server) the level reaches other players; only a raised camcorder carries it, clamped; still shown raised; no errors
+- **R1-R9** (browser, measured on the darkness layer) HIGH / LOW range profile; a beam not a disc; sensor-only and NV off show no infrared; walls stop it; heat per emitter level and the emitter-only lockout; overexposure near a wall; peers only through one's own NV; legibility follows the beam
+
 ### perf_light.js - worst case for light evidence
 8 players with visible lights (torch / headlamp / lantern), beams sweeping round the monsters and snapping on and off, every monster in the near tier. Guardrail: average < 0.25 ms and p99 < 2 ms per 1/60 s step. `GAMEDIR=/other/build node perf_light.js` runs the same load on another build for comparison.
 

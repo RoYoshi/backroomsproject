@@ -8,6 +8,7 @@
  *        torch    the local player's own light (flashlight / headlamp / lantern / camcorder), occluded by walls
  *        peers    the strongest light carried by another wanderer (from mp.js's __peerLights), occluded by walls
  *        direct   max(lamp, torch, peers)
+ *        ir       infrared reaching the point (own camcorder + other camcorders) - only while THIS player's night vision is on, else 0 (v23)
  *        total    ambient + direct, clamped 0..1       dark = 1 - total
  *        dirX/Y   unit vector FROM the point TOWARD the dominant light (0,0 if unlit) - for later self-shading / cast shadows
  *        flicker  0..1 flicker factor of the dominant lamp (1 = steady)
@@ -24,7 +25,7 @@
   const AMBIENT = .05;
   const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
   const ss = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
-  const mk = () => ({ ambient: AMBIENT, lamp: 0, torch: 0, peers: 0, direct: 0, total: AMBIENT, dark: 1 - AMBIENT, dirX: 0, dirY: 0, flicker: 1, blackout: false });
+  const mk = () => ({ ambient: AMBIENT, lamp: 0, torch: 0, peers: 0, ir: 0, direct: 0, total: AMBIENT, dark: 1 - AMBIENT, dirX: 0, dirY: 0, flicker: 1, blackout: false });
   const SHARED = mk();
   const TMP = { x: 0, y: 0, angle: 0, equipment: { kind: 'flashlight' } };          // reused: no per-call allocation
   const API = () => window.__api;
@@ -64,7 +65,8 @@
       if (v > best) { best = v; bx = p.x - x; by = p.y - y; o.flicker = 1; }
     }
     o.direct = Math.max(o.lamp, o.torch, o.peers);
-    o.total = clamp(o.ambient + o.direct * 1.6, 0, 1);            // (the lamp/torch scales top out around .43-.8: 1.6 maps "well lit" to about 1)
+    const C = window.__cam; o.ir = C && C.nv ? C.irAt(x, y) : 0;          // (v23) infrared counts only through this player's own night-vision sensor
+    o.total = clamp(o.ambient + Math.max(o.direct, o.ir) * 1.6, 0, 1);            // (the lamp/torch scales top out around .43-.8: 1.6 maps "well lit" to about 1)
     o.dark = 1 - o.total;
     const bl = Math.hypot(bx, by); if (best > 0 && bl > 1e-6) { o.dirX = bx / bl; o.dirY = by / bl; }
     return o;

@@ -7,11 +7,23 @@
    already being rendered (the bundle punches the NV hole inside the LOS clip). Nothing here ever
    touches visibility of things behind walls, and zoom never extends line of sight.
 
+   v23 (Part 2, stage 2C-IR) - ACTIVE INFRARED.  Night vision is two parts:
+     the SENSOR (N)        sees what is lit: it amplifies visible light (lamps) and shows infrared.
+     the IR ILLUMINATOR    (B: OFF / LOW / HIGH) a real directional light in the infrared - a strong core and a weaker
+                           outer field, finite range with a smooth fall-off, stopped by walls (the same wall-clipped fan as
+                           the torches), plus a little spill at the lens.  Without the sensor nobody sees it: not this
+                           player with NV off, not another player without NV, and never the monsters (it is not sent to the
+                           AI at all - server.js keeps it on the connection, not on the player the simulation sees).
+     HEAT comes from the emitter: HIGH ~30 s to overheat, LOW ~75 s, emitter OFF none (the sensor alone does not heat).
+                           An overheated emitter shuts down (the sensor stays on) until it has cooled to half.
+     OVEREXPOSURE          HIGH (and LOW, less) pointed at a surface close to the lens floods the picture: the near
+                           image blooms and distant detail washes out, easing in and out.
+
    ---------------------------------------------------------------------------------------------
    BALANCE  – every number is in CFG below (also live-editable from the console: __cam.CFG.X = …)
    ---------------------------------------------------------------------------------------------
    NV_MAX_HEAT              heat at which the NV sensor shuts down
-   NV_HEAT_RATE             heat gained per second while NV is on          (100/35 ≈ 35 s continuous)
+   NV_HEAT_RATE             (v23: unused - heat now comes from the IR emitter, IR[n].heat below)
    NV_COOL_RATE             heat lost per second while NV is off / locked  (100/5  =  20 s full cool)
    NV_REENABLE_THRESHOLD    heat that must be reached before NV comes back (after the lockout)
    NV_OVERHEAT_LOCKOUT      minimum seconds NV stays dead after a shutdown
@@ -34,11 +46,16 @@
     STAGE_UNSTABLE: .9,
     GRAIN_CLEAN: .05, GRAIN_SLIGHT: .12, GRAIN_NOISY: .22, GRAIN_UNSTABLE: .34,
     NV_BRIGHTNESS: .95,       // overall night-vision picture gain (CSS brightness)
+    // the IR illuminator (v23): range px, core / outer field (rad), strength, heat per second, distance at which a surface starts to flood the sensor
+    IR: { 1: { name: 'LOW', range: 340, core: .5, arc: 1.05, power: .72, heat: 100 / 75, bloomR: 80, bloom: .65 },
+          2: { name: 'HIGH', range: 560, core: .5, arc: 1.05, power: .86, heat: 100 / 30, bloomR: 115, bloom: 1 } },
+    IR_DEFAULT: 1,
+    SENSOR_GAIN: 1.45,        // how much the sensor amplifies visible light (lamps) on screen
     SHAKE_BASE: .5, SHAKE_ZOOM: 1.6,
   };
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const S = {
-    kind: 'flashlight', active: false, nvOn: true, heat: 0, locked: false, lockT: 0,
+    kind: 'flashlight', active: false, nvOn: true, ir: 1, bloom: 0, heat: 0, locked: false, lockT: 0,
     zoomIdx: 0, zoomCur: 1, rec: 0, dt: 0, t: 0,
     shakeAmp: 0, interfere: 0, stat: 0, glitchT: 0, hint: 0, hints: 0,
     msg: '', msgT: 0, wasActive: false, lastWheel: 0, whine: null,
@@ -100,6 +117,7 @@
 body.cam-raised #camFx{display:block;-webkit-backdrop-filter:saturate(.5) contrast(1.06) brightness(1.05);backdrop-filter:saturate(.5) contrast(1.06) brightness(1.05)}
 body.cam-nv #camFx{-webkit-backdrop-filter:grayscale(1) sepia(1) hue-rotate(58deg) saturate(2.4) brightness(var(--b)) contrast(1.18);backdrop-filter:grayscale(1) sepia(1) hue-rotate(58deg) saturate(2.4) brightness(var(--b)) contrast(1.18)}
 body.cam-nv #camFx::before{content:"";position:absolute;inset:0;background:#0aff3a0a;mix-blend-mode:screen}
+#camBloom{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:0;mix-blend-mode:screen;background:radial-gradient(circle at 50% 50%,#eaffe6 0,#c8ffcf66 10%,#a8f0b022 26%,#0000 46%)}
 #camGrain{position:fixed;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;image-rendering:pixelated;display:none;mix-blend-mode:normal}
 body.cam-raised #camGrain{display:block}
 #camTear{position:fixed;left:0;right:0;z-index:4;pointer-events:none;display:none;height:14px;background:#b9ffc633;-webkit-backdrop-filter:brightness(1.7) contrast(1.4);backdrop-filter:brightness(1.7) contrast(1.4)}
@@ -131,15 +149,16 @@ body.cam-kind #touch .camBtn{display:inline-block}
   const fx = document.createElement('div'); fx.id = 'camFx';
   const grain = document.createElement('canvas'); grain.id = 'camGrain'; grain.width = 200; grain.height = 112;
   const tear = document.createElement('div'); tear.id = 'camTear';
+  const bloomEl = document.createElement('div'); bloomEl.id = 'camBloom';
   const hud = document.createElement('div'); hud.id = 'camHud';
-  hud.innerHTML = '<div class="rec"><i>●</i>REC <span id="camRec">00:00</span></div><div class="side"><div class="nv" id="camNv">NV ON</div><div id="camZoom">ZOOM 1.0x</div><div class="temp" id="camTemp">TEMP <b>▯▯▯▯▯</b></div></div><div class="msg" id="camMsg"></div><div class="hint" id="camHint">N · NIGHT VISION &nbsp;&nbsp; WHEEL · ZOOM &nbsp;&nbsp; F · LOWER</div>';
+  hud.innerHTML = '<div class="rec"><i>●</i>REC <span id="camRec">00:00</span></div><div class="side"><div class="nv" id="camNv">NV ON</div><div id="camZoom">ZOOM 1.0x</div><div class="temp" id="camTemp">TEMP <b>▯▯▯▯▯</b></div></div><div class="msg" id="camMsg"></div><div class="hint" id="camHint">N · NIGHT VISION &nbsp;&nbsp; B · IR POWER &nbsp;&nbsp; WHEEL · ZOOM &nbsp;&nbsp; F · LOWER</div>';
   const mount = () => {
     if (!document.body) return false;
-    document.body.append(fx, grain, tear, hud);
+    document.body.append(fx, bloomEl, grain, tear, hud);
     const touch = document.getElementById('touch');
     if (touch) {
       const mk = (id, txt, fn) => { const b = document.createElement('button'); b.id = id; b.className = 'camBtn'; b.textContent = txt; b.addEventListener('click', fn); touch.appendChild(b); };
-      mk('touchNV', 'NV', () => api.toggleNV()); mk('touchZoom', 'ZOOM', () => api.cycleZoom());
+      mk('touchNV', 'NV', () => api.toggleNV()); mk('touchIR', 'IR', () => api.cycleIR()); mk('touchZoom', 'ZOOM', () => api.cycleZoom());
     }
     return true;
   };
@@ -151,7 +170,33 @@ body.cam-kind #touch .camBtn{display:inline-block}
   const frac = () => S.heat / CFG.NV_MAX_HEAT;
   const stage = () => { const f = frac(); return f >= 1 ? 4 : f >= CFG.STAGE_UNSTABLE ? 3 : f >= CFG.STAGE_NOISY ? 2 : f >= CFG.STAGE_SLIGHT ? 1 : 0; };
   const raised = () => S.active;
-  const nvNow = () => S.active && S.nvOn && !S.locked;
+  const nvNow = () => S.active && S.nvOn;                            // the sensor (v23: overheating shuts the emitter, not the sensor)
+  const irNow = () => nvNow() && !S.locked ? S.ir : 0;               // the emitter: 0 off / 1 low / 2 high
+  const angDiff = (a, b) => { let d = a - b; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; };
+  const ss = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+  /* infrared reaching (x,y) from an illuminator at src {x,y,angle} at power level lvl: 0..1, 0 behind a wall */
+  function irFrom(src, lvl, x, y) {
+    const P = CFG.IR[lvl], A = window.__api; if (!P || !src || !A || !A.Uc) return 0;
+    const dx = x - src.x, dy = y - src.y, d = Math.hypot(dx, dy);
+    let v = (1 - ss(20, 70, d)) * .3;                                   // spill at the lens
+    if (d < P.range) {
+      const da = Math.abs(angDiff(Math.atan2(dy, dx), src.angle || 0));
+      if (da < P.arc / 2) {
+        const wa = da < P.core / 2 ? 1 : .45 * (1 - ss(P.core / 2, P.arc / 2, da)), u = d / P.range;
+        const wr = u < .25 ? 1 - .17 * u / .25 : u < .7 ? .83 - .55 * (u - .25) / .45 : .28 * (1 - (u - .7) / .3);
+        v = Math.max(v, P.power * wa * wr);
+      }
+    }
+    if (v <= 0) return 0;
+    if (d > 2 && A.Uc(src.x, src.y, Math.atan2(dy, dx), d + 1) < d - .5) return 0;
+    return v;
+  }
+  /* the fan, drawn with the bundle's own wall-clipped light fan (mk) as cut-outs of the darkness: stacked, so the core is strongest */
+  function drawFan(mk, src, lvl) {
+    const P = CFG.IR[lvl]; if (!P) return; const f = mk(src, 0, 0, 0), n = 6, a1 = 1 - (1 - P.power) ** (1 / n);
+    for (let k = 0; k < n; k++) f(src.angle || 0, P.arc - (P.arc - P.core) * k / (n - 1), P.range * (.82 + .18 * k / (n - 1)), a1);
+    f(0, Math.PI * 2, 70, .3);
+  }
   function say(text, ok, ms) { S.msg = text; S.msgT = ms || 2.2; const m = $('camMsg'); if (m) { m.textContent = text; m.classList.toggle('ok', !!ok); m.classList.add('on'); } }
   function playing() {
     const h = id => { const e = $(id); return !e || e.hidden || getComputedStyle(e).display === 'none'; };
@@ -165,6 +210,32 @@ body.cam-kind #touch .camBtn{display:inline-block}
   const api = window.__cam = {
     CFG, S,
     get nv() { return nvNow(); },
+    get ir() { return irNow(); },                                    // the local emitter right now
+    get irSel() { return S.ir; },
+    get irNet() { return irNow(); },                                 // what other players' sensors may see (mp.js sends it; presentation only)
+    get bloom() { return S.bloom; },
+    irFrom,
+    /* infrared at a point from this player's emitter and every other camcorder's (only meaningful while this sensor is on) */
+    irAt(x, y) {
+      if (!nvNow()) return 0; let v = 0; const A = window.__api;
+      const L = irNow(); if (L && A && A.beam) { const b = A.beam() || A.H; if (b) v = irFrom({ x: b.x, y: b.y, angle: b.angle ?? A.H.angle }, L, x, y); }
+      const P = window.__peerLights; if (P) for (const p of P) if (p.ir > 0 && !p.dead) v = Math.max(v, irFrom(p, p.ir, x, y));
+      return v;
+    },
+    /* the bundle's readability under NV: visible light amplified by the sensor, infrared where it really falls, distant detail washed out by a flooded sensor */
+    nvRead(x, y, a, dist) {
+      let v = Math.max(Math.min(.9, a * CFG.SENSOR_GAIN), this.irAt(x, y));
+      if (S.bloom > .01) v *= 1 - .7 * S.bloom * ss(120, 300, dist);
+      return v;
+    },
+    irDraw(mk, src) { if (irNow()) drawFan(mk, src, irNow()); },
+    peerIR(mk, p) { if (nvNow() && p.ir > 0 && !p.dead) drawFan(mk, { x: p.x, y: p.y, angle: p.angle }, p.ir); },
+    lampGain() { return nvNow() ? CFG.SENSOR_GAIN : 1; },
+    cycleIR() {
+      if (!S.active || !playing()) return;
+      S.ir = (S.ir + 1) % 3; snd.click(S.ir > 0);
+      if (S.locked && S.ir) say('IR EMITTER OVERHEATED', false, 1.4); else say('IR ' + (S.ir ? CFG.IR[S.ir].name : 'OFF'), true, 1);
+    },
     get raised() { return raised(); },
     get zoomCur() { return S.zoomCur; },
     get heat() { return S.heat; },
@@ -196,7 +267,7 @@ body.cam-kind #touch .camBtn{display:inline-block}
       else if (kind === 'headlamp') snd.soft(on);
       else snd.click(on);
     },
-    reset() { S.heat = 0; S.locked = false; S.lockT = 0; S.nvOn = true; S.zoomIdx = 0; S.interfere = S.stat = 0; S.rec = 0; },
+    reset() { S.heat = 0; S.locked = false; S.lockT = 0; S.nvOn = true; S.ir = CFG.IR_DEFAULT; S.bloom = 0; S.zoomIdx = 0; S.interfere = S.stat = 0; S.rec = 0; },
 
     toggleNV() {
       if (S.kind !== 'camcorder' || !playing()) return;
@@ -204,8 +275,8 @@ body.cam-kind #touch .camBtn{display:inline-block}
         S.nvOn = true; window.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyF', key: 'f' })); window.dispatchEvent(new KeyboardEvent('keyup', { code: 'KeyF', key: 'f' })); return;
       }
       S.nvOn = !S.nvOn;
-      if (S.locked) { if (S.nvOn) { snd.deny(); say('NV SENSOR OVERHEATED', false, 1.6); } else snd.nvOff(); return; }
       S.nvOn ? snd.nvOn() : snd.nvOff();
+      if (S.nvOn && S.locked && S.ir) say('IR EMITTER OVERHEATED', false, 1.6);
     },
     cycleZoom() {
       if (!S.active || !playing()) return;
@@ -223,18 +294,23 @@ body.cam-kind #touch .camBtn{display:inline-block}
       if (was && !S.active) S.zoomIdx = 0;
       const nvOn = nvNow(), z = CFG.ZOOM_LEVELS[S.zoomIdx] || 1;
 
-      // --- heat model ---
+      // --- heat model (v23): the IR emitter makes the heat, by its power; the sensor alone does not ---
+      const ir = irNow();
       if (dt > 0) {
-        if (nvOn) {
-          S.heat += CFG.NV_HEAT_RATE * (CFG.ZOOM_HEAT_MULT[S.zoomIdx] || 1) * dt;
-          if (S.heat >= CFG.NV_MAX_HEAT) { S.heat = CFG.NV_MAX_HEAT; S.locked = true; S.lockT = CFG.NV_OVERHEAT_LOCKOUT; snd.shutdown(); say('NV SENSOR OVERHEATED', false, 3.2); glitchBurst(.45); }
+        if (ir) {
+          S.heat += CFG.IR[ir].heat * (CFG.ZOOM_HEAT_MULT[S.zoomIdx] || 1) * dt;
+          if (S.heat >= CFG.NV_MAX_HEAT) { S.heat = CFG.NV_MAX_HEAT; S.locked = true; S.lockT = CFG.NV_OVERHEAT_LOCKOUT; snd.shutdown(); say('IR EMITTER OVERHEATED', false, 3.2); glitchBurst(.45); }
         } else {
           S.heat = Math.max(0, S.heat - CFG.NV_COOL_RATE * dt);
         }
         if (S.locked) {
           S.lockT -= dt;
-          if (S.lockT <= 0 && S.heat <= CFG.NV_REENABLE_THRESHOLD) { S.locked = false; if (S.active && S.nvOn) { snd.ready(); say('NV ONLINE', true, 1.6); } }
+          if (S.lockT <= 0 && S.heat <= CFG.NV_REENABLE_THRESHOLD) { S.locked = false; if (S.active && S.nvOn && S.ir) { snd.ready(); say('IR ONLINE', true, 1.6); } }
         }
+        // overexposure: the emitter's core hitting a surface close to the lens floods the sensor (eased, so a sweep past a pillar is a flash, not a strobe)
+        let tgt = 0; const IRc = CFG.IR[irNow()], A0 = window.__api;
+        if (IRc && A0 && A0.Uc && A0.beam) { const b = A0.beam() || A0.H; if (b) { const d0 = A0.Uc(b.x, b.y, b.angle ?? A0.H.angle, IRc.bloomR + 5); tgt = clamp((IRc.bloomR - d0) / (IRc.bloomR - 22), 0, 1) * IRc.bloom; } }
+        S.bloom += (tgt - S.bloom) * (1 - Math.exp(-dt / (tgt > S.bloom ? .16 : .45)));
       }
       const st = stage(), f = frac();
 
@@ -249,7 +325,7 @@ body.cam-kind #touch .camBtn{display:inline-block}
       if (S.active) S.rec += dt;
 
       // --- audio warning: whine past the noisy stage while NV is drawing heat ---
-      whine(nvOn && st >= 2 ? clamp((f - CFG.STAGE_NOISY) / (1 - CFG.STAGE_NOISY), .05, 1) : 0);
+      whine(irNow() && st >= 2 ? clamp((f - CFG.STAGE_NOISY) / (1 - CFG.STAGE_NOISY), .05, 1) : 0);
 
       // --- DOM state ---
       const b = document.body; if (!b) return;
@@ -261,7 +337,8 @@ body.cam-kind #touch .camBtn{display:inline-block}
       if (S.hint > 0) { S.hint -= dt; const h = $('camHint'); h && h.classList.toggle('on', S.hint > 0); }
       // brightness flicker when unstable
       const flick = nvOn ? (st >= 3 ? .78 + Math.random() * .5 : st === 2 ? .94 + Math.random() * .12 : 1) : 1;
-      fx.style.setProperty('--b', (CFG.NV_BRIGHTNESS * flick).toFixed(2));
+      fx.style.setProperty('--b', (CFG.NV_BRIGHTNESS * flick * (1 + .28 * S.bloom)).toFixed(2));
+      bloomEl.style.opacity = nvOn ? (S.bloom * .5).toFixed(3) : '0';
       this._hud(st, z);
       this._grain(nvOn, st, z);
       // recording tear
@@ -273,8 +350,8 @@ body.cam-kind #touch .camBtn{display:inline-block}
       const set = (id, txt) => { const e = $(id); if (e && e.textContent !== txt) e.textContent = txt; };
       set('camRec', rec); set('camZoom', 'ZOOM ' + z.toFixed(1) + 'x');
       const nv = $('camNv'); if (nv) {
-        const txt = S.locked && S.nvOn ? 'NV LOCKED' : S.nvOn ? 'NV ON' : 'NV OFF';
-        if (nv.textContent !== txt) nv.textContent = txt; nv.classList.toggle('off', !S.nvOn); nv.classList.toggle('lock', S.locked && S.nvOn);
+        const txt = !S.nvOn ? 'NV OFF' : 'NV ON · IR ' + (!S.ir ? 'OFF' : S.locked ? 'HOT' : CFG.IR[S.ir].name);
+        if (nv.textContent !== txt) nv.textContent = txt; nv.classList.toggle('off', !S.nvOn); nv.classList.toggle('lock', S.locked && S.nvOn && !!S.ir);
       }
       const seg = frac() <= 0 ? 0 : Math.min(5, Math.ceil(frac() * 5 - 1e-6)), bar = '▮'.repeat(seg) + '▯'.repeat(5 - seg);
       const tp = $('camTemp'); if (tp) { const bb = tp.firstElementChild; if (bb && bb.textContent !== bar) bb.textContent = bar; tp.classList.toggle('warn', seg >= 4 && seg < 5 || (seg === 5 && !S.locked)); tp.classList.toggle('hot', S.locked); }
@@ -304,6 +381,7 @@ body.cam-kind #touch .camBtn{display:inline-block}
     if (e.repeat || typing(e) || S.kind !== 'camcorder' || !playing()) return;
     if (e.code === 'KeyN') { api.toggleNV(); }
     else if (e.code === 'KeyZ' && S.active) api.cycleZoom();
+    else if (e.code === 'KeyB' && S.active) api.cycleIR();
   });
   window.addEventListener('wheel', e => {
     if (!S.active || !playing()) return;
