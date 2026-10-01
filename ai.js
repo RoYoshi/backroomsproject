@@ -1525,8 +1525,9 @@ const SMILER = {
   jitter: .13,
   caps: { CAN_VAULT: true, VAULT_SPEED: .6, CAN_CROUCH: false, CAN_CRAWL: false, CAN_SLIDE: false, CAN_OPEN_DOORS: true, CAN_BREAK_DOORS: false, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.1, ACCELERATION: 520 },
   vision: { range: 1000, fov: 2.4, dark: true, gain: 2.4, floor: 230 },
-  // chase sits between a walk and a sprint: a fresh runner opens distance, a winded one does not (no fixed relationship is locked: human QA)
-  speeds: { roam: 80, approach: 92, investigate: 118, creep: 34, drift: 40, chase: 232, rush: 300, retreat: 110 },
+  // chase (v23.1.1: 255, was 232 - QA: too easy to outrun): still under a fresh sprint (285 px/s), over a winded or deep-carpet sprint (~236):
+  // a fresh runner who reacts at once still gains a little ground, but escape needs stamina, routing and breaking line of sight
+  speeds: { roam: 80, approach: 92, investigate: 118, creep: 34, drift: 40, chase: 255, rush: 300, retreat: 110 },
   init(eng, e) {
     e.face = .25; e.faceT = .25; e.ag = 0; e.att = new Map(); e.lurkT = 0; e.goalS = null; e.watchT = 0; e.lostT = 0; e.chaseBlind = 0; e.lightOff = 0; e.strikeT = 0;
     e.grace = 0; e.lastHearT = -1; e.agWhy = ''; e.drift = eng.rng() < .5 ? 1 : -1; e.driftT = 0; e.holdT = 0;

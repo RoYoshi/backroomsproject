@@ -519,3 +519,6 @@ The Smiler is rebuilt around the approved Smiler Canon Lock (Backrooms Wikidot, 
 **Debug** (admin, DEBUG): per Smiler the WHY line (what it is doing and why), agitation and its causes, the light on it, who is watching it, target dwell, what it abandoned or switched and why; for the selected one its personality, eye contact timers and strikes.
 
 Tests: `dev/tests/s_smiler.js` (SM01-SM16), `dev/tests/perf_smiler.js`, `dev/tests/smiler2d_view.py` (browser + debug feed). Retired with the old Smiler: `s_smiler_v22_retired.js`, `s_smiler2_v22_retired.js` (kept, not run). Updated to canon: `s_capture.js` C01 / C03 / C04 / C05 (the Smiler never plays with a victim; the hound parts unchanged), `s_system.js` Y07 (fade-rate bounds over watch / hold / let-go cycles).
+
+### v23.1.1 (2D QA)
+- Smiler chase speed 255 px/s (was 232: too easy to outrun). Still below a fresh sprint (285 px/s) and above a winded or deep-carpet sprint (~236): a fresh runner who reacts at once gains only a little ground; getting away takes stamina, routing and breaking line of sight (light off: it loses you).
