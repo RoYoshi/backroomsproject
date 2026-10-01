@@ -53,7 +53,7 @@ function othersNear(eng, e, r) {
     if (o.id === r.id) continue;
     const d = Math.hypot(o.lkx - r.lkx, o.lky - r.lky), age = eng.now - Math.max(o.seenAt, o.heardAt);
     if (!o.seen && age > win * (still && d < 260 ? 3.5 : 1)) continue;
-    const pv = eng.playerById(o.id); if (!pv || !pv.alive) continue;
+    if (!eng.byId.has(o.id) || (o.downAt > -50 && o.downAt >= o.seenAt - .01)) continue;            // (v23) gone only if it saw them go down
     if (d < 900) n++;
   }
   return n;
@@ -62,7 +62,7 @@ function sPrey(eng, e) {                                                    // p
   let best = null, bs = -1e9;
   for (const r of e.mem.p.values()) {
     if (r.conf < .05 && !r.seen) continue;
-    const pv = eng.playerById(r.id); if (!pv || !pv.alive || pv.caught) continue;
+    if (tgtGone(eng, e, r)) continue; const pv = perc(eng, e, r);             // (v23) perceived position, not the true one
     const others = othersNear(eng, e, r);
     const s = r.aw * .5 + r.conf * .5 + (others === 0 ? .7 : -.35 * others) - Math.hypot(r.lkx - e.x, r.lky - e.y) / 5000 + (r.ex ? .2 : 0) + (r.light ? -.05 : .05) + encFor(e, r.id).ran * .06 - encFor(e, r.id).lit * .1;
     if (s > bs) { bs = s; best = { r, pv, alone: others === 0, others }; }
@@ -99,7 +99,7 @@ function encTick(eng, e, dt) {
 }
 const encFor = (e, id) => e.enc.get(id) || { lit: 0, ran: 0, calm: 0, lostAt: -99, esc: 0 };
 function beamOn(eng, e) {                                                   // a torch that is actually pointing at this creature (its own geometry, not a screen)
-  for (const p of eng.lightPlayers()) { const d = dist(e.x, e.y, p.x, p.y); if (d < 800 && Math.abs(angDiff(Math.atan2(e.y - p.y, e.x - p.x), p.angle)) < .42) return p; }
+  for (const p of eng.lightPlayers()) { const d = dist(e.x, e.y, p.x, p.y); if (d < 800 && Math.abs(angDiff(Math.atan2(e.y - p.y, e.x - p.x), p.angle)) < .42 && eng.geo.los(p.x, p.y, e.x, e.y)) return p; }   // (v23) not through walls
   return null;
 }
 /* a watcher (the person it is following/watching) is looking its way */
@@ -191,7 +191,7 @@ function smilerTick(eng, e, dt, thinkNow) {
       } else {
         // it lost sight of somebody a little while ago and has not forgotten: it comes to look, from the dark, rather than starting from nothing
         for (const [id, c] of e.enc) {
-          const r = e.mem.p.get(id), pv = eng.playerById(id); if (!r || !pv || !pv.alive || pv.caught) continue;
+          const r = e.mem.p.get(id); if (!r || tgtGone(eng, e, r)) continue;
           if (eng.now - c.lostAt < 45 && eng.now - c.lostAt > 4 && r.conf > .18 && e.hiddenFor > 2 && eng.rng() < .012 * (.5 + e.tr.PERSISTENCE)) { beginFollow(eng, e, r); e.dbg.returned = (e.dbg.returned || 0) + 1; break; }
         }
         if (e.quirk === 'curious' && e.hear && eng.now - e.hear.t < 3 && !e.relocating && eng.rng() < .04) {         // the odd one goes to look at a noise instead of at the person
@@ -202,14 +202,14 @@ function smilerTick(eng, e, dt, thinkNow) {
       break;
     }
     case S.WATCHING: {
-      stopMoving(eng, e, dt); const w = e.watch; const r = w && e.mem.p.get(w.rid), pv = r && eng.playerById(r.id);
-      if (!w || !r || !pv || !pv.alive || pv.caught) { beginHidden(eng, e); break; }
+      stopMoving(eng, e, dt); const w = e.watch; const r = w && e.mem.p.get(w.rid), pv = r && !tgtGone(eng, e, r) ? perc(eng, e, r) : null;
+      if (!w || !r || !pv) { beginHidden(eng, e); break; }
       if (r.seen) { faceToward(e, pv.x, pv.y, dt, 2.2); e.head = 0; } else e.head = Math.sin(e.t * 1.2) * .3;
       sFace(e, r.seen ? 1 : .6);
       if (thinkNow) {
         const d = dist(e.x, e.y, pv.x, pv.y);
         const beam = e.lit > .45;
-        const near = e.quirk === 'cautious' ? 340 : 240; if (d < near || beam) { const bp = beam && beamOn(eng, e); if (bp) encOf(e, bp.id).lit = Math.min(6, encOf(e, bp.id).lit + 1); beginDisappear(eng, e, d < near ? 'approached' : 'beam'); break; }
+        const near = e.quirk === 'cautious' ? 340 : 240; if (d < near || beam) { const bp = beam && beamOn(eng, e); if (bp && e.seenNow.has(bp.id)) encOf(e, bp.id).lit = Math.min(6, encOf(e, bp.id).lit + 1); beginDisappear(eng, e, d < near ? 'approached' : 'beam'); break; }
         if (now > w.until) {
           const prey = sPrey(eng, e), alone = prey && prey.alone;
           const pick = pickW(eng.rng, [{ k: 'follow', w: alone ? 1.6 : .8 }, { k: 'again', w: .6 }, { k: 'fade', w: .8 + (1 - e.tr.CURIOSITY) }, { k: 'stalk', w: alone && soloKnown(eng, e, r) && e.tr.AGGRESSION > .3 ? .7 + e.tr.SADISM * .5 : 0 }]);
@@ -219,8 +219,8 @@ function smilerTick(eng, e, dt, thinkNow) {
       break;
     }
     case S.FOLLOWING: {
-      const F = e.follow, r = F && e.mem.p.get(F.rid), pv = r && eng.playerById(r.id);
-      if (!F || !r || !pv || !pv.alive || pv.caught || now > F.until) { beginDisappear(eng, e, 'gave-up', 200); break; }
+      const F = e.follow, r = F && e.mem.p.get(F.rid), pv = r && !tgtGone(eng, e, r) ? perc(eng, e, r) : null;
+      if (!F || !r || !pv || now > F.until) { beginDisappear(eng, e, 'gave-up', 200); break; }
       if (r.conf < .12 && !r.seen) { beginHidden(eng, e); break; }
       sFace(e, r.seen ? .6 : .3);
       const tx = r.seen ? pv.x : r.lkx, ty = r.seen ? pv.y : r.lky, d = dist(e.x, e.y, tx, ty);
@@ -231,7 +231,7 @@ function smilerTick(eng, e, dt, thinkNow) {
         if (g) { F.goal = g; plan(eng, e, g.x, g.y); }
         else if (d > 1500) F.goal = null;
       }
-      const obs = observedBy(e, pv, r, .5, 900); if (obs) F.obsT = now; F.frz = obs ? F.frz + dt : Math.max(0, F.frz - dt * .5);
+      const obs = r.seen && observedBy(e, pv, r, .5, 900); if (obs) F.obsT = now; F.frz = obs ? F.frz + dt : Math.max(0, F.frz - dt * .5);
       if (F.frz > 12) { beginDisappear(eng, e, 'watched-too-long'); break; }                                // standing still forever under its eye does not make it wait forever
       if (F.goal && d > 380) {
         const nxt = e.path[0] || F.goal, l = litAt(eng, nxt.x, nxt.y);
@@ -251,8 +251,8 @@ function smilerTick(eng, e, dt, thinkNow) {
       break;
     }
     case S.STALKING: {
-      const K = e.stalk, r = K && e.mem.p.get(K.rid), pv = r && eng.playerById(r.id);
-      if (!K || !r || !pv || !pv.alive || pv.caught) { beginHidden(eng, e); break; }
+      const K = e.stalk, r = K && e.mem.p.get(K.rid), pv = r && !tgtGone(eng, e, r) ? perc(eng, e, r) : null;     // (v23) it goes where it believes the prey is
+      if (!K || !r || !pv) { beginHidden(eng, e); break; }
       sFace(e, .85);
       const d = dist(e.x, e.y, pv.x, pv.y), watched = r.seen && Math.abs(angDiff(Math.atan2(e.y - pv.y, e.x - pv.x), pv.angle)) < .55 && d < 720;
       const nxt = e.path[0], nl = nxt ? litAt(eng, nxt.x, nxt.y) : 0;
@@ -287,8 +287,8 @@ function smilerTick(eng, e, dt, thinkNow) {
       break;
     }
     case S.PROVOKED: {
-      const P = e.provoked, r = P && e.mem.p.get(P.rid), pv = r && eng.playerById(r.id);
-      if (!P || !r || !pv || !pv.alive || pv.caught) { beginDisappear(eng, e, 'lost-prey'); break; }
+      const P = e.provoked, r = P && e.mem.p.get(P.rid), pv = r && !tgtGone(eng, e, r) ? perc(eng, e, r) : null;
+      if (!P || !r || !pv) { beginDisappear(eng, e, 'lost-prey'); break; }
       e.rushT += dt; sFace(e, 1);
       if (thinkNow && e.rushT > .8 && dist(e.x, e.y, pv.x, pv.y) > 130) {                                    // committed, but not latched: if the prey is no longer alone, or lit, it goes back to watching
         const grp = othersNear(eng, e, r), lit = litAt(eng, pv.x, pv.y) > .75;
@@ -299,20 +299,21 @@ function smilerTick(eng, e, dt, thinkNow) {
       const nxt = e.path[0], nl = nxt ? litAt(eng, nxt.x, nxt.y) : 0;
       if (nl > .68 && !black && dist(e.x, e.y, pv.x, pv.y) > 90) { stopMoving(eng, e, dt); setAct(e, 'wait'); e.rushBlocked = (e.rushBlocked || 0) + dt; if (e.rushBlocked > 1.4) { e.rushBlocked = 0; beginDisappear(eng, e, 'light-wall'); break; } }
       else { e.rushBlocked = 0; setAct(e, 'rush'); follow(eng, e, dt, e.sp.speeds.rush, { arrive: 8, noSlow: false }); }
-      if (dist(e.x, e.y, pv.x, pv.y) < e.r + 15) res = { pv, dir: e.ang, speed: e.speed, style: P.style === 'play' ? 'play' : 'rush' };
+      const body = touching(eng, e, r.id, e.r + 15);
+      if (body) res = { pv: body, dir: e.ang, speed: e.speed, style: P.style === 'play' ? 'play' : 'rush' };
       else if (e.rushT > 4.2 || dist(e.x, e.y, pv.x, pv.y) > 760) beginDisappear(eng, e, 'lost-nerve');
       break;
     }
     case S.ATTACKING: {
-      const A = e.att, r = A && e.mem.p.get(A.rid), pv = r && eng.playerById(r.id);
-      if (!A || !r || !pv || !pv.alive || pv.caught) { beginDisappear(eng, e, 'lost-prey'); break; }
+      const A = e.att, r = A && e.mem.p.get(A.rid), pv = r && !tgtGone(eng, e, r) ? perc(eng, e, r) : null, body = r && touching(eng, e, r.id, e.r + 15);
+      if (!A || !r || !pv) { beginDisappear(eng, e, 'lost-prey'); break; }
       A.t += dt; sFace(e, 1);
       if (A.kind === 'cornered') {                                        // it will not hurry: the grin just gets closer while the exits close
         const d = dist(e.x, e.y, pv.x, pv.y); faceToward(e, pv.x, pv.y, dt, 2.5);
         const flee = r.seen && pv.sp > 60 && Math.abs(angDiff(Math.atan2(pv.vy, pv.vx), Math.atan2(e.y - pv.y, e.x - pv.x))) < .7;   // it tries to run past
         const speed = A.t > A.slow || flee ? e.sp.speeds.rush : e.sp.speeds.creep;
         if (d > 30) { e.speed = approach(e.speed, speed, 900 * dt); e.moved = moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt); }
-        if (d < e.r + 15) res = { pv, dir: e.ang, speed: e.speed, style: 'cornered' };
+        if (body) res = { pv: body, dir: e.ang, speed: e.speed, style: 'cornered' };
         if (A.t > A.slow + 4 && d > 400) beginDisappear(eng, e, 'lost-nerve');
       } else if (A.kind === 'lightfail') {                                // the lights go, it is closer, they come back, it is closer again...
         const d = dist(e.x, e.y, pv.x, pv.y); faceToward(e, pv.x, pv.y, dt, 3);
@@ -328,7 +329,7 @@ function smilerTick(eng, e, dt, thinkNow) {
         if (A.dark && eng.now < A.dark && A.step > 0 && A.moved < A.step) { const s = Math.min(A.step - A.moved, 330 * dt); e.moved = moveCollide(eng, e, Math.cos(e.ang) * s, Math.sin(e.ang) * s); A.moved += s; e.speed = 330; }
         else { stopMoving(eng, e, dt); }
         if (A.stage === 3 && eng.now >= A.dark - .9) { e.speed = e.sp.speeds.rush * 1.2; e.moved = moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt); }
-        if (d < e.r + 15) res = { pv, dir: e.ang, speed: e.speed, style: 'lightfail' };
+        if (body) res = { pv: body, dir: e.ang, speed: e.speed, style: 'lightfail' };
         if (A.t > 16) beginDisappear(eng, e, 'gave-up');
       }
       break;

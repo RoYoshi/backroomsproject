@@ -20,7 +20,8 @@ const adapter={key:`level0`,cols:W,rows:al,cell:il,W:FBW*96,H:FBH*96,rooms:Oc,la
   blockers:(x,y,mode)=>{WORLD.setMode(mode||`walk`);try{return Bc(x,y)}finally{WORLD.setMode(`walk`)}},
   ray:(x,y,a,m)=>Uc(x,y,a,m),
   blackout:()=>V.blackout,
-  qc:(p,pt,on)=>qc(p,pt,on)};
+  qc:(p,pt,on)=>qc(p,pt,on),
+  kinds:Gc};                                          // the light each kind of equipment gives (visible light only; Part 2 stage 2C)
 const eng=AI.create({adapter,rng:RND});
 
 function randomSpot(minSpawn,avoid,minAvoid,mustReach=true,dark=false){
@@ -182,6 +183,7 @@ function gaitFloor(p,claimed){
 function feed(){
   for(const p of players){
     p.alive=isAlive(p);p.kind=p.equipment.kind;
+    if(p.light&&!(Gc[p.kind]&&Gc[p.kind].power>0))p.light=false;   // (v23) `light` is VISIBLE light only: a raised camcorder emits none (its raised pose is presentation, server.js)
     if(p.caught)p.st=p.caught.phase===`down`?7:4;
     p.prof=WORLD.PROFILE[SNn[p.st]]??1;
   }

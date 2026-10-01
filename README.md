@@ -452,3 +452,33 @@ Fixes for the concrete findings of the independent Part 1 audit. No rebalancing,
 4. **Death aftermath race** (`sim.js` `onDeath`, `server.js`). The aftermath record is now made at the moment the server commits the death, not later in a broadcast scan. A victim that closes at once, even with the close frame right behind the command, still leaves exactly one replay and one corpse. The client's own replay and corpse remain the normal path.
 
 Nothing else changed: no tuning, no AI change, no change to the death look or physics.
+
+## v23.0 (Part 2, stage 2C) - the evidence foundation
+
+The law of Part 2: **the server may know the truth; an entity acts only on evidence it legitimately possesses.** Stage 2C makes the senses obey it. Hound and Smiler behaviour is otherwise the v22.2 behaviour (canon Smiler: 2D; two Hound types: 2E; infrared: 2C-IR).
+
+1. **Two kinds of knowledge, kept apart** (`dev/ai_src/20_senses.js`).
+   - *Attributed* records (`e.mem.p`): one per player the entity has actually seen. Its target is always one of these. Each record now carries typed evidence entries (`see` / `sound` / `light`): position, uncertainty radius, confidence, time. At most 4, newest of each kind.
+   - *Anonymous leads* (`e.mem.leads`): things noticed that name nobody - a light source, a beam, a lit wall or floor. `pid` is always null. A lead is an **investigation goal** (`e.inv`), never a target. At most 6; they fade.
+   - A lead becomes attributed only when the entity then sees a player where it points (`attributeLeads`).
+   - Records are no longer created for players merely in range: only sight (or, as in Part 1, hearing) creates one.
+2. **Visible light is evidence** (`dev/ai_src/25_light.js`, new).
+   - Where each visible light really falls is computed once for everybody (~8 Hz): 3 rays per beam, stopped by walls; 2 samples along the beam in the air. Lanterns: 6 rays round the carrier.
+   - Each near entity looks at that 4 times a second, from its own position, field of view and line of sight.
+   - The source itself in view -> `source` lead (a light in the hand of somebody it is looking at is pinned on them at once). A beam in the air -> `beam` lead: the brighter end says which way the light came from, not how far. Only a lit wall / floor -> `litwall` / `litfloor` lead somewhere on the open side of the patch, with a wide uncertainty.
+   - `inferLead()` is a pure function of what the entity observed. It cannot reach the carrier's position; a test replays identical observations with the carrier moved elsewhere and gets identical decisions.
+   - Turning a light off stops new evidence; what was already noticed stays and fades like any memory.
+   - In 2C the leads are kept, shown in debug and counted as anonymous company in a capture's threat assessment; acting on them is 2D / 2E.
+3. **Walls stop light everywhere** (`10_geo.js lightLevel`, Smiler `beamOn`). A torch no longer lights a point, or "points at" a Smiler, through a wall.
+4. **The camcorder emits no visible light** (`sim.js feed`, `server.js`). A raised camcorder is not a lit player for the AI (no beam, no glare bonus, no evidence). Its raised pose still reaches the other players (presentation only).
+5. **Hidden-coordinate reads removed.** Places that used to read a player's true position, velocity or state without having sensed it:
+   - Hound: lunge aim correction (now only on a prey it can see), hunting / stalking / feeding-guard targets (now its belief: the body while seen, memory otherwise), knowing a prey died or was caught out of its sight (now only if it saw that).
+   - Hearing: copied the player's true velocity into memory; now uses the heading built from the heard positions themselves.
+   - Threat assessment during a capture: walked the true player list and read the exact position of anybody with a lit torch in line of sight; now built from its own records and leads.
+   - Smiler: watching / following / stalking / provoked / attacking targets, the "approached" and "lit by a beam" checks, and the light-failure attack's position (all now its belief; contact itself stays physical).
+   - Kept as system rules (not perception): level-of-detail tiers, spawn safety, contact at capture range, and the Smiler's "never reposition right behind somebody" fairness rule (to be rebuilt in 2D).
+6. **Target commitment** (`setTarget` / `mayRetarget`): having picked somebody it keeps them for at least 1.5 s unless it has really lost them (confidence < .2) - no per-tick flicker between two people.
+7. **Eye contact** (`facedBy`): the entity sees the player, the player faces it (within ~20°, the character's facing from the client - not a screen), and the player could make it out (within 240 px, or with the entity in light). Debug-visible now; used by 2D / 2E.
+8. **Debug** (admin only, DEBUG tab -> EVIDENCE + LEADS): leads as dashed uncertainty rings by type, the investigation goal, evidence diamonds on its record, and in the label: the decision with its stated reason, any retarget, the last light it noticed, eye contact, and (selected entity) its traits.
+
+Tests: `dev/tests/s_evidence.js` (E1-E10) and `dev/tests/perf_light.js` (8 lit players around every near-tier monster). Known items unchanged: admin T8, live.js L5b (stochastic). Sound attribution: hearing still tells one player's footsteps from another's, as in Part 1 - a 2F item (multiplayer: conflicting evidence).

@@ -22,7 +22,7 @@ function pickTarget(eng, e, filter) {
   let best = null, bs = -1;
   for (const r of e.mem.p.values()) {
     if (r.conf < .04 && !r.seen) continue;
-    const pv = eng.playerById(r.id); if (!pv || !pv.alive || pv.caught) continue;
+    if (tgtGone(eng, e, r)) continue;                                            // (v23) only what it saw: not the true state of an unseen player
     if (filter && !filter(r)) continue;
     const s = houndTargetScore(e, r, eng.now); if (s > bs) { bs = s; best = r; }
   }
@@ -154,7 +154,7 @@ function hSearch(eng, e, dt, thinkNow) {
 /* STALKING / HUNTING with the committed lunge. ------------------------------------------------------------------------------- */
 function beginHunt(eng, e, r, why) {
   if (e.state !== S.HUNTING) { houndGrowl(eng, e, .75); e.mood.arousal = Math.min(1, e.mood.arousal + .5); }
-  setState(e, S.HUNTING, ''); e.target = r.id; e.chaseBlind = 0; e.huntWhy = why; e.huntStart = eng.now;
+  setState(e, S.HUNTING, ''); setTarget(e, r.id, eng.now); e.chaseBlind = 0; e.huntWhy = why; e.huntStart = eng.now;
 }
 /* a lunge is a commitment of ~0.75 s in a straight line: the hound springs when the prey will still be within reach where it is going
  * to land, judged from how fast the prey is moving away (or toward it).  A hound is not a calculator: how well it judges depends on
@@ -180,7 +180,7 @@ function startLunge(eng, e, tgt) {
 function stepLunge(eng, e, dt) {
   const L = e.lunge; L.t += dt;
   if (L.t < L.wind) {                                                   // wind-up: crouch, a last small correction of aim
-    const t = eng.playerById(L.tid);
+    const tr = e.mem.p.get(L.tid), t = tr && tr.seen ? eng.playerById(L.tid) : null;   // (v23) it corrects its aim only on a prey it can see
     if (t) { const want = Math.atan2(t.y + t.vy * .18 - e.y, t.x + t.vx * .18 - e.x); L.dir += clamp(angDiff(want, L.dir), -1.6 * dt, 1.6 * dt) * clamp(1 - L.t / L.wind, 0, 1); }
     turnTo(e, L.dir, 10, dt); e.speed = approach(e.speed, 60, 1500 * dt); e.moved = moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt);
     return false;
@@ -205,7 +205,7 @@ function stepLunge(eng, e, dt) {
 }
 
 function hHunt(eng, e, dt, thinkNow) {
-  const now = eng.now, r = e.mem.p.get(e.target), pvT = r && eng.playerById(r.id);
+  const now = eng.now, r = e.mem.p.get(e.target), pvT = r && r.seen ? eng.playerById(r.id) : null;     // (v23) the true body only while it is seen
   if (e.recover > 0) {                                                    // after a lunge: overshoot, skid, turn around slowly
     e.recover -= dt; e.speed = approach(e.speed, 40, 620 * dt); e.moved = moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt);
     if (r && e.recover < .55) faceToward(e, r.lkx, r.lky, dt, 1.4);
@@ -213,8 +213,8 @@ function hHunt(eng, e, dt, thinkNow) {
     return;
   }
   if (e.lunge) { const res = stepLunge(eng, e, dt); if (res && res.pv) return res; return; }
-  if (!r || !pvT || !pvT.alive || pvT.caught) { const alt = pickTarget(eng, e); if (alt) { e.target = alt.id; return; } setState(e, S.ROAMING); return; }
-  const seen = r.seen;
+  if (!r || tgtGone(eng, e, r)) { const alt = pickTarget(eng, e); if (alt) { setTarget(e, alt.id, now); return; } e.dbg.disengage = r ? 'saw its prey go down' : 'lost its prey'; setState(e, S.ROAMING); return; }
+  const seen = r.seen && !!pvT;
   if (seen) {
     e.chaseBlind = 0; e.lostSince = 0;
     const tgt = { x: pvT.x, y: pvT.y, vx: pvT.vx, vy: pvT.vy, id: pvT.id };
@@ -247,13 +247,13 @@ const stalkPatience = e => lerp(4, 15, e.tr.PATIENCE) * (1.15 - e.tr.AGGRESSION 
 /* STALKING: it shadows the prey - it matches a walker's pace so the prey never simply walks away from it, holds back at a distance
  * while the prey stands still, and creeps a little closer the longer it watches, until it commits (or the prey gives it a reason to). */
 function hStalk(eng, e, dt, thinkNow) {
-  const r = e.mem.p.get(e.target), pv = r && eng.playerById(r.id);
-  if (!r || !pv || !pv.alive || pv.caught) { beginSearch(eng, e, r, 'lost'); return; }
-  const seen = r.seen, est = seen ? { x: pv.x, y: pv.y } : estimate(e, r, eng.now), d = dist(e.x, e.y, est.x, est.y);
+  const r = e.mem.p.get(e.target);
+  if (!r || tgtGone(eng, e, r)) { beginSearch(eng, e, r, 'lost'); return; }
+  const P = perc(eng, e, r), seen = P.seen, est = P, d = dist(e.x, e.y, est.x, est.y);                 // (v23) perceived, not true
   e.stalkFor = (e.stalkFor || 0) + dt;
   goTo(eng, e, est.x, est.y, { every: .6 });
   const hold = lerp(380, 205, clamp(e.stalkFor / stalkPatience(e), 0, 1));
-  const tv = seen ? Math.hypot(pv.vx, pv.vy) : Math.hypot(r.lvx, r.lvy);                    // how fast it can see the prey going
+  const tv = P.sp;                    // how fast it can see the prey going
   const vmax = d > hold ? clamp(tv * 1.12 + (d - hold) * .7, hSpeed(e, 'stalk', eng) * .7, hSpeed(e, 'chase', eng) * .74) : clamp(tv * .7 - (hold - d) * .6, 0, 70);
   follow(eng, e, dt, vmax, { arrive: 30 });
   e.head = Math.sin(e.t * 2.4) * .12;
@@ -276,10 +276,10 @@ function hReact(eng, e) {
     if (fresh && grp >= 2 && !runner && e.state !== S.HUNTING && e.state !== S.CAUTIOUS && eng.rng() < (.16 + e.tr.CAUTION * 1.5) * (e.pack ? .45 : 1) * (sd < 300 ? .35 : 1)) { beginCautious(eng, e, seen); return; }
     if (e.state !== S.HUNTING && e.state !== S.STALKING && e.state !== S.CAUTIOUS) {
       if (runner || near || (hungry && e.tr.AGGRESSION > .7 && seen.aw > .8 && sd < 700)) { beginHunt(eng, e, seen, runner ? 'saw-run' : 'saw-near'); return; }
-      setState(e, S.STALKING, ''); e.target = seen.id; e.stalkFor = 0; e.mood.excitement = Math.min(1, e.mood.excitement + .3); return;
+      setState(e, S.STALKING, ''); setTarget(e, seen.id, now); e.stalkFor = 0; e.mood.excitement = Math.min(1, e.mood.excitement + .3); return;
     }
     if (e.state === S.STALKING && (runner || near)) { beginHunt(eng, e, seen, 'stalk-spot'); return; }
-    if (e.state === S.HUNTING && e.target !== seen.id) { const cur = e.mem.p.get(e.target); if (!cur || !cur.seen) e.target = seen.id; }
+    if (e.state === S.HUNTING && e.target !== seen.id) { const cur = e.mem.p.get(e.target); if ((!cur || !cur.seen) && mayRetarget(e, now)) { setTarget(e, seen.id, now); e.dbg.retarget = 'saw another while the prey was out of sight'; } }
     return;
   }
   if (!e.seenNow.size) e.grpN = 0;
@@ -304,7 +304,7 @@ function hReact(eng, e) {
     } else if (e.state === S.SEARCHING || e.state === S.FRUSTRATED) {
       if (h.I > .1) { const s = e.search; if (e.state === S.FRUSTRATED) beginSearch(eng, e, r, 'sound'); else { e.search.why = 'sound'; } e.search.goal = { x: h.x, y: h.y }; e.search.phase = 'go'; e.search.until = Math.max(e.search.until, now + 10); setAct(e, ''); if (loud && r.st === 2) beginHunt(eng, e, r, 'heard-run'); }
     } else if (e.state === S.STALKING && (h.type === 'run')) { beginHunt(eng, e, r, 'stalk-heard-run'); }
-    else if (e.state === S.HUNTING && !e.mem.p.get(e.target)?.seen) { if (r.id !== e.target && r.conf > .35 && loud) e.target = r.id; }
+    else if (e.state === S.HUNTING && !e.mem.p.get(e.target)?.seen) { if (r.id !== e.target && r.conf > .35 && loud && mayRetarget(e, now)) { setTarget(e, r.id, now); e.dbg.retarget = 'a louder trail'; } }
   }
 }
 
@@ -333,7 +333,7 @@ function houndTick(eng, e, dt, thinkNow) {
         if (r.seen) { beginHunt(eng, e, r, 'alert-see'); break; }
         const lastRun = r.st === 2 || r.st === 5, noisy = (e.hear && e.hear.I > .55);
         if (lastRun && eng.rng() < .35 + e.tr.AGGRESSION * .55) { beginHunt(eng, e, r, 'alert-run'); break; }
-        if (eng.rng() < .35 + e.tr.PATIENCE * .3 && !noisy) { setState(e, S.STALKING, ''); e.target = r.id; e.stalkFor = 0; break; }
+        if (eng.rng() < .35 + e.tr.PATIENCE * .3 && !noisy) { setState(e, S.STALKING, ''); setTarget(e, r.id, now); e.stalkFor = 0; break; }
         beginSearch(eng, e, r, 'sound'); e.search.goal = { x: a.toward.x, y: a.toward.y }; e.search.first = false; setAct(e, '');
       }
       break;
@@ -365,15 +365,14 @@ function hFeed(eng, e, dt, thinkNow) {
   if (F.guard) {                                                          // someone came for the body: hunt them, but stay near it
     const r = e.mem.p.get(F.guard);
     if (!r || (!r.seen && eng.now - r.seenAt > 3) || dist(e.x, e.y, s.x, s.y) > 520 + e.tr.TERRITORIALITY * 500) { F.guard = null; setAct(e, ''); return; }
-    const pv = eng.playerById(F.guard);
-    if (pv && pv.alive && !pv.caught) { goTo(eng, e, pv.x, pv.y, { every: .4 }); follow(eng, e, dt, hSpeed(e, 'chase', eng) * .9, { arrive: 10 }); for (const p of eng.nearPlayers(e.x, e.y, 50)) if (p.alive && !p.caught && dist(e.x, e.y, p.x, p.y) < e.r + 12) return { pv: p, dir: e.ang, speed: e.speed }; }
+    if (!tgtGone(eng, e, r)) { const P = perc(eng, e, r); goTo(eng, e, P.x, P.y, { every: .4 }); /* (v23) where it believes the intruder is */ follow(eng, e, dt, hSpeed(e, 'chase', eng) * .9, { arrive: 10 }); for (const p of eng.nearPlayers(e.x, e.y, 50)) if (p.alive && !p.caught && dist(e.x, e.y, p.x, p.y) < e.r + 12) return { pv: p, dir: e.ang, speed: e.speed }; }
     else F.guard = null;
     return;
   }
   if (!F.at) { goTo(eng, e, s.x, s.y, { every: 1.4 }); const st = follow(eng, e, dt, hSpeed(e, 'investigate', eng), { arrive: 34 }); if (dist(e.x, e.y, s.x, s.y) < 60 || st === 'arrived') { F.at = true; setAct(e, 'feed'); } return; }
   if (e.act !== 'feed') setAct(e, 'feed');
   stopMoving(eng, e, dt); faceToward(e, s.x, s.y, dt, 2); e.head = Math.sin(e.t * 7) * .18;
-  if (thinkNow) for (const id of e.seenNow) { const r = e.mem.p.get(id), pv = eng.playerById(id); if (pv && pv.alive && !pv.caught && r.dist < 620 && r.aw > .5) { F.guard = id; e.target = id; houndGrowl(eng, e, .8, 'guard'); setAct(e, 'guard'); break; } }
+  if (thinkNow) for (const id of e.seenNow) { const r = e.mem.p.get(id), pv = eng.playerById(id); if (pv && pv.alive && !pv.caught && r.dist < 620 && r.aw > .5) { F.guard = id; setTarget(e, id, eng.now); houndGrowl(eng, e, .8, 'guard'); setAct(e, 'guard'); break; } }
   if (thinkNow && !F.guard && e.hear && e.hear.I > .5 && e.hear.src > 0 && eng.now - e.hear.t < .3 && dist(e.hear.x, e.hear.y, s.x, s.y) < 900) { const r = e.mem.p.get(e.hear.src); if (r) { F.guard = r.id; e.target = r.id; setAct(e, 'guard'); } }
 }
 /* EXCITED: right after a kill, when nobody else is close: worked up, pacing around the body, snarling - then it settles down to feed */
@@ -485,7 +484,7 @@ HOUND.capture = {
     if (d < 340) { const away = Math.atan2(e.y - pv.y, e.x - pv.x); e.moved = moveCollide(eng, e, Math.cos(away) * 80 * dt, Math.sin(away) * 80 * dt); e.speed = 80; setAct(e, 'back'); } else { stopMoving(eng, e, dt); setAct(e, 'stare'); }
     faceToward(e, pv.x, pv.y, dt, 3);
   },
-  onResume(eng, e, cap, pv) { const r = rec(e, pv.id); r.aw = 1; r.seen = true; setState(e, S.HUNTING, ''); e.target = pv.id; e.chaseBlind = 0; e.cool.lunge = .3; e.dbg.resumed = (e.dbg.resumed || 0) + 1; houndGrowl(eng, e, .8); },
+  onResume(eng, e, cap, pv) { const r = rec(e, pv.id); r.aw = 1; r.seen = true; setState(e, S.HUNTING, ''); setTarget(e, pv.id, eng.now); e.chaseBlind = 0; e.cool.lunge = .3; e.dbg.resumed = (e.dbg.resumed || 0) + 1; houndGrowl(eng, e, .8); },
   onLetGo(eng, e, cap, pv) { setState(e, S.RETREATING, ''); beginRetreat(eng, e, { x: pv.x, y: pv.y }, rand(eng, 8, 16)); },
   afterKill(eng, e, ctx, pv) {
     const th = ctx.threats.filter(t => t.cert >= .5), near = th.filter(t => t.approaching || t.dist < 600);
@@ -495,9 +494,9 @@ HOUND.capture = {
     if (near.length) {                                                                                      // attack the next one, or defend the kill
       const t = near.slice().sort((a, b) => a.dist - b.dist)[0], r = rec(e, t.id); r.aw = 1; r.lkx = t.x; r.lky = t.y; r.conf = 1; r.seenAt = eng.now;
       if (e.tr.AGGRESSION > .55) { beginHunt(eng, e, r, 'next-victim'); return; }
-      beginFeed(eng, e, site); e.feed.guard = t.id; e.target = t.id; setAct(e, 'guard'); return;
+      beginFeed(eng, e, site); e.feed.guard = t.id; setTarget(e, t.id, eng.now); setAct(e, 'guard'); return;
     }
-    if (e.tr.HUNGER > .35) { if (eng.rng() < .8) beginExcited(eng, e, site); else beginFeed(eng, e, site); } else { setState(e, S.STALKING, ''); const r = pickTarget(eng, e); if (r) { e.target = r.id; e.stalkFor = 0; } else setState(e, S.ROAMING); }
+    if (e.tr.HUNGER > .35) { if (eng.rng() < .8) beginExcited(eng, e, site); else beginFeed(eng, e, site); } else { setState(e, S.STALKING, ''); const r = pickTarget(eng, e); if (r) { setTarget(e, r.id, eng.now); e.stalkFor = 0; } else setState(e, S.ROAMING); }
   },
 };
 HOUND.tick = houndTick;

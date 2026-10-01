@@ -593,7 +593,7 @@ E.footfall = function (o, spd, limb) { const d = Math.hypot(o.x - API().H.x, o.y
  *   srv  - server timings: milliseconds per 60 Hz step, snapshot size, senses / paths per second, tiers, ping, frame rate
  *   log  - what the entities decided, as it happens: state changes, catches, kills (with variant and reason), releases, lamp failures */
 E.dbg = null; E.dbgAt = 0;
-E.dbgCfg = { on: false, ai: true, you: true, srv: true, log: true, compact: false, side: 'right', search: false, crawl: false };
+E.dbgCfg = { on: false, ai: true, you: true, srv: true, log: true, compact: false, side: 'right', search: false, crawl: false, evid: false };
 E.dbgX = { lg: [], pf: null, ping: -1, at: 0 };
 E.fps = 60; let fpsT = 0;
 E.setDebug = function (list) { E.dbg = list; E.dbgAt = performance.now(); };
@@ -658,6 +658,7 @@ function drawEntities(cx, view, list, cfg, stale) {
     if (d.nv && (cfg.nav || sel)) drawNav(cx, view, d, x, y, X, Y, sel);
     if (d.nv && cfg.col) drawCol(cx, view, d, x, y, X, Y);
     if (d.se && (cfg.search || sel)) drawSearch(cx, view, d, x, y, X, Y, sel);
+    if (cfg.evid || sel) drawEvidence(cx, view, d, x, y, X, Y, sel);
     // label block
     const lines = [`${d.k.toUpperCase()}#${d.i}  ${d.s}${d.ac && d.ac !== '-' ? '/' + d.ac : ''}  tier:${d.tier}`];
     if (d.nv && sel) { const n = d.nv; lines.push(`NAV ${n.dir ? 'DIRECT' : 'ROUTE ' + n.rt.length + ' pts'}  sp ${n.sp}  stuck ${n.st}s  r${n.r}/rc${n.rc}  caps ${n.caps}${n.go ? '  [' + n.go + ']' : ''}`, `repath: ${n.why.slice(-3).join('  ') || '-'}`, `routes ${n.n[0]}  touches ${n.n[1]}  hits ${n.n[2]}  stuck ${n.n[3]}  recov ${n.n[4]}  EMERG ${n.n[5]}`); }
@@ -666,12 +667,34 @@ function drawEntities(cx, view, list, cfg, stale) {
       if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
       if (d.cd) lines.push('decide: ' + Object.entries(d.cd).map(([k, v]) => k + ':' + v).join(' ').slice(0, 60));
       if (d.sm) lines.push('quirk ' + d.sm.q + ' exposed ' + d.sm.ex + (d.sm.le ? ' light:' + d.sm.le : '') + (d.sm.enc ? ' enc[' + d.sm.enc + ']' : ''));   // internal values: debug mode only, never in normal play
+      if (d.dec && (cfg.evid || sel)) { const q = d.dec; lines.push(`DECIDE ${q.s}${q.a ? '/' + q.a : ''}: ${q.why || '-'}${q.tq !== null ? '  tgt conf ' + q.tq : ''}`); if (q.rt) lines.push('retarget: ' + q.rt); if (q.lt) lines.push('light: ' + q.lt + (q.fl !== null && q.fl < 5 ? '  (beam in its eyes ' + q.fl + 's ago)' : '')); }
+      if ((cfg.evid || sel) && (d.ld || d.inv || d.ec)) lines.push(`leads ${d.ld ? d.ld.length : 0}${d.inv ? '  investigate ' + d.inv.k + ' ±' + d.inv.u + ' (' + d.inv.age + 's)' : ''}${d.ec ? '  EYE CONTACT ' + d.ec.map(c => 'P' + c[0]).join(',') : ''}`);
+      if (sel && d.tr) lines.push('traits ' + Object.entries(d.tr).map(([k, v]) => k + v).join(' '));
       if (d.pu) lines.push('pursuit ' + (d.pu.blind !== undefined ? 'blind ' + d.pu.blind + 's' : 'seen') + (d.pu.ear ? ' (by ear)' : ''));
       if (d.se && (cfg.search || sel)) { const q = d.se; lines.push(`SEARCH ${q.why || '-'} ${q.ph || ''} legs ${q.legs || '-'} t${q.t} left ${q.left}s  heard-again x${q.rq}`, `memory ${q.mem !== null ? q.mem + 's old' : '-'}  unsure ±${q.est ? q.est[2] : '-'} px${q.cz ? '  saw it go into ' + q.cz : ''}${q.tried.length ? '  tried ' + q.tried.join(',') : ''}`); if (q.g) lines.push(`looking: ${q.g[2]}${q.g[3] ? ' (' + q.g[3] + ' exit)' : ''}`); if (q.dis) lines.push('GAVE UP: ' + q.dis); }
     } else if (d.cp) lines[0] += `  ${d.cp.m}/${d.cp.ph}`;
     const w = Math.max(...lines.map(l => cx.measureText(l).width)) + 10, h = lines.length * 13 + 6;
     cx.fillStyle = 'rgba(0,0,0,.66)'; cx.fillRect(x + 10, y - h - 6, w, h); cx.fillStyle = col;
     lines.forEach((l, i) => cx.fillText(l, x + 15, y - h - 3 + i * 13));
+  }
+  cx.restore();
+}
+/* EVIDENCE (Part 2 / 2C): anonymous leads (dashed rings = how unsure; white = a light source it saw, yellow = a beam, orange = a lit wall,
+ * brown = a lit floor), the one it would investigate (line from the entity), and the typed evidence on its best record (red = seen,
+ * violet = heard, yellow = light it has since pinned on that person).  Leads carry no player: that is the point. */
+const LEAD_COL = { source: '#ffffff', beam: '#ffe27a', litwall: '#ffa94d', litfloor: '#c9955a' }, EV_COL = { see: '#ff4d4d', sound: '#d68cff', light: '#ffe27a' };
+function drawEvidence(cx, view, d, x, y, X, Y, sel) {
+  const sc = view.sc; cx.save(); cx.lineWidth = sel ? 1.6 : 1;
+  if (d.ld) for (const L of d.ld) {
+    const [id, k, lx, ly, u, c, age] = L, px = X(lx), py = Y(ly), col = LEAD_COL[k] || '#fff';
+    cx.globalAlpha = Math.max(.25, Math.min(1, c * 1.2)); cx.strokeStyle = col; cx.setLineDash([4, 5]); cx.beginPath(); cx.arc(px, py, Math.max(6, u * sc), 0, TAU); cx.stroke(); cx.setLineDash([]);
+    cx.beginPath(); cx.arc(px, py, 3, 0, TAU); cx.fillStyle = col; cx.fill(); cx.fillText(`${k} #${id} c${c} ${age}s`, px + 6, py + 4);
+  }
+  if (d.inv) { cx.globalAlpha = .9; cx.strokeStyle = LEAD_COL[d.inv.k] || '#fff'; cx.setLineDash([1, 4]); cx.beginPath(); cx.moveTo(x, y); cx.lineTo(X(d.inv.x), Y(d.inv.y)); cx.stroke(); cx.setLineDash([]); }
+  if (d.ev) for (const q of d.ev) {
+    const [k, ex, ey, u, c, age] = q, px = X(ex), py = Y(ey), col = EV_COL[k] || '#fff';
+    cx.globalAlpha = Math.max(.3, c); cx.strokeStyle = col; cx.beginPath(); cx.moveTo(px, py - 5); cx.lineTo(px + 5, py); cx.lineTo(px, py + 5); cx.lineTo(px - 5, py); cx.closePath(); cx.stroke();
+    if (sel) { cx.globalAlpha = .25; cx.beginPath(); cx.arc(px, py, Math.max(5, u * sc), 0, TAU); cx.stroke(); cx.globalAlpha = .9; cx.fillStyle = col; cx.fillText(`${k} ${age}s ±${u}`, px + 7, py - 12); }
   }
   cx.restore();
 }

@@ -233,7 +233,7 @@ srv.on('upgrade', (req, sock) => {
         if (ok) { p.vx = num(m.vx, -500, 500); p.vy = num(m.vy, -500, 500); }
       }
       room.sim.gaitFloor(p, now - (me.mvAt || 0) < 500);                     // what the AI hears can never be quieter than the accepted movement, report or not
-      p.angle = +m.a || 0; p.sprinting = !!m.r; p.light = m.l !== 0;
+      p.angle = +m.a || 0; p.sprinting = !!m.r; me.raised = m.l !== 0; p.light = me.raised;      // light: what the AI may perceive (sim.js keeps only VISIBLE light); raised: presentation for the other players
       p.equipment.kind = kindOf(m.k);
       me.name = String(m.n || 'WANDERER').slice(0, 20);
       if (HEX.test(m.c)) me.color = m.c;
@@ -322,7 +322,7 @@ setInterval(() => {
       if (!c.player.active) continue;
       peers.push({ id: c.id, x: Math.round(c.player.x), y: Math.round(c.player.y), a: +c.angle.toFixed(2),
         n: c.name, c: c.color, d: c.player.dead ? 1 : 0, r: c.sprint,
-        k: c.player.equipment.kind, l: c.player.light ? 1 : 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall,
+        k: c.player.equipment.kind, l: c.raised ?? c.player.light ? 1 : 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall,
         mv: [c.player.st | 0, Math.round(c.player.sp || 0), Math.round(c.player.stamina == null ? 100 : c.player.stamina), c.player.ex | 0] });
     }
     const sendAd = room.tick % (SNAP_EVERY * ADMIN_EVERY) === 0;

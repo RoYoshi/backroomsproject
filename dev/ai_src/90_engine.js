@@ -117,6 +117,7 @@ function create(cfg) {
     for (const id of e.mem.p.keys()) if (!eng.byId.has(id)) e.mem.p.delete(id);
     const cands = e.tier === 'near' ? eng.candidates(e, 1750) : [];
     updateVision(e, eng, dt, cands);
+    if (e.tier === 'near') lightSense(eng, e);                          // (Part 2 / 2C) visible light as evidence, 4 Hz, near tier only
     decayMemory(e, dt, eng.now);
     moodTick(e, dt);
   }
@@ -298,6 +299,14 @@ function create(cfg) {
             heard: r && r.heardAt > -50 ? [Math.round(r.hx), Math.round(r.hy), +(this.now - r.heardAt).toFixed(1)] : null, mem: r ? +(this.now - Math.max(r.seenAt, r.heardAt)).toFixed(1) : null,
             dis: e.dbg.disengage || '', cz: r && r.crawl && this.now - r.crawlAt < 30 ? r.crawl : '', tried: S0 ? S0.exitsTried.slice() : [], rq: e.dbg.reacquired | 0 };
         })(),
+        // (Part 2 / 2C) the evidence behind its decisions: attributed evidence on its best record, its anonymous leads, what it would investigate,
+        // who has eye contact with it, the decision and its stated reason, its personality
+        ev: best && best.ev && best.ev.length ? best.ev.map(q => [q.k, Math.round(q.x), Math.round(q.y), Math.round(q.u), +q.c.toFixed(2), +(this.now - q.t).toFixed(1)]) : undefined,
+        ld: e.mem.leads.length ? e.mem.leads.map(L => [L.id, L.k, Math.round(L.x), Math.round(L.y), Math.round(L.u), +L.c.toFixed(2), +(this.now - L.t).toFixed(1), +L.sal.toFixed(2), L.n]) : undefined,
+        inv: e.inv ? { l: e.inv.lead, k: e.inv.k, x: Math.round(e.inv.x), y: Math.round(e.inv.y), u: Math.round(e.inv.u), age: +(this.now - e.inv.t).toFixed(1) } : undefined,
+        ec: (() => { const o = []; for (const id of e.seenNow) { const f = facedBy(this, e, this.playerById(id), e.mem.p.get(id)); if (f) o.push([id, +f.off.toFixed(2), Math.round(f.d)]); } return o.length ? o : undefined; })(),
+        dec: { s: e.state, a: e.act || '', why: e.state === S.HUNTING ? e.huntWhy || '' : e.state === S.SEARCHING ? e.dbg.searchWhy || '' : e.dbg.disengage || '', rt: e.dbg.retarget || '', lt: e.dbg.light || '', fl: e.flashAt !== undefined ? +(this.now - e.flashAt).toFixed(1) : null, tq: e.target > 0 && e.mem.p.get(e.target) ? +e.mem.p.get(e.target).conf.toFixed(2) : null },
+        tr: Object.fromEntries(Object.entries(e.tr).map(([k, v]) => [k.slice(0, 4), +v.toFixed(2)])),
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
         sm: e.kind === 'smiler' ? { q: e.quirk || '-', enc: e.dbg.enc || '', le: e.dbg.lightEv || '', ex: +(e.exposed || 0).toFixed(2), rt: e.dbg.returned | 0, bk: e.dbg.backed | 0, sd: e.dbg.stoodDown | 0, iv: e.dbg.investigated | 0 } : undefined,
       });

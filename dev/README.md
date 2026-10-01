@@ -101,6 +101,21 @@ node dev/tests/play_server.js 8000 play                                         
 - **Y09** population caps and bodies over a long session
 - **Y10** bodies persist for the configured time (`BODY_TTL`)
 
+### s_evidence.js - Part 2 stage 2C: the evidence law
+- **E1** walls stop light: no light level and no evidence through a wall
+- **E2** a lit wall / beam seen without the person: an anonymous lead (no player id, wide uncertainty), not a record, not a target
+- **E3** the light source at range: an anonymous source lead; only sight of the person then pins it on them
+- **E4** light off: no new light evidence, existing evidence kept, then faded
+- **E5** hidden-position invariance: an unsensed player moved elsewhere -> identical tick-by-tick decisions
+- **E6** observation replay: the carrier moved far away with its light off, the recorded observations replayed -> identical leads and decisions (no back-projection)
+- **E7** the camcorder emits no visible light
+- **E8** eye contact: detected when seen and faced; not when facing away or through a wall
+- **E9** target commitment: no switch inside the 1.5 s dwell unless the prey is truly lost
+- **E10** bounded and finite: leads <= 6, evidence <= 4 per record, finite numbers, confidences in [0,1], valid states
+
+### perf_light.js - worst case for light evidence
+8 players with visible lights (torch / headlamp / lantern), beams sweeping round the monsters and snapping on and off, every monster in the near tier. Guardrail: average < 0.25 ms and p99 < 2 ms per 1/60 s step. `GAMEDIR=/other/build node perf_light.js` runs the same load on another build for comparison.
+
 ## live.js (real server, two clients)
 - **L1** the browser can load the game files but never `ai.js` / `sim.js` / `server.js`
 - **L2-L3** both clients get snapshots at about 20 Hz, see each other, and receive byte-identical entity data; nothing internal to the AI is on the wire

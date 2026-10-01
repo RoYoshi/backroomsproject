@@ -1,13 +1,88 @@
 
 /* ---------------------------------------------------------------- perception, memory, social awareness */
 const POSTURE_VIS = [1, 1, 1.12, .62, .45, .72, 1, .4];     // stand walk run crouch crawl slide vault down (how visible a body is)
-const KIND_GLARE = { flashlight: 1, headlamp: .85, lantern: .8, camcorder: .2 };
+const KIND_GLARE = { flashlight: 1, headlamp: .85, lantern: .8 };  // (v23: the camcorder emits no visible light at all - it is not in this table)
 
-function newMemory() { return { p: new Map(), sounds: [], others: new Map(), visited: new Map() }; }
+/* ================================================================ Part 2 (v23, stage 2C): the evidence law.
+ * The server knows the truth; an entity acts only on evidence it legitimately has.  Two kinds of knowledge, kept apart:
+ *   ATTRIBUTED  e.mem.p  - one record per player the entity has actually SEEN (sight is what tells one person from another).  Its target
+ *                          (e.target) is always one of these.  Each record keeps its fused belief (lkx/lky/conf) plus a short list of typed
+ *                          evidence entries (r.ev: see / sound / light), each with position, uncertainty radius, confidence and time.
+ *   ANONYMOUS   e.mem.leads - things it noticed that it cannot pin on anybody: a lit wall, a beam crossing a doorway, a light source seen
+ *                          without the person behind it.  pid is always null.  A lead is an INVESTIGATION GOAL (e.inv), never a target.
+ *                          It becomes attributed only when the entity then sees a player where the lead points (attributeLeads).
+ * Records are created only by sight (and, as in Part 1, by hearing - see hearEvent: sound identity is a known 2F item).  Nothing here
+ * reads where an unsensed player really is. */
+const EV_MAX = 4, LEAD_MAX = 6, LEAD_MAXAGE = 45;
+function newMemory() { return { p: new Map(), sounds: [], others: new Map(), visited: new Map(), leads: [], leadId: 0 }; }
 function rec(e, id) {
   let r = e.mem.p.get(id);
-  if (!r) e.mem.p.set(id, r = { id, aw: 0, seen: false, seenAt: -99, heardAt: -99, lkx: 0, lky: 0, lvx: 0, lvy: 0, conf: 0, hx: 0, hy: 0, st: 0, stamina: 100, ex: 0, prof: 1, light: false, iso: 0, first: -99, lost: 0, hLoud: -99, hvx: 0, hvy: 0, crawl: null, crawlAt: -99 });
+  if (!r) e.mem.p.set(id, r = { id, aw: 0, seen: false, seenAt: -99, heardAt: -99, lkx: 0, lky: 0, lvx: 0, lvy: 0, conf: 0, hx: 0, hy: 0, st: 0, stamina: 100, ex: 0, prof: 1, light: false, iso: 0, first: -99, lost: 0, hLoud: -99, hvx: 0, hvy: 0, crawl: null, crawlAt: -99, ev: [], downAt: -99, heldAt: -99 });
   return r;
+}
+/* one typed evidence entry on an attributed record (the newest of each kind is kept) */
+function noteEv(r, k, x, y, u, c, t) {
+  const ev = r.ev || (r.ev = []), q = ev.find(o => o.k === k);
+  if (q) { q.x = x; q.y = y; q.u = u; q.c = c; q.t = t; }
+  else { ev.unshift({ k, x, y, u, c, t }); if (ev.length > EV_MAX) ev.pop(); }
+}
+/* an anonymous lead: merged into a matching recent one (same place, give or take both uncertainties), otherwise a new one */
+function addLead(e, now, L) {
+  const leads = e.mem.leads;
+  for (const q of leads) {
+    if (now - q.t > 6 || Math.hypot(q.x - L.x, q.y - L.y) > (q.u + L.u) * .6) continue;
+    const w = L.c / (L.c + q.c * .8);
+    q.x += (L.x - q.x) * w; q.y += (L.y - q.y) * w; q.u = Math.max(L.u * .75, Math.min(q.u, L.u) * .95);          // seeing the same thing again firms it up a little, never past what one look can tell
+    q.c = Math.min(1, Math.max(q.c, L.c) + .05); q.t = now; q.n++; q.sal = Math.max(q.sal * .7, L.sal); q.k = L.k === 'source' ? 'source' : q.k; if (L.dir !== undefined) q.dir = L.dir;
+    return q;
+  }
+  const n = Object.assign({ id: ++e.mem.leadId, pid: null, t0: now, t: now, n: 1 }, L); leads.push(n);
+  if (leads.length > LEAD_MAX) { let wi = 0; for (let i = 1; i < leads.length; i++) if (leads[i].c < leads[wi].c) wi = i; leads.splice(wi, 1); }
+  return n;
+}
+/* sight of a player where a lead points turns the lead into attributed evidence (the only way a lead ever gets a name) */
+function attributeLeads(e, r, p, now) {
+  const leads = e.mem.leads;
+  for (let i = leads.length - 1; i >= 0; i--) {
+    const L = leads[i]; if (now - L.t > 8 || Math.hypot(L.x - p.x, L.y - p.y) > L.u + 120) continue;
+    noteEv(r, 'light', L.x, L.y, L.u, L.c, L.t); leads.splice(i, 1);
+    if (e.inv && e.inv.lead === L.id) e.inv = null;
+  }
+}
+/* the strongest anonymous lead (an investigation goal, not a target) */
+function bestAnonLead(e, now) {
+  let best = null, bs = 0;
+  for (const L of e.mem.leads) { const s = L.c * (1 - Math.min(1, (now - L.t) / 30)) + L.sal * .3; if (s > bs) { bs = s; best = L; } }
+  return best;
+}
+/* where the entity believes a player is: the body itself while it is seen, otherwise its memory (never the truth) */
+function perc(eng, e, r) {
+  if (r.seen) { const p = eng.playerById(r.id); if (p) return { x: p.x, y: p.y, vx: p.vx, vy: p.vy, sp: Math.hypot(p.vx, p.vy), angle: p.angle, seen: true, p }; }
+  const est = estimate(e, r, eng.now, eng.geo); return { x: est.x, y: est.y, vx: r.lvx, vy: r.lvy, sp: Math.hypot(r.lvx, r.lvy), seen: false, p: null, unc: est.unc };
+}
+/* a body in physical contact (capture range): contact is physics, not perception */
+function touching(eng, e, id, reach) { const p = eng.playerById(id); return p && p.alive && !p.caught && Math.hypot(p.x - e.x, p.y - e.y) < reach ? p : null; }
+/* has this entity perceived that the player is out of the hunt (dead, or in another creature's grip)?  Only what it saw; the player leaving the
+ * game (record deleted) is housekeeping */
+function tgtGone(eng, e, r) {
+  if (!r || !eng.byId.has(r.id)) return true;
+  if (r.seen) { const p = eng.playerById(r.id); return !p || !p.alive || !!p.caught; }
+  return (r.downAt > -50 && r.downAt >= r.seenAt - .01) || (r.heldAt > -50 && r.heldAt >= r.seenAt - .01);
+}
+/* target commitment: once it has picked somebody it keeps them for a moment unless it has truly lost them (no per-tick flicker between two people) */
+const TARGET_DWELL = 1.5;
+function setTarget(e, id, now) { if (e.target !== id) { e.target = id; e.tgtSince = now; } }
+function mayRetarget(e, now) { const cur = e.target > 0 ? e.mem.p.get(e.target) : null; return !cur || cur.conf < .2 || now - (e.tgtSince ?? -99) > TARGET_DWELL; }
+/* EYE CONTACT: this entity sees the player, and the player is looking at it (the character's facing, sent by its client - not a screen), from a
+ * distance at which the player could make it out: close by, or with the entity itself in light.  Used by Part 2 stages 2D/2E; debug-visible now. */
+const EYE_CONE = .35;
+function facedBy(eng, e, p, r) {
+  if (!p || !p.alive || !r || !r.seen) return null;
+  const d = Math.hypot(e.x - p.x, e.y - p.y); if (d > 900) return null;
+  const off = Math.abs(angDiff(Math.atan2(e.y - p.y, e.x - p.x), p.angle)); if (off > EYE_CONE) return null;
+  const lit = eng.geo.lightLevel(e.x, e.y, eng.lightPlayers());
+  if (d > 240 && lit < .3) return null;
+  return { d, off, lit };
 }
 function memAge(e, r, now) { return now - Math.max(r.seenAt, r.heardAt); }
 function memHalfLife(e) { return lerp(7, 46, e.tr.MEMORY); }        // seconds until an old sighting is (mostly) forgotten
@@ -26,7 +101,7 @@ function updateVision(e, eng, dt, cands) {
   for (const r0 of e.mem.p.values()) r0.seen = false;
   for (const p of cands) {
     if (!p.alive) continue;
-    const r = rec(e, p.id), dx = p.x - e.x, dy = p.y - e.y, d = Math.hypot(dx, dy);
+    let r = e.mem.p.get(p.id); const dx = p.x - e.x, dy = p.y - e.y, d = Math.hypot(dx, dy);        // (v23: no record is made for somebody it does not see)
     let vis = false, strength = 0;
     const stName = W_SN[p.st] || 'stand';
     let range = cfg.range * (.5 + .7 * e.tr.VISION);
@@ -43,14 +118,27 @@ function updateVision(e, eng, dt, cands) {
       const cz = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y) : null;
       if (inFov && (!cz || d < cz.reveal) && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
     }
+    if (!vis) { if (r) r.dist = d; continue; }
+    if (!r) r = rec(e, p.id);
     r.seen = vis; r.dist = d;
     if (vis) {
+      if (p.caught) r.heldAt = now;                                              // it can see that somebody else has them
       r.aw = Math.min(1, r.aw + strength * dt * (cfg.gain || 3.2));
       if (r.seenAt < now - 6) r.first = now;
       const cw = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y, 34) : null; if (cw) { r.crawl = cw.id; r.crawlAt = now; } else if (now - r.crawlAt > 2) r.crawl = null;   // seen going into (or at the mouth of) a crawlspace: remembered
       r.seenAt = now; r.lkx = p.x; r.lky = p.y; r.lvx = p.vx; r.lvy = p.vy; r.conf = 1; r.st = p.st; r.stamina = p.stamina; r.ex = p.ex; r.prof = p.prof; r.light = p.light; r.lost = 0;
+      noteEv(r, 'see', p.x, p.y, 16, 1, now);
+      if (e.mem.leads.length) attributeLeads(e, r, p, now);
       e.seenNow.add(p.id);
     }
+  }
+  // a body it can see lying where it last saw that person: it knows they are down (a dead player is no longer a candidate, so this looks at
+  // the records it already has, and only at a spot in its own view)
+  if (e.tier === 'near') for (const r0 of e.mem.p.values()) {
+    if (r0.seen || r0.downAt >= r0.seenAt) continue;
+    const pv = eng.playerById(r0.id); if (!pv || pv.alive || !pv.dead) continue;
+    const d = Math.hypot(pv.x - e.x, pv.y - e.y);
+    if (d < 900 && (d < 110 || Math.abs(angDiff(Math.atan2(pv.y - e.y, pv.x - e.x), e.ang + (e.head || 0))) <= cfg.fov / 2) && geo.los(e.x, e.y, pv.x, pv.y)) r0.downAt = now;
   }
   for (const r0 of e.mem.p.values()) if (!r0.seen) r0.lost += dt;
 }
@@ -76,11 +164,14 @@ function hearEvent(e, eng, ev) {
     const loud = I > .3 || ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land';
     if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (hx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (hy - r.hy) / pdt, .5); } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
     r.heardAt = eng.now; r.hx = hx; r.hy = hy; r.aw = Math.min(1, r.aw + I * .9);
+    noteEv(r, 'sound', hx, hy, unc, Math.min(1, .4 + .5 * I), eng.now);
     if (eng.now - r.seenAt > 1.2) {                                              // not in sight: the sound is all we have
       const k = Math.min(1, I * 1.4 + .25);
       r.lkx = lerp(r.lkx, hx, r.conf < .35 ? 1 : k); r.lky = lerp(r.lky, hy, r.conf < .35 ? 1 : k);
       r.conf = Math.max(r.conf, .4 + .5 * I); r.st = ev.st !== undefined ? ev.st : r.st;
-      if (ev.vx !== undefined) { r.lvx = ev.vx; r.lvy = ev.vy; }
+      // (v23) which way it is going: only what the footsteps themselves say (the heading built from successive heard positions, fuzz and all).
+      // It used to copy the player's true velocity here - the one place hearing leaked the truth.
+      if (loud && Math.hypot(r.hvx, r.hvy) > 1) { r.lvx = r.hvx; r.lvy = r.hvy; }
     }
   }
   return h;
@@ -90,8 +181,12 @@ function decayMemory(e, dt, now) {
   const half = memHalfLife(e);
   for (const r of e.mem.p.values()) {
     if (!r.seen) { r.aw = Math.max(0, r.aw - dt * (.05 + .16 * (1 - e.tr.PERSISTENCE))); r.conf = Math.max(0, r.conf - dt / half); }
+    if (r.ev && r.ev.length) for (let i = r.ev.length - 1; i >= 0; i--) if (now - r.ev[i].t > half * 3) r.ev.splice(i, 1);
   }
   for (let i = e.mem.sounds.length - 1; i >= 0; i--) if (now - e.mem.sounds[i].t > 25) e.mem.sounds.splice(i, 1);
+  // anonymous leads fade like any memory (a little faster: it never knew what they were); turning a light off stops new ones, it does not erase these
+  const L = e.mem.leads;
+  for (let i = L.length - 1; i >= 0; i--) { const q = L[i]; q.c -= dt / (half * .6); q.sal *= Math.exp(-dt / 4); if (q.c < .05 || now - q.t > LEAD_MAXAGE) { L.splice(i, 1); if (e.inv && e.inv.lead === q.id) e.inv = null; } }
 }
 
 /* the strongest lead this entity has on any player: [record, score] */
@@ -108,19 +203,26 @@ function bestLead(e, now, filter) {
 
 /* SOCIAL AWARENESS: who else is around a victim, judged only from things this entity could perceive:
  *  sighting, footsteps / noise, a light beam glimpsed at range, or having seen them together a moment ago. */
+/* (v23) built from its own records and leads only - it used to walk the true player list and read the exact position of anybody carrying a lit
+ * torch in line of sight.  A light it saw without the person is an anonymous threat (id 0): it adds to the danger, it names nobody. */
 function threatsAround(e, eng, victimId, cands) {
   const now = eng.now, out = [], v = cands.find(p => p.id === victimId), vx = v ? v.x : e.x, vy = v ? v.y : e.y;
-  for (const p of cands) {
-    if (p.id === victimId || !p.alive) continue;
-    const r = e.mem.p.get(p.id); let cert = 0, how = '', x = p.x, y = p.y;
-    if (r && r.seen) { cert = 1; how = 'seen'; }
-    else if (r && now - r.heardAt < 2.6 && Math.hypot(r.hx - vx, r.hy - vy) < 1100) { cert = .65; how = 'heard'; x = r.hx; y = r.hy; }
-    else if (p.light && Math.hypot(p.x - e.x, p.y - e.y) < 1700 && eng.geo.los(e.x, e.y, p.x, p.y)) { cert = .6; how = 'light'; }
-    else if (r && now - r.seenAt < 9 && Math.hypot(r.lkx - vx, r.lky - vy) < 650) { cert = .42 * (1 - (now - r.seenAt) / 9); how = 'together'; x = r.lkx; y = r.lky; }
-    if (cert <= 0) continue;
-    const d = Math.hypot(x - vx, y - vy), toV = Math.atan2(vy - y, vx - x), heading = Math.atan2(p.vy, p.vx);
-    const approaching = how !== 'together' && p.sp > 50 && Math.abs(angDiff(heading, toV)) < 1.1 && d < 1400;
-    out.push({ id: p.id, cert, how, dist: d, approaching, x, y, seesUs: how === 'seen' });
+  for (const r of e.mem.p.values()) {
+    if (r.id === victimId || tgtGone(eng, e, r)) continue;
+    let cert = 0, how = '', x = r.lkx, y = r.lky, vxh = 0, vyh = 0;
+    const lt = r.ev && r.ev.find(q => q.k === 'light' && now - q.t < 2.6);
+    if (r.seen) { const p = eng.playerById(r.id); cert = 1; how = 'seen'; x = p.x; y = p.y; vxh = p.vx; vyh = p.vy; }
+    else if (now - r.heardAt < 2.6 && Math.hypot(r.hx - vx, r.hy - vy) < 1100) { cert = .65; how = 'heard'; x = r.hx; y = r.hy; vxh = r.hvx; vyh = r.hvy; }
+    else if (lt && Math.hypot(lt.x - vx, lt.y - vy) < 1700) { cert = .6; how = 'light'; x = lt.x; y = lt.y; }
+    else if (now - r.seenAt < 9 && Math.hypot(r.lkx - vx, r.lky - vy) < 650) { cert = .42 * (1 - (now - r.seenAt) / 9); how = 'together'; }
+    if (cert <= 0 || Math.hypot(x - e.x, y - e.y) > 2200) continue;
+    const d = Math.hypot(x - vx, y - vy), toV = Math.atan2(vy - y, vx - x), heading = Math.atan2(vyh, vxh);
+    const approaching = how !== 'together' && Math.hypot(vxh, vyh) > 50 && Math.abs(angDiff(heading, toV)) < 1.1 && d < 1400;
+    out.push({ id: r.id, cert, how, dist: d, approaching, x, y, seesUs: how === 'seen' });
+  }
+  for (const L of e.mem.leads) {
+    if (now - L.t > 2.6) continue; const d = Math.hypot(L.x - vx, L.y - vy); if (d > 1100) continue;
+    out.push({ id: 0, cert: .45, how: 'light-anon', dist: d, approaching: false, x: L.x, y: L.y, seesUs: false });
   }
   return out;
 }
