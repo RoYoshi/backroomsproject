@@ -26,6 +26,7 @@ function run(strategy, i, opt = {}) {
   if (!h) return null;
   if (opt.traits) Object.assign(h.tr, opt.traits);
   h.ang = Math.atan2(a.y - h.y, a.x - h.x); w.run(.4, null); let r = h.mem.p.get(p.id); if (opt.startD && (!r || !r.seen)) { w.eng.sound({ type: 'run', x: p.x, y: p.y, r: 900, I: 1, src: p.id }); r = h.mem.p.get(p.id); } if (!r || (!r.seen && !opt.startD)) return null;
+  h.x = h.spawn.x; h.y = h.spawn.y; h.speed = 0; h.path = []; h.goal = null; h.goalKey = ''; h.pathAge = 99; h.lunge = null; h.recover = 0; h.act = ''; // 2E: restore the documented start distance after perception warm-up
   h.state = 'HUNTING'; h.target = p.id; h.chaseBlind = 0; h.huntStart = w.eng.now; p.lastH = { x: h.x, y: h.y }; if (opt.light === false) p.light = false;   // spotted with the torch on; it goes off as the chase starts
   const tgt = strategy === 'crawl' ? crawlTarget(w, p) : farTarget(w, p, h, i); if (!tgt) return null;
   if (strategy === 'crawl') { const W0 = require(require('../paths.js') + '/world.js'), cz = W0.CRAWL.find(c => c.id === tgt.id); let ex = null, bd = 1e9; for (const x of cz.exits) { const d = Math.hypot(x.x - p.x, x.y - p.y); if (d < bd && w.ad.clear(x.x, x.y, 16, 'walk')) { bd = d; ex = x; } } if (!ex || !p.pathTo(ex.x, ex.y, 'run')) return null; p.crawlTo = { x: cz.cx, y: cz.cy }; }

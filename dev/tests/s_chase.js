@@ -7,12 +7,14 @@ const W = require(require('../paths.js') + '/world.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const TAU = Math.PI * 2;
 
+// 2E: more geometry seeds for loss/reacquisition checks; same minimum sample counts and correctness assertions.
 /* a hunting hound that has just seen a runner at d px, in the dark; returns {w,p,h} */
 function hunt(seed, d = 380, o = {}) {
   const G = geo(), P = G.cells.filter((_, k) => k % 7 === 0).map(c => ({ x: G.g.cx(c), y: G.g.cy(c) })).filter(q => G.ad.clear(q.x, q.y, 26, 'walk'));
   const a = P[(seed * 7919 + 13) % P.length], w = World(5000 + seed), p = w.player(a.x, a.y, { light: true }); p.stamina = o.stamina ?? 100; if (p.stamina < 30) p.ex = 1;
   let h = null; for (let k = 0; k < 24 && !h; k++) { const ang = k / 24 * TAU, x = a.x + Math.cos(ang) * d, y = a.y + Math.sin(ang) * d; if (G.ad.clear(x, y, 26, 'walk') && w.eng.geo.lineClear(x, y, a.x, a.y, 22, 'walk')) h = w.hound(x, y); }
   if (!h) return null; h.ang = Math.atan2(a.y - h.y, a.x - h.x); w.run(.4, null); const r = h.mem.p.get(p.id); if (!r || !r.seen) return null;
+  h.x = h.spawn.x; h.y = h.spawn.y; h.speed = 0; h.path = []; h.goal = null; h.goalKey = ''; h.pathAge = 99; h.lunge = null; h.recover = 0; h.act = ''; // 2E: restore the documented start distance after perception warm-up
   h.state = 'HUNTING'; h.target = p.id; h.chaseBlind = 0; if (o.dark !== false) p.light = false;
   return { w, p, h, P };
 }
@@ -26,7 +28,7 @@ const lostSight = (w, h, p) => !w.eng.geo.los(h.x, h.y, p.x, p.y);
 
 add('C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it', () => {
   const rs = [];
-  for (let i = 1; i <= 30; i++) { const A = hunt(i); if (!A) continue; const { w, p, h, P } = A; const q = hideSpot(w, p, h, P, i); if (!q) continue; p.pathTo(q.x, q.y, 'run');
+  for (let i = 1; i <= 90; i++) { const A = hunt(i); if (!A) continue; const { w, p, h, P } = A; const q = hideSpot(w, p, h, P, i); if (!q) continue; p.pathTo(q.x, q.y, 'run');
     let lostAt = -1, t = 0; while (t < 12) { w.step(); t += DT; if ((p.caught || p.dead)) break; if (lostAt < 0 && !h.mem.p.get(p.id).seen && t > .3) lostAt = t; if (lostAt >= 0 && h.mem.p.get(p.id).seen) { lostAt = -2; break; } if (lostAt >= 0 && t - lostAt >= 3) break; }   // (seen again before the check: not a lost-sight case)
     if (lostAt < 0 || (p.caught || p.dead)) continue; const r = h.mem.p.get(p.id);
     rs.push({ ok: r && r.conf > .4 && (h.state === 'HUNTING' || h.state === 'SEARCHING') && Math.hypot(r.lvx, r.lvy) > 0, conf: r ? r.conf : 0, st: h.state }); }
@@ -50,7 +52,7 @@ add('C4 noise gives the prey away: a prey that has slipped away quietly and then
   // the first time the hound is searching within 750 px with the prey out of its sight - and the prey has the legs to run (not exhausted) -
   // the prey panics and sprints.  Measured: did the hound hear that run, and how long from the first loud step it heard to hunting again.
   const rs = [];
-  for (let i = 0; i < 40 && rs.length < 10; i++) {
+  for (let i = 0; i < 160 && rs.length < 10; i++) {
     let sprintAt = -1, sprintNow = 0, heardAt = -1;
     const r = E.run('break-walk', i, { light: false, startD: 520, lim: 60, hook: (w, h, p, t, P) => {
       const rr = h.mem.p.get(p.id);
@@ -170,7 +172,7 @@ add('C16 a body inside a crawlspace is not visible from across the room, only cl
   return { ok: far.length >= 4 && far.every(r => !r.seen) && near.length >= 3 && rate(near, r => r.seen) >= .6, note: `from ~420 px with a clear line: seen ${far.filter(r => r.seen).length}/${far.length}; from inside the reveal distance: seen ${near.filter(r => r.seen).length}/${near.length}` };
 });
 add('C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out', () => {
-  const rs = []; for (let i = 0; i < 16; i++) { const r = E.run('break-walk', i, { light: false, startD: 520, untilGiveUp: true, lim: 120 }); if (r && r.lost) rs.push(r); }
+  const rs = []; for (let i = 0; i < 48; i++) { const r = E.run('break-walk', i, { light: false, startD: 520, untilGiveUp: true, lim: 120 }); if (r && r.lost) rs.push(r); }
   return { ok: rs.length >= 4 && rs.every(r => r.conf < .2 && r.dis), note: `${rs.length} escapes: memory at the end ${rs.map(r => r.conf).join(', ')}; reasons: ${[...new Set(rs.map(r => r.dis))].join(' / ')}` };
 });
 add('C19 / C20 no geometry clipping and no NaN in chases, searches and crawlspace escapes', () => {

@@ -47,7 +47,10 @@ function observeBeam(eng, e, b) {
   const dO = Math.hypot(b.o.x - e.x, b.o.y - e.y);
   let src = null, flash = false;
   const inCone = b.omni || Math.abs(angDiff(Math.atan2(e.y - b.o.y, e.x - b.o.x), b.ang)) < b.arc * .5;
-  if (dO < (inCone ? 1700 : 650) && inView(b.o.x, b.o.y, dO) && geo.los(e.x, e.y, b.o.x, b.o.y)) { src = { x: b.o.x, y: b.o.y }; flash = inCone && dO < b.range * 1.6; }
+  // 2E: a visible beam physically reaching a Hound is an attention stimulus even from behind.
+  // Only the visible emitter is observed; a human still requires updateVision. Keep Smilers unchanged.
+  const hitHound = e.kind === 'hound' && inCone && dO < b.range;
+  if (dO < (inCone ? 1700 : 650) && (inView(b.o.x, b.o.y, dO) || hitHound) && geo.los(e.x, e.y, b.o.x, b.o.y)) { src = { x: b.o.x, y: b.o.y }; flash = e.kind === 'hound' ? hitHound : inCone && dO < b.range * 1.6; }
   const pts = [], air = [];
   for (const h of b.rays) { const d = Math.hypot(h.x - e.x, h.y - e.y); if (d < 1500 && inView(h.x, h.y, d) && geo.los(e.x, e.y, h.x, h.y)) pts.push({ x: Math.round(h.x), y: Math.round(h.y), I: h.I, w: h.wall ? 1 : 0 }); }
   for (const h of b.air) { const d = Math.hypot(h.x - e.x, h.y - e.y); if (d < 900 && inView(h.x, h.y, d) && geo.los(e.x, e.y, h.x, h.y)) air.push({ x: Math.round(h.x), y: Math.round(h.y), I: h.I }); }

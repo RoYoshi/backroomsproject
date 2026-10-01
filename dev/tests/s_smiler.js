@@ -331,7 +331,14 @@ add('SM15 presentation: no limbs; the face glow is its own channel (not the gene
   const sm = ents.slice(ents.indexOf('E.drawSmiler = function'), ents.indexOf('E.smilerGlow = function')), glow = ents.slice(ents.indexOf('E.smilerGlow = function'), ents.indexOf('};', ents.indexOf('E.smilerGlow = function')));
   const noArms = !/quadraticCurveTo\(ex \+ sx \* 8/.test(sm) && /ag\.alpha = 0/.test(sm), noLegs = !/-13, 58, -7, 60/.test(sm), glowOwn = !/view\.alpha/.test(glow);
   const bad = /(rage|suspicion|awareness|aggro|agitation)[ _-]?(bar|meter|icon|indicator)|exclamation|alert icon|detect(ion)? icon/i;
-  const dbg = ents.indexOf('d.sm'), gated = dbg > 0 && /debug|Debug|__dlab/.test(ents.slice(Math.max(0, dbg - 6000), dbg));
+  // 2E adds Hound labels before d.sm. A fixed 6000-character lookback was not a debug gate test.
+  // Check the actual draw call boundary and execute the overlay with debug off and no DOM.
+  const overlay = txt('dev/ents_src/40_debug.js'), entry = overlay.slice(overlay.indexOf('E.drawDebug = function'));
+  const label = overlay.indexOf('if (d.sm)'), draw = overlay.indexOf('function drawEntities('), end = overlay.indexOf('function drawEvidence(');
+  const probe = {}; require('vm').runInNewContext(overlay.replace(/\}\)\(\);\s*$/, ''), { E: probe, window: {}, performance: { now: () => 0 } }); // fragment closes the bundle's outer IIFE
+  probe.dbg = new Proxy([], { get() { throw Error('debug-off overlay read private entity data'); } });
+  probe.drawDebug(null, { W: 100, H: 100 });
+  const gated = label > draw && label < end && entry.indexOf('if (!on) return;') < entry.indexOf('drawEntities(cx, view, list, cfg, stale)') && /if \(cfg.ai && list && list.length\) drawEntities/.test(entry) && (overlay.match(/drawEntities\(/g) || []).length === 2;
   return { ok: noArms && noLegs && glowOwn && !bad.test(hud) && !bad.test(ents) && gated, note: `arms drawn ${!noArms}, legs drawn ${!noLegs}; glow reads the generic alpha ${!glowOwn}; aggression UI ${bad.test(hud) || bad.test(ents)}; internal values debug-only ${gated}` };
 });
 

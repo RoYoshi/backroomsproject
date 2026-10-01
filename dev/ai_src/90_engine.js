@@ -315,6 +315,7 @@ function create(cfg) {
         tr: Object.fromEntries(Object.entries(e.tr).map(([k, v]) => [k.slice(0, 4), +v.toFixed(2)])),
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
         sm: e.kind === 'smiler' ? e.dbg.sm : undefined,
+        hm: e.kind === 'hound' ? hDebug(this, e) : undefined,
       });
     }
     return out;

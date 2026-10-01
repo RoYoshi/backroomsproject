@@ -37,7 +37,8 @@ function litWallSetups() {
   }
   SETUPS = out; return out;
 }
-function restingHound(w, x, y, a) { const h = w.hound(x, y); h.state = 'ROAMING'; h.act = 'rest'; h.rest = 1e9; h.ang = a; h.head = 0; return h; }
+function restingHound(w, x, y, a) { const h = w.hound(x, y); h.state = 'ROAMING'; h.act = 'rest'; h.rest = 1e9; h.ang = a; h.head = 0; h.sp = { ...h.sp, tick() {} }; return h; // sensor-only fixture: 2E now acts on leads; keep observation assertions stationary
+}
 
 add('E1 walls stop light: a torch lights nothing and gives no evidence on the far side of a wall', () => {
   const G = geo(), g = G.g; let n = 0, leaks = 0, lightLeaks = 0;
@@ -131,16 +132,17 @@ add('E6 observation replay: the carrier somewhere else, the same observations re
       const h = w.hound(s.bx, s.by); h.ang = s.ba;
       let i = 0; w.eng.obsHook = (e, obs) => { if (e !== h) return obs; if (!replay) { rec.push(JSON.parse(JSON.stringify(obs))); return obs; } return JSON.parse(JSON.stringify(rec[i++] || [])); };
       const tr = []; let sensed = false;
-      w.run(8, () => { if (h.mem.p.has(p.id) || h.mem.p.has(dq.id)) sensed = true; tr.push(`${h.x.toFixed(4)},${h.y.toFixed(4)},${h.state},${h.act},${h.target},${h.inv ? h.inv.k + h.inv.x.toFixed(2) : '-'},${h.mem.leads.map(L => L.k + L.x.toFixed(2) + ',' + L.y.toFixed(2) + ',' + L.u.toFixed(1)).join(';')}`); }, 1);
+      w.run(8, () => { if (h.mem.p.has(p.id) || h.mem.p.has(dq.id)) { sensed = true; return false; } tr.push(`${h.x.toFixed(4)},${h.y.toFixed(4)},${h.state},${h.act},${h.target},${h.inv ? h.inv.k + h.inv.x.toFixed(2) : '-'},${h.mem.leads.map(L => L.k + L.x.toFixed(2) + ',' + L.y.toFixed(2) + ',' + L.u.toFixed(1)).join(';')}`); }, 1);
       return { tr, sensed, leads: rec.length };
     };
     const decoy = far.find(c => { const d = Math.hypot(c.x - s.bx, c.y - s.by); return d > 500 && d < 1300 && !G.g.los(c.x, c.y, s.bx, s.by); }); if (!decoy) continue;
     const A = run(false, { x: s.px, y: s.py });
     const elsewhere = far.find(c => Math.hypot(c.x - s.px, c.y - s.py) > 2500 && Math.hypot(c.x - s.bx, c.y - s.by) > 2500);
     const B = run(true, elsewhere);
-    if (A.sensed || B.sensed) continue;
+    // Compare the common observation-only prefix: moving to investigate may legitimately reveal the carrier in 2E.
+    const n = Math.min(A.tr.length, B.tr.length); if (n < 12) continue;
     const hadLight = A.tr.some(x => /lit|beam/.test(x));
-    rs.push({ same: A.tr.join('|') === B.tr.join('|'), hadLight, moved: Math.round(Math.hypot(elsewhere.x - s.px, elsewhere.y - s.py)) });
+    rs.push({ same: A.tr.slice(0,n).join('|') === B.tr.slice(0,n).join('|'), hadLight, moved: Math.round(Math.hypot(elsewhere.x - s.px, elsewhere.y - s.py)) });
   }
   const used = rs.filter(r => r.hadLight);
   return { ok: used.length >= 5 && used.every(r => r.same), note: `${used.length} runs where the hound formed light leads: identical decisions with the carrier moved ${used.filter(r => r.same).length}/${used.length} (moved ${used.map(r => r.moved).join(', ')} px, light off, only the recorded observations replayed)` };

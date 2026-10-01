@@ -1,0 +1,704 @@
+{
+  "node": "24.19.0",
+  "first_full_run": {
+    "passed": 134,
+    "total": 138
+  },
+  "final_per_test_results": {
+    "passed": 135,
+    "total": 138
+  },
+  "tests": [
+    {
+      "test": "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P02 light beam makes a walker easier to notice (hound)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P03 standing still: a hound that is not looking never finds a silent standing player 300px away behind it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P04 walls block sight: a hound never SEES a player through a wall at 150px",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P05 hearing: a running player is heard through a wall (hound turns to it); a crouch-walker at the same spot is not",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P06 hearing radius: sliding / vaulting / landing are loud events, a standing player is silent",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P07 exhausted breathing is audible only close by",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P09 no impossible information: a silent player two rooms away leaves no trace in a roaming hound's memory",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P10 social awareness: a second player behind walls, silent, is not counted as a threat; a runner approaching is",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P11 personality: same species, different individuals (trait variation within bounds)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "P12 traversal caps: hound vaults, smiler vaults slower, nobody squeezes through wall holes without CAN_USE_TIGHT_GAPS; crawl only when allowed",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H01 bait a lunge and sidestep: a late sidestep beats it most of the time; standing still does not",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H02 no i-frames: a lunge that connects catches you whatever you were doing (walking/running); a slide can pass under it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H03 chase outcomes in the long corridor: a fresh runner with a head start lasts; an exhausted one is caught fast",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H04 lunges start only when in range, roughly aligned and with a clear line",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H05 poor sharp turning: the hound turns much slower at full speed than at a crawl",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H06 after a missed lunge it recovers (skids, turns slowly) before it runs again",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H08 searching is logical: it starts at the last known position, fans out around it, and does not home in on a quiet crouching player",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H09 the wall impact only ever happens against a wall that is really there",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H10 exhausted prey: variant D only ever for a player with nothing left (and is the usual end for one caught from behind)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H11 no repeated identical death selection (variant history is respected)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H12 after a kill: it is worked up (EXCITED), then feeds; an intruder at the body is guarded against and hunted",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H13 pack instinct: hounds near each other share a pack id, and one hound sounding off draws the others",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "H14 far hounds sleep and wake: no perception when far; awake when a player is near",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM02 strikes only on canon triggers: a quiet still person is never struck; a fast retreat in front of it (panic) or a loud noise close by is",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM03 eye contact: watched, it holds; backing away slowly while watching it gets you let go (it withdraws, no strike)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM04 no hidden position: an unsensed player moved elsewhere changes nothing the Smiler does (tick by tick)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM05 lost player: it goes where it last had them (with an uncertainty), not where they really went",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM06 light lead: drawn to what it observed (an uncertain region), and the same observations replayed with the carrier far away give identical decisions",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM07 wall occlusion: a torch lighting the far side of a wall draws nothing; the smiler stays where it is",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM08 infrared OFF vs HIGH: identical Smiler decisions (camcorders raised, infrared written everywhere a client could put it)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM09 attention: a one-frame glance does nothing; through a wall nothing; sustained eye contact (with line of sight) holds it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM10 hold is counterplay, not immunity: standing and staring, it creeps in and drifts sideways; a fixed gaze loses it; up close a small sound triggers it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM11 multiplayer: one watches it in the dark, another walks about with a light - it works on the light, settles (no flicker), and a lit player it has never seen never wins",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM12 personality: bounded, deterministic per seed, and no extreme tiers",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM13 state validity over long mixed runs: finite, valid targets and states, legal transitions, never inside walls, never stuck",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM14 no teleporting: every move is walked (bounded per tick), whatever it is doing",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM15 presentation: no limbs; the face glow is its own channel (not the generic entity alpha); no aggression UI outside debug",
+      "passed": true,
+      "evidence": "smiler-debug-gate.log",
+      "note": "repaired debug-gate fixture; runtime code unchanged"
+    },
+    {
+      "test": "SM16 multiplayer: a light elsewhere draws it off somebody it only watches in the dark (once - no back-and-forth); eye contact keeps it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "SM17 close-range pressure: holding its eyes does not let you walk up to it - walking, crouching or inching in on it ends in a strike; standing still or backing away does not",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C01 quick or play depends on the situation: others approaching -> almost always a quick kill; an isolated victim -> the hound may toy with it (the canon Smiler never plays)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C02 CAUGHT is not DEAD: a played-with victim stays alive and held; the next major decision comes after a tense 4-21 s and never in a rush",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C03 false hope: a released victim that runs may be hunted again (hounds; the canon Smiler never plays, so never releases)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C04 interruption: someone running up with a light changes its mind within a moment - it kills (a canon Smiler is drawn to the light, not scared off)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C05 after a quick kill it reads the room: with others coming it defends, attacks the next or leaves; alone it settles (the Smiler lingers, then returns to the dark)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C06 the death itself: one kill per life, the record carries variant / geometry, the body is where the victim fell, no repeat kills",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C07 spawn protection and admin god mode: nothing captures a protected player; unprotected, the very same attack lands",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C08 two hunters, one victim: exactly one capture; the other reacts to the kill (it does not double-kill)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y01 level of detail: perception runs at full rate near a player, at a reduced rate further out, and not at all while an entity is far away",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y02 performance: the shipped population and a stress population fit the frame budget",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y03 snapshot size: what goes over the wire every 50 ms stays small (entities are quantised; nothing per-player-private is sent)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y04 stuck entities: one embedded in a wall is set back on open floor and one that cannot go anywhere does not stand frozen forever",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y05 turning and snapping: headings change smoothly (no per-tick flips), speeds change within acceleration limits",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y06 no wall clipping: over long emergent runs no entity ever stands inside solid geometry (vaults excepted)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y07 pop-in: a smiler only appears or vanishes by fading (its visibility changes at a bounded rate); entities are only ever spawned out of sight",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y08 determinism: the same seed and the same inputs give the same world (no stray randomness, safe for tests and replays)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y09 population caps and bodies over a long session: at most 3 hounds and 5 smilers; one body per player, at most 24",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "Y10 bodies persist for the configured time: forever by default, or BODY_TTL seconds",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "A01 preview death: every variant of both killers is played exactly as asked, through the real kill path (record, events, entity left in a sane state)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "A02 preview works through god mode, spawn protection and a frozen world; refuses honestly (no wall near, already dead, already caught, everything busy)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "A03 preview uses the nearest free entity (population unchanged) and only spawns one when none exists (and removes it again if the preview is refused)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "A04 capture style override: AUTO leaves the decision to the entity, QUICK makes every catch a kill, PLAY makes every catch a held victim (then the normal decision)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "A05 the AI event log: state changes, catches, kills and lamp failures are written down with a running number; readers get only what is new; the log stays short",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "K01 a hound that kills stays on its kill for the whole death (does not move, does not take the witness standing right there)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "K02 ...and then it decides: an aggressive hound goes for the witness after the kill, not during it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "K03 every variant commits for its own length (A 4.5 / B 4.7 / C 4.3 / D 4.5 s)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "K04 the victim's report of where the animation left the hound is used only if it is close and clear",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV01 A/B/E reachable targets are reached: 40 hound routes (292 px/s) and 20 smiler routes across rooms, corners and doorways",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV02 solids are never entered and nothing is NaN (all routes, doorways and chases): no tick inside the collision margin, no emergency un-embedding",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV03 C/D/J doorway traversal: every narrow doorway, approached head-on and at 30/60 degrees, both species: all through, no ramming, little touching",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV04 paths simplify when safe: routes are string-pulled (far fewer waypoints than grid cells) and never cut through a wall",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV05 F/G/H single-obstacle loops: laps round a pillar / bar / cross / L-shaped wall do not beat a hunting hound (real AI, real stamina)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV06 I rapid reversals through a doorway: a player hopping back and forth through a door every 1.2 s does not cause a repath storm and is caught",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV07 K/L traversal capabilities: routes only use cells the species may use (smilers never crawl), vault links are costed, not free",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV08 M two bodies through one doorway: they pass, press a little, never sit inside each other",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV10 O line of sight lost round a corner (real AI): the hound heads for where it last knew the runner was going, not where the runner really is, and does not freeze",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV11 stuck recovery: a hound wedged nose-first into a concave corner / against a pillar gets out and arrives (no teleport)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "NV12 cost: navigation per tick stays cheap and path searches stay rare in a busy world (3 hounds, 5 smilers, 4 players moving, 120 s)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C2 it reaches the last known position (or where the prey was heading from it) after losing sight",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C3 it does not track the hidden prey exactly: after losing it, its goals come from memory and sound, never from where the prey really is",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+      "passed": false,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+      "passed": false,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C6 crouching is not invisibility: a crouched, still player in the dark right in front of an unaware hound is noticed",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C7 repeated corner cheese fails: ducking back and forth round one corner is not a way to be safe",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C8 counter / shelf / machine loops fail: laps round a vaultable obstacle do not keep a hunting hound off (it vaults or cuts across)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance",
+      "passed": false,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C11 / C12 crawlspaces: a crawling player gets in and out through every wall hole and under every table, continuously (no teleport), never inside a wall",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C13 an entity never enters a crawlspace it cannot use: smilers never go under furniture, nothing goes through a wall hole",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C14 / C17 an entity that cannot follow into a crawlspace remembers the prey went in and goes round to the other side",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C15 an entity that can crawl goes through a crawlspace: a hound goes under a table",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C16 a body inside a crawlspace is not visible from across the room, only close by",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "C19 / C20 no geometry clipping and no NaN in chases, searches and crawlspace escapes",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "B1 (test infrastructure) the escape bench calls a test hook exactly once per simulation step",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L1 lifecycle: a living, free player cannot respawn",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L2 lifecycle: a dead player respawns (at the spawn point, full stamina, protected)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L3 lifecycle: held in a capture but not dead - no respawn and no new run (the capture ends in a death or a release)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L4 lifecycle: an admin revive leaves one respawn (and only one)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L5 movement check: open floor and short hops pass; through a wall does not; a long hop needs a real route that short",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L6 the death plan numbers are one table: the bundle's death class and the server fallback read the same knock / drag / blows as v22 did",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L7 the server fallback corpse is the physical death run to rest: deterministic, on open floor, gear and hands present",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L8 lifecycle (v22.2): held - leave is refused too, so leave -> join cannot escape; walking out (disconnect) forfeits the capture as a death",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "L9 lifecycle (v22.2): a living player starts a new run only through the NEW RUN sequence (vanish, 2 s or more, then leave / join), once per 30 s",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E1 walls stop light: a torch lights nothing and gives no evidence on the far side of a wall",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E2 a lit wall seen without the person: an anonymous lead (no player, wide uncertainty), not a target and not a record",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E3 the light source in view gives an anonymous source lead; only sight of the person then names it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E4 light off: no new light evidence, but what it already has stays (and fades like any memory)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E5 hidden-position invariance: an unsensed player moved elsewhere changes nothing the hound does",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E6 observation replay: the carrier somewhere else, the same observations replayed -> the same leads and decisions (no back-projection)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E7 the camcorder emits no visible light: no beam, no light evidence, no glare bonus - its raised state is presentation only",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E8 eye contact: seen and facing it -> detected; facing away, or a wall between -> not",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E9 target commitment: it does not switch to somebody else inside the dwell unless it has truly lost its prey",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "E10 bounded and valid: leads <= 6, evidence <= 4 per record, all numbers finite, confidences in [0,1], over long mixed runs",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "I1 infrared never reaches the simulation: ai.js / sim.js do not name it; server.js stores it on the connection, not on the player",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "I2 toggling infrared alone changes no AI decision (OFF vs HIGH, same world, same players, tick by tick)",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "I3 a raised camcorder is no light to the AI: no lit player, no light evidence from it",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H1 identified human with flashlight warrants pursuit",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H2 swept beam reaches Hound from behind: attention then identification",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H3 hidden carrier: anonymous light investigation; replay cannot back-project",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H4 solid wall blocks direct beam and impossible evidence",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H5 IR OFF vs HIGH: identical complete decisions each tick",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H6 hidden corner branches cannot change prediction",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H7 fresh running after loss causes hearing-based reacquisition",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H8 silent hidden reposition does not cause magical following",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H9 nearby noisy hiding is exposed through real movement footsteps",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H10 failed search reduces confidence and ends within finite budget",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H11 stable multiplayer target, then meaningful switch after loss and dwell",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H12 listening is watchdog-safe; blocked movement still recovers",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H13 long-run finite states, valid targets, bounded memory and collision",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H14 gaze intimidation is temporary, breaks on looking away and cannot be toggled to refill",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H15 flashlight off stops new light observations without deleting an identified human",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H16 bounded deterministic traits; private HP and inventory cannot change decisions",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    },
+    {
+      "test": "2E H17 social sound carries no prey identity or shared memory",
+      "passed": true,
+      "evidence": "scenarios-final.log"
+    }
+  ]
+}

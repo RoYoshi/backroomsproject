@@ -1,4 +1,4 @@
-# dev/ - test suite for the v16 movement, AI and death systems (optional)
+# Development tests — Stage 2E
 
 Nothing here is needed to play or host the game; `server.js` never serves this folder. It exists so the behaviour can be re-checked after any change.
 
@@ -10,10 +10,21 @@ Since v22.1 the scripted players move with the game's own **`move.js`** (`move_m
 
 All paths are package-relative (`paths.js`: `../g` in the working tree, `..` in the shipped package), so the commands below work from the extracted zip as they are, from any directory.
 
+## Stage 2E result and limits
+
+Read `../STAGE_2E_REPORT.md` for actual results and `STAGE_2E_HUMAN_QA.md` for manual setups. Three legacy chase percentage gates (C4, C5, C9/C10) remain unmet; their assertions were **not** lowered. `npm test` / the full suite therefore report failures, not an all-green release gate. New Hound correctness checks and preserved-system results are reported separately. Browser visual/movement checks remain unrun in the implementation environment.
+
+Stage 2E tests keep the real AI and move.js. H6/H8/H10 fix near LOD to isolate evidence decisions; placements establish observation boundaries, not playable teleport abilities. H7 injects a valid running event through the real sound bus; H9 obtains sound from real move.js footsteps. H12 deliberately replaces the motor only to exercise the real watchdog. H13 checks a 12 px solid-core margin, like the Smiler long-run test; stricter clearance is also exercised by the navigation/chase suites. Existing sensor-only tests E2/E4 and scheduler test Y01 hold the motor idle to avoid active light investigation contaminating their measured condition. E6 compares the observation replay only until the first new human sighting. Chase fixtures restore their advertised starting distance after sensor warm-up; loss tests sample more geometry seeds without lowering assertions.
+
+The network tests use Node's built-in WebSocket (Node 22+). `audit_net2.js` can take more than three minutes because of real movement playback and death-fallback waits; a 180-second external timeout is too short. Do not translate that timeout into a product failure.
+
 ## Run
 
 ```
-node dev/tests/run.js s_percept.js s_hound.js s_smiler.js s_smiler2.js s_capture.js s_system.js s_admin.js s_commit.js s_nav.js s_chase.js s_audit.js    # 124 scenarios (s_nav = Part 1B, s_chase = Part 1C, s_audit = audit fixes in the simulation)
+node dev/tests/run.js                                                   # complete active suite, including evidence, IR and Stage 2E
+node dev/tests/run.js s_hound2e.js                                       # 17 new deterministic Hound checks
+node dev/tests/perf_hound2e.js                                           # 5 workloads, 3 seeds; per-step average/p99
+node dev/tests/smiler_parity.js /path/to/extracted/stage2D                 # optional: 14,400 isolated Smiler ticks versus baseline
 node dev/tests/audit_net.js                                              # audit fixes on the wire (real server + sockets): malformed URLs, respawn rules, movement validation, spawn choice, death aftermath on disconnect
 node dev/tests/audit_net2.js                                             # v22.2 follow-up on the wire: capture escape sequences, sub-pixel walls, silent running without a report, real move.js traces, the death-disconnect race
 python3 dev/tests/lifecycle_mp.py                                        # browser: NEW RUN (vanish -> run menu -> play again) and RETRY after a death still work for an ordinary player
@@ -24,7 +35,7 @@ node dev/tests/escape_bench.js all 16                                    # escap
 node dev/tests/live_chase.js break-walk 6                                # the same chase through the real server + WebSocket at the client's send rate
 python3 dev/tests/chase_mp.py                                           # browser: the SEARCH + MEMORY and CRAWLSPACES debug layers, no errors
 node dev/tests/nav_bench.js                                             # navigation numbers (routes, 792 doorway passes, chases, loops)
-node dev/tests/interp_test.js                                           # client snapshot interpolation vs the old chase (s_smiler2 = v19 smiler behaviour + anti-cheese matrix)
+node dev/tests/interp_test.js                                           # client snapshot interpolation vs the old chase
 ONLY=H09 node dev/tests/run.js s_hound.js                                             # one scenario (regex on the name)
 DATA=1 node dev/tests/run.js s_smiler.js                                              # extra data for failures
 node dev/tests/live.js                                                                # real server.js + two WebSocket clients (needs Node 22+: built-in WebSocket)
@@ -35,7 +46,7 @@ node dev/tests/play_server.js 8000 play                                         
 
 `run.js`, `live.js`, `audit_net.js`, `audit_net2.js`, `lifecycle_mp.py`, `interp_test.js`, `phys_test.js`, `move_test.py`, `play_mp.py`, `fallback_parity.py` and `audio_test.py` exit with code 1 if anything fails. The browser checks give their test pages admin authority (`__net.testAuth`) because they move them with the client-side debug teleport, which the server's movement check refuses from ordinary players.
 
-## Scenarios (54, on the real simulation)
+## Scenario groups (real simulation)
 
 ### s_percept.js - perception, memory, personality
 - **P01** noticing distance: run > walk > crouch
@@ -150,3 +161,7 @@ M01 speeds - M02 states - M03 stamina regeneration by state - M04 sprint length 
 ## Layout
 - `paths.js` finds the game folder (works inside it and next to a `g/` working tree).
 - `harness.js` is the puppet-player world; `tests/lib.js` has the geometry finders and helpers the scenarios share.
+
+## s_hound2e.js — new Stage 2E acceptance
+
+H1 visible human + flashlight; H2 direct beam; H3 anonymous light/replay; H4 wall occlusion; H5 IR invariance; H6 hidden corner branches; H7 hearing reacquisition; H8 silent hidden reposition; H9 noisy hiding after loss; H10 bounded failed search; H11 multiplayer commitment; H12 listening vs real stuck; H13 long-run validity; H14 finite eye-contact intimidation; H15 light-off memory; H16 deterministic bounded traits/private-data invariance; H17 separate Hound memories. All are included in the default runner.

@@ -8,7 +8,7 @@ const angD = (a, b) => { let d = (a - b) % TAU; if (d > Math.PI) d -= TAU; else 
 add('Y01 level of detail: perception runs at full rate near a player, at a reduced rate further out, and not at all while an entity is far away', () => {
   /* one hound alone in the world: every perception update is its own; each tick's updates are credited to the tier the hound is in once that tick has been simulated */
   const probe = d => {
-    const w = World(11), p = w.player(3300, LONG.y, {}); p.stop('stand'); const h = w.hound(3300 + d, LONG.y); h.state = 'ROAMING'; w.run(1, null);
+    const w = World(11), p = w.player(3300, LONG.y, {}); p.stop('stand'); const h = w.hound(3300 + d, LONG.y); h.state = 'ROAMING'; h.sp = { ...h.sp, tick() {} }; w.run(1, null); // scheduler-only: do not let the newly light-responsive Hound kill the test's clock source
     const per = { near: { n: 0, t: 0 }, mid: { n: 0, t: 0 }, far: { n: 0, t: 0 } }; let last = w.eng.stats.sense;
     for (let i = 0; i < 16 * 60; i++) { w.step(); const now = w.eng.stats.sense, t = per[h.tier]; t.n += now - last; t.t += DT; last = now; }
     return per;

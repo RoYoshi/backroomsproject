@@ -113,6 +113,14 @@ add('H07 hound state coverage: every state of the framework is reached by emerge
   }
   // (d) nobody around: a far hound is dormant
   { const w = World(99), p = w.player(1200, 1000, {}); p.stop('stand'); const h = w.hound(7000, 5500); w.run(2, null); mark(h, 'd'); }
+  // 2E: lit humans now warrant immediate pursuit. Exercise cautious dark groups and uncertain quiet sounds explicitly.
+  for (let k = 1; k <= 24; k++) {
+    const w = World(720+k), a = w.player(5220, LONG.y-35, { light:false }), b = w.player(5220, LONG.y+35, { light:false }), h = w.hound(5000,LONG.y); h.ang=0;
+    w.run(5,()=>mark(h,'dark-group'+k));
+    const q = World(820+k), p = q.player(4400,LONG.y,{light:false}), j=q.hound(5000,LONG.y); j.ang=0;
+    q.eng.sound({x:p.x,y:p.y,r:1300,I:.55,type:'walk',src:p.id,st:1});
+    q.run(4,()=>mark(j,'uncertain-sound'+k));
+  }
   const need = ['ROAMING', 'DORMANT', 'ALERT', 'CURIOUS', 'STALKING', 'HUNTING', 'SEARCHING', 'CAUTIOUS', 'FRUSTRATED', 'EXCITED', 'FEEDING', 'PLAYING', 'RETREATING'];
   const miss = need.filter(n => !seen.has(n));
   return { ok: miss.length === 0, note: `reached ${need.length - miss.length}/${need.length}: ${[...seen].join(', ')}${miss.length ? '   MISSING: ' + miss.join(', ') : ''}` };

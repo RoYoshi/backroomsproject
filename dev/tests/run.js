@@ -1,5 +1,5 @@
 'use strict';
-const files = process.argv.slice(2).length ? process.argv.slice(2) : ['s_percept.js'];
+const files = process.argv.slice(2).length ? process.argv.slice(2) : ['s_percept.js', 's_hound.js', 's_smiler.js', 's_capture.js', 's_system.js', 's_admin.js', 's_commit.js', 's_nav.js', 's_chase.js', 's_audit.js', 's_evidence.js', 's_ir.js', 's_hound2e.js'];
 const only = process.env.ONLY ? new RegExp(process.env.ONLY, 'i') : null;
 let total = 0, pass = 0; const fails = [];
 for (const f of files) {

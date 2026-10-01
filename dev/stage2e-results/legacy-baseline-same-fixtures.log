@@ -1,0 +1,9 @@
+PASS C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)  [11812ms]
+       10 runs where the prey had slipped away quietly (the hound searching within 750 px) and then broke into a run; the hound heard the run in 6; of those it was hunting again within 1 s of the first loud step it heard in 100% (avg 0.06 s; from the prey's first step: 0.66 s); not heard (walls / distance) 4
+FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you  [2295ms]
+       a hound that heard the prey ~520 px away in the dark: slipping out of sight and walking on quietly escaped 20% (15 runs); crouching still right where it lost sight escaped 20% - silence is a real chance, not a guarantee
+FAIL C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance  [1460ms]
+       caught within 8 s: fresh 41% vs exhausted 100%; fresh runners holding or widening the gap after 4 s: 16% (avg change -137 px; exhausted -349 px)
+
+1/3 passed
+FAILED: C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you; C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance

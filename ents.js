@@ -661,6 +661,14 @@ function drawEntities(cx, view, list, cfg, stale) {
       lines.push(`tgt:${d.tg || '-'}  v:${d.v}  near:${d.near}` + (d.lit !== undefined ? '  lit:' + d.lit : ''), `mood a${d.mood[0]} f${d.mood[1]} e${d.mood[2]} b${d.mood[3]}`);
       if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
       if (d.cd) lines.push('decide: ' + Object.entries(d.cd).map(([k, v]) => k + ':' + v).join(' ').slice(0, 60));
+      if (d.hm && (sel || cfg.evid)) {
+        const m = d.hm; lines.push(`WHY ${m.why}`, `commit ${m.dwell}s  sight ${m.seen ? 'YES' : 'NO'}  conf ${m.conf ?? '-'}  rejected ${m.rejected}  branch ${m.branch || '-'}`);
+        if (m.visual) lines.push(`last VISUAL ${m.visual[0]},${m.visual[1]}  ${m.visual[2]}s  observed heading ${m.visual[3]}`);
+        if (m.listen) lines.push('PAUSE: ' + m.listen);
+        if (sel && m.transition) lines.push(`last transition ${m.transition.from} → ${m.transition.to}: ${m.transition.why}`);
+        if (m.investigation) lines.push(`anonymous ${m.investigation[2]} at ${m.investigation[0]},${m.investigation[1]} ±${m.investigation[3]}`);
+        if (sel) lines.push(`gaze used ${m.gaze}s  ` + Object.entries(m.traits).map(([k,v]) => k + ' ' + v).join('  '));
+      }
       if (d.sm) { const m = d.sm;                                                     // (Part 2D) the canon Smiler: why it is doing this - debug mode only, never in normal play
         lines.push(`WHY ${m.why || '-'}`, `agitation ${m.ag}${m.agw ? ' (' + m.agw + ')' : ''}  light on it ${m.lit}${m.w ? '  WATCHED BY P' + m.w + ' ' + m.ht + 's' : ''}${m.dw !== null ? '  target kept ' + m.dw + 's' : ''}${m.cl ? '  walked in ' + m.cl + 'px' : ''}`);
         if (m.ab || m.rt) lines.push((m.ab ? 'abandoned: ' + m.ab : '') + (m.rt ? '  switched: ' + m.rt : ''));

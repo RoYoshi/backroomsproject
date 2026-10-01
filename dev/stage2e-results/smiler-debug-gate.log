@@ -1,0 +1,4 @@
+PASS SM15 presentation: no limbs; the face glow is its own channel (not the generic entity alpha); no aggression UI outside debug  [4ms]
+       arms drawn false, legs drawn false; glow reads the generic alpha false; aggression UI false; internal values debug-only true
+
+1/1 passed

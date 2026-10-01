@@ -1,3 +1,13 @@
+# Stage 2E — Hound intelligence polish (v23.2.0-2e)
+
+**STAGE 2E IMPLEMENTATION COMPLETE — HUMAN QA PENDING**
+
+Start with `node server.js`. See [Stage 2E report](STAGE_2E_REPORT.md) for changes, canon mapping, exact verification results and limitations, and [human QA setups](dev/STAGE_2E_HUMAN_QA.md) for cases A–J. The full test suite retains three unmet legacy chase percentage gates; automated correctness checks are not a gameplay approval. Browser visual checks remain pending. No Stage 2F or 2.5D work is included.
+
+The older version notes below are historical results, not claims that those browser tests were rerun for Stage 2E.
+
+---
+
 # The Far Backrooms — Recovered Production Build
 
 This directory was reconstructed from the HAR capture of the deployed game.

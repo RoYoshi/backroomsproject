@@ -1,0 +1,4 @@
+seed 1: 8 lit players, 8 monsters (avg 7.8 in the near tier)  step avg 0.191 ms  p99 1.200 ms  max 24.29 ms  snapshot 959 B  (leads held at the end: 4)
+seed 2: 8 lit players, 8 monsters (avg 7.4 in the near tier)  step avg 0.188 ms  p99 0.983 ms  max 5.54 ms  snapshot 965 B  (leads held at the end: 11)
+seed 3: 8 lit players, 8 monsters (avg 7.8 in the near tier)  step avg 0.167 ms  p99 1.130 ms  max 5.16 ms  snapshot 965 B  (leads held at the end: 10)
+PASS worst-case light load: average 0.182 ms (limit 0.25), worst p99 1.200 ms (limit 2)

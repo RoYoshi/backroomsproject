@@ -12,10 +12,91 @@ const HOUND = {
 };
 const hSpeed = (e, k, eng) => (e.sp.speeds[k] || 100) * (k === 'chase' ? 1 + (e.tr.AGGRESSION - .82) * .18 + (eng.pressure || 0) * .04 : 1);
 
+/* 2E: evidence interpretation, not new senses. See dev/HOUND_CANON_LOCK_STAGE_2E.md.
+ * Human identification / temporary gaze intimidation: canon. Light investigation, heading prediction,
+ * strong hearing and finite branch searches: gameplay inferences. No new random draws or shared knowledge. */
+const hDwell = e => 1.8 + e.tr.PERSISTENCE; // Hound continuity, independent of Smiler tuning
+function hMaySwitch(e, r, now) {
+  const cur = e.mem.p.get(e.target);
+  return !cur || r.id === cur.id || cur.conf < .2 || now - (e.tgtSince ?? -99) >= hDwell(e);
+}
+function hObserve(eng, e) {
+  for (const r of e.mem.p.values()) if (r.seen) {
+    // Hearing can update the fused record later. Keep the actual last visual observation separate.
+    const p = eng.playerById(r.id); // called only immediately after perception, for a confirmed sighting
+    r.hv = { id: r.id, x: r.lkx, y: r.lky, vx: r.lvx, vy: r.lvy, t: r.seenAt, angle: p.angle, alive: true, st: r.st, ex: r.ex };
+    if (r.light) r.aw = Math.max(r.aw, .72); // an identified, illuminated human warrants hostility
+  }
+  if (e.hEye && eng.now - e.hEye.last > 12 && !e.seenNow.size) e.hEye = null;
+}
+function hGaze(eng, e, r, dt) {
+  const p = r && r.seen ? r.hv : null;
+  if (!p) { if (e.act === 'freeze') setAct(e, ''); return false; }
+  const E = e.hEye || (e.hEye = { used: 0, last: eng.now }); E.last = eng.now;
+  const budget = 1.15 + e.tr.CAUTION * .9;
+  if (E.used < budget && facedBy(eng, e, p, r)) {
+    E.used = Math.min(budget, E.used + dt); setAct(e, 'freeze');
+    stopMoving(eng, e, dt); faceToward(e, r.lkx, r.lky, dt, 3);
+    e.head = Math.sin(e.t * 3) * .12; e.dbg.hWhy = 'temporary eye-contact intimidation';
+    return true;
+  }
+  if (e.act === 'freeze') setAct(e, '');
+  return false;
+}
+function hPerceived(eng, e, r) {
+  if (r.seen && r.hv) return { ...r.hv, sp: Math.hypot(r.hv.vx, r.hv.vy), seen: true };
+  const est = estimate(e, r, eng.now, eng.geo);
+  return { ...est, vx: r.lvx, vy: r.lvy, sp: Math.hypot(r.lvx, r.lvy), seen: false };
+}
+function hLightStart(eng, e) {
+  if (![S.ROAMING, S.DORMANT, S.CURIOUS, S.FRUSTRATED].includes(e.state)) return false;
+  const L = bestAnonLead(e, eng.now); if (!L || L.c < .25 || eng.now - L.t > 3) return false;
+  const checked = e.hChecked || (e.hChecked = []);
+  if (checked.some(q => eng.now < q.until && Math.hypot(q.x - L.x, q.y - L.y) < 180)) return false;
+  if (e.hLight && e.state === S.CURIOUS) return true; // finish one hypothesis, do not restart its timer each observation
+  e.hLight = { lead: L.id, x: L.x, y: L.y, u: L.u, k: L.k, t: eng.now, until: eng.now + 7 + e.tr.CURIOSITY * 5, arrived: 0 };
+  e.inv = { lead: L.id, x: L.x, y: L.y, u: L.u, k: L.k, t: eng.now, c: L.c };
+  setState(e, S.CURIOUS, 'listen'); e.dbg.hWhy = `investigate anonymous ${L.k}; carrier unidentified`;
+  e.dbg.listen = 'orienting to visible light'; return true;
+}
+function hLightStep(eng, e, dt) {
+  const q = e.hLight, now = eng.now;
+  if (now - q.t < .28 || q.arrived) {
+    stopMoving(eng, e, dt); faceToward(e, q.x, q.y, dt, 5.5); e.head = Math.sin(e.t * 2) * .3;
+    setAct(e, 'listen'); e.dbg.listen = q.arrived ? 'light location checked; listening for a carrier' : 'orienting to visible light';
+  } else {
+    setAct(e, ''); e.dbg.listen = ''; goTo(eng, e, q.x, q.y, { every: 1.2 });
+    const st = follow(eng, e, dt, hSpeed(e, 'investigate', eng), {});
+    if (st === 'arrived' || st === 'nopath' || dist(e.x, e.y, q.x, q.y) < 60) q.arrived = now;
+  }
+  if (now > q.until || (q.arrived && now - q.arrived > .8 + e.tr.PATIENCE)) {
+    const L = e.mem.leads.find(l => l.id === q.lead); if (L) L.c *= .65;
+    const checked = e.hChecked || (e.hChecked = []); checked.push({ x: q.x, y: q.y, until: now + 8 });
+    if (checked.length > 6) checked.shift();
+    e.dbg.disengage = 'light hypothesis checked; no human identified'; e.dbg.hWhy = e.dbg.disengage;
+    e.hLight = null; e.inv = null; e.dbg.listen = ''; setState(e, S.ROAMING); e.roam.goal = null;
+  }
+}
+function hWhy(e) {
+  if (e.state === S.HUNTING || e.state === S.SEARCHING || e.state === S.FRUSTRATED || (e.state === S.CURIOUS && e.hLight)) return e.dbg.hWhy || e.huntWhy || e.dbg.searchWhy || 'following evidence';
+  return ({ ROAMING: 'patrol; no active pursuit', DORMANT: 'rest or distant LOD', CURIOUS: 'orient to a heard disturbance', ALERT: 'evaluate a fresh sound', STALKING: 'approach a perceived trail cautiously', CAUTIOUS: 'assess the visible group', FEEDING: 'feed or guard the kill site', EXCITED: 'react to the confirmed kill', RETREATING: 'withdraw from the perceived threat', PLAYING: 'active physical capture' })[e.state] || e.state;
+}
+function hDebug(eng, e) {
+  const r = e.mem.p.get(e.target), v = r && r.hv, s = e.state === S.SEARCHING ? e.search : null, q = e.state === S.CURIOUS ? e.hLight : null;
+  return { why: hWhy(e), transition: e.dbg.hTransition || null,
+    listen: ['listen', 'sniff', 'freeze'].includes(e.act) ? (e.act === 'freeze' && e.state === S.HUNTING ? 'eye-contact intimidation' : e.dbg.listen || 'routine environmental listening') : '',
+    dwell: +Math.max(0, hDwell(e) - (eng.now - (e.tgtSince ?? -99))).toFixed(2),
+    seen: !!(r && r.seen), visual: v ? [Math.round(v.x), Math.round(v.y), +(eng.now - v.t).toFixed(2), +Math.atan2(v.vy, v.vx).toFixed(3)] : null,
+    conf: r ? +r.conf.toFixed(2) : null, branch: s && s.goal ? s.goal.k : '', rejected: s ? s.visited.length : 0,
+    prediction: e.state === S.HUNTING ? e.dbg.pursuit || null : null, investigation: q ? [Math.round(q.x), Math.round(q.y), q.k, Math.round(q.u)] : null,
+    gaze: e.hEye ? +e.hEye.used.toFixed(2) : 0,
+    traits: { persistence: +e.tr.PERSISTENCE.toFixed(2), curiosity: +e.tr.CURIOSITY.toFixed(2), patience: +e.tr.PATIENCE.toFixed(2), caution: +e.tr.CAUTION.toFixed(2) } };
+}
+
 function houndTargetScore(e, r, now) {
   const age = memAge(e, r, now), d = Math.hypot(r.lkx - e.x, r.lky - e.y);
   let s = r.aw * .7 + r.conf * .6 - Math.min(1, age / 25) * .35 - d / 6000;
-  if (r.seen) s += .55; if (r.st === 2 || r.st === 5) s += .3; if (r.ex) s += .25;                    // loud / exhausted prey draws it
+  if (r.seen) s += .55 + (r.light ? .3 : 0); if (now - r.hLoud < 1 || (r.seen && (r.st === 2 || r.st === 5))) s += .3;
   return s;
 }
 function pickTarget(eng, e, filter) {
@@ -69,6 +150,7 @@ function searchBudget(e, r, now) {
   return { dur: lerp(10, 30, e.tr.PERSISTENCE) * (.7 + .5 * fresh) * (.85 + .3 * e.tr.CURIOSITY), legs: 3 + Math.round(e.tr.CURIOSITY * 4 + e.tr.PERSISTENCE * 2) };
 }
 function beginSearch(eng, e, r, why) {
+  e.hLight = null; e.dbg.hWhy = why === 'lost' ? 'lost visual contact; predict from observed heading and openings' : 'investigate heard evidence';
   setState(e, S.SEARCHING, why === 'lost' ? '' : 'freeze');                    // straight on after the prey: no stop to "think" when it has only just vanished
   const B = searchBudget(e, r, eng.now);
   e.search = { rid: r ? r.id : 0, started: eng.now, goal: null, phase: 'lkp', legs: 0, visited: [], why, until: eng.now + B.dur, maxLegs: B.legs, pause: 0, first: why !== 'lost', exitsTried: [] };
@@ -84,7 +166,7 @@ function pickSearchGoal(eng, e, s) {
   let best = null, bs = -1e9;
   const consider = (x, y, sc, k, extra) => {
     const c = geo.cellAt(x, y); if (c < 0 || geo.cls[c] !== 1) { const q = geo.snap(x, y, e.caps, 2); if (q < 0) return; x = geo.cx(q); y = geo.cy(q); }
-    for (const v of s.visited) if (Math.hypot(v.x - x, v.y - y) < 230) { sc -= 420; break; }
+    for (const v of s.visited) if (Math.hypot(v.x - x, v.y - y) < 230) return; // a failed hypothesis is not an endlessly reusable route
     sc -= Math.hypot(x - e.x, y - e.y) * .1 + eng.rng() * (40 + 90 * (1 - e.tr.INTELLIGENCE));
     if (sc > bs) { bs = sc; best = Object.assign({ x, y, k }, extra || {}); }
   };
@@ -112,11 +194,12 @@ function pickSearchGoal(eng, e, s) {
 function hSearch(eng, e, dt, thinkNow) {
   const s = e.search; if (!s) { setState(e, S.ROAMING); return; }
   const now = eng.now, r = e.mem.p.get(s.rid);
-  const giveUp = why => { e.dbg.disengage = why; e.mood.frustration = Math.min(1, e.mood.frustration + .25); setState(e, S.FRUSTRATED, 'pace'); e.frus = { until: now + rand(eng, 2, 4.5) }; };
+  const giveUp = why => { s.exhausted = true; e.dbg.disengage = why; e.dbg.hWhy = why; e.mood.frustration = Math.min(1, e.mood.frustration + .25); setState(e, S.FRUSTRATED, 'pace'); e.frus = { until: now + rand(eng, 2, 4.5) }; };
   e.dbg.search = { ph: s.phase, legs: s.legs + '/' + s.maxLegs, t: +(now - s.started).toFixed(1), left: +(s.until - now).toFixed(1), g: s.goal ? [Math.round(s.goal.x), Math.round(s.goal.y), s.goal.k] : null, unc: r ? Math.round(estimate(e, r, now).unc) : 0, cz: r && r.crawl || '' };
   if (e.act === 'freeze') {                                                // a beat to listen on arrival / first snap decision
     stopMoving(eng, e, dt); e.head = Math.sin(e.t * 2.1) * .55;
-    if (e.actT > (s.first ? rand(eng, .25, .6) : rand(eng, .7, 1.7))) { s.first = false; setAct(e, 'sniff'); s.pause = 0; }
+    e.dbg.listen = 'uncertain trail; orient before checking it';
+    if (e.actT > (s.first ? .25 + e.tr.PATIENCE * .35 : .7 + e.tr.PATIENCE)) { s.first = false; setAct(e, 'sniff'); s.pause = 0; }
     return;
   }
   if (s.phase === 'watch') {                                               // waiting at a crawl exit, listening
@@ -127,7 +210,8 @@ function hSearch(eng, e, dt, thinkNow) {
   if (e.act === 'sniff' && s.phase === 'pause') {
     stopMoving(eng, e, dt); e.head = Math.sin(e.t * 3.2) * .6; s.pause += dt;
     const warm = r ? clamp(1 - (now - Math.max(r.seenAt, r.heardAt)) / 8, 0, 1) : 0;
-    if (s.pause > rand(eng, .5, 1.3) * (1.2 - e.tr.AGGRESSION * .5) * (1 - .7 * warm)) { s.phase = 'go'; s.goal = pickSearchGoal(eng, e, s); s.legs++; setAct(e, ''); e.mood.frustration = Math.min(1, e.mood.frustration + .05); }
+    e.dbg.listen = 'predicted location empty; listen before trying another opening';
+    if (s.pause > (.5 + e.tr.PATIENCE * .8) * (1.2 - e.tr.AGGRESSION * .5) * (1 - .7 * warm)) { s.phase = 'go'; s.goal = pickSearchGoal(eng, e, s); s.legs++; setAct(e, ''); e.mood.frustration = Math.min(1, e.mood.frustration + .05); }
     return;
   }
   // giving up is a decision with a reason: the evidence has run out, the plausible places are done, or it has simply spent its patience
@@ -135,15 +219,17 @@ function hSearch(eng, e, dt, thinkNow) {
   if (!r) { giveUp('no target'); return; }
   if (conf < .12 && s.legs >= 2) { giveUp('memory faded'); return; }
   if (s.legs > s.maxLegs) { giveUp('searched the likely places'); return; }
-  if (now > s.until && conf < .5) { giveUp('ran out of patience'); return; }
+  if (now > s.until) { giveUp('search budget exhausted without new evidence'); return; }
   if (!s.goal) { s.goal = pickSearchGoal(eng, e, s); if (!s.goal) { giveUp('nowhere left to look'); return; } }
   goTo(eng, e, s.goal.x, s.goal.y, { every: 1.5 });
+  e.dbg.hWhy = `check ${s.goal.k || 'heard position'} from remembered evidence; heading ${s.hd?.toFixed(2) ?? 'unknown'}`;
   const fresh = clamp(1 - (now - Math.max(r.seenAt, r.heardAt)) / (5 + 5 * e.tr.AGGRESSION), 0, 1);     // while the trail is warm it moves like it is still chasing, through the likely routes
   const v = lerp(hSpeed(e, s.why === 'sound' ? 'investigate' : 'search', eng) * (.9 + .3 * e.tr.AGGRESSION), hSpeed(e, 'chase', eng) * .9, s.phase === 'lkp' || s.goal.k === 'continue' || s.goal.k === 'sound' ? fresh : fresh * .5);
   const st = follow(eng, e, dt, v, {});
   e.head = Math.sin(e.t * 1.6) * .35;
   if (st === 'arrived' || st === 'nopath' || dist(e.x, e.y, s.goal.x, s.goal.y) < 50) {
     const c = eng.geo.cellAt(e.x, e.y); if (c >= 0) e.mem.visited.set(c, now); s.visited.push({ x: s.goal.x, y: s.goal.y });
+    if (!r.seen && now - Math.max(r.seenAt, r.heardAt) > 1) r.conf = Math.max(0, r.conf - .12);
     if (s.goal.key) s.exitsTried.push(s.goal.key); if (s.goal.k === 'enter') s.exitsTried.push('in');
     const atExit = s.goal.k === 'exit';
     s.phase = atExit && eng.rng() < .35 + e.tr.PATIENCE ? 'watch' : 'pause'; s.watchFor = rand(eng, 2.5, 7) * (.5 + e.tr.PATIENCE); s.pause = 0; s.goal = null;
@@ -153,6 +239,7 @@ function hSearch(eng, e, dt, thinkNow) {
 
 /* STALKING / HUNTING with the committed lunge. ------------------------------------------------------------------------------- */
 function beginHunt(eng, e, r, why) {
+  e.hLight = null; e.dbg.listen = ''; e.dbg.hWhy = why;
   if (e.state !== S.HUNTING) { houndGrowl(eng, e, .75); e.mood.arousal = Math.min(1, e.mood.arousal + .5); }
   setState(e, S.HUNTING, ''); setTarget(e, r.id, eng.now); e.chaseBlind = 0; e.huntWhy = why; e.huntStart = eng.now;
 }
@@ -180,7 +267,7 @@ function startLunge(eng, e, tgt) {
 function stepLunge(eng, e, dt) {
   const L = e.lunge; L.t += dt;
   if (L.t < L.wind) {                                                   // wind-up: crouch, a last small correction of aim
-    const tr = e.mem.p.get(L.tid), t = tr && tr.seen ? eng.playerById(L.tid) : null;   // (v23) it corrects its aim only on a prey it can see
+    const tr = e.mem.p.get(L.tid), t = tr && tr.seen ? tr.hv : null; // sampled visual evidence, never live hidden coordinates between senses
     if (t) { const want = Math.atan2(t.y + t.vy * .18 - e.y, t.x + t.vx * .18 - e.x); L.dir += clamp(angDiff(want, L.dir), -1.6 * dt, 1.6 * dt) * clamp(1 - L.t / L.wind, 0, 1); }
     turnTo(e, L.dir, 10, dt); e.speed = approach(e.speed, 60, 1500 * dt); e.moved = moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt);
     return false;
@@ -205,7 +292,7 @@ function stepLunge(eng, e, dt) {
 }
 
 function hHunt(eng, e, dt, thinkNow) {
-  const now = eng.now, r = e.mem.p.get(e.target), pvT = r && r.seen ? eng.playerById(r.id) : null;     // (v23) the true body only while it is seen
+  const now = eng.now, r = e.mem.p.get(e.target), pvT = r && r.seen ? r.hv : null;
   if (e.recover > 0) {                                                    // after a lunge: overshoot, skid, turn around slowly
     e.recover -= dt; e.speed = approach(e.speed, 40, 620 * dt); e.moved = moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt);
     if (r && e.recover < .55) faceToward(e, r.lkx, r.lky, dt, 1.4);
@@ -215,12 +302,17 @@ function hHunt(eng, e, dt, thinkNow) {
   if (e.lunge) { const res = stepLunge(eng, e, dt); if (res && res.pv) return res; return; }
   if (!r || tgtGone(eng, e, r)) { const alt = pickTarget(eng, e); if (alt) { setTarget(e, alt.id, now); return; } e.dbg.disengage = r ? 'saw its prey go down' : 'lost its prey'; setState(e, S.ROAMING); return; }
   const seen = r.seen && !!pvT;
+  if (seen && hGaze(eng, e, r, dt)) return;
+  if (!seen && e.act === 'freeze') setAct(e, '');
   if (seen) {
+    e.dbg.hWhy = r.light ? 'pursue identified human exposed by visible light' : 'pursue visually identified human';
     e.chaseBlind = 0; e.lostSince = 0;
     const tgt = { x: pvT.x, y: pvT.y, vx: pvT.vx, vy: pvT.vy, id: pvT.id };
     if (lungeCheck(eng, e, r, tgt) && eng.rng() < 1 - Math.pow(.04, dt * (1 + e.tr.AGGRESSION))) { startLunge(eng, e, tgt); return; }
     // predicted interception point, but never through walls: plan to it, aim straight when the way is clear
-    const lead = clamp(dist(e.x, e.y, tgt.x, tgt.y) / 420, 0, .55) * (.5 + e.tr.INTELLIGENCE);
+    // Advance only the sampled visible velocity between perception updates. This keeps the
+    // prediction continuous without reaching into the live player when an old seen flag persists.
+    const lead = clamp(dist(e.x, e.y, tgt.x, tgt.y) / 420, 0, .55) * (.5 + e.tr.INTELLIGENCE) + Math.min(.12, Math.max(0, now - pvT.t));
     let LD = Math.hypot(tgt.vx, tgt.vy) * lead; if (LD > 1) LD = Math.max(0, Math.min(LD, eng.geo.ray(tgt.x, tgt.y, Math.atan2(tgt.vy, tgt.vx), LD + 30) - 26));   // the lead stops at walls: a prey pressed against one is not "ahead" of itself
     const sv = Math.hypot(tgt.vx, tgt.vy) || 1, gx = tgt.x + tgt.vx / sv * LD, gy = tgt.y + tgt.vy / sv * LD;
     if (directOk(eng, e, tgt.x, tgt.y, 620) && (Math.hypot(gx - tgt.x, gy - tgt.y) < 8 || directOk(eng, e, gx, gy, 700))) directTo(eng, e, gx, gy);   // straight at it only when the body itself fits the line (it used to test 16 px: it scraped doorframes)
@@ -235,6 +327,7 @@ function hHunt(eng, e, dt, thinkNow) {
     const est = justNow ? { x: r.lkx, y: r.lky } : byEar ? { x: r.hx + r.hvx * .35, y: r.hy + r.hvy * .35 } : estimate(e, r, now, eng.geo);
     goTo(eng, e, est.x, est.y, { every: .5 });
     e.dbg.pursuit = { x: Math.round(est.x), y: Math.round(est.y), blind: +e.chaseBlind.toFixed(1), ear: byEar ? 1 : 0 };
+    e.dbg.hWhy = byEar ? 'fresh running sound; follow heard position and heard heading' : 'visual contact lost; predict from last observation';
     if (e.chaseBlind > lerp(1.4, 4.6, e.tr.PERSISTENCE)) { beginSearch(eng, e, r, 'lost'); e.mood.frustration = Math.min(1, e.mood.frustration + .15); return; }
   }
   const st = follow(eng, e, dt, hSpeed(e, 'chase', eng), { arrive: 10, noSlow: false });
@@ -249,7 +342,7 @@ const stalkPatience = e => lerp(4, 15, e.tr.PATIENCE) * (1.15 - e.tr.AGGRESSION 
 function hStalk(eng, e, dt, thinkNow) {
   const r = e.mem.p.get(e.target);
   if (!r || tgtGone(eng, e, r)) { beginSearch(eng, e, r, 'lost'); return; }
-  const P = perc(eng, e, r), seen = P.seen, est = P, d = dist(e.x, e.y, est.x, est.y);                 // (v23) perceived, not true
+  const P = hPerceived(eng, e, r), seen = P.seen, est = P, d = dist(e.x, e.y, est.x, est.y);
   e.stalkFor = (e.stalkFor || 0) + dt;
   goTo(eng, e, est.x, est.y, { every: .6 });
   const hold = lerp(380, 205, clamp(e.stalkFor / stalkPatience(e), 0, 1));
@@ -267,19 +360,28 @@ function hStalk(eng, e, dt, thinkNow) {
 /* what a hound makes of a fresh sound, and of being seen ------------------------------------------------------------------------ */
 function hReact(eng, e) {
   const now = eng.now;
+  hObserve(eng, e);
   // seen prey
-  let seen = null, sd = 1e9;
-  for (const id of e.seenNow) { const r = e.mem.p.get(id), pv = eng.playerById(id); if (!pv || !pv.alive || pv.caught) continue; const d = r.dist || 0; if (d < sd) { sd = d; seen = r; } }
+  let seen = null, sd = 1e9, score = -Infinity;
+  const current = e.mem.p.get(e.target);
+  for (const id of e.seenNow) {
+    const r = e.mem.p.get(id), pv = eng.playerById(id); if (!pv || !pv.alive || pv.caught) continue;
+    if (!hMaySwitch(e, r, now)) continue;
+    const value = houndTargetScore(e, r, now) + (id === e.target ? .65 : 0);
+    if (value > score) { score = value; seen = r; sd = Math.hypot(r.lkx - e.x, r.lky - e.y); }
+  }
+  // Seeing both prey is no reason to flicker between them. Finish the current pursuit.
+  if (current && current.seen && !tgtGone(eng, e, current)) { seen = current; sd = Math.hypot(current.lkx - e.x, current.lky - e.y); }
   if (seen && seen.aw > .45) {
     const runner = seen.st === 2 || seen.st === 5 || seen.ex, near = sd < 480, hungry = e.tr.HUNGER > .55;
     const grp = groupSeen(eng, e), fresh = grp > (e.grpN || 0); e.grpN = grp;                       // somebody else has just come into view: it takes stock of the group once
-    if (fresh && grp >= 2 && !runner && e.state !== S.HUNTING && e.state !== S.CAUTIOUS && eng.rng() < (.16 + e.tr.CAUTION * 1.5) * (e.pack ? .45 : 1) * (sd < 300 ? .35 : 1)) { beginCautious(eng, e, seen); return; }
+    if (fresh && grp >= 2 && !runner && !seen.light && e.state !== S.HUNTING && e.state !== S.CAUTIOUS && eng.rng() < (.16 + e.tr.CAUTION * 1.5) * (e.pack ? .45 : 1) * (sd < 300 ? .35 : 1)) { beginCautious(eng, e, seen); return; }
     if (e.state !== S.HUNTING && e.state !== S.STALKING && e.state !== S.CAUTIOUS) {
-      if (runner || near || (hungry && e.tr.AGGRESSION > .7 && seen.aw > .8 && sd < 700)) { beginHunt(eng, e, seen, runner ? 'saw-run' : 'saw-near'); return; }
+      if (seen.light || runner || near || (hungry && e.tr.AGGRESSION > .7 && seen.aw > .8 && sd < 700)) { beginHunt(eng, e, seen, seen.light ? 'identified human with visible light' : runner ? 'saw-run' : 'saw-near'); return; }
       setState(e, S.STALKING, ''); setTarget(e, seen.id, now); e.stalkFor = 0; e.mood.excitement = Math.min(1, e.mood.excitement + .3); return;
     }
-    if (e.state === S.STALKING && (runner || near)) { beginHunt(eng, e, seen, 'stalk-spot'); return; }
-    if (e.state === S.HUNTING && e.target !== seen.id) { const cur = e.mem.p.get(e.target); if ((!cur || !cur.seen) && mayRetarget(e, now)) { setTarget(e, seen.id, now); e.dbg.retarget = 'saw another while the prey was out of sight'; } }
+    if (e.state === S.STALKING && (seen.light || runner || near)) { beginHunt(eng, e, seen, 'stalk-spot'); return; }
+    if (e.state === S.HUNTING && e.target !== seen.id) { const cur = e.mem.p.get(e.target); if ((!cur || !cur.seen) && hMaySwitch(e, seen, now)) { setTarget(e, seen.id, now); e.dbg.retarget = 'current prey lost; another human directly identified'; } }
     return;
   }
   if (!e.seenNow.size) e.grpN = 0;
@@ -288,14 +390,15 @@ function hReact(eng, e) {
   if (h && h.t > (e.lastHearT || -1)) {
     e.lastHearT = h.t;
     const isEnt = h.src < 0;
-    if (isEnt && h.type === 'growl' && e.state !== S.HUNTING && e.state !== S.FEEDING && e.state !== S.PLAYING) {           // another hound is on to something: pack instinct
-      if (eng.rng() < .55 + e.tr.SOCIAL * .4) { beginSearch(eng, e, null, 'sound'); e.search.goal = { x: h.ox, y: h.oy }; e.search.first = false; setAct(e, ''); }
+    if (isEnt && h.type === 'growl' && e.state !== S.HUNTING && e.state !== S.FEEDING && e.state !== S.PLAYING) {           // existing audible growl response only: no target/memory transfer
+      if (eng.rng() < .55 + e.tr.SOCIAL * .4) { beginSearch(eng, e, null, 'sound'); e.search.goal = { x: h.x, y: h.y, k: 'sound' }; e.search.first = false; setAct(e, ''); }
       return;
     }
     if (isEnt) return;
     const r = e.mem.p.get(h.src); if (!r) return;
     const loud = h.I > .5 || h.type === 'run' || h.type === 'slide' || h.type === 'vault';
-    if (e.state === S.ROAMING || e.state === S.DORMANT || e.state === S.CURIOUS || e.act === 'listen') {
+    if (e.state === S.ROAMING || e.state === S.DORMANT || e.state === S.CURIOUS) {
+      e.hLight = null;
       e.wake = 1; if (e.state === S.DORMANT) setState(e, S.ROAMING, ''); else setAct(e, '');
       if (loud && eng.rng() < .55 + e.tr.AGGRESSION * .35) { setState(e, S.ALERT, 'freeze'); e.alert = { until: now + rand(eng, .35, .85) * (1.2 - e.tr.AGGRESSION * .5), rid: h.src, toward: { x: h.x, y: h.y } }; }
       else if (h.I > .12) { setState(e, S.CURIOUS, 'freeze'); e.cur = { until: now + rand(eng, .6, 1.5), toward: { x: h.x, y: h.y }, n: 0, rid: h.src }; }
@@ -303,14 +406,15 @@ function hReact(eng, e) {
       beginHunt(eng, e, r, 'heard-run'); e.dbg.reacquired = (e.dbg.reacquired || 0) + 1;                       // it heard the prey running: no new detection needed
     } else if (e.state === S.SEARCHING || e.state === S.FRUSTRATED) {
       if (h.I > .1) { const s = e.search; if (e.state === S.FRUSTRATED) beginSearch(eng, e, r, 'sound'); else { e.search.why = 'sound'; } e.search.goal = { x: h.x, y: h.y }; e.search.phase = 'go'; e.search.until = Math.max(e.search.until, now + 10); setAct(e, ''); if (loud && r.st === 2) beginHunt(eng, e, r, 'heard-run'); }
-    } else if (e.state === S.STALKING && (h.type === 'run')) { beginHunt(eng, e, r, 'stalk-heard-run'); }
-    else if (e.state === S.HUNTING && !e.mem.p.get(e.target)?.seen) { if (r.id !== e.target && r.conf > .35 && loud && mayRetarget(e, now)) { setTarget(e, r.id, now); e.dbg.retarget = 'a louder trail'; } }
+    } else if (e.state === S.STALKING && h.type === 'run' && (!current?.seen || r.id === e.target) && hMaySwitch(e, r, now)) { beginHunt(eng, e, r, 'stalk-heard-run'); }
+    else if (e.state === S.HUNTING && !e.mem.p.get(e.target)?.seen) { if (r.id !== e.target && r.conf > .35 && loud && hMaySwitch(e, r, now) && (!current || now - current.hLoud > 1.2)) { setTarget(e, r.id, now); e.dbg.retarget = 'prey lost and its trail quiet; fresh loud sound elsewhere'; } }
   }
+  if (!e.cap && !e.commit) hLightStart(eng, e);
 }
 
 /* the main per-tick behaviour */
 function houndTick(eng, e, dt, thinkNow) {
-  const now = eng.now;
+  const now = eng.now, before = e.state;
   e.cool.lunge = Math.max(0, (e.cool.lunge || 0) - dt);
   if (e.commit && commitTick(eng, e, dt)) return null;               // committed to a kill: nothing else happens until it is over
   if (thinkNow) hReact(eng, e);
@@ -318,6 +422,7 @@ function houndTick(eng, e, dt, thinkNow) {
   switch (e.state) {
     case S.ROAMING: case S.DORMANT: hRoam(eng, e, dt); break;
     case S.CURIOUS: {
+      if (e.hLight) { hLightStep(eng, e, dt); break; }
       stopMoving(eng, e, dt); const c = e.cur; if (!c) { setState(e, S.ROAMING); break; }
       faceToward(e, c.toward.x, c.toward.y, dt, 3.5); e.head = Math.sin(e.t * 5) * .15;
       if (e.hear && e.hear.t > c.until - 1.5 && e.hear.t > (c.seenT || 0) && e.hear.src >= 0) { c.seenT = e.hear.t; c.n++; if (c.n >= 1 && e.hear.I > .2) { setState(e, S.ALERT, 'freeze'); e.alert = { until: now + rand(eng, .3, .7), rid: e.hear.src, toward: { x: e.hear.x, y: e.hear.y } }; break; } }
@@ -344,7 +449,7 @@ function houndTick(eng, e, dt, thinkNow) {
     case S.FRUSTRATED: {                                                  // snarls and paces, then sweeps a wider area or gives up
       const f = e.frus || { until: now }; e.speed = approach(e.speed, 0, 1200 * dt);
       e.ang += Math.sin(e.t * 3.1) * dt * 2.2; e.head = Math.sin(e.t * 6) * .45; if (eng.rng() < dt * .35) houndGrowl(eng, e, .5, 'snarl');
-      if (now > f.until) { const r = e.mem.p.get(e.search && e.search.rid); if (r && r.conf > .1 && eng.rng() < e.tr.PERSISTENCE * .55) { beginSearch(eng, e, r, 'lost'); e.search.until += 8; } else { setState(e, S.ROAMING); e.roam.goal = null; } }
+      if (now > f.until) { const r = e.mem.p.get(e.search && e.search.rid); if (r && !e.search.exhausted && r.conf > .1 && eng.rng() < e.tr.PERSISTENCE * .55) { beginSearch(eng, e, r, 'lost'); e.search.until += 8; } else { setState(e, S.ROAMING); setTarget(e, 0, now); e.roam.goal = null; } }
       break;
     }
     case S.FEEDING: res = hFeed(eng, e, dt, thinkNow); break;
@@ -354,6 +459,8 @@ function houndTick(eng, e, dt, thinkNow) {
     case S.PLAYING: hPlay(eng, e, dt); break;
     default: setState(e, S.ROAMING);
   }
+  if (e.hLight && e.state !== S.CURIOUS) { e.hLight = null; e.inv = null; }
+  if (before !== e.state) e.dbg.hTransition = { from: before, to: e.state, at: +now.toFixed(2), why: hWhy(e) };
   return res;
 }
 
@@ -365,7 +472,7 @@ function hFeed(eng, e, dt, thinkNow) {
   if (F.guard) {                                                          // someone came for the body: hunt them, but stay near it
     const r = e.mem.p.get(F.guard);
     if (!r || (!r.seen && eng.now - r.seenAt > 3) || dist(e.x, e.y, s.x, s.y) > 520 + e.tr.TERRITORIALITY * 500) { F.guard = null; setAct(e, ''); return; }
-    if (!tgtGone(eng, e, r)) { const P = perc(eng, e, r); goTo(eng, e, P.x, P.y, { every: .4 }); /* (v23) where it believes the intruder is */ follow(eng, e, dt, hSpeed(e, 'chase', eng) * .9, { arrive: 10 }); for (const p of eng.nearPlayers(e.x, e.y, 50)) if (p.alive && !p.caught && dist(e.x, e.y, p.x, p.y) < e.r + 12) return { pv: p, dir: e.ang, speed: e.speed }; }
+    if (!tgtGone(eng, e, r)) { const P = hPerceived(eng, e, r); goTo(eng, e, P.x, P.y, { every: .4 }); /* (v23) where it believes the intruder is */ follow(eng, e, dt, hSpeed(e, 'chase', eng) * .9, { arrive: 10 }); for (const p of eng.nearPlayers(e.x, e.y, 50)) if (p.alive && !p.caught && dist(e.x, e.y, p.x, p.y) < e.r + 12) return { pv: p, dir: e.ang, speed: e.speed }; }
     else F.guard = null;
     return;
   }
@@ -395,7 +502,7 @@ function hCautious(eng, e, dt, thinkNow) {
     if (C) { beginRetreat(eng, e, C.last, rand(eng, 8, 14)); return; }
     setState(e, S.ROAMING); e.roam.goal = null; return;
   }
-  const seen = []; for (const id of e.seenNow) { const pv = eng.playerById(id); if (pv && pv.alive && !pv.caught) seen.push(pv); }
+  const seen = []; for (const id of e.seenNow) { const r = e.mem.p.get(id); if (r && r.seen && r.hv) seen.push(r.hv); }
   if (seen.length) {
     let cx = 0, cy = 0; for (const p of seen) { cx += p.x; cy += p.y; } C.last = { x: cx / seen.length, y: cy / seen.length }; C.lostT = 0;
     if (thinkNow) {
@@ -487,6 +594,7 @@ HOUND.capture = {
   onResume(eng, e, cap, pv) { const r = rec(e, pv.id); r.aw = 1; r.seen = true; setState(e, S.HUNTING, ''); setTarget(e, pv.id, eng.now); e.chaseBlind = 0; e.cool.lunge = .3; e.dbg.resumed = (e.dbg.resumed || 0) + 1; houndGrowl(eng, e, .8); },
   onLetGo(eng, e, cap, pv) { setState(e, S.RETREATING, ''); beginRetreat(eng, e, { x: pv.x, y: pv.y }, rand(eng, 8, 16)); },
   afterKill(eng, e, ctx, pv) {
+    e.hEye = null; // a physically confirmed death ends this encounter's intimidation budget
     const th = ctx.threats.filter(t => t.cert >= .5), near = th.filter(t => t.approaching || t.dist < 600);
     e.mood.excitement = 1; houndGrowl(eng, e, .9, 'kill');
     const site = eng.sites[eng.sites.length - 1];
