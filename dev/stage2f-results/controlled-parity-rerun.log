@@ -1,0 +1,13 @@
+PASS hound light=false gaze=false group=false: 480 identical ticks
+PASS hound light=false gaze=false group=true: 480 identical ticks
+PASS hound light=false gaze=true group=false: 480 identical ticks
+PASS hound light=false gaze=true group=true: 480 identical ticks
+PASS hound light=true gaze=false group=false: 480 identical ticks
+PASS hound light=true gaze=false group=true: 480 identical ticks
+PASS hound light=true gaze=true group=false: 480 identical ticks
+PASS hound light=true gaze=true group=true: 480 identical ticks
+PASS smiler light=false gaze=false group=false: 480 identical ticks
+PASS smiler light=false gaze=false group=true: 480 identical ticks
+PASS smiler light=false gaze=true group=false: 480 identical ticks
+PASS smiler light=false gaze=true group=true: 480 identical ticks
+PASS smiler light=true gaze=false group=false: 480 identical ticks

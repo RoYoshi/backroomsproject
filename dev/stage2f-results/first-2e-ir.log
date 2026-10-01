@@ -1,0 +1,43 @@
+PASS 2E H1 identified human with flashlight warrants pursuit  [401ms]
+       all assertions passed
+PASS 2E H2 swept beam reaches Hound from behind: attention then identification  [106ms]
+       all assertions passed
+PASS 2E H3 hidden carrier: anonymous light investigation; replay cannot back-project  [355ms]
+       all assertions passed
+PASS 2E H4 solid wall blocks direct beam and impossible evidence  [637ms]
+       all assertions passed
+PASS 2E H5 IR OFF vs HIGH: identical complete decisions each tick  [299ms]
+       all assertions passed
+PASS 2E H6 hidden corner branches cannot change prediction  [124ms]
+       360 identical decisions after same visible approach
+FAIL 2E H7 fresh running after loss causes hearing-based reacquisition  [61ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value: |  |   assert(r.heardAt>w.eng.now-.2) | 
+PASS 2E H8 silent hidden reposition does not cause magical following  [130ms]
+       360 identical decisions after same visible approach
+FAIL 2E H9 nearby noisy hiding is exposed through real movement footsteps  [67ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value: |  |   assert(heard&&reacted) | 
+PASS 2E H10 failed search reduces confidence and ends within finite budget  [247ms]
+       all assertions passed
+PASS 2E H11 stable multiplayer target, then meaningful switch after loss and dwell  [80ms]
+       all assertions passed
+PASS 2E H12 listening is watchdog-safe; blocked movement still recovers  [87ms]
+       all assertions passed
+FAIL 2E H13 long-run finite states, valid targets, bounded memory and collision  [1233ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value: |  |   assert(searches>0) | 
+PASS 2E H14 gaze intimidation is temporary, breaks on looking away and cannot be toggled to refill  [66ms]
+       all assertions passed
+PASS 2E H15 flashlight off stops new light observations without deleting an identified human  [55ms]
+       all assertions passed
+PASS 2E H16 bounded deterministic traits; private HP and inventory cannot change decisions  [632ms]
+       all assertions passed
+FAIL 2E H17 social sound carries no prey identity or shared memory  [35ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value: |  |   assert(other.hear?.type==='growl') | 
+PASS I1 infrared never reaches the simulation: ai.js / sim.js do not name it; server.js stores it on the connection, not on the player  [2ms]
+       infrared names in ai.js 0, in sim.js 0; server.js writes it on the player false, on the connection true, relays it to the other clients true
+PASS I2 toggling infrared alone changes no AI decision (OFF vs HIGH, same world, same players, tick by tick)  [964ms]
+       4/4 worlds identical over 1500 ticks with infrared OFF and HIGH (kills in the runs: 3,3,3,3)
+PASS I3 a raised camcorder is no light to the AI: no lit player, no light evidence from it  [84ms]
+       visible light false; lit players the AI knows of 0; light leads 0
+
+16/20 passed
+FAILED: 2E H7 fresh running after loss causes hearing-based reacquisition; 2E H9 nearby noisy hiding is exposed through real movement footsteps; 2E H13 long-run finite states, valid targets, bounded memory and collision; 2E H17 social sound carries no prey identity or shared memory

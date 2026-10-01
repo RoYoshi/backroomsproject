@@ -33,14 +33,14 @@ function assess(eng, e, pv, attack) {
 function chooseMode(eng, e, ctx) {
   if (eng.forceCapture) return eng.forceCapture;                        // admin override (DEATHS tab): every catch is a quick kill / every catch is played with
   const sp = e.sp.capture, q = sp.quick(e, ctx);
-  return eng.rng() < q ? 'quick' : 'play';
+  return e.rng() < q ? 'quick' : 'play';
 }
 function pickVariant(eng, e, pv, ctx, attack) {
   const hist = eng.recentKills[e.kind] || (eng.recentKills[e.kind] = []);
   const items = e.sp.capture.variants(eng, e, pv, ctx, attack);
   const n = hist.length, twice = n >= 2 && hist[n - 1] === hist[n - 2] ? hist[n - 1] : null;             // never a third identical death in a row when there is any alternative
   for (const it of items) { const i = hist.lastIndexOf(it.k); if (i >= 0) { const age = n - i; it.w *= age === 1 ? .35 : age === 2 ? .6 : .8; } if (it.k === twice) it.w *= .06; }
-  const v = pickW(eng.rng, items.filter(i => i.w > 0));
+  const v = pickW(e.rng, items.filter(i => i.w > 0));
   hist.push(v); if (hist.length > 6) hist.shift();
   return v;
 }
@@ -51,14 +51,14 @@ function beginCapture(eng, e, pv, attack) {
   e.cap = cap; pv.caught = cap; eng.caps.push(cap);
   e.dbg.capture = { mode: cap.mode, danger: +ctx.danger.toFixed(2), iso: +ctx.iso.toFixed(2), deadEnd: ctx.deadEnd, approaching: ctx.approaching };
   if (cap.mode === 'quick') { killNow(eng, cap, pv, e, 'quick'); return cap; }
-  cap.phase = 'down'; cap.phaseT = 0; cap.down = rand(eng, 1.0, 1.9);
-  cap.decideAt = rand(eng, 5, 15) * (.7 + .5 * e.tr.PATIENCE);          // the tense stretch before the next major decision
+  cap.phase = 'down'; cap.phaseT = 0; cap.down = rand(e, 1.0, 1.9);
+  cap.decideAt = rand(e, 5, 15) * (.7 + .5 * e.tr.PATIENCE);          // the tense stretch before the next major decision
   cap.variant = null;
   eng.emit({ t: 'caught', pid: pv.id, eid: e.id, kind: e.sp.name, ph: 'down', from: { x: e.x, y: e.y }, ang: Math.atan2(pv.y - e.y, pv.x - e.x) });
   e.sp.capture.onBegin && e.sp.capture.onBegin(eng, e, cap, pv);
   return cap;
 }
-const rand = (eng, a, b) => a + eng.rng() * (b - a);
+const rand = (e, a, b) => a + e.rng() * (b - a);
 
 function killNow(eng, cap, pv, e, why) {
   if (cap.phase === 'done') return;
@@ -144,7 +144,7 @@ function capStep(eng, cap, dt) {
     const running = pv.st === 2 || (pv.sp > 110 && Math.hypot(pv.x - e.x, pv.y - e.y) > 200);
     const d = Math.hypot(pv.x - e.x, pv.y - e.y);
     cap.watch = (cap.watch || 0) + dt;
-    if (running && !cap.triggered) { cap.triggered = eng.now + rand(eng, .35, 1.1) * (1.2 - e.tr.AGGRESSION * .5); }
+    if (running && !cap.triggered) { cap.triggered = eng.now + rand(e, .35, 1.1) * (1.2 - e.tr.AGGRESSION * .5); }
     if (cap.triggered && eng.now >= cap.triggered) { spc.onResume && spc.onResume(eng, e, cap, pv); finishCapture(eng, cap, pv, e); return; }
     if (!cap.triggered && (cap.watch > cap.holdFor || d > 1500)) { spc.onLetGo && spc.onLetGo(eng, e, cap, pv); finishCapture(eng, cap, pv, e); return; }
     spc.releaseTick && spc.releaseTick(eng, e, cap, pv, dt);
@@ -166,7 +166,7 @@ function capStep(eng, cap, dt) {
       const choice = spc.onInterrupt(eng, e, cap, pv, ctx, { noisy, others });
       e.dbg.capture = Object.assign(e.dbg.capture || {}, { interrupt: choice, danger: +ctx.danger.toFixed(2) });
       if (choice === 'kill') { killNow(eng, cap, pv, e, 'interrupted'); return; }
-      if (choice === 'release') { cap.holdFor = rand(eng, 2.5, 6); releaseVictim(eng, cap, pv, e, 'interrupted'); spc.onRelease && spc.onRelease(eng, e, cap, pv); return; }
+      if (choice === 'release') { cap.holdFor = rand(e, 2.5, 6); releaseVictim(eng, cap, pv, e, 'interrupted'); spc.onRelease && spc.onRelease(eng, e, cap, pv); return; }
     }
   }
   /* the next major decision */
@@ -174,7 +174,7 @@ function capStep(eng, cap, dt) {
     const c = spc.decide(eng, e, cap, pv);
     e.dbg.capture = Object.assign(e.dbg.capture || {}, { decision: c });
     if (c === 'kill') { killNow(eng, cap, pv, e, 'decided'); return; }
-    if (c === 'release') { cap.holdFor = rand(eng, 3, 9); releaseVictim(eng, cap, pv, e, 'false hope'); spc.onRelease && spc.onRelease(eng, e, cap, pv); return; }
-    cap.decideAt = cap.t + rand(eng, 4, 11) * (.7 + .5 * e.tr.PATIENCE);
+    if (c === 'release') { cap.holdFor = rand(e, 3, 9); releaseVictim(eng, cap, pv, e, 'false hope'); spc.onRelease && spc.onRelease(eng, e, cap, pv); return; }
+    cap.decideAt = cap.t + rand(e, 4, 11) * (.7 + .5 * e.tr.PATIENCE);
   }
 }

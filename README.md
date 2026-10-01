@@ -1,3 +1,15 @@
+# Stage 2F — Shared intelligence (v23.3.0-2f)
+
+Stage 2F implementation is complete; Part 2 final QA and subjective human gameplay QA remain pending. Browser QA was blocked in the implementation environment. See `STAGE_2F_REPORT.md` and `STAGE_2F_TEST_SUMMARY.md` for exact limits and retained failing historical gates.
+
+Run `node server.js 8000`, then open http://localhost:8000. The existing Windows/Linux launchers also work. `npm test` runs the full suite, including Stage 2F. It intentionally exits nonzero for the documented historical gates; no thresholds were relaxed. `npm run test:shared` runs the 23 Stage 2F checks. Node 22+ is needed for built-in WebSocket development tests (runtime remains Node 18+).
+
+Changes: observation-only identity attribution, bounded competing evidence, sampled sight, short-lived encounter habits, entity/subsystem RNG isolation, lifecycle cleanup, stable multiplayer ordering, and selected-entity debug explanations. Hound/Smiler tuning, movement, death physics, level and ordinary presentation remain frozen. No 2G, 2.5D or Part 3 work.
+
+The earlier notes below are historical, not current verification claims.
+
+---
+
 # Stage 2E — Hound intelligence polish (v23.2.0-2e)
 
 **STAGE 2E IMPLEMENTATION COMPLETE — HUMAN QA PENDING**

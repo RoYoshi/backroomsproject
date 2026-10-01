@@ -1,0 +1,133 @@
+{
+  "baseline_zip_sha256": "b1bbf50a7a5d93e6e506d13927902954ca2f1908ee8413edd96a3fa4cbe1d7e5",
+  "species": {
+    "hound": {
+      "name": "Hound",
+      "kind": "hound",
+      "initial": "ROAMING",
+      "radius": 26,
+      "clearance": 21,
+      "vTop": 320,
+      "turnPenalty": 0.62,
+      "roamSpeed": 92,
+      "traits": {
+        "INTELLIGENCE": 0.25,
+        "SADISM": 0.12,
+        "HUNGER": 0.72,
+        "PATIENCE": 0.3,
+        "CURIOSITY": 0.45,
+        "CAUTION": 0.3,
+        "TERRITORIALITY": 0.5,
+        "AGGRESSION": 0.82,
+        "PERSISTENCE": 0.72,
+        "SOCIAL": 0.45,
+        "HEARING": 0.86,
+        "VISION": 0.5,
+        "LIGHT_SENS": 0.12,
+        "MEMORY": 0.35
+      },
+      "jitter": 0.13,
+      "caps": {
+        "CAN_VAULT": true,
+        "VAULT_SPEED": 1.2,
+        "CAN_CROUCH": true,
+        "CAN_CRAWL": true,
+        "CAN_SLIDE": false,
+        "CAN_OPEN_DOORS": false,
+        "CAN_BREAK_DOORS": true,
+        "CAN_USE_TIGHT_GAPS": false,
+        "TURNING_ABILITY": 3.4,
+        "ACCELERATION": 880
+      },
+      "vision": {
+        "range": 640,
+        "fov": 2.7,
+        "dark": false,
+        "gain": 3,
+        "floor": 150
+      },
+      "speeds": {
+        "roam": 92,
+        "stalk": 84,
+        "investigate": 122,
+        "search": 134,
+        "chase": 292,
+        "retreat": 235,
+        "frustrated": 150
+      },
+      "capture": {}
+    },
+    "smiler": {
+      "name": "Smiler",
+      "kind": "smiler",
+      "initial": "HIDDEN",
+      "radius": 23,
+      "clearance": 21,
+      "vTop": 300,
+      "turnPenalty": 0.3,
+      "roamSpeed": 80,
+      "traits": {
+        "INTELLIGENCE": 0.8,
+        "SADISM": 0.1,
+        "HUNGER": 0.1,
+        "PATIENCE": 0.7,
+        "CURIOSITY": 0.55,
+        "CAUTION": 0.5,
+        "TERRITORIALITY": 0.5,
+        "AGGRESSION": 0.5,
+        "PERSISTENCE": 0.55,
+        "SOCIAL": 0.3,
+        "HEARING": 0.55,
+        "VISION": 0.92,
+        "LIGHT_SENS": 0.86,
+        "MEMORY": 0.75
+      },
+      "jitter": 0.13,
+      "caps": {
+        "CAN_VAULT": true,
+        "VAULT_SPEED": 0.6,
+        "CAN_CROUCH": false,
+        "CAN_CRAWL": false,
+        "CAN_SLIDE": false,
+        "CAN_OPEN_DOORS": true,
+        "CAN_BREAK_DOORS": false,
+        "CAN_USE_TIGHT_GAPS": false,
+        "TURNING_ABILITY": 3.1,
+        "ACCELERATION": 520
+      },
+      "vision": {
+        "range": 1000,
+        "fov": 2.4,
+        "dark": true,
+        "gain": 2.4,
+        "floor": 230
+      },
+      "speeds": {
+        "roam": 80,
+        "approach": 92,
+        "investigate": 118,
+        "creep": 34,
+        "drift": 40,
+        "chase": 255,
+        "rush": 300,
+        "retreat": 110
+      },
+      "capture": {}
+    }
+  },
+  "unchanged_sha256": {
+    "move.js": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+    "world.js": "ec179a5b385dcf8752a22816a7168f6a09c1764617a8a9cda831a2d05fabbb5d",
+    "dphys.js": "631e32d14e817545c505a27ec47e9b32d81fcbd63429341050ffd1b004a1e815",
+    "death_srv.js": "a930d71cf4dced9e269ca4b14390398e2ea726646ef9a24116736a0875f5df90",
+    "mp.js": "73ce582bdd803896b22e1da77df68899266c03b2499c99963dd9c63367fb05dd",
+    "server.js": "6915f75c5bbf606e112df49f4db85b01d1ecf71beeb5bb9d9b5af02c7662e0d7",
+    "dev/harness.js": "59f774bbc5bbf73cba1ea598a6e218933bbb35ba9d3e822d8dab67566426a6df",
+    "dev/move_model.js": "3bdb6e74bdd346d3113b88c506ed24bba19c33012ef88cdca07366c0b20711ac",
+    "dev/ai_src/10_geo.js": "2881e9871940689f10f6790facc08a50ed24b04c3eddb7e2d56152f3bf7ebf48",
+    "dev/ents_src/10_hound.js": "447f166063621318c907a7e711f1a4c7677f46139acbfee69fa330b19ea5ced2",
+    "dev/ents_src/20_smiler.js": "6289c5c4770008201d1ea020a06b23ad4e5729aedda7581909a88785036b423c",
+    "dev/ents_src/25_death.js": "fdf85ec8f4155b8a0a9547db1a2343ac5fb39bfcffec20f4dc224a2dcfa51e04",
+    "dev/ents_src/30_audio.js": "b234e33a4d7fced779c61840f101807350aa67d1c0491be39041fbbaae53a5a5"
+  }
+}

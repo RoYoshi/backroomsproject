@@ -17,6 +17,16 @@ const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t
 const angDiff = (a, b) => { let d = (a - b) % TAU; if (d > Math.PI) d -= TAU; else if (d < -Math.PI) d += TAU; return d; };
 const dist = (ax, ay, bx, by) => Math.hypot(ax - bx, ay - by);
 function mkRng(seed) { let a = (seed >>> 0) || 1; return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+// Stable, unsigned FNV-1a derivation; tags separate fixed-size entity streams from the world director.
+function deriveSeed(seed, ...tags) {
+  let h = (2166136261 ^ (seed >>> 0)) >>> 0;
+  for (const tag of tags) { const s = String(tag); for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619) >>> 0; h = Math.imul(h ^ 255, 16777619) >>> 0; }
+  return h;
+}
+function entityStreams(seed, kind, id) {
+  const out = {}; for (const tag of ['personality', 'behavior', 'search', 'perception', 'schedule']) out[tag] = mkRng(deriveSeed(seed, kind, id, tag));
+  return out;
+}
 const S = {                                    // the shared state framework (species use the subset they need)
   DORMANT: 'DORMANT', ROAMING: 'ROAMING', CURIOUS: 'CURIOUS', ALERT: 'ALERT', WATCHING: 'WATCHING', STALKING: 'STALKING', HUNTING: 'HUNTING',
   SEARCHING: 'SEARCHING', CAUTIOUS: 'CAUTIOUS', FRUSTRATED: 'FRUSTRATED', EXCITED: 'EXCITED', FEEDING: 'FEEDING', PLAYING: 'PLAYING', RETREATING: 'RETREATING',
@@ -180,12 +190,13 @@ const KIND_GLARE = { flashlight: 1, headlamp: .85, lantern: .8 };  // (v23: the 
  *   ANONYMOUS   e.mem.leads - things it noticed that it cannot pin on anybody: a lit wall, a beam crossing a doorway, a light source seen
  *                          without the person behind it.  pid is always null.  A lead is an INVESTIGATION GOAL (e.inv), never a target.
  *                          It becomes attributed only when the entity then sees a player where the lead points (attributeLeads).
- * Records are created only by sight (and, as in Part 1, by hearing - see hearEvent: sound identity is a known 2F item).  Nothing here
+ * Records are created by sight or explicit admin/contact paths; unidentified hearing creates anonymous leads.  Nothing here
  * reads where an unsensed player really is. */
 const EV_MAX = 4, LEAD_MAX = 6, LEAD_MAXAGE = 45;
-function newMemory() { return { p: new Map(), sounds: [], others: new Map(), visited: new Map(), leads: [], leadId: 0 }; }
+function newMemory() { return { p: new Map(), sounds: [], others: new Map(), visited: new Map(), leads: [], leadId: 0, soundId: 0, habits: new Map(), hypotheses: [] }; }
 function rec(e, id) {
   let r = e.mem.p.get(id);
+  if (!r && e.mem.p.size >= INTEL.players) { const old = [...e.mem.p.values()].sort((a,b) => Math.max(a.seenAt,a.heardAt)-Math.max(b.seenAt,b.heardAt) || a.id-b.id)[0]; forgetIdentity(e, old.id); }
   if (!r) e.mem.p.set(id, r = { id, aw: 0, seen: false, seenAt: -99, heardAt: -99, lkx: 0, lky: 0, lvx: 0, lvy: 0, conf: 0, hx: 0, hy: 0, st: 0, stamina: 100, ex: 0, prof: 1, light: false, iso: 0, first: -99, lost: 0, hLoud: -99, hvx: 0, hvy: 0, crawl: null, crawlAt: -99, ev: [], downAt: -99, heldAt: -99 });
   return r;
 }
@@ -199,6 +210,7 @@ function noteEv(r, k, x, y, u, c, t) {
 function addLead(e, now, L) {
   const leads = e.mem.leads;
   for (const q of leads) {
+    if (evidenceModality(q.k) !== evidenceModality(L.k)) continue;
     if (now - q.t > 6 || Math.hypot(q.x - L.x, q.y - L.y) > (q.u + L.u) * .6) continue;
     const w = L.c / (L.c + q.c * .8);
     q.x += (L.x - q.x) * w; q.y += (L.y - q.y) * w; q.u = Math.max(L.u * .75, Math.min(q.u, L.u) * .95);          // seeing the same thing again firms it up a little, never past what one look can tell
@@ -213,20 +225,21 @@ function addLead(e, now, L) {
 function attributeLeads(e, r, p, now) {
   const leads = e.mem.leads;
   for (let i = leads.length - 1; i >= 0; i--) {
-    const L = leads[i]; if (now - L.t > 8 || Math.hypot(L.x - p.x, L.y - p.y) > L.u + 120) continue;
+    const L = leads[i]; if (L.k !== 'source' || !p.light || now - L.t > .5 || Math.hypot(L.x-p.x,L.y-p.y)>60) continue;
+    const owners=[...e.seenNow].map(id=>e.mem.p.get(id)).filter(r=>r.visual&&r.light&&Math.hypot(r.visual.x-L.x,r.visual.y-L.y)<60); if(owners.length!==1||owners[0].id!==r.id) continue;
     noteEv(r, 'light', L.x, L.y, L.u, L.c, L.t); leads.splice(i, 1);
     if (e.inv && e.inv.lead === L.id) e.inv = null;
   }
 }
 /* the strongest anonymous lead (an investigation goal, not a target) */
-function bestAnonLead(e, now) {
+function bestAnonLead(e, now, modality) {
   let best = null, bs = 0;
-  for (const L of e.mem.leads) { const s = L.c * (1 - Math.min(1, (now - L.t) / 30)) + L.sal * .3; if (s > bs) { bs = s; best = L; } }
+  for (const L of e.mem.leads) { if (modality && evidenceModality(L.k) !== modality) continue; const s = observationScore(e, L, now) + L.sal * .3; if (s > bs) { bs = s; best = L; } }
   return best;
 }
 /* where the entity believes a player is: the body itself while it is seen, otherwise its memory (never the truth) */
 function perc(eng, e, r) {
-  if (r.seen) { const p = eng.playerById(r.id); if (p) return { x: p.x, y: p.y, vx: p.vx, vy: p.vy, sp: Math.hypot(p.vx, p.vy), angle: p.angle, seen: true, p }; }
+  if (r.seen) { const p = r.visual; if (p) return { x: p.x, y: p.y, vx: p.vx, vy: p.vy, sp: Math.hypot(p.vx, p.vy), angle: p.angle, seen: true, p }; }
   const est = estimate(e, r, eng.now, eng.geo); return { x: est.x, y: est.y, vx: r.lvx, vy: r.lvy, sp: Math.hypot(r.lvx, r.lvy), seen: false, p: null, unc: est.unc };
 }
 /* a body in physical contact (capture range): contact is physics, not perception */
@@ -235,7 +248,7 @@ function touching(eng, e, id, reach) { const p = eng.playerById(id); return p &&
  * game (record deleted) is housekeeping */
 function tgtGone(eng, e, r) {
   if (!r || !eng.byId.has(r.id)) return true;
-  if (r.seen) { const p = eng.playerById(r.id); return !p || !p.alive || !!p.caught; }
+  if (r.seen && r.visual) return !r.visual.alive || !!r.visual.caught;
   return (r.downAt > -50 && r.downAt >= r.seenAt - .01) || (r.heldAt > -50 && r.heldAt >= r.seenAt - .01);
 }
 /* target commitment: once it has picked somebody it keeps them for a moment unless it has truly lost them (no per-tick flicker between two people) */
@@ -264,13 +277,10 @@ function estimate(e, r, now, geo) {
   return { x: r.lkx + r.lvx * k * D, y: r.lky + r.lvy * k * D, unc: 60 + Math.min(1100, sp * age * .5 + age * 18) };
 }
 
-function updateVision(e, eng, dt, cands) {
-  const geo = eng.geo, now = eng.now, cfg = e.sp.vision;
-  e.seenNow.clear();
-  for (const r0 of e.mem.p.values()) r0.seen = false;
-  for (const p of cands) {
-    if (!p.alive) continue;
-    let r = e.mem.p.get(p.id); const dx = p.x - e.x, dy = p.y - e.y, d = Math.hypot(dx, dy);        // (v23: no record is made for somebody it does not see)
+function visualObservation(e, eng, p) {
+  const geo = eng.geo, cfg = e.sp.vision;
+  if (!p.alive) return {vis:false,strength:0,d:Infinity};
+  const dx = p.x - e.x, dy = p.y - e.y, d = Math.hypot(dx, dy);        // (v23: no record is made for somebody it does not see)
     let vis = false, strength = 0;
     const stName = W_SN[p.st] || 'stand';
     let range = cfg.range * (.5 + .7 * e.tr.VISION);
@@ -286,7 +296,17 @@ function updateVision(e, eng, dt, cands) {
       const cz = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y) : null;
       if (inFov && (!cz || d < cz.reveal) && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
     }
-    if (!vis) { if (r) r.dist = d; continue; }
+  return { vis, strength, d };
+}
+
+function updateVision(e, eng, dt, cands) {
+  const geo = eng.geo, now = eng.now, cfg = e.sp.vision;
+  e.seenNow.clear();
+  for (const r0 of e.mem.p.values()) r0.seen = false;
+  for (const p of cands) {
+    if (!p.alive) continue;
+    let r = e.mem.p.get(p.id); const {vis, strength, d} = visualObservation(e, eng, p);
+    if (!vis) continue;
     if (!r) r = rec(e, p.id);
     r.seen = vis; r.dist = d;
     if (vis) {
@@ -295,11 +315,13 @@ function updateVision(e, eng, dt, cands) {
       if (r.seenAt < now - 6) r.first = now;
       const cw = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y, 34) : null; if (cw) { r.crawl = cw.id; r.crawlAt = now; } else if (now - r.crawlAt > 2) r.crawl = null;   // seen going into (or at the mouth of) a crawlspace: remembered
       r.seenAt = now; r.lkx = p.x; r.lky = p.y; r.lvx = p.vx; r.lvy = p.vy; r.conf = 1; r.st = p.st; r.stamina = p.stamina; r.ex = p.ex; r.prof = p.prof; r.light = p.light; r.lost = 0;
+      r.visual = {id:p.id,x:p.x,y:p.y,vx:p.vx,vy:p.vy,angle:p.angle,alive:p.alive,caught:!!p.caught,st:p.st,ex:p.ex,t:now};
+      habitObserve(e, r, now);
       noteEv(r, 'see', p.x, p.y, 16, 1, now);
-      if (e.mem.leads.length) attributeLeads(e, r, p, now);
       e.seenNow.add(p.id);
     }
   }
+  for (const id of e.seenNow) { const r=e.mem.p.get(id); if(e.mem.leads.length) attributeLeads(e,r,{...r.visual,light:r.light},now); }
   // a body it can see lying where it last saw that person: it knows they are down (a dead player is no longer a candidate, so this looks at
   // the records it already has, and only at a spot in its own view)
   if (e.tier === 'near') for (const r0 of e.mem.p.values()) {
@@ -314,7 +336,8 @@ function updateVision(e, eng, dt, cands) {
 /* the sound bus delivers each event to every entity once */
 function hearEvent(e, eng, ev) {
   const geo = eng.geo, d = Math.hypot(ev.x - e.x, ev.y - e.y);
-  const focus = ev.src > 0 && ev.src === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
+  const identified = identifySound(eng, e, ev);
+  const focus = identified && identified.id === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
   let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * focus * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
   if (d > eff * 1.05) return;
   const clear = geo.los(e.x, e.y, ev.x, ev.y);
@@ -323,12 +346,12 @@ function hearEvent(e, eng, ev) {
   const I = ev.I * Math.pow(1 - d / eff, .7);
   if (I < .03) return;
   const unc = (26 + d * .16) * (clear ? 1 : 1.75) * (1.55 - e.tr.INTELLIGENCE * .45) * (1.4 - e.tr.HEARING * .35) * (ev.type === 'breath' ? 1.5 : 1);
-  const a = eng.rng() * TAU, m = Math.sqrt(eng.rng()) * unc, hx = ev.x + Math.cos(a) * m, hy = ev.y + Math.sin(a) * m;
-  const h = { x: hx, y: hy, I, type: ev.type, t: eng.now, src: ev.src, unc, clear, ox: ev.x, oy: ev.y };
+  const a = e.streams.perception() * TAU, m = Math.sqrt(e.streams.perception()) * unc, hx = ev.x + Math.cos(a) * m, hy = ev.y + Math.sin(a) * m;
+  const h = { id: ++e.mem.soundId, x: hx, y: hy, I, type: ev.type, t: eng.now, src: identified ? identified.id : (ev.ent || ev.src < 0) ? -1 : 0, pid: identified ? identified.id : null, attribution: identified ? 'identified' : 'anonymous', modality: 'sound', c: Math.min(1,.4+.5*I), u: unc, unc, clear };
   e.hear = h; e.heardCount = (e.heardCount || 0) + 1;
   e.mem.sounds.unshift(h); if (e.mem.sounds.length > 8) e.mem.sounds.pop();
-  if (ev.src > 0) {
-    const r = rec(e, ev.src);
+  if (identified) {
+    const r = identified;
     const loud = I > .3 || ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land';
     if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (hx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (hy - r.hy) / pdt, .5); } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
     r.heardAt = eng.now; r.hx = hx; r.hy = hy; r.aw = Math.min(1, r.aw + I * .9);
@@ -342,6 +365,7 @@ function hearEvent(e, eng, ev) {
       if (loud && Math.hypot(r.hvx, r.hvy) > 1) { r.lvx = r.hvx; r.lvy = r.hvy; }
     }
   }
+  if (!identified && h.src === 0) addLead(e, eng.now, {k:'sound',x:h.x,y:h.y,u:h.unc,c:h.c,sal:h.I,type:h.type});
   return h;
 }
 
@@ -379,7 +403,7 @@ function threatsAround(e, eng, victimId, cands) {
     if (r.id === victimId || tgtGone(eng, e, r)) continue;
     let cert = 0, how = '', x = r.lkx, y = r.lky, vxh = 0, vyh = 0;
     const lt = r.ev && r.ev.find(q => q.k === 'light' && now - q.t < 2.6);
-    if (r.seen) { const p = eng.playerById(r.id); cert = 1; how = 'seen'; x = p.x; y = p.y; vxh = p.vx; vyh = p.vy; }
+    if (r.seen && r.visual) { const p = r.visual; cert = 1; how = 'seen'; x = p.x; y = p.y; vxh = p.vx; vyh = p.vy; }
     else if (now - r.heardAt < 2.6 && Math.hypot(r.hx - vx, r.hy - vy) < 1100) { cert = .65; how = 'heard'; x = r.hx; y = r.hy; vxh = r.hvx; vyh = r.hvy; }
     else if (lt && Math.hypot(lt.x - vx, lt.y - vy) < 1700) { cert = .6; how = 'light'; x = lt.x; y = lt.y; }
     else if (now - r.seenAt < 9 && Math.hypot(r.lkx - vx, r.lky - vy) < 650) { cert = .42 * (1 - (now - r.seenAt) / 9); how = 'together'; }
@@ -390,11 +414,124 @@ function threatsAround(e, eng, victimId, cands) {
   }
   for (const L of e.mem.leads) {
     if (now - L.t > 2.6) continue; const d = Math.hypot(L.x - vx, L.y - vy); if (d > 1100) continue;
-    out.push({ id: 0, cert: .45, how: 'light-anon', dist: d, approaching: false, x: L.x, y: L.y, seesUs: false });
+    out.push({ id: 0, cert: .45, how: L.k === 'sound' ? 'sound-anon' : 'light-anon', dist: d, approaching: false, x: L.x, y: L.y, seesUs: false });
   }
   return out;
 }
 const W_SN = WORLD.SN;
+/* Stage 2F: shared evidence tools, never a species action brain. Inputs are observations only.
+ * See STAGE_2F_DESIGN.md: physical contact, lifecycle and LOD are explicit system boundaries. */
+const INTEL = Object.freeze({ players: 16, sounds: 8, soundTTL: 25, leads: 6, leadTTL: 45, evidence: 4, recordTTL: 120, visited: 128, visitedTTL: 60, habitObs: 6, hypotheses: 3, habitTTL: 30, habitRepeats: 3, habitBias: .12, candidates: 70, debugCandidates: 12 });
+const evidenceModality = k => k === 'see' ? 'sight' : k === 'sound' ? 'sound' : 'light';
+const evidenceWeights = e => e.kind === 'hound' ? { sight: 4, sound: 1.4, light: .8 } : { sight: 2, sound: 1.2, light: 2.2 };
+function observationScore(e, q, now) {
+  const modality = q.modality || evidenceModality(q.k), age = Math.max(0, now - q.t);
+  const c = clamp(q.c ?? q.confidence ?? 0, 0, 1), u = Math.max(0, q.u ?? q.unc ?? 0);
+  return evidenceWeights(e)[modality] * c * Math.exp(-age / (modality === 'sight' ? 4 : 3)) / (1 + u / 600) + (q.pid > 0 && q.pid === e.target ? .25 : 0);
+}
+function soundChoice(e, now) {
+  let best = null, score = -Infinity;
+  for (const h of e.mem.sounds) {
+    if (h.t <= (e.lastHearT ?? -99) || now - h.t > 1.2) continue;
+    const s = observationScore(e, h, now) * (.5 + h.I);
+    if (s > score || (s === score && h.id < best.id)) { best = h; score = s; }
+  }
+  return best;
+}
+function evidenceCandidates(e, now) {
+  const out = [];
+  for (const r of e.mem.p.values()) for (const q of r.ev) out.push({ key: `P${r.id}/${q.k}`, pid: r.id, attribution: 'identified', modality: evidenceModality(q.k), x: q.x, y: q.y, t: q.t, c: q.c, u: q.u, expires: q.t + memHalfLife(e) * 3 });
+  for (const L of e.mem.leads) out.push({ key: `L${L.id}`, pid: null, attribution: 'anonymous', modality: evidenceModality(L.k), x: L.x, y: L.y, t: L.t, c: L.c, u: L.u, expires: L.t + LEAD_MAXAGE, lead: L.id });
+  for (const q of out) q.score = observationScore(e, q, now);
+  out.sort((a, b) => b.score - a.score || a.key.localeCompare(b.key));
+  return out.slice(0, INTEL.candidates);
+}
+function arbitrateEvidence(eng, e) {
+  const heard = soundChoice(e, eng.now); if (heard) e.hear = heard; else if (e.hear && eng.now - e.hear.t > INTEL.soundTTL) e.hear = null;
+  const all = evidenceCandidates(e, eng.now), top = all[0];
+  e.evidence = { candidates: all.slice(0, INTEL.debugCandidates), winner: top ? top.key : null,
+    why: top ? `${e.kind} weights: ${top.modality}, ${top.attribution}, confidence/age/uncertainty${top.pid === e.target ? ', current-target continuity' : ''}; species state/commitment/canon triggers decide the action` : 'no credible evidence',
+    weights: evidenceWeights(e) };
+}
+// Only a direct, currently valid visual continuation can name a sound. SourceId alone is never proof.
+function identifySound(eng, e, ev) {
+  if (!(ev.src > 0)) return null;
+  const r = e.mem.p.get(ev.src);
+  if (!r || !r.seen || !r.visual || eng.now - r.seenAt > .12) return null;
+  let unique = null;
+  for (const p of eng.candidates(e, 1750)) {
+    if (Math.hypot(p.x - ev.x, p.y - ev.y) > 24 || !visualObservation(e, eng, p).vis) continue;
+    if (unique) return null; // overlapping visible people do not make source identity unambiguous
+    unique = p;
+  }
+  return unique && unique.id === r.id ? r : null;
+}
+function habitObserve(e, r, now) {
+  const v = r.visual; if (!v || !r.seen) return;
+  const cell = `${Math.floor(v.x / 192)},${Math.floor(v.y / 192)}`;
+  const prev = r.habitLast, moving = Math.hypot(v.vx, v.vy) > 30;
+  if (!moving || (prev && cell === prev.cell) || (prev && now - prev.t < 1.5)) return;
+  r.habitLast = { cell, t: now };
+  const dir = Math.atan2(v.vy, v.vx), key = cell + '/' + ((Math.round(dir / (Math.PI / 2)) + 4) % 4);
+  const entries = e.mem.habits.get(r.id) || []; entries.push({ key, x: v.x, y: v.y, dir, t: now });
+  while (entries.length > INTEL.habitObs) entries.shift(); e.mem.habits.set(r.id, entries);
+}
+function cleanHabits(e, now) {
+  if(e.dbg.habitRejected && now-e.dbg.habitRejected.t>30)e.dbg.habitRejected=null;
+  const hs = [];
+  for (const [id, history] of e.mem.habits) {
+    const r = e.mem.p.get(id), recent = history.filter(q => now - q.t <= INTEL.habitTTL);
+    if (!r || now - Math.max(r.seenAt, r.heardAt) > INTEL.habitTTL || !recent.length) { e.mem.habits.delete(id); e.dbg.habitRejected = {t:now, why:'observations expired or identity stale'}; if (r) r.habitLast = null; continue; }
+    e.mem.habits.set(id, recent);
+    const groups = new Map(); for (const q of recent) { const g = groups.get(q.key) || []; g.push(q); groups.set(q.key, g); }
+    for (const [key, qs] of groups) if (qs.length >= INTEL.habitRepeats) hs.push({ pid: id, key, ...qs[qs.length - 1], count: qs.length, bias: INTEL.habitBias, expires: qs[0].t + INTEL.habitTTL });
+  }
+  hs.sort((a, b) => b.count - a.count || b.t - a.t || a.pid - b.pid || a.key.localeCompare(b.key)); e.mem.hypotheses = hs.slice(0, INTEL.hypotheses);
+  if(e.dbg.habit && !e.mem.hypotheses.some(h=>h.pid===e.dbg.habit.pid&&h.key===e.dbg.habit.key))e.dbg.habit=null;
+  if (!e.seenNow.size && [S.ROAMING, S.DORMANT, S.HIDDEN, S.DISAPPEARING].includes(e.state)) { if(e.mem.habits.size)e.dbg.habitRejected={t:now,why:'encounter ended'};e.mem.habits.clear(); e.mem.hypotheses = [];e.dbg.habit=null; for (const r of e.mem.p.values()) r.habitLast = null; }
+}
+function habitBias(e, id, x, y, score) {
+  const h = e.mem.hypotheses.find(h => h.pid === id && Math.hypot(h.x - x, h.y - y) < 280);
+  if (!h) return score;
+  const delta = Math.abs(score) * h.bias; e.dbg.habit = { pid: id, key: h.key, count: h.count, bias: h.bias, delta, x, y };
+  return score + delta; // only already-plausible geometry candidates reach this function
+}
+function forgetIdentity(e, id) {
+  e.mem.p.delete(id); e.mem.habits.delete(id); e.mem.hypotheses = e.mem.hypotheses.filter(h => h.pid !== id); e.seenNow.delete(id);
+  e.mem.sounds = e.mem.sounds.filter(h => h.pid !== id);
+  if (e.hear && e.hear.pid === id) e.hear = null;
+  if (e.target === id) { e.target = null; e.hEye = null; e.dbg.retarget = 'identity lifecycle ended'; }
+  if (e.att) e.att.delete(id);
+  if (e.pulledOff?.id === id) e.pulledOff = null;
+  if (e.heldRetreatId === id) { e.heldRetreatId = null; e.heldRetreatAt = -99; }
+  if (e.feed?.guard === id) e.feed.guard = null;
+  if (e.search?.rid === id) e.search = null;
+  if (e.caut?.rid === id) e.caut = null;
+  if (e.alert?.rid === id) e.alert = null;
+  if (e.cur?.rid === id) e.cur = null;
+  e.evidence = null; e.dbg.habit = null; e.dbg.habitRejected=null;
+}
+function cleanupKnowledge(eng, e) {
+  const now = eng.now;
+  for (const [id, r] of e.mem.p) if (!eng.byId.has(id) || now - Math.max(r.seenAt, r.heardAt) > INTEL.recordTTL) forgetIdentity(e, id);
+  for (const [cell, t] of e.mem.visited) if (now - t > INTEL.visitedTTL) e.mem.visited.delete(cell);
+  while (e.mem.visited.size > INTEL.visited) e.mem.visited.delete(e.mem.visited.keys().next().value);
+  if (e.hChecked) e.hChecked = e.hChecked.filter(q => q.until > now).slice(-6);
+  if (e.att) for (const id of e.att.keys()) if (!e.mem.p.has(id)) e.att.delete(id);
+  cleanHabits(e, now);
+}
+function intelligenceDebug(eng, e) {
+  const A = e.evidence;
+  const targets=[...e.mem.p.values()].map(r=>({pid:r.id,score:+(e.kind==='hound'?houndTargetScore(e,r,eng.now)+(r.id===e.target ? .65 : 0):sScore(eng,e,r)).toFixed(3),current:r.id===e.target,seen:r.seen,
+    why:tgtGone(eng,e,r)?'rejected: perceived unavailable':e.kind==='hound'&&!hMaySwitch(e,r,eng.now)?'commitment prevents switch':e.kind==='smiler'&&!r.seen&&(eng.now-r.seenAt>2.5||r.conf<.3)?'rejected: stale/uncertain':r.id===e.target?'current target; species state/trigger rules apply':'observed candidate; species state/trigger rules apply'})).sort((a,b)=>b.score-a.score||a.pid-b.pid).slice(0,12);
+  const pending=[];for(const [pid,history]of e.mem.habits){const counts=new Map();for(const q of history)counts.set(q.key,(counts.get(q.key)||0)+1);for(const [key,count]of counts)if(count<INTEL.habitRepeats)pending.push({pid,key,count,why:'rejected: fewer than three observed repetitions'});}
+  return { winner: A?.winner || null, why: A?.why || 'no evidence', weights: A?.weights || evidenceWeights(e),
+    candidates: (A?.candidates || []).map(q => ({ key: q.key, attribution: q.attribution, modality: q.modality, score: +q.score.toFixed(3), c: +q.c.toFixed(2), u: Math.round(q.u), age: +(eng.now - q.t).toFixed(2), expires: +(q.expires - eng.now).toFixed(1) })),
+    sound: e.hear ? { attribution: e.hear.attribution, x: Math.round(e.hear.x), y: Math.round(e.hear.y), type: e.hear.type } : null,
+    habits: e.mem.hypotheses.map(h => ({ pid: h.pid, count: h.count, bias: h.bias, x: Math.round(h.x), y: Math.round(h.y), expires: +(h.expires - eng.now).toFixed(1) })),
+    target:e.target||null, targets, commitment:{age:+(eng.now-(e.tgtSince??eng.now)).toFixed(2),dwell:e.kind==='hound'?hDwell(e):SM_DWELL}, rejectedHabits:pending.slice(0,3), habitExpiry:e.dbg.habitRejected||null, applied: e.dbg.habit || null, rng: e.rngKey, tags: Object.keys(e.streams),
+    counts: { players: e.mem.p.size, sounds: e.mem.sounds.length, leads: e.mem.leads.length, visits: e.mem.visited.size, habitObservations: [...e.mem.habits.values()].reduce((n,h) => n+h.length,0), hypotheses: e.mem.hypotheses.length } };
+}
 
 /* ---------------------------------------------------------------- visible light as evidence (Part 2, stage 2C)
  * Player lights are a physical signal.  What a light does is worked out once for everybody (beamsOf: where each visible emitter's light really
@@ -488,18 +625,21 @@ function lightSense(eng, e) {
   for (const b of beamsOf(eng)) { if (Math.hypot(b.o.x - e.x, b.o.y - e.y) > 1900 + b.range) continue; const o = observeBeam(eng, e, b); if (o) obs.push(o); }
   if (eng.obsHook) obs = eng.obsHook(e, obs) || [];                          // (tests: record / replay exactly what the entity observed)
   e.lightObs = obs.length;
+  obs.sort((a,b) => { const A=a.src||a.pts[0]||a.air[0]||{}, B=b.src||b.pts[0]||b.air[0]||{}; return (A.x||0)-(B.x||0) || (A.y||0)-(B.y||0); });
   for (const o of obs) {
     const L = inferLead(e, o, eng.geo); if (!L) continue;
     if (L.k === 'source') {                                                   // a light it sees in the hand of somebody it is looking at right now: that is their light
-      let own = null; for (const id of e.seenNow) { const p = eng.playerById(id); if (p && Math.hypot(p.x - L.x, p.y - L.y) < 60) { own = e.mem.p.get(id); break; } }
+      const owners = [...e.seenNow].map(id=>e.mem.p.get(id)).filter(r=>r.visual && r.light && Math.hypot(r.visual.x-L.x,r.visual.y-L.y)<60); const own=owners.length===1?owners[0]:null;
       if (own) { noteEv(own, 'light', L.x, L.y, L.u, L.c, eng.now); if (L.flash) e.flashAt = eng.now; e.dbg.light = `source (in the hand of P${own.id}) @${eng.now.toFixed(1)}`; continue; }
     }
     const q = addLead(e, eng.now, L);
     if (L.flash) e.flashAt = eng.now;
     e.dbg.light = `${L.k} c${L.c.toFixed(2)} u${Math.round(L.u)}${o.fresh ? ' fresh' : ''}${o.moved ? ' moving' : ''} @${eng.now.toFixed(1)}`;
-    if (!e.inv || (e.inv.lead !== q.id && q.c * (.5 + q.sal) > (e.inv.c || 0) * 1.25)) e.inv = { lead: q.id, x: q.x, y: q.y, u: q.u, c: q.c * (.5 + q.sal), k: q.k, t: eng.now };   // what it would look into (stages 2D/2E act on it)
-    else if (e.inv.lead === q.id) Object.assign(e.inv, { x: q.x, y: q.y, u: q.u, t: eng.now });
+
   }
+  const best = bestAnonLead(e, eng.now, 'light'), current=e.inv&&e.mem.leads.find(q=>q.id===e.inv.lead&&q.k!=='sound');
+  if(best && (!current || best.id===current.id || observationScore(e,best,eng.now)>observationScore(e,current,eng.now)*1.25)) e.inv={lead:best.id,x:best.x,y:best.y,u:best.u,c:best.c*(.5+best.sal),k:best.k,t:best.t};
+
 }
 
 /* ---------------------------------------------------------------- entities: personality, movement, traversal, state plumbing */
@@ -509,15 +649,15 @@ function personality(sp, rng) {
   return tr;
 }
 function mkEntity(eng, kind, id, x, y, opts = {}) {
-  const sp = SPECIES[kind], tr = personality(sp, eng.rng);
+  const sp = SPECIES[kind], streams = entityStreams(eng.seed, kind, id), tr = personality(sp, streams.personality);
   const e = {
-    id, kind, sp, tr, caps: Object.assign({}, sp.caps, opts.caps || {}),
-    x, y, ang: eng.rng() * TAU, head: 0, speed: 0, r: sp.radius, rc: sp.clearance || OL,
+    id, kind, sp, tr, streams, rng: streams.behavior, rngKey: `${eng.seed}/${kind}/${id}`, caps: Object.assign({}, sp.caps, opts.caps || {}),
+    x, y, ang: streams.behavior() * TAU, head: 0, speed: 0, r: sp.radius, rc: sp.clearance || OL,
     state: sp.initial || S.ROAMING, act: '', stateT: 0, actT: 0, t: 0,
     goal: null, path: [], pathAge: 99, goalKey: '', trav: null, mode: 'walk', aim: null, aimT: 0,
     mem: newMemory(), seenNow: new Set(), hear: null, heardCount: 0, deaf: 0,
     mood: { arousal: .1, frustration: 0, excitement: 0, boredom: 0 },
-    tier: 'near', thinkT: eng.rng() * .1, target: null, stuck: 0, home: { x, y }, spawn: { x, y },
+    tier: 'near', thinkT: streams.schedule() * .1, target: null, stuck: 0, home: { x, y }, spawn: { x, y },
     cap: null, cool: {}, dbg: {}, fade: 1, vis: 1, pack: null,
     vel: { x: 0, y: 0 }, moved: 0, wake: 0, alpha: 1,
   };
@@ -797,7 +937,7 @@ function coarseMove(eng, e, dt) {
 function randomFloor(eng, e, minD, maxD, tries = 40) {
   const geo = eng.geo;
   for (let i = 0; i < tries; i++) {
-    const a = eng.rng() * TAU, d = lerp(minD, maxD, eng.rng()), x = e.x + Math.cos(a) * d, y = e.y + Math.sin(a) * d;
+    const a = e.streams.search() * TAU, d = lerp(minD, maxD, e.streams.search()), x = e.x + Math.cos(a) * d, y = e.y + Math.sin(a) * d;
     if (x < 100 || y < 100 || x > geo.W - 100 || y > geo.H - 100) continue;
     const c = geo.cellAt(x, y); if (c < 0 || geo.cls[c] !== 1) continue;
     return { x: geo.cx(c), y: geo.cy(c) };
@@ -839,14 +979,14 @@ function assess(eng, e, pv, attack) {
 function chooseMode(eng, e, ctx) {
   if (eng.forceCapture) return eng.forceCapture;                        // admin override (DEATHS tab): every catch is a quick kill / every catch is played with
   const sp = e.sp.capture, q = sp.quick(e, ctx);
-  return eng.rng() < q ? 'quick' : 'play';
+  return e.rng() < q ? 'quick' : 'play';
 }
 function pickVariant(eng, e, pv, ctx, attack) {
   const hist = eng.recentKills[e.kind] || (eng.recentKills[e.kind] = []);
   const items = e.sp.capture.variants(eng, e, pv, ctx, attack);
   const n = hist.length, twice = n >= 2 && hist[n - 1] === hist[n - 2] ? hist[n - 1] : null;             // never a third identical death in a row when there is any alternative
   for (const it of items) { const i = hist.lastIndexOf(it.k); if (i >= 0) { const age = n - i; it.w *= age === 1 ? .35 : age === 2 ? .6 : .8; } if (it.k === twice) it.w *= .06; }
-  const v = pickW(eng.rng, items.filter(i => i.w > 0));
+  const v = pickW(e.rng, items.filter(i => i.w > 0));
   hist.push(v); if (hist.length > 6) hist.shift();
   return v;
 }
@@ -857,14 +997,14 @@ function beginCapture(eng, e, pv, attack) {
   e.cap = cap; pv.caught = cap; eng.caps.push(cap);
   e.dbg.capture = { mode: cap.mode, danger: +ctx.danger.toFixed(2), iso: +ctx.iso.toFixed(2), deadEnd: ctx.deadEnd, approaching: ctx.approaching };
   if (cap.mode === 'quick') { killNow(eng, cap, pv, e, 'quick'); return cap; }
-  cap.phase = 'down'; cap.phaseT = 0; cap.down = rand(eng, 1.0, 1.9);
-  cap.decideAt = rand(eng, 5, 15) * (.7 + .5 * e.tr.PATIENCE);          // the tense stretch before the next major decision
+  cap.phase = 'down'; cap.phaseT = 0; cap.down = rand(e, 1.0, 1.9);
+  cap.decideAt = rand(e, 5, 15) * (.7 + .5 * e.tr.PATIENCE);          // the tense stretch before the next major decision
   cap.variant = null;
   eng.emit({ t: 'caught', pid: pv.id, eid: e.id, kind: e.sp.name, ph: 'down', from: { x: e.x, y: e.y }, ang: Math.atan2(pv.y - e.y, pv.x - e.x) });
   e.sp.capture.onBegin && e.sp.capture.onBegin(eng, e, cap, pv);
   return cap;
 }
-const rand = (eng, a, b) => a + eng.rng() * (b - a);
+const rand = (e, a, b) => a + e.rng() * (b - a);
 
 function killNow(eng, cap, pv, e, why) {
   if (cap.phase === 'done') return;
@@ -950,7 +1090,7 @@ function capStep(eng, cap, dt) {
     const running = pv.st === 2 || (pv.sp > 110 && Math.hypot(pv.x - e.x, pv.y - e.y) > 200);
     const d = Math.hypot(pv.x - e.x, pv.y - e.y);
     cap.watch = (cap.watch || 0) + dt;
-    if (running && !cap.triggered) { cap.triggered = eng.now + rand(eng, .35, 1.1) * (1.2 - e.tr.AGGRESSION * .5); }
+    if (running && !cap.triggered) { cap.triggered = eng.now + rand(e, .35, 1.1) * (1.2 - e.tr.AGGRESSION * .5); }
     if (cap.triggered && eng.now >= cap.triggered) { spc.onResume && spc.onResume(eng, e, cap, pv); finishCapture(eng, cap, pv, e); return; }
     if (!cap.triggered && (cap.watch > cap.holdFor || d > 1500)) { spc.onLetGo && spc.onLetGo(eng, e, cap, pv); finishCapture(eng, cap, pv, e); return; }
     spc.releaseTick && spc.releaseTick(eng, e, cap, pv, dt);
@@ -972,7 +1112,7 @@ function capStep(eng, cap, dt) {
       const choice = spc.onInterrupt(eng, e, cap, pv, ctx, { noisy, others });
       e.dbg.capture = Object.assign(e.dbg.capture || {}, { interrupt: choice, danger: +ctx.danger.toFixed(2) });
       if (choice === 'kill') { killNow(eng, cap, pv, e, 'interrupted'); return; }
-      if (choice === 'release') { cap.holdFor = rand(eng, 2.5, 6); releaseVictim(eng, cap, pv, e, 'interrupted'); spc.onRelease && spc.onRelease(eng, e, cap, pv); return; }
+      if (choice === 'release') { cap.holdFor = rand(e, 2.5, 6); releaseVictim(eng, cap, pv, e, 'interrupted'); spc.onRelease && spc.onRelease(eng, e, cap, pv); return; }
     }
   }
   /* the next major decision */
@@ -980,8 +1120,8 @@ function capStep(eng, cap, dt) {
     const c = spc.decide(eng, e, cap, pv);
     e.dbg.capture = Object.assign(e.dbg.capture || {}, { decision: c });
     if (c === 'kill') { killNow(eng, cap, pv, e, 'decided'); return; }
-    if (c === 'release') { cap.holdFor = rand(eng, 3, 9); releaseVictim(eng, cap, pv, e, 'false hope'); spc.onRelease && spc.onRelease(eng, e, cap, pv); return; }
-    cap.decideAt = cap.t + rand(eng, 4, 11) * (.7 + .5 * e.tr.PATIENCE);
+    if (c === 'release') { cap.holdFor = rand(e, 3, 9); releaseVictim(eng, cap, pv, e, 'false hope'); spc.onRelease && spc.onRelease(eng, e, cap, pv); return; }
+    cap.decideAt = cap.t + rand(e, 4, 11) * (.7 + .5 * e.tr.PATIENCE);
   }
 }
 
@@ -994,7 +1134,7 @@ const HOUND = {
   caps: { CAN_VAULT: true, VAULT_SPEED: 1.2, CAN_CROUCH: true, CAN_CRAWL: true, CAN_SLIDE: false, CAN_OPEN_DOORS: false, CAN_BREAK_DOORS: true, CAN_USE_TIGHT_GAPS: false, TURNING_ABILITY: 3.4, ACCELERATION: 880 },
   vision: { range: 640, fov: 2.7, dark: false, gain: 3.0, floor: 150 },   // floor: a body this close in front of it is noticed whatever its posture (crouching is not invisibility)
   speeds: { roam: 92, stalk: 84, investigate: 122, search: 134, chase: 292, retreat: 235, frustrated: 150 },
-  init(eng, e) { e.roam = { goal: null, until: 0, nextListen: rand(eng, 4, 11) }; e.lunge = null; e.recover = 0; e.search = null; e.feed = null; e.chaseBlind = 0; e.growlAt = 0; e.rest = 0; },
+  init(eng, e) { e.roam = { goal: null, until: 0, nextListen: rand(e, 4, 11) }; e.lunge = null; e.recover = 0; e.search = null; e.feed = null; e.chaseBlind = 0; e.growlAt = 0; e.rest = 0; },
 };
 const hSpeed = (e, k, eng) => (e.sp.speeds[k] || 100) * (k === 'chase' ? 1 + (e.tr.AGGRESSION - .82) * .18 + (eng.pressure || 0) * .04 : 1);
 
@@ -1009,8 +1149,7 @@ function hMaySwitch(e, r, now) {
 function hObserve(eng, e) {
   for (const r of e.mem.p.values()) if (r.seen) {
     // Hearing can update the fused record later. Keep the actual last visual observation separate.
-    const p = eng.playerById(r.id); // called only immediately after perception, for a confirmed sighting
-    r.hv = { id: r.id, x: r.lkx, y: r.lky, vx: r.lvx, vy: r.lvy, t: r.seenAt, angle: p.angle, alive: true, st: r.st, ex: r.ex };
+    r.hv = r.visual; // one shared sampled sight boundary, never a live between-sense player
     if (r.light) r.aw = Math.max(r.aw, .72); // an identified, illuminated human warrants hostility
   }
   if (e.hEye && eng.now - e.hEye.last > 12 && !e.seenNow.size) e.hEye = null;
@@ -1034,22 +1173,22 @@ function hPerceived(eng, e, r) {
   const est = estimate(e, r, eng.now, eng.geo);
   return { ...est, vx: r.lvx, vy: r.lvy, sp: Math.hypot(r.lvx, r.lvy), seen: false };
 }
-function hLightStart(eng, e) {
-  if (![S.ROAMING, S.DORMANT, S.CURIOUS, S.FRUSTRATED].includes(e.state)) return false;
-  const L = bestAnonLead(e, eng.now); if (!L || L.c < .25 || eng.now - L.t > 3) return false;
+function hLightStart(eng, e, heardLead = null) {
+  if (![S.ROAMING, S.DORMANT, S.CURIOUS, S.FRUSTRATED].includes(e.state) && !(heardLead && [S.HUNTING, S.SEARCHING, S.STALKING].includes(e.state))) return false;
+  const L = heardLead || bestAnonLead(e, eng.now); if (!L || L.c < .25 || eng.now - L.t > 3) return false;
   const checked = e.hChecked || (e.hChecked = []);
   if (checked.some(q => eng.now < q.until && Math.hypot(q.x - L.x, q.y - L.y) < 180)) return false;
   if (e.hLight && e.state === S.CURIOUS) return true; // finish one hypothesis, do not restart its timer each observation
   e.hLight = { lead: L.id, x: L.x, y: L.y, u: L.u, k: L.k, t: eng.now, until: eng.now + 7 + e.tr.CURIOSITY * 5, arrived: 0 };
   e.inv = { lead: L.id, x: L.x, y: L.y, u: L.u, k: L.k, t: eng.now, c: L.c };
   setState(e, S.CURIOUS, 'listen'); e.dbg.hWhy = `investigate anonymous ${L.k}; carrier unidentified`;
-  e.dbg.listen = 'orienting to visible light'; return true;
+  e.dbg.listen = L.k === 'sound' ? 'orienting to anonymous sound' : 'orienting to visible light'; return true;
 }
 function hLightStep(eng, e, dt) {
   const q = e.hLight, now = eng.now;
   if (now - q.t < .28 || q.arrived) {
     stopMoving(eng, e, dt); faceToward(e, q.x, q.y, dt, 5.5); e.head = Math.sin(e.t * 2) * .3;
-    setAct(e, 'listen'); e.dbg.listen = q.arrived ? 'light location checked; listening for a carrier' : 'orienting to visible light';
+    setAct(e, 'listen'); e.dbg.listen = q.arrived ? `${q.k} location checked; listening for a source` : `orienting to ${q.k}`;
   } else {
     setAct(e, ''); e.dbg.listen = ''; goTo(eng, e, q.x, q.y, { every: 1.2 });
     const st = follow(eng, e, dt, hSpeed(e, 'investigate', eng), {});
@@ -1059,7 +1198,7 @@ function hLightStep(eng, e, dt) {
     const L = e.mem.leads.find(l => l.id === q.lead); if (L) L.c *= .65;
     const checked = e.hChecked || (e.hChecked = []); checked.push({ x: q.x, y: q.y, until: now + 8 });
     if (checked.length > 6) checked.shift();
-    e.dbg.disengage = 'light hypothesis checked; no human identified'; e.dbg.hWhy = e.dbg.disengage;
+    e.dbg.disengage = `${q.k} hypothesis checked; no human identified`; e.dbg.hWhy = e.dbg.disengage;
     e.hLight = null; e.inv = null; e.dbg.listen = ''; setState(e, S.ROAMING); e.roam.goal = null;
   }
 }
@@ -1091,13 +1230,13 @@ function pickTarget(eng, e, filter) {
     if (r.conf < .04 && !r.seen) continue;
     if (tgtGone(eng, e, r)) continue;                                            // (v23) only what it saw: not the true state of an unseen player
     if (filter && !filter(r)) continue;
-    const s = houndTargetScore(e, r, eng.now); if (s > bs) { bs = s; best = r; }
+    const s = houndTargetScore(e, r, eng.now); if (s > bs || (s === bs && (!best || r.id < best.id))) { bs = s; best = r; }
   }
   return best;
 }
 /* how many of the people it can see right now stand together (within ~420 px of the same person) */
 function groupSeen(eng, e) {
-  const ps = []; for (const id of e.seenNow) { const pv = eng.playerById(id); if (pv && pv.alive && !pv.caught) ps.push(pv); }
+  const ps = []; for (const id of e.seenNow) { const pv = e.mem.p.get(id)?.visual; if (pv && pv.alive && !pv.caught) ps.push(pv); }
   let best = ps.length ? 1 : 0;
   for (const a of ps) { let n = 0; for (const b of ps) if (dist(a.x, a.y, b.x, b.y) < 420) n++; if (n > best) best = n; }
   return best;
@@ -1108,13 +1247,13 @@ function houndGrowl(eng, e, I = .7, type = 'growl') { if (eng.now - e.growlAt < 
 function hRoam(eng, e, dt) {
   const R = e.roam;
   if (e.act === 'listen') {                                               // stands still, head up, hearing sharpened
-    stopMoving(eng, e, dt); e.head = Math.sin(e.t * 1.7) * .5; if (e.actT > R.listenFor) { setAct(e, ''); R.nextListen = eng.now + rand(eng, 6, 15); R.goal = null; }
+    stopMoving(eng, e, dt); e.head = Math.sin(e.t * 1.7) * .5; if (e.actT > R.listenFor) { setAct(e, ''); R.nextListen = eng.now + rand(e, 6, 15); R.goal = null; }
     return;
   }
   if (e.act === 'rest') { stopMoving(eng, e, dt); if (e.actT > e.rest) { setState(e, S.ROAMING, ''); e.rest = 0; } return; }
-  if (eng.now > R.nextListen && e.speed < 140) { setAct(e, 'listen'); R.listenFor = rand(eng, 1.6, 3.8); return; }
+  if (eng.now > R.nextListen && e.speed < 140) { setAct(e, 'listen'); R.listenFor = rand(e, 1.6, 3.8); return; }
   if (!R.goal || eng.now > R.until || dist(e.x, e.y, R.goal.x, R.goal.y) < 60) {
-    if (R.goal && eng.rng() < .12 && e.tier !== 'near') { setState(e, S.DORMANT, 'rest'); e.rest = rand(eng, 8, 20); R.goal = null; return; }
+    if (R.goal && e.rng() < .12 && e.tier !== 'near') { setState(e, S.DORMANT, 'rest'); e.rest = rand(e, 8, 20); R.goal = null; return; }
     R.goal = randomFloor(eng, e, 900, 2800) || randomFloor(eng, e, 400, 1600); R.until = eng.now + 40;
     if (R.goal) plan(eng, e, R.goal.x, R.goal.y);
   }
@@ -1153,7 +1292,8 @@ function pickSearchGoal(eng, e, s) {
   const consider = (x, y, sc, k, extra) => {
     const c = geo.cellAt(x, y); if (c < 0 || geo.cls[c] !== 1) { const q = geo.snap(x, y, e.caps, 2); if (q < 0) return; x = geo.cx(q); y = geo.cy(q); }
     for (const v of s.visited) if (Math.hypot(v.x - x, v.y - y) < 230) return; // a failed hypothesis is not an endlessly reusable route
-    sc -= Math.hypot(x - e.x, y - e.y) * .1 + eng.rng() * (40 + 90 * (1 - e.tr.INTELLIGENCE));
+    sc -= Math.hypot(x - e.x, y - e.y) * .1 + e.streams.search() * (40 + 90 * (1 - e.tr.INTELLIGENCE));
+    sc = habitBias(e, s.rid, x, y, sc);
     if (sc > bs) { bs = sc; best = Object.assign({ x, y, k }, extra || {}); }
   };
   // 1) the ways out from where it should be: openings in 12 directions (a doorway or a corridor reads as a long free ray)
@@ -1180,7 +1320,7 @@ function pickSearchGoal(eng, e, s) {
 function hSearch(eng, e, dt, thinkNow) {
   const s = e.search; if (!s) { setState(e, S.ROAMING); return; }
   const now = eng.now, r = e.mem.p.get(s.rid);
-  const giveUp = why => { s.exhausted = true; e.dbg.disengage = why; e.dbg.hWhy = why; e.mood.frustration = Math.min(1, e.mood.frustration + .25); setState(e, S.FRUSTRATED, 'pace'); e.frus = { until: now + rand(eng, 2, 4.5) }; };
+  const giveUp = why => { s.exhausted = true; e.dbg.disengage = why; e.dbg.hWhy = why; e.mood.frustration = Math.min(1, e.mood.frustration + .25); setState(e, S.FRUSTRATED, 'pace'); e.frus = { until: now + rand(e, 2, 4.5) }; };
   e.dbg.search = { ph: s.phase, legs: s.legs + '/' + s.maxLegs, t: +(now - s.started).toFixed(1), left: +(s.until - now).toFixed(1), g: s.goal ? [Math.round(s.goal.x), Math.round(s.goal.y), s.goal.k] : null, unc: r ? Math.round(estimate(e, r, now).unc) : 0, cz: r && r.crawl || '' };
   if (e.act === 'freeze') {                                                // a beat to listen on arrival / first snap decision
     stopMoving(eng, e, dt); e.head = Math.sin(e.t * 2.1) * .55;
@@ -1218,7 +1358,7 @@ function hSearch(eng, e, dt, thinkNow) {
     if (!r.seen && now - Math.max(r.seenAt, r.heardAt) > 1) r.conf = Math.max(0, r.conf - .12);
     if (s.goal.key) s.exitsTried.push(s.goal.key); if (s.goal.k === 'enter') s.exitsTried.push('in');
     const atExit = s.goal.k === 'exit';
-    s.phase = atExit && eng.rng() < .35 + e.tr.PATIENCE ? 'watch' : 'pause'; s.watchFor = rand(eng, 2.5, 7) * (.5 + e.tr.PATIENCE); s.pause = 0; s.goal = null;
+    s.phase = atExit && e.rng() < .35 + e.tr.PATIENCE ? 'watch' : 'pause'; s.watchFor = rand(e, 2.5, 7) * (.5 + e.tr.PATIENCE); s.pause = 0; s.goal = null;
     setAct(e, s.phase === 'watch' ? 'listen' : 'sniff');
   }
 }
@@ -1238,7 +1378,7 @@ function lungeCheck(eng, e, r, tgt) {
   const dx = tgt.x - e.x, dy = tgt.y - e.y, d = Math.hypot(dx, dy), err = Math.abs(angDiff(Math.atan2(dy, dx), e.ang));
   if (d < 96 || d > 330 || err > .42) return false;
   const L = lungeStats(e), vr = d > 1 ? (tgt.vx * dx + tgt.vy * dy) / d : 0;         // > 0: the prey is moving away along the line of the lunge
-  if (e.lungeBias === undefined) e.lungeBias = (eng.rng() - .5) * (1.15 - e.tr.INTELLIGENCE) * 96;
+  if (e.lungeBias === undefined) e.lungeBias = (e.rng() - .5) * (1.15 - e.tr.INTELLIGENCE) * 96;
   const need = d + vr * L.T + e.lungeBias;                                            // how far the hound must travel to land on it
   if (need < 70 || need > L.reach + 34) return false;
   if (!eng.geo.lineClear(e.x, e.y, tgt.x, tgt.y, 14, 'walk')) return false;
@@ -1273,7 +1413,7 @@ function stepLunge(eng, e, dt) {
     if (d < e.r + 14 && air && pv.st === 5) e.dbg.lunge = 'slid under';
   }
   if (L.hit) { const pv = L.hit; e.lunge = null; e.recover = .5; setAct(e, 'recover'); return { pv, dir: L.dir, speed: e.speed }; }
-  if (k >= 1) { e.lunge = null; e.recover = rand(eng, .85, 1.3); setAct(e, 'recover'); e.mood.frustration = Math.min(1, e.mood.frustration + .18); e.cool.lunge = rand(eng, 1.2, 2.4); e.dbg.lunge = 'missed'; e.lungesMissed = (e.lungesMissed || 0) + 1; }
+  if (k >= 1) { e.lunge = null; e.recover = rand(e, .85, 1.3); setAct(e, 'recover'); e.mood.frustration = Math.min(1, e.mood.frustration + .18); e.cool.lunge = rand(e, 1.2, 2.4); e.dbg.lunge = 'missed'; e.lungesMissed = (e.lungesMissed || 0) + 1; }
   return false;
 }
 
@@ -1294,7 +1434,7 @@ function hHunt(eng, e, dt, thinkNow) {
     e.dbg.hWhy = r.light ? 'pursue identified human exposed by visible light' : 'pursue visually identified human';
     e.chaseBlind = 0; e.lostSince = 0;
     const tgt = { x: pvT.x, y: pvT.y, vx: pvT.vx, vy: pvT.vy, id: pvT.id };
-    if (lungeCheck(eng, e, r, tgt) && eng.rng() < 1 - Math.pow(.04, dt * (1 + e.tr.AGGRESSION))) { startLunge(eng, e, tgt); return; }
+    if (lungeCheck(eng, e, r, tgt) && e.rng() < 1 - Math.pow(.04, dt * (1 + e.tr.AGGRESSION))) { startLunge(eng, e, tgt); return; }
     // predicted interception point, but never through walls: plan to it, aim straight when the way is clear
     // Advance only the sampled visible velocity between perception updates. This keeps the
     // prediction continuous without reaching into the live player when an old seen flag persists.
@@ -1351,7 +1491,7 @@ function hReact(eng, e) {
   let seen = null, sd = 1e9, score = -Infinity;
   const current = e.mem.p.get(e.target);
   for (const id of e.seenNow) {
-    const r = e.mem.p.get(id), pv = eng.playerById(id); if (!pv || !pv.alive || pv.caught) continue;
+    const r = e.mem.p.get(id), pv = r?.visual; if (!pv || !pv.alive || pv.caught) continue;
     if (!hMaySwitch(e, r, now)) continue;
     const value = houndTargetScore(e, r, now) + (id === e.target ? .65 : 0);
     if (value > score) { score = value; seen = r; sd = Math.hypot(r.lkx - e.x, r.lky - e.y); }
@@ -1361,7 +1501,7 @@ function hReact(eng, e) {
   if (seen && seen.aw > .45) {
     const runner = seen.st === 2 || seen.st === 5 || seen.ex, near = sd < 480, hungry = e.tr.HUNGER > .55;
     const grp = groupSeen(eng, e), fresh = grp > (e.grpN || 0); e.grpN = grp;                       // somebody else has just come into view: it takes stock of the group once
-    if (fresh && grp >= 2 && !runner && !seen.light && e.state !== S.HUNTING && e.state !== S.CAUTIOUS && eng.rng() < (.16 + e.tr.CAUTION * 1.5) * (e.pack ? .45 : 1) * (sd < 300 ? .35 : 1)) { beginCautious(eng, e, seen); return; }
+    if (fresh && grp >= 2 && !runner && !seen.light && e.state !== S.HUNTING && e.state !== S.CAUTIOUS && e.rng() < (.16 + e.tr.CAUTION * 1.5) * (e.pack ? .45 : 1) * (sd < 300 ? .35 : 1)) { beginCautious(eng, e, seen); return; }
     if (e.state !== S.HUNTING && e.state !== S.STALKING && e.state !== S.CAUTIOUS) {
       if (seen.light || runner || near || (hungry && e.tr.AGGRESSION > .7 && seen.aw > .8 && sd < 700)) { beginHunt(eng, e, seen, seen.light ? 'identified human with visible light' : runner ? 'saw-run' : 'saw-near'); return; }
       setState(e, S.STALKING, ''); setTarget(e, seen.id, now); e.stalkFor = 0; e.mood.excitement = Math.min(1, e.mood.excitement + .3); return;
@@ -1377,17 +1517,24 @@ function hReact(eng, e) {
     e.lastHearT = h.t;
     const isEnt = h.src < 0;
     if (isEnt && h.type === 'growl' && e.state !== S.HUNTING && e.state !== S.FEEDING && e.state !== S.PLAYING) {           // existing audible growl response only: no target/memory transfer
-      if (eng.rng() < .55 + e.tr.SOCIAL * .4) { beginSearch(eng, e, null, 'sound'); e.search.goal = { x: h.x, y: h.y, k: 'sound' }; e.search.first = false; setAct(e, ''); }
+      if (e.rng() < .55 + e.tr.SOCIAL * .4) { beginSearch(eng, e, null, 'sound'); e.search.goal = { x: h.x, y: h.y, k: 'sound' }; e.search.first = false; setAct(e, ''); }
       return;
     }
     if (isEnt) return;
+    if (h.attribution === 'anonymous') {
+      const L = bestAnonLead(e, now, 'sound'), cur = e.mem.p.get(e.target);
+      const weak = h.I <= .12, recentSight = cur && (cur.seen || now - cur.seenAt < 1.2);
+      if (!weak && !recentSight && L) hLightStart(eng, e, L);
+      e.dbg.retarget = recentSight ? 'keep visual prey; unrelated anonymous sound' : 'heard anonymous sound; no person identified';
+      return;
+    }
     const r = e.mem.p.get(h.src); if (!r) return;
     const loud = h.I > .5 || h.type === 'run' || h.type === 'slide' || h.type === 'vault';
     if (e.state === S.ROAMING || e.state === S.DORMANT || e.state === S.CURIOUS) {
       e.hLight = null;
       e.wake = 1; if (e.state === S.DORMANT) setState(e, S.ROAMING, ''); else setAct(e, '');
-      if (loud && eng.rng() < .55 + e.tr.AGGRESSION * .35) { setState(e, S.ALERT, 'freeze'); e.alert = { until: now + rand(eng, .35, .85) * (1.2 - e.tr.AGGRESSION * .5), rid: h.src, toward: { x: h.x, y: h.y } }; }
-      else if (h.I > .12) { setState(e, S.CURIOUS, 'freeze'); e.cur = { until: now + rand(eng, .6, 1.5), toward: { x: h.x, y: h.y }, n: 0, rid: h.src }; }
+      if (loud && e.rng() < .55 + e.tr.AGGRESSION * .35) { setState(e, S.ALERT, 'freeze'); e.alert = { until: now + rand(e, .35, .85) * (1.2 - e.tr.AGGRESSION * .5), rid: h.src, toward: { x: h.x, y: h.y } }; }
+      else if (h.I > .12) { setState(e, S.CURIOUS, 'freeze'); e.cur = { until: now + rand(e, .6, 1.5), toward: { x: h.x, y: h.y }, n: 0, rid: h.src }; }
     } else if ((e.state === S.SEARCHING || e.state === S.FRUSTRATED) && loud && r.conf > .2 && dist(e.x, e.y, h.x, h.y) < 1000 && (!e.search || !e.search.rid || e.search.rid === r.id || !e.mem.p.get(e.search.rid)?.conf)) {
       beginHunt(eng, e, r, 'heard-run'); e.dbg.reacquired = (e.dbg.reacquired || 0) + 1;                       // it heard the prey running: no new detection needed
     } else if (e.state === S.SEARCHING || e.state === S.FRUSTRATED) {
@@ -1411,8 +1558,8 @@ function houndTick(eng, e, dt, thinkNow) {
       if (e.hLight) { hLightStep(eng, e, dt); break; }
       stopMoving(eng, e, dt); const c = e.cur; if (!c) { setState(e, S.ROAMING); break; }
       faceToward(e, c.toward.x, c.toward.y, dt, 3.5); e.head = Math.sin(e.t * 5) * .15;
-      if (e.hear && e.hear.t > c.until - 1.5 && e.hear.t > (c.seenT || 0) && e.hear.src >= 0) { c.seenT = e.hear.t; c.n++; if (c.n >= 1 && e.hear.I > .2) { setState(e, S.ALERT, 'freeze'); e.alert = { until: now + rand(eng, .3, .7), rid: e.hear.src, toward: { x: e.hear.x, y: e.hear.y } }; break; } }
-      if (now > c.until) { const r = e.mem.p.get(c.rid); if (r && eng.rng() < .45 + e.tr.CURIOSITY * .5) beginSearch(eng, e, r, 'sound'); else { setState(e, S.ROAMING); e.roam.goal = null; } }
+      if (e.hear && e.hear.t > c.until - 1.5 && e.hear.t > (c.seenT || 0) && e.hear.src >= 0) { c.seenT = e.hear.t; c.n++; if (c.n >= 1 && e.hear.I > .2) { setState(e, S.ALERT, 'freeze'); e.alert = { until: now + rand(e, .3, .7), rid: e.hear.src, toward: { x: e.hear.x, y: e.hear.y } }; break; } }
+      if (now > c.until) { const r = e.mem.p.get(c.rid); if (r && e.rng() < .45 + e.tr.CURIOSITY * .5) beginSearch(eng, e, r, 'sound'); else { setState(e, S.ROAMING); e.roam.goal = null; } }
       break;
     }
     case S.ALERT: {
@@ -1423,8 +1570,8 @@ function houndTick(eng, e, dt, thinkNow) {
         if (!r) { setState(e, S.ROAMING); break; }
         if (r.seen) { beginHunt(eng, e, r, 'alert-see'); break; }
         const lastRun = r.st === 2 || r.st === 5, noisy = (e.hear && e.hear.I > .55);
-        if (lastRun && eng.rng() < .35 + e.tr.AGGRESSION * .55) { beginHunt(eng, e, r, 'alert-run'); break; }
-        if (eng.rng() < .35 + e.tr.PATIENCE * .3 && !noisy) { setState(e, S.STALKING, ''); setTarget(e, r.id, now); e.stalkFor = 0; break; }
+        if (lastRun && e.rng() < .35 + e.tr.AGGRESSION * .55) { beginHunt(eng, e, r, 'alert-run'); break; }
+        if (e.rng() < .35 + e.tr.PATIENCE * .3 && !noisy) { setState(e, S.STALKING, ''); setTarget(e, r.id, now); e.stalkFor = 0; break; }
         beginSearch(eng, e, r, 'sound'); e.search.goal = { x: a.toward.x, y: a.toward.y }; e.search.first = false; setAct(e, '');
       }
       break;
@@ -1434,8 +1581,8 @@ function houndTick(eng, e, dt, thinkNow) {
     case S.SEARCHING: hSearch(eng, e, dt, thinkNow); break;
     case S.FRUSTRATED: {                                                  // snarls and paces, then sweeps a wider area or gives up
       const f = e.frus || { until: now }; e.speed = approach(e.speed, 0, 1200 * dt);
-      e.ang += Math.sin(e.t * 3.1) * dt * 2.2; e.head = Math.sin(e.t * 6) * .45; if (eng.rng() < dt * .35) houndGrowl(eng, e, .5, 'snarl');
-      if (now > f.until) { const r = e.mem.p.get(e.search && e.search.rid); if (r && !e.search.exhausted && r.conf > .1 && eng.rng() < e.tr.PERSISTENCE * .55) { beginSearch(eng, e, r, 'lost'); e.search.until += 8; } else { setState(e, S.ROAMING); setTarget(e, 0, now); e.roam.goal = null; } }
+      e.ang += Math.sin(e.t * 3.1) * dt * 2.2; e.head = Math.sin(e.t * 6) * .45; if (e.rng() < dt * .35) houndGrowl(eng, e, .5, 'snarl');
+      if (now > f.until) { const r = e.mem.p.get(e.search && e.search.rid); if (r && !e.search.exhausted && r.conf > .1 && e.rng() < e.tr.PERSISTENCE * .55) { beginSearch(eng, e, r, 'lost'); e.search.until += 8; } else { setState(e, S.ROAMING); setTarget(e, 0, now); e.roam.goal = null; } }
       break;
     }
     case S.FEEDING: res = hFeed(eng, e, dt, thinkNow); break;
@@ -1451,7 +1598,7 @@ function houndTick(eng, e, dt, thinkNow) {
 }
 
 /* FEEDING and guarding a body ------------------------------------------------------------------------------------------------- */
-function beginFeed(eng, e, site) { setState(e, S.FEEDING, ''); e.feed = { site, until: eng.now + rand(eng, 22, 48), at: false, guard: null }; }
+function beginFeed(eng, e, site) { setState(e, S.FEEDING, ''); e.feed = { site, until: eng.now + rand(e, 22, 48), at: false, guard: null }; }
 function hFeed(eng, e, dt, thinkNow) {
   const F = e.feed; if (!F || eng.now > F.until) { if (F && F.site) F.site.fed++; setState(e, S.ROAMING); e.roam.goal = null; e.feed = null; return; }
   const s = F.site;
@@ -1465,27 +1612,27 @@ function hFeed(eng, e, dt, thinkNow) {
   if (!F.at) { goTo(eng, e, s.x, s.y, { every: 1.4 }); const st = follow(eng, e, dt, hSpeed(e, 'investigate', eng), { arrive: 34 }); if (dist(e.x, e.y, s.x, s.y) < 60 || st === 'arrived') { F.at = true; setAct(e, 'feed'); } return; }
   if (e.act !== 'feed') setAct(e, 'feed');
   stopMoving(eng, e, dt); faceToward(e, s.x, s.y, dt, 2); e.head = Math.sin(e.t * 7) * .18;
-  if (thinkNow) for (const id of e.seenNow) { const r = e.mem.p.get(id), pv = eng.playerById(id); if (pv && pv.alive && !pv.caught && r.dist < 620 && r.aw > .5) { F.guard = id; setTarget(e, id, eng.now); houndGrowl(eng, e, .8, 'guard'); setAct(e, 'guard'); break; } }
+  if (thinkNow) for (const id of e.seenNow) { const r = e.mem.p.get(id), pv = r?.visual; if (pv && pv.alive && !pv.caught && r.dist < 620 && r.aw > .5) { F.guard = id; setTarget(e, id, eng.now); houndGrowl(eng, e, .8, 'guard'); setAct(e, 'guard'); break; } }
   if (thinkNow && !F.guard && e.hear && e.hear.I > .5 && e.hear.src > 0 && eng.now - e.hear.t < .3 && dist(e.hear.x, e.hear.y, s.x, s.y) < 900) { const r = e.mem.p.get(e.hear.src); if (r) { F.guard = r.id; e.target = r.id; setAct(e, 'guard'); } }
 }
 /* EXCITED: right after a kill, when nobody else is close: worked up, pacing around the body, snarling - then it settles down to feed */
-function beginExcited(eng, e, site) { setState(e, S.EXCITED, 'pace'); e.exc = { site, until: eng.now + rand(eng, 1.6, 3.6), dir: eng.rng() < .5 ? 1 : -1, r: rand(eng, 62, 96) }; }
+function beginExcited(eng, e, site) { setState(e, S.EXCITED, 'pace'); e.exc = { site, until: eng.now + rand(e, 1.6, 3.6), dir: e.rng() < .5 ? 1 : -1, r: rand(e, 62, 96) }; }
 function hExcited(eng, e, dt, thinkNow) {
   const X = e.exc; if (!X || eng.now > X.until) { setState(e, S.ROAMING); if (X && X.site && e.tr.HUNGER > .3) beginFeed(eng, e, X.site); else e.roam.goal = null; return; }
   const a = Math.atan2(e.y - X.site.y, e.x - X.site.x) + X.dir * dt * 1.15, tx = X.site.x + Math.cos(a) * X.r, ty = X.site.y + Math.sin(a) * X.r;
   if (eng.geo.clear(tx, ty, 21, 'walk')) steerTo(eng, e, tx, ty, 100, dt, { turnMul: 1.7, noSlow: true }); else stopMoving(eng, e, dt);
-  e.head = Math.sin(e.t * 6.5) * .5; if (eng.rng() < dt * .45) houndGrowl(eng, e, .55, 'snarl');
+  e.head = Math.sin(e.t * 6.5) * .5; if (e.rng() < dt * .45) houndGrowl(eng, e, .55, 'snarl');
 }
 
 /* CAUTIOUS: several people together are more than a hound wants to take on.  It holds off at a distance, watching and circling, and
  * waits for one of them to be alone, to run, or to fall behind - or gives up and drifts away. */
-function beginCautious(eng, e, r) { setState(e, S.CAUTIOUS, 'stare'); e.caut = { until: eng.now + rand(eng, 5, 11), rid: r.id, dir: eng.rng() < .5 ? 1 : -1, last: { x: r.lkx, y: r.lky }, lostT: 0 }; e.target = r.id; }
+function beginCautious(eng, e, r) { setState(e, S.CAUTIOUS, 'stare'); e.caut = { until: eng.now + rand(e, 5, 11), rid: r.id, dir: e.rng() < .5 ? 1 : -1, last: { x: r.lkx, y: r.lky }, lostT: 0 }; e.target = r.id; }
 function hCautious(eng, e, dt, thinkNow) {
   const C = e.caut;
   if (!C || eng.now > C.until) {                                                                                                // it has watched long enough: commit, or withdraw
     e.caut = null; const r = C && e.mem.p.get(C.rid);
-    if (r && r.conf > .3 && eng.rng() < clamp(e.tr.AGGRESSION * .6 + e.tr.HUNGER * .3 - e.tr.CAUTION * .5, .2, .85)) { beginHunt(eng, e, r, 'caut-timeout'); return; }
-    if (C) { beginRetreat(eng, e, C.last, rand(eng, 8, 14)); return; }
+    if (r && r.conf > .3 && e.rng() < clamp(e.tr.AGGRESSION * .6 + e.tr.HUNGER * .3 - e.tr.CAUTION * .5, .2, .85)) { beginHunt(eng, e, r, 'caut-timeout'); return; }
+    if (C) { beginRetreat(eng, e, C.last, rand(e, 8, 14)); return; }
     setState(e, S.ROAMING); e.roam.goal = null; return;
   }
   const seen = []; for (const id of e.seenNow) { const r = e.mem.p.get(id); if (r && r.seen && r.hv) seen.push(r.hv); }
@@ -1493,8 +1640,8 @@ function hCautious(eng, e, dt, thinkNow) {
     let cx = 0, cy = 0; for (const p of seen) { cx += p.x; cy += p.y; } C.last = { x: cx / seen.length, y: cy / seen.length }; C.lostT = 0;
     if (thinkNow) {
       const runner = seen.find(p => p.st === 2 || p.st === 5 || p.ex), alone = seen.length === 1 || seen.every(p => dist(p.x, p.y, seen[0].x, seen[0].y) > 460);
-      if (runner && eng.rng() < .25 + e.tr.AGGRESSION * .5) { const r = rec(e, runner.id); beginHunt(eng, e, r, 'caut-run'); return; }
-      if (alone && dist(e.x, e.y, seen[0].x, seen[0].y) < 720) { const r = rec(e, seen[0].id); if (eng.rng() < .5 + e.tr.AGGRESSION * .4) { beginHunt(eng, e, r, 'caut-alone'); return; } }
+      if (runner && e.rng() < .25 + e.tr.AGGRESSION * .5) { const r = rec(e, runner.id); beginHunt(eng, e, r, 'caut-run'); return; }
+      if (alone && dist(e.x, e.y, seen[0].x, seen[0].y) < 720) { const r = rec(e, seen[0].id); if (e.rng() < .5 + e.tr.AGGRESSION * .4) { beginHunt(eng, e, r, 'caut-alone'); return; } }
     }
   } else { C.lostT += dt; if (C.lostT > 3) { const r = e.mem.p.get(C.rid); if (r) beginSearch(eng, e, r, 'lost'); else setState(e, S.ROAMING); return; } }
   const d = dist(e.x, e.y, C.last.x, C.last.y), away = Math.atan2(e.y - C.last.y, e.x - C.last.x);
@@ -1502,7 +1649,7 @@ function hCautious(eng, e, dt, thinkNow) {
   if (d < 470) { tx = e.x + Math.cos(away) * 90; ty = e.y + Math.sin(away) * 90; v = 110; }                                   // too close: back off
   else if (d > 680) { tx = e.x - Math.cos(away) * 90; ty = e.y - Math.sin(away) * 90; v = 96; }                                // drifted away: close up
   else { const a = away + C.dir * .5; tx = C.last.x + Math.cos(a) * d; ty = C.last.y + Math.sin(a) * d; v = 66; }             // circle at a distance
-  if (eng.geo.clear(tx, ty, 21, 'walk') && eng.geo.lineClear(e.x, e.y, tx, ty, 21, 'walk')) steerTo(eng, e, tx, ty, v, dt, { turnMul: 1.4, noSlow: true }); else { stopMoving(eng, e, dt); if (eng.rng() < dt * .6) C.dir = -C.dir; }
+  if (eng.geo.clear(tx, ty, 21, 'walk') && eng.geo.lineClear(e.x, e.y, tx, ty, 21, 'walk')) steerTo(eng, e, tx, ty, v, dt, { turnMul: 1.4, noSlow: true }); else { stopMoving(eng, e, dt); if (e.rng() < dt * .6) C.dir = -C.dir; }
   if (seen.length) faceToward(e, C.last.x, C.last.y, dt, 2.2);
   e.head = Math.sin(e.t * 1.9) * .3;
 }
@@ -1524,8 +1671,8 @@ function hPlayTick(eng, e, cap, pv, dt) {
   if (!pv) return;
   const P = cap.plan;
   if (!P || eng.now > P.until) {
-    const act = pickW(eng.rng, [{ k: 'circle', w: 1.2 }, { k: 'stare', w: 1 + e.tr.SADISM }, { k: 'drag', w: cap.phase === 'crawl' ? .5 : 0 }, { k: 'back', w: .7 }]);
-    cap.plan = { act, until: eng.now + rand(eng, 1.3, 3.2), dir: eng.rng() < .5 ? 1 : -1, r: rand(eng, 95, 135) }; cap.plays++; setAct(e, act === 'back' ? 'back' : act === 'drag' ? 'drag' : act);
+    const act = pickW(e.rng, [{ k: 'circle', w: 1.2 }, { k: 'stare', w: 1 + e.tr.SADISM }, { k: 'drag', w: cap.phase === 'crawl' ? .5 : 0 }, { k: 'back', w: .7 }]);
+    cap.plan = { act, until: eng.now + rand(e, 1.3, 3.2), dir: e.rng() < .5 ? 1 : -1, r: rand(e, 95, 135) }; cap.plays++; setAct(e, act === 'back' ? 'back' : act === 'drag' ? 'drag' : act);
   }
   const p = cap.plan;
   cap.drag = null;
@@ -1562,11 +1709,11 @@ HOUND.capture = {
   onBegin(eng, e, cap, pv) { setState(e, S.PLAYING, 'circle'); },
   playTick(eng, e, cap, pv, dt) { hPlayTick(eng, e, cap, pv, dt); },
   decide(eng, e, cap, pv) {
-    const r = eng.rng(), pk = .5 + e.tr.HUNGER * .3 + e.mood.frustration * .2, pr = .24 * (e.tr.SADISM + .35) * (cap.plays > 2 ? 1 : .4);
+    const r = e.rng(), pk = .5 + e.tr.HUNGER * .3 + e.mood.frustration * .2, pr = .24 * (e.tr.SADISM + .35) * (cap.plays > 2 ? 1 : .4);
     return r < pk ? 'kill' : r < pk + pr ? 'release' : 'continue';
   },
   onInterrupt(eng, e, cap, pv, ctx, x) {
-    const r = eng.rng();
+    const r = e.rng();
     if (ctx.danger > 1.1 && e.tr.CAUTION > .35 && r < e.tr.CAUTION * .7) return 'release';
     if (r < .55 + e.tr.AGGRESSION * .4) return 'kill';
     return 'continue';
@@ -1578,19 +1725,19 @@ HOUND.capture = {
     faceToward(e, pv.x, pv.y, dt, 3);
   },
   onResume(eng, e, cap, pv) { const r = rec(e, pv.id); r.aw = 1; r.seen = true; setState(e, S.HUNTING, ''); setTarget(e, pv.id, eng.now); e.chaseBlind = 0; e.cool.lunge = .3; e.dbg.resumed = (e.dbg.resumed || 0) + 1; houndGrowl(eng, e, .8); },
-  onLetGo(eng, e, cap, pv) { setState(e, S.RETREATING, ''); beginRetreat(eng, e, { x: pv.x, y: pv.y }, rand(eng, 8, 16)); },
+  onLetGo(eng, e, cap, pv) { setState(e, S.RETREATING, ''); beginRetreat(eng, e, { x: pv.x, y: pv.y }, rand(e, 8, 16)); },
   afterKill(eng, e, ctx, pv) {
     e.hEye = null; // a physically confirmed death ends this encounter's intimidation budget
     const th = ctx.threats.filter(t => t.cert >= .5), near = th.filter(t => t.approaching || t.dist < 600);
     e.mood.excitement = 1; houndGrowl(eng, e, .9, 'kill');
     const site = eng.sites[eng.sites.length - 1];
-    if (near.length >= 2 && e.tr.CAUTION + (1 - e.tr.AGGRESSION) > .55) { beginRetreat(eng, e, { x: near[0].x, y: near[0].y }, rand(eng, 6, 12)); return; }       // overwhelmed
+    if (near.length >= 2 && e.tr.CAUTION + (1 - e.tr.AGGRESSION) > .55) { beginRetreat(eng, e, { x: near[0].x, y: near[0].y }, rand(e, 6, 12)); return; }       // overwhelmed
     if (near.length) {                                                                                      // attack the next one, or defend the kill
       const t = near.slice().sort((a, b) => a.dist - b.dist)[0], r = rec(e, t.id); r.aw = 1; r.lkx = t.x; r.lky = t.y; r.conf = 1; r.seenAt = eng.now;
       if (e.tr.AGGRESSION > .55) { beginHunt(eng, e, r, 'next-victim'); return; }
       beginFeed(eng, e, site); e.feed.guard = t.id; setTarget(e, t.id, eng.now); setAct(e, 'guard'); return;
     }
-    if (e.tr.HUNGER > .35) { if (eng.rng() < .8) beginExcited(eng, e, site); else beginFeed(eng, e, site); } else { setState(e, S.STALKING, ''); const r = pickTarget(eng, e); if (r) { setTarget(e, r.id, eng.now); e.stalkFor = 0; } else setState(e, S.ROAMING); }
+    if (e.tr.HUNGER > .35) { if (e.rng() < .8) beginExcited(eng, e, site); else beginFeed(eng, e, site); } else { setState(e, S.STALKING, ''); const r = pickTarget(eng, e); if (r) { setTarget(e, r.id, eng.now); e.stalkFor = 0; } else setState(e, S.ROAMING); }
   },
 };
 HOUND.tick = houndTick;
@@ -1643,7 +1790,7 @@ const SMILER = {
   speeds: { roam: 80, approach: 92, investigate: 118, creep: 34, drift: 40, chase: 255, rush: 300, retreat: 110 },
   init(eng, e) {
     e.face = .25; e.faceT = .25; e.ag = 0; e.att = new Map(); e.lurkT = 0; e.goalS = null; e.watchT = 0; e.lostT = 0; e.chaseBlind = 0; e.lightOff = 0; e.strikeT = 0;
-    e.grace = 0; e.lastHearT = -1; e.agWhy = ''; e.drift = eng.rng() < .5 ? 1 : -1; e.driftT = 0; e.holdT = 0;
+    e.grace = 0; e.lastHearT = -1; e.agWhy = ''; e.drift = e.rng() < .5 ? 1 : -1; e.driftT = 0; e.holdT = 0;
     const T = e.tr; e.pz = { patience: T.PATIENCE, curiosity: T.CURIOSITY, persistence: T.PERSISTENCE, bold: T.AGGRESSION };
     e.dbg.why = 'waiting in the dark'; e.dbg.ab = '';
   },
@@ -1662,12 +1809,12 @@ function sLit(eng, e) { const lamp = eng.geo.lightLevel(e.x, e.y, null), beam = 
 function darkSpot(eng, e, minD, maxD, from, dir) {
   const geo = eng.geo, o = from || e; let best = null, bs = -1e9;
   for (let i = 0; i < 30; i++) {
-    const a = dir !== undefined && i < 20 ? dir + (eng.rng() - .5) * 1.6 : eng.rng() * TAU, d = rand(eng, minD, maxD), c = geo.cellAt(o.x + Math.cos(a) * d, o.y + Math.sin(a) * d);
+    const a = dir !== undefined && i < 20 ? dir + (e.streams.search() - .5) * 1.6 : e.streams.search() * TAU, d = (minD + e.streams.search() * (maxD - minD)), c = geo.cellAt(o.x + Math.cos(a) * d, o.y + Math.sin(a) * d);
     if (c < 0 || geo.cls[c] !== 1) continue;
     const x = geo.cx(c), y = geo.cy(c), lit = geo.lightLevel(x, y, null);
     if (!eng.placementOk(x, y)) continue;
     let cover = 0; for (let k = 0; k < 6; k++) if (geo.ray(x, y, k / 6 * TAU, 200) < 160) cover++;
-    const sc = -lit * 400 + Math.min(cover, 3) * 25 - Math.abs(d - (minD + maxD) / 2) * .15 + eng.rng() * 40;
+    const sc = -lit * 400 + Math.min(cover, 3) * 25 - Math.abs(d - (minD + maxD) / 2) * .15 + e.streams.search() * 40;
     if (sc > bs) { bs = sc; best = { x, y }; }
   }
   return best;
@@ -1694,14 +1841,14 @@ const EC_ON = .4, EC_LAPSE = .3;
 function sAttention(eng, e, tdt) {
   const seen = new Set(e.seenNow);
   for (const id of seen) {
-    const r = e.mem.p.get(id), p = eng.playerById(id), f = facedBy(eng, e, p, r, e.face > .5 ? .55 : 0, e.lit);   // its gleaming face can be met in the dark; the light on it = what it knows (sLit)
+    const r = e.mem.p.get(id), p = r && r.visual, f = facedBy(eng, e, p, r, e.face > .5 ? .55 : 0, e.lit);   // its gleaming face can be met in the dark; the light on it = what it knows (sLit)
     let a = e.att.get(id); if (!a) e.att.set(id, a = { t: 0, lapse: 9, had: false });
     if (f) { a.t += tdt; a.lapse = 0; } else { a.lapse += tdt; if (a.lapse > EC_LAPSE) { if (a.t >= EC_ON) a.had = true; a.t = 0; } }
   }
   for (const [id, a] of e.att) if (!seen.has(id)) { a.lapse += tdt; if (a.lapse > EC_LAPSE) { if (a.t >= EC_ON) a.had = true; a.t = 0; } if (!eng.byId.has(id)) e.att.delete(id); }
 }
 const heldBy = (e, id) => { const a = e.att.get(id); return !!a && a.t >= EC_ON; };
-function watcher(e) { for (const [id, a] of e.att) if (a.t >= EC_ON) return id; return 0; }
+function watcher(e) { for (const [id, a] of [...e.att].sort((a,b) => a[0]-b[0])) if (a.t >= EC_ON) return id; return 0; }
 /* how fast a seen player is moving away from the creature (+) or toward it (-), from consecutive sightings */
 function sRadial(eng, e, r, tdt) {
   const P = perc(eng, e, r), d = Math.hypot(P.x - e.x, P.y - e.y);
@@ -1728,7 +1875,7 @@ function sChoose(eng, e) {
   for (const r of e.mem.p.values()) {
     if (tgtGone(eng, e, r)) continue;
     if (!r.seen && (now - r.seenAt > 2.5 || r.conf < .3)) continue;
-    const s = sScore(eng, e, r); if (s > bs) { bs = s; best = r; }
+    const s = sScore(eng, e, r); if (s > bs || (s === bs && (!best || r.id < best.id))) { bs = s; best = r; }
   }
   if (!best) return null;
   const cur = e.target > 0 ? e.mem.p.get(e.target) : null;
@@ -1815,7 +1962,7 @@ function sThink(eng, e) {
       const r = sChoose(eng, e); if (r && r.seen) { beginWatch(eng, e, r, `P${r.id} in view${r.light ? ' with a light' : ''}`); return; }
       const L = e.inv && e.mem.leads.find(q => q.id === e.inv.lead);
       if (L && L.c * (.5 + L.sal) >= Pm.leadMin) { beginDrawn(eng, e, { x: L.x, y: L.y, u: L.u, k: L.k, lead: L.id, dir: L.dir }, `drawn to a ${L.k} lead (±${Math.round(L.u)} px)`); return; }
-      if (nz && nz.weak && nz.d < 900 && nz.h.I > .15 && eng.rng() < .35 * e.pz.curiosity) { beginDrawn(eng, e, { x: nz.h.x, y: nz.h.y, u: nz.h.unc, k: 'sound' }, `a ${nz.h.type} it heard`); return; }
+      if (nz && nz.weak && nz.d < 900 && nz.h.I > .15 && e.rng() < .35 * e.pz.curiosity) { beginDrawn(eng, e, { x: nz.h.x, y: nz.h.y, u: nz.h.unc, k: 'sound' }, `a ${nz.h.type} it heard`); return; }
       if (e.lurkT > Pm.lurkFor) beginWithdraw(eng, e, 'restless: moves to another dark spot');
       return;
     }
@@ -1915,7 +2062,7 @@ function sMove(eng, e, dt) {
           if (G.legs >= G.maxLegs) { beginWithdraw(eng, e, `looked at the ${G.k} and found nobody: it was wrong`); return null; }
           // a likely opening from here: the open directions, the one the light came from first (if it knows), not the way it came
           let best = null, bs = -1e9; const back = G.x0 !== undefined ? Math.atan2(G.y0 - e.y, G.x0 - e.x) : e.ang + Math.PI;
-          for (let i = 0; i < 8; i++) { const a = i / 8 * TAU, L = eng.geo.ray(e.x, e.y, a, 520); if (L < 200) continue; const sc = Math.min(L, 520) * .3 + (G.dir !== undefined ? Math.cos(angDiff(a, G.dir)) * 120 : 0) - (Math.cos(angDiff(a, back)) > .7 ? 150 : 0) + eng.rng() * 90; if (sc > bs) { bs = sc; best = a; } }
+          for (let i = 0; i < 8; i++) { const a = i / 8 * TAU, L = eng.geo.ray(e.x, e.y, a, 520); if (L < 200) continue; let sc = Math.min(L, 520) * .3 + (G.dir !== undefined ? Math.cos(angDiff(a, G.dir)) * 120 : 0) - (Math.cos(angDiff(a, back)) > .7 ? 150 : 0) + e.streams.search() * 90; if (G.k === 'lost') sc = habitBias(e, e.target, e.x + Math.cos(a)*300, e.y + Math.sin(a)*300, sc); if (sc > bs) { bs = sc; best = a; } }
           G.legs++; if (best === null) { beginWithdraw(eng, e, `nowhere to look from the ${G.k}`); return null; }
           const D = Math.min(380, eng.geo.ray(e.x, e.y, best, 420) - 40); G.x0 = e.x; G.y0 = e.y; G.x = e.x + Math.cos(best) * D; G.y = e.y + Math.sin(best) * D; G.phase = 'go'; plan(eng, e, G.x, G.y); setAct(e, 'search');
           sWhy(eng, e, `searching from the ${G.k}: leg ${G.legs}/${G.maxLegs}`);
@@ -1933,7 +2080,7 @@ function sMove(eng, e, dt) {
         const retreating = (r.dRate || 0) > 25;
         if (!retreating && d > Pm.loom + 20) { setAct(e, 'creep'); goTo(eng, e, P.x, P.y, { every: .6 }); follow(eng, e, dt, sp.creep, { arrive: Pm.loom }); }
         else if (!retreating) {                                                  // up close and held: it shifts sideways, so the one watching must keep finding it
-          setAct(e, 'drift'); e.driftT -= dt; if (e.driftT <= 0) { e.driftT = rand(eng, 1.5, 3.5); e.drift = -e.drift; }
+          setAct(e, 'drift'); e.driftT -= dt; if (e.driftT <= 0) { e.driftT = rand(e, 1.5, 3.5); e.drift = -e.drift; }
           const a = Math.atan2(e.y - P.y, e.x - P.x) + e.drift * dt * (sp.drift / Math.max(80, d)), tx = P.x + Math.cos(a) * d, ty = P.y + Math.sin(a) * d;
           if (eng.geo.clear(tx, ty, e.rc, 'walk')) { e.moved = moveCollide(eng, e, tx - e.x, ty - e.y); e.speed = sp.drift; } else { e.drift = -e.drift; stopMoving(eng, e, dt); }
         } else { setAct(e, 'hold'); stopMoving(eng, e, dt); }
@@ -1978,7 +2125,7 @@ function smilerTick(eng, e, dt, thinkNow) {
 function sPlayTick(eng, e, cap, pv, dt) {
   if (!pv) return;
   const P = cap.plan, d = dist(e.x, e.y, pv.x, pv.y); sFace(e, 1);
-  if (!P || eng.now > P.until) { const act = pickW(eng.rng, [{ k: 'stare', w: 1.3 }, { k: 'back', w: 1 }]); cap.plan = { act, until: eng.now + rand(eng, 1.6, 4) }; cap.plays++; setAct(e, act); }
+  if (!P || eng.now > P.until) { const act = pickW(e.rng, [{ k: 'stare', w: 1.3 }, { k: 'back', w: 1 }]); cap.plan = { act, until: eng.now + rand(e, 1.6, 4) }; cap.plays++; setAct(e, act); }
   const p = cap.plan; cap.drag = null;
   if (p.act === 'back' && d < 420) { const away = Math.atan2(e.y - pv.y, e.x - pv.x), tx = e.x + Math.cos(away) * 60, ty = e.y + Math.sin(away) * 60; if (eng.geo.clear(tx, ty, 21, 'walk')) { e.speed = approach(e.speed, 70, 400 * dt); e.moved = moveCollide(eng, e, Math.cos(away) * e.speed * dt, Math.sin(away) * e.speed * dt); } else stopMoving(eng, e, dt); }
   else stopMoving(eng, e, dt);
@@ -1995,7 +2142,7 @@ SMILER.capture = {
   },
   onBegin(eng, e, cap, pv) { setState(e, S.PLAYING, 'stare'); },
   playTick(eng, e, cap, pv, dt) { sPlayTick(eng, e, cap, pv, dt); },
-  decide(eng, e, cap, pv) { const r = eng.rng(); return cap.plays > 1 && r < .5 ? 'kill' : cap.plays > 2 && r < .7 ? 'release' : 'continue'; },
+  decide(eng, e, cap, pv) { const r = e.rng(); return cap.plays > 1 && r < .5 ? 'kill' : cap.plays > 2 && r < .7 ? 'release' : 'continue'; },
   onInterrupt(eng, e, cap, pv, ctx, x) { return ctx.approaching > 0 || ctx.danger > .8 ? 'kill' : 'continue'; },
   onRelease(eng, e, cap, pv) { setAct(e, 'back'); },
   releaseTick(eng, e, cap, pv, dt) { stopMoving(eng, e, dt); faceToward(e, pv.x, pv.y, dt, 2.5); sFace(e, 1); },
@@ -2021,9 +2168,9 @@ const EV_NOISE = {                                                   // discrete
 };
 
 function create(cfg) {
-  const rng = cfg.rng || Math.random;
+  const seed = (cfg.seed ?? 1) >>> 0, rng = mkRng(deriveSeed(seed, 'world'));
   const eng = {
-    rng, geo: new Geo(cfg.adapter), now: 0, ticks: 0, entities: [], nextId: 1, caps: [], capId: 0, sites: [], recentKills: {}, pressure: 0,
+    rng, seed, geo: new Geo(cfg.adapter), now: 0, ticks: 0, entities: [], nextId: 1, caps: [], capId: 0, sites: [], recentKills: {}, pressure: 0,
     events: [], sounds: [], pl: [], byId: new Map(), hash: new Hash(), lights: [], pst: new Map(), packT: 0,
     stats: { sense: 0, paths: 0, sounds: 0, capture: 0 },
     debugOn: false, forceCapture: null, log: [], logSeq: 0,
@@ -2045,14 +2192,17 @@ function create(cfg) {
 
   /* ------------------------------------------------------------ what the engine may know about people: a list handed in every step */
   eng.setPlayers = function (list) {
-    this.pl = list; this.byId.clear(); this.hash.clear(); this.lights.length = 0;
-    for (const p of list) {
+    const incoming = new Set(list.map(p => p.id)); for (const id of this.byId.keys()) if (!incoming.has(id)) this.forgetPlayer(id);
+    this.pl = list.slice().sort((a, b) => a.id - b.id); this.byId.clear(); this.hash.clear(); this.lights.length = 0;
+    for (const p of this.pl) {
       this.byId.set(p.id, p);
       if (p.alive) { this.hash.add(p, p.x, p.y); if (p.light) this.lights.push(p); }
     }
   };
+  eng.forgetPlayer = function (id) { this.pst.delete(id);this.beamHist?.delete(id);this.beams=null;this.beamsT=0; for (const e of this.entities) forgetIdentity(e, id); };
+  eng.endHabits = function (id) { for (const e of this.entities) { e.mem.habits.delete(id); e.mem.hypotheses = e.mem.hypotheses.filter(h => h.pid !== id); if(e.dbg.habit?.pid===id)e.dbg.habit=null; const r = e.mem.p.get(id); if (r) r.habitLast = null; } };
   eng.playerById = function (id) { return this.byId.get(id) || null; };
-  eng.nearPlayers = function (x, y, r) { const out = []; this.hash.near(x, y, r, p => { if (Math.hypot(p.x - x, p.y - y) <= r) out.push(p); }); return out; };
+  eng.nearPlayers = function (x, y, r) { const out = []; this.hash.near(x, y, r, p => { if (Math.hypot(p.x - x, p.y - y) <= r) out.push(p); }); return out.sort((a, b) => a.id - b.id); };
   eng.candidates = function (e, r) { return this.nearPlayers(e.x, e.y, r); };
   eng.nearestPlayerDist = function (x, y) { let b = 1e9; for (const p of this.pl) if (p.alive) { const d = Math.hypot(p.x - x, p.y - y); if (d < b) b = d; } return b; };
   eng.lightPlayers = function () { return this.lights; };
@@ -2116,7 +2266,8 @@ function create(cfg) {
 
   /* ------------------------------------------------------------ spawning */
   eng.spawn = function (kind, x, y, opts) {
-    const e = mkEntity(this, kind, this.nextId++, x, y, opts || {});
+    const id = opts && opts.id !== undefined ? opts.id : this.nextId; if (!Number.isSafeInteger(id) || id < 1 || this.entities.some(e => e.id === id)) throw Error('invalid/duplicate entity id'); this.nextId = Math.max(this.nextId, id + 1);
+    const e = mkEntity(this, kind, id, x, y, opts || {});
     e.tierT = 0; e.senseDt = 0; e.wd = { x, y, t: 0 }; this.entities.push(e);
     return e;
   };
@@ -2126,7 +2277,7 @@ function create(cfg) {
     this.entities.splice(i, 1); return true;
   };
   eng.count = function (kind) { let n = 0; for (const e of this.entities) if (e.kind === kind) n++; return n; };
-  eng.clear = function () { for (const e of this.entities.slice()) this.remove(e.id); this.caps.length = 0; this.sites.length = 0; this.recentKills = {}; this.sounds.length = 0; geo.fails.length = 0; this.pst.clear(); };
+  eng.clear = function () { for (const e of this.entities.slice()) this.remove(e.id); this.caps.length = 0; this.sites.length = 0; this.recentKills = {}; this.sounds.length = 0; geo.fails.length = 0; this.pst.clear();this.beams=null;this.beamsT=0;this.beamHist?.clear(); };
 
   /* ------------------------------------------------------------ one entity, one step */
   function sense(e, dt) {
@@ -2136,12 +2287,15 @@ function create(cfg) {
     updateVision(e, eng, dt, cands);
     if (e.tier === 'near') lightSense(eng, e);                          // (Part 2 / 2C) visible light as evidence, 4 Hz, near tier only
     decayMemory(e, dt, eng.now);
+    cleanupKnowledge(eng, e);
+    e.mem.p = new Map([...e.mem.p].sort((a,b) => a[0]-b[0]));
+    arbitrateEvidence(eng, e);
     moodTick(e, dt);
   }
   function onTier(e, nt) {
     const was = e.tier; e.tier = nt;
-    if (nt === 'far') e.farSince = eng.now;
-    if (was === 'far' && e.farSince !== undefined) { decayMemory(e, Math.max(0, eng.now - e.farSince), eng.now); e.farSince = undefined; }     // a sleeper's memory of the last hours fades all the same
+    if (nt === 'far') {e.farSince = eng.now;e.seenNow.clear();for(const r of e.mem.p.values())r.seen=false;}
+    if (was === 'far' && e.farSince !== undefined) { e.farSince = undefined; }     // a sleeper's memory of the last hours fades all the same
     if (nt === 'far' && (e.state === S.HUNTING || e.state === S.SEARCHING || e.state === S.STALKING)) e.dbg.disengage = 'lost track: the prey is far out of range';
     if (nt === 'far' && !e.cap) { e.path = []; e.trav = null; e.lunge = null; e.speed = 0; if (e.kind === 'hound') { if (e.state !== S.DORMANT) { setState(e, S.DORMANT); if (e.roam) e.roam.goal = null; } e.farT = 0; } else if (e.state !== S.HIDDEN) beginHidden(eng, e); }
     if (was === 'far' && nt !== 'far') { e.wake = 1; e.thinkT = 0; if (e.state === S.DORMANT && e.kind === 'hound') setState(e, S.ROAMING); }
@@ -2150,7 +2304,7 @@ function create(cfg) {
     e.speed = 0; if (e.cap) return;
     if (e.kind === 'hound') {
       e.farT = (e.farT || 0) - dt;
-      if (!e.path.length && e.farT <= 0) { const g = randomFloor(eng, e, 900, 2800); if (g) plan(eng, e, g.x, g.y); e.farT = rand(eng, 3, 12); }
+      if (!e.path.length && e.farT <= 0) { const g = randomFloor(eng, e, 900, 2800); if (g) plan(eng, e, g.x, g.y); e.farT = rand(e, 3, 12); }
       coarseMove(eng, e, dt);
     }
   }
@@ -2191,14 +2345,16 @@ function create(cfg) {
 
   eng.step = function (dt) {
     const now = (this.now += dt); geo.now = now; this.ticks++;
+    this.entities.sort((a, b) => a.id - b.id);
     playerNoise(dt);
     if (geo.fails.length) geo.fails = geo.fails.filter(f => f.until > now);
     for (const e of this.entities) {
       if (e.state !== e.lgS) { if (e.lgS !== undefined) this.note(`${tagOf(e.kind, e.id)} ${e.lgS} -> ${e.state}${e.act ? ' /' + e.act : ''}`); e.lgS = e.state; }
       e.t += dt; e.stateT += dt; e.actT += dt;
-      e.tierT -= dt; if (e.tierT <= 0) { e.tierT = .4 + this.rng() * .15; const nt = tierOf(e, this); if (nt !== e.tier) onTier(e, nt); }
+      e.tierT -= dt; if (e.tierT <= 0) { e.tierT = .4 + e.streams.schedule() * .15; const nt = tierOf(e, this); if (nt !== e.tier) onTier(e, nt); }
       if (e.deaf > 0) e.deaf -= dt;
-      if (e.tier === 'far') { farStep(e, dt); continue; }
+      if (e.tier === 'far') { e.farMemoryDt = (e.farMemoryDt || 0) + dt; if (e.farMemoryDt >= 1) { decayMemory(e, e.farMemoryDt, now); cleanupKnowledge(this, e); e.farMemoryDt = 0; } farStep(e, dt); continue; }
+      if (e.farMemoryDt) { decayMemory(e, e.farMemoryDt, now); e.farMemoryDt = 0; }
       e.thinkT -= dt; e.senseDt += dt;
       let thinkNow = false;
       if (e.thinkT <= 0) { e.thinkT = e.tier === 'near' ? .1 : .35; thinkNow = true; sense(e, e.senseDt); e.senseDt = 0; }
@@ -2327,11 +2483,12 @@ function create(cfg) {
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
         sm: e.kind === 'smiler' ? e.dbg.sm : undefined,
         hm: e.kind === 'hound' ? hDebug(this, e) : undefined,
+        intel: intelligenceDebug(this, e),
       });
     }
     return out;
   };
   return eng;
 }
-return { create, S, SNAMES, SCODE, HACT, SACT, TRAITS, SPECIES, HOUND, SMILER, mkRng, Geo, hearEvent, TIER };
+return { create, S, SNAMES, SCODE, HACT, SACT, TRAITS, SPECIES, HOUND, SMILER, mkRng, deriveSeed, Geo, hearEvent, TIER, INTEL, evidenceCandidates, observationScore, habitObserve, cleanHabits, habitBias, arbitrateEvidence };
 });

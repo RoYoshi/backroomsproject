@@ -6,15 +6,15 @@ function personality(sp, rng) {
   return tr;
 }
 function mkEntity(eng, kind, id, x, y, opts = {}) {
-  const sp = SPECIES[kind], tr = personality(sp, eng.rng);
+  const sp = SPECIES[kind], streams = entityStreams(eng.seed, kind, id), tr = personality(sp, streams.personality);
   const e = {
-    id, kind, sp, tr, caps: Object.assign({}, sp.caps, opts.caps || {}),
-    x, y, ang: eng.rng() * TAU, head: 0, speed: 0, r: sp.radius, rc: sp.clearance || OL,
+    id, kind, sp, tr, streams, rng: streams.behavior, rngKey: `${eng.seed}/${kind}/${id}`, caps: Object.assign({}, sp.caps, opts.caps || {}),
+    x, y, ang: streams.behavior() * TAU, head: 0, speed: 0, r: sp.radius, rc: sp.clearance || OL,
     state: sp.initial || S.ROAMING, act: '', stateT: 0, actT: 0, t: 0,
     goal: null, path: [], pathAge: 99, goalKey: '', trav: null, mode: 'walk', aim: null, aimT: 0,
     mem: newMemory(), seenNow: new Set(), hear: null, heardCount: 0, deaf: 0,
     mood: { arousal: .1, frustration: 0, excitement: 0, boredom: 0 },
-    tier: 'near', thinkT: eng.rng() * .1, target: null, stuck: 0, home: { x, y }, spawn: { x, y },
+    tier: 'near', thinkT: streams.schedule() * .1, target: null, stuck: 0, home: { x, y }, spawn: { x, y },
     cap: null, cool: {}, dbg: {}, fade: 1, vis: 1, pack: null,
     vel: { x: 0, y: 0 }, moved: 0, wake: 0, alpha: 1,
   };
@@ -294,7 +294,7 @@ function coarseMove(eng, e, dt) {
 function randomFloor(eng, e, minD, maxD, tries = 40) {
   const geo = eng.geo;
   for (let i = 0; i < tries; i++) {
-    const a = eng.rng() * TAU, d = lerp(minD, maxD, eng.rng()), x = e.x + Math.cos(a) * d, y = e.y + Math.sin(a) * d;
+    const a = e.streams.search() * TAU, d = lerp(minD, maxD, e.streams.search()), x = e.x + Math.cos(a) * d, y = e.y + Math.sin(a) * d;
     if (x < 100 || y < 100 || x > geo.W - 100 || y > geo.H - 100) continue;
     const c = geo.cellAt(x, y); if (c < 0 || geo.cls[c] !== 1) continue;
     return { x: geo.cx(c), y: geo.cy(c) };

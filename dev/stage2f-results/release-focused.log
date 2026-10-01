@@ -1,0 +1,108 @@
+PASS 2F F01 unseen footstep is anonymous, uncertain, no raw origin/identity  [271ms]
+       both species; actual hearing boundary
+PASS 2F F02 a currently observed unambiguous source can be identified  [93ms]
+       assertions passed
+PASS 2F F03 two hidden sound sources stay anonymous  [69ms]
+       assertions passed
+PASS 2F F04 private sound source ID cannot change observations or decisions  [337ms]
+       assertions passed
+PASS 2F F05 current clear sight beats weak unrelated anonymous sound  [114ms]
+       assertions passed
+PASS 2F F06 lost target can yield to credible new observation  [65ms]
+       assertions passed
+PASS 2F F07 anonymous light never invents an identity alongside a target  [79ms]
+       assertions passed
+PASS 2F F08 reversed player/entity input order has identical decisions  [163ms]
+       480 paired decision ticks, two species/two players
+PASS 2F F09 hidden branch invariance including anonymous sound/light conflict  [815ms]
+       1,440 paired decision ticks
+PASS 2F F10 three observed repetitions form bounded, modest hypothesis  [197ms]
+       both species acquire from actual move.js/perception over six passages; unit score check: 12% only within plausible candidate region
+PASS 2F F11 habit never learns a hidden branch and wrong prediction is fallible  [797ms]
+       real learned history; 4,200 paired hidden-branch ticks, both species; no hidden capture, hypotheses expire
+PASS 2F F12 TTL and encounter end both expire habits  [35ms]
+       assertions passed
+PASS 2F F13 death/respawn/leave/world reset clear encounter identity  [201ms]
+       assertions passed
+PASS 2F F14 / R1 extra Smiler draws cannot perturb Hound  [139ms]
+       assertions passed
+PASS 2F F15 / R2 extra Hound draws cannot perturb Smiler  [195ms]
+       assertions passed
+PASS 2F F16 / R3 unrelated spawn and initialization preserve old streams  [322ms]
+       assertions passed
+PASS 2F F17 / R4 / R5 repeatable streams and IR/debug metadata isolation  [260ms]
+       same seed/ID/tag repeatability; debug makes no RNG draws
+PASS 2F F18 evidence pressure obeys all advertised caps  [302ms]
+       {"players":16,"sounds":8,"soundTTL":25,"leads":6,"leadTTL":45,"evidence":4,"recordTTL":120,"visited":128,"visitedTTL":60,"habitObs":6,"hypotheses":3,"habitTTL":30,"habitRepeats":3,"habitBias":0.12,"candidates":70,"debugCandidates":12}
+PASS 2F F19 disconnect immediately removes target, attention, habits, identified sound  [94ms]
+       assertions passed
+PASS 2F F20 IR OFF/HIGH is tick-identical for both species  [259ms]
+       600 paired decision ticks, real movement
+PASS 2F F21 hidden HP, inventory and account metadata cannot influence decisions  [238ms]
+       assertions passed
+PASS 2F F22 species physical/canon parameter preservation  [2ms]
+       all species data properties and 13 frozen movement/death/nav/network/presentation source hashes
+PASS 2F F23 long-run mixed lifecycle validity  [632ms]
+       10800 ticks; 468 actual respawns; all identity records removed on disconnect
+PASS Y01 level of detail: perception runs at full rate near a player, at a reduced rate further out, and not at all while an entity is far away  [205ms]
+       perception updates per second: near 8.6, mid 2.7, far 0.0 (the far hound spent 16.0 s in the far tier before its coarse drift brought it into range)
+PASS Y02 performance: the shipped population and a stress population fit the frame budget  [794ms]
+       per 60 Hz step: shipped (3 hounds, 5 smilers, 4 players) avg 0.08ms p99 0.59ms; stress (10+12 entities, 8 players) avg 0.34ms p99 1.30ms  [budget 16.7ms]
+PASS Y03 snapshot size: what goes over the wire every 50 ms stays small (entities are quantised; nothing per-player-private is sent)  [313ms]
+       entity snapshot avg 958 B, max 974 B (~18.7 KB/s per client at 20 Hz before gzip); internal AI state leaked: false
+PASS Y04 stuck entities: one embedded in a wall is set back on open floor and one that cannot go anywhere does not stand frozen forever  [947ms]
+       6/6 embedded hounds recovered onto open floor; longest motionless spell of an unoccupied roaming hound over 18 hound-minutes: 0.1s
+PASS Y05 turning and snapping: headings change smoothly (no per-tick flips), speeds change within acceleration limits  [1018ms]
+       over 72000 ticks: biggest heading step per 1/60 s hound 0.17 rad (10 rad/s), smiler 0.05; ticks above 0.2 rad: hound 0, smiler 0; biggest hound acceleration 2112 px/s²
+PASS Y06 no wall clipping: over long emergent runs no entity ever stands inside solid geometry (vaults excepted)  [538ms]
+       85534 samples of entity positions (every 2nd tick, 8 seeds x 150 s, 2 hounds + a smiler each), 0 inside solid geometry
+PASS Y07 pop-in: a smiler only appears or vanishes by fading (its visibility changes at a bounded rate); entities are only ever spawned out of sight  [3349ms]
+       18000 ticks of watching / being held / let go / lit: fastest fade-in 0.80/s (limit .8/s ≈ 1.25 s), fastest fade-out 1.40/s (limit 1.4/s ≈ 0.7 s), 10 fade-outs observed; 6 director spawns over 4 x 20 min, nearest to a living player 2246px
+PASS Y08 determinism: the same seed and the same inputs give the same world (no stray randomness, safe for tests and replays)  [154ms]
+       two identical runs ended in exactly the same state: 6056.104964583291|3503.2527914927236|0.01919479152054482|HUNTING|5352|696|HIDDEN
+PASS Y09 population caps and bodies over a long session: at most 3 hounds and 5 smilers; one body per player, at most 24  [1930ms]
+       25 min of play with one wanderer: most hounds at once 3, most smilers 5, deaths 487 = kill events 487 = dseq 487; bodies held 24 (cap 24)
+PASS Y10 bodies persist for the configured time: forever by default, or BODY_TTL seconds  [147ms]
+       default: body still there after 40 s; BODY_TTL=12: removed at 12.0s and clients told (bodyVer bumped: true)
+PASS I1 infrared never reaches the simulation: ai.js / sim.js do not name it; server.js stores it on the connection, not on the player  [4ms]
+       infrared names in ai.js 0, in sim.js 0; server.js writes it on the player false, on the connection true, relays it to the other clients true
+PASS I2 toggling infrared alone changes no AI decision (OFF vs HIGH, same world, same players, tick by tick)  [876ms]
+       4/4 worlds identical over 1500 ticks with infrared OFF and HIGH (kills in the runs: 3,3,3,3)
+PASS I3 a raised camcorder is no light to the AI: no lit player, no light evidence from it  [66ms]
+       visible light false; lit players the AI knows of 0; light leads 0
+PASS 2E H1 identified human with flashlight warrants pursuit  [428ms]
+       all assertions passed
+PASS 2E H2 swept beam reaches Hound from behind: attention then identification  [77ms]
+       all assertions passed
+PASS 2E H3 hidden carrier: anonymous light investigation; replay cannot back-project  [246ms]
+       all assertions passed
+PASS 2E H4 solid wall blocks direct beam and impossible evidence  [806ms]
+       all assertions passed
+PASS 2E H5 IR OFF vs HIGH: identical complete decisions each tick  [269ms]
+       all assertions passed
+PASS 2E H6 hidden corner branches cannot change prediction  [107ms]
+       360 identical decisions after same visible approach
+PASS 2E H7 fresh hidden running after loss causes anonymous investigation (2F attribution)  [64ms]
+       all assertions passed
+PASS 2E H8 silent hidden reposition does not cause magical following  [118ms]
+       360 identical decisions after same visible approach
+PASS 2E H9 nearby noisy hiding is exposed through real movement footsteps  [66ms]
+       all assertions passed
+PASS 2E H10 failed search reduces confidence and ends within finite budget  [180ms]
+       all assertions passed
+PASS 2E H11 stable multiplayer target, then meaningful switch after loss and dwell  [80ms]
+       all assertions passed
+PASS 2E H12 listening is watchdog-safe; blocked movement still recovers  [80ms]
+       all assertions passed
+PASS 2E H13 long-run finite states, valid targets, bounded memory and collision  [1259ms]
+       21600 ticks; 1340 search samples; longest stationary active interval 0.85s
+PASS 2E H14 gaze intimidation is temporary, breaks on looking away and cannot be toggled to refill  [60ms]
+       all assertions passed
+PASS 2E H15 flashlight off stops new light observations without deleting an identified human  [54ms]
+       all assertions passed
+PASS 2E H16 bounded deterministic traits; private HP and inventory cannot change decisions  [838ms]
+       all assertions passed
+PASS 2E H17 social sound carries no prey identity or shared memory  [78ms]
+       all assertions passed
+
+53/53 passed

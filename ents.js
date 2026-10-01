@@ -669,6 +669,16 @@ function drawEntities(cx, view, list, cfg, stale) {
         if (m.investigation) lines.push(`anonymous ${m.investigation[2]} at ${m.investigation[0]},${m.investigation[1]} ±${m.investigation[3]}`);
         if (sel) lines.push(`gaze used ${m.gaze}s  ` + Object.entries(m.traits).map(([k,v]) => k + ' ' + v).join('  '));
       }
+      if (sel && d.intel) {
+        const I = d.intel; lines.push(`EVIDENCE ${I.winner || '-'}: ${I.why}`, `RNG ${I.rng}: ${I.tags.join('/')}`);
+        for (const c of I.candidates.slice(0, 4)) lines.push(`${c.key} ${c.attribution} ${c.modality}: score ${c.score} c${c.c} ±${c.u} age ${c.age}s expires ${c.expires}s`);
+        for (const t of I.targets.slice(0,3)) lines.push(`TARGET P${t.pid} score ${t.score}: ${t.why}`);
+        lines.push(`commitment ${I.commitment.age}s / ${I.commitment.dwell.toFixed(2)}s dwell`);
+        for(const r of I.rejectedHabits)lines.push(`HABIT P${r.pid} repeats ${r.count}: ${r.why}`);
+        if(I.habitExpiry)lines.push(`HABIT ${I.habitExpiry.why}`);
+        for (const h of I.habits) lines.push(`HABIT P${h.pid} repeats ${h.count} bias ${Math.round(h.bias*100)}% at ${h.x},${h.y} expires ${h.expires}s`);
+        if (I.applied) lines.push(`habit candidate bias +${I.applied.delta.toFixed(2)} (hypothesis, not knowledge)`);
+      }
       if (d.sm) { const m = d.sm;                                                     // (Part 2D) the canon Smiler: why it is doing this - debug mode only, never in normal play
         lines.push(`WHY ${m.why || '-'}`, `agitation ${m.ag}${m.agw ? ' (' + m.agw + ')' : ''}  light on it ${m.lit}${m.w ? '  WATCHED BY P' + m.w + ' ' + m.ht + 's' : ''}${m.dw !== null ? '  target kept ' + m.dw + 's' : ''}${m.cl ? '  walked in ' + m.cl + 'px' : ''}`);
         if (m.ab || m.rt) lines.push((m.ab ? 'abandoned: ' + m.ab : '') + (m.rt ? '  switched: ' + m.rt : ''));

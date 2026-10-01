@@ -11,7 +11,8 @@ var el=[1,2,3,4,5,6,7,8].map(e=>{let t=Oc[e],n=(t.x+t.w*.48)*96,r=(t.y+t.h*.55)*
    The old single-hound / single-smiler code that used to sit above this line has been replaced by that engine;
    everything the entities know about players reaches them through perception (see ai.js). ---------- */
 const AI=require('./ai.js');
-const RND=opts.seed?AI.mkRng(opts.seed):Math.random;
+const SIM_SEED=(opts.seed??require('crypto').randomBytes(4).readUInt32LE(0))>>>0;
+const RND=AI.mkRng(SIM_SEED);
 var PR=0;const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
 const players=[];
 let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,debugOn=false;
@@ -30,7 +31,7 @@ const adapter={key:`level0`,cols:W,rows:al,cell:il,W:FBW*96,H:FBH*96,rooms:Oc,la
   blackout:()=>V.blackout,
   qc:(p,pt,on)=>qc(p,pt,on),
   kinds:Gc};                                          // the light each kind of equipment gives (visible light only; Part 2 stage 2C)
-const eng=AI.create({adapter,rng:RND});
+const eng=AI.create({adapter,seed:SIM_SEED});
 
 function randomSpot(minSpawn,avoid,minAvoid,mustReach=true,dark=false){
   for(let t=0;t<700;t++){
@@ -113,8 +114,8 @@ function addPlayer(id){
     alive:false,kind:`flashlight`,st:0,sp:0,stamina:100,ex:0,prof:1,evq:[],caught:null,kill:null};
   players.push(p);return p;
 }
-function removePlayer(p){const i=players.indexOf(p);if(i>=0)players.splice(i,1)}
-function spawn(p){Object.assign(p,{x:Ic.x,y:Ic.y,vx:0,vy:0,dead:``,safe:3,exited:false,caught:null,kill:null,st:0,sp:0,stamina:100,ex:0});p.evq.length=0}
+function removePlayer(p){eng.forgetPlayer(p.id);const i=players.indexOf(p);if(i>=0)players.splice(i,1)}
+function spawn(p){eng.forgetPlayer(p.id);p.life=(p.life||0)+1;Object.assign(p,{x:Ic.x,y:Ic.y,vx:0,vy:0,dead:``,safe:3,exited:false,caught:null,kill:null,st:0,sp:0,stamina:100,ex:0});p.evq.length=0}
 function join(p,now=Date.now()/1000){
   const L=lifeOf(p);if(L===`held`||(L===`alive`&&!vanished(p,now)))return false;       // no walking out of a capture, no new run without the new-run sequence
   p.vanishOk=false;                                                    // a vanish opens one new run (its 30 s cooldown still counts)
@@ -139,7 +140,7 @@ const VANISH_MIN=2,VANISH_MAX=20,VANISH_CD=30;
 const vanished=(p,now)=>!!p.vanishOk&&now-p.vanishAt>=VANISH_MIN&&now-p.vanishAt<=VANISH_MAX;       // a finished vanish not used yet
 function vanish(p,now=Date.now()/1000){if(lifeOf(p)!==`alive`)return false;if(p.vanishAt!=null&&now-p.vanishAt<VANISH_CD)return false;p.vanishAt=now;p.vanishOk=true;p.safe=Math.max(p.safe,4);return true}
 function forfeit(p){if(lifeOf(p)!==`held`)return false;const ok=eng.forfeitCapture(p);processEvents();return ok}
-function leave(p,now=Date.now()/1000){const L=lifeOf(p);if(L===`held`||(L===`alive`&&!vanished(p,now)))return false;if(L===`alive`)p.vanishOk=false;p.active=false;p.dead=``;p.caught=null;return true}
+function leave(p,now=Date.now()/1000){const L=lifeOf(p);if(L===`held`||(L===`alive`&&!vanished(p,now)))return false;if(L===`alive`)p.vanishOk=false;p.active=false;p.dead=``;p.caught=null;eng.forgetPlayer(p.id);return true}
 
 /* movement validation (server.js): could a body get from a to b?  Only real walls and full-height furniture count ('any' mode: every
    crawl hole, table and vaultable prop is passable, since the client's own movement handles those).  Short hops are checked along the
@@ -201,7 +202,7 @@ function processEvents(){
   for(const ev of eng.drainEvents()){
     if(ev.t===`kill`){
       const p=eng.playerById(ev.pid);if(!p)continue;
-      p.dead=ev.kind;p.dseq++;p.caught=null;
+      p.dead=ev.kind;p.dseq++;p.caught=null;eng.endHabits(p.id);
       const g=ev.geo;
       p.kill={v:ev.variant,k:ev.kind,e:ev.eid,ax:Math.round(g.ax),ay:Math.round(g.ay),aa:+g.aa.toFixed(3),w:g.wall?[Math.round(g.wall.x),Math.round(g.wall.y),+g.wall.ang.toFixed(3)]:0,
         x:Math.round(ev.victim.x),y:Math.round(ev.victim.y),a:+ev.victim.a.toFixed(3),why:ev.why};

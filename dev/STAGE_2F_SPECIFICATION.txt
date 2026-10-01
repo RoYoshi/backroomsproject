@@ -1,0 +1,1312 @@
+THE FAR BACKROOMS — PART 2F MASTER IMPLEMENTATION PROMPT
+SHARED INTELLIGENCE / MULTIPLAYER EVIDENCE ARCHITECTURE
+
+============================================================
+ROLE
+============================================================
+
+You are implementing Stage 2F of The Far Backrooms.
+
+Stage 2F is:
+
+SHARED INTELLIGENCE / MULTIPLAYER EVIDENCE ARCHITECTURE
+
+The previous Stage 2E Hound Intelligence implementation is engineering
+complete. Human gameplay QA for 2E has been explicitly deferred by the
+lead developer and does NOT block this stage.
+
+Do NOT reinterpret deferred human QA as permission to retune the Hound.
+
+Stage 2F exists to fix and formalize SHARED intelligence architecture used
+by Hounds, Smilers and future entities.
+
+This is NOT:
+
+- another Hound overhaul
+- another Smiler overhaul
+- a difficulty pass
+- a navigation rewrite
+- 2.5D
+- rendering work
+
+============================================================
+AUTHORITATIVE BASELINE
+============================================================
+
+Use the supplied completed Stage 2E build as the sole implementation
+baseline.
+
+Expected baseline:
+
+    v23.2.0-2e
+
+Read and preserve:
+
+    STAGE_2E_REPORT.md
+    HOUND_CANON_LOCK_STAGE_2E.md
+
+Also use the approved Smiler Canon Lock if supplied.
+
+Stage 2E established, among other things:
+
+- sampled Hound visual observations
+- hidden-position safeguards
+- visible-light evidence
+- anonymous light investigation
+- Hound target commitment
+- fallible prediction/search
+- temporary Hound eye-contact intimidation
+- bounded failed-search handling
+- IR blindness
+- preserved Smiler behavior
+
+These are BASELINE BEHAVIOR.
+
+Do not redesign them.
+
+============================================================
+PRIMARY GOAL
+============================================================
+
+Stage 2F must make the shared intelligence model coherent when the world
+contains:
+
+- multiple players
+- multiple entities
+- multiple sounds
+- multiple lights
+- stale memories
+- contradictory observations
+- repeated player behavior
+- deterministic random behavior
+
+The core question is:
+
+    "What does this entity actually know, how certain is it,
+     and why did this evidence win?"
+
+The answer must never be:
+
+    "because the server knows where the player is."
+
+============================================================
+CORE PRINCIPLE
+============================================================
+
+SERVER KNOWLEDGE != ENTITY KNOWLEDGE
+
+The simulation server necessarily knows:
+
+- player positions
+- entity positions
+- network state
+- inventories
+- lifecycle state
+
+That does NOT mean AI may consume those facts.
+
+An entity decision may use only:
+
+- legitimate perception
+- legitimate memory
+- gameplay-system facts explicitly permitted as physical/system rules
+
+Maintain that distinction throughout Stage 2F.
+
+============================================================
+STAGE 2F SCOPE
+============================================================
+
+Implement and verify:
+
+1. shared conflicting-evidence resolution
+2. sound attribution cleanup
+3. bounded encounter-local habit memory
+4. deterministic RNG stream isolation
+5. multiplayer evidence/target arbitration
+6. evidence/memory lifecycle and bounds
+7. shared WHY/debug visibility
+8. deterministic regression coverage
+9. performance validation
+
+Do NOT begin anything outside this list unless required for correctness.
+
+============================================================
+SECTION A — SHARED EVIDENCE MODEL
+============================================================
+
+Preserve the Stage 2C evidence foundation.
+
+Evidence should continue to represent observations such as:
+
+- SEEN
+- HEARD
+- VISIBLE LIGHT
+- ANONYMOUS LEAD
+
+An observation should be able to carry appropriate properties such as:
+
+- modality
+- observation position
+- time
+- confidence
+- uncertainty radius
+- optional heading
+- optional velocity if legitimately observed
+- attribution state
+
+Do NOT force all evidence into player targets.
+
+A critical architectural distinction remains:
+
+    TARGET EVIDENCE
+    !=
+    ANONYMOUS LEAD
+
+An anonymous observation may cause investigation.
+
+It may NOT automatically identify a player.
+
+============================================================
+SECTION B — CONFLICTING EVIDENCE
+============================================================
+
+Entities must now handle contradictory evidence coherently.
+
+Example:
+
+    Player A seen moving west 0.5 s ago
+    loud sound heard north 0.1 s ago
+    anonymous light seen east 0.2 s ago
+    current target commitment remains active
+
+The entity must weigh the information.
+
+Do not implement:
+
+    newest evidence always wins
+
+Do not implement:
+
+    closest player always wins
+
+Do not implement:
+
+    strongest raw number always wins regardless of species
+
+Shared arbitration may consider:
+
+- modality
+- confidence
+- freshness
+- uncertainty
+- current target continuity
+- current state
+- species-specific priorities
+- whether an identity is actually known
+
+Species logic must remain capable of interpreting shared evidence
+differently.
+
+The shared layer supplies evidence.
+
+The species decides what that evidence MEANS.
+
+============================================================
+IMPORTANT ARCHITECTURE RULE
+============================================================
+
+Do NOT create one universal monster brain.
+
+Desired architecture is approximately:
+
+    SHARED PERCEPTION / EVIDENCE
+                ↓
+       SHARED EVIDENCE TOOLS
+                ↓
+       SPECIES INTERPRETATION
+          ↙             ↘
+       HOUND          SMILER
+
+The Hound and Smiler must remain fundamentally different entities.
+
+============================================================
+SECTION C — SOUND ATTRIBUTION
+============================================================
+
+Stage 2F must fix the existing issue where AI can effectively know which
+player produced footsteps merely because the game event carries player
+identity.
+
+A sound occurring is not automatically an identified person.
+
+Separate:
+
+    SOUND SOURCE INTERNAL SERVER ID
+
+from:
+
+    IDENTITY KNOWN BY ENTITY
+
+The AI-facing evidence model must distinguish at minimum:
+
+    ANONYMOUS
+    IDENTIFIED
+
+If a sound cannot legitimately be attributed to a known person:
+
+    entity gets a sound lead
+    not a player target
+
+============================================================
+WHEN SOUND MAY BE IDENTIFIED
+============================================================
+
+Identity may be associated only when the entity has a legitimate reason.
+
+Examples that MAY justify association:
+
+- the entity directly sees a person produce the movement/sound
+- visual continuity makes the source unambiguous
+- an already tracked visible target produces the sound while continuously
+  observed
+
+Examples that DO NOT justify identification:
+
+- footsteps through a wall
+- running heard around an unseen corner
+- a sound event containing sourceId internally
+- a hidden player making noise outside sight
+- server-side proximity alone
+
+When attribution is uncertain:
+
+KEEP IT ANONYMOUS.
+
+Do not invent probabilistic identity knowledge merely to make AI stronger.
+
+============================================================
+SOUND POSITION
+============================================================
+
+Preserve existing:
+
+- attenuation
+- localization uncertainty
+- range
+- geometry rules
+
+The AI consumes the perceived/noisy sound observation.
+
+It must not silently recover:
+
+    exact emitter origin
+    exact hidden position
+    exact hidden velocity
+
+============================================================
+MULTIPLE SOUNDS
+============================================================
+
+When several sounds exist:
+
+- preserve each observation
+- compare confidence/freshness appropriately
+- allow uncertainty
+- allow the entity to choose wrong
+
+Two anonymous sounds from two hidden players must not magically become
+correctly labeled Player A and Player B.
+
+============================================================
+SECTION D — HABIT MEMORY
+============================================================
+
+Implement only SMALL, BOUNDED, ENCOUNTER-LOCAL habit memory.
+
+This is not machine learning.
+
+This is not global adaptation.
+
+This is not meta knowledge.
+
+The purpose is to let an entity notice:
+
+    "This perceived person has done this several times."
+
+Examples:
+
+- repeatedly peeking the same corner
+- repeatedly choosing the same branch after being seen
+- repeatedly returning to the same perceived hiding area
+
+============================================================
+HABIT MEMORY RULES
+============================================================
+
+A habit may only be learned from events the entity legitimately perceived.
+
+Do not record hidden behavior.
+
+Recommended conservative starting bounds:
+
+- maximum 6 recent relevant observations per tracked perceived identity
+- maximum 3 active habit hypotheses per entity
+- approximately 30 second observation TTL
+- require at least 3 legitimate repetitions before applying a bias
+- bias should remain small, approximately <= 15% influence on otherwise
+  plausible search choice
+
+These are starting parameters, not an excuse to inflate difficulty.
+
+Habit memory should BIAS.
+
+It must never determine hidden truth.
+
+============================================================
+HABIT EXAMPLE
+============================================================
+
+BAD:
+
+Player used left corridor three times earlier.
+
+Fourth time:
+
+Hound automatically knows player secretly took left again.
+
+GOOD:
+
+Player used left corridor three times while observed.
+
+Fourth LOS break:
+
+left becomes somewhat more plausible.
+
+The Hound may still:
+
+- check right
+- investigate sound elsewhere
+- be wrong
+- lose the player
+
+============================================================
+HABIT RESET / LIFECYCLE
+============================================================
+
+Habit knowledge must not persist indefinitely.
+
+Clear or expire appropriately on:
+
+- encounter ending
+- target becoming stale for a long period
+- player death/respawn
+- player leaving
+- room lifecycle reset
+
+Do NOT implement cross-life player profiling.
+
+Do NOT store account-level habits.
+
+============================================================
+SECTION E — RNG STREAM ISOLATION
+============================================================
+
+This is a major Stage 2F requirement.
+
+Current history has shared random-number consumption.
+
+This means changing a Smiler's random calls can alter an unrelated
+Hound's seeded outcome.
+
+That coupling must be removed.
+
+============================================================
+RNG DESIGN GOAL
+============================================================
+
+Randomness should be deterministic but isolated.
+
+Conceptually prefer:
+
+    world seed
+        │
+        ├── entity Hound h1
+        │      ├── personality
+        │      ├── search
+        │      └── behavior
+        │
+        ├── entity Hound h2
+        │
+        └── entity Smiler s1
+               ├── personality
+               ├── search
+               └── behavior
+
+Changing Smiler s1 random consumption must not change Hound h1.
+
+Adding another unrelated entity must not change Hound h1's existing
+random sequence.
+
+============================================================
+RNG IMPLEMENTATION REQUIREMENTS
+============================================================
+
+Use deterministic seed derivation from stable inputs such as:
+
+- world/session simulation seed
+- stable entity ID
+- subsystem/tag
+
+Do not use wall-clock time.
+
+Do not use rendering FPS.
+
+Do not use Math.random in new AI decision code.
+
+Do not solve this by pre-generating enormous random arrays.
+
+Keep it lightweight.
+
+============================================================
+RNG SUBSTREAMS
+============================================================
+
+At minimum isolate random behavior by ENTITY.
+
+Prefer further bounded subsystem isolation where beneficial, such as:
+
+    personality
+    search
+    idle/behavior
+
+Do not create excessive complexity solely for theoretical purity.
+
+The critical invariant is:
+
+UNRELATED ENTITY RANDOM CONSUMPTION MUST NOT ALTER THIS ENTITY.
+
+============================================================
+RNG MIGRATION
+============================================================
+
+Moving from the old shared stream may change seeded historical outcomes.
+
+That is acceptable if documented.
+
+Do NOT attempt to preserve an architecturally broken shared stream simply
+to make old random numbers match.
+
+However:
+
+- distributions must remain bounded
+- personality ranges must remain unchanged unless explicitly required
+- gameplay tuning must not be changed merely because the stream changed
+
+Where logic parity needs comparison, inject/fix equivalent traits and
+observations rather than demanding identical old random histories.
+
+============================================================
+MANDATORY RNG TESTS
+============================================================
+
+R1.
+
+Run Hound H with seed X.
+
+Record random-dependent decisions.
+
+Run the same world but add an unrelated Smiler.
+
+Expected:
+
+Hound H receives the same RNG sequence and makes identical random-dependent
+decisions given identical observations.
+
+R2.
+
+Add arbitrary extra random draws inside a TEST-ONLY Smiler stream.
+
+Expected:
+
+Hound unchanged.
+
+R3.
+
+Perform the reverse.
+
+Extra test-only Hound random draws must not alter Smiler behavior.
+
+R4.
+
+Spawn an unrelated additional entity.
+
+Existing entities' streams remain unchanged.
+
+R5.
+
+Same seed + same entity ID + same observations:
+
+repeatable result.
+
+============================================================
+SECTION F — MULTIPLAYER TARGET REASONING
+============================================================
+
+Multiple players must remain first-class.
+
+Target scoring may use only perceived/remembered information.
+
+Potential legitimate factors:
+
+- direct visual identification
+- evidence confidence
+- freshness
+- uncertainty
+- recent loud evidence
+- visible-light evidence
+- current target commitment
+- perceived distance
+
+Forbidden:
+
+- hidden HP
+- inventory
+- account identity
+- true hidden distance
+- secret current coordinates
+- IR state
+
+============================================================
+TARGET VS LEAD
+============================================================
+
+Do not let anonymous evidence enter player-target scoring as if identity
+were known.
+
+Example:
+
+Hound hears hidden footsteps north.
+
+Player B exists north.
+
+Forbidden:
+
+    "therefore north sound belongs to B"
+
+Correct:
+
+    anonymous sound lead north
+
+Only new legitimate identification can turn that trail into B.
+
+============================================================
+TARGET COMMITMENT
+============================================================
+
+Preserve Hound and Smiler species-specific commitment.
+
+Do NOT replace them with one global timer.
+
+The shared layer may provide:
+
+- evidence candidate information
+- confidence comparisons
+- switch reasons
+
+The species keeps its own commitment semantics.
+
+============================================================
+PLAYER ARRAY ORDER
+============================================================
+
+Entity decisions must not depend on arbitrary player iteration order.
+
+When evidence is otherwise equal:
+
+use a deterministic stable tie-break mechanism.
+
+Do not let connection order decide behavior accidentally.
+
+============================================================
+SECTION G — MEMORY / EVIDENCE LIFECYCLE
+============================================================
+
+All evidence structures must be bounded.
+
+No unbounded:
+
+- leads
+- sounds
+- habits
+- rejected search locations
+- candidate lists
+- histories
+
+Define explicit:
+
+- maximum counts
+- TTLs
+- cleanup conditions
+
+Disconnected players must not leave ghost targets or habit records.
+
+Dead/respawned players must not accidentally inherit encounter identity
+knowledge from their previous life unless a specific existing game rule
+already requires it.
+
+============================================================
+SECTION H — HIDDEN-POSITION INVARIANT
+============================================================
+
+Preserve and expand the Stage 2E protection.
+
+Stage 2E fixed a real bug where a Hound consumed the live player object
+between perception updates.
+
+Do NOT regress that.
+
+For decision-making:
+
+    remembered player
+    !=
+    live player object
+
+Physical contact/capture may inspect real geometry at actual contact.
+
+Remote reasoning may not.
+
+============================================================
+PAIRED-WORLD TESTING
+============================================================
+
+Use paired-world tests aggressively.
+
+Method:
+
+1. Give two worlds identical observations.
+2. After perception ends, secretly place players differently.
+3. Do not generate new legitimate evidence.
+4. Compare AI decisions.
+
+Expected:
+
+identical decisions.
+
+Use this for:
+
+- Hound pursuit
+- Smiler memory
+- anonymous sound
+- anonymous light
+- conflicting evidence
+- habit inference
+
+============================================================
+SECTION I — SPECIES PRESERVATION
+============================================================
+
+HOUND 2E IS FROZEN.
+
+Do not rebalance:
+
+- speed
+- acceleration
+- turning
+- lunge
+- eye-contact duration
+- search budget
+- flashlight thresholds
+- personality ranges
+
+unless a concrete shared-architecture correctness defect makes an
+extremely narrow change unavoidable.
+
+If such a change is required:
+
+DOCUMENT IT BEFORE IMPLEMENTING IT.
+
+============================================================
+SMILER 2D IS FROZEN
+============================================================
+
+Do not alter:
+
+- Smiler canon behavior
+- agitation rules
+- light rules
+- eye-contact rules
+- chase tuning
+- attack triggers
+- face/body presentation
+- target commitment
+
+Shared architecture may be changed underneath it.
+
+Species behavior must remain equivalent when presented with equivalent
+evidence.
+
+============================================================
+2E DEFERRED HUMAN QA
+============================================================
+
+The lead developer has explicitly authorized Stage 2F before completing
+Stage 2E human QA.
+
+Therefore:
+
+DO NOT use Stage 2F to "fix" subjective Hound feel.
+
+Human-QA questions from 2E remain deferred.
+
+Preserve the ability to evaluate them later.
+
+============================================================
+SECTION J — IR
+============================================================
+
+IR remains outside ordinary monster AI.
+
+Mandatory:
+
+    IR OFF
+    vs
+    IR HIGH
+
+with otherwise identical observations:
+
+    identical Hound decisions
+    identical Smiler decisions
+
+Do not expose NV/IR state through new evidence abstractions.
+
+============================================================
+SECTION K — DEBUG / WHY
+============================================================
+
+Extend the existing developer WHY system.
+
+For the selected entity, expose enough information to answer:
+
+    "Why did this evidence win?"
+
+Useful debug fields:
+
+- current target
+- current lead
+- target commitment
+- evidence modality
+- attribution:
+    anonymous / identified
+- confidence
+- uncertainty
+- evidence age
+- competing evidence
+- arbitration score/reason
+- species weighting/reason
+- target-switch reason
+- active habit hypothesis
+- habit repetition count
+- habit bias
+- rejected hypothesis
+- RNG entity stream identifier/tag
+- evidence expiry
+
+Do not expose this in normal gameplay.
+
+============================================================
+MANDATORY STAGE 2F ACCEPTANCE TESTS
+============================================================
+
+Add deterministic tests covering at minimum:
+
+------------------------------------------------------------
+F01 — ANONYMOUS FOOTSTEP
+------------------------------------------------------------
+
+Hidden player produces footsteps.
+
+No visual attribution exists.
+
+Expected:
+
+anonymous sound lead.
+
+Forbidden:
+
+identified player target.
+
+------------------------------------------------------------
+F02 — OBSERVED SOUND ATTRIBUTION
+------------------------------------------------------------
+
+Visible tracked human produces movement sound while observed.
+
+Expected:
+
+association may be identified legitimately.
+
+------------------------------------------------------------
+F03 — TWO HIDDEN PLAYERS
+------------------------------------------------------------
+
+Two hidden players produce sounds.
+
+Expected:
+
+AI does not magically label each sound with correct identities.
+
+------------------------------------------------------------
+F04 — SOUND SOURCE ID LEAK
+------------------------------------------------------------
+
+Change only the server/internal sound-event sourceId while preserving the
+AI-visible observation.
+
+Expected:
+
+AI decision unchanged if identity was not legitimately known.
+
+------------------------------------------------------------
+F05 — CONFLICTING SIGHT AND SOUND
+------------------------------------------------------------
+
+Strong current visual target plus weaker unrelated sound.
+
+Expected:
+
+species-appropriate commitment preserved.
+
+------------------------------------------------------------
+F06 — LOST TARGET + STRONG NEW EVIDENCE
+------------------------------------------------------------
+
+Current target genuinely lost.
+
+New credible evidence appears.
+
+Expected:
+
+eventual rational switch/investigation.
+
+------------------------------------------------------------
+F07 — ANONYMOUS LIGHT VS IDENTIFIED TARGET
+------------------------------------------------------------
+
+Anonymous light must remain a lead, not become an invented player target.
+
+------------------------------------------------------------
+F08 — PLAYER ORDER INVARIANCE
+------------------------------------------------------------
+
+Same evidence with player/entity arrays reordered.
+
+Expected:
+
+same semantic decision.
+
+------------------------------------------------------------
+F09 — HIDDEN BRANCH INVARIANCE
+------------------------------------------------------------
+
+Identical pre-LOS observations.
+
+Different hidden branches.
+
+Expected:
+
+identical decisions until new evidence.
+
+------------------------------------------------------------
+F10 — HABIT ACQUISITION
+------------------------------------------------------------
+
+Entity legitimately observes the same route choice at least three times.
+
+Expected:
+
+small search bias may emerge.
+
+------------------------------------------------------------
+F11 — HABIT IS NOT KNOWLEDGE
+------------------------------------------------------------
+
+After acquiring a habit, secretly choose another branch.
+
+Expected:
+
+entity may choose habitual branch and be wrong.
+
+No hidden tracking.
+
+------------------------------------------------------------
+F12 — HABIT EXPIRY
+------------------------------------------------------------
+
+Wait beyond bounded memory / end encounter.
+
+Expected:
+
+bias expires.
+
+------------------------------------------------------------
+F13 — HABIT LIFECYCLE RESET
+------------------------------------------------------------
+
+Player dies/respawns or leaves/rejoins as appropriate.
+
+Expected:
+
+no prohibited cross-life habit carryover.
+
+------------------------------------------------------------
+F14 — RNG HOUND/SMILER ISOLATION
+------------------------------------------------------------
+
+Extra Smiler random draws.
+
+Expected:
+
+Hound random sequence unchanged.
+
+------------------------------------------------------------
+F15 — RNG SMILER/HOUND ISOLATION
+------------------------------------------------------------
+
+Extra Hound random draws.
+
+Expected:
+
+Smiler random sequence unchanged.
+
+------------------------------------------------------------
+F16 — ENTITY INSERTION RNG
+------------------------------------------------------------
+
+Add unrelated entity.
+
+Expected:
+
+existing entity random streams unchanged.
+
+------------------------------------------------------------
+F17 — RNG REPEATABILITY
+------------------------------------------------------------
+
+Same world seed + entity IDs + observations.
+
+Expected:
+
+identical behavior.
+
+------------------------------------------------------------
+F18 — MEMORY BOUNDS
+------------------------------------------------------------
+
+Long simulation with heavy sound/light/player activity.
+
+Expected:
+
+all evidence/history structures remain within explicit caps.
+
+------------------------------------------------------------
+F19 — DISCONNECT CLEANUP
+------------------------------------------------------------
+
+Tracked player disconnects.
+
+Expected:
+
+no immortal target/evidence/habit reference.
+
+------------------------------------------------------------
+F20 — IR INVARIANCE
+------------------------------------------------------------
+
+IR OFF/HIGH.
+
+Expected:
+
+tick-identical AI decisions.
+
+------------------------------------------------------------
+F21 — PRIVATE DATA INVARIANCE
+------------------------------------------------------------
+
+Change only:
+
+- HP
+- inventory
+- account metadata
+- other forbidden private values
+
+Expected:
+
+target decisions unchanged.
+
+------------------------------------------------------------
+F22 — SPECIES PARITY
+------------------------------------------------------------
+
+Give pre-2F and post-2F entities equivalent fixed traits and a simple
+non-conflicting evidence scenario.
+
+Expected:
+
+Hound and Smiler species behavior remains equivalent except where 2F
+explicitly changes shared evidence semantics.
+
+------------------------------------------------------------
+F23 — LONG-RUN VALIDITY
+------------------------------------------------------------
+
+Long multiplayer-heavy simulation.
+
+No:
+
+- NaNs
+- invalid targets
+- unbounded arrays/maps
+- stale disconnected identities
+- impossible evidence
+- permanent search loops
+- target flicker caused by ordering
+
+============================================================
+PERFORMANCE
+============================================================
+
+Stage 2F must remain cheap.
+
+Benchmark:
+
+1. shipped population
+2. Hound-heavy population
+3. Smiler-heavy population
+4. multiple players
+5. sound-heavy multiplayer
+6. visible-light-heavy multiplayer
+7. conflicting-evidence stress
+8. habit-memory stress
+9. long-run memory cleanup
+
+Measure at least:
+
+- average sim.step
+- p95 or p99
+- largest observed step
+- active evidence counts
+- memory/history counts
+
+Do not run full arbitration logic every render frame.
+
+Gameplay simulation remains fixed-timestep.
+
+Rendering FPS must not influence decisions.
+
+============================================================
+REGRESSION SUITE
+============================================================
+
+Run all relevant existing verification:
+
+- complete scenario suite
+- Stage 2E 17/17 tests
+- original Hound tests
+- Smiler tests
+- Smiler parity
+- evidence tests
+- IR tests
+- capture/death
+- navigation
+- chase
+- commitment
+- audit scenarios
+- audit_net
+- audit_net2
+- ir_net
+- live WebSocket smoke
+- real move.js traces
+- physical death
+- interpolation
+- navigation benchmark
+- performance tools
+- portable/fresh-extract verification
+
+Do not silently modify acceptance thresholds to obtain green results.
+
+============================================================
+LEGACY 2E CHASE GATES
+============================================================
+
+Stage 2E documented three retained legacy chase-percentage failures.
+
+Do NOT rebalance Hound gameplay simply to force those percentage gates
+green.
+
+Preserve them honestly unless Stage 2F legitimately changes the measured
+fixture.
+
+If results change because RNG isolation changes deterministic samples:
+
+report:
+
+- old result
+- new result
+- why the sample changed
+- whether gameplay parameters changed
+
+Do not call a changed random sample a gameplay improvement.
+
+============================================================
+BROWSER QA
+============================================================
+
+Stage 2E browser checks were blocked by its execution environment.
+
+If browser automation is available here, run relevant checks.
+
+If still blocked:
+
+state BLOCKED explicitly.
+
+Do not claim browser verification that was not performed.
+
+Do NOT hold the entire 2F architecture hostage to an unrelated browser
+tool failure if all headless/network tests can be completed.
+
+============================================================
+DO NOT START 2G
+============================================================
+
+At completion of 2F:
+
+STOP.
+
+Do not begin:
+
+- Part 2 final QA / 2G
+- 2.5D
+- rendering overhaul
+- main menu
+- items
+- progression
+- new entities
+- new levels
+
+============================================================
+DO NOT START 2.5D
+============================================================
+
+Absolutely no:
+
+- Z coordinate migration
+- support surfaces
+- vertical nav graph
+- stair architecture
+- height intervals
+- elevated networking
+- cutaway architecture
+
+That stage is separate and will be assigned after Part 2 is locked.
+
+============================================================
+IMPLEMENTATION PHILOSOPHY
+============================================================
+
+Prefer:
+
+- one shared evidence model
+- one explicit attribution model
+- species-specific interpretation
+- bounded memory
+- deterministic isolated RNG
+- observable decisions
+- small interfaces
+- tests proving invariants
+
+Avoid:
+
+- duplicated Hound and Smiler evidence systems
+- giant universal behavior functions
+- hidden server-state shortcuts
+- compatibility hacks that keep broken architecture alive
+- magical identity reconstruction
+- unbounded history
+- model-specific "clever" behavior that cannot be explained in debug
+
+============================================================
+FINAL REPORT
+============================================================
+
+Produce:
+
+    STAGE_2F_REPORT.md
+
+Report all of the following:
+
+1. Baseline identity and SHA-256.
+2. Exact files modified.
+3. Shared evidence architecture changes.
+4. Evidence arbitration algorithm.
+5. Sound attribution model.
+6. Rules for anonymous vs identified evidence.
+7. Multiplayer target arbitration.
+8. Habit-memory implementation.
+9. Exact habit bounds / TTLs / influence.
+10. Habit lifecycle/reset rules.
+11. RNG stream architecture.
+12. Stable seed derivation.
+13. RNG isolation test results.
+14. Hidden-position safeguards.
+15. Species-specific behavior preservation.
+16. Hound parity/preservation.
+17. Smiler parity/preservation.
+18. IR invariance.
+19. Memory/evidence bounds.
+20. Disconnect/lifecycle cleanup.
+21. Debug/WHY additions.
+22. Performance results.
+23. Full regression results.
+24. Any retained legacy failures.
+25. Browser test status.
+26. Known limitations.
+27. Items intentionally deferred to 2G.
+28. Human-QA notes that remain outstanding from 2E.
+
+Explicitly confirm:
+
+- Hound speed unchanged.
+- Hound acceleration unchanged.
+- Hound eye-contact tuning unchanged.
+- Hound lunge/contact rules unchanged.
+- Smiler canon behavior unchanged.
+- Smiler tuning unchanged.
+- IR behavior unchanged.
+- Hounds remain IR-blind.
+- Smilers remain IR-blind unless already explicitly permitted otherwise.
+- player movement unchanged.
+- death physics unchanged.
+- navigation architecture unchanged.
+- no 2.5D work started.
+- no Part 3 work started.
+
+============================================================
+DELIVERABLE
+============================================================
+
+Deliver:
+
+1. complete Stage 2F ZIP
+2. STAGE_2F_REPORT.md
+3. human-readable test summary
+4. raw test/performance logs
+5. SHA-256 of final ZIP
+
+Suggested version:
+
+    v23.3.0-2f
+
+Finish with exactly:
+
+STAGE 2F IMPLEMENTATION COMPLETE — PART 2 FINAL QA PENDING

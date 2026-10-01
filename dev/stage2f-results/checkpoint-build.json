@@ -1,0 +1,52 @@
+[
+  {
+    "command": "node --check ai.js",
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "node --check sim.js",
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "node --check ents.js",
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "node --check dev/ai_src/22_intelligence.js",
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "node --check dev/tests/s_shared2f.js",
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "node --check dev/tests/parity_shared2f.js",
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "node --check dev/tests/perf_shared2f.js",
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "command": "bash dev/build_ai.sh",
+    "exit": 0,
+    "output": "196127 /workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/ai.js\n"
+  },
+  {
+    "command": "bash dev/build_sim.sh",
+    "exit": 0,
+    "output": "27279 /workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/sim.js\n"
+  },
+  {
+    "command": "bash dev/build_ents.sh",
+    "exit": 0,
+    "output": "74528 /workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/ents.js\n"
+  }
+]

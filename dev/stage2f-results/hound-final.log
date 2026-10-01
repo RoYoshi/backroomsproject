@@ -1,0 +1,36 @@
+PASS 2E H1 identified human with flashlight warrants pursuit  [455ms]
+       all assertions passed
+PASS 2E H2 swept beam reaches Hound from behind: attention then identification  [113ms]
+       all assertions passed
+PASS 2E H3 hidden carrier: anonymous light investigation; replay cannot back-project  [431ms]
+       all assertions passed
+PASS 2E H4 solid wall blocks direct beam and impossible evidence  [718ms]
+       all assertions passed
+PASS 2E H5 IR OFF vs HIGH: identical complete decisions each tick  [275ms]
+       all assertions passed
+PASS 2E H6 hidden corner branches cannot change prediction  [127ms]
+       360 identical decisions after same visible approach
+PASS 2E H7 fresh hidden running after loss causes anonymous investigation (2F attribution)  [81ms]
+       all assertions passed
+PASS 2E H8 silent hidden reposition does not cause magical following  [131ms]
+       360 identical decisions after same visible approach
+PASS 2E H9 nearby noisy hiding is exposed through real movement footsteps  [72ms]
+       all assertions passed
+PASS 2E H10 failed search reduces confidence and ends within finite budget  [249ms]
+       all assertions passed
+PASS 2E H11 stable multiplayer target, then meaningful switch after loss and dwell  [63ms]
+       all assertions passed
+PASS 2E H12 listening is watchdog-safe; blocked movement still recovers  [82ms]
+       all assertions passed
+PASS 2E H13 long-run finite states, valid targets, bounded memory and collision  [1336ms]
+       21600 ticks; 1340 search samples; longest stationary active interval 0.85s
+PASS 2E H14 gaze intimidation is temporary, breaks on looking away and cannot be toggled to refill  [79ms]
+       all assertions passed
+PASS 2E H15 flashlight off stops new light observations without deleting an identified human  [67ms]
+       all assertions passed
+PASS 2E H16 bounded deterministic traits; private HP and inventory cannot change decisions  [662ms]
+       all assertions passed
+PASS 2E H17 social sound carries no prey identity or shared memory  [46ms]
+       all assertions passed
+
+17/17 passed

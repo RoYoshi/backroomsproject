@@ -1,0 +1,23 @@
+FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [1601ms]
+       run 1687px  walk 1689px  crouch 1671px
+FAIL P07 exhausted breathing is audible only close by  [69ms]
+       900px away: 0 sounds; 180px away: 0
+PASS H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [10360ms]
+       reached 13/13: ROAMING, ALERT, HUNTING, SEARCHING, FRUSTRATED, FEEDING, DORMANT, CURIOUS, EXCITED, PLAYING, RETREATING, STALKING, CAUTIOUS
+FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [1050ms]
+       light on, in its view, standing: chased 6/8 (wind-up before the chase avg 4.0 s); light off, same spot: chased 0/8, struck 0, perceived at all 6/8 (not perceived at 494 px, 781 px), watched 5/6 of those
+FAIL NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm  [814ms]
+       10 chases: caught 100% (avg 11.4 s); bonks 0; contact ticks avg 6.6 (baseline 11.6); new routes per s avg 0.53, worst 1.63 (the build before Part 1B, same chases, counting every A* call: avg 1.90, worst 2.82)
+PASS C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it  [4846ms]
+       9 runs: still hunting/searching with memory 3 s after losing sight 9/9 (conf avg 0.84; states HUNTING)
+PASS C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)  [7201ms]
+       10 runs where the prey had slipped away quietly (the hound searching within 750 px) and then broke into a run; the hound heard the run in 8; of those it was hunting again within 1 s of the first loud step it heard in 100% (avg 0.06 s; from the prey's first step: 0.36 s); not heard (walls / distance) 2
+FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you  [2213ms]
+       a hound that heard the prey ~520 px away in the dark: slipping out of sight and walking on quietly escaped 33% (15 runs); crouching still right where it lost sight escaped 20% - silence is a real chance, not a guarantee
+FAIL C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance  [1569ms]
+       caught within 8 s: fresh 33% vs exhausted 91%; fresh runners holding or widening the gap after 4 s: 33% (avg change -86 px; exhausted -316 px)
+PASS C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out  [3677ms]
+       18 escapes: memory at the end 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0; reasons: memory faded / nowhere left to look
+
+4/10 passed
+FAILED: P01 noticing distance: run > walk > crouch (resting hound, corridor); P07 exhausted breathing is audible only close by; SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased; NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm; C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you; C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance

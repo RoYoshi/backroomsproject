@@ -1,11 +1,12 @@
 {
   "name": "far-backrooms",
-  "version": "23.2.0-2e",
+  "version": "23.3.0-2f",
   "private": true,
   "scripts": {
     "start": "node server.js",
     "test": "node dev/tests/run.js",
-    "test:hound": "node dev/tests/run.js s_hound2e.js"
+    "test:hound": "node dev/tests/run.js s_hound2e.js",
+    "test:shared": "node dev/tests/run.js s_shared2f.js"
   },
   "engines": {
     "node": ">=18"

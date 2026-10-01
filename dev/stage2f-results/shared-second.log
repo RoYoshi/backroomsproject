@@ -1,0 +1,49 @@
+PASS 2F F01 unseen footstep is anonymous, uncertain, no raw origin/identity  [646ms]
+       both species; actual hearing boundary
+PASS 2F F02 a currently observed unambiguous source can be identified  [164ms]
+       assertions passed
+PASS 2F F03 two hidden sound sources stay anonymous  [68ms]
+       assertions passed
+PASS 2F F04 private sound source ID cannot change observations or decisions  [379ms]
+       assertions passed
+PASS 2F F05 current clear sight beats weak unrelated anonymous sound  [117ms]
+       assertions passed
+FAIL 2F F06 lost target can yield to credible new observation  [63ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: Expected values to be strictly equal: |  | 100 !== 101 | 
+PASS 2F F07 anonymous light never invents an identity alongside a target  [73ms]
+       assertions passed
+PASS 2F F08 reversed player/entity input order has identical decisions  [166ms]
+       480 paired decision ticks, two species/two players
+PASS 2F F09 hidden branch invariance including anonymous sound/light conflict  [1118ms]
+       1,440 paired decision ticks
+PASS 2F F10 three observed repetitions form bounded, modest hypothesis  [95ms]
+       unit fixture uses six actual-observation snapshots; 12% only within plausible candidate region
+PASS 2F F11 habit never learns a hidden branch and wrong prediction is fallible  [85ms]
+       assertions passed
+PASS 2F F12 TTL and encounter end both expire habits  [44ms]
+       assertions passed
+PASS 2F F13 death/respawn/leave/world reset clear encounter identity  [190ms]
+       assertions passed
+PASS 2F F14 / R1 extra Smiler draws cannot perturb Hound  [168ms]
+       assertions passed
+PASS 2F F15 / R2 extra Hound draws cannot perturb Smiler  [344ms]
+       assertions passed
+PASS 2F F16 / R3 unrelated spawn and initialization preserve old streams  [456ms]
+       assertions passed
+PASS 2F F17 / R4 / R5 repeatable streams and IR/debug metadata isolation  [405ms]
+       same seed/ID/tag repeatability; debug makes no RNG draws
+PASS 2F F18 evidence pressure obeys all advertised caps  [442ms]
+       {"players":16,"sounds":8,"soundTTL":25,"leads":6,"leadTTL":45,"evidence":4,"recordTTL":120,"visited":128,"visitedTTL":60,"habitObs":6,"hypotheses":3,"habitTTL":30,"habitRepeats":3,"habitBias":0.12,"candidates":70,"debugCandidates":12}
+PASS 2F F19 disconnect immediately removes target, attention, habits, identified sound  [152ms]
+       assertions passed
+PASS 2F F20 IR OFF/HIGH is tick-identical for both species  [275ms]
+       600 paired decision ticks, real movement
+PASS 2F F21 hidden HP, inventory and account metadata cannot influence decisions  [292ms]
+       assertions passed
+FAIL 2F F22 species physical/canon parameter preservation  [10ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: hound/capture |  | { |   afterKill: [Function: afterKill],
+PASS 2F F23 long-run mixed lifecycle validity  [719ms]
+       10800 ticks; 468 actual respawns; all identity records removed on disconnect
+
+21/23 passed
+FAILED: 2F F06 lost target can yield to credible new observation; 2F F22 species physical/canon parameter preservation

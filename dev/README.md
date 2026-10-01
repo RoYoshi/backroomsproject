@@ -1,3 +1,38 @@
+# Stage 2F verification
+
+Commands are package-relative; no dependency on the author's workspace.
+
+```sh
+npm test
+npm run test:shared
+npm run test:hound
+node dev/tests/perf_shared2f.js
+PERF_MODE=habits node dev/tests/perf_shared2f.js
+node dev/tests/audit_net.js
+node dev/tests/audit_net2.js
+node dev/tests/ir_net.js
+node dev/tests/live.js
+bash dev/build_ai.sh
+bash dev/build_sim.sh
+bash dev/build_ents.sh
+```
+
+F22 normally checks the bundled baseline-derived preservation manifest. For an independent comparison, set `STAGE2E_BASELINE` to the pristine extracted supplied Stage 2E package. Optional pairwise tools explicitly require that directory:
+
+```sh
+node dev/tests/parity_shared2f.js /path/to/stage2E
+node dev/tests/movement_parity2f.js /path/to/stage2E
+python dev/tests/diagnose_rng2f.py /path/to/stage2E /new/temporary/experiment
+```
+
+The RNG diagnostic builds a disposable counterfactual (2E plus RNG routing only), never a product compatibility mode. It preserves failing thresholds. The older `smiler_parity.js` compares identical historical random streams for 2D/2E and is not the appropriate 2F parity criterion. `parity_shared2f.js` fixes traits/draws and observations across the two implementations.
+
+The F10 acquisition and F11 learned-history branch tests hold the species motor during training, while using actual movement, LOS, vision, sound and habit recording; restore the production species before comparing hidden-branch decisions. Performance `habits` similarly holds motors to sustain full memory tables. These are explicit fixture controls, not production switches. All other workload motors run normally.
+
+Known limits: headless movement uses deterministic bot inputs at 60 Hz, not human input/frame/network jitter; standalone network tests cover the wire. Physical placement/collision/contact, lifecycle and LOD are permitted system knowledge. No benchmark capture percentage proves human fairness. See the release report for all retained failures.
+
+---
+
 # Development tests — Stage 2E
 
 Nothing here is needed to play or host the game; `server.js` never serves this folder. It exists so the behaviour can be re-checked after any change.

@@ -1,0 +1,49 @@
+PASS 2F F01 unseen footstep is anonymous, uncertain, no raw origin/identity  [401ms]
+       both species; actual hearing boundary
+PASS 2F F02 a currently observed unambiguous source can be identified  [123ms]
+       assertions passed
+PASS 2F F03 two hidden sound sources stay anonymous  [102ms]
+       assertions passed
+FAIL 2F F04 private sound source ID cannot change observations or decisions  [75ms]
+       EXCEPTION TypeError: Cannot read properties of undefined (reading 'hound') |     at run (/workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/dev/tests/s_shared2f.js:13:147) |     at /workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/dev/tests/s_shared2f.js:13:280 |     at Object.fn (/workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/dev/tests/s_shared2f.js:5:71)
+PASS 2F F05 current clear sight beats weak unrelated anonymous sound  [186ms]
+       assertions passed
+FAIL 2F F06 lost target can yield to credible new observation  [103ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: Expected values to be strictly equal: |  | null !== 100 | 
+PASS 2F F07 anonymous light never invents an identity alongside a target  [87ms]
+       assertions passed
+PASS 2F F08 reversed player/entity input order has identical decisions  [192ms]
+       480 paired decision ticks, two species/two players
+PASS 2F F09 hidden branch invariance including anonymous sound/light conflict  [952ms]
+       1,440 paired decision ticks
+PASS 2F F10 three observed repetitions form bounded, modest hypothesis  [67ms]
+       unit fixture uses six actual-observation snapshots; 12% only within plausible candidate region
+PASS 2F F11 habit never learns a hidden branch and wrong prediction is fallible  [97ms]
+       assertions passed
+PASS 2F F12 TTL and encounter end both expire habits  [45ms]
+       assertions passed
+PASS 2F F13 death/respawn/leave/world reset clear encounter identity  [143ms]
+       assertions passed
+PASS 2F F14 / R1 extra Smiler draws cannot perturb Hound  [164ms]
+       assertions passed
+PASS 2F F15 / R2 extra Hound draws cannot perturb Smiler  [196ms]
+       assertions passed
+PASS 2F F16 / R3 unrelated spawn and initialization preserve old streams  [448ms]
+       assertions passed
+PASS 2F F17 / R4 / R5 repeatable streams and IR/debug metadata isolation  [260ms]
+       same seed/ID/tag repeatability; debug makes no RNG draws
+PASS 2F F18 evidence pressure obeys all advertised caps  [321ms]
+       {"players":16,"sounds":8,"soundTTL":25,"leads":6,"leadTTL":45,"evidence":4,"recordTTL":120,"visited":128,"visitedTTL":60,"habitObs":6,"hypotheses":3,"habitTTL":30,"habitRepeats":3,"habitBias":0.12,"candidates":70,"debugCandidates":12}
+PASS 2F F19 disconnect immediately removes target, attention, habits, identified sound  [120ms]
+       assertions passed
+PASS 2F F20 IR OFF/HIGH is tick-identical for both species  [364ms]
+       600 paired decision ticks, real movement
+PASS 2F F21 hidden HP, inventory and account metadata cannot influence decisions  [258ms]
+       assertions passed
+FAIL 2F F22 species physical/canon parameter preservation  [9ms]
+       EXCEPTION TypeError: Cannot read properties of undefined (reading 'hound') |     at /workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/dev/tests/s_shared2f.js:35:357 |     at Object.fn (/workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/dev/tests/s_shared2f.js:5:71) |     at Object.<anonymous> (/workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/dev/tests/run.js:10:17)
+PASS 2F F23 long-run mixed lifecycle validity  [686ms]
+       10800 ticks; 468 actual respawns; all identity records removed on disconnect
+
+20/23 passed
+FAILED: 2F F04 private sound source ID cannot change observations or decisions; 2F F06 lost target can yield to credible new observation; 2F F22 species physical/canon parameter preservation

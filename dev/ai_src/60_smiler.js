@@ -46,7 +46,7 @@ const SMILER = {
   speeds: { roam: 80, approach: 92, investigate: 118, creep: 34, drift: 40, chase: 255, rush: 300, retreat: 110 },
   init(eng, e) {
     e.face = .25; e.faceT = .25; e.ag = 0; e.att = new Map(); e.lurkT = 0; e.goalS = null; e.watchT = 0; e.lostT = 0; e.chaseBlind = 0; e.lightOff = 0; e.strikeT = 0;
-    e.grace = 0; e.lastHearT = -1; e.agWhy = ''; e.drift = eng.rng() < .5 ? 1 : -1; e.driftT = 0; e.holdT = 0;
+    e.grace = 0; e.lastHearT = -1; e.agWhy = ''; e.drift = e.rng() < .5 ? 1 : -1; e.driftT = 0; e.holdT = 0;
     const T = e.tr; e.pz = { patience: T.PATIENCE, curiosity: T.CURIOSITY, persistence: T.PERSISTENCE, bold: T.AGGRESSION };
     e.dbg.why = 'waiting in the dark'; e.dbg.ab = '';
   },
@@ -65,12 +65,12 @@ function sLit(eng, e) { const lamp = eng.geo.lightLevel(e.x, e.y, null), beam = 
 function darkSpot(eng, e, minD, maxD, from, dir) {
   const geo = eng.geo, o = from || e; let best = null, bs = -1e9;
   for (let i = 0; i < 30; i++) {
-    const a = dir !== undefined && i < 20 ? dir + (eng.rng() - .5) * 1.6 : eng.rng() * TAU, d = rand(eng, minD, maxD), c = geo.cellAt(o.x + Math.cos(a) * d, o.y + Math.sin(a) * d);
+    const a = dir !== undefined && i < 20 ? dir + (e.streams.search() - .5) * 1.6 : e.streams.search() * TAU, d = (minD + e.streams.search() * (maxD - minD)), c = geo.cellAt(o.x + Math.cos(a) * d, o.y + Math.sin(a) * d);
     if (c < 0 || geo.cls[c] !== 1) continue;
     const x = geo.cx(c), y = geo.cy(c), lit = geo.lightLevel(x, y, null);
     if (!eng.placementOk(x, y)) continue;
     let cover = 0; for (let k = 0; k < 6; k++) if (geo.ray(x, y, k / 6 * TAU, 200) < 160) cover++;
-    const sc = -lit * 400 + Math.min(cover, 3) * 25 - Math.abs(d - (minD + maxD) / 2) * .15 + eng.rng() * 40;
+    const sc = -lit * 400 + Math.min(cover, 3) * 25 - Math.abs(d - (minD + maxD) / 2) * .15 + e.streams.search() * 40;
     if (sc > bs) { bs = sc; best = { x, y }; }
   }
   return best;
@@ -97,14 +97,14 @@ const EC_ON = .4, EC_LAPSE = .3;
 function sAttention(eng, e, tdt) {
   const seen = new Set(e.seenNow);
   for (const id of seen) {
-    const r = e.mem.p.get(id), p = eng.playerById(id), f = facedBy(eng, e, p, r, e.face > .5 ? .55 : 0, e.lit);   // its gleaming face can be met in the dark; the light on it = what it knows (sLit)
+    const r = e.mem.p.get(id), p = r && r.visual, f = facedBy(eng, e, p, r, e.face > .5 ? .55 : 0, e.lit);   // its gleaming face can be met in the dark; the light on it = what it knows (sLit)
     let a = e.att.get(id); if (!a) e.att.set(id, a = { t: 0, lapse: 9, had: false });
     if (f) { a.t += tdt; a.lapse = 0; } else { a.lapse += tdt; if (a.lapse > EC_LAPSE) { if (a.t >= EC_ON) a.had = true; a.t = 0; } }
   }
   for (const [id, a] of e.att) if (!seen.has(id)) { a.lapse += tdt; if (a.lapse > EC_LAPSE) { if (a.t >= EC_ON) a.had = true; a.t = 0; } if (!eng.byId.has(id)) e.att.delete(id); }
 }
 const heldBy = (e, id) => { const a = e.att.get(id); return !!a && a.t >= EC_ON; };
-function watcher(e) { for (const [id, a] of e.att) if (a.t >= EC_ON) return id; return 0; }
+function watcher(e) { for (const [id, a] of [...e.att].sort((a,b) => a[0]-b[0])) if (a.t >= EC_ON) return id; return 0; }
 /* how fast a seen player is moving away from the creature (+) or toward it (-), from consecutive sightings */
 function sRadial(eng, e, r, tdt) {
   const P = perc(eng, e, r), d = Math.hypot(P.x - e.x, P.y - e.y);
@@ -131,7 +131,7 @@ function sChoose(eng, e) {
   for (const r of e.mem.p.values()) {
     if (tgtGone(eng, e, r)) continue;
     if (!r.seen && (now - r.seenAt > 2.5 || r.conf < .3)) continue;
-    const s = sScore(eng, e, r); if (s > bs) { bs = s; best = r; }
+    const s = sScore(eng, e, r); if (s > bs || (s === bs && (!best || r.id < best.id))) { bs = s; best = r; }
   }
   if (!best) return null;
   const cur = e.target > 0 ? e.mem.p.get(e.target) : null;
@@ -218,7 +218,7 @@ function sThink(eng, e) {
       const r = sChoose(eng, e); if (r && r.seen) { beginWatch(eng, e, r, `P${r.id} in view${r.light ? ' with a light' : ''}`); return; }
       const L = e.inv && e.mem.leads.find(q => q.id === e.inv.lead);
       if (L && L.c * (.5 + L.sal) >= Pm.leadMin) { beginDrawn(eng, e, { x: L.x, y: L.y, u: L.u, k: L.k, lead: L.id, dir: L.dir }, `drawn to a ${L.k} lead (±${Math.round(L.u)} px)`); return; }
-      if (nz && nz.weak && nz.d < 900 && nz.h.I > .15 && eng.rng() < .35 * e.pz.curiosity) { beginDrawn(eng, e, { x: nz.h.x, y: nz.h.y, u: nz.h.unc, k: 'sound' }, `a ${nz.h.type} it heard`); return; }
+      if (nz && nz.weak && nz.d < 900 && nz.h.I > .15 && e.rng() < .35 * e.pz.curiosity) { beginDrawn(eng, e, { x: nz.h.x, y: nz.h.y, u: nz.h.unc, k: 'sound' }, `a ${nz.h.type} it heard`); return; }
       if (e.lurkT > Pm.lurkFor) beginWithdraw(eng, e, 'restless: moves to another dark spot');
       return;
     }
@@ -318,7 +318,7 @@ function sMove(eng, e, dt) {
           if (G.legs >= G.maxLegs) { beginWithdraw(eng, e, `looked at the ${G.k} and found nobody: it was wrong`); return null; }
           // a likely opening from here: the open directions, the one the light came from first (if it knows), not the way it came
           let best = null, bs = -1e9; const back = G.x0 !== undefined ? Math.atan2(G.y0 - e.y, G.x0 - e.x) : e.ang + Math.PI;
-          for (let i = 0; i < 8; i++) { const a = i / 8 * TAU, L = eng.geo.ray(e.x, e.y, a, 520); if (L < 200) continue; const sc = Math.min(L, 520) * .3 + (G.dir !== undefined ? Math.cos(angDiff(a, G.dir)) * 120 : 0) - (Math.cos(angDiff(a, back)) > .7 ? 150 : 0) + eng.rng() * 90; if (sc > bs) { bs = sc; best = a; } }
+          for (let i = 0; i < 8; i++) { const a = i / 8 * TAU, L = eng.geo.ray(e.x, e.y, a, 520); if (L < 200) continue; let sc = Math.min(L, 520) * .3 + (G.dir !== undefined ? Math.cos(angDiff(a, G.dir)) * 120 : 0) - (Math.cos(angDiff(a, back)) > .7 ? 150 : 0) + e.streams.search() * 90; if (G.k === 'lost') sc = habitBias(e, e.target, e.x + Math.cos(a)*300, e.y + Math.sin(a)*300, sc); if (sc > bs) { bs = sc; best = a; } }
           G.legs++; if (best === null) { beginWithdraw(eng, e, `nowhere to look from the ${G.k}`); return null; }
           const D = Math.min(380, eng.geo.ray(e.x, e.y, best, 420) - 40); G.x0 = e.x; G.y0 = e.y; G.x = e.x + Math.cos(best) * D; G.y = e.y + Math.sin(best) * D; G.phase = 'go'; plan(eng, e, G.x, G.y); setAct(e, 'search');
           sWhy(eng, e, `searching from the ${G.k}: leg ${G.legs}/${G.maxLegs}`);
@@ -336,7 +336,7 @@ function sMove(eng, e, dt) {
         const retreating = (r.dRate || 0) > 25;
         if (!retreating && d > Pm.loom + 20) { setAct(e, 'creep'); goTo(eng, e, P.x, P.y, { every: .6 }); follow(eng, e, dt, sp.creep, { arrive: Pm.loom }); }
         else if (!retreating) {                                                  // up close and held: it shifts sideways, so the one watching must keep finding it
-          setAct(e, 'drift'); e.driftT -= dt; if (e.driftT <= 0) { e.driftT = rand(eng, 1.5, 3.5); e.drift = -e.drift; }
+          setAct(e, 'drift'); e.driftT -= dt; if (e.driftT <= 0) { e.driftT = rand(e, 1.5, 3.5); e.drift = -e.drift; }
           const a = Math.atan2(e.y - P.y, e.x - P.x) + e.drift * dt * (sp.drift / Math.max(80, d)), tx = P.x + Math.cos(a) * d, ty = P.y + Math.sin(a) * d;
           if (eng.geo.clear(tx, ty, e.rc, 'walk')) { e.moved = moveCollide(eng, e, tx - e.x, ty - e.y); e.speed = sp.drift; } else { e.drift = -e.drift; stopMoving(eng, e, dt); }
         } else { setAct(e, 'hold'); stopMoving(eng, e, dt); }
@@ -381,7 +381,7 @@ function smilerTick(eng, e, dt, thinkNow) {
 function sPlayTick(eng, e, cap, pv, dt) {
   if (!pv) return;
   const P = cap.plan, d = dist(e.x, e.y, pv.x, pv.y); sFace(e, 1);
-  if (!P || eng.now > P.until) { const act = pickW(eng.rng, [{ k: 'stare', w: 1.3 }, { k: 'back', w: 1 }]); cap.plan = { act, until: eng.now + rand(eng, 1.6, 4) }; cap.plays++; setAct(e, act); }
+  if (!P || eng.now > P.until) { const act = pickW(e.rng, [{ k: 'stare', w: 1.3 }, { k: 'back', w: 1 }]); cap.plan = { act, until: eng.now + rand(e, 1.6, 4) }; cap.plays++; setAct(e, act); }
   const p = cap.plan; cap.drag = null;
   if (p.act === 'back' && d < 420) { const away = Math.atan2(e.y - pv.y, e.x - pv.x), tx = e.x + Math.cos(away) * 60, ty = e.y + Math.sin(away) * 60; if (eng.geo.clear(tx, ty, 21, 'walk')) { e.speed = approach(e.speed, 70, 400 * dt); e.moved = moveCollide(eng, e, Math.cos(away) * e.speed * dt, Math.sin(away) * e.speed * dt); } else stopMoving(eng, e, dt); }
   else stopMoving(eng, e, dt);
@@ -398,7 +398,7 @@ SMILER.capture = {
   },
   onBegin(eng, e, cap, pv) { setState(e, S.PLAYING, 'stare'); },
   playTick(eng, e, cap, pv, dt) { sPlayTick(eng, e, cap, pv, dt); },
-  decide(eng, e, cap, pv) { const r = eng.rng(); return cap.plays > 1 && r < .5 ? 'kill' : cap.plays > 2 && r < .7 ? 'release' : 'continue'; },
+  decide(eng, e, cap, pv) { const r = e.rng(); return cap.plays > 1 && r < .5 ? 'kill' : cap.plays > 2 && r < .7 ? 'release' : 'continue'; },
   onInterrupt(eng, e, cap, pv, ctx, x) { return ctx.approaching > 0 || ctx.danger > .8 ? 'kill' : 'continue'; },
   onRelease(eng, e, cap, pv) { setAct(e, 'back'); },
   releaseTick(eng, e, cap, pv, dt) { stopMoving(eng, e, dt); faceToward(e, pv.x, pv.y, dt, 2.5); sFace(e, 1); },

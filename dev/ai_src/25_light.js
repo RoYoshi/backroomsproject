@@ -91,16 +91,19 @@ function lightSense(eng, e) {
   for (const b of beamsOf(eng)) { if (Math.hypot(b.o.x - e.x, b.o.y - e.y) > 1900 + b.range) continue; const o = observeBeam(eng, e, b); if (o) obs.push(o); }
   if (eng.obsHook) obs = eng.obsHook(e, obs) || [];                          // (tests: record / replay exactly what the entity observed)
   e.lightObs = obs.length;
+  obs.sort((a,b) => { const A=a.src||a.pts[0]||a.air[0]||{}, B=b.src||b.pts[0]||b.air[0]||{}; return (A.x||0)-(B.x||0) || (A.y||0)-(B.y||0); });
   for (const o of obs) {
     const L = inferLead(e, o, eng.geo); if (!L) continue;
     if (L.k === 'source') {                                                   // a light it sees in the hand of somebody it is looking at right now: that is their light
-      let own = null; for (const id of e.seenNow) { const p = eng.playerById(id); if (p && Math.hypot(p.x - L.x, p.y - L.y) < 60) { own = e.mem.p.get(id); break; } }
+      const owners = [...e.seenNow].map(id=>e.mem.p.get(id)).filter(r=>r.visual && r.light && Math.hypot(r.visual.x-L.x,r.visual.y-L.y)<60); const own=owners.length===1?owners[0]:null;
       if (own) { noteEv(own, 'light', L.x, L.y, L.u, L.c, eng.now); if (L.flash) e.flashAt = eng.now; e.dbg.light = `source (in the hand of P${own.id}) @${eng.now.toFixed(1)}`; continue; }
     }
     const q = addLead(e, eng.now, L);
     if (L.flash) e.flashAt = eng.now;
     e.dbg.light = `${L.k} c${L.c.toFixed(2)} u${Math.round(L.u)}${o.fresh ? ' fresh' : ''}${o.moved ? ' moving' : ''} @${eng.now.toFixed(1)}`;
-    if (!e.inv || (e.inv.lead !== q.id && q.c * (.5 + q.sal) > (e.inv.c || 0) * 1.25)) e.inv = { lead: q.id, x: q.x, y: q.y, u: q.u, c: q.c * (.5 + q.sal), k: q.k, t: eng.now };   // what it would look into (stages 2D/2E act on it)
-    else if (e.inv.lead === q.id) Object.assign(e.inv, { x: q.x, y: q.y, u: q.u, t: eng.now });
+
   }
+  const best = bestAnonLead(e, eng.now, 'light'), current=e.inv&&e.mem.leads.find(q=>q.id===e.inv.lead&&q.k!=='sound');
+  if(best && (!current || best.id===current.id || observationScore(e,best,eng.now)>observationScore(e,current,eng.now)*1.25)) e.inv={lead:best.id,x:best.x,y:best.y,u:best.u,c:best.c*(.5+best.sal),k:best.k,t:best.t};
+
 }

@@ -1,0 +1,32 @@
+{
+  "cwd": "/workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/../../Portable Stage 2F Check/thefarbackrooms-level0",
+  "commands": [
+    {
+      "name": "portable-build-ai",
+      "exit": 0
+    },
+    {
+      "name": "portable-build-sim",
+      "exit": 0
+    },
+    {
+      "name": "portable-build-ents",
+      "exit": 0
+    },
+    {
+      "name": "portable-full-suite",
+      "exit": 1
+    }
+  ],
+  "generated_match": true,
+  "before": {
+    "ai.js": "2b2e86b25ed39e95249fd7b15076bbe251a284bb5ab1f6c3265fb5e8f34150f7",
+    "sim.js": "408470aebf62fc1adc7869cc96a0e1da504c49cf6aaab642b1082694b0e11caa",
+    "ents.js": "1e887f1802358e3090ac00dc74cef69300fc71e36d25a4c031cb46657fd344ae"
+  },
+  "after": {
+    "ai.js": "2b2e86b25ed39e95249fd7b15076bbe251a284bb5ab1f6c3265fb5e8f34150f7",
+    "sim.js": "408470aebf62fc1adc7869cc96a0e1da504c49cf6aaab642b1082694b0e11caa",
+    "ents.js": "1e887f1802358e3090ac00dc74cef69300fc71e36d25a4c031cb46657fd344ae"
+  }
+}

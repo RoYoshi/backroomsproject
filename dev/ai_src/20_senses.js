@@ -11,12 +11,13 @@ const KIND_GLARE = { flashlight: 1, headlamp: .85, lantern: .8 };  // (v23: the 
  *   ANONYMOUS   e.mem.leads - things it noticed that it cannot pin on anybody: a lit wall, a beam crossing a doorway, a light source seen
  *                          without the person behind it.  pid is always null.  A lead is an INVESTIGATION GOAL (e.inv), never a target.
  *                          It becomes attributed only when the entity then sees a player where the lead points (attributeLeads).
- * Records are created only by sight (and, as in Part 1, by hearing - see hearEvent: sound identity is a known 2F item).  Nothing here
+ * Records are created by sight or explicit admin/contact paths; unidentified hearing creates anonymous leads.  Nothing here
  * reads where an unsensed player really is. */
 const EV_MAX = 4, LEAD_MAX = 6, LEAD_MAXAGE = 45;
-function newMemory() { return { p: new Map(), sounds: [], others: new Map(), visited: new Map(), leads: [], leadId: 0 }; }
+function newMemory() { return { p: new Map(), sounds: [], others: new Map(), visited: new Map(), leads: [], leadId: 0, soundId: 0, habits: new Map(), hypotheses: [] }; }
 function rec(e, id) {
   let r = e.mem.p.get(id);
+  if (!r && e.mem.p.size >= INTEL.players) { const old = [...e.mem.p.values()].sort((a,b) => Math.max(a.seenAt,a.heardAt)-Math.max(b.seenAt,b.heardAt) || a.id-b.id)[0]; forgetIdentity(e, old.id); }
   if (!r) e.mem.p.set(id, r = { id, aw: 0, seen: false, seenAt: -99, heardAt: -99, lkx: 0, lky: 0, lvx: 0, lvy: 0, conf: 0, hx: 0, hy: 0, st: 0, stamina: 100, ex: 0, prof: 1, light: false, iso: 0, first: -99, lost: 0, hLoud: -99, hvx: 0, hvy: 0, crawl: null, crawlAt: -99, ev: [], downAt: -99, heldAt: -99 });
   return r;
 }
@@ -30,6 +31,7 @@ function noteEv(r, k, x, y, u, c, t) {
 function addLead(e, now, L) {
   const leads = e.mem.leads;
   for (const q of leads) {
+    if (evidenceModality(q.k) !== evidenceModality(L.k)) continue;
     if (now - q.t > 6 || Math.hypot(q.x - L.x, q.y - L.y) > (q.u + L.u) * .6) continue;
     const w = L.c / (L.c + q.c * .8);
     q.x += (L.x - q.x) * w; q.y += (L.y - q.y) * w; q.u = Math.max(L.u * .75, Math.min(q.u, L.u) * .95);          // seeing the same thing again firms it up a little, never past what one look can tell
@@ -44,20 +46,21 @@ function addLead(e, now, L) {
 function attributeLeads(e, r, p, now) {
   const leads = e.mem.leads;
   for (let i = leads.length - 1; i >= 0; i--) {
-    const L = leads[i]; if (now - L.t > 8 || Math.hypot(L.x - p.x, L.y - p.y) > L.u + 120) continue;
+    const L = leads[i]; if (L.k !== 'source' || !p.light || now - L.t > .5 || Math.hypot(L.x-p.x,L.y-p.y)>60) continue;
+    const owners=[...e.seenNow].map(id=>e.mem.p.get(id)).filter(r=>r.visual&&r.light&&Math.hypot(r.visual.x-L.x,r.visual.y-L.y)<60); if(owners.length!==1||owners[0].id!==r.id) continue;
     noteEv(r, 'light', L.x, L.y, L.u, L.c, L.t); leads.splice(i, 1);
     if (e.inv && e.inv.lead === L.id) e.inv = null;
   }
 }
 /* the strongest anonymous lead (an investigation goal, not a target) */
-function bestAnonLead(e, now) {
+function bestAnonLead(e, now, modality) {
   let best = null, bs = 0;
-  for (const L of e.mem.leads) { const s = L.c * (1 - Math.min(1, (now - L.t) / 30)) + L.sal * .3; if (s > bs) { bs = s; best = L; } }
+  for (const L of e.mem.leads) { if (modality && evidenceModality(L.k) !== modality) continue; const s = observationScore(e, L, now) + L.sal * .3; if (s > bs) { bs = s; best = L; } }
   return best;
 }
 /* where the entity believes a player is: the body itself while it is seen, otherwise its memory (never the truth) */
 function perc(eng, e, r) {
-  if (r.seen) { const p = eng.playerById(r.id); if (p) return { x: p.x, y: p.y, vx: p.vx, vy: p.vy, sp: Math.hypot(p.vx, p.vy), angle: p.angle, seen: true, p }; }
+  if (r.seen) { const p = r.visual; if (p) return { x: p.x, y: p.y, vx: p.vx, vy: p.vy, sp: Math.hypot(p.vx, p.vy), angle: p.angle, seen: true, p }; }
   const est = estimate(e, r, eng.now, eng.geo); return { x: est.x, y: est.y, vx: r.lvx, vy: r.lvy, sp: Math.hypot(r.lvx, r.lvy), seen: false, p: null, unc: est.unc };
 }
 /* a body in physical contact (capture range): contact is physics, not perception */
@@ -66,7 +69,7 @@ function touching(eng, e, id, reach) { const p = eng.playerById(id); return p &&
  * game (record deleted) is housekeeping */
 function tgtGone(eng, e, r) {
   if (!r || !eng.byId.has(r.id)) return true;
-  if (r.seen) { const p = eng.playerById(r.id); return !p || !p.alive || !!p.caught; }
+  if (r.seen && r.visual) return !r.visual.alive || !!r.visual.caught;
   return (r.downAt > -50 && r.downAt >= r.seenAt - .01) || (r.heldAt > -50 && r.heldAt >= r.seenAt - .01);
 }
 /* target commitment: once it has picked somebody it keeps them for a moment unless it has truly lost them (no per-tick flicker between two people) */
@@ -95,13 +98,10 @@ function estimate(e, r, now, geo) {
   return { x: r.lkx + r.lvx * k * D, y: r.lky + r.lvy * k * D, unc: 60 + Math.min(1100, sp * age * .5 + age * 18) };
 }
 
-function updateVision(e, eng, dt, cands) {
-  const geo = eng.geo, now = eng.now, cfg = e.sp.vision;
-  e.seenNow.clear();
-  for (const r0 of e.mem.p.values()) r0.seen = false;
-  for (const p of cands) {
-    if (!p.alive) continue;
-    let r = e.mem.p.get(p.id); const dx = p.x - e.x, dy = p.y - e.y, d = Math.hypot(dx, dy);        // (v23: no record is made for somebody it does not see)
+function visualObservation(e, eng, p) {
+  const geo = eng.geo, cfg = e.sp.vision;
+  if (!p.alive) return {vis:false,strength:0,d:Infinity};
+  const dx = p.x - e.x, dy = p.y - e.y, d = Math.hypot(dx, dy);        // (v23: no record is made for somebody it does not see)
     let vis = false, strength = 0;
     const stName = W_SN[p.st] || 'stand';
     let range = cfg.range * (.5 + .7 * e.tr.VISION);
@@ -117,7 +117,17 @@ function updateVision(e, eng, dt, cands) {
       const cz = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y) : null;
       if (inFov && (!cz || d < cz.reveal) && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
     }
-    if (!vis) { if (r) r.dist = d; continue; }
+  return { vis, strength, d };
+}
+
+function updateVision(e, eng, dt, cands) {
+  const geo = eng.geo, now = eng.now, cfg = e.sp.vision;
+  e.seenNow.clear();
+  for (const r0 of e.mem.p.values()) r0.seen = false;
+  for (const p of cands) {
+    if (!p.alive) continue;
+    let r = e.mem.p.get(p.id); const {vis, strength, d} = visualObservation(e, eng, p);
+    if (!vis) continue;
     if (!r) r = rec(e, p.id);
     r.seen = vis; r.dist = d;
     if (vis) {
@@ -126,11 +136,13 @@ function updateVision(e, eng, dt, cands) {
       if (r.seenAt < now - 6) r.first = now;
       const cw = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y, 34) : null; if (cw) { r.crawl = cw.id; r.crawlAt = now; } else if (now - r.crawlAt > 2) r.crawl = null;   // seen going into (or at the mouth of) a crawlspace: remembered
       r.seenAt = now; r.lkx = p.x; r.lky = p.y; r.lvx = p.vx; r.lvy = p.vy; r.conf = 1; r.st = p.st; r.stamina = p.stamina; r.ex = p.ex; r.prof = p.prof; r.light = p.light; r.lost = 0;
+      r.visual = {id:p.id,x:p.x,y:p.y,vx:p.vx,vy:p.vy,angle:p.angle,alive:p.alive,caught:!!p.caught,st:p.st,ex:p.ex,t:now};
+      habitObserve(e, r, now);
       noteEv(r, 'see', p.x, p.y, 16, 1, now);
-      if (e.mem.leads.length) attributeLeads(e, r, p, now);
       e.seenNow.add(p.id);
     }
   }
+  for (const id of e.seenNow) { const r=e.mem.p.get(id); if(e.mem.leads.length) attributeLeads(e,r,{...r.visual,light:r.light},now); }
   // a body it can see lying where it last saw that person: it knows they are down (a dead player is no longer a candidate, so this looks at
   // the records it already has, and only at a spot in its own view)
   if (e.tier === 'near') for (const r0 of e.mem.p.values()) {
@@ -145,7 +157,8 @@ function updateVision(e, eng, dt, cands) {
 /* the sound bus delivers each event to every entity once */
 function hearEvent(e, eng, ev) {
   const geo = eng.geo, d = Math.hypot(ev.x - e.x, ev.y - e.y);
-  const focus = ev.src > 0 && ev.src === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
+  const identified = identifySound(eng, e, ev);
+  const focus = identified && identified.id === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
   let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * focus * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
   if (d > eff * 1.05) return;
   const clear = geo.los(e.x, e.y, ev.x, ev.y);
@@ -154,12 +167,12 @@ function hearEvent(e, eng, ev) {
   const I = ev.I * Math.pow(1 - d / eff, .7);
   if (I < .03) return;
   const unc = (26 + d * .16) * (clear ? 1 : 1.75) * (1.55 - e.tr.INTELLIGENCE * .45) * (1.4 - e.tr.HEARING * .35) * (ev.type === 'breath' ? 1.5 : 1);
-  const a = eng.rng() * TAU, m = Math.sqrt(eng.rng()) * unc, hx = ev.x + Math.cos(a) * m, hy = ev.y + Math.sin(a) * m;
-  const h = { x: hx, y: hy, I, type: ev.type, t: eng.now, src: ev.src, unc, clear, ox: ev.x, oy: ev.y };
+  const a = e.streams.perception() * TAU, m = Math.sqrt(e.streams.perception()) * unc, hx = ev.x + Math.cos(a) * m, hy = ev.y + Math.sin(a) * m;
+  const h = { id: ++e.mem.soundId, x: hx, y: hy, I, type: ev.type, t: eng.now, src: identified ? identified.id : (ev.ent || ev.src < 0) ? -1 : 0, pid: identified ? identified.id : null, attribution: identified ? 'identified' : 'anonymous', modality: 'sound', c: Math.min(1,.4+.5*I), u: unc, unc, clear };
   e.hear = h; e.heardCount = (e.heardCount || 0) + 1;
   e.mem.sounds.unshift(h); if (e.mem.sounds.length > 8) e.mem.sounds.pop();
-  if (ev.src > 0) {
-    const r = rec(e, ev.src);
+  if (identified) {
+    const r = identified;
     const loud = I > .3 || ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land';
     if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (hx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (hy - r.hy) / pdt, .5); } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
     r.heardAt = eng.now; r.hx = hx; r.hy = hy; r.aw = Math.min(1, r.aw + I * .9);
@@ -173,6 +186,7 @@ function hearEvent(e, eng, ev) {
       if (loud && Math.hypot(r.hvx, r.hvy) > 1) { r.lvx = r.hvx; r.lvy = r.hvy; }
     }
   }
+  if (!identified && h.src === 0) addLead(e, eng.now, {k:'sound',x:h.x,y:h.y,u:h.unc,c:h.c,sal:h.I,type:h.type});
   return h;
 }
 
@@ -210,7 +224,7 @@ function threatsAround(e, eng, victimId, cands) {
     if (r.id === victimId || tgtGone(eng, e, r)) continue;
     let cert = 0, how = '', x = r.lkx, y = r.lky, vxh = 0, vyh = 0;
     const lt = r.ev && r.ev.find(q => q.k === 'light' && now - q.t < 2.6);
-    if (r.seen) { const p = eng.playerById(r.id); cert = 1; how = 'seen'; x = p.x; y = p.y; vxh = p.vx; vyh = p.vy; }
+    if (r.seen && r.visual) { const p = r.visual; cert = 1; how = 'seen'; x = p.x; y = p.y; vxh = p.vx; vyh = p.vy; }
     else if (now - r.heardAt < 2.6 && Math.hypot(r.hx - vx, r.hy - vy) < 1100) { cert = .65; how = 'heard'; x = r.hx; y = r.hy; vxh = r.hvx; vyh = r.hvy; }
     else if (lt && Math.hypot(lt.x - vx, lt.y - vy) < 1700) { cert = .6; how = 'light'; x = lt.x; y = lt.y; }
     else if (now - r.seenAt < 9 && Math.hypot(r.lkx - vx, r.lky - vy) < 650) { cert = .42 * (1 - (now - r.seenAt) / 9); how = 'together'; }
@@ -221,7 +235,7 @@ function threatsAround(e, eng, victimId, cands) {
   }
   for (const L of e.mem.leads) {
     if (now - L.t > 2.6) continue; const d = Math.hypot(L.x - vx, L.y - vy); if (d > 1100) continue;
-    out.push({ id: 0, cert: .45, how: 'light-anon', dist: d, approaching: false, x: L.x, y: L.y, seesUs: false });
+    out.push({ id: 0, cert: .45, how: L.k === 'sound' ? 'sound-anon' : 'light-anon', dist: d, approaching: false, x: L.x, y: L.y, seesUs: false });
   }
   return out;
 }

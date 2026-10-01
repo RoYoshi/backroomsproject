@@ -1,0 +1,33 @@
+PASS walk: 600 identical real move.js ticks
+PASS sprint: 600 identical real move.js ticks
+PASS crouch: 600 identical real move.js ticks
+PASS crawl: 600 identical real move.js ticks
+PASS slide: 600 identical real move.js ticks
+PASS vault: 600 identical real move.js ticks
+PASS deep: 600 identical real move.js ticks
+node:internal/assert/utils:77
+    throw err;
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(out[i][4]>=36&&out[i-1][4]<36)
+
+    at run (/workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/dev/tests/movement_parity2f.js:10:141)
+    at Object.<anonymous> (/workspace/scratch/cdfe50b4dc2b/stage2f/work/thefarbackrooms-level0/dev/tests/movement_parity2f.js:11:106)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

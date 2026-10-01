@@ -10,9 +10,9 @@ const EV_NOISE = {                                                   // discrete
 };
 
 function create(cfg) {
-  const rng = cfg.rng || Math.random;
+  const seed = (cfg.seed ?? 1) >>> 0, rng = mkRng(deriveSeed(seed, 'world'));
   const eng = {
-    rng, geo: new Geo(cfg.adapter), now: 0, ticks: 0, entities: [], nextId: 1, caps: [], capId: 0, sites: [], recentKills: {}, pressure: 0,
+    rng, seed, geo: new Geo(cfg.adapter), now: 0, ticks: 0, entities: [], nextId: 1, caps: [], capId: 0, sites: [], recentKills: {}, pressure: 0,
     events: [], sounds: [], pl: [], byId: new Map(), hash: new Hash(), lights: [], pst: new Map(), packT: 0,
     stats: { sense: 0, paths: 0, sounds: 0, capture: 0 },
     debugOn: false, forceCapture: null, log: [], logSeq: 0,
@@ -34,14 +34,17 @@ function create(cfg) {
 
   /* ------------------------------------------------------------ what the engine may know about people: a list handed in every step */
   eng.setPlayers = function (list) {
-    this.pl = list; this.byId.clear(); this.hash.clear(); this.lights.length = 0;
-    for (const p of list) {
+    const incoming = new Set(list.map(p => p.id)); for (const id of this.byId.keys()) if (!incoming.has(id)) this.forgetPlayer(id);
+    this.pl = list.slice().sort((a, b) => a.id - b.id); this.byId.clear(); this.hash.clear(); this.lights.length = 0;
+    for (const p of this.pl) {
       this.byId.set(p.id, p);
       if (p.alive) { this.hash.add(p, p.x, p.y); if (p.light) this.lights.push(p); }
     }
   };
+  eng.forgetPlayer = function (id) { this.pst.delete(id);this.beamHist?.delete(id);this.beams=null;this.beamsT=0; for (const e of this.entities) forgetIdentity(e, id); };
+  eng.endHabits = function (id) { for (const e of this.entities) { e.mem.habits.delete(id); e.mem.hypotheses = e.mem.hypotheses.filter(h => h.pid !== id); if(e.dbg.habit?.pid===id)e.dbg.habit=null; const r = e.mem.p.get(id); if (r) r.habitLast = null; } };
   eng.playerById = function (id) { return this.byId.get(id) || null; };
-  eng.nearPlayers = function (x, y, r) { const out = []; this.hash.near(x, y, r, p => { if (Math.hypot(p.x - x, p.y - y) <= r) out.push(p); }); return out; };
+  eng.nearPlayers = function (x, y, r) { const out = []; this.hash.near(x, y, r, p => { if (Math.hypot(p.x - x, p.y - y) <= r) out.push(p); }); return out.sort((a, b) => a.id - b.id); };
   eng.candidates = function (e, r) { return this.nearPlayers(e.x, e.y, r); };
   eng.nearestPlayerDist = function (x, y) { let b = 1e9; for (const p of this.pl) if (p.alive) { const d = Math.hypot(p.x - x, p.y - y); if (d < b) b = d; } return b; };
   eng.lightPlayers = function () { return this.lights; };
@@ -105,7 +108,8 @@ function create(cfg) {
 
   /* ------------------------------------------------------------ spawning */
   eng.spawn = function (kind, x, y, opts) {
-    const e = mkEntity(this, kind, this.nextId++, x, y, opts || {});
+    const id = opts && opts.id !== undefined ? opts.id : this.nextId; if (!Number.isSafeInteger(id) || id < 1 || this.entities.some(e => e.id === id)) throw Error('invalid/duplicate entity id'); this.nextId = Math.max(this.nextId, id + 1);
+    const e = mkEntity(this, kind, id, x, y, opts || {});
     e.tierT = 0; e.senseDt = 0; e.wd = { x, y, t: 0 }; this.entities.push(e);
     return e;
   };
@@ -115,7 +119,7 @@ function create(cfg) {
     this.entities.splice(i, 1); return true;
   };
   eng.count = function (kind) { let n = 0; for (const e of this.entities) if (e.kind === kind) n++; return n; };
-  eng.clear = function () { for (const e of this.entities.slice()) this.remove(e.id); this.caps.length = 0; this.sites.length = 0; this.recentKills = {}; this.sounds.length = 0; geo.fails.length = 0; this.pst.clear(); };
+  eng.clear = function () { for (const e of this.entities.slice()) this.remove(e.id); this.caps.length = 0; this.sites.length = 0; this.recentKills = {}; this.sounds.length = 0; geo.fails.length = 0; this.pst.clear();this.beams=null;this.beamsT=0;this.beamHist?.clear(); };
 
   /* ------------------------------------------------------------ one entity, one step */
   function sense(e, dt) {
@@ -125,12 +129,15 @@ function create(cfg) {
     updateVision(e, eng, dt, cands);
     if (e.tier === 'near') lightSense(eng, e);                          // (Part 2 / 2C) visible light as evidence, 4 Hz, near tier only
     decayMemory(e, dt, eng.now);
+    cleanupKnowledge(eng, e);
+    e.mem.p = new Map([...e.mem.p].sort((a,b) => a[0]-b[0]));
+    arbitrateEvidence(eng, e);
     moodTick(e, dt);
   }
   function onTier(e, nt) {
     const was = e.tier; e.tier = nt;
-    if (nt === 'far') e.farSince = eng.now;
-    if (was === 'far' && e.farSince !== undefined) { decayMemory(e, Math.max(0, eng.now - e.farSince), eng.now); e.farSince = undefined; }     // a sleeper's memory of the last hours fades all the same
+    if (nt === 'far') {e.farSince = eng.now;e.seenNow.clear();for(const r of e.mem.p.values())r.seen=false;}
+    if (was === 'far' && e.farSince !== undefined) { e.farSince = undefined; }     // a sleeper's memory of the last hours fades all the same
     if (nt === 'far' && (e.state === S.HUNTING || e.state === S.SEARCHING || e.state === S.STALKING)) e.dbg.disengage = 'lost track: the prey is far out of range';
     if (nt === 'far' && !e.cap) { e.path = []; e.trav = null; e.lunge = null; e.speed = 0; if (e.kind === 'hound') { if (e.state !== S.DORMANT) { setState(e, S.DORMANT); if (e.roam) e.roam.goal = null; } e.farT = 0; } else if (e.state !== S.HIDDEN) beginHidden(eng, e); }
     if (was === 'far' && nt !== 'far') { e.wake = 1; e.thinkT = 0; if (e.state === S.DORMANT && e.kind === 'hound') setState(e, S.ROAMING); }
@@ -139,7 +146,7 @@ function create(cfg) {
     e.speed = 0; if (e.cap) return;
     if (e.kind === 'hound') {
       e.farT = (e.farT || 0) - dt;
-      if (!e.path.length && e.farT <= 0) { const g = randomFloor(eng, e, 900, 2800); if (g) plan(eng, e, g.x, g.y); e.farT = rand(eng, 3, 12); }
+      if (!e.path.length && e.farT <= 0) { const g = randomFloor(eng, e, 900, 2800); if (g) plan(eng, e, g.x, g.y); e.farT = rand(e, 3, 12); }
       coarseMove(eng, e, dt);
     }
   }
@@ -180,14 +187,16 @@ function create(cfg) {
 
   eng.step = function (dt) {
     const now = (this.now += dt); geo.now = now; this.ticks++;
+    this.entities.sort((a, b) => a.id - b.id);
     playerNoise(dt);
     if (geo.fails.length) geo.fails = geo.fails.filter(f => f.until > now);
     for (const e of this.entities) {
       if (e.state !== e.lgS) { if (e.lgS !== undefined) this.note(`${tagOf(e.kind, e.id)} ${e.lgS} -> ${e.state}${e.act ? ' /' + e.act : ''}`); e.lgS = e.state; }
       e.t += dt; e.stateT += dt; e.actT += dt;
-      e.tierT -= dt; if (e.tierT <= 0) { e.tierT = .4 + this.rng() * .15; const nt = tierOf(e, this); if (nt !== e.tier) onTier(e, nt); }
+      e.tierT -= dt; if (e.tierT <= 0) { e.tierT = .4 + e.streams.schedule() * .15; const nt = tierOf(e, this); if (nt !== e.tier) onTier(e, nt); }
       if (e.deaf > 0) e.deaf -= dt;
-      if (e.tier === 'far') { farStep(e, dt); continue; }
+      if (e.tier === 'far') { e.farMemoryDt = (e.farMemoryDt || 0) + dt; if (e.farMemoryDt >= 1) { decayMemory(e, e.farMemoryDt, now); cleanupKnowledge(this, e); e.farMemoryDt = 0; } farStep(e, dt); continue; }
+      if (e.farMemoryDt) { decayMemory(e, e.farMemoryDt, now); e.farMemoryDt = 0; }
       e.thinkT -= dt; e.senseDt += dt;
       let thinkNow = false;
       if (e.thinkT <= 0) { e.thinkT = e.tier === 'near' ? .1 : .35; thinkNow = true; sense(e, e.senseDt); e.senseDt = 0; }
@@ -316,11 +325,12 @@ function create(cfg) {
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
         sm: e.kind === 'smiler' ? e.dbg.sm : undefined,
         hm: e.kind === 'hound' ? hDebug(this, e) : undefined,
+        intel: intelligenceDebug(this, e),
       });
     }
     return out;
   };
   return eng;
 }
-return { create, S, SNAMES, SCODE, HACT, SACT, TRAITS, SPECIES, HOUND, SMILER, mkRng, Geo, hearEvent, TIER };
+return { create, S, SNAMES, SCODE, HACT, SACT, TRAITS, SPECIES, HOUND, SMILER, mkRng, deriveSeed, Geo, hearEvent, TIER, INTEL, evidenceCandidates, observationScore, habitObserve, cleanHabits, habitBias, arbitrateEvidence };
 });
