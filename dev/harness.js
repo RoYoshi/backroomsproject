@@ -69,7 +69,9 @@ function World(seed = 1, opts = {}) {
       else { ix = dx; iy = dy; } }
     M.step(ix, iy, mode === 'run', mode === 'crouch' || mode === 'crawl', DT, p.slideNow); p.slideNow = false;
     const sp = Math.hypot(H.vx, H.vy);
-    if (ix || iy) p.angle = Math.atan2(iy, ix); H.angle = p.angle;
+    if (p.look !== undefined && p.look !== null) p.angle = typeof p.look === 'function' ? p.look() : p.look;   // where the player looks (mouse aim), independent of where it walks
+    else if (ix || iy) p.angle = Math.atan2(iy, ix);
+    H.angle = p.angle;
     p.x = H.x; p.y = H.y; p.vx = H.vx; p.vy = H.vy; p.stamina = H.stamina; p.ex = H.exhausted ? 1 : 0; p.sprinting = !!H.sprinting;
     sim.hearMove(p, M.net()); p.stamina = H.stamina;                      // exactly what the client sends (state, speed, stamina, exhaustion, vault / slide noises); the exact stamina stays with the body
     p.wdist = (p.wdist || 0) + sp * DT;

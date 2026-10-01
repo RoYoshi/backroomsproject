@@ -14,7 +14,7 @@ const E = window.__ents = {
   tab: {
     s: ['DORMANT', 'ROAMING', 'CURIOUS', 'ALERT', 'WATCHING', 'STALKING', 'HUNTING', 'SEARCHING', 'CAUTIOUS', 'FRUSTRATED', 'EXCITED', 'FEEDING', 'PLAYING', 'RETREATING', 'HIDDEN', 'FOLLOWING', 'PROVOKED', 'ATTACKING', 'DISAPPEARING'],
     h: ['', 'listen', 'sniff', 'freeze', 'wind', 'lunge', 'recover', 'feed', 'vault', 'circle', 'stare', 'drag', 'growl', 'rest', 'pace', 'back', 'guard'],
-    m: ['', 'watch', 'follow', 'wait', 'creep', 'rush', 'fade', 'cornered', 'lightfail', 'stare', 'back', 'circle', 'block', 'hold'],
+    m: ['', 'watch', 'follow', 'wait', 'creep', 'rush', 'fade', 'cornered', 'lightfail', 'stare', 'back', 'circle', 'block', 'hold', 'lurk', 'drawn', 'search', 'chase', 'drift'],   // = SACT (ai_src/60_smiler.js)
   },
   setTables(t) { if (t && t.s && t.h && t.m) E.tab = t; },
 };

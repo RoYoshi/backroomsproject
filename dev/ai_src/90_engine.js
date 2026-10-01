@@ -45,6 +45,12 @@ function create(cfg) {
   eng.candidates = function (e, r) { return this.nearPlayers(e.x, e.y, r); };
   eng.nearestPlayerDist = function (x, y) { let b = 1e9; for (const p of this.pl) if (p.alive) { const d = Math.hypot(p.x - x, p.y - y); if (d < b) b = d; } return b; };
   eng.lightPlayers = function () { return this.lights; };
+  /* SYSTEM FAIRNESS VALIDATOR (Part 2 / 2D) - outside every entity's knowledge.  May a creature settle at (x,y)?  No if that is right behind a
+   * living player close by, or on top of one.  It answers yes / no only; it never says who or where (the entity just tries another spot). */
+  eng.placementOk = function (x, y) {
+    for (const p of this.pl) { if (!p.alive) continue; const d = Math.hypot(x - p.x, y - p.y); if (d < 220) return false; if (d < 650 && Math.abs(angDiff(Math.atan2(y - p.y, x - p.x), p.angle)) > 2.3) return false; }
+    return true;
+  };
   eng.lightFail = function (x, y, r, dur) {
     geo.fails.push({ x, y, r, until: this.now + dur });
     this.emit({ t: 'lightfail', x, y, r, dur });
@@ -258,7 +264,7 @@ function create(cfg) {
     e.x = x; e.y = y; e.path = []; e.trav = null; e.lunge = null; e.speed = 0; e.tier = 'near'; e.tierT = 1;
     const r = rec(e, pid || 0); r.lkx = tx; r.lky = ty; r.conf = 1; r.aw = .9; r.seenAt = this.now; r.heardAt = this.now;
     if (e.kind === 'hound') { beginSearch(this, e, r, 'sound'); e.search.goal = { x: tx, y: ty }; e.search.first = false; setAct(e, ''); }
-    else { setState(e, S.WATCHING, 'watch'); e.target = pid || 0; e.watch = { until: this.now + 8, rid: pid || 0 }; sFace(e, 1); }
+    else { beginDrawn(this, e, { x: tx, y: ty, u: 160, k: 'summon' }, 'admin summon: a lead at the admin'); }
     return true;
   };
 
@@ -308,7 +314,7 @@ function create(cfg) {
         dec: { s: e.state, a: e.act || '', why: e.state === S.HUNTING ? e.huntWhy || '' : e.state === S.SEARCHING ? e.dbg.searchWhy || '' : e.dbg.disengage || '', rt: e.dbg.retarget || '', lt: e.dbg.light || '', fl: e.flashAt !== undefined ? +(this.now - e.flashAt).toFixed(1) : null, tq: e.target > 0 && e.mem.p.get(e.target) ? +e.mem.p.get(e.target).conf.toFixed(2) : null },
         tr: Object.fromEntries(Object.entries(e.tr).map(([k, v]) => [k.slice(0, 4), +v.toFixed(2)])),
         lit: e.lit !== undefined ? +e.lit.toFixed(2) : undefined,
-        sm: e.kind === 'smiler' ? { q: e.quirk || '-', enc: e.dbg.enc || '', le: e.dbg.lightEv || '', ex: +(e.exposed || 0).toFixed(2), rt: e.dbg.returned | 0, bk: e.dbg.backed | 0, sd: e.dbg.stoodDown | 0, iv: e.dbg.investigated | 0 } : undefined,
+        sm: e.kind === 'smiler' ? e.dbg.sm : undefined,
       });
     }
     return out;

@@ -1,3 +1,4 @@
+/* RETIRED in Part 2D (v23.1): these scenarios encode the pre-canon, light-averse Smiler (fades in light, lamp avoidance, light-failure attacks, play captures, quirks).  Superseded by s_smiler.js (canon). Kept for reference only; not run. */
 /* v19: SMILER behaviour design (spec 44-59): encounter memory, micro-behaviours, light-failure variety, disengagement, spawn, rare quirks, and the anti-cheese matrix */
 'use strict';
 const fs = require('fs'), path = require('path');

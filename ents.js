@@ -14,7 +14,7 @@ const E = window.__ents = {
   tab: {
     s: ['DORMANT', 'ROAMING', 'CURIOUS', 'ALERT', 'WATCHING', 'STALKING', 'HUNTING', 'SEARCHING', 'CAUTIOUS', 'FRUSTRATED', 'EXCITED', 'FEEDING', 'PLAYING', 'RETREATING', 'HIDDEN', 'FOLLOWING', 'PROVOKED', 'ATTACKING', 'DISAPPEARING'],
     h: ['', 'listen', 'sniff', 'freeze', 'wind', 'lunge', 'recover', 'feed', 'vault', 'circle', 'stare', 'drag', 'growl', 'rest', 'pace', 'back', 'guard'],
-    m: ['', 'watch', 'follow', 'wait', 'creep', 'rush', 'fade', 'cornered', 'lightfail', 'stare', 'back', 'circle', 'block', 'hold'],
+    m: ['', 'watch', 'follow', 'wait', 'creep', 'rush', 'fade', 'cornered', 'lightfail', 'stare', 'back', 'circle', 'block', 'hold', 'lurk', 'drawn', 'search', 'chase', 'drift'],   // = SACT (ai_src/60_smiler.js)
   },
   setTables(t) { if (t && t.s && t.h && t.m) E.tab = t; },
 };
@@ -255,8 +255,11 @@ E.attackHound = function (view, grip, impact, variant, jl) {
 };
 
 /* ---------------------------------------------------------------- SMILER: darkness with a face
- * A drifting mass of black with long limp arms.  What you remember is the grin: a huge crescent of teeth and two glowing eyes,
- * drawn again on the darkness layer (E.smilerGlow) so it can be seen at the edge of the dark even where nothing lights the body. */
+ * Canon (Entity 3): "reflective eyes and teeth gleaming in the dark", "a long smile with multiple sharp teeth", "white glowing eyes"; the rest of
+ * its biology is unknown (a body that cannot be seen, limbs bent in unnatural ways - rumoured, unconfirmed).  So: the grin and the eyes, and an
+ * amorphous patch of darkness around them.  No limbs (v23 / Part 2D removed the long arms and the hint of legs: those were the rumour drawn).
+ * The face is its own presentation channel: drawn again on the darkness layer (E.smilerGlow) with its own emission, so the scene's darkness
+ * never hides it and the generic entity alpha never dims it. */
 const SC = { black: 0x030404, black2: 0x0a0c0b, rim: 0x1b201d, glow: 0xf1f4dc, glow2: 0xdfe6c8, gap: 0x0a0d0b };
 E.initSmiler = function (view) {
   const Gf = view.body.constructor;
@@ -325,25 +328,14 @@ E.drawSmiler = function (view, sm_, t, dt, vis, o) {
     const a = t * (.25 + (i % 3) * .07) + i * 2.1 + S.seed, r = 10 + (i % 4) * 5;
     mg.ellipse(Math.cos(a) * r * 1.4, 6 + Math.sin(a * 1.2) * r, 15 + (i % 3) * 5, 11 + (i % 2) * 6).fill({ color: SC.black, alpha: .1 + .04 * (i % 3) });
   }
-  // long limp arms, swaying slowly; fingers far too long
+  // (no arms: unconfirmed anatomy is not drawn - Canon Lock)
   const ag = view.arms; ag.clear();
-  S.rch = (S.rch || 0) + ((sm_.act === 'rush' || sm_.state === 'PROVOKED' || commit ? -14 : 0) - (S.rch || 0)) * (1 - Math.exp(-dt * 3.2));   // reach eases in and out: no posture switch to read
-  const sway = Math.sin(t * .8 + S.seed) * 4, reach = S.rch;
-  for (const sx of [-1, 1]) {
-    const bx = sx * 22, sw = sway * sx;
-    const ex = sx * (38 + sw * .4), ey = 22 + reach, hx2 = sx * (46 + sw), hy2 = 56 + reach * 1.5 + Math.sin(t * 1.1 + sx) * 3;
-    ag.moveTo(bx, -2).quadraticCurveTo(ex + sx * 8, ey - 8, hx2, hy2).stroke({ color: SC.black, width: 8, cap: 'round' });
-    ag.moveTo(bx, -2).quadraticCurveTo(ex + sx * 8, ey - 8, hx2, hy2).stroke({ color: SC.black2, width: 3.6, cap: 'round', alpha: .8 });
-    for (let k = 0; k < 5; k++) { const fa = Math.PI / 2 + sx * (-.55 + k * .28) + Math.sin(t * 1.3 + k) * .08, fl = 15 + (k % 2) * 4; ag.moveTo(hx2, hy2).lineTo(hx2 + Math.cos(fa) * fl, hy2 + Math.sin(fa) * fl).stroke({ color: SC.black2, width: 1.5, cap: 'round' }); }
-  }
-  // the body: a tall black mass, shoulders, a hint of legs
+  // around the face: a patch of deeper darkness with no shape of its own (no shoulders, no legs - nothing is known of a body)
   const bg = view.body; bg.clear();
-  bg.ellipse(0, 12, 21, 30).fill({ color: SC.black, alpha: .97 });
-  bg.ellipse(0, -2, 31, 12).fill({ color: SC.black, alpha: .97 });
-  bg.poly([-8, 30, -13, 58, -7, 60, -1, 34, 2, 34, 8, 60, 14, 57, 9, 30]).fill({ color: SC.black2, alpha: .9 });
-  bg.ellipse(-6, 4, 6, 14).fill({ color: SC.rim, alpha: .16 });
+  bg.ellipse(0, 6, 24, 27).fill({ color: SC.black, alpha: .9 });
+  bg.ellipse(0, 2, 33, 20).fill({ color: SC.black, alpha: .45 });
   const bodyAlpha = clamp(.12 + sm(.18, .78, vis) * .88, 0, 1) * clamp(.36 + .64 * reveal, 0, 1) * (1 - study);
-  bg.alpha = bodyAlpha; ag.alpha = bodyAlpha * (.4 + .5 * reveal); view.mist.alpha = clamp(.35 + dark * .4 + study * .5, 0, 1);
+  bg.alpha = bodyAlpha; ag.alpha = 0; view.mist.alpha = clamp(.35 + dark * .4 + study * .5, 0, 1);
   // face
   const fa = clamp(.18 + ff * .82, 0, 1);
   paintFace(view.face, ff, t, .94 * fa, S.seed);
@@ -357,8 +349,11 @@ E.drawSmiler = function (view, sm_, t, dt, vis, o) {
 /* the glow on the darkness layer (canvas 2D, world transform already applied and clipped to the player's line of sight) */
 E.smilerGlow = function (n, view, sm_, t, pl, k) {
   const d = Math.hypot(view.x - pl.x, view.y - pl.y), f = clamp(view.__s ? view.__s.fx : (sm_.face === undefined ? .8 : sm_.face), 0, 1);
-  const a = view.alpha, blk = window.__api && window.__api.V && window.__api.V.blackout ? 1.25 : 1;
-  const i = (1 - sm(200, 1100, d)) * (.2 + .72 * (1 - a)) * Math.min(1, .25 + a * 2.8) * (.14 + .86 * f) * blk;
+  // the face's own channel (v23 / 2D): its emission (how far the face has formed) and a gleam where light actually reaches it (reflective eyes and
+  // teeth) - never the generic entity alpha, never the darkness of the spot.  Where the scene is lit the painted face already shows: the glow eases off.
+  const blk = window.__api && window.__api.V && window.__api.V.blackout ? 1.2 : 1, L = window.__light ? window.__light.sample(view.x, view.y, window.__api && window.__api.lightOn && window.__api.lightOn()) : null;
+  const shown = L ? clamp(L.direct * 2.2, 0, 1) : 0, gleam = L ? clamp(L.direct * 3, 0, 1) : 0;
+  const i = (1 - sm(200, 1100, d)) * (.14 + .86 * f) * blk * (1 - .55 * shown) * (1 + .6 * gleam);
   if (i < .004) return;
   const flick = Math.sin(t * 43 + view.x) > .985 ? .55 : 1;
   const S = grinShape(f), gw = S.gw, dp = S.depth, top = x => 1 + (1 - Math.pow(x / gw, 2)) * 2.5, bot = x => 1 + (1 - Math.pow(x / gw, 2)) * dp;
@@ -666,7 +661,10 @@ function drawEntities(cx, view, list, cfg, stale) {
       lines.push(`tgt:${d.tg || '-'}  v:${d.v}  near:${d.near}` + (d.lit !== undefined ? '  lit:' + d.lit : ''), `mood a${d.mood[0]} f${d.mood[1]} e${d.mood[2]} b${d.mood[3]}`);
       if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
       if (d.cd) lines.push('decide: ' + Object.entries(d.cd).map(([k, v]) => k + ':' + v).join(' ').slice(0, 60));
-      if (d.sm) lines.push('quirk ' + d.sm.q + ' exposed ' + d.sm.ex + (d.sm.le ? ' light:' + d.sm.le : '') + (d.sm.enc ? ' enc[' + d.sm.enc + ']' : ''));   // internal values: debug mode only, never in normal play
+      if (d.sm) { const m = d.sm;                                                     // (Part 2D) the canon Smiler: why it is doing this - debug mode only, never in normal play
+        lines.push(`WHY ${m.why || '-'}`, `agitation ${m.ag}${m.agw ? ' (' + m.agw + ')' : ''}  light on it ${m.lit}${m.w ? '  WATCHED BY P' + m.w + ' ' + m.ht + 's' : ''}${m.dw !== null ? '  target kept ' + m.dw + 's' : ''}`);
+        if (m.ab || m.rt) lines.push((m.ab ? 'abandoned: ' + m.ab : '') + (m.rt ? '  switched: ' + m.rt : ''));
+        if (sel) lines.push(`patience ${m.pz.pat} curiosity ${m.pz.cur} persistence ${m.pz.per} boldness ${m.pz.bold}  eye contact ${m.ec.map(c => 'P' + c[0] + ' ' + c[1] + 's').join(', ') || '-'}  strikes ${m.st}`); }
       if (d.dec && (cfg.evid || sel)) { const q = d.dec; lines.push(`DECIDE ${q.s}${q.a ? '/' + q.a : ''}: ${q.why || '-'}${q.tq !== null ? '  tgt conf ' + q.tq : ''}`); if (q.rt) lines.push('retarget: ' + q.rt); if (q.lt) lines.push('light: ' + q.lt + (q.fl !== null && q.fl < 5 ? '  (beam in its eyes ' + q.fl + 's ago)' : '')); }
       if ((cfg.evid || sel) && (d.ld || d.inv || d.ec)) lines.push(`leads ${d.ld ? d.ld.length : 0}${d.inv ? '  investigate ' + d.inv.k + ' ±' + d.inv.u + ' (' + d.inv.age + 's)' : ''}${d.ec ? '  EYE CONTACT ' + d.ec.map(c => 'P' + c[0]).join(',') : ''}`);
       if (sel && d.tr) lines.push('traits ' + Object.entries(d.tr).map(([k, v]) => k + v).join(' '));

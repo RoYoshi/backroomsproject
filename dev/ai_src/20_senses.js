@@ -76,11 +76,11 @@ function mayRetarget(e, now) { const cur = e.target > 0 ? e.mem.p.get(e.target) 
 /* EYE CONTACT: this entity sees the player, and the player is looking at it (the character's facing, sent by its client - not a screen), from a
  * distance at which the player could make it out: close by, or with the entity itself in light.  Used by Part 2 stages 2D/2E; debug-visible now. */
 const EYE_CONE = .35;
-function facedBy(eng, e, p, r) {
-  if (!p || !p.alive || !r || !r.seen) return null;
-  const d = Math.hypot(e.x - p.x, e.y - p.y); if (d > 900) return null;
+function facedBy(eng, e, p, r, emit = 0, own = null) {        // emit: how visible the entity makes itself in the dark (a Smiler's gleaming face)
+  if (!p || !p.alive || !r || !r.seen) return null;             // own: the light on itself as the entity knows it (2D Smiler: the lamp field + beams it saw) -
+  const d = Math.hypot(e.x - p.x, e.y - p.y); if (d > 900) return null;    //      then nobody's torch is read from where they really are
   const off = Math.abs(angDiff(Math.atan2(e.y - p.y, e.x - p.x), p.angle)); if (off > EYE_CONE) return null;
-  const lit = eng.geo.lightLevel(e.x, e.y, eng.lightPlayers());
+  const lit = Math.max(emit, own !== null ? own : eng.geo.lightLevel(e.x, e.y, eng.lightPlayers()));
   if (d > 240 && lit < .3) return null;
   return { d, off, lit };
 }
@@ -108,7 +108,6 @@ function updateVision(e, eng, dt, cands) {
     const lit = geo.lightLevel(p.x, p.y, null), own = p.light ? (KIND_GLARE[p.kind] || 1) : 0;
     let lightF = cfg.dark ? .82 + .18 * Math.max(lit, own) : .3 + .7 * Math.max(lit, own * .9);
     if (p.light && !cfg.dark) lightF *= 1 + .55 * own;                         // a lit lantern is a beacon
-    if (e.sp.lightSensitive) lightF *= 1 - e.tr.LIGHT_SENS * .15 * own;         // glare doesn't help a smiler see, it hurts
     const motion = .7 + .5 * clamp(p.sp / 172, 0, 1.4);
     range *= lightF * (POSTURE_VIS[p.st] || 1) * motion * (e.act === 'listen' ? .8 : 1);
     const floor = cfg.floor || 70;                                            // something crouched in the dark right beside it is noticed regardless of posture

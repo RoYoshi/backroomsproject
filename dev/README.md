@@ -67,20 +67,31 @@ node dev/tests/play_server.js 8000 play                                         
 - **H13** pack instinct
 - **H14** far hounds sleep and wake
 
-### s_smiler.js
-- **S01** a smiler dropped in the light fades within a moment
-- **S02** a flashlight beam makes it fade; it never keeps standing in the beam
-- **S03** no teleporting (bounded movement per tick for smilers and hounds)
-- **S04** every smiler state arises on its own
-- **S05** running provokes a rush (variant A)
-- **S06** cornered in a dead end: variant B
-- **S07** light failure: rare, only for someone standing in the light, three stages each one closer, then variant C
-- **S08** groups are followed, not engaged; a lone player is
-- **S09** a blackout makes them bolder
-- **S10** "play" style: the victim is held for seconds, then killed (D) or let go
+### s_smiler.js - Part 2 stage 2D: the canon Smiler
+(v23.1. The v22 Smiler tests are retired with the old Smiler: `s_smiler_v22_retired.js`, `s_smiler2_v22_retired.js` - kept for reference, not run.)
+- **SM01** a light carrier it can see is chased after a wind-up; the same person in the dark is watched, never chased
+- **SM02** strikes only on canon triggers: a quiet still person is never struck; a fast retreat in front of it (panic) or a loud noise close by is
+- **SM03** eye contact holds it; backing away slowly while watching it gets you let go (it withdraws)
+- **SM04** no hidden position: an unsensed player moved elsewhere -> identical decisions, tick by tick
+- **SM05** lost player: it goes where it last had them (with an uncertainty), not where they really went
+- **SM06** light lead: drawn to what it observed; the same observations replayed with the carrier far away -> identical decisions
+- **SM07** wall occlusion: a torch on the far side of a wall draws nothing
+- **SM08** infrared OFF vs HIGH -> identical decisions
+- **SM09** attention: a one-frame glance does nothing; through a wall nothing; sustained eye contact holds it
+- **SM10** hold is counterplay, not immunity: it creeps in and drifts; a fixed gaze loses it; up close one walking step sets it off (a crouched shuffle does not)
+- **SM11** multiplayer: one watches in the dark, another walks with a light: it works on the light, no flicker; a lit player it has never seen never wins
+- **SM12** personality: bounded, deterministic per seed, no extreme tiers
+- **SM13** state validity over long mixed runs (finite, valid targets / states / transitions, never in walls, never stuck)
+- **SM14** no teleporting
+- **SM15** presentation: no limbs; the face glow is its own channel; no aggression UI outside debug
+- **SM16** multiplayer: a light elsewhere draws it off somebody it only watches (once); eye contact keeps it
+
+### perf_smiler.js / smiler2d_view.py - Part 2 stage 2D
+- `perf_smiler.js`: the server step with the shipped population, a worst-case Smiler population (10 smilers, 8 lit players each facing one, blackout) and evidence contention (10 smilers and 8 lit players with sweeping, snapping beams in one spot). `GAMEDIR=/other/build` compares builds.
+- `smiler2d_view.py` (browser): a Smiler in the dark with debug on; screenshots and the server debug feed (state, WHY, agitation, eye contact) while the player waits, holds eye contact, looks away, then turns a torch on.
 
 ### s_capture.js
-- **C01** quick or play depends on the situation
+- **C01** quick or play depends on the situation (v23.1: the canon Smiler always kills at once; C03 is hound-only; C04 / C05 expect the canon Smiler's reactions)
 - **C02** CAUGHT is not DEAD: the next major decision comes after a tense stretch
 - **C03** false hope
 - **C04** interruption / rescue
@@ -96,7 +107,7 @@ node dev/tests/play_server.js 8000 play                                         
 - **Y04** stuck entities are recovered
 - **Y05** turning and snapping: smooth headings, bounded acceleration
 - **Y06** no wall clipping over long emergent runs
-- **Y07** no pop-in: smilers only fade, entities spawn out of sight
+- **Y07** no pop-in: smilers only fade (v23.1: over watch / hold / let-go / torch cycles), entities spawn out of sight
 - **Y08** determinism
 - **Y09** population caps and bodies over a long session
 - **Y10** bodies persist for the configured time (`BODY_TTL`)

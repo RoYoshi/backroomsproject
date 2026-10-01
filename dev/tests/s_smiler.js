@@ -1,153 +1,353 @@
-/* SMILER scenarios */
+/* PART 2 / STAGE 2D - the canon Smiler (Backrooms Wikidot, Entity 3; the approved Canon Lock).   node dev/tests/run.js s_smiler.js
+ * Canon behaviour
+ *   SM01 a light draws it and a light carrier it sees is chased (after a wind-up); the same person in the dark is watched, not chased
+ *   SM02 it strikes only on the canon triggers: a fast retreat in front of it (panic) or a loud noise close by; a quiet, still person is not struck
+ *   SM03 eye contact holds it; backing away slowly while watching it gets you let go
+ * Evidence law / required tests (stage 2D brief)
+ *   SM04 (1) no hidden position: an unsensed player moved elsewhere -> identical Smiler decisions, tick by tick
+ *   SM05 (2) lost player: it works from where it last had them (with uncertainty), not from where they really went
+ *   SM06 (3) light lead: drawn to what it observed; the same observations replayed with the carrier elsewhere -> identical decisions
+ *   SM07 (4) wall occlusion: a torch on the far side of a wall draws nothing
+ *   SM08 (5) infrared OFF vs HIGH -> identical Smiler decisions
+ *   SM09 (6) attention: line of sight required; a one-frame glance does nothing; sustained eye contact holds it
+ *   SM10 (7) hold is counterplay, not immunity: it creeps in and drifts (keep finding it), losing its eyes up close escalates, and up close a
+ *        small sound (one walking step) becomes a trigger - a careful crouched shuffle still does not
+ *   SM11 (8) multiplayer: one watches it in the dark while another walks with a light - it works on the light, no flicker; a lit player
+ *        behind walls it has never seen never wins
+ *   SM12 (9) personality: bounded, deterministic per seed, no extreme tiers
+ *   SM13 (10) state validity over long mixed runs: finite, valid targets and states, legal transitions, never inside walls, never stuck forever
+ *   SM14 no teleporting: bounded movement every tick (walked, not jumped)
+ *   SM16 multiplayer: a light elsewhere draws it off somebody it only watches in the dark (once); eye contact keeps it
+ *   SM15 presentation: no limbs drawn; the face's glow has its own channel (not the generic alpha); no aggression UI outside debug */
 'use strict';
-const { World, DT, dist, LONG, geo, over, rate, avg, stateNames, WORLD, TAU, pick, tracker } = require('./lib.js');
+const fs = require('fs'), path = require('path');
+const { World, DT, dist, LONG, geo, over, rate, avg, TAU, pick, tracker } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
+const LY = LONG.y;
 
 /* a dark cell for the player and another dark cell with a clear line to it, `lo`..`hi` px away */
 function darkPair(i, lo = 450, hi = 800, need = {}) {
-  const G = geo(), g = G.g, seenP = new Set();
+  const G = geo(), g = G.g;
   for (let k = 0; k < 400; k++) {
     const p = G.dark[(i * 131 + k * 17) % G.dark.length]; if (!p || !G.ad.clear(p.x, p.y, 24, 'walk')) continue;
     const cand = G.dark.filter(c => { const d = Math.hypot(c.x - p.x, c.y - p.y); return d >= lo && d <= hi && g.los(c.x, c.y, p.x, p.y) && G.ad.clear(c.x, c.y, 24, 'walk'); });
     if (!cand.length) continue;
     const s = cand[(i * 7) % cand.length];
-    if (need.deadEnd) { const arcs = G.arcs(p.x, p.y); if (!(arcs.arcs <= 1 && arcs.frac < .34)) continue; }
+    if (need.room && G.arcs(p.x, p.y).frac < .25) continue;
     return { p, s };
   }
   return null;
 }
-/* a player standing still in the dark, a smiler in another dark spot with a view of them */
+/* a player in the dark (blackout: no lamps), a smiler in another dark spot with a view of them.  o.face: the player keeps looking at it */
 function setup(seed, o = {}) {
   const pr = darkPair(seed, o.lo || 450, o.hi || 800, o); if (!pr) return null;
-  const w = World(seed + 1000), p = w.player(pr.p.x, pr.p.y, { light: !!o.light }); p.stop(o.mode || 'stand'); p.angle = Math.atan2(pr.s.y - pr.p.y, pr.s.x - pr.p.x);
-  const s = w.smiler(pr.s.x, pr.s.y); s.ang = Math.atan2(pr.p.y - pr.s.y, pr.p.x - pr.s.x); s.cool.special = o.special ?? s.cool.special;
+  const w = World(seed + 1000); w.sim.admin.blackout('on'); w.sim.debug.V.blackout = true;
+  const p = w.player(pr.p.x, pr.p.y, { light: !!o.light }); p.stop(o.mode || 'stand');
+  const s = w.smiler(pr.s.x, pr.s.y); s.ang = Math.atan2(pr.p.y - pr.s.y, pr.p.x - pr.s.x);
+  if (o.face) p.look = () => Math.atan2(s.y - p.y, s.x - p.x); else p.look = o.lookAway ? () => Math.atan2(s.y - p.y, s.x - p.x) + Math.PI : Math.atan2(pr.s.y - pr.p.y, pr.s.x - pr.p.x) + 1.6;
   return { w, p, s, pr };
 }
-/* the smiler has seen the player: now put it on the trail (the engine's own STALKING state, entered through its own transition data) */
-function forceStalk(w, s, p, style) {
-  w.until(6, () => { const r = s.mem.p.get(p.id); return r && r.seen; });
-  const r = s.mem.p.get(p.id); if (!r) return false;
-  s.state = 'STALKING'; s.act = 'creep'; s.stateT = 0; s.actT = 0; s.target = p.id; s.style = style || 'rush'; s.stalk = { since: w.eng.now, hold: 0, rid: p.id, decided: false }; s.face = .85; s.faceT = .85; s.exposed = 0; s.path = []; s.goalKey = '';
-  return true;
+/* run and record the smiler's state / act changes; stop at a capture */
+function watchRun(w, s, p, secs, each) {
+  const tl = []; let last = '', strikes = 0, chases = 0, caughtAt = -1;
+  w.run(secs, (ww, t) => {
+    if (each) { const r = each(ww, t); if (r === false) return false; }
+    const k = s.state + '/' + s.act; if (k !== last) { tl.push([+t.toFixed(1), k, s.dbg.why]); if (s.state === 'ATTACKING' && !last.startsWith('ATTACKING')) strikes++; if (s.state === 'PROVOKED' && !last.startsWith('PROVOKED')) chases++; last = k; }
+    if (p && (p.caught || p.dead)) { caughtAt = t; return false; }
+  }, 1);
+  return { tl, strikes, chases, caughtAt, states: new Set(tl.map(x => x[1].split('/')[0])) };
 }
+const SEEDS = [1, 2, 3, 4, 5, 6, 7, 8];
 
-add('S01 a smiler dropped in the light does not stay there: it fades within a moment and is back in the dark', () => {
-  const G = geo(); const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], i => {
-    const c = G.lit[(i * 37 + 5) % G.lit.length], D = pick(G.dark, c.x, c.y, 900, 1500, i); if (!D) return { ok: false, why: 'no dark pair' };
-    const w = World(300 + i), p = w.player(D.x, D.y, { light: false }); p.stop('crouch'); const s = w.smiler(c.x, c.y); const T = tracker(w, s);
-    let fadeAt = -1, darkAt = -1;
-    w.run(14, (ww, t) => { T.tick(); if (fadeAt < 0 && s.state === 'DISAPPEARING') fadeAt = t; if (fadeAt >= 0 && darkAt < 0 && (s.lit || 0) < .45 && s.state !== 'DISAPPEARING') darkAt = t; }, 1);
-    const startedLit = true;
-    return { ok: fadeAt >= 0 && fadeAt < .6 && T.litStillMax < .5 && T.litTime < 3.2, fadeAt: +fadeAt.toFixed(2), litMax: +T.litStillMax.toFixed(2), litTime: +T.litTime.toFixed(2), darkAt: +darkAt.toFixed(2), jump: +T.jump.toFixed(1) };
-  });
-  return { ok: rate(rs) >= .9, note: `${(rate(rs) * 100) | 0}% faded within .6 s (avg ${avg(rs.filter(r => r.fadeAt >= 0).map(r => r.fadeAt)).toFixed(2)}s); most it ever stood still in strong light ${Math.max(...rs.map(r => r.litMax || 0)).toFixed(2)}s, most total time lit while escaping ${Math.max(...rs.map(r => r.litTime || 0)).toFixed(2)}s` };
-});
-add('S02 a flashlight beam on a smiler makes it fade (its own reason: "lit"); it never keeps standing in the beam', () => {
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], i => {
-    const A = setup(i, { light: true, lo: 185, hi: 212 }); if (!A) return { ok: false, why: 'no pair' };
-    const { w, p, s } = A; p.light = false; w.run(.6, null); const still = s.state === 'HIDDEN' || s.state === 'WATCHING'; p.light = true;           // the torch comes on and swings onto it
-    const T = tracker(w, s); let fade = -1, lit0 = -1, why = '';
-    w.run(6, (ww, t) => { p.angle = Math.atan2(s.y - p.y, s.x - p.x); T.tick(); if (lit0 < 0 && T.lit > .6) lit0 = t; if (fade < 0 && s.state === 'DISAPPEARING') { fade = t; why = s.disap && s.disap.why; } }, 1);
-    return { ok: still && fade >= 0 && fade < .8 && T.litStillMax < .5, fade: +fade.toFixed(2), lit0: +lit0.toFixed(2), why, still };
-  });
-  const v = rs.filter(r => r.still && r.fade >= 0);
-  return { ok: rate(rs) >= .75, note: `${(rate(rs) * 100) | 0}% faded within .8 s of being lit (${v.length} valid runs; first lit at ${avg(v.filter(r => r.lit0 >= 0).map(r => r.lit0)).toFixed(2)}s, faded at ${avg(v.map(r => r.fade)).toFixed(2)}s; reasons ${[...new Set(v.map(r => r.why))].join('/')})` };
-});
-add('S03 no teleporting: smilers and hounds move a bounded distance every tick, whatever they are doing', () => {
-  let worstS = 0, worstH = 0, at = null, n = 0;
-  for (let i = 1; i <= 16; i++) {
-    const A = setup(i, { lo: 500, hi: 900 }); if (!A) continue; const { w, p, s } = A;
-    const G = geo(), hd = pick(G.dark, p.x, p.y, 1100, 1600, i), h = hd && w.hound(hd.x, hd.y);
-    p.route([{ x: p.x + 180, y: p.y }, { x: p.x - 200, y: p.y + 60 }, { x: p.x, y: p.y - 150 }], i % 2 ? 'walk' : 'run'); n++;
-    const Ts = tracker(w, s), Th = h && tracker(w, h);
-    w.run(150, () => { Ts.tick(); Th && Th.tick(); if (p.dead) return false; }, 1);
-    if (Ts.jump > worstS) { worstS = Ts.jump; at = Ts.jumpAt; } if (Th && Th.jump > worstH) worstH = Th.jump;
+add('SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased', () => {
+  const lit = [], dark = [];
+  for (const i of SEEDS) {
+    const A = setup(i, { light: true, face: false }); if (A) { const R = watchRun(A.w, A.s, A.p, 25); const first = R.tl.find(x => x[1].startsWith('PROVOKED')); lit.push({ chased: !!first, at: first ? first[0] : -1 }); }
+    const B = setup(i, { light: false, face: false }); if (B) { let seen = false; const R = watchRun(B.w, B.s, B.p, 25, () => { if (B.s.mem.p.has(B.p.id)) seen = true; }); dark.push({ chased: R.chases > 0, strikes: R.strikes, watched: R.states.has('WATCHING'), seen, d: Math.round(dist(B.s, B.p)) }); }
   }
-  return { ok: n >= 10 && worstS < 9 && worstH < 12, note: `${n} runs of 150s; biggest single-tick step: smiler ${worstS.toFixed(1)}px (${(worstS * 60) | 0}px/s), hound ${worstH.toFixed(1)}px (${(worstH * 60) | 0}px/s)${at ? ' @' + JSON.stringify(at) : ''}` };
+  // (in a blackout its sight of an unlit person is short: darkness is not omniscience - at the far end of the range some are never perceived at all)
+  const ch = lit.filter(r => r.chased), wind = avg(ch.map(r => r.at)), per = dark.filter(r => r.seen);
+  return { ok: lit.length >= 6 && ch.length / lit.length >= .8 && wind >= 1.5 && dark.every(r => !r.chased && r.strikes === 0) && per.length >= 4 && per.filter(r => r.watched).length / per.length >= .8,
+    note: `light on, in its view, standing: chased ${ch.length}/${lit.length} (wind-up before the chase avg ${wind.toFixed(1)} s); light off, same spot: chased ${dark.filter(r => r.chased).length}/${dark.length}, struck ${dark.filter(r => r.strikes).length}, perceived at all ${per.length}/${dark.length} (not perceived at ${dark.filter(r => !r.seen).map(r => r.d + ' px').join(', ') || '-'}), watched ${per.filter(r => r.watched).length}/${per.length} of those` };
 });
-add('S04 smiler state coverage: HIDDEN, WATCHING, FOLLOWING, STALKING, PROVOKED/ATTACKING, PLAYING, DISAPPEARING arise on their own', () => {
-  const seen = new Set(); let kills = 0;
-  for (let i = 1; i <= 24; i++) {
-    const A = setup(i, { lo: 500, hi: 900 }); if (!A) continue; const { w, p, s } = A;
-    p.route([{ x: p.x + 120, y: p.y }, { x: p.x - 120, y: p.y + 40 }, { x: p.x, y: p.y - 100 }, { x: p.x + 60, y: p.y + 60 }], 'walk'); let loops = 0;
-    w.run(240, (ww, t) => { seen.add(s.state); if (!p.path || !p.path.length) { p.route([{ x: p.x + 120, y: p.y }, { x: p.x - 120, y: p.y + 40 }, { x: p.x, y: p.y - 100 }], 'walk'); } if (p.caught && s.cap && s.cap.phase === 'crawl') p.go(p.x + 40, p.y, 'crawl'); if (p.dead) { kills++; return false; } }, 3);
+
+add('SM02 strikes only on canon triggers: a quiet still person is never struck; a fast retreat in front of it (panic) or a loud noise close by is', () => {
+  const quiet = [], panic = [], noise = [];
+  for (const i of SEEDS) {
+    const A = setup(i, { light: false, face: i % 2 === 0, lookAway: i % 2 === 1 }); if (A) { const R = watchRun(A.w, A.s, A.p, 40); quiet.push(R.strikes === 0 && R.caughtAt < 0); }
+    const B = setup(i, { light: false, lo: 300, hi: 450 }); if (B) { const { w, p, s } = B; let fled = -1;
+      const R = watchRun(w, s, p, 14, (ww, t) => { if (fled < 0 && s.state === 'WATCHING' && t > 2) { fled = t; const a = Math.atan2(p.y - s.y, p.x - s.x); p.go(p.x + Math.cos(a) * 1200, p.y + Math.sin(a) * 1200, 'run'); } });
+      panic.push({ struck: R.strikes > 0, why: (R.tl.find(x => x[1].startsWith('ATTACKING')) || [])[2] || '' }); }
+    const C = setup(i, { light: false, lo: 280, hi: 420 }); if (C) { const { w, p, s } = C; let made = false;
+      const R = watchRun(w, s, p, 8, (ww, t) => { if (!made && t > 2.5 && s.state === 'WATCHING') { made = true; p.evq.push([26, 100]); } });   // a hard landing (the client's own noise event)
+      noise.push({ struck: R.strikes > 0, why: (R.tl.find(x => x[1].startsWith('ATTACKING')) || [])[2] || '' }); }
   }
-  const need = ['HIDDEN', 'WATCHING', 'FOLLOWING', 'STALKING', 'DISAPPEARING'], any = ['PROVOKED', 'ATTACKING'];
-  const miss = need.filter(n => !seen.has(n)); if (!any.some(n => seen.has(n))) miss.push('PROVOKED|ATTACKING');
-  return { ok: miss.length === 0, note: `visited ${[...seen].join(', ')} (${kills} kills)${miss.length ? '   MISSING ' + miss.join(', ') : ''}` };
+  return { ok: quiet.length >= 6 && quiet.every(Boolean) && rate(panic, r => r.struck) >= .7 && rate(noise, r => r.struck) >= .7,
+    note: `quiet and still (looking at it or away), 40 s: struck ${quiet.filter(q => !q).length}/${quiet.length}; ran away in front of it: struck ${panic.filter(r => r.struck).length}/${panic.length} ("${(panic.find(r => r.struck) || {}).why}"); a hard landing close by: struck ${noise.filter(r => r.struck).length}/${noise.length} ("${(noise.find(r => r.struck) || {}).why}")` };
 });
-add('S05 running provokes it: a runner within its reach is rushed out of the darkness at once (variant A); a person standing still much less so', () => {
-  const run = (i, mode) => {
-    const A = setup(i, { lo: 240, hi: 320, mode }); if (!A) return null; const { w, p, s } = A; if (!forceStalk(w, s, p)) return null;
-    let prov = -1, kill = null; const t0 = w.t;
-    if (mode === 'run') { const perp = Math.atan2(p.y - s.y, p.x - s.x) + Math.PI / 2 * (i % 2 ? 1 : -1); p.go(p.x + Math.cos(perp) * 90, p.y + Math.sin(perp) * 90, 'run'); }
-    w.run(20, () => { if (prov < 0 && s.state === 'PROVOKED') prov = w.t - t0; if (w.kills.length) { kill = w.kills[0]; return false; } }, 1);
-    return { prov, kill: kill && kill.variant };
-  };
-  const seeds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  const rr = seeds.map(i => run(i, 'run')).filter(Boolean), st = seeds.map(i => run(i, 'stand')).filter(Boolean);
-  const rp = rate(rr, r => r.prov >= 0 && r.prov < 2), sp = rate(st, r => r.prov >= 0 && r.prov < 2), kills = rr.filter(r => r.kill), A = kills.length ? rate(kills, r => r.kill === 'A') : 0;
-  return { ok: rr.length >= 6 && rp >= .7 && sp < rp, note: `provoked within 2 s: runners ${(rp * 100) | 0}% (${rr.length} runs) vs standing ${(sp * 100) | 0}% (${st.length} runs); runner kills that were variant A: ${(A * 100) | 0}% of ${kills.length}` };
+
+add('SM03 eye contact: watched, it holds; backing away slowly while watching it gets you let go (it withdraws, no strike)', () => {
+  const rs = [];
+  for (const i of SEEDS) {
+    const A = setup(i, { light: false, face: true, lo: 350, hi: 600, room: true }); if (!A) continue; const { w, p, s } = A; let held = false, backing = false;
+    const R = watchRun(w, s, p, 30, (ww, t) => {
+      if (/hold|creep|drift/.test(s.act)) held = true;
+      if (held && !backing && t > 3) { backing = true; const a = Math.atan2(p.y - s.y, p.x - s.x); p.pathTo(p.x + Math.cos(a) * 900, p.y + Math.sin(a) * 900, 'crouch') || p.go(p.x + Math.cos(a) * 900, p.y + Math.sin(a) * 900, 'crouch'); }
+    });
+    const letGo = R.tl.some(x => x[1].startsWith('DISAPPEARING') && /let P/.test(x[2]));
+    rs.push({ held, letGo, safe: R.strikes === 0 && R.caughtAt < 0 });
+  }
+  return { ok: rs.length >= 6 && rate(rs, r => r.held) >= .8 && rate(rs, r => r.safe) >= .8 && rate(rs, r => r.letGo) >= .5,
+    note: `${rs.length} runs: held by eye contact ${rs.filter(r => r.held).length}, unharmed while backing away crouched and watching it ${rs.filter(r => r.safe).length}, let go (it withdrew, "let ... go") ${rs.filter(r => r.letGo).length}` };
 });
-add('S06 cornered in a dead end: the smiler closes slowly and the kill is the "cornered" one (variant B)', () => {
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], i => {
-    const A = setup(i, { lo: 380, hi: 560, deadEnd: true }); if (!A) return null; const { w, p, s } = A; if (!forceStalk(w, s, p)) return null;
-    let kill = null, att = false; w.run(40, () => { if (s.state === 'ATTACKING') att = true; if (w.kills.length) { kill = w.kills[0]; return false; } }, 1);
-    return { att, v: kill && kill.variant };
-  }).filter(Boolean);
-  const done = rs.filter(r => r.v);
-  return { ok: rs.length >= 5 && done.length >= 4 && rate(done, r => r.v === 'B') >= .8, note: `${rs.length} dead-end setups, ${done.length} kills, ${(rate(done, r => r.v === 'B') * 100) | 0}% variant B (${done.map(r => r.v).join('')})` };
+
+/* SM04 - one smiler working on a decoy it can see; a third player stands silent, lightless and far out of sight at one of two places */
+function smTrace(seed, hidden, secs, hook, lightOn) {
+  const w = World(seed); w.sim.admin.blackout('on'); w.sim.debug.V.blackout = true;
+  const s = w.smiler(5200, LY); s.ang = 0;
+  const d = w.player(5650, LY, { light: lightOn !== false }); d.route([{ x: 6100, y: LY }, { x: 5800, y: LY }, { x: 6300, y: LY }], 'walk');
+  const q = w.player(hidden.x, hidden.y, { light: false }); q.stop('stand');
+  if (hook) w.eng.obsHook = hook;
+  const tr = []; let sensed = false;
+  w.run(secs, () => { if (s.mem.p.has(q.id)) sensed = true; tr.push(`${s.x.toFixed(4)},${s.y.toFixed(4)},${s.state},${s.act},${s.target},${s.ag.toFixed(4)},${s.goalS ? s.goalS.x.toFixed(2) + ',' + s.goalS.y.toFixed(2) : '-'}`); if (d.dead) return false; }, 1);
+  return { tr, sensed };
+}
+add('SM04 no hidden position: an unsensed player moved elsewhere changes nothing the Smiler does (tick by tick)', () => {
+  const G = geo(), far = G.dark.filter(c => G.ad.clear(c.x, c.y, 24, 'walk') && Math.hypot(c.x - 5600, c.y - LY) > 2200);
+  let valid = 0, same = 0; const diffAt = [];
+  for (let k = 0; k < 6; k++) {
+    const a = far[(k * 37) % far.length], b = far[(k * 37 + 101) % far.length];
+    const A = smTrace(30 + k, a, 15), B = smTrace(30 + k, b, 15); if (A.sensed || B.sensed) continue;
+    valid++; const i = A.tr.findIndex((x, j) => x !== B.tr[j]); if (i < 0 && A.tr.length === B.tr.length) same++; else diffAt.push(i);
+  }
+  return { ok: valid >= 4 && same === valid, note: `${valid} valid pairs (hidden player never sensed): identical decisions ${same}/${valid}${diffAt.length ? ' - first difference at ' + diffAt.join(',') : ''} (the placement validator is the one sanctioned system rule; hidden spots are kept > 2200 px from the action)` };
 });
-add('S07 light failure: rare, only for someone standing in the light, three stages each one closer, then a kill (variant C)', () => {
-  const G = geo(); const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], i => {
-    const L = G.lit.filter(c => G.ad.clear(c.x, c.y, 24, 'walk'));
-    for (let k = 0; k < 200; k++) {
-      const c = L[(i * 41 + k * 13) % L.length], d = pick(G.dark, c.x, c.y, 330, 480, k); if (!d || !G.g.los(d.x, d.y, c.x, c.y)) continue;
-      const w = World(500 + i), p = w.player(c.x, c.y, { light: true }); p.stop('stand'); const s = w.smiler(d.x, d.y); s.cool.special = 0; s.ang = Math.atan2(c.y - d.y, c.x - d.x);
-      if (!forceStalk(w, s, p)) continue;
-      const dists = [], evs = []; let kill = null;
-      const lf0 = w.evLog.length; w.run(60, () => { const l = w.evLog.filter((e, j) => j >= lf0 && e.t === 'lightfail'); if (l.length > evs.length) { evs.push(l[l.length - 1]); dists.push(Math.round(dist(s, p))); } if (w.kills.length) { kill = w.kills[0]; return false; } }, 1);
-      return { ok: true, stages: evs.length, dists, v: kill && kill.variant, cool: +s.cool.special.toFixed(0), attacked: dists.length > 0 };
+
+add('SM05 lost player: it goes where it last had them (with an uncertainty), not where they really went', () => {
+  const rs = [];
+  for (const i of SEEDS) {
+    const A = setup(i, { light: false, face: false, lo: 380, hi: 650 }); if (!A) continue; const { w, p, s } = A;
+    let held = 0; if (w.until(8, () => { const r = s.mem.p.get(p.id); held = s.state === 'WATCHING' && r && r.seen ? held + 1 : 0; return held > 60; }) < 0) continue;   // it has had them in view for a second
+    const lastX = p.x, lastY = p.y;
+    // the player vanishes from its sight - and (unseen) is moved well away: the smiler must not know.  (The spot stays inside the simulation's
+    // near tier - < 1900 px from the smiler - so the engine's distance LOD, a system rule outside its knowledge, does not park it.)
+    const G = geo(), spot = G.dark.find(c => Math.hypot(c.x - p.x, c.y - p.y) > 1100 && Math.hypot(c.x - s.x, c.y - s.y) < 1750 && !G.g.los(c.x, c.y, s.x, s.y) && G.ad.clear(c.x, c.y, 24, 'walk'));
+    if (!spot) continue;
+    p.x = spot.x; p.y = spot.y; p.stop('stand'); p.look = 0;
+    let goal = null; w.run(5, () => { if (s.state === 'FOLLOWING' && s.goalS && !goal) goal = { x: s.goalS.x, y: s.goalS.y, u: s.goalS.u, why: s.dbg.why }; }, 1);
+    if (!goal) { rs.push({ ok: false, none: true }); continue; }
+    const toLast = Math.hypot(goal.x - lastX, goal.y - lastY), toTrue = Math.hypot(goal.x - p.x, goal.y - p.y);
+    rs.push({ ok: toLast < 400 && toTrue > 800, toLast: Math.round(toLast), toTrue: Math.round(toTrue), u: Math.round(goal.u), why: goal.why });
+  }
+  return { ok: rs.length >= 5 && rate(rs) >= .8, note: `${rs.length} losses: it went to look ${rs.map(r => r.none ? 'nowhere' : r.toLast + ' px from the last sighting (±' + r.u + '), ' + r.toTrue + ' px from the truth').join('; ')}` };
+});
+
+/* the lit-wall geometry of the 2C evidence tests: a player facing a wall with the torch on, and a spot that sees the lit wall but not the player */
+function litWallSetups(n = 10) {
+  const G = geo(), g = G.g, ad = G.ad, out = [];
+  for (const c of G.walls) {
+    if (out.length >= n) break; if (!ad.clear(c.x, c.y, 22, 'walk')) continue;
+    const hx = c.x + Math.cos(c.ang) * (c.d - 4), hy = c.y + Math.sin(c.ang) * (c.d - 4); let f = null;
+    for (let R = 320; R <= 820 && !f; R += 70) for (let k = 0; k < 24 && !f; k++) {
+      const a = k / 24 * TAU, bx = hx + Math.cos(a) * R, by = hy + Math.sin(a) * R;
+      if (!ad.clear(bx, by, 28, 'walk') || Math.hypot(bx - c.x, by - c.y) < 300 || !g.los(bx, by, hx, hy)) continue;
+      if ([0, 18, -18].some(o => g.los(bx, by, c.x + Math.cos(c.ang + Math.PI / 2) * o, c.y + Math.sin(c.ang + Math.PI / 2) * o))) continue;
+      f = { px: c.x, py: c.y, pa: c.ang, bx, by, ba: Math.atan2(hy - by, hx - bx) };
     }
-    return null;
-  }).filter(Boolean);
-  const att = rs.filter(r => r.attacked), closer = att.filter(r => r.dists.length >= 3 && r.dists[0] > r.dists[1] && r.dists[1] > r.dists[2]);
-  return { ok: rs.length >= 6 && att.length >= 3 && closer.length >= Math.ceil(att.length * .6) && att.every(r => r.v === 'C' || !r.v) && att.every(r => r.cool > 150), note: `${att.length}/${rs.length} runs triggered it; ${closer.length} showed three stages each closer (distances ${att.slice(0, 3).map(r => r.dists.join('>')).join(' | ')}); kills ${att.map(r => r.v || '-').join('')}; cooldown after use ${att.map(r => r.cool).join(',')}s` };
+    if (f) out.push(f);
+  }
+  return out;
+}
+add('SM06 light lead: drawn to what it observed (an uncertain region), and the same observations replayed with the carrier far away give identical decisions', () => {
+  const rs = []; const G = geo(), far = G.dark.filter(c => G.ad.clear(c.x, c.y, 24, 'walk'));
+  for (const [k, st] of litWallSetups(10).entries()) {
+    const rec = [];
+    const run = (replay, where) => {
+      const w = World(50 + k); w.sim.admin.blackout('on'); w.sim.debug.V.blackout = true;
+      const p = w.player(where.x, where.y, { light: !replay, angle: st.pa }); p.stop('stand'); p.look = st.pa;
+      const dq = w.player(decoy.x, decoy.y, { light: false }); dq.stop('stand');
+      const s = w.smiler(st.bx, st.by); s.ang = st.ba;
+      let i = 0; w.eng.obsHook = (e, obs) => { if (e !== s) return obs; if (!replay) { rec.push(JSON.parse(JSON.stringify(obs))); return obs; } return JSON.parse(JSON.stringify(rec[i++] || [])); };
+      const tr = []; let sensedAt = -1, drawn = null;
+      w.run(6, () => { if (sensedAt < 0 && (s.mem.p.has(p.id) || s.mem.p.has(dq.id))) sensedAt = tr.length; if (!drawn && sensedAt < 0 && s.state === 'FOLLOWING' && s.goalS) drawn = { x: s.goalS.x, y: s.goalS.y, u: s.goalS.u, k: s.goalS.k }; tr.push(`${s.x.toFixed(4)},${s.y.toFixed(4)},${s.state},${s.act},${s.goalS ? s.goalS.x.toFixed(2) : '-'}`); }, 1);
+      return { tr, sensedAt, drawn };
+    };
+    const decoy = far.find(c => { const d = Math.hypot(c.x - st.bx, c.y - st.by); return d > 500 && d < 1300 && !G.g.los(c.x, c.y, st.bx, st.by); }); if (!decoy) continue;
+    const A = run(false, { x: st.px, y: st.py });
+    const elsewhere = far.find(c => Math.hypot(c.x - st.px, c.y - st.py) > 2500 && Math.hypot(c.x - st.bx, c.y - st.by) > 2500);
+    const B = run(true, elsewhere);
+    // compare up to the moment the person themselves was first perceived in the live run (from then on it legitimately knows more);
+    // the replay must not have perceived anybody in that window either
+    const n = A.sensedAt < 0 ? A.tr.length : A.sensedAt;
+    if (!A.drawn || n < 6 || (B.sensedAt >= 0 && B.sensedAt < n)) continue;
+    rs.push({ same: A.tr.slice(0, n).join('|') === B.tr.slice(0, n).join('|'), n, k: A.drawn.k, u: Math.round(A.drawn.u), off: Math.round(Math.hypot(A.drawn.x - st.px, A.drawn.y - st.py)) });
+  }
+  return { ok: rs.length >= 5 && rs.every(r => r.same) && rs.every(r => r.u >= 120), note: `${rs.length} runs where it was drawn by a light it saw without the person: identical decisions with the carrier moved away ${rs.filter(r => r.same).length}/${rs.length} (compared until the person was first perceived: ${rs.map(r => (r.n / 60).toFixed(1) + ' s').join(', ')}); leads ${rs.map(r => r.k + ' ±' + r.u + ' (' + r.off + ' px from the carrier)').join(', ')}` };
 });
-add('S08 groups are followed, not engaged: people together are never stalked or killed by a smiler; a lone player is', () => {
-  const run = (i, group) => {
-    const pr = darkPair(i, 500, 900); if (!pr) return null; const w = World(700 + i + (group ? 50 : 0)), a = w.player(pr.p.x, pr.p.y, { light: false }); a.stop('stand'); let b = null;
-    if (group) { b = w.player(pr.p.x + 70, pr.p.y + 40, { light: false }); if (!w.ad.clear(b.x, b.y, 20, 'walk')) { b.x = pr.p.x - 60; b.y = pr.p.y; } b.stop('stand'); }
-    const s = w.smiler(pr.s.x, pr.s.y); s.ang = Math.atan2(pr.p.y - pr.s.y, pr.p.x - pr.s.x); const seen = new Set(); let killed = false;
-    w.run(400, () => { seen.add(s.state); if (a.dead || (b && b.dead)) { killed = true; return false; } }, 4);
-    return { killed, stalked: seen.has('STALKING'), followed: seen.has('FOLLOWING') };
+
+add('SM07 wall occlusion: a torch lighting the far side of a wall draws nothing; the smiler stays where it is', () => {
+  const G = geo(), g = G.g; let n = 0, moved = 0, leads = 0;
+  for (const c of G.walls.filter((q, i) => i % 5 === 0).slice(0, 30)) {
+    let far = null; for (let t = c.d + 20; t < c.d + 400; t += 12) { const x = c.x + Math.cos(c.ang) * t, y = c.y + Math.sin(c.ang) * t; if (G.ad.clear(x, y, 28, 'walk') && !g.los(c.x, c.y, x, y)) { far = { x, y }; break; } }
+    if (!far) continue; n++;
+    const w = World(8); w.sim.admin.blackout('on'); w.sim.debug.V.blackout = true;
+    const p = w.player(c.x, c.y, { light: true, angle: c.ang }); p.stop('stand'); p.look = c.ang;
+    const s = w.smiler(far.x, far.y); s.ang = c.ang + Math.PI;
+    w.run(4, null); if (s.mem.leads.length) leads++; if (s.state !== 'HIDDEN') moved++;
+  }
+  return { ok: n >= 10 && leads === 0 && moved === 0, note: `${n} setups: light leads through the wall ${leads}; smilers that left their spot ${moved}` };
+});
+
+add('SM08 infrared OFF vs HIGH: identical Smiler decisions (camcorders raised, infrared written everywhere a client could put it)', () => {
+  const rs = over([1, 2, 3], s => {
+    const run = ir => { const w = World(s), sm = w.smiler(5300, LY); sm.ang = 0; const ps = [w.player(5800, LY, { light: true, kind: 'camcorder', angle: Math.PI }), w.player(6200, LY, { light: true, kind: 'flashlight', angle: Math.PI })]; ps[0].go(5000, LY, 'walk'); ps[1].stop('stand');
+      const tr = []; w.run(20, () => { for (const p of ps) if (p.equipment.kind === 'camcorder') { p.ir = ir; p.irNet = ir; p.nv = ir > 0; p.nvOn = ir > 0; } tr.push(`${sm.x.toFixed(4)},${sm.y.toFixed(4)},${sm.state},${sm.act},${sm.target},${sm.ag.toFixed(4)}`); }, 1); return tr; };
+    const A = run(0), B = run(2); const i = A.findIndex((x, j) => x !== B[j]); return { ok: i < 0, at: i, n: A.length };
+  });
+  return { ok: rate(rs) === 1, note: `${rs.filter(r => r.ok).length}/${rs.length} worlds identical over ${rs[0].n} ticks` };
+});
+
+add('SM09 attention: a one-frame glance does nothing; through a wall nothing; sustained eye contact (with line of sight) holds it', () => {
+  const glance = [], sustained = [];
+  for (const i of SEEDS) {
+    const A = setup(i, { light: false, face: false, lo: 350, hi: 600 }); if (!A) continue; const { w, p, s } = A;
+    if (w.until(4, () => s.state === 'WATCHING') < 0) continue;
+    const away = p.look; let maxT = 0, holdAct = false;
+    w.run(3, (ww, t) => { const tick = Math.round(t / DT); p.look = tick % 45 === 0 ? Math.atan2(s.y - p.y, s.x - p.x) : away; const a = s.att.get(p.id); if (a) maxT = Math.max(maxT, a.t); if (/hold|creep|drift/.test(s.act)) holdAct = true; }, 1);
+    glance.push(!holdAct && maxT < .4);
+    p.look = () => Math.atan2(s.y - p.y, s.x - p.x); let held = false; w.run(3, () => { if (/hold|creep|drift/.test(s.act)) held = true; }, 1); sustained.push(held);
+  }
+  // through a wall: the E8 geometry - player facing the smiler's side of a wall
+  const G = geo(), g = G.g; let walled = 0, wn = 0;
+  for (const c of G.walls.filter((q, i) => i % 2 === 0).slice(0, 80)) {
+    if (wn >= 16) break;
+    let far = null; for (let t = c.d + 20; t < c.d + 400; t += 12) { const x = c.x + Math.cos(c.ang) * t, y = c.y + Math.sin(c.ang) * t; if (G.ad.clear(x, y, 28, 'walk') && !g.los(c.x, c.y, x, y)) { far = { x, y }; break; } }
+    if (!far) continue; wn++;
+    const w = World(9); w.sim.admin.blackout('on'); w.sim.debug.V.blackout = true; const p = w.player(c.x, c.y, { light: false }); p.stop('stand'); p.look = c.ang;
+    const s = w.smiler(far.x, far.y); s.ang = c.ang + Math.PI; w.run(2, null); const a = s.att.get(p.id); if ((a && a.t > 0) || /hold|creep|drift/.test(s.act)) walled++;
+  }
+  return { ok: glance.length >= 5 && glance.every(Boolean) && rate(sustained.map(x => ({ ok: x }))) >= .8 && wn >= 6 && walled === 0,
+    note: `one-frame glances every 0.75 s: no hold ${glance.filter(Boolean).length}/${glance.length}; sustained eye contact: held ${sustained.filter(Boolean).length}/${sustained.length}; through a wall: attention registered ${walled}/${wn}` };
+});
+
+add('SM10 hold is counterplay, not immunity: standing and staring, it creeps in and drifts sideways; a fixed gaze loses it; up close a small sound triggers it', () => {
+  const rs = [];
+  for (const i of SEEDS) {
+    const A = setup(i, { light: false, face: true, lo: 420, hi: 650, room: true }); if (!A) continue; const { w, p, s } = A;
+    const d0 = dist(s, p); let minD = 1e9, drift = false, withdrew = false;
+    w.run(22, () => { minD = Math.min(minD, dist(s, p)); if (s.act === 'drift') drift = true; if (s.state === 'DISAPPEARING') withdrew = true; }, 1);
+    const crept = d0 - minD;
+    // keep the gaze fixed where it was (no re-aiming): the drift takes it out of the eye cone and the hold breaks
+    const fixed = Math.atan2(s.y - p.y, s.x - p.x); p.look = fixed; let broke = false; w.run(12, () => { const a = s.att.get(p.id); if (a && a.t === 0) broke = true; }, 1);
+    // up close and agitated (eyes back on it): a careful crouched shuffle stays below its hearing (stealth still works); one ordinary walking step
+    // sideways - a small sound, not a loud one - is now enough
+    s.ag = Math.max(s.ag, .8); p.look = () => Math.atan2(s.y - p.y, s.x - p.x); let shuffleStruck = false, struck = false, near = false;
+    if (dist(s, p) < 200) { near = true; const side = fixed + Math.PI / 2;
+      p.go(p.x + Math.cos(side) * 60, p.y + Math.sin(side) * 60, 'crouch'); w.run(2.5, () => { if (s.state === 'ATTACKING' || p.caught) shuffleStruck = true; }, 1);
+      if (!shuffleStruck) { s.ag = Math.max(s.ag, .8); p.go(p.x - Math.cos(side) * 90, p.y - Math.sin(side) * 90, 'walk'); w.run(2.5, () => { if (s.state === 'ATTACKING' || p.caught) struck = true; }, 1); } }
+    rs.push({ crept: Math.round(crept), drift, withdrew, broke, near, shuffleStruck, struck, close: Math.round(minD) });
+  }
+  const nr = rs.filter(r => r.near);
+  return { ok: rs.length >= 5 && rate(rs, r => r.crept > 150 && !r.withdrew) >= .8 && rate(rs, r => r.drift) >= .7 && rate(rs, r => r.broke) >= .7 && nr.length >= 4 && rate(nr, r => !r.shuffleStruck) >= .75 && rate(nr, r => r.struck) >= .75,
+    note: `${rs.length} stand-offs: it closed in (avg ${avg(rs.map(r => r.crept)) | 0} px, to ${avg(rs.map(r => r.close)) | 0} px) and did not go away while watched ${rs.filter(r => r.crept > 150 && !r.withdrew).length}; drifted sideways ${rs.filter(r => r.drift).length}; a fixed gaze lost it ${rs.filter(r => r.broke).length}; up close (${nr.length}): a crouched shuffle set it off ${nr.filter(r => r.shuffleStruck).length}, then one walking step set it off ${nr.filter(r => r.struck).length}` };
+});
+
+add('SM11 multiplayer: one watches it in the dark, another walks about with a light - it works on the light, settles (no flicker), and a lit player it has never seen never wins', () => {
+  const rs = [];
+  for (const i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) {
+    const A = setup(i, { light: false, face: true, lo: 350, hi: 600, room: true }); if (!A) continue; const { w, p, s } = A;
+    const G = geo(), g = G.g, toP = Math.atan2(p.y - s.y, p.x - s.x);
+    // the light carrier: somewhere the smiler's eyes reach (in front of it, line of sight), pacing with the torch on
+    const spot = G.dark.find(c => { const d = Math.hypot(c.x - s.x, c.y - s.y); return d > 280 && d < 700 && g.los(c.x, c.y, s.x, s.y) && Math.abs(Math.atan2(Math.sin(Math.atan2(c.y - s.y, c.x - s.x) - toP), Math.cos(Math.atan2(c.y - s.y, c.x - s.x) - toP))) < 1 && Math.hypot(c.x - p.x, c.y - p.y) > 250 && G.ad.clear(c.x, c.y, 24, 'walk'); });
+    if (!spot) continue;
+    const b = w.player(spot.x, spot.y, { light: true }); const pace = G.dark.find(c => { const d = Math.hypot(c.x - spot.x, c.y - spot.y); return d > 120 && d < 260 && g.los(c.x, c.y, spot.x, spot.y) && G.ad.clear(c.x, c.y, 24, 'walk'); }) || spot;
+    b.route([{ x: pace.x, y: pace.y }, { x: spot.x, y: spot.y }], 'walk');
+    // a third player with a light behind walls, out of its view
+    const hidden = G.dark.find(c => Math.hypot(c.x - s.x, c.y - s.y) < 900 && Math.hypot(c.x - s.x, c.y - s.y) > 300 && !g.los(c.x, c.y, s.x, s.y) && G.ad.clear(c.x, c.y, 24, 'walk'));
+    const h = hidden ? w.player(hidden.x, hidden.y, { light: true }) : null; if (h) { h.stop('stand'); h.look = () => Math.atan2(s.y - h.y, s.x - h.x); }
+    let switches = 0, quick = 0, last = 0, since = 0, onB = 0, onHunseen = 0, hSeen = false, lastSeen = false;
+    w.run(15, (ww, t) => {
+      if (h && s.seenNow.has(h.id)) hSeen = true;                     // (once it has really seen them, they are a fair target)
+      if (s.target && s.target !== last) { if (last) { switches++; if (t - since < 2.9 && lastSeen) quick++; } last = s.target; since = t; }   // (a switch after it lost the last one is not flicker)
+      lastSeen = !!(last && s.mem.p.get(last) && s.mem.p.get(last).seen);
+      if (s.target === b.id) onB++; if (h && s.target === h.id && !hSeen) onHunseen++; if (b.dead || p.dead) return false;
+    }, 1);
+    rs.push({ ok: onB > 0 && onHunseen === 0 && quick === 0, switches, quick, onB, onHunseen, hSeen });
+  }
+  return { ok: rs.length >= 5 && rate(rs) >= .8 && rs.every(r => r.onHunseen === 0), note: `${rs.length} runs: worked on the light carrier ${rs.filter(r => r.onB > 0).length}; targeted the lit player behind walls before ever seeing them ${rs.filter(r => r.onHunseen > 0).length} (saw them later, legitimately: ${rs.filter(r => r.hSeen).length}); target switches ${rs.map(r => r.switches).join(',')} (inside the 3 s dwell while the old one was still in view: ${rs.reduce((a, r) => a + r.quick, 0)})` };
+});
+
+add('SM12 personality: bounded, deterministic per seed, and no extreme tiers', () => {
+  const w = World(31), G = geo(), c = G.dark[5]; const P = [];
+  for (let i = 0; i < 200; i++) { const e = w.eng.spawn('smiler', c.x, c.y); P.push(e.pz); w.eng.remove(e.id); }
+  const inB = P.every(z => Object.values(z).every(v => v >= .02 && v <= .98));
+  const span = k => { const v = P.map(z => z[k]); return [Math.min(...v), Math.max(...v)]; };
+  const a = World(77).eng.spawn('smiler', c.x, c.y).pz, b = World(77).eng.spawn('smiler', c.x, c.y).pz;
+  const chaseAt = P.map(z => Math.min(.74, Math.max(.5, .62 - .2 * (z.bold - .5))));
+  return { ok: inB && JSON.stringify(a) === JSON.stringify(b) && Math.max(...chaseAt) - Math.min(...chaseAt) < .1 && span('patience')[1] - span('patience')[0] < .3,
+    note: `200 individuals: all in [0.02, 0.98] ${inB}; same seed -> same creature ${JSON.stringify(a) === JSON.stringify(b)}; patience ${span('patience').map(v => v.toFixed(2)).join('-')}, boldness ${span('bold').map(v => v.toFixed(2)).join('-')}; chase threshold ${Math.min(...chaseAt).toFixed(2)}-${Math.max(...chaseAt).toFixed(2)}` };
+});
+
+const ALLOWED = { HIDDEN: ['WATCHING', 'FOLLOWING', 'DISAPPEARING', 'ATTACKING', 'PLAYING'], FOLLOWING: ['WATCHING', 'FOLLOWING', 'DISAPPEARING', 'HIDDEN', 'ATTACKING', 'PLAYING'],
+  WATCHING: ['PROVOKED', 'FOLLOWING', 'DISAPPEARING', 'ATTACKING', 'WATCHING', 'HIDDEN', 'PLAYING'], PROVOKED: ['WATCHING', 'FOLLOWING', 'DISAPPEARING', 'PLAYING', 'ATTACKING', 'HIDDEN'],
+  ATTACKING: ['PROVOKED', 'WATCHING', 'FOLLOWING', 'DISAPPEARING', 'PLAYING', 'HIDDEN'], DISAPPEARING: ['HIDDEN', 'WATCHING', 'FOLLOWING', 'ATTACKING', 'PLAYING'], PLAYING: ['WATCHING', 'DISAPPEARING', 'HIDDEN', 'ATTACKING'] };
+add('SM13 state validity over long mixed runs: finite, valid targets and states, legal transitions, never inside walls, never stuck', () => {
+  let bad = [], ticks = 0, trans = 0, longest = 0; const seen = new Set();
+  for (const sd of [1, 2, 3, 4]) {
+    const w = World(sd); const G = geo(); const sms = [w.smiler(G.dark[3 * sd].x, G.dark[3 * sd].y), w.smiler(5200, LY), w.smiler(7400, LY)];
+    const ps = [w.player(5000, LY, { light: true }), w.player(6000, LY, { light: false }), w.player(7000, LY, { light: true, kind: 'lantern' })];
+    ps[0].route([{ x: 6500, y: LY }, { x: 4000, y: LY }, { x: 7600, y: LY }], 'walk'); ps[1].route([{ x: 4300, y: LY }, { x: 7200, y: LY }], 'crouch'); ps[2].stop('stand');
+    const prev = new Map(), since = new Map();
+    w.run(150, (ww, t) => {
+      ticks++; if (Math.floor(t * 2) % 23 === 0) ps[2].light = !ps[2].light;
+      for (const p of ps) if (p.dead && p.respawnAt === undefined) p.respawnAt = t + 3; for (const p of ps) if (p.dead && t > p.respawnAt) { w.sim.respawn(p); p.respawnAt = undefined; p.x = 5000; p.y = LY; }
+      for (const s of sms) {
+        seen.add(s.state);
+        if (!isFinite(s.x) || !isFinite(s.y) || !isFinite(s.ag) || s.ag < 0 || s.ag > 1) bad.push('num');
+        if (s.target && !s.mem.p.has(s.target)) bad.push('target');
+        if (!s.trav && !w.ad.clear(s.x, s.y, 12, 'walk')) bad.push('wall');
+        const pv = prev.get(s); if (pv && pv !== s.state) { trans++; if (!(ALLOWED[pv] || []).includes(s.state)) bad.push(pv + '->' + s.state); since.set(s, t); }
+        prev.set(s, s.state); if (!since.has(s)) since.set(s, t); if (s.state !== 'HIDDEN') longest = Math.max(longest, t - since.get(s));
+      }
+    }, 2);
+  }
+  return { ok: bad.length === 0 && trans > 20 && longest < 120, note: `${ticks} samples, ${trans} transitions, states seen ${[...seen].join(' ')}; problems ${bad.length}${bad.length ? ' (' + [...new Set(bad)].slice(0, 6).join(', ') + ')' : ''}; longest time in one active state ${longest.toFixed(0)} s` };
+});
+
+add('SM14 no teleporting: every move is walked (bounded per tick), whatever it is doing', () => {
+  let worst = 0, at = null, n = 0;
+  for (let i = 1; i <= 10; i++) {
+    const A = setup(i, { light: i % 2 === 0, lo: 400, hi: 800 }); if (!A) continue; const { w, p, s } = A; n++;
+    p.route([{ x: p.x + 180, y: p.y }, { x: p.x - 200, y: p.y + 60 }, { x: p.x, y: p.y - 150 }], i % 3 ? 'walk' : 'run');
+    const T = tracker(w, s); w.run(90, () => { T.tick(); if (p.dead) return false; }, 1);
+    if (T.jump > worst) { worst = T.jump; at = T.jumpAt; }
+  }
+  return { ok: n >= 8 && worst < 9, note: `${n} runs of 90 s: biggest single-tick step ${worst.toFixed(1)} px (${(worst * 60) | 0} px/s)${at ? ' @' + JSON.stringify(at) : ''}` };
+});
+
+add('SM15 presentation: no limbs; the face glow is its own channel (not the generic entity alpha); no aggression UI outside debug', () => {
+  const G = require('../paths.js'); const txt = f => fs.readFileSync(path.join(G, f), 'utf8'); const ents = txt('ents.js'), hud = txt('hud.js');
+  const sm = ents.slice(ents.indexOf('E.drawSmiler = function'), ents.indexOf('E.smilerGlow = function')), glow = ents.slice(ents.indexOf('E.smilerGlow = function'), ents.indexOf('};', ents.indexOf('E.smilerGlow = function')));
+  const noArms = !/quadraticCurveTo\(ex \+ sx \* 8/.test(sm) && /ag\.alpha = 0/.test(sm), noLegs = !/-13, 58, -7, 60/.test(sm), glowOwn = !/view\.alpha/.test(glow);
+  const bad = /(rage|suspicion|awareness|aggro|agitation)[ _-]?(bar|meter|icon|indicator)|exclamation|alert icon|detect(ion)? icon/i;
+  const dbg = ents.indexOf('d.sm'), gated = dbg > 0 && /debug|Debug|__dlab/.test(ents.slice(Math.max(0, dbg - 6000), dbg));
+  return { ok: noArms && noLegs && glowOwn && !bad.test(hud) && !bad.test(ents) && gated, note: `arms drawn ${!noArms}, legs drawn ${!noLegs}; glow reads the generic alpha ${!glowOwn}; aggression UI ${bad.test(hud) || bad.test(ents)}; internal values debug-only ${gated}` };
+});
+
+add('SM16 multiplayer: a light elsewhere draws it off somebody it only watches in the dark (once - no back-and-forth); eye contact keeps it', () => {
+  const run = (i, face) => {
+    const A = setup(i, { light: false, lookAway: !face, face, lo: 350, hi: 550 }); if (!A) return null; const { w, p, s } = A; const G = geo(), g = G.g;
+    const sp = G.dark.find(c => { const d = Math.hypot(c.x - s.x, c.y - s.y); return d > 1000 && d < 1500 && g.los(c.x, c.y, s.x, s.y) && G.ad.clear(c.x, c.y, 24, 'walk'); }); if (!sp) return null;
+    w.run(3, null, 1); if (s.state !== 'WATCHING' || s.target !== p.id) return null;
+    const b = w.player(sp.x, sp.y, { light: true }); b.stop('stand'); b.look = () => Math.atan2(s.y - b.y, s.x - b.x) + .25;     // too far for its eyes to make out the person: only the light
+    let pulls = 0; w.run(15, () => { if (s.state === 'FOLLOWING' && /drew it off/.test(s.dbg.why) && !s._c) { pulls++; s._c = 1; } if (s.state !== 'FOLLOWING') s._c = 0; if (b.dead) return false; }, 1);
+    return { pulls, onB: s.target === b.id || b.dead };
   };
-  const lone = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => run(i, false)).filter(Boolean), grp = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => run(i, true)).filter(Boolean);
-  const ls = rate(lone, r => r.stalked), gs = rate(grp, r => r.stalked), lk = rate(lone, r => r.killed), gk = rate(grp, r => r.killed);
-  return { ok: lone.length >= 8 && ls > 0 && gs <= ls * .35 && gk <= lk, note: `stalked: lone ${(ls * 100) | 0}% vs groups ${(gs * 100) | 0}%; killed: lone ${(lk * 100) | 0}% vs groups ${(gk * 100) | 0}% (${lone.length}/${grp.length} runs of 400s)` };
+  const un = [], held = [];
+  for (let i = 1; i <= 16; i++) { const a = run(i, false); if (a) un.push(a); const h = run(i, true); if (h) held.push(h); }
+  return { ok: un.length >= 8 && un.filter(r => r.pulls).length >= 3 && un.every(r => r.pulls <= 1) && held.length >= 6 && held.every(r => r.pulls === 0),
+    note: `not watched back (${un.length}): drawn off to the light ${un.filter(r => r.pulls).length}, of which went on to the carrier ${un.filter(r => r.pulls && r.onB).length}; pulled more than once ${un.filter(r => r.pulls > 1).length}; held by eye contact (${held.length}): drawn off ${held.filter(r => r.pulls).length}` };
 });
-add('S09 blackout makes them bolder: with the lights out a smiler crosses lamp-lit floor it normally avoids', () => {
-  const G = geo(); const measure = black => {
-    let lampT = 0, tot = 0;
-    for (let i = 1; i <= 8; i++) {
-      const A = setup(i, { lo: 600, hi: 1000 }); if (!A) continue; const { w, p, s } = A; w.sim.admin.blackout(black ? 'on' : 'off'); w.sim.debug.V.blackout = black;
-      s.state = 'FOLLOWING'; s.act = 'follow'; s.target = p.id; s.follow = { since: w.eng.now, until: w.eng.now + 200, rid: p.id, goalT: 0 }; p.route([{ x: p.x + 150, y: p.y }, { x: p.x - 100, y: p.y + 80 }], 'walk');
-      w.run(120, () => { const c = w.eng.geo.cellAt(s.x, s.y); if (c >= 0 && w.eng.geo.lamp[c] >= .2) lampT += DT; tot += DT; if (!p.path || !p.path.length) p.route([{ x: p.x + 150, y: p.y }, { x: p.x - 100, y: p.y + 80 }], 'walk'); }, 1);
-    }
-    return lampT / Math.max(1, tot);
-  };
-  const off = measure(false), on = measure(true);
-  return { ok: on >= off && off < .06, note: `fraction of time standing on lamp-lit floor: lights on ${(off * 100).toFixed(1)}% vs blackout ${(on * 100).toFixed(1)}%` };
-});
-add('S10 "play" style: a smiler that plays keeps its victim down and watched for seconds, then kills (D) or lets go', () => {
-  const rs = over([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], i => {
-    const A = setup(i, { lo: 300, hi: 450 }); if (!A) return null; const { w, p, s } = A; if (!forceStalk(w, s, p, 'play')) return null; s.stalk.decided = true;
-    let capT = -1, deadT = -1, rel = false, v = null, phases = new Set(), plays = 0;
-    w.run(80, (ww, t) => { if (p.caught && capT < 0) capT = t; if (p.caught) phases.add(p.caught.phase); if (s.cap) plays = Math.max(plays, s.cap.plays); if (w.kills.length) { deadT = t; v = w.kills[0].variant; return false; } if (w.evLog.some(e => e.t === 'release')) rel = true; if (capT > 0 && t - capT > 40) return false; }, 2);
-    return { capT, deadT, held: deadT > 0 && capT > 0 ? deadT - capT : -1, v, rel, phases: [...phases].join('/'), plays };
-  }).filter(Boolean);
-  const k = rs.filter(r => r.v);
-  return { ok: rs.length >= 8 && k.length >= 5 && rate(k, r => r.v === 'D') >= .6 && avg(k.filter(r => r.held >= 0).map(r => r.held)) >= 2.5, note: `${rs.length} runs; ${k.length} deaths, ${(rate(k, r => r.v === 'D') * 100) | 0}% variant D; victim held down avg ${avg(k.filter(r => r.held >= 0).map(r => r.held)).toFixed(1)}s before the kill; false hope shown in ${rs.filter(r => r.rel).length}` };
-});
-S.helpers = { darkPair, setup, forceStalk };
+
+S.helpers = { darkPair, setup, watchRun, litWallSetups };
 module.exports = S;

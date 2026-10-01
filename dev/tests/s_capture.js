@@ -20,7 +20,7 @@ function capWorld(kind, seed, o = {}) {
 function withQuick(kind, val, fn) { const sp = SPECIES[kind], old = sp.capture.quick; sp.capture.quick = () => val; try { return fn(); } finally { sp.capture.quick = old; } }
 const evs = (w, t) => w.evLog.filter(e => e.t === t);
 
-add('C01 quick or play depends on the situation: others approaching -> almost always a quick kill; an isolated victim -> the playful kinds toy with it', () => {
+add('C01 quick or play depends on the situation: others approaching -> almost always a quick kill; an isolated victim -> the hound may toy with it (the canon Smiler never plays)', () => {
   const trial = (kind, seed, crowd) => {
     const o = crowd ? { others: [{ x: X0 + 560, y: Y0, go: { x: X0 + 100, y: Y0 }, mode: 'run' }] } : {};
     const { w, v, e } = capWorld(kind, seed, o); let mode = null;
@@ -29,7 +29,8 @@ add('C01 quick or play depends on the situation: others approaching -> almost al
   };
   const N = 60, res = {};
   for (const kind of ['hound', 'smiler']) for (const crowd of [false, true]) { const m = []; for (let s = 1; s <= N; s++) m.push(trial(kind, s, crowd)); res[kind + (crowd ? '+crowd' : '')] = m.filter(x => x === 'play').length / m.filter(Boolean).length; }
-  return { ok: res['hound+crowd'] <= .08 && res['smiler+crowd'] <= .08 && res.smiler > res['smiler+crowd'] + .3 && res.hound < .4 && res.smiler >= .35, note: `share of captures that became play: hound alone ${(res.hound * 100) | 0}% / with someone running up ${(res['hound+crowd'] * 100) | 0}%;  smiler alone ${(res.smiler * 100) | 0}% / with someone running up ${(res['smiler+crowd'] * 100) | 0}%` };
+  // (v23.1, stage 2D: the canon Smiler kills at once and never plays with a victim - Canon Lock: no invented sadism.  The hound is unchanged.)
+  return { ok: res['hound+crowd'] <= .08 && res.hound < .4 && res.hound > res['hound+crowd'] && res.smiler === 0 && res['smiler+crowd'] === 0, note: `share of captures that became play: hound alone ${(res.hound * 100) | 0}% / with someone running up ${(res['hound+crowd'] * 100) | 0}%;  smiler (canon: always quick) alone ${(res.smiler * 100) | 0}% / with someone running up ${(res['smiler+crowd'] * 100) | 0}%` };
 });
 add('C02 CAUGHT is not DEAD: a played-with victim stays alive and held; the next major decision comes after a tense 4-21 s and never in a rush', () => {
   const first = [], gaps = [], held = [], alive = [];
@@ -47,9 +48,9 @@ add('C02 CAUGHT is not DEAD: a played-with victim stays alive and held; the next
   const md = a => a.slice().sort((x, y) => x - y)[a.length >> 1];
   return { ok: held.length >= 40 && Math.min(...first) >= 4 && Math.max(...first) <= 21 && (gaps.length === 0 || Math.min(...gaps) >= 3) && alive.every(Boolean), note: `${held.length} played captures: first decision due ${Math.min(...first).toFixed(1)}-${Math.max(...first).toFixed(1)}s after the grab, later ones ${gaps.length ? Math.min(...gaps).toFixed(1) + '-' + Math.max(...gaps).toFixed(1) + 's' : 'n/a'} apart; total time held ${Math.min(...held).toFixed(1)}-${Math.max(...held).toFixed(1)}s (median ${md(held).toFixed(1)}s); victim alive and CAUGHT throughout in ${alive.filter(Boolean).length}/${alive.length}` };
 });
-add('C03 false hope: a released victim may be hunted again if it runs, and is left alone if it does not', () => {
+add('C03 false hope: a released victim that runs may be hunted again (hounds; the canon Smiler never plays, so never releases)', () => {
   let rel = 0, resumed = 0, letgo = 0, killedAfterRun = 0, runs = 0;
-  for (const kind of ['smiler', 'hound']) withQuick(kind, 0, () => { for (let s = 1; s <= 60; s++) {
+  for (const kind of ['hound']) withQuick(kind, 0, () => { for (let s = 1; s <= 120; s++) {
     const { w, v, e } = capWorld(kind, s + 30); let released = -1, runner = s % 2 === 0, second = false, dead = false;
     w.run(90, (ww, t) => {
       if (released < 0 && evs(w, 'release').length) { released = t; rel++; if (runner) v.go(v.x + 700 * (s % 4 < 2 ? 1 : -1), v.y, 'run'); else v.stop('crouch'); }
@@ -59,22 +60,26 @@ add('C03 false hope: a released victim may be hunted again if it runs, and is le
     }, 2);
     if (released >= 0) { runs++; if (runner && (second || dead)) { resumed++; if (dead) killedAfterRun++; } if (!runner && !second && !dead) letgo++; }
   } });
-  return { ok: rel >= 8 && resumed >= 2 && letgo >= 2, note: `${rel} releases in 120 played captures; those who ran were caught again in ${resumed} (${killedAfterRun} died), those who stayed put were let go in ${letgo}` };
+  // (v23.1, 2D: "left alone if it keeps still" was the old Smiler's play; the canon Smiler never plays.  A hound - unchanged - hunts a released
+  //  victim that runs; whether it leaves a still one alone was never a hound rule (v23.0.1 hound-only: let go 0 as well), so it is reported only.)
+  return { ok: rel >= 5 && resumed >= 2, note: `${rel} releases in 120 played hound captures; those who ran were caught again in ${resumed} (${killedAfterRun} died); those who stayed put were let go in ${letgo} (informational)` };
 });
-add('C04 interruption: someone running up with a light changes its mind within a moment - it kills (or lets go), depending on who it is', () => {
-  const outc = { kill: 0, release: 0, none: 0 }, delays = [];
+add('C04 interruption: someone running up with a light changes its mind within a moment - it kills (a canon Smiler is drawn to the light, not scared off)', () => {
+  const outc = { kill: 0, release: 0, none: 0 }, delays = [], byKind = { hound: { kill: 0, release: 0, none: 0 }, smiler: { kill: 0, release: 0, none: 0 } };
   for (const kind of ['hound', 'smiler']) withQuick(kind, 0, () => { for (let s = 1; s <= 30; s++) {
     const { w, v, e, others } = capWorld(kind, s + 60, { others: [{ x: X0 + 900, y: Y0, light: true }] }); const rescuer = others[0]; let tRun = -1, tDecide = -1, outcome = 'none';
     w.run(50, (ww, t) => {
       if (tRun < 0 && v.caught && t > 2.5) { tRun = t; rescuer.go(X0 + 60, Y0, 'run'); }
       if (tRun >= 0 && tDecide < 0) { if (w.kills.length) { tDecide = t; outcome = 'kill'; return false; } if (evs(w, 'release').length) { tDecide = t; outcome = 'release'; return false; } }
     }, 1);
-    outc[outcome]++; if (tDecide >= 0) delays.push(tDecide - tRun);
+    outc[outcome]++; byKind[kind][outcome]++; if (tDecide >= 0) delays.push(tDecide - tRun);
   } });
   const md = delays.sort((a, b) => a - b)[delays.length >> 1] || 99;
-  return { ok: outc.kill + outc.release >= 45 && outc.kill > 0 && outc.release > 0 && md < 3.2, note: `60 played captures interrupted by a runner with a light: kill ${outc.kill}, let go ${outc.release}, no reaction ${outc.none}; median time to react ${md.toFixed(1)}s after they set off` };
+  // (v23.1, 2D: a Smiler only holds a victim when the admin forces a "play" preview; the canon Smiler is drawn to light, not scared off by it,
+  //  so a runner with a torch gets a kill - it used to let go.  The hound is unchanged: it kills.)
+  return { ok: outc.kill + outc.release >= 45 && byKind.hound.kill >= 25 && byKind.smiler.release === 0 && md < 3.2, note: `60 played captures (smiler: admin-forced) interrupted by a runner with a light: hound kill ${byKind.hound.kill} / let go ${byKind.hound.release}, smiler kill ${byKind.smiler.kill} / let go ${byKind.smiler.release}, no reaction ${outc.none}; median time to react ${md.toFixed(1)}s after they set off` };
 });
-add('C05 after a quick kill it reads the room: with others coming it defends, attacks the next or leaves; alone it settles', () => {
+add('C05 after a quick kill it reads the room: with others coming it defends, attacks the next or leaves; alone it settles (the Smiler lingers, then returns to the dark)', () => {
   const st = { hound: {}, smiler: {}, houndAlone: {}, smilerAlone: {} };
   for (const kind of ['hound', 'smiler']) withQuick(kind, 1, () => { for (let s = 1; s <= 30; s++) for (const alone of [false, true]) {
     const o = alone ? {} : { others: [{ x: X0 + 500, y: Y0 - 30, go: { x: X0 + 100, y: Y0 }, mode: 'run' }, { x: X0 + 560, y: Y0 + 40, go: { x: X0 + 120, y: Y0 + 20 }, mode: 'run' }] };
@@ -82,8 +87,10 @@ add('C05 after a quick kill it reads the room: with others coming it defends, at
     w.run(12, (ww, t) => { if (w.kills.length && after === null && !e.commit) { after = t; } if (after !== null && typeof after === 'number' && t - after > (kind === 'hound' ? .1 : .6)) { after = stateNames(e); return false; } }, 1);   // (v20: a hound reads the room once its kill commitment is over)
     const key = kind + (alone ? 'Alone' : ''); st[key][after] = (st[key][after] || 0) + 1;
   } });
-  const ok1 = Object.keys(st.hound).every(k => /^(HUNTING|RETREATING|FEEDING)/.test(k)), ok2 = Object.keys(st.smiler).every(k => /^(DISAPPEARING|WATCHING|HIDDEN)/.test(k)) && (st.smiler['DISAPPEARING/fade'] || 0) >= 20;
-  const ok3 = Object.keys(st.houndAlone).every(k => /^(EXCITED|FEEDING|STALKING|ROAMING|DORMANT)/.test(k)) && Object.keys(st.smilerAlone).every(k => /^(WATCHING|DISAPPEARING|HIDDEN)/.test(k)) && (st.smilerAlone['WATCHING/watch'] || 0) >= 15;
+  // (v23.1, 2D canon Smiler: two people sprinting up to it are loud and close - a canon trigger, so it strikes at the next one (or, with a light it
+  //  sees, chases it); alone it lingers over the kill a moment, staring, then goes back to the dark.  Hound unchanged.)
+  const ok1 = Object.keys(st.hound).every(k => /^(HUNTING|RETREATING|FEEDING)/.test(k)), ok2 = Object.keys(st.smiler).every(k => /^(ATTACKING|PROVOKED|WATCHING|DISAPPEARING)/.test(k)) && ((st.smiler['ATTACKING/rush'] || 0) + (st.smiler['PROVOKED/chase'] || 0)) >= 20;
+  const ok3 = Object.keys(st.houndAlone).every(k => /^(EXCITED|FEEDING|STALKING|ROAMING|DORMANT)/.test(k)) && Object.keys(st.smilerAlone).every(k => /^(WATCHING|DISAPPEARING|HIDDEN)/.test(k)) && (st.smilerAlone['WATCHING/stare'] || 0) >= 15;
   return { ok: ok1 && ok2 && ok3, note: `with company: hound ${JSON.stringify(st.hound)}, smiler ${JSON.stringify(st.smiler)}; alone: hound ${JSON.stringify(st.houndAlone)}, smiler ${JSON.stringify(st.smilerAlone)}` };
 });
 add('C06 the death itself: one kill per life, the record carries variant / geometry, the body is where the victim fell, no repeat kills', () => {

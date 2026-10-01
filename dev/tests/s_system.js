@@ -90,12 +90,17 @@ add('Y06 no wall clipping: over long emergent runs no entity ever stands inside 
 });
 add('Y07 pop-in: a smiler only appears or vanishes by fading (its visibility changes at a bounded rate); entities are only ever spawned out of sight', () => {
   const G = geo(), H = require('./s_smiler.js').helpers; let maxUp = 0, maxDn = 0, ticks = 0, cycles = 0, seen = 0;
-  /* (a) a smiler pulled out of hiding onto the trail, then caught in a flashlight beam: it must fade in and fade out, never blink */
+  /* (a) (v23.1, canon Smiler) a smiler that comes out to watch somebody, is held by their eyes, and is let go as they back away - or lit up by a
+   *     torch: its face must fade in and fade out, never blink */
   for (let i = 1; i <= 10; i++) {
-    const A = H.setup(i, { light: true, lo: 190, hi: 300 }); if (!A) continue; const { w, p, s } = A; p.light = false; w.run(.6, null);
-    if (!H.forceStalk(w, s, p, i % 2 ? 'rush' : 'cornered')) continue;
-    let f = s.face, lastState = s.state, up = false; p.light = true;
-    w.run(20, () => { p.angle = Math.atan2(s.y - p.y, s.x - p.x); const d = (s.face - f) / DT; if (d > maxUp) maxUp = d; if (-d > maxDn) maxDn = -d; if (s.face > .5) seen++; if (s.state === 'DISAPPEARING' && lastState !== 'DISAPPEARING') cycles++; lastState = s.state; f = s.face; ticks++; }, 1);
+    const A = H.setup(i, { light: false, face: true, lo: 350, hi: 600, room: true }); if (!A) continue; const { w, p, s } = A; let backing = false;
+    let f = s.face, lastState = s.state;
+    w.run(30, (ww, t) => {
+      if (!backing && t > 4 && /hold|creep|drift/.test(s.act)) { backing = true; const a = Math.atan2(p.y - s.y, p.x - s.x); p.pathTo(p.x + Math.cos(a) * 900, p.y + Math.sin(a) * 900, 'crouch') || p.go(p.x + Math.cos(a) * 900, p.y + Math.sin(a) * 900, 'crouch'); }
+      if (i % 3 === 0 && t > 14) p.light = Math.floor(t * 2) % 5 < 2;                // a torch flicked on and off at it
+      const d = (s.face - f) / DT; if (d > maxUp) maxUp = d; if (-d > maxDn) maxDn = -d; if (s.face > .5) seen++; if (s.state === 'DISAPPEARING' && lastState !== 'DISAPPEARING') cycles++; lastState = s.state; f = s.face; ticks++;
+      if (p.dead) return false;
+    }, 1);
   }
   /* (b) spawn distances of the director (raw sim, several players): every new entity is at least 1500 px from every living player, and there are enough of them to say so */
   let minSpawn = 1e9, spawns = 0;
@@ -104,7 +109,7 @@ add('Y07 pop-in: a smiler only appears or vanishes by fading (its visibility cha
     const eng = sim.engine; const known = new Set(eng.entities.map(e => e.id));
     for (let i = 0; i < 60 * 1200; i++) { sim.step(1 / 60); for (const e of eng.entities) if (!known.has(e.id)) { known.add(e.id); spawns++; for (const p of ps) minSpawn = Math.min(minSpawn, Math.hypot(e.x - p.x, e.y - p.y)); } }
   }
-  return { ok: maxUp <= .85 && maxDn <= 1.45 && ticks > 3000 && cycles >= 4 && minSpawn >= 1500, note: `${ticks} ticks of stalking / being lit: fastest fade-in ${maxUp.toFixed(2)}/s (limit .8/s ≈ 1.25 s), fastest fade-out ${maxDn.toFixed(2)}/s (limit 1.4/s ≈ 0.7 s), ${cycles} fade-outs observed; ${spawns} director spawns over 4 x 20 min, nearest to a living player ${minSpawn === 1e9 ? 'n/a' : minSpawn | 0}px` };
+  return { ok: maxUp <= .85 && maxDn <= 1.45 && ticks > 3000 && cycles >= 4 && minSpawn >= 1500, note: `${ticks} ticks of watching / being held / let go / lit: fastest fade-in ${maxUp.toFixed(2)}/s (limit .8/s ≈ 1.25 s), fastest fade-out ${maxDn.toFixed(2)}/s (limit 1.4/s ≈ 0.7 s), ${cycles} fade-outs observed; ${spawns} director spawns over 4 x 20 min, nearest to a living player ${minSpawn === 1e9 ? 'n/a' : minSpawn | 0}px` };
 });
 add('Y08 determinism: the same seed and the same inputs give the same world (no stray randomness, safe for tests and replays)', () => {
   const run = () => { const G = geo(), w = World(1234), p = w.player(5000, LONG.y, {}); p.route([{ x: 5600, y: LONG.y }, { x: 6100, y: LONG.y }], 'run'); const h = w.hound(4300, LONG.y), sm = w.smiler(G.dark[5].x, G.dark[5].y); w.run(60, null); return [h.x, h.y, h.ang, h.state, sm.x, sm.y, sm.state, p.x, p.y, p.caught ? 1 : 0, w.kills.length].join('|'); };

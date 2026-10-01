@@ -80,7 +80,10 @@ function drawEntities(cx, view, list, cfg, stale) {
       lines.push(`tgt:${d.tg || '-'}  v:${d.v}  near:${d.near}` + (d.lit !== undefined ? '  lit:' + d.lit : ''), `mood a${d.mood[0]} f${d.mood[1]} e${d.mood[2]} b${d.mood[3]}`);
       if (d.cp) lines.push(`CAPTURE ${d.cp.m}/${d.cp.ph} ${d.cp.v || ''} t${d.cp.t} next${d.cp.d} n${d.cp.n}`);
       if (d.cd) lines.push('decide: ' + Object.entries(d.cd).map(([k, v]) => k + ':' + v).join(' ').slice(0, 60));
-      if (d.sm) lines.push('quirk ' + d.sm.q + ' exposed ' + d.sm.ex + (d.sm.le ? ' light:' + d.sm.le : '') + (d.sm.enc ? ' enc[' + d.sm.enc + ']' : ''));   // internal values: debug mode only, never in normal play
+      if (d.sm) { const m = d.sm;                                                     // (Part 2D) the canon Smiler: why it is doing this - debug mode only, never in normal play
+        lines.push(`WHY ${m.why || '-'}`, `agitation ${m.ag}${m.agw ? ' (' + m.agw + ')' : ''}  light on it ${m.lit}${m.w ? '  WATCHED BY P' + m.w + ' ' + m.ht + 's' : ''}${m.dw !== null ? '  target kept ' + m.dw + 's' : ''}`);
+        if (m.ab || m.rt) lines.push((m.ab ? 'abandoned: ' + m.ab : '') + (m.rt ? '  switched: ' + m.rt : ''));
+        if (sel) lines.push(`patience ${m.pz.pat} curiosity ${m.pz.cur} persistence ${m.pz.per} boldness ${m.pz.bold}  eye contact ${m.ec.map(c => 'P' + c[0] + ' ' + c[1] + 's').join(', ') || '-'}  strikes ${m.st}`); }
       if (d.dec && (cfg.evid || sel)) { const q = d.dec; lines.push(`DECIDE ${q.s}${q.a ? '/' + q.a : ''}: ${q.why || '-'}${q.tq !== null ? '  tgt conf ' + q.tq : ''}`); if (q.rt) lines.push('retarget: ' + q.rt); if (q.lt) lines.push('light: ' + q.lt + (q.fl !== null && q.fl < 5 ? '  (beam in its eyes ' + q.fl + 's ago)' : '')); }
       if ((cfg.evid || sel) && (d.ld || d.inv || d.ec)) lines.push(`leads ${d.ld ? d.ld.length : 0}${d.inv ? '  investigate ' + d.inv.k + ' ±' + d.inv.u + ' (' + d.inv.age + 's)' : ''}${d.ec ? '  EYE CONTACT ' + d.ec.map(c => 'P' + c[0]).join(',') : ''}`);
       if (sel && d.tr) lines.push('traits ' + Object.entries(d.tr).map(([k, v]) => k + v).join(' '));
