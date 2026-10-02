@@ -112,7 +112,9 @@ E.poseHound = function (view, g, t, dt) {
     case 'listen': {                                                                                          // stops, rises, one hand lifts, head sweeps
       P.hand.fl = { x: NEU.fl.x - 6, y: NEU.fl.y - 12 + Math.sin(t * 3) * 2 }; P.lift.fl = 1; P.hy = -46; P.hr = Math.sin(t * 1.6) * .7 + S.hj * .5; P.crouch = -.1; P.jaw = .12; break;
     }
-    case 'sniff': P.hy = -47; P.hx = Math.sin(t * 4.2) * 7; P.hr = Math.sin(t * 4.2) * .55; P.jaw = .08; break;
+    case 'sniff': {                                                                                           // brief reassessment: keep the skull on the hypothesis while the nose/neck still searches
+      P.hy = -47; P.hx = Math.sin(t * 4.2) * 3 + Math.sin(look) * 2.4; P.hr = look * .82 + Math.sin(t * 4.2) * .16 + S.hj * .25; P.jaw = .08; break;
+    }
     case 'freeze': P.crouch = .15; P.hr = S.hj * 1.2; P.jaw = .1; break;
     case 'wind': {                                                                                            // the coil before a lunge
       const q = .5; for (const n of LIMBS) { const a = ANC[n], h = P.hand[n]; P.hand[n] = { x: lerp(h.x, a.x * 1.3, q), y: lerp(h.y, a.y + (n[0] === 'f' ? -16 : 8), q) }; P.lift[n] = 0; }

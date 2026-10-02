@@ -239,11 +239,16 @@ function hSearch(eng, e, dt, thinkNow) {
     return;
   }
   if (e.act === 'sniff' && s.phase === 'pause') {
-    stopMoving(eng, e, dt); e.head = Math.sin(e.t * 3.2) * .6; s.pause += dt;
+    stopMoving(eng, e, dt); s.pause += dt;
     const warm = r ? clamp(1 - (now - Math.max(r.seenAt, r.heardAt)) / 8, 0, 1) : 0;
-    s.lookAng = (s.sp || 0) > 30 && (s.routeStage || 0) < 2 ? s.hd : null;      // presentation: look where the observed trail most likely continues
-    e.dbg.listen = s.lookAng !== null ? 'last-seen spot empty; checking the prey\'s observed direction first' : 'predicted location empty; listen before trying another opening';
-    if (s.pause > (.5 + e.tr.PATIENCE * .8) * (1.2 - e.tr.AGGRESSION * .5) * (1 - .7 * warm)) {
+    // Human-QA AI-02: the Hound should visibly form its hypothesis the instant it arrives, not stand blankly and only look after the pause.
+    // This is still only remembered evidence: observed heading for a fresh moving trail, otherwise the best legitimate search direction we already own.
+    s.lookAng = (s.sp || 0) > 30 && (s.routeStage || 0) < 2 ? s.hd : (s.goal?.a ?? s.lookAng ?? null);
+    e.head = s.lookAng !== null ? clamp(angDiff(s.lookAng, e.ang), -1.05, 1.05) * .35 + Math.sin(e.t * 3.2) * .12 : Math.sin(e.t * 3.2) * .38;
+    e.dbg.listen = s.lookAng !== null ? 'last-seen spot empty; immediately checking the prey\'s observed direction' : 'predicted location empty; brief listen before trying another opening';
+    // A reassessment is a readable animal beat, not a multi-second stall. Fresh/aggressive trails are especially quick; even a patient Hound moves on promptly.
+    const reassess = clamp(lerp(.28, .62, e.tr.PATIENCE) * (1.05 - .25 * e.tr.AGGRESSION) * (1 - .35 * warm), .22, .70);
+    if (s.pause > reassess) {
       s.phase = 'go'; s.goal = pickSearchGoal(eng, e, s); s.legs++; if (s.goal?.k === 'continue') s.routeStage = (s.routeStage || 0) + 1;
       s.lookAng = s.goal?.a ?? null; setAct(e, ''); e.mood.frustration = Math.min(1, e.mood.frustration + .05);
     }

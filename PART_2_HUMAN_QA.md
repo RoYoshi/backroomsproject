@@ -45,7 +45,7 @@ Use the admin/debug tools and test these in normal gameplay conditions.
 ## Entity presentation
 
 23. **Hound head/body separation** — Watch a Hound notice something off-axis. Its head should acquire the point of interest before/independently of the body; it should read as an animal rather than a tank turret.
-24. **Hound search glance** — Break line of sight around a corner. At the last-seen area, its visible head should favor the direction it actually saw you travelling before scanning alternatives.
+24. **Hound search glance** — Break line of sight around a corner. The instant it reaches a failed/last-seen search point, its visible head should turn toward the direction it actually saw you travelling. The brief sniff/listen beat should happen while it is already looking, not before it looks.
 25. **Smiler facing** — The visible face may rotate toward its perceived/remembered point of interest, but must not imply a body/neck or track hidden live coordinates.
 
 ## Lost-target intelligence
@@ -54,6 +54,7 @@ Use the admin/debug tools and test these in normal gameplay conditions.
 27. **Can still be fooled** — After breaking LOS, deliberately double back or choose an unexpected branch. The Hound may guess wrong. It must not magically know your hidden route.
 28. **New evidence matters** — If you make a legitimate loud movement while hidden, the Hound may revise its hypothesis based on that heard evidence.
 29. **Finite search** — Stay silent and successfully hide. The Hound must eventually lose confidence/search alternatives/give up; this improvement is prediction, not wallhacks.
+30. **Reassessment cadence** — When a normal search hypothesis fails, the Hound may stop briefly to sniff/listen, but it should resume within roughly a fraction of a second rather than appearing frozen for several seconds. Longer deliberate waits remain appropriate only for special cases such as watching a crawlspace exit.
 
 ## Lock decision
 

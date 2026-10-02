@@ -68,4 +68,23 @@ add('HQA X05 lost-target search uses observed heading before unrelated reversal 
   return `first branch stayed in observed forward/side hemisphere at ${a.join(',')} and was identical across hidden positions`;
 });
 
+
+add('HQA X06 Hound reassessment looks immediately and resumes search within a short bounded beat',()=>{
+  const {geo,World}=require('./lib.js'),G=geo(),g=G.g;
+  let spot=null;
+  for(const c of G.cells){const x=g.cx(c),y=g.cy(c);if(G.ad.clear(x,y,28,'walk')&&g.ray(x,y,.62,520)>360){spot={x,y};break;}}
+  assert(spot,'need open search fixture');
+  const w=World(1206),h=w.hound(spot.x,spot.y),p=w.player(8800,6400,{light:false}),hd=.62;p.stop('crouch');
+  h.ang=0;h.speed=0;h.target=p.id;h.state='SEARCHING';h.act='sniff';h.actT=0;
+  h.mem.p.set(p.id,{id:p.id,aw:1,seen:false,seenAt:w.eng.now-9,heardAt:-99,lkx:spot.x,lky:spot.y,lvx:Math.cos(hd)*180,lvy:Math.sin(hd)*180,conf:.8,hx:0,hy:0,st:2,stamina:100,ex:0,prof:1,light:false,iso:0,first:w.eng.now-10,lost:0,hLoud:-99,hvx:0,hvy:0,crawl:null,crawlAt:-99,ev:[],downAt:-99,heldAt:-99});
+  h.search={rid:p.id,started:w.eng.now-9,goal:null,phase:'pause',legs:0,visited:[],why:'lost',until:w.eng.now+20,maxLegs:6,pause:0,first:false,exitsTried:[],routeStage:0,lookAng:hd,lkp:{x:spot.x,y:spot.y},hd,sp:180};
+  const first=h.sp.snap(h);assert(Math.abs(first.lh-hd)<.04,`visual head did not immediately favor hypothesis: ${first.lh} vs ${hd}`);
+  for(let i=0;i<45;i++){const dt=1/60;w.eng.now+=dt;h.t+=dt;h.stateT+=dt;h.actT+=dt;h.sp.tick(w.eng,h,dt,false);}
+  assert(h.search && h.search.phase==='go',`reassessment still paused after 0.75s: ${h.search&&h.search.phase}`);
+  assert(h.search.goal,'reassessment did not select a next hypothesis');
+  const ents=fs.readFileSync(path.join(ROOT,'dev/ents_src/10_hound.js'),'utf8');
+  assert(ents.includes("P.hr = look * .82"),'sniff presentation is not visually anchored to the hypothesis');
+  return `head favored ${hd.toFixed(2)} rad immediately; search resumed with ${h.search.goal.k} by 0.75s`;
+});
+
 module.exports=S;

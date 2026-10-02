@@ -1,12 +1,16 @@
-// ROYOSHI HERE! THIS IS TO REDIRECT TO A NEW SERVER WHILE USING THE SAME DOMAIN! NOT MALICIOUS!
-
+'use strict';
 const http = require('http');
 
-const TARGET = 'http://76.164.197.86:25566';
+const TARGET = (process.env.REDIRECT_TARGET || 'http://76.164.197.86:25566').replace(/\/$/, '');
+const PORT = Number(process.env.PORT || 10000);
 
 http.createServer((req, res) => {
+  const path = req.url || '/';
   res.writeHead(302, {
-    Location: TARGET + req.url
+    Location: TARGET + path,
+    'Cache-Control': 'no-store'
   });
   res.end();
-}).listen(process.env.PORT || 10000, '0.0.0.0');
+}).listen(PORT, '0.0.0.0', () => {
+  console.log(`Render redirect listening on ${PORT} -> ${TARGET}`);
+});
