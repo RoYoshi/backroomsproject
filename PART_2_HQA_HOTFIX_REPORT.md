@@ -1,6 +1,6 @@
 # THE FAR BACKROOMS — Part 2 Human-QA Hotfix Report
 
-**Build:** `23.3.1-hqa-hotfix`  
+**Build:** `23.3.2-hqa-camera`  
 **Baseline:** Stage 2F `v23.3.0-2f`  
 **Baseline SHA-256:** `210a44ebb08c3b562d73a95748450aa6d970a7760d2a963746d9e4777cb5c921`  
 **Status:** Engineering hotfix candidate. **Do not mark Part 2 LOCKED until the final human-QA checklist passes.**
@@ -130,3 +130,21 @@ Stage 2F test `F22` is an exact source-hash preservation guard. This hotfix inte
 This build is ready for the user's final subjective playtest. If the checklist in `PART_2_HUMAN_QA.md` passes, Part 2 can be marked:
 
 `PART 2 COMPLETE — LOCKED`
+
+## QOL/FAIRNESS-03 — Resolution-independent gameplay camera (23.3.2)
+
+Human QA identified that the renderer previously used a nearly fixed world scale (`1.18` on desktop), which meant a larger browser viewport showed materially more world space. A 4K or ultrawide player could therefore gain additional map awareness simply from viewport dimensions.
+
+This hotfix adds `camera_policy.js` and makes the renderer's base camera scale resolution-aware while preserving the established 1920×1080 look as the canonical gameplay envelope:
+
+- canonical reference: 1920×1080 at scale 1.18;
+- maximum baseline world view: approximately 1627.119 × 915.254 world units;
+- same-aspect 720p, 1080p, 1440p and 4K now see the same logical world area;
+- ultrawide and tall aspect ratios crop an axis rather than receiving extra world visibility;
+- device pixel ratio still improves rendering sharpness but does not increase world FOV;
+- camcorder zoom and death-camera zoom remain multiplicative on top of the normalized baseline camera;
+- the small-screen minimum scale can only zoom inward and therefore cannot create a visibility advantage.
+
+This is a presentation/fairness correction only. It does not alter entity perception ranges, movement speed, fixed timestep, server simulation, collision, navigation, or multiplayer state.
+
+New deterministic test: `dev/tests/s_camera_fairness.js`.

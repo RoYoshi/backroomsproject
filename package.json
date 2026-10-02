@@ -1,13 +1,15 @@
 {
   "name": "far-backrooms",
-  "version": "23.3.1-hqa-hotfix",
+  "version": "23.3.3-hqa-fps",
   "private": true,
   "scripts": {
     "start": "node server.js",
     "test": "node dev/tests/run.js",
     "test:hound": "node dev/tests/run.js s_hound2e.js",
     "test:shared": "node dev/tests/run.js s_shared2f.js",
-    "test:humanqa": "node dev/tests/run.js s_humanqa_hotfix.js"
+    "test:humanqa": "node dev/tests/run.js s_humanqa_hotfix.js",
+    "test:camera": "node dev/tests/s_camera_fairness.js",
+    "test:fps": "node dev/tests/s_fps_equality.js"
   },
   "engines": {
     "node": ">=18"

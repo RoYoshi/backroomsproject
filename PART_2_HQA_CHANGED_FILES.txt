@@ -1,16 +1,20 @@
 Changed relative to Stage 2F v23.3.0-2f:
 ai.js (rebuilt)
 assets/index-DKbV5Nv9.js
+camera_policy.js (new)
 dev/ai_src/50_hound.js
 dev/ai_src/60_smiler.js
 dev/sim_glue.js
+dev/tests/s_camera_fairness.js (new)
 dev/tests/s_hound2e.js
 dev/tests/s_humanqa_hotfix.js (new)
+index.html
 mp.js
 package.json
 server.js
 sim.js (rebuilt)
+PART_2_CAMERA_FIX.md (new)
+PART_2_HQA_CHANGED_FILES.txt (new)
 PART_2_HQA_HOTFIX_REPORT.md (new)
 PART_2_HQA_TEST_SUMMARY.md (new)
 PART_2_HUMAN_QA.md (new)
-PART_2_HQA_CHANGED_FILES.txt (new)

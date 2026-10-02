@@ -1,0 +1,7 @@
+timing_policy.js                         NEW — shared client fixed-step timing policy
+index.html                               MODIFIED — loads timing policy before main module
+assets/index-DKbV5Nv9.js                 MODIFIED — browser gameplay loop uses timing policy / 60 Hz fixed steps / 15-step catch-up
+package.json                             MODIFIED — version v23.3.3-hqa-fps and test:fps script
+dev/tests/s_fps_equality.js              NEW — render-FPS equality regression
+PART_2_FPS_EQUALITY.md                   NEW — implementation and verification report
+PART_2_FPS_CHANGED_FILES.txt             NEW — this file

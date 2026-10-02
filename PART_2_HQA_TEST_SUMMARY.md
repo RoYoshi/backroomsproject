@@ -2,6 +2,11 @@
 
 ## Fresh targeted results
 
+- `node dev/tests/s_camera_fairness.js` — **12/12 PASS**
+  - 1920×1080 preserves the established 1.18 camera scale.
+  - 720p/1080p/1440p/4K 16:9 viewports see the same logical world envelope.
+  - ultrawide/tall/mobile/windowed cases never exceed the canonical world width or height.
+  - shipped `index.html` loads the camera policy before the application module and the renderer resize path uses it.
 - `npm run test:humanqa` — **4/4 PASS**
   - 64 Hounds and 64 Smilers individually; 128 mixed entities reachable.
   - 64 client render slots per species and +10 admin batching present.
@@ -31,7 +36,7 @@ The historical reds above match the known Stage 2F sampling/legacy-assertion set
 
 - `dev/build_ai.sh` completed and rebuilt `ai.js`.
 - `dev/build_sim.sh` completed and rebuilt `sim.js`.
-- `node --check` passed for `server.js`, `mp.js`, `ai.js`, `sim.js`, and the shipped browser bundle.
+- `node --check` passed for `camera_policy.js`, `server.js`, `mp.js`, `ai.js`, `sim.js`, and the shipped browser bundle.
 - `node server.js` reached normal startup (`The Far Backrooms → http://localhost:8000`).
 
 ## Stress sanity

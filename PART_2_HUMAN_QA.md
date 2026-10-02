@@ -31,6 +31,12 @@ Use the admin/debug tools and test these in normal gameplay conditions.
 16. Try a mixed high-count room. Look for missing entities, invisible entities, slot reuse errors, NaNs, server stalls, or major snapshot hitching.
 17. `RESPAWN ALL` should return the world to its normal small population; the raised ceiling must not make 64 monsters normal gameplay.
 
+## Camera / fairness
+
+18. **Camera fairness — resolution** — Compare 1280×720, 1920×1080, 2560×1440, and 3840×2160 browser viewports. At the same 16:9 aspect ratio they should show essentially the same amount of world; higher resolution should only look sharper.
+19. **Camera fairness — ultrawide** — Resize to an ultrawide aspect ratio. It must not reveal additional world beyond the canonical gameplay envelope; one axis may crop instead.
+20. **Aim/lighting after resize** — Resize the browser during play and verify mouse aiming, flashlight direction, multiplayer overlays, LOS mask, camcorder zoom, and death camera stay aligned.
+
 ## Lock decision
 
 If all items above feel correct and no new regression appears, mark the package:
