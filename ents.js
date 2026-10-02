@@ -30,7 +30,9 @@ E.slotH = function (o, t, dt, ip) {
   else if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; o.angle = t.a; }
   else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; o.angle += angDiff(t.a, o.angle) * (1 - Math.exp(-dt * 14)); }
   o.distance += Math.hypot(o.x - px, o.y - py);
-  o.state = E.tab.s[t.s] || 'ROAMING'; o.ls = HLS[o.state] || 'patrol'; o.act = E.tab.h[t.ac] || ''; o.v = t.v; o.head = t.h; o.lunge = t.l; o.tg = t.tg; o.cp = t.cp; o.pack = t.k; o.net = 1;
+  o.state = E.tab.s[t.s] || 'ROAMING'; o.ls = HLS[o.state] || 'patrol'; o.act = E.tab.h[t.ac] || ''; o.v = t.v; o.head = t.h;
+  const hl = t.lh === undefined ? (t.h || 0) : t.lh; if (o.look === undefined) o.look = hl; else o.look += angDiff(hl, o.look) * (1 - Math.exp(-dt * 13));
+  o.lunge = t.l; o.tg = t.tg; o.cp = t.cp; o.pack = t.k; o.net = 1;
 };
 E.slotS = function (o, t, dt, ip) {
   const k = 1 - Math.exp(-dt * 12), px = o.x, py = o.y;
@@ -38,7 +40,9 @@ E.slotS = function (o, t, dt, ip) {
   else if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; o.angle = t.a; }
   else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; o.angle += angDiff(t.a, o.angle) * (1 - Math.exp(-dt * 10)); }
   o.distance = (o.distance || 0) + Math.hypot(o.x - px, o.y - py);
-  o.state = E.tab.s[t.s] || 'HIDDEN'; o.ls = SLS[o.state] || 'lurk'; o.act = E.tab.m[t.ac] || ''; o.v = t.v; o.face = t.f; o.head = t.h; o.tg = t.tg; o.cp = t.cp; o.lit = t.lt; o.special = t.sp; o.net = 1; o.sid = t.i;
+  o.state = E.tab.s[t.s] || 'HIDDEN'; o.ls = SLS[o.state] || 'lurk'; o.act = E.tab.m[t.ac] || ''; o.v = t.v; o.face = t.f; o.head = t.h;
+  const sl = t.lh === undefined ? (t.h || 0) : t.lh; if (o.look === undefined) o.look = sl; else o.look += angDiff(sl, o.look) * (1 - Math.exp(-dt * 9));
+  o.tg = t.tg; o.cp = t.cp; o.lit = t.lt; o.special = t.sp; o.net = 1; o.sid = t.i;
 };
 
 /* ---------------------------------------------------------------- HOUND: a distorted humanoid on all fours
@@ -93,7 +97,8 @@ E.poseHound = function (view, g, t, dt) {
   if (S.hjNext <= 0) { S.hjT = rnd(-.55, .55) * (excited ? 1.4 : 1); S.hjNext = rnd(.45, 1.7) / (excited ? 2 : 1); S.hjHold = rnd(.06, .14); }
   else if (S.hjHold > 0) { S.hjHold -= dt; if (S.hjHold <= 0) S.hjT = 0; }
   S.hj += (S.hjT - S.hj) * (1 - Math.exp(-dt * (S.hjT ? 42 : 6)));
-  const P = { hand: {}, lift: {}, hx: Math.sin(t * .8 + S.seed) * 1.6, hy: -44 + Math.sin(t * 1.3 + S.seed) * 1.2, hr: (g.head || 0) * .9 + S.hj, jaw: 0, sy: 1, sx: 1, bend: 0, crouch: 0, air: 0, whip: 0, lean: 0 };
+  const look = g.look === undefined ? (g.head || 0) : g.look;
+  const P = { hand: {}, lift: {}, hx: Math.sin(t * .8 + S.seed) * 1.6 + Math.sin(look) * 2.8, hy: -44 + Math.sin(t * 1.3 + S.seed) * 1.2, hr: look * .92 + S.hj, jaw: 0, sy: 1, sx: 1, bend: 0, crouch: 0, air: 0, whip: 0, lean: 0 };
   for (const n of LIMBS) {
     const ph = S.ph + PHASE[n], r = gait(ph, A * (n[0] === 'f' ? .72 : 1)), nu = NEU[n], side = n[1] === 'l' ? -1 : 1;
     P.hand[n] = { x: nu.x + side * r.lift * 8, y: nu.y + r.dy }; P.lift[n] = r.lift;
@@ -126,7 +131,7 @@ E.poseHound = function (view, g, t, dt) {
       P.hand.fl = { x: -13, y: -46 + Math.sin(t * 6) * 3 }; P.hand.fr = { x: 13, y: -46 - Math.sin(t * 6) * 3 }; P.lift.fl = P.lift.fr = 0; P.hy = -50 + Math.sin(t * 7) * 3.5; P.jaw = .5 + .45 * Math.max(0, Math.sin(t * 7)); P.crouch = .35; break;
     }
     case 'rest': for (const n of LIMBS) { const a = ANC[n]; P.hand[n] = { x: a.x * 1.9, y: a.y + (n[0] === 'f' ? -12 : 6) }; P.lift[n] = 0; } P.crouch = .6; P.hy = -34; P.hr = .3; P.jaw = .02; break;
-    case 'stare': case 'guard': case 'growl': P.hr = (g.head || 0) * .5 + S.hj * .4; P.jaw = act === 'stare' ? .22 : .55; P.crouch = .25; break;
+    case 'stare': case 'guard': case 'growl': P.hr = look * .78 + S.hj * .4; P.jaw = act === 'stare' ? .22 : .55; P.crouch = .25; break;
     case 'pace': P.hr = Math.sin(t * 6) * .6; P.jaw = .45; break;
   }
   return P;
@@ -340,7 +345,8 @@ E.drawSmiler = function (view, sm_, t, dt, vis, o) {
   const fa = clamp(.18 + ff * .82, 0, 1);
   paintFace(view.face, ff, t, .94 * fa, S.seed);
   view.face.alpha = 1;
-  view.face.rotation = (sm_.act === 'watch' || sm_.state === 'WATCHING' ? Math.sin(t * 1.35 + S.seed) * .05 : Math.sin(t * 3.4 + S.seed) * .014) + (sm_.head || 0) * .25;
+  const faceLook = sm_.look === undefined ? (sm_.head || 0) * .25 : sm_.look * .72;
+  view.face.rotation = (sm_.act === 'watch' || sm_.state === 'WATCHING' ? Math.sin(t * 1.35 + S.seed) * .05 : Math.sin(t * 3.4 + S.seed) * .014) + faceLook;
   view.face.position.set(0, -6 - ff * 2);
   const grow = 1 + ff * .12 + (sm_.special ? .08 * Math.sin(t * 9) : 0);
   view.face.scale.set(grow, grow * (1 + .06 * Math.sin(t * 2.2 + S.seed)));
@@ -358,7 +364,7 @@ E.smilerGlow = function (n, view, sm_, t, pl, k) {
   const flick = Math.sin(t * 43 + view.x) > .985 ? .55 : 1;
   const S = grinShape(f), gw = S.gw, dp = S.depth, top = x => 1 + (1 - Math.pow(x / gw, 2)) * 2.5, bot = x => 1 + (1 - Math.pow(x / gw, 2)) * dp;
   n.save(); n.translate(view.x, view.y); n.rotate(view.rotation); n.scale(view.scale.x, view.scale.y);
-  n.translate(0, -6 - f * 2); const gr = 1 + f * .12; n.scale(gr, gr);
+  n.translate(0, -6 - f * 2); n.rotate(view.face ? view.face.rotation : 0); const gr = 1 + f * .12; n.scale(gr, gr);
   n.globalAlpha = Math.min(1, i * flick); n.shadowColor = '#edffe7'; n.shadowBlur = 5 + 10 * f * (k || 1); n.fillStyle = '#f2f5df';
   const ew = 2.3 + .9 * f, eh = 4.6 + 2.6 * f;
   for (const sx of [-1, 1]) { n.beginPath(); n.ellipse(sx * 8.6, -10.5, ew, eh, sx * .16, 0, TAU); n.fill(); }

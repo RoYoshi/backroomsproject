@@ -30,7 +30,9 @@ E.slotH = function (o, t, dt, ip) {
   else if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; o.angle = t.a; }
   else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; o.angle += angDiff(t.a, o.angle) * (1 - Math.exp(-dt * 14)); }
   o.distance += Math.hypot(o.x - px, o.y - py);
-  o.state = E.tab.s[t.s] || 'ROAMING'; o.ls = HLS[o.state] || 'patrol'; o.act = E.tab.h[t.ac] || ''; o.v = t.v; o.head = t.h; o.lunge = t.l; o.tg = t.tg; o.cp = t.cp; o.pack = t.k; o.net = 1;
+  o.state = E.tab.s[t.s] || 'ROAMING'; o.ls = HLS[o.state] || 'patrol'; o.act = E.tab.h[t.ac] || ''; o.v = t.v; o.head = t.h;
+  const hl = t.lh === undefined ? (t.h || 0) : t.lh; if (o.look === undefined) o.look = hl; else o.look += angDiff(hl, o.look) * (1 - Math.exp(-dt * 13));
+  o.lunge = t.l; o.tg = t.tg; o.cp = t.cp; o.pack = t.k; o.net = 1;
 };
 E.slotS = function (o, t, dt, ip) {
   const k = 1 - Math.exp(-dt * 12), px = o.x, py = o.y;
@@ -38,5 +40,7 @@ E.slotS = function (o, t, dt, ip) {
   else if (Math.hypot(t.x - o.x, t.y - o.y) > 260) { o.x = t.x; o.y = t.y; o.angle = t.a; }
   else { o.x += (t.x - o.x) * k; o.y += (t.y - o.y) * k; o.angle += angDiff(t.a, o.angle) * (1 - Math.exp(-dt * 10)); }
   o.distance = (o.distance || 0) + Math.hypot(o.x - px, o.y - py);
-  o.state = E.tab.s[t.s] || 'HIDDEN'; o.ls = SLS[o.state] || 'lurk'; o.act = E.tab.m[t.ac] || ''; o.v = t.v; o.face = t.f; o.head = t.h; o.tg = t.tg; o.cp = t.cp; o.lit = t.lt; o.special = t.sp; o.net = 1; o.sid = t.i;
+  o.state = E.tab.s[t.s] || 'HIDDEN'; o.ls = SLS[o.state] || 'lurk'; o.act = E.tab.m[t.ac] || ''; o.v = t.v; o.face = t.f; o.head = t.h;
+  const sl = t.lh === undefined ? (t.h || 0) : t.lh; if (o.look === undefined) o.look = sl; else o.look += angDiff(sl, o.look) * (1 - Math.exp(-dt * 9));
+  o.tg = t.tg; o.cp = t.cp; o.lit = t.lt; o.special = t.sp; o.net = 1; o.sid = t.i;
 };

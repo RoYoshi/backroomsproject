@@ -51,7 +51,8 @@ E.poseHound = function (view, g, t, dt) {
   if (S.hjNext <= 0) { S.hjT = rnd(-.55, .55) * (excited ? 1.4 : 1); S.hjNext = rnd(.45, 1.7) / (excited ? 2 : 1); S.hjHold = rnd(.06, .14); }
   else if (S.hjHold > 0) { S.hjHold -= dt; if (S.hjHold <= 0) S.hjT = 0; }
   S.hj += (S.hjT - S.hj) * (1 - Math.exp(-dt * (S.hjT ? 42 : 6)));
-  const P = { hand: {}, lift: {}, hx: Math.sin(t * .8 + S.seed) * 1.6, hy: -44 + Math.sin(t * 1.3 + S.seed) * 1.2, hr: (g.head || 0) * .9 + S.hj, jaw: 0, sy: 1, sx: 1, bend: 0, crouch: 0, air: 0, whip: 0, lean: 0 };
+  const look = g.look === undefined ? (g.head || 0) : g.look;
+  const P = { hand: {}, lift: {}, hx: Math.sin(t * .8 + S.seed) * 1.6 + Math.sin(look) * 2.8, hy: -44 + Math.sin(t * 1.3 + S.seed) * 1.2, hr: look * .92 + S.hj, jaw: 0, sy: 1, sx: 1, bend: 0, crouch: 0, air: 0, whip: 0, lean: 0 };
   for (const n of LIMBS) {
     const ph = S.ph + PHASE[n], r = gait(ph, A * (n[0] === 'f' ? .72 : 1)), nu = NEU[n], side = n[1] === 'l' ? -1 : 1;
     P.hand[n] = { x: nu.x + side * r.lift * 8, y: nu.y + r.dy }; P.lift[n] = r.lift;
@@ -84,7 +85,7 @@ E.poseHound = function (view, g, t, dt) {
       P.hand.fl = { x: -13, y: -46 + Math.sin(t * 6) * 3 }; P.hand.fr = { x: 13, y: -46 - Math.sin(t * 6) * 3 }; P.lift.fl = P.lift.fr = 0; P.hy = -50 + Math.sin(t * 7) * 3.5; P.jaw = .5 + .45 * Math.max(0, Math.sin(t * 7)); P.crouch = .35; break;
     }
     case 'rest': for (const n of LIMBS) { const a = ANC[n]; P.hand[n] = { x: a.x * 1.9, y: a.y + (n[0] === 'f' ? -12 : 6) }; P.lift[n] = 0; } P.crouch = .6; P.hy = -34; P.hr = .3; P.jaw = .02; break;
-    case 'stare': case 'guard': case 'growl': P.hr = (g.head || 0) * .5 + S.hj * .4; P.jaw = act === 'stare' ? .22 : .55; P.crouch = .25; break;
+    case 'stare': case 'guard': case 'growl': P.hr = look * .78 + S.hj * .4; P.jaw = act === 'stare' ? .22 : .55; P.crouch = .25; break;
     case 'pace': P.hr = Math.sin(t * 6) * .6; P.jaw = .45; break;
   }
   return P;

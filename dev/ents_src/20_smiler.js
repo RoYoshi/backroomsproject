@@ -85,7 +85,8 @@ E.drawSmiler = function (view, sm_, t, dt, vis, o) {
   const fa = clamp(.18 + ff * .82, 0, 1);
   paintFace(view.face, ff, t, .94 * fa, S.seed);
   view.face.alpha = 1;
-  view.face.rotation = (sm_.act === 'watch' || sm_.state === 'WATCHING' ? Math.sin(t * 1.35 + S.seed) * .05 : Math.sin(t * 3.4 + S.seed) * .014) + (sm_.head || 0) * .25;
+  const faceLook = sm_.look === undefined ? (sm_.head || 0) * .25 : sm_.look * .72;
+  view.face.rotation = (sm_.act === 'watch' || sm_.state === 'WATCHING' ? Math.sin(t * 1.35 + S.seed) * .05 : Math.sin(t * 3.4 + S.seed) * .014) + faceLook;
   view.face.position.set(0, -6 - ff * 2);
   const grow = 1 + ff * .12 + (sm_.special ? .08 * Math.sin(t * 9) : 0);
   view.face.scale.set(grow, grow * (1 + .06 * Math.sin(t * 2.2 + S.seed)));
@@ -103,7 +104,7 @@ E.smilerGlow = function (n, view, sm_, t, pl, k) {
   const flick = Math.sin(t * 43 + view.x) > .985 ? .55 : 1;
   const S = grinShape(f), gw = S.gw, dp = S.depth, top = x => 1 + (1 - Math.pow(x / gw, 2)) * 2.5, bot = x => 1 + (1 - Math.pow(x / gw, 2)) * dp;
   n.save(); n.translate(view.x, view.y); n.rotate(view.rotation); n.scale(view.scale.x, view.scale.y);
-  n.translate(0, -6 - f * 2); const gr = 1 + f * .12; n.scale(gr, gr);
+  n.translate(0, -6 - f * 2); n.rotate(view.face ? view.face.rotation : 0); const gr = 1 + f * .12; n.scale(gr, gr);
   n.globalAlpha = Math.min(1, i * flick); n.shadowColor = '#edffe7'; n.shadowBlur = 5 + 10 * f * (k || 1); n.fillStyle = '#f2f5df';
   const ew = 2.3 + .9 * f, eh = 4.6 + 2.6 * f;
   for (const sx of [-1, 1]) { n.beginPath(); n.ellipse(sx * 8.6, -10.5, ew, eh, sx * .16, 0, TAU); n.fill(); }

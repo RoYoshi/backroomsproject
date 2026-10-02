@@ -417,5 +417,18 @@ SMILER.capture = {
     e.afterKillAt = eng.now;
   },
 };
+/* Presentation-only face aim.  The Smiler has no invented neck/body anatomy: its visible face simply rotates toward the evidence it is already
+ * attending to.  This does not feed back into vision or behavior. */
+function sVisualLook(e) {
+  let x = null, y = null;
+  const r = e.target > 0 ? e.mem.p.get(e.target) : null;
+  if (r) {
+    if (r.seen && r.visual) { x = r.visual.x; y = r.visual.y; }
+    else if (r.conf > .12 && Number.isFinite(r.lkx) && Number.isFinite(r.lky)) { x = r.lkx; y = r.lky; }
+  }
+  if (x === null && e.goalS && Number.isFinite(e.goalS.x)) { x = e.goalS.x; y = e.goalS.y; }
+  if (x === null) return clamp(e.head || 0, -1.2, 1.2);
+  return angDiff(Math.atan2(y - e.y, x - e.x), e.ang);
+}
 SMILER.tick = smilerTick;
-SMILER.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y * 10) / 10, a: +e.ang.toFixed(3), s: SCODE[e.state], ac: SACT[e.act] | 0, v: Math.round(e.speed), f: +e.face.toFixed(2), h: +(e.head || 0).toFixed(2), tg: e.target > 0 && (e.state === S.WATCHING || e.state === S.PROVOKED || e.state === S.ATTACKING) ? e.target : 0, cp: e.cap ? e.cap.pid : 0, lt: +(e.lit || 0).toFixed(2), sp: 0 });
+SMILER.snap = e => ({ i: e.id, x: Math.round(e.x * 10) / 10, y: Math.round(e.y * 10) / 10, a: +e.ang.toFixed(3), s: SCODE[e.state], ac: SACT[e.act] | 0, v: Math.round(e.speed), f: +e.face.toFixed(2), h: +(e.head || 0).toFixed(2), lh: +sVisualLook(e).toFixed(2), tg: e.target > 0 && (e.state === S.WATCHING || e.state === S.PROVOKED || e.state === S.ATTACKING) ? e.target : 0, cp: e.cap ? e.cap.pid : 0, lt: +(e.lit || 0).toFixed(2), sp: 0 });
