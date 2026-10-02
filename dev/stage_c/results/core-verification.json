@@ -1,0 +1,20 @@
+{
+  "syntax": [
+    "world_geometry.js",
+    "world_motion.js",
+    "move.js",
+    "server.js",
+    "camera_policy.js",
+    "redirect.js"
+  ],
+  "freshProcessIdentity": "PASS",
+  "identity": {
+    "schemaVersion": 1,
+    "assetId": "world:stage-a-synthetic",
+    "geometryRevision": "fixture-v1",
+    "contentHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+    "geometryMode": "spatial",
+    "compilerRevision": "stage-c-1"
+  },
+  "parentManifestOriginals": 410
+}

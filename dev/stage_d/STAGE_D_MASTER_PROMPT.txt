@@ -1,0 +1,1074 @@
+THE FAR BACKROOMS
+2.5D STAGE D — EARLY SPATIAL VIEW PROTOTYPE
+MASTER IMPLEMENTATION PROMPT
+
+You are continuing the existing long-running project:
+
+THE FAR BACKROOMS / TheFarBackrooms.io
+
+This is NOT a new project.
+
+Read README_FIRST.txt, CURRENT_STATUS_AND_AUTHORITY.md, the locked 2.5D architecture specification, the Stage C evidence, and the final Stage C ZIP before modifying anything.
+
+You are the implementation agent. The user remains final design authority. Architecture is locked unless a genuine implementation blocker requires an explicit amendment.
+
+==================================================
+0. CURRENT AUTHORITATIVE STATUS
+==================================================
+
+The following are complete / reviewed / locked:
+
+- Part 2 — Entity Intelligence, Perception & Threat
+- 2.5D World Architecture
+- Stage A — Contract and baseline fixtures
+- Stage B — Canonical geometry and flat adapter
+- Stage C — Spatial geometry and body motion
+
+Stage C was independently reviewed after Astra's engineering run and accepted for progression.
+
+Stage C final checkpoint:
+
+thefarbackrooms-level0-25d-stageC-spatial-motion.zip
+
+Expected SHA-256:
+
+0ded2b248867be592c25585de89a45217cbf989f4257c1a94301ffbaa89c585b
+
+CAMERA-P01 is the current accepted implementation candidate:
+
+- old canonical reference scale: 1.18
+- current reference scale: 1.25
+- current 1920x1080 logical world envelope: 1536 x 864
+
+Do NOT revert CAMERA-P01 unless explicitly instructed by the user in a later turn.
+
+The locked architecture document predates CAMERA-P01 and contains the old 1.18 / 1627.119 x 915.254 reference footprint in its Stage D rendering section. That specific camera footprint value is superseded by the newer CAMERA-P01 decision. All fairness principles remain unchanged.
+
+Stage D is now explicitly authorized.
+
+Stage E and later are NOT authorized.
+
+==================================================
+1. INPUT AUTHORITY ORDER
+==================================================
+
+Resolve instructions in this order:
+
+1. This Stage D master prompt
+2. CURRENT_STATUS_AND_AUTHORITY.md
+3. Locked 2.5D architecture specification
+4. Final approved Stage C checkpoint and Stage C evidence
+5. Embedded Stage B / Stage A contracts in the Stage C package
+6. Locked Part 2 behavior
+7. Older historical notes
+
+Do not silently reconcile a real contradiction by inventing a new design.
+
+==================================================
+2. STAGE D PURPOSE
+==================================================
+
+Stage D is:
+
+EARLY SPATIAL VIEW PROTOTYPE
+
+Its purpose is to prove, on the existing Stage C synthetic spatial fixture, that the current Pixi-based renderer can support the required 2.5D presentation architecture BEFORE broad presentation integration begins.
+
+Stage D is a rendering feasibility gate.
+
+The smallest successful deliverable is a spatial view prototype demonstrating:
+
+- orthographic oblique projection
+- real depth based on physical XYZ
+- physical visibility separated from camera obstruction
+- local cutaway that removes/fades only camera-obstructing presentation geometry
+- correct stacked-floor visual separation
+- existing actor art rendered at spatial anchors
+- two independent client/view states capable of different cutaways from the same world truth
+- no cross-floor reveal
+- no overlay leak
+- no camera fairness expansion
+- acceptable renderer feasibility/performance for proceeding to later presentation integration
+
+Stage D does NOT mean "convert the whole game to 2.5D presentation."
+
+==================================================
+3. PARENT PRE-FLIGHT — MANDATORY
+==================================================
+
+Before editing:
+
+1. Verify the Stage C ZIP SHA-256 exactly matches:
+   0ded2b248867be592c25585de89a45217cbf989f4257c1a94301ffbaa89c585b
+2. Verify ZIP CRC.
+3. Extract cleanly.
+4. Inventory the parent tree.
+5. Verify the Stage C required modules exist, including:
+   - levels/level0.js
+   - world_geometry.js
+   - world_motion.js
+   - move.js
+   - camera_policy.js
+   - timing_policy.js
+   - redirect.js
+6. Read Stage C report/parity/baseline-failure/camera evidence.
+7. Run a bounded Stage C preflight sufficient to establish that the parent is healthy before rendering work begins.
+
+At minimum confirm:
+
+- core spatial geometry/motion suite passes
+- CAMERA-P01 policy suite passes
+- flat Level 0 compatibility remains intact
+- required builds reproduce
+- B-01 serving remains fixed
+
+Do not rebuild Stage C from Stage B.
+Do not reopen Stage C physics.
+
+==================================================
+4. STAGE D ARCHITECTURE — WORLD_VIEW.JS
+==================================================
+
+Introduce/evolve the architecture-prescribed client module:
+
+world_view.js
+
+Its responsibility is presentation only:
+
+- projection
+- spatial draw packets
+- depth / visibility composition
+- local cutaway state
+- prototype picking / masks only where needed for feasibility
+
+It must NOT own or mutate:
+
+- physics
+- support state
+- AI decisions
+- navigation
+- server authority
+- network truth
+- evidence
+- deaths
+- world geometry
+
+Rendering consumes simulation truth.
+Rendering never creates simulation truth.
+
+No render state may change collision, LOS, support, AI sensing, motion, or network state.
+
+==================================================
+5. PROJECTION — LOCKED
+==================================================
+
+Use the architecture-approved orthographic oblique spatial projection:
+
+screenX = scale * (x - cameraX)
+
+screenY = scale * ((y - cameraY) - elevationScale * (z - cameraZ))
+
+Initial spatial elevationScale:
+
+0.5
+
+Flat compatibility:
+
+0
+
+Do NOT reinterpret elevationScale as physical Z scaling.
+
+The physical world remains true XYZ regardless of projection.
+
+Existing actor art remains visually simple and may be placed at spatial anchors. The player remains:
+
+- one rounded body
+- two circular hands
+- no arms
+- no legs
+
+Do not redesign art or anatomy.
+
+==================================================
+6. CAMERA-P01 MUST SURVIVE STAGE D
+==================================================
+
+Stage D MUST preserve the normalized camera policy established by CAMERA-P01.
+
+Current canonical reference:
+
+1920x1080 -> scale 1.25 -> 1536 x 864 logical world envelope
+
+Required invariants:
+
+- higher pixel resolution does NOT grant more world awareness
+- DPR changes sharpness only
+- ultrawide crops the opposite axis instead of granting extra awareness
+- portrait follows the normalized policy
+- elevation must not zoom the camera out
+- stair/ramp/fall state must not dynamically change tactical awareness
+- render FPS must not change camera footprint
+
+The architecture's older 1.18 camera number is superseded here, but its fairness model remains mandatory.
+
+Projection can move elevated geometry into screen space, but world candidate culling / visibility must still respect the canonical XY awareness footprint and physical visibility.
+
+No dynamic zoom.
+No Z-based zoom.
+No threat-based zoom.
+No speed-based zoom.
+
+==================================================
+7. DEPTH MUST BE REAL
+==================================================
+
+Do NOT implement Stage D as sprite-Y sorting, floorIndex sorting, or giant per-floor depth offsets.
+
+For spatial projection, camera depth must be consistent with a view direction proportional to:
+
+(0, elevationScale, 1)
+
+Use actual geometry depth for overlapping projected surfaces.
+
+The prototype must correctly handle at least:
+
+- lower floor under upper floor
+- ramp crossing projected geometry
+- stair geometry
+- actor partially occluded by spatial geometry
+- geometry sharing XY at different Z
+
+A single global Y-sort is not sufficient.
+
+Do not fake success by designing a fixture that never overlaps in projection.
+
+==================================================
+8. TWO DIFFERENT VISIBILITY QUESTIONS — DO NOT MERGE THEM
+==================================================
+
+Stage D must preserve the locked distinction:
+
+A. PHYSICAL VISIBILITY
+What surfaces / actors could the local player's eye or sensor physically see through the actual Stage C geometry?
+
+B. CAMERA OBSTRUCTION
+What otherwise physically visible geometry blocks the top-down camera from viewing the local player / relevant local space?
+
+CUTAWAY MAY CHANGE B ONLY.
+
+Cutaway must NEVER alter A.
+
+Example:
+
+If a roof blocks physical LOS between the player and an entity above it, locally fading that roof for camera readability must NOT reveal the entity through the physical visibility mask.
+
+Likewise, a real stairwell opening may allow physically visible lower/upper geometry across support identities.
+
+==================================================
+9. LOCAL-EYE PHYSICAL VISIBILITY FIELD
+==================================================
+
+Build a prototype physical-visibility representation from ALL relevant physical occluders, including surfaces that may later be cut away in the camera composition.
+
+The architecture proposes a small local-eye depth field / depth-cubemap approach with an initial target around 512x512 per face.
+
+Treat that as an architectural target, not permission to fabricate support for an API the current renderer does not have.
+
+You may implement an equivalent bounded technique if actual Pixi / WebGL capability requires it, BUT:
+
+- it must preserve arbitrary horizontal/vertical/oblique physical occlusion
+- it must not depend on cutaway visibility
+- it must not expand physical reach when quality is reduced
+- it must use conservative bias at thin boundaries to prevent reveal leaks
+- the exact implementation choice must be documented
+
+If renderer limitations force an architecture amendment, STOP and document the constraint rather than weakening physical truth.
+
+==================================================
+10. LOCAL CUTAWAY
+==================================================
+
+Implement a local presentation-only cutaway state for the prototype.
+
+Suggested architecture state:
+
+{ worldEpoch, focusSpace, group states, fade progress }
+
+Initial presentation hysteresis from the locked architecture:
+
+- enter fade: ~0.15 s
+- restore fade: ~0.25 s
+
+These are presentation values, not simulation timings.
+
+Cutaway rules:
+
+- deterministic local candidate ordering
+- fade/remove only explicitly cutaway-eligible camera-obstructing faces/groups
+- physical geometry remains active for physics / physical visibility / light truth
+- physical LOS takes effect immediately
+- cosmetic fade must not create temporary entity reveal
+- focus follows continuous Z through stairs/ramps
+- do not wait for a floor index switch
+- two observers at different elevations may have different local cutaways for the same authoritative world snapshot
+
+Do not add a global "current floor hides all others" switch.
+
+==================================================
+11. SYNTHETIC STAGE C FIXTURE — PRIMARY STAGE D TESTBED
+==================================================
+
+Use the same Stage C synthetic spatial fixture as the main Stage D rendering feasibility environment.
+
+It should expose at least:
+
+- stacked lower/upper surfaces
+- ramp
+- real stair run
+- crawl/low roof
+- balcony/drop or equivalent vertical separation
+- underside/slab occlusion
+- physical opening/stairwell
+
+Do NOT redesign Level 0 to showcase Stage D.
+
+Do NOT insert fake new 2.5D architecture into locked Level 0.
+
+A dedicated dev/browser fixture or explicit prototype mode is preferred if that keeps flat Level 0 untouched.
+
+==================================================
+12. EXISTING ACTOR ART — PROTOTYPE ONLY
+==================================================
+
+Use existing actor art in the prototype to prove that current game visuals can be spatially anchored and depth-composed.
+
+Do NOT broadly migrate every gameplay presentation path yet.
+
+At minimum prove one local actor and enough representative remote/fixture art to test:
+
+- depth in front/behind geometry
+- partial occlusion
+- different floors at overlapping screen regions
+- visibility mask correctness
+
+Do not redesign Hounds or Smilers.
+Do not invent a Smiler body.
+Do not retune entity visuals or behavior.
+
+If using a Hound/Smiler visual in the prototype, it is presentation-only test placement; do not change AI systems.
+
+==================================================
+13. FLAT RENDERER MUST REMAIN A COMPATIBILITY FAST PATH
+==================================================
+
+Locked Level 0 remains geometryMode: flat-compat.
+
+Its existing rendering/gameplay presentation should remain unchanged except for already accepted CAMERA-P01.
+
+Stage D must not force the entire flat game through an expensive spatial path if the architecture allows a preserved fast path.
+
+No flat screenshot / behavior drift should be introduced merely to prove the prototype.
+
+Do not convert Level 0 physical content in Stage D.
+
+==================================================
+14. OVERLAY-LEAK TEST — MANDATORY
+==================================================
+
+The architecture specifically warns that separate Canvas/Pixi layers can leak hidden world state.
+
+The Stage D prototype must explicitly test that no overlay can draw hidden upstairs/downstairs content through the final spatial visibility/depth composition.
+
+Prototype evidence should include representative overlays/effects sufficient to prove the composition boundary, such as a controlled test marker / actor annotation / fixture effect.
+
+Do NOT broadly migrate every HUD/effect system; that belongs to Stage H.
+
+But DO prove that the final composition design can prevent an overlay leak.
+
+A hidden actor must not become visible merely because one layer renders after the depth mask.
+
+==================================================
+15. TWO-VIEW / TWO-CLIENT PRESENTATION TEST — MANDATORY
+==================================================
+
+Stage D acceptance requires demonstrating independent local view interpretation.
+
+Use either:
+
+- two real browser clients connected to the same test snapshot / prototype state, OR
+- two isolated client view instances in a controlled browser harness using the same authoritative spatial snapshot
+
+The key requirement is:
+
+SAME WORLD TRUTH
+DIFFERENT LOCAL CUTAWAY STATES
+
+Test a case where:
+
+- observer A is on / focused on lower space
+- observer B is on / focused on upper space
+- both reference the same spatial geometry and actor state
+- each view has its own appropriate cutaway
+- neither camera change modifies the underlying world state
+- neither sees actors through physically occluding slabs
+
+Do not fake this by mutating the world separately for each view.
+
+==================================================
+16. NO STAGE E SCOPE
+==================================================
+
+Stage E is surface navigation and sensors.
+
+DO NOT implement:
+
+- spatial Hound A*
+- spatial Smiler navigation
+- NavSurface path migration
+- TraversalLink AI routing
+- vertical AI perception migration
+- vertical evidence uncertainty
+- height-aware AI contact logic
+
+Stage D may call existing pure geometry visibility queries for rendering truth.
+That does not authorize AI migration.
+
+==================================================
+17. NO STAGE F SCOPE
+==================================================
+
+DO NOT implement network-Z authority/protocol.
+
+The Stage D browser prototype may load deterministic fixture snapshots locally or through a bounded prototype harness.
+
+Do not redesign multiplayer packets just to render the prototype.
+
+Two-view testing does not authorize Stage F.
+
+==================================================
+18. NO STAGE G SCOPE
+==================================================
+
+DO NOT migrate corpse / detached-item elevation into the production death pipeline.
+
+A simple fixture object may be used as a spatial render proxy if needed to validate depth, but do not convert the shared death system.
+
+Stage G owns spatial aftermath.
+
+==================================================
+19. NO STAGE H SCOPE
+==================================================
+
+Stage H is COMPLETE PRESENTATION INTEGRATION.
+
+Do NOT broadly migrate:
+
+- every peer path
+- corpses
+- gear
+- light systems
+- IR systems
+- decals
+- audio
+- map/HUD/admin depth selection
+- every overlay
+
+Stage D only proves the architecture is feasible.
+
+Minimal representative integrations are allowed solely to prove the view pipeline.
+
+==================================================
+20. PHYSICS / SIMULATION MUST REMAIN BYTE-SEMANTICALLY STABLE
+==================================================
+
+Stage D should not need to change world_motion.js physical behavior.
+
+Treat Stage C simulation as frozen.
+
+Any required change to Stage C geometry/motion must be:
+
+- minimal
+- presentation-facing only where possible
+- explicitly justified
+- regression tested
+
+No change in:
+
+- movement tuning
+- gravity
+- support solving
+- stairs
+- ramps
+- falling
+- body profiles
+- collision outcomes
+- fixed tick policy
+
+Changing viewport size, render FPS, cutaway, quality or debug presentation must not change simulation traces.
+
+==================================================
+21. FIXED TIMESTEP / RENDER-TIME SEPARATION
+==================================================
+
+Gameplay stays fixed 60 Hz.
+
+Render FPS is arbitrary.
+
+Stage D may interpolate immutable render poses from completed simulation state, but:
+
+- rendering cannot invoke extra game ticks
+- rendering cannot consume gameplay RNG
+- cutaway cannot change support / physics
+- changing render FPS cannot change physical trace hashes
+
+Test at multiple render rates where possible.
+
+==================================================
+22. PICKING / AIM — PROTOTYPE BOUNDARY
+==================================================
+
+The locked architecture ultimately requires projection inversion with real depth/surface selection because screen XY becomes ambiguous in stacked geometry.
+
+Stage D may implement only the minimum prototype picking needed to prove the renderer/view design if helpful.
+
+Do NOT broadly migrate production aim/interactions.
+
+If implemented in the prototype:
+
+- intersect camera ray against visible candidate geometry / proxies
+- choose nearest physically visible hit
+- never auto-select a hidden entity
+- never treat screen-space distance as gameplay interaction range
+- fall back to a defined aim plane, not an arbitrary upper floor
+
+Production interaction authority remains for later authorized stages.
+
+==================================================
+23. LIGHT / IR BOUNDARY
+==================================================
+
+Stage D may use a minimal representative presentation light to prove that physical geometry can occlude visual channels in the spatial renderer.
+
+Do NOT migrate the full gameplay light / AI sensor model.
+
+Critical invariant:
+
+GPU/view visibility NEVER becomes server AI visibility truth.
+
+IR remains separate from Hound/Smiler AI.
+
+No renderer result may feed species perception.
+
+==================================================
+24. BROWSER VERIFICATION IS A HARD STAGE D GATE
+==================================================
+
+Unlike Stages B/C, Stage D is specifically a renderer feasibility stage.
+
+Therefore actual browser-rendered evidence is required before claiming Stage D engineering complete.
+
+Static JS syntax, VM execution, text inspection, or HTTP 200 responses are NOT enough.
+
+Use an actual browser executable and the actual served package / prototype.
+
+Attempt bounded supported browser setup if necessary and permitted by the environment.
+
+If an actual browser cannot be launched after reasonable effort:
+
+- do NOT claim Stage D PASS
+- preserve the working implementation checkpoint
+- package the partial implementation/evidence
+- report: STAGE D IMPLEMENTATION PRESENT — BROWSER FEASIBILITY ACCEPTANCE BLOCKED
+- STOP rather than fabricating visual evidence
+
+Do not weaken this gate simply because previous stages had browser execution blocked.
+
+==================================================
+25. REQUIRED BROWSER EVIDENCE
+==================================================
+
+Capture objective evidence from actual rendered output.
+
+At minimum:
+
+1. Flat compatibility view still renders normally.
+2. Spatial fixture renders with elevationScale 0.5.
+3. Lower/upper surfaces overlap correctly in projection and depth.
+4. Actor in front of geometry is visible.
+5. Same actor behind an occluder is clipped/hidden correctly.
+6. Cutaway removes/fades camera obstruction without changing physical-visibility result.
+7. Physically hidden cross-floor actor remains hidden even when roof is cut away.
+8. Real opening / stairwell permits appropriate cross-elevation visibility where geometry allows.
+9. Two local view instances produce independent cutaway states from same world truth.
+10. Representative overlay cannot bypass final spatial visibility/depth mask.
+11. CAMERA-P01 fairness remains intact at multiple viewport/DPR combinations.
+12. No obvious depth flicker at static seams.
+13. Cutaway hysteresis does not rapidly oscillate at a boundary.
+
+Where possible save:
+
+- screenshots
+- deterministic browser-state JSON
+- frame capture / render diagnostics
+- viewport/DPR metadata
+- browser/runtime version
+
+Do not substitute textual claims for visual/browser evidence.
+
+==================================================
+26. RENDERER FEASIBILITY / PERFORMANCE GATE
+==================================================
+
+Stage D exists partly to determine whether the current renderer can support the required spatial pass before broad migration.
+
+Measure the prototype rather than asserting it is fast.
+
+Record at minimum:
+
+- browser/GPU environment if exposed
+- viewport / DPR
+- spatial fixture primitive count
+- draw calls / passes if available
+- visibility/depth target dimensions
+- approximate GPU/frame time or robust browser frame-time distribution
+- memory footprint of new render targets where measurable
+- behavior when quality is reduced
+
+Architecture target:
+
+A supported rendering profile should aim for a 16.7 ms frame budget, but do not call an unmeasured or unavailable reference device a failure.
+
+The key Stage D question is feasibility and bounded cost.
+
+Quality reduction may lower:
+
+- depth/shadow resolution
+- cosmetic detail
+- presentation sampling
+
+It may NOT:
+
+- expand visibility
+- reveal hidden floors
+- omit physical occluders from truth
+- change simulation
+- remove geometry from collision
+
+==================================================
+27. CAMERA FAIRNESS TESTS WITH SPATIAL PROJECTION
+==================================================
+
+Retain CAMERA-P01 canonical 1.25.
+
+Test actual rendered/browser behavior for at least representative cases:
+
+- 1920x1080 DPR 1
+- 1920x1080 high DPR
+- 3840x2160
+- 3440x1440 ultrawide
+- portrait or narrow aspect where harness supports it
+
+Confirm:
+
+- canonical XY awareness cap is unchanged by resolution
+- DPR does not change logical world footprint
+- ultrawide does not grant more tactical XY world
+- elevated geometry appearing higher/lower on screen does not expand world candidate scope
+- cutaway does not increase physical sight
+
+Do not change the 1.25 value during Stage D unless there is a concrete renderer bug directly caused by the constant itself. A subjective desire for different framing belongs to later user tuning.
+
+==================================================
+28. NEW STAGE D TEST SUITES
+==================================================
+
+Add focused Stage D tests, not one giant "2.5D PASS" script.
+
+Suggested groups:
+
+A. Projection math
+- flat elevationScale 0
+- spatial elevationScale 0.5
+- Z translation projects consistently
+- camera translation consistency
+- invertible representative mapping where applicable
+
+B. Depth ordering
+- upper/lower overlapping projection
+- ramp/overhang ordering
+- partial actor occlusion
+- no floor-index shortcut
+
+C. Physical visibility vs cutaway
+- physically hidden remains hidden after cutaway
+- visible through real opening remains visible
+- cutaway never changes geometry query truth
+
+D. Cutaway state
+- deterministic group selection
+- enter/restore hysteresis
+- independent view state
+- no global mutation
+
+E. Camera fairness
+- CAMERA-P01 footprint invariant
+- resolution/DPR invariance
+- ultrawide crop behavior
+
+F. Simulation independence
+- render FPS / cutaway / viewport changes produce identical physical simulation traces
+
+G. Browser compositing
+- actual screenshot / pixel-region / render-state assertions sufficient to catch cross-floor/overlay leaks
+
+Do not edit old Stage C tests merely to get green output unless CAMERA-P01 expected values already define an intentional current value.
+
+==================================================
+29. EXISTING REGRESSION SUITES
+==================================================
+
+After Stage D core prototype passes and recovery checkpoint is saved, run the applicable inherited regressions.
+
+Preserve/report at minimum:
+
+- Stage C spatial core
+- Stage C adversarial geometry
+- Stage C fixed schedule tests
+- camera policy
+- flat trace parity
+- Hound
+- shared
+- human-QA automated suite
+- FPS
+- entity look
+- physics/death
+- interpolation
+- network audits
+- IR
+- existing performance suites
+
+Do not retune unrelated systems to improve results.
+
+P08 remains UNKNOWN / NEEDS INVESTIGATION unless independently resolved.
+
+F22 remains historical exact-source-guard context.
+
+==================================================
+30. CHANGE-SCOPE DISCIPLINE
+==================================================
+
+Create an explicit Stage D modified-original allowlist.
+
+Expected NEW files may include:
+
+- world_view.js
+- Stage D browser/prototype fixture
+- Stage D test scripts
+- Stage D browser evidence/results
+- Stage D reports
+
+Expected modifications may include only files needed for:
+
+- loading world_view.js
+- narrow Pixi integration
+- prototype render path
+- actual HTTP serving of the new module/fixture
+- camera/view wiring
+- minimal representative actor draw integration
+
+Potentially affected files from the architecture include the application bundle / index bootstrap, but avoid broad minified-bundle rewrites.
+
+Do NOT hand-edit generated copies when maintained source/build paths exist.
+
+Every modified original file must have a written reason.
+
+Deleted original files should normally be zero.
+
+Unexpected large source churn is a review failure.
+
+==================================================
+31. SERVER / HTTP / PACKAGE SECURITY
+==================================================
+
+Preserve Stage B/C serving protections.
+
+Required Stage D public prototype assets/modules must load successfully.
+
+Internal files must remain inaccessible as intended.
+
+Malformed/traversal paths must remain safely rejected.
+
+Do not reintroduce B-01.
+
+Verify actual HTTP bytes, not only file existence.
+
+redirect.js remains unchanged at project root unless explicitly required.
+
+==================================================
+32. PORTABILITY
+==================================================
+
+Stage D must run from a clean extraction and a path containing spaces.
+
+No absolute workspace paths.
+No hidden dependency on Astra's scratch directory.
+No machine-specific cached asset path.
+
+Browser fixture URLs must be package-relative / served-path-safe.
+
+==================================================
+33. EARLY RECOVERY CHECKPOINT — MANDATORY
+==================================================
+
+After:
+
+- world_view.js / prototype implementation exists
+- syntax/build passes
+- projection/depth/cutaway unit tests pass
+- browser prototype renders successfully at least once
+- core cross-floor / visibility separation behavior is demonstrated
+
+BUT BEFORE:
+
+- long regressions
+- extended performance runs
+- final report writing
+- final packaging
+
+CREATE:
+
+thefarbackrooms-level0-25d-stageD-WORKING-CHECKPOINT.zip
+
+Calculate SHA-256.
+
+Verify:
+
+- CRC
+- clean extraction
+- actual implementation exists
+- world_view.js exists
+- browser prototype fixture exists
+- redirect.js exists
+
+Preserve this working checkpoint externally before long validation.
+
+If service stability becomes questionable:
+
+CHECKPOINT FIRST.
+
+==================================================
+34. FINAL STAGE D DELIVERABLES
+==================================================
+
+Produce:
+
+thefarbackrooms-level0-25d-stageD-spatial-view-prototype.zip
+
+External final artifacts:
+
+25D_STAGE_D_SHA256.txt
+25D_STAGE_D_PACKAGE_VERIFICATION.json
+
+Include appropriate reports, at minimum:
+
+25D_STAGE_D_REPORT.md
+25D_STAGE_D_TEST_SUMMARY.md
+25D_STAGE_D_BASELINE_FAILURES.md
+25D_STAGE_D_PARITY.md
+25D_STAGE_D_CHANGED_FILES.txt
+25D_STAGE_D_HUMAN_QA.md
+25D_STAGE_D_VIEW_PROTOTYPE.md
+25D_STAGE_D_BROWSER_EVIDENCE.md
+
+Keep the working recovery checkpoint and its checksum/status as separate historical artifacts.
+
+Final SHA / package-verification should remain external if embedding them creates circular identity.
+
+==================================================
+35. FINAL PACKAGE VERIFICATION
+==================================================
+
+After implementation/testing/report work:
+
+1. Create final ZIP once.
+2. Calculate SHA-256.
+3. Verify CRC.
+4. Extract to clean bounded directory.
+5. Compare intended final tree byte-for-byte.
+6. Syntax-check key JS files.
+7. Run bounded Stage D projection/depth/cutaway tests.
+8. Run actual browser prototype smoke/acceptance checks against the final extracted package.
+9. Verify CAMERA-P01 values.
+10. Verify required files.
+11. Verify redirect.js.
+12. Verify actual served HTTP resources and path rejection.
+13. Verify no temp trees/nested archives.
+14. Verify Stage E+ is absent.
+15. Record results in 25D_STAGE_D_PACKAGE_VERIFICATION.json.
+
+Do not repackage after computing the final SHA.
+
+==================================================
+36. STAGE D ACCEPTANCE CONDITIONS
+==================================================
+
+Stage D engineering is complete only if ALL are true:
+
+INPUT
+- parent Stage C SHA matches
+- Stage C parent preflight is healthy
+
+PROJECTION
+- real XYZ maps through orthographic oblique projection
+- elevationScale 0.5 spatial / 0 flat
+- actual depth handles stacked/overlapping geometry
+- no floor-index or global-Y fake depth
+
+VISIBILITY
+- physical visibility is independent from camera cutaway
+- physically occluded cross-floor actors do not leak
+- real openings can reveal appropriate geometry
+- cutaway modifies presentation only
+
+LOCAL VIEW STATE
+- two views can have different cutaways over the same world truth
+- one view cannot mutate another or the simulation
+
+CAMERA
+- CAMERA-P01 remains 1.25
+- resolution/DPR do not increase awareness
+- ultrawide does not grant extra XY awareness
+- elevation/cutaway do not expand physical sight
+
+FLAT COMPATIBILITY
+- Level 0 remains flat-compatible
+- existing flat presentation/gameplay remains intact apart from already accepted CAMERA-P01
+
+SIMULATION
+- Stage C physics outcomes remain stable
+- viewport/cutaway/render FPS do not change gameplay traces
+
+BROWSER
+- actual browser rendering evidence exists
+- final composited output is tested
+- no overlay leak demonstrated in required fixture
+
+PERFORMANCE
+- renderer feasibility measured and bounded
+- no correctness is sacrificed to hit presentation budget
+
+SCOPE
+- no Stage E navigation/sensors
+- no Stage F network-Z
+- no Stage G death/item elevation
+- no Stage H broad presentation integration
+- no AI retuning
+- no player-art redesign
+
+RECOVERY
+- working checkpoint saved before long validation
+
+PACKAGE
+- final ZIP / SHA / CRC / clean extraction pass
+- redirect.js present
+- Stage E+ not implemented
+
+==================================================
+37. IF THE RENDERER CANNOT SUPPORT THE ARCHITECTURE
+==================================================
+
+Stage D is explicitly a feasibility gate.
+
+If the current Pixi/application renderer cannot implement the required depth/physical-visibility/cutaway separation without a significant architectural change:
+
+DO NOT FAKE IT.
+DO NOT REDUCE PHYSICAL TRUTH.
+DO NOT FALL BACK TO FLOOR IDs / Y-SORT AND CALL IT COMPLETE.
+
+Instead:
+
+1. Preserve the current Stage D working checkpoint.
+2. Produce a precise blocker report.
+3. Identify the concrete renderer/API limitation.
+4. Propose the smallest architecture amendment consistent with project principles.
+5. STOP for review.
+
+A Stage D blocker is useful information; a fake green renderer is not.
+
+==================================================
+38. HUMAN QA
+==================================================
+
+Create a concise human-QA checklist, but do not pre-check subjective items.
+
+Useful human review items include:
+
+- Does elevation read naturally?
+- Is the player easy to track through ramps/stairs?
+- Does cutaway feel understandable rather than flickery?
+- Does the 1.25 camera still feel appropriate with spatial projection?
+- Is it obvious which floor/space the player occupies?
+- Are hidden floors/entities truly hidden rather than confusingly popping?
+- Does the simple Surviv.io-style actor remain readable?
+- Does the prototype preserve dread rather than becoming visually noisy?
+
+Automated success does not prove these subjective properties.
+
+==================================================
+39. STOP CONDITION
+==================================================
+
+When Stage D implementation, browser feasibility evidence, recovery checkpoint, regression work, reports and final package are complete:
+
+STOP.
+
+Do NOT start Stage E.
+
+Do NOT begin spatial Hound/Smiler navigation.
+Do NOT migrate sensors/evidence.
+Do NOT add network-Z.
+Do NOT migrate spatial corpses/items.
+Do NOT broadly integrate all effects/UI.
+
+Return the Stage D deliverables for independent review.
+
+Final status wording may be:
+
+2.5D STAGE D ENGINEERING COMPLETE — CHECKPOINT READY FOR REVIEW
+
+ONLY if the actual browser-rendered feasibility gate passes.
+
+If browser execution remains unavailable or the renderer architecture is unresolved, use a weaker blocked status and explain exactly why.
+
+==================================================
+40. PROJECT PHILOSOPHY
+==================================================
+
+UNASSUMING SURFACE, SERIOUS SIMULATION.
+
+The renderer is an interpretation of world truth, not a source of world truth.
+
+Cutaway is local presentation state, not deletion.
+
+Simple art does not justify simple physics.
+
+A hidden surface may be visually omitted for one observer while still existing for collision, physical LOS, lighting truth, AI, sound and other observers.
+
+Preserve working systems.
+Implement only the authorized layer.
+Measure what you claim.
+Do not weaken the architecture to manufacture a green result.
+
+Stage progression remains:
+
+A Contract
+-> B Canonical geometry
+-> C Spatial geometry/body motion
+-> D EARLY SPATIAL VIEW PROTOTYPE   [AUTHORIZED NOW]
+-> E Surface navigation/sensors
+-> F Authority/protocol
+-> G Death/loose-object elevation
+-> H Complete presentation integration
+-> I Full regression/performance/package
+
+Implement Stage D only.

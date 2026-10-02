@@ -1,0 +1,50 @@
+[
+  {
+    "name": "view",
+    "exitCode": 0,
+    "seconds": 0.075,
+    "log": "view.log"
+  },
+  {
+    "name": "independence",
+    "exitCode": 0,
+    "seconds": 0.376,
+    "log": "independence.log"
+  },
+  {
+    "name": "spatial-core",
+    "exitCode": 0,
+    "seconds": 0.486,
+    "log": "spatial-core.log"
+  },
+  {
+    "name": "spatial-adversarial",
+    "exitCode": 0,
+    "seconds": 0.133,
+    "log": "spatial-adversarial.log"
+  },
+  {
+    "name": "spatial-schedules",
+    "exitCode": 0,
+    "seconds": 1.695,
+    "log": "spatial-schedules.log"
+  },
+  {
+    "name": "camera-spatial",
+    "exitCode": 0,
+    "seconds": 0.032,
+    "log": "camera-spatial.log"
+  },
+  {
+    "name": "flat-parity",
+    "exitCode": 0,
+    "seconds": 16.489,
+    "log": "flat-parity.log"
+  },
+  {
+    "name": "http",
+    "exitCode": 0,
+    "seconds": 0.204,
+    "log": "http.log"
+  }
+]

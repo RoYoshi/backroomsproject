@@ -1,0 +1,12 @@
+{
+  "source": "assets/index-DKbV5Nv9.js",
+  "sourceSHA256": "af765f4f96d2ca2e4d6f681dc42c7ada5c8d0595b15a07b1473637e98d249552",
+  "enginePrefixBytes": 251136,
+  "originalActorClassBytes": 6532,
+  "runtime": "Pixi 8.21.0 (version from shipped runtime)",
+  "browserExtensionSourceSHA256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6",
+  "browserExtension": "Same shipped browser extension, with its sole game-bootstrap side-effect import removed; runtime dynamic import remapped to isolated copy.",
+  "method": "Exact engine prefix and exact avatar class, excluding game initialization. Original bundle remains byte-identical.",
+  "fixture": "dev/fixtures/world_25d.js",
+  "fixtureSHA256": "29fe526f1a37f0a75907af09ed4caffcb5d815b901e0d59e95529f6b4bc81192"
+}

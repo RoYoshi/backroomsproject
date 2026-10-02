@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "parentSHA256": "0ded2b248867be592c25585de89a45217cbf989f4257c1a94301ffbaa89c585b",
+  "files": 478,
+  "checks": [
+    {
+      "command": [
+        "node",
+        "dev/stage_c/test_spatial.js"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "node",
+        "dev/stage_c/test_adversarial.js"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "node",
+        "dev/stage_c/test_camera.js"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "node",
+        "dev/stage_c/verify_parity.js",
+        "/workspace/scratch/cdfe50b4dc2b/stageD/evidence/preflight-parity.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": [
+        "node",
+        "dev/stage_c/served_package.js",
+        ".",
+        "/workspace/scratch/cdfe50b4dc2b/stageD/evidence/preflight-http.json"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": "bash dev/build_ai.sh",
+      "bytesReproduced": true
+    },
+    {
+      "command": "bash dev/build_sim.sh",
+      "bytesReproduced": true
+    },
+    {
+      "command": "bash dev/build_ents.sh",
+      "bytesReproduced": true
+    }
+  ]
+}

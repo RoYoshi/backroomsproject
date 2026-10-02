@@ -1,0 +1,8 @@
+'use strict';
+const path=require('path'),fs=require('fs'),crypto=require('crypto'),assert=require('assert'),root=path.resolve(__dirname,'../..');
+const parent=require('./parent-stage-c-manifest.json'),allow=require('./modified-original-allowlist.json'),hash=b=>crypto.createHash('sha256').update(b).digest('hex'),modified=[],deleted=[],newFiles=[];
+for(const [file,sha]of Object.entries(parent)){const p=path.join(root,file);if(!fs.existsSync(p))deleted.push(file);else if(hash(fs.readFileSync(p))!==sha)modified.push({file,reason:allow[file]||null});}
+function walk(dir){for(const ent of fs.readdirSync(dir,{withFileTypes:true})){const f=path.join(dir,ent.name);if(ent.isDirectory())walk(f);else if(!(path.relative(root,f)in parent))newFiles.push(path.relative(root,f));}}walk(root);
+assert.equal(deleted.length,0);assert(modified.every(x=>x.reason),'unexpected original modification');assert.deepEqual(modified.map(x=>x.file),['server.js']);
+const serverText=fs.readFileSync(path.join(root,'server.js'),'utf8');assert.equal(hash(serverText.replace('world_view\\.js|stage_d\\.html|','')),parent['server.js'],'server delta must be exactly the two public allowlist entries');
+const result={status:'PASS',parentFiles:Object.keys(parent).length,unchangedOriginals:Object.keys(parent).length-modified.length,modified,deleted,newFiles:newFiles.sort(),frozenSystems:'All Stage C geometry/motion, fixed timing, production app/index, camera policy, AI, evidence, navigation, networking client, death/corpse files are byte-identical to Stage C. server.js has only public prototype serving changes.'};if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));

@@ -1,0 +1,81 @@
+STAGE C MODIFIED-ORIGINAL ALLOWLIST
+6 modified / 404 unchanged originals / 0 deleted originals
+
+camera_policy.js — CAMERA-P01 isolated reference constant 1.18 -> 1.25.
+dev/tests/s_camera_fairness.js — Only intentional canonical camera expectation/comment changed.
+index.html — Load the new world_motion.js classic script before move.js.
+move.js — Opt-in __api.spatialMotion hooks for geometry/body height, surface, collisions and continuous vault; no flat changes.
+server.js — Add world_motion.js to exact public serving allowlist; retain protected paths.
+world_geometry.js — Extend the existing compiler with validated spatial geometry/index/support/clearance/volume sweep/ray queries; retain flat path.
+
+NEW FILES (68)
+25D_STAGE_C_BASELINE_FAILURES.md
+25D_STAGE_C_CAMERA_P01.md
+25D_STAGE_C_CHANGED_FILES.txt
+25D_STAGE_C_HUMAN_QA.md
+25D_STAGE_C_PARITY.md
+25D_STAGE_C_REPORT.md
+25D_STAGE_C_TEST_SUMMARY.md
+25D_STAGE_C_WORKING_STATUS.md
+dev/stage_c/AUTHORIZATION_MASTER_PROMPT.txt
+dev/stage_c/AUTHORIZATION_README_FIRST.txt
+dev/stage_c/README.md
+dev/stage_c/activation.json
+dev/stage_c/contracts.d.ts
+dev/stage_c/helpers.js
+dev/stage_c/perf_spatial.js
+dev/stage_c/results/adversarial.log
+dev/stage_c/results/browser.json
+dev/stage_c/results/camera.log
+dev/stage_c/results/core-verification.json
+dev/stage_c/results/core.log
+dev/stage_c/results/failure-comparison.json
+dev/stage_c/results/http.json
+dev/stage_c/results/http.log
+dev/stage_c/results/npm-test-complete.json
+dev/stage_c/results/npm-test-complete.log
+dev/stage_c/results/parity.json
+dev/stage_c/results/parity.log
+dev/stage_c/results/perf-spatial.json
+dev/stage_c/results/portability.json
+dev/stage_c/results/portable-test_camera.js.log
+dev/stage_c/results/portable-test_schedules.js.log
+dev/stage_c/results/portable-test_spatial.js.log
+dev/stage_c/results/preflight-camera.log
+dev/stage_c/results/preflight-fps.log
+dev/stage_c/results/preflight-http.json
+dev/stage_c/results/preflight-http.log
+dev/stage_c/results/preflight-input.json
+dev/stage_c/results/preflight-parity.json
+dev/stage_c/results/preflight-parity.log
+dev/stage_c/results/regression-runner.log
+dev/stage_c/results/regression/audit-net.log
+dev/stage_c/results/regression/audit-net2.log
+dev/stage_c/results/regression/baseline-tests.json
+dev/stage_c/results/regression/camera.log
+dev/stage_c/results/regression/entity-look.log
+dev/stage_c/results/regression/fps.log
+dev/stage_c/results/regression/hound.log
+dev/stage_c/results/regression/humanqa.log
+dev/stage_c/results/regression/interpolation.log
+dev/stage_c/results/regression/ir-net.log
+dev/stage_c/results/regression/live.log
+dev/stage_c/results/regression/navigation.log
+dev/stage_c/results/regression/npm-test.log
+dev/stage_c/results/regression/perf-hound.log
+dev/stage_c/results/regression/perf-light.log
+dev/stage_c/results/regression/perf-shared.log
+dev/stage_c/results/regression/perf-smiler.log
+dev/stage_c/results/regression/physics.log
+dev/stage_c/results/regression/shared.log
+dev/stage_c/results/schedules.log
+dev/stage_c/served_package.js
+dev/stage_c/stageB-manifest.json
+dev/stage_c/test_adversarial.js
+dev/stage_c/test_camera.js
+dev/stage_c/test_schedules.js
+dev/stage_c/test_spatial.js
+dev/stage_c/verify_parity.js
+world_motion.js
+
+DELETED ORIGINALS: NONE

@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "source": "Fresh CRC-verified ZIP extraction of current Stage D tree",
+  "pathContainsSpaces": true,
+  "runtime": "v24.19.0",
+  "commands": [
+    {
+      "name": "build-ai",
+      "exitCode": 0,
+      "seconds": 0.073
+    },
+    {
+      "name": "build-sim",
+      "exitCode": 0,
+      "seconds": 0.062
+    },
+    {
+      "name": "build-ents",
+      "exitCode": 0,
+      "seconds": 0.063
+    },
+    {
+      "name": "build-prototype",
+      "exitCode": 0,
+      "seconds": 0.039
+    },
+    {
+      "name": "view",
+      "exitCode": 0,
+      "seconds": 0.07
+    },
+    {
+      "name": "independence",
+      "exitCode": 0,
+      "seconds": 0.392
+    },
+    {
+      "name": "scope",
+      "exitCode": 0,
+      "seconds": 0.059
+    },
+    {
+      "name": "camera",
+      "exitCode": 0,
+      "seconds": 0.031
+    },
+    {
+      "name": "http",
+      "exitCode": 0,
+      "seconds": 0.217
+    },
+    {
+      "name": "browser",
+      "exitCode": 0,
+      "seconds": 9.918
+    }
+  ],
+  "reproducibleBuildHashes": {
+    "ai.js": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731",
+    "sim.js": "3ef119d34bf4ec7bd6ee97848d81aee90bb2455817463922e81a91a0c31772d2",
+    "ents.js": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28",
+    "assets/stageD-pixi.js": "fafeb7763416c64b3fd48742937537b2c3fcc69ac872de8e904f77ff9037c782",
+    "assets/stageD-browser.js": "7e0c9446a240b4ed1bd30a2d8777da712ab8ec0c237fb6b9119de8a4dffef02f",
+    "assets/stageD-world.json": "c09878dd955bd7619aa4abb202b8debcb3bb507d5c08925a8d1be49990094ca5",
+    "dev/stage_d/runtime-provenance.json": "29d0073887b31123a1de297bf420e16fcd1e792f58c9d2985e6a9a18c3df57ac"
+  },
+  "externalBrowserDependency": "Playwright 1.62.1 + explicitly selected Chromium executable; no original workspace game-asset dependency"
+}

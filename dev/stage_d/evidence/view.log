@@ -1,0 +1,11 @@
+PASS projection / camera translation / defined plane inversion
+PASS real view-direction depth, stacked overlap and ramp
+PASS all 32 physical occluders retained independently of presentation
+PASS vertical slab hidden; real opening and window visible; oblique blockers
+PASS thin-edge bias is conservative, never removes blockers
+PASS cutaway timing, deterministic eligible group and world epoch reset
+PASS two independent views; continuous Z focus; geometry truth unchanged
+PASS camera boundary retention prevents rapid cutaway toggling
+PASS CAMERA-P01 caps XY with Z, DPR, aspect and FPS independent scope
+PASS capacity failure is explicit; cannot silently omit physical occluders
+{"status":"PASS","groups":10,"results":[{"name":"projection / camera translation / defined plane inversion","status":"PASS"},{"name":"real view-direction depth, stacked overlap and ramp","status":"PASS"},{"name":"all 32 physical occluders retained independently of presentation","status":"PASS"},{"name":"vertical slab hidden; real opening and window visible; oblique blockers","status":"PASS"},{"name":"thin-edge bias is conservative, never removes blockers","status":"PASS"},{"name":"cutaway timing, deterministic eligible group and world epoch reset","status":"PASS"},{"name":"two independent views; continuous Z focus; geometry truth unchanged","status":"PASS"},{"name":"camera boundary retention prevents rapid cutaway toggling","status":"PASS"},{"name":"CAMERA-P01 caps XY with Z, DPR, aspect and FPS independent scope","status":"PASS"},{"name":"capacity failure is explicit; cannot silently omit physical occluders","status":"PASS"}]}

@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "cases": 945,
+  "old": 1.18,
+  "candidate": 1.25,
+  "views": [
+    {
+      "width": 1536,
+      "height": 864,
+      "scale": 1.25
+    },
+    {
+      "width": 1536,
+      "height": 864,
+      "scale": 2.5
+    },
+    {
+      "width": 1536,
+      "height": 642.9767441860465,
+      "scale": 2.2395833333333335
+    },
+    {
+      "width": 486,
+      "height": 864,
+      "scale": 2.2222222222222223
+    },
+    {
+      "width": 399.2417061611374,
+      "height": 864,
+      "scale": 0.9768518518518519
+    }
+  ],
+  "scope": "Pure policy; actual served app resize binding is separately tested. Browser feel is unverified."
+}

@@ -1,0 +1,850 @@
+THE FAR BACKROOMS
+2.5D STAGE C — SPATIAL GEOMETRY & BODY MOTION
++ CAMERA-P01 CONTROLLED CAMERA TUNING
+MASTER IMPLEMENTATION PROMPT
+
+You are continuing the existing long-running project THE FAR BACKROOMS / TheFarBackrooms.io.
+This is NOT a new project.
+
+Read every supplied file before modifying anything. You are the implementation agent. The user remains final human QA and design authority. The locked architecture is authoritative. Do not redesign systems merely because another architecture seems cleaner.
+
+==================================================
+0. CURRENT AUTHORITATIVE PROJECT STATE
+==================================================
+
+COMPLETE / LOCKED:
+- Part 2 — Entity Intelligence, Perception & Threat
+- 2.5D World Architecture
+- 2.5D Stage A — Contract and Baseline Fixtures
+- 2.5D Stage B — Canonical Geometry and Flat Adapter
+
+Stage B has passed user human QA. The user manually tested the final Stage B build and reported:
+- the game looks the same
+- the normalized camera is actually working/locked
+- the build looks good
+
+Therefore older Stage B files saying HUMAN GAMEPLAY QA PENDING are superseded by this newer human decision.
+
+STAGE B IS COMPLETE / REVIEWED / LOCKED.
+STAGE C IS AUTHORIZED.
+STAGE D+ IS NOT AUTHORIZED.
+
+==================================================
+1. LOCKED STAGE B INPUT
+==================================================
+
+START FROM:
+
+thefarbackrooms-level0-25d-stageB-canonical-geometry.zip
+
+Expected SHA-256:
+3068a745634e713b09b5ec08bbfd68db3f0d6540abda3b1fb5833f99446b0faf
+
+Before editing:
+1. Verify ZIP SHA-256.
+2. Verify ZIP integrity.
+3. Extract cleanly.
+4. Verify expected Stage B files exist.
+5. Read all Stage B engineering/reporting artifacts.
+6. Read the locked 2.5D architecture.
+7. Run a bounded Stage B preflight before modifications.
+
+Required foundation includes at minimum:
+- levels/level0.js
+- world_geometry.js
+- world.js
+- server.js
+- sim.js
+- redirect.js
+- Stage B verification tooling
+- retained Stage A contracts/traces
+
+Do NOT reconstruct Stage B.
+Do NOT start from Stage A.
+Stage B is the new parent checkpoint.
+
+==================================================
+2. AUTHORITY ORDER
+==================================================
+
+1. This Stage C authorization prompt
+2. Locked 2.5D architecture specification
+3. Approved Stage B final checkpoint and evidence
+4. Locked Stage A contracts/reference fixtures
+5. Locked Part 2 behavior
+6. Older historical notes
+
+Do not silently reinterpret conflicts.
+
+==================================================
+3. STAGE C PURPOSE
+==================================================
+
+Stage C = SPATIAL GEOMETRY AND BODY MOTION.
+
+This is where real physical Z becomes active.
+
+NOT fake height:
+- no floor IDs pretending to be height
+- no teleporting between layers
+- no sprite offsets as physics
+- no render-only Z
+- no arbitrary layer switching
+- no "highest floor at XY" shortcut
+
+The simulation foundation must support real x, y, z and continuous elevation, including:
+- support surfaces
+- ramps
+- stairs / controlled step traversal
+- stacked surfaces
+- same XY at different Z
+- body height
+- vertical clearance
+- crawl-under / low spaces
+- spatial collision
+- support solving
+- leaving support
+- falling
+- landing
+- drops
+- physical traversal events
+
+Existing flat Level 0 gameplay must remain behaviorally familiar.
+
+==================================================
+4. LOCKED COORDINATE MODEL
+==================================================
+
+- X right
+- Y down
+- Z positive upward
+
+Root actor z = LOWEST POINT OF ROOT PHYSICAL COLLIDER.
+
+Do not reinterpret root z as sprite center, eye height, body center, floor number, or support ID.
+Eye/light/art anchors use explicit offsets.
+
+Elevation must be continuous.
+A support ID may change discretely at a seam; position must not teleport.
+Multiple support surfaces may share XY at different Z.
+Never choose "highest floor at XY" without a valid vertical interval/body/context.
+
+==================================================
+5. PRESERVE STAGE B FLAT-COMPAT
+==================================================
+
+Evolve world_geometry.js; do not replace it with an unrelated engine.
+The Stage B flat-compat representation remains a valid compatibility mode.
+
+Do NOT invent stairs, balconies, pits, ramps, second floors, or other geometry inside existing Level 0 merely to showcase Stage C.
+
+Prove spatial capability primarily through the existing synthetic world_25d fixture and deterministic Stage C tests.
+The engine becomes spatial; existing Level 0 does not need to become a new map.
+
+==================================================
+6. WORLD_GEOMETRY.JS
+==================================================
+
+Extend Stage B's shared validation/compilation/query boundary to real spatial concepts:
+- solids
+- supports
+- spaces
+- vertical bounds
+- spatial overlap
+- support candidates
+- body clearance
+- support height
+- vertical intervals
+- deterministic geometry identity
+- deterministic spatial queries
+
+Implement only the Stage C subset of spatial APIs.
+Do not fake-pass later-stage APIs.
+If still reserved for later, leave explicitly unimplemented.
+
+Canonical identity must remain deterministic and free of timestamps, temp paths, or machine-specific data.
+Reject malformed, nonfinite, inconsistent, duplicate, or corrupt spatial definitions.
+
+==================================================
+7. WORLD_MOTION.JS
+==================================================
+
+Introduce/evolve:
+world_motion.js
+
+Own Stage C physical motion responsibilities:
+- support following
+- support transitions
+- step handling
+- ramp traversal
+- falling
+- landing
+- controlled drops
+- physical traversal state
+- motion physical events
+
+Do NOT turn this into a general rigid-body engine.
+Do NOT introduce ECS, Box2D/Bullet-style replacement, voxel physics, arbitrary rigid-body stacks, or unrelated motion redesign.
+Existing movement systems should evolve into/use this boundary rather than being discarded.
+
+==================================================
+8. BODY MODEL
+==================================================
+
+Player visual style remains:
+- one rounded body
+- two circular hands
+- no arms
+- no legs
+
+Physical abstraction may use a proper volume/collider, but never turn that into visible humanoid anatomy.
+
+The physical body must answer:
+- Can this body stand here?
+- Is vertical clearance sufficient?
+- What support is beneath it?
+- Can it step onto this support?
+- Can it pass beneath this obstruction?
+- Is it unsupported?
+- Should it fall?
+- Where does it land?
+- Which same-XY/different-Z surface is contextually relevant?
+
+Use the provisional spatial profile values in the locked architecture unless a newer explicit authority overrides them. Keep them centralized/versioned and do not infer art anatomy from them.
+
+==================================================
+9. SUPPORT SOLVING
+==================================================
+
+Support determination must be contextual and deterministic.
+
+Required:
+- meaningful vertical query interval
+- body footprint
+- body height/clearance
+- continuity from previous support where appropriate
+- multiple same-XY surfaces
+- no snapping to unrelated upper/lower surfaces
+- no support oscillation
+- no tunneling through valid supports
+- continuous position across seams
+- stable deterministic support identity
+- no NaN/Infinity
+
+==================================================
+10. RAMPS
+==================================================
+
+Implement true continuous ramps in Stage C fixtures/system.
+Ramp traversal must continuously change Z as XY progresses.
+
+Test:
+- ascend
+- descend
+- reverse
+- entry/exit continuity
+- seam continuity
+- overhead clearance
+- edge/drop behavior
+
+No teleport, floor-index swap, sprite offset, or camera zoom tied to ramp elevation.
+
+==================================================
+11. STAIRS / STEPS
+==================================================
+
+Implement real spatial traversal with controlled step/assisted-step behavior per architecture.
+
+Required:
+- valid step-up eligibility
+- step-down behavior
+- body clearance
+- stable support transitions
+- no sudden XY teleport
+- no unintended Z teleport
+- no edge oscillation
+- deterministic fixed-tick result
+
+Do not introduce new parkour abilities.
+Preserve existing movement feel in the flat case.
+
+==================================================
+12. FALLING / DROPS / LANDING
+==================================================
+
+Stage C authorizes real unsupported vertical motion:
+- become unsupported
+- deterministic fall
+- valid lower-support acquisition
+- landing
+- stable post-landing support
+- controlled drop traversal where appropriate
+
+Do NOT invent a new fall-damage balance system unless the locked architecture explicitly requires it at Stage C.
+Existing death/damage behavior remains authoritative.
+
+==================================================
+13. STACKED SURFACES
+==================================================
+
+Hard requirement: prove same XY / different Z works.
+
+Tests must include:
+- lower support
+- upper support above it
+- actor on lower support
+- actor on upper support
+- context-correct support query for both
+- clearance preventing illegal occupancy
+- falling from upper to lower when physically allowed
+
+Never automatically choose maximum Z.
+
+==================================================
+14. LOW SPACES / CLEARANCE
+==================================================
+
+Establish real body-height clearance distinguishing:
+- standing clearance
+- lower/crawl clearance
+- blocked volume
+
+Do NOT redesign crouch/crawl mechanics. Existing stance semantics remain authoritative; integrate height only as needed for physical correctness.
+
+==================================================
+15. FIXED TIMESTEP — PERMANENT INVARIANT
+==================================================
+
+Gameplay physics remains fixed 60 Hz and render-FPS independent.
+Locked policy:
+- 1/60 s tick
+- max 15 catch-up steps
+- 250 ms clamp
+
+30/60/120/144/240/360 render FPS must not alter physical travel, support, falling, ramp motion, stair motion, gravity, or landing.
+
+==================================================
+16. NETWORK BOUNDARY
+==================================================
+
+Stage F = Authority and Protocol.
+Therefore Stage C must NOT perform the full network-Z/protocol migration.
+
+Do NOT broadly redesign packets or transport.
+Do NOT claim networked Z complete.
+Do not change client/server authority ownership beyond the minimum architecture-safe preparatory hooks explicitly needed for Stage C.
+Any prep must be documented and must not silently change wire protocol.
+
+==================================================
+17. AI/NAVIGATION BOUNDARY
+==================================================
+
+Stage E = Surface Navigation and Sensors.
+Therefore Stage C must NOT complete:
+- NavSurface AI migration
+- TraversalLink AI routing
+- vertical Hound navigation
+- vertical Smiler sensing
+- height-aware AI LOS integration
+- replacement A*
+- free XYZ steering
+
+Do not retune Hounds or Smilers.
+Preserve current A* investment and species behavior.
+Expose substrate for Stage E only.
+
+==================================================
+18. RENDERING BOUNDARY
+==================================================
+
+Stage D = Early Spatial View Prototype.
+Do NOT implement Stage D.
+
+No:
+- depth/perspective renderer
+- local cutaway
+- ceiling fading
+- stacked-floor rendering
+- 2.5D projection integration
+- automatic upper-floor hiding
+- visual camera-elevation logic
+
+Simulation truth != local render interpretation.
+Stage C may be largely invisible under the existing presentation. That is correct.
+
+==================================================
+19. CORPSE / ITEM BOUNDARY
+==================================================
+
+Stage G = Shared Death and Loose-Object Elevation.
+Do NOT migrate corpse Z, loose item Z, dropped-item vertical simulation, or full elevated death state unless the architecture requires a minimal non-authoritative compatibility hook.
+Existing corpse/death gameplay remains unchanged.
+
+==================================================
+20. CAMERA-P01 — EXPLICITLY AUTHORIZED
+==================================================
+
+The user authorizes one additional bounded Stage C subtask:
+CAMERA-P01 — slightly closer normalized gameplay camera.
+
+Current canonical 1920x1080 reference scale: 1.18
+Initial target: 1.25
+
+Implement canonical reference change:
+1.18 -> 1.25
+
+Do NOT redesign camera behavior.
+Do NOT add dynamic zoom, speed/threat/entity/room/Z/ramp/fall/cinematic zoom.
+This is only a controlled reduction in visible world area through the existing normalized camera policy.
+
+==================================================
+21. CAMERA FAIRNESS
+==================================================
+
+Preserve normalized awareness:
+- 1920x1080 establishes the canonical reference at 1.25
+- higher resolution may improve sharpness/UI fidelity only
+- higher resolution must not expose more world
+- DPR affects sharpness only
+- ultrawide crops the opposite axis rather than granting extra tactical awareness
+- portrait follows established normalization policy
+- camera awareness independent of FPS
+- elevation must not change zoom
+
+Test at minimum:
+- 1920x1080
+- 3840x2160
+- 3440x1440
+- portrait
+- DPR 1/2/3
+
+Update expected values only where CAMERA-P01 intentionally changes the canonical scale.
+Do not regenerate unrelated baselines.
+
+==================================================
+22. CAMERA-P01 ISOLATION
+==================================================
+
+Implement CAMERA-P01 so it can be reverted independently of Stage C physics.
+Use one canonical source/config constant, not scattered 1.25 values.
+Record:
+- old = 1.18
+- candidate = 1.25
+- reason = user requested slightly closer camera after Stage B QA
+- fairness invariants retained
+
+Human QA decides final feel.
+
+==================================================
+23. PARITY POLICY
+==================================================
+
+Do NOT rewrite Stage A/B traces to make new behavior appear compatible.
+Existing flat Level 0 should remain equivalent except for CAMERA-P01's intentional camera-scale change.
+
+Preserve, unless a no-op-compatible Stage C plumbing migration requires otherwise:
+- movement behavior
+- AI behavior
+- RNG consumption
+- map generation
+- evidence
+- light
+- IR
+- deaths
+- multiplayer semantics
+- interpolation
+- Hound behavior
+- Smiler behavior
+
+Any unexplained divergence:
+STOP
+INVESTIGATE
+DO NOT BLESS IT
+
+Stage C spatial tests are expected to change from prior NOT IMPLEMENTED BY DESIGN only where Stage C is now authorized.
+
+==================================================
+24. KNOWN BASELINE REDS
+==================================================
+
+Preserve the failure ledger.
+Do not fix unrelated failures to make summaries greener.
+
+P08 remains UNKNOWN / NEEDS INVESTIGATION unless independently resolved.
+Do not retune gameplay merely to make P08 green.
+
+F22 is an obsolete exact-source guard and may now encounter intentional Stage C maintained-source changes. Document rather than deleting/weaking the assertion.
+
+L5c remains historically timing-sensitive unless independently demonstrated otherwise.
+
+==================================================
+25. Z01-Z32 / SPATIAL CONTRACTS
+==================================================
+
+Activate ONLY the subset belonging to Stage C:
+- spatial geometry
+- body volume
+- supports
+- clearance
+- ramps
+- steps
+- falling
+- landing
+- Stage C physical traversal
+
+Do NOT fake-pass later-stage tests for Stage D/E/F/G/H/I.
+Keep later tests explicitly deferred.
+Document which Z tests became active and why.
+
+==================================================
+26. REQUIRED STAGE C TESTS
+==================================================
+
+Geometry:
+- schema validation
+- nonfinite Z rejection
+- malformed vertical bounds
+- overlapping XY at distinct Z
+- invalid solid overlap cases
+- stable deterministic identity
+- deterministic support IDs
+- fresh-process reproducibility
+
+Support:
+- flat support
+- stacked supports
+- enter/leave support
+- seam continuity
+- no upper/lower snapping
+- stationary stability
+- deterministic edge behavior
+
+Clearance:
+- standing fit
+- insufficient clearance
+- low passage
+- vertical interval selection
+- no occupancy inside solids
+
+Ramps:
+- ascend/descend/reverse
+- continuous Z
+- seam entry/exit
+- edge/drop
+- clearance
+
+Steps/stairs:
+- valid step up
+- invalid excessive step
+- step down
+- overhead clearance
+- repeated progression
+- deterministic fixed tick
+
+Falling:
+- unsupported start
+- fall
+- valid landing
+- stacked-floor landing
+- no teleport
+- no tunneling
+- deterministic landing behavior
+
+Fixed timestep:
+- equivalent results under 30/60/120/144/240/360 render schedules
+
+Flat Level 0:
+- canonical map unchanged
+- placements unchanged
+- movement semantics preserved
+- deterministic gameplay traces preserved where not intentionally affected
+
+CAMERA-P01:
+- reference scale 1.25
+- DPR does not change world awareness
+- 4K does not reveal more world
+- ultrawide does not reveal extra tactical width
+- portrait normalized
+- no FPS effect
+- no Z/elevation effect on zoom
+
+==================================================
+27. NUMERIC RULES
+==================================================
+
+Use values already defined by the locked architecture/contracts first.
+If a required Stage C parameter is not specified:
+1. search existing project semantics
+2. derive from existing dimensions where possible
+3. centralize/name the parameter
+4. use minimum parameterization necessary
+5. document it as engineering parameter, not Backrooms canon
+6. do not retune unrelated gameplay
+7. expose for human QA
+
+No scattered magic numbers.
+
+==================================================
+28. PERFORMANCE
+==================================================
+
+Correctness first, but avoid pathological full-world scans every actor tick.
+Use/evolve spatial indexes appropriately.
+Preserve determinism.
+Performance tests do not prove fairness or feel.
+
+==================================================
+29. SIMULATION TRUTH
+==================================================
+
+SIMULATION TRUTH != LOCAL RENDER INTERPRETATION.
+
+Support/collision may not depend on local rendering/culling/cutaway.
+Hidden geometry still physically exists.
+Do not architect Stage C so future visual hiding deletes physics.
+
+==================================================
+30. SECURITY / SERVING
+==================================================
+
+Preserve Stage B B-01 fix.
+Required public modules/policies must still serve.
+Internal source/server files remain protected.
+Malformed/traversal paths remain rejected.
+Verify actual served HTTP behavior.
+Do not reintroduce camera_policy.js or timing_policy.js 404 behavior.
+
+==================================================
+31. REDIRECT.JS
+==================================================
+
+Every checkpoint/final ZIP must contain redirect.js at project root.
+Do not redesign it unless explicitly necessary.
+Normal server: node server.js
+Render compatibility: node redirect.js
+
+==================================================
+32. PORTABILITY
+==================================================
+
+Test clean extraction from a path containing spaces.
+No absolute workspace/temp/machine-specific path dependencies.
+Package-relative behavior only.
+
+==================================================
+33. EARLY RECOVERY CHECKPOINT — MANDATORY
+==================================================
+
+After core Stage C implementation + syntax + geometry/support/motion + flat compatibility + CAMERA-P01 policy tests pass, but BEFORE long regression/network/performance/browser/final packaging:
+
+CREATE:
+thefarbackrooms-level0-25d-stageC-WORKING-CHECKPOINT.zip
+
+Calculate SHA-256.
+Verify CRC, clean extraction, actual implementation, required files, redirect.js.
+Preserve externally using available Library/file persistence.
+
+If stability becomes questionable:
+CHECKPOINT FIRST.
+
+==================================================
+34. LONG REGRESSION AFTER CHECKPOINT
+==================================================
+
+Only after recovery checkpoint is safely preserved, run applicable retained suites:
+- npm test
+- npm run test:hound
+- npm run test:shared
+- npm run test:humanqa
+- npm run test:fps
+- npm run test:camera
+- entity-look
+- physics/death
+- interpolation
+- nav benchmark/checks
+- audit_net
+- audit_net2
+- live
+- IR
+- existing performance suites
+
+Retain raw logs and exact counts.
+Do not hide inherited reds.
+Do not call descriptive benchmarks assertion passes.
+
+==================================================
+35. BROWSER TESTING
+==================================================
+
+If an actual supported browser executable exists, perform bounded browser/runtime checks appropriate to Stage C and CAMERA-P01.
+If unavailable, report BLOCKED.
+Do NOT claim browser PASS from VM/unit/HTTP tests.
+Stage D rendering is not authorized anyway.
+
+==================================================
+36. HUMAN QA
+==================================================
+
+Create Stage C human QA including CAMERA-P01 comparison:
+- Stage B camera feel vs 1.25
+- 1920x1080
+- 4K
+- ultrawide
+- high DPR
+- high refresh
+- whether world/player feels appropriately larger
+- whether awareness feels too restricted
+- no camera jitter
+- no ramp/stair/fall zoom
+
+Physical QA where accessible:
+- flat Level 0 still feels unchanged
+- ordinary walking familiar
+- crawl/vault familiar
+- no support jitter
+- no collision regressions
+- no new snagging
+- Hound/Smiler unchanged
+- synthetic ramp/stair/fall/stacked/clearance fixtures behave correctly
+
+Do not pre-approve subjective items.
+
+==================================================
+37. CHANGE ALLOWLIST
+==================================================
+
+Create explicit modified-original-file allowlist.
+Avoid broad rewrites.
+Expected new architectural content may include:
+- world_motion.js
+- Stage C contracts/tests/fixtures/reports
+
+Modify only existing files needed to:
+- activate spatial geometry
+- integrate body motion
+- preserve flat compatibility
+- implement CAMERA-P01
+- serve required modules
+- regenerate maintained outputs through existing build processes
+
+Every modified original file needs a reason.
+Report modified/new/deleted files.
+Deleted originals should normally be zero.
+
+==================================================
+38. REQUIRED FINAL DELIVERABLES
+==================================================
+
+Final ZIP:
+thefarbackrooms-level0-25d-stageC-spatial-motion.zip
+
+External:
+25D_STAGE_C_SHA256.txt
+25D_STAGE_C_PACKAGE_VERIFICATION.json
+
+Reports:
+25D_STAGE_C_REPORT.md
+25D_STAGE_C_TEST_SUMMARY.md
+25D_STAGE_C_BASELINE_FAILURES.md
+25D_STAGE_C_PARITY.md
+25D_STAGE_C_CHANGED_FILES.txt
+25D_STAGE_C_HUMAN_QA.md
+25D_STAGE_C_CAMERA_P01.md
+
+Retain working recovery checkpoint + checksum/status separately.
+
+==================================================
+39. FINAL PACKAGE VERIFICATION
+==================================================
+
+After implementation/testing/reports:
+1. Create final ZIP once.
+2. Calculate SHA-256.
+3. Verify CRC.
+4. Clean-extract bounded verification copy.
+5. Compare bytes to intended final tree.
+6. Syntax checks.
+7. Bounded Stage C geometry/motion checks.
+8. CAMERA-P01 policy verification.
+9. Required files.
+10. redirect.js.
+11. Actual served HTTP resources.
+12. No temp/nested archives.
+13. Verify Stage D was NOT implemented.
+14. Record 25D_STAGE_C_PACKAGE_VERIFICATION.json.
+
+Do not rerun hour-long suites merely because packaging happened if final tree bytes equal the tested tree.
+Do not repackage after final checksum.
+
+==================================================
+40. HARD NON-GOALS
+==================================================
+
+DO NOT implement:
+- Stage D view/cutaway/depth/projection
+- Stage E surface-nav/sensors
+- Stage F network-Z protocol migration
+- Stage G corpse/item elevation
+- Stage H presentation integration
+- Stage I final optimization
+- new Backrooms canon
+- Level 0 redesign
+- Hound retuning
+- Smiler retuning
+- replacement renderer
+- replacement network transport
+- ECS migration
+- generic rigid-body engine
+- voxel engine
+- dynamic gameplay camera
+- Z-linked zoom
+- new player anatomy
+
+==================================================
+41. STOP CONDITION
+==================================================
+
+When Stage C implementation, tests, recovery checkpoint, final reports and package are complete:
+STOP.
+
+Do NOT start Stage D.
+Do NOT prototype cutaway.
+Do NOT begin elevated rendering.
+Do NOT migrate entity navigation.
+Do NOT migrate wire protocol to Z.
+
+Return deliverables for independent review and human QA.
+
+Final status wording may be no stronger than:
+
+2.5D STAGE C ENGINEERING COMPLETE — CHECKPOINT READY FOR REVIEW
+
+until independent review and user human QA occur.
+
+==================================================
+42. FINAL PHILOSOPHY
+==================================================
+
+Preserve working systems.
+Implement only the authorized layer.
+Use objective evidence.
+
+Do not substitute "seems fine" for deterministic verification.
+Do not substitute "tests pass" for human gameplay feel.
+Do not substitute "rendered" for physical truth.
+Do not substitute "physically exists" for Stage D presentation.
+
+Architecture progression remains:
+Stage B canonical geometry
+-> STAGE C spatial geometry/body motion
+-> Stage D spatial view prototype
+-> Stage E surface navigation/sensors
+-> Stage F authority/protocol
+-> Stage G death/loose-object elevation
+-> Stage H presentation integration
+-> Stage I final regression/performance/package
+
+Implement Stage C only, plus explicitly authorized isolated CAMERA-P01:
+canonical normalized camera scale 1.18 -> initial target 1.25.
+
+BEGIN by verifying the Stage B parent checkpoint SHA and reading the locked architecture.

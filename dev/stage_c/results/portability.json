@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "pathContainsSpaces": true,
+  "freshZipExtraction": true,
+  "checks": [
+    {
+      "command": "bash dev/build_ai.sh",
+      "exitCode": 0,
+      "reproducible": true,
+      "sha256": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731"
+    },
+    {
+      "command": "bash dev/build_sim.sh",
+      "exitCode": 0,
+      "reproducible": true,
+      "sha256": "3ef119d34bf4ec7bd6ee97848d81aee90bb2455817463922e81a91a0c31772d2"
+    },
+    {
+      "command": "bash dev/build_ents.sh",
+      "exitCode": 0,
+      "reproducible": true,
+      "sha256": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28"
+    },
+    {
+      "command": "node dev/stage_c/test_spatial.js",
+      "exitCode": 0
+    },
+    {
+      "command": "node dev/stage_c/test_schedules.js",
+      "exitCode": 0
+    },
+    {
+      "command": "node dev/stage_c/test_camera.js",
+      "exitCode": 0
+    }
+  ]
+}

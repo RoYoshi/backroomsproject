@@ -1,0 +1,21 @@
+{
+  "command": "npm test",
+  "exitCode": 1,
+  "seconds": 153.3864918930003,
+  "passed": 151,
+  "total": 162,
+  "failureLines": [
+    "FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [1054ms]",
+    "FAIL P07 exhausted breathing is audible only close by  [40ms]",
+    "FAIL P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming  [754ms]",
+    "FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [6514ms]",
+    "FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [719ms]",
+    "FAIL NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm  [488ms]",
+    "FAIL C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it  [3227ms]",
+    "FAIL C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)  [5602ms]",
+    "FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you  [1037ms]",
+    "FAIL C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out  [1519ms]",
+    "FAIL 2F F22 species physical/canon parameter preservation  [6ms]"
+  ],
+  "reason": "First retained runner log was incomplete (only 2 of 162 case results); this rerun captures complete output in memory before writing. Original incomplete log retained."
+}

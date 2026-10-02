@@ -1,0 +1,36 @@
+PASS L1 the browser can load the game files but never ai.js / sim.js / server.js
+       {"/index.html":200,"/world.js":200,"/move.js":200,"/ents.js":200,"/mp.js":200,"/gore.js":200,"/assets/index-DKbV5Nv9.js":200,"/ai.js":404,"/sim.js":404,"/server.js":404,"/../server.js":404,"/dev/harness.js":404,"/package.json":404}
+PASS L2 both clients get an id and a stream of world snapshots (~20 Hz)
+       ids 1/2; snapshots in 1.5 s: 33/33
+PASS L2b each sees the other, and not itself, in the peers list
+       A sees BOB, B sees ALICE
+PASS L3 both clients receive the very same entity data (same tick -> byte-identical)
+       43/43 of B's entity frames appear verbatim in A's stream
+PASS L3b nothing internal to the AI (memory, traits, targets) is on the wire for ordinary players
+       snapshot keys: t,p,e,me,ms,cp
+PASS L4 without the passcode no admin command works, a living player cannot send a death replay or a corpse
+       entities 4 -> 4; fx 0; bodies 0; admin reply {"t":"admin","ok":false,"wait":0}
+PASS L5 the right passcode unlocks admin (even after one wrong guess) for that connection only
+       {"t":"admin","ok":true,"q":0}
+PASS L5b the server kills Alice (variant chosen server-side), tells her which one, and sends it to nobody as a claim
+       dead after 2.3 s; me=Hound ms=1 mk={"v":"A","k":"Hound","e":6,"ax":5033,"ay":3515,"aa":-2.816,"w":0,"x":5000,"y":3504,"a":0,"why":"quick"}
+PASS L5c Bob sees Alice dead in the peers list and gets the kill in his own stream
+       {"id":1,"x":5000,"y":3504,"a":0,"n":"ALICE","c":"#ffe7b2","d":1,"r":0,"k":"flashlight","l":1,"ir":0,"lk":"none|plain|#e6bb76|#ffcc77|none","lp":"","f":-1,"mv":[0,0,0,1]}
+PASS L5d the replay reaches Bob, and the corpse (with her light left behind) is stored once for everybody
+       fx to Bob: 1; bodies: [{"k":1,"n":"ALICE","x":5000,"y":3504,"a":0.3,"sx":0.5,"sy":0.5,"c":"Hound","aa":0,"lk":"none|plain|#e6bb76|#ffcc77|none","eq":{"kind":"flashlight","color":"#ff
+PASS L5e one body per player: sending another replaces it
+       bodies now 1
+PASS L5f a living player still cannot leave a corpse or trigger a death replay
+       bodies 1; fx to Alice 0
+PASS L5g respawn puts her back among the living
+       me=""
+PASS L6 the AI debug feed goes only to the unlocked admin
+       Bob got debug: false; Alice got debug: true (entities 5)
+PASS L6b debug entries carry state / target / last-known-position / tier
+       5 entries, e.g. {"i":5,"k":"hound","x":7394,"y":5103,"a":-0.72,"s":"DORMANT","ac":"-","tier":"far","v":92,"mood":[0,0,0,0.05],"tg":0,"lk":null,"vr":570,"hr":null,"sg":null,"near":0,"cp":null,"cd":null,"path":[[7548,4
+PASS L7 downstream per client stays small
+       17.4 KB/s uncompressed per client with 2 players and 5 entities (19.9 snapshots/s)
+PASS L8 five wrong guesses lock admin attempts for a minute
+       {"t":"admin","ok":false,"wait":60}
+
+17/17 passed

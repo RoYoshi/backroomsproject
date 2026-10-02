@@ -1,0 +1,21 @@
+{
+  "status": "UNCHANGED INHERITED FAILURE SET",
+  "parentSource": "dev/stage_c/results/npm-test-complete.log",
+  "currentSource": "dev/stage_d/evidence/inherited/npm-test.log",
+  "aggregate": "151/162",
+  "failures": [
+    "FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+    "FAIL P07 exhausted breathing is audible only close by",
+    "FAIL P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+    "FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+    "FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+    "FAIL NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+    "FAIL C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+    "FAIL C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+    "FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+    "FAIL C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+    "FAIL 2F F22 species physical/canon parameter preservation"
+  ],
+  "P08": "UNKNOWN / NEEDS INVESTIGATION",
+  "F22": "Historical exact-source guard; not resolved or weakened"
+}

@@ -1,0 +1,536 @@
+{
+  "status": "MEASURED",
+  "browser": "151.0.7922.34",
+  "results": [
+    {
+      "pass": true,
+      "quality": 1,
+      "metadata": {
+        "runtime": "shipped Pixi 8.21.0 / WebGL2",
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+        "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+        "views": [
+          {
+            "scope": {
+              "width": 1536,
+              "height": 864,
+              "scale": 0.8333333333333334,
+              "minX": -338,
+              "maxX": 1198,
+              "minY": -102,
+              "maxY": 762
+            },
+            "drawCalls": 45,
+            "passes": 2,
+            "physicalVisibility": "exact bounded per-fragment convex rays",
+            "occluders": 32,
+            "triangles": 414,
+            "target": {
+              "width": 1280,
+              "height": 720,
+              "depth": "DEPTH_COMPONENT24",
+              "color": "RGBA8"
+            },
+            "logical": {
+              "width": 1280,
+              "height": 720,
+              "dpr": 1
+            },
+            "quality": 1,
+            "newResourceBytes": 7497152,
+            "defaultColorBytesEstimate": 3686400,
+            "eye": {
+              "x": 368,
+              "y": 440,
+              "z": 182
+            },
+            "camera": {
+              "x": 430,
+              "y": 330,
+              "z": 132
+            },
+            "elevationScale": 0.5,
+            "cutaway": {
+              "worldEpoch": "stage-c-fixture:1",
+              "focus": {
+                "x": 368,
+                "y": 440,
+                "z": 132
+              },
+              "focusSpace": [
+                "space:lower-room"
+              ],
+              "groups": [
+                {
+                  "id": "view:upper-slabs",
+                  "fade": 0,
+                  "target": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "completedFrameWallMs": {
+        "method": "draw + 1x1 synchronous readPixels from the rendered color target; three warmups, sixteen samples; includes CPU, GPU and readback overhead, not isolated GPU time",
+        "samples": [
+          212.89999999990687,
+          192.20000000018626,
+          214.5,
+          207.79999999981374,
+          220.5,
+          234.6999999997206,
+          236.10000000009313,
+          244.8000000002794,
+          209.79999999981374,
+          219.29999999981374,
+          235.40000000037253,
+          216,
+          208.10000000009313,
+          190.89999999990687,
+          196.70000000018626,
+          201.20000000018626
+        ],
+        "median": 212.89999999990687,
+        "p95": 236.10000000009313,
+        "max": 244.8000000002794
+      },
+      "steadyRafMs": {
+        "method": "24 intervals, each frame drained by readback, no pre-existing submission backlog",
+        "samples": [
+          4766.5,
+          200,
+          216.60000000000036,
+          233.39999999999964,
+          199.90000000000055,
+          200,
+          216.69999999999982,
+          250,
+          216.69999999999982,
+          249.90000000000055,
+          233.39999999999964,
+          216.69999999999982,
+          183.19999999999982,
+          200.10000000000036,
+          200,
+          200,
+          199.89999999999964,
+          216.70000000000073,
+          216.60000000000036,
+          233.39999999999964,
+          216.6999999999989,
+          233.3000000000011,
+          199.89999999999964,
+          200
+        ],
+        "median": 216.60000000000036,
+        "p95": 250,
+        "max": 4766.5
+      },
+      "heap": {
+        "used": 10000000,
+        "total": 11900000
+      }
+    },
+    {
+      "pass": true,
+      "quality": 0.5,
+      "metadata": {
+        "runtime": "shipped Pixi 8.21.0 / WebGL2",
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+        "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+        "views": [
+          {
+            "scope": {
+              "width": 1536,
+              "height": 864,
+              "scale": 0.8333333333333334,
+              "minX": -338,
+              "maxX": 1198,
+              "minY": -102,
+              "maxY": 762
+            },
+            "drawCalls": 45,
+            "passes": 2,
+            "physicalVisibility": "exact bounded per-fragment convex rays",
+            "occluders": 32,
+            "triangles": 414,
+            "target": {
+              "width": 640,
+              "height": 360,
+              "depth": "DEPTH_COMPONENT24",
+              "color": "RGBA8"
+            },
+            "logical": {
+              "width": 1280,
+              "height": 720,
+              "dpr": 1
+            },
+            "quality": 0.5,
+            "newResourceBytes": 1967552,
+            "defaultColorBytesEstimate": 921600,
+            "eye": {
+              "x": 368,
+              "y": 440,
+              "z": 182
+            },
+            "camera": {
+              "x": 430,
+              "y": 330,
+              "z": 132
+            },
+            "elevationScale": 0.5,
+            "cutaway": {
+              "worldEpoch": "stage-c-fixture:1",
+              "focus": {
+                "x": 368,
+                "y": 440,
+                "z": 132
+              },
+              "focusSpace": [
+                "space:lower-room"
+              ],
+              "groups": [
+                {
+                  "id": "view:upper-slabs",
+                  "fade": 0,
+                  "target": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "completedFrameWallMs": {
+        "method": "draw + 1x1 synchronous readPixels from the rendered color target; three warmups, sixteen samples; includes CPU, GPU and readback overhead, not isolated GPU time",
+        "samples": [
+          46.8000000002794,
+          49.1999999997206,
+          54.10000000009313,
+          58.799999999813735,
+          47.10000000009313,
+          53.700000000186265,
+          48.6999999997206,
+          52.700000000186265,
+          49,
+          52.5,
+          48.89999999990687,
+          62.89999999990687,
+          59.8000000002794,
+          61.6999999997206,
+          60.39999999990687,
+          55.700000000186265
+        ],
+        "median": 52.700000000186265,
+        "p95": 61.6999999997206,
+        "max": 62.89999999990687
+      },
+      "steadyRafMs": {
+        "method": "24 intervals, each frame drained by readback, no pre-existing submission backlog",
+        "samples": [
+          1133.199999999999,
+          50,
+          66.80000000000109,
+          66.59999999999854,
+          50,
+          49.900000000001455,
+          66.69999999999891,
+          50,
+          50,
+          50.100000000000364,
+          66.60000000000036,
+          50,
+          66.69999999999891,
+          66.60000000000036,
+          66.70000000000073,
+          66.60000000000036,
+          50,
+          50.099999999998545,
+          49.900000000001455,
+          66.79999999999927,
+          49.899999999999636,
+          50,
+          66.70000000000073,
+          50
+        ],
+        "median": 50.099999999998545,
+        "p95": 66.80000000000109,
+        "max": 1133.199999999999
+      },
+      "heap": {
+        "used": 10000000,
+        "total": 11900000
+      }
+    },
+    {
+      "pass": true,
+      "quality": 1,
+      "metadata": {
+        "runtime": "shipped Pixi 8.21.0 / WebGL2",
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+        "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+        "views": [
+          {
+            "scope": {
+              "width": 1536,
+              "height": 864,
+              "scale": 1.25,
+              "minX": -338,
+              "maxX": 1198,
+              "minY": -102,
+              "maxY": 762
+            },
+            "drawCalls": 45,
+            "passes": 2,
+            "physicalVisibility": "exact bounded per-fragment convex rays",
+            "occluders": 32,
+            "triangles": 414,
+            "target": {
+              "width": 1920,
+              "height": 1080,
+              "depth": "DEPTH_COMPONENT24",
+              "color": "RGBA8"
+            },
+            "logical": {
+              "width": 1920,
+              "height": 1080,
+              "dpr": 1
+            },
+            "quality": 1,
+            "newResourceBytes": 16713152,
+            "defaultColorBytesEstimate": 8294400,
+            "eye": {
+              "x": 368,
+              "y": 440,
+              "z": 182
+            },
+            "camera": {
+              "x": 430,
+              "y": 330,
+              "z": 132
+            },
+            "elevationScale": 0.5,
+            "cutaway": {
+              "worldEpoch": "stage-c-fixture:1",
+              "focus": {
+                "x": 368,
+                "y": 440,
+                "z": 132
+              },
+              "focusSpace": [
+                "space:lower-room"
+              ],
+              "groups": [
+                {
+                  "id": "view:upper-slabs",
+                  "fade": 0,
+                  "target": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "completedFrameWallMs": {
+        "method": "draw + 1x1 synchronous readPixels from the rendered color target; three warmups, sixteen samples; includes CPU, GPU and readback overhead, not isolated GPU time",
+        "samples": [
+          457.1999999997206,
+          444.5,
+          498.70000000018626,
+          506.60000000009313,
+          513.2999999998137,
+          599.5,
+          520.1000000000931,
+          521.1000000000931,
+          523.6999999997206,
+          494,
+          453.20000000018626,
+          456.5,
+          455.29999999981374,
+          438.5,
+          438.8000000002794,
+          475.39999999990687
+        ],
+        "median": 475.39999999990687,
+        "p95": 523.6999999997206,
+        "max": 599.5
+      },
+      "steadyRafMs": {
+        "method": "24 intervals, each frame drained by readback, no pre-existing submission backlog",
+        "samples": [
+          10566.300000000001,
+          549.8999999999978,
+          550,
+          566.6000000000022,
+          516.7999999999993,
+          466.5,
+          433.40000000000146,
+          583.2999999999993,
+          566.5999999999985,
+          450,
+          483.2999999999993,
+          483.3000000000029,
+          433.3999999999978,
+          466.6000000000022,
+          533.2999999999993,
+          516.5999999999985,
+          450,
+          483.40000000000146,
+          483.2000000000007,
+          466.6999999999971,
+          516.7000000000044,
+          500,
+          500,
+          516.5999999999985
+        ],
+        "median": 500,
+        "p95": 583.2999999999993,
+        "max": 10566.300000000001
+      },
+      "heap": {
+        "used": 10000000,
+        "total": 11900000
+      }
+    },
+    {
+      "pass": true,
+      "quality": 0.5,
+      "metadata": {
+        "runtime": "shipped Pixi 8.21.0 / WebGL2",
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+        "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+        "views": [
+          {
+            "scope": {
+              "width": 1536,
+              "height": 864,
+              "scale": 1.25,
+              "minX": -338,
+              "maxX": 1198,
+              "minY": -102,
+              "maxY": 762
+            },
+            "drawCalls": 45,
+            "passes": 2,
+            "physicalVisibility": "exact bounded per-fragment convex rays",
+            "occluders": 32,
+            "triangles": 414,
+            "target": {
+              "width": 960,
+              "height": 540,
+              "depth": "DEPTH_COMPONENT24",
+              "color": "RGBA8"
+            },
+            "logical": {
+              "width": 1920,
+              "height": 1080,
+              "dpr": 1
+            },
+            "quality": 0.5,
+            "newResourceBytes": 4271552,
+            "defaultColorBytesEstimate": 2073600,
+            "eye": {
+              "x": 368,
+              "y": 440,
+              "z": 182
+            },
+            "camera": {
+              "x": 430,
+              "y": 330,
+              "z": 132
+            },
+            "elevationScale": 0.5,
+            "cutaway": {
+              "worldEpoch": "stage-c-fixture:1",
+              "focus": {
+                "x": 368,
+                "y": 440,
+                "z": 132
+              },
+              "focusSpace": [
+                "space:lower-room"
+              ],
+              "groups": [
+                {
+                  "id": "view:upper-slabs",
+                  "fade": 0,
+                  "target": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "completedFrameWallMs": {
+        "method": "draw + 1x1 synchronous readPixels from the rendered color target; three warmups, sixteen samples; includes CPU, GPU and readback overhead, not isolated GPU time",
+        "samples": [
+          130.59999999962747,
+          109.60000000009313,
+          114.8000000002794,
+          126.09999999962747,
+          133.3000000002794,
+          140.10000000009313,
+          117.1999999997206,
+          121.39999999990687,
+          127.70000000018626,
+          113.29999999981374,
+          118.20000000018626,
+          140.60000000009313,
+          136,
+          147.79999999981374,
+          138.20000000018626,
+          124.60000000009313
+        ],
+        "median": 126.09999999962747,
+        "p95": 140.60000000009313,
+        "max": 147.79999999981374
+      },
+      "steadyRafMs": {
+        "method": "24 intervals, each frame drained by readback, no pre-existing submission backlog",
+        "samples": [
+          2649.9000000000015,
+          116.59999999999854,
+          116.69999999999709,
+          133.3000000000029,
+          133.29999999999563,
+          133.40000000000146,
+          133.3000000000029,
+          133.29999999999563,
+          133.3000000000029,
+          150,
+          133.3000000000029,
+          150,
+          116.69999999999709,
+          150,
+          116.59999999999854,
+          116.70000000000437,
+          100,
+          133.39999999999418,
+          133.3000000000029,
+          150,
+          116.69999999999709,
+          133.3000000000029,
+          133.3000000000029,
+          133.29999999999563
+        ],
+        "median": 133.3000000000029,
+        "p95": 150,
+        "max": 2649.9000000000015
+      },
+      "heap": {
+        "used": 10000000,
+        "total": 11900000
+      }
+    }
+  ],
+  "metricCorrection": "The historical development/browser-extended-before-opaque-depth.json called draw+gl.finish samples synchronizedFrameWallMs. Those values measure enqueue CPU time on this Chromium setup, NOT completed GPU time. Its RAF samples also follow a burst queue. Neither is used to claim frame-budget acceptance. This file provides drained, readback-fenced measurements with eye movement and supersedes those initial performance numbers.",
+  "budget": "16.7 ms hardware reference target remains unverified; only the exposed SwiftShader software GPU was available. No visibility/geometry omitted for performance."
+}

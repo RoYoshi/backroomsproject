@@ -1,0 +1,9 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> far-backrooms@23.3.6-hqa-search-polish test
+> node dev/tests/run.js
+
+FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [987ms]
+       run 1687px  walk 1689px  crouch 1671px
+PASS P02 light beam makes a walker easier to notice (hound)  [579ms]
+       light on 1689px  off 254px

@@ -1,0 +1,1346 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "browser": "151.0.7922.34",
+  "fairness": [
+    {
+      "pass": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 1
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 1.25,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 1920,
+            "height": 1080,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 16713152,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 37.5,
+              "y": 433.75
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 1.25,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 960,
+            "height": 540,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 4271552,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 37.5,
+              "y": 433.75
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    },
+    {
+      "pass": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 2
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 1.25,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 2730,
+            "height": 1536,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 33670592,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 37.5,
+              "y": 433.75
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 1.25,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 1365,
+            "height": 768,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 8510912,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 37.5,
+              "y": 433.75
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    },
+    {
+      "pass": true,
+      "viewport": {
+        "width": 3840,
+        "height": 2160,
+        "dpr": 1
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 2.5,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 2730,
+            "height": 1536,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 33670592,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 75,
+              "y": 867.5
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 2.5,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 1365,
+            "height": 768,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 8510912,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 75,
+              "y": 867.5
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    },
+    {
+      "pass": true,
+      "viewport": {
+        "width": 3440,
+        "height": 1440,
+        "dpr": 1
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 1536,
+            "height": 642.9767441860465,
+            "scale": 2.2395833333333335,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": 8.511627906976742,
+            "maxY": 651.4883720930233
+          },
+          "target": {
+            "width": 3165,
+            "height": 1325,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 33673352,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 801.4883720930233,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 67.1875,
+              "y": 529.6354166666667
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 1536,
+            "height": 642.9767441860465,
+            "scale": 2.2395833333333335,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": 8.511627906976742,
+            "maxY": 651.4883720930233
+          },
+          "target": {
+            "width": 1582,
+            "height": 662,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 8502624,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 801.4883720930233,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 67.1875,
+              "y": 529.6354166666667
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    },
+    {
+      "pass": true,
+      "viewport": {
+        "width": 1080,
+        "height": 1920,
+        "dpr": 1
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 486,
+            "height": 864,
+            "scale": 2.2222222222222223,
+            "minX": 157,
+            "maxX": 643,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 1080,
+            "height": 1920,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 16713152,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 66.66666666666667,
+              "y": 771.1111111111112
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 486,
+            "height": 864,
+            "scale": 2.2222222222222223,
+            "minX": 157,
+            "maxX": 643,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 540,
+            "height": 960,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 4271552,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 66.66666666666667,
+              "y": 771.1111111111112
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    }
+  ],
+  "fades": {
+    "pass": true,
+    "enter": [
+      {
+        "seconds": 0.01,
+        "fade": 0.06666666666666667,
+        "hash": "c4615ef3",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.02,
+        "fade": 0.13333333333333333,
+        "hash": "e571b65f",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.03,
+        "fade": 0.2,
+        "hash": "c3f04833",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.04,
+        "fade": 0.26666666666666666,
+        "hash": "3890ebbf",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.05,
+        "fade": 0.3333333333333333,
+        "hash": "5f27864a",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.06,
+        "fade": 0.39999999999999997,
+        "hash": "71fddaa6",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.07,
+        "fade": 0.4666666666666666,
+        "hash": "4f88e05f",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.08,
+        "fade": 0.5333333333333333,
+        "hash": "187fd42d",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.09,
+        "fade": 0.6,
+        "hash": "e74763b9",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.1,
+        "fade": 0.6666666666666666,
+        "hash": "890f5cd0",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.11,
+        "fade": 0.7333333333333333,
+        "hash": "154379f",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.12,
+        "fade": 0.7999999999999999,
+        "hash": "f75e11c2",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.13,
+        "fade": 0.8666666666666666,
+        "hash": "c41bfc64",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.14,
+        "fade": 0.9333333333333332,
+        "hash": "e7c2ace6",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.15,
+        "fade": 0.9999999999999999,
+        "hash": "3a675ec2",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.16,
+        "fade": 1,
+        "hash": "3a675ec2",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.17,
+        "fade": 1,
+        "hash": "3a675ec2",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.18,
+        "fade": 1,
+        "hash": "3a675ec2",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.19,
+        "fade": 1,
+        "hash": "3a675ec2",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.2,
+        "fade": 1,
+        "hash": "3a675ec2",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.21,
+        "fade": 1,
+        "hash": "3a675ec2",
+        "leakPixels": 0
+      }
+    ],
+    "boundaryFrames": 120,
+    "boundaryDistinctHashes": 1
+  },
+  "performance": [
+    {
+      "quality": 1,
+      "pass": true,
+      "metadata": {
+        "runtime": "shipped Pixi 8.21.0 / WebGL2",
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+        "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+        "views": [
+          {
+            "scope": {
+              "width": 1536,
+              "height": 864,
+              "scale": 0.8333333333333334,
+              "minX": -338,
+              "maxX": 1198,
+              "minY": -102,
+              "maxY": 762
+            },
+            "drawCalls": 45,
+            "passes": 2,
+            "physicalVisibility": "exact bounded per-fragment convex rays",
+            "occluders": 32,
+            "triangles": 414,
+            "target": {
+              "width": 1280,
+              "height": 720,
+              "depth": "DEPTH_COMPONENT24",
+              "color": "RGBA8"
+            },
+            "logical": {
+              "width": 1280,
+              "height": 720,
+              "dpr": 1
+            },
+            "quality": 1,
+            "newResourceBytes": 7497152,
+            "defaultColorBytesEstimate": 3686400,
+            "eye": {
+              "x": 368,
+              "y": 440,
+              "z": 182
+            },
+            "camera": {
+              "x": 430,
+              "y": 330,
+              "z": 132
+            },
+            "elevationScale": 0.5,
+            "cutaway": {
+              "worldEpoch": "stage-c-fixture:1",
+              "focus": {
+                "x": 368,
+                "y": 440,
+                "z": 132
+              },
+              "focusSpace": [
+                "space:lower-room"
+              ],
+              "groups": [
+                {
+                  "id": "view:upper-slabs",
+                  "fade": 0,
+                  "target": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "synchronizedFrameWallMs": {
+        "method": "performance.now around draw + gl.finish (CPU submission + completed GPU work), 12 warmup / 60 samples; not an isolated GPU timer",
+        "samples": [
+          0.20000000018626451,
+          0.10000000009313226,
+          0,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0,
+          0.10000000009313226,
+          0.20000000018626451,
+          0.10000000009313226,
+          0.19999999972060323,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.19999999972060323,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.19999999972060323,
+          0.10000000009313226,
+          0,
+          0.20000000018626451,
+          0,
+          0.6999999997206032,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.20000000018626451,
+          0,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0,
+          0.20000000018626451,
+          0,
+          0.10000000009313226
+        ],
+        "min": 0,
+        "median": 0.10000000009313226,
+        "p95": 0.20000000018626451,
+        "max": 0.6999999997206032
+      },
+      "rafIntervalsMs": {
+        "samples": [
+          16.69999999999709,
+          5283,
+          833.4000000000015,
+          16.69999999999709,
+          599.9000000000015,
+          816.5999999999985,
+          800,
+          849.9000000000015,
+          683.4000000000015,
+          799.9000000000015,
+          633.3999999999942,
+          633.3000000000029,
+          799.9000000000015,
+          850,
+          816.5999999999985,
+          833.3000000000029,
+          400,
+          316.6999999999971,
+          133.3000000000029,
+          233.29999999999563,
+          233.3000000000029,
+          283.40000000000146,
+          150,
+          216.6999999999971,
+          316.59999999999854,
+          100,
+          216.59999999999854,
+          200,
+          100,
+          316.70000000000437,
+          216.59999999999854,
+          283.40000000000146,
+          116.59999999999854,
+          83.40000000000146,
+          116.59999999999854,
+          66.69999999999709,
+          216.60000000000582,
+          200,
+          200,
+          183.29999999999563
+        ],
+        "median": 233.3000000000029,
+        "p95": 849.9000000000015,
+        "max": 5283
+      },
+      "heap": {
+        "used": 10000000,
+        "total": 10000000,
+        "limit": 3760000000
+      }
+    },
+    {
+      "quality": 0.5,
+      "pass": true,
+      "metadata": {
+        "runtime": "shipped Pixi 8.21.0 / WebGL2",
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+        "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+        "views": [
+          {
+            "scope": {
+              "width": 1536,
+              "height": 864,
+              "scale": 0.8333333333333334,
+              "minX": -338,
+              "maxX": 1198,
+              "minY": -102,
+              "maxY": 762
+            },
+            "drawCalls": 45,
+            "passes": 2,
+            "physicalVisibility": "exact bounded per-fragment convex rays",
+            "occluders": 32,
+            "triangles": 414,
+            "target": {
+              "width": 640,
+              "height": 360,
+              "depth": "DEPTH_COMPONENT24",
+              "color": "RGBA8"
+            },
+            "logical": {
+              "width": 1280,
+              "height": 720,
+              "dpr": 1
+            },
+            "quality": 0.5,
+            "newResourceBytes": 1967552,
+            "defaultColorBytesEstimate": 921600,
+            "eye": {
+              "x": 368,
+              "y": 440,
+              "z": 182
+            },
+            "camera": {
+              "x": 430,
+              "y": 330,
+              "z": 132
+            },
+            "elevationScale": 0.5,
+            "cutaway": {
+              "worldEpoch": "stage-c-fixture:1",
+              "focus": {
+                "x": 368,
+                "y": 440,
+                "z": 132
+              },
+              "focusSpace": [
+                "space:lower-room"
+              ],
+              "groups": [
+                {
+                  "id": "view:upper-slabs",
+                  "fade": 0,
+                  "target": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "synchronizedFrameWallMs": {
+        "method": "performance.now around draw + gl.finish (CPU submission + completed GPU work), 12 warmup / 60 samples; not an isolated GPU timer",
+        "samples": [
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.19999999972060323,
+          0.20000000018626451,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.20000000018626451,
+          0.09999999962747097,
+          0.20000000018626451,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.20000000018626451,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.19999999972060323,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.10000000009313226,
+          0,
+          0.20000000018626451,
+          0.10000000009313226,
+          0,
+          0.19999999972060323,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.10000000009313226,
+          0.09999999962747097,
+          6.800000000279397,
+          0.19999999972060323,
+          0.10000000009313226,
+          0,
+          0.3000000002793968,
+          0,
+          0.2999999998137355,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0
+        ],
+        "min": 0,
+        "median": 0.10000000009313226,
+        "p95": 0.20000000018626451,
+        "max": 6.800000000279397
+      },
+      "rafIntervalsMs": {
+        "samples": [
+          100,
+          16.599999999998545,
+          4416.5,
+          100.09999999999854,
+          183.3000000000029,
+          216.6999999999971,
+          99.90000000000146,
+          116.69999999999709,
+          233.3000000000029,
+          216.59999999999854,
+          166.6999999999971,
+          233.40000000000146,
+          249.90000000000146,
+          216.6999999999971,
+          166.70000000000437,
+          199.90000000000146,
+          216.6999999999971,
+          150,
+          83.30000000000291,
+          50,
+          83.39999999999418,
+          83.20000000000437,
+          16.799999999995634,
+          66.60000000000582,
+          33.299999999995634,
+          66.70000000000437,
+          50,
+          50,
+          66.69999999999709,
+          66.59999999999854,
+          50.099999999998545,
+          49.900000000001455,
+          50.099999999998545,
+          49.900000000001455,
+          50,
+          66.70000000000437,
+          83.29999999999563,
+          83.30000000000291,
+          16.69999999999709,
+          66.59999999999854
+        ],
+        "median": 83.29999999999563,
+        "p95": 233.40000000000146,
+        "max": 4416.5
+      },
+      "heap": {
+        "used": 10000000,
+        "total": 10000000,
+        "limit": 3760000000
+      }
+    },
+    {
+      "quality": 1,
+      "pass": true,
+      "metadata": {
+        "runtime": "shipped Pixi 8.21.0 / WebGL2",
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+        "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+        "views": [
+          {
+            "scope": {
+              "width": 1536,
+              "height": 864,
+              "scale": 1.25,
+              "minX": -338,
+              "maxX": 1198,
+              "minY": -102,
+              "maxY": 762
+            },
+            "drawCalls": 45,
+            "passes": 2,
+            "physicalVisibility": "exact bounded per-fragment convex rays",
+            "occluders": 32,
+            "triangles": 414,
+            "target": {
+              "width": 1920,
+              "height": 1080,
+              "depth": "DEPTH_COMPONENT24",
+              "color": "RGBA8"
+            },
+            "logical": {
+              "width": 1920,
+              "height": 1080,
+              "dpr": 1
+            },
+            "quality": 1,
+            "newResourceBytes": 16713152,
+            "defaultColorBytesEstimate": 8294400,
+            "eye": {
+              "x": 368,
+              "y": 440,
+              "z": 182
+            },
+            "camera": {
+              "x": 430,
+              "y": 330,
+              "z": 132
+            },
+            "elevationScale": 0.5,
+            "cutaway": {
+              "worldEpoch": "stage-c-fixture:1",
+              "focus": {
+                "x": 368,
+                "y": 440,
+                "z": 132
+              },
+              "focusSpace": [
+                "space:lower-room"
+              ],
+              "groups": [
+                {
+                  "id": "view:upper-slabs",
+                  "fade": 0,
+                  "target": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "synchronizedFrameWallMs": {
+        "method": "performance.now around draw + gl.finish (CPU submission + completed GPU work), 12 warmup / 60 samples; not an isolated GPU timer",
+        "samples": [
+          0.09999999962747097,
+          0.10000000009313226,
+          0.20000000018626451,
+          0.10000000009313226,
+          0.09999999962747097,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.10000000009313226,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.2999999998137355,
+          0.20000000018626451,
+          0.10000000009313226,
+          0,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.10000000009313226,
+          0,
+          0.19999999972060323,
+          0,
+          0,
+          0.20000000018626451,
+          0,
+          0.10000000009313226,
+          0.09999999962747097,
+          0.10000000009313226,
+          0,
+          0.39999999990686774,
+          0,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.2999999998137355,
+          0,
+          0.10000000009313226,
+          0.20000000018626451,
+          0,
+          0,
+          0.19999999972060323,
+          0,
+          0,
+          0.20000000018626451,
+          0,
+          0,
+          0.19999999972060323,
+          0,
+          0,
+          6.400000000372529,
+          0.19999999972060323,
+          0.10000000009313226,
+          0
+        ],
+        "min": 0,
+        "median": 0.10000000009313226,
+        "p95": 0.2999999998137355,
+        "max": 6.400000000372529
+      },
+      "rafIntervalsMs": {
+        "samples": [
+          49.89999999999418,
+          16.700000000004366,
+          12182.900000000001,
+          1949.8999999999942,
+          1866.6000000000058,
+          1883.300000000003,
+          866.5999999999913,
+          933.3000000000029,
+          1516.6000000000058,
+          1949.8999999999942,
+          1916.6000000000058,
+          2033.2999999999884,
+          1766.5,
+          1016.7000000000116,
+          1833.2999999999884,
+          983.2000000000116,
+          983.3999999999942,
+          916.5,
+          1900,
+          483.3000000000029,
+          433.3000000000029,
+          466.59999999999127,
+          450.1000000000058,
+          483.3000000000029,
+          699.8999999999942,
+          483.3000000000029,
+          483.3000000000029,
+          166.6999999999971,
+          450,
+          483.3000000000029,
+          250,
+          183.29999999998836,
+          450,
+          933.3000000000029,
+          450,
+          516.6000000000058,
+          300,
+          516.6999999999971,
+          733.3000000000029,
+          283.3000000000029
+        ],
+        "median": 516.6999999999971,
+        "p95": 1949.8999999999942,
+        "max": 12182.900000000001
+      },
+      "heap": {
+        "used": 10000000,
+        "total": 10000000,
+        "limit": 3760000000
+      }
+    },
+    {
+      "quality": 0.5,
+      "pass": true,
+      "metadata": {
+        "runtime": "shipped Pixi 8.21.0 / WebGL2",
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+        "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+        "views": [
+          {
+            "scope": {
+              "width": 1536,
+              "height": 864,
+              "scale": 1.25,
+              "minX": -338,
+              "maxX": 1198,
+              "minY": -102,
+              "maxY": 762
+            },
+            "drawCalls": 45,
+            "passes": 2,
+            "physicalVisibility": "exact bounded per-fragment convex rays",
+            "occluders": 32,
+            "triangles": 414,
+            "target": {
+              "width": 960,
+              "height": 540,
+              "depth": "DEPTH_COMPONENT24",
+              "color": "RGBA8"
+            },
+            "logical": {
+              "width": 1920,
+              "height": 1080,
+              "dpr": 1
+            },
+            "quality": 0.5,
+            "newResourceBytes": 4271552,
+            "defaultColorBytesEstimate": 2073600,
+            "eye": {
+              "x": 368,
+              "y": 440,
+              "z": 182
+            },
+            "camera": {
+              "x": 430,
+              "y": 330,
+              "z": 132
+            },
+            "elevationScale": 0.5,
+            "cutaway": {
+              "worldEpoch": "stage-c-fixture:1",
+              "focus": {
+                "x": 368,
+                "y": 440,
+                "z": 132
+              },
+              "focusSpace": [
+                "space:lower-room"
+              ],
+              "groups": [
+                {
+                  "id": "view:upper-slabs",
+                  "fade": 0,
+                  "target": false
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "synchronizedFrameWallMs": {
+        "method": "performance.now around draw + gl.finish (CPU submission + completed GPU work), 12 warmup / 60 samples; not an isolated GPU timer",
+        "samples": [
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.39999999990686774,
+          0.10000000009313226,
+          0.19999999972060323,
+          0,
+          0,
+          0.20000000018626451,
+          0,
+          0.19999999972060323,
+          0.10000000009313226,
+          0.20000000018626451,
+          0.19999999972060323,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.09999999962747097,
+          0,
+          0.3000000002793968,
+          0.10000000009313226,
+          0.19999999972060323,
+          0,
+          0.20000000018626451,
+          0.10000000009313226,
+          0,
+          0.19999999972060323,
+          0,
+          0.10000000009313226,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.10000000009313226,
+          0,
+          0.20000000018626451,
+          0.10000000009313226,
+          0.09999999962747097,
+          0,
+          0.20000000018626451,
+          0,
+          0,
+          0.20000000018626451,
+          0,
+          0.19999999972060323,
+          0,
+          0.10000000009313226,
+          0.20000000018626451,
+          0,
+          0.09999999962747097,
+          0.10000000009313226,
+          0.10000000009313226,
+          0,
+          0.20000000018626451,
+          0,
+          0.09999999962747097,
+          0.10000000009313226
+        ],
+        "min": 0,
+        "median": 0.10000000009313226,
+        "p95": 0.20000000018626451,
+        "max": 0.39999999990686774
+      },
+      "rafIntervalsMs": {
+        "samples": [
+          483.3999999999942,
+          16.69999999999709,
+          16.60000000000582,
+          10733,
+          449.8999999999942,
+          466.6000000000058,
+          433.3999999999942,
+          350,
+          316.6000000000058,
+          450,
+          466.6999999999971,
+          533.3000000000029,
+          383.3000000000029,
+          466.59999999999127,
+          466.70000000001164,
+          383.29999999998836,
+          583.3000000000029,
+          283.3000000000029,
+          66.69999999999709,
+          100,
+          133.3000000000029,
+          150,
+          116.60000000000582,
+          183.39999999999418,
+          50,
+          116.60000000000582,
+          133.29999999998836,
+          116.80000000000291,
+          116.60000000000582,
+          133.39999999999418,
+          116.60000000000582,
+          133.3000000000029,
+          150,
+          133.39999999999418,
+          166.60000000000582,
+          150,
+          133.29999999998836,
+          133.40000000000873,
+          249.89999999999418,
+          50
+        ],
+        "median": 150,
+        "p95": 533.3000000000029,
+        "max": 10733
+      },
+      "heap": {
+        "used": 10000000,
+        "total": 10000000,
+        "limit": 3760000000
+      }
+    }
+  ],
+  "errors": [],
+  "scope": "Actual browser WebGL output and synchronized frame wall time. SwiftShader software GPU; this is not a claim that unavailable hardware meets 16.7 ms. Quality changes target sampling only; physical solids/rays and logical footprint are identical."
+}

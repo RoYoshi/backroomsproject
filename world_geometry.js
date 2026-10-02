@@ -1,6 +1,6 @@
-/* Shared geometry boundary — Stage B, explicit preserved planar fast path only.
- * Data lives in levels/level0.js. Spatial query names below deliberately throw.
- * No physical-Z solving, time reads, RNG, perception or species decisions. */
+/* Shared geometry boundary — preserved Stage B planar path + Stage C spatial queries.
+ * Data lives in level definitions. Stage E/G contact/routing APIs remain deferred.
+ * No time reads, RNG, perception, species decisions or render dependencies. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.TFB_GEOMETRY=factory();})(typeof self!=='undefined'?self:this,function(){
 'use strict';
 function freeze(v){if(v&&typeof v==='object'){Object.values(v).forEach(freeze);Object.freeze(v);}return v;}
@@ -17,6 +17,7 @@ function sha256(s){
 }
 function contentHash(d){const {contentHash,...data}=d;return sha256(canonical(data));}
 function validate(d){
+ if(d&&d.geometryMode==='spatial'&&!d.flat)return spatialValidate(d);
  const ok=(x,msg)=>{if(!x)throw Error('WorldDefinition: '+msg);},num=x=>typeof x==='number'&&Number.isFinite(x),int=x=>Number.isInteger(x),str=x=>typeof x==='string'&&x.length>0,arr=(x,n)=>{ok(Array.isArray(x),n+' array');return x;};
  function finite(v){ok(v===null||['object','string','number','boolean'].includes(typeof v),'JSON data only');if(typeof v==='number')ok(num(v),'nonfinite number');else if(v&&typeof v==='object')Object.values(v).forEach(finite);}
  finite(d);ok(d&&d.schemaVersion===1,'schema mismatch');ok(d.geometryMode==='flat-compat','unsupported geometry mode (spatial is Stage C)');ok(str(d.assetId)&&str(d.contentRevision),'identity');ok(d.units==='legacy-world-unit','units');ok(d.spatialRecords===null&&d.verticalExtent==='UNSPECIFIED — NOT SPATIAL GEOMETRY','flat cannot claim spatial geometry');
@@ -41,8 +42,202 @@ function validate(d){
  return true;
 }
 
+const collections=['solids','supportPatches','navSurfaces','traversalLinks','spaces','portals','materials','lights','viewGroups','anchors','colliderProfiles'];
+const required={solids:['footprint','lower','upper','materialId','channels'],supportPatches:['polygon','plane','normal','solidId','materialId','navSurfaceId','supports'],navSurfaces:['patchIds','origin','cellSize','boundaryLinkIds','chart','clearanceProfileIds'],traversalLinks:['kind','fromSurfaceId','toSurfaceId','entry','exit','corridor','supportPatchIds','profileIds','capabilityFlags','durationRule','progressRule','interruptionRule','landingRule','costRule','directed','clearanceRequired'],spaces:['bounds','portalIds','volumeSpec'],portals:['fromSpaceId','toSpaceId','polygon','channels','traversalLinkId'],materials:['friction','noiseClass','visibleTransmission','irTransmission','acousticTransmission'],lights:['position','direction','channel','range','power','supportId','spaceId'],viewGroups:['solidIds','spaceIds','cutawayEligible'],anchors:['kind','position','yaw','supportId','spaceId','colliderProfileId'],colliderProfiles:['radius','height','eyeHeight','maxSlopeDegrees','maxStepRise','stepLiftMax','capabilities']};
+function validateSpatialRecords(w){const errors=[],refs={};const err=s=>errors.push(s);const walk=(v,p)=>{if(typeof v==='number'&&!Number.isFinite(v))err(p+' nonfinite');if(v&&typeof v==='object')for(const [k,q] of Object.entries(v))walk(q,p+'.'+k);};walk(w,'world');
+ for(const k of ['schemaVersion','assetId','geometryRevision','geometryMode','units','bounds'])if(w[k]===undefined)err('Missing '+k);
+ if(w.schemaVersion!==1)err('Unknown schemaVersion');if(!['flat-compat','spatial'].includes(w.geometryMode))err('Invalid geometryMode');if(w.units!=='legacy-world-unit')err('Invalid units');
+ const point=(p,d,where)=>{if(!p||d.some(k=>typeof p[k]!=='number'||!Number.isFinite(p[k])))err(where+' invalid point');};
+ const bounds=(b,where)=>{point(b?.min,['x','y','z'],where+'.min');point(b?.max,['x','y','z'],where+'.max');if(b?.min&&b?.max)for(const k of ['x','y','z'])if(!(b.min[k]<b.max[k]))err(where+' inverted bounds');};bounds(w.bounds,'world.bounds');
+ const all=new Set();
+ for(const c of collections){const a=w[c];refs[c]=new Set();if(!Array.isArray(a)){err('Missing collection '+c);continue;}let prev='';for(const o of a){if(!o||typeof o.id!=='string'||!o.id.includes(':')){err(c+' invalid explicit ID');continue;}if(all.has(o.id))err('Duplicate ID '+o.id);all.add(o.id);refs[c].add(o.id);if(prev&&prev>=o.id)err(c+' not canonical ID order');prev=o.id;for(const k of required[c])if(o[k]===undefined)err(o.id+' missing '+k);}}
+ const ref=(type,id,where,nullable=false)=>{if(nullable&&id===null)return;if(!refs[type].has(id))err(where+' invalid '+type+' reference '+id);};
+ const list=(type,ids,where)=>{if(!Array.isArray(ids)){err(where+' not an array');return;}if(new Set(ids).size!==ids.length)err(where+' duplicate reference');for(const id of ids)ref(type,id,where);};
+ const poly=(p,dim,where)=>{if(!Array.isArray(p)||p.length<3){err(where+' invalid polygon');return;}for(const q of p)point(q,dim,where);};
+ for(const o of w.solids||[]){poly(o.footprint,['x','y'],o.id);for(const p of [o.lower,o.upper])point(p,['a','b','c'],o.id);ref('materials',o.materialId,o.id);if(o.lower&&o.upper)for(const v of o.footprint||[])if(o.lower.a*v.x+o.lower.b*v.y+o.lower.c>=o.upper.a*v.x+o.upper.b*v.y+o.upper.c)err(o.id+' inverted/zero thickness');}
+ for(const o of w.supportPatches||[]){poly(o.polygon,['x','y'],o.id);point(o.plane,['a','b','c'],o.id);point(o.normal,['x','y','z'],o.id);ref('solids',o.solidId,o.id);ref('materials',o.materialId,o.id);ref('navSurfaces',o.navSurfaceId,o.id,true);}
+ for(const o of w.navSurfaces||[]){list('supportPatches',o.patchIds,o.id);list('traversalLinks',o.boundaryLinkIds,o.id);list('colliderProfiles',o.clearanceProfileIds,o.id);point(o.origin,['x','y'],o.id);if(!(o.cellSize>0))err(o.id+' invalid cellSize');}
+ for(const o of w.traversalLinks||[]){if(!['walk-seam','ramp','stairs','step','drop','crawl','vault'].includes(o.kind))err(o.id+' invalid link kind');for(const k of ['fromSurfaceId','toSurfaceId'])ref('navSurfaces',o[k],o.id);list('supportPatches',o.supportPatchIds,o.id);list('colliderProfiles',o.profileIds,o.id);for(const k of ['entry','exit','corridor']){if(!Array.isArray(o[k])||!o[k].length)err(o.id+' empty '+k);else for(const p of o[k])point(p,['x','y','z'],o.id);}if(o.directed!==true)err(o.id+' link must be explicitly directed');}
+ for(const o of w.spaces||[]){bounds(o.bounds,o.id);list('portals',o.portalIds,o.id);}
+ for(const o of w.portals||[]){for(const k of ['fromSpaceId','toSpaceId'])ref('spaces',o[k],o.id);poly(o.polygon,['x','y','z'],o.id);ref('traversalLinks',o.traversalLinkId,o.id,true);}
+ for(const o of w.lights||[]){point(o.position,['x','y','z'],o.id);point(o.direction,['x','y','z'],o.id);if(!['visible','ir'].includes(o.channel))err(o.id+' invalid light channel');ref('supportPatches',o.supportId,o.id,true);ref('spaces',o.spaceId,o.id,true);}
+ for(const o of w.viewGroups||[]){list('solids',o.solidIds,o.id);list('spaces',o.spaceIds,o.id);}
+ for(const o of w.anchors||[]){point(o.position,['x','y','z'],o.id);ref('supportPatches',o.supportId,o.id);ref('spaces',o.spaceId,o.id,true);ref('colliderProfiles',o.colliderProfileId,o.id);}
+ for(const o of w.colliderProfiles||[])if(!(o.radius>0&&o.height>0&&o.eyeHeight>=0&&o.eyeHeight<=o.height))err(o.id+' invalid profile dimensions');
+ return {status:errors.length?'SCHEMA INVALID':'SCHEMA VALID',physics:'NOT IMPLEMENTED BY DESIGN',errors};}
+
+/* Stage C spatial backend. Pure queries; no WORLD.mode, clocks, RNG or renderer. */
+const NUM = Object.freeze({skin:.05, penetration:.1, tie:1e-7, epsilon:1e-8,
+  cell:128, maxContacts:8, gjkIterations:48, advanceIterations:64, distanceError:1e-6});
+const dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z;
+const add=(a,b)=>({x:a.x+b.x,y:a.y+b.y,z:a.z+b.z});
+const sub=(a,b)=>({x:a.x-b.x,y:a.y-b.y,z:a.z-b.z});
+const mul=(a,k)=>({x:a.x*k,y:a.y*k,z:a.z*k});
+const norm=a=>Math.sqrt(dot(a,a));
+const unit=a=>mul(a,1/(norm(a)||1));
+const planeAt=(p,x,y)=>p.a*x+p.b*y+p.c;
+const cross2=(a,b,c)=>(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+const inside=(poly,p)=>poly.every((a,i)=>cross2(a,poly[(i+1)%poly.length],p)>=-NUM.epsilon);
+function clip(poly,a,b,c){ // retain ax+by+c >= 0
+ const out=[];for(let i=0;i<poly.length;i++){const p=poly[i],q=poly[(i+1)%poly.length],u=a*p.x+b*p.y+c,v=a*q.x+b*q.y+c;
+ if(u>=0)out.push(p);if((u>=0)!==(v>=0)){const t=u/(u-v);out.push({x:p.x+(q.x-p.x)*t,y:p.y+(q.y-p.y)*t});}}return out;
+}
+function intersectPoly(p,q){for(let i=0;i<q.length&&p.length;i++){const a=q[i],b=q[(i+1)%q.length];p=clip(p,a.y-b.y,b.x-a.x,b.y*a.x-b.x*a.y);}return p;}
+function area(p){return Math.abs(p.reduce((n,a,i)=>{const b=p[(i+1)%p.length];return n+a.x*b.y-a.y*b.x;},0))/2;}
+function footprintRange(poly,p,r,plane){
+ const pts=[],r2=r*r,eps=NUM.epsilon;
+ for(let i=0;i<poly.length;i++){
+  const a=poly[i],b=poly[(i+1)%poly.length],dx=b.x-a.x,dy=b.y-a.y,aa=dx*dx+dy*dy;
+  if((a.x-p.x)**2+(a.y-p.y)**2<=r2+eps)pts.push(a);
+  const t=Math.max(0,Math.min(1,((p.x-a.x)*dx+(p.y-a.y)*dy)/aa)),q={x:a.x+t*dx,y:a.y+t*dy};
+  if((q.x-p.x)**2+(q.y-p.y)**2<=r2+eps)pts.push(q);
+  const bb=2*((a.x-p.x)*dx+(a.y-p.y)*dy),cc=(a.x-p.x)**2+(a.y-p.y)**2-r2,disc=bb*bb-4*aa*cc;
+  if(disc>=0)for(const sign of [-1,1]){const k=(-bb+sign*Math.sqrt(disc))/(2*aa);if(k>=0&&k<=1)pts.push({x:a.x+k*dx,y:a.y+k*dy});}
+ }
+ if(inside(poly,p))pts.push({x:p.x,y:p.y});
+ const g=Math.hypot(plane.a,plane.b);if(g)for(const k of [-1,1]){const q={x:p.x+k*r*plane.a/g,y:p.y+k*r*plane.b/g};if(inside(poly,q))pts.push(q);}
+ if(!pts.length)return null;
+ const heights=pts.map(q=>planeAt(plane,q.x,q.y));let hi=0,lo=0;for(let i=1;i<pts.length;i++){if(heights[i]>heights[hi])hi=i;if(heights[i]<heights[lo])lo=i;}
+ return {min:heights[lo],max:heights[hi],point:{...pts[hi],z:heights[hi]}};
+}
+function spatialValidate(d){
+ const fail=m=>{throw Error('WorldDefinition: '+m);},ok=(b,m)=>{if(!b)fail(m);};
+ const basic=validateSpatialRecords(d);ok(!basic.errors.length,basic.errors.join('; '));
+ ok(d.geometryMode==='spatial','unsupported geometry mode');
+ const finite=v=>{ok(v===null||['object','number','string','boolean'].includes(typeof v),'JSON data only');if(typeof v==='number')ok(Number.isFinite(v),'nonfinite');else if(v&&typeof v==='object')Object.values(v).forEach(finite);};finite(d);
+ ok(typeof d.assetId==='string'&&d.assetId.length&&typeof d.geometryRevision==='string'&&d.geometryRevision.length,'identity');
+ const poly=p=>{ok(p.length<=64,'polygon complexity');for(let i=0;i<p.length;i++){ok(cross2(p[i],p[(i+1)%p.length],p[(i+2)%p.length])>NUM.epsilon,'convex CCW polygon required');for(const q of p)ok(cross2(p[i],p[(i+1)%p.length],q)>=-NUM.epsilon,'self-intersecting/nonconvex polygon');}};
+ const bounds=p=>['x','y','z'].every(k=>p[k]>=d.bounds.min[k]-NUM.epsilon&&p[k]<=d.bounds.max[k]+NUM.epsilon);
+ ok(['x','y','z'].every(k=>Math.abs(d.bounds.min[k])<=1e7&&Math.abs(d.bounds.max[k])<=1e7),'coordinate magnitude limit');
+ const cells=(Math.ceil((d.bounds.max.x-d.bounds.min.x)/NUM.cell)+2)*(Math.ceil((d.bounds.max.y-d.bounds.min.y)/NUM.cell)+2);ok(cells<=1000000&&d.solids.length<=100000,'spatial capacity limit');
+ const byId=new Map(d.solids.map(s=>[s.id,s]));
+ for(const s of d.solids){poly(s.footprint);for(const p of s.footprint)for(const pl of [s.lower,s.upper])ok(bounds({...p,z:planeAt(pl,p.x,p.y)}),'solid outside bounds '+s.id);
+ for(const c of ['collision','visible','ir'])ok(typeof s.channels[c]==='boolean','channels');ok(s.channels.acousticTransmission>=0&&s.channels.acousticTransmission<=1,'acoustic channel');}
+ for(const s of d.supportPatches){poly(s.polygon);const solid=byId.get(s.solidId);ok(s.supports===true&&solid.channels.collision,'support source collision');
+ ok(s.materialId===solid.materialId,'support material');for(const p of s.polygon)ok(inside(solid.footprint,p)&&Math.abs(planeAt(s.plane,p.x,p.y)-planeAt(solid.upper,p.x,p.y))<NUM.epsilon,'support must be solid upper face');
+ const n=unit({x:-s.plane.a,y:-s.plane.b,z:1});ok(norm(sub(n,s.normal))<1e-7,'support normal');}
+ // Solid unions are legal only with identical physical/channel semantics. The ramp
+ // intersects the ground at its foot in the locked fixture. Reject conflicting
+ // volume assignments and coincident duplicate geometry, not that intended union.
+ for(let i=0;i<d.solids.length;i++)for(let j=i+1;j<d.solids.length;j++){
+  const a=d.solids[i],b=d.solids[j];let p=intersectPoly(a.footprint,b.footprint);
+  for(const [u,l] of [[a.upper,b.lower],[b.upper,a.lower]])p=clip(p,u.a-l.a,u.b-l.b,u.c-l.c-NUM.epsilon);
+  if(area(p)>NUM.epsilon){ok(a.materialId===b.materialId&&canonical(a.channels)===canonical(b.channels),'conflicting solid overlap');
+   ok(!(Math.abs(area(intersectPoly(a.footprint,b.footprint))-area(a.footprint))<NUM.epsilon&&Math.abs(area(a.footprint)-area(b.footprint))<NUM.epsilon&&canonical(a.lower)===canonical(b.lower)&&canonical(a.upper)===canonical(b.upper)),'duplicate solid volume');}
+ }
+ const supportKeys=new Set();for(const p of d.supportPatches){const key=canonical([p.polygon,p.plane]);ok(!supportKeys.has(key),'duplicate support geometry');supportKeys.add(key);}
+ for(const m of d.materials)ok(m.friction>=0&&['visibleTransmission','irTransmission','acousticTransmission'].every(k=>m[k]>=0&&m[k]<=1),'material parameters');
+ for(const p of d.colliderProfiles)ok(p.maxSlopeDegrees>=0&&p.maxSlopeDegrees<90&&p.maxStepRise>=0&&p.stepLiftMax>0&&Array.isArray(p.capabilities),'profile parameters');
+ for(const a of d.anchors)ok(bounds(a.position),'anchor bounds');
+ for(const s of d.spaces)ok(bounds(s.bounds.min)&&bounds(s.bounds.max),'space bounds');
+ if(d.contentHash!==undefined)ok(d.contentHash===contentHash(d),'content hash mismatch');
+ return true;
+}
+function linearSolve(A,b){
+ const n=b.length,m=A.map((r,i)=>[...r,b[i]]);
+ for(let c=0;c<n;c++){let k=c;for(let j=c+1;j<n;j++)if(Math.abs(m[j][c])>Math.abs(m[k][c]))k=j;if(Math.abs(m[k][c])<1e-12)return null;
+ [m[c],m[k]]=[m[k],m[c]];const v=m[c][c];for(let j=c;j<=n;j++)m[c][j]/=v;
+ for(let i=0;i<n;i++)if(i!==c){const f=m[i][c];for(let j=c;j<=n;j++)m[i][j]-=f*m[c][j];}}
+ return m.map(r=>r[n]);
+}
+function closestSimplex(points){
+ let best=null;
+ for(let mask=1;mask<(1<<points.length);mask++){
+  const ps=points.filter((_,i)=>mask&(1<<i));if(ps.length>4)continue;
+  let w=[1];if(ps.length>1){const ds=ps.slice(1).map(p=>sub(p,ps[0])),v=linearSolve(ds.map(a=>ds.map(b=>dot(a,b))),ds.map(a=>-dot(a,ps[0])));if(!v)continue;w=[1-v.reduce((a,b)=>a+b,0),...v];if(w.some(x=>x< -1e-9))continue;}
+  const p=ps.reduce((a,b,i)=>add(a,mul(b,w[i])),{x:0,y:0,z:0}),d=dot(p,p);
+  if(!best||d<best.d-1e-14)best={p,d,points:ps.filter((_,i)=>w[i]>1e-10)};
+ }return best;
+}
+function cylinderSupport(shape,pos,n){const xy=Math.hypot(n.x,n.y);return {x:pos.x+(xy?shape.radius*n.x/xy:0),y:pos.y+(xy?shape.radius*n.y/xy:0),z:pos.z+(n.z>0?shape.height:0)};}
+function separation(shape,pos,solid){
+ const support=n=>{let p=solid.vertices[0],v=dot(p,n);for(let i=1;i<solid.vertices.length;i++){const q=solid.vertices[i],w=dot(q,n);if(w>v){p=q;v=w;}}return sub(cylinderSupport(shape,pos,mul(n,-1)),p);};
+ let simplex=[support({x:1,y:0,z:0})],last,priorNormal={x:0,y:0,z:0};
+ for(let i=0;i<NUM.gjkIterations;i++){
+  const c=closestSimplex(simplex);last=c;if(c.d<1e-16)return {distance:0,normal:priorNormal,bounded:true};
+  const n=unit(c.p),p=support(n),lower=dot(n,p),upper=Math.sqrt(c.d);priorNormal=n;
+  if(upper-lower<=NUM.distanceError)return {distance:Math.max(0,lower),normal:n,bounded:true};
+  if(c.points.some(q=>norm(sub(p,q))<1e-10))return {distance:Math.max(0,lower),normal:n,bounded:true};
+  simplex=[...c.points,p];
+ }
+ const n=unit(last.p),p=support(n);return {distance:Math.max(0,dot(n,p)),normal:n,bounded:false};
+}
+function compileSpatial(definition){
+ const D=freeze(JSON.parse(JSON.stringify(definition))),byId=new Map(),grid=new Map(),supportsBySolid=new Map(),patches=new Map(D.supportPatches.map(p=>[p.id,p]));
+ const solids=D.solids.map(s=>{const vertices=s.footprint.flatMap(p=>[s.lower,s.upper].map(pl=>({...p,z:planeAt(pl,p.x,p.y)}))),lo={},hi={};for(const k of ['x','y','z']){lo[k]=Math.min(...vertices.map(p=>p[k]));hi[k]=Math.max(...vertices.map(p=>p[k]));}const out={...s,vertices,lo,hi};byId.set(s.id,out);return out;});
+ const key=(x,y)=>x+','+y;
+ for(const s of solids)for(let y=Math.floor(s.lo.y/NUM.cell);y<=Math.floor(s.hi.y/NUM.cell);y++)for(let x=Math.floor(s.lo.x/NUM.cell);x<=Math.floor(s.hi.x/NUM.cell);x++){const k=key(x,y);if(!grid.has(k))grid.set(k,[]);grid.get(k).push(s);}
+ for(const p of D.supportPatches){if(!supportsBySolid.has(p.solidId))supportsBySolid.set(p.solidId,[]);supportsBySolid.get(p.solidId).push(p);}
+ function candidates(lo,hi,channel='collision'){
+  lo={...lo,x:Math.max(lo.x,D.bounds.min.x),y:Math.max(lo.y,D.bounds.min.y)};
+  hi={...hi,x:Math.min(hi.x,D.bounds.max.x),y:Math.min(hi.y,D.bounds.max.y)};
+  if(lo.x>hi.x||lo.y>hi.y)return [];
+  const set=new Set();for(let y=Math.floor(lo.y/NUM.cell);y<=Math.floor(hi.y/NUM.cell);y++)for(let x=Math.floor(lo.x/NUM.cell);x<=Math.floor(hi.x/NUM.cell);x++)for(const s of grid.get(key(x,y))||[])if(s.hi.z>=lo.z&&s.lo.z<=hi.z&&s.channels[channel])set.add(s);
+  return [...set].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
+ }
+ const checkPose=p=>{if(!p||!['x','y','z'].every(k=>Number.isFinite(p[k])&&Math.abs(p[k])<=1e7))throw Error('Finite XYZ within coordinate limits required');};
+ const checkShape=s=>{if(!s||!(s.radius>0&&s.height>0&&Number.isFinite(s.radius)&&Number.isFinite(s.height)))throw Error('Positive finite cylinder required');};
+ function clearance(shape,pos){checkPose(pos);checkShape(shape);const hits=[];
+  for(const s of candidates({x:pos.x-shape.radius,y:pos.y-shape.radius,z:pos.z},{x:pos.x+shape.radius,y:pos.y+shape.radius,z:pos.z+shape.height})){
+   let p=clip(s.footprint,s.upper.a,s.upper.b,s.upper.c-pos.z-NUM.epsilon);
+   p=clip(p,-s.lower.a,-s.lower.b,pos.z+shape.height-s.lower.c-NUM.epsilon);
+   if(area(p)>NUM.epsilon&&footprintRange(p,pos,Math.max(0,shape.radius-NUM.epsilon),s.upper))hits.push(s.id);
+  }return {fits:!hits.length,solids:hits};
+ }
+ function supports(shape,pos,interval,previousSupport=null,direction={x:0,y:0,z:-1}){
+  checkShape(shape);checkPose(pos);if(!Array.isArray(interval)||interval.length!==2||!interval.every(Number.isFinite)||interval[0]>interval[1])throw Error('Explicit finite support interval required');checkPose(direction);
+  if(direction.z>NUM.epsilon)return [];
+  const out=[];for(const s of candidates({x:pos.x-shape.radius,y:pos.y-shape.radius,z:interval[0]},{x:pos.x+shape.radius,y:pos.y+shape.radius,z:interval[1]}))for(const p of supportsBySolid.get(s.id)||[]){
+   const range=footprintRange(p.polygon,pos,shape.radius,p.plane);if(!range||range.max<interval[0]-NUM.epsilon||range.max>interval[1]+NUM.epsilon)continue;
+   if(!clearance(shape,{...pos,z:range.max}).fits)continue;
+   out.push({id:p.id,solidId:s.id,z:range.max,normal:p.normal,point:range.point,materialId:p.materialId,navSurfaceId:p.navSurfaceId,plane:p.plane});
+  }
+  return out.sort((a,b)=>(Math.abs(Math.abs(a.z-pos.z)-Math.abs(b.z-pos.z))>NUM.tie?Math.abs(a.z-pos.z)-Math.abs(b.z-pos.z):0)||Number(b.id===previousSupport)-Number(a.id===previousSupport)||(a.id<b.id?-1:1));
+ }
+ function sweep(shape,start,displacement,channel='collision',margin=NUM.skin){
+  if(!Number.isFinite(margin)||margin<0||margin>NUM.skin)throw Error('Invalid sweep margin');
+  checkShape(shape);checkPose(start);checkPose(displacement);if(!['collision','visible','ir'].includes(channel))throw Error('Unsupported sweep channel');
+  const end=add(start,displacement),lo={x:Math.min(start.x,end.x)-shape.radius-NUM.skin,y:Math.min(start.y,end.y)-shape.radius-NUM.skin,z:Math.min(start.z,end.z)-NUM.skin},hi={x:Math.max(start.x,end.x)+shape.radius+NUM.skin,y:Math.max(start.y,end.y)+shape.radius+NUM.skin,z:Math.max(start.z,end.z)+shape.height+NUM.skin};
+  let hit=null;for(const solid of candidates(lo,hi,channel)){
+   const faces=[{x:1,y:0,z:0},{x:-1,y:0,z:0},{x:0,y:1,z:0},{x:0,y:-1,z:0},{x:0,y:0,z:1},{x:0,y:0,z:-1},{x:-solid.upper.a,y:-solid.upper.b,z:1},{x:solid.lower.a,y:solid.lower.b,z:-1}];
+   for(let i=0;i<solid.footprint.length;i++){const a=solid.footprint[i],b=solid.footprint[(i+1)%solid.footprint.length];faces.push({x:b.y-a.y,y:a.x-b.x,z:0});}
+   // A separating face that remains separating over this entire segment proves
+   // no impact, including exact resting/tangent contacts (GJK distance = zero).
+   if(faces.some(n=>dot(cylinderSupport(shape,start,mul(n,-1)),n)-Math.max(...solid.vertices.map(v=>dot(v,n)))>=-NUM.epsilon&&dot(displacement,n)>=-NUM.epsilon))continue;
+   let t=0,normal={x:0,y:0,z:0},done=false;
+   for(let i=0;i<NUM.advanceIterations;i++){
+    const sep=separation(shape,add(start,mul(displacement,t)),solid);normal=sep.normal;
+    const approach=-dot(normal,displacement);
+    if(sep.distance<=margin+NUM.distanceError){if(approach>NUM.epsilon||norm(normal)<.5){const h={t,normal,primitiveId:solid.id,point:add(start,mul(displacement,t)),diagnostic:sep.bounded?null:'GJK_LIMIT'};if(!hit||t<hit.t-NUM.tie||(Math.abs(t-hit.t)<=NUM.tie&&solid.id<hit.primitiveId))hit=h;}done=true;break;}
+    if(approach<=NUM.epsilon){done=true;break;}
+    const advance=(sep.distance-margin)/approach;
+    if(t+advance>1+NUM.tie){done=true;break;}t=Math.min(1,t+advance);
+   }
+   if(!done){const h={t,normal,primitiveId:solid.id,point:add(start,mul(displacement,t)),diagnostic:'SWEEP_LIMIT'};if(!hit||t<hit.t)hit=h;}
+  }return hit;
+ }
+ function raycast(from,to,channel='collision'){
+  checkPose(from);checkPose(to);if(!['collision','visible','ir'].includes(channel))throw Error('sound transmission: NOT IMPLEMENTED BY DESIGN — Stage E');
+  const delta=sub(to,from),lo={},hi={};for(const k of ['x','y','z']){lo[k]=Math.min(from[k],to[k]);hi[k]=Math.max(from[k],to[k]);}
+  let best=null;for(const s of candidates(lo,hi,channel)){
+   const planes=[{n:{x:-s.upper.a,y:-s.upper.b,z:1},c:-s.upper.c},{n:{x:s.lower.a,y:s.lower.b,z:-1},c:s.lower.c}];
+   for(let i=0;i<s.footprint.length;i++){const a=s.footprint[i],b=s.footprint[(i+1)%s.footprint.length];planes.push({n:{x:b.y-a.y,y:a.x-b.x,z:0},c:b.x*a.y-a.x*b.y});}
+   let enter=0,exit=1,normal={x:0,y:0,z:0};for(const p of planes){const v=dot(p.n,from)+p.c,d=dot(p.n,delta);if(Math.abs(d)<NUM.epsilon){if(v>0){exit=-1;break;}}else {const t=-v/d;if(d<0){if(t>enter){enter=t;normal=unit(p.n);}}else exit=Math.min(exit,t);}}
+   if(enter<=exit&&enter>=0&&enter<=1&&(!best||enter<best.t-NUM.tie||(Math.abs(enter-best.t)<=NUM.tie&&s.id<best.primitiveId)))best={t:enter,point:add(from,mul(delta,enter)),normal,primitiveId:s.id,materialId:s.materialId,distance:norm(delta)*enter};
+  }return best;
+ }
+ const deferred=name=>()=>{throw Error(name+': NOT IMPLEMENTED BY DESIGN — Stage E/G');};
+ return Object.freeze({definition:D,identity:freeze({schemaVersion:D.schemaVersion,assetId:D.assetId,geometryRevision:D.geometryRevision,contentHash:contentHash(D),geometryMode:'spatial',compilerRevision:'stage-c-1'}),numeric:NUM,
+  clearance,supports,sweep,raycast,contact:deferred('contact'),traceSupportMotion:deferred('traceSupportMotion'),
+  supportPatch:id=>patches.get(id)||null,
+  spacesAt:p=>{checkPose(p);return D.spaces.filter(s=>['x','y','z'].every(k=>p[k]>=s.bounds.min[k]&&p[k]<=s.bounds.max[k])&&!raycast(p,p)).map(s=>s.id);},
+  // Instrumentation reports immutable index size, never drives simulation budgets.
+  indexInfo:freeze({cells:grid.size,solids:solids.length,cellSize:NUM.cell}),footprintRange});
+}
+
 function compile(definition,WORLD){
  validate(definition);
+ if(definition.geometryMode==='spatial')return compileSpatial(definition);
  if(!WORLD||!WORLD.levelDefinition||WORLD.levelDefinition.contentHash!==definition.contentHash)throw Error('WORLD definition mismatch');
  const D=freeze(JSON.parse(JSON.stringify(definition))),F=D.flat;
  const anchorXY=id=>{const a=D.anchors.find(a=>a.id===id);if(!a)throw Error('Unknown anchor '+id);return {x:a.x,y:a.y};};

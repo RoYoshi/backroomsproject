@@ -1,0 +1,215 @@
+{
+  "status": "PASS",
+  "B01": "PRE-EXISTING INTEGRATION DEFECT — FIXED IN STAGE B",
+  "runtime": "v24.19.0",
+  "records": [
+    {
+      "url": "/",
+      "status": 200,
+      "sha256": "de6df23835e3213a4c8121b13b36c2f67aaffdee9f96d983eee7ec5797a77520"
+    },
+    {
+      "url": "/move.js",
+      "status": 200,
+      "sha256": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d"
+    },
+    {
+      "url": "/camera_policy.js",
+      "status": 200,
+      "sha256": "4572e5cac1ba29c4398d71b30133ac677cc961290d28e875a68da0be48c3cf88"
+    },
+    {
+      "url": "/timing_policy.js",
+      "status": 200,
+      "sha256": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069"
+    },
+    {
+      "url": "/levels/level0.js",
+      "status": 200,
+      "sha256": "8560a74df5a1ebbda66b480b61d499a25e00b168d1a678df72efb556fdcda1d9"
+    },
+    {
+      "url": "/world.js",
+      "status": 200,
+      "sha256": "8f4553d523ab5b2a70d699003080db27d836a94f87ff80dd3628d93b3fb0b4b3"
+    },
+    {
+      "url": "/world_geometry.js",
+      "status": 200,
+      "sha256": "25ecdefbbbf3da0adef58ffa1cdb94d8c921ec9e5816eda111f86ae67a01abc5"
+    },
+    {
+      "url": "/assets/index-DKbV5Nv9.js",
+      "status": 200,
+      "sha256": "af765f4f96d2ca2e4d6f681dc42c7ada5c8d0595b15a07b1473637e98d249552"
+    },
+    {
+      "url": "/%",
+      "status": 400,
+      "validAfter": 200
+    },
+    {
+      "url": "/%ZZ",
+      "status": 400,
+      "validAfter": 200
+    },
+    {
+      "url": "/%E0%A4%A",
+      "status": 400,
+      "validAfter": 200
+    },
+    {
+      "url": "/%00",
+      "status": 400,
+      "validAfter": 200
+    },
+    {
+      "url": "/server.js",
+      "status": 404,
+      "validAfter": 200
+    },
+    {
+      "url": "/sim.js",
+      "status": 404,
+      "validAfter": 200
+    },
+    {
+      "url": "/dev/sim_head.js",
+      "status": 404,
+      "validAfter": 200
+    },
+    {
+      "url": "/levels/../server.js",
+      "status": 404,
+      "validAfter": 200
+    },
+    {
+      "url": "/%2e%2e/server.js",
+      "status": 404,
+      "validAfter": 200
+    },
+    {
+      "url": "/levels/other.js",
+      "status": 404,
+      "validAfter": 200
+    },
+    {
+      "url": "/assets/../../server.js",
+      "status": 404,
+      "validAfter": 200
+    }
+  ],
+  "views": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "dpr": 1,
+      "scale": 1.18,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 915.2542372881356
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "dpr": 2,
+      "scale": 1.18,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 915.2542372881356
+    },
+    {
+      "width": 1920,
+      "height": 1080,
+      "dpr": 3,
+      "scale": 1.18,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 915.2542372881356
+    },
+    {
+      "width": 3840,
+      "height": 2160,
+      "dpr": 1,
+      "scale": 2.36,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 915.2542372881356
+    },
+    {
+      "width": 3840,
+      "height": 2160,
+      "dpr": 2,
+      "scale": 2.36,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 915.2542372881356
+    },
+    {
+      "width": 3840,
+      "height": 2160,
+      "dpr": 3,
+      "scale": 2.36,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 915.2542372881356
+    },
+    {
+      "width": 3440,
+      "height": 1440,
+      "dpr": 1,
+      "scale": 2.1141666666666667,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 681.119432400473
+    },
+    {
+      "width": 3440,
+      "height": 1440,
+      "dpr": 2,
+      "scale": 2.1141666666666667,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 681.119432400473
+    },
+    {
+      "width": 3440,
+      "height": 1440,
+      "dpr": 3,
+      "scale": 2.1141666666666667,
+      "worldWidth": 1627.1186440677966,
+      "worldHeight": 681.119432400473
+    },
+    {
+      "width": 1080,
+      "height": 1920,
+      "dpr": 1,
+      "scale": 2.0977777777777775,
+      "worldWidth": 514.8305084745764,
+      "worldHeight": 915.2542372881358
+    },
+    {
+      "width": 1080,
+      "height": 1920,
+      "dpr": 2,
+      "scale": 2.0977777777777775,
+      "worldWidth": 514.8305084745764,
+      "worldHeight": 915.2542372881358
+    },
+    {
+      "width": 1080,
+      "height": 1920,
+      "dpr": 3,
+      "scale": 2.0977777777777775,
+      "worldWidth": 514.8305084745764,
+      "worldHeight": 915.2542372881358
+    }
+  ],
+  "timing": {
+    "fixedDt": 0.016666666666666666,
+    "maxSteps": 15,
+    "clamp": 0.25
+  },
+  "worldIdentity": {
+    "schemaVersion": 1,
+    "assetId": "world:level0",
+    "contentRevision": "v23.3.6-flat-compat-1",
+    "contentHash": "5b07af1fe27222982b860d5ebc912c3894459fa65441d46e7f2d9eb7f278bc77",
+    "geometryMode": "flat-compat",
+    "materialProfileHash": "fdce5dd79317e0058e256d4dbcc4242237cf4fac3b4f6037c37c1afe2f31d069"
+  },
+  "scope": "Actual HTTP bytes and literal app timing/resize/world bindings executed in VM. No Pixi/browser rendering or human QA claimed.",
+  "browser": "NOT RUN — full browser QA remains pending"
+}

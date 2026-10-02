@@ -20,9 +20,9 @@ function checkViewport(w, h, label) {
   return v;
 }
 
-// Canonical desktop keeps the exact established feel.
+// CAMERA-P01 intentionally changes only the canonical reference.
 const ref = checkViewport(1920, 1080, '1080p');
-assert(near(ref.scale, 1.18), `1080p scale changed: ${ref.scale}`);
+assert(near(ref.scale, 1.25), `1080p scale changed: ${ref.scale}`);
 assert(near(ref.width, maxW) && near(ref.height, maxH), '1080p world view changed');
 
 // Same-aspect resolutions get the same logical gameplay view.

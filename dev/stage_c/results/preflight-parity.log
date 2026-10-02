@@ -1,0 +1,30 @@
+Capture motor
+Capture ai
+Capture death
+Capture navigation
+Capture network
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "changed": [
+    "world.js",
+    "server.js",
+    "sim.js",
+    "index.html",
+    "dev/sim_head.js",
+    "dev/sim_glue.js",
+    "assets/index-DKbV5Nv9.js"
+  ],
+  "unchangedOriginals": 336,
+  "traces": 46,
+  "records": 35098,
+  "metadataDifferences": [
+    {
+      "trace": "network-lifecycle",
+      "field": ".sourceSha256",
+      "expected": "2c829640a80e9950e55f8ea37b3ed64d4e37dfaa5da9c29bebec85a71b699f13",
+      "actual": "69000a597478fcdc480699847779c3059d27ccd04c37fc6612ba15efd00a7dc9"
+    }
+  ],
+  "mapExport": "BYTE IDENTICAL"
+}

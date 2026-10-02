@@ -34,6 +34,7 @@ mv.take = () => { const e = mv.ev; mv.ev = []; return e; };
 /* ---------------------------------------------------------------- collision (same push-out the game always used, plus props) */
 function collide(H, dt, r, mode) {
   const a = A(), ox = H.x, oy = H.y;
+  if (a.spatialMotion) return a.spatialMotion.collide(H, mv, dt);
   W.setMode(mode);
   try {
     for (const ax of ['x', 'y']) {
@@ -47,7 +48,7 @@ function collide(H, dt, r, mode) {
   return Math.hypot(H.x - ox, H.y - oy);
 }
 const freeAt = (x, y, r, mode, ignore) => {
-  const a = A(); W.setMode(mode);
+  const a = A(); if (a.spatialMotion) return a.spatialMotion.freeAt(a.H, x, y); W.setMode(mode);
   try { return a.Bc(x, y).every(t => t === ignore || Math.hypot(x - Math.max(t.x, Math.min(x, t.x + t.w)), y - Math.max(t.y, Math.min(y, t.y + t.h))) >= r); } finally { W.setMode('walk'); }
 };
 
@@ -56,7 +57,7 @@ function tryVault(H, dirx, diry, speed, wantRun, dt) {
   if (mv.vaultCd > 0 || mv.s === 'crawl' || mv.s === 'slide' || mv.down) return false;
   const reach = 17 + speed * .05;
   let best = null, bd = 1e9;
-  for (const p of W.LOW) {
+  for (const p of (A().spatialMotion ? A().spatialMotion.lowObstacles : W.LOW)) {
     const r = p.rect;
     const px = H.x + dirx * reach, py = H.y + diry * reach;
     if (px < r.x - 3 || px > r.x + r.w + 3 || py < r.y - 3 || py > r.y + r.h + 3) continue;
@@ -91,9 +92,12 @@ function tryVault(H, dirx, diry, speed, wantRun, dt) {
   if (!freeAt(ex, ey, M.radius - 1, 'walk', r)) return false;         // nowhere to land
   const cfg = q === 2 ? M.vault.fast : q === 1 ? M.vault.normal : M.vault.slow;
   const dur = cfg.t * (crouched ? 1.15 : 1);
+  const spatialVault = A().spatialMotion ? A().spatialMotion.planVault(H, p, {x:ex,y:ey}, dur) : null;
+  if (A().spatialMotion && !spatialVault) return false;
   H.stamina = Math.max(0, H.stamina - cfg.cost);
   if (H.stamina <= 0.1) { H.exhausted = true; }
   mv.vault = { p, sx, sy, ex, ey, dur, t: 0, q, nx, ny, exitSpeed: q === 2 ? Math.min(speed * .9, 235) : q === 1 ? Math.min(speed * .62, 150) : Math.min(speed * .35, 90), heard: false };
+  if (spatialVault) mv.vault.physical = spatialVault;
   mv.push = 0; mv.q = q; setState('vault');
   mv.event(21 + q, q === 2 ? .8 : q === 1 ? .5 : .25);              // the scramble over the top (the landing is sent separately)
   window.__mvSfx && window.__mvSfx.vaultStart(q);
@@ -103,7 +107,9 @@ function stepVault(H, dt) {
   const v = mv.vault; v.t += dt;
   const k = clamp(v.t / v.dur, 0, 1), e = k * k * (3 - 2 * k) * .55 + k * .45;    // mostly even, gentle start/stop
   const px = H.x, py = H.y;
-  H.x = v.sx + (v.ex - v.sx) * e; H.y = v.sy + (v.ey - v.sy) * e;
+  if (A().spatialMotion) {
+    if (!A().spatialMotion.vault(H, v, k, dt)) { mv.vault = null; mv.vaultCd = .35; setState('walk'); return; }
+  } else { H.x = v.sx + (v.ex - v.sx) * e; H.y = v.sy + (v.ey - v.sy) * e; }
   H.vx = (H.x - px) / dt; H.vy = (H.y - py) / dt;
   mv.prof = W.PROFILE.vault; H.sprinting = false;
   if (k >= 1) {
@@ -154,8 +160,8 @@ function stepInner(ix, iy, run, dt) {
   const len = Math.hypot(ix, iy), moving = len > 0; let dx = 0, dy = 0;
   if (moving) { dx = ix / len; dy = iy / len; }
   mv.t += dt; mv.slideCd = Math.max(0, mv.slideCd - dt); mv.vaultCd = Math.max(0, mv.vaultCd - dt); mv.recover = Math.max(0, mv.recover - dt);
-  mv.surf = W.surfaceAt(H.x, H.y, a.Oc);
-  const inRoom12 = (() => { const c = a.Oc[11]; return H.x >= c.x * 96 && H.x < (c.x + c.w) * 96 && H.y >= c.y * 96 && H.y < (c.y + c.h) * 96; })();
+  mv.surf = a.spatialMotion ? a.spatialMotion.surface(H) : W.surfaceAt(H.x, H.y, a.Oc);
+  const inRoom12 = a.spatialMotion ? mv.surf === 'deep' : (() => { const c = a.Oc[11]; return H.x >= c.x * 96 && H.x < (c.x + c.w) * 96 && H.y >= c.y * 96 && H.y < (c.y + c.h) * 96; })();
   const c = !!(Q && Q.has('KeyC')), cEdge = c && !mv.prevC; mv.prevC = c;
   const speedNow = Math.hypot(H.vx, H.vy);
   if (H.exhausted && H.stamina >= M.recoverAt) H.exhausted = false;
@@ -181,11 +187,11 @@ function stepInner(ix, iy, run, dt) {
   }
 
   /* what low geometry are we in?  (a crouched player entering it becomes a crawler) */
-  const zone = W.lowZone(H.x, H.y, -2); mv.zone = zone;
+  const zone = a.spatialMotion ? a.spatialMotion.zone(H, mv.crouch) : W.lowZone(H.x, H.y, -2); mv.zone = zone;
   if (cEdge && !mv.slide) {
     if ((mv.s === 'run' || speedNow >= 225) && speedNow >= M.slideMin && !zone) startSlide(H);
     else if (zone) { /* can't stand up under a table */ }
-    else mv.crouch = !mv.crouch;
+    else if (!a.spatialMotion || !mv.crouch || a.spatialMotion.canStand(H)) mv.crouch = !mv.crouch;
     if (mv.slide) { H.sprinting = false; return stepSlide(H, dt, dx, dy); }
   }
   if (zone && !mv.crouch) mv.crouch = true;                            // spawned/teleported into low geometry
@@ -242,12 +248,15 @@ function stepInner(ix, iy, run, dt) {
 
   /* pushing into a hole or under furniture while walking: lower yourself (a gentle affordance, running just bumps) */
   if (!mv.crouch && want === 'walk' && moving) {
-    const p = W.propAt(H.x + dx * 24, H.y + dy * 24, 0, ['gap', 'under']);
+    const p = a.spatialMotion ? a.spatialMotion.lowAhead(H, dx, dy) : W.propAt(H.x + dx * 24, H.y + dy * 24, 0, ['gap', 'under']);
     if (p && mv.speed < target * .6) { mv.pushKey = p.id; mv.hard += dt; if (mv.hard > .38) { mv.crouch = true; mv.hard = 0; } } else mv.hard = Math.max(0, mv.hard - dt * 2);
   } else mv.hard = 0;
 }
 mv.step = function (ix, iy, run, dt) {
+  const spatial = A().spatialMotion;
+  if (spatial) spatial.begin(A().H, mv);
   stepInner(ix, iy, run, dt);
+  if (spatial) spatial.end(A().H, mv, dt);
   const H = A().H, v = mv.vault, sl = mv.slide;
   let lean = 1; if (sl) lean = Math.sign(Math.sin(sl.dy !== undefined ? Math.atan2(sl.dy, sl.dx) - H.angle : 0)) || 1;
   H.mv = { s: mv.s, t: mv.t, sp: Math.round(mv.speed), st: H.stamina, ex: H.exhausted ? 1 : 0, vp: v ? v.t / v.dur : 0, lean, tw: mv.tw ? 1 : 0 };

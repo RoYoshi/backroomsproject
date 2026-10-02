@@ -2,7 +2,7 @@
  * The Far Backrooms — fair gameplay camera policy
  *
  * Rendering resolution/window size must not increase gameplay awareness.
- * The 1920x1080 / 1.18 camera from the Stage 2F/HQA baseline is the
+ * The CAMERA-P01 1920x1080 / 1.25 candidate is the
  * canonical maximum world view. Other viewports scale the world so neither
  * horizontal nor vertical world-space visibility can exceed that reference.
  *
@@ -14,7 +14,7 @@
 
   const REF_WIDTH = 1920;
   const REF_HEIGHT = 1080;
-  const REF_SCALE = 1.18;
+  const REF_SCALE = 1.25; // CAMERA-P01: isolated user-authorized candidate (previous 1.18).
   const MAX_WORLD_WIDTH = REF_WIDTH / REF_SCALE;
   const MAX_WORLD_HEIGHT = REF_HEIGHT / REF_SCALE;
   const MOBILE_MIN_SCALE = 0.85;

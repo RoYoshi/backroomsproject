@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "changed": [
+    "camera_policy.js",
+    "dev/tests/s_camera_fairness.js",
+    "index.html",
+    "move.js",
+    "server.js",
+    "world_geometry.js"
+  ],
+  "unchangedOriginals": 404,
+  "traces": 46,
+  "records": 35098,
+  "metadataDifferences": [
+    {
+      "trace": "motor-idle",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-walk",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-sprint",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-acceleration-deceleration",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-crouch",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-crawl",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-slide",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-exhaustion",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-recovery",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-recovery-threshold",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-vault",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "motor-deep-carpet",
+      "field": ".sourceSha256",
+      "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+    },
+    {
+      "trace": "network-lifecycle",
+      "field": ".sourceSha256",
+      "expected": "2c829640a80e9950e55f8ea37b3ed64d4e37dfaa5da9c29bebec85a71b699f13",
+      "actual": "69000a597478fcdc480699847779c3059d27ccd04c37fc6612ba15efd00a7dc9"
+    }
+  ],
+  "mapExport": "BYTE IDENTICAL"
+}

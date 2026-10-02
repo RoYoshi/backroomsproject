@@ -1,0 +1,111 @@
+PASS schema / numeric bounds / convexity / references / duplicate geometry
+PASS deterministic identity and required stable ID ordering
+PASS stacked contextual support, negative elevation, clearance, no maximum-Z shortcut
+PASS exact finite footprint slope extrema and circular corner
+PASS stationary stability, seam continuity and previous-support tie
+PASS ramp ascent, landing seam, reverse descent, physical path speed
+PASS ramp diagonal/reversal and side departure
+PASS ramp overhead blocks full body
+PASS real 15 tread stairs: finite lift, repeated progression, reverse/down
+PASS excessive riser and overhead step rejected
+PASS step interruption and sideways departure do not write endpoint
+PASS fall from balcony, lower landing exactly once, carried momentum
+PASS fast fall hits first thin slab, never upper floor behind trajectory
+PASS upward impulse hits underside; horizontal fast sweep catches finite wall/corner
+PASS clearance crawl-under and rejected stand preserves root
+PASS physical rays include vertical/oblique slab, opening and window
+PASS Z translation metamorphic sweep and support identity
+PASS world lower bound event once; no z=0 recovery snap
+PASS real move.js acceleration, sprint, radius, exhausted recovery 36, deep carpet
+PASS real move.js crouch/crawl and blocked stand, slide cost and volume
+PASS real move.js finite collision-checked vault and cost, overhead rejects
+{
+  "status": "PASS",
+  "groups": 21,
+  "results": [
+    {
+      "name": "schema / numeric bounds / convexity / references / duplicate geometry",
+      "status": "PASS"
+    },
+    {
+      "name": "deterministic identity and required stable ID ordering",
+      "status": "PASS"
+    },
+    {
+      "name": "stacked contextual support, negative elevation, clearance, no maximum-Z shortcut",
+      "status": "PASS"
+    },
+    {
+      "name": "exact finite footprint slope extrema and circular corner",
+      "status": "PASS"
+    },
+    {
+      "name": "stationary stability, seam continuity and previous-support tie",
+      "status": "PASS"
+    },
+    {
+      "name": "ramp ascent, landing seam, reverse descent, physical path speed",
+      "status": "PASS"
+    },
+    {
+      "name": "ramp diagonal/reversal and side departure",
+      "status": "PASS"
+    },
+    {
+      "name": "ramp overhead blocks full body",
+      "status": "PASS"
+    },
+    {
+      "name": "real 15 tread stairs: finite lift, repeated progression, reverse/down",
+      "status": "PASS"
+    },
+    {
+      "name": "excessive riser and overhead step rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "step interruption and sideways departure do not write endpoint",
+      "status": "PASS"
+    },
+    {
+      "name": "fall from balcony, lower landing exactly once, carried momentum",
+      "status": "PASS"
+    },
+    {
+      "name": "fast fall hits first thin slab, never upper floor behind trajectory",
+      "status": "PASS"
+    },
+    {
+      "name": "upward impulse hits underside; horizontal fast sweep catches finite wall/corner",
+      "status": "PASS"
+    },
+    {
+      "name": "clearance crawl-under and rejected stand preserves root",
+      "status": "PASS"
+    },
+    {
+      "name": "physical rays include vertical/oblique slab, opening and window",
+      "status": "PASS"
+    },
+    {
+      "name": "Z translation metamorphic sweep and support identity",
+      "status": "PASS"
+    },
+    {
+      "name": "world lower bound event once; no z=0 recovery snap",
+      "status": "PASS"
+    },
+    {
+      "name": "real move.js acceleration, sprint, radius, exhausted recovery 36, deep carpet",
+      "status": "PASS"
+    },
+    {
+      "name": "real move.js crouch/crawl and blocked stand, slide cost and volume",
+      "status": "PASS"
+    },
+    {
+      "name": "real move.js finite collision-checked vault and cost, overhead rejects",
+      "status": "PASS"
+    }
+  ]
+}
