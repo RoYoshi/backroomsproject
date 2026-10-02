@@ -1,0 +1,10 @@
+PASS LOOK01 Hound visual head tracks legitimate current visual evidence without changing sensory head  [116ms]
+       sensory=0.17 visual=0.98 want=0.98
+PASS LOOK02 Hound visual head uses remembered evidence, never live hidden player coordinates  [53ms]
+       before=0.83 after hidden move=0.83
+PASS LOOK03 Hound visual neck remains anatomically bounded  [36ms]
+       rear target clamps to 1.18 rad
+PASS LOOK04 Smiler face aim follows its own perceived/remembered evidence, not live hidden position  [34ms]
+       visible=0.67 remembered=0.67 want=0.67
+
+4/4 passed

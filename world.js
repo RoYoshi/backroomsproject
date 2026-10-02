@@ -1,39 +1,19 @@
 /* world.js - Level 0 props, surfaces and shared movement constants (v16).
  * Loaded by the browser as a classic script (window.WORLD) and by the server with require().
- * The Level 0 map itself still lives in the game bundle / sim.js; this file only adds the things a
- * survival-movement system needs: a handful of low obstacles you can vault, furniture you can crawl under,
- * holes in the partition walls you can crawl through, pass-through windows, and floor surfaces. */
+ * Layout/prop placements come from levels/level0.js. This module retains generic prop derivation,
+ * material/movement profiles and art. Derived compatibility tables are not editable authorities. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory();
-  else root.WORLD = factory();
-})(typeof self !== 'undefined' ? self : this, function () {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./levels/level0.js'));
+  else root.WORLD = factory(root.TFB_LEVEL0);
+})(typeof self !== 'undefined' ? self : this, function (LEVEL0) {
   'use strict';
-  const T = 96;
+  const T = LEVEL0.flat.tile;
   /* type: low    - waist-high obstacle, vaulted (or walked around). conceal: a crouching player behind it is hidden
    *       under  - raised furniture: blocks standing/walking, a crouching player crawls beneath, a slider slips under
    *       gap    - damaged wall: a one-tile hole only a crawler fits through (the wall cell is carved open)
    *       window - pass-through opening in a partition wall with a sill you have to vault (the wall cell is carved open)
    * Coordinates are tile cells; rect() turns them into pixels. */
-  const DEF = [
-    { id: 'L1', type: 'low', kind: 'counter', tx: 17, ty: 34, tw: 3, th: 1, depth: 48, conceal: true },
-    { id: 'L2', type: 'low', kind: 'shelf', tx: 40, ty: 34, tw: 3, th: 1, depth: 44, conceal: true },
-    { id: 'L3', type: 'low', kind: 'lowwall', tx: 64, ty: 33, tw: 1, th: 3, depth: 40, conceal: true },
-    { id: 'L4', type: 'low', kind: 'counter', tx: 34, ty: 10, tw: 3, th: 1, depth: 48, conceal: true },
-    { id: 'L5', type: 'low', kind: 'railing', tx: 83, ty: 32, tw: 1, th: 3, depth: 14, conceal: false },
-    { id: 'L6', type: 'low', kind: 'counter', tx: 35, ty: 54, tw: 3, th: 1, depth: 48, conceal: true },
-    { id: 'L7', type: 'low', kind: 'lowwall', tx: 60, ty: 57, tw: 1, th: 3, depth: 40, conceal: true },
-    { id: 'L8', type: 'low', kind: 'machine', tx: 81, ty: 56, tw: 3, th: 1, depth: 62, conceal: false },
-    { id: 'U1', type: 'under', kind: 'table', tx: 12, ty: 52, tw: 3, th: 1, depth: 62, conceal: false },
-    { id: 'U2', type: 'under', kind: 'bench', tx: 50, ty: 37, tw: 3, th: 1, depth: 46, conceal: false },
-    { id: 'G1', type: 'gap', kind: 'hole', tx: 9, ty: 31, tw: 1, th: 1, axis: 'x' },
-    { id: 'G2', type: 'gap', kind: 'hole', tx: 37, ty: 29, tw: 1, th: 1, axis: 'x' },
-    { id: 'G3', type: 'gap', kind: 'hole', tx: 61, ty: 31, tw: 1, th: 1, axis: 'x' },
-    { id: 'G4', type: 'gap', kind: 'hole', tx: 28, ty: 13, tw: 1, th: 1, axis: 'y' },
-    { id: 'G5', type: 'gap', kind: 'hole', tx: 86, ty: 33, tw: 1, th: 1, axis: 'x' },
-    { id: 'G6', type: 'gap', kind: 'hole', tx: 33, ty: 53, tw: 1, th: 1, axis: 'x' },
-    { id: 'W1', type: 'window', kind: 'window', tx: 30, ty: 38, tw: 1, th: 1, axis: 'x', depth: 40, conceal: false },
-    { id: 'W2', type: 'window', kind: 'window', tx: 79, ty: 41, tw: 1, th: 1, axis: 'x', depth: 40, conceal: false },
-  ];
+  const DEF = LEVEL0.flat.propDefs;
 
   const PROPS = DEF.map(d => {
     const cellRect = { x: d.tx * T, y: d.ty * T, w: d.tw * T, h: d.th * T };
@@ -58,7 +38,7 @@
    *   walk  - everything blocks (standing, walking, running)
    *   under - furniture can be slid / crawled under, wall holes still block (a hound on all fours, a sliding player)
    *   crawl - crouched crawlers get through wall holes and under furniture */
-  const W = { T, PROPS, LOW, UNDER, GAPS, mode: 'walk' };
+  const W = { T, PROPS, LOW, UNDER, GAPS, levelDefinition: LEVEL0, mode: 'walk' };
   W.setMode = m => { W.mode = m; };
   W.blocks = p => W.mode !== 'any' && (p.type === 'low' || p.type === 'window' || (p.type === 'under' && W.mode === 'walk') || (p.type === 'gap' && W.mode !== 'crawl'));      // 'any': only walls and full-height furniture (the server's movement check)
 
@@ -136,12 +116,9 @@
   W.SURF = SURF;
   W.surfaceAt = function (x, y, rooms) {
     if (rooms) for (const r of rooms) if (x >= r.x * T && x < (r.x + r.w) * T && y >= r.y * T && y < (r.y + r.h) * T) {
-      if (r.name === 'DAMP ROOMS') return 'wet';
-      if (r.name === 'LONG ROOM') return 'concrete';
-      if (r.name === 'DEEP CARPET') return 'deep';
-      return 'carpet';
+      return Object.prototype.hasOwnProperty.call(LEVEL0.roomMaterials,r.name) ? LEVEL0.roomMaterials[r.name] : LEVEL0.defaultMaterial;
     }
-    return 'carpet';
+    return LEVEL0.defaultMaterial;
   };
 
   /* shared movement / noise constants (the client moves, the server listens) */

@@ -1,0 +1,1178 @@
+[
+  {
+    "id": "npm-test",
+    "command": "npm test",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 164.142,
+    "counts": {
+      "passed": 151,
+      "total": 162,
+      "source": "suite summary"
+    },
+    "firstFailure": "FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [1250ms]",
+    "failureLines": [
+      "FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [1250ms]",
+      "FAIL P07 exhausted breathing is audible only close by  [42ms]",
+      "FAIL P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming  [873ms]",
+      "FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [8157ms]",
+      "FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [749ms]",
+      "FAIL NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm  [479ms]",
+      "FAIL C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it  [3385ms]",
+      "FAIL C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)  [5734ms]",
+      "FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you  [1124ms]",
+      "FAIL C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out  [1625ms]",
+      "FAIL 2F F22 species physical/canon parameter preservation  [6ms]"
+    ],
+    "limitation": null,
+    "log": "npm-test.log",
+    "performance": []
+  },
+  {
+    "id": "hound",
+    "command": "npm run test:hound",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 3.377,
+    "counts": {
+      "passed": 18,
+      "total": 18,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "hound.log",
+    "performance": []
+  },
+  {
+    "id": "shared",
+    "command": "npm run test:shared",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 3.982,
+    "counts": {
+      "passed": 22,
+      "total": 23,
+      "source": "suite summary"
+    },
+    "firstFailure": "FAIL 2F F22 species physical/canon parameter preservation  [5ms]",
+    "failureLines": [
+      "FAIL 2F F22 species physical/canon parameter preservation  [5ms]"
+    ],
+    "limitation": null,
+    "log": "shared.log",
+    "performance": []
+  },
+  {
+    "id": "humanqa",
+    "command": "npm run test:humanqa",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 1.017,
+    "counts": {
+      "passed": 6,
+      "total": 6,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "humanqa.log",
+    "performance": []
+  },
+  {
+    "id": "fps",
+    "command": "npm run test:fps",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.516,
+    "counts": {
+      "passed": 10,
+      "total": 10,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "fps.log",
+    "performance": []
+  },
+  {
+    "id": "camera",
+    "command": "npm run test:camera",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.165,
+    "counts": {
+      "passed": 12,
+      "total": 12,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "camera.log",
+    "performance": []
+  },
+  {
+    "id": "entity-look",
+    "command": "node dev/tests/run.js s_entity_look.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.318,
+    "counts": {
+      "passed": 4,
+      "total": 4,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "entity-look.log",
+    "performance": []
+  },
+  {
+    "id": "physics",
+    "command": "node dev/tests/phys_test.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 2.722,
+    "counts": {
+      "passed": 25,
+      "total": 25,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "physics.log",
+    "performance": []
+  },
+  {
+    "id": "interpolation",
+    "command": "node dev/tests/interp_test.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.064,
+    "counts": {
+      "passed": 3,
+      "total": 3,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "interpolation.log",
+    "performance": []
+  },
+  {
+    "id": "navigation",
+    "command": "node dev/tests/nav_bench.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 35.372,
+    "counts": {
+      "passed": null,
+      "total": null,
+      "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "navigation.log",
+    "performance": []
+  },
+  {
+    "id": "audit-net",
+    "command": "node dev/tests/audit_net.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 55.128,
+    "counts": {
+      "passed": 17,
+      "total": 17,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "audit-net.log",
+    "performance": []
+  },
+  {
+    "id": "audit-net2",
+    "command": "node dev/tests/audit_net2.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 222.76,
+    "counts": {
+      "passed": 11,
+      "total": 11,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "audit-net2.log",
+    "performance": []
+  },
+  {
+    "id": "live",
+    "command": "node dev/tests/live.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 25.042,
+    "counts": {
+      "passed": 17,
+      "total": 17,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "live.log",
+    "performance": [
+      {
+        "t": "admin",
+        "ok": true,
+        "q": 0
+      },
+      {
+        "t": "admin",
+        "ok": false,
+        "wait": 60
+      }
+    ]
+  },
+  {
+    "id": "ir-net",
+    "command": "node dev/tests/ir_net.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 4.728,
+    "counts": {
+      "passed": 4,
+      "total": 4,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "ir-net.log",
+    "performance": []
+  },
+  {
+    "id": "perf-hound",
+    "command": "node dev/tests/perf_hound2e.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 8.539,
+    "counts": {
+      "passed": 15,
+      "total": 15,
+      "source": "JSON workloads"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "perf-hound.log",
+    "performance": [
+      {
+        "mode": "shipped",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.0971,
+        "p99_ms": 0.4978,
+        "max_ms": 2.0016,
+        "avg_near_hounds": 3,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 2,
+        "ok": true
+      },
+      {
+        "mode": "shipped",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0909,
+        "p99_ms": 0.4233,
+        "max_ms": 2.1751,
+        "avg_near_hounds": 3,
+        "avg_searching": 0.01,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 2,
+        "ok": true
+      },
+      {
+        "mode": "shipped",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.0859,
+        "p99_ms": 0.4717,
+        "max_ms": 1.7575,
+        "avg_near_hounds": 3,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 2,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.085,
+        "p99_ms": 0.3194,
+        "max_ms": 1.4818,
+        "avg_near_hounds": 11.64,
+        "avg_searching": 0.01,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0878,
+        "p99_ms": 0.3514,
+        "max_ms": 2.6215,
+        "avg_near_hounds": 12,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.0865,
+        "p99_ms": 0.3533,
+        "max_ms": 1.2013,
+        "avg_near_hounds": 11.93,
+        "avg_searching": 0.12,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "sprinting",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.0781,
+        "p99_ms": 0.3337,
+        "max_ms": 1.172,
+        "avg_near_hounds": 8,
+        "avg_searching": 0,
+        "avg_sprinters": 5.57,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "sprinting",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0699,
+        "p99_ms": 0.2678,
+        "max_ms": 2.2858,
+        "avg_near_hounds": 7.98,
+        "avg_searching": 0,
+        "avg_sprinters": 5.39,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "sprinting",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.057,
+        "p99_ms": 0.2874,
+        "max_ms": 0.7191,
+        "avg_near_hounds": 7.99,
+        "avg_searching": 0.01,
+        "avg_sprinters": 5.44,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "flashlights",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.0804,
+        "p99_ms": 0.392,
+        "max_ms": 1.4836,
+        "avg_near_hounds": 8,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 8,
+        "ok": true
+      },
+      {
+        "mode": "flashlights",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0718,
+        "p99_ms": 0.2828,
+        "max_ms": 1.3868,
+        "avg_near_hounds": 8,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 8,
+        "ok": true
+      },
+      {
+        "mode": "flashlights",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.073,
+        "p99_ms": 0.2679,
+        "max_ms": 1.1595,
+        "avg_near_hounds": 7.98,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 8,
+        "ok": true
+      },
+      {
+        "mode": "search-heavy",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.0534,
+        "p99_ms": 0.2197,
+        "max_ms": 1.1423,
+        "avg_near_hounds": 8,
+        "avg_searching": 1.08,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 1,
+        "ok": true
+      },
+      {
+        "mode": "search-heavy",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0427,
+        "p99_ms": 0.2091,
+        "max_ms": 1.7656,
+        "avg_near_hounds": 8,
+        "avg_searching": 0.41,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 1,
+        "ok": true
+      },
+      {
+        "mode": "search-heavy",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.0487,
+        "p99_ms": 0.2273,
+        "max_ms": 1.7359,
+        "avg_near_hounds": 8,
+        "avg_searching": 0.96,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 1,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "id": "perf-shared",
+    "command": "node dev/tests/perf_shared2f.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 30.549,
+    "counts": {
+      "passed": 27,
+      "total": 27,
+      "source": "JSON workloads"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "perf-shared.log",
+    "performance": [
+      {
+        "mode": "shipped",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.1305,
+        "p99_ms": 0.5941,
+        "max_ms": 2.2346,
+        "peak_per_entity": {
+          "records": 4,
+          "evidence": 10,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 10,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "shipped",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0925,
+        "p99_ms": 0.4478,
+        "max_ms": 1.3202,
+        "peak_per_entity": {
+          "records": 4,
+          "evidence": 10,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 13,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "shipped",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.077,
+        "p99_ms": 0.3358,
+        "max_ms": 2.1555,
+        "peak_per_entity": {
+          "records": 4,
+          "evidence": 10,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 14,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.2077,
+        "p99_ms": 0.7015,
+        "max_ms": 2.1481,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 19,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.2136,
+        "p99_ms": 0.76,
+        "max_ms": 6.1618,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 22,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.2193,
+        "p99_ms": 0.6643,
+        "max_ms": 1.8021,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 19,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "smiler-heavy",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.2947,
+        "p99_ms": 0.9548,
+        "max_ms": 5.2442,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 18,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 17,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "smiler-heavy",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.2454,
+        "p99_ms": 0.8955,
+        "max_ms": 4.3846,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 16,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 13,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "smiler-heavy",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.2913,
+        "p99_ms": 0.8966,
+        "max_ms": 1.6373,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 17,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 12,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "multiplayer",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.1074,
+        "p99_ms": 0.377,
+        "max_ms": 1.1096,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 19,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 20,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "multiplayer",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.1028,
+        "p99_ms": 0.3983,
+        "max_ms": 3.0233,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 18,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 15,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "multiplayer",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.1201,
+        "p99_ms": 0.4427,
+        "max_ms": 2.1655,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 18,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 20,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "sound-heavy",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.1491,
+        "p99_ms": 0.5411,
+        "max_ms": 1.8507,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 27,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 5120,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "sound-heavy",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.1322,
+        "p99_ms": 0.5201,
+        "max_ms": 3.2539,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 15,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 5120,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "sound-heavy",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.1458,
+        "p99_ms": 0.502,
+        "max_ms": 3.4837,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 27,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 5120,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "light-heavy",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.1152,
+        "p99_ms": 0.4767,
+        "max_ms": 2.4633,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 23,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 27,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "light-heavy",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0861,
+        "p99_ms": 0.3115,
+        "max_ms": 1.8902,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 22,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 29,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "light-heavy",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.1137,
+        "p99_ms": 0.4161,
+        "max_ms": 3.1737,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 24,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 27,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "conflict",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.1453,
+        "p99_ms": 0.5727,
+        "max_ms": 4.3993,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 24,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 30,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 5120,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "conflict",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.1417,
+        "p99_ms": 0.4749,
+        "max_ms": 1.7647,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 24,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 26,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 5120,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "conflict",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.1603,
+        "p99_ms": 0.6558,
+        "max_ms": 3.4213,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 24,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 28,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 5120,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "habits",
+        "seed": 1,
+        "n": 3840,
+        "avg_ms": 0.0685,
+        "p99_ms": 0.3402,
+        "max_ms": 1.251,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 10,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 48,
+          "hypotheses": 3,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "habits",
+        "seed": 2,
+        "n": 3840,
+        "avg_ms": 0.0544,
+        "p99_ms": 0.219,
+        "max_ms": 0.888,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 10,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 48,
+          "hypotheses": 3,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "habits",
+        "seed": 3,
+        "n": 3840,
+        "avg_ms": 0.0577,
+        "p99_ms": 0.2325,
+        "max_ms": 4.0801,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 10,
+          "sounds": 0,
+          "leads": 6,
+          "habits": 48,
+          "hypotheses": 3,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "cleanup",
+        "seed": 1,
+        "n": 17759,
+        "avg_ms": 0.089,
+        "p99_ms": 0.3165,
+        "max_ms": 2.3164,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 32,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "cleanup",
+        "seed": 2,
+        "n": 17759,
+        "avg_ms": 0.1017,
+        "p99_ms": 0.3994,
+        "max_ms": 3.7805,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 30,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      },
+      {
+        "mode": "cleanup",
+        "seed": 3,
+        "n": 17759,
+        "avg_ms": 0.1086,
+        "p99_ms": 0.3832,
+        "max_ms": 1.3917,
+        "peak_per_entity": {
+          "records": 8,
+          "evidence": 20,
+          "sounds": 8,
+          "leads": 6,
+          "habits": 23,
+          "hypotheses": 0,
+          "visits": 0
+        },
+        "sound_events": 0,
+        "remaining_identity_records": 0,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "id": "perf-smiler",
+    "command": "node dev/tests/perf_smiler.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 4.632,
+    "counts": {
+      "passed": 3,
+      "total": 3,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "perf-smiler.log",
+    "performance": []
+  },
+  {
+    "id": "perf-light",
+    "command": "node dev/tests/perf_light.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 4.929,
+    "counts": {
+      "passed": 1,
+      "total": 1,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "perf-light.log",
+    "performance": []
+  }
+]

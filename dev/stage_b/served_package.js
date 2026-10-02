@@ -1,0 +1,24 @@
+'use strict';
+const {spawn}=require('child_process'),http=require('http'),net=require('net'),fs=require('fs'),path=require('path'),assert=require('assert'),vm=require('vm'),crypto=require('crypto');
+const root=path.resolve(process.argv[2]||path.join(__dirname,'../..')),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+function request(port,url){return new Promise((resolve,reject)=>{const r=http.get({host:'127.0.0.1',port,path:url},s=>{const chunks=[];s.on('data',x=>chunks.push(x));s.on('end',()=>resolve({status:s.statusCode,bytes:Buffer.concat(chunks)}));});r.on('error',reject);r.setTimeout(2000,()=>r.destroy(Error('HTTP deadline')));});}
+(async()=>{
+ const port=await new Promise((resolve,reject)=>{const s=net.createServer();s.on('error',reject);s.listen(0,'127.0.0.1',()=>{const p=s.address().port;s.close(()=>resolve(p));});});
+ const proc=spawn(process.execPath,['server.js',String(port)],{cwd:root,stdio:['ignore','pipe','pipe']});let log='';proc.stdout.on('data',x=>log+=x);proc.stderr.on('data',x=>log+=x);
+ try{
+ let ready=false;for(let i=0;i<100;i++){try{if((await request(port,'/')).status===200){ready=true;break;}}catch{}if(proc.exitCode!==null)throw Error(log);await new Promise(r=>setTimeout(r,50));}assert(ready,'startup deadline');
+ const loaded={},records=[];for(const file of ['index.html','move.js','camera_policy.js','timing_policy.js','levels/level0.js','world.js','world_geometry.js','assets/index-DKbV5Nv9.js']){const url=file==='index.html'?'/':'/'+file,r=await request(port,url);assert.equal(r.status,200,url);assert(r.bytes.equals(fs.readFileSync(path.join(root,file))),'packaged bytes '+file);loaded[file]=r.bytes.toString();records.push({url,status:r.status,sha256:sha(r.bytes)});}
+ for(const [url,status] of [['/%',400],['/%ZZ',400],['/%E0%A4%A',400],['/%00',400],['/server.js',404],['/sim.js',404],['/dev/sim_head.js',404],['/levels/../server.js',404],['/%2e%2e/server.js',404],['/levels/other.js',404],['/assets/../../server.js',404]]){assert.equal((await request(port,url)).status,status,url);assert.equal((await request(port,'/')).status,200,'valid after '+url);records.push({url,status,validAfter:200});}
+ const html=loaded['index.html'],bundle=loaded['assets/index-DKbV5Nv9.js'];
+ for(const name of ['camera_policy.js','timing_policy.js'])assert(html.indexOf('./'+name)<html.indexOf('./assets/index-DKbV5Nv9.js'));
+ assert(html.indexOf('./levels/level0.js')<html.indexOf('./world.js'));assert(html.indexOf('./world.js')<html.indexOf('./world_geometry.js'));
+ const ctx=vm.createContext({TextEncoder});ctx.window=ctx;ctx.self=ctx;
+ for(const f of ['camera_policy.js','timing_policy.js','levels/level0.js','world.js','world_geometry.js'])vm.runInContext(loaded[f],ctx,{filename:f});
+ const ti=bundle.indexOf('__tm=window.TFB_TIMING'),te=bundle.indexOf(';function _u',ti);assert(ti>=0&&te>ti);vm.runInContext('var '+bundle.slice(ti,te)+';',ctx);assert.strictEqual(ctx.__tm,ctx.TFB_TIMING);assert.equal(ctx.__tm.FIXED_DT,1/60);assert.equal(ctx.__tm.MAX_CATCHUP_STEPS,15);assert.equal(ctx.__tm.MAX_FRAME_DT,.25);
+ const ci=bundle.indexOf('resize(){this.width=innerWidth'),ce=bundle.indexOf('}build(e)',ci);assert(ci>=0&&ce>ci);vm.runInContext('var resize=function(){'+bundle.slice(ci+9,ce)+'}; var renderer={light:{}};',ctx);
+ const views=[];for(const [width,height] of [[1920,1080],[3840,2160],[3440,1440],[1080,1920]])for(const dpr of [1,2,3]){Object.assign(ctx,{innerWidth:width,innerHeight:height,devicePixelRatio:dpr});vm.runInContext('resize.call(renderer)',ctx);const scale=ctx.renderer.scale;assert(width/scale<=ctx.__cameraPolicy.MAX_WORLD_WIDTH+1e-7);assert(height/scale<=ctx.__cameraPolicy.MAX_WORLD_HEIGHT+1e-7);if(width===1920)assert.equal(scale,1.18);views.push({width,height,dpr,scale,worldWidth:width/scale,worldHeight:height/scale});}
+ const wi=bundle.indexOf('var WG=window.TFB_GEOMETRY'),we=bundle.indexOf(',V={blackout:',wi);assert(wi>=0&&we>wi);vm.runInContext(bundle.slice(wi,we)+';',ctx);assert.equal(ctx.WG.identity.contentHash,require(path.join(root,'levels/level0.js')).contentHash);
+ const result={status:'PASS',B01:'PRE-EXISTING INTEGRATION DEFECT — FIXED IN STAGE B',runtime:process.version,records,views,timing:{fixedDt:ctx.__tm.FIXED_DT,maxSteps:ctx.__tm.MAX_CATCHUP_STEPS,clamp:ctx.__tm.MAX_FRAME_DT},worldIdentity:JSON.parse(JSON.stringify(ctx.WG.identity)),scope:'Actual HTTP bytes and literal app timing/resize/world bindings executed in VM. No Pixi/browser rendering or human QA claimed.',browser:'NOT RUN — full browser QA remains pending'};
+ if(process.argv[3])fs.writeFileSync(process.argv[3],JSON.stringify(result,null,2)+'\n');console.log(JSON.stringify(result,null,2));
+ }finally{proc.kill('SIGTERM');await new Promise(r=>proc.exitCode!==null?r():proc.once('exit',r));}
+})().catch(e=>{console.error(e);process.exitCode=1;});

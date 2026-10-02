@@ -1,0 +1,26 @@
+[
+  {
+    "label": "static layout",
+    "oldBytes": 2758,
+    "newBytes": 105,
+    "oldSha256": "281073b023b582229e2459d6bee634c7922044423ed450caf3af72ebdac65509"
+  },
+  {
+    "label": "planar rays/blockers",
+    "oldBytes": 1355,
+    "newBytes": 26,
+    "oldSha256": "704029b91ed40aaaefc7cd4083d608f259694a2f835d33bbec6834f847c18df5"
+  },
+  {
+    "label": "legacy nav",
+    "oldBytes": 1560,
+    "newBytes": 46,
+    "oldSha256": "b24dcfc9835e7e5bc4b419d3eccceeadb811dd960087db327d4647dd65f471c9"
+  },
+  {
+    "label": "patrol points",
+    "oldBytes": 74,
+    "newBytes": 23,
+    "oldSha256": "e7e83fb01e1c182745a7d3be8065792ec344fcb8208dd33a088e8aafdf1f8829"
+  }
+]

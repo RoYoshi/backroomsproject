@@ -1,0 +1,44 @@
+PASS 227 immutable original files
+node:assert:849
+    throw newErr;
+    ^
+
+AssertionError [ERR_ASSERTION]: ifError got unwanted exception: spawnSync /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node EPERM
+    at run (/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:5:144)
+    at Object.spawnSync (node:internal/child_process:1160:20)
+    at spawnSync (node:child_process:928:24)
+    at run (/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:5:36)
+    at /workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:7:77
+    at check (/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:4:25)
+    at Object.<anonymous> (/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:7:1)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: Error: spawnSync /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node EPERM
+      at Object.spawnSync (node:internal/child_process:1160:20)
+      at spawnSync (node:child_process:928:24)
+      at run (/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:5:36)
+      at /workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:7:77
+      at check (/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:4:25)
+      at Object.<anonymous> (/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/verify_stage_a.js:7:1)
+      at Module._compile (node:internal/modules/cjs/loader:1872:14)
+      at Object..js (node:internal/modules/cjs/loader:2003:10)
+      at Module.load (node:internal/modules/cjs/loader:1594:32)
+      at Module._load (node:internal/modules/cjs/loader:1396:12) {
+    errno: -1,
+    code: 'EPERM',
+    syscall: 'spawnSync /opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node',
+    path: '/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node',
+    spawnargs: [
+      '/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_a/contracts_test.js'
+    ]
+  },
+  expected: null,
+  operator: 'ifError',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

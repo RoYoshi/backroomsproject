@@ -1,0 +1,992 @@
+THE FAR BACKROOMS — 2.5D STAGE B
+CANONICAL WORLD GEOMETRY, LEVEL 0 FLAT ADAPTER & B-01 FIX
+RECOVERY-HARDENED IMPLEMENTATION RUN
+
+ROLE
+
+You are implementing Stage B of the approved 2.5D World Architecture for The Far Backrooms.
+
+A previous Stage B implementation was apparently completed and validated, but the ChatGPT workspace was lost before its files were successfully delivered.
+
+Therefore this is a CLEAN RECONSTRUCTION from the approved Stage A checkpoint.
+
+Do NOT assume any files from the lost Stage B workspace exist.
+
+Do NOT attempt to recover hidden prior workspace state.
+
+Reconstruct Stage B from the supplied Stage A checkpoint and locked architecture.
+
+MOST IMPORTANTLY:
+
+THIS RUN MUST CREATE AN EXTERNAL RECOVERY CHECKPOINT BEFORE ENTERING LONG FINAL VALIDATION / REPORTING / PACKAGING WORK.
+
+We are not losing another completed implementation to a workspace outage.
+
+==================================================
+AUTHORITATIVE INPUTS
+==================================================
+
+PRIMARY IMPLEMENTATION BASELINE:
+
+thefarbackrooms-level0-25d-stageA-baseline-contract.zip
+
+Expected Stage A checkpoint SHA-256:
+
+43611c0282f387748b8f6782268c101d7022380986288ee40c781a19a19696e0
+
+LOCKED PART 2 BASELINE:
+
+v23.3.6-hqa-search-polish
+
+Original Part 2 SHA-256:
+
+b0f7c297fcd58c4e12a5666dcdfbd5624120178aaf1515080e219584d3947e60
+
+ARCHITECTURE AUTHORITY:
+
+THE_FAR_BACKROOMS_2_5D_WORLD_ARCHITECTURE(1).md
+
+STAGE A EVIDENCE:
+
+25D_STAGE_A_REPORT.md
+25D_STAGE_A_TEST_SUMMARY.md
+25D_STAGE_A_BASELINE_FAILURES.md
+25D_STAGE_A_SHA256.txt
+
+Treat the Stage A manifest, reference traces, failure ledger, Z01-Z32 matrix and architecture invariants I-01 through I-20 as binding.
+
+==================================================
+CURRENT STATUS
+==================================================
+
+PART 2
+COMPLETE — LOCKED
+
+2.5D ARCHITECTURE
+COMPLETE — LOCKED
+
+2.5D STAGE A
+COMPLETE — LOCKED
+
+2.5D STAGE B
+AUTHORIZED
+
+2.5D STAGE C+
+NOT AUTHORIZED
+
+==================================================
+PREVIOUS LOST RUN — REFERENCE ONLY
+==================================================
+
+The previous lost Stage B run reported the following before its workspace disappeared:
+
+- Stage A hash verified
+- architecture unchanged
+- all 46 gameplay reference traces matched
+- Level 0 map parity matched
+- props parity matched
+- rooms parity matched
+- lamps parity matched
+- navigation data parity matched
+- planar geometry query samples matched
+- seeded generation exports matched
+- canonical Level 0 extraction was implemented
+- levels/level0.js was introduced
+- world_geometry.js was introduced
+- compatibility aliases/adapters preserved existing callers
+- lifecycle trace differed only in source-file hash metadata due adapter migration
+- B-01 was fixed:
+  /camera_policy.js → HTTP 200
+  /timing_policy.js → HTTP 200
+- served bytes matched packaged files
+- runtime timing/camera bindings were reached
+- malformed/traversal paths remained rejected
+- aggregate remained 151/162 with the same 11 inherited failures
+- audit_net 17/17
+- audit_net2 11/11
+- live 17/17
+- IR 4/4
+- performance suites passed
+- clean path-with-spaces builds passed
+- no Stage C functionality was added
+
+These results are NOT authority.
+
+Reproduce them independently.
+
+They are useful only as expected reconstruction targets and as evidence that the design is feasible.
+
+==================================================
+STAGE B PURPOSE
+==================================================
+
+Stage B establishes:
+
+1. one canonical Level 0 data source
+2. one shared geometry/query boundary
+3. explicit flat-compat mode
+4. compatibility adapters preserving current behavior
+5. deterministic world/schema/content identity
+6. correct serving/loading of required runtime modules
+7. explicit repair of pre-existing B-01
+8. parity evidence proving Level 0 remains behaviorally equivalent
+9. a safe checkpoint for Stage C
+
+Stage B does NOT implement physical 2.5D gameplay.
+
+==================================================
+ABSOLUTE BEHAVIORAL REQUIREMENT
+==================================================
+
+LEVEL 0 FLAT-COMPAT MUST PLAY IDENTICALLY TO STAGE A.
+
+Preserve:
+
+- movement
+- acceleration
+- player radius
+- stamina
+- crouch
+- crawl
+- slide
+- vault
+- collisions
+- map generation
+- props
+- rooms
+- lamps
+- materials
+- navigation
+- path costs
+- Hound behavior
+- Hound search
+- Hound eye contact
+- Hound close-range pivot
+- Hound head look
+- Hound give-up behavior
+- Smiler behavior
+- Smiler gaze
+- Smiler creep/drift
+- Smiler light interaction
+- evidence
+- sound
+- IR blindness
+- RNG streams
+- capture
+- deaths
+- corpse behavior
+- interpolation
+- multiplayer
+- fixed timestep
+- camera awareness
+- admin behavior
+
+ANY UNEXPLAINED STAGE A TRACE DIVERGENCE IS A STOP CONDITION.
+
+Do not update baseline traces to bless new behavior.
+
+==================================================
+PHASE 0 — VERIFY INPUT BEFORE EDITING
+==================================================
+
+Before modifications:
+
+1. Verify the Stage A ZIP SHA-256.
+
+Expected:
+
+43611c0282f387748b8f6782268c101d7022380986288ee40c781a19a19696e0
+
+2. Extract into a fresh package-relative workspace.
+
+3. Verify embedded baseline manifest.
+
+4. Confirm Stage A architecture authority.
+
+5. Run enough Stage A verification to establish a valid starting point.
+
+At minimum verify:
+
+- Stage A contracts
+- reference trace reproducibility
+- Hound 18/18
+- HQA 6/6
+- FPS equality
+- camera policy test
+- B-01 current broken baseline
+- build scripts
+
+B-01 should initially still reproduce:
+
+/                     200
+/move.js              200
+/camera_policy.js     404
+/timing_policy.js     404
+
+Do not proceed if the supplied Stage A checkpoint is inconsistent.
+
+==================================================
+PHASE 1 — CANONICAL LEVEL 0 DATA
+==================================================
+
+Create:
+
+levels/level0.js
+
+This becomes the ONE EDITABLE CANONICAL AUTHORITY for Level 0 layout/data.
+
+Extract the existing live Level 0 data LOSSLESSLY.
+
+Preserve:
+
+- exact map dimensions
+- tile ordering
+- tile values
+- room ordering
+- room identities
+- props
+- prop ordering
+- lamps
+- lamp ordering
+- materials
+- spawn anchors
+- exit anchors
+- crawl metadata
+- vault-relevant metadata
+- nav-relevant data
+- generation inputs
+- RNG consumption/order
+- existing identifiers wherever compatibility requires them
+
+DO NOT:
+
+- beautify coordinates
+- reorder arrays
+- normalize values unnecessarily
+- redesign Level 0
+- regenerate Level 0 differently
+- infer physical ceiling heights
+- convert the map into actual spatial 2.5D content yet
+
+Level 0 remains:
+
+geometryMode: "flat-compat"
+
+==================================================
+PHASE 2 — WORLD DEFINITION CONTRACT
+==================================================
+
+Establish the canonical WorldDefinition boundary required by the architecture.
+
+Include deterministic identity fields such as:
+
+- schema version
+- world asset ID
+- content revision/hash
+- geometry mode
+- units
+- bounds
+- canonical content references
+- stable IDs
+- materials
+- lights
+- spawn/exit anchors
+
+Do not populate fake spatial data.
+
+Future spatial fields may be explicitly absent/not-applicable for flat-compat.
+
+Do not disguise floor IDs as Z.
+
+==================================================
+PHASE 3 — WORLD_GEOMETRY.JS
+==================================================
+
+Create:
+
+world_geometry.js
+
+Responsibilities in Stage B:
+
+- world-definition validation
+- deterministic compilation/loading
+- stable world/geometry identities
+- flat-compatible geometry facade
+- query API boundaries
+- deterministic ordering
+- future spatial compatibility
+
+Approved future-facing contracts include:
+
+supports(...)
+clearance(...)
+sweep(...)
+raycast(...)
+contact(...)
+traceSupportMotion(...)
+
+BUT FULL SPATIAL IMPLEMENTATION DOES NOT EXIST YET.
+
+For flat-compat:
+
+route requests through preserved planar logic where appropriate.
+
+For unsupported spatial functionality:
+
+fail explicitly or mark NOT IMPLEMENTED BY DESIGN.
+
+DO NOT:
+
+- implement gravity
+- implement stacked support solving
+- choose nearest/highest floor at XY
+- fake 3D answers
+- implement Stage C collision
+
+==================================================
+PHASE 4 — FLAT-COMPAT ADAPTER
+==================================================
+
+Use the architecture's explicit permission for a preserved planar fast path.
+
+Maintain current semantics for:
+
+- collision
+- blockers
+- floor/material lookup
+- line/ray queries
+- lighting
+- crawl lookup
+- navigation construction
+- spawn validity
+- item/pickup checks
+- exits
+
+Migration pattern:
+
+canonical authority
+→ compatibility adapter/view
+→ existing caller
+
+NOT:
+
+duplicate authority
+→ duplicate authority
+→ hope they remain synchronized
+
+Compatibility mirrors may temporarily exist, but they must NOT be independently editable authorities.
+
+Document every remaining mirror.
+
+==================================================
+PHASE 5 — NAVIGATION COMPATIBILITY
+==================================================
+
+DO NOT implement spatial nav surfaces yet.
+
+Preserve current:
+
+- 48-unit grid
+- A*
+- 8-neighbor behavior
+- no diagonal corner cutting
+- clearance classes
+- crawl behavior
+- vault links
+- costs
+- smoothing
+- steering
+- route commitment
+
+Stage B only makes existing nav consume canonical data without changing results.
+
+Compare nav inputs/outputs before and after migration.
+
+==================================================
+PHASE 6 — GENERATION / RNG PARITY
+==================================================
+
+Canonical extraction must not alter RNG consumption.
+
+Compare seeded output for:
+
+- map
+- props
+- lamps
+- rooms
+- navigation inputs
+- spawn anchors
+- generation ordering
+- relevant RNG checkpoints
+
+Do not introduce Math.random.
+
+==================================================
+PHASE 7 — B-01 FIX
+==================================================
+
+Fix the pre-existing served-package defect.
+
+After Stage B:
+
+/                     → 200
+/move.js              → 200
+/camera_policy.js     → 200
+/timing_policy.js     → 200
+
+Also serve required new Stage B runtime modules intentionally.
+
+Verify:
+
+- real server used
+- HTTP response status
+- bytes match packaged files
+- timing policy binding actually reaches runtime
+- camera policy binding actually reaches runtime
+- malformed path remains rejected
+- traversal attempts remain rejected
+- static server does not become an unrestricted filesystem server
+
+DO NOT alter policy values.
+
+Timing remains:
+
+- 1/60 fixed timestep
+- maximum 15 catch-up steps
+- 250 ms clamp
+
+Camera remains the approved normalized fairness policy.
+
+Document B-01 as:
+
+PRE-EXISTING INTEGRATION DEFECT — FIXED IN STAGE B
+
+==================================================
+PHASE 8 — WORLD IDENTITY
+==================================================
+
+World/content identity must be deterministic.
+
+Same Level 0 definition in separate clean extractions must yield the same:
+
+- schema identity
+- world asset identity
+- geometry/content revision/hash
+
+Do not include:
+
+- timestamps
+- absolute paths
+- workspace paths
+- object memory addresses
+
+Add negative validation tests for:
+
+- duplicate IDs
+- invalid mode
+- malformed bounds
+- nonfinite numbers
+- bad references
+- schema mismatch
+
+==================================================
+PHASE 9 — PARITY GATE
+==================================================
+
+Before declaring implementation complete, run parity.
+
+Required:
+
+- map dimensions/content
+- tiles
+- props/order
+- lamps/order
+- rooms/order
+- materials
+- crawl data
+- vault-relevant data
+- navigation inputs
+- spawn/exit anchors
+- planar query behavior
+- world identity determinism
+
+Then compare Stage A traces.
+
+Expected:
+
+ALL 46 GAMEPLAY TRACE SCENARIOS HAVE NO UNEXPLAINED SEMANTIC DIVERGENCE.
+
+If metadata/source hashes differ because maintained source structure changed:
+
+document them separately.
+
+Do not treat metadata differences as gameplay equality without explaining them.
+
+Do not normalize away actual simulation differences.
+
+==================================================
+!!! CRITICAL RECOVERY CHECKPOINT GATE !!!
+==================================================
+
+THIS IS THE MOST IMPORTANT CHANGE FROM THE LOST RUN.
+
+AS SOON AS ALL OF THE FOLLOWING ARE TRUE:
+
+- canonical Level 0 migration implemented
+- world_geometry.js implemented
+- flat adapter implemented
+- B-01 fixed
+- core map/data/nav parity passes
+- Stage A gameplay traces show no unexplained divergence
+- no Stage C scope exists
+
+STOP LONG VALIDATION TEMPORARILY.
+
+IMMEDIATELY CREATE A RECOVERY CHECKPOINT:
+
+thefarbackrooms-level0-25d-stageB-WORKING-CHECKPOINT.zip
+
+Also create:
+
+25D_STAGE_B_WORKING_SHA256.txt
+
+25D_STAGE_B_WORKING_STATUS.md
+
+The working status file must contain:
+
+- what is complete
+- what tests already passed
+- what final tests remain
+- changed files
+- confirmation that Stage C has not started
+
+VERIFY THE WORKING ZIP CAN BE EXTRACTED.
+
+THEN MAKE THIS CHECKPOINT AVAILABLE/ATTACHED OUTSIDE THE TEMPORARY WORKSPACE.
+
+IMPORTANT:
+
+IF YOUR ENVIRONMENT REQUIRES ENDING THE CURRENT RESPONSE IN ORDER TO ATTACH/SURFACE THIS RECOVERY ZIP, THEN STOP HERE AND RETURN THE WORKING CHECKPOINT.
+
+DO NOT RISK LOSING THE IMPLEMENTATION JUST TO CONTINUE LONG TESTING.
+
+WAIT FOR THE USER TO TELL YOU TO CONTINUE FINALIZATION.
+
+IF YOU CAN SAFELY SURFACE/ATTACH THE CHECKPOINT WITHOUT ENDING EXECUTION, DO SO BEFORE PROCEEDING.
+
+NO FINAL PERFORMANCE/NETWORK/PACKAGING WORK IS MORE IMPORTANT THAN PRESERVING THIS CHECKPOINT.
+
+==================================================
+PHASE 10 — FULL REGRESSION AFTER RECOVERY CHECKPOINT
+==================================================
+
+ONLY AFTER THE WORKING CHECKPOINT HAS BEEN SAFELY PRESERVED:
+
+Run the remaining relevant regression suites.
+
+At minimum where supported:
+
+npm test
+npm run test:hound
+npm run test:shared
+npm run test:humanqa
+npm run test:fps
+npm run test:camera
+
+node dev/tests/run.js s_entity_look.js
+node dev/tests/phys_test.js
+node dev/tests/interp_test.js
+node dev/tests/nav_bench.js
+
+node dev/tests/audit_net.js
+node dev/tests/audit_net2.js
+node dev/tests/live.js
+node dev/tests/ir_net.js
+
+Performance:
+
+perf_hound2e.js
+perf_shared2f.js
+perf_smiler.js
+perf_light.js
+
+Do not change thresholds.
+
+Do not "repair" inherited AI failures.
+
+Use Stage A ledger classifications.
+
+Expected aggregate baseline:
+
+151/162 with inherited reds unless a test environment difference is documented.
+
+Expected known inherited issues include:
+
+P01
+P07
+P08
+H07
+SM01
+NV09
+C1
+C4
+C5
+C18
+F22
+
+L5c remains historically timing-sensitive.
+
+P08 remains UNKNOWN / NEEDS INVESTIGATION unless actual evidence explains it.
+
+==================================================
+PHASE 11 — CAMERA SERVED INTEGRATION
+==================================================
+
+Distinguish:
+
+camera UNIT policy
+
+from:
+
+camera ACTUAL SERVED integration
+
+After B-01 fix verify:
+
+- policy script served
+- application references the served policy
+- 1920x1080 remains reference footprint
+- higher resolution does not gain more world awareness
+- ultrawide does not expose additional tactical space
+- DPR affects fidelity, not awareness
+
+If actual browser execution is unavailable:
+
+route/load integration may pass.
+
+Browser visual/runtime QA remains BLOCKED.
+
+Never convert BLOCKED into PASS.
+
+==================================================
+PHASE 12 — PORTABILITY
+==================================================
+
+Run builds from a fresh extraction in a path containing spaces:
+
+bash dev/build_ai.sh
+bash dev/build_sim.sh
+bash dev/build_ents.sh
+
+Run new Stage B tests.
+
+No:
+
+- /mnt/attach dependency
+- model workspace dependency
+- absolute extraction path
+- original-machine path
+
+Generated files must be reproducible.
+
+==================================================
+PHASE 13 — REDIRECT.JS
+==================================================
+
+Every checkpoint MUST include:
+
+redirect.js
+
+at project root.
+
+Do not redesign it.
+
+Normal game server:
+
+node server.js
+
+Render compatibility service:
+
+node redirect.js
+
+Verify syntax and packaging.
+
+==================================================
+PHASE 14 — SOURCE/GENERATED DISCIPLINE
+==================================================
+
+Respect maintained source boundaries.
+
+Generated outputs include:
+
+ai.js
+sim.js
+ents.js
+
+Do not independently hand-maintain source and generated copies.
+
+Do not broadly rewrite/format the large recovered application bundle.
+
+Any bundle integration must be narrow and documented.
+
+==================================================
+ABSOLUTELY FORBIDDEN IN STAGE B
+==================================================
+
+DO NOT IMPLEMENT:
+
+- physical live player Z
+- gravity
+- falling
+- ramps
+- stair movement
+- stair collision
+- support solving
+- multiple live supports at same XY
+- body-height collision
+- ceiling collision
+- crawl-under physical volume
+- spatial corpse physics
+- network Z
+- nav surfaces in gameplay
+- traversal-link spatial routing
+- Hound vertical navigation
+- Smiler vertical navigation
+- vertical LOS
+- portal sound
+- depth renderer
+- roof/ceiling cutaway
+- Stage C
+- Stage D
+
+==================================================
+DO NOT RETUNE GAMEPLAY
+==================================================
+
+Do not change Hound:
+
+- speed
+- acceleration
+- turning
+- orbit fix
+- eye contact
+- search timing
+- lost-target inference
+- give-up
+- head look
+- evidence
+- personality
+- commitment
+- lunge
+
+Do not change Smiler:
+
+- gaze
+- creep
+- drift
+- light response
+- darkness
+- attack
+- search
+- IR blindness
+- group behavior
+
+Do not change Player:
+
+- speed
+- acceleration
+- radius
+- stamina
+- crouch
+- crawl
+- slide
+- vault
+
+Do not change:
+
+- entity balance
+- normal director caps
+- death tuning
+- corpse cap
+- network cadence
+- camera awareness footprint
+- fixed timestep
+
+==================================================
+FINAL REPORTS
+==================================================
+
+After regression, create:
+
+25D_STAGE_B_REPORT.md
+
+25D_STAGE_B_TEST_SUMMARY.md
+
+25D_STAGE_B_BASELINE_FAILURES.md
+
+25D_STAGE_B_PARITY.md
+
+25D_STAGE_B_CHANGED_FILES.txt
+
+25D_STAGE_B_HUMAN_QA.md
+
+25D_STAGE_B_PACKAGE_VERIFICATION.json
+
+Reports must use honest classifications:
+
+PASS
+FAIL
+EXPECTED BASELINE FAILURE
+FLAKY BASELINE
+BLOCKED
+NOT IMPLEMENTED BY DESIGN
+
+Do not write "all tests pass" if aggregate remains red.
+
+==================================================
+FINAL PACKAGE — BOUNDED PROCEDURE
+==================================================
+
+Before final ZIP:
+
+1. finalize implementation
+2. finalize reports
+3. finalize changed-file list
+4. ensure no temporary workspace copies
+5. ensure no accidental nested ZIPs
+6. ensure no helper-installation junk
+7. ensure no Stage C files
+8. ensure redirect.js present
+
+Then create ONCE:
+
+thefarbackrooms-level0-25d-stageB-canonical-geometry.zip
+
+Perform ONE bounded verification:
+
+- extract cleanly
+- required files present
+- levels/level0.js present
+- world_geometry.js present
+- reports present
+- redirect.js present
+- final runtime files match workspace
+- no temporary tree included
+- no nested project archive included
+- syntax checks pass
+- B-01 routes still 200
+- malformed/traversal protection still works
+- no Stage C implementation
+
+If verification succeeds:
+
+DO NOT REPACKAGE AGAIN.
+
+Do not enter a repetitive:
+
+verify
+→ copy helper
+→ repack
+→ verify
+→ update manifest
+→ repack
+
+loop.
+
+If one concrete issue is found:
+
+fix it once and run one bounded verification again.
+
+==================================================
+FINAL SHA
+==================================================
+
+Calculate:
+
+thefarbackrooms-level0-25d-stageB-canonical-geometry.zip
+
+SHA-256.
+
+Create:
+
+25D_STAGE_B_SHA256.txt
+
+Keep the ZIP hash external if necessary to avoid circular self-reference.
+
+==================================================
+FINAL DELIVERABLES
+==================================================
+
+Return/attach:
+
+1. thefarbackrooms-level0-25d-stageB-canonical-geometry.zip
+
+2. 25D_STAGE_B_SHA256.txt
+
+3. 25D_STAGE_B_REPORT.md
+
+4. 25D_STAGE_B_TEST_SUMMARY.md
+
+5. 25D_STAGE_B_BASELINE_FAILURES.md
+
+6. 25D_STAGE_B_PARITY.md
+
+7. 25D_STAGE_B_CHANGED_FILES.txt
+
+8. 25D_STAGE_B_HUMAN_QA.md
+
+9. 25D_STAGE_B_PACKAGE_VERIFICATION.json
+
+The previously created WORKING-CHECKPOINT may also remain as a recovery artifact.
+
+==================================================
+FINAL SELF-AUDIT
+==================================================
+
+Before final response verify:
+
+- Stage A SHA verified?
+- one canonical Level 0 authority?
+- compatibility mirrors non-authoritative?
+- map parity preserved?
+- props parity preserved?
+- rooms parity preserved?
+- lamps parity preserved?
+- navigation parity preserved?
+- RNG ordering preserved?
+- all 46 gameplay traces without unexplained divergence?
+- Hound unchanged?
+- Smiler unchanged?
+- player movement unchanged?
+- death behavior unchanged?
+- B-01 actually fixed over HTTP?
+- timing/camera policy values unchanged?
+- malformed/traversal requests still safe?
+- deterministic world identity?
+- clean path build works?
+- redirect.js packaged?
+- Stage C absent?
+- working recovery checkpoint safely preserved?
+- final archive verified once?
+- all failures/blockers honestly classified?
+
+If implementation is complete but finalization becomes unstable:
+
+DO NOT KEEP WORKING UNTIL THE WORKSPACE DIES.
+
+SURFACE THE WORKING CHECKPOINT IMMEDIATELY.
+
+==================================================
+STOP CONDITION
+==================================================
+
+DO NOT START STAGE C.
+
+Once Stage B final deliverables exist:
+
+STOP.
+
+Wait for independent review.
+
+Final status, only when final Stage B checkpoint is complete:
+
+2.5D STAGE B ENGINEERING COMPLETE — CHECKPOINT READY FOR REVIEW

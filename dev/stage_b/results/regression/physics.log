@@ -1,0 +1,25 @@
+PASS Hound A: body never jumps (max 2.7 px / frame)
+PASS Hound A: hands never jump (max 2.9 px / frame)
+PASS Hound A: the light never teleports (max 3.0 px / frame)
+PASS Hound A: never turns more than 1.7°/frame
+PASS Hound A: is at rest by the end  - state SLEEPING, v 6.0, sleeps at 4.316666666666666
+PASS Hound A: travelled a plausible distance  - 35 px, angle 87°
+PASS Hound B: body never jumps (max 1.9 px / frame)
+PASS Hound B: hands never jump (max 3.8 px / frame)
+PASS Hound B: the light never teleports (max 0.7 px / frame)
+PASS Hound B: never turns more than 2.0°/frame
+PASS Hound B: is at rest by the end  - state SLEEPING, v 2.2, sleeps at 4.466666666666667
+PASS Hound B: travelled a plausible distance  - 75 px, angle 81°
+PASS Hound C: body never jumps (max 7.1 px / frame)
+PASS Hound C: hands never jump (max 7.2 px / frame)
+PASS Hound C: the light never teleports (max 1.6 px / frame)
+PASS Hound C: never turns more than 5.1°/frame
+PASS Hound C: is at rest by the end  - state SLEEPING, v 5.0, sleeps at 2.9166666666666665
+PASS Hound C: travelled a plausible distance  - 63 px, angle 10°
+PASS Hound C: the wall stops it (no penetration)  - pen 0.00, wall hit {"t":0.23,"sp":306}
+PASS Hound D: body never jumps (max 0.6 px / frame)
+PASS Hound D: hands never jump (max 1.5 px / frame)
+PASS Hound D: the light never teleports (max 1.6 px / frame)
+PASS Hound D: never turns more than 1.5°/frame
+PASS Hound D: is at rest by the end  - state SLEEPING, v 5.4, sleeps at 2.9166666666666665
+PASS Hound D: travelled a plausible distance  - 18 px, angle 81°

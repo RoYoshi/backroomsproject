@@ -1,0 +1,7 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> far-backrooms@23.3.6-hqa-search-polish test:camera
+> node dev/tests/s_camera_fairness.js
+
+CAMERA FAIRNESS: 12/12 PASS
+Canonical world view: 1627.119 x 915.254 units

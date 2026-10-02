@@ -1,0 +1,36 @@
+{
+  "result": "B-01 REPRODUCED — PRE-EXISTING BASELINE ISSUE",
+  "runtime": "v24.19.0",
+  "records": [
+    {
+      "url": "/",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "url": "/move.js",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "url": "/camera_policy.js",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "url": "/timing_policy.js",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "url": "/%",
+      "expected": 400,
+      "actual": 400
+    },
+    {
+      "url": "/",
+      "expected": 200,
+      "actual": 200
+    }
+  ]
+}

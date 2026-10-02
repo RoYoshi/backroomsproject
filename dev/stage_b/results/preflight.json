@@ -1,0 +1,73 @@
+[
+  {
+    "command": [
+      "node",
+      "dev/stage_a/verify_stage_a.js",
+      "--regenerate"
+    ],
+    "exitCode": 0,
+    "seconds": 16.784764043999985
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "test:hound"
+    ],
+    "exitCode": 0,
+    "seconds": 4.234139658000004
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "test:humanqa"
+    ],
+    "exitCode": 0,
+    "seconds": 1.0197982510003385
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "test:fps"
+    ],
+    "exitCode": 0,
+    "seconds": 0.5665931369999271
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "test:camera"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16472799499979374
+  },
+  {
+    "command": [
+      "node",
+      "dev/stage_a/served_package.js",
+      ".",
+      "/workspace/scratch/cdfe50b4dc2b/stageB/evidence/preflight-http.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.1643092279996381
+  },
+  {
+    "command": [
+      "bash",
+      "dev/build_ai.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11442049100014628
+  },
+  {
+    "command": [
+      "bash",
+      "dev/build_sim.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11436825400005546
+  }
+]

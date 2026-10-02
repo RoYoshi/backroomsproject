@@ -5,7 +5,7 @@
 const AI=require('./ai.js');
 const SIM_SEED=(opts.seed??require('crypto').randomBytes(4).readUInt32LE(0))>>>0;
 const RND=AI.mkRng(SIM_SEED);
-var PR=0;const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
+var PR=0;const ANCHOR=WG.planar.anchorXY("anchor:reachability");   // spawn is hard against a wall; this open spot next to it is used for reachability checks
 const players=[];
 let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,debugOn=false;
 // Shipped/director population remains intentionally small.  Human-QA/stress tools get a much higher ceiling without silently changing normal balance.
@@ -17,14 +17,7 @@ const isAlive=p=>p.active&&!p.dead&&!p.exited&&p.safe<=0&&!p.god;
 const alive=()=>players.filter(isAlive);
 
 /* the engine sees the level only through these primitives (the game's own collision, ray-cast and light code) */
-const adapter={key:`level0`,cols:W,rows:al,cell:il,W:FBW*96,H:FBH*96,rooms:Oc,lamps:Fc,
-  floor:(tx,ty)=>zc(tx,ty),
-  clear:(x,y,r,mode)=>{WORLD.setMode(mode||`walk`);try{return sl(x,y,r)}finally{WORLD.setMode(`walk`)}},
-  blockers:(x,y,mode)=>{WORLD.setMode(mode||`walk`);try{return Bc(x,y)}finally{WORLD.setMode(`walk`)}},
-  ray:(x,y,a,m)=>Uc(x,y,a,m),
-  blackout:()=>V.blackout,
-  qc:(p,pt,on)=>qc(p,pt,on),
-  kinds:Gc};                                          // the light each kind of equipment gives (visible light only; Part 2 stage 2C)
+const adapter=WG.bindAdapter({blackout:()=>V.blackout,qc:(p,pt,on)=>qc(p,pt,on),kinds:Gc});
 const eng=AI.create({adapter,seed:SIM_SEED});
 
 function randomSpot(minSpawn,avoid,minAvoid,mustReach=true,dark=false){

@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "extractionPath": "/workspace/scratch/cdfe50b4dc2b/stageB/working checkpoint extracted with spaces/thefarbackrooms-level0",
+  "generatedHashes": {
+    "ai.js": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731",
+    "sim.js": "3ef119d34bf4ec7bd6ee97848d81aee90bb2455817463922e81a91a0c31772d2",
+    "ents.js": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28"
+  },
+  "commands": [
+    {
+      "command": [
+        "bash",
+        "dev/build_ai.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.064,
+      "generatedUnchanged": true
+    },
+    {
+      "command": [
+        "bash",
+        "dev/build_sim.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.067,
+      "generatedUnchanged": true
+    },
+    {
+      "command": [
+        "bash",
+        "dev/build_ents.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.062,
+      "generatedUnchanged": true
+    },
+    {
+      "command": [
+        "node",
+        "dev/stage_b/test_geometry.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.186,
+      "generatedUnchanged": true
+    },
+    {
+      "command": [
+        "node",
+        "dev/stage_b/content_identity.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.041,
+      "generatedUnchanged": true
+    },
+    {
+      "command": [
+        "node",
+        "dev/stage_b/export_world.js",
+        ".",
+        "/workspace/scratch/cdfe50b4dc2b/stageB/evidence/portable-map.json.gz"
+      ],
+      "exitCode": 0,
+      "seconds": 0.502,
+      "generatedUnchanged": true
+    },
+    {
+      "command": [
+        "node",
+        "dev/stage_b/served_package.js",
+        ".",
+        "/workspace/scratch/cdfe50b4dc2b/stageB/work/thefarbackrooms-level0/dev/stage_b/results/portable-http.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.211,
+      "generatedUnchanged": true
+    }
+  ],
+  "mapExport": "BYTE IDENTICAL",
+  "runtime": "v24.19.0"
+}

@@ -1,0 +1,32 @@
+'use strict';
+const assert=require('assert'),fs=require('fs'),path=require('path'),vm=require('vm'),crypto=require('crypto');
+const root=path.resolve(__dirname,'../..'),G=require('../../world_geometry'),D=require('../../levels/level0'),W=require('../../world');let groups=0;
+function check(name,fn){fn();groups++;console.log('PASS '+name);}
+const clone=()=>JSON.parse(JSON.stringify(D)),digest=s=>crypto.createHash('sha256').update(s).digest('hex');
+check('portable SHA-256 known and long UTF-8 inputs',()=>{for(const s of ['', 'abc','é😀','x'.repeat(100000),G.canonical(D)])assert.equal(G.sha256(s),digest(s));});
+check('canonical key order retains array order',()=>{assert.equal(G.canonical({b:1,a:2}),G.canonical({a:2,b:1}));assert.notEqual(G.canonical([1,2]),G.canonical([2,1]));});
+check('immutable data and explicit flat identity',()=>{assert(G.validate(D));assert(Object.isFrozen(D.flat.propDefs[0]));assert(Object.isFrozen(D.flat.rooms));assert.equal(D.spatialRecords,null);assert.equal(D.bounds.max.z,null);});
+function bad(name,edit,pattern){check(name,()=>{const d=clone();edit(d);d.contentHash=G.contentHash(d);assert.throws(()=>G.validate(d),pattern);});}
+bad('duplicate IDs',d=>d.flat.propDefs[1].id=d.flat.propDefs[0].id,/duplicate/);
+bad('unsupported mode',d=>d.geometryMode='spatial',/mode/);
+bad('schema mismatch',d=>d.schemaVersion=2,/schema/);
+bad('malformed bounds',d=>d.bounds.max.x=-1,/bounds/);
+bad('nonfinite input',d=>d.flat.rooms[0].x=NaN,/nonfinite/);
+bad('bad material reference',d=>d.roomMaterials['DAMP ROOMS']='ice',/material reference/);
+bad('bad room reference',d=>d.flat.legacyItems.roomIds[0]='room:missing',/room reference/);
+bad('bad lamp reference',d=>d.flat.lampRule.excludeRoomId='missing',/room reference/);
+bad('invalid generation stride',d=>d.flat.lampRule.stride=0,/generation/);
+bad('spatial fiction rejected',d=>d.spatialRecords={floors:[0]},/spatial geometry/);
+bad('missing required spawn',d=>d.anchors=d.anchors.slice(1),/missing anchor/);
+bad('invalid prop bounds',d=>d.flat.propDefs[0].tx=1000,/bounds/);
+check('content corruption rejected',()=>{const d=clone();d.flat.rooms[0].x++;assert.throws(()=>G.validate(d),/hash/);});
+const a=G.compile(D,W),b=G.compile(D,W);
+check('independent instances share identity, not writable legacy buffers',()=>{assert.deepStrictEqual(a.identity,b.identity);assert.notStrictEqual(a.flat.kc,b.flat.kc);assert.notStrictEqual(a.flat.ll,b.flat.ll);const n=b.flat.kc[0];a.flat.kc[0]^=1;assert.equal(b.flat.kc[0],n);a.flat.kc[0]^=1;});
+check('WORLD instance mismatch rejected',()=>assert.throws(()=>G.compile(D,{levelDefinition:{contentHash:'x'}}),/mismatch/));
+check('unsupported spatial methods fail explicitly',()=>{for(const n of ['supports','clearance','sweep','raycast','contact','traceSupportMotion'])assert.throws(()=>a[n](),/NOT IMPLEMENTED BY DESIGN/);});
+check('derived identities/counts/anchors',()=>{assert.equal(a.flat.Fc.length,D.flat.lampIds.length);assert.equal(a.flat.Pc.length,D.flat.pillarGrid.ids.length);assert.deepStrictEqual(a.planar.anchorXY('spawn:player'),{x:960,y:3264});assert.throws(()=>a.planar.anchorXY('missing'));assert.equal(a.planar.lamp('missing'),null);});
+check('mode wrapper restores walk on throw',()=>{const old=W.addNear;W.addNear=()=>{throw Error('probe');};assert.throws(()=>a.planar.blockers(960,3264,'crawl'),/probe/);assert.equal(W.mode,'walk');W.addNear=old;});
+check('classic browser globals match Node content and geometry',()=>{const ctx=vm.createContext({TextEncoder});for(const f of ['levels/level0.js','world.js','world_geometry.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx);vm.runInContext('var world=TFB_GEOMETRY.compile(TFB_LEVEL0,WORLD)',ctx);assert.equal(JSON.stringify(ctx.world.identity),JSON.stringify(a.identity));assert.deepStrictEqual(Array.from(ctx.world.flat.kc),Array.from(a.flat.kc));});
+check('prototype-like room names retain carpet fallback',()=>{for(const name of ['constructor','toString','__proto__'])assert.equal(W.surfaceAt(50,50,[{x:0,y:0,w:1,h:1,name}]),'carpet');});
+check('content-aware nav cache identity',()=>{const adapter=a.bindAdapter({blackout:()=>false,qc:()=>0,kinds:{}});assert(adapter.key.includes(D.contentHash));assert(adapter.key.includes(a.identity.materialProfileHash));assert.equal(adapter.cols,192);assert.equal(adapter.rows,144);});
+console.log(JSON.stringify({result:'PASS',groups}));
