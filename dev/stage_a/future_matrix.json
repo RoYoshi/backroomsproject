@@ -1,0 +1,258 @@
+[
+  {
+    "id": "Z01",
+    "scenario": "Two walkable floors with identical XY",
+    "required": "Bodies, paths, pickup and exit targets retain the correct support; no contact/separation through the slab.",
+    "stages": "C/E",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z02",
+    "scenario": "Open stairwell beside a closed slab",
+    "required": "Sight/light can cross the opening and cannot cross the closed slab. Horizontal, vertical and oblique rays agree on the same primitives.",
+    "stages": "C/E",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z03",
+    "scenario": "Ramp ascent/descent, including diagonal travel",
+    "required": "Continuous Z/velocity, correct support normals and physical path distance; no acceleration/stamina changes on the flat control.",
+    "stages": "C",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z04",
+    "scenario": "Stair treads/risers, different approach directions",
+    "required": "Finite-time step-up, no pose teleport, actual riser/ceiling collision; item/corpse motion does not use assisted steps.",
+    "stages": "C",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z05",
+    "scenario": "Stair interruption, reversal, sideways departure",
+    "required": "Current pose remains continuous; correct support or free fall; traversal cannot finish after interruption by writing its endpoint.",
+    "stages": "C",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z06",
+    "scenario": "Thin intermediate slab during fast fall",
+    "required": "Sweep lands on first intersected support; cannot tunnel through or select a higher floor behind the trajectory.",
+    "stages": "C",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z07",
+    "scenario": "Under-ceiling upward impulse / vault",
+    "required": "Head/body hits underside; no ceiling escape or automatic promotion to upper-floor support.",
+    "stages": "C",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z08",
+    "scenario": "Crawl passage under an occupied upper floor",
+    "required": "Low posture fits; standing rejected; upper actor neither blocks the crawl through an intact slab nor becomes touchable.",
+    "stages": "C",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z09",
+    "scenario": "Narrow seam, convex corner and near-equal contacts",
+    "required": "Stable support/tie order, bounded penetration, no tiny-step wall exploit and no frame-rate-dependent floor jitter.",
+    "stages": "C",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z10",
+    "scenario": "Allowed/forbidden traversal per species",
+    "required": "Real Hound crawl/vault remains possible where valid; Smiler gains no crawl/tight-gap/teleport ability.",
+    "stages": "E",
+    "entry": "s_nav25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z11",
+    "scenario": "A* with stacked endpoints and one-way drop",
+    "required": "Finds connected route; rejects impossible reverse; no XY-only snap/cache reuse/shortcut across an unsupported gap.",
+    "stages": "E",
+    "entry": "s_nav25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z12",
+    "scenario": "Target visible, then hides and chooses different floors",
+    "required": "With identical legitimate observations, decisions/RNG match until new evidence differs. Hidden true support/Z cannot select the branch.",
+    "stages": "E",
+    "entry": "s_perception25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z13",
+    "scenario": "Ambiguous sound from above/below",
+    "required": "Anonymous identity and vertical uncertainty preserved; no source-ID or true-floor leak. Door/stairwell and slab attenuation differ only by geometry/material.",
+    "stages": "E",
+    "entry": "s_perception25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z14",
+    "scenario": "Visible lamp/flashlight/IR on another story",
+    "required": "Z-aware occlusion and receiver height; visible-light rules retained; IR OFF/HIGH produces identical monster decisions under otherwise identical observations.",
+    "stages": "E/H",
+    "entry": "s_perception25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z15",
+    "scenario": "Gaze through a floor versus through a clear opening",
+    "required": "Physical LOS required; existing Hound intimidation and Smiler hold/release timers remain unchanged when observations are equal.",
+    "stages": "E",
+    "entry": "s_perception25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z16",
+    "scenario": "Pack/group members on different surfaces",
+    "required": "No impossible physical grouping/contact; no new shared hidden-player knowledge; flat group/watchdog traces remain unchanged.",
+    "stages": "E",
+    "entry": "s_perception25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z17",
+    "scenario": "Near/mid/far LOD with airborne mover",
+    "required": "Fall/traversal continues at fixed ticks; no sleep in midair, link teleport or skipped landing because an observer leaves.",
+    "stages": "C/E/G",
+    "entry": "s_perception25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z18",
+    "scenario": "Walk/sprint/stamina/exhaustion/deep carpet",
+    "required": "Real motor and recovery threshold 36/radius 15 verified; equal 15/30/60/120/144/240/360 FPS and jitter schedules produce equal fixed-tick results.",
+    "stages": "A/C/I",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z19",
+    "scenario": "Spatial slide/vault/crouch/crawl/drop",
+    "required": "Actual movement state machine drives geometry; no replacement formula model; valid modes retain their resource costs and finite trajectories.",
+    "stages": "C",
+    "entry": "s_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z20",
+    "scenario": "Normal wire movement under latency",
+    "required": "Seeded 20\u2013250 ms latency, jitter, duplicated/stale reports and a 1 s bunching interruption; no unauthorized movement, persistent rejection or lifecycle reset; record correction count and magnitude.",
+    "stages": "F",
+    "entry": "network25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z21",
+    "scenario": "Malicious movement/protocol claims",
+    "required": "Reject huge XY/Z jumps, wrong support, fake link completion, future/reused tick credit, speed/quiet-gait claims, nonfinite values and geometry mismatch.",
+    "stages": "F",
+    "entry": "network25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z22",
+    "scenario": "Reconnect/world reset, same ID",
+    "required": "Old `h1` near x=5000/server time 60; new `h1` near x=1000/time 1 and another support. Use new pose immediately; old clock/slots/Z history removed. Jitter does not reset the world.",
+    "stages": "F",
+    "entry": "network25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z23",
+    "scenario": "Interpolation over stair/drop/teleport boundaries",
+    "required": "No interpolation through a slab; same continuous trajectory at different render FPS; teleports do not blend; unknown extrapolated edges hold.",
+    "stages": "F",
+    "entry": "network25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z24",
+    "scenario": "Alive/free, captured, dead, revived and new-run lifecycle",
+    "required": "Existing respawn/join restrictions, one-use revive and authorization persist; no stamina/protection/teleport escape through new spatial fields.",
+    "stages": "F",
+    "entry": "network25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z25",
+    "scenario": "All eight existing death variants on spatial fixtures",
+    "required": "Continuous body and independent hands, actual wall impacts, gear detachment/landing, support-aware friction and no sleeping while airborne.",
+    "stages": "G",
+    "entry": "physics25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z26",
+    "scenario": "Authoritative death then immediate disconnect",
+    "required": "Other client receives replay, one physical aftermath/corpse, equipment included; late join during fall and after sleep sees the same object state.",
+    "stages": "F/G",
+    "entry": "physics25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z27",
+    "scenario": "Normal client replay then delayed/duplicate messages",
+    "required": "Server does not duplicate or replace correct physical aftermath with stale client pose; death/life generations separate successive deaths.",
+    "stages": "F/G",
+    "entry": "physics25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z28",
+    "scenario": "Body on ledge, gear falling to lower floor",
+    "required": "Mass loses support appropriately; hands cannot brace in air; gear has independent support/beam; decal remains on its actual contact face.",
+    "stages": "G",
+    "entry": "physics25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z29",
+    "scenario": "Different clients above/below same location",
+    "required": "Independent cutaway, same authoritative state/hash; unseen geometry and effects remain masked; one client's camera changes no other client's view.",
+    "stages": "D/H",
+    "entry": "view25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z30",
+    "scenario": "High resolution, ultrawide, NV/zoom and overlays",
+    "required": "Canonical awareness footprint preserved; no hidden entities/eyes/blood/replays/gear leaking from separate Canvas/Pixi layers.",
+    "stages": "H",
+    "entry": "view25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z31",
+    "scenario": "No live players, active settling bodies",
+    "required": "Physics continues until valid sleep or explicit room disposal; no freeze caused by the current live-player early return.",
+    "stages": "G",
+    "entry": "physics25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  },
+  {
+    "id": "Z32",
+    "scenario": "Fresh extraction in a path containing spaces",
+    "required": "Advertised tests/build scripts run without original machine paths; generated outputs reproduce; all required runtime modules return HTTP 200.",
+    "stages": "B/I",
+    "entry": "perf_world25d",
+    "status": "NOT IMPLEMENTED BY DESIGN"
+  }
+]

@@ -1,0 +1,5 @@
+'use strict';
+// Contract/fixture utility only; NOT a migrated network protocol.
+const TYPES=Object.freeze({asset:['assetId'],epoch:['worldAssetId','worldEpoch'],geometry:['worldAssetId','geometryRevision'],entity:['worldEpoch','entityId','entityGeneration'],life:['worldEpoch','entityId','entityGeneration','lifeGeneration'],pose:['worldEpoch','entityId','entityGeneration','lifeGeneration','poseSequence'],death:['worldEpoch','victimId','lifeGeneration','deathSequence'],object:['worldEpoch','objectId','generation'],link:['worldAssetId','geometryRevision','linkId'],support:['worldAssetId','geometryRevision','supportId'],nav:['worldAssetId','geometryRevision','navSurfaceId'],space:['worldAssetId','geometryRevision','spaceId'],portal:['worldAssetId','geometryRevision','portalId']});
+function key(type,value){const fields=TYPES[type];if(!fields)throw Error('Unknown identity kind');return JSON.stringify([type,...fields.map(k=>{const v=value[k];if(/Generation$|Sequence$|^generation$/.test(k)){if(!Number.isSafeInteger(v)||v<0)throw Error('Invalid '+k);}else if(typeof v!=='string'||!v.length)throw Error('Invalid '+k);return v;})]);}
+module.exports={TYPES,key};

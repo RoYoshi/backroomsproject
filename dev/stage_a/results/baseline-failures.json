@@ -1,0 +1,129 @@
+[
+  {
+    "id": "P01",
+    "name": "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "run 1687px  walk 1689px  crouch 1671px",
+    "basis": "STAGE_2F_REPORT.md \u00a724",
+    "interpretation": "Sample-sensitive visible-light saturation/ordering gate; same numbers on selected rerun.",
+    "replicated": true
+  },
+  {
+    "id": "P07",
+    "name": "P07 exhausted breathing is audible only close by",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "900px away: 0 sounds; 180px away: 0",
+    "basis": "STAGE_2F_REPORT.md \u00a724",
+    "interpretation": "Historical fixture can kill its nearby subject before the breath event. Current close/far sample still 0/0.",
+    "replicated": true
+  },
+  {
+    "id": "P08",
+    "name": "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+    "classification": "UNKNOWN / NEEDS INVESTIGATION",
+    "observed": "3/6: it searched the last known spot, gave up after ~15s and its memory of the player had decayed (conf 0.00 at 150 s, or just before a roaming hound came across the crouched player again: 36 s)",
+    "basis": "No specific historical explanation established",
+    "interpretation": "P08 is reproduced on pristine v23.3.6 and the selected rerun (3/6), so not introduced by Stage A. Its exact mismatch with the old search/decay fixture needs separate investigation.",
+    "replicated": true
+  },
+  {
+    "id": "H07",
+    "name": "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "reached 12/13: ROAMING, CURIOUS, HUNTING, EXCITED, DORMANT, PLAYING, FEEDING, SEARCHING, FRUSTRATED, STALKING, RETREATING, CAUTIOUS   MISSING: ALERT",
+    "basis": "STAGE_2F_REPORT.md \u00a724",
+    "interpretation": "Anonymous investigation changes named-state coverage; current sample misses ALERT (12/13).",
+    "replicated": true
+  },
+  {
+    "id": "SM01",
+    "name": "SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "light on, in its view, standing: chased 6/8 (wind-up before the chase avg 4.0 s); light off, same spot: chased 0/8, struck 0, perceived at all 6/8 (not perceived at 494 px, 781 px), watched 5/6 of those",
+    "basis": "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+    "interpretation": "Retained 6/8 lit chase sample vs 80% gate; dark sample remains 0/8 chased.",
+    "replicated": true
+  },
+  {
+    "id": "NV09",
+    "name": "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "10 chases: caught 100% (avg 8.7 s); bonks 0; contact ticks avg 5.7 (baseline 11.6); new routes per s avg 0.31, worst 1.33 (the build before Part 1B, same chases, counting every A* call: avg 1.90, worst 2.82)",
+    "basis": "STAGE_2F_REPORT.md \u00a724",
+    "interpretation": "All 10 runners captured; 5.7 average contact ticks exceeds old gate. No navigation retune.",
+    "replicated": true
+  },
+  {
+    "id": "C1",
+    "name": "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "18 runs: still hunting/searching with memory 3 s after losing sight 0/18 (conf avg 0.84; states CURIOUS)",
+    "basis": "PART_2_HQA_AI01_SEARCH_REPORT.md; STAGE_2F_REPORT.md \u00a724",
+    "interpretation": "Old HUNTING/SEARCHING state expectation; observed CURIOUS with remembered confidence .84.",
+    "replicated": true
+  },
+  {
+    "id": "C4",
+    "name": "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "1 runs where the prey had slipped away quietly (the hound searching within 750 px) and then broke into a run; the hound heard the run in 1; of those it was hunting again within 1 s of the first loud step it heard in 0% (avg 0.00 s; from the prey's first step: 1.68 s); not heard (walls / distance) 0",
+    "basis": "STAGE_2F_REPORT.md \u00a724",
+    "interpretation": "Old named reacquisition from an anonymous emitter is incompatible with current attribution semantics.",
+    "replicated": true
+  },
+  {
+    "id": "C5",
+    "name": "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "a hound that heard the prey ~520 px away in the dark: slipping out of sight and walking on quietly escaped 0% (3 runs); crouching still right where it lost sight escaped 0% - silence is a real chance, not a guarantee",
+    "basis": "PART_2_HQA_AI01_SEARCH_REPORT.md",
+    "interpretation": "Retained legacy escape-rate gate, only 3 eligible starts; no human fairness inference.",
+    "replicated": true
+  },
+  {
+    "id": "C18",
+    "name": "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "0 escapes: memory at the end ; reasons:",
+    "basis": "PART_2_HQA_AI01_SEARCH_REPORT.md",
+    "interpretation": "Retained legacy search eligibility/decay fixture; current run has no eligible escapes.",
+    "replicated": true
+  },
+  {
+    "id": "F22",
+    "name": "2F F22 species physical/canon parameter preservation",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "EXCEPTION AssertionError [ERR_ASSERTION]: mp.js | + actual - expected |  | + '8bcbfb0357e4a0a1d53b73c693ba6281766ae49488c88efacf6986b6df6c6e61'",
+    "basis": "PART_2_HQA_HOTFIX_REPORT.md; PART_2_ENTITY_LOOK_REPORT.md",
+    "interpretation": "Old exact-source preservation hash intentionally predates locked HQA changes; mp.js hash differs from the old 2F manifest.",
+    "replicated": true
+  },
+  {
+    "id": "L5c",
+    "classification": "PRE-EXISTING FLAKY",
+    "observed": "Original live.js 16/17, immediate observer dead flag d=0; permitted local-network rerun 17/17.",
+    "basis": "dev/tests/live.js L5b/L5c reads B.last immediately after A sees death, without waiting for matching observer snapshot. L5d replay/corpse passed both runs.",
+    "interpretation": "Observed timing-sensitive baseline check. No persistent product failure reproduced; not classified as Node-specific or a Stage A regression."
+  },
+  {
+    "id": "B-01",
+    "classification": "PRE-EXISTING EXPECTED",
+    "observed": "/ 200; /move.js 200; /camera_policy.js 404; /timing_policy.js 404",
+    "basis": "Real server probe and unchanged server.js SERVE",
+    "interpretation": "Known product integration defect deliberately preserved for Stage B. Expected here means frozen baseline, not correct behavior."
+  },
+  {
+    "id": "Browser",
+    "classification": "ENVIRONMENTAL / BLOCKED",
+    "observed": "No Python Playwright; no Chromium executable; no browser session used.",
+    "basis": "results/browser-environment.json",
+    "interpretation": "Admin T8 is historical reported context only. No current browser result, no visual parity verdict."
+  },
+  {
+    "id": "Sandbox",
+    "classification": "ENVIRONMENTAL / BLOCKED",
+    "observed": "One live retry hit listen EPERM (0/2 harness crash); subprocess piped reads also hit EPERM.",
+    "basis": "results/recheck/live.log; permitted retries completed.",
+    "interpretation": "Do not count environment-induced L1/crash as product failure. Test tool now checks spawn error as well as status."
+  }
+]

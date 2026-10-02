@@ -1,0 +1,14 @@
+PASS 227 immutable original files
+{"result":"PASS","cases":23,"schema":"SCHEMA VALID","physics":"NOT IMPLEMENTED BY DESIGN"}
+PASS data schema and identity negative controls
+PASS redirect and new JS syntax
+PASS Z01–Z32 covered, future entry points refuse pass
+PASS trace hashes and bounded nonempty records
+PASS diff helper finds first divergent tick and field
+CAPTURE motor
+CAPTURE ai
+CAPTURE death
+CAPTURE navigation
+CAPTURE network
+PASS fresh-process exact trace reproduction
+{"result":"PASS","checks":7,"traces":46,"records":35098,"originalFilesUnchanged":227,"futurePhysics":"NOT IMPLEMENTED BY DESIGN","legacySuiteFailures":"see baseline ledger","browser":"BLOCKED"}

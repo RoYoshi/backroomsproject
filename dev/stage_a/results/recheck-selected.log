@@ -1,0 +1,25 @@
+FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [980ms]
+       run 1687px  walk 1689px  crouch 1671px
+FAIL P07 exhausted breathing is audible only close by  [43ms]
+       900px away: 0 sounds; 180px away: 0
+FAIL P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming  [821ms]
+       3/6: it searched the last known spot, gave up after ~15s and its memory of the player had decayed (conf 0.00 at 150 s, or just before a roaming hound came across the crouched player again: 36 s)
+FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [6766ms]
+       reached 12/13: ROAMING, CURIOUS, HUNTING, EXCITED, DORMANT, PLAYING, FEEDING, SEARCHING, FRUSTRATED, STALKING, RETREATING, CAUTIOUS   MISSING: ALERT
+FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [733ms]
+       light on, in its view, standing: chased 6/8 (wind-up before the chase avg 4.0 s); light off, same spot: chased 0/8, struck 0, perceived at all 6/8 (not perceived at 494 px, 781 px), watched 5/6 of those
+FAIL NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm  [542ms]
+       10 chases: caught 100% (avg 8.7 s); bonks 0; contact ticks avg 5.7 (baseline 11.6); new routes per s avg 0.31, worst 1.33 (the build before Part 1B, same chases, counting every A* call: avg 1.90, worst 2.82)
+FAIL C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it  [3434ms]
+       18 runs: still hunting/searching with memory 3 s after losing sight 0/18 (conf avg 0.84; states CURIOUS)
+FAIL C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)  [5818ms]
+       1 runs where the prey had slipped away quietly (the hound searching within 750 px) and then broke into a run; the hound heard the run in 1; of those it was hunting again within 1 s of the first loud step it heard in 0% (avg 0.00 s; from the prey's first step: 1.68 s); not heard (walls / distance) 0
+FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you  [1122ms]
+       a hound that heard the prey ~520 px away in the dark: slipping out of sight and walking on quietly escaped 0% (3 runs); crouching still right where it lost sight escaped 0% - silence is a real chance, not a guarantee
+FAIL C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out  [1667ms]
+       0 escapes: memory at the end ; reasons: 
+FAIL 2F F22 species physical/canon parameter preservation  [6ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: mp.js | + actual - expected |  | + '8bcbfb0357e4a0a1d53b73c693ba6281766ae49488c88efacf6986b6df6c6e61'
+
+0/11 passed
+FAILED: P01 noticing distance: run > walk > crouch (resting hound, corridor); P07 exhausted breathing is audible only close by; P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming; H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes); SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased; NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm; C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it; C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait); C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you; C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out; 2F F22 species physical/canon parameter preservation

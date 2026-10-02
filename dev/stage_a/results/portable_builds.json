@@ -1,0 +1,29 @@
+[
+  {
+    "command": "bash dev/build_ai.sh",
+    "exit": 0,
+    "target": "ai.js",
+    "before": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731",
+    "after": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731",
+    "identical": true,
+    "output": "206697 /workspace/scratch/cdfe50b4dc2b/stageA/portable build with spaces/thefarbackrooms-level0/ai.js\n"
+  },
+  {
+    "command": "bash dev/build_sim.sh",
+    "exit": 0,
+    "target": "sim.js",
+    "before": "1c96653dbf51c535c05fe8ba2536c567f5fc9881c2777a5a6ef5e6307867f321",
+    "after": "1c96653dbf51c535c05fe8ba2536c567f5fc9881c2777a5a6ef5e6307867f321",
+    "identical": true,
+    "output": "28580 /workspace/scratch/cdfe50b4dc2b/stageA/portable build with spaces/thefarbackrooms-level0/sim.js\n"
+  },
+  {
+    "command": "bash dev/build_ents.sh",
+    "exit": 0,
+    "target": "ents.js",
+    "before": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28",
+    "after": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28",
+    "identical": true,
+    "output": "75640 /workspace/scratch/cdfe50b4dc2b/stageA/portable build with spaces/thefarbackrooms-level0/ents.js\n"
+  }
+]

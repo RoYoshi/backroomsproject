@@ -1,0 +1,16 @@
+{
+  "result": "BLOCKED",
+  "playwrightPythonInstalled": false,
+  "chromiumExecutable": null,
+  "browserUsed": false,
+  "suites": [
+    "admin_test.py",
+    "lifecycle_mp.py",
+    "move_test.py",
+    "play_mp.py",
+    "fallback_parity.py",
+    "ir_test.py",
+    "light_test.py"
+  ],
+  "note": "Local Playwright/Chromium unavailable; no browser or human gameplay acceptance claimed."
+}

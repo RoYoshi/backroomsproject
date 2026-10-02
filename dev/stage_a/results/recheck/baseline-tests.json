@@ -1,0 +1,29 @@
+[
+  {
+    "id": "live",
+    "command": "node dev/tests/live.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "BLOCKED",
+    "exitCode": 1,
+    "durationSeconds": 5.33,
+    "counts": {
+      "passed": 0,
+      "total": 2,
+      "source": "suite summary"
+    },
+    "firstFailure": "FAIL L1 the browser can load the game files but never ai.js / sim.js / server.js",
+    "failureLines": [
+      "FAIL L1 the browser can load the game files but never ai.js / sim.js / server.js",
+      "FAIL live test crashed"
+    ],
+    "limitation": "Sandbox EPERM binding local socket. 0/2 is a test-harness crash, not product acceptance count. Successful local-network retry is recorded separately.",
+    "log": "live.log",
+    "performance": [],
+    "reportedSuiteResult": "FAIL"
+  }
+]

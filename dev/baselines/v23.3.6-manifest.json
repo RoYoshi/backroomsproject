@@ -1,0 +1,1833 @@
+{
+  "schemaVersion": 1,
+  "baseline": "v23.3.6-hqa-search-polish",
+  "sourceZipName": "thefarbackrooms-level0-part2-v23.3.6-hqa-search-polish.zip",
+  "sourceZipSha256": "b0f7c297fcd58c4e12a5666dcdfbd5624120178aaf1515080e219584d3947e60",
+  "fileCount": 227,
+  "runtime": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "os": "Linux",
+    "release": "6.18.44",
+    "machine": "x86_64",
+    "python": "3.12.14"
+  },
+  "files": [
+    {
+      "path": "PART_2_AI01_CHANGED_FILES.txt",
+      "bytes": 580,
+      "sha256": "284338db34b6bb338ef01eb75f8e66bd5862b93d5abe0370ccb71825ed50ec8e",
+      "classification": "documentation",
+      "zipUnixMode": "0o644",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_AI02_CHANGED_FILES.txt",
+      "bytes": 206,
+      "sha256": "c5432524469e30693ed1f2f1902c09adbbf8661d67c0735a51e860ae062c155c",
+      "classification": "documentation",
+      "zipUnixMode": "0o644",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_CAMERA_FIX.md",
+      "bytes": 1378,
+      "sha256": "2e13703530d813a7fda52471f4c0fc08b9f379e7a3d63a5cc528ed8faace19a3",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_ENTITY_LOOK_REPORT.md",
+      "bytes": 5024,
+      "sha256": "bacb56f5be33e48cad2e734829c94d36e81dc00ce42d30a6ca98f40d31410455",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_FPS_CHANGED_FILES.txt",
+      "bytes": 640,
+      "sha256": "ef53ae03a9779d9c67af2f72674ca6e808ce4e9ea0bea66bc1ac99e875dc4744",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_FPS_EQUALITY.md",
+      "bytes": 4618,
+      "sha256": "39c841892d01643264171322c625612f2609f7d5776a675cfa91f75d1fb4492e",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_HQA_AI01_SEARCH_REPORT.md",
+      "bytes": 4007,
+      "sha256": "6d01cc611112a3f2e51861d34f2fdb83edaad7eae6da9e294b72ea2b0e5b4f41",
+      "classification": "documentation",
+      "zipUnixMode": "0o644",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+      "bytes": 2578,
+      "sha256": "d81692bca3fd82c3d2b7335d413a577a8a1c0271a825f1b599a0e1d371fbe153",
+      "classification": "documentation",
+      "zipUnixMode": "0o644",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_HQA_CHANGED_FILES.txt",
+      "bytes": 475,
+      "sha256": "cfedaab1ac4dfab6e6987ae6387b0b96db2674bfdcee32e609b9f5385d149438",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_HQA_HOTFIX_REPORT.md",
+      "bytes": 6690,
+      "sha256": "89ceac9896904f957b233a6cc67bf659bda51723236369b43c0b570ebe5adf78",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_HQA_TEST_SUMMARY.md",
+      "bytes": 2758,
+      "sha256": "006430aaf4c98e21f845bf11e2c86fe0e34a7b439d4e13009ca200196a6c870c",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "PART_2_HUMAN_QA.md",
+      "bytes": 5645,
+      "sha256": "a76544b78831b99950947d35de37f44dc626e149c6a94db75968dd81da08acbe",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "README.md",
+      "bytes": 69388,
+      "sha256": "e6ff93c6ae573fc2bdfeb5bbc2fddadd0af7aa5a3e0ff552100833abd906d491",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "STAGE_2E_REPORT.md",
+      "bytes": 22674,
+      "sha256": "cf3589bb49cbd12b513d12a4069290a3a65c1f09dbe3dc0fd456b33d9db51d67",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "STAGE_2F_REPORT.md",
+      "bytes": 24534,
+      "sha256": "8b9051ffca1e06b20831c3c7b8bf2b4427370223ad09b72780185265d4533be3",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "STAGE_2F_TEST_SUMMARY.md",
+      "bytes": 1888,
+      "sha256": "6c872707aeac89516935ad7493323669972f1ff2a61b9926f3324bf9765b2879",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "ai.js",
+      "bytes": 206697,
+      "sha256": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731",
+      "classification": "generated-runtime",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/BufferResource-B-thlpip.js",
+      "bytes": 11068,
+      "sha256": "56f34780fd104d1cb11da624c9fab954f9de88802590170e4522281609164990",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/Cache-DDo62lBW.js",
+      "bytes": 1100,
+      "sha256": "94f3d177d09bfecefa8b80e646a55ff894635dd1723d6e7128d802477f3bae3a",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/CanvasPool-DecUtJxW.js",
+      "bytes": 68480,
+      "sha256": "45335d161156296b274b89eb85b9040a0d08b1870125bfcc5e7100bb937589f1",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/Filter-DzecrWg_.js",
+      "bytes": 42012,
+      "sha256": "de855f231760116676843943157cf0b52bf893b5f0781f8d34fc94352e1c3fbd",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/GCManagedHash-Bz2ZMBJN.js",
+      "bytes": 19356,
+      "sha256": "b634a4602cfa70019626a0e83942f76dfbe49feadf28825410f0b96cb1849ef6",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/GraphicsContext-vm7TDg_M.js",
+      "bytes": 61700,
+      "sha256": "681ef439c93da35418927d0ff6ba84e4380b1656701756f973ef3df4bdd5aebc",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/RenderTargetSystem-CgUxHIsn.js",
+      "bytes": 58779,
+      "sha256": "cc26f4d020bdf55a0346f21b417048a129c071b2b4625463bb269eb899443aa2",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/browserAll-B-iwy0YI.js",
+      "bytes": 42676,
+      "sha256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/canvasUtils-CxYPZET9.js",
+      "bytes": 6054,
+      "sha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/carpet.png",
+      "bytes": 463327,
+      "sha256": "7d72b780d2c67e205429ac4b1f5f1c9d5feeea56b4dd1ec59e7a0ad4c0d77dab",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/getTextureBatchBindGroup-DBCrgHVb.js",
+      "bytes": 344,
+      "sha256": "f97cfacaed002298725cd05c62cb5668989473d0bfe5850c4c36dbd773b59766",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/index-D7hdwmUU.css",
+      "bytes": 27218,
+      "sha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/index-DKbV5Nv9.js",
+      "bytes": 329567,
+      "sha256": "f9b7d1a525b9b2b9e80d6152d2e45e8f4f2305364a2bcdf11754f8da8dded06f",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "assets/init-Cn1_BCi0.js",
+      "bytes": 15753,
+      "sha256": "c6fb810d1c6d8674992f4e85779800fe63394b29eb0dcea71206fc7495714037",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "camcorder.js",
+      "bytes": 28256,
+      "sha256": "f791fe8c190825c96b2e4b4d62c5f7a77a50ffe0b4363a867cbb1bd86c88f294",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "camera_policy.js",
+      "bytes": 1976,
+      "sha256": "4572e5cac1ba29c4398d71b30133ac677cc961290d28e875a68da0be48c3cf88",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "death_srv.js",
+      "bytes": 2891,
+      "sha256": "a930d71cf4dced9e269ca4b14390398e2ea726646ef9a24116736a0875f5df90",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/HOUND_CANON_LOCK_STAGE_2E.md",
+      "bytes": 15459,
+      "sha256": "969a3e85a8fa193ac79796d5cedfb2f0739fbc90fc2d3787f47a7bc0fdbd368c",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/README.md",
+      "bytes": 18823,
+      "sha256": "680a9b5ec7059b6c27b4827fddf4eee1dcc910e9a88eb301f9aee4b110169f8f",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/SMILER_CANON_LOCK_STAGE_2F.md",
+      "bytes": 13342,
+      "sha256": "72090592555210c026d3087bf65d32c1010a8c007ba0cce7b397c1c79c1c0ce1",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/STAGE_2E_HUMAN_QA.md",
+      "bytes": 6060,
+      "sha256": "da70d83292dbf13b2a6edf31ef043e5c59e06cb60b2ba0147b740f7a5c168739",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/STAGE_2E_PRESERVATION.json",
+      "bytes": 6578,
+      "sha256": "6856690a846cfecf1787a82f60d678c5b336aa0f2e8253d246d3069352da7de4",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/STAGE_2F_DESIGN.md",
+      "bytes": 3215,
+      "sha256": "13d5fe3f07870ccf98ea6280f21b231af64e895a70d91294c21916e9a16a0881",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/STAGE_2F_IMPLEMENTATION_MAP.md",
+      "bytes": 3587,
+      "sha256": "f6d6674047a428670981e472d5945ba93430a3669415d37d2e3a240a25a75b78",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/STAGE_2F_PRESERVATION.json",
+      "bytes": 3927,
+      "sha256": "5e6499c5805dc7e82f02ac0935ebb8cabc37532915a95a32f4770a687320f0cb",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/STAGE_2F_SPECIFICATION.txt",
+      "bytes": 32986,
+      "sha256": "395156ec0fb96e563019ab15551e5ea0ad75b89c9451f07f6f47a046c59cffd2",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/00_head.js",
+      "bytes": 3745,
+      "sha256": "8189a863d88ed64a2ae1928b111772456b49f833dc4a55d2677736c318c9c720",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/10_geo.js",
+      "bytes": 9699,
+      "sha256": "2881e9871940689f10f6790facc08a50ed24b04c3eddb7e2d56152f3bf7ebf48",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/20_senses.js",
+      "bytes": 18510,
+      "sha256": "63ea13d5517ba5c3d10d9e44060be1cb287b9a87d7f7566857873ffcbb15578a",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/22_intelligence.js",
+      "bytes": 9278,
+      "sha256": "f68977416308184867c5d237e83c6e92ce940d2760e8d7bd6679b430bbd17ffe",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/25_light.js",
+      "bytes": 9280,
+      "sha256": "f2d6503f13be71cece046ecb2eccb1822c284b3930e18e7412e52c73ca11d0db",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/30_entity.js",
+      "bytes": 22320,
+      "sha256": "1d1d2d7e64d6e81e56750051f302cba230528ccdb220a4febadcbc4b1c9b575d",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/40_capture.js",
+      "bytes": 13769,
+      "sha256": "823730e8743732d5a91788667325e3036c14249df3df88a1352b7ae1bb7f3166",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/50_hound.js",
+      "bytes": 57440,
+      "sha256": "d3c870a7e472af75ba8baf0151ca3ebda58ed3c09cccd73c5411e53a3e06d317",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/60_smiler.js",
+      "bytes": 36300,
+      "sha256": "b94ba4da4dd39e3605629c9e266fc5f531250e0f5061445d66d4646cc2a3a3a2",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ai_src/90_engine.js",
+      "bytes": 26356,
+      "sha256": "4cfe2d778fea1eabb4693927ade17239726458171a073bb5e10da51507adabaf",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/build_ai.sh",
+      "bytes": 499,
+      "sha256": "43e18a570273af5f6b089cb19e7332b7a684c5e66ef5d80be4a897c637a3c41f",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": true
+    },
+    {
+      "path": "dev/build_ents.sh",
+      "bytes": 372,
+      "sha256": "9cff0597984088403fb4b1e0101d93b2a50c9276ec580ddf914425bb6e56ff95",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": true
+    },
+    {
+      "path": "dev/build_sim.sh",
+      "bytes": 820,
+      "sha256": "9ce5f797f96728cc452b9e7b91fdcc98e77066a75db9bb5ff4863bbae6569abc",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": true
+    },
+    {
+      "path": "dev/cand.js",
+      "bytes": 1512,
+      "sha256": "a7798c1824867e30ab773e1cdf32124f64a1e3cca2ffb61b099d5a888dab343d",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/chk_world.js",
+      "bytes": 1277,
+      "sha256": "5c9256329f36c28c7247430d2b960d1b4f6ed8cecb4ac0c09da631504d689839",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ents_src/00_head.js",
+      "bytes": 3668,
+      "sha256": "265efc48836703b882d80782de853486f61c48edf4d16a59ef5b559eec8f5dc3",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ents_src/10_hound.js",
+      "bytes": 18810,
+      "sha256": "ba770f68c8a9036e7b7097933942da0120f825e8031ff65a127e2726bf426a45",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ents_src/20_smiler.js",
+      "bytes": 9660,
+      "sha256": "be9d7261e3bcb947bfbc9aed91b03d607459d6ca1d6eaeb69747b1fdb210554e",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ents_src/25_death.js",
+      "bytes": 5309,
+      "sha256": "fdf85ec8f4155b8a0a9547db1a2343ac5fb39bfcffec20f4dc224a2dcfa51e04",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ents_src/30_audio.js",
+      "bytes": 10205,
+      "sha256": "b234e33a4d7fced779c61840f101807350aa67d1c0491be39041fbbaae53a5a5",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/ents_src/40_debug.js",
+      "bytes": 27988,
+      "sha256": "d06bc41e5aed198a76a4bfe1a4899a09e78f1cb79b131c716a685fd2a98d73a4",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/harness.js",
+      "bytes": 6658,
+      "sha256": "59f774bbc5bbf73cba1ea598a6e218933bbb35ba9d3e822d8dab67566426a6df",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/map.png",
+      "bytes": 4519,
+      "sha256": "ea38ecf5667a631a07e59019585a39a817c7dbb937106bc311c49ca32d4ec4e1",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/map.txt",
+      "bytes": 6984,
+      "sha256": "b96f876ec76ccccf9ee9b25b4124375544357369b1396f7f1c4d7511bb6f377c",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/move_model.js",
+      "bytes": 2867,
+      "sha256": "3bdb6e74bdd346d3113b88c506ed24bba19c33012ef88cdca07366c0b20711ac",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/paths.js",
+      "bytes": 312,
+      "sha256": "c03972cd22fe66e62b0219f714526f5992d94c21542dc8a0d66df81d01c241ac",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/scenarios_hound.js",
+      "bytes": 3532,
+      "sha256": "67c3206e9b7089c8a460ae1e686130c9fc7bd54ca40bb09e21af06544f5705d9",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/sim_geo.js",
+      "bytes": 26214,
+      "sha256": "dd708a821dcb0b6556bf07acdea2f7ed1fb3446dbbce1068215925a403ae7084",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/sim_glue.js",
+      "bytes": 20920,
+      "sha256": "2c829640a80e9950e55f8ea37b3ed64d4e37dfaa5da9c29bebec85a71b699f13",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/sim_head.js",
+      "bytes": 7619,
+      "sha256": "7aa1c0dc106205f604d07e99fe4ecef53ee44afa3449947c6faedf634458019f",
+      "classification": "maintained-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/audit_net.log",
+      "bytes": 3359,
+      "sha256": "183cbc297cbd7cd9d493d72f501db1d33a2e891c8adf9c0e91cd981403d8091c",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/audit_net2-full.log",
+      "bytes": 4075,
+      "sha256": "6cc35aa178253c54680a95a7a48764c96b3f0067c0531d36052ba2faf652abf5",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/escape-bench.log",
+      "bytes": 1157,
+      "sha256": "2742d47d4835a5a869899561ed08c83464f096e9ba7823f80ec00965f43b50ff",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/interpolation.log",
+      "bytes": 760,
+      "sha256": "692a7316b5e5f844df612747969d2463f2c358ffac20b2644ef26f3fe59f232f",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/ir_net.log",
+      "bytes": 506,
+      "sha256": "a8502087283567f38058e0a1777669b67d3ecf714a2d92e04e3c75fb591a7fb9",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/legacy-baseline-same-fixtures.log",
+      "bytes": 1412,
+      "sha256": "3d626b2d237bc9ac6b9f519e27fabed217136f4f08782bd5e60b17923603967d",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/live.log",
+      "bytes": 2877,
+      "sha256": "8b7a36620d14c2333a0554b1783366d24cbc4a9d0078f7562f641e8d6613dbfa",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/live_chase.log",
+      "bytes": 324,
+      "sha256": "adef3c0e3fc05086eae4b572da25f61b55bace936072ad2b341fa8d83e258a9e",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/navigation-bench.log",
+      "bytes": 1122,
+      "sha256": "d0f691e59e19dd0720644ed89895ee7f849d903fcada7042a858e3e4150b22ae",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/performance-final.log",
+      "bytes": 2699,
+      "sha256": "c80e62ba4567fb966d128e140bf7415c82ca9ce6f84d617d575c19d06a58f363",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/performance-light.log",
+      "bytes": 544,
+      "sha256": "8930c612b90190953711f9f86c0b9e88824a4c1d13bbf0c42e96b457dad5a558",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/performance-smiler.log",
+      "bytes": 1245,
+      "sha256": "d9a9820cc34985b595958f63c5c56bf7587c559c05b1a178f78380c44af2ac03",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/physics.log",
+      "bytes": 3425,
+      "sha256": "ad9f78f9061db09486f255554eba40999592e074c44b1c0515bb629b86af7c9b",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/portable-build.log",
+      "bytes": 412,
+      "sha256": "79bafd832ed65156ab548694855f553c3aefd2b8a9ea9a1ce015d15b7772bd88",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/portable-hound.log",
+      "bytes": 2054,
+      "sha256": "997afbdea44b35c6a3273340cb8291effabca7350907a555d5c877f00f01ae81",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/portable-interpolation.log",
+      "bytes": 760,
+      "sha256": "692a7316b5e5f844df612747969d2463f2c358ffac20b2644ef26f3fe59f232f",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/portable-physics.log",
+      "bytes": 3425,
+      "sha256": "ad9f78f9061db09486f255554eba40999592e074c44b1c0515bb629b86af7c9b",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/preservation.log",
+      "bytes": 193,
+      "sha256": "065b29077dd26e105bd6e73dd932da363a38415ac8158bcb5cf53ba114843678",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/scenario-results.json",
+      "bytes": 28161,
+      "sha256": "8dbe5e97c4b5bd745f802fa0bac3c451c90ec1b8b9eddc30a3d0dea0750bc834",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/scenarios-final.log",
+      "bytes": 35009,
+      "sha256": "40cde556b5cb3bd5607304f7ab5dab1129712db0a201ff61721b1a35420fd32f",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/smiler-debug-gate.log",
+      "bytes": 281,
+      "sha256": "c077a49537e360181401154d52522ef390f3cec62e6e4724c95ab9332ff3499d",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2e-results/smiler-parity.log",
+      "bytes": 416,
+      "sha256": "46d7c5d5239cb40dd39ef46f7376d60edb14ab33cbc0c6a8b373f19c03d09517",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/LOG_INDEX.md",
+      "bytes": 2001,
+      "sha256": "967eef5979ceba48d0cb778308f686d284f34d545826cb8223e0e31e8d8ed2e1",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/audit-net.log",
+      "bytes": 3359,
+      "sha256": "572ce2e2e4e035fa73c558c9caf9bebd9e6b0d770233c4ddd78e181cf7635455",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/audit-net2.log",
+      "bytes": 4073,
+      "sha256": "27b8b338be621226c67d79d4bcc22fecb06360f55bb58ff050d74997dd61390e",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/baseline-scenarios.log",
+      "bytes": 34886,
+      "sha256": "725501e65131d24c783c4bdcb759027d5652d0c18900b33dcc2abaeee1bf5527",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/breath-isolated.log",
+      "bytes": 194,
+      "sha256": "93878aefe766da197b58193f918356b31731dffad1a56afe95a9904adbd5f21e",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/browser-status.log",
+      "bytes": 429,
+      "sha256": "27e5299c4c7ca735e90966fb3bbf3762bb0cf36871acedaeb6cef3da29a9d525",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/checkpoint-build.json",
+      "bytes": 1127,
+      "sha256": "dc58fbfa3ebe768be93890c55bc33016de84f2cd900f7fb0a0d6eb683b82a025",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/checkpoint-stop.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/controlled-parity-final.log",
+      "bytes": 1112,
+      "sha256": "364c1ac6d610a7c3e5beb2a401db25fc103c2f3929f3a90ef43862b9b814c3fc",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/controlled-parity-release.log",
+      "bytes": 1112,
+      "sha256": "364c1ac6d610a7c3e5beb2a401db25fc103c2f3929f3a90ef43862b9b814c3fc",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/controlled-parity-rerun.log",
+      "bytes": 859,
+      "sha256": "1212cbeba82ae36c130dbed599c3efc6763a2014433352d80bf0192a3fa04860",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/controlled-parity.log",
+      "bytes": 859,
+      "sha256": "1212cbeba82ae36c130dbed599c3efc6763a2014433352d80bf0192a3fa04860",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/death-debug-cleanup.log",
+      "bytes": 115,
+      "sha256": "f732dd758c7a23a9c65332ff13930c79cdde41bae4ed399b6fa4ff8a7de2be94",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/first-2e-ir.log",
+      "bytes": 3366,
+      "sha256": "0f7e66ec4867a3b88e967627063280013f23dcb6b07047b3a6219584037eb3b7",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/habit-real.log",
+      "bytes": 434,
+      "sha256": "e8d2d9a962760b47d01e5c2f168c42145718a2c6d98d90bfc2059cff59edb495",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/hound-final.log",
+      "bytes": 2076,
+      "sha256": "c249780d514654b956f0f3452324936f8bc38ec29db277e4654556ab1551a0f1",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/interpolation.log",
+      "bytes": 760,
+      "sha256": "692a7316b5e5f844df612747969d2463f2c358ffac20b2644ef26f3fe59f232f",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/ir-net.log",
+      "bytes": 506,
+      "sha256": "a8502087283567f38058e0a1777669b67d3ecf714a2d92e04e3c75fb591a7fb9",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/live.log",
+      "bytes": 2873,
+      "sha256": "9a8b19a8e743b165ec7278033a4ddd5363f37c76f1a9b0d847f2b1df89e3c104",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/movement-parity-final.log",
+      "bytes": 433,
+      "sha256": "0ec11cc3b187574da186c70a53e97856e27de7621c487b6947c0abbdd326a761",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/movement-parity.log",
+      "bytes": 1332,
+      "sha256": "793bcd5d4b9b110905a5914b26cea583f1aca315a7fcc88c25b7d259b5fc7f98",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/nav-bench.log",
+      "bytes": 1118,
+      "sha256": "7b1b1ae89954ab866ffee5b5672bc62a39b20b5bce15dd0afe8322ae1c88d5ed",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/perf-habits-complete.log",
+      "bytes": 739,
+      "sha256": "669821c7e35dc2565c319783a0568902f033a5bf88069f517f1a74cde598ede8",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/perf-hound.log",
+      "bytes": 2699,
+      "sha256": "b42be84840b68d084218f7e7628f8db6d16342fea10096621ef4af8eeb8d684a",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/perf-light.log",
+      "bytes": 543,
+      "sha256": "34b84b8d17abcc9131de5b2284ab6495d0bd95a0400fcee9f216323518fa321c",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/perf-shared-release.log",
+      "bytes": 6776,
+      "sha256": "66a921b797c0b40392c6316fb59a5c3c0a337ab758696f81711a3001da7db475",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/perf-shared.log",
+      "bytes": 6776,
+      "sha256": "fad64bffd363051b46839e58542a1d57482dbfc506aa0a3fe061be080884f9be",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/perf-smiler.log",
+      "bytes": 1244,
+      "sha256": "72f6a16a3dc77b43b1f74eef3a40e171173574d244d5478bbc1605bf6b0a175e",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/physics.log",
+      "bytes": 3425,
+      "sha256": "ad9f78f9061db09486f255554eba40999592e074c44b1c0515bb629b86af7c9b",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/portable-build-ai.log",
+      "bytes": 100,
+      "sha256": "ac92233eb68d86e4e91d3cac45b66c548029cc9623c3534e87a843b8b0a6420a",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/portable-build-ents.log",
+      "bytes": 101,
+      "sha256": "4434c0f17f0536d47292a3e940eb7c9ef6f8b44c3664fb0eea8df8b47315565c",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/portable-build-sim.log",
+      "bytes": 100,
+      "sha256": "dd9a03267fb0fd5958dfdbbb6fa184dbd7762092286220fff030c351e47da876",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/portable-full-suite.log",
+      "bytes": 38859,
+      "sha256": "1a01c8671d901235cab7ea69671be5987ed4dccab834607d46252c473be54eb5",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/portable-results.json",
+      "bytes": 970,
+      "sha256": "56a4a7af837f551d3f673bb775c6564fc43ac7d59201b7058a0e0645fc558ae3",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/regression-first.log",
+      "bytes": 35908,
+      "sha256": "ce560dc2e698c385e96c37a0695165153f434ee7e3d5a425db8de896872538b7",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/release-focused.log",
+      "bytes": 8598,
+      "sha256": "c8ec8a86e8ed10a8d3337dd445ee18bd80b7f244d89114c113eed8006527f522",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/rng-counterfactual-final.log",
+      "bytes": 296,
+      "sha256": "729296c2a552ae17e90b00cfbb8e93902594756fe9a1c2642574fcf60c8f9476",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/rng-counterfactual-observations.log",
+      "bytes": 3502,
+      "sha256": "ebb8ea2c25f07936281e10a8b6b1b242380153d575da43d95ca112bb0ce6a3ab",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/rng-counterfactual.log",
+      "bytes": 5562,
+      "sha256": "acffab14085a14975f47009a2c0e44f487097f1ebf7d01bd27a9e0616224a2d8",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/scenarios-final.log",
+      "bytes": 35479,
+      "sha256": "51d078c8392cfe7c1755a15f8233a9adc7cd30229f8ed362288d535c2ae071fb",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/shared-delivery.log",
+      "bytes": 3035,
+      "sha256": "3e8fb1978066ccf973a26c784c0cb31197d80267a09624b2a08405bc67011bae",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/shared-final.log",
+      "bytes": 2870,
+      "sha256": "7ebccbb0789a76dcafa4de46b52646b4894be0dc29f2ac1c016634ccba0f5939",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/shared-first.log",
+      "bytes": 3889,
+      "sha256": "b7e02e40a2c3ca579165c47b6566164fc6bf5afffdff7d5c9141af27c16e59dd",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/shared-release-final.log",
+      "bytes": 3035,
+      "sha256": "e87520df0602f97ded9b3956398c1fbc0114b0f64f2b72cea54c1fbf739711e8",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/shared-release.log",
+      "bytes": 3024,
+      "sha256": "c9c732905d32f994e9fbbc560caccb1a0e6e03477412f6ed0f7285512520c364",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/shared-resume.log",
+      "bytes": 2997,
+      "sha256": "349f6c370e6667298a5819a002edf611d221c7c3d1dc0954d61f4966d638949c",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/shared-second.log",
+      "bytes": 3099,
+      "sha256": "34c81ca0ca8862c64ec7d6b23ad9638700a492ccbcefcd41ae19f533ad9ef819",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/stage2f-results/shared-third.log",
+      "bytes": 3017,
+      "sha256": "5c559e17423cd8747ec7b1a4f69c070a7d90bba2f60ad827997a6af95ea36141",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/admin_test.py",
+      "bytes": 17965,
+      "sha256": "eba36101272118a5172feb89290b184f948acecbff5297b21aa03059db6cc1ed",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/audio_test.py",
+      "bytes": 5982,
+      "sha256": "379e9c19e6b7e633092c1db27e8643ca957447e44342e390a00d52514a83634d",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/audit_net.js",
+      "bytes": 17872,
+      "sha256": "b7f9431a67cc7da791925493176e8a3f555837fe40d84ebd01cb6557828293b0",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/audit_net2.js",
+      "bytes": 23050,
+      "sha256": "375ac3a2d18eadee829173798837167a37815b4bdd204a55c3588dccbb91c82d",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/chase_mp.py",
+      "bytes": 3914,
+      "sha256": "ee6bec25939e9fc545d5e1ba49a0f379751adb7225bd06cf37ddc4aeed8ac3b3",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/commit_mp.py",
+      "bytes": 4747,
+      "sha256": "e1a796c5c0fe02ba4c5bcd46abb1c972600db49b74ff29e2beb3630c565beeb3",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/death_film.py",
+      "bytes": 6815,
+      "sha256": "4073df26b65a29b724ed6ec6f383da498f1f366bdeccc67992563418d8118711",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/death_spectator.py",
+      "bytes": 4480,
+      "sha256": "6047dcdd69133c8a08953f0e7d02af3bb61966ffd88f8e56f319765d00ab73b6",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/diagnose_rng2f.py",
+      "bytes": 2247,
+      "sha256": "8a60a6794447ab4b59553a21065d5f24f23538b3cc12da30b0cb70f3037b8c75",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/escape_bench.js",
+      "bytes": 10222,
+      "sha256": "a58ce7a2f89af6f33ddcffbfd37b3358aec36496dc373fb55561976e6cbcbc62",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/fallback_parity.py",
+      "bytes": 5963,
+      "sha256": "e4e99279bec0d6ce6d19cf59b29b238c7545ffa013cfc3785f40cce4129e9f30",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/interp_test.js",
+      "bytes": 7254,
+      "sha256": "9ed5bc2dc9a7528406ca29991d0f15cfc075873d845e8eb419426fcd181ca50f",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/ir_net.js",
+      "bytes": 3746,
+      "sha256": "5e1d428a07f369966217a8f9f3990822af871920adadf895638ac540f0898719",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/ir_test.py",
+      "bytes": 13029,
+      "sha256": "d72f83150ae0052f83fb185e914d245d15558d55e39f03cb463ca18ee933c344",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/lib.js",
+      "bytes": 4452,
+      "sha256": "31c85d17e4bf4a3cdee99f9757c6305e0866e7e01dc2e003cd27f202515c9360",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/lifecycle_mp.py",
+      "bytes": 5630,
+      "sha256": "c3631a13835703b6e9b637971f0cadb2eedffb96a74f85afa06ff5eed33f1bb9",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/light_test.py",
+      "bytes": 13581,
+      "sha256": "ffc910e1caf46fd0c95ce54078d415ecb4db49927a03b7269e205dbfc7df6cf5",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/live.js",
+      "bytes": 11780,
+      "sha256": "27029b52012767df5ddd41d7dab31ed4ac92dae10e5adeb1d18737dfe88e0bb2",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/live_chase.js",
+      "bytes": 6602,
+      "sha256": "0acc632418ec02f7855450596a68ca8eccc4e9c6280b3235aecd466b03b2afda",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/make_gifs.py",
+      "bytes": 940,
+      "sha256": "4690993cc3b957805e9cd8548f95625b1ad4b3c7e25f185af778de6570a9b2a8",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/move_test.py",
+      "bytes": 14670,
+      "sha256": "db479ba1fe70199652ab92ed825232dece418e06d13fdb2b0fd2655d9cf99109",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/movement_parity2f.js",
+      "bytes": 1790,
+      "sha256": "8df5b5b29ff5f9c9227da8c905092f2b2c5406f5bde81fa995131d31f7d635d4",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/nav_bench.js",
+      "bytes": 12780,
+      "sha256": "8557001f3a2bf459742ff7472f13fb108611eeec371fdd3994cf76fcef3edfef",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/nav_mp.py",
+      "bytes": 6744,
+      "sha256": "f9ce7fc494bf1e734af28415eb0d8d24186b5ce49fcc51e21a45453e8db5f580",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/parity_shared2f.js",
+      "bytes": 1828,
+      "sha256": "9d4f0e37ddea83c0f211a22fe8abd45155968a32d18d570041c71b151e55beac",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/perf_hound2e.js",
+      "bytes": 2488,
+      "sha256": "148ea8702e6958735ee23c31e3e48d5937d1ac4afdda8328137a4f07c949659f",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/perf_light.js",
+      "bytes": 4312,
+      "sha256": "9cb414d83d757f926a6dfdbe0933e7a17533934f3df6d2480461fe2e8bf1eb83",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/perf_shared2f.js",
+      "bytes": 3038,
+      "sha256": "5b39b0f2a19490072973d26edc750c71c165263ab40f8bf5696d69e7e067e02f",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/perf_smiler.js",
+      "bytes": 5645,
+      "sha256": "4e1e53847d7e61bf3dc6103f0e93fcded1ef68a2e2b78bcaf12cb33951e86627",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/phys_test.js",
+      "bytes": 7214,
+      "sha256": "c295c594deca0fffd457f797468fafc10400ca1b12f5db9ad85cc7d044782616",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/play_mp.py",
+      "bytes": 6027,
+      "sha256": "8f78133e1e6e7b27a2d1123b0b3c7f651fe336d2a815044f3ef44e4a4fd39157",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/play_server.js",
+      "bytes": 510,
+      "sha256": "9cae9a3ef48c993614125cb8c84c54a64cc489f27ec7ca562d39c587c7baa572",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/run.js",
+      "bytes": 1114,
+      "sha256": "52750596d1e314d515472a75e8f6e5ee870ef1c58c9f75d281fcea9f3960da4d",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_admin.js",
+      "bytes": 10033,
+      "sha256": "e90d84d2853d09fbc8c512ba95d744cd5d7c3ab8eef0aa2f33ce896e9e794446",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_audit.js",
+      "bytes": 9661,
+      "sha256": "61bef581e207ec1731364a5a5a5c6eefd2da810e1a1b4f9b8773e4c2a4137672",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_camera_fairness.js",
+      "bytes": 2721,
+      "sha256": "f0928c923c7adcccba5ac533a4dc31a3d995d28eaae929b890120b9b4c31d17a",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_capture.js",
+      "bytes": 12928,
+      "sha256": "6c898f44e92173b2e6d08ea0c6928c2bec4db0dc7a0195dbeed652f1ceab98ac",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_chase.js",
+      "bytes": 22929,
+      "sha256": "c22866fec51f419e977bb3bcd3ad7bf90e1b816956d6672fc709aed77dd6ccc1",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_commit.js",
+      "bytes": 3964,
+      "sha256": "5cc0068652bf1340ff4a96f92e45cca3973b7a0dd596da9228fc29c2934a1cc2",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_entity_look.js",
+      "bytes": 2177,
+      "sha256": "b209f758a23d72bb4ad5a944d1b342c4feac4707f7582731a5d1d624adab225e",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_evidence.js",
+      "bytes": 17410,
+      "sha256": "4143e47253f5a49dcdbcda58f8e4f9079e092a53160c591374bef908662d1654",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_fps_equality.js",
+      "bytes": 4482,
+      "sha256": "8b8915d833b0f60f5ac00688de1892fc13429f49bd315019640803b19e2a413b",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_hound.js",
+      "bytes": 21275,
+      "sha256": "8ff193f78d8d40fbf85efc772d01f88435c10db2215a3eac6b2171d8ca58c3f4",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_hound2e.js",
+      "bytes": 12623,
+      "sha256": "5302e1182da4a51e6845f1ea770c091b0eebd0558c557588a88d426f462515c2",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_humanqa_hotfix.js",
+      "bytes": 7716,
+      "sha256": "ceaf30a05ed2010d08f3c1b19dd2c34494ab3548de9ba28d857c8a8910a405c5",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_ir.js",
+      "bytes": 4230,
+      "sha256": "9bb430f05a9643c67e0598513b051454ae62069a101d33d806a25c41417c696e",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_nav.js",
+      "bytes": 17218,
+      "sha256": "f82307ff0ec46aab53139ba1c91cd2f8261f9cfb7e878620826724736331dd2d",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_percept.js",
+      "bytes": 12421,
+      "sha256": "44668eb3d68c9b7f4cf4859c81749f34f8cb07bb65c3d258eda3cffdd80004c3",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_shared2f.js",
+      "bytes": 13488,
+      "sha256": "85892744693b95fbd8bf2f0ce600db6cbfc0aeb5f9425fd2832fa8a73dafde58",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_smiler.js",
+      "bytes": 37298,
+      "sha256": "977d5b2d6c383d6021ae91b971db3bbc15ccdf788425e09f3528778cfa64c025",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_smiler2_v22_retired.js",
+      "bytes": 16782,
+      "sha256": "cd317eef8a0c552165d9eb8eb580f502bc29022c4b30db5b25aede762f636c76",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_smiler_v22_retired.js",
+      "bytes": 15044,
+      "sha256": "1d4aa77168dadf214067e8419f1dbe6b6d81c91b524c80005ada4bfecf8ea775",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/s_system.js",
+      "bytes": 15086,
+      "sha256": "8011cb2c0e7a32e32c5703633826dae838d7052e8c598d1f212c0ce0a3631061",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/smiler2d_view.py",
+      "bytes": 6183,
+      "sha256": "163320508e40323960af0ee33ef85402e8a0edee1317ee6f7c3e9a6270fd1389",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/smiler_parity.js",
+      "bytes": 1055,
+      "sha256": "979095f9726ba649e2a6733659a70d70e3a160bc2be84aec68b7f3c75e2353d2",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/tests/smiler_view.py",
+      "bytes": 3689,
+      "sha256": "08cd0d0f95e887a113adc1e4557694617b3bc83d2efb30e212d72b630c75cd0f",
+      "classification": "test-tool",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/visual_qa/houndA.jpg",
+      "bytes": 306346,
+      "sha256": "3beb3b2c78b1a25900ff6d590a6bed6b39fdc1468face6dd4cffe29c76073b45",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/visual_qa/houndB.jpg",
+      "bytes": 591040,
+      "sha256": "6d46104f55d82b7ce3b3c71caef858be2ff29d52dd97985b05aa7f5596105913",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/visual_qa/houndC.jpg",
+      "bytes": 305899,
+      "sha256": "923416f055f898f7c8af3b755d321e34505ad43413bb1ca2f60ffd7082db82ef",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/visual_qa/houndD.jpg",
+      "bytes": 362100,
+      "sha256": "0b41c2f05ed58d72976eaf42fc11c0476e06d4e174fc602e5d7d4795deb98e48",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/visual_qa/smilerA.jpg",
+      "bytes": 237986,
+      "sha256": "ba11e613090f44744dea4582ba763b2d162ec2945762bc49536e8865270eef0a",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/visual_qa/smilerB.jpg",
+      "bytes": 175243,
+      "sha256": "500c0e84dab755e8e81928614b1ab8824080ceadb7bed0967ce500a2da3e58d4",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/visual_qa/smilerC.jpg",
+      "bytes": 218062,
+      "sha256": "93cd77132b29334832c2af48b830a7f417847bf9b60c03025279b697c892fca9",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dev/visual_qa/smilerD.jpg",
+      "bytes": 250787,
+      "sha256": "5d440cf5c61608bd5a5a0f70a2b36237e8bdab128fbc45f2b3520c265ef5050d",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "dphys.js",
+      "bytes": 37734,
+      "sha256": "631e32d14e817545c505a27ec47e9b32d81fcbd63429341050ffd1b004a1e815",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "ents.js",
+      "bytes": 75640,
+      "sha256": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28",
+      "classification": "generated-runtime",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "glitch.js",
+      "bytes": 9829,
+      "sha256": "2c088bad6cc614a2ca10c8ebea4913d30ad5d9e35cd48b0765d7cbe81f1c623c",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "gore.js",
+      "bytes": 15161,
+      "sha256": "8848c8a0b8845ad8d382ca3d3893784b02db9c0db9d341f0eca65e5b698ef97c",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "hud.js",
+      "bytes": 10642,
+      "sha256": "11e71745201a84c21eb51173197c9fc63ee486972412beb574cc1cdc42f6586d",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "index.html",
+      "bytes": 8949,
+      "sha256": "62051f3cd6283056f994523f9c28b689768e58175be6a42a31b289c74e12342a",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "inventory.js",
+      "bytes": 20385,
+      "sha256": "4d59421c523200300a035ff9f1b8d67657bacb406035089428e34ff015b9768b",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "light.js",
+      "bytes": 5624,
+      "sha256": "ca2b6f7afa20473ffb6f0a3af82e2f301368b87026ba99a62911fb1f247bc072",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "move.js",
+      "bytes": 22025,
+      "sha256": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "mp.js",
+      "bytes": 72712,
+      "sha256": "8bcbfb0357e4a0a1d53b73c693ba6281766ae49488c88efacf6986b6df6c6e61",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "package.json",
+      "bytes": 505,
+      "sha256": "06dbee5d4e731a8b6e2c165043c55cc52f98f92f38035b4c62e1d89ec9b55b22",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "redirect.js",
+      "bytes": 466,
+      "sha256": "12dcf8bfd99ae89d5c57b9adae390279fab7874a0eda72429a48ddcaae157dcf",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o644",
+      "scriptExecutable": false
+    },
+    {
+      "path": "run_linux.sh",
+      "bytes": 218,
+      "sha256": "ba5bc412ecec162e5c331fc104412a0a18afc958b024cd1b56975ff55528f933",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": true
+    },
+    {
+      "path": "run_windows.bat",
+      "bytes": 137,
+      "sha256": "802f35956e33d54aa65b3e2d5ba435e45ffa8e6b3c5caaf04565b9d713c38213",
+      "classification": "asset-or-other",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": true
+    },
+    {
+      "path": "server.js",
+      "bytes": 30299,
+      "sha256": "e23359644f3078abc9a8a1fa993807d9174e3cc352c0f135dc39ebd126b8aec1",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "sfx.js",
+      "bytes": 3575,
+      "sha256": "1c62054afb1b53796f2419365488e5518d40c8641ee181382110e1448844adfe",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "sim.js",
+      "bytes": 28580,
+      "sha256": "1c96653dbf51c535c05fe8ba2536c567f5fc9881c2777a5a6ef5e6307867f321",
+      "classification": "generated-runtime",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "sounds/README.txt",
+      "bytes": 978,
+      "sha256": "c408927ce27cbb50c79caa8ae83a9b63599b24d091c9fad960db4cf459f3621b",
+      "classification": "documentation",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "timing_policy.js",
+      "bytes": 1634,
+      "sha256": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    },
+    {
+      "path": "world.js",
+      "bytes": 18770,
+      "sha256": "ec179a5b385dcf8752a22816a7168f6a09c1764617a8a9cda831a2d05fabbb5d",
+      "classification": "runtime-source",
+      "zipUnixMode": "0o666",
+      "scriptExecutable": false
+    }
+  ]
+}

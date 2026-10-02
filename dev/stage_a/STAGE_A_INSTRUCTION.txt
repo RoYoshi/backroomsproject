@@ -1,0 +1,1118 @@
+THE FAR BACKROOMS — 2.5D STAGE A
+BASELINE CONTRACT, REFERENCE TRACES & SPATIAL FIXTURE FOUNDATION
+
+ROLE
+
+You are implementing Stage A of the approved 2.5D World Architecture for The Far Backrooms.
+
+This is an IMPLEMENTATION task, but Stage A is intentionally conservative.
+
+DO NOT begin actual 2.5D gameplay implementation yet.
+
+Your job is to create the immutable engineering baseline, deterministic reference traces, schema/contracts, identifiers and synthetic fixture foundation required for later 2.5D stages without changing the locked game's runtime behavior.
+
+==================================================
+AUTHORITATIVE INPUTS
+==================================================
+
+LOCKED PART 2 BASELINE:
+
+thefarbackrooms-level0-part2-v23.3.6-hqa-search-polish.zip
+
+SHA-256:
+
+b0f7c297fcd58c4e12a5666dcdfbd5624120178aaf1515080e219584d3947e60
+
+ARCHITECTURE AUTHORITY:
+
+THE_FAR_BACKROOMS_2_5D_WORLD_ARCHITECTURE.md
+
+Treat that architecture specification as binding.
+
+In particular:
+
+- Sections 1–15 are the implementation authority.
+- Z01–Z32 are the future deterministic acceptance matrix.
+- I-01–I-20 are NON-NEGOTIABLE invariants.
+- The staged implementation order is authoritative unless a concrete blocker is found and documented.
+
+DO NOT reinterpret the architecture from scratch.
+
+==================================================
+CURRENT PROJECT STATUS
+==================================================
+
+PART 2:
+COMPLETE — LOCKED
+
+2.5D ARCHITECTURE:
+COMPLETE — LOCKED
+
+2.5D IMPLEMENTATION:
+BEGINNING WITH STAGE A ONLY
+
+Do not implement Stage B, C, D, E, F, G, H or I in this task.
+
+==================================================
+STAGE A PURPOSE
+==================================================
+
+Stage A exists to answer:
+
+"What exactly does the locked game do before spatial implementation begins?"
+
+We need an objective baseline so future changes can distinguish:
+
+- intended 2.5D changes
+- pre-existing behavior
+- pre-existing failures
+- accidental regressions
+- deliberate compatibility differences
+
+Stage A therefore creates:
+
+1. immutable baseline manifest
+2. exact baseline hashes
+3. deterministic reference traces
+4. reproducible test invocation
+5. known-failure ledger
+6. architecture/schema contracts
+7. stable identity conventions
+8. synthetic 2.5D fixture DATA/SPEC scaffolding
+9. package/checkpoint discipline
+
+It must NOT change gameplay.
+
+==================================================
+CRITICAL RULE
+==================================================
+
+STAGE A MUST BE BEHAVIORALLY NEUTRAL.
+
+After Stage A:
+
+- player movement must feel identical
+- Hound behavior must be identical
+- Smiler behavior must be identical
+- navigation must be identical
+- evidence/perception must be identical
+- death physics must be identical
+- multiplayer behavior must be identical
+- lighting must be identical
+- IR/NV behavior must be identical
+- camera behavior must be identical
+- fixed timestep must be identical
+- map generation must be identical
+
+If a runtime behavior changes, Stage A has exceeded scope unless the change is required solely to make a test/manifest observable without modifying its semantics.
+
+Do not "clean up" working code.
+
+Do not opportunistically refactor.
+
+==================================================
+KNOWN BASELINE ISSUE B-01
+==================================================
+
+The architecture audit found a pre-existing hosted integration issue:
+
+index.html requests:
+
+- camera_policy.js
+- timing_policy.js
+
+but server.js SERVE currently omits them.
+
+Observed real server behavior:
+
+- /
+  HTTP 200
+
+- /move.js
+  HTTP 200
+
+- /camera_policy.js
+  HTTP 404
+
+- /timing_policy.js
+  HTTP 404
+
+The application bundle falls back to internal defaults.
+
+The timing fallback retains the intended:
+
+- 1/60 s gameplay tick
+- maximum 15 catch-up steps
+- 250 ms clamp
+
+However the camera fallback uses the older .85 / 1.18 policy, so passing the standalone camera unit test does NOT prove hosted camera fairness.
+
+IMPORTANT:
+
+DO NOT FIX B-01 IN STAGE A.
+
+B-01 belongs to Stage B.
+
+Stage A must:
+
+- reproduce it
+- document it
+- create a served-package integration regression that will detect it
+- classify it as PRE-EXISTING
+- preserve the exact locked baseline behavior
+
+Do not let later engineers claim B-01 was introduced by 2.5D.
+
+==================================================
+LOCKED ENGINEERING INVARIANTS
+==================================================
+
+Treat architecture I-01 through I-20 as binding.
+
+Especially preserve:
+
+1. Gameplay simulation remains fixed at 60 Hz independent of rendering FPS.
+
+2. Death physics continues using four 1/240 s substeps per gameplay tick.
+
+3. Rendering must never invoke gameplay decisions or consume gameplay RNG.
+
+4. Physical XYZ must eventually be simulation truth.
+
+5. Floor IDs, sprite offsets and render order must never substitute for physical Z.
+
+6. Existing 2D navigation will evolve into surface-local grids + traversal links.
+
+7. Existing A*, steering, clearance and route commitment must be preserved.
+
+8. Hound/Smiler intelligence and tuning remain locked.
+
+9. Hidden position/Z/support data may never leak into AI reasoning.
+
+10. Level 0 flat compatibility must retain existing behavior.
+
+11. Geometry/world state must become versionable from one canonical definition.
+
+12. Performance pressure may never justify skipping physical/evidence simulation.
+
+13. Human QA remains separate from automated correctness.
+
+Stage A should make future violations of these rules easier to detect.
+
+==================================================
+STAGE A REQUIRED WORK
+==================================================
+
+--------------------------------------------------
+A1 — VERIFY BASELINE INPUT
+--------------------------------------------------
+
+Before modifying anything:
+
+1. Verify the supplied ZIP SHA-256.
+
+Expected:
+
+b0f7c297fcd58c4e12a5666dcdfbd5624120178aaf1515080e219584d3947e60
+
+2. Extract into a fresh package-relative working directory.
+
+3. Record:
+
+- total file count
+- file paths
+- byte sizes
+- SHA-256 per file
+- executable/generated/source classification where practical
+- Node version used
+- OS/runtime details relevant to testing
+
+4. Do not use unfinished previous work directories.
+
+5. Do not silently replace files using older/newer variants.
+
+Produce a machine-readable baseline manifest.
+
+Suggested:
+
+dev/baselines/v23.3.6-manifest.json
+
+The manifest must identify the immutable source baseline.
+
+--------------------------------------------------
+A2 — CAPTURE EXACT LOCKED TEST OUTCOMES
+--------------------------------------------------
+
+Run the existing tests from a clean extraction.
+
+At minimum execute where supported:
+
+npm test
+npm run test:hound
+npm run test:shared
+npm run test:humanqa
+npm run test:fps
+npm run test:camera
+
+node dev/tests/run.js s_entity_look.js
+node dev/tests/phys_test.js
+node dev/tests/interp_test.js
+node dev/tests/nav_bench.js
+
+node dev/tests/audit_net.js
+node dev/tests/audit_net2.js
+node dev/tests/live.js
+node dev/tests/ir_net.js
+
+Relevant performance tests:
+
+perf_hound2e.js
+perf_shared2f.js
+perf_smiler.js
+perf_light.js
+
+Also run:
+
+bash dev/build_ai.sh
+bash dev/build_sim.sh
+bash dev/build_ents.sh
+
+in a disposable extraction and compare generated outputs.
+
+DO NOT alter test thresholds.
+
+DO NOT convert known historical failures into passes by changing behavior.
+
+DO NOT delete old red assertions.
+
+For every test/suite record:
+
+- command
+- runtime
+- PASS / FAIL / BLOCKED
+- exact count
+- relevant first failure
+- whether failure is historical/pre-existing
+- execution duration where useful
+- Node/runtime dependency
+- whether browser access was actually available
+
+If a browser test cannot run:
+
+mark it BLOCKED.
+
+Never report BLOCKED as PASS.
+
+--------------------------------------------------
+A3 — FREEZE KNOWN FAILURE BASELINE
+--------------------------------------------------
+
+Create a known-failure ledger.
+
+Include at minimum known historical categories already documented by the project, such as:
+
+- historical statistical/sample-sensitive assertions
+- SM01
+- legacy chase/capture percentage gates
+- old semantics assertions made obsolete by anonymous evidence rules
+- environment-specific browser/harness limitations
+- B-01 policy-script serving issue
+
+Do not rely only on historical reports.
+
+Where possible reproduce the CURRENT v23.3.6 result.
+
+For each known failure classify:
+
+PRE-EXISTING EXPECTED
+PRE-EXISTING FLAKY
+ENVIRONMENTAL / BLOCKED
+UNKNOWN / NEEDS INVESTIGATION
+
+Future stages must be able to distinguish:
+
+"new regression"
+
+from:
+
+"baseline already did this."
+
+--------------------------------------------------
+A4 — CAPTURE REFERENCE GAMEPLAY TRACES
+--------------------------------------------------
+
+Create deterministic baseline traces using the REAL runtime systems.
+
+Do not substitute simplified mathematical models where the real implementation is available.
+
+Capture reference traces for at least:
+
+PLAYER MOTOR
+
+- idle
+- walk
+- sprint
+- acceleration
+- deceleration
+- crouch
+- crawl
+- slide
+- exhaustion
+- stamina recovery
+- recovery threshold behavior
+- vault where deterministic fixtures support it
+
+Run equal-real-time schedules at:
+
+15
+30
+60
+120
+144
+240
+360 FPS
+
+plus deterministic jittered frame schedules.
+
+Gameplay outcomes must remain fixed-tick based.
+
+Record:
+
+- ticks
+- final position
+- velocity
+- stamina
+- posture/state
+- distance traveled
+- relevant events
+
+AI
+
+Create fixed-seed traces for:
+
+- Hound acquisition
+- Hound eye-contact pre-pursuit hesitation
+- committed Hound pursuit unaffected by gaze
+- Hound lost-target prediction/search
+- Hound finite give-up
+- Hound close-range turn/orbit correction
+- Smiler dark waiting
+- Smiler gaze interaction
+- Smiler light interaction
+- Smiler lost-target search
+- anonymous evidence investigation
+
+Record:
+
+- simulation tick
+- state
+- position
+- heading/look heading where relevant
+- target/evidence identity in SAFE semantic form
+- decision reason/category
+- RNG stream checkpoint/state where already exposed
+- route/search hypothesis state
+- commitment state
+
+Do not add debug access that leaks hidden player truth into runtime AI.
+
+DEATH PHYSICS
+
+Capture deterministic traces for all existing death variants using the real shared dphys kernel.
+
+Record:
+
+- body state
+- hand states
+- equipment/light state
+- impacts
+- sleep/settle state
+- generated seed/plan/version
+- relevant tick/substep
+
+NAVIGATION
+
+Capture deterministic routes for existing Level 0 fixture cases:
+
+- normal path
+- obstacle detour
+- crawl capability
+- vault capability
+- smoothing
+- no-corner-cut behavior
+- unreachable goal
+- route commitment where testable
+
+LIGHT / IR / EVIDENCE
+
+Capture representative deterministic cases proving:
+
+- visible light semantics
+- OFF visible light produces no physical aura/evidence
+- IR remains invisible to monster AI
+- anonymous sound remains anonymous
+- hidden player state does not alter paired-world AI decisions before legitimate evidence differs
+
+NETWORK / INTERPOLATION
+
+Capture:
+
+- normal pose interpolation
+- entity interpolation
+- disconnect/reconnect reset
+- life/new-run reset
+- authoritative capture/death behavior
+- stale packet handling where existing tests already support it
+
+Do not invent Stage F networking behavior yet.
+
+--------------------------------------------------
+A5 — BASELINE TRACE FORMAT
+--------------------------------------------------
+
+Define a deterministic trace format suitable for future diffing.
+
+Suggested structure:
+
+{
+  "baseline": "v23.3.6-hqa-search-polish",
+  "baselineSha256": "...",
+  "runtime": {...},
+  "seed": ...,
+  "scenario": "...",
+  "tickRate": 60,
+  "records": [...]
+}
+
+Records should be:
+
+- deterministic
+- stable
+- machine diffable
+- bounded
+- explicit about tolerance where floats are involved
+
+Do not dump megabytes of irrelevant mutable state.
+
+Prefer semantic state required to identify regression.
+
+Future test tools should report:
+
+FIRST DIVERGENT TICK
+
+and the fields that diverged.
+
+--------------------------------------------------
+A6 — ARCHITECTURE SCHEMA CONTRACTS
+--------------------------------------------------
+
+Create schema/API CONTRACT scaffolding for future 2.5D records.
+
+Do NOT wire them into gameplay yet.
+
+Define the contracts from the approved architecture for:
+
+WorldDefinition
+Solid
+SupportPatch
+NavSurface
+TraversalLink
+Space
+Portal
+Material
+LightSource
+ViewGroup
+spatial spawn/exit/item anchors
+
+Dynamic state contracts:
+
+- Point3
+- Velocity3
+- root body spatial state
+- collider profile reference
+- motion mode
+- support reference
+- nav-surface reference
+- space reference
+- contact state
+- traversal state
+- pose sequence/generation identity
+
+These may be implemented as:
+
+- JS typedef/contracts
+- validation schemas
+- data-only modules
+- fixture definitions
+- tests
+
+but MUST NOT change the current Level 0 runtime.
+
+Use stable IDs.
+
+Do not use array position or XY as identity.
+
+Do not introduce an ECS.
+
+Do not introduce a physics engine.
+
+Do not introduce a voxel representation.
+
+--------------------------------------------------
+A7 — STABLE IDENTITY CONTRACT
+--------------------------------------------------
+
+Document and scaffold distinct identities for:
+
+- world asset
+- world epoch
+- geometry revision
+- entity ID
+- entity generation
+- player life generation
+- death sequence
+- physical object ID
+- traversal link ID
+- support patch ID
+- nav surface ID
+- space/portal ID
+
+Do not collapse different lifecycle concepts into one reused numeric identifier.
+
+This Stage should define the contract and fixture behavior.
+
+It does NOT need to migrate the live network protocol yet.
+
+--------------------------------------------------
+A8 — SYNTHETIC 2.5D FIXTURE FOUNDATION
+--------------------------------------------------
+
+Create:
+
+dev/fixtures/world_25d.js
+
+or the closest naming convention consistent with the project.
+
+This fixture is DATA/TEST FOUNDATION ONLY.
+
+It must NOT replace Level 0.
+
+Define deterministic synthetic geometry representing future cases:
+
+- flat ground
+- two stacked floors sharing XY
+- finite slab
+- stair opening
+- real stair treads and risers
+- ramp
+- low crawl passage
+- low ceiling
+- upper platform
+- lower platform
+- balcony/ledge
+- drop
+- wall
+- window/open portal
+- same XY / different support
+- possible future corpse/item support locations
+
+At Stage A this fixture does not need working spatial collision/navigation.
+
+It exists so later stages share ONE fixture definition rather than each inventing incompatible geometry.
+
+All IDs must be stable and explicit.
+
+Validate:
+
+- finite numeric values
+- no duplicate IDs
+- valid references
+- deterministic ordering
+
+Do not fake completed 2.5D behavior.
+
+Tests should distinguish:
+
+SCHEMA VALID
+
+from:
+
+PHYSICS IMPLEMENTED
+
+--------------------------------------------------
+A9 — FUTURE TEST SKELETONS
+--------------------------------------------------
+
+Create organized test placeholders/harness entry points corresponding to the architecture matrix:
+
+s_world25d
+s_nav25d
+s_perception25d
+physics25d
+network25d
+view25d
+perf_world25d
+
+Names may follow repository conventions.
+
+Do not write fake passing tests.
+
+If functionality does not exist yet, mark scenarios as:
+
+NOT IMPLEMENTED — EXPECTED STAGE C
+
+etc.
+
+Do not make a test pass simply because it contains no assertions.
+
+Map Z01–Z32 to their future owning stages.
+
+Example:
+
+Z01 → C/E
+Z02 → C/E
+Z11 → E
+Z20 → F
+Z25 → G
+Z29 → D/H
+
+Produce a machine-readable or Markdown requirements-to-stage matrix.
+
+--------------------------------------------------
+A10 — BASELINE SERVED-PACKAGE TEST
+--------------------------------------------------
+
+Add a test/harness capable of launching the real server and probing runtime assets.
+
+It must currently demonstrate the existing B-01 behavior:
+
+/                      → 200
+/move.js               → 200
+/camera_policy.js      → 404
+/timing_policy.js      → 404
+
+Do NOT fix those routes.
+
+The test result for Stage A should clearly say:
+
+B-01 REPRODUCED — PRE-EXISTING BASELINE ISSUE
+
+Stage B will later flip this test to the corrected expectation.
+
+This is important because unit-level camera/timing tests alone do not prove the hosted application loaded those policies.
+
+--------------------------------------------------
+A11 — GENERATION / PORTABILITY CHECK
+--------------------------------------------------
+
+Verify builds work from a fresh extraction whose path contains spaces.
+
+Run:
+
+dev/build_ai.sh
+dev/build_sim.sh
+dev/build_ents.sh
+
+Confirm:
+
+- no dependency on Astra's temporary paths
+- no dependency on /mnt/attach
+- no dependency on original extraction path
+- no absolute machine path
+- generated outputs match expected content where runtime sources were untouched
+
+Record hashes before/after.
+
+If build output differs unexpectedly:
+
+STOP AND INVESTIGATE.
+
+Do not normalize the difference away.
+
+--------------------------------------------------
+A12 — REDIRECT.JS PACKAGING RULE
+--------------------------------------------------
+
+Every Far Backrooms checkpoint ZIP must include:
+
+redirect.js
+
+at the project root.
+
+This is required for the existing Render compatibility deployment.
+
+DO NOT redesign redirect.js during Stage A.
+
+Simply verify:
+
+- it exists
+- it is packaged
+- syntax is valid
+- it remains separate from server.js
+
+The normal game server remains:
+
+node server.js
+
+Render redirect remains:
+
+node redirect.js
+
+Do not accidentally omit redirect.js when reconstructing checkpoint packages.
+
+--------------------------------------------------
+ABSOLUTELY DO NOT IMPLEMENT
+--------------------------------------------------
+
+Stage A MUST NOT implement:
+
+- runtime XYZ player movement
+- gravity
+- stairs
+- ramps
+- support solving
+- spatial collision
+- world_geometry runtime integration
+- world_motion runtime integration
+- nav surfaces in live gameplay
+- traversal links in live gameplay
+- Z-aware Hound/Smiler movement
+- Z-aware perception
+- new lighting behavior
+- new sound propagation
+- new capture/contact rules
+- network Z
+- corpse Z
+- cutaway rendering
+- depth rendering
+- Level 0 physical conversion
+- Stage B canonical Level 0 extraction
+- B-01 fix
+
+Do not "get ahead."
+
+==================================================
+DO NOT TOUCH GAMEPLAY TUNING
+==================================================
+
+Do not change:
+
+HOUND
+
+- speed
+- acceleration
+- turn rate
+- close-range pivot behavior
+- eye-contact rules
+- search timing
+- search direction logic
+- give-up behavior
+- head-look behavior
+- evidence weights
+- personality
+- commitment
+- lunge/contact tuning
+
+SMILER
+
+- gaze timing
+- creep/drift
+- aggression
+- light behavior
+- chase speed
+- attack triggers
+- darkness behavior
+- search
+- personality
+- IR blindness
+- presentation
+
+PLAYER
+
+- speed
+- acceleration
+- stamina
+- crouch/crawl/slide
+- vault costs
+- collider radius
+- current flat gameplay feel
+
+OTHER
+
+- death plans
+- corpse cap
+- entity director balance
+- normal monster spawn caps
+- admin stress cap
+- camera framing
+- FPS equality
+- lighting QoL
+- evidence TTLs/weights
+- network cadence
+
+==================================================
+SOURCE / GENERATED FILE RULE
+==================================================
+
+Respect maintained-source boundaries.
+
+Current generated outputs include:
+
+ai.js
+sim.js
+ents.js
+
+Do not directly create divergent generated/runtime copies.
+
+If Stage A needs a source change:
+
+edit maintained source
+→ run appropriate build script
+→ compare output
+
+However, Stage A should primarily add:
+
+- baseline manifests
+- schemas/contracts
+- fixtures
+- test harnesses
+- reports
+
+rather than alter generated gameplay code.
+
+==================================================
+DETERMINISM REQUIREMENTS
+==================================================
+
+No Math.random additions.
+
+No wall-clock reads inside deterministic traces.
+
+No render-frame-dependent tests pretending to be gameplay ticks.
+
+Use:
+
+- integer simulation ticks
+- explicit seeds
+- explicit inputs
+- stable object ordering
+- stable IDs
+
+For same runtime + same seed + same input:
+
+require identical:
+
+- discrete state
+- event ordering
+- RNG state where recorded
+- deterministic traces
+
+For cross-engine floating point:
+
+do not promise bitwise identity.
+
+Use the architecture's initial short-fixture positional tolerance:
+
+1e-5 world units
+
+where appropriate.
+
+Network-quantized values are NOT the physics reference.
+
+==================================================
+TEST RESULT HONESTY
+==================================================
+
+Never write:
+
+ALL TESTS PASS
+
+if:
+
+- a test failed
+- a browser was unavailable
+- a historical failure remained
+- an HTTP route failed
+- a suite was skipped
+- a runtime dependency prevented execution
+
+Use exact categories:
+
+PASS
+FAIL
+EXPECTED BASELINE FAILURE
+FLAKY BASELINE
+BLOCKED
+NOT IMPLEMENTED BY DESIGN
+
+Do not hide failures by reducing the denominator.
+
+==================================================
+STAGE A ACCEPTANCE CRITERIA
+==================================================
+
+Stage A is complete only if all of the following are true:
+
+1. Original v23.3.6 SHA verified.
+
+2. Immutable per-file baseline manifest exists.
+
+3. Existing major test suites have current recorded results.
+
+4. Known failures/flakes/blockers have an explicit ledger.
+
+5. Deterministic reference traces exist for:
+   - player motor
+   - Hound
+   - Smiler
+   - evidence/light/IR
+   - navigation
+   - death physics
+   - interpolation/network lifecycle
+
+6. FPS equality baseline is reproduced.
+
+7. Camera fairness UNIT policy test is reproduced.
+
+8. Hosted B-01 is independently reproduced and explicitly marked pre-existing.
+
+9. Build generation is verified from a clean portable extraction.
+
+10. Spatial schema/contracts exist without runtime activation.
+
+11. Stable identity contract exists.
+
+12. Synthetic world_25d fixture exists and validates as DATA.
+
+13. Z01–Z32 ownership/stage matrix exists.
+
+14. No runtime gameplay behavior changed.
+
+15. No species tuning changed.
+
+16. No Stage B+ functionality was implemented.
+
+17. redirect.js exists in final package.
+
+18. Final checkpoint ZIP passes integrity extraction.
+
+==================================================
+REQUIRED DELIVERABLES
+==================================================
+
+Produce:
+
+1. Stage A checkpoint ZIP
+
+Suggested name:
+
+thefarbackrooms-level0-25d-stageA-baseline-contract.zip
+
+2. SHA-256 file
+
+25D_STAGE_A_SHA256.txt
+
+3. Architecture implementation report
+
+25D_STAGE_A_REPORT.md
+
+4. Test summary
+
+25D_STAGE_A_TEST_SUMMARY.md
+
+5. Baseline failure ledger
+
+25D_STAGE_A_BASELINE_FAILURES.md
+
+6. Baseline manifest
+
+dev/baselines/v23.3.6-manifest.json
+
+7. Reference trace documentation/index
+
+25D_STAGE_A_REFERENCE_TRACES.md
+
+8. Stage matrix
+
+25D_STAGE_MATRIX.md
+
+Map Z01–Z32 to stages.
+
+9. Changed-file list
+
+25D_STAGE_A_CHANGED_FILES.txt
+
+10. Human QA note
+
+25D_STAGE_A_HUMAN_QA.md
+
+For Stage A this should explicitly say that no new 2.5D gameplay exists yet and therefore human gameplay acceptance is not being claimed.
+
+11. Machine-readable reference traces / fixtures where appropriate.
+
+==================================================
+FINAL SELF-AUDIT
+==================================================
+
+Before packaging, answer:
+
+- Did I change any gameplay?
+- Did I alter Hound or Smiler behavior?
+- Did I change RNG consumption?
+- Did I alter movement?
+- Did I accidentally fix B-01 early?
+- Did I begin runtime XYZ?
+- Did I begin Stage B?
+- Did I silently change generated files?
+- Did I preserve redirect.js?
+- Can this package build/test from a clean path?
+- Can future stages objectively compare themselves against v23.3.6?
+- Is every known failure explicitly classified?
+
+If any answer indicates scope drift:
+
+STOP
+REVERT THE DRIFT
+RERUN THE RELEVANT TESTS
+
+==================================================
+CHECKPOINT DISCIPLINE
+==================================================
+
+DO NOT START STAGE B.
+
+Even if Stage A finishes with substantial context/tokens remaining:
+
+STOP.
+
+Package everything.
+
+Calculate SHA-256.
+
+Provide all requested reports.
+
+Wait for review.
+
+If your available token/context budget becomes constrained:
+
+STOP EARLY AND PACKAGE A VALID STAGE A CHECKPOINT.
+
+Do not race into additional work.
+
+==================================================
+FINAL STATUS TEXT
+==================================================
+
+If all Stage A acceptance criteria are satisfied, finish with exactly:
+
+2.5D STAGE A ENGINEERING COMPLETE — CHECKPOINT READY FOR REVIEW
+
+Do NOT write:
+
+2.5D COMPLETE
+
+Do NOT write:
+
+STAGE B STARTED
+
+Do NOT continue implementing after producing the checkpoint.
