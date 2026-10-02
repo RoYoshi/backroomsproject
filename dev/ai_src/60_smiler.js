@@ -258,9 +258,12 @@ function sThink(eng, e) {
       if (r.light && e.ag >= Pm.chaseAt) { beginChase(eng, e, r, `P${r.id} carries a light it can see (agitation ${e.ag.toFixed(2)})`); return; }
       const held = heldBy(e, r.id);
       if (held) {
-        e.holdT += tdt;
-        if ((r.dRate || 0) > 25) { e.ag = Math.max(0, e.ag - .05 * tdt); e.heldRetreatAt = now; e.heldRetreatId = r.id; if (d > 600) { beginWithdraw(eng, e, `let P${r.id} go: watched it and moved away slowly`, Math.atan2(e.y - r.lky, e.x - r.lkx)); return; } }
-        sWhy(eng, e, (r.dRate || 0) > 25 ? `held by P${r.id}'s eyes; they are backing away` : `held by P${r.id}'s eyes; they are not moving away: it creeps and drifts`);
+        const retreating = (r.dRate || 0) > 25;
+        // Human-QA amendment: staring in place is active counterplay, not a permanent equilibrium.  Pressure accumulates only while the
+        // watcher refuses to retreat; doing the canon-safe thing (slowly backing away) relieves it and can still earn a clean release.
+        if (retreating) e.holdT = Math.max(0, e.holdT - tdt * 1.5); else e.holdT += tdt;
+        if (retreating) { e.ag = Math.max(0, e.ag - .05 * tdt); e.heldRetreatAt = now; e.heldRetreatId = r.id; if (d > 600) { beginWithdraw(eng, e, `let P${r.id} go: watched it and moved away slowly`, Math.atan2(e.y - r.lky, e.x - r.lkx)); return; } }
+        sWhy(eng, e, retreating ? `held by P${r.id}'s eyes; they are backing away` : `held by P${r.id}'s eyes; standing still builds pressure: it creeps and drifts harder`);
       } else {
         e.holdT = 0;
         const a = e.att.get(r.id); if (a && a.had && a.lapse > .5 && a.lapse < .5 + tdt * 1.5 && d < 300) sBump(e, .2, 'eye contact broken up close');
@@ -334,11 +337,15 @@ function sMove(eng, e, dt) {
       const held = heldBy(e, r.id), other = !held && watcher(e);
       if (held) {
         const retreating = (r.dRate || 0) > 25;
-        if (!retreating && d > Pm.loom + 20) { setAct(e, 'creep'); goTo(eng, e, P.x, P.y, { every: .6 }); follow(eng, e, dt, sp.creep, { arrive: Pm.loom }); }
-        else if (!retreating) {                                                  // up close and held: it shifts sideways, so the one watching must keep finding it
-          setAct(e, 'drift'); e.driftT -= dt; if (e.driftT <= 0) { e.driftT = rand(e, 1.5, 3.5); e.drift = -e.drift; }
-          const a = Math.atan2(e.y - P.y, e.x - P.x) + e.drift * dt * (sp.drift / Math.max(80, d)), tx = P.x + Math.cos(a) * d, ty = P.y + Math.sin(a) * d;
-          if (eng.geo.clear(tx, ty, e.rc, 'walk')) { e.moved = moveCollide(eng, e, tx - e.x, ty - e.y); e.speed = sp.drift; } else { e.drift = -e.drift; stopMoving(eng, e, dt); }
+        // The longer somebody stands still and stares, the more demanding the hold becomes: the face closes some distance and its lateral
+        // drift gets faster/less comfortable.  This never invents a timer-based attack; panic/noise/light rules still own aggression.
+        const pressure = clamp((e.holdT - 2) / 10, 0, 1), holdR = Pm.loom;
+        const creepV = sp.creep * lerp(1, 1.25, pressure), driftV = sp.drift * lerp(1, 2.05, pressure);
+        if (!retreating && d > holdR + 12) { setAct(e, 'creep'); goTo(eng, e, P.x, P.y, { every: .45 }); follow(eng, e, dt, creepV, { arrive: holdR, turnMul: 1 + pressure * .25 }); }
+        else if (!retreating) {                                                  // held up close: increasingly active lateral drift forces reacquisition, but its own movement never becomes a proximity attack
+          setAct(e, 'drift'); e.driftT -= dt; if (e.driftT <= 0) { e.driftT = rand(e, lerp(1.5, .75, pressure), lerp(3.5, 1.7, pressure)); e.drift = -e.drift; }
+          const a = Math.atan2(e.y - P.y, e.x - P.x) + e.drift * dt * (driftV / Math.max(70, d)), rd = Math.max(holdR, d), tx = P.x + Math.cos(a) * rd, ty = P.y + Math.sin(a) * rd;
+          if (eng.geo.clear(tx, ty, e.rc, 'walk')) { e.moved = moveCollide(eng, e, tx - e.x, ty - e.y); e.speed = Math.min(driftV, e.moved / Math.max(dt, 1e-4)); } else { e.drift = -e.drift; stopMoving(eng, e, dt); }
         } else { setAct(e, 'hold'); stopMoving(eng, e, dt); }
         return null;
       }

@@ -28,18 +28,23 @@ function hObserve(eng, e) {
   }
   if (e.hEye && eng.now - e.hEye.last > 12 && !e.seenNow.size) e.hEye = null;
 }
-function hGaze(eng, e, r, dt) {
+/* Human-QA amendment (Part 2 final pass): eye contact is PRE-PURSUIT intimidation.
+ * It can delay the decision to commit, but once HUNTING begins the Hound does not become
+ * safe just because the player turns around and stares at it.  The finite budget is kept:
+ * even before commitment, eye contact buys time rather than permanent ownership. */
+function hPreGaze(eng, e, r, dt) {
   const p = r && r.seen ? r.hv : null;
-  if (!p) { if (e.act === 'freeze') setAct(e, ''); return false; }
+  if (!p || e.state === S.HUNTING) { if (e.act === 'stare' && e.state === S.STALKING) setAct(e, ''); return false; }
   const E = e.hEye || (e.hEye = { used: 0, last: eng.now }); E.last = eng.now;
   const budget = 1.15 + e.tr.CAUTION * .9;
   if (E.used < budget && facedBy(eng, e, p, r)) {
-    E.used = Math.min(budget, E.used + dt); setAct(e, 'freeze');
-    stopMoving(eng, e, dt); faceToward(e, r.lkx, r.lky, dt, 3);
-    e.head = Math.sin(e.t * 3) * .12; e.dbg.hWhy = 'temporary eye-contact intimidation';
+    E.used = Math.min(budget, E.used + Math.max(0, dt));
+    if (e.state === S.STALKING) setAct(e, 'stare');
+    faceToward(e, r.lkx, r.lky, Math.max(0, dt), 3);
+    e.head = Math.sin(e.t * 3) * .12; e.dbg.hWhy = 'eye contact delays pursuit commitment; still stalking';
     return true;
   }
-  if (e.act === 'freeze') setAct(e, '');
+  if (e.act === 'stare' && e.state === S.STALKING) setAct(e, '');
   return false;
 }
 function hPerceived(eng, e, r) {
@@ -83,7 +88,7 @@ function hWhy(e) {
 function hDebug(eng, e) {
   const r = e.mem.p.get(e.target), v = r && r.hv, s = e.state === S.SEARCHING ? e.search : null, q = e.state === S.CURIOUS ? e.hLight : null;
   return { why: hWhy(e), transition: e.dbg.hTransition || null,
-    listen: ['listen', 'sniff', 'freeze'].includes(e.act) ? (e.act === 'freeze' && e.state === S.HUNTING ? 'eye-contact intimidation' : e.dbg.listen || 'routine environmental listening') : '',
+    listen: ['listen', 'sniff', 'freeze', 'stare'].includes(e.act) ? (e.act === 'stare' && e.state === S.STALKING ? 'eye-contact hesitation before pursuit' : e.dbg.listen || 'routine environmental listening') : '',
     dwell: +Math.max(0, hDwell(e) - (eng.now - (e.tgtSince ?? -99))).toFixed(2),
     seen: !!(r && r.seen), visual: v ? [Math.round(v.x), Math.round(v.y), +(eng.now - v.t).toFixed(2), +Math.atan2(v.vy, v.vx).toFixed(3)] : null,
     conf: r ? +r.conf.toFixed(2) : null, branch: s && s.goal ? s.goal.k : '', rejected: s ? s.visited.length : 0,
@@ -302,8 +307,8 @@ function hHunt(eng, e, dt, thinkNow) {
   if (e.lunge) { const res = stepLunge(eng, e, dt); if (res && res.pv) return res; return; }
   if (!r || tgtGone(eng, e, r)) { const alt = pickTarget(eng, e); if (alt) { setTarget(e, alt.id, now); return; } e.dbg.disengage = r ? 'saw its prey go down' : 'lost its prey'; setState(e, S.ROAMING); return; }
   const seen = r.seen && !!pvT;
-  if (seen && hGaze(eng, e, r, dt)) return;
-  if (!seen && e.act === 'freeze') setAct(e, '');
+  // Once pursuit is committed, gaze never suppresses the chase.  Clear a stale pre-pursuit pose if needed.
+  if (e.act === 'stare') setAct(e, '');
   if (seen) {
     e.dbg.hWhy = r.light ? 'pursue identified human exposed by visible light' : 'pursue visually identified human';
     e.chaseBlind = 0; e.lostSince = 0;
@@ -312,7 +317,10 @@ function hHunt(eng, e, dt, thinkNow) {
     // predicted interception point, but never through walls: plan to it, aim straight when the way is clear
     // Advance only the sampled visible velocity between perception updates. This keeps the
     // prediction continuous without reaching into the live player when an old seen flag persists.
-    const lead = clamp(dist(e.x, e.y, tgt.x, tgt.y) / 420, 0, .55) * (.5 + e.tr.INTELLIGENCE) + Math.min(.12, Math.max(0, now - pvT.t));
+    const chaseD = dist(e.x, e.y, tgt.x, tgt.y);
+    // Close-range orbit fix: don't lead past somebody who is already beside the Hound.  At this range the job is to reorient physically,
+    // not draw a wide interception arc that a walking player can orbit forever.
+    const lead = chaseD < 190 ? 0 : clamp(chaseD / 420, 0, .55) * (.5 + e.tr.INTELLIGENCE) + Math.min(.12, Math.max(0, now - pvT.t));
     let LD = Math.hypot(tgt.vx, tgt.vy) * lead; if (LD > 1) LD = Math.max(0, Math.min(LD, eng.geo.ray(tgt.x, tgt.y, Math.atan2(tgt.vy, tgt.vx), LD + 30) - 26));   // the lead stops at walls: a prey pressed against one is not "ahead" of itself
     const sv = Math.hypot(tgt.vx, tgt.vy) || 1, gx = tgt.x + tgt.vx / sv * LD, gy = tgt.y + tgt.vy / sv * LD;
     if (directOk(eng, e, tgt.x, tgt.y, 620) && (Math.hypot(gx - tgt.x, gy - tgt.y) < 8 || directOk(eng, e, gx, gy, 700))) directTo(eng, e, gx, gy);   // straight at it only when the body itself fits the line (it used to test 16 px: it scraped doorframes)
@@ -330,7 +338,21 @@ function hHunt(eng, e, dt, thinkNow) {
     e.dbg.hWhy = byEar ? 'fresh running sound; follow heard position and heard heading' : 'visual contact lost; predict from last observation';
     if (e.chaseBlind > lerp(1.4, 4.6, e.tr.PERSISTENCE)) { beginSearch(eng, e, r, 'lost'); e.mood.frustration = Math.min(1, e.mood.frustration + .15); return; }
   }
-  const st = follow(eng, e, dt, hSpeed(e, 'chase', eng), { arrive: 10, noSlow: false });
+  let chaseV = hSpeed(e, 'chase', eng), turnMul = 1;
+  if (seen) {
+    const d = dist(e.x, e.y, pvT.x, pvT.y), err = Math.abs(angDiff(Math.atan2(pvT.y - e.y, pvT.x - e.x), e.ang));
+    if (d < 190) {
+      // Preserve the Hound's broad, physical turns in normal pursuit.  Only at close range does it plant/pivot harder so walking circles
+      // around its shoulder is not an infinite safe strategy.  Large facing errors also bleed speed, giving the body room to turn.
+      const q = clamp((190 - d) / 120, 0, 1);
+      // First bleed chase speed, then gain the extra pivot authority. This keeps the species' poor high-speed turning intact: it cannot
+      // become a turret while still charging at 230+ px/s merely because prey crossed close to its shoulder.
+      if (err > .72) chaseV = Math.min(chaseV, lerp(175, 92, q));
+      turnMul = e.speed < 190 ? 1 + 2.15 * q : 1;
+      e.dbg.closePivot = { d: Math.round(d), err: +err.toFixed(2), mul: +turnMul.toFixed(2) };
+    } else e.dbg.closePivot = null;
+  } else e.dbg.closePivot = null;
+  const st = follow(eng, e, dt, chaseV, { arrive: 10, noSlow: false, turnMul });
   e.head = 0;
   // touching the prey without a lunge still counts (a swipe as it runs past)
   for (const pv of eng.nearPlayers(e.x, e.y, 50)) if (pv.alive && !pv.caught && dist(e.x, e.y, pv.x, pv.y) < e.r + 12) return { pv, dir: e.ang, speed: e.speed };
@@ -344,15 +366,19 @@ function hStalk(eng, e, dt, thinkNow) {
   if (!r || tgtGone(eng, e, r)) { beginSearch(eng, e, r, 'lost'); return; }
   const P = hPerceived(eng, e, r), seen = P.seen, est = P, d = dist(e.x, e.y, est.x, est.y);
   e.stalkFor = (e.stalkFor || 0) + dt;
+  const gazed = seen && hPreGaze(eng, e, r, dt);                         // only before pursuit; finite and still physically advancing
   goTo(eng, e, est.x, est.y, { every: .6 });
-  const hold = lerp(380, 205, clamp(e.stalkFor / stalkPatience(e), 0, 1));
+  const baseHold = lerp(380, 205, clamp(e.stalkFor / stalkPatience(e), 0, 1));
+  const hold = gazed ? Math.min(baseHold, 215) : baseHold;               // watched Hound creeps in instead of freezing in place
   const tv = P.sp;                    // how fast it can see the prey going
-  const vmax = d > hold ? clamp(tv * 1.12 + (d - hold) * .7, hSpeed(e, 'stalk', eng) * .7, hSpeed(e, 'chase', eng) * .74) : clamp(tv * .7 - (hold - d) * .6, 0, 70);
-  follow(eng, e, dt, vmax, { arrive: 30 });
+  let vmax = d > hold ? clamp(tv * 1.12 + (d - hold) * .7, hSpeed(e, 'stalk', eng) * .7, hSpeed(e, 'chase', eng) * .74) : clamp(tv * .7 - (hold - d) * .6, 0, 70);
+  if (gazed) vmax = Math.min(vmax, 72);                                  // hesitation changes commitment, not aggression/awareness
+  follow(eng, e, dt, vmax, { arrive: 30, turnMul: gazed ? 1.2 : 1 });
   e.head = Math.sin(e.t * 2.4) * .12;
   if (thinkNow) {
     const runner = r.st === 2 || r.st === 5 || r.ex;
-    if (seen && (d < 230 || runner || e.stalkFor > stalkPatience(e))) { beginHunt(eng, e, r, 'stalk-commit'); return; }
+    // Running, getting point-blank, or simply exhausting the finite intimidation window commits the chase.  After beginHunt(), gaze is ignored.
+    if (seen && (runner || d < 135 || (!gazed && (d < 230 || e.stalkFor > stalkPatience(e))))) { beginHunt(eng, e, r, runner ? 'stalk-run-commit' : d < 135 ? 'stalk-close-commit' : 'stalk-commit'); return; }
     if (!seen && eng.now - Math.max(r.seenAt, r.heardAt) > 3.4) { beginSearch(eng, e, r, 'lost'); }
   }
 }
@@ -374,13 +400,14 @@ function hReact(eng, e) {
   if (current && current.seen && !tgtGone(eng, e, current)) { seen = current; sd = Math.hypot(current.lkx - e.x, current.lky - e.y); }
   if (seen && seen.aw > .45) {
     const runner = seen.st === 2 || seen.st === 5 || seen.ex, near = sd < 480, hungry = e.tr.HUNGER > .55;
+    const gazed = e.state !== S.HUNTING && !runner && hPreGaze(eng, e, seen, 0);  // fresh eye contact can delay the initial commitment only
     const grp = groupSeen(eng, e), fresh = grp > (e.grpN || 0); e.grpN = grp;                       // somebody else has just come into view: it takes stock of the group once
     if (fresh && grp >= 2 && !runner && !seen.light && e.state !== S.HUNTING && e.state !== S.CAUTIOUS && e.rng() < (.16 + e.tr.CAUTION * 1.5) * (e.pack ? .45 : 1) * (sd < 300 ? .35 : 1)) { beginCautious(eng, e, seen); return; }
     if (e.state !== S.HUNTING && e.state !== S.STALKING && e.state !== S.CAUTIOUS) {
-      if (seen.light || runner || near || (hungry && e.tr.AGGRESSION > .7 && seen.aw > .8 && sd < 700)) { beginHunt(eng, e, seen, seen.light ? 'identified human with visible light' : runner ? 'saw-run' : 'saw-near'); return; }
-      setState(e, S.STALKING, ''); setTarget(e, seen.id, now); e.stalkFor = 0; e.mood.excitement = Math.min(1, e.mood.excitement + .3); return;
+      if (!gazed && (seen.light || runner || near || (hungry && e.tr.AGGRESSION > .7 && seen.aw > .8 && sd < 700))) { beginHunt(eng, e, seen, seen.light ? 'identified human with visible light' : runner ? 'saw-run' : 'saw-near'); return; }
+      setState(e, S.STALKING, gazed ? 'stare' : ''); setTarget(e, seen.id, now); e.stalkFor = 0; e.mood.excitement = Math.min(1, e.mood.excitement + .3); return;
     }
-    if (e.state === S.STALKING && (seen.light || runner || near)) { beginHunt(eng, e, seen, 'stalk-spot'); return; }
+    if (e.state === S.STALKING && (seen.light || runner || near) && (runner || !gazed || sd < 135)) { beginHunt(eng, e, seen, runner ? 'stalk-run-commit' : 'stalk-spot'); return; }
     if (e.state === S.HUNTING && e.target !== seen.id) { const cur = e.mem.p.get(e.target); if ((!cur || !cur.seen) && hMaySwitch(e, seen, now)) { setTarget(e, seen.id, now); e.dbg.retarget = 'current prey lost; another human directly identified'; } }
     return;
   }

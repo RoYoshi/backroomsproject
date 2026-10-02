@@ -78,7 +78,7 @@ add('A02 preview works through god mode, spawn protection and a frozen world; re
     if (r.ok) bad.push('preview on a player who is already caught');
   }
   {
-    const { w, v } = stage(5); for (let i = 0; i < 3; i++) { const e = w.hound(X0 - 500 - i * 60, Y0 + 300); e.cap = { phase: 'down' }; }
+    const { w, v } = stage(5); const cap=w.sim.admin.info().mh; for (let i = 0; i < cap; i++) { const e = w.hound(X0 - 500 - (i % 8) * 60, Y0 + 300 + Math.floor(i / 8) * 60); e.cap = { phase: 'down' }; }
     const r = w.sim.admin.previewKill(v, 'hound', 'A');
     if (r.ok || !/busy/.test(r.why || '')) bad.push('all hounds busy: ' + JSON.stringify(r));
   }

@@ -8,7 +8,9 @@ const RND=AI.mkRng(SIM_SEED);
 var PR=0;const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
 const players=[];
 let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,debugOn=false;
-const MAX_HOUNDS=50,MAX_SMILERS=50,MAX_BODIES=24;
+// Shipped/director population remains intentionally small.  Human-QA/stress tools get a much higher ceiling without silently changing normal balance.
+const DIRECTOR_MAX_HOUNDS=3,ADMIN_MAX_HOUNDS=64,ADMIN_MAX_SMILERS=64,MAX_BODIES=24;
+const adminCap=k=>k===`hound`?ADMIN_MAX_HOUNDS:ADMIN_MAX_SMILERS;
 const rnd=(a,b)=>a+RND()*(b-a);
 const SNn=WORLD.SN;
 const isAlive=p=>p.active&&!p.dead&&!p.exited&&p.safe<=0&&!p.god;
@@ -55,6 +57,29 @@ function smilerSpot(minSpawn,av){
   return best;
 }
 function newSmiler(minSpawn=1700,awayFrom=[]){const av=awayFrom.concat(ents());const at=smilerSpot(minSpawn,av)||randomSpot(minSpawn,av,1100,true,true)||randomSpot(minSpawn,av,1100);return at?eng.spawn(`smiler`,at.x,at.y):null}
+/* Admin-only stress placement: the normal director keeps its wide 1500/1100 px monster spacing, but that spacing makes a 64-entity
+ * test ceiling impossible to reach.  Stress spawns stay well away from live players and on reachable floor while allowing monsters to pack
+ * closer together.  This is deliberately NOT used by ordinary world spawning. */
+function adminStressSpot(kind){
+  const pl=alive(),es=ents(),playerSep=kind===`hound`?900:850,entitySep=kind===`hound`?260:220,dark=kind===`smiler`;
+  for(let t=0;t<1800;t++){
+    const idx=(RND()*W*al)|0;if(!ll[idx])continue;
+    const p=ul(idx);
+    if(Math.hypot(p.x-Ic.x,p.y-Ic.y)<900)continue;
+    if(pl.some(a=>Math.hypot(a.x-p.x,a.y-p.y)<playerSep))continue;
+    if(es.some(a=>Math.hypot(a.x-p.x,a.y-p.y)<entitySep))continue;
+    if(!sl(p.x,p.y))continue;
+    if(dark&&eng.geo.lamp[eng.geo.cellAt(p.x,p.y)]>.12)continue;
+    if(!fl(p,ANCHOR).length)continue;
+    return p;
+  }
+  return null;
+}
+function adminSpawn(kind){
+  if(eng.count(kind)>=adminCap(kind))return false;
+  const at=adminStressSpot(kind);if(!at)return false;
+  eng.spawn(kind,at.x,at.y);return true;
+}
 function spawnMonsters(nh,ns){
   eng.clear();
   for(let i=0;i<nh;i++)newHound();
@@ -214,7 +239,7 @@ function step(dt){
   dt*=speed;runT+=dt;
   if(bmode===`auto`)Rc(dt);else V.blackout=bmode===`on`;
   PR=PR+(Math.min(1,runT/540)-PR)*Math.min(1,dt);eng.pressure=PR;
-  if(opts.director!==false&&eng.count(`hound`)<MAX_HOUNDS){spawnT-=dt;if(spawnT<=0){spawnT=rnd(80,190);if(RND()<.75)newHound(1800,alive())}}
+  if(opts.director!==false&&eng.count(`hound`)<DIRECTOR_MAX_HOUNDS){spawnT-=dt;if(spawnT<=0){spawnT=rnd(80,190);if(RND()<.75)newHound(1800,alive())}}
   feed();
   eng.step(dt);
   processEvents();
@@ -248,12 +273,12 @@ const admin={
   newGlitches(){glitches=makeGlitches(3)},
   newItem(){items=makeItems()},
   nearestItem(x,y){let b=null,bd=1/0;for(const i of items){const d=Math.hypot(i.x-x,i.y-y);if(d<bd){bd=d;b=i}}return b},
-  addHound(){if(eng.count(`hound`)>=MAX_HOUNDS)return false;return !!newHound(1500,alive())},
+  addHound(){return adminSpawn(`hound`)},
   removeHound(){const h=ofKind(`hound`).pop();if(h)eng.remove(h.id);return !!h},
-  addSmiler(){if(eng.count(`smiler`)>=MAX_SMILERS)return false;return !!newSmiler(1200,alive())},
+  addSmiler(){return adminSpawn(`smiler`)},
   removeSmiler(){const s=ofKind(`smiler`).pop();if(s)eng.remove(s.id);return !!s},
   addNear(kind,x,y){                       // testing aid: one more of that entity close to an admin (still capped)
-    if(eng.count(kind)>=(kind===`hound`?MAX_HOUNDS:MAX_SMILERS))return false;
+    if(eng.count(kind)>=adminCap(kind))return false;
     const p=placeNear(kind,x,y);if(!p)return false;eng.spawn(kind,p.x,p.y);return true;
   },
   captureMode(m){eng.forceCapture=m===`quick`||m===`play`?m:null;return eng.forceCapture||`auto`},
@@ -264,7 +289,7 @@ const admin={
     feed();const was=p.alive;p.alive=true;      // the engine's view of the players is refreshed first (the world may be frozen)
     let e=ofKind(kind).filter(o=>!o.cap).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y))[0],fresh=false;
     if(!e){
-      if(eng.count(kind)>=(kind===`hound`?MAX_HOUNDS:MAX_SMILERS)){p.alive=was;return {ok:false,why:`every ${kind} is busy`}}
+      if(eng.count(kind)>=adminCap(kind)){p.alive=was;return {ok:false,why:`every ${kind} is busy`}}
       const at=placeNear(kind,p.x,p.y)||{x:p.x,y:p.y};e=eng.spawn(kind,at.x,at.y);fresh=true;
     }
     const r=eng.previewKill(e,variant,p);
@@ -283,7 +308,7 @@ const admin={
     const p=placeNear(`hound`,x,y);if(!p)return false;
     return eng.summon(h,p.x,p.y,x,y,pid);
   },
-  info(){const hs=ofKind(`hound`);return {fz:frozen?1:0,sp:speed,bo:bmode,hn:hs.length,sn:eng.count(`smiler`),gw:glitches.length,it:items.length,pk:new Set(hs.map(h=>h.pack).filter(Boolean)).size,hs:hs.map(h=>h.state).join(`,`),dbg:debugOn?1:0,
+  info(){const hs=ofKind(`hound`);return {fz:frozen?1:0,sp:speed,bo:bmode,hn:hs.length,sn:eng.count(`smiler`),mh:ADMIN_MAX_HOUNDS,ms:ADMIN_MAX_SMILERS,dh:DIRECTOR_MAX_HOUNDS,gw:glitches.length,it:items.length,pk:new Set(hs.map(h=>h.pack).filter(Boolean)).size,hs:hs.map(h=>h.state).join(`,`),dbg:debugOn?1:0,
     cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
 };
 function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;eng.sound({x:p.x,y:p.y,r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
@@ -292,5 +317,6 @@ resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRes
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},
   debug:{V,Ic,get glitches(){return glitches}}};
+
 
 };

@@ -13,8 +13,9 @@ const room = new URLSearchParams(location.search).get('room') || 'main';
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
 let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
 let bodiesList = [];                              // corpses from the server (everyone's, one per player)
-const hMap = new Map(), hSlots = [null, null, null];
-const sSlot = [null, null, null, null, null];     // entity id living in each of the game's five smiler objects
+const CLIENT_ENTITY_SLOTS = 64;                 // stress/admin ceiling; ordinary director population is still 3 Hounds / <=5 Smilers
+const hMap = new Map(), hSlots = Array(CLIENT_ENTITY_SLOTS).fill(null);
+const sSlot = Array(CLIENT_ENTITY_SLOTS).fill(null); // entity id living in each preallocated Smiler render object
 window.__hounds = hSlots;
 let cpNow = 0, killSeq = -1, graceUntil = 0;      // what the server says is holding us / which death we already announced / the spawn grace
 const EN = () => window.__ents;
@@ -179,7 +180,7 @@ function applyServerState(dt) {
   if (best) { G.x = best.x; G.y = best.y; G.angle = best.angle; G.state = best.ls; G.distance = best.distance; }
   else { G.x = G.y = -9e4; G.state = 'patrol'; }
   G.grace = grace; G.pressure = s.p || 0;
-  /* smilers: up to five, each keeps its own one of the game's smiler objects; unused ones are parked far away and hidden */
+  /* smilers: one fixed render slot per server entity (stress ceiling 64); unused slots are parked far away and hidden */
   const sid = new Set();
   for (const t of s.m) {
     sid.add(t.i);
@@ -422,7 +423,7 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
     const sx = W / 2 + (o.x - cam.x) * sc, sy = H / 2 + (o.y - cam.y) * sc;
     const dm = Math.hypot(mx - sx, my - sy);
     if (dm < 30 * sc && dm < best && dist < 800 && (dist < 30 || !los || los(p.x, p.y, Math.atan2(dy, dx), dist) >= dist - 20)) {
-      best = dm; hover = { o, sx, sy };          // every wanderer carries a small aura, so anyone in line of sight is visible
+      best = dm; hover = { o, sx, sy };          // hover requires actual line of sight; emitted-light state is handled separately
     }
   }
   bodyLights(p, lights);
@@ -487,7 +488,7 @@ const sec = t => `<div class="adm-sec">${t}</div>`;
 function bodyPlayers(d) {
   const mine = d.pl.find(p => p.id === adm.you);
   return sec('WANDERERS · ' + d.pl.length) + d.pl.map(pl => {
-    const you = pl.id === adm.you, tags = [you ? 'YOU' : '', pl.ad ? 'ADMIN' : '', !pl.a ? 'MENU' : '', pl.d ? 'DOWN' : '', pl.g ? 'GOD' : ''].filter(Boolean).join(' · ');
+    const you = pl.id === adm.you, tags = [you ? 'YOU' : '', pl.ad ? 'ADMIN' : '', !pl.a ? 'MENU' : '', pl.d ? 'DEAD' : '', pl.g ? 'GOD' : ''].filter(Boolean).join(' · ');
     const line = (SNM[pl.st] || 'stand') + ' · ' + pl.x + ',' + pl.y + (!you && mine ? ' · ' + Math.round(Math.hypot(pl.x - mine.x, pl.y - mine.y)) + ' px away' : '');
     return `<div class="adm-player"><div><b>${esc(pl.n || 'WANDERER')}</b> <i>${tags}</i></div><div class="adm-sub">${live('p' + pl.id, line)}</div><div class="adm-row wrap">` +
       (you ? '' : btn('BRING', `data-c="bring" data-id="${pl.id}"`) + btn('GO TO', `data-c="goto" data-id="${pl.id}"`)) +
@@ -498,9 +499,10 @@ function bodyPlayers(d) {
 function bodyMonsters(d) {
   const mine = d.pl.find(p => p.id === adm.you), sp = v => btn(v + '×', `data-c="speed" data-v="${v}"`, d.sp === v);
   const ents = (d.es || []).slice().sort((a, b) => a[0] - b[0]);
-  return sec(`MONSTERS · ${d.hn} HOUND${d.hn === 1 ? '' : 'S'} (MAX 3)${d.pk ? ' · PACK' : ''} · ${d.sn} SMILER${d.sn === 1 ? '' : 'S'} (MAX 5)`) +
+  const mh = d.mh || 64, ms = d.ms || 64;
+  return sec(`MONSTERS · ${d.hn} HOUND${d.hn === 1 ? '' : 'S'} (ADMIN MAX ${mh})${d.pk ? ' · PACK' : ''} · ${d.sn} SMILER${d.sn === 1 ? '' : 'S'} (ADMIN MAX ${ms})`) +
     rowW(btn(d.fz ? 'FROZEN' : 'FREEZE', `data-c="freeze" data-on="${d.fz ? 0 : 1}"`, d.fz) + btn('SUMMON HOUND TO ME', 'data-c="summon"') + btn('RESPAWN ALL', 'data-c="monsters"')) +
-    `<div class="adm-row wrap" style="margin-top:6px">` + btn('+ HOUND', 'data-c="hounds" data-mode="add"') + btn('− HOUND', 'data-c="hounds" data-mode="remove"') + btn('+ SMILER', 'data-c="smilers" data-mode="add"') + btn('− SMILER', 'data-c="smilers" data-mode="remove"') + '</div>' +
+    `<div class="adm-row wrap" style="margin-top:6px">` + btn('+ HOUND', 'data-c="hounds" data-mode="add" data-n="1"') + btn('+10 HOUNDS', 'data-c="hounds" data-mode="add" data-n="10"') + btn('− HOUND', 'data-c="hounds" data-mode="remove" data-n="1"') + btn('+ SMILER', 'data-c="smilers" data-mode="add" data-n="1"') + btn('+10 SMILERS', 'data-c="smilers" data-mode="add" data-n="10"') + btn('− SMILER', 'data-c="smilers" data-mode="remove" data-n="1"') + '</div>' +
     sec('PUT ONE NEAR ME') + rowW(btn('+ HOUND NEAR', 'data-c="near" data-k="hound"') + btn('+ SMILER NEAR', 'data-c="near" data-k="smiler"')) +
     sec('WORLD SPEED') + rowW(sp(0.25) + sp(0.5) + sp(1) + sp(2) + sp(3)) +
     sec('ENTITIES · ' + ents.length) + (ents.length ? ents.map(e => {
@@ -668,6 +670,7 @@ panel.addEventListener('click', e => {
   if (b.dataset.k) o.k = b.dataset.k;
   if (b.dataset.var) o.var = b.dataset.var;
   if (b.dataset.on !== undefined) o.on = +b.dataset.on;
+  if (b.dataset.n) o.n = +b.dataset.n;
   if (b.dataset.cmd) o.cmd = b.dataset.cmd;
   if (o.c === 'nav') { if (!adm.sel) { adm.res = { ok: false, msg: 'SELECT AN ENTITY FIRST', at: performance.now() }; renderStatus(); return; } o.eid = adm.sel; }
   if (o.c === 'preview') { adm.lastPv = { k: o.k, var: o.var }; const A = window.__api; adm.rv = A ? { stage: 0, t0: performance.now(), pos: { x: A.H.x, y: A.H.y, a: A.H.angle } } : null; }

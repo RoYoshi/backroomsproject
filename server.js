@@ -165,8 +165,18 @@ function adminCommand(room, me, m) {
     case 'freeze': log(`freeze ${!!m.on}`); A.freeze(m.on); res(true, m.on ? 'WORLD FROZEN' : 'WORLD RUNNING'); break;
     case 'speed': log(`speed ${m.v}`); A.speed(m.v); res(true, 'WORLD SPEED ×' + A.info().sp); break;
     case 'blackout': log(`blackout ${m.mode}`); A.blackout(m.mode); res(true, 'LIGHTS: ' + (m.mode === 'on' ? 'BLACKOUT ON' : m.mode === 'off' ? 'BLACKOUT OFF' : 'AUTO')); break;
-    case 'hounds': { log(`hound ${m.mode}`); const add = m.mode === 'add', ok = add ? A.addHound() : A.removeHound(); res(ok, ok ? (add ? 'HOUND ADDED' : 'HOUND REMOVED') : (add ? 'CANNOT ADD: LIMIT OF 3 OR NO SPOT' : 'NO HOUNDS TO REMOVE')); break; }
-    case 'smilers': { log(`smiler ${m.mode}`); const add = m.mode === 'add', ok = add ? A.addSmiler() : A.removeSmiler(); res(ok, ok ? (add ? 'SMILER ADDED' : 'SMILER REMOVED') : (add ? 'CANNOT ADD: LIMIT OF 5 OR NO SPOT' : 'NO SMILERS TO REMOVE')); break; }
+    case 'hounds': {
+      const add = m.mode !== 'remove', want = Math.max(1, Math.min(10, m.n | 0 || 1)); let done = 0;
+      for (; done < want; done++) if (!(add ? A.addHound() : A.removeHound())) break;
+      const inf = A.info(); log(`hound ${add ? 'add' : 'remove'} x${want} -> ${done}`);
+      res(done > 0, done ? `${done} HOUND${done === 1 ? '' : 'S'} ${add ? 'ADDED' : 'REMOVED'} · ${inf.hn}/${inf.mh}` : (add ? `CANNOT ADD: LIMIT ${inf.mh} OR NO SPAWN SPOT` : 'NO HOUNDS TO REMOVE')); break;
+    }
+    case 'smilers': {
+      const add = m.mode !== 'remove', want = Math.max(1, Math.min(10, m.n | 0 || 1)); let done = 0;
+      for (; done < want; done++) if (!(add ? A.addSmiler() : A.removeSmiler())) break;
+      const inf = A.info(); log(`smiler ${add ? 'add' : 'remove'} x${want} -> ${done}`);
+      res(done > 0, done ? `${done} SMILER${done === 1 ? '' : 'S'} ${add ? 'ADDED' : 'REMOVED'} · ${inf.sn}/${inf.ms}` : (add ? `CANNOT ADD: LIMIT ${inf.ms} OR NO SPAWN SPOT` : 'NO SMILERS TO REMOVE')); break;
+    }
     case 'glitch':
       log(`glitch ${m.mode}`);
       if (m.mode === 'new') { A.newGlitches(); res(true, 'GLITCHED WALLS MOVED'); }

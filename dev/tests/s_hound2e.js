@@ -72,8 +72,12 @@ add('2E H13 long-run finite states, valid targets, bounded memory and collision'
  const old=stillT.get(h)||{x:h.x,y:h.y,t:w.t};if(!stillT.has(h)||Math.hypot(h.x-old.x,h.y-old.y)>30||['listen','freeze','sniff','rest','feed'].includes(h.act)||!['HUNTING','SEARCHING','ROAMING'].includes(h.state))stillT.set(h,{x:h.x,y:h.y,t:w.t});else maxStuck=Math.max(maxStuck,w.t-old.t);
  }});}assert(searches>0);assert(maxStuck<25, 'active stationary interval '+maxStuck);return `${ticks} ticks; ${searches} search samples; longest stationary active interval ${maxStuck.toFixed(2)}s`;
 });
-add('2E H14 gaze intimidation is temporary, breaks on looking away and cannot be toggled to refill',()=>{
- const w=World(101),h=still(w,5000,LY),p=w.player(5300,LY,{angle:Math.PI});w.run(.4);assert.equal(h.state,'HUNTING');assert.equal(h.act,'freeze');const used=h.hEye.used;p.angle=0;w.run(.2);assert.notEqual(h.act,'freeze');p.angle=Math.PI;w.run(.3);assert(h.hEye.used>=used);w.run(3,()=>{p.x=h.x+220;p.y=h.y;h.ang=0;p.angle=Math.PI;});assert(h.hEye.used>=1.15+h.tr.CAUTION*.9);assert.notEqual(h.act,'freeze');
+add('2E/HQA H14 eye contact delays pre-pursuit commitment but never suppresses an already committed chase',()=>{
+ const w=World(101),h=still(w,5000,LY),p=w.player(5450,LY,{angle:Math.PI});
+ w.run(.45);assert.equal(h.state,'STALKING');assert.equal(h.act,'stare');assert(h.hEye&&h.hEye.used>0);const budget=1.15+h.tr.CAUTION*.9;
+ const took=w.until(3,()=>h.state==='HUNTING');assert(took>0&&took<2.5);assert(h.hEye.used>=budget-.03);assert.notEqual(h.act,'stare');
+ const d0=Math.hypot(p.x-h.x,p.y-h.y),used=h.hEye.used;p.angle=Math.atan2(h.y-p.y,h.x-p.x);w.run(.22);
+ assert.equal(h.state,'HUNTING');assert(!['stare','freeze'].includes(h.act));assert.equal(h.hEye.used,used);assert(Math.hypot(p.x-h.x,p.y-h.y)<d0);
 });
 add('2E H15 flashlight off stops new light observations without deleting an identified human',()=>{
  const w=World(114),h=still(w,5000,LY),p=w.player(5420,LY);w.run(.3);const r=h.mem.p.get(p.id);assert(r?.hv);const t=r.hv.t;p.light=false;w.run(.35);assert.equal(h.target,p.id);assert(r.conf>.8);assert(r.hv.t>=t);assert(!r.light);assert.equal(h.state,'HUNTING');
@@ -87,5 +91,15 @@ add('2E H17 social sound carries no prey identity or shared memory',()=>{
  const w=World(131),h=still(w,5000,LY),other=still(w,1200,1000),p=w.player(5400,LY);w.run(.3);assert.equal(h.target,p.id);assert(h.mem.p.has(p.id));assert(!other.mem.p.has(p.id));
  // An audible growl from the first Hound, represented through the existing sound bus.
  w.eng.sound({type:'growl',x:other.x+150,y:other.y,r:600,I:.9,src:-h.id});w.run(.3);assert(other.hear?.type==='growl');assert(!other.mem.p.has(p.id));assert(!other.target);assert.notEqual(other.mem,h.mem);
+});
+
+add('2E/HQA H18 close-range walking orbit is not an indefinite safe zone',()=>{
+ const times=[];
+ for(const seed of [211,212,213,214,215,216]){
+  const w=World(seed),R=105,h=still(w,5000,LY),p=w.player(5000+R,LY,{light:false,angle:0});p.look=0;w.run(.35);assert.equal(h.state,'HUNTING');
+  let caught=-1;w.run(4,(ww,t)=>{if(p.dead||p.caught){caught=t;return false;}const dx=p.x-h.x,dy=p.y-h.y,a=Math.atan2(dy,dx)+.45;p.go(h.x+Math.cos(a)*R,h.y+Math.sin(a)*R,'walk');p.look=a;});
+  assert(caught>=0,`seed ${seed}: player orbited for full window`);times.push(caught);
+ }
+ assert(Math.max(...times)<3.5,`slowest capture ${Math.max(...times).toFixed(2)}s`);return `six walking close-orbits all caught; ${times.map(t=>t.toFixed(2)).join(', ')} s`;
 });
 module.exports=S;
