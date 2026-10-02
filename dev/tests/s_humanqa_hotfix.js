@@ -41,4 +41,31 @@ add('HQA X04 visible light still beats Smiler gaze after the pressure fix',()=>{
   return `visible light still overcame sustained gaze in ${chased}/${n} seeded encounters`;
 });
 
+
+add('HQA X05 lost-target search uses observed heading before unrelated reversal and ignores hidden truth',()=>{
+  const {geo,World}=require('./lib.js'),G=geo(),g=G.g;
+  let spot=null,hd=0;
+  outer: for(const c of G.cells){
+    const q={x:g.cx(c),y:g.cy(c)}; if(!G.ad.clear(q.x,q.y,28,'walk'))continue;
+    for(let i=0;i<12;i++){const a=i/12*Math.PI*2;if(g.ray(q.x,q.y,a,520)>430&&g.ray(q.x,q.y,a+Math.PI,520)>430){spot=q;hd=a;break outer;}}
+  }
+  assert(spot,'need an open search fixture with forward and reverse routes');
+  function run(hiddenX,hiddenY){
+    const w=World(901),h=w.hound(spot.x,spot.y),p=w.player(spot.x+80,spot.y,{light:false});
+    w.run(.1);let r=h.mem.p.get(p.id);if(!r){r={id:p.id,aw:1,seen:false,seenAt:w.eng.now-.15,heardAt:-99,lkx:spot.x,lky:spot.y,lvx:Math.cos(hd)*210,lvy:Math.sin(hd)*210,conf:1,hx:0,hy:0,st:2,stamina:100,ex:0,prof:1,light:false,iso:0,first:w.eng.now-.2,lost:0,hLoud:-99,hvx:0,hvy:0,crawl:null,crawlAt:-99,ev:[],downAt:-99,heldAt:-99};h.mem.p.set(p.id,r);}
+    Object.assign(r,{seen:false,seenAt:w.eng.now-.15,heardAt:-99,lkx:spot.x,lky:spot.y,lvx:Math.cos(hd)*210,lvy:Math.sin(hd)*210,conf:1,hLoud:-99,crawl:null});
+    p.x=hiddenX;p.y=hiddenY;p.light=false;p.stop('crouch');
+    h.x=spot.x;h.y=spot.y;h.ang=hd;h.speed=0;h.target=p.id;h.state='SEARCHING';h.act='sniff';h.actT=2;
+    h.search={rid:p.id,started:w.eng.now-.2,goal:null,phase:'pause',legs:0,visited:[],why:'lost',until:w.eng.now+20,maxLegs:6,pause:2,first:false,exitsTried:[],routeStage:0,lookAng:hd,lkp:{x:spot.x,y:spot.y},hd,sp:210};
+    let goal=null;
+    w.run(.6,()=>{if(h.search?.goal?.k==='continue'){goal={...h.search.goal};return false;}});
+    assert(goal,'search should choose a continuation hypothesis');
+    assert(Math.cos(goal.a-hd)>=-.21,`fresh search reversed immediately: hd=${hd} goal=${goal.a}`);
+    return [Math.round(goal.x),Math.round(goal.y),+goal.a.toFixed(4)];
+  }
+  const a=run(400,400),b=run(8800,6400);
+  assert.deepEqual(a,b,'hidden player coordinates changed the search hypothesis');
+  return `first branch stayed in observed forward/side hemisphere at ${a.join(',')} and was identical across hidden positions`;
+});
+
 module.exports=S;

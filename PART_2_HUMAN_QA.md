@@ -37,6 +37,24 @@ Use the admin/debug tools and test these in normal gameplay conditions.
 19. **Camera fairness — ultrawide** — Resize to an ultrawide aspect ratio. It must not reveal additional world beyond the canonical gameplay envelope; one axis may crop instead.
 20. **Aim/lighting after resize** — Resize the browser during play and verify mouse aiming, flashlight direction, multiplayer overlays, LOS mask, camcorder zoom, and death camera stay aligned.
 
+## FPS equality
+
+21. **60 vs 240 Hz** — Cover the same route at 60 FPS and 240 FPS. Real elapsed travel time must be effectively identical; 240 FPS should only look/respond smoother.
+22. **Low-FPS catch-up** — Brief frame drops should not permanently slow the player's simulation. Recovery may hitch visually, but movement must remain real-time rather than frame-count driven.
+
+## Entity presentation
+
+23. **Hound head/body separation** — Watch a Hound notice something off-axis. Its head should acquire the point of interest before/independently of the body; it should read as an animal rather than a tank turret.
+24. **Hound search glance** — Break line of sight around a corner. At the last-seen area, its visible head should favor the direction it actually saw you travelling before scanning alternatives.
+25. **Smiler facing** — The visible face may rotate toward its perceived/remembered point of interest, but must not imply a body/neck or track hidden live coordinates.
+
+## Lost-target intelligence
+
+26. **Corner continuation** — Let a Hound clearly see you moving toward/around a corner, then break LOS. It should reach the legitimate last-known area and initially investigate routes consistent with your observed motion rather than immediately reversing for no reason.
+27. **Can still be fooled** — After breaking LOS, deliberately double back or choose an unexpected branch. The Hound may guess wrong. It must not magically know your hidden route.
+28. **New evidence matters** — If you make a legitimate loud movement while hidden, the Hound may revise its hypothesis based on that heard evidence.
+29. **Finite search** — Stay silent and successfully hide. The Hound must eventually lose confidence/search alternatives/give up; this improvement is prediction, not wallhacks.
+
 ## Lock decision
 
 If all items above feel correct and no new regression appears, mark the package:

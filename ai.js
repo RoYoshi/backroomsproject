@@ -1283,16 +1283,28 @@ function beginSearch(eng, e, r, why) {
   e.hLight = null; e.dbg.hWhy = why === 'lost' ? 'lost visual contact; predict from observed heading and openings' : 'investigate heard evidence';
   setState(e, S.SEARCHING, why === 'lost' ? '' : 'freeze');                    // straight on after the prey: no stop to "think" when it has only just vanished
   const B = searchBudget(e, r, eng.now);
-  e.search = { rid: r ? r.id : 0, started: eng.now, goal: null, phase: 'lkp', legs: 0, visited: [], why, until: eng.now + B.dur, maxLegs: B.legs, pause: 0, first: why !== 'lost', exitsTried: [] };
+  e.search = { rid: r ? r.id : 0, started: eng.now, goal: null, phase: 'lkp', legs: 0, visited: [], why, until: eng.now + B.dur, maxLegs: B.legs, pause: 0, first: why !== 'lost', exitsTried: [], routeStage: 0, lookAng: null };
   e.dbg.searchWhy = why; e.dbg.disengage = '';
-  if (r) { const est = estimate(e, r, eng.now, eng.geo); e.search.goal = { x: est.x, y: est.y, k: 'lkp' }; e.search.est = est; e.search.hd = Math.atan2(r.lvy, r.lvx); e.search.sp = Math.hypot(r.lvx, r.lvy); }
+  if (r) {
+    const est = estimate(e, r, eng.now, eng.geo), sp = Math.hypot(r.lvx, r.lvy), hd = sp > 20 ? Math.atan2(r.lvy, r.lvx) : e.ang;
+    e.search.goal = { x: est.x, y: est.y, k: 'lkp' }; e.search.est = est; e.search.hd = hd; e.search.sp = sp;
+    e.search.lkp = { x: r.lkx, y: r.lky }; e.search.lookAng = hd;
+  }
 }
-/* the places worth looking, scored.  anchor = where the prey most likely is now (memory), heading = which way it was going */
+/* the places worth looking, scored.  anchor = where the prey most likely is now (memory), heading = which way it was going.
+ * Human-QA AI-01: on the first couple of post-loss hypotheses, observed motion has real inertia.  The Hound checks routes that plausibly
+ * continue the last visible heading before it entertains a reversal.  This is a prediction only: left/right branches can still be guessed
+ * wrong, failed hypotheses lose confidence, and no hidden player position/velocity is consulted. */
 function pickSearchGoal(eng, e, s) {
   const r = e.mem.p.get(s.rid), now = eng.now, geo = eng.geo;
-  const base = r ? estimate(e, r, now, geo) : { x: e.x, y: e.y, unc: 500 };
+  const baseEst = r ? estimate(e, r, now, geo) : { x: e.x, y: e.y, unc: 500 };
   const hd = s.hd ?? (r ? Math.atan2(r.lvy, r.lvx) : e.ang), moving = (s.sp || 0) > 30;
-  const prog = clamp((now - s.started) / Math.max(4, s.until - s.started), 0, 1), wH = moving ? lerp(260, 60, prog) * (.55 + .7 * e.tr.INTELLIGENCE) : 0;
+  const prog = clamp((now - s.started) / Math.max(4, s.until - s.started), 0, 1);
+  const earlyRoute = moving && s.why === 'lost' && (s.routeStage || 0) < 2 && prog < .5;
+  // Early after a visual loss, reason from the actual last-seen spot. estimate() is useful later as uncertainty grows, but using a projected
+  // point as the opening anchor can skip the very corner/doorway where the prey disappeared.
+  const base = earlyRoute && s.lkp ? s.lkp : baseEst;
+  const wH = moving ? lerp(360, 70, prog) * (.6 + .75 * e.tr.INTELLIGENCE) : 0;
   let best = null, bs = -1e9;
   const consider = (x, y, sc, k, extra) => {
     const c = geo.cellAt(x, y); if (c < 0 || geo.cls[c] !== 1) { const q = geo.snap(x, y, e.caps, 2); if (q < 0) return; x = geo.cx(q); y = geo.cy(q); }
@@ -1301,11 +1313,25 @@ function pickSearchGoal(eng, e, s) {
     sc = habitBias(e, s.rid, x, y, sc);
     if (sc > bs) { bs = sc; best = Object.assign({ x, y, k }, extra || {}); }
   };
-  // 1) the ways out from where it should be: openings in 12 directions (a doorway or a corridor reads as a long free ray)
+  // 1) the ways out from where it should be: openings in 12 directions.  While the visual trail is fresh, don't immediately reverse away
+  // from the direction the Hound actually saw the prey travelling unless geometry leaves no forward/side opening at all.
+  let continuationCount = 0;
   for (let i = 0; i < 12; i++) {
-    const a = i / 12 * TAU, L = geo.ray(base.x, base.y, a, 700); if (L < 230) continue;
-    const d = Math.min(L - 50, (moving && prog < .35 ? 520 : 260 + 200 * prog) + e.tr.CURIOSITY * 80);            // early on it looks well down the way the prey was going
-    consider(base.x + Math.cos(a) * d, base.y + Math.sin(a) * d, 120 + Math.cos(angDiff(a, hd)) * wH + Math.min(L, 700) * .12, 'continue');
+    const a = i / 12 * TAU, align = Math.cos(angDiff(a, hd));
+    if (earlyRoute && align < -.2) continue;                                 // first hypotheses stay in the forward/side hemisphere
+    const L = geo.ray(base.x, base.y, a, 700); if (L < 230) continue;
+    continuationCount++;
+    const d = Math.min(L - 50, (moving && prog < .35 ? 520 : 260 + 200 * prog) + e.tr.CURIOSITY * 80);
+    const momentum = earlyRoute ? 150 * Math.max(0, align) + 55 * Math.max(0, 1 - Math.abs(angDiff(a, hd)) / (Math.PI / 2)) : 0;
+    consider(base.x + Math.cos(a) * d, base.y + Math.sin(a) * d, 120 + align * wH + momentum + Math.min(L, 700) * .12, 'continue', { a });
+  }
+  // A dead-end can legitimately force a reversal.  If the fresh-heading filter found no plausible exit, widen immediately instead of freezing.
+  if (earlyRoute && continuationCount === 0) {
+    for (let i = 0; i < 12; i++) {
+      const a = i / 12 * TAU, L = geo.ray(base.x, base.y, a, 700); if (L < 230) continue;
+      const d = Math.min(L - 50, 300 + e.tr.CURIOSITY * 80), align = Math.cos(angDiff(a, hd));
+      consider(base.x + Math.cos(a) * d, base.y + Math.sin(a) * d, 90 + align * wH * .45 + Math.min(L, 700) * .1, 'continue', { a, forced: 1 });
+    }
   }
   // 2) a crawlspace it saw the prey go into: its exits (the other faces first: the prey went in from this side)
   const cz = r && r.crawl && now - r.crawlAt < 30 ? WORLD.CRAWL.find(c => c.id === r.crawl) : null;
@@ -1341,8 +1367,12 @@ function hSearch(eng, e, dt, thinkNow) {
   if (e.act === 'sniff' && s.phase === 'pause') {
     stopMoving(eng, e, dt); e.head = Math.sin(e.t * 3.2) * .6; s.pause += dt;
     const warm = r ? clamp(1 - (now - Math.max(r.seenAt, r.heardAt)) / 8, 0, 1) : 0;
-    e.dbg.listen = 'predicted location empty; listen before trying another opening';
-    if (s.pause > (.5 + e.tr.PATIENCE * .8) * (1.2 - e.tr.AGGRESSION * .5) * (1 - .7 * warm)) { s.phase = 'go'; s.goal = pickSearchGoal(eng, e, s); s.legs++; setAct(e, ''); e.mood.frustration = Math.min(1, e.mood.frustration + .05); }
+    s.lookAng = (s.sp || 0) > 30 && (s.routeStage || 0) < 2 ? s.hd : null;      // presentation: look where the observed trail most likely continues
+    e.dbg.listen = s.lookAng !== null ? 'last-seen spot empty; checking the prey\'s observed direction first' : 'predicted location empty; listen before trying another opening';
+    if (s.pause > (.5 + e.tr.PATIENCE * .8) * (1.2 - e.tr.AGGRESSION * .5) * (1 - .7 * warm)) {
+      s.phase = 'go'; s.goal = pickSearchGoal(eng, e, s); s.legs++; if (s.goal?.k === 'continue') s.routeStage = (s.routeStage || 0) + 1;
+      s.lookAng = s.goal?.a ?? null; setAct(e, ''); e.mood.frustration = Math.min(1, e.mood.frustration + .05);
+    }
     return;
   }
   // giving up is a decision with a reason: the evidence has run out, the plausible places are done, or it has simply spent its patience
@@ -1363,7 +1393,7 @@ function hSearch(eng, e, dt, thinkNow) {
     if (!r.seen && now - Math.max(r.seenAt, r.heardAt) > 1) r.conf = Math.max(0, r.conf - .12);
     if (s.goal.key) s.exitsTried.push(s.goal.key); if (s.goal.k === 'enter') s.exitsTried.push('in');
     const atExit = s.goal.k === 'exit';
-    s.phase = atExit && e.rng() < .35 + e.tr.PATIENCE ? 'watch' : 'pause'; s.watchFor = rand(e, 2.5, 7) * (.5 + e.tr.PATIENCE); s.pause = 0; s.goal = null;
+    s.phase = atExit && e.rng() < .35 + e.tr.PATIENCE ? 'watch' : 'pause'; s.watchFor = rand(e, 2.5, 7) * (.5 + e.tr.PATIENCE); s.pause = 0; s.goal = null; s.lookAng = (s.sp || 0) > 30 ? s.hd : null;
     setAct(e, s.phase === 'watch' ? 'listen' : 'sniff');
   }
 }
@@ -1772,13 +1802,16 @@ HOUND.capture = {
  * evidence owned by this Hound (current sampled sight, remembered location, anonymous lead, or fresh heard position). */
 function hVisualLook(e) {
   let x = null, y = null;
+  // During a lost-target search, the visible skull should reveal the current hypothesis: goal first, then the last observed heading while it
+  // pauses/listens.  This is presentation-only and deliberately separate from e.head, which remains the sensory FOV.
+  if (e.search && e.search.goal && Number.isFinite(e.search.goal.x)) { x = e.search.goal.x; y = e.search.goal.y; }
+  else if (e.search && Number.isFinite(e.search.lookAng)) return clamp(angDiff(e.search.lookAng, e.ang), -1.18, 1.18);
   const r = e.target > 0 ? e.mem.p.get(e.target) : null;
-  if (r) {
+  if (x === null && r) {
     if (r.seen && r.hv) { x = r.hv.x; y = r.hv.y; }
     else if (r.conf > .12 && Number.isFinite(r.lkx) && Number.isFinite(r.lky)) { x = r.lkx; y = r.lky; }
   }
   if (x === null && e.hLight && Number.isFinite(e.hLight.x)) { x = e.hLight.x; y = e.hLight.y; }
-  if (x === null && e.search && e.search.goal && Number.isFinite(e.search.goal.x)) { x = e.search.goal.x; y = e.search.goal.y; }
   if (x === null) return clamp(e.head || 0, -1.1, 1.1);
   return clamp(angDiff(Math.atan2(y - e.y, x - e.x), e.ang), -1.18, 1.18);
 }

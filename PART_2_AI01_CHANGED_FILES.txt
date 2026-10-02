@@ -1,0 +1,8 @@
+PART 2 v23.3.5 HQA AI-01 changed files
+
+dev/ai_src/50_hound.js              MODIFIED — stronger bounded last-seen heading inference + search-look presentation
+ai.js                               REBUILT — generated AI bundle
+dev/tests/s_humanqa_hotfix.js       MODIFIED — HQA X05 search-direction / hidden-truth invariance test
+package.json                        MODIFIED — version 23.3.5-hqa-search
+PART_2_HUMAN_QA.md                  MODIFIED — FPS/entity-look/lost-target human QA additions
+PART_2_HQA_AI01_SEARCH_REPORT.md    NEW — implementation and test report
