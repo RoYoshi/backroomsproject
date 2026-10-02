@@ -1,0 +1,32 @@
+name: Deploy to Bloom
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: bloom-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Restart Bloom server
+        env:
+          BLOOM_API_KEY: ${{ secrets.BLOOM_API_KEY }}
+          BLOOM_SERVER_ID: ${{ secrets.BLOOM_SERVER_ID }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${BLOOM_API_KEY:-}" ] || [ -z "${BLOOM_SERVER_ID:-}" ]; then
+            echo "Missing BLOOM_API_KEY or BLOOM_SERVER_ID repository secret."
+            exit 1
+          fi
+
+          curl             --fail-with-body             --silent             --show-error             --retry 3             --retry-delay 2             --request POST             "https://mc.bloom.host/api/client/servers/${BLOOM_SERVER_ID}/power"             --header "Authorization: Bearer ${BLOOM_API_KEY}"             --header "Accept: Application/vnd.pterodactyl.v1+json"             --header "Content-Type: application/json"             --data '{"signal":"restart"}'
+
+          echo "Bloom restart requested. The server startup script will pull the latest main commit."
