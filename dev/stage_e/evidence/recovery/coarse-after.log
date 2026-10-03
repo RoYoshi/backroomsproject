@@ -1,0 +1,10 @@
+PASS H14 far hounds sleep and wake: no perception when far; awake when a player is near  [142ms]
+       tier far=far, perception ticks while far 0; after a player arrives: near
+PASS 2E H13 long-run finite states, valid targets, bounded memory and collision  [1032ms]
+       21600 ticks; 1782 search samples; longest stationary active interval 1.07s
+PASS C07 spawn protection and admin god mode: nothing captures a protected player; unprotected, the very same attack lands  [864ms]
+       100% of 8 runs: never captured while spawn-protected (3 s) or in god mode; the same attack on an unprotected player lands
+PASS C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance  [1307ms]
+       caught within 8 s: fresh 25% vs exhausted 75%; fresh runners holding or widening the gap after 4 s: 58% (avg change -10 px; exhausted -260 px)
+
+4/4 passed

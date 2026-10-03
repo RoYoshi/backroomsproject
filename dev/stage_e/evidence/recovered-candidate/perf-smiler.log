@@ -1,0 +1,17 @@
+/workspace/scratch/cc0c26391600/backroomsproject/ai.js:1234
+    const wp = e.path[0], d = geo.spatial?Math.hypot(wp.x-e.x,wp.y-e.y,wp.z-e.z):Math.hypot(wp.x - e.x, wp.y - e.y);
+                              ^
+
+ReferenceError: geo is not defined
+    at coarseMove (/workspace/scratch/cc0c26391600/backroomsproject/ai.js:1234:31)
+    at farStep (/workspace/scratch/cc0c26391600/backroomsproject/ai.js:2884:7)
+    at eng.step (/workspace/scratch/cc0c26391600/backroomsproject/ai.js:2935:184)
+    at Object.step (/workspace/scratch/cc0c26391600/backroomsproject/sim.js:246:7)
+    at run (/workspace/scratch/cc0c26391600/backroomsproject/dev/tests/perf_smiler.js:46:45)
+    at /workspace/scratch/cc0c26391600/backroomsproject/dev/tests/perf_smiler.js:55:34
+    at Array.map (<anonymous>)
+    at Object.<anonymous> (/workspace/scratch/cc0c26391600/backroomsproject/dev/tests/perf_smiler.js:55:25)
+    at Module._compile (node:internal/modules/cjs/loader:1829:14)
+    at Object..js (node:internal/modules/cjs/loader:1969:10)
+
+Node.js v25.9.0

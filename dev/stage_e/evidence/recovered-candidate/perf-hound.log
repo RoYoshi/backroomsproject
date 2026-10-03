@@ -1,0 +1,15 @@
+{"mode":"shipped","seed":1,"n":3599,"avg_ms":0.0988,"p99_ms":0.5462,"max_ms":3.8425,"avg_near_hounds":3,"avg_searching":0,"avg_sprinters":0,"avg_visible_lights":2,"ok":true}
+{"mode":"shipped","seed":2,"n":3599,"avg_ms":0.0903,"p99_ms":0.4494,"max_ms":1.2835,"avg_near_hounds":3,"avg_searching":0.01,"avg_sprinters":0,"avg_visible_lights":2,"ok":true}
+{"mode":"shipped","seed":3,"n":3599,"avg_ms":0.0791,"p99_ms":0.3739,"max_ms":0.8661,"avg_near_hounds":3,"avg_searching":0,"avg_sprinters":0,"avg_visible_lights":2,"ok":true}
+{"mode":"hound-heavy","seed":1,"n":3599,"avg_ms":0.0788,"p99_ms":0.3196,"max_ms":0.985,"avg_near_hounds":11.64,"avg_searching":0.01,"avg_sprinters":0,"avg_visible_lights":0,"ok":true}
+{"mode":"hound-heavy","seed":2,"n":3599,"avg_ms":0.0807,"p99_ms":0.3322,"max_ms":1.0259,"avg_near_hounds":12,"avg_searching":0,"avg_sprinters":0,"avg_visible_lights":0,"ok":true}
+{"mode":"hound-heavy","seed":3,"n":3599,"avg_ms":0.0853,"p99_ms":0.3348,"max_ms":1.3247,"avg_near_hounds":11.93,"avg_searching":0.12,"avg_sprinters":0,"avg_visible_lights":0,"ok":true}
+{"mode":"sprinting","seed":1,"n":3599,"avg_ms":0.0731,"p99_ms":0.274,"max_ms":2.0076,"avg_near_hounds":8,"avg_searching":0,"avg_sprinters":5.57,"avg_visible_lights":0,"ok":true}
+{"mode":"sprinting","seed":2,"n":3599,"avg_ms":0.0654,"p99_ms":0.2351,"max_ms":1.1664,"avg_near_hounds":7.98,"avg_searching":0,"avg_sprinters":5.39,"avg_visible_lights":0,"ok":true}
+{"mode":"sprinting","seed":3,"n":3599,"avg_ms":0.0594,"p99_ms":0.2725,"max_ms":1.5356,"avg_near_hounds":7.99,"avg_searching":0.01,"avg_sprinters":5.44,"avg_visible_lights":0,"ok":true}
+{"mode":"flashlights","seed":1,"n":3599,"avg_ms":0.0754,"p99_ms":0.3126,"max_ms":1.0029,"avg_near_hounds":8,"avg_searching":0,"avg_sprinters":0,"avg_visible_lights":8,"ok":true}
+{"mode":"flashlights","seed":2,"n":3599,"avg_ms":0.0715,"p99_ms":0.2585,"max_ms":0.8257,"avg_near_hounds":8,"avg_searching":0,"avg_sprinters":0,"avg_visible_lights":8,"ok":true}
+{"mode":"flashlights","seed":3,"n":3599,"avg_ms":0.0706,"p99_ms":0.2511,"max_ms":0.8746,"avg_near_hounds":7.98,"avg_searching":0,"avg_sprinters":0,"avg_visible_lights":8,"ok":true}
+{"mode":"search-heavy","seed":1,"n":3599,"avg_ms":0.0516,"p99_ms":0.1975,"max_ms":1.1898,"avg_near_hounds":8,"avg_searching":1.08,"avg_sprinters":0,"avg_visible_lights":1,"ok":true}
+{"mode":"search-heavy","seed":2,"n":3599,"avg_ms":0.0387,"p99_ms":0.1629,"max_ms":0.6841,"avg_near_hounds":8,"avg_searching":0.41,"avg_sprinters":0,"avg_visible_lights":1,"ok":true}
+{"mode":"search-heavy","seed":3,"n":3599,"avg_ms":0.0438,"p99_ms":0.1594,"max_ms":0.7375,"avg_near_hounds":8,"avg_searching":0.96,"avg_sprinters":0,"avg_visible_lights":1,"ok":true}

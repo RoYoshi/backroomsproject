@@ -1,0 +1,38 @@
+{
+  "branch": "stage-e",
+  "head": "bca4bb1ca183e7c2cb83a676d4f3c3e3167f954f",
+  "statusBeforeChanges": "clean",
+  "milestoneAncestry": [
+    {
+      "commit": "c034a6d3d22e4eeb5f183a3017c429caf9bed356",
+      "tree": "5074845fa980654999cac1aa99df26798e0d7780"
+    },
+    {
+      "commit": "8770a2759f7727c3ff4704eed371493306e92490",
+      "tree": "8dda6c992f0be0ead025e0f95e499a2282499266"
+    },
+    {
+      "commit": "e9bc7b8bc58674db0823cae00949c93dbc44e1f5",
+      "tree": "b33218503b27dce9ebac73be2e6fa25362bb56ae"
+    },
+    {
+      "commit": "1b2f7b6c2c40b1781c43834e4b6e12a28dbd1cce",
+      "tree": "15eee7643ea69c8733e55dacc34981e7276c17e0"
+    },
+    {
+      "commit": "7d63daa2a1f2d1f1031495277a7e5d5c290271ba",
+      "tree": "6d37d2376398d405d021f0a083f2b5f2c0b9c120"
+    },
+    {
+      "commit": "bca4bb1ca183e7c2cb83a676d4f3c3e3167f954f",
+      "tree": "ed9a86e8fa9ecd5735acab5f7742ffb73dd41f2b"
+    }
+  ],
+  "previousLocalTreeMatchesRemote": true,
+  "parentArchiveSHA256": "b52a40ca1d10216d113f5105c4f1e537dce2270b786f9b293e9d59467629c5de",
+  "parentCRC": "PASS",
+  "parentFiles": 585,
+  "runtime": "v25.9.0",
+  "recoveredLogs": "../recovered-candidate/",
+  "stageFStarted": false
+}

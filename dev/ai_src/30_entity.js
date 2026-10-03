@@ -297,7 +297,7 @@ function coarseMove(eng, e, dt) {
   if (!e.path.length) { e.speed = 0; return false; }
   let left = (e.sp.roamSpeed || 90) * dt, moved = 0;
   while (left > 0 && e.path.length) {
-    const wp = e.path[0], d = geo.spatial?Math.hypot(wp.x-e.x,wp.y-e.y,wp.z-e.z):Math.hypot(wp.x - e.x, wp.y - e.y);
+    const wp = e.path[0], d = Math.hypot(wp.x - e.x, wp.y - e.y);
     if (d <= left) { e.x = wp.x; e.y = wp.y; left -= d; moved += d; e.path.shift(); }
     else { e.ang = Math.atan2(wp.y - e.y, wp.x - e.x); e.x += Math.cos(e.ang) * left; e.y += Math.sin(e.ang) * left; moved += left; left = 0; }
   }

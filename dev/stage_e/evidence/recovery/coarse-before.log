@@ -1,0 +1,7 @@
+FAIL H14 far hounds sleep and wake: no perception when far; awake when a player is near  [115ms]
+       EXCEPTION ReferenceError: geo is not defined |     at coarseMove (/workspace/scratch/8477fa762937/backroomsproject/ai.js:1234:31) |     at farStep (/workspace/scratch/8477fa762937/backroomsproject/ai.js:2884:7) |     at eng.step (/workspace/scratch/8477fa762937/backroomsproject/ai.js:2935:184)
+FAIL 2E H13 long-run finite states, valid targets, bounded memory and collision  [797ms]
+       EXCEPTION ReferenceError: geo is not defined |     at coarseMove (/workspace/scratch/8477fa762937/backroomsproject/ai.js:1234:31) |     at farStep (/workspace/scratch/8477fa762937/backroomsproject/ai.js:2884:7) |     at eng.step (/workspace/scratch/8477fa762937/backroomsproject/ai.js:2935:184)
+
+0/2 passed
+FAILED: H14 far hounds sleep and wake: no perception when far; awake when a player is near; 2E H13 long-run finite states, valid targets, bounded memory and collision

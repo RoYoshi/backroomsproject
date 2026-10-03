@@ -1,0 +1,14 @@
+PASS H1 malformed URLs get a 4xx and the server keeps serving
+       /% -> 400 Bad Request · /%E0%A4%A -> 400 Bad Request · /%zz -> 400 Bad Request · /world.js% -> 400 Bad Request · /%C0%AF -> 400 Bad Request · /..%2f..%2fserver.js -> 404 Not Found · /sounds/% -> 400 Bad Request · then / -> 200, /world.js -> 200, /server.js -> 404 · server process alive
+node:internal/process/promises:330
+      new UnhandledPromiseRejection(reason);
+      ^
+
+UnhandledPromiseRejection: This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). The promise rejected with the reason "#<_ErrorEvent>".
+    at throwUnhandledRejectionsMode (node:internal/process/promises:330:7)
+    at processPromiseRejections (node:internal/process/promises:413:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:32) {
+  code: 'ERR_UNHANDLED_REJECTION'
+}
+
+Node.js v25.9.0
