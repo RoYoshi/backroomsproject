@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "parent": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+  "groups": {
+    "dev/stage_a/traces/": {
+      "files": 51,
+      "unchanged": true
+    },
+    "dev/baselines/": {
+      "files": 1,
+      "unchanged": true
+    },
+    "CFG": {
+      "unchanged": true
+    },
+    "PLAN": {
+      "unchanged": true
+    },
+    "move.js": {
+      "unchanged": true
+    },
+    "world_geometry.js": {
+      "unchanged": true
+    },
+    "world.js": {
+      "unchanged": true
+    },
+    "levels/level0.js": {
+      "unchanged": true
+    },
+    "dev/stage_a/future_matrix.json": {
+      "unchanged": true
+    },
+    "dev/ents_src/25_death.js": {
+      "unchanged": true
+    },
+    "dev/ai_src/50_hound.js": {
+      "files": 1,
+      "unchanged": true
+    },
+    "dev/ai_src/60_smiler.js": {
+      "files": 1,
+      "unchanged": true
+    },
+    "dev/ai_src/30_entity.js": {
+      "files": 1,
+      "unchanged": true
+    },
+    "dev/ai_src/31_spatial_motion.js": {
+      "files": 1,
+      "unchanged": true
+    }
+  }
+}

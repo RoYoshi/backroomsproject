@@ -1,0 +1,300 @@
+{
+  "status": "PASS_BASELINE_EQUIVALENCE",
+  "comparisons": [
+    {
+      "suite": "npm-test",
+      "acceptedResult": "FAIL",
+      "finalResult": "FAIL",
+      "acceptedCounts": {
+        "passed": 151,
+        "total": 162,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 151,
+        "total": 162,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "hound",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 18,
+        "total": 18,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 18,
+        "total": 18,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "shared",
+      "acceptedResult": "FAIL",
+      "finalResult": "FAIL",
+      "acceptedCounts": {
+        "passed": 22,
+        "total": 23,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 22,
+        "total": 23,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "humanqa",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 6,
+        "total": 6,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 6,
+        "total": 6,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "fps",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 10,
+        "total": 10,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "finalCounts": {
+        "passed": 10,
+        "total": 10,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "camera",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 12,
+        "total": 12,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 12,
+        "total": 12,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "entity-look",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "physics",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 53,
+        "total": 53,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "finalCounts": {
+        "passed": 53,
+        "total": 53,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "interpolation",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "finalCounts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "navigation",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": null,
+        "total": null,
+        "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"
+      },
+      "finalCounts": {
+        "passed": null,
+        "total": null,
+        "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "audit-net",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "audit-net2",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 11,
+        "total": 11,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 11,
+        "total": 11,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "live",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "ir-net",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "finalCounts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "perf-hound",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 15,
+        "total": 15,
+        "source": "JSON workloads"
+      },
+      "finalCounts": {
+        "passed": 15,
+        "total": 15,
+        "source": "JSON workloads"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "perf-shared",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 27,
+        "total": 27,
+        "source": "JSON workloads"
+      },
+      "finalCounts": {
+        "passed": 27,
+        "total": 27,
+        "source": "JSON workloads"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "perf-smiler",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "finalCounts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "perf-light",
+      "acceptedResult": "PASS",
+      "finalResult": "PASS",
+      "acceptedCounts": {
+        "passed": 1,
+        "total": 1,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "finalCounts": {
+        "passed": 1,
+        "total": 1,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    }
+  ],
+  "initialTransient": {
+    "suite": "audit-net2",
+    "result": "10/11",
+    "failure": "NZ1 no-report running observed 1,2 rather than only 2",
+    "isolatedRerun": "11/11 unchanged source and thresholds",
+    "classification": "Observed timing variability; first raw failure retained. No new reproducible functional regression."
+  }
+}

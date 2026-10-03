@@ -16,3 +16,11 @@ G3 verified remote: `defadec985a09ae74b33d284c5ee050bc787c93b`; tree `77795e7802
 G4-recovery verified remote: `40e55da0ef404fd97bff5eb47e4c9d8457a09955`; tree `e0d9fe36023b3639e20b2e55e3d4b74514adf543`. Remote ref and fetched tree verified before continuing.
 
 G4 verified remote: `86968bfaacfd7f2210b01985281a4b8304f39301`; tree `02cf17b7819790db9bc5e711104af8b51cd9cd8a`. Remote ref and fetched tree verified before continuing.
+
+G5-recovery verified remote: `fff5d085ff9c87b0d4904cf44e0f438a7793fb56`; tree `79d01890e45ef8c33c26d1a2f3479089c1793f1e`. Remote ref and fetched tree verified before continuing.
+
+G5 final source publication is the commit containing the completed report set,
+full regression evidence and package finalizer. Its verified remote SHA/tree are
+recorded in the external package verification and released checkpoint report
+after pushing, avoiding a self-referential commit identifier. No merge to main;
+Stage H has not begun.
