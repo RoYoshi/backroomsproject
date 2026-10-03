@@ -25,6 +25,10 @@ class Authority {
   if(a.owned)return this.reject(c,'server-owned');
   a.queue.push(...ss.map(clone));this.stats.maxQueue=Math.max(this.stats.maxQueue,a.queue.length);return true;
  }
+ afterSim(){for(const c of this.room.clients.values()){const a=c.spatial,p=c.player;if(!a)continue;const mode=p.dead?'dead':p.caught?'captured':p.motionMode;
+  if(mode==='captured'&&!p.dead&&a.mode==='captured'){const target=p.caught.drag;this.motion.posture(p,p.caught.phase==='down'?'down':'crawl');if(target){const dx=target.x-p.x,dy=target.y-p.y,d=Math.hypot(dx,dy),v=Math.min(130,d*60);p.vx=d?dx/d*v:0;p.vy=d?dy/d*v:0;}else p.vx=p.vy=0;this.motion.step(p);this.publish(c);}
+  if(mode!==a.mode&&(mode==='captured'||mode==='dead'||a.mode==='captured')){a.owned=false;p.step=null;p.trav=null;p.vx=p.vy=p.vz=0;this.correct(c,mode);a.mode=mode;}
+ }}
  beginWake(){this.stats.work=0;}
  publish(c){const p=c.player;p.navSurfaceId=this.g.supportPatch(p.supportId)?.navSurfaceId||null;}
  step(){const cs=[...this.room.clients.values()];if(!cs.length)return;

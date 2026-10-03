@@ -1,0 +1,187 @@
+{
+  "last": {
+    "t": "s",
+    "p": [],
+    "e": {
+      "st": 12.233,
+      "h": [],
+      "m": [],
+      "b": 0,
+      "p": 0.021,
+      "gw": [],
+      "it": [],
+      "lf": [],
+      "sn": []
+    },
+    "me": "",
+    "ms": 0,
+    "cp": 0,
+    "protocol": {
+      "worldEpoch": "014a68a9-dd8a-4f61-8608-350e1ac16f35",
+      "simTick": 734
+    },
+    "pose": {
+      "worldEpoch": "014a68a9-dd8a-4f61-8608-350e1ac16f35",
+      "entityId": "p1",
+      "generation": 1,
+      "seq": 734,
+      "tick": 734,
+      "discontinuity": 12,
+      "x": 1923.3654600485484,
+      "y": 500,
+      "z": 0.05,
+      "vx": 284.99999997545143,
+      "vy": 0,
+      "vz": 0,
+      "yaw": 0,
+      "height": 60,
+      "profile": "profile:player-stand",
+      "support": "support:ground",
+      "navSurface": "nav:ground",
+      "mode": "grounded",
+      "link": null,
+      "progress": 0,
+      "step": null
+    },
+    "spatial": [],
+    "spatialStats": {
+      "accepted": 269,
+      "rejected": 55,
+      "corrections": 13,
+      "maxQueue": 51,
+      "maxHistory": 90,
+      "maxWork": 15,
+      "work": 0,
+      "ownedTicks": 0,
+      "reasons": {
+        "sequence": 8,
+        "speed": 1,
+        "identity": 27,
+        "tick": 13,
+        "pose-claim": 6
+      }
+    },
+    "ad": {
+      "fz": 0,
+      "sp": 1,
+      "bo": "auto",
+      "hn": 0,
+      "sn": 0,
+      "mh": 64,
+      "ms": 64,
+      "dh": 3,
+      "gw": 0,
+      "it": 0,
+      "pk": 0,
+      "hs": "",
+      "dbg": 0,
+      "cm": "auto",
+      "es": [],
+      "pl": [
+        {
+          "id": 1,
+          "n": "WANDERER",
+          "a": 1,
+          "d": "",
+          "g": 0,
+          "ad": 1,
+          "st": 2,
+          "x": 1923,
+          "y": 500
+        }
+      ]
+    },
+    "you": 1
+  },
+  "corrections": [
+    {
+      "t": "correction",
+      "cause": "pose-claim",
+      "pose": {
+        "worldEpoch": "014a68a9-dd8a-4f61-8608-350e1ac16f35",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 405,
+        "tick": 405,
+        "discontinuity": 10,
+        "x": 1923.3654600485484,
+        "y": 500,
+        "z": 0.05,
+        "vx": 284.99999997545143,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "pose-claim",
+      "pose": {
+        "worldEpoch": "014a68a9-dd8a-4f61-8608-350e1ac16f35",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 417,
+        "tick": 417,
+        "discontinuity": 11,
+        "x": 1923.3654600485484,
+        "y": 500,
+        "z": 0.05,
+        "vx": 284.99999997545143,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "pose-claim",
+      "pose": {
+        "worldEpoch": "014a68a9-dd8a-4f61-8608-350e1ac16f35",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 435,
+        "tick": 435,
+        "discontinuity": 12,
+        "x": 1923.3654600485484,
+        "y": 500,
+        "z": 0.05,
+        "vx": 284.99999997545143,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      }
+    }
+  ]
+}
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 45083 | stage-f @ eb5be2167e18
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 45083 | stage-f @ eb5be2167e18
+The Far Backrooms → http://localhost:45083  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+
+Error: Timeout all legitimate samples
+    at wait (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/wire.js:4:135)
+    at async /workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/test_f3.js:13:2

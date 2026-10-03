@@ -1,0 +1,4 @@
+'use strict';
+const {world,box}=require('../stage_c/helpers');
+function field(){const d=world([box('ground',0,0,7200,1200,-20,0),box('upper',0,0,7200,1200,180,200)]);d.bounds={min:{x:0,y:0,z:-200},max:{x:7300,y:1300,z:700}};d.assetId='world:stage-f-wire';d.geometryRevision='f1';d.navSurfaces=[{id:'nav:ground',patchIds:['support:ground'],origin:{x:0,y:0},cellSize:48,boundaryLinkIds:[],chart:'xy',clearanceProfileIds:['profile:player-stand']},{id:'nav:upper',patchIds:['support:upper'],origin:{x:0,y:0},cellSize:48,boundaryLinkIds:[],chart:'xy',clearanceProfileIds:['profile:player-stand']}];for(const p of d.supportPatches)p.navSurfaceId=p.id.replace('support:','nav:');d.anchors=[{id:'anchor:spawn',kind:'spawn',position:{x:1000,y:500,z:0},yaw:0,supportId:'support:ground',spaceId:null,colliderProfileId:'profile:player-stand'}];return d;}
+module.exports={field};

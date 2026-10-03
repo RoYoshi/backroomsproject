@@ -121,7 +121,7 @@ function pruneBodies(dt){
 }
 
 function resetWorld(){
-  worldGeneration++;
+  worldGeneration++;if(spatial)clockT=0;
   Lc();runT=0;PR=0;eng.pressure=0;spawnT=rnd(70,150);
   spawnMonsters(RND()<.5?1:2,2+((RND()*4)|0));      // 1-2 hounds to begin with (up to 3 later), 2-5 smilers
   glitches=makeGlitches(3);items=makeItems();

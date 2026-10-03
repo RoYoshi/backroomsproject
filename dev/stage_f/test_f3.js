@@ -1,0 +1,24 @@
+'use strict';
+const assert=require('node:assert/strict'),{field}=require('./fixture'),{mover}=require('../stage_c/helpers'),{server,connect,wait,sleep}=require('./wire');
+const sample=(h,t,posture='walk')=>({tick:t,x:h.x,y:h.y,z:h.z,vx:h.vx,vy:h.vy,yaw:0,posture,support:h.supportId});
+(async()=>{const d=field(),s=await server(d);let c,other;
+try{c=await connect(s,d);await c.join();await c.admin();const start=c.client.anchor,driver=mover(d,start);let tick=start.tick,report=0,seed=77,pending=[],batch=[],sent=0,duplicates=0,bytes=0;const begin=Date.now(),duration=420,epoch=c.client.world.worldEpoch,initial=c.corrections.length;
+ const rng=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};let due=0;
+ for(let i=1;i<=duration;i++){
+  driver.step(i<300?1:0,i>=300?1:0,i>180&&i<270,i>330);tick++;batch.push(sample(driver.H,tick,driver.mv.s));
+  if(batch.length===3){const message=c.client.proposal(batch);batch=[];due=Math.max(due,begin+i*1000/60+20+rng()*230);if(i>=120&&i<=180)due=Math.max(due,begin+3000);pending.push({due,message});if(++report%13===0){pending.push({due:due+2,message});duplicates++;}}
+  while(Date.now()<begin+i*1000/60){while(pending.length&&pending[0].due<=Date.now()){const q=pending.shift();c.send(q.message);bytes+=JSON.stringify(q.message).length;sent++;}await sleep(2);}
+ }
+ while(pending.length){if(pending[0].due<=Date.now()){const q=pending.shift();c.send(q.message);bytes+=JSON.stringify(q.message).length;sent++;}else await sleep(4);}
+ await wait(()=>c.last.spatialStats.accepted===duration,'all legitimate samples',5000);assert.equal(c.client.world.worldEpoch,epoch);assert.equal(c.corrections.length,initial);assert(Math.hypot(c.last.pose.x-driver.H.x,c.last.pose.y-driver.H.y)<.01);assert(c.last.spatialStats.maxQueue<=90);assert(c.last.spatialStats.maxWork<=15);
+ console.log('Z20 PASS '+JSON.stringify({seed:77,ticks:duration,latency:[20,250],bunchMs:1000,duplicates,sent,bytes,corrections:0,maxError:Math.hypot(c.last.pose.x-driver.H.x,c.last.pose.y-driver.H.y),stats:c.last.spatialStats}));
+ const stale={...c.client.proposal([])},malicious=[];
+ for(const [name,mutate] of [['hugeXY',q=>q.x=1e6],['fakeZ',q=>q.z=200],['wrongSupport',q=>q.support='support:upper'],['fakeLink',q=>q.link='link:fake'],['futureTick',q=>q.tick+=100000],['reusedTick',q=>q.tick--],['speed',q=>{q.vx=360;q.posture='crawl'}],['nonfinite',q=>q.z=null],['completion',q=>q.progress=1]]){
+  await c.teleport({x:1000,y:500,z:0,support:'support:ground'});const a=c.client.anchor;await wait(()=>c.last.protocol.simTick>a.tick,'tick credit');const q={tick:a.tick+1,x:1000,y:500,z:0,vx:0,vy:0,yaw:0,posture:'stand',support:'support:ground'};mutate(q);const count=c.last.spatialStats.rejected;c.send(c.client.proposal([q]));await wait(()=>c.last.spatialStats.rejected>count,name);assert.equal(c.last.pose.x,1000);assert.equal(c.last.pose.z,0);malicious.push(name);
+ }
+ for(const [key,value] of [['geometryHash','bad'],['worldEpoch','stale'],['life',0],['ack',0]]){const count=c.last.spatialStats.rejected;c.send({...c.client.proposal([{}]),[key]:value});await wait(()=>c.last.spatialStats.rejected>count,key);malicious.push(key);}
+ const count=c.last.spatialStats.rejected;c.send(c.client.proposal(Array(16).fill({})));await wait(()=>c.last.spatialStats.rejected>count,'array bound');malicious.push('oversizedSamples');console.log('Z21 PASS '+JSON.stringify({malicious,stats:c.last.spatialStats}));
+ const life=c.client.life;c.send({t:'respawn'});await sleep(100);assert.equal(c.client.life,life);c.send({t:'join'});await sleep(100);assert.equal(c.client.life,life);console.log('PASS living respawn/join rejected');
+ const old=c.client.world.worldEpoch,oldAction=c.client.action({t:'respawn'});c.send({t:'a',c:'world'});await wait(()=>c.client.world.worldEpoch!==old&&c.client.pose,'explicit world reset');assert.equal(c.client.ack,1);const current=c.client.life;c.ws.send(JSON.stringify(oldAction));await sleep(100);assert.equal(c.client.life,current);assert(!c.client.accept({...start,worldEpoch:old}));assert(!c.client.pending.length);console.log('Z22 PASS explicit world epoch resets correction/prediction and rejects old pose/actions');
+ console.log(JSON.stringify({status:'PASS',corrections:c.corrections.map(x=>({cause:x.cause,tick:x.pose.tick})),stats:c.last.spatialStats},null,2));
+}finally{console.log(JSON.stringify({last:c?.last,corrections:c?.corrections.slice(-3)},null,2));c?.close();other?.close();await s.close();console.log(s.log);}})().catch(e=>{console.error(e);process.exitCode=1;});
