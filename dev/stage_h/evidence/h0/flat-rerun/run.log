@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: Flat browser screenshot parity
+    at /workspace/scratch/3410508bb103/backroomsproject/dev/stage_e/browser_flat_controlled.js:20:61
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Object],
+  expected: [Object],
+  operator: 'deepEqual',
+  diff: 'simple'
+}

@@ -23,3 +23,9 @@ Carry forward accepted 151/162 aggregate with 11 named inherited failures, share
 ## Preserved baseline failure
 
 The unmodified Stage E elapsed-controlled flat screenshot harness failed byte equality while comparing identical accepted-parent runtime bytes. Its raw assertion and all four screenshots are preserved at `evidence/h0/browser-flat.log` and `flat-stage-{c,d}-{menu,playing}.png`. Real flat boot/entry, camera, D core and extended gates pass. No runtime repair has occurred. This evidence checkpoint precedes diagnosis; H0 is not yet declared complete.
+
+## H0 completion
+
+The isolated historical harness repeated its active-gameplay mismatch on identical source. Additive `browser_flat.js` records explicit RAF callback delivery, RNG and state. Its first run produced exact equal menu/gameplay pixels but correctly failed a stricter frame-schedule comparison: async carpet/image loading registered the production `Ou` callback at different fake-clock times. That raw evidence remains in `flat-controlled`. Waiting for the actual production callback before starting a fixed equal frame schedule resolves the race, with no runtime changes and no threshold relaxation. `flat-ready/result.json`: exact menu/gameplay screenshot hashes, state, RNG and all 96 frame deliveries match.
+
+H0 PASS: exact accepted parent; camera/core/independence; real browser depth and five viewport cases; actual served flat boot; reproducible flat screenshots with explicit startup/frame schedule. H0 contains no runtime migration. All failing captures/logs remain.
