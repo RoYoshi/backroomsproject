@@ -7,7 +7,7 @@
   const V = window.TFB_VIEW;
   const clone = x => JSON.parse(JSON.stringify(x));
   let A, R, P, geometry, model, view, pass, artEpoch;
-  const art = new Map();
+  const art = new Map(), labelArt = new Map();
   const config = { cutaway: true, quality: 1, camera: null, focus: null, labels: false };
   const state = { ready: false, frames: 0, dt: 0, time: 0, started: false, lightOn: false, packets: [], trace: [] };
   function spawn() {
@@ -37,8 +37,15 @@
     // These planar world layers are replaced by packets in the spatial pass.
     // Screen HUD remains on the existing page; no alternate application exists.
     const css = document.createElement('style');
-    css.textContent = 'body[data-world-mode="spatial"] #mp,body[data-world-mode="spatial"] #light,body[data-world-mode="spatial"] #peerTip{display:none!important}';
+    css.textContent = ['mp','light','peerTip','aiDebug','glitchFx'].map(id => 'body[data-world-mode="spatial"] #' + id).join(',') + '{display:none!important}';
     document.head.appendChild(css);
+    // The planar debug renderer cannot submit an unmasked secondary canvas.
+    // Its existing switch enables depth-tested actor labels in this pass.
+    const debug = window.__ents?.drawDebug;
+    if (debug) window.__ents.drawDebug = function (...args) {
+      if (window.TFB_WORLD) return;
+      return debug.apply(this, args);
+    };
     state.ready = true;
   }
   function prepare(dt, started, lightOn, time) {
@@ -80,6 +87,38 @@
     const slot = pass.art.length; pass.art.push(texture(e));
     return { id, kind, x: pose.x, y: pose.y, z: pose.z, height: pose.height || (kind === 'hound' ? 36 : kind === 'smiler' ? 48 : A.H.shape?.height || 60), art: slot, support: pose.support ?? pose.supportId, mode: pose.mode ?? pose.motionMode, tick: pose.tick, generation: pose.generation };
   }
+  function eyePoint() {
+    const p = A.H;
+    return { x: p.x, y: p.y, z: p.z + (window.TFB_MOTION.PROFILES[p.posture || 'stand']?.eyeHeight || 50) };
+  }
+  function perceivable(p) {
+    if (!p || !['x','y','z'].every(k => Number.isFinite(p[k]))) return false;
+    const eye = eyePoint(), h = p.height || p.shape?.height || 60;
+    return [1,h / 2,h - 1].some(z => V.visible(model, eye, { x: p.x, y: p.y, z: p.z + z }));
+  }
+  function sample(id) { return window.__spatialHistory?.()?.sample(id, performance.now()); }
+  function adminData(d) {
+    if (!d) return d;
+    const pl = d.pl.filter(p => p.id === A.H.id || perceivable(sample('p' + p.id)));
+    const es = (d.es || []).filter(e => perceivable(sample((e[1] ? 'm' : 'h') + e[0])));
+    return { ...d, pl, es, hn: es.filter(e => !e[1]).length, sn: es.filter(e => e[1]).length };
+  }
+  function label(packet, text) {
+    if (!perceivable(packet)) return null;
+    let a = labelArt.get(text); const gl = pass.gl;
+    if (!a) {
+      const canvas = document.createElement('canvas'); canvas.width = 256; canvas.height = 32;
+      const c = canvas.getContext('2d'); c.font = '24px ui-monospace,monospace'; c.textAlign = 'center'; c.textBaseline = 'middle';
+      c.fillStyle = 'rgba(0,0,0,.8)'; c.fillRect(1,3,254,26); c.fillStyle = '#e8e2bf'; c.fillText(text.slice(0,30),128,16);
+      const tex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D,tex);
+      gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false); gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,canvas); pass.textureParams();
+      a = { tex, width: 192, height: 24, bytes: 256 * 32 * 4, borrowed: true }; labelArt.set(text,a);
+    }
+    a.used = state.frames;
+    const slot = pass.art.length; pass.art.push(a);
+    return { ...packet, id: 'label:' + packet.id, owner: packet.id, kind: 'label', z: packet.z + packet.height + 6, height: 1, art: slot };
+  }
   function render() {
     if (!state.ready) return;
     const start = performance.now(), net = window.__net.spatialState?.(), history = window.__spatialHistory?.();
@@ -91,8 +130,10 @@
     state.frames++;
     const camera = config.camera || { x: local.x, y: local.y, z: local.z };
     R.camera = { ...camera }; R.scale = window.__cameraPolicy.baseScale(innerWidth, innerHeight);
-    const eye = { x: local.x, y: local.y, z: local.z + (window.TFB_MOTION.PROFILES[local.posture || 'stand']?.eyeHeight || (local.posture === 'crawl' ? 18 : local.posture === 'crouch' ? 31 : 50)) };
-    const cutStart = performance.now(); view.update(focus, state.dt, { epoch, enabled: config.cutaway });
+    const eye = eyePoint();
+    // Simulation catch-up caps do not slow a client-local wall-clock fade.
+    const viewDt = state.viewAt == null ? 0 : Math.min(.25, Math.max(0,(start - state.viewAt) / 1000)); state.viewAt = start;
+    const cutStart = performance.now(); view.update({ x: focus.x, y: focus.y, z: focus.z }, viewDt, { epoch, enabled: config.cutaway });
     const cutMs = performance.now() - cutStart;
     const renderer = R.app.renderer;
     // Raw pass samplers must be detached before Pixi writes an actor's texture
@@ -115,6 +156,11 @@
     for (const h of window.__hounds || []) if (h) packets.push(livePacket('h' + h.id, 'hound', history?.sample('h' + h.id, performance.now()), h));
     for (const s of A.q) if (!s.off && s.sid !== undefined) packets.push(livePacket('m' + s.sid, 'smiler', history?.sample('m' + s.sid, performance.now()), s));
     state.packets = packets.filter(Boolean);
+    if (config.labels || window.__ents?.dbgCfg.on) for (const p of state.packets.slice()) {
+      const peer = net?.peers.find(o => 'p' + o.id === p.id);
+      const q = label(p, peer?.n || (p.kind === 'player' ? local.name : p.kind.toUpperCase() + ' ' + p.id));
+      if (q) state.packets.push(q);
+    }
     pass.resize(innerWidth, innerHeight, devicePixelRatio, config.quality);
     state.last = pass.render({ camera, eye, view, actors: state.packets, overlays: [] });
     renderer.resetState();
@@ -122,8 +168,9 @@
     state.trace.push({ frame: state.frames, x: local.x, y: local.y, z: local.z, tick: local.tick, support: local.supportId, mode: local.motionMode, server: net?.pose });
     if (state.trace.length > 240) state.trace.shift();
     for (const [key, e] of art) if (e.used < state.frames - 2) { e.texture?.destroy(true); e.wrap.destroy({ children: true }); art.delete(key); }
+    for (const [key, e] of labelArt) if (e.used < state.frames - 2) { gl.deleteTexture(e.tex); labelArt.delete(key); }
   }
-  const api = window.__spatial = { bind, init, spawn, prepare, render, config, state,
+  const api = window.__spatial = { bind, init, spawn, prepare, render, config, state, perceivable, sample, adminData, eyePoint,
     get geometry() { return geometry; }, get model() { return model; }, get view() { return view; }, get pass() { return pass; },
     inspect() { const gl = pass?.gl, ext = gl?.getExtension('WEBGL_debug_renderer_info'); return clone({ ready: state.ready, world: geometry?.identity, network: window.__net.spatialState?.(), frames: state.frames, packets: state.packets, last: state.last, cutaway: view?.snapshot(), gpu: gl && gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER), renderer: 'existing production Pixi 8.21.0 / WebGL2' }); }
   };

@@ -623,7 +623,7 @@ function renderAdmin() {
   if (adm.unlocked) { renderTabs(); adm.sig = ''; renderAdminData(); renderStatus(); }
 }
 function renderAdminData() {
-  const d = adm.data; if (!adm.open || !adm.unlocked || !d) return;
+  const d = window.__spatial ? window.__spatial.adminData(adm.data) : adm.data; if (!adm.open || !adm.unlocked || !d) return;
   liveMap = {};
   const html = (BODIES[adm.tab] || bodyPlayers)(d), sig = adm.tab + '|' + html.replace(/(<span data-live="[^"]+">)[^<]*(<\/span>)/g, '$1$2'), body = $a('admBody');
   if (sig !== adm.sig) { body.innerHTML = html; adm.sig = sig; }
@@ -852,7 +852,8 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   if (!spatialClient) drawPeers(p, cam, sc, los, t, W, H);
   /* --- dread: proximity to hound + smilers drives heartbeat, drone, vignette, shake, flicker --- */
   let d = 1e9;
-  if (run) { d = Math.hypot(G.x - p.x, G.y - p.y); for (const s of q) d = Math.min(d, Math.hypot(s.x - p.x, s.y - p.y)); }
+  if (run && window.__spatial) { for (const h of hSlots) if (h) { const pose = window.__spatial.sample('h' + h.id); if (window.__spatial.perceivable(pose)) d = Math.min(d, Math.hypot(pose.x-p.x,pose.y-p.y,pose.z-p.z)); } for (const sm of q) if (!sm.off) { const pose=window.__spatial.sample('m'+sm.sid); if(window.__spatial.perceivable(pose)) d=Math.min(d,Math.hypot(pose.x-p.x,pose.y-p.y,pose.z-p.z)); } }
+  else if (run) { d = Math.hypot(G.x - p.x, G.y - p.y); for (const s of q) d = Math.min(d, Math.hypot(s.x - p.x, s.y - p.y)); }
   const target = run ? Math.max(0, Math.min(1, 1 - d / 620)) : 0;
   k += (target - k) * Math.min(1, t * (target > k ? 3 : .8));
   if (dg && ac) dg.gain.value = soundOn() ? k * k * .16 : 0;

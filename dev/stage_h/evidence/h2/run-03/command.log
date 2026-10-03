@@ -1,0 +1,6 @@
+page.waitForFunction: Timeout 30000ms exceeded.
+    at Object.command (/workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_support.js:14:268)
+    at async /workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_h2.js:19:11 {
+  log: [],
+  name: 'TimeoutError'
+}

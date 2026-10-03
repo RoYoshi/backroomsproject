@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: 72 == 0
+    at /workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_h2.js:18:96 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 72,
+  expected: 0,
+  operator: '==',
+  diff: 'simple'
+}

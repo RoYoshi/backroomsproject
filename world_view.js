@@ -126,7 +126,7 @@
       this.last={scope,drawCalls:draws,passes:2,physicalVisibility:'exact bounded per-fragment convex rays',occluders:this.model.solids.filter(s=>s.visible).length,triangles:this.model.vertices.length/24+actors.length*2+overlays.length*2,target:{...this.target,depth:'DEPTH_COMPONENT24',color:'RGBA8'},logical:{width:this.width,height:this.height,dpr:this.dpr},quality:this.quality,newResourceBytes:this.staticBytes+this.target.width*this.target.height*8,defaultColorBytesEstimate:this.target.width*this.target.height*4,eye:{...eye},camera:{...camera},elevationScale,cutaway:view?.snapshot()};return this.last;
     }
     pixels(){const gl=this.gl,b=new Uint8Array(this.target.width*this.target.height*4);gl.bindFramebuffer(gl.READ_FRAMEBUFFER,this.fbo);gl.readPixels(0,0,this.target.width,this.target.height,gl.RGBA,gl.UNSIGNED_BYTE,b);return b;}
-    dispose(){const g=this.gl;for(const o of [this.world,this.proxy]){g.deleteBuffer(o.buffer);g.deleteVertexArray(o.vao);}for(const t of [this.solidTexture,this.color,...this.art.map(x=>x.tex)])g.deleteTexture(t);g.deleteFramebuffer(this.fbo);g.deleteRenderbuffer(this.depth);g.deleteProgram(this.program);}
+    dispose(){const g=this.gl;for(const o of [this.world,this.proxy]){g.deleteBuffer(o.buffer);g.deleteVertexArray(o.vao);}for(const t of [this.solidTexture,this.color,...this.art.filter(x=>!x.borrowed).map(x=>x.tex)])g.deleteTexture(t);g.deleteFramebuffer(this.fbo);g.deleteRenderbuffer(this.depth);g.deleteProgram(this.program);}
   }
   return Object.freeze({ELEVATION,MAX_SOLIDS,MAX_PLANES,MAX_PIXELS,BOUNDARY,project,depth,onPlane,footprint,within,freeze,compile,interval,visible,LocalView,SpatialPass});
 });
