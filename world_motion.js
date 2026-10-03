@@ -8,6 +8,12 @@ const PROFILES=Object.freeze({stand:profile('stand',60,50),walk:profile('stand',
 // Stage E collision envelopes only; existing species movement/capabilities still
 // belong to their brains. Radius is the retained AI collision clearance (21).
 const ENTITY_PROFILES=Object.freeze(Object.fromEntries([['hound',36,28],['smiler',48,36]].map(([name,height,eyeHeight])=>[name,Object.freeze({id:'profile:'+name,radius:21,height,eyeHeight,maxSlopeDegrees:35,maxStepRise:12,stepLiftMax:180})])));
+// Stage G passive collision envelopes. Centers of hands/items are distinct from
+// the root-base convention used by the body and the shared geometry queries.
+const DEATH_PROFILES=Object.freeze(Object.fromEntries([
+ ['body',18,18,0],['hand',5,10,5],['light',7,14,7],['hat',11,4,2],
+ ['hound',18,36,0],['smiler',14,48,0]
+].map(([id,radius,height,centerOffset])=>[id,Object.freeze({id:'profile:death-'+id,radius,height,centerOffset,maxStepRise:0})])));
 const dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z,add=(a,b)=>({x:a.x+b.x,y:a.y+b.y,z:a.z+b.z}),mul=(a,t)=>({x:a.x*t,y:a.y*t,z:a.z*t}),len=a=>Math.hypot(a.x,a.y,a.z),pose=b=>({x:b.x,y:b.y,z:b.z});
 function create(geometry){
  if(geometry.identity.geometryMode!=='spatial')throw Error('world_motion requires explicit spatial geometry; flat motor remains unchanged');
@@ -240,5 +246,71 @@ function motorAdapter(geometry,lowObstacles=[]){
   },motion
  };return adapter;
 }
-return Object.freeze({POLICY,PROFILES,ENTITY_PROFILES,create,motorAdapter,proveTraversal});
+/* Passive XYZ integration for the existing death kernel. No assisted step,
+ * steering, authored timing, random draws or independent aftermath ownership.
+ * Contacts use the same bounded continuous sweep as the living motor. */
+function passive(geometry){
+ if(geometry.identity.geometryMode!=='spatial')throw Error('Passive motion requires spatial geometry');
+ const stats={sweeps:0,supports:0,clearance:0,contacts:0,steps:0,sleepChecks:0};
+ const base=o=>({x:o.x,y:o.y,z:o.z-(o.shape.centerOffset||0)});
+ const position=(o,p)=>{o.x=p.x;o.y=p.y;o.z=p.z+(o.shape.centerOffset||0);};
+ const fit=o=>{stats.clearance++;return geometry.clearance(o.shape,base(o)).fits;};
+ const cross=(a,b,c)=>(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+ function hull(points){const p=points.sort((a,b)=>a.x-b.x||a.y-b.y),lo=[],hi=[];for(const q of p){while(lo.length>1&&cross(lo.at(-2),lo.at(-1),q)<=1e-9)lo.pop();lo.push(q);}for(const q of [...p].reverse()){while(hi.length>1&&cross(hi.at(-2),hi.at(-1),q)<=1e-9)hi.pop();hi.push(q);}return lo.slice(0,-1).concat(hi.slice(0,-1));}
+ function support(o){
+  stats.supports++;const p=base(o),ss=geometry.supports(o.shape,p,[p.z-POLICY.skin*2-1e-7,p.z+1e-7],o.supportId);
+  const samples=[];for(const s of ss){const patch=geometry.supportPatch(s.id);for(let i=-1;i<16;i++){const a=i*Math.PI/8,q=i<0?{x:o.x,y:o.y}:{x:o.x+Math.cos(a)*o.shape.radius*.85,y:o.y+Math.sin(a)*o.shape.radius*.85};if(geometry.footprintRange(patch.polygon,q,0,patch.plane))samples.push(q);}for(const q of patch.polygon)if(Math.hypot(q.x-o.x,q.y-o.y)<=o.shape.radius)samples.push({...q});}
+  const poly=hull(samples),stable=poly.length>=3&&poly.every((a,i)=>cross(a,poly[(i+1)%poly.length],o)>=-1e-7);
+  const s=ss[0]||null;o.supportId=s?.id||null;o.normal=s?.normal||null;o.stable=!!s&&stable;o.contactPolygon=poly.slice(0,32);o.motionMode=s?'grounded':'airborne';
+  if(!s||!stable){o.sleeping=false;o.still=0;o.st='ACTIVE';}
+  return s;
+ }
+ function initialize(o,profile,z,vz=0){
+  Object.assign(o,{z,vz,shape:profile,supportId:null,normal:null,stable:false,sleeping:false,still:0,st:'ACTIVE',motionMode:'airborne',contacts:[],diagnostics:[],revision:0});
+  if(!fit(o))throw Error('Initial passive mass overlaps solid: '+profile.id);
+  support(o);return o;
+ }
+ function diagnostic(o,code){o.diagnostics.push({substep:o.substep,code});if(o.diagnostics.length>32)o.diagnostics.shift();}
+ function sweep(o,delta,rest=0){
+  let remaining={...delta};const first=base(o);o.contacts=[];
+  for(let i=0;i<POLICY.maxContacts;i++){
+   if(len(remaining)<POLICY.epsilon)break;
+   stats.sweeps++;const p=base(o),hit=geometry.sweep(o.shape,p,remaining);
+   if(!hit){position(o,add(p,remaining));break;}
+   const safe=add(p,mul(remaining,hit.t));position(o,safe);
+   if(hit.diagnostic||len(hit.normal)<.5){diagnostic(o,hit.diagnostic||'PASSIVE_UNRESOLVED');o.vx=o.vy=o.vz=0;break;}
+   const n=hit.normal,v={x:o.vx,y:o.vy,z:o.vz},vn=dot(v,n);stats.contacts++;
+   o.contacts.push({...hit,speed:Math.max(0,-vn),substep:o.substep});
+   const bounce=-vn>30?rest:0;if(vn<0){o.vx-=(1+bounce)*vn*n.x;o.vy-=(1+bounce)*vn*n.y;o.vz-=(1+bounce)*vn*n.z;}
+   remaining=mul(remaining,1-hit.t);const into=dot(remaining,n);if(into<0)remaining=add(remaining,mul(n,-into));
+   if(i===POLICY.maxContacts-1){diagnostic(o,'PASSIVE_CONTACT_LIMIT');o.vx=o.vy=o.vz=0;}
+  }
+  if(!fit(o)){position(o,first);o.vx=o.vy=o.vz=0;diagnostic(o,'PASSIVE_NONPENETRATING_FALLBACK');}
+  return o.contacts;
+ }
+ function step(o,options={}){
+  const dt=1/240;stats.steps++;o.substep=options.substep||0;
+  const s=support(o);if(o.sleeping){stats.sleepChecks++;return [];}
+  const before={x:o.x,y:o.y,z:o.z};o.vz-=POLICY.gravity*dt;
+  if(s&&o.stable){
+   const n=s.normal,v={x:o.vx,y:o.vy,z:o.vz},into=dot(v,n);if(into<0){o.vx-=into*n.x;o.vy-=into*n.y;o.vz-=into*n.z;}
+   const speed=Math.hypot(o.vx,o.vy,o.vz),mu=options.mu??560,visc=options.visc??1.15;
+   if(speed>1e-9){const dv=Math.min(speed,(mu+visc*speed)*dt),f=1-dv/speed;o.vx*=f;o.vy*=f;o.vz*=f;}
+  }else if(s){
+   // Unsupported center of mass: gravity supplies an outward tipping impulse.
+   // Keep the full collider until it clears the edge; never ignore the slab.
+   const cp=o.contactPolygon,point=cp.length?cp.reduce((p,q)=>({x:p.x+q.x/cp.length,y:p.y+q.y/cp.length}),{x:0,y:0}):s.point;
+   const dx=o.x-point.x,dy=o.y-point.y,d=Math.hypot(dx,dy);if(d>1e-7){o.vx+=dx/d*POLICY.gravity*.55*dt;o.vy+=dy/d*POLICY.gravity*.55*dt;}
+  }
+  const contacts=sweep(o,{x:o.vx*dt,y:o.vy*dt,z:o.vz*dt},options.rest||0);support(o);
+  o.tilt=o.normal?{x:Math.atan2(-o.normal.y,o.normal.z),y:Math.atan2(o.normal.x,o.normal.z)}:{x:0,y:0};
+  const calm=options.sleep!==false&&o.stable&&Math.hypot(o.vx,o.vy,o.vz)<.5&&Math.abs(o.om||o.w||0)<.05;
+  o.still=calm?o.still+dt:0;o.sleeping=o.still>=.5;o.st=o.sleeping?'SLEEPING':o.still>.12?'SETTLING':'ACTIVE';
+  if(o.sleeping){o.vx=o.vy=o.vz=0;if('w'in o)o.w=0;if('om'in o)o.om=0;}
+  if(o.x!==before.x||o.y!==before.y||o.z!==before.z)o.revision++;
+  return contacts;
+ }
+ return Object.freeze({initialize,step,sweep,support,fit,base,stats,geometry});
+}
+return Object.freeze({POLICY,PROFILES,ENTITY_PROFILES,DEATH_PROFILES,create,passive,motorAdapter,proveTraversal});
 });

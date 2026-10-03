@@ -1,0 +1,17 @@
+/workspace/scratch/74c3fcf5d335/backroomsproject/world_geometry.js:104
+ const fail=m=>{throw Error('WorldDefinition: '+m);},ok=(b,m)=>{if(!b)fail(m);};
+                ^
+
+Error: WorldDefinition: solid outside bounds solid:ground
+    at fail (/workspace/scratch/74c3fcf5d335/backroomsproject/world_geometry.js:104:23)
+    at ok (/workspace/scratch/74c3fcf5d335/backroomsproject/world_geometry.js:104:71)
+    at spatialValidate (/workspace/scratch/74c3fcf5d335/backroomsproject/world_geometry.js:114:106)
+    at validate (/workspace/scratch/74c3fcf5d335/backroomsproject/world_geometry.js:20:51)
+    at Object.compile (/workspace/scratch/74c3fcf5d335/backroomsproject/world_geometry.js:361:2)
+    at Object.<anonymous> (/workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/test_g1.js:3:11)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+
+Node.js v24.19.0

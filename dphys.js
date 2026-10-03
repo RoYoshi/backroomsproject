@@ -77,8 +77,8 @@
       t: 0, cfg, ctx, hound, exh, ux, uy, walls, dur: ctx.dur, ended: false, state: 'ACTIVE', calm: 0, phase: 'contact', ev: [],
       b: { x: ctx.victim.x, y: ctx.victim.y, vx: (ctx.victim.vx || 0) * .8, vy: (ctx.victim.vy || 0) * .8, th: th0, om: 0, sq: 0, sqv: 0, nx: ux, ny: uy, cs: 0, csv: 0 },
       h: [
-        { anc: HAND_L, x: 0, y: 0, vx: 0, vy: 0, off: { x: 0, y: 0 }, k: 380, z: .55, brace: null, slipT: -9, tries: 0 },
-        { anc: HAND_R, x: 0, y: 0, vx: 0, vy: 0, off: { x: 0, y: 0 }, k: 380, z: .55, brace: null, slipT: -9, tries: 0 },
+        { anc: HAND_L, x: 0, y: 0, vx: 0, vy: 0, off: { x: 0, y: 0 }, k: 380, dampingRatio: .55, brace: null, slipT: -9, tries: 0 },
+        { anc: HAND_R, x: 0, y: 0, vx: 0, vy: 0, off: { x: 0, y: 0 }, k: 380, dampingRatio: .55, brace: null, slipT: -9, tries: 0 },
       ],
       eq: { has: ctx.eqKind !== 'headlamp', held: true, x: 0, y: 0, vx: 0, vy: 0, rot: 0, w: 0, rho: 0, rhov: 0, st: 'ACTIVE', still: 0, len: LEN[ctx.eqKind] != null ? LEN[ctx.eqKind] : 23 },
       hat: { has: ctx.hat && ctx.hat !== 'none', on: true, x: 0, y: 0, vx: 0, vy: 0, rot: 0, w: 0, st: 'ACTIVE', still: 0 },
@@ -95,7 +95,69 @@
     S.dragDir = { x: -ux, y: -uy };
     if (cfg.draw) { S.dragDir = { x: -ux, y: -uy }; }
     S.stepN = 0;
+    if (ctx.geometry) initializeSpatial(S);
     return S;
+  }
+
+  const SPATIAL_VERSION='stage-g-death-1';
+  function initializeSpatial(S){
+    const M=window.TFB_MOTION||window.__motion;if(!M)throw Error('Spatial death requires shared world_motion');
+    if(S.ctx.geometry.identity.geometryMode!=='spatial')throw Error('Explicit spatial geometry required');
+    S.spatial=true;S.motion=M.passive(S.ctx.geometry);S.geometryHash=S.ctx.geometry.identity.contentHash;
+    const P=M.DEATH_PROFILES,b=S.b,v=S.ctx.victim,a=S.ctx.src;
+    S.motion.initialize(b,P.body,v.z,v.vz||0);
+    S.motion.initialize(S.at,P[S.hound?'hound':'smiler'],a.z,a.vz||0);
+    S.h.forEach(h=>S.motion.initialize(h,P.hand,b.z+5,v.vz||0));
+    S.motion.initialize(S.eq,P.light,b.z+7,v.vz||0);
+    S.motion.initialize(S.hat,P.hat,b.z+20,v.vz||0);
+    S.deathTick=0;
+  }
+  function spatialReach(S,a,b,reach){
+    const ac={x:a.x,y:a.y,z:a.z+(a.shape.centerOffset?0:a.shape.height/2)},bc={x:b.x,y:b.y,z:b.z+(b.shape.centerOffset?0:b.shape.height/2)};
+    return hyp(ac.x-bc.x,ac.y-bc.y,ac.z-bc.z)<=reach&&!S.ctx.geometry.raycast(ac,bc,'collision');
+  }
+  function spatialBrace(S,h,x,y,t){
+    const p={...S.motion.base(h),x,y},ss=S.ctx.geometry.supports(h.shape,p,[p.z-.1,p.z+.00001],h.supportId);
+    if(!ss.length||!S.ctx.geometry.clearance(h.shape,p).fits||!spatialReach(S,S.b,h,40))return null;
+    return {x,y,z:ss[0].z+h.shape.centerOffset,supportId:ss[0].id,t};
+  }
+  function moveSpatial(S,o,options){
+    const contacts=S.motion.step(o,{...options,substep:S.stepN});
+    const hit=contacts.filter(c=>Math.abs(c.normal.z)<.7).sort((a,b)=>b.speed-a.speed)[0];
+    return hit?{sp:hit.speed,nx:hit.normal.x,ny:hit.normal.y,nz:hit.normal.z,x:hit.point.x,y:hit.point.y,z:hit.point.z,vt:0}:null;
+  }
+  function constrainHand(S,h){
+    const b=S.b,dx=h.x-b.x,dy=h.y-b.y,dz=h.z-(b.z+9),d=hyp(dx,dy,dz);
+    if(d>40){const f=40/d;S.motion.sweep(h,{x:dx*(f-1),y:dy*(f-1),z:dz*(f-1)});
+      const vn=((h.vx-b.vx)*dx+(h.vy-b.vy)*dy+(h.vz-b.vz)*dz)/d;
+      if(vn>0){h.vx-=dx/d*vn;h.vy-=dy/d*vn;h.vz-=dz/d*vn;}
+    }
+    S.motion.support(h);
+  }
+  function settleSpatial(S){
+    const dt=DT,b=S.b;S.ended=true;
+    if(b.supportId)b.om*=Math.exp(-5*dt);b.th+=b.om*dt;b.sqv=0;
+    moveSpatial(S,b,{mu:560,sleep:true});
+    for(const h of S.h){
+      if(!h.sleeping){const c=Math.cos(b.th),s=Math.sin(b.th),lx=h.anc.x+h.off.x,ly=h.anc.y+h.off.y;
+        const x=b.x+lx*c-ly*s,y=b.y+lx*s+ly*c;
+        h.vx+=(90*(x-h.x)-18*(h.vx-b.vx))*dt;h.vy+=(90*(y-h.y)-18*(h.vy-b.vy))*dt;
+        h.vz+=(90*(b.z+5-h.z)-18*(h.vz-b.vz))*dt;
+      }
+      moveSpatial(S,h,{mu:250,sleep:true});constrainHand(S,h);
+    }
+    if(S.eq.has&&!S.eq.held)freeBody(S,S.eq,7,.38,250,2.3,dt,'eq');
+    if(S.hat.has&&!S.hat.on)freeBody(S,S.hat,11,.3,200,2.6,dt,'hat');
+    else if(S.hat.has){Object.assign(S.hat,{x:b.x,y:b.y,z:b.z+20,vx:b.vx,vy:b.vy,vz:b.vz,rot:b.th,w:b.om,sleeping:b.sleeping,st:b.st,supportId:null});}
+    const masses=[b,...S.h,...(S.eq.has&&!S.eq.held?[S.eq]:[]),...(S.hat.has&&!S.hat.on?[S.hat]:[])];
+    S.state=masses.every(o=>o.sleeping)?'SLEEPING':masses.some(o=>!o.stable)?'ACTIVE':'SETTLING';
+    S.stepN++;S.t=S.stepN*DT;
+  }
+  function tick(S){for(let i=0;i<4;i++)stepOnce(S);S.deathTick=(S.deathTick||0)+1;return S;}
+  function snapshot(S){
+    if(!S.spatial)throw Error('Spatial snapshot required');
+    const mass=(o,id)=>({id,x:o.x,y:o.y,z:o.z,vx:o.vx,vy:o.vy,vz:o.vz,shape:{...o.shape},support:o.supportId,normal:o.normal,stable:o.stable,sleeping:o.sleeping,mode:o.motionMode,revision:o.revision,yaw:o.th??o.rot??o.a??0,angularVelocity:o.om??o.w??o.av??0,tilt:o.tilt||{x:0,y:0},contacts:o.contacts.map(c=>({primitiveId:c.primitiveId,normal:c.normal,point:c.point,substep:c.substep})),diagnostics:o.diagnostics.slice(-4)});
+    return {version:SPATIAL_VERSION,geometryHash:S.geometryHash,substep:S.stepN,time:S.t,duration:S.dur,state:S.state,phase:S.phase,body:mass(S.b,'body'),hands:S.h.map((h,i)=>mass(h,'hand:'+i)),attacker:mass(S.at,'attacker'),light:S.eq.has?{...mass(S.eq,'light'),held:S.eq.held}:null,hat:S.hat.has?{...mass(S.hat,'hat'),attached:S.hat.on}:null};
   }
 
   /* how hard the victim is still fighting back at time t (0 = limp .. 1 = full strength); an exhausted victim starts weaker and gives up sooner */
@@ -110,16 +172,18 @@
     if (what === 'eq') {
       const e = S.eq; if (!e.has || !e.held) return; e.held = false; S.eqAt = t;
       const h = S.h[1]; e.x = h.x; e.y = h.y; e.vx = h.vx + (kick && kick.x || 0); e.vy = h.vy + (kick && kick.y || 0);
+      if(S.spatial){e.z=h.z+2;e.vz=h.vz;e.sleeping=false;e.supportId=null;e.st='ACTIVE';}
       e.rot = b.th + e.rho; e.w = b.om + e.rhov + (S.rr() - .5) * 7; S.ev.push({ t, k: 'eq' });
     } else {
       const e = S.hat; if (!e.has || !e.on) return; e.on = false; S.hatAt = t;
-      e.x = b.x; e.y = b.y; e.vx = b.vx + (kick && kick.x || 0); e.vy = b.vy + (kick && kick.y || 0); e.rot = b.th; e.w = b.om + (S.rr() - .5) * 9; S.ev.push({ t, k: 'hat' });
+      e.x = b.x; e.y = b.y; e.vx = b.vx + (kick && kick.x || 0); e.vy = b.vy + (kick && kick.y || 0); if(S.spatial){e.z=b.z+b.shape.height+2;e.vz=b.vz;e.sleeping=false;e.supportId=null;e.st='ACTIVE';} e.rot = b.th; e.w = b.om + (S.rr() - .5) * 9; S.ev.push({ t, k: 'hat' });
     }
   }
 
   function shock(S, x, y, mag) { const c = S.cam; c.vx += x * mag; c.vy += y * mag; }
 
   function stepOnce(S) {
+    if (S.spatial && S.stepN >= Math.ceil(S.dur * 240)) { settleSpatial(S); return; }
     const t = S.t, dt = DT, cfg = S.cfg, b = S.b, at = S.at, hound = S.hound, ux = S.ux, uy = S.uy, W = S.walls, ctx = S.ctx;
     const res = S.res = resist(S, t);
     const dx0 = b.x - at.x, dy0 = b.y - at.y, dist = hyp(dx0, dy0) || 1, nAx = dx0 / dist, nAy = dy0 / dist;     // attacker -> victim
@@ -154,10 +218,12 @@
     at.vx += ax * dt; at.vy += ay * dt;
 
     /* ---------------- contact between attacker and victim ---------------- */
-    let overlap = hound ? contactD - dist : -1;                                                     // the smiler is not solid to what it draws in
+    let overlap = hound ? contactD - dist : -1;
+    if (S.spatial && !S.ctx.geometry.contact({...at,z:at.z,shape:at.shape},{...b,z:b.z,shape:b.shape},{reach:contactD+1}).touching) overlap = -1;                                                     // the smiler is not solid to what it draws in
     if (overlap > 0) {
       const mA = hound ? 2.4 : 3, mB = 1, tm = mA + mB, sepA = mB / tm, sepB = mA / tm;
-      at.x -= nAx * overlap * sepA; at.y -= nAy * overlap * sepA; b.x += nAx * overlap * sepB; b.y += nAy * overlap * sepB;
+      if (S.spatial) { S.motion.sweep(at,{x:-nAx*overlap*sepA,y:-nAy*overlap*sepA,z:0}); S.motion.sweep(b,{x:nAx*overlap*sepB,y:nAy*overlap*sepB,z:0}); }
+      else { at.x -= nAx * overlap * sepA; at.y -= nAy * overlap * sepA; b.x += nAx * overlap * sepB; b.y += nAy * overlap * sepB; }
       const vr = (at.vx - b.vx) * nAx + (at.vy - b.vy) * nAy;
       if (vr > 0) {
         const e = cfg.e != null ? cfg.e : .1, j = (1 + e) * vr * (mA * mB / tm);
@@ -180,7 +246,8 @@
       const c = Math.cos(b.th), s = Math.sin(b.th), lx = (-nAx * RB * .8), ly = (-nAy * RB * .8);      // the point of the body nearest the hound, fixed in body space
       S.rope = { lx: lx * c + ly * s, ly: -lx * s + ly * c, k: cfg.drag ? 70 : 34, c: cfg.drag ? 13 : 9, stretch: 0 };
     }
-    if (S.rope) {
+    if (S.rope && (!S.spatial || spatialReach(S, b, at, 90))) {
+      if(S.spatial){const dz=(at.z+9)-(b.z+9),fz=clamp(S.rope.k*dz+S.rope.c*(at.vz-b.vz),-420,420);b.vz+=fz*dt;at.vz-=fz/2.4*dt;}
       const c = Math.cos(b.th), s = Math.sin(b.th), gx = b.x + S.rope.lx * c - S.rope.ly * s, gy = b.y + S.rope.lx * s + S.rope.ly * c;
       const hx = at.x + Math.cos(at.a) * 14, hy = at.y + Math.sin(at.a) * 14;
       // the hound's grip sits on its jaw: a little ahead of its body toward the victim
@@ -202,8 +269,8 @@
     if (cfg.pin && t > cfg.pin[0]) { visc += cfg.pin[1] * sm(cfg.pin[0], cfg.pin[0] + .35, t) * (1 - sm(cfg.tw || 9, (cfg.tw || 9) + .5, t)); mu += 260 * sm(cfg.pin[0], cfg.pin[0] + .35, t); }
     if (!hound && cfg.still != null) { const k = sm(0, cfg.still, t) * (1 - (cfg.draw ? sm(cfg.draw[0] - .45, cfg.draw[0] - .3, t) : 0)); visc += 9 * k; b.om -= b.om * 5 * k * dt; }
     const sp = hyp(b.vx, b.vy);
-    if (sp > 1e-3) { const dv = Math.min(sp, (mu * dt) * sp / (sp + 10) + (visc + (sp < 14 ? 7 : 0)) * sp * dt); b.vx -= b.vx / sp * dv; b.vy -= b.vy / sp * dv; }
-    b.om -= b.om * 2.1 * dt + Math.sign(b.om) * Math.min(Math.abs(b.om), 5.5 * dt * Math.abs(b.om) / (Math.abs(b.om) + .5));
+    if (!S.spatial && sp > 1e-3) { const dv = Math.min(sp, (mu * dt) * sp / (sp + 10) + (visc + (sp < 14 ? 7 : 0)) * sp * dt); b.vx -= b.vx / sp * dv; b.vy -= b.vy / sp * dv; }
+    if (!S.spatial || b.supportId) b.om -= b.om * 2.1 * dt + Math.sign(b.om) * Math.min(Math.abs(b.om), 5.5 * dt * Math.abs(b.om) / (Math.abs(b.om) + .5));
     // the fight: torque and side-shoves that never repeat, growing weaker as the victim is overpowered
     if (res > .001) {
       const n1 = S.nz[0](t), n2 = S.nz[1](t), n3 = S.nz[2](t);
@@ -240,7 +307,7 @@
       const side = S.nz[3](.3) > 0 ? 1 : -1; b.om += side * (hound ? 1.6 : 2.4) * k * (1 - k) * 4 * dt * 8 * Math.exp(-(t - cfg.collapse[0]) * 1.2) * (hound ? .6 : 1);
     }
     if (!hound && cfg.shove && !S.shoved && t >= cfg.shove[0]) { S.shoved = true; b.vx += ux * cfg.shove[1]; b.vy += uy * cfg.shove[1]; b.sqv += 2; S.ev.push({ t, k: 'shove' }); S.h.forEach(h => { h.vx += (S.rr() - .5) * 90; h.vy += (S.rr() - .5) * 90; }); }
-    if (!hound && cfg.draw && t >= cfg.draw[0] - .02) {
+    if (!hound && cfg.draw && t >= cfg.draw[0] - .02 && (!S.spatial || spatialReach(S,b,at,160))) {
       // it draws its prey in: after a held breath the pull comes on smoothly and carries the body past it
       if (!S.drawOn) { S.drawOn = t; S.phase = 'drawn'; S.ev.push({ t, k: 'draw' }); if (cfg.eq === 'draw') release(S, 'eq', t, { x: -uy * 40, y: ux * 40 }); }
       const win = cfg.draw[1] - cfg.draw[0], ph = clamp((t - cfg.draw[0]) / win, 0, 1), ramp = sm(0, .45, ph) * (1 - sm(.8, 1, ph));
@@ -254,10 +321,13 @@
     if (t >= 1.7 && S.eq.held && S.eq.has) release(S, 'eq', t, { x: nAx * 10, y: nAy * 10 });                      // whatever happens, the light does not stay in a dead hand
 
     /* ---------------- integrate the body ---------------- */
-    b.x += b.vx * dt; b.y += b.vy * dt; b.th += b.om * dt;
+    let spatialHit=null;
+    if(S.spatial) spatialHit=moveSpatial(S,b,{mu,visc,rest:hound?.16:.08,sleep:false});
+    else {b.x += b.vx * dt; b.y += b.vy * dt;}
+    b.th += b.om * dt;
     // squash: one short impulse that rings once and dies
     b.sqv += (-b.sq * 420 - b.sqv * 26) * dt; b.sq += b.sqv * dt; b.sq = clamp(b.sq, -.12, .30);
-    const bo = { x: b.x, y: b.y, vx: b.vx, vy: b.vy }, hit = collide(W, bo, RB, hound ? .16 : .08, .5);
+    const bo = { x: b.x, y: b.y, vx: b.vx, vy: b.vy }, hit = S.spatial ? spatialHit : collide(W, bo, RB, hound ? .16 : .08, .5);
     if (hit) {
       b.x = bo.x; b.y = bo.y; b.om += clamp(-hit.vt * .05, -2.5, 2.5) * (hit.nx * b.vy - hit.ny * b.vx > 0 ? 1 : -1) * .3;
       b.vx = bo.vx; b.vy = bo.vy;
@@ -272,8 +342,9 @@
       }
     }
     // the attacker is a solid too
-    const ao = { x: at.x, y: at.y, vx: at.vx, vy: at.vy }; collide(W, ao, RA - 4, .05, .2); at.x = ao.x; at.y = ao.y; at.vx = ao.vx; at.vy = ao.vy;
-    at.x += at.vx * dt; at.y += at.vy * dt; at.walk = (at.walk || 0) + hyp(at.vx, at.vy) * dt;
+    if(S.spatial) moveSpatial(S,at,{mu:0,visc:0,rest:.05,sleep:false});
+    else {const ao = { x: at.x, y: at.y, vx: at.vx, vy: at.vy }; collide(W, ao, RA - 4, .05, .2); at.x = ao.x; at.y = ao.y; at.vx = ao.vx; at.vy = ao.vy;
+    at.x += at.vx * dt; at.y += at.vy * dt;} at.walk = (at.walk || 0) + hyp(at.vx, at.vy) * dt;
     // heading follows where it is looking (the victim) with its own inertia
     const wantA = Math.atan2(dy0, dx0) + (hound && at.bite > .1 ? Math.sin(t * 31) * .06 : 0), da = wrap(wantA - at.a); at.av += (da * 60 - at.av * 12) * dt; at.a += at.av * dt;
     S.pitch += ((hyp(at.vx, at.vy) / 400) - S.pitch) * Math.min(1, dt * 8);
@@ -284,7 +355,7 @@
     const alx = -nAx * cth - nAy * sth, aly = nAx * sth - nAy * cth;                         // direction toward the attacker in the body's own frame
     for (let i = 0; i < 2; i++) {
       const h = S.h[i], side = i === 0 ? -1 : 1, nzx = S.nz[(i * 2) & 5](t * 1.1 + i * 3), nzy = S.nz[(i * 2 + 1) & 5](t * 1.3 + i * 5);
-      let ox = 0, oy = 0, k = 380, z = .55;
+      let ox = 0, oy = 0, k = 380, dampingRatio = .55;
       const fight = res;
       if (fight > .02) {
         // pushes toward the attacker (opposite pushes from each hand at different times), reaching a different length each moment
@@ -295,28 +366,34 @@
         k = 240 + 220 * fight;
       } else {
         // overpowered: they go slack and trail (weaker springs, out and slightly back)
-        ox = side * 5 - (cth * 0) + nzx * 3; oy = 7 + nzy * 3; k = 90; z = .7;
+        ox = side * 5 - (cth * 0) + nzx * 3; oy = 7 + nzy * 3; k = 90; dampingRatio = .7;
       }
       if (!hound && cfg.still != null && t < (cfg.draw ? cfg.draw[0] : 9)) { const q = sm(.05, cfg.still + .15, t); ox = ox * .4 - side * 5 * q; oy = oy * .4 + 3 * q; }         // the smiler: they tense inward and hold still
       if (S.contactT >= 0 && t - S.contactT < .5) { const q = Math.exp(-(t - S.contactT) * 7); ox += side * 11 * q; }                      // spread outward at the moment of impact
-      h.off.x = ox; h.off.y = oy; h.k = k; h.z = z;
+      h.off.x = ox; h.off.y = oy; h.k = k; h.dampingRatio = dampingRatio;
       // bracing on the floor while being pulled: plant, resist, slip
       const dragging = (S.dragOn && cfg.drag && t < cfg.drag[1]) || (S.drawOn && cfg.draw && t < cfg.draw[1]);
-      if (dragging && !h.brace && res > .12 && t - h.slipT > (i === 0 ? .18 : .4) && h.tries < 3 && (i === 0 || S.slipCount >= 1 || t > (cfg.drag ? cfg.drag[0] : cfg.draw[0]) + .35)) {
-        const bx = h.x - S.dragDir.x * 6, by = h.y - S.dragDir.y * 6; h.brace = { x: bx, y: by, t }; h.tries++;
+      if (dragging && (!S.spatial || h.stable) && !h.brace && res > .12 && t - h.slipT > (i === 0 ? .18 : .4) && h.tries < 3 && (i === 0 || S.slipCount >= 1 || t > (cfg.drag ? cfg.drag[0] : cfg.draw[0]) + .35)) {
+        const bx = h.x - S.dragDir.x * 6, by = h.y - S.dragDir.y * 6; h.brace = S.spatial ? spatialBrace(S,h,bx,by,t) : { x: bx, y: by, t }; if(h.brace) h.tries++;
       }
       if (h.brace) {
         const dd = hyp(h.brace.x - b.x, h.brace.y - b.y), grip = 30 + 7 * res * (i ? .8 : 1.1) * 3;
-        if (dd > grip || res < .06) { h.brace = null; h.slipT = t; S.slipCount++; S.ev.push({ t, k: 'slip', i }); }
+        if (dd > grip || res < .06 || (S.spatial && (!h.stable || !spatialReach(S,b,h,40)))) { h.brace = null; h.slipT = t; S.slipCount++; S.ev.push({ t, k: 'slip', i }); }
       }
       // spring toward the anchor (in world space), damped against the body's own velocity at that point
       const lx = h.anc.x + h.off.x, ly = h.anc.y + h.off.y;
       let wx = b.x + lx * cth - ly * sth, wy = b.y + lx * sth + ly * cth, bvx = b.vx - b.om * (wy - b.y), bvy = b.vy + b.om * (wx - b.x);
       if (h.brace) { wx = h.brace.x; wy = h.brace.y; bvx = 0; bvy = 0; k = 620; }
       // reaching for the dropped light while there is fight left
-      if (i === 1 && !S.eq.held && S.eq.has && cfg.collapse !== undefined && hound && t < 1.1 && res > .04) { wx = S.eq.x; wy = S.eq.y; bvx = S.eq.vx; bvy = S.eq.vy; k = 200; }
-      const cd = 2 * z * Math.sqrt(k);
+      if (i === 1 && !S.eq.held && S.eq.has && cfg.collapse !== undefined && hound && t < 1.1 && res > .04 && (!S.spatial || spatialReach(S,b,S.eq,40))) { wx = S.eq.x; wy = S.eq.y; bvx = S.eq.vx; bvy = S.eq.vy; k = 200; }
+      const cd = 2 * dampingRatio * Math.sqrt(k);
       h.vx += (k * (wx - h.x) - cd * (h.vx - bvx) - 1.1 * h.vx) * dt; h.vy += (k * (wy - h.y) - cd * (h.vy - bvy) - 1.1 * h.vy) * dt;
+      if(S.spatial){
+        const targetZ=h.brace?h.brace.z:b.z+5;
+        h.vz+=(k*(targetZ-h.z)-cd*(h.vz-(h.brace?0:b.vz)))*dt;
+        moveSpatial(S,h,{mu:h.brace?300:0,visc:0,rest:.1,sleep:false});
+        constrainHand(S,h);continue;
+      }
       h.x += h.vx * dt; h.y += h.vy * dt;
       // arms have a length: outward limit is hard, inward is the body
       const ddx = h.x - b.x, ddy = h.y - b.y, dd = hyp(ddx, ddy) || 1, mx = 40, mn = 13;
@@ -327,32 +404,36 @@
     // the hands cannot hold a light that is being wrenched away: it goes with the body's acceleration, then leaves
     const eq = S.eq;
     if (eq.has && eq.held) {
-      const h = S.h[1]; eq.x = h.x; eq.y = h.y; eq.vx = h.vx; eq.vy = h.vy;
+      const h = S.h[1]; eq.x = h.x; eq.y = h.y; eq.vx = h.vx; eq.vy = h.vy; if(S.spatial){eq.z=h.z+2;eq.vz=h.vz;}
       const target = clamp(-(wrap(Math.atan2(h.y - b.y, h.x - b.x) - (b.th - PI / 2 + .74))) * .3, -.9, .9);       // the beam trails the hand
       eq.rhov += ((target - eq.rho) * 130 - eq.rhov * 16) * dt; eq.rho += eq.rhov * dt; eq.rot = b.th + eq.rho; eq.w = b.om + eq.rhov;
     } else if (eq.has) freeBody(S, eq, 7, .38, 250, 2.3, dt, 'eq');
     const ha = S.hat;
-    if (ha.has && ha.on) { ha.x = b.x; ha.y = b.y; ha.vx = b.vx; ha.vy = b.vy; ha.rot = b.th; ha.w = b.om; if (S.hatKick && t > .12 && S.exh >= 1) { release(S, 'hat', t, S.hatKick); S.hatKick = null; } }
+    if (ha.has && ha.on) { ha.x = b.x; ha.y = b.y; ha.vx = b.vx; ha.vy = b.vy; ha.rot = b.th; ha.w = b.om; if(S.spatial){ha.z=b.z+b.shape.height+2;ha.vz=b.vz;} if (S.hatKick && t > .12 && S.exh >= 1) { release(S, 'hat', t, S.hatKick); S.hatKick = null; } }
     else if (ha.has) freeBody(S, ha, 11, .3, 200, 2.6, dt, 'hat');
 
     /* ---------------- camera impulse ---------------- */
     const cm = S.cam; cm.vx += (-cm.x * 260 - cm.vx * 21) * dt; cm.vy += (-cm.y * 260 - cm.vy * 21) * dt; cm.x += cm.vx * dt; cm.y += cm.vy * dt;
 
     /* ---------------- bookkeeping ---------------- */
-    S.t += dt; S.stepN++;
+    S.t += dt; S.stepN++; if(S.spatial) S.t=S.stepN*DT;
     if ((S.stepN & 7) === 0) {
       const tr = S.trace; if (tr.b.length < 700) { tr.b.push([b.x, b.y]); tr.h0.push([S.h[0].x, S.h[0].y]); tr.h1.push([S.h[1].x, S.h[1].y]); tr.at.push([at.x, at.y]); if (eq.has) tr.eq.push([eq.x, eq.y]); }
       const last = S.trail[S.trail.length - 1];
-      if (S.firstBlow >= 0 && hyp(b.vx, b.vy) > 22 && (!last || hyp(last[0] - b.x, last[1] - b.y) > 9)) { S.trail.push([b.x, b.y]); if (S.trail.length > 60) S.trail.shift(); }
+      if ((!S.spatial || b.supportId) && S.firstBlow >= 0 && hyp(b.vx, b.vy) > 22 && (!last || hyp(last[0] - b.x, last[1] - b.y) > 9)) { S.trail.push([b.x, b.y]); if (S.trail.length > 60) S.trail.shift(); }
     }
     // active -> settling -> sleeping
     const moving = hyp(b.vx, b.vy) > 6 || Math.abs(b.om) > .25 || S.h.some(h => hyp(h.vx - b.vx, h.vy - b.vy) > 14) || (eq.has && !eq.held && eq.st !== 'SLEEPING') || (ha.has && !ha.on && ha.st !== 'SLEEPING') || Math.abs(b.sqv) > .3;
     if (moving) S.calm = 0; else S.calm += dt;
-    S.state = S.calm > .5 && t > (S.cfg.back ? S.cfg.back[1] : 1.6) ? 'SLEEPING' : S.calm > .12 ? 'SETTLING' : 'ACTIVE';
+    S.state = S.spatial ? 'ACTIVE' : S.calm > .5 && t > (S.cfg.back ? S.cfg.back[1] : 1.6) ? 'SLEEPING' : S.calm > .12 ? 'SETTLING' : 'ACTIVE';
   }
 
   /* a loose object (the light, the hat): carries the momentum it had, slides, spins, hits walls, and stops */
   function freeBody(S, o, rad, rest, mu, wdamp, dt, name) {
+    if(S.spatial){
+      if(o.supportId)o.w-=o.w*wdamp*dt+Math.sign(o.w)*Math.min(Math.abs(o.w),1.8*dt);
+      o.rot+=o.w*dt;moveSpatial(S,o,{rest,mu,visc:.5,sleep:true});return;
+    }
     if (o.st === 'SLEEPING') return;
     const sp = hyp(o.vx, o.vy);
     if (sp > 1e-3) { const dv = Math.min(sp, mu * dt * sp / (sp + 8) + .5 * sp * dt); o.vx -= o.vx / sp * dv; o.vy -= o.vy / sp * dv; }
@@ -469,5 +550,5 @@
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0 };
   }
 
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, DURS };
+  window.__dphys = { create, advance, tick, pose, snapshot, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, SPATIAL_VERSION };
 })();

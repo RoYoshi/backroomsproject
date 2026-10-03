@@ -8,7 +8,7 @@
  */
 'use strict';
 const fs = require('fs'), path = require('path'), vm = require('vm');
-const box = { window: {}, console, Math };
+const box = { window: {TFB_MOTION:require('./world_motion')}, console, Math };
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'dphys.js'), 'utf8'), box, { filename: 'dphys.js' });
 const DP = box.window.__dphys;
 

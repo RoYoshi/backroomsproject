@@ -1,0 +1,9 @@
+{
+  "command": [
+    "node",
+    "dev/stage_a/capture_death.js",
+    "dev/stage_g/evidence/g1/death-traces"
+  ],
+  "exitCode": 0,
+  "log": "dev/stage_g/evidence/g1/flat-death-capture-01.log"
+}
