@@ -1,0 +1,26 @@
+PASS Z28 body stays on upper, independent released light lands below; beam follows light; decals bind exactly one face {"body":{"id":"body","x":336.0216946786151,"y":322.08479625421126,"z":120,"vx":0,"vy":0,"vz":0,"shape":{"id":"profile:death-body","radius":18,"height":18,"centerOffset":0,"maxStepRise":0},"support":"support:upper","normal":{"x":0,"y":0,"z":1},"stable":true,"sleeping":true,"mode":"grounded","revision":499,"yaw":1.5294116561371136,"angularVelocity":0,"tilt":{"x":0,"y":0},"contacts":[],"diagnostics":[]},"light":{"id":"light","x":337.78843800439523,"y":456.9544129838429,"z":7.090227392473074,"vx":0,"vy":0,"vz":0,"shape":{"id":"profile:death-light","radius":7,"height":14,"centerOffset":7,"maxStepRise":0},"support":"support:lower","normal":{"x":0,"y":0,"z":1},"stable":true,"sleeping":true,"mode":"grounded","revision":426,"yaw":1.7340226464800017,"angularVelocity":0,"tilt":{"x":0,"y":0},"contacts":[],"diagnostics":[],"held":false},"beam":{"kind":"flashlight","object":"light","origin":{"x":360.48272510278866,"y":460.69197008650934,"z":7.090227392473074},"direction":{"x":0.9867081347127586,"y":0.16250248272462983,"z":0},"support":"support:lower","clippedBy":null},"release":{"id":11,"tick":37,"substep":1,"type":"release","object":"light","velocity":{"x":47.6683842118492,"y":85.85479586800034,"z":0},"angularVelocity":1.8001206938427794}}
+node:internal/assert/utils:77
+    throw err;
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(N.b.z<1)
+
+    at Object.<anonymous> (/workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/test_g2.js:20:45)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

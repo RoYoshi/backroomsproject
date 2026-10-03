@@ -1,0 +1,109 @@
+[
+  {
+    "kind": "Hound",
+    "v": "A",
+    "substeps": 1680,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5,
+      5
+    ],
+    "gearZ": 7,
+    "diagnostics": []
+  },
+  {
+    "kind": "Hound",
+    "v": "B",
+    "substeps": 1680,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5,
+      5
+    ],
+    "gearZ": 7,
+    "diagnostics": []
+  },
+  {
+    "kind": "Hound",
+    "v": "C",
+    "substeps": 1680,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5,
+      5
+    ],
+    "gearZ": 7,
+    "diagnostics": []
+  },
+  {
+    "kind": "Hound",
+    "v": "D",
+    "substeps": 1680,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5,
+      5
+    ],
+    "gearZ": 7,
+    "diagnostics": []
+  },
+  {
+    "kind": "Smiler",
+    "v": "A",
+    "substeps": 1680,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5,
+      5
+    ],
+    "gearZ": 7,
+    "diagnostics": []
+  },
+  {
+    "kind": "Smiler",
+    "v": "B",
+    "substeps": 1680,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5,
+      5
+    ],
+    "gearZ": 7,
+    "diagnostics": []
+  },
+  {
+    "kind": "Smiler",
+    "v": "C",
+    "substeps": 1680,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5,
+      5
+    ],
+    "gearZ": 7,
+    "diagnostics": []
+  },
+  {
+    "kind": "Smiler",
+    "v": "D",
+    "substeps": 1680,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5,
+      5
+    ],
+    "gearZ": 7,
+    "diagnostics": []
+  }
+]
+PASS deterministic identical reruns and 30/60/120/144/240/360 sampling; exact four substeps
+PASS first thin slab wins and underside collision; no promotion to hidden upper support
+G1 PASS

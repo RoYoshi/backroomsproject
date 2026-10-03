@@ -110,7 +110,7 @@
     S.h.forEach(h=>S.motion.initialize(h,P.hand,b.z+5,v.vz||0));
     S.motion.initialize(S.eq,P.light,b.z+7,v.vz||0);
     S.motion.initialize(S.hat,P.hat,b.z+20,v.vz||0);
-    S.deathTick=0;
+    S.deathTick=0;S.decals=[];S.spatialTrail=[];S.trailSegment=0;S.trailContact=false;S.physicalEvents=[];S.physicalSequence=0;
   }
   function spatialReach(S,a,b,reach){
     const ac={x:a.x,y:a.y,z:a.z+(a.shape.centerOffset?0:a.shape.height/2)},bc={x:b.x,y:b.y,z:b.z+(b.shape.centerOffset?0:b.shape.height/2)};
@@ -122,9 +122,52 @@
     return {x,y,z:ss[0].z+h.shape.centerOffset,supportId:ss[0].id,t};
   }
   function moveSpatial(S,o,options){
-    const contacts=S.motion.step(o,{...options,substep:S.stepN});
+    const oldSupport=o.supportId,contacts=S.motion.step(o,{...options,substep:S.stepN});
+    if(oldSupport!==o.supportId)physicalEvent(S,'support',o,{from:oldSupport,to:o.supportId});
+    for(const c of contacts)if(c.speed>6){const face=surfaceRecord(S,o,{...c,massBase:true});physicalEvent(S,'contact',o,{speed:c.speed,face});if(o===S.b&&S.firstBlow>=0&&c.speed>60&&face)addDecal(S,face,'impact');}
+    if(o===S.b)updateTrail(S);
     const hit=contacts.filter(c=>Math.abs(c.normal.z)<.7).sort((a,b)=>b.speed-a.speed)[0];
     return hit?{sp:hit.speed,nx:hit.normal.x,ny:hit.normal.y,nz:hit.normal.z,x:hit.point.x,y:hit.point.y,z:hit.point.z,vt:0}:null;
+  }
+  function massId(S,o){return o===S.b?'body':o===S.at?'attacker':o===S.eq?'light':o===S.hat?'hat':'hand:'+S.h.indexOf(o);}
+  function physicalEvent(S,type,o,data){
+    const e={id:++S.physicalSequence,tick:Math.floor(S.stepN/4),substep:S.stepN%4,type,object:massId(S,o),...data};
+    S.physicalEvents.push(e);if(S.physicalEvents.length>64)S.physicalEvents.shift();return e;
+  }
+  // Hit faces use local orthonormal coordinates on one named primitive. A
+  // support is never inferred from XY, and an underside is not the slab top.
+  function surfaceRecord(S,o,hit){
+    const solid=S.ctx.geometry.definition.solids.find(s=>s.id===hit.primitiveId);if(!solid)return null;
+    const unit=n=>{const l=hyp(n.x,n.y,n.z);return {x:n.x/l,y:n.y/l,z:n.z/l};};
+    const origin=(q,z)=>({x:q.x,y:q.y,z:z.a*q.x+z.b*q.y+z.c}),q=solid.footprint[0];
+    const faces=[{id:'top',n:unit({x:-solid.upper.a,y:-solid.upper.b,z:1}),origin:origin(q,solid.upper)},{id:'underside',n:unit({x:solid.lower.a,y:solid.lower.b,z:-1}),origin:origin(q,solid.lower)}];
+    for(let i=0;i<solid.footprint.length;i++){const a=solid.footprint[i],b=solid.footprint[(i+1)%solid.footprint.length];faces.push({id:'side:'+i,n:unit({x:b.y-a.y,y:a.x-b.x,z:0}),origin:origin(a,solid.lower)});}
+    const dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z;
+    faces.sort((a,b)=>dot(b.n,hit.normal)-dot(a.n,hit.normal)||a.id.localeCompare(b.id));const face=faces[0],n=face.n,p={...hit.point};
+    if(hit.massBase){const xy=hyp(n.x,n.y);if(xy){p.x-=n.x/xy*o.shape.radius;p.y-=n.y/xy*o.shape.radius;}p.z+=n.z<0?o.shape.height:n.z===0?o.shape.height/2:0;}
+    const d=dot({x:p.x-face.origin.x,y:p.y-face.origin.y,z:p.z-face.origin.z},n);p.x-=n.x*d;p.y-=n.y*d;p.z-=n.z*d;
+    const u=unit(Math.abs(n.z)>.9?{x:1,y:0,z:-n.x/(n.z||1)}:{x:-n.y,y:n.x,z:0}),v={x:n.y*u.z-n.z*u.y,y:n.z*u.x-n.x*u.z,z:n.x*u.y-n.y*u.x};
+    const rel={x:p.x-face.origin.x,y:p.y-face.origin.y,z:p.z-face.origin.z},support=face.id==='top'?S.ctx.geometry.definition.supportPatches.find(s=>s.solidId===solid.id)?.id||null:null;
+    return {primitiveId:solid.id,face:face.id,support,point:p,normal:n,local:{u:dot(rel,u),v:dot(rel,v)},origin:face.origin,basis:{u,v},geometryHash:S.geometryHash};
+  }
+  function groundRecord(S,o){
+    if(!o.supportId)return null;const b=S.motion.base(o),from={x:o.x,y:o.y,z:b.z+o.shape.height/2},hit=S.ctx.geometry.raycast(from,{x:o.x,y:o.y,z:b.z-.11},'collision');
+    return hit&&hit.primitiveId===S.ctx.geometry.supportPatch(o.supportId)?.solidId?surfaceRecord(S,o,hit):null;
+  }
+  function addDecal(S,face,reason){const event=physicalEvent(S,'decal',S.b,{reason});S.decals.push({id:event.id,substep:S.stepN,...face});if(S.decals.length>32)S.decals.shift();}
+  function updateTrail(S){
+    const face=groundRecord(S,S.b);if(!face){if(S.trailContact){S.trailSegment++;physicalEvent(S,'trail-break',S.b,{});}S.trailContact=false;return;}
+    S.trailContact=true;if(S.firstBlow<0||(S.stepN&7)||hyp(S.b.vx,S.b.vy)<22)return;
+    const last=S.spatialTrail.at(-1);if(last&&last.segment===S.trailSegment&&hyp(last.point.x-face.point.x,last.point.y-face.point.y,last.point.z-face.point.z)<9)return;
+    S.spatialTrail.push({substep:S.stepN,segment:S.trailSegment,...face});if(S.spatialTrail.length>60)S.spatialTrail.shift();
+  }
+  function beamState(S){
+    const attached=S.ctx.eqKind==='headlamp',e=attached?S.b:S.eq,yaw=(attached?S.b.th:e.rot)-PI/2,n=e.normal||{x:0,y:0,z:1};
+    let direction={x:Math.cos(yaw),y:Math.sin(yaw),z:0};if(e.supportId&&n.z>.1)direction.z=-(direction.x*n.x+direction.y*n.y)/n.z;
+    const l=hyp(direction.x,direction.y,direction.z);for(const k of ['x','y','z'])direction[k]/=l;
+    const center={x:e.x,y:e.y,z:attached?e.z+9:e.z},length=attached?0:S.eq.len,target={x:center.x+direction.x*length,y:center.y+direction.y*length,z:center.z+direction.z*length};
+    const hit=S.ctx.geometry.raycast(center,target,'collision'),origin=hit?{x:hit.point.x+hit.normal.x*.05,y:hit.point.y+hit.normal.y*.05,z:hit.point.z+hit.normal.z*.05}:target;
+    return {kind:S.ctx.eqKind,object:attached?'body':'light',origin,direction,support:e.supportId,clippedBy:hit?.primitiveId||null};
   }
   function constrainHand(S,h){
     const b=S.b,dx=h.x-b.x,dy=h.y-b.y,dz=h.z-(b.z+9),d=hyp(dx,dy,dz);
@@ -148,7 +191,7 @@
     }
     if(S.eq.has&&!S.eq.held)freeBody(S,S.eq,7,.38,250,2.3,dt,'eq');
     if(S.hat.has&&!S.hat.on)freeBody(S,S.hat,11,.3,200,2.6,dt,'hat');
-    else if(S.hat.has){Object.assign(S.hat,{x:b.x,y:b.y,z:b.z+20,vx:b.vx,vy:b.vy,vz:b.vz,rot:b.th,w:b.om,sleeping:b.sleeping,st:b.st,supportId:null});}
+    else if(S.hat.has){Object.assign(S.hat,{x:b.x,y:b.y,z:b.z+20,vx:b.vx,vy:b.vy,vz:b.vz,rot:b.th,w:b.om,sleeping:b.sleeping,st:b.st,supportId:b.supportId,stable:b.stable});}
     const masses=[b,...S.h,...(S.eq.has&&!S.eq.held?[S.eq]:[]),...(S.hat.has&&!S.hat.on?[S.hat]:[])];
     S.state=masses.every(o=>o.sleeping)?'SLEEPING':masses.some(o=>!o.stable)?'ACTIVE':'SETTLING';
     S.stepN++;S.t=S.stepN*DT;
@@ -157,7 +200,7 @@
   function snapshot(S){
     if(!S.spatial)throw Error('Spatial snapshot required');
     const mass=(o,id)=>({id,x:o.x,y:o.y,z:o.z,vx:o.vx,vy:o.vy,vz:o.vz,shape:{...o.shape},support:o.supportId,normal:o.normal,stable:o.stable,sleeping:o.sleeping,mode:o.motionMode,revision:o.revision,yaw:o.th??o.rot??o.a??0,angularVelocity:o.om??o.w??o.av??0,tilt:o.tilt||{x:0,y:0},contacts:o.contacts.map(c=>({primitiveId:c.primitiveId,normal:c.normal,point:c.point,substep:c.substep})),diagnostics:o.diagnostics.slice(-4)});
-    return {version:SPATIAL_VERSION,geometryHash:S.geometryHash,substep:S.stepN,time:S.t,duration:S.dur,state:S.state,phase:S.phase,body:mass(S.b,'body'),hands:S.h.map((h,i)=>mass(h,'hand:'+i)),attacker:mass(S.at,'attacker'),light:S.eq.has?{...mass(S.eq,'light'),held:S.eq.held}:null,hat:S.hat.has?{...mass(S.hat,'hat'),attached:S.hat.on}:null};
+    return {version:SPATIAL_VERSION,geometryHash:S.geometryHash,substep:S.stepN,time:S.t,duration:S.dur,state:S.state,phase:S.phase,body:mass(S.b,'body'),hands:S.h.map((h,i)=>mass(h,'hand:'+i)),attacker:mass(S.at,'attacker'),light:S.eq.has?{...mass(S.eq,'light'),held:S.eq.held}:null,hat:S.hat.has?{...mass(S.hat,'hat'),attached:S.hat.on}:null,beam:beamState(S),decals:S.decals.map(d=>({...d})),trail:S.spatialTrail.map(p=>({...p})),events:S.physicalEvents.map(e=>({...e})),eventSequence:S.physicalSequence};
   }
 
   /* how hard the victim is still fighting back at time t (0 = limp .. 1 = full strength); an exhausted victim starts weaker and gives up sooner */
@@ -173,10 +216,10 @@
       const e = S.eq; if (!e.has || !e.held) return; e.held = false; S.eqAt = t;
       const h = S.h[1]; e.x = h.x; e.y = h.y; e.vx = h.vx + (kick && kick.x || 0); e.vy = h.vy + (kick && kick.y || 0);
       if(S.spatial){e.z=h.z+2;e.vz=h.vz;e.sleeping=false;e.supportId=null;e.st='ACTIVE';}
-      e.rot = b.th + e.rho; e.w = b.om + e.rhov + (S.rr() - .5) * 7; S.ev.push({ t, k: 'eq' });
+      e.rot = b.th + e.rho; e.w = b.om + e.rhov + (S.rr() - .5) * 7; S.ev.push({ t, k: 'eq' });if(S.spatial)physicalEvent(S,'release',e,{velocity:{x:e.vx,y:e.vy,z:e.vz},angularVelocity:e.w});
     } else {
       const e = S.hat; if (!e.has || !e.on) return; e.on = false; S.hatAt = t;
-      e.x = b.x; e.y = b.y; e.vx = b.vx + (kick && kick.x || 0); e.vy = b.vy + (kick && kick.y || 0); if(S.spatial){e.z=b.z+b.shape.height+2;e.vz=b.vz;e.sleeping=false;e.supportId=null;e.st='ACTIVE';} e.rot = b.th; e.w = b.om + (S.rr() - .5) * 9; S.ev.push({ t, k: 'hat' });
+      e.x = b.x; e.y = b.y; e.vx = b.vx + (kick && kick.x || 0); e.vy = b.vy + (kick && kick.y || 0); if(S.spatial){e.z=b.z+b.shape.height+2;e.vz=b.vz;e.sleeping=false;e.supportId=null;e.st='ACTIVE';} e.rot = b.th; e.w = b.om + (S.rr() - .5) * 9; S.ev.push({ t, k: 'hat' });if(S.spatial)physicalEvent(S,'release',e,{velocity:{x:e.vx,y:e.vy,z:e.vz},angularVelocity:e.w});
     }
   }
 
@@ -288,7 +331,7 @@
       const k = S.hitsDone++, mag = hound ? (k === 0 ? 30 : 48) : 20;
       if (S.firstBlow < 0) S.firstBlow = t;
       b.vx += nAx * mag * (.6 + .4 * S.rr()); b.vy += nAy * mag * (.6 + .4 * S.rr()); b.om += (S.rr() - .5) * 5 * (hound ? 1 : .3); b.sqv += hound ? 3.5 : 1.4;
-      S.h[k & 1].vx += (S.rr() - .5) * 220; S.h[k & 1].vy += (S.rr() - .5) * 220; at.bite = 1; S.ev.push({ t, k: 'hit', i: k });
+      S.h[k & 1].vx += (S.rr() - .5) * 220; S.h[k & 1].vy += (S.rr() - .5) * 220; at.bite = 1; S.ev.push({ t, k: 'hit', i: k });if(S.spatial){const face=groundRecord(S,b);if(face)addDecal(S,face,'hit:'+k);}
       shock(S, nAx, nAy, hound ? 9 : 4);
       if (k === 1 && cfg.eq === 'hit1') release(S, 'eq', t, { x: -nAy * 150 + nAx * 60, y: nAx * 150 + nAy * 60 });
       if (k === 2 && cfg.hat === 'hit2') release(S, 'hat', t, { x: nAx * 90, y: nAy * 90 });

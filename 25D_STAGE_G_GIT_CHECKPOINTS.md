@@ -6,3 +6,5 @@ Branch: stage-g. main is excluded.
 G0 preflight source/evidence ready; commit identity and verified remote SHA are recorded immediately after publication, avoiding a self-referential commit hash.
 
 G0 verified remote: `6d5cc47ed33c1512d20324873fee26d9ec91864e`; tree `b27587438d3395571a0eb60f1c30f8902067a6c0`. Published through authenticated GitHub connector because HTTPS Git has no credentials. Remote ref and fetched tree verified before G1.
+
+G1 verified remote: `9853df3c92ea008609f349b5e0d95fb811abfa80`; tree `a3246cdf97178f88458d65dc4d7d97650627e2d6`. Remote ref and fetched tree verified before continuing.

@@ -259,8 +259,12 @@ function passive(geometry){
  function hull(points){const p=points.sort((a,b)=>a.x-b.x||a.y-b.y),lo=[],hi=[];for(const q of p){while(lo.length>1&&cross(lo.at(-2),lo.at(-1),q)<=1e-9)lo.pop();lo.push(q);}for(const q of [...p].reverse()){while(hi.length>1&&cross(hi.at(-2),hi.at(-1),q)<=1e-9)hi.pop();hi.push(q);}return lo.slice(0,-1).concat(hi.slice(0,-1));}
  function support(o){
   stats.supports++;const p=base(o),ss=geometry.supports(o.shape,p,[p.z-POLICY.skin*2-1e-7,p.z+1e-7],o.supportId);
-  const samples=[];for(const s of ss){const patch=geometry.supportPatch(s.id);for(let i=-1;i<16;i++){const a=i*Math.PI/8,q=i<0?{x:o.x,y:o.y}:{x:o.x+Math.cos(a)*o.shape.radius*.85,y:o.y+Math.sin(a)*o.shape.radius*.85};if(geometry.footprintRange(patch.polygon,q,0,patch.plane))samples.push(q);}for(const q of patch.polygon)if(Math.hypot(q.x-o.x,q.y-o.y)<=o.shape.radius)samples.push({...q});}
-  const poly=hull(samples),stable=poly.length>=3&&poly.every((a,i)=>cross(a,poly[(i+1)%poly.length],o)>=-1e-7);
+  const samples=[];for(const s of ss){const patch=geometry.supportPatch(s.id);for(let i=-1;i<16;i++){const a=i*Math.PI/8,q=i<0?{x:o.x,y:o.y}:{x:o.x+Math.cos(a)*o.shape.radius*.85,y:o.y+Math.sin(a)*o.shape.radius*.85};if(geometry.footprintRange(patch.polygon,q,0,patch.plane))samples.push(q);}for(const q of patch.polygon)if(Math.hypot(q.x-o.x,q.y-o.y)<=o.shape.radius)samples.push({...q});
+   // Exact circle/edge intersections preserve the contact boundary near a ledge;
+   // stability must not depend on whether a radial sample happens to hit it.
+   for(let i=0;i<patch.polygon.length;i++){const a=patch.polygon[i],b=patch.polygon[(i+1)%patch.polygon.length],dx=b.x-a.x,dy=b.y-a.y,A=dx*dx+dy*dy,B=2*((a.x-o.x)*dx+(a.y-o.y)*dy),C=(a.x-o.x)**2+(a.y-o.y)**2-o.shape.radius**2,D=B*B-4*A*C;if(D<0)continue;for(const t of [(-B-Math.sqrt(D))/(2*A),(-B+Math.sqrt(D))/(2*A)])if(t>=0&&t<=1)samples.push({x:a.x+t*dx,y:a.y+t*dy});}
+  }
+  const poly=hull(samples),stable=poly.length>=3&&poly.every((a,i)=>{const b=poly[(i+1)%poly.length];return cross(a,b,o)>=POLICY.skin*Math.hypot(b.x-a.x,b.y-a.y)-1e-7;});
   const s=ss[0]||null;o.supportId=s?.id||null;o.normal=s?.normal||null;o.stable=!!s&&stable;o.contactPolygon=poly.slice(0,32);o.motionMode=s?'grounded':'airborne';
   if(!s||!stable){o.sleeping=false;o.still=0;o.st='ACTIVE';}
   return s;
@@ -297,10 +301,17 @@ function passive(geometry){
    const speed=Math.hypot(o.vx,o.vy,o.vz),mu=options.mu??560,visc=options.visc??1.15;
    if(speed>1e-9){const dv=Math.min(speed,(mu+visc*speed)*dt),f=1-dv/speed;o.vx*=f;o.vy*=f;o.vz*=f;}
   }else if(s){
+   // A real contact still supplies its unilateral normal force while the mass
+   // tips outwards. Use the known face normal at a zero-distance contact; a GJK
+   // near-zero direction on an extremely thin patch is not a support normal.
+   const n=s.normal,into=o.vx*n.x+o.vy*n.y+o.vz*n.z;
+   if(into<0){o.vx-=into*n.x;o.vy-=into*n.y;o.vz-=into*n.z;}
    // Unsupported center of mass: gravity supplies an outward tipping impulse.
    // Keep the full collider until it clears the edge; never ignore the slab.
    const cp=o.contactPolygon,point=cp.length?cp.reduce((p,q)=>({x:p.x+q.x/cp.length,y:p.y+q.y/cp.length}),{x:0,y:0}):s.point;
-   const dx=o.x-point.x,dy=o.y-point.y,d=Math.hypot(dx,dy);if(d>1e-7){o.vx+=dx/d*POLICY.gravity*.55*dt;o.vy+=dy/d*POLICY.gravity*.55*dt;}
+   let dx=o.x-point.x,dy=o.y-point.y,d=Math.hypot(dx,dy);
+   if(d<=1e-7){const p=geometry.supportPatch(s.id).polygon;let best=Infinity;for(let i=0;i<p.length;i++){const a=p[i],b=p[(i+1)%p.length],nx=b.y-a.y,ny=a.x-b.x,l=Math.hypot(nx,ny),distance=Math.abs(nx*(o.x-a.x)+ny*(o.y-a.y))/l;if(distance<best){best=distance;dx=nx/l;dy=ny/l;}}d=1;}
+   o.vx+=dx/d*POLICY.gravity*.55*dt;o.vy+=dy/d*POLICY.gravity*.55*dt;
   }
   const contacts=sweep(o,{x:o.vx*dt,y:o.vy*dt,z:o.vz*dt},options.rest||0);support(o);
   o.tilt=o.normal?{x:Math.atan2(-o.normal.y,o.normal.z),y:Math.atan2(o.normal.x,o.normal.z)}:{x:0,y:0};
