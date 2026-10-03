@@ -46,6 +46,7 @@ function pickVariant(eng, e, pv, ctx, attack) {
 }
 function beginCapture(eng, e, pv, attack) {
   if (pv.caught || e.cap || !pv.alive) return null;
+  if(eng.geo.spatial&&!eng.geo.physicalContact(e,pv,e.r+12))return null;
   const ctx = assess(eng, e, pv, attack);
   const cap = { id: ++eng.capId, pid: pv.id, eid: e.id, kind: e.sp.name, t: 0, phase: 'grab', ctx, attack, mode: attack && attack.force ? attack.force : chooseMode(eng, e, ctx), variant: null, plan: null, decideAt: 0, plays: 0, released: false, interrupts: 0, log: [], pos: { x: pv.x, y: pv.y } };
   e.cap = cap; pv.caught = cap; eng.caps.push(cap);

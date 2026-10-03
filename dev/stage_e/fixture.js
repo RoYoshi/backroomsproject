@@ -21,7 +21,7 @@ function fixture(){
 }
 function adapter(def=fixture()){
  const geometry=G.compile(def),b=def.bounds;
- return {geometry,key:geometry.identity.contentHash,W:b.max.x,H:b.max.y,rooms:[],lamps:[],blackout:()=>false,qc:()=>0,kinds:[],
+ return {geometry,key:geometry.identity.contentHash,W:b.max.x,H:b.max.y,rooms:[],lamps:[],blackout:()=>false,qc:()=>0,kinds:{flashlight:{range:390,arc:.92,power:.58,spill:56,omni:false},headlamp:{range:262,arc:1.95,power:.5,spill:82,omni:false},lantern:{range:228,arc:Math.PI*2,power:.5,spill:200,omni:true},camcorder:{range:1,arc:.1,power:0,spill:1,omni:false}},
   floor:()=>false,clear:()=>false,blockers:()=>[],ray:()=>0};
 }
 module.exports={fixture,adapter,canonical,clone};

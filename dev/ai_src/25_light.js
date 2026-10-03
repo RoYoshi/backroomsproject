@@ -15,6 +15,7 @@ const LIGHT_DT = .25, BEAM_DT = .12;
 const BEAM_RAYS = [0, -.3, .3], BEAM_AIR = [.3, .62];
 const q05 = v => Math.round(v * 20) / 20;                                    // brightness as the eye has it: coarse
 function beamsOf(eng) {
+  if(eng.geo.spatial)return spatialBeamsOf(eng);
   if (eng.beamsT > eng.now && eng.beams) return eng.beams;
   eng.beamsT = eng.now + BEAM_DT;
   const geo = eng.geo, kinds = geo.a.kinds || {}, out = [], hist = eng.beamHist || (eng.beamHist = new Map()), live = new Set();
@@ -42,6 +43,7 @@ function beamsOf(eng) {
 }
 /* what this entity can actually see of one beam (or null) - the observation record, nothing else leaves this function */
 function observeBeam(eng, e, b) {
+  if(eng.geo.spatial)return spatialObserveBeam(eng,e,b);
   const geo = eng.geo, fov = e.sp.vision.fov, look = e.ang + (e.head || 0);
   const inView = (x, y, d) => d < 110 || Math.abs(angDiff(Math.atan2(y - e.y, x - e.x), look)) <= fov / 2;
   const dO = Math.hypot(b.o.x - e.x, b.o.y - e.y);
@@ -64,6 +66,7 @@ function openSide(geo, x, y) {
 }
 /* THE INFERENCE: observation -> anonymous lead.  Pure: (entity position, observation, level geometry) -> lead.  Never the carrier. */
 function inferLead(e, o, geo) {
+  if(geo.spatial)return spatialInferLead(e,o,geo);
   if (o.src) return { k: 'source', x: o.src.x, y: o.src.y, u: 35, c: o.flash ? .95 : .8, sal: o.flash ? 1 : clamp(.55 + (o.fresh ? .3 : 0) + (o.moved ? .1 : 0), 0, 1), flash: o.flash };
   const all = o.pts.concat(o.air); if (!all.length) return null;
   let maxI = 0; for (const q of all) maxI = Math.max(maxI, q.I);
@@ -95,8 +98,8 @@ function lightSense(eng, e) {
   for (const o of obs) {
     const L = inferLead(e, o, eng.geo); if (!L) continue;
     if (L.k === 'source') {                                                   // a light it sees in the hand of somebody it is looking at right now: that is their light
-      const owners = [...e.seenNow].map(id=>e.mem.p.get(id)).filter(r=>r.visual && r.light && Math.hypot(r.visual.x-L.x,r.visual.y-L.y)<60); const own=owners.length===1?owners[0]:null;
-      if (own) { noteEv(own, 'light', L.x, L.y, L.u, L.c, eng.now); if (L.flash) e.flashAt = eng.now; e.dbg.light = `source (in the hand of P${own.id}) @${eng.now.toFixed(1)}`; continue; }
+      const owners = [...e.seenNow].map(id=>e.mem.p.get(id)).filter(r=>r.visual && r.light && verticalCompatible(r.visual,L) && Math.hypot(r.visual.x-L.x,r.visual.y-L.y)<60); const own=owners.length===1?owners[0]:null;
+      if (own) { noteEv(own, 'light', L.x, L.y, L.u, L.c, eng.now,L); if (L.flash) e.flashAt = eng.now; e.dbg.light = `source (in the hand of P${own.id}) @${eng.now.toFixed(1)}`; continue; }
     }
     const q = addLead(e, eng.now, L);
     if (L.flash) e.flashAt = eng.now;
@@ -104,6 +107,6 @@ function lightSense(eng, e) {
 
   }
   const best = bestAnonLead(e, eng.now, 'light'), current=e.inv&&e.mem.leads.find(q=>q.id===e.inv.lead&&q.k!=='sound');
-  if(best && (!current || best.id===current.id || observationScore(e,best,eng.now)>observationScore(e,current,eng.now)*1.25)) e.inv={lead:best.id,x:best.x,y:best.y,u:best.u,c:best.c*(.5+best.sal),k:best.k,t:best.t};
+  if(best && (!current || best.id===current.id || observationScore(e,best,eng.now)>observationScore(e,current,eng.now)*1.25)) e.inv={lead:best.id,x:best.x,y:best.y,u:best.u,c:best.c*(.5+best.sal),k:best.k,t:best.t,...spatialFields(best)};
 
 }
