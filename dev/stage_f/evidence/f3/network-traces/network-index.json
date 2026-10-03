@@ -1,0 +1,29 @@
+[
+  {
+    "name": "network-interpolation",
+    "scenario": "network/entity-interpolation-and-reset",
+    "records": 243,
+    "sha256": "944cebac66da8c0ae983c02550b8bdf731ff4a5cd7614d991f6dcd98591a1ea2",
+    "semanticSha256": "27a55a3ad11824974258a38627848986c5e21b2cda00fcb8c0dbae74750be112",
+    "bytes": 10131,
+    "uncompressedBytes": 219802
+  },
+  {
+    "name": "network-peer-pose",
+    "scenario": "network/peer-render-pose",
+    "records": 180,
+    "sha256": "6fd6472b42850457f57709c210c44603d4cea52f9692f13fb8586b511613e60e",
+    "semanticSha256": "573d0e7c7ce1bbed25b2aca3d3f6efe27f30ec68a87d54a53a93d86dd2e0d6a7",
+    "bytes": 6724,
+    "uncompressedBytes": 45382
+  },
+  {
+    "name": "network-lifecycle",
+    "scenario": "network/authoritative-lifecycle",
+    "records": 16,
+    "sha256": "da7c4eae3a464756f91a00b84cb2f842e87e6401150e785a7bb4cf5d517d6320",
+    "semanticSha256": "e9a7c7b97751ca0d98de2bc1bd0790ae02de7aeee987fc0017d4b7d6f86db51a",
+    "bytes": 1291,
+    "uncompressedBytes": 7536
+  }
+]

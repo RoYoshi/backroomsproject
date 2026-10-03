@@ -178,6 +178,11 @@ function adminCommand(room, me, m) {
   const who = c => String(c.name || 'WANDERER').toUpperCase();
   if (room.authority && m.c === 'speed' && m.v !== 1) return res(false, 'SPATIAL FIXED-TICK SPEED IS 1');
   if (room.authority && ['bring','goto','glitch','item','entgoto','summon','near','nav'].includes(m.c)) return res(false, 'SPATIAL TOOL REQUIRES COMPLETE POSE');
+  if (room.authority && m.c === 'spatial-entity') {
+    const q=m.pose,kind=m.kind;if(!['hound','smiler'].includes(kind)||!q||!['x','y','z'].every(k=>PROTOCOL.finite(q[k])))return res(false,'INVALID ENTITY POSE');
+    if(room.sim.engine.count(kind)>=64)return res(false,'ENTITY LIMIT');
+    try { const e=room.sim.engine.spawn(kind,q.x,q.y,{z:q.z,supportId:q.support});res(true,'SPATIAL ENTITY '+e.id); } catch { res(false,'INVALID ENTITY CLEARANCE'); } return;
+  }
   if (room.authority && m.c === 'spatial-tp') {
     const c = target || me, q = m.pose;
     if (!q || !['x','y','z'].every(k => PROTOCOL.finite(q[k]))) return res(false, 'INVALID SPATIAL DESTINATION');
@@ -188,7 +193,7 @@ function adminCommand(room, me, m) {
     case 'kick':
       if (target && target !== me) { log(`kick ${target.name}#${target.id}`); res(true, 'KICKED ' + who(target)); send(target, { t: 'kick' }); setTimeout(() => { try { target.sock.write(Buffer.from([0x88, 0])); target.sock.end(); } catch (e) {} }, 150); }
       break;
-    case 'revive': if (target) { log(`revive ${target.name}`); target.player.dead = ''; target.player.reviveOk = true; target.player.safe = 3; A.endPreview(target.player); send(target, { t: 'revive' }); res(true, 'REVIVED ' + who(target)); } break;
+    case 'revive': if (target) { log(`revive ${target.name}`); target.player.dead = ''; target.player.reviveOk = true; target.player.safe = 3; A.endPreview(target.player); if (room.authority) room.authority.reset(target, 'revive'); send(target, { t: 'revive' }); res(true, 'REVIVED ' + who(target)); } break;
     case 'god': if (target) { const on = A.god(target.player); log(`god ${target.name} -> ${on}`); res(true, 'GOD MODE ' + (on ? 'ON' : 'OFF') + ' · ' + who(target)); } break;
     case 'bring': if (target && target !== me) { log(`bring ${target.name}`); const { x, y } = me.player; moveTo(target, x, y); res(true, 'BROUGHT ' + who(target)); } break;
     case 'goto': if (target && target !== me) { log(`goto ${target.name}`); const { x, y } = target.player; moveTo(me, x, y); res(true, 'WENT TO ' + who(target)); } break;
@@ -256,6 +261,7 @@ srv.on('upgrade', (req, sock) => {
     if (m.t === 'hello') { const why = PROTOCOL.compatible(m.protocol, PROTOCOL.manifest(room.sim.geometry, room.worldEpoch, room.simTick)); if (why) { send(me, { t: 'incompatible', reason: why }); return; } if (room.authority && m.protocol.worldEpoch !== room.worldEpoch) return; if (me.protocolReady) return; me.protocolReady = true; if (room.authority) room.authority.reset(me, 'handshake'); return; }
     if (room.authority && m.t !== 'admin' && m.t !== 'ping' && !me.protocolReady) { send(me, { t: 'incompatible', reason: 'spatial-handshake-required' }); return; }
     if (room.authority && !['hello','admin','ping','sp'].includes(m.t) && (m.worldEpoch !== room.worldEpoch || m.life !== (player.life || 0) || m.ack !== me.spatial?.discontinuity)) { room.authority.reject(me, 'action-identity'); return; }
+    if (room.authority && m.t === 'resync') { if (room.simTick - (me.resyncAt ?? -90) >= 30) { me.resyncAt=room.simTick; room.authority.correct(me, 'client-resync'); } return; }
     if (room.authority && m.t === 'sp') { room.authority.enqueue(me, m); return; }
     if (room.authority && m.t === 'p') { room.authority.reject(me, 'legacy-movement'); return; }
     if (m.t === 'p') {

@@ -51,7 +51,9 @@ class Authority {
    const b=clone(p); // bounded player state; no simulation/AI state is replayed
    b.events=[];b.diagnostics=[];
    if(!this.motion.posture(b,q.posture)){this.reject(c,'posture',true);continue;}
-   if(Math.hypot(q.vx,q.vy)>speedCap[q.posture]+1){this.reject(c,'speed',true);continue;}
+   // The retained motor decelerates exponentially; posture changes do not erase momentum.
+   const previousSpeed=Math.hypot(p.vx,p.vy),cap=speedCap[q.posture],envelope=cap+Math.max(0,previousSpeed-cap)*Math.exp(-1/60);
+   if(Math.hypot(q.vx,q.vy)>envelope+1){this.reject(c,'speed',true);continue;}
    b.vx=q.vx;b.vy=q.vy;b.angle=q.yaw;
    if(q.link){const l=this.g.definition.traversalLinks.find(l=>l.id===q.link);if(!l||!l.profileIds.includes(b.shape.id)){this.reject(c,'link',true);continue;}b.trav=this.motion.beginTraversal(b,l);if(!b.trav){this.reject(c,'link',true);continue;}}
    const before={x:b.x,y:b.y,z:b.z};

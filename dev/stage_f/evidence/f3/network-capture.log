@@ -1,0 +1,16 @@
+<anonymous_script>:34
+N.spatialSample = sample => { if (spatialClient && !spatialBlocked) { spatialClient.pending.push(sample); if (spatialClient.pending.length >= 3) tx(spatialClient.proposal(spatialClient.pending.splice(0, 3))); } };
+^
+
+ReferenceError: N is not defined
+    at eval (eval at <anonymous> (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_a/capture_network.js:6:61), <anonymous>:34:1)
+    at Object.<anonymous> (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_a/capture_network.js:6:183)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47
+
+Node.js v24.19.0

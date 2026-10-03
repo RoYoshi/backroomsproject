@@ -10,6 +10,7 @@ const cv = document.getElementById('mp'), cx = cv.getContext('2d'), dread = docu
 document.body.appendChild(net);
 const room = new URLSearchParams(location.search).get('room') || 'main';
 
+let spatialClient = null, spatialBlocked = false;
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
 let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
 let bodiesList = [];                              // corpses from the server (everyone's, one per player)
@@ -26,6 +27,7 @@ const N = window.__net = {
   on: false,
   tick() {                                          // called by the game's fixed-step loop while online
     const A = window.__api;
+    if (spatialClient && !spatialBlocked && A?.started() && spatialClient.anchor) { const resync = spatialClient.record(A.H, window.__mv?.net()); if (resync) tx(resync); const proposal = spatialClient.flush(); if (proposal) tx(proposal); }
     if (A && me && mseq > handled && !A.G.caught) {
       handled = mseq; A.G.caught = true; A.G.caughtBy = me;
       const K = window.__kill; let b = -1;
@@ -50,12 +52,13 @@ const N = window.__net = {
 /* where the kill animation left the attacker (its world position and heading), so the server's hound carries on from there instead of popping back */
 const kaOf = t => { const D = window.__api && window.__api.death && window.__api.death(); const at = D && D.attacker; return t.cause === 'Hound' && at && Number.isFinite(at.x) ? [Math.round(at.x), Math.round(at.y), +(at.angle || 0).toFixed(3)] : 0; };
 const fxBase = A => ({ lk: [A.look.hat, A.look.texture, A.look.hands, A.look.main, A.look.backpack].join('|'), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
-const tx = o => { if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); };
+const tx = o => { if (ws && ws.readyState === 1 && !spatialBlocked) ws.send(JSON.stringify(spatialClient && !['hello','admin','ping','sp'].includes(o.t) ? spatialClient.action(o) : o)); };
 
 function connect() {
   if (location.protocol === 'file:') return;
   try { ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?room=' + encodeURIComponent(room)); } catch { return; }
   ws.onopen = () => {
+    spatialClient = null; spatialBlocked = false;
     netReset();                                                                // a connection is a new server timeline
     retry = 0; handled = 0; mseq = 0; me = ''; everConnected = true;
     const A = window.__api; if (A && A.started()) tx({ t: 'join' });      // re-enter the world after a reconnect
@@ -64,7 +67,18 @@ function connect() {
   };
   ws.onmessage = e => {
     let m; try { m = JSON.parse(e.data); } catch { return; }
-    if (m.t === 'hi') { myId = m.id; const A = window.__api; if (A) A.H.id = myId; }
+    if (m.t === 'hi' || m.t === 'world') {
+      if (m.t === 'hi') myId = m.id; const A = window.__api; if (A) A.H.id = myId;
+      if (m.protocol?.geometryMode === 'spatial') {
+        const g = A?.spatialMotion?.motion?.geometry;
+        if (!g || !window.TFB_PROTOCOL) { spatialBlocked = true; net.textContent = 'INCOMPATIBLE WORLD · SPATIAL CLIENT REQUIRED'; N.on = false; return; }
+        if (!spatialClient) spatialClient = new window.TFB_PROTOCOL.Client(window.TFB_PROTOCOL.manifest(g, 'local', 0));
+        const hello = spatialClient.hello(m.protocol); if (spatialClient.error) { spatialBlocked = true; net.textContent = 'INCOMPATIBLE WORLD · ' + spatialClient.error; return; }
+        netReset(); tx(hello);
+      }
+    }
+    else if (m.t === 'incompatible') { spatialBlocked = true; N.on = false; net.textContent = 'INCOMPATIBLE WORLD · ' + m.reason; }
+    else if (m.t === 'correction' && spatialClient) { if (spatialClient.accept(m.pose)) { const A = window.__api; if (A) spatialClient.rebase(A.H, A.spatialMotion.motion.geometry); } }
     else if (m.t === 'admin' && m.q) { /* a test's quiet unlock: nothing to show */ }
     else if (m.t === 'admin') {
       adm.unlocked = !!m.ok; adm.err = m.ok ? '' : (m.wait ? 'TOO MANY TRIES · WAIT ' + m.wait + 'S' : 'WRONG PASSCODE');
@@ -85,6 +99,9 @@ function connect() {
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {
+      if (spatialBlocked) return;
+      if (spatialClient && (!m.protocol || m.protocol.worldEpoch !== spatialClient.world.worldEpoch)) return;
+      if (spatialClient && m.pose) spatialClient.accept(m.pose);
       const now = performance.now(), seen = new Set();
       for (const p of m.p) {
         seen.add(p.id);
@@ -161,6 +178,8 @@ function netPose(key) {
   return h[h.length - 1];
 }
 window.__netPose = netPose; window.__NET = NET;
+N.spatialSample = sample => { if (spatialClient && !spatialBlocked) { spatialClient.pending.push(sample); if (spatialClient.pending.length >= 3) tx(spatialClient.proposal(spatialClient.pending.splice(0, 3))); } };
+
 NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); };           // entity slots belong to the old world too
 function applyServerState(dt) {
   const A = window.__api, s = snap, E = EN();
@@ -807,7 +826,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
 
   /* --- network send --- */
   const now = performance.now();
-  if (ws && ws.readyState === 1 && now - lastSend > (started ? 50 : 250)) {
+  if (ws && ws.readyState === 1 && !spatialBlocked && !spatialClient && now - lastSend > (started ? 50 : 250)) {
     lastSend = now;
     ws.send(JSON.stringify({
       t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),

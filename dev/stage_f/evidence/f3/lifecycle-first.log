@@ -1,0 +1,470 @@
+Z24 PASS real spatial capture rejects escape/join/respawn/leave
+Z24 PASS actual death, admin revive, one-use respawn, old-life isolation
+Z24 PASS protected new-run lifecycle
+{
+  "status": "PASS",
+  "stats": {
+    "accepted": 0,
+    "rejected": 2,
+    "corrections": 6,
+    "maxQueue": 0,
+    "maxHistory": 0,
+    "maxWork": 0,
+    "work": 0,
+    "ownedTicks": 0,
+    "reasons": {
+      "lifecycle": 1,
+      "identity": 1
+    }
+  },
+  "lives": 3
+}
+{
+  "last": {
+    "t": "s",
+    "p": [],
+    "e": {
+      "st": 10.233,
+      "h": [
+        {
+          "i": 1,
+          "x": 1061.4,
+          "y": 607.9,
+          "a": 4.923,
+          "s": 12,
+          "ac": 7,
+          "v": 0,
+          "h": -0.01,
+          "lh": -0.01,
+          "l": -1,
+          "tg": 0,
+          "cp": 0,
+          "k": 0
+        }
+      ],
+      "m": [],
+      "b": 0,
+      "p": 0.017,
+      "gw": [],
+      "it": [],
+      "lf": [],
+      "sn": []
+    },
+    "me": "",
+    "ms": 1,
+    "cp": 0,
+    "protocol": {
+      "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+      "simTick": 614
+    },
+    "pose": {
+      "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+      "entityId": "p1",
+      "generation": 2,
+      "seq": 614,
+      "tick": 614,
+      "discontinuity": 5,
+      "x": 1000,
+      "y": 500,
+      "z": 0,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "yaw": 0,
+      "height": 60,
+      "profile": "profile:player-stand",
+      "support": "support:ground",
+      "navSurface": "nav:ground",
+      "mode": "grounded",
+      "link": null,
+      "progress": 0,
+      "step": null
+    },
+    "spatial": [
+      {
+        "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+        "entityId": "h1",
+        "generation": 2,
+        "tick": 614,
+        "seq": 614,
+        "discontinuity": 0,
+        "x": 1061.3693869739543,
+        "y": 607.9335292720723,
+        "z": 0.05,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 4.923277797066415,
+        "height": 36,
+        "profile": "profile:hound",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      }
+    ],
+    "spatialStats": {
+      "accepted": 0,
+      "rejected": 2,
+      "corrections": 6,
+      "maxQueue": 0,
+      "maxHistory": 0,
+      "maxWork": 0,
+      "work": 0,
+      "ownedTicks": 0,
+      "reasons": {
+        "lifecycle": 1,
+        "identity": 1
+      }
+    },
+    "ad": {
+      "fz": 0,
+      "sp": 1,
+      "bo": "auto",
+      "hn": 1,
+      "sn": 0,
+      "mh": 64,
+      "ms": 64,
+      "dh": 3,
+      "gw": 0,
+      "it": 0,
+      "pk": 0,
+      "hs": "PLAYING",
+      "dbg": 0,
+      "cm": "play",
+      "es": [
+        [
+          1,
+          0,
+          "PLAYING",
+          1061,
+          608,
+          "n",
+          0
+        ]
+      ],
+      "pl": [
+        {
+          "id": 1,
+          "n": "WANDERER",
+          "a": 1,
+          "d": "",
+          "g": 0,
+          "ad": 1,
+          "st": 0,
+          "x": 1000,
+          "y": 500
+        }
+      ]
+    },
+    "you": 1
+  },
+  "tail": [
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 10.183,
+        "h": [
+          {
+            "i": 1,
+            "x": 1061.4,
+            "y": 607.9,
+            "a": 4.923,
+            "s": 12,
+            "ac": 7,
+            "v": 0,
+            "h": -0.01,
+            "lh": -0.01,
+            "l": -1,
+            "tg": 0,
+            "cp": 0,
+            "k": 0
+          }
+        ],
+        "m": [],
+        "b": 0,
+        "p": 0.017,
+        "gw": [],
+        "it": [],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 1,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+        "simTick": 611
+      },
+      "pose": {
+        "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+        "entityId": "p1",
+        "generation": 2,
+        "seq": 611,
+        "tick": 611,
+        "discontinuity": 5,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      },
+      "spatial": [
+        {
+          "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+          "entityId": "h1",
+          "generation": 2,
+          "tick": 611,
+          "seq": 611,
+          "discontinuity": 0,
+          "x": 1061.3693869739543,
+          "y": 607.9335292720723,
+          "z": 0.05,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 4.923277797066415,
+          "height": 36,
+          "profile": "profile:hound",
+          "support": "support:ground",
+          "navSurface": "nav:ground",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "step": null
+        }
+      ],
+      "spatialStats": {
+        "accepted": 0,
+        "rejected": 2,
+        "corrections": 6,
+        "maxQueue": 0,
+        "maxHistory": 0,
+        "maxWork": 0,
+        "work": 0,
+        "ownedTicks": 0,
+        "reasons": {
+          "lifecycle": 1,
+          "identity": 1
+        }
+      }
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 10.233,
+        "h": [
+          {
+            "i": 1,
+            "x": 1061.4,
+            "y": 607.9,
+            "a": 4.923,
+            "s": 12,
+            "ac": 7,
+            "v": 0,
+            "h": -0.01,
+            "lh": -0.01,
+            "l": -1,
+            "tg": 0,
+            "cp": 0,
+            "k": 0
+          }
+        ],
+        "m": [],
+        "b": 0,
+        "p": 0.017,
+        "gw": [],
+        "it": [],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 1,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+        "simTick": 614
+      },
+      "pose": {
+        "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+        "entityId": "p1",
+        "generation": 2,
+        "seq": 614,
+        "tick": 614,
+        "discontinuity": 5,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      },
+      "spatial": [
+        {
+          "worldEpoch": "a2dcd0ba-abd1-42e5-8529-dc6a26bbc3e5",
+          "entityId": "h1",
+          "generation": 2,
+          "tick": 614,
+          "seq": 614,
+          "discontinuity": 0,
+          "x": 1061.3693869739543,
+          "y": 607.9335292720723,
+          "z": 0.05,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 4.923277797066415,
+          "height": 36,
+          "profile": "profile:hound",
+          "support": "support:ground",
+          "navSurface": "nav:ground",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "step": null
+        }
+      ],
+      "spatialStats": {
+        "accepted": 0,
+        "rejected": 2,
+        "corrections": 6,
+        "maxQueue": 0,
+        "maxHistory": 0,
+        "maxWork": 0,
+        "work": 0,
+        "ownedTicks": 0,
+        "reasons": {
+          "lifecycle": 1,
+          "identity": 1
+        }
+      },
+      "ad": {
+        "fz": 0,
+        "sp": 1,
+        "bo": "auto",
+        "hn": 1,
+        "sn": 0,
+        "mh": 64,
+        "ms": 64,
+        "dh": 3,
+        "gw": 0,
+        "it": 0,
+        "pk": 0,
+        "hs": "PLAYING",
+        "dbg": 0,
+        "cm": "play",
+        "es": [
+          [
+            1,
+            0,
+            "PLAYING",
+            1061,
+            608,
+            "n",
+            0
+          ]
+        ],
+        "pl": [
+          {
+            "id": 1,
+            "n": "WANDERER",
+            "a": 1,
+            "d": "",
+            "g": 0,
+            "ad": 1,
+            "st": 0,
+            "x": 1000,
+            "y": 500
+          }
+        ]
+      },
+      "you": 1
+    },
+    {
+      "t": "world",
+      "protocol": {
+        "version": 1,
+        "capabilities": [
+          "spatial-pose-v1",
+          "ordered-proposals-v1",
+          "explicit-epochs-v1"
+        ],
+        "worldEpoch": "bce78ee8-ff5e-40dd-89c7-d68c34a599d0",
+        "geometryMode": "spatial",
+        "schemaVersion": 1,
+        "geometryRevision": "f1",
+        "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062",
+        "motionRevision": "stage-c-profile-1",
+        "simTick": 0,
+        "ids": {
+          "support": [
+            "support:ground",
+            "support:upper"
+          ],
+          "surface": [
+            "nav:ground",
+            "nav:upper"
+          ],
+          "link": []
+        }
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "handshake",
+      "pose": {
+        "worldEpoch": "bce78ee8-ff5e-40dd-89c7-d68c34a599d0",
+        "entityId": "p1",
+        "generation": 3,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 1,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      }
+    }
+  ]
+}
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 37383 | stage-f @ cc093f9b5e76
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 37383 | stage-f @ cc093f9b5e76
+The Far Backrooms → http://localhost:37383  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+[admin] room=f WANDERER#1: capture style play
+[admin] room=f WANDERER#1: revive WANDERER
+

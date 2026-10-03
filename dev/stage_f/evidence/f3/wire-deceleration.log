@@ -1,0 +1,256 @@
+Z20 PASS {"seed":77,"ticks":420,"latency":[20,250],"bunchMs":1000,"duplicates":10,"sent":150,"bytes":92512,"corrections":0,"maxError":0,"stats":{"accepted":420,"rejected":10,"corrections":2,"maxQueue":51,"maxHistory":90,"maxWork":15,"work":0,"ownedTicks":0,"reasons":{"sequence":10}}}
+Z21 PASS {"malicious":["hugeXY","fakeZ","wrongSupport","fakeLink","futureTick","reusedTick","speed","nonfinite","completion","geometryHash","worldEpoch","life","ack","oversizedSamples"],"stats":{"accepted":420,"rejected":24,"corrections":16,"maxQueue":51,"maxHistory":90,"maxWork":15,"work":0,"ownedTicks":0,"reasons":{"sequence":10,"pose-claim":3,"link":1,"tick":2,"speed":1,"malformed":2,"identity":4,"sample-bound":1}}}
+PASS living respawn/join rejected
+Z22 PASS explicit world epoch resets correction/prediction and rejects old pose/actions
+{
+  "status": "PASS",
+  "corrections": [
+    {
+      "cause": "handshake",
+      "tick": 0
+    },
+    {
+      "cause": "handshake",
+      "tick": 0
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 439
+    },
+    {
+      "cause": "pose-claim",
+      "tick": 443
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 445
+    },
+    {
+      "cause": "pose-claim",
+      "tick": 449
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 451
+    },
+    {
+      "cause": "pose-claim",
+      "tick": 455
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 457
+    },
+    {
+      "cause": "link",
+      "tick": 461
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 463
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 469
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 475
+    },
+    {
+      "cause": "speed",
+      "tick": 479
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 481
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 487
+    },
+    {
+      "cause": "handshake",
+      "tick": 0
+    }
+  ],
+  "stats": {
+    "accepted": 420,
+    "rejected": 25,
+    "corrections": 17,
+    "maxQueue": 51,
+    "maxHistory": 90,
+    "maxWork": 15,
+    "work": 0,
+    "ownedTicks": 0,
+    "reasons": {
+      "sequence": 10,
+      "pose-claim": 3,
+      "link": 1,
+      "tick": 2,
+      "speed": 1,
+      "malformed": 2,
+      "identity": 4,
+      "sample-bound": 1,
+      "action-identity": 1
+    }
+  }
+}
+{
+  "last": {
+    "t": "s",
+    "p": [],
+    "e": {
+      "st": 0.1,
+      "h": [],
+      "m": [],
+      "b": 0,
+      "p": 0,
+      "gw": [],
+      "it": [],
+      "lf": [],
+      "sn": []
+    },
+    "me": "",
+    "ms": 0,
+    "cp": 0,
+    "protocol": {
+      "worldEpoch": "6ba3a316-cc08-42de-a0f0-d664ae5c5330",
+      "simTick": 6
+    },
+    "pose": {
+      "worldEpoch": "6ba3a316-cc08-42de-a0f0-d664ae5c5330",
+      "entityId": "p1",
+      "generation": 2,
+      "seq": 6,
+      "tick": 6,
+      "discontinuity": 1,
+      "x": 1000,
+      "y": 500,
+      "z": 0,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "yaw": 0,
+      "height": 60,
+      "profile": "profile:player-stand",
+      "support": "support:ground",
+      "navSurface": "nav:ground",
+      "mode": "grounded",
+      "link": null,
+      "progress": 0,
+      "step": null
+    },
+    "spatial": [],
+    "spatialStats": {
+      "accepted": 420,
+      "rejected": 25,
+      "corrections": 17,
+      "maxQueue": 51,
+      "maxHistory": 90,
+      "maxWork": 15,
+      "work": 0,
+      "ownedTicks": 0,
+      "reasons": {
+        "sequence": 10,
+        "pose-claim": 3,
+        "link": 1,
+        "tick": 2,
+        "speed": 1,
+        "malformed": 2,
+        "identity": 4,
+        "sample-bound": 1,
+        "action-identity": 1
+      }
+    }
+  },
+  "corrections": [
+    {
+      "t": "correction",
+      "cause": "authorized-teleport",
+      "pose": {
+        "worldEpoch": "8902c259-8104-4910-a34d-c161267407f4",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 481,
+        "tick": 481,
+        "discontinuity": 14,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "authorized-teleport",
+      "pose": {
+        "worldEpoch": "8902c259-8104-4910-a34d-c161267407f4",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 487,
+        "tick": 487,
+        "discontinuity": 15,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "handshake",
+      "pose": {
+        "worldEpoch": "6ba3a316-cc08-42de-a0f0-d664ae5c5330",
+        "entityId": "p1",
+        "generation": 2,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 1,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "step": null
+      }
+    }
+  ]
+}
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 43515 | stage-f @ cc093f9b5e76
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 43515 | stage-f @ cc093f9b5e76
+The Far Backrooms → http://localhost:43515  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+[admin] room=f WANDERER#1: reset world
+
