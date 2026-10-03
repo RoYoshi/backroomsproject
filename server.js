@@ -4,6 +4,9 @@
 const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto');
 const zlib = require('zlib');
 const createSim = require('./sim.js');
+const PROTOCOL = require('./spatial_protocol');
+const FLAT_GEOMETRY = require('./world_geometry').compile(require('./levels/level0'), require('./world'));
+const newEpoch = () => crypto.randomUUID();
 const gz = new Map();
 
 const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = __dirname, MAX_ROOM = 8;
@@ -26,7 +29,7 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|camera_policy\.js|timing_policy\.js|levels\/level0\.js|world_geometry\.js|world_motion\.js|world_view\.js|stage_d\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|light\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|camera_policy\.js|timing_policy\.js|levels\/level0\.js|world_geometry\.js|world_motion\.js|spatial_protocol\.js|world_view\.js|stage_d\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|light\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {
@@ -155,7 +158,7 @@ function cleanLook(s) {                       // hat|texture|hands|main|backpack
 
 function getRoom(name) {
   let r = rooms.get(name);
-  if (!r) { const room = r = { name, clients: new Map(), sim: createSim({ bodyTtl: BODY_TTL, onDeath: p => { const c = room.clients.get(p.id); if (c) aftStart(room, c); } }), acc: 0, last: Date.now(), tick: 0, pf: { ms: 0, max: 0, snapB: 0, sense: 0, paths: 0, at: Date.now() } }; rooms.set(name, r); }
+  if (!r) { const room = r = { name, worldEpoch: newEpoch(), simTick: 0, clients: new Map(), sim: createSim({ bodyTtl: BODY_TTL, onDeath: p => { const c = room.clients.get(p.id); if (c) aftStart(room, c); } }), acc: 0, last: Date.now(), tick: 0, pf: { ms: 0, max: 0, snapB: 0, sense: 0, paths: 0, at: Date.now() } }; rooms.set(name, r); }
   return r;
 }
 
@@ -230,9 +233,10 @@ srv.on('upgrade', (req, sock) => {
   const ip = String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
   const me = { sock, id, player, exitSent: 0, bv: 0, last: 0, name: 'WANDERER', color: '#ffe7b2', angle: 0, sprint: 0, look: DEFAULT_LOOK, admin: false };
   room.clients.set(id, me);
-  send(me, { t: 'hi', id, sim: 1 });
+  send(me, { t: 'hi', id, sim: 1, protocol: PROTOCOL.manifest(FLAT_GEOMETRY, room.worldEpoch, room.simTick) });
 
   function onMessage(m) {
+    if (m.t === 'hello') { const why = PROTOCOL.compatible(m.protocol, PROTOCOL.manifest(FLAT_GEOMETRY, room.worldEpoch, room.simTick)); if (why) { send(me, { t: 'incompatible', reason: why }); return; } me.protocolReady = true; return; }
     if (m.t === 'p') {
       const now = Date.now();
       if (m.mv && room.sim.hearMove(player, m.mv)) me.mvAt = now;           // state / stamina / vault + slide noises: processed even if the position is throttled
@@ -330,7 +334,7 @@ setInterval(() => {
     const dt = Math.min(0.25, (now - room.last) / 1000); room.last = now;
     room.acc += dt;
     let n = 0; const h0 = process.hrtime.bigint();
-    while (room.acc >= 1 / 60 && n++ < 15) { room.sim.step(1 / 60); room.acc -= 1 / 60; }
+    while (room.acc >= 1 / 60 && n++ < 15) { room.sim.step(1 / 60); room.simTick++; room.acc -= 1 / 60; }
     if (n) { const per = Number(process.hrtime.bigint() - h0) / 1e6 / n; room.pf.ms += (per - room.pf.ms) * .05; room.pf.max = Math.max(per, room.pf.max * .995); }      // milliseconds per 60 Hz step (average / recent worst)
     if (++room.tick % SNAP_EVERY) continue;
 

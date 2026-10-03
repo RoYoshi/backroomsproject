@@ -1,0 +1,10 @@
+'use strict';
+const assert=require('node:assert/strict'),P=require('../../spatial_protocol'),G=require('../../world_geometry'),M=require('../../world_motion'),{fixture}=require('../stage_e/fixture');
+const g=G.compile(fixture()),a=P.manifest(g,'epoch-one',60),b=M.create(g).initialize({x:168,y:168,z:0});
+assert.equal(P.compatible(a,a),null);for(const k of ['version','geometryMode','schemaVersion','geometryRevision','geometryHash','motionRevision','capabilities'])assert(P.compatible({...a,[k]:'bad'},a),k);
+const p=P.pose(b,{worldEpoch:'epoch-one',entityId:'p1',generation:1,seq:1,tick:60},g);assert(P.validPose(p));assert.equal(p.support,'support:ground-north');
+for(const v of [NaN,Infinity,-Infinity,1e30,null,'0'])assert(!P.validPose({...p,z:v}));assert.equal(JSON.parse(JSON.stringify(p)).z,p.z);
+assert.deepEqual(a.ids.support,[...a.ids.support].sort());console.log('PASS schema, capabilities, complete finite pose, stable geometry table, full precision');
+const cp=require('node:child_process'),net=require('node:net');
+(async()=>{const probe=net.createServer();await new Promise(r=>probe.listen(0,'127.0.0.1',r));const port=probe.address().port;await new Promise(r=>probe.close(r));const server=cp.spawn(process.execPath,['server.js',String(port)],{cwd:require('path').resolve(__dirname,'../..'),stdio:['ignore','pipe','pipe']});
+try{await new Promise((resolve,reject)=>{server.stdout.on('data',d=>{if(d.toString().includes('ONLINE'))resolve();});server.on('exit',c=>reject(Error('server exit '+c)));});const ws=new WebSocket('ws://127.0.0.1:'+port+'/ws?room=f1');await new Promise((resolve,reject)=>{ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.t==='hi'){assert.equal(m.protocol.geometryMode,'flat-compat');assert(P.integer(m.protocol.simTick));ws.send(JSON.stringify({t:'hello',protocol:{...m.protocol,geometryHash:'wrong'}}));}if(m.t==='incompatible'){assert.equal(m.reason,'geometryHash');ws.close();resolve();}};ws.onerror=reject;});console.log('PASS actual WebSocket hello and explicit mismatch response; flat world retained');}finally{server.kill();}})().catch(e=>{console.error(e);process.exitCode=1;});
