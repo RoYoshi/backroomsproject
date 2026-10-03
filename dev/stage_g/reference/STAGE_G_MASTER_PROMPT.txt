@@ -1,0 +1,620 @@
+Read `README_FIRST.txt` first.
+
+Then read and execute this Stage G master prompt exactly within its authorization.
+
+Implement **THE FAR BACKROOMS — 2.5D Stage G: Shared Death & Loose-Object Elevation**
+ONLY.
+
+The user is the final gameplay/design QA authority.
+
+==================================================
+0. ACCEPTED PARENT / AUTHORITY
+==================================================
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Accepted Stage F commit:
+`ba4fd2d63f440aa113722942bcb4861ba665e1f3`
+
+Accepted Stage F Git tree:
+`1f33fdd0bfff9ed3268b4fd39648eb4112813199`
+
+Accepted immutable Stage F ZIP:
+`PARENT_STAGE_F_ACCEPTED.zip`
+
+Accepted Stage F ZIP SHA-256:
+`7d9176c3e66caab42683d22d9068c0fd3596d6fe7d8f1fd50eff9532e7ad5a5b`
+
+Stage F human QA:
+PASS.
+
+The supplied Stage F ZIP reconstructs to the exact same Git tree as the accepted
+remote commit.
+
+Create/use implementation branch:
+`stage-g`
+
+from exactly:
+`ba4fd2d63f440aa113722942bcb4861ba665e1f3`
+
+DO NOT use `main` as the Stage G parent.
+
+If `stage-g` already exists, inspect it before changing anything. Do not overwrite
+newer remote work.
+
+Read:
+- `ACCEPTED_STAGE_F_AUTHORITY.md`
+- `CURRENT_STATUS_AND_AUTHORITY.md`
+- `STAGE_G_ACCEPTANCE_MATRIX.md`
+- `STAGE_G_IMPLEMENTATION_SEAMS.md`
+- locked architecture
+- locked stage matrix
+- Stage F protocol/authority/reports
+
+The older Stage F report/human-QA wording saying "pending" or "Stage G not
+authorized" was generated before final publication and human approval. The newer
+`ACCEPTED_STAGE_F_AUTHORITY.md` supersedes those status statements only.
+
+==================================================
+1. STAGE G SCOPE
+==================================================
+
+Stage G is **Shared Death & Loose-Object Elevation**.
+
+Activate and satisfy the existing `physics25d` matrix for:
+- Z25
+- G-owned completion of Z26
+- G-owned completion of Z27
+- Z28
+- Z31
+
+Stage G owns:
+- extending the existing shared `dphys.js` solver into physical XYZ
+- server-owned active spatial aftermath
+- same plan/seed/version/kernel on server and replay clients
+- independent physical XYZ/support for body, both hands, loose light/equipment, hat
+- spatial friction/contact/gravity/sleep/ledge support
+- exactly-one-corpse / delayed-message / disconnect / late-join semantics
+- per-object spatial state/revisions
+- required beam/support/decal/trail physical records
+- bounded active aftermath replication/performance evidence
+
+Stage G DOES NOT own:
+- new death variants or retuning
+- full humanoid ragdolls
+- visible limbs
+- new dismemberment
+- arbitrary backpack detachment
+- Stage H complete rendering/cutaway/overlay/audio integration
+- Stage I whole-project stress/certification
+- replacement networking transport
+- replacement player motor
+- AI/canon changes
+
+Do NOT begin Stage H.
+
+==================================================
+2. PRESERVE THE EXISTING DEATH LANGUAGE
+==================================================
+
+Preserve all existing Hound/Smiler A–D authored death plans, deterministic
+seed/plan behavior, resistance, impact sequencing, independent hand reaction,
+equipment release, recoil, friction and sleep intent.
+
+The visual/physical abstraction remains:
+- one rounded body
+- two independent circular hands
+- existing detached gear/hat where already authored
+
+Do NOT introduce:
+- arms
+- legs
+- shoulders
+- elbows
+- knees
+- skeleton/full ragdoll anatomy
+
+Do not invent new death plans, dismemberment or equipment rules.
+
+The existing `dphys.js` hand field historically named `z` is a damping ratio.
+Disambiguate/rename it before adding actual world Z. Never interpret its historical
+`.55`-like values as elevation.
+
+==================================================
+3. FIXED PHYSICS / DETERMINISM
+==================================================
+
+Gameplay remains fixed at 1/60 s.
+
+Active death/loose-object integration uses exactly FOUR 1/240 s substeps per
+gameplay tick.
+
+Substeps:
+- advance physical motion only
+- do NOT multiply AI decisions
+- do NOT multiply stamina
+- do NOT multiply sound/RNG/attack/watchdog ticks
+- deduplicate physical events by simulation tick/substep/event identity where needed
+
+Geometry, ordering, rendering and extra substeps may not consume new random draws
+that alter existing deterministic plans.
+
+Same immutable:
+- plan
+- variant
+- seed
+- geometry revision
+- initial physical state
+
+must produce the same physical result independent of render/sample cadence.
+
+Use existing fixed-tick/source clocks, not wall-clock reads, inside physical
+integration.
+
+==================================================
+4. REAL XYZ MASS / SUPPORT MODEL
+==================================================
+
+Extend the shared death state so each relevant mass/object has real physical:
+
+- X/Y/Z
+- VX/VY/VZ
+- shape/collider
+- support/contact state
+- awake/sleeping state
+
+The primary corpse mass:
+- has real gravity and swept collision
+- collides with floors, slabs, walls, ceilings, risers/treads
+- does not use living actor assisted step-up
+- uses support-aware friction only while supported
+- cannot sleep while unsupported
+- must lose support/tip/slide when its actual stable contact arrangement no longer
+  supports it
+- cannot balance forever on negligible ledge overlap
+
+Use bounded contact/support logic and safe nonpenetrating fallback diagnostics.
+
+Never choose a floor merely from XY.
+
+==================================================
+5. HANDS
+==================================================
+
+Keep exactly two independent constrained hand masses/anchors.
+
+A 3D hand spring may:
+- trail/overshoot as before
+- pull toward its real world anchor
+- brace against reachable physical contact
+
+But:
+- it cannot brace on empty space
+- it cannot brace on a floor far below
+- it cannot pass through an intact slab
+- it cannot become a detached orbiting object
+- it must respect reach/collision/unilateral contact
+- it cannot sleep unsupported just because XY speed is small
+
+Preserve existing hand timing/feel where observations/geometry are equivalent.
+
+==================================================
+6. LOOSE EQUIPMENT / HAT / BEAM / DECALS / TRAILS
+==================================================
+
+Detached light/equipment and hat inherit the attachment point's real XYZ velocity,
+including body/angular motion plus the existing authored release impulse.
+
+They receive their own:
+- XYZ
+- velocity
+- support/contact
+- awake/sleeping state
+- revision/identity as required
+
+They may land on a different elevation from the corpse.
+
+Do NOT make all detached objects inherit the body's final floor.
+
+Backpack remains attached unless an existing authorized plan already detaches it.
+
+Light/beam physical state follows the actual detached light position/orientation.
+
+Blood/decal physical records must identify the actual hit face/support and local
+surface coordinates. One impact at an XY location must not stamp unrelated floors.
+
+Trails:
+- continue only with appropriate real contact
+- break when ground contact is lost
+- resume on actual contact
+
+Stage H owns full final rendering/compositing of these records. G owns their
+physical truth/state.
+
+==================================================
+7. ONE AUTHORITATIVE SPATIAL AFTERMATH
+==================================================
+
+Flat Level 0 may retain its current client-result/server-fallback path.
+
+SPATIAL deaths require one server-owned ACTIVE physical aftermath beginning at the
+authoritative kill.
+
+At kill, freeze:
+- world epoch
+- victim identity/life generation
+- death sequence
+- plan/version/variant/seed
+- victim XYZ/velocity/support
+- attacker XYZ/velocity/support
+- equipment state
+- geometry/schema revision/hash
+
+Canonical death event identity:
+`(worldEpoch, victimId, lifeGeneration, deathSequence)`
+
+`death_srv.js` and replay clients use the SAME spatial `dphys.js` kernel and same
+immutable geometry revision.
+
+Server:
+- advances active aftermath at four 1/240 substeps per gameplay tick
+- remains authoritative even if victim disconnects
+- owns final corpse/object state
+- never accepts a client final support/pose as replacement authority
+
+Client replay/completion may be:
+- prediction/presentation
+- acknowledgement/checksum
+
+but may not replace authoritative spatial state.
+
+==================================================
+8. ATTACKER OWNERSHIP
+==================================================
+
+If an existing death plan temporarily controls the attacker physically:
+- AI motor relinquishes physical ownership for that interval
+- exactly one system integrates the attacker
+- no double stepping
+- after death-plan commitment, attacker resumes from actual final XYZ/support
+- do not resume from a planar guessed `killerEnd`
+
+No AI decision/canon redesign is authorized.
+
+==================================================
+9. EXACTLY ONE CORPSE / LIFECYCLE
+==================================================
+
+Preserve the existing owner-to-latest-corpse policy and existing cap/TTL unless an
+objective locked Stage G requirement needs a minimal explicit change.
+
+Current known corpse record ceiling:
+24.
+
+Required flow:
+
+authoritative kill
+→ canonical death event
+→ active server aftermath
+→ exactly one corpse record updated
+→ active/settled equipment state replicated
+
+Immediate victim disconnect MUST NOT:
+- stop physics
+- lose the corpse
+- lose detached equipment
+- spawn a second fallback aftermath
+
+Delayed or duplicate:
+- replay
+- client corpse result
+- completion
+- ACK
+- stale life/death packet
+
+must not create or replace the authoritative aftermath.
+
+A new death for the same player may replace that owner's older corpse according to
+the existing policy, but stale messages cannot attach across life/death generations.
+
+==================================================
+10. LATE JOIN / SNAPSHOTS / STAGE F PROTOCOL REUSE
+==================================================
+
+Reuse Stage F:
+- world epoch
+- life/entity generations
+- explicit spatial protocol identity
+- common spatial history
+- extended WebSocket framing
+- discontinuity/revision discipline
+
+Do not create parallel identity/network systems.
+
+Corpse/item spatial replication must carry enough bounded state for:
+- object/death identity
+- revision
+- XYZ/velocity
+- support/contact
+- awake/sleeping
+- body yaw/tilt or existing orientation state
+- hand centers/offsets
+- released gear/hat
+- beam state/direction
+- plan/progress where needed during active aftermath
+
+Late join DURING motion:
+- receives bounded current state + required plan/progress/identity
+- does not synchronously replay an arbitrarily long fall from time zero
+
+Late join AFTER settling:
+- receives the same settled authoritative state
+
+Use explicit capability/versioning. Do not silently change Stage F wire meaning.
+If compatibility requires a protocol/capability revision, make it explicit and
+test mismatch rejection.
+
+==================================================
+11. SLEEP / ROOM LIFECYCLE
+==================================================
+
+The authored death animation sequence ending does NOT force sleep.
+
+Bodies/loose objects continue:
+- falling
+- sliding
+- settling
+
+until physically valid sleep conditions are met.
+
+A falling body/hand/light/hat cannot sleep because XY speed is low.
+
+Physics must continue while a room has active airborne/settling aftermath even if:
+- every player is dead
+- every live player disconnects
+
+Audit/remove only the relevant no-live-player early return that would freeze
+active physical aftermath. Do not redesign unrelated room lifecycle.
+
+Explicit existing room disposal may still dispose the room.
+
+If a settled object's support later disappears, wake/reuse that same object rather
+than spawning a replacement.
+
+==================================================
+12. ACTIVATE REAL `physics25d`
+==================================================
+
+The accepted parent contains:
+`dev/tests/physics25d.js`
+
+It is currently an intentional NOT-IMPLEMENTED future gate.
+
+Stage G MUST turn that named suite into REAL tests for:
+- Z25
+- Z26
+- Z27
+- Z28
+- Z31
+
+No:
+- unconditional pass
+- placeholder removal without equivalent gate
+- fixture-only fake death state machine
+- replacement simplified solver
+
+The gates must exercise the real:
+- `dphys.js`
+- `death_srv.js`
+- server/simulation path where required
+- Stage F protocol identities/late-join path where required
+- spatial geometry/motion queries
+
+==================================================
+13. REQUIRED PROPERTY / ADVERSARIAL CASES
+==================================================
+
+In addition to Z25–Z28/Z31:
+
+- translate the whole spatial fixture in Z; relative physical outcome remains equal
+- identical seed/plan input reruns are exact/deterministic
+- 30/60/120/144/240/360 render/sample schedules cannot alter physical state
+- permuted static input ordering with stable IDs cannot alter outcome
+- ledge/contact values just inside/outside tolerance behave consistently
+- first support hit during fall wins; no slab tunneling
+- underside/ceiling contacts remain physical
+- duplicate/stale client death/corpse messages are harmless
+- disconnect at multiple death phases leaves one authoritative aftermath
+- late join at multiple active/sleep phases receives coherent state
+- no unsupported sleep
+- no hidden floor selection from XY
+
+Preserve failing raw evidence before repairs.
+
+==================================================
+14. FLAT COMPATIBILITY / REGRESSION
+==================================================
+
+Level 0 remains flat-compatible.
+
+Preserve existing:
+- death plans
+- death traces
+- movement
+- AI
+- networking
+- lifecycle
+- body cap/TTL behavior
+- camera fairness
+- FPS independence
+
+Run retained real tests including, as applicable:
+- `npm test`
+- hound/shared/human QA suites
+- FPS/camera/entity-look
+- `node dev/tests/phys_test.js`
+- interpolation/nav/network/live/IR
+- Stage C/E/F spatial/protocol gates
+- frozen parity
+- reproducible generated builds
+
+Do not regenerate/relax frozen references or thresholds to hide divergence.
+
+==================================================
+15. PERFORMANCE / BOUNDS
+==================================================
+
+Correctness first.
+
+Measure Stage G-specific bounded workloads.
+
+At minimum record:
+- active aftermath count
+- awake body/hand/object count
+- geometry/contact query counts where practical
+- active vs sleeping work
+- snapshot/payload size and/or bytes/client/sec
+- p50/p95/p99/worst death/aftermath work
+
+Include:
+- ordinary one/few-active-death fixture
+- separate bounded worst-case around the existing 24 corpse/aftermath record ceiling
+
+Do not claim Stage I full capacity certification.
+
+Do not:
+- skip collision
+- freeze unsupported objects
+- fake sleep
+- reduce physical correctness
+
+to meet a performance budget.
+
+==================================================
+16. EXTERNAL CHECKPOINT POLICY — MANDATORY
+==================================================
+
+G0 — Parent / death baseline preflight
+- exact Stage F commit/tree/ZIP verified
+- frozen flat death traces/tests reproduced
+- current dphys/death_srv/server/body protocol inventoried
+- `physics25d` placeholder/status recorded
+- no runtime migration
+- COMMIT + PUSH + RECORD SHA
+
+G1 — Spatial shared death-kernel core
+- historical hand damping field disambiguated
+- body/hands gain physical XYZ/velocity/contact/support
+- geometry collision/gravity/support-aware friction
+- exact 4×240 Hz substeps per gameplay tick
+- deterministic/sampling-independent spatial core
+- flat death behavior preserved
+- focused Z25 core evidence
+- COMMIT + PUSH + RECORD SHA
+
+G2 — Loose equipment / ledges / decals
+- light/hat own XYZ/velocity/support/sleep
+- attachment-point velocity inheritance
+- ledge support/tipping/loss
+- hand reachable bracing
+- beam physical state
+- face/support-local decal records
+- trail contact behavior
+- Z28 focused PASS
+- COMMIT + PUSH + RECORD SHA
+
+G3 — One authoritative spatial aftermath
+- canonical death identity
+- server-owned active aftermath from kill
+- same shared kernel server/client
+- attacker ownership handoff
+- exactly-one-corpse semantics
+- disconnect/delayed/duplicate handling
+- per-object revisions
+- Z26/Z27 focused PASS
+- COMMIT + PUSH + RECORD SHA
+
+G4 — Late join / sleep / full physics25d
+- active and settled late-join snapshots
+- no-live-player continuation
+- physically valid sleep/wake
+- all eight variants across stairs/ramps/ledges
+- Z25/Z26/Z27/Z28/Z31 all real PASS
+- property/adversarial matrix PASS
+- bounded Stage G performance evidence
+- COMMIT + PUSH + RECORD SHA
+
+G5 — Full regression / parity / package
+- retained Stage A–F gates/regressions
+- frozen death/motor/AI/network parity
+- build reproducibility
+- clean extraction/path-with-spaces
+- served-runtime checks required by changed modules
+- exact changed-file audit
+- baseline-failure comparison
+- final Stage G reports
+- final package verification
+- final Stage G ZIP + SHA-256
+- final COMMIT + PUSH + RECORD SHA
+- human-QA handoff
+- STOP
+
+If a milestone discovers a real failure:
+- preserve the raw failing evidence
+- checkpoint substantial safe source before prolonged investigation
+- do not skip the gate
+- do not silently widen scope
+
+==================================================
+17. REQUIRED FINAL DELIVERABLES
+==================================================
+
+At minimum produce:
+
+- `25D_STAGE_G_REPORT.md`
+- `25D_STAGE_G_TEST_SUMMARY.md`
+- `25D_STAGE_G_BASELINE_FAILURES.md`
+- `25D_STAGE_G_PARITY.md`
+- `25D_STAGE_G_CHANGED_FILES.txt`
+- `25D_STAGE_G_HUMAN_QA.md`
+- `25D_STAGE_G_PHYSICS.md`
+- `25D_STAGE_G_AFTERMATH.md`
+- `25D_STAGE_G_GIT_CHECKPOINTS.md`
+- `25D_STAGE_G_PACKAGE_VERIFICATION.json` or external equivalent as appropriate
+- final Stage G ZIP
+- final ZIP SHA-256
+
+The final report must record:
+- exact accepted Stage F parent commit/tree/ZIP hash
+- final Stage G remote commit
+- Z25/Z26/Z27/Z28/Z31 disposition
+- all eight variant spatial results
+- exactly-one-corpse/disconnect/late-join evidence
+- sleep/no-live-player evidence
+- loose equipment/support/decal evidence
+- retained/inherited failures
+- performance/payload measurements
+- whether flat Level 0 is preserved
+- Stage H begun: MUST be NO
+- human QA remains distinct
+
+==================================================
+18. STOP CONDITION
+==================================================
+
+When Stage G has objective acceptance evidence and final package verification:
+
+STOP.
+
+Do NOT:
+- merge to main
+- begin Stage H
+- perform complete production presentation integration
+- claim the whole 2.5D project complete
+
+Final status should be:
+
+`2.5D STAGE G ENGINEERING COMPLETE — HUMAN QA PENDING`
+
+unless an objective gate remains blocked.
