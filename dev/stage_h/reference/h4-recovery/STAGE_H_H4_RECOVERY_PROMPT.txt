@@ -1,0 +1,111 @@
+Read `README_FIRST.txt` in the supplied **THE FAR BACKROOMS — Stage H H4 Recovery Master Pack** first.
+
+Then read and execute `STAGE_H_H4_RECOVERY_PROMPT.txt` exactly as authorized.
+
+This is an interrupted-run continuation of:
+
+**THE FAR BACKROOMS — 2.5D Stage H: Complete Presentation Integration**
+
+Do NOT restart Stage H.
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Branch:
+`stage-h`
+
+Accepted Stage G parent:
+`7fb4dafef92040571209403358e536ccb1105509`
+
+H3 complete checkpoint:
+`81c3e54e59dd92ce9c9f4fe72986b10824197727`
+
+Verified H4 preservation checkpoint:
+`de9de8b23a73327a1337b3500e6e5241a5471171`
+
+Verified H4 preservation tree:
+`a994646952ff85dea71aa714a6bb14055189909a`
+
+The prior Work run stalled after this preservation checkpoint.
+
+H0-H3 are COMPLETE.
+H4 is IN PROGRESS.
+H5 has NOT started.
+
+FIRST:
+- inspect remote `stage-h`
+- if it is still exactly `de9de8b23a73327a1337b3500e6e5241a5471171`, resume from it
+- if it has advanced, inspect and preserve the newer valid work and continue from that
+- never reset, force-push, overwrite or discard newer remote work
+
+Read the live repository versions of:
+- `dev/stage_h/H4_STATUS.md`
+- `25D_STAGE_H_GIT_CHECKPOINTS.md`
+- `dev/stage_h/H3_STATUS.md`
+- `dev/tests/view25d.js`
+- `dev/stage_h/browser_h4.js`
+- `dev/stage_h/test_picking.js`
+- `world_view.js`
+- `spatial_client.js`
+- `hud.js`
+
+Also read `ORIGINAL_STAGE_H_MASTER_PACK.zip` for the original Stage H authority.
+
+Do NOT redo H0-H3.
+
+Already preserved H4 work includes production physical picking/aim, camera occlusion, eye-plane fallback, canonical footprint, camcorder zoom integration, local cutaway/quality controls, and real `view25d` orchestration.
+
+Finish H4 only:
+- complete the eight-case real-browser Z30 matrix
+- complete viewport/DPR/UI-scale/quality/zoom/NV fairness checks
+- complete hidden-state leak checks across Pixi/Canvas/DOM world-space presentation
+- prove canonical awareness is unchanged
+- run the complete real `view25d` gate
+- preserve browser errors/timeouts/leaks as failures
+- collect browser/GPU/performance evidence
+
+If a real failure appears:
+1. preserve raw failure evidence,
+2. commit/push substantial safe source/evidence,
+3. verify remote SHA/tree,
+4. repair only the demonstrated defect,
+5. rerun the focused and affected retained gates.
+
+Do not weaken visibility masks, picking rules, physical occlusion, camera fairness or thresholds.
+
+When H4 passes:
+- update H4 status + checkpoint ledger
+- commit
+- push to `stage-h`
+- verify remote commit and tree
+- record the H4 completion SHA/tree
+
+ONLY THEN begin H5.
+
+Execute H5 exactly as authorized by the original master pack:
+- retained A-G regression
+- frozen parity
+- Stage D/H browser regression
+- `view25d`
+- `network25d`
+- `physics25d`
+- flat Level 0 preservation
+- served-package checks
+- clean extraction/path-with-spaces
+- reproducible builds
+- exact changed-file audit
+- baseline-failure comparison
+- final Stage H reports
+- final package verification
+- final Stage H ZIP + SHA-256
+- final source commit/push/verified remote SHA/tree
+- human-QA handoff
+
+Do NOT modify or merge `main`.
+Do NOT begin Stage I.
+
+Final status:
+
+`2.5D STAGE H ENGINEERING COMPLETE — HUMAN QA PENDING`
+
+Then STOP.

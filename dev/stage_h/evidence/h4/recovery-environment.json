@@ -1,0 +1,14 @@
+{
+  "sourceCheckpoint": "de9de8b23a73327a1337b3500e6e5241a5471171",
+  "sourceTree": "a994646952ff85dea71aa714a6bb14055189909a",
+  "recoveryPackSha256": "10dcafb730b2fcf8202c79227e8d0d68d398d9a730f0cd7857e14a2fa0335ead",
+  "node": "v24.19.0",
+  "platform": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "browserExecutable": "/tmp/stage-g-chrome/chrome-headless-shell-linux64/chrome-headless-shell",
+  "browserSha256": "e11fc9ce65c96313476f7ee9844b6fb6a9220fb048693cfe9eee00acf4170a9f",
+  "browserVersion": "Google Chrome for Testing 151.0.7922.34",
+  "missingDefaultBrowser": "retained recovery-01/process.log",
+  "installerFailure": "retained recovery-01/browser-install.log; download was not a complete ZIP",
+  "resolution": "Use already installed Stage G Chromium 151 executable via documented TFB_BROWSER_EXECUTABLE; no production changes",
+  "atUTC": "2026-10-03T23:46:58.858346+00:00"
+}

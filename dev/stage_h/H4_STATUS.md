@@ -7,3 +7,15 @@ The production fixed-tick aim now intersects camera rays with physically visible
 Focused geometry evidence `evidence/h4/picking-01.json` passes physical target/point/distance invariance across 16:9, 16:10, ultrawide, 4K and zoom; hidden targets and opaque camera obstruction remain blocked, fallback is on the eye plane, world geometry is unchanged.
 
 `view25d` is activated as real production-browser orchestration. It launches H2 for Z29, H3 for H-Z14 and expanded aftermath, and H4 for Z30. Missing dependencies, browser errors, timeouts and leaks fail. The complete named gate has not yet been run at this preservation checkpoint. The eight-case real-browser matrix is in progress. No H4 PASS or H5 work is claimed.
+
+## H4 recovery: Z30 complete, named gate running
+
+Remote recovery source was independently verified at `de9de8b23a73327a1337b3500e6e5241a5471171`, tree `a994646952ff85dea71aa714a6bb14055189909a`. No newer remote work existed. H0–H3 were not restarted and the preserved runtime was not rewritten.
+
+`evidence/h4/recovery-01` preserves missing-default-Chromium launch failure and the truncated browser installation download. The existing Chromium 151 executable was located and used through the documented `TFB_BROWSER_EXECUTABLE` override. No runtime repair was needed. Environment and executable hash are in `recovery-environment.json`.
+
+`evidence/h4/recovery-02` is an eight-case real production browser Z30 PASS: 16:9, 16:10, ultrawide, DPR 2, 4K, reduced quality, NV LOW/2× zoom, NV HIGH/4× zoom/DPR 2. All hidden actor/aftermath/gear/label and detached-beam differences are zero; each case has a visible positive control. Hidden Smiler camcorder interference is zero. Actual mouse aim reaches the fixed-tick wire. The second client's camera/cutaway/quality/scope and authoritative pose stay unchanged. All 32 physical occluders remain; render targets stay within the existing 4,194,304-pixel cap and awareness within the accepted 1536×864 cap (zoom crops). The same physical hit point/distance/pitch is retained across all cases.
+
+`picking-recovery-01.json` also passes the retained hidden/camera-blocked target and eye-plane fallback checks without any changed thresholds. SwiftShader drained-frame costs exceed 16.7 ms; raw timing/resource measurements are retained as limitations, not hardware certification.
+
+The complete named `view25d` gate is running separately. H4 completion is NOT yet claimed. H5 has NOT started. This preservation checkpoint protects the completed matrix before the longer aggregate browser run.

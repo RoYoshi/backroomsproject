@@ -24,3 +24,7 @@ H3 preservation: `1908db1580ed015e11d3421afc2552c8d211cabc`, tree `fa8e88fcd1575
 H3 focused evidence: `fdd4f2816f5d6c9961c14d99528e30a90a6bbce2`, tree `b88d1dcb53a42112cde23e10010903e83652d27a`. Visible/IR and canonical aftermath focused browser PASS, decision/RNG pairs PASS. Queueing and expanded checks remain.
 
 H3 complete: `81c3e54e59dd92ce9c9f4fe72986b10824197727`, tree `1e566b6575d621df4e4c5b46494324cbcaf09e48`. H-Z14 PASS; canonical corpse/hands/gear/decal/trail/replay/vanish and detached lights/IR pass physical masks, paired decisions/RNG unchanged.
+
+H4 original preservation: `de9de8b23a73327a1337b3500e6e5241a5471171`, tree `a994646952ff85dea71aa714a6bb14055189909a`. Recovery reverified this exact remote ref/tree before continuing.
+
+H4 recovery matrix preservation: eight-case Z30 PASS with raw errors and performance evidence preserved. Named view25d running; no H4 completion or H5 claim. Publication identity is recorded after remote verification.
