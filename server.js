@@ -8,6 +8,16 @@ const gz = new Map();
 
 const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = __dirname, MAX_ROOM = 8;
 // Admin passcode. Override on the host with the ADMIN_PASSCODE environment variable (recommended).
+function startupBanner(status) {
+  let revision = '';
+  try {
+    const git = require('child_process').execFileSync;
+    const read = args => git('git', ['-C', ROOT, 'rev-parse', ...args], { encoding: 'utf8', timeout: 400, maxBuffer: 1024, stdio: ['ignore', 'pipe', 'ignore'] }).trim().replace(/[^a-zA-Z0-9._/\-]/g, '').slice(0, 100);
+    revision = ` | ${read(['--abbrev-ref', 'HEAD'])} @ ${read(['--short=12', 'HEAD'])}`;
+  } catch (_) { /* source packages need no Git installation or checkout */ }
+  console.log(`THE FAR BACKROOMS | ${status} | Node ${process.version} | port ${PORT}${revision}`);
+}
+startupBanner('BOOTING');
 const ADMIN_PASS = process.env.ADMIN_PASSCODE || 'smoor';
 // How long (seconds) a dead player's body stays in the halls. 0 (default) = until the world resets or that player dies again. Override with the BODY_TTL environment variable.
 const BODY_TTL = Math.max(0, +process.env.BODY_TTL || 0);
@@ -365,4 +375,4 @@ setInterval(() => {
   }
 }, TICK_MS);
 
-srv.listen(PORT, () => console.log(`The Far Backrooms → http://localhost:${PORT}  (share  ?room=NAME  to group up)`));
+srv.listen(PORT, () => { startupBanner('ONLINE'); console.log(`The Far Backrooms → http://localhost:${PORT}  (share  ?room=NAME  to group up)`); });

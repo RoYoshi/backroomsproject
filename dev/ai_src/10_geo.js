@@ -180,7 +180,7 @@ class Geo {
   pathPose(start, goal, caps, opts = {}) { return this.path(start.x,start.y,goal.x,goal.y,caps,{...opts,start,goal}); }
   routeKey(start, goal, caps, profile) {
     const p=this.profile(caps,profile), surface=q=>q.navSurfaceId || this.geometry.supportPatch(q.supportId)?.navSurfaceId || [...(q.supportCandidates||[])].sort().join('|');
-    return [this.geometry.identity.contentHash,this.topologyRevision,surface(start),surface(goal),p?.id,p?.radius,p?.height,!!caps.CAN_CRAWL,!!caps.CAN_USE_TIGHT_GAPS,!!caps.CAN_VAULT,caps.VAULT_SPEED,Math.round(goal.x/48),Math.round(goal.y/48)].join('/');
+    return [this.geometry.identity.contentHash,this.topologyRevision,surface(start),surface(goal),p?.id,p?.radius,p?.height,p?.maxSlopeDegrees,p?.maxStepRise,p?.stepLiftMax,!!caps.CAN_CRAWL,!!caps.CAN_USE_TIGHT_GAPS,!!caps.CAN_VAULT,caps.VAULT_SPEED,Math.round(goal.x/48),Math.round(goal.y/48)].join('/');
   }
   spatialEdges(i,caps,profile) {
     const p=this.profile(caps,profile), out=[];
@@ -190,7 +190,7 @@ class Geo {
       if(edge.corners?.some(j=>!this.passableFor(j,caps,p)))continue;
       const link=edge.link;
       if(link && (!link.profileIds.includes(p.id) || link.kind==='crawl'&&!caps.CAN_CRAWL || link.kind==='vault'&&!caps.CAN_VAULT || link.capabilityFlags.includes('tight-gap')&&!caps.CAN_USE_TIGHT_GAPS))continue;
-      const key=[i+'>'+edge.to,p.id,p.radius,p.height,p.maxSlopeDegrees,p.maxStepRise,!!caps.CAN_CRAWL,caps.VAULT_SPEED].join('/');
+      const key=[i+'>'+edge.to,p.id,p.radius,p.height,p.maxSlopeDegrees,p.maxStepRise,p.stepLiftMax,!!caps.CAN_CRAWL,caps.VAULT_SPEED].join('/');
       let ok=this.edgeProofs.get(key);
       if(ok===undefined){
         this.navStats.cacheMisses++;
