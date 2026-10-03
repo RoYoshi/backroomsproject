@@ -1,0 +1,615 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(irOn.changed>30)\n",
+  "stack": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(irOn.changed>30)\n\n    at /workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_h3.js:15:148",
+  "checks": [
+    {
+      "name": "flashlight actual peer emitter above slab",
+      "hidden": {
+        "changed": 0,
+        "error": 0,
+        "lights": [
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 150
+            },
+            "direction": {
+              "x": 0,
+              "y": 0,
+              "z": -1
+            },
+            "range": 380,
+            "arc": 6.283185307179586,
+            "power": 0.43,
+            "channel": "visible",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "near": 40
+          },
+          {
+            "id": "p1",
+            "kind": "flashlight",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 50
+            },
+            "direction": {
+              "x": -0.7772932447064554,
+              "y": 0.6291384678540253,
+              "z": 0
+            },
+            "range": 390,
+            "arc": 0.92,
+            "power": 0.58,
+            "channel": "visible",
+            "color": [
+              1,
+              0.9058823529411765,
+              0.6980392156862745
+            ],
+            "near": 24
+          },
+          {
+            "id": "p2",
+            "kind": "flashlight",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 50.05
+            },
+            "direction": {
+              "x": -0.7772932447064554,
+              "y": 0.6291384678540253,
+              "z": 0
+            },
+            "range": 390,
+            "arc": 0.92,
+            "power": 0.58,
+            "channel": "visible",
+            "color": [
+              1,
+              0.9058823529411765,
+              0.6980392156862745
+            ],
+            "near": 24
+          }
+        ],
+        "packets": []
+      }
+    },
+    {
+      "name": "headlamp actual peer emitter above slab",
+      "hidden": {
+        "changed": 0,
+        "error": 0,
+        "lights": [
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 150
+            },
+            "direction": {
+              "x": 0,
+              "y": 0,
+              "z": -1
+            },
+            "range": 380,
+            "arc": 6.283185307179586,
+            "power": 0.43,
+            "channel": "visible",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "near": 40
+          },
+          {
+            "id": "p1",
+            "kind": "flashlight",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 50
+            },
+            "direction": {
+              "x": -0.7772932447064554,
+              "y": 0.6291384678540253,
+              "z": 0
+            },
+            "range": 390,
+            "arc": 0.92,
+            "power": 0.58,
+            "channel": "visible",
+            "color": [
+              1,
+              0.9058823529411765,
+              0.6980392156862745
+            ],
+            "near": 24
+          },
+          {
+            "id": "p2",
+            "kind": "headlamp",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 230.05
+            },
+            "direction": {
+              "x": -0.7772932447064554,
+              "y": 0.6291384678540253,
+              "z": 0
+            },
+            "range": 262,
+            "arc": 1.95,
+            "power": 0.5,
+            "channel": "visible",
+            "color": [
+              1,
+              0.9058823529411765,
+              0.6980392156862745
+            ],
+            "near": 24
+          }
+        ],
+        "packets": []
+      }
+    },
+    {
+      "name": "lantern actual peer emitter above slab",
+      "hidden": {
+        "changed": 0,
+        "error": 0,
+        "lights": [
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 150
+            },
+            "direction": {
+              "x": 0,
+              "y": 0,
+              "z": -1
+            },
+            "range": 380,
+            "arc": 6.283185307179586,
+            "power": 0.43,
+            "channel": "visible",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "near": 40
+          },
+          {
+            "id": "p1",
+            "kind": "flashlight",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 50
+            },
+            "direction": {
+              "x": -0.7772932447064554,
+              "y": 0.6291384678540253,
+              "z": 0
+            },
+            "range": 390,
+            "arc": 0.92,
+            "power": 0.58,
+            "channel": "visible",
+            "color": [
+              1,
+              0.9058823529411765,
+              0.6980392156862745
+            ],
+            "near": 24
+          },
+          {
+            "id": "p2",
+            "kind": "lantern",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 230.05
+            },
+            "direction": {
+              "x": -0.7772932447064554,
+              "y": 0.6291384678540253,
+              "z": 0
+            },
+            "range": 228,
+            "arc": 6.283185307179586,
+            "power": 0.5,
+            "channel": "visible",
+            "color": [
+              1,
+              0.9058823529411765,
+              0.6980392156862745
+            ],
+            "near": 24
+          }
+        ],
+        "packets": []
+      }
+    },
+    {
+      "name": "visible lantern positive control; OFF has no emitter or aura",
+      "on": {
+        "changed": 18025,
+        "error": 0,
+        "lights": [
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 150
+            },
+            "direction": {
+              "x": 0,
+              "y": 0,
+              "z": -1
+            },
+            "range": 380,
+            "arc": 6.283185307179586,
+            "power": 0.43,
+            "channel": "visible",
+            "color": [
+              1,
+              1,
+              1
+            ],
+            "near": 40
+          },
+          {
+            "id": "p1",
+            "kind": "lantern",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 50
+            },
+            "direction": {
+              "x": -0.7772932447064554,
+              "y": 0.6291384678540253,
+              "z": 0
+            },
+            "range": 228,
+            "arc": 6.283185307179586,
+            "power": 0.5,
+            "channel": "visible",
+            "color": [
+              1,
+              0.9058823529411765,
+              0.6980392156862745
+            ],
+            "near": 24
+          },
+          {
+            "id": "p2",
+            "kind": "lantern",
+            "origin": {
+              "x": 160,
+              "y": 160,
+              "z": 230.05
+            },
+            "direction": {
+              "x": -0.7772932447064554,
+              "y": 0.6291384678540253,
+              "z": 0
+            },
+            "range": 228,
+            "arc": 6.283185307179586,
+            "power": 0.5,
+            "channel": "visible",
+            "color": [
+              1,
+              0.9058823529411765,
+              0.6980392156862745
+            ],
+            "near": 24
+          }
+        ],
+        "packets": []
+      },
+      "off": {
+        "ready": true,
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "acc40cd0-6345-48fe-8041-a6fcd7d35b24",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "acc40cd0-6345-48fe-8041-a6fcd7d35b24",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 3725,
+            "tick": 3725,
+            "discontinuity": 10,
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.4611483145432236,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ground-north",
+            "navSurface": "nav:ground",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": [
+            {
+              "x": 160,
+              "y": 160,
+              "id": 2,
+              "a": 2.46,
+              "n": "H3 upper",
+              "c": "#ffe7b2",
+              "d": 0,
+              "r": 0,
+              "pitch": 0,
+              "k": "lantern",
+              "l": 1,
+              "ir": 0,
+              "lk": "none|plain|#e6bb76|#ffcc77|none",
+              "lp": "#3d423c,#9aa0a6,#a3372c",
+              "f": -1,
+              "mv": [
+                0,
+                0,
+                100,
+                0
+              ],
+              "tx": 160,
+              "ty": 160,
+              "seen": 64201.099999997765,
+              "look": {
+                "hat": "none",
+                "texture": "plain",
+                "hands": "#e6bb76",
+                "main": "#ffcc77",
+                "backpack": "none"
+              },
+              "gear": {
+                "kind": "lantern",
+                "color": "#ffe7b2",
+                "parts": {
+                  "lantern": {
+                    "frame": "#3d423c",
+                    "handle": "#9aa0a6",
+                    "cap": "#a3372c"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "frames": 92,
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15,
+            "art": 1,
+            "support": "support:ground-north",
+            "mode": "grounded",
+            "tick": 26,
+            "generation": 1,
+            "emissive": false,
+            "observable": true,
+            "visibilityRadius": 15
+          },
+          {
+            "id": "p2",
+            "kind": "peer",
+            "x": 160,
+            "y": 160,
+            "z": 180.05,
+            "height": 60,
+            "radius": 15,
+            "art": 2,
+            "support": "support:upper-west",
+            "mode": "grounded",
+            "tick": 3370,
+            "generation": 1,
+            "emissive": false,
+            "observable": false,
+            "visibilityRadius": 15
+          },
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "x": 160,
+            "y": 160,
+            "z": 150,
+            "height": 1,
+            "art": 3,
+            "radius": 45,
+            "visibilityRadius": 45,
+            "emissive": true,
+            "observable": true
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "lightCount": 2,
+          "lighting": true,
+          "nv": false,
+          "drawCalls": 27,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 390,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4650000,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "camera": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "acc40cd0-6345-48fe-8041-a6fcd7d35b24",
+            "focus": {
+              "x": 160,
+              "y": 160,
+              "z": 0
+            },
+            "focusSpace": [
+              "space:lower-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 1,
+                "target": true
+              }
+            ]
+          },
+          "cpuMs": 3.400000002235174,
+          "cutawayMs": 0
+        },
+        "cutaway": {
+          "worldEpoch": "acc40cd0-6345-48fe-8041-a6fcd7d35b24",
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      }
+    }
+  ],
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 46289 | stage-h @ 1908db1580ed\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 46289 | stage-h @ 1908db1580ed\nThe Far Backrooms → http://localhost:46289  (share  ?room=NAME  to group up)\n[admin] WANDERER#1 unlocked admin (room stage-h)\n[admin] room=stage-h H3 lower#1: god H3 lower -> true\n[admin] H3 upper#2 unlocked admin (room stage-h)\n[admin] room=stage-h H3 upper#2: god H3 upper -> true\n[admin] room=stage-h H3 lower#1: freeze true\n"
+}

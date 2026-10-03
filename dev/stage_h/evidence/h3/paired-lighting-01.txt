@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "pairs": [
+    {
+      "kind": "hound",
+      "mode": "IR off/on",
+      "identicalTicks": 900,
+      "seconds": 15,
+      "firstDivergentHiddenTick": null,
+      "firstLegitimateDifference": 9,
+      "counts": {
+        "personality": 0,
+        "behavior": 262,
+        "search": 307,
+        "perception": 0,
+        "schedule": 32
+      },
+      "remainingBelief": {
+        "zMin": 0,
+        "zMax": 0,
+        "z": 0,
+        "supportCandidates": [
+          "nav:ground"
+        ],
+        "unresolved": false
+      }
+    },
+    {
+      "kind": "hound",
+      "viewToggleTicks": 360,
+      "decisionsAndRng": "IDENTICAL"
+    },
+    {
+      "kind": "smiler",
+      "mode": "IR off/on",
+      "identicalTicks": 900,
+      "seconds": 15,
+      "firstDivergentHiddenTick": null,
+      "firstLegitimateDifference": 12,
+      "counts": {
+        "personality": 0,
+        "behavior": 0,
+        "search": 82,
+        "perception": 0,
+        "schedule": 32
+      },
+      "remainingBelief": {
+        "zMin": 0,
+        "zMax": 0,
+        "z": 0,
+        "supportCandidates": [
+          "nav:ground"
+        ],
+        "unresolved": false
+      }
+    },
+    {
+      "kind": "smiler",
+      "viewToggleTicks": 360,
+      "decisionsAndRng": "IDENTICAL"
+    }
+  ],
+  "cases": [
+    {
+      "kind": "flashlight",
+      "z": 0,
+      "actual": 1,
+      "accepted": 1
+    },
+    {
+      "kind": "flashlight",
+      "z": 180,
+      "actual": 0.04,
+      "accepted": 0.04
+    },
+    {
+      "kind": "headlamp",
+      "z": 0,
+      "actual": 0.9343618970079383,
+      "accepted": 0.9343618970079383
+    },
+    {
+      "kind": "headlamp",
+      "z": 180,
+      "actual": 0.04,
+      "accepted": 0.04
+    },
+    {
+      "kind": "lantern",
+      "z": 0,
+      "actual": 0.8879170153259305,
+      "accepted": 0.8879170153259305
+    },
+    {
+      "kind": "lantern",
+      "z": 180,
+      "actual": 0.04,
+      "accepted": 0.04
+    }
+  ],
+  "geometryUnchanged": true,
+  "channelsSeparated": true
+}

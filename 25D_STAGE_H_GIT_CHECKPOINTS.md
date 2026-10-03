@@ -18,3 +18,5 @@ H1 complete: `47f629df1e1da0dc73d052932296ec0c8195b4cf`, tree `885e517e40f10ccbf
 H2 failure preservation: `864c8aa210c85d0fc566502559516fce4b234942`, tree `69858cb59de5e4a3b7bc33323deba2c04bf02c72`. Raw 72-pixel hidden Hound failure retained before repair.
 
 H2 complete: `54a5402c385369e0f2e2fee7505230a6131bcd55`, tree `3158bfbe07f5cc0876b1149f9a247c4b2e71ea86`. Focused Z29 PASS; zero hidden peer/Hound/Smiler pixels, visible positive control, independent clients, retained D browser core.
+
+H3 preservation: `1908db1580ed015e11d3421afc2552c8d211cabc`, tree `fa8e88fcd15759bc4e625248e2d5b02251ebe736`. Effects/light source and startup failure retained before investigation; H3 gate remains open.

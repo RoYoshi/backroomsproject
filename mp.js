@@ -106,7 +106,7 @@ function connect() {
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
     else if (m.t === 'bodies') { if(spatialClient){if(spatialClient.bodies(m)){window.__spatialAftermath=spatialClient.aftermaths;spatialHistory?.ingest([...spatialClient.aftermaths.values()].flatMap(r=>window.TFB_PROTOCOL.aftermathPoses(r,spatialHistory.g)),performance.now());}return;} bodiesList = m.b || []; applyBodies(); }
     else if(m.t==='death'&&spatialClient){spatialClient.death(m.event);}
-    else if (m.t === 'fx') {if(!spatialClient||m.k!=='death')startFx(m);}
+    else if (m.t === 'fx') {if(spatialClient)window.__spatial.effect(m);else startFx(m);}
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {

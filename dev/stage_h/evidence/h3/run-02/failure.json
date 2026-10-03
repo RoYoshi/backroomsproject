@@ -1,0 +1,6 @@
+{
+  "error": "TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.",
+  "stack": "page.waitForFunction: Timeout 30000ms exceeded.\n    at open (/workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_support.js:11:13)\n    at async /workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_h3.js:9:62",
+  "checks": [],
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 40389 | stage-h @ 1908db1580ed\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 40389 | stage-h @ 1908db1580ed\nThe Far Backrooms → http://localhost:40389  (share  ?room=NAME  to group up)\n[admin] WANDERER#1 unlocked admin (room stage-h)\n[admin] room=stage-h H3 lower#1: god H3 lower -> true\n"
+}

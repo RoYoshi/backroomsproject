@@ -9,6 +9,7 @@
   let A, R, P, geometry, model, view, pass, artEpoch;
   const art = new Map(), labelArt = new Map();
   const audioSequences = new Map();
+  const effects = new Map();
   const config = { cutaway: true, quality: 1, camera: null, focus: null, labels: false };
   const state = { ready: false, frames: 0, dt: 0, time: 0, started: false, lightOn: false, packets: [], trace: [] };
   function spawn() {
@@ -84,7 +85,12 @@
       d.look = look || A.look; d.lightGear = gear || A.H.equipment;
       d.update(state.time, data.lightOn ?? state.lightOn, false, p);
     }
-    d.position.set(0, 0); d.visible = true; d.alpha = 1;
+    d.position.set(0, 0); d.visible = true; d.alpha = data.presentationAlpha ?? 1;
+    if(kind==='vanish'){d.gear.visible=false;d.scale.set(data.presentationScale);d.x=data.presentationShift;}
+    const observable=perceivable({...pose,height:pose.height||pose.shape?.height||60});
+    const fx=window.__cam?.fx(kind);
+    if(fx){if(fx.onlyNV&&!window.__cam.nv)d.alpha=0;d.alpha*=fx.gain??1;if(fx.obscure)d.alpha*=1-fx.obscure*(.5+.5*Math.sin(state.time*7+pose.x*.01));d.skew.set(fx.distort?Math.sin(state.time*37)*fx.distort*.05:0,0);
+      if(observable&&V.within(pose,V.footprint(innerWidth,innerHeight,R.camera))&&window.__cam.nv&&d.alpha>.2)window.__cam.touch(fx,d.alpha);}
     const slot = pass.art.length; pass.art.push(texture(e));
     const shape = pose.shape || geometry.definition.colliderProfiles.find(s => s.id === pose.profile);
     const packet = { id, kind, x: pose.x, y: pose.y, z: pose.z, height: pose.height || shape?.height || 60, radius: shape?.radius || 15, art: slot, support: pose.support ?? pose.supportId, mode: pose.mode ?? pose.motionMode, tick: pose.tick, generation: pose.generation };
@@ -93,8 +99,12 @@
     packet.emissive = kind === 'hound' || kind === 'smiler'; packet.observable = perceivable(packet); packet.visibilityRadius = packet.radius;
     return packet;
   }
+  function ownDeath() {
+    const a=window.__spatialAftermath?.get(A.H.id)?.spatial,n=window.__net.spatialState?.();
+    return a&&a.identity.worldEpoch===n?.world?.worldEpoch&&a.identity.lifeGeneration===n?.pose?.generation?a:null;
+  }
   function eyePoint() {
-    const own = A.G.caught && window.__spatialAftermath?.get(A.H.id)?.spatial;
+    const own = ownDeath();
     if (own) return {x:own.state.body.x,y:own.state.body.y,z:own.state.body.z+9};
     const p = A.H;
     return { x: p.x, y: p.y, z: p.z + (window.TFB_MOTION.PROFILES[p.posture || 'stand']?.eyeHeight || 50) };
@@ -137,7 +147,7 @@
     const lights=geometry.definition.lights.filter(l=>l.channel==='ir'||!A.V.blackout).map(l=>({id:l.id,kind:'lamp',origin:l.position,direction:l.direction,range:l.range,arc:Math.PI*2,power:l.power,channel:l.channel,color:[1,1,1],near:40}));
     const add=(id,p,gear,on,ir)=>{if(!p||!on)return;const profile=p.shape||geometry.definition.colliderProfiles.find(s=>s.id===p.profile)||window.TFB_MOTION.PROFILES.stand;
       const l=light(id,gear.kind,{x:p.x,y:p.y,z:p.z+profile.eyeHeight},direction(p.yaw??p.angle,p.pitch),gear.color,ir);if(l)lights.push(l);};
-    if(!A.G.caught)add('p'+A.H.id,A.H,A.H.equipment,A.lightOn(),window.__cam.irNet);
+    if(!ownDeath())add('p'+A.H.id,A.H,A.H.equipment,A.lightOn(),window.__cam.irNet);
     for(const p of net?.peers||[])if(!p.d)add('p'+p.id,{...sample('p'+p.id),pitch:p.pitch},p.gear,!!p.l,p.ir);
     for(const r of window.__spatialAftermath?.values()||[]){const a=r.spatial,b=a.state.beam,eq=a.event.equipment;if(eq.light&&eq.kind!=='camcorder'&&b){const l=light(a.key+':beam',eq.kind,b.origin,b.direction,eq.color);if(l)lights.push(l);}}
     return lights;
@@ -172,6 +182,17 @@
   function motionAudio() {const p=A.H;for(const e of p.events||[])if(e.type==='land')physicalAudio('land:'+window.__net.spatialState()?.pose?.generation,e.tick,{x:p.x,y:p.y,z:p.z+.1},e.impactSpeed,e.materialId,e.supportId);}
   function beginDeath() {R.death.active=true;R.death.finished=false;R.death.corpseId=null;R.death.kind=A.G.caughtBy;}
   function completeDeath() {const a=window.__spatialAftermath?.get(A.H.id)?.spatial;if(a&&R.death.finished)R.death.corpseId=a.key;}
+  function effect(m) {
+    if(m.k!=='vanish'||!m.spatial||m.spatial.worldEpoch!==window.__net.spatialState()?.world.worldEpoch||!window.TFB_PROTOCOL.validPose(m.spatial.pose))return;
+    const [hat,texture,hands,main,backpack]=m.lk.split('|'),parts={};(A.gear.defs[m.ek]||[]).forEach((d,i)=>parts[d[0]]=m.ep.split(',')[i]||d[2]);
+    effects.set(m.spatial.pose.entityId,{pose:m.spatial.pose,t0:performance.now()/1000,look:{hat,texture,hands,main,backpack},gear:{kind:m.ek,color:m.ec,parts:{[m.ek]:parts}}});
+  }
+  function effectPackets(packets) {
+    for(const [id,f]of effects){const t=performance.now()/1000-f.t0;if(t>2.8||(sample(id)?.generation??f.pose.generation)>f.pose.generation){effects.delete(id);continue;}
+      const v=Math.min(1,t/2.7),u=Math.max(0,Math.min(1,(v-.22)/(.95-.22))),s=u*u*(3-2*u),fl=Math.sin(state.time*47)>.55&&v>.35&&v<.9?.35:0;
+      packets.push(livePacket('vanish:'+id,'vanish',f.pose,{lightOn:false,presentationAlpha:Math.max(0,1-s-fl*(1-s)),presentationScale:1-.06*s,presentationShift:Math.sin(state.time*61)*(1-s)*s*4},f.look,f.gear));
+    }
+  }
   function aftermath(packets) {
     state.aftermath=[];
     for(const r of window.__spatialAftermath?.values()||[]){const a=r.spatial,s=a.state,eq=a.event.equipment;
@@ -222,13 +243,12 @@
   function render() {
     if (!state.ready) return;
     const start = performance.now(), net = window.__net.spatialState?.(), history = window.__spatialHistory?.();
-    const local = A.H, focus = config.focus || local, epoch = net?.world?.worldEpoch || 'connecting';
+    const local = A.H, own=ownDeath()?.state.body, focus = config.focus || (own?{x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)}:local), epoch = net?.world?.worldEpoch || 'connecting';
     if (artEpoch !== epoch) {
       for (const e of art.values()) { e.texture?.destroy(true); e.wrap.destroy({ children: true }); }
-      art.clear(); audioSequences.clear(); artEpoch = epoch;
+      art.clear(); audioSequences.clear(); effects.clear(); artEpoch = epoch;
     }
     state.frames++;
-    const own = A.G.caught && window.__spatialAftermath?.get(local.id)?.spatial.state.body;
     const camera = config.camera || (own ? {x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)} : { x: local.x, y: local.y, z: local.z });
     R.camera = { ...camera }; R.scale = window.__cameraPolicy.baseScale(innerWidth, innerHeight);
     const eye = eyePoint();
@@ -248,16 +268,16 @@
     renderer.resetState();
     pass.art.length = 1;
     const packets = [];
-    if (state.started && !A.G.caught && !window.__hideSelf) packets.push(livePacket('p' + local.id, 'player', { ...local, generation: net?.pose?.generation }, local));
+    if (state.started && !ownDeath() && !A.G.caught && !window.__hideSelf&&!effects.has('p'+local.id)) packets.push(livePacket('p' + local.id, 'player', { ...local, generation: net?.pose?.generation }, local));
     for (const peer of net?.peers || []) {
-      if (peer.d) continue;
+      if (peer.d||effects.has('p'+peer.id)) continue;
       const pose = history?.sample('p' + peer.id, performance.now());
       packets.push(livePacket('p' + peer.id, 'peer', pose, { ...peer, lightOn: !!peer.l }, peer.look, peer.gear));
     }
     const owned=new Set([...window.__spatialAftermath?.values()||[]].filter(r=>r.spatial.state.attackerOwned).map(r=>r.spatial.attackerEntityId));
     for (const h of window.__hounds || []) if (h&&!owned.has('h'+h.id)) packets.push(livePacket('h' + h.id, 'hound', history?.sample('h' + h.id, performance.now()), h));
     for (const s of A.q) if (!s.off && s.sid !== undefined && !owned.has('m'+s.sid)) packets.push(livePacket('m' + s.sid, 'smiler', history?.sample('m' + s.sid, performance.now()), s));
-    aftermath(packets);lamps(packets);
+    aftermath(packets);lamps(packets);effectPackets(packets);
     state.packets = packets.filter(Boolean);
     if (config.labels || window.__ents?.dbgCfg.on) for (const p of state.packets.slice()) {
       const peer = net?.peers.find(o => 'p' + o.id === p.id);
@@ -274,7 +294,7 @@
     for (const [key, e] of art) if (e.used < state.frames - 2) { e.texture?.destroy(true); e.wrap.destroy({ children: true }); art.delete(key); }
     for (const [key, e] of labelArt) if (e.used < state.frames - 2) { gl.deleteTexture(e.tex); labelArt.delete(key); }
   }
-  const api = window.__spatial = { bind, init, spawn, prepare, render, config, state, perceivable, sample, adminData, eyePoint, beginDeath, completeDeath, lightAt, beamDistance, sound, motionAudio,
+  const api = window.__spatial = { bind, init, spawn, prepare, render, config, state, perceivable, sample, adminData, eyePoint, beginDeath, completeDeath, lightAt, beamDistance, sound, motionAudio, effect,
     get geometry() { return geometry; }, get model() { return model; }, get view() { return view; }, get pass() { return pass; },
     inspect() { const gl = pass?.gl, ext = gl?.getExtension('WEBGL_debug_renderer_info'); return clone({ ready: state.ready, world: geometry?.identity, network: window.__net.spatialState?.(), frames: state.frames, packets: state.packets, last: state.last, cutaway: view?.snapshot(), gpu: gl && gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER), renderer: 'existing production Pixi 8.21.0 / WebGL2' }); }
   };

@@ -318,7 +318,8 @@ srv.on('upgrade', (req, sock) => {
       const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
         v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0,
         lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep), vx: num(m.vx, -900, 900), vy: num(m.vy, -900, 900), ex: m.ex ? 1 : 0 };
-      for (const c of room.clients.values()) if (c !== me) send(c, out);
+      if(room.authority&&k==='vanish')out.spatial={pose:room.authority.pose(me),worldEpoch:room.worldEpoch,tick:room.simTick};
+      for (const c of room.clients.values()) if (c !== me||out.spatial) send(c, out);
     }
     else if (m.t === 'pick') { if (player.active && !player.dead) { const it = room.sim.takeItem(player); if (it) send(me, { t: 'got', item: it }); } }
     else if (m.t === 'admin') {
