@@ -1,0 +1,27 @@
+{
+  "distributionUtility": "libnss3-tools_2%3a3.98-1ubuntu0.2_amd64.deb",
+  "sha256": "e5b42390b02c21851bc04e9557ec48539a913f9b09637220c4b1db0d1386b3fb",
+  "certificates": [
+    {
+      "certificate": "chaussette.crt",
+      "sha256": "637ed48a1068087e9c25fa672141020ba2334266866d8f91c960312ed363a501",
+      "verifiedAgainstSystemBundle": true
+    },
+    {
+      "certificate": "mitmproxy-ca-cert.crt",
+      "sha256": "3b99736326a0f83aedba8a7984ce686a9674d261ff666d1a8db765f32e2ab8da",
+      "verifiedAgainstSystemBundle": true
+    },
+    {
+      "certificate": "nebula-dns.crt",
+      "sha256": "ab6933a81e6f0d142e6d5f58ed465589d899a523c2752055761af11d4ee38f2b",
+      "verifiedAgainstSystemBundle": true
+    },
+    {
+      "certificate": "nebula-mitmproxy.crt",
+      "sha256": "58e1bfa6ed041c9f91da67687b74eb1190a7f5bd99fb7955bc1371c29391e056",
+      "verifiedAgainstSystemBundle": true
+    }
+  ],
+  "scope": "Temporary XDG_DATA_HOME NSS database imports only certificates already trusted by the environment system bundle. No TLS bypass flags or game modifications."
+}

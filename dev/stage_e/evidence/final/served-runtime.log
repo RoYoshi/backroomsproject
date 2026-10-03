@@ -1,0 +1,21 @@
+AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:
++ actual - expected
+
++ [
++   {
++     error: {
++       errorText: 'net::ERR_CERT_AUTHORITY_INVALID'
++     },
++     url: 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap'
++   }
++ ]
+- []
+
+    at /workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/served_runtime.js:15:38 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
