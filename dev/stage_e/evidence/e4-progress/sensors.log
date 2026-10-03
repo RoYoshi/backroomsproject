@@ -1,0 +1,104 @@
+PASS XYZ sight: same floor visible, same XY across sealed slab invisible
+PASS XYZ sight: wall blocks and real stair opening admits light
+PASS visual evidence derives support geometrically and velocity from observations
+PASS occluded true Z, support, velocity and route cannot refresh visual memory
+PASS eye contact uses remembered visible facing plus physical XYZ occlusion
+PASS physical contact positive and cross-floor capture rejection
+PASS static light cannot leak through floor or depend on camera/view
+PASS visible emitters illuminate physically, camcorder/IR does not
+PASS beam observations blocked by floors; IR has no beams or anonymous leads
+PASS source/patch evidence contains no hidden owner or source support
+PASS acoustic attenuation and bounded portal search use actual geometry
+PASS above/below acoustic ambiguity carries interval, bounded alternatives, no exact Z
+PASS actual hearing retains uncertainty and does not attribute raw source ID
+PASS sound without an explicit spatial pose fails closed
+PASS evidence fusion never merges disjoint observed elevations
+PASS sound budgets and memory counts stay bounded over repeated events
+{
+  "status": "PASS",
+  "runtime": "v25.9.0",
+  "groups": 16,
+  "results": [
+    "XYZ sight: same floor visible, same XY across sealed slab invisible",
+    "XYZ sight: wall blocks and real stair opening admits light",
+    "visual evidence derives support geometrically and velocity from observations",
+    "occluded true Z, support, velocity and route cannot refresh visual memory",
+    "eye contact uses remembered visible facing plus physical XYZ occlusion",
+    "physical contact positive and cross-floor capture rejection",
+    "static light cannot leak through floor or depend on camera/view",
+    "visible emitters illuminate physically, camcorder/IR does not",
+    "beam observations blocked by floors; IR has no beams or anonymous leads",
+    "source/patch evidence contains no hidden owner or source support",
+    "acoustic attenuation and bounded portal search use actual geometry",
+    "above/below acoustic ambiguity carries interval, bounded alternatives, no exact Z",
+    "actual hearing retains uncertainty and does not attribute raw source ID",
+    "sound without an explicit spatial pose fails closed",
+    "evidence fusion never merges disjoint observed elevations",
+    "sound budgets and memory counts stay bounded over repeated events"
+  ],
+  "details": {
+    "acoustic": {
+      "same": {
+        "audible": true,
+        "distance": 49.92995093127971,
+        "transmission": 1,
+        "clear": true,
+        "observation": {
+          "x": 210,
+          "y": 168,
+          "zMin": 0,
+          "zMax": 300,
+          "supportCandidates": [
+            "nav:ground",
+            "nav:stairs",
+            "nav:upper"
+          ],
+          "unresolved": true
+        },
+        "stats": {
+          "nodes": 2,
+          "portals": 1,
+          "edges": 2,
+          "regionNodes": 2,
+          "alternatives": 3
+        }
+      },
+      "sealed": {
+        "audible": true,
+        "distance": 538.0043132192316,
+        "transmission": 1,
+        "clear": false,
+        "observation": {
+          "x": 368,
+          "y": 340,
+          "zMin": 0,
+          "zMax": 300,
+          "supportCandidates": [
+            "nav:ground",
+            "nav:stairs",
+            "nav:upper"
+          ],
+          "unresolved": true
+        },
+        "stats": {
+          "nodes": 3,
+          "portals": 1,
+          "edges": 3,
+          "regionNodes": 2,
+          "alternatives": 3
+        }
+      }
+    },
+    "budgets": {
+      "candidates": 0,
+      "rays": 0,
+      "lightQueries": 0,
+      "soundQueries": 100,
+      "soundNodes": 250,
+      "soundPortals": 100,
+      "soundAlternatives": 300,
+      "contacts": 0
+    }
+  },
+  "stageFStarted": false
+}

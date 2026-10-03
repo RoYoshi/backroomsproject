@@ -73,7 +73,7 @@ function killNow(eng, cap, pv, e, why) {
   pv.alive = false;                                                        // dead from this instant: nothing else gets to capture or kill the same person in this very tick
   e.dbg.capture = Object.assign(e.dbg.capture || {}, { variant, why });
   eng.emit({ t: 'kill', pid: pv.id, eid: e.id, kind: e.sp.name, variant, why, geo, victim: { x: pv.x, y: pv.y, a: pv.angle } });
-  eng.sites.push({ x: pv.x, y: pv.y, t: eng.now, kind: e.kind, pid: pv.id, fed: 0 });
+  eng.sites.push({ x: pv.x, y: pv.y, ...(eng.geo.spatial?{z:pv.z,zMin:pv.z,zMax:pv.z,supportCandidates:[e.navSurfaceId],unresolved:false}:{}), t: eng.now, kind: e.kind, pid: pv.id, fed: 0 });
   if (eng.sites.length > 12) eng.sites.shift();
   finishCapture(eng, cap, pv, e);
   if (e.kind === 'hound') { beginCommit(eng, e, pv, variant, ctx); return; }
@@ -138,17 +138,19 @@ function releaseVictim(eng, cap, pv, e, why) {
 /* the caught-phase loop, called every engine tick for each live capture */
 function capStep(eng, cap, dt) {
   const e = eng.entities.find(x => x.id === cap.eid), pv = eng.playerById(cap.pid);
+  if(eng.geo.spatial&&e)eng=eng.entityContext(e);
   if (!e || !pv || !pv.alive) { finishCapture(eng, cap, pv, e); return; }
   cap.t += dt; cap.phaseT = (cap.phaseT || 0) + dt;
   const spc = e.sp.capture;
   if (cap.phase === 'release') {                                       // false hope: the prey is free, is it going to run?
-    const running = pv.st === 2 || (pv.sp > 110 && Math.hypot(pv.x - e.x, pv.y - e.y) > 200);
-    const d = Math.hypot(pv.x - e.x, pv.y - e.y);
+    const r=e.mem.p.get(cap.pid),known=eng.geo.spatial?(r?.seen?r.visual:r?{id:r.id,...estimate(e,r,eng.now,eng.geo)}:{id:cap.pid,x:e.x,y:e.y}):pv;
+    const running = (!eng.geo.spatial||r?.seen)&&(known.st === 2 || ((eng.geo.spatial?Math.hypot(known.vx||0,known.vy||0):known.sp) > 110 && beliefDistance(e,known) > 200));
+    const d = beliefDistance(e,known);
     cap.watch = (cap.watch || 0) + dt;
     if (running && !cap.triggered) { cap.triggered = eng.now + rand(e, .35, 1.1) * (1.2 - e.tr.AGGRESSION * .5); }
-    if (cap.triggered && eng.now >= cap.triggered) { spc.onResume && spc.onResume(eng, e, cap, pv); finishCapture(eng, cap, pv, e); return; }
-    if (!cap.triggered && (cap.watch > cap.holdFor || d > 1500)) { spc.onLetGo && spc.onLetGo(eng, e, cap, pv); finishCapture(eng, cap, pv, e); return; }
-    spc.releaseTick && spc.releaseTick(eng, e, cap, pv, dt);
+    if (cap.triggered && eng.now >= cap.triggered) { spc.onResume && spc.onResume(eng, e, cap, known); finishCapture(eng, cap, pv, e); return; }
+    if (!cap.triggered && (cap.watch > cap.holdFor || d > 1500)) { spc.onLetGo && spc.onLetGo(eng, e, cap, known); finishCapture(eng, cap, pv, e); return; }
+    spc.releaseTick && spc.releaseTick(eng, e, cap, known, dt);
     return;
   }
   if (cap.phase === 'down') {
@@ -161,7 +163,7 @@ function capStep(eng, cap, dt) {
     cap.checkT = .25;
     const ctx = assess(eng, e, pv, cap.attack || {});
     const noisy = e.hear && eng.now - e.hear.t < .8 && e.hear.I > .4 && e.hear.src !== pv.id;
-    const others = eng.entities.some(o => o !== e && !o.cap && Math.hypot(o.x - e.x, o.y - e.y) < 500);
+    const others = eng.entities.some(o => o !== e && !o.cap && Math.hypot(o.x - e.x, o.y - e.y) < 500&&(!eng.geo.spatial||(eng.geo.distance(o,e)<500&&eng.geo.clearRay(eng.geo.eye(e),eng.geo.eye(o)))));
     if (ctx.approaching > 0 || ctx.seeing > 0 && ctx.danger > .5 || noisy || (others && e.kind === 'hound')) {
       cap.interrupts++;
       const choice = spc.onInterrupt(eng, e, cap, pv, ctx, { noisy, others });

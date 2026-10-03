@@ -1,6 +1,6 @@
 'use strict';
 const assert=require('node:assert/strict'),{internalAI,player}=require('./test_helpers'),{fixture,adapter,canonical,clone}=require('./fixture'),M=require('../../world_motion'),AI=internalAI();
-function actor(eng,kind='hound',extra={}){const e=eng.spawn(kind,168,168);Object.assign(e,{z:0,shape:M.ENTITY_PROFILES[kind],ang:0,...extra});return e;}
+function actor(eng,kind='hound',extra={}){const e=eng.spawn(kind,168,168,{z:0});Object.assign(e,{z:0,shape:M.ENTITY_PROFILES[kind],ang:0,...extra});return e;}
 function run(){
  const results=[],details={};const test=(name,fn)=>{fn();results.push(name);console.log('PASS '+name);};
  const eng=AI.create({adapter:adapter(),seed:408}),e=actor(eng),geo=eng.geo;

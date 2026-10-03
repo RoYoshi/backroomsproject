@@ -1,0 +1,1089 @@
+PASS spatial spawns require explicit finite Z and physical support
+PASS hound same-surface perception drives actual species pursuit/contact
+PASS smiler same-surface perception drives actual species pursuit/contact
+PASS hound real brain executes physical stairs pursuit
+PASS hound real brain executes physical ramp pursuit
+PASS hound real brain executes physical drop pursuit
+PASS smiler real brain executes physical stairs pursuit
+PASS smiler real brain executes physical ramp pursuit
+PASS smiler real brain executes physical drop pursuit
+PASS hound floor occlusion rejects sight/gaze/contact and false targeting
+PASS smiler floor occlusion rejects sight/gaze/contact and false targeting
+PASS hound identical evidence/RNG despite hidden Z, floor, support, route, velocity and destination
+PASS smiler identical evidence/RNG despite hidden Z, floor, support, route, velocity and destination
+PASS hound IR off/on leaves high-level decisions and RNG identical
+PASS smiler IR off/on leaves high-level decisions and RNG identical
+PASS active traversal remains physical through capability change and route refresh
+PASS airborne actor cannot sleep or teleport even with no players
+PASS sealed-floor hounds cannot form a pack by XY overlap
+{
+  "status": "PASS",
+  "runtime": "v25.9.0",
+  "groups": 18,
+  "results": [
+    "spatial spawns require explicit finite Z and physical support",
+    "hound same-surface perception drives actual species pursuit/contact",
+    "smiler same-surface perception drives actual species pursuit/contact",
+    "hound real brain executes physical stairs pursuit",
+    "hound real brain executes physical ramp pursuit",
+    "hound real brain executes physical drop pursuit",
+    "smiler real brain executes physical stairs pursuit",
+    "smiler real brain executes physical ramp pursuit",
+    "smiler real brain executes physical drop pursuit",
+    "hound floor occlusion rejects sight/gaze/contact and false targeting",
+    "smiler floor occlusion rejects sight/gaze/contact and false targeting",
+    "hound identical evidence/RNG despite hidden Z, floor, support, route, velocity and destination",
+    "smiler identical evidence/RNG despite hidden Z, floor, support, route, velocity and destination",
+    "hound IR off/on leaves high-level decisions and RNG identical",
+    "smiler IR off/on leaves high-level decisions and RNG identical",
+    "active traversal remains physical through capability change and route refresh",
+    "airborne actor cannot sleep or teleport even with no players",
+    "sealed-floor hounds cannot form a pack by XY overlap"
+  ],
+  "details": {
+    "houndFlat": {
+      "states": [
+        "ROAMING",
+        "HUNTING"
+      ],
+      "captures": 1
+    },
+    "smilerFlat": {
+      "states": [
+        "WATCHING",
+        "PROVOKED"
+      ],
+      "captures": 1
+    },
+    "houndstairs": {
+      "kind": "hound",
+      "route": "stairs",
+      "states": [
+        "HUNTING"
+      ],
+      "maxDelta": 2.9710329465235716,
+      "airTicks": 0,
+      "supports": [
+        "support:ground-north",
+        "support:tread-01",
+        "support:tread-02",
+        "support:tread-03",
+        "support:tread-04",
+        "support:tread-05",
+        "support:tread-06",
+        "support:tread-07",
+        "support:tread-08",
+        "support:tread-09",
+        "support:tread-10",
+        "support:tread-11",
+        "support:tread-12",
+        "support:tread-13",
+        "support:tread-14",
+        "support:tread-15",
+        "support:upper-south"
+      ],
+      "links": [
+        {
+          "id": "link:stairs-up",
+          "t": 0.21666666666666665,
+          "event": "begin",
+          "z": 0.05
+        },
+        {
+          "id": "link:stairs-up",
+          "t": 6.433333333333316,
+          "event": "done",
+          "z": 180.05
+        }
+      ],
+      "cut": null,
+      "records": [
+        {
+          "tick": 0,
+          "state": "HUNTING",
+          "pose": [
+            368,
+            70.2392761871975,
+            0.05
+          ],
+          "surface": "nav:ground",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 60,
+          "state": "HUNTING",
+          "pose": [
+            368,
+            158.1281650760864,
+            24.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 120,
+          "state": "HUNTING",
+          "pose": [
+            368,
+            236.52816507608665,
+            60.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 180,
+          "state": "HUNTING",
+          "pose": [
+            368,
+            322.9499996625395,
+            86.40042160334022
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 240,
+          "state": "HUNTING",
+          "pose": [
+            368,
+            404.5281650760873,
+            120.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 300,
+          "state": "HUNTING",
+          "pose": [
+            368,
+            482.9499999774883,
+            156.04986335173953
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 360,
+          "state": "HUNTING",
+          "pose": [
+            368,
+            572.5281650760878,
+            180.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        }
+      ],
+      "nav": {
+        "plans": 1,
+        "why": [
+          [
+            0.02,
+            "new-goal"
+          ]
+        ],
+        "contacts": 0,
+        "bonks": 0,
+        "stuckN": 0,
+        "recover": 0,
+        "emergency": 0,
+        "direct": 0,
+        "last": "new-goal"
+      },
+      "stats": {
+        "plans": 1,
+        "nodes": 216,
+        "edgeChecks": 1480,
+        "cacheHits": 0,
+        "cacheMisses": 1480,
+        "maxNodes": 216
+      }
+    },
+    "houndramp": {
+      "kind": "hound",
+      "route": "ramp",
+      "states": [
+        "HUNTING"
+      ],
+      "maxDelta": 3.6666666666666288,
+      "airTicks": 0,
+      "supports": [
+        "support:ground-north",
+        "support:ramp",
+        "support:ramp-landing"
+      ],
+      "links": [
+        {
+          "id": "link:ramp-up",
+          "t": 0.26666666666666666,
+          "event": "begin",
+          "z": 0.05
+        },
+        {
+          "id": "link:ramp-up",
+          "t": 4.466666666666656,
+          "event": "done",
+          "z": 180.05
+        }
+      ],
+      "cut": null,
+      "records": [
+        {
+          "tick": 0,
+          "state": "HUNTING",
+          "pose": [
+            590.2392761871976,
+            148,
+            0.05
+          ],
+          "surface": "nav:ground",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 60,
+          "state": "HUNTING",
+          "pose": [
+            697.169982322499,
+            148,
+            34.13499116124949
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 120,
+          "state": "HUNTING",
+          "pose": [
+            797.3458277144855,
+            148,
+            84.22291385724274
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 180,
+          "state": "HUNTING",
+          "pose": [
+            897.521673106472,
+            148,
+            134.31083655323602
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 240,
+          "state": "HUNTING",
+          "pose": [
+            998.724121299058,
+            148,
+            180.05
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        }
+      ],
+      "nav": {
+        "plans": 1,
+        "why": [
+          [
+            0.02,
+            "new-goal"
+          ]
+        ],
+        "contacts": 0,
+        "bonks": 0,
+        "stuckN": 0,
+        "recover": 0,
+        "emergency": 0,
+        "direct": 0,
+        "last": "new-goal"
+      },
+      "stats": {
+        "plans": 1,
+        "nodes": 125,
+        "edgeChecks": 847,
+        "cacheHits": 0,
+        "cacheMisses": 847,
+        "maxNodes": 125
+      }
+    },
+    "hounddrop": {
+      "kind": "hound",
+      "route": "drop",
+      "states": [
+        "HUNTING"
+      ],
+      "maxDelta": 10.61093669340081,
+      "airTicks": 39,
+      "supports": [
+        "support:balcony",
+        null,
+        "support:lower-platform"
+      ],
+      "links": [
+        {
+          "id": "link:ledge-drop",
+          "t": 0.3333333333333333,
+          "event": "begin",
+          "z": 120.05
+        },
+        {
+          "id": "link:ledge-drop",
+          "t": 1.649999999999999,
+          "event": "done",
+          "z": -95.95
+        }
+      ],
+      "cut": null,
+      "records": [
+        {
+          "tick": 0,
+          "state": "HUNTING",
+          "pose": [
+            880,
+            615.2392761871976,
+            120.05
+          ],
+          "surface": "nav:balcony",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 60,
+          "state": "HUNTING",
+          "pose": [
+            880,
+            737.5593114317164,
+            109.33864081720867
+          ],
+          "surface": null,
+          "link": "link:ledge-drop",
+          "target": 1
+        }
+      ],
+      "nav": {
+        "plans": 1,
+        "why": [
+          [
+            0.02,
+            "new-goal"
+          ]
+        ],
+        "contacts": 0,
+        "bonks": 0,
+        "stuckN": 0,
+        "recover": 0,
+        "emergency": 0,
+        "direct": 0,
+        "last": "new-goal"
+      },
+      "stats": {
+        "plans": 42,
+        "nodes": 966,
+        "edgeChecks": 6216,
+        "cacheHits": 6068,
+        "cacheMisses": 148,
+        "maxNodes": 23
+      }
+    },
+    "smilerstairs": {
+      "kind": "smiler",
+      "route": "stairs",
+      "states": [
+        "HIDDEN",
+        "WATCHING",
+        "PROVOKED",
+        "FOLLOWING"
+      ],
+      "maxDelta": 2.9715922182273857,
+      "airTicks": 0,
+      "supports": [
+        "support:ground-north",
+        "support:tread-01",
+        "support:tread-02",
+        "support:tread-03",
+        "support:tread-04",
+        "support:tread-05",
+        "support:tread-06",
+        "support:tread-07",
+        "support:tread-08",
+        "support:tread-09",
+        "support:tread-10",
+        "support:tread-11",
+        "support:tread-12",
+        "support:tread-13",
+        "support:tread-14",
+        "support:tread-15",
+        "support:upper-south"
+      ],
+      "links": [
+        {
+          "id": "link:stairs-up",
+          "t": 1.7666666666666653,
+          "event": "begin",
+          "z": 0.05
+        },
+        {
+          "id": "link:stairs-up",
+          "t": 8.483333333333334,
+          "event": "done",
+          "z": 180.05
+        }
+      ],
+      "cut": null,
+      "records": [
+        {
+          "tick": 0,
+          "state": "HIDDEN",
+          "pose": [
+            368,
+            70,
+            0
+          ],
+          "surface": "nav:ground",
+          "link": null,
+          "target": null
+        },
+        {
+          "tick": 60,
+          "state": "WATCHING",
+          "pose": [
+            368,
+            70,
+            0
+          ],
+          "surface": "nav:ground",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 120,
+          "state": "WATCHING",
+          "pose": [
+            368,
+            102.46884792311334,
+            12.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 180,
+          "state": "WATCHING",
+          "pose": [
+            368,
+            176.06884792311325,
+            36.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 240,
+          "state": "PROVOKED",
+          "pose": [
+            368,
+            253.66884792311328,
+            60.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 300,
+          "state": "PROVOKED",
+          "pose": [
+            368,
+            332.0688479231136,
+            96.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 360,
+          "state": "PROVOKED",
+          "pose": [
+            368,
+            418.9499998901839,
+            121.82813703248173
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 420,
+          "state": "PROVOKED",
+          "pose": [
+            368,
+            500.0688479231142,
+            156.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        },
+        {
+          "tick": 480,
+          "state": "FOLLOWING",
+          "pose": [
+            368,
+            576.3261965060568,
+            180.05
+          ],
+          "surface": "nav:stairs",
+          "link": "link:stairs-up",
+          "target": 1
+        }
+      ],
+      "nav": {
+        "plans": 8,
+        "why": [
+          [
+            1.38,
+            "plan"
+          ],
+          [
+            1.4,
+            "plan"
+          ],
+          [
+            1.42,
+            "plan"
+          ],
+          [
+            1.43,
+            "plan"
+          ],
+          [
+            1.45,
+            "plan"
+          ],
+          [
+            1.47,
+            "plan"
+          ],
+          [
+            1.48,
+            "plan"
+          ],
+          [
+            1.5,
+            "new-goal"
+          ]
+        ],
+        "contacts": 0,
+        "bonks": 0,
+        "stuckN": 0,
+        "recover": 0,
+        "emergency": 0,
+        "direct": 0,
+        "last": "new-goal"
+      },
+      "stats": {
+        "plans": 1,
+        "nodes": 208,
+        "edgeChecks": 1430,
+        "cacheHits": 0,
+        "cacheMisses": 1403,
+        "maxNodes": 208
+      }
+    },
+    "smilerramp": {
+      "kind": "smiler",
+      "route": "ramp",
+      "states": [
+        "HIDDEN",
+        "WATCHING",
+        "PROVOKED"
+      ],
+      "maxDelta": 1.8666666666666742,
+      "airTicks": 0,
+      "supports": [
+        "support:ground-north",
+        "support:ramp",
+        "support:ramp-landing"
+      ],
+      "links": [
+        {
+          "id": "link:ramp-up",
+          "t": 2.116666666666664,
+          "event": "begin",
+          "z": 0.05
+        },
+        {
+          "id": "link:ramp-up",
+          "t": 6.633333333333315,
+          "event": "done",
+          "z": 180.05
+        }
+      ],
+      "cut": null,
+      "records": [
+        {
+          "tick": 0,
+          "state": "HIDDEN",
+          "pose": [
+            590,
+            148,
+            0
+          ],
+          "surface": "nav:ground",
+          "link": null,
+          "target": null
+        },
+        {
+          "tick": 60,
+          "state": "WATCHING",
+          "pose": [
+            590,
+            148,
+            0
+          ],
+          "surface": "nav:ground",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 120,
+          "state": "WATCHING",
+          "pose": [
+            610.2021812564464,
+            148,
+            0.05
+          ],
+          "surface": "nav:ground",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 180,
+          "state": "WATCHING",
+          "pose": [
+            694.4951337020078,
+            148,
+            32.79756685100391
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 240,
+          "state": "PROVOKED",
+          "pose": [
+            780.3601440380002,
+            148,
+            75.73007201900008
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 300,
+          "state": "PROVOKED",
+          "pose": [
+            880.5359894299867,
+            148,
+            125.81799471499333
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 360,
+          "state": "PROVOKED",
+          "pose": [
+            980.7118348219732,
+            148,
+            175.9059174109866
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        }
+      ],
+      "nav": {
+        "plans": 1,
+        "why": [
+          [
+            1.73,
+            "new-goal"
+          ]
+        ],
+        "contacts": 0,
+        "bonks": 0,
+        "stuckN": 0,
+        "recover": 0,
+        "emergency": 0,
+        "direct": 0,
+        "last": "new-goal"
+      },
+      "stats": {
+        "plans": 1,
+        "nodes": 120,
+        "edgeChecks": 814,
+        "cacheHits": 0,
+        "cacheMisses": 803,
+        "maxNodes": 120
+      }
+    },
+    "smilerdrop": {
+      "kind": "smiler",
+      "route": "drop",
+      "states": [
+        "HIDDEN",
+        "WATCHING",
+        "FOLLOWING"
+      ],
+      "maxDelta": 10.604221468064647,
+      "airTicks": 40,
+      "supports": [
+        "support:balcony",
+        null,
+        "support:lower-platform"
+      ],
+      "links": [
+        {
+          "id": "link:ledge-drop",
+          "t": 2.3833333333333298,
+          "event": "begin",
+          "z": 120.05
+        },
+        {
+          "id": "link:ledge-drop",
+          "t": 4.016666666666658,
+          "event": "done",
+          "z": -95.95
+        }
+      ],
+      "cut": null,
+      "records": [
+        {
+          "tick": 0,
+          "state": "HIDDEN",
+          "pose": [
+            880,
+            615,
+            120
+          ],
+          "surface": "nav:balcony",
+          "link": null,
+          "target": null
+        },
+        {
+          "tick": 60,
+          "state": "WATCHING",
+          "pose": [
+            880,
+            615,
+            120
+          ],
+          "surface": "nav:balcony",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 120,
+          "state": "FOLLOWING",
+          "pose": [
+            880,
+            624.4688479231132,
+            120.05
+          ],
+          "surface": "nav:balcony",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 180,
+          "state": "WATCHING",
+          "pose": [
+            880,
+            716.4688479231114,
+            120.05
+          ],
+          "surface": "nav:balcony",
+          "link": "link:ledge-drop",
+          "target": 1
+        },
+        {
+          "tick": 240,
+          "state": "WATCHING",
+          "pose": [
+            880,
+            808.4688479231097,
+            -95.95
+          ],
+          "surface": "nav:lower",
+          "link": null,
+          "target": 1
+        }
+      ],
+      "nav": {
+        "plans": 1,
+        "why": [
+          [
+            1.85,
+            "plan"
+          ]
+        ],
+        "contacts": 0,
+        "bonks": 0,
+        "stuckN": 0,
+        "recover": 0,
+        "emergency": 0,
+        "direct": 0,
+        "last": "plan"
+      },
+      "stats": {
+        "plans": 2,
+        "nodes": 34,
+        "edgeChecks": 200,
+        "cacheHits": 100,
+        "cacheMisses": 100,
+        "maxNodes": 17
+      }
+    },
+    "houndHidden": {
+      "kind": "hound",
+      "mode": "hidden upper/lower",
+      "identicalTicks": 900,
+      "seconds": 15,
+      "firstDivergentHiddenTick": null,
+      "firstLegitimateDifference": 9,
+      "counts": {
+        "personality": 0,
+        "behavior": 262,
+        "search": 307,
+        "perception": 0,
+        "schedule": 32
+      },
+      "remainingBelief": {
+        "zMin": 0,
+        "zMax": 0,
+        "z": 0,
+        "supportCandidates": [
+          "nav:ground"
+        ],
+        "unresolved": false
+      }
+    },
+    "smilerHidden": {
+      "kind": "smiler",
+      "mode": "hidden upper/lower",
+      "identicalTicks": 900,
+      "seconds": 15,
+      "firstDivergentHiddenTick": null,
+      "firstLegitimateDifference": 12,
+      "counts": {
+        "personality": 0,
+        "behavior": 0,
+        "search": 82,
+        "perception": 0,
+        "schedule": 32
+      },
+      "remainingBelief": {
+        "zMin": 0,
+        "zMax": 0,
+        "z": 0,
+        "supportCandidates": [
+          "nav:ground"
+        ],
+        "unresolved": false
+      }
+    },
+    "houndIR": {
+      "kind": "hound",
+      "mode": "IR off/on",
+      "identicalTicks": 900,
+      "seconds": 15,
+      "firstDivergentHiddenTick": null,
+      "firstLegitimateDifference": 9,
+      "counts": {
+        "personality": 0,
+        "behavior": 262,
+        "search": 307,
+        "perception": 0,
+        "schedule": 32
+      },
+      "remainingBelief": {
+        "zMin": 0,
+        "zMax": 0,
+        "z": 0,
+        "supportCandidates": [
+          "nav:ground"
+        ],
+        "unresolved": false
+      }
+    },
+    "smilerIR": {
+      "kind": "smiler",
+      "mode": "IR off/on",
+      "identicalTicks": 900,
+      "seconds": 15,
+      "firstDivergentHiddenTick": null,
+      "firstLegitimateDifference": 12,
+      "counts": {
+        "personality": 0,
+        "behavior": 0,
+        "search": 82,
+        "perception": 0,
+        "schedule": 32
+      },
+      "remainingBelief": {
+        "zMin": 0,
+        "zMax": 0,
+        "z": 0,
+        "supportCandidates": [
+          "nav:ground"
+        ],
+        "unresolved": false
+      }
+    },
+    "interruption": {
+      "kind": "hound",
+      "route": "ramp",
+      "states": [
+        "HUNTING"
+      ],
+      "maxDelta": 3.6666666666666288,
+      "airTicks": 0,
+      "supports": [
+        "support:ground-north",
+        "support:ramp",
+        "support:ramp-landing"
+      ],
+      "links": [
+        {
+          "id": "link:ramp-up",
+          "t": 0.26666666666666666,
+          "event": "begin",
+          "z": 0.05
+        },
+        {
+          "id": "link:ramp-up",
+          "t": 4.466666666666656,
+          "event": "done",
+          "z": 180.05
+        }
+      ],
+      "cut": {
+        "tick": 81,
+        "z": 50.83096539324724,
+        "link": "link:ramp-up"
+      },
+      "records": [
+        {
+          "tick": 0,
+          "state": "HUNTING",
+          "pose": [
+            590.2392761871976,
+            148,
+            0.05
+          ],
+          "surface": "nav:ground",
+          "link": null,
+          "target": 1
+        },
+        {
+          "tick": 60,
+          "state": "HUNTING",
+          "pose": [
+            697.169982322499,
+            148,
+            34.13499116124949
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 120,
+          "state": "HUNTING",
+          "pose": [
+            797.3458277144855,
+            148,
+            84.22291385724274
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 180,
+          "state": "HUNTING",
+          "pose": [
+            897.521673106472,
+            148,
+            134.31083655323602
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        },
+        {
+          "tick": 240,
+          "state": "HUNTING",
+          "pose": [
+            998.724121299058,
+            148,
+            180.05
+          ],
+          "surface": "nav:ramp",
+          "link": "link:ramp-up",
+          "target": 1
+        }
+      ],
+      "nav": {
+        "plans": 1,
+        "why": [
+          [
+            0.02,
+            "new-goal"
+          ]
+        ],
+        "contacts": 0,
+        "bonks": 0,
+        "stuckN": 0,
+        "recover": 0,
+        "emergency": 0,
+        "direct": 0,
+        "last": "new-goal"
+      },
+      "stats": {
+        "plans": 1,
+        "nodes": 125,
+        "edgeChecks": 847,
+        "cacheHits": 0,
+        "cacheMisses": 847,
+        "maxNodes": 125
+      }
+    }
+  },
+  "realSpecies": true,
+  "stageFStarted": false
+}

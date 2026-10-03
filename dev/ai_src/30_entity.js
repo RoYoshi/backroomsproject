@@ -18,7 +18,8 @@ function mkEntity(eng, kind, id, x, y, opts = {}) {
     cap: null, cool: {}, dbg: {}, fade: 1, vis: 1, pack: null,
     vel: { x: 0, y: 0 }, moved: 0, wake: 0, alpha: 1,
   };
-  if (sp.init) sp.init(eng, e, opts);
+  if(eng.geo.spatial)initializeSpatialEntity(eng,e,opts);
+  if (sp.init) sp.init(eng.geo.spatial?eng.entityContext(e):eng, e, opts);
   return e;
 }
 function setState(e, st, act = '') {
@@ -32,6 +33,7 @@ const approach = (v, t, d) => v < t ? Math.min(t, v + d) : Math.max(t, v - d);
 function navOf(e) { return e.nav || (e.nav = { plans: 0, why: [], contacts: 0, bonks: 0, stuckN: 0, recover: 0, emergency: 0, direct: 0, last: '' }); }
 function navWhy(e, why, now) { const n = navOf(e); n.plans++; n.last = why; n.why.push([+now.toFixed(2), why]); if (n.why.length > 12) n.why.shift(); }
 function moveCollide(eng, e, dx, dy) {
+  if(eng.geo.spatial)return spatialMove(eng,e,dx,dy);
   const L = Math.hypot(dx, dy);
   if (L > 10 && !e.trav) {                                                 // swept: a fast move (lunge, skid) is taken in short steps so nothing thin is ever jumped
     const n = Math.ceil(L / 10); let mv = 0;
@@ -102,6 +104,7 @@ function smoothPath(geo, e, p) {
   return out;
 }
 function plan(eng, e, gx, gy, opts = {}) {
+  if(eng.geo.spatial)return spatialPlan(eng,e,gx,gy,opts);
   const key = Math.round(gx / 48) + ',' + Math.round(gy / 48);
   let cost = opts.cost || e.sp.pathCost && e.sp.pathCost(eng, e);
   if (opts.avoid) { const A = opts.avoid, base = cost, geo = eng.geo; cost = j => { const d = Math.hypot(geo.cx(j) - A.x, geo.cy(j) - A.y); return (d < A.r ? 600 : 0) + (base ? base(j) : 0); }; }   // an alternate route: keep off the spot we got stuck at
@@ -112,16 +115,18 @@ function plan(eng, e, gx, gy, opts = {}) {
   e.path = smoothPath(eng.geo, e, p); e.unreachable = 0; return true;
 }
 /* go straight at a point (the caller has checked the line is walkable) */
-function directTo(eng, e, gx, gy) { if (e.goalKey !== 'direct') { navOf(e).direct++; navWhy(e, 'direct', eng.now); navOf(e).plans--; } e.path = [{ x: gx, y: gy }]; e.goal = { x: gx, y: gy }; e.goalKey = 'direct'; e.pathAge = 0; }
+function directTo(eng, e, gx, gy, pose) { if(eng.geo.spatial)return spatialDirectTo(eng,e,gx,gy,pose); if (e.goalKey !== 'direct') { navOf(e).direct++; navWhy(e, 'direct', eng.now); navOf(e).plans--; } e.path = [{ x: gx, y: gy }]; e.goal = { x: gx, y: gy }; e.goalKey = 'direct'; e.pathAge = 0; }
 /* is a straight run at (tx,ty) safe?  with hysteresis: once running straight it stays straight while the body itself fits; to switch into it the line
  * needs the full margin (so DIRECT -> ROUTE -> DIRECT does not flicker at the edge of a doorframe) */
-function directOk(eng, e, tx, ty, maxD = 700) {
+function directOk(eng, e, tx, ty, maxD = 700, pose) {
+  if(eng.geo.spatial)return spatialDirectOk(eng,e,tx,ty,maxD,pose);
   if (Math.hypot(tx - e.x, ty - e.y) > maxD) return false;
   return eng.geo.lineClear(e.x, e.y, tx, ty, e.rc + (e.goalKey === 'direct' ? 1 : NAV_MARGIN), 'walk');
 }
 /* set a destination.  Route commitment: a moving goal only costs a new route when it moved meaningfully (more than ~12 % of the way, 40 px minimum)
  * or when the last leg can no longer reach it; small moves just slide the end of the route along.  Every new route records why (debug overlay). */
 function goTo(eng, e, gx, gy, opts = {}) {
+  if(eng.geo.spatial)return spatialGoTo(eng,e,gx,gy,opts);
   if (e.trav) return true;
   const G = e.goal, far = Math.hypot(gx - e.x, gy - e.y);
   if (!G || e.goalKey === 'direct') return plan(eng, e, gx, gy, Object.assign({}, opts, { why: G ? 'from-direct' : 'new-goal' }));
@@ -138,10 +143,12 @@ function goTo(eng, e, gx, gy, opts = {}) {
   return true;
 }
 function beginTrav(eng, e, l) {
+  if(eng.geo.spatial)return spatialBeginTrav(eng,e,l);
   const dur = clamp(.5 / Math.max(.3, e.caps.VAULT_SPEED || 1), .25, 1.4);
   e.trav = { ax: e.x, ay: e.y, bx: l.bx, by: l.by, t: 0, dur, prop: l.prop, dir: Math.atan2(l.by - e.y, l.bx - e.x) }; e.travCount = (e.travCount || 0) + 1;
 }
 function stepTrav(eng, e, dt) {
+  if(eng.geo.spatial)return spatialStepTrav(eng,e,dt);
   const v = e.trav; v.t += dt; turnTo(e, v.dir, 9, dt); const k = clamp(v.t / v.dur, 0, 1), s = k * k * (3 - 2 * k);
   const px = e.x, py = e.y; e.x = v.ax + (v.bx - v.ax) * s; e.y = v.ay + (v.by - v.ay) * s;
   e.speed = Math.hypot(e.x - px, e.y - py) / dt; e.moved = e.speed * dt;
@@ -186,6 +193,7 @@ function cornerSpeed(e, theta, R) {
  * so bends are rounded instead of reached-stopped-turned.  Before a bend the entity brakes to the speed its turn rate allows (competence); it still
  * carries momentum and may run a little wide (character).  Returns 'arrived' | 'moving' | 'nopath'. */
 function carrotOf(eng, e, look) {
+  if(eng.geo.spatial)return spatialCarrot(eng,e,look);
   const geo = eng.geo; let px = e.x, py = e.y, left = look, cx = e.path[0].x, cy = e.path[0].y;
   for (let k = 0; k < e.path.length; k++) {
     const w = e.path[k]; if (w.link) { cx = w.link.ax; cy = w.link.ay; break; }
@@ -201,18 +209,19 @@ function follow(eng, e, dt, vmax, o = {}) {
   const geo = eng.geo;
   e.cellCls = geo.cls[geo.cellAt(e.x, e.y)] | 0;
   e.mode = modeFor(e);
+  if(geo.spatial){const shape=actorShape(e,e.mode);if(geo.geometry.clearance(shape,e).fits)e.shape=shape;e.traverseSpeed=vmax;}
   if (e.trav) { stepTrav(eng, e, dt); return 'moving'; }
   const arrive = o.arrive ?? 18;
   while (e.path.length) {
-    const wp = e.path[0], last = e.path.length === 1, d = Math.hypot(wp.x - e.x, wp.y - e.y);
-    if (wp.link) { const L = wp.link; if (Math.hypot(L.ax - e.x, L.ay - e.y) < 28) { beginTrav(eng, e, L); return 'moving'; } break; }
-    if (d < (last ? arrive : 26)) { e.path.shift(); continue; }
+    const wp = e.path[0], last = e.path.length === 1, d = geo.spatial?Math.hypot(wp.x-e.x,wp.y-e.y,wp.z-e.z):Math.hypot(wp.x - e.x, wp.y - e.y);
+    if (wp.link) { const L = wp.link; if (Math.hypot(L.ax - e.x, L.ay - e.y) < (geo.spatial?3.5:28)) { beginTrav(eng, e, L); return 'moving'; } break; }
+    if (d < (geo.spatial&&e.path[1]?.link?3.5:last?arrive:26) && (!geo.spatial||wp.navSurfaceId===e.navSurfaceId)) { e.path.shift(); continue; }
     // passed it already (the next leg is now straight from here): drop it rather than turning back for it
-    if (!last && !e.path[1].link && (e.path[1].c | 0) <= 1 && d < 110 && geo.lineClear(e.x, e.y, e.path[1].x, e.path[1].y, e.rc + 2, e.mode)) { e.path.shift(); continue; }
+    if (!last && (!geo.spatial||wp.navSurfaceId===e.navSurfaceId) && !e.path[1].link && (e.path[1].c | 0) <= 1 && d < 110 && geo.lineClear(e.x, e.y, e.path[1].x, e.path[1].y, e.rc + 2, e.mode)) { e.path.shift(); continue; }
     break;
   }
   const wp = e.path[0];
-  if (!wp) { e.speed = approach(e.speed, 0, (e.caps.ACCELERATION || 500) * 2.2 * dt); e.moved = moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt); e.carrot = null; return e.goal && Math.hypot(e.goal.x - e.x, e.goal.y - e.y) > (o.arrive ?? 18) + 30 ? 'nopath' : 'arrived'; }
+  if (!wp) { e.speed = approach(e.speed, 0, (e.caps.ACCELERATION || 500) * 2.2 * dt); e.moved = moveCollide(eng, e, Math.cos(e.ang) * e.speed * dt, Math.sin(e.ang) * e.speed * dt); e.carrot = null; return e.goal && (geo.spatial?Math.hypot(e.goal.x-e.x,e.goal.y-e.y,e.goal.z-e.z):Math.hypot(e.goal.x - e.x, e.goal.y - e.y)) > (o.arrive ?? 18) + 30 ? 'nopath' : 'arrived'; }
   // the carrot
   let tx, ty;
   if (e.unst && eng.now < e.unst.until) { tx = e.x + Math.cos(e.unst.dir) * 60; ty = e.y + Math.sin(e.unst.dir) * 60; }       // stuck recovery, step 1: a short side-step
@@ -236,11 +245,12 @@ function follow(eng, e, dt, vmax, o = {}) {
   e.carrot = { x: tx, y: ty };
   // corner braking: the bend at the next waypoint, and the speed that bend allows
   let vcap;
+  if(geo.spatial&&(wp.link||e.path[1]?.link)){const x=wp.link?wp.link.ax:wp.x,y=wp.link?wp.link.ay:wp.y;vcap=Math.min(vmax,Math.hypot(x-e.x,y-e.y)/dt);}
   if (e.path.length > 1 && !wp.link) {
     const n1 = e.path[1], nx = n1.link ? n1.link.ax : n1.x, ny = n1.link ? n1.link.ay : n1.y, a0 = Math.atan2(wp.y - e.y, wp.x - e.x), a1 = Math.atan2(ny - wp.y, nx - wp.x);
     const theta = Math.abs(angDiff(a1, a0)), dC = Math.hypot(wp.x - e.x, wp.y - e.y);
     const vC = cornerSpeed(e, theta, e.kind === 'hound' ? 115 : 80), dec = (e.caps.ACCELERATION || 500) * 2.2;
-    vcap = Math.sqrt(vC * vC + 2 * dec * Math.max(0, dC - 40));
+    vcap = Math.min(vcap??Infinity,Math.sqrt(vC * vC + 2 * dec * Math.max(0, dC - 40)));
   } else if (e.path.length === 1 && (o.arrive ?? 18) < 40) {                 // the last waypoint: arrive without ramming whatever is behind it
     const dL = Math.hypot(wp.x - e.x, wp.y - e.y), dec = (e.caps.ACCELERATION || 500) * 2.2;
     if (!geo.lineClear(wp.x, wp.y, wp.x + Math.cos(e.ang) * 60, wp.y + Math.sin(e.ang) * 60, e.rc, e.mode)) vcap = Math.sqrt(90 * 90 + 2 * dec * Math.max(0, dL - 20));
@@ -276,16 +286,18 @@ function moodTick(e, dt) {
   if (e.state === S.ROAMING || e.state === S.HIDDEN || e.state === S.DORMANT) m.boredom = Math.min(1, m.boredom + dt * .01); else m.boredom = Math.max(0, m.boredom - dt * .1);
 }
 function tierOf(e, eng) {
+  if(eng.geo.spatial){if(e.trav||e.step||e.motionMode!=='grounded'||e.cap||e.commit)return 'near';let latest=0;for(const r of e.mem.p.values())latest=Math.max(latest,r.seenAt,r.heardAt);for(const L of e.mem.leads)latest=Math.max(latest,L.t);const idle=eng.now-latest;return idle<10?'near':idle<30?'mid':'far';}
   if (e.cap || e.commit) return 'near';                                  // a capture or a kill still playing out is always fully simulated (it has a clock to finish)
   const near = eng.nearestPlayerDist(e.x, e.y);
   return near < 1900 ? 'near' : near < 3800 ? 'mid' : 'far';
 }
 /* far-away entities do not run perception or steering: they drift along cached routes on a slow clock */
 function coarseMove(eng, e, dt) {
+  if(eng.geo.spatial)return follow(eng,e,dt,e.sp.roamSpeed||90);
   if (!e.path.length) { e.speed = 0; return false; }
   let left = (e.sp.roamSpeed || 90) * dt, moved = 0;
   while (left > 0 && e.path.length) {
-    const wp = e.path[0], d = Math.hypot(wp.x - e.x, wp.y - e.y);
+    const wp = e.path[0], d = geo.spatial?Math.hypot(wp.x-e.x,wp.y-e.y,wp.z-e.z):Math.hypot(wp.x - e.x, wp.y - e.y);
     if (d <= left) { e.x = wp.x; e.y = wp.y; left -= d; moved += d; e.path.shift(); }
     else { e.ang = Math.atan2(wp.y - e.y, wp.x - e.x); e.x += Math.cos(e.ang) * left; e.y += Math.sin(e.ang) * left; moved += left; left = 0; }
   }
@@ -297,7 +309,7 @@ function randomFloor(eng, e, minD, maxD, tries = 40) {
     const a = e.streams.search() * TAU, d = lerp(minD, maxD, e.streams.search()), x = e.x + Math.cos(a) * d, y = e.y + Math.sin(a) * d;
     if (x < 100 || y < 100 || x > geo.W - 100 || y > geo.H - 100) continue;
     const c = geo.cellAt(x, y); if (c < 0 || geo.cls[c] !== 1) continue;
-    return { x: geo.cx(c), y: geo.cy(c) };
+    return geo.spatial?geo.nodePose(c):{ x: geo.cx(c), y: geo.cy(c) };
   }
   return null;
 }

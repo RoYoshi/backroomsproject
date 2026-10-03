@@ -59,7 +59,7 @@ const sP = e => { const z = e.pz; return {
 function sFace(e, target) { e.faceT = target; }
 function sWhy(eng, e, why) { if (e.dbg.why !== why) { e.dbg.why = why; e.dbg.whyAt = eng.now; } }
 /* the light on the creature itself: the fixed lamp field where it stands, or a beam it has just seen in its eyes (its own observation, 2C) */
-function sLit(eng, e) { const lamp = eng.geo.lightLevel(e.x, e.y, null), beam = e.flashAt !== undefined && eng.now - e.flashAt < .6 ? .85 : 0; return Math.max(lamp, beam); }
+function sLit(eng, e) { const lamp = eng.geo.lightLevel(e.x, e.y, null,e), beam = e.flashAt !== undefined && eng.now - e.flashAt < .6 ? .85 : 0; return Math.max(lamp, beam); }
 /* a resting spot in the dark (fixed lamp field only - it does not know where anybody's torch is unless it saw it), on open floor, that the
  * placement validator accepts.  dir: a preferred heading (away from something) */
 function darkSpot(eng, e, minD, maxD, from, dir) {
@@ -71,15 +71,15 @@ function darkSpot(eng, e, minD, maxD, from, dir) {
     if (!eng.placementOk(x, y)) continue;
     let cover = 0; for (let k = 0; k < 6; k++) if (geo.ray(x, y, k / 6 * TAU, 200) < 160) cover++;
     const sc = -lit * 400 + Math.min(cover, 3) * 25 - Math.abs(d - (minD + maxD) / 2) * .15 + e.streams.search() * 40;
-    if (sc > bs) { bs = sc; best = { x, y }; }
+    if (sc > bs) { bs = sc; best = geo.spatial?geo.nodePose(c):{ x, y }; }
   }
   return best;
 }
 /* ---------------------------------------------------------------- transitions (each one says why: debug) */
 function beginHidden(eng, e, why) { setState(e, S.HIDDEN, 'lurk'); e.goalS = null; e.lurkT = 0; e.watchT = 0; sFace(e, .25); sWhy(eng, e, why || 'waiting in the dark'); }
 function beginDrawn(eng, e, g, why, fast) {
-  setState(e, S.FOLLOWING, fast ? 'search' : 'drawn'); e.goalS = { x: g.x, y: g.y, u: g.u || 120, k: g.k || 'lead', lead: g.lead || 0, t0: eng.now, phase: 'go', legs: 0, maxLegs: 1 + Math.round(e.pz.persistence * 2), pause: 0, fast: !!fast, dir: g.dir, off: g.off };
-  plan(eng, e, g.x, g.y); sFace(e, .45); sWhy(eng, e, why);
+  setState(e, S.FOLLOWING, fast ? 'search' : 'drawn'); e.goalS = { x: g.x, y: g.y, u: g.u || 120, k: g.k || 'lead', lead: g.lead || 0, t0: eng.now, phase: 'go', legs: 0, maxLegs: 1 + Math.round(e.pz.persistence * 2), pause: 0, fast: !!fast, dir: g.dir, off: g.off, ...spatialFields(g) };
+  plan(eng, e, g.x, g.y,{pose:g}); sFace(e, .45); sWhy(eng, e, why);
 }
 function beginWatch(eng, e, r, why) { setState(e, S.WATCHING, 'watch'); setTarget(e, r.id, eng.now); e.watchT = 0; e.lostT = 0; e.holdT = 0; sFace(e, 1); sWhy(eng, e, why); }
 function beginStalk(eng, e, r, why) { beginChase(eng, e, r, why || 'debug'); }              // (engine debug command name kept)
@@ -88,7 +88,7 @@ function beginStrike(eng, e, r, why) { setState(e, S.ATTACKING, 'rush'); setTarg
 function beginWithdraw(eng, e, why, dir) {
   const g = darkSpot(eng, e, 380, 1000, e, dir) || darkSpot(eng, e, 200, 700, e);
   if (!g) { beginHidden(eng, e, why); return; }
-  setState(e, S.DISAPPEARING, 'fade'); e.goalS = { x: g.x, y: g.y, t0: eng.now }; plan(eng, e, g.x, g.y); sFace(e, 0); sWhy(eng, e, why);
+  setState(e, S.DISAPPEARING, 'fade'); e.goalS = { x: g.x, y: g.y, t0: eng.now, ...spatialFields(g) }; plan(eng, e, g.x, g.y,{pose:g}); sFace(e, 0); sWhy(eng, e, why);
   if (e.target > 0) e.dbg.ab = why + ' @' + eng.now.toFixed(0);
 }
 /* ---------------------------------------------------------------- perception summaries */
@@ -107,7 +107,7 @@ const heldBy = (e, id) => { const a = e.att.get(id); return !!a && a.t >= EC_ON;
 function watcher(e) { for (const [id, a] of [...e.att].sort((a,b) => a[0]-b[0])) if (a.t >= EC_ON) return id; return 0; }
 /* how fast a seen player is moving away from the creature (+) or toward it (-), from consecutive sightings */
 function sRadial(eng, e, r, tdt) {
-  const P = perc(eng, e, r), d = Math.hypot(P.x - e.x, P.y - e.y);
+  const P = perc(eng, e, r), d = beliefDistance(e,P);
   if (r.seen && r.dPrev !== undefined && tdt > 0) r.dRate = lerp(r.dRate || 0, (d - r.dPrev) / tdt, .5); else if (!r.seen) r.dRate = 0;
   // (v23.1.2) close-range pressure: how fast THEY are coming at it (their own velocity toward it, seen), and how far they have walked in on it
   // lately (decays over ~6 s).  Its own creep never counts - only the person closing the gap.
@@ -122,7 +122,7 @@ function sRadial(eng, e, r, tdt) {
  * this is a patient creature - it should be seen to settle on somebody, not flick between people).  A canon trigger (panic, noise) switches at once. */
 const SM_DWELL = 3;
 function sScore(eng, e, r) {
-  const now = eng.now, P = perc(eng, e, r), d = Math.hypot(P.x - e.x, P.y - e.y);
+  const now = eng.now, P = perc(eng, e, r), d = beliefDistance(e,P);
   const lt = r.ev && r.ev.find(q => q.k === 'light' && now - q.t < 1.5);
   return (r.seen ? .6 : 0) + (r.seen && r.light ? 1 : 0) + (lt ? .5 : 0) + (now - r.hLoud < 2 ? .4 : 0) - d / 1500 + (e.target === r.id ? .35 : 0);
 }
@@ -165,7 +165,7 @@ function sPanic(eng, e) {
   const slow = 165 - 70 * e.ag, R = 380 + 220 * e.ag;
   for (const id of e.seenNow) {
     const r = e.mem.p.get(id); if (!r || tgtGone(eng, e, r)) continue;
-    const P = perc(eng, e, r), d = Math.hypot(P.x - e.x, P.y - e.y);
+    const P = perc(eng, e, r), d = beliefDistance(e,P);
     if (d < R && P.sp > slow && (r.dRate || 0) > 90) return r;
   }
   return null;
@@ -210,15 +210,15 @@ function sThink(eng, e) {
   if (nz && !nz.weak && e.state !== S.ATTACKING) {
     if (nz.r && nz.r.seen && e.state !== S.PROVOKED && !(now < e.grace && nz.r === tgt)) { beginStrike(eng, e, nz.r, `a loud ${nz.h.type} from P${nz.r.id}, close`); return; }
     sBump(e, .25, 'loud noise');
-    if (e.state === S.HIDDEN || e.state === S.FOLLOWING || e.state === S.DISAPPEARING) { beginDrawn(eng, e, { x: nz.h.x, y: nz.h.y, u: nz.h.unc, k: 'sound' }, `a loud ${nz.h.type} nearby`, true); return; }
+    if (e.state === S.HIDDEN || e.state === S.FOLLOWING || e.state === S.DISAPPEARING) { beginDrawn(eng, e, { x: nz.h.x, y: nz.h.y, u: nz.h.unc, k: 'sound', ...spatialFields(nz.h) }, `a loud ${nz.h.type} nearby`, true); return; }
   }
   switch (e.state) {
     case S.HIDDEN: case S.DORMANT: {
       e.lurkT += tdt;
       const r = sChoose(eng, e); if (r && r.seen) { beginWatch(eng, e, r, `P${r.id} in view${r.light ? ' with a light' : ''}`); return; }
       const L = e.inv && e.mem.leads.find(q => q.id === e.inv.lead);
-      if (L && L.c * (.5 + L.sal) >= Pm.leadMin) { beginDrawn(eng, e, { x: L.x, y: L.y, u: L.u, k: L.k, lead: L.id, dir: L.dir }, `drawn to a ${L.k} lead (±${Math.round(L.u)} px)`); return; }
-      if (nz && nz.weak && nz.d < 900 && nz.h.I > .15 && e.rng() < .35 * e.pz.curiosity) { beginDrawn(eng, e, { x: nz.h.x, y: nz.h.y, u: nz.h.unc, k: 'sound' }, `a ${nz.h.type} it heard`); return; }
+      if (L && L.c * (.5 + L.sal) >= Pm.leadMin) { beginDrawn(eng, e, { x: L.x, y: L.y, u: L.u, k: L.k, lead: L.id, ...spatialFields(L), dir: L.dir }, `drawn to a ${L.k} lead (±${Math.round(L.u)} px)`); return; }
+      if (nz && nz.weak && nz.d < 900 && nz.h.I > .15 && e.rng() < .35 * e.pz.curiosity) { beginDrawn(eng, e, { x: nz.h.x, y: nz.h.y, u: nz.h.unc, k: 'sound', ...spatialFields(nz.h) }, `a ${nz.h.type} it heard`); return; }
       if (e.lurkT > Pm.lurkFor) beginWithdraw(eng, e, 'restless: moves to another dark spot');
       return;
     }
@@ -229,7 +229,7 @@ function sThink(eng, e) {
       if (r && r.seen && !(G.off === r.id && !r.light && Math.hypot(r.lkx - e.x, r.lky - e.y) > 80)) { beginWatch(eng, e, r, `found P${r.id}${r.light ? ' (with a light)' : ''}`); return; }
       // a better light lead than the one it is following
       const L = e.inv && e.mem.leads.find(q => q.id === e.inv.lead);
-      if (L && L.id !== G.lead && now - L.t < .5 && L.c * (.5 + L.sal) > Pm.leadMin * 1.3) { beginDrawn(eng, e, { x: L.x, y: L.y, u: L.u, k: L.k, lead: L.id, dir: L.dir, off: G.off }, `a fresher ${L.k} lead`); return; }
+      if (L && L.id !== G.lead && now - L.t < .5 && L.c * (.5 + L.sal) > Pm.leadMin * 1.3) { beginDrawn(eng, e, { x: L.x, y: L.y, u: L.u, k: L.k, lead: L.id, ...spatialFields(L), dir: L.dir, off: G.off }, `a fresher ${L.k} lead`); return; }
       if (G.lead && !e.mem.leads.some(q => q.id === G.lead) && G.phase === 'go' && now - G.t0 > 2) { e.dbg.ab = `lead #${G.lead} faded @${now.toFixed(0)}`; }
       if (now - G.t0 > Pm.searchFor + 6) { beginWithdraw(eng, e, `nothing at the ${G.k}: it was wrong`); return; }
       return;
@@ -243,7 +243,7 @@ function sThink(eng, e) {
       if (!r.seen) {
         e.lostT += tdt;
         if (now - (e.heldRetreatAt ?? -99) < 2.5 && e.heldRetreatId === r.id) { beginWithdraw(eng, e, `let P${r.id} go: they kept their eyes on it and backed out of sight`, Math.atan2(e.y - r.lky, e.x - r.lkx)); return; }
-        if (e.lostT > 1.5) { const est = estimate(e, r, now, eng.geo); beginDrawn(eng, e, { x: est.x, y: est.y, u: est.unc, k: 'lost' }, `lost sight of P${r.id}: goes where it thinks they went (±${Math.round(est.unc)} px)`); }
+        if (e.lostT > 1.5) { const est = estimate(e, r, now, eng.geo); beginDrawn(eng, e, { x: est.x, y: est.y, u: est.unc, k: 'lost', ...spatialFields(est) }, `lost sight of P${r.id}: goes where it thinks they went (±${Math.round(est.unc)} px)`); }
         return;
       }
       e.lostT = 0;
@@ -252,7 +252,7 @@ function sThink(eng, e) {
       if (!r.light && !watcher(e) && e.watchT > 2 && !(e.pulledOff && e.pulledOff.id === r.id && now - e.pulledOff.t < 15)) {   // (once per person in a while: no back-and-forth)
         const L = e.inv && e.mem.leads.find(q => q.id === e.inv.lead), P = perc(eng, e, r);
         if (L && now - L.t < .5 && L.c * (.5 + L.sal) >= Pm.leadMin * 1.3 && Math.hypot(L.x - P.x, L.y - P.y) > L.u + 150) {
-          beginDrawn(eng, e, { x: L.x, y: L.y, u: L.u, k: L.k, lead: L.id, dir: L.dir, off: r.id }, `a light elsewhere drew it off P${r.id} (${L.k}, ±${Math.round(L.u)} px)`); e.pulledOff = { id: r.id, t: now }; return;
+          beginDrawn(eng, e, { x: L.x, y: L.y, u: L.u, k: L.k, lead: L.id, ...spatialFields(L), dir: L.dir, off: r.id }, `a light elsewhere drew it off P${r.id} (${L.k}, ±${Math.round(L.u)} px)`); e.pulledOff = { id: r.id, t: now }; return;
         }
       }
       if (r.light && e.ag >= Pm.chaseAt) { beginChase(eng, e, r, `P${r.id} carries a light it can see (agitation ${e.ag.toFixed(2)})`); return; }
@@ -280,7 +280,7 @@ function sThink(eng, e) {
         if (!r.light) { e.lightOff += tdt; if (e.lightOff > 1.2) { e.grace = now + 3; beginWatch(eng, e, r, `P${r.id}'s light went out: the lure is gone`); return; } } else e.lightOff = 0;
       } else {
         e.chaseBlind += tdt;
-        if (e.chaseBlind > Pm.blind) { const est = estimate(e, r, now, eng.geo); e.grace = now + 3; beginDrawn(eng, e, { x: est.x, y: est.y, u: est.unc, k: 'lost' }, `lost P${r.id} in the chase: searches where they might be (±${Math.round(est.unc)} px)`, true); e.dbg.ab = `chase of P${r.id}: lost sight @${now.toFixed(0)}`; return; }
+        if (e.chaseBlind > Pm.blind) { const est = estimate(e, r, now, eng.geo); e.grace = now + 3; beginDrawn(eng, e, { x: est.x, y: est.y, u: est.unc, k: 'lost', ...spatialFields(est) }, `lost P${r.id} in the chase: searches where they might be (±${Math.round(est.unc)} px)`, true); e.dbg.ab = `chase of P${r.id}: lost sight @${now.toFixed(0)}`; return; }
       }
       if (e.chaseT > 30) { e.grace = now + 3; beginWatch(eng, e, r, 'a long chase: it slows to watching'); }
       return;
@@ -292,7 +292,7 @@ function sThink(eng, e) {
         e.grace = now + 2.5;
         if (r.seen && r.light) beginChase(eng, e, r, `missed P${r.id}; they still carry a light`);
         else if (r.seen) beginWatch(eng, e, r, `missed P${r.id}`);
-        else { const est = estimate(e, r, now, eng.geo); beginDrawn(eng, e, { x: est.x, y: est.y, u: est.unc, k: 'lost' }, `missed P${r.id} and lost sight`, true); }
+        else { const est = estimate(e, r, now, eng.geo); beginDrawn(eng, e, { x: est.x, y: est.y, u: est.unc, k: 'lost', ...spatialFields(est) }, `missed P${r.id} and lost sight`, true); }
       }
       return;
     }
@@ -314,7 +314,7 @@ function sMove(eng, e, dt) {
       const G = e.goalS; if (!G) { stopMoving(eng, e, dt); return null; }
       if (G.phase === 'go') {
         const st = follow(eng, e, dt, G.fast ? sp.investigate : sp.approach, { arrive: 30 });
-        if (st === 'arrived' || st === 'nopath' || Math.hypot(G.x - e.x, G.y - e.y) < 40) { G.phase = 'look'; G.pause = 0; setAct(e, 'search'); }
+        if (st === 'arrived' || st === 'nopath' || goalReached(eng,e,G,40)) { G.phase = 'look'; G.pause = 0; setAct(e, 'search'); }
       } else if (G.phase === 'look') {
         stopMoving(eng, e, dt); e.head = Math.sin(e.t * 2.2) * .7; G.pause += dt;
         if (G.pause > lerp(1, 2.2, e.pz.patience)) {
@@ -323,7 +323,7 @@ function sMove(eng, e, dt) {
           let best = null, bs = -1e9; const back = G.x0 !== undefined ? Math.atan2(G.y0 - e.y, G.x0 - e.x) : e.ang + Math.PI;
           for (let i = 0; i < 8; i++) { const a = i / 8 * TAU, L = eng.geo.ray(e.x, e.y, a, 520); if (L < 200) continue; let sc = Math.min(L, 520) * .3 + (G.dir !== undefined ? Math.cos(angDiff(a, G.dir)) * 120 : 0) - (Math.cos(angDiff(a, back)) > .7 ? 150 : 0) + e.streams.search() * 90; if (G.k === 'lost') sc = habitBias(e, e.target, e.x + Math.cos(a)*300, e.y + Math.sin(a)*300, sc); if (sc > bs) { bs = sc; best = a; } }
           G.legs++; if (best === null) { beginWithdraw(eng, e, `nowhere to look from the ${G.k}`); return null; }
-          const D = Math.min(380, eng.geo.ray(e.x, e.y, best, 420) - 40); G.x0 = e.x; G.y0 = e.y; G.x = e.x + Math.cos(best) * D; G.y = e.y + Math.sin(best) * D; G.phase = 'go'; plan(eng, e, G.x, G.y); setAct(e, 'search');
+          const D = Math.min(380, eng.geo.ray(e.x, e.y, best, 420) - 40); G.x0 = e.x; G.y0 = e.y; G.x = e.x + Math.cos(best) * D; G.y = e.y + Math.sin(best) * D; G.phase = 'go'; plan(eng, e, G.x, G.y,{pose:eng.geo.spatial?bodyPose(e):G}); setAct(e, 'search');
           sWhy(eng, e, `searching from the ${G.k}: leg ${G.legs}/${G.maxLegs}`);
         }
       }
@@ -331,7 +331,7 @@ function sMove(eng, e, dt) {
     }
     case S.WATCHING: {
       const r = e.target > 0 ? e.mem.p.get(e.target) : null; if (!r) { stopMoving(eng, e, dt); return null; }
-      const P = perc(eng, e, r), d = Math.hypot(P.x - e.x, P.y - e.y);
+      const P = perc(eng, e, r), d = beliefDistance(e,P);
       faceToward(e, P.x, P.y, dt, 2.2); e.head = 0;
       if (!r.seen) { stopMoving(eng, e, dt); setAct(e, 'wait'); return null; }
       const held = heldBy(e, r.id), other = !held && watcher(e);
@@ -341,7 +341,7 @@ function sMove(eng, e, dt) {
         // drift gets faster/less comfortable.  This never invents a timer-based attack; panic/noise/light rules still own aggression.
         const pressure = clamp((e.holdT - 2) / 10, 0, 1), holdR = Pm.loom;
         const creepV = sp.creep * lerp(1, 1.25, pressure), driftV = sp.drift * lerp(1, 2.05, pressure);
-        if (!retreating && d > holdR + 12) { setAct(e, 'creep'); goTo(eng, e, P.x, P.y, { every: .45 }); follow(eng, e, dt, creepV, { arrive: holdR, turnMul: 1 + pressure * .25 }); }
+        if (!retreating && d > holdR + 12) { setAct(e, 'creep'); goTo(eng, e, P.x, P.y, { every: .45, pose:P }); follow(eng, e, dt, creepV, { arrive: holdR, turnMul: 1 + pressure * .25 }); }
         else if (!retreating) {                                                  // held up close: increasingly active lateral drift forces reacquisition, but its own movement never becomes a proximity attack
           setAct(e, 'drift'); e.driftT -= dt; if (e.driftT <= 0) { e.driftT = rand(e, lerp(1.5, .75, pressure), lerp(3.5, 1.7, pressure)); e.drift = -e.drift; }
           const a = Math.atan2(e.y - P.y, e.x - P.x) + e.drift * dt * (driftV / Math.max(70, d)), rd = Math.max(holdR, d), tx = P.x + Math.cos(a) * rd, ty = P.y + Math.sin(a) * rd;
@@ -350,14 +350,14 @@ function sMove(eng, e, dt) {
         return null;
       }
       const want = e.ag < .4 ? Pm.watchD : Pm.loom, go = e.act === 'watch' ? d > want + 8 : d > want + 60;    // (hysteresis: no stop-start at the edge)
-      if (go) { setAct(e, 'watch'); goTo(eng, e, P.x, P.y, { every: .6 }); follow(eng, e, dt, sp.approach * (other ? .4 : 1), { arrive: want }); }
+      if (go) { setAct(e, 'watch'); goTo(eng, e, P.x, P.y, { every: .6, pose:P }); follow(eng, e, dt, sp.approach * (other ? .4 : 1), { arrive: want }); }
       else { setAct(e, 'stare'); stopMoving(eng, e, dt); }
       return null;
     }
     case S.PROVOKED: case S.ATTACKING: {
       const r = e.target > 0 ? e.mem.p.get(e.target) : null; if (!r) { stopMoving(eng, e, dt); return null; }
       const P = perc(eng, e, r), v = e.state === S.ATTACKING ? sp.rush : sp.chase;
-      if (r.seen && directOk(eng, e, P.x, P.y, 900)) directTo(eng, e, P.x, P.y); else goTo(eng, e, P.x, P.y, { every: .4 });
+      if (r.seen && directOk(eng, e, P.x, P.y, 900,P)) directTo(eng, e, P.x, P.y,P); else goTo(eng, e, P.x, P.y, { every: .4, pose:P });
       follow(eng, e, dt, v, { arrive: 8, noSlow: false });
       const body = touching(eng, e, r.id, e.r + 15);
       if (body) return { pv: body, dir: e.ang, speed: e.speed, style: e.state === S.ATTACKING ? 'rush' : 'chase' };
@@ -366,7 +366,7 @@ function sMove(eng, e, dt) {
     case S.DISAPPEARING: {
       const G = e.goalS; if (!G) { beginHidden(eng, e); return null; }
       const st = follow(eng, e, dt, sp.retreat, { arrive: 24 });
-      if (st === 'arrived' || st === 'nopath' || Math.hypot(G.x - e.x, G.y - e.y) < 34) beginHidden(eng, e, 'back in the dark');
+      if (st === 'arrived' || st === 'nopath' || goalReached(eng,e,G,34)) beginHidden(eng, e, 'back in the dark');
       return null;
     }
     case S.PLAYING: { if (!e.cap) beginWithdraw(eng, e, 'done'); return null; }
