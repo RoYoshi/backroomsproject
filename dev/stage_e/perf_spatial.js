@@ -5,6 +5,15 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),{performance}=r
 const AI=require('../../ai'),{adapter}=require('./fixture'),{navWorld}=require('./test_motion'),{box}=require('../stage_c/helpers'),{player}=require('./test_helpers');
 const summarize=a=>{a=[...a].sort((x,y)=>x-y);return {n:a.length,median:a[Math.floor(a.length*.5)]||0,p95:a[Math.floor(a.length*.95)]||0,p99:a[Math.floor(a.length*.99)]||0,max:a.at(-1)||0};};
 const rows=[];
+const fixtureGeo=new AI.Geo(adapter()),fixtureTimes=[],fixtureCosts=[];let fixtureTraversalChecks=0;
+const fixtureEdges=fixtureGeo.spatialEdges.bind(fixtureGeo);
+fixtureGeo.spatialEdges=function(i,...args){fixtureTraversalChecks+=this.edges[i].filter(e=>e.link).length;return fixtureEdges(i,...args);};
+const lower={x:168,y:168,z:0,supportId:'support:ground-north'},upper={x:168,y:168,z:180,supportId:'support:upper-west'};
+for(const caps of [AI.HOUND.caps,AI.SMILER.caps])for(let repeat=0;repeat<5;repeat++)for(const [a,b]of [[lower,upper],[upper,lower]]){
+ const t=performance.now(),p=fixtureGeo.pathPose(a,b,caps);fixtureTimes.push(performance.now()-t);assert(p?.length);
+ const n=fixtureGeo.nodes.findIndex(n=>n.id===p.at(-1).nodeId);fixtureCosts.push(fixtureGeo.gs[n]);
+}
+const fixturePlanning={plans:fixtureTimes.length,milliseconds:summarize(fixtureTimes),costUnits:summarize(fixtureCosts),navigation:{...fixtureGeo.navStats,traversalEdgeChecks:fixtureTraversalChecks},nodes:fixtureGeo.N,edges:fixtureGeo.edges.reduce((n,e)=>n+e.length,0)};
 for(const floors of [1,2,4])for(const seed of [31,97]){
  const definition=navWorld(Array.from({length:floors},(_,i)=>box('floor-'+i,0,0,624,480,i*180-16,i*180)));
  const start=performance.now(),en=AI.create({adapter:adapter(definition),seed}),compileMs=performance.now()-start,g=en.geo;
@@ -37,5 +46,5 @@ for(const floors of [1,2,4])for(const seed of [31,97]){
  const row={floors,seed,actors:actors.length,players:players.length,ticks:360,compileMs,nodes:g.N,edges:g.edges.reduce((n,x)=>n+x.length,0),planDiagnostics,allPlanMilliseconds:summarize(timings),stepMilliseconds:summarize(times),navigation:{...g.navStats,traversalEdgeChecks,routeRefreshes,routeRetainedTicks},sensors:g.sensorCounters(),peakEvidence:peak,cacheMeaning:'cacheHits/Misses count physical edge proof cache, not route requests. Route retention measured as actor ticks with a path and unchanged routeRevision; no receiver/light/sound cache is present.',ok:true};
  rows.push(row);console.log(JSON.stringify(row));
 }
-const result={status:'PASS',runtime:process.version,scope:'Repeatable 1/2/4 stacked occupied sheets, 2/4/8 real entities and players, two seeds, six seconds each. Timings diagnostic; not Stage I or hardware capacity acceptance.',rows};
+const result={status:'PASS',runtime:process.version,scope:'Actual Stage E fixture stacked-floor plans, plus repeatable 1/2/4 stacked occupied sheets, 2/4/8 real entities and players, two seeds, six seconds each. Timings diagnostic; not Stage I or hardware capacity acceptance.',fixturePlanning,rows};
 if(process.argv[2])fs.writeFileSync(process.argv[2],JSON.stringify(result,null,2)+'\n');
