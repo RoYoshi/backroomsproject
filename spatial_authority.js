@@ -67,7 +67,7 @@ class Authority {
    for(const k of ['x','y','z','vx','vy','vz','angle','shape','posture','supportId','lastSupportId','normal','materialId','motionMode','step','tick','events','diagnostics','groundDistance','previousPosition','trav'])if(k in b)p[k]=b[k];
    p.obsV=distance*60;if(q.mv)this.room.sim.hearMove(p,q.mv);this.room.sim.gaitFloor(p,!!q.mv);this.publish(c);
    a.history.push({tick:q.tick,x:p.x,y:p.y,z:p.z,support:p.supportId});if(a.history.length>90)a.history.shift();this.stats.maxHistory=Math.max(this.stats.maxHistory,a.history.length);this.stats.accepted++;
-   if(transition){a.owned=true;a.ownedSpeed=Math.min(360,Math.hypot(q.vx,q.vy)||172);this.correct(c,'physical-transition');}
+   if(transition){a.owned=true;a.ownedSpeed=Math.min(360,Math.hypot(q.vx,q.vy)||172);p.traversalSpeed=a.ownedSpeed;this.correct(c,'physical-transition');}
   }if(!any)break;}
   this.cursor=(this.cursor+1)%cs.length;this.stats.maxWork=Math.max(this.stats.maxWork,this.stats.work);
  }

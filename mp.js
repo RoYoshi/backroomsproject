@@ -10,6 +10,7 @@ const cv = document.getElementById('mp'), cx = cv.getContext('2d'), dread = docu
 document.body.appendChild(net);
 const room = new URLSearchParams(location.search).get('room') || 'main';
 
+let spatialHistory = null;
 let spatialClient = null, spatialBlocked = false;
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
 let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
@@ -58,7 +59,7 @@ function connect() {
   if (location.protocol === 'file:') return;
   try { ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?room=' + encodeURIComponent(room)); } catch { return; }
   ws.onopen = () => {
-    spatialClient = null; spatialBlocked = false;
+    spatialClient = null; spatialHistory = null; spatialBlocked = false;
     netReset();                                                                // a connection is a new server timeline
     retry = 0; handled = 0; mseq = 0; me = ''; everConnected = true;
     const A = window.__api; if (A && A.started()) tx({ t: 'join' });      // re-enter the world after a reconnect
@@ -74,7 +75,7 @@ function connect() {
         if (!g || !window.TFB_PROTOCOL) { spatialBlocked = true; net.textContent = 'INCOMPATIBLE WORLD · SPATIAL CLIENT REQUIRED'; N.on = false; return; }
         if (!spatialClient) spatialClient = new window.TFB_PROTOCOL.Client(window.TFB_PROTOCOL.manifest(g, 'local', 0));
         const hello = spatialClient.hello(m.protocol); if (spatialClient.error) { spatialBlocked = true; net.textContent = 'INCOMPATIBLE WORLD · ' + spatialClient.error; return; }
-        netReset(); tx(hello);
+        netReset(); if (!spatialHistory) spatialHistory = new window.TFB_HISTORY.History(g, key => { if (!key) { hMap.clear(); hSlots.fill(null); sSlot.fill(null); for (const o of peers.values()) dropAvatar(o); peers.clear(); } }); spatialHistory.world(m.protocol); tx(hello);
       }
     }
     else if (m.t === 'incompatible') { spatialBlocked = true; N.on = false; net.textContent = 'INCOMPATIBLE WORLD · ' + m.reason; }
@@ -102,6 +103,7 @@ function connect() {
       if (spatialBlocked) return;
       if (spatialClient && (!m.protocol || m.protocol.worldEpoch !== spatialClient.world.worldEpoch)) return;
       if (spatialClient && m.pose) spatialClient.accept(m.pose);
+      if (spatialHistory) spatialHistory.ingest(m.spatial || [], performance.now());
       const now = performance.now(), seen = new Set();
       for (const p of m.p) {
         seen.add(p.id);
@@ -178,6 +180,7 @@ function netPose(key) {
   return h[h.length - 1];
 }
 window.__netPose = netPose; window.__NET = NET;
+window.__spatialHistory = () => spatialHistory;
 N.spatialSample = sample => { if (spatialClient && !spatialBlocked) { spatialClient.pending.push(sample); if (spatialClient.pending.length >= 3) tx(spatialClient.proposal(spatialClient.pending.splice(0, 3))); } };
 
 NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); };           // entity slots belong to the old world too
@@ -190,7 +193,7 @@ function applyServerState(dt) {
     ids.add(t.i);
     let o = hMap.get(t.i);
     if (!o) { const sl = hSlots.indexOf(null); if (sl < 0) continue; o = { x: t.x, y: t.y, angle: t.a, state: 'ROAMING', ls: 'patrol', act: '', distance: 0, slot: sl, id: t.i }; hMap.set(t.i, o); hSlots[sl] = o; }
-    E.slotH(o, t, dt, netPose('h' + t.i));
+    E.slotH(o, t, dt, spatialHistory ? spatialHistory.sample('h' + t.i, performance.now()) : netPose('h' + t.i));
   }
   for (const [id, o] of hMap) if (!ids.has(id)) { hSlots[o.slot] = null; hMap.delete(id); }
   let best = null, bd = 1e18;
@@ -205,7 +208,7 @@ function applyServerState(dt) {
     sid.add(t.i);
     let i = sSlot.indexOf(t.i);
     if (i < 0) { i = sSlot.indexOf(null); if (i < 0) continue; sSlot[i] = t.i; const o = A.q[i]; o.x = t.x; o.y = t.y; o.angle = t.a; o.distance = 0; }
-    A.q[i].off = false; E.slotS(A.q[i], t, dt, netPose('m' + t.i));
+    A.q[i].off = false; E.slotS(A.q[i], t, dt, spatialHistory ? spatialHistory.sample('m' + t.i, performance.now()) : netPose('m' + t.i));
   }
   A.q.forEach((sm, i) => {
     if (sSlot[i] !== null && !sid.has(sSlot[i])) sSlot[i] = null;
