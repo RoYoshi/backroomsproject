@@ -25,6 +25,8 @@ class Authority {
    if(!['x','y','z','vx','vy','yaw'].every(k=>P.finite(q[k],k==='yaw'?100:k==='vx'||k==='vy'?P.LIMIT.velocity:P.LIMIT.coordinate))||!Object.hasOwn(speedCap,q.posture)||!(q.support===null||P.id(q.support))||!(q.link==null||P.id(q.link))||q.progress!=null)return this.reject(c,'malformed');
    if(q.vault&&(!P.id(q.vault.link)||!P.integer(q.vault.quality)||q.vault.quality>2))return this.reject(c,'vault-intent');
    if(q.mv&&(!P.finite(q.mv.st,100)||q.mv.st<0||!P.integer(q.mv.s)||q.mv.s>7||!P.finite(q.mv.sp,600)))return this.reject(c,'gait');last=q.tick;
+   if(q.pitch!=null&&(!Number.isFinite(q.pitch)||Math.abs(q.pitch)>Math.PI/2))return this.reject(c,'aim-pitch');
+   if(q.presentation!=null){const v=q.presentation;if(!v||typeof v!=='object'||Array.isArray(v)||JSON.stringify(v).length>512||!['k','n','c','lk','lp'].every(k=>typeof v[k]==='string'&&v[k].length<=100)||![0,1].includes(v.l)||![0,1,2].includes(v.ir))return this.reject(c,'presentation-input');}
   }
   if(a.queue.length+ss.length>P.LIMIT.queue)return this.reject(c,'queue',true);
   a.lastSeq=m.seq;
@@ -89,6 +91,10 @@ class Authority {
    // primitive owns time and emits a correction before any later sample can run.
    a.budget=Math.max(-28,a.budget-distance);
    for(const k of ['x','y','z','vx','vy','vz','angle','shape','posture','supportId','lastSupportId','normal','materialId','motionMode','step','tick','events','diagnostics','groundDistance','previousPosition','trav','netVault'])if(k in b)p[k]=b[k];
+   // Existing user controls accompany an accepted input tick. View state is
+   // never included. IR remains connection-only in the server callback.
+   if(q.pitch!=null)p.pitch=q.pitch;
+   if(q.presentation)this.room.presentationInput?.(c,q.presentation);
    p.obsV=distance*60;if(q.mv)this.room.sim.hearMove(p,q.mv);this.room.sim.gaitFloor(p,!!q.mv);this.publish(c);
    a.history.push({tick:q.tick,x:p.x,y:p.y,z:p.z,support:p.supportId});if(a.history.length>90)a.history.shift();this.stats.maxHistory=Math.max(this.stats.maxHistory,a.history.length);this.stats.accepted++;
    if(transition){a.owned=true;a.ownedSpeed=Math.min(360,Math.hypot(q.vx,q.vy)||172);p.traversalSpeed=a.ownedSpeed;this.correct(c,'physical-transition');}

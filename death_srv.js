@@ -46,7 +46,7 @@ function spatialRecord(a){
     const role=o.id,signature=JSON.stringify({...o,revision:0}),prior=a.objectRevisions.get(role);
     const revision=prior?prior.revision+(prior.signature!==signature?1:0):1;a.objectRevisions.set(role,{signature,revision});o.role=role;o.id=key+':'+role;o.revision=revision;
   }
-  return {k:Number(a.event.identity.victimId),n:a.info.name||'WANDERER',srv:1,spatial:{identity:a.event.identity,key,revision:a.revision,tick:a.tick,event:a.event,state,resume:a.S.state==='SLEEPING'?null:DP.save(a.S)}};
+  return {k:Number(a.event.identity.victimId),n:a.info.name||'WANDERER',srv:1,spatial:{identity:a.event.identity,key,attackerEntityId:(a.event.kind==='Hound'?'h':'m')+a.attackerId,revision:a.revision,tick:a.tick,event:a.event,state,resume:a.S.state==='SLEEPING'?null:DP.save(a.S)}};
 }
 function advanceSpatial(a,tick){if(tick<=a.tick||a.S.state==='SLEEPING')return false;DP.tick(a.S);a.tick=tick;a.revision++;return true;}
 module.exports = { fxFor, bodyFor, durOf, DP,deathKey,startSpatial,spatialRecord,advanceSpatial };

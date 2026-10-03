@@ -28,7 +28,13 @@ const N = window.__net = {
   on: false,
   tick() {                                          // called by the game's fixed-step loop while online
     const A = window.__api;
-    if (spatialClient && !spatialBlocked && !spatialAwaiting && A?.started() && spatialClient.anchor) { const resync = spatialClient.record(A.H, window.__mv?.net(), window.__mv?.vault, A.spatialMotion.motion.geometry); if (resync) tx(resync); const proposal = spatialClient.flush(); if (proposal) tx(proposal); }
+    if(spatialClient)window.__spatial.motionAudio();
+    if (spatialClient && !spatialBlocked && !spatialAwaiting && A?.started() && spatialClient.anchor) {
+      const resync = spatialClient.record(A.H, window.__mv?.net(), window.__mv?.vault, A.spatialMotion.motion.geometry);
+      const q = spatialClient.pending.at(-1);
+      if(q){q.pitch=A.H.pitch||0;q.presentation={k:A.H.equipment.kind,n:String(A.H.name||'WANDERER').slice(0,20),c:A.H.equipment.color,lk:[A.look.hat,A.look.texture,A.look.hands,A.look.main,A.look.backpack].join('|'),lp:partList(A.H.equipment),l:+A.lightOn(),ir:window.__cam?.irNet||0};}
+      if (resync) tx(resync); const proposal = spatialClient.flush(); if (proposal) tx(proposal);
+    }
     if (A && me && mseq > handled && !A.G.caught) {
       handled = mseq; A.G.caught = true; A.G.caughtBy = me;
       const K = window.__kill; let b = -1;
@@ -104,6 +110,7 @@ function connect() {
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {
+      if(spatialClient)window.__spatialFailures=(m.lightFailures||[]).map(f=>({...f,until:performance.now()/1000+f.remaining}));
       if (spatialBlocked) return;
       if (spatialClient && (!m.protocol || m.protocol.worldEpoch !== spatialClient.world.worldEpoch)) return;
       if (spatialClient && m.pose) spatialClient.accept(m.pose);
@@ -185,7 +192,7 @@ function netPose(key) {
 }
 window.__netPose = netPose; window.__NET = NET;
 window.__spatialHistory = () => spatialHistory;
-N.spatialState = () => spatialClient ? { world: spatialClient.world, pose: spatialClient.pose, blocked: spatialBlocked, awaiting: spatialAwaiting, peers: [...peers.values()].map(p => ({ ...p, av: undefined, look: parseLook(p.lk), gear: { kind: p.k || 'flashlight', color: p.c || '#ffe7b2', parts: {} } })) } : null;
+N.spatialState = () => spatialClient ? { world: spatialClient.world, pose: spatialClient.pose, blocked: spatialBlocked, awaiting: spatialAwaiting, peers: [...peers.values()].map(p => ({ ...p, av: undefined, look: parseLook(p.lk), gear: { kind: p.k || 'flashlight', color: p.c || '#ffe7b2', parts: { [p.k||'flashlight']:partObj(p.k||'flashlight',p.lp) } } })) } : null;
 N.spatialSample = sample => { if (spatialClient && !spatialBlocked) { spatialClient.pending.push(sample); if (spatialClient.pending.length >= 3) tx(spatialClient.proposal(spatialClient.pending.splice(0, 3))); } };
 
 NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); };           // entity slots belong to the old world too

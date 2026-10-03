@@ -34,7 +34,7 @@
       for(let i=1;i<lo.length-1;i++){tri(lo[0],lo[i+1],lo[i],planes[planes.length-2]);tri(hi[0],hi[i],hi[i+1],planes[planes.length-1]);}
       for(let i=0;i<lo.length;i++){const j=(i+1)%lo.length;tri(lo[i],lo[j],hi[j],planes[i]);tri(lo[i],hi[j],hi[i],planes[i]);}
       packets.push({id:s.id,index,first,count:vertices.length/8-first,min,max});
-      return {id:s.id,index,planes,min,max,visible:!!s.channels.visible};
+      return {id:s.id,index,planes,min,max,visible:!!s.channels.visible,ir:!!s.channels.ir};
     });
     const groups=(definition.viewGroups||[]).filter(g=>g.cutawayEligible===true).slice().sort((a,b)=>a.id.localeCompare(b.id)).map(g=>({id:g.id,solids:solids.filter(s=>g.solidIds.includes(s.id))}));
     return freeze({solids,groups,packets,vertices,definition});
@@ -64,18 +64,34 @@
   const fragmentShader=`#version 300 es
   precision highp float;precision highp int;
   in vec3 vWorld;in vec3 vNormal;in vec2 vUV;out vec4 outColor;
-  uniform sampler2D uSolids,uArt;uniform int uCount,uReceiver,uKind;
-  uniform vec3 uEye;uniform vec4 uScope,uTint,uProxy;uniform float uFade,uTop;
-  bool physical(vec3 p){vec3 delta=p-uEye;float len=length(delta);if(len<.000001)return true;
-    vec3 rayMin=min(p,uEye),rayMax=max(p,uEye);
-    for(int i=0;i<${MAX_SOLIDS};i++){if(i>=uCount)break;vec4 lo=texelFetch(uSolids,ivec2(0,i),0),hi=texelFetch(uSolids,ivec2(1,i),0);if(hi.w<.5)continue;
+  uniform sampler2D uSolids,uArt,uLights;uniform int uCount,uReceiver,uKind,uLightCount,uLighting,uNV;
+  uniform vec4 uFailures[64];uniform int uFailCount;uniform vec3 uEye;uniform vec4 uScope,uTint,uProxy;uniform float uFade,uTop,uSensorGain,uBloom,uEmission;uniform int uSurface;
+  bool rayClear(vec3 source,vec3 p,int channel){vec3 delta=p-source;float len=length(delta);if(len<.000001)return true;
+    vec3 rayMin=min(p,source),rayMax=max(p,source);
+    for(int i=0;i<${MAX_SOLIDS};i++){if(i>=uCount)break;vec4 lo=texelFetch(uSolids,ivec2(0,i),0),hi=texelFetch(uSolids,ivec2(1,i),0);if((int(hi.w)&channel)==0)continue;
       if(any(lessThan(rayMax,lo.xyz-vec3(${BOUNDARY})))||any(greaterThan(rayMin,hi.xyz+vec3(${BOUNDARY}))))continue;
       float enter=0.,leave=1.;bool hit=true;
-      for(int j=0;j<${MAX_PLANES};j++){if(j>=int(lo.w))break;vec4 n=texelFetch(uSolids,ivec2(j+2,i),0);float a=dot(n.xyz,uEye)-n.w-(i==uReceiver?0.:${BOUNDARY}),b=dot(n.xyz,delta);if(abs(b)<.0000001){if(a>0.){hit=false;break;}}else if(b<0.)enter=max(enter,-a/b);else leave=min(leave,-a/b);if(enter>leave){hit=false;break;}}
+      for(int j=0;j<${MAX_PLANES};j++){if(j>=int(lo.w))break;vec4 n=texelFetch(uSolids,ivec2(j+2,i),0);float a=dot(n.xyz,source)-n.w-(i==uReceiver?0.:${BOUNDARY}),b=dot(n.xyz,delta);if(abs(b)<.0000001){if(a>0.){hit=false;break;}}else if(b<0.)enter=max(enter,-a/b);else leave=min(leave,-a/b);if(enter>leave){hit=false;break;}}
       float endpoint=i==uReceiver?.03/len:0.;if(hit&&leave>.000001&&enter<1.-endpoint)return false;
     }return true;
   }
-  void main(){if(vWorld.x<uScope.x||vWorld.y<uScope.y||vWorld.x>uScope.z||vWorld.y>uScope.w)discard;
+  vec3 illumination(vec3 p){
+    if(uLighting==0)return vec3(1.);
+    vec3 visible=vec3(.04);float ir=0.;
+    for(int i=0;i<128;i++){if(i>=uLightCount)break;
+      vec4 o=texelFetch(uLights,ivec2(0,i),0),d=texelFetch(uLights,ivec2(1,i),0),c=texelFetch(uLights,ivec2(2,i),0),cfg=texelFetch(uLights,ivec2(3,i),0);
+      bool infrared=cfg.x>1.5;if(infrared&&uNV==0)continue;
+      vec3 delta=p-o.xyz;float dist=length(delta);if(dist>=o.w)continue;
+      if(d.w<6.28){float yaw=atan(delta.y,delta.x)-atan(d.y,d.x),pitch=atan(delta.z,length(delta.xy))-atan(d.z,length(d.xy));if(abs(atan(sin(yaw),cos(yaw)))>d.w*.5||abs(pitch)>d.w*.5)continue;}
+      if(!rayClear(o.xyz,p,infrared?2:1))continue;
+      float strength=cfg.y*(1.-smoothstep(cfg.z,o.w,dist));if(cfg.w>.5)for(int k=0;k<64;k++){if(k>=uFailCount)break;if(length(p-uFailures[k].xyz)<uFailures[k].w)strength*=.06;}
+      if(infrared)ir=max(ir,strength);else visible=max(visible,vec3(.04)+c.rgb*strength*2.08);
+    }
+    if(uNV==1){float v=max(min(.9,max(visible.r,max(visible.g,visible.b))*uSensorGain),ir);v*=1.-.7*uBloom*smoothstep(120.,300.,length(p-uEye));return vec3(.55,1.,.62)*v;}
+    return min(vec3(1.),visible);
+  }
+  void main(){if(uSurface==1){vec4 lo=texelFetch(uSolids,ivec2(0,uReceiver),0);for(int j=0;j<8;j++){if(j>=int(lo.w))break;vec4 n=texelFetch(uSolids,ivec2(j+2,uReceiver),0);if(dot(n.xyz,vWorld)-n.w>.08)discard;}}
+    if(vWorld.x<uScope.x||vWorld.y<uScope.y||vWorld.x>uScope.z||vWorld.y>uScope.w)discard;
     vec4 art=uKind==1?texture(uArt,vUV):vec4(1.);if(art.a<.15)discard;
     // ALL physical occluders participate, including every faded camera group.
     vec3 query=vWorld;
@@ -83,14 +99,14 @@
     // elevations caused by the camera-facing art plane. Labels stay at their
     // own world point and also require an observable physical owner.
     if(uProxy.z>=0.){vec2 d=query.xy-uProxy.xy;float n=length(d);if(n>uProxy.z)query.xy=uProxy.xy+d*(uProxy.z/n);query.z=clamp(query.z,uProxy.w,uTop);}
-    bool inSight=physical(query);
+    bool inSight=rayClear(uEye,query,1);
     // Unseen opaque geometry still blocks the camera. Only eligible cutaway may remove it.
     if(!inSight&&uKind!=0)discard;
     // Stable screen-door fade, no blend-order shortcut or translucent depth leak.
     const int bayer[16]=int[16](0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5);
     ivec2 cell=ivec2(gl_FragCoord.xy)&3;if((float(bayer[cell.y*4+cell.x])+.5)/16.<uFade)discard;
     float shade=uKind==0?.55+.45*abs(dot(normalize(vNormal),normalize(vec3(-.35,-.5,1.)))):1.;
-    vec3 color=uTint.rgb*art.rgb*shade;
+    vec3 lit=illumination(query);if(uEmission>0.&&max(art.r,max(art.g,art.b))>.7)lit=max(lit,vec3(.85));vec3 color=uTint.rgb*art.rgb*shade*lit;
     if(uKind==0){vec2 g=abs(fract(vWorld.xy/48.)-.5);if(min(g.x,g.y)<.012)color*=.86;}
     outColor=vec4(inSight?color:vec3(0.),1.);
   }`;
@@ -102,36 +118,40 @@
     constructor(renderer,model,art){
       const gl=renderer.gl;if(!gl||typeof gl.texStorage2D!=='function')throw Error('Stage D requires WebGL2; production Level 0 remains available');
       this.renderer=renderer;this.gl=gl;this.model=model;this.canvas=renderer.canvas;this.program=program(gl);this.uniforms={};
-      for(const n of ['Camera','Viewport','Scale','Elevation','Solids','Art','Count','Receiver','Kind','Eye','Scope','Tint','Fade','Proxy','Top'])this.uniforms[n]=gl.getUniformLocation(this.program,'u'+n);
+      for(const n of ['Camera','Viewport','Scale','Elevation','Solids','Art','Count','Receiver','Kind','Eye','Scope','Tint','Fade','Proxy','Top','Lights','LightCount','Lighting','NV','Surface','SensorGain','Bloom','Emission','Failures[0]','FailCount'])this.uniforms[n]=gl.getUniformLocation(this.program,'u'+n);
       const makeVAO=data=>{const vao=gl.createVertexArray(),buffer=gl.createBuffer();gl.bindVertexArray(vao);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);for(const [i,n,offset]of [[0,3,0],[1,3,12],[2,2,24]]){gl.enableVertexAttribArray(i);gl.vertexAttribPointer(i,n,gl.FLOAT,false,32,offset);}return {vao,buffer};};
       this.world=makeVAO(new Float32Array(model.vertices));this.proxy=makeVAO(new Float32Array(48));
-      const data=new Float32Array(model.solids.length*10*4);for(const s of model.solids){data.set([s.min.x,s.min.y,s.min.z,s.planes.length,s.max.x,s.max.y,s.max.z,+s.visible,...s.planes.flat()],s.index*40);}
+      const data=new Float32Array(model.solids.length*10*4);for(const s of model.solids){data.set([s.min.x,s.min.y,s.min.z,s.planes.length,s.max.x,s.max.y,s.max.z,(+s.visible+2*(+s.ir)),...s.planes.flat()],s.index*40);}
       // Pixi extraction leaves pixel-store state behind. Geometry data must NEVER be premultiplied.
       gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);
       this.solidTexture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,this.solidTexture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA32F,10,model.solids.length,0,gl.RGBA,gl.FLOAT,data);this.textureParams();
       this.art=[];for(const canvas of art){const tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,canvas);this.textureParams();this.art.push({tex,width:canvas.width/2,height:canvas.height/2,bytes:canvas.width*canvas.height*4});}
+      this.lightTexture=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,this.lightTexture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA32F,4,128,0,gl.RGBA,gl.FLOAT,new Float32Array(128*16));this.textureParams();
       this.fbo=gl.createFramebuffer();this.color=gl.createTexture();this.depth=gl.createRenderbuffer();this.staticBytes=data.byteLength+model.vertices.length*4+this.art.reduce((a,b)=>a+b.bytes,0);this.target={width:0,height:0};
     }
     textureParams(){const gl=this.gl;gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);}
     resize(width,height,dpr=1,quality=1){this.width=Math.max(1,width);this.height=Math.max(1,height);this.dpr=dpr;this.quality=quality===.5?.5:1;const resolution=Math.min(Math.max(1,dpr),Math.sqrt(MAX_PIXELS/(this.width*this.height)))*this.quality;const w=Math.max(1,Math.floor(this.width*resolution)),h=Math.max(1,Math.floor(this.height*resolution));this.canvas.style.width=this.width+'px';this.canvas.style.height=this.height+'px';if(w===this.target.width&&h===this.target.height)return;this.canvas.width=w;this.canvas.height=h;const gl=this.gl;gl.bindFramebuffer(gl.FRAMEBUFFER,this.fbo);gl.bindTexture(gl.TEXTURE_2D,this.color);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);this.textureParams();gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,this.color,0);gl.bindRenderbuffer(gl.RENDERBUFFER,this.depth);gl.renderbufferStorage(gl.RENDERBUFFER,gl.DEPTH_COMPONENT24,w,h);gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.RENDERBUFFER,this.depth);if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw Error('Incomplete Stage D depth target');this.target={width:w,height:h};}
-    quad(actor,e,kind){const art=this.art[actor.art||0],w=kind===2?22:art.width,h=kind===2?6:art.height,origin={x:actor.x,y:actor.y,z:actor.z+(kind===2?(actor.height||60)-3:(actor.height||60)/2)},v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*w,y=(t-.5)*h;v.push(origin.x+x,origin.y+y/(1+e*e),origin.z-e*y/(1+e*e),0,e,1,u,t);}return new Float32Array(v);}
-    render({camera,eye,view,actors=[],overlays=[],elevationScale=ELEVATION,reverse=false}){
+    quad(actor,e,kind){if(actor.surface){const {point,basis,normal,width,height}=actor.surface,v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*width,y=(t-.5)*height;v.push(...['x','y','z'].map(k=>point[k]+basis.u[k]*x+basis.v[k]*y+normal[k]*.04),normal.x,normal.y,normal.z,u,t);}return new Float32Array(v);}const art=this.art[actor.art||0],w=kind===2?22:art.width,h=kind===2?6:art.height,origin={x:actor.x,y:actor.y,z:actor.z+(kind===2?(actor.height||60)-3:(actor.height||60)/2)},v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*w,y=(t-.5)*h;v.push(origin.x+x,origin.y+y/(1+e*e),origin.z-e*y/(1+e*e),0,e,1,u,t);}return new Float32Array(v);}
+    render({camera,eye,view,actors=[],overlays=[],elevationScale=ELEVATION,reverse=false,lights=null,nv=false,sensorGain=1.45,bloom=0,failures=[]}){
       const gl=this.gl,u=this.uniforms,scope=footprint(this.width,this.height,camera);gl.bindFramebuffer(gl.FRAMEBUFFER,this.fbo);gl.viewport(0,0,this.target.width,this.target.height);gl.disable(gl.SCISSOR_TEST);gl.disable(gl.BLEND);gl.disable(gl.CULL_FACE);gl.disable(gl.STENCIL_TEST);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.depthMask(true);gl.colorMask(true,true,true,true);gl.clearColor(0,0,0,1);gl.clearDepth(1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(this.program);
       gl.uniform3f(u.Camera,camera.x,camera.y,camera.z);gl.uniform3f(u.Eye,eye.x,eye.y,eye.z);gl.uniform2f(u.Viewport,this.width,this.height);gl.uniform1f(u.Scale,scope.scale);gl.uniform1f(u.Elevation,elevationScale);gl.uniform4f(u.Scope,scope.minX,scope.minY,scope.maxX,scope.maxY);gl.uniform1i(u.Count,this.model.solids.length);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.solidTexture);gl.uniform1i(u.Solids,0);gl.uniform1i(u.Art,1);
       // No sampled texture may alias the active color attachment, even in an untaken shader branch.
       gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[0].tex);
+      if(lights&&lights.length>128)throw Error('Spatial presentation light capacity exceeded; cannot omit emitters');
+      const lightData=new Float32Array(128*16);for(const [i,l]of (lights||[]).entries())lightData.set([l.origin.x,l.origin.y,l.origin.z,l.range,l.direction.x,l.direction.y,l.direction.z,l.arc,...(l.color||[1,1,1]),0,l.channel==='ir'?2:1,l.power,l.near||24,l.kind==='lamp'?1:0],i*16);
+      gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,this.lightTexture);gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,4,128,gl.RGBA,gl.FLOAT,lightData);gl.uniform1i(u.Lights,2);gl.uniform1i(u.LightCount,lights?.length||0);gl.uniform1i(u.Lighting,lights?1:0);gl.uniform1i(u.NV,nv?1:0);gl.uniform1i(u.Surface,0);gl.uniform1f(u.Emission,0);gl.uniform1f(u.SensorGain,sensorGain);gl.uniform1f(u.Bloom,bloom);if(failures.length>64)throw Error('Spatial lamp-failure capacity exceeded');gl.uniform1i(u.FailCount,failures.length);const failData=new Float32Array(256);failures.forEach((f,i)=>failData.set([f.x,f.y,f.z,f.r],i*4));gl.uniform4fv(u['Failures[0]'],failData);
       let draws=0;gl.bindVertexArray(this.world.vao);gl.uniform1i(u.Kind,0);gl.uniform4f(u.Proxy,0,0,-1,0);gl.uniform1f(u.Top,0);
       const packets=reverse?this.model.packets.slice().reverse():this.model.packets;
       for(const p of packets){if(p.max.x<scope.minX||p.min.x>scope.maxX||p.max.y<scope.minY||p.min.y>scope.maxY)continue;gl.uniform1i(u.Receiver,p.index);gl.uniform1f(u.Fade,view?view.fadeFor(p.id):0);gl.uniform4fv(u.Tint,color(p.id));gl.drawArrays(gl.TRIANGLES,p.first,p.count);draws++;}
-      const proxy=(actor,kind)=>{if(actor.observable===false||!within(actor,scope))return;gl.bindVertexArray(this.proxy.vao);gl.bindBuffer(gl.ARRAY_BUFFER,this.proxy.buffer);gl.bufferData(gl.ARRAY_BUFFER,this.quad(actor,elevationScale,kind),gl.DYNAMIC_DRAW);gl.uniform1i(u.Kind,kind);gl.uniform4f(u.Proxy,actor.x,actor.y,Number.isFinite(actor.visibilityRadius)?actor.visibilityRadius:-1,actor.z+.01);gl.uniform1f(u.Top,actor.z+(actor.height||60)-.01);gl.uniform1i(u.Receiver,-1);gl.uniform1f(u.Fade,0);gl.uniform4fv(u.Tint,kind===2?[1,.1,.85,1]:[1,1,1,1]);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[actor.art||0].tex);gl.drawArrays(gl.TRIANGLES,0,6);draws++;};
+      const proxy=(actor,kind)=>{if(actor.observable===false||!within(actor,scope))return;gl.bindVertexArray(this.proxy.vao);gl.bindBuffer(gl.ARRAY_BUFFER,this.proxy.buffer);gl.bufferData(gl.ARRAY_BUFFER,this.quad(actor,elevationScale,kind),gl.DYNAMIC_DRAW);gl.uniform1i(u.Kind,kind);gl.uniform1f(u.Emission,actor.emissive?1:0);gl.uniform4f(u.Proxy,actor.x,actor.y,Number.isFinite(actor.visibilityRadius)?actor.visibilityRadius:-1,actor.z+.01);gl.uniform1f(u.Top,actor.z+(actor.height||60)-.01);gl.uniform1i(u.Receiver,actor.surface?this.model.solids.findIndex(s=>s.id===actor.surface.primitiveId):-1);gl.uniform1i(u.Surface,actor.surface?1:0);gl.uniform1f(u.Fade,0);gl.uniform4fv(u.Tint,kind===2?[1,.1,.85,1]:[1,1,1,1]);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[actor.art||0].tex);gl.drawArrays(gl.TRIANGLES,0,6);draws++;};
       for(const a of reverse?actors.slice().reverse():actors)proxy(a,1);
       // An annotation submitted LAST still passes both physical and camera depth.
       for(const a of overlays)proxy(a,2);
       gl.bindFramebuffer(gl.READ_FRAMEBUFFER,this.fbo);gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER,null);gl.blitFramebuffer(0,0,this.target.width,this.target.height,0,0,this.target.width,this.target.height,gl.COLOR_BUFFER_BIT,gl.NEAREST);
-      this.last={scope,drawCalls:draws,passes:2,physicalVisibility:'exact bounded per-fragment convex rays',occluders:this.model.solids.filter(s=>s.visible).length,triangles:this.model.vertices.length/24+actors.length*2+overlays.length*2,target:{...this.target,depth:'DEPTH_COMPONENT24',color:'RGBA8'},logical:{width:this.width,height:this.height,dpr:this.dpr},quality:this.quality,newResourceBytes:this.staticBytes+this.target.width*this.target.height*8,defaultColorBytesEstimate:this.target.width*this.target.height*4,eye:{...eye},camera:{...camera},elevationScale,cutaway:view?.snapshot()};return this.last;
+      this.last={scope,lightCount:lights?.length||0,lighting:!!lights,nv,drawCalls:draws,passes:2,physicalVisibility:'exact bounded per-fragment convex rays',occluders:this.model.solids.filter(s=>s.visible).length,triangles:this.model.vertices.length/24+actors.length*2+overlays.length*2,target:{...this.target,depth:'DEPTH_COMPONENT24',color:'RGBA8'},logical:{width:this.width,height:this.height,dpr:this.dpr},quality:this.quality,newResourceBytes:this.staticBytes+this.target.width*this.target.height*8,defaultColorBytesEstimate:this.target.width*this.target.height*4,eye:{...eye},camera:{...camera},elevationScale,cutaway:view?.snapshot()};return this.last;
     }
     pixels(){const gl=this.gl,b=new Uint8Array(this.target.width*this.target.height*4);gl.bindFramebuffer(gl.READ_FRAMEBUFFER,this.fbo);gl.readPixels(0,0,this.target.width,this.target.height,gl.RGBA,gl.UNSIGNED_BYTE,b);return b;}
-    dispose(){const g=this.gl;for(const o of [this.world,this.proxy]){g.deleteBuffer(o.buffer);g.deleteVertexArray(o.vao);}for(const t of [this.solidTexture,this.color,...this.art.filter(x=>!x.borrowed).map(x=>x.tex)])g.deleteTexture(t);g.deleteFramebuffer(this.fbo);g.deleteRenderbuffer(this.depth);g.deleteProgram(this.program);}
+    dispose(){const g=this.gl;for(const o of [this.world,this.proxy]){g.deleteBuffer(o.buffer);g.deleteVertexArray(o.vao);}for(const t of [this.solidTexture,this.lightTexture,this.color,...this.art.filter(x=>!x.borrowed).map(x=>x.tex)])g.deleteTexture(t);g.deleteFramebuffer(this.fbo);g.deleteRenderbuffer(this.depth);g.deleteProgram(this.program);}
   }
   return Object.freeze({ELEVATION,MAX_SOLIDS,MAX_PLANES,MAX_PIXELS,BOUNDARY,project,depth,onPlane,footprint,within,freeze,compile,interval,visible,LocalView,SpatialPass});
 });

@@ -344,7 +344,8 @@ mv.foot = (Z, surface) => {
   if (lastStepPos === null || dist < lastStepPos) lastStepPos = dist;
   const sp = Math.hypot(H.vx, H.vy);
   const wet = mv.surf === 'wet' ? 'wet' : mv.surf === 'concrete' ? 'hollow' : 'carpet';
-  if (s === 'walk' || s === 'run') Z.footstep(dist, sp, wet);
+  if(window.TFB_WORLD&&!H.supportId)lastStepPos=dist;
+  else if (s === 'walk' || s === 'run') Z.footstep(dist, sp, wet);
   else if (s === 'crouch' && sp > 20 && dist - lastStepPos > 46) { lastStepPos = dist; window.__mvSfx.crouchStep(1, mv.surf); }
   else if (s === 'crawl' && sp > 12 && dist - lastStepPos > 30) { lastStepPos = dist; window.__mvSfx.crawlStep(1); }
   else if (s !== 'walk' && s !== 'run' && s !== 'crouch' && s !== 'crawl') lastStepPos = dist;

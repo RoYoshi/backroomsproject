@@ -217,7 +217,8 @@ body.cam-kind #touch .camBtn{display:inline-block}
     get bloom() { return S.bloom; },
     irFrom,
     /* infrared at a point from this player's emitter and every other camcorder's (only meaningful while this sensor is on) */
-    irAt(x, y) {
+    irAt(x, y, z) {
+      if(window.TFB_WORLD)return nvNow()&&Number.isFinite(z)?window.__spatial.lightAt({x,y,z},'ir'):0;
       if (!nvNow()) return 0; let v = 0; const A = window.__api;
       const L = irNow(); if (L && A && A.beam) { const b = A.beam() || A.H; if (b) v = irFrom({ x: b.x, y: b.y, angle: b.angle ?? A.H.angle }, L, x, y); }
       const P = window.__peerLights; if (P) for (const p of P) if (p.ir > 0 && !p.dead) v = Math.max(v, irFrom(p, p.ir, x, y));
@@ -310,7 +311,7 @@ body.cam-kind #touch .camBtn{display:inline-block}
         }
         // overexposure: the emitter's core hitting a surface close to the lens floods the sensor (eased, so a sweep past a pillar is a flash, not a strobe)
         let tgt = 0; const IRc = CFG.IR[irNow()], A0 = window.__api;
-        if (IRc && A0 && A0.Uc && A0.beam) { const b = A0.beam() || A0.H; if (b) { const d0 = A0.Uc(b.x, b.y, b.angle ?? A0.H.angle, IRc.bloomR + 5); tgt = clamp((IRc.bloomR - d0) / (IRc.bloomR - 22), 0, 1) * IRc.bloom; } }
+        if (IRc && A0 && A0.Uc && A0.beam) { const b = A0.beam() || A0.H; if (b) { const d0 = window.TFB_WORLD ? window.__spatial.beamDistance(IRc.bloomR+5) : A0.Uc(b.x, b.y, b.angle ?? A0.H.angle, IRc.bloomR + 5); tgt = clamp((IRc.bloomR - d0) / (IRc.bloomR - 22), 0, 1) * IRc.bloom; } }
         S.bloom += (tgt - S.bloom) * (1 - Math.exp(-dt / (tgt > S.bloom ? .16 : .45)));
       }
       const st = stage(), f = frac();

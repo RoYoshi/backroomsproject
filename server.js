@@ -164,9 +164,17 @@ function cleanLook(s) {                       // hat|texture|hands|main|backpack
     HEX.test(ha) && HEX.test(m) && ['none', 'canvas', 'utility'].includes(b) ? [h, t, ha, m, b].join('|') : null;
 }
 
+// The same equipment controls used by flat t:p, committed only after an
+// accepted spatial input sample. Sensor IR belongs solely to the connection.
+function presentationInput(c,m) {
+  const p=c.player; c.raised=m.l!==0;p.light=c.raised;p.equipment.kind=kindOf(m.k);
+  c.ir=c.raised&&p.equipment.kind==='camcorder'?Math.max(0,Math.min(2,m.ir|0)):0;
+  c.name=String(m.n||'WANDERER').slice(0,20);if(HEX.test(m.c))c.color=m.c;
+  c.look=cleanLook(m.lk)||c.look;c.lp=cleanParts(m.lp);c.angle=p.angle;
+}
 function getRoom(name) {
   let r = rooms.get(name);
-  if (!r) { const room = r = { name, worldEpoch: newEpoch(), simTick: 0, clients: new Map(), sim: createSim({ world: SPATIAL_WORLD, bodyTtl: BODY_TTL, worldEpoch:()=>room.worldEpoch,deathInfo:p=>{const c=room.clients.get(p.id);return {name:c?.name||'WANDERER',look:c?.look||DEFAULT_LOOK,ek:p.equipment.kind,ec:c?.color||'#ffe7b2',ep:c?.lp||'',light:p.light,ex:p.ex||(p.stamina!=null&&p.stamina<22)?1:0};},onDeath: p => { const c = room.clients.get(p.id); if (c) aftStart(room, c); } }), acc: 0, last: Date.now(), tick: 0, pf: { ms: 0, max: 0, snapB: 0, sense: 0, paths: 0, at: Date.now() } }; if (SPATIAL_WORLD) { room.authority = new SpatialAuthority(room, send); room.worldGeneration = room.sim.worldGeneration; } rooms.set(name, r); }
+  if (!r) { const room = r = { name, worldEpoch: newEpoch(), simTick: 0, clients: new Map(), sim: createSim({ world: SPATIAL_WORLD, bodyTtl: BODY_TTL, worldEpoch:()=>room.worldEpoch,deathInfo:p=>{const c=room.clients.get(p.id);return {name:c?.name||'WANDERER',look:c?.look||DEFAULT_LOOK,ek:p.equipment.kind,ec:c?.color||'#ffe7b2',ep:c?.lp||'',light:p.light,ex:p.ex||(p.stamina!=null&&p.stamina<22)?1:0};},onDeath: p => { const c = room.clients.get(p.id); if (c) aftStart(room, c); } }), acc: 0, last: Date.now(), tick: 0, pf: { ms: 0, max: 0, snapB: 0, sense: 0, paths: 0, at: Date.now() } }; if (SPATIAL_WORLD) { room.presentationInput = presentationInput; room.authority = new SpatialAuthority(room, send); room.worldGeneration = room.sim.worldGeneration; } rooms.set(name, r); }
   return r;
 }
 
@@ -380,7 +388,7 @@ setInterval(() => {
       if (!c.player.active) continue;
       peers.push({ id: c.id, x: Math.round(c.player.x), y: Math.round(c.player.y), a: +c.angle.toFixed(2),
         n: c.name, c: c.color, d: c.player.dead ? 1 : 0, r: c.sprint,
-        k: c.player.equipment.kind, l: c.raised ?? c.player.light ? 1 : 0, ir: c.ir | 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall,
+        ...(room.authority?{pitch:c.player.pitch||0}:{}), k: c.player.equipment.kind, l: c.raised ?? c.player.light ? 1 : 0, ir: c.ir | 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall,
         mv: [c.player.st | 0, Math.round(c.player.sp || 0), Math.round(c.player.stamina == null ? 100 : c.player.stamina), c.player.ex | 0] });
     }
     const sendAd = room.tick % (SNAP_EVERY * ADMIN_EVERY) === 0;
@@ -402,7 +410,7 @@ setInterval(() => {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }
       if ((!room.authority||c.protocolReady)&&c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; if(room.authority){for(const message of spatialBodyMessages(c))send(c,message);}else send(c, bm || (bm = bodyMsg())); }
       const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player) };
-      if (room.authority && c.protocolReady) { msg.protocol = { worldEpoch: room.worldEpoch, simTick: room.simTick }; msg.pose = room.authority.pose(c); msg.spatial = room.sim.engine.entities.map(e => PROTOCOL.pose(e, { worldEpoch: room.worldEpoch, entityId: (e.kind === 'hound' ? 'h' : 'm') + e.id, generation: room.sim.worldGeneration, tick: room.simTick, seq: room.simTick, discontinuity: 0 }, room.sim.geometry)).filter(Boolean); msg.spatial.push(...[...room.clients.values()].filter(o => o.player.active && o !== c).map(o => room.authority.pose(o)).filter(Boolean)); if (c.admin) msg.spatialStats = room.authority.metrics(); }
+      if (room.authority && c.protocolReady) { msg.lightFailures=room.sim.engine.geo.fails.filter(f=>Number.isFinite(f.z)).map(f=>({x:f.x,y:f.y,z:f.z,r:f.r,remaining:Math.max(0,f.until-room.sim.engine.now)})); msg.protocol = { worldEpoch: room.worldEpoch, simTick: room.simTick }; msg.pose = room.authority.pose(c); msg.spatial = room.sim.engine.entities.map(e => PROTOCOL.pose(e, { worldEpoch: room.worldEpoch, entityId: (e.kind === 'hound' ? 'h' : 'm') + e.id, generation: room.sim.worldGeneration, tick: room.simTick, seq: room.simTick, discontinuity: 0 }, room.sim.geometry)).filter(Boolean); msg.spatial.push(...[...room.clients.values()].filter(o => o.player.active && o !== c).map(o => room.authority.pose(o)).filter(Boolean)); if (c.admin) msg.spatialStats = room.authority.metrics(); }
       if (c.player.dead && c.player.kill) msg.mk = c.player.kill;
       if (c.admin && ad) { msg.ad = ad; msg.you = c.id; }
       if (c.admin && c.dbg && dbgList) {
