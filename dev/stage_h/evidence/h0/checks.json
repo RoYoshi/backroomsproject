@@ -1,0 +1,73 @@
+[
+  {
+    "name": "camera",
+    "command": [
+      "node",
+      "dev/tests/s_camera_fairness.js"
+    ],
+    "exit": 0,
+    "seconds": 0.08982096500039916
+  },
+  {
+    "name": "view-core",
+    "command": [
+      "node",
+      "dev/stage_d/test_view.js"
+    ],
+    "exit": 0,
+    "seconds": 0.14980113999990863
+  },
+  {
+    "name": "view-independence",
+    "command": [
+      "node",
+      "dev/stage_d/test_independence.js"
+    ],
+    "exit": 0,
+    "seconds": 0.6622959550004452
+  },
+  {
+    "name": "browser-core",
+    "command": [
+      "node",
+      "dev/stage_d/browser_core.js",
+      ".",
+      "dev/stage_h/evidence/h0"
+    ],
+    "exit": 0,
+    "seconds": 17.808793242998945
+  },
+  {
+    "name": "browser-extended",
+    "command": [
+      "node",
+      "dev/stage_d/browser_extended.js",
+      ".",
+      "dev/stage_h/evidence/h0"
+    ],
+    "exit": 0,
+    "seconds": 128.05779285000062
+  },
+  {
+    "name": "browser-flat",
+    "command": [
+      "node",
+      "dev/stage_e/browser_flat_controlled.js",
+      ".",
+      "/workspace/scratch/e75b27b8a3c9/backroomsproject",
+      "dev/stage_h/evidence/h0"
+    ],
+    "exit": 1,
+    "seconds": 67.38114223299999
+  },
+  {
+    "name": "flat-served",
+    "command": [
+      "node",
+      "dev/stage_g/browser_flat.js",
+      "dev/stage_h/evidence/h0/flat-served.json"
+    ],
+    "exit": 0,
+    "seconds": 6.593415507000827
+  }
+]

@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "stage": "G",
+  "engineeringStatus": "2.5D STAGE G ENGINEERING COMPLETE \u2014 HUMAN QA PENDING",
+  "repository": "RoYoshi/backroomsproject",
+  "branch": "stage-g",
+  "finalRemoteCommit": "7fb4dafef92040571209403358e536ccb1105509",
+  "finalRemoteTree": "eee7f43a74aeb4d0e7ef38effdfc7516eee5e8cf",
+  "acceptedParentCommit": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+  "acceptedParentTree": "1f33fdd0bfff9ed3268b4fd39648eb4112813199",
+  "acceptedParentZipSha256": "7d9176c3e66caab42683d22d9068c0fd3596d6fe7d8f1fd50eff9532e7ad5a5b",
+  "parentHumanQA": "PASS",
+  "sourceFiles": 1548,
+  "everySourceBlobAndModeMatchesGitTree": true,
+  "freshFinalExtractionMatches": true,
+  "archive": "THE_FAR_BACKROOMS_STAGE_G_FINAL.zip",
+  "archiveBytes": 23386812,
+  "archiveSha256": "dabea2b5527a80a86d956712947df87ec08bd4cf79aa51178075738aab2e609a",
+  "crc": "PASS",
+  "publicationFiles": {
+    "25D_STAGE_G_AFTERMATH.md": "5125afe2e1ab76bfaec864984ec33f0b06cec154f1c918d9ba5711e0f067d0d6",
+    "25D_STAGE_G_BASELINE_FAILURES.md": "58a7ff085f114e3c18ec909299d859fb6e451b3bef5f5dbaf3fdf4c3a92b487c",
+    "25D_STAGE_G_GIT_CHECKPOINTS.md": "296b701baea4489bcab2d9330813b78b5a7696bf3e30e0e431bb13f5b7d0e5b2",
+    "25D_STAGE_G_HUMAN_QA.md": "ef89eb35496fc65ed5fb02a9c9e9d3cee3844738c5238479f590165de5a486c8",
+    "25D_STAGE_G_PARITY.md": "b9e4f1deee66a73a6881b8c5ecc02307ed8cfb4d401f63a54a22b7a0e77a1ac8",
+    "25D_STAGE_G_PHYSICS.md": "11f8053dddf7cde332ed21bef182bb5c08e31ef006b62785d9c365094f115959",
+    "25D_STAGE_G_REPORT.md": "272ab98bf1c58deca6b93938f85e978c4e4c1f7588c1d63b166ce335cf3da447",
+    "25D_STAGE_G_TEST_SUMMARY.md": "f4d7ed09de2f5924e67adb3568bf82b62bc96bf8a7ef5864bb4b7ba3f106296a",
+    "25D_STAGE_G_CHANGED_FILES.txt": "efa4c32783cd25e634076a6f6fc6e58127dd717fcc3fc6515b70a40620a5ca1d"
+  },
+  "portableValidation": {
+    "status": "PASS",
+    "archiveSha256": "5be4a13e56cff988de6d9ffdd18d4d3323f2b726c007365d2c2a641c25d64678",
+    "files": 1401,
+    "byteEqual": true,
+    "pathContainsSpaces": true,
+    "buildHashes": {
+      "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+      "sim.js": "5e1271b6e784513db9a0b2a5d95086ff8a47f7461ac17d13aa868ef1257181fa",
+      "ents.js": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28"
+    },
+    "checks": [
+      {
+        "name": "build-ai",
+        "exit": 0,
+        "seconds": 0.11450964100004057
+      },
+      {
+        "name": "build-sim",
+        "exit": 0,
+        "seconds": 0.11473689100057527
+      },
+      {
+        "name": "build-ents",
+        "exit": 0,
+        "seconds": 0.11529927599985967
+      },
+      {
+        "name": "physics25d",
+        "exit": 0,
+        "seconds": 48.972608813999614
+      },
+      {
+        "name": "stage-f-wire",
+        "exit": 0,
+        "seconds": 9.79775600099947
+      },
+      {
+        "name": "served-package",
+        "exit": 0,
+        "seconds": 0.3150232230000256
+      }
+    ],
+    "runtime": "v24.19.0",
+    "note": "Portable source candidate. Final package receives an additional exact tree/content check after publication."
+  },
+  "buildValidation": {
+    "status": "PASS",
+    "files": {
+      "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+      "sim.js": "5e1271b6e784513db9a0b2a5d95086ff8a47f7461ac17d13aa868ef1257181fa",
+      "ents.js": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28"
+    },
+    "logs": {
+      "ai": "252827 /workspace/scratch/74c3fcf5d335/backroomsproject/ai.js\n",
+      "sim": "27212 /workspace/scratch/74c3fcf5d335/backroomsproject/sim.js\n",
+      "ents": "75640 /workspace/scratch/74c3fcf5d335/backroomsproject/ents.js\n"
+    }
+  },
+  "physics25d": "5/5 PASS, original matrix activated; repeated in portable extraction",
+  "frozenParity": {
+    "traces": 46,
+    "records": 35098,
+    "tolerance": 0,
+    "map": "BYTE IDENTICAL"
+  },
+  "baselineComparison": "PASS; same accepted 11 aggregate failures; isolated audit-net2 11/11",
+  "mainModifiedOrMerged": false,
+  "stageHBegun": false,
+  "humanQA": "PENDING",
+  "performanceLimit": "24-active workload p99 50.402 ms exceeds 16.667 ms budget; peak total 439626 bytes/update, nominal 8.793 MB/client/s at 20Hz; no Stage I certification",
+  "verifiedAtUTC": "2026-10-03T20:06:21.756428+00:00"
+}

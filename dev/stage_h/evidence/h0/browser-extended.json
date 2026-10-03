@@ -1,0 +1,573 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "browser": "151.0.7922.34",
+  "fairness": [
+    {
+      "pass": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 1
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 1.25,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 1920,
+            "height": 1080,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 16713152,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 37.5,
+              "y": 433.75
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 1.25,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 960,
+            "height": 540,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 4271552,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 37.5,
+              "y": 433.75
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    },
+    {
+      "pass": true,
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 2
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 1.25,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 2730,
+            "height": 1536,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 33670592,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 37.5,
+              "y": 433.75
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 1.25,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 1365,
+            "height": 768,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 8510912,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 37.5,
+              "y": 433.75
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    },
+    {
+      "pass": true,
+      "viewport": {
+        "width": 3840,
+        "height": 2160,
+        "dpr": 1
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 2.5,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 2730,
+            "height": 1536,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 33670592,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 75,
+              "y": 867.5
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 2.5,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 1365,
+            "height": 768,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 8510912,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 75,
+              "y": 867.5
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    },
+    {
+      "pass": true,
+      "viewport": {
+        "width": 3440,
+        "height": 1440,
+        "dpr": 1
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 1536,
+            "height": 642.9767441860465,
+            "scale": 2.2395833333333335,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": 8.511627906976742,
+            "maxY": 651.4883720930233
+          },
+          "target": {
+            "width": 3165,
+            "height": 1325,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 33673352,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 801.4883720930233,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 67.1875,
+              "y": 529.6354166666667
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 1536,
+            "height": 642.9767441860465,
+            "scale": 2.2395833333333335,
+            "minX": -368,
+            "maxX": 1168,
+            "minY": 8.511627906976742,
+            "maxY": 651.4883720930233
+          },
+          "target": {
+            "width": 1582,
+            "height": 662,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 8502624,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 801.4883720930233,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 67.1875,
+              "y": 529.6354166666667
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    },
+    {
+      "pass": true,
+      "viewport": {
+        "width": 1080,
+        "height": 1920,
+        "dpr": 1
+      },
+      "rows": [
+        {
+          "quality": 1,
+          "scope": {
+            "width": 486,
+            "height": 864,
+            "scale": 2.2222222222222223,
+            "minX": 157,
+            "maxX": 643,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 1080,
+            "height": 1920,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 16713152,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 66.66666666666667,
+              "y": 771.1111111111112
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        },
+        {
+          "quality": 0.5,
+          "scope": {
+            "width": 486,
+            "height": 864,
+            "scale": 2.2222222222222223,
+            "minX": 157,
+            "maxX": 643,
+            "minY": -102,
+            "maxY": 762
+          },
+          "target": {
+            "width": 540,
+            "height": 960,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "newResourceBytes": 4271552,
+          "hiddenActorPixelEquality": true,
+          "elevatedOutsideProbe": {
+            "anchor": {
+              "id": "scope-probe",
+              "x": 880,
+              "y": 912,
+              "z": 200,
+              "art": 1
+            },
+            "projected": {
+              "x": 66.66666666666667,
+              "y": 771.1111111111112
+            },
+            "physicalVisible": true,
+            "excludedPixelEquality": true,
+            "insideControlChangesPixels": true
+          },
+          "glError": 0
+        }
+      ],
+      "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc"
+    }
+  ],
+  "fades": {
+    "pass": true,
+    "enter": [
+      {
+        "seconds": 0.01,
+        "fade": 0.06666666666666667,
+        "hash": "fc66db7c",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.02,
+        "fade": 0.13333333333333333,
+        "hash": "79f40387",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.03,
+        "fade": 0.2,
+        "hash": "f839b49b",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.04,
+        "fade": 0.26666666666666666,
+        "hash": "62042564",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.05,
+        "fade": 0.3333333333333333,
+        "hash": "6c9fef46",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.06,
+        "fade": 0.39999999999999997,
+        "hash": "51041282",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.07,
+        "fade": 0.4666666666666666,
+        "hash": "65d5e76b",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.08,
+        "fade": 0.5333333333333333,
+        "hash": "42c0b929",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.09,
+        "fade": 0.6,
+        "hash": "71008a89",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.1,
+        "fade": 0.6666666666666666,
+        "hash": "805fa577",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.11,
+        "fade": 0.7333333333333333,
+        "hash": "c9412140",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.12,
+        "fade": 0.7999999999999999,
+        "hash": "629bbeaa",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.13,
+        "fade": 0.8666666666666666,
+        "hash": "d5ea4c03",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.14,
+        "fade": 0.9333333333333332,
+        "hash": "9e2f9882",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.15,
+        "fade": 0.9999999999999999,
+        "hash": "fcb71785",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.16,
+        "fade": 1,
+        "hash": "fcb71785",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.17,
+        "fade": 1,
+        "hash": "fcb71785",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.18,
+        "fade": 1,
+        "hash": "fcb71785",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.19,
+        "fade": 1,
+        "hash": "fcb71785",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.2,
+        "fade": 1,
+        "hash": "fcb71785",
+        "leakPixels": 0
+      },
+      {
+        "seconds": 0.21,
+        "fade": 1,
+        "hash": "fcb71785",
+        "leakPixels": 0
+      }
+    ],
+    "boundaryFrames": 120,
+    "boundaryDistinctHashes": 1
+  },
+  "performanceFile": "browser-performance.json",
+  "errors": [],
+  "scope": "Actual browser WebGL output. Completed-frame measurement is separate in browser-performance.json. SwiftShader software GPU; this is not a claim that unavailable hardware meets 16.7 ms. Quality changes target sampling only; physical solids/rays and logical footprint are identical."
+}

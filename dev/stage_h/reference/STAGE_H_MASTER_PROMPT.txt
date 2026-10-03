@@ -1,0 +1,576 @@
+Read `README_FIRST.txt` first.
+
+Then read and execute this Stage H master prompt exactly within its authorization.
+
+Implement **THE FAR BACKROOMS — 2.5D Stage H: Complete Presentation Integration**
+ONLY.
+
+The user is the final gameplay/design QA authority.
+
+==================================================
+0. ACCEPTED PARENT / AUTHORITY
+==================================================
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Accepted Stage G commit:
+`7fb4dafef92040571209403358e536ccb1105509`
+
+Accepted Stage G Git tree:
+`eee7f43a74aeb4d0e7ef38effdfc7516eee5e8cf`
+
+Verified Stage G publication receipt expected archive SHA-256:
+`dabea2b5527a80a86d956712947df87ec08bd4cf79aa51178075738aab2e609a`
+
+Stage G human QA:
+PASS.
+
+IMPORTANT:
+The Stage G ZIP later uploaded into a ChatGPT conversation was truncated during
+transfer. It is NOT supplied as the H parent.
+
+The authoritative parent is the exact published Git commit/tree above.
+
+Create/use implementation branch:
+`stage-h`
+
+from exactly:
+`7fb4dafef92040571209403358e536ccb1105509`
+
+Do NOT use `main` as the Stage H parent.
+
+If `stage-h` already exists, inspect it before changing anything and preserve any
+newer work.
+
+Read:
+- `ACCEPTED_STAGE_G_AUTHORITY.md`
+- `CURRENT_STATUS_AND_AUTHORITY.md`
+- `STAGE_H_ACCEPTANCE_MATRIX.md`
+- `STAGE_H_IMPLEMENTATION_SEAMS.md`
+- `STAGE_D_PRESENTATION_AUTHORITY_SNAPSHOT.md`
+- locked architecture
+- locked stage matrix
+- Stage G final report/package verification
+- current Stage D prototype/report/tests in the accepted repository
+
+The older Stage G report/handoff wording saying human QA was pending / Stage H
+was not authorized is superseded by `ACCEPTED_STAGE_G_AUTHORITY.md` only for
+approval/status. Its technical evidence remains authoritative.
+
+==================================================
+1. STAGE H SCOPE
+==================================================
+
+Stage H is **Complete Presentation Integration**.
+
+Complete:
+- H portion of Z14
+- H portion of Z29
+- Z30
+
+Activate the real:
+`dev/tests/view25d.js`
+
+as the named browser acceptance suite for H.
+
+Stage H owns:
+- production spatial world rendering using existing renderer/art
+- live player/entity/corpse/gear/effect XYZ presentation
+- production cutaway integration
+- depth/visibility/masking across all relevant presentation layers
+- player-facing visible-light and IR integration
+- spatial aftermath presentation from Stage G truth
+- production spatial picking/aim
+- overlay/effect leak prevention
+- multi-client independent view state
+- browser viewport/DPR/quality evidence
+- production presentation audio positioning only where the locked architecture
+  already supplies physical events
+
+Stage H DOES NOT own:
+- physics changes
+- AI/navigation/canon changes
+- networking authority redesign
+- death simulation redesign
+- new Backrooms level content
+- renderer/framework replacement
+- broad art redesign
+- menu/branding overhaul
+- Stage I final capacity/release certification
+
+Do NOT begin Stage I.
+
+==================================================
+2. PRESERVE THE RENDERER / ART
+==================================================
+
+Keep:
+- existing application/Pixi renderer
+- procedural `ents.js`
+- existing player silhouette: one rounded body + two circular hands
+- existing Hound/Smiler visual language
+- existing light/camcorder/gore systems
+- existing Canvas overlays where appropriate, but integrate/mask them correctly
+
+Do NOT introduce:
+- visible arms/legs
+- 3D skeletal characters
+- new anatomy
+- a replacement engine
+- Three.js/Phaser/ECS renderer migration
+- a second independent gameplay client
+
+Stage H integrates spatial presentation into the current product.
+
+==================================================
+3. SIMULATION TRUTH != LOCAL RENDER INTERPRETATION
+==================================================
+
+This law is absolute.
+
+Cutaway, view quality, camera, zoom, NV, overlays and local rendering:
+- consume physical state
+- never modify physical state
+- never modify AI evidence
+- never modify collision
+- never modify navigation
+- never modify sound propagation
+- never modify visible/IR physical ray truth
+- never modify another client's view state
+
+Only declared `cutawayEligible` groups may visually fade.
+
+A faded ceiling/floor/wall remains physically present for every authoritative
+system and every other client.
+
+==================================================
+4. PRODUCTION SPATIAL WORLD PATH
+==================================================
+
+Stage D was a static isolated feasibility page.
+
+Stage H must integrate the spatial path into the REAL production client for
+spatial worlds.
+
+Use the accepted Stage C–G world/authority state.
+
+The production client must present actual authoritative/interpolated XYZ for:
+- local player
+- peers
+- Hounds
+- Smilers
+- Stage G corpse body
+- corpse hands
+- loose light/hat/equipment
+- blood/decal/trail records
+- lamps
+- existing relevant replay/effect state
+
+Do not infer floors/support from XY.
+
+Do not invent a new stacked Level 0 layout merely to demonstrate H. Use the
+authorized existing spatial fixture/world selection for real production-client
+integration.
+
+Flat Level 0 remains retained and compatible.
+
+==================================================
+5. DEPTH / VISIBILITY / MASKING
+==================================================
+
+All physically revealing world-space presentation must obey one coherent
+visibility/depth policy.
+
+A hidden entity must not leak through:
+- eyes
+- smile/face fragments
+- hand sprites
+- corpse hands
+- blood/gore
+- replay sprites
+- decals/trails
+- loose gear/light/hat
+- light beam
+- labels/debug/admin annotations
+- separate Canvas/Pixi/DOM layers
+
+If an effect cannot be drawn inside the same spatial pass, mask it against the
+same physical visibility result before composition.
+
+Do not use draw order alone as physics visibility.
+
+Non-eligible opaque geometry remains camera-blocking/occluding.
+
+==================================================
+6. CUTAWAY
+==================================================
+
+Evolve the proven Stage D local-view design into production.
+
+Requirements:
+- view-local
+- deterministic for equal focus/view state
+- independent per client
+- only eligible groups
+- bounded hysteresis/fade
+- no rapid boundary flicker
+- no geometry deletion
+- no world-state mutation
+- no hidden-floor reveal
+- no interaction grant
+- no cross-client influence
+
+Physical LOS/rays are evaluated from real geometry, not visual opacity.
+
+Preserve Stage D fade behavior unless production evidence requires a minimal,
+documented adjustment. Do not tune purely by taste without evidence; human QA
+will judge final feel.
+
+==================================================
+7. H PORTION OF Z14 — GAMEPLAY LIGHTING / IR
+==================================================
+
+Stage E's AI/sensor truth is already accepted.
+
+Stage H must make the production presentation agree with it.
+
+Visible lights:
+- actual emitter XYZ
+- correct direction/orientation
+- real slab/opening occlusion
+- receiver/effect elevation
+- detached Stage G light state
+- no fake OFF aura
+
+IR/NV:
+- separate channel
+- physical geometry-aware presentation
+- never influences monster decisions
+- no IR state leaks into AI evidence
+- no cutaway shortcut through material
+
+Run paired monster-decision checks to prove presentation toggles do not alter AI
+truth when legitimate observations are unchanged.
+
+==================================================
+8. PRODUCTION PICKING / AIM
+==================================================
+
+Screen XY alone is not a valid spatial target.
+
+For spatial worlds:
+
+1. construct the camera/picking ray,
+2. intersect visible physical candidate faces and actor proxies,
+3. choose the nearest physically visible valid hit,
+4. if no valid hit exists, intersect the defined aim plane through the player's
+   eye,
+5. derive world aim/light direction from that world point,
+6. feed resulting gameplay input into existing fixed-tick input handling.
+
+Never:
+- choose an arbitrary highest floor
+- choose a hidden entity
+- select through an intact slab because cutaway made it transparent
+- use screen distance as physical interaction range
+- let DPR/resolution/zoom change physical reach
+
+Flat mode retains accepted flat aim behavior.
+
+==================================================
+9. Z29 — MULTI-CLIENT INDEPENDENT VIEW
+==================================================
+
+Use real server + multiple real production clients.
+
+At minimum:
+- two clients in the same authoritative spatial world
+- overlapping/same-XY upper/lower locations
+- independent local camera/focus/cutaway
+- same world hash/epoch/authoritative poses
+
+Prove:
+- client A's cutaway does not alter B
+- client A's camera/NV/quality does not alter B
+- same authoritative state persists
+- hidden geometry/effects remain masked appropriately for each
+- actor/traversal/aftermath depth remains coherent
+
+Capture machine-readable state plus screenshots.
+
+==================================================
+10. Z30 — FAIRNESS / OVERLAY LEAK MATRIX
+==================================================
+
+Test representative:
+- 16:9
+- 16:10
+- ultrawide
+- high DPR
+- supported UI scales
+- full/reduced quality
+- NV/camcorder
+- existing zoom/aim states
+
+Preserve canonical gameplay awareness.
+
+Ultrawide/resolution/DPR/quality may change composition/detail, not world knowledge.
+
+Run deliberate hidden-state leak fixtures with:
+- Hound/Smiler
+- eyes/faces
+- corpse/body/hands
+- blood/decal/trail
+- replay/effect
+- loose gear/light
+- world labels/debug overlays
+
+A single leak is a real failure.
+
+==================================================
+11. PRESENTATION AUDIO
+==================================================
+
+Do NOT redesign AI hearing.
+
+Where existing physical events already carry real XYZ/support/material identity,
+presentation audio may use that state.
+
+Keep:
+- footsteps at real support contact
+- landings at real elevation
+- loose-object impacts at real elevation
+
+But do not:
+- create new AI evidence
+- use presentation RNG to change simulation
+- reveal a precise hidden floor when the existing gameplay intentionally preserves
+  vertical uncertainty
+
+Keep this narrow. It is not an audio overhaul.
+
+==================================================
+12. REAL BROWSER ACCEPTANCE
+==================================================
+
+Stage H cannot be certified only by Node/headless data.
+
+Use actual served browser execution.
+
+Required:
+- real production page
+- real WebGL/Pixi context
+- real HTTP serving
+- multiple clients
+- screenshots
+- pixel/state evidence
+- viewport/DPR matrix
+- GPU identification
+- script/resource error capture
+
+SwiftShader/software evidence is acceptable for deterministic regression but must
+be labeled. If hardware GPU is available, record it separately.
+
+Pure static page tests do not substitute for production traversal/effects.
+
+==================================================
+13. ACTIVATE REAL `view25d`
+==================================================
+
+The historical:
+`dev/tests/view25d.js`
+
+must become real H acceptance.
+
+It must own real objective checks for:
+- Z29
+- Z30
+
+and coordinate the H presentation portion of Z14.
+
+No:
+- unconditional PASS
+- static-only fake
+- test that never launches the production client
+- removal of the gate
+
+Preserve old Stage D evidence separately.
+
+==================================================
+14. REGRESSION / PARITY
+==================================================
+
+Preserve all accepted A–G behavior.
+
+Run retained suites appropriate to changed presentation paths, including:
+- aggregate baseline/failure accounting
+- movement/fps/camera
+- AI/Hound/Smiler
+- Stage C spatial motion
+- Stage E nav/perception
+- Stage F network25d
+- Stage G physics25d
+- Stage D view-independence/core
+- frozen 46-trace / 35,098-record parity
+- map byte identity
+- build reproducibility
+- server/static route checks
+
+Do not regenerate or relax frozen references to hide divergence.
+
+Rendering differences must be classified separately from simulation differences.
+
+==================================================
+15. PERFORMANCE / QUALITY
+==================================================
+
+Measure real production presentation at representative viewport/DPR/quality cases.
+
+Record where practical:
+- CPU presentation time
+- completed-frame/GPU or drained frame time
+- memory/render-target cost
+- number of visible/candidate solids
+- effect/overlay counts
+- cutaway update cost
+- full vs reduced quality
+
+Quality reduction may reduce cosmetic detail/resolution only.
+
+It may NOT:
+- drop physical occluders
+- change gameplay awareness
+- change visibility truth
+- change simulation
+- skip overlay masking
+
+Do not claim final capacity/hardware certification; that belongs to Stage I.
+
+Preserve all real performance failures/limits in evidence.
+
+==================================================
+16. EXTERNAL CHECKPOINT POLICY — MANDATORY
+==================================================
+
+H0 — Parent / presentation baseline
+- verify exact Stage G commit/tree
+- verify Stage G human acceptance authority
+- inventory production renderer, overlays, Stage D spatial pass, `view25d`
+- reproduce flat browser screenshots/camera fairness
+- reproduce Stage D core/extended evidence where practical
+- no runtime migration yet
+- COMMIT + PUSH + RECORD SHA
+
+H1 — Production spatial world pass
+- real production client selects/loads spatial world path
+- live player/peer/entity XYZ rendering
+- real traversal/fall interpolation
+- existing procedural art preserved
+- flat Level 0 retained
+- focused production browser evidence
+- COMMIT + PUSH + RECORD SHA
+
+H2 — Cutaway / depth / multi-client
+- production local cutaway
+- complete spatial depth/masks for actors/static geometry
+- two-client independent view
+- hidden fragment masking
+- Z29 focused PASS
+- COMMIT + PUSH + RECORD SHA
+
+H3 — Effects / aftermath / lighting / IR
+- Stage G corpse/hands/gear/decal/trail production presentation
+- flashlight/headlamp/lantern spatial presentation
+- detached light
+- camcorder/NV IR
+- no visible/IR AI crossover
+- H completion of Z14 PASS
+- overlay leak fixtures expanded
+- COMMIT + PUSH + RECORD SHA
+
+H4 — Picking / aim / Z30 / complete `view25d`
+- production spatial picking/aim
+- high-res/ultrawide/DPR/UI-scale/quality/NV matrix
+- all Canvas/Pixi/DOM world-space leak checks
+- Z30 PASS
+- real `view25d` PASS for Z29/Z30 and H-Z14 coverage
+- browser performance measurements
+- COMMIT + PUSH + RECORD SHA
+
+H5 — Full regression / package
+- retained A–G regression
+- frozen parity
+- browser served-package validation
+- clean extraction/path-with-spaces
+- reproducible builds
+- exact changed-file audit
+- baseline-failure comparison
+- final H reports/browser evidence
+- final package verification
+- final Stage H ZIP + SHA-256
+- final COMMIT + PUSH + RECORD SHA
+- human-QA handoff
+- STOP
+
+If a milestone finds a real failure:
+- preserve raw failing evidence first
+- push safe substantial source before prolonged investigation
+- do not skip the acceptance gate
+- do not silently widen scope
+
+==================================================
+17. REQUIRED FINAL DELIVERABLES
+==================================================
+
+At minimum produce:
+
+- `25D_STAGE_H_REPORT.md`
+- `25D_STAGE_H_TEST_SUMMARY.md`
+- `25D_STAGE_H_BASELINE_FAILURES.md`
+- `25D_STAGE_H_PARITY.md`
+- `25D_STAGE_H_CHANGED_FILES.txt`
+- `25D_STAGE_H_HUMAN_QA.md`
+- `25D_STAGE_H_PRESENTATION.md`
+- `25D_STAGE_H_VIEW.md`
+- `25D_STAGE_H_LIGHTING.md`
+- `25D_STAGE_H_BROWSER_EVIDENCE.md`
+- `25D_STAGE_H_GIT_CHECKPOINTS.md`
+- `25D_STAGE_H_PACKAGE_VERIFICATION.json` or external equivalent
+- final Stage H ZIP
+- final ZIP SHA-256
+
+The final report must explicitly state:
+- exact accepted Stage G parent commit/tree
+- final Stage H remote commit/tree
+- Z14-H / Z29 / Z30 disposition
+- `view25d` disposition
+- production spatial-client path
+- multi-client cutaway result
+- hidden-state leak result
+- picking/aim result
+- visible/IR presentation result
+- retained/inherited failures
+- browser/GPU/performance measurements
+- flat Level 0 preservation
+- Stage I begun: MUST be NO
+- human QA remains distinct
+
+==================================================
+18. STOP CONDITION
+==================================================
+
+When Stage H has objective acceptance evidence and final package verification:
+
+STOP.
+
+Do NOT:
+- merge to main
+- begin Stage I
+- claim final 2.5D release/capacity certification
+
+Final status should be:
+
+`2.5D STAGE H ENGINEERING COMPLETE — HUMAN QA PENDING`
+
+unless an objective gate remains blocked.
