@@ -72,7 +72,7 @@ function killNow(eng, cap, pv, e, why) {
   cap.variant = variant; cap.phase = 'done'; cap.why = why;
   pv.alive = false;                                                        // dead from this instant: nothing else gets to capture or kill the same person in this very tick
   e.dbg.capture = Object.assign(e.dbg.capture || {}, { variant, why });
-  eng.emit({ t: 'kill', pid: pv.id, eid: e.id, kind: e.sp.name, variant, why, geo, victim: { x: pv.x, y: pv.y, a: pv.angle } });
+  eng.emit({ t: 'kill', pid: pv.id, eid: e.id, kind: e.sp.name, variant, why, geo, victim: { x: pv.x, y: pv.y, a: pv.angle }, ...(eng.geo.spatial?{physical:{victim:{x:pv.x,y:pv.y,z:pv.z,vx:pv.vx||0,vy:pv.vy||0,vz:pv.vz||0,angle:pv.angle,supportId:pv.supportId,shape:pv.shape},attacker:{x:e.x,y:e.y,z:e.z,vx:e.vx||0,vy:e.vy||0,vz:e.vz||0,angle:e.ang,supportId:e.supportId,shape:e.shape}}}:{}) });
   eng.sites.push({ x: pv.x, y: pv.y, ...(eng.geo.spatial?{z:pv.z,zMin:pv.z,zMax:pv.z,supportCandidates:[e.navSurfaceId],unresolved:false}:{}), t: eng.now, kind: e.kind, pid: pv.id, fed: 0 });
   if (eng.sites.length > 12) eng.sites.shift();
   finishCapture(eng, cap, pv, e);
@@ -119,6 +119,7 @@ function previewKill(eng, e, variant, pv) {
   for (const off of offs) for (const r of hound ? [54, 44, 34] : [50, 42, 34]) {
     const a = base + off, ax = pv.x + Math.cos(a) * r, ay = pv.y + Math.sin(a) * r;
     if (!geo.clear(ax, ay, e.rc, 'walk') || !geo.los(ax, ay, pv.x, pv.y)) continue;
+    if(geo.spatial&&!geo.physicalContact({...e,x:ax,y:ay},pv,e.r+12))continue;
     if (wantC && !wallBehind(geo, pv.x, pv.y, Math.cos(a + Math.PI), Math.sin(a + Math.PI))) continue;
     e.x = ax; e.y = ay; e.ang = a + Math.PI; e.path = []; e.trav = null; e.lunge = null; e.aim = null; e.speed = 0; e.tier = 'near'; e.tierT = 1; e.wd = { x: ax, y: ay, t: 0 };
     if (e.kind === 'smiler' && V === 'C') eng.lightFail(pv.x, pv.y, 560, 1.4);             // the lamps flicker out around the victim, as in a real light failure

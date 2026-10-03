@@ -108,11 +108,29 @@ function makeGlitches(n=3){
 }
 
 /* --- bodies: one per player, visible to everyone (client sends the finished record) --- */
-const bodies=new Map(),bodyT=new Map();let bodyVer=1,clockT=0,pruneT=0;
+const bodies=new Map(),bodyT=new Map();let bodyVer=1,clockT=0,pruneT=0,physicsTick=0;
+const deathPhysics=spatial?require('./death_srv'):null,aftermaths=new Map();
 const BODY_TTL=Math.max(0,+opts.bodyTtl||0);          // seconds a body stays in the halls; 0 = until the world resets or its owner dies again (server.js: BODY_TTL env)
 function navCmd(eid,cmd,p){const e=eng.entities.find(o=>o.id===eid);if(!e)return null;return eng.navCmd(e,cmd,p)}
 function killerEnd(id,x,y,a){return eng.commitEnd(id,x,y,a)}
-function setBody(id,rec){bodies.delete(id);bodies.set(id,rec);bodyT.set(id,clockT);while(bodies.size>MAX_BODIES){const k=bodies.keys().next().value;bodies.delete(k);bodyT.delete(k)}bodyVer++}
+function setBody(id,rec){if(spatial&&!rec.spatial)return false;bodies.delete(id);bodies.set(id,rec);bodyT.set(id,clockT);while(bodies.size>MAX_BODIES){const k=bodies.keys().next().value;bodies.delete(k);bodyT.delete(k)}bodyVer++}
+function updateBody(id,rec){if(!bodies.has(id))return false;bodies.set(id,rec);bodyVer++;return true;}
+function startAftermath(p){
+  const id={worldEpoch:opts.worldEpoch?opts.worldEpoch():`sim:${SIM_SEED}:${worldGeneration}`,victimId:String(p.id),lifeGeneration:p.life||0,deathSequence:p.dseq};
+  const prior=aftermaths.get(p.id);if(prior?.event.key===deathPhysics.deathKey(id))return prior;
+  if(prior)releaseAttacker(prior);
+  const info=opts.deathInfo?opts.deathInfo(p):{name:'WANDERER',look:'cap|plain|#e6bb76|#ffcc77|none',ek:p.equipment.kind,light:p.light,ex:p.ex};
+  const a=deathPhysics.startSpatial(id,p.kill,info,spatial,physicsTick);aftermaths.delete(p.id);aftermaths.set(p.id,a);
+  const attacker=eng.entities.find(e=>e.id===a.attackerId);if(attacker){attacker.deathOwner=a.event.key;attacker.path=[];attacker.trav=null;attacker.lunge=null;}
+  applyAttacker(a);setBody(p.id,deathPhysics.spatialRecord(a));pruneAftermaths();return a;
+}
+function applyAttacker(a){const e=eng.entities.find(e=>e.id===a.attackerId);if(!e||e.deathOwner!==a.event.key)return;const at=a.S.at;Object.assign(e,{x:at.x,y:at.y,z:at.z,vx:at.vx,vy:at.vy,vz:at.vz,ang:at.a,supportId:at.supportId,normal:at.normal,motionMode:at.motionMode,navSurfaceId:spatial.supportPatch(at.supportId)?.navSurfaceId||null,physTick:eng.ticks});}
+function releaseAttacker(a){if(a.released)return;applyAttacker(a);const e=eng.entities.find(e=>e.id===a.attackerId);if(e&&e.deathOwner===a.event.key){delete e.deathOwner;if(e.commit)e.commit.body=true;e.wd={x:e.x,y:e.y,t:0};}a.released=true;}
+function pruneAftermaths(){for(const [id,a]of aftermaths)if(!bodies.has(id)){releaseAttacker(a);aftermaths.delete(id);}}
+function stepAftermaths(){
+  if(!spatial)return;pruneAftermaths();
+  for(const [id,a]of aftermaths){deathPhysics.advanceSpatial(a,physicsTick);if(!a.released){applyAttacker(a);if(a.S.stepN>=Math.ceil(a.S.dur*240))releaseAttacker(a);}updateBody(id,deathPhysics.spatialRecord(a));}
+}
 function pruneBodies(dt){
   if(!BODY_TTL||!bodies.size)return;
   pruneT-=dt;if(pruneT>0)return;pruneT=1;let ch=false;
@@ -125,7 +143,7 @@ function resetWorld(){
   Lc();runT=0;PR=0;eng.pressure=0;spawnT=rnd(70,150);
   spawnMonsters(RND()<.5?1:2,2+((RND()*4)|0));      // 1-2 hounds to begin with (up to 3 later), 2-5 smilers
   glitches=makeGlitches(3);items=makeItems();
-  bodies.clear();bodyT.clear();bodyVer++;
+  for(const a of aftermaths.values())releaseAttacker(a);aftermaths.clear();bodies.clear();bodyT.clear();bodyVer++;
 }
 function addPlayer(id){
   const p={id,x:Ic.x,y:Ic.y,vx:0,vy:0,angle:0,sprinting:false,light:true,equipment:{kind:`flashlight`},
@@ -225,6 +243,7 @@ function processEvents(){
       const g=ev.geo;
       p.kill={v:ev.variant,k:ev.kind,e:ev.eid,ax:Math.round(g.ax),ay:Math.round(g.ay),aa:+g.aa.toFixed(3),w:g.wall?[Math.round(g.wall.x),Math.round(g.wall.y),+g.wall.ang.toFixed(3)]:0,
         x:Math.round(ev.victim.x),y:Math.round(ev.victim.y),a:+ev.victim.a.toFixed(3),why:ev.why};
+      if(spatial){p.kill.physical=ev.physical;p.kill.x=ev.victim.x;p.kill.y=ev.victim.y;p.kill.a=ev.victim.a;startAftermath(p);}
       if(opts.onDeath)opts.onDeath(p);                                  // the death is committed: the server keeps its aftermath from this instant (server.js)
     }
   }
@@ -232,12 +251,12 @@ function processEvents(){
 const capInfo=p=>{const c=p.caught;return c?{ph:c.phase,e:c.eid,k:c.kind,d:c.drag?[Math.round(c.drag.x),Math.round(c.drag.y)]:0}:0};
 
 function step(dt){
-  clockT+=dt;pruneBodies(dt);
+  clockT+=dt;physicsTick++;pruneBodies(dt);
   for(const p of players)if(p.safe>0)p.safe-=dt;
   for(const p of players)if(p.active&&!p.dead&&!p.exited)              // touching a glitched wall takes you out
     for(const g of glitches)if(Math.hypot(p.x-g.x,p.y-g.y)<54&&(!spatial||(Math.abs(p.z-g.z)<12&&spatial.raycast({x:p.x,y:p.y,z:p.z+12},{x:g.x,y:g.y,z:g.z+12},`visible`)===null))){p.exited=true;p.exitSeq=(p.exitSeq|0)+1;p.exitT=runT-p.t0;p.active=false;break}
-  if(frozen)return;
-  if(!players.some(p=>p.active&&!p.dead&&!p.exited))return;   // the halls hold their breath while nobody is alive
+  if(frozen){stepAftermaths();return;}
+  if(!players.some(p=>p.active&&!p.dead&&!p.exited)){stepAftermaths();return;}   // the halls hold their breath while nobody is alive
   dt*=speed;runT+=dt;
   if(bmode===`auto`)Rc(dt);else V.blackout=bmode===`on`;
   PR=PR+(Math.min(1,runT/540)-PR)*Math.min(1,dt);eng.pressure=PR;
@@ -245,6 +264,7 @@ function step(dt){
   feed();
   eng.step(dt);
   processEvents();
+  stepAftermaths();
 }
 const r1=n=>Math.round(n*10)/10;
 function entities(){
@@ -289,10 +309,10 @@ const admin={
     if(!p.active||p.dead||p.exited)return {ok:false,why:`you are not in the halls right now`};
     if(p.caught)return {ok:false,why:`you are already caught`};
     feed();const was=p.alive;p.alive=true;      // the engine's view of the players is refreshed first (the world may be frozen)
-    let e=ofKind(kind).filter(o=>!o.cap).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y))[0],fresh=false;
+    let e=ofKind(kind).filter(o=>!o.cap&&!o.deathOwner).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y))[0],fresh=false;
     if(!e){
       if(eng.count(kind)>=adminCap(kind)){p.alive=was;return {ok:false,why:`every ${kind} is busy`}}
-      const at=placeNear(kind,p.x,p.y)||{x:p.x,y:p.y};e=eng.spawn(kind,at.x,at.y);fresh=true;
+      const at=spatial?{x:p.x,y:p.y,z:p.z}:placeNear(kind,p.x,p.y)||{x:p.x,y:p.y};e=eng.spawn(kind,at.x,at.y,spatial?{z:at.z}:undefined);fresh=true;
     }
     const r=eng.previewKill(e,variant,p);
     if(!r.ok){p.alive=was;if(fresh)eng.remove(e.id);return r}
@@ -317,7 +337,7 @@ function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110&
 resetWorld();return {geometry:spatial||WG,spatialMotion,get worldGeneration(){return worldGeneration},takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,vanish,forfeit,gaitFloor,lifeOf,
   clearAt:(x,y,r)=>sl(x,y,r),blockersAt:(x,y)=>Bc(x,y),step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
-  get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},
+  get aftermaths(){return aftermaths},get physicsTick(){return physicsTick},get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},
   debug:{V,Ic,get glitches(){return glitches}}};
 
 

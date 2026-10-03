@@ -106,7 +106,8 @@
     S.spatial=true;S.motion=M.passive(S.ctx.geometry);S.geometryHash=S.ctx.geometry.identity.contentHash;
     const P=M.DEATH_PROFILES,b=S.b,v=S.ctx.victim,a=S.ctx.src;
     S.motion.initialize(b,P.body,v.z,v.vz||0);
-    S.motion.initialize(S.at,P[S.hound?'hound':'smiler'],a.z,a.vz||0);
+    S.motion.initialize(S.at,a.shape||P[S.hound?'hound':'smiler'],a.z,a.vz||0);
+    if(Number.isFinite(a.vx))S.at.vx=a.vx;if(Number.isFinite(a.vy))S.at.vy=a.vy;
     S.h.forEach(h=>S.motion.initialize(h,P.hand,b.z+5,v.vz||0));
     S.motion.initialize(S.eq,P.light,b.z+7,v.vz||0);
     S.motion.initialize(S.hat,P.hat,b.z+20,v.vz||0);
@@ -195,6 +196,11 @@
     const masses=[b,...S.h,...(S.eq.has&&!S.eq.held?[S.eq]:[]),...(S.hat.has&&!S.hat.on?[S.hat]:[])];
     S.state=masses.every(o=>o.sleeping)?'SLEEPING':masses.some(o=>!o.stable)?'ACTIVE':'SETTLING';
     S.stepN++;S.t=S.stepN*DT;
+  }
+  function fromEvent(event,geometry){
+    if(event.version!==SPATIAL_VERSION||event.geometry.contentHash!==geometry.identity.contentHash)throw Error('Death kernel/geometry mismatch');
+    const p=event.plan,v=event.initial.victim,a=event.initial.attacker;
+    return create({kind:event.kind,v:event.variant,seed:event.seed,victim:{...v},src:{...a},dir:event.direction,hits:p.hits||[.24,.74,1.2,1.7],kn:p.kn,drag:p.dr,dur:event.duration,eqKind:event.equipment.kind,hat:event.equipment.hat,exhausted:event.exhausted,geometry});
   }
   function tick(S){for(let i=0;i<4;i++)stepOnce(S);S.deathTick=(S.deathTick||0)+1;return S;}
   function snapshot(S){
@@ -593,5 +599,5 @@
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0 };
   }
 
-  window.__dphys = { create, advance, tick, pose, snapshot, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, SPATIAL_VERSION };
+  window.__dphys = { create, advance, tick, pose, snapshot, fromEvent, seedFor:hsh, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, SPATIAL_VERSION };
 })();

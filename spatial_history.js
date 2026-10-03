@@ -13,7 +13,7 @@ class History {
    if(!h)this.hist.set(key,h=[]);h.push(clone(p));if(h.length>8)h.shift();
    if(p.tick>this.lastTick){const off=p.tick/60-nowMs/1000;this.offset=this.offset===null||off>this.offset?off:this.offset-Math.min(.02,this.offset-off)*.05;this.lastTick=p.tick;}
   }for(const [key,h]of this.hist)if(this.lastTick-h.at(-1).tick>300){this.hist.delete(key);this.generations.delete(key);}}
- shape(p){return Object.values(M.PROFILES).find(s=>s.id===p.profile)||Object.values(M.ENTITY_PROFILES).find(s=>s.id===p.profile)||null;}
+ shape(p){return Object.values(M.PROFILES).find(s=>s.id===p.profile)||Object.values(M.ENTITY_PROFILES).find(s=>s.id===p.profile)||Object.values(M.DEATH_PROFILES).find(s=>s.id===p.profile)||null;}
  valid(p,shape){return shape&&this.g.clearance(shape,p).fits;}
  supported(a,b,u){const shape=this.shape(a);if(!shape||a.profile!==b.profile||a.navSurface!==b.navSurface)return null;
   const target={x:a.x+(b.x-a.x)*u,y:a.y+(b.y-a.y)*u,z:a.z+(b.z-a.z)*u},range=Math.hypot(target.x-a.x,target.y-a.y)*Math.tan(shape.maxSlopeDegrees*Math.PI/180)+.11;
@@ -38,9 +38,10 @@ class History {
  at(key,tick){const h=this.hist.get(key);if(!h?.length)return null;if(tick<=h[0].tick)return {...h[0]};
   for(let i=1;i<h.length;i++){const a=h[i-1],b=h[i];if(tick>b.tick)continue;if(tick===b.tick)return {...b};const u=(tick-a.tick)/(b.tick-a.tick);
    if(a.discontinuity!==b.discontinuity||a.generation!==b.generation)return {...a};
+   if(a.death){const shape=this.shape(a);const q={...a,x:a.x+(b.x-a.x)*u,y:a.y+(b.y-a.y)*u,z:a.z+(b.z-a.z)*u,yaw:angle(a.yaw,b.yaw,u)};const hit=shape&&this.g.sweep(shape,a,{x:q.x-a.x,y:q.y-a.y,z:q.z-a.z},'collision',0);return a.death===b.death&&shape&&a.support===b.support&&this.valid(q,shape)&&(!hit||hit.t>=1-1e-5)?q:{...a};}
    const q=a.mode==='grounded'&&b.mode==='grounded'&&!a.link&&!b.link?this.supported(a,b,u):this.physical(a,b,u);return q||{...a};
   }
-  const b=h.at(-1),dt=Math.min(P.LIMIT.extrapolate,Math.max(0,(tick-b.tick)/60));if(b.mode!=='grounded'||b.link)return {...b};
+  const b=h.at(-1),dt=Math.min(P.LIMIT.extrapolate,Math.max(0,(tick-b.tick)/60));if(b.death||b.mode!=='grounded'||b.link)return {...b};
   // Unknown edge departure is a hold. No fabricated fall, hover or floor choice.
   return this.supported(b,{...b,x:b.x+b.vx*dt,y:b.y+b.vy*dt},1)||{...b};
  }

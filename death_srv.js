@@ -31,4 +31,22 @@ function bodyFor(id, kill, info, sim) {
     attacker: R.attacker, dur: R.dur };
 }
 const durOf = kill => (DP.DURS[kill.k === 'Smiler' ? 'Smiler' : 'Hound'] || {})[kill.v] || 4.4;
-module.exports = { fxFor, bodyFor, durOf, DP };
+const clone=x=>JSON.parse(JSON.stringify(x));
+const freeze=x=>{if(x&&typeof x==='object'){Object.freeze(x);for(const v of Object.values(x))freeze(v);}return x;};
+const deathKey=i=>JSON.stringify([i.worldEpoch,i.victimId,i.lifeGeneration,i.deathSequence]);
+function startSpatial(identity,kill,info,geometry,tick){
+  if(!kill.physical)throw Error('Canonical kill requires physical victim/attacker');
+  const kind=kill.k,variant=kill.v,victim=clone(kill.physical.victim),attacker=clone(kill.physical.attacker);
+  const event=freeze({identity:clone(identity),key:deathKey(identity),version:DP.SPATIAL_VERSION,tick,kind,variant,seed:DP.seedFor(victim.x,victim.y,variant+kind),geometry:clone(geometry.identity),initial:{victim,attacker},equipment:{kind:info.ek,hat:String(info.look||'none').split('|')[0],look:info.look||'',color:info.ec||'#ffe7b2',parts:info.ep||'',light:!!info.light},exhausted:!!info.ex,direction:Math.atan2(victim.y-attacker.y,victim.x-attacker.x),duration:durOf(kill),plan:clone(DP.PLAN(kind,variant,kill.w?Math.hypot(kill.w[0]-victim.x,kill.w[1]-victim.y):40))});
+  return {event,S:DP.fromEvent(event,geometry),revision:0,tick,info:clone(info),attackerId:kill.e,released:false,objectRevisions:new Map()};
+}
+function spatialRecord(a){
+  const state=DP.snapshot(a.S),key=a.event.key;
+  for(const o of [state.body,...state.hands,state.attacker,state.light,state.hat].filter(Boolean)){
+    const role=o.id,signature=JSON.stringify({...o,revision:0}),prior=a.objectRevisions.get(role);
+    const revision=prior?prior.revision+(prior.signature!==signature?1:0):1;a.objectRevisions.set(role,{signature,revision});o.role=role;o.id=key+':'+role;o.revision=revision;
+  }
+  return {k:Number(a.event.identity.victimId),n:a.info.name||'WANDERER',srv:1,spatial:{identity:a.event.identity,key,revision:a.revision,tick:a.tick,event:a.event,state}};
+}
+function advanceSpatial(a,tick){if(tick<=a.tick)return false;DP.tick(a.S);a.tick=tick;a.revision++;return true;}
+module.exports = { fxFor, bodyFor, durOf, DP,deathKey,startSpatial,spatialRecord,advanceSpatial };

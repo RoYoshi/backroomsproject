@@ -1484,7 +1484,7 @@ function killNow(eng, cap, pv, e, why) {
   cap.variant = variant; cap.phase = 'done'; cap.why = why;
   pv.alive = false;                                                        // dead from this instant: nothing else gets to capture or kill the same person in this very tick
   e.dbg.capture = Object.assign(e.dbg.capture || {}, { variant, why });
-  eng.emit({ t: 'kill', pid: pv.id, eid: e.id, kind: e.sp.name, variant, why, geo, victim: { x: pv.x, y: pv.y, a: pv.angle } });
+  eng.emit({ t: 'kill', pid: pv.id, eid: e.id, kind: e.sp.name, variant, why, geo, victim: { x: pv.x, y: pv.y, a: pv.angle }, ...(eng.geo.spatial?{physical:{victim:{x:pv.x,y:pv.y,z:pv.z,vx:pv.vx||0,vy:pv.vy||0,vz:pv.vz||0,angle:pv.angle,supportId:pv.supportId,shape:pv.shape},attacker:{x:e.x,y:e.y,z:e.z,vx:e.vx||0,vy:e.vy||0,vz:e.vz||0,angle:e.ang,supportId:e.supportId,shape:e.shape}}}:{}) });
   eng.sites.push({ x: pv.x, y: pv.y, ...(eng.geo.spatial?{z:pv.z,zMin:pv.z,zMax:pv.z,supportCandidates:[e.navSurfaceId],unresolved:false}:{}), t: eng.now, kind: e.kind, pid: pv.id, fed: 0 });
   if (eng.sites.length > 12) eng.sites.shift();
   finishCapture(eng, cap, pv, e);
@@ -1531,6 +1531,7 @@ function previewKill(eng, e, variant, pv) {
   for (const off of offs) for (const r of hound ? [54, 44, 34] : [50, 42, 34]) {
     const a = base + off, ax = pv.x + Math.cos(a) * r, ay = pv.y + Math.sin(a) * r;
     if (!geo.clear(ax, ay, e.rc, 'walk') || !geo.los(ax, ay, pv.x, pv.y)) continue;
+    if(geo.spatial&&!geo.physicalContact({...e,x:ax,y:ay},pv,e.r+12))continue;
     if (wantC && !wallBehind(geo, pv.x, pv.y, Math.cos(a + Math.PI), Math.sin(a + Math.PI))) continue;
     e.x = ax; e.y = ay; e.ang = a + Math.PI; e.path = []; e.trav = null; e.lunge = null; e.aim = null; e.speed = 0; e.tier = 'near'; e.tierT = 1; e.wd = { x: ax, y: ay, t: 0 };
     if (e.kind === 'smiler' && V === 'C') eng.lightFail(pv.x, pv.y, 560, 1.4);             // the lamps flicker out around the victim, as in a real light failure
@@ -2932,6 +2933,7 @@ function create(cfg) {
     for (const e of this.entities) {
       if (e.state !== e.lgS) { if (e.lgS !== undefined) this.note(`${tagOf(e.kind, e.id)} ${e.lgS} -> ${e.state}${e.act ? ' /' + e.act : ''}`); e.lgS = e.state; }
       e.t += dt; e.stateT += dt; e.actT += dt;
+      if(geo.spatial&&e.deathOwner){e.physTick=this.ticks;continue;} // one physical integrator during the authored death plan
       e.tierT -= dt; if (e.tierT <= 0) { e.tierT = .4 + e.streams.schedule() * .15; const nt = tierOf(e, this); if (nt !== e.tier) onTier(e, nt); }
       if (e.deaf > 0) e.deaf -= dt;
       if (e.tier === 'far') { e.farMemoryDt = (e.farMemoryDt || 0) + dt; if (e.farMemoryDt >= 1) { decayMemory(e, e.farMemoryDt, now); cleanupKnowledge(this, e); e.farMemoryDt = 0; } farStep(e, dt); continue; }
@@ -2961,7 +2963,7 @@ function create(cfg) {
       const dx = b.x - a.x, dy = b.y - a.y, d = Math.hypot(dx, dy), both = a.kind === 'hound' && b.kind === 'hound', want = (a.r + b.r) * (both ? .72 : .9);
       if (d >= want || (geo.spatial&&!geo.physicalContact(a,b,want))) continue;
       const nx = d > 1e-3 ? dx / d : Math.cos(a.id), ny = d > 1e-3 ? dy / d : Math.sin(a.id), push = Math.min(want - d, 140 * dt) * .5;
-      const fa = !(a.cap || a.commit || a.trav || a.lunge), fb = !(b.cap || b.commit || b.trav || b.lunge);
+      const fa = !(a.cap || a.commit || a.trav || a.lunge || a.deathOwner), fb = !(b.cap || b.commit || b.trav || b.lunge || b.deathOwner);
       if (!fa && !fb) continue; const ka = fa && fb ? 1 : fa ? 2 : 0, kb = fa && fb ? 1 : fb ? 2 : 0;
       if (ka) moveCollide(eng, a, -nx * push * ka, -ny * push * ka);
       if (kb) moveCollide(eng, b, nx * push * kb, ny * push * kb);
@@ -3004,9 +3006,9 @@ function create(cfg) {
   eng.navGo = function (e, o) { e.navGo = o ? Object.assign({}, o) : null; if (o) { e.path = []; e.goalKey = ''; e.tier = 'near'; e.tierT = 99; } return true; };
 
   /* admin aid (DEATHS tab): one chosen death on one player, through the real kill path (see previewKill in the capture part) */
-  eng.previewKill = function (e, variant, pv) { return previewKill(this, e, variant, pv); };
+  eng.previewKill = function (e, variant, pv) { return previewKill(geo.spatial?this.entityContext(e):this, e, variant, pv); };
   /* a held victim who walks out of the world (its connection closes) forfeits the capture: the holder kills it there and then, through the ordinary kill path */
-  eng.forfeitCapture = function (pv) { const cap = pv && pv.caught; if (!cap || cap.phase === 'done') return false; const e = this.entities.find(q => q.id === cap.eid); if (!e) return false; killNow(this, cap, pv, e, 'forfeit'); return true; };
+  eng.forfeitCapture = function (pv) { const cap = pv && pv.caught; if (!cap || cap.phase === 'done') return false; const e = this.entities.find(q => q.id === cap.eid); if (!e) return false; killNow(geo.spatial?this.entityContext(e):this, cap, pv, e, 'forfeit'); return true; };
 
   /* admin aid: put an entity at (x,y) and set it on the trail of a spot */
   eng.summon = function (e, x, y, tx, ty, pid) {

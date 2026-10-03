@@ -95,8 +95,9 @@ function connect() {
     }
     else if (m.t === 'pong') { const E = EN(); if (E) { const r = performance.now() - (+m.ts || 0); E.dbgX.ping = E.dbgX.ping < 0 ? r : E.dbgX.ping + (r - E.dbgX.ping) * .3; } }
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
-    else if (m.t === 'bodies') { bodiesList = m.b || []; applyBodies(); }
-    else if (m.t === 'fx') startFx(m);
+    else if (m.t === 'bodies') { if(spatialClient){if(spatialClient.bodies(m)){window.__spatialAftermath=spatialClient.aftermaths;spatialHistory?.ingest(m.b.flatMap(r=>window.TFB_PROTOCOL.aftermathPoses(r,spatialHistory.g)),performance.now());}return;} bodiesList = m.b || []; applyBodies(); }
+    else if(m.t==='death'&&spatialClient){spatialClient.death(m.event);}
+    else if (m.t === 'fx') {if(!spatialClient||m.k!=='death')startFx(m);}
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {

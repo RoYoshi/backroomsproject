@@ -1,0 +1,11 @@
+# G3 — one authoritative spatial aftermath
+
+PASS Z26/Z27 focused through real simulation and real WebSocket server. Kill events freeze epoch/victim/life/death sequence, exact victim/attacker XYZ, velocities, supports and shape, deterministic plan/seed/version, equipment and geometry identity. sim_glue owns the active shared-kernel state alongside the existing owner-keyed corpse map. The corpse exists immediately; client fx/b/completion/ACK/object claims cannot replace spatial state. Flat fallback remains unchanged.
+
+The same browser dphys source instantiated in an independent VM and fed the frozen event matches server snapshots exactly for 200 active ticks. Attacker deathOwner excludes the ordinary motor/separation while the authored plan integrates it once. It resumes from actual XYZ/velocity/support after plan completion. Existing Hound commitment and Smiler after-kill decisions are retained; no species tuning edits. Admin spatial preview now filters proposed placements through the existing physical capture predicate before committing, resolving an inherited preview adapter mismatch without changing contact reach.
+
+Protocol explicitly advances to version 2 with spatial-aftermath-v1, retaining Stage F pose/proposal/epoch contracts and WebSocket framing. Corpse and released object IDs include the canonical death key; per-object revisions include orientation, contact, sleep and support. Client decoding rejects stale/duplicate worlds, versions, body snapshots and generations; common spatial history receives physical aftermath objects. Full visual integration is deferred.
+
+Real wire gate: one canonical event, one corpse, all duplicate client replacements ignored, immediate victim disconnect, moving late join and physical settling. Server created the corpse at substep 16 in the first observed snapshot; late join received current substep 64; observed settled substep 1260. No fallback fx duplicate. Separate sim gate proves same-owner successive lives retain one current corpse and distinct event identities.
+
+Raw evidence preserves the initial admin-preview capture mismatch and the localhost sandbox EPERM. The unchanged real-wire gate passed with localhost network permission. Bounded replay bootstrap, sleeping revision efficiency, full adversarial matrix and performance remain G4.
