@@ -7,7 +7,7 @@ async function difference(page,id) {return page.evaluate(id=>{const s=__spatial,
 (async()=>{const s=await server(fixture());let browser,a,b;const checks=[];try{
  browser=await launch();a=await open(browser,s,'H2 lower');b=await open(browser,s,'H2 upper');await a.command({c:'freeze',on:1});
  await a.teleport({x:160,y:160,z:0,support:'support:ground-north'});await b.teleport({x:160,y:160,z:180,support:'support:upper-west'});
- await a.page.waitForTimeout(600);const initial=[await a.inspect(),await b.inspect()];assert.equal(initial[0].world.contentHash,initial[1].world.contentHash);assert.equal(initial[0].network.world.worldEpoch,initial[1].network.world.worldEpoch);assert.equal(initial[0].cutaway.groups[0].fade,1);assert.equal(initial[1].cutaway.groups[0].fade,0);
+ await a.page.waitForFunction(()=>__spatial.view.snapshot().groups.every(g=>g.fade===1),null,{timeout:15000});await b.page.waitForFunction(()=>__spatial.view.snapshot().groups.every(g=>g.fade===0),null,{timeout:15000});const initial=[await a.inspect(),await b.inspect()];assert.equal(initial[0].world.contentHash,initial[1].world.contentHash);assert.equal(initial[0].network.world.worldEpoch,initial[1].network.world.worldEpoch);assert.equal(initial[0].cutaway.groups[0].fade,1);assert.equal(initial[1].cutaway.groups[0].fade,0);
  checks.push({name:'Z29 same authoritative world; same XY lower and upper clients',initial});
  const aid=await a.page.evaluate(()=>__api.H.id),bid=await b.page.evaluate(()=>__api.H.id);
  await a.page.waitForFunction(id=>__spatial.state.packets.some(p=>p.id==='p'+id),bid);await b.page.waitForFunction(id=>__spatial.state.packets.some(p=>p.id==='p'+id),aid);
@@ -20,11 +20,11 @@ async function difference(page,id) {return page.evaluate(id=>{const s=__spatial,
  await a.page.waitForFunction(id=>__spatial.state.packets.some(p=>p.id===id),sid);
  const smiler=await a.page.evaluate(id=>{const s=__api.q.find(s=>'m'+s.sid===id);s.face=1;s.state='ATTACKING';__spatial.render();return {id,face:s.face,pose:__spatial.state.packets.find(p=>p.id===id)};},sid);
  const smilerMask=await difference(a.page,sid);assert.equal(smilerMask.changed,0);checks.push({name:'adversarial fully displayed real Smiler face stays masked',smiler,smilerMask});
- const baseB=await b.inspect();await a.page.evaluate(()=>{__spatial.config.cutaway=false;__spatial.config.camera={x:160,y:160,z:30};__spatial.config.quality=.5;__cam.S.nvOn=false;});await a.page.waitForTimeout(600);
+ const baseB=await b.inspect();await a.page.evaluate(()=>{__spatial.config.cutaway=false;__spatial.config.camera={x:160,y:160,z:30};__spatial.config.quality=.5;__cam.S.nvOn=false;});await a.page.waitForFunction(()=>__spatial.view.snapshot().groups.every(g=>g.fade===0),null,{timeout:15000});
  const changed=[await a.inspect(),await b.inspect()];assert.equal(changed[0].cutaway.groups[0].fade,0);assert.deepEqual(changed[1].cutaway,baseB.cutaway);assert.deepEqual(changed[1].last.target,baseB.last.target);assert.deepEqual(changed[1].last.camera,baseB.last.camera);assert.equal(changed[1].last.quality,baseB.last.quality);assert.equal(changed[0].world.contentHash,initial[0].world.contentHash);
  for(let i=0;i<2;i++)for(const k of ['x','y','z','support','generation'])assert.equal(changed[i].network.pose[k],initial[i].network.pose[k]);
  checks.push({name:'A camera/cutaway/NV/quality leaves B and physical poses unchanged',changed});
- await a.page.evaluate(()=>{__spatial.config.cutaway=true;__spatial.config.camera=null;__spatial.config.quality=1;__spatial.config.labels=true;});await a.page.waitForTimeout(400);
+ await a.page.evaluate(()=>{__spatial.config.cutaway=true;__spatial.config.camera=null;__spatial.config.quality=1;__spatial.config.labels=true;});await a.page.waitForFunction(()=>__spatial.view.snapshot().groups.every(g=>g.fade===1)&&__spatial.state.packets.some(p=>p.kind==='label'),null,{timeout:15000});
  await a.page.evaluate(()=>{__ents.dbgCfg.on=true;__ents.drawDebug(null,{cam:__spatial.state.last.camera,sc:__spatial.state.last.scope.scale,W:innerWidth,H:innerHeight});});
  const layers=await a.page.evaluate(()=>Object.fromEntries(['mp','light','peerTip','aiDebug','glitchFx'].map(id=>[id,document.getElementById(id)?getComputedStyle(document.getElementById(id)).display:'absent'])));
  await a.page.screenshot({path:path.join(out,'lower-labels-debug.png')});await b.page.screenshot({path:path.join(out,'upper.png')});

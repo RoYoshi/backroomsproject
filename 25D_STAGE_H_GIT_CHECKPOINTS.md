@@ -14,3 +14,5 @@ H0 complete: `24b47fc08237589ce825c657799c5be43874f234`, tree `ac8749204bbd17b37
 H1 preservation: `8a735f03403c7ab7a86fe9eb72dd08c3a5993bc2`, tree `18d55916673ab141b297cf770b20cecdb53b9de9`. Startup and black-composition failures preserved; H1 gate remains open.
 
 H1 complete: `47f629df1e1da0dc73d052932296ec0c8195b4cf`, tree `885e517e40f10ccbf361be142dae0c0279e161b4`. PASS real production pixels, local ramp, peer fall, entity XYZ and exact flat parity.
+
+H2 failure preservation: `864c8aa210c85d0fc566502559516fce4b234942`, tree `69858cb59de5e4a3b7bc33323deba2c04bf02c72`. Raw 72-pixel hidden Hound failure retained before repair.

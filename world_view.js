@@ -65,7 +65,7 @@
   precision highp float;precision highp int;
   in vec3 vWorld;in vec3 vNormal;in vec2 vUV;out vec4 outColor;
   uniform sampler2D uSolids,uArt;uniform int uCount,uReceiver,uKind;
-  uniform vec3 uEye;uniform vec4 uScope,uTint;uniform float uFade;
+  uniform vec3 uEye;uniform vec4 uScope,uTint,uProxy;uniform float uFade,uTop;
   bool physical(vec3 p){vec3 delta=p-uEye;float len=length(delta);if(len<.000001)return true;
     vec3 rayMin=min(p,uEye),rayMax=max(p,uEye);
     for(int i=0;i<${MAX_SOLIDS};i++){if(i>=uCount)break;vec4 lo=texelFetch(uSolids,ivec2(0,i),0),hi=texelFetch(uSolids,ivec2(1,i),0);if(hi.w<.5)continue;
@@ -78,7 +78,12 @@
   void main(){if(vWorld.x<uScope.x||vWorld.y<uScope.y||vWorld.x>uScope.z||vWorld.y>uScope.w)discard;
     vec4 art=uKind==1?texture(uArt,vUV):vec4(1.);if(art.a<.15)discard;
     // ALL physical occluders participate, including every faded camera group.
-    bool inSight=physical(vWorld);
+    vec3 query=vWorld;
+    // Production billboards query their physical cylinder, never fabricated
+    // elevations caused by the camera-facing art plane. Labels stay at their
+    // own world point and also require an observable physical owner.
+    if(uProxy.z>=0.){vec2 d=query.xy-uProxy.xy;float n=length(d);if(n>uProxy.z)query.xy=uProxy.xy+d*(uProxy.z/n);query.z=clamp(query.z,uProxy.w,uTop);}
+    bool inSight=physical(query);
     // Unseen opaque geometry still blocks the camera. Only eligible cutaway may remove it.
     if(!inSight&&uKind!=0)discard;
     // Stable screen-door fade, no blend-order shortcut or translucent depth leak.
@@ -97,7 +102,7 @@
     constructor(renderer,model,art){
       const gl=renderer.gl;if(!gl||typeof gl.texStorage2D!=='function')throw Error('Stage D requires WebGL2; production Level 0 remains available');
       this.renderer=renderer;this.gl=gl;this.model=model;this.canvas=renderer.canvas;this.program=program(gl);this.uniforms={};
-      for(const n of ['Camera','Viewport','Scale','Elevation','Solids','Art','Count','Receiver','Kind','Eye','Scope','Tint','Fade'])this.uniforms[n]=gl.getUniformLocation(this.program,'u'+n);
+      for(const n of ['Camera','Viewport','Scale','Elevation','Solids','Art','Count','Receiver','Kind','Eye','Scope','Tint','Fade','Proxy','Top'])this.uniforms[n]=gl.getUniformLocation(this.program,'u'+n);
       const makeVAO=data=>{const vao=gl.createVertexArray(),buffer=gl.createBuffer();gl.bindVertexArray(vao);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);for(const [i,n,offset]of [[0,3,0],[1,3,12],[2,2,24]]){gl.enableVertexAttribArray(i);gl.vertexAttribPointer(i,n,gl.FLOAT,false,32,offset);}return {vao,buffer};};
       this.world=makeVAO(new Float32Array(model.vertices));this.proxy=makeVAO(new Float32Array(48));
       const data=new Float32Array(model.solids.length*10*4);for(const s of model.solids){data.set([s.min.x,s.min.y,s.min.z,s.planes.length,s.max.x,s.max.y,s.max.z,+s.visible,...s.planes.flat()],s.index*40);}
@@ -115,10 +120,10 @@
       gl.uniform3f(u.Camera,camera.x,camera.y,camera.z);gl.uniform3f(u.Eye,eye.x,eye.y,eye.z);gl.uniform2f(u.Viewport,this.width,this.height);gl.uniform1f(u.Scale,scope.scale);gl.uniform1f(u.Elevation,elevationScale);gl.uniform4f(u.Scope,scope.minX,scope.minY,scope.maxX,scope.maxY);gl.uniform1i(u.Count,this.model.solids.length);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.solidTexture);gl.uniform1i(u.Solids,0);gl.uniform1i(u.Art,1);
       // No sampled texture may alias the active color attachment, even in an untaken shader branch.
       gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[0].tex);
-      let draws=0;gl.bindVertexArray(this.world.vao);gl.uniform1i(u.Kind,0);
+      let draws=0;gl.bindVertexArray(this.world.vao);gl.uniform1i(u.Kind,0);gl.uniform4f(u.Proxy,0,0,-1,0);gl.uniform1f(u.Top,0);
       const packets=reverse?this.model.packets.slice().reverse():this.model.packets;
       for(const p of packets){if(p.max.x<scope.minX||p.min.x>scope.maxX||p.max.y<scope.minY||p.min.y>scope.maxY)continue;gl.uniform1i(u.Receiver,p.index);gl.uniform1f(u.Fade,view?view.fadeFor(p.id):0);gl.uniform4fv(u.Tint,color(p.id));gl.drawArrays(gl.TRIANGLES,p.first,p.count);draws++;}
-      const proxy=(actor,kind)=>{if(!within(actor,scope))return;gl.bindVertexArray(this.proxy.vao);gl.bindBuffer(gl.ARRAY_BUFFER,this.proxy.buffer);gl.bufferData(gl.ARRAY_BUFFER,this.quad(actor,elevationScale,kind),gl.DYNAMIC_DRAW);gl.uniform1i(u.Kind,kind);gl.uniform1i(u.Receiver,-1);gl.uniform1f(u.Fade,0);gl.uniform4fv(u.Tint,kind===2?[1,.1,.85,1]:[1,1,1,1]);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[actor.art||0].tex);gl.drawArrays(gl.TRIANGLES,0,6);draws++;};
+      const proxy=(actor,kind)=>{if(actor.observable===false||!within(actor,scope))return;gl.bindVertexArray(this.proxy.vao);gl.bindBuffer(gl.ARRAY_BUFFER,this.proxy.buffer);gl.bufferData(gl.ARRAY_BUFFER,this.quad(actor,elevationScale,kind),gl.DYNAMIC_DRAW);gl.uniform1i(u.Kind,kind);gl.uniform4f(u.Proxy,actor.x,actor.y,Number.isFinite(actor.visibilityRadius)?actor.visibilityRadius:-1,actor.z+.01);gl.uniform1f(u.Top,actor.z+(actor.height||60)-.01);gl.uniform1i(u.Receiver,-1);gl.uniform1f(u.Fade,0);gl.uniform4fv(u.Tint,kind===2?[1,.1,.85,1]:[1,1,1,1]);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[actor.art||0].tex);gl.drawArrays(gl.TRIANGLES,0,6);draws++;};
       for(const a of reverse?actors.slice().reverse():actors)proxy(a,1);
       // An annotation submitted LAST still passes both physical and camera depth.
       for(const a of overlays)proxy(a,2);

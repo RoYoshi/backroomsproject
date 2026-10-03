@@ -85,7 +85,12 @@
     }
     d.position.set(0, 0); d.visible = true; d.alpha = 1;
     const slot = pass.art.length; pass.art.push(texture(e));
-    return { id, kind, x: pose.x, y: pose.y, z: pose.z, height: pose.height || (kind === 'hound' ? 36 : kind === 'smiler' ? 48 : A.H.shape?.height || 60), art: slot, support: pose.support ?? pose.supportId, mode: pose.mode ?? pose.motionMode, tick: pose.tick, generation: pose.generation };
+    const shape = pose.shape || geometry.definition.colliderProfiles.find(s => s.id === pose.profile);
+    const packet = { id, kind, x: pose.x, y: pose.y, z: pose.z, height: pose.height || shape?.height || 60, radius: shape?.radius || 15, art: slot, support: pose.support ?? pose.supportId, mode: pose.mode ?? pose.motionMode, tick: pose.tick, generation: pose.generation };
+    // A camera-facing art rectangle is not a physical body. It may extend
+    // below a slab even when its owner's entire physical volume is above it.
+    packet.observable = perceivable(packet); packet.visibilityRadius = packet.radius;
+    return packet;
   }
   function eyePoint() {
     const p = A.H;
@@ -93,8 +98,9 @@
   }
   function perceivable(p) {
     if (!p || !['x','y','z'].every(k => Number.isFinite(p[k]))) return false;
-    const eye = eyePoint(), h = p.height || p.shape?.height || 60;
-    return [1,h / 2,h - 1].some(z => V.visible(model, eye, { x: p.x, y: p.y, z: p.z + z }));
+    const shape = p.shape || geometry.definition.colliderProfiles.find(s => s.id === p.profile);
+    const eye = eyePoint(), h = p.height || shape?.height || 60, r = (p.radius || shape?.radius || 0) * .7;
+    return [1,h / 2,h - 1].some(z => [[0,0],[r,0],[-r,0],[0,r],[0,-r]].some(([x,y]) => V.visible(model, eye, { x: p.x + x, y: p.y + y, z: p.z + z })));
   }
   function sample(id) { return window.__spatialHistory?.()?.sample(id, performance.now()); }
   function adminData(d) {
@@ -104,7 +110,7 @@
     return { ...d, pl, es, hn: es.filter(e => !e[1]).length, sn: es.filter(e => e[1]).length };
   }
   function label(packet, text) {
-    if (!perceivable(packet)) return null;
+    if (packet.observable === false || !perceivable(packet)) return null;
     let a = labelArt.get(text); const gl = pass.gl;
     if (!a) {
       const canvas = document.createElement('canvas'); canvas.width = 256; canvas.height = 32;
@@ -117,7 +123,7 @@
     }
     a.used = state.frames;
     const slot = pass.art.length; pass.art.push(a);
-    return { ...packet, id: 'label:' + packet.id, owner: packet.id, kind: 'label', z: packet.z + packet.height + 6, height: 1, art: slot };
+    return { ...packet, id: 'label:' + packet.id, owner: packet.id, kind: 'label', z: packet.z + packet.height + 6, height: 1, visibilityRadius: undefined, art: slot };
   }
   function render() {
     if (!state.ready) return;

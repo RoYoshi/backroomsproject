@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: 0.3440000000000001 == 0
+    at /workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_h2.js:24:61 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 0.3440000000000001,
+  expected: 0,
+  operator: '==',
+  diff: 'simple'
+}
