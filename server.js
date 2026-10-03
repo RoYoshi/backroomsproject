@@ -393,11 +393,20 @@ setInterval(() => {
     }
     let ad = null;
     if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0, st: c.player.st | 0, x: Math.round(c.player.x), y: Math.round(c.player.y) })) });
-    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, ...(room.authority?{worldEpoch:room.worldEpoch,simTick:room.simTick,aftermathVersion:PROTOCOL.AFTERMATH_VERSION}:{}), b: [...room.sim.bodies.values()] });
+    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()] });
+    const spatialBodyMessages=c=>{
+      const full=c.bodyEpoch!==room.worldEpoch,known=full?new Map():c.bodyRevisions||new Map(),records=[],removed=[];
+      for(const id of known.keys())if(!room.sim.bodies.has(id))removed.push(id);
+      for(const [id,r]of room.sim.bodies)if(known.get(id)!==r.spatial.key+':'+r.spatial.revision)records.push(r);
+      c.bodyEpoch=room.worldEpoch;c.bodyRevisions=new Map([...room.sim.bodies].map(([id,r])=>[id,r.spatial.key+':'+r.spatial.revision]));
+      const base={t:'bodies',v:room.sim.bodyVer,worldEpoch:room.worldEpoch,simTick:room.simTick,aftermathVersion:PROTOCOL.AFTERMATH_VERSION,full,removed},parts=[[]];
+      for(const r of records){const part=parts.at(-1);if(part.length&&Buffer.byteLength(JSON.stringify({...base,b:[...part,r]}))>96000)parts.push([]);parts.at(-1).push(r);}
+      return parts.map((b,part)=>({...base,b,part,parts:parts.length}));
+    };
     let bm = null;
     for (const c of room.clients.values()) {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }
-      if ((!room.authority||c.protocolReady)&&c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; send(c, bm || (bm = bodyMsg())); }
+      if ((!room.authority||c.protocolReady)&&c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; if(room.authority){for(const message of spatialBodyMessages(c))send(c,message);}else send(c, bm || (bm = bodyMsg())); }
       const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player) };
       if (room.authority && c.protocolReady) { msg.protocol = { worldEpoch: room.worldEpoch, simTick: room.simTick }; msg.pose = room.authority.pose(c); msg.spatial = room.sim.engine.entities.map(e => PROTOCOL.pose(e, { worldEpoch: room.worldEpoch, entityId: (e.kind === 'hound' ? 'h' : 'm') + e.id, generation: room.sim.worldGeneration, tick: room.simTick, seq: room.simTick, discontinuity: 0 }, room.sim.geometry)).filter(Boolean); msg.spatial.push(...[...room.clients.values()].filter(o => o.player.active && o !== c).map(o => room.authority.pose(o)).filter(Boolean)); if (c.admin) msg.spatialStats = room.authority.metrics(); }
       if (c.player.dead && c.player.kill) msg.mk = c.player.kill;

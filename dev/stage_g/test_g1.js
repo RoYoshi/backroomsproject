@@ -3,7 +3,7 @@ const assert=require('assert'),{G,world,box,DP,field,context,valid}=require('./f
 const g=G.compile(field()),results=[];
 for(const kind of ['Hound','Smiler'])for(const v of 'ABCD'){
  const S=DP.create(context(g,kind,v));
- for(let tick=0;tick<420;tick++){DP.tick(S);assert.equal(S.stepN,(tick+1)*4);valid(S);}
+ for(let tick=0;tick<420;tick++){const before=S.stepN,sleeping=S.state==='SLEEPING';DP.tick(S);assert.equal(S.stepN,before+(sleeping?0:4));valid(S);}
  assert.equal(S.h.length,2);assert(S.h.every(h=>h.dampingRatio>0&&h.z>1));
  results.push({kind,v,substeps:S.stepN,state:S.state,z:S.b.z,hands:S.h.map(h=>h.z),gearZ:S.eq.z,diagnostics:[S.b,...S.h,S.at,S.eq,S.hat].flatMap(o=>o.diagnostics)});
 }

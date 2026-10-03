@@ -298,7 +298,7 @@ function passive(geometry){
   const before={x:o.x,y:o.y,z:o.z};o.vz-=POLICY.gravity*dt;
   if(s&&o.stable){
    const n=s.normal,v={x:o.vx,y:o.vy,z:o.vz},into=dot(v,n);if(into<0){o.vx-=into*n.x;o.vy-=into*n.y;o.vz-=into*n.z;}
-   const speed=Math.hypot(o.vx,o.vy,o.vz),mu=options.mu??560,visc=options.visc??1.15;
+   const speed=Math.hypot(o.vx,o.vy,o.vz),mu=(options.mu??560)*(geometry.definition.materials.find(m=>m.id===s.materialId)?.friction??.6)/.6,visc=options.visc??1.15;
    if(speed>1e-9){const dv=Math.min(speed,(mu+visc*speed)*dt),f=1-dv/speed;o.vx*=f;o.vy*=f;o.vz*=f;}
   }else if(s){
    // A real contact still supplies its unilateral normal force while the mass

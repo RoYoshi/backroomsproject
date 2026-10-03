@@ -10,3 +10,5 @@ G0 verified remote: `6d5cc47ed33c1512d20324873fee26d9ec91864e`; tree `b27587438d
 G1 verified remote: `9853df3c92ea008609f349b5e0d95fb811abfa80`; tree `a3246cdf97178f88458d65dc4d7d97650627e2d6`. Remote ref and fetched tree verified before continuing.
 
 G2 verified remote: `2672d5bc5408a6c76381e28f880abb85f36c9bd0`; tree `6735ad816518818bb03f3a7e33cf29ad409f7f9a`. Remote ref and fetched tree verified before continuing.
+
+G3 verified remote: `defadec985a09ae74b33d284c5ee050bc787c93b`; tree `77795e7802c5150fddff8f088c582f13c4431d37`. Remote ref and fetched tree verified before continuing.

@@ -21,7 +21,7 @@
   const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
   const wrap = a => Math.atan2(Math.sin(a), Math.cos(a));
   const hyp = Math.hypot;
-  const rng = seed => { let s = (seed >>> 0) || 1; return () => { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; };
+  const rng = seed => { let s = (seed >>> 0) || 1; const next=() => { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; }; next.state=()=>s;next.restore=v=>{s=v>>>0;};return next; };
   /* a smooth irregular signal in [-1, 1]: three sines with seeded frequencies - never a loop the eye can learn */
   const noise = r => { const f = [], p = [], a = []; for (let i = 0; i < 3; i++) { f.push(.8 + r() * 2.2 + i * .9); p.push(r() * TAU); a.push((1 / (i + 1)) * (.6 + r() * .6)); } const n = a[0] + a[1] + a[2]; return t => (a[0] * Math.sin(TAU * f[0] * t + p[0]) + a[1] * Math.sin(TAU * f[1] * t + p[1]) + a[2] * Math.sin(TAU * f[2] * t + p[2])) / n; };
   const HAND_R = { x: 13, y: -13 }, HAND_L = { x: -13, y: -13 };
@@ -109,9 +109,17 @@
     S.motion.initialize(S.at,a.shape||P[S.hound?'hound':'smiler'],a.z,a.vz||0);
     if(Number.isFinite(a.vx))S.at.vx=a.vx;if(Number.isFinite(a.vy))S.at.vy=a.vy;
     S.h.forEach(h=>S.motion.initialize(h,P.hand,b.z+5,v.vz||0));
-    S.motion.initialize(S.eq,P.light,b.z+7,v.vz||0);
-    S.motion.initialize(S.hat,P.hat,b.z+20,v.vz||0);
+    S.eq.x=b.x;S.eq.y=b.y;S.motion.initialize(S.eq,P.light,b.z+9,v.vz||0);
+    S.hat.x=b.x;S.hat.y=b.y;S.motion.initialize(S.hat,P.hat,b.z+9,v.vz||0);
+    attachSpatial(S,S.eq,{x:S.h[1].x,y:S.h[1].y,z:S.h[1].z+2},true);
+    attachSpatial(S,S.hat,{x:b.x,y:b.y,z:b.z+20},true);
     S.deathTick=0;S.decals=[];S.spatialTrail=[];S.trailSegment=0;S.trailContact=false;S.physicalEvents=[];S.physicalSequence=0;
+  }
+  function attachSpatial(S,o,target,initial=false){
+    const b=S.b,start={x:b.x,y:b.y,z:b.z+9-o.shape.centerOffset},end={x:target.x,y:target.y,z:target.z-o.shape.centerOffset},delta={x:end.x-start.x,y:end.y-start.y,z:end.z-start.z};
+    const hit=S.ctx.geometry.sweep(o.shape,start,delta),f=hit?hit.t:1,p={x:start.x+delta.x*f,y:start.y+delta.y*f,z:start.z+delta.z*f+o.shape.centerOffset};
+    const vx=(p.x-o.x)/DT,vy=(p.y-o.y)/DT,vz=(p.z-o.z)/DT;
+    Object.assign(o,p,{vx:initial?b.vx:vx,vy:initial?b.vy:vy,vz:initial?b.vz:vz});
   }
   function spatialReach(S,a,b,reach){
     const ac={x:a.x,y:a.y,z:a.z+(a.shape.centerOffset?0:a.shape.height/2)},bc={x:b.x,y:b.y,z:b.z+(b.shape.centerOffset?0:b.shape.height/2)};
@@ -192,9 +200,9 @@
     }
     if(S.eq.has&&!S.eq.held)freeBody(S,S.eq,7,.38,250,2.3,dt,'eq');
     if(S.hat.has&&!S.hat.on)freeBody(S,S.hat,11,.3,200,2.6,dt,'hat');
-    else if(S.hat.has){Object.assign(S.hat,{x:b.x,y:b.y,z:b.z+20,vx:b.vx,vy:b.vy,vz:b.vz,rot:b.th,w:b.om,sleeping:b.sleeping,st:b.st,supportId:b.supportId,stable:b.stable});}
+    else if(S.hat.has){attachSpatial(S,S.hat,{x:b.x,y:b.y,z:b.z+20});Object.assign(S.hat,{rot:b.th,w:b.om,sleeping:b.sleeping,st:b.st,supportId:b.supportId,stable:b.stable});}
     const masses=[b,...S.h,...(S.eq.has&&!S.eq.held?[S.eq]:[]),...(S.hat.has&&!S.hat.on?[S.hat]:[])];
-    S.state=masses.every(o=>o.sleeping)?'SLEEPING':masses.some(o=>!o.stable)?'ACTIVE':'SETTLING';
+    S.state=masses.every(o=>o.sleeping)&&(S.stepN+1)%4===0?'SLEEPING':masses.some(o=>!o.stable)?'ACTIVE':'SETTLING';
     S.stepN++;S.t=S.stepN*DT;
   }
   function fromEvent(event,geometry){
@@ -202,7 +210,25 @@
     const p=event.plan,v=event.initial.victim,a=event.initial.attacker;
     return create({kind:event.kind,v:event.variant,seed:event.seed,victim:{...v},src:{...a},dir:event.direction,hits:p.hits||[.24,.74,1.2,1.7],kn:p.kn,drag:p.dr,dur:event.duration,eqKind:event.equipment.kind,hat:event.equipment.hat,exhausted:event.exhausted,geometry});
   }
-  function tick(S){for(let i=0;i<4;i++)stepOnce(S);S.deathTick=(S.deathTick||0)+1;return S;}
+  function tick(S){if(S.spatial&&S.state==='SLEEPING')return S;for(let i=0;i<4;i++)stepOnce(S);S.deathTick=(S.deathTick||0)+1;return S;}
+  function save(S){
+    if(!S.spatial)throw Error('Spatial checkpoint required');
+    const skip=new Set(['motion','ctx','cfg','walls','nz','rr','out','trace','ev','trail','physicalEvents','decals','spatialTrail']);
+    return {version:SPATIAL_VERSION,rng:S.rr.state(),data:JSON.parse(JSON.stringify(Object.fromEntries(Object.entries(S).filter(([k])=>!skip.has(k)))))};
+  }
+  function restore(event,geometry,checkpoint,records){
+    if(checkpoint.version!==SPATIAL_VERSION)throw Error('Death checkpoint version mismatch');
+    const S=fromEvent(event,geometry);Object.assign(S,JSON.parse(JSON.stringify(checkpoint.data)));S.rr.restore(checkpoint.rng);
+    if(records){S.physicalEvents=JSON.parse(JSON.stringify(records.events));S.decals=JSON.parse(JSON.stringify(records.decals));S.spatialTrail=JSON.parse(JSON.stringify(records.trail));}
+    return S;
+  }
+  function rebindGeometry(S,geometry){
+    if(!S.spatial)throw Error('Spatial death required');const M=window.TFB_MOTION||window.__motion,m=M.passive(geometry),masses=[S.b,...S.h,...(S.eq.has&&!S.eq.held?[S.eq]:[]),...(S.hat.has&&!S.hat.on?[S.hat]:[])];
+    if(masses.some(o=>!m.fit(o)))throw Error('Geometry revision intersects existing aftermath');
+    S.ctx={...S.ctx,geometry};S.motion=m;S.geometryHash=geometry.identity.contentHash;
+    for(const o of masses){m.support(o);if(!o.stable){o.sleeping=false;o.st='ACTIVE';}}
+    if(masses.some(o=>!o.sleeping))S.state='ACTIVE';return S;
+  }
   function snapshot(S){
     if(!S.spatial)throw Error('Spatial snapshot required');
     const mass=(o,id)=>({id,x:o.x,y:o.y,z:o.z,vx:o.vx,vy:o.vy,vz:o.vz,shape:{...o.shape},support:o.supportId,normal:o.normal,stable:o.stable,sleeping:o.sleeping,mode:o.motionMode,revision:o.revision,yaw:o.th??o.rot??o.a??0,angularVelocity:o.om??o.w??o.av??0,tilt:o.tilt||{x:0,y:0},contacts:o.contacts.map(c=>({primitiveId:c.primitiveId,normal:c.normal,point:c.point,substep:c.substep})),diagnostics:o.diagnostics.slice(-4)});
@@ -217,15 +243,15 @@
   }
 
   function release(S, what, t, kick) {
-    const b = S.b;
+    const b = S.b,attached=S.spatial?{x:(what==='eq'?S.eq:S.hat).x,y:(what==='eq'?S.eq:S.hat).y,z:(what==='eq'?S.eq:S.hat).z,vx:(what==='eq'?S.eq:S.hat).vx,vy:(what==='eq'?S.eq:S.hat).vy,vz:(what==='eq'?S.eq:S.hat).vz}:null;
     if (what === 'eq') {
       const e = S.eq; if (!e.has || !e.held) return; e.held = false; S.eqAt = t;
       const h = S.h[1]; e.x = h.x; e.y = h.y; e.vx = h.vx + (kick && kick.x || 0); e.vy = h.vy + (kick && kick.y || 0);
-      if(S.spatial){e.z=h.z+2;e.vz=h.vz;e.sleeping=false;e.supportId=null;e.st='ACTIVE';}
+      if(S.spatial){Object.assign(e,attached);e.vx+=(kick?.x||0);e.vy+=(kick?.y||0);e.sleeping=false;e.supportId=null;e.st='ACTIVE';}
       e.rot = b.th + e.rho; e.w = b.om + e.rhov + (S.rr() - .5) * 7; S.ev.push({ t, k: 'eq' });if(S.spatial)physicalEvent(S,'release',e,{velocity:{x:e.vx,y:e.vy,z:e.vz},angularVelocity:e.w});
     } else {
       const e = S.hat; if (!e.has || !e.on) return; e.on = false; S.hatAt = t;
-      e.x = b.x; e.y = b.y; e.vx = b.vx + (kick && kick.x || 0); e.vy = b.vy + (kick && kick.y || 0); if(S.spatial){e.z=b.z+b.shape.height+2;e.vz=b.vz;e.sleeping=false;e.supportId=null;e.st='ACTIVE';} e.rot = b.th; e.w = b.om + (S.rr() - .5) * 9; S.ev.push({ t, k: 'hat' });if(S.spatial)physicalEvent(S,'release',e,{velocity:{x:e.vx,y:e.vy,z:e.vz},angularVelocity:e.w});
+      e.x = b.x; e.y = b.y; e.vx = b.vx + (kick && kick.x || 0); e.vy = b.vy + (kick && kick.y || 0); if(S.spatial){Object.assign(e,attached);e.vx+=(kick?.x||0);e.vy+=(kick?.y||0);e.sleeping=false;e.supportId=null;e.st='ACTIVE';} e.rot = b.th; e.w = b.om + (S.rr() - .5) * 9; S.ev.push({ t, k: 'hat' });if(S.spatial)physicalEvent(S,'release',e,{velocity:{x:e.vx,y:e.vy,z:e.vz},angularVelocity:e.w});
     }
   }
 
@@ -453,12 +479,12 @@
     // the hands cannot hold a light that is being wrenched away: it goes with the body's acceleration, then leaves
     const eq = S.eq;
     if (eq.has && eq.held) {
-      const h = S.h[1]; eq.x = h.x; eq.y = h.y; eq.vx = h.vx; eq.vy = h.vy; if(S.spatial){eq.z=h.z+2;eq.vz=h.vz;}
+      const h = S.h[1]; if(S.spatial)attachSpatial(S,eq,{x:h.x,y:h.y,z:h.z+2});else{eq.x = h.x; eq.y = h.y; eq.vx = h.vx; eq.vy = h.vy;}
       const target = clamp(-(wrap(Math.atan2(h.y - b.y, h.x - b.x) - (b.th - PI / 2 + .74))) * .3, -.9, .9);       // the beam trails the hand
       eq.rhov += ((target - eq.rho) * 130 - eq.rhov * 16) * dt; eq.rho += eq.rhov * dt; eq.rot = b.th + eq.rho; eq.w = b.om + eq.rhov;
     } else if (eq.has) freeBody(S, eq, 7, .38, 250, 2.3, dt, 'eq');
     const ha = S.hat;
-    if (ha.has && ha.on) { ha.x = b.x; ha.y = b.y; ha.vx = b.vx; ha.vy = b.vy; ha.rot = b.th; ha.w = b.om; if(S.spatial){ha.z=b.z+b.shape.height+2;ha.vz=b.vz;} if (S.hatKick && t > .12 && S.exh >= 1) { release(S, 'hat', t, S.hatKick); S.hatKick = null; } }
+    if (ha.has && ha.on) { if(S.spatial)attachSpatial(S,ha,{x:b.x,y:b.y,z:b.z+20});else{ha.x = b.x; ha.y = b.y; ha.vx = b.vx; ha.vy = b.vy;} ha.rot = b.th; ha.w = b.om; if (S.hatKick && t > .12 && S.exh >= 1) { release(S, 'hat', t, S.hatKick); S.hatKick = null; } }
     else if (ha.has) freeBody(S, ha, 11, .3, 200, 2.6, dt, 'hat');
 
     /* ---------------- camera impulse ---------------- */
@@ -493,7 +519,7 @@
     if (hyp(o.vx, o.vy) < 3.5 && Math.abs(o.w) < .35) { o.still += dt; o.st = 'SETTLING'; if (o.still > .3) { o.st = 'SLEEPING'; o.vx = o.vy = o.w = 0; } } else { o.still = 0; o.st = 'ACTIVE'; }
   }
 
-  function advance(S, t) { let n = 0; while (S.t + DT <= t + 1e-9 && n < 4000) { stepOnce(S); n++; } return S; }
+  function advance(S, t) { let n = 0; while ((!S.spatial||S.state!=='SLEEPING') && S.t + DT <= t + 1e-9 && n < 4000) { stepOnce(S); n++; } return S; }
 
   /* everything the renderer wants, in the frames it wants it (hands in body space: the avatar draws them as children) */
   function pose(S) {
@@ -599,5 +625,5 @@
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0 };
   }
 
-  window.__dphys = { create, advance, tick, pose, snapshot, fromEvent, seedFor:hsh, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, SPATIAL_VERSION };
+  window.__dphys = { create, advance, tick, pose, snapshot, save, restore, rebindGeometry, fromEvent, seedFor:hsh, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, SPATIAL_VERSION };
 })();

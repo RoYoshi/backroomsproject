@@ -129,7 +129,7 @@ function releaseAttacker(a){if(a.released)return;applyAttacker(a);const e=eng.en
 function pruneAftermaths(){for(const [id,a]of aftermaths)if(!bodies.has(id)){releaseAttacker(a);aftermaths.delete(id);}}
 function stepAftermaths(){
   if(!spatial)return;pruneAftermaths();
-  for(const [id,a]of aftermaths){deathPhysics.advanceSpatial(a,physicsTick);if(!a.released){applyAttacker(a);if(a.S.stepN>=Math.ceil(a.S.dur*240))releaseAttacker(a);}updateBody(id,deathPhysics.spatialRecord(a));}
+  for(const [id,a]of aftermaths){if(!deathPhysics.advanceSpatial(a,physicsTick))continue;if(!a.released){applyAttacker(a);if(a.S.stepN>=Math.ceil(a.S.dur*240))releaseAttacker(a);}updateBody(id,deathPhysics.spatialRecord(a));}
 }
 function pruneBodies(dt){
   if(!BODY_TTL||!bodies.size)return;
