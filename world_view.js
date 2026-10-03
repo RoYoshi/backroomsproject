@@ -12,7 +12,7 @@
   function project(p,camera,scale,e=ELEVATION){return {x:scale*(p.x-camera.x),y:scale*((p.y-camera.y)-e*(p.z-camera.z))};}
   function depth(p,camera,e=ELEVATION){return (e*(p.y-camera.y)+(p.z-camera.z))/Math.sqrt(1+e*e);}
   function onPlane(screen,z,camera,scale,e=ELEVATION){return {x:screen.x/scale+camera.x,y:screen.y/scale+camera.y+e*(z-camera.z),z};}
-  function footprint(width,height,camera){const v=cameraPolicy.visibleWorld(width,height);return {...v,minX:camera.x-v.width/2,maxX:camera.x+v.width/2,minY:camera.y-v.height/2,maxY:camera.y+v.height/2};}
+  function footprint(width,height,camera,zoom=1){const base=cameraPolicy.visibleWorld(width,height),z=Math.max(1,Math.min(4,zoom)),v={width:base.width/z,height:base.height/z,scale:base.scale*z};return {...v,minX:camera.x-v.width/2,maxX:camera.x+v.width/2,minY:camera.y-v.height/2,maxY:camera.y+v.height/2};}
   function within(p,box){return p.x>=box.minX&&p.x<=box.maxX&&p.y>=box.minY&&p.y<=box.maxY;}
   function freeze(value){if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.freeze(value);Object.values(value).forEach(freeze);}return value;}
   const zAt=(plane,p)=>plane.a*p.x+plane.b*p.y+plane.c;
@@ -42,6 +42,32 @@
   // Convex segment clipping. Expanding occluders is conservative at thin edges.
   function interval(s,from,to,margin=0){let enter=0,exit=1;for(const n of s.planes){const a=n[0]*from.x+n[1]*from.y+n[2]*from.z-n[3]-margin,b=n[0]*(to.x-from.x)+n[1]*(to.y-from.y)+n[2]*(to.z-from.z);if(Math.abs(b)<1e-9){if(a>0)return null;}else if(b<0)enter=Math.max(enter,-a/b);else exit=Math.min(exit,-a/b);if(enter>exit)return null;}return {enter,exit};}
   function visible(model,eye,point,receiver=-1){const len=Math.hypot(point.x-eye.x,point.y-eye.y,point.z-eye.z);if(len<1e-6)return true;for(const s of model.solids){if(!s.visible)continue;const t=interval(s,eye,point,s.index===receiver?0:BOUNDARY);if(t&&t.exit>1e-6&&t.enter<1-(s.index===receiver?.03/len:0))return false;}return true;}
+  function pickingRay(screen,camera,scale,e=ELEVATION){
+    const p=onPlane(screen,camera.z,camera,scale,e),n=Math.hypot(e,1),v={x:0,y:e/n,z:1/n},d=depth(p,camera,e);
+    const at=t=>({x:p.x+v.x*t,y:p.y+v.y*t,z:p.z+v.z*t});
+    return {from:at(4096-d),to:at(-4096-d)};
+  }
+  function cameraClear(model,point,ray,view,receiver=-1){
+    const len=Math.hypot(ray.from.x-point.x,ray.from.y-point.y,ray.from.z-point.z);
+    for(const s of model.solids){if(view?.fadeFor(s.id)>=1)continue;const h=interval(s,point,ray.from,0);if(h&&h.exit>(s.index===receiver?.03/len:1e-7)&&h.enter<1)return false;}return true;
+  }
+  function cylinderInterval(p,ray){
+    const r=p.radius||p.shape?.radius;if(!(r>0)||!(p.height>0))return null;
+    const x=ray.from.x-p.x,y=ray.from.y-p.y,dx=ray.to.x-ray.from.x,dy=ray.to.y-ray.from.y,dz=ray.to.z-ray.from.z,a=dx*dx+dy*dy,b=2*(x*dx+y*dy),c=x*x+y*y-r*r;
+    let lo=0,hi=1;if(a<1e-12){if(c>0)return null;}else{const d=b*b-4*a*c;if(d<0)return null;lo=Math.max(lo,(-b-Math.sqrt(d))/(2*a));hi=Math.min(hi,(-b+Math.sqrt(d))/(2*a));}
+    if(Math.abs(dz)<1e-12){if(ray.from.z<p.z||ray.from.z>p.z+p.height)return null;}else{const x=(p.z-ray.from.z)/dz,y=(p.z+p.height-ray.from.z)/dz;lo=Math.max(lo,Math.min(x,y));hi=Math.min(hi,Math.max(x,y));}return lo<=hi?{enter:lo,exit:hi}:null;
+  }
+  function pick(model,{screen,camera,eye,width,height,view,actors=[],zoom=1,exclude=null}){
+    const scope=footprint(width,height,camera,zoom),ray=pickingRay(screen,camera,scope.scale),at=t=>Object.fromEntries(['x','y','z'].map(k=>[k,ray.from[k]+(ray.to[k]-ray.from[k])*t])),hits=[];
+    const add=(t,data,receiver=-1)=>{if(t<0||t>1)return;const point=at(t);if(within(point,scope)&&visible(model,eye,point,receiver)&&cameraClear(model,point,ray,view,receiver))hits.push({...data,t,point});};
+    for(const s of model.solids){if(!s.visible||view?.fadeFor(s.id)>=1)continue;const h=interval(s,ray.from,ray.to,0);if(h){add(h.enter,{kind:'face',primitiveId:s.id},s.index);add(h.exit,{kind:'face',primitiveId:s.id},s.index);}}
+    for(const p of actors){if(p.id===exclude||p.observable===false||!within(p,scope)||!['player','peer','hound','smiler','body','hand:0','hand:1','light','hat','replay'].includes(p.kind))continue;const h=cylinderInterval(p,ray);if(h){add(h.enter,{kind:'actor',actorId:p.id});add(h.exit,{kind:'actor',actorId:p.id});}}
+    hits.sort((a,b)=>a.t-b.t||(a.actorId||a.primitiveId).localeCompare(b.actorId||b.primitiveId));
+    // A fully faded group stops blocking the CAMERA only. Every candidate's
+    // eye ray above still sees every physical solid, so fading grants no hit.
+    const result=hits[0]||{kind:'plane',point:onPlane(screen,eye.z,camera,scope.scale)};
+    return {...result,distance:Math.hypot(result.point.x-eye.x,result.point.y-eye.y,result.point.z-eye.z),ray,scope};
+  }
   class LocalView {
     constructor(model,epoch='fixture:1'){this.model=model;this.epoch=epoch;this.focusSpace=[];this.groups=new Map(model.groups.map(g=>[g.id,{fade:0,target:false}]));}
     reset(epoch){this.epoch=epoch;this.focusSpace=[];for(const s of this.groups.values()){s.fade=0;s.target=false;}}
@@ -132,8 +158,8 @@
     textureParams(){const gl=this.gl;gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);}
     resize(width,height,dpr=1,quality=1){this.width=Math.max(1,width);this.height=Math.max(1,height);this.dpr=dpr;this.quality=quality===.5?.5:1;const resolution=Math.min(Math.max(1,dpr),Math.sqrt(MAX_PIXELS/(this.width*this.height)))*this.quality;const w=Math.max(1,Math.floor(this.width*resolution)),h=Math.max(1,Math.floor(this.height*resolution));this.canvas.style.width=this.width+'px';this.canvas.style.height=this.height+'px';if(w===this.target.width&&h===this.target.height)return;this.canvas.width=w;this.canvas.height=h;const gl=this.gl;gl.bindFramebuffer(gl.FRAMEBUFFER,this.fbo);gl.bindTexture(gl.TEXTURE_2D,this.color);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);this.textureParams();gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,this.color,0);gl.bindRenderbuffer(gl.RENDERBUFFER,this.depth);gl.renderbufferStorage(gl.RENDERBUFFER,gl.DEPTH_COMPONENT24,w,h);gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.RENDERBUFFER,this.depth);if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw Error('Incomplete Stage D depth target');this.target={width:w,height:h};}
     quad(actor,e,kind){if(actor.surface){const {point,basis,normal,width,height}=actor.surface,v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*width,y=(t-.5)*height;v.push(...['x','y','z'].map(k=>point[k]+basis.u[k]*x+basis.v[k]*y+normal[k]*.04),normal.x,normal.y,normal.z,u,t);}return new Float32Array(v);}const art=this.art[actor.art||0],w=kind===2?22:art.width,h=kind===2?6:art.height,origin={x:actor.x,y:actor.y,z:actor.z+(kind===2?(actor.height||60)-3:(actor.height||60)/2)},v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*w,y=(t-.5)*h;v.push(origin.x+x,origin.y+y/(1+e*e),origin.z-e*y/(1+e*e),0,e,1,u,t);}return new Float32Array(v);}
-    render({camera,eye,view,actors=[],overlays=[],elevationScale=ELEVATION,reverse=false,lights=null,nv=false,sensorGain=1.45,bloom=0,failures=[]}){
-      const gl=this.gl,u=this.uniforms,scope=footprint(this.width,this.height,camera);gl.bindFramebuffer(gl.FRAMEBUFFER,this.fbo);gl.viewport(0,0,this.target.width,this.target.height);gl.disable(gl.SCISSOR_TEST);gl.disable(gl.BLEND);gl.disable(gl.CULL_FACE);gl.disable(gl.STENCIL_TEST);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.depthMask(true);gl.colorMask(true,true,true,true);gl.clearColor(0,0,0,1);gl.clearDepth(1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(this.program);
+    render({camera,eye,view,actors=[],overlays=[],elevationScale=ELEVATION,reverse=false,lights=null,nv=false,sensorGain=1.45,bloom=0,failures=[],zoom=1}){
+      const gl=this.gl,u=this.uniforms,scope=footprint(this.width,this.height,camera,zoom);gl.bindFramebuffer(gl.FRAMEBUFFER,this.fbo);gl.viewport(0,0,this.target.width,this.target.height);gl.disable(gl.SCISSOR_TEST);gl.disable(gl.BLEND);gl.disable(gl.CULL_FACE);gl.disable(gl.STENCIL_TEST);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.depthMask(true);gl.colorMask(true,true,true,true);gl.clearColor(0,0,0,1);gl.clearDepth(1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(this.program);
       gl.uniform3f(u.Camera,camera.x,camera.y,camera.z);gl.uniform3f(u.Eye,eye.x,eye.y,eye.z);gl.uniform2f(u.Viewport,this.width,this.height);gl.uniform1f(u.Scale,scope.scale);gl.uniform1f(u.Elevation,elevationScale);gl.uniform4f(u.Scope,scope.minX,scope.minY,scope.maxX,scope.maxY);gl.uniform1i(u.Count,this.model.solids.length);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.solidTexture);gl.uniform1i(u.Solids,0);gl.uniform1i(u.Art,1);
       // No sampled texture may alias the active color attachment, even in an untaken shader branch.
       gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[0].tex);
@@ -148,10 +174,10 @@
       // An annotation submitted LAST still passes both physical and camera depth.
       for(const a of overlays)proxy(a,2);
       gl.bindFramebuffer(gl.READ_FRAMEBUFFER,this.fbo);gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER,null);gl.blitFramebuffer(0,0,this.target.width,this.target.height,0,0,this.target.width,this.target.height,gl.COLOR_BUFFER_BIT,gl.NEAREST);
-      this.last={scope,lightCount:lights?.length||0,lighting:!!lights,nv,drawCalls:draws,passes:2,physicalVisibility:'exact bounded per-fragment convex rays',occluders:this.model.solids.filter(s=>s.visible).length,triangles:this.model.vertices.length/24+actors.length*2+overlays.length*2,target:{...this.target,depth:'DEPTH_COMPONENT24',color:'RGBA8'},logical:{width:this.width,height:this.height,dpr:this.dpr},quality:this.quality,newResourceBytes:this.staticBytes+this.target.width*this.target.height*8,actorTextureBytes:this.art.slice(1).reduce((n,a)=>n+a.bytes,0),lightTextureBytes:8192,defaultColorBytesEstimate:this.target.width*this.target.height*4,eye:{...eye},camera:{...camera},elevationScale,cutaway:view?.snapshot()};return this.last;
+      this.last={scope,zoom,lightCount:lights?.length||0,lighting:!!lights,nv,drawCalls:draws,passes:2,physicalVisibility:'exact bounded per-fragment convex rays',occluders:this.model.solids.filter(s=>s.visible).length,triangles:this.model.vertices.length/24+actors.length*2+overlays.length*2,target:{...this.target,depth:'DEPTH_COMPONENT24',color:'RGBA8'},logical:{width:this.width,height:this.height,dpr:this.dpr},quality:this.quality,newResourceBytes:this.staticBytes+this.target.width*this.target.height*8,actorTextureBytes:this.art.slice(1).reduce((n,a)=>n+a.bytes,0),lightTextureBytes:8192,defaultColorBytesEstimate:this.target.width*this.target.height*4,eye:{...eye},camera:{...camera},elevationScale,cutaway:view?.snapshot()};return this.last;
     }
     pixels(){const gl=this.gl,b=new Uint8Array(this.target.width*this.target.height*4);gl.bindFramebuffer(gl.READ_FRAMEBUFFER,this.fbo);gl.readPixels(0,0,this.target.width,this.target.height,gl.RGBA,gl.UNSIGNED_BYTE,b);return b;}
     dispose(){const g=this.gl;for(const o of [this.world,this.proxy]){g.deleteBuffer(o.buffer);g.deleteVertexArray(o.vao);}for(const t of [this.solidTexture,this.lightTexture,this.color,...this.art.filter(x=>!x.borrowed).map(x=>x.tex)])g.deleteTexture(t);g.deleteFramebuffer(this.fbo);g.deleteRenderbuffer(this.depth);g.deleteProgram(this.program);}
   }
-  return Object.freeze({ELEVATION,MAX_SOLIDS,MAX_PLANES,MAX_PIXELS,BOUNDARY,project,depth,onPlane,footprint,within,freeze,compile,interval,visible,LocalView,SpatialPass});
+  return Object.freeze({ELEVATION,MAX_SOLIDS,MAX_PLANES,MAX_PIXELS,BOUNDARY,project,depth,onPlane,footprint,within,freeze,compile,interval,visible,pickingRay,cameraClear,cylinderInterval,pick,LocalView,SpatialPass});
 });

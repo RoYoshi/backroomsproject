@@ -39,7 +39,7 @@
     // These planar world layers are replaced by packets in the spatial pass.
     // Screen HUD remains on the existing page; no alternate application exists.
     const css = document.createElement('style');
-    css.textContent = ['mp','light','peerTip','aiDebug','glitchFx'].map(id => 'body[data-world-mode="spatial"] #' + id).join(',') + '{display:none!important}';
+    css.textContent = ['mp','light','peerTip','aiDebug','glitchFx'].map(id => 'body[data-world-mode="spatial"] #' + id).join(',') + '{display:none!important}body[data-world-mode="spatial"] #camHud .rec{left:26px;top:130px;transform:none}';
     document.head.appendChild(css);
     // The planar debug renderer cannot submit an unmasked secondary canvas.
     // Its existing switch enables depth-tested actor labels in this pass.
@@ -240,6 +240,18 @@
     const slot=pass.art.length;pass.art.push(texture(e));d.scale.set(1);
     packets.push({id,kind:from?'trail':'decal',death:a.key,...point,height:1,art:slot,support:face.support,surface:{...face,point,basis,width,height}});
   }
+  function pickAt(x,y) {
+    const last=state.last,camera=last?.camera||R.camera||A.H,width=last?.logical.width||innerWidth,height=last?.logical.height||innerHeight;
+    return V.pick(model,{screen:{x:x-width/2,y:y-height/2},camera,eye:eyePoint(),width,height,view,actors:state.packets,zoom:last?.zoom||1,exclude:'p'+A.H.id});
+  }
+  function aim(pointer,x=0,y=0) {
+    const eye=eyePoint();let hit;
+    if(pointer)hit=pickAt(pointer.x,pointer.y);
+    else {const a=x||y?Math.atan2(y,x):A.H.angle;hit={kind:'direction',point:{x:eye.x+Math.cos(a)*100,y:eye.y+Math.sin(a)*100,z:eye.z},distance:100};}
+    const dx=hit.point.x-eye.x,dy=hit.point.y-eye.y,dz=hit.point.z-eye.z;
+    if(Math.hypot(dx,dy,dz)>1e-6){A.H.angle=Math.atan2(dy,dx);A.H.pitch=Math.atan2(dz,Math.hypot(dx,dy));}
+    state.aim={...hit,yaw:A.H.angle,pitch:A.H.pitch||0};return state.aim;
+  }
   function render(force=false) {
     if (!state.ready) return;
     // Keep one GPU submission in flight. Input and authority continue on the
@@ -257,7 +269,7 @@
     }
     state.frames++;
     const camera = config.camera || (own ? {x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)} : { x: local.x, y: local.y, z: local.z });
-    R.camera = { ...camera }; R.scale = window.__cameraPolicy.baseScale(innerWidth, innerHeight);
+    R.camera = { ...camera }; R.scale = window.__cameraPolicy.baseScale(innerWidth, innerHeight)*Math.max(1,Math.min(4,window.__cam.zoomCur));
     const eye = eyePoint();
     // Simulation catch-up caps do not slow a client-local wall-clock fade.
     const viewDt = state.viewAt == null ? 0 : Math.min(.25, Math.max(0,(start - state.viewAt) / 1000)); state.viewAt = start;
@@ -292,7 +304,7 @@
       if (q) state.packets.push(q);
     }
     pass.resize(innerWidth, innerHeight, devicePixelRatio, config.quality);
-    state.lights=lighting(net);state.failures=(window.__spatialFailures||[]).filter(f=>f.until>performance.now()/1000);state.renderOptions={ camera, eye, view, actors: state.packets, overlays: [], lights:state.lights, nv:window.__cam.nv, sensorGain:window.__cam.CFG.SENSOR_GAIN, bloom:window.__cam.bloom, failures:state.failures };
+    state.lights=lighting(net);state.failures=(window.__spatialFailures||[]).filter(f=>f.until>performance.now()/1000);state.renderOptions={ camera, eye, view, actors: state.packets, overlays: [], lights:state.lights, nv:window.__cam.nv, sensorGain:window.__cam.CFG.SENSOR_GAIN, bloom:window.__cam.bloom, failures:state.failures, zoom:window.__cam.zoomCur };
     state.last = pass.render(state.renderOptions);
     state.submittedAt=performance.now();state.fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);gl.flush();
     renderer.resetState();
@@ -302,7 +314,7 @@
     for (const [key, e] of art) if (e.used < state.frames - 2) { e.texture?.destroy(true); e.wrap.destroy({ children: true }); art.delete(key); }
     for (const [key, e] of labelArt) if (e.used < state.frames - 2) { gl.deleteTexture(e.tex); labelArt.delete(key); }
   }
-  const api = window.__spatial = { bind, init, spawn, prepare, render, config, state, perceivable, sample, adminData, eyePoint, beginDeath, completeDeath, lightAt, beamDistance, sound, motionAudio, effect,
+  const api = window.__spatial = { bind, init, spawn, prepare, render, config, state, perceivable, sample, adminData, eyePoint, beginDeath, completeDeath, lightAt, beamDistance, sound, motionAudio, effect, pickAt, aim,
     get geometry() { return geometry; }, get model() { return model; }, get view() { return view; }, get pass() { return pass; },
     inspect() { const gl = pass?.gl, ext = gl?.getExtension('WEBGL_debug_renderer_info'); return clone({ ready: state.ready, pipeline:{inFlight:!!state.fence,skippedFrames:state.skippedFrames||0,completedFrames:state.completedFrames||[]}, world: geometry?.identity, network: window.__net.spatialState?.(), frames: state.frames, packets: state.packets, last: state.last, cutaway: view?.snapshot(), gpu: gl && gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER), renderer: 'existing production Pixi 8.21.0 / WebGL2' }); }
   };

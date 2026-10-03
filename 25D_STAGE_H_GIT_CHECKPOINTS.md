@@ -22,3 +22,5 @@ H2 complete: `54a5402c385369e0f2e2fee7505230a6131bcd55`, tree `3158bfbe07f5cc087
 H3 preservation: `1908db1580ed015e11d3421afc2552c8d211cabc`, tree `fa8e88fcd15759bc4e625248e2d5b02251ebe736`. Effects/light source and startup failure retained before investigation; H3 gate remains open.
 
 H3 focused evidence: `fdd4f2816f5d6c9961c14d99528e30a90a6bbce2`, tree `b88d1dcb53a42112cde23e10010903e83652d27a`. Visible/IR and canonical aftermath focused browser PASS, decision/RNG pairs PASS. Queueing and expanded checks remain.
+
+H3 complete: `81c3e54e59dd92ce9c9f4fe72986b10824197727`, tree `1e566b6575d621df4e4c5b46494324cbcaf09e48`. H-Z14 PASS; canonical corpse/hands/gear/decal/trail/replay/vanish and detached lights/IR pass physical masks, paired decisions/RNG unchanged.

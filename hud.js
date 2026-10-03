@@ -58,6 +58,15 @@
 </section>`;
   document.body.appendChild(panel);
   const q = s => panel.querySelector(s);
+  // Spatial view preferences are local presentation settings, never room state.
+  if (window.TFB_WORLD && window.__spatial) {
+    const cfg = window.__spatial.config, key = 'fb_spatial_view_v1';
+    try { const v = JSON.parse(localStorage.getItem(key) || '{}'); cfg.cutaway = v.cutaway !== false; cfg.quality = v.quality === .5 ? .5 : 1; } catch (e) {}
+    q('[data-pane="custom"]').insertAdjacentHTML('beforeend', '<h3>WORLD VIEW</h3><label class="st-chk"><input type="checkbox" id="stCutaway"> Cut away overhead surfaces</label><label class="st-chk">Detail <select id="stQuality"><option value="1">Full</option><option value="0.5">Reduced</option></select></label>');
+    $('stCutaway').checked = cfg.cutaway; $('stQuality').value = String(cfg.quality);
+    const viewSave = () => { cfg.cutaway = $('stCutaway').checked; cfg.quality = +$('stQuality').value === .5 ? .5 : 1; try { localStorage.setItem(key, JSON.stringify({cutaway:cfg.cutaway,quality:cfg.quality})); } catch (e) {} };
+    $('stCutaway').addEventListener('change', viewSave); $('stQuality').addEventListener('change', viewSave);
+  }
 
   function sync() {
     $('stSize').value = Math.round(S.s * 100); $('stSizeV').textContent = Math.round(S.s * 100) + '%';
