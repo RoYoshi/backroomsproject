@@ -1,0 +1,34 @@
+PASS same XY produces distinct composite nodes on stacked sheets
+PASS spatial endpoints require full pose and cannot snap through slab
+PASS same A* searches local sheet cells and produces spatial waypoints
+PASS one A* crosses stacked-floor links and rejects reverse drop
+PASS directed links have portal width, corridor and explicit species gates
+PASS real low roof fits Hound crawl but cannot grant Smiler crawl
+PASS cache identity distinguishes surfaces, capabilities and world topology
+PASS canonical reconstruction after input permutation preserves IDs and edges
+{
+  "status": "PASS",
+  "runtime": "v25.9.0",
+  "groups": 8,
+  "results": [
+    "same XY produces distinct composite nodes on stacked sheets",
+    "spatial endpoints require full pose and cannot snap through slab",
+    "same A* searches local sheet cells and produces spatial waypoints",
+    "one A* crosses stacked-floor links and rejects reverse drop",
+    "directed links have portal width, corridor and explicit species gates",
+    "real low roof fits Hound crawl but cannot grant Smiler crawl",
+    "cache identity distinguishes surfaces, capabilities and world topology",
+    "canonical reconstruction after input permutation preserves IDs and edges"
+  ],
+  "nodes": 685,
+  "edges": 4504,
+  "stats": {
+    "plans": 4,
+    "nodes": 592,
+    "edgeChecks": 4044,
+    "cacheHits": 117,
+    "cacheMisses": 3927,
+    "maxNodes": 488
+  },
+  "stageFStarted": false
+}

@@ -19,8 +19,8 @@ function soundChoice(e, now) {
 }
 function evidenceCandidates(e, now) {
   const out = [];
-  for (const r of e.mem.p.values()) for (const q of r.ev) out.push({ key: `P${r.id}/${q.k}`, pid: r.id, attribution: 'identified', modality: evidenceModality(q.k), x: q.x, y: q.y, t: q.t, c: q.c, u: q.u, expires: q.t + memHalfLife(e) * 3 });
-  for (const L of e.mem.leads) out.push({ key: `L${L.id}`, pid: null, attribution: 'anonymous', modality: evidenceModality(L.k), x: L.x, y: L.y, t: L.t, c: L.c, u: L.u, expires: L.t + LEAD_MAXAGE, lead: L.id });
+  for (const r of e.mem.p.values()) for (const q of r.ev) out.push({ key: `P${r.id}/${q.k}`, pid: r.id, attribution: 'identified', modality: evidenceModality(q.k), x: q.x, y: q.y, t: q.t, c: q.c, u: q.u, expires: q.t + memHalfLife(e) * 3, ...spatialFields(q) });
+  for (const L of e.mem.leads) out.push({ key: `L${L.id}`, pid: null, attribution: 'anonymous', modality: evidenceModality(L.k), x: L.x, y: L.y, t: L.t, c: L.c, u: L.u, expires: L.t + LEAD_MAXAGE, lead: L.id, ...spatialFields(L) });
   for (const q of out) q.score = observationScore(e, q, now);
   out.sort((a, b) => b.score - a.score || a.key.localeCompare(b.key));
   return out.slice(0, INTEL.candidates);
@@ -39,7 +39,7 @@ function identifySound(eng, e, ev) {
   if (!r || !r.seen || !r.visual || eng.now - r.seenAt > .12) return null;
   let unique = null;
   for (const p of eng.candidates(e, 1750)) {
-    if (Math.hypot(p.x - ev.x, p.y - ev.y) > 24 || !visualObservation(e, eng, p).vis) continue;
+    if ((eng.geo.spatial?eng.geo.distance(p,ev):Math.hypot(p.x - ev.x, p.y - ev.y)) > 24 || !visualObservation(e, eng, p).vis) continue;
     if (unique) return null; // overlapping visible people do not make source identity unambiguous
     unique = p;
   }
@@ -47,12 +47,12 @@ function identifySound(eng, e, ev) {
 }
 function habitObserve(e, r, now) {
   const v = r.visual; if (!v || !r.seen) return;
-  const cell = `${Math.floor(v.x / 192)},${Math.floor(v.y / 192)}`;
+  const cell = `${Math.floor(v.x / 192)},${Math.floor(v.y / 192)}`+(Number.isFinite(v.zMin)?"/"+(v.supportCandidates||[]).join(",")+"/"+Math.floor(v.zMin/48):"");
   const prev = r.habitLast, moving = Math.hypot(v.vx, v.vy) > 30;
   if (!moving || (prev && cell === prev.cell) || (prev && now - prev.t < 1.5)) return;
   r.habitLast = { cell, t: now };
   const dir = Math.atan2(v.vy, v.vx), key = cell + '/' + ((Math.round(dir / (Math.PI / 2)) + 4) % 4);
-  const entries = e.mem.habits.get(r.id) || []; entries.push({ key, x: v.x, y: v.y, dir, t: now });
+  const entries = e.mem.habits.get(r.id) || []; entries.push({ key, x: v.x, y: v.y, dir, t: now, ...spatialFields(v) });
   while (entries.length > INTEL.habitObs) entries.shift(); e.mem.habits.set(r.id, entries);
 }
 function cleanHabits(e, now) {

@@ -1,0 +1,787 @@
+{
+  "runtime": "v25.9.0",
+  "frozenReferenceRuntime": "v24.19.0",
+  "frozenReferencesModified": false,
+  "groups": [
+    {
+      "name": "motor",
+      "exitCode": 0
+    },
+    {
+      "name": "ai",
+      "exitCode": 0
+    },
+    {
+      "name": "death",
+      "exitCode": 0
+    },
+    {
+      "name": "navigation",
+      "exitCode": 0
+    },
+    {
+      "name": "network",
+      "exitCode": 0
+    }
+  ],
+  "traces": [
+    {
+      "name": "motor-idle",
+      "records": 120,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-walk",
+      "records": 180,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-sprint",
+      "records": 180,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-acceleration-deceleration",
+      "records": 180,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-crouch",
+      "records": 120,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-crawl",
+      "records": 60,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-slide",
+      "records": 180,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-exhaustion",
+      "records": 960,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-recovery",
+      "records": 240,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-recovery-threshold",
+      "records": 30,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-vault",
+      "records": 180,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "motor-deep-carpet",
+      "records": 180,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-H1",
+      "records": 30,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-HQA-H14",
+      "records": 100,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-H6",
+      "records": 756,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-H10",
+      "records": 4215,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-HQA-H18",
+      "records": 428,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-H3",
+      "records": 33,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-H7",
+      "records": 9,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-H15",
+      "records": 39,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_hound2e-2E-H5",
+      "records": 2160,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_smiler-SM01",
+      "records": 1764,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_smiler-SM03",
+      "records": 3600,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_smiler-SM04",
+      "records": 852,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_smiler-SM05",
+      "records": 844,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_smiler-SM08",
+      "records": 2400,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_evidence-E4",
+      "records": 7860,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_evidence-E5",
+      "records": 1440,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_evidence-E6",
+      "records": 532,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_evidence-E7",
+      "records": 360,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_shared2f-2F-F01",
+      "records": 36,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_shared2f-2F-F04",
+      "records": 396,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_shared2f-2F-F09",
+      "records": 402,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "ai-s_shared2f-2F-F20",
+      "records": 600,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "death-Hound-A",
+      "records": 271,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "death-Hound-B",
+      "records": 283,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "death-Hound-C",
+      "records": 259,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "death-Hound-D",
+      "records": 271,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "death-Smiler-A",
+      "records": 238,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "death-Smiler-B",
+      "records": 232,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "death-Smiler-C",
+      "records": 238,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "death-Smiler-D",
+      "records": 238,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "navigation-level0",
+      "records": 1163,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "network-interpolation",
+      "records": 243,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "network-peer-pose",
+      "records": 180,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "name": "network-lifecycle",
+      "records": 16,
+      "recordDifferences": 0,
+      "nonnumericRecordDifferences": 0,
+      "maxNumericDelta": 0,
+      "firstRecordDifference": null,
+      "metadataDifferences": [
+        {
+          "field": ".runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": ".sourceSha256",
+          "expected": "2c829640a80e9950e55f8ea37b3ed64d4e37dfaa5da9c29bebec85a71b699f13",
+          "actual": "69000a597478fcdc480699847779c3059d27ccd04c37fc6612ba15efd00a7dc9"
+        }
+      ]
+    }
+  ],
+  "traceCount": 46,
+  "recordCount": 35098,
+  "exactRecordMatches": 46
+}

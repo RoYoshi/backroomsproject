@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "runtime": "v25.9.0",
+  "records": [
+    {
+      "file": "world_view.js",
+      "status": 200,
+      "byteIdentical": true
+    },
+    {
+      "file": "stage_d.html",
+      "status": 200,
+      "byteIdentical": true
+    },
+    {
+      "file": "assets/stageD-pixi.js",
+      "status": 200,
+      "byteIdentical": true
+    },
+    {
+      "file": "assets/stageD-browser.js",
+      "status": 200,
+      "byteIdentical": true
+    },
+    {
+      "file": "assets/stageD-prototype.js",
+      "status": 200,
+      "byteIdentical": true
+    },
+    {
+      "file": "assets/stageD-world.json",
+      "status": 200,
+      "byteIdentical": true
+    }
+  ],
+  "browserRendering": "NOT RUN"
+}

@@ -1,0 +1,119 @@
+PASS 2E H1 identified human with flashlight warrants pursuit  [268ms]
+       all assertions passed
+PASS 2E H2 swept beam reaches Hound from behind: attention then identification  [54ms]
+       all assertions passed
+PASS 2E H3 hidden carrier: anonymous light investigation; replay cannot back-project  [229ms]
+       all assertions passed
+PASS 2E H4 solid wall blocks direct beam and impossible evidence  [435ms]
+       all assertions passed
+PASS 2E H5 IR OFF vs HIGH: identical complete decisions each tick  [168ms]
+       all assertions passed
+PASS 2E H6 hidden corner branches cannot change prediction  [74ms]
+       360 identical decisions after same visible approach
+PASS 2E H7 fresh hidden running after loss causes anonymous investigation (2F attribution)  [34ms]
+       all assertions passed
+PASS 2E H8 silent hidden reposition does not cause magical following  [76ms]
+       360 identical decisions after same visible approach
+PASS 2E H9 nearby noisy hiding is exposed through real movement footsteps  [62ms]
+       all assertions passed
+PASS 2E H10 failed search reduces confidence and ends within finite budget  [151ms]
+       all assertions passed
+PASS 2E H11 stable multiplayer target, then meaningful switch after loss and dwell  [43ms]
+       all assertions passed
+PASS 2E H12 listening is watchdog-safe; blocked movement still recovers  [65ms]
+       all assertions passed
+PASS 2E H13 long-run finite states, valid targets, bounded memory and collision  [869ms]
+       21600 ticks; 1782 search samples; longest stationary active interval 1.07s
+PASS 2E/HQA H14 eye contact delays pre-pursuit commitment but never suppresses an already committed chase  [41ms]
+       all assertions passed
+PASS 2E H15 flashlight off stops new light observations without deleting an identified human  [39ms]
+       all assertions passed
+PASS 2E H16 bounded deterministic traits; private HP and inventory cannot change decisions  [388ms]
+       all assertions passed
+PASS 2E H17 social sound carries no prey identity or shared memory  [26ms]
+       all assertions passed
+PASS 2E/HQA H18 close-range walking orbit is not an indefinite safe zone  [220ms]
+       six walking close-orbits all caught; 3.10, 3.33, 3.20, 0.63, 0.67, 0.63 s
+FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [773ms]
+       light on, in its view, standing: chased 6/8 (wind-up before the chase avg 4.0 s); light off, same spot: chased 0/8, struck 0, perceived at all 6/8 (not perceived at 494 px, 781 px), watched 5/6 of those
+PASS SM02 strikes only on canon triggers: a quiet still person is never struck; a fast retreat in front of it (panic) or a loud noise close by is  [1136ms]
+       quiet and still (looking at it or away), 40 s: struck 0/8; ran away in front of it: struck 7/8 ("P100 retreated fast in front of it (panic)"); a hard landing close by: struck 7/8 ("a loud land from P100, close")
+PASS SM03 eye contact: watched, it holds; backing away slowly while watching it gets you let go (it withdraws, no strike)  [477ms]
+       8 runs: held by eye contact 8, unharmed while backing away crouched and watching it 8, let go (it withdrew, "let ... go") 8
+PASS SM04 no hidden position: an unsensed player moved elsewhere changes nothing the Smiler does (tick by tick)  [598ms]
+       6 valid pairs (hidden player never sensed): identical decisions 6/6 (the placement validator is the one sanctioned system rule; hidden spots are kept > 2200 px from the action)
+PASS SM05 lost player: it goes where it last had them (with an uncertainty), not where they really went  [305ms]
+       7 losses: it went to look 0 px from the last sighting (±87), 1234 px from the truth; 0 px from the last sighting (±87), 1685 px from the truth; 0 px from the last sighting (±87), 1412 px from the truth; 0 px from the last sighting (±87), 1447 px from the truth; 0 px from the last sighting (±87), 2062 px from the truth; 0 px from the last sighting (±87), 2021 px from the truth; 0 px from the last sighting (±87), 1679 px from the truth
+PASS SM06 light lead: drawn to what it observed (an uncertain region), and the same observations replayed with the carrier far away give identical decisions  [902ms]
+       10 runs where it was drawn by a light it saw without the person: identical decisions with the carrier moved away 10/10 (compared until the person was first perceived: 0.4 s, 1.0 s, 0.3 s, 0.4 s, 1.0 s, 0.3 s, 4.2 s, 0.7 s, 1.8 s, 1.1 s); leads litwall ±338 (155 px from the carrier), beam ±251 (146 px from the carrier), litwall ±338 (160 px from the carrier), litwall ±338 (155 px from the carrier), beam ±251 (146 px from the carrier), litwall ±338 (160 px from the carrier), beam ±289 (146 px from the carrier), litwall ±351 (160 px from the carrier), litwall ±337 (158 px from the carrier), beam ±218 (146 px from the carrier)
+PASS SM07 wall occlusion: a torch lighting the far side of a wall draws nothing; the smiler stays where it is  [568ms]
+       19 setups: light leads through the wall 0; smilers that left their spot 0
+PASS SM08 infrared OFF vs HIGH: identical Smiler decisions (camcorders raised, infrared written everywhere a client could put it)  [303ms]
+       3/3 worlds identical over 1200 ticks
+PASS SM09 attention: a one-frame glance does nothing; through a wall nothing; sustained eye contact (with line of sight) holds it  [794ms]
+       one-frame glances every 0.75 s: no hold 7/7; sustained eye contact: held 7/7; through a wall: attention registered 0/16
+PASS SM10 hold is counterplay, not immunity: standing and staring, it creeps in and drifts sideways; a fixed gaze loses it; up close a small sound triggers it  [507ms]
+       8 stand-offs: it closed in (avg 391 px, to 135 px) and did not go away while watched 7; drifted sideways 8; a fixed gaze lost it 7; up close (7): a crouched shuffle set it off 0, then one walking step set it off 7
+PASS SM11 multiplayer: one watches it in the dark, another walks about with a light - it works on the light, settles (no flicker), and a lit player it has never seen never wins  [584ms]
+       9 runs: worked on the light carrier 9; targeted the lit player behind walls before ever seeing them 0 (saw them later, legitimately: 2); target switches 0,0,0,0,2,0,0,0,0 (inside the 3 s dwell while the old one was still in view: 0)
+PASS SM12 personality: bounded, deterministic per seed, and no extreme tiers  [108ms]
+       200 individuals: all in [0.02, 0.98] true; same seed -> same creature true; patience 0.57-0.83, boldness 0.37-0.63; chase threshold 0.59-0.65
+PASS SM13 state validity over long mixed runs: finite, valid targets and states, legal transitions, never inside walls, never stuck  [1234ms]
+       18000 samples, 156 transitions, states seen HIDDEN FOLLOWING WATCHING ATTACKING DISAPPEARING PROVOKED; problems 0; longest time in one active state 13 s
+PASS SM14 no teleporting: every move is walked (bounded per tick), whatever it is doing  [397ms]
+       10 runs of 90 s: biggest single-tick step 5.0 px (300 px/s) @{"t":0.97,"s":"ATTACKING","x":2759,"y":5430}
+PASS SM15 presentation: no limbs; the face glow is its own channel (not the generic entity alpha); no aggression UI outside debug  [3ms]
+       arms drawn false, legs drawn false; glow reads the generic alpha false; aggression UI false; internal values debug-only true
+PASS SM16 multiplayer: a light elsewhere draws it off somebody it only watches in the dark (once - no back-and-forth); eye contact keeps it  [1752ms]
+       not watched back (15): drawn off to the light 5, of which went on to the carrier 3; pulled more than once 0; held by eye contact (15): drawn off 0
+PASS SM17 close-range pressure: holding its eyes does not let you walk up to it - walking, crouching or inching in on it ends in a strike; standing still or backing away does not  [1790ms]
+       holding eye contact the whole time - walked at it: struck 8/8 (at 123 px, "P100 walked in on it to point-blank (121 px, closed 181 px)"); crouched at it: 8/8; inched in (35 px, 4 s pauses): 8/8; stood still while it crept in: 0/8; side-stepped only: 0/8
+PASS 2F F01 unseen footstep is anonymous, uncertain, no raw origin/identity  [77ms]
+       both species; actual hearing boundary
+PASS 2F F02 a currently observed unambiguous source can be identified  [52ms]
+       assertions passed
+PASS 2F F03 two hidden sound sources stay anonymous  [38ms]
+       assertions passed
+PASS 2F F04 private sound source ID cannot change observations or decisions  [166ms]
+       assertions passed
+PASS 2F F05 current clear sight beats weak unrelated anonymous sound  [68ms]
+       assertions passed
+PASS 2F F06 lost target can yield to credible new observation  [42ms]
+       assertions passed
+PASS 2F F07 anonymous light never invents an identity alongside a target  [45ms]
+       assertions passed
+PASS 2F F08 reversed player/entity input order has identical decisions  [90ms]
+       480 paired decision ticks, two species/two players
+PASS 2F F09 hidden branch invariance including anonymous sound/light conflict  [513ms]
+       1,440 paired decision ticks
+PASS 2F F10 three observed repetitions form bounded, modest hypothesis  [101ms]
+       both species acquire from actual move.js/perception over six passages; unit score check: 12% only within plausible candidate region
+PASS 2F F11 habit never learns a hidden branch and wrong prediction is fallible  [398ms]
+       real learned history; 4,200 paired hidden-branch ticks, both species; no hidden capture, hypotheses expire
+PASS 2F F12 TTL and encounter end both expire habits  [29ms]
+       assertions passed
+PASS 2F F13 death/respawn/leave/world reset clear encounter identity  [132ms]
+       assertions passed
+PASS 2F F14 / R1 extra Smiler draws cannot perturb Hound  [84ms]
+       assertions passed
+PASS 2F F15 / R2 extra Hound draws cannot perturb Smiler  [106ms]
+       assertions passed
+PASS 2F F16 / R3 unrelated spawn and initialization preserve old streams  [182ms]
+       assertions passed
+PASS 2F F17 / R4 / R5 repeatable streams and IR/debug metadata isolation  [160ms]
+       same seed/ID/tag repeatability; debug makes no RNG draws
+PASS 2F F18 evidence pressure obeys all advertised caps  [221ms]
+       {"players":16,"sounds":8,"soundTTL":25,"leads":6,"leadTTL":45,"evidence":4,"recordTTL":120,"visited":128,"visitedTTL":60,"habitObs":6,"hypotheses":3,"habitTTL":30,"habitRepeats":3,"habitBias":0.12,"candidates":70,"debugCandidates":12}
+PASS 2F F19 disconnect immediately removes target, attention, habits, identified sound  [61ms]
+       assertions passed
+PASS 2F F20 IR OFF/HIGH is tick-identical for both species  [142ms]
+       600 paired decision ticks, real movement
+PASS 2F F21 hidden HP, inventory and account metadata cannot influence decisions  [142ms]
+       assertions passed
+FAIL 2F F22 species physical/canon parameter preservation  [7ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: move.js | + actual - expected |  | + '727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217'
+PASS 2F F23 long-run mixed lifecycle validity  [458ms]
+       10800 mixed ticks; 400 actual respawns; four disconnect/rejoin cycles with no stale identity
+
+56/58 passed
+FAILED: SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased; 2F F22 species physical/canon parameter preservation

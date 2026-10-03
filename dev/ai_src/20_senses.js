@@ -22,20 +22,23 @@ function rec(e, id) {
   return r;
 }
 /* one typed evidence entry on an attributed record (the newest of each kind is kept) */
-function noteEv(r, k, x, y, u, c, t) {
+function noteEv(r, k, x, y, u, c, t, spatial) {
   const ev = r.ev || (r.ev = []), q = ev.find(o => o.k === k);
   if (q) { q.x = x; q.y = y; q.u = u; q.c = c; q.t = t; }
   else { ev.unshift({ k, x, y, u, c, t }); if (ev.length > EV_MAX) ev.pop(); }
+  if(spatial)Object.assign(ev.find(o=>o.k===k),spatialFields(spatial));
 }
 /* an anonymous lead: merged into a matching recent one (same place, give or take both uncertainties), otherwise a new one */
 function addLead(e, now, L) {
   const leads = e.mem.leads;
   for (const q of leads) {
     if (evidenceModality(q.k) !== evidenceModality(L.k)) continue;
+    if(!verticalCompatible(q,L))continue;
     if (now - q.t > 6 || Math.hypot(q.x - L.x, q.y - L.y) > (q.u + L.u) * .6) continue;
     const w = L.c / (L.c + q.c * .8);
     q.x += (L.x - q.x) * w; q.y += (L.y - q.y) * w; q.u = Math.max(L.u * .75, Math.min(q.u, L.u) * .95);          // seeing the same thing again firms it up a little, never past what one look can tell
     q.c = Math.min(1, Math.max(q.c, L.c) + .05); q.t = now; q.n++; q.sal = Math.max(q.sal * .7, L.sal); q.k = L.k === 'source' ? 'source' : q.k; if (L.dir !== undefined) q.dir = L.dir;
+    if(Number.isFinite(L.zMin))Object.assign(q,spatialFields(L));
     return q;
   }
   const n = Object.assign({ id: ++e.mem.leadId, pid: null, t0: now, t: now, n: 1 }, L); leads.push(n);
@@ -46,9 +49,9 @@ function addLead(e, now, L) {
 function attributeLeads(e, r, p, now) {
   const leads = e.mem.leads;
   for (let i = leads.length - 1; i >= 0; i--) {
-    const L = leads[i]; if (L.k !== 'source' || !p.light || now - L.t > .5 || Math.hypot(L.x-p.x,L.y-p.y)>60) continue;
-    const owners=[...e.seenNow].map(id=>e.mem.p.get(id)).filter(r=>r.visual&&r.light&&Math.hypot(r.visual.x-L.x,r.visual.y-L.y)<60); if(owners.length!==1||owners[0].id!==r.id) continue;
-    noteEv(r, 'light', L.x, L.y, L.u, L.c, L.t); leads.splice(i, 1);
+    const L = leads[i]; if (L.k !== 'source' || !verticalCompatible(L,p) || !p.light || now - L.t > .5 || Math.hypot(L.x-p.x,L.y-p.y)>60) continue;
+    const owners=[...e.seenNow].map(id=>e.mem.p.get(id)).filter(r=>r.visual&&r.light&&verticalCompatible(r.visual,L)&&Math.hypot(r.visual.x-L.x,r.visual.y-L.y)<60); if(owners.length!==1||owners[0].id!==r.id) continue;
+    noteEv(r, 'light', L.x, L.y, L.u, L.c, L.t,L); leads.splice(i, 1);
     if (e.inv && e.inv.lead === L.id) e.inv = null;
   }
 }
@@ -60,11 +63,12 @@ function bestAnonLead(e, now, modality) {
 }
 /* where the entity believes a player is: the body itself while it is seen, otherwise its memory (never the truth) */
 function perc(eng, e, r) {
+  if(eng.geo.spatial){const p=r.seen&&r.visual,est=p||estimate(e,r,eng.now,eng.geo);return {...est,vx:p?p.vx:r.lvx,vy:p?p.vy:r.lvy,vz:p?p.vz:r.lkvz||0,sp:Math.hypot(p?p.vx:r.lvx,p?p.vy:r.lvy),seen:!!p,p:p||null};}
   if (r.seen) { const p = r.visual; if (p) return { x: p.x, y: p.y, vx: p.vx, vy: p.vy, sp: Math.hypot(p.vx, p.vy), angle: p.angle, seen: true, p }; }
   const est = estimate(e, r, eng.now, eng.geo); return { x: est.x, y: est.y, vx: r.lvx, vy: r.lvy, sp: Math.hypot(r.lvx, r.lvy), seen: false, p: null, unc: est.unc };
 }
 /* a body in physical contact (capture range): contact is physics, not perception */
-function touching(eng, e, id, reach) { const p = eng.playerById(id); return p && p.alive && !p.caught && Math.hypot(p.x - e.x, p.y - e.y) < reach ? p : null; }
+function touching(eng, e, id, reach) { const p = eng.playerById(id); return p && p.alive && !p.caught && (eng.geo.spatial?eng.geo.physicalContact(e,p,reach):Math.hypot(p.x - e.x, p.y - e.y) < reach) ? p : null; }
 /* has this entity perceived that the player is out of the hunt (dead, or in another creature's grip)?  Only what it saw; the player leaving the
  * game (record deleted) is housekeeping */
 function tgtGone(eng, e, r) {
@@ -80,10 +84,12 @@ function mayRetarget(e, now) { const cur = e.target > 0 ? e.mem.p.get(e.target) 
  * distance at which the player could make it out: close by, or with the entity itself in light.  Used by Part 2 stages 2D/2E; debug-visible now. */
 const EYE_CONE = .35;
 function facedBy(eng, e, p, r, emit = 0, own = null) {        // emit: how visible the entity makes itself in the dark (a Smiler's gleaming face)
+  if(eng.geo.spatial)p=r?.visual;
   if (!p || !p.alive || !r || !r.seen) return null;             // own: the light on itself as the entity knows it (2D Smiler: the lamp field + beams it saw) -
-  const d = Math.hypot(e.x - p.x, e.y - p.y); if (d > 900) return null;    //      then nobody's torch is read from where they really are
+  const d = eng.geo.spatial?eng.geo.distance(e,p):Math.hypot(e.x - p.x, e.y - p.y); if (d > 900) return null;    //      then nobody's torch is read from where they really are
   const off = Math.abs(angDiff(Math.atan2(e.y - p.y, e.x - p.x), p.angle)); if (off > EYE_CONE) return null;
-  const lit = Math.max(emit, own !== null ? own : eng.geo.lightLevel(e.x, e.y, eng.lightPlayers()));
+  if(eng.geo.spatial){const a=eng.geo.eye(p),b=eng.geo.eye(e);if(!eng.geo.clearRay(a,b)||Math.abs(Math.atan2(b.z-a.z,Math.hypot(b.x-a.x,b.y-a.y))-(p.pitch||0))>EYE_CONE)return null;}
+  const lit = Math.max(emit, own !== null ? own : eng.geo.lightLevel(e.x, e.y, eng.lightPlayers(),e));
   if (d > 240 && lit < .3) return null;
   return { d, off, lit };
 }
@@ -91,6 +97,7 @@ function memAge(e, r, now) { return now - Math.max(r.seenAt, r.heardAt); }
 function memHalfLife(e) { return lerp(7, 46, e.tr.MEMORY); }        // seconds until an old sighting is (mostly) forgotten
 /* where might the player be now?  the last known position pushed along its last heading, with growing uncertainty */
 function estimate(e, r, now, geo) {
+  if(geo?.spatial)return spatialEstimate(e,r,now,geo);
   const age = Math.max(0, now - r.seenAt), sp = Math.hypot(r.lvx, r.lvy);
   const dur = Math.min(age, 3.2) * (sp > 20 ? 1 : 0), k = sp > 1 ? 1 / sp : 0;
   let D = Math.min(sp * dur * .55, 520);
@@ -101,23 +108,26 @@ function estimate(e, r, now, geo) {
 function visualObservation(e, eng, p) {
   const geo = eng.geo, cfg = e.sp.vision;
   if (!p.alive) return {vis:false,strength:0,d:Infinity};
-  const dx = p.x - e.x, dy = p.y - e.y, d = Math.hypot(dx, dy);        // (v23: no record is made for somebody it does not see)
+  const dx = p.x - e.x, dy = p.y - e.y, d = geo.spatial?geo.distance(e,p):Math.hypot(dx, dy);        // (v23: no record is made for somebody it does not see)
     let vis = false, strength = 0;
+    let spatial=null;
     const stName = W_SN[p.st] || 'stand';
     let range = cfg.range * (.5 + .7 * e.tr.VISION);
-    const lit = geo.lightLevel(p.x, p.y, null), own = p.light ? (KIND_GLARE[p.kind] || 1) : 0;
+    const lit = geo.lightLevel(p.x, p.y, null,p), own = p.light ? (geo.spatial?(KIND_GLARE[p.kind]||0):(KIND_GLARE[p.kind] || 1)) : 0;
     let lightF = cfg.dark ? .82 + .18 * Math.max(lit, own) : .3 + .7 * Math.max(lit, own * .9);
     if (p.light && !cfg.dark) lightF *= 1 + .55 * own;                         // a lit lantern is a beacon
-    const motion = .7 + .5 * clamp(p.sp / 172, 0, 1.4);
+    const observed = geo.spatial ? e.mem.p.get(p.id)?.visual : null;
+    const motion = .7 + .5 * clamp((geo.spatial ? (observed ? Math.hypot(observed.vx,observed.vy) : 0) : p.sp) / 172, 0, 1.4);
     range *= lightF * (POSTURE_VIS[p.st] || 1) * motion * (e.act === 'listen' ? .8 : 1);
     const floor = cfg.floor || 70;                                            // something crouched in the dark right beside it is noticed regardless of posture
     if (d <= Math.max(range, floor)) {
       const bearing = Math.atan2(dy, dx), inFov = d < 110 || Math.abs(angDiff(bearing, e.ang + (e.head || 0))) <= cfg.fov / 2;
       // under an occluder (a table, the wall round a hole) a body can only be made out from close by, whatever the light: not visible from across the room
-      const cz = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y) : null;
-      if (inFov && (!cz || d < cz.reveal) && geo.sees(e.x, e.y, p.x, p.y, p.prof)) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
+      const cz = !geo.spatial&&WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y) : null;
+      const clear=inFov&&(!cz||d<cz.reveal)&&(geo.spatial?(spatial=geo.visibleBody(e,p)).visible:geo.sees(e.x,e.y,p.x,p.y,p.prof));
+      if (clear) { vis = true; strength = clamp(Math.pow(1 - d / Math.max(range, floor), .55), .08, 1); }
     }
-  return { vis, strength, d };
+  return geo.spatial?{vis,strength,d,spatial}:{ vis, strength, d };
 }
 
 function updateVision(e, eng, dt, cands) {
@@ -126,7 +136,7 @@ function updateVision(e, eng, dt, cands) {
   for (const r0 of e.mem.p.values()) r0.seen = false;
   for (const p of cands) {
     if (!p.alive) continue;
-    let r = e.mem.p.get(p.id); const {vis, strength, d} = visualObservation(e, eng, p);
+    let r = e.mem.p.get(p.id); const {vis, strength, d,spatial} = visualObservation(e, eng, p);
     if (!vis) continue;
     if (!r) r = rec(e, p.id);
     r.seen = vis; r.dist = d;
@@ -134,11 +144,13 @@ function updateVision(e, eng, dt, cands) {
       if (p.caught) r.heldAt = now;                                              // it can see that somebody else has them
       r.aw = Math.min(1, r.aw + strength * dt * (cfg.gain || 3.2));
       if (r.seenAt < now - 6) r.first = now;
-      const cw = WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y, 34) : null; if (cw) { r.crawl = cw.id; r.crawlAt = now; } else if (now - r.crawlAt > 2) r.crawl = null;   // seen going into (or at the mouth of) a crawlspace: remembered
-      r.seenAt = now; r.lkx = p.x; r.lky = p.y; r.lvx = p.vx; r.lvy = p.vy; r.conf = 1; r.st = p.st; r.stamina = p.stamina; r.ex = p.ex; r.prof = p.prof; r.light = p.light; r.lost = 0;
-      r.visual = {id:p.id,x:p.x,y:p.y,vx:p.vx,vy:p.vy,angle:p.angle,alive:p.alive,caught:!!p.caught,st:p.st,ex:p.ex,t:now};
+      const cw = !geo.spatial&&WORLD.crawlAt ? WORLD.crawlAt(p.x, p.y, 34) : null; if (cw) { r.crawl = cw.id; r.crawlAt = now; } else if (now - r.crawlAt > 2) r.crawl = null;   // seen going into (or at the mouth of) a crawlspace: remembered
+      const snapshot=geo.spatial?spatialVisualSnapshot(eng,e,p,r,spatial):null;
+      r.seenAt = now; r.lkx = p.x; r.lky = p.y; r.lvx = snapshot?snapshot.vx:p.vx; r.lvy = snapshot?snapshot.vy:p.vy; r.conf = 1; r.st = p.st; r.stamina = p.stamina; r.ex = p.ex; r.prof = p.prof; r.light = geo.spatial?!!(p.light&&KIND_GLARE[p.kind]):p.light; r.lost = 0;
+      r.visual = snapshot || {id:p.id,x:p.x,y:p.y,vx:p.vx,vy:p.vy,angle:p.angle,alive:p.alive,caught:!!p.caught,st:p.st,ex:p.ex,t:now};
+      if(snapshot){r.visual=snapshot;r.spatial=spatialFields(snapshot);r.lkz=snapshot.z;r.lkvz=snapshot.vz;r.lvx=snapshot.vx;r.lvy=snapshot.vy;}
       habitObserve(e, r, now);
-      noteEv(r, 'see', p.x, p.y, 16, 1, now);
+      noteEv(r, 'see', p.x, p.y, 16, 1, now,spatial);
       e.seenNow.add(p.id);
     }
   }
@@ -149,26 +161,31 @@ function updateVision(e, eng, dt, cands) {
     if (r0.seen || r0.downAt >= r0.seenAt) continue;
     const pv = eng.playerById(r0.id); if (!pv || pv.alive || !pv.dead) continue;
     const d = Math.hypot(pv.x - e.x, pv.y - e.y);
-    if (d < 900 && (d < 110 || Math.abs(angDiff(Math.atan2(pv.y - e.y, pv.x - e.x), e.ang + (e.head || 0))) <= cfg.fov / 2) && geo.los(e.x, e.y, pv.x, pv.y)) r0.downAt = now;
+    if (d < 900 && (d < 110 || Math.abs(angDiff(Math.atan2(pv.y - e.y, pv.x - e.x), e.ang + (e.head || 0))) <= cfg.fov / 2) && (geo.spatial?geo.visibleBody(e,pv).visible:geo.los(e.x, e.y, pv.x, pv.y))) r0.downAt = now;
   }
   for (const r0 of e.mem.p.values()) if (!r0.seen) r0.lost += dt;
 }
 
 /* the sound bus delivers each event to every entity once */
 function hearEvent(e, eng, ev) {
-  const geo = eng.geo, d = Math.hypot(ev.x - e.x, ev.y - e.y);
+  const geo = eng.geo;
+  if(geo.spatial&&(!Number.isFinite(ev.z)||!Number.isFinite(e.z)))return;
+  const acoustic=geo.spatial?geo.geometry.propagateSound({x:ev.x,y:ev.y,z:ev.z+1},geo.eye(e)):null;
+  if(acoustic&&!acoustic.audible)return;
+  if(acoustic){const st=geo.sensorCounters();st.soundQueries++;st.soundNodes+=acoustic.stats.nodes;st.soundPortals+=acoustic.stats.portals;st.soundAlternatives+=acoustic.stats.alternatives;}
+  const d=acoustic?acoustic.distance:Math.hypot(ev.x-e.x,ev.y-e.y);
   const identified = identifySound(eng, e, ev);
   const focus = identified && identified.id === e.target && (e.state === S.HUNTING || e.state === S.SEARCHING) && (ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land') ? 1.3 : 1;   // a hunting animal tracks its prey's running footfalls further - careful movement gets no such penalty
   let eff = ev.r * (.42 + e.tr.HEARING * 1.05) * focus * (e.act === 'listen' ? 1.5 : 1) * (e.state === S.FEEDING ? .65 : 1) * (e.state === S.DORMANT ? .75 : 1) * (e.deaf > 0 ? .3 : 1);
   if (d > eff * 1.05) return;
-  const clear = geo.los(e.x, e.y, ev.x, ev.y);
+  const clear = acoustic?acoustic.clear:geo.los(e.x, e.y, ev.x, ev.y);
   if (!clear) eff *= .6;
   if (d > eff) return;
-  const I = ev.I * Math.pow(1 - d / eff, .7);
+  const I = ev.I * Math.pow(1 - d / eff, .7) * (acoustic?acoustic.transmission:1);
   if (I < .03) return;
   const unc = (26 + d * .16) * (clear ? 1 : 1.75) * (1.55 - e.tr.INTELLIGENCE * .45) * (1.4 - e.tr.HEARING * .35) * (ev.type === 'breath' ? 1.5 : 1);
-  const a = e.streams.perception() * TAU, m = Math.sqrt(e.streams.perception()) * unc, hx = ev.x + Math.cos(a) * m, hy = ev.y + Math.sin(a) * m;
-  const h = { id: ++e.mem.soundId, x: hx, y: hy, I, type: ev.type, t: eng.now, src: identified ? identified.id : (ev.ent || ev.src < 0) ? -1 : 0, pid: identified ? identified.id : null, attribution: identified ? 'identified' : 'anonymous', modality: 'sound', c: Math.min(1,.4+.5*I), u: unc, unc, clear };
+  const a = e.streams.perception() * TAU, m = Math.sqrt(e.streams.perception()) * unc, hx = (acoustic?acoustic.observation.x:ev.x) + Math.cos(a) * m, hy = (acoustic?acoustic.observation.y:ev.y) + Math.sin(a) * m;
+  const h = { id: ++e.mem.soundId, x: hx, y: hy, I, type: ev.type, t: eng.now, src: identified ? identified.id : (ev.ent || ev.src < 0) ? -1 : 0, pid: identified ? identified.id : null, attribution: identified ? 'identified' : 'anonymous', modality: 'sound', c: Math.min(1,.4+.5*I), u: unc, unc, clear, ...(acoustic?spatialFields(acoustic.observation):{}) };
   e.hear = h; e.heardCount = (e.heardCount || 0) + 1;
   e.mem.sounds.unshift(h); if (e.mem.sounds.length > 8) e.mem.sounds.pop();
   if (identified) {
@@ -176,17 +193,17 @@ function hearEvent(e, eng, ev) {
     const loud = I > .3 || ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land';
     if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (hx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (hy - r.hy) / pdt, .5); } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
     r.heardAt = eng.now; r.hx = hx; r.hy = hy; r.aw = Math.min(1, r.aw + I * .9);
-    noteEv(r, 'sound', hx, hy, unc, Math.min(1, .4 + .5 * I), eng.now);
+    noteEv(r, 'sound', hx, hy, unc, Math.min(1, .4 + .5 * I), eng.now,acoustic?.observation);
     if (eng.now - r.seenAt > 1.2) {                                              // not in sight: the sound is all we have
       const k = Math.min(1, I * 1.4 + .25);
       r.lkx = lerp(r.lkx, hx, r.conf < .35 ? 1 : k); r.lky = lerp(r.lky, hy, r.conf < .35 ? 1 : k);
-      r.conf = Math.max(r.conf, .4 + .5 * I); r.st = ev.st !== undefined ? ev.st : r.st;
+      r.conf = Math.max(r.conf, .4 + .5 * I); if(!geo.spatial)r.st = ev.st !== undefined ? ev.st : r.st;else r.spatial=spatialFields(acoustic.observation);
       // (v23) which way it is going: only what the footsteps themselves say (the heading built from successive heard positions, fuzz and all).
       // It used to copy the player's true velocity here - the one place hearing leaked the truth.
       if (loud && Math.hypot(r.hvx, r.hvy) > 1) { r.lvx = r.hvx; r.lvy = r.hvy; }
     }
   }
-  if (!identified && h.src === 0) addLead(e, eng.now, {k:'sound',x:h.x,y:h.y,u:h.unc,c:h.c,sal:h.I,type:h.type});
+  if (!identified && h.src === 0) addLead(e, eng.now, {k:'sound',x:h.x,y:h.y,u:h.unc,c:h.c,sal:h.I,type:h.type,...spatialFields(h)});
   return h;
 }
 

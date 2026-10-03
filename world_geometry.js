@@ -1,5 +1,5 @@
 /* Shared geometry boundary — preserved Stage B planar path + Stage C spatial queries.
- * Data lives in level definitions. Stage E/G contact/routing APIs remain deferred.
+ * Data lives in level definitions. Stage E support traces share physical queries.
  * No time reads, RNG, perception, species decisions or render dependencies. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.TFB_GEOMETRY=factory();})(typeof self!=='undefined'?self:this,function(){
 'use strict';
@@ -226,9 +226,131 @@ function compileSpatial(definition){
    if(enter<=exit&&enter>=0&&enter<=1&&(!best||enter<best.t-NUM.tie||(Math.abs(enter-best.t)<=NUM.tie&&s.id<best.primitiveId)))best={t:enter,point:add(from,mul(delta,enter)),normal,primitiveId:s.id,materialId:s.materialId,distance:norm(delta)*enter};
   }return best;
  }
- const deferred=name=>()=>{throw Error(name+': NOT IMPLEMENTED BY DESIGN — Stage E/G');};
+ // A contact seam is a real shared boundary at matching height, not a matching
+ // label or XY overlap. This is also used for top-tread/landing support aliases.
+ function continuousSupport(fromId,toId,pos,shape){
+  const a=patches.get(fromId),b=patches.get(toId);if(!a||!b)return false;if(a.id===b.id)return true;
+  if(!footprintRange(a.polygon,pos,shape.radius,a.plane)||!footprintRange(b.polygon,pos,shape.radius,b.plane))return false;
+  for(const [u,v]of [[a,b],[b,a]])for(const p of u.polygon)for(let i=0;i<v.polygon.length;i++){
+   const q=v.polygon[i],r=v.polygon[(i+1)%v.polygon.length],dx=r.x-q.x,dy=r.y-q.y,t=Math.max(0,Math.min(1,((p.x-q.x)*dx+(p.y-q.y)*dy)/(dx*dx+dy*dy)));
+   if(Math.hypot(p.x-q.x-t*dx,p.y-q.y-t*dy)<NUM.epsilon&&Math.abs(planeAt(a.plane,p.x,p.y)-planeAt(b.plane,p.x,p.y))<NUM.epsilon)return true;
+  }return false;
+ }
+ function traceSupportMotion(start,route,shape,options={}){
+  // Retain the historical unsupported-signature error; valid Stage E calls are
+  // distinguished by explicit pose, route and a physical collider profile.
+  if(!start||!Number.isFinite(start.z)||!Array.isArray(route)||!shape?.radius)throw Error('traceSupportMotion: NOT IMPLEMENTED for an untyped pose/profile');
+  checkPose(start);checkShape(shape);let current={...start},previous=start.supportId;
+  const initial=patches.get(previous),surface=start.navSurfaceId||initial?.navSurfaceId;
+  if(!surface)return {ok:false,reason:'support-context',positions:[]};
+  const positions=[],supportIds=[];
+  for(const target of route){
+   checkPose(target);const targetSurface=target.navSurfaceId||patches.get(target.supportId)?.navSurfaceId||surface;
+   if(targetSurface!==surface||target.link)return {ok:false,reason:'explicit-transition-required',positions,supportIds};
+   if(!clearance(shape,current).fits||!clearance(shape,target).fits)return {ok:false,reason:'clearance',positions,supportIds};
+   const delta=sub(target,current),hit=sweep(shape,current,delta,'collision',0);
+   if(hit&&hit.t<1-1e-5)return {ok:false,reason:'sweep',hit,positions,supportIds};
+   const lo={x:Math.min(current.x,target.x)-shape.radius,y:Math.min(current.y,target.y)-shape.radius,z:Math.min(current.z,target.z)-NUM.skin*2},hi={x:Math.max(current.x,target.x)+shape.radius,y:Math.max(current.y,target.y)+shape.radius,z:Math.max(current.z,target.z)+NUM.skin*2};
+   const spans=[];
+   for(const s of candidates(lo,hi))for(const p of supportsBySolid.get(s.id)||[]){
+    if(p.navSurfaceId!==surface||p.normal.z<Math.cos((shape.maxSlopeDegrees??35)*Math.PI/180))continue;
+    const slope=Math.hypot(p.plane.a,p.plane.b),ox=slope?shape.radius*p.plane.a/slope:0,oy=slope?shape.radius*p.plane.b/slope:0;
+    // Exact interval clipping of the maximum-height support point. Union of
+    // these intervals proves continuous support; a tiny gap cannot evade samples.
+    let enter=0,exit=1;
+    for(let i=0;i<p.polygon.length;i++){
+     const a=p.polygon[i],b=p.polygon[(i+1)%p.polygon.length],nx=a.y-b.y,ny=b.x-a.x;
+     const v=nx*(current.x+ox-a.x)+ny*(current.y+oy-a.y),dv=nx*delta.x+ny*delta.y;
+     if(Math.abs(dv)<NUM.epsilon){if(v< -NUM.epsilon){exit=-1;break;}}
+     else if(dv>0)enter=Math.max(enter,(-NUM.epsilon-v)/dv);else exit=Math.min(exit,(-NUM.epsilon-v)/dv);
+    }
+    if(enter>exit)continue;
+    const fit=t=>{const q=add(current,mul(delta,t)),base=planeAt(p.plane,q.x,q.y)+shape.radius*slope;return q.z>=base-NUM.epsilon&&q.z-base<=NUM.skin*2+NUM.epsilon;};
+    if(fit(enter)&&fit(exit))spans.push([enter,exit,p.id]);
+   }
+   spans.sort((a,b)=>a[0]-b[0]||a[2].localeCompare(b[2]));let covered=0;
+   for(const [a,b]of spans){if(a>covered+NUM.epsilon)break;covered=Math.max(covered,b);}
+   if(covered<1-NUM.epsilon||!spans.length)return {ok:false,reason:'unsupported-or-step',positions,supportIds};
+   const at=supports(shape,target,[target.z-NUM.skin*2-NUM.epsilon,target.z+NUM.epsilon],previous).filter(p=>p.navSurfaceId===surface);
+   const support=at.find(p=>p.id===target.supportId)||at.find(p=>!target.supportId||continuousSupport(target.supportId,p.id,target,shape));
+   if(!support)return {ok:false,reason:'support-context',positions,supportIds};
+   previous=support.id;current={...target,supportId:previous,navSurfaceId:surface};positions.push(current);supportIds.push(previous);
+  }
+  return {ok:true,positions,supportIds};
+ }
+ function contact(a,b,options={}){
+  if(!a?.shape||!b?.shape)throw Error('contact: NOT IMPLEMENTED for untyped physical proxies');
+  checkPose(a);checkPose(b);checkShape(a.shape);checkShape(b.shape);
+  const reach=options.reach??a.shape.radius+b.shape.radius;
+  if(!(reach>0&&Number.isFinite(reach)))throw Error('contact requires finite reach');
+  const low=Math.max(a.z,b.z),high=Math.min(a.z+a.shape.height,b.z+b.shape.height);
+  if(high<=low||norm(sub(a,b))>=reach)return {touching:false,reason:'separate-proxies'};
+  if(!clearance(a.shape,a).fits||!clearance(b.shape,b).fits)return {touching:false,reason:'invalid-proxy'};
+  const z=(low+high)/2,from={x:a.x,y:a.y,z},to={x:b.x,y:b.y,z},hit=raycast(from,to,'collision');
+  return hit?{touching:false,reason:'solid',primitiveId:hit.primitiveId}:{touching:true,point:{x:(a.x+b.x)/2,y:(a.y+b.y)/2,z}};
+ }
+ function acousticSegment(a,b){
+  checkPose(a);checkPose(b);const delta=sub(b,a),lo={},hi={};for(const k of ['x','y','z']){lo[k]=Math.min(a[k],b[k]);hi[k]=Math.max(a[k],b[k]);}
+  let transmission=1,blocked=0;
+  for(const s of candidates(lo,hi)){
+   const planes=[{n:{x:-s.upper.a,y:-s.upper.b,z:1},c:-s.upper.c},{n:{x:s.lower.a,y:s.lower.b,z:-1},c:s.lower.c}];
+   for(let i=0;i<s.footprint.length;i++){const p=s.footprint[i],q=s.footprint[(i+1)%s.footprint.length];planes.push({n:{x:q.y-p.y,y:p.x-q.x,z:0},c:q.x*p.y-p.x*q.y});}
+   let enter=0,exit=1;
+   for(const p of planes){const v=dot(p.n,a)+p.c,d=dot(p.n,delta);if(Math.abs(d)<NUM.epsilon){if(v>0){exit=-1;break;}}else{const t=-v/d;if(d<0)enter=Math.max(enter,t);else exit=Math.min(exit,t);}}
+   if(enter>exit||exit-enter<=NUM.epsilon)continue;
+   const material=D.materials.find(m=>m.id===s.materialId);transmission*=Math.min(s.channels.acousticTransmission,material.acousticTransmission);blocked++;
+   if(transmission<=0)break;
+  }
+  return {distance:norm(delta),transmission,blocked};
+ }
+ // Portal graph belongs to geometry. Only the final sanitized sensory region is
+ // delivered to belief; the true source pose and route never leave that boundary.
+ const spaceAt=p=>D.spaces.filter(s=>['x','y','z'].every(k=>p[k]>=s.bounds.min[k]&&p[k]<=s.bounds.max[k])).map(s=>s.id);
+ const acousticPortals=D.portals.filter(p=>p.channels.acousticTransmission>0).map(p=>{
+  const point=p.polygon.reduce((a,b)=>add(a,mul(b,1/p.polygon.length)),{x:0,y:0,z:0});
+  return {id:p.id,point,spaces:[p.fromSpaceId,p.toSpaceId],transmission:p.channels.acousticTransmission};
+ }).filter(p=>!raycast(p.point,p.point,'collision'));
+ const acousticAdj=new Map(D.spaces.map(s=>[s.id,acousticPortals.filter(p=>p.spaces.includes(s.id))]));
+ function soundRegion(receiver,apparent,unresolved){
+  const seen=new Set(spaceAt(receiver)),queue=[...seen];let expansions=0;
+  while(queue.length&&expansions++<128){const id=queue.shift();for(const p of acousticAdj.get(id)||[])for(const next of p.spaces)if(!seen.has(next)){seen.add(next);queue.push(next);}}
+  const spaces=D.spaces.filter(s=>seen.has(s.id));
+  const zMin=unresolved||!spaces.length?D.bounds.min.z:Math.min(...spaces.map(s=>s.bounds.min.z));
+  const zMax=unresolved||!spaces.length?D.bounds.max.z:Math.max(...spaces.map(s=>s.bounds.max.z));
+  const alternatives=new Set();
+  for(const solid of candidates({x:apparent.x-160,y:apparent.y-160,z:zMin},{x:apparent.x+160,y:apparent.y+160,z:zMax}))for(const p of supportsBySolid.get(solid.id)||[])if(p.navSurfaceId)alternatives.add(p.navSurfaceId);
+  const supportCandidates=alternatives.size<=4?[...alternatives].sort():[];
+  return {zMin,zMax,supportCandidates,unresolved:unresolved||alternatives.size!==1||zMax-zMin>72,expansions};
+ }
+ function propagateSound(source,receiver){
+  checkPose(source);checkPose(receiver);
+  const direct=acousticSegment(source,receiver),startSpaces=new Set(spaceAt(source)),endSpaces=new Set(spaceAt(receiver));
+  const pool=[],seen=new Set(),queue=[...startSpaces];let expanded=0;
+  while(queue.length&&expanded++<128&&pool.length<128){const id=queue.shift();for(const p of acousticAdj.get(id)||[])if(!seen.has(p.id)){seen.add(p.id);pool.push(p);for(const s of p.spaces)if(s!==id&&!queue.includes(s))queue.push(s);}}
+  pool.sort((a,b)=>a.id.localeCompare(b.id));
+  const nodes=[{id:'source',point:source,spaces:[...startSpaces],transmission:1},...pool,{id:'receiver',point:receiver,spaces:[...endSpaces],transmission:1}],last=nodes.length-1,N=nodes.length;
+  const score=Array(N).fill(Infinity),distance=Array(N).fill(0),transmission=Array(N).fill(0),parent=Array(N).fill(-1),closed=new Set();score[0]=0;transmission[0]=1;let edges=0;
+  for(let count=0;count<N&&count<130;count++){
+   let i=-1;for(let j=0;j<N;j++)if(!closed.has(j)&&(i<0||score[j]<score[i]))i=j;
+   if(i<0||!Number.isFinite(score[i]))break;closed.add(i);if(i===last)break;
+   for(let j=1;j<N;j++){
+    if(i===j||closed.has(j))continue;
+    if(!(i===0&&j===last)&&!nodes[i].spaces.some(s=>nodes[j].spaces.includes(s)))continue;
+    const q=i===0&&j===last?direct:acousticSegment(nodes[i].point,nodes[j].point),pass=q.transmission*nodes[j].transmission;edges++;
+    if(pass<=0)continue;const cost=score[i]+q.distance-256*Math.log(pass);
+    if(cost<score[j]-NUM.epsilon){score[j]=cost;distance[j]=distance[i]+q.distance;transmission[j]=transmission[i]*pass;parent[j]=i;}
+   }
+  }
+  if(!Number.isFinite(score[last]))return {audible:false,stats:{nodes:closed.size,portals:pool.length,edges}};
+  const via=parent[last]>0?nodes[parent[last]]:null,apparent=via?via.point:source,uncertainty=soundRegion(receiver,apparent,!via&&direct.blocked>0);
+  return {audible:true,distance:distance[last],transmission:transmission[last],clear:!via&&direct.blocked===0,
+   // XY bearing may be exact before the brain's ordinary hearing noise. Z is
+   // deliberately only a receiver/portal-derived interval, never source.z.
+   observation:{x:apparent.x,y:apparent.y,zMin:uncertainty.zMin,zMax:uncertainty.zMax,supportCandidates:uncertainty.supportCandidates,unresolved:uncertainty.unresolved},
+   stats:{nodes:closed.size,portals:pool.length,edges,regionNodes:uncertainty.expansions,alternatives:uncertainty.supportCandidates.length}};
+ }
  return Object.freeze({definition:D,identity:freeze({schemaVersion:D.schemaVersion,assetId:D.assetId,geometryRevision:D.geometryRevision,contentHash:contentHash(D),geometryMode:'spatial',compilerRevision:'stage-c-1'}),numeric:NUM,
-  clearance,supports,sweep,raycast,contact:deferred('contact'),traceSupportMotion:deferred('traceSupportMotion'),
+  clearance,supports,sweep,raycast,continuousSupport,contact,traceSupportMotion,propagateSound,
   supportPatch:id=>patches.get(id)||null,
   spacesAt:p=>{checkPose(p);return D.spaces.filter(s=>['x','y','z'].every(k=>p[k]>=s.bounds.min[k]&&p[k]<=s.bounds.max[k])&&!raycast(p,p)).map(s=>s.id);},
   // Instrumentation reports immutable index size, never drives simulation budgets.
