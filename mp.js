@@ -847,6 +847,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
     net.textContent = N.on ? 'ONLINE · ROOM ' + room.toUpperCase() + ' · ' + (peersN + 1) + ' WANDERER' + (peersN ? 'S' : '') + ' · SHARED MONSTERS' + (adm.unlocked ? ' · ADMIN' : '')
                            : 'CONNECTING…';
   }
+  if (spatialClient) net.textContent = spatialBlocked ? 'INCOMPATIBLE WORLD' : N.on ? 'ONLINE · ' + (peersN + 1) + ' WANDERERS' : 'CONNECTING…';
   /* --- other wanderers: real avatars (same look as yours), their own lights, hover name --- */
   if (!spatialClient) drawPeers(p, cam, sc, los, t, W, H);
   /* --- dread: proximity to hound + smilers drives heartbeat, drone, vignette, shake, flicker --- */

@@ -6,7 +6,7 @@
   'use strict';
   const V = window.TFB_VIEW;
   const clone = x => JSON.parse(JSON.stringify(x));
-  let A, R, P, geometry, model, view, pass;
+  let A, R, P, geometry, model, view, pass, artEpoch;
   const art = new Map();
   const config = { cutaway: true, quality: 1, camera: null, focus: null, labels: false };
   const state = { ready: false, frames: 0, dt: 0, time: 0, started: false, lightOn: false, packets: [], trace: [] };
@@ -84,6 +84,10 @@
     if (!state.ready) return;
     const start = performance.now(), net = window.__net.spatialState?.(), history = window.__spatialHistory?.();
     const local = A.H, focus = config.focus || local, epoch = net?.world?.worldEpoch || 'connecting';
+    if (artEpoch !== epoch) {
+      for (const e of art.values()) { e.texture?.destroy(true); e.wrap.destroy({ children: true }); }
+      art.clear(); artEpoch = epoch;
+    }
     state.frames++;
     const camera = config.camera || { x: local.x, y: local.y, z: local.z };
     R.camera = { ...camera }; R.scale = window.__cameraPolicy.baseScale(innerWidth, innerHeight);
@@ -91,10 +95,18 @@
     const cutStart = performance.now(); view.update(focus, state.dt, { epoch, enabled: config.cutaway });
     const cutMs = performance.now() - cutStart;
     const renderer = R.app.renderer;
+    // Raw pass samplers must be detached before Pixi writes an actor's texture
+    // again. Resetting Pixi's cache alone does not unbind raw WebGL samplers.
+    const gl = renderer.gl;
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    for (const unit of [0, 1]) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, null); }
+    gl.activeTexture(gl.TEXTURE0);
+    // Pixi resets its clear-color cache to transparent without issuing GL.
+    gl.clearColor(0, 0, 0, 0);
     renderer.resetState();
     pass.art.length = 1;
     const packets = [];
-    if (state.started && !A.G.caught && !window.__hideSelf) packets.push(livePacket('p' + local.id, 'player', local, local));
+    if (state.started && !A.G.caught && !window.__hideSelf) packets.push(livePacket('p' + local.id, 'player', { ...local, generation: net?.pose?.generation }, local));
     for (const peer of net?.peers || []) {
       if (peer.dead) continue;
       const pose = history?.sample('p' + peer.id, performance.now());

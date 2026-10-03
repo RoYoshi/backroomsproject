@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('fs'),path=require('path');
+const {fixture}=require('../stage_e/fixture'),{server}=require('../stage_f/wire'),{launch}=require('../stage_d/browser_support');
+const out=path.resolve(process.argv[2]);fs.mkdirSync(out,{recursive:true});
+(async()=>{const s=await server(fixture());let b;try{b=await launch();const p=await b.newPage({viewport:{width:960,height:600}}),console=[];
+p.on('console',m=>console.push(m.text()));p.on('pageerror',e=>console.push(String(e)));
+await p.goto('http://127.0.0.1:'+s.port);await p.waitForFunction(()=>window.__spatial?.state.ready&&window.__net.on);
+await p.locator('#name').fill('H render');await p.locator('#enter').click();await p.waitForFunction(()=>__spatial.state.packets.length);
+const data=await p.evaluate(()=>{const s=__spatial,p=s.pass,g=p.gl;const before=g.getError();s.render();const pixels=p.pixels();const f=g.createFramebuffer();g.bindFramebuffer(g.FRAMEBUFFER,f);const a=p.art[1];g.framebufferTexture2D(g.FRAMEBUFFER,g.COLOR_ATTACHMENT0,g.TEXTURE_2D,a.tex,0);const ap=new Uint8Array(a.width*a.height*4);g.readPixels(0,0,a.width,a.height,g.RGBA,g.UNSIGNED_BYTE,ap);g.deleteFramebuffer(f);const alphas={};for(let i=3;i<ap.length;i+=4)alphas[ap[i]]=(alphas[ap[i]]||0)+1;let bright=0,max=0;for(let i=0;i<pixels.length;i+=4){max=Math.max(max,pixels[i],pixels[i+1],pixels[i+2]);if(pixels[i]+pixels[i+1]+pixels[i+2]>30)bright++;}return{alphas,corner:[...ap.slice(0,16)],before,after:g.getError(),bright,max,inspect:s.inspect(),canvases:[...document.querySelectorAll('canvas')].map(c=>({id:c.id,parent:c.parentElement.id,w:c.width,h:c.height,css:c.style.cssText,display:getComputedStyle(c).display,visibility:getComputedStyle(c).visibility,opacity:getComputedStyle(c).opacity})),tickers:{started:s.pass.renderer.renderingToScreen},context:g.getContextAttributes()};});
+await p.screenshot({path:path.join(out,'screen.png')});fs.writeFileSync(path.join(out,'diagnostic.json'),JSON.stringify({data,console},null,2));process.stdout.write(JSON.stringify({alphas:data.alphas,corner:data.corner,bright:data.bright,max:data.max,before:data.before,after:data.after,context:data.context,console}));
+}finally{if(b)await b.close();await s.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

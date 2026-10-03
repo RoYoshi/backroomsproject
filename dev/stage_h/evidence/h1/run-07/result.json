@@ -1,0 +1,2917 @@
+{
+  "status": "PASS",
+  "browser": "151.0.7922.34",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "checks": [
+    {
+      "name": "production Pixi boot and composed pixels",
+      "pixels": {
+        "hash": "a04bdb04",
+        "lit": 133593,
+        "error": 0
+      },
+      "state": {
+        "ready": true,
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 19,
+            "tick": 19,
+            "discontinuity": 1,
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.4611483145432236,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ground-north",
+            "navSurface": "nav:ground",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": []
+        },
+        "frames": 22,
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "art": 1,
+            "support": "support:ground-north",
+            "mode": "grounded",
+            "tick": 7
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "drawCalls": 26,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 386,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4650000,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "camera": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "focus": {
+              "id": 1,
+              "name": "H1 lower",
+              "equipment": {
+                "kind": "flashlight",
+                "color": "#ffe7b2",
+                "parts": {
+                  "flashlight": {
+                    "body": "#3b4650",
+                    "head": "#a1a9b0",
+                    "button": "#d8443a",
+                    "grip": "#181b1e"
+                  },
+                  "headlamp": {
+                    "strap": "#2d3b46",
+                    "housing": "#3a4054",
+                    "bracket": "#9a9ea6"
+                  },
+                  "lantern": {
+                    "frame": "#3d423c",
+                    "handle": "#9aa0a6",
+                    "cap": "#a3372c"
+                  },
+                  "camcorder": {
+                    "body": "#2b2f36",
+                    "lens": "#69717c",
+                    "grip": "#1b1d20",
+                    "trim": "#c9ccd0"
+                  }
+                }
+              },
+              "x": 160,
+              "y": 160,
+              "vx": 0,
+              "vy": 0,
+              "angle": 2.4611483145432236,
+              "distance": 0,
+              "stamina": 100,
+              "sprinting": false,
+              "exhausted": false,
+              "z": 0,
+              "vz": 0,
+              "shape": {
+                "id": "profile:player-stand",
+                "radius": 15,
+                "height": 60,
+                "eyeHeight": 50,
+                "maxSlopeDegrees": 35,
+                "maxStepRise": 12,
+                "stepLiftMax": 180
+              },
+              "posture": "stand",
+              "supportId": "support:ground-north",
+              "lastSupportId": null,
+              "motionMode": "grounded",
+              "step": null,
+              "tick": 7,
+              "events": [],
+              "diagnostics": [],
+              "groundDistance": 0,
+              "lowerBoundReported": false,
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "materialId": "material:concrete",
+              "trav": null,
+              "netVault": null,
+              "previousPosition": {
+                "x": 160,
+                "y": 160,
+                "z": 0
+              },
+              "mv": {
+                "s": "stand",
+                "t": 0.36666666666666664,
+                "sp": 0,
+                "st": 100,
+                "ex": 0,
+                "vp": 0,
+                "lean": 1,
+                "tw": 0
+              }
+            },
+            "focusSpace": [
+              "space:lower-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 1,
+                "target": true
+              }
+            ]
+          },
+          "cpuMs": 1.199999999254942,
+          "cutawayMs": 0.09999999776482582
+        },
+        "cutaway": {
+          "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+          "focus": {
+            "id": 1,
+            "name": "H1 lower",
+            "equipment": {
+              "kind": "flashlight",
+              "color": "#ffe7b2",
+              "parts": {
+                "flashlight": {
+                  "body": "#3b4650",
+                  "head": "#a1a9b0",
+                  "button": "#d8443a",
+                  "grip": "#181b1e"
+                },
+                "headlamp": {
+                  "strap": "#2d3b46",
+                  "housing": "#3a4054",
+                  "bracket": "#9a9ea6"
+                },
+                "lantern": {
+                  "frame": "#3d423c",
+                  "handle": "#9aa0a6",
+                  "cap": "#a3372c"
+                },
+                "camcorder": {
+                  "body": "#2b2f36",
+                  "lens": "#69717c",
+                  "grip": "#1b1d20",
+                  "trim": "#c9ccd0"
+                }
+              }
+            },
+            "x": 160,
+            "y": 160,
+            "vx": 0,
+            "vy": 0,
+            "angle": 2.4611483145432236,
+            "distance": 0,
+            "stamina": 100,
+            "sprinting": false,
+            "exhausted": false,
+            "z": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            },
+            "posture": "stand",
+            "supportId": "support:ground-north",
+            "lastSupportId": null,
+            "motionMode": "grounded",
+            "step": null,
+            "tick": 7,
+            "events": [],
+            "diagnostics": [],
+            "groundDistance": 0,
+            "lowerBoundReported": false,
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "materialId": "material:concrete",
+            "trav": null,
+            "netVault": null,
+            "previousPosition": {
+              "x": 160,
+              "y": 160,
+              "z": 0
+            },
+            "mv": {
+              "s": "stand",
+              "t": 0.36666666666666664,
+              "sp": 0,
+              "st": 100,
+              "ex": 0,
+              "vp": 0,
+              "lean": 1,
+              "tw": 0
+            }
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      }
+    },
+    {
+      "name": "real fixed-tick keyboard ramp",
+      "trace": [
+        {
+          "frame": 52,
+          "x": 730.7228180611295,
+          "y": 148,
+          "z": 47.91140903056474,
+          "tick": 30,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "server": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 569,
+            "tick": 569,
+            "discontinuity": 3,
+            "x": 700,
+            "y": 148,
+            "z": 32.5,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.8290926807525687,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          }
+        },
+        {
+          "frame": 53,
+          "x": 769.0731203754343,
+          "y": 148,
+          "z": 67.08656018771715,
+          "tick": 45,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "server": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 593,
+            "tick": 593,
+            "discontinuity": 3,
+            "x": 730.7228180611295,
+            "y": 148,
+            "z": 47.91140903056474,
+            "vx": 169.54655176765212,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.4611483145432236,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          }
+        },
+        {
+          "frame": 54,
+          "x": 807.5319195684405,
+          "y": 148,
+          "z": 86.31595978422023,
+          "tick": 60,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "server": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 628,
+            "tick": 628,
+            "discontinuity": 3,
+            "x": 769.0731203754343,
+            "y": 148,
+            "z": 67.08656018771715,
+            "vx": 171.96500344053018,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.4611483145432236,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          }
+        },
+        {
+          "frame": 55,
+          "x": 825.4800722750181,
+          "y": 148,
+          "z": 95.29003613750903,
+          "tick": 67,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "server": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 637,
+            "tick": 637,
+            "discontinuity": 3,
+            "x": 807.5319195684405,
+            "y": 148,
+            "z": 86.31595978422023,
+            "vx": 171.9995008008897,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.4611483145432236,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          }
+        },
+        {
+          "frame": 56,
+          "x": 833.1963545115976,
+          "y": 148,
+          "z": 99.14817725579881,
+          "tick": 82,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "server": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 653,
+            "tick": 653,
+            "discontinuity": 3,
+            "x": 825.4800722750181,
+            "y": 148,
+            "z": 95.29003613750903,
+            "vx": 171.99993130532388,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.4611483145432236,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          }
+        }
+      ],
+      "pose": {
+        "x": 833.1963545115976,
+        "z": 99.14817725579881
+      },
+      "state": {
+        "ready": true,
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 678,
+            "tick": 678,
+            "discontinuity": 3,
+            "x": 833.1963545115976,
+            "y": 148,
+            "z": 99.14817725579881,
+            "vx": 2.4534472524709434,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.4611483145432236,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": []
+        },
+        "frames": 56,
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 833.1963545115976,
+            "y": 148,
+            "z": 99.14817725579881,
+            "height": 60,
+            "art": 1,
+            "support": "support:ramp",
+            "mode": "grounded",
+            "tick": 82
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": 141.9963545115976,
+            "maxX": 1524.3963545115976,
+            "minY": -284,
+            "maxY": 580
+          },
+          "drawCalls": 28,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 386,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4650000,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 833.1963545115976,
+            "y": 148,
+            "z": 149.14817725579883
+          },
+          "camera": {
+            "x": 833.1963545115976,
+            "y": 148,
+            "z": 99.14817725579881
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "focus": {
+              "id": 1,
+              "name": "H1 lower",
+              "equipment": {
+                "kind": "flashlight",
+                "color": "#ffe7b2",
+                "parts": {
+                  "flashlight": {
+                    "body": "#3b4650",
+                    "head": "#a1a9b0",
+                    "button": "#d8443a",
+                    "grip": "#181b1e"
+                  },
+                  "headlamp": {
+                    "strap": "#2d3b46",
+                    "housing": "#3a4054",
+                    "bracket": "#9a9ea6"
+                  },
+                  "lantern": {
+                    "frame": "#3d423c",
+                    "handle": "#9aa0a6",
+                    "cap": "#a3372c"
+                  },
+                  "camcorder": {
+                    "body": "#2b2f36",
+                    "lens": "#69717c",
+                    "grip": "#1b1d20",
+                    "trim": "#c9ccd0"
+                  }
+                }
+              },
+              "x": 833.1963545115976,
+              "y": 148,
+              "vx": 2.4534472524709434,
+              "vy": 0,
+              "angle": 2.4611483145432236,
+              "distance": 148.9418274514088,
+              "stamina": 100,
+              "sprinting": false,
+              "exhausted": false,
+              "z": 99.14817725579881,
+              "vz": 0,
+              "shape": {
+                "id": "profile:player-stand",
+                "radius": 15,
+                "height": 60,
+                "eyeHeight": 50,
+                "maxSlopeDegrees": 35,
+                "maxStepRise": 12,
+                "stepLiftMax": 180
+              },
+              "posture": "stand",
+              "supportId": "support:ramp",
+              "lastSupportId": "support:ramp",
+              "motionMode": "grounded",
+              "step": null,
+              "tick": 82,
+              "events": [],
+              "diagnostics": [],
+              "groundDistance": 148.94182745140898,
+              "lowerBoundReported": false,
+              "normal": {
+                "x": -0.4472135954999579,
+                "y": 0,
+                "z": 0.8944271909999159
+              },
+              "materialId": "material:concrete",
+              "trav": null,
+              "netVault": null,
+              "previousPosition": {
+                "x": 833.1597806793594,
+                "y": 148,
+                "z": 99.1298903396797
+              },
+              "mv": {
+                "s": "stand",
+                "t": 0.2333333333333333,
+                "sp": 2,
+                "st": 100,
+                "ex": 0,
+                "vp": 0,
+                "lean": 1,
+                "tw": 0
+              }
+            },
+            "focusSpace": [],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 0,
+                "target": false
+              }
+            ]
+          },
+          "cpuMs": 1.1000000014901161,
+          "cutawayMs": 0
+        },
+        "cutaway": {
+          "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+          "focus": {
+            "id": 1,
+            "name": "H1 lower",
+            "equipment": {
+              "kind": "flashlight",
+              "color": "#ffe7b2",
+              "parts": {
+                "flashlight": {
+                  "body": "#3b4650",
+                  "head": "#a1a9b0",
+                  "button": "#d8443a",
+                  "grip": "#181b1e"
+                },
+                "headlamp": {
+                  "strap": "#2d3b46",
+                  "housing": "#3a4054",
+                  "bracket": "#9a9ea6"
+                },
+                "lantern": {
+                  "frame": "#3d423c",
+                  "handle": "#9aa0a6",
+                  "cap": "#a3372c"
+                },
+                "camcorder": {
+                  "body": "#2b2f36",
+                  "lens": "#69717c",
+                  "grip": "#1b1d20",
+                  "trim": "#c9ccd0"
+                }
+              }
+            },
+            "x": 833.1963545115976,
+            "y": 148,
+            "vx": 2.4534472524709434,
+            "vy": 0,
+            "angle": 2.4611483145432236,
+            "distance": 148.9418274514088,
+            "stamina": 100,
+            "sprinting": false,
+            "exhausted": false,
+            "z": 99.14817725579881,
+            "vz": 0,
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            },
+            "posture": "stand",
+            "supportId": "support:ramp",
+            "lastSupportId": "support:ramp",
+            "motionMode": "grounded",
+            "step": null,
+            "tick": 82,
+            "events": [],
+            "diagnostics": [],
+            "groundDistance": 148.94182745140898,
+            "lowerBoundReported": false,
+            "normal": {
+              "x": -0.4472135954999579,
+              "y": 0,
+              "z": 0.8944271909999159
+            },
+            "materialId": "material:concrete",
+            "trav": null,
+            "netVault": null,
+            "previousPosition": {
+              "x": 833.1597806793594,
+              "y": 148,
+              "z": 99.1298903396797
+            },
+            "mv": {
+              "s": "stand",
+              "t": 0.2333333333333333,
+              "sp": 2,
+              "st": 100,
+              "ex": 0,
+              "vp": 0,
+              "lean": 1,
+              "tw": 0
+            }
+          },
+          "focusSpace": [],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      }
+    },
+    {
+      "name": "real second production client falling interpolation",
+      "trace": [
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 660,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2261,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 694.3711612849937,
+          "z": 120.05,
+          "height": 60,
+          "art": 2,
+          "support": "support:balcony",
+          "mode": "grounded",
+          "tick": 2306,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 752.4840337214595,
+          "z": 96.67907185676547,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2341,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 752.4840337214595,
+          "z": 96.67907185676547,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2341,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 752.4840337214595,
+          "z": 96.67907185676547,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2341,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 752.4840337214595,
+          "z": 96.67907185676547,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2341,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 752.4840337214595,
+          "z": 96.67907185676547,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2341,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 752.4840337214595,
+          "z": 96.67907185676547,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2341,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 752.4840337214595,
+          "z": 96.67907185676547,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2341,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 752.4840337214595,
+          "z": 96.67907185676547,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2341,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 814.5151493022239,
+          "z": -44.46398448353382,
+          "height": 60,
+          "art": 2,
+          "mode": "airborne",
+          "tick": 2363,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2390,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2390,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2390,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2390,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2390,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2390,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2390,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2390,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2412,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2412,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2412,
+          "generation": 1
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 880,
+          "y": 831.6897175623277,
+          "z": -95.95,
+          "height": 60,
+          "art": 2,
+          "support": "support:lower-platform",
+          "mode": "grounded",
+          "tick": 2412,
+          "generation": 1
+        }
+      ],
+      "state": {
+        "ready": true,
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 1762,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p2",
+            "generation": 1,
+            "seq": 2428,
+            "tick": 2428,
+            "discontinuity": 6,
+            "x": 880,
+            "y": 831.6897175623277,
+            "z": -95.95,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.4611483145432236,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:lower-platform",
+            "navSurface": "nav:lower",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": [
+            {
+              "x": 950,
+              "y": 660,
+              "id": 1,
+              "a": 0,
+              "n": "WANDERER",
+              "c": "#ffe7b2",
+              "d": 0,
+              "r": 0,
+              "k": "flashlight",
+              "l": 1,
+              "ir": 0,
+              "lk": "none|plain|#e6bb76|#ffcc77|none",
+              "lp": "",
+              "f": -1,
+              "mv": [
+                0,
+                0,
+                100,
+                0
+              ],
+              "tx": 950,
+              "ty": 660,
+              "seen": 21676.60000000149,
+              "look": {
+                "hat": "none",
+                "texture": "plain",
+                "hands": "#e6bb76",
+                "main": "#ffcc77",
+                "backpack": "none"
+              },
+              "gear": {
+                "kind": "flashlight",
+                "color": "#ffe7b2",
+                "parts": {}
+              }
+            }
+          ]
+        },
+        "frames": 16,
+        "packets": [
+          {
+            "id": "p2",
+            "kind": "player",
+            "x": 880,
+            "y": 831.6897175623277,
+            "z": -95.95,
+            "height": 60,
+            "art": 1,
+            "support": "support:lower-platform",
+            "mode": "grounded",
+            "tick": 30
+          },
+          {
+            "id": "p1",
+            "kind": "peer",
+            "x": 950,
+            "y": 660,
+            "z": 120.05,
+            "height": 60,
+            "art": 2,
+            "support": "support:balcony",
+            "mode": "grounded",
+            "tick": 2408,
+            "generation": 1
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": 188.79999999999995,
+            "maxX": 1571.2,
+            "minY": 399.6897175623277,
+            "maxY": 1263.6897175623276
+          },
+          "drawCalls": 22,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 388,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4650000,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 880,
+            "y": 831.6897175623277,
+            "z": -45.95
+          },
+          "camera": {
+            "x": 880,
+            "y": 831.6897175623277,
+            "z": -95.95
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "focus": {
+              "id": 2,
+              "name": "H1 peer",
+              "equipment": {
+                "kind": "flashlight",
+                "color": "#ffe7b2",
+                "parts": {
+                  "flashlight": {
+                    "body": "#3b4650",
+                    "head": "#a1a9b0",
+                    "button": "#d8443a",
+                    "grip": "#181b1e"
+                  },
+                  "headlamp": {
+                    "strap": "#2d3b46",
+                    "housing": "#3a4054",
+                    "bracket": "#9a9ea6"
+                  },
+                  "lantern": {
+                    "frame": "#3d423c",
+                    "handle": "#9aa0a6",
+                    "cap": "#a3372c"
+                  },
+                  "camcorder": {
+                    "body": "#2b2f36",
+                    "lens": "#69717c",
+                    "grip": "#1b1d20",
+                    "trim": "#c9ccd0"
+                  }
+                }
+              },
+              "x": 880,
+              "y": 831.6897175623277,
+              "vx": 0,
+              "vy": 0,
+              "angle": 2.4611483145432236,
+              "distance": 55.00176950645599,
+              "stamina": 100,
+              "sprinting": false,
+              "exhausted": false,
+              "z": -95.95,
+              "vz": 0,
+              "shape": {
+                "id": "profile:player-stand",
+                "radius": 15,
+                "height": 60,
+                "eyeHeight": 50,
+                "maxSlopeDegrees": 35,
+                "maxStepRise": 12,
+                "stepLiftMax": 180
+              },
+              "posture": "stand",
+              "supportId": "support:lower-platform",
+              "lastSupportId": null,
+              "motionMode": "grounded",
+              "step": null,
+              "tick": 30,
+              "events": [],
+              "diagnostics": [],
+              "groundDistance": 0,
+              "lowerBoundReported": false,
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "materialId": "material:concrete",
+              "trav": null,
+              "netVault": null,
+              "previousPosition": {
+                "x": 880,
+                "y": 831.6897175623277,
+                "z": -95.95
+              },
+              "mv": {
+                "s": "stand",
+                "t": 0.4833333333333333,
+                "sp": 0,
+                "st": 100,
+                "ex": 0,
+                "vp": 0,
+                "lean": 1,
+                "tw": 0
+              }
+            },
+            "focusSpace": [],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 0,
+                "target": false
+              }
+            ]
+          },
+          "cpuMs": 2.199999999254942,
+          "cutawayMs": 0.09999999776482582
+        },
+        "cutaway": {
+          "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+          "focus": {
+            "id": 2,
+            "name": "H1 peer",
+            "equipment": {
+              "kind": "flashlight",
+              "color": "#ffe7b2",
+              "parts": {
+                "flashlight": {
+                  "body": "#3b4650",
+                  "head": "#a1a9b0",
+                  "button": "#d8443a",
+                  "grip": "#181b1e"
+                },
+                "headlamp": {
+                  "strap": "#2d3b46",
+                  "housing": "#3a4054",
+                  "bracket": "#9a9ea6"
+                },
+                "lantern": {
+                  "frame": "#3d423c",
+                  "handle": "#9aa0a6",
+                  "cap": "#a3372c"
+                },
+                "camcorder": {
+                  "body": "#2b2f36",
+                  "lens": "#69717c",
+                  "grip": "#1b1d20",
+                  "trim": "#c9ccd0"
+                }
+              }
+            },
+            "x": 880,
+            "y": 831.6897175623277,
+            "vx": 0,
+            "vy": 0,
+            "angle": 2.4611483145432236,
+            "distance": 55.00176950645599,
+            "stamina": 100,
+            "sprinting": false,
+            "exhausted": false,
+            "z": -95.95,
+            "vz": 0,
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            },
+            "posture": "stand",
+            "supportId": "support:lower-platform",
+            "lastSupportId": null,
+            "motionMode": "grounded",
+            "step": null,
+            "tick": 30,
+            "events": [],
+            "diagnostics": [],
+            "groundDistance": 0,
+            "lowerBoundReported": false,
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "materialId": "material:concrete",
+            "trav": null,
+            "netVault": null,
+            "previousPosition": {
+              "x": 880,
+              "y": 831.6897175623277,
+              "z": -95.95
+            },
+            "mv": {
+              "s": "stand",
+              "t": 0.4833333333333333,
+              "sp": 0,
+              "st": 100,
+              "ex": 0,
+              "vp": 0,
+              "lean": 1,
+              "tw": 0
+            }
+          },
+          "focusSpace": [],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      }
+    },
+    {
+      "name": "server Hound and Smiler full XYZ procedural actors",
+      "state": {
+        "ready": true,
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 2992,
+            "tick": 2992,
+            "discontinuity": 15,
+            "x": 160,
+            "y": 160,
+            "z": 180,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 1.0364324902909225,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:upper-west",
+            "navSurface": "nav:upper",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": [
+            {
+              "x": 880,
+              "y": 832,
+              "id": 2,
+              "a": 0,
+              "n": "WANDERER",
+              "c": "#ffe7b2",
+              "d": 0,
+              "r": 0,
+              "k": "flashlight",
+              "l": 1,
+              "ir": 0,
+              "lk": "none|plain|#e6bb76|#ffcc77|none",
+              "lp": "",
+              "f": -1,
+              "mv": [
+                0,
+                0,
+                100,
+                0
+              ],
+              "tx": 880,
+              "ty": 832,
+              "seen": 51845.5,
+              "look": {
+                "hat": "none",
+                "texture": "plain",
+                "hands": "#e6bb76",
+                "main": "#ffcc77",
+                "backpack": "none"
+              },
+              "gear": {
+                "kind": "flashlight",
+                "color": "#ffe7b2",
+                "parts": {}
+              }
+            }
+          ]
+        },
+        "frames": 162,
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 160,
+            "y": 160,
+            "z": 180,
+            "height": 60,
+            "art": 1,
+            "support": "support:upper-west",
+            "mode": "grounded",
+            "tick": 30
+          },
+          {
+            "id": "p2",
+            "kind": "peer",
+            "x": 880,
+            "y": 831.6897175623277,
+            "z": -95.95,
+            "height": 60,
+            "art": 2,
+            "support": "support:lower-platform",
+            "mode": "grounded",
+            "tick": 2989,
+            "generation": 1
+          },
+          {
+            "id": "h1",
+            "kind": "hound",
+            "x": 200,
+            "y": 160,
+            "z": 180.05,
+            "height": 36,
+            "art": 3,
+            "support": "support:upper-west",
+            "mode": "grounded",
+            "tick": 2985,
+            "generation": 2
+          },
+          {
+            "id": "m2",
+            "kind": "smiler",
+            "x": 240,
+            "y": 160,
+            "z": 180.05,
+            "height": 48,
+            "art": 4,
+            "support": "support:upper-west",
+            "mode": "grounded",
+            "tick": 2985,
+            "generation": 2
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "drawCalls": 28,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 392,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4650000,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 230
+          },
+          "camera": {
+            "x": 160,
+            "y": 160,
+            "z": 180
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+            "focus": {
+              "id": 1,
+              "name": "H1 lower",
+              "equipment": {
+                "kind": "flashlight",
+                "color": "#ffe7b2",
+                "parts": {
+                  "flashlight": {
+                    "body": "#3b4650",
+                    "head": "#a1a9b0",
+                    "button": "#d8443a",
+                    "grip": "#181b1e"
+                  },
+                  "headlamp": {
+                    "strap": "#2d3b46",
+                    "housing": "#3a4054",
+                    "bracket": "#9a9ea6"
+                  },
+                  "lantern": {
+                    "frame": "#3d423c",
+                    "handle": "#9aa0a6",
+                    "cap": "#a3372c"
+                  },
+                  "camcorder": {
+                    "body": "#2b2f36",
+                    "lens": "#69717c",
+                    "grip": "#1b1d20",
+                    "trim": "#c9ccd0"
+                  }
+                }
+              },
+              "x": 160,
+              "y": 160,
+              "vx": 0,
+              "vy": 0,
+              "angle": 2.4611483145432236,
+              "distance": 149.1914807965099,
+              "stamina": 100,
+              "sprinting": false,
+              "exhausted": false,
+              "z": 180,
+              "vz": 0,
+              "shape": {
+                "id": "profile:player-stand",
+                "radius": 15,
+                "height": 60,
+                "eyeHeight": 50,
+                "maxSlopeDegrees": 35,
+                "maxStepRise": 12,
+                "stepLiftMax": 180
+              },
+              "posture": "stand",
+              "supportId": "support:upper-west",
+              "lastSupportId": null,
+              "motionMode": "grounded",
+              "step": null,
+              "tick": 30,
+              "events": [],
+              "diagnostics": [],
+              "groundDistance": 0,
+              "lowerBoundReported": false,
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "materialId": "material:concrete",
+              "trav": null,
+              "netVault": null,
+              "previousPosition": {
+                "x": 160,
+                "y": 160,
+                "z": 180
+              },
+              "mv": {
+                "s": "stand",
+                "t": 15.550000000000352,
+                "sp": 0,
+                "st": 100,
+                "ex": 0,
+                "vp": 0,
+                "lean": 1,
+                "tw": 0
+              }
+            },
+            "focusSpace": [
+              "space:upper-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 0,
+                "target": false
+              }
+            ]
+          },
+          "cpuMs": 31.600000001490116,
+          "cutawayMs": 0.10000000149011612
+        },
+        "cutaway": {
+          "worldEpoch": "df25ed74-6db9-4a8d-8bd7-8a7a499ff585",
+          "focus": {
+            "id": 1,
+            "name": "H1 lower",
+            "equipment": {
+              "kind": "flashlight",
+              "color": "#ffe7b2",
+              "parts": {
+                "flashlight": {
+                  "body": "#3b4650",
+                  "head": "#a1a9b0",
+                  "button": "#d8443a",
+                  "grip": "#181b1e"
+                },
+                "headlamp": {
+                  "strap": "#2d3b46",
+                  "housing": "#3a4054",
+                  "bracket": "#9a9ea6"
+                },
+                "lantern": {
+                  "frame": "#3d423c",
+                  "handle": "#9aa0a6",
+                  "cap": "#a3372c"
+                },
+                "camcorder": {
+                  "body": "#2b2f36",
+                  "lens": "#69717c",
+                  "grip": "#1b1d20",
+                  "trim": "#c9ccd0"
+                }
+              }
+            },
+            "x": 160,
+            "y": 160,
+            "vx": 0,
+            "vy": 0,
+            "angle": 2.4611483145432236,
+            "distance": 149.1914807965099,
+            "stamina": 100,
+            "sprinting": false,
+            "exhausted": false,
+            "z": 180,
+            "vz": 0,
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            },
+            "posture": "stand",
+            "supportId": "support:upper-west",
+            "lastSupportId": null,
+            "motionMode": "grounded",
+            "step": null,
+            "tick": 30,
+            "events": [],
+            "diagnostics": [],
+            "groundDistance": 0,
+            "lowerBoundReported": false,
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "materialId": "material:concrete",
+            "trav": null,
+            "netVault": null,
+            "previousPosition": {
+              "x": 160,
+              "y": 160,
+              "z": 180
+            },
+            "mv": {
+              "s": "stand",
+              "t": 15.550000000000352,
+              "sp": 0,
+              "st": 100,
+              "ex": 0,
+              "vp": 0,
+              "lean": 1,
+              "tw": 0
+            }
+          },
+          "focusSpace": [
+            "space:upper-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      }
+    }
+  ],
+  "errors": [
+    [],
+    []
+  ],
+  "console": [
+    [
+      "Failed to load resource: net::ERR_EMPTY_RESPONSE"
+    ],
+    [
+      "Failed to load resource: net::ERR_EMPTY_RESPONSE"
+    ]
+  ],
+  "resources": [
+    [
+      {
+        "url": "http://127.0.0.1:35029/?room=stage-h",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/camera_policy.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world_config.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/timing_policy.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/spatial_client.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world_view.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/index-D7hdwmUU.css",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/index-DKbV5Nv9.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/canvasUtils-CxYPZET9.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/Filter-DzecrWg_.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/GCManagedHash-Bz2ZMBJN.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/Cache-DDo62lBW.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/CanvasPool-DecUtJxW.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/BufferResource-B-thlpip.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/levels/level0.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/RenderTargetSystem-CgUxHIsn.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/GraphicsContext-vm7TDg_M.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world_motion.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/spatial_history.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/spatial_protocol.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/move.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world_geometry.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/camcorder.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/sfx.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/gore.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/ents.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/dphys.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/glitch.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/light.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/inventory.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/hud.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/mp.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/init-Cn1_BCi0.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/browserAll-B-iwy0YI.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/sounds/",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/sounds/sting%20copy.mp3",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/sounds/sting.mp3",
+        "status": 200
+      }
+    ],
+    [
+      {
+        "url": "http://127.0.0.1:35029/?room=stage-h",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/camera_policy.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world_config.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/index-D7hdwmUU.css",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/timing_policy.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world_view.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/spatial_client.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/CanvasPool-DecUtJxW.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/canvasUtils-CxYPZET9.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/GCManagedHash-Bz2ZMBJN.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/Filter-DzecrWg_.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/Cache-DDo62lBW.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/RenderTargetSystem-CgUxHIsn.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/BufferResource-B-thlpip.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/index-DKbV5Nv9.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/levels/level0.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world_motion.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/world_geometry.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/GraphicsContext-vm7TDg_M.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/sfx.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/spatial_history.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/move.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/spatial_protocol.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/gore.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/camcorder.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/light.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/glitch.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/dphys.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/hud.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/ents.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/mp.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/inventory.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/init-Cn1_BCi0.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/assets/browserAll-B-iwy0YI.js",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/sounds/",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/sounds/sting%20copy.mp3",
+        "status": 200
+      },
+      {
+        "url": "http://127.0.0.1:35029/sounds/sting.mp3",
+        "status": 200
+      }
+    ]
+  ],
+  "externalFailures": [
+    [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+        "error": "net::ERR_EMPTY_RESPONSE"
+      }
+    ],
+    [
+      {
+        "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+        "error": "net::ERR_EMPTY_RESPONSE"
+      }
+    ]
+  ]
+}

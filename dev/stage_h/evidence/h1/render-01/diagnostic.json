@@ -1,0 +1,557 @@
+{
+  "data": {
+    "before": 1282,
+    "after": 1282,
+    "bright": 79410,
+    "max": 255,
+    "inspect": {
+      "ready": true,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "network": {
+        "world": {
+          "version": 2,
+          "capabilities": [
+            "spatial-pose-v1",
+            "ordered-proposals-v1",
+            "explicit-epochs-v1",
+            "spatial-aftermath-v1"
+          ],
+          "worldEpoch": "cc1a6277-1bbf-4338-881c-5225ab813986",
+          "geometryMode": "spatial",
+          "schemaVersion": 1,
+          "geometryRevision": "stage-e-1",
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "motionRevision": "stage-c-profile-1",
+          "simTick": 0,
+          "ids": {
+            "support": [
+              "support:balcony",
+              "support:ground-north",
+              "support:ground-south",
+              "support:lower-platform",
+              "support:ramp",
+              "support:ramp-landing",
+              "support:tread-01",
+              "support:tread-02",
+              "support:tread-03",
+              "support:tread-04",
+              "support:tread-05",
+              "support:tread-06",
+              "support:tread-07",
+              "support:tread-08",
+              "support:tread-09",
+              "support:tread-10",
+              "support:tread-11",
+              "support:tread-12",
+              "support:tread-13",
+              "support:tread-14",
+              "support:tread-15",
+              "support:upper-east",
+              "support:upper-north",
+              "support:upper-south",
+              "support:upper-west"
+            ],
+            "surface": [
+              "nav:balcony",
+              "nav:ground",
+              "nav:lower",
+              "nav:ramp",
+              "nav:ramp-landing",
+              "nav:stairs",
+              "nav:upper"
+            ],
+            "link": [
+              "link:ledge-drop",
+              "link:ramp-up",
+              "link:stairs-down",
+              "link:stairs-up"
+            ]
+          }
+        },
+        "pose": {
+          "worldEpoch": "cc1a6277-1bbf-4338-881c-5225ab813986",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 9,
+          "tick": 9,
+          "discontinuity": 1,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 0,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ground-north",
+          "navSurface": "nav:ground",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        },
+        "blocked": false,
+        "awaiting": false,
+        "peers": []
+      },
+      "frames": 15,
+      "packets": [
+        {
+          "id": "p1",
+          "kind": "player",
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "height": 60,
+          "art": 1,
+          "support": "support:ground-north",
+          "mode": "grounded",
+          "tick": 2
+        }
+      ],
+      "last": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.6944444444444444,
+          "minX": -531.2,
+          "maxX": 851.2,
+          "minY": -272,
+          "maxY": 592
+        },
+        "drawCalls": 26,
+        "passes": 2,
+        "physicalVisibility": "exact bounded per-fragment convex rays",
+        "occluders": 32,
+        "triangles": 386,
+        "target": {
+          "width": 960,
+          "height": 600,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 960,
+          "height": 600,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 4650000,
+        "defaultColorBytesEstimate": 2304000,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "cc1a6277-1bbf-4338-881c-5225ab813986",
+          "focus": {
+            "id": 1,
+            "name": "H render",
+            "equipment": {
+              "kind": "flashlight",
+              "color": "#ffe7b2",
+              "parts": {
+                "flashlight": {
+                  "body": "#3b4650",
+                  "head": "#a1a9b0",
+                  "button": "#d8443a",
+                  "grip": "#181b1e"
+                },
+                "headlamp": {
+                  "strap": "#2d3b46",
+                  "housing": "#3a4054",
+                  "bracket": "#9a9ea6"
+                },
+                "lantern": {
+                  "frame": "#3d423c",
+                  "handle": "#9aa0a6",
+                  "cap": "#a3372c"
+                },
+                "camcorder": {
+                  "body": "#2b2f36",
+                  "lens": "#69717c",
+                  "grip": "#1b1d20",
+                  "trim": "#c9ccd0"
+                }
+              }
+            },
+            "x": 160,
+            "y": 160,
+            "vx": 0,
+            "vy": 0,
+            "angle": 2.4611483145432236,
+            "distance": 0,
+            "stamina": 100,
+            "sprinting": false,
+            "exhausted": false,
+            "z": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            },
+            "posture": "stand",
+            "supportId": "support:ground-north",
+            "lastSupportId": null,
+            "motionMode": "grounded",
+            "step": null,
+            "tick": 2,
+            "events": [],
+            "diagnostics": [],
+            "groundDistance": 0,
+            "lowerBoundReported": false,
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "materialId": "material:concrete",
+            "trav": null,
+            "netVault": null,
+            "previousPosition": {
+              "x": 160,
+              "y": 160,
+              "z": 0
+            },
+            "mv": {
+              "s": "stand",
+              "t": 0.24999999999999997,
+              "sp": 0,
+              "st": 100,
+              "ex": 0,
+              "vp": 0,
+              "lean": 1,
+              "tw": 0
+            }
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 0.44400000000000245,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 1.3999999985098839,
+        "cutawayMs": 0.09999999776482582
+      },
+      "cutaway": {
+        "worldEpoch": "cc1a6277-1bbf-4338-881c-5225ab813986",
+        "focus": {
+          "id": 1,
+          "name": "H render",
+          "equipment": {
+            "kind": "flashlight",
+            "color": "#ffe7b2",
+            "parts": {
+              "flashlight": {
+                "body": "#3b4650",
+                "head": "#a1a9b0",
+                "button": "#d8443a",
+                "grip": "#181b1e"
+              },
+              "headlamp": {
+                "strap": "#2d3b46",
+                "housing": "#3a4054",
+                "bracket": "#9a9ea6"
+              },
+              "lantern": {
+                "frame": "#3d423c",
+                "handle": "#9aa0a6",
+                "cap": "#a3372c"
+              },
+              "camcorder": {
+                "body": "#2b2f36",
+                "lens": "#69717c",
+                "grip": "#1b1d20",
+                "trim": "#c9ccd0"
+              }
+            }
+          },
+          "x": 160,
+          "y": 160,
+          "vx": 0,
+          "vy": 0,
+          "angle": 2.4611483145432236,
+          "distance": 0,
+          "stamina": 100,
+          "sprinting": false,
+          "exhausted": false,
+          "z": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:player-stand",
+            "radius": 15,
+            "height": 60,
+            "eyeHeight": 50,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "posture": "stand",
+          "supportId": "support:ground-north",
+          "lastSupportId": null,
+          "motionMode": "grounded",
+          "step": null,
+          "tick": 2,
+          "events": [],
+          "diagnostics": [],
+          "groundDistance": 0,
+          "lowerBoundReported": false,
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "materialId": "material:concrete",
+          "trav": null,
+          "netVault": null,
+          "previousPosition": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "mv": {
+            "s": "stand",
+            "t": 0.24999999999999997,
+            "sp": 0,
+            "st": 100,
+            "ex": 0,
+            "vp": 0,
+            "lean": 1,
+            "tw": 0
+          }
+        },
+        "focusSpace": [
+          "space:lower-room"
+        ],
+        "groups": [
+          {
+            "id": "view:upper-slabs",
+            "fade": 0.44400000000000245,
+            "target": true
+          }
+        ]
+      },
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "renderer": "existing production Pixi 8.21.0 / WebGL2"
+    },
+    "canvases": [
+      {
+        "id": "",
+        "parent": "game",
+        "w": 960,
+        "h": 600,
+        "css": "width: 960px; height: 600px; touch-action: none; cursor: inherit;",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "mp",
+        "parent": "",
+        "w": 960,
+        "h": 600,
+        "css": "",
+        "display": "none",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "light",
+        "parent": "",
+        "w": 960,
+        "h": 600,
+        "css": "opacity: 1;",
+        "display": "none",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "map",
+        "parent": "mapPanel",
+        "w": 576,
+        "h": 432,
+        "css": "",
+        "display": "inline",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "",
+        "parent": "avatarPreview",
+        "w": 300,
+        "h": 150,
+        "css": "width: 300px; height: 150px; touch-action: none; cursor: inherit;",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "",
+        "parent": "",
+        "w": 64,
+        "h": 64,
+        "css": "",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "",
+        "parent": "",
+        "w": 64,
+        "h": 64,
+        "css": "",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "",
+        "parent": "",
+        "w": 64,
+        "h": 64,
+        "css": "",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "",
+        "parent": "",
+        "w": 64,
+        "h": 64,
+        "css": "",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "lightZoom",
+        "parent": "lightParts",
+        "w": 260,
+        "h": 170,
+        "css": "",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "camGrain",
+        "parent": "",
+        "w": 200,
+        "h": 112,
+        "css": "",
+        "display": "none",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "glitchFx",
+        "parent": "",
+        "w": 960,
+        "h": 600,
+        "css": "",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      },
+      {
+        "id": "invLight",
+        "parent": "",
+        "w": 132,
+        "h": 132,
+        "css": "",
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1"
+      }
+    ],
+    "tickers": {
+      "started": false
+    },
+    "context": {
+      "alpha": false,
+      "antialias": true,
+      "depth": true,
+      "desynchronized": false,
+      "failIfMajorPerformanceCaveat": false,
+      "powerPreference": "default",
+      "premultipliedAlpha": true,
+      "preserveDrawingBuffer": false,
+      "stencil": true,
+      "xrCompatible": false
+    }
+  },
+  "console": [
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer.",
+    "[.WebGL-0x213c00154800] GL_INVALID_OPERATION: glBlitFramebuffer: Invalid operation on multisampled framebuffer."
+  ]
+}

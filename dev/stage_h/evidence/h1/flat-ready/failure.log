@@ -1,0 +1,100 @@
+AssertionError [ERR_ASSERTION]: Expected values to be loosely deep-equal:
+
+{
+  elapsed: 2000,
+  pose: {
+    angle: 0,
+    x: 7848,
+    y: 792
+  },
+  rng: {
+    queued: 4,
+    seed: 3516427084
+  },
+  scale: 0.8333333333333334,
+  schedule: [
+    {
+      callbacks: [
+        '',
+        '',
+        '',
+        'Ou'
+      ],
+      t: 100
+    },
+    {
+      callbacks: [
+        '',
+        '',
+        '',
+        'Ou'
+      ],
+      t: 120
+    },
+    {
+      callbacks: [
+        '',
+        '',
+        '',
+        'Ou'
+      ],
+      t: 140
+    },
+    {
+      callbacks: [
+        ''...
+
+should loosely deep-equal
+
+{
+  elapsed: 2000,
+  pose: {
+    angle: 0,
+    x: 7848,
+    y: 792
+  },
+  rng: {
+    queued: 4,
+    seed: 2806624921
+  },
+  scale: 0.8333333333333334,
+  schedule: [
+    {
+      callbacks: [
+        '',
+        '',
+        '',
+        'Ou'
+      ],
+      t: 100
+    },
+    {
+      callbacks: [
+        '',
+        '',
+        '',
+        'Ou'
+      ],
+      t: 120
+    },
+    {
+      callbacks: [
+        '',
+        '',
+        '',
+        'Ou'
+      ],
+      t: 140
+    },
+    {
+      callbacks: [
+        ''...
+    at /workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_flat.js:19:9
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: [Object],
+  expected: [Object],
+  operator: 'deepEqual',
+  diff: 'simple'
+}
