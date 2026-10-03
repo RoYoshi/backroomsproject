@@ -1,5 +1,5 @@
 'use strict';
-// Future acceptance gate. No empty passing suite.
-const cases=require('../stage_a/future_matrix.json').filter(x=>x.entry==='s_perception25d').map(x=>({name:x.id+' '+x.scenario,fn:()=>({ok:false,note:'NOT IMPLEMENTED — EXPECTED STAGE '+x.stages})}));
-if(require.main===module){for(const c of cases)console.log(c.name+': '+c.fn().note);process.exitCode=2;}
-module.exports=cases;
+// Stage E portions only; Z14 presentation and Z17 death work remain later stages.
+const {cases,standalone}=require('../stage_e/acceptance');
+module.exports=cases(['Z12','Z13','Z14','Z15','Z16','Z17']);
+if(require.main===module)standalone(module.exports);

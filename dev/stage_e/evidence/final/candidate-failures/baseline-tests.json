@@ -1,0 +1,581 @@
+[
+  {
+    "id": "npm-test",
+    "command": "npm test",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 134.532,
+    "counts": {
+      "passed": 140,
+      "total": 162,
+      "source": "suite summary"
+    },
+    "firstFailure": "FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [957ms]",
+    "failureLines": [
+      "FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [957ms]",
+      "FAIL P07 exhausted breathing is audible only close by  [42ms]",
+      "FAIL P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming  [734ms]",
+      "FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [171ms]",
+      "FAIL H14 far hounds sleep and wake: no perception when far; awake when a player is near  [32ms]",
+      "FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [708ms]",
+      "FAIL C05 after a quick kill it reads the room: with others coming it defends, attacks the next or leaves; alone it settles (the Smiler lingers, then returns to the dark)  [213ms]",
+      "FAIL C07 spawn protection and admin god mode: nothing captures a protected player; unprotected, the very same attack lands  [500ms]",
+      "FAIL Y01 level of detail: perception runs at full rate near a player, at a reduced rate further out, and not at all while an entity is far away  [120ms]",
+      "FAIL Y03 snapshot size: what goes over the wire every 50 ms stays small (entities are quantised; nothing per-player-private is sent)  [100ms]",
+      "FAIL Y07 pop-in: a smiler only appears or vanishes by fading (its visibility changes at a bounded rate); entities are only ever spawned out of sight  [577ms]",
+      "FAIL Y09 population caps and bodies over a long session: at most 3 hounds and 5 smilers; one body per player, at most 24  [29ms]",
+      "FAIL Y10 bodies persist for the configured time: forever by default, or BODY_TTL seconds  [31ms]",
+      "FAIL NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm  [458ms]",
+      "FAIL NV12 cost: navigation per tick stays cheap and path searches stay rare in a busy world (3 hounds, 5 smilers, 4 players moving, 120 s)  [127ms]",
+      "FAIL C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it  [3138ms]",
+      "FAIL C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)  [5338ms]",
+      "FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you  [1042ms]",
+      "FAIL C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance  [144ms]",
+      "FAIL C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out  [1619ms]",
+      "FAIL 2E H13 long-run finite states, valid targets, bounded memory and collision  [546ms]",
+      "FAIL 2F F22 species physical/canon parameter preservation  [4ms]"
+    ],
+    "limitation": null,
+    "log": "npm-test.log",
+    "performance": []
+  },
+  {
+    "id": "hound",
+    "command": "npm run test:hound",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 3.148,
+    "counts": {
+      "passed": 17,
+      "total": 18,
+      "source": "suite summary"
+    },
+    "firstFailure": "FAIL 2E H13 long-run finite states, valid targets, bounded memory and collision  [684ms]",
+    "failureLines": [
+      "FAIL 2E H13 long-run finite states, valid targets, bounded memory and collision  [684ms]"
+    ],
+    "limitation": null,
+    "log": "hound.log",
+    "performance": []
+  },
+  {
+    "id": "shared",
+    "command": "npm run test:shared",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 3.858,
+    "counts": {
+      "passed": 22,
+      "total": 23,
+      "source": "suite summary"
+    },
+    "firstFailure": "FAIL 2F F22 species physical/canon parameter preservation  [3ms]",
+    "failureLines": [
+      "FAIL 2F F22 species physical/canon parameter preservation  [3ms]"
+    ],
+    "limitation": null,
+    "log": "shared.log",
+    "performance": []
+  },
+  {
+    "id": "humanqa",
+    "command": "npm run test:humanqa",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.947,
+    "counts": {
+      "passed": 6,
+      "total": 6,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "humanqa.log",
+    "performance": []
+  },
+  {
+    "id": "fps",
+    "command": "npm run test:fps",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.558,
+    "counts": {
+      "passed": 10,
+      "total": 10,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "fps.log",
+    "performance": []
+  },
+  {
+    "id": "camera",
+    "command": "npm run test:camera",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.103,
+    "counts": {
+      "passed": 12,
+      "total": 12,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "camera.log",
+    "performance": []
+  },
+  {
+    "id": "entity-look",
+    "command": "node dev/tests/run.js s_entity_look.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.262,
+    "counts": {
+      "passed": 4,
+      "total": 4,
+      "source": "suite summary"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "entity-look.log",
+    "performance": []
+  },
+  {
+    "id": "physics",
+    "command": "node dev/tests/phys_test.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 2.486,
+    "counts": {
+      "passed": 53,
+      "total": 53,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "physics.log",
+    "performance": []
+  },
+  {
+    "id": "interpolation",
+    "command": "node dev/tests/interp_test.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 0.027,
+    "counts": {
+      "passed": 3,
+      "total": 3,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "interpolation.log",
+    "performance": []
+  },
+  {
+    "id": "navigation",
+    "command": "node dev/tests/nav_bench.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 34.867,
+    "counts": {
+      "passed": null,
+      "total": null,
+      "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "navigation.log",
+    "performance": []
+  },
+  {
+    "id": "audit-net",
+    "command": "node dev/tests/audit_net.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 2.119,
+    "counts": {
+      "passed": 1,
+      "total": 1,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": "Node.js v25.9.0",
+    "failureLines": [],
+    "limitation": null,
+    "log": "audit-net.log",
+    "performance": []
+  },
+  {
+    "id": "audit-net2",
+    "command": "node dev/tests/audit_net2.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 2.082,
+    "counts": {
+      "passed": 0,
+      "total": 0,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": "Node.js v25.9.0",
+    "failureLines": [],
+    "limitation": null,
+    "log": "audit-net2.log",
+    "performance": []
+  },
+  {
+    "id": "live",
+    "command": "node dev/tests/live.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 77.155,
+    "counts": {
+      "passed": 2,
+      "total": 10,
+      "source": "suite summary"
+    },
+    "firstFailure": "FAIL L2 both clients get an id and a stream of world snapshots (~20 Hz)",
+    "failureLines": [
+      "FAIL L2 both clients get an id and a stream of world snapshots (~20 Hz)",
+      "FAIL L2b each sees the other, and not itself, in the peers list",
+      "FAIL L3 both clients receive the very same entity data (same tick -> byte-identical)",
+      "FAIL L4 without the passcode no admin command works, a living player cannot send a death replay or a corpse",
+      "FAIL L5 the right passcode unlocks admin (even after one wrong guess) for that connection only",
+      "FAIL L5b the server kills Alice (variant chosen server-side), tells her which one, and sends it to nobody as a claim",
+      "FAIL L5c Bob sees Alice dead in the peers list and gets the kill in his own stream",
+      "FAIL live test crashed"
+    ],
+    "limitation": null,
+    "log": "live.log",
+    "performance": []
+  },
+  {
+    "id": "ir-net",
+    "command": "node dev/tests/ir_net.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 1.795,
+    "counts": {
+      "passed": 0,
+      "total": 1,
+      "source": "suite summary"
+    },
+    "firstFailure": "FAIL ir_net crashed",
+    "failureLines": [
+      "FAIL ir_net crashed"
+    ],
+    "limitation": null,
+    "log": "ir-net.log",
+    "performance": []
+  },
+  {
+    "id": "perf-hound",
+    "command": "node dev/tests/perf_hound2e.js",
+    "runtime": {
+      "node": "v25.9.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "PASS",
+    "exitCode": 0,
+    "durationSeconds": 8.434,
+    "counts": {
+      "passed": 15,
+      "total": 15,
+      "source": "JSON workloads"
+    },
+    "firstFailure": null,
+    "failureLines": [],
+    "limitation": null,
+    "log": "perf-hound.log",
+    "performance": [
+      {
+        "mode": "shipped",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.0879,
+        "p99_ms": 0.4157,
+        "max_ms": 1.3491,
+        "avg_near_hounds": 3,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 2,
+        "ok": true
+      },
+      {
+        "mode": "shipped",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0911,
+        "p99_ms": 0.4049,
+        "max_ms": 1.2746,
+        "avg_near_hounds": 3,
+        "avg_searching": 0.01,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 2,
+        "ok": true
+      },
+      {
+        "mode": "shipped",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.0815,
+        "p99_ms": 0.4362,
+        "max_ms": 1.0054,
+        "avg_near_hounds": 3,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 2,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.0898,
+        "p99_ms": 0.4683,
+        "max_ms": 3.1309,
+        "avg_near_hounds": 11.64,
+        "avg_searching": 0.01,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0804,
+        "p99_ms": 0.363,
+        "max_ms": 0.9348,
+        "avg_near_hounds": 12,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "hound-heavy",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.0791,
+        "p99_ms": 0.2447,
+        "max_ms": 1.0056,
+        "avg_near_hounds": 11.93,
+        "avg_searching": 0.12,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "sprinting",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.0753,
+        "p99_ms": 0.3054,
+        "max_ms": 1.5079,
+        "avg_near_hounds": 8,
+        "avg_searching": 0,
+        "avg_sprinters": 5.57,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "sprinting",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.067,
+        "p99_ms": 0.2997,
+        "max_ms": 3.1702,
+        "avg_near_hounds": 7.98,
+        "avg_searching": 0,
+        "avg_sprinters": 5.39,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "sprinting",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.0558,
+        "p99_ms": 0.2274,
+        "max_ms": 1.5038,
+        "avg_near_hounds": 7.99,
+        "avg_searching": 0.01,
+        "avg_sprinters": 5.44,
+        "avg_visible_lights": 0,
+        "ok": true
+      },
+      {
+        "mode": "flashlights",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.0746,
+        "p99_ms": 0.3259,
+        "max_ms": 0.9194,
+        "avg_near_hounds": 8,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 8,
+        "ok": true
+      },
+      {
+        "mode": "flashlights",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0689,
+        "p99_ms": 0.2357,
+        "max_ms": 0.7727,
+        "avg_near_hounds": 8,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 8,
+        "ok": true
+      },
+      {
+        "mode": "flashlights",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.0695,
+        "p99_ms": 0.24,
+        "max_ms": 2.2588,
+        "avg_near_hounds": 7.98,
+        "avg_searching": 0,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 8,
+        "ok": true
+      },
+      {
+        "mode": "search-heavy",
+        "seed": 1,
+        "n": 3599,
+        "avg_ms": 0.052,
+        "p99_ms": 0.2127,
+        "max_ms": 2.0575,
+        "avg_near_hounds": 8,
+        "avg_searching": 1.08,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 1,
+        "ok": true
+      },
+      {
+        "mode": "search-heavy",
+        "seed": 2,
+        "n": 3599,
+        "avg_ms": 0.0419,
+        "p99_ms": 0.2226,
+        "max_ms": 0.8969,
+        "avg_near_hounds": 8,
+        "avg_searching": 0.41,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 1,
+        "ok": true
+      },
+      {
+        "mode": "search-heavy",
+        "seed": 3,
+        "n": 3599,
+        "avg_ms": 0.0468,
+        "p99_ms": 0.2059,
+        "max_ms": 0.879,
+        "avg_near_hounds": 8,
+        "avg_searching": 0.96,
+        "avg_sprinters": 0,
+        "avg_visible_lights": 1,
+        "ok": true
+      }
+    ]
+  }
+]

@@ -1,5 +1,5 @@
 'use strict';
-// Future acceptance gate. No empty passing suite.
-const cases=require('../stage_a/future_matrix.json').filter(x=>x.entry==='s_nav25d').map(x=>({name:x.id+' '+x.scenario,fn:()=>({ok:false,note:'NOT IMPLEMENTED — EXPECTED STAGE '+x.stages})}));
-if(require.main===module){for(const c of cases)console.log(c.name+': '+c.fn().note);process.exitCode=2;}
-module.exports=cases;
+// Stage E activation. The frozen future matrix remains a historical contract.
+const {cases,standalone}=require('../stage_e/acceptance');
+module.exports=cases(['Z10','Z11']);
+if(require.main===module)standalone(module.exports);
