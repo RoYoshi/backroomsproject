@@ -1,0 +1,442 @@
+Read `README_FIRST.txt` first and obey the authority order in this pack.
+
+Implement **THE FAR BACKROOMS — 2.5D Stage F: Authority & Protocol** ONLY.
+
+The user is the final design/gameplay QA authority. The architecture is locked
+unless a genuine implementation blocker requires a separately documented,
+minimal amendment.
+
+==================================================
+0. IMMUTABLE PARENT / REPOSITORY
+==================================================
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Accepted Stage E remote commit:
+`da90dbb48ac4702d666d26c638fe074a78478212`
+
+Accepted Stage E ZIP:
+`PARENT_STAGE_E_ACCEPTED.zip`
+
+Accepted Stage E ZIP SHA-256:
+`a935b3f9c38bea48edc0add99b53d234ce431daf3986face4350691a2e8ad1e6`
+
+Stage E human QA:
+PASS.
+
+Create/use implementation branch:
+`stage-f`
+
+The `stage-f` branch MUST be based on exactly:
+`da90dbb48ac4702d666d26c638fe074a78478212`
+
+Do NOT use `main` as the Stage F parent.
+
+`main` contains an earlier accidental partial Stage E merge. Stage F is not
+authorization to repair, reset, rewrite, force-push or merge `main`.
+
+Before implementation:
+
+1. Verify the supplied Stage E ZIP SHA-256.
+2. Verify repository access.
+3. Verify exact Stage E parent commit exists.
+4. Create/check out `stage-f` from that exact commit.
+5. Verify the starting tree matches the accepted Stage E parent.
+6. Read:
+   - `CURRENT_STATUS_AND_AUTHORITY.md`
+   - `STAGE_F_ACCEPTANCE_MATRIX.md`
+   - `authority/THE_FAR_BACKROOMS_2_5D_WORLD_ARCHITECTURE.md`
+   - `authority/25D_STAGE_MATRIX.md`
+   - the Stage E acceptance reports
+7. Record F0 preflight before changing runtime behavior.
+
+Do not modify runtime behavior before parent/preflight identity is recorded.
+
+==================================================
+1. STAGE F SCOPE
+==================================================
+
+Stage F is **Authority & Protocol**.
+
+Implement the locked architecture's networking/authority changes, centered on
+Z20–Z24 and invariants I-01 through I-20.
+
+Stage F owns:
+
+- versioned spatial protocol envelope / capabilities
+- explicit world epoch
+- geometry/schema revision/hash identity
+- motion-profile revision identity
+- integer simulation tick identity
+- stable compact geometry references where required
+- spatial pose snapshots
+- validated player movement proposals
+- correction/discontinuity semantics
+- bounded movement validation history/queues
+- server ownership of unsupported/timed traversal motion
+- reconnect/world-reset/life-generation isolation
+- common spatial pose history/interpolation boundary handling
+- real-server latency/bunching/stale/duplicate/reconnect/malicious-claim tests
+- Z20, Z21, Z22, Z23 and Z24
+
+Stage F DOES NOT own:
+
+- Stage G authoritative spatial death aftermath/corpse/equipment simulation
+- Stage H complete production presentation integration
+- Stage I final 2.5D full regression/package stage
+- new entity intelligence/canon/tuning
+- replacement WebSocket transport
+- replacement player motor
+- full server-input-authoritative locomotion rewrite
+- ECS migration
+- general rigid-body engine
+- unrelated rendering overhaul
+
+Do not begin Stage G.
+
+==================================================
+2. NON-NEGOTIABLE AUTHORITY MODEL
+==================================================
+
+Preserve the project's hybrid player authority boundary.
+
+KEEP:
+- client prediction
+- existing player stamina/motor ownership
+- reasonable validation of ordinary XY
+- existing server authority over entities, captures, deaths, lifecycle, items,
+  permissions and authenticated teleports
+
+ADD for spatial worlds:
+- client XYZ/support/link information is a CLAIM, never world authority
+- server derives Z/support from canonical geometry
+- claimed endpoint Z/support cannot select a stacked floor
+- socket handlers queue proposals
+- accepted physical changes apply at fixed-tick boundaries
+- server tick time earns movement credit
+- client timestamps cannot manufacture credit
+- reused/future tick credit is rejected
+- full collider/support sequence is validated
+- packet-bunched turns supply bounded intermediate samples where required
+
+DO NOT silently convert the project to a full input-authoritative server motor.
+
+If the locked hybrid design cannot pass legitimate latency/reconciliation gates,
+document the exact failure before expanding authority. Do not hide the problem
+inside a larger motor rewrite.
+
+==================================================
+3. VALIDATION BOUNDS
+==================================================
+
+For spatial movement proposal validation:
+
+- bounded history: no more than the existing 1.5 second burst allowance
+- maximum history target: 90 fixed ticks
+- maximum 15 validation substeps per room wake
+- bounded per-client proposal queues
+- larger backlogs reconcile rather than consuming unbounded CPU
+- stale world/life/correction/proposal generations are discarded safely
+- nonfinite / malformed / unbounded input is rejected before geometry work
+
+Preserve the existing server-time distance budget, slack-as-debt behavior,
+capture/dead restrictions and authenticated teleport reset semantics.
+
+Flat Level 0 compatibility must remain retained.
+
+==================================================
+4. SERVER-OWNED PHYSICAL TRANSITIONS
+==================================================
+
+When a spatial player enters:
+- unsupported/free motion
+- timed assisted step
+- vault/traversal owned by this contract
+- capture or another explicitly server-owned physical trajectory
+
+the server's fixed-tick spatial motion state owns time progression.
+
+Requirements:
+
+- server gravity/contact/ceiling/support continues when packets stop
+- client predicts the same primitive but does not own absolute airborne Z
+- client cannot assert traversal completion
+- bounded steering requests may be accepted only where the real primitive allows
+- delayed grounded validation must not rerun AI
+- delayed samples must not overwrite committed capture/death/teleport/support-mode transitions
+- a transition already advanced by the server cannot be advanced twice
+- authoritative collision/attacks/pickups use the authoritative pose immediately
+
+==================================================
+5. PROTOCOL CONTENT
+==================================================
+
+Implement the architecture-required spatial identity/envelope fields without
+inventing unrelated payloads.
+
+Hello/world manifest must carry the required compatibility identity:
+- protocol capabilities/version
+- world epoch
+- geometry/schema revision/hash
+- motion-profile revision
+- current integer simulation tick
+- stable compact geometry identity table/reference scheme as needed
+
+Spatial pose state must support:
+- world epoch
+- entity ID + generation
+- pose sequence/tick
+- XYZ
+- XYZ velocity
+- yaw
+- physical height/profile
+- support/nav-surface reference
+- grounded/airborne/traversal flags
+- link/progress where applicable
+
+Player proposals must support:
+- life generation
+- ordered sequence/report identity
+- correction acknowledgement
+- ordered fixed-tick movement samples OR a bounded validated compact segment
+- requested posture/traversal/aim
+- no authoritative client Z/support selection
+
+Correction/teleport must have:
+- explicit discontinuity ID
+- complete authoritative pose/velocity/support
+- world/life generation
+- cause
+- authenticated teleport semantics only
+
+Spatial numeric serialization:
+- finite and bounded values only
+- retain full precision in physics/deterministic tests
+- wire quantization may use the locked architecture's suggested 1/16 world-unit
+  spatial pose quantum only if it cannot move bodies through thin geometry
+- support/contact identity must prevent quantization from choosing another floor
+
+Geometry/schema mismatch:
+- explicit incompatibility response
+- do NOT silently flatten or enter a different world
+
+==================================================
+6. INTERPOLATION / HISTORY
+==================================================
+
+Implement the common spatial pose history rules required by Stage F.
+
+Histories are scoped by explicit world/lifecycle identities such as:
+`(worldEpoch, entityId, generation)`
+
+Reconnect, new world, respawn or authenticated teleport clears the affected
+history/offset/slot associations.
+
+Ordinary network jitter is NOT a world reset.
+
+Retain the current 100 ms entity presentation delay and bounded extrapolation as
+the starting behavior unless objective Stage F evidence requires a minimal,
+documented change.
+
+Transition behavior:
+- supported segment: interpolate continuous path and reconstruct support height
+- traversal: sample agreed continuous trajectory/progress
+- free flight: use XYZ/velocity and split at landing/contact
+- never linearly blend unrelated stacked supports
+- teleport/discontinuity never blends
+- missing transition/unknown edge holds a valid pose rather than drawing through a slab
+- ledge extrapolation stops if authoritative departure is unknown
+- render FPS/camera/cutaway cannot change simulation or world authority
+
+Do not implement Stage H's complete visual integration here.
+
+==================================================
+7. REQUIRED Z20–Z24 ACCEPTANCE
+==================================================
+
+Use `STAGE_F_ACCEPTANCE_MATRIX.md` as the concise execution checklist and the
+locked architecture/matrix as authority.
+
+Z20:
+Normal wire movement under 20–250 ms seeded latency, jitter, duplicates/stale
+reports and 1 second bunching. Record corrections and prove bounded valid
+reconciliation.
+
+Z21:
+Reject malicious XY/Z/support/link/tick/speed/gait/nonfinite/hash/epoch/generation
+claims without unauthorized movement, lifecycle corruption or unbounded work.
+
+Z22:
+Reconnect/world reset with reused ID. Explicit identity must clear old pose,
+clock, slots, support/Z and correction history. Jitter must not reset the world.
+
+Z23:
+Interpolation over stairs/drop/landing/teleport/missing transition. Never render
+through slabs or blend unrelated floors. Same trajectory at different render FPS.
+
+Z24:
+Alive/free/captured/dead/revived/new-run lifecycle. Existing respawn, revive,
+protection, capture and authorization semantics must survive spatial protocol.
+
+These must exercise real protocol/server/client paths rather than fixture-only
+fake state machines.
+
+==================================================
+8. REGRESSION / CANON / DETERMINISM
+==================================================
+
+Preserve:
+- fixed 60 Hz gameplay
+- existing catch-up policy unless explicitly owned by existing architecture
+- render-FPS independence
+- camera fairness
+- Level 0 flat compatibility
+- Stage E NavSurface/TraversalLink behavior
+- Stage E XYZ sensors and hidden-elevation anti-cheating
+- Hound/Smiler canon and Part 2 behavior
+- no hidden player truth leaks
+- IR invariance
+- existing WebSocket transport
+- existing snapshot cadence
+- death/lifecycle semantics
+- redirect.js at package root
+
+Do not regenerate frozen baselines to hide divergence.
+
+Do not lower preserved assertions or thresholds just to make Stage F green.
+
+Every new unexplained divergence must be investigated to first divergent
+tick/message when practical.
+
+==================================================
+9. EXTERNAL CHECKPOINT POLICY — MANDATORY
+==================================================
+
+Substantial implementation must never live for hours only in the Work workspace.
+
+Use these milestone checkpoints:
+
+F0 — Parent/protocol baseline preflight
+- exact Stage E parent verified
+- existing protocol/network behavior inventoried
+- Stage F schemas/identity/version plan recorded
+- no runtime migration yet
+- COMMIT + PUSH + RECORD SHA
+
+F1 — Spatial handshake / identities / serialization
+- version/capability envelope
+- world epoch/generations
+- geometry/schema/motion identity
+- bounded finite spatial pose envelope
+- incompatibility rejection
+- flat compatibility retained
+- focused tests
+- COMMIT + PUSH + RECORD SHA
+
+F2 — Player proposal validation / server-owned transitions
+- ordered proposals
+- server-derived Z/support
+- bounded history/queues/credit
+- authoritative unsupported/timed transitions
+- no double-advance
+- focused legitimate + malicious movement tests
+- COMMIT + PUSH + RECORD SHA
+
+F3 — Corrections / reconciliation / lifecycle isolation
+- correction ACK/discontinuity
+- teleport reset
+- reconnect/world reset
+- reused IDs/generations
+- stale packets isolated
+- capture/death/revive/new-run preservation
+- focused Z20/Z21/Z22/Z24 coverage
+- COMMIT + PUSH + RECORD SHA
+
+F4 — Common spatial interpolation boundaries
+- world/generation-keyed histories
+- stairs/drop/landing support-aware interpolation
+- no slab blend
+- teleport snap/discontinuity
+- bounded extrapolation
+- render-FPS invariance
+- Z23 coverage
+- COMMIT + PUSH + RECORD SHA
+
+F5 — Full Stage F regression / adversarial network / package
+- all Z20–Z24 PASS or explicitly blocked
+- retained network/live/IR tests
+- retained movement/physics/camera/AI/Stage E tests
+- deterministic/frozen parity appropriate to changed protocol boundaries
+- bounded queue/CPU/payload measurements
+- clean extraction/build/serve checks
+- exact changed-file list
+- baseline-failure comparison
+- final Stage F report
+- final Stage F test summary
+- final Stage F human-QA handoff
+- final package verification
+- final Stage F ZIP
+- SHA-256
+- final COMMIT + PUSH + RECORD SHA
+- STOP
+
+If a milestone fails, preserve the failing evidence and checkpoint the safe source
+before extended investigation.
+
+Never force-push over concurrent work.
+
+==================================================
+10. REQUIRED FINAL DELIVERABLES
+==================================================
+
+At minimum produce:
+
+- `25D_STAGE_F_REPORT.md`
+- `25D_STAGE_F_TEST_SUMMARY.md`
+- `25D_STAGE_F_BASELINE_FAILURES.md`
+- `25D_STAGE_F_PARITY.md`
+- `25D_STAGE_F_CHANGED_FILES.txt`
+- `25D_STAGE_F_HUMAN_QA.md`
+- `25D_STAGE_F_PROTOCOL.md`
+- `25D_STAGE_F_AUTHORITY.md`
+- `25D_STAGE_F_GIT_CHECKPOINTS.md`
+- `25D_STAGE_F_PACKAGE_VERIFICATION.json` or external equivalent if self-hash requires it
+- final Stage F ZIP
+- final ZIP SHA-256
+
+Keep exact raw evidence under an appropriate Stage F evidence directory.
+
+The final report must explicitly state:
+- exact accepted Stage E parent commit/hash
+- exact final Stage F commit
+- Z20–Z24 disposition
+- retained/inherited failures
+- protocol version/compatibility behavior
+- measured correction/reconciliation behavior
+- queue/history/CPU/payload limits
+- whether flat Level 0 is preserved
+- whether Stage G has begun (must be NO)
+- human QA remains distinct
+
+==================================================
+11. STOP CONDITION
+==================================================
+
+When Stage F has objective acceptance evidence and final package verification:
+
+STOP.
+
+Do NOT:
+- merge to main
+- begin Stage G
+- implement spatial authoritative death aftermath
+- implement full Stage H rendering/presentation integration
+- claim whole 2.5D implementation complete
+
+Final status wording should be equivalent to:
+
+`2.5D STAGE F ENGINEERING COMPLETE — HUMAN QA PENDING`
+
+unless objective gates remain blocked, in which case report the exact blocker
+without overstating completion.
