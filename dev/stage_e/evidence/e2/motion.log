@@ -1,0 +1,287 @@
+PASS hound physical link:ledge-drop
+PASS hound physical link:ramp-up
+PASS hound physical link:stairs-down
+PASS hound physical link:stairs-up
+PASS smiler physical link:ledge-drop
+PASS smiler physical link:ramp-up
+PASS smiler physical link:stairs-down
+PASS smiler physical link:stairs-up
+PASS top tread / landing overlap accepts contextual support without relocation
+PASS A* stacked route is physically traversable waypoint by waypoint
+PASS interrupted staircase retains actual pose and resolves gravity
+PASS supported traces cannot smooth through slabs, steps or a subpixel gap
+PASS continuous sheets get physical bidirectional walk seams, never cross-floor seams
+PASS vaults use actual swept raise/cross/settle; capability and roof reject
+PASS crawl route preserves Hound capability and excludes Smiler
+PASS pure Z translation retains link outcome and support sequence
+{
+  "status": "PASS",
+  "runtime": "v25.9.0",
+  "groups": 16,
+  "results": [
+    "hound physical link:ledge-drop",
+    "hound physical link:ramp-up",
+    "hound physical link:stairs-down",
+    "hound physical link:stairs-up",
+    "smiler physical link:ledge-drop",
+    "smiler physical link:ramp-up",
+    "smiler physical link:stairs-down",
+    "smiler physical link:stairs-up",
+    "top tread / landing overlap accepts contextual support without relocation",
+    "A* stacked route is physically traversable waypoint by waypoint",
+    "interrupted staircase retains actual pose and resolves gravity",
+    "supported traces cannot smooth through slabs, steps or a subpixel gap",
+    "continuous sheets get physical bidirectional walk seams, never cross-floor seams",
+    "vaults use actual swept raise/cross/settle; capability and roof reject",
+    "crawl route preserves Hound capability and excludes Smiler",
+    "pure Z translation retains link outcome and support sequence"
+  ],
+  "physicalLinks": [
+    {
+      "kind": "hound",
+      "link": "link:ledge-drop",
+      "ok": true,
+      "reason": null,
+      "ticks": 89,
+      "distance": 312.87756964955094,
+      "finalPose": {
+        "x": 880,
+        "y": 808.3320825589046,
+        "z": -95.95
+      },
+      "supportId": "support:lower-platform",
+      "supportHistory": [
+        "support:balcony",
+        null,
+        "support:lower-platform"
+      ],
+      "maxDelta": 10.719598162165143
+    },
+    {
+      "kind": "hound",
+      "link": "link:ramp-up",
+      "ok": true,
+      "reason": null,
+      "ticks": 283,
+      "distance": 471.62858847455664,
+      "finalPose": {
+        "x": 1049.1972765645494,
+        "y": 148,
+        "z": 180.05
+      },
+      "supportId": "support:ramp-landing",
+      "supportHistory": [
+        "support:ground-north",
+        "support:ramp",
+        "support:ramp-landing"
+      ],
+      "maxDelta": 1.6666666666667425
+    },
+    {
+      "kind": "hound",
+      "link": "link:stairs-down",
+      "ok": true,
+      "reason": null,
+      "ticks": 322,
+      "distance": 604.6308718900143,
+      "finalPose": {
+        "x": 368,
+        "y": 90,
+        "z": 0.05000000000985905
+      },
+      "supportId": "support:ground-north",
+      "supportHistory": [
+        "support:upper-south",
+        "support:tread-15",
+        null,
+        "support:tread-14",
+        null,
+        "support:tread-13",
+        null,
+        "support:tread-12",
+        null,
+        "support:tread-11",
+        null,
+        "support:tread-10",
+        null,
+        "support:tread-09",
+        null,
+        "support:tread-08",
+        null,
+        "support:tread-07",
+        null,
+        "support:tread-06",
+        null,
+        "support:tread-05",
+        null,
+        "support:tread-04",
+        null,
+        "support:tread-03",
+        null,
+        "support:tread-02",
+        null,
+        "support:tread-01",
+        null,
+        "support:ground-north"
+      ],
+      "maxDelta": 2.9200718704795507
+    },
+    {
+      "kind": "hound",
+      "link": "link:stairs-up",
+      "ok": true,
+      "reason": null,
+      "ticks": 407,
+      "distance": 704.2821642552534,
+      "finalPose": {
+        "x": 368,
+        "y": 618.3320825589076,
+        "z": 180.05
+      },
+      "supportId": "support:upper-south",
+      "supportHistory": [
+        "support:ground-north",
+        "support:tread-01",
+        "support:tread-02",
+        "support:tread-03",
+        "support:tread-04",
+        "support:tread-05",
+        "support:tread-06",
+        "support:tread-07",
+        "support:tread-08",
+        "support:tread-09",
+        "support:tread-10",
+        "support:tread-11",
+        "support:tread-12",
+        "support:tread-13",
+        "support:tread-14",
+        "support:tread-15",
+        "support:upper-south"
+      ],
+      "maxDelta": 2.9688888888888982
+    },
+    {
+      "kind": "smiler",
+      "link": "link:ledge-drop",
+      "ok": true,
+      "reason": null,
+      "ticks": 89,
+      "distance": 312.87756964955094,
+      "finalPose": {
+        "x": 880,
+        "y": 808.3320825589046,
+        "z": -95.95
+      },
+      "supportId": "support:lower-platform",
+      "supportHistory": [
+        "support:balcony",
+        null,
+        "support:lower-platform"
+      ],
+      "maxDelta": 10.719598162165143
+    },
+    {
+      "kind": "smiler",
+      "link": "link:ramp-up",
+      "ok": true,
+      "reason": null,
+      "ticks": 283,
+      "distance": 471.62858847455664,
+      "finalPose": {
+        "x": 1049.1972765645494,
+        "y": 148,
+        "z": 180.05
+      },
+      "supportId": "support:ramp-landing",
+      "supportHistory": [
+        "support:ground-north",
+        "support:ramp",
+        "support:ramp-landing"
+      ],
+      "maxDelta": 1.6666666666667425
+    },
+    {
+      "kind": "smiler",
+      "link": "link:stairs-down",
+      "ok": true,
+      "reason": null,
+      "ticks": 322,
+      "distance": 604.6308718900143,
+      "finalPose": {
+        "x": 368,
+        "y": 90,
+        "z": 0.05000000000985905
+      },
+      "supportId": "support:ground-north",
+      "supportHistory": [
+        "support:upper-south",
+        "support:tread-15",
+        null,
+        "support:tread-14",
+        null,
+        "support:tread-13",
+        null,
+        "support:tread-12",
+        null,
+        "support:tread-11",
+        null,
+        "support:tread-10",
+        null,
+        "support:tread-09",
+        null,
+        "support:tread-08",
+        null,
+        "support:tread-07",
+        null,
+        "support:tread-06",
+        null,
+        "support:tread-05",
+        null,
+        "support:tread-04",
+        null,
+        "support:tread-03",
+        null,
+        "support:tread-02",
+        null,
+        "support:tread-01",
+        null,
+        "support:ground-north"
+      ],
+      "maxDelta": 2.9200718704795507
+    },
+    {
+      "kind": "smiler",
+      "link": "link:stairs-up",
+      "ok": true,
+      "reason": null,
+      "ticks": 407,
+      "distance": 704.2821642426024,
+      "finalPose": {
+        "x": 368,
+        "y": 618.3320825589077,
+        "z": 180.05
+      },
+      "supportId": "support:upper-south",
+      "supportHistory": [
+        "support:ground-north",
+        "support:tread-01",
+        "support:tread-02",
+        "support:tread-03",
+        "support:tread-04",
+        "support:tread-05",
+        "support:tread-06",
+        "support:tread-07",
+        "support:tread-08",
+        "support:tread-09",
+        "support:tread-10",
+        "support:tread-11",
+        "support:tread-12",
+        "support:tread-13",
+        "support:tread-14",
+        "support:tread-15",
+        "support:upper-south"
+      ],
+      "maxDelta": 2.9688888888888982
+    }
+  ]
+}

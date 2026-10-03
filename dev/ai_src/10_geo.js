@@ -58,6 +58,7 @@ class Geo {
     if (this.spatial) {
       this.geometry = a.geometry;
       this.edgeProofs = new Map();
+      this.linkProofs = new Map();
       this.navStats = { plans: 0, nodes: 0, edgeChecks: 0, cacheHits: 0, cacheMisses: 0, maxNodes: 0 };
     }
   }
@@ -151,7 +152,8 @@ class Geo {
   nodePose(i) { const n = this.nodes[i]; return n && { x:n.x, y:n.y, z:n.z, supportId:n.supportId, navSurfaceId:n.surfaceId, c:this.cls[i], nodeId:n.id }; }
   profile(caps, profile) {
     const id = typeof profile === 'string' ? profile : profile?.id;
-    return this.profiles.get(id || (caps.CAN_CRAWL ? 'profile:hound' : 'profile:smiler'));
+    const known=this.profiles.get(id || (caps.CAN_CRAWL ? 'profile:hound' : 'profile:smiler'));
+    return known && (profile&&typeof profile==='object'?{...known,...profile}:known);
   }
   snapPose(pose, caps, maxR = 5, profile) {
     if (!pose || !Number.isFinite(pose.z)) return -1;
@@ -168,7 +170,8 @@ class Geo {
         if (i === undefined || !this.passableFor(i,caps,p)) continue;
         const n = this.nodes[i], d = Math.hypot(n.x-pose.x,n.y-pose.y,n.z-pose.z);
         // A support context is not permission to pass through a slab to its cell.
-        if (d < distance && spatialSegment(this,pose,n,p)) { best=i;distance=d; }
+        const shape=caps.CAN_CRAWL&&(!this.geometry.clearance(p,pose).fits||!this.geometry.clearance(p,n).fits)?{...p,height:24,eyeHeight:18}:p;
+        if (d < distance && spatialSegment(this,pose,n,shape)) { best=i;distance=d; }
       }
     }
     return best;
@@ -186,11 +189,17 @@ class Geo {
       if(edge.corners?.some(j=>!this.passableFor(j,caps,p)))continue;
       const link=edge.link;
       if(link && (!link.profileIds.includes(p.id) || link.kind==='crawl'&&!caps.CAN_CRAWL || link.kind==='vault'&&!caps.CAN_VAULT || link.capabilityFlags.includes('tight-gap')&&!caps.CAN_USE_TIGHT_GAPS))continue;
-      const key=i+'>'+edge.to+'/'+p.id+'/'+!!caps.CAN_CRAWL;
+      const key=[i+'>'+edge.to,p.id,p.radius,p.height,p.maxSlopeDegrees,p.maxStepRise,!!caps.CAN_CRAWL,caps.VAULT_SPEED].join('/');
       let ok=this.edgeProofs.get(key);
-      if(ok===undefined){this.navStats.cacheMisses++;ok=link ? true : spatialSegment(this,this.nodes[i],this.nodes[edge.to],p);this.edgeProofs.set(key,ok);}else this.navStats.cacheHits++;
+      if(ok===undefined){
+        this.navStats.cacheMisses++;
+        if(link){const shape=link.kind==='crawl'?{...p,height:24,eyeHeight:18}:p;const proof=MOTION.proveTraversal(this.geometry,link,shape,{vaultSpeed:caps.VAULT_SPEED});this.linkProofs.set(key,proof);ok=proof.ok;}
+        else {const shape=caps.CAN_CRAWL&&(!this.geometry.clearance(p,this.nodes[i]).fits||!this.geometry.clearance(p,this.nodes[edge.to]).fits)?{...p,height:24,eyeHeight:18}:p;ok=spatialSegment(this,this.nodes[i],this.nodes[edge.to],shape);}
+        this.edgeProofs.set(key,ok);
+      }else this.navStats.cacheHits++;
       if(!ok)continue;
-      out.push({...edge,cost:edge.cost/(link?.kind==='vault'?Math.max(.4,caps.VAULT_SPEED||1):1)});
+      const proof=link&&this.linkProofs.get(key);
+      out.push({...edge,cost:link?Math.max(edge.cost,proof.distance,proof.ticks*100/60)/(link.kind==='vault'?Math.max(.4,caps.VAULT_SPEED||1):1):edge.cost+WALL_COST[this.clr[edge.to]]*(this.cls[edge.to]===1?1:0)});
     }
     return out;
   }
@@ -201,22 +210,14 @@ class Geo {
  * Special links are capability-gated records; E2 supplies motion proofs. */
 function spatialNodeFits(geo,i,caps,profile) {
   const n=geo.nodes[i],p=geo.profile(caps,profile);if(!n||!p)return false;
+  if(!geo.charts.get(n.surfaceId).clearanceProfileIds.includes(p.id))return false;
   if(n.slope>p.maxSlopeDegrees)return false;
   if(geo.geometry.clearance(p,n).fits)return true;
   return !!caps.CAN_CRAWL && geo.geometry.clearance({...p,height:24,eyeHeight:18},n).fits;
 }
 function spatialSegment(geo,a,b,profile) {
   if(!profile || ![a.x,a.y,a.z,b.x,b.y,b.z].every(Number.isFinite))return false;
-  const d={x:b.x-a.x,y:b.y-a.y,z:b.z-a.z};
-  if(!geo.geometry.clearance(profile,a).fits||!geo.geometry.clearance(profile,b).fits)return false;
-  if(geo.geometry.sweep(profile,a,d,'collision',0))return false;
-  const length=Math.hypot(d.x,d.y,d.z),steps=Math.max(1,Math.ceil(length/8));
-  if(steps>256)return false;
-  for(let k=0;k<=steps;k++) {
-    const q={x:a.x+d.x*k/steps,y:a.y+d.y*k/steps,z:a.z+d.z*k/steps};
-    if(!geo.geometry.supports(profile,q,[q.z-.11,q.z+.01],a.supportId).length)return false;
-  }
-  return true;
+  return geo.geometry.traceSupportMotion({...a,navSurfaceId:a.navSurfaceId||a.surfaceId},[{...b,navSurfaceId:b.navSurfaceId||b.surfaceId}],profile).ok;
 }
 function buildSpatialNav(geometry) {
   const d=geometry.definition, nodes=[],charts=new Map(),edges=[],links=new Map(),profiles=new Map(d.colliderProfiles.map(p=>[p.id,p]));
@@ -239,7 +240,7 @@ function buildSpatialNav(geometry) {
       if(support)add(chart,key,{x,y,z:support.z},support);
     }
   }
-  const addEdge=(i,j,link=null)=>{if(i<0||j<0||i===j)return;const a=nodes[i],b=nodes[j],cost=Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z)+(link?0:WALL_COST[0]);edges[i].push({to:j,cost,link});};
+  const addEdge=(i,j,link=null)=>{if(i<0||j<0||i===j)return;const a=nodes[i],b=nodes[j],cost=Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);edges[i].push({to:j,cost,link});};
   for(const chart of charts.values())for(const [key,i]of chart.cells) {
     const [c,r]=key.split(',').map(Number);
     for(const [dc,dr]of DIRS) {
@@ -266,8 +267,24 @@ function buildSpatialNav(geometry) {
     const [i,j]=endpoints,a=nodes[i],b=nodes[j],link=Object.freeze({...raw,ax:a.x,ay:a.y,az:a.z,bx:b.x,by:b.y,bz:b.z});
     addEdge(i,j,link);links.set(i,[...(links.get(i)||[]),{...edges[i][edges[i].length-1],...link}]);
   }
+  // Discover continuous seams from physical patch boundaries using a bounded XY
+  // neighbor hash. Sharing XY on unrelated stories never creates an edge.
+  const buckets=new Map(),bucket=(x,y)=>Math.floor(x/48)+','+Math.floor(y/48);
+  for(let i=0;i<nodes.length;i++){const n=nodes[i];if(n.key.startsWith('portal:'))continue;const k=bucket(n.x,n.y);if(!buckets.has(k))buckets.set(k,[]);buckets.get(k).push(i);}
+  for(let i=0;i<nodes.length;i++){
+    const a=nodes[i];if(a.key.startsWith('portal:'))continue;
+    const c=Math.floor(a.x/48),r=Math.floor(a.y/48);
+    for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)for(const j of buckets.get((c+dx)+','+(r+dy))||[]){
+      const b=nodes[j];if(a.surfaceId===b.surfaceId||Math.abs(a.z-b.z)>.001)continue;
+      const mid={x:(a.x+b.x)/2,y:(a.y+b.y)/2,z:a.z};if(!geometry.continuousSupport(a.supportId,b.supportId,mid,shape))continue;
+      const distance=Math.hypot(b.x-a.x,b.y-a.y),nx=distance?-(b.y-a.y)/distance:1,ny=distance?(b.x-a.x)/distance:0;
+      const region=p=>[-32,32].map(v=>({x:p.x+nx*v,y:p.y+ny*v,z:p.z}));
+      const link=Object.freeze({id:'seam:'+a.id+'>'+b.id,kind:'walk-seam',fromSurfaceId:a.surfaceId,toSurfaceId:b.surfaceId,entry:region(a),exit:region(b),corridor:[{x:a.x,y:a.y,z:a.z},{x:b.x,y:b.y,z:b.z}],corridorRadius:32,profileIds:[...profiles.keys()],capabilityFlags:[],supportPatchIds:[a.supportId,b.supportId],directed:true,ax:a.x,ay:a.y,az:a.z,bx:b.x,by:b.y,bz:b.z});
+      addEdge(i,j,link);
+    }
+  }
   for(const e of edges)e.sort((a,b)=>nodes[a.to].id.localeCompare(nodes[b.to].id));
   const N=nodes.length,cls=new Uint8Array(N),clr=new Uint8Array(N),lamp=new Float32Array(N);
   nodes.forEach((n,i)=>{cls[i]=geometry.clearance({...shape,height:36},n).fits?1:2;for(const [k,r]of [[1,30],[2,40],[3,52]])if(geometry.clearance({radius:r,height:36},n).fits)clr[i]=k;});
-  return {nodes,charts,edges,profiles,cls,clr,lamp,links,N,cs:48,cols:0,rows:0,cx:i=>nodes[i]?.x,cy:i=>nodes[i]?.y,cellAt:()=>-1,topologyRevision:'surface-links-e1'};
+  return {nodes,charts,edges,profiles,cls,clr,lamp,links,N,cs:48,cols:0,rows:0,cx:i=>nodes[i]?.x,cy:i=>nodes[i]?.y,cellAt:()=>-1,topologyRevision:'surface-links-e2'};
 }

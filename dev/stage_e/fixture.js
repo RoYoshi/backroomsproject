@@ -1,11 +1,11 @@
 'use strict';
 // Additive Stage E test content. The frozen Stage A/C fixture is never rewritten.
-const G=require('../../world_geometry'),base=require('../fixtures/world_25d');
+const G=require('../../world_geometry'),M=require('../../world_motion'),base=require('../fixtures/world_25d');
 const clone=x=>JSON.parse(JSON.stringify(x));
 function canonical(d){for(const k of ['solids','supportPatches','navSurfaces','traversalLinks','spaces','portals','materials','lights','viewGroups','anchors','colliderProfiles'])d[k].sort((a,b)=>a.id.localeCompare(b.id));delete d.contentHash;return d;}
 function fixture(){
  const d=clone(base);d.assetId='world:stage-e';d.geometryRevision='stage-e-1';
- for(const [name,height,eyeHeight,capabilities]of [['hound',36,28,['walk','stairs','ramp','drop','crawl','vault']],['smiler',48,36,['walk','stairs','ramp','drop','vault']]])d.colliderProfiles.push({id:'profile:'+name,radius:21,height,eyeHeight,maxSlopeDegrees:35,maxStepRise:12,stepLiftMax:180,capabilities});
+ for(const [name,capabilities]of [['hound',['walk','stairs','ramp','drop','crawl','vault']],['smiler',['walk','stairs','ramp','drop','vault']]])d.colliderProfiles.push({...M.ENTITY_PROFILES[name],capabilities});
  for(const surface of d.navSurfaces)surface.clearanceProfileIds.push('profile:hound','profile:smiler');
  for(const link of d.traversalLinks){
   link.profileIds.push('profile:hound','profile:smiler');

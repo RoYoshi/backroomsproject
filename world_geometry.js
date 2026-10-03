@@ -1,5 +1,5 @@
 /* Shared geometry boundary — preserved Stage B planar path + Stage C spatial queries.
- * Data lives in level definitions. Stage E/G contact/routing APIs remain deferred.
+ * Data lives in level definitions. Stage E support traces share physical queries.
  * No time reads, RNG, perception, species decisions or render dependencies. */
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.TFB_GEOMETRY=factory();})(typeof self!=='undefined'?self:this,function(){
 'use strict';
@@ -226,9 +226,61 @@ function compileSpatial(definition){
    if(enter<=exit&&enter>=0&&enter<=1&&(!best||enter<best.t-NUM.tie||(Math.abs(enter-best.t)<=NUM.tie&&s.id<best.primitiveId)))best={t:enter,point:add(from,mul(delta,enter)),normal,primitiveId:s.id,materialId:s.materialId,distance:norm(delta)*enter};
   }return best;
  }
+ // A contact seam is a real shared boundary at matching height, not a matching
+ // label or XY overlap. This is also used for top-tread/landing support aliases.
+ function continuousSupport(fromId,toId,pos,shape){
+  const a=patches.get(fromId),b=patches.get(toId);if(!a||!b)return false;if(a.id===b.id)return true;
+  if(!footprintRange(a.polygon,pos,shape.radius,a.plane)||!footprintRange(b.polygon,pos,shape.radius,b.plane))return false;
+  for(const [u,v]of [[a,b],[b,a]])for(const p of u.polygon)for(let i=0;i<v.polygon.length;i++){
+   const q=v.polygon[i],r=v.polygon[(i+1)%v.polygon.length],dx=r.x-q.x,dy=r.y-q.y,t=Math.max(0,Math.min(1,((p.x-q.x)*dx+(p.y-q.y)*dy)/(dx*dx+dy*dy)));
+   if(Math.hypot(p.x-q.x-t*dx,p.y-q.y-t*dy)<NUM.epsilon&&Math.abs(planeAt(a.plane,p.x,p.y)-planeAt(b.plane,p.x,p.y))<NUM.epsilon)return true;
+  }return false;
+ }
+ function traceSupportMotion(start,route,shape,options={}){
+  // Retain the historical unsupported-signature error; valid Stage E calls are
+  // distinguished by explicit pose, route and a physical collider profile.
+  if(!start||!Number.isFinite(start.z)||!Array.isArray(route)||!shape?.radius)throw Error('traceSupportMotion: NOT IMPLEMENTED for an untyped pose/profile');
+  checkPose(start);checkShape(shape);let current={...start},previous=start.supportId;
+  const initial=patches.get(previous),surface=start.navSurfaceId||initial?.navSurfaceId;
+  if(!surface)return {ok:false,reason:'support-context',positions:[]};
+  const positions=[],supportIds=[];
+  for(const target of route){
+   checkPose(target);const targetSurface=target.navSurfaceId||patches.get(target.supportId)?.navSurfaceId||surface;
+   if(targetSurface!==surface||target.link)return {ok:false,reason:'explicit-transition-required',positions,supportIds};
+   if(!clearance(shape,current).fits||!clearance(shape,target).fits)return {ok:false,reason:'clearance',positions,supportIds};
+   const delta=sub(target,current),hit=sweep(shape,current,delta,'collision',0);
+   if(hit&&hit.t<1-1e-5)return {ok:false,reason:'sweep',hit,positions,supportIds};
+   const lo={x:Math.min(current.x,target.x)-shape.radius,y:Math.min(current.y,target.y)-shape.radius,z:Math.min(current.z,target.z)-NUM.skin*2},hi={x:Math.max(current.x,target.x)+shape.radius,y:Math.max(current.y,target.y)+shape.radius,z:Math.max(current.z,target.z)+NUM.skin*2};
+   const spans=[];
+   for(const s of candidates(lo,hi))for(const p of supportsBySolid.get(s.id)||[]){
+    if(p.navSurfaceId!==surface||p.normal.z<Math.cos((shape.maxSlopeDegrees??35)*Math.PI/180))continue;
+    const slope=Math.hypot(p.plane.a,p.plane.b),ox=slope?shape.radius*p.plane.a/slope:0,oy=slope?shape.radius*p.plane.b/slope:0;
+    // Exact interval clipping of the maximum-height support point. Union of
+    // these intervals proves continuous support; a tiny gap cannot evade samples.
+    let enter=0,exit=1;
+    for(let i=0;i<p.polygon.length;i++){
+     const a=p.polygon[i],b=p.polygon[(i+1)%p.polygon.length],nx=a.y-b.y,ny=b.x-a.x;
+     const v=nx*(current.x+ox-a.x)+ny*(current.y+oy-a.y),dv=nx*delta.x+ny*delta.y;
+     if(Math.abs(dv)<NUM.epsilon){if(v< -NUM.epsilon){exit=-1;break;}}
+     else if(dv>0)enter=Math.max(enter,(-NUM.epsilon-v)/dv);else exit=Math.min(exit,(-NUM.epsilon-v)/dv);
+    }
+    if(enter>exit)continue;
+    const fit=t=>{const q=add(current,mul(delta,t)),base=planeAt(p.plane,q.x,q.y)+shape.radius*slope;return q.z>=base-NUM.epsilon&&q.z-base<=NUM.skin*2+NUM.epsilon;};
+    if(fit(enter)&&fit(exit))spans.push([enter,exit,p.id]);
+   }
+   spans.sort((a,b)=>a[0]-b[0]||a[2].localeCompare(b[2]));let covered=0;
+   for(const [a,b]of spans){if(a>covered+NUM.epsilon)break;covered=Math.max(covered,b);}
+   if(covered<1-NUM.epsilon||!spans.length)return {ok:false,reason:'unsupported-or-step',positions,supportIds};
+   const at=supports(shape,target,[target.z-NUM.skin*2-NUM.epsilon,target.z+NUM.epsilon],previous).filter(p=>p.navSurfaceId===surface);
+   const support=at.find(p=>p.id===target.supportId)||at.find(p=>!target.supportId||continuousSupport(target.supportId,p.id,target,shape));
+   if(!support)return {ok:false,reason:'support-context',positions,supportIds};
+   previous=support.id;current={...target,supportId:previous,navSurfaceId:surface};positions.push(current);supportIds.push(previous);
+  }
+  return {ok:true,positions,supportIds};
+ }
  const deferred=name=>()=>{throw Error(name+': NOT IMPLEMENTED BY DESIGN — Stage E/G');};
  return Object.freeze({definition:D,identity:freeze({schemaVersion:D.schemaVersion,assetId:D.assetId,geometryRevision:D.geometryRevision,contentHash:contentHash(D),geometryMode:'spatial',compilerRevision:'stage-c-1'}),numeric:NUM,
-  clearance,supports,sweep,raycast,contact:deferred('contact'),traceSupportMotion:deferred('traceSupportMotion'),
+  clearance,supports,sweep,raycast,continuousSupport,contact:deferred('contact'),traceSupportMotion,
   supportPatch:id=>patches.get(id)||null,
   spacesAt:p=>{checkPose(p);return D.spaces.filter(s=>['x','y','z'].every(k=>p[k]>=s.bounds.min[k]&&p[k]<=s.bounds.max[k])&&!raycast(p,p)).map(s=>s.id);},
   // Instrumentation reports immutable index size, never drives simulation budgets.

@@ -22,7 +22,7 @@ function run(){
   assert(geo.pathPose(a,b,caps)?.some(n=>n.link?.kind==='drop'));assert.equal(geo.pathPose(b,a,caps),null);
  });
  test('directed links have portal width, corridor and explicit species gates',()=>{
-  const all=geo.edges.flat().filter(e=>e.link);assert.equal(all.length,4);
+  const all=geo.edges.flat().filter(e=>e.link&&!e.link.id.startsWith('seam:'));assert.equal(all.length,4);
   for(const {link}of all){assert(link.entry.length>=2&&link.exit.length>=2);assert(link.corridorRadius>=21);assert(link.profileIds.includes('profile:hound'));}
   const drop=all.find(e=>e.link.kind==='drop');assert.equal(drop.link.fromSurfaceId,'nav:balcony');assert.equal(drop.link.toSurfaceId,'nav:lower');
   assert(!all.some(e=>e.link.fromSurfaceId==='nav:lower'&&e.link.toSurfaceId==='nav:balcony'));

@@ -6,9 +6,9 @@
  * Species (Hound, Smiler) are just data plus a `think` function on top of these parts.  The engine is server
  * authoritative and never reads a player list directly for decisions: it only sees what perception hands it. */
 (function (root, factory) {
-  if (typeof module === 'object' && module.exports) module.exports = factory(require('./world.js'));
-  else root.AI = factory(root.WORLD);
-})(typeof self !== 'undefined' ? self : this, function (WORLD) {
+  if (typeof module === 'object' && module.exports) module.exports = factory(require('./world.js'), require('./world_motion.js'));
+  else root.AI = factory(root.WORLD, root.TFB_MOTION);
+})(typeof self !== 'undefined' ? self : this, function (WORLD, MOTION) {
 'use strict';
 const TAU = Math.PI * 2;
 const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
