@@ -1,0 +1,311 @@
+PASS real move.js -> shared client codec -> WebSocket -> fixed-tick validator
+PASS malicious XYZ/support cannot choose floor
+PASS server fall/landing continues without packets; room work <=15
+{
+  "status": "PASS",
+  "stats": {
+    "accepted": 24,
+    "rejected": 1,
+    "corrections": 5,
+    "maxQueue": 12,
+    "maxHistory": 12,
+    "maxWork": 12,
+    "work": 0,
+    "ownedTicks": 39,
+    "reasons": {
+      "pose-claim": 1
+    }
+  },
+  "corrections": [
+    {
+      "cause": "handshake",
+      "tick": 0,
+      "xyz": [
+        160,
+        160,
+        0
+      ]
+    },
+    {
+      "cause": "spawn",
+      "tick": 0,
+      "xyz": [
+        160,
+        160,
+        0
+      ]
+    },
+    {
+      "cause": "pose-claim",
+      "tick": 25,
+      "xyz": [
+        185.93840182048052,
+        160,
+        0.05
+      ]
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 25,
+      "xyz": [
+        880,
+        690,
+        120
+      ]
+    },
+    {
+      "cause": "physical-transition",
+      "tick": 41,
+      "xyz": [
+        880,
+        715.9384018204805,
+        120.03439013065223
+      ]
+    },
+    {
+      "cause": "grounded",
+      "tick": 81,
+      "xyz": [
+        880,
+        826.7782668650302,
+        -95.95
+      ]
+    }
+  ]
+}
+{
+  "last": {
+    "t": "s",
+    "p": [],
+    "e": {
+      "st": 1.333,
+      "h": [],
+      "m": [],
+      "b": 0,
+      "p": 0.001,
+      "gw": [
+        [
+          1040,
+          200,
+          0,
+          0
+        ]
+      ],
+      "it": [
+        [
+          880,
+          780,
+          "anchor:lower-item"
+        ]
+      ],
+      "lf": [],
+      "sn": []
+    },
+    "me": "",
+    "ms": 0,
+    "cp": 0,
+    "protocol": {
+      "worldEpoch": "86fa4436-bae9-425f-860f-dd9533c9c51c",
+      "simTick": 80
+    },
+    "pose": {
+      "worldEpoch": "86fa4436-bae9-425f-860f-dd9533c9c51c",
+      "entityId": "p1",
+      "generation": 1,
+      "seq": 80,
+      "tick": 80,
+      "discontinuity": 5,
+      "x": 880,
+      "y": 824.0072702389165,
+      "z": -90.58595864337292,
+      "vx": 0,
+      "vy": 166.25979756682392,
+      "vz": -642.5313058061927,
+      "yaw": 0,
+      "height": 60,
+      "profile": "profile:player-stand",
+      "support": null,
+      "navSurface": null,
+      "mode": "airborne",
+      "link": null,
+      "progress": 0
+    },
+    "spatial": [],
+    "spatialStats": {
+      "accepted": 24,
+      "rejected": 1,
+      "corrections": 5,
+      "maxQueue": 12,
+      "maxHistory": 12,
+      "maxWork": 12,
+      "work": 0,
+      "ownedTicks": 39,
+      "reasons": {
+        "pose-claim": 1
+      }
+    }
+  },
+  "corrections": [
+    {
+      "t": "correction",
+      "cause": "handshake",
+      "pose": {
+        "worldEpoch": "86fa4436-bae9-425f-860f-dd9533c9c51c",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "spawn",
+      "pose": {
+        "worldEpoch": "86fa4436-bae9-425f-860f-dd9533c9c51c",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 2,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "pose-claim",
+      "pose": {
+        "worldEpoch": "86fa4436-bae9-425f-860f-dd9533c9c51c",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 25,
+        "tick": 25,
+        "discontinuity": 3,
+        "x": 185.93840182048052,
+        "y": 160,
+        "z": 0.05,
+        "vx": 166.25979756682392,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "authorized-teleport",
+      "pose": {
+        "worldEpoch": "86fa4436-bae9-425f-860f-dd9533c9c51c",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 25,
+        "tick": 25,
+        "discontinuity": 4,
+        "x": 880,
+        "y": 690,
+        "z": 120,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:balcony",
+        "navSurface": "nav:balcony",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "physical-transition",
+      "pose": {
+        "worldEpoch": "86fa4436-bae9-425f-860f-dd9533c9c51c",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 41,
+        "tick": 41,
+        "discontinuity": 5,
+        "x": 880,
+        "y": 715.9384018204805,
+        "z": 120.03439013065223,
+        "vx": 0,
+        "vy": 166.25979756682392,
+        "vz": -5.531305806192626,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": null,
+        "navSurface": null,
+        "mode": "airborne",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "grounded",
+      "pose": {
+        "worldEpoch": "86fa4436-bae9-425f-860f-dd9533c9c51c",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 81,
+        "tick": 81,
+        "discontinuity": 6,
+        "x": 880,
+        "y": 826.7782668650302,
+        "z": -95.95,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:lower-platform",
+        "navSurface": "nav:lower",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    }
+  ]
+}
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 37493 | stage-f @ 89b58f14696b
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 37493 | stage-f @ 89b58f14696b
+The Far Backrooms → http://localhost:37493  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+

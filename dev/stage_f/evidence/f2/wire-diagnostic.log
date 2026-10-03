@@ -1,0 +1,192 @@
+{
+  "last": {
+    "t": "s",
+    "p": [],
+    "e": {
+      "st": 5.2,
+      "h": [],
+      "m": [],
+      "b": 0,
+      "p": 0.008,
+      "gw": [
+        [
+          1040,
+          200,
+          0,
+          0
+        ]
+      ],
+      "it": [
+        [
+          880,
+          780,
+          "anchor:lower-item"
+        ]
+      ],
+      "lf": [],
+      "sn": []
+    },
+    "me": "",
+    "ms": 0,
+    "cp": 0,
+    "protocol": {
+      "worldEpoch": "90949b75-2164-4cca-bc67-c14e8975a8dc",
+      "simTick": 312
+    },
+    "pose": {
+      "worldEpoch": "90949b75-2164-4cca-bc67-c14e8975a8dc",
+      "entityId": "p1",
+      "generation": 1,
+      "seq": 312,
+      "tick": 312,
+      "discontinuity": 3,
+      "x": 160,
+      "y": 160,
+      "z": 0,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "yaw": 0,
+      "height": 60,
+      "profile": "profile:player-stand",
+      "support": "support:ground-north",
+      "navSurface": "nav:ground",
+      "mode": "grounded",
+      "link": null,
+      "progress": 0
+    },
+    "spatial": [],
+    "spatialStats": {
+      "accepted": 0,
+      "rejected": 1,
+      "corrections": 3,
+      "maxQueue": 0,
+      "maxHistory": 0,
+      "maxWork": 0,
+      "work": 0,
+      "ownedTicks": 0,
+      "reasons": {
+        "tick": 1
+      }
+    },
+    "ad": {
+      "fz": 0,
+      "sp": 1,
+      "bo": "auto",
+      "hn": 0,
+      "sn": 0,
+      "mh": 64,
+      "ms": 64,
+      "dh": 3,
+      "gw": 1,
+      "it": 1,
+      "pk": 0,
+      "hs": "",
+      "dbg": 0,
+      "cm": "auto",
+      "es": [],
+      "pl": [
+        {
+          "id": 1,
+          "n": "WANDERER",
+          "a": 1,
+          "d": "",
+          "g": 0,
+          "ad": 1,
+          "st": 0,
+          "x": 160,
+          "y": 160
+        }
+      ]
+    },
+    "you": 1
+  },
+  "corrections": [
+    {
+      "t": "correction",
+      "cause": "handshake",
+      "pose": {
+        "worldEpoch": "90949b75-2164-4cca-bc67-c14e8975a8dc",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "spawn",
+      "pose": {
+        "worldEpoch": "90949b75-2164-4cca-bc67-c14e8975a8dc",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 2,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "tick",
+      "pose": {
+        "worldEpoch": "90949b75-2164-4cca-bc67-c14e8975a8dc",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 13,
+        "tick": 13,
+        "discontinuity": 3,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    }
+  ]
+}
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 41303 | stage-f @ 89b58f14696b
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 41303 | stage-f @ 89b58f14696b
+The Far Backrooms → http://localhost:41303  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+
+Error: Timeout accepted real motor
+    at wait (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/wire.js:4:135)
+    at async /workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/test_f2.js:4:433

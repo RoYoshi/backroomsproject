@@ -9,3 +9,4 @@ remote predecessor. Final identity is also recorded in external package verifica
 |---|---|
 | F0 | 8afb4cba3e259255b43fb3ae89ba011345470875 |
 | F1 | a6cd766e3d5505c82f464cc4960c8f2dfcc8c569 |
+| F2 safe failing candidate | 89b58f14696b46fa115f0619c4f5baf2acb455d8 |

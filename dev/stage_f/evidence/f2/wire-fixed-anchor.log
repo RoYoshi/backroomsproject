@@ -1,0 +1,195 @@
+PASS real move.js -> shared client codec -> WebSocket -> fixed-tick validator
+PASS malicious XYZ/support cannot choose floor
+{
+  "last": {
+    "t": "s",
+    "p": [],
+    "e": {
+      "st": 5.4,
+      "h": [],
+      "m": [],
+      "b": 0,
+      "p": 0.008,
+      "gw": [
+        [
+          1040,
+          200,
+          0,
+          0
+        ]
+      ],
+      "it": [
+        [
+          880,
+          780,
+          "anchor:lower-item"
+        ]
+      ],
+      "lf": [],
+      "sn": []
+    },
+    "me": "",
+    "ms": 0,
+    "cp": 0,
+    "protocol": {
+      "worldEpoch": "c2cb49db-a5ba-4382-8a27-313385874405",
+      "simTick": 324
+    },
+    "pose": {
+      "worldEpoch": "c2cb49db-a5ba-4382-8a27-313385874405",
+      "entityId": "p1",
+      "generation": 1,
+      "seq": 324,
+      "tick": 324,
+      "discontinuity": 3,
+      "x": 185.93840182048052,
+      "y": 160,
+      "z": 0.05,
+      "vx": 166.25979756682392,
+      "vy": 0,
+      "vz": 0,
+      "yaw": 0,
+      "height": 60,
+      "profile": "profile:player-stand",
+      "support": "support:ground-north",
+      "navSurface": "nav:ground",
+      "mode": "grounded",
+      "link": null,
+      "progress": 0
+    },
+    "spatial": [],
+    "spatialStats": {
+      "accepted": 12,
+      "rejected": 1,
+      "corrections": 3,
+      "maxQueue": 12,
+      "maxHistory": 12,
+      "maxWork": 12,
+      "work": 0,
+      "ownedTicks": 0,
+      "reasons": {
+        "pose-claim": 1
+      }
+    },
+    "ad": {
+      "fz": 0,
+      "sp": 1,
+      "bo": "auto",
+      "hn": 0,
+      "sn": 0,
+      "mh": 64,
+      "ms": 64,
+      "dh": 3,
+      "gw": 1,
+      "it": 1,
+      "pk": 0,
+      "hs": "",
+      "dbg": 0,
+      "cm": "auto",
+      "es": [],
+      "pl": [
+        {
+          "id": 1,
+          "n": "WANDERER",
+          "a": 1,
+          "d": "",
+          "g": 0,
+          "ad": 1,
+          "st": 1,
+          "x": 186,
+          "y": 160
+        }
+      ]
+    },
+    "you": 1
+  },
+  "corrections": [
+    {
+      "t": "correction",
+      "cause": "handshake",
+      "pose": {
+        "worldEpoch": "c2cb49db-a5ba-4382-8a27-313385874405",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "spawn",
+      "pose": {
+        "worldEpoch": "c2cb49db-a5ba-4382-8a27-313385874405",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 2,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "pose-claim",
+      "pose": {
+        "worldEpoch": "c2cb49db-a5ba-4382-8a27-313385874405",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 23,
+        "tick": 23,
+        "discontinuity": 3,
+        "x": 185.93840182048052,
+        "y": 160,
+        "z": 0.05,
+        "vx": 166.25979756682392,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0
+      }
+    }
+  ]
+}
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 41635 | stage-f @ 89b58f14696b
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 41635 | stage-f @ 89b58f14696b
+The Far Backrooms → http://localhost:41635  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+
+Error: Timeout teleport
+    at wait (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/wire.js:4:135)
+    at async Object.teleport (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/wire.js:8:456)
+    at async /workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/test_f2.js:6:2

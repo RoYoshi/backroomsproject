@@ -54,7 +54,7 @@ class Authority {
    if(!b.trav)this.motion.step(b);
    const distance=Math.hypot(b.x-before.x,b.y-before.y,b.z-before.z),transition=!!b.trav||b.motionMode!=='grounded';
    if(!this.g.clearance(b.shape,b).fits||b.diagnostics.length||distance>a.budget+28){this.reject(c,'collision-budget',true);continue;}
-   if(!transition&&(Math.hypot(q.x-b.x,q.y-b.y)>.26||Math.abs(q.z-b.z)>.11||q.support!==b.supportId)){this.reject(c,'pose-claim',true);continue;}
+   if(!b.trav&&(Math.hypot(q.x-b.x,q.y-b.y)>.26||Math.abs(q.z-b.z)>.11||q.support!==b.supportId)){this.reject(c,'pose-claim',true);continue;}
    // On a physical transition the endpoint claim is discarded; the canonical
    // primitive owns time and emits a correction before any later sample can run.
    a.budget=Math.max(-28,a.budget-distance);
