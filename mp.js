@@ -75,7 +75,7 @@ function connect() {
         if (!g || !window.TFB_PROTOCOL) { spatialBlocked = true; net.textContent = 'INCOMPATIBLE WORLD · SPATIAL CLIENT REQUIRED'; N.on = false; return; }
         if (!spatialClient) spatialClient = new window.TFB_PROTOCOL.Client(window.TFB_PROTOCOL.manifest(g, 'local', 0));
         const hello = spatialClient.hello(m.protocol); if (spatialClient.error) { spatialBlocked = true; net.textContent = 'INCOMPATIBLE WORLD · ' + spatialClient.error; return; }
-        netReset(); if (!spatialHistory) spatialHistory = new window.TFB_HISTORY.History(g, key => { if (!key) { hMap.clear(); hSlots.fill(null); sSlot.fill(null); for (const o of peers.values()) dropAvatar(o); peers.clear(); } }); spatialHistory.world(m.protocol); tx(hello);
+        netReset(); if (!spatialHistory) spatialHistory = new window.TFB_HISTORY.History(g, key => { if (!key) { hMap.clear(); hSlots.fill(null); sSlot.fill(null); for (const o of peers.values()) dropAvatar(o); peers.clear(); } else if (key[0] === 'h') { const id=+key.slice(1),o=hMap.get(id); if(o)hSlots[o.slot]=null;hMap.delete(id); } else if(key[0] === 'm') { const i=sSlot.indexOf(+key.slice(1));if(i>=0)sSlot[i]=null; } else if(key[0] === 'p') { const id=+key.slice(1),o=peers.get(id);if(o)dropAvatar(o);peers.delete(id); } }); spatialHistory.world(m.protocol); tx(hello);
       }
     }
     else if (m.t === 'incompatible') { spatialBlocked = true; N.on = false; net.textContent = 'INCOMPATIBLE WORLD · ' + m.reason; }
