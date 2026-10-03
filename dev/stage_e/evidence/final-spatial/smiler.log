@@ -1,0 +1,37 @@
+FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [1321ms]
+       light on, in its view, standing: chased 6/8 (wind-up before the chase avg 4.0 s); light off, same spot: chased 0/8, struck 0, perceived at all 6/8 (not perceived at 494 px, 781 px), watched 5/6 of those
+PASS SM02 strikes only on canon triggers: a quiet still person is never struck; a fast retreat in front of it (panic) or a loud noise close by is  [1633ms]
+       quiet and still (looking at it or away), 40 s: struck 0/8; ran away in front of it: struck 7/8 ("P100 retreated fast in front of it (panic)"); a hard landing close by: struck 7/8 ("a loud land from P100, close")
+PASS SM03 eye contact: watched, it holds; backing away slowly while watching it gets you let go (it withdraws, no strike)  [552ms]
+       8 runs: held by eye contact 8, unharmed while backing away crouched and watching it 8, let go (it withdrew, "let ... go") 8
+PASS SM04 no hidden position: an unsensed player moved elsewhere changes nothing the Smiler does (tick by tick)  [727ms]
+       6 valid pairs (hidden player never sensed): identical decisions 6/6 (the placement validator is the one sanctioned system rule; hidden spots are kept > 2200 px from the action)
+PASS SM05 lost player: it goes where it last had them (with an uncertainty), not where they really went  [316ms]
+       7 losses: it went to look 0 px from the last sighting (±87), 1234 px from the truth; 0 px from the last sighting (±87), 1685 px from the truth; 0 px from the last sighting (±87), 1412 px from the truth; 0 px from the last sighting (±87), 1447 px from the truth; 0 px from the last sighting (±87), 2062 px from the truth; 0 px from the last sighting (±87), 2021 px from the truth; 0 px from the last sighting (±87), 1679 px from the truth
+PASS SM06 light lead: drawn to what it observed (an uncertain region), and the same observations replayed with the carrier far away give identical decisions  [859ms]
+       10 runs where it was drawn by a light it saw without the person: identical decisions with the carrier moved away 10/10 (compared until the person was first perceived: 0.4 s, 1.0 s, 0.3 s, 0.4 s, 1.0 s, 0.3 s, 4.2 s, 0.7 s, 1.8 s, 1.1 s); leads litwall ±338 (155 px from the carrier), beam ±251 (146 px from the carrier), litwall ±338 (160 px from the carrier), litwall ±338 (155 px from the carrier), beam ±251 (146 px from the carrier), litwall ±338 (160 px from the carrier), beam ±289 (146 px from the carrier), litwall ±351 (160 px from the carrier), litwall ±337 (158 px from the carrier), beam ±218 (146 px from the carrier)
+PASS SM07 wall occlusion: a torch lighting the far side of a wall draws nothing; the smiler stays where it is  [579ms]
+       19 setups: light leads through the wall 0; smilers that left their spot 0
+PASS SM08 infrared OFF vs HIGH: identical Smiler decisions (camcorders raised, infrared written everywhere a client could put it)  [310ms]
+       3/3 worlds identical over 1200 ticks
+PASS SM09 attention: a one-frame glance does nothing; through a wall nothing; sustained eye contact (with line of sight) holds it  [776ms]
+       one-frame glances every 0.75 s: no hold 7/7; sustained eye contact: held 7/7; through a wall: attention registered 0/16
+PASS SM10 hold is counterplay, not immunity: standing and staring, it creeps in and drifts sideways; a fixed gaze loses it; up close a small sound triggers it  [536ms]
+       8 stand-offs: it closed in (avg 391 px, to 135 px) and did not go away while watched 7; drifted sideways 8; a fixed gaze lost it 7; up close (7): a crouched shuffle set it off 0, then one walking step set it off 7
+PASS SM11 multiplayer: one watches it in the dark, another walks about with a light - it works on the light, settles (no flicker), and a lit player it has never seen never wins  [630ms]
+       9 runs: worked on the light carrier 9; targeted the lit player behind walls before ever seeing them 0 (saw them later, legitimately: 2); target switches 0,0,0,0,2,0,0,0,0 (inside the 3 s dwell while the old one was still in view: 0)
+PASS SM12 personality: bounded, deterministic per seed, and no extreme tiers  [117ms]
+       200 individuals: all in [0.02, 0.98] true; same seed -> same creature true; patience 0.57-0.83, boldness 0.37-0.63; chase threshold 0.59-0.65
+PASS SM13 state validity over long mixed runs: finite, valid targets and states, legal transitions, never inside walls, never stuck  [1247ms]
+       18000 samples, 156 transitions, states seen HIDDEN FOLLOWING WATCHING ATTACKING DISAPPEARING PROVOKED; problems 0; longest time in one active state 13 s
+PASS SM14 no teleporting: every move is walked (bounded per tick), whatever it is doing  [463ms]
+       10 runs of 90 s: biggest single-tick step 5.0 px (300 px/s) @{"t":0.97,"s":"ATTACKING","x":2759,"y":5430}
+PASS SM15 presentation: no limbs; the face glow is its own channel (not the generic entity alpha); no aggression UI outside debug  [2ms]
+       arms drawn false, legs drawn false; glow reads the generic alpha false; aggression UI false; internal values debug-only true
+PASS SM16 multiplayer: a light elsewhere draws it off somebody it only watches in the dark (once - no back-and-forth); eye contact keeps it  [2216ms]
+       not watched back (15): drawn off to the light 5, of which went on to the carrier 3; pulled more than once 0; held by eye contact (15): drawn off 0
+PASS SM17 close-range pressure: holding its eyes does not let you walk up to it - walking, crouching or inching in on it ends in a strike; standing still or backing away does not  [2327ms]
+       holding eye contact the whole time - walked at it: struck 8/8 (at 123 px, "P100 walked in on it to point-blank (121 px, closed 181 px)"); crouched at it: 8/8; inched in (35 px, 4 s pauses): 8/8; stood still while it crept in: 0/8; side-stepped only: 0/8
+
+16/17 passed
+FAILED: SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased

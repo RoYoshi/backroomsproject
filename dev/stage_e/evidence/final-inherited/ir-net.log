@@ -1,0 +1,10 @@
+PASS N1 a raised camcorder's infrared level reaches the other players
+       observer sees the camcorder with ir 2
+PASS N2 only a raised camcorder carries infrared (a torch claiming it, or a lowered camcorder, relays 0; values clamp to 0..2)
+       torch claiming 2 -> 0, claiming 7 -> 0; lowered camcorder claiming 2 -> 0; raised camcorder claiming 9 -> 2
+PASS N3 the raised camcorder is still shown as raised to the others
+       raised l=1, lowered l=0
+PASS N4 no server errors
+       clean
+
+4/4 passed

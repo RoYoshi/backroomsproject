@@ -1,0 +1,156 @@
+[
+  {
+    "name": "stage-e-gates",
+    "command": [
+      "node",
+      "dev/tests/run.js",
+      "s_nav25d.js",
+      "s_perception25d.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 7.726,
+    "log": "stage-e-gates.log"
+  },
+  {
+    "name": "stage-c-core",
+    "command": [
+      "node",
+      "dev/stage_c/test_spatial.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.524,
+    "log": "stage-c-core.log"
+  },
+  {
+    "name": "stage-c-adversarial",
+    "command": [
+      "node",
+      "dev/stage_c/test_adversarial.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.113,
+    "log": "stage-c-adversarial.log"
+  },
+  {
+    "name": "stage-c-schedules",
+    "command": [
+      "node",
+      "dev/stage_c/test_schedules.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 1.743,
+    "log": "stage-c-schedules.log"
+  },
+  {
+    "name": "camera-spatial",
+    "command": [
+      "node",
+      "dev/stage_c/test_camera.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.026,
+    "log": "camera-spatial.log"
+  },
+  {
+    "name": "stage-d-view",
+    "command": [
+      "node",
+      "dev/stage_d/test_view.js",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-spatial/view.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.058,
+    "log": "stage-d-view.log"
+  },
+  {
+    "name": "stage-d-independence",
+    "command": [
+      "node",
+      "dev/stage_d/test_independence.js",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-spatial/independence.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.393,
+    "log": "stage-d-independence.log"
+  },
+  {
+    "name": "smiler",
+    "command": [
+      "node",
+      "dev/tests/run.js",
+      "s_smiler.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 1,
+    "seconds": 14.676,
+    "log": "smiler.log"
+  },
+  {
+    "name": "historical-strict-parity",
+    "command": [
+      "node",
+      "dev/stage_c/verify_parity.js",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-spatial/historical-strict-parity.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 1,
+    "seconds": 0.03,
+    "log": "historical-strict-parity.log"
+  },
+  {
+    "name": "frozen-record-parity",
+    "command": [
+      "node",
+      "dev/stage_e/verify_parity.js",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-spatial/parity"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 22.967,
+    "log": "frozen-record-parity.log"
+  },
+  {
+    "name": "spatial-performance",
+    "command": [
+      "node",
+      "dev/stage_e/perf_spatial.js",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-spatial/spatial-performance.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 2.409,
+    "log": "spatial-performance.log"
+  },
+  {
+    "name": "connected-performance",
+    "command": [
+      "node",
+      "dev/stage_e/perf_connected_fixture.js",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-spatial/connected-performance.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 2.963,
+    "log": "connected-performance.log"
+  },
+  {
+    "name": "served-package",
+    "command": [
+      "node",
+      "dev/stage_c/served_package.js",
+      "/workspace/scratch/8477fa762937/backroomsproject",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-spatial/http.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.24,
+    "log": "served-package.log"
+  }
+]

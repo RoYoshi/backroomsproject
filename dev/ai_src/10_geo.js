@@ -59,7 +59,7 @@ class Geo {
       this.geometry = a.geometry;
       this.edgeProofs = new Map();
       this.linkProofs = new Map();
-      this.navStats = { plans: 0, nodes: 0, edgeChecks: 0, cacheHits: 0, cacheMisses: 0, maxNodes: 0 };
+      this.navStats = { plans: 0, nodes: 0, edgeChecks: 0, cacheHits: 0, cacheMisses: 0, maxNodes: 0, routeRequests: 0, routeCacheHits: 0, routeCacheMisses: 0 };
     }
   }
   clear(x, y, r, mode = 'walk') { return this.a.clear(x, y, r, mode); }

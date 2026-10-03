@@ -69,15 +69,17 @@ function spatialPlan(eng,e,x,y,opts={}){
   e.path=p||[];e.unreachable=p?0:eng.now;return !!p;
 }
 function spatialGoTo(eng,e,x,y,opts={}){
-  if(e.trav)return true;const g=eng.geo.rootGeo||eng.geo;
+  const g=eng.geo.rootGeo||eng.geo;g.navStats.routeRequests++;
+  if(e.trav){g.navStats.routeCacheHits++;return true;}
   // Resolve uncertain regions only at a planning boundary, not every 60 Hz tick.
-  if(opts.pose?.unresolved&&e.goal?.hypothesis&&e.path.length&&e.pathAge<Math.max(3,(opts.every??1.1)*4)&&Math.hypot(x-(e.regionGoal?.x??x),y-(e.regionGoal?.y??y))<40)return true;
+  if(opts.pose?.unresolved&&e.goal?.hypothesis&&e.path.length&&e.pathAge<Math.max(3,(opts.every??1.1)*4)&&Math.hypot(x-(e.regionGoal?.x??x),y-(e.regionGoal?.y??y))<40){g.navStats.routeCacheHits++;return true;}
   const goal=spatialGoal(eng,e,x,y,opts.pose),G=e.goal;
-  if(!goal)return spatialPlan(eng,e,x,y,opts);
+  if(!goal){g.navStats.routeCacheMisses++;return spatialPlan(eng,e,x,y,opts);}
   const key=g.routeKey(bodyPose(e),goal,e.caps,e.baseShape),moved=G?Math.hypot(goal.x-G.x,goal.y-G.y,goal.z-G.z):Infinity;
   if(!G||e.goalKey==='direct'||surfaceOf(g,G)!==surfaceOf(g,goal)||Math.abs(goal.z-G.z)>6||moved>Math.max(40,Math.hypot(goal.x-e.x,goal.y-e.y)*.12)||e.pathAge>Math.max(3,(opts.every??1.1)*4)||(!e.path.length&&e.pathAge>.3)||e.routeCaps!==key.split('/').slice(0,-2).join('/')){
-    e.regionGoal={x,y};return spatialPlan(eng,e,goal.x,goal.y,{...opts,pose:goal,why:!G?'new-goal':surfaceOf(g,G)!==surfaceOf(g,goal)?'surface-evidence-changed':'route-refresh'});
+    g.navStats.routeCacheMisses++;e.regionGoal={x,y};return spatialPlan(eng,e,goal.x,goal.y,{...opts,pose:goal,why:!G?'new-goal':surfaceOf(g,G)!==surfaceOf(g,goal)?'surface-evidence-changed':'route-refresh'});
   }
+  g.navStats.routeCacheHits++;
   if(moved>3&&e.path.length){const last=e.path[e.path.length-1],prev=e.path.length>1?e.path[e.path.length-2]:bodyPose(e);if(!last.link&&g.geometry.traceSupportMotion(prev,[goal],e.baseShape).ok){e.path[e.path.length-1]=goal;e.goal=goal;}}
   return true;
 }

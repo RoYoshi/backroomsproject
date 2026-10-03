@@ -1,0 +1,105 @@
+{
+  "observedRemote": "b3067a7ea1488792e7303f3d46ea6791fa94ec42",
+  "remoteParentOfConcurrentWork": "7f9afe23b00180cfacef699591cf795fd6ac62ce",
+  "localUnpublishedCommit": "0edf7667abdcedda156a16501b51546f39b480c4",
+  "unpublishedConnectorCommit": "4d34aa5b01988fbe64ce737faaf4266d2d4ee726",
+  "remoteFilesPreserved": [
+    {
+      "status": "A",
+      "path": "dev/stage_e/E5_RECOVERY_CONTINUATION.md"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/acceptance.js"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/baseline-comparison.json"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/audit-net.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/audit-net2.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/baseline-tests.json"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/camera.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/entity-look.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/fps.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/hound.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/humanqa.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/interpolation.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/ir-net.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/live.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/navigation.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/npm-test.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/perf-hound.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/physics.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/candidate-failures/shared.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/evidence/final/hound-after-fix.log"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/finalize_validation.py"
+    },
+    {
+      "status": "A",
+      "path": "dev/stage_e/perf_spatial.js"
+    },
+    {
+      "status": "M",
+      "path": "dev/tests/s_nav25d.js"
+    },
+    {
+      "status": "M",
+      "path": "dev/tests/s_perception25d.js"
+    }
+  ],
+  "conflicts": "Retained remote acceptance entry points; local benchmark retained separately as perf_connected_fixture.js. Local source counters and independent evidence preserved. No force update, main operation or merge commit."
+}
