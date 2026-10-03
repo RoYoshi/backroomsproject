@@ -1,0 +1,2233 @@
+[
+  {
+    "name": "flashlight actual peer emitter above slab",
+    "hidden": {
+      "changed": 0,
+      "error": 0,
+      "lights": [
+        {
+          "id": "light:lower-lamp",
+          "kind": "lamp",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 150
+          },
+          "direction": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "range": 380,
+          "arc": 6.283185307179586,
+          "power": 0.43,
+          "channel": "visible",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 40
+        },
+        {
+          "id": "p1",
+          "kind": "flashlight",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 390,
+          "arc": 0.92,
+          "power": 0.58,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "flashlight",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 390,
+          "arc": 0.92,
+          "power": 0.58,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "headlamp actual peer emitter above slab",
+    "hidden": {
+      "changed": 0,
+      "error": 0,
+      "lights": [
+        {
+          "id": "light:lower-lamp",
+          "kind": "lamp",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 150
+          },
+          "direction": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "range": 380,
+          "arc": 6.283185307179586,
+          "power": 0.43,
+          "channel": "visible",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 40
+        },
+        {
+          "id": "p1",
+          "kind": "flashlight",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 390,
+          "arc": 0.92,
+          "power": 0.58,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "headlamp",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 262,
+          "arc": 1.95,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "lantern actual peer emitter above slab",
+    "hidden": {
+      "changed": 0,
+      "error": 0,
+      "lights": [
+        {
+          "id": "light:lower-lamp",
+          "kind": "lamp",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 150
+          },
+          "direction": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "range": 380,
+          "arc": 6.283185307179586,
+          "power": 0.43,
+          "channel": "visible",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 40
+        },
+        {
+          "id": "p1",
+          "kind": "flashlight",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 390,
+          "arc": 0.92,
+          "power": 0.58,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "visible lantern positive control; OFF has no emitter or aura",
+    "on": {
+      "changed": 18022,
+      "error": 0,
+      "lights": [
+        {
+          "id": "light:lower-lamp",
+          "kind": "lamp",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 150
+          },
+          "direction": {
+            "x": 0,
+            "y": 0,
+            "z": -1
+          },
+          "range": 380,
+          "arc": 6.283185307179586,
+          "power": 0.43,
+          "channel": "visible",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 40
+        },
+        {
+          "id": "p1",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    },
+    "off": {
+      "ready": true,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "network": {
+        "world": {
+          "version": 2,
+          "capabilities": [
+            "spatial-pose-v1",
+            "ordered-proposals-v1",
+            "explicit-epochs-v1",
+            "spatial-aftermath-v1"
+          ],
+          "worldEpoch": "57fa02d7-4ef1-4c82-9749-33b7e9e0494e",
+          "geometryMode": "spatial",
+          "schemaVersion": 1,
+          "geometryRevision": "stage-e-1",
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "motionRevision": "stage-c-profile-1",
+          "simTick": 0,
+          "ids": {
+            "support": [
+              "support:balcony",
+              "support:ground-north",
+              "support:ground-south",
+              "support:lower-platform",
+              "support:ramp",
+              "support:ramp-landing",
+              "support:tread-01",
+              "support:tread-02",
+              "support:tread-03",
+              "support:tread-04",
+              "support:tread-05",
+              "support:tread-06",
+              "support:tread-07",
+              "support:tread-08",
+              "support:tread-09",
+              "support:tread-10",
+              "support:tread-11",
+              "support:tread-12",
+              "support:tread-13",
+              "support:tread-14",
+              "support:tread-15",
+              "support:upper-east",
+              "support:upper-north",
+              "support:upper-south",
+              "support:upper-west"
+            ],
+            "surface": [
+              "nav:balcony",
+              "nav:ground",
+              "nav:lower",
+              "nav:ramp",
+              "nav:ramp-landing",
+              "nav:stairs",
+              "nav:upper"
+            ],
+            "link": [
+              "link:ledge-drop",
+              "link:ramp-up",
+              "link:stairs-down",
+              "link:stairs-up"
+            ]
+          }
+        },
+        "pose": {
+          "worldEpoch": "57fa02d7-4ef1-4c82-9749-33b7e9e0494e",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 1747,
+          "tick": 1747,
+          "discontinuity": 7,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ground-north",
+          "navSurface": "nav:ground",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        },
+        "blocked": false,
+        "awaiting": false,
+        "peers": [
+          {
+            "x": 160,
+            "y": 160,
+            "id": 2,
+            "a": 2.46,
+            "n": "H3 upper",
+            "c": "#ffe7b2",
+            "d": 0,
+            "r": 0,
+            "pitch": 0,
+            "k": "lantern",
+            "l": 1,
+            "ir": 0,
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#3d423c,#9aa0a6,#a3372c",
+            "f": -1,
+            "mv": [
+              0,
+              0,
+              100,
+              0
+            ],
+            "tx": 160,
+            "ty": 160,
+            "seen": 31091.599999997765,
+            "look": {
+              "hat": "none",
+              "texture": "plain",
+              "hands": "#e6bb76",
+              "main": "#ffcc77",
+              "backpack": "none"
+            },
+            "gear": {
+              "kind": "lantern",
+              "color": "#ffe7b2",
+              "parts": {
+                "lantern": {
+                  "frame": "#3d423c",
+                  "handle": "#9aa0a6",
+                  "cap": "#a3372c"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "frames": 13,
+      "packets": [
+        {
+          "id": "p1",
+          "kind": "player",
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "height": 60,
+          "radius": 15,
+          "art": 1,
+          "support": "support:ground-north",
+          "mode": "grounded",
+          "tick": 59,
+          "generation": 1,
+          "emissive": false,
+          "observable": true,
+          "visibilityRadius": 15
+        },
+        {
+          "id": "p2",
+          "kind": "peer",
+          "x": 160,
+          "y": 160,
+          "z": 180.05,
+          "height": 60,
+          "radius": 15,
+          "art": 2,
+          "support": "support:upper-west",
+          "mode": "grounded",
+          "tick": 1740,
+          "generation": 1,
+          "emissive": false,
+          "observable": false,
+          "visibilityRadius": 15
+        },
+        {
+          "id": "light:lower-lamp",
+          "kind": "lamp",
+          "x": 160,
+          "y": 160,
+          "z": 150,
+          "height": 1,
+          "art": 3,
+          "radius": 45,
+          "visibilityRadius": 45,
+          "emissive": true,
+          "observable": true
+        }
+      ],
+      "last": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.6944444444444444,
+          "minX": -531.2,
+          "maxX": 851.2,
+          "minY": -272,
+          "maxY": 592
+        },
+        "lightCount": 2,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 27,
+        "passes": 2,
+        "physicalVisibility": "exact bounded per-fragment convex rays",
+        "occluders": 32,
+        "triangles": 390,
+        "target": {
+          "width": 960,
+          "height": 600,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 960,
+          "height": 600,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 4658192,
+        "actorTextureBytes": 196608,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 2304000,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "57fa02d7-4ef1-4c82-9749-33b7e9e0494e",
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 2.2999999970197678,
+        "cutawayMs": 0
+      },
+      "cutaway": {
+        "worldEpoch": "57fa02d7-4ef1-4c82-9749-33b7e9e0494e",
+        "focus": {
+          "x": 160,
+          "y": 160,
+          "z": 0
+        },
+        "focusSpace": [
+          "space:lower-room"
+        ],
+        "groups": [
+          {
+            "id": "view:upper-slabs",
+            "fade": 1,
+            "target": true
+          }
+        ]
+      },
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "renderer": "existing production Pixi 8.21.0 / WebGL2"
+    }
+  },
+  {
+    "name": "flashlight same-floor visible positive control in blackout",
+    "positive": {
+      "changed": 9753,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "flashlight",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 390,
+          "arc": 0.92,
+          "power": 0.58,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "headlamp same-floor visible positive control in blackout",
+    "positive": {
+      "changed": 20048,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "headlamp",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 262,
+          "arc": 1.95,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "lantern same-floor visible positive control in blackout",
+    "positive": {
+      "changed": 57685,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "IR emitter invisible with sensor OFF, present with sensor ON in authoritative blackout",
+    "irOff": {
+      "changed": 0,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 340,
+          "arc": 1.05,
+          "power": 0.72,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    },
+    "irOn": {
+      "changed": 10593,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 340,
+          "arc": 1.05,
+          "power": 0.72,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "lantern",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 228,
+          "arc": 6.283185307179586,
+          "power": 0.5,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "upper-floor IR does not leak to lower NV sensor",
+    "hiddenIR": {
+      "changed": 0,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 340,
+          "arc": 1.05,
+          "power": 0.72,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 340,
+          "arc": 1.05,
+          "power": 0.72,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "actual HIGH IR control",
+    "highIR": {
+      "changed": 13250,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 560,
+          "arc": 1.05,
+          "power": 0.86,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        },
+        {
+          "id": "p2",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 230.05
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 340,
+          "arc": 1.05,
+          "power": 0.72,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "canonical active aftermath in real production pass",
+    "active": {
+      "aftermath": [
+        {
+          "key": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 18,
+          "time": 0.3,
+          "state": "ACTIVE",
+          "roles": [
+            "body",
+            "hand:0",
+            "hand:1",
+            "light",
+            "hat",
+            "attacker"
+          ],
+          "decals": 0,
+          "trail": 0,
+          "beam": {
+            "kind": "flashlight",
+            "object": "light",
+            "origin": {
+              "x": 122.62645107313584,
+              "y": 168.64523394061328,
+              "z": 187.0500000000095
+            },
+            "direction": {
+              "x": -0.8131981943338009,
+              "y": 0.5819868527142568,
+              "z": 0
+            },
+            "support": null,
+            "clippedBy": null
+          }
+        }
+      ],
+      "packets": [
+        {
+          "id": "p1",
+          "kind": "player",
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "height": 60,
+          "radius": 15,
+          "art": 1,
+          "support": "support:ground-north",
+          "mode": "grounded",
+          "tick": 58,
+          "generation": 1,
+          "emissive": false,
+          "observable": true,
+          "visibilityRadius": 15
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:body",
+          "kind": "body",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 158.78815542934956,
+          "y": 165.692523317955,
+          "z": 180,
+          "height": 18,
+          "radius": 18,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 18,
+          "art": 2,
+          "support": "support:upper-west",
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hand:0",
+          "kind": "hand:0",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 159.0293400190704,
+          "y": 165.41009408338815,
+          "z": 180.05000000000902,
+          "height": 10,
+          "radius": 5,
+          "shape": {
+            "id": "profile:death-hand",
+            "radius": 5,
+            "height": 10,
+            "centerOffset": 5,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 5,
+          "art": 3,
+          "support": "support:upper-west",
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hand:1",
+          "kind": "hand:1",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 143.10205971139348,
+          "y": 157.85616983636166,
+          "z": 180.0500000000095,
+          "height": 10,
+          "radius": 5,
+          "shape": {
+            "id": "profile:death-hand",
+            "radius": 5,
+            "height": 10,
+            "centerOffset": 5,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 5,
+          "art": 4,
+          "support": "support:upper-west",
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:light",
+          "kind": "light",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 143.09392356328019,
+          "y": 157.8102327490083,
+          "z": 180.0500000000095,
+          "height": 14,
+          "radius": 7,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 7,
+          "art": 5,
+          "support": null,
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hat",
+          "kind": "hat",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 158.764454125048,
+          "y": 165.81914820822035,
+          "z": 198,
+          "height": 4,
+          "radius": 11,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 11,
+          "art": 6,
+          "support": null,
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:attacker",
+          "kind": "replay",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 165.99866185897434,
+          "y": 129.27482035374376,
+          "z": 180.05,
+          "height": 36,
+          "radius": 21,
+          "shape": {
+            "id": "profile:hound",
+            "radius": 21,
+            "height": 36,
+            "eyeHeight": 28,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "visibilityRadius": 21,
+          "art": 7,
+          "support": "support:upper-west",
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "light:lower-lamp",
+          "kind": "lamp",
+          "x": 160,
+          "y": 160,
+          "z": 150,
+          "height": 1,
+          "art": 8,
+          "radius": 45,
+          "visibilityRadius": 45,
+          "emissive": false,
+          "observable": true
+        }
+      ]
+    }
+  },
+  {
+    "name": "body/two hands/loose gear/decal/trail/replay and detached beam hidden",
+    "hiddenDeath": {
+      "changed": 0,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 560,
+          "arc": 1.05,
+          "power": 0.86,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:beam",
+          "kind": "flashlight",
+          "origin": {
+            "x": 122.62645107313584,
+            "y": 168.64523394061328,
+            "z": 187.0500000000095
+          },
+          "direction": {
+            "x": -0.8131981943338009,
+            "y": 0.5819868527142568,
+            "z": 0
+          },
+          "range": 390,
+          "arc": 0.92,
+          "power": 0.58,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": [
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:body",
+          "kind": "body",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 158.78815542934956,
+          "y": 165.692523317955,
+          "z": 180,
+          "height": 18,
+          "radius": 18,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 18,
+          "art": 2,
+          "support": "support:upper-west",
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hand:0",
+          "kind": "hand:0",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 159.0293400190704,
+          "y": 165.41009408338815,
+          "z": 180.05000000000902,
+          "height": 10,
+          "radius": 5,
+          "shape": {
+            "id": "profile:death-hand",
+            "radius": 5,
+            "height": 10,
+            "centerOffset": 5,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 5,
+          "art": 3,
+          "support": "support:upper-west",
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hand:1",
+          "kind": "hand:1",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 143.10205971139348,
+          "y": 157.85616983636166,
+          "z": 180.0500000000095,
+          "height": 10,
+          "radius": 5,
+          "shape": {
+            "id": "profile:death-hand",
+            "radius": 5,
+            "height": 10,
+            "centerOffset": 5,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 5,
+          "art": 4,
+          "support": "support:upper-west",
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:light",
+          "kind": "light",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 143.09392356328019,
+          "y": 157.8102327490083,
+          "z": 180.0500000000095,
+          "height": 14,
+          "radius": 7,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 7,
+          "art": 5,
+          "support": null,
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hat",
+          "kind": "hat",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 158.764454125048,
+          "y": 165.81914820822035,
+          "z": 198,
+          "height": 4,
+          "radius": 11,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 11,
+          "art": 6,
+          "support": null,
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:attacker",
+          "kind": "replay",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 19,
+          "x": 165.99866185897434,
+          "y": 129.27482035374376,
+          "z": 180.05,
+          "height": 36,
+          "radius": 21,
+          "shape": {
+            "id": "profile:hound",
+            "radius": 21,
+            "height": 36,
+            "eyeHeight": 28,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "visibilityRadius": 21,
+          "art": 7,
+          "support": "support:upper-west",
+          "tick": 3432,
+          "generation": 1,
+          "observable": false
+        }
+      ]
+    },
+    "hiddenBeam": {
+      "changed": 0,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 560,
+          "arc": 1.05,
+          "power": 0.86,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:beam",
+          "kind": "flashlight",
+          "origin": {
+            "x": 121.04310359851763,
+            "y": 163.46435400183617,
+            "z": 187.0500000000095
+          },
+          "direction": {
+            "x": -0.8504486268520073,
+            "y": 0.5260581080883892,
+            "z": 0
+          },
+          "range": 390,
+          "arc": 0.92,
+          "power": 0.58,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": []
+    }
+  },
+  {
+    "name": "completed canonical surface records remain hidden",
+    "settledMask": {
+      "changed": 0,
+      "error": 0,
+      "lights": [
+        {
+          "id": "p1",
+          "kind": "camcorder",
+          "origin": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "direction": {
+            "x": -0.7772932447064554,
+            "y": 0.6291384678540253,
+            "z": 0
+          },
+          "range": 560,
+          "arc": 1.05,
+          "power": 0.86,
+          "channel": "ir",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "near": 24
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:beam",
+          "kind": "flashlight",
+          "origin": {
+            "x": 121.5204269866426,
+            "y": 190.79470015531984,
+            "z": 187.0500000000095
+          },
+          "direction": {
+            "x": -0.5351195262867399,
+            "y": 0.8447763565504512,
+            "z": 0
+          },
+          "range": 390,
+          "arc": 0.92,
+          "power": 0.58,
+          "channel": "visible",
+          "color": [
+            1,
+            0.9058823529411765,
+            0.6980392156862745
+          ],
+          "near": 24
+        }
+      ],
+      "packets": [
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:body",
+          "kind": "body",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 314,
+          "x": 171.18932200999635,
+          "y": 97.61483606047793,
+          "z": 180,
+          "height": 18,
+          "radius": 18,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 18,
+          "art": 3,
+          "support": "support:upper-west",
+          "tick": 3728,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hand:0",
+          "kind": "hand:0",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 261,
+          "x": 176.9228685654322,
+          "y": 116.64973388089658,
+          "z": 180.05000000000902,
+          "height": 10,
+          "radius": 5,
+          "shape": {
+            "id": "profile:death-hand",
+            "radius": 5,
+            "height": 10,
+            "centerOffset": 5,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 5,
+          "art": 4,
+          "support": "support:upper-west",
+          "tick": 3728,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hand:1",
+          "kind": "hand:1",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 286,
+          "x": 157.39364739115578,
+          "y": 86.01053281381489,
+          "z": 180.0500000000095,
+          "height": 10,
+          "radius": 5,
+          "shape": {
+            "id": "profile:death-hand",
+            "radius": 5,
+            "height": 10,
+            "centerOffset": 5,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 5,
+          "art": 5,
+          "support": "support:upper-west",
+          "tick": 3728,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:light",
+          "kind": "light",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 114,
+          "x": 133.82817609123762,
+          "y": 171.36484395465948,
+          "z": 180.0500000000095,
+          "height": 14,
+          "radius": 7,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 7,
+          "art": 6,
+          "support": "support:upper-west",
+          "tick": 3728,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "d[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:hat",
+          "kind": "hat",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 124,
+          "x": 157.10000435073715,
+          "y": 173.44553861930322,
+          "z": 180.08063425929208,
+          "height": 4,
+          "radius": 11,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "visibilityRadius": 11,
+          "art": 7,
+          "support": "support:upper-west",
+          "tick": 3728,
+          "generation": 1,
+          "observable": false
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:decal:1",
+          "kind": "decal",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 158.66382195968677,
+          "y": 166.70018031725664,
+          "z": 180,
+          "height": 1,
+          "art": 8,
+          "support": "support:upper-west",
+          "surface": {
+            "id": 1,
+            "substep": 72,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 158.66382195968677,
+              "y": 166.70018031725664,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 158.66382195968677,
+              "v": 166.70018031725664
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 96,
+            "height": 96
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:decal:2",
+          "kind": "decal",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 157.3283674235648,
+          "y": 172.42412269670328,
+          "z": 180,
+          "height": 1,
+          "art": 9,
+          "support": "support:upper-west",
+          "surface": {
+            "id": 2,
+            "substep": 204,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 157.3283674235648,
+              "y": 172.42412269670328,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 157.3283674235648,
+              "v": 172.42412269670328
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 96,
+            "height": 96
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:decal:10",
+          "kind": "decal",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 160.00416442813201,
+          "y": 158.90587127128242,
+          "z": 180,
+          "height": 1,
+          "art": 10,
+          "support": "support:upper-west",
+          "surface": {
+            "id": 10,
+            "substep": 360,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 160.00416442813201,
+              "y": 158.90587127128242,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 160.00416442813201,
+              "v": 158.90587127128242
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 96,
+            "height": 96
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:decal:11",
+          "kind": "decal",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 166.8162495847466,
+          "y": 123.42187116770883,
+          "z": 180,
+          "height": 1,
+          "art": 11,
+          "support": "support:upper-west",
+          "surface": {
+            "id": 11,
+            "substep": 504,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 166.8162495847466,
+              "y": 123.42187116770883,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 166.8162495847466,
+              "v": 123.42187116770883
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 96,
+            "height": 96
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:trail:376",
+          "kind": "trail",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 159.48675304791726,
+          "y": 162.05505149906816,
+          "z": 180,
+          "height": 1,
+          "art": 12,
+          "support": "support:upper-west",
+          "surface": {
+            "substep": 376,
+            "segment": 0,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 159.48675304791726,
+              "y": 162.05505149906816,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 160.3241330930247,
+              "v": 157.27134936835543
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": -0.17242671805625187,
+                "y": 0.9850223484268517,
+                "z": 0
+              },
+              "v": {
+                "x": -0.9850223484268517,
+                "y": -0.17242671805625187,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 49.712880399825735,
+            "height": 48
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:trail:432",
+          "kind": "trail",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 161.25510105900213,
+          "y": 151.86496875648575,
+          "z": 180,
+          "height": 1,
+          "art": 13,
+          "support": "support:upper-west",
+          "surface": {
+            "substep": 432,
+            "segment": 0,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 161.25510105900213,
+              "y": 151.86496875648575,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 162.1860690249796,
+              "v": 146.45858814461607
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": -0.16970039545437454,
+                "y": 0.9854957005399004,
+                "z": 0
+              },
+              "v": {
+                "x": -0.9854957005399004,
+                "y": -0.16970039545437454,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 50.97190096092314,
+            "height": 48
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:trail:464",
+          "kind": "trail",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 163.09425385507663,
+          "y": 141.81931093687274,
+          "z": 180,
+          "height": 1,
+          "art": 14,
+          "support": "support:upper-west",
+          "surface": {
+            "substep": 464,
+            "segment": 0,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 163.09425385507663,
+              "y": 141.81931093687274,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 164.00243868517367,
+              "v": 137.18003372912938
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": -0.1921135060966618,
+                "y": 0.9813727124672093,
+                "z": 0
+              },
+              "v": {
+                "x": -0.9813727124672093,
+                "y": -0.1921135060966618,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 49.45466925828827,
+            "height": 48
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:trail:496",
+          "kind": "trail",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 165.1391162147277,
+          "y": 131.62596158261937,
+          "z": 180,
+          "height": 1,
+          "art": 15,
+          "support": "support:upper-west",
+          "surface": {
+            "substep": 496,
+            "segment": 0,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 165.1391162147277,
+              "y": 131.62596158261937,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 166.2757937442817,
+              "v": 126.07188943610939
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": -0.2005007520150122,
+                "y": 0.9796935482289422,
+                "z": 0
+              },
+              "v": {
+                "x": -0.9796935482289422,
+                "y": -0.2005007520150122,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 51.33838669561612,
+            "height": 48
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:trail:536",
+          "kind": "trail",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 167.29444985930706,
+          "y": 120.74566024316036,
+          "z": 180,
+          "height": 1,
+          "art": 16,
+          "support": "support:upper-west",
+          "surface": {
+            "substep": 536,
+            "segment": 0,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 167.29444985930706,
+              "y": 120.74566024316036,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 168.31310597433244,
+              "v": 115.41943105021132
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": -0.18784811054325493,
+                "y": 0.9821980896770921,
+                "z": 0
+              },
+              "v": {
+                "x": -0.9821980896770921,
+                "y": -0.18784811054325493,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 50.8455295299955,
+            "height": 48
+          }
+        },
+        {
+          "id": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]:trail:568",
+          "kind": "trail",
+          "death": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "x": 168.98025831120975,
+          "y": 110.66053350804926,
+          "z": 180,
+          "height": 1,
+          "art": 17,
+          "support": "support:upper-west",
+          "surface": {
+            "substep": 568,
+            "segment": 0,
+            "primitiveId": "solid:upper-west",
+            "face": "top",
+            "support": "support:upper-west",
+            "point": {
+              "x": 168.98025831120975,
+              "y": 110.66053350804926,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 169.6474106480871,
+              "v": 105.9016359658872
+            },
+            "origin": {
+              "x": 0,
+              "y": 0,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": -0.13883289337080917,
+                "y": 0.9903158222094047,
+                "z": 0
+              },
+              "v": {
+                "x": -0.9903158222094047,
+                "y": -0.13883289337080917,
+                "z": 0
+              }
+            },
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "width": 49.61086844304862,
+            "height": 48
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "real caught UI completes from server time; no client death kernel or outcome",
+    "lifecycle": {
+      "kernelCalls": [],
+      "corpseId": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+      "clientBodies": 0,
+      "sent": [],
+      "aftermath": [
+        {
+          "key": "[\"57fa02d7-4ef1-4c82-9749-33b7e9e0494e\",\"2\",1,1]",
+          "revision": 314,
+          "time": 5.233333333333333,
+          "state": "SLEEPING",
+          "roles": [
+            "body",
+            "hand:0",
+            "hand:1",
+            "light",
+            "hat"
+          ],
+          "decals": 4,
+          "trail": 7,
+          "beam": {
+            "kind": "flashlight",
+            "object": "light",
+            "origin": {
+              "x": 121.5204269866426,
+              "y": 190.79470015531984,
+              "z": 187.0500000000095
+            },
+            "direction": {
+              "x": -0.5351195262867399,
+              "y": 0.8447763565504512,
+              "z": 0
+            },
+            "support": "support:upper-west",
+            "clippedBy": null
+          }
+        }
+      ]
+    }
+  }
+]

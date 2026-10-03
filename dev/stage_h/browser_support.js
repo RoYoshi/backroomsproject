@@ -30,6 +30,6 @@ async function open(browser,s,name,options={}) {
  await command({c:'god',id:await page.evaluate(()=>__api.H.id)});
  return {context,page,command,teleport,inspect,validate,errors,consoleErrors,failed,http};
 }
-async function pixels(page) {return page.evaluate(()=>{__spatial.render();const p=__spatial.pass.pixels();let hash=2166136261,lit=0;for(let i=0;i<p.length;i+=4){if(p[i]+p[i+1]+p[i+2]>30)lit++;for(let j=0;j<3;j++)hash=Math.imul(hash^p[i+j],16777619)>>>0;}return{hash:hash.toString(16),lit,error:__spatial.pass.gl.getError()};});}
+async function pixels(page) {return page.evaluate(()=>{__spatial.render(true);const p=__spatial.pass.pixels();let hash=2166136261,lit=0;for(let i=0;i<p.length;i+=4){if(p[i]+p[i+1]+p[i+2]>30)lit++;for(let j=0;j<3;j++)hash=Math.imul(hash^p[i+j],16777619)>>>0;}return{hash:hash.toString(16),lit,error:__spatial.pass.gl.getError()};});}
 async function diagnostics(c){return c.page.evaluate(()=>({spatial:window.__spatial?.inspect(),netOn:window.__net?.on,boot:performance.getEntriesByType('navigation').map(n=>({load:n.loadEventEnd,dom:n.domContentLoadedEventEnd})),events:window.__messages?.filter(m=>m.t!=='s'),lastMessages:window.__messages?.slice(-3),commands:window.__commands,sent:window.__sent?.slice(-10)}));}
 module.exports={open,pixels,diagnostics,launch,server,fixture};

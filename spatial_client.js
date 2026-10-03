@@ -211,7 +211,7 @@
         }else{
           d.look=look;d.lightGear=gear;d.update(state.time,eq.light,true,{...pose,angle:0,vx:0,vy:0,distance:0});
           for(const c of d.children)c.visible=false;
-          if(role==='body'){d.body.visible=d.pack.visible=d.wounds.visible=true;window.__gore.wounds(d.wounds,Math.min(1,s.time/1.82),a.key,a.event.kind);if(gear.kind==='headlamp'){d.gear.visible=true;d.gear.position.set(0,0);}d.rotation=o.yaw;}
+          if(role==='body'){d.body.visible=d.pack.visible=d.wounds.visible=true;d.body.scale.set(1);d.body.position.set(0,0);d.pack.position.set(0,0);window.__gore.wounds(d.wounds,Math.min(1,s.time/1.82),a.key,a.event.kind);if(gear.kind==='headlamp'){d.gear.visible=true;d.gear.position.set(0,0);}d.rotation=o.yaw;}
           else if(role.startsWith('hand:')){const hand=d.hands[+role.slice(-1)];hand.visible=true;hand.position.set(0,0);d.rotation=o.yaw;}
           else if(role==='hat'){d.hat.visible=true;d.hat.position.set(0,0);d.rotation=o.yaw;}
         }
@@ -240,8 +240,15 @@
     const slot=pass.art.length;pass.art.push(texture(e));d.scale.set(1);
     packets.push({id,kind:from?'trail':'decal',death:a.key,...point,height:1,art:slot,support:face.support,surface:{...face,point,basis,width,height}});
   }
-  function render() {
+  function render(force=false) {
     if (!state.ready) return;
+    // Keep one GPU submission in flight. Input and authority continue on the
+    // retained fixed-tick loop while a slow device finishes presentation.
+    // Explicit forced renders are for drained capture/diagnostics only.
+    if(state.fence){const gl=pass.gl;if(force)gl.finish();const done=gl.clientWaitSync(state.fence,0,0);
+      if(done===gl.TIMEOUT_EXPIRED){state.skippedFrames=(state.skippedFrames||0)+1;return;}
+      if(done===gl.WAIT_FAILED)throw Error('Spatial presentation GPU fence failed');
+      gl.deleteSync(state.fence);state.fence=null;state.completedFrames=state.completedFrames||[];state.completedFrames.push(performance.now()-state.submittedAt);if(state.completedFrames.length>240)state.completedFrames.shift();}
     const start = performance.now(), net = window.__net.spatialState?.(), history = window.__spatialHistory?.();
     const local = A.H, own=ownDeath()?.state.body, focus = config.focus || (own?{x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)}:local), epoch = net?.world?.worldEpoch || 'connecting';
     if (artEpoch !== epoch) {
@@ -287,6 +294,7 @@
     pass.resize(innerWidth, innerHeight, devicePixelRatio, config.quality);
     state.lights=lighting(net);state.failures=(window.__spatialFailures||[]).filter(f=>f.until>performance.now()/1000);state.renderOptions={ camera, eye, view, actors: state.packets, overlays: [], lights:state.lights, nv:window.__cam.nv, sensorGain:window.__cam.CFG.SENSOR_GAIN, bloom:window.__cam.bloom, failures:state.failures };
     state.last = pass.render(state.renderOptions);
+    state.submittedAt=performance.now();state.fence=gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE,0);gl.flush();
     renderer.resetState();
     state.last.cpuMs = performance.now() - start; state.last.cutawayMs = cutMs;
     state.trace.push({ frame: state.frames, x: local.x, y: local.y, z: local.z, tick: local.tick, support: local.supportId, mode: local.motionMode, server: net?.pose });
@@ -296,6 +304,6 @@
   }
   const api = window.__spatial = { bind, init, spawn, prepare, render, config, state, perceivable, sample, adminData, eyePoint, beginDeath, completeDeath, lightAt, beamDistance, sound, motionAudio, effect,
     get geometry() { return geometry; }, get model() { return model; }, get view() { return view; }, get pass() { return pass; },
-    inspect() { const gl = pass?.gl, ext = gl?.getExtension('WEBGL_debug_renderer_info'); return clone({ ready: state.ready, world: geometry?.identity, network: window.__net.spatialState?.(), frames: state.frames, packets: state.packets, last: state.last, cutaway: view?.snapshot(), gpu: gl && gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER), renderer: 'existing production Pixi 8.21.0 / WebGL2' }); }
+    inspect() { const gl = pass?.gl, ext = gl?.getExtension('WEBGL_debug_renderer_info'); return clone({ ready: state.ready, pipeline:{inFlight:!!state.fence,skippedFrames:state.skippedFrames||0,completedFrames:state.completedFrames||[]}, world: geometry?.identity, network: window.__net.spatialState?.(), frames: state.frames, packets: state.packets, last: state.last, cutaway: view?.snapshot(), gpu: gl && gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER), renderer: 'existing production Pixi 8.21.0 / WebGL2' }); }
   };
 })();
