@@ -1,0 +1,1193 @@
+{
+  "initial": {
+    "ready": true,
+    "world": {
+      "schemaVersion": 1,
+      "assetId": "world:stage-e",
+      "geometryRevision": "stage-e-1",
+      "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+      "geometryMode": "spatial",
+      "compilerRevision": "stage-c-1"
+    },
+    "network": {
+      "world": {
+        "version": 2,
+        "capabilities": [
+          "spatial-pose-v1",
+          "ordered-proposals-v1",
+          "explicit-epochs-v1",
+          "spatial-aftermath-v1"
+        ],
+        "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+        "geometryMode": "spatial",
+        "schemaVersion": 1,
+        "geometryRevision": "stage-e-1",
+        "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "motionRevision": "stage-c-profile-1",
+        "simTick": 0,
+        "ids": {
+          "support": [
+            "support:balcony",
+            "support:ground-north",
+            "support:ground-south",
+            "support:lower-platform",
+            "support:ramp",
+            "support:ramp-landing",
+            "support:tread-01",
+            "support:tread-02",
+            "support:tread-03",
+            "support:tread-04",
+            "support:tread-05",
+            "support:tread-06",
+            "support:tread-07",
+            "support:tread-08",
+            "support:tread-09",
+            "support:tread-10",
+            "support:tread-11",
+            "support:tread-12",
+            "support:tread-13",
+            "support:tread-14",
+            "support:tread-15",
+            "support:upper-east",
+            "support:upper-north",
+            "support:upper-south",
+            "support:upper-west"
+          ],
+          "surface": [
+            "nav:balcony",
+            "nav:ground",
+            "nav:lower",
+            "nav:ramp",
+            "nav:ramp-landing",
+            "nav:stairs",
+            "nav:upper"
+          ],
+          "link": [
+            "link:ledge-drop",
+            "link:ramp-up",
+            "link:stairs-down",
+            "link:stairs-up"
+          ]
+        }
+      },
+      "pose": {
+        "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 15,
+        "tick": 15,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "blocked": false,
+      "awaiting": false,
+      "peers": []
+    },
+    "frames": 22,
+    "packets": [
+      {
+        "id": "p1",
+        "kind": "player",
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "height": 60,
+        "art": 1,
+        "support": "support:ground-north",
+        "mode": "grounded",
+        "tick": 5
+      }
+    ],
+    "last": {
+      "scope": {
+        "width": 1382.4,
+        "height": 864,
+        "scale": 0.6944444444444444,
+        "minX": -531.2,
+        "maxX": 851.2,
+        "minY": -272,
+        "maxY": 592
+      },
+      "drawCalls": 26,
+      "passes": 2,
+      "physicalVisibility": "exact bounded per-fragment convex rays",
+      "occluders": 32,
+      "triangles": 386,
+      "target": {
+        "width": 960,
+        "height": 600,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "logical": {
+        "width": 960,
+        "height": 600,
+        "dpr": 1
+      },
+      "quality": 1,
+      "newResourceBytes": 4650000,
+      "defaultColorBytesEstimate": 2304000,
+      "eye": {
+        "x": 160,
+        "y": 160,
+        "z": 50
+      },
+      "camera": {
+        "x": 160,
+        "y": 160,
+        "z": 0
+      },
+      "elevationScale": 0.5,
+      "cutaway": {
+        "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+        "focus": {
+          "id": 1,
+          "name": "Stage H browser",
+          "equipment": {
+            "kind": "flashlight",
+            "color": "#ffe7b2",
+            "parts": {
+              "flashlight": {
+                "body": "#3b4650",
+                "head": "#a1a9b0",
+                "button": "#d8443a",
+                "grip": "#181b1e"
+              },
+              "headlamp": {
+                "strap": "#2d3b46",
+                "housing": "#3a4054",
+                "bracket": "#9a9ea6"
+              },
+              "lantern": {
+                "frame": "#3d423c",
+                "handle": "#9aa0a6",
+                "cap": "#a3372c"
+              },
+              "camcorder": {
+                "body": "#2b2f36",
+                "lens": "#69717c",
+                "grip": "#1b1d20",
+                "trim": "#c9ccd0"
+              }
+            }
+          },
+          "x": 160,
+          "y": 160,
+          "vx": 0,
+          "vy": 0,
+          "angle": 2.4611483145432236,
+          "distance": 0,
+          "stamina": 100,
+          "sprinting": false,
+          "exhausted": false,
+          "z": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:player-stand",
+            "radius": 15,
+            "height": 60,
+            "eyeHeight": 50,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "posture": "stand",
+          "supportId": "support:ground-north",
+          "lastSupportId": null,
+          "motionMode": "grounded",
+          "step": null,
+          "tick": 5,
+          "events": [],
+          "diagnostics": [],
+          "groundDistance": 0,
+          "lowerBoundReported": false,
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "materialId": "material:concrete",
+          "trav": null,
+          "netVault": null,
+          "previousPosition": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "mv": {
+            "s": "stand",
+            "t": 0.35,
+            "sp": 0,
+            "st": 100,
+            "ex": 0,
+            "vp": 0,
+            "lean": 1,
+            "tw": 0
+          }
+        },
+        "focusSpace": [
+          "space:lower-room"
+        ],
+        "groups": [
+          {
+            "id": "view:upper-slabs",
+            "fade": 1,
+            "target": true
+          }
+        ]
+      },
+      "cpuMs": 2,
+      "cutawayMs": 0.09999999962747097
+    },
+    "cutaway": {
+      "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+      "focus": {
+        "id": 1,
+        "name": "Stage H browser",
+        "equipment": {
+          "kind": "flashlight",
+          "color": "#ffe7b2",
+          "parts": {
+            "flashlight": {
+              "body": "#3b4650",
+              "head": "#a1a9b0",
+              "button": "#d8443a",
+              "grip": "#181b1e"
+            },
+            "headlamp": {
+              "strap": "#2d3b46",
+              "housing": "#3a4054",
+              "bracket": "#9a9ea6"
+            },
+            "lantern": {
+              "frame": "#3d423c",
+              "handle": "#9aa0a6",
+              "cap": "#a3372c"
+            },
+            "camcorder": {
+              "body": "#2b2f36",
+              "lens": "#69717c",
+              "grip": "#1b1d20",
+              "trim": "#c9ccd0"
+            }
+          }
+        },
+        "x": 160,
+        "y": 160,
+        "vx": 0,
+        "vy": 0,
+        "angle": 2.4611483145432236,
+        "distance": 0,
+        "stamina": 100,
+        "sprinting": false,
+        "exhausted": false,
+        "z": 0,
+        "vz": 0,
+        "shape": {
+          "id": "profile:player-stand",
+          "radius": 15,
+          "height": 60,
+          "eyeHeight": 50,
+          "maxSlopeDegrees": 35,
+          "maxStepRise": 12,
+          "stepLiftMax": 180
+        },
+        "posture": "stand",
+        "supportId": "support:ground-north",
+        "lastSupportId": null,
+        "motionMode": "grounded",
+        "step": null,
+        "tick": 5,
+        "events": [],
+        "diagnostics": [],
+        "groundDistance": 0,
+        "lowerBoundReported": false,
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "materialId": "material:concrete",
+        "trav": null,
+        "netVault": null,
+        "previousPosition": {
+          "x": 160,
+          "y": 160,
+          "z": 0
+        },
+        "mv": {
+          "s": "stand",
+          "t": 0.35,
+          "sp": 0,
+          "st": 100,
+          "ex": 0,
+          "vp": 0,
+          "lean": 1,
+          "tw": 0
+        }
+      },
+      "focusSpace": [
+        "space:lower-room"
+      ],
+      "groups": [
+        {
+          "id": "view:upper-slabs",
+          "fade": 1,
+          "target": true
+        }
+      ]
+    },
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "renderer": "existing production Pixi 8.21.0 / WebGL2"
+  },
+  "traversal": {
+    "frames": [
+      {
+        "frame": 47,
+        "x": 725.6798962023221,
+        "y": 148,
+        "z": 45.38994810116104,
+        "tick": 13,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 418,
+          "tick": 418,
+          "discontinuity": 3,
+          "x": 700,
+          "y": 148,
+          "z": 32.5,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      },
+      {
+        "frame": 48,
+        "x": 756.2579719911682,
+        "y": 148,
+        "z": 60.678985995584114,
+        "tick": 25,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 430,
+          "tick": 430,
+          "discontinuity": 3,
+          "x": 711.1761632359411,
+          "y": 148,
+          "z": 38.13808161797054,
+          "vx": 148.33111909222788,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.8290926807525687,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      },
+      {
+        "frame": 49,
+        "x": 789.5838896486098,
+        "y": 148,
+        "z": 77.34194482430489,
+        "tick": 38,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 443,
+          "tick": 443,
+          "discontinuity": 3,
+          "x": 740.9032066240585,
+          "y": 148,
+          "z": 53.001603312029246,
+          "vx": 171.2100920478061,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      },
+      {
+        "frame": 50,
+        "x": 822.9160486848582,
+        "y": 148,
+        "z": 94.0080243424291,
+        "tick": 51,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 455,
+          "tick": 455,
+          "discontinuity": 3,
+          "x": 774.2004806066295,
+          "y": 148,
+          "z": 69.65024030331476,
+          "vx": 171.98014247379595,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      },
+      {
+        "frame": 51,
+        "x": 861.3764138066311,
+        "y": 148,
+        "z": 113.23820690331557,
+        "tick": 66,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 480,
+          "tick": 480,
+          "discontinuity": 3,
+          "x": 804.9679023958618,
+          "y": 148,
+          "z": 85.03395119793088,
+          "vx": 171.99933728941724,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      },
+      {
+        "frame": 52,
+        "x": 892.1447091198004,
+        "y": 148,
+        "z": 128.6223545599002,
+        "tick": 78,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 492,
+          "tick": 492,
+          "discontinuity": 3,
+          "x": 861.3764138066311,
+          "y": 148,
+          "z": 113.23820690331557,
+          "vx": 171.99999869916675,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      },
+      {
+        "frame": 53,
+        "x": 922.9130044882863,
+        "y": 148,
+        "z": 144.00650224414318,
+        "tick": 90,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 507,
+          "tick": 507,
+          "discontinuity": 3,
+          "x": 892.1447091198004,
+          "y": 148,
+          "z": 128.6223545599002,
+          "vx": 171.99999995658695,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      },
+      {
+        "frame": 54,
+        "x": 930.6292898065898,
+        "y": 148,
+        "z": 147.8646449032949,
+        "tick": 105,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 520,
+          "tick": 520,
+          "discontinuity": 3,
+          "x": 922.9130044882863,
+          "y": 148,
+          "z": 144.00650224414318,
+          "vx": 171.99999999855115,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      },
+      {
+        "frame": 55,
+        "x": 930.7393567052787,
+        "y": 148,
+        "z": 147.91967835263938,
+        "tick": 120,
+        "support": "support:ramp",
+        "mode": "grounded",
+        "server": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 535,
+          "tick": 535,
+          "discontinuity": 3,
+          "x": 930.6292898065898,
+          "y": 148,
+          "z": 147.8646449032949,
+          "vx": 2.4534482323272044,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      }
+    ],
+    "state": {
+      "ready": true,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "network": {
+        "world": {
+          "version": 2,
+          "capabilities": [
+            "spatial-pose-v1",
+            "ordered-proposals-v1",
+            "explicit-epochs-v1",
+            "spatial-aftermath-v1"
+          ],
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "geometryMode": "spatial",
+          "schemaVersion": 1,
+          "geometryRevision": "stage-e-1",
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "motionRevision": "stage-c-profile-1",
+          "simTick": 0,
+          "ids": {
+            "support": [
+              "support:balcony",
+              "support:ground-north",
+              "support:ground-south",
+              "support:lower-platform",
+              "support:ramp",
+              "support:ramp-landing",
+              "support:tread-01",
+              "support:tread-02",
+              "support:tread-03",
+              "support:tread-04",
+              "support:tread-05",
+              "support:tread-06",
+              "support:tread-07",
+              "support:tread-08",
+              "support:tread-09",
+              "support:tread-10",
+              "support:tread-11",
+              "support:tread-12",
+              "support:tread-13",
+              "support:tread-14",
+              "support:tread-15",
+              "support:upper-east",
+              "support:upper-north",
+              "support:upper-south",
+              "support:upper-west"
+            ],
+            "surface": [
+              "nav:balcony",
+              "nav:ground",
+              "nav:lower",
+              "nav:ramp",
+              "nav:ramp-landing",
+              "nav:stairs",
+              "nav:upper"
+            ],
+            "link": [
+              "link:ledge-drop",
+              "link:ramp-up",
+              "link:stairs-down",
+              "link:stairs-up"
+            ]
+          }
+        },
+        "pose": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "entityId": "p1",
+          "generation": 1,
+          "seq": 545,
+          "tick": 545,
+          "discontinuity": 3,
+          "x": 930.7393567052787,
+          "y": 148,
+          "z": 147.91967835263938,
+          "vx": 0.03499655946953598,
+          "vy": 0,
+          "vz": 0,
+          "yaw": 2.4611483145432236,
+          "height": 60,
+          "profile": "profile:player-stand",
+          "support": "support:ramp",
+          "navSurface": "nav:ramp",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        },
+        "blocked": false,
+        "awaiting": false,
+        "peers": []
+      },
+      "frames": 55,
+      "packets": [
+        {
+          "id": "p1",
+          "kind": "player",
+          "x": 930.7393567052787,
+          "y": 148,
+          "z": 147.91967835263938,
+          "height": 60,
+          "art": 1,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "tick": 120
+        }
+      ],
+      "last": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.6944444444444444,
+          "minX": 239.5393567052787,
+          "maxX": 1621.939356705279,
+          "minY": -284,
+          "maxY": 580
+        },
+        "drawCalls": 28,
+        "passes": 2,
+        "physicalVisibility": "exact bounded per-fragment convex rays",
+        "occluders": 32,
+        "triangles": 386,
+        "target": {
+          "width": 960,
+          "height": 600,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 960,
+          "height": 600,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 4650000,
+        "defaultColorBytesEstimate": 2304000,
+        "eye": {
+          "x": 930.7393567052787,
+          "y": 148,
+          "z": 197.91967835263938
+        },
+        "camera": {
+          "x": 930.7393567052787,
+          "y": 148,
+          "z": 147.91967835263938
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+          "focus": {
+            "id": 1,
+            "name": "Stage H browser",
+            "equipment": {
+              "kind": "flashlight",
+              "color": "#ffe7b2",
+              "parts": {
+                "flashlight": {
+                  "body": "#3b4650",
+                  "head": "#a1a9b0",
+                  "button": "#d8443a",
+                  "grip": "#181b1e"
+                },
+                "headlamp": {
+                  "strap": "#2d3b46",
+                  "housing": "#3a4054",
+                  "bracket": "#9a9ea6"
+                },
+                "lantern": {
+                  "frame": "#3d423c",
+                  "handle": "#9aa0a6",
+                  "cap": "#a3372c"
+                },
+                "camcorder": {
+                  "body": "#2b2f36",
+                  "lens": "#69717c",
+                  "grip": "#1b1d20",
+                  "trim": "#c9ccd0"
+                }
+              }
+            },
+            "x": 930.7393567052787,
+            "y": 148,
+            "vx": 0.03499655946953598,
+            "vy": 0,
+            "angle": 2.4611483145432236,
+            "distance": 257.9982192686503,
+            "stamina": 100,
+            "sprinting": false,
+            "exhausted": false,
+            "z": 147.91967835263938,
+            "vz": 0,
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            },
+            "posture": "stand",
+            "supportId": "support:ramp",
+            "lastSupportId": "support:ramp",
+            "motionMode": "grounded",
+            "step": null,
+            "tick": 120,
+            "events": [],
+            "diagnostics": [],
+            "groundDistance": 257.9982192686502,
+            "lowerBoundReported": false,
+            "normal": {
+              "x": -0.4472135954999579,
+              "y": 0,
+              "z": 0.8944271909999159
+            },
+            "materialId": "material:concrete",
+            "trav": null,
+            "netVault": null,
+            "previousPosition": {
+              "x": 930.7388350073724,
+              "y": 148,
+              "z": 147.9194175036862
+            },
+            "mv": {
+              "s": "stand",
+              "t": 0.4833333333333333,
+              "sp": 0,
+              "st": 100,
+              "ex": 0,
+              "vp": 0,
+              "lean": 1,
+              "tw": 0
+            }
+          },
+          "focusSpace": [],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 5,
+        "cutawayMs": 0
+      },
+      "cutaway": {
+        "worldEpoch": "2c22aede-df51-45cc-90a4-6fdc5c42179a",
+        "focus": {
+          "id": 1,
+          "name": "Stage H browser",
+          "equipment": {
+            "kind": "flashlight",
+            "color": "#ffe7b2",
+            "parts": {
+              "flashlight": {
+                "body": "#3b4650",
+                "head": "#a1a9b0",
+                "button": "#d8443a",
+                "grip": "#181b1e"
+              },
+              "headlamp": {
+                "strap": "#2d3b46",
+                "housing": "#3a4054",
+                "bracket": "#9a9ea6"
+              },
+              "lantern": {
+                "frame": "#3d423c",
+                "handle": "#9aa0a6",
+                "cap": "#a3372c"
+              },
+              "camcorder": {
+                "body": "#2b2f36",
+                "lens": "#69717c",
+                "grip": "#1b1d20",
+                "trim": "#c9ccd0"
+              }
+            }
+          },
+          "x": 930.7393567052787,
+          "y": 148,
+          "vx": 0.03499655946953598,
+          "vy": 0,
+          "angle": 2.4611483145432236,
+          "distance": 257.9982192686503,
+          "stamina": 100,
+          "sprinting": false,
+          "exhausted": false,
+          "z": 147.91967835263938,
+          "vz": 0,
+          "shape": {
+            "id": "profile:player-stand",
+            "radius": 15,
+            "height": 60,
+            "eyeHeight": 50,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "posture": "stand",
+          "supportId": "support:ramp",
+          "lastSupportId": "support:ramp",
+          "motionMode": "grounded",
+          "step": null,
+          "tick": 120,
+          "events": [],
+          "diagnostics": [],
+          "groundDistance": 257.9982192686502,
+          "lowerBoundReported": false,
+          "normal": {
+            "x": -0.4472135954999579,
+            "y": 0,
+            "z": 0.8944271909999159
+          },
+          "materialId": "material:concrete",
+          "trav": null,
+          "netVault": null,
+          "previousPosition": {
+            "x": 930.7388350073724,
+            "y": 148,
+            "z": 147.9194175036862
+          },
+          "mv": {
+            "s": "stand",
+            "t": 0.4833333333333333,
+            "sp": 0,
+            "st": 100,
+            "ex": 0,
+            "vp": 0,
+            "lean": 1,
+            "tw": 0
+          }
+        },
+        "focusSpace": [],
+        "groups": [
+          {
+            "id": "view:upper-slabs",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "renderer": "existing production Pixi 8.21.0 / WebGL2"
+    },
+    "pose": {
+      "x": 930.7393567052787,
+      "y": 148,
+      "z": 147.91967835263938
+    }
+  },
+  "errors": [],
+  "failed": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    }
+  ],
+  "http": [
+    {
+      "url": "http://127.0.0.1:38907/?room=stage-h1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/camera_policy.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/timing_policy.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/world_config.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/spatial_client.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/index-D7hdwmUU.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/world_view.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/Filter-DzecrWg_.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/index-DKbV5Nv9.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/CanvasPool-DecUtJxW.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/Cache-DDo62lBW.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/canvasUtils-CxYPZET9.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/GCManagedHash-Bz2ZMBJN.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/RenderTargetSystem-CgUxHIsn.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/GraphicsContext-vm7TDg_M.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/BufferResource-B-thlpip.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/levels/level0.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/world.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/spatial_history.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/world_motion.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/spatial_protocol.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/world_geometry.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/move.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/dphys.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/light.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/sfx.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/gore.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/camcorder.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/ents.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/glitch.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/hud.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/mp.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/inventory.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/browserAll-B-iwy0YI.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/assets/init-Cn1_BCi0.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/sounds/",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/sounds/sting%20copy.mp3",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:38907/sounds/sting.mp3",
+      "status": 200
+    }
+  ],
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 38907 | stage-h @ 24b47fc08237\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 38907 | stage-h @ 24b47fc08237\nThe Far Backrooms → http://localhost:38907  (share  ?room=NAME  to group up)\n[admin] WANDERER#1 unlocked admin (room stage-h1)\n[admin] room=stage-h1 WANDERER#1: god WANDERER -> true\n"
+}

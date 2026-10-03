@@ -1,0 +1,33 @@
+'use strict';
+const fs=require('fs'),path=require('path'),assert=require('assert');
+process.env.ADMIN_PASSCODE=require('crypto').randomBytes(24).toString('hex');
+const {fixture}=require('../stage_e/fixture'),{server}=require('../stage_f/wire'),{launch}=require('../stage_d/browser_support');
+const out=path.resolve(process.argv[2]||'dev/stage_h/evidence/h1/run-01');fs.mkdirSync(out,{recursive:true});
+(async()=>{const s=await server(fixture());let browser,page;const errors=[],failed=[],http=[],checks=[];try{
+ browser=await launch();page=await browser.newPage({viewport:{width:960,height:600}});
+ page.on('pageerror',e=>errors.push(String(e)));page.on('requestfailed',r=>failed.push({url:r.url(),error:r.failure()?.errorText}));page.on('response',r=>{if(r.url().startsWith('http://127.0.0.1'))http.push({url:r.url(),status:r.status()});});
+ await page.addInitScript(()=>{const Native=WebSocket;window.WebSocket=class extends Native{constructor(...args){super(...args);window.__wire=this;window.__messages=[];window.__sent=[];const send=this.send.bind(this);this.send=value=>{const m=JSON.parse(value);__sent.push({...m,pass:undefined});if(__sent.length>1000)__sent.shift();send(value);};this.addEventListener('message',e=>{const m=JSON.parse(e.data);__messages.push(m);if(__messages.length>1000)__messages.shift();});}};});
+ await page.goto('http://127.0.0.1:'+s.port+'/?room=stage-h1');
+ await page.waitForFunction(()=>window.__spatial?.state.ready&&window.__net?.on,{},{timeout:30000});
+ await page.locator('#name').fill('Stage H browser');await page.locator('#enter').click();
+ await page.waitForFunction(()=>__api.started()&&__net.spatialState()?.pose?.generation>0&&__spatial.state.packets.length>0,{},{timeout:30000});
+ await page.evaluate(pass=>__net.testAuth(pass),process.env.ADMIN_PASSCODE);await page.waitForFunction(()=>__messages.some(m=>m.t==='admin'&&m.ok));
+ const command=async m=>page.evaluate(m=>{const p=__net.spatialState().pose;__wire.send(JSON.stringify({...m,t:'a',worldEpoch:p.worldEpoch,life:p.generation,ack:p.discontinuity}));},m);
+ await command({c:'god',id:await page.evaluate(()=>__api.H.id)});
+ const initial=await page.evaluate(()=>__spatial.inspect());checks.push({name:'production boot',world:initial.world,renderer:initial.renderer,packets:initial.packets});
+ await page.screenshot({path:path.join(out,'production-lower.png')});
+ await command({c:'spatial-tp',pose:{x:700,y:148,z:32.5,support:'support:ramp'}});
+ await page.waitForFunction(()=>__api.H.x===700,{},{timeout:15000});
+ await page.evaluate(()=>__spatial.state.trace=[]);await page.keyboard.down('d');await page.waitForTimeout(1800);await page.keyboard.up('d');await page.waitForTimeout(400);
+ const traversal=await page.evaluate(()=>({frames:__spatial.state.trace,state:__spatial.inspect(),pose:{x:__api.H.x,y:__api.H.y,z:__api.H.z}}));
+ fs.writeFileSync(path.join(out,'raw.json'),JSON.stringify({initial,traversal,errors,failed,http,server:s.log},null,2)+'\n');
+ assert(traversal.pose.x>700&&traversal.pose.z>32.5,'real keyboard movement climbs ramp');
+ assert(traversal.frames.length>2&&traversal.frames.every(f=>[f.x,f.y,f.z].every(Number.isFinite)));
+ assert(initial.world.contentHash===traversal.state.world.contentHash);
+ assert(traversal.state.packets.some(p=>p.kind==='player'));
+ await page.screenshot({path:path.join(out,'production-ramp.png')});
+ const localErrors=errors.filter(e=>!e.includes('ERR_CERT_AUTHORITY_INVALID'));
+ assert.deepEqual(localErrors,[]);assert(!failed.some(r=>r.url.startsWith('http://127.0.0.1')));assert(!http.some(r=>r.status>=400));
+ fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({status:'PASS',browser:browser.version(),gpu:traversal.state.gpu,checks,traversal,errors,failed,http,scope:'Real root production client, original Pixi renderer and procedural art, real C/F motor/server snapshots, keyboard ramp traversal. H2-H4 gates remain separate.'},null,2)+'\n');console.log('PASS production spatial H1');
+ }catch(e){if(page){await page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});const diagnostic=await page.evaluate(()=>({started:window.__api?.started(),net:document.querySelector('#net')?.textContent,spatial:window.__spatial?.inspect(),messages:window.__messages?.slice(-20),events:window.__messages?.filter(m=>m.t!=='s'),sent:window.__sent?.slice(0,30)})).catch(e=>({error:String(e)}));fs.writeFileSync(path.join(out,'diagnostic.json'),JSON.stringify(diagnostic,null,2)+'\n');}fs.writeFileSync(path.join(out,'failure.json'),JSON.stringify({error:String(e),stack:e.stack,errors,failed,http,server:s.log},null,2)+'\n');throw e;}finally{if(browser)await browser.close();await s.close();}
+})().catch(e=>{console.error(e);process.exitCode=1;});

@@ -1,0 +1,1553 @@
+{
+  "started": false,
+  "net": "INCOMPATIBLE WORLD · spatial-handshake-required",
+  "spatial": {
+    "ready": true,
+    "world": {
+      "schemaVersion": 1,
+      "assetId": "world:stage-e",
+      "geometryRevision": "stage-e-1",
+      "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+      "geometryMode": "spatial",
+      "compilerRevision": "stage-c-1"
+    },
+    "network": {
+      "world": {
+        "version": 2,
+        "capabilities": [
+          "spatial-pose-v1",
+          "ordered-proposals-v1",
+          "explicit-epochs-v1",
+          "spatial-aftermath-v1"
+        ],
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "geometryMode": "spatial",
+        "schemaVersion": 1,
+        "geometryRevision": "stage-e-1",
+        "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "motionRevision": "stage-c-profile-1",
+        "simTick": 0,
+        "ids": {
+          "support": [
+            "support:balcony",
+            "support:ground-north",
+            "support:ground-south",
+            "support:lower-platform",
+            "support:ramp",
+            "support:ramp-landing",
+            "support:tread-01",
+            "support:tread-02",
+            "support:tread-03",
+            "support:tread-04",
+            "support:tread-05",
+            "support:tread-06",
+            "support:tread-07",
+            "support:tread-08",
+            "support:tread-09",
+            "support:tread-10",
+            "support:tread-11",
+            "support:tread-12",
+            "support:tread-13",
+            "support:tread-14",
+            "support:tread-15",
+            "support:upper-east",
+            "support:upper-north",
+            "support:upper-south",
+            "support:upper-west"
+          ],
+          "surface": [
+            "nav:balcony",
+            "nav:ground",
+            "nav:lower",
+            "nav:ramp",
+            "nav:ramp-landing",
+            "nav:stairs",
+            "nav:upper"
+          ],
+          "link": [
+            "link:ledge-drop",
+            "link:ramp-up",
+            "link:stairs-down",
+            "link:stairs-up"
+          ]
+        }
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 6,
+        "tick": 6,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "blocked": true,
+      "peers": []
+    },
+    "frames": 183,
+    "packets": [],
+    "last": {
+      "scope": {
+        "width": 1382.4,
+        "height": 864,
+        "scale": 0.6944444444444444,
+        "minX": -531.2,
+        "maxX": 851.2,
+        "minY": -272,
+        "maxY": 592
+      },
+      "drawCalls": 25,
+      "passes": 2,
+      "physicalVisibility": "exact bounded per-fragment convex rays",
+      "occluders": 32,
+      "triangles": 384,
+      "target": {
+        "width": 960,
+        "height": 600,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "logical": {
+        "width": 960,
+        "height": 600,
+        "dpr": 1
+      },
+      "quality": 1,
+      "newResourceBytes": 4650000,
+      "defaultColorBytesEstimate": 2304000,
+      "eye": {
+        "x": 160,
+        "y": 160,
+        "z": 50
+      },
+      "camera": {
+        "x": 160,
+        "y": 160,
+        "z": 0
+      },
+      "elevationScale": 0.5,
+      "cutaway": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "focus": {
+          "id": 1,
+          "name": "Wanderer",
+          "equipment": {
+            "kind": "flashlight",
+            "color": "#ffe7b2",
+            "parts": {
+              "flashlight": {
+                "body": "#3b4650",
+                "head": "#a1a9b0",
+                "button": "#d8443a",
+                "grip": "#181b1e"
+              },
+              "headlamp": {
+                "strap": "#2d3b46",
+                "housing": "#3a4054",
+                "bracket": "#9a9ea6"
+              },
+              "lantern": {
+                "frame": "#3d423c",
+                "handle": "#9aa0a6",
+                "cap": "#a3372c"
+              },
+              "camcorder": {
+                "body": "#2b2f36",
+                "lens": "#69717c",
+                "grip": "#1b1d20",
+                "trim": "#c9ccd0"
+              }
+            }
+          },
+          "x": 160,
+          "y": 160,
+          "vx": 0,
+          "vy": 0,
+          "angle": 0,
+          "distance": 0,
+          "stamina": 100,
+          "sprinting": false,
+          "exhausted": false,
+          "z": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:player-stand",
+            "radius": 15,
+            "height": 60,
+            "eyeHeight": 50,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "posture": "stand",
+          "supportId": "support:ground-north",
+          "lastSupportId": null,
+          "motionMode": "grounded",
+          "step": null,
+          "tick": 0,
+          "events": [
+            {
+              "tick": 0,
+              "type": "support",
+              "from": null,
+              "to": "support:ground-north"
+            }
+          ],
+          "diagnostics": [],
+          "groundDistance": 0,
+          "lowerBoundReported": false,
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "materialId": "material:concrete",
+          "trav": null,
+          "netVault": null
+        },
+        "focusSpace": [
+          "space:lower-room"
+        ],
+        "groups": [
+          {
+            "id": "view:upper-slabs",
+            "fade": 1,
+            "target": true
+          }
+        ]
+      },
+      "cpuMs": 0.19999999925494194,
+      "cutawayMs": 0
+    },
+    "cutaway": {
+      "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+      "focus": {
+        "id": 1,
+        "name": "Wanderer",
+        "equipment": {
+          "kind": "flashlight",
+          "color": "#ffe7b2",
+          "parts": {
+            "flashlight": {
+              "body": "#3b4650",
+              "head": "#a1a9b0",
+              "button": "#d8443a",
+              "grip": "#181b1e"
+            },
+            "headlamp": {
+              "strap": "#2d3b46",
+              "housing": "#3a4054",
+              "bracket": "#9a9ea6"
+            },
+            "lantern": {
+              "frame": "#3d423c",
+              "handle": "#9aa0a6",
+              "cap": "#a3372c"
+            },
+            "camcorder": {
+              "body": "#2b2f36",
+              "lens": "#69717c",
+              "grip": "#1b1d20",
+              "trim": "#c9ccd0"
+            }
+          }
+        },
+        "x": 160,
+        "y": 160,
+        "vx": 0,
+        "vy": 0,
+        "angle": 0,
+        "distance": 0,
+        "stamina": 100,
+        "sprinting": false,
+        "exhausted": false,
+        "z": 0,
+        "vz": 0,
+        "shape": {
+          "id": "profile:player-stand",
+          "radius": 15,
+          "height": 60,
+          "eyeHeight": 50,
+          "maxSlopeDegrees": 35,
+          "maxStepRise": 12,
+          "stepLiftMax": 180
+        },
+        "posture": "stand",
+        "supportId": "support:ground-north",
+        "lastSupportId": null,
+        "motionMode": "grounded",
+        "step": null,
+        "tick": 0,
+        "events": [
+          {
+            "tick": 0,
+            "type": "support",
+            "from": null,
+            "to": "support:ground-north"
+          }
+        ],
+        "diagnostics": [],
+        "groundDistance": 0,
+        "lowerBoundReported": false,
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 1
+        },
+        "materialId": "material:concrete",
+        "trav": null,
+        "netVault": null
+      },
+      "focusSpace": [
+        "space:lower-room"
+      ],
+      "groups": [
+        {
+          "id": "view:upper-slabs",
+          "fade": 1,
+          "target": true
+        }
+      ]
+    },
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "renderer": "existing production Pixi 8.21.0 / WebGL2"
+  },
+  "messages": [
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 32.833,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1970
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1970,
+        "tick": 1970,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 32.883,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1973
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1973,
+        "tick": 1973,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 32.933,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1976
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1976,
+        "tick": 1976,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1980
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1980,
+        "tick": 1980,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.05,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1983
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1983,
+        "tick": 1983,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.1,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1986
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1986,
+        "tick": 1986,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.15,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1989
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1989,
+        "tick": 1989,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.2,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1992
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1992,
+        "tick": 1992,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.25,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1995
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1995,
+        "tick": 1995,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.3,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 1998
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 1998,
+        "tick": 1998,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.35,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2001
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2001,
+        "tick": 2001,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.4,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2004
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2004,
+        "tick": 2004,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.45,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2007
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2007,
+        "tick": 2007,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.5,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2010
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2010,
+        "tick": 2010,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.55,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2013
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2013,
+        "tick": 2013,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.6,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2016
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2016,
+        "tick": 2016,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.65,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2019
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2019,
+        "tick": 2019,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.7,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2022
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2022,
+        "tick": 2022,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.75,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2025
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2025,
+        "tick": 2025,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 33.8,
+        "h": [],
+        "m": [],
+        "b": 0,
+        "p": 0,
+        "gw": [
+          [
+            1040,
+            200,
+            0,
+            0
+          ]
+        ],
+        "it": [
+          [
+            880,
+            780,
+            "anchor:lower-item"
+          ]
+        ],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 0,
+      "cp": 0,
+      "protocol": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "simTick": 2028
+      },
+      "pose": {
+        "worldEpoch": "56d909bd-9417-4c3d-9e66-5b1867d3851a",
+        "entityId": "p1",
+        "generation": 0,
+        "seq": 2028,
+        "tick": 2028,
+        "discontinuity": 1,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": []
+    }
+  ]
+}

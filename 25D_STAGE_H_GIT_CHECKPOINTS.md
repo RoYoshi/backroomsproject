@@ -8,3 +8,5 @@ Each milestone is validated, committed, pushed and remotely verified before the 
 Remote branch creation was verified at the accepted parent through the GitHub Git-data API and `git ls-remote`. H0 publication follows the baseline evidence in `dev/stage_h/evidence/h0`.
 
 H0 failure-preservation checkpoint: `e35d251685a5704f32f2e3b681b90189347d0b0e`, tree `3e76b1483b49629f0e68ddae50f94f127491ef30`. Verified remote before diagnosis completed.
+
+H0 complete: `24b47fc08237589ce825c657799c5be43874f234`, tree `ac8749204bbd17b378a53fd29dd1040fb4562fb0`. PASS baseline including explicit ready/equal-RAF flat pixels.

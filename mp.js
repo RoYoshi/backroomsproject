@@ -11,7 +11,7 @@ document.body.appendChild(net);
 const room = new URLSearchParams(location.search).get('room') || 'main';
 
 let spatialHistory = null;
-let spatialClient = null, spatialBlocked = false;
+let spatialClient = null, spatialBlocked = false, spatialJoinPending = false, spatialAwaiting = true;
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
 let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
 let bodiesList = [];                              // corpses from the server (everyone's, one per player)
@@ -28,7 +28,7 @@ const N = window.__net = {
   on: false,
   tick() {                                          // called by the game's fixed-step loop while online
     const A = window.__api;
-    if (spatialClient && !spatialBlocked && A?.started() && spatialClient.anchor) { const resync = spatialClient.record(A.H, window.__mv?.net(), window.__mv?.vault, A.spatialMotion.motion.geometry); if (resync) tx(resync); const proposal = spatialClient.flush(); if (proposal) tx(proposal); }
+    if (spatialClient && !spatialBlocked && !spatialAwaiting && A?.started() && spatialClient.anchor) { const resync = spatialClient.record(A.H, window.__mv?.net(), window.__mv?.vault, A.spatialMotion.motion.geometry); if (resync) tx(resync); const proposal = spatialClient.flush(); if (proposal) tx(proposal); }
     if (A && me && mseq > handled && !A.G.caught) {
       handled = mseq; A.G.caught = true; A.G.caughtBy = me;
       const K = window.__kill; let b = -1;
@@ -36,7 +36,7 @@ const N = window.__net = {
       window.__killer = me === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
     }
   },
-  join() { exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
+  join() { exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } if (window.TFB_WORLD && !spatialClient?.anchor) spatialJoinPending = true; else tx({ t: 'join' }); setTimeout(applyBodies, 80); },
   respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; window.__kill = null; tx({ t: 'respawn' }); },
   leave() { tx({ t: 'leave' }); },
   testAuth(pass) { N._auth = pass; tx({ t: 'admin', pass, quiet: 1 }); },     // automated tests: admin authority (for their debug teleports) without opening the admin panel
@@ -53,16 +53,17 @@ const N = window.__net = {
 /* where the kill animation left the attacker (its world position and heading), so the server's hound carries on from there instead of popping back */
 const kaOf = t => { const D = window.__api && window.__api.death && window.__api.death(); const at = D && D.attacker; return t.cause === 'Hound' && at && Number.isFinite(at.x) ? [Math.round(at.x), Math.round(at.y), +(at.angle || 0).toFixed(3)] : 0; };
 const fxBase = A => ({ lk: [A.look.hat, A.look.texture, A.look.hands, A.look.main, A.look.backpack].join('|'), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
-const tx = o => { if (ws && ws.readyState === 1 && !spatialBlocked) ws.send(JSON.stringify(spatialClient && !['hello','admin','ping','sp'].includes(o.t) ? spatialClient.action(o) : o)); };
+const tx = o => { if (window.TFB_WORLD && ['join','respawn'].includes(o.t)) spatialAwaiting = true; if (window.TFB_WORLD && !spatialClient && !['hello','admin','ping'].includes(o.t)) return; if (ws && ws.readyState === 1 && !spatialBlocked) ws.send(JSON.stringify(spatialClient && !['hello','admin','ping','sp'].includes(o.t) ? spatialClient.action(o) : o)); };
 
 function connect() {
   if (location.protocol === 'file:') return;
+  if (window.TFB_WORLD && !window.__api?.spatialMotion) { setTimeout(connect, 20); return; }
   try { ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?room=' + encodeURIComponent(room)); } catch { return; }
   ws.onopen = () => {
-    spatialClient = null; spatialHistory = null; spatialBlocked = false;
+    spatialClient = null; spatialHistory = null; spatialBlocked = false; spatialAwaiting = true;
     netReset();                                                                // a connection is a new server timeline
     retry = 0; handled = 0; mseq = 0; me = ''; everConnected = true;
-    const A = window.__api; if (A && A.started()) tx({ t: 'join' });      // re-enter the world after a reconnect
+    const A = window.__api; if (A && A.started()) { if (window.TFB_WORLD) spatialJoinPending = true; else tx({ t: 'join' }); }      // re-enter after the spatial handshake
     if (adm.pass) tx({ t: 'admin', pass: adm.pass });                         // stay unlocked across reconnects (kept in memory only)
     if (N._auth) tx({ t: 'admin', pass: N._auth, quiet: 1 });
   };
@@ -71,6 +72,7 @@ function connect() {
     if (m.t === 'hi' || m.t === 'world') {
       if (m.t === 'hi') myId = m.id; const A = window.__api; if (A) A.H.id = myId;
       if (m.protocol?.geometryMode === 'spatial') {
+        spatialAwaiting = true;
         const g = A?.spatialMotion?.motion?.geometry;
         if (!g || !window.TFB_PROTOCOL) { spatialBlocked = true; net.textContent = 'INCOMPATIBLE WORLD · SPATIAL CLIENT REQUIRED'; N.on = false; return; }
         if (!spatialClient) spatialClient = new window.TFB_PROTOCOL.Client(window.TFB_PROTOCOL.manifest(g, 'local', 0));
@@ -78,8 +80,9 @@ function connect() {
         netReset(); if (!spatialHistory) spatialHistory = new window.TFB_HISTORY.History(g, key => { if (!key) { hMap.clear(); hSlots.fill(null); sSlot.fill(null); for (const o of peers.values()) dropAvatar(o); peers.clear(); } else if (key[0] === 'h') { const id=+key.slice(1),o=hMap.get(id); if(o)hSlots[o.slot]=null;hMap.delete(id); } else if(key[0] === 'm') { const i=sSlot.indexOf(+key.slice(1));if(i>=0)sSlot[i]=null; } else if(key[0] === 'p') { const id=+key.slice(1),o=peers.get(id);if(o)dropAvatar(o);peers.delete(id); } }); spatialHistory.world(m.protocol); tx(hello);
       }
     }
+    else if (m.t === 'incompatible' && m.reason === 'spatial-handshake-required' && spatialClient?.world && !spatialClient.error) { spatialAwaiting = true; N.on = false; tx(spatialClient.hello(spatialClient.world)); }
     else if (m.t === 'incompatible') { spatialBlocked = true; N.on = false; net.textContent = 'INCOMPATIBLE WORLD · ' + m.reason; }
-    else if (m.t === 'correction' && spatialClient) { if (spatialClient.accept(m.pose)) { const A = window.__api; if (A) spatialClient.rebase(A.H, A.spatialMotion.motion.geometry, window.__mv); } }
+    else if (m.t === 'correction' && spatialClient) { if (spatialClient.accept(m.pose)) { spatialAwaiting = false; const A = window.__api; if (A) spatialClient.rebase(A.H, A.spatialMotion.motion.geometry, window.__mv); if (spatialJoinPending) { spatialJoinPending = false; tx({ t: 'join' }); } } }
     else if (m.t === 'admin' && m.q) { /* a test's quiet unlock: nothing to show */ }
     else if (m.t === 'admin') {
       adm.unlocked = !!m.ok; adm.err = m.ok ? '' : (m.wait ? 'TOO MANY TRIES · WAIT ' + m.wait + 'S' : 'WRONG PASSCODE');
@@ -182,6 +185,7 @@ function netPose(key) {
 }
 window.__netPose = netPose; window.__NET = NET;
 window.__spatialHistory = () => spatialHistory;
+N.spatialState = () => spatialClient ? { world: spatialClient.world, pose: spatialClient.pose, blocked: spatialBlocked, awaiting: spatialAwaiting, peers: [...peers.values()].map(p => ({ ...p, av: undefined, look: parseLook(p.lk), gear: { kind: p.k || 'flashlight', color: p.c || '#ffe7b2', parts: {} } })) } : null;
 N.spatialSample = sample => { if (spatialClient && !spatialBlocked) { spatialClient.pending.push(sample); if (spatialClient.pending.length >= 3) tx(spatialClient.proposal(spatialClient.pending.splice(0, 3))); } };
 
 NET.onEpoch = () => { hMap.clear(); hSlots.fill(null); sSlot.fill(null); };           // entity slots belong to the old world too
@@ -830,7 +834,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
 
   /* --- network send --- */
   const now = performance.now();
-  if (ws && ws.readyState === 1 && !spatialBlocked && !spatialClient && now - lastSend > (started ? 50 : 250)) {
+  if (ws && ws.readyState === 1 && !spatialBlocked && !window.TFB_WORLD && !spatialClient && now - lastSend > (started ? 50 : 250)) {
     lastSend = now;
     ws.send(JSON.stringify({
       t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),
@@ -844,7 +848,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
                            : 'CONNECTING…';
   }
   /* --- other wanderers: real avatars (same look as yours), their own lights, hover name --- */
-  drawPeers(p, cam, sc, los, t, W, H);
+  if (!spatialClient) drawPeers(p, cam, sc, los, t, W, H);
   /* --- dread: proximity to hound + smilers drives heartbeat, drone, vignette, shake, flicker --- */
   let d = 1e9;
   if (run) { d = Math.hypot(G.x - p.x, G.y - p.y); for (const s of q) d = Math.min(d, Math.hypot(s.x - p.x, s.y - p.y)); }

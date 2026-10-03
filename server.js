@@ -33,7 +33,7 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|camera_policy\.js|timing_policy\.js|levels\/level0\.js|world_geometry\.js|world_motion\.js|spatial_protocol\.js|spatial_history\.js|world_view\.js|stage_d\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|light\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
+const SERVE = /^\/(index\.html|camera_policy\.js|timing_policy\.js|levels\/level0\.js|world_geometry\.js|world_motion\.js|spatial_protocol\.js|spatial_history\.js|world_view\.js|spatial_client\.js|stage_d\.html|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|light\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js
 const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
 const srv = http.createServer((req, res) => {
@@ -42,6 +42,7 @@ const srv = http.createServer((req, res) => {
   catch (e) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Bad request'); }       // malformed %-escapes (e.g. "/%"): refuse, never crash
   if (u.includes('\0')) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Bad request'); }
   if (u === '/') u = '/index.html';
+  if (u === '/world_config.js' && SPATIAL_WORLD) { res.writeHead(200, { 'Content-Type': 'text/javascript', 'Cache-Control': 'no-store' }); return res.end('window.TFB_WORLD=' + JSON.stringify(SPATIAL_WORLD) + ';'); }
   const f = path.join(ROOT, path.normalize(u));
   // drop-in custom sounds: any files in ./sounds are listed and served (see sounds/README.txt)
   const AUDIO = { '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.m4a': 'audio/mp4', '.aac': 'audio/aac', '.flac': 'audio/flac', '.webm': 'audio/webm' };
@@ -58,6 +59,7 @@ const srv = http.createServer((req, res) => {
   if (!f.startsWith(ROOT) || !SERVE.test(u)) { res.writeHead(404); return res.end('Not found'); }
   fs.readFile(f, (e, b) => {
     if (e) { res.writeHead(404); return res.end('Not found'); }
+    if (SPATIAL_WORLD && u === '/index.html') b = Buffer.from(b.toString().replace('<script type="module"', '<script src="/world_config.js"></script><script src="/world_view.js"></script><script src="/spatial_client.js"></script><script type="module"'));
     const ext = path.extname(f), h = { 'Content-Type': types[ext] || 'application/octet-stream', 'Vary': 'Accept-Encoding' };
     // code is never cached (the bundle keeps the same file name across versions); the big texture may be
     h['Cache-Control'] = ext === '.png' ? 'public, max-age=86400' : 'no-store';

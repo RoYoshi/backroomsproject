@@ -1,0 +1,158 @@
+{
+  "error": "TimeoutError: page.waitForFunction: Timeout 30000ms exceeded.",
+  "stack": "page.waitForFunction: Timeout 30000ms exceeded.\n    at /workspace/scratch/3410508bb103/backroomsproject/dev/stage_h/browser_h1.js:10:13",
+  "errors": [],
+  "failed": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    }
+  ],
+  "http": [
+    {
+      "url": "http://127.0.0.1:42351/?room=stage-h1",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/world_config.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/camera_policy.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/world_view.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/timing_policy.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/spatial_client.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/index-D7hdwmUU.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/canvasUtils-CxYPZET9.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/Cache-DDo62lBW.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/CanvasPool-DecUtJxW.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/index-DKbV5Nv9.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/Filter-DzecrWg_.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/GCManagedHash-Bz2ZMBJN.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/RenderTargetSystem-CgUxHIsn.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/GraphicsContext-vm7TDg_M.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/BufferResource-B-thlpip.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/levels/level0.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/world.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/world_geometry.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/world_motion.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/spatial_protocol.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/spatial_history.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/move.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/camcorder.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/sfx.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/gore.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/dphys.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/light.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/ents.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/glitch.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/mp.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/hud.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/inventory.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/init-Cn1_BCi0.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:42351/assets/browserAll-B-iwy0YI.js",
+      "status": 200
+    }
+  ],
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 42351 | stage-h @ 24b47fc08237\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 42351 | stage-h @ 24b47fc08237\nThe Far Backrooms → http://localhost:42351  (share  ?room=NAME  to group up)\n"
+}
