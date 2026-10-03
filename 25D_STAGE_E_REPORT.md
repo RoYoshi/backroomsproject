@@ -90,3 +90,31 @@ Both authority spellings of the ZIP filename are supplied as identical bytes.
 Final checksum/package identity stays external. See the checkpoint ledger, test
 summary, parity, baseline, navigation, perception and human-QA reports. Stop at
 Stage E review.
+
+## Independent recovery verification
+
+The parallel recovery run independently passed the retained long suites (including audit-net2 11/11), 65 Stage E groups, exact frozen parity and strict served browser checks. Its logs remain under `evidence/final-inherited/`, `final-spatial/`, `final-browser/`, and `browser-network/`. All four performance suites passed on pristine Stage D and Stage E in two sequential rounds, reversing run order in round two. None of 28 average/p99 comparisons exceeded its investigation threshold in both rounds; timings do not establish a repeat-consistent material regression. Shared-host variability remains a limitation. No gameplay threshold was changed.
+
+## Original-file scope audit
+
+585 immutable parent files: 17 modified, 0 deleted, 568 byte-identical. The exact additions and unchanged-file lists are in `25D_STAGE_E_CHANGED_FILES.txt`; the complete final byte manifest is external. Three relative-to-parent additions were already in the repository before Stage E. Active source/build/test paths are portable; retained historical logs contain provenance paths and are not runtime dependencies.
+
+| Original file | Reason |
+|---|---|
+| `ai.js` | Reproducible generated AI including the Stage E navigation/sensor/motion integration. |
+| `dev/ai_src/00_head.js` | Inject the shared CPU world-motion kernel into AI. |
+| `dev/ai_src/10_geo.js` | Occupied surface graph, physical route proofs, species gates, bounded caches and diagnostic counters. |
+| `dev/ai_src/20_senses.js` | Spatial observation boundary with bounded legitimate XYZ/support uncertainty. |
+| `dev/ai_src/22_intelligence.js` | Carry remembered spatial evidence and reachable hypotheses without hidden target queries. |
+| `dev/ai_src/25_light.js` | Receiver-aware physical visible-light sensing with separate unchanged IR channel. |
+| `dev/ai_src/30_entity.js` | Shared physical steering/traversal integration; E5 restores the original flat coarseMove distance. |
+| `dev/ai_src/40_capture.js` | Physical XYZ contact guard before capture/commitment/RNG. |
+| `dev/ai_src/50_hound.js` | Feed observed spatial poses into existing Hound species decisions/routes. |
+| `dev/ai_src/60_smiler.js` | Feed observed spatial poses into existing Smiler species decisions/routes. |
+| `dev/ai_src/90_engine.js` | Spatial spawn, LOD, group/contact and fixed-step adapter integration. |
+| `dev/build_ai.sh` | Include the new spatial sensor and motion source slices in the reproducible AI build. |
+| `dev/tests/s_nav25d.js` | Activate existing Stage E navigation acceptance through the real focused suites. |
+| `dev/tests/s_perception25d.js` | Activate existing Stage E sensor/species acceptance through the real focused suites. |
+| `server.js` | Authorized presentation-only safe BOOTING/ONLINE startup banner. |
+| `world_geometry.js` | Shared physical spatial geometry/query helpers required by Stage E. |
+| `world_motion.js` | Shared motion/traversal proof and continuous support-boundary correctness required by Stage E. |

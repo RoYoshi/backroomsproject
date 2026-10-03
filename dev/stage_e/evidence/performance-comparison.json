@@ -1,0 +1,513 @@
+{
+  "runtime": "v25.9.0",
+  "method": "Two serial parent/current rounds; repeat reverses order. Medians across three seeds per workload. Shared host, not isolated hardware certification.",
+  "first": [
+    {
+      "suite": "perf-hound",
+      "mode": "flashlights",
+      "metric": "avg_ms",
+      "parent": 0.0751,
+      "stageE": 0.0773,
+      "ratio": 1.029,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "flashlights",
+      "metric": "p99_ms",
+      "parent": 0.2759,
+      "stageE": 0.2877,
+      "ratio": 1.043,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "hound-heavy",
+      "metric": "avg_ms",
+      "parent": 0.0867,
+      "stageE": 0.0855,
+      "ratio": 0.986,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "hound-heavy",
+      "metric": "p99_ms",
+      "parent": 0.3678,
+      "stageE": 0.3227,
+      "ratio": 0.877,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "search-heavy",
+      "metric": "avg_ms",
+      "parent": 0.0455,
+      "stageE": 0.0501,
+      "ratio": 1.101,
+      "investigate": true
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "search-heavy",
+      "metric": "p99_ms",
+      "parent": 0.1674,
+      "stageE": 0.1953,
+      "ratio": 1.167,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "shipped",
+      "metric": "avg_ms",
+      "parent": 0.0916,
+      "stageE": 0.0924,
+      "ratio": 1.009,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "shipped",
+      "metric": "p99_ms",
+      "parent": 0.4128,
+      "stageE": 0.4296,
+      "ratio": 1.041,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "sprinting",
+      "metric": "avg_ms",
+      "parent": 0.0755,
+      "stageE": 0.071,
+      "ratio": 0.94,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "sprinting",
+      "metric": "p99_ms",
+      "parent": 0.3222,
+      "stageE": 0.327,
+      "ratio": 1.015,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "cleanup",
+      "metric": "avg_ms",
+      "parent": 0.0942,
+      "stageE": 0.0993,
+      "ratio": 1.054,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "cleanup",
+      "metric": "p99_ms",
+      "parent": 0.3368,
+      "stageE": 0.3329,
+      "ratio": 0.988,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "conflict",
+      "metric": "avg_ms",
+      "parent": 0.1439,
+      "stageE": 0.1542,
+      "ratio": 1.072,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "conflict",
+      "metric": "p99_ms",
+      "parent": 0.4898,
+      "stageE": 0.5531,
+      "ratio": 1.129,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "habits",
+      "metric": "avg_ms",
+      "parent": 0.0565,
+      "stageE": 0.0707,
+      "ratio": 1.251,
+      "investigate": true
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "habits",
+      "metric": "p99_ms",
+      "parent": 0.2179,
+      "stageE": 0.3168,
+      "ratio": 1.454,
+      "investigate": true
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "hound-heavy",
+      "metric": "avg_ms",
+      "parent": 0.2174,
+      "stageE": 0.2288,
+      "ratio": 1.052,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "hound-heavy",
+      "metric": "p99_ms",
+      "parent": 0.7081,
+      "stageE": 0.8555,
+      "ratio": 1.208,
+      "investigate": true
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "light-heavy",
+      "metric": "avg_ms",
+      "parent": 0.0998,
+      "stageE": 0.1082,
+      "ratio": 1.084,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "light-heavy",
+      "metric": "p99_ms",
+      "parent": 0.3253,
+      "stageE": 0.3601,
+      "ratio": 1.107,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "multiplayer",
+      "metric": "avg_ms",
+      "parent": 0.1049,
+      "stageE": 0.1188,
+      "ratio": 1.133,
+      "investigate": true
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "multiplayer",
+      "metric": "p99_ms",
+      "parent": 0.3558,
+      "stageE": 0.4323,
+      "ratio": 1.215,
+      "investigate": true
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "shipped",
+      "metric": "avg_ms",
+      "parent": 0.0932,
+      "stageE": 0.0978,
+      "ratio": 1.049,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "shipped",
+      "metric": "p99_ms",
+      "parent": 0.4422,
+      "stageE": 0.6091,
+      "ratio": 1.377,
+      "investigate": true
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "smiler-heavy",
+      "metric": "avg_ms",
+      "parent": 0.2732,
+      "stageE": 0.2766,
+      "ratio": 1.012,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "smiler-heavy",
+      "metric": "p99_ms",
+      "parent": 0.7282,
+      "stageE": 0.8763,
+      "ratio": 1.203,
+      "investigate": true
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "sound-heavy",
+      "metric": "avg_ms",
+      "parent": 0.1303,
+      "stageE": 0.1511,
+      "ratio": 1.16,
+      "investigate": true
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "sound-heavy",
+      "metric": "p99_ms",
+      "parent": 0.408,
+      "stageE": 0.4988,
+      "ratio": 1.223,
+      "investigate": true
+    }
+  ],
+  "repeat": [
+    {
+      "suite": "perf-hound",
+      "mode": "flashlights",
+      "metric": "avg_ms",
+      "parent": 0.0787,
+      "stageE": 0.0769,
+      "ratio": 0.977,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "flashlights",
+      "metric": "p99_ms",
+      "parent": 0.2988,
+      "stageE": 0.3465,
+      "ratio": 1.16,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "hound-heavy",
+      "metric": "avg_ms",
+      "parent": 0.0828,
+      "stageE": 0.0827,
+      "ratio": 0.999,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "hound-heavy",
+      "metric": "p99_ms",
+      "parent": 0.298,
+      "stageE": 0.3657,
+      "ratio": 1.227,
+      "investigate": true
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "search-heavy",
+      "metric": "avg_ms",
+      "parent": 0.0457,
+      "stageE": 0.0479,
+      "ratio": 1.048,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "search-heavy",
+      "metric": "p99_ms",
+      "parent": 0.1797,
+      "stageE": 0.2005,
+      "ratio": 1.116,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "shipped",
+      "metric": "avg_ms",
+      "parent": 0.0891,
+      "stageE": 0.0881,
+      "ratio": 0.989,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "shipped",
+      "metric": "p99_ms",
+      "parent": 0.4798,
+      "stageE": 0.3986,
+      "ratio": 0.831,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "sprinting",
+      "metric": "avg_ms",
+      "parent": 0.0669,
+      "stageE": 0.0678,
+      "ratio": 1.013,
+      "investigate": false
+    },
+    {
+      "suite": "perf-hound",
+      "mode": "sprinting",
+      "metric": "p99_ms",
+      "parent": 0.2378,
+      "stageE": 0.2595,
+      "ratio": 1.091,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "cleanup",
+      "metric": "avg_ms",
+      "parent": 0.0926,
+      "stageE": 0.0951,
+      "ratio": 1.027,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "cleanup",
+      "metric": "p99_ms",
+      "parent": 0.3269,
+      "stageE": 0.3265,
+      "ratio": 0.999,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "conflict",
+      "metric": "avg_ms",
+      "parent": 0.1351,
+      "stageE": 0.1382,
+      "ratio": 1.023,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "conflict",
+      "metric": "p99_ms",
+      "parent": 0.429,
+      "stageE": 0.4374,
+      "ratio": 1.02,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "habits",
+      "metric": "avg_ms",
+      "parent": 0.0534,
+      "stageE": 0.0569,
+      "ratio": 1.066,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "habits",
+      "metric": "p99_ms",
+      "parent": 0.2057,
+      "stageE": 0.2131,
+      "ratio": 1.036,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "hound-heavy",
+      "metric": "avg_ms",
+      "parent": 0.2116,
+      "stageE": 0.2149,
+      "ratio": 1.016,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "hound-heavy",
+      "metric": "p99_ms",
+      "parent": 0.7139,
+      "stageE": 0.7052,
+      "ratio": 0.988,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "light-heavy",
+      "metric": "avg_ms",
+      "parent": 0.097,
+      "stageE": 0.1048,
+      "ratio": 1.08,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "light-heavy",
+      "metric": "p99_ms",
+      "parent": 0.3007,
+      "stageE": 0.337,
+      "ratio": 1.121,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "multiplayer",
+      "metric": "avg_ms",
+      "parent": 0.106,
+      "stageE": 0.1135,
+      "ratio": 1.071,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "multiplayer",
+      "metric": "p99_ms",
+      "parent": 0.3761,
+      "stageE": 0.4304,
+      "ratio": 1.144,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "shipped",
+      "metric": "avg_ms",
+      "parent": 0.0863,
+      "stageE": 0.091,
+      "ratio": 1.054,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "shipped",
+      "metric": "p99_ms",
+      "parent": 0.4245,
+      "stageE": 0.423,
+      "ratio": 0.996,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "smiler-heavy",
+      "metric": "avg_ms",
+      "parent": 0.2809,
+      "stageE": 0.2881,
+      "ratio": 1.026,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "smiler-heavy",
+      "metric": "p99_ms",
+      "parent": 0.9011,
+      "stageE": 0.8434,
+      "ratio": 0.936,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "sound-heavy",
+      "metric": "avg_ms",
+      "parent": 0.1265,
+      "stageE": 0.1314,
+      "ratio": 1.039,
+      "investigate": false
+    },
+    {
+      "suite": "perf-shared",
+      "mode": "sound-heavy",
+      "metric": "p99_ms",
+      "parent": 0.402,
+      "stageE": 0.4161,
+      "ratio": 1.035,
+      "investigate": false
+    }
+  ],
+  "interpretation": "Existing workload thresholds pass in both rounds. Relative timing differences are diagnostic; no gameplay assertion or baseline was changed."
+}

@@ -33,3 +33,5 @@
 Exact protected-file hashes and parent comparison are in the final scope evidence.
 Automated parity is bounded by the retained fixtures; it is not subjective human
 approval of fairness, natural movement or presentation performance.
+
+An independent `browser_flat_aligned.js` check compares at 3000 ms with exact state and pixel equality (`evidence/browser-aligned/`). Menu SHA-256: `cfbea62c9fe0a9897eb7d7f4e8d32a7a20203af4a3b88a2a156fd97f1ea2149e`; gameplay: `9ec7c93f8677489dee8a92168ed71b8082d0f601df4c8cf723bb5a7fdbdeee15`. These additional captures do not replace frozen references. Complete immutable-parent comparison and Hound/Smiler capability/evidence-limit equality are also in `evidence/final-scope.json`.

@@ -1,84 +1,30 @@
-Stage E exact file record
-Reference: accepted Stage D ZIP; 585-file immutable manifest.
-Final commit/tree/file hashes: external PACKAGE_VERIFICATION.json.
+Stage E exact changed-file inventory relative to the immutable Stage D ZIP.
+Original files: 585; modified: 17; deleted: 0; byte-identical: 568; additions: 416; total: 1001.
+The external package-verification JSON contains SHA-256 for every shipped file.
+Three additions predate Stage E in the repository: .github/workflows/deploy-bloom.yml, sounds/sting.mp3, sounds/sting copy.mp3.
 
-Originals: 17 changed; 0 deleted; 568 byte-identical.
-New relative to the ZIP: 335; final total: 920.
+MODIFIED ORIGINALS (every change has a reason)
+ai.js | Reproducible generated AI including the Stage E navigation/sensor/motion integration.
+dev/ai_src/00_head.js | Inject the shared CPU world-motion kernel into AI.
+dev/ai_src/10_geo.js | Occupied surface graph, physical route proofs, species gates, bounded caches and diagnostic counters.
+dev/ai_src/20_senses.js | Spatial observation boundary with bounded legitimate XYZ/support uncertainty.
+dev/ai_src/22_intelligence.js | Carry remembered spatial evidence and reachable hypotheses without hidden target queries.
+dev/ai_src/25_light.js | Receiver-aware physical visible-light sensing with separate unchanged IR channel.
+dev/ai_src/30_entity.js | Shared physical steering/traversal integration; E5 restores the original flat coarseMove distance.
+dev/ai_src/40_capture.js | Physical XYZ contact guard before capture/commitment/RNG.
+dev/ai_src/50_hound.js | Feed observed spatial poses into existing Hound species decisions/routes.
+dev/ai_src/60_smiler.js | Feed observed spatial poses into existing Smiler species decisions/routes.
+dev/ai_src/90_engine.js | Spatial spawn, LOD, group/contact and fixed-step adapter integration.
+dev/build_ai.sh | Include the new spatial sensor and motion source slices in the reproducible AI build.
+dev/tests/s_nav25d.js | Activate existing Stage E navigation acceptance through the real focused suites.
+dev/tests/s_perception25d.js | Activate existing Stage E sensor/species acceptance through the real focused suites.
+server.js | Authorized presentation-only safe BOOTING/ONLINE startup banner.
+world_geometry.js | Shared physical spatial geometry/query helpers required by Stage E.
+world_motion.js | Shared motion/traversal proof and continuous support-boundary correctness required by Stage E.
 
-MODIFIED ORIGINALS
-ai.js
-  parent SHA-256: 3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731
-  final SHA-256:  a20cf70f6a517e78a929021e15a6883bfb8060935a8e1999de0de4d0aacd12ef
-  reason: Generated maintained AI output; Stage E adapters and E5 flat coarseMove repair.
-dev/ai_src/00_head.js
-  parent SHA-256: 8189a863d88ed64a2ae1928b111772456b49f833dc4a55d2677736c318c9c720
-  final SHA-256:  30b00f28e1972dbab4aa925c0661d7e4a3dcbf92a01dcbe5b24cc50459143bc7
-  reason: Import the canonical Stage C movement kernel for spatial actors.
-dev/ai_src/10_geo.js
-  parent SHA-256: 2881e9871940689f10f6790facc08a50ed24b04c3eddb7e2d56152f3bf7ebf48
-  final SHA-256:  ec28308ce5e13b16f585de952c92b4fa731393a98673575d11ae1bc09cbc1b62
-  reason: Surface-local cells/links in retained A*, physical edge proof, spatial snapping and counters.
-dev/ai_src/20_senses.js
-  parent SHA-256: 63ea13d5517ba5c3d10d9e44060be1cb287b9a87d7f7566857873ffcbb15578a
-  final SHA-256:  65179af5da0573e505c304ac087bac7ba346f206916d8eca1e14c7ccb02da154
-  reason: Physical XYZ observations; preserve flat sensing.
-dev/ai_src/22_intelligence.js
-  parent SHA-256: f68977416308184867c5d237e83c6e92ce940d2760e8d7bd6679b430bbd17ffe
-  final SHA-256:  f6381283af5ba6331d0e17971ada7f6607b7a53f8b7ac4c7837a54b5a09e8aac
-  reason: Legitimate spatial evidence and uncertainty in existing memory/prediction.
-dev/ai_src/25_light.js
-  parent SHA-256: f2d6503f13be71cece046ecb2eccb1822c284b3930e18e7412e52c73ca11d0db
-  final SHA-256:  0aad38d3ed6071f7fe651b29375e441ce6fa17c0263d257ab6aa723924401616
-  reason: Height-aware visible receiver queries and explicit IR exclusion.
-dev/ai_src/30_entity.js
-  parent SHA-256: 1d1d2d7e64d6e81e56750051f302cba230528ccdb220a4febadcbc4b1c9b575d
-  final SHA-256:  f4eb5ef05cc1c7d9c8bad966cc58a72ebb97d399ed8f07fa5abb7f57d9731de0
-  reason: Spatial pose/route/motion dispatch; restore original flat coarse distance.
-dev/ai_src/40_capture.js
-  parent SHA-256: 823730e8743732d5a91788667325e3036c14249df3df88a1352b7ae1bb7f3166
-  final SHA-256:  14ad1fe90c5c498c5d44d2bed5cbb84de721542d5d912398e36b07fe51f79ce8
-  reason: Physical guards reject cross-floor contact before lifecycle/RNG changes.
-dev/ai_src/50_hound.js
-  parent SHA-256: d3c870a7e472af75ba8baf0151ca3ebda58ed3c09cccd73c5411e53a3e06d317
-  final SHA-256:  e49f1df71c22aeafaae3ba8d461d8a1452df03c6bf92b4f9aee81e8c6126bda1
-  reason: Existing Hound consumes spatial evidence, physical goals and feasible pack boundaries.
-dev/ai_src/60_smiler.js
-  parent SHA-256: b94ba4da4dd39e3605629c9e266fc5f531250e0f5061445d66d4646cc2a3a3a2
-  final SHA-256:  a81f20f4da2c38d41d6fef3742085790ce9fa6e998202f6c801bddc651bcbc1d
-  reason: Existing Smiler consumes spatial adapters without new species powers.
-dev/ai_src/90_engine.js
-  parent SHA-256: 4cfe2d778fea1eabb4693927ade17239726458171a073bb5e10da51507adabaf
-  final SHA-256:  3f5d17d946781537215687f0f6a194e1fc73147c681bb45073cbaad2f651bbb5
-  reason: Spatial spawn, observer-bound adapters, sound and fixed-tick LOD integration.
-dev/build_ai.sh
-  parent SHA-256: 43e18a570273af5f6b089cb19e7332b7a684c5e66ef5d80be4a897c637a3c41f
-  final SHA-256:  2da88f2f029188e8afe9568c7a7149a7b972467d482fa5a070b8f8d0956683df
-  reason: Include maintained spatial query and motion sections in generated AI.
-dev/tests/s_nav25d.js
-  parent SHA-256: f82d565531a97febae9fde57d8329fa75061ab35ea9e0ed2cc2d72f7089ad8c9
-  final SHA-256:  cd4c20b58eb61b425f192ccb15a0f322fd450dd66c72dd1f954882e917222189
-  reason: Activate Z10-Z13 navigation placeholders using implemented real-system suites.
-dev/tests/s_perception25d.js
-  parent SHA-256: 20c697c134a609a00bc70a5380a76b904341e0bfc5e3864c6d6712708becb9f6
-  final SHA-256:  3d528f0dc19259e79e06b3765539100d28c55f942a7c7deed00dbf1eb669bfb9
-  reason: Activate Z14-Z17 Stage E portions using actual sensor/entity suites.
-server.js
-  parent SHA-256: 80e69c371cb0dc3cb5480beefaf3e46ae58de8b2a9af7417d128f7dae0af4b3f
-  final SHA-256:  3386ef92e2adc19b1cd062247fbb7da3935fb2a4cebf859c0705a5f5d5899cb8
-  reason: Authorized presentation-only BOOTING/ONLINE banner with safe runtime/revision metadata.
-world_geometry.js
-  parent SHA-256: f207f3716331914f0eec3f56e65e1b9cba0101977f19cc6da10ec5a77ca3d359
-  final SHA-256:  8157ecd31e840dbdf201051fe43b60353a330541a249d6f6c77dc25349e991b3
-  reason: Support continuity, physical receiver queries and bounded acoustic routing for Stage E.
-world_motion.js
-  parent SHA-256: 64becb7f4f2acf1fee8e07f274e1769b232fc2f9fc71ca3ee6e3be24f5424e0b
-  final SHA-256:  525902d39114f4052924644e557230cf9364235718980d7994102e898423e002
-  reason: Legitimate top-tread/landing seam continuity through existing fixed-tick support kernel.
+DELETED ORIGINALS: NONE
 
-DELETED ORIGINALS
-None.
-
-NEW RELATIVE TO STAGE D ZIP
+NEW RELATIVE TO IMMUTABLE PARENT
 .github/workflows/deploy-bloom.yml
 25D_STAGE_E_BASELINE_FAILURES.md
 25D_STAGE_E_CHANGED_FILES.txt
@@ -105,7 +51,9 @@ dev/stage_e/README.md
 dev/stage_e/VALIDATION_ENVIRONMENT.md
 dev/stage_e/acceptance.js
 dev/stage_e/activated_gates.js
+dev/stage_e/browser_flat_aligned.js
 dev/stage_e/browser_flat_controlled.js
+dev/stage_e/browser_flat_diagnostic.js
 dev/stage_e/browser_flat_timing_diagnostic.js
 dev/stage_e/browser_network.js
 dev/stage_e/evidence/activation/gates.log
@@ -114,6 +62,31 @@ dev/stage_e/evidence/activation/scaling.json
 dev/stage_e/evidence/activation/scaling.log
 dev/stage_e/evidence/activation/spatial-performance.json
 dev/stage_e/evidence/activation/spatial-performance.log
+dev/stage_e/evidence/browser-aligned/aligned-pair.json
+dev/stage_e/evidence/browser-aligned/browser-flat.json
+dev/stage_e/evidence/browser-aligned/flat-stage-c-menu.png
+dev/stage_e/evidence/browser-aligned/flat-stage-c-playing.png
+dev/stage_e/evidence/browser-aligned/flat-stage-d-menu.png
+dev/stage_e/evidence/browser-aligned/flat-stage-d-playing.png
+dev/stage_e/evidence/browser-aligned/run.log
+dev/stage_e/evidence/browser-clock-diagnostic/diagnostic-pair.json
+dev/stage_e/evidence/browser-clock-diagnostic/diagnostic.log
+dev/stage_e/evidence/browser-clock-diagnostic/flat-stage-c-menu.png
+dev/stage_e/evidence/browser-clock-diagnostic/flat-stage-c-playing.png
+dev/stage_e/evidence/browser-clock-diagnostic/flat-stage-d-menu.png
+dev/stage_e/evidence/browser-clock-diagnostic/flat-stage-d-playing.png
+dev/stage_e/evidence/browser-network/parent.json
+dev/stage_e/evidence/browser-network/parent.log
+dev/stage_e/evidence/browser-network/results.json
+dev/stage_e/evidence/browser-network/stage-e.json
+dev/stage_e/evidence/browser-network/stage-e.log
+dev/stage_e/evidence/browser-network/trusted-stage-e.json
+dev/stage_e/evidence/browser-network/trusted-stage-e.log
+dev/stage_e/evidence/browser-parent-control/flat-stage-c-menu.png
+dev/stage_e/evidence/browser-parent-control/flat-stage-c-playing.png
+dev/stage_e/evidence/browser-parent-control/flat-stage-d-menu.png
+dev/stage_e/evidence/browser-parent-control/flat-stage-d-playing.png
+dev/stage_e/evidence/browser-parent-control/retained-harness.log
 dev/stage_e/evidence/e0/adversarial.log
 dev/stage_e/evidence/e0/build-repro.json
 dev/stage_e/evidence/e0/camera.log
@@ -156,6 +129,32 @@ dev/stage_e/evidence/e5/entities.log
 dev/stage_e/evidence/e5/motion.log
 dev/stage_e/evidence/e5/sensors.log
 dev/stage_e/evidence/e5/startup.json
+dev/stage_e/evidence/final-browser/browser-core.json
+dev/stage_e/evidence/final-browser/browser-core.log
+dev/stage_e/evidence/final-browser/browser-extended.json
+dev/stage_e/evidence/final-browser/browser-extended.log
+dev/stage_e/evidence/final-browser/browser-flat.log
+dev/stage_e/evidence/final-browser/core-balcony.png
+dev/stage_e/evidence/final-browser/core-crawl.png
+dev/stage_e/evidence/final-browser/core-lower.png
+dev/stage_e/evidence/final-browser/core-ramp.png
+dev/stage_e/evidence/final-browser/core-stairs.png
+dev/stage_e/evidence/final-browser/core-two-views.png
+dev/stage_e/evidence/final-browser/core-upper.png
+dev/stage_e/evidence/final-browser/core-wall.png
+dev/stage_e/evidence/final-browser/diagnostic-menu-difference.png
+dev/stage_e/evidence/final-browser/diagnostic-playing-difference.png
+dev/stage_e/evidence/final-browser/flat-stage-c-menu.png
+dev/stage_e/evidence/final-browser/flat-stage-c-playing.png
+dev/stage_e/evidence/final-browser/flat-stage-d-menu.png
+dev/stage_e/evidence/final-browser/flat-stage-d-playing.png
+dev/stage_e/evidence/final-browser/results.json
+dev/stage_e/evidence/final-browser/served-runtime.log
+dev/stage_e/evidence/final-browser/viewport-1080x1920-dpr1.png
+dev/stage_e/evidence/final-browser/viewport-1920x1080-dpr1.png
+dev/stage_e/evidence/final-browser/viewport-1920x1080-dpr2.png
+dev/stage_e/evidence/final-browser/viewport-3440x1440-dpr1.png
+dev/stage_e/evidence/final-browser/viewport-3840x2160-dpr1.png
 dev/stage_e/evidence/final-inherited/audit-net.log
 dev/stage_e/evidence/final-inherited/audit-net2.log
 dev/stage_e/evidence/final-inherited/baseline-tests.json
@@ -175,6 +174,12 @@ dev/stage_e/evidence/final-inherited/perf-shared.log
 dev/stage_e/evidence/final-inherited/perf-smiler.log
 dev/stage_e/evidence/final-inherited/physics.log
 dev/stage_e/evidence/final-inherited/shared.log
+dev/stage_e/evidence/final-portability/ai.log
+dev/stage_e/evidence/final-portability/build-repro.json
+dev/stage_e/evidence/final-portability/ents.log
+dev/stage_e/evidence/final-portability/prototype.log
+dev/stage_e/evidence/final-portability/sim.log
+dev/stage_e/evidence/final-scope.json
 dev/stage_e/evidence/final-spatial/camera-spatial.log
 dev/stage_e/evidence/final-spatial/connected-performance.json
 dev/stage_e/evidence/final-spatial/connected-performance.log
@@ -362,6 +367,27 @@ dev/stage_e/evidence/final/traces/map-current.json.gz
 dev/stage_e/evidence/final/traces/map-export.log
 dev/stage_e/evidence/final/traces/trace-comparison.json
 dev/stage_e/evidence/final/traces/traces-commands.json
+dev/stage_e/evidence/perf-parent/baseline-tests.json
+dev/stage_e/evidence/perf-parent/perf-hound.log
+dev/stage_e/evidence/perf-parent/perf-light.log
+dev/stage_e/evidence/perf-parent/perf-shared.log
+dev/stage_e/evidence/perf-parent/perf-smiler.log
+dev/stage_e/evidence/perf-repeat-parent/baseline-tests.json
+dev/stage_e/evidence/perf-repeat-parent/perf-hound.log
+dev/stage_e/evidence/perf-repeat-parent/perf-light.log
+dev/stage_e/evidence/perf-repeat-parent/perf-shared.log
+dev/stage_e/evidence/perf-repeat-parent/perf-smiler.log
+dev/stage_e/evidence/perf-repeat-stage-e/baseline-tests.json
+dev/stage_e/evidence/perf-repeat-stage-e/perf-hound.log
+dev/stage_e/evidence/perf-repeat-stage-e/perf-light.log
+dev/stage_e/evidence/perf-repeat-stage-e/perf-shared.log
+dev/stage_e/evidence/perf-repeat-stage-e/perf-smiler.log
+dev/stage_e/evidence/perf-stage-e/baseline-tests.json
+dev/stage_e/evidence/perf-stage-e/perf-hound.log
+dev/stage_e/evidence/perf-stage-e/perf-light.log
+dev/stage_e/evidence/perf-stage-e/perf-shared.log
+dev/stage_e/evidence/perf-stage-e/perf-smiler.log
+dev/stage_e/evidence/performance-comparison.json
 dev/stage_e/evidence/recovered-candidate/audit-net.log
 dev/stage_e/evidence/recovered-candidate/audit-net2.log
 dev/stage_e/evidence/recovered-candidate/baseline-tests.json
@@ -405,6 +431,7 @@ dev/stage_e/reference/STAGE_E_MASTER_PROMPT.txt
 dev/stage_e/reference/THE_FAR_BACKROOMS_2_5D_WORLD_ARCHITECTURE.md
 dev/stage_e/run_final.py
 dev/stage_e/scope_audit.py
+dev/stage_e/scope_audit_complete.py
 dev/stage_e/served_runtime.js
 dev/stage_e/test_core.js
 dev/stage_e/test_entities.js
@@ -415,7 +442,577 @@ dev/stage_e/verify_parity.js
 sounds/sting copy.mp3
 sounds/sting.mp3
 
-E5 CONTINUATION DELTA FROM VERIFIED bca4bb1 CANDIDATE (STAGED FINAL TREE)
+BYTE-IDENTICAL ORIGINALS
+25D_STAGE_A_BASELINE_FAILURES.md
+25D_STAGE_A_CHANGED_FILES.txt
+25D_STAGE_A_HUMAN_QA.md
+25D_STAGE_A_REFERENCE_TRACES.md
+25D_STAGE_A_REPORT.md
+25D_STAGE_A_TEST_SUMMARY.md
+25D_STAGE_B_BASELINE_FAILURES.md
+25D_STAGE_B_CHANGED_FILES.txt
+25D_STAGE_B_HUMAN_QA.md
+25D_STAGE_B_PARITY.md
+25D_STAGE_B_REPORT.md
+25D_STAGE_B_TEST_SUMMARY.md
+25D_STAGE_B_WORKING_STATUS.md
+25D_STAGE_C_BASELINE_FAILURES.md
+25D_STAGE_C_CAMERA_P01.md
+25D_STAGE_C_CHANGED_FILES.txt
+25D_STAGE_C_HUMAN_QA.md
+25D_STAGE_C_PARITY.md
+25D_STAGE_C_REPORT.md
+25D_STAGE_C_TEST_SUMMARY.md
+25D_STAGE_C_WORKING_STATUS.md
+25D_STAGE_D_BASELINE_FAILURES.md
+25D_STAGE_D_BROWSER_EVIDENCE.md
+25D_STAGE_D_CHANGED_FILES.txt
+25D_STAGE_D_HUMAN_QA.md
+25D_STAGE_D_PARITY.md
+25D_STAGE_D_REPORT.md
+25D_STAGE_D_TEST_SUMMARY.md
+25D_STAGE_D_VIEW_PROTOTYPE.md
+25D_STAGE_D_WORKING_STATUS.md
+25D_STAGE_MATRIX.md
+PART_2_AI01_CHANGED_FILES.txt
+PART_2_AI02_CHANGED_FILES.txt
+PART_2_CAMERA_FIX.md
+PART_2_ENTITY_LOOK_REPORT.md
+PART_2_FPS_CHANGED_FILES.txt
+PART_2_FPS_EQUALITY.md
+PART_2_HQA_AI01_SEARCH_REPORT.md
+PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md
+PART_2_HQA_CHANGED_FILES.txt
+PART_2_HQA_HOTFIX_REPORT.md
+PART_2_HQA_TEST_SUMMARY.md
+PART_2_HUMAN_QA.md
+README.md
+STAGE_2E_REPORT.md
+STAGE_2F_REPORT.md
+STAGE_2F_TEST_SUMMARY.md
+assets/BufferResource-B-thlpip.js
+assets/Cache-DDo62lBW.js
+assets/CanvasPool-DecUtJxW.js
+assets/Filter-DzecrWg_.js
+assets/GCManagedHash-Bz2ZMBJN.js
+assets/GraphicsContext-vm7TDg_M.js
+assets/RenderTargetSystem-CgUxHIsn.js
+assets/browserAll-B-iwy0YI.js
+assets/canvasUtils-CxYPZET9.js
+assets/carpet.png
+assets/getTextureBatchBindGroup-DBCrgHVb.js
+assets/index-D7hdwmUU.css
+assets/index-DKbV5Nv9.js
+assets/init-Cn1_BCi0.js
+assets/stageD-browser.js
+assets/stageD-pixi.js
+assets/stageD-prototype.js
+assets/stageD-world.json
+camcorder.js
+camera_policy.js
+death_srv.js
+dev/HOUND_CANON_LOCK_STAGE_2E.md
+dev/README.md
+dev/SMILER_CANON_LOCK_STAGE_2F.md
+dev/STAGE_2E_HUMAN_QA.md
+dev/STAGE_2E_PRESERVATION.json
+dev/STAGE_2F_DESIGN.md
+dev/STAGE_2F_IMPLEMENTATION_MAP.md
+dev/STAGE_2F_PRESERVATION.json
+dev/STAGE_2F_SPECIFICATION.txt
+dev/baselines/v23.3.6-manifest.json
+dev/build_ents.sh
+dev/build_sim.sh
+dev/cand.js
+dev/chk_world.js
+dev/contracts/ARCHITECTURE_AUTHORITY.md
+dev/contracts/IDENTITY_AND_FIXTURE.md
+dev/contracts/identity25d.js
+dev/contracts/spatial25d.d.ts
+dev/contracts/validate25d.js
+dev/contracts/world_definition_stage_b.d.ts
+dev/ents_src/00_head.js
+dev/ents_src/10_hound.js
+dev/ents_src/20_smiler.js
+dev/ents_src/25_death.js
+dev/ents_src/30_audio.js
+dev/ents_src/40_debug.js
+dev/fixtures/world_25d.js
+dev/harness.js
+dev/map.png
+dev/map.txt
+dev/move_model.js
+dev/paths.js
+dev/scenarios_hound.js
+dev/sim_geo.js
+dev/sim_glue.js
+dev/sim_head.js
+dev/stage2e-results/audit_net.log
+dev/stage2e-results/audit_net2-full.log
+dev/stage2e-results/escape-bench.log
+dev/stage2e-results/interpolation.log
+dev/stage2e-results/ir_net.log
+dev/stage2e-results/legacy-baseline-same-fixtures.log
+dev/stage2e-results/live.log
+dev/stage2e-results/live_chase.log
+dev/stage2e-results/navigation-bench.log
+dev/stage2e-results/performance-final.log
+dev/stage2e-results/performance-light.log
+dev/stage2e-results/performance-smiler.log
+dev/stage2e-results/physics.log
+dev/stage2e-results/portable-build.log
+dev/stage2e-results/portable-hound.log
+dev/stage2e-results/portable-interpolation.log
+dev/stage2e-results/portable-physics.log
+dev/stage2e-results/preservation.log
+dev/stage2e-results/scenario-results.json
+dev/stage2e-results/scenarios-final.log
+dev/stage2e-results/smiler-debug-gate.log
+dev/stage2e-results/smiler-parity.log
+dev/stage2f-results/LOG_INDEX.md
+dev/stage2f-results/audit-net.log
+dev/stage2f-results/audit-net2.log
+dev/stage2f-results/baseline-scenarios.log
+dev/stage2f-results/breath-isolated.log
+dev/stage2f-results/browser-status.log
+dev/stage2f-results/checkpoint-build.json
+dev/stage2f-results/checkpoint-stop.json
+dev/stage2f-results/controlled-parity-final.log
+dev/stage2f-results/controlled-parity-release.log
+dev/stage2f-results/controlled-parity-rerun.log
+dev/stage2f-results/controlled-parity.log
+dev/stage2f-results/death-debug-cleanup.log
+dev/stage2f-results/first-2e-ir.log
+dev/stage2f-results/habit-real.log
+dev/stage2f-results/hound-final.log
+dev/stage2f-results/interpolation.log
+dev/stage2f-results/ir-net.log
+dev/stage2f-results/live.log
+dev/stage2f-results/movement-parity-final.log
+dev/stage2f-results/movement-parity.log
+dev/stage2f-results/nav-bench.log
+dev/stage2f-results/perf-habits-complete.log
+dev/stage2f-results/perf-hound.log
+dev/stage2f-results/perf-light.log
+dev/stage2f-results/perf-shared-release.log
+dev/stage2f-results/perf-shared.log
+dev/stage2f-results/perf-smiler.log
+dev/stage2f-results/physics.log
+dev/stage2f-results/portable-build-ai.log
+dev/stage2f-results/portable-build-ents.log
+dev/stage2f-results/portable-build-sim.log
+dev/stage2f-results/portable-full-suite.log
+dev/stage2f-results/portable-results.json
+dev/stage2f-results/regression-first.log
+dev/stage2f-results/release-focused.log
+dev/stage2f-results/rng-counterfactual-final.log
+dev/stage2f-results/rng-counterfactual-observations.log
+dev/stage2f-results/rng-counterfactual.log
+dev/stage2f-results/scenarios-final.log
+dev/stage2f-results/shared-delivery.log
+dev/stage2f-results/shared-final.log
+dev/stage2f-results/shared-first.log
+dev/stage2f-results/shared-release-final.log
+dev/stage2f-results/shared-release.log
+dev/stage2f-results/shared-resume.log
+dev/stage2f-results/shared-second.log
+dev/stage2f-results/shared-third.log
+dev/stage_a/README.md
+dev/stage_a/STAGE_A_INSTRUCTION.txt
+dev/stage_a/capture_ai.js
+dev/stage_a/capture_death.js
+dev/stage_a/capture_motor.js
+dev/stage_a/capture_navigation.js
+dev/stage_a/capture_network.js
+dev/stage_a/contracts_test.js
+dev/stage_a/diff_traces.js
+dev/stage_a/future_matrix.json
+dev/stage_a/results/ai-capture.log
+dev/stage_a/results/baseline-failures.json
+dev/stage_a/results/baseline/audit-net.log
+dev/stage_a/results/baseline/audit-net2.log
+dev/stage_a/results/baseline/baseline-tests.json
+dev/stage_a/results/baseline/camera.log
+dev/stage_a/results/baseline/entity-look.log
+dev/stage_a/results/baseline/fps.log
+dev/stage_a/results/baseline/hound.log
+dev/stage_a/results/baseline/humanqa.log
+dev/stage_a/results/baseline/interpolation.log
+dev/stage_a/results/baseline/ir-net.log
+dev/stage_a/results/baseline/live.log
+dev/stage_a/results/baseline/navigation.log
+dev/stage_a/results/baseline/npm-test.log
+dev/stage_a/results/baseline/perf-hound.log
+dev/stage_a/results/baseline/perf-light.log
+dev/stage_a/results/baseline/perf-shared.log
+dev/stage_a/results/baseline/perf-smiler.log
+dev/stage_a/results/baseline/physics.log
+dev/stage_a/results/baseline/shared.log
+dev/stage_a/results/browser-environment.json
+dev/stage_a/results/portable_builds.json
+dev/stage_a/results/recheck-local-network/baseline-tests.json
+dev/stage_a/results/recheck-local-network/live.log
+dev/stage_a/results/recheck-selected.log
+dev/stage_a/results/recheck/baseline-tests.json
+dev/stage_a/results/recheck/live.log
+dev/stage_a/results/served-package.json
+dev/stage_a/results/stage-a-verification.log
+dev/stage_a/run_baseline.py
+dev/stage_a/served_package.js
+dev/stage_a/trace_io.js
+dev/stage_a/traces/ai-index.json
+dev/stage_a/traces/ai-s_evidence-E4.json.gz
+dev/stage_a/traces/ai-s_evidence-E5.json.gz
+dev/stage_a/traces/ai-s_evidence-E6.json.gz
+dev/stage_a/traces/ai-s_evidence-E7.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-H1.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-H10.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-H15.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-H3.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-H5.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-H6.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-H7.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-HQA-H14.json.gz
+dev/stage_a/traces/ai-s_hound2e-2E-HQA-H18.json.gz
+dev/stage_a/traces/ai-s_shared2f-2F-F01.json.gz
+dev/stage_a/traces/ai-s_shared2f-2F-F04.json.gz
+dev/stage_a/traces/ai-s_shared2f-2F-F09.json.gz
+dev/stage_a/traces/ai-s_shared2f-2F-F20.json.gz
+dev/stage_a/traces/ai-s_smiler-SM01.json.gz
+dev/stage_a/traces/ai-s_smiler-SM03.json.gz
+dev/stage_a/traces/ai-s_smiler-SM04.json.gz
+dev/stage_a/traces/ai-s_smiler-SM05.json.gz
+dev/stage_a/traces/ai-s_smiler-SM08.json.gz
+dev/stage_a/traces/death-Hound-A.json.gz
+dev/stage_a/traces/death-Hound-B.json.gz
+dev/stage_a/traces/death-Hound-C.json.gz
+dev/stage_a/traces/death-Hound-D.json.gz
+dev/stage_a/traces/death-Smiler-A.json.gz
+dev/stage_a/traces/death-Smiler-B.json.gz
+dev/stage_a/traces/death-Smiler-C.json.gz
+dev/stage_a/traces/death-Smiler-D.json.gz
+dev/stage_a/traces/death-index.json
+dev/stage_a/traces/motor-acceleration-deceleration.json.gz
+dev/stage_a/traces/motor-crawl.json.gz
+dev/stage_a/traces/motor-crouch.json.gz
+dev/stage_a/traces/motor-deep-carpet.json.gz
+dev/stage_a/traces/motor-exhaustion.json.gz
+dev/stage_a/traces/motor-idle.json.gz
+dev/stage_a/traces/motor-index.json
+dev/stage_a/traces/motor-recovery-threshold.json.gz
+dev/stage_a/traces/motor-recovery.json.gz
+dev/stage_a/traces/motor-slide.json.gz
+dev/stage_a/traces/motor-sprint.json.gz
+dev/stage_a/traces/motor-vault.json.gz
+dev/stage_a/traces/motor-walk.json.gz
+dev/stage_a/traces/navigation-index.json
+dev/stage_a/traces/navigation-level0.json.gz
+dev/stage_a/traces/network-index.json
+dev/stage_a/traces/network-interpolation.json.gz
+dev/stage_a/traces/network-lifecycle.json.gz
+dev/stage_a/traces/network-peer-pose.json.gz
+dev/stage_a/verify_stage_a.js
+dev/stage_b/README.md
+dev/stage_b/STAGE_B_INSTRUCTION.txt
+dev/stage_b/content_identity.js
+dev/stage_b/export_world.js
+dev/stage_b/level0-baseline.json.gz
+dev/stage_b/planar-kernel-provenance.json
+dev/stage_b/results/browser-environment.json
+dev/stage_b/results/browser-launch.json
+dev/stage_b/results/bundle-edits.json
+dev/stage_b/results/core-parity.json
+dev/stage_b/results/physics-confirm.json
+dev/stage_b/results/physics-confirm.log
+dev/stage_b/results/portability.json
+dev/stage_b/results/portable-0.log
+dev/stage_b/results/portable-1.log
+dev/stage_b/results/portable-2.log
+dev/stage_b/results/portable-3.log
+dev/stage_b/results/portable-4.log
+dev/stage_b/results/portable-5.log
+dev/stage_b/results/portable-6.log
+dev/stage_b/results/portable-http.json
+dev/stage_b/results/preflight-0.log
+dev/stage_b/results/preflight-1.log
+dev/stage_b/results/preflight-2.log
+dev/stage_b/results/preflight-3.log
+dev/stage_b/results/preflight-4.log
+dev/stage_b/results/preflight-5.log
+dev/stage_b/results/preflight-6.log
+dev/stage_b/results/preflight-7.log
+dev/stage_b/results/preflight-8.log
+dev/stage_b/results/preflight-http.json
+dev/stage_b/results/preflight-traces.log
+dev/stage_b/results/preflight.json
+dev/stage_b/results/regression/audit-net.log
+dev/stage_b/results/regression/audit-net2.log
+dev/stage_b/results/regression/baseline-tests.json
+dev/stage_b/results/regression/camera.log
+dev/stage_b/results/regression/entity-look.log
+dev/stage_b/results/regression/fps.log
+dev/stage_b/results/regression/hound.log
+dev/stage_b/results/regression/humanqa.log
+dev/stage_b/results/regression/interpolation.log
+dev/stage_b/results/regression/ir-net.log
+dev/stage_b/results/regression/live.log
+dev/stage_b/results/regression/navigation.log
+dev/stage_b/results/regression/npm-test.log
+dev/stage_b/results/regression/perf-hound.log
+dev/stage_b/results/regression/perf-light.log
+dev/stage_b/results/regression/perf-shared.log
+dev/stage_b/results/regression/perf-smiler.log
+dev/stage_b/results/regression/physics.log
+dev/stage_b/results/regression/shared.log
+dev/stage_b/results/served-package.json
+dev/stage_b/served_package.js
+dev/stage_b/stageA-manifest.json
+dev/stage_b/test_geometry.js
+dev/stage_b/verify.js
+dev/stage_c/AUTHORIZATION_MASTER_PROMPT.txt
+dev/stage_c/AUTHORIZATION_README_FIRST.txt
+dev/stage_c/README.md
+dev/stage_c/activation.json
+dev/stage_c/contracts.d.ts
+dev/stage_c/helpers.js
+dev/stage_c/perf_spatial.js
+dev/stage_c/results/adversarial.log
+dev/stage_c/results/browser.json
+dev/stage_c/results/camera.log
+dev/stage_c/results/core-verification.json
+dev/stage_c/results/core.log
+dev/stage_c/results/failure-comparison.json
+dev/stage_c/results/http.json
+dev/stage_c/results/http.log
+dev/stage_c/results/npm-test-complete.json
+dev/stage_c/results/npm-test-complete.log
+dev/stage_c/results/parity.json
+dev/stage_c/results/parity.log
+dev/stage_c/results/perf-spatial.json
+dev/stage_c/results/portability.json
+dev/stage_c/results/portable-test_camera.js.log
+dev/stage_c/results/portable-test_schedules.js.log
+dev/stage_c/results/portable-test_spatial.js.log
+dev/stage_c/results/preflight-camera.log
+dev/stage_c/results/preflight-fps.log
+dev/stage_c/results/preflight-http.json
+dev/stage_c/results/preflight-http.log
+dev/stage_c/results/preflight-input.json
+dev/stage_c/results/preflight-parity.json
+dev/stage_c/results/preflight-parity.log
+dev/stage_c/results/regression-runner.log
+dev/stage_c/results/regression/audit-net.log
+dev/stage_c/results/regression/audit-net2.log
+dev/stage_c/results/regression/baseline-tests.json
+dev/stage_c/results/regression/camera.log
+dev/stage_c/results/regression/entity-look.log
+dev/stage_c/results/regression/fps.log
+dev/stage_c/results/regression/hound.log
+dev/stage_c/results/regression/humanqa.log
+dev/stage_c/results/regression/interpolation.log
+dev/stage_c/results/regression/ir-net.log
+dev/stage_c/results/regression/live.log
+dev/stage_c/results/regression/navigation.log
+dev/stage_c/results/regression/npm-test.log
+dev/stage_c/results/regression/perf-hound.log
+dev/stage_c/results/regression/perf-light.log
+dev/stage_c/results/regression/perf-shared.log
+dev/stage_c/results/regression/perf-smiler.log
+dev/stage_c/results/regression/physics.log
+dev/stage_c/results/regression/shared.log
+dev/stage_c/results/schedules.log
+dev/stage_c/served_package.js
+dev/stage_c/stageB-manifest.json
+dev/stage_c/test_adversarial.js
+dev/stage_c/test_camera.js
+dev/stage_c/test_schedules.js
+dev/stage_c/test_spatial.js
+dev/stage_c/verify_parity.js
+dev/stage_d/README.md
+dev/stage_d/STAGE_D_MASTER_PROMPT.txt
+dev/stage_d/browser_core.js
+dev/stage_d/browser_extended.js
+dev/stage_d/browser_flat.js
+dev/stage_d/browser_performance.js
+dev/stage_d/browser_support.js
+dev/stage_d/build_prototype.js
+dev/stage_d/evidence/baseline-comparison.json
+dev/stage_d/evidence/browser-core.json
+dev/stage_d/evidence/browser-core.log
+dev/stage_d/evidence/browser-download-probe.json
+dev/stage_d/evidence/browser-extended.json
+dev/stage_d/evidence/browser-extended.log
+dev/stage_d/evidence/browser-flat.json
+dev/stage_d/evidence/browser-flat.log
+dev/stage_d/evidence/browser-install.log
+dev/stage_d/evidence/browser-installed.json
+dev/stage_d/evidence/browser-launch.json
+dev/stage_d/evidence/browser-performance.json
+dev/stage_d/evidence/browser-performance.log
+dev/stage_d/evidence/browser-validation.json
+dev/stage_d/evidence/build-prototype.log
+dev/stage_d/evidence/camera-spatial.log
+dev/stage_d/evidence/core-balcony.png
+dev/stage_d/evidence/core-crawl.png
+dev/stage_d/evidence/core-lower.png
+dev/stage_d/evidence/core-ramp.png
+dev/stage_d/evidence/core-stairs.png
+dev/stage_d/evidence/core-two-views.png
+dev/stage_d/evidence/core-upper.png
+dev/stage_d/evidence/core-wall.png
+dev/stage_d/evidence/development/browser-extended-before-opaque-depth.json
+dev/stage_d/evidence/development/browser-performance-before-opaque-depth.json
+dev/stage_d/evidence/flat-parity.json
+dev/stage_d/evidence/flat-parity.log
+dev/stage_d/evidence/flat-stage-c-menu.png
+dev/stage_d/evidence/flat-stage-c-playing.png
+dev/stage_d/evidence/flat-stage-d-menu.png
+dev/stage_d/evidence/flat-stage-d-playing.png
+dev/stage_d/evidence/http.json
+dev/stage_d/evidence/http.log
+dev/stage_d/evidence/independence.json
+dev/stage_d/evidence/independence.log
+dev/stage_d/evidence/inherited/audit-net.log
+dev/stage_d/evidence/inherited/audit-net2.log
+dev/stage_d/evidence/inherited/baseline-tests.json
+dev/stage_d/evidence/inherited/camera.log
+dev/stage_d/evidence/inherited/entity-look.log
+dev/stage_d/evidence/inherited/fps.log
+dev/stage_d/evidence/inherited/hound.log
+dev/stage_d/evidence/inherited/humanqa.log
+dev/stage_d/evidence/inherited/interpolation.log
+dev/stage_d/evidence/inherited/ir-net.log
+dev/stage_d/evidence/inherited/live.log
+dev/stage_d/evidence/inherited/navigation.log
+dev/stage_d/evidence/inherited/npm-test.log
+dev/stage_d/evidence/inherited/perf-hound.log
+dev/stage_d/evidence/inherited/perf-light.log
+dev/stage_d/evidence/inherited/perf-shared.log
+dev/stage_d/evidence/inherited/perf-smiler.log
+dev/stage_d/evidence/inherited/physics.log
+dev/stage_d/evidence/inherited/shared.log
+dev/stage_d/evidence/portability.json
+dev/stage_d/evidence/preflight-0.log
+dev/stage_d/evidence/preflight-1.log
+dev/stage_d/evidence/preflight-2.log
+dev/stage_d/evidence/preflight-3.log
+dev/stage_d/evidence/preflight-4.log
+dev/stage_d/evidence/preflight-http.json
+dev/stage_d/evidence/preflight-parity.json
+dev/stage_d/evidence/preflight.json
+dev/stage_d/evidence/scope.json
+dev/stage_d/evidence/spatial-adversarial.log
+dev/stage_d/evidence/spatial-core.log
+dev/stage_d/evidence/spatial-schedules.log
+dev/stage_d/evidence/spatial-validation.json
+dev/stage_d/evidence/view.json
+dev/stage_d/evidence/view.log
+dev/stage_d/evidence/viewport-1080x1920-dpr1.png
+dev/stage_d/evidence/viewport-1920x1080-dpr1.png
+dev/stage_d/evidence/viewport-1920x1080-dpr2.png
+dev/stage_d/evidence/viewport-3440x1440-dpr1.png
+dev/stage_d/evidence/viewport-3840x2160-dpr1.png
+dev/stage_d/modified-original-allowlist.json
+dev/stage_d/parent-stage-c-manifest.json
+dev/stage_d/run_inherited.py
+dev/stage_d/run_validation.py
+dev/stage_d/runtime-provenance.json
+dev/stage_d/test_independence.js
+dev/stage_d/test_view.js
+dev/stage_d/verify_scope.js
+dev/tests/admin_test.py
+dev/tests/audio_test.py
+dev/tests/audit_net.js
+dev/tests/audit_net2.js
+dev/tests/chase_mp.py
+dev/tests/commit_mp.py
+dev/tests/death_film.py
+dev/tests/death_spectator.py
+dev/tests/diagnose_rng2f.py
+dev/tests/escape_bench.js
+dev/tests/fallback_parity.py
+dev/tests/interp_test.js
+dev/tests/ir_net.js
+dev/tests/ir_test.py
+dev/tests/lib.js
+dev/tests/lifecycle_mp.py
+dev/tests/light_test.py
+dev/tests/live.js
+dev/tests/live_chase.js
+dev/tests/make_gifs.py
+dev/tests/move_test.py
+dev/tests/movement_parity2f.js
+dev/tests/nav_bench.js
+dev/tests/nav_mp.py
+dev/tests/network25d.js
+dev/tests/parity_shared2f.js
+dev/tests/perf_hound2e.js
+dev/tests/perf_light.js
+dev/tests/perf_shared2f.js
+dev/tests/perf_smiler.js
+dev/tests/perf_world25d.js
+dev/tests/phys_test.js
+dev/tests/physics25d.js
+dev/tests/play_mp.py
+dev/tests/play_server.js
+dev/tests/run.js
+dev/tests/s_admin.js
+dev/tests/s_audit.js
+dev/tests/s_camera_fairness.js
+dev/tests/s_capture.js
+dev/tests/s_chase.js
+dev/tests/s_commit.js
+dev/tests/s_entity_look.js
+dev/tests/s_evidence.js
+dev/tests/s_fps_equality.js
+dev/tests/s_hound.js
+dev/tests/s_hound2e.js
+dev/tests/s_humanqa_hotfix.js
+dev/tests/s_ir.js
+dev/tests/s_nav.js
+dev/tests/s_percept.js
+dev/tests/s_shared2f.js
+dev/tests/s_smiler.js
+dev/tests/s_smiler2_v22_retired.js
+dev/tests/s_smiler_v22_retired.js
+dev/tests/s_system.js
+dev/tests/s_world25d.js
+dev/tests/smiler2d_view.py
+dev/tests/smiler_parity.js
+dev/tests/smiler_view.py
+dev/tests/view25d.js
+dev/visual_qa/houndA.jpg
+dev/visual_qa/houndB.jpg
+dev/visual_qa/houndC.jpg
+dev/visual_qa/houndD.jpg
+dev/visual_qa/smilerA.jpg
+dev/visual_qa/smilerB.jpg
+dev/visual_qa/smilerC.jpg
+dev/visual_qa/smilerD.jpg
+dphys.js
+ents.js
+glitch.js
+gore.js
+hud.js
+index.html
+inventory.js
+levels/level0.js
+light.js
+move.js
+mp.js
+package.json
+redirect.js
+run_linux.sh
+run_windows.bat
+sfx.js
+sim.js
+sounds/README.txt
+stage_d.html
+timing_policy.js
+world.js
+world_view.js
+
+E5 CONTINUATION DELTA FROM VERIFIED bca4bb1 CANDIDATE
 A	25D_STAGE_E_BASELINE_FAILURES.md
 A	25D_STAGE_E_CHANGED_FILES.txt
 M	25D_STAGE_E_GIT_CHECKPOINTS.md
@@ -435,7 +1032,9 @@ A	dev/stage_e/README.md
 A	dev/stage_e/VALIDATION_ENVIRONMENT.md
 A	dev/stage_e/acceptance.js
 A	dev/stage_e/activated_gates.js
+A	dev/stage_e/browser_flat_aligned.js
 A	dev/stage_e/browser_flat_controlled.js
+A	dev/stage_e/browser_flat_diagnostic.js
 A	dev/stage_e/browser_flat_timing_diagnostic.js
 A	dev/stage_e/browser_network.js
 A	dev/stage_e/evidence/activation/gates.log
@@ -444,6 +1043,57 @@ A	dev/stage_e/evidence/activation/scaling.json
 A	dev/stage_e/evidence/activation/scaling.log
 A	dev/stage_e/evidence/activation/spatial-performance.json
 A	dev/stage_e/evidence/activation/spatial-performance.log
+A	dev/stage_e/evidence/browser-aligned/aligned-pair.json
+A	dev/stage_e/evidence/browser-aligned/browser-flat.json
+A	dev/stage_e/evidence/browser-aligned/flat-stage-c-menu.png
+A	dev/stage_e/evidence/browser-aligned/flat-stage-c-playing.png
+A	dev/stage_e/evidence/browser-aligned/flat-stage-d-menu.png
+A	dev/stage_e/evidence/browser-aligned/flat-stage-d-playing.png
+A	dev/stage_e/evidence/browser-aligned/run.log
+A	dev/stage_e/evidence/browser-clock-diagnostic/diagnostic-pair.json
+A	dev/stage_e/evidence/browser-clock-diagnostic/diagnostic.log
+A	dev/stage_e/evidence/browser-clock-diagnostic/flat-stage-c-menu.png
+A	dev/stage_e/evidence/browser-clock-diagnostic/flat-stage-c-playing.png
+A	dev/stage_e/evidence/browser-clock-diagnostic/flat-stage-d-menu.png
+A	dev/stage_e/evidence/browser-clock-diagnostic/flat-stage-d-playing.png
+A	dev/stage_e/evidence/browser-network/parent.json
+A	dev/stage_e/evidence/browser-network/parent.log
+A	dev/stage_e/evidence/browser-network/results.json
+A	dev/stage_e/evidence/browser-network/stage-e.json
+A	dev/stage_e/evidence/browser-network/stage-e.log
+A	dev/stage_e/evidence/browser-network/trusted-stage-e.json
+A	dev/stage_e/evidence/browser-network/trusted-stage-e.log
+A	dev/stage_e/evidence/browser-parent-control/flat-stage-c-menu.png
+A	dev/stage_e/evidence/browser-parent-control/flat-stage-c-playing.png
+A	dev/stage_e/evidence/browser-parent-control/flat-stage-d-menu.png
+A	dev/stage_e/evidence/browser-parent-control/flat-stage-d-playing.png
+A	dev/stage_e/evidence/browser-parent-control/retained-harness.log
+A	dev/stage_e/evidence/final-browser/browser-core.json
+A	dev/stage_e/evidence/final-browser/browser-core.log
+A	dev/stage_e/evidence/final-browser/browser-extended.json
+A	dev/stage_e/evidence/final-browser/browser-extended.log
+A	dev/stage_e/evidence/final-browser/browser-flat.log
+A	dev/stage_e/evidence/final-browser/core-balcony.png
+A	dev/stage_e/evidence/final-browser/core-crawl.png
+A	dev/stage_e/evidence/final-browser/core-lower.png
+A	dev/stage_e/evidence/final-browser/core-ramp.png
+A	dev/stage_e/evidence/final-browser/core-stairs.png
+A	dev/stage_e/evidence/final-browser/core-two-views.png
+A	dev/stage_e/evidence/final-browser/core-upper.png
+A	dev/stage_e/evidence/final-browser/core-wall.png
+A	dev/stage_e/evidence/final-browser/diagnostic-menu-difference.png
+A	dev/stage_e/evidence/final-browser/diagnostic-playing-difference.png
+A	dev/stage_e/evidence/final-browser/flat-stage-c-menu.png
+A	dev/stage_e/evidence/final-browser/flat-stage-c-playing.png
+A	dev/stage_e/evidence/final-browser/flat-stage-d-menu.png
+A	dev/stage_e/evidence/final-browser/flat-stage-d-playing.png
+A	dev/stage_e/evidence/final-browser/results.json
+A	dev/stage_e/evidence/final-browser/served-runtime.log
+A	dev/stage_e/evidence/final-browser/viewport-1080x1920-dpr1.png
+A	dev/stage_e/evidence/final-browser/viewport-1920x1080-dpr1.png
+A	dev/stage_e/evidence/final-browser/viewport-1920x1080-dpr2.png
+A	dev/stage_e/evidence/final-browser/viewport-3440x1440-dpr1.png
+A	dev/stage_e/evidence/final-browser/viewport-3840x2160-dpr1.png
 A	dev/stage_e/evidence/final-inherited/audit-net.log
 A	dev/stage_e/evidence/final-inherited/audit-net2.log
 A	dev/stage_e/evidence/final-inherited/baseline-tests.json
@@ -463,6 +1113,12 @@ A	dev/stage_e/evidence/final-inherited/perf-shared.log
 A	dev/stage_e/evidence/final-inherited/perf-smiler.log
 A	dev/stage_e/evidence/final-inherited/physics.log
 A	dev/stage_e/evidence/final-inherited/shared.log
+A	dev/stage_e/evidence/final-portability/ai.log
+A	dev/stage_e/evidence/final-portability/build-repro.json
+A	dev/stage_e/evidence/final-portability/ents.log
+A	dev/stage_e/evidence/final-portability/prototype.log
+A	dev/stage_e/evidence/final-portability/sim.log
+A	dev/stage_e/evidence/final-scope.json
 A	dev/stage_e/evidence/final-spatial/camera-spatial.log
 A	dev/stage_e/evidence/final-spatial/connected-performance.json
 A	dev/stage_e/evidence/final-spatial/connected-performance.log
@@ -650,6 +1306,27 @@ A	dev/stage_e/evidence/final/traces/map-current.json.gz
 A	dev/stage_e/evidence/final/traces/map-export.log
 A	dev/stage_e/evidence/final/traces/trace-comparison.json
 A	dev/stage_e/evidence/final/traces/traces-commands.json
+A	dev/stage_e/evidence/perf-parent/baseline-tests.json
+A	dev/stage_e/evidence/perf-parent/perf-hound.log
+A	dev/stage_e/evidence/perf-parent/perf-light.log
+A	dev/stage_e/evidence/perf-parent/perf-shared.log
+A	dev/stage_e/evidence/perf-parent/perf-smiler.log
+A	dev/stage_e/evidence/perf-repeat-parent/baseline-tests.json
+A	dev/stage_e/evidence/perf-repeat-parent/perf-hound.log
+A	dev/stage_e/evidence/perf-repeat-parent/perf-light.log
+A	dev/stage_e/evidence/perf-repeat-parent/perf-shared.log
+A	dev/stage_e/evidence/perf-repeat-parent/perf-smiler.log
+A	dev/stage_e/evidence/perf-repeat-stage-e/baseline-tests.json
+A	dev/stage_e/evidence/perf-repeat-stage-e/perf-hound.log
+A	dev/stage_e/evidence/perf-repeat-stage-e/perf-light.log
+A	dev/stage_e/evidence/perf-repeat-stage-e/perf-shared.log
+A	dev/stage_e/evidence/perf-repeat-stage-e/perf-smiler.log
+A	dev/stage_e/evidence/perf-stage-e/baseline-tests.json
+A	dev/stage_e/evidence/perf-stage-e/perf-hound.log
+A	dev/stage_e/evidence/perf-stage-e/perf-light.log
+A	dev/stage_e/evidence/perf-stage-e/perf-shared.log
+A	dev/stage_e/evidence/perf-stage-e/perf-smiler.log
+A	dev/stage_e/evidence/performance-comparison.json
 A	dev/stage_e/evidence/recovered-candidate/audit-net.log
 A	dev/stage_e/evidence/recovered-candidate/audit-net2.log
 A	dev/stage_e/evidence/recovered-candidate/baseline-tests.json
@@ -685,9 +1362,8 @@ A	dev/stage_e/perf_connected_fixture.js
 A	dev/stage_e/perf_spatial.js
 A	dev/stage_e/run_final.py
 A	dev/stage_e/scope_audit.py
+A	dev/stage_e/scope_audit_complete.py
 A	dev/stage_e/served_runtime.js
 A	dev/stage_e/verify_parity.js
 M	dev/tests/s_nav25d.js
 M	dev/tests/s_perception25d.js
-
-Three pre-existing repository-only files (.github/workflows/deploy-bloom.yml, sounds/sting.mp3, sounds/sting copy.mp3) are preserved. Historical evidence records former machine paths; executable harnesses resolve package-relative roots and the package is tested in a gitless path containing spaces.

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "browser-core",
+    "command": [
+      "node",
+      "dev/stage_d/browser_core.js",
+      "/workspace/scratch/8477fa762937/backroomsproject",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-browser"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 16.458,
+    "log": "browser-core.log"
+  },
+  {
+    "name": "browser-extended",
+    "command": [
+      "node",
+      "dev/stage_d/browser_extended.js",
+      "/workspace/scratch/8477fa762937/backroomsproject",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-browser"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 98.781,
+    "log": "browser-extended.log"
+  },
+  {
+    "name": "browser-flat",
+    "command": [
+      "node",
+      "dev/stage_d/browser_flat.js",
+      "/workspace/scratch/8477fa762937/backroomsproject",
+      "/workspace/scratch/8477fa762937/stage-d-parent/thefarbackrooms-level0",
+      "/workspace/scratch/8477fa762937/backroomsproject/dev/stage_e/evidence/final-browser"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 1,
+    "seconds": 56.078,
+    "log": "browser-flat.log"
+  }
+]

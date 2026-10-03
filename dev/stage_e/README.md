@@ -37,3 +37,5 @@ alignment while retaining state/PNG equality. `VALIDATION_ENVIRONMENT.md` record
 the restored browser and isolated certificate setup. For final package creation,
 run `python3 dev/stage_e/package_final.py <new-external-output-directory>` only
 after the final committed tree is pushed and checked clean.
+
+When publication uses an API commit with equal tree but different metadata, use `--remote-commit <verified-published-sha>` for packaging. The helper verifies exact tree equality. `scope_audit_complete.py --parent <pristine-Stage-D-root>` additionally compares every immutable parent byte and the generated species capability/snapshot/evidence-limit objects.

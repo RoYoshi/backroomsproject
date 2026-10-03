@@ -33,3 +33,9 @@ A commit cannot embed its own SHA. The internal final entry points to the extern
 identity emitted after the final push. Package contents are the final commit's
 tracked tree. Its checksum is also external. Historical progress notes remain
 unchanged history; this report set and external identity are the current handoff.
+
+## Preserved finalization publication
+
+Concurrent final reports/evidence checkpoint: `fd5580bf51303b573b4c44f850f3721046dae428`. Its reports and every new evidence file were incorporated before the combined final publication. The matching earlier local transport commits are `215840973c1da7d2c17bac699dfb31ed821f3f4f` for remote `7f9afe23b00180cfacef699591cf795fd6ac62ce`, and `715d799510657bdfd32b8ef3ff31240c43b352b0` for remote `836d432d8673725ca84cb30a2873e3082787193a`. Local `e2ad325b61ea531555876a733873a0781ded1fb7` was an intermediate committed report/evidence tree, reconciled with fd5580b before publication.
+
+E3 working ZIP SHA-256: `dffd55bde5960c58e05ffa6287152547e78b8d9263b327b5e9ed5887158d99fe`. Retained status verifies CRC and 633 extracted hashes, including portability, before long verification.

@@ -68,3 +68,5 @@ No GPU/cutaway state is sensor authority. Physics remains fixed at 60 Hz.
 The final acceptance log records all 65 underlying Stage E groups through eight
 named Z10–Z17 gates. Z14 covers AI light/IR only; Z17 covers live entity physics.
 Later presentation and death work remains outside this stage.
+
+The exact identified visual-memory additions are `visual`, `spatial`, `lkz` and `lkvz`, alongside existing `lkx`, `lky`, `lvx`, `lvy` and `seenAt`. `spatialFields` copies only the allowed interval, optional finite Z, sorted bounded support candidates and unresolved flag. The independent connected workload reaches maxima of 1 identity, 7 sounds, 6 leads, 3 evidence entries per identity, 0 habit observations, 0 hypotheses and 4 support alternatives. It does not claim to saturate every existing cap.

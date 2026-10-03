@@ -1,0 +1,56 @@
+[
+  {
+    "label": "stage-c",
+    "hashes": {
+      "menu": "3ae2fa761595be1eb900cff200e7f72eb6018f72d75b358d32d8381d464ceebc",
+      "playing": "3402169fe9b730442f53ba4c2b6ed0241a0fe5ec51ab3910d223d70c19ef6dd5"
+    },
+    "state": {
+      "diagnosticClock": {
+        "now": 2002,
+        "date": 1790942403000,
+        "origin": 1790942400000
+      },
+      "started": true,
+      "position": {
+        "x": 7848,
+        "y": 792
+      },
+      "scale": 0.8333333333333334,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      },
+      "network": false,
+      "spatialLoaded": false
+    },
+    "errors": []
+  },
+  {
+    "label": "stage-d",
+    "hashes": {
+      "menu": "3ae2fa761595be1eb900cff200e7f72eb6018f72d75b358d32d8381d464ceebc",
+      "playing": "a82067972294534dfe7254d3d0062588a152ab3f75a548fd90106b2e45dccf2b"
+    },
+    "state": {
+      "diagnosticClock": {
+        "now": 2001,
+        "date": 1790942403000,
+        "origin": 1790942400000
+      },
+      "started": true,
+      "position": {
+        "x": 7848,
+        "y": 792
+      },
+      "scale": 0.8333333333333334,
+      "canvas": {
+        "width": 1280,
+        "height": 720
+      },
+      "network": false,
+      "spatialLoaded": false
+    },
+    "errors": []
+  }
+]

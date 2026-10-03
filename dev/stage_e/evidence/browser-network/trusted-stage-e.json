@@ -1,0 +1,261 @@
+{
+  "status": "PASS",
+  "runtime": "v25.9.0",
+  "browser": "151.0.7922.34",
+  "pages": [
+    {
+      "url": "/stage_d.html?manual=1",
+      "errors": [],
+      "failed": [],
+      "http": [
+        {
+          "url": "/stage_d.html?manual=1",
+          "status": 200
+        },
+        {
+          "url": "/world_geometry.js",
+          "status": 200
+        },
+        {
+          "url": "/timing_policy.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/stageD-prototype.js",
+          "status": 200
+        },
+        {
+          "url": "/world_view.js",
+          "status": 200
+        },
+        {
+          "url": "/camera_policy.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/stageD-pixi.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/CanvasPool-DecUtJxW.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/canvasUtils-CxYPZET9.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/Cache-DDo62lBW.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/Filter-DzecrWg_.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/GraphicsContext-vm7TDg_M.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/RenderTargetSystem-CgUxHIsn.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/GCManagedHash-Bz2ZMBJN.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/BufferResource-B-thlpip.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/stageD-world.json",
+          "status": 200
+        },
+        {
+          "url": "/assets/init-Cn1_BCi0.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/stageD-browser.js",
+          "status": 200
+        }
+      ]
+    },
+    {
+      "url": "/",
+      "errors": [],
+      "failed": [],
+      "http": [
+        {
+          "url": "/",
+          "status": 200
+        },
+        {
+          "url": "/camera_policy.js",
+          "status": 200
+        },
+        {
+          "url": "/timing_policy.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/index-D7hdwmUU.css",
+          "status": 200
+        },
+        {
+          "url": "/assets/canvasUtils-CxYPZET9.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/Filter-DzecrWg_.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/CanvasPool-DecUtJxW.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/Cache-DDo62lBW.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/GCManagedHash-Bz2ZMBJN.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/RenderTargetSystem-CgUxHIsn.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/GraphicsContext-vm7TDg_M.js",
+          "status": 200
+        },
+        {
+          "url": "/levels/level0.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/index-DKbV5Nv9.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/BufferResource-B-thlpip.js",
+          "status": 200
+        },
+        {
+          "url": "/world.js",
+          "status": 200
+        },
+        {
+          "url": "/world_motion.js",
+          "status": 200
+        },
+        {
+          "url": "/move.js",
+          "status": 200
+        },
+        {
+          "url": "/world_geometry.js",
+          "status": 200
+        },
+        {
+          "url": "/camcorder.js",
+          "status": 200
+        },
+        {
+          "url": "/sfx.js",
+          "status": 200
+        },
+        {
+          "url": "/light.js",
+          "status": 200
+        },
+        {
+          "url": "/gore.js",
+          "status": 200
+        },
+        {
+          "url": "/dphys.js",
+          "status": 200
+        },
+        {
+          "url": "/ents.js",
+          "status": 200
+        },
+        {
+          "url": "/glitch.js",
+          "status": 200
+        },
+        {
+          "url": "/hud.js",
+          "status": 200
+        },
+        {
+          "url": "/inventory.js",
+          "status": 200
+        },
+        {
+          "url": "/mp.js",
+          "status": 200
+        },
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+          "status": 200
+        },
+        {
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q1w.woff2",
+          "status": 200
+        },
+        {
+          "url": "https://fonts.gstatic.com/s/barlowcondensed/v13/HTxwL3I-JCGChYJ8VI-L6OO_au7B4873z3bWuQ.woff2",
+          "status": 200
+        },
+        {
+          "url": "https://fonts.gstatic.com/s/barlowcondensed/v13/HTxwL3I-JCGChYJ8VI-L6OO_au7B4-Lwz3bWuQ.woff2",
+          "status": 200
+        },
+        {
+          "url": "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJwlBFgg.woff2",
+          "status": 200
+        },
+        {
+          "url": "https://fonts.gstatic.com/s/barlowcondensed/v13/HTx3L3I-JCGChYJ8VI-L6OO_au7B6xHT2g.woff2",
+          "status": 200
+        },
+        {
+          "url": "/assets/init-Cn1_BCi0.js",
+          "status": 200
+        },
+        {
+          "url": "/assets/browserAll-B-iwy0YI.js",
+          "status": 200
+        },
+        {
+          "url": "blob:/bc9ef98b-0be0-4d75-9b56-e9e07efdbacd",
+          "status": 200
+        },
+        {
+          "url": "blob:/45fd2aef-8ac4-4f69-8402-66873e856ec7",
+          "status": 200
+        },
+        {
+          "url": "/assets/carpet.png",
+          "status": 200
+        },
+        {
+          "url": "/sounds/",
+          "status": 200
+        }
+      ]
+    }
+  ]
+}

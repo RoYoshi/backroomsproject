@@ -85,3 +85,5 @@ their containing archive's own hash.
 Human QA is pending. Hardware-GPU performance is unverified. No Stage F work,
 main merge, baseline regeneration or new unexplained functional regression is
 included in the acceptance claim.
+
+Independent recovery also completed all retained suites (`evidence/final-inherited/`), clean gitless four-build reproduction (`evidence/final-portability/`), and strict served browser rerun (`evidence/browser-network/trusted-stage-e.json`). Two sequential rounds of all four retained performance suites passed for parent and current source, with reversed ordering in round two. No average/p99 comparison exceeded its investigation threshold in both rounds; see `evidence/performance-comparison.json`.

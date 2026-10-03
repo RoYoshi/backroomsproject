@@ -90,3 +90,7 @@ each. Counts and caps pass; timing spikes are disclosed, not converted into a
 60 Hz capacity guarantee. See both `spatial-performance.json` and
 `connected-performance.json` under `evidence/final/`. No physical checks were
 removed for performance.
+
+## Independent workload sample
+
+The separate connected run in `evidence/final-spatial/connected-performance.json` measured median/p95/p99/worst simulation steps of 0.406/10.045/42.986/163.051 ms and warm plan median/p95/max of 13.039/45.510/53.802 ms, with identical graph, planning/query counts, route hit/miss counts and caps. Both samples are retained; the differing timing tails are not hidden. The two-round parent/current flat workload comparison is `evidence/performance-comparison.json`; all absolute retained gates passed, with no threshold-exceeding comparison recurring in both rounds. These measurements share a host with other work.
