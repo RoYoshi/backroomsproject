@@ -1,0 +1,4 @@
+{"accepted":14,"rejected":0,"corrections":2,"maxQueue":2,"maxHistory":14,"maxWork":2,"work":1,"ownedTicks":0,"reasons":{}}
+Error: vault unexpected correction pose-claim at input 15
+    at run (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/test_motor_wire.js:6:846)
+    at async /workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/test_motor_wire.js:9:92

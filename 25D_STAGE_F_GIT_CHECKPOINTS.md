@@ -15,3 +15,4 @@ remote predecessor. Final identity is also recorded in external package verifica
 | F3 focused acceptance | 29ff2c0872782957ac2056c06561366564cd9bb6 |
 | F4 safe interpolation candidate | 95ba4f33c587c80b10f1683a8a6efc861cd93be8 |
 | F4 focused acceptance | e495948b67df0fe62d7b664a5e0b723907fdd956 |
+| F5 motor-mode failure checkpoint | 3dc180c4d96fbac69a69046e852b6a2f3fddc3b2 |

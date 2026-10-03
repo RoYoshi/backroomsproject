@@ -28,7 +28,7 @@ const N = window.__net = {
   on: false,
   tick() {                                          // called by the game's fixed-step loop while online
     const A = window.__api;
-    if (spatialClient && !spatialBlocked && A?.started() && spatialClient.anchor) { const resync = spatialClient.record(A.H, window.__mv?.net()); if (resync) tx(resync); const proposal = spatialClient.flush(); if (proposal) tx(proposal); }
+    if (spatialClient && !spatialBlocked && A?.started() && spatialClient.anchor) { const resync = spatialClient.record(A.H, window.__mv?.net(), window.__mv?.vault, A.spatialMotion.motion.geometry); if (resync) tx(resync); const proposal = spatialClient.flush(); if (proposal) tx(proposal); }
     if (A && me && mseq > handled && !A.G.caught) {
       handled = mseq; A.G.caught = true; A.G.caughtBy = me;
       const K = window.__kill; let b = -1;
@@ -79,7 +79,7 @@ function connect() {
       }
     }
     else if (m.t === 'incompatible') { spatialBlocked = true; N.on = false; net.textContent = 'INCOMPATIBLE WORLD · ' + m.reason; }
-    else if (m.t === 'correction' && spatialClient) { if (spatialClient.accept(m.pose)) { const A = window.__api; if (A) spatialClient.rebase(A.H, A.spatialMotion.motion.geometry); } }
+    else if (m.t === 'correction' && spatialClient) { if (spatialClient.accept(m.pose)) { const A = window.__api; if (A) spatialClient.rebase(A.H, A.spatialMotion.motion.geometry, window.__mv); } }
     else if (m.t === 'admin' && m.q) { /* a test's quiet unlock: nothing to show */ }
     else if (m.t === 'admin') {
       adm.unlocked = !!m.ok; adm.err = m.ok ? '' : (m.wait ? 'TOO MANY TRIES · WAIT ' + m.wait + 'S' : 'WRONG PASSCODE');

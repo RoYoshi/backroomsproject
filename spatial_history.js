@@ -4,7 +4,7 @@
 const clone=x=>JSON.parse(JSON.stringify(x));
 const angle=(a,b,u)=>a+Math.atan2(Math.sin(b-a),Math.cos(b-a))*u;
 class History {
- constructor(geometry,onReset=()=>{}){this.g=geometry;this.motion=M.create(geometry);this.onReset=onReset;this.reset(null);}
+ constructor(geometry,onReset=()=>{}){this.g=geometry;this.motion=M.create(geometry);this.vaultAdapter=M.motorAdapter(geometry);this.onReset=onReset;this.reset(null);}
  reset(epoch){this.epoch=epoch;this.hist=new Map();this.generations=new Map();this.offset=null;this.lastTick=-1;this.onReset();}
  world(manifest){if(manifest.worldEpoch!==this.epoch)this.reset(manifest.worldEpoch);}
  ingest(poses,nowMs){for(const p of poses){if(!P.validPose(p)||p.worldEpoch!==this.epoch)continue;const prior=this.generations.get(p.entityId);if(prior!=null&&p.generation<prior)continue;
@@ -27,9 +27,10 @@ class History {
   let body;try{body=this.motion.initialize({...a},'stand',shape);}catch{return null;}
   body.supportId=a.support;body.motionMode=a.mode;body.step=a.step?clone(a.step):null;
   if(a.mode==='step'&&!body.step)return null;
-  let traversal=null;if(a.link){const link=this.g.definition.traversalLinks.find(l=>l.id===a.link);if(!link||!a.traversal)return null;traversal={...clone(a.traversal),link};}
+  let traversal=null;if(a.link&&!a.vault){const link=this.g.definition.traversalLinks.find(l=>l.id===a.link);if(!link||!a.traversal)return null;traversal={...clone(a.traversal),link};}
+  let vault=a.vault?clone(a.vault):null;
   const n=b.tick-a.tick;if(n<=0||n>90)return null;const poses=[{...a}];
-  for(let i=0;i<n;i++){if(traversal){const target=traversal.link.corridor[Math.min(traversal.segment,traversal.link.corridor.length-1)],dx=target.x-body.x,dy=target.y-body.y,d=Math.hypot(dx,dy),v=Math.min(a.traversal.speed||172,d*60);if(d<1.8&&traversal.segment<traversal.link.corridor.length-1)traversal.segment++;this.motion.advanceTraversal(body,traversal,{x:d?dx/d*v:0,y:d?dy/d*v:0});}else this.motion.step(body);if(!this.valid(body,shape)||body.diagnostics.length)return null;poses.push({...body});}
+  for(let i=0;i<n;i++){if(vault){vault.t=Math.min(vault.dur,vault.t+M.POLICY.dt);if(!this.vaultAdapter.vault(body,vault,vault.t/vault.dur,M.POLICY.dt))return null;if(vault.t>=vault.dur-1e-8){body.vx=vault.nx*vault.exitSpeed;body.vy=vault.ny*vault.exitSpeed;body.vz=0;vault=null;}}else if(traversal){const target=traversal.link.corridor[Math.min(traversal.segment,traversal.link.corridor.length-1)],dx=target.x-body.x,dy=target.y-body.y,d=Math.hypot(dx,dy),v=Math.min(a.traversal.speed||172,d*60);if(d<1.8&&traversal.segment<traversal.link.corridor.length-1)traversal.segment++;this.motion.advanceTraversal(body,traversal,{x:d?dx/d*v:0,y:d?dy/d*v:0});}else this.motion.step(body);if(!this.valid(body,shape)||body.diagnostics.length)return null;poses.push({...body});}
   if(Math.hypot(body.x-b.x,body.y-b.y,body.z-b.z)>.2)return null;
   const t=Math.min(n,u*n),i=Math.min(n-1,Math.floor(t)),v=t-i,x=poses[i],y=poses[i+1],q={...a,x:x.x+(y.x-x.x)*v,y:x.y+(y.y-x.y)*v,z:x.z+(y.z-x.z)*v,yaw:angle(a.yaw,b.yaw,u)};
   const hit=this.g.sweep(shape,x,{x:q.x-x.x,y:q.y-x.y,z:q.z-x.z},'collision',0);return this.valid(q,shape)&&(!hit||hit.t>=1-1e-5)?q:null;
