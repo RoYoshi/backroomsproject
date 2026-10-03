@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: 4 == 5
+    at /workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/browser_runtime.js:21:651
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:502:9) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 4,
+  expected: 5,
+  operator: '==',
+  diff: 'simple'
+}

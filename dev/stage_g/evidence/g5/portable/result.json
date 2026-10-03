@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "archiveSha256": "5be4a13e56cff988de6d9ffdd18d4d3323f2b726c007365d2c2a641c25d64678",
+  "files": 1401,
+  "byteEqual": true,
+  "pathContainsSpaces": true,
+  "buildHashes": {
+    "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+    "sim.js": "5e1271b6e784513db9a0b2a5d95086ff8a47f7461ac17d13aa868ef1257181fa",
+    "ents.js": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28"
+  },
+  "checks": [
+    {
+      "name": "build-ai",
+      "exit": 0,
+      "seconds": 0.11450964100004057
+    },
+    {
+      "name": "build-sim",
+      "exit": 0,
+      "seconds": 0.11473689100057527
+    },
+    {
+      "name": "build-ents",
+      "exit": 0,
+      "seconds": 0.11529927599985967
+    },
+    {
+      "name": "physics25d",
+      "exit": 0,
+      "seconds": 48.972608813999614
+    },
+    {
+      "name": "stage-f-wire",
+      "exit": 0,
+      "seconds": 9.79775600099947
+    },
+    {
+      "name": "served-package",
+      "exit": 0,
+      "seconds": 0.3150232230000256
+    }
+  ],
+  "runtime": "v24.19.0",
+  "note": "Portable source candidate. Final package receives an additional exact tree/content check after publication."
+}

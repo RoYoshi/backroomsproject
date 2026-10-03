@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: 404 == 200
+    at /workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/browser_runtime.js:5:153
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 404,
+  expected: 200,
+  operator: '==',
+  diff: 'simple'
+}

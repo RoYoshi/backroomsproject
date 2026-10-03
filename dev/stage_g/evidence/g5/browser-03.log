@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: 4.263256414560601e-14 == 0
+    at /workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/browser_runtime.js:21:373 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 4.263256414560601e-14,
+  expected: 0,
+  operator: '==',
+  diff: 'simple'
+}

@@ -1,0 +1,96 @@
+[
+  {
+    "name": "stage-e",
+    "command": [
+      "node",
+      "dev/tests/run.js",
+      "s_nav25d.js",
+      "s_perception25d.js"
+    ],
+    "exit": 0,
+    "seconds": 12.435574477000046
+  },
+  {
+    "name": "spatial-core",
+    "command": [
+      "node",
+      "dev/stage_c/test_spatial.js"
+    ],
+    "exit": 0,
+    "seconds": 0.8190039239998441
+  },
+  {
+    "name": "adversarial",
+    "command": [
+      "node",
+      "dev/stage_c/test_adversarial.js"
+    ],
+    "exit": 0,
+    "seconds": 0.21488290699926438
+  },
+  {
+    "name": "schedules",
+    "command": [
+      "node",
+      "dev/stage_c/test_schedules.js"
+    ],
+    "exit": 0,
+    "seconds": 2.283698877000461
+  },
+  {
+    "name": "camera",
+    "command": [
+      "node",
+      "dev/stage_c/test_camera.js"
+    ],
+    "exit": 0,
+    "seconds": 0.1145550049996018
+  },
+  {
+    "name": "view",
+    "command": [
+      "node",
+      "dev/stage_d/test_view.js",
+      "/workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/evidence/g5/spatial/view.json"
+    ],
+    "exit": 0,
+    "seconds": 0.2146414310000182
+  },
+  {
+    "name": "independence",
+    "command": [
+      "node",
+      "dev/stage_d/test_independence.js",
+      "/workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/evidence/g5/spatial/independence.json"
+    ],
+    "exit": 0,
+    "seconds": 0.5181614349994561
+  },
+  {
+    "name": "protocol-unit",
+    "command": [
+      "node",
+      "dev/stage_f/test_f1.js"
+    ],
+    "exit": 0,
+    "seconds": 0.4202062449994628
+  },
+  {
+    "name": "authority",
+    "command": [
+      "node",
+      "dev/stage_f/test_f2.js"
+    ],
+    "exit": 0,
+    "seconds": 1.821658304000266
+  },
+  {
+    "name": "network25d",
+    "command": [
+      "node",
+      "dev/tests/network25d.js"
+    ],
+    "exit": 0,
+    "seconds": 119.5998882469994
+  }
+]

@@ -1,0 +1,14 @@
+browserType.launch: Executable doesn't exist at /tmp/stage-g-browsers/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     npx playwright install                                 ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+    at launch (/workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_d/browser_support.js:6:54)
+    at /workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/browser_runtime.js:4:16 {
+  log: [],
+  name: 'Error'
+}

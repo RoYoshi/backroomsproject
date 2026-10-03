@@ -1,0 +1,352 @@
+PASS walk 8 render schedules
+PASS ramp 8 render schedules
+PASS stairs 8 render schedules
+PASS drop 8 render schedules
+PASS exhaustion 8 render schedules
+PASS deep 8 render schedules
+PASS crouch 8 render schedules
+PASS crawl 8 render schedules
+PASS slide 8 render schedules
+PASS vault 8 render schedules
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "scenarios": [
+    {
+      "name": "walk",
+      "hash": "3b8bd57e11b6b0afd04f69e9a36e16d8a9fe5442cff1882b91f948f6db478f33",
+      "final": [
+        779.2463220146701,
+        500,
+        0.05,
+        171.99999999999994,
+        0,
+        0,
+        "support:ground",
+        "grounded",
+        100,
+        false,
+        "walk",
+        679.2480915207628,
+        240
+      ],
+      "states": [
+        "walk"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "ramp",
+      "hash": "82480a8527d7098bb41450451006ec8e3c032540d38dc253adc9933d83cde500",
+      "final": [
+        1236.7791265115204,
+        148,
+        116.83462576038775,
+        171.99999999999994,
+        0,
+        -351.99734872529933,
+        null,
+        "airborne",
+        100,
+        false,
+        "walk",
+        617.4680153703198,
+        240
+      ],
+      "states": [
+        "walk"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "stairs",
+      "hash": "c64eef1b14524e829d507d6c913926e04115b7ed5439d91fe05e328338701742",
+      "final": [
+        368,
+        523.8948578475668,
+        168.05,
+        0,
+        171.99999999999994,
+        0,
+        "support:tread-14",
+        "grounded",
+        100,
+        false,
+        "walk",
+        432.6038413072605,
+        240
+      ],
+      "states": [
+        "walk"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "drop",
+      "hash": "02f1f52b8c3e2510438fab1921fc3d5479cc9ea9006cfd55558df64b2e4c1135",
+      "final": [
+        880,
+        1339.246322014658,
+        -1837.312962970009,
+        0,
+        171.99999999999994,
+        -1847.44997426756,
+        null,
+        "airborne",
+        100,
+        false,
+        "walk",
+        240.82260599571143,
+        240
+      ],
+      "states": [
+        "walk"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "exhaustion",
+      "hash": "7df4c0c93dd524be465d6f3a470cf21ae80fce13946fc7162635f40b764b0d66",
+      "final": [
+        3762.162264509009,
+        500,
+        -70901.81132746386,
+        278.34969353903864,
+        0,
+        -11788.454020855792,
+        null,
+        "airborne",
+        27.96500000000004,
+        false,
+        "run",
+        1115.001250782616,
+        960
+      ],
+      "states": [
+        "run",
+        "walk"
+      ],
+      "ticks": 960,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "deep",
+      "hash": "95500c1f9e43920b525d5eae9725f5f57801584b52afe380227fe9df4a1fc7b6",
+      "final": [
+        1032.3177654913513,
+        500,
+        0.05,
+        236.54999999999993,
+        0,
+        0,
+        "support:ground",
+        "grounded",
+        42.00000000000094,
+        false,
+        "run",
+        932.3192000293772,
+        240
+      ],
+      "states": [
+        "run"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "crouch",
+      "hash": "3976af324bb61f9826ff7d2e7aa610068aad6dd2ce69b61c941be4ee9fc6e1de",
+      "final": [
+        461.6578655401461,
+        500,
+        0.05,
+        91.99999999999997,
+        0,
+        0,
+        "support:ground",
+        "grounded",
+        100,
+        false,
+        "crouch",
+        361.66208013096343,
+        240
+      ],
+      "states": [
+        "crouch"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "crawl",
+      "hash": "e62dc4e9f0ffa62ce6ba893859e987f34d8eb7c44536f21c234f93c5e7c5c716",
+      "final": [
+        334.8678271187909,
+        770,
+        0.05,
+        91.99473011729403,
+        0,
+        0,
+        "support:ground-south",
+        "grounded",
+        100,
+        false,
+        "crouch",
+        234.87636000693095,
+        240
+      ],
+      "states": [
+        "crawl",
+        "crouch"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "slide",
+      "hash": "b4b1cf4b43593cfb9b93e105a0d4912b21d2b0605834a3a15275bada64b5f632",
+      "final": [
+        690.9911022885656,
+        500,
+        0.05,
+        91.99999998612182,
+        0,
+        0,
+        "support:ground",
+        "grounded",
+        100,
+        false,
+        "crouch",
+        590.9923530707848,
+        240
+      ],
+      "states": [
+        "run",
+        "slide",
+        "crouch"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    },
+    {
+      "name": "vault",
+      "hash": "7167bf13cfbece46b08427c05509d4eec458889e8f084a01c8cf5f600d86e662",
+      "final": [
+        1271.3147395054182,
+        200,
+        -19.081565945290965,
+        284.9999999999999,
+        0,
+        -193.6436656665286,
+        null,
+        "airborne",
+        53.15000000000063,
+        false,
+        "run",
+        978.9207027666209,
+        240
+      ],
+      "states": [
+        "run",
+        "vault",
+        "walk"
+      ],
+      "ticks": 240,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360,
+        "jitter"
+      ]
+    }
+  ]
+}

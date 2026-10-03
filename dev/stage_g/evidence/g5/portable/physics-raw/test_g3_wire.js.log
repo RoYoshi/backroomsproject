@@ -1,0 +1,8 @@
+Z26/Z27 PASS real server: one canonical event, immediate corpse, duplicate/stale client results harmless, victim disconnect, active late state, eventual same settled corpse
+{"identity":{"worldEpoch":"b88048aa-666a-4278-aa03-8aeeb4f06c3f","victimId":"1","lifeGeneration":1,"deathSequence":1},"initialSubstep":4,"activeJoinSubstep":52,"settledSubstep":1228,"body":{"id":"[\"b88048aa-666a-4278-aa03-8aeeb4f06c3f\",\"1\",1,1]:body","x":979.1224246673298,"y":500.0845267246255,"z":0,"vx":0,"vy":0,"vz":0,"shape":{"id":"profile:death-body","radius":18,"height":18,"centerOffset":0,"maxStepRise":0},"support":"support:ground","normal":{"x":0,"y":0,"z":1},"stable":true,"sleeping":true,"mode":"grounded","revision":302,"yaw":1.5199891470324571,"angularVelocity":0,"tilt":{"x":0,"y":0},"contacts":[],"diagnostics":[],"role":"body"},"light":{"id":"[\"b88048aa-666a-4278-aa03-8aeeb4f06c3f\",\"1\",1,1]:light","x":983.8501470363198,"y":429.87809645601726,"z":7.0500000000036795,"vx":0,"vy":0,"vz":0,"shape":{"id":"profile:death-light","radius":7,"height":14,"centerOffset":7,"maxStepRise":0},"support":"support:ground","normal":{"x":0,"y":0,"z":1},"stable":true,"sleeping":true,"mode":"grounded","revision":110,"yaw":1.0256944157847148,"angularVelocity":0,"tilt":{"x":0,"y":0},"contacts":[],"diagnostics":[],"held":false,"role":"light"},"canonicalEventCount":1,"corpses":1}
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 37143
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 37143
+The Far Backrooms → http://localhost:37143  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room g3)
+[admin] room=g3 WANDERER#1: preview death hound A: ok
+
