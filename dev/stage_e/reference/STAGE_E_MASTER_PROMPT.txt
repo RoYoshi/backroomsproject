@@ -1,0 +1,1172 @@
+THE FAR BACKROOMS
+2.5D STAGE E — SURFACE NAVIGATION AND SENSORS
+MASTER IMPLEMENTATION PROMPT
+
+You are continuing the existing long-running project:
+
+THE FAR BACKROOMS / TheFarBackrooms.io
+
+This is NOT a new project.
+
+Read README_FIRST.txt, CURRENT_STATUS_AND_AUTHORITY.md, STAGE_D_ACCEPTANCE.md, the locked 2.5D architecture specification, the Stage D evidence, and the final Stage D ZIP before modifying anything.
+
+You are the implementation agent. The user remains final design authority. Architecture is locked unless a genuine implementation blocker requires an explicit amendment.
+
+==================================================
+0. CURRENT AUTHORITATIVE STATUS
+==================================================
+
+The following are complete / reviewed / locked:
+
+- Part 2 — Entity Intelligence, Perception & Threat
+- 2.5D World Architecture
+- Stage A — Contract and baseline fixtures
+- Stage B — Canonical geometry and flat adapter
+- Stage C — Spatial geometry and body motion
+- Stage D — Early spatial view prototype
+
+Stage D was independently reviewed after the engineering run and accepted for progression.
+
+Stage D final checkpoint:
+
+thefarbackrooms-level0-25d-stageD-spatial-view-prototype.zip
+
+Expected SHA-256:
+
+b52a40ca1d10216d113f5105c4f1e537dce2270b786f9b293e9d59467629c5de
+
+CAMERA-P01 remains locked at reference scale 1.25 / 1536 x 864 logical world units at 1920x1080. Do not retune it.
+
+Stage E is explicitly authorized.
+
+Stage F and later are NOT authorized.
+
+==================================================
+1. INPUT AUTHORITY ORDER
+==================================================
+
+Resolve instructions in this order:
+
+1. This Stage E master prompt
+2. CURRENT_STATUS_AND_AUTHORITY.md
+3. STAGE_D_ACCEPTANCE.md
+4. Locked 2.5D architecture specification
+5. Final approved Stage D checkpoint and Stage D evidence
+6. Embedded Stage C / B / A contracts in the Stage D package
+7. Locked Part 2 behavior/canon
+8. Older historical notes
+
+Do not silently reconcile a real contradiction by inventing a new design.
+If a true blocker conflicts with the locked architecture, stop that branch, document an explicit proposed amendment, and continue only with independent nonconflicting work.
+
+==================================================
+2. STAGE E PURPOSE
+==================================================
+
+Stage E is:
+
+SURFACE NAVIGATION AND SENSORS
+
+Its purpose is to make the EXISTING Hound and Smiler brains operate truthfully in the spatial Stage C/D world without changing what those brains want, know, prefer, fear, or are canonically capable of doing.
+
+Stage E must prove that actual Hound/Smiler logic can:
+
+- distinguish stacked traversable surfaces sharing the same XY
+- route across real ramps, stairs, legal drops, crawl passages and existing vaults
+- reject impossible reverse traversal and blocked/headroom-invalid paths
+- execute traversal physically rather than teleporting between endpoints
+- retain existing route commitment, steering, no-corner-cutting and clearance behavior
+- see only through physically clear XYZ geometry
+- remember observed XYZ without retaining hidden omniscient floor/support truth after LOS is lost
+- hear spatially with vertical uncertainty rather than perfect source-floor classification
+- evaluate visible light at the correct receiver elevation while keeping IR invisible to AI
+- require genuine physical XYZ contact for touch/capture instead of XY proximity through slabs
+- keep pack/group behavior physically possible without shared hidden-player floor knowledge
+- keep airborne/active-traversal motion alive across LOD changes
+- use valid spatial spawn/support placement in Stage E fixtures/adapters
+- preserve flat Level 0 behavior when observations and inputs are equivalent
+
+The central law is:
+
+**THE ENTITY PREDICTS. IT DOES NOT KNOW.**
+
+The pathfinder may know static map topology.
+The entity brain may NOT ask the real hidden player which floor/support/Z branch they chose.
+
+==================================================
+3. WHAT STAGE E IS NOT
+==================================================
+
+Do NOT turn Stage E into any of the following:
+
+- a replacement AI system
+- a Hound redesign
+- a Smiler redesign
+- new species traits or powers
+- free XYZ steering / flying monsters
+- a generic navmesh rewrite unrelated to the existing A*
+- a second independent pathfinding service
+- network/server spatial protocol migration (Stage F)
+- client-authoritative Z
+- spatial death/corpse/gear migration (Stage G)
+- broad production renderer conversion (Stage H)
+- graphics remaster
+- balance retuning
+- camera changes
+- Stage I full stress/release hardening
+
+Do not implement a fake fixture bot merely to satisfy Stage E tests.
+The actual generated AI engine and actual Hound/Smiler brains must make the decisions.
+
+==================================================
+4. MANDATORY PARENT PRE-FLIGHT
+==================================================
+
+Before editing:
+
+1. Verify the Stage D ZIP SHA-256 exactly matches:
+   b52a40ca1d10216d113f5105c4f1e537dce2270b786f9b293e9d59467629c5de
+2. Verify ZIP CRC.
+3. Extract cleanly into a new working directory.
+4. Inventory and hash the entire parent tree.
+5. Verify required modules exist, including:
+   - levels/level0.js
+   - world_geometry.js
+   - world_motion.js
+   - world_view.js
+   - move.js
+   - ai.js
+   - dev/ai_src/10_geo.js
+   - dev/ai_src/20_senses.js
+   - dev/ai_src/22_intelligence.js
+   - dev/ai_src/25_light.js
+   - dev/ai_src/30_entity.js
+   - dev/ai_src/40_capture.js
+   - dev/ai_src/50_hound.js
+   - dev/ai_src/60_smiler.js
+   - dev/ai_src/90_engine.js
+   - dev/fixtures/world_25d.js
+   - dev/tests/s_nav25d.js
+   - dev/tests/s_perception25d.js
+   - redirect.js
+   - server.js
+6. Read the embedded Stage D report/test/parity/failure/view docs.
+7. Confirm runtime provenance before claiming byte-exact trace parity. Do not dismiss a runtime-metadata mismatch.
+8. Run a bounded healthy-parent preflight.
+
+At minimum preflight must confirm:
+
+- Stage D focused view suite passes
+- Stage C spatial core passes (21 groups expected from accepted parent)
+- Stage C adversarial spatial checks pass (54 expected)
+- CAMERA-P01 policy passes (315 combinations expected)
+- Hound retained suite passes
+- Smiler/shared retained suites have only the documented inherited state
+- flat Level 0 traces/maps/nav/query/seed parity remain intact under the authoritative runtime
+- required build scripts reproduce
+- actual HTTP serving still exposes the expected public modules and protects internal paths
+
+Do not rebuild Stage D from Stage C.
+Do not reopen Stage C physics or Stage D projection because Stage E is difficult.
+
+==================================================
+5. PRESERVE THE EXISTING NAVIGATION SYSTEM
+==================================================
+
+Navigation authority remains in the existing AI navigation path centered on:
+
+dev/ai_src/10_geo.js
+
+Keep the existing fundamentals:
+
+- 48-unit cell size for existing Level 0 navigation
+- current A* implementation model
+- current capability classes
+- existing clearance preferences
+- existing no-diagonal-corner-cutting rule
+- current wall-distance costs in flat mode
+- route commitment / hysteresis
+- existing steering and carrot behavior
+- existing vault eligibility and speed modifiers
+- existing stuck recovery semantics
+
+Do NOT discard these and introduce unrelated unconstrained XYZ steering.
+Do NOT add a second pathfinding state owner just because spatial maps are new.
+
+Small deterministic helpers are allowed where ownership remains clear.
+
+==================================================
+6. NAVSURFACE MODEL — LOCKED
+==================================================
+
+In spatial mode, extend the graph to surface-local nodes.
+
+Conceptual node identity:
+
+(navSurfaceId, localCellId)
+
+A NavSurface is a connected walkable sheet/chart with unambiguous support traversal.
+
+Requirements:
+
+- two unrelated floors sharing identical XY MUST be separate nav surfaces
+- a stair run may be its own chart connected to landings
+- a ramp may be represented as a connected sloped sheet
+- triangulation/support seams must not become thousands of artificial gameplay actions
+- allocate cells only over occupied sheets/chunks, not every possible Z layer across the whole map
+- stable deterministic IDs
+- cells carry physical support references, clearance metadata and relevant material/cost inputs
+- local cell centers have actual XYZ support positions, not inferred floor numbers
+
+Flatten composite spatial nodes into the existing typed-array A* workspace at compile time where practical. One search must be able to cross local edges and traversal edges.
+
+Do not introduce a hierarchical planner unless profiling proves it necessary and an explicit amendment is documented.
+
+==================================================
+7. TRAVERSAL LINKS — LOCKED
+==================================================
+
+Implement explicit deterministic TraversalLink semantics over real geometry.
+
+Required link classes for the Stage E fixture where applicable:
+
+1. WALK SEAM
+   - adjacent compatible sheets
+   - continuous body-clear support
+   - bidirectional only if both directions fit
+
+2. RAMP
+   - real supported slope corridor
+   - obey profile slope and clearance limits
+   - no endpoint teleport
+
+3. STAIRS / ASSISTED STEP
+   - actual tread/riser sequence
+   - uphill step/headroom rules
+   - downhill behavior validated separately
+   - finite physical motion
+
+4. DROP
+   - explicit departure edge and reachable landing region
+   - normally one-way
+   - reverse requires its own physically legal link
+   - pathfinder may not invent jumping/climbing
+
+5. CRAWL / LOW PASSAGE
+   - real low-clearance volume
+   - requires a species/profile capability already present in the existing game
+   - safe entry/exit and posture space
+   - no Smiler crawl/tight-gap power if it did not already have one
+
+6. VAULT
+   - existing prop/traversal semantics plus real XYZ swept trajectory/landing
+   - preserve current species eligibility and speed multipliers
+   - physical collision may interrupt it
+
+Every link needs more than two magic points. Treat entry/exit as portal regions/corridors wide enough for the actor and backed by physical geometry.
+
+A query may discover geometry and apply existing capability rules. It may NOT invent a new species behavior.
+
+==================================================
+8. PATH COSTS, HEURISTIC AND CACHE IDENTITY
+==================================================
+
+Flat Level 0 cost behavior must remain exact.
+
+Spatial mode must use existing cost semantics plus real traversal distance/duration and current species modifiers.
+
+A* heuristic MUST remain admissible.
+
+Do not simply add Z to the heuristic if a traversal link could be cheaper than that 3D straight-line value.
+
+The existing XY octile lower bound is acceptable only if every spatial edge still costs at least its XY lower-bound distance. Otherwise use a conservative scaled lower bound or zero.
+
+Goal/path cache identity in spatial mode must include enough truth to avoid cross-floor reuse, including at least:
+
+- world geometry revision
+- topology/nav revision
+- start surface
+- goal surface or bounded candidate surface set
+- relevant body clearance/capability profile
+
+The current rounded XY-only goalKey is insufficient for stacked floors.
+
+An observed target changing to a different surface must invalidate a route even when XY is unchanged.
+A target moving slightly on the same sheet must retain existing route commitment/hysteresis.
+
+==================================================
+9. SNAP, SMOOTHING AND ROUTE FOLLOWING
+==================================================
+
+Spatial snapping must accept a full pose/support context or bounded candidate set.
+
+It MUST NOT:
+
+- choose the nearest/highest floor from XY alone
+- snap through a slab
+- promote an actor to an upper story because the upper cell is close in XY
+
+Waypoints in spatial mode must carry enough data to preserve support/traversal semantics, including real XYZ or resolvable support/patch identity.
+
+Do not append raw goal XY after A* if doing so bypasses slab/headroom checks.
+
+Path smoothing/direct pursuit may remove intermediate points ONLY when a real supported physical trace proves:
+
+- continuous legal support
+- required body clearance
+- no illegal drop
+- no floor switch through a slab
+- no skipped stair/crawl/vault transition
+
+Stage C intentionally left `traceSupportMotion` deferred for a later consumer. Stage E is authorized to implement the minimum correct spatial support-trace/contact query needed by navigation and sensors. Keep ownership in the shared geometry/motion boundary; do not duplicate physics logic inside AI.
+
+Traversal execution must be physical and continuous through Stage C world-motion/geometry semantics. A timer completing is never permission to write the actor directly to the destination pose.
+
+Interrupted traversal retains the actual current pose and physical state.
+
+==================================================
+10. SPECIES CAPABILITIES MUST NOT CHANGE
+==================================================
+
+Stage E spatializes existing capabilities. It does not grant new ones.
+
+Required examples:
+
+- Hound existing crawl/vault behavior remains possible where its CURRENT capability allows it and geometry physically fits.
+- Smiler gains no crawl/tight-gap behavior merely because a NavSurface exists.
+- Neither species gains flight, free jumping, climbing, levitation or teleportation.
+- Darkness/cutaway/lost LOS is never permission to pass through a ceiling or slab.
+
+Preserve the provisional Stage C collision envelope profiles and architecture-defined fit heights unless a separate explicit tuning decision exists. Do not turn them into visible anatomy.
+
+==================================================
+11. ACTUAL BRAIN INTEGRATION — DO NOT BUILD FIXTURE BOTS
+==================================================
+
+The Stage E acceptance fixtures must run the actual generated AI engine and actual species logic.
+
+The Hound retains its existing state machine, target commitment, search behavior, evidence arbitration, search/head-look polish, memory, caution, pack behavior and RNG streams.
+
+The Smiler retains its existing states, light behavior, gaze/hold/release semantics, watchdog/group behavior and visual/canon constraints.
+
+A physical layer change alone must NOT reset:
+
+- state
+- target
+- memory
+- evidence
+- search progress
+- RNG stream
+
+The graph answers:
+
+"Can this body physically get there?"
+
+The species brain still answers:
+
+"Why would I go there?"
+
+==================================================
+12. OBSERVATION BOUNDARY — MOST IMPORTANT STAGE E RULE
+==================================================
+
+Extend legitimate observations with spatial information WITHOUT attaching hidden world truth to memory.
+
+Allowed spatial content:
+
+DIRECT SIGHT
+- visible world XYZ
+- observed velocity XYZ where legitimately inferable
+- observed posture
+- support candidate only when visible/geometrically inferable
+- explicit UNKNOWN support if the visible fragment does not determine it
+
+ATTRIBUTED MEMORY
+- last observed XYZ
+- last observed velocity
+- observed support candidate set
+- timestamps
+- prediction constrained by remembered geometry
+
+ANONYMOUS SOUND
+- estimated point/region
+- vertical interval and/or bounded candidate spaces/surfaces
+- confidence/uncertainty
+- NO automatic real source support/floor from the server event
+
+VISIBLE LIGHT LEAD
+- observed illuminated surface/beam/source position
+- channel
+- uncertainty
+- existing attribution rules
+- seeing light below a stair opening does not prove the owner's exact floor/identity
+
+PHYSICAL CONTACT
+- actual contact point/proxies through the explicit physics boundary
+- contact is NOT a continuous hidden-player tracker
+
+The true player's hidden `supportId`, floor, exact Z or actual route MUST NOT remain attached as convenient metadata after LOS/evidence no longer supports it.
+
+==================================================
+13. MEMORY / EVIDENCE LIMITS MUST REMAIN BOUNDED
+==================================================
+
+Extend the existing evidence model rather than replacing it.
+
+Keep existing total bounds from the locked architecture/Part 2:
+
+- 16 identity records
+- 8 sounds
+- 6 leads
+- 4 evidence entries per identity record
+- 6 habit observations
+- 3 hypotheses
+- current TTLs and decay behavior
+
+Where elevation is uncertain, use bounded uncertainty such as:
+
+- zMin / zMax
+- bounded support candidate list
+
+Cap support candidates at four.
+
+Overflow becomes an unresolved vertical region. It does NOT become "nearest floor."
+
+Do not merge leads from sealed stories merely because their XY uncertainty overlaps.
+Do not let vertical uncertainty create unbounded hypothesis explosion.
+Do not consume additional RNG draws merely because data sorting/chunk traversal order changed.
+
+==================================================
+14. EQUAL EVIDENCE MUST PRODUCE EQUAL DECISIONS
+==================================================
+
+This is a hard acceptance gate.
+
+Create a deterministic scenario where:
+
+1. the target is legitimately observed
+2. the target breaks LOS at a branch
+3. the hidden target can choose different valid floors/routes
+4. the entity receives IDENTICAL legitimate observations in both branches
+
+Until new legitimate evidence differs:
+
+- the brain decision sequence must match
+- RNG consumption must match
+- target commitment must match
+- search budget/timing must match
+- branch choice may be based on remembered geometry/hypotheses, but not the hidden true player support/Z
+
+The test must fail if the engine secretly reads the real hidden player's floor/support to choose the correct route.
+
+Do NOT script the Hound state/decision outcome to make the test pass. Drive only player/environment inputs and let the real brain decide.
+
+==================================================
+15. SIGHT AND GAZE — TRUE XYZ
+==================================================
+
+Spatial sight must use real 3D receiver/emitter positions.
+
+Requirements:
+
+- measure current body-range thresholds using world-root distance so flat Z=0 exactly reduces to the old XY distance
+- trace from explicit eye point to a bounded set of target visibility samples appropriate to posture
+- require physical clear segments through shared geometry
+- floors/ceilings/slabs block sight
+- stairwell/open portals may allow sight
+- nearby-awareness floors do not bypass solid geometry
+- preserve existing visibility weighting and species thresholds
+
+Keep flat yaw/FOV behavior exact.
+
+Spatial aim/look may include pitch derived only from legitimate gaze/observation geometry.
+Screen-space overlap through a ceiling cannot create eye contact.
+
+Preserve existing Hound intimidation and Smiler hold/release timers when legitimate observations are equivalent.
+
+==================================================
+16. VISIBLE LIGHT AND IR — DO NOT MERGE CHANNELS
+==================================================
+
+AI visible-light sensing becomes height-aware.
+
+Requirements:
+
+- receiver position is actual XYZ
+- slabs/geometry occlude light appropriately
+- stair/opening paths may allow light where geometry does
+- upper floors must not inherit lower lamps from an XY-only cache
+- cache keys, if used, include enough receiver surface/height/geometry/light revision state to prevent cross-floor contamination
+- world light failures/blackouts remain authoritative
+
+IR remains absent from Hound and Smiler evidence.
+
+Camcorder IR/NV changes local client presentation only.
+
+Hard Stage E test:
+
+With otherwise identical legitimate observations, IR OFF versus HIGH must produce identical monster decisions/RNG.
+
+Do not allow glowing eyes, debug overlays or cutaway to bypass physical LOS.
+
+==================================================
+17. SOUND — SPATIAL BUT UNCERTAIN
+==================================================
+
+The flat adapter must retain the current distance/LOS attenuation exactly.
+
+For spatial fixtures, implement a bounded sound propagation abstraction through connected air spaces/open portals.
+
+Requirements:
+
+- one best propagation route plus deterministic tie handling is sufficient
+- accumulate path distance and material transmission/occlusion
+- a directly blocked ray does not prove sound cannot travel around a stairwell/opening
+- sound through a slab, if authored/transmitted, is attenuated and vertically uncertain
+- no full wave simulation
+- no universal "sound goes through every ceiling" rule
+
+The propagation query may internally know the true source geometry because a sensor query must evaluate physics.
+
+But the observation delivered to the entity brain exposes only legitimate perceptual output:
+
+- estimated bearing/region
+- intensity/confidence
+- vertical interval/candidate region
+- attribution only under the existing Part 2 rules
+
+It must NOT expose the hidden event source's true supportId/floor/Z simply because the server event contained it.
+
+Create an explicit above/below ambiguity test with an opening route versus a closed slab route.
+
+==================================================
+18. PHYSICAL CONTACT AND CAPTURE BOUNDARY
+==================================================
+
+Stage E must eliminate planar contact through floors.
+
+The existing `touching` / capture/contact boundary must require compatible XYZ physical proxies and an unobstructed legal contact path.
+
+Same surface ID alone is too strict at a continuous seam/ramp.
+Same XY distance alone is too permissive across slabs.
+
+Use shared spatial geometry/contact semantics.
+
+Required tests include:
+
+- same XY on two sealed floors -> NO touch/capture/separation
+- valid nearby same/continuous support -> existing contact behavior retained
+- contact across an open stair/ramp seam works where physical proxies genuinely reach
+- geometry obstruction wins over authored desire to capture
+
+Do not migrate Stage G death/drag aftermath. Only the live physical interaction/contact boundary needed by existing species behavior is authorized.
+
+==================================================
+19. GROUP / PACK SPATIALIZATION
+==================================================
+
+Preserve existing Hound pack and Smiler group rules.
+
+Make physical distance/contact/route feasibility spatial where required so actors separated by sealed floors do not behave as if touching or trivially co-located.
+
+Do NOT create shared omniscient player-floor knowledge.
+
+A pack member may share only what existing rules already permit. It may not inject a target's hidden support/Z discovered from another system's world truth unless that knowledge is legitimately represented by the existing social/evidence law.
+
+Flat group/watchdog traces must remain unchanged.
+
+==================================================
+20. SPAWN AND PLACEMENT — STAGE E BOUNDARY
+==================================================
+
+Spatial Stage E fixtures/adapters must place entities on valid support with legal clearance.
+
+Do not use "highest floor at XY."
+Do not spawn inside ceilings/slabs.
+Do not spawn on a surface the species cannot physically occupy.
+
+This is NOT a director rebalance and NOT a new Level 0 spawn design.
+
+Flat Level 0 spawn behavior remains exact.
+
+Do NOT change the production network spawn protocol; Stage F owns protocol/authority migration.
+
+==================================================
+21. LOD / SLEEP — NO PHYSICS CHEATS
+==================================================
+
+Current near/mid/far behavior may remain cheaper, but spatial correctness is mandatory.
+
+An entity must NOT sleep/teleport/skip physical resolution while:
+
+- airborne
+- falling
+- executing an active traversal link
+- actively captured/in a physical live interaction where the existing system requires fixed updates
+
+Airborne/active-traversal physical motion remains fixed-tick.
+
+Far/coarse logic may reduce thinking/perception only where the architecture permits.
+
+No observer leaving range may cause:
+
+- skipped landing
+- link endpoint teleport
+- floor promotion
+- geometry penetration
+
+Preserve existing Hound listening exemption and Smiler watchdog semantics.
+
+==================================================
+22. STUCK RECOVERY — SPATIAL PROGRESS
+==================================================
+
+Retain the existing stuck recovery ladder.
+
+Spatial stuck detection must evaluate attempted physical progress along the current route/traversal, including Z where relevant, rather than only distance from an old XY point.
+
+Do not treat deliberate Hound listening as being stuck.
+Do not use watchdog reset as permission to snap to another floor.
+
+Any emergency fallback must choose a safe physically valid state and record a diagnostic; it must never place an entity through geometry.
+
+==================================================
+23. LEVEL 0 FLAT COMPATIBILITY IS A HARD GATE
+==================================================
+
+The existing Level 0 remains `flat-compat` for this stage unless its canonical data explicitly says otherwise.
+
+Stage E must NOT use Level 0 as an excuse to introduce showcase vertical geometry.
+
+When using the flat adapter:
+
+- movement remains unchanged
+- navigation costs/routes remain unchanged
+- light/perception remains unchanged
+- Hound decisions remain unchanged for equal inputs
+- Smiler decisions remain unchanged for equal inputs
+- evidence timing/RNG remains unchanged
+- camera remains CAMERA-P01
+- deaths remain unchanged
+- network format remains unchanged
+
+Do NOT regenerate baseline traces.
+
+The accepted reference traces remain the authority.
+
+==================================================
+24. NETWORK / PROTOCOL BOUNDARY — STAGE F IS NOT AUTHORIZED
+==================================================
+
+Stage E may carry spatial fields inside local/shared simulation structures needed for synthetic fixtures and AI reasoning.
+
+Stage E MUST NOT migrate the production wire protocol to authoritative Z.
+
+Do not add or redefine production wire movement claims such as:
+
+- client-authored support IDs
+- client-authored traversal completion
+- trusted client Z
+- new spatial handshake/epoch semantics
+- new correction/reconciliation protocol
+
+Those belong to Stage F.
+
+Do not alter HOUND.snap / SMILER.snap or production entity replication schema to sneak Stage F into this stage unless a field already exists and is unchanged.
+
+Synthetic/local Stage E test snapshots may carry XYZ privately to exercise the AI.
+
+==================================================
+25. STAGE D VIEW BOUNDARY MUST SURVIVE
+==================================================
+
+Stage E does not broaden the renderer.
+
+Preserve:
+
+- `world_view.js` presentation-only ownership
+- physical visibility versus cutaway separation
+- independent local cutaway states
+- camera fairness
+- Stage D fixture behavior
+- no cross-floor reveal in the established browser tests
+
+Do not feed GPU visibility results into authoritative AI sensing.
+Server/shared AI sensor geometry remains CPU/shared-geometry truth.
+
+If Stage E modifies shared geometry helpers used by Stage D, rerun the actual browser Stage D core/extended regressions and prove no reveal/cutaway regression.
+
+==================================================
+26. REQUIRED STAGE E TEST ACTIVATION
+==================================================
+
+Stage A intentionally left future Stage E gates as NOT IMPLEMENTED placeholders.
+
+Stage E must replace the relevant placeholders with REAL objective tests, without editing the frozen Stage A future-matrix authority merely to make them green.
+
+At minimum activate and satisfy:
+
+Z10 — Allowed/forbidden traversal per species
+Required:
+Real Hound crawl/vault remains possible where valid; Smiler gains no crawl/tight-gap/teleport ability.
+
+Z11 — A* with stacked endpoints and one-way drop
+Required:
+Finds connected route; rejects impossible reverse; no XY-only snap/cache reuse/shortcut across unsupported gap.
+
+Z12 — Target visible, then hides and chooses different floors
+Required:
+With identical legitimate observations, decisions/RNG match until new evidence differs. Hidden true support/Z cannot select the branch.
+
+Z13 — Ambiguous sound from above/below
+Required:
+Anonymous identity and vertical uncertainty preserved; no source-ID or true-floor leak. Door/stairwell and slab attenuation differ only by geometry/material.
+
+Z14 — Visible lamp/flashlight/IR on another story
+Stage E portion required:
+Z-aware AI light occlusion/receiver height; visible-light rules retained; IR OFF/HIGH produces identical monster decisions under otherwise identical observations. Broad presentation integration remains Stage H.
+
+Z15 — Gaze through a floor versus through a clear opening
+Required:
+Physical LOS required; existing Hound intimidation and Smiler hold/release timers unchanged when observations are equal.
+
+Z16 — Pack/group members on different surfaces
+Required:
+No impossible physical grouping/contact; no new shared hidden-player knowledge; flat group/watchdog traces unchanged.
+
+Z17 — Near/mid/far LOD with airborne mover
+Stage E portion required:
+Fall/traversal continues at fixed ticks; no sleep in midair, link teleport or skipped landing because an observer leaves.
+
+Also add focused tests for Stage E obligations not fully captured by Z10–Z17, including:
+
+- spatial snap with same XY/different floor
+- route cache identity includes surface/topology/capability context
+- smoothing cannot skip floors/traversal links
+- route interruption preserves physical pose
+- same-XY cross-floor contact/capture rejection
+- spawn/support validity
+- deterministic support/link ordering under permuted static input order
+- world Z translation invariance for relative nav/perception outcomes where appropriate
+
+==================================================
+27. TESTS MUST USE REAL SYSTEMS
+==================================================
+
+Do not satisfy Stage E with formula-only miniature models that bypass the game.
+
+The authoritative tests must exercise the real components they claim to validate:
+
+- actual `world_geometry.js`
+- actual `world_motion.js` for physical traversal where applicable
+- actual `dev/ai_src/10_geo.js` / generated `ai.js`
+- actual Hound brain
+- actual Smiler brain
+- actual evidence/memory logic
+- actual sensor/light logic
+- actual route following/steering
+
+Test drivers may supply player/environment inputs.
+They may NOT dictate the species state transitions/decisions being tested.
+
+When testing equal-evidence behavior, record exact decision/RNG traces and first divergent tick if a failure occurs.
+
+==================================================
+28. DETERMINISM AND RNG
+==================================================
+
+Preserve integer/fixed simulation tick semantics.
+
+Do not consume new RNG draws because of:
+
+- static input order
+- map iteration order
+- geometry chunk ordering
+- view/render state
+- sorting artifacts
+- cache traversal order
+
+Spatial alternatives that are legitimately indistinguishable must use deterministic tie ordering before any existing RNG choice is reached.
+
+Equal observations with the same seed must produce equal species decisions and RNG progression.
+
+Geometry/rendering itself should not consume species behavior RNG.
+
+==================================================
+29. PERFORMANCE / BOUNDEDNESS — STAGE E EVIDENCE
+==================================================
+
+Stage E is not final Stage I stress certification, but the new systems must be bounded and instrumented.
+
+Record at minimum:
+
+NAVIGATION
+- plans requested
+- nodes expanded
+- traversal-edge checks
+- route-cache hits/misses
+- max/median/p95 plan cost/time for the Stage E fixture
+
+SIGHT / LIGHT
+- candidate actors evaluated
+- physical rays issued
+- receiver/light cache hits/misses if caches are added
+
+SOUND
+- propagation route queries
+- nodes/portals expanded
+- cache hits/misses if used
+- candidate surface/vertical alternatives emitted to belief
+
+EVIDENCE
+- record/lead/hypothesis counts proving caps remain respected
+
+Do not hide an O(pixels), unbounded-floor, or all-surfaces-per-entity-per-tick algorithm behind a small fixture.
+Preserve existing AI perception cadence/candidate limits.
+
+Run a repeatable multi-surface synthetic workload sufficient to expose accidental combinatorial growth. A final 64-Hound/64-Smiler production ceiling certification belongs to Stage I; a bounded diagnostic run is acceptable here if useful.
+
+Report p99/worst-step where the harness supports it.
+
+Do not lower physical correctness to improve a benchmark.
+
+==================================================
+30. RETAINED REGRESSION GATES
+==================================================
+
+After focused Stage E tests pass, rerun the accepted regressions.
+
+At minimum include:
+
+- Stage E nav25d focused suite
+- Stage E perception25d focused suite
+- Stage C spatial core
+- Stage C adversarial suite
+- Stage C schedule/FPS spatial scenarios
+- CAMERA-P01 suite
+- Stage D focused view suite
+- Stage D simulation/view-independence suite
+- actual Stage D browser core regression
+- actual flat production browser parity regression if supported by the retained harness
+- Hound suite
+- shared suite
+- human-QA automation suite
+- FPS suite
+- camera suite
+- entity-look suite
+- physics suite
+- interpolation suite
+- navigation benchmark/suite
+- audit-net / audit-net2
+- live
+- IR-net
+- existing Hound/Shared/Smiler/Light performance suites
+- aggregate npm test
+
+Expected inherited state from accepted Stage D:
+
+- aggregate: 151/162
+- exactly the same 11 inherited failures unless an independently authorized baseline investigation changes one
+- P08 remains UNKNOWN / NEEDS INVESTIGATION
+- F22 remains historical guard context
+
+A new unexplained failure is a Stage E regression.
+
+Do not delete assertions, weaken thresholds, rewrite expected traces, or regenerate baselines to force green.
+
+==================================================
+31. BROWSER REGRESSION POLICY
+==================================================
+
+Stage E's core deliverable is AI/navigation/sensing, not new rendering.
+
+However Stage D has already established a real-browser gate and Stage E touches shared geometry/AI build surfaces.
+
+Therefore:
+
+- rerun the actual served Stage D core browser regression before final Stage E packaging
+- rerun flat production browser parity where the existing harness supports it
+- verify zero script/network errors in the retained browser tests
+
+Do NOT claim browser PASS from HTTP/static checks alone.
+
+If the supported browser becomes unavailable unexpectedly, record this as BLOCKED with exact diagnostics rather than fabricating a pass. Do not broaden Stage E into browser-install infrastructure unless necessary to reproduce the already-established Stage D environment.
+
+==================================================
+32. EARLY RECOVERY CHECKPOINT — MANDATORY
+==================================================
+
+This rule exists because a previous long Astra run lost an otherwise-good workspace.
+
+AFTER:
+
+- core Stage E navigation implementation is present
+- core Stage E sensor/evidence integration is present
+- focused Z10–Z17 Stage E tests are substantially passing
+- the worktree is coherent/buildable
+
+BUT BEFORE:
+
+- long inherited regression suites
+- long browser suites
+- broad performance runs
+- final packaging
+
+create and EXTERNALLY SAVE:
+
+thefarbackrooms-level0-25d-stageE-WORKING-CHECKPOINT.zip
+
+plus:
+
+25D_STAGE_E_WORKING_SHA256.txt
+25D_STAGE_E_WORKING_STATUS.md
+
+The status file must record:
+
+- immutable Stage D parent SHA
+- exact current checkpoint SHA
+- implemented Stage E pieces
+- focused tests run/results
+- known failures/limitations
+- files changed so far
+- statement that Stage F has not begun
+
+Verify checkpoint CRC and clean extraction before continuing.
+
+Do not leave the only recovery copy inside an ephemeral worktree.
+
+==================================================
+33. FINAL SCOPE AUDIT
+==================================================
+
+Before final packaging, compare the entire final tree against the immutable Stage D parent manifest.
+
+Report:
+
+- original parent files changed
+- original parent files deleted
+- new files
+- byte-identical original count
+
+Deleted original files should be zero unless explicitly justified.
+
+Expected Stage E change areas may include the existing AI/navigation/sensor sources, generated `ai.js`, shared geometry/motion helpers required for Stage E queries, Stage E fixtures/tests/evidence and narrowly necessary adapters.
+
+Do not casually modify:
+
+- CAMERA-P01 policy
+- Stage D renderer/projection/cutaway code
+- production network protocol
+- death system
+- entity art
+- Level 0 canonical layout
+- unrelated UI
+
+Every modified original needs a reason in the report.
+
+==================================================
+34. FINAL PACKAGE / PORTABILITY
+==================================================
+
+Final package name:
+
+thefarbackrooms-level0-25d-stageE-surface-nav-sensors.zip
+
+Permanent project packaging rule:
+
+`redirect.js` MUST exist at the project root.
+
+Normal game start:
+
+node server.js
+
+Render redirect service:
+
+node redirect.js
+
+Before finalizing:
+
+- ZIP CRC passes
+- clean extraction passes
+- clean extraction into a path containing spaces passes
+- required build scripts reproduce generated outputs
+- required runtime modules HTTP 200 where public
+- internal/source paths remain protected according to existing policy
+- no nested temporary archives/workspaces in the final game ZIP
+- no absolute original-machine paths
+
+Generate the final ZIP once from the completed verified tree, then hash it externally so archive identity is not circular.
+
+==================================================
+35. REQUIRED FINAL DELIVERABLES
+==================================================
+
+Return the final Stage E ZIP plus separate external evidence files:
+
+1. `thefarbackrooms-level0-25d-stageE-surface-nav-sensors.zip`
+2. `25D_STAGE_E_SHA256.txt`
+3. `25D_STAGE_E_PACKAGE_VERIFICATION.json`
+4. `25D_STAGE_E_REPORT.md`
+5. `25D_STAGE_E_TEST_SUMMARY.md`
+6. `25D_STAGE_E_BASELINE_FAILURES.md`
+7. `25D_STAGE_E_PARITY.md`
+8. `25D_STAGE_E_CHANGED_FILES.txt`
+9. `25D_STAGE_E_HUMAN_QA.md`
+10. `25D_STAGE_E_NAVIGATION.md`
+11. `25D_STAGE_E_PERCEPTION.md`
+
+The final ZIP itself should contain the non-circular internal reports/evidence needed to audit the build. Final ZIP checksum/package-verification identity should remain external if including them would create circular identity.
+
+Preserve the externally saved working checkpoint artifacts separately as recovery history; do not nest them inside the final game ZIP unless explicitly requested.
+
+==================================================
+36. REPORT CONTENT — REQUIRED
+==================================================
+
+`25D_STAGE_E_NAVIGATION.md` must describe:
+
+- NavSurface representation
+- composite node identity and typed-array mapping
+- surface compilation
+- traversal link generation/authoring
+- species capability gates
+- heuristic admissibility
+- route cache identity
+- smoothing/direct-route proof
+- physical traversal execution
+- interruption behavior
+- stuck recovery
+- spawn/LOD spatial behavior
+- measured planning/query budgets
+
+`25D_STAGE_E_PERCEPTION.md` must describe:
+
+- observation boundary
+- exact allowed spatial memory fields
+- support/Z uncertainty representation
+- sight sample/raycast rules
+- gaze/eye-contact spatialization
+- visible-light receiver/occlusion semantics
+- explicit IR separation
+- sound propagation abstraction and uncertainty
+- physical contact boundary
+- group/pack information boundary
+- equal-evidence/hidden-floor proof
+- evidence cap preservation
+- ray/query instrumentation
+
+`25D_STAGE_E_PARITY.md` must identify:
+
+- flat Level 0 behavior parity
+- exact trace parity status/runtime provenance
+- Hound/Smiler decision parity where observations are equivalent
+- CAMERA-P01 unchanged
+- Stage D view behavior unchanged
+- network protocol unchanged
+- death system unchanged
+
+`25D_STAGE_E_BASELINE_FAILURES.md` must preserve and classify all inherited failures and explicitly state the status of P08/F22/L5c.
+
+==================================================
+37. HUMAN QA CHECKLIST — DO NOT OVERCLAIM
+==================================================
+
+Provide a practical checklist for later human QA, but do not claim subjective gameplay proof from automation.
+
+Useful Stage E human checks include:
+
+- Hound visibly uses stairs/ramp naturally when given a legitimate route
+- Hound does not appear to "know" which hidden floor the player chose without evidence
+- Smiler does not gain crawl/teleport behavior
+- eye contact through a floor does not trigger
+- eye contact through a genuine opening behaves like the existing game
+- sounds above/below feel uncertain rather than magically exact
+- Hound/Smiler flat Level 0 feel unchanged
+- no new route jitter/repath storm
+- no entity snapping between floors
+- no entity sleeping/freeze while falling/traversing
+
+If the isolated Stage E fixture is not exposed as a polished playable human scene, state that clearly. Do not fabricate subjective QA.
+
+==================================================
+38. HARD REJECTION CONDITIONS
+==================================================
+
+Stage E is NOT acceptable if any of these occur:
+
+- Hound/Smiler brains replaced with simplified fixture bots
+- hidden player support/Z/floor is read after loss of legitimate evidence
+- same XY across floors causes contact/capture
+- A* can reuse a route across different surfaces by XY-only cache identity
+- path smoothing crosses a slab/drop/stair transition without physical proof
+- traversal completes by endpoint teleport
+- Smiler gains crawl/tight-gap/flight/teleport powers
+- IR reaches monster evidence
+- cutaway/GPU visibility becomes AI sensor truth
+- Level 0 flat behavior is silently retuned
+- network Z/protocol Stage F work is smuggled in
+- death/corpse Stage G work begins
+- Stage D renderer is broadly rewritten
+- inherited tests/traces are weakened or regenerated
+- Stage E final package lacks `redirect.js`
+- long validation begins before the required external working checkpoint exists
+
+==================================================
+39. SUCCESS CRITERIA
+==================================================
+
+Stage E engineering success means all of the following are demonstrated:
+
+1. real surface-local navigation exists on the synthetic spatial fixture
+2. stacked same-XY endpoints route by surface identity rather than XY accident
+3. legal ramps/stairs/crawl/vault/drop traversal works under existing species capability rules
+4. illegal reverse/unreachable routes fail cleanly
+5. actual Hound and Smiler brains consume the spatial nav/sensor adapters
+6. physical sight/gaze respects floors/ceilings/openings
+7. visible-light sensing is height-aware and IR remains invisible to AI
+8. spatial sound preserves uncertainty and does not leak true hidden floor/support
+9. live contact/capture cannot occur through slabs
+10. group/pack logic gains no hidden world knowledge
+11. airborne/active traversal cannot be skipped by LOD
+12. equal legitimate observations produce equal decisions/RNG until evidence differs
+13. Level 0 flat behavior/canon remains retained
+14. Stage D renderer/camera correctness remains retained
+15. Stage F/G/H work has not begun
+16. recovery checkpoint was externally saved before long suites
+17. final package and evidence are reproducible/auditable
+
+==================================================
+40. FINAL STATUS WORDING
+==================================================
+
+If all objective engineering gates pass, report:
+
+**2.5D STAGE E ENGINEERING COMPLETE — CHECKPOINT READY FOR REVIEW**
+
+Do NOT claim:
+
+- full 2.5D implementation complete
+- Stage F complete
+- gameplay proven fair
+- human QA passed unless a human actually performed it
+- hardware-render performance certified
+
+Then STOP.
+
+Do not begin Stage F.
+
+==================================================
+41. CORE PRINCIPLES TO KEEP IN VIEW
+==================================================
+
+- UNASSUMING SURFACE, SERIOUS SIMULATION.
+- WORLD XYZ IS PHYSICAL.
+- SCREEN SPACE IS PRESENTATION.
+- THE GRAPH KNOWS CONNECTIVITY; THE BRAIN KNOWS ONLY ITS EVIDENCE.
+- THE ENTITY PREDICTS. IT DOES NOT KNOW.
+- SAME XY DOES NOT MEAN SAME PLACE.
+- CUTAWAY DOES NOT CHANGE REAL VISIBILITY.
+- IR DOES NOT REACH HOUND/SMILER AI.
+- EXISTING SPECIES BEHAVIOR IS PRESERVED WHEN OBSERVATIONS ARE EQUIVALENT.
+- STAGE B/C/D LOCKS ARE NOT PERMISSION TO REWRITE THE GAME.
+- STAGE E ONLY. STOP BEFORE STAGE F.

@@ -1,0 +1,19 @@
+{
+  "parentArchiveSHA256": "b52a40ca1d10216d113f5105c4f1e537dce2270b786f9b293e9d59467629c5de",
+  "inputPackSHA256": "7429d8c0ad24740ecb932f0401681cf48184252a70b854f3c8cd1d5daa01e273",
+  "baseCommit": "478ada6cf534d40810e28709755e88f0b53b6ee5",
+  "parentFiles": 585,
+  "byteIdenticalParentFiles": 585,
+  "modifiedParentFiles": [],
+  "deletedParentFiles": [],
+  "preExistingRepositoryAdditions": [
+    ".github/workflows/deploy-bloom.yml",
+    "sounds/sting.mp3",
+    "sounds/sting copy.mp3"
+  ],
+  "runtime": "v25.9.0",
+  "strictFrozenVerifier": "FAIL: runtime metadata v24.19.0 versus v25.9.0",
+  "freshTraceRecords": "46/46 IDENTICAL RECORDS; 35098 records; tolerance 0",
+  "canonicalMapExport": "BYTE IDENTICAL",
+  "stageFStarted": false
+}

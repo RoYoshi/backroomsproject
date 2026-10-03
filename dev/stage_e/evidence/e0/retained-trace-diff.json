@@ -1,0 +1,849 @@
+[
+  {
+    "trace": "motor-idle",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 120,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-walk",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-sprint",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-acceleration-deceleration",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-crouch",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 120,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-crawl",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 60,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-slide",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-exhaustion",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 960,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-recovery",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 240,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-recovery-threshold",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 30,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-vault",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "motor-deep-carpet",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-H1",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 30,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-HQA-H14",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 100,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-H6",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 756,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-H10",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 4215,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-HQA-H18",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 428,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-H3",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 33,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-H7",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 9,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-H15",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 39,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_hound2e-2E-H5",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 2160,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_smiler-SM01",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 1764,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_smiler-SM03",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 3600,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_smiler-SM04",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 852,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_smiler-SM05",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 844,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_smiler-SM08",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 2400,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_evidence-E4",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 7860,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_evidence-E5",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 1440,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_evidence-E6",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 532,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_evidence-E7",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 360,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_shared2f-2F-F01",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 36,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_shared2f-2F-F04",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 396,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_shared2f-2F-F09",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 402,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "ai-s_shared2f-2F-F20",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 600,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "death-Hound-A",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 271,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "death-Hound-B",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 283,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "death-Hound-C",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 259,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "death-Hound-D",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 271,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "death-Smiler-A",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 238,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "death-Smiler-B",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 232,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "death-Smiler-C",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 238,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "death-Smiler-D",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 238,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "navigation-level0",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 1163,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "network-interpolation",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 243,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "network-peer-pose",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    "stderr": ""
+  },
+  {
+    "trace": "network-lifecycle",
+    "exitCode": 0,
+    "result": {
+      "status": "IDENTICAL RECORDS",
+      "records": 16,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "2c829640a80e9950e55f8ea37b3ed64d4e37dfaa5da9c29bebec85a71b699f13",
+          "actual": "69000a597478fcdc480699847779c3059d27ccd04c37fc6612ba15efd00a7dc9"
+        }
+      ]
+    },
+    "stderr": ""
+  }
+]
