@@ -53,7 +53,7 @@ class Geo {
     Object.assign(this, STATIC.get(key));
     this.W = a.W; this.H = a.H; this.rooms = a.rooms; this.lamps = a.lamps;
     this.gen = new Uint32Array(this.N); this.cg = new Uint32Array(this.N); this.gs = new Float32Array(this.N); this.from = new Int32Array(this.N); this.stamp = 0;
-    this.heap = new Int32Array(this.N + 8); this.hf = new Float32Array(this.N);
+    this.heap = new Int32Array(this.spatial?this.edges.reduce((n,e)=>n+e.length,0)+this.N+8:this.N+8); this.hf = new Float32Array(this.N);
     this.fails = [];                              // local light failures {x,y,r,until}
     if (this.spatial) {
       this.geometry = a.geometry;

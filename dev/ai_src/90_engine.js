@@ -114,6 +114,7 @@ function create(cfg) {
     e.tierT = 0; e.senseDt = 0; e.wd = { x, y, t: 0 }; this.entities.push(e);
     return e;
   };
+  eng.interruptTraversal=function(e,reason='external interruption'){if(!geo.spatial||!e.trav)return false;const t=e.trav;t.status='interrupted';e.resumeTraversal={link:t.link,reason};e.linkHistory.push({id:t.link.id,t:this.now,event:'interrupted',reason,z:e.z});if(e.linkHistory.length>32)e.linkHistory.shift();e.trav=null;e.path=[];e.pathAge=99;e.speed=e.vx=e.vy=0;navOf(e).recover++;return true;};
   eng.remove = function (id) {
     const i = this.entities.findIndex(e => e.id === id); if (i < 0) return false;
     const e = this.entities[i]; if (e.cap) finishCapture(this, e.cap, this.playerById(e.cap.pid), e);

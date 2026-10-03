@@ -59,7 +59,7 @@ function spatialSmooth(g,e,path){
   return out;
 }
 function spatialPlan(eng,e,x,y,opts={}){
-  if(e.trav)return true;const g=eng.geo.rootGeo||eng.geo,goal=spatialGoal(eng,e,x,y,opts.pose);
+  if(e.trav)return true;if(e.resumeTraversal&&resumeSpatialTraversal(eng,e))return true;const g=eng.geo.rootGeo||eng.geo,goal=spatialGoal(eng,e,x,y,opts.pose);
   navWhy(e,opts.why||'plan',eng.now);eng.stats.paths++;e.pathAge=0;e.carrot=null;e.aim=null;e.routeRevision++;
   if(!goal){e.path=[];e.goal=null;e.goalKey='unresolved';e.unreachable=eng.now;return false;}
   const cost=opts.cost||(e.sp.pathCost&&e.sp.pathCost(eng,e));
@@ -147,4 +147,15 @@ function connectorGoal(g,e,pose){
     return {x:b.x,y:b.y,z:b.z,navSurfaceId:l.toSurfaceId,hypothesis:true,via:l.id};
   }
   return null;
+}
+function resumeSpatialTraversal(eng,e){
+  if(e.motionMode!=='grounded'||e.step)return false;
+  const request=e.resumeTraversal,l=request.link;e.resumeTraversal=null;
+  if(l.kind==='vault'&&!e.caps.CAN_VAULT||l.kind==='crawl'&&!e.caps.CAN_CRAWL||!l.profileIds.includes(e.baseShape.id))return false;
+  const from=bodyPose(e),finish=l.corridor[l.corridor.length-1],half=l.corridorRadius,dx=finish.x-from.x,dy=finish.y-from.y,D=Math.hypot(dx,dy),nx=D?-dy/D:1,ny=D?dx/D:0;
+  const link={...l,id:l.id+'@resume:'+e.supportId+':'+e.tick,fromSurfaceId:e.navSurfaceId,entry:[{x:from.x+nx*half,y:from.y+ny*half,z:from.z},{x:from.x-nx*half,y:from.y-ny*half,z:from.z}],corridor:[from,finish],ax:from.x,ay:from.y,az:from.z};
+  const proof=MOTION.proveTraversal(eng.geo.geometry,link,actorShape(e,l.kind==='crawl'?'crawl':'walk'),{vaultSpeed:e.caps.VAULT_SPEED});
+  if(!proof.ok){e.dbg.spatialRecovery='interrupted corridor no longer physically legal';return false;}
+  if(!spatialBeginTrav(eng,e,link))return false;
+  e.path=[{x:finish.x,y:finish.y,z:finish.z,navSurfaceId:l.toSurfaceId,link}];e.pathAge=0;e.routeRevision++;navWhy(e,'resume-physical-corridor',eng.now);eng.stats.paths++;return true;
 }

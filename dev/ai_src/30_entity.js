@@ -208,7 +208,7 @@ function carrotOf(eng, e, look) {
 function follow(eng, e, dt, vmax, o = {}) {
   const geo = eng.geo;
   e.cellCls = geo.cls[geo.cellAt(e.x, e.y)] | 0;
-  e.mode = modeFor(e);
+  e.mode = geo.spatial&&e.trav?.link.kind==='crawl'?'crawl':modeFor(e);
   if(geo.spatial){const shape=actorShape(e,e.mode);if(geo.geometry.clearance(shape,e).fits)e.shape=shape;e.traverseSpeed=vmax;}
   if (e.trav) { stepTrav(eng, e, dt); return 'moving'; }
   const arrive = o.arrive ?? 18;

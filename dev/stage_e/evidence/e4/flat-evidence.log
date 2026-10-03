@@ -1,0 +1,22 @@
+PASS E1 walls stop light: a torch lights nothing and gives no evidence on the far side of a wall  [951ms]
+       28 torch-into-wall setups with a hound on the far side: evidence through the wall 0, light level raised through the wall 0
+PASS E2 a lit wall seen without the person: an anonymous lead (no player, wide uncertainty), not a target and not a record  [474ms]
+       14 setups: lead formed 14; all anonymous true; uncertainty >= 120 px true (smallest 177 px); no record of the player 14/14; not its target 14/14; lead-to-player distance 155, 146, 160, 155, 146, 160, 146, 160, 158, 146, 146, 160, 160, 158 px (it guesses a region, it does not know the spot)
+PASS E3 the light source in view gives an anonymous source lead; only sight of the person then names it  [210ms]
+       6/6: at range - anonymous source lead 6, no record of the person 6; once it saw them - lead pinned on them as light evidence 6 (and gone from the anonymous list 6)
+PASS E4 light off: no new light evidence, but what it already has stays (and fades like any memory)  [859ms]
+       12 leads: still held 4 s after the light went off 12, none refreshed after it 12, faded away within a minute 12; confidence 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61
+PASS E5 hidden-position invariance: an unsensed player moved elsewhere changes nothing the hound does  [870ms]
+       6 valid pairs (the hidden player never sensed in either world): identical tick-by-tick decisions 6/6
+PASS E6 observation replay: the carrier somewhere else, the same observations replayed -> the same leads and decisions (no back-projection)  [887ms]
+       10 runs where the hound formed light leads: identical decisions with the carrier moved 10/10 (moved 4608, 4176, 4032, 2880, 3600, 3456, 2880, 4320, 4464, 4608 px, light off, only the recorded observations replayed)
+PASS E7 the camcorder emits no visible light: no beam, no light evidence, no glare bonus - its raised state is presentation only  [123ms]
+       4/4: raised camcorder -> visible light false,false,false,false, lit players 0,0,0,0, light leads 0,0,0,0
+PASS E8 eye contact: seen and facing it -> detected; facing away, or a wall between -> not  [507ms]
+       open corridor: facing detected 3/3, facing away detected 0/3; through a wall detected 0/10
+PASS E9 target commitment: it does not switch to somebody else inside the dwell unless it has truly lost its prey  [243ms]
+       6 runs where it hunted A and A vanished while B stood in view: early switches (inside 1.5 s, prey not lost) 0      
+PASS E10 bounded and valid: leads <= 6, evidence <= 4 per record, all numbers finite, confidences in [0,1], over long mixed runs  [265ms]
+       4800 samples: problems 0; most leads held 6; most evidence entries on a record 3; samples with leads 9886
+
+10/10 passed

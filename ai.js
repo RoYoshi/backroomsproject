@@ -101,7 +101,7 @@ class Geo {
     Object.assign(this, STATIC.get(key));
     this.W = a.W; this.H = a.H; this.rooms = a.rooms; this.lamps = a.lamps;
     this.gen = new Uint32Array(this.N); this.cg = new Uint32Array(this.N); this.gs = new Float32Array(this.N); this.from = new Int32Array(this.N); this.stamp = 0;
-    this.heap = new Int32Array(this.N + 8); this.hf = new Float32Array(this.N);
+    this.heap = new Int32Array(this.spatial?this.edges.reduce((n,e)=>n+e.length,0)+this.N+8:this.N+8); this.hf = new Float32Array(this.N);
     this.fails = [];                              // local light failures {x,y,r,until}
     if (this.spatial) {
       this.geometry = a.geometry;
@@ -1142,7 +1142,7 @@ function carrotOf(eng, e, look) {
 function follow(eng, e, dt, vmax, o = {}) {
   const geo = eng.geo;
   e.cellCls = geo.cls[geo.cellAt(e.x, e.y)] | 0;
-  e.mode = modeFor(e);
+  e.mode = geo.spatial&&e.trav?.link.kind==='crawl'?'crawl':modeFor(e);
   if(geo.spatial){const shape=actorShape(e,e.mode);if(geo.geometry.clearance(shape,e).fits)e.shape=shape;e.traverseSpeed=vmax;}
   if (e.trav) { stepTrav(eng, e, dt); return 'moving'; }
   const arrive = o.arrive ?? 18;
@@ -1308,7 +1308,7 @@ function spatialSmooth(g,e,path){
   return out;
 }
 function spatialPlan(eng,e,x,y,opts={}){
-  if(e.trav)return true;const g=eng.geo.rootGeo||eng.geo,goal=spatialGoal(eng,e,x,y,opts.pose);
+  if(e.trav)return true;if(e.resumeTraversal&&resumeSpatialTraversal(eng,e))return true;const g=eng.geo.rootGeo||eng.geo,goal=spatialGoal(eng,e,x,y,opts.pose);
   navWhy(e,opts.why||'plan',eng.now);eng.stats.paths++;e.pathAge=0;e.carrot=null;e.aim=null;e.routeRevision++;
   if(!goal){e.path=[];e.goal=null;e.goalKey='unresolved';e.unreachable=eng.now;return false;}
   const cost=opts.cost||(e.sp.pathCost&&e.sp.pathCost(eng,e));
@@ -1396,6 +1396,17 @@ function connectorGoal(g,e,pose){
     return {x:b.x,y:b.y,z:b.z,navSurfaceId:l.toSurfaceId,hypothesis:true,via:l.id};
   }
   return null;
+}
+function resumeSpatialTraversal(eng,e){
+  if(e.motionMode!=='grounded'||e.step)return false;
+  const request=e.resumeTraversal,l=request.link;e.resumeTraversal=null;
+  if(l.kind==='vault'&&!e.caps.CAN_VAULT||l.kind==='crawl'&&!e.caps.CAN_CRAWL||!l.profileIds.includes(e.baseShape.id))return false;
+  const from=bodyPose(e),finish=l.corridor[l.corridor.length-1],half=l.corridorRadius,dx=finish.x-from.x,dy=finish.y-from.y,D=Math.hypot(dx,dy),nx=D?-dy/D:1,ny=D?dx/D:0;
+  const link={...l,id:l.id+'@resume:'+e.supportId+':'+e.tick,fromSurfaceId:e.navSurfaceId,entry:[{x:from.x+nx*half,y:from.y+ny*half,z:from.z},{x:from.x-nx*half,y:from.y-ny*half,z:from.z}],corridor:[from,finish],ax:from.x,ay:from.y,az:from.z};
+  const proof=MOTION.proveTraversal(eng.geo.geometry,link,actorShape(e,l.kind==='crawl'?'crawl':'walk'),{vaultSpeed:e.caps.VAULT_SPEED});
+  if(!proof.ok){e.dbg.spatialRecovery='interrupted corridor no longer physically legal';return false;}
+  if(!spatialBeginTrav(eng,e,link))return false;
+  e.path=[{x:finish.x,y:finish.y,z:finish.z,navSurfaceId:l.toSurfaceId,link}];e.pathAge=0;e.routeRevision++;navWhy(e,'resume-physical-corridor',eng.now);eng.stats.paths++;return true;
 }
 
 /* ---------------------------------------------------------------- capture and kill selection
@@ -2833,6 +2844,7 @@ function create(cfg) {
     e.tierT = 0; e.senseDt = 0; e.wd = { x, y, t: 0 }; this.entities.push(e);
     return e;
   };
+  eng.interruptTraversal=function(e,reason='external interruption'){if(!geo.spatial||!e.trav)return false;const t=e.trav;t.status='interrupted';e.resumeTraversal={link:t.link,reason};e.linkHistory.push({id:t.link.id,t:this.now,event:'interrupted',reason,z:e.z});if(e.linkHistory.length>32)e.linkHistory.shift();e.trav=null;e.path=[];e.pathAge=99;e.speed=e.vx=e.vy=0;navOf(e).recover++;return true;};
   eng.remove = function (id) {
     const i = this.entities.findIndex(e => e.id === id); if (i < 0) return false;
     const e = this.entities[i]; if (e.cap) finishCapture(this, e.cap, this.playerById(e.cap.pid), e);
