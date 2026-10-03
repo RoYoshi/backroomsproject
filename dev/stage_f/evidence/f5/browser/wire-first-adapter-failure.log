@@ -1,0 +1,5 @@
+page.waitForFunction: Timeout 30000ms exceeded.
+    at /workspace/scratch/17e6e5376c51/backroomsproject/dev/stage_f/browser_wire.js:3:1469 {
+  log: [],
+  name: 'TimeoutError'
+}

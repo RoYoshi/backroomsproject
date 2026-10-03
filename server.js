@@ -364,7 +364,7 @@ setInterval(() => {
     room.acc += dt;
     if (room.authority) room.authority.beginWake();
     let n = 0; const h0 = process.hrtime.bigint();
-    while (room.acc >= 1 / 60 && n++ < 15) { room.simTick++; if (room.authority) room.authority.step(); room.sim.step(1 / 60); if (room.authority) room.authority.afterSim(); room.acc -= 1 / 60; }
+    while (room.acc >= 1 / 60 && n++ < 15) { const spatialStart=room.authority?process.hrtime.bigint():null; room.simTick++; if (room.authority) room.authority.step(); room.sim.step(1 / 60); if (room.authority) { room.authority.afterSim(); room.authority.observe(Number(process.hrtime.bigint()-spatialStart)/1e6); } room.acc -= 1 / 60; }
     if (n) { const per = Number(process.hrtime.bigint() - h0) / 1e6 / n; room.pf.ms += (per - room.pf.ms) * .05; room.pf.max = Math.max(per, room.pf.max * .995); }      // milliseconds per 60 Hz step (average / recent worst)
     if (++room.tick % SNAP_EVERY) continue;
 
@@ -397,7 +397,7 @@ setInterval(() => {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }
       if (c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; send(c, bm || (bm = bodyMsg())); }
       const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player) };
-      if (room.authority && c.protocolReady) { msg.protocol = { worldEpoch: room.worldEpoch, simTick: room.simTick }; msg.pose = room.authority.pose(c); msg.spatial = room.sim.engine.entities.map(e => PROTOCOL.pose(e, { worldEpoch: room.worldEpoch, entityId: (e.kind === 'hound' ? 'h' : 'm') + e.id, generation: room.sim.worldGeneration, tick: room.simTick, seq: room.simTick, discontinuity: 0 }, room.sim.geometry)).filter(Boolean); msg.spatial.push(...[...room.clients.values()].filter(o => o.player.active && o !== c).map(o => room.authority.pose(o)).filter(Boolean)); if (c.admin) msg.spatialStats = room.authority.stats; }
+      if (room.authority && c.protocolReady) { msg.protocol = { worldEpoch: room.worldEpoch, simTick: room.simTick }; msg.pose = room.authority.pose(c); msg.spatial = room.sim.engine.entities.map(e => PROTOCOL.pose(e, { worldEpoch: room.worldEpoch, entityId: (e.kind === 'hound' ? 'h' : 'm') + e.id, generation: room.sim.worldGeneration, tick: room.simTick, seq: room.simTick, discontinuity: 0 }, room.sim.geometry)).filter(Boolean); msg.spatial.push(...[...room.clients.values()].filter(o => o.player.active && o !== c).map(o => room.authority.pose(o)).filter(Boolean)); if (c.admin) msg.spatialStats = room.authority.metrics(); }
       if (c.player.dead && c.player.kill) msg.mk = c.player.kill;
       if (c.admin && ad) { msg.ad = ad; msg.you = c.id; }
       if (c.admin && c.dbg && dbgList) {

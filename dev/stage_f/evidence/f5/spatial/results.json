@@ -1,0 +1,69 @@
+[
+  {
+    "name": "stage-e",
+    "command": [
+      "node",
+      "dev/tests/run.js",
+      "s_nav25d.js",
+      "s_perception25d.js"
+    ],
+    "exit": 0,
+    "seconds": 7.467667139000696
+  },
+  {
+    "name": "spatial-core",
+    "command": [
+      "node",
+      "dev/stage_c/test_spatial.js"
+    ],
+    "exit": 0,
+    "seconds": 0.43580411299990374
+  },
+  {
+    "name": "adversarial",
+    "command": [
+      "node",
+      "dev/stage_c/test_adversarial.js"
+    ],
+    "exit": 0,
+    "seconds": 0.13160559199968702
+  },
+  {
+    "name": "schedules",
+    "command": [
+      "node",
+      "dev/stage_c/test_schedules.js"
+    ],
+    "exit": 0,
+    "seconds": 1.6912119090011402
+  },
+  {
+    "name": "camera",
+    "command": [
+      "node",
+      "dev/stage_c/test_camera.js"
+    ],
+    "exit": 0,
+    "seconds": 0.03125468400139653
+  },
+  {
+    "name": "view",
+    "command": [
+      "node",
+      "dev/stage_d/test_view.js",
+      "dev/stage_f/evidence/f5/spatial/view.json"
+    ],
+    "exit": 0,
+    "seconds": 0.06271327499962354
+  },
+  {
+    "name": "independence",
+    "command": [
+      "node",
+      "dev/stage_d/test_independence.js",
+      "dev/stage_f/evidence/f5/spatial/independence.json"
+    ],
+    "exit": 0,
+    "seconds": 0.3849207180010126
+  }
+]

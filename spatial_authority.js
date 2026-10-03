@@ -4,7 +4,9 @@ const P=require('./spatial_protocol'),M=require('./world_motion'),WORLD=require(
 const clone=x=>JSON.parse(JSON.stringify(x));
 const speedCap={stand:20,walk:205,run:310,crouch:130,crawl:100,slide:360,down:130,vault:360};
 class Authority {
- constructor(room,send){this.room=room;this.g=room.sim.geometry;this.motion=room.sim.spatialMotion;this.vaultAdapter=M.motorAdapter(this.g);this.send=send;this.stats={accepted:0,rejected:0,corrections:0,maxQueue:0,maxHistory:0,maxWork:0,work:0,ownedTicks:0,reasons:{}};this.cursor=0;}
+ constructor(room,send){this.room=room;this.g=room.sim.geometry;this.motion=room.sim.spatialMotion;this.vaultAdapter=M.motorAdapter(this.g);this.send=send;this.stats={accepted:0,rejected:0,corrections:0,maxQueue:0,maxHistory:0,maxWork:0,work:0,ownedTicks:0,reasons:{}};this.cursor=0;this.costs=[];}
+ observe(ms){this.costs.push(ms);if(this.costs.length>600)this.costs.shift();}
+ metrics(){const a=this.costs.slice().sort((a,b)=>a-b),at=q=>a[Math.min(a.length-1,Math.floor(a.length*q))]||0;return {...this.stats,cpu:{samples:a.length,median:at(.5),p95:at(.95),p99:at(.99),max:at(1)}};}
  identity(c){return {worldEpoch:this.room.worldEpoch,entityId:'p'+c.id,generation:c.player.life||0,seq:this.room.simTick,tick:this.room.simTick,discontinuity:c.spatial?.discontinuity||0};}
  pose(c){return P.pose(c.player,this.identity(c),this.g);}
  reset(c,cause){c.player.netVault=null;const old=c.spatial;c.spatial={life:c.player.life||0,discontinuity:(old?.discontinuity||0)+1,lastSeq:old?.lastSeq||0,lastTick:this.room.simTick,queue:[],history:[],credit:0,budget:540,owned:false,mode:c.player.caught?'captured':c.player.dead?'dead':c.player.motionMode};this.correct(c,cause,false);}
@@ -17,7 +19,10 @@ class Authority {
   const ss=m.samples;if(!Array.isArray(ss)||!ss.length||ss.length>P.LIMIT.samples)return this.reject(c,'sample-bound');
   let last=a.queue.at(-1)?.tick??a.lastTick;
   for(const q of ss){if(!q||!P.integer(q.tick)||q.tick!==last+1||q.tick>this.room.simTick||this.room.simTick-q.tick>P.LIMIT.history)return this.reject(c,'tick',q?.tick<=this.room.simTick&&P.integer(q?.tick)&&q.tick>last);
-   if(!['x','y','z','vx','vy','yaw'].every(k=>P.finite(q[k],k==='yaw'?100:k==='vx'||k==='vy'?360:P.LIMIT.coordinate))||!Object.hasOwn(speedCap,q.posture)||!(q.support===null||P.id(q.support))||!(q.link==null||P.id(q.link))||q.progress!=null)return this.reject(c,'malformed');
+   // A bunch can contain predicted vault substeps above ground speed. Bound the
+   // wire envelope here; validate grounded speed before replay, then discard
+   // queued prediction when the canonical transition takes server ownership.
+   if(!['x','y','z','vx','vy','yaw'].every(k=>P.finite(q[k],k==='yaw'?100:k==='vx'||k==='vy'?P.LIMIT.velocity:P.LIMIT.coordinate))||!Object.hasOwn(speedCap,q.posture)||!(q.support===null||P.id(q.support))||!(q.link==null||P.id(q.link))||q.progress!=null)return this.reject(c,'malformed');
    if(q.vault&&(!P.id(q.vault.link)||!P.integer(q.vault.quality)||q.vault.quality>2))return this.reject(c,'vault-intent');
    if(q.mv&&(!P.finite(q.mv.st,100)||q.mv.st<0||!P.integer(q.mv.s)||q.mv.s>7||!P.finite(q.mv.sp,600)))return this.reject(c,'gait');last=q.tick;
   }

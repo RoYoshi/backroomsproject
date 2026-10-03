@@ -1,0 +1,10 @@
+'use strict';
+const assert=require('node:assert/strict'),{field}=require('./fixture'),{server,connect,wait,sleep}=require('./wire');
+(async()=>{const upper='support:upper-'+ 'u'.repeat(80),surface='nav:upper-'+ 'n'.repeat(80),d=JSON.parse(JSON.stringify(field()).replaceAll('support:upper',upper).replaceAll('nav:upper',surface)),s=await server(d),clients=[];try{for(let i=0;i<8;i++){const c=await connect(s,d);await c.join();clients.push(c);}const admin=clients[0];await admin.admin();await sleep(1200);
+ let proposed=0;for(const c of clients){const a=c.client.anchor;for(let start=1;start<=75;start+=15){const qs=[];for(let n=start;n<start+15;n++)qs.push({tick:a.tick+n,x:a.x,y:a.y,z:a.z,vx:0,vy:0,yaw:0,posture:'stand',support:a.support});c.send(c.client.proposal(qs));proposed+=qs.length;}}
+ await sleep(1800);const flood=admin.last.spatialStats;assert(flood.maxWork<=15);assert(flood.maxHistory<=90);assert(flood.maxQueue<=90);assert(flood.accepted>0);const normalBytes=Buffer.byteLength(JSON.stringify(admin.last));
+ // No physics/AI shortcuts: this uses the existing authenticated freeze tool to
+ // isolate framing capacity. The normal movement workload above is unfrozen.
+ admin.send({t:'a',c:'freeze',on:true});for(const kind of ['hound','smiler'])for(let i=0;i<64;i++)admin.send({t:'a',c:'spatial-entity',kind,pose:{x:2000+(i%16)*100,y:200+Math.floor(i/16)*180,z:200,support:upper}});
+ await wait(()=>admin.last?.spatial?.filter(p=>p.entityId[0]!=='p').length===128,'128 entity snapshots',15000);const largeBytes=Buffer.byteLength(JSON.stringify(admin.last));assert(largeBytes>65535,'exercise extended WebSocket frame');assert(largeBytes<=524288);console.log(JSON.stringify({status:'PASS',players:8,proposed,flood,normalSnapshotBytes:normalBytes,estimatedBytesPerSecondAt20Hz:normalBytes*20,stressEntities:128,stressSnapshotBytes:largeBytes,extendedWebSocketFrame:true,limits:{queue:90,history:90,roomWakeValidation:15,outboundFrame:524288,inboundSpatial:16384}},null,2));
+}finally{for(const c of clients)c.close();await s.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

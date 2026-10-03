@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: exercise extended WebSocket frame
+    at /workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/test_limits.js:9:175 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

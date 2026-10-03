@@ -1,0 +1,364 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "browser": "151.0.7922.34",
+  "httpBytes": [
+    "world_view.js",
+    "stage_d.html",
+    "assets/stageD-pixi.js",
+    "assets/stageD-browser.js",
+    "assets/stageD-prototype.js",
+    "assets/stageD-world.json"
+  ],
+  "checks": [
+    {
+      "name": "lower observer: hidden upper actor AND last-drawn overlay cannot leak",
+      "pass": true,
+      "changedPixels": 0,
+      "fade": {
+        "worldEpoch": "stage-c-fixture:1",
+        "focus": {
+          "x": 160,
+          "y": 160,
+          "z": 0
+        },
+        "focusSpace": [
+          "space:lower-room"
+        ],
+        "groups": [
+          {
+            "id": "view:upper-slabs",
+            "fade": 1,
+            "target": true
+          }
+        ]
+      },
+      "cpuVisible": false
+    },
+    {
+      "name": "cutaway changes camera composition, never physical visibility",
+      "pass": true,
+      "opaque": {
+        "hash": "600893c0",
+        "lit": 117468,
+        "pixels": 921600
+      },
+      "cut": {
+        "hash": "fcb71785",
+        "lit": 260638,
+        "pixels": 921600
+      },
+      "blocker": "solid:upper-west"
+    },
+    {
+      "name": "unseen opaque roof writes black depth until eligible cutaway",
+      "pass": true,
+      "opaquePixel": [
+        0,
+        0,
+        0
+      ],
+      "cutawayPixel": [
+        215,
+        190,
+        105
+      ]
+    },
+    {
+      "name": "same physical snapshot: independent lower / upper view state",
+      "pass": true,
+      "sameWorld": true,
+      "hash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+      "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+      "views": [
+        {
+          "scope": {
+            "width": 752.9411764705883,
+            "height": 847.0588235294118,
+            "scale": 0.85,
+            "minX": 23.529411764705856,
+            "maxX": 776.4705882352941,
+            "minY": -93.52941176470591,
+            "maxY": 753.5294117647059
+          },
+          "drawCalls": 32,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 414,
+          "target": {
+            "width": 640,
+            "height": 720,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 640,
+            "height": 720,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 3810752,
+          "defaultColorBytesEstimate": 1843200,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "camera": {
+            "x": 400,
+            "y": 330,
+            "z": 0
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "stage-c-fixture:1",
+            "focus": {
+              "x": 160,
+              "y": 160,
+              "z": 0
+            },
+            "focusSpace": [
+              "space:lower-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 1,
+                "target": true
+              }
+            ]
+          }
+        },
+        {
+          "scope": {
+            "width": 752.9411764705883,
+            "height": 847.0588235294118,
+            "scale": 0.85,
+            "minX": 23.529411764705856,
+            "maxX": 776.4705882352941,
+            "minY": -93.52941176470591,
+            "maxY": 753.5294117647059
+          },
+          "drawCalls": 32,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 414,
+          "target": {
+            "width": 640,
+            "height": 720,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 640,
+            "height": 720,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 3810752,
+          "defaultColorBytesEstimate": 1843200,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 230
+          },
+          "camera": {
+            "x": 400,
+            "y": 330,
+            "z": 180
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "stage-c-fixture:1",
+            "focus": {
+              "x": 160,
+              "y": 160,
+              "z": 180
+            },
+            "focusSpace": [
+              "space:upper-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 0,
+                "target": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "first resized frame has geometry and no framebuffer sampler feedback",
+      "pass": true,
+      "errors": [
+        0,
+        0
+      ],
+      "first": [
+        {
+          "hash": "1a3b2f35",
+          "lit": 218681,
+          "pixels": 460800
+        },
+        {
+          "hash": "711913c1",
+          "lit": 255267,
+          "pixels": 460800
+        }
+      ],
+      "second": [
+        {
+          "hash": "1a3b2f35",
+          "lit": 218681,
+          "pixels": 460800
+        },
+        {
+          "hash": "711913c1",
+          "lit": 255267,
+          "pixels": 460800
+        }
+      ]
+    },
+    {
+      "name": "upper observer: lower actor remains physically hidden",
+      "pass": true,
+      "with": {
+        "hash": "7af9bf0c",
+        "lit": 315151,
+        "pixels": 921600
+      },
+      "without": {
+        "hash": "7af9bf0c",
+        "lit": 315151,
+        "pixels": 921600
+      }
+    },
+    {
+      "name": "real stairwell: upper actor visible from lower-root stair pose",
+      "pass": true,
+      "with": {
+        "hash": "2506403e",
+        "lit": 392182,
+        "pixels": 921600
+      },
+      "without": {
+        "hash": "a5119410",
+        "lit": 392218,
+        "pixels": 921600
+      },
+      "eyeZ": 182,
+      "observerRootZ": 132,
+      "targetRootZ": 180
+    },
+    {
+      "name": "front / partial / deeper partial occlusion by narrow wall",
+      "pass": true,
+      "frontPixels": 1026,
+      "partialPixels": 786,
+      "deeperPartialPixels": 585
+    },
+    {
+      "name": "complete physical occlusion behind solid wall",
+      "pass": true,
+      "with": {
+        "hash": "ff48bb28",
+        "lit": 222448,
+        "pixels": 921600
+      },
+      "without": {
+        "hash": "ff48bb28",
+        "lit": 222448,
+        "pixels": 921600
+      }
+    },
+    {
+      "name": "static seams and depth independent of draw submission order",
+      "pass": true,
+      "hashes": [
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5",
+        "f4a2aeb5"
+      ]
+    }
+  ],
+  "errors": [],
+  "metadata": {
+    "runtime": "shipped Pixi 8.21.0 / WebGL2",
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.7922.34 Safari/537.36",
+    "worldHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+    "snapshotHash": "0d707db4986511520320f0c8d6bb890e13e55c7b8673460f140cbff7fc969bfc",
+    "views": [
+      {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 62,
+          "maxX": 1598,
+          "minY": -132,
+          "maxY": 732
+        },
+        "drawCalls": 44,
+        "passes": 2,
+        "physicalVisibility": "exact bounded per-fragment convex rays",
+        "occluders": 32,
+        "triangles": 414,
+        "target": {
+          "width": 1280,
+          "height": 720,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 7497152,
+        "defaultColorBytesEstimate": 3686400,
+        "eye": {
+          "x": 1040,
+          "y": 200,
+          "z": 230
+        },
+        "camera": {
+          "x": 830,
+          "y": 300,
+          "z": 180
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "stage-c-fixture:1",
+          "focus": {
+            "x": 1040,
+            "y": 200,
+            "z": 180
+          },
+          "focusSpace": [],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

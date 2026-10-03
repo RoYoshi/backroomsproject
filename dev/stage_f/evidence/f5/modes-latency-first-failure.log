@@ -1,0 +1,15 @@
+{"status":"PASS","mode":"slide","seed":137,"latency":[20,250],"bunchMs":1000,"generated":180,"saw":true,"transitions":[],"stats":{"accepted":180,"rejected":4,"corrections":2,"maxQueue":48,"maxHistory":90,"maxWork":15,"work":0,"ownedTicks":0,"reasons":{"sequence":4},"cpu":{"samples":197,"median":0.030646,"p95":0.480706,"p99":2.565376,"max":3.129359}}}
+{"status":"PASS","mode":"crawl","seed":137,"latency":[20,250],"bunchMs":1000,"generated":180,"saw":true,"transitions":[],"stats":{"accepted":180,"rejected":4,"corrections":2,"maxQueue":48,"maxHistory":90,"maxWork":15,"work":3,"ownedTicks":0,"reasons":{"sequence":4},"cpu":{"samples":195,"median":0.031858,"p95":0.442848,"p99":6.189846,"max":9.686116}}}
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(transitions.some(m=>m.cause==='physical-transition'))
+
+    at run (/workspace/scratch/17e6e5376c51/backroomsproject/dev/stage_f/test_modes_latency.js:18:47)
+    at async /workspace/scratch/17e6e5376c51/backroomsproject/dev/stage_f/test_modes_latency.js:23:72 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

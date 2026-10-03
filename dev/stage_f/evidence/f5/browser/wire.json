@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "browser": "151.0.7922.34",
+  "runtime": "v24.19.0",
+  "results": [
+    {
+      "me": {
+        "id": "p1",
+        "z": 0,
+        "support": "support:ground-north"
+      },
+      "peer": {
+        "id": "p2",
+        "z": 180,
+        "support": "support:upper-west"
+      },
+      "worldEpoch": "94cfc770-b456-4a75-91f7-4488239da6ef",
+      "withPeer": {
+        "hash": "a0b4eccc",
+        "lit": 245582,
+        "pixels": 691200
+      },
+      "withoutPeer": {
+        "hash": "a0b4eccc",
+        "lit": 245582,
+        "pixels": 691200
+      },
+      "hidden": true,
+      "glError": 0,
+      "historySize": 1
+    },
+    {
+      "me": {
+        "id": "p2",
+        "z": 180,
+        "support": "support:upper-west"
+      },
+      "peer": {
+        "id": "p1",
+        "z": 0.05,
+        "support": "support:ground-north"
+      },
+      "worldEpoch": "94cfc770-b456-4a75-91f7-4488239da6ef",
+      "withPeer": {
+        "hash": "6784015e",
+        "lit": 269518,
+        "pixels": 691200
+      },
+      "withoutPeer": {
+        "hash": "6784015e",
+        "lit": 269518,
+        "pixels": 691200
+      },
+      "hidden": true,
+      "glError": 0,
+      "historySize": 8
+    }
+  ],
+  "errors": [],
+  "scope": "Two actual browser WebSocket clients on separate elevations, shared Client/History modules, real server poses rendered through retained Stage D composition. This test adapter is not Stage H production integration."
+}

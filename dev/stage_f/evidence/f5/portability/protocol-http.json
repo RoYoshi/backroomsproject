@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "file": "spatial_protocol.js",
+      "status": 200,
+      "bytes": 6397
+    },
+    {
+      "file": "spatial_history.js",
+      "status": 200,
+      "bytes": 5444
+    },
+    {
+      "file": "mp.js",
+      "status": 200,
+      "bytes": 75529
+    },
+    {
+      "file": "redirect.js",
+      "status": 404,
+      "bytes": 9
+    }
+  ],
+  "redirect": "Retained at package root; launcher script not HTTP runtime asset"
+}

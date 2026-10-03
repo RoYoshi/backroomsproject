@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "Z23": [
+    {
+      "name": "stairs",
+      "poses": 143,
+      "drawn": 1420,
+      "held": 659,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360
+      ]
+    },
+    {
+      "name": "drop/landing",
+      "poses": 25,
+      "drawn": 240,
+      "held": 34,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360
+      ]
+    },
+    {
+      "name": "ramp",
+      "poses": 61,
+      "drawn": 600,
+      "held": 104,
+      "schedules": [
+        15,
+        30,
+        60,
+        120,
+        144,
+        240,
+        360
+      ]
+    }
+  ],
+  "teleport": true,
+  "missingTransitionHold": true,
+  "unknownLedgeHold": true,
+  "Z22": {
+    "old": {
+      "x": 5000,
+      "time": 60,
+      "z": 0
+    },
+    "new": {
+      "x": 1000,
+      "time": 1,
+      "z": 200
+    },
+    "explicitReset": true,
+    "jitterResets": 0
+  }
+}

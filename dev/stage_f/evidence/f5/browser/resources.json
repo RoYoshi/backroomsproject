@@ -1,0 +1,34 @@
+{
+  "status": "BLOCKED_EXTERNAL_RESOURCES",
+  "localResources": "PASS",
+  "scriptErrors": "NONE",
+  "runtime": "v24.19.0",
+  "browser": "151.0.7922.34",
+  "external": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+      "local": false,
+      "error": "net::ERR_CERT_AUTHORITY_INVALID"
+    }
+  ],
+  "results": [
+    {
+      "url": "/stage_d.html?manual=1",
+      "scriptErrors": [],
+      "networkErrors": [],
+      "httpErrors": []
+    },
+    {
+      "url": "/",
+      "scriptErrors": [],
+      "networkErrors": [
+        {
+          "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+          "local": false,
+          "error": "net::ERR_CERT_AUTHORITY_INVALID"
+        }
+      ],
+      "httpErrors": []
+    }
+  ]
+}

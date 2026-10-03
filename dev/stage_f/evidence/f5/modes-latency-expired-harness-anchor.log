@@ -1,0 +1,6 @@
+{"status":"PASS","mode":"slide","seed":137,"latency":[20,250],"bunchMs":1000,"generated":180,"saw":true,"transitions":[],"stats":{"accepted":180,"rejected":4,"corrections":2,"maxQueue":48,"maxHistory":90,"maxWork":15,"work":0,"ownedTicks":0,"reasons":{"sequence":4},"cpu":{"samples":197,"median":0.034933,"p95":0.452444,"p99":2.165311,"max":3.929846}}}
+{"status":"PASS","mode":"crawl","seed":137,"latency":[20,250],"bunchMs":1000,"generated":180,"saw":true,"transitions":[],"stats":{"accepted":180,"rejected":4,"corrections":2,"maxQueue":39,"maxHistory":90,"maxWork":15,"work":0,"ownedTicks":0,"reasons":{"sequence":4},"cpu":{"samples":197,"median":0.030897,"p95":0.413755,"p99":5.54789,"max":8.686962}}}
+Error: Timeout legitimate post-transition recovery
+    at wait (/workspace/scratch/17e6e5376c51/backroomsproject/dev/stage_f/wire.js:4:135)
+    at async run (/workspace/scratch/17e6e5376c51/backroomsproject/dev/stage_f/test_modes_latency.js:18:749)
+    at async /workspace/scratch/17e6e5376c51/backroomsproject/dev/stage_f/test_modes_latency.js:23:108

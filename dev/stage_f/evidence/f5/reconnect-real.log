@@ -1,0 +1,8 @@
+Error: WorldDefinition: anchors not canonical ID order; colliderProfiles not canonical ID order
+    at fail (/workspace/scratch/dbb2aa7d258f/backroomsproject/world_geometry.js:104:23)
+    at ok (/workspace/scratch/dbb2aa7d258f/backroomsproject/world_geometry.js:104:71)
+    at spatialValidate (/workspace/scratch/dbb2aa7d258f/backroomsproject/world_geometry.js:105:40)
+    at validate (/workspace/scratch/dbb2aa7d258f/backroomsproject/world_geometry.js:20:51)
+    at Object.compile (/workspace/scratch/dbb2aa7d258f/backroomsproject/world_geometry.js:361:2)
+    at connect (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/wire.js:6:50)
+    at /workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/test_reconnect_wire.js:4:85

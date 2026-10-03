@@ -1,0 +1,74 @@
+{
+  "scope": "Retained simulation with 8 players, seed 7331, 600 warmup + 1800 measured fixed ticks; serial alternating repeated runs; excludes socket serialization",
+  "runtime": "v24.19.0",
+  "rows": [
+    {
+      "run": 0,
+      "label": "parent",
+      "median": 0.01693599999998696,
+      "p99": 0.23345299999999725,
+      "max": 2.1305480000000045,
+      "samples": 1800,
+      "entities": 4
+    },
+    {
+      "run": 0,
+      "label": "stageF",
+      "median": 0.013731000000007043,
+      "p99": 0.24014299999998912,
+      "max": 1.491562999999985,
+      "samples": 1800,
+      "entities": 4
+    },
+    {
+      "run": 1,
+      "label": "parent",
+      "median": 0.014892000000003236,
+      "p99": 0.22584100000000262,
+      "max": 1.5188440000000014,
+      "samples": 1800,
+      "entities": 4
+    },
+    {
+      "run": 1,
+      "label": "stageF",
+      "median": 0.013561000000009926,
+      "p99": 0.19038799999998446,
+      "max": 5.486347000000023,
+      "samples": 1800,
+      "entities": 4
+    },
+    {
+      "run": 2,
+      "label": "parent",
+      "median": 0.015533000000004904,
+      "p99": 0.24678299999999354,
+      "max": 1.8084810000000004,
+      "samples": 1800,
+      "entities": 4
+    },
+    {
+      "run": 2,
+      "label": "stageF",
+      "median": 0.014361000000008062,
+      "p99": 0.19578500000000076,
+      "max": 2.2391920000000027,
+      "samples": 1800,
+      "entities": 4
+    }
+  ],
+  "summary": {
+    "parent": {
+      "median": 0.015533000000004904,
+      "p99": 0.23345299999999725
+    },
+    "stageF": {
+      "median": 0.013731000000007043,
+      "p99": 0.19578500000000076
+    },
+    "changePercent": {
+      "median": -11.601107319882132,
+      "p99": -16.135153542681792
+    }
+  }
+}

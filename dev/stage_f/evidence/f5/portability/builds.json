@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "pathContainsSpaces": true,
+  "results": [
+    {
+      "script": "dev/build_ai.sh",
+      "exit": 0,
+      "byteIdentical": true,
+      "sha256": {
+        "ai.js": "a20cf70f6a517e78a929021e15a6883bfb8060935a8e1999de0de4d0aacd12ef"
+      }
+    },
+    {
+      "script": "dev/build_sim.sh",
+      "exit": 0,
+      "byteIdentical": true,
+      "sha256": {
+        "sim.js": "8919002fb6d48d70aa95a11935e89f49671883482efe244926b96086f76db47a"
+      }
+    },
+    {
+      "script": "dev/build_ents.sh",
+      "exit": 0,
+      "byteIdentical": true,
+      "sha256": {
+        "ents.js": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28"
+      }
+    }
+  ]
+}

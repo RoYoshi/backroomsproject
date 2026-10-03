@@ -1,0 +1,14 @@
+{"diagnostic":"vault","generated":61,"saw":true,"transitions":[{"t":"correction","cause":"tick","pose":{"worldEpoch":"868ee1d6-f7a3-4876-9231-588339dab28f","entityId":"p1","generation":1,"seq":61,"tick":61,"discontinuity":2,"x":170,"y":200,"z":0,"vx":0,"vy":0,"vz":0,"yaw":0,"height":60,"profile":"profile:player-stand","support":"support:floor","navSurface":"nav:floor","mode":"grounded","link":null,"progress":0,"vault":null,"step":null,"traversal":null}}],"stats":{"accepted":0,"rejected":15,"corrections":3,"maxQueue":18,"maxHistory":0,"maxWork":0,"work":0,"ownedTicks":0,"reasons":{"malformed":1,"tick":1,"identity":13},"cpu":{"samples":182,"median":0.025769,"p95":0.056865,"p99":0.166321,"max":1.163397}},"last":{"worldEpoch":"868ee1d6-f7a3-4876-9231-588339dab28f","entityId":"p1","generation":1,"seq":182,"tick":182,"discontinuity":2,"x":170,"y":200,"z":0,"vx":0,"vy":0,"vz":0,"yaw":0,"height":60,"profile":"profile:player-stand","support":"support:floor","navSurface":"nav:floor","mode":"grounded","link":null,"progress":0,"vault":null,"step":null,"traversal":null}}
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(transitions.some(m=>m.cause==='physical-transition'))
+
+    at run (/workspace/scratch/17e6e5376c51/backroomsproject/dev/stage_f/test_modes_latency.js:18:47)
+    at async /workspace/scratch/17e6e5376c51/backroomsproject/dev/stage_f/test_modes_latency.js:23:108 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
