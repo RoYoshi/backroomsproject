@@ -1,0 +1,685 @@
+[
+  {
+    "name": "historical-strict-verifier",
+    "command": [
+      "node",
+      "dev/stage_c/verify_parity.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/historical-strict.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 1,
+    "seconds": 0.031,
+    "log": "historical-strict-verifier.log"
+  },
+  {
+    "name": "map-export",
+    "command": [
+      "node",
+      "dev/stage_b/export_world.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/map-current.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.483,
+    "log": "map-export.log"
+  },
+  {
+    "name": "capture-motor",
+    "command": [
+      "node",
+      "dev/stage_a/capture_motor.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 3.855,
+    "log": "capture-motor.log"
+  },
+  {
+    "name": "compare-motor-idle",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-idle.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-idle.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.027,
+    "log": "compare-motor-idle.log"
+  },
+  {
+    "name": "compare-motor-walk",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-walk.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-walk.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.031,
+    "log": "compare-motor-walk.log"
+  },
+  {
+    "name": "compare-motor-sprint",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-sprint.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-sprint.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.039,
+    "log": "compare-motor-sprint.log"
+  },
+  {
+    "name": "compare-motor-acceleration-deceleration",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-acceleration-deceleration.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-acceleration-deceleration.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.038,
+    "log": "compare-motor-acceleration-deceleration.log"
+  },
+  {
+    "name": "compare-motor-crouch",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-crouch.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-crouch.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.042,
+    "log": "compare-motor-crouch.log"
+  },
+  {
+    "name": "compare-motor-crawl",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-crawl.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-crawl.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.03,
+    "log": "compare-motor-crawl.log"
+  },
+  {
+    "name": "compare-motor-slide",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-slide.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-slide.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.033,
+    "log": "compare-motor-slide.log"
+  },
+  {
+    "name": "compare-motor-exhaustion",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-exhaustion.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-exhaustion.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.04,
+    "log": "compare-motor-exhaustion.log"
+  },
+  {
+    "name": "compare-motor-recovery",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-recovery.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-recovery.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.034,
+    "log": "compare-motor-recovery.log"
+  },
+  {
+    "name": "compare-motor-recovery-threshold",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-recovery-threshold.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-recovery-threshold.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.033,
+    "log": "compare-motor-recovery-threshold.log"
+  },
+  {
+    "name": "compare-motor-vault",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-vault.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-vault.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.04,
+    "log": "compare-motor-vault.log"
+  },
+  {
+    "name": "compare-motor-deep-carpet",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/motor-deep-carpet.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/motor-deep-carpet.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.033,
+    "log": "compare-motor-deep-carpet.log"
+  },
+  {
+    "name": "capture-ai",
+    "command": [
+      "node",
+      "dev/stage_a/capture_ai.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 10.243,
+    "log": "capture-ai.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-H1",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-H1.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-H1.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.027,
+    "log": "compare-ai-s_hound2e-2E-H1.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-HQA-H14",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-HQA-H14.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-HQA-H14.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.035,
+    "log": "compare-ai-s_hound2e-2E-HQA-H14.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-H6",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-H6.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-H6.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.067,
+    "log": "compare-ai-s_hound2e-2E-H6.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-H10",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-H10.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-H10.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.248,
+    "log": "compare-ai-s_hound2e-2E-H10.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-HQA-H18",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-HQA-H18.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-HQA-H18.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.051,
+    "log": "compare-ai-s_hound2e-2E-HQA-H18.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-H3",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-H3.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-H3.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.028,
+    "log": "compare-ai-s_hound2e-2E-H3.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-H7",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-H7.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-H7.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.026,
+    "log": "compare-ai-s_hound2e-2E-H7.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-H15",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-H15.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-H15.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.028,
+    "log": "compare-ai-s_hound2e-2E-H15.log"
+  },
+  {
+    "name": "compare-ai-s_hound2e-2E-H5",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_hound2e-2E-H5.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_hound2e-2E-H5.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.208,
+    "log": "compare-ai-s_hound2e-2E-H5.log"
+  },
+  {
+    "name": "compare-ai-s_smiler-SM01",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_smiler-SM01.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_smiler-SM01.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.084,
+    "log": "compare-ai-s_smiler-SM01.log"
+  },
+  {
+    "name": "compare-ai-s_smiler-SM03",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_smiler-SM03.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_smiler-SM03.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.15,
+    "log": "compare-ai-s_smiler-SM03.log"
+  },
+  {
+    "name": "compare-ai-s_smiler-SM04",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_smiler-SM04.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_smiler-SM04.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.133,
+    "log": "compare-ai-s_smiler-SM04.log"
+  },
+  {
+    "name": "compare-ai-s_smiler-SM05",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_smiler-SM05.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_smiler-SM05.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.059,
+    "log": "compare-ai-s_smiler-SM05.log"
+  },
+  {
+    "name": "compare-ai-s_smiler-SM08",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_smiler-SM08.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_smiler-SM08.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.161,
+    "log": "compare-ai-s_smiler-SM08.log"
+  },
+  {
+    "name": "compare-ai-s_evidence-E4",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_evidence-E4.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_evidence-E4.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.133,
+    "log": "compare-ai-s_evidence-E4.log"
+  },
+  {
+    "name": "compare-ai-s_evidence-E5",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_evidence-E5.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_evidence-E5.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.114,
+    "log": "compare-ai-s_evidence-E5.log"
+  },
+  {
+    "name": "compare-ai-s_evidence-E6",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_evidence-E6.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_evidence-E6.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.042,
+    "log": "compare-ai-s_evidence-E6.log"
+  },
+  {
+    "name": "compare-ai-s_evidence-E7",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_evidence-E7.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_evidence-E7.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.029,
+    "log": "compare-ai-s_evidence-E7.log"
+  },
+  {
+    "name": "compare-ai-s_shared2f-2F-F01",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_shared2f-2F-F01.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_shared2f-2F-F01.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.026,
+    "log": "compare-ai-s_shared2f-2F-F01.log"
+  },
+  {
+    "name": "compare-ai-s_shared2f-2F-F04",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_shared2f-2F-F04.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_shared2f-2F-F04.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.043,
+    "log": "compare-ai-s_shared2f-2F-F04.log"
+  },
+  {
+    "name": "compare-ai-s_shared2f-2F-F09",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_shared2f-2F-F09.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_shared2f-2F-F09.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.04,
+    "log": "compare-ai-s_shared2f-2F-F09.log"
+  },
+  {
+    "name": "compare-ai-s_shared2f-2F-F20",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/ai-s_shared2f-2F-F20.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/ai-s_shared2f-2F-F20.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.062,
+    "log": "compare-ai-s_shared2f-2F-F20.log"
+  },
+  {
+    "name": "capture-death",
+    "command": [
+      "node",
+      "dev/stage_a/capture_death.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.934,
+    "log": "capture-death.log"
+  },
+  {
+    "name": "compare-death-Hound-A",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/death-Hound-A.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/death-Hound-A.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.036,
+    "log": "compare-death-Hound-A.log"
+  },
+  {
+    "name": "compare-death-Hound-B",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/death-Hound-B.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/death-Hound-B.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.038,
+    "log": "compare-death-Hound-B.log"
+  },
+  {
+    "name": "compare-death-Hound-C",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/death-Hound-C.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/death-Hound-C.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.037,
+    "log": "compare-death-Hound-C.log"
+  },
+  {
+    "name": "compare-death-Hound-D",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/death-Hound-D.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/death-Hound-D.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.036,
+    "log": "compare-death-Hound-D.log"
+  },
+  {
+    "name": "compare-death-Smiler-A",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/death-Smiler-A.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/death-Smiler-A.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.036,
+    "log": "compare-death-Smiler-A.log"
+  },
+  {
+    "name": "compare-death-Smiler-B",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/death-Smiler-B.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/death-Smiler-B.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.037,
+    "log": "compare-death-Smiler-B.log"
+  },
+  {
+    "name": "compare-death-Smiler-C",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/death-Smiler-C.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/death-Smiler-C.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.035,
+    "log": "compare-death-Smiler-C.log"
+  },
+  {
+    "name": "compare-death-Smiler-D",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/death-Smiler-D.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/death-Smiler-D.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.034,
+    "log": "compare-death-Smiler-D.log"
+  },
+  {
+    "name": "capture-navigation",
+    "command": [
+      "node",
+      "dev/stage_a/capture_navigation.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.64,
+    "log": "capture-navigation.log"
+  },
+  {
+    "name": "compare-navigation-level0",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/navigation-level0.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/navigation-level0.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.057,
+    "log": "compare-navigation-level0.log"
+  },
+  {
+    "name": "capture-network",
+    "command": [
+      "node",
+      "dev/stage_a/capture_network.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.243,
+    "log": "capture-network.log"
+  },
+  {
+    "name": "compare-network-interpolation",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/network-interpolation.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/network-interpolation.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.048,
+    "log": "compare-network-interpolation.log"
+  },
+  {
+    "name": "compare-network-peer-pose",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/network-peer-pose.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/network-peer-pose.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.034,
+    "log": "compare-network-peer-pose.log"
+  },
+  {
+    "name": "compare-network-lifecycle",
+    "command": [
+      "node",
+      "dev/stage_a/diff_traces.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_a/traces/network-lifecycle.json.gz",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/traces/captures/network-lifecycle.json.gz"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.027,
+    "log": "compare-network-lifecycle.log"
+  }
+]

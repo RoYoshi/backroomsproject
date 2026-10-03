@@ -1,0 +1,95 @@
+[
+  {
+    "name": "acceptance",
+    "command": [
+      "node",
+      "dev/tests/run.js",
+      "s_nav25d.js",
+      "s_perception25d.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 7.764,
+    "log": "acceptance.log"
+  },
+  {
+    "name": "spatial-core",
+    "command": [
+      "node",
+      "dev/stage_c/test_spatial.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.473,
+    "log": "spatial-core.log"
+  },
+  {
+    "name": "spatial-adversarial",
+    "command": [
+      "node",
+      "dev/stage_c/test_adversarial.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.101,
+    "log": "spatial-adversarial.log"
+  },
+  {
+    "name": "spatial-schedules",
+    "command": [
+      "node",
+      "dev/stage_c/test_schedules.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 1.816,
+    "log": "spatial-schedules.log"
+  },
+  {
+    "name": "camera-spatial",
+    "command": [
+      "node",
+      "dev/stage_c/test_camera.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.024,
+    "log": "camera-spatial.log"
+  },
+  {
+    "name": "view",
+    "command": [
+      "node",
+      "dev/stage_d/test_view.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/focused/view.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.068,
+    "log": "view.log"
+  },
+  {
+    "name": "independence",
+    "command": [
+      "node",
+      "dev/stage_d/test_independence.js",
+      "/workspace/scratch/5474f9164bc4/backroomsproject/dev/stage_e/evidence/final/focused/independence.json"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 0,
+    "seconds": 0.4,
+    "log": "independence.log"
+  },
+  {
+    "name": "smiler",
+    "command": [
+      "node",
+      "dev/tests/run.js",
+      "s_smiler.js"
+    ],
+    "runtime": "v25.9.0",
+    "exitCode": 1,
+    "seconds": 13.485,
+    "log": "smiler.log"
+  }
+]

@@ -1,29 +1,35 @@
 # Stage E Git checkpoints
 
-Status: E0 parent/preflight evidence recorded; E1–E5 NOT STARTED.
+Working branch: `stage-e`. Stage F has not begun. `main` was not modified,
+repaired, reset or merged during this continuation. Its earlier accidental merge
+is a separate human task.
 
-Working branch: `stage-e`. Do not merge into `main` without the user's separate authorization. Stage F has not begun.
-
-The accepted Stage D starting commit and E0 base are both:
-
-`478ada6cf534d40810e28709755e88f0b53b6ee5`
-
-The recovery request explicitly permits E0 to reference this existing base when implementation files do not change. This documentation commit adds the supplied authority documents and generated preflight evidence only. Its identity is available from Git history; the current commit does not embed its own SHA.
-
-| Checkpoint | Commit / status |
+| Checkpoint | Remote commit |
 | --- | --- |
-| E0 — parent/preflight | `478ada6cf534d40810e28709755e88f0b53b6ee5`; evidence in `dev/stage_e/E0_PREFLIGHT.md` |
-| E1 — navigation graph | NOT STARTED |
-| E2 — physical routes | NOT STARTED |
-| E3 — sensor boundaries and recovery ZIP | NOT STARTED |
-| E4 — real brains and hidden-elevation proof | NOT STARTED |
-| E5 — regression candidate | NOT STARTED |
-| Final Stage E | NOT STARTED |
+| Accepted Stage D base | `478ada6cf534d40810e28709755e88f0b53b6ee5` |
+| E0 parent/preflight | `c034a6d3d22e4eeb5f183a3017c429caf9bed356` |
+| E1 navigation graph | `8770a2759f7727c3ff4704eed371493306e92490` |
+| E2 physical routes | `e9bc7b8bc58674db0823cae00949c93dbc44e1f5` |
+| E3 sensors/working checkpoint | `1b2f7b6c2c40b1781c43834e4b6e12a28dbd1cce` |
+| E4 progress safeguard | `46cfb25d310b076b34c230797764d00483c772d2` |
+| E4 real entities/anti-cheating | `7d63daa2a1f2d1f1031495277a7e5d5c290271ba` |
+| E5 original regression candidate | `bca4bb1ca183e7c2cb83a676d4f3c3e3167f954f` |
+| E5 flat coarse-motion repair | `7f9afe23b00180cfacef699591cf795fd6ac62ce` |
+| E5 acceptance/recovery evidence | `e6d911171f99ad5a78b3d1fcf0f7423e5e9cd354` |
+| E5 validation/workload harnesses | `b3067a7ea1488792e7303f3d46ea6791fa94ec42` |
+| E5 package/browser tooling | `b8280e35414b76c01bfe5df90b1bf51ab730d4a8` |
+| E5 preserved parity/spatial results | `836d432d8673725ca84cb30a2873e3082787193a` |
+| E5 controlled browser/served runtime | `49a02c3255024582346a68ea123865bb54549b16` |
+| Final Stage E | Exact SHA appended to the external copy of this ledger and recorded in `25D_STAGE_E_PACKAGE_VERIFICATION.json`. |
 
-See `dev/stage_e/reference/RECOVERY_REQUEST.md` for the user-supplied E0–E5 definitions, Node 25.9.0 runtime, startup-banner request, final package name, and commit/push policy. The input pack's technical specification is retained beside it. The archive checksum and complete immutable-parent manifest are under `dev/stage_e/evidence/e0/`.
+The exact initial HEAD was bca4bb1; all required milestones are ancestors in the
+Stage E chain. Unique work was committed and published before subsequent long
+verification. Concurrent Stage E updates were preserved. Pushes used non-forced
+GitHub ref updates with exact local/remote tree equality. API commit metadata can
+produce a different SHA from an equivalent temporary local commit; this ledger
+lists remote identities.
 
-## Current limitation
-
-The environment-onboarding session that prepared E0 has a higher-priority instruction prohibiting intentional application-source and test edits. Its branch and evidence preparation can proceed; implementation requires a regular coding session. The user has already authorized the Stage E source/test work, E0–E5 commits and pushes, and the presentation-only startup banner. No additional user approval is needed for that scope once the session restriction is absent.
-
-The original strict trace verifier remains nonzero on historical Node 24.19.0 versus current Node 25.9.0 metadata. The unmodified record comparator reports all 46 traces / 35,098 records identical at tolerance zero. These are separate results; historical reference files and assertions remain frozen.
+A commit cannot embed its own SHA. The internal final entry points to the external
+identity emitted after the final push. Package contents are the final commit's
+tracked tree. Its checksum is also external. Historical progress notes remain
+unchanged history; this report set and external identity are the current handoff.

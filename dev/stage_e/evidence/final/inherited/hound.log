@@ -1,0 +1,43 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+
+> far-backrooms@23.3.6-hqa-search-polish test:hound
+> node dev/tests/run.js s_hound2e.js
+
+PASS 2E H1 identified human with flashlight warrants pursuit  [265ms]
+       all assertions passed
+PASS 2E H2 swept beam reaches Hound from behind: attention then identification  [56ms]
+       all assertions passed
+PASS 2E H3 hidden carrier: anonymous light investigation; replay cannot back-project  [226ms]
+       all assertions passed
+PASS 2E H4 solid wall blocks direct beam and impossible evidence  [399ms]
+       all assertions passed
+PASS 2E H5 IR OFF vs HIGH: identical complete decisions each tick  [162ms]
+       all assertions passed
+PASS 2E H6 hidden corner branches cannot change prediction  [74ms]
+       360 identical decisions after same visible approach
+PASS 2E H7 fresh hidden running after loss causes anonymous investigation (2F attribution)  [34ms]
+       all assertions passed
+PASS 2E H8 silent hidden reposition does not cause magical following  [88ms]
+       360 identical decisions after same visible approach
+PASS 2E H9 nearby noisy hiding is exposed through real movement footsteps  [45ms]
+       all assertions passed
+PASS 2E H10 failed search reduces confidence and ends within finite budget  [160ms]
+       all assertions passed
+PASS 2E H11 stable multiplayer target, then meaningful switch after loss and dwell  [46ms]
+       all assertions passed
+PASS 2E H12 listening is watchdog-safe; blocked movement still recovers  [58ms]
+       all assertions passed
+PASS 2E H13 long-run finite states, valid targets, bounded memory and collision  [860ms]
+       21600 ticks; 1782 search samples; longest stationary active interval 1.07s
+PASS 2E/HQA H14 eye contact delays pre-pursuit commitment but never suppresses an already committed chase  [39ms]
+       all assertions passed
+PASS 2E H15 flashlight off stops new light observations without deleting an identified human  [34ms]
+       all assertions passed
+PASS 2E H16 bounded deterministic traits; private HP and inventory cannot change decisions  [375ms]
+       all assertions passed
+PASS 2E H17 social sound carries no prey identity or shared memory  [26ms]
+       all assertions passed
+PASS 2E/HQA H18 close-range walking orbit is not an indefinite safe zone  [210ms]
+       six walking close-orbits all caught; 3.10, 3.33, 3.20, 0.63, 0.67, 0.63 s
+
+18/18 passed

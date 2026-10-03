@@ -1,0 +1,27 @@
+node v25.9.0
+PASS LC1 an ordinary client held by a real hound: respawn, join, a vanish, leave -> join and a spawn claim all fail; it never comes back free
+       captured (Hound, down); respawn: held (down) at 4200,3504 -> join: held (down) at 4200,3504 -> vanish: held (down) at 4200,3504 -> leave: held (crawl) at 4200,3504 -> join: held (crawl) at 4200,3504 -> claims a spawn: held (crawl) at 4200,3504
+PASS LC2 ...and the capture then ends the ordinary way, as the entity decides (a death or a release)
+       the capture ended in a death; afterwards alive at 960,3264
+PASS LC3 closing the connection while held forfeits the capture: the victim dies where it was held (one replay, one corpse); reconnecting is a new player, not the held one set free
+       held at 5400,3504; after closing: replays 1 (server), corpse at 5345,3519 with its flashlight; the new connection is player #23 (was #19)
+PASS LC4 NEW RUN only through its sequence: a bare join or leave while alive does nothing; vanish (2.7 s on screen) -> leave -> join starts a run at the client's spawn choice; a second vanish within 30 s does not
+       bare join then a "spawn" 4700 px away: stayed at 3300,3504; bare leave: refused; vanish + leave: in the menu; join: new run at 3600,3504; second vanish within 30 s + leave: refused
+PASS LC5 death -> respawn, admin revive -> respawn, and joining from the menu (a new connection) all still work
+       died true, respawned alive true at 960,3264; revived + respawned alive true; a new player's spawn choice 3200,3504
+PASS SP1 an ordinary client pushing into a wall in 0.5 px and 0.2 px steps never gets into or through it
+       wall face at y 1551 (open again at 1410): 422 steps of 0.5 px (claimed y 1380) -> stopped at y 1541, never above 1541, inside the wall false, corrections 0; 1055 steps of 0.2 px (claimed y 1380) -> stopped at y 1541, never above 1541, inside the wall false, corrections 0
+FAIL MT1 real move.js traces (walk, sprint, vault, crouch, crawl through a hole, slide; plain and in lag bursts) sent by an ordinary client: no correction, the server ends where the client does
+       walk, then sprint [states 12]: corrections 0, end gap 2448 px · walk, then sprint (lag bursts) [states 12]: corrections 0, end gap 2448 px · vault a counter [states 260]: corrections 0, end gap 2644 px · vault a counter (lag bursts) [states 260]: corrections 0, end gap 2644 px · crouch + crawl through a wall hole [states 34]: corrections 0, end gap 2931 px · crouch + crawl through a wall hole (lag bursts) [states 34]: corrections 0, end gap 2931 px · sprint + slide [states 512]: corrections 0, end gap 3303 px · sprint + slide (lag bursts) [states 512]: corrections 0, end gap 3303 px
+node:internal/process/promises:330
+      new UnhandledPromiseRejection(reason);
+      ^
+
+UnhandledPromiseRejection: This error originated either by throwing inside of an async function without a catch block, or by rejecting a promise which was not handled with .catch(). The promise rejected with the reason "#<_ErrorEvent>".
+    at throwUnhandledRejectionsMode (node:internal/process/promises:330:7)
+    at processPromiseRejections (node:internal/process/promises:413:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:32) {
+  code: 'ERR_UNHANDLED_REJECTION'
+}
+
+Node.js v25.9.0

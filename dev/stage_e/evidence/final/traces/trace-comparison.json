@@ -1,0 +1,680 @@
+{
+  "status": "IDENTICAL RECORDS",
+  "runtime": "v25.9.0",
+  "frozenRuntime": "v24.19.0",
+  "tolerance": 0,
+  "traces": 46,
+  "records": 35098,
+  "mapExport": "BYTE IDENTICAL",
+  "frozenFilesUnchanged": true,
+  "comparisons": [
+    {
+      "trace": "motor-idle",
+      "status": "IDENTICAL RECORDS",
+      "records": 120,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-walk",
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-sprint",
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-acceleration-deceleration",
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-crouch",
+      "status": "IDENTICAL RECORDS",
+      "records": 120,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-crawl",
+      "status": "IDENTICAL RECORDS",
+      "records": 60,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-slide",
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-exhaustion",
+      "status": "IDENTICAL RECORDS",
+      "records": 960,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-recovery",
+      "status": "IDENTICAL RECORDS",
+      "records": 240,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-recovery-threshold",
+      "status": "IDENTICAL RECORDS",
+      "records": 30,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-vault",
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "motor-deep-carpet",
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+          "actual": "727fc7a4b077502b8944ad7debfde26a03d37e594c09f86295edfc731ee3e217"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H1",
+      "status": "IDENTICAL RECORDS",
+      "records": 30,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-HQA-H14",
+      "status": "IDENTICAL RECORDS",
+      "records": 100,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H6",
+      "status": "IDENTICAL RECORDS",
+      "records": 756,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H10",
+      "status": "IDENTICAL RECORDS",
+      "records": 4215,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-HQA-H18",
+      "status": "IDENTICAL RECORDS",
+      "records": 428,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H3",
+      "status": "IDENTICAL RECORDS",
+      "records": 33,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H7",
+      "status": "IDENTICAL RECORDS",
+      "records": 9,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H15",
+      "status": "IDENTICAL RECORDS",
+      "records": 39,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H5",
+      "status": "IDENTICAL RECORDS",
+      "records": 2160,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_smiler-SM01",
+      "status": "IDENTICAL RECORDS",
+      "records": 1764,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_smiler-SM03",
+      "status": "IDENTICAL RECORDS",
+      "records": 3600,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_smiler-SM04",
+      "status": "IDENTICAL RECORDS",
+      "records": 852,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_smiler-SM05",
+      "status": "IDENTICAL RECORDS",
+      "records": 844,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_smiler-SM08",
+      "status": "IDENTICAL RECORDS",
+      "records": 2400,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_evidence-E4",
+      "status": "IDENTICAL RECORDS",
+      "records": 7860,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_evidence-E5",
+      "status": "IDENTICAL RECORDS",
+      "records": 1440,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_evidence-E6",
+      "status": "IDENTICAL RECORDS",
+      "records": 532,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_evidence-E7",
+      "status": "IDENTICAL RECORDS",
+      "records": 360,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F01",
+      "status": "IDENTICAL RECORDS",
+      "records": 36,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F04",
+      "status": "IDENTICAL RECORDS",
+      "records": 396,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F09",
+      "status": "IDENTICAL RECORDS",
+      "records": 402,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F20",
+      "status": "IDENTICAL RECORDS",
+      "records": 600,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "death-Hound-A",
+      "status": "IDENTICAL RECORDS",
+      "records": 271,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "death-Hound-B",
+      "status": "IDENTICAL RECORDS",
+      "records": 283,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "death-Hound-C",
+      "status": "IDENTICAL RECORDS",
+      "records": 259,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "death-Hound-D",
+      "status": "IDENTICAL RECORDS",
+      "records": 271,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "death-Smiler-A",
+      "status": "IDENTICAL RECORDS",
+      "records": 238,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "death-Smiler-B",
+      "status": "IDENTICAL RECORDS",
+      "records": 232,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "death-Smiler-C",
+      "status": "IDENTICAL RECORDS",
+      "records": 238,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "death-Smiler-D",
+      "status": "IDENTICAL RECORDS",
+      "records": 238,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "navigation-level0",
+      "status": "IDENTICAL RECORDS",
+      "records": 1163,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "2881e9871940689f10f6790facc08a50ed24b04c3eddb7e2d56152f3bf7ebf48",
+          "actual": "110b2eb11809d2c07e25329032347c96e1d96eb83ce59a218a9cbf9f9a85567d"
+        }
+      ]
+    },
+    {
+      "trace": "network-interpolation",
+      "status": "IDENTICAL RECORDS",
+      "records": 243,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "network-peer-pose",
+      "status": "IDENTICAL RECORDS",
+      "records": 180,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        }
+      ]
+    },
+    {
+      "trace": "network-lifecycle",
+      "status": "IDENTICAL RECORDS",
+      "records": 16,
+      "tolerance": 0,
+      "metadataDifferences": [
+        {
+          "field": "metadata.runtime.node",
+          "expected": "v24.19.0",
+          "actual": "v25.9.0"
+        },
+        {
+          "field": "metadata.sourceSha256",
+          "expected": "2c829640a80e9950e55f8ea37b3ed64d4e37dfaa5da9c29bebec85a71b699f13",
+          "actual": "69000a597478fcdc480699847779c3059d27ccd04c37fc6612ba15efd00a7dc9"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "browser": "151.0.7922.34",
+  "results": [
+    {
+      "label": "stage-c",
+      "hashes": {
+        "menu": "ca840d0f14603543535224d49a92dd2742ad80de12d9af37958da4e9fbb73093",
+        "playing": "50ddd427a597ecd70964880476ba6623cc205b3b496f4fb709e0758a65f2bc92"
+      },
+      "state": {
+        "elapsed": 2000,
+        "started": true,
+        "position": {
+          "x": 7848,
+          "y": 792
+        },
+        "scale": 0.8333333333333334,
+        "canvas": {
+          "width": 1280,
+          "height": 720
+        },
+        "network": false,
+        "spatialLoaded": false
+      },
+      "errors": []
+    },
+    {
+      "label": "stage-d",
+      "hashes": {
+        "menu": "ca840d0f14603543535224d49a92dd2742ad80de12d9af37958da4e9fbb73093",
+        "playing": "50ddd427a597ecd70964880476ba6623cc205b3b496f4fb709e0758a65f2bc92"
+      },
+      "state": {
+        "elapsed": 2000,
+        "started": true,
+        "position": {
+          "x": 7848,
+          "y": 792
+        },
+        "scale": 0.8333333333333334,
+        "canvas": {
+          "width": 1280,
+          "height": 720
+        },
+        "network": false,
+        "spatialLoaded": false
+      },
+      "errors": []
+    }
+  ],
+  "scope": "Real production Pixi page; deterministic SOLO fallback, seeded Math.random and elapsed-aligned frozen Playwright clock (menu 1000 ms, gameplay 2000 ms), CSS animations disabled for screenshots. Both menu and active gameplay screenshots byte-identical. Multiplayer is verified separately by inherited audits."
+}

@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "browser": "151.0.7922.34",
+  "results": [
+    {
+      "label": "stage-c",
+      "hashes": {
+        "menu": "3ae2fa761595be1eb900cff200e7f72eb6018f72d75b358d32d8381d464ceebc",
+        "playing": "7819586c0b8afb8c94a958c2720a6fc7f2ac73fbaab51c6d7c45b7f4f2adcde1"
+      },
+      "state": {
+        "elapsed": 2000,
+        "started": true,
+        "position": {
+          "x": 7848,
+          "y": 792
+        },
+        "scale": 0.8333333333333334,
+        "canvas": {
+          "width": 1280,
+          "height": 720
+        },
+        "network": false,
+        "spatialLoaded": false
+      },
+      "errors": []
+    },
+    {
+      "label": "stage-d",
+      "hashes": {
+        "menu": "3ae2fa761595be1eb900cff200e7f72eb6018f72d75b358d32d8381d464ceebc",
+        "playing": "7819586c0b8afb8c94a958c2720a6fc7f2ac73fbaab51c6d7c45b7f4f2adcde1"
+      },
+      "state": {
+        "elapsed": 2000,
+        "started": true,
+        "position": {
+          "x": 7848,
+          "y": 792
+        },
+        "scale": 0.8333333333333334,
+        "canvas": {
+          "width": 1280,
+          "height": 720
+        },
+        "network": false,
+        "spatialLoaded": false
+      },
+      "errors": []
+    }
+  ],
+  "scope": "Real production Pixi page; deterministic SOLO fallback, seeded Math.random and elapsed-aligned frozen Playwright clock (menu 1000 ms, gameplay 2000 ms), CSS animations disabled for screenshots. Both menu and active gameplay screenshots byte-identical. Multiplayer is verified separately by inherited audits."
+}

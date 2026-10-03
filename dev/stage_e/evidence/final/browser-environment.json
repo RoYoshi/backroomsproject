@@ -1,0 +1,12 @@
+{
+  "runtime": "v25.9.0",
+  "browser": "151.0.7922.34",
+  "engine": "Chromium headless shell; SwiftShader",
+  "archiveSHA256": "3cfc2bd00d1bafcf8a68dc74c9c92bb7150ddc8d26ade948a776316e1cec4f14",
+  "archiveBytes": 120231126,
+  "source": "https://storage.googleapis.com/chrome-for-testing-public/151.0.7922.34/linux64/chrome-headless-shell-linux64.zip",
+  "matchesStageDArchive": true,
+  "initialInstallerFailure": "Playwright CDN returned a truncated/non-ZIP response; official original archive restored and CRC/SHA checked",
+  "launch": "PASS",
+  "hardwareGPU": "NOT VERIFIED"
+}
