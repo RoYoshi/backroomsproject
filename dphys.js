@@ -105,10 +105,10 @@
     if(S.ctx.geometry.identity.geometryMode!=='spatial')throw Error('Explicit spatial geometry required');
     S.spatial=true;S.motion=M.passive(S.ctx.geometry);S.geometryHash=S.ctx.geometry.identity.contentHash;
     const P=M.DEATH_PROFILES,b=S.b,v=S.ctx.victim,a=S.ctx.src;
-    S.motion.initialize(b,P.body,v.z,v.vz||0);
+    S.motion.initialize(b,P.body,v.z,v.vz||0,v.shape||M.PROFILES.down);
     S.motion.initialize(S.at,a.shape||P[S.hound?'hound':'smiler'],a.z,a.vz||0);
     if(Number.isFinite(a.vx))S.at.vx=a.vx;if(Number.isFinite(a.vy))S.at.vy=a.vy;
-    S.h.forEach(h=>S.motion.initialize(h,P.hand,b.z+5,v.vz||0));
+    S.h.forEach(h=>{const target={x:h.x+(b.x-v.x),y:h.y+(b.y-v.y),z:b.z+5};h.x=b.x;h.y=b.y;S.motion.initialize(h,P.hand,b.z+9,v.vz||0);attachSpatial(S,h,target,true);S.motion.support(h);});
     S.eq.x=b.x;S.eq.y=b.y;S.motion.initialize(S.eq,P.light,b.z+9,v.vz||0);
     S.hat.x=b.x;S.hat.y=b.y;S.motion.initialize(S.hat,P.hat,b.z+9,v.vz||0);
     attachSpatial(S,S.eq,{x:S.h[1].x,y:S.h[1].y,z:S.h[1].z+2},true);
@@ -232,7 +232,7 @@
   function snapshot(S){
     if(!S.spatial)throw Error('Spatial snapshot required');
     const mass=(o,id)=>({id,x:o.x,y:o.y,z:o.z,vx:o.vx,vy:o.vy,vz:o.vz,shape:{...o.shape},support:o.supportId,normal:o.normal,stable:o.stable,sleeping:o.sleeping,mode:o.motionMode,revision:o.revision,yaw:o.th??o.rot??o.a??0,angularVelocity:o.om??o.w??o.av??0,tilt:o.tilt||{x:0,y:0},contacts:o.contacts.map(c=>({primitiveId:c.primitiveId,normal:c.normal,point:c.point,substep:c.substep})),diagnostics:o.diagnostics.slice(-4)});
-    return {version:SPATIAL_VERSION,geometryHash:S.geometryHash,substep:S.stepN,time:S.t,duration:S.dur,state:S.state,phase:S.phase,body:mass(S.b,'body'),hands:S.h.map((h,i)=>mass(h,'hand:'+i)),attacker:mass(S.at,'attacker'),light:S.eq.has?{...mass(S.eq,'light'),held:S.eq.held}:null,hat:S.hat.has?{...mass(S.hat,'hat'),attached:S.hat.on}:null,beam:beamState(S),decals:S.decals.map(d=>({...d})),trail:S.spatialTrail.map(p=>({...p})),events:S.physicalEvents.map(e=>({...e})),eventSequence:S.physicalSequence};
+    return {version:SPATIAL_VERSION,geometryHash:S.geometryHash,substep:S.stepN,time:S.t,duration:S.dur,state:S.state,phase:S.phase,attackerOwned:S.t<S.dur,body:mass(S.b,'body'),hands:S.h.map((h,i)=>mass(h,'hand:'+i)),attacker:mass(S.at,'attacker'),light:S.eq.has?{...mass(S.eq,'light'),held:S.eq.held}:null,hat:S.hat.has?{...mass(S.hat,'hat'),attached:S.hat.on}:null,beam:beamState(S),decals:S.decals.map(d=>({...d})),trail:S.spatialTrail.map(p=>({...p})),events:S.physicalEvents.map(e=>({...e})),eventSequence:S.physicalSequence};
   }
 
   /* how hard the victim is still fighting back at time t (0 = limp .. 1 = full strength); an exhausted victim starts weaker and gives up sooner */

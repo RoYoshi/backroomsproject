@@ -16,12 +16,11 @@ assert(JSON.stringify(saved).length<18000);console.log('PASS bounded active rest
 // Removing live players does not stop physical time. A long fall outlasts the
 // entire authored sequence, yet cannot be declared asleep by zero XY speed.
 const tall=wireField();tall.solids=tall.solids.filter(s=>s.id==='solid:ground');tall.supportPatches=tall.supportPatches.filter(s=>s.id==='support:ground');tall.navSurfaces=tall.navSurfaces.filter(s=>s.id==='nav:ground');tall.bounds.max.z=40000;tall.anchors[0].position.z=0;
-const fallSim=createSim({world:tall,seed:31,director:false,worldEpoch:()=> 'g4:fall'}),v=fallSim.addPlayer(8);fallSim.join(v,0);assert(fallSim.admin.previewKill(v,'smiler','B').ok);const aft=fallSim.aftermaths.get(8);
-// External physical initial fixture: lift every mass together, preserving all
-// constraints. This supplies an airborne world state to the real running kernel.
-for(const o of [aft.S.b,...aft.S.h,aft.S.at,aft.S.eq,aft.S.hat]){o.z+=20000;o.supportId=null;o.stable=false;o.sleeping=false;}
+const high=world([box('high',920,400,130,200,19980,20000)]);high.supportPatches[0].navSurfaceId='nav:high';tall.solids.push(...high.solids);tall.supportPatches.push(...high.supportPatches);tall.navSurfaces.push({...tall.navSurfaces[0],id:'nav:high',patchIds:['support:high']});
+const fallSim=createSim({world:require('../stage_e/fixture').canonical(tall),seed:31,director:false,worldEpoch:()=> 'g4:fall'}),v=fallSim.addPlayer(8);fallSim.join(v,0);Object.assign(v,{z:20000,vx:500,vz:0,supportId:'support:high',navSurfaceId:'nav:high'});assert(fallSim.admin.previewKill(v,'smiler','B').ok);const aft=fallSim.aftermaths.get(8);
+assert.equal(aft.event.initial.victim.z,20000);assert.equal(aft.event.initial.attacker.z,20000);
 fallSim.removePlayer(v);for(let i=0;i<300;i++){fallSim.step(1/60);valid(aft.S);}assert(aft.S.t>aft.S.dur);assert(aft.S.b.z>1000);assert.equal(aft.S.state,'ACTIVE');assert(!aft.S.b.sleeping);assert.equal(fallSim.players.length,0);const mid=aft.S.b.z;
-for(let i=0;i<600;i++)fallSim.step(1/60);assert(aft.S.b.z<1);assert.equal(fallSim.bodies.size,1);console.log('long fall end',JSON.stringify(DP.snapshot(aft.S)));assert.equal(aft.S.state,'SLEEPING');const ver=fallSim.bodyVer,steps=aft.S.stepN;for(let i=0;i<120;i++)fallSim.step(1/60);assert.equal(fallSim.bodyVer,ver);assert.equal(aft.S.stepN,steps);
+for(let i=0;i<900&&aft.S.state!=='SLEEPING';i++){fallSim.step(1/60);valid(aft.S);}assert(aft.S.b.z<1);assert.equal(fallSim.bodies.size,1);assert(fallSim.engine.entities.find(e=>e.id===aft.attackerId).z<1,'released attacker resumes existing gravity without players');console.log('long fall settled at',aft.S.t,'seconds; quiet interval',aft.S.eq.still);assert.equal(aft.S.state,'SLEEPING');const ver=fallSim.bodyVer,steps=aft.S.stepN;for(let i=0;i<120;i++)fallSim.step(1/60);assert.equal(fallSim.bodyVer,ver);assert.equal(aft.S.stepN,steps);
 console.log('Z31 PASS no players: authored sequence ends in midair at Z',mid,'then physical settling; no idle revisions');
 // Explicit geometry replacement wakes the same settled physical masses.
 const upper=G.compile(world([box('lower',-1000,-1000,3000,3000,-20,0),box('upper',-1000,-1000,3000,3000,104,120)])),wake=DP.create(context(upper,'Smiler','B',{victim:{x:300,y:300,z:120,angle:0}}));for(let i=0;i<480;i++)DP.tick(wake);assert.equal(wake.state,'SLEEPING');const body=wake.b,light=wake.eq;
@@ -30,5 +29,5 @@ console.log('PASS support removal wakes/reuses same body, two hands, gear and ha
 // Query failure injection tests the production bounded nonpenetrating fallback.
 // Actual geometry still decides contacts/clearance; only its diagnostic is forced.
 const real=G.compile(world([box('floor',-500,-500,1500,1500,-20,0),box('wall',340,-500,30,1500,0,300,true)])),fault={...real,sweep(...args){const h=real.sweep(...args);return h?{...h,diagnostic:'INJECTED_QUERY_LIMIT'}:null;}},F=DP.create(context(fault,'Hound','C'));
-for(let i=0;i<180;i++){DP.tick(F);valid(F);}assert(F.b.diagnostics.length||F.at.diagnostics.length);console.log('PASS bounded diagnostic query failure remains nonpenetrating');
+F.motion.sweep(F.b,{x:100,y:0,z:0});assert(F.b.diagnostics.some(d=>d.code==='INJECTED_QUERY_LIMIT'));for(let i=0;i<180;i++){DP.tick(F);valid(F);}assert(F.b.diagnostics.length||F.at.diagnostics.length);console.log('PASS bounded diagnostic query failure remains nonpenetrating');
 console.log('G4 properties PASS');

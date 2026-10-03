@@ -140,6 +140,10 @@ function stepAftermaths(){
   if(!spatial)return;pruneAftermaths();
   for(const [id,a]of aftermaths){if(!deathPhysics.advanceSpatial(a,physicsTick))continue;if(!a.released){applyAttacker(a);if(a.S.stepN>=Math.ceil(a.S.dur*240))releaseAttacker(a);}updateBody(id,deathPhysics.spatialRecord(a));}
 }
+function stepUnobservedAttackers(){
+  if(!spatial)return;
+  for(const a of aftermaths.values()){const e=a.released&&eng.entities.find(e=>e.id===a.attackerId);if(!e||e.deathOwner||e.motionMode!=='airborne')continue;eng.motion.step(e,1/60);e.navSurfaceId=spatial.supportPatch(e.supportId)?.navSurfaceId||null;}
+}
 function pruneBodies(dt){
   if(!BODY_TTL||!bodies.size)return;
   pruneT-=dt;if(pruneT>0)return;pruneT=1;let ch=false;
@@ -265,7 +269,7 @@ function step(dt){
   for(const p of players)if(p.active&&!p.dead&&!p.exited)              // touching a glitched wall takes you out
     for(const g of glitches)if(Math.hypot(p.x-g.x,p.y-g.y)<54&&(!spatial||(Math.abs(p.z-g.z)<12&&spatial.raycast({x:p.x,y:p.y,z:p.z+12},{x:g.x,y:g.y,z:g.z+12},`visible`)===null))){p.exited=true;p.exitSeq=(p.exitSeq|0)+1;p.exitT=runT-p.t0;p.active=false;break}
   if(frozen){stepAftermaths();return;}
-  if(!players.some(p=>p.active&&!p.dead&&!p.exited)){stepAftermaths();return;}   // the halls hold their breath while nobody is alive
+  if(!players.some(p=>p.active&&!p.dead&&!p.exited)){stepUnobservedAttackers();stepAftermaths();return;}   // the halls hold their breath while nobody is alive
   dt*=speed;runT+=dt;
   if(bmode===`auto`)Rc(dt);else V.blackout=bmode===`on`;
   PR=PR+(Math.min(1,runT/540)-PR)*Math.min(1,dt);eng.pressure=PR;

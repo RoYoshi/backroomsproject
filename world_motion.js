@@ -269,8 +269,17 @@ function passive(geometry){
   if(!s||!stable){o.sleeping=false;o.still=0;o.st='ACTIVE';}
   return s;
  }
- function initialize(o,profile,z,vz=0){
+ function initialize(o,profile,z,vz=0,previousProfile=null){
   Object.assign(o,{z,vz,shape:profile,supportId:null,normal:null,stable:false,sleeping:false,still:0,st:'ACTIVE',motionMode:'airborne',contacts:[],diagnostics:[],revision:0});
+  if(!fit(o)&&previousProfile){
+   // The 15-radius living envelope becomes the locked 18-radius corpse.
+   // Resolve only that small envelope expansion, against real nearby geometry;
+   // the old envelope must have a swept clear path to the corrected pose.
+   const start=base(o),prior={...previousProfile,height:Math.min(previousProfile.height,profile.height)},dirs=[];
+   for(let i=0;i<16;i++)dirs.push({x:Math.cos(i*Math.PI/8),y:Math.sin(i*Math.PI/8),z:0});
+   dirs.push({x:0,y:0,z:1},{x:0,y:0,z:-1});let found=false;
+   if(geometry.clearance(prior,start).fits)for(let r=.5;r<=4&&!found;r+=.5)for(const d of dirs){const delta=mul(d,r),p=add(start,delta);stats.clearance++;if(!geometry.clearance(profile,p).fits)continue;stats.sweeps++;const hit=geometry.sweep(prior,start,delta);if(hit&&hit.t<1-1e-7)continue;position(o,p);diagnostic(o,'PASSIVE_ENVELOPE_RESOLVE');found=true;break;}
+  }
   if(!fit(o))throw Error('Initial passive mass overlaps solid: '+profile.id);
   support(o);return o;
  }

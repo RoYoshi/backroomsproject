@@ -394,15 +394,7 @@ setInterval(() => {
     let ad = null;
     if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0, st: c.player.st | 0, x: Math.round(c.player.x), y: Math.round(c.player.y) })) });
     const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()] });
-    const spatialBodyMessages=c=>{
-      const full=c.bodyEpoch!==room.worldEpoch,known=full?new Map():c.bodyRevisions||new Map(),records=[],removed=[];
-      for(const id of known.keys())if(!room.sim.bodies.has(id))removed.push(id);
-      for(const [id,r]of room.sim.bodies)if(known.get(id)!==r.spatial.key+':'+r.spatial.revision)records.push(r);
-      c.bodyEpoch=room.worldEpoch;c.bodyRevisions=new Map([...room.sim.bodies].map(([id,r])=>[id,r.spatial.key+':'+r.spatial.revision]));
-      const base={t:'bodies',v:room.sim.bodyVer,worldEpoch:room.worldEpoch,simTick:room.simTick,aftermathVersion:PROTOCOL.AFTERMATH_VERSION,full,removed},parts=[[]];
-      for(const r of records){const part=parts.at(-1);if(part.length&&Buffer.byteLength(JSON.stringify({...base,b:[...part,r]}))>96000)parts.push([]);parts.at(-1).push(r);}
-      return parts.map((b,part)=>({...base,b,part,parts:parts.length}));
-    };
+    const spatialBodyMessages=c=>PROTOCOL.bodyMessages(room.sim.bodies,room.sim.bodyVer,room.worldEpoch,room.simTick,c);
     let bm = null;
     for (const c of room.clients.values()) {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }

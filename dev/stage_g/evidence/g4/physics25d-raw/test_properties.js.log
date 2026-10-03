@@ -1,0 +1,7 @@
+PASS translated Z and permuted static IDs preserve physical outcomes, contacts and sleep
+PASS bounded active restore exact at substep 640 checkpoint bytes 8939
+long fall settled at 15.516666666666666 seconds; quiet interval 0.5041666666666661
+Z31 PASS no players: authored sequence ends in midair at Z 9050.79687499993 then physical settling; no idle revisions
+PASS support removal wakes/reuses same body, two hands, gear and hat
+PASS bounded diagnostic query failure remains nonpenetrating
+G4 properties PASS

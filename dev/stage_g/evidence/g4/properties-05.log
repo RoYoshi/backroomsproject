@@ -1,0 +1,30 @@
+PASS translated Z and permuted static IDs preserve physical outcomes, contacts and sleep
+PASS bounded active restore exact at substep 640 checkpoint bytes 8939
+long fall settled at 15.516666666666666 seconds; quiet interval 0.5041666666666661
+Z31 PASS no players: authored sequence ends in midair at Z 9050.79687499993 then physical settling; no idle revisions
+PASS support removal wakes/reuses same body, two hands, gear and hat
+node:internal/assert/utils:77
+    throw err;
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(F.b.diagnostics.length||F.at.diagnostics.length)
+
+    at Object.<anonymous> (/workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/test_properties.js:32:45)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -15,6 +15,17 @@ const deathKey=i=>JSON.stringify([i.worldEpoch,i.victimId,i.lifeGeneration,i.dea
 function validDeath(e,world){const i=e?.identity;return !!i&&i.worldEpoch===world?.worldEpoch&&id(i.victimId)&&integer(i.lifeGeneration)&&integer(i.deathSequence)&&e.key===deathKey(i)&&e.version===AFTERMATH_VERSION&&e.geometry?.contentHash===world.geometryHash&&integer(e.tick)&&integer(e.seed)&&['Hound','Smiler'].includes(e.kind)&&/^[ABCD]$/.test(e.variant)&&finite(e.duration,10)&&e.duration>0&&e.initial&&['victim','attacker'].every(k=>e.initial[k]&&['x','y','z','vx','vy','vz'].every(c=>finite(e.initial[k][c])))&&e.plan&&Array.isArray(e.plan.hits||[])&&(e.plan.hits||[]).length<=8;}
 function aftermathPoses(record,g){const a=record.spatial,s=a.state;return [s.body,...s.hands,s.light,s.hat].filter(Boolean).map(o=>({worldEpoch:a.identity.worldEpoch,entityId:'d'+o.id,generation:a.identity.lifeGeneration,seq:a.revision,tick:a.tick,discontinuity:a.identity.deathSequence,x:o.x,y:o.y,z:o.z-(o.shape.centerOffset||0),vx:o.vx,vy:o.vy,vz:o.vz,yaw:o.yaw,height:o.shape.height,profile:o.shape.id,support:o.support,navSurface:g.supportPatch(o.support)?.navSurfaceId||null,mode:o.sleeping?'sleeping':o.support?'grounded':'airborne',link:null,progress:Math.min(1,s.time/s.duration),death:a.key,revision:o.revision,centerOffset:o.shape.centerOffset||0}));}
 function validAftermath(r,w){const a=r?.spatial,s=a?.state;if(!a||!validDeath(a.event,w)||a.key!==a.event.key||deathKey(a.identity)!==a.key||!integer(a.revision)||!integer(a.tick)||!s||s.version!==AFTERMATH_VERSION||s.geometryHash!==w.geometryHash||!Array.isArray(s.hands)||s.hands.length!==2)return false;const masses=[s.body,...s.hands,s.attacker,s.light,s.hat].filter(Boolean);return masses.length>=4&&masses.length<=6&&masses.every(o=>id(o.id)&&integer(o.revision)&&['x','y','z','vx','vy','vz','yaw'].every(k=>finite(o[k]))&&o.shape&&finite(o.shape.radius,100)&&o.shape.radius>0&&finite(o.shape.height,100)&&o.shape.height>0&&ref(o.support)&&typeof o.sleeping==='boolean')&&['events','decals','trail'].every(k=>Array.isArray(s[k])&&s[k].length<=({events:64,decals:32,trail:60}[k]));}
+// Shared message construction keeps the actual server path and bounded-wire
+// acceptance workload identical. Each record already caps its effect arrays.
+function bodyMessages(bodies,version,epoch,tick,client){
+ const full=client.bodyEpoch!==epoch,known=full?new Map():client.bodyRevisions||new Map(),records=[],removed=[];
+ for(const owner of known.keys())if(!bodies.has(owner))removed.push(owner);
+ for(const [owner,r]of bodies)if(known.get(owner)!==r.spatial.key+':'+r.spatial.revision)records.push(r);
+ client.bodyEpoch=epoch;client.bodyRevisions=new Map([...bodies].map(([owner,r])=>[owner,r.spatial.key+':'+r.spatial.revision]));
+ const base={t:'bodies',v:version,worldEpoch:epoch,simTick:tick,aftermathVersion:AFTERMATH_VERSION,full,removed},parts=[[]],bytes=x=>new TextEncoder().encode(JSON.stringify(x)).length;
+ for(const r of records){const part=parts.at(-1);if(part.length&&bytes({...base,b:[...part,r]})>96000)parts.push([]);parts.at(-1).push(r);}
+ return parts.map((b,part)=>({...base,b,part,parts:parts.length}));
+}
 class Client {
  constructor(local){this.local=local;this.reset();}
  reset(){this.world=null;this.life=0;this.ack=0;this.seq=0;this.tick=0;this.predictionTick=0;this.pending=[];this.pose=null;this.anchor=null;this.error=null;this.aftermaths=new Map();this.deaths=new Map();this.bodyVersion=-1;this.bodyParts=null;}
@@ -42,5 +53,5 @@ class Client {
  rebase(body,g,motor){const p=this.anchor;if(!p)return false;M.create(g).initialize(Object.assign(body,{x:p.x,y:p.y,z:p.z,vx:p.vx,vy:p.vy,vz:p.vz,angle:p.yaw}),Object.keys(M.PROFILES).find(k=>M.PROFILES[k].id===p.profile)||'stand');body.supportId=p.support;body.motionMode=p.mode==='captured'||p.mode==='dead'?'grounded':p.mode;body.step=p.step?{...p.step}:null;body.trav=null;body.netVault=p.vault?JSON.parse(JSON.stringify(p.vault)):null;if(motor){motor.vault=p.vault?JSON.parse(JSON.stringify(p.vault)):null;if(p.vault)motor.s='vault';}return true;}
  proposal(samples,extra={}){if(!this.world)throw Error('Handshake required');return {...extra,t:'sp',worldEpoch:this.world.worldEpoch,geometryHash:this.world.geometryHash,life:this.life,seq:++this.seq,ack:this.ack,samples};}
 }
-return Object.freeze({VERSION,AFTERMATH_VERSION,CAPS,LIMIT,finite,integer,id,manifest,compatible,pose,validPose,validDeath,validAftermath,deathKey,aftermathPoses,Client});
+return Object.freeze({VERSION,AFTERMATH_VERSION,CAPS,LIMIT,finite,integer,id,manifest,compatible,pose,validPose,validDeath,validAftermath,deathKey,aftermathPoses,bodyMessages,Client});
 });

@@ -1,6 +1,6 @@
 'use strict';
 const assert=require('assert'),P=require('../../spatial_protocol'),{field}=require('../stage_f/fixture'),{server,connect,wait,sleep}=require('../stage_f/wire');
-(async()=>{const d=field(),s=await server(d);let victim,observer,late;
+(async()=>{const d=field(),s=await server(d);let victim,observer,late,settledJoin;
 try{
  victim=await connect(s,d,'g3');observer=await connect(s,d,'g3');await victim.join();await victim.admin();
  victim.send({t:'a',c:'preview',k:'hound',var:'A'});
@@ -17,6 +17,8 @@ try{
  const checker=new P.Client(P.manifest(late.history.g,'local',0));checker.hello(late.client.world);assert(checker.bodies(bodies(late)));assert(!checker.bodies(bodies(late)));
  await wait(()=>bodies(observer)?.b[0]?.spatial.state.state==='SLEEPING','physical sleep',16000);
  await sleep(100);const settled=bodies(observer).b[0].spatial;assert.equal(settled.key,event.key);assert(settled.state.light);assert(settled.state.body.sleeping);assert.equal(bodies(observer).b.length,1);
+ settledJoin=await connect(s,d,'g3');await wait(()=>bodies(settledJoin)?.b.length===1,'settled late state');assert.deepEqual(bodies(settledJoin).b[0].spatial.state,settled.state);assert.equal(bodies(settledJoin).b[0].spatial.resume,null);
+ const count=observer.messages.filter(m=>m.t==='bodies').length;await sleep(250);assert.equal(observer.messages.filter(m=>m.t==='bodies').length,count,'settled state emits no redundant body frames');
  console.log('Z26/Z27 PASS real server: one canonical event, immediate corpse, duplicate/stale client results harmless, victim disconnect, active late state, eventual same settled corpse');
  console.log(JSON.stringify({identity:event.identity,initialSubstep:initial.state.substep,activeJoinSubstep:active.state.substep,settledSubstep:settled.state.substep,body:settled.state.body,light:settled.state.light,canonicalEventCount:observer.messages.filter(m=>m.t==='death').length,corpses:bodies(observer).b.length}));
-}finally{victim?.close();observer?.close();late?.close();await s.close();console.log(s.log);}})().catch(e=>{console.error(e);process.exitCode=1;});
+}finally{victim?.close();observer?.close();late?.close();settledJoin?.close();await s.close();console.log(s.log);}})().catch(e=>{console.error(e);process.exitCode=1;});

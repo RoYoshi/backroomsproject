@@ -1,0 +1,21 @@
+PASS live-to-death envelope near wall 320 0
+PASS live-to-death envelope near wall 320 1.5707963267948966
+PASS live-to-death envelope near wall 320 3.141592653589793
+PASS live-to-death envelope near wall 320 4.71238898038469
+/workspace/scratch/74c3fcf5d335/backroomsproject/world_motion.js:274
+  if(!fit(o))throw Error('Initial passive mass overlaps solid: '+profile.id);
+             ^
+
+Error: Initial passive mass overlaps solid: profile:death-body
+    at Object.initialize (/workspace/scratch/74c3fcf5d335/backroomsproject/world_motion.js:274:20)
+    at initializeSpatial (dphys.js:108:14)
+    at Object.create (dphys.js:98:23)
+    at Object.<anonymous> (/workspace/scratch/74c3fcf5d335/backroomsproject/dev/stage_g/test_initial.js:5:13)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+
+Node.js v24.19.0
