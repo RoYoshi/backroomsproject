@@ -8,3 +8,4 @@ remote predecessor. Final identity is also recorded in external package verifica
 | Milestone | Verified remote commit |
 |---|---|
 | F0 | 8afb4cba3e259255b43fb3ae89ba011345470875 |
+| F1 | a6cd766e3d5505c82f464cc4960c8f2dfcc8c569 |

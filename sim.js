@@ -26,7 +26,13 @@ const isAlive=p=>p.active&&!p.dead&&!p.exited&&p.safe<=0&&!p.god;
 const alive=()=>players.filter(isAlive);
 
 /* the engine sees the level only through these primitives (the game's own collision, ray-cast and light code) */
-const adapter=WG.bindAdapter({blackout:()=>V.blackout,qc:(p,pt,on)=>qc(p,pt,on),kinds:Gc});
+const spatial=opts.world?GEOMETRY.compile(opts.world):null;
+const MOTION=spatial?require('./world_motion'):null;
+const spatialMotion=spatial?MOTION.create(spatial):null;
+let worldGeneration=0;
+const adapter=spatial?{geometry:spatial,key:spatial.identity.contentHash,W:spatial.definition.bounds.max.x,H:spatial.definition.bounds.max.y,rooms:[],lamps:[],blackout:()=>V.blackout,qc:(p,pt,on)=>qc(p,pt,on),kinds:Gc,floor:()=>false,clear:()=>false,blockers:()=>[],ray:()=>0}:WG.bindAdapter({blackout:()=>V.blackout,qc:(p,pt,on)=>qc(p,pt,on),kinds:Gc});
+function spatialSpawn(p){const a=spatial.definition.anchors.find(a=>a.kind==='spawn');if(!a)throw Error('Spatial world needs explicit spawn');spatialMotion.initialize(Object.assign(p,a.position,{vx:0,vy:0,vz:0}));p.angle=a.yaw;p.navSurfaceId=spatial.supportPatch(p.supportId)?.navSurfaceId||null;}
+function spatialMonster(kind){const as=spatial.definition.anchors.filter(a=>a.kind===kind+'-spawn'),a=as.find(a=>!eng.entities.some(e=>Math.hypot(e.x-a.position.x,e.y-a.position.y,e.z-a.position.z)<50));return a?eng.spawn(kind,a.position.x,a.position.y,{z:a.position.z}):null;}
 const eng=AI.create({adapter,seed:SIM_SEED});
 
 function randomSpot(minSpawn,avoid,minAvoid,mustReach=true,dark=false){
@@ -43,7 +49,7 @@ function randomSpot(minSpawn,avoid,minAvoid,mustReach=true,dark=false){
   return null;
 }
 const ents=()=>eng.entities;
-function newHound(minSpawn=3000,awayFrom=[]){const at=randomSpot(minSpawn,awayFrom.concat(ents()),1500);return at?eng.spawn(`hound`,at.x,at.y):null}
+function newHound(minSpawn=3000,awayFrom=[]){if(spatial)return spatialMonster(`hound`);const at=randomSpot(minSpawn,awayFrom.concat(ents()),1500);return at?eng.spawn(`hound`,at.x,at.y):null}
 /* where a smiler first appears (spec 50): dark, out of sight, with a reason to be there - near where light meets dark, or half-hidden by walls - never on open lit floor, never beside anyone */
 function smilerSpot(minSpawn,av){
   const pl=alive();let best=null,bs=-1e9;
@@ -58,7 +64,7 @@ function smilerSpot(minSpawn,av){
   }
   return best;
 }
-function newSmiler(minSpawn=1700,awayFrom=[]){const av=awayFrom.concat(ents());const at=smilerSpot(minSpawn,av)||randomSpot(minSpawn,av,1100,true,true)||randomSpot(minSpawn,av,1100);return at?eng.spawn(`smiler`,at.x,at.y):null}
+function newSmiler(minSpawn=1700,awayFrom=[]){if(spatial)return spatialMonster(`smiler`);const av=awayFrom.concat(ents());const at=smilerSpot(minSpawn,av)||randomSpot(minSpawn,av,1100,true,true)||randomSpot(minSpawn,av,1100);return at?eng.spawn(`smiler`,at.x,at.y):null}
 /* Admin-only stress placement: the normal director keeps its wide 1500/1100 px monster spacing, but that spacing makes a 64-entity
  * test ceiling impossible to reach.  Stress spawns stay well away from live players and on reachable floor while allowing monsters to pack
  * closer together.  This is deliberately NOT used by ordinary world spawning. */
@@ -78,6 +84,7 @@ function adminStressSpot(kind){
   return null;
 }
 function adminSpawn(kind){
+  if(spatial)return eng.count(kind)<adminCap(kind)&&!!spatialMonster(kind);
   if(eng.count(kind)>=adminCap(kind))return false;
   const at=adminStressSpot(kind);if(!at)return false;
   eng.spawn(kind,at.x,at.y);return true;
@@ -92,8 +99,9 @@ function spawnMonsters(nh,ns){
 let glitches=[];
 /* one rare find per world: a paranormal cartograph lying somewhere in the halls (first to reach it keeps it) */
 let items=[];
-function makeItems(){const p=randomSpot(1800,glitches,700,true);return p?[{id:`cartograph`,x:Math.round(p.x),y:Math.round(p.y)}]:[]}
+function makeItems(){if(spatial)return spatial.definition.anchors.filter(a=>a.kind===`item`).map(a=>({id:a.id,...a.position,supportId:a.supportId}));const p=randomSpot(1800,glitches,700,true);return p?[{id:`cartograph`,x:Math.round(p.x),y:Math.round(p.y)}]:[]}
 function makeGlitches(n=3){
+  if(spatial)return spatial.definition.anchors.filter(a=>a.kind===`exit`).map(a=>({...a.position,nx:0,ny:0,supportId:a.supportId}));
   const out=[],dirs=[[1,0],[-1,0],[0,1],[0,-1]];
   for(let t=0;t<6000&&out.length<n;t++){
     const tx=(RND()*FBW)|0,ty=(RND()*FBH)|0;if(!zc(tx,ty))continue;
@@ -122,6 +130,7 @@ function pruneBodies(dt){
 }
 
 function resetWorld(){
+  worldGeneration++;
   Lc();runT=0;PR=0;eng.pressure=0;spawnT=rnd(70,150);
   spawnMonsters(RND()<.5?1:2,2+((RND()*4)|0));      // 1-2 hounds to begin with (up to 3 later), 2-5 smilers
   glitches=makeGlitches(3);items=makeItems();
@@ -131,10 +140,10 @@ function addPlayer(id){
   const p={id,x:Ic.x,y:Ic.y,vx:0,vy:0,angle:0,sprinting:false,light:true,equipment:{kind:`flashlight`},
     active:false,dead:``,dseq:0,safe:0,exited:false,t0:0,
     alive:false,kind:`flashlight`,st:0,sp:0,stamina:100,ex:0,prof:1,evq:[],caught:null,kill:null};
-  players.push(p);return p;
+  if(spatial)spatialSpawn(p);players.push(p);return p;
 }
 function removePlayer(p){eng.forgetPlayer(p.id);const i=players.indexOf(p);if(i>=0)players.splice(i,1)}
-function spawn(p){eng.forgetPlayer(p.id);p.life=(p.life||0)+1;Object.assign(p,{x:Ic.x,y:Ic.y,vx:0,vy:0,dead:``,safe:3,exited:false,caught:null,kill:null,st:0,sp:0,stamina:100,ex:0});p.evq.length=0}
+function spawn(p){eng.forgetPlayer(p.id);p.life=(p.life||0)+1;Object.assign(p,{x:Ic.x,y:Ic.y,vx:0,vy:0,dead:``,safe:3,exited:false,caught:null,kill:null,st:0,sp:0,stamina:100,ex:0});p.evq.length=0;if(spatial)spatialSpawn(p)}
 function join(p,now=Date.now()/1000){
   const L=lifeOf(p);if(L===`held`||(L===`alive`&&!vanished(p,now)))return false;       // no walking out of a capture, no new run without the new-run sequence
   p.vanishOk=false;                                                    // a vanish opens one new run (its 30 s cooldown still counts)
@@ -235,7 +244,7 @@ function step(dt){
   clockT+=dt;pruneBodies(dt);
   for(const p of players)if(p.safe>0)p.safe-=dt;
   for(const p of players)if(p.active&&!p.dead&&!p.exited)              // touching a glitched wall takes you out
-    for(const g of glitches)if(Math.hypot(p.x-g.x,p.y-g.y)<54){p.exited=true;p.exitSeq=(p.exitSeq|0)+1;p.exitT=runT-p.t0;p.active=false;break}
+    for(const g of glitches)if(Math.hypot(p.x-g.x,p.y-g.y)<54&&(!spatial||(Math.abs(p.z-g.z)<12&&spatial.raycast({x:p.x,y:p.y,z:p.z+12},{x:g.x,y:g.y,z:g.z+12},`visible`)===null))){p.exited=true;p.exitSeq=(p.exitSeq|0)+1;p.exitT=runT-p.t0;p.active=false;break}
   if(frozen)return;
   if(!players.some(p=>p.active&&!p.dead&&!p.exited))return;   // the halls hold their breath while nobody is alive
   dt*=speed;runT+=dt;
@@ -313,8 +322,8 @@ const admin={
   info(){const hs=ofKind(`hound`);return {fz:frozen?1:0,sp:speed,bo:bmode,hn:hs.length,sn:eng.count(`smiler`),mh:ADMIN_MAX_HOUNDS,ms:ADMIN_MAX_SMILERS,dh:DIRECTOR_MAX_HOUNDS,gw:glitches.length,it:items.length,pk:new Set(hs.map(h=>h.pack).filter(Boolean)).size,hs:hs.map(h=>h.state).join(`,`),dbg:debugOn?1:0,
     cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
 };
-function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;eng.sound({x:p.x,y:p.y,r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
-resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,vanish,forfeit,gaitFloor,lifeOf,
+function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110&&(!spatial||(Math.abs(p.z-t.z)<12&&!spatial.raycast({x:p.x,y:p.y,z:p.z+12},{x:t.x,y:t.y,z:t.z+12},`visible`))));if(i<0)return null;eng.sound({x:p.x,y:p.y,...(spatial?{z:p.z}:{}),r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
+resetWorld();return {geometry:spatial||WG,spatialMotion,get worldGeneration(){return worldGeneration},takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,vanish,forfeit,gaitFloor,lifeOf,
   clearAt:(x,y,r)=>sl(x,y,r),blockersAt:(x,y)=>Bc(x,y),step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},

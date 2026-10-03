@@ -1,0 +1,8 @@
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 33201 | stage-f @ a6cd766e3d55
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 33201 | stage-f @ a6cd766e3d55
+The Far Backrooms → http://localhost:33201  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+
+Error: Timeout accepted real motor
+    at wait (/workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/wire.js:4:135)
+    at async /workspace/scratch/dbb2aa7d258f/backroomsproject/dev/stage_f/test_f2.js:4:433
