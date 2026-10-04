@@ -10,6 +10,8 @@ P3B1: `ecf5b3fcda412d5356d69f2ae8668402238e15e0`, tree `4c76b9767e17a7fb2a426b20
 
 P3B2: `e29dbb009f6a60c5ab458924bf8da588c6242fa0`, tree `d605a3569a4abe0e41d87f8d6048c095b42ce82c`. Remote ref/commit/tree independently verified. Real physical trace replay, six render schedules, smoothed physical picking and production keyboard stairs/upper route/ramps/lower escape/crawl passed. Raw failed upper-entrance capture and presentation repair are retained.
 
-P3B3: continuous-interior ceiling convention, physically eligible local cover, individual tread cutaway and local overlap slab passed deterministic parent-ray equality and real two-client NORTH/LONG pixel masking. All 910 physical occluders remain; 288 continuous ceiling pieces are camera-ignored and 28 local cover groups remain. Failed harness attempts are preserved. Receipt follows publication.
+P3B3 preservation: `82f501e24c2757e6cdcf4046f36916e5e02ea589`, tree `83db9423727fb87bb603b833032dbc078c2d0bb6`. Live branch and Git commit independently read during recovery. All 3,550 preserved files match remote blobs and modes exactly. Missing local worktree metadata was reconstructed without replacing source or evidence.
+
+P3B3 COMPLETE: continuous-interior ceiling convention, physically eligible local cover, individual tread cutaway and local overlap slab passed deterministic parent-ray equality and real two-client NORTH/LONG pixel masking. All 910 physical occluders remain; 288 continuous ceiling pieces are camera-ignored and 28 local cover groups remain. Failed harness attempts 01/02 and passing attempt 03 are preserved. Minimal closeout reran cutaway/physical-ray assertions and immutable-runtime verification successfully, with zero runtime changes. Completion commit/tree receipt follows publication.
 
 P3B4–P3B5: pending. Main is not modified or merged. Part 3C is not begun.

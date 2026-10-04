@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "branch": "part-3b",
+  "commit": "82f501e24c2757e6cdcf4046f36916e5e02ea589",
+  "tree": "83db9423727fb87bb603b833032dbc078c2d0bb6",
+  "remoteBranchAndCommitIndependentlyRead": true,
+  "preservedFilesAudited": 3550,
+  "allBlobsAndModesMatch": true,
+  "workspaceSourceReplaced": false,
+  "localGitMetadataRecovery": "Missing worktree gitdir reconstructed from independently read exact remote tree/commit and byte-identical existing files. Shallow boundary at preservation commit; no reset or clone.",
+  "historicalFailuresPreserved": ["browser-cutaway-01", "browser-cutaway-02"],
+  "passingBrowserEvidence": "browser-cutaway-03/result.json",
+  "closeoutValidation": ["closeout-01/cutaway.json", "closeout-01/invariants.json"],
+  "p3b3Status": "COMPLETE",
+  "runtimeChangesDuringCloseout": 0,
+  "mainHeadObserved": "7781e1ac34aa09970df57fae3fc107a873fa2731"
+}
