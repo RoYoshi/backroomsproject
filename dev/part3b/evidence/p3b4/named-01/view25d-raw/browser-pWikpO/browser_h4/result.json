@@ -1,0 +1,5987 @@
+{
+  "status": "PASS",
+  "browser": "151.0.7922.34",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "checks": [
+    {
+      "name": "16x9 production matrix",
+      "case": {
+        "id": "16x9",
+        "w": 1280,
+        "h": 720,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "point": {
+        "x": 690.2519577325199,
+        "y": 352.44126802440013
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275857,
+        "ray": {
+          "from": {
+            "x": 216.88900875379613,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321694,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275857,
+        "ray": {
+          "from": {
+            "x": 216.88900875379613,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321694,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        },
+        "yaw": 0.15037350596634624,
+        "pitch": -0.22705333874728276
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 175.99728605334496,
+          "y": -24.9899621672929,
+          "z": 50
+        },
+        "distance": 185.68036854694415,
+        "ray": {
+          "from": {
+            "x": 175.30433956737758,
+            "y": 2007.1060686148674,
+            "z": 4096
+          },
+          "to": {
+            "x": 177.25808504406407,
+            "y": -2114.5399651789794,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 175.30433956737758,
+                "y": 2007.1060686148674,
+                "z": 4096
+              },
+              "to": {
+                "x": 175.30433956737758,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 175.30433956737758,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 177.25808504406407,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 177.25808504406407,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 177.25808504406407,
+                "y": -2114.5399651789794,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "hiddenPixels": 0,
+      "hiddenBeam": 0,
+      "positive": 4546,
+      "touches": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ],
+      "hiddenKinds": [
+        "hound",
+        "smiler",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "decal",
+        "trail"
+      ],
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 3,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 41,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 25,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:ground-north",
+          "solid:ramp",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 3,
+        "occluders": 32,
+        "triangles": 430,
+        "target": {
+          "width": 1280,
+          "height": 720,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 7423248,
+        "actorTextureBytes": 1802240,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 3686400,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 101.30000000074506,
+        "cutawayMs": 0.5
+      },
+      "pipeline": {
+        "inFlight": true,
+        "skippedFrames": 16,
+        "completedFrames": [
+          1023.3000000007451,
+          16.100000001490116,
+          5098.0999999996275,
+          702.2999999988824,
+          916.6999999992549
+        ]
+      },
+      "drainedFrameMs": [
+        731.1999999992549,
+        1018.3000000007451,
+        998.1999999992549
+      ],
+      "settings": {
+        "c": "",
+        "s": 1,
+        "o": 1,
+        "keys": true,
+        "coords": true,
+        "title": true,
+        "auto": true,
+        "vol": 1
+      },
+      "uiScale": "1",
+      "glError": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p2",
+        "generation": 1,
+        "seq": 733,
+        "tick": 733,
+        "discontinuity": 3,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "packets": 23,
+      "canvases": [
+        {
+          "id": "",
+          "display": "block",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "mp",
+          "display": "none",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "light",
+          "display": "none",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "map",
+          "display": "inline",
+          "width": 576,
+          "height": 432
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "lightZoom",
+          "display": "block",
+          "width": 260,
+          "height": 170
+        },
+        {
+          "id": "camGrain",
+          "display": "none",
+          "width": 200,
+          "height": 112
+        },
+        {
+          "id": "glitchFx",
+          "display": "none",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "invLight",
+          "display": "block",
+          "width": 132,
+          "height": 132
+        }
+      ]
+    },
+    {
+      "name": "16x9 actual mouse into accepted fixed-tick input",
+      "wire": {
+        "aim": {
+          "kind": "actor",
+          "actorId": "h1",
+          "t": 0.495599365234375,
+          "point": {
+            "x": 219.6984827799479,
+            "y": 169.04533532969157,
+            "z": 36.04999999999998
+          },
+          "presentationPoint": {
+            "x": 219.6984827799479,
+            "y": 169.04533532969157,
+            "z": 36.04999999999998
+          },
+          "distance": 61.97039161933951,
+          "ray": {
+            "from": {
+              "x": 216.88900353773585,
+              "y": 2199.442928674086,
+              "z": 4096
+            },
+            "to": {
+              "x": 224.15142952127658,
+              "y": -1897.6494634100732,
+              "z": -4096
+            },
+            "segments": [
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 2199.442928674086,
+                  "z": 4096
+                },
+                "to": {
+                  "x": 216.88900353773585,
+                  "y": 253.32972112691647,
+                  "z": 203.77358490566073
+                }
+              },
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 253.32972112691647,
+                  "z": 203.77358490566073
+                },
+                "to": {
+                  "x": 224.15142952127658,
+                  "y": 35.45691956865029,
+                  "z": -229.78723404255314
+                }
+              },
+              {
+                "from": {
+                  "x": 224.15142952127658,
+                  "y": 35.45691956865029,
+                  "z": -229.78723404255314
+                },
+                "to": {
+                  "x": 224.15142952127658,
+                  "y": -1897.6494634100732,
+                  "z": -4096
+                }
+              }
+            ]
+          },
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 0.8333333333333334,
+            "minX": -608,
+            "maxX": 928,
+            "minY": -272,
+            "maxY": 592
+          },
+          "yaw": 0.15037324015543566,
+          "pitch": -0.22705336769077103
+        },
+        "sample": {
+          "tick": 1212,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "yaw": 0.15037324015543566,
+          "posture": "stand",
+          "support": "support:ground-north",
+          "mv": {
+            "s": 0,
+            "q": 1,
+            "st": 100,
+            "ex": 0,
+            "sp": 0,
+            "ev": []
+          },
+          "pitch": -0.22705336769077103,
+          "presentation": {
+            "k": "lantern",
+            "n": "H4 16x9",
+            "c": "#ffe7b2",
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#3d423c,#9aa0a6,#a3372c",
+            "l": 1,
+            "ir": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "16x10-small-ui production matrix",
+      "case": {
+        "id": "16x10-small-ui",
+        "w": 1280,
+        "h": 800,
+        "dpr": 1,
+        "ui": 0.5,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "point": {
+        "x": 695.8355085916888,
+        "y": 391.60140891600014
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.69848825360484,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.69848825360484,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275859,
+        "ray": {
+          "from": {
+            "x": 216.88900875379616,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321696,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379616,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379616,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379616,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321696,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321696,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321696,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.9259259259259259,
+          "minX": -531.2,
+          "maxX": 851.2,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.69848825360484,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.69848825360484,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275859,
+        "ray": {
+          "from": {
+            "x": 216.88900875379616,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321696,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379616,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379616,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379616,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321696,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321696,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321696,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.9259259259259259,
+          "minX": -531.2,
+          "maxX": 851.2,
+          "minY": -272,
+          "maxY": 592
+        },
+        "yaw": 0.1503735059663462,
+        "pitch": -0.22705333874728265
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 175.99728605334488,
+          "y": -24.98996216729293,
+          "z": 50
+        },
+        "distance": 185.68036854694418,
+        "ray": {
+          "from": {
+            "x": 175.3043395673775,
+            "y": 2007.1060686148674,
+            "z": 4096
+          },
+          "to": {
+            "x": 177.258085044064,
+            "y": -2114.5399651789794,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 175.3043395673775,
+                "y": 2007.1060686148674,
+                "z": 4096
+              },
+              "to": {
+                "x": 175.3043395673775,
+                "y": 60.99286106769763,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 175.3043395673775,
+                "y": 60.99286106769763,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 177.258085044064,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 177.258085044064,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 177.258085044064,
+                "y": -2114.5399651789794,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.9259259259259259,
+          "minX": -531.2,
+          "maxX": 851.2,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "hiddenPixels": 0,
+      "hiddenBeam": 0,
+      "positive": 5813,
+      "touches": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ],
+      "hiddenKinds": [
+        "hound",
+        "smiler",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "decal",
+        "trail"
+      ],
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "stats": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.9259259259259259,
+          "minX": -531.2,
+          "maxX": 851.2,
+          "minY": -272,
+          "maxY": 592
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 3,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 41,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 25,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:ground-north",
+          "solid:ramp",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 3,
+        "occluders": 32,
+        "triangles": 430,
+        "target": {
+          "width": 1280,
+          "height": 800,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 800,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 8242448,
+        "actorTextureBytes": 1802240,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 4096000,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 27.399999998509884,
+        "cutawayMs": 0.19999999925494194
+      },
+      "pipeline": {
+        "inFlight": true,
+        "skippedFrames": 12,
+        "completedFrames": [
+          972.7000000011176,
+          27.40000000037253,
+          5711,
+          739,
+          768.5999999996275
+        ]
+      },
+      "drainedFrameMs": [
+        769.5,
+        786.5,
+        946
+      ],
+      "settings": {
+        "c": "",
+        "s": 0.5,
+        "o": 1,
+        "keys": true,
+        "coords": true,
+        "title": true,
+        "auto": true,
+        "vol": 1
+      },
+      "uiScale": "0.5",
+      "glError": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p3",
+        "generation": 1,
+        "seq": 1539,
+        "tick": 1539,
+        "discontinuity": 3,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.413419186876495,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "packets": 23,
+      "canvases": [
+        {
+          "id": "",
+          "display": "block",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "id": "mp",
+          "display": "none",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "id": "light",
+          "display": "none",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "id": "map",
+          "display": "inline",
+          "width": 576,
+          "height": 432
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "lightZoom",
+          "display": "block",
+          "width": 260,
+          "height": 170
+        },
+        {
+          "id": "camGrain",
+          "display": "none",
+          "width": 200,
+          "height": 112
+        },
+        {
+          "id": "glitchFx",
+          "display": "none",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "invLight",
+          "display": "block",
+          "width": 132,
+          "height": 132
+        }
+      ]
+    },
+    {
+      "name": "16x10-small-ui actual mouse into accepted fixed-tick input",
+      "wire": {
+        "aim": {
+          "kind": "actor",
+          "actorId": "h1",
+          "t": 0.495599365234375,
+          "point": {
+            "x": 219.69849003082274,
+            "y": 169.04535345687864,
+            "z": 36.04999999999998
+          },
+          "presentationPoint": {
+            "x": 219.69849003082274,
+            "y": 169.04535345687864,
+            "z": 36.04999999999998
+          },
+          "distance": 61.970401250275195,
+          "ray": {
+            "from": {
+              "x": 216.88901044737617,
+              "y": 2199.442945948187,
+              "z": 4096
+            },
+            "to": {
+              "x": 224.15143731299867,
+              "y": -1897.649443930768,
+              "z": -4096
+            },
+            "segments": [
+              {
+                "from": {
+                  "x": 216.88901044737617,
+                  "y": 2199.442945948187,
+                  "z": 4096
+                },
+                "to": {
+                  "x": 216.88901044737617,
+                  "y": 253.32973840101727,
+                  "z": 203.77358490566073
+                }
+              },
+              {
+                "from": {
+                  "x": 216.88901044737617,
+                  "y": 253.32973840101727,
+                  "z": 203.77358490566073
+                },
+                "to": {
+                  "x": 224.15143731299867,
+                  "y": 35.45693904795549,
+                  "z": -229.78723404255314
+                }
+              },
+              {
+                "from": {
+                  "x": 224.15143731299867,
+                  "y": 35.45693904795549,
+                  "z": -229.78723404255314
+                },
+                "to": {
+                  "x": 224.15143731299867,
+                  "y": -1897.649443930768,
+                  "z": -4096
+                }
+              }
+            ]
+          },
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.9259259259259259,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "yaw": 0.15037351899661666,
+          "pitch": -0.22705333178483014
+        },
+        "sample": {
+          "tick": 1552,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "yaw": 0.15037351899661666,
+          "posture": "stand",
+          "support": "support:ground-north",
+          "mv": {
+            "s": 0,
+            "q": 1,
+            "st": 100,
+            "ex": 0,
+            "sp": 0,
+            "ev": []
+          },
+          "pitch": -0.22705333178483014,
+          "presentation": {
+            "k": "lantern",
+            "n": "H4 16x10-small-ui",
+            "c": "#ffe7b2",
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#3d423c,#9aa0a6,#a3372c",
+            "l": 1,
+            "ir": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "ultrawide production matrix",
+      "case": {
+        "id": "ultrawide",
+        "w": 3440,
+        "h": 1440,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "point": {
+        "x": 1855.0521364061474,
+        "y": 699.6859078155753
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.69848825360484,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.69848825360484,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275859,
+        "ray": {
+          "from": {
+            "x": 216.88900875379616,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321696,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379616,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379616,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379616,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321696,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321696,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321696,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 642.9767441860465,
+          "scale": 2.2395833333333335,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -161.48837209302326,
+          "maxY": 481.48837209302326
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.69848825360484,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.69848825360484,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275859,
+        "ray": {
+          "from": {
+            "x": 216.88900875379616,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321696,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379616,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379616,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379616,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321696,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321696,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321696,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 642.9767441860465,
+          "scale": 2.2395833333333335,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -161.48837209302326,
+          "maxY": 481.48837209302326
+        },
+        "yaw": 0.15037350596634524,
+        "pitch": -0.22705333874728265
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 175.99728605334488,
+          "y": -24.9899621672929,
+          "z": 50
+        },
+        "distance": 185.68036854694415,
+        "ray": {
+          "from": {
+            "x": 175.30433956737753,
+            "y": 2007.1060686148674,
+            "z": 4096
+          },
+          "to": {
+            "x": 177.25808504406402,
+            "y": -2114.5399651789794,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 175.30433956737753,
+                "y": 2007.1060686148674,
+                "z": 4096
+              },
+              "to": {
+                "x": 175.30433956737753,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 175.30433956737753,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 177.25808504406402,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 177.25808504406402,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 177.25808504406402,
+                "y": -2114.5399651789794,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 642.9767441860465,
+          "scale": 2.2395833333333335,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -161.48837209302326,
+          "maxY": 481.48837209302326
+        }
+      },
+      "hiddenPixels": 0,
+      "hiddenBeam": 0,
+      "positive": 29310,
+      "touches": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ],
+      "hiddenKinds": [
+        "hound",
+        "smiler",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "decal",
+        "trail"
+      ],
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 642.9767441860465,
+          "scale": 2.2395833333333335,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -161.48837209302326,
+          "maxY": 481.48837209302326
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 3,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 37,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 21,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:ground-north",
+          "solid:ramp",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 3,
+        "occluders": 32,
+        "triangles": 430,
+        "target": {
+          "width": 3165,
+          "height": 1325,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 3440,
+          "height": 1440,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 33599448,
+        "actorTextureBytes": 1802240,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 16774500,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 36,
+        "cutawayMs": 0.19999999925494194
+      },
+      "pipeline": {
+        "inFlight": true,
+        "skippedFrames": 19,
+        "completedFrames": [
+          1996.5,
+          30.40000000037253,
+          19087.5,
+          2198.5,
+          2040.1000000014901
+        ]
+      },
+      "drainedFrameMs": [
+        2239.800000000745,
+        2060.5999999996275,
+        2234.7000000011176
+      ],
+      "settings": {
+        "c": "",
+        "s": 1,
+        "o": 1,
+        "keys": true,
+        "coords": true,
+        "title": true,
+        "auto": true,
+        "vol": 1
+      },
+      "uiScale": "1",
+      "glError": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p4",
+        "generation": 1,
+        "seq": 2500,
+        "tick": 2500,
+        "discontinuity": 4,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.964996013370242,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "packets": 23,
+      "canvases": [
+        {
+          "id": "",
+          "display": "block",
+          "width": 3165,
+          "height": 1325
+        },
+        {
+          "id": "mp",
+          "display": "none",
+          "width": 3440,
+          "height": 1440
+        },
+        {
+          "id": "light",
+          "display": "none",
+          "width": 3440,
+          "height": 1440
+        },
+        {
+          "id": "map",
+          "display": "inline",
+          "width": 576,
+          "height": 432
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "lightZoom",
+          "display": "block",
+          "width": 260,
+          "height": 170
+        },
+        {
+          "id": "camGrain",
+          "display": "none",
+          "width": 200,
+          "height": 112
+        },
+        {
+          "id": "glitchFx",
+          "display": "none",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "invLight",
+          "display": "block",
+          "width": 132,
+          "height": 132
+        }
+      ]
+    },
+    {
+      "name": "ultrawide actual mouse into accepted fixed-tick input",
+      "wire": {
+        "aim": {
+          "kind": "actor",
+          "actorId": "h1",
+          "t": 0.495599365234375,
+          "point": {
+            "x": 219.6984827799479,
+            "y": 169.04535472156613,
+            "z": 36.04999999999998
+          },
+          "presentationPoint": {
+            "x": 219.6984827799479,
+            "y": 169.04535472156613,
+            "z": 36.04999999999998
+          },
+          "distance": 61.97039444982334,
+          "ray": {
+            "from": {
+              "x": 216.88900353773585,
+              "y": 2199.4429471533567,
+              "z": 4096
+            },
+            "to": {
+              "x": 224.15142952127658,
+              "y": -1897.6494425717467,
+              "z": -4096
+            },
+            "segments": [
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 2199.4429471533567,
+                  "z": 4096
+                },
+                "to": {
+                  "x": 216.88900353773585,
+                  "y": 253.3297396061871,
+                  "z": 203.77358490566073
+                }
+              },
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 253.3297396061871,
+                  "z": 203.77358490566073
+                },
+                "to": {
+                  "x": 224.15142952127658,
+                  "y": 35.456940406976784,
+                  "z": -229.78723404255314
+                }
+              },
+              {
+                "from": {
+                  "x": 224.15142952127658,
+                  "y": 35.456940406976784,
+                  "z": -229.78723404255314
+                },
+                "to": {
+                  "x": 224.15142952127658,
+                  "y": -1897.6494425717467,
+                  "z": -4096
+                }
+              }
+            ]
+          },
+          "scope": {
+            "width": 1536,
+            "height": 642.9767441860465,
+            "scale": 2.2395833333333335,
+            "minX": -608,
+            "maxX": 928,
+            "minY": -161.48837209302326,
+            "maxY": 481.48837209302326
+          },
+          "yaw": 0.1503735576957928,
+          "pitch": -0.22705335713819336
+        },
+        "sample": {
+          "tick": 2537,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "yaw": 0.1503735576957928,
+          "posture": "stand",
+          "support": "support:ground-north",
+          "mv": {
+            "s": 0,
+            "q": 1,
+            "st": 100,
+            "ex": 0,
+            "sp": 0,
+            "ev": []
+          },
+          "pitch": -0.22705335713819336,
+          "presentation": {
+            "k": "lantern",
+            "n": "H4 ultrawide",
+            "c": "#ffe7b2",
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#3d423c,#9aa0a6,#a3372c",
+            "l": 1,
+            "ir": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "high-dpr production matrix",
+      "case": {
+        "id": "high-dpr",
+        "w": 1280,
+        "h": 720,
+        "dpr": 2,
+        "ui": 1.5,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "point": {
+        "x": 690.2519577325199,
+        "y": 352.44126802440013
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275857,
+        "ray": {
+          "from": {
+            "x": 216.88900875379613,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321694,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275857,
+        "ray": {
+          "from": {
+            "x": 216.88900875379613,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321694,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        },
+        "yaw": 0.15037350596634624,
+        "pitch": -0.22705333874728276
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 175.99728605334496,
+          "y": -24.9899621672929,
+          "z": 50
+        },
+        "distance": 185.68036854694415,
+        "ray": {
+          "from": {
+            "x": 175.30433956737758,
+            "y": 2007.1060686148674,
+            "z": 4096
+          },
+          "to": {
+            "x": 177.25808504406407,
+            "y": -2114.5399651789794,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 175.30433956737758,
+                "y": 2007.1060686148674,
+                "z": 4096
+              },
+              "to": {
+                "x": 175.30433956737758,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 175.30433956737758,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 177.25808504406407,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 177.25808504406407,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 177.25808504406407,
+                "y": -2114.5399651789794,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "hiddenPixels": 0,
+      "hiddenBeam": 0,
+      "positive": 19106,
+      "touches": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ],
+      "hiddenKinds": [
+        "hound",
+        "smiler",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "decal",
+        "trail"
+      ],
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 3,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 41,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 25,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:ground-north",
+          "solid:ramp",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 3,
+        "occluders": 32,
+        "triangles": 430,
+        "target": {
+          "width": 2560,
+          "height": 1440,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 2
+        },
+        "quality": 1,
+        "newResourceBytes": 29541648,
+        "actorTextureBytes": 1802240,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 14745600,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 17,
+        "cutawayMs": 0.09999999962747097
+      },
+      "pipeline": {
+        "inFlight": true,
+        "skippedFrames": 15,
+        "completedFrames": [
+          1852,
+          10,
+          14420.099999999627,
+          1830.0999999996275,
+          1897.0999999996275
+        ]
+      },
+      "drainedFrameMs": [
+        1864.800000000745,
+        1918.0999999996275,
+        1791.4000000003725
+      ],
+      "settings": {
+        "c": "",
+        "s": 1.5,
+        "o": 1,
+        "keys": true,
+        "coords": true,
+        "title": true,
+        "auto": true,
+        "vol": 1
+      },
+      "uiScale": "1.5",
+      "glError": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p5",
+        "generation": 1,
+        "seq": 4722,
+        "tick": 4722,
+        "discontinuity": 3,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.3935518523149373,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "packets": 23,
+      "canvases": [
+        {
+          "id": "",
+          "display": "block",
+          "width": 2560,
+          "height": 1440
+        },
+        {
+          "id": "mp",
+          "display": "none",
+          "width": 2560,
+          "height": 1440
+        },
+        {
+          "id": "light",
+          "display": "none",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "map",
+          "display": "inline",
+          "width": 576,
+          "height": 432
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 600,
+          "height": 300
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "lightZoom",
+          "display": "block",
+          "width": 260,
+          "height": 170
+        },
+        {
+          "id": "camGrain",
+          "display": "none",
+          "width": 200,
+          "height": 112
+        },
+        {
+          "id": "glitchFx",
+          "display": "none",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "invLight",
+          "display": "block",
+          "width": 132,
+          "height": 132
+        }
+      ]
+    },
+    {
+      "name": "high-dpr actual mouse into accepted fixed-tick input",
+      "wire": {
+        "aim": {
+          "kind": "actor",
+          "actorId": "h1",
+          "t": 0.495599365234375,
+          "point": {
+            "x": 219.6984827799479,
+            "y": 169.04533532969157,
+            "z": 36.04999999999998
+          },
+          "presentationPoint": {
+            "x": 219.6984827799479,
+            "y": 169.04533532969157,
+            "z": 36.04999999999998
+          },
+          "distance": 61.97039161933951,
+          "ray": {
+            "from": {
+              "x": 216.88900353773585,
+              "y": 2199.442928674086,
+              "z": 4096
+            },
+            "to": {
+              "x": 224.15142952127658,
+              "y": -1897.6494634100732,
+              "z": -4096
+            },
+            "segments": [
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 2199.442928674086,
+                  "z": 4096
+                },
+                "to": {
+                  "x": 216.88900353773585,
+                  "y": 253.32972112691647,
+                  "z": 203.77358490566073
+                }
+              },
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 253.32972112691647,
+                  "z": 203.77358490566073
+                },
+                "to": {
+                  "x": 224.15142952127658,
+                  "y": 35.45691956865029,
+                  "z": -229.78723404255314
+                }
+              },
+              {
+                "from": {
+                  "x": 224.15142952127658,
+                  "y": 35.45691956865029,
+                  "z": -229.78723404255314
+                },
+                "to": {
+                  "x": 224.15142952127658,
+                  "y": -1897.6494634100732,
+                  "z": -4096
+                }
+              }
+            ]
+          },
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 0.8333333333333334,
+            "minX": -608,
+            "maxX": 928,
+            "minY": -272,
+            "maxY": 592
+          },
+          "yaw": 0.15037324015543566,
+          "pitch": -0.22705336769077103
+        },
+        "sample": {
+          "tick": 4704,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "yaw": 0.15037324015543566,
+          "posture": "stand",
+          "support": "support:ground-north",
+          "mv": {
+            "s": 0,
+            "q": 1,
+            "st": 100,
+            "ex": 0,
+            "sp": 0,
+            "ev": []
+          },
+          "pitch": -0.22705336769077103,
+          "presentation": {
+            "k": "lantern",
+            "n": "H4 high-dpr",
+            "c": "#ffe7b2",
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#3d423c,#9aa0a6,#a3372c",
+            "l": 1,
+            "ir": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "4k production matrix",
+      "case": {
+        "id": "4k",
+        "w": 3840,
+        "h": 2160,
+        "dpr": 1,
+        "ui": 2,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "point": {
+        "x": 2070.75587319756,
+        "y": 1057.3238040732003
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.69848825360492,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.69848825360492,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "distance": 61.970399382758664,
+        "ray": {
+          "from": {
+            "x": 216.88900875379625,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321705,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379625,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379625,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379625,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321705,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321705,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321705,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 2.5,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.69848825360492,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.69848825360492,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "distance": 61.970399382758664,
+        "ray": {
+          "from": {
+            "x": 216.88900875379625,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321705,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379625,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379625,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379625,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321705,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321705,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321705,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 2.5,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        },
+        "yaw": 0.15037350596634502,
+        "pitch": -0.2270533387472823
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 175.99728605334485,
+          "y": -24.98996216729293,
+          "z": 50
+        },
+        "distance": 185.68036854694418,
+        "ray": {
+          "from": {
+            "x": 175.3043395673775,
+            "y": 2007.1060686148674,
+            "z": 4096
+          },
+          "to": {
+            "x": 177.258085044064,
+            "y": -2114.5399651789794,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 175.3043395673775,
+                "y": 2007.1060686148674,
+                "z": 4096
+              },
+              "to": {
+                "x": 175.3043395673775,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 175.3043395673775,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 177.258085044064,
+                "y": -181.43358220025607,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 177.258085044064,
+                "y": -181.43358220025607,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 177.258085044064,
+                "y": -2114.5399651789794,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 2.5,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "hiddenPixels": 0,
+      "hiddenBeam": 0,
+      "positive": 21870,
+      "touches": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ],
+      "hiddenKinds": [
+        "hound",
+        "smiler",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "decal",
+        "trail"
+      ],
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 2.5,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 3,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 41,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 25,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:ground-north",
+          "solid:ramp",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 3,
+        "occluders": 32,
+        "triangles": 430,
+        "target": {
+          "width": 2730,
+          "height": 1536,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 3840,
+          "height": 2160,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 33596688,
+        "actorTextureBytes": 1802240,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 16773120,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 25.700000001117587,
+        "cutawayMs": 0.09999999962747097
+      },
+      "pipeline": {
+        "inFlight": true,
+        "skippedFrames": 13,
+        "completedFrames": [
+          2111.699999999255,
+          11.400000000372529,
+          18115.5,
+          2223.4000000003725,
+          1992.0999999996275
+        ]
+      },
+      "drainedFrameMs": [
+        2282.0999999996275,
+        2013.4000000003725,
+        2128.7000000011176
+      ],
+      "settings": {
+        "c": "",
+        "s": 2,
+        "o": 1,
+        "keys": true,
+        "coords": true,
+        "title": true,
+        "auto": true,
+        "vol": 1
+      },
+      "uiScale": "2",
+      "glError": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p6",
+        "generation": 1,
+        "seq": 6672,
+        "tick": 6672,
+        "discontinuity": 3,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 3.0741816576420034,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "packets": 23,
+      "canvases": [
+        {
+          "id": "",
+          "display": "block",
+          "width": 2730,
+          "height": 1536
+        },
+        {
+          "id": "mp",
+          "display": "none",
+          "width": 3840,
+          "height": 2160
+        },
+        {
+          "id": "light",
+          "display": "none",
+          "width": 3840,
+          "height": 2160
+        },
+        {
+          "id": "map",
+          "display": "inline",
+          "width": 576,
+          "height": 432
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "lightZoom",
+          "display": "block",
+          "width": 260,
+          "height": 170
+        },
+        {
+          "id": "camGrain",
+          "display": "none",
+          "width": 200,
+          "height": 112
+        },
+        {
+          "id": "glitchFx",
+          "display": "none",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "invLight",
+          "display": "block",
+          "width": 132,
+          "height": 132
+        }
+      ]
+    },
+    {
+      "name": "4k actual mouse into accepted fixed-tick input",
+      "wire": {
+        "aim": {
+          "kind": "actor",
+          "actorId": "h1",
+          "t": 0.495599365234375,
+          "point": {
+            "x": 219.69848277994794,
+            "y": 169.04537158406578,
+            "z": 36.04999999999998
+          },
+          "presentationPoint": {
+            "x": 219.69848277994794,
+            "y": 169.04537158406578,
+            "z": 36.04999999999998
+          },
+          "distance": 61.970396911118506,
+          "ray": {
+            "from": {
+              "x": 216.88900353773585,
+              "y": 2199.4429632222877,
+              "z": 4096
+            },
+            "to": {
+              "x": 224.1514295212766,
+              "y": -1897.649424451463,
+              "z": -4096
+            },
+            "segments": [
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 2199.4429632222877,
+                  "z": 4096
+                },
+                "to": {
+                  "x": 216.88900353773585,
+                  "y": 253.32975567511812,
+                  "z": 203.77358490566073
+                }
+              },
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 253.32975567511812,
+                  "z": 203.77358490566073
+                },
+                "to": {
+                  "x": 224.1514295212766,
+                  "y": 35.45695852726065,
+                  "z": -229.78723404255314
+                }
+              },
+              {
+                "from": {
+                  "x": 224.1514295212766,
+                  "y": 35.45695852726065,
+                  "z": -229.78723404255314
+                },
+                "to": {
+                  "x": 224.1514295212766,
+                  "y": -1897.649424451463,
+                  "z": -4096
+                }
+              }
+            ]
+          },
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 2.5,
+            "minX": -608,
+            "maxX": 928,
+            "minY": -272,
+            "maxY": 592
+          },
+          "yaw": 0.1503738338178181,
+          "pitch": -0.22705334796202153
+        },
+        "sample": {
+          "tick": 6624,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "yaw": 0.1503738338178181,
+          "posture": "stand",
+          "support": "support:ground-north",
+          "mv": {
+            "s": 0,
+            "q": 1,
+            "st": 100,
+            "ex": 0,
+            "sp": 0,
+            "ev": []
+          },
+          "pitch": -0.22705334796202153,
+          "presentation": {
+            "k": "lantern",
+            "n": "H4 4k",
+            "c": "#ffe7b2",
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#3d423c,#9aa0a6,#a3372c",
+            "l": 1,
+            "ir": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "reduced production matrix",
+      "case": {
+        "id": "reduced",
+        "w": 1280,
+        "h": 720,
+        "dpr": 1,
+        "ui": 2,
+        "q": 0.5,
+        "zoom": 1,
+        "nv": false
+      },
+      "point": {
+        "x": 690.2519577325199,
+        "y": 352.44126802440013
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275857,
+        "ray": {
+          "from": {
+            "x": 216.88900875379613,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321694,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536048,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275857,
+        "ray": {
+          "from": {
+            "x": 216.88900875379613,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321694,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379613,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321694,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321694,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        },
+        "yaw": 0.15037350596634624,
+        "pitch": -0.22705333874728276
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 175.98482365170776,
+          "y": -24.919098002561753,
+          "z": 50
+        },
+        "distance": 185.60869428250723,
+        "ray": {
+          "from": {
+            "x": 175.29241699339565,
+            "y": 2007.1738631918092,
+            "z": 4096
+          },
+          "to": {
+            "x": 177.24464043936106,
+            "y": -2114.463515975194,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 175.29241699339565,
+                "y": 2007.1738631918092,
+                "z": 4096
+              },
+              "to": {
+                "x": 175.29241699339565,
+                "y": 61.06065564463951,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 175.29241699339565,
+                "y": 61.06065564463951,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 177.24464043936106,
+                "y": -181.3571329964705,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 177.24464043936106,
+                "y": -181.3571329964705,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 177.24464043936106,
+                "y": -2114.463515975194,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        }
+      },
+      "hiddenPixels": 0,
+      "hiddenBeam": 0,
+      "positive": 1194,
+      "touches": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ],
+      "hiddenKinds": [
+        "hound",
+        "smiler",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "decal",
+        "trail"
+      ],
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": -608,
+          "maxX": 928,
+          "minY": -272,
+          "maxY": 592
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 3,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 41,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 25,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:ground-north",
+          "solid:ramp",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 3,
+        "occluders": 32,
+        "triangles": 430,
+        "target": {
+          "width": 640,
+          "height": 360,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 1
+        },
+        "quality": 0.5,
+        "newResourceBytes": 1893648,
+        "actorTextureBytes": 1802240,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 921600,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 15.099999999627471,
+        "cutawayMs": 0.19999999925494194
+      },
+      "pipeline": {
+        "inFlight": true,
+        "skippedFrames": 15,
+        "completedFrames": [
+          891.5,
+          21.800000000745058,
+          2560.5,
+          392.90000000037253,
+          374.59999999962747
+        ]
+      },
+      "drainedFrameMs": [
+        420.09999999962747,
+        394.1000000014901,
+        231.69999999925494
+      ],
+      "settings": {
+        "c": "",
+        "s": 2,
+        "o": 1,
+        "keys": true,
+        "coords": true,
+        "title": true,
+        "auto": true,
+        "vol": 1
+      },
+      "uiScale": "2",
+      "glError": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p7",
+        "generation": 1,
+        "seq": 8896,
+        "tick": 8896,
+        "discontinuity": 3,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "packets": 23,
+      "canvases": [
+        {
+          "id": "",
+          "display": "block",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "id": "mp",
+          "display": "none",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "light",
+          "display": "none",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "map",
+          "display": "inline",
+          "width": 576,
+          "height": 432
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "lightZoom",
+          "display": "block",
+          "width": 260,
+          "height": 170
+        },
+        {
+          "id": "camGrain",
+          "display": "none",
+          "width": 200,
+          "height": 112
+        },
+        {
+          "id": "glitchFx",
+          "display": "none",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "invLight",
+          "display": "block",
+          "width": 132,
+          "height": 132
+        }
+      ]
+    },
+    {
+      "name": "reduced actual mouse into accepted fixed-tick input",
+      "wire": {
+        "aim": {
+          "kind": "actor",
+          "actorId": "h1",
+          "t": 0.495599365234375,
+          "point": {
+            "x": 219.6984827799479,
+            "y": 169.04533532969157,
+            "z": 36.04999999999998
+          },
+          "presentationPoint": {
+            "x": 219.6984827799479,
+            "y": 169.04533532969157,
+            "z": 36.04999999999998
+          },
+          "distance": 61.97039161933951,
+          "ray": {
+            "from": {
+              "x": 216.88900353773585,
+              "y": 2199.442928674086,
+              "z": 4096
+            },
+            "to": {
+              "x": 224.15142952127658,
+              "y": -1897.6494634100732,
+              "z": -4096
+            },
+            "segments": [
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 2199.442928674086,
+                  "z": 4096
+                },
+                "to": {
+                  "x": 216.88900353773585,
+                  "y": 253.32972112691647,
+                  "z": 203.77358490566073
+                }
+              },
+              {
+                "from": {
+                  "x": 216.88900353773585,
+                  "y": 253.32972112691647,
+                  "z": 203.77358490566073
+                },
+                "to": {
+                  "x": 224.15142952127658,
+                  "y": 35.45691956865029,
+                  "z": -229.78723404255314
+                }
+              },
+              {
+                "from": {
+                  "x": 224.15142952127658,
+                  "y": 35.45691956865029,
+                  "z": -229.78723404255314
+                },
+                "to": {
+                  "x": 224.15142952127658,
+                  "y": -1897.6494634100732,
+                  "z": -4096
+                }
+              }
+            ]
+          },
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 0.8333333333333334,
+            "minX": -608,
+            "maxX": 928,
+            "minY": -272,
+            "maxY": 592
+          },
+          "yaw": 0.15037324015543566,
+          "pitch": -0.22705336769077103
+        },
+        "sample": {
+          "tick": 9163,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "yaw": 0.15037324015543566,
+          "posture": "stand",
+          "support": "support:ground-north",
+          "mv": {
+            "s": 0,
+            "q": 1,
+            "st": 100,
+            "ex": 0,
+            "sp": 0,
+            "ev": []
+          },
+          "pitch": -0.22705336769077103,
+          "presentation": {
+            "k": "lantern",
+            "n": "H4 reduced",
+            "c": "#ffe7b2",
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#3d423c,#9aa0a6,#a3372c",
+            "l": 1,
+            "ir": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "nv-low-zoom2 production matrix",
+      "case": {
+        "id": "nv-low-zoom2",
+        "w": 1280,
+        "h": 800,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 2,
+        "nv": true,
+        "ir": 1
+      },
+      "point": {
+        "x": 751.6709804082927,
+        "y": 383.202823363586
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536049,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536049,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275865,
+        "ray": {
+          "from": {
+            "x": 216.88900875379625,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321702,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379625,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379625,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379625,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321702,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321702,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321702,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 691.2002276234946,
+          "height": 432.0001422646841,
+          "scale": 1.8518512420068705,
+          "minX": -185.6001138117473,
+          "maxX": 505.6001138117473,
+          "minY": -56.00007113234204,
+          "maxY": 376.00007113234204
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536049,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536049,
+          "y": 169.0453523918536,
+          "z": 36.04999999999998
+        },
+        "distance": 61.97039938275865,
+        "ray": {
+          "from": {
+            "x": 216.88900875379625,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321702,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379625,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379625,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379625,
+                "y": 253.32973738611355,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321702,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321702,
+                "y": 35.45693790348956,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321702,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 691.2002276234946,
+          "height": 432.0001422646841,
+          "scale": 1.8518512420068705,
+          "minX": -185.6001138117473,
+          "maxX": 505.6001138117473,
+          "minY": -56.00007113234204,
+          "maxY": 376.00007113234204
+        },
+        "yaw": 0.15037350596634605,
+        "pitch": -0.22705333874728242
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 175.9972860533449,
+          "y": -24.9899621672929,
+          "z": 50
+        },
+        "distance": 185.68036854694415,
+        "ray": {
+          "from": {
+            "x": 175.30433956737753,
+            "y": 2007.1060686148674,
+            "z": 4096
+          },
+          "to": {
+            "x": 177.25808504406402,
+            "y": -2114.5399651789794,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 175.30433956737753,
+                "y": 2007.1060686148674,
+                "z": 4096
+              },
+              "to": {
+                "x": 175.30433956737753,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 175.30433956737753,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 177.25808504406402,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 177.25808504406402,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 177.25808504406402,
+                "y": -2114.5399651789794,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 691.2002276234946,
+          "height": 432.0001422646841,
+          "scale": 1.8518512420068705,
+          "minX": -185.6001138117473,
+          "maxX": 505.6001138117473,
+          "minY": -56.00007113234204,
+          "maxY": 376.00007113234204
+        }
+      },
+      "hiddenPixels": 0,
+      "hiddenBeam": 0,
+      "positive": 23495,
+      "touches": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ],
+      "hiddenKinds": [
+        "hound",
+        "smiler",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "decal",
+        "trail"
+      ],
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "stats": {
+        "scope": {
+          "width": 691.2002276234946,
+          "height": 432.0001422646841,
+          "scale": 1.8518512420068705,
+          "minX": -185.6001138117473,
+          "maxX": 505.6001138117473,
+          "minY": -56.00007113234204,
+          "maxY": 376.00007113234204
+        },
+        "zoom": 1.9999993413674202,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 3,
+        "lighting": true,
+        "nv": true,
+        "drawCalls": 29,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 13,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:ground-north",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-west"
+        ],
+        "totalLightCount": 3,
+        "occluders": 32,
+        "triangles": 430,
+        "target": {
+          "width": 1280,
+          "height": 800,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 800,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 8242448,
+        "actorTextureBytes": 1802240,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 4096000,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 14.400000000372529,
+        "cutawayMs": 0.09999999962747097
+      },
+      "pipeline": {
+        "inFlight": true,
+        "skippedFrames": 36,
+        "completedFrames": [
+          995,
+          2016.6000000014901,
+          2185.9000000003725,
+          3.599999999627471,
+          6768.5,
+          957.0999999996275,
+          792.5999999996275
+        ]
+      },
+      "drainedFrameMs": [
+        975.4000000003725,
+        806.1999999992549,
+        973.5999999996275
+      ],
+      "settings": {
+        "c": "",
+        "s": 1,
+        "o": 1,
+        "keys": true,
+        "coords": true,
+        "title": true,
+        "auto": true,
+        "vol": 1
+      },
+      "uiScale": "1",
+      "glError": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p8",
+        "generation": 1,
+        "seq": 9733,
+        "tick": 9733,
+        "discontinuity": 3,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.3797093654094854,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "packets": 23,
+      "canvases": [
+        {
+          "id": "",
+          "display": "block",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "id": "mp",
+          "display": "none",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "id": "light",
+          "display": "none",
+          "width": 1280,
+          "height": 800
+        },
+        {
+          "id": "map",
+          "display": "inline",
+          "width": 576,
+          "height": 432
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "lightZoom",
+          "display": "block",
+          "width": 260,
+          "height": 170
+        },
+        {
+          "id": "camGrain",
+          "display": "block",
+          "width": 200,
+          "height": 112
+        },
+        {
+          "id": "glitchFx",
+          "display": "none",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "invLight",
+          "display": "block",
+          "width": 132,
+          "height": 132
+        }
+      ]
+    },
+    {
+      "name": "nv-low-zoom2 actual mouse into accepted fixed-tick input",
+      "wire": {
+        "aim": {
+          "kind": "actor",
+          "actorId": "h1",
+          "t": 0.495599365234375,
+          "point": {
+            "x": 219.69846224990243,
+            "y": 169.04535272765588,
+            "z": 36.04999999999998
+          },
+          "presentationPoint": {
+            "x": 219.69846224990243,
+            "y": 169.04535272765588,
+            "z": 36.04999999999998
+          },
+          "distance": 61.97037438139887,
+          "ray": {
+            "from": {
+              "x": 216.8889839738579,
+              "y": 2199.4429452532822,
+              "z": 4096
+            },
+            "to": {
+              "x": 224.1514074598823,
+              "y": -1897.649444714384,
+              "z": -4096
+            },
+            "segments": [
+              {
+                "from": {
+                  "x": 216.8889839738579,
+                  "y": 2199.4429452532822,
+                  "z": 4096
+                },
+                "to": {
+                  "x": 216.8889839738579,
+                  "y": 253.32973770611255,
+                  "z": 203.77358490566073
+                }
+              },
+              {
+                "from": {
+                  "x": 216.8889839738579,
+                  "y": 253.32973770611255,
+                  "z": 203.77358490566073
+                },
+                "to": {
+                  "x": 224.1514074598823,
+                  "y": 35.45693826433954,
+                  "z": -229.78723404255314
+                }
+              },
+              {
+                "from": {
+                  "x": 224.1514074598823,
+                  "y": 35.45693826433954,
+                  "z": -229.78723404255314
+                },
+                "to": {
+                  "x": 224.1514074598823,
+                  "y": -1897.649444714384,
+                  "z": -4096
+                }
+              }
+            ]
+          },
+          "scope": {
+            "width": 691.2000561312487,
+            "height": 432.0000350820305,
+            "scale": 1.851851701465931,
+            "minX": -185.60002806562437,
+            "maxX": 505.6000280656244,
+            "minY": -56.00001754101524,
+            "maxY": 376.00001754101527
+          },
+          "yaw": 0.15037357598244586,
+          "pitch": -0.22705343195708674
+        },
+        "sample": {
+          "tick": 10307,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "yaw": 0.15037357598244586,
+          "posture": "stand",
+          "support": "support:ground-north",
+          "mv": {
+            "s": 0,
+            "q": 1,
+            "st": 100,
+            "ex": 0,
+            "sp": 0,
+            "ev": []
+          },
+          "pitch": -0.22705343195708674,
+          "presentation": {
+            "k": "camcorder",
+            "n": "H4 nv-low-zoom2",
+            "c": "#ffe7b2",
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#2b2f36,#69717c,#1b1d20,#c9ccd0",
+            "l": 1,
+            "ir": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "nv-high-zoom4-dpr production matrix",
+      "case": {
+        "id": "nv-high-zoom4-dpr",
+        "w": 1280,
+        "h": 720,
+        "dpr": 2,
+        "ui": 1,
+        "q": 0.5,
+        "zoom": 4,
+        "nv": true,
+        "ir": 2
+      },
+      "point": {
+        "x": 841.0077918203083,
+        "y": 329.765077980362
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536049,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536049,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "distance": 61.970399382758636,
+        "ray": {
+          "from": {
+            "x": 216.88900875379622,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321702,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379622,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379622,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379622,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321702,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321702,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321702,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 384.00007471427955,
+          "height": 216.00004202678227,
+          "scale": 3.3333326847720053,
+          "minX": -32.000037357139774,
+          "maxX": 352.0000373571398,
+          "minY": 51.999978986608866,
+          "maxY": 268.0000210133911
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h1",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 219.6984882536049,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "presentationPoint": {
+          "x": 219.6984882536049,
+          "y": 169.04535239185356,
+          "z": 36.04999999999998
+        },
+        "distance": 61.970399382758636,
+        "ray": {
+          "from": {
+            "x": 216.88900875379622,
+            "y": 2199.4429449332833,
+            "z": 4096
+          },
+          "to": {
+            "x": 224.15143540321702,
+            "y": -1897.6494450752339,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 216.88900875379622,
+                "y": 2199.4429449332833,
+                "z": 4096
+              },
+              "to": {
+                "x": 216.88900875379622,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 216.88900875379622,
+                "y": 253.3297373861135,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 224.15143540321702,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 224.15143540321702,
+                "y": 35.45693790348953,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 224.15143540321702,
+                "y": -1897.6494450752339,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 384.00007471427955,
+          "height": 216.00004202678227,
+          "scale": 3.3333326847720053,
+          "minX": -32.000037357139774,
+          "maxX": 352.0000373571398,
+          "minY": 51.999978986608866,
+          "maxY": 268.0000210133911
+        },
+        "yaw": 0.1503735059663451,
+        "pitch": -0.22705333874728242
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 175.99728605334488,
+          "y": -24.98996216729293,
+          "z": 50
+        },
+        "distance": 185.68036854694418,
+        "ray": {
+          "from": {
+            "x": 175.3043395673775,
+            "y": 2007.1060686148674,
+            "z": 4096
+          },
+          "to": {
+            "x": 177.258085044064,
+            "y": -2114.5399651789794,
+            "z": -4096
+          },
+          "segments": [
+            {
+              "from": {
+                "x": 175.3043395673775,
+                "y": 2007.1060686148674,
+                "z": 4096
+              },
+              "to": {
+                "x": 175.3043395673775,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              }
+            },
+            {
+              "from": {
+                "x": 175.3043395673775,
+                "y": 60.99286106769766,
+                "z": 203.77358490566073
+              },
+              "to": {
+                "x": 177.258085044064,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              }
+            },
+            {
+              "from": {
+                "x": 177.258085044064,
+                "y": -181.433582200256,
+                "z": -229.78723404255314
+              },
+              "to": {
+                "x": 177.258085044064,
+                "y": -2114.5399651789794,
+                "z": -4096
+              }
+            }
+          ]
+        },
+        "scope": {
+          "width": 384.00007471427955,
+          "height": 216.00004202678227,
+          "scale": 3.3333326847720053,
+          "minX": -32.000037357139774,
+          "maxX": 352.0000373571398,
+          "minY": 51.999978986608866,
+          "maxY": 268.0000210133911
+        }
+      },
+      "hiddenPixels": 0,
+      "hiddenBeam": 0,
+      "positive": 76594,
+      "touches": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ],
+      "hiddenKinds": [
+        "hound",
+        "smiler",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "decal",
+        "trail"
+      ],
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "stats": {
+        "scope": {
+          "width": 384.00007471427955,
+          "height": 216.00004202678227,
+          "scale": 3.3333326847720053,
+          "minX": -32.000037357139774,
+          "maxX": 352.0000373571398,
+          "minY": 51.999978986608866,
+          "maxY": 268.0000210133911
+        },
+        "zoom": 3.999999221726406,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 3,
+        "lighting": true,
+        "nv": true,
+        "drawCalls": 24,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 8,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:ground-north",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:upper-north",
+          "solid:upper-west"
+        ],
+        "totalLightCount": 3,
+        "occluders": 32,
+        "triangles": 430,
+        "target": {
+          "width": 1280,
+          "height": 720,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 2
+        },
+        "quality": 0.5,
+        "newResourceBytes": 7423248,
+        "actorTextureBytes": 1802240,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 3686400,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "cpuMs": 18.700000001117587,
+        "cutawayMs": 0.09999999962747097
+      },
+      "pipeline": {
+        "inFlight": true,
+        "skippedFrames": 44,
+        "completedFrames": [
+          1708.800000000745,
+          2763.4000000003725,
+          1938.9000000003725,
+          35,
+          8369.800000000745,
+          1091.3999999985099,
+          1041.2000000011176
+        ]
+      },
+      "drainedFrameMs": [
+        1119.5999999996275,
+        1063.4000000003725,
+        1154.4000000003725
+      ],
+      "settings": {
+        "c": "",
+        "s": 1,
+        "o": 1,
+        "keys": true,
+        "coords": true,
+        "title": true,
+        "auto": true,
+        "vol": 1
+      },
+      "uiScale": "1",
+      "glError": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-e",
+        "geometryRevision": "stage-e-1",
+        "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p9",
+        "generation": 1,
+        "seq": 11095,
+        "tick": 11095,
+        "discontinuity": 4,
+        "x": 160,
+        "y": 160,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.424603262709398,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground-north",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "packets": 23,
+      "canvases": [
+        {
+          "id": "",
+          "display": "block",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "mp",
+          "display": "none",
+          "width": 2560,
+          "height": 1440
+        },
+        {
+          "id": "light",
+          "display": "none",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "id": "map",
+          "display": "inline",
+          "width": 576,
+          "height": 432
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 600,
+          "height": 300
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "",
+          "display": "block",
+          "width": 64,
+          "height": 64
+        },
+        {
+          "id": "lightZoom",
+          "display": "block",
+          "width": 260,
+          "height": 170
+        },
+        {
+          "id": "camGrain",
+          "display": "block",
+          "width": 200,
+          "height": 112
+        },
+        {
+          "id": "glitchFx",
+          "display": "none",
+          "width": 300,
+          "height": 150
+        },
+        {
+          "id": "invLight",
+          "display": "block",
+          "width": 132,
+          "height": 132
+        }
+      ]
+    },
+    {
+      "name": "nv-high-zoom4-dpr actual mouse into accepted fixed-tick input",
+      "wire": {
+        "aim": {
+          "kind": "actor",
+          "actorId": "h1",
+          "t": 0.495599365234375,
+          "point": {
+            "x": 219.6984873454805,
+            "y": 169.04535277014645,
+            "z": 36.04999999999998
+          },
+          "presentationPoint": {
+            "x": 219.6984873454805,
+            "y": 169.04535277014645,
+            "z": 36.04999999999998
+          },
+          "distance": 61.97039856314376,
+          "ray": {
+            "from": {
+              "x": 216.8890078884092,
+              "y": 2199.442945293773,
+              "z": 4096
+            },
+            "to": {
+              "x": 224.15143442735504,
+              "y": -1897.6494446687238,
+              "z": -4096
+            },
+            "segments": [
+              {
+                "from": {
+                  "x": 216.8890078884092,
+                  "y": 2199.442945293773,
+                  "z": 4096
+                },
+                "to": {
+                  "x": 216.8890078884092,
+                  "y": 253.32973774660348,
+                  "z": 203.77358490566073
+                }
+              },
+              {
+                "from": {
+                  "x": 216.8890078884092,
+                  "y": 253.32973774660348,
+                  "z": 203.77358490566073
+                },
+                "to": {
+                  "x": 224.15143442735504,
+                  "y": 35.45693830999953,
+                  "z": -229.78723404255314
+                }
+              },
+              {
+                "from": {
+                  "x": 224.15143442735504,
+                  "y": 35.45693830999953,
+                  "z": -229.78723404255314
+                },
+                "to": {
+                  "x": 224.15143442735504,
+                  "y": -1897.6494446687238,
+                  "z": -4096
+                }
+              }
+            ]
+          },
+          "scope": {
+            "width": 384.00002936698587,
+            "height": 216.00001651892956,
+            "scale": 3.3333330784116004,
+            "minX": -32.000014683492935,
+            "maxX": 352.00001468349296,
+            "minY": 51.99999174053522,
+            "maxY": 268.0000082594648
+          },
+          "yaw": 0.15037351441399138,
+          "pitch": -0.22705334180296072
+        },
+        "sample": {
+          "tick": 11062,
+          "x": 160,
+          "y": 160,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "yaw": 0.15037351441399138,
+          "posture": "stand",
+          "support": "support:ground-north",
+          "mv": {
+            "s": 0,
+            "q": 1,
+            "st": 100,
+            "ex": 0,
+            "sp": 0,
+            "ev": []
+          },
+          "pitch": -0.22705334180296072,
+          "presentation": {
+            "k": "camcorder",
+            "n": "H4 nv-high-zoom4-dpr",
+            "c": "#ffe7b2",
+            "lk": "none|plain|#e6bb76|#ffcc77|none",
+            "lp": "#2b2f36,#69717c,#1b1d20,#c9ccd0",
+            "l": 1,
+            "ir": 2
+          }
+        }
+      }
+    }
+  ],
+  "independentUpper": {
+    "ready": true,
+    "pipeline": {
+      "inFlight": true,
+      "skippedFrames": 328,
+      "completedFrames": [
+        584.2999999988824,
+        437.69999999925494,
+        1114.2999999988824,
+        1450.0999999996275,
+        879.1999999992549,
+        459.09999999962747,
+        281.19999999925494,
+        264.5,
+        219.89999999850988,
+        224.59999999962747,
+        258.2999999988824,
+        232.09999999962747,
+        200.5,
+        224.60000000149012,
+        205.59999999962747,
+        254.59999999962747,
+        841.0999999996275
+      ]
+    },
+    "world": {
+      "schemaVersion": 1,
+      "assetId": "world:stage-e",
+      "geometryRevision": "stage-e-1",
+      "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+      "geometryMode": "spatial",
+      "compilerRevision": "stage-c-1"
+    },
+    "network": {
+      "world": {
+        "version": 2,
+        "capabilities": [
+          "spatial-pose-v1",
+          "ordered-proposals-v1",
+          "explicit-epochs-v1",
+          "spatial-aftermath-v1"
+        ],
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "geometryMode": "spatial",
+        "schemaVersion": 1,
+        "geometryRevision": "stage-e-1",
+        "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+        "motionRevision": "stage-c-profile-1",
+        "simTick": 0,
+        "ids": {
+          "support": [
+            "support:balcony",
+            "support:ground-north",
+            "support:ground-south",
+            "support:lower-platform",
+            "support:ramp",
+            "support:ramp-landing",
+            "support:tread-01",
+            "support:tread-02",
+            "support:tread-03",
+            "support:tread-04",
+            "support:tread-05",
+            "support:tread-06",
+            "support:tread-07",
+            "support:tread-08",
+            "support:tread-09",
+            "support:tread-10",
+            "support:tread-11",
+            "support:tread-12",
+            "support:tread-13",
+            "support:tread-14",
+            "support:tread-15",
+            "support:upper-east",
+            "support:upper-north",
+            "support:upper-south",
+            "support:upper-west"
+          ],
+          "surface": [
+            "nav:balcony",
+            "nav:ground",
+            "nav:lower",
+            "nav:ramp",
+            "nav:ramp-landing",
+            "nav:stairs",
+            "nav:upper"
+          ],
+          "link": [
+            "link:ledge-drop",
+            "link:ramp-up",
+            "link:stairs-down",
+            "link:stairs-up"
+          ]
+        }
+      },
+      "pose": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 492,
+        "tick": 492,
+        "discontinuity": 3,
+        "x": 160,
+        "y": 160,
+        "z": 180,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.416968304033455,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:upper-west",
+        "navSurface": "nav:upper",
+        "mode": "dead",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "blocked": false,
+      "awaiting": false,
+      "peers": []
+    },
+    "frames": 18,
+    "presentation": {
+      "camera": {
+        "z": 180,
+        "velocity": 0,
+        "key": "bff9d682-6bed-4c1e-af54-f5c1499c9142:1:3:true:false:false",
+        "resets": 8
+      },
+      "targetZ": 180,
+      "local": null
+    },
+    "packets": [
+      {
+        "id": "h1",
+        "kind": "hound",
+        "x": 220,
+        "y": 160,
+        "z": 0.05,
+        "height": 36,
+        "radius": 21,
+        "art": 1,
+        "support": "support:ground-north",
+        "mode": "grounded",
+        "tick": 489,
+        "generation": 2,
+        "emissive": true,
+        "observable": false,
+        "visibilityRadius": 21
+      },
+      {
+        "id": "h2",
+        "kind": "hound",
+        "x": 175.3181889639231,
+        "y": 57.86041536624933,
+        "z": 180.05,
+        "height": 36,
+        "radius": 21,
+        "art": 2,
+        "support": "support:upper-west",
+        "mode": "grounded",
+        "tick": 489,
+        "generation": 2,
+        "emissive": true,
+        "observable": true,
+        "visibilityRadius": 21
+      },
+      {
+        "id": "m3",
+        "kind": "smiler",
+        "x": 240,
+        "y": 160,
+        "z": 180.05,
+        "height": 48,
+        "radius": 21,
+        "art": 3,
+        "support": "support:upper-west",
+        "mode": "grounded",
+        "tick": 489,
+        "generation": 2,
+        "emissive": true,
+        "observable": true,
+        "visibilityRadius": 21
+      },
+      {
+        "id": "d[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:body",
+        "kind": "body",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "revision": 314,
+        "x": 168.3996108734135,
+        "y": 97.18091804614815,
+        "z": 180,
+        "height": 18,
+        "radius": 18,
+        "shape": {
+          "id": "profile:death-body",
+          "radius": 18,
+          "height": 18,
+          "centerOffset": 0,
+          "maxStepRise": 0
+        },
+        "visibilityRadius": 18,
+        "art": 4,
+        "support": "support:upper-west",
+        "tick": 469,
+        "generation": 1,
+        "observable": true
+      },
+      {
+        "id": "d[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:hand:0",
+        "kind": "hand:0",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "revision": 261,
+        "x": 174.9589115662504,
+        "y": 115.94728329461415,
+        "z": 180.050000000009,
+        "height": 10,
+        "radius": 5,
+        "shape": {
+          "id": "profile:death-hand",
+          "radius": 5,
+          "height": 10,
+          "centerOffset": 5,
+          "maxStepRise": 0
+        },
+        "visibilityRadius": 5,
+        "art": 5,
+        "support": "support:upper-west",
+        "tick": 469,
+        "generation": 1,
+        "observable": true
+      },
+      {
+        "id": "d[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:hand:1",
+        "kind": "hand:1",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "revision": 286,
+        "x": 154.1103548999918,
+        "y": 86.19011933796,
+        "z": 180.0500000000095,
+        "height": 10,
+        "radius": 5,
+        "shape": {
+          "id": "profile:death-hand",
+          "radius": 5,
+          "height": 10,
+          "centerOffset": 5,
+          "maxStepRise": 0
+        },
+        "visibilityRadius": 5,
+        "art": 6,
+        "support": "support:upper-west",
+        "tick": 469,
+        "generation": 1,
+        "observable": true
+      },
+      {
+        "id": "d[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:light",
+        "kind": "light",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "revision": 114,
+        "x": 134.28101901608937,
+        "y": 172.30576515258238,
+        "z": 180.0500000000095,
+        "height": 14,
+        "radius": 7,
+        "shape": {
+          "id": "profile:death-light",
+          "radius": 7,
+          "height": 14,
+          "centerOffset": 7,
+          "maxStepRise": 0
+        },
+        "visibilityRadius": 7,
+        "art": 7,
+        "support": "support:upper-west",
+        "tick": 469,
+        "generation": 1,
+        "observable": true
+      },
+      {
+        "id": "d[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:hat",
+        "kind": "hat",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "revision": 124,
+        "x": 157.68359917958787,
+        "y": 173.5638118490144,
+        "z": 180.08063425931923,
+        "height": 4,
+        "radius": 11,
+        "shape": {
+          "id": "profile:death-hat",
+          "radius": 11,
+          "height": 4,
+          "centerOffset": 2,
+          "maxStepRise": 0
+        },
+        "visibilityRadius": 11,
+        "art": 8,
+        "support": "support:upper-west",
+        "tick": 469,
+        "generation": 1,
+        "observable": true
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:decal:1",
+        "kind": "decal",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 158.96104352197983,
+        "y": 166.7526555869486,
+        "z": 180,
+        "height": 1,
+        "art": 9,
+        "support": "support:upper-west",
+        "surface": {
+          "id": 1,
+          "substep": 72,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 158.96104352197983,
+            "y": 166.7526555869486,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 158.96104352197983,
+            "v": 166.7526555869486
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "v": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 96,
+          "height": 96
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:decal:2",
+        "kind": "decal",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 157.8711182927681,
+        "y": 172.5315107984858,
+        "z": 180,
+        "height": 1,
+        "art": 10,
+        "support": "support:upper-west",
+        "surface": {
+          "id": 2,
+          "substep": 204,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 157.8711182927681,
+            "y": 172.5315107984858,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 157.8711182927681,
+            "v": 172.5315107984858
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "v": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 96,
+          "height": 96
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:decal:10",
+        "kind": "decal",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 159.94520995327193,
+        "y": 158.9084491306029,
+        "z": 180,
+        "height": 1,
+        "art": 11,
+        "support": "support:upper-west",
+        "surface": {
+          "id": 10,
+          "substep": 360,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 159.94520995327193,
+            "y": 158.9084491306029,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 159.94520995327193,
+            "v": 158.9084491306029
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "v": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 96,
+          "height": 96
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:decal:11",
+        "kind": "decal",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 165.1808242775356,
+        "y": 123.17661507048518,
+        "z": 180,
+        "height": 1,
+        "art": 12,
+        "support": "support:upper-west",
+        "surface": {
+          "id": 11,
+          "substep": 504,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 165.1808242775356,
+            "y": 123.17661507048518,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 165.1808242775356,
+            "v": 123.17661507048518
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": 1,
+              "y": 0,
+              "z": 0
+            },
+            "v": {
+              "x": 0,
+              "y": 1,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 96,
+          "height": 96
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:trail:376",
+        "kind": "trail",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 159.57022335174835,
+        "y": 162.07795675727024,
+        "z": 180,
+        "height": 1,
+        "art": 13,
+        "support": "support:upper-west",
+        "surface": {
+          "substep": 376,
+          "segment": 0,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 159.57022335174835,
+            "y": 162.07795675727024,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 160.1892407072594,
+            "v": 157.26385926693595
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": -0.12753430116435444,
+              "y": 0.9918341605462676,
+              "z": 0
+            },
+            "v": {
+              "x": -0.9918341605462676,
+              "y": -0.12753430116435444,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 49.70746457791463,
+          "height": 48
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:trail:432",
+        "kind": "trail",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 160.8802262269772,
+        "y": 151.82567067010442,
+        "z": 180,
+        "height": 1,
+        "art": 14,
+        "support": "support:upper-west",
+        "surface": {
+          "substep": 432,
+          "segment": 0,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 160.8802262269772,
+            "y": 151.82567067010442,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 161.57121174669496,
+            "v": 146.38748207327288
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": -0.12604827547263212,
+              "y": 0.9920241087042065,
+              "z": 0
+            },
+            "v": {
+              "x": -0.9920241087042065,
+              "y": -0.12604827547263212,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 50.96382345774835,
+          "height": 48
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:trail:464",
+        "kind": "trail",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 162.27384253106845,
+        "y": 141.71454011667646,
+        "z": 180,
+        "height": 1,
+        "art": 15,
+        "support": "support:upper-west",
+        "surface": {
+          "substep": 464,
+          "segment": 0,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 162.27384253106845,
+            "y": 141.71454011667646,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 162.97647331544198,
+            "v": 137.04159816008
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": -0.14869010484707196,
+              "y": 0.9888838418745483,
+              "z": 0
+            },
+            "v": {
+              "x": -0.9888838418745483,
+              "y": -0.14869010484707196,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 49.45094207978625,
+          "height": 48
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:trail:496",
+        "kind": "trail",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 163.8671089045979,
+        "y": 131.4444204452713,
+        "z": 180,
+        "height": 1,
+        "art": 16,
+        "support": "support:upper-west",
+        "surface": {
+          "substep": 496,
+          "segment": 0,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 163.8671089045979,
+            "y": 131.4444204452713,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 164.7577444937538,
+            "v": 125.84724273046257
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": -0.15714524947435965,
+              "y": 0.9875755011985875,
+              "z": 0
+            },
+            "v": {
+              "x": -0.9875755011985875,
+              "y": -0.15714524947435965,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 51.33518947769687,
+          "height": 48
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:trail:536",
+        "kind": "trail",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 165.53074143897163,
+        "y": 120.4895017257133,
+        "z": 180,
+        "height": 1,
+        "art": 17,
+        "support": "support:upper-west",
+        "surface": {
+          "substep": 536,
+          "segment": 0,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 165.53074143897163,
+            "y": 120.4895017257133,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 166.30373838418944,
+            "v": 115.13176072096404
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": -0.14279808395306454,
+              "y": 0.9897518412305852,
+              "z": 0
+            },
+            "v": {
+              "x": -0.9897518412305852,
+              "y": -0.14279808395306454,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 50.826433013931734,
+          "height": 48
+        }
+      },
+      {
+        "id": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]:trail:568",
+        "kind": "trail",
+        "death": "[\"bff9d682-6bed-4c1e-af54-f5c1499c9142\",\"1\",1,1]",
+        "x": 166.75998186441717,
+        "y": 110.35075491000978,
+        "z": 180,
+        "height": 1,
+        "art": 18,
+        "support": "support:upper-west",
+        "surface": {
+          "substep": 568,
+          "segment": 0,
+          "primitiveId": "solid:upper-west",
+          "face": "top",
+          "support": "support:upper-west",
+          "point": {
+            "x": 166.75998186441717,
+            "y": 110.35075491000978,
+            "z": 180
+          },
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "local": {
+            "u": 167.21622534464493,
+            "v": 105.56974909905554
+          },
+          "origin": {
+            "x": 0,
+            "y": 0,
+            "z": 180
+          },
+          "basis": {
+            "u": {
+              "x": -0.09499677964203176,
+              "y": 0.995477579786528,
+              "z": 0
+            },
+            "v": {
+              "x": -0.995477579786528,
+              "y": -0.09499677964203176,
+              "z": 0
+            }
+          },
+          "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "width": 49.60545150997674,
+          "height": 48
+        }
+      },
+      {
+        "id": "light:lower-lamp",
+        "kind": "lamp",
+        "x": 160,
+        "y": 160,
+        "z": 150,
+        "height": 1,
+        "art": 19,
+        "radius": 45,
+        "visibilityRadius": 45,
+        "emissive": true,
+        "observable": false
+      }
+    ],
+    "last": {
+      "scope": {
+        "width": 1382.4,
+        "height": 864,
+        "scale": 0.6944444444444444,
+        "minX": -522.8003891265865,
+        "maxX": 859.5996108734136,
+        "minY": -334.8190819538519,
+        "maxY": 529.1809180461481
+      },
+      "zoom": 1,
+      "ignoredContinuousCeilings": 0,
+      "projection": {
+        "enabled": true,
+        "coefficient": 0.0002777777777777778,
+        "minScale": 0.94,
+        "maxScale": 1.06,
+        "vertexBytes": 36864
+      },
+      "lightCount": 2,
+      "lighting": true,
+      "nv": false,
+      "drawCalls": 40,
+      "passes": 2,
+      "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+      "geometryChunks": 4,
+      "candidateOccluders": 23,
+      "occluderBatches": 1,
+      "submittedCandidateIds": [
+        "solid:balcony",
+        "solid:ground-north",
+        "solid:ramp",
+        "solid:tread-01",
+        "solid:tread-02",
+        "solid:tread-03",
+        "solid:tread-04",
+        "solid:tread-05",
+        "solid:tread-06",
+        "solid:tread-07",
+        "solid:tread-08",
+        "solid:tread-09",
+        "solid:tread-10",
+        "solid:tread-11",
+        "solid:tread-12",
+        "solid:tread-13",
+        "solid:upper-east",
+        "solid:upper-north",
+        "solid:upper-west",
+        "solid:window-lintel",
+        "solid:window-sill",
+        "solid:window-wall-back",
+        "solid:window-wall-front"
+      ],
+      "totalLightCount": 2,
+      "occluders": 32,
+      "triangles": 422,
+      "target": {
+        "width": 960,
+        "height": 600,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "logical": {
+        "width": 960,
+        "height": 600,
+        "dpr": 1
+      },
+      "quality": 1,
+      "newResourceBytes": 4658448,
+      "actorTextureBytes": 1638400,
+      "lightTextureBytes": 8192,
+      "defaultColorBytesEstimate": 2304000,
+      "eye": {
+        "x": 168.3996108734135,
+        "y": 97.18091804614815,
+        "z": 189
+      },
+      "camera": {
+        "x": 168.3996108734135,
+        "y": 97.18091804614815,
+        "z": 180,
+        "depth": true
+      },
+      "elevationScale": 0.5,
+      "cutaway": {
+        "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+        "continuousInterior": false,
+        "ignoredCeilings": 0,
+        "focus": {
+          "x": 168.3996108734135,
+          "y": 97.18091804614815,
+          "z": 180,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:upper-room"
+        ],
+        "groups": [
+          {
+            "id": "view:upper-slabs",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "cpuMs": 10,
+      "cutawayMs": 0.2000000011175871
+    },
+    "cutaway": {
+      "worldEpoch": "bff9d682-6bed-4c1e-af54-f5c1499c9142",
+      "continuousInterior": false,
+      "ignoredCeilings": 0,
+      "focus": {
+        "x": 168.3996108734135,
+        "y": 97.18091804614815,
+        "z": 180,
+        "height": 60,
+        "radius": 15
+      },
+      "focusSpace": [
+        "space:upper-room"
+      ],
+      "groups": [
+        {
+          "id": "view:upper-slabs",
+          "fade": 0,
+          "target": false
+        }
+      ]
+    },
+    "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+    "renderer": "existing production Pixi 8.21.0 / WebGL2"
+  },
+  "performance": "Software SwiftShader only; timings are regression evidence, not hardware/capacity certification."
+}

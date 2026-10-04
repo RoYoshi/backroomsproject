@@ -14,4 +14,6 @@ P3B3 preservation: `82f501e24c2757e6cdcf4046f36916e5e02ea589`, tree `83db9423727
 
 P3B3 COMPLETE: continuous-interior ceiling convention, physically eligible local cover, individual tread cutaway and local overlap slab passed deterministic parent-ray equality and real two-client NORTH/LONG pixel masking. All 910 physical occluders remain; 288 continuous ceiling pieces are camera-ignored and 28 local cover groups remain. Failed harness attempts 01/02 and passing attempt 03 are preserved. Minimal closeout reran cutaway/physical-ray assertions and immutable-runtime verification successfully, with zero runtime changes. Completion commit/tree receipt follows publication.
 
+P3B3 completion: `ca7a05e064b99f1ca96fcc4e3687e60537924e3b`, tree `ad1440ae76d9f9fbc36673c7fdc8e99a197a53c4`. Branch and commit/tree independently verified after fast-forward publication.
+
 P3B4–P3B5: pending. Main is not modified or merged. Part 3C is not begun.

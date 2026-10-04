@@ -1,0 +1,1600 @@
+Z24 PASS real spatial capture rejects escape/join/respawn/leave
+Z24 PASS actual death, admin revive, one-use respawn, old-life isolation
+Z24 PASS protected new-run lifecycle
+{
+  "status": "PASS",
+  "stats": {
+    "accepted": 0,
+    "rejected": 2,
+    "corrections": 6,
+    "maxQueue": 0,
+    "maxHistory": 0,
+    "maxWork": 0,
+    "work": 0,
+    "ownedTicks": 0,
+    "reasons": {
+      "lifecycle": 1,
+      "identity": 1
+    },
+    "cpu": {
+      "samples": 600,
+      "median": 0.211377,
+      "p95": 1.792344,
+      "p99": 2.711675,
+      "max": 5.68255
+    }
+  },
+  "lives": 3
+}
+{
+  "last": {
+    "t": "s",
+    "p": [],
+    "e": {
+      "st": 15.3,
+      "h": [
+        {
+          "i": 1,
+          "x": 758.7,
+          "y": 330.9,
+          "a": 1.894,
+          "s": 12,
+          "ac": 7,
+          "v": 0,
+          "h": 0,
+          "lh": 0,
+          "l": -1,
+          "tg": 0,
+          "cp": 0,
+          "k": 0
+        }
+      ],
+      "m": [],
+      "b": 0,
+      "p": 0.026,
+      "gw": [],
+      "it": [],
+      "lf": [],
+      "sn": []
+    },
+    "me": "",
+    "ms": 1,
+    "cp": 0,
+    "lightFailures": [],
+    "protocol": {
+      "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+      "simTick": 918
+    },
+    "pose": {
+      "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+      "entityId": "p1",
+      "generation": 2,
+      "seq": 918,
+      "tick": 918,
+      "discontinuity": 5,
+      "x": 1000,
+      "y": 500,
+      "z": 0,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "yaw": 0,
+      "height": 60,
+      "profile": "profile:player-stand",
+      "support": "support:ground",
+      "navSurface": "nav:ground",
+      "mode": "grounded",
+      "link": null,
+      "progress": 0,
+      "vault": null,
+      "step": null,
+      "traversal": null
+    },
+    "spatial": [
+      {
+        "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+        "entityId": "h1",
+        "generation": 2,
+        "tick": 918,
+        "seq": 918,
+        "discontinuity": 0,
+        "x": 758.7444681605064,
+        "y": 330.86739679043006,
+        "z": 0.05,
+        "vx": -0.3016646696800713,
+        "vy": 0.87967649896112,
+        "vz": 0,
+        "yaw": 1.89376696110322,
+        "height": 36,
+        "profile": "profile:hound",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      }
+    ],
+    "spatialStats": {
+      "accepted": 0,
+      "rejected": 2,
+      "corrections": 6,
+      "maxQueue": 0,
+      "maxHistory": 0,
+      "maxWork": 0,
+      "work": 0,
+      "ownedTicks": 0,
+      "reasons": {
+        "lifecycle": 1,
+        "identity": 1
+      },
+      "cpu": {
+        "samples": 600,
+        "median": 0.211377,
+        "p95": 1.792344,
+        "p99": 2.711675,
+        "max": 5.68255
+      }
+    }
+  },
+  "tail": [
+    {
+      "t": "bodies",
+      "v": 148,
+      "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+      "simTick": 918,
+      "aftermathVersion": "stage-g-death-1",
+      "full": false,
+      "removed": [],
+      "b": [
+        {
+          "k": 1,
+          "n": "WANDERER",
+          "srv": 1,
+          "spatial": {
+            "identity": {
+              "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+              "victimId": "1",
+              "lifeGeneration": 1,
+              "deathSequence": 1
+            },
+            "key": "[\"f8df7bcf-6c4c-416c-89e0-6db532e1cb7b\",\"1\",1,1]",
+            "attackerEntityId": "h1",
+            "revision": 144,
+            "tick": 918,
+            "event": {
+              "identity": {
+                "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+                "victimId": "1",
+                "lifeGeneration": 1,
+                "deathSequence": 1
+              },
+              "key": "[\"f8df7bcf-6c4c-416c-89e0-6db532e1cb7b\",\"1\",1,1]",
+              "version": "stage-g-death-1",
+              "tick": 774,
+              "kind": "Hound",
+              "variant": "A",
+              "seed": 1377819491,
+              "geometry": {
+                "schemaVersion": 1,
+                "assetId": "world:stage-f-wire",
+                "geometryRevision": "f1",
+                "contentHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062",
+                "geometryMode": "spatial",
+                "compilerRevision": "stage-c-1"
+              },
+              "initial": {
+                "victim": {
+                  "x": 748.9970499986091,
+                  "y": 359.8013500552858,
+                  "z": 0.05,
+                  "vx": 42.34803496622837,
+                  "vy": -122.90908808749293,
+                  "vz": 0,
+                  "angle": 0,
+                  "supportId": "support:ground",
+                  "shape": {
+                    "id": "profile:player-crawl",
+                    "radius": 15,
+                    "height": 24,
+                    "eyeHeight": 18,
+                    "maxSlopeDegrees": 35,
+                    "maxStepRise": 12,
+                    "stepLiftMax": 180
+                  }
+                },
+                "attacker": {
+                  "x": 766.5130966396769,
+                  "y": 308.9635409038453,
+                  "z": 0.05,
+                  "vx": 0,
+                  "vy": 0,
+                  "vz": 0,
+                  "angle": 1.9026055671830928,
+                  "supportId": "support:ground",
+                  "shape": {
+                    "id": "profile:hound",
+                    "radius": 21,
+                    "height": 36,
+                    "eyeHeight": 28,
+                    "maxSlopeDegrees": 35,
+                    "maxStepRise": 12,
+                    "stepLiftMax": 180
+                  }
+                }
+              },
+              "equipment": {
+                "kind": "flashlight",
+                "hat": "none",
+                "look": "none|plain|#e6bb76|#ffcc77|none",
+                "color": "#ffe7b2",
+                "parts": "",
+                "light": true
+              },
+              "exhausted": false,
+              "direction": 1.902605567183094,
+              "duration": 4.5,
+              "plan": {
+                "v": "A",
+                "kn": 46,
+                "dr": 40,
+                "hits": [
+                  0.2,
+                  0.62,
+                  1.05,
+                  1.55
+                ],
+                "kt": [
+                  0.08,
+                  0.36
+                ],
+                "dw": [
+                  2.03,
+                  3.12
+                ],
+                "spin": 1.9,
+                "squish": 1
+              }
+            },
+            "state": {
+              "version": "stage-g-death-1",
+              "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062",
+              "substep": 576,
+              "time": 2.4,
+              "duration": 4.5,
+              "state": "ACTIVE",
+              "phase": "impact",
+              "attackerOwned": true,
+              "body": {
+                "id": "[\"f8df7bcf-6c4c-416c-89e0-6db532e1cb7b\",\"1\",1,1]:body",
+                "x": 746.0463393780443,
+                "y": 368.79426801377116,
+                "z": 0.05,
+                "vx": 0,
+                "vy": 0,
+                "vz": 0,
+                "shape": {
+                  "id": "profile:death-body",
+                  "radius": 18,
+                  "height": 18,
+                  "centerOffset": 0,
+                  "maxStepRise": 0
+                },
+                "support": "support:ground",
+                "normal": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 1
+                },
+                "stable": true,
+                "sleeping": false,
+                "mode": "grounded",
+                "revision": 145,
+                "yaw": 1.5515980730180097,
+                "angularVelocity": -0.018092887130689562,
+                "tilt": {
+                  "x": 0,
+                  "y": 0
+                },
+                "contacts": [],
+                "diagnostics": [],
+                "role": "body"
+              },
+              "hands": [
+                {
+                  "id": "[\"f8df7bcf-6c4c-416c-89e0-6db532e1cb7b\",\"1\",1,1]:hand:0",
+                  "x": 757.5725644727762,
+                  "y": 353.91494925589984,
+                  "z": 5.085195820171001,
+                  "vx": -22.408265318355376,
+                  "vy": -13.560977457682476,
+                  "vz": 0,
+                  "shape": {
+                    "id": "profile:death-hand",
+                    "radius": 5,
+                    "height": 10,
+                    "centerOffset": 5,
+                    "maxStepRise": 0
+                  },
+                  "support": "support:ground",
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "stable": true,
+                  "sleeping": false,
+                  "mode": "grounded",
+                  "revision": 145,
+                  "yaw": 0,
+                  "angularVelocity": 0,
+                  "tilt": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contacts": [],
+                  "diagnostics": [],
+                  "role": "hand:0"
+                },
+                {
+                  "id": "[\"f8df7bcf-6c4c-416c-89e0-6db532e1cb7b\",\"1\",1,1]:hand:1",
+                  "x": 757.4248914481766,
+                  "y": 382.3316464992362,
+                  "z": 5.050000000204138,
+                  "vx": -30.268450938870586,
+                  "vy": 24.39156004707788,
+                  "vz": 0,
+                  "shape": {
+                    "id": "profile:death-hand",
+                    "radius": 5,
+                    "height": 10,
+                    "centerOffset": 5,
+                    "maxStepRise": 0
+                  },
+                  "support": "support:ground",
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "stable": true,
+                  "sleeping": false,
+                  "mode": "grounded",
+                  "revision": 145,
+                  "yaw": 0,
+                  "angularVelocity": 0,
+                  "tilt": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "contacts": [],
+                  "diagnostics": [],
+                  "role": "hand:1"
+                }
+              ],
+              "attacker": {
+                "id": "[\"f8df7bcf-6c4c-416c-89e0-6db532e1cb7b\",\"1\",1,1]:attacker",
+                "x": 758.7444681605064,
+                "y": 330.86739679043006,
+                "z": 0.05,
+                "vx": -0.3016646696800713,
+                "vy": 0.87967649896112,
+                "vz": 0,
+                "shape": {
+                  "id": "profile:hound",
+                  "radius": 21,
+                  "height": 36,
+                  "eyeHeight": 28,
+                  "maxSlopeDegrees": 35,
+                  "maxStepRise": 12,
+                  "stepLiftMax": 180
+                },
+                "support": "support:ground",
+                "normal": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 1
+                },
+                "stable": true,
+                "sleeping": false,
+                "mode": "grounded",
+                "revision": 145,
+                "yaw": 1.89376696110322,
+                "angularVelocity": 0.0036272732856680104,
+                "tilt": {
+                  "x": 0,
+                  "y": 0
+                },
+                "contacts": [],
+                "diagnostics": [],
+                "role": "attacker"
+              },
+              "light": {
+                "id": "[\"f8df7bcf-6c4c-416c-89e0-6db532e1cb7b\",\"1\",1,1]:light",
+                "x": 700.6268296729025,
+                "y": 377.64247874095435,
+                "z": 7.050000000204138,
+                "vx": 0,
+                "vy": 0,
+                "vz": 0,
+                "shape": {
+                  "id": "profile:death-light",
+                  "radius": 7,
+                  "height": 14,
+                  "centerOffset": 7,
+                  "maxStepRise": 0
+                },
+                "support": "support:ground",
+                "normal": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 1
+                },
+                "stable": true,
+                "sleeping": true,
+                "mode": "grounded",
+                "revision": 84,
+                "yaw": 1.7537736230814334,
+                "angularVelocity": 0,
+                "tilt": {
+                  "x": 0,
+                  "y": 0
+                },
+                "contacts": [],
+                "diagnostics": [],
+                "held": false,
+                "role": "light"
+              },
+              "hat": null,
+              "beam": {
+                "kind": "flashlight",
+                "object": "light",
+                "origin": {
+                  "x": 723.2428747788725,
+                  "y": 381.8275120460468,
+                  "z": 7.050000000204138
+                },
+                "direction": {
+                  "x": 0.9833063089552145,
+                  "y": 0.1819579697866305,
+                  "z": 0
+                },
+                "support": "support:ground",
+                "clippedBy": null
+              },
+              "decals": [
+                {
+                  "id": 1,
+                  "substep": 48,
+                  "primitiveId": "solid:ground",
+                  "face": "top",
+                  "support": "support:ground",
+                  "point": {
+                    "x": 750.8027651793086,
+                    "y": 353.8950025435394,
+                    "z": 0
+                  },
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "local": {
+                    "u": 750.8027651793086,
+                    "v": 353.8950025435394
+                  },
+                  "origin": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "basis": {
+                    "u": {
+                      "x": 1,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "v": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    }
+                  },
+                  "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062"
+                },
+                {
+                  "id": 8,
+                  "substep": 149,
+                  "primitiveId": "solid:ground",
+                  "face": "top",
+                  "support": "support:ground",
+                  "point": {
+                    "x": 749.6227812744692,
+                    "y": 358.19477192907925,
+                    "z": 0
+                  },
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "local": {
+                    "u": 749.6227812744692,
+                    "v": 358.19477192907925
+                  },
+                  "origin": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "basis": {
+                    "u": {
+                      "x": 1,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "v": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    }
+                  },
+                  "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062"
+                },
+                {
+                  "id": 11,
+                  "substep": 252,
+                  "primitiveId": "solid:ground",
+                  "face": "top",
+                  "support": "support:ground",
+                  "point": {
+                    "x": 748.6353497944195,
+                    "y": 360.97368096610734,
+                    "z": 0
+                  },
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "local": {
+                    "u": 748.6353497944195,
+                    "v": 360.97368096610734
+                  },
+                  "origin": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "basis": {
+                    "u": {
+                      "x": 1,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "v": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    }
+                  },
+                  "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062"
+                },
+                {
+                  "id": 12,
+                  "substep": 372,
+                  "primitiveId": "solid:ground",
+                  "face": "top",
+                  "support": "support:ground",
+                  "point": {
+                    "x": 747.5036889888027,
+                    "y": 364.35987912142645,
+                    "z": 0
+                  },
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "local": {
+                    "u": 747.5036889888027,
+                    "v": 364.35987912142645
+                  },
+                  "origin": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "basis": {
+                    "u": {
+                      "x": 1,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "v": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    }
+                  },
+                  "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062"
+                }
+              ],
+              "trail": [
+                {
+                  "substep": 48,
+                  "segment": 0,
+                  "primitiveId": "solid:ground",
+                  "face": "top",
+                  "support": "support:ground",
+                  "point": {
+                    "x": 750.7398718493878,
+                    "y": 354.03556218297325,
+                    "z": 0
+                  },
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "local": {
+                    "u": 750.7398718493878,
+                    "v": 354.03556218297325
+                  },
+                  "origin": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "basis": {
+                    "u": {
+                      "x": 1,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "v": {
+                      "x": 0,
+                      "y": 1,
+                      "z": 0
+                    }
+                  },
+                  "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062"
+                }
+              ],
+              "events": [
+                {
+                  "id": 1,
+                  "tick": 12,
+                  "substep": 0,
+                  "type": "decal",
+                  "object": "body",
+                  "reason": "hit:0"
+                },
+                {
+                  "id": 2,
+                  "tick": 15,
+                  "substep": 2,
+                  "type": "support",
+                  "object": "hand:0",
+                  "from": null,
+                  "to": "support:ground"
+                },
+                {
+                  "id": 3,
+                  "tick": 16,
+                  "substep": 3,
+                  "type": "support",
+                  "object": "hand:0",
+                  "from": null,
+                  "to": "support:ground"
+                },
+                {
+                  "id": 4,
+                  "tick": 17,
+                  "substep": 2,
+                  "type": "support",
+                  "object": "hand:0",
+                  "from": null,
+                  "to": "support:ground"
+                },
+                {
+                  "id": 5,
+                  "tick": 18,
+                  "substep": 1,
+                  "type": "support",
+                  "object": "hand:0",
+                  "from": null,
+                  "to": "support:ground"
+                },
+                {
+                  "id": 6,
+                  "tick": 19,
+                  "substep": 1,
+                  "type": "support",
+                  "object": "hand:0",
+                  "from": null,
+                  "to": "support:ground"
+                },
+                {
+                  "id": 7,
+                  "tick": 21,
+                  "substep": 1,
+                  "type": "support",
+                  "object": "hand:0",
+                  "from": null,
+                  "to": "support:ground"
+                },
+                {
+                  "id": 8,
+                  "tick": 37,
+                  "substep": 1,
+                  "type": "decal",
+                  "object": "body",
+                  "reason": "hit:1"
+                },
+                {
+                  "id": 9,
+                  "tick": 37,
+                  "substep": 1,
+                  "type": "release",
+                  "object": "light",
+                  "velocity": {
+                    "x": -206.420507703845,
+                    "y": 59.023794344303134,
+                    "z": 0
+                  },
+                  "angularVelocity": 0.14646697143336285
+                },
+                {
+                  "id": 10,
+                  "tick": 37,
+                  "substep": 1,
+                  "type": "support",
+                  "object": "light",
+                  "from": null,
+                  "to": "support:ground"
+                },
+                {
+                  "id": 11,
+                  "tick": 63,
+                  "substep": 0,
+                  "type": "decal",
+                  "object": "body",
+                  "reason": "hit:2"
+                },
+                {
+                  "id": 12,
+                  "tick": 93,
+                  "substep": 0,
+                  "type": "decal",
+                  "object": "body",
+                  "reason": "hit:3"
+                }
+              ],
+              "eventSequence": 12
+            },
+            "resume": {
+              "version": "stage-g-death-1",
+              "rng": 427418855,
+              "data": {
+                "t": 2.4,
+                "hound": true,
+                "exh": 1,
+                "ux": -0.3257541151248316,
+                "uy": 0.9454545237499464,
+                "dur": 4.5,
+                "ended": false,
+                "state": "ACTIVE",
+                "calm": 0,
+                "phase": "impact",
+                "b": {
+                  "x": 746.0463393780443,
+                  "y": 368.79426801377116,
+                  "vx": 0,
+                  "vy": 0,
+                  "th": 1.5515980730180097,
+                  "om": -0.018092887130689562,
+                  "sq": 0.0000014697720904914698,
+                  "sqv": -0.000004763140427446799,
+                  "nx": -0.3271013481564468,
+                  "ny": 0.9449892634491859,
+                  "cs": 0,
+                  "csv": 0,
+                  "z": 0.05,
+                  "vz": 0,
+                  "shape": {
+                    "id": "profile:death-body",
+                    "radius": 18,
+                    "height": 18,
+                    "centerOffset": 0,
+                    "maxStepRise": 0
+                  },
+                  "supportId": "support:ground",
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "stable": true,
+                  "sleeping": false,
+                  "still": 0,
+                  "st": "ACTIVE",
+                  "motionMode": "grounded",
+                  "contacts": [],
+                  "diagnostics": [],
+                  "revision": 520,
+                  "contactPolygon": [
+                    {
+                      "x": 730.7463393780444,
+                      "y": 368.79426801377116
+                    },
+                    {
+                      "x": 731.9109825306216,
+                      "y": 362.9392114985853
+                    },
+                    {
+                      "x": 735.2276056258901,
+                      "y": 357.975534261617
+                    },
+                    {
+                      "x": 740.1912828628584,
+                      "y": 354.6589111663485
+                    },
+                    {
+                      "x": 746.0463393780443,
+                      "y": 353.49426801377115
+                    },
+                    {
+                      "x": 751.9013958932302,
+                      "y": 354.6589111663485
+                    },
+                    {
+                      "x": 756.8650731301984,
+                      "y": 357.975534261617
+                    },
+                    {
+                      "x": 760.181696225467,
+                      "y": 362.9392114985853
+                    },
+                    {
+                      "x": 761.3463393780443,
+                      "y": 368.79426801377116
+                    },
+                    {
+                      "x": 760.181696225467,
+                      "y": 374.64932452895704
+                    },
+                    {
+                      "x": 756.8650731301985,
+                      "y": 379.61300176592533
+                    },
+                    {
+                      "x": 751.9013958932302,
+                      "y": 382.9296248611938
+                    },
+                    {
+                      "x": 746.0463393780443,
+                      "y": 384.09426801377117
+                    },
+                    {
+                      "x": 740.1912828628584,
+                      "y": 382.9296248611938
+                    },
+                    {
+                      "x": 735.2276056258901,
+                      "y": 379.61300176592533
+                    },
+                    {
+                      "x": 731.9109825306216,
+                      "y": 374.64932452895704
+                    }
+                  ],
+                  "substep": 575,
+                  "tilt": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "h": [
+                  {
+                    "anc": {
+                      "x": -13,
+                      "y": -13
+                    },
+                    "x": 757.5725644727762,
+                    "y": 353.91494925589984,
+                    "vx": -22.408265318355376,
+                    "vy": -13.560977457682476,
+                    "off": {
+                      "x": -2.8040906390838187,
+                      "y": 6.168886361026592
+                    },
+                    "k": 90,
+                    "dampingRatio": 0.7,
+                    "brace": null,
+                    "slipT": -9,
+                    "tries": 0,
+                    "z": 5.085195820171001,
+                    "vz": 0,
+                    "shape": {
+                      "id": "profile:death-hand",
+                      "radius": 5,
+                      "height": 10,
+                      "centerOffset": 5,
+                      "maxStepRise": 0
+                    },
+                    "supportId": "support:ground",
+                    "normal": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 1
+                    },
+                    "stable": true,
+                    "sleeping": false,
+                    "still": 0,
+                    "st": "ACTIVE",
+                    "motionMode": "grounded",
+                    "contacts": [],
+                    "diagnostics": [],
+                    "revision": 576,
+                    "contactPolygon": [
+                      {
+                        "x": 753.3225644727762,
+                        "y": 353.91494925589984
+                      },
+                      {
+                        "x": 753.6460764596033,
+                        "y": 352.2885446683482
+                      },
+                      {
+                        "x": 754.5673606527333,
+                        "y": 350.909745435857
+                      },
+                      {
+                        "x": 755.9461598852246,
+                        "y": 349.9884612427269
+                      },
+                      {
+                        "x": 757.5725644727762,
+                        "y": 349.66494925589984
+                      },
+                      {
+                        "x": 759.1989690603278,
+                        "y": 349.9884612427269
+                      },
+                      {
+                        "x": 760.5777682928191,
+                        "y": 350.909745435857
+                      },
+                      {
+                        "x": 761.4990524859492,
+                        "y": 352.2885446683482
+                      },
+                      {
+                        "x": 761.8225644727762,
+                        "y": 353.91494925589984
+                      },
+                      {
+                        "x": 761.4990524859492,
+                        "y": 355.5413538434515
+                      },
+                      {
+                        "x": 760.5777682928191,
+                        "y": 356.92015307594266
+                      },
+                      {
+                        "x": 759.1989690603278,
+                        "y": 357.8414372690728
+                      },
+                      {
+                        "x": 757.5725644727762,
+                        "y": 358.16494925589984
+                      },
+                      {
+                        "x": 755.9461598852246,
+                        "y": 357.8414372690728
+                      },
+                      {
+                        "x": 754.5673606527333,
+                        "y": 356.92015307594266
+                      },
+                      {
+                        "x": 753.6460764596033,
+                        "y": 355.5413538434515
+                      }
+                    ],
+                    "substep": 575,
+                    "tilt": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  {
+                    "anc": {
+                      "x": 13,
+                      "y": -13
+                    },
+                    "x": 757.4248914481766,
+                    "y": 382.3316464992362,
+                    "vx": -30.268450938870586,
+                    "vy": 24.39156004707788,
+                    "off": {
+                      "x": 4.835853922348911,
+                      "y": 6.817715732841325
+                    },
+                    "k": 90,
+                    "dampingRatio": 0.7,
+                    "brace": null,
+                    "slipT": -9,
+                    "tries": 0,
+                    "z": 5.050000000204138,
+                    "vz": 0,
+                    "shape": {
+                      "id": "profile:death-hand",
+                      "radius": 5,
+                      "height": 10,
+                      "centerOffset": 5,
+                      "maxStepRise": 0
+                    },
+                    "supportId": "support:ground",
+                    "normal": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 1
+                    },
+                    "stable": true,
+                    "sleeping": false,
+                    "still": 0,
+                    "st": "ACTIVE",
+                    "motionMode": "grounded",
+                    "contacts": [],
+                    "diagnostics": [],
+                    "revision": 576,
+                    "contactPolygon": [
+                      {
+                        "x": 753.1748914481766,
+                        "y": 382.3316464992362
+                      },
+                      {
+                        "x": 753.4984034350036,
+                        "y": 380.70524191168454
+                      },
+                      {
+                        "x": 754.4196876281337,
+                        "y": 379.32644267919335
+                      },
+                      {
+                        "x": 755.798486860625,
+                        "y": 378.4051584860632
+                      },
+                      {
+                        "x": 757.4248914481766,
+                        "y": 378.0816464992362
+                      },
+                      {
+                        "x": 759.0512960357282,
+                        "y": 378.4051584860632
+                      },
+                      {
+                        "x": 760.4300952682195,
+                        "y": 379.32644267919335
+                      },
+                      {
+                        "x": 761.3513794613496,
+                        "y": 380.70524191168454
+                      },
+                      {
+                        "x": 761.6748914481766,
+                        "y": 382.3316464992362
+                      },
+                      {
+                        "x": 761.3513794613496,
+                        "y": 383.9580510867878
+                      },
+                      {
+                        "x": 760.4300952682195,
+                        "y": 385.336850319279
+                      },
+                      {
+                        "x": 759.0512960357282,
+                        "y": 386.25813451240913
+                      },
+                      {
+                        "x": 757.4248914481766,
+                        "y": 386.5816464992362
+                      },
+                      {
+                        "x": 755.798486860625,
+                        "y": 386.25813451240913
+                      },
+                      {
+                        "x": 754.4196876281337,
+                        "y": 385.336850319279
+                      },
+                      {
+                        "x": 753.4984034350036,
+                        "y": 383.9580510867878
+                      }
+                    ],
+                    "substep": 575,
+                    "tilt": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  }
+                ],
+                "eq": {
+                  "has": true,
+                  "held": false,
+                  "x": 700.6268296729025,
+                  "y": 377.64247874095435,
+                  "vx": 0,
+                  "vy": 0,
+                  "rot": 1.7537736230814334,
+                  "w": 0,
+                  "rho": 0.1840342459681466,
+                  "rhov": 0.6929554632566277,
+                  "st": "SLEEPING",
+                  "still": 0.5041666666666661,
+                  "len": 23,
+                  "z": 7.050000000204138,
+                  "vz": 0,
+                  "shape": {
+                    "id": "profile:death-light",
+                    "radius": 7,
+                    "height": 14,
+                    "centerOffset": 7,
+                    "maxStepRise": 0
+                  },
+                  "supportId": "support:ground",
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "stable": true,
+                  "sleeping": true,
+                  "motionMode": "grounded",
+                  "contacts": [],
+                  "diagnostics": [],
+                  "revision": 171,
+                  "contactPolygon": [
+                    {
+                      "x": 694.6768296729025,
+                      "y": 377.64247874095435
+                    },
+                    {
+                      "x": 695.1297464544604,
+                      "y": 375.36551231838206
+                    },
+                    {
+                      "x": 696.4195443248426,
+                      "y": 373.4351933928944
+                    },
+                    {
+                      "x": 698.3498632503303,
+                      "y": 372.1453955225122
+                    },
+                    {
+                      "x": 700.6268296729025,
+                      "y": 371.69247874095436
+                    },
+                    {
+                      "x": 702.9037960954748,
+                      "y": 372.1453955225122
+                    },
+                    {
+                      "x": 704.8341150209625,
+                      "y": 373.4351933928944
+                    },
+                    {
+                      "x": 706.1239128913447,
+                      "y": 375.36551231838206
+                    },
+                    {
+                      "x": 706.5768296729026,
+                      "y": 377.64247874095435
+                    },
+                    {
+                      "x": 706.1239128913447,
+                      "y": 379.91944516352663
+                    },
+                    {
+                      "x": 704.8341150209625,
+                      "y": 381.8497640890143
+                    },
+                    {
+                      "x": 702.9037960954748,
+                      "y": 383.1395619593965
+                    },
+                    {
+                      "x": 700.6268296729025,
+                      "y": 383.59247874095433
+                    },
+                    {
+                      "x": 698.3498632503303,
+                      "y": 383.1395619593965
+                    },
+                    {
+                      "x": 696.4195443248426,
+                      "y": 381.8497640890143
+                    },
+                    {
+                      "x": 695.1297464544604,
+                      "y": 379.91944516352663
+                    }
+                  ],
+                  "substep": 575,
+                  "tilt": {
+                    "x": 0,
+                    "y": 0
+                  }
+                },
+                "hat": {
+                  "has": false,
+                  "on": true,
+                  "x": 748.9970499986091,
+                  "y": 359.8013500552858,
+                  "vx": 33.8784279729827,
+                  "vy": -98.32727046999435,
+                  "rot": 1.5707963267948966,
+                  "w": 0,
+                  "st": "ACTIVE",
+                  "still": 0,
+                  "z": 20.05,
+                  "vz": 0,
+                  "shape": {
+                    "id": "profile:death-hat",
+                    "radius": 11,
+                    "height": 4,
+                    "centerOffset": 2,
+                    "maxStepRise": 0
+                  },
+                  "supportId": null,
+                  "normal": null,
+                  "stable": false,
+                  "sleeping": false,
+                  "motionMode": "airborne",
+                  "contacts": [],
+                  "diagnostics": [],
+                  "revision": 0,
+                  "contactPolygon": []
+                },
+                "at": {
+                  "x": 758.7444681605064,
+                  "y": 330.86739679043006,
+                  "vx": -0.3016646696800713,
+                  "vy": 0.87967649896112,
+                  "a": 1.89376696110322,
+                  "av": 0.0036272732856680104,
+                  "contact": true,
+                  "load": 0,
+                  "str": 0,
+                  "bite": 0.00047604412902227394,
+                  "lunge": 1,
+                  "z": 0.05,
+                  "vz": 0,
+                  "shape": {
+                    "id": "profile:hound",
+                    "radius": 21,
+                    "height": 36,
+                    "eyeHeight": 28,
+                    "maxSlopeDegrees": 35,
+                    "maxStepRise": 12,
+                    "stepLiftMax": 180
+                  },
+                  "supportId": "support:ground",
+                  "normal": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "stable": true,
+                  "sleeping": false,
+                  "still": 0,
+                  "st": "ACTIVE",
+                  "motionMode": "grounded",
+                  "contacts": [],
+                  "diagnostics": [],
+                  "revision": 576,
+                  "contactPolygon": [
+                    {
+                      "x": 740.8944681605063,
+                      "y": 330.86739679043006
+                    },
+                    {
+                      "x": 742.2532185051799,
+                      "y": 324.0364975227132
+                    },
+                    {
+                      "x": 746.1226121163265,
+                      "y": 318.2455407462502
+                    },
+                    {
+                      "x": 751.9135688927895,
+                      "y": 314.3761471351036
+                    },
+                    {
+                      "x": 758.7444681605064,
+                      "y": 313.01739679043004
+                    },
+                    {
+                      "x": 765.5753674282232,
+                      "y": 314.3761471351036
+                    },
+                    {
+                      "x": 771.3663242046862,
+                      "y": 318.2455407462502
+                    },
+                    {
+                      "x": 775.2357178158328,
+                      "y": 324.0364975227132
+                    },
+                    {
+                      "x": 776.5944681605064,
+                      "y": 330.86739679043006
+                    },
+                    {
+                      "x": 775.2357178158328,
+                      "y": 337.6982960581469
+                    },
+                    {
+                      "x": 771.3663242046862,
+                      "y": 343.48925283460994
+                    },
+                    {
+                      "x": 765.5753674282232,
+                      "y": 347.3586464457565
+                    },
+                    {
+                      "x": 758.7444681605064,
+                      "y": 348.7173967904301
+                    },
+                    {
+                      "x": 751.9135688927895,
+                      "y": 347.3586464457565
+                    },
+                    {
+                      "x": 746.1226121163265,
+                      "y": 343.48925283460994
+                    },
+                    {
+                      "x": 742.2532185051799,
+                      "y": 337.6982960581469
+                    }
+                  ],
+                  "substep": 575,
+                  "tilt": {
+                    "x": 0,
+                    "y": 0
+                  },
+                  "walk": 26.02670563044089
+                },
+                "cam": {
+                  "x": 0.00001699476262885006,
+                  "y": -0.0000502245059028845,
+                  "vx": -0.00005563575273911741,
+                  "vy": 0.00016441765908490106
+                },
+                "rope": {
+                  "lx": -13.569944770305725,
+                  "ly": -4.818360606145243,
+                  "k": 34,
+                  "c": 9,
+                  "stretch": 9.60001832395455
+                },
+                "pull": 0,
+                "dragS": 0,
+                "dragOn": false,
+                "wallHit": null,
+                "hitsDone": 4,
+                "eqAt": 0.6208333333333333,
+                "hatAt": -1,
+                "firstBlow": 0.2,
+                "tr": 0,
+                "res": 0.01685120125994751,
+                "contactT": 0.11666666666666667,
+                "released": false,
+                "slipCount": 0,
+                "pitch": 0.007984292539538222,
+                "dragDir": {
+                  "x": 0.3257541151248316,
+                  "y": -0.9454545237499464
+                },
+                "stepN": 576,
+                "spatial": true,
+                "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062",
+                "deathTick": 144,
+                "trailSegment": 0,
+                "trailContact": true,
+                "physicalSequence": 12
+              }
+            }
+          }
+        }
+      ],
+      "part": 0,
+      "parts": 1
+    },
+    {
+      "t": "s",
+      "p": [],
+      "e": {
+        "st": 15.3,
+        "h": [
+          {
+            "i": 1,
+            "x": 758.7,
+            "y": 330.9,
+            "a": 1.894,
+            "s": 12,
+            "ac": 7,
+            "v": 0,
+            "h": 0,
+            "lh": 0,
+            "l": -1,
+            "tg": 0,
+            "cp": 0,
+            "k": 0
+          }
+        ],
+        "m": [],
+        "b": 0,
+        "p": 0.026,
+        "gw": [],
+        "it": [],
+        "lf": [],
+        "sn": []
+      },
+      "me": "",
+      "ms": 1,
+      "cp": 0,
+      "lightFailures": [],
+      "protocol": {
+        "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+        "simTick": 918
+      },
+      "pose": {
+        "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+        "entityId": "p1",
+        "generation": 2,
+        "seq": 918,
+        "tick": 918,
+        "discontinuity": 5,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "spatial": [
+        {
+          "worldEpoch": "f8df7bcf-6c4c-416c-89e0-6db532e1cb7b",
+          "entityId": "h1",
+          "generation": 2,
+          "tick": 918,
+          "seq": 918,
+          "discontinuity": 0,
+          "x": 758.7444681605064,
+          "y": 330.86739679043006,
+          "z": 0.05,
+          "vx": -0.3016646696800713,
+          "vy": 0.87967649896112,
+          "vz": 0,
+          "yaw": 1.89376696110322,
+          "height": 36,
+          "profile": "profile:hound",
+          "support": "support:ground",
+          "navSurface": "nav:ground",
+          "mode": "grounded",
+          "link": null,
+          "progress": 0,
+          "vault": null,
+          "step": null,
+          "traversal": null
+        }
+      ],
+      "spatialStats": {
+        "accepted": 0,
+        "rejected": 2,
+        "corrections": 6,
+        "maxQueue": 0,
+        "maxHistory": 0,
+        "maxWork": 0,
+        "work": 0,
+        "ownedTicks": 0,
+        "reasons": {
+          "lifecycle": 1,
+          "identity": 1
+        },
+        "cpu": {
+          "samples": 600,
+          "median": 0.211377,
+          "p95": 1.792344,
+          "p99": 2.711675,
+          "max": 5.68255
+        }
+      }
+    },
+    {
+      "t": "world",
+      "protocol": {
+        "version": 2,
+        "capabilities": [
+          "spatial-pose-v1",
+          "ordered-proposals-v1",
+          "explicit-epochs-v1",
+          "spatial-aftermath-v1"
+        ],
+        "worldEpoch": "824d56aa-c178-460d-a543-f5d797593a4d",
+        "geometryMode": "spatial",
+        "schemaVersion": 1,
+        "geometryRevision": "f1",
+        "geometryHash": "a6246bc1d332e79ff3f276d9195202813cb2ff23d9481bdcb91f3706ef18e062",
+        "motionRevision": "stage-c-profile-1",
+        "simTick": 0,
+        "ids": {
+          "support": [
+            "support:ground",
+            "support:upper"
+          ],
+          "surface": [
+            "nav:ground",
+            "nav:upper"
+          ],
+          "link": []
+        }
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "handshake",
+      "pose": {
+        "worldEpoch": "824d56aa-c178-460d-a543-f5d797593a4d",
+        "entityId": "p1",
+        "generation": 3,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 1,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      }
+    }
+  ]
+}
+THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 36237 | part-3b @ ca7a05e064b9
+THE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 36237 | part-3b @ ca7a05e064b9
+The Far Backrooms → http://localhost:36237  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+[admin] room=f WANDERER#1: capture style play
+[admin] room=f WANDERER#1: revive WANDERER
+

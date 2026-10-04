@@ -1,0 +1,65 @@
+[
+  {
+    "name": "s_world25d",
+    "command": [
+      "node",
+      "dev/tests/s_world25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 5.386999928001387
+  },
+  {
+    "name": "s_nav25d",
+    "command": [
+      "node",
+      "dev/tests/s_nav25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 7.585745718999533
+  },
+  {
+    "name": "s_perception25d",
+    "command": [
+      "node",
+      "dev/tests/s_perception25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 6.885079146999487
+  },
+  {
+    "name": "network25d",
+    "command": [
+      "node",
+      "dev/tests/network25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 114.30141725300018
+  },
+  {
+    "name": "physics25d",
+    "command": [
+      "node",
+      "dev/tests/physics25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 37.796101751000606
+  },
+  {
+    "name": "view25d",
+    "command": [
+      "node",
+      "dev/tests/view25d.js"
+    ],
+    "exitCode": 1,
+    "seconds": 261.3242203110003
+  },
+  {
+    "name": "perf_world25d",
+    "command": [
+      "node",
+      "dev/tests/perf_world25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 57.711991836997186
+  }
+]

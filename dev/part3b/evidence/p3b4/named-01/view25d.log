@@ -1,0 +1,16 @@
+FAIL Z29 Different clients above/below same location browser_h2.js FAIL (real browser evidence: /workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/named-01/view25d-raw/browser-pWikpO/browser_h2)
+PASS Z30 High resolution, ultrawide, NV/zoom and overlays browser_h3.js PASS (real browser evidence: /workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/named-01/view25d-raw/browser-pWikpO/browser_h3); browser_h4.js PASS (real browser evidence: /workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/named-01/view25d-raw/browser-pWikpO/browser_h4); coordinates H-Z14 real visible/IR/aftermath acceptance
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(peerMasks.every(p=>p.packet&&p.changed===0&&p.glError===0))
+
+    at /workspace/scratch/2bf492520e95/part-3b/dev/stage_h/browser_h2.js:14:86 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+1/2 view25d gates passed

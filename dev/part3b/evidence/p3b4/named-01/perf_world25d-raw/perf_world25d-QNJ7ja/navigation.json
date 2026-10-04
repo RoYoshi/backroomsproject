@@ -1,0 +1,488 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "scope": "Actual Stage E fixture stacked-floor plans, plus repeatable 1/2/4 stacked occupied sheets, 2/4/8 real entities and players, two seeds, six seconds each. Timings diagnostic; not Stage I or hardware capacity acceptance.",
+  "fixturePlanning": {
+    "plans": 20,
+    "milliseconds": {
+      "n": 20,
+      "median": 10.436793999999963,
+      "p95": 302.27268000000004,
+      "p99": 302.27268000000004,
+      "max": 302.27268000000004
+    },
+    "costUnits": {
+      "n": 20,
+      "median": 1496.6046142578125,
+      "p95": 1496.6046142578125,
+      "p99": 1496.6046142578125,
+      "max": 1496.6046142578125
+    },
+    "navigation": {
+      "plans": 20,
+      "nodes": 6915,
+      "edgeChecks": 46165,
+      "cacheHits": 38336,
+      "cacheMisses": 7244,
+      "maxNodes": 530,
+      "routeRequests": 0,
+      "routeCacheHits": 0,
+      "routeCacheMisses": 0,
+      "traversalEdgeChecks": 330
+    },
+    "nodes": 685,
+    "edges": 4518
+  },
+  "rows": [
+    {
+      "floors": 1,
+      "seed": 31,
+      "actors": 2,
+      "players": 2,
+      "ticks": 360,
+      "compileMs": 6.551433999999972,
+      "nodes": 130,
+      "edges": 906,
+      "planDiagnostics": {
+        "milliseconds": {
+          "n": 8,
+          "median": 3.5116070000000263,
+          "p95": 17.707850000000008,
+          "p99": 17.707850000000008,
+          "max": 17.707850000000008
+        },
+        "costUnits": {
+          "n": 8,
+          "median": 483.4112548828125,
+          "p95": 483.4112548828125,
+          "p99": 483.4112548828125,
+          "max": 483.4112548828125
+        }
+      },
+      "allPlanMilliseconds": {
+        "n": 17,
+        "median": 3.487630999999965,
+        "p95": 17.707850000000008,
+        "p99": 17.707850000000008,
+        "max": 17.707850000000008
+      },
+      "stepMilliseconds": {
+        "n": 300,
+        "median": 0.026198999999905936,
+        "p95": 0.5124100000000453,
+        "p99": 3.1062970000000405,
+        "max": 5.977422999999931
+      },
+      "navigation": {
+        "plans": 17,
+        "nodes": 1378,
+        "edgeChecks": 9862,
+        "cacheHits": 8149,
+        "cacheMisses": 1713,
+        "maxNodes": 113,
+        "routeRequests": 21,
+        "routeCacheHits": 20,
+        "routeCacheMisses": 1,
+        "traversalEdgeChecks": 0,
+        "routeRefreshes": 6,
+        "routeRetainedTicks": 427
+      },
+      "sensors": {
+        "candidates": 56,
+        "rays": 301,
+        "lightQueries": 422,
+        "soundQueries": 48,
+        "soundNodes": 96,
+        "soundPortals": 0,
+        "soundAlternatives": 48,
+        "contacts": 76
+      },
+      "peakEvidence": {
+        "records": 2,
+        "evidencePerRecord": 3,
+        "sounds": 8,
+        "leads": 5,
+        "habitsPerIdentity": 0,
+        "hypotheses": 0,
+        "supportAlternatives": 1
+      },
+      "cacheMeaning": "cacheHits/Misses count physical edge proof cache, not route requests. Route retention measured as actor ticks with a path and unchanged routeRevision; no receiver/light/sound cache is present.",
+      "ok": true
+    },
+    {
+      "floors": 1,
+      "seed": 97,
+      "actors": 2,
+      "players": 2,
+      "ticks": 360,
+      "compileMs": 1.2973890000000665,
+      "nodes": 130,
+      "edges": 906,
+      "planDiagnostics": {
+        "milliseconds": {
+          "n": 8,
+          "median": 3.1250460000001112,
+          "p95": 14.0084710000001,
+          "p99": 14.0084710000001,
+          "max": 14.0084710000001
+        },
+        "costUnits": {
+          "n": 8,
+          "median": 483.4112548828125,
+          "p95": 483.4112548828125,
+          "p99": 483.4112548828125,
+          "max": 483.4112548828125
+        }
+      },
+      "allPlanMilliseconds": {
+        "n": 17,
+        "median": 2.6110439999999926,
+        "p95": 14.0084710000001,
+        "p99": 14.0084710000001,
+        "max": 14.0084710000001
+      },
+      "stepMilliseconds": {
+        "n": 300,
+        "median": 0.03859799999986535,
+        "p95": 0.3602209999999104,
+        "p99": 3.4421919999999773,
+        "max": 5.068074999999908
+      },
+      "navigation": {
+        "plans": 17,
+        "nodes": 1427,
+        "edgeChecks": 10191,
+        "cacheHits": 8392,
+        "cacheMisses": 1799,
+        "maxNodes": 127,
+        "routeRequests": 21,
+        "routeCacheHits": 20,
+        "routeCacheMisses": 1,
+        "traversalEdgeChecks": 0,
+        "routeRefreshes": 6,
+        "routeRetainedTicks": 429
+      },
+      "sensors": {
+        "candidates": 57,
+        "rays": 304,
+        "lightQueries": 423,
+        "soundQueries": 48,
+        "soundNodes": 96,
+        "soundPortals": 0,
+        "soundAlternatives": 48,
+        "contacts": 77
+      },
+      "peakEvidence": {
+        "records": 2,
+        "evidencePerRecord": 3,
+        "sounds": 8,
+        "leads": 6,
+        "habitsPerIdentity": 0,
+        "hypotheses": 0,
+        "supportAlternatives": 1
+      },
+      "cacheMeaning": "cacheHits/Misses count physical edge proof cache, not route requests. Route retention measured as actor ticks with a path and unchanged routeRevision; no receiver/light/sound cache is present.",
+      "ok": true
+    },
+    {
+      "floors": 2,
+      "seed": 31,
+      "actors": 4,
+      "players": 4,
+      "ticks": 360,
+      "compileMs": 6.309330999999929,
+      "nodes": 260,
+      "edges": 1812,
+      "planDiagnostics": {
+        "milliseconds": {
+          "n": 16,
+          "median": 2.8454260000000886,
+          "p95": 11.862366000000065,
+          "p99": 11.862366000000065,
+          "max": 11.862366000000065
+        },
+        "costUnits": {
+          "n": 16,
+          "median": 483.4112548828125,
+          "p95": 483.4112548828125,
+          "p99": 483.4112548828125,
+          "max": 483.4112548828125
+        }
+      },
+      "allPlanMilliseconds": {
+        "n": 33,
+        "median": 2.4951289999999062,
+        "p95": 10.742453000000069,
+        "p99": 11.862366000000065,
+        "max": 11.862366000000065
+      },
+      "stepMilliseconds": {
+        "n": 300,
+        "median": 0.08510799999999108,
+        "p95": 0.8909590000000662,
+        "p99": 3.498717999999826,
+        "max": 5.27576699999986
+      },
+      "navigation": {
+        "plans": 33,
+        "nodes": 2605,
+        "edgeChecks": 18638,
+        "cacheHits": 15212,
+        "cacheMisses": 3426,
+        "maxNodes": 123,
+        "routeRequests": 42,
+        "routeCacheHits": 40,
+        "routeCacheMisses": 2,
+        "traversalEdgeChecks": 0,
+        "routeRefreshes": 11,
+        "routeRetainedTicks": 827
+      },
+      "sensors": {
+        "candidates": 213,
+        "rays": 1035,
+        "lightQueries": 951,
+        "soundQueries": 192,
+        "soundNodes": 384,
+        "soundPortals": 0,
+        "soundAlternatives": 384,
+        "contacts": 848
+      },
+      "peakEvidence": {
+        "records": 2,
+        "evidencePerRecord": 3,
+        "sounds": 8,
+        "leads": 5,
+        "habitsPerIdentity": 0,
+        "hypotheses": 0,
+        "supportAlternatives": 2
+      },
+      "cacheMeaning": "cacheHits/Misses count physical edge proof cache, not route requests. Route retention measured as actor ticks with a path and unchanged routeRevision; no receiver/light/sound cache is present.",
+      "ok": true
+    },
+    {
+      "floors": 2,
+      "seed": 97,
+      "actors": 4,
+      "players": 4,
+      "ticks": 360,
+      "compileMs": 0.7098069999999552,
+      "nodes": 260,
+      "edges": 1812,
+      "planDiagnostics": {
+        "milliseconds": {
+          "n": 16,
+          "median": 2.5157610000001114,
+          "p95": 11.339858999999933,
+          "p99": 11.339858999999933,
+          "max": 11.339858999999933
+        },
+        "costUnits": {
+          "n": 16,
+          "median": 483.4112548828125,
+          "p95": 483.4112548828125,
+          "p99": 483.4112548828125,
+          "max": 483.4112548828125
+        }
+      },
+      "allPlanMilliseconds": {
+        "n": 33,
+        "median": 2.2819190000000162,
+        "p95": 11.297045000000026,
+        "p99": 11.339858999999933,
+        "max": 11.339858999999933
+      },
+      "stepMilliseconds": {
+        "n": 300,
+        "median": 0.09894900000017515,
+        "p95": 0.84800499999983,
+        "p99": 3.626828999999816,
+        "max": 5.864922999999862
+      },
+      "navigation": {
+        "plans": 33,
+        "nodes": 2706,
+        "edgeChecks": 19362,
+        "cacheHits": 15850,
+        "cacheMisses": 3512,
+        "maxNodes": 127,
+        "routeRequests": 42,
+        "routeCacheHits": 41,
+        "routeCacheMisses": 1,
+        "traversalEdgeChecks": 0,
+        "routeRefreshes": 11,
+        "routeRetainedTicks": 903
+      },
+      "sensors": {
+        "candidates": 230,
+        "rays": 1124,
+        "lightQueries": 977,
+        "soundQueries": 192,
+        "soundNodes": 384,
+        "soundPortals": 0,
+        "soundAlternatives": 384,
+        "contacts": 591
+      },
+      "peakEvidence": {
+        "records": 2,
+        "evidencePerRecord": 3,
+        "sounds": 8,
+        "leads": 6,
+        "habitsPerIdentity": 0,
+        "hypotheses": 0,
+        "supportAlternatives": 2
+      },
+      "cacheMeaning": "cacheHits/Misses count physical edge proof cache, not route requests. Route retention measured as actor ticks with a path and unchanged routeRevision; no receiver/light/sound cache is present.",
+      "ok": true
+    },
+    {
+      "floors": 4,
+      "seed": 31,
+      "actors": 8,
+      "players": 8,
+      "ticks": 360,
+      "compileMs": 11.543255000000045,
+      "nodes": 520,
+      "edges": 3624,
+      "planDiagnostics": {
+        "milliseconds": {
+          "n": 32,
+          "median": 2.4258659999998144,
+          "p95": 10.37578099999996,
+          "p99": 10.463003000000072,
+          "max": 10.463003000000072
+        },
+        "costUnits": {
+          "n": 32,
+          "median": 483.4112548828125,
+          "p95": 483.4112548828125,
+          "p99": 483.4112548828125,
+          "max": 483.4112548828125
+        }
+      },
+      "allPlanMilliseconds": {
+        "n": 67,
+        "median": 2.2034009999999853,
+        "p95": 10.003831999999875,
+        "p99": 10.463003000000072,
+        "max": 10.463003000000072
+      },
+      "stepMilliseconds": {
+        "n": 300,
+        "median": 0.28656100000011975,
+        "p95": 2.623251999999866,
+        "p99": 5.11792000000014,
+        "max": 7.122202000000016
+      },
+      "navigation": {
+        "plans": 67,
+        "nodes": 5263,
+        "edgeChecks": 37663,
+        "cacheHits": 30757,
+        "cacheMisses": 6906,
+        "maxNodes": 129,
+        "routeRequests": 134,
+        "routeCacheHits": 127,
+        "routeCacheMisses": 7,
+        "traversalEdgeChecks": 0,
+        "routeRefreshes": 23,
+        "routeRetainedTicks": 1790
+      },
+      "sensors": {
+        "candidates": 826,
+        "rays": 3890,
+        "lightQueries": 2436,
+        "soundQueries": 783,
+        "soundNodes": 1566,
+        "soundPortals": 0,
+        "soundAlternatives": 3132,
+        "contacts": 3738
+      },
+      "peakEvidence": {
+        "records": 2,
+        "evidencePerRecord": 3,
+        "sounds": 8,
+        "leads": 6,
+        "habitsPerIdentity": 0,
+        "hypotheses": 0,
+        "supportAlternatives": 4
+      },
+      "cacheMeaning": "cacheHits/Misses count physical edge proof cache, not route requests. Route retention measured as actor ticks with a path and unchanged routeRevision; no receiver/light/sound cache is present.",
+      "ok": true
+    },
+    {
+      "floors": 4,
+      "seed": 97,
+      "actors": 8,
+      "players": 8,
+      "ticks": 360,
+      "compileMs": 0.7804120000000694,
+      "nodes": 520,
+      "edges": 3624,
+      "planDiagnostics": {
+        "milliseconds": {
+          "n": 32,
+          "median": 2.4682190000003175,
+          "p95": 10.178565000000162,
+          "p99": 10.855200999999852,
+          "max": 10.855200999999852
+        },
+        "costUnits": {
+          "n": 32,
+          "median": 483.4112548828125,
+          "p95": 483.4112548828125,
+          "p99": 483.4112548828125,
+          "max": 483.4112548828125
+        }
+      },
+      "allPlanMilliseconds": {
+        "n": 67,
+        "median": 2.3519739999997,
+        "p95": 10.021718999999848,
+        "p99": 10.855200999999852,
+        "max": 10.855200999999852
+      },
+      "stepMilliseconds": {
+        "n": 300,
+        "median": 0.1167659999996431,
+        "p95": 1.8249220000002424,
+        "p99": 4.741915000000063,
+        "max": 5.1515910000002805
+      },
+      "navigation": {
+        "plans": 67,
+        "nodes": 5510,
+        "edgeChecks": 39395,
+        "cacheHits": 32309,
+        "cacheMisses": 7086,
+        "maxNodes": 129,
+        "routeRequests": 91,
+        "routeCacheHits": 88,
+        "routeCacheMisses": 3,
+        "traversalEdgeChecks": 0,
+        "routeRefreshes": 23,
+        "routeRetainedTicks": 1704
+      },
+      "sensors": {
+        "candidates": 784,
+        "rays": 3703,
+        "lightQueries": 2354,
+        "soundQueries": 768,
+        "soundNodes": 1536,
+        "soundPortals": 0,
+        "soundAlternatives": 3072,
+        "contacts": 3788
+      },
+      "peakEvidence": {
+        "records": 2,
+        "evidencePerRecord": 3,
+        "sounds": 8,
+        "leads": 6,
+        "habitsPerIdentity": 0,
+        "hypotheses": 0,
+        "supportAlternatives": 4
+      },
+      "cacheMeaning": "cacheHits/Misses count physical edge proof cache, not route requests. Route retention measured as actor ticks with a path and unchanged routeRevision; no receiver/light/sound cache is present.",
+      "ok": true
+    }
+  ]
+}

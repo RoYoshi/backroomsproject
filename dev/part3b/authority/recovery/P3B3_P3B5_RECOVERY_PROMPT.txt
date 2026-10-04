@@ -1,0 +1,101 @@
+Read `README_FIRST.txt` in the supplied **THE FAR BACKROOMS — Part 3B P3B3 Recovery Master Pack** first.
+
+Then read and execute `P3B3_P3B5_RECOVERY_PROMPT.txt` exactly as authorized.
+
+This is an interrupted-run continuation of:
+
+**Part 3B — Movement, Camera & Depth Presentation**
+
+Do NOT restart Part 3B.
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Branch:
+`part-3b`
+
+Verified P3B3 preservation checkpoint:
+`82f501e24c2757e6cdcf4046f36916e5e02ea589`
+
+Verified tree:
+`83db9423727fb87bb603b833032dbc078c2d0bb6`
+
+Commit:
+`Part 3B P3B3 preservation: cutaway semantics and camera masking work in progress`
+
+P3B0–P3B2 are complete:
+P3B0 `463fafcab45b448d8d2ca827f29daa8094fa8f2b`
+P3B1 `ecf5b3fcda412d5356d69f2ae8668402238e15e0`
+P3B2 `e29dbb009f6a60c5ab458924bf8da588c6242fa0`
+
+Do NOT redo them.
+
+FIRST: inspect live remote `part-3b`.
+
+If head is still `82f501e24c2757e6cdcf4046f36916e5e02ea589`, resume there.
+If it has advanced, do not reset backward. Inspect and preserve the newer valid descendant.
+If it diverged unexpectedly, report exact SHA/tree and stop before destructive action.
+
+P3B3 substantive work is already preserved. Existing focused results include:
+- cutaway semantics PASS
+- physical-ray parity PASS
+- retained picking PASS
+- runtime invariance PASS
+- real two-client NORTH concealment PASS
+- ordinary Level 0 continuous ceilings PASS
+- LONG ROOM overlap local cutaway PASS
+- independent client views PASS
+- zero hidden peer/beam pixel differences PASS
+
+Historical harness failures from attempts 01 and 02 are intentionally preserved.
+Attempt 03 passed with revised test setup and no gameplay/lighting changes.
+
+P3B3 remaining work is CLOSEOUT ONLY:
+1. inspect preserved source/evidence,
+2. record preservation commit/tree in checkpoint log,
+3. run only minimal focused validation necessary to confirm the preserved state,
+4. if no demonstrated defect remains, mark P3B3 complete,
+5. commit/push/verify the P3B3 completion checkpoint.
+
+Do not speculatively rewrite the cutaway implementation.
+
+Then complete P3B4 exactly under original authority:
+- B-01 through B-19 objective gates,
+- aspect/DPR/quality/NV/zoom/two-client coverage,
+- camera-Z/depth projection/stairs/ramps/falls/landing,
+- picking/aftermath/reconnect/reset,
+- canonical fairness footprint,
+- continuous Level 0 rooms,
+- NORTH local cover,
+- LONG overlap slab,
+- full/reduced truth equality,
+- retained Stage I and Part 3A regressions,
+- performance evidence,
+- preserve failures before narrow repair,
+- commit/push/verify P3B4.
+
+Then complete P3B5:
+- final regressions,
+- fresh extraction in path with spaces,
+- package-relative build/test/server verification,
+- redirect verification,
+- exact changed-file and Git blob/mode/tree audit,
+- final reports,
+- package verification JSON,
+- final Part 3B ZIP and SHA-256,
+- final source push/remote verification,
+- human-QA handoff,
+- STOP.
+
+Do NOT:
+- reset to Part 3A,
+- discard P3B3 evidence,
+- redo P3B0–P3B2,
+- modify/merge main,
+- begin Part 3C,
+- begin multi-level runtime,
+- retune physics/AI/network/death authority,
+- weaken tests.
+
+Final status:
+`PART 3B — MOVEMENT, CAMERA & DEPTH PRESENTATION ENGINEERING COMPLETE — HUMAN QA PENDING`

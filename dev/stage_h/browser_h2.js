@@ -10,8 +10,11 @@ async function difference(page,id) {return page.evaluate(id=>{const s=__spatial,
  await a.page.waitForFunction(()=>__spatial.view.snapshot().groups.every(g=>g.fade===1),null,{timeout:15000});await b.page.waitForFunction(()=>__spatial.view.snapshot().groups.every(g=>g.fade===0),null,{timeout:15000});const initial=[await a.inspect(),await b.inspect()];assert.equal(initial[0].world.contentHash,initial[1].world.contentHash);assert.equal(initial[0].network.world.worldEpoch,initial[1].network.world.worldEpoch);assert.equal(initial[0].cutaway.groups[0].fade,1);assert.equal(initial[1].cutaway.groups[0].fade,0);
  checks.push({name:'Z29 same authoritative world; same XY lower and upper clients',initial});
  const aid=await a.page.evaluate(()=>__api.H.id),bid=await b.page.evaluate(()=>__api.H.id);
- await a.page.waitForFunction(id=>__spatial.state.packets.some(p=>p.id==='p'+id),bid);await b.page.waitForFunction(id=>__spatial.state.packets.some(p=>p.id==='p'+id),aid);
- const peerMasks=[await difference(a.page,'p'+bid),await difference(b.page,'p'+aid)];assert(peerMasks.every(p=>p.packet&&p.changed===0&&p.glError===0));checks.push({name:'upper/lower live peer fragments make zero pixels through slab',peerMasks});
+ // The assertion is about the replicated post-teleport peers. Existence alone
+ // can select the previous same-floor snapshot while the teleport is in flight.
+ await a.page.waitForFunction(id=>__spatial.state.packets.some(p=>p.id==='p'+id&&Math.hypot(p.x-160,p.y-160,p.z-180)<.15&&p.support==='support:upper-west'),bid);
+ await b.page.waitForFunction(id=>__spatial.state.packets.some(p=>p.id==='p'+id&&Math.hypot(p.x-160,p.y-160,p.z)<.15&&p.support==='support:ground-north'),aid);
+ const peerMasks=[await difference(a.page,'p'+bid),await difference(b.page,'p'+aid)];checks.push({name:'upper/lower live peer fragments make zero pixels through slab',peerMasks});assert(peerMasks.every(p=>p.packet&&p.changed===0&&p.glError===0));
  const upper=await a.command({c:'spatial-entity',kind:'hound',pose:{x:200,y:160,z:180,support:'support:upper-west'}}),uid='h'+upper.msg.split(' ').at(-1);
  const lower=await a.command({c:'spatial-entity',kind:'hound',pose:{x:220,y:160,z:0,support:'support:ground-north'}}),lid='h'+lower.msg.split(' ').at(-1);
  await a.page.waitForFunction(ids=>ids.every(id=>__spatial.state.packets.some(p=>p.id===id)),[uid,lid]);
