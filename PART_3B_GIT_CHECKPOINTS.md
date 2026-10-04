@@ -20,4 +20,6 @@ P3B4 preservation: `47579eab2d0c07a6f6495c9372abea138c3da5fe`, tree `de6fe63cd5a
 
 P3B4 second preservation: `fcb3f7e968f2bc53fe599fa7ee7239a9dbc61803`, tree `e2a546a72a60a919e4a5459a9566160400b935d2`. Branch and commit/tree independently verified. Preserves the passing full view-suite retry, all 18 exact baseline comparisons, frozen/browser flat parity, deterministic production gates, first production display-matrix failure and exact candidate-hull harness correction. P3B4 remains in progress at this checkpoint.
 
-P3B4 objective gates COMPLETE; completion commit/tree receipt follows publication. P3B5 pending. Main is not modified or merged. Part 3C is not begun.
+P3B4 completion: `f2158e5cf11d26947ff55bb92d6dbdfbc2780b44`, tree `eec4f4c8e2734846b098731b404056fd8d7a0637`. Live branch and Git commit independently verified after fast-forward publication. B-01 through B-19 and all required retained regressions PASS. Human QA remains PENDING.
+
+P3B5 final portability gates COMPLETE. Fresh extraction under a path containing spaces passed all 37 final checks; exact source blobs and modes remained unchanged through two repeated builds and all regressions. The initial ZIP-mode preflight failure and narrow packaging-only repair are retained. The final source commit/tree and independent remote verification are supplied in the accompanying publication receipt because a commit cannot embed its own identity. Main is not modified or merged. Part 3C is not begun.

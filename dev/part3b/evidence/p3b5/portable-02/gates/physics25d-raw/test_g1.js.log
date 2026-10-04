@@ -1,0 +1,109 @@
+[
+  {
+    "kind": "Hound",
+    "v": "A",
+    "substeps": 1212,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5.050000000229234,
+      5.050000000227776
+    ],
+    "gearZ": 7.050000000227776,
+    "diagnostics": []
+  },
+  {
+    "kind": "Hound",
+    "v": "B",
+    "substeps": 1260,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5.050000000229234,
+      5.050000000227776
+    ],
+    "gearZ": 7.050000000227776,
+    "diagnostics": []
+  },
+  {
+    "kind": "Hound",
+    "v": "C",
+    "substeps": 1164,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5.050000000229234,
+      5.050000000227776
+    ],
+    "gearZ": 7.050000000227776,
+    "diagnostics": []
+  },
+  {
+    "kind": "Hound",
+    "v": "D",
+    "substeps": 1212,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5.050000000229234,
+      5.050000000227776
+    ],
+    "gearZ": 7.050000000227776,
+    "diagnostics": []
+  },
+  {
+    "kind": "Smiler",
+    "v": "A",
+    "substeps": 1084,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5.050000000229234,
+      5.050000000227776
+    ],
+    "gearZ": 7.050000000227776,
+    "diagnostics": []
+  },
+  {
+    "kind": "Smiler",
+    "v": "B",
+    "substeps": 1048,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5.050000000229234,
+      5.050000000227776
+    ],
+    "gearZ": 7.050000000227776,
+    "diagnostics": []
+  },
+  {
+    "kind": "Smiler",
+    "v": "C",
+    "substeps": 1084,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5.050000000229234,
+      5.050000000227776
+    ],
+    "gearZ": 7.050000000227776,
+    "diagnostics": []
+  },
+  {
+    "kind": "Smiler",
+    "v": "D",
+    "substeps": 1084,
+    "state": "SLEEPING",
+    "z": 0,
+    "hands": [
+      5.050000000229234,
+      5.050000000227776
+    ],
+    "gearZ": 7.050000000227776,
+    "diagnostics": []
+  }
+]
+PASS deterministic identical reruns and 30/60/120/144/240/360 sampling; exact four substeps
+PASS first thin slab wins and underside collision; no promotion to hidden upper support
+G1 PASS

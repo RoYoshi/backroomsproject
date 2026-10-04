@@ -1,0 +1,74 @@
+START build-1-ai
+{"name": "build-1-ai", "command": ["bash", "dev/build_ai.sh"], "exitCode": 0, "seconds": 0.16457250099847442}
+START build-1-sim
+{"name": "build-1-sim", "command": ["bash", "dev/build_sim.sh"], "exitCode": 0, "seconds": 0.16460177000044496}
+START build-1-ents
+{"name": "build-1-ents", "command": ["bash", "dev/build_ents.sh"], "exitCode": 0, "seconds": 0.21470250899801613}
+START build-1-level0
+{"name": "build-1-level0", "command": ["node", "dev/part3a/build_level0_spatial.js"], "exitCode": 0, "seconds": 0.8672114699984377}
+START build-2-ai
+{"name": "build-2-ai", "command": ["bash", "dev/build_ai.sh"], "exitCode": 0, "seconds": 0.16440621599758742}
+START build-2-sim
+{"name": "build-2-sim", "command": ["bash", "dev/build_sim.sh"], "exitCode": 0, "seconds": 0.16438403199936147}
+START build-2-ents
+{"name": "build-2-ents", "command": ["bash", "dev/build_ents.sh"], "exitCode": 0, "seconds": 0.11433839600067586}
+START build-2-level0
+{"name": "build-2-level0", "command": ["node", "dev/part3a/build_level0_spatial.js"], "exitCode": 0, "seconds": 0.7661915960015904}
+START invariants
+{"name": "invariants", "command": ["python", "dev/part3b/verify_invariants.py", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/invariants.json"], "exitCode": 0, "seconds": 0.03196218800076167}
+START presentation-foundation
+{"name": "presentation-foundation", "command": ["node", "dev/part3b/test_foundation.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/presentation-foundation.json"], "exitCode": 0, "seconds": 0.6156073100028152}
+START presentation-motion
+{"name": "presentation-motion", "command": ["node", "dev/part3b/test_motion.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/presentation-motion.json"], "exitCode": 0, "seconds": 1.018499312998756}
+START presentation-cutaway
+{"name": "presentation-cutaway", "command": ["node", "dev/part3b/test_cutaway.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/presentation-cutaway.json"], "exitCode": 0, "seconds": 0.5151648649989511}
+START production-base
+{"name": "production-base", "command": ["node", "dev/part3a/test_base.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-base.json"], "exitCode": 0, "seconds": 1.4712677570023516}
+START production-vertical
+{"name": "production-vertical", "command": ["node", "dev/part3a/test_vertical.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-vertical.json"], "exitCode": 0, "seconds": 2.2229494739985967}
+START production-navigation
+{"name": "production-navigation", "command": ["node", "dev/part3a/test_navigation.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-navigation.json"], "exitCode": 0, "seconds": 5.380104923002364}
+START production-gameplay
+{"name": "production-gameplay", "command": ["node", "dev/part3a/test_gameplay.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-gameplay.json"], "exitCode": 0, "seconds": 5.22996442600197}
+START production-perception
+{"name": "production-perception", "command": ["node", "dev/part3a/test_perception.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-perception.json"], "exitCode": 0, "seconds": 2.420922826997412}
+START production-picking
+{"name": "production-picking", "command": ["node", "dev/part3a/test_picking.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-picking.json"], "exitCode": 0, "seconds": 0.41532154900050955}
+START production-render_coverage
+{"name": "production-render_coverage", "command": ["node", "dev/part3a/test_render_coverage.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-render_coverage.json"], "exitCode": 0, "seconds": 0.6658116819999123}
+START production-aftermath
+{"name": "production-aftermath", "command": ["node", "dev/part3a/test_aftermath.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-aftermath.json"], "exitCode": 0, "seconds": 11.153700588998618}
+START s_world25d
+{"name": "s_world25d", "command": ["node", "dev/tests/s_world25d.js"], "exitCode": 0, "seconds": 5.184196410998993}
+START s_nav25d
+{"name": "s_nav25d", "command": ["node", "dev/tests/s_nav25d.js"], "exitCode": 0, "seconds": 7.886629322001681}
+START s_perception25d
+{"name": "s_perception25d", "command": ["node", "dev/tests/s_perception25d.js"], "exitCode": 0, "seconds": 7.494212289999268}
+START network25d
+{"name": "network25d", "command": ["node", "dev/tests/network25d.js"], "exitCode": 0, "seconds": 109.90132660099698}
+START physics25d
+{"name": "physics25d", "command": ["node", "dev/tests/physics25d.js"], "exitCode": 0, "seconds": 38.12043309499859}
+START view25d
+{"name": "view25d", "command": ["node", "dev/tests/view25d.js"], "exitCode": 0, "seconds": 267.58570689000044}
+START perf_world25d
+{"name": "perf_world25d", "command": ["node", "dev/tests/perf_world25d.js"], "exitCode": 0, "seconds": 59.547452762999455}
+START full-retained
+{"name": "full-retained", "command": ["python", "dev/stage_a/run_baseline.py", "--game", ".", "--out", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained"], "exitCode": 0, "seconds": 576.9823001039986}
+START frozen-parity
+{"name": "frozen-parity", "command": ["python", "dev/stage_h/run_parity.py", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/parity"], "exitCode": 0, "seconds": 18.938344095000502}
+START flat-browser-parity
+{"name": "flat-browser-parity", "command": ["node", "dev/stage_h/browser_flat.js", ".", "/workspace/scratch/2bf492520e95/accepted-part3a/thefarbackrooms-level0", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/flat-browser"], "exitCode": 0, "seconds": 31.456279684996844}
+START browser-foundation
+{"name": "browser-foundation", "command": ["node", "dev/part3b/browser_foundation.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/browser-foundation"], "exitCode": 0, "seconds": 4.624183323998295}
+START browser-resets
+{"name": "browser-resets", "command": ["node", "dev/part3b/browser_resets.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/browser-resets"], "exitCode": 0, "seconds": 22.6788427950014}
+START browser-cutaway
+{"name": "browser-cutaway", "command": ["node", "dev/part3b/browser_cutaway.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/browser-cutaway"], "exitCode": 0, "seconds": 30.854808788997616}
+START browser-production-base
+{"name": "browser-production-base", "command": ["node", "dev/part3a/browser_base.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/browser-production-base"], "exitCode": 0, "seconds": 13.558224191998306}
+START served-flat-fixture
+{"name": "served-flat-fixture", "command": ["node", "dev/stage_h/served_package.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/served-flat-fixture.json"], "exitCode": 0, "seconds": 0.3666131130012218}
+START served-production
+{"name": "served-production", "command": ["node", "dev/part3a/served_production.js", "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/served-production.json"], "exitCode": 0, "seconds": 2.0212181429997145}
+START redirect
+{"name": "redirect", "command": ["node", "dev/stage_i/test_redirect.js"], "exitCode": 0, "seconds": 0.1643278459996509}

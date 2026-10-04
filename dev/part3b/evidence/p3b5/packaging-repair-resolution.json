@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "repairEvidence": "dev/part3b/evidence/p3b5/packaging-repair.json",
+  "portableResult": "dev/part3b/evidence/p3b5/portable-02/result.json",
+  "portableResultSha256": "7a260a35ecd3986674ee334aa79852f628c6600e6aa003d00f6f0e3dd2d4b7be",
+  "all37FinalChecksPass": true,
+  "originalP3B4AcceptanceRetained": true,
+  "onlyThreeRecordedPackagingToolsDifferFromP3B4Completion": true,
+  "runtimeAndAllGameplayAssertionFilesUnchangedSinceP3B4Completion": true
+}

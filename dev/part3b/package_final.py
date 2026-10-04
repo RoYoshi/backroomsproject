@@ -10,7 +10,7 @@ assert receipt['mainHead']=='7781e1ac34aa09970df57fae3fc107a873fa2731';assert re
 source=entries(commit);assert tree_hash(source)==tree
 remote={r['path']:(r['mode'],r['sha']) for r in receipt['remoteTreeEntries'] if r['type']=='blob'}
 assert remote=={n:(mode,digest) for mode,digest,n in source}
-portable=json.loads((ROOT/'dev/part3b/evidence/p3b5/portable-01/result.json').read_text());acceptance=json.loads((ROOT/'dev/part3b/evidence/p3b4/acceptance.json').read_text())
+portable=json.loads((ROOT/'dev/part3b/evidence/p3b5/portable-02/result.json').read_text());acceptance=json.loads((ROOT/'dev/part3b/evidence/p3b4/acceptance.json').read_text())
 assert portable['status']==acceptance['status']=='PASS';assert len(acceptance['rows'])==20;assert all(r['disposition']=='PASS' for r in acceptance['rows'])
 assert set(NAMED)<=set(r['name'] for r in portable['gates']['checks'] if r['exitCode']==0)
 assert {n for _,_,n in source if validated(n)}==set(portable['validatedFiles'])
@@ -47,7 +47,7 @@ with zipfile.ZipFile(archive) as z:
   p=fresh/member;assert p.read_bytes()==data,n;p.chmod(int(mode,8)&0o777)
  for p in reports:assert z.read('PART_3B_PUBLICATION/'+p.name)==p.read_bytes()
 manifest_path=out/'PART_3B_SOURCE_MANIFEST.json';manifest_path.write_text(json.dumps({'sourceCommit':commit,'sourceTree':tree,'files':manifest},indent=2)+'\n')
-parity=json.loads((ROOT/'dev/part3b/evidence/p3b5/portable-01/gates/parity/result.json').read_text());assert (parity['traces'],parity['records'],parity['tolerance'])==(46,35098,0);assert parity['frozenUnchanged'] and parity['map']=='BYTE IDENTICAL'
+parity=json.loads((ROOT/'dev/part3b/evidence/p3b5/portable-02/gates/parity/result.json').read_text());assert (parity['traces'],parity['records'],parity['tolerance'])==(46,35098,0);assert parity['frozenUnchanged'] and parity['map']=='BYTE IDENTICAL'
 verification={**{k:v for k,v in source_verify.items() if k!='changedFileAudit'},'archive':archive.name,'archiveBytes':archive.stat().st_size,'archiveSha256':sha(archive),'crc':'PASS','freshFinalExtractionMatches':True,'sourceManifestSha256':sha(manifest_path),'publicationFiles':{p.name:sha(p) for p in reports},'portableValidation':{k:v for k,v in portable.items() if k!='validatedFiles'},'allPortableValidatedFilesUnchanged':True,'changedFileAuditExact':True,'frozenParity':{k:parity[k] for k in ['status','traces','records','tolerance','frozenUnchanged','map']},'baselineComparison':'PASS_BASELINE_EQUIVALENCE','acceptance':'B-01 through B-19 PASS; B-20 handoff complete, human decision PENDING','mainHeadAtPublication':receipt['mainHead'],'verifiedAtUTC':datetime.datetime.now(datetime.timezone.utc).isoformat()}
 (out/'PART_3B_PACKAGE_VERIFICATION.json').write_text(json.dumps(verification,indent=2)+'\n');(out/(archive.name+'.sha256')).write_text(sha(archive)+'  '+archive.name+'\n')
 publication={k:verification[k] for k in ['status','engineeringStatus','finalRemoteCommit','finalRemoteTree','archive','archiveBytes','archiveSha256','sourceManifestSha256','mainModifiedOrMerged','part3CBegun','humanQA','verifiedAtUTC']};publication['packageVerificationSha256']=sha(out/'PART_3B_PACKAGE_VERIFICATION.json');(out/'PART_3B_PUBLICATION_RECEIPT.json').write_text(json.dumps(publication,indent=2)+'\n')

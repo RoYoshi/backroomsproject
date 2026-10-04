@@ -1,0 +1,218 @@
+{
+  "status": "PASS_BASELINE_EQUIVALENCE",
+  "exactFailureNamesMatch": true,
+  "rows": [
+    {
+      "suite": "npm-test",
+      "disposition": "INHERITED FAILURE",
+      "counts": {
+        "passed": 151,
+        "total": 162,
+        "source": "suite summary"
+      },
+      "failureNames": [
+        "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+        "P07 exhausted breathing is audible only close by",
+        "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+        "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+        "SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+        "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+        "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+        "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+        "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+        "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+        "2F F22 species physical/canon parameter preservation"
+      ],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/npm-test.log"
+    },
+    {
+      "suite": "hound",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 18,
+        "total": 18,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/hound.log"
+    },
+    {
+      "suite": "shared",
+      "disposition": "INHERITED FAILURE",
+      "counts": {
+        "passed": 22,
+        "total": 23,
+        "source": "suite summary"
+      },
+      "failureNames": [
+        "2F F22 species physical/canon parameter preservation"
+      ],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/shared.log"
+    },
+    {
+      "suite": "humanqa",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 6,
+        "total": 6,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/humanqa.log"
+    },
+    {
+      "suite": "fps",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 10,
+        "total": 10,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/fps.log"
+    },
+    {
+      "suite": "camera",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 12,
+        "total": 12,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/camera.log"
+    },
+    {
+      "suite": "entity-look",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/entity-look.log"
+    },
+    {
+      "suite": "physics",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 53,
+        "total": 53,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/physics.log"
+    },
+    {
+      "suite": "interpolation",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/interpolation.log"
+    },
+    {
+      "suite": "navigation",
+      "disposition": "PASS",
+      "counts": {
+        "passed": null,
+        "total": null,
+        "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/navigation.log"
+    },
+    {
+      "suite": "audit-net",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/audit-net.log"
+    },
+    {
+      "suite": "audit-net2",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 11,
+        "total": 11,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/audit-net2.log"
+    },
+    {
+      "suite": "live",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/live.log"
+    },
+    {
+      "suite": "ir-net",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/ir-net.log"
+    },
+    {
+      "suite": "perf-hound",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 15,
+        "total": 15,
+        "source": "JSON workloads"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/perf-hound.log"
+    },
+    {
+      "suite": "perf-shared",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 27,
+        "total": 27,
+        "source": "JSON workloads"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/perf-shared.log"
+    },
+    {
+      "suite": "perf-smiler",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/perf-smiler.log"
+    },
+    {
+      "suite": "perf-light",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 1,
+        "total": 1,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained/perf-light.log"
+    }
+  ]
+}

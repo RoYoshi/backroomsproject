@@ -1,0 +1,69 @@
+{
+  "status": "FAIL",
+  "stage": "Fresh source extraction, before final tests",
+  "error": "AssertionError: .github/workflows/deploy-bloom.yml",
+  "sourceTree": "68215ef395bd15fa4cef326d5795bf6d680422f2",
+  "candidateArchiveSha256": "0715fc70f8a0df34e58de9eb48c84f4f9e1d7c5abf2058e1be6e73190b1bfefe",
+  "archiveBytes": 142475502,
+  "crc": "PASS",
+  "modeMismatchCount": 3940,
+  "modes": [
+    [
+      "100644",
+      "0o0",
+      0
+    ]
+  ],
+  "examples": [
+    {
+      "path": ".github/workflows/deploy-bloom.yml",
+      "gitMode": "100644",
+      "zipMode": "0o0",
+      "zipHostSystem": 0
+    },
+    {
+      "path": "25D_STAGE_A_BASELINE_FAILURES.md",
+      "gitMode": "100644",
+      "zipMode": "0o0",
+      "zipHostSystem": 0
+    },
+    {
+      "path": "25D_STAGE_A_CHANGED_FILES.txt",
+      "gitMode": "100644",
+      "zipMode": "0o0",
+      "zipHostSystem": 0
+    },
+    {
+      "path": "25D_STAGE_A_HUMAN_QA.md",
+      "gitMode": "100644",
+      "zipMode": "0o0",
+      "zipHostSystem": 0
+    },
+    {
+      "path": "25D_STAGE_A_REFERENCE_TRACES.md",
+      "gitMode": "100644",
+      "zipMode": "0o0",
+      "zipHostSystem": 0
+    },
+    {
+      "path": "25D_STAGE_A_REPORT.md",
+      "gitMode": "100644",
+      "zipMode": "0o0",
+      "zipHostSystem": 0
+    },
+    {
+      "path": "25D_STAGE_A_TEST_SUMMARY.md",
+      "gitMode": "100644",
+      "zipMode": "0o0",
+      "zipHostSystem": 0
+    },
+    {
+      "path": "25D_STAGE_B_BASELINE_FAILURES.md",
+      "gitMode": "100644",
+      "zipMode": "0o0",
+      "zipHostSystem": 0
+    }
+  ],
+  "sourceFiles": 3940,
+  "regressionsStarted": false
+}

@@ -64,7 +64,7 @@ perf+='\nGPU completion/readback is included; CPU submission is not presented as
 (ROOT/'PART_3B_PERFORMANCE.md').write_text(perf)
 final=None
 if phase=='p3b5':
- final=read('p3b5/portable-01/result.json');assert final['status']=='PASS';assert set(NAMED)<=set(r['name'] for r in final['gates']['checks'] if r['exitCode']==0)
+ final=read('p3b5/portable-02/result.json');assert final['status']=='PASS';assert set(NAMED)<=set(r['name'] for r in final['gates']['checks'] if r['exitCode']==0)
 status='P3B4 OBJECTIVE GATES PASS — P3B5 PENDING' if phase=='p3b4' else 'P3B5 PORTABLE GATES PASS — FINAL PUBLICATION PENDING'
 summary='# Part 3B test summary\n\n'+status+'\n\n- B-01..B-19: PASS. B-20 handoff: complete; human decision PENDING.\n- Three focused presentation suites: PASS. Ten real physical traces replayed at six render schedules.\n- Eight retained Part 3A production suites: PASS, including 88 vertical checks, 1,170 independent ray comparisons, 195 candidate hulls and 12 aftermath scenarios.\n- Seven named Stage I suites: PASS after the recorded H2 post-teleport setup repair.\n- Eighteen historical suites: exact accepted baseline equivalence. Aggregate remains 151/162; shared remains 22/23 (F22); P08 remains UNKNOWN. These are not relabeled as passes.\n- Frozen flat parity: 46 traces, 35,098 records, zero tolerance, byte-identical map/reference.\n- Real production browser display matrix, resets, NORTH/LONG concealment, twelve-room readability, aftermath and multiplayer/objective checks: PASS.\n- Package-relative HTTP and redirect gates: PASS.\n'
 if final:summary+='- Fresh path-with-spaces extraction: PASS. Every source blob/mode matches; two repeated builds reproduce identical generated outputs; all final gates executed from the extraction.\n'

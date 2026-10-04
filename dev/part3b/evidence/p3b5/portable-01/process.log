@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "dev/part3b/portable.py", line 14, in <module>
+    assert (z.getinfo(prefix+n).external_attr>>16)&0o777==int(mode,8)&0o777,n
+AssertionError: .github/workflows/deploy-bloom.yml

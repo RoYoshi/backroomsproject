@@ -1,0 +1,26 @@
+{
+  "status": "NARROW_PACKAGING_REPAIR",
+  "p3b4CompletionCommit": "f2158e5cf11d26947ff55bb92d6dbdfbc2780b44",
+  "originalAcceptanceSha256": "2f45e25a49f112f1a85ee07a1dd394282884b8b5e71139333b63e6562bc975c4",
+  "failureEvidence": "dev/part3b/evidence/p3b5/portable-01/failure.json",
+  "changes": [
+    {
+      "path": "dev/part3b/certify.py",
+      "beforeSha256": "acf5e84ced8d80ac7e8e9594f5a716b7051328a6f8090d42a884c495a4a79e20",
+      "afterSha256": "4effbf307d4a10cb2d0f07c49a211fd942d2bed8f4a9ea1204c1246d0f548804"
+    },
+    {
+      "path": "dev/part3b/package_final.py",
+      "beforeSha256": "3a22a4d093151cf0db9552a33cb79bf760d1402abc7c20081b1d6693713d51ca",
+      "afterSha256": "b38241a0af0370720e49ac7a89bb43a37aff554883bd4df463df16bf353b8f37"
+    },
+    {
+      "path": "dev/part3b/portable.py",
+      "beforeSha256": "4b8f2d5384caf13dff0c63318dc6ac0eb13c22c7a2a473da5ab8a0f66629c004",
+      "afterSha256": "03f4489d7ef0b830ef2d73ee40927700853dd9fcbe348a5ad33459b782f990f1"
+    }
+  ],
+  "allOtherP3B4ValidatedFilesUnchanged": true,
+  "runtimeOrTestAssertionsChanged": false,
+  "repair": "Write explicit exact Git mode metadata into candidate ZIP, retaining every blob/mode assertion; certification and finalizer select the new numbered portable-02 evidence. Final builds and regression tests have not yet run on this extraction."
+}
