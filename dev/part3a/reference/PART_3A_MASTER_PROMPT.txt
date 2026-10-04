@@ -1,0 +1,524 @@
+Read `README_FIRST.txt` first.
+
+Then read and execute this Part 3A master prompt exactly within its authorization.
+
+Implement:
+
+**THE FAR BACKROOMS — Part 3A: Production 2.5D Level 0**
+
+ONLY.
+
+The user is the final gameplay/design QA authority.
+
+==================================================
+0. ACCEPTED PARENT
+==================================================
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Accepted Stage I commit:
+`106c87015ae8702f452979e0277cbacb5435fa6a`
+
+Accepted Stage I tree:
+`82be2ca8d031f2d46c70a17b5c14c83689dbf8c8`
+
+Accepted immutable Stage I ZIP:
+`PARENT_STAGE_I_ACCEPTED.zip`
+
+Accepted Stage I ZIP SHA-256:
+`e5ebb8cd7b9c511ce83ea56443e7382de13e1cfbf2a0b2e2764808136e924bff`
+
+Stage I human QA:
+PASS.
+
+The complete A–I 2.5D infrastructure is accepted and locked.
+
+Create/use:
+`part-3a`
+
+from exactly:
+`106c87015ae8702f452979e0277cbacb5435fa6a`
+
+Do NOT use `main` as the Part 3A parent.
+
+If `part-3a` already exists, inspect it first and preserve newer remote work.
+
+Read:
+- `ACCEPTED_STAGE_I_AUTHORITY.md`
+- `PART_3_ROADMAP.md`
+- `PART_3A_CONTENT_LOCK.md`
+- `PART_3A_ACCEPTANCE_MATRIX.md`
+- `PART_3A_IMPLEMENTATION_SEAMS.md`
+- locked 2.5D architecture/invariants
+- final Stage I report/package verification
+
+==================================================
+1. GOAL
+==================================================
+
+Replace the tiny engineering-fixture experience with a REAL production spatial
+conversion of the existing Far Backrooms Level 0.
+
+Do NOT build a different Level 0.
+
+Preserve:
+- the 9216 × 6912 XY world
+- 96 × 72 tile organization
+- twelve room identities
+- current room/corridor identity
+- material regions
+- lamps
+- props
+- player-spawn neighborhood
+- director population/tuning
+- cartograph objective
+- glitched-wall escape loop
+
+Add real spatial truth/content:
+- floors
+- walls
+- ceilings
+- finite props
+- upper/lower supports
+- stairs
+- ramp
+- lower route/drop
+- crawl-only passage
+- same-XY overlap
+- spatial lamps/spawns/items/exits/nav
+
+==================================================
+2. FLAT LEVEL 0 REMAINS FROZEN CONTROL
+==================================================
+
+Do NOT convert `levels/level0.js` itself in place and destroy flat certification.
+
+Create an explicit maintained spatial Level 0 content definition/build derived
+deterministically from the accepted Level 0 source.
+
+Repeated clean builds must produce identical spatial content/hash.
+
+The flat Stage I build remains runnable as a compatibility control.
+
+During engineering/QA, spatial Level 0 may continue to be selected explicitly via
+the existing `TFB_WORLD` mechanism.
+
+Do not make the spatial map the only default before human QA.
+
+==================================================
+3. LOCKED PRODUCTION SPATIAL SCALE
+==================================================
+
+Use the proven project scale unless an objective blocker requires a documented
+content amendment:
+
+- base support Z = 0
+- floor slab about -16..0
+- ordinary ceiling/support interval based on 180 units
+- main upper elevation Z = +180
+- main lower elevation Z = -96
+- existing player/entity collider profiles
+- existing gravity/steps/traversal tuning
+
+Do not retune movement to make content fit.
+
+Make the content fit the accepted bodies.
+
+==================================================
+4. REQUIRED VERTICAL CONTENT
+==================================================
+
+Implement ALL mandatory feature families from `PART_3A_CONTENT_LOCK.md`.
+
+At minimum production Level 0 needs:
+
+1. A meaningful +180 upper route with same-XY overlap.
+2. A real Z0 ↔ +180 stair connection.
+3. A real continuous ramp.
+4. A meaningful -96 lower/depression route with a legal escape.
+5. A real crawl-only low-clearance passage.
+6. Visible slab/platform thickness and undersides.
+
+Preferred thematic placement:
+- LONG ROOM / PILLAR HALL / ARCH GALLERY for upper/ramp/stair play
+- BLACKOUT ZONE for a lower/depression route
+- NORTH ROOMS or DAMP ROOMS for crawl-only spatial content
+
+These are production design zones, not permission to destroy the existing room
+layout.
+
+Base-floor circulation remains viable.
+
+==================================================
+5. DETERMINISTIC LEVEL 0 SPATIAL GENERATION
+==================================================
+
+Derive spatial content from the accepted Level 0 source.
+
+Requirements:
+- stable IDs from source identity
+- explicit spatial content revision/hash
+- deterministic solids/supports/nav/spaces/portals/materials/lights/view groups
+- deterministic meshing
+- no one-solid-per-tile brute-force design if it creates unnecessary production load
+- no independent hand-copied duplicate of the entire flat map
+- actual openings are missing material, not metadata-only portals
+- no nearest-floor-by-XY behavior
+
+Preserve all meaningful existing prop IDs and semantics.
+
+==================================================
+6. PRODUCTION-SCALE RENDERING — CRITICAL
+==================================================
+
+The certified fixture presentation was bounded around 64 spatial solids.
+
+Full Level 0 WILL exceed fixture scale.
+
+Solve this correctly.
+
+Authorized:
+- deterministic chunking
+- conservative local candidate selection
+- spatial broad-phase
+- immutable mesh chunks
+- cached local geometry
+- deterministic multi-batch GPU submission
+- batch-local textures/buffers
+
+NOT authorized:
+- silently dropping geometry after a fixed count
+- losing walls/ceilings because they are "far"
+- selecting only one floor at an XY
+- disabling occlusion to improve FPS
+- changing physical geometry based on camera
+- hiding correctness behind Reduced Detail
+
+If one draw batch cannot contain every relevant occluder, use multiple deterministic
+batches/passes.
+
+All physically relevant occluders for visibility/picking/light must remain included.
+
+Rendering culling does NOT remove them from simulation.
+
+Preserve the existing Pixi/spatial renderer architecture. Do not replace it.
+
+==================================================
+7. CEILINGS / CUTAWAY
+==================================================
+
+Production Level 0 now has real ceilings/overhead slabs.
+
+Create local/chunk/room cutaway groups.
+
+Only eligible local presentation groups may fade.
+
+Cutaway cannot change:
+- collision
+- support
+- AI LOS
+- visible/IR rays
+- sound
+- navigation
+- picking authority
+- another client's view
+
+No giant whole-map "hide ceiling" switch.
+
+==================================================
+8. PROPS
+==================================================
+
+Convert current prop semantics into real spatial geometry.
+
+Preserve the difference between:
+- low blockers
+- railings
+- crawl-under furniture
+- gaps/holes
+- windows/openings
+
+Do not turn every prop into a full-height wall.
+
+No new prop gameplay rule is authorized unless required to represent an existing
+one physically.
+
+==================================================
+9. LIGHTS
+==================================================
+
+Preserve existing lamp identity/order and blackout behavior.
+
+Give lamps real XYZ emitter positions based on their local ceiling/support.
+
+Maintain:
+- visible/IR separation
+- slab/opening occlusion
+- existing monster light rules
+- local cutaway independence
+
+3A is light PLACEMENT/INTEGRATION only.
+
+Do NOT start Part 3C's advanced shadow/lighting overhaul.
+
+==================================================
+10. PRODUCTION SPAWNS / ITEMS / EXITS
+==================================================
+
+The Stage E fixture's "first matching anchor" behavior is insufficient for a real
+production map.
+
+Create pools of valid spatial candidates.
+
+### Player
+Keep the recognizable existing spawn neighborhood at Z0.
+
+### Hounds / Smilers
+Use deterministic per-world selection from valid XYZ candidate anchors while
+preserving:
+- existing RNG ownership
+- normal population limits
+- player-distance safety
+- legitimate darkness/visibility requirements
+- species capabilities
+
+Do not always use the first candidate.
+Do not retune the species.
+
+### Cartograph
+Preserve one rare per-world cartograph with spatial candidate selection.
+Do not hardcode one permanent location.
+
+### Glitched exits
+Preserve the multiple-glitched-wall Level 0 escape concept.
+Select from valid spatial candidate walls/supports per world.
+Do not hardcode one permanent set.
+
+Selected objectives must be physically reachable.
+
+==================================================
+11. NAVIGATION / AI / SENSORS
+==================================================
+
+Use the accepted Stage E+ systems on the production map.
+
+Do NOT create fixture bots.
+
+Prove actual:
+- base-floor route execution
+- stairs
+- ramp
+- upper route
+- lower route
+- crawl route where species capability permits
+- one-way/drop semantics where used
+
+Equal legitimate observations preserve AI decisions/RNG.
+
+No hidden floor/support leak.
+
+==================================================
+12. MULTIPLAYER / AFTERMATH / PICKING
+==================================================
+
+The production map must use the accepted F/G/H/I systems unchanged in principle.
+
+Prove:
+- real XYZ networking
+- reconnect/world epoch/life identity
+- independent client cutaway
+- falls
+- physical picking
+- death on multiple elevations
+- server-owned aftermath
+- late join
+- corpse/hand/gear support
+
+Do not add map-specific authority shortcuts.
+
+==================================================
+13. READABILITY
+==================================================
+
+Part 3A must already be understandable even before later visual polish.
+
+Require:
+- clear stair direction
+- readable ramp direction
+- visible slab thickness
+- readable upper-vs-lower separation
+- sensible cutaway
+- actors visually attached to correct support
+
+Do NOT solve stair jank by changing physical simulation.
+
+Part 3B owns smooth render-Z/camera/body presentation.
+
+==================================================
+14. STRICT OUT-OF-SCOPE
+==================================================
+
+Do NOT begin:
+
+Part 3B:
+- stair render smoothing
+- camera Z easing
+- new locomotion animation polish
+
+Part 3C:
+- advanced dynamic shadows
+- major lighting redesign
+
+Part 3D:
+- wallpaper/carpet/ceiling texture overhaul
+- grime/material art overhaul
+
+Part 3E:
+- entity/player/death art redesign
+
+Part 3F:
+- atmospheric particles/fog/soundscape overhaul
+
+Part 3G:
+- final Part 3 optimization certification
+
+Also do NOT:
+- retune AI/canon
+- rewrite networking
+- rewrite death physics
+- replace renderer
+- merge `main`
+
+==================================================
+15. MANDATORY CHECKPOINT POLICY
+==================================================
+
+P3A0 — Parent / conversion design preflight
+- verify exact Stage I commit/tree/ZIP
+- record Stage I human PASS
+- inventory canonical Level 0 source/layout/props/lamps
+- inventory full-map renderer capacity risks
+- write exact spatial conversion/content manifest before large implementation
+- no production runtime changes
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+P3A1 — Canonical spatial Level 0 base
+- deterministic spatial Level 0 source/generator
+- base Z0 floors/supports
+- physical walls/ceilings
+- existing room/material identity
+- existing props represented spatially
+- lamps get XYZ
+- production-scale deterministic geometry batching/chunking sufficient to load the map
+- repeated content build/hash equality
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+P3A2 — Vertical production content
+- upper +180 route
+- real stairs
+- real ramp
+- lower -96 route
+- crawl-only passage
+- same-XY overlap
+- local cutaway groups
+- no base-route destruction
+- focused physical/browser evidence
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+P3A3 — Production gameplay integration
+- player spawn
+- entity candidate anchors + randomized/deterministic production selection
+- cartograph candidate selection
+- glitched exit candidate selection
+- full nav/traversal
+- AI/perception/light/sound on production map
+- multiplayer
+- objective loop
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+P3A4 — Production map browser/readability integration
+- normal production page renders full spatial Level 0
+- no geometry truncation
+- cutaway across representative rooms
+- same-XY two-client test
+- aftermath/effects/picking
+- no overlay leaks
+- full/reduced quality truth equality
+- production-scale performance evidence
+- L0-01 through L0-23 PASS
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+P3A5 — Regression / package
+- all seven Stage I named suites still PASS
+- new 3A Level 0 production gates PASS
+- flat control unchanged
+- frozen references unchanged
+- clean extraction/path-with-spaces
+- spatial Level 0 artifact reproducible
+- exact changed-file audit
+- final reports
+- final ZIP + SHA-256
+- final source checkpoint push/verify
+- human-QA handoff
+- STOP
+
+If any milestone finds a real failure:
+1. preserve raw failure evidence,
+2. push substantial safe source/evidence before prolonged repair,
+3. repair the narrow demonstrated defect,
+4. rerun focused + affected retained gates.
+
+Do not lower acceptance criteria to make full Level 0 fit.
+
+==================================================
+16. REQUIRED FINAL DELIVERABLES
+==================================================
+
+At minimum:
+
+- `PART_3A_REPORT.md`
+- `PART_3A_TEST_SUMMARY.md`
+- `PART_3A_BASELINE_FAILURES.md`
+- `PART_3A_CHANGED_FILES.txt`
+- `PART_3A_HUMAN_QA.md`
+- `PART_3A_LEVEL0_SPATIAL.md`
+- `PART_3A_CONTENT_MANIFEST.json`
+- `PART_3A_READABILITY.md`
+- `PART_3A_PERFORMANCE.md`
+- `PART_3A_GIT_CHECKPOINTS.md`
+- final package verification JSON
+- final Part 3A ZIP
+- final ZIP SHA-256
+
+Final report must state:
+- accepted Stage I parent commit/tree/ZIP
+- final Part 3A commit/tree
+- spatial Level 0 revision/hash
+- all L0-01…L0-24 dispositions
+- geometry/support/nav/light/anchor counts
+- production batching/chunking behavior and limits
+- vertical feature locations and support IDs
+- base-map reachability result
+- entity/item/exit selection behavior
+- retained A–I suite results
+- flat Level 0 control result
+- known limits
+- Part 3B begun: NO
+- Part 3C+ begun: NO
+- main modified/merged: NO
+- human QA: PENDING
+
+==================================================
+17. STOP
+==================================================
+
+When P3A5 objective gates and package verification pass:
+
+STOP.
+
+Do NOT begin Part 3B.
+
+Final engineering status:
+
+`PART 3A — PRODUCTION 2.5D LEVEL 0 ENGINEERING COMPLETE — HUMAN QA PENDING`
