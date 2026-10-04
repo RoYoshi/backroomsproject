@@ -1,0 +1,36 @@
+START npm-test
+{"id": "npm-test", "result": "FAIL", "durationSeconds": 209.824, "counts": {"passed": 151, "total": 162, "source": "suite summary"}, "firstFailure": "FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [1450ms]"}
+START hound
+{"id": "hound", "result": "PASS", "durationSeconds": 4.894, "counts": {"passed": 18, "total": 18, "source": "suite summary"}, "firstFailure": null}
+START shared
+{"id": "shared", "result": "FAIL", "durationSeconds": 5.753, "counts": {"passed": 22, "total": 23, "source": "suite summary"}, "firstFailure": "FAIL 2F F22 species physical/canon parameter preservation  [2ms]"}
+START humanqa
+{"id": "humanqa", "result": "PASS", "durationSeconds": 1.379, "counts": {"passed": 6, "total": 6, "source": "suite summary"}, "firstFailure": null}
+START fps
+{"id": "fps", "result": "PASS", "durationSeconds": 0.766, "counts": {"passed": 10, "total": 10, "source": "explicit PASS/FAIL lines; not underlying assertion count"}, "firstFailure": null}
+START camera
+{"id": "camera", "result": "PASS", "durationSeconds": 0.315, "counts": {"passed": 12, "total": 12, "source": "suite summary"}, "firstFailure": null}
+START entity-look
+{"id": "entity-look", "result": "PASS", "durationSeconds": 0.415, "counts": {"passed": 4, "total": 4, "source": "suite summary"}, "firstFailure": null}
+START physics
+{"id": "physics", "result": "PASS", "durationSeconds": 2.725, "counts": {"passed": 53, "total": 53, "source": "explicit PASS/FAIL lines; not underlying assertion count"}, "firstFailure": null}
+START interpolation
+{"id": "interpolation", "result": "PASS", "durationSeconds": 0.171, "counts": {"passed": 3, "total": 3, "source": "explicit PASS/FAIL lines; not underlying assertion count"}, "firstFailure": null}
+START navigation
+{"id": "navigation", "result": "PASS", "durationSeconds": 47.579, "counts": {"passed": null, "total": null, "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"}, "firstFailure": null}
+START audit-net
+{"id": "audit-net", "result": "PASS", "durationSeconds": 55.306, "counts": {"passed": 17, "total": 17, "source": "suite summary"}, "firstFailure": null}
+START audit-net2
+{"id": "audit-net2", "result": "PASS", "durationSeconds": 229.409, "counts": {"passed": 11, "total": 11, "source": "suite summary"}, "firstFailure": null}
+START live
+{"id": "live", "result": "PASS", "durationSeconds": 26.389, "counts": {"passed": 17, "total": 17, "source": "suite summary"}, "firstFailure": null}
+START ir-net
+{"id": "ir-net", "result": "PASS", "durationSeconds": 4.779, "counts": {"passed": 4, "total": 4, "source": "suite summary"}, "firstFailure": null}
+START perf-hound
+{"id": "perf-hound", "result": "PASS", "durationSeconds": 10.261, "counts": {"passed": 15, "total": 15, "source": "JSON workloads"}, "firstFailure": null}
+START perf-shared
+{"id": "perf-shared", "result": "PASS", "durationSeconds": 42.577, "counts": {"passed": 27, "total": 27, "source": "JSON workloads"}, "firstFailure": null}
+START perf-smiler
+{"id": "perf-smiler", "result": "PASS", "durationSeconds": 5.685, "counts": {"passed": 3, "total": 3, "source": "explicit PASS/FAIL lines; not underlying assertion count"}, "firstFailure": null}
+START perf-light
+{"id": "perf-light", "result": "FAIL", "durationSeconds": 7.92, "counts": {"passed": 0, "total": 1, "source": "explicit PASS/FAIL lines; not underlying assertion count"}, "firstFailure": "FAIL worst-case light load: average 0.250 ms (limit 0.25), worst p99 2.131 ms (limit 2)"}

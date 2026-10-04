@@ -9,3 +9,7 @@ IN PROGRESS. H4 completed and was remotely verified at `4bd55b262e898e5de0980d67
 ## Source synchronization verified
 
 Only `dev/ents_src/30_audio.js` was repaired. `evidence/h5/build-02` PASS proves that rebuilding AI, simulation and entity presentation leaves all three generated runtime files byte-identical to the H4-tested files. The lost-source defect is resolved without changing runtime semantics, physical truth, visibility or test thresholds. Retained regression is running serially.
+
+## Retained performance failure preserved
+
+The complete serial retained run matches the eleven aggregate and shared F22 failures. `retained-01/perf-light.log` additionally reports average 0.250 ms and p99 2.131 ms, missing the unchanged strict 0.25/2 ms thresholds. The benchmark, AI, simulation and canonical world bytes are identical to G. Raw timing evidence is preserved before isolated same-host parent/candidate comparisons; no threshold or runtime repair has been made.
