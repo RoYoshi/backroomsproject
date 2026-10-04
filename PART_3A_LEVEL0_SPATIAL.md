@@ -39,3 +39,13 @@ The LONG ROOM stair is 96 units wide at x5568–5664, leaving the accepted wall 
 The BLACKOUT depression keeps the planned footprint x576–864/y5472–5952. Its Z−96 level occupies y5472–5664, with the return ramp rising south over y5664–5952. The preflight north approach was blocked by a preserved original wall; the failed physical traversal is retained as `motion-01.json`. Rotating the local ramp preserves that wall and provides a proven route out. A real side-rim drop lands on the same lower support.
 
 The NORTH crawl corridor has 28 units of body clearance and finite roof/side geometry. Same-XY LONG ROOM base/upper bodies at x6192/y864 have different physical supports and a separating slab. All 12 original rooms remain connected on the standing-height base map (12,956 reachable 48-unit cells). The generator records exact feature bounds, links and support IDs in `production.features` and the content manifest.
+
+## P3A3 production integration
+
+`levels/level0_gameplay.js` derives 195 Hound and 195 Smiler candidates, including +180 and -96 supports, 164 base-reachable cartograph candidates and 511 supported wall-face exit candidates. The 384-unit entity grid and standing radius-21 base flood are deterministic content derivation. `dev/sim_glue.js` uses the existing world RNG, 1–2 starting Hounds / 2–5 Smilers, normal separation and Smiler dark/shelter scoring. One cartograph and three exits vary by world seed; the basic objective never requires a vertical route. Fixture worlds retain their existing selection path.
+
+The 18 props retain identity and footprint. Ten low/window props have bidirectional finite vault links and original player vault metadata; six tight-gap sheets exclude species without that capability; under props provide real crouch clearance. No brain, species constant or motion kernel was changed.
+
+Nine PILLAR FOREST lamp centers (075–083) were embedded in source pillar centers. The existing fixtures are moved 48 units south in the same ceiling bays at Z160; the manifest records original and new coordinates. The other 81 XY positions, all IDs/order, room exclusion, range 380 and power .43 remain unchanged.
+
+The existing normal page displays the cartograph on its real floor and exit art on wall plus adjacent floor faces, using the original procedural art. Objective snapshots append XYZ/support/anchor data; collection and exit require same elevation and physical visibility. Screen tear/audio proximity uses physical spatial visibility. The small admin-only preview placement correction uses the attacker's actual body footprint on the victim's named sheet; gameplay death remains server-owned.

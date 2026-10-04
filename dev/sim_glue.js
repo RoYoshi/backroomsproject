@@ -342,7 +342,14 @@ const admin={
     let e=ofKind(kind).filter(o=>!o.cap&&!o.deathOwner).sort((a,b)=>Math.hypot(a.x-p.x,a.y-p.y)-Math.hypot(b.x-p.x,b.y-p.y))[0],fresh=false;
     if(!e){
       if(eng.count(kind)>=adminCap(kind)){p.alive=was;return {ok:false,why:`every ${kind} is busy`}}
-      const at=spatial?{x:p.x,y:p.y,z:p.z}:placeNear(kind,p.x,p.y)||{x:p.x,y:p.y};e=eng.spawn(kind,at.x,at.y,spatial?{z:at.z}:undefined);fresh=true;
+      let at;
+      if(spatial){const shape=MOTION.ENTITY_PROFILES[kind],surface=spatial.supportPatch(p.supportId)?.navSurfaceId;
+        // This admin-only preview needs the attacker's larger footprint on the
+        // victim's named sheet. Copying player Z embeds it in slopes/risers.
+        const support=spatial.supports(shape,p,[p.z-shape.maxStepRise,p.z+shape.maxStepRise]).find(s=>s.navSurfaceId===surface);
+        if(!support){p.alive=was;return {ok:false,why:'no supported attacker footprint on this sheet'};}at={x:p.x,y:p.y,z:support.z};
+      }else at=placeNear(kind,p.x,p.y)||{x:p.x,y:p.y};
+      e=eng.spawn(kind,at.x,at.y,spatial?{z:at.z}:undefined);fresh=true;
     }
     const r=eng.previewKill(e,variant,p);
     if(!r.ok){p.alive=was;if(fresh)eng.remove(e.id);return r}

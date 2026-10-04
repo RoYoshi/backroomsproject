@@ -70118,7 +70118,7 @@
       "id": "lamp:075",
       "position": {
         "x": 7632,
-        "y": 912,
+        "y": 960,
         "z": 160
       },
       "direction": {
@@ -70136,7 +70136,7 @@
       "id": "lamp:076",
       "position": {
         "x": 7632,
-        "y": 1392,
+        "y": 1440,
         "z": 160
       },
       "direction": {
@@ -70154,7 +70154,7 @@
       "id": "lamp:077",
       "position": {
         "x": 7632,
-        "y": 1872,
+        "y": 1920,
         "z": 160
       },
       "direction": {
@@ -70172,7 +70172,7 @@
       "id": "lamp:078",
       "position": {
         "x": 8112,
-        "y": 912,
+        "y": 960,
         "z": 160
       },
       "direction": {
@@ -70190,7 +70190,7 @@
       "id": "lamp:079",
       "position": {
         "x": 8112,
-        "y": 1392,
+        "y": 1440,
         "z": 160
       },
       "direction": {
@@ -70208,7 +70208,7 @@
       "id": "lamp:080",
       "position": {
         "x": 8112,
-        "y": 1872,
+        "y": 1920,
         "z": 160
       },
       "direction": {
@@ -70226,7 +70226,7 @@
       "id": "lamp:081",
       "position": {
         "x": 8592,
-        "y": 912,
+        "y": 960,
         "z": 160
       },
       "direction": {
@@ -70244,7 +70244,7 @@
       "id": "lamp:082",
       "position": {
         "x": 8592,
-        "y": 1392,
+        "y": 1440,
         "z": 160
       },
       "direction": {
@@ -70262,7 +70262,7 @@
       "id": "lamp:083",
       "position": {
         "x": 8592,
-        "y": 1872,
+        "y": 1920,
         "z": 160
       },
       "direction": {
@@ -93639,6 +93639,125 @@
         ]
       }
     ],
+    "lampPlacements": [
+      {
+        "id": "lamp:075",
+        "sourcePosition": {
+          "x": 7632,
+          "y": 912
+        },
+        "position": {
+          "x": 7632,
+          "y": 960,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      },
+      {
+        "id": "lamp:076",
+        "sourcePosition": {
+          "x": 7632,
+          "y": 1392
+        },
+        "position": {
+          "x": 7632,
+          "y": 1440,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      },
+      {
+        "id": "lamp:077",
+        "sourcePosition": {
+          "x": 7632,
+          "y": 1872
+        },
+        "position": {
+          "x": 7632,
+          "y": 1920,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      },
+      {
+        "id": "lamp:078",
+        "sourcePosition": {
+          "x": 8112,
+          "y": 912
+        },
+        "position": {
+          "x": 8112,
+          "y": 960,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      },
+      {
+        "id": "lamp:079",
+        "sourcePosition": {
+          "x": 8112,
+          "y": 1392
+        },
+        "position": {
+          "x": 8112,
+          "y": 1440,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      },
+      {
+        "id": "lamp:080",
+        "sourcePosition": {
+          "x": 8112,
+          "y": 1872
+        },
+        "position": {
+          "x": 8112,
+          "y": 1920,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      },
+      {
+        "id": "lamp:081",
+        "sourcePosition": {
+          "x": 8592,
+          "y": 912
+        },
+        "position": {
+          "x": 8592,
+          "y": 960,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      },
+      {
+        "id": "lamp:082",
+        "sourcePosition": {
+          "x": 8592,
+          "y": 1392
+        },
+        "position": {
+          "x": 8592,
+          "y": 1440,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      },
+      {
+        "id": "lamp:083",
+        "sourcePosition": {
+          "x": 8592,
+          "y": 1872
+        },
+        "position": {
+          "x": 8592,
+          "y": 1920,
+          "z": 160
+        },
+        "reason": "same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face"
+      }
+    ],
     "anchorPolicy": {
       "baseReachableCells": 12944,
       "baseProofProfile": {
@@ -93656,5 +93775,5 @@
       "entitySelection": "world RNG; existing normal populations, spawn distances, entity separation and dark Smiler preference"
     }
   },
-  "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+  "contentHash": "ced63648ddb0e3584df4d6aa3b3d405cdc5968c9b7fbaf0c37ee756ed92030b3"
 }

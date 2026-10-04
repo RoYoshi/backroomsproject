@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "revision": "part3a-gameplay-1",
+  "hash": "ced63648ddb0e3584df4d6aa3b3d405cdc5968c9b7fbaf0c37ee756ed92030b3",
+  "serializedSha256": "c69f9418e783940a4180970721bcc48dfe307e3a05f595d7f63577bc8cdb9041",
+  "repeatedBuilds": 2,
+  "floorCells": 3308,
+  "lowerCells": 15,
+  "featureOccupiedCells": 9,
+  "rooms": 12,
+  "props": 18,
+  "lamps": 90,
+  "solids": 910,
+  "patches": 307,
+  "spaces": 290,
+  "chunks": 130,
+  "permutedInputIdentical": true,
+  "rayComparisons": 90,
+  "lateBatchWall": "solid:wall:1344_1824_192_480",
+  "spawn": {
+    "id": "anchor:spawn:player",
+    "kind": "spawn",
+    "position": {
+      "x": 984,
+      "y": 3264,
+      "z": 0
+    },
+    "yaw": 0,
+    "supportId": "support:ground:960_3072_480_768",
+    "spaceId": "space:base:960_3072_480_768",
+    "colliderProfileId": "profile:player-stand"
+  }
+}

@@ -1,0 +1,12 @@
+PASS base hound
+PASS base smiler
+PASS upper hound
+PASS upper smiler
+PASS lower hound
+PASS lower smiler
+FAIL stairs hound Initial body overlaps solid
+FAIL stairs smiler Initial body overlaps solid
+FAIL ramp hound Initial body overlaps solid
+FAIL ramp smiler Initial body overlaps solid
+PASS ledge hound
+PASS ledge smiler

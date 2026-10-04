@@ -171,6 +171,13 @@
       let a=labelArt.get(id);const gl=pass.gl;if(!a){a={tex:gl.createTexture(),width:128,height:128,bytes:128*128*4,borrowed:true};labelArt.set(id,a);}a.used=state.frames;
       gl.bindTexture(gl.TEXTURE_2D,a.tex);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,window.__spatialObjectiveArt(kind,state.time,raw[0]*.01));pass.textureParams();p.art=pass.art.length;pass.art.push(a);
       p.surface={geometryHash:geometry.identity.contentHash,primitiveId,point,normal,basis,width:128,height:128};packets.push(p);
+      if(kind==='exit'){
+        // East/west wall faces are edge-on to the accepted projection. The
+        // retained glitch already spills onto the adjacent floor: place that
+        // same art on its real support face, with the same physical eye mask.
+        const floor=geometry.supportPatch(support);
+        if(floor)packets.push({...p,id:id+':spill',owner:id,x:raw[0],y:raw[1],height:1,surface:{geometryHash:geometry.identity.contentHash,primitiveId:floor.solidId,point:{x:point.x,y:point.y,z},normal:{x:0,y:0,z:1},basis:{u:basis.u,v:normal},width:128,height:128}});
+      }
     }
   }
   function beamDistance(range) {const o=eyePoint(),d=direction(A.H.angle,A.H.pitch),hit=geometry.raycast(o,{x:o.x+d.x*range,y:o.y+d.y*range,z:o.z+d.z*range},'ir');return hit?hit.t*range:range;}

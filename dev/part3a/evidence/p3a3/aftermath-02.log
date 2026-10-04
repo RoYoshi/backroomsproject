@@ -1,0 +1,18 @@
+PASS base hound
+PASS base smiler
+PASS upper hound
+PASS upper smiler
+PASS lower hound
+PASS lower smiler
+FAIL stairs hound The expression evaluated to a falsy value:
+
+  assert(row.masses.every(m=>m.support))
+
+FAIL stairs smiler {"ok":false,"why":"no room to attack from here"}
+FAIL ramp hound The expression evaluated to a falsy value:
+
+  assert(row.masses.every(m=>m.support))
+
+PASS ramp smiler
+PASS ledge hound
+PASS ledge smiler

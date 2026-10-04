@@ -1,0 +1,5722 @@
+{
+  "status": "FAIL",
+  "hash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+  "rows": [
+    {
+      "name": "base",
+      "kind": "hound",
+      "pose": {
+        "x": 1272,
+        "y": 1272,
+        "z": 0
+      },
+      "ok": true,
+      "event": {
+        "identity": {
+          "worldEpoch": "p3a:aftermath",
+          "victimId": "1",
+          "lifeGeneration": 1,
+          "deathSequence": 1
+        },
+        "key": "[\"p3a:aftermath\",\"1\",1,1]",
+        "version": "stage-g-death-1",
+        "tick": 0,
+        "kind": "Hound",
+        "variant": "A",
+        "seed": 3768868676,
+        "geometry": {
+          "schemaVersion": 1,
+          "assetId": "world:level0-spatial",
+          "geometryRevision": "part3a-gameplay-1",
+          "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "initial": {
+          "victim": {
+            "x": 1272,
+            "y": 1272,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 3.141592653589793,
+            "supportId": "support:ground:1056_768_480_768",
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          },
+          "attacker": {
+            "x": 1238,
+            "y": 1272,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 6.283185307179586,
+            "supportId": "support:ground:1056_768_480_768",
+            "shape": {
+              "id": "profile:hound",
+              "radius": 21,
+              "height": 36,
+              "eyeHeight": 28,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          }
+        },
+        "equipment": {
+          "kind": "flashlight",
+          "hat": "cap",
+          "look": "cap|plain|#e6bb76|#ffcc77|none",
+          "color": "#ffe7b2",
+          "parts": "",
+          "light": true
+        },
+        "exhausted": false,
+        "direction": 0,
+        "duration": 4.5,
+        "plan": {
+          "v": "A",
+          "kn": 46,
+          "dr": 40,
+          "hits": [
+            0.2,
+            0.62,
+            1.05,
+            1.55
+          ],
+          "kt": [
+            0.08,
+            0.36
+          ],
+          "dw": [
+            2.03,
+            3.12
+          ],
+          "spin": 1.9,
+          "squish": 1
+        }
+      },
+      "state": {
+        "version": "stage-g-death-1",
+        "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+        "substep": 1208,
+        "time": 5.033333333333333,
+        "duration": 4.5,
+        "state": "SLEEPING",
+        "phase": "impact",
+        "attackerOwned": false,
+        "body": {
+          "id": "body",
+          "x": 1293.083239629013,
+          "y": 1272.0048120855893,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:1056_768_480_768",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 516,
+          "yaw": 4.663007284186631,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "hands": [
+          {
+            "id": "hand:0",
+            "x": 1286.7459323893752,
+            "y": 1291.7703695900384,
+            "z": 5.050000000003004,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:ground:1056_768_480_768",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 1084,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          },
+          {
+            "id": "hand:1",
+            "x": 1284.9253914904573,
+            "y": 1253.0760788508699,
+            "z": 5.050000000003004,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:ground:1056_768_480_768",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 1088,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          }
+        ],
+        "attacker": {
+          "id": "attacker",
+          "x": 1243.1131759992934,
+          "y": 1271.7758389149374,
+          "z": 0,
+          "vx": -3.660416677542244e-7,
+          "vy": 0.00006244523971715233,
+          "vz": 0,
+          "shape": {
+            "id": "profile:hound",
+            "radius": 21,
+            "height": 36,
+            "eyeHeight": 28,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "support": "support:ground:1056_768_480_768",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": false,
+          "mode": "grounded",
+          "revision": 1080,
+          "yaw": 0.004583378051348462,
+          "angularVelocity": -0.000011561932543121122,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "light": {
+          "id": "light",
+          "x": 1296.0350447597827,
+          "y": 1306.0040181366296,
+          "z": 7.050000000003004,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:1056_768_480_768",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 165,
+          "yaw": 6.024635477646804,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "held": false
+        },
+        "hat": {
+          "id": "hat",
+          "x": 1334.5525246292643,
+          "y": 1271.9739800815846,
+          "z": 2.0974622976388617,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:1056_768_480_768",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 179,
+          "yaw": 6.8415332280261225,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "attached": false
+        },
+        "beam": {
+          "kind": "flashlight",
+          "object": "light",
+          "origin": {
+            "x": 1290.154431167053,
+            "y": 1283.7684973697799,
+            "z": 7.050000000003004
+          },
+          "direction": {
+            "x": -0.2556788518578184,
+            "y": -0.9667617724717231,
+            "z": 0
+          },
+          "support": "support:ground:1056_768_480_768",
+          "clippedBy": null
+        },
+        "decals": [
+          {
+            "id": 1,
+            "substep": 48,
+            "primitiveId": "solid:ground:1056_768_480_768",
+            "face": "top",
+            "support": "support:ground:1056_768_480_768",
+            "point": {
+              "x": 1277.7938859644871,
+              "y": 1272.075655441727,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 221.79388596448712,
+              "v": 504.0756554417269
+            },
+            "origin": {
+              "x": 1056,
+              "y": 768,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 2,
+            "substep": 149,
+            "primitiveId": "solid:ground:1056_768_480_768",
+            "face": "top",
+            "support": "support:ground:1056_768_480_768",
+            "point": {
+              "x": 1282.151408425943,
+              "y": 1271.8913080874806,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 226.15140842594292,
+              "v": 503.89130808748064
+            },
+            "origin": {
+              "x": 1056,
+              "y": 768,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 5,
+            "substep": 252,
+            "primitiveId": "solid:ground:1056_768_480_768",
+            "face": "top",
+            "support": "support:ground:1056_768_480_768",
+            "point": {
+              "x": 1284.8683275703747,
+              "y": 1271.9446312601963,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 228.86832757037473,
+              "v": 503.9446312601963
+            },
+            "origin": {
+              "x": 1056,
+              "y": 768,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 14,
+            "substep": 372,
+            "primitiveId": "solid:ground:1056_768_480_768",
+            "face": "top",
+            "support": "support:ground:1056_768_480_768",
+            "point": {
+              "x": 1288.5273769788823,
+              "y": 1271.9977978465583,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 232.52737697888233,
+              "v": 503.99779784655834
+            },
+            "origin": {
+              "x": 1056,
+              "y": 768,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "trail": [
+          {
+            "substep": 48,
+            "segment": 0,
+            "primitiveId": "solid:ground:1056_768_480_768",
+            "face": "top",
+            "support": "support:ground:1056_768_480_768",
+            "point": {
+              "x": 1277.9393075641299,
+              "y": 1272.0814184007897,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 221.93930756412988,
+              "v": 504.08141840078974
+            },
+            "origin": {
+              "x": 1056,
+              "y": 768,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "events": [
+          {
+            "id": 1,
+            "tick": 12,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:0"
+          },
+          {
+            "id": 2,
+            "tick": 37,
+            "substep": 1,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:1"
+          },
+          {
+            "id": 3,
+            "tick": 37,
+            "substep": 1,
+            "type": "release",
+            "object": "light",
+            "velocity": {
+              "x": 115.26435760168528,
+              "y": 169.98842572289863,
+              "z": 0
+            },
+            "angularVelocity": 3.532835344716517
+          },
+          {
+            "id": 4,
+            "tick": 37,
+            "substep": 1,
+            "type": "support",
+            "object": "light",
+            "from": null,
+            "to": "support:ground:1056_768_480_768"
+          },
+          {
+            "id": 5,
+            "tick": 63,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:2"
+          },
+          {
+            "id": 6,
+            "tick": 63,
+            "substep": 0,
+            "type": "release",
+            "object": "hat",
+            "velocity": {
+              "x": 95.01495859568702,
+              "y": 0.056137518941057826,
+              "z": 0
+            },
+            "angularVelocity": 4.020124795535663
+          },
+          {
+            "id": 7,
+            "tick": 74,
+            "substep": 1,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:ground:1056_768_480_768"
+          },
+          {
+            "id": 8,
+            "tick": 74,
+            "substep": 1,
+            "type": "contact",
+            "object": "hat",
+            "speed": 187.8333333333064,
+            "face": {
+              "primitiveId": "solid:ground:1056_768_480_768",
+              "face": "top",
+              "support": "support:ground:1056_768_480_768",
+              "point": {
+                "x": 1302.8419472927114,
+                "y": 1271.9552445776112,
+                "z": 0
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 246.84194729271144,
+                "v": 503.9552445776112
+              },
+              "origin": {
+                "x": 1056,
+                "y": 768,
+                "z": 0
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 9,
+            "tick": 74,
+            "substep": 2,
+            "type": "support",
+            "object": "hat",
+            "from": "support:ground:1056_768_480_768",
+            "to": null
+          },
+          {
+            "id": 10,
+            "tick": 81,
+            "substep": 0,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:ground:1056_768_480_768"
+          },
+          {
+            "id": 11,
+            "tick": 81,
+            "substep": 0,
+            "type": "contact",
+            "object": "hat",
+            "speed": 54.410537583966565,
+            "face": {
+              "primitiveId": "solid:ground:1056_768_480_768",
+              "face": "top",
+              "support": "support:ground:1056_768_480_768",
+              "point": {
+                "x": 1313.392122216528,
+                "y": 1271.9614779186936,
+                "z": 0
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 257.3921222165279,
+                "v": 503.9614779186936
+              },
+              "origin": {
+                "x": 1056,
+                "y": 768,
+                "z": 0
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 12,
+            "tick": 81,
+            "substep": 1,
+            "type": "support",
+            "object": "hat",
+            "from": "support:ground:1056_768_480_768",
+            "to": null
+          },
+          {
+            "id": 13,
+            "tick": 82,
+            "substep": 2,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:ground:1056_768_480_768"
+          },
+          {
+            "id": 14,
+            "tick": 93,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:3"
+          }
+        ],
+        "eventSequence": 14
+      },
+      "masses": [
+        {
+          "shape": "profile:death-body",
+          "x": 1293.083239629013,
+          "y": 1272.0048120855893,
+          "z": 0,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 1286.7459323893752,
+          "y": 1291.7703695900384,
+          "z": 5.050000000003004,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 1284.9253914904573,
+          "y": 1253.0760788508699,
+          "z": 5.050000000003004,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:hound",
+          "x": 1243.1131759992934,
+          "y": 1271.7758389149374,
+          "z": 0,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": false,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-light",
+          "x": 1296.0350447597827,
+          "y": 1306.0040181366296,
+          "z": 7.050000000003004,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hat",
+          "x": 1334.5525246292643,
+          "y": 1271.9739800815846,
+          "z": 2.0974622976388617,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        }
+      ],
+      "airborneObserved": true
+    },
+    {
+      "name": "base",
+      "kind": "smiler",
+      "pose": {
+        "x": 1272,
+        "y": 1272,
+        "z": 0
+      },
+      "ok": true,
+      "event": {
+        "identity": {
+          "worldEpoch": "p3a:aftermath",
+          "victimId": "1",
+          "lifeGeneration": 1,
+          "deathSequence": 1
+        },
+        "key": "[\"p3a:aftermath\",\"1\",1,1]",
+        "version": "stage-g-death-1",
+        "tick": 0,
+        "kind": "Smiler",
+        "variant": "B",
+        "seed": 3819201533,
+        "geometry": {
+          "schemaVersion": 1,
+          "assetId": "world:level0-spatial",
+          "geometryRevision": "part3a-gameplay-1",
+          "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "initial": {
+          "victim": {
+            "x": 1272,
+            "y": 1272,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 3.141592653589793,
+            "supportId": "support:ground:1056_768_480_768",
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          },
+          "attacker": {
+            "x": 1238,
+            "y": 1272,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 6.283185307179586,
+            "supportId": "support:ground:1056_768_480_768",
+            "shape": {
+              "id": "profile:smiler",
+              "radius": 21,
+              "height": 48,
+              "eyeHeight": 36,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          }
+        },
+        "equipment": {
+          "kind": "flashlight",
+          "hat": "cap",
+          "look": "cap|plain|#e6bb76|#ffcc77|none",
+          "color": "#ffe7b2",
+          "parts": "",
+          "light": true
+        },
+        "exhausted": false,
+        "direction": 0,
+        "duration": 3.85,
+        "plan": {
+          "v": "B",
+          "kn": 0,
+          "dr": 0,
+          "hits": [
+            0.7,
+            1.2,
+            1.7
+          ],
+          "kt": [
+            0.08,
+            0.36
+          ],
+          "dw": [
+            2.03,
+            3.12
+          ],
+          "spin": 1.4,
+          "squish": 1
+        }
+      },
+      "state": {
+        "version": "stage-g-death-1",
+        "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+        "substep": 1052,
+        "time": 4.383333333333333,
+        "duration": 3.85,
+        "state": "SLEEPING",
+        "phase": "contact",
+        "attackerOwned": false,
+        "body": {
+          "id": "body",
+          "x": 1272.4893197404697,
+          "y": 1271.9994180178544,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:1056_768_480_768",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 17,
+          "yaw": 5.043564598864427,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "hands": [
+          {
+            "id": "hand:0",
+            "x": 1262.2238251047572,
+            "y": 1279.122389729613,
+            "z": 5.050000000003004,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:ground:1056_768_480_768",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 930,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          },
+          {
+            "id": "hand:1",
+            "x": 1269.0668894350556,
+            "y": 1260.0060075114416,
+            "z": 5.050000000003004,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:ground:1056_768_480_768",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 925,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          }
+        ],
+        "attacker": {
+          "id": "attacker",
+          "x": 1228.489317637391,
+          "y": 1271.9998008553316,
+          "z": 0,
+          "vx": 0.00000842063697957976,
+          "vy": -7.368346206618229e-11,
+          "vz": 0,
+          "shape": {
+            "id": "profile:smiler",
+            "radius": 21,
+            "height": 48,
+            "eyeHeight": 36,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "support": "support:ground:1056_768_480_768",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": false,
+          "mode": "grounded",
+          "revision": 782,
+          "yaw": -0.000008700850549694914,
+          "angularVelocity": -2.5556271639029727e-12,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "light": {
+          "id": "light",
+          "x": 1261.0623713838122,
+          "y": 1264.3262899804731,
+          "z": 7.050000000003004,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:1056_768_480_768",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 4,
+          "yaw": 4.517485283195245,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "held": false
+        },
+        "hat": {
+          "id": "hat",
+          "x": 1272.4893197404697,
+          "y": 1271.9994180178544,
+          "z": 20,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:1056_768_480_768",
+          "normal": null,
+          "stable": true,
+          "sleeping": true,
+          "mode": "airborne",
+          "revision": 0,
+          "yaw": 5.043564598864427,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "attached": true
+        },
+        "beam": {
+          "kind": "flashlight",
+          "object": "light",
+          "origin": {
+            "x": 1238.4978459027811,
+            "y": 1268.7807472780453,
+            "z": 7.050000000003004
+          },
+          "direction": {
+            "x": -0.9810663252622254,
+            "y": 0.19367205641618412,
+            "z": 0
+          },
+          "support": "support:ground:1056_768_480_768",
+          "clippedBy": null
+        },
+        "decals": [
+          {
+            "id": 1,
+            "substep": 168,
+            "primitiveId": "solid:ground:1056_768_480_768",
+            "face": "top",
+            "support": "support:ground:1056_768_480_768",
+            "point": {
+              "x": 1272,
+              "y": 1272,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 216,
+              "v": 504
+            },
+            "origin": {
+              "x": 1056,
+              "y": 768,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 4,
+            "substep": 288,
+            "primitiveId": "solid:ground:1056_768_480_768",
+            "face": "top",
+            "support": "support:ground:1056_768_480_768",
+            "point": {
+              "x": 1272.1970758175562,
+              "y": 1271.9996906712754,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 216.1970758175562,
+              "v": 503.9996906712754
+            },
+            "origin": {
+              "x": 1056,
+              "y": 768,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 5,
+            "substep": 408,
+            "primitiveId": "solid:ground:1056_768_480_768",
+            "face": "top",
+            "support": "support:ground:1056_768_480_768",
+            "point": {
+              "x": 1272.3694546660668,
+              "y": 1271.99941646959,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 216.36945466606676,
+              "v": 503.99941646958996
+            },
+            "origin": {
+              "x": 1056,
+              "y": 768,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "trail": [],
+        "events": [
+          {
+            "id": 1,
+            "tick": 42,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:0"
+          },
+          {
+            "id": 2,
+            "tick": 47,
+            "substep": 0,
+            "type": "release",
+            "object": "light",
+            "velocity": {
+              "x": 1.5126581878575962,
+              "y": 4.263840290404914,
+              "z": 0
+            },
+            "angularVelocity": -1.0918762733970555
+          },
+          {
+            "id": 3,
+            "tick": 47,
+            "substep": 0,
+            "type": "support",
+            "object": "light",
+            "from": null,
+            "to": "support:ground:1056_768_480_768"
+          },
+          {
+            "id": 4,
+            "tick": 72,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:1"
+          },
+          {
+            "id": 5,
+            "tick": 102,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:2"
+          }
+        ],
+        "eventSequence": 5
+      },
+      "masses": [
+        {
+          "shape": "profile:death-body",
+          "x": 1272.4893197404697,
+          "y": 1271.9994180178544,
+          "z": 0,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 1262.2238251047572,
+          "y": 1279.122389729613,
+          "z": 5.050000000003004,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 1269.0668894350556,
+          "y": 1260.0060075114416,
+          "z": 5.050000000003004,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:smiler",
+          "x": 1228.489317637391,
+          "y": 1271.9998008553316,
+          "z": 0,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": false,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-light",
+          "x": 1261.0623713838122,
+          "y": 1264.3262899804731,
+          "z": 7.050000000003004,
+          "support": "support:ground:1056_768_480_768",
+          "sleeping": true,
+          "stable": true
+        }
+      ],
+      "airborneObserved": false
+    },
+    {
+      "name": "upper",
+      "kind": "hound",
+      "pose": {
+        "x": 6192,
+        "y": 864,
+        "z": 180
+      },
+      "ok": true,
+      "event": {
+        "identity": {
+          "worldEpoch": "p3a:aftermath",
+          "victimId": "1",
+          "lifeGeneration": 1,
+          "deathSequence": 1
+        },
+        "key": "[\"p3a:aftermath\",\"1\",1,1]",
+        "version": "stage-g-death-1",
+        "tick": 0,
+        "kind": "Hound",
+        "variant": "A",
+        "seed": 4225871764,
+        "geometry": {
+          "schemaVersion": 1,
+          "assetId": "world:level0-spatial",
+          "geometryRevision": "part3a-gameplay-1",
+          "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "initial": {
+          "victim": {
+            "x": 6192,
+            "y": 864,
+            "z": 180,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 3.141592653589793,
+            "supportId": "support:upper:long-room",
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          },
+          "attacker": {
+            "x": 6158,
+            "y": 864,
+            "z": 180,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 6.283185307179586,
+            "supportId": "support:upper:long-room",
+            "shape": {
+              "id": "profile:hound",
+              "radius": 21,
+              "height": 36,
+              "eyeHeight": 28,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          }
+        },
+        "equipment": {
+          "kind": "flashlight",
+          "hat": "cap",
+          "look": "cap|plain|#e6bb76|#ffcc77|none",
+          "color": "#ffe7b2",
+          "parts": "",
+          "light": true
+        },
+        "exhausted": false,
+        "direction": 0,
+        "duration": 4.5,
+        "plan": {
+          "v": "A",
+          "kn": 46,
+          "dr": 40,
+          "hits": [
+            0.2,
+            0.62,
+            1.05,
+            1.55
+          ],
+          "kt": [
+            0.08,
+            0.36
+          ],
+          "dw": [
+            2.03,
+            3.12
+          ],
+          "spin": 1.9,
+          "squish": 1
+        }
+      },
+      "state": {
+        "version": "stage-g-death-1",
+        "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+        "substep": 1220,
+        "time": 5.083333333333333,
+        "duration": 4.5,
+        "state": "SLEEPING",
+        "phase": "impact",
+        "attackerOwned": false,
+        "body": {
+          "id": "body",
+          "x": 6212.915225422347,
+          "y": 863.7333395779273,
+          "z": 180,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "support": "support:upper:long-room",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 518,
+          "yaw": 4.693838802550392,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "hands": [
+          {
+            "id": "hand:0",
+            "x": 6207.170052296003,
+            "y": 881.7548329574416,
+            "z": 185.0500000000628,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:upper:long-room",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 1101,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          },
+          {
+            "id": "hand:1",
+            "x": 6206.423359809722,
+            "y": 847.2395562196408,
+            "z": 185.0500000000556,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:upper:long-room",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 1081,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          }
+        ],
+        "attacker": {
+          "id": "attacker",
+          "x": 6162.945480740688,
+          "y": 864.0236915245462,
+          "z": 180,
+          "vx": -5.470175751254303e-7,
+          "vy": -0.00007877510963019783,
+          "vz": 0,
+          "shape": {
+            "id": "profile:hound",
+            "radius": 21,
+            "height": 36,
+            "eyeHeight": 28,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "support": "support:upper:long-room",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": false,
+          "mode": "grounded",
+          "revision": 1080,
+          "yaw": -0.005811618677683656,
+          "angularVelocity": 0.000006312839101252375,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "light": {
+          "id": "light",
+          "x": 6206.674609566211,
+          "y": 878.981266623354,
+          "z": 187.0500000000556,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "support": "support:upper:long-room",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 134,
+          "yaw": 4.792379343055102,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "held": false
+        },
+        "hat": {
+          "id": "hat",
+          "x": 6254.790782517516,
+          "y": 863.6737883461485,
+          "z": 182.09746175363114,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "support": "support:upper:long-room",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 179,
+          "yaw": 6.305082206563391,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "attached": false
+        },
+        "beam": {
+          "kind": "flashlight",
+          "object": "light",
+          "origin": {
+            "x": 6183.748152608538,
+            "y": 877.1434496117997,
+            "z": 187.0500000000556
+          },
+          "direction": {
+            "x": -0.9968024764205735,
+            "y": -0.0799050874588844,
+            "z": 0
+          },
+          "support": "support:upper:long-room",
+          "clippedBy": null
+        },
+        "decals": [
+          {
+            "id": 1,
+            "substep": 48,
+            "primitiveId": "solid:upper:long-room",
+            "face": "top",
+            "support": "support:upper:long-room",
+            "point": {
+              "x": 6197.7497776979435,
+              "y": 863.8617559289884,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 629.7497776979435,
+              "v": 143.86175592898837
+            },
+            "origin": {
+              "x": 5568,
+              "y": 720,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 2,
+            "substep": 149,
+            "primitiveId": "solid:upper:long-room",
+            "face": "top",
+            "support": "support:upper:long-room",
+            "point": {
+              "x": 6201.999630551076,
+              "y": 863.6847409202292,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 633.9996305510758,
+              "v": 143.68474092022916
+            },
+            "origin": {
+              "x": 5568,
+              "y": 720,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 5,
+            "substep": 252,
+            "primitiveId": "solid:upper:long-room",
+            "face": "top",
+            "support": "support:upper:long-room",
+            "point": {
+              "x": 6205.204379351308,
+              "y": 863.8022200019819,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 637.2043793513076,
+              "v": 143.80222000198194
+            },
+            "origin": {
+              "x": 5568,
+              "y": 720,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 14,
+            "substep": 372,
+            "primitiveId": "solid:upper:long-room",
+            "face": "top",
+            "support": "support:upper:long-room",
+            "point": {
+              "x": 6208.714764140795,
+              "y": 863.74798243436,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 640.7147641407946,
+              "v": 143.74798243435998
+            },
+            "origin": {
+              "x": 5568,
+              "y": 720,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "trail": [
+          {
+            "substep": 48,
+            "segment": 0,
+            "primitiveId": "solid:upper:long-room",
+            "face": "top",
+            "support": "support:upper:long-room",
+            "point": {
+              "x": 6197.876728047222,
+              "y": 863.8541662798222,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 629.8767280472221,
+              "v": 143.85416627982215
+            },
+            "origin": {
+              "x": 5568,
+              "y": 720,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "events": [
+          {
+            "id": 1,
+            "tick": 12,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:0"
+          },
+          {
+            "id": 2,
+            "tick": 37,
+            "substep": 1,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:1"
+          },
+          {
+            "id": 3,
+            "tick": 37,
+            "substep": 1,
+            "type": "release",
+            "object": "light",
+            "velocity": {
+              "x": 107.08617191582664,
+              "y": 122.10573082374597,
+              "z": 0
+            },
+            "angularVelocity": -0.9564946239067771
+          },
+          {
+            "id": 4,
+            "tick": 37,
+            "substep": 1,
+            "type": "support",
+            "object": "light",
+            "from": null,
+            "to": "support:upper:long-room"
+          },
+          {
+            "id": 5,
+            "tick": 63,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:2"
+          },
+          {
+            "id": 6,
+            "tick": 63,
+            "substep": 0,
+            "type": "release",
+            "object": "hat",
+            "velocity": {
+              "x": 94.87579514070633,
+              "y": -0.24570885247762583,
+              "z": 0
+            },
+            "angularVelocity": 3.1716312975836543
+          },
+          {
+            "id": 7,
+            "tick": 74,
+            "substep": 1,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:upper:long-room"
+          },
+          {
+            "id": 8,
+            "tick": 74,
+            "substep": 1,
+            "type": "contact",
+            "object": "hat",
+            "speed": 187.83333333360096,
+            "face": {
+              "primitiveId": "solid:upper:long-room",
+              "face": "top",
+              "support": "support:upper:long-room",
+              "point": {
+                "x": 6223.151496308847,
+                "y": 863.7557276093913,
+                "z": 180
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 655.1514963088466,
+                "v": 143.75572760939133
+              },
+              "origin": {
+                "x": 5568,
+                "y": 720,
+                "z": 180
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 9,
+            "tick": 74,
+            "substep": 2,
+            "type": "support",
+            "object": "hat",
+            "from": "support:upper:long-room",
+            "to": null
+          },
+          {
+            "id": 10,
+            "tick": 81,
+            "substep": 0,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:upper:long-room"
+          },
+          {
+            "id": 11,
+            "tick": 81,
+            "substep": 0,
+            "type": "contact",
+            "object": "hat",
+            "speed": 54.41098865031293,
+            "face": {
+              "primitiveId": "solid:upper:long-room",
+              "face": "top",
+              "support": "support:upper:long-room",
+              "point": {
+                "x": 6233.686043593182,
+                "y": 863.728445292097,
+                "z": 180
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 665.6860435931821,
+                "v": 143.72844529209704
+              },
+              "origin": {
+                "x": 5568,
+                "y": 720,
+                "z": 180
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 12,
+            "tick": 81,
+            "substep": 1,
+            "type": "support",
+            "object": "hat",
+            "from": "support:upper:long-room",
+            "to": null
+          },
+          {
+            "id": 13,
+            "tick": 82,
+            "substep": 2,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:upper:long-room"
+          },
+          {
+            "id": 14,
+            "tick": 93,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:3"
+          }
+        ],
+        "eventSequence": 14
+      },
+      "masses": [
+        {
+          "shape": "profile:death-body",
+          "x": 6212.915225422347,
+          "y": 863.7333395779273,
+          "z": 180,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 6207.170052296003,
+          "y": 881.7548329574416,
+          "z": 185.0500000000628,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 6206.423359809722,
+          "y": 847.2395562196408,
+          "z": 185.0500000000556,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:hound",
+          "x": 6162.945480740688,
+          "y": 864.0236915245462,
+          "z": 180,
+          "support": "support:upper:long-room",
+          "sleeping": false,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-light",
+          "x": 6206.674609566211,
+          "y": 878.981266623354,
+          "z": 187.0500000000556,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hat",
+          "x": 6254.790782517516,
+          "y": 863.6737883461485,
+          "z": 182.09746175363114,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        }
+      ],
+      "airborneObserved": true
+    },
+    {
+      "name": "upper",
+      "kind": "smiler",
+      "pose": {
+        "x": 6192,
+        "y": 864,
+        "z": 180
+      },
+      "ok": true,
+      "event": {
+        "identity": {
+          "worldEpoch": "p3a:aftermath",
+          "victimId": "1",
+          "lifeGeneration": 1,
+          "deathSequence": 1
+        },
+        "key": "[\"p3a:aftermath\",\"1\",1,1]",
+        "version": "stage-g-death-1",
+        "tick": 0,
+        "kind": "Smiler",
+        "variant": "B",
+        "seed": 4276204621,
+        "geometry": {
+          "schemaVersion": 1,
+          "assetId": "world:level0-spatial",
+          "geometryRevision": "part3a-gameplay-1",
+          "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "initial": {
+          "victim": {
+            "x": 6192,
+            "y": 864,
+            "z": 180,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 3.141592653589793,
+            "supportId": "support:upper:long-room",
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          },
+          "attacker": {
+            "x": 6158,
+            "y": 864,
+            "z": 180,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 6.283185307179586,
+            "supportId": "support:upper:long-room",
+            "shape": {
+              "id": "profile:smiler",
+              "radius": 21,
+              "height": 48,
+              "eyeHeight": 36,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          }
+        },
+        "equipment": {
+          "kind": "flashlight",
+          "hat": "cap",
+          "look": "cap|plain|#e6bb76|#ffcc77|none",
+          "color": "#ffe7b2",
+          "parts": "",
+          "light": true
+        },
+        "exhausted": false,
+        "direction": 0,
+        "duration": 3.85,
+        "plan": {
+          "v": "B",
+          "kn": 0,
+          "dr": 0,
+          "hits": [
+            0.7,
+            1.2,
+            1.7
+          ],
+          "kt": [
+            0.08,
+            0.36
+          ],
+          "dw": [
+            2.03,
+            3.12
+          ],
+          "spin": 1.4,
+          "squish": 1
+        }
+      },
+      "state": {
+        "version": "stage-g-death-1",
+        "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+        "substep": 1052,
+        "time": 4.383333333333333,
+        "duration": 3.85,
+        "state": "SLEEPING",
+        "phase": "contact",
+        "attackerOwned": false,
+        "body": {
+          "id": "body",
+          "x": 6192.551437968997,
+          "y": 864.0006666395602,
+          "z": 180,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "support": "support:upper:long-room",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 17,
+          "yaw": 4.246091178825881,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "hands": [
+          {
+            "id": "hand:0",
+            "x": 6190.517558583818,
+            "y": 876.4858182549614,
+            "z": 185.0500000000628,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:upper:long-room",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 928,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          },
+          {
+            "id": "hand:1",
+            "x": 6181.837563689674,
+            "y": 858.0179647748357,
+            "z": 185.0500000000556,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:upper:long-room",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 929,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          }
+        ],
+        "attacker": {
+          "id": "attacker",
+          "x": 6148.551435769844,
+          "y": 864.0003867794675,
+          "z": 180,
+          "vx": 0.000008802490382360215,
+          "vy": 5.5948677533085965e-11,
+          "vz": 0,
+          "shape": {
+            "id": "profile:smiler",
+            "radius": 21,
+            "height": 48,
+            "eyeHeight": 36,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "support": "support:upper:long-room",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": false,
+          "mode": "grounded",
+          "revision": 787,
+          "yaw": 0.0000063604551148713995,
+          "angularVelocity": 8.934358203827641e-12,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "light": {
+          "id": "light",
+          "x": 6181.703720140814,
+          "y": 856.1557498697252,
+          "z": 187.0500000000556,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "support": "support:upper:long-room",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 2,
+          "yaw": 4.224200622200316,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "held": false
+        },
+        "hat": {
+          "id": "hat",
+          "x": 6192.551437968997,
+          "y": 864.0006666395602,
+          "z": 200,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "support": "support:upper:long-room",
+          "normal": null,
+          "stable": true,
+          "sleeping": true,
+          "mode": "airborne",
+          "revision": 0,
+          "yaw": 4.246091178825881,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "attached": true
+        },
+        "beam": {
+          "kind": "flashlight",
+          "object": "light",
+          "origin": {
+            "x": 6161.390487778469,
+            "y": 866.9433627193501,
+            "z": 187.0500000000556
+          },
+          "direction": {
+            "x": -0.8831840157541182,
+            "y": 0.46902664563586316,
+            "z": 0
+          },
+          "support": "support:upper:long-room",
+          "clippedBy": null
+        },
+        "decals": [
+          {
+            "id": 1,
+            "substep": 168,
+            "primitiveId": "solid:upper:long-room",
+            "face": "top",
+            "support": "support:upper:long-room",
+            "point": {
+              "x": 6192,
+              "y": 864,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 624,
+              "v": 144
+            },
+            "origin": {
+              "x": 5568,
+              "y": 720,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 4,
+            "substep": 288,
+            "primitiveId": "solid:upper:long-room",
+            "face": "top",
+            "support": "support:upper:long-room",
+            "point": {
+              "x": 6192.182663614306,
+              "y": 864.0007471092094,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 624.182663614306,
+              "v": 144.00074710920944
+            },
+            "origin": {
+              "x": 5568,
+              "y": 720,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 5,
+            "substep": 408,
+            "primitiveId": "solid:upper:long-room",
+            "face": "top",
+            "support": "support:upper:long-room",
+            "point": {
+              "x": 6192.404784675685,
+              "y": 864.000685398153,
+              "z": 180
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 624.4047846756848,
+              "v": 144.000685398153
+            },
+            "origin": {
+              "x": 5568,
+              "y": 720,
+              "z": 180
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "trail": [],
+        "events": [
+          {
+            "id": 1,
+            "tick": 42,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:0"
+          },
+          {
+            "id": 2,
+            "tick": 47,
+            "substep": 0,
+            "type": "release",
+            "object": "light",
+            "velocity": {
+              "x": 2.3278224755631527,
+              "y": 0.4437704676092835,
+              "z": 0
+            },
+            "angularVelocity": -2.2299373524025845
+          },
+          {
+            "id": 3,
+            "tick": 47,
+            "substep": 0,
+            "type": "support",
+            "object": "light",
+            "from": null,
+            "to": "support:upper:long-room"
+          },
+          {
+            "id": 4,
+            "tick": 72,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:1"
+          },
+          {
+            "id": 5,
+            "tick": 102,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:2"
+          }
+        ],
+        "eventSequence": 5
+      },
+      "masses": [
+        {
+          "shape": "profile:death-body",
+          "x": 6192.551437968997,
+          "y": 864.0006666395602,
+          "z": 180,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 6190.517558583818,
+          "y": 876.4858182549614,
+          "z": 185.0500000000628,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 6181.837563689674,
+          "y": 858.0179647748357,
+          "z": 185.0500000000556,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:smiler",
+          "x": 6148.551435769844,
+          "y": 864.0003867794675,
+          "z": 180,
+          "support": "support:upper:long-room",
+          "sleeping": false,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-light",
+          "x": 6181.703720140814,
+          "y": 856.1557498697252,
+          "z": 187.0500000000556,
+          "support": "support:upper:long-room",
+          "sleeping": true,
+          "stable": true
+        }
+      ],
+      "airborneObserved": false
+    },
+    {
+      "name": "lower",
+      "kind": "hound",
+      "pose": {
+        "x": 720,
+        "y": 5568,
+        "z": -96
+      },
+      "ok": true,
+      "event": {
+        "identity": {
+          "worldEpoch": "p3a:aftermath",
+          "victimId": "1",
+          "lifeGeneration": 1,
+          "deathSequence": 1
+        },
+        "key": "[\"p3a:aftermath\",\"1\",1,1]",
+        "version": "stage-g-death-1",
+        "tick": 0,
+        "kind": "Hound",
+        "variant": "A",
+        "seed": 982452116,
+        "geometry": {
+          "schemaVersion": 1,
+          "assetId": "world:level0-spatial",
+          "geometryRevision": "part3a-gameplay-1",
+          "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "initial": {
+          "victim": {
+            "x": 720,
+            "y": 5568,
+            "z": -96,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 3.141592653589793,
+            "supportId": "support:lower:blackout",
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          },
+          "attacker": {
+            "x": 686,
+            "y": 5568,
+            "z": -96,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 6.283185307179586,
+            "supportId": "support:lower:blackout",
+            "shape": {
+              "id": "profile:hound",
+              "radius": 21,
+              "height": 36,
+              "eyeHeight": 28,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          }
+        },
+        "equipment": {
+          "kind": "flashlight",
+          "hat": "cap",
+          "look": "cap|plain|#e6bb76|#ffcc77|none",
+          "color": "#ffe7b2",
+          "parts": "",
+          "light": true
+        },
+        "exhausted": false,
+        "direction": 0,
+        "duration": 4.5,
+        "plan": {
+          "v": "A",
+          "kn": 46,
+          "dr": 40,
+          "hits": [
+            0.2,
+            0.62,
+            1.05,
+            1.55
+          ],
+          "kt": [
+            0.08,
+            0.36
+          ],
+          "dw": [
+            2.03,
+            3.12
+          ],
+          "spin": 1.9,
+          "squish": 1
+        }
+      },
+      "state": {
+        "version": "stage-g-death-1",
+        "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+        "substep": 1216,
+        "time": 5.066666666666666,
+        "duration": 4.5,
+        "state": "SLEEPING",
+        "phase": "impact",
+        "attackerOwned": false,
+        "body": {
+          "id": "body",
+          "x": 740.5813109997301,
+          "y": 5568.07398061311,
+          "z": -96,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 519,
+          "yaw": 4.710842688203811,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "hands": [
+          {
+            "id": "hand:0",
+            "x": 734.4159068294653,
+            "y": 5586.817302582353,
+            "z": -90.9123229576329,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:lower:blackout",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 1094,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          },
+          {
+            "id": "hand:1",
+            "x": 735.1783744685061,
+            "y": 5549.6351813088095,
+            "z": -90.94999999999912,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:lower:blackout",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 1096,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          }
+        ],
+        "attacker": {
+          "id": "attacker",
+          "x": 690.6115474115618,
+          "y": 5567.7869009744,
+          "z": -96,
+          "vx": -3.025787201904606e-7,
+          "vy": 0.00003669723483527669,
+          "vz": 0,
+          "shape": {
+            "id": "profile:hound",
+            "radius": 21,
+            "height": 36,
+            "eyeHeight": 28,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": false,
+          "mode": "grounded",
+          "revision": 1080,
+          "yaw": 0.005745531177215918,
+          "angularVelocity": -0.0000037188814801786717,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "light": {
+          "id": "light",
+          "x": 733.5662961426041,
+          "y": 5609.966029847231,
+          "z": -88.94999999999912,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 161,
+          "yaw": 4.897730828984656,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "held": false
+        },
+        "hat": {
+          "id": "hat",
+          "x": 782.5869971032649,
+          "y": 5568.406735809156,
+          "z": -93.90253753275917,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 179,
+          "yaw": 4.380232638604242,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "attached": false
+        },
+        "beam": {
+          "kind": "flashlight",
+          "object": "light",
+          "origin": {
+            "x": 710.960209981938,
+            "y": 5605.727531469675,
+            "z": -88.94999999999912
+          },
+          "direction": {
+            "x": -0.9828733113333077,
+            "y": -0.18428253815459222,
+            "z": 0
+          },
+          "support": "support:lower:blackout",
+          "clippedBy": null
+        },
+        "decals": [
+          {
+            "id": 1,
+            "substep": 48,
+            "primitiveId": "solid:lower:blackout",
+            "face": "top",
+            "support": "support:lower:blackout",
+            "point": {
+              "x": 725.7492193577515,
+              "y": 5567.963536934547,
+              "z": -96
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 149.74921935775149,
+              "v": 95.96353693454694
+            },
+            "origin": {
+              "x": 576,
+              "y": 5472,
+              "z": -96
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 4,
+            "substep": 149,
+            "primitiveId": "solid:lower:blackout",
+            "face": "top",
+            "support": "support:lower:blackout",
+            "point": {
+              "x": 729.9245758820178,
+              "y": 5568.081592383519,
+              "z": -96
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 153.92457588201785,
+              "v": 96.08159238351891
+            },
+            "origin": {
+              "x": 576,
+              "y": 5472,
+              "z": -96
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 7,
+            "substep": 252,
+            "primitiveId": "solid:lower:blackout",
+            "face": "top",
+            "support": "support:lower:blackout",
+            "point": {
+              "x": 732.8736523598881,
+              "y": 5568.02105008117,
+              "z": -96
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 156.87365235988807,
+              "v": 96.02105008116996
+            },
+            "origin": {
+              "x": 576,
+              "y": 5472,
+              "z": -96
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 16,
+            "substep": 372,
+            "primitiveId": "solid:lower:blackout",
+            "face": "top",
+            "support": "support:lower:blackout",
+            "point": {
+              "x": 736.0150458917173,
+              "y": 5568.064087295882,
+              "z": -96
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 160.01504589171725,
+              "v": 96.06408729588202
+            },
+            "origin": {
+              "x": 576,
+              "y": 5472,
+              "z": -96
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "trail": [
+          {
+            "substep": 48,
+            "segment": 0,
+            "primitiveId": "solid:lower:blackout",
+            "face": "top",
+            "support": "support:lower:blackout",
+            "point": {
+              "x": 725.8738366139066,
+              "y": 5567.955528850847,
+              "z": -96
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 149.87383661390663,
+              "v": 95.95552885084726
+            },
+            "origin": {
+              "x": 576,
+              "y": 5472,
+              "z": -96
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "events": [
+          {
+            "id": 1,
+            "tick": 12,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:0"
+          },
+          {
+            "id": 2,
+            "tick": 16,
+            "substep": 1,
+            "type": "support",
+            "object": "hand:0",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 3,
+            "tick": 18,
+            "substep": 3,
+            "type": "support",
+            "object": "hand:0",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 4,
+            "tick": 37,
+            "substep": 1,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:1"
+          },
+          {
+            "id": 5,
+            "tick": 37,
+            "substep": 1,
+            "type": "release",
+            "object": "light",
+            "velocity": {
+              "x": 122.91571612197583,
+              "y": 158.13263330368017,
+              "z": 0
+            },
+            "angularVelocity": 2.0008649182481646
+          },
+          {
+            "id": 6,
+            "tick": 37,
+            "substep": 1,
+            "type": "support",
+            "object": "light",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 7,
+            "tick": 63,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:2"
+          },
+          {
+            "id": 8,
+            "tick": 63,
+            "substep": 0,
+            "type": "release",
+            "object": "hat",
+            "velocity": {
+              "x": 95.05567228502602,
+              "y": 0.7374388744587177,
+              "z": 0
+            },
+            "angularVelocity": -0.8671343781507217
+          },
+          {
+            "id": 9,
+            "tick": 74,
+            "substep": 1,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 10,
+            "tick": 74,
+            "substep": 1,
+            "type": "contact",
+            "object": "hat",
+            "speed": 187.8333333333334,
+            "face": {
+              "primitiveId": "solid:lower:blackout",
+              "face": "top",
+              "support": "support:lower:blackout",
+              "point": {
+                "x": 750.8550382941291,
+                "y": 5568.160560284611,
+                "z": -96
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 174.85503829412914,
+                "v": 96.16056028461117
+              },
+              "origin": {
+                "x": 576,
+                "y": 5472,
+                "z": -96
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 11,
+            "tick": 74,
+            "substep": 2,
+            "type": "support",
+            "object": "hat",
+            "from": "support:lower:blackout",
+            "to": null
+          },
+          {
+            "id": 12,
+            "tick": 81,
+            "substep": 0,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 13,
+            "tick": 81,
+            "substep": 0,
+            "type": "contact",
+            "object": "hat",
+            "speed": 54.41039627233208,
+            "face": {
+              "primitiveId": "solid:lower:blackout",
+              "face": "top",
+              "support": "support:lower:blackout",
+              "point": {
+                "x": 761.4097889818831,
+                "y": 5568.24244370387,
+                "z": -96
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 185.40978898188314,
+                "v": 96.24244370386987
+              },
+              "origin": {
+                "x": 576,
+                "y": 5472,
+                "z": -96
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 14,
+            "tick": 81,
+            "substep": 1,
+            "type": "support",
+            "object": "hat",
+            "from": "support:lower:blackout",
+            "to": null
+          },
+          {
+            "id": 15,
+            "tick": 82,
+            "substep": 2,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 16,
+            "tick": 93,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:3"
+          }
+        ],
+        "eventSequence": 16
+      },
+      "masses": [
+        {
+          "shape": "profile:death-body",
+          "x": 740.5813109997301,
+          "y": 5568.07398061311,
+          "z": -96,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 734.4159068294653,
+          "y": 5586.817302582353,
+          "z": -90.9123229576329,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 735.1783744685061,
+          "y": 5549.6351813088095,
+          "z": -90.94999999999912,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:hound",
+          "x": 690.6115474115618,
+          "y": 5567.7869009744,
+          "z": -96,
+          "support": "support:lower:blackout",
+          "sleeping": false,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-light",
+          "x": 733.5662961426041,
+          "y": 5609.966029847231,
+          "z": -88.94999999999912,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hat",
+          "x": 782.5869971032649,
+          "y": 5568.406735809156,
+          "z": -93.90253753275917,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        }
+      ],
+      "airborneObserved": true
+    },
+    {
+      "name": "lower",
+      "kind": "smiler",
+      "pose": {
+        "x": 720,
+        "y": 5568,
+        "z": -96
+      },
+      "ok": true,
+      "event": {
+        "identity": {
+          "worldEpoch": "p3a:aftermath",
+          "victimId": "1",
+          "lifeGeneration": 1,
+          "deathSequence": 1
+        },
+        "key": "[\"p3a:aftermath\",\"1\",1,1]",
+        "version": "stage-g-death-1",
+        "tick": 0,
+        "kind": "Smiler",
+        "variant": "B",
+        "seed": 1032784973,
+        "geometry": {
+          "schemaVersion": 1,
+          "assetId": "world:level0-spatial",
+          "geometryRevision": "part3a-gameplay-1",
+          "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "initial": {
+          "victim": {
+            "x": 720,
+            "y": 5568,
+            "z": -96,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 3.141592653589793,
+            "supportId": "support:lower:blackout",
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          },
+          "attacker": {
+            "x": 686,
+            "y": 5568,
+            "z": -96,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 6.283185307179586,
+            "supportId": "support:lower:blackout",
+            "shape": {
+              "id": "profile:smiler",
+              "radius": 21,
+              "height": 48,
+              "eyeHeight": 36,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          }
+        },
+        "equipment": {
+          "kind": "flashlight",
+          "hat": "cap",
+          "look": "cap|plain|#e6bb76|#ffcc77|none",
+          "color": "#ffe7b2",
+          "parts": "",
+          "light": true
+        },
+        "exhausted": false,
+        "direction": 0,
+        "duration": 3.85,
+        "plan": {
+          "v": "B",
+          "kn": 0,
+          "dr": 0,
+          "hits": [
+            0.7,
+            1.2,
+            1.7
+          ],
+          "kt": [
+            0.08,
+            0.36
+          ],
+          "dw": [
+            2.03,
+            3.12
+          ],
+          "spin": 1.4,
+          "squish": 1
+        }
+      },
+      "state": {
+        "version": "stage-g-death-1",
+        "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+        "substep": 1052,
+        "time": 4.383333333333333,
+        "duration": 3.85,
+        "state": "SLEEPING",
+        "phase": "contact",
+        "attackerOwned": false,
+        "body": {
+          "id": "body",
+          "x": 720.3330717322198,
+          "y": 5568.000817253444,
+          "z": -96,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 13,
+          "yaw": 5.103806632195931,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "hands": [
+          {
+            "id": "hand:0",
+            "x": 709.7322225427613,
+            "y": 5574.857534448865,
+            "z": -90.9499999999992,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:lower:blackout",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 927,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          },
+          {
+            "id": "hand:1",
+            "x": 717.387613410677,
+            "y": 5556.039491122129,
+            "z": -90.94999999999912,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:lower:blackout",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 929,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          }
+        ],
+        "attacker": {
+          "id": "attacker",
+          "x": 676.33306953078,
+          "y": 5568.00038518494,
+          "z": -96,
+          "vx": 0.00000881641510060201,
+          "vy": 8.733270795941222e-11,
+          "vz": 0,
+          "shape": {
+            "id": "profile:smiler",
+            "radius": 21,
+            "height": 48,
+            "eyeHeight": 36,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": false,
+          "mode": "grounded",
+          "revision": 786,
+          "yaw": 0.000009819740881598986,
+          "angularVelocity": -1.7647012299636292e-11,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "light": {
+          "id": "light",
+          "x": 709.2510841556207,
+          "y": 5560.137282958692,
+          "z": -88.94999999999912,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 4,
+          "yaw": 4.168497069554235,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "held": false
+        },
+        "hat": {
+          "id": "hat",
+          "x": 720.3330717322198,
+          "y": 5568.000817253444,
+          "z": -76,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "support": "support:lower:blackout",
+          "normal": null,
+          "stable": true,
+          "sleeping": true,
+          "mode": "airborne",
+          "revision": 0,
+          "yaw": 5.103806632195931,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "attached": true
+        },
+        "beam": {
+          "kind": "flashlight",
+          "object": "light",
+          "origin": {
+            "x": 689.5699561152759,
+            "y": 5572.0390979068225,
+            "z": -88.94999999999912
+          },
+          "direction": {
+            "x": -0.8557012191454253,
+            "y": 0.5174702151361298,
+            "z": 0
+          },
+          "support": "support:lower:blackout",
+          "clippedBy": null
+        },
+        "decals": [
+          {
+            "id": 1,
+            "substep": 168,
+            "primitiveId": "solid:lower:blackout",
+            "face": "top",
+            "support": "support:lower:blackout",
+            "point": {
+              "x": 720,
+              "y": 5568,
+              "z": -96
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 144,
+              "v": 96
+            },
+            "origin": {
+              "x": 576,
+              "y": 5472,
+              "z": -96
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 4,
+            "substep": 288,
+            "primitiveId": "solid:lower:blackout",
+            "face": "top",
+            "support": "support:lower:blackout",
+            "point": {
+              "x": 720.087571917152,
+              "y": 5568.000711141326,
+              "z": -96
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 144.087571917152,
+              "v": 96.00071114132606
+            },
+            "origin": {
+              "x": 576,
+              "y": 5472,
+              "z": -96
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 5,
+            "substep": 408,
+            "primitiveId": "solid:lower:blackout",
+            "face": "top",
+            "support": "support:lower:blackout",
+            "point": {
+              "x": 720.1910213655129,
+              "y": 5568.000776198533,
+              "z": -96
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 144.19102136551294,
+              "v": 96.00077619853255
+            },
+            "origin": {
+              "x": 576,
+              "y": 5472,
+              "z": -96
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "trail": [],
+        "events": [
+          {
+            "id": 1,
+            "tick": 42,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:0"
+          },
+          {
+            "id": 2,
+            "tick": 47,
+            "substep": 0,
+            "type": "release",
+            "object": "light",
+            "velocity": {
+              "x": 2.153242621998288,
+              "y": 4.042533075262327,
+              "z": 0
+            },
+            "angularVelocity": -2.3386674624029165
+          },
+          {
+            "id": 3,
+            "tick": 47,
+            "substep": 0,
+            "type": "support",
+            "object": "light",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 4,
+            "tick": 72,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:1"
+          },
+          {
+            "id": 5,
+            "tick": 102,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:2"
+          }
+        ],
+        "eventSequence": 5
+      },
+      "masses": [
+        {
+          "shape": "profile:death-body",
+          "x": 720.3330717322198,
+          "y": 5568.000817253444,
+          "z": -96,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 709.7322225427613,
+          "y": 5574.857534448865,
+          "z": -90.9499999999992,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 717.387613410677,
+          "y": 5556.039491122129,
+          "z": -90.94999999999912,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:smiler",
+          "x": 676.33306953078,
+          "y": 5568.00038518494,
+          "z": -96,
+          "support": "support:lower:blackout",
+          "sleeping": false,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-light",
+          "x": 709.2510841556207,
+          "y": 5560.137282958692,
+          "z": -88.94999999999912,
+          "support": "support:lower:blackout",
+          "sleeping": true,
+          "stable": true
+        }
+      ],
+      "airborneObserved": false
+    },
+    {
+      "name": "stairs",
+      "kind": "hound",
+      "pose": {
+        "x": 5616,
+        "y": 1248,
+        "z": 96
+      },
+      "ok": false,
+      "error": "Error: Initial body overlaps solid\n    at Object.initialize (/workspace/scratch/8520e6cd0a04/part-3a/world_motion.js:30:49)\n    at initializeSpatialEntity (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:1280:68)\n    at mkEntity (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:955:22)\n    at eng.spawn (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:2846:15)\n    at Object.previewKill (/workspace/scratch/8520e6cd0a04/part-3a/sim.js:354:89)\n    at Object.<anonymous> (/workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/test_aftermath.js:5:617)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)"
+    },
+    {
+      "name": "stairs",
+      "kind": "smiler",
+      "pose": {
+        "x": 5616,
+        "y": 1248,
+        "z": 96
+      },
+      "ok": false,
+      "error": "Error: Initial body overlaps solid\n    at Object.initialize (/workspace/scratch/8520e6cd0a04/part-3a/world_motion.js:30:49)\n    at initializeSpatialEntity (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:1280:68)\n    at mkEntity (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:955:22)\n    at eng.spawn (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:2846:15)\n    at Object.previewKill (/workspace/scratch/8520e6cd0a04/part-3a/sim.js:354:89)\n    at Object.<anonymous> (/workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/test_aftermath.js:5:617)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)"
+    },
+    {
+      "name": "ramp",
+      "kind": "hound",
+      "pose": {
+        "x": 6432,
+        "y": 1248,
+        "z": 95.625
+      },
+      "ok": false,
+      "error": "Error: Initial body overlaps solid\n    at Object.initialize (/workspace/scratch/8520e6cd0a04/part-3a/world_motion.js:30:49)\n    at initializeSpatialEntity (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:1280:68)\n    at mkEntity (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:955:22)\n    at eng.spawn (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:2846:15)\n    at Object.previewKill (/workspace/scratch/8520e6cd0a04/part-3a/sim.js:354:89)\n    at Object.<anonymous> (/workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/test_aftermath.js:5:617)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)"
+    },
+    {
+      "name": "ramp",
+      "kind": "smiler",
+      "pose": {
+        "x": 6432,
+        "y": 1248,
+        "z": 95.625
+      },
+      "ok": false,
+      "error": "Error: Initial body overlaps solid\n    at Object.initialize (/workspace/scratch/8520e6cd0a04/part-3a/world_motion.js:30:49)\n    at initializeSpatialEntity (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:1280:68)\n    at mkEntity (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:955:22)\n    at eng.spawn (/workspace/scratch/8520e6cd0a04/part-3a/ai.js:2846:15)\n    at Object.previewKill (/workspace/scratch/8520e6cd0a04/part-3a/sim.js:354:89)\n    at Object.<anonymous> (/workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/test_aftermath.js:5:617)\n    at Module._compile (node:internal/modules/cjs/loader:1872:14)\n    at Object..js (node:internal/modules/cjs/loader:2003:10)\n    at Module.load (node:internal/modules/cjs/loader:1594:32)\n    at Module._load (node:internal/modules/cjs/loader:1396:12)"
+    },
+    {
+      "name": "ledge",
+      "kind": "hound",
+      "pose": {
+        "x": 888,
+        "y": 5568,
+        "z": 0
+      },
+      "ok": true,
+      "event": {
+        "identity": {
+          "worldEpoch": "p3a:aftermath",
+          "victimId": "1",
+          "lifeGeneration": 1,
+          "deathSequence": 1
+        },
+        "key": "[\"p3a:aftermath\",\"1\",1,1]",
+        "version": "stage-g-death-1",
+        "tick": 0,
+        "kind": "Hound",
+        "variant": "A",
+        "seed": 2812637900,
+        "geometry": {
+          "schemaVersion": 1,
+          "assetId": "world:level0-spatial",
+          "geometryRevision": "part3a-gameplay-1",
+          "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "initial": {
+          "victim": {
+            "x": 888,
+            "y": 5568,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 3.141592653589793,
+            "supportId": "support:ground:864_5472_96_480",
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          },
+          "attacker": {
+            "x": 854,
+            "y": 5568,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 6.283185307179586,
+            "supportId": "support:ground:864_5472_96_480",
+            "shape": {
+              "id": "profile:hound",
+              "radius": 21,
+              "height": 36,
+              "eyeHeight": 28,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          }
+        },
+        "equipment": {
+          "kind": "flashlight",
+          "hat": "cap",
+          "look": "cap|plain|#e6bb76|#ffcc77|none",
+          "color": "#ffe7b2",
+          "parts": "",
+          "light": true
+        },
+        "exhausted": false,
+        "direction": 0,
+        "duration": 4.5,
+        "plan": {
+          "v": "A",
+          "kn": 46,
+          "dr": 40,
+          "hits": [
+            0.2,
+            0.62,
+            1.05,
+            1.55
+          ],
+          "kt": [
+            0.08,
+            0.36
+          ],
+          "dw": [
+            2.03,
+            3.12
+          ],
+          "spin": 1.9,
+          "squish": 1
+        }
+      },
+      "state": {
+        "version": "stage-g-death-1",
+        "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+        "substep": 1240,
+        "time": 5.166666666666667,
+        "duration": 4.5,
+        "state": "SLEEPING",
+        "phase": "contact",
+        "attackerOwned": false,
+        "body": {
+          "id": "body",
+          "x": 894.1655179349829,
+          "y": 5567.997777806971,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:864_5472_96_480",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 26,
+          "yaw": 4.6893019553707225,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "hands": [
+          {
+            "id": "hand:0",
+            "x": 888.0456968326903,
+            "y": 5586.936750560211,
+            "z": 5.0500000000015435,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:ground:864_5472_96_480",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 1123,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          },
+          {
+            "id": "hand:1",
+            "x": 887.9964641384249,
+            "y": 5549.148993604827,
+            "z": 5.050000000001407,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:ground:864_5472_96_480",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 1089,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          }
+        ],
+        "attacker": {
+          "id": "attacker",
+          "x": 842.9499999879577,
+          "y": 5568.188545641773,
+          "z": -95.921355101087,
+          "vx": 1.1815548539573228e-12,
+          "vy": -0.005702693841321619,
+          "vz": -1.0354192871001808e-10,
+          "shape": {
+            "id": "profile:hound",
+            "radius": 21,
+            "height": 36,
+            "eyeHeight": 28,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": false,
+          "mode": "grounded",
+          "revision": 1080,
+          "yaw": -0.0037471796254266534,
+          "angularVelocity": 0.00011225768589031291,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [
+            {
+              "primitiveId": "solid:lower:retaining:east",
+              "normal": {
+                "x": -1,
+                "y": -2.0719402674293973e-10,
+                "z": -6.771464591427351e-10
+              },
+              "point": {
+                "x": 842.9499999879577,
+                "y": 5568.188569402997,
+                "z": -95.92135510108658
+              },
+              "substep": 1079
+            }
+          ],
+          "diagnostics": []
+        },
+        "light": {
+          "id": "light",
+          "x": 874.6863342753172,
+          "y": 5573.9509619177625,
+          "z": 7.050000000001407,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:864_5472_96_480",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 100,
+          "yaw": 5.582351941426282,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "held": false
+        },
+        "hat": {
+          "id": "hat",
+          "x": 939.1147722078553,
+          "y": 5568.052874802798,
+          "z": 2.0974392905900654,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:864_5472_96_480",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 174,
+          "yaw": 6.288850522114867,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "attached": false
+        },
+        "beam": {
+          "kind": "flashlight",
+          "object": "light",
+          "origin": {
+            "x": 859.8546725701733,
+            "y": 5556.3719457034185,
+            "z": 7.050000000001407
+          },
+          "direction": {
+            "x": -0.6448548567453894,
+            "y": -0.7643050527975614,
+            "z": 0
+          },
+          "support": "support:ground:864_5472_96_480",
+          "clippedBy": null
+        },
+        "decals": [
+          {
+            "id": 1,
+            "substep": 48,
+            "primitiveId": "solid:ground:864_5472_96_480",
+            "face": "top",
+            "support": "support:ground:864_5472_96_480",
+            "point": {
+              "x": 892.2352941176471,
+              "y": 5568,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 28.235294117647072,
+              "v": 96
+            },
+            "origin": {
+              "x": 864,
+              "y": 5472,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 2,
+            "substep": 149,
+            "primitiveId": "solid:ground:864_5472_96_480",
+            "face": "top",
+            "support": "support:ground:864_5472_96_480",
+            "point": {
+              "x": 892.5237692526017,
+              "y": 5568.000783485156,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 28.52376925260171,
+              "v": 96.00078348515581
+            },
+            "origin": {
+              "x": 864,
+              "y": 5472,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 5,
+            "substep": 252,
+            "primitiveId": "solid:ground:864_5472_96_480",
+            "face": "top",
+            "support": "support:ground:864_5472_96_480",
+            "point": {
+              "x": 892.8934003135964,
+              "y": 5568.006270442129,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 28.89340031359643,
+              "v": 96.00627044212888
+            },
+            "origin": {
+              "x": 864,
+              "y": 5472,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 14,
+            "substep": 372,
+            "primitiveId": "solid:ground:864_5472_96_480",
+            "face": "top",
+            "support": "support:ground:864_5472_96_480",
+            "point": {
+              "x": 893.7336095572905,
+              "y": 5567.998480474714,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 29.733609557290492,
+              "v": 95.99848047471369
+            },
+            "origin": {
+              "x": 864,
+              "y": 5472,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "trail": [],
+        "events": [
+          {
+            "id": 1,
+            "tick": 12,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:0"
+          },
+          {
+            "id": 2,
+            "tick": 37,
+            "substep": 1,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:1"
+          },
+          {
+            "id": 3,
+            "tick": 37,
+            "substep": 1,
+            "type": "release",
+            "object": "light",
+            "velocity": {
+              "x": 40.32260984959006,
+              "y": 109.4100805644459,
+              "z": 0
+            },
+            "angularVelocity": 2.831090186243091
+          },
+          {
+            "id": 4,
+            "tick": 37,
+            "substep": 1,
+            "type": "support",
+            "object": "light",
+            "from": null,
+            "to": "support:ground:864_5472_96_480"
+          },
+          {
+            "id": 5,
+            "tick": 63,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:2"
+          },
+          {
+            "id": 6,
+            "tick": 63,
+            "substep": 0,
+            "type": "release",
+            "object": "hat",
+            "velocity": {
+              "x": 89.99995425120835,
+              "y": 0.09074569084564968,
+              "z": 0
+            },
+            "angularVelocity": 3.0843782486824116
+          },
+          {
+            "id": 7,
+            "tick": 74,
+            "substep": 1,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:ground:864_5472_96_480"
+          },
+          {
+            "id": 8,
+            "tick": 74,
+            "substep": 1,
+            "type": "contact",
+            "object": "hat",
+            "speed": 187.83333333295604,
+            "face": {
+              "primitiveId": "solid:ground:864_5472_96_480",
+              "face": "top",
+              "support": "support:ground:864_5472_96_480",
+              "point": {
+                "x": 909.9303908190105,
+                "y": 5568.023448600576,
+                "z": 0
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 45.93039081901054,
+                "v": 96.02344860057565
+              },
+              "origin": {
+                "x": 864,
+                "y": 5472,
+                "z": 0
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 9,
+            "tick": 74,
+            "substep": 2,
+            "type": "support",
+            "object": "hat",
+            "from": "support:ground:864_5472_96_480",
+            "to": null
+          },
+          {
+            "id": 10,
+            "tick": 81,
+            "substep": 0,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:ground:864_5472_96_480"
+          },
+          {
+            "id": 11,
+            "tick": 81,
+            "substep": 0,
+            "type": "contact",
+            "object": "hat",
+            "speed": 54.427386663923485,
+            "face": {
+              "primitiveId": "solid:ground:864_5472_96_480",
+              "face": "top",
+              "support": "support:ground:864_5472_96_480",
+              "point": {
+                "x": 919.9175033238333,
+                "y": 5568.033518465969,
+                "z": 0
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 55.91750332383333,
+                "v": 96.03351846596888
+              },
+              "origin": {
+                "x": 864,
+                "y": 5472,
+                "z": 0
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 12,
+            "tick": 81,
+            "substep": 1,
+            "type": "support",
+            "object": "hat",
+            "from": "support:ground:864_5472_96_480",
+            "to": null
+          },
+          {
+            "id": 13,
+            "tick": 82,
+            "substep": 2,
+            "type": "support",
+            "object": "hat",
+            "from": null,
+            "to": "support:ground:864_5472_96_480"
+          },
+          {
+            "id": 14,
+            "tick": 93,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:3"
+          },
+          {
+            "id": 15,
+            "tick": 176,
+            "substep": 2,
+            "type": "support",
+            "object": "attacker",
+            "from": "support:ground:864_5472_96_480",
+            "to": null
+          },
+          {
+            "id": 16,
+            "tick": 181,
+            "substep": 2,
+            "type": "contact",
+            "object": "attacker",
+            "speed": 6.76759554790072,
+            "face": {
+              "primitiveId": "solid:ground:864_5472_96_480",
+              "face": "side:3",
+              "support": null,
+              "point": {
+                "x": 864,
+                "y": 5568.203005386185,
+                "z": 14.860276242693137
+              },
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "local": {
+                "u": 383.7969946138146,
+                "v": 30.86027624269314
+              },
+              "origin": {
+                "x": 864,
+                "y": 5952,
+                "z": -16
+              },
+              "basis": {
+                "u": {
+                  "x": 0,
+                  "y": -1,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 1
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 17,
+            "tick": 204,
+            "substep": 3,
+            "type": "support",
+            "object": "attacker",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 18,
+            "tick": 204,
+            "substep": 3,
+            "type": "contact",
+            "object": "attacker",
+            "speed": 423.6106128203184,
+            "face": {
+              "primitiveId": "solid:lower:blackout",
+              "face": "top",
+              "support": "support:lower:blackout",
+              "point": {
+                "x": 842.9499999872969,
+                "y": 5568.1948393722505,
+                "z": -96
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 266.9499999872969,
+                "v": 96.1948393722505
+              },
+              "origin": {
+                "x": 576,
+                "y": 5472,
+                "z": -96
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 19,
+            "tick": 205,
+            "substep": 0,
+            "type": "support",
+            "object": "attacker",
+            "from": "support:lower:blackout",
+            "to": null
+          },
+          {
+            "id": 20,
+            "tick": 207,
+            "substep": 0,
+            "type": "support",
+            "object": "attacker",
+            "from": null,
+            "to": "support:lower:blackout"
+          }
+        ],
+        "eventSequence": 20
+      },
+      "masses": [
+        {
+          "shape": "profile:death-body",
+          "x": 894.1655179349829,
+          "y": 5567.997777806971,
+          "z": 0,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 888.0456968326903,
+          "y": 5586.936750560211,
+          "z": 5.0500000000015435,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 887.9964641384249,
+          "y": 5549.148993604827,
+          "z": 5.050000000001407,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:hound",
+          "x": 842.9499999879577,
+          "y": 5568.188545641773,
+          "z": -95.921355101087,
+          "support": "support:lower:blackout",
+          "sleeping": false,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-light",
+          "x": 874.6863342753172,
+          "y": 5573.9509619177625,
+          "z": 7.050000000001407,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hat",
+          "x": 939.1147722078553,
+          "y": 5568.052874802798,
+          "z": 2.0974392905900654,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        }
+      ],
+      "airborneObserved": true
+    },
+    {
+      "name": "ledge",
+      "kind": "smiler",
+      "pose": {
+        "x": 888,
+        "y": 5568,
+        "z": 0
+      },
+      "ok": true,
+      "event": {
+        "identity": {
+          "worldEpoch": "p3a:aftermath",
+          "victimId": "1",
+          "lifeGeneration": 1,
+          "deathSequence": 1
+        },
+        "key": "[\"p3a:aftermath\",\"1\",1,1]",
+        "version": "stage-g-death-1",
+        "tick": 0,
+        "kind": "Smiler",
+        "variant": "B",
+        "seed": 2862970757,
+        "geometry": {
+          "schemaVersion": 1,
+          "assetId": "world:level0-spatial",
+          "geometryRevision": "part3a-gameplay-1",
+          "contentHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "initial": {
+          "victim": {
+            "x": 888,
+            "y": 5568,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 3.141592653589793,
+            "supportId": "support:ground:864_5472_96_480",
+            "shape": {
+              "id": "profile:player-stand",
+              "radius": 15,
+              "height": 60,
+              "eyeHeight": 50,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          },
+          "attacker": {
+            "x": 854,
+            "y": 5568,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "angle": 6.283185307179586,
+            "supportId": "support:ground:864_5472_96_480",
+            "shape": {
+              "id": "profile:smiler",
+              "radius": 21,
+              "height": 48,
+              "eyeHeight": 36,
+              "maxSlopeDegrees": 35,
+              "maxStepRise": 12,
+              "stepLiftMax": 180
+            }
+          }
+        },
+        "equipment": {
+          "kind": "flashlight",
+          "hat": "cap",
+          "look": "cap|plain|#e6bb76|#ffcc77|none",
+          "color": "#ffe7b2",
+          "parts": "",
+          "light": true
+        },
+        "exhausted": false,
+        "direction": 0,
+        "duration": 3.85,
+        "plan": {
+          "v": "B",
+          "kn": 0,
+          "dr": 0,
+          "hits": [
+            0.7,
+            1.2,
+            1.7
+          ],
+          "kt": [
+            0.08,
+            0.36
+          ],
+          "dw": [
+            2.03,
+            3.12
+          ],
+          "spin": 1.4,
+          "squish": 1
+        }
+      },
+      "state": {
+        "version": "stage-g-death-1",
+        "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+        "substep": 1048,
+        "time": 4.366666666666666,
+        "duration": 3.85,
+        "state": "SLEEPING",
+        "phase": "contact",
+        "attackerOwned": false,
+        "body": {
+          "id": "body",
+          "x": 888.4478900041124,
+          "y": 5567.999598128539,
+          "z": 0,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-body",
+            "radius": 18,
+            "height": 18,
+            "centerOffset": 0,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:864_5472_96_480",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 15,
+          "yaw": 4.091363012157057,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": []
+        },
+        "hands": [
+          {
+            "id": "hand:0",
+            "x": 888.6309549878421,
+            "y": 5580.376331366593,
+            "z": 5.0500000000015435,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:ground:864_5472_96_480",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 926,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          },
+          {
+            "id": "hand:1",
+            "x": 876.9515901857652,
+            "y": 5563.928397435368,
+            "z": 5.050000000001407,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "shape": {
+              "id": "profile:death-hand",
+              "radius": 5,
+              "height": 10,
+              "centerOffset": 5,
+              "maxStepRise": 0
+            },
+            "support": "support:ground:864_5472_96_480",
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "stable": true,
+            "sleeping": true,
+            "mode": "grounded",
+            "revision": 926,
+            "yaw": 0,
+            "angularVelocity": 0,
+            "tilt": {
+              "x": 0,
+              "y": 0
+            },
+            "contacts": [],
+            "diagnostics": []
+          }
+        ],
+        "attacker": {
+          "id": "attacker",
+          "x": 842.9499999389815,
+          "y": 5567.999722449374,
+          "z": -95.90406250002565,
+          "vx": 3.552713678800501e-15,
+          "vy": -0.000016372909944582396,
+          "vz": -2.3867213236289114e-10,
+          "shape": {
+            "id": "profile:smiler",
+            "radius": 21,
+            "height": 48,
+            "eyeHeight": 36,
+            "maxSlopeDegrees": 35,
+            "maxStepRise": 12,
+            "stepLiftMax": 180
+          },
+          "support": "support:lower:blackout",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": false,
+          "mode": "grounded",
+          "revision": 378,
+          "yaw": -0.00000273245207822669,
+          "angularVelocity": -6.281420657547138e-12,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [
+            {
+              "primitiveId": "solid:lower:retaining:east",
+              "normal": {
+                "x": -0.9999999999999999,
+                "y": -2.0960968106017357e-10,
+                "z": -6.373555386812735e-10
+              },
+              "point": {
+                "x": 842.9499999389815,
+                "y": 5567.999722449374,
+                "z": -95.90406250002565
+              },
+              "substep": 923
+            }
+          ],
+          "diagnostics": []
+        },
+        "light": {
+          "id": "light",
+          "x": 877.437753045748,
+          "y": 5560.26822559107,
+          "z": 7.050000000001407,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-light",
+            "radius": 7,
+            "height": 14,
+            "centerOffset": 7,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:864_5472_96_480",
+          "normal": {
+            "x": 0,
+            "y": 0,
+            "z": 1
+          },
+          "stable": true,
+          "sleeping": true,
+          "mode": "grounded",
+          "revision": 1,
+          "yaw": 4.385975945898351,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "held": false
+        },
+        "hat": {
+          "id": "hat",
+          "x": 888.4478900041124,
+          "y": 5567.999598128539,
+          "z": 20,
+          "vx": 0,
+          "vy": 0,
+          "vz": 0,
+          "shape": {
+            "id": "profile:death-hat",
+            "radius": 11,
+            "height": 4,
+            "centerOffset": 2,
+            "maxStepRise": 0
+          },
+          "support": "support:ground:864_5472_96_480",
+          "normal": null,
+          "stable": true,
+          "sleeping": true,
+          "mode": "airborne",
+          "revision": 0,
+          "yaw": 4.091363012157057,
+          "angularVelocity": 0,
+          "tilt": {
+            "x": 0,
+            "y": 0
+          },
+          "contacts": [],
+          "diagnostics": [],
+          "attached": true
+        },
+        "beam": {
+          "kind": "flashlight",
+          "object": "light",
+          "origin": {
+            "x": 855.6521855638908,
+            "y": 5567.643118776294,
+            "z": 7.050000000001407
+          },
+          "direction": {
+            "x": -0.9471985861677032,
+            "y": 0.3206475297923003,
+            "z": 0
+          },
+          "support": "support:ground:864_5472_96_480",
+          "clippedBy": null
+        },
+        "decals": [
+          {
+            "id": 6,
+            "substep": 168,
+            "primitiveId": "solid:ground:864_5472_96_480",
+            "face": "top",
+            "support": "support:ground:864_5472_96_480",
+            "point": {
+              "x": 888,
+              "y": 5568,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 24,
+              "v": 96
+            },
+            "origin": {
+              "x": 864,
+              "y": 5472,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 9,
+            "substep": 288,
+            "primitiveId": "solid:ground:864_5472_96_480",
+            "face": "top",
+            "support": "support:ground:864_5472_96_480",
+            "point": {
+              "x": 888.1377673682636,
+              "y": 5567.999431969824,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 24.137767368263553,
+              "v": 95.9994319698244
+            },
+            "origin": {
+              "x": 864,
+              "y": 5472,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          },
+          {
+            "id": 11,
+            "substep": 408,
+            "primitiveId": "solid:ground:864_5472_96_480",
+            "face": "top",
+            "support": "support:ground:864_5472_96_480",
+            "point": {
+              "x": 888.3505232475778,
+              "y": 5567.999583482142,
+              "z": 0
+            },
+            "normal": {
+              "x": 0,
+              "y": 0,
+              "z": 1
+            },
+            "local": {
+              "u": 24.350523247577826,
+              "v": 95.99958348214204
+            },
+            "origin": {
+              "x": 864,
+              "y": 5472,
+              "z": 0
+            },
+            "basis": {
+              "u": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "v": {
+                "x": 0,
+                "y": 1,
+                "z": 0
+              }
+            },
+            "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+          }
+        ],
+        "trail": [],
+        "events": [
+          {
+            "id": 1,
+            "tick": 4,
+            "substep": 1,
+            "type": "support",
+            "object": "attacker",
+            "from": "support:ground:864_5472_96_480",
+            "to": null
+          },
+          {
+            "id": 2,
+            "tick": 30,
+            "substep": 3,
+            "type": "support",
+            "object": "attacker",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 3,
+            "tick": 30,
+            "substep": 3,
+            "type": "contact",
+            "object": "attacker",
+            "speed": 432.83333333333553,
+            "face": {
+              "primitiveId": "solid:lower:blackout",
+              "face": "top",
+              "support": "support:lower:blackout",
+              "point": {
+                "x": 777.8427579260853,
+                "y": 5568,
+                "z": -96
+              },
+              "normal": {
+                "x": 0,
+                "y": 0,
+                "z": 1
+              },
+              "local": {
+                "u": 201.84275792608526,
+                "v": 96
+              },
+              "origin": {
+                "x": 576,
+                "y": 5472,
+                "z": -96
+              },
+              "basis": {
+                "u": {
+                  "x": 1,
+                  "y": 0,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 1,
+                  "z": 0
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 4,
+            "tick": 31,
+            "substep": 0,
+            "type": "support",
+            "object": "attacker",
+            "from": "support:lower:blackout",
+            "to": null
+          },
+          {
+            "id": 5,
+            "tick": 33,
+            "substep": 0,
+            "type": "support",
+            "object": "attacker",
+            "from": null,
+            "to": "support:lower:blackout"
+          },
+          {
+            "id": 6,
+            "tick": 42,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:0"
+          },
+          {
+            "id": 7,
+            "tick": 47,
+            "substep": 0,
+            "type": "release",
+            "object": "light",
+            "velocity": {
+              "x": -0.5355496648826374,
+              "y": 1.6166894107300323,
+              "z": 0
+            },
+            "angularVelocity": -1.6588884395336054
+          },
+          {
+            "id": 8,
+            "tick": 47,
+            "substep": 0,
+            "type": "support",
+            "object": "light",
+            "from": null,
+            "to": "support:ground:864_5472_96_480"
+          },
+          {
+            "id": 9,
+            "tick": 72,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:1"
+          },
+          {
+            "id": 10,
+            "tick": 91,
+            "substep": 3,
+            "type": "contact",
+            "object": "attacker",
+            "speed": 9.461745517234442,
+            "face": {
+              "primitiveId": "solid:lower:retaining:east",
+              "face": "side:3",
+              "support": null,
+              "point": {
+                "x": 864,
+                "y": 5567.999723681573,
+                "z": -71.90406249999327
+              },
+              "normal": {
+                "x": -1,
+                "y": 0,
+                "z": 0
+              },
+              "local": {
+                "u": 384.0002763184266,
+                "v": 40.09593750000673
+              },
+              "origin": {
+                "x": 864,
+                "y": 5952,
+                "z": -112
+              },
+              "basis": {
+                "u": {
+                  "x": 0,
+                  "y": -1,
+                  "z": 0
+                },
+                "v": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 1
+                }
+              },
+              "geometryHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab"
+            }
+          },
+          {
+            "id": 11,
+            "tick": 102,
+            "substep": 0,
+            "type": "decal",
+            "object": "body",
+            "reason": "hit:2"
+          }
+        ],
+        "eventSequence": 11
+      },
+      "masses": [
+        {
+          "shape": "profile:death-body",
+          "x": 888.4478900041124,
+          "y": 5567.999598128539,
+          "z": 0,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 888.6309549878421,
+          "y": 5580.376331366593,
+          "z": 5.0500000000015435,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-hand",
+          "x": 876.9515901857652,
+          "y": 5563.928397435368,
+          "z": 5.050000000001407,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        },
+        {
+          "shape": "profile:smiler",
+          "x": 842.9499999389815,
+          "y": 5567.999722449374,
+          "z": -95.90406250002565,
+          "support": "support:lower:blackout",
+          "sleeping": false,
+          "stable": true
+        },
+        {
+          "shape": "profile:death-light",
+          "x": 877.437753045748,
+          "y": 5560.26822559107,
+          "z": 7.050000000001407,
+          "support": "support:ground:864_5472_96_480",
+          "sleeping": true,
+          "stable": true
+        }
+      ],
+      "airborneObserved": true
+    }
+  ]
+}

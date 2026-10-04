@@ -1,0 +1,1593 @@
+{
+  "status": "PASS",
+  "hash": "ced63648ddb0e3584df4d6aa3b3d405cdc5968c9b7fbaf0c37ee756ed92030b3",
+  "results": [
+    {
+      "name": "all explicit anchors have full XYZ clearance and named physical support",
+      "ok": true
+    },
+    {
+      "name": "seeded production director, one cartograph, three variable exits",
+      "ok": true
+    },
+    {
+      "name": "cartograph collection and escape require correct elevation and physical ray",
+      "ok": true
+    },
+    {
+      "name": "existing props retain swept player vault and crawl meanings",
+      "ok": true
+    },
+    {
+      "name": "same-XY spatial senses respect the slab and keep acoustic uncertainty",
+      "ok": true
+    }
+  ],
+  "details": {
+    "anchorCounts": {
+      "exit": 511,
+      "hound-spawn": 195,
+      "item": 164,
+      "smiler-spawn": 195,
+      "spawn": 1
+    },
+    "selection": [
+      {
+        "entities": [
+          "anchor:hound-spawn:8568_5112_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:4728_3192_0"
+        ],
+        "item": "anchor:item:7800_1272_0",
+        "exits": [
+          "anchor:exit:7800_4920_0:0_-1",
+          "anchor:exit:6744_1464_0:-1_0",
+          "anchor:exit:5016_5592_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3192_888_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:7032_3192_0"
+        ],
+        "item": "anchor:item:504_5880_0",
+        "exits": [
+          "anchor:exit:2904_1272_0:-1_0",
+          "anchor:exit:7704_2712_0:-1_0",
+          "anchor:exit:7416_5688_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6264_1272_0",
+          "anchor:hound-spawn:7800_3960_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:2424_1656_0"
+        ],
+        "item": "anchor:item:6264_2808_0",
+        "exits": [
+          "anchor:exit:7800_4920_0:0_-1",
+          "anchor:exit:8088_1560_0:-1_0",
+          "anchor:exit:3096_1464_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3960_1656_0",
+          "anchor:hound-spawn:5496_2424_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:5880_5496_0"
+        ],
+        "item": "anchor:item:8184_4728_0",
+        "exits": [
+          "anchor:exit:2424_984_0:-1_0",
+          "anchor:exit:7032_4056_0:-1_0",
+          "anchor:exit:5400_1176_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6264_3960_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:3192_5496_0"
+        ],
+        "item": "anchor:item:5112_3960_0",
+        "exits": [
+          "anchor:exit:8280_2616_0:0_-1",
+          "anchor:exit:4728_1080_0:0_-1",
+          "anchor:exit:3288_5016_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7800_5880_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:5496_5496_0"
+        ],
+        "item": "anchor:item:2808_3576_0",
+        "exits": [
+          "anchor:exit:6840_3288_0:0_-1",
+          "anchor:exit:5016_696_0:0_-1",
+          "anchor:exit:2616_5304_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8568_1272_0",
+          "anchor:hound-spawn:4728_3192_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:7416_1656_0"
+        ],
+        "item": "anchor:item:3960_5496_0",
+        "exits": [
+          "anchor:exit:3096_4920_0:0_-1",
+          "anchor:exit:6264_984_0:0_-1",
+          "anchor:exit:8376_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_2808_0",
+          "anchor:hound-spawn:6192_864_180",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:7416_5496_0",
+          "anchor:smiler-spawn:4728_1272_0"
+        ],
+        "item": "anchor:item:3192_4344_0",
+        "exits": [
+          "anchor:exit:2616_5304_0:-1_0",
+          "anchor:exit:7896_2136_0:-1_0",
+          "anchor:exit:7704_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6264_2808_0",
+          "anchor:smiler-spawn:8184_4728_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:2808_2424_0"
+        ],
+        "item": "anchor:item:2424_888_0",
+        "exits": [
+          "anchor:exit:6936_696_0:0_-1",
+          "anchor:exit:4248_1464_0:-1_0",
+          "anchor:exit:5592_4440_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5880_1272_0",
+          "anchor:hound-spawn:6264_5112_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:3192_5496_0"
+        ],
+        "item": "anchor:item:2808_3576_0",
+        "exits": [
+          "anchor:exit:8760_2616_0:0_-1",
+          "anchor:exit:4728_3096_0:-1_0",
+          "anchor:exit:8376_5400_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_3576_0",
+          "anchor:hound-spawn:5880_5880_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:2424_1656_0"
+        ],
+        "item": "anchor:item:5496_5496_0",
+        "exits": [
+          "anchor:exit:7416_5688_0:0_-1",
+          "anchor:exit:3768_1560_0:-1_0",
+          "anchor:exit:7512_2616_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5880_4728_0",
+          "anchor:smiler-spawn:8184_4728_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:3192_5496_0"
+        ],
+        "item": "anchor:item:888_888_0",
+        "exits": [
+          "anchor:exit:4824_888_0:-1_0",
+          "anchor:exit:3864_4920_0:0_-1",
+          "anchor:exit:8376_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_1272_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:8184_4728_0"
+        ],
+        "item": "anchor:item:3192_2424_0",
+        "exits": [
+          "anchor:exit:6840_3288_0:0_-1",
+          "anchor:exit:5592_5592_0:-1_0",
+          "anchor:exit:1656_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8568_2808_0",
+          "anchor:hound-spawn:6264_3960_0",
+          "anchor:smiler-spawn:7032_5496_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:8184_4728_0",
+          "anchor:smiler-spawn:5880_1656_0",
+          "anchor:smiler-spawn:888_1272_0"
+        ],
+        "item": "anchor:item:5112_3576_0",
+        "exits": [
+          "anchor:exit:7704_2712_0:-1_0",
+          "anchor:exit:5208_1368_0:0_-1",
+          "anchor:exit:3288_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_2424_0",
+          "anchor:hound-spawn:7800_3576_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:7416_5496_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:3960_1656_0"
+        ],
+        "item": "anchor:item:1272_888_0",
+        "exits": [
+          "anchor:exit:7032_2712_0:-1_0",
+          "anchor:exit:4728_4248_0:-1_0",
+          "anchor:exit:4824_792_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3576_1656_0",
+          "anchor:hound-spawn:7800_1272_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:7416_3576_0"
+        ],
+        "item": "anchor:item:3960_3576_0",
+        "exits": [
+          "anchor:exit:5400_1464_0:0_-1",
+          "anchor:exit:3288_5592_0:-1_0",
+          "anchor:exit:6648_5400_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_1272_0",
+          "anchor:hound-spawn:5112_5880_0",
+          "anchor:smiler-spawn:7416_5496_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:5112_3192_0"
+        ],
+        "item": "anchor:item:7032_3960_0",
+        "exits": [
+          "anchor:exit:5592_5784_0:-1_0",
+          "anchor:exit:6168_696_0:0_-1",
+          "anchor:exit:1944_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_1656_0",
+          "anchor:hound-spawn:3960_888_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:2808_2424_0"
+        ],
+        "item": "anchor:item:7800_3960_0",
+        "exits": [
+          "anchor:exit:5592_4440_0:-1_0",
+          "anchor:exit:3000_696_0:0_-1",
+          "anchor:exit:6072_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:4344_5496_0",
+          "anchor:hound-spawn:6264_5496_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:5496_2424_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:6264_1272_0",
+          "anchor:smiler-spawn:888_1272_0"
+        ],
+        "item": "anchor:item:6648_5496_0",
+        "exits": [
+          "anchor:exit:2520_5400_0:0_-1",
+          "anchor:exit:6264_696_0:0_-1",
+          "anchor:exit:5976_4152_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8568_2808_0",
+          "anchor:hound-spawn:5112_5112_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:6264_1656_0"
+        ],
+        "item": "anchor:item:2040_5112_0",
+        "exits": [
+          "anchor:exit:6168_4920_0:0_-1",
+          "anchor:exit:6264_1176_0:-1_0",
+          "anchor:exit:3192_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8568_1656_0",
+          "anchor:smiler-spawn:6264_3192_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:6264_1656_0"
+        ],
+        "item": "anchor:item:8184_5496_0",
+        "exits": [
+          "anchor:exit:6744_696_0:0_-1",
+          "anchor:exit:5592_5592_0:-1_0",
+          "anchor:exit:4248_1464_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3960_1656_0",
+          "anchor:hound-spawn:8568_5496_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:7032_3192_0"
+        ],
+        "item": "anchor:item:4728_1272_0",
+        "exits": [
+          "anchor:exit:1560_696_0:0_-1",
+          "anchor:exit:7704_4056_0:-1_0",
+          "anchor:exit:3672_2424_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_1272_0",
+          "anchor:hound-spawn:8184_5112_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:888_1272_0"
+        ],
+        "item": "anchor:item:5112_5880_0",
+        "exits": [
+          "anchor:exit:1560_5976_0:0_-1",
+          "anchor:exit:5496_696_0:0_-1",
+          "anchor:exit:7512_5592_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6264_5112_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:2424_1656_0"
+        ],
+        "item": "anchor:item:3960_3960_0",
+        "exits": [
+          "anchor:exit:7320_1080_0:0_-1",
+          "anchor:exit:8376_3768_0:-1_0",
+          "anchor:exit:4152_1560_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_1656_0",
+          "anchor:hound-spawn:8568_5880_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:720_5568_-96"
+        ],
+        "item": "anchor:item:5112_2808_0",
+        "exits": [
+          "anchor:exit:6264_1560_0:-1_0",
+          "anchor:exit:3480_2424_0:0_-1",
+          "anchor:exit:7032_4920_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_2808_0",
+          "anchor:hound-spawn:3576_5880_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:8184_4728_0",
+          "anchor:smiler-spawn:5496_5496_0"
+        ],
+        "item": "anchor:item:3192_3192_0",
+        "exits": [
+          "anchor:exit:6744_1464_0:-1_0",
+          "anchor:exit:3288_5880_0:-1_0",
+          "anchor:exit:6264_5496_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7800_2808_0",
+          "anchor:hound-spawn:4344_5496_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:6264_2808_0"
+        ],
+        "item": "anchor:item:5880_5880_0",
+        "exits": [
+          "anchor:exit:4920_5400_0:-1_0",
+          "anchor:exit:8376_3864_0:-1_0",
+          "anchor:exit:2904_1272_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6264_5496_0",
+          "anchor:hound-spawn:7800_1272_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:4728_1272_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:7032_3192_0"
+        ],
+        "item": "anchor:item:7416_1656_0",
+        "exits": [
+          "anchor:exit:7032_3960_0:-1_0",
+          "anchor:exit:3672_3864_0:-1_0",
+          "anchor:exit:5304_1272_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8184_2808_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:2808_1656_0",
+          "anchor:smiler-spawn:7032_5496_0"
+        ],
+        "item": "anchor:item:1656_5112_0",
+        "exits": [
+          "anchor:exit:3672_2424_0:0_-1",
+          "anchor:exit:5976_4056_0:-1_0",
+          "anchor:exit:8760_4920_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5112_5112_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:8184_2424_0"
+        ],
+        "item": "anchor:item:3960_888_0",
+        "exits": [
+          "anchor:exit:5208_888_0:-1_0",
+          "anchor:exit:2712_5592_0:0_-1",
+          "anchor:exit:5592_4632_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5112_5880_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:4728_3192_0"
+        ],
+        "item": "anchor:item:6264_3960_0",
+        "exits": [
+          "anchor:exit:5400_2712_0:0_-1",
+          "anchor:exit:3096_4920_0:0_-1",
+          "anchor:exit:7608_4920_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3576_1656_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:4728_1272_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:6264_3192_0"
+        ],
+        "item": "anchor:item:6648_5496_0",
+        "exits": [
+          "anchor:exit:4920_5976_0:-1_0",
+          "anchor:exit:7800_4920_0:0_-1",
+          "anchor:exit:4824_696_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_3576_0",
+          "anchor:hound-spawn:8568_5112_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:6264_1272_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:2808_2424_0"
+        ],
+        "item": "anchor:item:1272_1272_0",
+        "exits": [
+          "anchor:exit:6264_4920_0:0_-1",
+          "anchor:exit:2808_5592_0:0_-1",
+          "anchor:exit:3288_1560_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_5112_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:6264_3192_0"
+        ],
+        "item": "anchor:item:3192_3960_0",
+        "exits": [
+          "anchor:exit:4152_696_0:0_-1",
+          "anchor:exit:8664_2616_0:0_-1",
+          "anchor:exit:5208_4248_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6648_1272_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:4344_1272_0",
+          "anchor:smiler-spawn:2424_1656_0"
+        ],
+        "item": "anchor:item:5496_1272_0",
+        "exits": [
+          "anchor:exit:6168_5592_0:0_-1",
+          "anchor:exit:1560_696_0:0_-1",
+          "anchor:exit:3192_4824_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8568_1656_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:7416_5496_0",
+          "anchor:smiler-spawn:3960_1656_0"
+        ],
+        "item": "anchor:item:7800_1272_0",
+        "exits": [
+          "anchor:exit:5496_2136_0:-1_0",
+          "anchor:exit:7704_3672_0:-1_0",
+          "anchor:exit:1656_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_2808_0",
+          "anchor:smiler-spawn:6264_3960_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:8184_4728_0"
+        ],
+        "item": "anchor:item:3960_1272_0",
+        "exits": [
+          "anchor:exit:4920_5880_0:-1_0",
+          "anchor:exit:8472_696_0:0_-1",
+          "anchor:exit:7608_4248_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5880_1272_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:2808_2424_0"
+        ],
+        "item": "anchor:item:7800_1656_0",
+        "exits": [
+          "anchor:exit:5592_4824_0:-1_0",
+          "anchor:exit:3000_1560_0:0_-1",
+          "anchor:exit:8280_3480_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3576_1656_0",
+          "anchor:hound-spawn:8568_3192_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:5880_5496_0"
+        ],
+        "item": "anchor:item:504_888_0",
+        "exits": [
+          "anchor:exit:5304_3000_0:-1_0",
+          "anchor:exit:3864_696_0:0_-1",
+          "anchor:exit:7896_4536_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8184_3192_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:1656_1656_0",
+          "anchor:smiler-spawn:8184_4728_0"
+        ],
+        "item": "anchor:item:2808_3960_0",
+        "exits": [
+          "anchor:exit:5016_3384_0:0_-1",
+          "anchor:exit:3192_696_0:0_-1",
+          "anchor:exit:3288_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_2424_0",
+          "anchor:hound-spawn:3192_5496_0",
+          "anchor:smiler-spawn:7800_1272_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:1656_5880_0"
+        ],
+        "item": "anchor:item:5112_5112_0",
+        "exits": [
+          "anchor:exit:3672_1752_0:0_-1",
+          "anchor:exit:8280_2616_0:0_-1",
+          "anchor:exit:7704_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7800_1656_0",
+          "anchor:hound-spawn:7800_5496_0",
+          "anchor:smiler-spawn:6264_1272_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:5496_5496_0"
+        ],
+        "item": "anchor:item:6648_1272_0",
+        "exits": [
+          "anchor:exit:7704_4920_0:0_-1",
+          "anchor:exit:5016_696_0:0_-1",
+          "anchor:exit:3672_3960_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5880_5496_0",
+          "anchor:hound-spawn:3576_5112_0",
+          "anchor:smiler-spawn:6264_1272_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:8184_4728_0",
+          "anchor:smiler-spawn:888_1272_0"
+        ],
+        "item": "anchor:item:5112_3192_0",
+        "exits": [
+          "anchor:exit:4920_5880_0:-1_0",
+          "anchor:exit:7512_4920_0:0_-1",
+          "anchor:exit:3768_1656_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5808_864_180",
+          "anchor:hound-spawn:6264_3576_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:5112_3192_0"
+        ],
+        "item": "anchor:item:2808_5880_0",
+        "exits": [
+          "anchor:exit:8568_4920_0:0_-1",
+          "anchor:exit:4152_1560_0:0_-1",
+          "anchor:exit:6936_1080_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8184_4728_0",
+          "anchor:hound-spawn:3576_1272_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:4728_1272_0"
+        ],
+        "item": "anchor:item:3192_2808_0",
+        "exits": [
+          "anchor:exit:6168_4920_0:0_-1",
+          "anchor:exit:6072_1464_0:-1_0",
+          "anchor:exit:3576_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6648_1656_0",
+          "anchor:hound-spawn:7032_5112_0",
+          "anchor:smiler-spawn:7032_3576_0",
+          "anchor:smiler-spawn:5880_5880_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:3960_1656_0"
+        ],
+        "item": "anchor:item:3960_1272_0",
+        "exits": [
+          "anchor:exit:8376_4056_0:-1_0",
+          "anchor:exit:5400_5496_0:-1_0",
+          "anchor:exit:5880_984_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:4728_3192_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:6264_3192_0"
+        ],
+        "item": "anchor:item:8568_3576_0",
+        "exits": [
+          "anchor:exit:5592_696_0:0_-1",
+          "anchor:exit:5976_4152_0:-1_0",
+          "anchor:exit:2712_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:2808_5880_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:2424_1272_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:2808_2424_0"
+        ],
+        "item": "anchor:item:5496_3192_0",
+        "exits": [
+          "anchor:exit:6360_696_0:0_-1",
+          "anchor:exit:7704_3864_0:-1_0",
+          "anchor:exit:5592_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3576_5112_0",
+          "anchor:hound-spawn:5880_5496_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:6264_1656_0"
+        ],
+        "item": "anchor:item:4728_3960_0",
+        "exits": [
+          "anchor:exit:5112_3288_0:-1_0",
+          "anchor:exit:7416_1752_0:-1_0",
+          "anchor:exit:7896_4728_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:4728_3192_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:3192_5496_0"
+        ],
+        "item": "anchor:item:3960_5112_0",
+        "exits": [
+          "anchor:exit:4920_4920_0:0_-1",
+          "anchor:exit:5496_1944_0:-1_0",
+          "anchor:exit:8376_5304_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_3576_0",
+          "anchor:hound-spawn:7032_1656_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:7032_5496_0"
+        ],
+        "item": "anchor:item:5496_3192_0",
+        "exits": [
+          "anchor:exit:6072_1464_0:-1_0",
+          "anchor:exit:7608_4920_0:0_-1",
+          "anchor:exit:4824_5496_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_5112_0",
+          "anchor:hound-spawn:6264_3576_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:4344_1272_0",
+          "anchor:smiler-spawn:5112_3192_0"
+        ],
+        "item": "anchor:item:4728_3576_0",
+        "exits": [
+          "anchor:exit:8376_5400_0:-1_0",
+          "anchor:exit:5880_4248_0:0_-1",
+          "anchor:exit:5496_1080_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:4728_2808_0",
+          "anchor:hound-spawn:6264_5112_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:888_1272_0"
+        ],
+        "item": "anchor:item:1272_5112_0",
+        "exits": [
+          "anchor:exit:4920_4920_0:0_-1",
+          "anchor:exit:2424_888_0:-1_0",
+          "anchor:exit:5976_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3576_5112_0",
+          "anchor:hound-spawn:8184_2424_0",
+          "anchor:smiler-spawn:6264_3192_0",
+          "anchor:smiler-spawn:6648_1656_0"
+        ],
+        "item": "anchor:item:3960_3192_0",
+        "exits": [
+          "anchor:exit:6744_5400_0:0_-1",
+          "anchor:exit:4728_2808_0:-1_0",
+          "anchor:exit:8376_3288_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7800_3960_0",
+          "anchor:hound-spawn:7800_888_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:5112_1656_0"
+        ],
+        "item": "anchor:item:5112_3192_0",
+        "exits": [
+          "anchor:exit:7704_4056_0:-1_0",
+          "anchor:exit:3960_3864_0:0_-1",
+          "anchor:exit:5304_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_3192_0",
+          "anchor:hound-spawn:3960_5496_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:2808_2424_0"
+        ],
+        "item": "anchor:item:4728_1272_0",
+        "exits": [
+          "anchor:exit:5592_5688_0:-1_0",
+          "anchor:exit:6264_1560_0:0_-1",
+          "anchor:exit:8760_2616_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_888_0",
+          "anchor:hound-spawn:3960_2808_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:888_1272_0"
+        ],
+        "item": "anchor:item:3960_2424_0",
+        "exits": [
+          "anchor:exit:7416_2616_0:0_-1",
+          "anchor:exit:2616_696_0:0_-1",
+          "anchor:exit:2808_5592_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_888_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:7416_3576_0"
+        ],
+        "item": "anchor:item:6264_3960_0",
+        "exits": [
+          "anchor:exit:504_696_0:0_-1",
+          "anchor:exit:8376_5880_0:-1_0",
+          "anchor:exit:2904_5592_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8568_1656_0",
+          "anchor:hound-spawn:5112_3576_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:6264_3192_0",
+          "anchor:smiler-spawn:888_1272_0"
+        ],
+        "item": "anchor:item:3576_5496_0",
+        "exits": [
+          "anchor:exit:4536_1080_0:0_-1",
+          "anchor:exit:7608_5976_0:0_-1",
+          "anchor:exit:7896_2232_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_1656_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:2808_2424_0"
+        ],
+        "item": "anchor:item:3192_3960_0",
+        "exits": [
+          "anchor:exit:7032_3960_0:-1_0",
+          "anchor:exit:3576_4920_0:0_-1",
+          "anchor:exit:8760_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_3192_0",
+          "anchor:hound-spawn:8184_5496_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:6264_1272_0"
+        ],
+        "item": "anchor:item:6264_1656_0",
+        "exits": [
+          "anchor:exit:3096_4920_0:0_-1",
+          "anchor:exit:7128_3480_0:0_-1",
+          "anchor:exit:3768_1080_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_5496_0",
+          "anchor:smiler-spawn:4728_1272_0",
+          "anchor:smiler-spawn:4728_3192_0"
+        ],
+        "item": "anchor:item:8184_4344_0",
+        "exits": [
+          "anchor:exit:3000_4920_0:0_-1",
+          "anchor:exit:4440_1080_0:0_-1",
+          "anchor:exit:7704_3192_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8184_3960_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:3960_1656_0"
+        ],
+        "item": "anchor:item:3192_1272_0",
+        "exits": [
+          "anchor:exit:7896_4440_0:-1_0",
+          "anchor:exit:6456_696_0:0_-1",
+          "anchor:exit:3288_5016_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6264_2808_0",
+          "anchor:hound-spawn:8184_888_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:5496_5496_0"
+        ],
+        "item": "anchor:item:4728_3960_0",
+        "exits": [
+          "anchor:exit:7992_1944_0:0_-1",
+          "anchor:exit:4056_4920_0:0_-1",
+          "anchor:exit:4152_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5112_5880_0",
+          "anchor:hound-spawn:6648_5496_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:6648_1656_0"
+        ],
+        "item": "anchor:item:7416_1656_0",
+        "exits": [
+          "anchor:exit:6744_888_0:-1_0",
+          "anchor:exit:4440_5496_0:0_-1",
+          "anchor:exit:8376_5496_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5880_5880_0",
+          "anchor:hound-spawn:7032_1272_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:3192_5496_0"
+        ],
+        "item": "anchor:item:6264_5880_0",
+        "exits": [
+          "anchor:exit:4056_4920_0:0_-1",
+          "anchor:exit:6840_5400_0:0_-1",
+          "anchor:exit:6168_1656_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5880_5496_0",
+          "anchor:hound-spawn:8184_1272_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:8184_2424_0"
+        ],
+        "item": "anchor:item:7800_3576_0",
+        "exits": [
+          "anchor:exit:5496_1368_0:-1_0",
+          "anchor:exit:2904_696_0:0_-1",
+          "anchor:exit:6264_5496_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_3192_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:6264_1656_0"
+        ],
+        "item": "anchor:item:7800_1272_0",
+        "exits": [
+          "anchor:exit:7608_4248_0:0_-1",
+          "anchor:exit:6264_1560_0:0_-1",
+          "anchor:exit:3672_3672_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3960_888_0",
+          "anchor:hound-spawn:6264_5496_0",
+          "anchor:smiler-spawn:7416_5496_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:7416_1656_0"
+        ],
+        "item": "anchor:item:888_1272_0",
+        "exits": [
+          "anchor:exit:7032_3096_0:-1_0",
+          "anchor:exit:4920_5400_0:-1_0",
+          "anchor:exit:3672_2904_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_5880_0",
+          "anchor:hound-spawn:8568_3960_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:2808_2424_0"
+        ],
+        "item": "anchor:item:1272_1272_0",
+        "exits": [
+          "anchor:exit:7704_5784_0:-1_0",
+          "anchor:exit:3960_5880_0:-1_0",
+          "anchor:exit:3672_3000_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:4344_3576_0",
+          "anchor:hound-spawn:4728_5496_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:7416_3576_0"
+        ],
+        "item": "anchor:item:6264_1656_0",
+        "exits": [
+          "anchor:exit:5976_888_0:-1_0",
+          "anchor:exit:5016_3384_0:0_-1",
+          "anchor:exit:3288_5784_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:4344_3576_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:7416_3576_0"
+        ],
+        "item": "anchor:item:7416_3960_0",
+        "exits": [
+          "anchor:exit:5976_4920_0:0_-1",
+          "anchor:exit:5688_1560_0:0_-1",
+          "anchor:exit:3192_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_1656_0",
+          "anchor:hound-spawn:5880_4728_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:8184_4728_0"
+        ],
+        "item": "anchor:item:7032_888_0",
+        "exits": [
+          "anchor:exit:8472_4920_0:0_-1",
+          "anchor:exit:6264_1080_0:-1_0",
+          "anchor:exit:4728_3672_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5112_3576_0",
+          "anchor:hound-spawn:8184_3576_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:6264_3192_0",
+          "anchor:smiler-spawn:7032_5496_0"
+        ],
+        "item": "anchor:item:6648_1656_0",
+        "exits": [
+          "anchor:exit:3672_2520_0:-1_0",
+          "anchor:exit:5592_5112_0:-1_0",
+          "anchor:exit:6264_984_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_1656_0",
+          "anchor:hound-spawn:6264_3192_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:5496_5496_0"
+        ],
+        "item": "anchor:item:6264_3576_0",
+        "exits": [
+          "anchor:exit:7032_6072_0:-1_0",
+          "anchor:exit:2520_5400_0:0_-1",
+          "anchor:exit:3096_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8184_5112_0",
+          "anchor:hound-spawn:4344_5496_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:5496_5496_0"
+        ],
+        "item": "anchor:item:8568_1656_0",
+        "exits": [
+          "anchor:exit:8376_5208_0:-1_0",
+          "anchor:exit:5208_696_0:0_-1",
+          "anchor:exit:4344_5496_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_1272_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:8184_4728_0"
+        ],
+        "item": "anchor:item:7032_2808_0",
+        "exits": [
+          "anchor:exit:4920_5304_0:-1_0",
+          "anchor:exit:6360_696_0:0_-1",
+          "anchor:exit:3288_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3576_1272_0",
+          "anchor:hound-spawn:7800_5496_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:3192_5496_0"
+        ],
+        "item": "anchor:item:5112_3960_0",
+        "exits": [
+          "anchor:exit:5304_2808_0:-1_0",
+          "anchor:exit:3960_5496_0:-1_0",
+          "anchor:exit:7896_2424_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_2424_0",
+          "anchor:hound-spawn:3960_2424_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:2424_1656_0"
+        ],
+        "item": "anchor:item:6648_1656_0",
+        "exits": [
+          "anchor:exit:5112_1368_0:0_-1",
+          "anchor:exit:2616_5304_0:-1_0",
+          "anchor:exit:6264_5784_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_3960_0",
+          "anchor:hound-spawn:4728_3192_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:4728_1272_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:6264_1656_0"
+        ],
+        "item": "anchor:item:8184_3576_0",
+        "exits": [
+          "anchor:exit:3672_4152_0:-1_0",
+          "anchor:exit:5400_1464_0:0_-1",
+          "anchor:exit:8760_4920_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5880_1272_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:7416_1656_0"
+        ],
+        "item": "anchor:item:3960_5496_0",
+        "exits": [
+          "anchor:exit:8088_1464_0:-1_0",
+          "anchor:exit:5496_1752_0:-1_0",
+          "anchor:exit:3672_3960_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8184_3576_0",
+          "anchor:hound-spawn:4344_5496_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:4728_3192_0"
+        ],
+        "item": "anchor:item:4344_1272_0",
+        "exits": [
+          "anchor:exit:7992_1656_0:0_-1",
+          "anchor:exit:1656_696_0:0_-1",
+          "anchor:exit:5304_4056_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_5496_0",
+          "anchor:hound-spawn:4728_2808_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:3192_5496_0"
+        ],
+        "item": "anchor:item:6264_5112_0",
+        "exits": [
+          "anchor:exit:6264_1560_0:0_-1",
+          "anchor:exit:3576_4920_0:0_-1",
+          "anchor:exit:408_696_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_5880_0",
+          "anchor:hound-spawn:5808_864_180",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:5112_3192_0"
+        ],
+        "item": "anchor:item:3192_3576_0",
+        "exits": [
+          "anchor:exit:3960_5784_0:-1_0",
+          "anchor:exit:7704_2616_0:0_-1",
+          "anchor:exit:4824_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3960_1656_0",
+          "anchor:hound-spawn:7416_1656_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:6264_3192_0",
+          "anchor:smiler-spawn:6264_1272_0"
+        ],
+        "item": "anchor:item:8568_5880_0",
+        "exits": [
+          "anchor:exit:7512_696_0:0_-1",
+          "anchor:exit:5208_3288_0:0_-1",
+          "anchor:exit:3672_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5112_5880_0",
+          "anchor:hound-spawn:7800_1656_0",
+          "anchor:smiler-spawn:6264_1272_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:2424_1656_0"
+        ],
+        "item": "anchor:item:8184_4344_0",
+        "exits": [
+          "anchor:exit:5496_1080_0:-1_0",
+          "anchor:exit:5208_4248_0:0_-1",
+          "anchor:exit:7704_5880_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5112_3576_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:8184_4728_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:6264_3192_0"
+        ],
+        "item": "anchor:item:7800_1272_0",
+        "exits": [
+          "anchor:exit:7896_2040_0:-1_0",
+          "anchor:exit:3672_4920_0:0_-1",
+          "anchor:exit:5208_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:3192_888_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:8184_4728_0",
+          "anchor:smiler-spawn:6264_1656_0"
+        ],
+        "item": "anchor:item:7800_5112_0",
+        "exits": [
+          "anchor:exit:1656_696_0:0_-1",
+          "anchor:exit:6264_696_0:0_-1",
+          "anchor:exit:6840_5400_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:4728_1272_0",
+          "anchor:hound-spawn:7032_3192_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:5880_5496_0",
+          "anchor:smiler-spawn:7416_1656_0",
+          "anchor:smiler-spawn:3192_5496_0"
+        ],
+        "item": "anchor:item:7800_888_0",
+        "exits": [
+          "anchor:exit:3096_696_0:0_-1",
+          "anchor:exit:7704_5112_0:-1_0",
+          "anchor:exit:5112_5592_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_2424_0",
+          "anchor:hound-spawn:3960_888_0",
+          "anchor:smiler-spawn:6264_1272_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:7416_1656_0"
+        ],
+        "item": "anchor:item:2424_5496_0",
+        "exits": [
+          "anchor:exit:3576_4248_0:0_-1",
+          "anchor:exit:6936_792_0:-1_0",
+          "anchor:exit:8376_5304_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7416_5496_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:2424_1656_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:5112_3192_0"
+        ],
+        "item": "anchor:item:5112_3576_0",
+        "exits": [
+          "anchor:exit:5496_1752_0:-1_0",
+          "anchor:exit:2712_696_0:0_-1",
+          "anchor:exit:5592_4824_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8184_5880_0",
+          "anchor:hound-spawn:8568_3576_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:7032_3192_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:4728_3192_0"
+        ],
+        "item": "anchor:item:2808_3960_0",
+        "exits": [
+          "anchor:exit:6936_1080_0:-1_0",
+          "anchor:exit:4632_3288_0:0_-1",
+          "anchor:exit:408_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7800_888_0",
+          "anchor:hound-spawn:4728_5496_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:7416_5496_0",
+          "anchor:smiler-spawn:2424_1656_0"
+        ],
+        "item": "anchor:item:1656_1272_0",
+        "exits": [
+          "anchor:exit:5496_5400_0:0_-1",
+          "anchor:exit:3672_1752_0:0_-1",
+          "anchor:exit:8184_696_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7800_888_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:5880_5496_0"
+        ],
+        "item": "anchor:item:6264_3960_0",
+        "exits": [
+          "anchor:exit:3672_2904_0:-1_0",
+          "anchor:exit:8664_4920_0:0_-1",
+          "anchor:exit:8088_1080_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6264_5880_0",
+          "anchor:hound-spawn:5112_3192_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:7416_3576_0"
+        ],
+        "item": "anchor:item:7800_5496_0",
+        "exits": [
+          "anchor:exit:2424_792_0:-1_0",
+          "anchor:exit:7704_4056_0:-1_0",
+          "anchor:exit:5784_1560_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:6264_5496_0",
+          "anchor:hound-spawn:6264_3576_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:5112_3192_0",
+          "anchor:smiler-spawn:8184_888_0",
+          "anchor:smiler-spawn:8184_4728_0"
+        ],
+        "item": "anchor:item:8568_5112_0",
+        "exits": [
+          "anchor:exit:5496_5976_0:0_-1",
+          "anchor:exit:1560_5976_0:0_-1",
+          "anchor:exit:7416_1752_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:8184_1656_0",
+          "anchor:hound-spawn:3960_1656_0",
+          "anchor:smiler-spawn:2808_2424_0",
+          "anchor:smiler-spawn:888_1272_0"
+        ],
+        "item": "anchor:item:6264_2808_0",
+        "exits": [
+          "anchor:exit:4824_1656_0:-1_0",
+          "anchor:exit:3000_5592_0:0_-1",
+          "anchor:exit:5976_4152_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:5496_2040_0",
+          "anchor:hound-spawn:7800_3192_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:3960_1656_0",
+          "anchor:smiler-spawn:6648_1656_0",
+          "anchor:smiler-spawn:2424_1272_0"
+        ],
+        "item": "anchor:item:5496_3192_0",
+        "exits": [
+          "anchor:exit:6936_1080_0:-1_0",
+          "anchor:exit:3768_696_0:0_-1",
+          "anchor:exit:3864_5976_0:0_-1"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7032_3960_0",
+          "anchor:hound-spawn:8568_5880_0",
+          "anchor:smiler-spawn:5496_5496_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:8184_2424_0",
+          "anchor:smiler-spawn:5112_3192_0"
+        ],
+        "item": "anchor:item:2808_1656_0",
+        "exits": [
+          "anchor:exit:7032_5976_0:-1_0",
+          "anchor:exit:5400_696_0:0_-1",
+          "anchor:exit:7704_2808_0:-1_0"
+        ]
+      },
+      {
+        "entities": [
+          "anchor:hound-spawn:7800_2808_0",
+          "anchor:smiler-spawn:6264_1656_0",
+          "anchor:smiler-spawn:888_1272_0",
+          "anchor:smiler-spawn:3192_5496_0",
+          "anchor:smiler-spawn:4728_3192_0",
+          "anchor:smiler-spawn:3960_1656_0"
+        ],
+        "item": "anchor:item:1272_5496_0",
+        "exits": [
+          "anchor:exit:3288_5784_0:-1_0",
+          "anchor:exit:3000_1176_0:0_-1",
+          "anchor:exit:7608_5400_0:0_-1"
+        ]
+      }
+    ],
+    "selectionWorlds": 100,
+    "objective": {
+      "item": {
+        "id": "cartograph",
+        "x": 8184,
+        "y": 5496,
+        "z": 0,
+        "supportId": "support:ground:7680_5376_576_768",
+        "anchorId": "anchor:item:8184_5496_0"
+      },
+      "exit": {
+        "x": 2424,
+        "y": 792,
+        "z": 0,
+        "nx": -1,
+        "ny": 0,
+        "supportId": "support:ground:2400_768_576_480",
+        "anchorId": "anchor:exit:2424_792_0:-1_0",
+        "wallPosition": {
+          "x": 2400.1,
+          "y": 792,
+          "z": 0
+        },
+        "wallSolidId": "solid:wall:2304_768_96_288"
+      }
+    },
+    "sound": {
+      "audible": true,
+      "distance": 170,
+      "transmission": 0.1,
+      "clear": false,
+      "observation": {
+        "x": 6192,
+        "y": 864,
+        "zMin": -160,
+        "zMax": 384,
+        "supportCandidates": [
+          "nav:base",
+          "nav:ramp",
+          "nav:upper"
+        ],
+        "unresolved": true
+      },
+      "stats": {
+        "nodes": 4,
+        "portals": 128,
+        "edges": 14,
+        "regionNodes": 129,
+        "alternatives": 3
+      }
+    }
+  }
+}

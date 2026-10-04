@@ -65,7 +65,10 @@ function build(){
  const spaceAt=p=>d.spaces.find(s=>['x','y','z'].every(k=>p[k]>=s.bounds.min[k]&&p[k]<=s.bounds.max[k]))?.id||null;
  const player={x:flat.Ic.x+24,y:flat.Ic.y,z:0};
  d.anchors.push({id:'anchor:spawn:player',kind:'spawn',position:player,yaw:0,supportId:patchAt(player).id,spaceId:spaceAt(player),colliderProfileId:M.PROFILES.stand.id});
- flat.Fc.forEach((p,i)=>d.lights.push({id:L.flat.lampIds[i],position:{...p,z:160},direction:{x:0,y:0,z:-1},channel:'visible',range:380,power:.43,supportId:patchAt(p)?.id||null,spaceId:spaceAt({...p,z:100})}));
+ d.production.lampPlacements=[];
+ flat.Fc.forEach((source,i)=>{const pillar=flat.Pc.find(r=>contains(r,source)),p=pillar?{x:source.x,y:source.y+48}:{...source};
+  if(pillar)d.production.lampPlacements.push({id:L.flat.lampIds[i],sourcePosition:source,position:{...p,z:160},reason:'same ceiling bay; original XY was centered inside a preserved full-height pillar; fixture clears its south face'});
+  d.lights.push({id:L.flat.lampIds[i],position:{...p,z:160},direction:{x:0,y:0,z:-1},channel:'visible',range:380,power:.43,supportId:patchAt(p)?.id||null,spaceId:spaceAt({...p,z:100})});});
  for(const k of G.collections||['solids','supportPatches','navSurfaces','traversalLinks','spaces','portals','materials','lights','viewGroups','anchors','colliderProfiles'])d[k].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
  GP.anchors(d);d.anchors.sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
  d.contentHash=G.contentHash(d);return d;

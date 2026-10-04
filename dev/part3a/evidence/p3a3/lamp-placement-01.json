@@ -1,0 +1,330 @@
+{
+  "status": "FAIL",
+  "hash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
+  "embedded": [
+    {
+      "lamp": {
+        "id": "lamp:075",
+        "position": {
+          "x": 7632,
+          "y": 912,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:7392_768_288_768",
+        "spaceId": "space:base:7392_768_288_768"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 7632,
+          "y": 912,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:01",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    },
+    {
+      "lamp": {
+        "id": "lamp:076",
+        "position": {
+          "x": 7632,
+          "y": 1392,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:7392_768_288_768",
+        "spaceId": "space:base:7392_768_288_768"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 7632,
+          "y": 1392,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:02",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    },
+    {
+      "lamp": {
+        "id": "lamp:077",
+        "position": {
+          "x": 7632,
+          "y": 1872,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:7392_1536_288_480",
+        "spaceId": "space:base:7392_1536_288_480"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 7632,
+          "y": 1872,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:03",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    },
+    {
+      "lamp": {
+        "id": "lamp:078",
+        "position": {
+          "x": 8112,
+          "y": 912,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:8064_768_384_768",
+        "spaceId": "space:base:8064_768_384_768"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 8112,
+          "y": 912,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:04",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    },
+    {
+      "lamp": {
+        "id": "lamp:079",
+        "position": {
+          "x": 8112,
+          "y": 1392,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:8064_768_384_768",
+        "spaceId": "space:base:8064_768_384_768"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 8112,
+          "y": 1392,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:05",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    },
+    {
+      "lamp": {
+        "id": "lamp:080",
+        "position": {
+          "x": 8112,
+          "y": 1872,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:8064_1536_384_480",
+        "spaceId": "space:base:8064_1536_384_480"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 8112,
+          "y": 1872,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:06",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    },
+    {
+      "lamp": {
+        "id": "lamp:081",
+        "position": {
+          "x": 8592,
+          "y": 912,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:8448_768_384_768",
+        "spaceId": "space:base:8448_768_384_768"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 8592,
+          "y": 912,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:07",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    },
+    {
+      "lamp": {
+        "id": "lamp:082",
+        "position": {
+          "x": 8592,
+          "y": 1392,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:8448_768_384_768",
+        "spaceId": "space:base:8448_768_384_768"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 8592,
+          "y": 1392,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:08",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    },
+    {
+      "lamp": {
+        "id": "lamp:083",
+        "position": {
+          "x": 8592,
+          "y": 1872,
+          "z": 160
+        },
+        "direction": {
+          "x": 0,
+          "y": 0,
+          "z": -1
+        },
+        "channel": "visible",
+        "range": 380,
+        "power": 0.43,
+        "supportId": "support:ground:8448_1536_384_480",
+        "spaceId": "space:base:8448_1536_384_480"
+      },
+      "hit": {
+        "t": 0,
+        "point": {
+          "x": 8592,
+          "y": 1872,
+          "z": 160
+        },
+        "normal": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "primitiveId": "solid:pillar:09",
+        "materialId": "material:carpet",
+        "distance": 0
+      }
+    }
+  ]
+}
