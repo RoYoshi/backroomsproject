@@ -186,8 +186,8 @@
       gl.bindTexture(gl.TEXTURE_2D,a.tex);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,window.__spatialObjectiveArt(kind,state.time,raw[0]*.01));pass.textureParams();p.art=pass.art.length;pass.art.push(a);
       p.surface={geometryHash:geometry.identity.contentHash,primitiveId,point,normal,basis,width:128,height:128};packets.push(p);
       if(kind==='exit'){
-        // East/west wall faces are edge-on to the accepted projection. The
-        // retained glitch already spills onto the adjacent floor: place that
+        // The wall art is drawn inside its face's local top-down band. The
+        // retained glitch also spills onto the adjacent floor: place that
         // same art on its real support face, with the same physical eye mask.
         const floor=geometry.supportPatch(support);
         if(floor)packets.push({...p,id:id+':spill',owner:id,x:raw[0],y:raw[1],height:1,surface:{geometryHash:geometry.identity.contentHash,primitiveId:floor.solidId,point:{x:point.x,y:point.y,z},normal:{x:0,y:0,z:1},basis:{u:basis.u,v:normal},width:128,height:128}});
@@ -301,8 +301,12 @@
     const renderedLocal=own?null:renderedPose('p'+local.id,ownPose,ownKey);
     const cameraTarget=own?{x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)}:{x:local.x,y:local.y,z:renderedLocal.z};
     const cameraKey=[epoch,net?.pose?.generation,net?.pose?.discontinuity,!!own,!!net?.blocked,!!net?.awaiting].join(':');
-    const camera = config.camera || {x:cameraTarget.x,y:cameraTarget.y,z:cameraElevation.update(cameraTarget.z,elapsed,cameraKey,true),depth:true};
-    state.presentation={camera:cameraElevation.snapshot(),targetZ:cameraTarget.z,local:renderedLocal};
+    // HQ1 lock: strictly top-down orthographic camera (no tilt, no oblique
+    // offset, no Z-based world scale). The smoothed Z only sizes local wall
+    // bands; this client's own presented player Z anchors relative actor scale.
+    const anchorZ=own?cameraTarget.z:V.presentedZ({z:local.z,renderOffset:renderedLocal.offset});
+    const camera = config.camera || {x:cameraTarget.x,y:cameraTarget.y,z:cameraElevation.update(cameraTarget.z,elapsed,cameraKey,true),depth:false,elevation:0,topDown:true,anchorZ};
+    state.presentation={camera:cameraElevation.snapshot(),targetZ:cameraTarget.z,local:renderedLocal,anchorZ};
     // Keep one GPU submission in flight. Input and authority continue on the
     // retained fixed-tick loop while a slow device finishes presentation.
     // Explicit forced renders are for drained capture/diagnostics only.

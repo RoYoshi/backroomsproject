@@ -1,0 +1,419 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "name": "spawn-corridor",
+      "pose": {
+        "x": 984,
+        "y": 3264,
+        "z": 0,
+        "support": "support:ground:960_3072_480_768"
+      },
+      "changedPixels": 9358,
+      "pixels": 576000,
+      "pixelsOutsideBands": 0,
+      "bandPick": {
+        "solid": "solid:wall:864_3072_96_288",
+        "normal": {
+          "x": 1,
+          "y": 0
+        },
+        "expected": {
+          "x": 960.0000000000001,
+          "y": 3264.0000000000005,
+          "z": 82.00000000000001
+        },
+        "hit": {
+          "kind": "face",
+          "presentation": "band",
+          "primitiveId": "solid:wall:864_3072_96_288",
+          "point": {
+            "x": 960.0000000000001,
+            "y": 3264.0000000000005,
+            "z": 82.00000000000001
+          }
+        },
+        "plane": 1.1368683772161603e-13,
+        "zRange": [
+          0,
+          164
+        ]
+      },
+      "camera": {
+        "x": 984,
+        "y": 3264,
+        "z": 0,
+        "depth": false,
+        "elevation": 0,
+        "topDown": true,
+        "anchorZ": 0
+      },
+      "bands": {
+        "quads": 22,
+        "eyeFacing": 10,
+        "culled": 12,
+        "widths": {
+          "28..164": 15.536881419234362,
+          "0..42": 3.652173913043476,
+          "0..164": 17.91596638655463
+        },
+        "joins": {
+          "convex": 32,
+          "concave": 0,
+          "square": 12
+        }
+      },
+      "localScale": 1
+    },
+    {
+      "name": "room-inner-corner",
+      "pose": {
+        "x": 520,
+        "y": 2820,
+        "z": 0,
+        "support": "support:ground:288_2592_480_480"
+      },
+      "changedPixels": 16831,
+      "pixels": 576000,
+      "pixelsOutsideBands": 0,
+      "bandPick": {
+        "solid": "solid:wall:0_2304_768_288",
+        "normal": {
+          "x": 0,
+          "y": 1
+        },
+        "expected": {
+          "x": 520,
+          "y": 2592,
+          "z": 81.99999999999999
+        },
+        "hit": {
+          "kind": "face",
+          "presentation": "band",
+          "primitiveId": "solid:wall:0_2304_768_288",
+          "point": {
+            "x": 520,
+            "y": 2592,
+            "z": 81.99999999999999
+          }
+        },
+        "plane": 0,
+        "zRange": [
+          0,
+          164
+        ]
+      },
+      "camera": {
+        "x": 520,
+        "y": 2820,
+        "z": 0,
+        "depth": false,
+        "elevation": 0,
+        "topDown": true,
+        "anchorZ": 0
+      },
+      "bands": {
+        "quads": 16,
+        "eyeFacing": 7,
+        "culled": 9,
+        "widths": {
+          "28..164": 15.536881419234362,
+          "0..164": 17.91596638655463
+        },
+        "joins": {
+          "convex": 10,
+          "concave": 2,
+          "square": 20
+        }
+      },
+      "localScale": 1
+    },
+    {
+      "name": "pillar-hall",
+      "pose": {
+        "x": 8100,
+        "y": 1150,
+        "z": 0,
+        "support": "support:ground:8064_768_384_768"
+      },
+      "changedPixels": 8382,
+      "pixels": 576000,
+      "pixelsOutsideBands": 0,
+      "bandPick": {
+        "solid": "solid:wall:7968_768_96_384",
+        "normal": {
+          "x": 1,
+          "y": 0
+        },
+        "expected": {
+          "x": 8064,
+          "y": 1150,
+          "z": 81.99999999999584
+        },
+        "hit": {
+          "kind": "face",
+          "presentation": "band",
+          "primitiveId": "solid:wall:7968_768_96_384",
+          "point": {
+            "x": 8064,
+            "y": 1150,
+            "z": 81.99999999999584
+          }
+        },
+        "plane": 0,
+        "zRange": [
+          0,
+          164
+        ]
+      },
+      "camera": {
+        "x": 8100,
+        "y": 1150,
+        "z": 0,
+        "depth": false,
+        "elevation": 0,
+        "topDown": true,
+        "anchorZ": 0
+      },
+      "bands": {
+        "quads": 34,
+        "eyeFacing": 14,
+        "culled": 20,
+        "widths": {
+          "0..164": 17.91596638655463
+        },
+        "joins": {
+          "convex": 64,
+          "concave": 0,
+          "square": 4
+        }
+      },
+      "localScale": 1
+    },
+    {
+      "name": "stairs-raised",
+      "pose": {
+        "x": 5616,
+        "y": 1312,
+        "z": 72,
+        "support": "support:stairs:long-room:tread:06"
+      },
+      "changedPixels": 10729,
+      "pixels": 576000,
+      "pixelsOutsideBands": 0,
+      "bandPick": {
+        "solid": "solid:wall:4896_1248_384_96",
+        "normal": {
+          "x": 1,
+          "y": 0
+        },
+        "expected": {
+          "x": 5280,
+          "y": 1312,
+          "z": 82.00000000000001
+        },
+        "hit": {
+          "kind": "face",
+          "presentation": "band",
+          "primitiveId": "solid:wall:4896_1248_384_96",
+          "point": {
+            "x": 5280,
+            "y": 1312,
+            "z": 82.00000000000001
+          }
+        },
+        "plane": 0,
+        "zRange": [
+          0,
+          164
+        ]
+      },
+      "camera": {
+        "x": 5616,
+        "y": 1312,
+        "z": 72,
+        "depth": false,
+        "elevation": 0,
+        "topDown": true,
+        "anchorZ": 72
+      },
+      "bands": {
+        "quads": 113,
+        "eyeFacing": 47,
+        "culled": 66,
+        "widths": {
+          "-4..12": 3,
+          "8..24": 3,
+          "20..36": 3,
+          "32..48": 3,
+          "44..60": 3,
+          "56..72": 3,
+          "68..84": 3,
+          "80..96": 3,
+          "92..108": 3,
+          "104..120": 3,
+          "116..132": 3,
+          "128..144": 3,
+          "140..156": 3,
+          "152..168": 3,
+          "164..180": 3,
+          "180..276": 5.6,
+          "0..164": 13.988353973591401
+        },
+        "joins": {
+          "convex": 174,
+          "concave": 10,
+          "square": 42
+        }
+      },
+      "localScale": 1
+    },
+    {
+      "name": "long-room-upper",
+      "pose": {
+        "x": 6192,
+        "y": 864,
+        "z": 180,
+        "support": "support:upper:long-room"
+      },
+      "changedPixels": 3530,
+      "pixels": 576000,
+      "pixelsOutsideBands": 0,
+      "bandPick": null,
+      "camera": {
+        "x": 6192,
+        "y": 864,
+        "z": 180,
+        "depth": false,
+        "elevation": 0,
+        "topDown": true,
+        "anchorZ": 180
+      },
+      "bands": {
+        "quads": 81,
+        "eyeFacing": 29,
+        "culled": 52,
+        "widths": {
+          "74..90": 3,
+          "56..72": 3,
+          "68..84": 3,
+          "80..96": 3,
+          "92..108": 3,
+          "104..120": 3,
+          "116..132": 3,
+          "128..144": 3,
+          "140..156": 3,
+          "152..168": 3,
+          "164..180": 3,
+          "180..276": 5.6,
+          "0..164": 10.146341463414632
+        },
+        "joins": {
+          "convex": 112,
+          "concave": 14,
+          "square": 36
+        }
+      },
+      "localScale": 1
+    },
+    {
+      "name": "depression-floor",
+      "pose": {
+        "x": 720,
+        "y": 5560,
+        "z": -96,
+        "support": "support:lower:blackout"
+      },
+      "changedPixels": 13929,
+      "pixels": 576000,
+      "pixelsOutsideBands": 0,
+      "bandPick": {
+        "solid": "solid:wall:480_5376_288_96",
+        "normal": {
+          "x": 0,
+          "y": 1
+        },
+        "expected": {
+          "x": 720,
+          "y": 5472,
+          "z": 82
+        },
+        "hit": {
+          "kind": "face",
+          "presentation": "band",
+          "primitiveId": "solid:wall:480_5376_288_96",
+          "point": {
+            "x": 720,
+            "y": 5472,
+            "z": 82
+          }
+        },
+        "plane": 0,
+        "zRange": [
+          0,
+          164
+        ]
+      },
+      "camera": {
+        "x": 720,
+        "y": 5560,
+        "z": -96,
+        "depth": false,
+        "elevation": 0,
+        "topDown": true,
+        "anchorZ": -96
+      },
+      "bands": {
+        "quads": 23,
+        "eyeFacing": 12,
+        "culled": 11,
+        "widths": {
+          "-16..0": 3,
+          "-112..0": 5.6,
+          "0..164": 26.40247678018575
+        },
+        "joins": {
+          "convex": 24,
+          "concave": 8,
+          "square": 14
+        }
+      },
+      "localScale": 1
+    },
+    {
+      "name": "two clients anchor relative scale to their own player",
+      "high": {
+        "pose": {
+          "x": 5616,
+          "y": 1248,
+          "z": 96,
+          "support": "support:stairs:long-room:tread:08"
+        },
+        "self": 1,
+        "z": 96,
+        "anchorZ": 96,
+        "scales": {
+          "p1": 1,
+          "p2": 0.97403915096254
+        },
+        "peerScale": 0.97403915096254
+      },
+      "low": {
+        "pose": {
+          "x": 5616,
+          "y": 1512,
+          "z": 0,
+          "support": "support:ground:5568_1440_96_96"
+        },
+        "self": 2,
+        "z": 0,
+        "anchorZ": 0,
+        "scales": {
+          "p2": 1,
+          "p1": 1.0274119208322037
+        },
+        "peerScale": 1.0274119208322037
+      }
+    }
+  ]
+}
