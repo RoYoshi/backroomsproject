@@ -1,4 +1,6 @@
-# P3A4 preservation — IN PROGRESS
+# P3A4 — COMPLETE
+
+The notes below preserve the interrupted checkpoint; the recovery completion section records the finished milestone.
 
 All twelve production rooms and seven feature scenes have real served captures with debug labels off. Complete model: 910 solids. Dense real frame: 87 candidate occluders, two deterministic 64-entry pages, 11 relevant lights, 61 draw calls. Full/reduced detail preserve the same candidate IDs and physical/network state.
 

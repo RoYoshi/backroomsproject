@@ -1,0 +1,25 @@
+PASS portable SHA-256 known and long UTF-8 inputs
+PASS canonical key order retains array order
+PASS immutable data and explicit flat identity
+PASS duplicate IDs
+PASS unsupported mode
+PASS schema mismatch
+PASS malformed bounds
+PASS nonfinite input
+PASS bad material reference
+PASS bad room reference
+PASS bad lamp reference
+PASS invalid generation stride
+PASS spatial fiction rejected
+PASS missing required spawn
+PASS invalid prop bounds
+PASS content corruption rejected
+PASS independent instances share identity, not writable legacy buffers
+PASS WORLD instance mismatch rejected
+PASS unsupported spatial methods fail explicitly
+PASS derived identities/counts/anchors
+PASS mode wrapper restores walk on throw
+PASS classic browser globals match Node content and geometry
+PASS prototype-like room names retain carpet fallback
+PASS content-aware nav cache identity
+{"result":"PASS","groups":24}

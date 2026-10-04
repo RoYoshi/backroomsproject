@@ -1,0 +1,3 @@
+# Recovery authority provenance
+
+These are the text/JSON authority records from the supplied P3A4 Recovery Master Pack, verified SHA-256 `cb3c87135e8f66cc84a5a3a0e5f3fb3d64d2fa29f057404ebf265a48f690f0e0`. The original nested master archive was read and verified at `8eaf296c190b4bb1ccffd2df4e173bc43c46a334fd9588891ce6c19597bc6766`; its accepted Stage I package was verified at `e5ebb8cd7b9c511ce83ea56443e7382de13e1cfbf2a0b2e2764808136e924bff`. The large input ZIPs are not duplicated inside this source tree. Original Part 3A authority text is already retained in the parent `reference` directory. References in the copied recovery README describe the supplied input archive, not a second archive embedded here.

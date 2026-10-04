@@ -1,0 +1,130 @@
+{
+  "status": "PASS",
+  "seed": "fixed-input-z18",
+  "runtime": "v24.19.0",
+  "radius": 15,
+  "recoverAt": 36,
+  "firstDivergentTick": null,
+  "results": [
+    {
+      "deep": false,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "3077614ebaeca179571c6a68a812a825c5b9e37c738def2662babfde9f561b43",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "exhaustedTick": 690,
+      "recoveredTick": 988,
+      "states": [
+        "walk",
+        "run",
+        "stand"
+      ],
+      "schedules": [
+        {
+          "fps": 15,
+          "hash": "31f2206147632b40fc9c49364f2352ce7e3cc345ee604954824eeb4ba9a7901d",
+          "ticks": 1560
+        },
+        {
+          "fps": 30,
+          "hash": "31f2206147632b40fc9c49364f2352ce7e3cc345ee604954824eeb4ba9a7901d",
+          "ticks": 1560
+        },
+        {
+          "fps": 60,
+          "hash": "31f2206147632b40fc9c49364f2352ce7e3cc345ee604954824eeb4ba9a7901d",
+          "ticks": 1560
+        },
+        {
+          "fps": 120,
+          "hash": "31f2206147632b40fc9c49364f2352ce7e3cc345ee604954824eeb4ba9a7901d",
+          "ticks": 1560
+        },
+        {
+          "fps": 144,
+          "hash": "31f2206147632b40fc9c49364f2352ce7e3cc345ee604954824eeb4ba9a7901d",
+          "ticks": 1560
+        },
+        {
+          "fps": 240,
+          "hash": "31f2206147632b40fc9c49364f2352ce7e3cc345ee604954824eeb4ba9a7901d",
+          "ticks": 1560
+        },
+        {
+          "fps": 360,
+          "hash": "31f2206147632b40fc9c49364f2352ce7e3cc345ee604954824eeb4ba9a7901d",
+          "ticks": 1560
+        },
+        {
+          "fps": "jitter",
+          "hash": "31f2206147632b40fc9c49364f2352ce7e3cc345ee604954824eeb4ba9a7901d",
+          "ticks": 1560
+        }
+      ]
+    },
+    {
+      "deep": true,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "41a16e93cca562178267e9469a5ba577cec309873780def8b5783b9e0c18b89b",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "exhaustedTick": 533,
+      "recoveredTick": 877,
+      "states": [
+        "walk",
+        "run",
+        "stand"
+      ],
+      "schedules": [
+        {
+          "fps": 15,
+          "hash": "1608001f68d768dbef85d3420b0a3cd39ab77485902ea153c9fa8fa1b9a5a65b",
+          "ticks": 1560
+        },
+        {
+          "fps": 30,
+          "hash": "1608001f68d768dbef85d3420b0a3cd39ab77485902ea153c9fa8fa1b9a5a65b",
+          "ticks": 1560
+        },
+        {
+          "fps": 60,
+          "hash": "1608001f68d768dbef85d3420b0a3cd39ab77485902ea153c9fa8fa1b9a5a65b",
+          "ticks": 1560
+        },
+        {
+          "fps": 120,
+          "hash": "1608001f68d768dbef85d3420b0a3cd39ab77485902ea153c9fa8fa1b9a5a65b",
+          "ticks": 1560
+        },
+        {
+          "fps": 144,
+          "hash": "1608001f68d768dbef85d3420b0a3cd39ab77485902ea153c9fa8fa1b9a5a65b",
+          "ticks": 1560
+        },
+        {
+          "fps": 240,
+          "hash": "1608001f68d768dbef85d3420b0a3cd39ab77485902ea153c9fa8fa1b9a5a65b",
+          "ticks": 1560
+        },
+        {
+          "fps": 360,
+          "hash": "1608001f68d768dbef85d3420b0a3cd39ab77485902ea153c9fa8fa1b9a5a65b",
+          "ticks": 1560
+        },
+        {
+          "fps": "jitter",
+          "hash": "1608001f68d768dbef85d3420b0a3cd39ab77485902ea153c9fa8fa1b9a5a65b",
+          "ticks": 1560
+        }
+      ]
+    }
+  ]
+}

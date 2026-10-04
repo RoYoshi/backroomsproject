@@ -1,0 +1,5 @@
+PASS Z01 Two walkable floors with identical XY stage_b_test_geometry.js exit 0 0.214s; stage_c_test_spatial.js exit 0 0.487s; stage_e_test_core.js exit 0 0.469s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/s_world25d-raw/s_world25d-lyPZuy
+PASS Z02 Open stairwell beside a closed slab stage_c_test_spatial.js exit 0 0.487s; stage_e_test_sensors.js exit 0 0.242s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/s_world25d-raw/s_world25d-lyPZuy
+PASS Z03 Ramp ascent/descent, including diagonal travel stage_c_test_spatial.js exit 0 0.487s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/s_world25d-raw/s_world25d-lyPZuy
+PASS Z04 Stair treads/risers, different approach directions stage_c_test_spatial.js exit 0 0.487s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/s_world25d-raw/s_world25d-lyPZuy
+PASS Z05 Stair interruption, reversal, sideways departure stage_c_test_spatial.js exit 0 0.487s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/s_world25d-raw/s_world25d-lyPZuy

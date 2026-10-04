@@ -1,4 +1,10 @@
-# Part 3A production conversion design — P3A0
+# Part 3A production spatial Level 0
+
+Current spatial revision: `part3a-gameplay-1`; content hash: `4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a`.
+
+The final content has 910 solids, 307 support patches, 12 navigation surfaces, 28 traversal links, 290 spaces, 449 portals, 90 lights, 1,066 anchors and 147 local view groups. It retains the 9216 x 6912 world, all twelve rooms and 18 original props. There are 195 Hound, 195 Smiler, 164 item and 511 exit candidates plus one player spawn. All 3,308 original floor-cell footprints are accounted for; the authored depression occupies 15 cells. All twelve rooms remain connected through the 12,956-cell standing base flood.
+
+Rebuild the maintained artifact with `node dev/part3a/build_level0_spatial.js`. Select it explicitly with `TFB_WORLD=levels/level0_spatial.json node server.js 8000`. Flat Level 0 remains the default and its source/reference bytes stay frozen. The remainder records the original conversion plan and its executed amendments.
 
 Accepted Stage I commit `106c87015ae8702f452979e0277cbacb5435fa6a`, tree `82be2ca8d031f2d46c70a17b5c14c83689dbf8c8`; immutable ZIP SHA-256 `e5ebb8cd7b9c511ce83ea56443e7382de13e1cfbf2a0b2e2764808136e924bff`. Stage I human QA PASS. Flat `levels/level0.js` remains frozen.
 
@@ -49,3 +55,10 @@ The 18 props retain identity and footprint. Ten low/window props have bidirectio
 Nine PILLAR HALL lamp centers (075–083) were embedded in source pillar centers. The existing fixtures are moved 48 units south in the same ceiling bays at Z160; the manifest records original and new coordinates. The other 81 XY positions, all IDs/order, room exclusion, range 380 and power .43 remain unchanged.
 
 The existing normal page displays the cartograph on its real floor and exit art on wall plus adjacent floor faces, using the original procedural art. Objective snapshots append XYZ/support/anchor data; collection and exit require same elevation and physical visibility. Screen tear/audio proximity uses physical spatial visibility. The small admin-only preview placement correction uses the attacker's actual body footprint on the victim's named sheet; gameplay death remains server-owned.
+
+
+## P3A4 production presentation and recovery
+
+The full physical model remains complete; the existing spatial renderer uses deterministic local candidates and 64-entry texture pages for every relevant visibility/light query. A real dense frame uses more than one page. Its shared CPU candidate bounds include the same conservative boundary margin as the final AABB predicate. CPU picking is physically masked and does not use a camera-selected floor.
+
+The LONG ROOM slab and its five edge walls now form the same local overhead view group. The correction changes only `viewGroups` and the content hash relative to accepted P3A3; all physical/navigation/light/anchor/gameplay arrays are identical. Corrected lower and upper views were recaptured without labels, and current-content visible/IR/aftermath masks passed. Recovery made no further runtime edits. See the readability and performance reports for evidence and limits.

@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "players": 8,
+  "proposed": 600,
+  "flood": {
+    "accepted": 585,
+    "rejected": 1,
+    "corrections": 16,
+    "maxQueue": 75,
+    "maxHistory": 75,
+    "maxWork": 15,
+    "work": 0,
+    "ownedTicks": 0,
+    "reasons": {
+      "tick": 1
+    },
+    "cpu": {
+      "samples": 188,
+      "median": 0.044698,
+      "p95": 0.53965,
+      "p99": 1.242826,
+      "max": 1.469578
+    }
+  },
+  "normalSnapshotBytes": 4627,
+  "estimatedBytesPerSecondAt20Hz": 92540,
+  "stressEntities": 128,
+  "stressSnapshotBytes": 85613,
+  "extendedWebSocketFrame": true,
+  "limits": {
+    "queue": 90,
+    "history": 90,
+    "roomWakeValidation": 15,
+    "outboundFrame": 524288,
+    "inboundSpatial": 16384
+  }
+}

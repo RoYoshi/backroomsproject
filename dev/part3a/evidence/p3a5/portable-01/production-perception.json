@@ -1,0 +1,78 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "production visual memory consumes observations, not hidden velocity or support",
+      "ok": true
+    },
+    {
+      "name": "upper impact produces bounded ambiguous hearing without hidden identity",
+      "ok": true
+    },
+    {
+      "name": "production slab masks all visible and IR rays and prevents cross-floor capture",
+      "ok": true
+    }
+  ],
+  "details": {
+    "memory": {
+      "v": {
+        "id": 1,
+        "x": 6120,
+        "y": 864,
+        "zMin": 0,
+        "zMax": 0,
+        "z": 0,
+        "supportCandidates": [
+          "nav:base"
+        ],
+        "unresolved": false,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "angle": 3.141592653589793,
+        "pitch": 0,
+        "alive": true,
+        "caught": false,
+        "st": 0,
+        "ex": 0,
+        "t": 0.1
+      },
+      "s": {
+        "zMin": 0,
+        "zMax": 0,
+        "z": 0,
+        "supportCandidates": [
+          "nav:base"
+        ],
+        "unresolved": false
+      },
+      "lkz": 0,
+      "lkx": 6120
+    },
+    "hearing": {
+      "id": 1,
+      "x": 6250.5580128483925,
+      "y": 840.7864423475169,
+      "I": 0.1948226539683688,
+      "type": "impact",
+      "t": 0.3,
+      "src": 0,
+      "pid": null,
+      "attribution": "anonymous",
+      "modality": "sound",
+      "c": 0.49741132698418444,
+      "u": 134.47462095990784,
+      "unc": 134.47462095990784,
+      "clear": false,
+      "zMin": -160,
+      "zMax": 384,
+      "supportCandidates": [
+        "nav:base",
+        "nav:ramp",
+        "nav:upper"
+      ],
+      "unresolved": true
+    }
+  }
+}

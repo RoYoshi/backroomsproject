@@ -21,7 +21,7 @@ $env:TFB_WORLD = 'levels/level0_spatial.json'
 node server.js 8000
 ```
 
-Open `http://localhost:8000/?room=part3a-qa`. Use that same room in a second browser context for multiplayer checks. Stop the server with Ctrl+C. For the retained flat control, clear `TFB_WORLD` and run `node server.js 8000`; spatial mode is not the default before human approval. No production npm install is required. Do not launch the HTML through `file://`.
+Open `http://localhost:8000/?room=part3a-qa`. Use that same room in a second browser context for multiplayer checks. Stop the server with Ctrl+C. For the retained flat control, clear `TFB_WORLD` and run `node server.js 8000`; spatial mode is not the default before human approval. No production npm install is required. Do not launch the HTML through `file://`. Automated browser gates separately require Playwright and a Chromium browser; the retained helper can use `TFB_BROWSER_EXECUTABLE` for an installed binary. Recorded host paths in raw test logs describe the execution environment, not required game paths.
 
 ## Tour and observations
 
