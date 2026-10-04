@@ -1,0 +1,17 @@
+/workspace/scratch/8520e6cd0a04/part-3a/world_geometry.js:179
+ const checkShape=s=>{if(!s||!(s.radius>0&&s.height>0&&Number.isFinite(s.radius)&&Number.isFinite(s.height)))throw Error('Positive finite cylinder required');};
+                                                                                                             ^
+
+Error: Positive finite cylinder required
+    at checkShape (/workspace/scratch/8520e6cd0a04/part-3a/world_geometry.js:179:116)
+    at Object.supports (/workspace/scratch/8520e6cd0a04/part-3a/world_geometry.js:188:3)
+    at Object.<anonymous> (/workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/test_base.js:8:127)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47
+
+Node.js v24.19.0

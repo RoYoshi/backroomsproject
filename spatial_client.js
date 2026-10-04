@@ -153,7 +153,7 @@
     return lights;
   }
   function lamps(packets) {
-    for(const l of geometry.definition.lights){const e=entry(l.id,'graphic'),g=e.display;g.clear();
+    for(const l of geometry.definition.lights){if(!V.within(l.position,V.footprint(innerWidth,innerHeight,R.camera)))continue;const e=entry(l.id,'graphic'),g=e.display;g.clear();
       // Same five procedural fluorescent-fixture strokes as the retained Pixi build.
       g.roundRect(-45,-15,90,28,3).fill({color:3355443,alpha:.9});g.roundRect(-43,-13,86,24,2).fill({color:6249019,alpha:.95});g.rect(-37,-8,74,13).fill(A.V.blackout?9539169:16774332);g.rect(-32,-4,64,4).fill({color:16777215,alpha:A.V.blackout?.12:.75});g.moveTo(-43,10).lineTo(43,10).stroke({color:4275752,alpha:.6,width:3});
       const slot=pass.art.length;pass.art.push(texture(e));const p={id:l.id,kind:'lamp',...l.position,height:1,art:slot,radius:45,visibilityRadius:45,emissive:!A.V.blackout};p.observable=perceivable(p);packets.push(p);
