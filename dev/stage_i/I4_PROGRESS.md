@@ -1,0 +1,3 @@
+# I4 preservation — certification in progress
+
+All 18 retained suites completed serially. Aggregate 151/162 and shared 22/23 reproduce the accepted counts; all other suites, including all four performance suites, pass unchanged. Fresh parent exact-name comparison, frozen parity, retained browser integration, complete seven-suite clean extraction, final matrix and invariant audit remain pending. New source includes explicit certification, portable extraction, scope audit, report generation and exact-source publication tooling. No runtime files were changed. This is a preservation checkpoint, not final I4 completion.
