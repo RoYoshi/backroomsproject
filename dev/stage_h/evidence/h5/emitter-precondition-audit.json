@@ -1,0 +1,77 @@
+{
+  "status": "FAIL_EVIDENCE_PRECONDITION",
+  "rows": [
+    {
+      "source": "dev/stage_h/evidence/h4/view25d-recovery-01/browser-zNE6MZ/browser_h3/result.json",
+      "label": "flashlight actual peer emitter above slab",
+      "rawChangedPixels": 0,
+      "peerLight": {
+        "id": "p2",
+        "kind": "flashlight",
+        "origin": {
+          "x": 160,
+          "y": 160,
+          "z": 50.05
+        },
+        "direction": {
+          "x": -0.7491402210718825,
+          "y": 0.6624114500613429,
+          "z": 0
+        },
+        "range": 390,
+        "arc": 0.92,
+        "power": 0.58,
+        "channel": "visible",
+        "color": [
+          1,
+          0.9058823529411765,
+          0.6980392156862745
+        ],
+        "near": 24
+      },
+      "expectedOrigin": {
+        "x": 160,
+        "y": 160,
+        "z": 230
+      },
+      "statePreconditionPassed": false
+    },
+    {
+      "source": "dev/stage_h/evidence/h5/portable-01/view25d-raw/browser-mCxL1y/browser_h3/result.json",
+      "label": "flashlight actual peer emitter above slab",
+      "rawChangedPixels": 0,
+      "peerLight": {
+        "id": "p2",
+        "kind": "flashlight",
+        "origin": {
+          "x": 160,
+          "y": 160,
+          "z": 50.05
+        },
+        "direction": {
+          "x": -0.7491402210718825,
+          "y": 0.6624114500613429,
+          "z": 0
+        },
+        "range": 390,
+        "arc": 0.92,
+        "power": 0.58,
+        "channel": "visible",
+        "color": [
+          1,
+          0.9058823529411765,
+          0.6980392156862745
+        ],
+        "near": 24
+      },
+      "expectedOrigin": {
+        "x": 160,
+        "y": 160,
+        "z": 230
+      },
+      "statePreconditionPassed": false
+    }
+  ],
+  "finding": "The first flashlight kind is already present before the upper teleport reaches the rendered peer history. Existing kind-only readiness accepts a stale lower-floor emitter. Zero pixel difference is not valid evidence for the labeled upper-floor case.",
+  "repairScope": "Strengthen only browser_h3 hidden-peer-light readiness to verify actual emitter XYZ and assert the captured pose. No production, physical mask, light threshold or H4 picking/view change. Rerun full real view25d and clean package validation."
+}

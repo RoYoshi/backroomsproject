@@ -1,0 +1,25 @@
+START build-1-ai
+{'name': 'build-1-ai', 'command': ['bash', 'dev/build_ai.sh'], 'exitCode': 0, 'seconds': 0.21492798200051766}
+START build-1-sim
+{'name': 'build-1-sim', 'command': ['bash', 'dev/build_sim.sh'], 'exitCode': 0, 'seconds': 0.1644265639988589}
+START build-1-ents
+{'name': 'build-1-ents', 'command': ['bash', 'dev/build_ents.sh'], 'exitCode': 0, 'seconds': 0.21480670600067242}
+START build-2-ai
+{'name': 'build-2-ai', 'command': ['bash', 'dev/build_ai.sh'], 'exitCode': 0, 'seconds': 0.21455326099749072}
+START build-2-sim
+{'name': 'build-2-sim', 'command': ['bash', 'dev/build_sim.sh'], 'exitCode': 0, 'seconds': 0.1645756830002938}
+START build-2-ents
+{'name': 'build-2-ents', 'command': ['bash', 'dev/build_ents.sh'], 'exitCode': 0, 'seconds': 0.1670310369991057}
+START physics25d
+{'name': 'physics25d', 'command': ['node', 'dev/tests/physics25d.js'], 'exitCode': 0, 'seconds': 47.68726350900033}
+START network25d
+{'name': 'network25d', 'command': ['node', 'dev/tests/network25d.js'], 'exitCode': 0, 'seconds': 115.02450457099985}
+START view25d
+{'name': 'view25d', 'command': ['node', 'dev/tests/view25d.js'], 'exitCode': 0, 'seconds': 437.9044025910007}
+START served-package
+{'name': 'served-package', 'command': ['node', 'dev/stage_h/served_package.js', '/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/portable-01/served.json'], 'exitCode': 0, 'seconds': 0.6241666280002391}
+START fps
+{'name': 'fps', 'command': ['npm', 'run', 'test:fps'], 'exitCode': 0, 'seconds': 0.8182444269987172}
+START camera
+{'name': 'camera', 'command': ['npm', 'run', 'test:camera'], 'exitCode': 0, 'seconds': 0.21494985199751682}
+PASS clean extraction, two reproducible builds and all named gates

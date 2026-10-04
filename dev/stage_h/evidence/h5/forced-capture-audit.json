@@ -1,0 +1,26 @@
+{
+  "status": "FAIL_FORCED_CAPTURE_ADVANCEMENT",
+  "source": "dev/stage_h/evidence/h5/traversal-probe-05/samples.json",
+  "samples": [
+    {
+      "name": "immediate-forced-capture",
+      "before": 3,
+      "after": 3,
+      "authoritativeTick": 31,
+      "packetTick": 0,
+      "lit": 468,
+      "error": 0
+    },
+    {
+      "name": "rendered-current-authority-after-ready",
+      "before": 5,
+      "after": 5,
+      "authoritativeTick": 125,
+      "packetTick": 56,
+      "lit": 75829,
+      "error": 0
+    }
+  ],
+  "finding": "render(true) can return at TIMEOUT_EXPIRED even after gl.finish, without advancing state.frames. H4 activates test effects and measures three forced frames in one browser task, so it must explicitly assert real frame advancement. Old timing samples cannot be treated as three fresh rendered frames.",
+  "repairScope": "Only bypass TIMEOUT_EXPIRED early return for the existing force=true diagnostic path after gl.finish; retain WAIT_FAILED rejection and unchanged normal rendering. Add exact frame increment assertions to captures and rerun full view25d/retained H1/clean package gates."
+}

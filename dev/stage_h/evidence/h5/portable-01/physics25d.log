@@ -1,0 +1,6 @@
+PASS Z25 All eight existing death variants on spatial fixtures test_g1.js exit 0; test_variants.js exit 0; test_initial.js exit 0
+PASS Z26 Authoritative death then immediate disconnect test_g3_wire.js exit 0; test_lifecycle.js exit 0
+PASS Z27 Normal client replay then delayed/duplicate messages test_g3.js exit 0; test_g3_wire.js exit 0
+PASS Z28 Body on ledge, gear falling to lower floor test_g2.js exit 0
+PASS Z31 No live players, active settling bodies test_properties.js exit 0
+5/5 physics25d gates passed

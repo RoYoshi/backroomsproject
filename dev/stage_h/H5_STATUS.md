@@ -31,3 +31,15 @@ The preserved light timing miss did not reproduce in two isolated H runs with un
 `regression-03` PASS: H1 full-quality boot/local ramp, existing Reduced detail for both clients during peer fall, Hound/Smiler XYZ, exact flat G/H menu/gameplay pixels/state/RNG/RAF schedule, and actual flat/spatial served bytes/private-path validation. The reduced-detail run captures 18 samples of one actual airborne presentation frame, reaches Z -95.95, and retains every original physical assertion and all 32 occluders. Full-quality motion capture's earlier miss remains a software-GPU limitation.
 
 All 19 retained spatial/parity/browser/HTTP checks now have passing evidence. Original failed attempts remain separate. Final report generation requires all rows plus clean-extraction validation to pass, and records both original H1 failures. The next step packages staged source, extracts to a path containing spaces, rebuilds twice and runs real physics25d/network25d/view25d plus HTTP/FPS/camera gates serially.
+
+## Retained lighting capture precondition gap found in raw evidence
+
+`emitter-precondition-audit.json` is FAIL_EVIDENCE_PRECONDITION. The first browser_h3 flashlight-above-slab capture in both H4 named-gate and H5 portable-01 evidence still has peer emitter Z 50.05, not the expected upper-floor Z 230. The initial kind-only readiness condition accepts the already-present flashlight before the teleport reaches rendered peer history. Later headlamp/lantern captures use the correct upper origin. This is an objective evidence-precondition defect, not a demonstrated runtime light leak. The raw old PASS output is retained with this qualification; it cannot establish the mislabeled first case.
+
+The authorized repair is restricted to requiring actual emitter XYZ in the browser harness and asserting that pose in the captured result, retaining the zero-pixel threshold. The complete real view25d gate and fresh package validation must pass again before final acceptance. No H0–H3 implementation restart or H4 picking/view rewrite is warranted.
+
+## Forced diagnostic render advancement defect
+
+`forced-capture-audit.json` preserves the observed FAIL: with ready=true, render(true) can leave frame count unchanged because TIMEOUT_EXPIRED still triggers an early return after gl.finish. H4's in-task effect activation and three forced timing samples therefore need a fresh-frame assertion. Existing raw pixel differences and recorded timings are preserved; the old timings must not be represented as three freshly rendered frames.
+
+Repair is limited to the force=true diagnostic branch in spatial_client.js after its explicit GPU finish. Normal frame scheduling, physical masks, picking, camera and simulation remain untouched. Exact +1 frame assertions will guard H1 capture and each H4 forced draw. Retained H1, complete real view25d and fresh package gates must rerun. This is a specific demonstrated capture defect, not permission to rewrite the preserved H4 implementation.
