@@ -33,15 +33,15 @@ try:
  if phase=='final':
   for n in ['s_world25d','s_nav25d','s_perception25d','network25d','physics25d','view25d','perf_world25d']:run(n,['node','dev/tests/'+n+'.js'])
  run('full-retained',['python','dev/stage_a/run_baseline.py','--game','.', '--out',str(out/'full-retained')],3600)
- baseline_out=prior if 'full-retained' in completed else out
- current=json.loads((baseline_out/'full-retained/baseline-tests.json').read_text());accepted=json.loads((ROOT/'dev/stage_i/evidence/i4/baseline-comparison.json').read_text())['rows'];assert len(current)==len(accepted)==18
+ baseline_dir=pathlib.Path(completed['full-retained']['command'][-1]) if 'full-retained' in completed else out/'full-retained'
+ current=json.loads((baseline_dir/'baseline-tests.json').read_text());accepted=json.loads((ROOT/'dev/stage_i/evidence/i4/baseline-comparison.json').read_text())['rows'];assert len(current)==len(accepted)==18
  comparison=[]
  for got,want in zip(current,accepted):
   assert got['id']==want['suite'];names=[re.sub(r'\s+\[\d+ms\]$','',s[5:]) for s in got['failureLines']]
   assert names==want['failureNames'],(got['id'],names,want['failureNames'])
   assert got['counts']['passed']==want['counts']['passed'] and got['counts']['total']==want['counts']['total'],got['id']
   assert got['exitCode']==(1 if want['disposition']=='INHERITED FAILURE' else 0),got['id']
-  comparison.append({'suite':got['id'],'disposition':want['disposition'],'counts':got['counts'],'failureNames':names,'evidence':str(baseline_out/'full-retained'/got['log'])})
+  comparison.append({'suite':got['id'],'disposition':want['disposition'],'counts':got['counts'],'failureNames':names,'evidence':str(baseline_dir/got['log'])})
  (out/'baseline-comparison.json').write_text(json.dumps({'status':'PASS_BASELINE_EQUIVALENCE','exactFailureNamesMatch':True,'rows':comparison},indent=2)+'\n')
  run('frozen-parity',['python','dev/stage_h/run_parity.py',str(out/'parity')])
  run('flat-browser-parity',['node','dev/stage_h/browser_flat.js','.',str(parent),str(out/'flat-browser')])

@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: authorized teleport 0 to upper 180 reset observed
+    at capture (/workspace/scratch/2bf492520e95/part-3b/dev/part3b/browser_resets.js:13:441)
+    at async /workspace/scratch/2bf492520e95/part-3b/dev/part3b/browser_resets.js:14:75 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

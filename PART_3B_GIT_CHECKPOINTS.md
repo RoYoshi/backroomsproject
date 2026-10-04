@@ -18,4 +18,6 @@ P3B3 completion: `ca7a05e064b99f1ca96fcc4e3687e60537924e3b`, tree `ad1440ae76d9f
 
 P3B4 preservation: `47579eab2d0c07a6f6495c9372abea138c3da5fe`, tree `de6fe63cd5a90c9a7c7aa6d67b233daef75d52ca`. Branch and commit/tree independently verified. Preserves the complete first named-suite run, raw H2 setup-race failure, narrow harness repair and whole-validation/package tooling in progress. This is not the P3B4 completion checkpoint.
 
-P3B4–P3B5: pending. Main is not modified or merged. Part 3C is not begun.
+P3B4 second preservation: `fcb3f7e968f2bc53fe599fa7ee7239a9dbc61803`, tree `e2a546a72a60a919e4a5459a9566160400b935d2`. Branch and commit/tree independently verified. Preserves the passing full view-suite retry, all 18 exact baseline comparisons, frozen/browser flat parity, deterministic production gates, first production display-matrix failure and exact candidate-hull harness correction. P3B4 remains in progress at this checkpoint.
+
+P3B4 objective gates COMPLETE; completion commit/tree receipt follows publication. P3B5 pending. Main is not modified or merged. Part 3C is not begun.

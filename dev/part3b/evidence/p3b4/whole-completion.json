@@ -1,0 +1,343 @@
+{
+  "status": "PASS",
+  "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+  "checks": [
+    {
+      "name": "invariants",
+      "command": [
+        "python",
+        "dev/part3b/verify_invariants.py",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/invariants.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.03196390599987353,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "presentation-foundation",
+      "command": [
+        "node",
+        "dev/part3b/test_foundation.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/presentation-foundation.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.6156377360020997,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "presentation-motion",
+      "command": [
+        "node",
+        "dev/part3b/test_motion.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/presentation-motion.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.9691252910015464,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "presentation-cutaway",
+      "command": [
+        "node",
+        "dev/part3b/test_cutaway.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/presentation-cutaway.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.4655871600007231,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "production-base",
+      "command": [
+        "node",
+        "dev/part3a/test_base.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-base.json"
+      ],
+      "exitCode": 0,
+      "seconds": 1.5685726219999196,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "production-vertical",
+      "command": [
+        "node",
+        "dev/part3a/test_vertical.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-vertical.json"
+      ],
+      "exitCode": 0,
+      "seconds": 2.3707372509998095,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "production-navigation",
+      "command": [
+        "node",
+        "dev/part3a/test_navigation.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-navigation.json"
+      ],
+      "exitCode": 0,
+      "seconds": 5.087139340001158,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "production-gameplay",
+      "command": [
+        "node",
+        "dev/part3a/test_gameplay.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-gameplay.json"
+      ],
+      "exitCode": 0,
+      "seconds": 5.081720611000492,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "production-perception",
+      "command": [
+        "node",
+        "dev/part3a/test_perception.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-perception.json"
+      ],
+      "exitCode": 0,
+      "seconds": 2.2219221259983897,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "production-picking",
+      "command": [
+        "node",
+        "dev/part3a/test_picking.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-picking.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.4153847939996922,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "production-render_coverage",
+      "command": [
+        "node",
+        "dev/part3a/test_render_coverage.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-render_coverage.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.6660225099985837,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "production-aftermath",
+      "command": [
+        "node",
+        "dev/part3a/test_aftermath.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-aftermath.json"
+      ],
+      "exitCode": 0,
+      "seconds": 10.849256460001925,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "full-retained",
+      "command": [
+        "python",
+        "dev/stage_a/run_baseline.py",
+        "--game",
+        ".",
+        "--out",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/full-retained"
+      ],
+      "exitCode": 0,
+      "seconds": 566.0702642929973,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "frozen-parity",
+      "command": [
+        "python",
+        "dev/stage_h/run_parity.py",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/parity"
+      ],
+      "exitCode": 0,
+      "seconds": 18.84693301000152,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "flat-browser-parity",
+      "command": [
+        "node",
+        "dev/stage_h/browser_flat.js",
+        ".",
+        "/workspace/scratch/2bf492520e95/accepted-part3a/thefarbackrooms-level0",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/flat-browser"
+      ],
+      "exitCode": 0,
+      "seconds": 31.63981694099857,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "browser-foundation",
+      "command": [
+        "node",
+        "dev/part3b/browser_foundation.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/browser-foundation"
+      ],
+      "exitCode": 0,
+      "seconds": 4.491786058999423,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "browser-matrix",
+      "command": [
+        "node",
+        "dev/part3b/browser_matrix.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02/browser-matrix"
+      ],
+      "exitCode": 0,
+      "seconds": 451.55378383899733,
+      "retainedFrom": "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-02"
+    },
+    {
+      "name": "browser-resets",
+      "command": [
+        "node",
+        "dev/part3b/browser_resets.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-03/browser-resets"
+      ],
+      "exitCode": 0,
+      "seconds": 21.86754222699892
+    },
+    {
+      "name": "browser-cutaway",
+      "command": [
+        "node",
+        "dev/part3b/browser_cutaway.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-03/browser-cutaway"
+      ],
+      "exitCode": 0,
+      "seconds": 30.67917395800032
+    },
+    {
+      "name": "browser-production-readability",
+      "command": [
+        "node",
+        "dev/part3a/browser_readability.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-03/browser-production-readability"
+      ],
+      "exitCode": 0,
+      "seconds": 83.65000751600019
+    },
+    {
+      "name": "browser-production-aftermath",
+      "command": [
+        "node",
+        "dev/part3a/browser_aftermath.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-03/browser-production-aftermath"
+      ],
+      "exitCode": 0,
+      "seconds": 50.54791578699951
+    },
+    {
+      "name": "browser-production-gameplay",
+      "command": [
+        "node",
+        "dev/part3a/browser_gameplay.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-03/browser-production-gameplay"
+      ],
+      "exitCode": 0,
+      "seconds": 28.300379423999402
+    },
+    {
+      "name": "performance-production",
+      "command": [
+        "node",
+        "dev/part3a/performance.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-03/performance-production.json"
+      ],
+      "exitCode": 0,
+      "seconds": 4.78867301399805
+    },
+    {
+      "name": "served-flat-fixture",
+      "command": [
+        "node",
+        "dev/stage_h/served_package.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-03/served-flat-fixture.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.41616626599716255
+    },
+    {
+      "name": "served-production",
+      "command": [
+        "node",
+        "dev/part3a/served_production.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-03/served-production.json"
+      ],
+      "exitCode": 0,
+      "seconds": 1.9214809220029565
+    },
+    {
+      "name": "redirect",
+      "command": [
+        "node",
+        "dev/stage_i/test_redirect.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.1663728359999368
+    }
+  ],
+  "evidence": {
+    "invariants": "dev/part3b/evidence/p3b4/whole-01/invariants.json",
+    "presentation-foundation": "dev/part3b/evidence/p3b4/whole-01/presentation-foundation.json",
+    "presentation-motion": "dev/part3b/evidence/p3b4/whole-01/presentation-motion.json",
+    "presentation-cutaway": "dev/part3b/evidence/p3b4/whole-01/presentation-cutaway.json",
+    "production-base": "dev/part3b/evidence/p3b4/whole-01/production-base.json",
+    "production-vertical": "dev/part3b/evidence/p3b4/whole-01/production-vertical.json",
+    "production-navigation": "dev/part3b/evidence/p3b4/whole-01/production-navigation.json",
+    "production-gameplay": "dev/part3b/evidence/p3b4/whole-01/production-gameplay.json",
+    "production-perception": "dev/part3b/evidence/p3b4/whole-01/production-perception.json",
+    "production-picking": "dev/part3b/evidence/p3b4/whole-01/production-picking.json",
+    "production-render_coverage": "dev/part3b/evidence/p3b4/whole-01/production-render_coverage.json",
+    "production-aftermath": "dev/part3b/evidence/p3b4/whole-01/production-aftermath.json",
+    "frozen-parity": "dev/part3b/evidence/p3b4/whole-01/parity/result.json",
+    "flat-browser-parity": "dev/part3b/evidence/p3b4/whole-01/flat-browser/result.json",
+    "browser-foundation": "dev/part3b/evidence/p3b4/whole-01/browser-foundation/result.json",
+    "browser-matrix": "dev/part3b/evidence/p3b4/whole-02/browser-matrix/result.json",
+    "browser-resets": "dev/part3b/evidence/p3b4/whole-03/browser-resets/result.json",
+    "browser-cutaway": "dev/part3b/evidence/p3b4/whole-03/browser-cutaway/result.json",
+    "browser-production-readability": "dev/part3b/evidence/p3b4/whole-03/browser-production-readability/result.json",
+    "browser-production-aftermath": "dev/part3b/evidence/p3b4/whole-03/browser-production-aftermath/result.json",
+    "browser-production-gameplay": "dev/part3b/evidence/p3b4/whole-03/browser-production-gameplay/result.json",
+    "performance-production": "dev/part3b/evidence/p3b4/whole-03/performance-production.json",
+    "served-flat-fixture": "dev/part3b/evidence/p3b4/whole-03/served-flat-fixture.json",
+    "served-production": "dev/part3b/evidence/p3b4/whole-03/served-production.json",
+    "baseline-comparison": "dev/part3b/evidence/p3b4/whole-03/baseline-comparison.json"
+  },
+  "evidenceSha256": {
+    "invariants": "f14e83aa3b278f6f6713be6a2e10597f1ba294d948e763ea8982bcd959d4ef9b",
+    "presentation-foundation": "4cc9e4f982e606e7abf1a7e8e7b86bb145c7141eef44fd565ce0cf7118c8492e",
+    "presentation-motion": "2ed7249162c2872eb3f80f2076e5748f8f145287cac25bc3ba52cd44b73456a4",
+    "presentation-cutaway": "bc70066394fd8941365fcc166e440ab18dfa70f63e3cad34f5590935b5a60ddc",
+    "production-base": "89a7b9e376875c5c65b8fe757cb2134c55459cd49408e1e1be9326e0aef75bac",
+    "production-vertical": "ff92dc359b5ea6e5e6a86db70cbe3dc05f57c1dd1cb546f1c0d528e282128ca9",
+    "production-navigation": "0ec3a38a2e7bb7b14334a7dea7b05bd05148c2cfddecafc708ad4e55a00d9021",
+    "production-gameplay": "30afb4da2ecb52b6f50e92eb9d98afb7490206f45f72087d5648dc832203f85d",
+    "production-perception": "3e35a12ddb3be743ac7538950382ff470fb57ad19e57aaab6c1a78cc2509c354",
+    "production-picking": "34f85bfb847fcc094113ccd963ceea26fc2a62adce0413b46d03d9e6d3237c7e",
+    "production-render_coverage": "b0cddfb7afe90861f53fbc6cf5403652831679c9c4e36a11b214fd7af832202a",
+    "production-aftermath": "f06ee3334bd5db121177f87992d7c79e6c1ae8ad4eef4ade719efd4a600c4489",
+    "frozen-parity": "a9b5dab891193a823b179357e264fa1b2b01054abf49988435592f200354392a",
+    "flat-browser-parity": "9785b52bdcd41bf6df6d6a6cfa227e3ed28fe5b185a4877f9cf8225b0422ffce",
+    "browser-foundation": "4841cc8c829795f36bcf58f99a2621c47200e00eed1cb84c74ac98d1b9a3583a",
+    "browser-matrix": "9a205914744f15439f45f8fd869ae95c495f52d019da554cb8cb4b3866ef0dbe",
+    "browser-resets": "f105dcb35a4e7e5ba6dabfb6fda08d090477ac340abe1d7fc2ebcb258ce02641",
+    "browser-cutaway": "4cfb82f4c4f5f85996f70771347f2b8718790c04caac3378040e57390770567b",
+    "browser-production-readability": "fa22a6371740d55de7b294eabd92bd97efae68e4b582381511801c1ce6a88f6a",
+    "browser-production-aftermath": "e515e941bded9b260c0b5772181f6ed43e984448aaf2d60594b6391dfbb555b7",
+    "browser-production-gameplay": "f361e050af5e13517e18ed9b1b24ba4ed5005f9e0519a6c7db3a4f51cabd4abb",
+    "performance-production": "89f3888acd68ecb32e9924c27c6567633e4ee6e8fa6987f5a948ab0888d027da",
+    "served-flat-fixture": "fa6f217183b8e6d2c6185cfb0b7fda361cc8ac56dcd13865a9799c4aca233081",
+    "served-production": "662b7362cc174b00719bfbebe84f441f7519cd7217c7440e171685643006e8ba",
+    "baseline-comparison": "8d1ab427b689e7d2643f343e6ec3a2a17361ae502603a0476db563b9f0ed1da7"
+  },
+  "sevenNamedSuites": "PASS with preserved view25d attempt 01 and successful exact-entrypoint retry 02",
+  "humanQA": "PENDING"
+}
