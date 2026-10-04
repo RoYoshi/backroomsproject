@@ -23,7 +23,7 @@ All timing-sensitive runs were serial. Counts retain each original suite’s mea
 | perf-smiler | PASS | 3 / 3 | 5.284 | dev/stage_i/evidence/i4/retained-01/perf-smiler.log |
 | perf-light | PASS | 1 / 1 | 5.987 | dev/stage_i/evidence/i4/retained-01/perf-light.log |
 
-Navigation is a descriptive benchmark, not a counted assertion suite. Legacy physics has 53 groups covering 240 scenarios.
+The retained `humanqa` row is an automated legacy test suite; human approval for Stage I remains PENDING. Navigation is a descriptive benchmark, not a counted assertion suite. Legacy physics has 53 groups covering 240 scenarios.
 
 | Named final suite | Disposition | Runtime | Seconds | Evidence |
 |---|---|---|---|---|

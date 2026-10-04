@@ -1,0 +1,5 @@
+# I5 — final source and publication boundary
+
+All objective I4 certification evidence is complete and externally checkpointed. The final source commit contains the final reports and exact changed-file inventory, with all 303 portable-validated code/asset paths unchanged. The exact staged audit rejects production-runtime changes, removed files, frozen-reference changes and out-of-scope files.
+
+After this source checkpoint is pushed and its SHA/tree independently fetched, package_final.py refuses a dirty or mismatched branch and verifies the full gate evidence again. It packages every Git blob with its original mode, records every source SHA-256, checks ZIP CRC and a fresh final extraction, and emits external finalized reports, package verification, ZIP checksum and publication receipt. The final archive/source identities are external to avoid self-reference. Human QA stays PENDING. Main, production 2.5D Level 0 conversion and Part 3 remain untouched. Stop after successful final publication.
