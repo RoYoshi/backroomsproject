@@ -1,0 +1,193 @@
+{
+  "status": "PASS",
+  "host": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9,
+    "totalMemoryBytes": 10451460096,
+    "memory": {
+      "rss": 77406208,
+      "heapTotal": 30666752,
+      "heapUsed": 14983592,
+      "external": 3817712,
+      "arrayBuffers": 146595
+    }
+  },
+  "seed": 0,
+  "rows": [
+    {
+      "workload": "stacked same-XY dense swept Z range",
+      "solids": 4,
+      "queries": 500,
+      "compileMs": 8.983728,
+      "sweepMs": {
+        "samples": 500,
+        "p50": 0.20759899999995923,
+        "p95": 0.7123210000000029,
+        "p99": 1.2346369999999922,
+        "worst": 5.201362000000003
+      },
+      "queryCounters": {
+        "candidateQueries": 500,
+        "candidates": 2000,
+        "maxCandidates": 4,
+        "advanceIterations": 4000
+      },
+      "candidatesPerQuery": 4,
+      "fallbacks": 0,
+      "index": {
+        "cells": 16,
+        "solids": 4,
+        "cellSize": 128
+      },
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "984c605f0bc1f5f1528ab1535d92bd2d45d53362caff7faafe50e3a018ac489a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      }
+    },
+    {
+      "workload": "local Z-filtered support and clearance below stacked floors",
+      "solids": 4,
+      "queries": 1500,
+      "candidates": 1500,
+      "candidatesPerQuery": 1,
+      "pairedQueryMs": {
+        "samples": 500,
+        "p50": 0.00742200000001958,
+        "p95": 0.03740499999997837,
+        "p99": 0.09780000000000655,
+        "worst": 0.7897350000000074
+      }
+    },
+    {
+      "workload": "stacked same-XY dense swept Z range",
+      "solids": 16,
+      "queries": 500,
+      "compileMs": 16.079575000000034,
+      "sweepMs": {
+        "samples": 500,
+        "p50": 0.5037270000000262,
+        "p95": 1.032233999999903,
+        "p99": 1.76428599999997,
+        "worst": 4.551439000000073
+      },
+      "queryCounters": {
+        "candidateQueries": 500,
+        "candidates": 8000,
+        "maxCandidates": 16,
+        "advanceIterations": 16000
+      },
+      "candidatesPerQuery": 16,
+      "fallbacks": 0,
+      "index": {
+        "cells": 16,
+        "solids": 16,
+        "cellSize": 128
+      },
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "da555f11fb412bffb6486e13ce8889cd9501c4a8c9554125adf6db78f887ea19",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      }
+    },
+    {
+      "workload": "local Z-filtered support and clearance below stacked floors",
+      "solids": 16,
+      "queries": 1500,
+      "candidates": 1500,
+      "candidatesPerQuery": 1,
+      "pairedQueryMs": {
+        "samples": 500,
+        "p50": 0.004638999999997395,
+        "p95": 0.014235999999982596,
+        "p99": 0.06479400000000624,
+        "worst": 0.2564479999999776
+      }
+    },
+    {
+      "workload": "stacked same-XY dense swept Z range",
+      "solids": 64,
+      "queries": 500,
+      "compileMs": 15.35767599999997,
+      "sweepMs": {
+        "samples": 500,
+        "p50": 1.7125389999999925,
+        "p95": 2.6778710000000956,
+        "p99": 3.445536000000061,
+        "worst": 9.131057999999939
+      },
+      "queryCounters": {
+        "candidateQueries": 500,
+        "candidates": 32000,
+        "maxCandidates": 64,
+        "advanceIterations": 64000
+      },
+      "candidatesPerQuery": 64,
+      "fallbacks": 0,
+      "index": {
+        "cells": 16,
+        "solids": 64,
+        "cellSize": 128
+      },
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "732993061e87637487ff3d3b92dafbd4768d6e000d16a9c66c5378d03e9d8920",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      }
+    },
+    {
+      "workload": "local Z-filtered support and clearance below stacked floors",
+      "solids": 64,
+      "queries": 1500,
+      "candidates": 1500,
+      "candidatesPerQuery": 1,
+      "pairedQueryMs": {
+        "samples": 500,
+        "p50": 0.00381399999992027,
+        "p95": 0.004071999999951004,
+        "p99": 0.0248980000001211,
+        "worst": 0.3710869999999886
+      }
+    },
+    {
+      "workload": "real ramp stair drop crawl motion",
+      "ticks": 960,
+      "motionTickMs": {
+        "samples": 960,
+        "p50": 0.05328400000007605,
+        "p95": 0.5830140000000483,
+        "p99": 1.0050109999999677,
+        "worst": 1.8768119999999726
+      },
+      "queryCounters": {
+        "candidateQueries": 8733,
+        "candidates": 12788,
+        "maxCandidates": 6,
+        "advanceIterations": 995
+      },
+      "fallbacks": 0,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-a-synthetic",
+        "geometryRevision": "fixture-v1",
+        "contentHash": "3799f2e658968a13105efd3076c4b12a79a9135d34774f5489dd8c34064205bb",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      }
+    }
+  ],
+  "classification": "PASS / BOUNDED MEASUREMENT",
+  "instrumentation": "Counters only; first 20 sweeps per density compared exactly with uninstrumented production module"
+}

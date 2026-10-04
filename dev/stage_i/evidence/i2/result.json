@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "finalEvidence": {
+    "geometry": "measurement-03/geometry.json",
+    "navFourSurfaces": "stress-01/four-surfaces.json",
+    "navConnected": "stress-01/connected-nav.json",
+    "authorityNetwork": "stress-01/network25d.log",
+    "aftermath": "stress-01/aftermath.log",
+    "serverSoak": "measurement-03/server.json",
+    "browserMatrix": "stress-02/browser-matrix/result.json"
+  },
+  "preservedAttempts": [
+    "stress-01/server-soak.json.failure.json",
+    "memory-evidence-audit.json"
+  ],
+  "classification": {
+    "normalEightPlayerP99": "PASS unchanged 8 ms threshold (I1)",
+    "admin128": "BOUNDED MEASUREMENT: 7.54 ms p99 initial / 14.02 ms with telemetry; 600/598 ticks in about 10 s",
+    "multiRoom": "BOUNDED MEASUREMENT: three rooms, eight initial clients, 60 s, three reconnects and room recreation",
+    "memory": "Actual process telemetry; RSS 103706624 to 162734080 bytes during 60 s; no long-term leak/capacity certification",
+    "aftermath24": "KNOWN LIMITATION: preserved CPU/payload excess, correctness passes",
+    "browser": "KNOWN LIMITATION: software GPU misses 16.7 ms; eight correctness cases PASS"
+  }
+}

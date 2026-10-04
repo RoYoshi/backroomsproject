@@ -1,0 +1,6805 @@
+{
+  "status": "PASS",
+  "host": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9,
+    "totalMemoryBytes": 10451460096,
+    "memory": {
+      "rss": 293138432,
+      "heapTotal": 260042752,
+      "heapUsed": 159641160,
+      "external": 12843979,
+      "arrayBuffers": 8958534
+    }
+  },
+  "world": {
+    "schemaVersion": 1,
+    "assetId": "world:stage-f-wire",
+    "geometryRevision": "f1",
+    "contentHash": "40de01f63294d4119ec3a52e6b0c7334f6029990b2fcebcc4af25005fae456b2",
+    "geometryMode": "spatial",
+    "compilerRevision": "stage-c-1"
+  },
+  "seed": "production server RNG; no deterministic trajectory claim",
+  "rows": [
+    {
+      "workload": "three real rooms / eight initial clients / director + death + reconnect churn",
+      "seconds": 60.469700751999994,
+      "churn": 3,
+      "final": [
+        {
+          "room": 0,
+          "players": 4,
+          "initial": {
+            "epoch": "939d2ff4-08fb-40b2-9c02-77b158d7bf62",
+            "tick": 13
+          },
+          "finalTick": 3639,
+          "cpu": {
+            "samples": 600,
+            "median": 0.010561,
+            "p95": 0.012358,
+            "p99": 0.046748,
+            "max": 0.381078
+          },
+          "stats": {
+            "accepted": 0,
+            "rejected": 0,
+            "corrections": 12,
+            "maxQueue": 0,
+            "maxHistory": 0,
+            "maxWork": 0,
+            "work": 0,
+            "ownedTicks": 0,
+            "reasons": {},
+            "cpu": {
+              "samples": 600,
+              "median": 0.010561,
+              "p95": 0.012358,
+              "p99": 0.046748,
+              "max": 0.381078
+            }
+          }
+        },
+        {
+          "room": 1,
+          "players": 2,
+          "initial": {
+            "epoch": "c15df15a-f440-408c-b5fb-36d33422084b",
+            "tick": 4
+          },
+          "finalTick": 3634,
+          "cpu": {
+            "samples": 600,
+            "median": 0.124134,
+            "p95": 0.213362,
+            "p99": 0.440089,
+            "max": 2.721497
+          },
+          "stats": {
+            "accepted": 0,
+            "rejected": 0,
+            "corrections": 10,
+            "maxQueue": 0,
+            "maxHistory": 0,
+            "maxWork": 0,
+            "work": 0,
+            "ownedTicks": 0,
+            "reasons": {},
+            "cpu": {
+              "samples": 600,
+              "median": 0.124134,
+              "p95": 0.213362,
+              "p99": 0.440089,
+              "max": 2.721497
+            }
+          }
+        },
+        {
+          "room": 2,
+          "players": 2,
+          "initial": {
+            "epoch": "9b4be55e-0a01-4923-8516-88f14648c108",
+            "tick": 2
+          },
+          "finalTick": 3628,
+          "cpu": {
+            "samples": 600,
+            "median": 0.063395,
+            "p95": 0.132873,
+            "p99": 0.299157,
+            "max": 3.121894
+          },
+          "stats": {
+            "accepted": 0,
+            "rejected": 0,
+            "corrections": 4,
+            "maxQueue": 0,
+            "maxHistory": 0,
+            "maxWork": 0,
+            "work": 0,
+            "ownedTicks": 0,
+            "reasons": {},
+            "cpu": {
+              "samples": 600,
+              "median": 0.063395,
+              "p95": 0.132873,
+              "p99": 0.299157,
+              "max": 3.121894
+            }
+          }
+        }
+      ],
+      "timelines": [
+        [
+          {
+            "tick": 73,
+            "cpu": {
+              "samples": 74,
+              "median": 0.202416,
+              "p95": 0.71499,
+              "p99": 4.05031,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 74,
+                "median": 0.202416,
+                "p95": 0.71499,
+                "p99": 4.05031,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 64,
+            "cpu": {
+              "samples": 64,
+              "median": 0.249594,
+              "p95": 0.588338,
+              "p99": 2.022043,
+              "max": 2.022043
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 64,
+                "median": 0.249594,
+                "p95": 0.588338,
+                "p99": 2.022043,
+                "max": 2.022043
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 62,
+            "cpu": {
+              "samples": 62,
+              "median": 0.161414,
+              "p95": 0.296905,
+              "p99": 0.547976,
+              "max": 0.547976
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 62,
+                "median": 0.161414,
+                "p95": 0.296905,
+                "p99": 0.547976,
+                "max": 0.547976
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 133,
+            "cpu": {
+              "samples": 134,
+              "median": 0.175379,
+              "p95": 0.463856,
+              "p99": 2.801747,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 134,
+                "median": 0.175379,
+                "p95": 0.463856,
+                "p99": 2.801747,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 124,
+            "cpu": {
+              "samples": 124,
+              "median": 0.199405,
+              "p95": 0.38876,
+              "p99": 1.047334,
+              "max": 2.022043
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 124,
+                "median": 0.199405,
+                "p95": 0.38876,
+                "p99": 1.047334,
+                "max": 2.022043
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 122,
+            "cpu": {
+              "samples": 122,
+              "median": 0.134971,
+              "p95": 0.285448,
+              "p99": 0.547976,
+              "max": 0.562137
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 122,
+                "median": 0.134971,
+                "p95": 0.285448,
+                "p99": 0.547976,
+                "max": 0.562137
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 193,
+            "cpu": {
+              "samples": 194,
+              "median": 0.173207,
+              "p95": 0.463856,
+              "p99": 2.801747,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 194,
+                "median": 0.173207,
+                "p95": 0.463856,
+                "p99": 2.801747,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 184,
+            "cpu": {
+              "samples": 184,
+              "median": 0.192266,
+              "p95": 0.424379,
+              "p99": 2.022043,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 184,
+                "median": 0.192266,
+                "p95": 0.424379,
+                "p99": 2.022043,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 182,
+            "cpu": {
+              "samples": 182,
+              "median": 0.13231,
+              "p95": 0.285448,
+              "p99": 0.562137,
+              "max": 0.635702
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 182,
+                "median": 0.13231,
+                "p95": 0.285448,
+                "p99": 0.562137,
+                "max": 0.635702
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 253,
+            "cpu": {
+              "samples": 254,
+              "median": 0.169486,
+              "p95": 0.446716,
+              "p99": 1.386705,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 254,
+                "median": 0.169486,
+                "p95": 0.446716,
+                "p99": 1.386705,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 245,
+            "cpu": {
+              "samples": 245,
+              "median": 0.187769,
+              "p95": 0.424379,
+              "p99": 1.066412,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 245,
+                "median": 0.187769,
+                "p95": 0.424379,
+                "p99": 1.066412,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 243,
+            "cpu": {
+              "samples": 243,
+              "median": 0.131684,
+              "p95": 0.283727,
+              "p99": 0.547976,
+              "max": 0.635702
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 243,
+                "median": 0.131684,
+                "p95": 0.283727,
+                "p99": 0.547976,
+                "max": 0.635702
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 311,
+            "cpu": {
+              "samples": 312,
+              "median": 0.166163,
+              "p95": 0.396497,
+              "p99": 1.311426,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 312,
+                "median": 0.166163,
+                "p95": 0.396497,
+                "p99": 1.311426,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 305,
+            "cpu": {
+              "samples": 305,
+              "median": 0.180098,
+              "p95": 0.40261,
+              "p99": 1.047334,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 305,
+                "median": 0.180098,
+                "p95": 0.40261,
+                "p99": 1.047334,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 300,
+            "cpu": {
+              "samples": 300,
+              "median": 0.129792,
+              "p95": 0.283727,
+              "p99": 0.547976,
+              "max": 0.635702
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 300,
+                "median": 0.129792,
+                "p95": 0.283727,
+                "p99": 0.547976,
+                "max": 0.635702
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 371,
+            "cpu": {
+              "samples": 372,
+              "median": 0.16357,
+              "p95": 0.38556,
+              "p99": 1.311426,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 372,
+                "median": 0.16357,
+                "p95": 0.38556,
+                "p99": 1.311426,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 366,
+            "cpu": {
+              "samples": 366,
+              "median": 0.174018,
+              "p95": 0.373127,
+              "p99": 1.047334,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 366,
+                "median": 0.174018,
+                "p95": 0.373127,
+                "p99": 1.047334,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 360,
+            "cpu": {
+              "samples": 360,
+              "median": 0.125868,
+              "p95": 0.275198,
+              "p99": 0.508196,
+              "max": 0.635702
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 360,
+                "median": 0.125868,
+                "p95": 0.275198,
+                "p99": 0.508196,
+                "max": 0.635702
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 432,
+            "cpu": {
+              "samples": 433,
+              "median": 0.160459,
+              "p95": 0.375331,
+              "p99": 0.71499,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 433,
+                "median": 0.160459,
+                "p95": 0.375331,
+                "p99": 0.71499,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 426,
+            "cpu": {
+              "samples": 426,
+              "median": 0.165715,
+              "p95": 0.369897,
+              "p99": 0.752829,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 426,
+                "median": 0.165715,
+                "p95": 0.369897,
+                "p99": 0.752829,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 421,
+            "cpu": {
+              "samples": 421,
+              "median": 0.120714,
+              "p95": 0.259072,
+              "p99": 0.391727,
+              "max": 0.635702
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 421,
+                "median": 0.120714,
+                "p95": 0.259072,
+                "p99": 0.391727,
+                "max": 0.635702
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 492,
+            "cpu": {
+              "samples": 493,
+              "median": 0.157502,
+              "p95": 0.369841,
+              "p99": 0.71499,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 493,
+                "median": 0.157502,
+                "p95": 0.369841,
+                "p99": 0.71499,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 484,
+            "cpu": {
+              "samples": 484,
+              "median": 0.164029,
+              "p95": 0.361683,
+              "p99": 0.752829,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 484,
+                "median": 0.164029,
+                "p95": 0.361683,
+                "p99": 0.752829,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 481,
+            "cpu": {
+              "samples": 481,
+              "median": 0.115903,
+              "p95": 0.246948,
+              "p99": 0.391727,
+              "max": 0.635702
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 481,
+                "median": 0.115903,
+                "p95": 0.246948,
+                "p99": 0.391727,
+                "max": 0.635702
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 552,
+            "cpu": {
+              "samples": 553,
+              "median": 0.153157,
+              "p95": 0.330955,
+              "p99": 0.71499,
+              "max": 4.05031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 553,
+                "median": 0.153157,
+                "p95": 0.330955,
+                "p99": 0.71499,
+                "max": 4.05031
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 544,
+            "cpu": {
+              "samples": 544,
+              "median": 0.165805,
+              "p95": 0.361683,
+              "p99": 0.752829,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 544,
+                "median": 0.165805,
+                "p95": 0.361683,
+                "p99": 0.752829,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 542,
+            "cpu": {
+              "samples": 542,
+              "median": 0.113131,
+              "p95": 0.244294,
+              "p99": 0.391727,
+              "max": 0.775035
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 542,
+                "median": 0.113131,
+                "p95": 0.244294,
+                "p99": 0.391727,
+                "max": 0.775035
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 612,
+            "cpu": {
+              "samples": 600,
+              "median": 0.150012,
+              "p95": 0.287005,
+              "p99": 0.491705,
+              "max": 2.632537
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.150012,
+                "p95": 0.287005,
+                "p99": 0.491705,
+                "max": 2.632537
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 604,
+            "cpu": {
+              "samples": 600,
+              "median": 0.164689,
+              "p95": 0.337191,
+              "p99": 0.675451,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.164689,
+                "p95": 0.337191,
+                "p99": 0.675451,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 602,
+            "cpu": {
+              "samples": 600,
+              "median": 0.111491,
+              "p95": 0.23971,
+              "p99": 0.358663,
+              "max": 0.775035
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.111491,
+                "p95": 0.23971,
+                "p99": 0.358663,
+                "max": 0.775035
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 673,
+            "cpu": {
+              "samples": 600,
+              "median": 0.147875,
+              "p95": 0.280528,
+              "p99": 0.605688,
+              "max": 2.632537
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.147875,
+                "p95": 0.280528,
+                "p99": 0.605688,
+                "max": 2.632537
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 664,
+            "cpu": {
+              "samples": 600,
+              "median": 0.158048,
+              "p95": 0.318094,
+              "p99": 0.675451,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.158048,
+                "p95": 0.318094,
+                "p99": 0.675451,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 662,
+            "cpu": {
+              "samples": 600,
+              "median": 0.106737,
+              "p95": 0.238315,
+              "p99": 0.354469,
+              "max": 0.775035
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.106737,
+                "p95": 0.238315,
+                "p99": 0.354469,
+                "max": 0.775035
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 733,
+            "cpu": {
+              "samples": 600,
+              "median": 0.14767,
+              "p95": 0.283088,
+              "p99": 0.761875,
+              "max": 2.632537
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.14767,
+                "p95": 0.283088,
+                "p99": 0.761875,
+                "max": 2.632537
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 724,
+            "cpu": {
+              "samples": 600,
+              "median": 0.154416,
+              "p95": 0.318094,
+              "p99": 0.675451,
+              "max": 3.65118
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.154416,
+                "p95": 0.318094,
+                "p99": 0.675451,
+                "max": 3.65118
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 722,
+            "cpu": {
+              "samples": 600,
+              "median": 0.104268,
+              "p95": 0.227325,
+              "p99": 0.358663,
+              "max": 0.775035
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.104268,
+                "p95": 0.227325,
+                "p99": 0.358663,
+                "max": 0.775035
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 794,
+            "cpu": {
+              "samples": 600,
+              "median": 0.14694,
+              "p95": 0.287915,
+              "p99": 1.473618,
+              "max": 3.965372
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.14694,
+                "p95": 0.287915,
+                "p99": 1.473618,
+                "max": 3.965372
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 785,
+            "cpu": {
+              "samples": 600,
+              "median": 0.151364,
+              "p95": 0.314946,
+              "p99": 0.675451,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.151364,
+                "p95": 0.314946,
+                "p99": 0.675451,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 783,
+            "cpu": {
+              "samples": 600,
+              "median": 0.102553,
+              "p95": 0.223833,
+              "p99": 0.389965,
+              "max": 4.057121
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.102553,
+                "p95": 0.223833,
+                "p99": 0.389965,
+                "max": 4.057121
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 854,
+            "cpu": {
+              "samples": 600,
+              "median": 0.149844,
+              "p95": 2.106366,
+              "p99": 7.900139,
+              "max": 12.860723
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 9,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.149844,
+                "p95": 2.106366,
+                "p99": 7.900139,
+                "max": 12.860723
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 848,
+            "cpu": {
+              "samples": 600,
+              "median": 0.153602,
+              "p95": 0.318094,
+              "p99": 1.155483,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.153602,
+                "p95": 0.318094,
+                "p99": 1.155483,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 843,
+            "cpu": {
+              "samples": 600,
+              "median": 0.102375,
+              "p95": 0.250518,
+              "p99": 0.673361,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.102375,
+                "p95": 0.250518,
+                "p99": 0.673361,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 914,
+            "cpu": {
+              "samples": 600,
+              "median": 0.153435,
+              "p95": 2.261328,
+              "p99": 7.900139,
+              "max": 12.860723
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 9,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.153435,
+                "p95": 2.261328,
+                "p99": 7.900139,
+                "max": 12.860723
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 908,
+            "cpu": {
+              "samples": 600,
+              "median": 0.156857,
+              "p95": 0.320462,
+              "p99": 1.320122,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.156857,
+                "p95": 0.320462,
+                "p99": 1.320122,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 903,
+            "cpu": {
+              "samples": 600,
+              "median": 0.102105,
+              "p95": 0.254985,
+              "p99": 0.775035,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.102105,
+                "p95": 0.254985,
+                "p99": 0.775035,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 974,
+            "cpu": {
+              "samples": 600,
+              "median": 0.164784,
+              "p95": 2.632537,
+              "p99": 7.900139,
+              "max": 12.860723
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 9,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.164784,
+                "p95": 2.632537,
+                "p99": 7.900139,
+                "max": 12.860723
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 966,
+            "cpu": {
+              "samples": 600,
+              "median": 0.162926,
+              "p95": 0.322394,
+              "p99": 1.320122,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.162926,
+                "p95": 0.322394,
+                "p99": 1.320122,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 963,
+            "cpu": {
+              "samples": 600,
+              "median": 0.100818,
+              "p95": 0.252679,
+              "p99": 0.775035,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.100818,
+                "p95": 0.252679,
+                "p99": 0.775035,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1034,
+            "cpu": {
+              "samples": 600,
+              "median": 0.190615,
+              "p95": 2.679735,
+              "p99": 7.900139,
+              "max": 12.860723
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 9,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.190615,
+                "p95": 2.679735,
+                "p99": 7.900139,
+                "max": 12.860723
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1026,
+            "cpu": {
+              "samples": 600,
+              "median": 0.168939,
+              "p95": 0.320462,
+              "p99": 1.320122,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.168939,
+                "p95": 0.320462,
+                "p99": 1.320122,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1023,
+            "cpu": {
+              "samples": 600,
+              "median": 0.101441,
+              "p95": 0.254985,
+              "p99": 0.775035,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.101441,
+                "p95": 0.254985,
+                "p99": 0.775035,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1095,
+            "cpu": {
+              "samples": 600,
+              "median": 1.361863,
+              "p95": 3.500871,
+              "p99": 8.599674,
+              "max": 19.97162
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.361863,
+                "p95": 3.500871,
+                "p99": 8.599674,
+                "max": 19.97162
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1086,
+            "cpu": {
+              "samples": 600,
+              "median": 0.170464,
+              "p95": 0.334517,
+              "p99": 1.320122,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.170464,
+                "p95": 0.334517,
+                "p99": 1.320122,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1084,
+            "cpu": {
+              "samples": 600,
+              "median": 0.103588,
+              "p95": 0.264675,
+              "p99": 0.775035,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.103588,
+                "p95": 0.264675,
+                "p99": 0.775035,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1155,
+            "cpu": {
+              "samples": 600,
+              "median": 1.596684,
+              "p95": 3.965372,
+              "p99": 9.288176,
+              "max": 19.97162
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.596684,
+                "p95": 3.965372,
+                "p99": 9.288176,
+                "max": 19.97162
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1147,
+            "cpu": {
+              "samples": 600,
+              "median": 0.174267,
+              "p95": 0.362137,
+              "p99": 1.320122,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.174267,
+                "p95": 0.362137,
+                "p99": 1.320122,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1144,
+            "cpu": {
+              "samples": 600,
+              "median": 0.106784,
+              "p95": 0.268171,
+              "p99": 0.673361,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.106784,
+                "p95": 0.268171,
+                "p99": 0.673361,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1221,
+            "cpu": {
+              "samples": 600,
+              "median": 1.684965,
+              "p95": 4.057204,
+              "p99": 9.288176,
+              "max": 19.97162
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.684965,
+                "p95": 4.057204,
+                "p99": 9.288176,
+                "max": 19.97162
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1216,
+            "cpu": {
+              "samples": 600,
+              "median": 0.178367,
+              "p95": 0.368789,
+              "p99": 1.320122,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.178367,
+                "p95": 0.368789,
+                "p99": 1.320122,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1210,
+            "cpu": {
+              "samples": 600,
+              "median": 0.102926,
+              "p95": 0.264675,
+              "p99": 0.673361,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.102926,
+                "p95": 0.264675,
+                "p99": 0.673361,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1281,
+            "cpu": {
+              "samples": 600,
+              "median": 1.716416,
+              "p95": 4.057204,
+              "p99": 9.288176,
+              "max": 19.97162
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.716416,
+                "p95": 4.057204,
+                "p99": 9.288176,
+                "max": 19.97162
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1276,
+            "cpu": {
+              "samples": 600,
+              "median": 0.184618,
+              "p95": 0.387634,
+              "p99": 1.320122,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.184618,
+                "p95": 0.387634,
+                "p99": 1.320122,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1271,
+            "cpu": {
+              "samples": 600,
+              "median": 0.102778,
+              "p95": 0.260347,
+              "p99": 0.673361,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.102778,
+                "p95": 0.260347,
+                "p99": 0.673361,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1342,
+            "cpu": {
+              "samples": 600,
+              "median": 1.735626,
+              "p95": 4.057204,
+              "p99": 9.288176,
+              "max": 19.97162
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.735626,
+                "p95": 4.057204,
+                "p99": 9.288176,
+                "max": 19.97162
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1336,
+            "cpu": {
+              "samples": 600,
+              "median": 0.189232,
+              "p95": 0.386749,
+              "p99": 1.155483,
+              "max": 5.48193
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.189232,
+                "p95": 0.386749,
+                "p99": 1.155483,
+                "max": 5.48193
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1331,
+            "cpu": {
+              "samples": 600,
+              "median": 0.103139,
+              "p95": 0.253447,
+              "p99": 0.62376,
+              "max": 80.830122
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.103139,
+                "p95": 0.253447,
+                "p99": 0.62376,
+                "max": 80.830122
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1401,
+            "cpu": {
+              "samples": 600,
+              "median": 1.760098,
+              "p95": 3.787825,
+              "p99": 7.24794,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 11,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.760098,
+                "p95": 3.787825,
+                "p99": 7.24794,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1395,
+            "cpu": {
+              "samples": 600,
+              "median": 0.190391,
+              "p95": 0.386749,
+              "p99": 0.901725,
+              "max": 2.404511
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.190391,
+                "p95": 0.386749,
+                "p99": 0.901725,
+                "max": 2.404511
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1390,
+            "cpu": {
+              "samples": 600,
+              "median": 0.102586,
+              "p95": 0.23536,
+              "p99": 0.498063,
+              "max": 2.924381
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.102586,
+                "p95": 0.23536,
+                "p99": 0.498063,
+                "max": 2.924381
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1461,
+            "cpu": {
+              "samples": 600,
+              "median": 1.749557,
+              "p95": 3.53179,
+              "p99": 6.558712,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 11,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.749557,
+                "p95": 3.53179,
+                "p99": 6.558712,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1455,
+            "cpu": {
+              "samples": 600,
+              "median": 0.189041,
+              "p95": 0.343285,
+              "p99": 0.71377,
+              "max": 1.843774
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.189041,
+                "p95": 0.343285,
+                "p99": 0.71377,
+                "max": 1.843774
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1450,
+            "cpu": {
+              "samples": 600,
+              "median": 0.101456,
+              "p95": 0.218978,
+              "p99": 0.430683,
+              "max": 1.341395
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.101456,
+                "p95": 0.218978,
+                "p99": 0.430683,
+                "max": 1.341395
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1521,
+            "cpu": {
+              "samples": 600,
+              "median": 1.725011,
+              "p95": 3.598062,
+              "p99": 6.558712,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 11,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.725011,
+                "p95": 3.598062,
+                "p99": 6.558712,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1515,
+            "cpu": {
+              "samples": 600,
+              "median": 0.188134,
+              "p95": 0.343285,
+              "p99": 0.690188,
+              "max": 1.843774
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.188134,
+                "p95": 0.343285,
+                "p99": 0.690188,
+                "max": 1.843774
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1510,
+            "cpu": {
+              "samples": 600,
+              "median": 0.101197,
+              "p95": 0.209935,
+              "p99": 0.327888,
+              "max": 0.849351
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.101197,
+                "p95": 0.209935,
+                "p99": 0.327888,
+                "max": 0.849351
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1583,
+            "cpu": {
+              "samples": 600,
+              "median": 1.72351,
+              "p95": 3.727023,
+              "p99": 7.24794,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 11,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.72351,
+                "p95": 3.727023,
+                "p99": 7.24794,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1574,
+            "cpu": {
+              "samples": 600,
+              "median": 0.186261,
+              "p95": 0.343285,
+              "p99": 0.71377,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.186261,
+                "p95": 0.343285,
+                "p99": 0.71377,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1572,
+            "cpu": {
+              "samples": 600,
+              "median": 0.101183,
+              "p95": 0.215691,
+              "p99": 0.327888,
+              "max": 0.849351
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.101183,
+                "p95": 0.215691,
+                "p99": 0.327888,
+                "max": 0.849351
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1643,
+            "cpu": {
+              "samples": 600,
+              "median": 1.708989,
+              "p95": 3.727023,
+              "p99": 7.24794,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 11,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.708989,
+                "p95": 3.727023,
+                "p99": 7.24794,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1635,
+            "cpu": {
+              "samples": 600,
+              "median": 0.187542,
+              "p95": 0.351636,
+              "p99": 0.71377,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.187542,
+                "p95": 0.351636,
+                "p99": 0.71377,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1632,
+            "cpu": {
+              "samples": 600,
+              "median": 0.101183,
+              "p95": 0.211045,
+              "p99": 0.336442,
+              "max": 0.849351
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.101183,
+                "p95": 0.211045,
+                "p99": 0.336442,
+                "max": 0.849351
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1703,
+            "cpu": {
+              "samples": 600,
+              "median": 1.712862,
+              "p95": 3.210572,
+              "p99": 5.038418,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.712862,
+                "p95": 3.210572,
+                "p99": 5.038418,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1695,
+            "cpu": {
+              "samples": 600,
+              "median": 0.190319,
+              "p95": 0.351731,
+              "p99": 0.736966,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.190319,
+                "p95": 0.351731,
+                "p99": 0.736966,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1692,
+            "cpu": {
+              "samples": 600,
+              "median": 0.104177,
+              "p95": 0.209935,
+              "p99": 0.430683,
+              "max": 0.849351
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.104177,
+                "p95": 0.209935,
+                "p99": 0.430683,
+                "max": 0.849351
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1764,
+            "cpu": {
+              "samples": 600,
+              "median": 1.699218,
+              "p95": 3.135852,
+              "p99": 5.038418,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.699218,
+                "p95": 3.135852,
+                "p99": 5.038418,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1755,
+            "cpu": {
+              "samples": 600,
+              "median": 0.190881,
+              "p95": 0.381687,
+              "p99": 0.690188,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.190881,
+                "p95": 0.381687,
+                "p99": 0.690188,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1753,
+            "cpu": {
+              "samples": 600,
+              "median": 0.107465,
+              "p95": 0.219307,
+              "p99": 0.462379,
+              "max": 4.253827
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.107465,
+                "p95": 0.219307,
+                "p99": 0.462379,
+                "max": 4.253827
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1824,
+            "cpu": {
+              "samples": 600,
+              "median": 1.680558,
+              "p95": 3.045911,
+              "p99": 4.951519,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.680558,
+                "p95": 3.045911,
+                "p99": 4.951519,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1815,
+            "cpu": {
+              "samples": 600,
+              "median": 0.193588,
+              "p95": 0.389249,
+              "p99": 0.733569,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.193588,
+                "p95": 0.389249,
+                "p99": 0.733569,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1813,
+            "cpu": {
+              "samples": 600,
+              "median": 0.112981,
+              "p95": 0.23536,
+              "p99": 0.46493,
+              "max": 4.253827
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.112981,
+                "p95": 0.23536,
+                "p99": 0.46493,
+                "max": 4.253827
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1881,
+            "cpu": {
+              "samples": 600,
+              "median": 1.693317,
+              "p95": 3.210373,
+              "p99": 9.010571,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.693317,
+                "p95": 3.210373,
+                "p99": 9.010571,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1876,
+            "cpu": {
+              "samples": 600,
+              "median": 0.190027,
+              "p95": 0.384119,
+              "p99": 0.739593,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 6,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.190027,
+                "p95": 0.384119,
+                "p99": 0.739593,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1871,
+            "cpu": {
+              "samples": 600,
+              "median": 0.113053,
+              "p95": 0.250562,
+              "p99": 0.46493,
+              "max": 4.253827
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.113053,
+                "p95": 0.250562,
+                "p99": 0.46493,
+                "max": 4.253827
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 1951,
+            "cpu": {
+              "samples": 600,
+              "median": 1.69713,
+              "p95": 3.210572,
+              "p99": 9.010571,
+              "max": 44.815264
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.69713,
+                "p95": 3.210572,
+                "p99": 9.010571,
+                "max": 44.815264
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 1942,
+            "cpu": {
+              "samples": 600,
+              "median": 0.183121,
+              "p95": 0.389249,
+              "p99": 0.739593,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.183121,
+                "p95": 0.389249,
+                "p99": 0.739593,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 1940,
+            "cpu": {
+              "samples": 600,
+              "median": 0.110171,
+              "p95": 0.249057,
+              "p99": 0.46493,
+              "max": 4.253827
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.110171,
+                "p95": 0.249057,
+                "p99": 0.46493,
+                "max": 4.253827
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2011,
+            "cpu": {
+              "samples": 600,
+              "median": 1.652721,
+              "p95": 3.153924,
+              "p99": 6.027803,
+              "max": 14.666022
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.652721,
+                "p95": 3.153924,
+                "p99": 6.027803,
+                "max": 14.666022
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2003,
+            "cpu": {
+              "samples": 600,
+              "median": 0.173061,
+              "p95": 0.370149,
+              "p99": 0.739593,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.173061,
+                "p95": 0.370149,
+                "p99": 0.739593,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2000,
+            "cpu": {
+              "samples": 600,
+              "median": 0.103549,
+              "p95": 0.23971,
+              "p99": 0.444563,
+              "max": 4.253827
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.103549,
+                "p95": 0.23971,
+                "p99": 0.444563,
+                "max": 4.253827
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2072,
+            "cpu": {
+              "samples": 600,
+              "median": 1.586851,
+              "p95": 3.153924,
+              "p99": 6.027803,
+              "max": 14.666022
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.586851,
+                "p95": 3.153924,
+                "p99": 6.027803,
+                "max": 14.666022
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2063,
+            "cpu": {
+              "samples": 600,
+              "median": 0.168044,
+              "p95": 0.389249,
+              "p99": 0.902603,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.168044,
+                "p95": 0.389249,
+                "p99": 0.902603,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2061,
+            "cpu": {
+              "samples": 600,
+              "median": 0.099512,
+              "p95": 0.243898,
+              "p99": 0.462379,
+              "max": 4.253827
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.099512,
+                "p95": 0.243898,
+                "p99": 0.462379,
+                "max": 4.253827
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2132,
+            "cpu": {
+              "samples": 600,
+              "median": 1.556535,
+              "p95": 3.135852,
+              "p99": 6.027803,
+              "max": 14.666022
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.556535,
+                "p95": 3.135852,
+                "p99": 6.027803,
+                "max": 14.666022
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2123,
+            "cpu": {
+              "samples": 600,
+              "median": 0.166104,
+              "p95": 0.415049,
+              "p99": 1.1103,
+              "max": 3.763031
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.166104,
+                "p95": 0.415049,
+                "p99": 1.1103,
+                "max": 3.763031
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2121,
+            "cpu": {
+              "samples": 600,
+              "median": 0.098266,
+              "p95": 0.252296,
+              "p99": 0.462379,
+              "max": 4.253827
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.098266,
+                "p95": 0.252296,
+                "p99": 0.462379,
+                "max": 4.253827
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2192,
+            "cpu": {
+              "samples": 600,
+              "median": 1.478646,
+              "p95": 2.867497,
+              "p99": 4.951519,
+              "max": 10.992767
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.478646,
+                "p95": 2.867497,
+                "p99": 4.951519,
+                "max": 10.992767
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2183,
+            "cpu": {
+              "samples": 600,
+              "median": 0.161121,
+              "p95": 0.49395,
+              "p99": 1.451204,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.161121,
+                "p95": 0.49395,
+                "p99": 1.451204,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2181,
+            "cpu": {
+              "samples": 600,
+              "median": 0.097266,
+              "p95": 0.259382,
+              "p99": 0.829449,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.097266,
+                "p95": 0.259382,
+                "p99": 0.829449,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2252,
+            "cpu": {
+              "samples": 600,
+              "median": 1.290513,
+              "p95": 2.867497,
+              "p99": 4.951519,
+              "max": 10.992767
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 1.290513,
+                "p95": 2.867497,
+                "p99": 4.951519,
+                "max": 10.992767
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2243,
+            "cpu": {
+              "samples": 600,
+              "median": 0.15419,
+              "p95": 0.520787,
+              "p99": 1.683367,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.15419,
+                "p95": 0.520787,
+                "p99": 1.683367,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2241,
+            "cpu": {
+              "samples": 600,
+              "median": 0.093386,
+              "p95": 0.254629,
+              "p99": 0.829449,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.093386,
+                "p95": 0.254629,
+                "p99": 0.829449,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2312,
+            "cpu": {
+              "samples": 600,
+              "median": 0.019922,
+              "p95": 2.684097,
+              "p99": 4.153545,
+              "max": 10.00397
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.019922,
+                "p95": 2.684097,
+                "p99": 4.153545,
+                "max": 10.00397
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2303,
+            "cpu": {
+              "samples": 600,
+              "median": 0.144559,
+              "p95": 0.510314,
+              "p99": 1.683367,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.144559,
+                "p95": 0.510314,
+                "p99": 1.683367,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2301,
+            "cpu": {
+              "samples": 600,
+              "median": 0.085312,
+              "p95": 0.254532,
+              "p99": 0.829449,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.085312,
+                "p95": 0.254532,
+                "p99": 0.829449,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2372,
+            "cpu": {
+              "samples": 600,
+              "median": 0.01648,
+              "p95": 2.589197,
+              "p99": 3.715369,
+              "max": 10.00397
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.01648,
+                "p95": 2.589197,
+                "p99": 3.715369,
+                "max": 10.00397
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2364,
+            "cpu": {
+              "samples": 600,
+              "median": 0.140345,
+              "p95": 0.494416,
+              "p99": 1.451204,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.140345,
+                "p95": 0.494416,
+                "p99": 1.451204,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2362,
+            "cpu": {
+              "samples": 600,
+              "median": 0.080484,
+              "p95": 0.236862,
+              "p99": 0.7096,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.080484,
+                "p95": 0.236862,
+                "p99": 0.7096,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2433,
+            "cpu": {
+              "samples": 600,
+              "median": 0.015755,
+              "p95": 2.467129,
+              "p99": 3.715369,
+              "max": 10.00397
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.015755,
+                "p95": 2.467129,
+                "p99": 3.715369,
+                "max": 10.00397
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2424,
+            "cpu": {
+              "samples": 600,
+              "median": 0.136366,
+              "p95": 0.425827,
+              "p99": 1.451204,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.136366,
+                "p95": 0.425827,
+                "p99": 1.451204,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2422,
+            "cpu": {
+              "samples": 600,
+              "median": 0.076796,
+              "p95": 0.214592,
+              "p99": 0.478412,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.076796,
+                "p95": 0.214592,
+                "p99": 0.478412,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2493,
+            "cpu": {
+              "samples": 600,
+              "median": 0.013245,
+              "p95": 1.557451,
+              "p99": 2.619499,
+              "max": 3.715369
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.013245,
+                "p95": 1.557451,
+                "p99": 2.619499,
+                "max": 3.715369
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2484,
+            "cpu": {
+              "samples": 600,
+              "median": 0.135816,
+              "p95": 0.365196,
+              "p99": 1.451204,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.135816,
+                "p95": 0.365196,
+                "p99": 1.451204,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2479,
+            "cpu": {
+              "samples": 600,
+              "median": 0.075429,
+              "p95": 0.189956,
+              "p99": 0.478412,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.075429,
+                "p95": 0.189956,
+                "p99": 0.478412,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2550,
+            "cpu": {
+              "samples": 600,
+              "median": 0.012779,
+              "p95": 0.367054,
+              "p99": 1.498106,
+              "max": 2.269581
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.012779,
+                "p95": 0.367054,
+                "p99": 1.498106,
+                "max": 2.269581
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2545,
+            "cpu": {
+              "samples": 600,
+              "median": 0.135602,
+              "p95": 0.36208,
+              "p99": 1.451204,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.135602,
+                "p95": 0.36208,
+                "p99": 1.451204,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2539,
+            "cpu": {
+              "samples": 600,
+              "median": 0.072917,
+              "p95": 0.196535,
+              "p99": 0.478412,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.072917,
+                "p95": 0.196535,
+                "p99": 0.478412,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2610,
+            "cpu": {
+              "samples": 600,
+              "median": 0.012498,
+              "p95": 0.023164,
+              "p99": 0.2184,
+              "max": 1.102812
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.012498,
+                "p95": 0.023164,
+                "p99": 0.2184,
+                "max": 1.102812
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2605,
+            "cpu": {
+              "samples": 600,
+              "median": 0.13342,
+              "p95": 0.352186,
+              "p99": 1.451204,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 8,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.13342,
+                "p95": 0.352186,
+                "p99": 1.451204,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2600,
+            "cpu": {
+              "samples": 600,
+              "median": 0.071263,
+              "p95": 0.189956,
+              "p99": 0.478412,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.071263,
+                "p95": 0.189956,
+                "p99": 0.478412,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2680,
+            "cpu": {
+              "samples": 600,
+              "median": 0.012402,
+              "p95": 0.019558,
+              "p99": 0.099294,
+              "max": 0.367054
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.012402,
+                "p95": 0.019558,
+                "p99": 0.099294,
+                "max": 0.367054
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2671,
+            "cpu": {
+              "samples": 600,
+              "median": 0.132772,
+              "p95": 0.310506,
+              "p99": 1.181731,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.132772,
+                "p95": 0.310506,
+                "p99": 1.181731,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2669,
+            "cpu": {
+              "samples": 600,
+              "median": 0.068603,
+              "p95": 0.187859,
+              "p99": 0.317835,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.068603,
+                "p95": 0.187859,
+                "p99": 0.317835,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2740,
+            "cpu": {
+              "samples": 600,
+              "median": 0.012224,
+              "p95": 0.016775,
+              "p99": 0.03936,
+              "max": 0.131873
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.012224,
+                "p95": 0.016775,
+                "p99": 0.03936,
+                "max": 0.131873
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2731,
+            "cpu": {
+              "samples": 600,
+              "median": 0.130127,
+              "p95": 0.255456,
+              "p99": 1.016835,
+              "max": 8.570239
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.130127,
+                "p95": 0.255456,
+                "p99": 1.016835,
+                "max": 8.570239
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2729,
+            "cpu": {
+              "samples": 600,
+              "median": 0.065321,
+              "p95": 0.174345,
+              "p99": 0.341586,
+              "max": 14.660895
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.065321,
+                "p95": 0.174345,
+                "p99": 0.341586,
+                "max": 14.660895
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2800,
+            "cpu": {
+              "samples": 600,
+              "median": 0.012043,
+              "p95": 0.01648,
+              "p99": 0.037348,
+              "max": 0.131873
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.012043,
+                "p95": 0.01648,
+                "p99": 0.037348,
+                "max": 0.131873
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2792,
+            "cpu": {
+              "samples": 600,
+              "median": 0.128142,
+              "p95": 0.228561,
+              "p99": 0.520787,
+              "max": 1.695832
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.128142,
+                "p95": 0.228561,
+                "p99": 0.520787,
+                "max": 1.695832
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2789,
+            "cpu": {
+              "samples": 600,
+              "median": 0.064538,
+              "p95": 0.149645,
+              "p99": 0.298981,
+              "max": 0.7096
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.064538,
+                "p95": 0.149645,
+                "p99": 0.298981,
+                "max": 0.7096
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2861,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011958,
+              "p95": 0.01475,
+              "p99": 0.038182,
+              "max": 0.102244
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011958,
+                "p95": 0.01475,
+                "p99": 0.038182,
+                "max": 0.102244
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2852,
+            "cpu": {
+              "samples": 600,
+              "median": 0.127271,
+              "p95": 0.221356,
+              "p99": 0.387973,
+              "max": 1.181731
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.127271,
+                "p95": 0.221356,
+                "p99": 0.387973,
+                "max": 1.181731
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2847,
+            "cpu": {
+              "samples": 600,
+              "median": 0.063765,
+              "p95": 0.145819,
+              "p99": 0.312197,
+              "max": 0.7096
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.063765,
+                "p95": 0.145819,
+                "p99": 0.312197,
+                "max": 0.7096
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2918,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011823,
+              "p95": 0.014137,
+              "p99": 0.060154,
+              "max": 0.175552
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011823,
+                "p95": 0.014137,
+                "p99": 0.060154,
+                "max": 0.175552
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2912,
+            "cpu": {
+              "samples": 600,
+              "median": 0.126115,
+              "p95": 0.221356,
+              "p99": 0.387973,
+              "max": 1.181731
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.126115,
+                "p95": 0.221356,
+                "p99": 0.387973,
+                "max": 1.181731
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2907,
+            "cpu": {
+              "samples": 600,
+              "median": 0.063765,
+              "p95": 0.13327,
+              "p99": 0.298981,
+              "max": 0.341586
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.063765,
+                "p95": 0.13327,
+                "p99": 0.298981,
+                "max": 0.341586
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 2979,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011779,
+              "p95": 0.015115,
+              "p99": 0.077008,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011779,
+                "p95": 0.015115,
+                "p99": 0.077008,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 2973,
+            "cpu": {
+              "samples": 600,
+              "median": 0.125674,
+              "p95": 0.2226,
+              "p99": 0.406061,
+              "max": 1.306698
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.125674,
+                "p95": 0.2226,
+                "p99": 0.406061,
+                "max": 1.306698
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 2968,
+            "cpu": {
+              "samples": 600,
+              "median": 0.064911,
+              "p95": 0.169698,
+              "p99": 0.323916,
+              "max": 2.22878
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.064911,
+                "p95": 0.169698,
+                "p99": 0.323916,
+                "max": 2.22878
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3039,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011665,
+              "p95": 0.015123,
+              "p99": 0.077008,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011665,
+                "p95": 0.015123,
+                "p99": 0.077008,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3033,
+            "cpu": {
+              "samples": 600,
+              "median": 0.125674,
+              "p95": 0.221356,
+              "p99": 0.406061,
+              "max": 1.306698
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.125674,
+                "p95": 0.221356,
+                "p99": 0.406061,
+                "max": 1.306698
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3028,
+            "cpu": {
+              "samples": 600,
+              "median": 0.065266,
+              "p95": 0.165949,
+              "p99": 0.323916,
+              "max": 2.22878
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.065266,
+                "p95": 0.165949,
+                "p99": 0.323916,
+                "max": 2.22878
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3099,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011577,
+              "p95": 0.015115,
+              "p99": 0.11484,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011577,
+                "p95": 0.015115,
+                "p99": 0.11484,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3093,
+            "cpu": {
+              "samples": 600,
+              "median": 0.124898,
+              "p95": 0.224365,
+              "p99": 0.406061,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.124898,
+                "p95": 0.224365,
+                "p99": 0.406061,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3088,
+            "cpu": {
+              "samples": 600,
+              "median": 0.065336,
+              "p95": 0.161492,
+              "p99": 0.323916,
+              "max": 2.22878
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.065336,
+                "p95": 0.161492,
+                "p99": 0.323916,
+                "max": 2.22878
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3159,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011484,
+              "p95": 0.01474,
+              "p99": 0.11484,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011484,
+                "p95": 0.01474,
+                "p99": 0.11484,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3154,
+            "cpu": {
+              "samples": 600,
+              "median": 0.1244,
+              "p95": 0.216638,
+              "p99": 0.406061,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.1244,
+                "p95": 0.216638,
+                "p99": 0.406061,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3148,
+            "cpu": {
+              "samples": 600,
+              "median": 0.065073,
+              "p95": 0.165554,
+              "p99": 0.334983,
+              "max": 2.22878
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.065073,
+                "p95": 0.165554,
+                "p99": 0.334983,
+                "max": 2.22878
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3220,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011366,
+              "p95": 0.014836,
+              "p99": 0.11484,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011366,
+                "p95": 0.014836,
+                "p99": 0.11484,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3214,
+            "cpu": {
+              "samples": 600,
+              "median": 0.124704,
+              "p95": 0.225051,
+              "p99": 0.406061,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.124704,
+                "p95": 0.225051,
+                "p99": 0.406061,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3209,
+            "cpu": {
+              "samples": 600,
+              "median": 0.066959,
+              "p95": 0.172731,
+              "p99": 0.334983,
+              "max": 2.22878
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.066959,
+                "p95": 0.172731,
+                "p99": 0.334983,
+                "max": 2.22878
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3280,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011215,
+              "p95": 0.013716,
+              "p99": 0.11484,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011215,
+                "p95": 0.013716,
+                "p99": 0.11484,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3271,
+            "cpu": {
+              "samples": 600,
+              "median": 0.124096,
+              "p95": 0.213429,
+              "p99": 0.383532,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.124096,
+                "p95": 0.213429,
+                "p99": 0.383532,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3269,
+            "cpu": {
+              "samples": 600,
+              "median": 0.065786,
+              "p95": 0.159974,
+              "p99": 0.334983,
+              "max": 2.22878
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.065786,
+                "p95": 0.159974,
+                "p99": 0.334983,
+                "max": 2.22878
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3340,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011185,
+              "p95": 0.013326,
+              "p99": 0.11484,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011185,
+                "p95": 0.013326,
+                "p99": 0.11484,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3332,
+            "cpu": {
+              "samples": 600,
+              "median": 0.123358,
+              "p95": 0.206294,
+              "p99": 0.334618,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.123358,
+                "p95": 0.206294,
+                "p99": 0.334618,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3329,
+            "cpu": {
+              "samples": 600,
+              "median": 0.065786,
+              "p95": 0.149372,
+              "p99": 0.323916,
+              "max": 2.22878
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.065786,
+                "p95": 0.149372,
+                "p99": 0.323916,
+                "max": 2.22878
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3401,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011188,
+              "p95": 0.013208,
+              "p99": 0.11484,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011188,
+                "p95": 0.013208,
+                "p99": 0.11484,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3392,
+            "cpu": {
+              "samples": 600,
+              "median": 0.124134,
+              "p95": 0.212758,
+              "p99": 0.334618,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.124134,
+                "p95": 0.212758,
+                "p99": 0.334618,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3390,
+            "cpu": {
+              "samples": 600,
+              "median": 0.065336,
+              "p95": 0.148004,
+              "p99": 0.334983,
+              "max": 2.22878
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.065336,
+                "p95": 0.148004,
+                "p99": 0.334983,
+                "max": 2.22878
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3461,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011157,
+              "p95": 0.013107,
+              "p99": 0.11484,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011157,
+                "p95": 0.013107,
+                "p99": 0.11484,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3452,
+            "cpu": {
+              "samples": 600,
+              "median": 0.1244,
+              "p95": 0.213362,
+              "p99": 0.383532,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.1244,
+                "p95": 0.213362,
+                "p99": 0.383532,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3450,
+            "cpu": {
+              "samples": 600,
+              "median": 0.067139,
+              "p95": 0.153074,
+              "p99": 0.362584,
+              "max": 3.121894
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.067139,
+                "p95": 0.153074,
+                "p99": 0.362584,
+                "max": 3.121894
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3521,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011169,
+              "p95": 0.012887,
+              "p99": 0.063924,
+              "max": 0.569255
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011169,
+                "p95": 0.012887,
+                "p99": 0.063924,
+                "max": 0.569255
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3513,
+            "cpu": {
+              "samples": 600,
+              "median": 0.1244,
+              "p95": 0.213281,
+              "p99": 0.450092,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.1244,
+                "p95": 0.213281,
+                "p99": 0.450092,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3510,
+            "cpu": {
+              "samples": 600,
+              "median": 0.067139,
+              "p95": 0.159974,
+              "p99": 0.560303,
+              "max": 3.121894
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.067139,
+                "p95": 0.159974,
+                "p99": 0.560303,
+                "max": 3.121894
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3579,
+            "cpu": {
+              "samples": 600,
+              "median": 0.011063,
+              "p95": 0.012435,
+              "p99": 0.046748,
+              "max": 0.381078
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.011063,
+                "p95": 0.012435,
+                "p99": 0.046748,
+                "max": 0.381078
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3573,
+            "cpu": {
+              "samples": 600,
+              "median": 0.12425,
+              "p95": 0.206294,
+              "p99": 0.420234,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.12425,
+                "p95": 0.206294,
+                "p99": 0.420234,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3568,
+            "cpu": {
+              "samples": 600,
+              "median": 0.065312,
+              "p95": 0.13626,
+              "p99": 0.309149,
+              "max": 3.121894
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.065312,
+                "p95": 0.13626,
+                "p99": 0.309149,
+                "max": 3.121894
+              }
+            },
+            "entities": 6
+          }
+        ],
+        [
+          {
+            "tick": 3639,
+            "cpu": {
+              "samples": 600,
+              "median": 0.010561,
+              "p95": 0.012358,
+              "p99": 0.046748,
+              "max": 0.381078
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 12,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.010561,
+                "p95": 0.012358,
+                "p99": 0.046748,
+                "max": 0.381078
+              }
+            },
+            "entities": 4
+          },
+          {
+            "tick": 3634,
+            "cpu": {
+              "samples": 600,
+              "median": 0.124134,
+              "p95": 0.213362,
+              "p99": 0.440089,
+              "max": 2.721497
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 10,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.124134,
+                "p95": 0.213362,
+                "p99": 0.440089,
+                "max": 2.721497
+              }
+            },
+            "entities": 7
+          },
+          {
+            "tick": 3628,
+            "cpu": {
+              "samples": 600,
+              "median": 0.063395,
+              "p95": 0.132873,
+              "p99": 0.299157,
+              "max": 3.121894
+            },
+            "stats": {
+              "accepted": 0,
+              "rejected": 0,
+              "corrections": 4,
+              "maxQueue": 0,
+              "maxHistory": 0,
+              "maxWork": 0,
+              "work": 0,
+              "ownedTicks": 0,
+              "reasons": {},
+              "cpu": {
+                "samples": 600,
+                "median": 0.063395,
+                "p95": 0.132873,
+                "p99": 0.299157,
+                "max": 3.121894
+              }
+            },
+            "entities": 6
+          }
+        ]
+      ],
+      "rssBytes": {
+        "samples": 60,
+        "p50": 159981568,
+        "p95": 162603008,
+        "p99": 162734080,
+        "worst": 162734080
+      },
+      "rssStart": 103706624,
+      "rssEnd": 162734080,
+      "network": [
+        {
+          "bytes": 12509812,
+          "bytesPerSecond": 206877.35914727917,
+          "frames": 1600,
+          "maxFrame": 28730,
+          "arrivalMs": {
+            "samples": 1599,
+            "p50": 49.910987999999634,
+            "p95": 51.51344600000448,
+            "p99": 54.66977699999916,
+            "worst": 182.65759000000253
+          }
+        },
+        {
+          "bytes": 12068380,
+          "bytesPerSecond": 199577.3064843693,
+          "frames": 1599,
+          "maxFrame": 28730,
+          "arrivalMs": {
+            "samples": 1598,
+            "p50": 49.92815600000176,
+            "p95": 51.6810719999994,
+            "p99": 55.32844800000021,
+            "worst": 182.70810599999822
+          }
+        },
+        {
+          "bytes": 12005398,
+          "bytesPerSecond": 198535.76006993768,
+          "frames": 1599,
+          "maxFrame": 28730,
+          "arrivalMs": {
+            "samples": 1598,
+            "p50": 49.91709600000104,
+            "p95": 51.734356999997544,
+            "p99": 55.46707400000014,
+            "worst": 182.65510899999936
+          }
+        },
+        {
+          "bytes": 11947237,
+          "bytesPerSecond": 197573.93953375655,
+          "frames": 1599,
+          "maxFrame": 28730,
+          "arrivalMs": {
+            "samples": 1598,
+            "p50": 49.9114840000002,
+            "p95": 51.83695199999784,
+            "p99": 57.598384000000806,
+            "worst": 182.65130099999806
+          }
+        },
+        {
+          "bytes": 5857830,
+          "bytesPerSecond": 96872.15129481613,
+          "frames": 1205,
+          "maxFrame": 5274,
+          "arrivalMs": {
+            "samples": 1204,
+            "p50": 50.18327600000339,
+            "p95": 51.957280000002356,
+            "p99": 60.018199999998615,
+            "worst": 184.4012769999972
+          }
+        },
+        {
+          "bytes": 1695596,
+          "bytesPerSecond": 28040.423202258353,
+          "frames": 377,
+          "maxFrame": 4528,
+          "arrivalMs": {
+            "samples": 376,
+            "p50": 50.16027599999995,
+            "p95": 52.148088999998436,
+            "p99": 62.76657899999918,
+            "worst": 159.83852599999955
+          }
+        },
+        {
+          "bytes": 5232738,
+          "bytesPerSecond": 86534.8750684355,
+          "frames": 1197,
+          "maxFrame": 4749,
+          "arrivalMs": {
+            "samples": 1196,
+            "p50": 50.20262499999808,
+            "p95": 52.47311400000035,
+            "p99": 59.997293000000354,
+            "worst": 182.53631500000483
+          }
+        },
+        {
+          "bytes": 4825719,
+          "bytesPerSecond": 79803.91733359772,
+          "frames": 1197,
+          "maxFrame": 4051,
+          "arrivalMs": {
+            "samples": 1196,
+            "p50": 50.20299800000066,
+            "p95": 52.50967900000251,
+            "p99": 60.33772399999725,
+            "worst": 182.53875999999582
+          }
+        }
+      ],
+      "roomRecreation": {
+        "oldEpoch": "9b4be55e-0a01-4923-8516-88f14648c108",
+        "newEpoch": "18750401-ce7e-461f-9153-50cb04cf089e",
+        "oldStateExcluded": true
+      },
+      "classification": "PASS / BOUNDED 60 SECOND MEASUREMENT; not long-term leak or capacity certification"
+    },
+    {
+      "workload": "64 Hounds + 64 Smilers active real server",
+      "seconds": 10.000497905000003,
+      "entities": 128,
+      "frozenDuringMeasurement": false,
+      "cpu": {
+        "samples": 600,
+        "median": 3.133961,
+        "p95": 8.017157,
+        "p99": 14.018156,
+        "max": 21.533978
+      },
+      "advancedTicks": 598,
+      "serverRssBytes": 165179392,
+      "bytesPerSecond": 1228511.6953227383,
+      "maxFrameBytes": 66842,
+      "arrivalMs": {
+        "samples": 195,
+        "p50": 50.17345599998953,
+        "p95": 56.07626000000164,
+        "p99": 68.79902299999958,
+        "worst": 212.70220700000937
+      },
+      "capReject": {
+        "t": "ares",
+        "ok": false,
+        "msg": "ENTITY LIMIT"
+      },
+      "classification": "PASS / BOUNDED STRESS MEASUREMENT; not a normal-room threshold"
+    }
+  ],
+  "telemetry": {
+    "runtime": "v24.19.0",
+    "pid": 22,
+    "samples": [
+      {
+        "seconds": 1.0000667490000001,
+        "memory": {
+          "rss": 103706624,
+          "heapTotal": 59756544,
+          "heapUsed": 32215624,
+          "external": 6065543,
+          "arrayBuffers": 2317094
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 14.139391,
+          "p99": 19.300351,
+          "max": 243.007487
+        }
+      },
+      {
+        "seconds": 2.000638867,
+        "memory": {
+          "rss": 105168896,
+          "heapTotal": 60280832,
+          "heapUsed": 27293304,
+          "external": 5672367,
+          "arrayBuffers": 1923878
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.625023,
+          "p99": 11.673599,
+          "max": 12.107775
+        }
+      },
+      {
+        "seconds": 3.000774998,
+        "memory": {
+          "rss": 105168896,
+          "heapTotal": 60280832,
+          "heapUsed": 35635920,
+          "external": 6327727,
+          "arrayBuffers": 2579238
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.919935,
+          "p99": 11.575295,
+          "max": 12.738559
+        }
+      },
+      {
+        "seconds": 4.001832091,
+        "memory": {
+          "rss": 105607168,
+          "heapTotal": 60280832,
+          "heapUsed": 32128672,
+          "external": 6000047,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 11.001855,
+          "p99": 11.493375,
+          "max": 12.632063
+        }
+      },
+      {
+        "seconds": 5.002038825,
+        "memory": {
+          "rss": 105828352,
+          "heapTotal": 60280832,
+          "heapUsed": 28317880,
+          "external": 5737903,
+          "arrayBuffers": 1989414
+        },
+        "eventLoopMs": {
+          "p50": 10.092543,
+          "p95": 10.469375,
+          "p99": 11.485183,
+          "max": 11.550719
+        }
+      },
+      {
+        "seconds": 6.002517476,
+        "memory": {
+          "rss": 105918464,
+          "heapTotal": 60542976,
+          "heapUsed": 38527160,
+          "external": 6458799,
+          "arrayBuffers": 2710310
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.395647,
+          "p99": 10.551295,
+          "max": 10.616831
+        }
+      },
+      {
+        "seconds": 7.0023301149999995,
+        "memory": {
+          "rss": 106057728,
+          "heapTotal": 60805120,
+          "heapUsed": 35486112,
+          "external": 6131119,
+          "arrayBuffers": 2382630
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 11.100159,
+          "p99": 11.214847,
+          "max": 11.403263
+        }
+      },
+      {
+        "seconds": 8.002474072,
+        "memory": {
+          "rss": 106418176,
+          "heapTotal": 61067264,
+          "heapUsed": 31233520,
+          "external": 5934511,
+          "arrayBuffers": 2186022
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.936319,
+          "p99": 11.313151,
+          "max": 11.755519
+        }
+      },
+      {
+        "seconds": 9.001893162999998,
+        "memory": {
+          "rss": 106172416,
+          "heapTotal": 61067264,
+          "heapUsed": 27342744,
+          "external": 5606831,
+          "arrayBuffers": 1858342
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.649599,
+          "p99": 11.460607,
+          "max": 13.221887
+        }
+      },
+      {
+        "seconds": 10.002786964999999,
+        "memory": {
+          "rss": 106172416,
+          "heapTotal": 61067264,
+          "heapUsed": 37834080,
+          "external": 6393263,
+          "arrayBuffers": 2644774
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.756095,
+          "p99": 11.763711,
+          "max": 11.771903
+        }
+      },
+      {
+        "seconds": 11.00353724,
+        "memory": {
+          "rss": 106184704,
+          "heapTotal": 61329408,
+          "heapUsed": 36797880,
+          "external": 6262191,
+          "arrayBuffers": 2513702
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.887167,
+          "p99": 11.632639,
+          "max": 12.361727
+        }
+      },
+      {
+        "seconds": 12.003505968999999,
+        "memory": {
+          "rss": 106184704,
+          "heapTotal": 61329408,
+          "heapUsed": 35084824,
+          "external": 6131119,
+          "arrayBuffers": 2382630
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.559487,
+          "p99": 10.797055,
+          "max": 10.903551
+        }
+      },
+      {
+        "seconds": 13.003028321999999,
+        "memory": {
+          "rss": 106332160,
+          "heapTotal": 61329408,
+          "heapUsed": 32793008,
+          "external": 6000047,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.903551,
+          "p99": 12.361727,
+          "max": 12.738559
+        }
+      },
+      {
+        "seconds": 14.005801109,
+        "memory": {
+          "rss": 136994816,
+          "heapTotal": 96718848,
+          "heapUsed": 35390992,
+          "external": 5868975,
+          "arrayBuffers": 2120486
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 21.823487,
+          "p99": 33.751039,
+          "max": 116.391935
+        }
+      },
+      {
+        "seconds": 15.007243311999998,
+        "memory": {
+          "rss": 140091392,
+          "heapTotal": 96980992,
+          "heapUsed": 52934976,
+          "external": 6262191,
+          "arrayBuffers": 2513702
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 13.934591,
+          "p99": 17.465343,
+          "max": 20.692991
+        }
+      },
+      {
+        "seconds": 16.007189749,
+        "memory": {
+          "rss": 140161024,
+          "heapTotal": 96980992,
+          "heapUsed": 38672512,
+          "external": 5868975,
+          "arrayBuffers": 2120486
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 11.460607,
+          "p99": 15.196159,
+          "max": 15.368191
+        }
+      },
+      {
+        "seconds": 17.007683888,
+        "memory": {
+          "rss": 140292096,
+          "heapTotal": 97243136,
+          "heapUsed": 40632272,
+          "external": 5868975,
+          "arrayBuffers": 2120486
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 13.393919,
+          "p99": 15.679487,
+          "max": 20.611071
+        }
+      },
+      {
+        "seconds": 18.006943312,
+        "memory": {
+          "rss": 140718080,
+          "heapTotal": 97243136,
+          "heapUsed": 40562880,
+          "external": 5868975,
+          "arrayBuffers": 2120486
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 13.549567,
+          "p99": 14.344191,
+          "max": 14.344191
+        }
+      },
+      {
+        "seconds": 19.007128026000004,
+        "memory": {
+          "rss": 142397440,
+          "heapTotal": 98816000,
+          "heapUsed": 47108104,
+          "external": 6000047,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.117119,
+          "p95": 19.398655,
+          "p99": 21.348351,
+          "max": 29.999103
+        }
+      },
+      {
+        "seconds": 20.009544448,
+        "memory": {
+          "rss": 142376960,
+          "heapTotal": 99602432,
+          "heapUsed": 43830296,
+          "external": 6000047,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.125311,
+          "p95": 15.204351,
+          "p99": 16.842751,
+          "max": 17.498111
+        }
+      },
+      {
+        "seconds": 21.011927287000002,
+        "memory": {
+          "rss": 142880768,
+          "heapTotal": 99602432,
+          "heapUsed": 52750784,
+          "external": 6393263,
+          "arrayBuffers": 2644774
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 14.082047,
+          "p99": 14.974975,
+          "max": 15.073279
+        }
+      },
+      {
+        "seconds": 22.012594291000003,
+        "memory": {
+          "rss": 148873216,
+          "heapTotal": 99602432,
+          "heapUsed": 50369472,
+          "external": 6393263,
+          "arrayBuffers": 2644774
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 14.491647,
+          "p99": 15.294463,
+          "max": 15.826943
+        }
+      },
+      {
+        "seconds": 23.012519542000003,
+        "memory": {
+          "rss": 148873216,
+          "heapTotal": 99602432,
+          "heapUsed": 48830152,
+          "external": 6393263,
+          "arrayBuffers": 2644774
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.985471,
+          "p99": 14.958591,
+          "max": 15.826943
+        }
+      },
+      {
+        "seconds": 24.011990398000002,
+        "memory": {
+          "rss": 152412160,
+          "heapTotal": 100126720,
+          "heapUsed": 42455488,
+          "external": 6000047,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 18.317311,
+          "p99": 23.691263,
+          "max": 47.284223
+        }
+      },
+      {
+        "seconds": 25.01261391,
+        "memory": {
+          "rss": 152539136,
+          "heapTotal": 100388864,
+          "heapUsed": 34400752,
+          "external": 6720943,
+          "arrayBuffers": 1989414
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 15.228927,
+          "p99": 16.089087,
+          "max": 19.103743
+        }
+      },
+      {
+        "seconds": 26.011987314000002,
+        "memory": {
+          "rss": 152670208,
+          "heapTotal": 100388864,
+          "heapUsed": 34390776,
+          "external": 6720943,
+          "arrayBuffers": 1989414
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 13.664255,
+          "p99": 14.974975,
+          "max": 14.974975
+        }
+      },
+      {
+        "seconds": 27.012723967000003,
+        "memory": {
+          "rss": 157913088,
+          "heapTotal": 100651008,
+          "heapUsed": 36990112,
+          "external": 5934511,
+          "arrayBuffers": 2186022
+        },
+        "eventLoopMs": {
+          "p50": 10.125311,
+          "p95": 14.811135,
+          "p99": 33.914879,
+          "max": 46.399487
+        }
+      },
+      {
+        "seconds": 28.013161155000002,
+        "memory": {
+          "rss": 162369536,
+          "heapTotal": 100913152,
+          "heapUsed": 40065832,
+          "external": 5803439,
+          "arrayBuffers": 2054950
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 14.557183,
+          "p99": 17.563647,
+          "max": 23.920639
+        }
+      },
+      {
+        "seconds": 29.013838983000003,
+        "memory": {
+          "rss": 158486528,
+          "heapTotal": 100913152,
+          "heapUsed": 40796048,
+          "external": 6000047,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 14.450687,
+          "p99": 16.531455,
+          "max": 17.661951
+        }
+      },
+      {
+        "seconds": 30.014133537000003,
+        "memory": {
+          "rss": 158617600,
+          "heapTotal": 100913152,
+          "heapUsed": 43113936,
+          "external": 6000047,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 15.458303,
+          "p99": 17.268735,
+          "max": 18.071551
+        }
+      },
+      {
+        "seconds": 31.014153285,
+        "memory": {
+          "rss": 159723520,
+          "heapTotal": 101699584,
+          "heapUsed": 43344680,
+          "external": 6065583,
+          "arrayBuffers": 2317094
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 14.581759,
+          "p99": 15.523839,
+          "max": 16.252927
+        }
+      },
+      {
+        "seconds": 32.014093589,
+        "memory": {
+          "rss": 159981568,
+          "heapTotal": 101699584,
+          "heapUsed": 43437328,
+          "external": 6131119,
+          "arrayBuffers": 2382630
+        },
+        "eventLoopMs": {
+          "p50": 10.117119,
+          "p95": 15.024127,
+          "p99": 18.841599,
+          "max": 32.899071
+        }
+      },
+      {
+        "seconds": 33.014166202,
+        "memory": {
+          "rss": 160374784,
+          "heapTotal": 101699584,
+          "heapUsed": 33889144,
+          "external": 7310767,
+          "arrayBuffers": 2120486
+        },
+        "eventLoopMs": {
+          "p50": 10.117119,
+          "p95": 13.328383,
+          "p99": 14.450687,
+          "max": 15.171583
+        }
+      },
+      {
+        "seconds": 34.013838523,
+        "memory": {
+          "rss": 160636928,
+          "heapTotal": 101699584,
+          "heapUsed": 54638600,
+          "external": 7572911,
+          "arrayBuffers": 3824422
+        },
+        "eventLoopMs": {
+          "p50": 10.125311,
+          "p95": 11.821055,
+          "p99": 13.287423,
+          "max": 13.623295
+        }
+      },
+      {
+        "seconds": 35.014002614,
+        "memory": {
+          "rss": 161161216,
+          "heapTotal": 101699584,
+          "heapUsed": 47072672,
+          "external": 7245231,
+          "arrayBuffers": 3496742
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 11.378687,
+          "p99": 12.263423,
+          "max": 15.081471
+        }
+      },
+      {
+        "seconds": 36.014378896,
+        "memory": {
+          "rss": 161685504,
+          "heapTotal": 102486016,
+          "heapUsed": 39529264,
+          "external": 6458799,
+          "arrayBuffers": 2710310
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 11.067391,
+          "p99": 11.575295,
+          "max": 16.023551
+        }
+      },
+      {
+        "seconds": 37.014268881999996,
+        "memory": {
+          "rss": 161685504,
+          "heapTotal": 102486016,
+          "heapUsed": 57612352,
+          "external": 8162735,
+          "arrayBuffers": 4414246
+        },
+        "eventLoopMs": {
+          "p50": 10.125311,
+          "p95": 12.541951,
+          "p99": 35.782655,
+          "max": 159.121407
+        }
+      },
+      {
+        "seconds": 38.013847006999995,
+        "memory": {
+          "rss": 161685504,
+          "heapTotal": 102486016,
+          "heapUsed": 50225824,
+          "external": 7572911,
+          "arrayBuffers": 3824422
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 11.337727,
+          "p99": 11.632639,
+          "max": 13.729791
+        }
+      },
+      {
+        "seconds": 39.014013078999994,
+        "memory": {
+          "rss": 161685504,
+          "heapTotal": 102486016,
+          "heapUsed": 42840192,
+          "external": 6786479,
+          "arrayBuffers": 3037990
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 11.042815,
+          "p99": 11.411455,
+          "max": 11.608063
+        }
+      },
+      {
+        "seconds": 40.014808869,
+        "memory": {
+          "rss": 161816576,
+          "heapTotal": 102486016,
+          "heapUsed": 34499072,
+          "external": 8621487,
+          "arrayBuffers": 2120486
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.854399,
+          "p99": 10.952703,
+          "max": 10.993663
+        }
+      },
+      {
+        "seconds": 41.015754408,
+        "memory": {
+          "rss": 161816576,
+          "heapTotal": 102486016,
+          "heapUsed": 53842536,
+          "external": 7835055,
+          "arrayBuffers": 4086566
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.870783,
+          "p99": 11.141119,
+          "max": 11.206655
+        }
+      },
+      {
+        "seconds": 42.016146377,
+        "memory": {
+          "rss": 161816576,
+          "heapTotal": 102486016,
+          "heapUsed": 46140224,
+          "external": 7048623,
+          "arrayBuffers": 3300134
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.805247,
+          "p99": 11.042815,
+          "max": 11.100159
+        }
+      },
+      {
+        "seconds": 43.016138678999994,
+        "memory": {
+          "rss": 161816576,
+          "heapTotal": 102486016,
+          "heapUsed": 38499824,
+          "external": 6262191,
+          "arrayBuffers": 2513702
+        },
+        "eventLoopMs": {
+          "p50": 10.092543,
+          "p95": 10.764287,
+          "p99": 10.936319,
+          "max": 11.034623
+        }
+      },
+      {
+        "seconds": 44.01614389899999,
+        "memory": {
+          "rss": 161816576,
+          "heapTotal": 102486016,
+          "heapUsed": 57908024,
+          "external": 8228277,
+          "arrayBuffers": 4479788
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.788863,
+          "p99": 11.018239,
+          "max": 11.206655
+        }
+      },
+      {
+        "seconds": 45.016501561,
+        "memory": {
+          "rss": 161816576,
+          "heapTotal": 102486016,
+          "heapUsed": 50043664,
+          "external": 7638447,
+          "arrayBuffers": 3889958
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 10.706943,
+          "p99": 11.075583,
+          "max": 11.706367
+        }
+      },
+      {
+        "seconds": 46.016769116,
+        "memory": {
+          "rss": 162078720,
+          "heapTotal": 102486016,
+          "heapUsed": 41997856,
+          "external": 6786479,
+          "arrayBuffers": 3037990
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 11.091967,
+          "p99": 11.362303,
+          "max": 11.427839
+        }
+      },
+      {
+        "seconds": 47.01686359999999,
+        "memory": {
+          "rss": 162209792,
+          "heapTotal": 102486016,
+          "heapUsed": 34297504,
+          "external": 8752559,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.092543,
+          "p95": 11.010047,
+          "p99": 11.247615,
+          "max": 11.321343
+        }
+      },
+      {
+        "seconds": 48.01682823,
+        "memory": {
+          "rss": 162209792,
+          "heapTotal": 102486016,
+          "heapUsed": 53990800,
+          "external": 7966127,
+          "arrayBuffers": 4217638
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.723327,
+          "p99": 11.059199,
+          "max": 11.083775
+        }
+      },
+      {
+        "seconds": 49.017536893,
+        "memory": {
+          "rss": 162209792,
+          "heapTotal": 102486016,
+          "heapUsed": 46677840,
+          "external": 7245231,
+          "arrayBuffers": 3496742
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.674175,
+          "p99": 10.919935,
+          "max": 11.026431
+        }
+      },
+      {
+        "seconds": 50.017741431,
+        "memory": {
+          "rss": 162209792,
+          "heapTotal": 103010304,
+          "heapUsed": 38790800,
+          "external": 6393263,
+          "arrayBuffers": 2644774
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 11.018239,
+          "p99": 13.246463,
+          "max": 18.317311
+        }
+      },
+      {
+        "seconds": 51.016810819,
+        "memory": {
+          "rss": 162209792,
+          "heapTotal": 103010304,
+          "heapUsed": 58206688,
+          "external": 8359343,
+          "arrayBuffers": 4610854
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.821631,
+          "p99": 11.010047,
+          "max": 11.116543
+        }
+      },
+      {
+        "seconds": 52.017170042,
+        "memory": {
+          "rss": 162340864,
+          "heapTotal": 103010304,
+          "heapUsed": 50298112,
+          "external": 7572911,
+          "arrayBuffers": 3824422
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.526719,
+          "p99": 10.821631,
+          "max": 10.846207
+        }
+      },
+      {
+        "seconds": 53.01685699,
+        "memory": {
+          "rss": 162340864,
+          "heapTotal": 103010304,
+          "heapUsed": 42639424,
+          "external": 6786479,
+          "arrayBuffers": 3037990
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.788863,
+          "p99": 10.821631,
+          "max": 10.895359
+        }
+      },
+      {
+        "seconds": 54.017429336999996,
+        "memory": {
+          "rss": 162471936,
+          "heapTotal": 103010304,
+          "heapUsed": 34838808,
+          "external": 8752559,
+          "arrayBuffers": 2251558
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.444799,
+          "p99": 10.797055,
+          "max": 10.985471
+        }
+      },
+      {
+        "seconds": 55.017245775,
+        "memory": {
+          "rss": 162471936,
+          "heapTotal": 103010304,
+          "heapUsed": 53896328,
+          "external": 7966127,
+          "arrayBuffers": 4217638
+        },
+        "eventLoopMs": {
+          "p50": 10.092543,
+          "p95": 11.010047,
+          "p99": 11.304959,
+          "max": 11.452415
+        }
+      },
+      {
+        "seconds": 56.017541303,
+        "memory": {
+          "rss": 162471936,
+          "heapTotal": 103010304,
+          "heapUsed": 46188552,
+          "external": 7179695,
+          "arrayBuffers": 3431206
+        },
+        "eventLoopMs": {
+          "p50": 10.092543,
+          "p95": 10.985471,
+          "p99": 11.141119,
+          "max": 11.280383
+        }
+      },
+      {
+        "seconds": 57.017488598999996,
+        "memory": {
+          "rss": 162603008,
+          "heapTotal": 103010304,
+          "heapUsed": 38511680,
+          "external": 6393263,
+          "arrayBuffers": 2644774
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 10.854399,
+          "p99": 12.066815,
+          "max": 12.230655
+        }
+      },
+      {
+        "seconds": 58.017135382,
+        "memory": {
+          "rss": 162603008,
+          "heapTotal": 103272448,
+          "heapUsed": 57883784,
+          "external": 8359343,
+          "arrayBuffers": 4610854
+        },
+        "eventLoopMs": {
+          "p50": 10.125311,
+          "p95": 11.198463,
+          "p99": 11.583487,
+          "max": 11.902975
+        }
+      },
+      {
+        "seconds": 59.01727610299999,
+        "memory": {
+          "rss": 162603008,
+          "heapTotal": 103272448,
+          "heapUsed": 50086336,
+          "external": 7572911,
+          "arrayBuffers": 3824422
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 10.977279,
+          "p99": 11.329535,
+          "max": 11.616255
+        }
+      },
+      {
+        "seconds": 60.017261788,
+        "memory": {
+          "rss": 162603008,
+          "heapTotal": 103272448,
+          "heapUsed": 41742672,
+          "external": 6720943,
+          "arrayBuffers": 2972454
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.502143,
+          "p99": 10.780671,
+          "max": 10.944511
+        }
+      },
+      {
+        "seconds": 61.016791440999995,
+        "memory": {
+          "rss": 162734080,
+          "heapTotal": 103272448,
+          "heapUsed": 60965344,
+          "external": 8687023,
+          "arrayBuffers": 4938534
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 10.387455,
+          "p99": 10.821631,
+          "max": 10.870783
+        }
+      },
+      {
+        "seconds": 62.01774310399999,
+        "memory": {
+          "rss": 162996224,
+          "heapTotal": 103796736,
+          "heapUsed": 61449656,
+          "external": 7598724,
+          "arrayBuffers": 3850235
+        },
+        "eventLoopMs": {
+          "p50": 10.092543,
+          "p95": 10.698751,
+          "p99": 11.296767,
+          "max": 28.934143
+        }
+      },
+      {
+        "seconds": 63.017718628999994,
+        "memory": {
+          "rss": 163258368,
+          "heapTotal": 103796736,
+          "heapUsed": 41075520,
+          "external": 8304238,
+          "arrayBuffers": 4555749
+        },
+        "eventLoopMs": {
+          "p50": 10.092543,
+          "p95": 10.747903,
+          "p99": 10.993663,
+          "max": 11.517951
+        }
+      },
+      {
+        "seconds": 64.01785208,
+        "memory": {
+          "rss": 165486592,
+          "heapTotal": 104845312,
+          "heapUsed": 49350336,
+          "external": 7279719,
+          "arrayBuffers": 3531230
+        },
+        "eventLoopMs": {
+          "p50": 10.166271,
+          "p95": 22.642687,
+          "p99": 41.058303,
+          "max": 42.041343
+        }
+      },
+      {
+        "seconds": 65.017831245,
+        "memory": {
+          "rss": 165486592,
+          "heapTotal": 104845312,
+          "heapUsed": 40176432,
+          "external": 7146859,
+          "arrayBuffers": 3398370
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 16.826367,
+          "p99": 17.301503,
+          "max": 19.054591
+        }
+      },
+      {
+        "seconds": 66.018597633,
+        "memory": {
+          "rss": 164999168,
+          "heapTotal": 104845312,
+          "heapUsed": 61604736,
+          "external": 7403023,
+          "arrayBuffers": 3654534
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 16.990207,
+          "p99": 18.874367,
+          "max": 19.496959
+        }
+      },
+      {
+        "seconds": 67.019221989,
+        "memory": {
+          "rss": 165130240,
+          "heapTotal": 105107456,
+          "heapUsed": 49434672,
+          "external": 7279737,
+          "arrayBuffers": 3531248
+        },
+        "eventLoopMs": {
+          "p50": 10.117119,
+          "p95": 20.594687,
+          "p99": 25.001983,
+          "max": 26.263551
+        }
+      },
+      {
+        "seconds": 68.029934959,
+        "memory": {
+          "rss": 165130240,
+          "heapTotal": 105107456,
+          "heapUsed": 37091304,
+          "external": 7403979,
+          "arrayBuffers": 3275078
+        },
+        "eventLoopMs": {
+          "p50": 10.117119,
+          "p95": 20.643839,
+          "p99": 22.790143,
+          "max": 25.657343
+        }
+      },
+      {
+        "seconds": 69.03252703300001,
+        "memory": {
+          "rss": 165228544,
+          "heapTotal": 105369600,
+          "heapUsed": 62460824,
+          "external": 7404613,
+          "arrayBuffers": 3656124
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 13.213695,
+          "p99": 15.245311,
+          "max": 16.023551
+        }
+      },
+      {
+        "seconds": 70.03597137700001,
+        "memory": {
+          "rss": 165228544,
+          "heapTotal": 105369600,
+          "heapUsed": 53571136,
+          "external": 7271563,
+          "arrayBuffers": 3523074
+        },
+        "eventLoopMs": {
+          "p50": 10.092543,
+          "p95": 15.794175,
+          "p99": 16.244735,
+          "max": 16.547839
+        }
+      },
+      {
+        "seconds": 71.038927117,
+        "memory": {
+          "rss": 165179392,
+          "heapTotal": 105369600,
+          "heapUsed": 48216320,
+          "external": 7271579,
+          "arrayBuffers": 3523090
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 14.991359,
+          "p99": 15.646719,
+          "max": 16.072703
+        }
+      },
+      {
+        "seconds": 72.039181682,
+        "memory": {
+          "rss": 165179392,
+          "heapTotal": 105369600,
+          "heapUsed": 37281272,
+          "external": 7405441,
+          "arrayBuffers": 3275078
+        },
+        "eventLoopMs": {
+          "p50": 10.108927,
+          "p95": 15.212543,
+          "p99": 18.776063,
+          "max": 19.824639
+        }
+      },
+      {
+        "seconds": 73.03964572100001,
+        "memory": {
+          "rss": 165179392,
+          "heapTotal": 105369600,
+          "heapUsed": 56196672,
+          "external": 7281303,
+          "arrayBuffers": 3532814
+        },
+        "eventLoopMs": {
+          "p50": 10.100735,
+          "p95": 14.966783,
+          "p99": 18.710527,
+          "max": 19.185663
+        }
+      }
+    ]
+  }
+}
