@@ -1,0 +1,13 @@
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(pix.lit>1000)
+
+    at capture (/workspace/scratch/2bf492520e95/part-3b/dev/part3b/browser_cutaway.js:10:160)
+    at async /workspace/scratch/2bf492520e95/part-3b/dev/part3b/browser_cutaway.js:26:111 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

@@ -1,0 +1,5 @@
+page.waitForFunction: Timeout 30000ms exceeded.
+    at /workspace/scratch/2bf492520e95/part-3b/dev/part3b/browser_cutaway.js:17:79 {
+  log: [],
+  name: 'TimeoutError'
+}
