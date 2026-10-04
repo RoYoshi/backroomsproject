@@ -19,3 +19,9 @@ The preserved light timing miss did not reproduce in two isolated H runs with un
 ## Browser traversal initial-pixel failure preserved
 
 `regression-01` passes retained B/C/E/F/G, network25d, physics25d, 46-trace parity/map and Stage D core/extended browser gates. Its H1 traversal rerun fails the initial `actual completed production pixels` assertion before movement. The later failure screenshot shows a rendered world; diagnostic state has only four spatial frames and a completed local fade. The initial helper did not save its pixel count/GL error before asserting. Raw screenshot, state, server log and failure are preserved before adding that missing diagnostic. No runtime defect or repair is inferred yet.
+
+## H1 capture readiness diagnosed; full-quality fall limitation retained
+
+`traversal-probe-02` through `05` preserve the original 468-lit-pixel/zero-GL-error capture. Probe 05 shows forced capture did not advance the bounded GPU fence: before/after frame 3, rendered local packet tick 0 while authority was tick 31. A naturally rendered post-authentication packet at tick 56 yields 75,829 lit pixels. H1 now waits within the existing 30-second deadline for a post-authentication packet and completed local fade before the original >1,000-pixel/zero-error assertion. No production or threshold change.
+
+`regression-02` passes the initial pixels (75,824) and real keyboard ramp, then FAILS the original peer-airborne assertion. The 65 capture samples contain only two rendered states, tick 514 at Z 120.05 and tick 600 at Z -95.95, both grounded. SwiftShader frame completions span roughly 0.4–1.5 seconds with two clients and miss the airborne phase. Raw packets, both screenshots, diagnostics and server logs are retained before checking the same assertion with the already-supported reduced-quality setting. This is an observed full-quality software-GPU presentation limit, not evidence to change physical fall, interpolation or the assertion.

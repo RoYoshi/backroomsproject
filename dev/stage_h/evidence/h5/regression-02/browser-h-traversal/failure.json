@@ -1,0 +1,588 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: peer samples include physical falling state",
+  "stack": "AssertionError [ERR_ASSERTION]: peer samples include physical falling state\n    at /workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/browser_h1.js:29:100\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:502:9)",
+  "checks": [
+    {
+      "name": "production Pixi boot and composed pixels",
+      "pixels": {
+        "hash": "2632afa3",
+        "lit": 75824,
+        "error": 0
+      },
+      "state": {
+        "ready": true,
+        "pipeline": {
+          "inFlight": true,
+          "skippedFrames": 52,
+          "completedFrames": [
+            471.69999999925494,
+            430.1000000014901,
+            814.3000000007451,
+            1223.8999999985099
+          ]
+        },
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 136,
+            "tick": 136,
+            "discontinuity": 2,
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.417559498383164,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ground-north",
+            "navSurface": "nav:ground",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": []
+        },
+        "frames": 5,
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15,
+            "art": 1,
+            "support": "support:ground-north",
+            "mode": "grounded",
+            "tick": 55,
+            "generation": 1,
+            "emissive": false,
+            "observable": true,
+            "visibilityRadius": 15
+          },
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "x": 160,
+            "y": 160,
+            "z": 150,
+            "height": 1,
+            "art": 2,
+            "radius": 45,
+            "visibilityRadius": 45,
+            "emissive": true,
+            "observable": true
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "zoom": 1,
+          "lightCount": 2,
+          "lighting": true,
+          "nv": false,
+          "drawCalls": 27,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 388,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4658192,
+          "actorTextureBytes": 131072,
+          "lightTextureBytes": 8192,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "camera": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "focus": {
+              "x": 160,
+              "y": 160,
+              "z": 0
+            },
+            "focusSpace": [
+              "space:lower-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 1,
+                "target": true
+              }
+            ]
+          },
+          "cpuMs": 3.5,
+          "cutawayMs": 0
+        },
+        "cutaway": {
+          "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      }
+    },
+    {
+      "name": "real fixed-tick keyboard ramp",
+      "trace": [
+        {
+          "frame": 7,
+          "x": 715.8382297215984,
+          "y": 148,
+          "z": 40.469114860799195,
+          "tick": 11,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "server": {
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 193,
+            "tick": 193,
+            "discontinuity": 3,
+            "x": 700,
+            "y": 148,
+            "z": 32.5,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.786967624312,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          }
+        },
+        {
+          "frame": 8,
+          "x": 869.0684876153317,
+          "y": 148,
+          "z": 117.08424380766586,
+          "tick": 71,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "server": {
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 266,
+            "tick": 266,
+            "discontinuity": 3,
+            "x": 830.6081201509861,
+            "y": 148,
+            "z": 97.85406007549305,
+            "vx": 171.9999610217018,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.5252218836156923,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          }
+        },
+        {
+          "frame": 9,
+          "x": 943.5523539449193,
+          "y": 148,
+          "z": 154.32617697245968,
+          "tick": 121,
+          "support": "support:ramp",
+          "mode": "grounded",
+          "server": {
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 315,
+            "tick": 315,
+            "discontinuity": 3,
+            "x": 943.2142585095767,
+            "y": 148,
+            "z": 154.15712925478834,
+            "vx": 7.620391986281843,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.504747081113485,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          }
+        }
+      ],
+      "pose": {
+        "x": 943.5594797762773,
+        "z": 154.32973988813865
+      },
+      "state": {
+        "ready": true,
+        "pipeline": {
+          "inFlight": true,
+          "skippedFrames": 179,
+          "completedFrames": [
+            471.69999999925494,
+            430.1000000014901,
+            814.3000000007451,
+            1223.8999999985099,
+            432.1000000014901,
+            554.1000000014901,
+            1231.800000000745,
+            814.1999999992549
+          ]
+        },
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 321,
+            "tick": 321,
+            "discontinuity": 3,
+            "x": 943.5573460682315,
+            "y": 148,
+            "z": 154.32867303411575,
+            "vx": 0.08187959019166302,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.438370418673481,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ramp",
+            "navSurface": "nav:ramp",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": []
+        },
+        "frames": 9,
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 943.5523539449193,
+            "y": 148,
+            "z": 154.32617697245968,
+            "height": 60,
+            "radius": 15,
+            "art": 1,
+            "support": "support:ramp",
+            "mode": "grounded",
+            "tick": 121,
+            "generation": 1,
+            "emissive": false,
+            "observable": true,
+            "visibilityRadius": 15
+          },
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "x": 160,
+            "y": 160,
+            "z": 150,
+            "height": 1,
+            "art": 2,
+            "radius": 45,
+            "visibilityRadius": 45,
+            "emissive": true,
+            "observable": false
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": 252.3523539449193,
+            "maxX": 1634.7523539449194,
+            "minY": -284,
+            "maxY": 580
+          },
+          "zoom": 1,
+          "lightCount": 2,
+          "lighting": true,
+          "nv": false,
+          "drawCalls": 28,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 388,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4658192,
+          "actorTextureBytes": 131072,
+          "lightTextureBytes": 8192,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 943.5523539449193,
+            "y": 148,
+            "z": 204.32617697245968
+          },
+          "camera": {
+            "x": 943.5523539449193,
+            "y": 148,
+            "z": 154.32617697245968
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+            "focus": {
+              "x": 943.5523539449193,
+              "y": 148,
+              "z": 154.32617697245968
+            },
+            "focusSpace": [],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 0,
+                "target": false
+              }
+            ]
+          },
+          "cpuMs": 3.5,
+          "cutawayMs": 0
+        },
+        "cutaway": {
+          "worldEpoch": "82251c6b-dddb-4256-a93a-2c5c0d5c5d5c",
+          "focus": {
+            "x": 943.5523539449193,
+            "y": 148,
+            "z": 154.32617697245968
+          },
+          "focusSpace": [],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      }
+    }
+  ],
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 40335 | stage-h @ 37d38a4e2ccd\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 40335 | stage-h @ 37d38a4e2ccd\nThe Far Backrooms → http://localhost:40335  (share  ?room=NAME  to group up)\n[admin] WANDERER#1 unlocked admin (room stage-h)\n[admin] room=stage-h WANDERER#1: god WANDERER -> true\n[admin] WANDERER#2 unlocked admin (room stage-h)\n[admin] room=stage-h H1 peer#2: god H1 peer -> true\n"
+}

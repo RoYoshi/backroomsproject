@@ -27,6 +27,9 @@ commands = [
     ('flat-browser-parity', ['node', 'dev/stage_h/browser_flat.js', str(root), str(parent), str(out/'browser-flat')]),
     ('served-package', ['node', 'dev/stage_h/served_package.js', str(out/'served.json')]),
 ]
+if len(sys.argv) > 3:
+    start = next(i for i, (name, _) in enumerate(commands) if name == sys.argv[3])
+    commands = commands[start:]
 rows = []
 for name, cmd in commands:
     print('START', name, flush=True)

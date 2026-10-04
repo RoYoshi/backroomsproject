@@ -40,3 +40,5 @@ H5 build-failure preservation verified remote: `82e70df387c0703dc5c2f537444a1659
 H5 maintained-source recovery verified remote: `fd7deb6edeb9860d6dc2644ec95175a5e1f04fb4`; tree `d94c48ea12055da64f17439aca184e5045c645fa`. Focused reproducible-build PASS retains exact H4 runtime bytes.
 
 H5 retained-failure preservation verified remote: `18cfaf6924b58d2671c0c8ec5623d122b83f7554`; tree `0c91f33af4237bdb456e7506b75e96f211fc5c53`. Initial light timing miss retained before paired comparison.
+
+H5 spatial/parity/browser preservation verified remote: `37d38a4e2ccd8d91adfda667a6448a404edc3f54`; tree `fb8a93245f11009e50063657e393509f9f627e18`. Passed retained spatial/parity and D browser gates plus raw H1 initial-pixel failure preserved.

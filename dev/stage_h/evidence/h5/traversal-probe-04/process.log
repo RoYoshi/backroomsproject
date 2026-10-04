@@ -1,0 +1,15 @@
+[
+  { name: 'forced-production', lit: 468, error: 0, premult: false },
+  {
+    name: 'same-options-raw-pass',
+    lit: 75820,
+    error: 0,
+    premult: false
+  },
+  {
+    name: 'second-forced-production',
+    lit: 75820,
+    error: 0,
+    premult: false
+  }
+]

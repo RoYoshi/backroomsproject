@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: peer samples include physical falling state
+    at /workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/browser_h1.js:29:100
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:502:9) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
