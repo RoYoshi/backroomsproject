@@ -9,7 +9,8 @@ function Zc() {
 }
 const soundOn = () => !(document.getElementById('sound') && /OFF/.test(document.getElementById('sound').textContent));
 /* where a sound at (x,y) lands: distance falloff, stereo pan, and a low-pass when there is a wall in between */
-function place(x, y, near = 120, far = 1500) {
+function place(x, y, near = 120, far = 1500, z) {
+  if(window.TFB_WORLD&&Number.isFinite(z))return window.__spatial.sound({x,y,z},near,far);
   const a = API(), H = a.H, dx = x - H.x, dy = y - H.y, d = Math.hypot(dx, dy);
   let g = Math.pow(1 - sm(near, far, d), 1.5), lp = 9000;
   if (d > 60 && a.Uc) { const r = a.Uc(H.x, H.y, Math.atan2(dy, dx), d + 1); if (r < d - 30) { g *= .5; lp = 700; } }
@@ -42,8 +43,15 @@ function toneLayer(n, type, f, f2, vol, atk, hold, mod, filt) {
   last.connect(g); g.connect(n.out); o.start(n.t0); o.stop(n.stop);
 }
 const play = (x, y, vol, dur, build, opt) => {
-  if (!soundOn() || !Zc()) return; const p = place(x, y, opt && opt.near, opt && opt.far); if (p.g < .01) return;
+  if (!soundOn() || !Zc()) return; const p = place(x, y, opt && opt.near, opt && opt.far, opt && opt.z); if (p.g < .01) return;
   const n = node(dur, { pan: p.pan, lp: Math.min(p.lp, opt && opt.lp || 9000) }); const v = vol * p.g; build(n, v, p);
+};
+// Presentation of an existing Stage C/G physical contact; never an AI event.
+E.spatialImpact = function(p,speed) {
+  play(p.x,p.y,clamp(speed/650,.02,.32),.16,(n,v)=>{
+    toneLayer(n,'sine',78,40,v*.9,.004,.012,null);
+    noiseLayer(n,'bandpass',900,.9,v*.35,.004,.02,500);
+  },{z:p.z,far:1000});
 };
 
 /* hound voice: never a dog.  a wet, low, human-throated rasp with a slow tremble */

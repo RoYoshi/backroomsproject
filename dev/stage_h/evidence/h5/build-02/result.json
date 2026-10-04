@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "before": {
+    "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+    "sim.js": "5e1271b6e784513db9a0b2a5d95086ff8a47f7461ac17d13aa868ef1257181fa",
+    "ents.js": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284"
+  },
+  "after": {
+    "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+    "sim.js": "5e1271b6e784513db9a0b2a5d95086ff8a47f7461ac17d13aa868ef1257181fa",
+    "ents.js": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284"
+  },
+  "checks": [
+    {
+      "name": "ai",
+      "exitCode": 0
+    },
+    {
+      "name": "sim",
+      "exitCode": 0
+    },
+    {
+      "name": "ents",
+      "exitCode": 0
+    }
+  ],
+  "repair": "Maintained audio source synchronized to unchanged already-tested H4 runtime"
+}
