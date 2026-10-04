@@ -1,0 +1,21 @@
+old real wire {"worldEpoch":"5b72853b-dff1-40d6-aa42-cb4a5451711b","entityId":"h1","generation":1,"tick":3540,"seq":3540,"discontinuity":0,"x":5000,"y":500,"z":0,"vx":0,"vy":0,"vz":0,"yaw":0.7585290966729693,"height":36,"profile":"profile:hound","support":"support:ground","navSurface":"nav:ground","mode":"grounded","link":null,"progress":0,"vault":null,"step":null,"traversal":null}
+{
+  "status": "PASS",
+  "Z22": {
+    "old": {
+      "id": "h1",
+      "x": 5000,
+      "t": 59,
+      "z": 0
+    },
+    "new": {
+      "id": "h1",
+      "x": 1000,
+      "t": 0.8333333333333334,
+      "z": 200
+    },
+    "oldPacketsIgnored": true,
+    "clockReset": true,
+    "historyReset": true
+  }
+}

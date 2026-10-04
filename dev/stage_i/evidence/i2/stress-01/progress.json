@@ -1,0 +1,60 @@
+[
+  {
+    "name": "geometry",
+    "command": [
+      "node",
+      "dev/stage_i/stress_geometry.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i2/stress-01/geometry.json"
+    ],
+    "exitCode": 0,
+    "seconds": 1.670271226001205
+  },
+  {
+    "name": "four-surfaces",
+    "command": [
+      "node",
+      "dev/stage_e/perf_spatial.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i2/stress-01/four-surfaces.json"
+    ],
+    "exitCode": 0,
+    "seconds": 3.3254796879991773
+  },
+  {
+    "name": "connected-nav",
+    "command": [
+      "node",
+      "dev/stage_e/perf_connected_fixture.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i2/stress-01/connected-nav.json"
+    ],
+    "exitCode": 0,
+    "seconds": 2.8724180689969216
+  },
+  {
+    "name": "network25d",
+    "command": [
+      "node",
+      "dev/tests/network25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 115.17856604199915
+  },
+  {
+    "name": "aftermath",
+    "command": [
+      "node",
+      "dev/stage_g/performance.js"
+    ],
+    "exitCode": 0,
+    "seconds": 12.15196679100336
+  },
+  {
+    "name": "server-soak",
+    "command": [
+      "node",
+      "dev/stage_i/stress_server.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i2/stress-01/server-soak.json"
+    ],
+    "exitCode": 1,
+    "seconds": 61.48987107799621
+  }
+]

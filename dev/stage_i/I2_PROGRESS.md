@@ -1,0 +1,3 @@
+# I2 preservation checkpoint — in progress
+
+Dense geometry, four occupied surfaces, connected navigation, all five network25d rows, and 1/3/24 aftermath correctness/measurements pass in stress-01. The first 60-second multi-room soak reached room recreation, then the new harness read recreated.last.protocol before its first snapshot arrived. The TypeError, stack, server output and client states are preserved in stress-01/server-soak.json.failure.json and server-soak.log. This is a harness readiness error; no product defect or I2 completion is claimed. Preserve this checkpoint before adding the snapshot readiness condition and rerunning. Browser matrix and admin active ceiling remain pending.

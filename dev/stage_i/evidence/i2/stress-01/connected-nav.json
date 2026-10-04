@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "seed": 7331,
+  "initialEntities": 8,
+  "initialOccupiedSurfaces": 4,
+  "ticks": 660,
+  "measuredTicks": 600,
+  "nodes": 685,
+  "edges": 4518,
+  "stepMilliseconds": {
+    "samples": 600,
+    "median": 0.6245870000000195,
+    "p95": 8.909736000000066,
+    "p99": 32.93489200000022,
+    "max": 212.60055499999999
+  },
+  "planningMilliseconds": {
+    "samples": 40,
+    "median": 12.54621300000008,
+    "p95": 19.403123999999934,
+    "p99": 26.87231900000006,
+    "max": 26.87231900000006
+  },
+  "planningCost": {
+    "samples": 40,
+    "median": 1496.6046142578125,
+    "p95": 1496.6046142578125,
+    "p99": 1496.6046142578125,
+    "max": 1496.6046142578125
+  },
+  "navigation": {
+    "plans": 142,
+    "nodes": 30827,
+    "edgeChecks": 206721,
+    "cacheHits": 196922,
+    "cacheMisses": 8321,
+    "maxNodes": 573,
+    "routeRequests": 511,
+    "routeCacheHits": 480,
+    "routeCacheMisses": 31
+  },
+  "sensors": {
+    "candidates": 65,
+    "rays": 3951,
+    "lightQueries": 2815,
+    "soundQueries": 100,
+    "soundNodes": 236,
+    "soundPortals": 46,
+    "soundAlternatives": 331,
+    "contacts": 2988
+  },
+  "evidenceMaxima": {
+    "identities": 1,
+    "sounds": 7,
+    "leads": 6,
+    "evidencePerIdentity": 3,
+    "habitObservationsPerIdentity": 0,
+    "hypotheses": 0,
+    "supportCandidates": 4
+  },
+  "cacheScope": "cacheHits/Misses count physical edge proofs; routeCacheHits/Misses count reuse/refresh of committed entity routes. Sensor caches not added.",
+  "scope": "Bounded multi-surface diagnostic; no Stage I or hardware certification."
+}
