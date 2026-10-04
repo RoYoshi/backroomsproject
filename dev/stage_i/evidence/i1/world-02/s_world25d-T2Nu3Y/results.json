@@ -1,0 +1,101 @@
+{
+  "runtime": "v24.19.0",
+  "rows": [
+    {
+      "name": "stage_b_test_geometry.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_b/test_geometry.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.253892047,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-02/s_world25d-T2Nu3Y/stage_b_test_geometry.js.log"
+    },
+    {
+      "name": "stage_c_test_spatial.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_c/test_spatial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.608533138,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-02/s_world25d-T2Nu3Y/stage_c_test_spatial.js.log"
+    },
+    {
+      "name": "stage_e_test_core.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_e/test_core.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.6582722009999998,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-02/s_world25d-T2Nu3Y/stage_e_test_core.js.log"
+    },
+    {
+      "name": "stage_e_test_sensors.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_e/test_sensors.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.28802271900000004,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-02/s_world25d-T2Nu3Y/stage_e_test_sensors.js.log"
+    },
+    {
+      "name": "stage_c_test_adversarial.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_c/test_adversarial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.247359698,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-02/s_world25d-T2Nu3Y/stage_c_test_adversarial.js.log"
+    },
+    {
+      "name": "stage_c_test_schedules.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_c/test_schedules.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 2.2059081939999996,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-02/s_world25d-T2Nu3Y/stage_c_test_schedules.js.log"
+    },
+    {
+      "name": "stage_i_test_z18.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_i/test_z18.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 1.291669511,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-02/s_world25d-T2Nu3Y/stage_i_test_z18.js.log"
+    },
+    {
+      "name": "tests_s_fps_equality.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/tests/s_fps_equality.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.621857473,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-02/s_world25d-T2Nu3Y/tests_s_fps_equality.js.log"
+    }
+  ]
+}

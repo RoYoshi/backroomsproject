@@ -1,0 +1,12 @@
+PASS Z01 Two walkable floors with identical XY stage_b_test_geometry.js exit 0 0.247s; stage_c_test_spatial.js exit 0 0.793s; stage_e_test_core.js exit 0 0.706s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z02 Open stairwell beside a closed slab stage_c_test_spatial.js exit 0 0.793s; stage_e_test_sensors.js exit 0 0.302s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z03 Ramp ascent/descent, including diagonal travel stage_c_test_spatial.js exit 0 0.793s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z04 Stair treads/risers, different approach directions stage_c_test_spatial.js exit 0 0.793s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z05 Stair interruption, reversal, sideways departure stage_c_test_spatial.js exit 0 0.793s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z06 Thin intermediate slab during fast fall stage_c_test_spatial.js exit 0 0.793s; stage_c_test_adversarial.js exit 0 0.213s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z07 Under-ceiling upward impulse / vault stage_c_test_spatial.js exit 0 0.793s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z08 Crawl passage under an occupied upper floor stage_c_test_spatial.js exit 0 0.793s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z09 Narrow seam, convex corner and near-equal contacts stage_c_test_spatial.js exit 0 0.793s; stage_c_test_adversarial.js exit 0 0.213s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+FAIL Z18 Walk/sprint/stamina/exhaustion/deep carpet stage_c_test_schedules.js exit 0 2.965s; stage_i_test_z18.js exit 1 0.082s; tests_s_fps_equality.js exit 0 0.584s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+PASS Z19 Spatial slide/vault/crouch/crawl/drop stage_c_test_spatial.js exit 0 0.793s; stage_c_test_schedules.js exit 0 2.965s; /workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i1/world-01/s_world25d-R9RNfx
+10/11 passed

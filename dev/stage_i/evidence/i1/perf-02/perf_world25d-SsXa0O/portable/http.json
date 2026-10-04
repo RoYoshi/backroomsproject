@@ -1,0 +1,306 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "mode": "flat-compat",
+      "modules": [
+        {
+          "file": "camera_policy.js",
+          "status": 200,
+          "sha256": "d87df82ad2b9d28e068a5bc337953b5b99a8607539323e4bfba22023c2e8378e"
+        },
+        {
+          "file": "timing_policy.js",
+          "status": 200,
+          "sha256": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069"
+        },
+        {
+          "file": "levels/level0.js",
+          "status": 200,
+          "sha256": "8560a74df5a1ebbda66b480b61d499a25e00b168d1a678df72efb556fdcda1d9"
+        },
+        {
+          "file": "world_geometry.js",
+          "status": 200,
+          "sha256": "8157ecd31e840dbdf201051fe43b60353a330541a249d6f6c77dc25349e991b3"
+        },
+        {
+          "file": "world_motion.js",
+          "status": 200,
+          "sha256": "96c78029e3dcd7a72dd9aa3eca848276380cdf945bc4ce2f4cb0587568d67a6a"
+        },
+        {
+          "file": "spatial_protocol.js",
+          "status": 200,
+          "sha256": "e8b66c0f445b49487b6432488ece38cc88cbb6093200c3c3aa51fd8c270c5549"
+        },
+        {
+          "file": "spatial_history.js",
+          "status": 200,
+          "sha256": "81b39e806168e74e08c84d7b7f22ed34f9a80050e89ea52b028a59d156021901"
+        },
+        {
+          "file": "world_view.js",
+          "status": 200,
+          "sha256": "0c4d092db36837df6624097cb96eead79c4fc073f394f2e4b32f478bdeb514d1"
+        },
+        {
+          "file": "spatial_client.js",
+          "status": 200,
+          "sha256": "5dfef29c4f4ff4a1e8ace14d3f5122a9f96b76e93850956e0c55bdbb2c11c296"
+        },
+        {
+          "file": "world.js",
+          "status": 200,
+          "sha256": "8f4553d523ab5b2a70d699003080db27d836a94f87ff80dd3628d93b3fb0b4b3"
+        },
+        {
+          "file": "move.js",
+          "status": 200,
+          "sha256": "193857bdf43d086e3e16eba7091f44e31b2c7bfa923640a1e05a3b5dc848a17c"
+        },
+        {
+          "file": "ents.js",
+          "status": 200,
+          "sha256": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284"
+        },
+        {
+          "file": "mp.js",
+          "status": 200,
+          "sha256": "fb19d5e1f5c88f6c4916efe0edc09c21daedc83c8c11c09f6cc4d6a6a318e5a4"
+        },
+        {
+          "file": "hud.js",
+          "status": 200,
+          "sha256": "ec10a172739eb09cce850dade3b37b6cf986baa1388f29f99c60f5028d735def"
+        },
+        {
+          "file": "gore.js",
+          "status": 200,
+          "sha256": "8848c8a0b8845ad8d382ca3d3893784b02db9c0db9d341f0eca65e5b698ef97c"
+        },
+        {
+          "file": "dphys.js",
+          "status": 200,
+          "sha256": "0bf43f0b058990387d978112c62374529d2149adafc21a0799b0a81460768c9a"
+        },
+        {
+          "file": "light.js",
+          "status": 200,
+          "sha256": "ca2b6f7afa20473ffb6f0a3af82e2f301368b87026ba99a62911fb1f247bc072"
+        },
+        {
+          "file": "glitch.js",
+          "status": 200,
+          "sha256": "2c088bad6cc614a2ca10c8ebea4913d30ad5d9e35cd48b0765d7cbe81f1c623c"
+        },
+        {
+          "file": "camcorder.js",
+          "status": 200,
+          "sha256": "332c6b6166c217a5fef0367997ea894658d750016d28389b8aae83a77f475b0f"
+        },
+        {
+          "file": "inventory.js",
+          "status": 200,
+          "sha256": "4d59421c523200300a035ff9f1b8d67657bacb406035089428e34ff015b9768b"
+        },
+        {
+          "file": "sfx.js",
+          "status": 200,
+          "sha256": "1c62054afb1b53796f2419365488e5518d40c8641ee181382110e1448844adfe"
+        },
+        {
+          "file": "assets/index-DKbV5Nv9.js",
+          "status": 200,
+          "sha256": "a0457fc64f7e9a70ebd4cd03b8ecd0b57cbaeb5be2d7261bdea2e906afaefea0"
+        }
+      ],
+      "configStatus": 404,
+      "rejected": [
+        {
+          "url": "/server.js",
+          "status": 404
+        },
+        {
+          "url": "/sim.js",
+          "status": 404
+        },
+        {
+          "url": "/spatial_authority.js",
+          "status": 404
+        },
+        {
+          "url": "/death_srv.js",
+          "status": 404
+        },
+        {
+          "url": "/dev/stage_h/H4_STATUS.md",
+          "status": 404
+        },
+        {
+          "url": "/%",
+          "status": 400
+        },
+        {
+          "url": "/%00",
+          "status": 400
+        },
+        {
+          "url": "/assets/../../server.js",
+          "status": 404
+        }
+      ]
+    },
+    {
+      "mode": "spatial",
+      "modules": [
+        {
+          "file": "camera_policy.js",
+          "status": 200,
+          "sha256": "d87df82ad2b9d28e068a5bc337953b5b99a8607539323e4bfba22023c2e8378e"
+        },
+        {
+          "file": "timing_policy.js",
+          "status": 200,
+          "sha256": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069"
+        },
+        {
+          "file": "levels/level0.js",
+          "status": 200,
+          "sha256": "8560a74df5a1ebbda66b480b61d499a25e00b168d1a678df72efb556fdcda1d9"
+        },
+        {
+          "file": "world_geometry.js",
+          "status": 200,
+          "sha256": "8157ecd31e840dbdf201051fe43b60353a330541a249d6f6c77dc25349e991b3"
+        },
+        {
+          "file": "world_motion.js",
+          "status": 200,
+          "sha256": "96c78029e3dcd7a72dd9aa3eca848276380cdf945bc4ce2f4cb0587568d67a6a"
+        },
+        {
+          "file": "spatial_protocol.js",
+          "status": 200,
+          "sha256": "e8b66c0f445b49487b6432488ece38cc88cbb6093200c3c3aa51fd8c270c5549"
+        },
+        {
+          "file": "spatial_history.js",
+          "status": 200,
+          "sha256": "81b39e806168e74e08c84d7b7f22ed34f9a80050e89ea52b028a59d156021901"
+        },
+        {
+          "file": "world_view.js",
+          "status": 200,
+          "sha256": "0c4d092db36837df6624097cb96eead79c4fc073f394f2e4b32f478bdeb514d1"
+        },
+        {
+          "file": "spatial_client.js",
+          "status": 200,
+          "sha256": "5dfef29c4f4ff4a1e8ace14d3f5122a9f96b76e93850956e0c55bdbb2c11c296"
+        },
+        {
+          "file": "world.js",
+          "status": 200,
+          "sha256": "8f4553d523ab5b2a70d699003080db27d836a94f87ff80dd3628d93b3fb0b4b3"
+        },
+        {
+          "file": "move.js",
+          "status": 200,
+          "sha256": "193857bdf43d086e3e16eba7091f44e31b2c7bfa923640a1e05a3b5dc848a17c"
+        },
+        {
+          "file": "ents.js",
+          "status": 200,
+          "sha256": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284"
+        },
+        {
+          "file": "mp.js",
+          "status": 200,
+          "sha256": "fb19d5e1f5c88f6c4916efe0edc09c21daedc83c8c11c09f6cc4d6a6a318e5a4"
+        },
+        {
+          "file": "hud.js",
+          "status": 200,
+          "sha256": "ec10a172739eb09cce850dade3b37b6cf986baa1388f29f99c60f5028d735def"
+        },
+        {
+          "file": "gore.js",
+          "status": 200,
+          "sha256": "8848c8a0b8845ad8d382ca3d3893784b02db9c0db9d341f0eca65e5b698ef97c"
+        },
+        {
+          "file": "dphys.js",
+          "status": 200,
+          "sha256": "0bf43f0b058990387d978112c62374529d2149adafc21a0799b0a81460768c9a"
+        },
+        {
+          "file": "light.js",
+          "status": 200,
+          "sha256": "ca2b6f7afa20473ffb6f0a3af82e2f301368b87026ba99a62911fb1f247bc072"
+        },
+        {
+          "file": "glitch.js",
+          "status": 200,
+          "sha256": "2c088bad6cc614a2ca10c8ebea4913d30ad5d9e35cd48b0765d7cbe81f1c623c"
+        },
+        {
+          "file": "camcorder.js",
+          "status": 200,
+          "sha256": "332c6b6166c217a5fef0367997ea894658d750016d28389b8aae83a77f475b0f"
+        },
+        {
+          "file": "inventory.js",
+          "status": 200,
+          "sha256": "4d59421c523200300a035ff9f1b8d67657bacb406035089428e34ff015b9768b"
+        },
+        {
+          "file": "sfx.js",
+          "status": 200,
+          "sha256": "1c62054afb1b53796f2419365488e5518d40c8641ee181382110e1448844adfe"
+        },
+        {
+          "file": "assets/index-DKbV5Nv9.js",
+          "status": 200,
+          "sha256": "a0457fc64f7e9a70ebd4cd03b8ecd0b57cbaeb5be2d7261bdea2e906afaefea0"
+        }
+      ],
+      "configStatus": 200,
+      "rejected": [
+        {
+          "url": "/server.js",
+          "status": 404
+        },
+        {
+          "url": "/sim.js",
+          "status": 404
+        },
+        {
+          "url": "/spatial_authority.js",
+          "status": 404
+        },
+        {
+          "url": "/death_srv.js",
+          "status": 404
+        },
+        {
+          "url": "/dev/stage_h/H4_STATUS.md",
+          "status": 404
+        },
+        {
+          "url": "/%",
+          "status": 400
+        },
+        {
+          "url": "/%00",
+          "status": 400
+        },
+        {
+          "url": "/assets/../../server.js",
+          "status": 404
+        }
+      ]
+    }
+  ],
+  "runtime": "v24.19.0"
+}

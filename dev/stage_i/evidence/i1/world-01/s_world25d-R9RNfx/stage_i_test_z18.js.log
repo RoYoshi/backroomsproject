@@ -1,0 +1,17 @@
+/workspace/scratch/be6e71d940f9/stage-i/world_geometry.js:104
+ const fail=m=>{throw Error('WorldDefinition: '+m);},ok=(b,m)=>{if(!b)fail(m);};
+                ^
+
+Error: WorldDefinition: solid outside bounds solid:ground
+    at fail (/workspace/scratch/be6e71d940f9/stage-i/world_geometry.js:104:23)
+    at ok (/workspace/scratch/be6e71d940f9/stage-i/world_geometry.js:104:71)
+    at spatialValidate (/workspace/scratch/be6e71d940f9/stage-i/world_geometry.js:114:106)
+    at validate (/workspace/scratch/be6e71d940f9/stage-i/world_geometry.js:20:51)
+    at Object.compile (/workspace/scratch/be6e71d940f9/stage-i/world_geometry.js:361:2)
+    at mover (/workspace/scratch/be6e71d940f9/stage-i/dev/stage_c/helpers.js:13:19)
+    at run (/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/test_z18.js:8:10)
+    at Object.<anonymous> (/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/test_z18.js:20:66)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+
+Node.js v24.19.0

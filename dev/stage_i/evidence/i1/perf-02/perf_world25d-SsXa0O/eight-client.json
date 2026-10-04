@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "machine": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "players": 8,
+  "entities": 7,
+  "entityKinds": [
+    "h5",
+    "h6",
+    "m7",
+    "m8",
+    "m9",
+    "m10",
+    "m11"
+  ],
+  "frozen": false,
+  "seconds": 10,
+  "cpu": {
+    "samples": 600,
+    "median": 0.277697,
+    "p95": 0.705155,
+    "p99": 2.889971,
+    "max": 9.438214
+  },
+  "totalSnapshotBytes": 8935,
+  "limits": {
+    "accepted": 0,
+    "rejected": 0,
+    "corrections": 16,
+    "maxQueue": 0,
+    "maxHistory": 0,
+    "maxWork": 0,
+    "work": 0,
+    "ownedTicks": 0,
+    "reasons": {},
+    "cpu": {
+      "samples": 600,
+      "median": 0.277697,
+      "p95": 0.705155,
+      "p99": 2.889971,
+      "max": 9.438214
+    }
+  },
+  "scope": "Normal stationary eight-player spatial room with real director population; Stage I full stress certification deferred."
+}

@@ -9,7 +9,14 @@
     "test:shared": "node dev/tests/run.js s_shared2f.js",
     "test:humanqa": "node dev/tests/run.js s_humanqa_hotfix.js",
     "test:camera": "node dev/tests/s_camera_fairness.js",
-    "test:fps": "node dev/tests/s_fps_equality.js"
+    "test:fps": "node dev/tests/s_fps_equality.js",
+    "test:world25d": "node dev/tests/s_world25d.js",
+    "test:nav25d": "node dev/tests/s_nav25d.js",
+    "test:perception25d": "node dev/tests/s_perception25d.js",
+    "test:network25d": "node dev/tests/network25d.js",
+    "test:physics25d": "node dev/tests/physics25d.js",
+    "test:view25d": "node dev/tests/view25d.js",
+    "test:perf25d": "node dev/tests/perf_world25d.js"
   },
   "engines": {
     "node": ">=18"
