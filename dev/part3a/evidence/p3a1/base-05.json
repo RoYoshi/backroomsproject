@@ -1,0 +1,31 @@
+{
+  "status": "PASS",
+  "revision": "part3a-base-1",
+  "hash": "e1d8fbf4612781aae08b3bca45dd177e4ce27498f1b98eea595ce1546a8641ad",
+  "serializedSha256": "4415c956d087678b68eaa0af40f894aee03eb6299c13455900030a37b529e16c",
+  "repeatedBuilds": 2,
+  "floorCells": 3308,
+  "rooms": 12,
+  "props": 18,
+  "lamps": 90,
+  "solids": 873,
+  "patches": 285,
+  "spaces": 285,
+  "chunks": 130,
+  "permutedInputIdentical": true,
+  "rayComparisons": 90,
+  "lateBatchWall": "solid:wall:1344_1824_192_480",
+  "spawn": {
+    "id": "anchor:spawn:player",
+    "kind": "spawn",
+    "position": {
+      "x": 984,
+      "y": 3264,
+      "z": 0
+    },
+    "yaw": 0,
+    "supportId": "support:ground:960_3072_480_768",
+    "spaceId": "space:base:960_3072_480_768",
+    "colliderProfileId": "profile:player-stand"
+  }
+}

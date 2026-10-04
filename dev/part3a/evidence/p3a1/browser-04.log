@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: production pixels
+    at /workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/browser_base.js:8:57
+    at runNextTicks (node:internal/process/task_queues:65:5)
+    at process.processImmediate (node:internal/timers:502:9) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

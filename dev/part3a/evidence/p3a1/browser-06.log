@@ -1,0 +1,9 @@
+AssertionError [ERR_ASSERTION]: production pixels
+    at /workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/browser_base.js:9:182 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

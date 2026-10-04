@@ -1,0 +1,5 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: real multi-batch frame",
+  "stack": "AssertionError [ERR_ASSERTION]: real multi-batch frame\n    at /workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/browser_base.js:8:166\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:502:9)",
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 42787 | part-3a @ d7ceada47267\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 42787 | part-3a @ d7ceada47267\nThe Far Backrooms → http://localhost:42787  (share  ?room=NAME  to group up)\n[admin] WANDERER#1 unlocked admin (room stage-h)\n[admin] room=stage-h Part 3A base#1: god Part 3A base -> true\n[admin] room=stage-h Part 3A base#1: freeze true\n"
+}

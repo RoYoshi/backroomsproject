@@ -283,7 +283,7 @@
     // again. Resetting Pixi's cache alone does not unbind raw WebGL samplers.
     const gl = renderer.gl;
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    for (const unit of [0, 1, 2]) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, null); }
+    for (const unit of [0, 1, 2, 3]) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, null); }
     gl.activeTexture(gl.TEXTURE0);
     // Pixi resets its clear-color cache to transparent without issuing GL.
     gl.clearColor(0, 0, 0, 0);

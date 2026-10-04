@@ -1,0 +1,9 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(densePixels.lit>1000&&densePixels.error===0)\n",
+  "stack": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(densePixels.lit>1000&&densePixels.error===0)\n\n    at /workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/browser_base.js:11:180\n    at runNextTicks (node:internal/process/task_queues:65:5)\n    at process.processImmediate (node:internal/timers:502:9)",
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 41871 | part-3a @ d7ceada47267\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 41871 | part-3a @ d7ceada47267\nThe Far Backrooms → http://localhost:41871  (share  ?room=NAME  to group up)\n[admin] WANDERER#1 unlocked admin (room stage-h)\n[admin] room=stage-h WANDERER#1: god WANDERER -> true\n[admin] room=stage-h WANDERER#1: freeze true\n",
+  "console": [
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE"
+  ],
+  "errors": []
+}

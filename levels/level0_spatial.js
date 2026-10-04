@@ -61,7 +61,7 @@ function build(){
  const spaceAt=p=>d.spaces.find(s=>['x','y','z'].every(k=>p[k]>=s.bounds.min[k]&&p[k]<=s.bounds.max[k]))?.id||null;
  const player={x:flat.Ic.x+24,y:flat.Ic.y,z:0};
  d.anchors.push({id:'anchor:spawn:player',kind:'spawn',position:player,yaw:0,supportId:patchAt(player).id,spaceId:spaceAt(player),colliderProfileId:M.PROFILES.stand.id});
- flat.Fc.forEach((p,i)=>d.lights.push({id:L.flat.lampIds[i],position:{...p,z:160},direction:{x:0,y:0,z:-1},channel:'visible',range:320,power:.4,supportId:patchAt(p)?.id||null,spaceId:spaceAt({...p,z:100})}));
+ flat.Fc.forEach((p,i)=>d.lights.push({id:L.flat.lampIds[i],position:{...p,z:160},direction:{x:0,y:0,z:-1},channel:'visible',range:380,power:.43,supportId:patchAt(p)?.id||null,spaceId:spaceAt({...p,z:100})}));
  for(const k of G.collections||['solids','supportPatches','navSurfaces','traversalLinks','spaces','portals','materials','lights','viewGroups','anchors','colliderProfiles'])d[k].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
  d.contentHash=G.contentHash(d);return d;
 }

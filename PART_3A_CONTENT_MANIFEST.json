@@ -1,6 +1,6 @@
 {
-  "milestone": "P3A0",
-  "status": "DESIGN ONLY",
+  "milestone": "P3A1",
+  "status": "P3A1 COMPLETE",
   "source": {
     "revision": "v23.3.6-flat-compat-1",
     "hash": "5b07af1fe27222982b860d5ebc912c3894459fa65441d46e7f2d9eb7f278bc77"
@@ -154,5 +154,18 @@
     180,
     -96
   ],
-  "runtimeChanges": 0
+  "runtimeChanges": 0,
+  "spatialRevision": "part3a-base-1",
+  "spatialHash": "e1d8fbf4612781aae08b3bca45dd177e4ce27498f1b98eea595ce1546a8641ad",
+  "counts": {
+    "solids": 873,
+    "supportPatches": 285,
+    "navSurfaces": 1,
+    "traversalLinks": 0,
+    "spaces": 285,
+    "portals": 441,
+    "lights": 90,
+    "anchors": 1,
+    "viewGroups": 142
+  }
 }
