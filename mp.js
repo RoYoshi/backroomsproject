@@ -279,6 +279,7 @@ function itemsFrame(p) {
   const now = performance.now();
   for (let i = 0; i < list.length; i++) {
     const it = list[i];
+    if (window.TFB_WORLD && (!Number.isFinite(it[3]) || Math.abs(p.z-it[3])>=12 || !window.__spatial?.perceivable({x:it[0],y:it[1],z:it[3],height:12,radius:8}))) continue;
     if (Math.hypot(p.x - it[0], p.y - it[1]) > 46) continue;
     if (window.__inv && window.__inv.has(it[2])) continue;               // you already carry one
     if (N.on) { if (now - lastPick > 700) { lastPick = now; tx({ t: 'pick' }); } }

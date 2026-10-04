@@ -1,0 +1,97 @@
+{
+  "ms": 1543,
+  "ents": [
+    {
+      "kind": "hound",
+      "x": 5112,
+      "y": 3960,
+      "z": 0,
+      "anchor": "anchor:hound-spawn:5112_3960_0"
+    },
+    {
+      "kind": "smiler",
+      "x": 5496,
+      "y": 5496,
+      "z": 0,
+      "anchor": "anchor:smiler-spawn:5496_5496_0"
+    },
+    {
+      "kind": "smiler",
+      "x": 888,
+      "y": 1272,
+      "z": 0,
+      "anchor": "anchor:smiler-spawn:888_1272_0"
+    },
+    {
+      "kind": "smiler",
+      "x": 8184,
+      "y": 4728,
+      "z": 0,
+      "anchor": "anchor:smiler-spawn:8184_4728_0"
+    },
+    {
+      "kind": "smiler",
+      "x": 3192,
+      "y": 5496,
+      "z": 0,
+      "anchor": "anchor:smiler-spawn:3192_5496_0"
+    }
+  ],
+  "items": [
+    [
+      6264,
+      1272,
+      "cartograph",
+      0,
+      "support:ground:6240_960_96_480",
+      "anchor:item:6264_1272_0"
+    ]
+  ],
+  "exits": [
+    [
+      4152,
+      696,
+      0,
+      -1,
+      0,
+      "support:ground:3840_672_480_96",
+      "anchor:exit:4152_696_0:0_-1",
+      {
+        "x": 4152,
+        "y": 672.1,
+        "z": 0
+      },
+      "solid:wall:3840_0_768_672"
+    ],
+    [
+      4536,
+      3288,
+      0,
+      -1,
+      0,
+      "support:ground:4224_3264_384_384",
+      "anchor:exit:4536_3288_0:0_-1",
+      {
+        "x": 4536,
+        "y": 3264.1,
+        "z": 0
+      },
+      "solid:wall:4224_3072_384_192"
+    ],
+    [
+      7416,
+      984,
+      -1,
+      0,
+      0,
+      "support:ground:7392_768_288_768",
+      "anchor:exit:7416_984_0:-1_0",
+      {
+        "x": 7392.1,
+        "y": 984,
+        "z": 0
+      },
+      "solid:wall:7200_768_192_288"
+    ]
+  ]
+}

@@ -1,0 +1,12 @@
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(exitPixels.changed>0)
+
+    at /workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/browser_gameplay.js:19:400 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

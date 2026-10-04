@@ -29,10 +29,35 @@ const alive=()=>players.filter(isAlive);
 const spatial=opts.world?GEOMETRY.compile(opts.world):null;
 const MOTION=spatial?require('./world_motion'):null;
 const spatialMotion=spatial?MOTION.create(spatial):null;
+const productionSpatial=spatial?.definition.assetId==='world:level0-spatial'&&!!spatial.definition.production;
 let worldGeneration=0;
-const adapter=spatial?{geometry:spatial,key:spatial.identity.contentHash,W:spatial.definition.bounds.max.x,H:spatial.definition.bounds.max.y,rooms:[],lamps:[],blackout:()=>V.blackout,qc:(p,pt,on)=>qc(p,pt,on),kinds:Gc,floor:()=>false,clear:()=>false,blockers:()=>[],ray:()=>0}:WG.bindAdapter({blackout:()=>V.blackout,qc:(p,pt,on)=>qc(p,pt,on),kinds:Gc});
+const adapter=spatial?{geometry:spatial,key:spatial.identity.contentHash,W:spatial.definition.bounds.max.x,H:spatial.definition.bounds.max.y,rooms:spatial.definition.production?.rooms||[],lamps:spatial.definition.lights.map(l=>({...l.position,id:l.id})),blackout:()=>V.blackout,qc:(p,pt,on)=>qc(p,pt,on),kinds:Gc,floor:()=>false,clear:()=>false,blockers:()=>[],ray:()=>0}:WG.bindAdapter({blackout:()=>V.blackout,qc:(p,pt,on)=>qc(p,pt,on),kinds:Gc});
 function spatialSpawn(p){const a=spatial.definition.anchors.find(a=>a.kind==='spawn');if(!a)throw Error('Spatial world needs explicit spawn');spatialMotion.initialize(Object.assign(p,a.position,{vx:0,vy:0,vz:0}));p.angle=a.yaw;p.navSurfaceId=spatial.supportPatch(p.supportId)?.navSurfaceId||null;}
-function spatialMonster(kind){const as=spatial.definition.anchors.filter(a=>a.kind===kind+'-spawn'),a=as.find(a=>!eng.entities.some(e=>Math.hypot(e.x-a.position.x,e.y-a.position.y,e.z-a.position.z)<50));return a?eng.spawn(kind,a.position.x,a.position.y,{z:a.position.z}):null;}
+const spatialPool=kind=>spatial.definition.anchors.filter(a=>a.kind===kind);
+function shuffled(list){const a=list.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(RND()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+const dist3=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);
+function spatialMonster(kind,minSpawn=kind==='hound'?3000:1700,awayFrom=[],stress=false){
+ const as=spatialPool(kind+'-spawn');let a;
+ if(!productionSpatial)a=as.find(a=>!eng.entities.some(e=>dist3(e,a.position)<50));
+ else{
+  const start=spatialPool('spawn')[0].position,pl=players.filter(p=>p.active&&!p.dead&&!p.exited),sep=stress?(kind==='hound'?260:220):(kind==='hound'?1500:1100),playerSep=stress?(kind==='hound'?900:850):sep;
+  const eligible=shuffled(as).filter(a=>dist3(start,a.position)>=minSpawn&&!eng.entities.concat(awayFrom).some(e=>dist3(e,a.position)<sep)&&!pl.some(p=>dist3(p,a.position)<playerSep));
+  if(kind==='hound')a=eligible[0];
+  else{
+   const shape=MOTION.ENTITY_PROFILES.smiler,rawLight=p=>Math.max(0,(eng.geo.lightAt({...p,shape},[])-.04)/2.08);
+   const dark=eligible.filter(a=>rawLight(a.position)<=(stress?.12:.1));let best=-Infinity;
+   for(const candidate of dark.slice(0,14)){const p=candidate.position;let score=RND()*20,dmin=Infinity;
+    for(const q of pl){const d=dist3(p,q);dmin=Math.min(dmin,d);if(d<1600&&eng.geo.visibleBody({...p,shape},q).visible)score-=400;}
+    if(pl.length&&dmin<1500)score-=(1500-dmin)*.3;
+    for(let k=0;k<8;k++){const t=k*.785,q={x:p.x+Math.cos(t)*420,y:p.y+Math.sin(t)*420,z:p.z};if(rawLight(q)>.3){score+=25;break;}}
+    let shelter=0;const eye={...p,z:p.z+shape.eyeHeight};for(let k=0;k<8;k++){const h=spatial.raycast(eye,{x:eye.x+Math.cos(k*.785)*260,y:eye.y+Math.sin(k*.785)*260,z:eye.z},'visible');if(h&&h.t*260<200)shelter++;}score+=Math.min(shelter,4)*8;
+    if(score>best){best=score;a=candidate;}
+   }
+   if(!a)a=eligible[0]; // Retained director fallback when no dark candidate exists.
+  }
+ }
+ if(!a)return null;const e=eng.spawn(kind,a.position.x,a.position.y,{z:a.position.z});e.spawnAnchorId=a.id;return e;
+}
 const eng=AI.create({adapter,seed:SIM_SEED});
 
 function randomSpot(minSpawn,avoid,minAvoid,mustReach=true,dark=false){
@@ -49,7 +74,7 @@ function randomSpot(minSpawn,avoid,minAvoid,mustReach=true,dark=false){
   return null;
 }
 const ents=()=>eng.entities;
-function newHound(minSpawn=3000,awayFrom=[]){if(spatial)return spatialMonster(`hound`);const at=randomSpot(minSpawn,awayFrom.concat(ents()),1500);return at?eng.spawn(`hound`,at.x,at.y):null}
+function newHound(minSpawn=3000,awayFrom=[]){if(spatial)return spatialMonster(`hound`,minSpawn,awayFrom);const at=randomSpot(minSpawn,awayFrom.concat(ents()),1500);return at?eng.spawn(`hound`,at.x,at.y):null}
 /* where a smiler first appears (spec 50): dark, out of sight, with a reason to be there - near where light meets dark, or half-hidden by walls - never on open lit floor, never beside anyone */
 function smilerSpot(minSpawn,av){
   const pl=alive();let best=null,bs=-1e9;
@@ -64,7 +89,7 @@ function smilerSpot(minSpawn,av){
   }
   return best;
 }
-function newSmiler(minSpawn=1700,awayFrom=[]){if(spatial)return spatialMonster(`smiler`);const av=awayFrom.concat(ents());const at=smilerSpot(minSpawn,av)||randomSpot(minSpawn,av,1100,true,true)||randomSpot(minSpawn,av,1100);return at?eng.spawn(`smiler`,at.x,at.y):null}
+function newSmiler(minSpawn=1700,awayFrom=[]){if(spatial)return spatialMonster(`smiler`,minSpawn,awayFrom);const av=awayFrom.concat(ents());const at=smilerSpot(minSpawn,av)||randomSpot(minSpawn,av,1100,true,true)||randomSpot(minSpawn,av,1100);return at?eng.spawn(`smiler`,at.x,at.y):null}
 /* Admin-only stress placement: the normal director keeps its wide 1500/1100 px monster spacing, but that spacing makes a 64-entity
  * test ceiling impossible to reach.  Stress spawns stay well away from live players and on reachable floor while allowing monsters to pack
  * closer together.  This is deliberately NOT used by ordinary world spawning. */
@@ -84,7 +109,7 @@ function adminStressSpot(kind){
   return null;
 }
 function adminSpawn(kind){
-  if(spatial)return eng.count(kind)<adminCap(kind)&&!!spatialMonster(kind);
+  if(spatial)return eng.count(kind)<adminCap(kind)&&!!spatialMonster(kind,900,[],true);
   if(eng.count(kind)>=adminCap(kind))return false;
   const at=adminStressSpot(kind);if(!at)return false;
   eng.spawn(kind,at.x,at.y);return true;
@@ -99,8 +124,9 @@ function spawnMonsters(nh,ns){
 let glitches=[];
 /* one rare find per world: a paranormal cartograph lying somewhere in the halls (first to reach it keeps it) */
 let items=[];
-function makeItems(){if(spatial)return spatial.definition.anchors.filter(a=>a.kind===`item`).map(a=>({id:a.id,...a.position,supportId:a.supportId}));const p=randomSpot(1800,glitches,700,true);return p?[{id:`cartograph`,x:Math.round(p.x),y:Math.round(p.y)}]:[]}
+function makeItems(){if(productionSpatial){const a=shuffled(spatialPool('item')).find(a=>glitches.every(g=>dist3(g,a.position)>=700));if(!a)throw Error('No reachable production cartograph candidate');return [{id:'cartograph',...a.position,supportId:a.supportId,anchorId:a.id}];}if(spatial)return spatial.definition.anchors.filter(a=>a.kind===`item`).map(a=>({id:a.id,...a.position,supportId:a.supportId}));const p=randomSpot(1800,glitches,700,true);return p?[{id:`cartograph`,x:Math.round(p.x),y:Math.round(p.y)}]:[]}
 function makeGlitches(n=3){
+  if(productionSpatial){for(let attempt=0;attempt<24;attempt++){const out=[];for(const a of shuffled(spatialPool('exit'))){if(out.some(g=>dist3(g,a.position)<2600))continue;out.push({...a.position,nx:a.normal.x,ny:a.normal.y,supportId:a.supportId,anchorId:a.id,wallPosition:a.wallPosition,wallSolidId:a.wallSolidId});if(out.length===n)return out;}}throw Error('Production exit candidate spacing failed');}
   if(spatial)return spatial.definition.anchors.filter(a=>a.kind===`exit`).map(a=>({...a.position,nx:0,ny:0,supportId:a.supportId}));
   const out=[],dirs=[[1,0],[-1,0],[0,1],[0,-1]];
   for(let t=0;t<6000&&out.length<n;t++){
@@ -282,7 +308,7 @@ function step(dt){
 const r1=n=>Math.round(n*10)/10;
 function entities(){
   const s=eng.snapshot();
-  return {st:+clockT.toFixed(3),h:s.h,m:s.m,b:V.blackout?1:0,p:+PR.toFixed(3),gw:glitches.map(g=>[Math.round(g.x),Math.round(g.y),g.nx,g.ny]),it:items.map(i=>[i.x,i.y,i.id]),
+  return {st:+clockT.toFixed(3),h:s.h,m:s.m,b:V.blackout?1:0,p:+PR.toFixed(3),gw:glitches.map(g=>[Math.round(g.x),Math.round(g.y),g.nx,g.ny,...(productionSpatial?[g.z,g.supportId,g.anchorId,g.wallPosition,g.wallSolidId]:[])]),it:items.map(i=>[i.x,i.y,i.id,...(productionSpatial?[i.z,i.supportId,i.anchorId]:[])]),
     lf:eng.geo.fails.map(f=>[Math.round(f.x),Math.round(f.y),Math.round(f.r),+(f.until-eng.now).toFixed(2)]),sn:eng.drainSounds().slice(-24)};
 }
 const ofKind=k=>ents().filter(e=>e.kind===k);

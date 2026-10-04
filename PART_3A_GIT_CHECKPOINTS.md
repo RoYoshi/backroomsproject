@@ -7,3 +7,4 @@ P3A0 source commit/tree is recorded by the external checkpoint receipt after pus
 - P3A0: `db9078e50e18ab9b43f687decc3c9fb4294e5ed6`; tree `f88d313541e14d7941cf99273bc33076aade8257`.
 - P3A1 preservation: `d7ceada47267207a5dd5647e138cb08da493f5af`; tree `9c9cdb3f3cbc2370fe9a79a6906bc2c4f5730449`.
 - P3A1 COMPLETE: `b8d327afefeb6ac1431ca341a87e1977bdf5ab05`; tree `e8d6bf1865de6df2bfc127da607cb28995259862`.
+- P3A2 COMPLETE: `f587587b327bf3dc5a16f98e3462b9e38a25b457`; tree `da427d785f074801040a365c7aa8dcf11ac15db7`.

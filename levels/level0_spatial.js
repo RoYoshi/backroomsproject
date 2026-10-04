@@ -2,6 +2,7 @@
 // Maintained deterministic production conversion. The accepted flat source is read only.
 const G=require('../world_geometry'),L=require('./level0'),W=require('../world'),M=require('../world_motion');
 const V=require('./level0_vertical');
+const GP=require('./level0_gameplay');
 const CHUNK=768,T=96,clone=x=>JSON.parse(JSON.stringify(x));
 const polygon=r=>[{x:r.x,y:r.y},{x:r.x+r.w,y:r.y},{x:r.x+r.w,y:r.y+r.h},{x:r.x,y:r.y+r.h}];
 const plane=z=>typeof z==='number'?{a:0,b:0,c:z}:z;
@@ -9,7 +10,7 @@ const key=r=>[r.x,r.y,r.w,r.h].join('_');
 const contains=(r,p)=>p.x>=r.x&&p.x<r.x+r.w&&p.y>=r.y&&p.y<r.y+r.h;
 function build(){
  const flat=G.compile(L,W).flat;
- const d={schemaVersion:1,assetId:'world:level0-spatial',geometryRevision:'part3a-vertical-1',contentRevision:'part3a-vertical-1',geometryMode:'spatial',units:L.units,
+ const d={schemaVersion:1,assetId:'world:level0-spatial',geometryRevision:'part3a-gameplay-1',contentRevision:'part3a-gameplay-1',geometryMode:'spatial',units:L.units,
   bounds:{min:{x:0,y:0,z:-160},max:{x:9216,y:6912,z:384}},
   solids:[],supportPatches:[],navSurfaces:[],traversalLinks:[],spaces:[],portals:[],materials:[],lights:[],viewGroups:[],anchors:[],colliderProfiles:[],
   production:{sourceAssetId:L.assetId,sourceRevision:L.contentRevision,sourceHash:L.contentHash,tileSize:T,layout:[96,72],chunkSize:CHUNK,rooms:clone(L.flat.rooms),props:clone(W.PROPS),lampOrder:clone(L.flat.lampIds),features:[]}};
@@ -39,7 +40,7 @@ function build(){
   outer:while(y+h<72){for(let dx=0;dx<w;dx++)if(done.has((x+dx)+','+(y+h))||category(x+dx,y+h)!==c)break outer;h++;}
   for(let dy=0;dy<h;dy++)for(let dx=0;dx<w;dx++)done.add((x+dx)+','+(y+dy));
   const r={x:x*T,y:y*T,w:w*T,h:h*T},mat=materialAt({x:r.x+T/2,y:r.y+T/2}),name=key(r),chunk=Math.floor(r.x/CHUNK)+'_'+Math.floor(r.y/CHUNK),room=roomAt({x:r.x+T/2,y:r.y+T/2})?.id||'corridor';
-  if(flat.kc[y*96+x]){const sid=space(r);for(const q of V.subtract(r,[V.PIT]))solid('ground:'+key(q),q,-16,0,mat,'nav:base');for(const q of V.subtract(r,[V.UPPER,V.STAIRS,V.RAMP]))solid('ceiling:'+key(q),q,164,180,mat,null,'view:ceiling:'+room+':'+chunk,sid);}
+  if(flat.kc[y*96+x]){const sid=space(r);for(const q of V.subtract(r,[V.PIT,...GP.gaps.map(p=>p.cell)]))solid('ground:'+key(q),q,-16,0,mat,'nav:base');for(const q of V.subtract(r,[V.UPPER,V.STAIRS,V.RAMP]))solid('ceiling:'+key(q),q,164,180,mat,null,'view:ceiling:'+room+':'+chunk,sid);}
   else solid('wall:'+name,r,0,164,mat);
  }
  // Pillar ordering derives from the flat source's x-major expansion.
@@ -51,6 +52,7 @@ function build(){
   if(p.type==='window'){solid('prop:'+p.id+':sill',p.rect,0,42,mat);solid('prop:'+p.id+':lintel',p.cell,112,164,mat,null,'view:prop:'+p.id);}
  }
  V.add({d,solid,space,nav,profiles});
+ GP.props({d,solid,nav,materialAt});
  // Air portals are real shared open faces. The geometry compiler rejects a
  // portal center inside a physical solid for acoustic propagation.
  for(let i=0;i<d.spaces.length;i++)for(let j=i+1;j<d.spaces.length;j++){
@@ -65,6 +67,7 @@ function build(){
  d.anchors.push({id:'anchor:spawn:player',kind:'spawn',position:player,yaw:0,supportId:patchAt(player).id,spaceId:spaceAt(player),colliderProfileId:M.PROFILES.stand.id});
  flat.Fc.forEach((p,i)=>d.lights.push({id:L.flat.lampIds[i],position:{...p,z:160},direction:{x:0,y:0,z:-1},channel:'visible',range:380,power:.43,supportId:patchAt(p)?.id||null,spaceId:spaceAt({...p,z:100})}));
  for(const k of G.collections||['solids','supportPatches','navSurfaces','traversalLinks','spaces','portals','materials','lights','viewGroups','anchors','colliderProfiles'])d[k].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
+ GP.anchors(d);d.anchors.sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
  d.contentHash=G.contentHash(d);return d;
 }
 module.exports={build,CHUNK};

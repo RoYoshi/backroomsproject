@@ -63,7 +63,7 @@
     const scope=footprint(width,height,camera,zoom),ray=pickingRay(screen,camera,scope.scale),at=t=>Object.fromEntries(['x','y','z'].map(k=>[k,ray.from[k]+(ray.to[k]-ray.from[k])*t])),hits=[];
     const add=(t,data,receiver=-1)=>{if(t<0||t>1)return;const point=at(t);if(within(point,scope)&&visible(model,eye,point,receiver)&&cameraClear(model,point,ray,view,receiver))hits.push({...data,t,point});};
     for(const s of model.solids){if(!s.visible||view?.fadeFor(s.id)>=1)continue;const h=interval(s,ray.from,ray.to,0);if(h){add(h.enter,{kind:'face',primitiveId:s.id},s.index);add(h.exit,{kind:'face',primitiveId:s.id},s.index);}}
-    for(const p of actors){if(p.id===exclude||p.observable===false||!within(p,scope)||!['player','peer','hound','smiler','body','hand:0','hand:1','light','hat','replay'].includes(p.kind))continue;const h=cylinderInterval(p,ray);if(h){add(h.enter,{kind:'actor',actorId:p.id});add(h.exit,{kind:'actor',actorId:p.id});}}
+    for(const p of actors){if(p.id===exclude||p.observable===false||!within(p,scope)||!['player','peer','hound','smiler','body','hand:0','hand:1','light','hat','replay','item','exit'].includes(p.kind))continue;const h=cylinderInterval(p,ray);if(h){add(h.enter,{kind:'actor',actorId:p.id});add(h.exit,{kind:'actor',actorId:p.id});}}
     hits.sort((a,b)=>a.t-b.t||(a.actorId||a.primitiveId).localeCompare(b.actorId||b.primitiveId));
     // A fully faded group stops blocking the CAMERA only. Every candidate's
     // eye ray above still sees every physical solid, so fading grants no hit.

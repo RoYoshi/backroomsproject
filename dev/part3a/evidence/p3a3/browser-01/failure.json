@@ -1,0 +1,5 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(exitPixels.changed>0)\n",
+  "stack": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:\n\n  assert(exitPixels.changed>0)\n\n    at /workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/browser_gameplay.js:19:400",
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 37205 | part-3a @ f587587b327b\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 37205 | part-3a @ f587587b327b\nThe Far Backrooms → http://localhost:37205  (share  ?room=NAME  to group up)\n[admin] WANDERER#1 unlocked admin (room stage-h)\n[admin] room=stage-h Production A#1: god Production A -> true\n[admin] room=stage-h Production A#1: freeze true\n[admin] WANDERER#2 unlocked admin (room stage-h)\n[admin] room=stage-h WANDERER#2: god WANDERER -> true\n[admin] WANDERER#3 unlocked admin (room stage-h)\n[admin] room=stage-h WANDERER#3: god WANDERER -> true\n"
+}

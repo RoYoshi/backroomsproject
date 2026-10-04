@@ -21,7 +21,7 @@
     A = api; R = renderer; P = pixi;
     geometry = window.TFB_GEOMETRY.compile(window.TFB_WORLD);
     model = V.compile(geometry.definition);
-    A.spatialMotion = window.TFB_MOTION.motorAdapter(geometry);
+    A.spatialMotion = window.TFB_MOTION.motorAdapter(geometry,geometry.definition.production?.lowObstacles||[]);
     A.spatialMotion.motion.initialize(Object.assign(A.H, spawn()));
     view = new V.LocalView(model, 'connecting');
     A.worldGeometry = geometry;
@@ -157,6 +157,20 @@
       // Same five procedural fluorescent-fixture strokes as the retained Pixi build.
       g.roundRect(-45,-15,90,28,3).fill({color:3355443,alpha:.9});g.roundRect(-43,-13,86,24,2).fill({color:6249019,alpha:.95});g.rect(-37,-8,74,13).fill(A.V.blackout?9539169:16774332);g.rect(-32,-4,64,4).fill({color:16777215,alpha:A.V.blackout?.12:.75});g.moveTo(-43,10).lineTo(43,10).stroke({color:4275752,alpha:.6,width:3});
       const slot=pass.art.length;pass.art.push(texture(e));const p={id:l.id,kind:'lamp',...l.position,height:1,art:slot,radius:45,visibilityRadius:45,emissive:!A.V.blackout};p.observable=perceivable(p);packets.push(p);
+    }
+  }
+  function objectives(packets){
+    if(!window.__spatialObjectiveArt)return;
+    for(const [kind,list]of [['item',window.__items||[]],['exit',window.__glitches||[]]])for(const raw of list){
+      const z=raw[kind==='item'?3:4];if(!Number.isFinite(z))continue;
+      const support=raw[kind==='item'?4:5],anchor=raw[kind==='item'?5:6],id='objective:'+anchor;
+      let point={x:raw[0],y:raw[1],z},normal={x:0,y:0,z:1},basis={u:{x:1,y:0,z:0},v:{x:0,y:1,z:0}},primitiveId=geometry.supportPatch(support)?.solidId;
+      if(kind==='exit'){if(!raw[7]||!raw[8])continue;point={x:raw[7].x+raw[2]*.1,y:raw[7].y+raw[3]*.1,z:z+48};normal={x:-raw[2],y:-raw[3],z:0};basis={u:{x:-raw[3],y:raw[2],z:0},v:{x:0,y:0,z:1}};primitiveId=raw[8];}
+      const p={id,kind,x:point.x,y:point.y,z,height:kind==='item'?12:96,radius:kind==='item'?12:24,support,emissive:true};
+      if(!primitiveId||!V.within(p,V.footprint(innerWidth,innerHeight,R.camera)))continue;p.observable=perceivable(p);if(!p.observable)continue;
+      let a=labelArt.get(id);const gl=pass.gl;if(!a){a={tex:gl.createTexture(),width:128,height:128,bytes:128*128*4,borrowed:true};labelArt.set(id,a);}a.used=state.frames;
+      gl.bindTexture(gl.TEXTURE_2D,a.tex);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,window.__spatialObjectiveArt(kind,state.time,raw[0]*.01));pass.textureParams();p.art=pass.art.length;pass.art.push(a);
+      p.surface={geometryHash:geometry.identity.contentHash,primitiveId,point,normal,basis,width:128,height:128};packets.push(p);
     }
   }
   function beamDistance(range) {const o=eyePoint(),d=direction(A.H.angle,A.H.pitch),hit=geometry.raycast(o,{x:o.x+d.x*range,y:o.y+d.y*range,z:o.z+d.z*range},'ir');return hit?hit.t*range:range;}
@@ -299,7 +313,7 @@
     const owned=new Set([...window.__spatialAftermath?.values()||[]].filter(r=>r.spatial.state.attackerOwned).map(r=>r.spatial.attackerEntityId));
     for (const h of window.__hounds || []) if (h&&!owned.has('h'+h.id)) packets.push(livePacket('h' + h.id, 'hound', history?.sample('h' + h.id, performance.now()), h));
     for (const s of A.q) if (!s.off && s.sid !== undefined && !owned.has('m'+s.sid)) packets.push(livePacket('m' + s.sid, 'smiler', history?.sample('m' + s.sid, performance.now()), s));
-    aftermath(packets);lamps(packets);effectPackets(packets);
+    aftermath(packets);lamps(packets);objectives(packets);effectPackets(packets);
     state.packets = packets.filter(Boolean);
     if (config.labels || window.__ents?.dbgCfg.on) for (const p of state.packets.slice()) {
       const peer = net?.peers.find(o => 'p' + o.id === p.id);

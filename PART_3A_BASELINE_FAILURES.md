@@ -26,3 +26,10 @@ Raw evidence is under `dev/part3a/evidence/p3a2`.
 - `motion-01.json`: the preflight north depression approach was inside an original wall. The lower ramp now approaches from the open south side; no original wall was removed.
 - `vertical-01.log/json`: the same-XY overlap probe was exactly at a retained column. The corrected probe x6192/y864 proves two clear bodies and physical slab occlusion. All 22 permitted species/link executions already passed on that attempt.
 - `vertical-02.json`: 28 checks PASS, including all physical routes, reversal/interruption, real fall/contact, crawl restrictions and all-room base circulation. No movement or species constant changed.
+
+## P3A3 attempts
+
+- `navigation-01.log`: a newly chosen lower-route test approach was inside an original wall at y6120. It now begins at the already physically certified south mouth y5976. `navigation-02.json`: all eight Hound/Smiler graph paths execute physically.
+- `browser-01`: two real clients passed same-XY slab masking, independent cutaway, authoritative rim fall, reconnect and actual one-copy cartograph pickup. The selected exit packet existed but changed zero pixels when removed. Raw packet/state, screenshots and console evidence are preserved before the narrow wall-effect rendering repair. P3A3 remains incomplete.
+
+P3A3 preservation focused results: `gameplay-01.json` five groups PASS, including 100-world seeded repeatability and variable upper/lower candidate selection; `prop-links-01.json` all 60 low/window species traversals PASS; `vertical-01.json` 88 checks / 82 actual routes PASS; `navigation-02.json` eight complete routes PASS.

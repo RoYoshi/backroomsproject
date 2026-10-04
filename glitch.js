@@ -3,7 +3,7 @@
    in line of sight), adds a static-y audio cue that swells as you approach, and a screen tear when you get close.
    Positions come from mp.js (window.__glitches = [[x, y, nx, ny], ...] where (nx, ny) points into the wall). */
 (() => {
-  const cv = Object.assign(document.createElement('canvas'), { id: 'glitchFx' }), cx = cv.getContext('2d');
+  const cv = Object.assign(document.createElement('canvas'), { id: 'glitchFx' }); let cx = cv.getContext('2d');
   document.body.appendChild(cv);
   const fx = Object.assign(document.createElement('div'), { id: 'glitchTear' }); document.body.appendChild(fx);
   const rnd = (seed) => { let s = seed >>> 0 || 1; return () => { s = (Math.imul(s, 1664525) + 1013904223) >>> 0; return s / 4294967296; }; };
@@ -103,7 +103,15 @@
     cx.restore();
     if (Math.random() < .25) { cx.fillStyle = `rgba(140,255,230,${.5 * a})`; cx.fillRect(sx + (Math.random() - .5) * 40 * sc, sy + (Math.random() - .5) * 30 * sc, 3 * sc, 1.5 * sc); }
   }
+  // The spatial pass reuses the existing procedural objective art on physical
+  // floor/wall faces. The hidden planar canvas never supplies world visibility.
+  const spatialArt=document.createElement('canvas');spatialArt.width=spatialArt.height=128;
+  window.__spatialObjectiveArt=(kind,t,seed=0)=>{const old={cx,W,H};cx=spatialArt.getContext('2d');W=H=128;cx.setTransform(1,0,0,1,0,0);cx.clearRect(0,0,128,128);
+    if(kind==='item')drawItem([0,0,'cartograph'],{x:0,y:0},{x:0,y:0},1,t+seed,null);
+    else drawWall([0,0,0,-1],{x:0,y:64},{x:0,y:0},1,t+seed,null);
+    cx=old.cx;W=old.W;H=old.H;return spatialArt;};
   window.__glitchFrame = ({ p, cam, sc, los, W: w, H: h, t, run }) => {
+    if(window.TFB_WORLD){let best=null;for(const g of window.__glitches||[]){if(!Number.isFinite(g[4]))continue;const point={x:g[0],y:g[1],z:g[4],height:48,radius:1};if(!window.__spatial?.perceivable(point))continue;const dx=point.x-p.x,dy=point.y-p.y,d=Math.hypot(dx,dy,point.z-p.z),near=Math.max(0,1-d/NEAR);if(!best||near>best.near)best={near,dx};}const near=best?.near||0;updateSnd(run?near:0,best?Math.max(-.8,Math.min(.8,best.dx/400)):0,t);fx.style.opacity=run&&near>.45?Math.min(.9,(near-.45)*1.6):0;return;}
     dpr = devicePixelRatio || 1; W = w; H = h;
     if (cv.width !== W * dpr || cv.height !== H * dpr) { cv.width = W * dpr; cv.height = H * dpr; }
     cx.setTransform(dpr, 0, 0, dpr, 0, 0); cx.clearRect(0, 0, W, H);

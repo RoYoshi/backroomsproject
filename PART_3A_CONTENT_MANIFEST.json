@@ -1,6 +1,6 @@
 {
-  "milestone": "P3A2",
-  "status": "P3A2 COMPLETE",
+  "milestone": "P3A3",
+  "status": "P3A3 IN PROGRESS — wall effect pixel repair",
   "source": {
     "revision": "v23.3.6-flat-compat-1",
     "hash": "5b07af1fe27222982b860d5ebc912c3894459fa65441d46e7f2d9eb7f278bc77"
@@ -154,17 +154,17 @@
     180,
     -96
   ],
-  "spatialRevision": "part3a-vertical-1",
-  "spatialHash": "9be8f39499592e211de107d236d142aa304262aa3a162cfa854f60bd787b974a",
+  "spatialRevision": "part3a-gameplay-1",
+  "spatialHash": "1c4559569eb1c43709b1c8d9899ad787d107b7f342562e5bb42f76bec63c14ab",
   "counts": {
-    "solids": 909,
-    "supportPatches": 306,
-    "navSurfaces": 6,
-    "traversalLinks": 8,
+    "solids": 910,
+    "supportPatches": 307,
+    "navSurfaces": 12,
+    "traversalLinks": 28,
     "spaces": 290,
     "portals": 449,
     "lights": 90,
-    "anchors": 1,
+    "anchors": 1066,
     "viewGroups": 147
   },
   "features": [
@@ -248,5 +248,28 @@
     "reachableCells": 12956,
     "rooms": 12,
     "cellSize": 48
+  },
+  "anchorCounts": {
+    "exit": 511,
+    "hound-spawn": 195,
+    "item": 164,
+    "smiler-spawn": 195,
+    "spawn": 1
+  },
+  "anchorPolicy": {
+    "baseReachableCells": 12944,
+    "baseProofProfile": {
+      "id": "profile:player-stand",
+      "radius": 21,
+      "height": 60,
+      "eyeHeight": 50,
+      "maxSlopeDegrees": 35,
+      "maxStepRise": 12,
+      "stepLiftMax": 180
+    },
+    "entityGrid": 384,
+    "items": "one base-reachable cartograph; minimum spawn distance 1800; exit spacing 700",
+    "exits": "three base-reachable wall faces; minimum spawn/separation 2600",
+    "entitySelection": "world RNG; existing normal populations, spawn distances, entity separation and dark Smiler preference"
   }
 }
