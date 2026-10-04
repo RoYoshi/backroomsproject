@@ -19,13 +19,19 @@ const out=path.resolve(process.argv[2]);fs.mkdirSync(out,{recursive:true});
  assert(ramp.pose.x>750&&ramp.pose.z>50);assert(ramp.trace.length>2&&ramp.trace.every(p=>[p.x,p.y,p.z].every(Number.isFinite)));
  checks.push({name:'real fixed-tick keyboard ramp',...ramp});await a.page.screenshot({path:path.join(out,'ramp.png')});
  b=await open(browser,s,'H1 peer');
+ // Two full-size software-rendered clients can finish fewer frames than the
+ // physical fall lasts. Exercise the shipped Reduced setting for this motion
+ // capture; keep full-quality boot/ramp above and every original assertion.
+ for(const c of [a,b]){await c.page.locator('#stQuality').selectOption('0.5',{force:true});await c.page.waitForFunction(()=>__spatial.state.last.quality===.5&&__spatial.state.last.occluders===32,null,{timeout:30000});}
+ checks.push({name:'existing reduced detail for two-client fall capture',clients:[await a.inspect(),await b.inspect()]});
  await b.teleport({x:880,y:660,z:120,support:'support:balcony'});
  await a.teleport({x:950,y:660,z:120,support:'support:balcony'});
  const bid=await b.page.evaluate(()=>__api.H.id);
  await a.page.waitForFunction(id=>__spatial.state.packets.some(p=>p.id==='p'+id&&p.z>119),bid);
- await a.page.evaluate(()=>window.__peerTrace=[]);await a.page.evaluate(id=>{window.__peerCapture=setInterval(()=>{const p=__spatial.state.packets.find(p=>p.id==='p'+id);if(p)__peerTrace.push({...p});},40);},bid);
+ await a.page.evaluate(()=>{window.__peerTrace=[];window.__peerHistory=[];});await a.page.evaluate(id=>{window.__peerCapture=setInterval(()=>{const p=__spatial.state.packets.find(p=>p.id==='p'+id);if(p)__peerTrace.push({...p,at:performance.now(),renderFrame:__spatial.state.frames});const h=__spatial.sample('p'+id);if(h)__peerHistory.push({...h,at:performance.now()});},40);},bid);
  await b.page.keyboard.down('s');await b.page.waitForTimeout(1600);await b.page.keyboard.up('s');await b.page.waitForTimeout(1000);
  const falling=await a.page.evaluate(()=>{clearInterval(__peerCapture);return __peerTrace;});fs.writeFileSync(path.join(out,'peer-fall-raw.json'),JSON.stringify(falling,null,2));
+ fs.writeFileSync(path.join(out,'peer-history-raw.json'),JSON.stringify(await a.page.evaluate(()=>__peerHistory),null,2));
  assert(falling.some(p=>p.z>100)&&falling.some(p=>p.z<0),'replicated balcony fall changes true Z');assert(falling.some(p=>p.mode==='airborne'),'peer samples include physical falling state');
  checks.push({name:'real second production client falling interpolation',trace:falling,state:await b.inspect()});await a.page.screenshot({path:path.join(out,'peer-fall.png')});
  await a.command({c:'freeze',on:1});

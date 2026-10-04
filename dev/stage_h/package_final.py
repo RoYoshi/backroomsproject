@@ -19,8 +19,10 @@ ev = root/'dev/stage_h/evidence/h5'
 portable = json.loads((ev/'portable-01/result.json').read_text())
 parity = json.loads((ev/'regression-01/parity/result.json').read_text())
 baseline = json.loads((ev/'baseline-comparison.json').read_text())
+regression = json.loads((ev/'regression-final.json').read_text())
 assert portable['status'] == parity['status'] == 'PASS'
 assert baseline['status'] == 'PASS_BASELINE_EQUIVALENCE'
+assert regression['status'] == 'PASS' and len(regression['finalChecks']) == 19 and all(r['exitCode']==0 for r in regression['finalChecks'])
 assert parity['traces'] == 46 and parity['records'] == 35098 and parity['tolerance'] == 0
 for name, digest in portable['validatedFiles'].items():
     assert H(root/name) == digest, 'Changed since portable validation: '+name
@@ -95,6 +97,7 @@ verification = {
     'network25d':'PASS 5/5, repeated in clean extraction','physics25d':'PASS 5/5, repeated in clean extraction',
     'baselineComparison':baseline['status'],'mainModifiedOrMerged':False,'stageIBegun':False,'humanQA':'PENDING',
     'limitations':['SwiftShader software GPU misses 16.7 ms frame target; no hardware/capacity certification',
+        'Full-quality SwiftShader two-client fall capture missed airborne phase; existing reduced detail passes unchanged assertion',
         'Accepted eleven aggregate failures, shared F22 and P08 UNKNOWN remain',
         'Stage G 24-active physics/payload limitation remains; Stage I not started',
         'External Google Fonts network/TLS limitation retained'],

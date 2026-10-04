@@ -42,3 +42,5 @@ H5 maintained-source recovery verified remote: `fd7deb6edeb9860d6dc2644ec95175a5
 H5 retained-failure preservation verified remote: `18cfaf6924b58d2671c0c8ec5623d122b83f7554`; tree `0c91f33af4237bdb456e7506b75e96f211fc5c53`. Initial light timing miss retained before paired comparison.
 
 H5 spatial/parity/browser preservation verified remote: `37d38a4e2ccd8d91adfda667a6448a404edc3f54`; tree `fb8a93245f11009e50063657e393509f9f627e18`. Passed retained spatial/parity and D browser gates plus raw H1 initial-pixel failure preserved.
+
+H5 startup/full-quality fall failure preservation verified remote: `8959975b73a7e342c4670f8a585fda16d881f054`; tree `2832f746840f047e6a7905e8d38bf91e5fdb018a`. No production rendering change was made.
