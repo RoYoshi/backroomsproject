@@ -9,7 +9,7 @@
   'use strict';
   const ELEVATION=.5,MAX_SOLIDS=64,MAX_PLANES=8,BOUNDARY=.005,MAX_PIXELS=4194304;
   // Part 3B parameters are presentation units, never movement constants.
-  const DEPTH=Object.freeze({coefficient:1/3600,minScale:.94,maxScale:1.06,cameraOmega:24,maxCameraLag:28,resetGap:.25});
+  const DEPTH=Object.freeze({coefficient:1/3600,minScale:.94,maxScale:1.06,cameraOmega:24,maxCameraLag:28,renderOmega:40,maxRenderLag:8,landingAmplitude:1.25,landingDuration:.18,resetGap:.25});
   const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
   function denominator(z,camera){return camera.depth?clamp(1-DEPTH.coefficient*(z-camera.z),1/DEPTH.maxScale,1/DEPTH.minScale):1;}
   function layerScale(z,camera){return 1/denominator(z,camera);}
@@ -17,17 +17,37 @@
   // Exact constant-target critically damped update. Independent instances own
   // all state; no actor, geometry, simulation clock or network pose is written.
   class CameraElevation {
-    constructor(){this.key=null;this.z=0;this.velocity=0;this.resets=0;}
-    update(target,dt,key='local'){
+    constructor(omega=DEPTH.cameraOmega,lag=DEPTH.maxCameraLag){this.key=null;this.z=0;this.velocity=0;this.resets=0;this.omega=omega;this.lag=lag;this.target=0;}
+    update(target,dt,key='local',linear=false){
       if(!Number.isFinite(target))throw Error('Non-finite presentation elevation');
-      if(this.key!==key||!Number.isFinite(dt)||dt>DEPTH.resetGap||dt<0){this.key=key;this.z=target;this.velocity=0;this.resets++;return this.z;}
-      const w=DEPTH.cameraOmega,t=Math.max(0,dt),y=this.z-target,b=this.velocity+w*y,e=Math.exp(-w*t);
-      this.z=target+(y+b*t)*e;this.velocity=(this.velocity-w*b*t)*e;
-      const bounded=clamp(this.z,target-DEPTH.maxCameraLag,target+DEPTH.maxCameraLag);
+      if(this.key!==key||!Number.isFinite(dt)||dt>DEPTH.resetGap||dt<0){this.key=key;this.target=target;this.z=target;this.velocity=0;this.resets++;return this.z;}
+      const w=this.omega,t=Math.max(0,dt),v=linear&&t>0?(target-this.target)/t:0;
+      // Exact response to a linearly moving target. Constant-target mode is
+      // retained for discrete event tests; production samples use linear input.
+      const y=this.z-(linear?this.target:target)+2*v/w,b=this.velocity-v+w*y,e=Math.exp(-w*t);
+      this.z=target-2*v/w+(y+b*t)*e;this.velocity=v+(this.velocity-v-w*b*t)*e;this.target=target;
+      const bounded=clamp(this.z,target-this.lag,target+this.lag);
       if(bounded!==this.z){this.z=bounded;this.velocity=0;}
       return this.z;
     }
     snapshot(){return {z:this.z,velocity:this.velocity,key:this.key,resets:this.resets};}
+  }
+  class ActorElevation {
+    constructor(){this.spring=new CameraElevation(DEPTH.renderOmega,DEPTH.maxRenderLag);this.previous=null;this.landingAge=Infinity;this.landingStrength=0;}
+    update(pose,dt,key='actor'){
+      const previous=this.previous,mode=pose.motionMode||pose.mode,shape=pose.shape||{height:pose.height||60};
+      const reset=!previous||previous.key!==key||dt>DEPTH.resetGap||Math.hypot(pose.x-previous.x,pose.y-previous.y)>256||Math.abs(pose.z-previous.z)>64;
+      let z=this.spring.update(pose.z,reset?Infinity:dt,key,true);
+      if(reset){this.landingAge=Infinity;this.landingStrength=0;}
+      else if(previous.mode==='airborne'&&mode==='grounded'){
+        this.landingAge=0;this.landingStrength=clamp(Math.abs(previous.vz||0)/420,0,1);
+      }else this.landingAge+=Math.max(0,dt);
+      const u=this.landingAge/DEPTH.landingDuration,settle=u>=0&&u<1?-DEPTH.landingAmplitude*this.landingStrength*16*u*u*(1-u)*(1-u):0;
+      const limit=Math.min(DEPTH.maxRenderLag,(shape.height||60)*.14);
+      z=pose.z+clamp(z-pose.z+settle,-limit,limit);
+      this.previous={key,x:pose.x,y:pose.y,z:pose.z,vz:pose.vz,mode};
+      return {z,offset:z-pose.z,settle,reset,physicalZ:pose.z,support:pose.supportId??pose.support};
+    }
   }
   const dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z;
   function project(p,camera,scale,e=ELEVATION){const s=scale/denominator(p.z,camera);return {x:s*(p.x-camera.x),y:s*((p.y-camera.y)-e*(p.z-camera.z))};}
@@ -109,7 +129,10 @@
     const at=t=>Object.fromEntries(['x','y','z'].map(k=>[k,segment.from[k]+(segment.to[k]-segment.from[k])*t]));
     const add=(t,data,receiver=-1)=>{if(t<0||t>1)return;const point=at(t);if(within(point,scope)&&visible(model,eye,point,receiver)&&cameraClear(model,point,ray,view,receiver))hits.push({...data,t:ray.segments?(ray.from.z-point.z)/(ray.from.z-ray.to.z):t,point});};
     for(const s of model.solids){if(!s.visible||view?.fadeFor(s.id)>=1)continue;const h=interval(s,segment.from,segment.to,0);if(h){add(h.enter,{kind:'face',primitiveId:s.id},s.index);add(h.exit,{kind:'face',primitiveId:s.id},s.index);}}
-    for(const p of actors){if(p.id===exclude||p.observable===false||!within(p,scope)||!['player','peer','hound','smiler','body','hand:0','hand:1','light','hat','replay','item','exit'].includes(p.kind))continue;const h=cylinderInterval(p,segment);if(h){add(h.enter,{kind:'actor',actorId:p.id});add(h.exit,{kind:'actor',actorId:p.id});}}
+    for(const p of actors){if(p.id===exclude||p.observable===false||!within(p,scope)||!['player','peer','hound','smiler','body','hand:0','hand:1','light','hat','replay','item','exit'].includes(p.kind))continue;const offset=p.renderOffset||0,visual={...p,z:p.z+offset},h=cylinderInterval(visual,segment);if(h)for(const t of [h.enter,h.exit]){
+      const presentationPoint=at(t),point={...presentationPoint,z:presentationPoint.z-offset};
+      if(within(point,scope)&&visible(model,eye,point)&&cameraClear(model,presentationPoint,ray,view))hits.push({kind:'actor',actorId:p.id,t:ray.segments?(ray.from.z-presentationPoint.z)/(ray.from.z-ray.to.z):t,point,presentationPoint});
+    }}
     }
     hits.sort((a,b)=>a.t-b.t||(a.actorId||a.primitiveId).localeCompare(b.actorId||b.primitiveId));
     // A fully faded group stops blocking the CAMERA only. Every candidate's
@@ -120,11 +143,13 @@
   class LocalView {
     constructor(model,epoch='fixture:1'){this.model=model;this.epoch=epoch;this.focusSpace=[];this.groups=new Map(model.groups.map(g=>[g.id,{fade:0,target:false}]));this.solidGroups=new Map(model.solids.map(s=>[s.id,model.groups.filter(g=>g.solids.some(q=>q.id===s.id)).map(g=>g.id)]));}
     reset(epoch){this.epoch=epoch;this.focusSpace=[];for(const s of this.groups.values()){s.fade=0;s.target=false;}}
-    update(focus,dt,{epoch=this.epoch,enabled=true,elevationScale=ELEVATION}={}){
+    update(focus,dt,{epoch=this.epoch,enabled=true,elevationScale=ELEVATION,camera=null}={}){
       if(epoch!==this.epoch)this.reset(epoch);
       this.focus={...focus};this.focusSpace=this.model.definition.spaces.filter(s=>focus.x>=s.bounds.min.x&&focus.x<=s.bounds.max.x&&focus.y>=s.bounds.min.y&&focus.y<=s.bounds.max.y&&focus.z>=s.bounds.min.z&&focus.z<=s.bounds.max.z).map(s=>s.id).sort();
       const center={x:focus.x,y:focus.y,z:focus.z+30},end={x:center.x,y:center.y+elevationScale*4096,z:center.z+4096};
-      for(const g of this.model.groups){const state=this.groups.get(g.id);const obstructed=g.solids.some(s=>{const t=interval(s,center,end,state.target?4:0);return t&&t.exit>0&&t.enter>1e-6;});state.target=enabled&&obstructed;const step=Math.max(0,Math.min(.25,dt))/(state.target?.15:.25);state.fade=state.target?Math.min(1,state.fade+step):Math.max(0,state.fade-step);}
+      for(const g of this.model.groups){const state=this.groups.get(g.id);const probe=camera?.depth?[1,(focus.height||60)/2,(focus.height||60)-1].flatMap(z=>[0,-(focus.radius||15),focus.radius||15].map(x=>({x:focus.x+x,y:focus.y,z:focus.z+z}))):[center];
+        const obstructed=g.solids.some(s=>probe.some(p=>{if(!camera?.depth){const t=interval(s,p,end,state.target?4:0);return t&&t.exit>0&&t.enter>1e-6;}
+          const ray=pickingRay(project(p,camera,1,elevationScale),camera,1,elevationScale);return ray.segments.some(r=>{if(r.from.z<=p.z)return false;const from=r.to.z<p.z?p:r.to,t=interval(s,from,r.from,state.target?4:0);return t&&t.exit>0&&t.enter>1e-6;});}));state.target=enabled&&obstructed;const step=Math.max(0,Math.min(.25,dt))/(state.target?.15:.25);state.fade=state.target?Math.min(1,state.fade+step):Math.max(0,state.fade-step);}
       return this.snapshot();
     }
     fadeFor(id){let v=0;for(const key of this.solidGroups.get(id)||[])v=Math.max(v,this.groups.get(key).fade);return v;}
@@ -140,7 +165,7 @@
   precision highp float;precision highp int;
   in vec3 vWorld;in vec3 vNormal;in vec2 vUV;out vec4 outColor;
   uniform sampler2D uSolids,uArt,uLights,uCandidates;uniform int uSolidColumns,uBatchCount,uCount,uReceiver,uKind,uLightCount,uLighting,uNV;
-  uniform vec4 uFailures[64];uniform int uFailCount;uniform vec3 uEye;uniform vec4 uScope,uTint,uProxy;uniform float uFade,uTop,uSensorGain,uBloom,uEmission;uniform int uSurface;
+  uniform vec4 uFailures[64];uniform int uFailCount;uniform vec3 uEye;uniform vec4 uScope,uTint,uProxy;uniform float uFade,uTop,uSensorGain,uBloom,uEmission,uPoseOffset;uniform int uSurface;
   vec4 solidData(int column,int index){return texelFetch(uSolids,ivec2((index%uSolidColumns)*10+column,index/uSolidColumns),0);}
   bool rayClear(vec3 source,vec3 p,int channel){vec3 delta=p-source;float len=length(delta);if(len<.000001)return true;
     vec3 rayMin=min(p,source),rayMax=max(p,source);
@@ -170,7 +195,7 @@
     if(vWorld.x<uScope.x||vWorld.y<uScope.y||vWorld.x>uScope.z||vWorld.y>uScope.w)discard;
     vec4 art=uKind==1?texture(uArt,vUV):vec4(1.);if(art.a<.15)discard;
     // ALL physical occluders participate, including every faded camera group.
-    vec3 query=vWorld;
+    vec3 query=vWorld-vec3(0.,0.,uPoseOffset);
     // Production billboards query their physical cylinder, never fabricated
     // elevations caused by the camera-facing art plane. Labels stay at their
     // own world point and also require an observable physical owner.
@@ -195,7 +220,7 @@
     constructor(renderer,model,art){
       const gl=renderer.gl;if(!gl||typeof gl.texStorage2D!=='function')throw Error('Stage D requires WebGL2; production Level 0 remains available');
       this.renderer=renderer;this.gl=gl;this.model=model;this.canvas=renderer.canvas;this.program=program(gl);this.uniforms={};
-      for(const n of ['Candidates','BatchCount','SolidColumns','Camera','Viewport','Scale','Elevation','Depth','Solids','Art','Count','Receiver','Kind','Eye','Scope','Tint','Fade','Proxy','Top','Lights','LightCount','Lighting','NV','Surface','SensorGain','Bloom','Emission','Failures[0]','FailCount'])this.uniforms[n]=gl.getUniformLocation(this.program,'u'+n);
+      for(const n of ['Candidates','BatchCount','SolidColumns','Camera','Viewport','Scale','Elevation','Depth','PoseOffset','Solids','Art','Count','Receiver','Kind','Eye','Scope','Tint','Fade','Proxy','Top','Lights','LightCount','Lighting','NV','Surface','SensorGain','Bloom','Emission','Failures[0]','FailCount'])this.uniforms[n]=gl.getUniformLocation(this.program,'u'+n);
       const makeVAO=data=>{const vao=gl.createVertexArray(),buffer=gl.createBuffer();gl.bindVertexArray(vao);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);for(const [i,n,offset]of [[0,3,0],[1,3,12],[2,2,24]]){gl.enableVertexAttribArray(i);gl.vertexAttribPointer(i,n,gl.FLOAT,false,32,offset);}return {vao,buffer};};
       this.world=makeVAO(new Float32Array(model.vertices));this.proxy=makeVAO(new Float32Array(48));
       this.maxTexture=gl.getParameter(gl.MAX_TEXTURE_SIZE);this.solidColumns=Math.max(1,Math.ceil(model.solids.length/this.maxTexture));this.solidRows=Math.max(1,Math.ceil(model.solids.length/this.solidColumns));if(this.solidColumns*10>this.maxTexture)throw Error('Spatial geometry exceeds device texture capacity; no geometry omitted');const data=new Float32Array(this.solidColumns*this.solidRows*40);for(const s of model.solids){data.set([s.min.x,s.min.y,s.min.z,s.planes.length,s.max.x,s.max.y,s.max.z,(+s.visible+2*(+s.ir)),...s.planes.flat()],s.index*40);}
@@ -209,7 +234,7 @@
     }
     textureParams(){const gl=this.gl;gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);}
     resize(width,height,dpr=1,quality=1){this.width=Math.max(1,width);this.height=Math.max(1,height);this.dpr=dpr;this.quality=quality===.5?.5:1;const resolution=Math.min(Math.max(1,dpr),Math.sqrt(MAX_PIXELS/(this.width*this.height)))*this.quality;const w=Math.max(1,Math.floor(this.width*resolution)),h=Math.max(1,Math.floor(this.height*resolution));this.canvas.style.width=this.width+'px';this.canvas.style.height=this.height+'px';if(w===this.target.width&&h===this.target.height)return;this.canvas.width=w;this.canvas.height=h;const gl=this.gl;gl.bindFramebuffer(gl.FRAMEBUFFER,this.fbo);gl.bindTexture(gl.TEXTURE_2D,this.color);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA8,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);this.textureParams();gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,this.color,0);gl.bindRenderbuffer(gl.RENDERBUFFER,this.depth);gl.renderbufferStorage(gl.RENDERBUFFER,gl.DEPTH_COMPONENT24,w,h);gl.framebufferRenderbuffer(gl.FRAMEBUFFER,gl.DEPTH_ATTACHMENT,gl.RENDERBUFFER,this.depth);if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw Error('Incomplete Stage D depth target');this.target={width:w,height:h};}
-    quad(actor,e,kind){if(actor.surface){const {point,basis,normal,width,height}=actor.surface,v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*width,y=(t-.5)*height;v.push(...['x','y','z'].map(k=>point[k]+basis.u[k]*x+basis.v[k]*y+normal[k]*.04),normal.x,normal.y,normal.z,u,t);}return new Float32Array(v);}const art=this.art[actor.art||0],w=kind===2?22:art.width,h=kind===2?6:art.height,origin={x:actor.x,y:actor.y,z:actor.z+(kind===2?(actor.height||60)-3:(actor.height||60)/2)},v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*w,y=(t-.5)*h;v.push(origin.x+x,origin.y+y/(1+e*e),origin.z-e*y/(1+e*e),0,e,1,u,t);}return new Float32Array(v);}
+    quad(actor,e,kind){if(actor.surface){const {point,basis,normal,width,height}=actor.surface,v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*width,y=(t-.5)*height;v.push(...['x','y','z'].map(k=>point[k]+basis.u[k]*x+basis.v[k]*y+normal[k]*.04),normal.x,normal.y,normal.z,u,t);}return new Float32Array(v);}const art=this.art[actor.art||0],w=kind===2?22:art.width,h=kind===2?6:art.height,origin={x:actor.x,y:actor.y,z:actor.z+(actor.renderOffset||0)+(kind===2?(actor.height||60)-3:(actor.height||60)/2)},v=[];for(const [u,t]of [[0,0],[1,0],[1,1],[0,0],[1,1],[0,1]]){const x=(u-.5)*w,y=(t-.5)*h;v.push(origin.x+x,origin.y+y/(1+e*e),origin.z-e*y/(1+e*e),0,e,1,u,t);}return new Float32Array(v);}
     render({camera,eye,view,actors=[],overlays=[],elevationScale=ELEVATION,reverse=false,lights=null,nv=false,sensorGain=1.45,bloom=0,failures=[],zoom=1}){
       const gl=this.gl,u=this.uniforms,scope=footprint(this.width,this.height,camera,zoom);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_ALIGNMENT,4);gl.pixelStorei(gl.UNPACK_ROW_LENGTH,0);
       // Conservative light and solid broad phase. Every eye/receiver and light/receiver
@@ -223,7 +248,7 @@
       if(lights&&lights.length>this.maxTexture)throw Error('Spatial light texture exceeds device capacity; cannot omit emitters');this.lightCapacity=Math.max(128,lights?.length||0);
       const lightData=new Float32Array(this.lightCapacity*16);for(const [i,l]of (lights||[]).entries())lightData.set([l.origin.x,l.origin.y,l.origin.z,l.range,l.direction.x,l.direction.y,l.direction.z,l.arc,...(l.color||[1,1,1]),0,l.channel==='ir'?2:1,l.power,l.near||24,l.kind==='lamp'?1:0],i*16);
       gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,this.lightTexture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA32F,4,this.lightCapacity,0,gl.RGBA,gl.FLOAT,lightData);gl.uniform1i(u.Lights,2);gl.uniform1i(u.LightCount,lights?.length||0);gl.uniform1i(u.Lighting,lights?1:0);gl.uniform1i(u.NV,nv?1:0);gl.uniform1i(u.Surface,0);gl.uniform1f(u.Emission,0);gl.uniform1f(u.SensorGain,sensorGain);gl.uniform1f(u.Bloom,bloom);if(failures.length>64)throw Error('Spatial lamp-failure capacity exceeded');gl.uniform1i(u.FailCount,failures.length);const failData=new Float32Array(256);failures.forEach((f,i)=>failData.set([f.x,f.y,f.z,f.r],i*4));gl.uniform4fv(u['Failures[0]'],failData);
-      let draws=0;gl.bindVertexArray(this.world.vao);gl.uniform1i(u.Kind,0);gl.uniform4f(u.Proxy,0,0,-1,0);gl.uniform1f(u.Top,0);
+      gl.uniform1f(u.PoseOffset,0);let draws=0;gl.bindVertexArray(this.world.vao);gl.uniform1i(u.Kind,0);gl.uniform4f(u.Proxy,0,0,-1,0);gl.uniform1f(u.Top,0);
       const projectionKey=camera.depth?camera.z:'flat';
       if(this.projectionKey!==projectionKey){
         const data=[],cuts=depthBreaks(camera);this.projectedPackets=[];
@@ -233,7 +258,7 @@
       }
       const packets=reverse?this.projectedPackets.slice().reverse():this.projectedPackets;
       for(const p of packets){if(p.max.x<scope.minX||p.min.x>scope.maxX||p.max.y<scope.minY||p.min.y>scope.maxY)continue;gl.uniform1i(u.Receiver,p.index);gl.uniform1f(u.Fade,view?view.fadeFor(p.id):0);gl.uniform4fv(u.Tint,color(p.id,p.materialId));gl.drawArrays(gl.TRIANGLES,p.first,p.count);draws++;}
-      const proxy=(actor,kind)=>{if(actor.observable===false||!within(actor,scope))return;gl.bindVertexArray(this.proxy.vao);gl.bindBuffer(gl.ARRAY_BUFFER,this.proxy.buffer);const mesh=clipDepthTriangles(this.quad(actor,elevationScale,kind),camera);gl.bufferData(gl.ARRAY_BUFFER,mesh,gl.DYNAMIC_DRAW);gl.uniform1i(u.Kind,kind);gl.uniform1f(u.Emission,actor.emissive?1:0);gl.uniform4f(u.Proxy,actor.x,actor.y,Number.isFinite(actor.visibilityRadius)?actor.visibilityRadius:-1,actor.z+.01);gl.uniform1f(u.Top,actor.z+(actor.height||60)-.01);gl.uniform1i(u.Receiver,actor.surface?this.model.solids.findIndex(s=>s.id===actor.surface.primitiveId):-1);gl.uniform1i(u.Surface,actor.surface?1:0);gl.uniform1f(u.Fade,0);gl.uniform4fv(u.Tint,kind===2?[1,.1,.85,1]:[1,1,1,1]);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[actor.art||0].tex);gl.drawArrays(gl.TRIANGLES,0,mesh.length/8);draws++;};
+      const proxy=(actor,kind)=>{if(actor.observable===false||!within(actor,scope))return;gl.bindVertexArray(this.proxy.vao);gl.bindBuffer(gl.ARRAY_BUFFER,this.proxy.buffer);const mesh=clipDepthTriangles(this.quad(actor,elevationScale,kind),camera);gl.bufferData(gl.ARRAY_BUFFER,mesh,gl.DYNAMIC_DRAW);gl.uniform1i(u.Kind,kind);gl.uniform1f(u.PoseOffset,actor.renderOffset||0);gl.uniform1f(u.Emission,actor.emissive?1:0);gl.uniform4f(u.Proxy,actor.x,actor.y,Number.isFinite(actor.visibilityRadius)?actor.visibilityRadius:-1,actor.z+.01);gl.uniform1f(u.Top,actor.z+(actor.height||60)-.01);gl.uniform1i(u.Receiver,actor.surface?this.model.solids.findIndex(s=>s.id===actor.surface.primitiveId):-1);gl.uniform1i(u.Surface,actor.surface?1:0);gl.uniform1f(u.Fade,0);gl.uniform4fv(u.Tint,kind===2?[1,.1,.85,1]:[1,1,1,1]);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[actor.art||0].tex);gl.drawArrays(gl.TRIANGLES,0,mesh.length/8);draws++;};
       for(const a of reverse?actors.slice().reverse():actors)proxy(a,1);
       // An annotation submitted LAST still passes both physical and camera depth.
       for(const a of overlays)proxy(a,2);
@@ -243,5 +268,5 @@
     pixels(){const gl=this.gl,b=new Uint8Array(this.target.width*this.target.height*4);gl.bindFramebuffer(gl.READ_FRAMEBUFFER,this.fbo);gl.readPixels(0,0,this.target.width,this.target.height,gl.RGBA,gl.UNSIGNED_BYTE,b);return b;}
     dispose(){const g=this.gl;for(const o of [this.world,this.proxy]){g.deleteBuffer(o.buffer);g.deleteVertexArray(o.vao);}for(const t of [this.solidTexture,this.candidateTexture,this.lightTexture,this.color,...this.art.filter(x=>!x.borrowed).map(x=>x.tex)])g.deleteTexture(t);g.deleteFramebuffer(this.fbo);g.deleteRenderbuffer(this.depth);g.deleteProgram(this.program);}
   }
-  return Object.freeze({DEPTH,denominator,layerScale,depthBreaks,clipDepthTriangles,CameraElevation,ELEVATION,MAX_SOLIDS,MAX_PLANES,MAX_PIXELS,BOUNDARY,project,depth,onPlane,footprint,within,freeze,compile,candidates,interval,visible,pickingRay,cameraClear,cylinderInterval,pick,LocalView,SpatialPass});
+  return Object.freeze({DEPTH,denominator,layerScale,depthBreaks,clipDepthTriangles,CameraElevation,ActorElevation,ELEVATION,MAX_SOLIDS,MAX_PLANES,MAX_PIXELS,BOUNDARY,project,depth,onPlane,footprint,within,freeze,compile,candidates,interval,visible,pickingRay,cameraClear,cylinderInterval,pick,LocalView,SpatialPass});
 });

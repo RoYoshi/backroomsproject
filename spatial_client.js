@@ -8,7 +8,7 @@
   const clone = x => JSON.parse(JSON.stringify(x));
   let A, R, P, geometry, model, view, pass, artEpoch;
   const art = new Map(), labelArt = new Map();
-  const cameraElevation = new V.CameraElevation();
+  const cameraElevation = new V.CameraElevation(), actorElevations = new Map();
   const audioSequences = new Map();
   const effects = new Map();
   const config = { cutaway: true, quality: 1, camera: null, focus: null, labels: false };
@@ -72,6 +72,18 @@
     else r.render({ container: e.wrap, target: e.texture, transform: new P.Matrix().translate(size / 2, size / 2), clearColor: [0, 0, 0, 0] });
     return { tex: r.texture.getGlSource(e.texture.source).texture, width: size, height: size, bytes: size * size * 4, borrowed: true };
   }
+  function renderedPose(id,pose,key) {
+    let entry=actorElevations.get(id);if(!entry){entry={spring:new V.ActorElevation()};actorElevations.set(id,entry);}
+    entry.used=state.frames;
+    if(entry.frame===state.presentationSerial)return entry.sample;
+    const elapsed=entry.at==null?0:(state.presentationNow-entry.at)/1000;entry.at=state.presentationNow;
+    const sample=entry.spring.update(pose,elapsed,key);
+    // Positive lag cannot lift the head through a real underside. A small
+    // downward body settle is still masked against its exact physical volume.
+    if(sample.offset>0){const shape=pose.shape||geometry.definition.colliderProfiles.find(s=>s.id===pose.profile)||window.TFB_MOTION.PROFILES.stand;
+      const hit=geometry.sweep(shape,pose,{x:0,y:0,z:sample.offset},'collision',0);if(hit)sample.offset=Math.max(0,sample.offset*hit.t-.01);sample.z=pose.z+sample.offset;}
+    entry.frame=state.presentationSerial;return entry.sample=sample;
+  }
   function livePacket(id, kind, pose, data, look, gear) {
     if (!pose || !['x', 'y', 'z'].every(k => Number.isFinite(pose[k]))) return null;
     const e = entry(id, kind, look, gear), d = e.display;
@@ -97,6 +109,7 @@
     const packet = { id, kind, x: pose.x, y: pose.y, z: pose.z, height: pose.height || shape?.height || 60, radius: shape?.radius || 15, art: slot, support: pose.support ?? pose.supportId, mode: pose.mode ?? pose.motionMode, tick: pose.tick, generation: pose.generation };
     // A camera-facing art rectangle is not a physical body. It may extend
     // below a slab even when its owner's entire physical volume is above it.
+    if(kind==='player'||kind==='peer'){const key=[artEpoch,pose.generation,pose.discontinuity,pose.profile||pose.shape?.id].join(':');packet.renderOffset=renderedPose(id,pose,key).offset;}
     packet.emissive = kind === 'hound' || kind === 'smiler'; packet.observable = perceivable(packet); packet.visibilityRadius = packet.radius;
     return packet;
   }
@@ -276,6 +289,20 @@
   }
   function render(force=false) {
     if (!state.ready) return;
+    const start = performance.now(), net = window.__net.spatialState?.(), history = window.__spatialHistory?.();
+    const local = A.H, own=ownDeath()?.state.body, focus = config.focus || (own?{x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)}:local), epoch = net?.world?.worldEpoch || 'connecting';
+    // Wall-clock presentation follows immutable physical input. A discontinuity
+    // changes the key and snaps rather than sweeping across unrelated floors.
+    const elapsed=state.presentationAt==null?0:Math.max(0,(start-state.presentationAt)/1000);
+    state.presentationAt=start;state.presentationNow=start;state.presentationSerial=(state.presentationSerial||0)+1;
+    state.presentationDt=elapsed;
+    const ownPose={...local,generation:net?.pose?.generation,discontinuity:net?.pose?.discontinuity};
+    const ownKey=[epoch,ownPose.generation,ownPose.discontinuity,ownPose.profile||ownPose.shape?.id].join(':');
+    const renderedLocal=own?null:renderedPose('p'+local.id,ownPose,ownKey);
+    const cameraTarget=own?{x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)}:{x:local.x,y:local.y,z:renderedLocal.z};
+    const cameraKey=[epoch,net?.pose?.generation,net?.pose?.discontinuity,!!own,!!net?.blocked,!!net?.awaiting].join(':');
+    const camera = config.camera || {x:cameraTarget.x,y:cameraTarget.y,z:cameraElevation.update(cameraTarget.z,elapsed,cameraKey,true),depth:true};
+    state.presentation={camera:cameraElevation.snapshot(),targetZ:cameraTarget.z,local:renderedLocal};
     // Keep one GPU submission in flight. Input and authority continue on the
     // retained fixed-tick loop while a slow device finishes presentation.
     // Explicit forced renders are for drained capture/diagnostics only.
@@ -286,25 +313,16 @@
       if(!force&&done===gl.TIMEOUT_EXPIRED){state.skippedFrames=(state.skippedFrames||0)+1;return;}
       if(done===gl.WAIT_FAILED)throw Error('Spatial presentation GPU fence failed');
       gl.deleteSync(state.fence);state.fence=null;state.completedFrames=state.completedFrames||[];state.completedFrames.push(performance.now()-state.submittedAt);if(state.completedFrames.length>240)state.completedFrames.shift();}
-    const start = performance.now(), net = window.__net.spatialState?.(), history = window.__spatialHistory?.();
-    const local = A.H, own=ownDeath()?.state.body, focus = config.focus || (own?{x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)}:local), epoch = net?.world?.worldEpoch || 'connecting';
     if (artEpoch !== epoch) {
       for (const e of art.values()) { e.texture?.destroy(true); e.wrap.destroy({ children: true }); }
       art.clear(); audioSequences.clear(); effects.clear(); artEpoch = epoch;
     }
     state.frames++;
-    // Wall-clock presentation follows immutable physical input. A discontinuity
-    // changes the key and snaps rather than sweeping across unrelated floors.
-    const elapsed=state.viewAt==null?0:Math.max(0,(start-state.viewAt)/1000);
-    const cameraTarget=own?{x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)}:local;
-    const cameraKey=[epoch,net?.pose?.generation,net?.pose?.discontinuity,!!own,!!net?.blocked,!!net?.awaiting].join(':');
-    const camera = config.camera || {x:cameraTarget.x,y:cameraTarget.y,z:cameraElevation.update(cameraTarget.z,elapsed,cameraKey),depth:true};
-    state.presentation={camera:cameraElevation.snapshot(),targetZ:cameraTarget.z};
     R.camera = { ...camera }; R.scale = window.__cameraPolicy.baseScale(innerWidth, innerHeight)*Math.max(1,Math.min(4,window.__cam.zoomCur));
     const eye = eyePoint();
     // Simulation catch-up caps do not slow a client-local wall-clock fade.
     const viewDt = state.viewAt == null ? 0 : Math.min(.25, Math.max(0,(start - state.viewAt) / 1000)); state.viewAt = start;
-    const cutStart = performance.now(); view.update({ x: focus.x, y: focus.y, z: focus.z }, viewDt, { epoch, enabled: config.cutaway });
+    const cutStart = performance.now(); view.update({ x: focus.x, y: focus.y, z: focus.z, height:focus.shape?.height||local.shape?.height||60, radius:focus.shape?.radius||15 }, viewDt, { epoch, enabled: config.cutaway, camera });
     const cutMs = performance.now() - cutStart;
     const renderer = R.app.renderer;
     // Raw pass samplers must be detached before Pixi writes an actor's texture
@@ -318,7 +336,7 @@
     renderer.resetState();
     pass.art.length = 1;
     const packets = [];
-    if (state.started && !ownDeath() && !A.G.caught && !window.__hideSelf&&!effects.has('p'+local.id)) packets.push(livePacket('p' + local.id, 'player', { ...local, generation: net?.pose?.generation }, local));
+    if (state.started && !ownDeath() && !A.G.caught && !window.__hideSelf&&!effects.has('p'+local.id)) packets.push(livePacket('p' + local.id, 'player', { ...local, generation: net?.pose?.generation, discontinuity:net?.pose?.discontinuity }, local));
     for (const peer of net?.peers || []) {
       if (peer.d||effects.has('p'+peer.id)) continue;
       const pose = history?.sample('p' + peer.id, performance.now());
@@ -342,11 +360,12 @@
     state.last.cpuMs = performance.now() - start; state.last.cutawayMs = cutMs;
     state.trace.push({ frame: state.frames, x: local.x, y: local.y, z: local.z, tick: local.tick, support: local.supportId, mode: local.motionMode, server: net?.pose });
     if (state.trace.length > 240) state.trace.shift();
+    for (const [key,e] of actorElevations)if(e.used<state.frames-2)actorElevations.delete(key);
     for (const [key, e] of art) if (e.used < state.frames - 2) { e.texture?.destroy(true); e.wrap.destroy({ children: true }); art.delete(key); }
     for (const [key, e] of labelArt) if (e.used < state.frames - 2) { gl.deleteTexture(e.tex); labelArt.delete(key); }
   }
   const api = window.__spatial = { bind, init, spawn, prepare, render, config, state, perceivable, sample, adminData, eyePoint, beginDeath, completeDeath, lightAt, beamDistance, sound, motionAudio, effect, pickAt, aim,
     get geometry() { return geometry; }, get model() { return model; }, get view() { return view; }, get pass() { return pass; },
-    inspect() { const gl = pass?.gl, ext = gl?.getExtension('WEBGL_debug_renderer_info'); return clone({ ready: state.ready, pipeline:{inFlight:!!state.fence,skippedFrames:state.skippedFrames||0,completedFrames:state.completedFrames||[]}, world: geometry?.identity, network: window.__net.spatialState?.(), frames: state.frames, packets: state.packets, last: state.last, cutaway: view?.snapshot(), gpu: gl && gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER), renderer: 'existing production Pixi 8.21.0 / WebGL2' }); }
+    inspect() { const gl = pass?.gl, ext = gl?.getExtension('WEBGL_debug_renderer_info'); return clone({ ready: state.ready, pipeline:{inFlight:!!state.fence,skippedFrames:state.skippedFrames||0,completedFrames:state.completedFrames||[]}, world: geometry?.identity, network: window.__net.spatialState?.(), frames: state.frames, presentation:state.presentation, packets: state.packets, last: state.last, cutaway: view?.snapshot(), gpu: gl && gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER), renderer: 'existing production Pixi 8.21.0 / WebGL2' }); }
   };
 })();

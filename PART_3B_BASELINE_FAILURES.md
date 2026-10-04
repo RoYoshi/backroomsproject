@@ -7,4 +7,6 @@ Raw failures are retained under numbered evidence attempts and are never overwri
 - Chromium installer received an invalid/truncated archive from its CDN. `browser-install-01.log` is retained. Restoring the official Chrome-for-Testing headless archive succeeded with the exact accepted Part 3A browser SHA-256 `3cfc2bd00d1bafcf8a68dc74c9c92bb7150ddc8d26ade948a776316e1cec4f14`. Both browser suites passed as attempt 02 without test or runtime changes for the environment repair.
 - Accepted Part 3A/Stage I inherited aggregate 151/162, shared F22, P08 UNKNOWN, external font failures and accepted aftermath/performance limits remain inherited. They must be compared explicitly during P3B4/P3B5, not relabeled as passing.
 
+- P3B2 `browser-vertical-01` failed the retained >1000 lit-pixel gate at the upper stair entrance (990 lit pixels). Raw traversal, screenshot and failure diagnostics are retained. The center-only cutaway probe missed a ceiling covering the player's head at that edge. The presentation-only repair tests the local body extent along the actual projected camera ray; `browser-vertical-02` passed the unchanged traversal/capture assertions. Continuous-interior semantics remain P3B3 work.
+
 Objective acceptance is pending until all required validation completes.

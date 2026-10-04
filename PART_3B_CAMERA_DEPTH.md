@@ -16,6 +16,16 @@ The inverse at known Z multiplies screen displacement by the same denominator. C
 
 `camera_policy.js` is byte-identical to Part 3A. World admission uses the original max-axis camera footprint, including zoom. Actor centers outside it are rejected before drawing. Geometry fragments are clipped using physical XY against the same footprint, after depth projection. DPR changes render resolution only; quality changes target resolution only. UI scale is not a world-admission input.
 
+## Motion refinement (P3B2)
+
+Live player/peer art consumes a separate rendered-elevation spring (40/s, maximum 8 units or 14% of body height, whichever is smaller). Physical packet XYZ/support remain exact. Positive visual lag is swept against physical clearance so the head cannot pass an underside. Fragment visibility subtracts the visual offset before querying the physical body, and picking returns physical target coordinates after intersecting the rendered location. Aftermath does not inherit this living-actor lag.
+
+Both camera and actor springs use an analytic response to a linearly moving target. Local presentation advances on every animation call, including when the GPU submission fence skips a draw; only the last drawn camera is used for screen picking. There is no render-FPS input to simulation.
+
+Landing adds at most 1.25 units of body settle over 180 ms, with zero value/velocity at both ends. It does not move the physical eye, hitbox, light or collision origin. There is no additional hand animation or camera shake. Epoch, life, authoritative discontinuity, reconnect state, large positional discontinuity and long idle gaps reinitialize safely.
+
+Production physical replay covered stairs up/down, reversal and sideways departure, both ramps and falls at +180→0 and 0→−96. The +180 test begins in a clearance-valid airborne pose over the bottom of the production stairwell; it does not add a new ledge or modify Level 0 physics. The lower test walks off the existing depression rim. Six schedules (30/60/120/144/240 Hz and jitter) differ by at most 1.592 units in rendered elevation and 1.512 units in camera elevation on these trajectories. Settled endpoints agree within 0.01 units.
+
 ## Validation status
 
-P3B1 focused deterministic and served-browser evidence is under `dev/part3b/evidence/p3b1`. Movement presentation refinement belongs to P3B2. Human camera comfort and perceived depth remain pending.
+P3B1 focused deterministic and served-browser evidence is under `dev/part3b/evidence/p3b1`. P3B2 motion/offset-picking evidence and actual keyboard traversal captures are under `dev/part3b/evidence/p3b2`. Human camera comfort and perceived depth remain pending.

@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "browser": "151.0.7922.34",
+  "checks": [
+    "stairs-base",
+    "stairs-up",
+    "stairs-upper",
+    "upper-branch",
+    "ramp-upper",
+    "ramp-down",
+    "ramp-base",
+    "depression-down",
+    "lower",
+    "depression-legal-return",
+    "crawl-passage",
+    "crawl-exit"
+  ],
+  "console": [
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE"
+  ],
+  "errors": [],
+  "server": "THE FAR BACKROOMS | BOOTING | Node v24.19.0 | port 35003 | part-3b @ ecf5b3fcda41\nTHE FAR BACKROOMS | ONLINE | Node v24.19.0 | port 35003 | part-3b @ ecf5b3fcda41\nThe Far Backrooms → http://localhost:35003  (share  ?room=NAME  to group up)\n[admin] WANDERER#1 unlocked admin (room stage-h)\n[admin] room=stage-h Production vertical#1: god Production vertical -> true\n[admin] room=stage-h Production vertical#1: freeze true\n"
+}
