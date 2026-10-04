@@ -1,0 +1,383 @@
+Read `README_FIRST.txt` first.
+
+Then read and execute `PART_3B_MASTER_PROMPT.txt` exactly as authorized.
+
+Implement:
+
+**THE FAR BACKROOMS — Part 3B: Movement, Camera & Depth Presentation**
+
+ONLY.
+
+The user is the final gameplay/design QA authority.
+
+==================================================
+0. ACCEPTED PARENT
+==================================================
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Accepted Part 3A final commit:
+`4d1f17a600a10599b848b6db9d02fa16b4f479f0`
+
+Accepted Part 3A tree:
+`c1e0fc5fd84e5fbea412cf3fca7c309243e8de6e`
+
+Accepted immutable Part 3A ZIP:
+`PARENT_PART_3A_ACCEPTED.zip`
+
+SHA-256:
+`6a498a2e498328ebe8064f1a67b406e5d600e614137438df67a79409bf64bdcf`
+
+Create/use:
+`part-3b`
+
+from exactly:
+`4d1f17a600a10599b848b6db9d02fa16b4f479f0`
+
+Do NOT use `main` as the parent.
+
+If `part-3b` already exists, inspect it first and never overwrite newer valid remote work.
+
+Part 3A is accepted for continuation into later Part 3 stages.
+Its physical/content conversion is the locked parent.
+
+==================================================
+1. PART 3B GOAL
+==================================================
+
+Make 2.5D HEIGHT FEEL VISIBLE.
+
+The current engine knows physical Z, but falling/stairs can still feel visually static.
+
+Part 3B must add presentation depth without changing simulation:
+
+- camera follows local player presentation Z smoothly,
+- lower layers subtly recede/shrink when the player is above them,
+- destination surfaces approach during a fall,
+- restrained vertical parallax,
+- smoother stair/ramp visual motion,
+- restrained landing response,
+- safe hand/body vertical secondary motion where useful,
+- correct inverse/projection-aware picking,
+- correct cutaway/roof semantics.
+
+Core law:
+
+`SIMULATION TRUTH != PRESENTATION INTERPRETATION`
+
+==================================================
+2. DO NOT CHANGE PHYSICS
+==================================================
+
+Do NOT retune:
+- collision,
+- gravity,
+- stair treads,
+- ramps,
+- movement speeds,
+- stamina,
+- body clearance,
+- traversal legality,
+- AI/nav,
+- network authority,
+- death physics.
+
+Physical X/Y/Z/support remain exact.
+
+Presentation is allowed to smooth and project the rendered result only.
+
+==================================================
+3. CAMERA Z
+==================================================
+
+Implement an explicit presentation camera elevation state.
+
+Use time-based stable smoothing (critical spring or equivalent), not a fixed per-frame
+lerp percentage.
+
+Requirements:
+- smooth real-time behavior across render FPS/jitter,
+- no tread-by-tread camera snapping,
+- sufficient response to make large falls feel vertical,
+- bounded lag,
+- safe snap/reinitialize on teleport/respawn/reconnect/world reset.
+
+The local player remains the presentation reference plane.
+
+==================================================
+4. DEPTH ILLUSION
+==================================================
+
+Implement restrained camera-relative elevation projection.
+
+When geometry is below the local player's presentation plane:
+- it should become slightly smaller/more distant,
+- XY displacement may contract subtly around camera center.
+
+As the player falls toward it:
+- that surface approaches normal reference scale smoothly.
+
+One major 180-unit elevation should initially produce only a subtle visual difference
+(roughly a few percent, not dramatic perspective).
+
+Clamp the effect.
+
+This remains top-down/Surviv.io-like, not a perspective 3D camera.
+
+==================================================
+5. FAIRNESS LOCK
+==================================================
+
+Depth projection MUST NOT expose more world.
+
+The existing canonical camera-policy world footprint remains the admission budget.
+
+Do not render actionable actors/geometry outside the world footprint merely because
+a lower plane shrank in screen space.
+
+Ultrawide, DPR, UI scale and quality must not provide extra tactical awareness.
+
+DPR is sharpness only.
+
+==================================================
+6. FALL / LANDING
+==================================================
+
+Prove:
+- +180 -> 0 fall,
+- 0 -> -96 fall.
+
+Without HUD/debug, descent should read visually.
+
+Use:
+- camera elevation response,
+- destination-floor approach,
+- relative layer parallax/scale,
+- restrained actor/hand inertial motion,
+- small landing settle if useful.
+
+Do not add large aim-disrupting shake.
+
+==================================================
+7. STAIRS / RAMPS
+==================================================
+
+LONG ROOM stairs are a primary validation scene.
+
+Physical treads remain exact.
+
+Visually:
+- smooth rendered Z,
+- smooth camera response,
+- no obvious per-tread camera snapping,
+- reversal works,
+- sideways departure works,
+- no visual clipping through underside/ceiling,
+- actor never appears attached to the wrong support.
+
+Ramps remain physically continuous and should present continuously.
+
+==================================================
+8. CUTAWAY / ROOF SEMANTICS — USER CORRECTION
+==================================================
+
+The current broad room-roof interpretation is NOT the intended final behavior.
+
+Level 0 is one continuous interior.
+
+Ordinary rooms and hallways must remain continuously visible.
+
+Do NOT black out/hide an ordinary Level 0 room until the local player enters it.
+
+A normal Level 0 ceiling is physical simulation geometry but is NOT automatically a
+Surviv.io building roof.
+
+Distinguish presentation semantics:
+
+### Continuous interior ceiling
+Physical for collision/AI/light/sound.
+Does not act as a room-entry roof mask for the top-down player camera.
+
+### Local cover
+Crawlspace/hide-under/under-platform structure.
+Outside viewer may have the covered interior concealed.
+Local player underneath receives only the local necessary reveal.
+
+### Overlap slab
+Real upper floor over lower walkable space.
+Local lower player may cut away the blocking slab/group.
+Unrelated geometry remains visible.
+Other clients retain independent local views.
+
+### Building roof
+Reserved for a FUTURE genuinely separate building, especially exterior -> interior.
+Do not implement future levels/buildings now.
+Only keep the semantic distinction if useful to the architecture.
+
+==================================================
+9. NORTH CRAWLSPACE
+==================================================
+
+Use NORTH crawl passage as the local-cover acceptance target.
+
+Outside client:
+- sees the overhead cover behavior,
+- does not get free top-down visibility of a hidden player beneath it.
+
+Inside client:
+- local overhead cover fades/reveals only what is needed,
+- nearby ordinary Level 0 room remains continuously visible.
+
+Two clients must have independent cutaway state.
+
+==================================================
+10. LONG ROOM UPPER OVERLAP
+==================================================
+
+At same-XY Z0/Z180:
+- slab thickness remains readable,
+- lower local player can reveal only the blocking upper slab/group,
+- upper player retains correct upper presentation,
+- no hidden body/hand/gear/beam/effect leak,
+- cutaway does not modify physical visibility/light/AI.
+
+==================================================
+11. PICKING / AIMING
+==================================================
+
+Projection must not break mouse/world mapping.
+
+Update picking as necessary so:
+- cursor corresponds to the visual world point,
+- nearest physically visible target wins,
+- hidden target remains unpickable,
+- same-XY different-Z cases are correct,
+- cutaway cannot create through-slab interaction.
+
+Do not move physical aim origin to the smoothed render pose.
+
+==================================================
+12. CHECKPOINT POLICY
+==================================================
+
+P3B0 — Parent/presentation preflight
+- exact Part 3A commit/tree/ZIP
+- inventory current camera projection/cutaway/picking paths
+- freeze simulation invariants
+- record user cutaway semantic correction
+- no substantive runtime change
+- COMMIT + PUSH + VERIFY
+
+P3B1 — Camera/projection foundation
+- presentation camera Z
+- time-based smoothing
+- depth projection
+- fairness/canonical footprint
+- projection-aware picking foundation
+- focused deterministic/browser tests
+- COMMIT + PUSH + VERIFY
+
+P3B2 — Motion presentation
+- stairs
+- ramps
+- falls
+- landing
+- optional bounded hand/body vertical secondary motion
+- FPS/jitter presentation checks
+- no physical trace change
+- COMMIT + PUSH + VERIFY
+
+P3B3 — Cutaway semantics correction
+- continuous Level 0 rooms visible
+- NORTH crawl local cover
+- LONG ROOM overlap slab local cutaway
+- independent multiplayer views
+- physical simulation unchanged
+- COMMIT + PUSH + VERIFY
+
+P3B4 — Whole presentation validation
+- B-01 through B-19 objective gates
+- aspect/DPR/quality/NV/zoom/two-client coverage
+- picking/aftermath/reconnect/reset
+- performance evidence
+- retained Stage I + Part 3A regressions
+- COMMIT + PUSH + VERIFY
+
+P3B5 — Final package
+- exact changed-file audit
+- reports
+- clean extraction/path-with-spaces
+- package verification
+- final Part 3B ZIP + SHA-256
+- final source push/verify
+- human QA handoff for B-20
+- STOP
+
+Preserve raw failures before repair.
+
+Do not relax physical/fairness/visibility assertions to obtain PASS.
+
+==================================================
+13. OUT OF SCOPE
+==================================================
+
+Do NOT begin:
+- Part 3C lighting/shadows,
+- Part 3D environment/material art,
+- Part 3E entity/player/death visual redesign,
+- Part 3F atmosphere/audio,
+- Part 3G final visual optimization,
+- multi-level runtime/seamless transition architecture,
+- future level/building implementation.
+
+Do NOT modify/merge `main`.
+
+==================================================
+14. FINAL DELIVERABLES
+==================================================
+
+At minimum:
+- `PART_3B_REPORT.md`
+- `PART_3B_TEST_SUMMARY.md`
+- `PART_3B_BASELINE_FAILURES.md`
+- `PART_3B_CHANGED_FILES.txt`
+- `PART_3B_HUMAN_QA.md`
+- `PART_3B_CAMERA_DEPTH.md`
+- `PART_3B_CUTAWAY_POLICY.md`
+- `PART_3B_ACCEPTANCE.md`
+- `PART_3B_PERFORMANCE.md`
+- `PART_3B_GIT_CHECKPOINTS.md`
+- final package verification JSON
+- final Part 3B ZIP
+- final ZIP SHA-256
+
+Final report must include:
+- exact Part 3A parent commit/tree/ZIP
+- final Part 3B commit/tree
+- B-01…B-20 dispositions
+- camera smoothing method/constants
+- projection method/clamps
+- fairness footprint proof
+- picking mapping proof
+- crawlspace/overlap cutaway behavior
+- retained physics/network/AI/death invariance
+- retained Stage I / Part 3A gate outcomes
+- known limitations
+- Part 3C begun: NO
+- main modified/merged: NO
+- human QA: PENDING
+
+==================================================
+15. STOP
+==================================================
+
+After verified P3B5 publication:
+
+STOP.
+
+Do NOT begin Part 3C.
+
+Final engineering status:
+
+`PART 3B — MOVEMENT, CAMERA & DEPTH PRESENTATION ENGINEERING COMPLETE — HUMAN QA PENDING`
