@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "sourceCommit": "576559d8895bc5b37309c3b2e6cd73ccbd737201",
+  "sourceTree": "d28523704bed91483b93f09287db19dd9b45e28a",
+  "fullViewGate": "PASS 2/2",
+  "Z30": "PASS 8/8",
+  "actualUpperEmitters": [
+    {
+      "kind": "flashlight",
+      "origin": {
+        "x": 160,
+        "y": 160,
+        "z": 230.05
+      },
+      "hiddenPixels": 0
+    },
+    {
+      "kind": "headlamp",
+      "origin": {
+        "x": 160,
+        "y": 160,
+        "z": 230.05
+      },
+      "hiddenPixels": 0
+    },
+    {
+      "kind": "lantern",
+      "origin": {
+        "x": 160,
+        "y": 160,
+        "z": 230.05
+      },
+      "hiddenPixels": 0
+    }
+  ],
+  "everyForcedEffectAndTimingCaptureAdvancedExactlyOneFrame": true,
+  "allHiddenPixelsBeamsAndInterferenceZero": true,
+  "canonicalDecisionRNGAndPicking": "PASS",
+  "correctedPortableGate": "dev/stage_h/evidence/h5/portable-02/result.json",
+  "earlierFailuresPreserved": true
+}

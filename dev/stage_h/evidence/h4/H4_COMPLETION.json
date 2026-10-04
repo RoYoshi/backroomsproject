@@ -9,7 +9,9 @@
   "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
   "softwareGPU": true,
   "performanceGate16_7ms": "NOT MET on SwiftShader; preserved limitation; no hardware/capacity certification",
-  "runtimeChangesDuringRecovery": [],
+  "runtimeChangesDuringRecovery": [
+    "spatial_client.js: one force-only TIMEOUT_EXPIRED condition after gl.finish; normal scheduling and all physical/picking/camera logic unchanged"
+  ],
   "cases": [
     {
       "case": {
@@ -24,7 +26,7 @@
       },
       "hiddenPixels": 0,
       "hiddenBeamPixels": 0,
-      "visibleControlPixels": 4958,
+      "visibleControlPixels": 4800,
       "hiddenInterferenceCalls": 0,
       "scope": {
         "width": 1536,
@@ -42,12 +44,12 @@
       },
       "distance": 62.254337198302885,
       "aimPitch": -0.225999721359032,
-      "cpuMs": 404.30000000074506,
+      "cpuMs": 33.79999999701977,
       "cutawayMs": 0,
       "drainedFrameMs": [
-        662.6000000014901,
-        67.69999999925494,
-        673.3000000007451
+        1588.800000000745,
+        1648.4000000022352,
+        1567.0999999977648
       ],
       "target": {
         "width": 1280,
@@ -68,7 +70,13 @@
         "aiDebug": "absent",
         "glitchFx": "none"
       },
-      "glError": 0
+      "glError": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ]
     },
     {
       "case": {
@@ -83,7 +91,7 @@
       },
       "hiddenPixels": 0,
       "hiddenBeamPixels": 0,
-      "visibleControlPixels": 6090,
+      "visibleControlPixels": 5962,
       "hiddenInterferenceCalls": 0,
       "scope": {
         "width": 1382.4,
@@ -101,12 +109,12 @@
       },
       "distance": 62.254337198302885,
       "aimPitch": -0.225999721359032,
-      "cpuMs": 345.79999999701977,
-      "cutawayMs": 0.09999999776482582,
+      "cpuMs": 42.400000002235174,
+      "cutawayMs": 0.30000000074505806,
       "drainedFrameMs": [
-        617.2999999970198,
-        117.80000000074506,
-        59.100000001490116
+        1721.300000000745,
+        1705.1000000014901,
+        1698.2000000029802
       ],
       "target": {
         "width": 1280,
@@ -127,7 +135,13 @@
         "aiDebug": "absent",
         "glitchFx": "none"
       },
-      "glError": 0
+      "glError": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ]
     },
     {
       "case": {
@@ -142,7 +156,7 @@
       },
       "hiddenPixels": 0,
       "hiddenBeamPixels": 0,
-      "visibleControlPixels": 30464,
+      "visibleControlPixels": 29410,
       "hiddenInterferenceCalls": 0,
       "scope": {
         "width": 1536,
@@ -160,12 +174,12 @@
       },
       "distance": 62.254337198302856,
       "aimPitch": -0.22599972135903215,
-      "cpuMs": 596.3999999985099,
-      "cutawayMs": 0.10000000149011612,
+      "cpuMs": 44.599999997764826,
+      "cutawayMs": 0.09999999776482582,
       "drainedFrameMs": [
-        885.5,
-        202.80000000074506,
-        635.5999999977648
+        6047.60000000149,
+        7251.900000002235,
+        5515.800000000745
       ],
       "target": {
         "width": 3165,
@@ -186,7 +200,13 @@
         "aiDebug": "absent",
         "glitchFx": "none"
       },
-      "glError": 0
+      "glError": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ]
     },
     {
       "case": {
@@ -201,7 +221,7 @@
       },
       "hiddenPixels": 0,
       "hiddenBeamPixels": 0,
-      "visibleControlPixels": 19636,
+      "visibleControlPixels": 18711,
       "hiddenInterferenceCalls": 0,
       "scope": {
         "width": 1536,
@@ -219,12 +239,12 @@
       },
       "distance": 62.254337198302885,
       "aimPitch": -0.225999721359032,
-      "cpuMs": 467.3999999985099,
-      "cutawayMs": 0.09999999776482582,
+      "cpuMs": 29.699999999254942,
+      "cutawayMs": 0.19999999925494194,
       "drainedFrameMs": [
-        764.5,
-        113,
-        608.9000000022352
+        6044.5,
+        4224.39999999851,
+        3856.60000000149
       ],
       "target": {
         "width": 2560,
@@ -245,7 +265,13 @@
         "aiDebug": "absent",
         "glitchFx": "none"
       },
-      "glError": 0
+      "glError": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ]
     },
     {
       "case": {
@@ -260,7 +286,7 @@
       },
       "hiddenPixels": 0,
       "hiddenBeamPixels": 0,
-      "visibleControlPixels": 20899,
+      "visibleControlPixels": 21863,
       "hiddenInterferenceCalls": 0,
       "scope": {
         "width": 1536,
@@ -278,12 +304,12 @@
       },
       "distance": 62.254337198302856,
       "aimPitch": -0.22599972135903215,
-      "cpuMs": 715.9000000022352,
-      "cutawayMs": 0.10000000149011612,
+      "cpuMs": 47.30000000074506,
+      "cutawayMs": 0,
       "drainedFrameMs": [
-        752.6000000014901,
-        774.3999999985099,
-        670.1000000014901
+        4888.699999999255,
+        4563.199999999255,
+        6179.599999997765
       ],
       "target": {
         "width": 2730,
@@ -292,11 +318,11 @@
         "color": "RGBA8"
       },
       "occluders": 32,
-      "drawCalls": 38,
+      "drawCalls": 41,
       "newResourceBytes": 33596432,
-      "actorTextureBytes": 1703936,
+      "actorTextureBytes": 1802240,
       "defaultColorBytesEstimate": 16773120,
-      "packetCount": 20,
+      "packetCount": 23,
       "layers": {
         "mp": "none",
         "light": "none",
@@ -304,7 +330,13 @@
         "aiDebug": "absent",
         "glitchFx": "none"
       },
-      "glError": 0
+      "glError": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ]
     },
     {
       "case": {
@@ -319,7 +351,7 @@
       },
       "hiddenPixels": 0,
       "hiddenBeamPixels": 0,
-      "visibleControlPixels": 1235,
+      "visibleControlPixels": 1208,
       "hiddenInterferenceCalls": 0,
       "scope": {
         "width": 1536,
@@ -337,12 +369,12 @@
       },
       "distance": 62.254337198302885,
       "aimPitch": -0.225999721359032,
-      "cpuMs": 1041.8999999985099,
-      "cutawayMs": 0,
+      "cpuMs": 40.600000001490116,
+      "cutawayMs": 0.10000000149011612,
       "drainedFrameMs": [
-        626.5,
-        52.100000001490116,
-        52.100000001490116
+        961.6999999992549,
+        404.70000000298023,
+        1074.6000000014901
       ],
       "target": {
         "width": 640,
@@ -363,7 +395,13 @@
         "aiDebug": "absent",
         "glitchFx": "none"
       },
-      "glError": 0
+      "glError": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ]
     },
     {
       "case": {
@@ -379,30 +417,30 @@
       },
       "hiddenPixels": 0,
       "hiddenBeamPixels": 0,
-      "visibleControlPixels": 24346,
+      "visibleControlPixels": 23827,
       "hiddenInterferenceCalls": 0,
       "scope": {
-        "width": 691.2002558504171,
-        "height": 432.00015990651065,
-        "scale": 1.8518511663818096,
-        "minX": -185.60012792520854,
-        "maxX": 505.60012792520854,
-        "minY": -56.00007995325532,
-        "maxY": 376.0000799532553
+        "width": 691.2002873764449,
+        "height": 432.000179610278,
+        "scale": 1.8518510819178529,
+        "minX": -185.60014368822243,
+        "maxX": 505.60014368822243,
+        "minY": -56.000089805139,
+        "maxY": 376.000089805139
       },
       "physicalHit": {
-        "x": 220,
+        "x": 220.00000000000003,
         "y": 169,
         "z": 36.05000000000018
       },
-      "distance": 62.254337198302856,
-      "aimPitch": -0.22599972135903215,
-      "cpuMs": 33.400000002235174,
-      "cutawayMs": 0.10000000149011612,
+      "distance": 62.254337198302885,
+      "aimPitch": -0.22599972135903207,
+      "cpuMs": 43.69999999925494,
+      "cutawayMs": 0.09999999776482582,
       "drainedFrameMs": [
-        189.40000000223517,
-        513.3000000007451,
-        58.69999999925494
+        2876.5,
+        3149.300000000745,
+        2912.099999997765
       ],
       "target": {
         "width": 1280,
@@ -423,7 +461,13 @@
         "aiDebug": "absent",
         "glitchFx": "none"
       },
-      "glError": 0
+      "glError": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ]
     },
     {
       "case": {
@@ -439,16 +483,16 @@
       },
       "hiddenPixels": 0,
       "hiddenBeamPixels": 0,
-      "visibleControlPixels": 79700,
+      "visibleControlPixels": 78019,
       "hiddenInterferenceCalls": 0,
       "scope": {
-        "width": 384.000133763242,
-        "height": 216.00007524182362,
-        "scale": 3.3333321721944844,
-        "minX": -32.000066881620995,
-        "maxX": 352.000066881621,
-        "minY": 51.99996237908819,
-        "maxY": 268.0000376209118
+        "width": 384.0000525766011,
+        "height": 216.00002957433813,
+        "scale": 3.333332876939289,
+        "minX": -32.000026288300546,
+        "maxX": 352.00002628830055,
+        "minY": 51.999985212830936,
+        "maxY": 268.00001478716905
       },
       "physicalHit": {
         "x": 220,
@@ -457,12 +501,12 @@
       },
       "distance": 62.254337198302856,
       "aimPitch": -0.22599972135903215,
-      "cpuMs": 40.600000001490116,
+      "cpuMs": 46.399999998509884,
       "cutawayMs": 0,
       "drainedFrameMs": [
-        558.4000000022352,
-        145.59999999776483,
-        565.6999999992549
+        4360,
+        4209.5,
+        4221.39999999851
       ],
       "target": {
         "width": 1280,
@@ -483,14 +527,56 @@
         "aiDebug": "absent",
         "glitchFx": "none"
       },
-      "glError": 0
+      "glError": 0,
+      "effectFrameAdvance": 1,
+      "forcedFrameAdvances": [
+        1,
+        1,
+        1
+      ]
     }
   ],
-  "pairedDecisionsAndRNG": "PASS",
+  "pairedDecisionsAndRNG": "PASS; dev/stage_h/evidence/h5/lighting-post-capture-repair.json",
   "failuresPreserved": [
     "recovery-01/failure.json",
-    "recovery-01/browser-install.log"
+    "recovery-01/browser-install.log",
+    "dev/stage_h/evidence/h5/emitter-precondition-audit.json",
+    "dev/stage_h/evidence/h5/forced-capture-audit.json"
   ],
-  "completeGateDirectory": "dev/stage_h/evidence/h4/view25d-recovery-01/browser-zNE6MZ",
-  "H5": "NOT STARTED"
+  "completeGateDirectory": "dev/stage_h/evidence/h5/portable-02/view25d-raw/browser-I96IEU",
+  "H5": "See dev/stage_h/H5_STATUS.md for final Stage H status",
+  "forcedCaptureRevalidation": "PASS",
+  "actualUpperEmitters": [
+    {
+      "kind": "flashlight",
+      "origin": {
+        "x": 160,
+        "y": 160,
+        "z": 230.05
+      },
+      "hiddenPixels": 0
+    },
+    {
+      "kind": "headlamp",
+      "origin": {
+        "x": 160,
+        "y": 160,
+        "z": 230.05
+      },
+      "hiddenPixels": 0
+    },
+    {
+      "kind": "lantern",
+      "origin": {
+        "x": 160,
+        "y": 160,
+        "z": 230.05
+      },
+      "hiddenPixels": 0
+    }
+  ],
+  "historicalSummary": "dev/stage_h/evidence/h5/h4-summary-before-capture-repair.json",
+  "historicalQualification": "Initial machine-PASS output retained; first flashlight capture and old fresh-frame timing interpretation superseded by corrected full-gate evidence.",
+  "validatedSourceCommit": "576559d8895bc5b37309c3b2e6cd73ccbd737201",
+  "validatedSourceTree": "d28523704bed91483b93f09287db19dd9b45e28a"
 }

@@ -1,0 +1,5 @@
+PASS disconnect at tick 0 active/settled joins preserve one owner and all gear
+PASS disconnect at tick 60 active/settled joins preserve one owner and all gear
+PASS disconnect at tick 250 active/settled joins preserve one owner and all gear
+PASS disconnect at tick 600 active/settled joins preserve one owner and all gear
+PASS cap=24, unchanged TTL, bounded chunk reassembly/duplicate rejection {"parts":3,"bytes":[95476,95619,95295]}

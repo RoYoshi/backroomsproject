@@ -48,3 +48,7 @@ H5 startup/full-quality fall failure preservation verified remote: `8959975b73a7
 H5 retained regression/profile checkpoint verified remote: `fa08394660a5cb066cd851cfd263ac759016c645`; tree `487243d4078ee0c225fd1c20911bb9db68568b96`. Fresh portable-01 subsequently completed, but its H-Z14 emitter precondition and forced-capture advancement audits require correction before final acceptance.
 
 H5 capture-audit failure preservation verified remote: `ec5eeaada255eb523b283eca59b6b029675aa5f6`; tree `89776bb13f77972ee5a04e240cff0dc58a1732f3`. Portable-01 raw outputs and both objective capture audits are preserved before the force-path/XYZ readiness repair.
+
+Capture repair source verified remote: `576559d8895bc5b37309c3b2e6cd73ccbd737201`; tree `d28523704bed91483b93f09287db19dd9b45e28a`. H1/flat/HTTP and paired lighting/picking pass.
+
+H4 capture-audited completion: portable-02 passes the complete real view25d gate (2/2), all eight Z30 cases, exact fresh-frame guards, actual upper emitters and unchanged leak/fairness limits. New timings replace the invalid old fresh-frame interpretation; raw attempts are preserved. Remote completion receipt follows publication.

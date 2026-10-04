@@ -1,5 +1,11 @@
 # H4 picking, fairness and real browser gate
 
+**CURRENT STATUS: H4 COMPLETE — capture-audited full-gate PASS.**
+
+Final evidence is `evidence/h5/portable-02`: actual upper-emitter XYZ, fresh-frame assertions, Z29/H-Z14 and all eight Z30 cases pass. `H4_COMPLETION.json` now records the corrected fresh-frame timings. The earlier machine-PASS output, stale-emitter precondition and forced-frame timing interpretation remain preserved in H5 audits; they are superseded for final acceptance. Only the demonstrated force=true diagnostic condition was repaired. The original picking, masks, physical occlusion and camera fairness are unchanged. H5 final reporting/package follows remote verification of this checkpoint.
+
+## Historical checkpoint notes
+
 H4 is IN PROGRESS. H3's completion was verified at `81c3e54e59dd92ce9c9f4fe72986b10824197727`, tree `1e566b6575d621df4e4c5b46494324cbcaf09e48` before H4 began.
 
 The production fixed-tick aim now intersects camera rays with physically visible faces and actor cylinders, checks camera occlusion separately, and falls back to the eye plane. Cutaway does not remove physical eye-ray occluders. Picking and rendering use the same canonical footprint and existing camcorder zoom. Flat aim is unchanged. Local cutaway and full/reduced quality controls are in existing Settings.
