@@ -1,0 +1,516 @@
+Read `README_FIRST.txt` first.
+
+Then read and execute this Stage I master prompt exactly within its authorization.
+
+Implement **THE FAR BACKROOMS — 2.5D Stage I: Full Regression / Performance / Package**
+ONLY.
+
+The user is the final gameplay/design QA authority.
+
+==================================================
+0. ACCEPTED PARENT / AUTHORITY
+==================================================
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Accepted Stage H commit:
+`692eebd338cc42347d437b0c0a2dcc9d7217ac34`
+
+Accepted Stage H Git tree:
+`1cd5430b61aac7f994da29f4879621a638c49526`
+
+Accepted immutable Stage H ZIP:
+`PARENT_STAGE_H_ACCEPTED.zip`
+
+Accepted Stage H ZIP SHA-256:
+`037feeeaeb16c354c11228458c31f986cfce594cfeaf8e93472d21b919ef9d5d`
+
+Accepted Stage H ZIP bytes:
+`69071771`
+
+Stage H human QA:
+PASS.
+
+Create/use implementation branch:
+`stage-i`
+
+from exactly:
+`692eebd338cc42347d437b0c0a2dcc9d7217ac34`
+
+Do NOT use `main` as the Stage I parent.
+
+If `stage-i` already exists, inspect it before changing anything. Never overwrite
+newer remote work.
+
+Read:
+- `ACCEPTED_STAGE_H_AUTHORITY.md`
+- `CURRENT_STATUS_AND_AUTHORITY.md`
+- `STAGE_I_ACCEPTANCE_MATRIX.md`
+- `STAGE_I_PERFORMANCE_AND_STRESS.md`
+- `STAGE_I_IMPLEMENTATION_SEAMS.md`
+- locked architecture
+- locked Z01–Z32 matrix
+- finalized Stage H report/package verification
+- Stage H browser/test evidence
+- dormant parent gate snapshots
+
+The older Stage H release wording saying HUMAN QA PENDING is superseded by
+`ACCEPTED_STAGE_H_AUTHORITY.md` for approval status only.
+
+==================================================
+1. STAGE I SCOPE
+==================================================
+
+Stage I is the FINAL stage of the locked 2.5D infrastructure plan.
+
+Architecture deliverable:
+**Full regression / performance / package**
+
+Architecture acceptance:
+- bounded stress matrix
+- real browser/network tests
+- clean extraction/build
+- reproducibility
+- no unexplained regression
+- exact manifest/hashes
+- human QA checklist
+
+Final engineering status:
+`2.5D IMPLEMENTATION COMPLETE — HUMAN QA PENDING`
+
+Stage I owns:
+- I completion of Z18
+- Z32
+- real `s_world25d`
+- real `perf_world25d`
+- final Z01–Z32 aggregation
+- final I-01–I-20 invariant audit
+- whole-stack regression
+- whole-stack bounded stress/performance evidence
+- final portability/reproducibility
+- final release package
+
+Stage I DOES NOT own:
+- building the production 2.5D Level 0 map/layout
+- converting Level 0 content into stacked geometry
+- Part 3 visual/atmosphere overhaul
+- new entity canon/behavior
+- new physics features
+- new death variants
+- renderer/network architecture redesign
+
+Do NOT begin any post-I work.
+
+==================================================
+2. PRESERVE ACCEPTED A–H BEHAVIOR
+==================================================
+
+Stage I is not a gameplay rebalance.
+
+Preserve:
+- fixed 60 Hz gameplay
+- four 1/240 death substeps per gameplay tick
+- real continuous XYZ
+- movement/stamina tuning
+- surface nav/traversal
+- Hound/Smiler behavior/canon
+- evidence uncertainty
+- network authority/protocol
+- exactly-one spatial aftermath
+- body + two circular hands
+- Stage H cutaway/masks/picking/light/IR
+- flat Level 0 behavior and presentation
+- camera fairness
+- frozen traces/references
+
+Any runtime change requires a concrete objective defect or measured safe hardening
+need and must be narrow, evidenced and regression-tested.
+
+==================================================
+3. ACTIVATE REAL `s_world25d`
+==================================================
+
+Accepted H still has `dev/tests/s_world25d.js` as a NOT-IMPLEMENTED future gate.
+
+Stage I MUST replace that placeholder with a REAL suite.
+
+It must exercise/orchestrate actual accepted code for:
+- Z01–Z09
+- Z18
+- Z19
+
+Do not implement a toy formula model.
+
+Use:
+- real world definition
+- real `world_geometry.js`
+- real `world_motion.js`
+- real `move.js`
+- accepted Stage C test kernels/fixtures
+- actual fixed-tick schedules
+
+Z18 final requirements:
+- radius 15
+- recovery threshold 36
+- walk/sprint/stamina/exhaustion/deep carpet
+- equal 15/30/60/120/144/240/360 + jitter outcomes
+- render schedule cannot alter physical/gameplay state
+- flat control preserved
+
+==================================================
+4. ACTIVATE REAL `perf_world25d`
+==================================================
+
+Accepted H still has `dev/tests/perf_world25d.js` as a NOT-IMPLEMENTED future gate.
+
+Stage I MUST replace that placeholder with a REAL bounded performance/portability
+suite.
+
+It must include Z32 and orchestrate representative whole-stack stress/performance
+workloads.
+
+Do not make it a file-existence-only gate.
+
+Record actual metrics and classifications.
+
+Correctness may NEVER be skipped to make performance green.
+
+==================================================
+5. FINAL Z01–Z32 MATRIX
+==================================================
+
+Create a final machine-readable + human-readable acceptance matrix.
+
+Every row Z01–Z32 must identify:
+- owner stage(s)
+- final executing suite/evidence
+- command
+- runtime
+- evidence artifact
+- disposition
+
+Stage I-owned contributions must PASS.
+
+No completed earlier row may silently regress.
+
+No final matrix row may remain as a fake placeholder merely because its owner stage
+already passed through a different file.
+
+==================================================
+6. FINAL I-01–I-20 AUDIT
+==================================================
+
+Produce an explicit invariant audit against the REAL implementation.
+
+Do not infer PASS only from prose.
+
+Link each invariant to executing evidence and source boundaries.
+
+All I-01–I-20 must be:
+- PASS, or
+- an explicitly architecture-approved environment limitation that does not invalidate
+  correctness.
+
+A true invariant violation blocks Stage I completion.
+
+==================================================
+7. DETERMINISM / PROPERTY SWEEP
+==================================================
+
+Run final real-code property/adversarial checks:
+
+- Z translation invariance
+- stable-ID input permutation
+- rotate/mirror simple fixture where meaningful
+- tolerance just inside/outside ledge/roof/contact boundaries
+- safe max-iteration fallback
+- render FPS/view/cutaway/quality/debug independence
+- packet jitter/duplicate/reconnect identity safety
+- death replay/sample schedule independence
+
+Record seed, world hash/revision, runtime and first divergent tick for any failure.
+
+==================================================
+8. WHOLE-STACK REGRESSION
+==================================================
+
+Run retained tests SERIALLY where timing/performance isolation matters.
+
+At minimum include:
+
+Legacy:
+- `npm test`
+- `npm run test:hound`
+- `npm run test:shared`
+- `npm run test:humanqa`
+- `npm run test:fps`
+- `npm run test:camera`
+- entity-look
+- physics
+- interpolation
+- navigation
+- audit-net
+- audit-net2
+- live
+- ir-net
+- legacy performance suites
+
+2.5D:
+- real `s_world25d`
+- real `s_nav25d`
+- real `s_perception25d`
+- real `network25d`
+- real `physics25d`
+- real `view25d`
+- real `perf_world25d`
+
+Stage-specific retained:
+- Stage B geometry
+- Stage C motion/adversarial/schedules/camera
+- Stage D view/independence/browser
+- Stage E route/perception
+- Stage F authority/protocol
+- Stage G aftermath
+- Stage H production browser/picking/light/cutaway
+
+Parity:
+- frozen 46 traces / 35,098 records at zero tolerance
+- map byte identity
+- flat browser screenshots/state/RNG
+- generated output reproducibility
+
+Do not relax old failures/thresholds.
+
+==================================================
+9. PERFORMANCE / STRESS
+==================================================
+
+Follow `STAGE_I_PERFORMANCE_AND_STRESS.md`.
+
+Required workload families:
+- geometry/collision
+- nav/AI/perception
+- authority/network
+- death/loose objects
+- presentation/browser
+- bounded multi-room/long-running server
+
+Record:
+- host/runtime/browser/GPU
+- exact workload/caps
+- p50/p95/p99/worst where meaningful
+- memory
+- candidate/query counts
+- bytes/client/sec
+- queue/history/cache bounds
+- render/resource counts
+- failures/timeouts
+
+Known H/G limits must be explicitly retested or carried with current evidence.
+
+Stage I may safely optimize measured bottlenecks, but a correctness-reducing
+optimization is forbidden.
+
+Do not claim capacity beyond the tested matrix.
+
+==================================================
+10. PORTABILITY / Z32
+==================================================
+
+Use at least one completely fresh extraction whose path CONTAINS SPACES.
+
+From there:
+- run advertised builds/tests
+- rebuild AI/sim/entities at least twice
+- verify reproducible hashes
+- run all seven final 2.5D named suites as appropriate
+- run ordinary server
+- verify `redirect.js`
+- verify required HTTP 200 runtime modules
+- verify private paths remain protected
+- verify flat mode
+- verify spatial mode
+- verify browser package loading
+- verify no original machine paths are required
+
+The final package must be runnable package-relatively.
+
+==================================================
+11. FINAL PACKAGE / MANIFEST
+==================================================
+
+Final root must include:
+`redirect.js`
+
+Ordinary server:
+`node server.js`
+
+Render redirect:
+`node redirect.js`
+
+Produce the final archive ONLY from the exact final verified `stage-i` source
+checkpoint.
+
+Verify:
+- source Git blobs
+- file modes
+- exact changed-file ledger
+- ZIP CRC
+- source manifest
+- fresh final extraction
+- publication report hashes
+- final ZIP SHA-256
+
+Keep commit/ZIP self-referential identity in EXTERNAL publication receipts.
+
+Do not modify source after portable validation without rerunning affected gates.
+
+==================================================
+12. PERFORMANCE FAILURE POLICY
+==================================================
+
+Do not turn every slow measurement into an architecture failure automatically.
+
+Classify every performance result as:
+- explicit-threshold PASS/FAIL
+- bounded measurement
+- known limitation
+- regression
+- environment blocked
+
+A KNOWN LIMITATION may remain only when:
+- correctness is intact
+- it is not a new unexplained regression
+- no locked architecture hard threshold requires PASS
+- it is prominently disclosed
+
+A new unexplained regression blocks completion.
+
+==================================================
+13. EXTERNAL CHECKPOINT POLICY — MANDATORY
+==================================================
+
+I0 — Parent / final-gate preflight
+- exact Stage H commit/tree/ZIP verified
+- Stage H human PASS authority recorded
+- known limitations/failures frozen
+- all current named-suite states inventoried
+- `s_world25d` and `perf_world25d` placeholders recorded
+- no runtime changes
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+I1 — Final world/portability gates
+- real `s_world25d` activated
+- Z18 final PASS
+- real `perf_world25d` activated
+- initial Z32/package-relative gates
+- focused determinism/property checks
+- no fake models/placeholders
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+I2 — Bounded whole-stack stress matrix
+- geometry/collision stress
+- nav/AI/perception stress
+- authority/network stress
+- aftermath/object stress
+- browser/presentation stress
+- bounded multi-room/soak
+- raw performance/capacity evidence
+- known limits classified
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+I3 — Measured hardening / regression repairs
+- investigate only actual regressions/bottlenecks
+- preserve failures before repairs
+- narrow safe optimizations/fixes only
+- rerun focused + affected stage gates
+- no correctness weakening
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+I4 — Final A–I certification
+- all seven named 2.5D suites real and executed
+- final Z01–Z32 matrix
+- final I-01–I-20 audit
+- full retained regression
+- frozen parity
+- actual browser/network/package runs
+- fresh extraction/path-with-spaces
+- repeated reproducible builds
+- no unexplained regression
+- COMMIT + PUSH + VERIFY SHA/TREE
+
+I5 — Final package / publication
+- exact changed-file audit
+- final reports
+- package verification
+- final Stage I ZIP
+- final SHA-256
+- final source commit/push verified
+- external publication receipt
+- final human-QA handoff
+- STOP
+
+At every milestone:
+- preserve raw failures
+- checkpoint substantial safe work before prolonged investigation
+- do not skip a failed objective gate
+- do not lower preserved assertions
+
+==================================================
+14. REQUIRED FINAL DELIVERABLES
+==================================================
+
+At minimum:
+
+- `25D_STAGE_I_REPORT.md`
+- `25D_STAGE_I_TEST_SUMMARY.md`
+- `25D_STAGE_I_BASELINE_FAILURES.md`
+- `25D_STAGE_I_PARITY.md`
+- `25D_STAGE_I_CHANGED_FILES.txt`
+- `25D_STAGE_I_HUMAN_QA.md`
+- `25D_STAGE_I_FINAL_MATRIX.md`
+- `25D_STAGE_I_INVARIANTS.md`
+- `25D_STAGE_I_PERFORMANCE.md`
+- `25D_STAGE_I_STRESS.md`
+- `25D_STAGE_I_PORTABILITY.md`
+- `25D_STAGE_I_GIT_CHECKPOINTS.md`
+- final package verification JSON
+- final Stage I ZIP
+- final ZIP SHA-256
+
+The final report must record:
+- exact Stage H parent commit/tree/ZIP hash
+- final Stage I remote commit/tree
+- Z18 disposition
+- Z32 disposition
+- all seven named 2.5D suite dispositions
+- Z01–Z32 final matrix
+- I-01–I-20 audit
+- frozen parity result
+- inherited failure comparison
+- stress/performance matrix and known limits
+- clean extraction/build/reproducibility
+- browser/GPU/network/runtime versions
+- main modified/merged: MUST be NO
+- production 2.5D Level 0 conversion begun: MUST be NO
+- Part 3 begun: MUST be NO
+- human QA: PENDING
+
+==================================================
+15. STOP CONDITION
+==================================================
+
+When Stage I objective gates and final package verification pass:
+
+STOP.
+
+Do NOT:
+- merge to main
+- build the production 2.5D Level 0
+- begin Part 3
+- claim gameplay fairness/fear is proven
+
+Final engineering status must be exactly:
+
+`2.5D IMPLEMENTATION COMPLETE — HUMAN QA PENDING`

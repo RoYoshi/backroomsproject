@@ -1,0 +1,23 @@
+{
+  "project": "THE FAR BACKROOMS",
+  "stage": "2.5D Stage I \u2014 Full Regression / Performance / Package",
+  "repository": "RoYoshi/backroomsproject",
+  "implementation_branch": "stage-i",
+  "accepted_stage_h_commit": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+  "accepted_stage_h_tree": "1cd5430b61aac7f994da29f4879621a638c49526",
+  "accepted_stage_h_zip_sha256": "037feeeaeb16c354c11228458c31f986cfce594cfeaf8e93472d21b919ef9d5d",
+  "accepted_stage_h_zip_bytes": 69071771,
+  "stage_h_human_qa": "PASS",
+  "owned_acceptance": [
+    "Z18(I)",
+    "Z32"
+  ],
+  "activate_final_named_suites": [
+    "s_world25d",
+    "perf_world25d"
+  ],
+  "final_engineering_status": "2.5D IMPLEMENTATION COMPLETE \u2014 HUMAN QA PENDING",
+  "main_modification_authorized": false,
+  "post_i_level0_conversion_authorized": false,
+  "part3_authorized": false
+}

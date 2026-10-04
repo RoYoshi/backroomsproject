@@ -1,0 +1,82 @@
+{
+  "ACCEPTED_STAGE_H_AUTHORITY.md": {
+    "sha256": "e3e07de58ed0f8435c9334e91da9d6ec13ed095598c4776e2c7ca62a826c5d07",
+    "size": 1599
+  },
+  "CURRENT_STATUS_AND_AUTHORITY.md": {
+    "sha256": "f872468a2f89ee10708aa7cc07fa852cbdf8a69573134a0f0fbb4198a1434a30",
+    "size": 2544
+  },
+  "PACK_AUTHORITY.json": {
+    "sha256": "c244ac1c150f80f1d084476a0a65490ded4cb82c65b73ad041abcd32213ef664",
+    "size": 844
+  },
+  "PARENT_STAGE_H_ACCEPTED.zip": {
+    "sha256": "037feeeaeb16c354c11228458c31f986cfce594cfeaf8e93472d21b919ef9d5d",
+    "size": 69071771
+  },
+  "PARENT_STAGE_H_SHA256.txt": {
+    "sha256": "fe56dff9f5cd868afe9332cd47cfd0415d6a27787ad724a55f6647838196859b",
+    "size": 94
+  },
+  "README_FIRST.txt": {
+    "sha256": "dba7ac13c8762c1dab7fdee172ef95c6b930fd3e319e8a50757e300f757beef8",
+    "size": 3241
+  },
+  "STAGE_I_ACCEPTANCE_MATRIX.md": {
+    "sha256": "6cb5fe3ec90295e6ea7e2443812cb868b5050aa8e4153f7aa60155f716338461",
+    "size": 6388
+  },
+  "STAGE_I_HUMAN_QA_PREP.md": {
+    "sha256": "9036f399743097e073ce7ec05b5540535b8899cf9c0be71ff3c08471c01c3456",
+    "size": 1374
+  },
+  "STAGE_I_IMPLEMENTATION_SEAMS.md": {
+    "sha256": "6f03bb7999a152934217e255bf6bdd6c58657e54144dec10db50635659c11ec7",
+    "size": 2432
+  },
+  "STAGE_I_MASTER_PROMPT.txt": {
+    "sha256": "48f438724769308924b842a09ba6fee08fcce7a862a53be2f19cd7bdc0d018ca",
+    "size": 13839
+  },
+  "STAGE_I_PERFORMANCE_AND_STRESS.md": {
+    "sha256": "86e9241b31fce7bc9a624e5a2e028b71a76362c51cb8d6747b7bb0c146b99dd4",
+    "size": 3884
+  },
+  "authority/25D_STAGE_MATRIX.md": {
+    "sha256": "0dffe51a647bf908e518cfb4a9bf42eb4f177f7ca919c6fa786265607b80267b",
+    "size": 7059
+  },
+  "authority/ARCHITECTURE_AUTHORITY.md": {
+    "sha256": "f2bd15d6091505128516572db84a463cb8d4dcece946eb92433a614d05f6976d",
+    "size": 91567
+  },
+  "parent_gate_snapshots/perf_world25d.js": {
+    "sha256": "448895c65bebd8784e638cc75c080baf6a1e39260d5867a7acd07f8c58567255",
+    "size": 392
+  },
+  "parent_gate_snapshots/s_world25d.js": {
+    "sha256": "208bb8ab6b47e319d7110b33443f5fb8090891dcb3a073feda18859f8ec0102a",
+    "size": 389
+  },
+  "stage_h_acceptance/25D_STAGE_H_BROWSER_EVIDENCE_SOURCE.md": {
+    "sha256": "e75456b03636ca2e52495c6f987ede58b7e1e2fd1355b59014a6206d0b9a8fc6",
+    "size": 3326
+  },
+  "stage_h_acceptance/25D_STAGE_H_HUMAN_QA.md": {
+    "sha256": "57665d15c456b770b28360963b6537611ce1492914cc8d0ee792ec3a3cd534f3",
+    "size": 5395
+  },
+  "stage_h_acceptance/25D_STAGE_H_PACKAGE_VERIFICATION.json": {
+    "sha256": "19d84aefef1f5e257f6290c49bc852c14155fa4bf5f0d31496283eb86d8fd99b",
+    "size": 6269
+  },
+  "stage_h_acceptance/25D_STAGE_H_REPORT.md": {
+    "sha256": "436e9961d0221d39af65092c846e6c1d84a3824653c55547a8e808a3527969b4",
+    "size": 7697
+  },
+  "stage_h_acceptance/25D_STAGE_H_TEST_SUMMARY_SOURCE.md": {
+    "sha256": "cb74ed45971862143ef77c895aab96ee47fb99f8433d40db1554ce8164d9a0a0",
+    "size": 4343
+  }
+}

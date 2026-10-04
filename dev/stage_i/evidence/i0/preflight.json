@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "acceptedCommit": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+  "acceptedTree": "1cd5430b61aac7f994da29f4879621a638c49526",
+  "zipSha256": "037feeeaeb16c354c11228458c31f986cfce594cfeaf8e93472d21b919ef9d5d",
+  "zipBytes": 69071771,
+  "sourceFiles": 2235,
+  "allBlobsModesAndBytesMatch": true,
+  "parentHumanQA": "PASS",
+  "runtime": "v24.19.0",
+  "host": "Linux-6.18.44-x86_64-with-glibc2.39",
+  "cpu": "x86_64",
+  "checks": [
+    {
+      "suite": "s_world25d",
+      "exitCode": 2,
+      "disposition": "NOT IMPLEMENTED at accepted H; Stage I owns activation"
+    },
+    {
+      "suite": "perf_world25d",
+      "exitCode": 2,
+      "disposition": "NOT IMPLEMENTED at accepted H; Stage I owns activation"
+    }
+  ],
+  "otherNamedSuites": {
+    "s_nav25d": "REAL accepted owner; final execution required",
+    "s_perception25d": "REAL accepted owner; final execution required",
+    "network25d": "REAL accepted owner; final execution required",
+    "physics25d": "REAL accepted owner; final execution required",
+    "view25d": "REAL accepted owner; final execution required"
+  }
+}

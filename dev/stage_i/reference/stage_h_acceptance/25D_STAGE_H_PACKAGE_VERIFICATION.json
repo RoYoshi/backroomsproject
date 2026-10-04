@@ -1,0 +1,189 @@
+{
+  "status": "PASS",
+  "stage": "H",
+  "engineeringStatus": "2.5D STAGE H ENGINEERING COMPLETE \u2014 HUMAN QA PENDING",
+  "repository": "RoYoshi/backroomsproject",
+  "branch": "stage-h",
+  "finalRemoteCommit": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+  "finalRemoteTree": "1cd5430b61aac7f994da29f4879621a638c49526",
+  "acceptedParentCommit": "7fb4dafef92040571209403358e536ccb1105509",
+  "acceptedParentTree": "eee7f43a74aeb4d0e7ef38effdfc7516eee5e8cf",
+  "parentHumanQA": "PASS",
+  "sourceFiles": 2235,
+  "everySourceBlobAndModeMatchesGitTree": true,
+  "freshFinalExtractionMatches": true,
+  "allPortableValidatedFilesUnchanged": true,
+  "changedFileAuditExact": true,
+  "archive": "THE_FAR_BACKROOMS_STAGE_H_FINAL.zip",
+  "archiveBytes": 69071771,
+  "archiveSha256": "037feeeaeb16c354c11228458c31f986cfce594cfeaf8e93472d21b919ef9d5d",
+  "crc": "PASS",
+  "publicationFiles": {
+    "25D_STAGE_H_BASELINE_FAILURES.md": "e01a31f72ec39f5ee5f248e575aac6b188348a9b3b620be6b4f774497c581b56",
+    "25D_STAGE_H_BROWSER_EVIDENCE.md": "e75456b03636ca2e52495c6f987ede58b7e1e2fd1355b59014a6206d0b9a8fc6",
+    "25D_STAGE_H_GIT_CHECKPOINTS.md": "8e407ff87d26843d2e6fb8ba70d43f38706eac1cda5ee2ae17f8d35c1e4a27e2",
+    "25D_STAGE_H_HUMAN_QA.md": "57665d15c456b770b28360963b6537611ce1492914cc8d0ee792ec3a3cd534f3",
+    "25D_STAGE_H_LIGHTING.md": "f5bd24766548729923194b01e56891b452f9f2b824ec7a3eb19cb8b7b24291d7",
+    "25D_STAGE_H_PARITY.md": "1167538c3483f2fb36a71e4fc61e7bdd318bd27de762cd8ecc2a0e512e621b20",
+    "25D_STAGE_H_PRESENTATION.md": "691d67693800ea089015b1c5c3a46ca9e72af83efaa2ed1777816dac04228bbe",
+    "25D_STAGE_H_REPORT.md": "436e9961d0221d39af65092c846e6c1d84a3824653c55547a8e808a3527969b4",
+    "25D_STAGE_H_TEST_SUMMARY.md": "cb74ed45971862143ef77c895aab96ee47fb99f8433d40db1554ce8164d9a0a0",
+    "25D_STAGE_H_VIEW.md": "5359695811085c070e05b897df04a19ced95045c7bd20683dbc97ba91a687635",
+    "25D_STAGE_H_CHANGED_FILES.txt": "cb1a10823fec717b3a0c9ffbb9e696e0112a4b64be8c2c07fc31d1b425274fb1"
+  },
+  "portableValidation": {
+    "status": "PASS",
+    "sourceFiles": 2167,
+    "byteEqualExtraction": true,
+    "pathContainsSpaces": true,
+    "cleanPath": "/workspace/scratch/c78c552e3af5/Stage H Corrected Clean Extraction With Spaces/thefarbackrooms-level0",
+    "archiveSha256": "715d529d881af778a839fd847e5c28cc06f92db1e0c9ef73c518e6c136a231d8",
+    "buildsRepeated": 2,
+    "buildHashes": {
+      "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+      "sim.js": "5e1271b6e784513db9a0b2a5d95086ff8a47f7461ac17d13aa868ef1257181fa",
+      "ents.js": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284"
+    },
+    "checks": [
+      {
+        "name": "build-1-ai",
+        "command": [
+          "bash",
+          "dev/build_ai.sh"
+        ],
+        "exitCode": 0,
+        "seconds": 0.21479813100086176
+      },
+      {
+        "name": "build-1-sim",
+        "command": [
+          "bash",
+          "dev/build_sim.sh"
+        ],
+        "exitCode": 0,
+        "seconds": 0.1642972750014451
+      },
+      {
+        "name": "build-1-ents",
+        "command": [
+          "bash",
+          "dev/build_ents.sh"
+        ],
+        "exitCode": 0,
+        "seconds": 0.16447475400127587
+      },
+      {
+        "name": "build-2-ai",
+        "command": [
+          "bash",
+          "dev/build_ai.sh"
+        ],
+        "exitCode": 0,
+        "seconds": 0.21462710700143361
+      },
+      {
+        "name": "build-2-sim",
+        "command": [
+          "bash",
+          "dev/build_sim.sh"
+        ],
+        "exitCode": 0,
+        "seconds": 0.1644428350009548
+      },
+      {
+        "name": "build-2-ents",
+        "command": [
+          "bash",
+          "dev/build_ents.sh"
+        ],
+        "exitCode": 0,
+        "seconds": 0.16454337400136865
+      },
+      {
+        "name": "physics25d",
+        "command": [
+          "node",
+          "dev/tests/physics25d.js"
+        ],
+        "exitCode": 0,
+        "seconds": 47.31414348599719
+      },
+      {
+        "name": "network25d",
+        "command": [
+          "node",
+          "dev/tests/network25d.js"
+        ],
+        "exitCode": 0,
+        "seconds": 115.79119853600059
+      },
+      {
+        "name": "view25d",
+        "command": [
+          "node",
+          "dev/tests/view25d.js"
+        ],
+        "exitCode": 0,
+        "seconds": 578.0292447659995
+      },
+      {
+        "name": "served-package",
+        "command": [
+          "node",
+          "dev/stage_h/served_package.js",
+          "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/portable-02/served.json"
+        ],
+        "exitCode": 0,
+        "seconds": 0.6714822159992764
+      },
+      {
+        "name": "fps",
+        "command": [
+          "npm",
+          "run",
+          "test:fps"
+        ],
+        "exitCode": 0,
+        "seconds": 0.8199406069979887
+      },
+      {
+        "name": "camera",
+        "command": [
+          "npm",
+          "run",
+          "test:camera"
+        ],
+        "exitCode": 0,
+        "seconds": 0.21515010599978268
+      }
+    ],
+    "runtime": "v24.19.0",
+    "scope": "Clean candidate source extraction; final Git-tree/ZIP verification follows publication."
+  },
+  "frozenParity": {
+    "status": "PASS",
+    "traces": 46,
+    "records": 35098,
+    "tolerance": 0,
+    "frozenUnchanged": true,
+    "map": "BYTE IDENTICAL"
+  },
+  "Z14-H": "PASS",
+  "Z29": "PASS",
+  "Z30": "PASS 8/8",
+  "view25d": "PASS 2/2, repeated in clean extraction",
+  "network25d": "PASS 5/5, repeated in clean extraction",
+  "physics25d": "PASS 5/5, repeated in clean extraction",
+  "baselineComparison": "PASS_BASELINE_EQUIVALENCE",
+  "mainModifiedOrMerged": false,
+  "stageIBegun": false,
+  "humanQA": "PENDING",
+  "limitations": [
+    "SwiftShader software GPU misses 16.7 ms frame target; no hardware/capacity certification",
+    "Full-quality SwiftShader two-client fall capture missed airborne phase; existing reduced detail passes unchanged assertion",
+    "Accepted eleven aggregate failures, shared F22 and P08 UNKNOWN remain",
+    "Stage G 24-active physics/payload limitation remains; Stage I not started",
+    "External Google Fonts network/TLS limitation retained"
+  ],
+  "verifiedAtUTC": "2026-10-04T01:48:20.052405+00:00"
+}
