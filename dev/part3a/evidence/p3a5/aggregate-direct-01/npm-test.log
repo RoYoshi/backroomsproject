@@ -1,0 +1,332 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> far-backrooms@23.3.6-hqa-search-polish test
+> node dev/tests/run.js
+
+FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [992ms]
+       run 1687px  walk 1689px  crouch 1671px
+PASS P02 light beam makes a walker easier to notice (hound)  [572ms]
+       light on 1689px  off 254px
+PASS P03 standing still: a hound that is not looking never finds a silent standing player 300px away behind it  [319ms]
+       100% stayed unnoticed (hound facing away, 300px, silent stander)
+PASS P04 walls block sight: a hound never SEES a player through a wall at 150px  [2562ms]
+       14 wall-separated pairs, seen through wall in 0
+PASS P05 hearing: a running player is heard through a wall (hound turns to it); a crouch-walker at the same spot is not  [3880ms]
+       run heard 26/26, crouch-walk heard 0/26 (through one wall, ~300px)
+PASS P06 hearing radius: sliding / vaulting / landing are loud events, a standing player is silent  [25ms]
+       heard while standing 0; after slide+vault events 2 (vault,slide)
+FAIL P07 exhausted breathing is audible only close by  [42ms]
+       900px away: 0 sounds; 180px away: 0
+FAIL P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming  [915ms]
+       3/6: it searched the last known spot, gave up after ~15s and its memory of the player had decayed (conf 0.00 at 150 s, or just before a roaming hound came across the crouched player again: 36 s)
+PASS P09 no impossible information: a silent player two rooms away leaves no trace in a roaming hound's memory  [368ms]
+       5/5 runs: no record at all of the hidden player (hound stayed >~1000px away)
+PASS P10 social awareness: a second player behind walls, silent, is not counted as a threat; a runner approaching is  [47ms]
+       hound memory of the far witness: none
+PASS P11 personality: same species, different individuals (trait variation within bounds)  [29ms]
+       hound AGGRESSION mean 0.83 sd 0.076; smilers light-sensitive: 20/20
+PASS P12 traversal caps: hound vaults, smiler vaults slower, nobody squeezes through wall holes without CAN_USE_TIGHT_GAPS; crawl only when allowed  [32ms]
+       vault link used true, without CAN_VAULT false; hole path len no-tight 18 vs tight 10; VAULT_SPEED hound 1.2 smiler 0.6
+PASS H01 bait a lunge and sidestep: a late sidestep beats it most of the time; standing still does not  [2700ms]
+       sidestep evades 100%   standing still is caught 96%
+PASS H02 no i-frames: a lunge that connects catches you whatever you were doing (walking/running); a slide can pass under it  [725ms]
+       walking away is caught 10/10; a sliding player evaded 0/10 (slide passes under a lunge)
+PASS H03 chase outcomes in the long corridor: a fresh runner with a head start lasts; an exhausted one is caught fast  [995ms]
+       runner with a 450px lead survives 8s+ in 100%; exhausted caught 100% (avg 3.7s); walker caught 100%
+PASS H04 lunges start only when in range, roughly aligned and with a clear line  [509ms]
+       16/16 runs produced a lunge, 0 outside range/alignment limits
+PASS H05 poor sharp turning: the hound turns much slower at full speed than at a crawl  [245ms]
+       p95 turn rate at speed>230: 1.70 rad/s (1523 samples); at slow speed 9.31 (181)
+PASS H06 after a missed lunge it recovers (skids, turns slowly) before it runs again  [433ms]
+       100% recover >0.9s before regaining speed (gaps 1.45,1.22,1.48,1.15,1.3,1.27,1.27,1.37)
+FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [6782ms]
+       reached 12/13: ROAMING, CURIOUS, HUNTING, EXCITED, DORMANT, PLAYING, FEEDING, SEARCHING, FRUSTRATED, STALKING, RETREATING, CAUTIOUS   MISSING: ALERT
+PASS H08 searching is logical: it starts at the last known position, fans out around it, and does not home in on a quiet crouching player  [618ms]
+       100% began at the lead and fanned out around it (avg 4.3 goals; mean goal distance to the lead 310px vs to the real player 1667px); found the hidden player in 2/10
+PASS H09 the wall impact only ever happens against a wall that is really there  [3818ms]
+       open ground: C 0/37; wall behind: C 23/60 (bad wall records 0)
+PASS H10 exhausted prey: variant D only ever for a player with nothing left (and is the usual end for one caught from behind)  [7432ms]
+       exhausted: D 56/76; fresh: D 0/75
+PASS H11 no repeated identical death selection (variant history is respected)  [212ms]
+       90 kills: {"A":28,"B":28,"C":34,"D":0}, longest identical streak 2
+PASS H12 after a kill: it is worked up (EXCITED), then feeds; an intruder at the body is guarded against and hunted  [1107ms]
+       85% excited -> fed -> reacted to an intruder (excited 17, fed 20, guard 0, hunt/stalk 20, intruder caught 20)
+PASS H13 pack instinct: hounds near each other share a pack id, and one hound sounding off draws the others  [582ms]
+       100% of runs formed a pack and drew a second hound (largest pack seen 3)
+PASS H14 far hounds sleep and wake: no perception when far; awake when a player is near  [37ms]
+       tier far=far, perception ticks while far 0; after a player arrives: near
+FAIL SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased  [875ms]
+       light on, in its view, standing: chased 6/8 (wind-up before the chase avg 4.0 s); light off, same spot: chased 0/8, struck 0, perceived at all 6/8 (not perceived at 494 px, 781 px), watched 5/6 of those
+PASS SM02 strikes only on canon triggers: a quiet still person is never struck; a fast retreat in front of it (panic) or a loud noise close by is  [1174ms]
+       quiet and still (looking at it or away), 40 s: struck 0/8; ran away in front of it: struck 7/8 ("P100 retreated fast in front of it (panic)"); a hard landing close by: struck 7/8 ("a loud land from P100, close")
+PASS SM03 eye contact: watched, it holds; backing away slowly while watching it gets you let go (it withdraws, no strike)  [483ms]
+       8 runs: held by eye contact 8, unharmed while backing away crouched and watching it 8, let go (it withdrew, "let ... go") 8
+PASS SM04 no hidden position: an unsensed player moved elsewhere changes nothing the Smiler does (tick by tick)  [597ms]
+       6 valid pairs (hidden player never sensed): identical decisions 6/6 (the placement validator is the one sanctioned system rule; hidden spots are kept > 2200 px from the action)
+PASS SM05 lost player: it goes where it last had them (with an uncertainty), not where they really went  [295ms]
+       7 losses: it went to look 0 px from the last sighting (±87), 1234 px from the truth; 0 px from the last sighting (±87), 1685 px from the truth; 0 px from the last sighting (±87), 1412 px from the truth; 0 px from the last sighting (±87), 1447 px from the truth; 0 px from the last sighting (±87), 2062 px from the truth; 0 px from the last sighting (±87), 2021 px from the truth; 0 px from the last sighting (±87), 1679 px from the truth
+PASS SM06 light lead: drawn to what it observed (an uncertain region), and the same observations replayed with the carrier far away give identical decisions  [859ms]
+       10 runs where it was drawn by a light it saw without the person: identical decisions with the carrier moved away 10/10 (compared until the person was first perceived: 0.4 s, 1.0 s, 0.3 s, 0.4 s, 1.0 s, 0.3 s, 4.2 s, 0.7 s, 1.8 s, 1.1 s); leads litwall ±338 (155 px from the carrier), beam ±251 (146 px from the carrier), litwall ±338 (160 px from the carrier), litwall ±338 (155 px from the carrier), beam ±251 (146 px from the carrier), litwall ±338 (160 px from the carrier), beam ±289 (146 px from the carrier), litwall ±351 (160 px from the carrier), litwall ±337 (158 px from the carrier), beam ±218 (146 px from the carrier)
+PASS SM07 wall occlusion: a torch lighting the far side of a wall draws nothing; the smiler stays where it is  [549ms]
+       19 setups: light leads through the wall 0; smilers that left their spot 0
+PASS SM08 infrared OFF vs HIGH: identical Smiler decisions (camcorders raised, infrared written everywhere a client could put it)  [307ms]
+       3/3 worlds identical over 1200 ticks
+PASS SM09 attention: a one-frame glance does nothing; through a wall nothing; sustained eye contact (with line of sight) holds it  [774ms]
+       one-frame glances every 0.75 s: no hold 7/7; sustained eye contact: held 7/7; through a wall: attention registered 0/16
+PASS SM10 hold is counterplay, not immunity: standing and staring, it creeps in and drifts sideways; a fixed gaze loses it; up close a small sound triggers it  [508ms]
+       8 stand-offs: it closed in (avg 391 px, to 135 px) and did not go away while watched 7; drifted sideways 8; a fixed gaze lost it 7; up close (7): a crouched shuffle set it off 0, then one walking step set it off 7
+PASS SM11 multiplayer: one watches it in the dark, another walks about with a light - it works on the light, settles (no flicker), and a lit player it has never seen never wins  [591ms]
+       9 runs: worked on the light carrier 9; targeted the lit player behind walls before ever seeing them 0 (saw them later, legitimately: 2); target switches 0,0,0,0,2,0,0,0,0 (inside the 3 s dwell while the old one was still in view: 0)
+PASS SM12 personality: bounded, deterministic per seed, and no extreme tiers  [105ms]
+       200 individuals: all in [0.02, 0.98] true; same seed -> same creature true; patience 0.57-0.83, boldness 0.37-0.63; chase threshold 0.59-0.65
+PASS SM13 state validity over long mixed runs: finite, valid targets and states, legal transitions, never inside walls, never stuck  [1201ms]
+       18000 samples, 156 transitions, states seen HIDDEN FOLLOWING WATCHING ATTACKING DISAPPEARING PROVOKED; problems 0; longest time in one active state 13 s
+PASS SM14 no teleporting: every move is walked (bounded per tick), whatever it is doing  [397ms]
+       10 runs of 90 s: biggest single-tick step 5.0 px (300 px/s) @{"t":0.97,"s":"ATTACKING","x":2759,"y":5430}
+PASS SM15 presentation: no limbs; the face glow is its own channel (not the generic entity alpha); no aggression UI outside debug  [3ms]
+       arms drawn false, legs drawn false; glow reads the generic alpha false; aggression UI false; internal values debug-only true
+PASS SM16 multiplayer: a light elsewhere draws it off somebody it only watches in the dark (once - no back-and-forth); eye contact keeps it  [1739ms]
+       not watched back (15): drawn off to the light 5, of which went on to the carrier 3; pulled more than once 0; held by eye contact (15): drawn off 0
+PASS SM17 close-range pressure: holding its eyes does not let you walk up to it - walking, crouching or inching in on it ends in a strike; standing still or backing away does not  [1725ms]
+       holding eye contact the whole time - walked at it: struck 8/8 (at 123 px, "P100 walked in on it to point-blank (121 px, closed 181 px)"); crouched at it: 8/8; inched in (35 px, 4 s pauses): 8/8; stood still while it crept in: 0/8; side-stepped only: 0/8
+PASS C01 quick or play depends on the situation: others approaching -> almost always a quick kill; an isolated victim -> the hound may toy with it (the canon Smiler never plays)  [7230ms]
+       share of captures that became play: hound alone 11% / with someone running up 0%;  smiler (canon: always quick) alone 0% / with someone running up 0%
+PASS C02 CAUGHT is not DEAD: a played-with victim stays alive and held; the next major decision comes after a tense 4-21 s and never in a rush  [2363ms]
+       60 played captures: first decision due 4.6-16.6s after the grab, later ones 4.6-11.2s apart; total time held 1.9-35.8s (median 10.5s); victim alive and CAUGHT throughout in 60/60
+PASS C03 false hope: a released victim that runs may be hunted again (hounds; the canon Smiler never plays, so never releases)  [4474ms]
+       15 releases in 120 played hound captures; those who ran were caught again in 11 (11 died); those who stayed put were let go in 0 (informational)
+PASS C04 interruption: someone running up with a light changes its mind within a moment - it kills (a canon Smiler is drawn to the light, not scared off)  [2249ms]
+       60 played captures (smiler: admin-forced) interrupted by a runner with a light: hound kill 28 / let go 1, smiler kill 30 / let go 0, no reaction 1; median time to react 0.2s after they set off
+PASS C05 after a quick kill it reads the room: with others coming it defends, attacks the next or leaves; alone it settles (the Smiler lingers, then returns to the dark)  [4478ms]
+       with company: hound {"HUNTING/wind":10,"HUNTING":20}, smiler {"ATTACKING/rush":30}; alone: hound {"EXCITED/pace":16,"FEEDING/feed":8,"DORMANT":6}, smiler {"WATCHING/stare":30}
+PASS C06 the death itself: one kill per life, the record carries variant / geometry, the body is where the victim fell, no repeat kills  [385ms]
+       100% of 12 deaths were clean: exactly one kill event, dseq 1, victim record with variant and position, no lingering capture
+PASS C07 spawn protection and admin god mode: nothing captures a protected player; unprotected, the very same attack lands  [778ms]
+       100% of 8 runs: never captured while spawn-protected (3 s) or in god mode; the same attack on an unprotected player lands
+PASS C08 two hunters, one victim: exactly one capture; the other reacts to the kill (it does not double-kill)  [353ms]
+       100% of 10 double-hunter runs produced exactly one kill and one death
+PASS Y01 level of detail: perception runs at full rate near a player, at a reduced rate further out, and not at all while an entity is far away  [154ms]
+       perception updates per second: near 8.6, mid 2.7, far 0.0 (the far hound spent 16.0 s in the far tier before its coarse drift brought it into range)
+PASS Y02 performance: the shipped population and a stress population fit the frame budget  [444ms]
+       per 60 Hz step: shipped (3 hounds, 5 smilers, 4 players) avg 0.06ms p99 0.30ms; stress (10+12 entities, 8 players) avg 0.23ms p99 0.79ms  [budget 16.7ms]
+PASS Y03 snapshot size: what goes over the wire every 50 ms stays small (entities are quantised; nothing per-player-private is sent)  [210ms]
+       entity snapshot avg 1033 B, max 1054 B (~20.2 KB/s per client at 20 Hz before gzip); internal AI state leaked: false
+PASS Y04 stuck entities: one embedded in a wall is set back on open floor and one that cannot go anywhere does not stand frozen forever  [620ms]
+       6/6 embedded hounds recovered onto open floor; longest motionless spell of an unoccupied roaming hound over 18 hound-minutes: 0.1s
+PASS Y05 turning and snapping: headings change smoothly (no per-tick flips), speeds change within acceleration limits  [716ms]
+       over 72000 ticks: biggest heading step per 1/60 s hound 0.17 rad (10 rad/s), smiler 0.05; ticks above 0.2 rad: hound 0, smiler 0; biggest hound acceleration 2112 px/s²
+PASS Y06 no wall clipping: over long emergent runs no entity ever stands inside solid geometry (vaults excepted)  [365ms]
+       85534 samples of entity positions (every 2nd tick, 8 seeds x 150 s, 2 hounds + a smiler each), 0 inside solid geometry
+PASS Y07 pop-in: a smiler only appears or vanishes by fading (its visibility changes at a bounded rate); entities are only ever spawned out of sight  [2382ms]
+       18000 ticks of watching / being held / let go / lit: fastest fade-in 0.80/s (limit .8/s ≈ 1.25 s), fastest fade-out 1.40/s (limit 1.4/s ≈ 0.7 s), 10 fade-outs observed; 6 director spawns over 4 x 20 min, nearest to a living player 2246px
+PASS Y08 determinism: the same seed and the same inputs give the same world (no stray randomness, safe for tests and replays)  [109ms]
+       two identical runs ended in exactly the same state: 6056.104964583291|3503.2527914927236|0.01919479152054482|HUNTING|5352|696|HIDDEN
+PASS Y09 population caps and bodies over a long session: at most 3 hounds and 5 smilers; one body per player, at most 24  [2008ms]
+       25 min of play with one wanderer: most hounds at once 3, most smilers 5, deaths 543 = kill events 543 = dseq 543; bodies held 24 (cap 24)
+PASS Y10 bodies persist for the configured time: forever by default, or BODY_TTL seconds  [80ms]
+       default: body still there after 40 s; BODY_TTL=12: removed at 12.0s and clients told (bodyVer bumped: true)
+PASS A01 preview death: every variant of both killers is played exactly as asked, through the real kill path (record, events, entity left in a sane state)  [296ms]
+       all 8 played: HA HB HC HD SA SB SC SD; each exactly one kill (why=preview), victim dead with the right killer and record, attacker within 62 px, the hound's wall really there (488,728), lamps fail for the smiler's C, recent-kills memory untouched
+PASS A02 preview works through god mode, spawn protection and a frozen world; refuses honestly (no wall near, already dead, already caught, everything busy)  [142ms]
+       god mode, spawn protection and a frozen world do not get in the way; when it cannot be done (no wall near for C, player already dead / caught, every hound busy) it says why and changes nothing
+PASS A03 preview uses the nearest free entity (population unchanged) and only spawns one when none exists (and removes it again if the preview is refused)  [85ms]
+       the nearest free hound is used; a smiler is spawned only when there is none; a refused preview leaves nothing behind
+PASS A04 capture style override: AUTO leaves the decision to the entity, QUICK makes every catch a kill, PLAY makes every catch a held victim (then the normal decision)  [2086ms]
+       QUICK: 24/24 kills, 0 held;  PLAY: 24/24 held, 0 instant kills;  AUTO: 22 kills / 2 held (the entity's own choice)
+PASS A05 the AI event log: state changes, catches, kills and lamp failures are written down with a running number; readers get only what is new; the log stays short  [22ms]
+       3 entries in 30 s (2 state changes, 1 kill), numbered in order; "since N" returns only newer ones; ring buffer capped at 60
+PASS K01 a hound that kills stays on its kill for the whole death (does not move, does not take the witness standing right there)  [348ms]
+       8/8: committed 6.1 s on average (death A is 4.5 s), moved at most 0.0 px meanwhile; witness taken at 6.5,6.5,6.6,6.4,6.4,6.5,6.6,6.5 s
+PASS K02 ...and then it decides: an aggressive hound goes for the witness after the kill, not during it  [338ms]
+       8/8 acted on the witness or the kill afterwards (states: ROAMING,HUNTING | ROAMING,HUNTING | ROAMING,HUNTING | ROAMING,HUNTING | ROAMING,HUNTING | ROAMING,HUNTING,PLAYING | ROAMING,HUNTING,PLAYING | ROAMING,EXCITED,HUNTING)
+PASS K03 every variant commits for its own length (A 4.5 / B 4.7 / C 4.3 / D 4.5 s)  [153ms]
+       {"A":"6.07","B":"6.27","D":"6.07"} (C needs a wall; same code path)
+PASS K04 the victim's report of where the animation left the hound is used only if it is close and clear  [207ms]
+       60 px away: accepted (60 px); 900 px away: refused
+PASS NV01 A/B/E reachable targets are reached: 40 hound routes (292 px/s) and 20 smiler routes across rooms, corners and doorways  [3311ms]
+       arrived 60/60; hound avg 10.2 s, smiler avg 25.4 s; hound runs much slower than distance/speed: 0
+PASS NV02 solids are never entered and nothing is NaN (all routes, doorways and chases): no tick inside the collision margin, no emergency un-embedding  [1951ms]
+       ticks inside a wall margin 0, NaN 0, emergency un-embeds 0 over 30 routes + 8 chases
+PASS NV03 C/D/J doorway traversal: every narrow doorway, approached head-on and at 30/60 degrees, both species: all through, no ramming, little touching  [29885ms]
+       792 passes through 57 doorways: through 100%, bonks 0, stuck 0; wall-contact ticks per pass hound 0.29 (60 deg 0.67), smiler 0.18; worst single pass 11; most heading wobbles in one pass 3 (baseline: hound 2.43 / 5.42 at 60 deg, smiler 0.86)
+PASS NV04 paths simplify when safe: routes are string-pulled (far fewer waypoints than grid cells) and never cut through a wall  [901ms]
+       30 routes: 1584 grid cells -> 30 waypoints (2 %); legs that would cross a wall: 0
+PASS NV05 F/G/H single-obstacle loops: laps round a pillar / bar / cross / L-shaped wall do not beat a hunting hound (real AI, real stamina)  [404ms]
+       10 loop runs round 4 island sizes: caught 100% within 60 s (median 3.7 s); replans per run 2.9
+PASS NV06 I rapid reversals through a doorway: a player hopping back and forth through a door every 1.2 s does not cause a repath storm and is caught  [371ms]
+       9 doors: caught 100% (avg 2.8 s); new routes per second avg 0.28, worst 0.54
+PASS NV07 K/L traversal capabilities: routes only use cells the species may use (smilers never crawl), vault links are costed, not free  [44ms]
+       40 smiler routes: crawl/tight-gap cells used 0; hound routes used 9 vault links and 0 crawl cells (it may); every one of 92 vault links costs its length + 70 px (x 1/VAULT_SPEED)
+PASS NV08 M two bodies through one doorway: they pass, press a little, never sit inside each other  [964ms]
+       22 pairs: through 100%; longest time deeply overlapped 0.03 s; closest approach avg 38 px (bodies 26+26 / 26+23)
+FAIL NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm  [499ms]
+       10 chases: caught 100% (avg 8.7 s); bonks 0; contact ticks avg 5.7 (baseline 11.6); new routes per s avg 0.31, worst 1.33 (the build before Part 1B, same chases, counting every A* call: avg 1.90, worst 2.82)
+PASS NV10 O line of sight lost round a corner (real AI): the hound heads for where it last knew the runner was going, not where the runner really is, and does not freeze  [1313ms]
+       10 runs that broke line of sight: ticks steering at the runner's true hidden spot (not its memory) 0; longest standstill while still hunting 0.02 s
+PASS NV11 stuck recovery: a hound wedged nose-first into a concave corner / against a pillar gets out and arrives (no teleport)  [496ms]
+       13 wedged starts: out and arrived 100% (avg 2.8 s); emergency teleports 0
+PASS NV12 cost: navigation per tick stays cheap and path searches stay rare in a busy world (3 hounds, 5 smilers, 4 players moving, 120 s)  [355ms]
+       sim step avg 0.044 ms, worst 1.1 ms; path searches 0.42 per second across 8 entities
+FAIL C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it  [3465ms]
+       18 runs: still hunting/searching with memory 3 s after losing sight 0/18 (conf avg 0.84; states CURIOUS)
+PASS C2 it reaches the last known position (or where the prey was heading from it) after losing sight  [1115ms]
+       11 runs where the prey got out of sight: the hound got within 120 px of the last known position in 100%
+PASS C3 it does not track the hidden prey exactly: after losing it, its goals come from memory and sound, never from where the prey really is  [1129ms]
+       25 runs, 5642 ticks out of sight and unheard: ticks aimed at the prey's true hidden spot (and not at its memory) 0
+FAIL C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)  [5613ms]
+       1 runs where the prey had slipped away quietly (the hound searching within 750 px) and then broke into a run; the hound heard the run in 1; of those it was hunting again within 1 s of the first loud step it heard in 0% (avg 0.00 s; from the prey's first step: 1.68 s); not heard (walls / distance) 0
+FAIL C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you  [1122ms]
+       a hound that heard the prey ~520 px away in the dark: slipping out of sight and walking on quietly escaped 0% (3 runs); crouching still right where it lost sight escaped 0% - silence is a real chance, not a guarantee
+PASS C6 crouching is not invisibility: a crouched, still player in the dark right in front of an unaware hound is noticed  [367ms]
+       12 crouched players 130 px in front of an unaware hound in the dark: noticed in 100% (avg 0.5 s)
+PASS C7 repeated corner cheese fails: ducking back and forth round one corner is not a way to be safe  [668ms]
+       10 corners: caught 100% within 60 s (avg 4.5 s)
+PASS C8 counter / shelf / machine loops fail: laps round a vaultable obstacle do not keep a hunting hound off (it vaults or cuts across)  [477ms]
+       14 loop runs round 7 low props: caught 100% (median 1.4 s); vaults used 1
+PASS C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance  [1154ms]
+       caught within 8 s: fresh 25% vs exhausted 75%; fresh runners holding or widening the gap after 4 s: 58% (avg change -10 px; exhausted -260 px)
+PASS C11 / C12 crawlspaces: a crawling player gets in and out through every wall hole and under every table, continuously (no teleport), never inside a wall  [51ms]
+       8/8 crawlspaces entered, crossed and left (U1 U2 G1 G2 G3 G4 G5 G6)
+PASS C13 an entity never enters a crawlspace it cannot use: smilers never go under furniture, nothing goes through a wall hole  [1566ms]
+       20 cross-level trips each: smiler ticks inside any crawlspace 0; hound ticks inside a wall hole 0 (hounds may go under furniture: CAN_CRAWL)
+PASS C14 / C17 an entity that cannot follow into a crawlspace remembers the prey went in and goes round to the other side  [582ms]
+       12 runs through wall holes (G1 G2 G3 G4 G5 G6); the hound saw the entry in 11 and remembered it; it went round to the far side in 11 (avg 1.6 s); caught there 12
+PASS C15 an entity that can crawl goes through a crawlspace: a hound goes under a table  [115ms]
+       U1: through, 19 ticks under it; U1: through, 20 ticks under it; U2: through, 15 ticks under it; U2: through, 15 ticks under it
+PASS C16 a body inside a crawlspace is not visible from across the room, only close by  [547ms]
+       from ~420 px with a clear line: seen 0/8; from inside the reveal distance: seen 8/8
+FAIL C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out  [1597ms]
+       0 escapes: memory at the end ; reasons: 
+PASS C19 / C20 no geometry clipping and no NaN in chases, searches and crawlspace escapes  [675ms]
+       15 runs: entity ticks inside the wall margin 0, NaN 0
+PASS B1 (test infrastructure) the escape bench calls a test hook exactly once per simulation step  [32ms]
+       361 hook calls over 361 distinct steps
+PASS L1 lifecycle: a living, free player cannot respawn  [34ms]
+       respawn -> false; position 5000,3504 (unchanged), stamina 40 (unchanged)
+PASS L2 lifecycle: a dead player respawns (at the spawn point, full stamina, protected)  [32ms]
+       respawn -> true; at 960,3264, stamina 100, protection 3s
+PASS L3 lifecycle: held in a capture but not dead - no respawn and no new run (the capture ends in a death or a release)  [158ms]
+       4 holds: respawn false,false,false,false; new run false,false,false,false; still held in place 4/4; ended dead,dead,dead,released; respawn once dead true,true,true
+PASS L4 lifecycle: an admin revive leaves one respawn (and only one)  [30ms]
+       first respawn after a revive true, a second one false
+PASS L5 movement check: open floor and short hops pass; through a wall does not; a long hop needs a real route that short  [38ms]
+       40 px on open floor true; 400 px down the corridor true; across a wall with no way round refused; into solid rock false; through wall hole G1 true
+PASS L6 the death plan numbers are one table: the bundle's death class and the server fallback read the same knock / drag / blows as v22 did  [2ms]
+       32 kind / variant / wall-distance combinations, 0 differing values
+PASS L7 the server fallback corpse is the physical death run to rest: deterministic, on open floor, gear and hands present  [250ms]
+       8 deaths: identical twice 8/8, corpse on open floor 8/8, light dropped 8/8, hands 8/8; bodies came to rest 55, 22, 55, 9, 95, 30, 29, 25 px from where the kill began
+PASS L8 lifecycle (v22.2): held - leave is refused too, so leave -> join cannot escape; walking out (disconnect) forfeits the capture as a death  [135ms]
+       4 holds: leave false,false,false,false; then join false,false,false,false; still held 4/4; forfeit -> Hound/forfeit,Hound/forfeit,Hound/forfeit,Hound/forfeit
+PASS L9 lifecycle (v22.2): a living player starts a new run only through the NEW RUN sequence (vanish, 2 s or more, then leave / join), once per 30 s  [102ms]
+       bare join false, bare leave false; vanish true, leave after 1 s false, after 2.7 s true (menu true), join true; vanish again 10 s later false (leave false); 31 s later true (leave true); join from death true
+PASS E1 walls stop light: a torch lights nothing and gives no evidence on the far side of a wall  [645ms]
+       28 torch-into-wall setups with a hound on the far side: evidence through the wall 0, light level raised through the wall 0
+PASS E2 a lit wall seen without the person: an anonymous lead (no player, wide uncertainty), not a target and not a record  [435ms]
+       14 setups: lead formed 14; all anonymous true; uncertainty >= 120 px true (smallest 177 px); no record of the player 14/14; not its target 14/14; lead-to-player distance 155, 146, 160, 155, 146, 160, 146, 160, 158, 146, 146, 160, 160, 158 px (it guesses a region, it does not know the spot)
+PASS E3 the light source in view gives an anonymous source lead; only sight of the person then names it  [199ms]
+       6/6: at range - anonymous source lead 6, no record of the person 6; once it saw them - lead pinned on them as light evidence 6 (and gone from the anonymous list 6)
+PASS E4 light off: no new light evidence, but what it already has stays (and fades like any memory)  [812ms]
+       12 leads: still held 4 s after the light went off 12, none refreshed after it 12, faded away within a minute 12; confidence 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61 0.05->0.61
+PASS E5 hidden-position invariance: an unsensed player moved elsewhere changes nothing the hound does  [715ms]
+       6 valid pairs (the hidden player never sensed in either world): identical tick-by-tick decisions 6/6
+PASS E6 observation replay: the carrier somewhere else, the same observations replayed -> the same leads and decisions (no back-projection)  [798ms]
+       10 runs where the hound formed light leads: identical decisions with the carrier moved 10/10 (moved 4608, 4176, 4032, 2880, 3600, 3456, 2880, 4320, 4464, 4608 px, light off, only the recorded observations replayed)
+PASS E7 the camcorder emits no visible light: no beam, no light evidence, no glare bonus - its raised state is presentation only  [120ms]
+       4/4: raised camcorder -> visible light false,false,false,false, lit players 0,0,0,0, light leads 0,0,0,0
+PASS E8 eye contact: seen and facing it -> detected; facing away, or a wall between -> not  [484ms]
+       open corridor: facing detected 3/3, facing away detected 0/3; through a wall detected 0/10
+PASS E9 target commitment: it does not switch to somebody else inside the dwell unless it has truly lost its prey  [230ms]
+       6 runs where it hunted A and A vanished while B stood in view: early switches (inside 1.5 s, prey not lost) 0      
+PASS E10 bounded and valid: leads <= 6, evidence <= 4 per record, all numbers finite, confidences in [0,1], over long mixed runs  [223ms]
+       4800 samples: problems 0; most leads held 6; most evidence entries on a record 3; samples with leads 9886
+PASS I1 infrared never reaches the simulation: ai.js / sim.js do not name it; server.js stores it on the connection, not on the player  [1ms]
+       infrared names in ai.js 0, in sim.js 0; server.js writes it on the player false, on the connection true, relays it to the other clients true
+PASS I2 toggling infrared alone changes no AI decision (OFF vs HIGH, same world, same players, tick by tick)  [436ms]
+       4/4 worlds identical over 1500 ticks with infrared OFF and HIGH (kills in the runs: 3,3,3,3)
+PASS I3 a raised camcorder is no light to the AI: no lit player, no light evidence from it  [30ms]
+       visible light false; lit players the AI knows of 0; light leads 0
+PASS 2E H1 identified human with flashlight warrants pursuit  [113ms]
+       all assertions passed
+PASS 2E H2 swept beam reaches Hound from behind: attention then identification  [42ms]
+       all assertions passed
+PASS 2E H3 hidden carrier: anonymous light investigation; replay cannot back-project  [123ms]
+       all assertions passed
+PASS 2E H4 solid wall blocks direct beam and impossible evidence  [358ms]
+       all assertions passed
+PASS 2E H5 IR OFF vs HIGH: identical complete decisions each tick  [127ms]
+       all assertions passed
+PASS 2E H6 hidden corner branches cannot change prediction  [66ms]
+       360 identical decisions after same visible approach
+PASS 2E H7 fresh hidden running after loss causes anonymous investigation (2F attribution)  [33ms]
+       all assertions passed
+PASS 2E H8 silent hidden reposition does not cause magical following  [71ms]
+       360 identical decisions after same visible approach
+PASS 2E H9 nearby noisy hiding is exposed through real movement footsteps  [37ms]
+       all assertions passed
+PASS 2E H10 failed search reduces confidence and ends within finite budget  [109ms]
+       all assertions passed
+PASS 2E H11 stable multiplayer target, then meaningful switch after loss and dwell  [47ms]
+       all assertions passed
+PASS 2E H12 listening is watchdog-safe; blocked movement still recovers  [53ms]
+       all assertions passed
+PASS 2E H13 long-run finite states, valid targets, bounded memory and collision  [778ms]
+       21600 ticks; 1782 search samples; longest stationary active interval 1.07s
+PASS 2E/HQA H14 eye contact delays pre-pursuit commitment but never suppresses an already committed chase  [39ms]
+       all assertions passed
+PASS 2E H15 flashlight off stops new light observations without deleting an identified human  [37ms]
+       all assertions passed
+PASS 2E H16 bounded deterministic traits; private HP and inventory cannot change decisions  [385ms]
+       all assertions passed
+PASS 2E H17 social sound carries no prey identity or shared memory  [26ms]
+       all assertions passed
+PASS 2E/HQA H18 close-range walking orbit is not an indefinite safe zone  [212ms]
+       six walking close-orbits all caught; 3.10, 3.33, 3.20, 0.63, 0.67, 0.63 s
+PASS 2F F01 unseen footstep is anonymous, uncertain, no raw origin/identity  [72ms]
+       both species; actual hearing boundary
+PASS 2F F02 a currently observed unambiguous source can be identified  [49ms]
+       assertions passed
+PASS 2F F03 two hidden sound sources stay anonymous  [37ms]
+       assertions passed
+PASS 2F F04 private sound source ID cannot change observations or decisions  [161ms]
+       assertions passed
+PASS 2F F05 current clear sight beats weak unrelated anonymous sound  [67ms]
+       assertions passed
+PASS 2F F06 lost target can yield to credible new observation  [38ms]
+       assertions passed
+PASS 2F F07 anonymous light never invents an identity alongside a target  [44ms]
+       assertions passed
+PASS 2F F08 reversed player/entity input order has identical decisions  [91ms]
+       480 paired decision ticks, two species/two players
+PASS 2F F09 hidden branch invariance including anonymous sound/light conflict  [530ms]
+       1,440 paired decision ticks
+PASS 2F F10 three observed repetitions form bounded, modest hypothesis  [108ms]
+       both species acquire from actual move.js/perception over six passages; unit score check: 12% only within plausible candidate region
+PASS 2F F11 habit never learns a hidden branch and wrong prediction is fallible  [434ms]
+       real learned history; 4,200 paired hidden-branch ticks, both species; no hidden capture, hypotheses expire
+PASS 2F F12 TTL and encounter end both expire habits  [27ms]
+       assertions passed
+PASS 2F F13 death/respawn/leave/world reset clear encounter identity  [130ms]
+       assertions passed
+PASS 2F F14 / R1 extra Smiler draws cannot perturb Hound  [83ms]
+       assertions passed
+PASS 2F F15 / R2 extra Hound draws cannot perturb Smiler  [98ms]
+       assertions passed
+PASS 2F F16 / R3 unrelated spawn and initialization preserve old streams  [189ms]
+       assertions passed
+PASS 2F F17 / R4 / R5 repeatable streams and IR/debug metadata isolation  [151ms]
+       same seed/ID/tag repeatability; debug makes no RNG draws
+PASS 2F F18 evidence pressure obeys all advertised caps  [217ms]
+       {"players":16,"sounds":8,"soundTTL":25,"leads":6,"leadTTL":45,"evidence":4,"recordTTL":120,"visited":128,"visitedTTL":60,"habitObs":6,"hypotheses":3,"habitTTL":30,"habitRepeats":3,"habitBias":0.12,"candidates":70,"debugCandidates":12}
+PASS 2F F19 disconnect immediately removes target, attention, habits, identified sound  [60ms]
+       assertions passed
+PASS 2F F20 IR OFF/HIGH is tick-identical for both species  [143ms]
+       600 paired decision ticks, real movement
+PASS 2F F21 hidden HP, inventory and account metadata cannot influence decisions  [141ms]
+       assertions passed
+FAIL 2F F22 species physical/canon parameter preservation  [2ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: move.js | + actual - expected |  | + '193857bdf43d086e3e16eba7091f44e31b2c7bfa923640a1e05a3b5dc848a17c'
+PASS 2F F23 long-run mixed lifecycle validity  [416ms]
+       10800 mixed ticks; 400 actual respawns; four disconnect/rejoin cycles with no stale identity
+
+151/162 passed
+FAILED: P01 noticing distance: run > walk > crouch (resting hound, corridor); P07 exhausted breathing is audible only close by; P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming; H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes); SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased; NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm; C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it; C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait); C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you; C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out; 2F F22 species physical/canon parameter preservation

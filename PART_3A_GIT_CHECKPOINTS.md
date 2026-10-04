@@ -19,3 +19,5 @@ P3A0 source commit/tree is recorded by the external checkpoint receipt after pus
 - P3A5 release-tooling preservation: `3ebd1298b0e0b4f46c5ecfa76e64e2418eba7f82`; tree `eee9853d46ba8c1d3b5998b62e2aa40a023ed46b`. No production runtime changes; final regression then executes from an exact fresh extraction.
 
 - P3A5 fresh-package production + seven-suite evidence preservation: `989802188d9a295b2c194c9d503ee35591999b33`; tree `18686a18e8c288a7e1e2c37e521ea5646ee5f075`. Full legacy controls and final parity/HTTP/package checks continue.
+
+P3A5 retained controls and interrupted aggregate attempts preserved remotely: `6d3387dc3a524c1c3df857f8979c690834c06886`; tree `5d2291510f69096c92288a859275739fc6188aab`. Non-force update and live remote identity verified.

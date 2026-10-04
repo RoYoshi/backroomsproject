@@ -11,3 +11,7 @@ Two repeated builds, all eight production gates and all seven retained named sui
 ## Aggregate interruption preserved
 
 All seventeen separate retained controls finished with accepted outcomes. The full aggregate twice ended without its final 162-case summary (first at K03, second after P02). Both raw outputs are preserved; neither is accepted. Strict portable comparison stopped. Cause is not yet established; no tests, thresholds, AI or production runtime have been changed.
+
+## Portable regression complete
+
+The full exact-source path-with-spaces regression passed: all seven named suites, all eight production gates, eighteen retained controls with exact inherited failure names, frozen parity, flat browser parity, production browser, ordinary server and redirect. Final reports and exact changed-file audit are prepared. Final commit/tree and archive verification remain the publication finalizer boundary.

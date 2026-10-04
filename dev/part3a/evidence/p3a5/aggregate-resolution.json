@@ -1,0 +1,24 @@
+{
+  "status": "PASS_BASELINE_EQUIVALENCE",
+  "acceptedCommand": [
+    "npm",
+    "test"
+  ],
+  "acceptedLog": "aggregate-direct-01/npm-test.log",
+  "acceptedLogSha256": "94a7c1d31bf53a0b8725cb6b6d6078944fa69c0eb2cc28fe130a0c89a644d910",
+  "acceptedDurationSeconds": 160.027,
+  "retainedSafetyDeadlineSeconds": 300,
+  "completeSummary": "151/162 passed",
+  "exactFailureNameCount": 11,
+  "rejectedAttempts": [
+    "portable-01/full-retained/npm-test.log",
+    "aggregate-rerun-01/npm-test.log"
+  ],
+  "preservationRemoteCommit": "6d3387dc3a524c1c3df857f8979c690834c06886",
+  "preservationRemoteTree": "5d2291510f69096c92288a859275739fc6188aab",
+  "interruptionCause": "Not established; no claim of a demonstrated product defect or diagnosed process failure.",
+  "executionDifference": "Same npm test command and clean package. Direct subprocess supervision with stdout/stderr to a fresh file and 10-second external progress polling; no start_new_session/process-group cleanup wrapper.",
+  "sourceOrTestChanges": false,
+  "acceptedBaselineRelaxed": false,
+  "completeComparison": "portable-01/baseline-comparison.json"
+}

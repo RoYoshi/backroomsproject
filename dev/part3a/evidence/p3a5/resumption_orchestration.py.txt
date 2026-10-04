@@ -1,0 +1,64 @@
+from pathlib import Path
+import json,subprocess,os,sys,time,re,hashlib
+root=Path('/workspace/scratch/ea3e3c0f81ee/part-3a')
+sys.path.insert(0,str(root/'dev/part3a'))
+from release_common import entries,sha,blob,validated,PARENT
+out=root/'dev/part3a/evidence/p3a5/portable-01'
+retry=root/'dev/part3a/evidence/p3a5/aggregate-direct-01'
+failure=json.loads((out/'failure.json').read_text());tree=failure['sourceTree'];clean=Path(failure['cleanPath'])
+parent=Path('/workspace/scratch/ea3e3c0f81ee/accepted-stage-i/thefarbackrooms-level0')
+assert not (out/'result.json').exists()
+source=entries(tree)
+for mode,digest,n in source:
+ assert blob((clean/n).read_bytes())==digest,n
+ assert (clean/n).stat().st_mode&0o777==int(mode,8)&0o777,n
+ if validated(n):assert (root/n).read_bytes()==(clean/n).read_bytes(),n
+rows=json.loads((out/'progress.json').read_text());assert all(r['exitCode']==0 for r in rows)
+current=json.loads((out/'full-retained/baseline-tests.json').read_text())
+repeat=json.loads((retry/'baseline-tests.json').read_text());assert len(repeat)==1 and repeat[0]['id']=='npm-test'
+raw=(retry/'npm-test.log').read_text()
+summary=re.findall(r'^\s*(\d+)\s*/\s*(\d+)\s+passed\s*$',raw,re.M|re.I)
+assert summary==[('151','162')],summary
+assert repeat[0]['counts']['passed']==151 and repeat[0]['counts']['total']==162
+assert repeat[0]['exitCode']==1
+assert repeat[0]['durationSeconds']<300,'Retained aggregate safety deadline exceeded'
+current[0]=repeat[0]
+accepted=json.loads((root/'dev/stage_i/evidence/i4/baseline-comparison.json').read_text())['rows']
+assert len(current)==len(accepted)==18
+comparison=[]
+for got,want in zip(current,accepted):
+ assert got['id']==want['suite'];names=[re.sub(r'\s+\[\d+ms\]$','',s[5:]) for s in got['failureLines']]
+ assert names==want['failureNames'],(got['id'],names,want['failureNames'])
+ assert got['counts']['passed']==want['counts']['passed'] and got['counts']['total']==want['counts']['total'],got['id']
+ assert got['exitCode']==(1 if want['disposition']=='INHERITED FAILURE' else 0),got['id']
+ log=(retry if got['id']=='npm-test' else out/'full-retained')/got['log']
+ comparison.append({'suite':got['id'],'disposition':want['disposition'],'counts':got['counts'],'failureNames':names,'evidence':str(log.relative_to(root)),'sha256':sha(log)})
+resumption={'reason':'First aggregate output ended at K03 and a first retry after P02, both without a complete final summary. Strict comparison rejected the first attempt. Cause not established. Both outputs are preserved. An unchanged npm test command under direct process supervision completed all cases; only that complete exact baseline match is accepted.','originalFailure':'dev/part3a/evidence/p3a5/portable-01/failure.json','originalAggregate':'dev/part3a/evidence/p3a5/portable-01/full-retained/npm-test.log','originalAggregateSha256':sha(out/'full-retained/npm-test.log'),'secondIncompleteAggregate':'dev/part3a/evidence/p3a5/aggregate-rerun-01/npm-test.log','secondIncompleteAggregateSha256':sha(root/'dev/part3a/evidence/p3a5/aggregate-rerun-01/npm-test.log'),'acceptedAggregate':'dev/part3a/evidence/p3a5/aggregate-direct-01/npm-test.log','acceptedAggregateSha256':sha(retry/'npm-test.log'),'explicitSummary':'151 / 162 passed','sameExactExtractedSource':True,'noProductionRepair':True,'unchangedPreviouslyCompletedGatesRetained':True}
+(out/'baseline-comparison.json').write_text(json.dumps({'status':'PASS_BASELINE_EQUIVALENCE','acceptedParent':PARENT,'exactFailureNamesMatch':True,'resumption':resumption,'rows':comparison},indent=2)+'\n')
+rows.append({'name':'aggregate-rerun','command':['npm','test'],'exitCode':1,'suiteExitCode':1,'seconds':repeat[0]['durationSeconds'],'disposition':'INHERITED FAILURE — COMPLETE EXACT BASELINE MATCH'})
+before={n:sha(clean/n) for n in ['ai.js','sim.js','ents.js','levels/level0_spatial.json']}
+env={k:v for k,v in os.environ.items() if k not in ['ONLY','TFB_WORLD']};env['PYTHONDONTWRITEBYTECODE']='1'
+def run(name,cmd,timeout=2700):
+ print('START',name,flush=True);start=time.monotonic()
+ with (out/(name+'.log')).open('xb') as f:
+  try:code=subprocess.run(cmd,cwd=clean,env={**env,'TFB_EVIDENCE_DIR':str(out/(name+'-raw'))},stdout=f,stderr=subprocess.STDOUT,timeout=timeout).returncode
+  except subprocess.TimeoutExpired:code=124;f.write(b'\nPortable orchestration deadline exceeded; raw evidence retained.\n')
+ row={'name':name,'command':cmd,'exitCode':code,'seconds':time.monotonic()-start};rows.append(row);(out/'resumed-progress.json').write_text(json.dumps(rows,indent=2)+'\n');print(json.dumps(row),flush=True)
+ assert code==0,name
+ assert before=={n:sha(clean/n) for n in before},'Generated runtime/content differs'
+try:
+ run('frozen-parity',['python','dev/stage_h/run_parity.py',str(out/'parity')])
+ run('flat-browser-parity',['node','dev/stage_h/browser_flat.js','.',str(parent),str(out/'flat-browser')])
+ run('production-browser',['node','dev/part3a/browser_base.js',str(out/'production-browser')])
+ run('served-flat-fixture',['node','dev/stage_h/served_package.js',str(out/'served-flat-fixture.json')])
+ run('served-production',['node','dev/part3a/served_production.js',str(out/'served-production.json')])
+ run('redirect',['node','dev/stage_i/test_redirect.js'])
+ preserved={n:sha(clean/n) for _,_,n in source if validated(n)}
+ for mode,digest,n in source:
+  assert blob((clean/n).read_bytes())==digest,'Source mutated during tests: '+n
+  assert (clean/n).stat().st_mode&0o777==int(mode,8)&0o777,n
+ archive=clean.parent/'part-3a-portable-candidate.zip'
+ result={'status':'PASS','sourceTreeAtExtraction':tree,'sourceFiles':len(source),'everyBlobAndModeMatches':True,'pathContainsSpaces':True,'cleanPath':str(clean),'candidateArchiveSha256':sha(archive),'crc':'PASS','buildsRepeated':2,'buildHashes':before,'contentHash':json.loads((clean/'levels/level0_spatial.json').read_text())['contentHash'],'checks':rows,'resumption':resumption,'validatedFiles':preserved,'runtime':subprocess.check_output(['node','-v'],text=True).strip(),'baselineComparison':'PASS_BASELINE_EQUIVALENCE','scope':'Complete exact-source extraction; package-relative build/test/server commands; finalizer additionally verifies final remote source tree and final archive.'}
+ (out/'result.json').write_text(json.dumps(result,indent=2)+'\n');print('PASS full Part 3A portable certification with preserved aggregate retry',flush=True)
+except BaseException as e:
+ (out/'resumption-failure.json').write_text(json.dumps({'status':'FAIL','error':repr(e),'sourceTree':tree,'cleanPath':str(clean),'checks':rows},indent=2)+'\n');raise

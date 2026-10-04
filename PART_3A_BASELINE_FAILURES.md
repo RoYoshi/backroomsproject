@@ -53,3 +53,9 @@ P3A3 repairs and final focused results:
 ## P3A4 recovery continuation
 
 The live branch and exact tree were verified before source changes. `readability-02` refreshed LONG ROOM, the five stair/ramp views, and two same-XY upper/lower views; all eight passed without new runtime changes or lowered thresholds. Original raw failed attempts remain intact. `recovery-remote.json` records the starting remote identity. Current physical/navigation/light/anchor/gameplay arrays match accepted P3A3; only the overhead view-group membership and its hash differ. The retained suite outputs are recorded separately under `retained-01`.
+
+## P3A5 final regression
+
+The initial aggregate attempt and first retry ended before the full summary (at K03 and after P02). Both raw failures remain in the package. Their cause was not established, and neither was accepted. The unchanged npm test command completed under direct process supervision; its anchored 151/162 final summary and all eleven exact failure names match Stage I. The retained summary parser's incomplete 60/60 reading was explicitly rejected. No source, test assertion, timeout threshold or expected result was changed to obtain acceptance.
+
+All eighteen retained command outcomes match accepted Stage I exactly in `evidence/p3a5/portable-01/baseline-comparison.json`: aggregate 151/162 with the same eleven named failures, shared 22/23 with F22, and all other command dispositions retained. Both seven-suite runs and all eight production gates pass. Frozen/flat browser parity passes. No new runtime repair was required. The command-line push credential failure is preserved in `evidence/p3a5/git-push-auth.log`; authenticated Git-data publication was used with exact tree validation and non-force updates.

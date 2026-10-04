@@ -1,0 +1,251 @@
+{
+  "status": "PASS_BASELINE_EQUIVALENCE",
+  "acceptedParent": "106c87015ae8702f452979e0277cbacb5435fa6a",
+  "exactFailureNamesMatch": true,
+  "resumption": {
+    "reason": "First aggregate output ended at K03 and a first retry after P02, both without a complete final summary. Strict comparison rejected the first attempt. Cause not established. Both outputs are preserved. An unchanged npm test command under direct process supervision completed all cases; only that complete exact baseline match is accepted.",
+    "originalFailure": "dev/part3a/evidence/p3a5/portable-01/failure.json",
+    "originalAggregate": "dev/part3a/evidence/p3a5/portable-01/full-retained/npm-test.log",
+    "originalAggregateSha256": "a68388e7efd9fe2719e0f0cbef66eb8c86ce0d88795be684542b7978db3727ec",
+    "secondIncompleteAggregate": "dev/part3a/evidence/p3a5/aggregate-rerun-01/npm-test.log",
+    "secondIncompleteAggregateSha256": "884f7d95f442ea32393bd1352d832eff9a2930259a7fa6571367fa743db1ed8c",
+    "acceptedAggregate": "dev/part3a/evidence/p3a5/aggregate-direct-01/npm-test.log",
+    "acceptedAggregateSha256": "94a7c1d31bf53a0b8725cb6b6d6078944fa69c0eb2cc28fe130a0c89a644d910",
+    "explicitSummary": "151 / 162 passed",
+    "sameExactExtractedSource": true,
+    "noProductionRepair": true,
+    "unchangedPreviouslyCompletedGatesRetained": true
+  },
+  "rows": [
+    {
+      "suite": "npm-test",
+      "disposition": "INHERITED FAILURE",
+      "counts": {
+        "passed": 151,
+        "total": 162,
+        "source": "anchored final suite summary"
+      },
+      "failureNames": [
+        "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+        "P07 exhausted breathing is audible only close by",
+        "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+        "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+        "SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+        "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+        "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+        "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+        "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+        "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+        "2F F22 species physical/canon parameter preservation"
+      ],
+      "evidence": "dev/part3a/evidence/p3a5/aggregate-direct-01/npm-test.log",
+      "sha256": "94a7c1d31bf53a0b8725cb6b6d6078944fa69c0eb2cc28fe130a0c89a644d910"
+    },
+    {
+      "suite": "hound",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 18,
+        "total": 18,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/hound.log",
+      "sha256": "346de08d2116c720fae2feab08b5d47a957d94ae77f6a7fc3a13fc4048a41ce5"
+    },
+    {
+      "suite": "shared",
+      "disposition": "INHERITED FAILURE",
+      "counts": {
+        "passed": 22,
+        "total": 23,
+        "source": "suite summary"
+      },
+      "failureNames": [
+        "2F F22 species physical/canon parameter preservation"
+      ],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/shared.log",
+      "sha256": "d2147b3d38a30c606108587bebe323f3068f85dc304a238ac0fe5c7273107216"
+    },
+    {
+      "suite": "humanqa",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 6,
+        "total": 6,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/humanqa.log",
+      "sha256": "9507e3ec3498192c57fca47a01082cb0e795d0e615d3d3c9b2d3dab49de1e74e"
+    },
+    {
+      "suite": "fps",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 10,
+        "total": 10,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/fps.log",
+      "sha256": "84a57c515b450a5834458dd80fd28c75c79ef833f5155b606deafe160196dd98"
+    },
+    {
+      "suite": "camera",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 12,
+        "total": 12,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/camera.log",
+      "sha256": "8fdd5e0bb1e0003ad1c6141aca9bfbf0c893a28ff124e1b3e28e1973fdd54521"
+    },
+    {
+      "suite": "entity-look",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/entity-look.log",
+      "sha256": "89c5d3e1ae0b3fe3d302291fd2734da73ed814da5070ff320bca9daf22e8fd7d"
+    },
+    {
+      "suite": "physics",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 53,
+        "total": 53,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/physics.log",
+      "sha256": "ad9f78f9061db09486f255554eba40999592e074c44b1c0515bb629b86af7c9b"
+    },
+    {
+      "suite": "interpolation",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/interpolation.log",
+      "sha256": "692a7316b5e5f844df612747969d2463f2c358ffac20b2644ef26f3fe59f232f"
+    },
+    {
+      "suite": "navigation",
+      "disposition": "PASS",
+      "counts": {
+        "passed": null,
+        "total": null,
+        "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/navigation.log",
+      "sha256": "a488158792a438ef9b623e83a933f66bbd0d19cb7373ca0df696b50e5e2f77dd"
+    },
+    {
+      "suite": "audit-net",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/audit-net.log",
+      "sha256": "2f09ab84267609ed1fe082d2562e99ef73612e6637e4f827c98fbe9d03bef052"
+    },
+    {
+      "suite": "audit-net2",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 11,
+        "total": 11,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/audit-net2.log",
+      "sha256": "bef99ff827805b793ff81b810b77324863f6ba666ff4239e935b9df67deab232"
+    },
+    {
+      "suite": "live",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/live.log",
+      "sha256": "7e651f8cb8a9acf359b151992fd73408febf4c40f442a5906c888dd74054acf4"
+    },
+    {
+      "suite": "ir-net",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/ir-net.log",
+      "sha256": "a8502087283567f38058e0a1777669b67d3ecf714a2d92e04e3c75fb591a7fb9"
+    },
+    {
+      "suite": "perf-hound",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 15,
+        "total": 15,
+        "source": "JSON workloads"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/perf-hound.log",
+      "sha256": "0f24f277097b7f336c201826b7d18ee39f769edc0f1caaa47a530aa8fc775c39"
+    },
+    {
+      "suite": "perf-shared",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 27,
+        "total": 27,
+        "source": "JSON workloads"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/perf-shared.log",
+      "sha256": "ba3094e4032072158a062fb54587330eed046381b46df0337673bdbd1e017631"
+    },
+    {
+      "suite": "perf-smiler",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/perf-smiler.log",
+      "sha256": "3d74d4408937e823a63feafdab6f3c03248c4545b9d61f4789757cf4c883fcac"
+    },
+    {
+      "suite": "perf-light",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 1,
+        "total": 1,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "evidence": "dev/part3a/evidence/p3a5/portable-01/full-retained/perf-light.log",
+      "sha256": "0ebe7a4d8488ece201fc3f4ad33118630b1f24debe97e2a83d5b40dc8b1b6231"
+    }
+  ]
+}

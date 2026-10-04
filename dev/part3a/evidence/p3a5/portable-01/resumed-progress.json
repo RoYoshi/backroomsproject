@@ -1,0 +1,302 @@
+[
+  {
+    "name": "build-1-ai",
+    "command": [
+      "bash",
+      "dev/build_ai.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16497775500010903
+  },
+  {
+    "name": "build-1-sim",
+    "command": [
+      "bash",
+      "dev/build_sim.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.1643781949996992
+  },
+  {
+    "name": "build-1-ents",
+    "command": [
+      "bash",
+      "dev/build_ents.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16475166000054742
+  },
+  {
+    "name": "build-1-level0",
+    "command": [
+      "node",
+      "dev/part3a/build_level0_spatial.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.8214992379998876
+  },
+  {
+    "name": "build-2-ai",
+    "command": [
+      "bash",
+      "dev/build_ai.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16454802899988863
+  },
+  {
+    "name": "build-2-sim",
+    "command": [
+      "bash",
+      "dev/build_sim.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.164984865000406
+  },
+  {
+    "name": "build-2-ents",
+    "command": [
+      "bash",
+      "dev/build_ents.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16429850999975315
+  },
+  {
+    "name": "build-2-level0",
+    "command": [
+      "node",
+      "dev/part3a/build_level0_spatial.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.7659590169996591
+  },
+  {
+    "name": "production-base",
+    "command": [
+      "node",
+      "dev/part3a/test_base.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-base.json"
+    ],
+    "exitCode": 0,
+    "seconds": 1.6191869719996248
+  },
+  {
+    "name": "production-vertical",
+    "command": [
+      "node",
+      "dev/part3a/test_vertical.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-vertical.json"
+    ],
+    "exitCode": 0,
+    "seconds": 2.2232295659996453
+  },
+  {
+    "name": "production-navigation",
+    "command": [
+      "node",
+      "dev/part3a/test_navigation.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-navigation.json"
+    ],
+    "exitCode": 0,
+    "seconds": 4.9273138529997595
+  },
+  {
+    "name": "production-gameplay",
+    "command": [
+      "node",
+      "dev/part3a/test_gameplay.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-gameplay.json"
+    ],
+    "exitCode": 0,
+    "seconds": 5.080755496000165
+  },
+  {
+    "name": "production-perception",
+    "command": [
+      "node",
+      "dev/part3a/test_perception.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-perception.json"
+    ],
+    "exitCode": 0,
+    "seconds": 2.3703564420002294
+  },
+  {
+    "name": "production-picking",
+    "command": [
+      "node",
+      "dev/part3a/test_picking.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-picking.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.4654694999999265
+  },
+  {
+    "name": "production-render_coverage",
+    "command": [
+      "node",
+      "dev/part3a/test_render_coverage.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-render_coverage.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.6656958579997081
+  },
+  {
+    "name": "production-aftermath",
+    "command": [
+      "node",
+      "dev/part3a/test_aftermath.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-aftermath.json"
+    ],
+    "exitCode": 0,
+    "seconds": 11.211783444000503
+  },
+  {
+    "name": "s_world25d",
+    "command": [
+      "node",
+      "dev/tests/s_world25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 5.089955321999696
+  },
+  {
+    "name": "s_nav25d",
+    "command": [
+      "node",
+      "dev/tests/s_nav25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 8.036837597999693
+  },
+  {
+    "name": "s_perception25d",
+    "command": [
+      "node",
+      "dev/tests/s_perception25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 6.837740048000342
+  },
+  {
+    "name": "network25d",
+    "command": [
+      "node",
+      "dev/tests/network25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 108.78506321399982
+  },
+  {
+    "name": "physics25d",
+    "command": [
+      "node",
+      "dev/tests/physics25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 37.994006438000724
+  },
+  {
+    "name": "view25d",
+    "command": [
+      "node",
+      "dev/tests/view25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 277.75279625499934
+  },
+  {
+    "name": "perf_world25d",
+    "command": [
+      "node",
+      "dev/tests/perf_world25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 59.24900139100009
+  },
+  {
+    "name": "full-retained",
+    "command": [
+      "python",
+      "dev/stage_a/run_baseline.py",
+      "--game",
+      ".",
+      "--out",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/full-retained"
+    ],
+    "exitCode": 0,
+    "seconds": 567.7557709339999
+  },
+  {
+    "name": "aggregate-rerun",
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exitCode": 1,
+    "suiteExitCode": 1,
+    "seconds": 160.027,
+    "disposition": "INHERITED FAILURE \u2014 COMPLETE EXACT BASELINE MATCH"
+  },
+  {
+    "name": "frozen-parity",
+    "command": [
+      "python",
+      "dev/stage_h/run_parity.py",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/parity"
+    ],
+    "exitCode": 0,
+    "seconds": 19.39591426199968
+  },
+  {
+    "name": "flat-browser-parity",
+    "command": [
+      "node",
+      "dev/stage_h/browser_flat.js",
+      ".",
+      "/workspace/scratch/ea3e3c0f81ee/accepted-stage-i/thefarbackrooms-level0",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/flat-browser"
+    ],
+    "exitCode": 0,
+    "seconds": 33.28728087899981
+  },
+  {
+    "name": "production-browser",
+    "command": [
+      "node",
+      "dev/part3a/browser_base.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/production-browser"
+    ],
+    "exitCode": 0,
+    "seconds": 16.09443495100004
+  },
+  {
+    "name": "served-flat-fixture",
+    "command": [
+      "node",
+      "dev/stage_h/served_package.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/served-flat-fixture.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.3654931229993963
+  },
+  {
+    "name": "served-production",
+    "command": [
+      "node",
+      "dev/part3a/served_production.js",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/served-production.json"
+    ],
+    "exitCode": 0,
+    "seconds": 3.075427719999425
+  },
+  {
+    "name": "redirect",
+    "command": [
+      "node",
+      "dev/stage_i/test_redirect.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.166730541999641
+  }
+]
