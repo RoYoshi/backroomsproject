@@ -7,3 +7,7 @@ The command-line Git push lacked credentials; authenticated GitHub Git-data publ
 ## Executed portable evidence checkpoint
 
 Two repeated builds, all eight production gates and all seven retained named suites PASS from the exact fresh extraction. The eighteen-command legacy control regression is now running. Parity, browser/HTTP/redirect final checks and publication remain pending. This intermediate checkpoint preserves all completed raw output without claiming P3A5 completion.
+
+## Aggregate interruption preserved
+
+All seventeen separate retained controls finished with accepted outcomes. The full aggregate twice ended without its final 162-case summary (first at K03, second after P02). Both raw outputs are preserved; neither is accepted. Strict portable comparison stopped. Cause is not yet established; no tests, thresholds, AI or production runtime have been changed.

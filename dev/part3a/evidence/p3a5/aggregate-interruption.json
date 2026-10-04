@@ -1,0 +1,19 @@
+{
+  "status": "UNRESOLVED_RUNNER_OR_TEST_INTERRUPTION",
+  "attempts": [
+    {
+      "path": "dev/part3a/evidence/p3a5/portable-01/full-retained/npm-test.log",
+      "sha256": "a68388e7efd9fe2719e0f0cbef66eb8c86ce0d88795be684542b7978db3727ec",
+      "completeFinalSummary": false
+    },
+    {
+      "path": "dev/part3a/evidence/p3a5/aggregate-rerun-01/npm-test.log",
+      "sha256": "884f7d95f442ea32393bd1352d832eff9a2930259a7fa6571367fa743db1ed8c",
+      "completeFinalSummary": false
+    }
+  ],
+  "cause": "Not established. Both commands exited 1 without completing all 162 cases. Strict accepted-baseline comparison rejected the first attempt; second attempt also not accepted.",
+  "baselineThresholdsChanged": false,
+  "productionSourceChanged": false,
+  "next": "Preserve attempts, inspect direct child process termination without changing product or tests."
+}

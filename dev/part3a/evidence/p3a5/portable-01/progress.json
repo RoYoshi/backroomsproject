@@ -213,5 +213,18 @@
     ],
     "exitCode": 0,
     "seconds": 59.24900139100009
+  },
+  {
+    "name": "full-retained",
+    "command": [
+      "python",
+      "dev/stage_a/run_baseline.py",
+      "--game",
+      ".",
+      "--out",
+      "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a5/portable-01/full-retained"
+    ],
+    "exitCode": 0,
+    "seconds": 567.7557709339999
   }
 ]
