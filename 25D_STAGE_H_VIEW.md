@@ -1,0 +1,11 @@
+# Stage H view, cutaway and physical picking
+
+**Z29 PASS; Z30 8/8 PASS; real view25d 2/2 PASS.** Final acceptance launches actual production clients from the byte-verified fresh package. Equal world hashes/epochs and physical poses persist while each client independently changes camera, focus, eligible cutaway, quality and NV. Lower/upper clients at the same XY remain independently masked.
+
+The accepted Stage D local state keeps eligible-group-only deterministic fade, 0.15 s enter / 0.25 s restore and boundary hysteresis. It changes camera composition only. Opaque non-eligible geometry blocks camera depth; faded geometry remains in physical eye and light/IR queries. No interaction is granted by fading.
+
+Spatial input constructs the camera ray, intersects physical faces and actor cylinders, rejects out-of-footprint/hidden/camera-occluded candidates, selects the nearest valid hit and otherwise intersects the plane through the real eye. It computes physical yaw/pitch for existing fixed ticks. The matrix moves the actual mouse and checks transmitted accepted input, rather than relying only on direct pick calls. All eight cases agree on world hit point, distance and pitch; hidden actor and opaque slab rejection, eye-plane fallback and immutable geometry pass focused checks. Flat aim is unchanged.
+
+The current accepted CAMERA-P01 value is 1.25 at 1920×1080, giving a maximum 1536×864 XY footprint. The architecture's older 1.18 example is not restored. Aspect ratio crops one axis; DPR and quality only alter resolution/detail; existing 2×/4× zoom narrows the footprint. Matrix UI scales span 0.5–2. All 32 fixture occluders remain in full/reduced modes, and targets stay within 4,194,304 pixels. The existing explicit capacity bound is 64 solids / 8 convex planes; exceeding it fails rather than dropping physical occluders.
+
+Hidden Hound/Smiler eyes/faces, body/hands, gear/hat, decals/trails/replays and detached beams produce zero hidden pixels, with positive visible controls. Canvas/Pixi/DOM world layers and labels share the policy; hidden camcorder interference is zero. Per-case physical hit, masks, controls, footprint, draw/resource costs and screenshots are retained in H4_COMPLETION and the raw browser directories. Human QA must still judge readability and feel.

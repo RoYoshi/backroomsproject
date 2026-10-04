@@ -1,0 +1,282 @@
+{
+  "status": "PASS_BASELINE_EQUIVALENCE",
+  "comparisons": [
+    {
+      "suite": "npm-test",
+      "acceptedResult": "FAIL",
+      "initialHResult": "FAIL",
+      "finalResult": "FAIL",
+      "counts": {
+        "passed": 151,
+        "total": 162,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "hound",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 18,
+        "total": 18,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "shared",
+      "acceptedResult": "FAIL",
+      "initialHResult": "FAIL",
+      "finalResult": "FAIL",
+      "counts": {
+        "passed": 22,
+        "total": 23,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "humanqa",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 6,
+        "total": 6,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "fps",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 10,
+        "total": 10,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "camera",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 12,
+        "total": 12,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "entity-look",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "physics",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 53,
+        "total": 53,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "interpolation",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "navigation",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": null,
+        "total": null,
+        "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "audit-net",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "audit-net2",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 11,
+        "total": 11,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "live",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "ir-net",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "perf-hound",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 15,
+        "total": 15,
+        "source": "JSON workloads"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "perf-shared",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 27,
+        "total": 27,
+        "source": "JSON workloads"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "perf-smiler",
+      "acceptedResult": "PASS",
+      "initialHResult": "PASS",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    },
+    {
+      "suite": "perf-light",
+      "acceptedResult": "PASS",
+      "initialHResult": "FAIL",
+      "finalResult": "PASS",
+      "counts": {
+        "passed": 1,
+        "total": 1,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "sameFailureNames": true
+    }
+  ],
+  "freshAcceptedParentAggregateAndSharedMatch": true,
+  "initialLightTimingFailure": {
+    "id": "perf-light",
+    "command": "node dev/tests/perf_light.js",
+    "runtime": {
+      "node": "v24.19.0",
+      "os": "Linux-6.18.44-x86_64-with-glibc2.39",
+      "machine": "x86_64",
+      "browserUsed": false
+    },
+    "result": "FAIL",
+    "exitCode": 1,
+    "durationSeconds": 7.92,
+    "counts": {
+      "passed": 0,
+      "total": 1,
+      "source": "explicit PASS/FAIL lines; not underlying assertion count"
+    },
+    "firstFailure": "FAIL worst-case light load: average 0.250 ms (limit 0.25), worst p99 2.131 ms (limit 2)",
+    "failureLines": [
+      "FAIL worst-case light load: average 0.250 ms (limit 0.25), worst p99 2.131 ms (limit 2)"
+    ],
+    "limitation": null,
+    "log": "perf-light.log",
+    "performance": []
+  },
+  "isolatedLightComparisons": [
+    {
+      "label": "parent",
+      "attempt": 1,
+      "exitCode": 0,
+      "seconds": 6.122295663000841,
+      "log": "01-parent.log",
+      "summary": "PASS worst-case light load: average 0.191 ms (limit 0.25), worst p99 0.874 ms (limit 2)"
+    },
+    {
+      "label": "candidate",
+      "attempt": 2,
+      "exitCode": 0,
+      "seconds": 6.13814931700108,
+      "log": "02-candidate.log",
+      "summary": "PASS worst-case light load: average 0.192 ms (limit 0.25), worst p99 0.965 ms (limit 2)"
+    },
+    {
+      "label": "parent",
+      "attempt": 3,
+      "exitCode": 0,
+      "seconds": 5.84080520200223,
+      "log": "03-parent.log",
+      "summary": "PASS worst-case light load: average 0.180 ms (limit 0.25), worst p99 0.868 ms (limit 2)"
+    },
+    {
+      "label": "candidate",
+      "attempt": 4,
+      "exitCode": 0,
+      "seconds": 6.556419884000206,
+      "log": "04-candidate.log",
+      "summary": "PASS worst-case light load: average 0.202 ms (limit 0.25), worst p99 1.311 ms (limit 2)"
+    }
+  ],
+  "classification": "Initial light timing FAIL retained; two unchanged H runs and two parent runs pass original limits. No runtime or threshold repair."
+}

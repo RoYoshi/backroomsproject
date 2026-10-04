@@ -52,3 +52,5 @@ H5 capture-audit failure preservation verified remote: `ec5eeaada255eb523b283eca
 Capture repair source verified remote: `576559d8895bc5b37309c3b2e6cd73ccbd737201`; tree `d28523704bed91483b93f09287db19dd9b45e28a`. H1/flat/HTTP and paired lighting/picking pass.
 
 H4 capture-audited completion: portable-02 passes the complete real view25d gate (2/2), all eight Z30 cases, exact fresh-frame guards, actual upper emitters and unchanged leak/fairness limits. New timings replace the invalid old fresh-frame interpretation; raw attempts are preserved. Remote completion receipt follows publication.
+
+H4 capture-audited COMPLETE verified remote: `8439e81d2e1fed1a64ad50219c61ef3fdfe15692`; tree `6e756750389f2c99593218a0491d1579b93c1239`. Actual upper emitters, every fresh-frame assertion, Z29/H-Z14/Z30 8/8 and full corrected clean-package gates pass. Verified by non-force ref advance and fetched tree before final H5 reporting/package completion.

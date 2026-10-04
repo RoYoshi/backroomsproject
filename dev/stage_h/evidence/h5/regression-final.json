@@ -1,0 +1,272 @@
+{
+  "status": "PASS",
+  "initialFailures": [
+    {
+      "name": "stage-h-browser-traversal",
+      "command": [
+        "node",
+        "dev/stage_h/browser_h1.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/browser-h-traversal"
+      ],
+      "exitCode": 1,
+      "seconds": 5.113418212000397
+    },
+    {
+      "name": "stage-h-browser-traversal",
+      "command": [
+        "node",
+        "dev/stage_h/browser_h1.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-02/browser-h-traversal"
+      ],
+      "exitCode": 1,
+      "seconds": 16.317774241000734
+    }
+  ],
+  "priorSuccessfulAttempt": [
+    {
+      "name": "stage-h-browser-traversal",
+      "command": [
+        "node",
+        "dev/stage_h/browser_h1.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-03/browser-h-traversal"
+      ],
+      "exitCode": 0,
+      "seconds": 22.131310381999356
+    },
+    {
+      "name": "flat-browser-parity",
+      "command": [
+        "node",
+        "dev/stage_h/browser_flat.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject",
+        "/workspace/scratch/c78c552e3af5/Accepted Stage G For H5/source",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-03/browser-flat"
+      ],
+      "exitCode": 0,
+      "seconds": 52.721431271002075
+    },
+    {
+      "name": "served-package",
+      "command": [
+        "node",
+        "dev/stage_h/served_package.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-03/served.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.5668361759999243
+    }
+  ],
+  "finalChecks": [
+    {
+      "name": "parent-baseline",
+      "command": [
+        "python",
+        "dev/stage_a/run_baseline.py",
+        "--game",
+        "/workspace/scratch/c78c552e3af5/Accepted Stage G For H5/source",
+        "--out",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/parent-baseline",
+        "--only",
+        "npm-test,shared"
+      ],
+      "exitCode": 0,
+      "seconds": 216.53191181999864,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-b-geometry",
+      "command": [
+        "node",
+        "dev/stage_b/test_geometry.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.3172961279997253,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-c-motion",
+      "command": [
+        "node",
+        "dev/stage_c/test_spatial.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.6657851399977517,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-c-adversarial",
+      "command": [
+        "node",
+        "dev/stage_c/test_adversarial.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.21483704499769374,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-c-schedules",
+      "command": [
+        "node",
+        "dev/stage_c/test_schedules.js"
+      ],
+      "exitCode": 0,
+      "seconds": 2.370947290000913,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-c-camera",
+      "command": [
+        "node",
+        "dev/stage_c/test_camera.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11449352099953103,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-e",
+      "command": [
+        "node",
+        "dev/tests/run.js",
+        "s_nav25d.js",
+        "s_perception25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 10.539346206998744,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-d-view",
+      "command": [
+        "node",
+        "dev/stage_d/test_view.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/view.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11737900400112267,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-d-independence",
+      "command": [
+        "node",
+        "dev/stage_d/test_independence.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/independence.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.667864469000051,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-f-protocol",
+      "command": [
+        "node",
+        "dev/stage_f/test_f1.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.4151641969983757,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-f-authority",
+      "command": [
+        "node",
+        "dev/stage_f/test_f2.js"
+      ],
+      "exitCode": 0,
+      "seconds": 1.7221243800013326,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "network25d",
+      "command": [
+        "node",
+        "dev/tests/network25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 117.31889543799844,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "physics25d",
+      "command": [
+        "node",
+        "dev/tests/physics25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 48.35603150899988,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "frozen-parity",
+      "command": [
+        "python",
+        "dev/stage_h/run_parity.py",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/parity"
+      ],
+      "exitCode": 0,
+      "seconds": 25.320300578998285,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-d-browser-core",
+      "command": [
+        "node",
+        "dev/stage_d/browser_core.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/browser-d-core"
+      ],
+      "exitCode": 0,
+      "seconds": 20.673249619998387,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-d-browser-extended",
+      "command": [
+        "node",
+        "dev/stage_d/browser_extended.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/browser-d-extended"
+      ],
+      "exitCode": 0,
+      "seconds": 148.84570220599926,
+      "evidenceAttempt": "regression-01"
+    },
+    {
+      "name": "stage-h-browser-traversal",
+      "command": [
+        "node",
+        "dev/stage_h/browser_h1.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-04/browser-h-traversal"
+      ],
+      "exitCode": 0,
+      "seconds": 22.91574062500149,
+      "evidenceAttempt": "regression-04"
+    },
+    {
+      "name": "flat-browser-parity",
+      "command": [
+        "node",
+        "dev/stage_h/browser_flat.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject",
+        "/workspace/scratch/c78c552e3af5/Accepted Stage G For H5/source",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-04/browser-flat"
+      ],
+      "exitCode": 0,
+      "seconds": 51.79869849500028,
+      "evidenceAttempt": "regression-04"
+    },
+    {
+      "name": "served-package",
+      "command": [
+        "node",
+        "dev/stage_h/served_package.js",
+        "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-04/served.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.5182380010010093,
+      "evidenceAttempt": "regression-04"
+    }
+  ],
+  "classification": "H1 readiness and original assertions retained; reduced-detail peer fall passes. Later evidence audits repaired only forced diagnostic frame advancement and upper-emitter XYZ readiness; all final capture guards pass."
+}

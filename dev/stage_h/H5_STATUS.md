@@ -1,5 +1,11 @@
 # H5 — full regression and package
 
+**CURRENT STATUS: ENGINEERING COMPLETE — HUMAN QA PENDING.**
+
+All retained baseline-equivalence, frozen/flat parity, Stage D/H browser, corrected view25d, network25d, physics25d, served-package, path-with-spaces and reproducible-build checks pass under their documented profiles. H4 capture-audited completion was remotely verified at `8439e81d2e1fed1a64ad50219c61ef3fdfe15692`, tree `6e756750389f2c99593218a0491d1579b93c1239`, before this final reporting step. Final exact changed-file audit and Git/ZIP publication receipt accompany the release. Inherited aggregate/shared/P08 and software-GPU/capacity limitations remain explicitly disclosed. Main is untouched; Stage I is not begun.
+
+## Historical checkpoints and preserved attempts
+
 IN PROGRESS. H4 completed and was remotely verified at `4bd55b262e898e5de0980d674998123880445d94`, tree `91754d85893a10431bce8b86bb10b981109c64f5`, before H5 began. No Stage I work or main changes are authorized.
 
 ## Build failure preserved before repair
