@@ -1,0 +1,167 @@
+{
+  "status": "PASS",
+  "classification": "BOUNDED MEASUREMENT — no Part 3G or hardware performance certification",
+  "host": {
+    "node": "v24.19.0",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "logicalCpus": 9,
+    "totalMemoryBytes": 10451460096,
+    "memory": {
+      "rss": 266952704,
+      "heapTotal": 211243008,
+      "heapUsed": 134704560,
+      "external": 5325624,
+      "arrayBuffers": 1697945
+    }
+  },
+  "hash": "ced63648ddb0e3584df4d6aa3b3d405cdc5968c9b7fbaf0c37ee756ed92030b3",
+  "rows": [
+    {
+      "workload": "full production build and immutable compile",
+      "buildMs": 671.161645,
+      "geometryCompileMs": 317.2724810000001,
+      "viewCompileMs": 122.71128199999998,
+      "solids": 910,
+      "supports": 307,
+      "chunks": 130
+    },
+    {
+      "workload": "distributed physical queries",
+      "queries": 2000,
+      "supportAndClearanceMs": {
+        "samples": 2000,
+        "p50": 0.014629999999897336,
+        "p95": 0.03682100000014543,
+        "p99": 0.12663899999984096,
+        "worst": 2.8811259999999947
+      },
+      "rayMs": {
+        "samples": 2000,
+        "p50": 0.007860000000164291,
+        "p95": 0.018148999999993976,
+        "p99": 0.06503700000007484,
+        "worst": 5.9603709999998955
+      }
+    },
+    {
+      "workload": "normal production director and complete physical world",
+      "players": 1,
+      "entities": 4,
+      "deaths": 0,
+      "ticks": 1200,
+      "simulatedSeconds": 20,
+      "createMs": 1415.9153029999998,
+      "allTickMs": {
+        "samples": 1200,
+        "p50": 0.22417499999983193,
+        "p95": 0.5971920000001774,
+        "p99": 1.465958000000228,
+        "worst": 845.3672800000004
+      },
+      "postFirstSecondTickMs": {
+        "samples": 1140,
+        "p50": 0.2162039999998342,
+        "p95": 0.5283309999999801,
+        "p99": 1.0603299999997944,
+        "worst": 146.04450700000007
+      },
+      "entitySnapshotBytes": {
+        "samples": 20,
+        "p50": 1034,
+        "p95": 1038,
+        "p99": 1038,
+        "worst": 1038
+      },
+      "navigation": {
+        "plans": 3,
+        "nodes": 6457,
+        "edgeChecks": 47458,
+        "cacheHits": 20664,
+        "cacheMisses": 26749,
+        "maxNodes": 3554,
+        "routeRequests": 0,
+        "routeCacheHits": 0,
+        "routeCacheMisses": 0
+      },
+      "senses": {
+        "candidates": 0,
+        "rays": 3691,
+        "lightQueries": 4851,
+        "soundQueries": 0,
+        "soundNodes": 0,
+        "soundPortals": 0,
+        "soundAlternatives": 0,
+        "contacts": 0
+      },
+      "memory": {
+        "rss": 257822720,
+        "heapTotal": 197779456,
+        "heapUsed": 94279552,
+        "external": 4589720,
+        "arrayBuffers": 962041
+      },
+      "diagnostics": []
+    },
+    {
+      "workload": "normal production director and complete physical world",
+      "players": 8,
+      "entities": 4,
+      "deaths": 0,
+      "ticks": 1200,
+      "simulatedSeconds": 20,
+      "createMs": 369.052412,
+      "allTickMs": {
+        "samples": 1200,
+        "p50": 0.3067399999999907,
+        "p95": 1.577541000000565,
+        "p99": 7.784095999999408,
+        "worst": 780.1454830000002
+      },
+      "postFirstSecondTickMs": {
+        "samples": 1140,
+        "p50": 0.292938999999933,
+        "p95": 1.577541000000565,
+        "p99": 7.752255000000332,
+        "worst": 135.19626999999946
+      },
+      "entitySnapshotBytes": {
+        "samples": 20,
+        "p50": 1032,
+        "p95": 1050,
+        "p99": 1050,
+        "worst": 1050
+      },
+      "navigation": {
+        "plans": 5,
+        "nodes": 6504,
+        "edgeChecks": 48028,
+        "cacheHits": 22024,
+        "cacheMisses": 25959,
+        "maxNodes": 3554,
+        "routeRequests": 291,
+        "routeCacheHits": 289,
+        "routeCacheMisses": 2
+      },
+      "senses": {
+        "candidates": 48,
+        "rays": 6669,
+        "lightQueries": 5630,
+        "soundQueries": 39,
+        "soundNodes": 3834,
+        "soundPortals": 4992,
+        "soundAlternatives": 39,
+        "contacts": 13
+      },
+      "memory": {
+        "rss": 266952704,
+        "heapTotal": 211243008,
+        "heapUsed": 134699064,
+        "external": 5325624,
+        "arrayBuffers": 1697945
+      },
+      "diagnostics": []
+    }
+  ]
+}

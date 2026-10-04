@@ -72084,7 +72084,12 @@
     {
       "id": "view:long-room:upper-slab",
       "solidIds": [
-        "solid:upper:long-room"
+        "solid:upper:long-room",
+        "solid:upper:edge:north",
+        "solid:upper:edge:west",
+        "solid:upper:edge:east",
+        "solid:upper:edge:south-west",
+        "solid:upper:edge:south-east"
       ],
       "spaceIds": [],
       "cutawayEligible": true
@@ -93775,5 +93780,5 @@
       "entitySelection": "world RNG; existing normal populations, spawn distances, entity separation and dark Smiler preference"
     }
   },
-  "contentHash": "ced63648ddb0e3584df4d6aa3b3d405cdc5968c9b7fbaf0c37ee756ed92030b3"
+  "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a"
 }

@@ -19,7 +19,10 @@ function add({d,solid,space,nav,profiles}){
  }
  solid('upper:long-room',UPPER,164,180,'material:concrete','nav:upper','view:long-room:upper-slab');
  solid('upper:ceiling',UPPER,344,360,'material:concrete',null,'view:long-room:upper-roof',upperSpace);
- for(const [name,r]of [['north',{x:5568,y:720,w:1152,h:16}],['west',{x:5568,y:736,w:16,h:272}],['east',{x:6704,y:736,w:16,h:272}],['south-west',{x:5664,y:992,w:672,h:16}],['south-east',{x:6528,y:992,w:176,h:16}]])solid('upper:edge:'+name,r,180,276,'material:concrete');
+ // The slab and its edge walls form one local overhead structure. When viewed
+ // from below, fade them together so the retained camera can see the feet and
+ // nearby floor. All six solids still participate in physical eye/light rays.
+ for(const [name,r]of [['north',{x:5568,y:720,w:1152,h:16}],['west',{x:5568,y:736,w:16,h:272}],['east',{x:6704,y:736,w:16,h:272}],['south-west',{x:5664,y:992,w:672,h:16}],['south-east',{x:6528,y:992,w:176,h:16}]])solid('upper:edge:'+name,r,180,276,'material:concrete',null,'view:long-room:upper-slab');
  for(let i=0;i<15;i++){const h=(i+1)*12,r={x:STAIRS.x,y:STAIRS.y+STAIRS.h-(i+1)*32,w:STAIRS.w,h:32};solid('stairs:long-room:tread:'+String(i+1).padStart(2,'0'),r,h-16,h,'material:concrete','nav:stairs','view:long-room:stairs');}
  const ramp={a:0,b:-180/480,c:1488*180/480};solid('ramp:long-room',RAMP,{...ramp,c:ramp.c-16},ramp,'material:concrete','nav:ramp','view:long-room:ramp');
  const down={a:0,b:1/3,c:-96-5664/3};solid('ramp:depression',DOWN,{...down,c:down.c-16},down,'material:carpet','nav:depression-ramp');

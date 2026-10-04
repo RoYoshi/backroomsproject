@@ -46,6 +46,6 @@ The NORTH crawl corridor has 28 units of body clearance and finite roof/side geo
 
 The 18 props retain identity and footprint. Ten low/window props have bidirectional finite vault links and original player vault metadata; six tight-gap sheets exclude species without that capability; under props provide real crouch clearance. No brain, species constant or motion kernel was changed.
 
-Nine PILLAR FOREST lamp centers (075–083) were embedded in source pillar centers. The existing fixtures are moved 48 units south in the same ceiling bays at Z160; the manifest records original and new coordinates. The other 81 XY positions, all IDs/order, room exclusion, range 380 and power .43 remain unchanged.
+Nine PILLAR HALL lamp centers (075–083) were embedded in source pillar centers. The existing fixtures are moved 48 units south in the same ceiling bays at Z160; the manifest records original and new coordinates. The other 81 XY positions, all IDs/order, room exclusion, range 380 and power .43 remain unchanged.
 
 The existing normal page displays the cartograph on its real floor and exit art on wall plus adjacent floor faces, using the original procedural art. Objective snapshots append XYZ/support/anchor data; collection and exit require same elevation and physical visibility. Screen tear/audio proximity uses physical spatial visibility. The small admin-only preview placement correction uses the attacker's actual body footprint on the victim's named sheet; gameplay death remains server-owned.

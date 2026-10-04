@@ -1,0 +1,17 @@
+flashlight actual peer emitter above slab
+headlamp actual peer emitter above slab
+lantern actual peer emitter above slab
+visible lantern positive control; OFF has no emitter or aura
+flashlight same-floor visible positive control in blackout
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(positive.changed>30)
+
+    at /workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/browser_aftermath.js:14:485 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

@@ -1,0 +1,1183 @@
+{
+  "status": "PASS",
+  "hash": "ced63648ddb0e3584df4d6aa3b3d405cdc5968c9b7fbaf0c37ee756ed92030b3",
+  "physicalSolids": 910,
+  "completeModelSolids": 910,
+  "rayComparisons": 1170,
+  "physicalHitsAfterGlobal64": 572,
+  "candidateHullsCompared": 195,
+  "maxCandidates": 86,
+  "maxBatches": 2,
+  "rows": [
+    {
+      "anchor": "anchor:hound-spawn:1272_1272_0",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_1656_0",
+      "candidates": 42,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_2040_0",
+      "candidates": 45,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_2424_0",
+      "candidates": 23,
+      "batches": 1,
+      "lights": 3
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_2808_0",
+      "candidates": 31,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_3192_0",
+      "candidates": 29,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_3576_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_3960_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_4344_0",
+      "candidates": 36,
+      "batches": 1,
+      "lights": 2
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_4728_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_5112_0",
+      "candidates": 41,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_5496_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_5880_0",
+      "candidates": 33,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:1272_888_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_1272_0",
+      "candidates": 53,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_1656_0",
+      "candidates": 62,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_2808_0",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_3192_0",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_3576_0",
+      "candidates": 41,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_3960_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_5112_0",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_5496_0",
+      "candidates": 32,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:1656_5880_0",
+      "candidates": 26,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:2040_1272_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:2040_3192_0",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:2040_5112_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 2
+    },
+    {
+      "anchor": "anchor:hound-spawn:2040_5496_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 2
+    },
+    {
+      "anchor": "anchor:hound-spawn:2040_5880_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 2
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_1272_0",
+      "candidates": 52,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_1656_0",
+      "candidates": 58,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_2424_0",
+      "candidates": 43,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_2808_0",
+      "candidates": 50,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_3192_0",
+      "candidates": 41,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_3576_0",
+      "candidates": 38,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_3960_0",
+      "candidates": 38,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_5496_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:2424_888_0",
+      "candidates": 51,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_1656_0",
+      "candidates": 46,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_2424_0",
+      "candidates": 33,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_2808_0",
+      "candidates": 46,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_3192_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_3576_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_3960_0",
+      "candidates": 43,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_5112_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_5880_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:2808_888_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_1272_0",
+      "candidates": 45,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_1656_0",
+      "candidates": 52,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_2040_0",
+      "candidates": 60,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_2424_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_2808_0",
+      "candidates": 43,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_3192_0",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 10
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_3576_0",
+      "candidates": 44,
+      "batches": 1,
+      "lights": 10
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_3960_0",
+      "candidates": 50,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_4344_0",
+      "candidates": 71,
+      "batches": 2,
+      "lights": 10
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_4728_0",
+      "candidates": 43,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_5496_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3192_888_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:3576_1272_0",
+      "candidates": 47,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:3576_1656_0",
+      "candidates": 54,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:3576_2424_0",
+      "candidates": 42,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3576_3576_0",
+      "candidates": 51,
+      "batches": 1,
+      "lights": 10
+    },
+    {
+      "anchor": "anchor:hound-spawn:3576_5112_0",
+      "candidates": 42,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3576_5496_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3576_5880_0",
+      "candidates": 44,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3576_888_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_1272_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_1656_0",
+      "candidates": 43,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_2424_0",
+      "candidates": 42,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_2808_0",
+      "candidates": 48,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_3192_0",
+      "candidates": 42,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_3576_0",
+      "candidates": 60,
+      "batches": 1,
+      "lights": 10
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_3960_0",
+      "candidates": 50,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_5112_0",
+      "candidates": 32,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_5496_0",
+      "candidates": 28,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_5880_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:3960_888_0",
+      "candidates": 27,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:4344_1272_0",
+      "candidates": 47,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:4344_3576_0",
+      "candidates": 51,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:4344_5496_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:4728_1272_0",
+      "candidates": 54,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:4728_2808_0",
+      "candidates": 45,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:4728_3192_0",
+      "candidates": 61,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:4728_3576_0",
+      "candidates": 55,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:4728_3960_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:4728_5496_0",
+      "candidates": 48,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_1656_0",
+      "candidates": 30,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_2808_0",
+      "candidates": 27,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_3192_0",
+      "candidates": 26,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_3576_0",
+      "candidates": 30,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_3960_0",
+      "candidates": 25,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_5112_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_5496_0",
+      "candidates": 32,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_5880_0",
+      "candidates": 28,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:504_888_0",
+      "candidates": 28,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:5112_1656_0",
+      "candidates": 85,
+      "batches": 2,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:5112_2808_0",
+      "candidates": 52,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:5112_3192_0",
+      "candidates": 73,
+      "batches": 2,
+      "lights": 10
+    },
+    {
+      "anchor": "anchor:hound-spawn:5112_3576_0",
+      "candidates": 67,
+      "batches": 2,
+      "lights": 10
+    },
+    {
+      "anchor": "anchor:hound-spawn:5112_3960_0",
+      "candidates": 51,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:5112_5112_0",
+      "candidates": 38,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:5112_5880_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_1272_0",
+      "candidates": 85,
+      "batches": 2,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_1656_0",
+      "candidates": 86,
+      "batches": 2,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_2040_0",
+      "candidates": 61,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_2424_0",
+      "candidates": 28,
+      "batches": 1,
+      "lights": 2
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_2808_0",
+      "candidates": 46,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_3192_0",
+      "candidates": 56,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_3576_0",
+      "candidates": 57,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_3960_0",
+      "candidates": 45,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:5496_5496_0",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:5808_864_180",
+      "candidates": 68,
+      "batches": 2,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:5880_1272_0",
+      "candidates": 85,
+      "batches": 2,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:5880_1656_0",
+      "candidates": 86,
+      "batches": 2,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:5880_4344_0",
+      "candidates": 46,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:5880_4728_0",
+      "candidates": 42,
+      "batches": 1,
+      "lights": 3
+    },
+    {
+      "anchor": "anchor:hound-spawn:5880_5112_0",
+      "candidates": 38,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:5880_5496_0",
+      "candidates": 31,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:5880_5880_0",
+      "candidates": 41,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:6192_864_180",
+      "candidates": 66,
+      "batches": 2,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_1272_0",
+      "candidates": 74,
+      "batches": 2,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_1656_0",
+      "candidates": 75,
+      "batches": 2,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_2808_0",
+      "candidates": 45,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_3192_0",
+      "candidates": 54,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_3576_0",
+      "candidates": 57,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_3960_0",
+      "candidates": 48,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_5112_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_5496_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:6264_5880_0",
+      "candidates": 33,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:6624_864_180",
+      "candidates": 61,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:6648_1272_0",
+      "candidates": 61,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:6648_1656_0",
+      "candidates": 59,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:6648_3576_0",
+      "candidates": 49,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:6648_5496_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_1272_0",
+      "candidates": 65,
+      "batches": 2,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_1656_0",
+      "candidates": 64,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_2808_0",
+      "candidates": 31,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_3192_0",
+      "candidates": 36,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_3576_0",
+      "candidates": 49,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_3960_0",
+      "candidates": 41,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_5112_0",
+      "candidates": 46,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_5496_0",
+      "candidates": 44,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_5880_0",
+      "candidates": 54,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:7032_888_0",
+      "candidates": 63,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:720_5568_-96",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_1272_0",
+      "candidates": 61,
+      "batches": 1,
+      "lights": 10
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_1656_0",
+      "candidates": 63,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_2808_0",
+      "candidates": 30,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_3192_0",
+      "candidates": 33,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_3576_0",
+      "candidates": 44,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_3960_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_5112_0",
+      "candidates": 30,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_5496_0",
+      "candidates": 28,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_5880_0",
+      "candidates": 33,
+      "batches": 1,
+      "lights": 5
+    },
+    {
+      "anchor": "anchor:hound-spawn:7416_888_0",
+      "candidates": 53,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_1272_0",
+      "candidates": 45,
+      "batches": 1,
+      "lights": 11
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_1656_0",
+      "candidates": 51,
+      "batches": 1,
+      "lights": 11
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_2808_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_3192_0",
+      "candidates": 38,
+      "batches": 1,
+      "lights": 12
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_3576_0",
+      "candidates": 52,
+      "batches": 1,
+      "lights": 12
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_3960_0",
+      "candidates": 46,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_5112_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_5496_0",
+      "candidates": 31,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_5880_0",
+      "candidates": 38,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:7800_888_0",
+      "candidates": 36,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_1272_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_1656_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_2040_0",
+      "candidates": 52,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_2424_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_2808_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_3192_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 12
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_3576_0",
+      "candidates": 55,
+      "batches": 1,
+      "lights": 11
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_3960_0",
+      "candidates": 48,
+      "batches": 1,
+      "lights": 8
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_4344_0",
+      "candidates": 55,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_4728_0",
+      "candidates": 35,
+      "batches": 1,
+      "lights": 4
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_5112_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_5496_0",
+      "candidates": 33,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_5880_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:8184_888_0",
+      "candidates": 29,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_1272_0",
+      "candidates": 37,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_1656_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_2808_0",
+      "candidates": 28,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_3192_0",
+      "candidates": 26,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_3576_0",
+      "candidates": 34,
+      "batches": 1,
+      "lights": 9
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_3960_0",
+      "candidates": 27,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_5112_0",
+      "candidates": 26,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_5496_0",
+      "candidates": 22,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:8568_5880_0",
+      "candidates": 26,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:888_1272_0",
+      "candidates": 32,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:888_1656_0",
+      "candidates": 40,
+      "batches": 1,
+      "lights": 6
+    },
+    {
+      "anchor": "anchor:hound-spawn:888_3576_0",
+      "candidates": 41,
+      "batches": 1,
+      "lights": 7
+    },
+    {
+      "anchor": "anchor:hound-spawn:888_5112_0",
+      "candidates": 43,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:888_5496_0",
+      "candidates": 39,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:888_5880_0",
+      "candidates": 36,
+      "batches": 1,
+      "lights": 0
+    },
+    {
+      "anchor": "anchor:hound-spawn:888_888_0",
+      "candidates": 36,
+      "batches": 1,
+      "lights": 6
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+node:assert:152
+  throw new AssertionError(obj);
+  ^
+
+AssertionError [ERR_ASSERTION]: conservative chunk boundary margin
+    at Object.<anonymous> (/workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/test_render_coverage.js:8:313)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+     42,  43,  44,  86,  87,  89,  90,
+    117, 118, 338, 339, 340, 380, 381,
+    383, 384, 411, 413, 578, 580, 581,
+    612, 636, 638, 642, 645, 698, 727,
+    728, 768, 769
+  ],
+  expected: [
+     42,  43,  44,  86,  87,  89,  90, 117, 118, 224,
+    225, 226, 227, 228, 229, 230, 231, 232, 233, 234,
+    338, 339, 340, 380, 381, 383, 384, 411, 413, 516,
+    517, 518, 519, 520, 521, 522, 523, 524, 525, 526,
+    578, 580, 581, 612, 636, 638, 642, 645, 698, 727,
+    728, 768, 769, 857, 858, 859, 860, 861, 862, 863,
+    864, 865
+  ],
+  operator: 'deepEqual',
+  diff: 'simple'
+}
+
+Node.js v24.19.0
