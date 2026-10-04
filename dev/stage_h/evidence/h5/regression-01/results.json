@@ -1,0 +1,171 @@
+[
+  {
+    "name": "parent-baseline",
+    "command": [
+      "python",
+      "dev/stage_a/run_baseline.py",
+      "--game",
+      "/workspace/scratch/c78c552e3af5/Accepted Stage G For H5/source",
+      "--out",
+      "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/parent-baseline",
+      "--only",
+      "npm-test,shared"
+    ],
+    "exitCode": 0,
+    "seconds": 216.53191181999864
+  },
+  {
+    "name": "stage-b-geometry",
+    "command": [
+      "node",
+      "dev/stage_b/test_geometry.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.3172961279997253
+  },
+  {
+    "name": "stage-c-motion",
+    "command": [
+      "node",
+      "dev/stage_c/test_spatial.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.6657851399977517
+  },
+  {
+    "name": "stage-c-adversarial",
+    "command": [
+      "node",
+      "dev/stage_c/test_adversarial.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21483704499769374
+  },
+  {
+    "name": "stage-c-schedules",
+    "command": [
+      "node",
+      "dev/stage_c/test_schedules.js"
+    ],
+    "exitCode": 0,
+    "seconds": 2.370947290000913
+  },
+  {
+    "name": "stage-c-camera",
+    "command": [
+      "node",
+      "dev/stage_c/test_camera.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11449352099953103
+  },
+  {
+    "name": "stage-e",
+    "command": [
+      "node",
+      "dev/tests/run.js",
+      "s_nav25d.js",
+      "s_perception25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 10.539346206998744
+  },
+  {
+    "name": "stage-d-view",
+    "command": [
+      "node",
+      "dev/stage_d/test_view.js",
+      "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/view.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11737900400112267
+  },
+  {
+    "name": "stage-d-independence",
+    "command": [
+      "node",
+      "dev/stage_d/test_independence.js",
+      "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/independence.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.667864469000051
+  },
+  {
+    "name": "stage-f-protocol",
+    "command": [
+      "node",
+      "dev/stage_f/test_f1.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.4151641969983757
+  },
+  {
+    "name": "stage-f-authority",
+    "command": [
+      "node",
+      "dev/stage_f/test_f2.js"
+    ],
+    "exitCode": 0,
+    "seconds": 1.7221243800013326
+  },
+  {
+    "name": "network25d",
+    "command": [
+      "node",
+      "dev/tests/network25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 117.31889543799844
+  },
+  {
+    "name": "physics25d",
+    "command": [
+      "node",
+      "dev/tests/physics25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 48.35603150899988
+  },
+  {
+    "name": "frozen-parity",
+    "command": [
+      "python",
+      "dev/stage_h/run_parity.py",
+      "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/parity"
+    ],
+    "exitCode": 0,
+    "seconds": 25.320300578998285
+  },
+  {
+    "name": "stage-d-browser-core",
+    "command": [
+      "node",
+      "dev/stage_d/browser_core.js",
+      "/workspace/scratch/c78c552e3af5/backroomsproject",
+      "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/browser-d-core"
+    ],
+    "exitCode": 0,
+    "seconds": 20.673249619998387
+  },
+  {
+    "name": "stage-d-browser-extended",
+    "command": [
+      "node",
+      "dev/stage_d/browser_extended.js",
+      "/workspace/scratch/c78c552e3af5/backroomsproject",
+      "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/browser-d-extended"
+    ],
+    "exitCode": 0,
+    "seconds": 148.84570220599926
+  },
+  {
+    "name": "stage-h-browser-traversal",
+    "command": [
+      "node",
+      "dev/stage_h/browser_h1.js",
+      "/workspace/scratch/c78c552e3af5/backroomsproject/dev/stage_h/evidence/h5/regression-01/browser-h-traversal"
+    ],
+    "exitCode": 1,
+    "seconds": 5.113418212000397
+  }
+]

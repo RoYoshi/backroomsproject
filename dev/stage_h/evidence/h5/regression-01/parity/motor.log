@@ -1,0 +1,12 @@
+idle stand 120 ticks x 8 schedules identical
+walk walk 180 ticks x 8 schedules identical
+sprint run 180 ticks x 8 schedules identical
+acceleration-deceleration walk,stand 180 ticks x 8 schedules identical
+crouch crouch 120 ticks x 8 schedules identical
+crawl crawl,crouch 60 ticks x 8 schedules identical
+slide run,slide,crouch,walk 180 ticks x 8 schedules identical
+exhaustion run,walk 960 ticks x 8 schedules identical
+recovery stand 240 ticks x 8 schedules identical
+recovery-threshold stand 30 ticks x 8 schedules identical
+vault walk,vault 180 ticks x 8 schedules identical
+deep-carpet run 180 ticks x 8 schedules identical

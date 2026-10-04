@@ -1,0 +1,83 @@
+PASS hound physical link:ledge-drop
+PASS hound physical link:ramp-up
+PASS hound physical link:stairs-down
+PASS hound physical link:stairs-up
+PASS smiler physical link:ledge-drop
+PASS smiler physical link:ramp-up
+PASS smiler physical link:stairs-down
+PASS smiler physical link:stairs-up
+PASS top tread / landing overlap accepts contextual support without relocation
+PASS A* stacked route is physically traversable waypoint by waypoint
+PASS interrupted staircase retains actual pose and resolves gravity
+PASS supported traces cannot smooth through slabs, steps or a subpixel gap
+PASS continuous sheets get physical bidirectional walk seams, never cross-floor seams
+PASS vaults use actual swept raise/cross/settle; capability and roof reject
+PASS crawl route preserves Hound capability and excludes Smiler
+PASS pure Z translation retains link outcome and support sequence
+PASS spatial spawns require explicit finite Z and physical support
+PASS hound same-surface perception drives actual species pursuit/contact
+PASS smiler same-surface perception drives actual species pursuit/contact
+PASS hound real brain executes physical stairs pursuit
+PASS hound real brain executes physical ramp pursuit
+PASS hound real brain executes physical drop pursuit
+PASS smiler real brain executes physical stairs pursuit
+PASS smiler real brain executes physical ramp pursuit
+PASS smiler real brain executes physical drop pursuit
+PASS hound floor occlusion rejects sight/gaze/contact and false targeting
+PASS smiler floor occlusion rejects sight/gaze/contact and false targeting
+PASS hound identical evidence/RNG despite hidden Z, floor, support, route, velocity and destination
+PASS smiler identical evidence/RNG despite hidden Z, floor, support, route, velocity and destination
+PASS hound IR off/on leaves high-level decisions and RNG identical
+PASS smiler IR off/on leaves high-level decisions and RNG identical
+PASS interrupted ramp resumes from current physical pose and replans
+PASS hound visible camcorder IR off/on leaves all entity state and RNG identical
+PASS smiler visible camcorder IR off/on leaves all entity state and RNG identical
+PASS airborne actor cannot sleep or teleport even with no players
+PASS hound real brain uses swept vault with species traversal speed
+PASS smiler real brain uses swept vault with species traversal speed
+PASS real Hound crawls under shared roof; Smiler remains excluded
+PASS lost-before-stair-choice pair remains identical until legitimate reacquisition
+PASS observation-driven sleep wakes on real sound and keeps one physical tick
+PASS sealed-floor hounds cannot form a pack by XY overlap
+PASS Z10 Allowed/forbidden traversal per species  [9924ms]
+       Stage E scope; real geometry/motion/generated AI: motion: 16 objective groups, entities: 25 objective groups
+PASS same XY produces distinct composite nodes on stacked sheets
+PASS spatial endpoints require full pose and cannot snap through slab
+PASS same A* searches local sheet cells and produces spatial waypoints
+PASS one A* crosses stacked-floor links and rejects reverse drop
+PASS directed links have portal width, corridor and explicit species gates
+PASS real low roof fits Hound crawl but cannot grant Smiler crawl
+PASS cache identity distinguishes surfaces, capabilities and world topology
+PASS canonical reconstruction after input permutation preserves IDs and edges
+PASS Z11 A* with stacked endpoints and one-way drop  [321ms]
+       Stage E scope; real geometry/motion/generated AI: core: 8 objective groups, motion: 16 objective groups
+PASS Z12 Target visible, then hides and chooses different floors  [0ms]
+       Stage E scope; real geometry/motion/generated AI: entities: 25 objective groups
+PASS XYZ sight: same floor visible, same XY across sealed slab invisible
+PASS XYZ sight: wall blocks and real stair opening admits light
+PASS visual evidence derives support geometrically and velocity from observations
+PASS occluded true Z, support, velocity and route cannot refresh visual memory
+PASS eye contact uses remembered visible facing plus physical XYZ occlusion
+PASS physical contact positive and cross-floor capture rejection
+PASS static light cannot leak through floor or depend on camera/view
+PASS visible emitters illuminate physically, camcorder/IR does not
+PASS beam observations blocked by floors; IR has no beams or anonymous leads
+PASS source/patch evidence contains no hidden owner or source support
+PASS acoustic attenuation and bounded portal search use actual geometry
+PASS above/below acoustic ambiguity carries interval, bounded alternatives, no exact Z
+PASS actual hearing retains uncertainty and does not attribute raw source ID
+PASS sound without an explicit spatial pose fails closed
+PASS evidence fusion never merges disjoint observed elevations
+PASS sound budgets and memory counts stay bounded over repeated events
+PASS Z13 Ambiguous sound from above/below  [142ms]
+       Stage E scope; real geometry/motion/generated AI: sensors: 16 objective groups
+PASS Z14 Visible lamp/flashlight/IR on another story  [0ms]
+       Stage E scope; real geometry/motion/generated AI: sensors: 16 objective groups, entities: 25 objective groups
+PASS Z15 Gaze through a floor versus through a clear opening  [0ms]
+       Stage E scope; real geometry/motion/generated AI: sensors: 16 objective groups, entities: 25 objective groups
+PASS Z16 Pack/group members on different surfaces  [0ms]
+       Stage E scope; real geometry/motion/generated AI: entities: 25 objective groups
+PASS Z17 Near/mid/far LOD with airborne mover  [0ms]
+       Stage E scope; real geometry/motion/generated AI: entities: 25 objective groups
+
+8/8 passed

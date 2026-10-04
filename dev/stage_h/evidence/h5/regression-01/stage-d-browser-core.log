@@ -1,0 +1,11 @@
+PASS lower observer: hidden upper actor AND last-drawn overlay cannot leak
+PASS cutaway changes camera composition, never physical visibility
+PASS unseen opaque roof writes black depth until eligible cutaway
+PASS same physical snapshot: independent lower / upper view state
+PASS first resized frame has geometry and no framebuffer sampler feedback
+PASS upper observer: lower actor remains physically hidden
+PASS real stairwell: upper actor visible from lower-root stair pose
+PASS front / partial / deeper partial occlusion by narrow wall
+PASS complete physical occlusion behind solid wall
+PASS static seams and depth independent of draw submission order
+{"status":"PASS","checks":10,"browser":"151.0.7922.34"}

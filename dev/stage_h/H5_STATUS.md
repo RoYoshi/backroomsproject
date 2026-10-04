@@ -13,3 +13,9 @@ Only `dev/ents_src/30_audio.js` was repaired. `evidence/h5/build-02` PASS proves
 ## Retained performance failure preserved
 
 The complete serial retained run matches the eleven aggregate and shared F22 failures. `retained-01/perf-light.log` additionally reports average 0.250 ms and p99 2.131 ms, missing the unchanged strict 0.25/2 ms thresholds. The benchmark, AI, simulation and canonical world bytes are identical to G. Raw timing evidence is preserved before isolated same-host parent/candidate comparisons; no threshold or runtime repair has been made.
+
+The preserved light timing miss did not reproduce in two isolated H runs with unchanged source/thresholds. Serial parent/H pairs: parent 0.191 ms average / 0.874 ms p99, H 0.192 / 0.965; parent 0.180 / 0.868, H 0.202 / 1.311. All four PASS the original 0.25/2 ms limits. This establishes observed timing variability, not a proven performance regression or a reason to retune runtime code. The original FAIL remains in the evidence and final disclosure.
+
+## Browser traversal initial-pixel failure preserved
+
+`regression-01` passes retained B/C/E/F/G, network25d, physics25d, 46-trace parity/map and Stage D core/extended browser gates. Its H1 traversal rerun fails the initial `actual completed production pixels` assertion before movement. The later failure screenshot shows a rendered world; diagnostic state has only four spatial frames and a completed local fade. The initial helper did not save its pixel count/GL error before asserting. Raw screenshot, state, server log and failure are preserved before adding that missing diagnostic. No runtime defect or repair is inferred yet.

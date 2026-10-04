@@ -38,3 +38,5 @@ H4 COMPLETE verified remote: `4bd55b262e898e5de0980d674998123880445d94`; tree `9
 H5 build-failure preservation verified remote: `82e70df387c0703dc5c2f537444a1659f430c58f`; tree `c685a5d4480878afbd93d64813eece95dccc52f9`. Raw failure/diff saved before repair.
 
 H5 maintained-source recovery verified remote: `fd7deb6edeb9860d6dc2644ec95175a5e1f04fb4`; tree `d94c48ea12055da64f17439aca184e5045c645fa`. Focused reproducible-build PASS retains exact H4 runtime bytes.
+
+H5 retained-failure preservation verified remote: `18cfaf6924b58d2671c0c8ec5623d122b83f7554`; tree `0c91f33af4237bdb456e7506b75e96f211fc5c53`. Initial light timing miss retained before paired comparison.

@@ -1,0 +1,4 @@
+START npm-test
+{"id": "npm-test", "result": "FAIL", "durationSeconds": 210.123, "counts": {"passed": 151, "total": 162, "source": "suite summary"}, "firstFailure": "FAIL P01 noticing distance: run > walk > crouch (resting hound, corridor)  [1310ms]"}
+START shared
+{"id": "shared", "result": "FAIL", "durationSeconds": 6.296, "counts": {"passed": 22, "total": 23, "source": "suite summary"}, "firstFailure": "FAIL 2F F22 species physical/canon parameter preservation  [3ms]"}
