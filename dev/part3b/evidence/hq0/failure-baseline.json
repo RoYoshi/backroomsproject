@@ -1,0 +1,19 @@
+{
+  "milestone": "P3B-HQ0",
+  "status": "PART 3B \u2014 HUMAN QA FAIL / NEEDS FOLLOW-UP",
+  "sourceCommit": "6ec76c6ca9b289c108ab933c71af196dd5c522cd",
+  "sourceTree": "05a8e8926ed30012d3158e7ef0f5b6f546bc06a1",
+  "remote": "6ec76c6ca9b289c108ab933c71af196dd5c522cd\trefs/heads/part-3b",
+  "verifiedAt": "2026-10-04T19:49:45.266675+00:00",
+  "packSha256": "08495aae6d587f808c746ea153812316f1b2763804d8dcfe9aeb6681ab9fbe7f",
+  "userScreenshot": "dev/part3b/authority/human-qa-correction/supporting_docs/human_qa_projection_failure_example.jpg",
+  "rejection": [
+    "Apparent tilted/isometric scene",
+    "Wedge/trapezoid wall depth",
+    "Top/bottom walls require analogous depth while preserving top-down rectangles"
+  ],
+  "preservedBaselineCapture": "dev/part3b/evidence/p3b1/browser-production-02/spawn.png",
+  "runtimeChanges": [],
+  "testsRun": [],
+  "next": "Focused top-down orthographic redesign; no Part 3C authorization"
+}

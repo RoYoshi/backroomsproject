@@ -1,0 +1,433 @@
+{
+  "status": "PASS",
+  "engineeringStatus": "PART 3B \u2014 MOVEMENT, CAMERA & DEPTH PRESENTATION ENGINEERING COMPLETE \u2014 HUMAN QA PENDING",
+  "finalRemoteCommit": "6ec76c6ca9b289c108ab933c71af196dd5c522cd",
+  "finalRemoteTree": "05a8e8926ed30012d3158e7ef0f5b6f546bc06a1",
+  "acceptedParentCommit": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+  "acceptedParentTree": "c1e0fc5fd84e5fbea412cf3fca7c309243e8de6e",
+  "acceptedParentZipSha256": "6a498a2e498328ebe8064f1a67b406e5d600e614137438df67a79409bf64bdcf",
+  "sourceFiles": 4231,
+  "allGitBlobsAndModesVerified": true,
+  "recursiveRemoteTreeMatches": true,
+  "humanQA": "PENDING",
+  "part3CBegun": false,
+  "mainModifiedOrMerged": false,
+  "archive": "THE_FAR_BACKROOMS_PART_3B_FINAL.zip",
+  "archiveBytes": 152332081,
+  "archiveSha256": "3485f6268107e7a7ba72356971e1041408d8cc1ec238d0ef263948042f180244",
+  "crc": "PASS",
+  "freshFinalExtractionMatches": true,
+  "sourceManifestSha256": "bbffc830d2228902fbcc28cb5c107eaad6c0ba10e8eaaf07eca0d70d96c2d2e8",
+  "publicationFiles": {
+    "PART_3B_REPORT.md": "677f4a206657066071628399996eafe0f0328c0f7160b40915e5b26d71359725",
+    "PART_3B_TEST_SUMMARY.md": "3375653ce5c8588b3cd893a80d940cc267b3804fcad9c44df1c9ee15542e2dc2",
+    "PART_3B_BASELINE_FAILURES.md": "c4ca45d97cf004ce692deb145eb90dd8e5d739bf478cc81d52f4c426e867d312",
+    "PART_3B_CHANGED_FILES.txt": "4ae444050545c9e20dc7023a4722e591cc30f68b1d581dd7cbd225ed3354b962",
+    "PART_3B_HUMAN_QA.md": "d587298443687fcb202665bc421fcf9b558490adb55a112fd182bd7696175302",
+    "PART_3B_CAMERA_DEPTH.md": "7ca9355417875e0d3b915cfc054f5013649cb532bc2e28c9fc8385f1aaddd7b2",
+    "PART_3B_CUTAWAY_POLICY.md": "8e8f903aa4cd0ea5f90c2b3b41410be65374c503d5bafaed86ea91c6a1371c53",
+    "PART_3B_ACCEPTANCE.md": "205a7c81bc9a44eb0a0ec64d81dc92abcea0d9bd4ca60917eea6ce3e4b75ede0",
+    "PART_3B_PERFORMANCE.md": "a4678778fc6edce16f595d55c1adeb9d6a5baaa6c0096aa29642ec628f674552",
+    "PART_3B_GIT_CHECKPOINTS.md": "0c9da623212ff8d75fdf6a112f8dc86bd850d9d297d771623dda3fdb47835ce5",
+    "PART_3B_SOURCE_VERIFICATION.json": "36b61843712976c55f62d59808db8fbaa2471543e6c9b15e27a8102b8246e1aa"
+  },
+  "portableValidation": {
+    "status": "PASS",
+    "sourceTreeAtExtraction": "f8e807a73680e78ee0277be2873a863623a43550",
+    "sourceFiles": 3945,
+    "everyBlobAndModeMatches": true,
+    "pathContainsSpaces": true,
+    "cleanPath": "/workspace/scratch/7714d8cc7d5e/Part 3B Fresh Package Verification 02/thefarbackrooms-level0",
+    "candidateArchiveSha256": "7de62cf3bc080eff28f8e73804416a6d6956e43224a98bc17e428747d89b5e4f",
+    "crc": "PASS",
+    "buildsRepeated": 2,
+    "gates": {
+      "status": "PASS",
+      "phase": "final",
+      "checks": [
+        {
+          "name": "build-1-ai",
+          "command": [
+            "bash",
+            "dev/build_ai.sh"
+          ],
+          "exitCode": 0,
+          "seconds": 0.16457250099847442
+        },
+        {
+          "name": "build-1-sim",
+          "command": [
+            "bash",
+            "dev/build_sim.sh"
+          ],
+          "exitCode": 0,
+          "seconds": 0.16460177000044496
+        },
+        {
+          "name": "build-1-ents",
+          "command": [
+            "bash",
+            "dev/build_ents.sh"
+          ],
+          "exitCode": 0,
+          "seconds": 0.21470250899801613
+        },
+        {
+          "name": "build-1-level0",
+          "command": [
+            "node",
+            "dev/part3a/build_level0_spatial.js"
+          ],
+          "exitCode": 0,
+          "seconds": 0.8672114699984377
+        },
+        {
+          "name": "build-2-ai",
+          "command": [
+            "bash",
+            "dev/build_ai.sh"
+          ],
+          "exitCode": 0,
+          "seconds": 0.16440621599758742
+        },
+        {
+          "name": "build-2-sim",
+          "command": [
+            "bash",
+            "dev/build_sim.sh"
+          ],
+          "exitCode": 0,
+          "seconds": 0.16438403199936147
+        },
+        {
+          "name": "build-2-ents",
+          "command": [
+            "bash",
+            "dev/build_ents.sh"
+          ],
+          "exitCode": 0,
+          "seconds": 0.11433839600067586
+        },
+        {
+          "name": "build-2-level0",
+          "command": [
+            "node",
+            "dev/part3a/build_level0_spatial.js"
+          ],
+          "exitCode": 0,
+          "seconds": 0.7661915960015904
+        },
+        {
+          "name": "invariants",
+          "command": [
+            "python",
+            "dev/part3b/verify_invariants.py",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/invariants.json"
+          ],
+          "exitCode": 0,
+          "seconds": 0.03196218800076167
+        },
+        {
+          "name": "presentation-foundation",
+          "command": [
+            "node",
+            "dev/part3b/test_foundation.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/presentation-foundation.json"
+          ],
+          "exitCode": 0,
+          "seconds": 0.6156073100028152
+        },
+        {
+          "name": "presentation-motion",
+          "command": [
+            "node",
+            "dev/part3b/test_motion.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/presentation-motion.json"
+          ],
+          "exitCode": 0,
+          "seconds": 1.018499312998756
+        },
+        {
+          "name": "presentation-cutaway",
+          "command": [
+            "node",
+            "dev/part3b/test_cutaway.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/presentation-cutaway.json"
+          ],
+          "exitCode": 0,
+          "seconds": 0.5151648649989511
+        },
+        {
+          "name": "production-base",
+          "command": [
+            "node",
+            "dev/part3a/test_base.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-base.json"
+          ],
+          "exitCode": 0,
+          "seconds": 1.4712677570023516
+        },
+        {
+          "name": "production-vertical",
+          "command": [
+            "node",
+            "dev/part3a/test_vertical.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-vertical.json"
+          ],
+          "exitCode": 0,
+          "seconds": 2.2229494739985967
+        },
+        {
+          "name": "production-navigation",
+          "command": [
+            "node",
+            "dev/part3a/test_navigation.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-navigation.json"
+          ],
+          "exitCode": 0,
+          "seconds": 5.380104923002364
+        },
+        {
+          "name": "production-gameplay",
+          "command": [
+            "node",
+            "dev/part3a/test_gameplay.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-gameplay.json"
+          ],
+          "exitCode": 0,
+          "seconds": 5.22996442600197
+        },
+        {
+          "name": "production-perception",
+          "command": [
+            "node",
+            "dev/part3a/test_perception.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-perception.json"
+          ],
+          "exitCode": 0,
+          "seconds": 2.420922826997412
+        },
+        {
+          "name": "production-picking",
+          "command": [
+            "node",
+            "dev/part3a/test_picking.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-picking.json"
+          ],
+          "exitCode": 0,
+          "seconds": 0.41532154900050955
+        },
+        {
+          "name": "production-render_coverage",
+          "command": [
+            "node",
+            "dev/part3a/test_render_coverage.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-render_coverage.json"
+          ],
+          "exitCode": 0,
+          "seconds": 0.6658116819999123
+        },
+        {
+          "name": "production-aftermath",
+          "command": [
+            "node",
+            "dev/part3a/test_aftermath.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/production-aftermath.json"
+          ],
+          "exitCode": 0,
+          "seconds": 11.153700588998618
+        },
+        {
+          "name": "s_world25d",
+          "command": [
+            "node",
+            "dev/tests/s_world25d.js"
+          ],
+          "exitCode": 0,
+          "seconds": 5.184196410998993
+        },
+        {
+          "name": "s_nav25d",
+          "command": [
+            "node",
+            "dev/tests/s_nav25d.js"
+          ],
+          "exitCode": 0,
+          "seconds": 7.886629322001681
+        },
+        {
+          "name": "s_perception25d",
+          "command": [
+            "node",
+            "dev/tests/s_perception25d.js"
+          ],
+          "exitCode": 0,
+          "seconds": 7.494212289999268
+        },
+        {
+          "name": "network25d",
+          "command": [
+            "node",
+            "dev/tests/network25d.js"
+          ],
+          "exitCode": 0,
+          "seconds": 109.90132660099698
+        },
+        {
+          "name": "physics25d",
+          "command": [
+            "node",
+            "dev/tests/physics25d.js"
+          ],
+          "exitCode": 0,
+          "seconds": 38.12043309499859
+        },
+        {
+          "name": "view25d",
+          "command": [
+            "node",
+            "dev/tests/view25d.js"
+          ],
+          "exitCode": 0,
+          "seconds": 267.58570689000044
+        },
+        {
+          "name": "perf_world25d",
+          "command": [
+            "node",
+            "dev/tests/perf_world25d.js"
+          ],
+          "exitCode": 0,
+          "seconds": 59.547452762999455
+        },
+        {
+          "name": "full-retained",
+          "command": [
+            "python",
+            "dev/stage_a/run_baseline.py",
+            "--game",
+            ".",
+            "--out",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/full-retained"
+          ],
+          "exitCode": 0,
+          "seconds": 576.9823001039986
+        },
+        {
+          "name": "frozen-parity",
+          "command": [
+            "python",
+            "dev/stage_h/run_parity.py",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/parity"
+          ],
+          "exitCode": 0,
+          "seconds": 18.938344095000502
+        },
+        {
+          "name": "flat-browser-parity",
+          "command": [
+            "node",
+            "dev/stage_h/browser_flat.js",
+            ".",
+            "/workspace/scratch/2bf492520e95/accepted-part3a/thefarbackrooms-level0",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/flat-browser"
+          ],
+          "exitCode": 0,
+          "seconds": 31.456279684996844
+        },
+        {
+          "name": "browser-foundation",
+          "command": [
+            "node",
+            "dev/part3b/browser_foundation.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/browser-foundation"
+          ],
+          "exitCode": 0,
+          "seconds": 4.624183323998295
+        },
+        {
+          "name": "browser-resets",
+          "command": [
+            "node",
+            "dev/part3b/browser_resets.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/browser-resets"
+          ],
+          "exitCode": 0,
+          "seconds": 22.6788427950014
+        },
+        {
+          "name": "browser-cutaway",
+          "command": [
+            "node",
+            "dev/part3b/browser_cutaway.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/browser-cutaway"
+          ],
+          "exitCode": 0,
+          "seconds": 30.854808788997616
+        },
+        {
+          "name": "browser-production-base",
+          "command": [
+            "node",
+            "dev/part3a/browser_base.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/browser-production-base"
+          ],
+          "exitCode": 0,
+          "seconds": 13.558224191998306
+        },
+        {
+          "name": "served-flat-fixture",
+          "command": [
+            "node",
+            "dev/stage_h/served_package.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/served-flat-fixture.json"
+          ],
+          "exitCode": 0,
+          "seconds": 0.3666131130012218
+        },
+        {
+          "name": "served-production",
+          "command": [
+            "node",
+            "dev/part3a/served_production.js",
+            "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b5/portable-02/gates/served-production.json"
+          ],
+          "exitCode": 0,
+          "seconds": 2.0212181429997145
+        },
+        {
+          "name": "redirect",
+          "command": [
+            "node",
+            "dev/stage_i/test_redirect.js"
+          ],
+          "exitCode": 0,
+          "seconds": 0.1643278459996509
+        }
+      ],
+      "buildHashes": {
+        "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+        "sim.js": "21c0be5a21f01bc15c4e885af021d6f4b415c83925e57da722434d75270e4e6d",
+        "ents.js": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284",
+        "levels/level0_spatial.json": "f187e5c484bf3b0efa91481e167db47702f6fb542fd9248bb2fc1a2d56d22b66"
+      },
+      "baselineComparison": "PASS_BASELINE_EQUIVALENCE",
+      "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a"
+    },
+    "scope": "Exact source extraction with package-relative final tests, builds, HTTP serving and redirect. Finalizer independently audits final remote tree and ZIP."
+  },
+  "allPortableValidatedFilesUnchanged": true,
+  "changedFileAuditExact": true,
+  "frozenParity": {
+    "status": "PASS",
+    "traces": 46,
+    "records": 35098,
+    "tolerance": 0,
+    "frozenUnchanged": true,
+    "map": "BYTE IDENTICAL"
+  },
+  "baselineComparison": "PASS_BASELINE_EQUIVALENCE",
+  "acceptance": "B-01 through B-19 PASS; B-20 handoff complete, human decision PENDING",
+  "mainHeadAtPublication": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+  "verifiedAtUTC": "2026-10-04T19:23:25.884772+00:00"
+}

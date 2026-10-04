@@ -1,0 +1,196 @@
+Read `README_FIRST.txt` in the supplied **THE FAR BACKROOMS — Part 3B Human QA Correction Pack** first.
+
+Then read and execute `PART_3B_HUMAN_QA_CORRECTION_PROMPT.txt` exactly as authorized.
+
+This is a focused follow-up correction for:
+
+**Part 3B — Movement, Camera & Depth Presentation**
+
+Do NOT restart Part 3B from scratch.
+
+Repository:
+`RoYoshi/backroomsproject`
+
+Branch:
+`part-3b`
+
+Verified current Part 3B source checkpoint:
+
+`6ec76c6ca9b289c108ab933c71af196dd5c522cd`
+
+Verified current Part 3B source tree:
+
+`05a8e8926ed30012d3158e7ef0f5b6f546bc06a1`
+
+This source already contains the full Part 3B engineering/publication result, but HUMAN QA has rejected the current presentation.
+
+==================================================
+1. HUMAN QA STATUS
+==================================================
+
+Current status:
+
+`PART 3B — HUMAN QA FAIL / NEEDS FOLLOW-UP`
+
+Do NOT begin Part 3C.
+
+The user's complaint is specific:
+
+- the game currently looks angled / tilted / slightly isometric,
+- that destroys the intended top-down feel,
+- the current left-right wall depth read is closer to the desired feel,
+- the top and bottom walls should gain comparable readable depth,
+- but the overall scene must remain unmistakably top-down.
+
+Use the included screenshot and failure summary as authority.
+
+==================================================
+2. WHAT MUST STAY
+==================================================
+
+Preserve as much of the accepted 3B work as possible unless a demonstrated narrow change is required:
+
+- camera-Z smoothing foundation
+- stair/ramp/fall presentation work
+- continuous Level 0 room visibility semantics
+- NORTH crawl local cover behavior
+- LONG ROOM overlap slab local cutaway
+- projection-aware picking correctness
+- client-local presentation independence
+- fairness protections
+- existing test/report/package scaffolding
+
+Do NOT throw away 3B and rebuild from zero.
+
+==================================================
+3. WHAT MUST CHANGE
+==================================================
+
+The current depth/projection treatment must be redesigned so that:
+
+1. The camera still reads as top-down / orthographic.
+2. There is NO apparent global tilt or isometric slant.
+3. Ordinary room rectangles do NOT become trapezoids/wedges.
+4. Top walls and bottom walls gain readable volume/depth similar in spirit to the current better-looking left/right walls.
+5. Verticality/falling/stairs remain perceptible.
+6. Fairness, picking, physical truth and cutaway correctness remain intact.
+
+Implementation direction is up to you, but the result must avoid global scene warping.
+Favor local/readable wall-volume cues and top-down-preserving presentation over strong global layer scaling.
+
+==================================================
+4. REQUIRED FIRST STEP
+==================================================
+
+Inspect the live remote `part-3b` first.
+
+If head remains:
+
+`6ec76c6ca9b289c108ab933c71af196dd5c522cd`
+
+resume from it.
+
+If remote has advanced, do NOT reset backward. Inspect/preserve the newer valid descendant first.
+
+Then preserve the current HUMAN QA failure baseline before repair:
+- note the current source checkpoint and tree,
+- record the user rejection,
+- preserve or create evidence demonstrating the "angled/isometric" failure mode,
+- then begin the correction.
+
+==================================================
+5. REQUIRED CORRECTION CHECKPOINTS
+==================================================
+
+Use a focused correction sequence such as:
+
+P3B-HQ0 — Human-QA failure baseline
+- preserve current failure evidence
+- record rejection criteria
+- no broad runtime rewrite
+- commit/push/verify
+
+P3B-HQ1 — Projection/depth redesign
+- remove the unacceptable tilted/isometric feel
+- preserve top-down orthographic reading
+- improve top/bottom wall depth readability
+- keep left/right wall readability where possible
+- keep stairs/falls readable
+- focused validation
+- commit/push/verify
+
+P3B-HQ2 — Full regression + human-approval prep
+- rerun all affected 3B objective gates
+- rerun fairness/picking/cutaway/stair/fall/room-readability coverage
+- aspect/DPR/quality/two-client coverage as needed
+- preserve failures before repair
+- narrow fixes only
+- commit/push/verify
+
+P3B-HQ3 — Final package republication
+- fresh final ZIP/checksum/verification receipts
+- updated reports and human-QA handoff
+- exact changed-file audit
+- exact final source commit/tree
+- STOP
+
+The exact checkpoint naming may vary, but the preservation discipline must remain.
+
+==================================================
+6. HARD CONSTRAINTS
+==================================================
+
+Do NOT:
+- restart Part 3B from Part 3A,
+- modify or merge `main`,
+- begin Part 3C,
+- begin Part 3D+,
+- begin Multi-Level Runtime,
+- retune physics,
+- retune AI,
+- redesign networking,
+- redesign death authority,
+- weaken tests to force acceptance.
+
+Do NOT solve this by making the camera actually tilted.
+
+Do NOT keep a result where ordinary top-down rooms look globally slanted.
+
+==================================================
+7. REQUIRED VALIDATION
+==================================================
+
+Prove at minimum:
+
+- top-down room readability preserved,
+- no trapezoid/wedge distortion for ordinary rooms,
+- left/right wall readability preserved or improved,
+- top/bottom wall readable depth improved,
+- stairs still smoother than pre-3B,
+- falls still communicate descent,
+- continuous Level 0 room visibility still correct,
+- NORTH crawl local cover still correct,
+- LONG overlap slab cutaway still correct,
+- picking still matches visible truth,
+- fairness/canonical footprint unchanged,
+- multiplayer independent presentation preserved,
+- no regression in retained Stage I / Part 3A / Part 3B objective gates that remain applicable.
+
+==================================================
+8. FINAL OUTPUTS
+==================================================
+
+At minimum produce updated:
+- `PART_3B_REPORT.md`
+- `PART_3B_HUMAN_QA.md`
+- `PART_3B_PACKAGE_VERIFICATION.json`
+- publication/source verification receipts
+- changed-file audit
+- updated final ZIP
+- ZIP SHA-256
+
+When the corrected Part 3B package is published and the final source checkpoint is verified, STOP.
+
+Final status must return to:
+
+`PART 3B — MOVEMENT, CAMERA & DEPTH PRESENTATION ENGINEERING COMPLETE — HUMAN QA PENDING`
