@@ -43,3 +43,9 @@ The authorized repair is restricted to requiring actual emitter XYZ in the brows
 `forced-capture-audit.json` preserves the observed FAIL: with ready=true, render(true) can leave frame count unchanged because TIMEOUT_EXPIRED still triggers an early return after gl.finish. H4's in-task effect activation and three forced timing samples therefore need a fresh-frame assertion. Existing raw pixel differences and recorded timings are preserved; the old timings must not be represented as three freshly rendered frames.
 
 Repair is limited to the force=true diagnostic branch in spatial_client.js after its explicit GPU finish. Normal frame scheduling, physical masks, picking, camera and simulation remain untouched. Exact +1 frame assertions will guard H1 capture and each H4 forced draw. Retained H1, complete real view25d and fresh package gates must rerun. This is a specific demonstrated capture defect, not permission to rewrite the preserved H4 implementation.
+
+## Focused capture repair passes; corrected full gate pending
+
+Only the explicit force=true early-return condition in spatial_client.js changed; normal frame scheduling and all masks/picking/physical logic are unchanged. H1 capture and each H4 forced effect/timing render now assert exactly +1 frame. H3 upper-peer emitter captures require and assert actual XYZ near (160,160,230).
+
+`regression-04` PASS covers fresh-frame H1 boot, real ramp, reduced-detail peer fall, Hound/Smiler XYZ, exact flat G/H pixels/state and actual served bytes. `lighting-post-capture-repair.json` and `picking-post-capture-repair.json` PASS preserve paired canonical decisions/RNG, channel separation, physical picking and geometry. Final acceptance is held for the entire corrected real view25d and fresh portable-02 package gate. Original H4 summary is preserved separately as `h4-summary-before-capture-repair.json`; old timing interpretation is superseded, not silently relabeled.

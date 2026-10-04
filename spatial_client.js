@@ -258,7 +258,10 @@
     // retained fixed-tick loop while a slow device finishes presentation.
     // Explicit forced renders are for drained capture/diagnostics only.
     if(state.fence){const gl=pass.gl;if(force)gl.finish();const done=gl.clientWaitSync(state.fence,0,0);
-      if(done===gl.TIMEOUT_EXPIRED){state.skippedFrames=(state.skippedFrames||0)+1;return;}
+      // WebGL sync status cannot change within the issuing JS task. A forced
+      // diagnostic draw has already drained prior work with finish(), so that
+      // delayed status must not turn a fresh capture into a stale-frame read.
+      if(!force&&done===gl.TIMEOUT_EXPIRED){state.skippedFrames=(state.skippedFrames||0)+1;return;}
       if(done===gl.WAIT_FAILED)throw Error('Spatial presentation GPU fence failed');
       gl.deleteSync(state.fence);state.fence=null;state.completedFrames=state.completedFrames||[];state.completedFrames.push(performance.now()-state.submittedAt);if(state.completedFrames.length>240)state.completedFrames.shift();}
     const start = performance.now(), net = window.__net.spatialState?.(), history = window.__spatialHistory?.();

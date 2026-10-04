@@ -1,0 +1,496 @@
+{
+  "status": "PASS",
+  "H4": "COMPLETE",
+  "Z29": "PASS",
+  "Z30": "PASS 8/8",
+  "H-Z14": "PASS",
+  "view25d": "PASS 2/2",
+  "browser": "151.0.7922.34",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "softwareGPU": true,
+  "performanceGate16_7ms": "NOT MET on SwiftShader; preserved limitation; no hardware/capacity certification",
+  "runtimeChangesDuringRecovery": [],
+  "cases": [
+    {
+      "case": {
+        "id": "16x9",
+        "w": 1280,
+        "h": 720,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hiddenPixels": 0,
+      "hiddenBeamPixels": 0,
+      "visibleControlPixels": 4958,
+      "hiddenInterferenceCalls": 0,
+      "scope": {
+        "width": 1536,
+        "height": 864,
+        "scale": 0.8333333333333334,
+        "minX": -608,
+        "maxX": 928,
+        "minY": -272,
+        "maxY": 592
+      },
+      "physicalHit": {
+        "x": 220,
+        "y": 169.00000000000023,
+        "z": 36.05000000000018
+      },
+      "distance": 62.254337198302885,
+      "aimPitch": -0.225999721359032,
+      "cpuMs": 404.30000000074506,
+      "cutawayMs": 0,
+      "drainedFrameMs": [
+        662.6000000014901,
+        67.69999999925494,
+        673.3000000007451
+      ],
+      "target": {
+        "width": 1280,
+        "height": 720,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "occluders": 32,
+      "drawCalls": 41,
+      "newResourceBytes": 7422992,
+      "actorTextureBytes": 1802240,
+      "defaultColorBytesEstimate": 3686400,
+      "packetCount": 23,
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "glError": 0
+    },
+    {
+      "case": {
+        "id": "16x10-small-ui",
+        "w": 1280,
+        "h": 800,
+        "dpr": 1,
+        "ui": 0.5,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hiddenPixels": 0,
+      "hiddenBeamPixels": 0,
+      "visibleControlPixels": 6090,
+      "hiddenInterferenceCalls": 0,
+      "scope": {
+        "width": 1382.4,
+        "height": 864,
+        "scale": 0.9259259259259259,
+        "minX": -531.2,
+        "maxX": 851.2,
+        "minY": -272,
+        "maxY": 592
+      },
+      "physicalHit": {
+        "x": 220,
+        "y": 169.00000000000023,
+        "z": 36.05000000000018
+      },
+      "distance": 62.254337198302885,
+      "aimPitch": -0.225999721359032,
+      "cpuMs": 345.79999999701977,
+      "cutawayMs": 0.09999999776482582,
+      "drainedFrameMs": [
+        617.2999999970198,
+        117.80000000074506,
+        59.100000001490116
+      ],
+      "target": {
+        "width": 1280,
+        "height": 800,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "occluders": 32,
+      "drawCalls": 41,
+      "newResourceBytes": 8242192,
+      "actorTextureBytes": 1802240,
+      "defaultColorBytesEstimate": 4096000,
+      "packetCount": 23,
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "glError": 0
+    },
+    {
+      "case": {
+        "id": "ultrawide",
+        "w": 3440,
+        "h": 1440,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hiddenPixels": 0,
+      "hiddenBeamPixels": 0,
+      "visibleControlPixels": 30464,
+      "hiddenInterferenceCalls": 0,
+      "scope": {
+        "width": 1536,
+        "height": 642.9767441860465,
+        "scale": 2.2395833333333335,
+        "minX": -608,
+        "maxX": 928,
+        "minY": -161.48837209302326,
+        "maxY": 481.48837209302326
+      },
+      "physicalHit": {
+        "x": 220,
+        "y": 169,
+        "z": 36.05000000000018
+      },
+      "distance": 62.254337198302856,
+      "aimPitch": -0.22599972135903215,
+      "cpuMs": 596.3999999985099,
+      "cutawayMs": 0.10000000149011612,
+      "drainedFrameMs": [
+        885.5,
+        202.80000000074506,
+        635.5999999977648
+      ],
+      "target": {
+        "width": 3165,
+        "height": 1325,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "occluders": 32,
+      "drawCalls": 37,
+      "newResourceBytes": 33599192,
+      "actorTextureBytes": 1802240,
+      "defaultColorBytesEstimate": 16774500,
+      "packetCount": 23,
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "glError": 0
+    },
+    {
+      "case": {
+        "id": "high-dpr",
+        "w": 1280,
+        "h": 720,
+        "dpr": 2,
+        "ui": 1.5,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hiddenPixels": 0,
+      "hiddenBeamPixels": 0,
+      "visibleControlPixels": 19636,
+      "hiddenInterferenceCalls": 0,
+      "scope": {
+        "width": 1536,
+        "height": 864,
+        "scale": 0.8333333333333334,
+        "minX": -608,
+        "maxX": 928,
+        "minY": -272,
+        "maxY": 592
+      },
+      "physicalHit": {
+        "x": 220,
+        "y": 169.00000000000023,
+        "z": 36.05000000000018
+      },
+      "distance": 62.254337198302885,
+      "aimPitch": -0.225999721359032,
+      "cpuMs": 467.3999999985099,
+      "cutawayMs": 0.09999999776482582,
+      "drainedFrameMs": [
+        764.5,
+        113,
+        608.9000000022352
+      ],
+      "target": {
+        "width": 2560,
+        "height": 1440,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "occluders": 32,
+      "drawCalls": 41,
+      "newResourceBytes": 29541392,
+      "actorTextureBytes": 1802240,
+      "defaultColorBytesEstimate": 14745600,
+      "packetCount": 23,
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "glError": 0
+    },
+    {
+      "case": {
+        "id": "4k",
+        "w": 3840,
+        "h": 2160,
+        "dpr": 1,
+        "ui": 2,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hiddenPixels": 0,
+      "hiddenBeamPixels": 0,
+      "visibleControlPixels": 20899,
+      "hiddenInterferenceCalls": 0,
+      "scope": {
+        "width": 1536,
+        "height": 864,
+        "scale": 2.5,
+        "minX": -608,
+        "maxX": 928,
+        "minY": -272,
+        "maxY": 592
+      },
+      "physicalHit": {
+        "x": 220,
+        "y": 169,
+        "z": 36.05000000000018
+      },
+      "distance": 62.254337198302856,
+      "aimPitch": -0.22599972135903215,
+      "cpuMs": 715.9000000022352,
+      "cutawayMs": 0.10000000149011612,
+      "drainedFrameMs": [
+        752.6000000014901,
+        774.3999999985099,
+        670.1000000014901
+      ],
+      "target": {
+        "width": 2730,
+        "height": 1536,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "occluders": 32,
+      "drawCalls": 38,
+      "newResourceBytes": 33596432,
+      "actorTextureBytes": 1703936,
+      "defaultColorBytesEstimate": 16773120,
+      "packetCount": 20,
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "glError": 0
+    },
+    {
+      "case": {
+        "id": "reduced",
+        "w": 1280,
+        "h": 720,
+        "dpr": 1,
+        "ui": 2,
+        "q": 0.5,
+        "zoom": 1,
+        "nv": false
+      },
+      "hiddenPixels": 0,
+      "hiddenBeamPixels": 0,
+      "visibleControlPixels": 1235,
+      "hiddenInterferenceCalls": 0,
+      "scope": {
+        "width": 1536,
+        "height": 864,
+        "scale": 0.8333333333333334,
+        "minX": -608,
+        "maxX": 928,
+        "minY": -272,
+        "maxY": 592
+      },
+      "physicalHit": {
+        "x": 220,
+        "y": 169.00000000000023,
+        "z": 36.05000000000018
+      },
+      "distance": 62.254337198302885,
+      "aimPitch": -0.225999721359032,
+      "cpuMs": 1041.8999999985099,
+      "cutawayMs": 0,
+      "drainedFrameMs": [
+        626.5,
+        52.100000001490116,
+        52.100000001490116
+      ],
+      "target": {
+        "width": 640,
+        "height": 360,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "occluders": 32,
+      "drawCalls": 41,
+      "newResourceBytes": 1893392,
+      "actorTextureBytes": 1802240,
+      "defaultColorBytesEstimate": 921600,
+      "packetCount": 23,
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "glError": 0
+    },
+    {
+      "case": {
+        "id": "nv-low-zoom2",
+        "w": 1280,
+        "h": 800,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 2,
+        "nv": true,
+        "ir": 1
+      },
+      "hiddenPixels": 0,
+      "hiddenBeamPixels": 0,
+      "visibleControlPixels": 24346,
+      "hiddenInterferenceCalls": 0,
+      "scope": {
+        "width": 691.2002558504171,
+        "height": 432.00015990651065,
+        "scale": 1.8518511663818096,
+        "minX": -185.60012792520854,
+        "maxX": 505.60012792520854,
+        "minY": -56.00007995325532,
+        "maxY": 376.0000799532553
+      },
+      "physicalHit": {
+        "x": 220,
+        "y": 169,
+        "z": 36.05000000000018
+      },
+      "distance": 62.254337198302856,
+      "aimPitch": -0.22599972135903215,
+      "cpuMs": 33.400000002235174,
+      "cutawayMs": 0.10000000149011612,
+      "drainedFrameMs": [
+        189.40000000223517,
+        513.3000000007451,
+        58.69999999925494
+      ],
+      "target": {
+        "width": 1280,
+        "height": 800,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "occluders": 32,
+      "drawCalls": 29,
+      "newResourceBytes": 8242192,
+      "actorTextureBytes": 1802240,
+      "defaultColorBytesEstimate": 4096000,
+      "packetCount": 23,
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "glError": 0
+    },
+    {
+      "case": {
+        "id": "nv-high-zoom4-dpr",
+        "w": 1280,
+        "h": 720,
+        "dpr": 2,
+        "ui": 1,
+        "q": 0.5,
+        "zoom": 4,
+        "nv": true,
+        "ir": 2
+      },
+      "hiddenPixels": 0,
+      "hiddenBeamPixels": 0,
+      "visibleControlPixels": 79700,
+      "hiddenInterferenceCalls": 0,
+      "scope": {
+        "width": 384.000133763242,
+        "height": 216.00007524182362,
+        "scale": 3.3333321721944844,
+        "minX": -32.000066881620995,
+        "maxX": 352.000066881621,
+        "minY": 51.99996237908819,
+        "maxY": 268.0000376209118
+      },
+      "physicalHit": {
+        "x": 220,
+        "y": 169,
+        "z": 36.05000000000018
+      },
+      "distance": 62.254337198302856,
+      "aimPitch": -0.22599972135903215,
+      "cpuMs": 40.600000001490116,
+      "cutawayMs": 0,
+      "drainedFrameMs": [
+        558.4000000022352,
+        145.59999999776483,
+        565.6999999992549
+      ],
+      "target": {
+        "width": 1280,
+        "height": 720,
+        "depth": "DEPTH_COMPONENT24",
+        "color": "RGBA8"
+      },
+      "occluders": 32,
+      "drawCalls": 24,
+      "newResourceBytes": 7422992,
+      "actorTextureBytes": 1802240,
+      "defaultColorBytesEstimate": 3686400,
+      "packetCount": 23,
+      "layers": {
+        "mp": "none",
+        "light": "none",
+        "peerTip": "none",
+        "aiDebug": "absent",
+        "glitchFx": "none"
+      },
+      "glError": 0
+    }
+  ],
+  "pairedDecisionsAndRNG": "PASS",
+  "failuresPreserved": [
+    "recovery-01/failure.json",
+    "recovery-01/browser-install.log"
+  ],
+  "completeGateDirectory": "dev/stage_h/evidence/h4/view25d-recovery-01/browser-zNE6MZ",
+  "H5": "NOT STARTED"
+}

@@ -6,8 +6,8 @@ const out=path.resolve(process.argv[2]);fs.mkdirSync(out,{recursive:true});
 (async()=>{const s=await server(fixture());let browser,a,b;const checks=[];try{
  browser=await launch();a=await open(browser,s,'H1 lower');
  // Authentication can finish while the bounded GPU queue still holds a
- // pre-join packet. A forced render may return without advancing that fence.
- // Require a real post-authentication production packet, not a pixel retry.
+ // pre-join packet. Require a real post-authentication production packet
+ // before the fresh-frame capture, rather than retrying its pixel assertion.
  const ready=await a.page.evaluate(()=>({tick:__net.spatialState().pose.tick,frames:__spatial.state.frames}));
  await a.page.waitForFunction(tick=>__spatial.state.packets.some(p=>p.id==='p'+__api.H.id&&p.tick>=tick)&&__spatial.state.last.cutaway.groups.every(g=>g.fade===1),ready.tick,{timeout:30000});
  const first=await pixels(a.page);fs.writeFileSync(path.join(out,'boot-pixels.json'),JSON.stringify({ready,first,state:await a.inspect(),errors:a.errors,console:a.consoleErrors,failed:a.failed},null,2));assert(first.lit>1000&&first.error===0,'actual completed production pixels');

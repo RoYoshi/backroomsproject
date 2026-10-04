@@ -46,3 +46,5 @@ H5 spatial/parity/browser preservation verified remote: `37d38a4e2ccd8d91adfda66
 H5 startup/full-quality fall failure preservation verified remote: `8959975b73a7e342c4670f8a585fda16d881f054`; tree `2832f746840f047e6a7905e8d38bf91e5fdb018a`. No production rendering change was made.
 
 H5 retained regression/profile checkpoint verified remote: `fa08394660a5cb066cd851cfd263ac759016c645`; tree `487243d4078ee0c225fd1c20911bb9db68568b96`. Fresh portable-01 subsequently completed, but its H-Z14 emitter precondition and forced-capture advancement audits require correction before final acceptance.
+
+H5 capture-audit failure preservation verified remote: `ec5eeaada255eb523b283eca59b6b029675aa5f6`; tree `89776bb13f77972ee5a04e240cff0dc58a1732f3`. Portable-01 raw outputs and both objective capture audits are preserved before the force-path/XYZ readiness repair.
