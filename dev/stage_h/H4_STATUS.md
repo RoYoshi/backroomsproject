@@ -19,3 +19,11 @@ Remote recovery source was independently verified at `de9de8b23a73327a1337b3500e
 `picking-recovery-01.json` also passes the retained hidden/camera-blocked target and eye-plane fallback checks without any changed thresholds. SwiftShader drained-frame costs exceed 16.7 ms; raw timing/resource measurements are retained as limitations, not hardware certification.
 
 The complete named `view25d` gate is running separately. H4 completion is NOT yet claimed. H5 has NOT started. This preservation checkpoint protects the completed matrix before the longer aggregate browser run.
+
+## H4 COMPLETE — recovery acceptance
+
+`evidence/h4/view25d-recovery-01/gate.log`: **2/2 PASS**. The real orchestrator launched production H2, H3 and H4 clients. Z29 PASS, H-Z14 PASS, Z30 8/8 PASS. `paired-lighting-recovery-01.json` independently repeats equal Hound/Smiler decisions and RNG under presentation changes and unchanged geometry/channel separation. All local resource, script and GL assertions pass.
+
+`evidence/h4/H4_COMPLETION.json` records per-case physical picks, footprint, hidden/positive pixels, layer masks, CPU/cutaway/drained-frame timings, targets, draw/packet/occluder counts and memory estimates. Chromium 151 uses ANGLE SwiftShader. The existing 16.7 ms frame target is NOT met on this software GPU; this limitation is retained without altering the target or dropping physical occluders. Hardware and final capacity certification remain outside H.
+
+No production code or test threshold was changed during H4 recovery. The original preserved picking/view implementation passed. H4 is complete; H5 begins only after this completion source/evidence checkpoint is remotely verified.

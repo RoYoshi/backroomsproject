@@ -28,3 +28,7 @@ H3 complete: `81c3e54e59dd92ce9c9f4fe72986b10824197727`, tree `1e566b6575d621df4
 H4 original preservation: `de9de8b23a73327a1337b3500e6e5241a5471171`, tree `a994646952ff85dea71aa714a6bb14055189909a`. Recovery reverified this exact remote ref/tree before continuing.
 
 H4 recovery matrix preservation: eight-case Z30 PASS with raw errors and performance evidence preserved. Named view25d running; no H4 completion or H5 claim. Publication identity is recorded after remote verification.
+
+H4 recovery matrix verified remote: `489eeda27b477ac1665b668ee9a4c723a2cc369c`; tree `3547670e1dfb44d51837a5194bc507972c9aae94`. Non-force GitHub ref advance and subsequent fetch verified both identities; local branch fast-forwarded only after exact indexed-tree equality.
+
+H4 completion: Z29/H-Z14/Z30 and named view25d PASS with full raw browser evidence. Remote completion receipt follows publication; H5 is not authorized to start until that verification.
