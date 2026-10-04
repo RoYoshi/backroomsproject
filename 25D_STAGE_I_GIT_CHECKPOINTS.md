@@ -12,3 +12,5 @@ The shell's public checkout is read-only. Authorized writes use the connected Gi
 | I2 preservation | 007c328cd984a8148285b47650874389768332c3 | e3c3dd2aefc99fefacba9f18ce3d5af2f23c2245 | Raw soak readiness failure preserved; independently fetched |
 
 | I2 browser/stress preservation | c47cb1c6804c12aed2033b4f47a241b89771879c | 3079a9c3e15ec73b7f5a5d09fb762d21a95f36e3 | Connected GitHub fast-forward; independent fetch SHA/tree match |
+
+| I2 | a64117fdf3798f3c483dc602ca34ed6d3804b18d | 1973c94319daca2d93b239b68bf4990f552e90ed | Connected GitHub fast-forward; independent fetch SHA/tree match |

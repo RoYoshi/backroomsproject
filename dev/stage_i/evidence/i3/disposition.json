@@ -1,0 +1,47 @@
+{
+  "status": "PASS_NO_NEW_RUNTIME_REGRESSION",
+  "runtimeChanges": 0,
+  "runtimeBytesIdentical": [
+    "ai.js",
+    "sim.js",
+    "ents.js",
+    "world.js",
+    "move.js",
+    "world_geometry.js",
+    "world_motion.js",
+    "world_view.js",
+    "spatial_client.js",
+    "spatial_authority.js",
+    "spatial_protocol.js",
+    "spatial_history.js",
+    "dphys.js",
+    "death_srv.js",
+    "server.js",
+    "redirect.js",
+    "assets/index-DKbV5Nv9.js",
+    "levels/level0.js",
+    "camera_policy.js",
+    "timing_policy.js"
+  ],
+  "flatMedianOfThreeRuns": {
+    "parent": {
+      "median": 0.008974999999963984,
+      "p99": 0.11940699999991011
+    },
+    "stageI": {
+      "median": 0.008814999999970041,
+      "p99": 0.12807400000002644
+    }
+  },
+  "candidateParentRatios": {
+    "median": 0.9821727019504641,
+    "p99": 1.072583684374642
+  },
+  "investigationBands": {
+    "median": 1.1,
+    "p99": 1.2
+  },
+  "preservedOutliers": "flat-1-stageI p99 0.503586 ms / worst 53.990695 ms; first candidate 24-active p99 87.362694 ms. No source change; subsequent serial controls converge. Raw runs remain unchanged.",
+  "aftermathDisposition": "KNOWN LIMITATION reproduced in exact parent; second pair 24-active p99 57.830375 / 57.790630 ms, same 440217 peak update bytes",
+  "repairDisposition": "Only test fixture, readiness and telemetry corrections were necessary. No runtime redesign, optimization, weakened threshold or skipped correctness."
+}

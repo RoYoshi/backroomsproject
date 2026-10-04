@@ -1,0 +1,5 @@
+# I3 — measured investigation complete
+
+PASS: no new runtime regression established. All 20 inspected production boundaries are byte-identical to accepted H, and the final scope audit will enforce no other runtime edits. Three alternating same-host flat pairs give a median-of-runs ratio within the locked 10% median / 20% p99 investigation bands. The slow second candidate run is preserved, not omitted from reporting. Two parent/candidate 1/3/24 aftermath pairs retain all original physics/sleep/payload assertions. Both parents reproduce the 24-active limitation; the second pair is 57.830375 vs 57.790630 ms p99 with identical 440217-byte peak snapshot updates.
+
+No runtime optimization is justified by these results. The permitted known CPU/payload and software-GPU limits remain prominent. Test-only defects already preserved and corrected are large-fixture bounds, first-snapshot readiness and unavailable external memory probing; real process telemetry now fills the measurement gap. No physics, AI, renderer, protocol, death variant or production-map change occurred. Proceed to full I4 certification.

@@ -1,0 +1,655 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "exactRuntimeIdentity": {
+    "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+    "sim.js": "5e1271b6e784513db9a0b2a5d95086ff8a47f7461ac17d13aa868ef1257181fa",
+    "ents.js": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284",
+    "world.js": "8f4553d523ab5b2a70d699003080db27d836a94f87ff80dd3628d93b3fb0b4b3",
+    "move.js": "193857bdf43d086e3e16eba7091f44e31b2c7bfa923640a1e05a3b5dc848a17c",
+    "world_geometry.js": "8157ecd31e840dbdf201051fe43b60353a330541a249d6f6c77dc25349e991b3",
+    "world_motion.js": "96c78029e3dcd7a72dd9aa3eca848276380cdf945bc4ce2f4cb0587568d67a6a",
+    "world_view.js": "0c4d092db36837df6624097cb96eead79c4fc073f394f2e4b32f478bdeb514d1",
+    "spatial_client.js": "5dfef29c4f4ff4a1e8ace14d3f5122a9f96b76e93850956e0c55bdbb2c11c296",
+    "spatial_authority.js": "a715feac98f3352ef5474a978acbf0d4a3d46671b9cfd0efc265c36930b45800",
+    "spatial_protocol.js": "e8b66c0f445b49487b6432488ece38cc88cbb6093200c3c3aa51fd8c270c5549",
+    "spatial_history.js": "81b39e806168e74e08c84d7b7f22ed34f9a80050e89ea52b028a59d156021901",
+    "dphys.js": "0bf43f0b058990387d978112c62374529d2149adafc21a0799b0a81460768c9a",
+    "death_srv.js": "57b52b3ce4a4af4dd8870e12159fd11756161d101d856f697d916f12f2b76a24",
+    "server.js": "0767719dcb0836ae29c6fe4d4a7ff8f549ebe0830321afdf043d4d4623fd325e",
+    "redirect.js": "12dcf8bfd99ae89d5c57b9adae390279fab7874a0eda72429a48ddcaae157dcf",
+    "assets/index-DKbV5Nv9.js": "a0457fc64f7e9a70ebd4cd03b8ecd0b57cbaeb5be2d7261bdea2e906afaefea0",
+    "levels/level0.js": "8560a74df5a1ebbda66b480b61d499a25e00b168d1a678df72efb556fdcda1d9",
+    "camera_policy.js": "d87df82ad2b9d28e068a5bc337953b5b99a8607539323e4bfba22023c2e8378e",
+    "timing_policy.js": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069"
+  },
+  "flatWorkload": "8 players, seed 7331, 3000 warmup + 9000 measured fixed ticks; 3 serial alternating parent/candidate pairs; no socket serialization",
+  "aftermathWorkload": "two serial parent/candidate pairs, 1/3/24 active then sleeping, exact shared production kernel",
+  "rows": [
+    {
+      "family": "flat",
+      "repetition": 0,
+      "label": "parent",
+      "seconds": 0.4822607460009749,
+      "measurement": {
+        "seed": 7331,
+        "median": 0.008254000000022188,
+        "p95": 0.029787999999996373,
+        "p99": 0.1064230000000066,
+        "worst": 2.0128970000000095,
+        "samples": 9000,
+        "entities": 4,
+        "memory": {
+          "rss": 79364096,
+          "heapTotal": 34852864,
+          "heapUsed": 23670456,
+          "external": 4654199,
+          "arrayBuffers": 1010591
+        }
+      }
+    },
+    {
+      "family": "flat",
+      "repetition": 0,
+      "label": "stageI",
+      "seconds": 0.4836457010023878,
+      "measurement": {
+        "seed": 7331,
+        "median": 0.008457999999961885,
+        "p95": 0.036000000000001364,
+        "p99": 0.12807400000002644,
+        "worst": 1.9418299999999817,
+        "samples": 9000,
+        "entities": 4,
+        "memory": {
+          "rss": 80650240,
+          "heapTotal": 35639296,
+          "heapUsed": 18338440,
+          "external": 4654199,
+          "arrayBuffers": 1010591
+        }
+      }
+    },
+    {
+      "family": "flat",
+      "repetition": 1,
+      "label": "parent",
+      "seconds": 0.5556998520041816,
+      "measurement": {
+        "seed": 7331,
+        "median": 0.008974999999963984,
+        "p95": 0.03517800000003035,
+        "p99": 0.11940699999991011,
+        "worst": 3.561949000000027,
+        "samples": 9000,
+        "entities": 4,
+        "memory": {
+          "rss": 80044032,
+          "heapTotal": 35115008,
+          "heapUsed": 23384336,
+          "external": 4654199,
+          "arrayBuffers": 1010591
+        }
+      }
+    },
+    {
+      "family": "flat",
+      "repetition": 1,
+      "label": "stageI",
+      "seconds": 0.877530644997023,
+      "measurement": {
+        "seed": 7331,
+        "median": 0.010565000000042346,
+        "p95": 0.04705300000000534,
+        "p99": 0.5035859999999843,
+        "worst": 53.99069500000007,
+        "samples": 9000,
+        "entities": 4,
+        "memory": {
+          "rss": 73502720,
+          "heapTotal": 35377152,
+          "heapUsed": 20344720,
+          "external": 4654199,
+          "arrayBuffers": 1010591
+        }
+      }
+    },
+    {
+      "family": "flat",
+      "repetition": 2,
+      "label": "parent",
+      "seconds": 0.7244613000002573,
+      "measurement": {
+        "seed": 7331,
+        "median": 0.00990999999999076,
+        "p95": 0.03749500000003536,
+        "p99": 0.1317980000000034,
+        "worst": 4.5865649999999505,
+        "samples": 9000,
+        "entities": 4,
+        "memory": {
+          "rss": 79560704,
+          "heapTotal": 35639296,
+          "heapUsed": 19392648,
+          "external": 4654199,
+          "arrayBuffers": 1010591
+        }
+      }
+    },
+    {
+      "family": "flat",
+      "repetition": 2,
+      "label": "stageI",
+      "seconds": 0.5749541580007644,
+      "measurement": {
+        "seed": 7331,
+        "median": 0.008814999999970041,
+        "p95": 0.03975099999996701,
+        "p99": 0.12397500000002992,
+        "worst": 4.020722999999975,
+        "samples": 9000,
+        "entities": 4,
+        "memory": {
+          "rss": 79175680,
+          "heapTotal": 35377152,
+          "heapUsed": 22768104,
+          "external": 4654199,
+          "arrayBuffers": 1010591
+        }
+      }
+    },
+    {
+      "family": "aftermath",
+      "repetition": 0,
+      "label": "parent",
+      "seconds": 12.583358541996859,
+      "measurement": {
+        "status": "PASS",
+        "runtime": "v24.19.0",
+        "platform": "linux",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "scope": "Stage G bounded server simulation/aftermath and JSON payload only; not Stage I certification",
+        "results": [
+          {
+            "count": 1,
+            "activeMax": 1,
+            "awakeMax": 5,
+            "activeTickMs": {
+              "p50": 1.3857019999999807,
+              "p95": 2.8751809999999978,
+              "p99": 4.028115000000014,
+              "worst": 8.891981999999985
+            },
+            "sleepingTickMs": {
+              "p50": 0.0007469999999329957,
+              "p95": 0.0010870000000977598,
+              "p99": 0.005302000000028784,
+              "worst": 0.026451999999949294
+            },
+            "queries": {
+              "steps": 6739,
+              "sweeps": 5178,
+              "supports": 14400,
+              "clearance": 6352,
+              "contacts": 2,
+              "sleepChecks": 1510
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18451,
+            "frameMaxBytes": 18602,
+            "snapshotBytes": {
+              "p50": 18312,
+              "p95": 18562,
+              "p99": 18598,
+              "worst": 18602
+            },
+            "nominal20HzPeakBytesPerClientSecond": 372040,
+            "settledUpdatesPerSecond": 0
+          },
+          {
+            "count": 3,
+            "activeMax": 3,
+            "awakeMax": 15,
+            "activeTickMs": {
+              "p50": 3.4404329999999845,
+              "p95": 6.428392000000031,
+              "p99": 10.681663999999955,
+              "worst": 14.864563999999973
+            },
+            "sleepingTickMs": {
+              "p50": 0.0008660000003146706,
+              "p95": 0.0014989999999670545,
+              "p99": 0.0026539999998931307,
+              "worst": 0.0353570000002037
+            },
+            "queries": {
+              "steps": 20217,
+              "sweeps": 15510,
+              "supports": 43363,
+              "clearance": 19189,
+              "contacts": 6,
+              "sleepChecks": 4367
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18451,
+            "frameMaxBytes": 54965,
+            "snapshotBytes": {
+              "p50": 54062,
+              "p95": 54785,
+              "p99": 54965,
+              "worst": 54965
+            },
+            "nominal20HzPeakBytesPerClientSecond": 1099300,
+            "settledUpdatesPerSecond": 0
+          },
+          {
+            "count": 24,
+            "activeMax": 24,
+            "awakeMax": 120,
+            "activeTickMs": {
+              "p50": 26.690198000000237,
+              "p95": 52.530243999999584,
+              "p99": 64.48668799999996,
+              "worst": 70.08551500000067
+            },
+            "sleepingTickMs": {
+              "p50": 0.006285000001298613,
+              "p95": 0.0075800000013259705,
+              "p99": 0.03216400000019348,
+              "worst": 0.14016200000151002
+            },
+            "queries": {
+              "steps": 162996,
+              "sweeps": 125130,
+              "supports": 349538,
+              "clearance": 154426,
+              "contacts": 50,
+              "sleepChecks": 35326
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18932,
+            "frameMaxBytes": 95775,
+            "snapshotBytes": {
+              "p50": 433098,
+              "p95": 438825,
+              "p99": 440183,
+              "worst": 440217
+            },
+            "nominal20HzPeakBytesPerClientSecond": 8804340,
+            "settledUpdatesPerSecond": 0
+          }
+        ]
+      }
+    },
+    {
+      "family": "aftermath",
+      "repetition": 0,
+      "label": "stageI",
+      "seconds": 13.319112406003114,
+      "measurement": {
+        "status": "PASS",
+        "runtime": "v24.19.0",
+        "platform": "linux",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "scope": "Stage G bounded server simulation/aftermath and JSON payload only; not Stage I certification",
+        "results": [
+          {
+            "count": 1,
+            "activeMax": 1,
+            "awakeMax": 5,
+            "activeTickMs": {
+              "p50": 1.3142540000000054,
+              "p95": 2.091555000000085,
+              "p99": 4.708568000000014,
+              "worst": 12.98448099999996
+            },
+            "sleepingTickMs": {
+              "p50": 0.0005820000000085201,
+              "p95": 0.0007550000000264845,
+              "p99": 0.01623800000004394,
+              "worst": 0.023064999999974134
+            },
+            "queries": {
+              "steps": 6739,
+              "sweeps": 5178,
+              "supports": 14400,
+              "clearance": 6352,
+              "contacts": 2,
+              "sleepChecks": 1510
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18451,
+            "frameMaxBytes": 18602,
+            "snapshotBytes": {
+              "p50": 18312,
+              "p95": 18562,
+              "p99": 18598,
+              "worst": 18602
+            },
+            "nominal20HzPeakBytesPerClientSecond": 372040,
+            "settledUpdatesPerSecond": 0
+          },
+          {
+            "count": 3,
+            "activeMax": 3,
+            "awakeMax": 15,
+            "activeTickMs": {
+              "p50": 3.607818999999836,
+              "p95": 5.690009000000032,
+              "p99": 11.070929999999862,
+              "worst": 13.51299599999993
+            },
+            "sleepingTickMs": {
+              "p50": 0.0010790000001179578,
+              "p95": 0.001576999999997497,
+              "p99": 0.027871999999661057,
+              "worst": 0.08801799999992
+            },
+            "queries": {
+              "steps": 20217,
+              "sweeps": 15510,
+              "supports": 43363,
+              "clearance": 19189,
+              "contacts": 6,
+              "sleepChecks": 4367
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18451,
+            "frameMaxBytes": 54965,
+            "snapshotBytes": {
+              "p50": 54062,
+              "p95": 54785,
+              "p99": 54965,
+              "worst": 54965
+            },
+            "nominal20HzPeakBytesPerClientSecond": 1099300,
+            "settledUpdatesPerSecond": 0
+          },
+          {
+            "count": 24,
+            "activeMax": 24,
+            "awakeMax": 120,
+            "activeTickMs": {
+              "p50": 27.562950000000455,
+              "p95": 47.54092899999978,
+              "p99": 87.36269399999992,
+              "worst": 229.15643699999964
+            },
+            "sleepingTickMs": {
+              "p50": 0.006376999999702093,
+              "p95": 0.007393000001684413,
+              "p99": 0.030762000000322587,
+              "worst": 0.04133699999874807
+            },
+            "queries": {
+              "steps": 162996,
+              "sweeps": 125130,
+              "supports": 349538,
+              "clearance": 154426,
+              "contacts": 50,
+              "sleepChecks": 35326
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18932,
+            "frameMaxBytes": 95775,
+            "snapshotBytes": {
+              "p50": 433098,
+              "p95": 438825,
+              "p99": 440183,
+              "worst": 440217
+            },
+            "nominal20HzPeakBytesPerClientSecond": 8804340,
+            "settledUpdatesPerSecond": 0
+          }
+        ]
+      }
+    },
+    {
+      "family": "aftermath",
+      "repetition": 1,
+      "label": "parent",
+      "seconds": 11.986006016006286,
+      "measurement": {
+        "status": "PASS",
+        "runtime": "v24.19.0",
+        "platform": "linux",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "scope": "Stage G bounded server simulation/aftermath and JSON payload only; not Stage I certification",
+        "results": [
+          {
+            "count": 1,
+            "activeMax": 1,
+            "awakeMax": 5,
+            "activeTickMs": {
+              "p50": 1.256670999999983,
+              "p95": 1.9714799999999855,
+              "p99": 2.9426959999999553,
+              "worst": 10.350201999999967
+            },
+            "sleepingTickMs": {
+              "p50": 0.0005780000000186192,
+              "p95": 0.0007140000000163127,
+              "p99": 0.002778000000034808,
+              "worst": 0.025439000000005763
+            },
+            "queries": {
+              "steps": 6739,
+              "sweeps": 5178,
+              "supports": 14400,
+              "clearance": 6352,
+              "contacts": 2,
+              "sleepChecks": 1510
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18451,
+            "frameMaxBytes": 18602,
+            "snapshotBytes": {
+              "p50": 18312,
+              "p95": 18562,
+              "p99": 18598,
+              "worst": 18602
+            },
+            "nominal20HzPeakBytesPerClientSecond": 372040,
+            "settledUpdatesPerSecond": 0
+          },
+          {
+            "count": 3,
+            "activeMax": 3,
+            "awakeMax": 15,
+            "activeTickMs": {
+              "p50": 3.4940650000000915,
+              "p95": 5.627622999999858,
+              "p99": 6.5134180000000015,
+              "worst": 9.631462000000056
+            },
+            "sleepingTickMs": {
+              "p50": 0.0010350000000016735,
+              "p95": 0.0013710000000628497,
+              "p99": 0.003242000000000189,
+              "worst": 0.02771900000016103
+            },
+            "queries": {
+              "steps": 20217,
+              "sweeps": 15510,
+              "supports": 43363,
+              "clearance": 19189,
+              "contacts": 6,
+              "sleepChecks": 4367
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18451,
+            "frameMaxBytes": 54965,
+            "snapshotBytes": {
+              "p50": 54062,
+              "p95": 54785,
+              "p99": 54965,
+              "worst": 54965
+            },
+            "nominal20HzPeakBytesPerClientSecond": 1099300,
+            "settledUpdatesPerSecond": 0
+          },
+          {
+            "count": 24,
+            "activeMax": 24,
+            "awakeMax": 120,
+            "activeTickMs": {
+              "p50": 26.078276000000187,
+              "p95": 41.64359299999978,
+              "p99": 57.830375000000004,
+              "worst": 104.12257099999988
+            },
+            "sleepingTickMs": {
+              "p50": 0.0063759999993635574,
+              "p95": 0.007583000000522588,
+              "p99": 0.03252099999917846,
+              "worst": 0.07418799999868497
+            },
+            "queries": {
+              "steps": 162996,
+              "sweeps": 125130,
+              "supports": 349538,
+              "clearance": 154426,
+              "contacts": 50,
+              "sleepChecks": 35326
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18932,
+            "frameMaxBytes": 95775,
+            "snapshotBytes": {
+              "p50": 433098,
+              "p95": 438825,
+              "p99": 440183,
+              "worst": 440217
+            },
+            "nominal20HzPeakBytesPerClientSecond": 8804340,
+            "settledUpdatesPerSecond": 0
+          }
+        ]
+      }
+    },
+    {
+      "family": "aftermath",
+      "repetition": 1,
+      "label": "stageI",
+      "seconds": 11.751349930003926,
+      "measurement": {
+        "status": "PASS",
+        "runtime": "v24.19.0",
+        "platform": "linux",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "scope": "Stage G bounded server simulation/aftermath and JSON payload only; not Stage I certification",
+        "results": [
+          {
+            "count": 1,
+            "activeMax": 1,
+            "awakeMax": 5,
+            "activeTickMs": {
+              "p50": 1.2409830000000284,
+              "p95": 1.925764000000072,
+              "p99": 2.6602640000000406,
+              "worst": 8.972526000000016
+            },
+            "sleepingTickMs": {
+              "p50": 0.0005659999999352294,
+              "p95": 0.0007100000000264117,
+              "p99": 0.0028680000000349537,
+              "worst": 0.02040199999999004
+            },
+            "queries": {
+              "steps": 6739,
+              "sweeps": 5178,
+              "supports": 14400,
+              "clearance": 6352,
+              "contacts": 2,
+              "sleepChecks": 1510
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18451,
+            "frameMaxBytes": 18602,
+            "snapshotBytes": {
+              "p50": 18312,
+              "p95": 18562,
+              "p99": 18598,
+              "worst": 18602
+            },
+            "nominal20HzPeakBytesPerClientSecond": 372040,
+            "settledUpdatesPerSecond": 0
+          },
+          {
+            "count": 3,
+            "activeMax": 3,
+            "awakeMax": 15,
+            "activeTickMs": {
+              "p50": 3.338557999999921,
+              "p95": 4.770087999999987,
+              "p99": 6.372955999999931,
+              "worst": 16.755231999999978
+            },
+            "sleepingTickMs": {
+              "p50": 0.00094600000011269,
+              "p95": 0.0012409999999363208,
+              "p99": 0.001655999999911728,
+              "worst": 0.017585000000053697
+            },
+            "queries": {
+              "steps": 20217,
+              "sweeps": 15510,
+              "supports": 43363,
+              "clearance": 19189,
+              "contacts": 6,
+              "sleepChecks": 4367
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18451,
+            "frameMaxBytes": 54965,
+            "snapshotBytes": {
+              "p50": 54062,
+              "p95": 54785,
+              "p99": 54965,
+              "worst": 54965
+            },
+            "nominal20HzPeakBytesPerClientSecond": 1099300,
+            "settledUpdatesPerSecond": 0
+          },
+          {
+            "count": 24,
+            "activeMax": 24,
+            "awakeMax": 120,
+            "activeTickMs": {
+              "p50": 25.975373000000218,
+              "p95": 36.4112769999997,
+              "p99": 57.790629999999965,
+              "worst": 74.25317099999938
+            },
+            "sleepingTickMs": {
+              "p50": 0.006569000001036329,
+              "p95": 0.007687000001169508,
+              "p99": 0.03419899999971676,
+              "worst": 0.046454999999696156
+            },
+            "queries": {
+              "steps": 162996,
+              "sweeps": 125130,
+              "supports": 349538,
+              "clearance": 154426,
+              "contacts": 50,
+              "sleepChecks": 35326
+            },
+            "sleepingQueryDelta": 0,
+            "recordMaxBytes": 18932,
+            "frameMaxBytes": 95775,
+            "snapshotBytes": {
+              "p50": 433098,
+              "p95": 438825,
+              "p99": 440183,
+              "worst": 440217
+            },
+            "nominal20HzPeakBytesPerClientSecond": 8804340,
+            "settledUpdatesPerSecond": 0
+          }
+        ]
+      }
+    }
+  ],
+  "interpretation": "All correctness assertions retained. Runtime bytes identical; report timing ratios and variability explicitly. Known 24-active limit is not repaired or claimed as a threshold pass."
+}
