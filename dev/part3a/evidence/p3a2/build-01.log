@@ -1,0 +1,17 @@
+/workspace/scratch/8520e6cd0a04/part-3a/world_geometry.js:104
+ const fail=m=>{throw Error('WorldDefinition: '+m);},ok=(b,m)=>{if(!b)fail(m);};
+                ^
+
+Error: WorldDefinition: nav:base duplicate reference
+    at fail (/workspace/scratch/8520e6cd0a04/part-3a/world_geometry.js:104:23)
+    at ok (/workspace/scratch/8520e6cd0a04/part-3a/world_geometry.js:104:71)
+    at spatialValidate (/workspace/scratch/8520e6cd0a04/part-3a/world_geometry.js:105:40)
+    at Object.validate (/workspace/scratch/8520e6cd0a04/part-3a/world_geometry.js:20:51)
+    at Object.<anonymous> (/workspace/scratch/8520e6cd0a04/part-3a/dev/part3a/build_level0_spatial.js:4:19)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+
+Node.js v24.19.0

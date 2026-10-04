@@ -1,6 +1,6 @@
 {
-  "milestone": "P3A1",
-  "status": "P3A1 COMPLETE",
+  "milestone": "P3A2",
+  "status": "P3A2 COMPLETE",
   "source": {
     "revision": "v23.3.6-flat-compat-1",
     "hash": "5b07af1fe27222982b860d5ebc912c3894459fa65441d46e7f2d9eb7f278bc77"
@@ -154,18 +154,99 @@
     180,
     -96
   ],
-  "runtimeChanges": 0,
-  "spatialRevision": "part3a-base-1",
-  "spatialHash": "e1d8fbf4612781aae08b3bca45dd177e4ce27498f1b98eea595ce1546a8641ad",
+  "spatialRevision": "part3a-vertical-1",
+  "spatialHash": "9be8f39499592e211de107d236d142aa304262aa3a162cfa854f60bd787b974a",
   "counts": {
-    "solids": 873,
-    "supportPatches": 285,
-    "navSurfaces": 1,
-    "traversalLinks": 0,
-    "spaces": 285,
-    "portals": 441,
+    "solids": 909,
+    "supportPatches": 306,
+    "navSurfaces": 6,
+    "traversalLinks": 8,
+    "spaces": 290,
+    "portals": 449,
     "lights": 90,
     "anchors": 1,
-    "viewGroups": 142
+    "viewGroups": 147
+  },
+  "features": [
+    {
+      "id": "upper:long-room",
+      "roomId": "room:06",
+      "rect": {
+        "x": 5568,
+        "y": 720,
+        "w": 1152,
+        "h": 288
+      },
+      "z": 180,
+      "supportId": "support:upper:long-room",
+      "spaceId": "space:upper:5568_720_1152_288"
+    },
+    {
+      "id": "stairs:long-room",
+      "roomId": "room:06",
+      "rect": {
+        "x": 5568,
+        "y": 1008,
+        "w": 96,
+        "h": 480
+      },
+      "z": [
+        0,
+        180
+      ],
+      "risers": 15,
+      "rise": 12,
+      "tread": 32,
+      "linkId": "link:long-room-stairs:forward"
+    },
+    {
+      "id": "ramp:long-room",
+      "roomId": "room:06",
+      "rect": {
+        "x": 6336,
+        "y": 1008,
+        "w": 192,
+        "h": 480
+      },
+      "z": [
+        0,
+        180
+      ],
+      "supportId": "support:ramp:long-room",
+      "linkId": "link:long-room-ramp:forward"
+    },
+    {
+      "id": "lower:blackout",
+      "roomId": "room:07",
+      "rect": {
+        "x": 576,
+        "y": 5472,
+        "w": 288,
+        "h": 192
+      },
+      "z": -96,
+      "supportId": "support:lower:blackout",
+      "returnLinkId": "link:blackout-return:reverse",
+      "spaceId": "space:depression:576_5472_288_480"
+    },
+    {
+      "id": "crawl:north",
+      "roomId": "room:05",
+      "rect": {
+        "x": 1632,
+        "y": 816,
+        "w": 288,
+        "h": 96
+      },
+      "z": 0,
+      "clearance": 28,
+      "linkId": "link:north-crawl:forward",
+      "spaceId": "space:crawl:1632_816_288_96"
+    }
+  ],
+  "baseCirculation": {
+    "reachableCells": 12956,
+    "rooms": 12,
+    "cellSize": 48
   }
 }

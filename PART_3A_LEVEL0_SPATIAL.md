@@ -31,3 +31,11 @@ Production spawn pools must replace the fixture's first-anchor behavior only for
 Every milestone preserves raw failed attempts before repair, then commits/pushes/verifies `part-3a`. P3A1 proves complete base content and repeat builds; P3A2 physical vertical routes; P3A3 real gameplay/AI/authority; P3A4 served full-map pixels and performance; P3A5 all seven retained suites, flat/frozen equivalence, clean extraction and exact source/package identity. L0-01–L0-24 all must pass. Subjective readability and game feel remain human QA.
 
 P3A0 contains design, reference authority and inventory only. Part 3B–3G not begun. Main not modified or merged.
+
+## P3A2 built content amendments
+
+The LONG ROOM stair is 96 units wide at x5568–5664, leaving the accepted wall at its eastern base intact. Fifteen 12-unit risers retain 32-unit treads and an 80-unit traversal corridor. The upper slab and continuous 192-unit-wide ramp remain at the planned locations. Each has an actual ceiling opening and named local cutaway group.
+
+The BLACKOUT depression keeps the planned footprint x576–864/y5472–5952. Its Z−96 level occupies y5472–5664, with the return ramp rising south over y5664–5952. The preflight north approach was blocked by a preserved original wall; the failed physical traversal is retained as `motion-01.json`. Rotating the local ramp preserves that wall and provides a proven route out. A real side-rim drop lands on the same lower support.
+
+The NORTH crawl corridor has 28 units of body clearance and finite roof/side geometry. Same-XY LONG ROOM base/upper bodies at x6192/y864 have different physical supports and a separating slab. All 12 original rooms remain connected on the standing-height base map (12,956 reachable 48-unit cells). The generator records exact feature bounds, links and support IDs in `production.features` and the content manifest.

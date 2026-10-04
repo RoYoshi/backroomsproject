@@ -1,0 +1,18 @@
+'use strict';
+const fs=require('fs'),path=require('path'),assert=require('assert'),G=require('../../world_geometry'),M=require('../../world_motion');
+process.env.ADMIN_PASSCODE=require('crypto').randomBytes(24).toString('hex');
+const {server,launch,open,pixels,diagnostics}=require('../stage_h/browser_support');
+const out=path.resolve(process.argv[2]);fs.mkdirSync(out,{recursive:true});
+(async()=>{const def=require('../../levels/level0_spatial.json'),g=G.compile(def),s=await server(def),evidence=[];let browser,a;
+const save=()=>fs.writeFileSync(path.join(out,'traversal-raw.json'),JSON.stringify(evidence,null,2));
+try{browser=await launch();a=await open(browser,s,'Production vertical');await a.command({c:'freeze',on:1});await a.page.evaluate(()=>__spatial.config.quality=.5);
+const pose=()=>a.page.evaluate(()=>{const h=__api.H;return{x:h.x,y:h.y,z:h.z,support:h.supportId,mode:h.motionMode,shape:h.shape,posture:__mv.s,tick:h.tick};});
+const tp=async p=>{const support=g.supports(M.PROFILES.stand,p,[p.z-.01,p.z+.01])[0];assert(support);await a.teleport({...p,support:support.id});};
+const capture=async name=>{await a.page.waitForFunction(()=>Math.abs(__spatial.state.last.camera.z-__api.H.z)<.1&&__spatial.state.last.cutaway.groups.filter(g=>g.target).every(g=>g.fade===1),null,{timeout:30000});const p=await pose(),pix=await pixels(a.page),state=await a.inspect();evidence.push({name,pose:p,pixels:pix,state});save();assert(pix.lit>1000&&pix.error===0);await a.page.screenshot({path:path.join(out,name+'.png')});};
+const walk=async(name,key,condition)=>{const before=await pose();await a.page.keyboard.down(key);try{await a.page.waitForFunction(condition,null,{timeout:120000});}finally{await a.page.keyboard.up(key);}await a.page.waitForFunction(()=>Math.hypot(__api.H.vx,__api.H.vy)<.1);const after=await pose();evidence.push({name,before,after});save();assert(g.clearance(after.shape,after).fits);};
+await tp({x:5616,y:1512,z:0});await capture('stairs-base');await walk('stairs-up','w',()=>__api.H.y<965&&__api.H.z>179);assert.equal((await pose()).support,'support:upper:long-room');await capture('stairs-upper');
+await walk('upper-branch','d',()=>__api.H.x>6425);await tp({x:6432,y:960,z:180});await capture('ramp-upper');await walk('ramp-down','s',()=>__api.H.y>1510&&__api.H.z<.1);await capture('ramp-base');
+await tp({x:720,y:5976,z:0});await walk('depression-down','w',()=>__api.H.y<5568&&__api.H.z< -95);await capture('lower');await walk('depression-legal-return','s',()=>__api.H.y>5980&&__api.H.z>-.1);
+await tp({x:1584,y:864,z:0});await a.page.keyboard.press('c');await walk('crawl-passage','d',()=>__api.H.x>1950);await capture('crawl-exit');
+a.validate();fs.writeFileSync(path.join(out,'result.json'),JSON.stringify({status:'PASS',browser:browser.version(),checks:evidence.map(e=>e.name),console:a.consoleErrors,errors:a.errors,server:s.log},null,2));console.log('PASS production keyboard stairs, upper route, ramp, lower route/escape, crawl');
+}catch(e){save();if(a){await a.page.screenshot({path:path.join(out,'failure.png')}).catch(()=>{});fs.writeFileSync(path.join(out,'diagnostic.json'),JSON.stringify(await diagnostics(a),null,2));}fs.writeFileSync(path.join(out,'failure.json'),JSON.stringify({error:String(e),stack:e.stack,server:s.log,console:a?.consoleErrors,errors:a?.errors},null,2));throw e;}finally{if(browser)await browser.close();await s.close();}})().catch(e=>{console.error(e);process.exitCode=1;});

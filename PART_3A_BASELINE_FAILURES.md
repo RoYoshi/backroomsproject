@@ -17,3 +17,12 @@ Raw evidence lives under `dev/part3a/evidence/p3a1` and is never overwritten.
 P3A1 preservation source was published before further browser setup and repair. No frozen reference, retained assertion threshold, movement tuning, or species constant was changed.
 
 - `browser-04` through `browser-06`: captures before a stable post-join/post-teleport frame were intermittently mostly black (one raw capture: 459 lit pixels, GL error zero). The harness now records raw pixels and waits for current world/pose and finished cutaway. Raw float uploads explicitly reset pixel-store state, and the new candidate sampler is detached at the existing Pixi boundary. `browser-07` passes with 97,981 / 117,689 lit pixels, zero GL errors and 90 occluders in two batches. No assertion threshold was reduced.
+
+## P3A2 new attempts
+
+Raw evidence is under `dev/part3a/evidence/p3a2`.
+
+- `build-01.log`: a same-surface crawl link was referenced twice in its chart. The generator now inserts that boundary reference once.
+- `motion-01.json`: the preflight north depression approach was inside an original wall. The lower ramp now approaches from the open south side; no original wall was removed.
+- `vertical-01.log/json`: the same-XY overlap probe was exactly at a retained column. The corrected probe x6192/y864 proves two clear bodies and physical slab occlusion. All 22 permitted species/link executions already passed on that attempt.
+- `vertical-02.json`: 28 checks PASS, including all physical routes, reversal/interruption, real fall/contact, crawl restrictions and all-room base circulation. No movement or species constant changed.

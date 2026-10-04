@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "assetId": "world:level0-spatial",
-  "geometryRevision": "part3a-base-1",
-  "contentRevision": "part3a-base-1",
+  "geometryRevision": "part3a-vertical-1",
+  "contentRevision": "part3a-vertical-1",
   "geometryMode": "spatial",
   "units": "legacy-world-unit",
   "bounds": {
@@ -5795,7 +5795,7 @@
       }
     },
     {
-      "id": "solid:ceiling:5376_672_768_96",
+      "id": "solid:ceiling:5376_672_768_48",
       "footprint": [
         {
           "x": 5376,
@@ -5807,6 +5807,44 @@
         },
         {
           "x": 6144,
+          "y": 720
+        },
+        {
+          "x": 5376,
+          "y": 720
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 164
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:ceiling:5376_720_192_48",
+      "footprint": [
+        {
+          "x": 5376,
+          "y": 720
+        },
+        {
+          "x": 5568,
+          "y": 720
+        },
+        {
+          "x": 5568,
           "y": 768
         },
         {
@@ -5985,18 +6023,18 @@
       }
     },
     {
-      "id": "solid:ceiling:5472_768_672_96",
+      "id": "solid:ceiling:5472_768_96_96",
       "footprint": [
         {
           "x": 5472,
           "y": 768
         },
         {
-          "x": 6144,
+          "x": 5568,
           "y": 768
         },
         {
-          "x": 6144,
+          "x": 5568,
           "y": 864
         },
         {
@@ -6061,15 +6099,15 @@
       }
     },
     {
-      "id": "solid:ceiling:5568_1440_96_96",
+      "id": "solid:ceiling:5568_1488_96_48",
       "footprint": [
         {
           "x": 5568,
-          "y": 1440
+          "y": 1488
         },
         {
           "x": 5664,
-          "y": 1440
+          "y": 1488
         },
         {
           "x": 5664,
@@ -6251,22 +6289,60 @@
       }
     },
     {
-      "id": "solid:ceiling:5568_864_288_576",
+      "id": "solid:ceiling:5664_1008_192_432",
       "footprint": [
         {
-          "x": 5568,
-          "y": 864
+          "x": 5664,
+          "y": 1008
         },
         {
           "x": 5856,
-          "y": 864
+          "y": 1008
         },
         {
           "x": 5856,
           "y": 1440
         },
         {
-          "x": 5568,
+          "x": 5664,
+          "y": 1440
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 164
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:ceiling:5856_1008_96_432",
+      "footprint": [
+        {
+          "x": 5856,
+          "y": 1008
+        },
+        {
+          "x": 5952,
+          "y": 1008
+        },
+        {
+          "x": 5952,
+          "y": 1440
+        },
+        {
+          "x": 5856,
           "y": 1440
         }
       ],
@@ -6403,22 +6479,22 @@
       }
     },
     {
-      "id": "solid:ceiling:5856_960_96_480",
+      "id": "solid:ceiling:5952_1008_192_432",
       "footprint": [
         {
-          "x": 5856,
-          "y": 960
+          "x": 5952,
+          "y": 1008
         },
         {
-          "x": 5952,
-          "y": 960
+          "x": 6144,
+          "y": 1008
         },
         {
-          "x": 5952,
+          "x": 6144,
           "y": 1440
         },
         {
-          "x": 5856,
+          "x": 5952,
           "y": 1440
         }
       ],
@@ -6547,44 +6623,6 @@
         "c": 180
       },
       "materialId": "material:carpet",
-      "channels": {
-        "collision": true,
-        "visible": true,
-        "ir": true,
-        "acousticTransmission": 0.1
-      }
-    },
-    {
-      "id": "solid:ceiling:5952_864_192_576",
-      "footprint": [
-        {
-          "x": 5952,
-          "y": 864
-        },
-        {
-          "x": 6144,
-          "y": 864
-        },
-        {
-          "x": 6144,
-          "y": 1440
-        },
-        {
-          "x": 5952,
-          "y": 1440
-        }
-      ],
-      "lower": {
-        "a": 0,
-        "b": 0,
-        "c": 164
-      },
-      "upper": {
-        "a": 0,
-        "b": 0,
-        "c": 180
-      },
-      "materialId": "material:concrete",
       "channels": {
         "collision": true,
         "visible": true,
@@ -6935,7 +6973,7 @@
       }
     },
     {
-      "id": "solid:ceiling:6144_672_768_96",
+      "id": "solid:ceiling:6144_672_768_48",
       "footprint": [
         {
           "x": 6144,
@@ -6947,11 +6985,11 @@
         },
         {
           "x": 6912,
-          "y": 768
+          "y": 720
         },
         {
           "x": 6144,
-          "y": 768
+          "y": 720
         }
       ],
       "lower": {
@@ -6973,61 +7011,23 @@
       }
     },
     {
-      "id": "solid:ceiling:6144_768_672_96",
+      "id": "solid:ceiling:6240_1008_96_432",
       "footprint": [
         {
-          "x": 6144,
-          "y": 768
+          "x": 6240,
+          "y": 1008
         },
         {
-          "x": 6816,
-          "y": 768
+          "x": 6336,
+          "y": 1008
         },
         {
-          "x": 6816,
-          "y": 864
-        },
-        {
-          "x": 6144,
-          "y": 864
-        }
-      ],
-      "lower": {
-        "a": 0,
-        "b": 0,
-        "c": 164
-      },
-      "upper": {
-        "a": 0,
-        "b": 0,
-        "c": 180
-      },
-      "materialId": "material:concrete",
-      "channels": {
-        "collision": true,
-        "visible": true,
-        "ir": true,
-        "acousticTransmission": 0.1
-      }
-    },
-    {
-      "id": "solid:ceiling:6144_864_96_96",
-      "footprint": [
-        {
-          "x": 6144,
-          "y": 864
+          "x": 6336,
+          "y": 1440
         },
         {
           "x": 6240,
-          "y": 864
-        },
-        {
-          "x": 6240,
-          "y": 960
-        },
-        {
-          "x": 6144,
-          "y": 960
+          "y": 1440
         }
       ],
       "lower": {
@@ -7163,23 +7163,23 @@
       }
     },
     {
-      "id": "solid:ceiling:6240_960_96_480",
+      "id": "solid:ceiling:6336_1488_288_48",
       "footprint": [
         {
-          "x": 6240,
-          "y": 960
+          "x": 6336,
+          "y": 1488
+        },
+        {
+          "x": 6624,
+          "y": 1488
+        },
+        {
+          "x": 6624,
+          "y": 1536
         },
         {
           "x": 6336,
-          "y": 960
-        },
-        {
-          "x": 6336,
-          "y": 1440
-        },
-        {
-          "x": 6240,
-          "y": 1440
+          "y": 1536
         }
       ],
       "lower": {
@@ -7239,44 +7239,6 @@
       }
     },
     {
-      "id": "solid:ceiling:6336_864_288_672",
-      "footprint": [
-        {
-          "x": 6336,
-          "y": 864
-        },
-        {
-          "x": 6624,
-          "y": 864
-        },
-        {
-          "x": 6624,
-          "y": 1536
-        },
-        {
-          "x": 6336,
-          "y": 1536
-        }
-      ],
-      "lower": {
-        "a": 0,
-        "b": 0,
-        "c": 164
-      },
-      "upper": {
-        "a": 0,
-        "b": 0,
-        "c": 180
-      },
-      "materialId": "material:concrete",
-      "channels": {
-        "collision": true,
-        "visible": true,
-        "ir": true,
-        "acousticTransmission": 0.1
-      }
-    },
-    {
       "id": "solid:ceiling:6432_3264_480_384",
       "footprint": [
         {
@@ -7307,6 +7269,82 @@
         "c": 180
       },
       "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:ceiling:6528_1008_96_480",
+      "footprint": [
+        {
+          "x": 6528,
+          "y": 1008
+        },
+        {
+          "x": 6624,
+          "y": 1008
+        },
+        {
+          "x": 6624,
+          "y": 1488
+        },
+        {
+          "x": 6528,
+          "y": 1488
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 164
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:ceiling:6624_1008_96_432",
+      "footprint": [
+        {
+          "x": 6624,
+          "y": 1008
+        },
+        {
+          "x": 6720,
+          "y": 1008
+        },
+        {
+          "x": 6720,
+          "y": 1440
+        },
+        {
+          "x": 6624,
+          "y": 1440
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 164
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "materialId": "material:concrete",
       "channels": {
         "collision": true,
         "visible": true,
@@ -7353,23 +7391,61 @@
       }
     },
     {
-      "id": "solid:ceiling:6624_960_96_480",
+      "id": "solid:ceiling:6720_720_192_48",
       "footprint": [
         {
-          "x": 6624,
-          "y": 960
+          "x": 6720,
+          "y": 720
+        },
+        {
+          "x": 6912,
+          "y": 720
+        },
+        {
+          "x": 6912,
+          "y": 768
         },
         {
           "x": 6720,
-          "y": 960
+          "y": 768
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 164
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:ceiling:6720_768_96_96",
+      "footprint": [
+        {
+          "x": 6720,
+          "y": 768
+        },
+        {
+          "x": 6816,
+          "y": 768
+        },
+        {
+          "x": 6816,
+          "y": 864
         },
         {
           "x": 6720,
-          "y": 1440
-        },
-        {
-          "x": 6624,
-          "y": 1440
+          "y": 864
         }
       ],
       "lower": {
@@ -10839,6 +10915,120 @@
         "a": 0,
         "b": 0,
         "c": 180
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:crawl:north:roof",
+      "footprint": [
+        {
+          "x": 1632,
+          "y": 816
+        },
+        {
+          "x": 1920,
+          "y": 816
+        },
+        {
+          "x": 1920,
+          "y": 912
+        },
+        {
+          "x": 1632,
+          "y": 912
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 28
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 76
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:crawl:north:side:north",
+      "footprint": [
+        {
+          "x": 1632,
+          "y": 816
+        },
+        {
+          "x": 1920,
+          "y": 816
+        },
+        {
+          "x": 1920,
+          "y": 828
+        },
+        {
+          "x": 1632,
+          "y": 828
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 28
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:crawl:north:side:south",
+      "footprint": [
+        {
+          "x": 1632,
+          "y": 900
+        },
+        {
+          "x": 1920,
+          "y": 900
+        },
+        {
+          "x": 1920,
+          "y": 912
+        },
+        {
+          "x": 1632,
+          "y": 912
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 28
       },
       "materialId": "material:carpet",
       "channels": {
@@ -15561,15 +15751,53 @@
       }
     },
     {
-      "id": "solid:ground:480_5472_288_576",
+      "id": "solid:ground:480_5472_96_480",
       "footprint": [
         {
           "x": 480,
           "y": 5472
         },
         {
-          "x": 768,
+          "x": 576,
           "y": 5472
+        },
+        {
+          "x": 576,
+          "y": 5952
+        },
+        {
+          "x": 480,
+          "y": 5952
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": -16
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:ground:480_5952_288_96",
+      "footprint": [
+        {
+          "x": 480,
+          "y": 5952
+        },
+        {
+          "x": 768,
+          "y": 5952
         },
         {
           "x": 768,
@@ -19969,15 +20197,15 @@
       }
     },
     {
-      "id": "solid:ground:768_5472_192_576",
+      "id": "solid:ground:768_5952_192_96",
       "footprint": [
         {
           "x": 768,
-          "y": 5472
+          "y": 5952
         },
         {
           "x": 960,
-          "y": 5472
+          "y": 5952
         },
         {
           "x": 960,
@@ -21299,6 +21527,44 @@
       }
     },
     {
+      "id": "solid:ground:864_5472_96_480",
+      "footprint": [
+        {
+          "x": 864,
+          "y": 5472
+        },
+        {
+          "x": 960,
+          "y": 5472
+        },
+        {
+          "x": 960,
+          "y": 5952
+        },
+        {
+          "x": 864,
+          "y": 5952
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": -16
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
       "id": "solid:ground:960_1152_96_192",
       "footprint": [
         {
@@ -21664,6 +21930,196 @@
         "a": 0,
         "b": 0,
         "c": -16
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:lower:blackout",
+      "footprint": [
+        {
+          "x": 576,
+          "y": 5472
+        },
+        {
+          "x": 864,
+          "y": 5472
+        },
+        {
+          "x": 864,
+          "y": 5664
+        },
+        {
+          "x": 576,
+          "y": 5664
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": -112
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": -96
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:lower:retaining:east",
+      "footprint": [
+        {
+          "x": 864,
+          "y": 5472
+        },
+        {
+          "x": 880,
+          "y": 5472
+        },
+        {
+          "x": 880,
+          "y": 5952
+        },
+        {
+          "x": 864,
+          "y": 5952
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": -112
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:lower:retaining:north",
+      "footprint": [
+        {
+          "x": 576,
+          "y": 5456
+        },
+        {
+          "x": 864,
+          "y": 5456
+        },
+        {
+          "x": 864,
+          "y": 5472
+        },
+        {
+          "x": 576,
+          "y": 5472
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": -112
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:lower:retaining:south",
+      "footprint": [
+        {
+          "x": 576,
+          "y": 5952
+        },
+        {
+          "x": 864,
+          "y": 5952
+        },
+        {
+          "x": 864,
+          "y": 5968
+        },
+        {
+          "x": 576,
+          "y": 5968
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": -112
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:lower:retaining:west",
+      "footprint": [
+        {
+          "x": 560,
+          "y": 5472
+        },
+        {
+          "x": 576,
+          "y": 5472
+        },
+        {
+          "x": 576,
+          "y": 5952
+        },
+        {
+          "x": 560,
+          "y": 5952
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": -112
       },
       "upper": {
         "a": 0,
@@ -22773,6 +23229,918 @@
         "c": 42
       },
       "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:ramp:depression",
+      "footprint": [
+        {
+          "x": 576,
+          "y": 5664
+        },
+        {
+          "x": 864,
+          "y": 5664
+        },
+        {
+          "x": 864,
+          "y": 5952
+        },
+        {
+          "x": 576,
+          "y": 5952
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0.3333333333333333,
+        "c": -2000
+      },
+      "upper": {
+        "a": 0,
+        "b": 0.3333333333333333,
+        "c": -1984
+      },
+      "materialId": "material:carpet",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:ramp:long-room",
+      "footprint": [
+        {
+          "x": 6336,
+          "y": 1008
+        },
+        {
+          "x": 6528,
+          "y": 1008
+        },
+        {
+          "x": 6528,
+          "y": 1488
+        },
+        {
+          "x": 6336,
+          "y": 1488
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": -0.375,
+        "c": 542
+      },
+      "upper": {
+        "a": 0,
+        "b": -0.375,
+        "c": 558
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:01",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1456
+        },
+        {
+          "x": 5664,
+          "y": 1456
+        },
+        {
+          "x": 5664,
+          "y": 1488
+        },
+        {
+          "x": 5568,
+          "y": 1488
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": -4
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 12
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:02",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1424
+        },
+        {
+          "x": 5664,
+          "y": 1424
+        },
+        {
+          "x": 5664,
+          "y": 1456
+        },
+        {
+          "x": 5568,
+          "y": 1456
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 8
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 24
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:03",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1392
+        },
+        {
+          "x": 5664,
+          "y": 1392
+        },
+        {
+          "x": 5664,
+          "y": 1424
+        },
+        {
+          "x": 5568,
+          "y": 1424
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 20
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 36
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:04",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1360
+        },
+        {
+          "x": 5664,
+          "y": 1360
+        },
+        {
+          "x": 5664,
+          "y": 1392
+        },
+        {
+          "x": 5568,
+          "y": 1392
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 32
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 48
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:05",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1328
+        },
+        {
+          "x": 5664,
+          "y": 1328
+        },
+        {
+          "x": 5664,
+          "y": 1360
+        },
+        {
+          "x": 5568,
+          "y": 1360
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 44
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 60
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:06",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1296
+        },
+        {
+          "x": 5664,
+          "y": 1296
+        },
+        {
+          "x": 5664,
+          "y": 1328
+        },
+        {
+          "x": 5568,
+          "y": 1328
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 56
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 72
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:07",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1264
+        },
+        {
+          "x": 5664,
+          "y": 1264
+        },
+        {
+          "x": 5664,
+          "y": 1296
+        },
+        {
+          "x": 5568,
+          "y": 1296
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 68
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 84
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:08",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1232
+        },
+        {
+          "x": 5664,
+          "y": 1232
+        },
+        {
+          "x": 5664,
+          "y": 1264
+        },
+        {
+          "x": 5568,
+          "y": 1264
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 80
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 96
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:09",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1200
+        },
+        {
+          "x": 5664,
+          "y": 1200
+        },
+        {
+          "x": 5664,
+          "y": 1232
+        },
+        {
+          "x": 5568,
+          "y": 1232
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 92
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 108
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:10",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1168
+        },
+        {
+          "x": 5664,
+          "y": 1168
+        },
+        {
+          "x": 5664,
+          "y": 1200
+        },
+        {
+          "x": 5568,
+          "y": 1200
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 104
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 120
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:11",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1136
+        },
+        {
+          "x": 5664,
+          "y": 1136
+        },
+        {
+          "x": 5664,
+          "y": 1168
+        },
+        {
+          "x": 5568,
+          "y": 1168
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 116
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 132
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:12",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1104
+        },
+        {
+          "x": 5664,
+          "y": 1104
+        },
+        {
+          "x": 5664,
+          "y": 1136
+        },
+        {
+          "x": 5568,
+          "y": 1136
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 128
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 144
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:13",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1072
+        },
+        {
+          "x": 5664,
+          "y": 1072
+        },
+        {
+          "x": 5664,
+          "y": 1104
+        },
+        {
+          "x": 5568,
+          "y": 1104
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 140
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 156
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:14",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1040
+        },
+        {
+          "x": 5664,
+          "y": 1040
+        },
+        {
+          "x": 5664,
+          "y": 1072
+        },
+        {
+          "x": 5568,
+          "y": 1072
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 152
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 168
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:stairs:long-room:tread:15",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 1008
+        },
+        {
+          "x": 5664,
+          "y": 1008
+        },
+        {
+          "x": 5664,
+          "y": 1040
+        },
+        {
+          "x": 5568,
+          "y": 1040
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 164
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:upper:ceiling",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 720
+        },
+        {
+          "x": 6720,
+          "y": 720
+        },
+        {
+          "x": 6720,
+          "y": 1008
+        },
+        {
+          "x": 5568,
+          "y": 1008
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 344
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 360
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:upper:edge:east",
+      "footprint": [
+        {
+          "x": 6704,
+          "y": 736
+        },
+        {
+          "x": 6720,
+          "y": 736
+        },
+        {
+          "x": 6720,
+          "y": 1008
+        },
+        {
+          "x": 6704,
+          "y": 1008
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 276
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:upper:edge:north",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 720
+        },
+        {
+          "x": 6720,
+          "y": 720
+        },
+        {
+          "x": 6720,
+          "y": 736
+        },
+        {
+          "x": 5568,
+          "y": 736
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 276
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:upper:edge:south-east",
+      "footprint": [
+        {
+          "x": 6528,
+          "y": 992
+        },
+        {
+          "x": 6704,
+          "y": 992
+        },
+        {
+          "x": 6704,
+          "y": 1008
+        },
+        {
+          "x": 6528,
+          "y": 1008
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 276
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:upper:edge:south-west",
+      "footprint": [
+        {
+          "x": 5664,
+          "y": 992
+        },
+        {
+          "x": 6336,
+          "y": 992
+        },
+        {
+          "x": 6336,
+          "y": 1008
+        },
+        {
+          "x": 5664,
+          "y": 1008
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 276
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:upper:edge:west",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 736
+        },
+        {
+          "x": 5584,
+          "y": 736
+        },
+        {
+          "x": 5584,
+          "y": 1008
+        },
+        {
+          "x": 5568,
+          "y": 1008
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 276
+      },
+      "materialId": "material:concrete",
+      "channels": {
+        "collision": true,
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 0.1
+      }
+    },
+    {
+      "id": "solid:upper:long-room",
+      "footprint": [
+        {
+          "x": 5568,
+          "y": 720
+        },
+        {
+          "x": 6720,
+          "y": 720
+        },
+        {
+          "x": 6720,
+          "y": 1008
+        },
+        {
+          "x": 5568,
+          "y": 1008
+        }
+      ],
+      "lower": {
+        "a": 0,
+        "b": 0,
+        "c": 164
+      },
+      "upper": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "materialId": "material:concrete",
       "channels": {
         "collision": true,
         "visible": true,
@@ -37535,15 +38903,50 @@
       "supports": true
     },
     {
-      "id": "support:ground:480_5472_288_576",
+      "id": "support:ground:480_5472_96_480",
       "polygon": [
         {
           "x": 480,
           "y": 5472
         },
         {
-          "x": 768,
+          "x": 576,
           "y": 5472
+        },
+        {
+          "x": 576,
+          "y": 5952
+        },
+        {
+          "x": 480,
+          "y": 5952
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:ground:480_5472_96_480",
+      "materialId": "material:carpet",
+      "navSurfaceId": "nav:base",
+      "supports": true
+    },
+    {
+      "id": "support:ground:480_5952_288_96",
+      "polygon": [
+        {
+          "x": 480,
+          "y": 5952
+        },
+        {
+          "x": 768,
+          "y": 5952
         },
         {
           "x": 768,
@@ -37564,7 +38967,7 @@
         "y": 0,
         "z": 1
       },
-      "solidId": "solid:ground:480_5472_288_576",
+      "solidId": "solid:ground:480_5952_288_96",
       "materialId": "material:carpet",
       "navSurfaceId": "nav:base",
       "supports": true
@@ -41595,15 +42998,15 @@
       "supports": true
     },
     {
-      "id": "support:ground:768_5472_192_576",
+      "id": "support:ground:768_5952_192_96",
       "polygon": [
         {
           "x": 768,
-          "y": 5472
+          "y": 5952
         },
         {
           "x": 960,
-          "y": 5472
+          "y": 5952
         },
         {
           "x": 960,
@@ -41624,7 +43027,7 @@
         "y": 0,
         "z": 1
       },
-      "solidId": "solid:ground:768_5472_192_576",
+      "solidId": "solid:ground:768_5952_192_96",
       "materialId": "material:carpet",
       "navSurfaceId": "nav:base",
       "supports": true
@@ -42820,6 +44223,41 @@
       "supports": true
     },
     {
+      "id": "support:ground:864_5472_96_480",
+      "polygon": [
+        {
+          "x": 864,
+          "y": 5472
+        },
+        {
+          "x": 960,
+          "y": 5472
+        },
+        {
+          "x": 960,
+          "y": 5952
+        },
+        {
+          "x": 864,
+          "y": 5952
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 0
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:ground:864_5472_96_480",
+      "materialId": "material:carpet",
+      "navSurfaceId": "nav:base",
+      "supports": true
+    },
+    {
       "id": "support:ground:960_1152_96_192",
       "polygon": [
         {
@@ -43168,6 +44606,671 @@
       "materialId": "material:carpet",
       "navSurfaceId": "nav:base",
       "supports": true
+    },
+    {
+      "id": "support:lower:blackout",
+      "polygon": [
+        {
+          "x": 576,
+          "y": 5472
+        },
+        {
+          "x": 864,
+          "y": 5472
+        },
+        {
+          "x": 864,
+          "y": 5664
+        },
+        {
+          "x": 576,
+          "y": 5664
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": -96
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:lower:blackout",
+      "materialId": "material:carpet",
+      "navSurfaceId": "nav:lower",
+      "supports": true
+    },
+    {
+      "id": "support:ramp:depression",
+      "polygon": [
+        {
+          "x": 576,
+          "y": 5664
+        },
+        {
+          "x": 864,
+          "y": 5664
+        },
+        {
+          "x": 864,
+          "y": 5952
+        },
+        {
+          "x": 576,
+          "y": 5952
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0.3333333333333333,
+        "c": -1984
+      },
+      "normal": {
+        "x": 0,
+        "y": -0.3162277660168379,
+        "z": 0.9486832980505138
+      },
+      "solidId": "solid:ramp:depression",
+      "materialId": "material:carpet",
+      "navSurfaceId": "nav:depression-ramp",
+      "supports": true
+    },
+    {
+      "id": "support:ramp:long-room",
+      "polygon": [
+        {
+          "x": 6336,
+          "y": 1008
+        },
+        {
+          "x": 6528,
+          "y": 1008
+        },
+        {
+          "x": 6528,
+          "y": 1488
+        },
+        {
+          "x": 6336,
+          "y": 1488
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": -0.375,
+        "c": 558
+      },
+      "normal": {
+        "x": 0,
+        "y": 0.3511234415883917,
+        "z": 0.9363291775690445
+      },
+      "solidId": "solid:ramp:long-room",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:ramp",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:01",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1456
+        },
+        {
+          "x": 5664,
+          "y": 1456
+        },
+        {
+          "x": 5664,
+          "y": 1488
+        },
+        {
+          "x": 5568,
+          "y": 1488
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 12
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:01",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:02",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1424
+        },
+        {
+          "x": 5664,
+          "y": 1424
+        },
+        {
+          "x": 5664,
+          "y": 1456
+        },
+        {
+          "x": 5568,
+          "y": 1456
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 24
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:02",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:03",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1392
+        },
+        {
+          "x": 5664,
+          "y": 1392
+        },
+        {
+          "x": 5664,
+          "y": 1424
+        },
+        {
+          "x": 5568,
+          "y": 1424
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 36
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:03",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:04",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1360
+        },
+        {
+          "x": 5664,
+          "y": 1360
+        },
+        {
+          "x": 5664,
+          "y": 1392
+        },
+        {
+          "x": 5568,
+          "y": 1392
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 48
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:04",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:05",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1328
+        },
+        {
+          "x": 5664,
+          "y": 1328
+        },
+        {
+          "x": 5664,
+          "y": 1360
+        },
+        {
+          "x": 5568,
+          "y": 1360
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 60
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:05",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:06",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1296
+        },
+        {
+          "x": 5664,
+          "y": 1296
+        },
+        {
+          "x": 5664,
+          "y": 1328
+        },
+        {
+          "x": 5568,
+          "y": 1328
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 72
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:06",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:07",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1264
+        },
+        {
+          "x": 5664,
+          "y": 1264
+        },
+        {
+          "x": 5664,
+          "y": 1296
+        },
+        {
+          "x": 5568,
+          "y": 1296
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 84
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:07",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:08",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1232
+        },
+        {
+          "x": 5664,
+          "y": 1232
+        },
+        {
+          "x": 5664,
+          "y": 1264
+        },
+        {
+          "x": 5568,
+          "y": 1264
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 96
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:08",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:09",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1200
+        },
+        {
+          "x": 5664,
+          "y": 1200
+        },
+        {
+          "x": 5664,
+          "y": 1232
+        },
+        {
+          "x": 5568,
+          "y": 1232
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 108
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:09",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:10",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1168
+        },
+        {
+          "x": 5664,
+          "y": 1168
+        },
+        {
+          "x": 5664,
+          "y": 1200
+        },
+        {
+          "x": 5568,
+          "y": 1200
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 120
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:10",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:11",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1136
+        },
+        {
+          "x": 5664,
+          "y": 1136
+        },
+        {
+          "x": 5664,
+          "y": 1168
+        },
+        {
+          "x": 5568,
+          "y": 1168
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 132
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:11",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:12",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1104
+        },
+        {
+          "x": 5664,
+          "y": 1104
+        },
+        {
+          "x": 5664,
+          "y": 1136
+        },
+        {
+          "x": 5568,
+          "y": 1136
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 144
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:12",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:13",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1072
+        },
+        {
+          "x": 5664,
+          "y": 1072
+        },
+        {
+          "x": 5664,
+          "y": 1104
+        },
+        {
+          "x": 5568,
+          "y": 1104
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 156
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:13",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:14",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1040
+        },
+        {
+          "x": 5664,
+          "y": 1040
+        },
+        {
+          "x": 5664,
+          "y": 1072
+        },
+        {
+          "x": 5568,
+          "y": 1072
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 168
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:14",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:stairs:long-room:tread:15",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1008
+        },
+        {
+          "x": 5664,
+          "y": 1008
+        },
+        {
+          "x": 5664,
+          "y": 1040
+        },
+        {
+          "x": 5568,
+          "y": 1040
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:stairs:long-room:tread:15",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:stairs",
+      "supports": true
+    },
+    {
+      "id": "support:upper:long-room",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 720
+        },
+        {
+          "x": 6720,
+          "y": 720
+        },
+        {
+          "x": 6720,
+          "y": 1008
+        },
+        {
+          "x": 5568,
+          "y": 1008
+        }
+      ],
+      "plane": {
+        "a": 0,
+        "b": 0,
+        "c": 180
+      },
+      "normal": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "solidId": "solid:upper:long-room",
+      "materialId": "material:concrete",
+      "navSurfaceId": "nav:upper",
+      "supports": true
     }
   ],
   "navSurfaces": [
@@ -43431,8 +45534,10 @@
         "support:ground:7680_5376_576_768",
         "support:ground:8352_5376_96_768",
         "support:ground:8448_5376_384_768",
-        "support:ground:480_5472_288_576",
-        "support:ground:768_5472_192_576",
+        "support:ground:480_5952_288_96",
+        "support:ground:480_5472_96_480",
+        "support:ground:768_5952_192_96",
+        "support:ground:864_5472_96_480",
         "support:ground:1056_5472_480_576",
         "support:ground:1536_5472_96_192",
         "support:ground:2592_5472_96_576",
@@ -43465,7 +45570,158 @@
         "y": 0
       },
       "cellSize": 48,
+      "boundaryLinkIds": [
+        "link:long-room-stairs:forward",
+        "link:long-room-stairs:reverse",
+        "link:long-room-ramp:forward",
+        "link:long-room-ramp:reverse",
+        "link:blackout-return:forward",
+        "link:blackout-return:reverse",
+        "link:north-crawl:forward",
+        "link:north-crawl:reverse"
+      ],
+      "chart": "connected physical sheet on canonical 48-unit grid",
+      "clearanceProfileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler",
+        "profile:corpse"
+      ]
+    },
+    {
+      "id": "nav:depression-ramp",
+      "patchIds": [
+        "support:ramp:depression"
+      ],
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "cellSize": 48,
       "boundaryLinkIds": [],
+      "chart": "connected physical sheet on canonical 48-unit grid",
+      "clearanceProfileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler",
+        "profile:corpse"
+      ]
+    },
+    {
+      "id": "nav:lower",
+      "patchIds": [
+        "support:lower:blackout"
+      ],
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "cellSize": 48,
+      "boundaryLinkIds": [
+        "link:blackout-return:forward",
+        "link:blackout-return:reverse"
+      ],
+      "chart": "connected physical sheet on canonical 48-unit grid",
+      "clearanceProfileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler",
+        "profile:corpse"
+      ]
+    },
+    {
+      "id": "nav:ramp",
+      "patchIds": [
+        "support:ramp:long-room"
+      ],
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "cellSize": 48,
+      "boundaryLinkIds": [],
+      "chart": "connected physical sheet on canonical 48-unit grid",
+      "clearanceProfileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler",
+        "profile:corpse"
+      ]
+    },
+    {
+      "id": "nav:stairs",
+      "patchIds": [
+        "support:stairs:long-room:tread:01",
+        "support:stairs:long-room:tread:02",
+        "support:stairs:long-room:tread:03",
+        "support:stairs:long-room:tread:04",
+        "support:stairs:long-room:tread:05",
+        "support:stairs:long-room:tread:06",
+        "support:stairs:long-room:tread:07",
+        "support:stairs:long-room:tread:08",
+        "support:stairs:long-room:tread:09",
+        "support:stairs:long-room:tread:10",
+        "support:stairs:long-room:tread:11",
+        "support:stairs:long-room:tread:12",
+        "support:stairs:long-room:tread:13",
+        "support:stairs:long-room:tread:14",
+        "support:stairs:long-room:tread:15"
+      ],
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "cellSize": 48,
+      "boundaryLinkIds": [],
+      "chart": "connected physical sheet on canonical 48-unit grid",
+      "clearanceProfileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler",
+        "profile:corpse"
+      ]
+    },
+    {
+      "id": "nav:upper",
+      "patchIds": [
+        "support:upper:long-room"
+      ],
+      "origin": {
+        "x": 0,
+        "y": 0
+      },
+      "cellSize": 48,
+      "boundaryLinkIds": [
+        "link:long-room-stairs:forward",
+        "link:long-room-stairs:reverse",
+        "link:long-room-ramp:forward",
+        "link:long-room-ramp:reverse"
+      ],
       "chart": "connected physical sheet on canonical 48-unit grid",
       "clearanceProfileIds": [
         "profile:player-stand",
@@ -43480,7 +45736,546 @@
       ]
     }
   ],
-  "traversalLinks": [],
+  "traversalLinks": [
+    {
+      "id": "link:blackout-return:forward",
+      "kind": "ramp",
+      "fromSurfaceId": "nav:base",
+      "toSurfaceId": "nav:lower",
+      "entry": [
+        {
+          "x": 600,
+          "y": 5976,
+          "z": 0
+        },
+        {
+          "x": 840,
+          "y": 5976,
+          "z": 0
+        }
+      ],
+      "exit": [
+        {
+          "x": 600,
+          "y": 5520,
+          "z": -96
+        },
+        {
+          "x": 840,
+          "y": 5520,
+          "z": -96
+        }
+      ],
+      "corridor": [
+        {
+          "x": 720,
+          "y": 5976,
+          "z": 0
+        },
+        {
+          "x": 720,
+          "y": 5520,
+          "z": -96
+        }
+      ],
+      "corridorRadius": 120,
+      "supportPatchIds": [
+        "support:ramp:depression"
+      ],
+      "profileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler"
+      ],
+      "capabilityFlags": [],
+      "durationRule": "actual fixed-tick motion",
+      "progressRule": "physical pose only",
+      "interruptionRule": "retain actual pose; resolve grounded/airborne",
+      "landingRule": "physical contact at named destination",
+      "costRule": "physical path distance and accepted traversal time",
+      "directed": true,
+      "clearanceRequired": true
+    },
+    {
+      "id": "link:blackout-return:reverse",
+      "kind": "ramp",
+      "fromSurfaceId": "nav:lower",
+      "toSurfaceId": "nav:base",
+      "entry": [
+        {
+          "x": 600,
+          "y": 5520,
+          "z": -96
+        },
+        {
+          "x": 840,
+          "y": 5520,
+          "z": -96
+        }
+      ],
+      "exit": [
+        {
+          "x": 600,
+          "y": 5976,
+          "z": 0
+        },
+        {
+          "x": 840,
+          "y": 5976,
+          "z": 0
+        }
+      ],
+      "corridor": [
+        {
+          "x": 720,
+          "y": 5520,
+          "z": -96
+        },
+        {
+          "x": 720,
+          "y": 5976,
+          "z": 0
+        }
+      ],
+      "corridorRadius": 120,
+      "supportPatchIds": [
+        "support:ramp:depression"
+      ],
+      "profileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler"
+      ],
+      "capabilityFlags": [],
+      "durationRule": "actual fixed-tick motion",
+      "progressRule": "physical pose only",
+      "interruptionRule": "retain actual pose; resolve grounded/airborne",
+      "landingRule": "physical contact at named destination",
+      "costRule": "physical path distance and accepted traversal time",
+      "directed": true,
+      "clearanceRequired": true
+    },
+    {
+      "id": "link:long-room-ramp:forward",
+      "kind": "ramp",
+      "fromSurfaceId": "nav:base",
+      "toSurfaceId": "nav:upper",
+      "entry": [
+        {
+          "x": 6352,
+          "y": 1512,
+          "z": 0
+        },
+        {
+          "x": 6512,
+          "y": 1512,
+          "z": 0
+        }
+      ],
+      "exit": [
+        {
+          "x": 6352,
+          "y": 960,
+          "z": 180
+        },
+        {
+          "x": 6512,
+          "y": 960,
+          "z": 180
+        }
+      ],
+      "corridor": [
+        {
+          "x": 6432,
+          "y": 1512,
+          "z": 0
+        },
+        {
+          "x": 6432,
+          "y": 960,
+          "z": 180
+        }
+      ],
+      "corridorRadius": 80,
+      "supportPatchIds": [
+        "support:ramp:long-room"
+      ],
+      "profileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler"
+      ],
+      "capabilityFlags": [],
+      "durationRule": "actual fixed-tick motion",
+      "progressRule": "physical pose only",
+      "interruptionRule": "retain actual pose; resolve grounded/airborne",
+      "landingRule": "physical contact at named destination",
+      "costRule": "physical path distance and accepted traversal time",
+      "directed": true,
+      "clearanceRequired": true
+    },
+    {
+      "id": "link:long-room-ramp:reverse",
+      "kind": "ramp",
+      "fromSurfaceId": "nav:upper",
+      "toSurfaceId": "nav:base",
+      "entry": [
+        {
+          "x": 6352,
+          "y": 960,
+          "z": 180
+        },
+        {
+          "x": 6512,
+          "y": 960,
+          "z": 180
+        }
+      ],
+      "exit": [
+        {
+          "x": 6352,
+          "y": 1512,
+          "z": 0
+        },
+        {
+          "x": 6512,
+          "y": 1512,
+          "z": 0
+        }
+      ],
+      "corridor": [
+        {
+          "x": 6432,
+          "y": 960,
+          "z": 180
+        },
+        {
+          "x": 6432,
+          "y": 1512,
+          "z": 0
+        }
+      ],
+      "corridorRadius": 80,
+      "supportPatchIds": [
+        "support:ramp:long-room"
+      ],
+      "profileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler"
+      ],
+      "capabilityFlags": [],
+      "durationRule": "actual fixed-tick motion",
+      "progressRule": "physical pose only",
+      "interruptionRule": "retain actual pose; resolve grounded/airborne",
+      "landingRule": "physical contact at named destination",
+      "costRule": "physical path distance and accepted traversal time",
+      "directed": true,
+      "clearanceRequired": true
+    },
+    {
+      "id": "link:long-room-stairs:forward",
+      "kind": "stairs",
+      "fromSurfaceId": "nav:base",
+      "toSurfaceId": "nav:upper",
+      "entry": [
+        {
+          "x": 5576,
+          "y": 1512,
+          "z": 0
+        },
+        {
+          "x": 5656,
+          "y": 1512,
+          "z": 0
+        }
+      ],
+      "exit": [
+        {
+          "x": 5576,
+          "y": 960,
+          "z": 180
+        },
+        {
+          "x": 5656,
+          "y": 960,
+          "z": 180
+        }
+      ],
+      "corridor": [
+        {
+          "x": 5616,
+          "y": 1512,
+          "z": 0
+        },
+        {
+          "x": 5616,
+          "y": 960,
+          "z": 180
+        }
+      ],
+      "corridorRadius": 40,
+      "supportPatchIds": [
+        "support:stairs:long-room:tread:01",
+        "support:stairs:long-room:tread:02",
+        "support:stairs:long-room:tread:03",
+        "support:stairs:long-room:tread:04",
+        "support:stairs:long-room:tread:05",
+        "support:stairs:long-room:tread:06",
+        "support:stairs:long-room:tread:07",
+        "support:stairs:long-room:tread:08",
+        "support:stairs:long-room:tread:09",
+        "support:stairs:long-room:tread:10",
+        "support:stairs:long-room:tread:11",
+        "support:stairs:long-room:tread:12",
+        "support:stairs:long-room:tread:13",
+        "support:stairs:long-room:tread:14",
+        "support:stairs:long-room:tread:15"
+      ],
+      "profileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler"
+      ],
+      "capabilityFlags": [],
+      "durationRule": "actual fixed-tick motion",
+      "progressRule": "physical pose only",
+      "interruptionRule": "retain actual pose; resolve grounded/airborne",
+      "landingRule": "physical contact at named destination",
+      "costRule": "physical path distance and accepted traversal time",
+      "directed": true,
+      "clearanceRequired": true
+    },
+    {
+      "id": "link:long-room-stairs:reverse",
+      "kind": "stairs",
+      "fromSurfaceId": "nav:upper",
+      "toSurfaceId": "nav:base",
+      "entry": [
+        {
+          "x": 5576,
+          "y": 960,
+          "z": 180
+        },
+        {
+          "x": 5656,
+          "y": 960,
+          "z": 180
+        }
+      ],
+      "exit": [
+        {
+          "x": 5576,
+          "y": 1512,
+          "z": 0
+        },
+        {
+          "x": 5656,
+          "y": 1512,
+          "z": 0
+        }
+      ],
+      "corridor": [
+        {
+          "x": 5616,
+          "y": 960,
+          "z": 180
+        },
+        {
+          "x": 5616,
+          "y": 1512,
+          "z": 0
+        }
+      ],
+      "corridorRadius": 40,
+      "supportPatchIds": [
+        "support:stairs:long-room:tread:01",
+        "support:stairs:long-room:tread:02",
+        "support:stairs:long-room:tread:03",
+        "support:stairs:long-room:tread:04",
+        "support:stairs:long-room:tread:05",
+        "support:stairs:long-room:tread:06",
+        "support:stairs:long-room:tread:07",
+        "support:stairs:long-room:tread:08",
+        "support:stairs:long-room:tread:09",
+        "support:stairs:long-room:tread:10",
+        "support:stairs:long-room:tread:11",
+        "support:stairs:long-room:tread:12",
+        "support:stairs:long-room:tread:13",
+        "support:stairs:long-room:tread:14",
+        "support:stairs:long-room:tread:15"
+      ],
+      "profileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound",
+        "profile:smiler"
+      ],
+      "capabilityFlags": [],
+      "durationRule": "actual fixed-tick motion",
+      "progressRule": "physical pose only",
+      "interruptionRule": "retain actual pose; resolve grounded/airborne",
+      "landingRule": "physical contact at named destination",
+      "costRule": "physical path distance and accepted traversal time",
+      "directed": true,
+      "clearanceRequired": true
+    },
+    {
+      "id": "link:north-crawl:forward",
+      "kind": "crawl",
+      "fromSurfaceId": "nav:base",
+      "toSurfaceId": "nav:base",
+      "entry": [
+        {
+          "x": 1608,
+          "y": 832,
+          "z": 0
+        },
+        {
+          "x": 1608,
+          "y": 896,
+          "z": 0
+        }
+      ],
+      "exit": [
+        {
+          "x": 1944,
+          "y": 832,
+          "z": 0
+        },
+        {
+          "x": 1944,
+          "y": 896,
+          "z": 0
+        }
+      ],
+      "corridor": [
+        {
+          "x": 1608,
+          "y": 864,
+          "z": 0
+        },
+        {
+          "x": 1944,
+          "y": 864,
+          "z": 0
+        }
+      ],
+      "corridorRadius": 32,
+      "supportPatchIds": [],
+      "profileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound"
+      ],
+      "capabilityFlags": [
+        "crawl"
+      ],
+      "durationRule": "actual fixed-tick motion",
+      "progressRule": "physical pose only",
+      "interruptionRule": "retain actual pose; resolve grounded/airborne",
+      "landingRule": "physical contact at named destination",
+      "costRule": "physical path distance and accepted traversal time",
+      "directed": true,
+      "clearanceRequired": true
+    },
+    {
+      "id": "link:north-crawl:reverse",
+      "kind": "crawl",
+      "fromSurfaceId": "nav:base",
+      "toSurfaceId": "nav:base",
+      "entry": [
+        {
+          "x": 1944,
+          "y": 832,
+          "z": 0
+        },
+        {
+          "x": 1944,
+          "y": 896,
+          "z": 0
+        }
+      ],
+      "exit": [
+        {
+          "x": 1608,
+          "y": 832,
+          "z": 0
+        },
+        {
+          "x": 1608,
+          "y": 896,
+          "z": 0
+        }
+      ],
+      "corridor": [
+        {
+          "x": 1944,
+          "y": 864,
+          "z": 0
+        },
+        {
+          "x": 1608,
+          "y": 864,
+          "z": 0
+        }
+      ],
+      "corridorRadius": 32,
+      "supportPatchIds": [],
+      "profileIds": [
+        "profile:player-stand",
+        "profile:player-crouch",
+        "profile:player-crawl",
+        "profile:player-slide",
+        "profile:player-down",
+        "profile:player-vault",
+        "profile:hound"
+      ],
+      "capabilityFlags": [
+        "crawl"
+      ],
+      "durationRule": "actual fixed-tick motion",
+      "progressRule": "physical pose only",
+      "interruptionRule": "retain actual pose; resolve grounded/airborne",
+      "landingRule": "physical contact at named destination",
+      "costRule": "physical path distance and accepted traversal time",
+      "directed": true,
+      "clearanceRequired": true
+    }
+  ],
   "spaces": [
     {
       "id": "space:base:1056_4896_480_480",
@@ -46834,7 +49629,8 @@
       },
       "portalIds": [
         "portal:base:5568_864_288_576>base:5472_960_96_480",
-        "portal:base:5472_960_96_480>base:5376_1152_96_192"
+        "portal:base:5472_960_96_480>base:5376_1152_96_192",
+        "portal:base:5472_960_96_480>stairs:5568_1008_96_480"
       ],
       "volumeSpec": "open air within generated floor rectangle; physical solids remain authoritative"
     },
@@ -46853,6 +49649,7 @@
         }
       },
       "portalIds": [
+        "portal:long-room:stairs:base",
         "portal:base:5568_864_288_576>base:5568_1440_96_96",
         "portal:base:5568_1440_96_96>base:5376_1536_768_192"
       ],
@@ -47463,7 +50260,8 @@
       },
       "portalIds": [
         "portal:base:6336_864_288_672>base:6240_960_96_480",
-        "portal:base:6240_960_96_480>base:6144_1248_96_288"
+        "portal:base:6240_960_96_480>base:6144_1248_96_288",
+        "portal:base:6240_960_96_480>ramp:6336_1008_192_480"
       ],
       "volumeSpec": "open air within generated floor rectangle; physical solids remain authoritative"
     },
@@ -47502,6 +50300,7 @@
         }
       },
       "portalIds": [
+        "portal:long-room:ramp:base",
         "portal:base:6144_768_672_96>base:6336_864_288_672",
         "portal:base:6336_864_288_672>base:6240_960_96_480",
         "portal:base:6336_864_288_672>base:6624_960_96_480",
@@ -49491,6 +52290,106 @@
       "portalIds": [
         "portal:base:768_5472_192_576>base:960_5760_96_288",
         "portal:base:1056_5472_480_576>base:960_5760_96_288"
+      ],
+      "volumeSpec": "open air within generated floor rectangle; physical solids remain authoritative"
+    },
+    {
+      "id": "space:crawl:1632_816_288_96",
+      "bounds": {
+        "min": {
+          "x": 1632,
+          "y": 816,
+          "z": 0
+        },
+        "max": {
+          "x": 1920,
+          "y": 912,
+          "z": 28
+        }
+      },
+      "portalIds": [],
+      "volumeSpec": "open air within generated floor rectangle; physical solids remain authoritative"
+    },
+    {
+      "id": "space:depression:576_5472_288_480",
+      "bounds": {
+        "min": {
+          "x": 576,
+          "y": 5472,
+          "z": -96
+        },
+        "max": {
+          "x": 864,
+          "y": 5952,
+          "z": 164
+        }
+      },
+      "portalIds": [],
+      "volumeSpec": "open air within generated floor rectangle; physical solids remain authoritative"
+    },
+    {
+      "id": "space:ramp:6336_1008_192_480",
+      "bounds": {
+        "min": {
+          "x": 6336,
+          "y": 1008,
+          "z": 0
+        },
+        "max": {
+          "x": 6528,
+          "y": 1488,
+          "z": 344
+        }
+      },
+      "portalIds": [
+        "portal:long-room:ramp:base",
+        "portal:long-room:ramp:upper",
+        "portal:base:6240_960_96_480>ramp:6336_1008_192_480",
+        "portal:upper:5568_720_1152_288>ramp:6336_1008_192_480"
+      ],
+      "volumeSpec": "open air within generated floor rectangle; physical solids remain authoritative"
+    },
+    {
+      "id": "space:stairs:5568_1008_96_480",
+      "bounds": {
+        "min": {
+          "x": 5568,
+          "y": 1008,
+          "z": 0
+        },
+        "max": {
+          "x": 5664,
+          "y": 1488,
+          "z": 344
+        }
+      },
+      "portalIds": [
+        "portal:long-room:stairs:base",
+        "portal:long-room:stairs:upper",
+        "portal:base:5472_960_96_480>stairs:5568_1008_96_480",
+        "portal:upper:5568_720_1152_288>stairs:5568_1008_96_480"
+      ],
+      "volumeSpec": "open air within generated floor rectangle; physical solids remain authoritative"
+    },
+    {
+      "id": "space:upper:5568_720_1152_288",
+      "bounds": {
+        "min": {
+          "x": 5568,
+          "y": 720,
+          "z": 180
+        },
+        "max": {
+          "x": 6720,
+          "y": 1008,
+          "z": 344
+        }
+      },
+      "portalIds": [
+        "portal:long-room:stairs:upper",
+        "portal:long-room:ramp:upper",
+        "portal:upper:5568_720_1152_288>stairs:5568_1008_96_480",
+        "portal:upper:5568_720_1152_288>ramp:6336_1008_192_480"
       ],
       "volumeSpec": "open air within generated floor rectangle; physical solids remain authoritative"
     }
@@ -57912,6 +60811,39 @@
       "traversalLinkId": null
     },
     {
+      "id": "portal:base:5472_960_96_480>stairs:5568_1008_96_480",
+      "fromSpaceId": "space:base:5472_960_96_480",
+      "toSpaceId": "space:stairs:5568_1008_96_480",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1008,
+          "z": 0
+        },
+        {
+          "x": 5568,
+          "y": 1440,
+          "z": 0
+        },
+        {
+          "x": 5568,
+          "y": 1440,
+          "z": 164
+        },
+        {
+          "x": 5568,
+          "y": 1008,
+          "z": 164
+        }
+      ],
+      "channels": {
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 1
+      },
+      "traversalLinkId": null
+    },
+    {
       "id": "portal:base:5568_1440_96_96>base:5376_1536_768_192",
       "fromSpaceId": "space:base:5568_1440_96_96",
       "toSpaceId": "space:base:5376_1536_768_192",
@@ -59287,6 +62219,39 @@
         {
           "x": 6240,
           "y": 1248,
+          "z": 164
+        }
+      ],
+      "channels": {
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 1
+      },
+      "traversalLinkId": null
+    },
+    {
+      "id": "portal:base:6240_960_96_480>ramp:6336_1008_192_480",
+      "fromSpaceId": "space:base:6240_960_96_480",
+      "toSpaceId": "space:ramp:6336_1008_192_480",
+      "polygon": [
+        {
+          "x": 6336,
+          "y": 1008,
+          "z": 0
+        },
+        {
+          "x": 6336,
+          "y": 1440,
+          "z": 0
+        },
+        {
+          "x": 6336,
+          "y": 1440,
+          "z": 164
+        },
+        {
+          "x": 6336,
+          "y": 1008,
           "z": 164
         }
       ],
@@ -64048,6 +67013,204 @@
         "acousticTransmission": 1
       },
       "traversalLinkId": null
+    },
+    {
+      "id": "portal:long-room:ramp:base",
+      "fromSpaceId": "space:ramp:6336_1008_192_480",
+      "toSpaceId": "space:base:6336_864_288_672",
+      "polygon": [
+        {
+          "x": 6336,
+          "y": 1488,
+          "z": 0
+        },
+        {
+          "x": 6528,
+          "y": 1488,
+          "z": 0
+        },
+        {
+          "x": 6528,
+          "y": 1488,
+          "z": 164
+        },
+        {
+          "x": 6336,
+          "y": 1488,
+          "z": 164
+        }
+      ],
+      "channels": {
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 1
+      },
+      "traversalLinkId": null
+    },
+    {
+      "id": "portal:long-room:ramp:upper",
+      "fromSpaceId": "space:ramp:6336_1008_192_480",
+      "toSpaceId": "space:upper:5568_720_1152_288",
+      "polygon": [
+        {
+          "x": 6336,
+          "y": 1008,
+          "z": 180
+        },
+        {
+          "x": 6528,
+          "y": 1008,
+          "z": 180
+        },
+        {
+          "x": 6528,
+          "y": 1008,
+          "z": 344
+        },
+        {
+          "x": 6336,
+          "y": 1008,
+          "z": 344
+        }
+      ],
+      "channels": {
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 1
+      },
+      "traversalLinkId": null
+    },
+    {
+      "id": "portal:long-room:stairs:base",
+      "fromSpaceId": "space:stairs:5568_1008_96_480",
+      "toSpaceId": "space:base:5568_1440_96_96",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1488,
+          "z": 0
+        },
+        {
+          "x": 5664,
+          "y": 1488,
+          "z": 0
+        },
+        {
+          "x": 5664,
+          "y": 1488,
+          "z": 164
+        },
+        {
+          "x": 5568,
+          "y": 1488,
+          "z": 164
+        }
+      ],
+      "channels": {
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 1
+      },
+      "traversalLinkId": null
+    },
+    {
+      "id": "portal:long-room:stairs:upper",
+      "fromSpaceId": "space:stairs:5568_1008_96_480",
+      "toSpaceId": "space:upper:5568_720_1152_288",
+      "polygon": [
+        {
+          "x": 5568,
+          "y": 1008,
+          "z": 180
+        },
+        {
+          "x": 5664,
+          "y": 1008,
+          "z": 180
+        },
+        {
+          "x": 5664,
+          "y": 1008,
+          "z": 344
+        },
+        {
+          "x": 5568,
+          "y": 1008,
+          "z": 344
+        }
+      ],
+      "channels": {
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 1
+      },
+      "traversalLinkId": null
+    },
+    {
+      "id": "portal:upper:5568_720_1152_288>ramp:6336_1008_192_480",
+      "fromSpaceId": "space:upper:5568_720_1152_288",
+      "toSpaceId": "space:ramp:6336_1008_192_480",
+      "polygon": [
+        {
+          "y": 1008,
+          "x": 6336,
+          "z": 180
+        },
+        {
+          "y": 1008,
+          "x": 6528,
+          "z": 180
+        },
+        {
+          "y": 1008,
+          "x": 6528,
+          "z": 344
+        },
+        {
+          "y": 1008,
+          "x": 6336,
+          "z": 344
+        }
+      ],
+      "channels": {
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 1
+      },
+      "traversalLinkId": null
+    },
+    {
+      "id": "portal:upper:5568_720_1152_288>stairs:5568_1008_96_480",
+      "fromSpaceId": "space:upper:5568_720_1152_288",
+      "toSpaceId": "space:stairs:5568_1008_96_480",
+      "polygon": [
+        {
+          "y": 1008,
+          "x": 5568,
+          "z": 180
+        },
+        {
+          "y": 1008,
+          "x": 5664,
+          "z": 180
+        },
+        {
+          "y": 1008,
+          "x": 5664,
+          "z": 344
+        },
+        {
+          "y": 1008,
+          "x": 5568,
+          "z": 344
+        }
+      ],
+      "channels": {
+        "visible": true,
+        "ir": true,
+        "acousticTransmission": 1
+      },
+      "traversalLinkId": null
     }
   ],
   "materials": [
@@ -66674,7 +69837,8 @@
     {
       "id": "view:ceiling:room:06:7_0",
       "solidIds": [
-        "solid:ceiling:5376_672_768_96"
+        "solid:ceiling:5376_672_768_48",
+        "solid:ceiling:5376_720_192_48"
       ],
       "spaceIds": [
         "space:base:5376_672_768_96"
@@ -66684,14 +69848,14 @@
     {
       "id": "view:ceiling:room:06:7_1",
       "solidIds": [
-        "solid:ceiling:5472_768_672_96",
-        "solid:ceiling:5568_864_288_576",
-        "solid:ceiling:5952_864_192_576",
+        "solid:ceiling:5472_768_96_96",
+        "solid:ceiling:5664_1008_192_432",
+        "solid:ceiling:5952_1008_192_432",
         "solid:ceiling:5472_960_96_480",
-        "solid:ceiling:5856_960_96_480",
+        "solid:ceiling:5856_1008_96_432",
         "solid:ceiling:5376_1152_96_192",
         "solid:ceiling:5376_1440_96_96",
-        "solid:ceiling:5568_1440_96_96",
+        "solid:ceiling:5568_1488_96_48",
         "solid:ceiling:6048_1440_96_96"
       ],
       "spaceIds": [
@@ -66720,7 +69884,8 @@
     {
       "id": "view:ceiling:room:06:8_0",
       "solidIds": [
-        "solid:ceiling:6144_672_768_96"
+        "solid:ceiling:6144_672_768_48",
+        "solid:ceiling:6720_720_192_48"
       ],
       "spaceIds": [
         "space:base:6144_672_768_96"
@@ -66730,18 +69895,17 @@
     {
       "id": "view:ceiling:room:06:8_1",
       "solidIds": [
-        "solid:ceiling:6144_768_672_96",
-        "solid:ceiling:6144_864_96_96",
-        "solid:ceiling:6336_864_288_672",
+        "solid:ceiling:6720_768_96_96",
+        "solid:ceiling:6336_1488_288_48",
+        "solid:ceiling:6528_1008_96_480",
         "solid:ceiling:6720_864_96_672",
-        "solid:ceiling:6240_960_96_480",
-        "solid:ceiling:6624_960_96_480",
+        "solid:ceiling:6240_1008_96_432",
+        "solid:ceiling:6624_1008_96_432",
         "solid:ceiling:6816_1152_96_192",
         "solid:ceiling:6144_1248_96_288"
       ],
       "spaceIds": [
         "space:base:6144_768_672_96",
-        "space:base:6144_864_96_96",
         "space:base:6336_864_288_672",
         "space:base:6720_864_96_672",
         "space:base:6240_960_96_480",
@@ -67331,6 +70495,64 @@
         "space:base:7104_5664_480_480",
         "space:base:7584_5952_96_192"
       ],
+      "cutawayEligible": true
+    },
+    {
+      "id": "view:crawl:north:roof",
+      "solidIds": [
+        "solid:crawl:north:roof"
+      ],
+      "spaceIds": [
+        "space:crawl:1632_816_288_96"
+      ],
+      "cutawayEligible": true
+    },
+    {
+      "id": "view:long-room:ramp",
+      "solidIds": [
+        "solid:ramp:long-room"
+      ],
+      "spaceIds": [],
+      "cutawayEligible": true
+    },
+    {
+      "id": "view:long-room:stairs",
+      "solidIds": [
+        "solid:stairs:long-room:tread:01",
+        "solid:stairs:long-room:tread:02",
+        "solid:stairs:long-room:tread:03",
+        "solid:stairs:long-room:tread:04",
+        "solid:stairs:long-room:tread:05",
+        "solid:stairs:long-room:tread:06",
+        "solid:stairs:long-room:tread:07",
+        "solid:stairs:long-room:tread:08",
+        "solid:stairs:long-room:tread:09",
+        "solid:stairs:long-room:tread:10",
+        "solid:stairs:long-room:tread:11",
+        "solid:stairs:long-room:tread:12",
+        "solid:stairs:long-room:tread:13",
+        "solid:stairs:long-room:tread:14",
+        "solid:stairs:long-room:tread:15"
+      ],
+      "spaceIds": [],
+      "cutawayEligible": true
+    },
+    {
+      "id": "view:long-room:upper-roof",
+      "solidIds": [
+        "solid:upper:ceiling"
+      ],
+      "spaceIds": [
+        "space:upper:5568_720_1152_288"
+      ],
+      "cutawayEligible": true
+    },
+    {
+      "id": "view:long-room:upper-slab",
+      "solidIds": [
+        "solid:upper:long-room"
+      ],
+      "spaceIds": [],
       "cutawayEligible": true
     },
     {
@@ -68260,7 +71482,83 @@
       "lamp:089",
       "lamp:090"
     ],
-    "features": []
+    "features": [
+      {
+        "id": "upper:long-room",
+        "roomId": "room:06",
+        "rect": {
+          "x": 5568,
+          "y": 720,
+          "w": 1152,
+          "h": 288
+        },
+        "z": 180,
+        "supportId": "support:upper:long-room",
+        "spaceId": "space:upper:5568_720_1152_288"
+      },
+      {
+        "id": "stairs:long-room",
+        "roomId": "room:06",
+        "rect": {
+          "x": 5568,
+          "y": 1008,
+          "w": 96,
+          "h": 480
+        },
+        "z": [
+          0,
+          180
+        ],
+        "risers": 15,
+        "rise": 12,
+        "tread": 32,
+        "linkId": "link:long-room-stairs:forward"
+      },
+      {
+        "id": "ramp:long-room",
+        "roomId": "room:06",
+        "rect": {
+          "x": 6336,
+          "y": 1008,
+          "w": 192,
+          "h": 480
+        },
+        "z": [
+          0,
+          180
+        ],
+        "supportId": "support:ramp:long-room",
+        "linkId": "link:long-room-ramp:forward"
+      },
+      {
+        "id": "lower:blackout",
+        "roomId": "room:07",
+        "rect": {
+          "x": 576,
+          "y": 5472,
+          "w": 288,
+          "h": 192
+        },
+        "z": -96,
+        "supportId": "support:lower:blackout",
+        "returnLinkId": "link:blackout-return:reverse",
+        "spaceId": "space:depression:576_5472_288_480"
+      },
+      {
+        "id": "crawl:north",
+        "roomId": "room:05",
+        "rect": {
+          "x": 1632,
+          "y": 816,
+          "w": 288,
+          "h": 96
+        },
+        "z": 0,
+        "clearance": 28,
+        "linkId": "link:north-crawl:forward",
+        "spaceId": "space:crawl:1632_816_288_96"
+      }
+    ]
   },
-  "contentHash": "e1d8fbf4612781aae08b3bca45dd177e4ce27498f1b98eea595ce1546a8641ad"
+  "contentHash": "9be8f39499592e211de107d236d142aa304262aa3a162cfa854f60bd787b974a"
 }
