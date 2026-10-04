@@ -1,0 +1,6 @@
+{
+  "status": "INCOMPLETE_MEMORY_EVIDENCE",
+  "attempt": "stress-02/server-soak.json",
+  "finding": "Host /proc RSS inspection returns unavailable; zero-sample summary is not a memory measurement. Correctness/timing/network results remain valid. Add process.memoryUsage and event-loop telemetry through a test-only Node preload, then repeat soak.",
+  "runtimeChanged": false
+}

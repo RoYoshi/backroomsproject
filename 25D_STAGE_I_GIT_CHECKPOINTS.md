@@ -8,3 +8,5 @@
 The shell's public checkout is read-only. Authorized writes use the connected GitHub app, preserving exact local tree hashes and fast-forward ancestry. Final self-referential identities belong in external publication receipts.
 
 | I1 | c6e233947722b4eb7de9172076903912987bd78f | 813c4b24b90e820658e8eb2ec0f366e94b0ed0dd | Connector fast-forward and independently fetched SHA/tree |
+
+| I2 preservation | 007c328cd984a8148285b47650874389768332c3 | e3c3dd2aefc99fefacba9f18ce3d5af2f23c2245 | Raw soak readiness failure preserved; independently fetched |

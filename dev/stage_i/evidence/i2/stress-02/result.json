@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "server-soak",
+      "command": [
+        "node",
+        "dev/stage_i/stress_server.js",
+        "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i2/stress-02/server-soak.json"
+      ],
+      "exitCode": 0,
+      "seconds": 73.4347170070032
+    },
+    {
+      "name": "browser-matrix",
+      "command": [
+        "node",
+        "dev/stage_h/browser_h4.js",
+        "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i2/stress-02/browser-matrix"
+      ],
+      "exitCode": 0,
+      "seconds": 419.512655986
+    }
+  ]
+}
