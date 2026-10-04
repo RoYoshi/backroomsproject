@@ -1,0 +1,18 @@
+PASS production matrix 16x9
+PASS production matrix 16x10
+PASS production matrix ultrawide
+PASS production matrix high-dpr
+PASS production matrix 4k
+PASS production matrix reduced
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(r.stats.occluderBatches>1)
+
+    at /workspace/scratch/2bf492520e95/part-3b/dev/part3b/browser_matrix.js:36:290 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

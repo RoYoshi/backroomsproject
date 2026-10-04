@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "suite": "view25d",
+  "exitCode": 0,
+  "basis": "Unchanged named entrypoint completed both Z29/Z30 gates with strict pixel/GL assertions after post-teleport setup synchronization.",
+  "processLog": "dev/part3b/evidence/p3b4/view-02/process.log",
+  "sha256": "d4900e6832412046d92d3c9564607381a3c9f62b6a3952e6515bdd59f33c84fe",
+  "gates": [
+    {
+      "path": "dev/part3b/evidence/p3b4/view-02/raw/browser-vyOBsQ/browser_h2/result.json",
+      "status": "PASS",
+      "sha256": "5acbf4bddd9f35e604611df77670bb79382168aa1718cb555ef729d6976f49b8"
+    },
+    {
+      "path": "dev/part3b/evidence/p3b4/view-02/raw/browser-vyOBsQ/browser_h3/result.json",
+      "status": "PASS",
+      "sha256": "60e1e00c3bb93db4665365a2d93398268f72a969036fc867e318d3d698b0c09d"
+    },
+    {
+      "path": "dev/part3b/evidence/p3b4/view-02/raw/browser-vyOBsQ/browser_h4/result.json",
+      "status": "PASS",
+      "sha256": "ca9daf82abb99ee14211a43f071053947930b63d8ec3a27d30bccb93a20eea04"
+    }
+  ]
+}

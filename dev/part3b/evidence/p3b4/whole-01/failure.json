@@ -1,0 +1,181 @@
+{
+  "status": "FAIL",
+  "error": "AssertionError('browser-matrix')",
+  "checks": [
+    {
+      "name": "invariants",
+      "command": [
+        "python",
+        "dev/part3b/verify_invariants.py",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/invariants.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.03196390599987353
+    },
+    {
+      "name": "presentation-foundation",
+      "command": [
+        "node",
+        "dev/part3b/test_foundation.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/presentation-foundation.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.6156377360020997
+    },
+    {
+      "name": "presentation-motion",
+      "command": [
+        "node",
+        "dev/part3b/test_motion.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/presentation-motion.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.9691252910015464
+    },
+    {
+      "name": "presentation-cutaway",
+      "command": [
+        "node",
+        "dev/part3b/test_cutaway.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/presentation-cutaway.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.4655871600007231
+    },
+    {
+      "name": "production-base",
+      "command": [
+        "node",
+        "dev/part3a/test_base.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-base.json"
+      ],
+      "exitCode": 0,
+      "seconds": 1.5685726219999196
+    },
+    {
+      "name": "production-vertical",
+      "command": [
+        "node",
+        "dev/part3a/test_vertical.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-vertical.json"
+      ],
+      "exitCode": 0,
+      "seconds": 2.3707372509998095
+    },
+    {
+      "name": "production-navigation",
+      "command": [
+        "node",
+        "dev/part3a/test_navigation.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-navigation.json"
+      ],
+      "exitCode": 0,
+      "seconds": 5.087139340001158
+    },
+    {
+      "name": "production-gameplay",
+      "command": [
+        "node",
+        "dev/part3a/test_gameplay.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-gameplay.json"
+      ],
+      "exitCode": 0,
+      "seconds": 5.081720611000492
+    },
+    {
+      "name": "production-perception",
+      "command": [
+        "node",
+        "dev/part3a/test_perception.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-perception.json"
+      ],
+      "exitCode": 0,
+      "seconds": 2.2219221259983897
+    },
+    {
+      "name": "production-picking",
+      "command": [
+        "node",
+        "dev/part3a/test_picking.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-picking.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.4153847939996922
+    },
+    {
+      "name": "production-render_coverage",
+      "command": [
+        "node",
+        "dev/part3a/test_render_coverage.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-render_coverage.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.6660225099985837
+    },
+    {
+      "name": "production-aftermath",
+      "command": [
+        "node",
+        "dev/part3a/test_aftermath.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/production-aftermath.json"
+      ],
+      "exitCode": 0,
+      "seconds": 10.849256460001925
+    },
+    {
+      "name": "full-retained",
+      "command": [
+        "python",
+        "dev/stage_a/run_baseline.py",
+        "--game",
+        ".",
+        "--out",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/full-retained"
+      ],
+      "exitCode": 0,
+      "seconds": 566.0702642929973
+    },
+    {
+      "name": "frozen-parity",
+      "command": [
+        "python",
+        "dev/stage_h/run_parity.py",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/parity"
+      ],
+      "exitCode": 0,
+      "seconds": 18.84693301000152
+    },
+    {
+      "name": "flat-browser-parity",
+      "command": [
+        "node",
+        "dev/stage_h/browser_flat.js",
+        ".",
+        "/workspace/scratch/2bf492520e95/accepted-part3a/thefarbackrooms-level0",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/flat-browser"
+      ],
+      "exitCode": 0,
+      "seconds": 31.63981694099857
+    },
+    {
+      "name": "browser-foundation",
+      "command": [
+        "node",
+        "dev/part3b/browser_foundation.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/browser-foundation"
+      ],
+      "exitCode": 0,
+      "seconds": 4.491786058999423
+    },
+    {
+      "name": "browser-matrix",
+      "command": [
+        "node",
+        "dev/part3b/browser_matrix.js",
+        "/workspace/scratch/2bf492520e95/part-3b/dev/part3b/evidence/p3b4/whole-01/browser-matrix"
+      ],
+      "exitCode": 1,
+      "seconds": 411.7277449840003
+    }
+  ]
+}

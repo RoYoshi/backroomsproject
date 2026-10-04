@@ -1,0 +1,528 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "z": -96,
+      "visible": {
+        "hash": "2389b53d",
+        "lit": 183528,
+        "pixels": 576000
+      },
+      "hiddenAdded": {
+        "hash": "2389b53d",
+        "lit": 183528,
+        "pixels": 576000
+      },
+      "glError": 0,
+      "meta": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.6944444444444444,
+          "minX": -291.20000000000005,
+          "maxX": 1091.2,
+          "minY": -102,
+          "maxY": 762
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 56832
+        },
+        "lightCount": 0,
+        "lighting": false,
+        "nv": false,
+        "drawCalls": 35,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 31,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:crawl-roof",
+          "solid:ground-north",
+          "solid:ground-south",
+          "solid:low-ceiling",
+          "solid:lower-platform",
+          "solid:ramp",
+          "solid:ramp-landing",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-south",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 0,
+        "occluders": 32,
+        "triangles": 392,
+        "target": {
+          "width": 960,
+          "height": 600,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 960,
+          "height": 600,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 4740800,
+        "actorTextureBytes": 54912,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 2304000,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 400,
+          "y": 330,
+          "z": -96,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "stage-c-fixture:1",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "z": 0,
+      "visible": {
+        "hash": "16be08b7",
+        "lit": 175666,
+        "pixels": 576000
+      },
+      "hiddenAdded": {
+        "hash": "16be08b7",
+        "lit": 175666,
+        "pixels": 576000
+      },
+      "glError": 0,
+      "meta": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.6944444444444444,
+          "minX": -291.20000000000005,
+          "maxX": 1091.2,
+          "minY": -102,
+          "maxY": 762
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 0,
+        "lighting": false,
+        "nv": false,
+        "drawCalls": 35,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 31,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:crawl-roof",
+          "solid:ground-north",
+          "solid:ground-south",
+          "solid:low-ceiling",
+          "solid:lower-platform",
+          "solid:ramp",
+          "solid:ramp-landing",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-south",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 0,
+        "occluders": 32,
+        "triangles": 392,
+        "target": {
+          "width": 960,
+          "height": 600,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 960,
+          "height": 600,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 4740800,
+        "actorTextureBytes": 54912,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 2304000,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 400,
+          "y": 330,
+          "z": 0,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "stage-c-fixture:1",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "z": 90,
+      "visible": {
+        "hash": "362f37c9",
+        "lit": 162440,
+        "pixels": 576000
+      },
+      "hiddenAdded": {
+        "hash": "362f37c9",
+        "lit": 162440,
+        "pixels": 576000
+      },
+      "glError": 0,
+      "meta": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.6944444444444444,
+          "minX": -291.20000000000005,
+          "maxX": 1091.2,
+          "minY": -102,
+          "maxY": 762
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 0,
+        "lighting": false,
+        "nv": false,
+        "drawCalls": 35,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 31,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:crawl-roof",
+          "solid:ground-north",
+          "solid:ground-south",
+          "solid:low-ceiling",
+          "solid:lower-platform",
+          "solid:ramp",
+          "solid:ramp-landing",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-south",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 0,
+        "occluders": 32,
+        "triangles": 392,
+        "target": {
+          "width": 960,
+          "height": 600,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 960,
+          "height": 600,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 4740800,
+        "actorTextureBytes": 54912,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 2304000,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 400,
+          "y": 330,
+          "z": 90,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "stage-c-fixture:1",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "z": 180,
+      "visible": {
+        "hash": "1dfe0204",
+        "lit": 150081,
+        "pixels": 576000
+      },
+      "hiddenAdded": {
+        "hash": "1dfe0204",
+        "lit": 150081,
+        "pixels": 576000
+      },
+      "glError": 0,
+      "meta": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.6944444444444444,
+          "minX": -291.20000000000005,
+          "maxX": 1091.2,
+          "minY": -102,
+          "maxY": 762
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 0,
+        "projection": {
+          "enabled": true,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 36864
+        },
+        "lightCount": 0,
+        "lighting": false,
+        "nv": false,
+        "drawCalls": 35,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 4,
+        "candidateOccluders": 31,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:balcony",
+          "solid:crawl-roof",
+          "solid:ground-north",
+          "solid:ground-south",
+          "solid:low-ceiling",
+          "solid:lower-platform",
+          "solid:ramp",
+          "solid:ramp-landing",
+          "solid:tread-01",
+          "solid:tread-02",
+          "solid:tread-03",
+          "solid:tread-04",
+          "solid:tread-05",
+          "solid:tread-06",
+          "solid:tread-07",
+          "solid:tread-08",
+          "solid:tread-09",
+          "solid:tread-10",
+          "solid:tread-11",
+          "solid:tread-12",
+          "solid:tread-13",
+          "solid:tread-14",
+          "solid:tread-15",
+          "solid:upper-east",
+          "solid:upper-north",
+          "solid:upper-south",
+          "solid:upper-west",
+          "solid:window-lintel",
+          "solid:window-sill",
+          "solid:window-wall-back",
+          "solid:window-wall-front"
+        ],
+        "totalLightCount": 0,
+        "occluders": 32,
+        "triangles": 392,
+        "target": {
+          "width": 960,
+          "height": 600,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 960,
+          "height": 600,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 4740800,
+        "actorTextureBytes": 54912,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 2304000,
+        "eye": {
+          "x": 160,
+          "y": 160,
+          "z": 50
+        },
+        "camera": {
+          "x": 400,
+          "y": 330,
+          "z": 180,
+          "depth": true
+        },
+        "elevationScale": 0.5,
+        "cutaway": {
+          "worldEpoch": "stage-c-fixture:1",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ramp crossing depth clamp",
+      "a": {
+        "hash": "b839f073",
+        "lit": 270316,
+        "pixels": 576000
+      },
+      "b": {
+        "hash": "b839f073",
+        "lit": 270316,
+        "pixels": 576000
+      },
+      "error": 0
+    }
+  ],
+  "errors": []
+}

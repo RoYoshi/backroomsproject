@@ -16,4 +16,6 @@ P3B3 COMPLETE: continuous-interior ceiling convention, physically eligible local
 
 P3B3 completion: `ca7a05e064b99f1ca96fcc4e3687e60537924e3b`, tree `ad1440ae76d9f9fbc36673c7fdc8e99a197a53c4`. Branch and commit/tree independently verified after fast-forward publication.
 
+P3B4 preservation: `47579eab2d0c07a6f6495c9372abea138c3da5fe`, tree `de6fe63cd5a90c9a7c7aa6d67b233daef75d52ca`. Branch and commit/tree independently verified. Preserves the complete first named-suite run, raw H2 setup-race failure, narrow harness repair and whole-validation/package tooling in progress. This is not the P3B4 completion checkpoint.
+
 P3B4–P3B5: pending. Main is not modified or merged. Part 3C is not begun.

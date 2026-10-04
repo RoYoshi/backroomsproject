@@ -20,6 +20,7 @@ try{
  await a.page.evaluate(pass=>__net.testAuth(pass),process.env.ADMIN_PASSCODE);await a.page.waitForFunction(()=>__messages.some(m=>m.t==='admin'&&m.ok));
  await a.command({c:'freeze',on:1});await a.teleport({x:6192,y:864,z:180,support:'support:upper:long-room'});await capture('upper before lifecycle reset');
  const id=await a.page.evaluate(()=>__api.H.id),life=(await a.inspect()).network.pose.generation;
+ await a.command({c:'spatial-entity',kind:'hound',pose:{x:6144,y:864,z:180,support:'support:upper:long-room'}});
  await a.command({c:'preview',k:'hound',var:'B'});await a.page.waitForFunction(()=>__api.death().finished,null,{timeout:60000});await capture('death camera attaches to authoritative body');
  await a.command({c:'revive',id});await a.page.waitForFunction(life=>__net.spatialState().pose.generation>life,life,{timeout:60000});await capture('authorized revive and respawn life reset');
  a.validate();save('PASS');

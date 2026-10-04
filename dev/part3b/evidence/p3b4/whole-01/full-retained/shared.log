@@ -1,0 +1,54 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+> far-backrooms@23.3.6-hqa-search-polish test:shared
+> node dev/tests/run.js s_shared2f.js
+
+PASS 2F F01 unseen footstep is anonymous, uncertain, no raw origin/identity  [161ms]
+       both species; actual hearing boundary
+PASS 2F F02 a currently observed unambiguous source can be identified  [63ms]
+       assertions passed
+PASS 2F F03 two hidden sound sources stay anonymous  [46ms]
+       assertions passed
+PASS 2F F04 private sound source ID cannot change observations or decisions  [255ms]
+       assertions passed
+PASS 2F F05 current clear sight beats weak unrelated anonymous sound  [100ms]
+       assertions passed
+PASS 2F F06 lost target can yield to credible new observation  [64ms]
+       assertions passed
+PASS 2F F07 anonymous light never invents an identity alongside a target  [63ms]
+       assertions passed
+PASS 2F F08 reversed player/entity input order has identical decisions  [117ms]
+       480 paired decision ticks, two species/two players
+PASS 2F F09 hidden branch invariance including anonymous sound/light conflict  [599ms]
+       1,440 paired decision ticks
+PASS 2F F10 three observed repetitions form bounded, modest hypothesis  [120ms]
+       both species acquire from actual move.js/perception over six passages; unit score check: 12% only within plausible candidate region
+PASS 2F F11 habit never learns a hidden branch and wrong prediction is fallible  [542ms]
+       real learned history; 4,200 paired hidden-branch ticks, both species; no hidden capture, hypotheses expire
+PASS 2F F12 TTL and encounter end both expire habits  [33ms]
+       assertions passed
+PASS 2F F13 death/respawn/leave/world reset clear encounter identity  [135ms]
+       assertions passed
+PASS 2F F14 / R1 extra Smiler draws cannot perturb Hound  [95ms]
+       assertions passed
+PASS 2F F15 / R2 extra Hound draws cannot perturb Smiler  [120ms]
+       assertions passed
+PASS 2F F16 / R3 unrelated spawn and initialization preserve old streams  [197ms]
+       assertions passed
+PASS 2F F17 / R4 / R5 repeatable streams and IR/debug metadata isolation  [165ms]
+       same seed/ID/tag repeatability; debug makes no RNG draws
+PASS 2F F18 evidence pressure obeys all advertised caps  [242ms]
+       {"players":16,"sounds":8,"soundTTL":25,"leads":6,"leadTTL":45,"evidence":4,"recordTTL":120,"visited":128,"visitedTTL":60,"habitObs":6,"hypotheses":3,"habitTTL":30,"habitRepeats":3,"habitBias":0.12,"candidates":70,"debugCandidates":12}
+PASS 2F F19 disconnect immediately removes target, attention, habits, identified sound  [64ms]
+       assertions passed
+PASS 2F F20 IR OFF/HIGH is tick-identical for both species  [157ms]
+       600 paired decision ticks, real movement
+PASS 2F F21 hidden HP, inventory and account metadata cannot influence decisions  [161ms]
+       assertions passed
+FAIL 2F F22 species physical/canon parameter preservation  [2ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: move.js | + actual - expected |  | + '193857bdf43d086e3e16eba7091f44e31b2c7bfa923640a1e05a3b5dc848a17c'
+PASS 2F F23 long-run mixed lifecycle validity  [512ms]
+       10800 mixed ticks; 400 actual respawns; four disconnect/rejoin cycles with no stale identity
+
+22/23 passed
+FAILED: 2F F22 species physical/canon parameter preservation
