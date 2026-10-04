@@ -1,0 +1,28 @@
+# Stage I I-01–I-20 invariant audit
+
+PASS means the stated invariant/preservation obligation is established by the listed executing gates. It does not relabel inherited legacy failures as passing. In particular I-09 certifies accepted canon/tuning preservation, with F22 and P08 disclosed separately.
+
+| Invariant | Requirement | Disposition | Source boundaries | Executing evidence |
+|---|---|---|---|---|
+| I-01 | Fixed 1/60 gameplay and four 1/240 death substeps; render independence | PASS | timing_policy.js; move.js; dphys.js | dev/stage_i/evidence/i4/portable-01/s_world25d.log; dev/stage_i/evidence/i4/portable-01/physics25d.log; dev/stage_i/evidence/i4/regression-01/stage-d-independence.log |
+| I-02 | Physical XYZ separated from view interpretation | PASS | world_motion.js; world_view.js; spatial_client.js | dev/stage_i/evidence/i4/portable-01/s_world25d.log; dev/stage_i/evidence/i4/portable-01/view25d.log; dev/stage_i/evidence/i4/regression-01/stage-d-independence.log |
+| I-03 | Stacked same-XY branches stay distinct | PASS | world_geometry.js; dev/ai_src/10_geo.js; spatial_authority.js | dev/stage_i/evidence/i4/portable-01/s_world25d.log; dev/stage_i/evidence/i4/portable-01/s_nav25d.log; dev/stage_i/evidence/i4/portable-01/network25d.log |
+| I-04 | Continuous support, no unsupported sleep/floor snap | PASS | world_motion.js; dphys.js | dev/stage_i/evidence/i4/portable-01/s_world25d.log; dev/stage_i/evidence/i4/portable-01/physics25d.log |
+| I-05 | Full-volume clearance and hidden physical geometry | PASS | world_geometry.js; world_view.js | dev/stage_i/evidence/i4/portable-01/s_world25d.log; dev/stage_i/evidence/i4/portable-01/view25d.log |
+| I-06 | Retained surface-local A*/traversal and capabilities | PASS | dev/ai_src/10_geo.js; dev/ai_src/30_entity.js | dev/stage_i/evidence/i4/portable-01/s_nav25d.log |
+| I-07 | Shortcuts require continuous support and clearance | PASS | world_geometry.js:traceSupportMotion; dev/ai_src/30_entity.js | dev/stage_i/evidence/i4/portable-01/s_nav25d.log |
+| I-08 | No hidden truth in beliefs | PASS | dev/ai_src/20_senses.js; dev/ai_src/22_intelligence.js | dev/stage_i/evidence/i4/portable-01/s_perception25d.log; dev/stage_i/evidence/i4/regression-01/stage-h-lighting.log |
+| I-09 | Accepted Hound/Smiler behavior/tuning and IR separation | PASS | dev/ai_src/50_hound.js; dev/ai_src/60_smiler.js; dev/ai_src/25_light.js | dev/stage_i/evidence/i4/portable-01/s_perception25d.log; dev/stage_i/evidence/i4/regression-01/frozen-parity.log |
+| I-10 | Server authority and bounded proposal validation | PASS | server.js; spatial_authority.js | dev/stage_i/evidence/i4/portable-01/network25d.log; dev/stage_i/evidence/i4/regression-01/stage-f-authority.log |
+| I-11 | World/lifecycle generation isolation | PASS | spatial_protocol.js; spatial_history.js; mp.js | dev/stage_i/evidence/i4/portable-01/network25d.log; dev/stage_i/evidence/i4/portable-01/physics25d.log |
+| I-12 | Exactly one canonical authoritative aftermath | PASS | dev/sim_glue.js; dphys.js; spatial_protocol.js | dev/stage_i/evidence/i4/portable-01/physics25d.log |
+| I-13 | Rounded body and two physical independent hands | PASS | dphys.js; dev/ents_src/25_death.js; spatial_client.js | dev/stage_i/evidence/i4/portable-01/physics25d.log; dev/stage_i/evidence/i4/portable-01/view25d.log |
+| I-14 | Independent loose-object/decal support | PASS | world_motion.js:createPassive; dphys.js; spatial_client.js | dev/stage_i/evidence/i4/portable-01/physics25d.log; dev/stage_i/evidence/i4/portable-01/view25d.log |
+| I-15 | Cutaway changes no physical visibility or targeting | PASS | world_view.js; spatial_client.js | dev/stage_i/evidence/i4/portable-01/view25d.log; dev/stage_i/evidence/i4/regression-01/stage-h-picking.log |
+| I-16 | Flat Level 0 preservation | PASS | levels/level0.js; move.js; ai.js; dphys.js | dev/stage_i/evidence/i4/portable-01/s_world25d.log; dev/stage_i/evidence/i4/regression-01/flat-browser-parity.log; dev/stage_i/evidence/i4/regression-01/parity/result.json |
+| I-17 | One versioned geometry source and reproducible outputs | PASS | levels/level0.js; world_geometry.js; dev/build_ai.sh; dev/build_sim.sh; dev/build_ents.sh | dev/stage_i/evidence/i4/portable-01/perf_world25d.log; dev/stage_i/evidence/i4/regression-01/parity/result.json; dev/stage_i/evidence/i4/portable-01/result.json |
+| I-18 | No physics/evidence skipped for performance | PASS | server.js; dev/sim_glue.js; world_motion.js; world_view.js | dev/stage_i/evidence/i4/portable-01/physics25d.log; dev/stage_i/evidence/i4/portable-01/s_perception25d.log; dev/stage_i/evidence/i4/portable-01/perf_world25d.log; dev/stage_i/evidence/i2/result.json; dev/stage_i/evidence/i3/disposition.json |
+| I-19 | Explicit numeric/work bounds and safe diagnostics | PASS | world_geometry.js:NUM; world_motion.js:POLICY; spatial_protocol.js:LIMIT | dev/stage_i/evidence/i4/portable-01/s_world25d.log; dev/stage_i/evidence/i4/portable-01/network25d.log; dev/stage_i/evidence/i4/portable-01/physics25d.log |
+| I-20 | Human QA remains a separate pending gate | PASS | dev/stage_i/package_final.py; 25D_STAGE_I_HUMAN_QA.md | dev/stage_i/evidence/i4/portable-01/s_world25d.log; dev/stage_i/evidence/i4/portable-01/s_nav25d.log; dev/stage_i/evidence/i4/portable-01/s_perception25d.log; dev/stage_i/evidence/i4/portable-01/network25d.log; dev/stage_i/evidence/i4/portable-01/physics25d.log; dev/stage_i/evidence/i4/portable-01/view25d.log; dev/stage_i/evidence/i4/portable-01/perf_world25d.log; dev/stage_i/evidence/i4/portable-01/result.json |
+
+Each machine-readable row also records exact commands/runtime and qualifications: `dev/stage_i/evidence/i4/invariants.json`. I-20 is enforced again by the finalizer’s pending-human-QA status.

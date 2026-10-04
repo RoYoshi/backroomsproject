@@ -1,0 +1,413 @@
+{
+  "status": "PASS",
+  "humanQA": "PENDING",
+  "rows": [
+    {
+      "id": "I-01",
+      "requirement": "Fixed 1/60 gameplay and four 1/240 death substeps; render independence",
+      "sourceBoundaries": [
+        "timing_policy.js",
+        "move.js",
+        "dphys.js"
+      ],
+      "commands": [
+        "node dev/tests/s_world25d.js",
+        "node dev/tests/physics25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log",
+        "dev/stage_i/evidence/i4/regression-01/stage-d-independence.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-02",
+      "requirement": "Physical XYZ separated from view interpretation",
+      "sourceBoundaries": [
+        "world_motion.js",
+        "world_view.js",
+        "spatial_client.js"
+      ],
+      "commands": [
+        "node dev/tests/s_world25d.js",
+        "node dev/tests/view25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/view25d.log",
+        "dev/stage_i/evidence/i4/regression-01/stage-d-independence.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-03",
+      "requirement": "Stacked same-XY branches stay distinct",
+      "sourceBoundaries": [
+        "world_geometry.js",
+        "dev/ai_src/10_geo.js",
+        "spatial_authority.js"
+      ],
+      "commands": [
+        "node dev/tests/s_world25d.js",
+        "node dev/tests/s_nav25d.js",
+        "node dev/tests/network25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/s_nav25d.log",
+        "dev/stage_i/evidence/i4/portable-01/network25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-04",
+      "requirement": "Continuous support, no unsupported sleep/floor snap",
+      "sourceBoundaries": [
+        "world_motion.js",
+        "dphys.js"
+      ],
+      "commands": [
+        "node dev/tests/s_world25d.js",
+        "node dev/tests/physics25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-05",
+      "requirement": "Full-volume clearance and hidden physical geometry",
+      "sourceBoundaries": [
+        "world_geometry.js",
+        "world_view.js"
+      ],
+      "commands": [
+        "node dev/tests/s_world25d.js",
+        "node dev/tests/view25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/view25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-06",
+      "requirement": "Retained surface-local A*/traversal and capabilities",
+      "sourceBoundaries": [
+        "dev/ai_src/10_geo.js",
+        "dev/ai_src/30_entity.js"
+      ],
+      "commands": [
+        "node dev/tests/s_nav25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_nav25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-07",
+      "requirement": "Shortcuts require continuous support and clearance",
+      "sourceBoundaries": [
+        "world_geometry.js:traceSupportMotion",
+        "dev/ai_src/30_entity.js"
+      ],
+      "commands": [
+        "node dev/tests/s_nav25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_nav25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-08",
+      "requirement": "No hidden truth in beliefs",
+      "sourceBoundaries": [
+        "dev/ai_src/20_senses.js",
+        "dev/ai_src/22_intelligence.js"
+      ],
+      "commands": [
+        "node dev/tests/s_perception25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log",
+        "dev/stage_i/evidence/i4/regression-01/stage-h-lighting.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-09",
+      "requirement": "Accepted Hound/Smiler behavior/tuning and IR separation",
+      "sourceBoundaries": [
+        "dev/ai_src/50_hound.js",
+        "dev/ai_src/60_smiler.js",
+        "dev/ai_src/25_light.js"
+      ],
+      "commands": [
+        "node dev/tests/s_perception25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log",
+        "dev/stage_i/evidence/i4/regression-01/frozen-parity.log"
+      ],
+      "disposition": "PASS",
+      "qualification": "Preservation of accepted behavior; inherited F22 remains a failing retained parameter assertion and P08 remains UNKNOWN."
+    },
+    {
+      "id": "I-10",
+      "requirement": "Server authority and bounded proposal validation",
+      "sourceBoundaries": [
+        "server.js",
+        "spatial_authority.js"
+      ],
+      "commands": [
+        "node dev/tests/network25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/network25d.log",
+        "dev/stage_i/evidence/i4/regression-01/stage-f-authority.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-11",
+      "requirement": "World/lifecycle generation isolation",
+      "sourceBoundaries": [
+        "spatial_protocol.js",
+        "spatial_history.js",
+        "mp.js"
+      ],
+      "commands": [
+        "node dev/tests/network25d.js",
+        "node dev/tests/physics25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/network25d.log",
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-12",
+      "requirement": "Exactly one canonical authoritative aftermath",
+      "sourceBoundaries": [
+        "dev/sim_glue.js",
+        "dphys.js",
+        "spatial_protocol.js"
+      ],
+      "commands": [
+        "node dev/tests/physics25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-13",
+      "requirement": "Rounded body and two physical independent hands",
+      "sourceBoundaries": [
+        "dphys.js",
+        "dev/ents_src/25_death.js",
+        "spatial_client.js"
+      ],
+      "commands": [
+        "node dev/tests/physics25d.js",
+        "node dev/tests/view25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log",
+        "dev/stage_i/evidence/i4/portable-01/view25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-14",
+      "requirement": "Independent loose-object/decal support",
+      "sourceBoundaries": [
+        "world_motion.js:createPassive",
+        "dphys.js",
+        "spatial_client.js"
+      ],
+      "commands": [
+        "node dev/tests/physics25d.js",
+        "node dev/tests/view25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log",
+        "dev/stage_i/evidence/i4/portable-01/view25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-15",
+      "requirement": "Cutaway changes no physical visibility or targeting",
+      "sourceBoundaries": [
+        "world_view.js",
+        "spatial_client.js"
+      ],
+      "commands": [
+        "node dev/tests/view25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/view25d.log",
+        "dev/stage_i/evidence/i4/regression-01/stage-h-picking.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-16",
+      "requirement": "Flat Level 0 preservation",
+      "sourceBoundaries": [
+        "levels/level0.js",
+        "move.js",
+        "ai.js",
+        "dphys.js"
+      ],
+      "commands": [
+        "node dev/tests/s_world25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/regression-01/flat-browser-parity.log",
+        "dev/stage_i/evidence/i4/regression-01/parity/result.json"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-17",
+      "requirement": "One versioned geometry source and reproducible outputs",
+      "sourceBoundaries": [
+        "levels/level0.js",
+        "world_geometry.js",
+        "dev/build_ai.sh",
+        "dev/build_sim.sh",
+        "dev/build_ents.sh"
+      ],
+      "commands": [
+        "node dev/tests/perf_world25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/perf_world25d.log",
+        "dev/stage_i/evidence/i4/regression-01/parity/result.json",
+        "dev/stage_i/evidence/i4/portable-01/result.json"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-18",
+      "requirement": "No physics/evidence skipped for performance",
+      "sourceBoundaries": [
+        "server.js",
+        "dev/sim_glue.js",
+        "world_motion.js",
+        "world_view.js"
+      ],
+      "commands": [
+        "node dev/tests/physics25d.js",
+        "node dev/tests/s_perception25d.js",
+        "node dev/tests/perf_world25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log",
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log",
+        "dev/stage_i/evidence/i4/portable-01/perf_world25d.log",
+        "dev/stage_i/evidence/i2/result.json",
+        "dev/stage_i/evidence/i3/disposition.json"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-19",
+      "requirement": "Explicit numeric/work bounds and safe diagnostics",
+      "sourceBoundaries": [
+        "world_geometry.js:NUM",
+        "world_motion.js:POLICY",
+        "spatial_protocol.js:LIMIT"
+      ],
+      "commands": [
+        "node dev/tests/s_world25d.js",
+        "node dev/tests/network25d.js",
+        "node dev/tests/physics25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/network25d.log",
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "qualification": ""
+    },
+    {
+      "id": "I-20",
+      "requirement": "Human QA remains a separate pending gate",
+      "sourceBoundaries": [
+        "dev/stage_i/package_final.py",
+        "25D_STAGE_I_HUMAN_QA.md"
+      ],
+      "commands": [
+        "node dev/tests/s_world25d.js",
+        "node dev/tests/s_nav25d.js",
+        "node dev/tests/s_perception25d.js",
+        "node dev/tests/network25d.js",
+        "node dev/tests/physics25d.js",
+        "node dev/tests/view25d.js",
+        "node dev/tests/perf_world25d.js"
+      ],
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/s_nav25d.log",
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log",
+        "dev/stage_i/evidence/i4/portable-01/network25d.log",
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log",
+        "dev/stage_i/evidence/i4/portable-01/view25d.log",
+        "dev/stage_i/evidence/i4/portable-01/perf_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/result.json"
+      ],
+      "disposition": "PASS",
+      "qualification": "Automation does not grant human approval; finalizer enforces HUMAN QA PENDING."
+    }
+  ]
+}

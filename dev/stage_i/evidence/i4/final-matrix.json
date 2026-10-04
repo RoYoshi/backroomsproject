@@ -1,0 +1,428 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "id": "Z01",
+      "ownerStages": "C/E",
+      "scenario": "Two walkable floors with identical XY",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log",
+        "dev/stage_i/evidence/i4/regression-01/stage-f-authority.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z02",
+      "ownerStages": "C/E",
+      "scenario": "Open stairwell beside a closed slab",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z03",
+      "ownerStages": "C",
+      "scenario": "Ramp ascent/descent, including diagonal travel",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z04",
+      "ownerStages": "C",
+      "scenario": "Stair treads/risers, different approach directions",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z05",
+      "ownerStages": "C",
+      "scenario": "Stair interruption, reversal, sideways departure",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z06",
+      "ownerStages": "C",
+      "scenario": "Thin intermediate slab during fast fall",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z07",
+      "ownerStages": "C",
+      "scenario": "Under-ceiling upward impulse / vault",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z08",
+      "ownerStages": "C",
+      "scenario": "Crawl passage under an occupied upper floor",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z09",
+      "ownerStages": "C",
+      "scenario": "Narrow seam, convex corner and near-equal contacts",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z10",
+      "ownerStages": "E",
+      "scenario": "Allowed/forbidden traversal per species",
+      "executingSuite": "s_nav25d",
+      "command": "node dev/tests/s_nav25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_nav25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z11",
+      "ownerStages": "E",
+      "scenario": "A* with stacked endpoints and one-way drop",
+      "executingSuite": "s_nav25d",
+      "command": "node dev/tests/s_nav25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_nav25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z12",
+      "ownerStages": "E",
+      "scenario": "Target visible, then hides and chooses different floors",
+      "executingSuite": "s_perception25d",
+      "command": "node dev/tests/s_perception25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z13",
+      "ownerStages": "E",
+      "scenario": "Ambiguous sound from above/below",
+      "executingSuite": "s_perception25d",
+      "command": "node dev/tests/s_perception25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z14",
+      "ownerStages": "E/H",
+      "scenario": "Visible lamp/flashlight/IR on another story",
+      "executingSuite": "s_perception25d",
+      "command": "node dev/tests/s_perception25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log",
+        "dev/stage_i/evidence/i4/portable-01/view25d.log",
+        "dev/stage_i/evidence/i4/regression-01/stage-h-lighting.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z15",
+      "ownerStages": "E",
+      "scenario": "Gaze through a floor versus through a clear opening",
+      "executingSuite": "s_perception25d",
+      "command": "node dev/tests/s_perception25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z16",
+      "ownerStages": "E",
+      "scenario": "Pack/group members on different surfaces",
+      "executingSuite": "s_perception25d",
+      "command": "node dev/tests/s_perception25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z17",
+      "ownerStages": "C/E/G",
+      "scenario": "Near/mid/far LOD with airborne mover",
+      "executingSuite": "s_perception25d",
+      "command": "node dev/tests/s_perception25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_perception25d.log",
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log",
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z18",
+      "ownerStages": "A/C/I",
+      "scenario": "Walk/sprint/stamina/exhaustion/deep carpet",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z19",
+      "ownerStages": "C",
+      "scenario": "Spatial slide/vault/crouch/crawl/drop",
+      "executingSuite": "s_world25d",
+      "command": "node dev/tests/s_world25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/s_world25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z20",
+      "ownerStages": "F",
+      "scenario": "Normal wire movement under latency",
+      "executingSuite": "network25d",
+      "command": "node dev/tests/network25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/network25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z21",
+      "ownerStages": "F",
+      "scenario": "Malicious movement/protocol claims",
+      "executingSuite": "network25d",
+      "command": "node dev/tests/network25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/network25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z22",
+      "ownerStages": "F",
+      "scenario": "Reconnect/world reset, same ID",
+      "executingSuite": "network25d",
+      "command": "node dev/tests/network25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/network25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z23",
+      "ownerStages": "F",
+      "scenario": "Interpolation over stair/drop/teleport boundaries",
+      "executingSuite": "network25d",
+      "command": "node dev/tests/network25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/network25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z24",
+      "ownerStages": "F",
+      "scenario": "Alive/free, captured, dead, revived and new-run lifecycle",
+      "executingSuite": "network25d",
+      "command": "node dev/tests/network25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/network25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z25",
+      "ownerStages": "G",
+      "scenario": "All eight existing death variants on spatial fixtures",
+      "executingSuite": "physics25d",
+      "command": "node dev/tests/physics25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z26",
+      "ownerStages": "F/G",
+      "scenario": "Authoritative death then immediate disconnect",
+      "executingSuite": "physics25d",
+      "command": "node dev/tests/physics25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z27",
+      "ownerStages": "F/G",
+      "scenario": "Normal client replay then delayed/duplicate messages",
+      "executingSuite": "physics25d",
+      "command": "node dev/tests/physics25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z28",
+      "ownerStages": "G",
+      "scenario": "Body on ledge, gear falling to lower floor",
+      "executingSuite": "physics25d",
+      "command": "node dev/tests/physics25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z29",
+      "ownerStages": "D/H",
+      "scenario": "Different clients above/below same location",
+      "executingSuite": "view25d",
+      "command": "node dev/tests/view25d.js",
+      "runtime": "v24.19.0 / Chromium 151.0.7922.34 / ANGLE SwiftShader",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/view25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z30",
+      "ownerStages": "H",
+      "scenario": "High resolution, ultrawide, NV/zoom and overlays",
+      "executingSuite": "view25d",
+      "command": "node dev/tests/view25d.js",
+      "runtime": "v24.19.0 / Chromium 151.0.7922.34 / ANGLE SwiftShader",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/view25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z31",
+      "ownerStages": "G",
+      "scenario": "No live players, active settling bodies",
+      "executingSuite": "physics25d",
+      "command": "node dev/tests/physics25d.js",
+      "runtime": "v24.19.0",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/physics25d.log"
+      ],
+      "disposition": "PASS",
+      "scope": "Final aggregate of real owner executions"
+    },
+    {
+      "id": "Z32",
+      "ownerStages": "B/I",
+      "scenario": "Fresh extraction in a path containing spaces",
+      "executingSuite": "perf_world25d",
+      "command": "node dev/tests/perf_world25d.js",
+      "runtime": "v24.19.0 / Chromium 151.0.7922.34 / ANGLE SwiftShader",
+      "evidence": [
+        "dev/stage_i/evidence/i4/portable-01/perf_world25d.log",
+        "dev/stage_i/evidence/i4/portable-01/result.json",
+        "25D_STAGE_I_PACKAGE_VERIFICATION.json (external I5 publication receipt)"
+      ],
+      "disposition": "PASS",
+      "scope": "All named owner contributions executed. I5 exact final-source blob/mode/CRC verification is enforced by package_final.py."
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "runtime": "v24.19.0",
+  "rows": [
+    {
+      "name": "geometry",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_c/perf_spatial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.60932947,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/geometry.log"
+    },
+    {
+      "name": "navigation-perception",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/tests/run.js",
+        "s_nav25d.js",
+        "s_perception25d.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 10.393405878,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/navigation-perception.log"
+    },
+    {
+      "name": "navigation-measurement",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_e/perf_spatial.js",
+        "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/navigation.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 3.505975732999999,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/navigation-measurement.log"
+    },
+    {
+      "name": "authority-eight-clients",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_f/test_room_perf.js",
+        "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/eight-client.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 10.696160665999999,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/authority-eight-clients.log"
+    },
+    {
+      "name": "aftermath-1-3-24",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_g/performance.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 14.520443315,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/aftermath-1-3-24.log"
+    },
+    {
+      "name": "production-browser",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_i/browser_probe.js",
+        "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/browser"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 8.43503168,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/production-browser.log"
+    },
+    {
+      "name": "Z32-portability",
+      "command": [
+        "python",
+        "dev/stage_i/portability_gate.py",
+        "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/portable"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 32.069258614000006,
+      "ok": true,
+      "evidence": "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/Z32-portability.log"
+    }
+  ]
+}

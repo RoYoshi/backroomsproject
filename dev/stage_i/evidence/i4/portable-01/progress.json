@@ -97,5 +97,62 @@
     ],
     "exitCode": 0,
     "seconds": 48.50851489499473
+  },
+  {
+    "name": "view25d",
+    "command": [
+      "node",
+      "dev/tests/view25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 536.204628337
+  },
+  {
+    "name": "perf_world25d",
+    "command": [
+      "node",
+      "dev/tests/perf_world25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 80.34254719800083
+  },
+  {
+    "name": "served-package",
+    "command": [
+      "node",
+      "dev/stage_h/served_package.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/served.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.6723041860022931
+  },
+  {
+    "name": "redirect",
+    "command": [
+      "node",
+      "dev/stage_i/test_redirect.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16686715799733065
+  },
+  {
+    "name": "fps",
+    "command": [
+      "npm",
+      "run",
+      "test:fps"
+    ],
+    "exitCode": 0,
+    "seconds": 0.816886817003251
+  },
+  {
+    "name": "camera",
+    "command": [
+      "npm",
+      "run",
+      "test:camera"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21481035099714063
   }
 ]

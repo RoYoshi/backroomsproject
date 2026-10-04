@@ -1,7 +1,6 @@
-# Stage I frozen inherited baseline
+# Stage I inherited failures and preserved attempts
 
-
-Accepted G and final H aggregate are both **151/162**; shared is **22/23** with F22. Fresh parent runs match exact failure names. P08 remains UNKNOWN; it is not certified by this stage.
+Fresh accepted H and Stage I both return 151/162 aggregate and 22/23 shared, with exact failure-name equality. P08 remains UNKNOWN as a behavior conclusion even though its aggregate row is among the eleven inherited failing assertions.
 
 - P01 noticing distance: run > walk > crouch (resting hound, corridor)
 - P07 exhausted breathing is audible only close by
@@ -15,18 +14,16 @@ Accepted G and final H aggregate are both **151/162**; shared is **22/23** with 
 - C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out
 - 2F F22 species physical/canon parameter preservation
 
-`h5/baseline-comparison.json` records every retained comparison. `h5/retained-01` preserves the initial light-load timing FAIL at 0.250 ms average / 2.131 ms p99. Two serial parent/H pairs then passed the unchanged 0.25/2 ms thresholds: G 0.191/0.874, H 0.192/0.965; G 0.180/0.868, H 0.202/1.311. The first failure is not erased or reclassified as a passing run; it was not reproduced in the two isolated H runs. No performance limit was changed.
+No old assertion or threshold was relaxed. Historical L5/NZ1 observations remain in accepted evidence. The original H perf-light miss remains preserved; I4 retained performance results are listed in TEST_SUMMARY.
 
-H5 clean-build attempt `build-01` failed because maintained audio source lacked H3's generated edits. Its hashes and exact diff were pushed before repair. `build-02` and both portable rebuilds pass after synchronizing only those lines. Generated runtime bytes remain the same as H4.
+Stage I raw attempts:
 
-H5 `regression-01/browser-h-traversal` failed its first pixel assertion before movement. `traversal-probe-02` through `05` retain counts, states, screenshots and GL diagnostics. The old forced capture did not advance the GPU fence (before/after frame 3; rendered packet tick 0), yielding 468 lit pixels with no GL error. Waiting for a real post-authentication packet (tick 56 after the tick-31 readiness checkpoint) yielded 75,829 pixels. H1 now waits for that semantic readiness condition and completed local fade, with a bounded 30-second readiness wait and unchanged >1,000-pixel/zero-error assertion. The next full-quality run (`regression-02`) passes boot/ramp but fails the rendered peer-airborne assertion: only tick-514/Z120.05 and tick-600/Z-95.95 grounded poses are captured while GPU frame completions span about 0.4–1.5 seconds. This software-GPU motion limit remains a recorded FAIL. `regression-03` and the final post-capture-repair `regression-04` use the existing Reduced detail control for both clients during the fall, preserving all 32 occluders and every original physical/pixel assertion; the full focused traversal passes. This fall result justified no physics or normal frame-scheduling change. The separate forced-capture defect below did require a diagnostic-path correction.
+- `i1/world-01`: new large fixture exceeded its declared minimum bounds; only those test bounds were corrected. `world-02` passes.
+- `i1/perf-01`: default browser executable missing; the standard install returned truncated ZIPs. The existing compatible Chromium was selected through the documented environment option. `perf-02` passes; no product path was embedded.
+- `i2/stress-01/server-soak.json.failure.json`: new harness accessed the recreated client snapshot before arrival. First-snapshot readiness was added after external preservation; the original assertions pass in `stress-02` and `measurement-03`.
+- `i2/memory-evidence-audit.json`: host /proc RSS reads produced no samples, explicitly marked incomplete evidence. Test-only server process telemetry supplies 73 samples in `measurement-03`; zero samples are never presented as zero memory use.
+- `i3/parent-comparison-01`: flat candidate run 1 p99 0.503586 ms / worst 53.990695 ms and first 24-active candidate p99 87.362694 ms remain raw slow observations. Three flat pairs and two aftermath pairs, plus exact runtime-byte equality, do not establish a new regression. The second 24-active pair is 57.830375 / 57.790630 ms.
 
-Earlier H0–H3 raw failures remain in their original directories: flat capture clock/RNG alignment, startup/handshake/GL state, opaque backgrounds, a 72-pixel hidden Hound leak, software queue/startup delays and premature positive-control captures. Their focused repair/rerun histories are documented in H0–H3 status files. H4 recovery preserves missing-browser launch and truncated installation failures before using the existing Chromium executable. H4 picking, physical masks and camera code required no repair; the later forced diagnostic capture defect is recorded below.
+Carried limitations: Accepted aggregate 151/162 with the same eleven failure names; shared 22/23 with F22; P08 remains UNKNOWN; historical L5/NZ1 timing observations; external Google Fonts network/TLS failures; software SwiftShader misses 16.7 ms with no hardware GPU certification; inherited full-quality two-client airborne-capture limitation (Reduced detail passes the unchanged assertion); 24-active aftermath CPU/payload limit; accepted spatial presentation capacities of 64 solids, eight planes per solid (at most six footprint vertices), 128 light emitters, 64 lamp-failure records, and a 4,194,304-pixel render target.
 
-`emitter-precondition-audit.json` is FAIL_EVIDENCE_PRECONDITION: old H4 and portable-01 first flashlight captures contain peer emitter Z 50.05 despite the upper-floor label (expected approximately 230). `forced-capture-audit.json` is FAIL_FORCED_CAPTURE_ADVANCEMENT: render(true) left its ready frame count unchanged. Both audits and the original machine-PASS results were remotely preserved before repair. The former is fixed by explicit emitter XYZ readiness/assertions; the latter by a single force-path condition after gl.finish, with exact +1-frame capture assertions. The normal scheduler, picking, physics and masks are unchanged. The complete corrected view gate passes from portable-02; its fresh-frame timings replace the old timings for final performance reporting.
-
-The WebGL specification requires newly issued sync status to remain unsignaled until the event loop yields, while finish drains preceding GPU work. References: [Khronos WebGL 2 sync semantics](https://registry.khronos.org/webgl/specs/latest/2.0/) and [MDN finish](https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/finish). This explains the observed in-task capture return and bounds the correction to explicit diagnostics.
-
-The software GPU does not meet the 16.7 ms frame target. Hardware certification is unestablished. External Google Fonts network/TLS failures, historical L5/NZ1 observations and the accepted Stage G 24-active aftermath CPU/payload excess remain limitations. Stage I is not begun.
-
-Stage I inherits these disclosures. Stage H human QA is PASS per reference/ACCEPTED_STAGE_H_AUTHORITY.md; historical status wording above is unchanged evidence. Fresh Stage I comparisons will be added separately.
+All prior A–H evidence remains in the source archive. A historical failed attempt stays failed; a later success is recorded separately with its provenance.

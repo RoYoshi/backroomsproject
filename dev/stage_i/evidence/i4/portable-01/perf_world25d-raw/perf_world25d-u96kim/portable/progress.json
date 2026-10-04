@@ -1,0 +1,122 @@
+[
+  {
+    "name": "build-1-ai",
+    "command": [
+      "bash",
+      "dev/build_ai.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.16471633699984523
+  },
+  {
+    "name": "build-1-sim",
+    "command": [
+      "bash",
+      "dev/build_sim.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.1646129220025614
+  },
+  {
+    "name": "build-1-ents",
+    "command": [
+      "bash",
+      "dev/build_ents.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.1644142869990901
+  },
+  {
+    "name": "build-2-ai",
+    "command": [
+      "bash",
+      "dev/build_ai.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21504776299843797
+  },
+  {
+    "name": "build-2-sim",
+    "command": [
+      "bash",
+      "dev/build_sim.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21659252799872775
+  },
+  {
+    "name": "build-2-ents",
+    "command": [
+      "bash",
+      "dev/build_ents.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2175180940030259
+  },
+  {
+    "name": "world",
+    "command": [
+      "node",
+      "dev/tests/s_world25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 6.994592431001365
+  },
+  {
+    "name": "nav",
+    "command": [
+      "node",
+      "dev/tests/s_nav25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 9.797836730002018
+  },
+  {
+    "name": "perception",
+    "command": [
+      "node",
+      "dev/tests/s_perception25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 11.208911808003904
+  },
+  {
+    "name": "fps",
+    "command": [
+      "npm",
+      "run",
+      "test:fps"
+    ],
+    "exitCode": 0,
+    "seconds": 0.9610505010059569
+  },
+  {
+    "name": "camera",
+    "command": [
+      "npm",
+      "run",
+      "test:camera"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2646576699989964
+  },
+  {
+    "name": "http",
+    "command": [
+      "node",
+      "dev/stage_h/served_package.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/portable-01/perf_world25d-raw/perf_world25d-u96kim/portable/http.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.5152706439985195
+  },
+  {
+    "name": "redirect",
+    "command": [
+      "node",
+      "dev/stage_i/test_redirect.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21616755200375337
+  }
+]

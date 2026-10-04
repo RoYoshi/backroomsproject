@@ -1,0 +1,567 @@
+{
+  "status": "PASS",
+  "runtime": "v24.19.0",
+  "browser": "151.0.7922.34",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "viewport": {
+    "width": 960,
+    "height": 600
+  },
+  "dpr": 1,
+  "rows": [
+    {
+      "quality": 1,
+      "samples": [
+        {
+          "completedRoundTripMs": 2047.2169860000004,
+          "capture": {
+            "hash": "a78e32ee",
+            "lit": 75824,
+            "frameBefore": 4,
+            "frameAfter": 5,
+            "error": 0
+          }
+        },
+        {
+          "completedRoundTripMs": 973.2913050000006,
+          "capture": {
+            "hash": "f7e65ab",
+            "lit": 75821,
+            "frameBefore": 6,
+            "frameAfter": 7,
+            "error": 0
+          }
+        },
+        {
+          "completedRoundTripMs": 797.2116560000004,
+          "capture": {
+            "hash": "4f0a2643",
+            "lit": 75819,
+            "frameBefore": 8,
+            "frameAfter": 9,
+            "error": 0
+          }
+        }
+      ],
+      "inspect": {
+        "ready": true,
+        "pipeline": {
+          "inFlight": true,
+          "skippedFrames": 47,
+          "completedFrames": [
+            413.79999999701977,
+            611.6999999955297,
+            613.8999999985099,
+            169.30000000447035,
+            2046,
+            8.199999995529652,
+            959.5,
+            4.299999997019768,
+            790.8999999985099
+          ]
+        },
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "d6061fb3-eaaf-4cc2-b0b8-6f25595a3670",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "d6061fb3-eaaf-4cc2-b0b8-6f25595a3670",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 242,
+            "tick": 242,
+            "discontinuity": 3,
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.417559498383164,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ground-north",
+            "navSurface": "nav:ground",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": []
+        },
+        "frames": 10,
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15,
+            "art": 1,
+            "support": "support:ground-north",
+            "mode": "grounded",
+            "tick": 31,
+            "generation": 1,
+            "emissive": false,
+            "observable": true,
+            "visibilityRadius": 15
+          },
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "x": 160,
+            "y": 160,
+            "z": 150,
+            "height": 1,
+            "art": 2,
+            "radius": 45,
+            "visibilityRadius": 45,
+            "emissive": true,
+            "observable": true
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "zoom": 1,
+          "lightCount": 2,
+          "lighting": true,
+          "nv": false,
+          "drawCalls": 27,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 388,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4658192,
+          "actorTextureBytes": 131072,
+          "lightTextureBytes": 8192,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "camera": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "d6061fb3-eaaf-4cc2-b0b8-6f25595a3670",
+            "focus": {
+              "x": 160,
+              "y": 160,
+              "z": 0
+            },
+            "focusSpace": [
+              "space:lower-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 1,
+                "target": true
+              }
+            ]
+          },
+          "cpuMs": 2.5,
+          "cutawayMs": 0.10000000149011612
+        },
+        "cutaway": {
+          "worldEpoch": "d6061fb3-eaaf-4cc2-b0b8-6f25595a3670",
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      },
+      "classification": "BOUNDED MEASUREMENT; software GPU, no hardware certification"
+    },
+    {
+      "quality": 0.5,
+      "samples": [
+        {
+          "completedRoundTripMs": 525.1473070000002,
+          "capture": {
+            "hash": "48fcf338",
+            "lit": 19129,
+            "frameBefore": 10,
+            "frameAfter": 11,
+            "error": 0
+          }
+        },
+        {
+          "completedRoundTripMs": 131.17509100000007,
+          "capture": {
+            "hash": "5d363941",
+            "lit": 19129,
+            "frameBefore": 11,
+            "frameAfter": 12,
+            "error": 0
+          }
+        },
+        {
+          "completedRoundTripMs": 135.74732799999947,
+          "capture": {
+            "hash": "71ce895c",
+            "lit": 19130,
+            "frameBefore": 12,
+            "frameAfter": 13,
+            "error": 0
+          }
+        }
+      ],
+      "inspect": {
+        "ready": true,
+        "pipeline": {
+          "inFlight": true,
+          "skippedFrames": 51,
+          "completedFrames": [
+            413.79999999701977,
+            611.6999999955297,
+            613.8999999985099,
+            169.30000000447035,
+            2046,
+            8.199999995529652,
+            959.5,
+            4.299999997019768,
+            790.8999999985099,
+            16.900000005960464,
+            521,
+            135.89999999850988
+          ]
+        },
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "d6061fb3-eaaf-4cc2-b0b8-6f25595a3670",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "d6061fb3-eaaf-4cc2-b0b8-6f25595a3670",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 329,
+            "tick": 329,
+            "discontinuity": 4,
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.417559498383164,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ground-north",
+            "navSurface": "nav:ground",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": []
+        },
+        "frames": 13,
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15,
+            "art": 1,
+            "support": "support:ground-north",
+            "mode": "grounded",
+            "tick": 18,
+            "generation": 1,
+            "emissive": false,
+            "observable": true,
+            "visibilityRadius": 15
+          },
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "x": 160,
+            "y": 160,
+            "z": 150,
+            "height": 1,
+            "art": 2,
+            "radius": 45,
+            "visibilityRadius": 45,
+            "emissive": true,
+            "observable": true
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "zoom": 1,
+          "lightCount": 2,
+          "lighting": true,
+          "nv": false,
+          "drawCalls": 27,
+          "passes": 2,
+          "physicalVisibility": "exact bounded per-fragment convex rays",
+          "occluders": 32,
+          "triangles": 388,
+          "target": {
+            "width": 480,
+            "height": 300,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 0.5,
+          "newResourceBytes": 1202192,
+          "actorTextureBytes": 131072,
+          "lightTextureBytes": 8192,
+          "defaultColorBytesEstimate": 576000,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "camera": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "elevationScale": 0.5,
+          "cutaway": {
+            "worldEpoch": "d6061fb3-eaaf-4cc2-b0b8-6f25595a3670",
+            "focus": {
+              "x": 160,
+              "y": 160,
+              "z": 0
+            },
+            "focusSpace": [
+              "space:lower-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 1,
+                "target": true
+              }
+            ]
+          },
+          "cpuMs": 4.399999998509884,
+          "cutawayMs": 0.10000000149011612
+        },
+        "cutaway": {
+          "worldEpoch": "d6061fb3-eaaf-4cc2-b0b8-6f25595a3670",
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      },
+      "classification": "BOUNDED MEASUREMENT; software GPU, no hardware certification"
+    }
+  ],
+  "errors": [],
+  "externalFailures": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    }
+  ]
+}

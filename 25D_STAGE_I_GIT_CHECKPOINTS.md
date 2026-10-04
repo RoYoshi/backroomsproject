@@ -10,7 +10,7 @@
 | I2 | a64117fdf3798f3c483dc602ca34ed6d3804b18d | 1973c94319daca2d93b239b68bf4990f552e90ed | Connected GitHub fast-forward; independent fetch SHA/tree match |
 | I3 | d716d493cf0feea870e199090592fb9ce9912c7e | 5cedb5b9fcb032803f562194e88280360c8cb45e | Connected GitHub fast-forward; independent fetch SHA/tree match |
 | I4 retained/source preservation | 842b2ec681d1ec3c95260ce808bf52d9e27f3416 | 0b6cafc5dab658a58e5f5de1103e95faaaf5123d | Connected GitHub fast-forward; independent fetch SHA/tree match |
+| I4 parity/browser preservation | 0df47d56ebf8542270aa64c285e899df189cb3e5 | c89eaca91cc57b0065e7d3cabfa31032949002f6 | Connected GitHub fast-forward; independent fetch SHA/tree match |
+| I4 extraction progress preservation | d9fa7a5589f489e4b230c8ef83b35655e5b4afd0 | de0df6f2319e6bb869ffa6779d1dd10f18632394 | Connected GitHub fast-forward; independent fetch SHA/tree match |
 
 The shell's public checkout is read-only. Authorized writes use the connected GitHub app, preserving exact local tree hashes and fast-forward ancestry. Final self-referential identities belong in external publication receipts.
-
-| I4 parity/browser preservation | 0df47d56ebf8542270aa64c285e899df189cb3e5 | c89eaca91cc57b0065e7d3cabfa31032949002f6 | Connected GitHub fast-forward; independent fetch SHA/tree match |
