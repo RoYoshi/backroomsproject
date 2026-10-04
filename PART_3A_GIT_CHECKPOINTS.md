@@ -13,3 +13,5 @@ P3A0 source commit/tree is recorded by the external checkpoint receipt after pus
 
 - P3A4 recovery start independently verified: `4bcafa871e40f592ef5480572b55a4f764674558`; tree `358ee808ed9fc1d003ce9319c2a4f13cbc2938a5`.
 - P3A4 completed checkpoint: source identity is recorded in the external remote receipt after push, then appended at P3A5.
+
+- P3A4 COMPLETE: `bf68c5ba2c0956c8b7123396475dfc9ddb14fe4b`; tree `2a85e500d2a0790aa9f58d01552a0da8d379eb19`. Remote API, Git fetch and exact-tree verification PASS.
