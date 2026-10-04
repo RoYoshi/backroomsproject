@@ -1,0 +1,101 @@
+[
+  {
+    "name": "build-1-ai",
+    "command": [
+      "bash",
+      "dev/build_ai.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21482402599940542
+  },
+  {
+    "name": "build-1-sim",
+    "command": [
+      "bash",
+      "dev/build_sim.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2148497270027292
+  },
+  {
+    "name": "build-1-ents",
+    "command": [
+      "bash",
+      "dev/build_ents.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2180285809954512
+  },
+  {
+    "name": "build-2-ai",
+    "command": [
+      "bash",
+      "dev/build_ai.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.26578759199765045
+  },
+  {
+    "name": "build-2-sim",
+    "command": [
+      "bash",
+      "dev/build_sim.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.4667676899989601
+  },
+  {
+    "name": "build-2-ents",
+    "command": [
+      "bash",
+      "dev/build_ents.sh"
+    ],
+    "exitCode": 0,
+    "seconds": 0.21458545600034995
+  },
+  {
+    "name": "s_world25d",
+    "command": [
+      "node",
+      "dev/tests/s_world25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 6.994520248998015
+  },
+  {
+    "name": "s_nav25d",
+    "command": [
+      "node",
+      "dev/tests/s_nav25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 11.742539800994564
+  },
+  {
+    "name": "s_perception25d",
+    "command": [
+      "node",
+      "dev/tests/s_perception25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 9.79842277699936
+  },
+  {
+    "name": "network25d",
+    "command": [
+      "node",
+      "dev/tests/network25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 136.15178425899649
+  },
+  {
+    "name": "physics25d",
+    "command": [
+      "node",
+      "dev/tests/physics25d.js"
+    ],
+    "exitCode": 0,
+    "seconds": 48.50851489499473
+  }
+]

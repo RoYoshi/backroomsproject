@@ -12,3 +12,5 @@
 | I4 retained/source preservation | 842b2ec681d1ec3c95260ce808bf52d9e27f3416 | 0b6cafc5dab658a58e5f5de1103e95faaaf5123d | Connected GitHub fast-forward; independent fetch SHA/tree match |
 
 The shell's public checkout is read-only. Authorized writes use the connected GitHub app, preserving exact local tree hashes and fast-forward ancestry. Final self-referential identities belong in external publication receipts.
+
+| I4 parity/browser preservation | 0df47d56ebf8542270aa64c285e899df189cb3e5 | c89eaca91cc57b0065e7d3cabfa31032949002f6 | Connected GitHub fast-forward; independent fetch SHA/tree match |
