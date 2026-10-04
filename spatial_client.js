@@ -8,6 +8,7 @@
   const clone = x => JSON.parse(JSON.stringify(x));
   let A, R, P, geometry, model, view, pass, artEpoch;
   const art = new Map(), labelArt = new Map();
+  const cameraElevation = new V.CameraElevation();
   const audioSequences = new Map();
   const effects = new Map();
   const config = { cutaway: true, quality: 1, camera: null, focus: null, labels: false };
@@ -292,7 +293,13 @@
       art.clear(); audioSequences.clear(); effects.clear(); artEpoch = epoch;
     }
     state.frames++;
-    const camera = config.camera || (own ? {x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)} : { x: local.x, y: local.y, z: local.z });
+    // Wall-clock presentation follows immutable physical input. A discontinuity
+    // changes the key and snaps rather than sweeping across unrelated floors.
+    const elapsed=state.viewAt==null?0:Math.max(0,(start-state.viewAt)/1000);
+    const cameraTarget=own?{x:own.x,y:own.y,z:own.z-(own.shape.centerOffset||0)}:local;
+    const cameraKey=[epoch,net?.pose?.generation,net?.pose?.discontinuity,!!own,!!net?.blocked,!!net?.awaiting].join(':');
+    const camera = config.camera || {x:cameraTarget.x,y:cameraTarget.y,z:cameraElevation.update(cameraTarget.z,elapsed,cameraKey),depth:true};
+    state.presentation={camera:cameraElevation.snapshot(),targetZ:cameraTarget.z};
     R.camera = { ...camera }; R.scale = window.__cameraPolicy.baseScale(innerWidth, innerHeight)*Math.max(1,Math.min(4,window.__cam.zoomCur));
     const eye = eyePoint();
     // Simulation catch-up caps do not slow a client-local wall-clock fade.

@@ -1,0 +1,787 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "name": "camera step response is the same analytical trajectory at 30/60/120/144/240 Hz and jitter",
+      "samples": [
+        {
+          "hz": 30,
+          "z": 11.999999988674597,
+          "expected": 11.999999988674597
+        },
+        {
+          "hz": 60,
+          "z": 11.999999988674597,
+          "expected": 11.999999988674597
+        },
+        {
+          "hz": 120,
+          "z": 11.999999988674597,
+          "expected": 11.999999988674597
+        },
+        {
+          "hz": 144,
+          "z": 11.999999988674599,
+          "expected": 11.999999988674597
+        },
+        {
+          "hz": 240,
+          "z": 11.999999988674599,
+          "expected": 11.999999988674597
+        },
+        {
+          "hz": "jitter",
+          "z": 11.999999988674597,
+          "expected": 11.999999988674597
+        }
+      ]
+    },
+    {
+      "name": "projection inverse, monotonic depth and narrow bounds at extreme elevations",
+      "cases": 99,
+      "maxError": 1.1641532182693481e-10,
+      "at180Below": 0.9523809523809523
+    },
+    {
+      "name": "piecewise camera rays invert the same screen point throughout each segment",
+      "cases": 45,
+      "maxError": 9.112693272687351e-13
+    },
+    {
+      "name": "clamp-crossing triangles preserve physical interpolation and mesh continuity",
+      "triangles": 5,
+      "area": 5000,
+      "cuts": [
+        -229.78723404255314,
+        203.77358490566073
+      ]
+    },
+    {
+      "name": "canonical admission and picking remain independent of aspect, DPR, quality and UI scale",
+      "configurations": 45,
+      "records": [
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 1,
+          "cameraZ": -20,
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": 5500.8,
+            "maxX": 6883.2,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 1,
+          "cameraZ": 0,
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": 5500.8,
+            "maxX": 6883.2,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 1,
+          "cameraZ": 20,
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": 5500.8,
+            "maxX": 6883.2,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 2,
+          "cameraZ": -20,
+          "scope": {
+            "width": 691.2,
+            "height": 432,
+            "scale": 1.3888888888888888,
+            "minX": 5846.4,
+            "maxX": 6537.6,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 2,
+          "cameraZ": 0,
+          "scope": {
+            "width": 691.2,
+            "height": 432,
+            "scale": 1.3888888888888888,
+            "minX": 5846.4,
+            "maxX": 6537.6,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 2,
+          "cameraZ": 20,
+          "scope": {
+            "width": 691.2,
+            "height": 432,
+            "scale": 1.3888888888888888,
+            "minX": 5846.4,
+            "maxX": 6537.6,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 4,
+          "cameraZ": -20,
+          "scope": {
+            "width": 345.6,
+            "height": 216,
+            "scale": 2.7777777777777777,
+            "minX": 6019.2,
+            "maxX": 6364.8,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 4,
+          "cameraZ": 0,
+          "scope": {
+            "width": 345.6,
+            "height": 216,
+            "scale": 2.7777777777777777,
+            "minX": 6019.2,
+            "maxX": 6364.8,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 960,
+          "height": 600,
+          "zoom": 4,
+          "cameraZ": 20,
+          "scope": {
+            "width": 345.6,
+            "height": 216,
+            "scale": 2.7777777777777777,
+            "minX": 6019.2,
+            "maxX": 6364.8,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 1,
+          "cameraZ": -20,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 0.8333333333333334,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 1,
+          "cameraZ": 0,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 0.8333333333333334,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 1,
+          "cameraZ": 20,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 0.8333333333333334,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 2,
+          "cameraZ": -20,
+          "scope": {
+            "width": 768,
+            "height": 432,
+            "scale": 1.6666666666666667,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 2,
+          "cameraZ": 0,
+          "scope": {
+            "width": 768,
+            "height": 432,
+            "scale": 1.6666666666666667,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 2,
+          "cameraZ": 20,
+          "scope": {
+            "width": 768,
+            "height": 432,
+            "scale": 1.6666666666666667,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 4,
+          "cameraZ": -20,
+          "scope": {
+            "width": 384,
+            "height": 216,
+            "scale": 3.3333333333333335,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 4,
+          "cameraZ": 0,
+          "scope": {
+            "width": 384,
+            "height": 216,
+            "scale": 3.3333333333333335,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 720,
+          "zoom": 4,
+          "cameraZ": 20,
+          "scope": {
+            "width": 384,
+            "height": 216,
+            "scale": 3.3333333333333335,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 1,
+          "cameraZ": -20,
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.9259259259259259,
+            "minX": 5500.8,
+            "maxX": 6883.2,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 1,
+          "cameraZ": 0,
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.9259259259259259,
+            "minX": 5500.8,
+            "maxX": 6883.2,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 1,
+          "cameraZ": 20,
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.9259259259259259,
+            "minX": 5500.8,
+            "maxX": 6883.2,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 2,
+          "cameraZ": -20,
+          "scope": {
+            "width": 691.2,
+            "height": 432,
+            "scale": 1.8518518518518519,
+            "minX": 5846.4,
+            "maxX": 6537.6,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 2,
+          "cameraZ": 0,
+          "scope": {
+            "width": 691.2,
+            "height": 432,
+            "scale": 1.8518518518518519,
+            "minX": 5846.4,
+            "maxX": 6537.6,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 2,
+          "cameraZ": 20,
+          "scope": {
+            "width": 691.2,
+            "height": 432,
+            "scale": 1.8518518518518519,
+            "minX": 5846.4,
+            "maxX": 6537.6,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 4,
+          "cameraZ": -20,
+          "scope": {
+            "width": 345.6,
+            "height": 216,
+            "scale": 3.7037037037037037,
+            "minX": 6019.2,
+            "maxX": 6364.8,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 4,
+          "cameraZ": 0,
+          "scope": {
+            "width": 345.6,
+            "height": 216,
+            "scale": 3.7037037037037037,
+            "minX": 6019.2,
+            "maxX": 6364.8,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 1280,
+          "height": 800,
+          "zoom": 4,
+          "cameraZ": 20,
+          "scope": {
+            "width": 345.6,
+            "height": 216,
+            "scale": 3.7037037037037037,
+            "minX": 6019.2,
+            "maxX": 6364.8,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 1,
+          "cameraZ": -20,
+          "scope": {
+            "width": 1536,
+            "height": 642.9767441860465,
+            "scale": 2.2395833333333335,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 542.5116279069767,
+            "maxY": 1185.4883720930234
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 1,
+          "cameraZ": 0,
+          "scope": {
+            "width": 1536,
+            "height": 642.9767441860465,
+            "scale": 2.2395833333333335,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 542.5116279069767,
+            "maxY": 1185.4883720930234
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 1,
+          "cameraZ": 20,
+          "scope": {
+            "width": 1536,
+            "height": 642.9767441860465,
+            "scale": 2.2395833333333335,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 542.5116279069767,
+            "maxY": 1185.4883720930234
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 2,
+          "cameraZ": -20,
+          "scope": {
+            "width": 768,
+            "height": 321.48837209302326,
+            "scale": 4.479166666666667,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 703.2558139534883,
+            "maxY": 1024.7441860465117
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 2,
+          "cameraZ": 0,
+          "scope": {
+            "width": 768,
+            "height": 321.48837209302326,
+            "scale": 4.479166666666667,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 703.2558139534883,
+            "maxY": 1024.7441860465117
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 2,
+          "cameraZ": 20,
+          "scope": {
+            "width": 768,
+            "height": 321.48837209302326,
+            "scale": 4.479166666666667,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 703.2558139534883,
+            "maxY": 1024.7441860465117
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 4,
+          "cameraZ": -20,
+          "scope": {
+            "width": 384,
+            "height": 160.74418604651163,
+            "scale": 8.958333333333334,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 783.6279069767442,
+            "maxY": 944.3720930232558
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 4,
+          "cameraZ": 0,
+          "scope": {
+            "width": 384,
+            "height": 160.74418604651163,
+            "scale": 8.958333333333334,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 783.6279069767442,
+            "maxY": 944.3720930232558
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3440,
+          "height": 1440,
+          "zoom": 4,
+          "cameraZ": 20,
+          "scope": {
+            "width": 384,
+            "height": 160.74418604651163,
+            "scale": 8.958333333333334,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 783.6279069767442,
+            "maxY": 944.3720930232558
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 1,
+          "cameraZ": -20,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 2.5,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 1,
+          "cameraZ": 0,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 2.5,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 1,
+          "cameraZ": 20,
+          "scope": {
+            "width": 1536,
+            "height": 864,
+            "scale": 2.5,
+            "minX": 5424,
+            "maxX": 6960,
+            "minY": 432,
+            "maxY": 1296
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 2,
+          "cameraZ": -20,
+          "scope": {
+            "width": 768,
+            "height": 432,
+            "scale": 5,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 2,
+          "cameraZ": 0,
+          "scope": {
+            "width": 768,
+            "height": 432,
+            "scale": 5,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 2,
+          "cameraZ": 20,
+          "scope": {
+            "width": 768,
+            "height": 432,
+            "scale": 5,
+            "minX": 5808,
+            "maxX": 6576,
+            "minY": 648,
+            "maxY": 1080
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 4,
+          "cameraZ": -20,
+          "scope": {
+            "width": 384,
+            "height": 216,
+            "scale": 10,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 4,
+          "cameraZ": 0,
+          "scope": {
+            "width": 384,
+            "height": 216,
+            "scale": 10,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        },
+        {
+          "width": 3840,
+          "height": 2160,
+          "zoom": 4,
+          "cameraZ": 20,
+          "scope": {
+            "width": 384,
+            "height": 216,
+            "scale": 10,
+            "minX": 6000,
+            "maxX": 6384,
+            "minY": 756,
+            "maxY": 972
+          },
+          "picked": "lower"
+        }
+      ],
+      "physicalUnchanged": true
+    }
+  ]
+}

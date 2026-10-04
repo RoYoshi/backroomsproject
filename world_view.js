@@ -8,10 +8,47 @@
 })(typeof window==='object'?window:globalThis,function(cameraPolicy){
   'use strict';
   const ELEVATION=.5,MAX_SOLIDS=64,MAX_PLANES=8,BOUNDARY=.005,MAX_PIXELS=4194304;
+  // Part 3B parameters are presentation units, never movement constants.
+  const DEPTH=Object.freeze({coefficient:1/3600,minScale:.94,maxScale:1.06,cameraOmega:24,maxCameraLag:28,resetGap:.25});
+  const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+  function denominator(z,camera){return camera.depth?clamp(1-DEPTH.coefficient*(z-camera.z),1/DEPTH.maxScale,1/DEPTH.minScale):1;}
+  function layerScale(z,camera){return 1/denominator(z,camera);}
+  function depthBreaks(camera){return camera.depth?[camera.z+(1-1/DEPTH.minScale)/DEPTH.coefficient,camera.z+(1-1/DEPTH.maxScale)/DEPTH.coefficient]:[];}
+  // Exact constant-target critically damped update. Independent instances own
+  // all state; no actor, geometry, simulation clock or network pose is written.
+  class CameraElevation {
+    constructor(){this.key=null;this.z=0;this.velocity=0;this.resets=0;}
+    update(target,dt,key='local'){
+      if(!Number.isFinite(target))throw Error('Non-finite presentation elevation');
+      if(this.key!==key||!Number.isFinite(dt)||dt>DEPTH.resetGap||dt<0){this.key=key;this.z=target;this.velocity=0;this.resets++;return this.z;}
+      const w=DEPTH.cameraOmega,t=Math.max(0,dt),y=this.z-target,b=this.velocity+w*y,e=Math.exp(-w*t);
+      this.z=target+(y+b*t)*e;this.velocity=(this.velocity-w*b*t)*e;
+      const bounded=clamp(this.z,target-DEPTH.maxCameraLag,target+DEPTH.maxCameraLag);
+      if(bounded!==this.z){this.z=bounded;this.velocity=0;}
+      return this.z;
+    }
+    snapshot(){return {z:this.z,velocity:this.velocity,key:this.key,resets:this.resets};}
+  }
   const dot=(a,b)=>a.x*b.x+a.y*b.y+a.z*b.z;
-  function project(p,camera,scale,e=ELEVATION){return {x:scale*(p.x-camera.x),y:scale*((p.y-camera.y)-e*(p.z-camera.z))};}
+  function project(p,camera,scale,e=ELEVATION){const s=scale/denominator(p.z,camera);return {x:s*(p.x-camera.x),y:s*((p.y-camera.y)-e*(p.z-camera.z))};}
   function depth(p,camera,e=ELEVATION){return (e*(p.y-camera.y)+(p.z-camera.z))/Math.sqrt(1+e*e);}
-  function onPlane(screen,z,camera,scale,e=ELEVATION){return {x:screen.x/scale+camera.x,y:screen.y/scale+camera.y+e*(z-camera.z),z};}
+  function onPlane(screen,z,camera,scale,e=ELEVATION){const w=denominator(z,camera);return {x:screen.x*w/scale+camera.x,y:screen.y*w/scale+camera.y+e*(z-camera.z),z};}
+  // A bounded projection is three projective regions. Split triangles exactly
+  // at their two shared Z planes so GPU interpolation of PHYSICAL vWorld is
+  // exact, including ramps/walls crossing a clamp. Merely clamping vertices
+  // would silently bend the inverse and physical masks inside a triangle.
+  function clipDepthTriangles(vertices,camera){
+    if(!camera.depth)return vertices instanceof Float32Array?vertices:new Float32Array(vertices);
+    const cuts=depthBreaks(camera),out=[];
+    const clip=(poly,z,above)=>{const result=[];for(let i=0;i<poly.length;i++){
+      const a=poly[i],b=poly[(i+1)%poly.length],ia=above?a[2]>=z:a[2]<=z,ib=above?b[2]>=z:b[2]<=z;
+      if(ia)result.push(a);if(ia!==ib){const t=(z-a[2])/(b[2]-a[2]);result.push(a.map((v,k)=>v+(b[k]-v)*t));}
+    }return result;};
+    for(let i=0;i<vertices.length;i+=24){let pieces=[[Array.from(vertices.slice(i,i+8)),Array.from(vertices.slice(i+8,i+16)),Array.from(vertices.slice(i+16,i+24))]];
+      for(const z of cuts){const next=[];for(const poly of pieces){const zs=poly.map(v=>v[2]);if(Math.min(...zs)<z&&Math.max(...zs)>z)next.push(clip(poly,z,false),clip(poly,z,true));else next.push(poly);}pieces=next;}
+      for(const p of pieces)for(let j=1;j<p.length-1;j++)out.push(...p[0],...p[j],...p[j+1]);
+    }return new Float32Array(out);
+  }
   function footprint(width,height,camera,zoom=1){const base=cameraPolicy.visibleWorld(width,height),z=Math.max(1,Math.min(4,zoom)),v={width:base.width/z,height:base.height/z,scale:base.scale*z};return {...v,minX:camera.x-v.width/2,maxX:camera.x+v.width/2,minY:camera.y-v.height/2,maxY:camera.y+v.height/2};}
   function within(p,box){return p.x>=box.minX&&p.x<=box.maxX&&p.y>=box.minY&&p.y<=box.maxY;}
   function freeze(value){if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.freeze(value);Object.values(value).forEach(freeze);}return value;}
@@ -45,11 +82,18 @@
   function candidates(model,min,max){const ids=new Set();for(let y=Math.floor((min.y-BOUNDARY)/768);y<=Math.floor((max.y+BOUNDARY)/768);y++)for(let x=Math.floor((min.x-BOUNDARY)/768);x<=Math.floor((max.x+BOUNDARY)/768);x++)for(const i of model.chunks[x+','+y]||[])ids.add(i);return [...ids].sort((a,b)=>a-b).filter(i=>{const s=model.solids[i];return ['x','y','z'].every(k=>s.max[k]>=min[k]-BOUNDARY&&s.min[k]<=max[k]+BOUNDARY);});}
   function visible(model,eye,point,receiver=-1){const len=Math.hypot(point.x-eye.x,point.y-eye.y,point.z-eye.z);if(len<1e-6)return true;for(const i of candidates(model,{x:Math.min(eye.x,point.x),y:Math.min(eye.y,point.y),z:Math.min(eye.z,point.z)},{x:Math.max(eye.x,point.x),y:Math.max(eye.y,point.y),z:Math.max(eye.z,point.z)})){const s=model.solids[i];if(!s.visible)continue;const t=interval(s,eye,point,s.index===receiver?0:BOUNDARY);if(t&&t.exit>1e-6&&t.enter<1-(s.index===receiver?.03/len:0))return false;}return true;}
   function pickingRay(screen,camera,scale,e=ELEVATION){
+    if(camera.depth){const zs=[camera.z+4096,...depthBreaks(camera).slice().reverse(),camera.z-4096],points=zs.map(z=>onPlane(screen,z,camera,scale,e));
+      return {from:points[0],to:points.at(-1),segments:points.slice(1).map((to,i)=>({from:points[i],to}))};}
     const p=onPlane(screen,camera.z,camera,scale,e),n=Math.hypot(e,1),v={x:0,y:e/n,z:1/n},d=depth(p,camera,e);
     const at=t=>({x:p.x+v.x*t,y:p.y+v.y*t,z:p.z+v.z*t});
     return {from:at(4096-d),to:at(-4096-d)};
   }
   function cameraClear(model,point,ray,view,receiver=-1){
+    if(ray.segments){
+      for(const segment of ray.segments){if(segment.from.z<=point.z+1e-7)continue;const from=segment.from,to=segment.to.z<point.z?point:segment.to,len=Math.hypot(from.x-to.x,from.y-to.y,from.z-to.z);
+        for(const s of model.solids){if(view?.fadeFor(s.id)>=1)continue;const h=interval(s,to,from,0);if(h&&h.exit>(s.index===receiver?.03/len:1e-7)&&h.enter<1)return false;}}
+      return true;
+    }
     const len=Math.hypot(ray.from.x-point.x,ray.from.y-point.y,ray.from.z-point.z);
     for(const s of model.solids){if(view?.fadeFor(s.id)>=1)continue;const h=interval(s,point,ray.from,0);if(h&&h.exit>(s.index===receiver?.03/len:1e-7)&&h.enter<1)return false;}return true;
   }
@@ -60,10 +104,13 @@
     if(Math.abs(dz)<1e-12){if(ray.from.z<p.z||ray.from.z>p.z+p.height)return null;}else{const x=(p.z-ray.from.z)/dz,y=(p.z+p.height-ray.from.z)/dz;lo=Math.max(lo,Math.min(x,y));hi=Math.min(hi,Math.max(x,y));}return lo<=hi?{enter:lo,exit:hi}:null;
   }
   function pick(model,{screen,camera,eye,width,height,view,actors=[],zoom=1,exclude=null}){
-    const scope=footprint(width,height,camera,zoom),ray=pickingRay(screen,camera,scope.scale),at=t=>Object.fromEntries(['x','y','z'].map(k=>[k,ray.from[k]+(ray.to[k]-ray.from[k])*t])),hits=[];
-    const add=(t,data,receiver=-1)=>{if(t<0||t>1)return;const point=at(t);if(within(point,scope)&&visible(model,eye,point,receiver)&&cameraClear(model,point,ray,view,receiver))hits.push({...data,t,point});};
-    for(const s of model.solids){if(!s.visible||view?.fadeFor(s.id)>=1)continue;const h=interval(s,ray.from,ray.to,0);if(h){add(h.enter,{kind:'face',primitiveId:s.id},s.index);add(h.exit,{kind:'face',primitiveId:s.id},s.index);}}
-    for(const p of actors){if(p.id===exclude||p.observable===false||!within(p,scope)||!['player','peer','hound','smiler','body','hand:0','hand:1','light','hat','replay','item','exit'].includes(p.kind))continue;const h=cylinderInterval(p,ray);if(h){add(h.enter,{kind:'actor',actorId:p.id});add(h.exit,{kind:'actor',actorId:p.id});}}
+    const scope=footprint(width,height,camera,zoom),ray=pickingRay(screen,camera,scope.scale),hits=[];
+    for(const segment of ray.segments||[ray]){
+    const at=t=>Object.fromEntries(['x','y','z'].map(k=>[k,segment.from[k]+(segment.to[k]-segment.from[k])*t]));
+    const add=(t,data,receiver=-1)=>{if(t<0||t>1)return;const point=at(t);if(within(point,scope)&&visible(model,eye,point,receiver)&&cameraClear(model,point,ray,view,receiver))hits.push({...data,t:ray.segments?(ray.from.z-point.z)/(ray.from.z-ray.to.z):t,point});};
+    for(const s of model.solids){if(!s.visible||view?.fadeFor(s.id)>=1)continue;const h=interval(s,segment.from,segment.to,0);if(h){add(h.enter,{kind:'face',primitiveId:s.id},s.index);add(h.exit,{kind:'face',primitiveId:s.id},s.index);}}
+    for(const p of actors){if(p.id===exclude||p.observable===false||!within(p,scope)||!['player','peer','hound','smiler','body','hand:0','hand:1','light','hat','replay','item','exit'].includes(p.kind))continue;const h=cylinderInterval(p,segment);if(h){add(h.enter,{kind:'actor',actorId:p.id});add(h.exit,{kind:'actor',actorId:p.id});}}
+    }
     hits.sort((a,b)=>a.t-b.t||(a.actorId||a.primitiveId).localeCompare(b.actorId||b.primitiveId));
     // A fully faded group stops blocking the CAMERA only. Every candidate's
     // eye ray above still sees every physical solid, so fading grants no hit.
@@ -86,9 +133,9 @@
   const vertexShader=`#version 300 es
   precision highp float;
   layout(location=0) in vec3 aPosition;layout(location=1) in vec3 aNormal;layout(location=2) in vec2 aUV;
-  uniform vec3 uCamera;uniform vec2 uViewport;uniform float uScale,uElevation;
+  uniform vec3 uCamera;uniform vec2 uViewport;uniform float uScale,uElevation,uDepth;
   out vec3 vWorld;out vec3 vNormal;out vec2 vUV;
-  void main(){vec3 p=aPosition-uCamera;vec2 q=uScale*vec2(p.x,p.y-uElevation*p.z);float d=(uElevation*p.y+p.z)/sqrt(1.+uElevation*uElevation);gl_Position=vec4(2.*q.x/uViewport.x,-2.*q.y/uViewport.y,-d/4096.,1.);vWorld=aPosition;vNormal=aNormal;vUV=aUV;}`;
+  void main(){vec3 p=aPosition-uCamera;vec2 q=uScale*vec2(p.x,p.y-uElevation*p.z);float d=(uElevation*p.y+p.z)/sqrt(1.+uElevation*uElevation);float w=uDepth>0.?clamp(1.-uDepth*p.z,${1/1.06},${1/.94}):1.;gl_Position=vec4(2.*q.x/uViewport.x,-2.*q.y/uViewport.y,-d/4096.,w);vWorld=aPosition;vNormal=aNormal;vUV=aUV;}`;
   const fragmentShader=`#version 300 es
   precision highp float;precision highp int;
   in vec3 vWorld;in vec3 vNormal;in vec2 vUV;out vec4 outColor;
@@ -148,7 +195,7 @@
     constructor(renderer,model,art){
       const gl=renderer.gl;if(!gl||typeof gl.texStorage2D!=='function')throw Error('Stage D requires WebGL2; production Level 0 remains available');
       this.renderer=renderer;this.gl=gl;this.model=model;this.canvas=renderer.canvas;this.program=program(gl);this.uniforms={};
-      for(const n of ['Candidates','BatchCount','SolidColumns','Camera','Viewport','Scale','Elevation','Solids','Art','Count','Receiver','Kind','Eye','Scope','Tint','Fade','Proxy','Top','Lights','LightCount','Lighting','NV','Surface','SensorGain','Bloom','Emission','Failures[0]','FailCount'])this.uniforms[n]=gl.getUniformLocation(this.program,'u'+n);
+      for(const n of ['Candidates','BatchCount','SolidColumns','Camera','Viewport','Scale','Elevation','Depth','Solids','Art','Count','Receiver','Kind','Eye','Scope','Tint','Fade','Proxy','Top','Lights','LightCount','Lighting','NV','Surface','SensorGain','Bloom','Emission','Failures[0]','FailCount'])this.uniforms[n]=gl.getUniformLocation(this.program,'u'+n);
       const makeVAO=data=>{const vao=gl.createVertexArray(),buffer=gl.createBuffer();gl.bindVertexArray(vao);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);for(const [i,n,offset]of [[0,3,0],[1,3,12],[2,2,24]]){gl.enableVertexAttribArray(i);gl.vertexAttribPointer(i,n,gl.FLOAT,false,32,offset);}return {vao,buffer};};
       this.world=makeVAO(new Float32Array(model.vertices));this.proxy=makeVAO(new Float32Array(48));
       this.maxTexture=gl.getParameter(gl.MAX_TEXTURE_SIZE);this.solidColumns=Math.max(1,Math.ceil(model.solids.length/this.maxTexture));this.solidRows=Math.max(1,Math.ceil(model.solids.length/this.solidColumns));if(this.solidColumns*10>this.maxTexture)throw Error('Spatial geometry exceeds device texture capacity; no geometry omitted');const data=new Float32Array(this.solidColumns*this.solidRows*40);for(const s of model.solids){data.set([s.min.x,s.min.y,s.min.z,s.planes.length,s.max.x,s.max.y,s.max.z,(+s.visible+2*(+s.ir)),...s.planes.flat()],s.index*40);}
@@ -170,24 +217,31 @@
       const allLights=lights;lights=lights&&lights.filter(l=>Math.hypot(Math.max(scope.minX-l.origin.x,0,l.origin.x-scope.maxX),Math.max(scope.minY-l.origin.y,0,l.origin.y-scope.maxY))<=l.range);
       const bounds=this.model.definition.bounds,min={x:Math.min(scope.minX,eye.x),y:Math.min(scope.minY,eye.y),z:Math.min(bounds.min.z,eye.z)},max={x:Math.max(scope.maxX,eye.x),y:Math.max(scope.maxY,eye.y),z:Math.max(bounds.max.z,eye.z)};for(const l of lights||[])for(const k of ['x','y','z']){min[k]=Math.min(min[k],l.origin[k]);max[k]=Math.max(max[k],l.origin[k]);}const selected=candidates(this.model,min,max),batchCount=Math.ceil(selected.length/MAX_SOLIDS);const indices=new Float32Array(MAX_SOLIDS*this.candidateRows);indices.set(selected);
       gl.bindFramebuffer(gl.FRAMEBUFFER,this.fbo);gl.viewport(0,0,this.target.width,this.target.height);gl.disable(gl.SCISSOR_TEST);gl.disable(gl.BLEND);gl.disable(gl.CULL_FACE);gl.disable(gl.STENCIL_TEST);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);gl.depthMask(true);gl.colorMask(true,true,true,true);gl.clearColor(0,0,0,1);gl.clearDepth(1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(this.program);
-      gl.uniform3f(u.Camera,camera.x,camera.y,camera.z);gl.uniform3f(u.Eye,eye.x,eye.y,eye.z);gl.uniform2f(u.Viewport,this.width,this.height);gl.uniform1f(u.Scale,scope.scale);gl.uniform1f(u.Elevation,elevationScale);gl.uniform4f(u.Scope,scope.minX,scope.minY,scope.maxX,scope.maxY);gl.uniform1i(u.Count,selected.length);gl.uniform1i(u.BatchCount,batchCount);gl.uniform1i(u.SolidColumns,this.solidColumns);gl.activeTexture(gl.TEXTURE3);gl.bindTexture(gl.TEXTURE_2D,this.candidateTexture);gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,MAX_SOLIDS,this.candidateRows,gl.RED,gl.FLOAT,indices);gl.uniform1i(u.Candidates,3);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.solidTexture);gl.uniform1i(u.Solids,0);gl.uniform1i(u.Art,1);
+      gl.uniform3f(u.Camera,camera.x,camera.y,camera.z);gl.uniform3f(u.Eye,eye.x,eye.y,eye.z);gl.uniform2f(u.Viewport,this.width,this.height);gl.uniform1f(u.Scale,scope.scale);gl.uniform1f(u.Elevation,elevationScale);gl.uniform1f(u.Depth,camera.depth?DEPTH.coefficient:0);gl.uniform4f(u.Scope,scope.minX,scope.minY,scope.maxX,scope.maxY);gl.uniform1i(u.Count,selected.length);gl.uniform1i(u.BatchCount,batchCount);gl.uniform1i(u.SolidColumns,this.solidColumns);gl.activeTexture(gl.TEXTURE3);gl.bindTexture(gl.TEXTURE_2D,this.candidateTexture);gl.texSubImage2D(gl.TEXTURE_2D,0,0,0,MAX_SOLIDS,this.candidateRows,gl.RED,gl.FLOAT,indices);gl.uniform1i(u.Candidates,3);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,this.solidTexture);gl.uniform1i(u.Solids,0);gl.uniform1i(u.Art,1);
       // No sampled texture may alias the active color attachment, even in an untaken shader branch.
       gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[0].tex);
       if(lights&&lights.length>this.maxTexture)throw Error('Spatial light texture exceeds device capacity; cannot omit emitters');this.lightCapacity=Math.max(128,lights?.length||0);
       const lightData=new Float32Array(this.lightCapacity*16);for(const [i,l]of (lights||[]).entries())lightData.set([l.origin.x,l.origin.y,l.origin.z,l.range,l.direction.x,l.direction.y,l.direction.z,l.arc,...(l.color||[1,1,1]),0,l.channel==='ir'?2:1,l.power,l.near||24,l.kind==='lamp'?1:0],i*16);
       gl.activeTexture(gl.TEXTURE2);gl.bindTexture(gl.TEXTURE_2D,this.lightTexture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA32F,4,this.lightCapacity,0,gl.RGBA,gl.FLOAT,lightData);gl.uniform1i(u.Lights,2);gl.uniform1i(u.LightCount,lights?.length||0);gl.uniform1i(u.Lighting,lights?1:0);gl.uniform1i(u.NV,nv?1:0);gl.uniform1i(u.Surface,0);gl.uniform1f(u.Emission,0);gl.uniform1f(u.SensorGain,sensorGain);gl.uniform1f(u.Bloom,bloom);if(failures.length>64)throw Error('Spatial lamp-failure capacity exceeded');gl.uniform1i(u.FailCount,failures.length);const failData=new Float32Array(256);failures.forEach((f,i)=>failData.set([f.x,f.y,f.z,f.r],i*4));gl.uniform4fv(u['Failures[0]'],failData);
       let draws=0;gl.bindVertexArray(this.world.vao);gl.uniform1i(u.Kind,0);gl.uniform4f(u.Proxy,0,0,-1,0);gl.uniform1f(u.Top,0);
-      const packets=reverse?this.model.packets.slice().reverse():this.model.packets;
+      const projectionKey=camera.depth?camera.z:'flat';
+      if(this.projectionKey!==projectionKey){
+        const data=[],cuts=depthBreaks(camera);this.projectedPackets=[];
+        for(const p of this.model.packets){const source=this.model.vertices.slice(p.first*8,(p.first+p.count)*8),mesh=cuts.some(z=>p.min.z<z&&p.max.z>z)?clipDepthTriangles(source,camera):source;
+          this.projectedPackets.push({...p,first:data.length/8,count:mesh.length/8});for(const v of mesh)data.push(v);}
+        gl.bindBuffer(gl.ARRAY_BUFFER,this.world.buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(data),gl.DYNAMIC_DRAW);this.projectionKey=projectionKey;this.projectedVertexBytes=data.length*4;
+      }
+      const packets=reverse?this.projectedPackets.slice().reverse():this.projectedPackets;
       for(const p of packets){if(p.max.x<scope.minX||p.min.x>scope.maxX||p.max.y<scope.minY||p.min.y>scope.maxY)continue;gl.uniform1i(u.Receiver,p.index);gl.uniform1f(u.Fade,view?view.fadeFor(p.id):0);gl.uniform4fv(u.Tint,color(p.id,p.materialId));gl.drawArrays(gl.TRIANGLES,p.first,p.count);draws++;}
-      const proxy=(actor,kind)=>{if(actor.observable===false||!within(actor,scope))return;gl.bindVertexArray(this.proxy.vao);gl.bindBuffer(gl.ARRAY_BUFFER,this.proxy.buffer);gl.bufferData(gl.ARRAY_BUFFER,this.quad(actor,elevationScale,kind),gl.DYNAMIC_DRAW);gl.uniform1i(u.Kind,kind);gl.uniform1f(u.Emission,actor.emissive?1:0);gl.uniform4f(u.Proxy,actor.x,actor.y,Number.isFinite(actor.visibilityRadius)?actor.visibilityRadius:-1,actor.z+.01);gl.uniform1f(u.Top,actor.z+(actor.height||60)-.01);gl.uniform1i(u.Receiver,actor.surface?this.model.solids.findIndex(s=>s.id===actor.surface.primitiveId):-1);gl.uniform1i(u.Surface,actor.surface?1:0);gl.uniform1f(u.Fade,0);gl.uniform4fv(u.Tint,kind===2?[1,.1,.85,1]:[1,1,1,1]);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[actor.art||0].tex);gl.drawArrays(gl.TRIANGLES,0,6);draws++;};
+      const proxy=(actor,kind)=>{if(actor.observable===false||!within(actor,scope))return;gl.bindVertexArray(this.proxy.vao);gl.bindBuffer(gl.ARRAY_BUFFER,this.proxy.buffer);const mesh=clipDepthTriangles(this.quad(actor,elevationScale,kind),camera);gl.bufferData(gl.ARRAY_BUFFER,mesh,gl.DYNAMIC_DRAW);gl.uniform1i(u.Kind,kind);gl.uniform1f(u.Emission,actor.emissive?1:0);gl.uniform4f(u.Proxy,actor.x,actor.y,Number.isFinite(actor.visibilityRadius)?actor.visibilityRadius:-1,actor.z+.01);gl.uniform1f(u.Top,actor.z+(actor.height||60)-.01);gl.uniform1i(u.Receiver,actor.surface?this.model.solids.findIndex(s=>s.id===actor.surface.primitiveId):-1);gl.uniform1i(u.Surface,actor.surface?1:0);gl.uniform1f(u.Fade,0);gl.uniform4fv(u.Tint,kind===2?[1,.1,.85,1]:[1,1,1,1]);gl.activeTexture(gl.TEXTURE1);gl.bindTexture(gl.TEXTURE_2D,this.art[actor.art||0].tex);gl.drawArrays(gl.TRIANGLES,0,mesh.length/8);draws++;};
       for(const a of reverse?actors.slice().reverse():actors)proxy(a,1);
       // An annotation submitted LAST still passes both physical and camera depth.
       for(const a of overlays)proxy(a,2);
       gl.bindFramebuffer(gl.READ_FRAMEBUFFER,this.fbo);gl.bindFramebuffer(gl.DRAW_FRAMEBUFFER,null);gl.blitFramebuffer(0,0,this.target.width,this.target.height,0,0,this.target.width,this.target.height,gl.COLOR_BUFFER_BIT,gl.NEAREST);
-      this.last={scope,zoom,lightCount:lights?.length||0,lighting:!!lights,nv,drawCalls:draws,passes:2,physicalVisibility:'exact convex rays across every deterministic 64-solid candidate batch',geometryChunks:Object.keys(this.model.chunks).length,candidateOccluders:selected.length,occluderBatches:batchCount,submittedCandidateIds:selected.map(i=>this.model.solids[i].id),totalLightCount:allLights?.length||0,occluders:this.model.solids.filter(s=>s.visible).length,triangles:this.model.vertices.length/24+actors.length*2+overlays.length*2,target:{...this.target,depth:'DEPTH_COMPONENT24',color:'RGBA8'},logical:{width:this.width,height:this.height,dpr:this.dpr},quality:this.quality,newResourceBytes:this.staticBytes+this.target.width*this.target.height*8,actorTextureBytes:this.art.slice(1).reduce((n,a)=>n+a.bytes,0),lightTextureBytes:this.lightCapacity*64,defaultColorBytesEstimate:this.target.width*this.target.height*4,eye:{...eye},camera:{...camera},elevationScale,cutaway:view?.snapshot()};return this.last;
+      this.last={scope,zoom,projection:{enabled:!!camera.depth,coefficient:DEPTH.coefficient,minScale:DEPTH.minScale,maxScale:DEPTH.maxScale,vertexBytes:this.projectedVertexBytes},lightCount:lights?.length||0,lighting:!!lights,nv,drawCalls:draws,passes:2,physicalVisibility:'exact convex rays across every deterministic 64-solid candidate batch',geometryChunks:Object.keys(this.model.chunks).length,candidateOccluders:selected.length,occluderBatches:batchCount,submittedCandidateIds:selected.map(i=>this.model.solids[i].id),totalLightCount:allLights?.length||0,occluders:this.model.solids.filter(s=>s.visible).length,triangles:this.model.vertices.length/24+actors.length*2+overlays.length*2,target:{...this.target,depth:'DEPTH_COMPONENT24',color:'RGBA8'},logical:{width:this.width,height:this.height,dpr:this.dpr},quality:this.quality,newResourceBytes:this.staticBytes+this.target.width*this.target.height*8,actorTextureBytes:this.art.slice(1).reduce((n,a)=>n+a.bytes,0),lightTextureBytes:this.lightCapacity*64,defaultColorBytesEstimate:this.target.width*this.target.height*4,eye:{...eye},camera:{...camera},elevationScale,cutaway:view?.snapshot()};return this.last;
     }
     pixels(){const gl=this.gl,b=new Uint8Array(this.target.width*this.target.height*4);gl.bindFramebuffer(gl.READ_FRAMEBUFFER,this.fbo);gl.readPixels(0,0,this.target.width,this.target.height,gl.RGBA,gl.UNSIGNED_BYTE,b);return b;}
     dispose(){const g=this.gl;for(const o of [this.world,this.proxy]){g.deleteBuffer(o.buffer);g.deleteVertexArray(o.vao);}for(const t of [this.solidTexture,this.candidateTexture,this.lightTexture,this.color,...this.art.filter(x=>!x.borrowed).map(x=>x.tex)])g.deleteTexture(t);g.deleteFramebuffer(this.fbo);g.deleteRenderbuffer(this.depth);g.deleteProgram(this.program);}
   }
-  return Object.freeze({ELEVATION,MAX_SOLIDS,MAX_PLANES,MAX_PIXELS,BOUNDARY,project,depth,onPlane,footprint,within,freeze,compile,candidates,interval,visible,pickingRay,cameraClear,cylinderInterval,pick,LocalView,SpatialPass});
+  return Object.freeze({DEPTH,denominator,layerScale,depthBreaks,clipDepthTriangles,CameraElevation,ELEVATION,MAX_SOLIDS,MAX_PLANES,MAX_PIXELS,BOUNDARY,project,depth,onPlane,footprint,within,freeze,compile,candidates,interval,visible,pickingRay,cameraClear,cylinderInterval,pick,LocalView,SpatialPass});
 });
