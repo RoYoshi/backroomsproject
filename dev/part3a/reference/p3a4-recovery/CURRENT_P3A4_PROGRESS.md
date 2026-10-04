@@ -11,7 +11,3 @@ All twelve production rooms and seven feature scenes have real served captures w
 `performance-01.json`: 20-second fixed-tick one/eight-player workloads, four normal entities each, all physical clearance checks and zero diagnostics. P95 tick .60 / 1.58 ms; cold worst 845 / 780 ms. Software GPU full/reduced forced capture timings remain slow and are retained verbatim. No Part 3G/hardware certification.
 
 Current content hash `4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a`. The affected readability recapture and seven named retained suites remain pending. P3A4 and P3A5 completion are not claimed.
-
-## Recovery completion
-
-P3A4 COMPLETE. Eight affected/additional LONG ROOM views passed in `readability-02`. All seven retained named suites passed in `retained-01`. `acceptance.json` resolves L0-01 through L0-23 to executing evidence and records exact physical/gameplay equality to accepted P3A3. No new runtime repair was needed. All earlier raw evidence remains preserved. L0-24 and P3A5 remain pending until this completed checkpoint is remotely verified.

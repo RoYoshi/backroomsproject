@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "milestone": "P3A4 recovery",
+  "commit": "4bcafa871e40f592ef5480572b55a4f764674558",
+  "tree": "358ee808ed9fc1d003ce9319c2a4f13cbc2938a5",
+  "remoteHeads": {
+    "refs/heads/main": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+    "refs/heads/part-3a": "4bcafa871e40f592ef5480572b55a4f764674558"
+  },
+  "remoteVerified": true,
+  "localTreeMatches": true,
+  "preservedOlderWorkspace": "Original interrupted local working tree untouched; recovery performed in isolated checkout.",
+  "recoveryPackSha256": "cb3c87135e8f66cc84a5a3a0e5f3fb3d64d2fa29f057404ebf265a48f690f0e0",
+  "verifiedAtUTC": "2026-10-04T14:28:14.363835+00:00"
+}

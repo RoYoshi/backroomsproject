@@ -1,0 +1,474 @@
+{
+  "status": "PASS",
+  "milestone": "P3A4",
+  "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+  "rows": [
+    {
+      "id": "L0-01",
+      "name": "Deterministic conversion",
+      "disposition": "PASS",
+      "basis": "Two clean builds equal the shipped artifact and current content hash.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/base-01.json",
+          "sha256": "89a7b9e376875c5c65b8fe757cb2134c55459cd49408e1e1be9326e0aef75bac"
+        }
+      ]
+    },
+    {
+      "id": "L0-02",
+      "name": "Base identity",
+      "disposition": "PASS",
+      "basis": "Twelve canonical rooms and bounds; 3,308 source floor footprints; all-room physical base circulation.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/base-01.json",
+          "sha256": "89a7b9e376875c5c65b8fe757cb2134c55459cd49408e1e1be9326e0aef75bac"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        }
+      ]
+    },
+    {
+      "id": "L0-03",
+      "name": "Physical base world",
+      "disposition": "PASS",
+      "basis": "Complete finite physical solids and named support; source cell coverage and body clearance.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/base-01.json",
+          "sha256": "89a7b9e376875c5c65b8fe757cb2134c55459cd49408e1e1be9326e0aef75bac"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        }
+      ]
+    },
+    {
+      "id": "L0-04",
+      "name": "Production rendering",
+      "disposition": "PASS",
+      "basis": "910 physical/model solids, 1,170 brute-force ray comparisons, 195 candidate hulls, chunk-boundary/permutation checks and actual multiple GPU pages.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/coverage-03.json",
+          "sha256": "0d633dc40e53f469994a42f416ceff3c16dd281b56a44a8abdfc20a029d9eb2b"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/readability-01/result.json",
+          "sha256": "9c2fe86ca25f370fa491b35d5059ada2e0bb06a971e97a51bb215acca8a68654"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/readability-02/result.json",
+          "sha256": "772905974abdbd1fc5cc713e4455f883b46bbf17c892cf00d0b15047446b2f47"
+        }
+      ]
+    },
+    {
+      "id": "L0-05",
+      "name": "Upper overlap",
+      "disposition": "PASS",
+      "basis": "Useful LONG ROOM +180 branch with retained Z0 floor, real slab, independent clients.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/browser-02/result.json",
+          "sha256": "625f88a8cc146d137c7ff21f8088f34be61cb3944f4386cd2079aa40ce42573c"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/readability-02/result.json",
+          "sha256": "772905974abdbd1fc5cc713e4455f883b46bbf17c892cf00d0b15047446b2f47"
+        }
+      ]
+    },
+    {
+      "id": "L0-06",
+      "name": "Stairs",
+      "disposition": "PASS",
+      "basis": "Finite physical treads; ascending/descending/reversing/departing routes and actual species navigation.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/navigation-03.json",
+          "sha256": "66bcadf4c4d64a0b2aa8a351eb6a945dcb3c5bb6b56efd13c5c19c936a950bd1"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/readability-02/result.json",
+          "sha256": "772905974abdbd1fc5cc713e4455f883b46bbf17c892cf00d0b15047446b2f47"
+        }
+      ]
+    },
+    {
+      "id": "L0-07",
+      "name": "Ramp",
+      "disposition": "PASS",
+      "basis": "Continuous slope routes in both directions; real bodies and readback captures.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/navigation-03.json",
+          "sha256": "66bcadf4c4d64a0b2aa8a351eb6a945dcb3c5bb6b56efd13c5c19c936a950bd1"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/readability-02/result.json",
+          "sha256": "772905974abdbd1fc5cc713e4455f883b46bbf17c892cf00d0b15047446b2f47"
+        }
+      ]
+    },
+    {
+      "id": "L0-08",
+      "name": "Lower route",
+      "disposition": "PASS",
+      "basis": "BLACKOUT -96 depression, rim fall and legal south ramp return.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/browser-02/result.json",
+          "sha256": "625f88a8cc146d137c7ff21f8088f34be61cb3944f4386cd2079aa40ce42573c"
+        }
+      ]
+    },
+    {
+      "id": "L0-09",
+      "name": "Crawl passage",
+      "disposition": "PASS",
+      "basis": "28-unit real clearance; accepted 24-unit crawl fits; standing and incapable species rejected.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/readability-01/result.json",
+          "sha256": "9c2fe86ca25f370fa491b35d5059ada2e0bb06a971e97a51bb215acca8a68654"
+        }
+      ]
+    },
+    {
+      "id": "L0-10",
+      "name": "Props",
+      "disposition": "PASS",
+      "basis": "Eighteen identities; actual low/window vault, under clearance and tight-gap capability tests.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/gameplay-03.json",
+          "sha256": "e2ca3f6c1499791bfb244e2afdfab7d3b5d6c82180edefd4c03d235f90331d31"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/prop-links-01.json",
+          "sha256": "2f4744f428b95cb8a377fa2f3f5870071a36a87918cac63f86a832144f20c768"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/navigation-03.json",
+          "sha256": "66bcadf4c4d64a0b2aa8a351eb6a945dcb3c5bb6b56efd13c5c19c936a950bd1"
+        }
+      ]
+    },
+    {
+      "id": "L0-11",
+      "name": "Lamps/materials",
+      "disposition": "PASS",
+      "basis": "90 ordered lamps; nine documented within-bay placement corrections; actual visible/IR positive and negative slab controls.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/lamp-placement-02.json",
+          "sha256": "784fbfffa8f6e749a16a0c99ea458b73f2b4d510cf9526305120deed740defa2"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/aftermath-browser-02/result.json",
+          "sha256": "b864dea59f28397ed4ed964a3a17f00cfcb7f88c5b738f70054bde5ce96e85e5"
+        }
+      ]
+    },
+    {
+      "id": "L0-12",
+      "name": "Player spawn",
+      "disposition": "PASS",
+      "basis": "Original neighborhood within 48 units; valid named Z0 support and base circulation.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/base-01.json",
+          "sha256": "89a7b9e376875c5c65b8fe757cb2134c55459cd49408e1e1be9326e0aef75bac"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        }
+      ]
+    },
+    {
+      "id": "L0-13",
+      "name": "Entity director",
+      "disposition": "PASS",
+      "basis": "Existing seeded director and populations; 195 candidates per species with safety/separation and upper/lower participation.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/gameplay-03.json",
+          "sha256": "e2ca3f6c1499791bfb244e2afdfab7d3b5d6c82180edefd4c03d235f90331d31"
+        }
+      ]
+    },
+    {
+      "id": "L0-14",
+      "name": "Cartograph",
+      "disposition": "PASS",
+      "basis": "One seeded variable selection among 164 base-reachable candidates; real multiplayer collection.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/gameplay-03.json",
+          "sha256": "e2ca3f6c1499791bfb244e2afdfab7d3b5d6c82180edefd4c03d235f90331d31"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/browser-02/result.json",
+          "sha256": "625f88a8cc146d137c7ff21f8088f34be61cb3944f4386cd2079aa40ce42573c"
+        }
+      ]
+    },
+    {
+      "id": "L0-15",
+      "name": "Glitched exits",
+      "disposition": "PASS",
+      "basis": "Three variable supported wall exits from 511 candidates; real normal escape.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/gameplay-03.json",
+          "sha256": "e2ca3f6c1499791bfb244e2afdfab7d3b5d6c82180edefd4c03d235f90331d31"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/browser-02/result.json",
+          "sha256": "625f88a8cc146d137c7ff21f8088f34be61cb3944f4386cd2079aa40ce42573c"
+        }
+      ]
+    },
+    {
+      "id": "L0-16",
+      "name": "Navigation",
+      "disposition": "PASS",
+      "basis": "Ten complete graph/waypoint routes and 82 physical player/species executions; incapable links rejected.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/navigation-03.json",
+          "sha256": "66bcadf4c4d64a0b2aa8a351eb6a945dcb3c5bb6b56efd13c5c19c936a950bd1"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/vertical-01.json",
+          "sha256": "b5ae49da3bc0077c16313f7571338766eab9fcc0d8e8ec0183e60365e15eb9ad"
+        }
+      ]
+    },
+    {
+      "id": "L0-17",
+      "name": "Perception",
+      "disposition": "PASS",
+      "basis": "Actual observation-only memory, anonymous vertical hearing, slab ray/contact rejection, visible/IR separation.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/perception-01.json",
+          "sha256": "3e35a12ddb3be743ac7538950382ff470fb57ad19e57aaab6c1a78cc2509c354"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/aftermath-browser-02/result.json",
+          "sha256": "b864dea59f28397ed4ed964a3a17f00cfcb7f88c5b738f70054bde5ce96e85e5"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/retained-01/result.json",
+          "sha256": "207a65d557f28326e36be7bc3d1f16346884f1ad4aa00826efe12ba4d42b63cb"
+        }
+      ]
+    },
+    {
+      "id": "L0-18",
+      "name": "Multiplayer",
+      "disposition": "PASS",
+      "basis": "Real clients, same XY/different Z, independent cutaway, authoritative fall and reconnect.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/browser-02/result.json",
+          "sha256": "625f88a8cc146d137c7ff21f8088f34be61cb3944f4386cd2079aa40ce42573c"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/retained-01/result.json",
+          "sha256": "207a65d557f28326e36be7bc3d1f16346884f1ad4aa00826efe12ba4d42b63cb"
+        }
+      ]
+    },
+    {
+      "id": "L0-19",
+      "name": "Aftermath",
+      "disposition": "PASS",
+      "basis": "Twelve actual server-owned deaths at six elevation stations; mass/support/tether checks and real production masked active/settled/beam/vanish lifecycle.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a3/aftermath-03.json",
+          "sha256": "a37b7b9456081481a962cea795c286998a021c64200a21ddddbee302c8ba80db"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/aftermath-browser-02/result.json",
+          "sha256": "b864dea59f28397ed4ed964a3a17f00cfcb7f88c5b738f70054bde5ce96e85e5"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/retained-01/result.json",
+          "sha256": "207a65d557f28326e36be7bc3d1f16346884f1ad4aa00826efe12ba4d42b63cb"
+        }
+      ]
+    },
+    {
+      "id": "L0-20",
+      "name": "Picking/interactions",
+      "disposition": "PASS",
+      "basis": "Nearest physical visible target at seven viewport/zoom settings; opaque camera and hidden upper targets rejected; physical objective gate.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/picking-01.json",
+          "sha256": "4623562bad65dfc0e746d55cabd4f75fb7704cdc223dfc46193abc49ea85d816"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a3/gameplay-03.json",
+          "sha256": "e2ca3f6c1499791bfb244e2afdfab7d3b5d6c82180edefd4c03d235f90331d31"
+        }
+      ]
+    },
+    {
+      "id": "L0-21",
+      "name": "Readability",
+      "disposition": "PASS",
+      "basis": "All twelve rooms and seven feature scenes captured without debug labels; eight affected/additional LONG ROOM captures refreshed. Human judgment remains pending.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/readability-01/result.json",
+          "sha256": "9c2fe86ca25f370fa491b35d5059ada2e0bb06a971e97a51bb215acca8a68654"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/readability-02/result.json",
+          "sha256": "772905974abdbd1fc5cc713e4455f883b46bbf17c892cf00d0b15047446b2f47"
+        }
+      ]
+    },
+    {
+      "id": "L0-22",
+      "name": "Flat control",
+      "disposition": "PASS",
+      "basis": "Explicit spatial selection; immutable flat source and frozen map; all 46 traces at zero tolerance.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/flat-parity-01/result.json",
+          "sha256": "a9b5dab891193a823b179357e264fa1b2b01054abf49988435592f200354392a"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/retained-01/result.json",
+          "sha256": "207a65d557f28326e36be7bc3d1f16346884f1ad4aa00826efe12ba4d42b63cb"
+        }
+      ]
+    },
+    {
+      "id": "L0-23",
+      "name": "Regression",
+      "disposition": "PASS",
+      "basis": "All seven retained Stage I named suites actually executed with zero exit status; frozen references unchanged.",
+      "evidence": [
+        {
+          "path": "dev/part3a/evidence/p3a4/retained-01/result.json",
+          "sha256": "207a65d557f28326e36be7bc3d1f16346884f1ad4aa00826efe12ba4d42b63cb"
+        },
+        {
+          "path": "dev/part3a/evidence/p3a4/flat-parity-01/result.json",
+          "sha256": "a9b5dab891193a823b179357e264fa1b2b01054abf49988435592f200354392a"
+        }
+      ]
+    }
+  ],
+  "L0-24": "PENDING P3A5",
+  "reuseProof": {
+    "acceptedP3A3": "ed1747e299115df0e0c9e9dc299078eb23516627",
+    "changedTopLevelFields": [
+      "viewGroups",
+      "contentHash"
+    ],
+    "changedViewGroups": [
+      "view:long-room:upper-slab"
+    ],
+    "allPhysicalNavigationLightAnchorAndGameplayArraysIdentical": true,
+    "explanation": "P3A3 accepted physical/gameplay evidence remains applicable. Only the local overhead view group changed; affected views have been recaptured and real physical masks tested."
+  },
+  "namedSuites": [
+    {
+      "name": "s_world25d",
+      "command": [
+        "node",
+        "dev/tests/s_world25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 5.1358005229999435
+    },
+    {
+      "name": "s_nav25d",
+      "command": [
+        "node",
+        "dev/tests/s_nav25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 7.83663391600021
+    },
+    {
+      "name": "s_perception25d",
+      "command": [
+        "node",
+        "dev/tests/s_perception25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 8.781490387000304
+    },
+    {
+      "name": "network25d",
+      "command": [
+        "node",
+        "dev/tests/network25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 120.9569332279998
+    },
+    {
+      "name": "physics25d",
+      "command": [
+        "node",
+        "dev/tests/physics25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 36.68076082300013
+    },
+    {
+      "name": "view25d",
+      "command": [
+        "node",
+        "dev/tests/view25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 281.46406759399997
+    },
+    {
+      "name": "perf_world25d",
+      "command": [
+        "node",
+        "dev/tests/perf_world25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 57.83461061800017
+    }
+  ],
+  "humanQA": "PENDING"
+}

@@ -1,0 +1,95 @@
+{
+  "runtime": "v24.19.0",
+  "rows": [
+    {
+      "name": "geometry",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_c/perf_spatial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.373457466,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/geometry.log"
+    },
+    {
+      "name": "navigation-perception",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/tests/run.js",
+        "s_nav25d.js",
+        "s_perception25d.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 7.887657809,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/navigation-perception.log"
+    },
+    {
+      "name": "navigation-measurement",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_e/perf_spatial.js",
+        "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/navigation.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 2.4909521190000015,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/navigation-measurement.log"
+    },
+    {
+      "name": "authority-eight-clients",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_f/test_room_perf.js",
+        "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/eight-client.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 10.605207406,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/authority-eight-clients.log"
+    },
+    {
+      "name": "aftermath-1-3-24",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_g/performance.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 9.008856138999999,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/aftermath-1-3-24.log"
+    },
+    {
+      "name": "production-browser",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_i/browser_probe.js",
+        "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/browser"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 5.298693117999999,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/production-browser.log"
+    },
+    {
+      "name": "Z32-portability",
+      "command": [
+        "python",
+        "dev/stage_i/portability_gate.py",
+        "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/portable"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 22.079244954999993,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/Z32-portability.log"
+    }
+  ]
+}

@@ -1,0 +1,188 @@
+{
+  "status": "PASS",
+  "hash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+  "scenes": [
+    "room-06",
+    "stairs-base",
+    "stairs-mid",
+    "stairs-upper",
+    "ramp-mid",
+    "ramp-upper",
+    "overlap-lower",
+    "overlap-upper"
+  ],
+  "browser": "151.0.7922.34",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "checks": 8,
+  "labels": false,
+  "physicalSolids": 910,
+  "unchangedEvidence": "../readability-01 (eleven other rooms, lower, crawl, full/reduced truth)",
+  "errors": [],
+  "console": [
+    "Failed to load resource: net::ERR_EMPTY_RESPONSE"
+  ],
+  "externalFailures": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+      "error": "net::ERR_EMPTY_RESPONSE"
+    }
+  ],
+  "resources": [
+    {
+      "url": "http://127.0.0.1:45113/?room=stage-h",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/camera_policy.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/timing_policy.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/world_view.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/spatial_client.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/index-D7hdwmUU.css",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/world_config.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/CanvasPool-DecUtJxW.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/Filter-DzecrWg_.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/canvasUtils-CxYPZET9.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/Cache-DDo62lBW.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/index-DKbV5Nv9.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/GCManagedHash-Bz2ZMBJN.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/RenderTargetSystem-CgUxHIsn.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/GraphicsContext-vm7TDg_M.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/BufferResource-B-thlpip.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/levels/level0.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/world.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/world_geometry.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/world_motion.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/spatial_protocol.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/spatial_history.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/move.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/sfx.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/gore.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/camcorder.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/dphys.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/light.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/ents.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/glitch.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/hud.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/mp.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/inventory.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/browserAll-B-iwy0YI.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/assets/init-Cn1_BCi0.js",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/sounds/",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/sounds/sting%20copy.mp3",
+      "status": 200
+    },
+    {
+      "url": "http://127.0.0.1:45113/sounds/sting.mp3",
+      "status": 200
+    }
+  ]
+}

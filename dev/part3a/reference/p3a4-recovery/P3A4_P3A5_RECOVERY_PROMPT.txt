@@ -1,0 +1,50 @@
+Read `README_FIRST.txt` in the supplied **THE FAR BACKROOMS — Part 3A P3A4 Recovery Master Pack** first.
+
+Then read and execute `P3A4_P3A5_RECOVERY_PROMPT.txt` exactly as authorized.
+
+This is an interrupted-run continuation of **Part 3A — Production 2.5D Level 0**. Do NOT restart Part 3A.
+
+Repository: `RoYoshi/backroomsproject`
+Branch: `part-3a`
+
+Last independently verified remote preservation checkpoint:
+`4bcafa871e40f592ef5480572b55a4f764674558`
+Tree: `358ee808ed9fc1d003ce9319c2a4f13cbc2938a5`
+
+P3A0–P3A3 are complete and externally checkpointed:
+- P3A0 `db9078e50e18ab9b43f687decc3c9fb4294e5ed6`
+- P3A1 `b8d327afefeb6ac1431ca341a87e1977bdf5ab05`
+- P3A2 `f587587b327bf3dc5a16f98e3462b9e38a25b457`
+- P3A3 `ed1747e299115df0e0c9e9dc299078eb23516627`
+
+Do NOT redo P3A0–P3A3.
+
+FIRST: inspect the live remote `part-3a`. If it is newer than `4bcafa871e40f592ef5480572b55a4f764674558`, do not reset backward; preserve and inspect the newer valid descendant. If it diverged unexpectedly, report exact SHA/tree and stop before destructive action.
+
+The preserved P3A4 state already contains full production-room/feature captures, the 910-solid model, deterministic multi-page occluder batching, visibility/chunk-boundary/permutation coverage, upper/lower masks, server-owned aftermath browser evidence, physical picking evidence, flat parity 46 traces / 35,098 records at zero tolerance, byte-identical flat map, and production performance evidence. Preserve existing raw failures and evidence.
+
+Known pending P3A4 work from `dev/part3a/P3A4_PROGRESS.md`:
+1. Re-capture the readability evidence affected by the upper-edge cutaway correction.
+2. Run all seven retained Stage I named suites: `s_world25d`, `s_nav25d`, `s_perception25d`, `network25d`, `physics25d`, `view25d`, `perf_world25d`.
+3. Finish remaining P3A4 L0 acceptance dispositions with executing evidence.
+4. Commit/push/verify the completed P3A4 checkpoint and record SHA/tree.
+
+Then complete P3A5 exactly under the original Part 3A authority:
+- retained Stage I suites PASS
+- Part 3A production gates PASS
+- flat control/frozen parity preserved
+- deterministic spatial build/hash
+- clean extraction in path with spaces
+- package-relative build/test/server/redirect verification
+- exact changed-file and Git blob/mode/tree audit
+- final reports and package verification JSON
+- final Part 3A ZIP + SHA-256
+- final source commit/push/remote verification
+- human-QA handoff
+
+Do not lower acceptance criteria or erase failure evidence. Do not modify/merge `main`. Do not begin Part 3B or later Part 3 work.
+
+When the final package and final verified source checkpoint are complete, STOP.
+
+Final status must be exactly:
+`PART 3A — PRODUCTION 2.5D LEVEL 0 ENGINEERING COMPLETE — HUMAN QA PENDING`

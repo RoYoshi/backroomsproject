@@ -1,0 +1,113 @@
+{
+  "runtime": "v24.19.0",
+  "rows": [
+    {
+      "name": "stage_b_test_geometry.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_b/test_geometry.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.192967622,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/stage_b_test_geometry.js.log"
+    },
+    {
+      "name": "stage_c_test_spatial.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_c/test_spatial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.45817959299999994,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/stage_c_test_spatial.js.log"
+    },
+    {
+      "name": "stage_e_test_core.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_e/test_core.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.433700517,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/stage_e_test_core.js.log"
+    },
+    {
+      "name": "stage_e_test_sensors.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_e/test_sensors.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.21843861599999992,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/stage_e_test_sensors.js.log"
+    },
+    {
+      "name": "stage_c_test_adversarial.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_c/test_adversarial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.18235549199999992,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/stage_c_test_adversarial.js.log"
+    },
+    {
+      "name": "stage_i_test_properties.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_i/test_properties.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.17765985599999998,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/stage_i_test_properties.js.log"
+    },
+    {
+      "name": "stage_c_test_schedules.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_c/test_schedules.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 1.842736216,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/stage_c_test_schedules.js.log"
+    },
+    {
+      "name": "stage_i_test_z18.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/stage_i/test_z18.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 1.07261112,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/stage_i_test_z18.js.log"
+    },
+    {
+      "name": "tests_s_fps_equality.js",
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "dev/tests/s_fps_equality.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.4452114110000002,
+      "ok": true,
+      "evidence": "/workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/s_world25d-raw/s_world25d-AEjSxi/tests_s_fps_equality.js.log"
+    }
+  ]
+}

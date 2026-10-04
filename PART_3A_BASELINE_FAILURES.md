@@ -49,3 +49,7 @@ P3A3 repairs and final focused results:
 - `aftermath-browser-01`: the lower observer's flashlight positive control contributed zero pixels beneath the upper route. Its edge walls remained opaque to the camera while the slab faded, hiding the feet/nearby floor. The five edge walls now belong to the same local overhead slab view group. Physical geometry, light/eye rays and simulation remain unchanged. `aftermath-browser-02` passes every visible/IR positive/negative control and active/settled aftermath/beam/vanish masks through the production page.
 
 `readability-01` captures all 12 rooms and seven feature views without debug labels. The affected LONG ROOM/vertical views will be recaptured after the local cutaway correction. Full/reduced candidate and simulation truth are identical. Performance evidence retains cold navigation spikes and slow software GPU captures; it does not claim a hardware frame budget.
+
+## P3A4 recovery continuation
+
+The live branch and exact tree were verified before source changes. `readability-02` refreshed LONG ROOM, the five stair/ramp views, and two same-XY upper/lower views; all eight passed without new runtime changes or lowered thresholds. Original raw failed attempts remain intact. `recovery-remote.json` records the starting remote identity. Current physical/navigation/light/anchor/gameplay arrays match accepted P3A3; only the overhead view-group membership and its hash differ. The retained suite outputs are recorded separately under `retained-01`.

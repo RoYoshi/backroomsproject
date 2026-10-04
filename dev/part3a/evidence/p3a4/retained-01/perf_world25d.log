@@ -1,0 +1,8 @@
+PASS perf_world25d geometry exit 0 0.373s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/geometry.log
+PASS perf_world25d navigation-perception exit 0 7.888s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/navigation-perception.log
+PASS perf_world25d navigation-measurement exit 0 2.491s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/navigation-measurement.log
+PASS perf_world25d authority-eight-clients exit 0 10.605s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/authority-eight-clients.log
+PASS perf_world25d aftermath-1-3-24 exit 0 9.009s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/aftermath-1-3-24.log
+PASS perf_world25d production-browser exit 0 5.299s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/production-browser.log
+PASS perf_world25d Z32-portability exit 0 22.079s; /workspace/scratch/ea3e3c0f81ee/part-3a/dev/part3a/evidence/p3a4/retained-01/perf_world25d-raw/perf_world25d-ywk8RW/Z32-portability.log
+7/7 passed
