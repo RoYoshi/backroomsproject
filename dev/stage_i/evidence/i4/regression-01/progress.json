@@ -1,0 +1,155 @@
+[
+  {
+    "name": "parent-baseline",
+    "command": [
+      "python",
+      "dev/stage_a/run_baseline.py",
+      "--game",
+      "/workspace/scratch/be6e71d940f9/accepted-stage-h/thefarbackrooms-level0",
+      "--out",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/parent-baseline",
+      "--only",
+      "npm-test,shared"
+    ],
+    "exitCode": 0,
+    "seconds": 202.29950910900516
+  },
+  {
+    "name": "stage-c-camera",
+    "command": [
+      "node",
+      "dev/stage_c/test_camera.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11598455700004706
+  },
+  {
+    "name": "stage-d-view",
+    "command": [
+      "node",
+      "dev/stage_d/test_view.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/view.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11464498799614375
+  },
+  {
+    "name": "stage-d-independence",
+    "command": [
+      "node",
+      "dev/stage_d/test_independence.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/independence.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.5667171280001639
+  },
+  {
+    "name": "stage-f-protocol",
+    "command": [
+      "node",
+      "dev/stage_f/test_f1.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.41671391800628044
+  },
+  {
+    "name": "stage-f-authority",
+    "command": [
+      "node",
+      "dev/stage_f/test_f2.js"
+    ],
+    "exitCode": 0,
+    "seconds": 2.0275256919994717
+  },
+  {
+    "name": "stage-h-lighting",
+    "command": [
+      "node",
+      "dev/stage_h/test_lighting.js"
+    ],
+    "exitCode": 0,
+    "seconds": 3.6809780149997096
+  },
+  {
+    "name": "stage-h-picking",
+    "command": [
+      "node",
+      "dev/stage_h/test_picking.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11486835099640302
+  },
+  {
+    "name": "frozen-parity",
+    "command": [
+      "python",
+      "dev/stage_h/run_parity.py",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/parity"
+    ],
+    "exitCode": 0,
+    "seconds": 26.94651794800302
+  },
+  {
+    "name": "stage-d-browser-core",
+    "command": [
+      "node",
+      "dev/stage_d/browser_core.js",
+      "/workspace/scratch/be6e71d940f9/stage-i",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/browser-d-core"
+    ],
+    "exitCode": 0,
+    "seconds": 20.872175349002646
+  },
+  {
+    "name": "stage-d-browser-extended",
+    "command": [
+      "node",
+      "dev/stage_d/browser_extended.js",
+      "/workspace/scratch/be6e71d940f9/stage-i",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/browser-d-extended"
+    ],
+    "exitCode": 0,
+    "seconds": 146.71755466800096
+  },
+  {
+    "name": "stage-h-traversal",
+    "command": [
+      "node",
+      "dev/stage_h/browser_h1.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/browser-h-traversal"
+    ],
+    "exitCode": 0,
+    "seconds": 21.256817034998676
+  },
+  {
+    "name": "flat-browser-parity",
+    "command": [
+      "node",
+      "dev/stage_h/browser_flat.js",
+      "/workspace/scratch/be6e71d940f9/stage-i",
+      "/workspace/scratch/be6e71d940f9/accepted-stage-h/thefarbackrooms-level0",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/browser-flat"
+    ],
+    "exitCode": 0,
+    "seconds": 51.16716313200595
+  },
+  {
+    "name": "served-package",
+    "command": [
+      "node",
+      "dev/stage_h/served_package.js",
+      "/workspace/scratch/be6e71d940f9/stage-i/dev/stage_i/evidence/i4/regression-01/served.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.4656684489964391
+  },
+  {
+    "name": "redirect",
+    "command": [
+      "node",
+      "dev/stage_i/test_redirect.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.1648877879997599
+  }
+]

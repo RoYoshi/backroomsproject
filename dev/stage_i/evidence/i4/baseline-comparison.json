@@ -1,0 +1,255 @@
+{
+  "status": "PASS_BASELINE_EQUIVALENCE",
+  "freshParent": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+  "exactFailureNamesMatch": true,
+  "rows": [
+    {
+      "suite": "npm-test",
+      "disposition": "INHERITED FAILURE",
+      "counts": {
+        "passed": 151,
+        "total": 162,
+        "source": "suite summary"
+      },
+      "failureNames": [
+        "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+        "P07 exhausted breathing is audible only close by",
+        "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+        "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+        "SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+        "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+        "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+        "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+        "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+        "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+        "2F F22 species physical/canon parameter preservation"
+      ],
+      "command": "npm test",
+      "seconds": 210.589,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/npm-test.log"
+    },
+    {
+      "suite": "hound",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 18,
+        "total": 18,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "command": "npm run test:hound",
+      "seconds": 4.634,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/hound.log"
+    },
+    {
+      "suite": "shared",
+      "disposition": "INHERITED FAILURE",
+      "counts": {
+        "passed": 22,
+        "total": 23,
+        "source": "suite summary"
+      },
+      "failureNames": [
+        "2F F22 species physical/canon parameter preservation"
+      ],
+      "command": "npm run test:shared",
+      "seconds": 5.847,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/shared.log"
+    },
+    {
+      "suite": "humanqa",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 6,
+        "total": 6,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "command": "npm run test:humanqa",
+      "seconds": 1.47,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/humanqa.log"
+    },
+    {
+      "suite": "fps",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 10,
+        "total": 10,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "command": "npm run test:fps",
+      "seconds": 1.101,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/fps.log"
+    },
+    {
+      "suite": "camera",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 12,
+        "total": 12,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "command": "npm run test:camera",
+      "seconds": 0.317,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/camera.log"
+    },
+    {
+      "suite": "entity-look",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/run.js s_entity_look.js",
+      "seconds": 0.42,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/entity-look.log"
+    },
+    {
+      "suite": "physics",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 53,
+        "total": 53,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/phys_test.js",
+      "seconds": 4.147,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/physics.log"
+    },
+    {
+      "suite": "interpolation",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/interp_test.js",
+      "seconds": 0.115,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/interpolation.log"
+    },
+    {
+      "suite": "navigation",
+      "disposition": "PASS",
+      "counts": {
+        "passed": null,
+        "total": null,
+        "source": "Descriptive benchmark; exit status is completion, not acceptance assertions"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/nav_bench.js",
+      "seconds": 45.141,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/navigation.log"
+    },
+    {
+      "suite": "audit-net",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/audit_net.js",
+      "seconds": 55.672,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/audit-net.log"
+    },
+    {
+      "suite": "audit-net2",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 11,
+        "total": 11,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/audit_net2.js",
+      "seconds": 232.317,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/audit-net2.log"
+    },
+    {
+      "suite": "live",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 17,
+        "total": 17,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/live.js",
+      "seconds": 26.745,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/live.log"
+    },
+    {
+      "suite": "ir-net",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 4,
+        "total": 4,
+        "source": "suite summary"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/ir_net.js",
+      "seconds": 4.834,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/ir-net.log"
+    },
+    {
+      "suite": "perf-hound",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 15,
+        "total": 15,
+        "source": "JSON workloads"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/perf_hound2e.js",
+      "seconds": 11.647,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/perf-hound.log"
+    },
+    {
+      "suite": "perf-shared",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 27,
+        "total": 27,
+        "source": "JSON workloads"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/perf_shared2f.js",
+      "seconds": 39.865,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/perf-shared.log"
+    },
+    {
+      "suite": "perf-smiler",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 3,
+        "total": 3,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/perf_smiler.js",
+      "seconds": 5.284,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/perf-smiler.log"
+    },
+    {
+      "suite": "perf-light",
+      "disposition": "PASS",
+      "counts": {
+        "passed": 1,
+        "total": 1,
+        "source": "explicit PASS/FAIL lines; not underlying assertion count"
+      },
+      "failureNames": [],
+      "command": "node dev/tests/perf_light.js",
+      "seconds": 5.987,
+      "evidence": "dev/stage_i/evidence/i4/retained-01/perf-light.log"
+    }
+  ]
+}
