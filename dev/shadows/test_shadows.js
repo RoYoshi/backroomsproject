@@ -96,7 +96,7 @@ run('S01 attaches right above the carpet, under the level art; mp hook chained',
 });
 run('S02 wall adjacency: every wall/floor boundary edge is covered by exactly one grounding strip of the right side', () => {
   const p = makePage(); p.frame(); const g = p.g, T = 96, W = g.FBW, H = g.FBH, wall = (x, y) => x < 0 || y < 0 || x >= W || y >= H || !!g.Hc(x, y);
-  const q = aoQuads(p).filter(q => q.w > 40 || q.h > 40);              // strips (corner blobs are square 30 px)
+  const q = aoQuads(p).filter(q => q.w !== q.h);                       // strips (corner blobs are squares, one AO width a side)
   const cover = new Map(), key = (s, x, y) => s + x + ',' + y;
   for (const s of q) {
     const dir = s.w > s.h ? (s.y % T === 0 ? 'S' : 'N') : (s.x % T === 0 ? 'E' : 'W');
@@ -112,7 +112,7 @@ run('S03 grounding strips lie on floor only (never inside a wall cell) and outer
   const p = makePage(); p.frame(); const g = p.g, T = 96, wall = (x, y) => x < 0 || y < 0 || x >= g.FBW || y >= g.FBH || !!g.Hc(x, y); let bad = 0, corners = 0;
   for (const q of aoQuads(p)) {
     for (const [fx, fy] of [[.02, .02], [.98, .02], [.02, .98], [.98, .98], [.5, .5]]) { const px = q.x + q.w * fx, py = q.y + q.h * fy; if (wall(Math.floor(px / T), Math.floor(py / T))) bad++; }
-    if (q.w === q.h && q.w < 40) corners++;
+    if (q.w === q.h && q.w < T) corners++;
   }
   return { ok: bad === 0 && corners > 0, note: `${aoQuads(p).length} quads, ${corners} corner blobs, samples inside walls ${bad}` };
 });
@@ -511,6 +511,88 @@ run('C19 bounded work: in steady state the ray queries per frame stay under a ce
     out[q] = { worstRayQueriesPerFrame: worst, ceiling, at: worstAt && worstAt.map(Math.round), lampBuildsPerFrameMax: buildsWorst, builds: t.builds };
   }
   return { ok: Object.values(out).every(o => o.worstRayQueriesPerFrame <= o.ceiling && o.lampBuildsPerFrameMax <= o.builds), note: JSON.stringify(out) + ' (entity shadows are capped separately, S09)' };
+});
+
+/* ===== SH5: human-QA visibility correction - stronger but bounded shadows, by class ===== */
+/* the darkening drawn at a world point: every shadow polygon covering it, composed as Pixi composes them (each removes its
+ * alpha x its light texture of what is left), times its Graphics' alpha (lamp caches follow the lamp's power) */
+function inConvex(P, x, y) { let sg = 0; for (let i = 0; i < P.length; i++) { const [ax, ay] = P[i], [bx, by] = P[(i + 1) % P.length], c = (bx - ax) * (y - ay) - (by - ay) * (x - ax); if (Math.abs(c) > 1e-9) { if (sg && Math.sign(c) !== sg) return false; sg = Math.sign(c); } } return true; }
+function darkAt(groups, x, y) { let keep = 1; for (const [polys, ga] of groups) for (const q of polys) if (inConvex(polyPts(q), x, y)) keep *= 1 - Math.min(1, effAlpha(q, x, y) * ga); return 1 - keep; }
+const lampGroups = p => lampLayer(p).children.filter(g => g.visible).map(g => [g.polys, g.alpha]);
+/* grounding: the alpha a strip / corner quad puts at a point (its texture sampled as Pixi stretches it, times the chunk alpha) */
+function aoAt(q, x, y) { const img = q.tex.src.img, u = Math.floor((x - q.x) / q.w * img.width), v = Math.floor((y - q.y) / q.h * img.height); if (u < 0 || v < 0 || u >= img.width || v >= img.height) return 0; return img.data[(v * img.width + u) * 4 + 3] / 255 * q.chunk.alpha; }
+const CAP = .85;   // no shadow class, alone or overlapping, may come near opaque black
+
+run('V01 grounding reads at every wall base and fades softly to nothing across its width (no outline): strong at the base, about a third at mid-width, none at the far edge', () => {
+  const p = makePage(); p.frame(); const q = aoQuads(p), strips = q.filter(s => s.w !== s.h), blobs = q.filter(s => s.w === s.h);
+  let base = [1, 0], mid = [1, 0], edge = 0, blobMax = 0;
+  for (const s of strips) {
+    const down = s.w > s.h, wdt = down ? s.h : s.w, len = down ? s.w : s.h;
+    const pt = f => { const tex = s.tex.src.img; const horiz = tex.width > tex.height;          // the texture's dark side marks the wall
+      const t = horiz ? (tex.data[3] > tex.data[(tex.width - 1) * 4 + 3] ? f : 1 - f) : (tex.data[3] > tex.data[((tex.height - 1) * tex.width) * 4 + 3] ? f : 1 - f);
+      return down ? aoAt(s, s.x + len / 2, s.y + t * wdt) : aoAt(s, s.x + t * wdt, s.y + len / 2); };
+    const b = pt(.01), m = pt(.5), e = pt(.99); base = [Math.min(base[0], b), Math.max(base[1], b)]; mid = [Math.min(mid[0], m), Math.max(mid[1], m)]; edge = Math.max(edge, e);
+  }
+  for (const s of blobs) for (const f of [.02, .5]) blobMax = Math.max(blobMax, aoAt(s, s.x + s.w * f, s.y + s.h * f), aoAt(s, s.x + s.w * (1 - f), s.y + s.h * (1 - f)));
+  const w = strips.map(s => Math.min(s.w, s.h));
+  return { ok: base[0] >= .45 && base[1] <= .6 && mid[0] >= .15 && mid[1] <= .3 && edge <= .03 && blobMax <= .6 && Math.min(...w) >= 40,
+    note: `strip width ${Math.min(...w)}-${Math.max(...w)} px; base ${base.map(v => v.toFixed(3))}, mid-width ${mid.map(v => v.toFixed(3))}, far edge <= ${edge.toFixed(3)}, corner blobs <= ${blobMax.toFixed(3)}` };
+});
+run('V02 your flashlight across a counter: its shadow is the strongest dynamic cue (removes 50-85 % of the beam behind the counter at MEDIUM), never near-black, nothing outside the beam', () => {
+  const p = makePage(); at(p, 1776, 3460, -1.721); p.win.__ents.lamp = () => 0; for (let i = 0; i < 40; i++) p.frame(1 / 60);
+  const dyn = dynLayer(p).polys, a = p.H.angle, prof = [];
+  for (const d of [150, 180, 220, 260]) prof.push(+darkAt([[dyn, 1]], p.H.x + Math.cos(a) * d, p.H.y + Math.sin(a) * d).toFixed(3));
+  let mx = 0, outside = 0;
+  for (let dx = -360; dx <= 360; dx += 12) for (let dy = -460; dy <= 40; dy += 12) { const x = p.H.x + dx, y = p.H.y + dy, v = darkAt([[dyn, 1]], x, y); mx = Math.max(mx, v);
+    const ang = Math.atan2(y - p.H.y, x - p.H.x), off = Math.abs(Math.atan2(Math.sin(ang - a), Math.cos(ang - a))); if (off > .75 && v > .002) outside++; }
+  return { ok: prof.every(v => v >= .5 && v <= CAP) && mx <= CAP && outside === 0, note: `behind the counter (150-260 px from you) ${JSON.stringify(prof)}; strongest anywhere ${mx.toFixed(3)}; samples outside the beam ${outside}` };
+});
+run('V03 quality changes softness and coverage, not darkness: the same flashlight shadow at LOW / MEDIUM / HIGH is within .1 of MEDIUM, and LOW is clearly visible', () => {
+  const r = {};
+  for (const q of ['low', 'medium', 'high']) { const p = makePage(); p.S.setQuality(q); at(p, 1776, 3460, -1.721); p.win.__ents.lamp = () => 0; for (let i = 0; i < 40; i++) p.frame(1 / 60);
+    const dyn = dynLayer(p).polys, a = p.H.angle; r[q] = { at180: +darkAt([[dyn, 1]], p.H.x + Math.cos(a) * 180, p.H.y + Math.sin(a) * 180).toFixed(3), polys: dyn.length }; }
+  return { ok: r.low.at180 >= .5 && Math.abs(r.low.at180 - r.medium.at180) <= .1 && Math.abs(r.high.at180 - r.medium.at180) <= .1 && r.high.at180 <= r.medium.at180 + .05 && r.low.polys < r.medium.polys && r.medium.polys < r.high.polys,
+    note: JSON.stringify(r) };
+});
+run('V04 lamp shadows are visible in an ordinary lit room: next to the toppled shelf the lamps take away 35-80 % of their light (restrained, never black)', () => {
+  const p = makePage({ lightOn: false }); at(p, 3984, 3470, -Math.PI / 2); settleLamps(p, 40);
+  const W = require(path.join(ROOT, 'world.js')), r = W.PROPS.find(q => q.id === 'L2').rect, G = lampGroups(p);
+  let mx = 0, n = 0, sum = 0;
+  for (let x = r.x - 60; x <= r.x + r.w + 60; x += 4) for (let y = r.y - 60; y <= r.y + r.h + 60; y += 4) { if (x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h) continue; const v = darkAt(G, x, y); if (v > .05) { n++; sum += v; } mx = Math.max(mx, v); }
+  return { ok: mx >= .35 && mx <= CAP && n > 50, note: `strongest ${mx.toFixed(3)}, ${n} samples darker than 5 % (mean ${(sum / Math.max(1, n)).toFixed(3)}), ${G.length} lamps` };
+});
+run('V05 penumbrae beside a pillar in your beam are visible on the lit side (inner wedge 30-85 %) and never near-black', () => {
+  const p = makePage(); at(p, 8400, 1300, .45); p.win.__ents.lamp = () => 0; for (let i = 0; i < 40; i++) p.frame(1 / 60);
+  /* a wedge is a fan from the corner: measure a quarter of the way out from its apex toward the middle of its far edge (the
+   * part of a penumbra the eye reads, next to the corner where the light is strongest), and its strongest point anywhere */
+  const fr = frLayer(p).polys; let mx = 0, any = 0;
+  for (const q of fr) { const P = polyPts(q), m = P[Math.floor(P.length / 2)], x = P[0][0] + (m[0] - P[0][0]) * .25, y = P[0][1] + (m[1] - P[0][1]) * .25; mx = Math.max(mx, effAlpha(q, x, y));
+    for (let f = .05; f < 1; f += .05) any = Math.max(any, effAlpha(q, P[0][0] + (m[0] - P[0][0]) * f, P[0][1] + (m[1] - P[0][1]) * f)); }
+  return { ok: fr.length > 0 && mx >= .3 && any <= CAP, note: `${fr.length} penumbra polygons, strongest a quarter of the way out ${mx.toFixed(3)}, strongest anywhere along a wedge ${any.toFixed(3)}` };
+});
+run('V06 entity shadows are stronger but stay soft and partial: a hound lit by your flashlight gets alpha .25-.5, the player at most .45; never a Smiler', () => {
+  const p = makePage(), X = 5520, y = 1968, HX = X + 200; p.H.x = X; p.H.y = y; p.H.angle = 0; p.person.position.set(X, y); p.world.position.set(640 - X * 1.18, 360 - y * 1.18);
+  p.creatures.addChild(hound(HX, y, Math.PI / 2)); const sm = smiler(X + 120, y + 30); sm.alpha = 1; p.creatures.addChild(sm);
+  for (let i = 0; i < 30; i++) p.frame(1 / 60);
+  const ents = p.S.snapshot().ents, h = ents.find(e => Math.abs(e.x - HX) < 120 && Math.abs(e.y - y) < 60), pl = ents.filter(e => Math.hypot(e.x - X, e.y - y) < 60), sh = ents.filter(e => Math.hypot(e.x - sm.x, e.y - sm.y) < 40);
+  return { ok: h && h.a >= .25 && h.a <= .5 && pl.every(e => e.a <= .45) && sh.length === 0, note: `hound ${h && h.a}, player ${JSON.stringify(pl.map(e => e.a))}, near the smiler ${sh.length}` };
+});
+run('V07 baked-shadow thinning still holds at the new strength: the counter lit from its baked side gets at most ~2/3 of the shadow it gets from the other side', () => {
+  const W = require(path.join(ROOT, 'world.js')), pr = W.PROPS.find(q => q.id === 'L1'), r = pr.rect, cx = r.x + r.w / 2, cy = r.y + r.h / 2;
+  const sum = (lx, ly) => { const p = makePage(); at(p, lx, ly, Math.atan2(cy - ly, cx - lx)); p.win.__ents.lamp = () => 0; for (let i = 0; i < 30; i++) p.frame(1 / 60); return mass(dynLayer(p).polys); };
+  const fromNW = sum(cx - 70, cy - 90), fromSE = sum(cx + 70, cy + 90);
+  return { ok: fromSE > 0 && fromNW > 0 && fromNW < fromSE * .7, note: `shadow mass lit from the NW (onto the baked side) ${fromNW.toFixed(0)}, from the SE ${fromSE.toFixed(0)} (ratio ${(fromNW / fromSE).toFixed(2)})` };
+});
+run('V08 the strongest place in the busiest scenes stays partial: everything drawn at one spot (grounding, lamps, your light) never removes more than 85 % of the light', () => {
+  const out = [];
+  for (const [x, y, ang, on] of [[7990, 1270, .75, true], [1776, 3460, -1.721, true], [3984, 3470, -Math.PI / 2, false], [1060, 3300, -.25, true]]) {
+    const p = makePage({ lightOn: on }); at(p, x, y, ang); settleLamps(p, 40);
+    const G = [...lampGroups(p), [dynLayer(p).polys, 1], [frLayer(p).polys, 1]], ao = aoQuads(p); let mx = 0;
+    for (let dx = -420; dx <= 420; dx += 10) for (let dy = -300; dy <= 300; dy += 10) { const px = x + dx, py = y + dy; let keep = 1 - darkAt(G, px, py);
+      for (const q of ao) if (px >= q.x && px < q.x + q.w && py >= q.y && py < q.y + q.h) keep *= 1 - aoAt(q, px, py); mx = Math.max(mx, 1 - keep); }
+    out.push(+mx.toFixed(3));
+  }
+  return { ok: out.every(v => v <= CAP), note: `strongest composed darkening per scene (Pillar Hall, counter, shelf under lamps, spawn): ${JSON.stringify(out)}` };
 });
 
 const pass = results.filter(r => r.ok).length;

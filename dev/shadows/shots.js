@@ -5,7 +5,8 @@
  *
  * For each scene: a staged room (frozen halls, no monsters unless the scene adds one, god mode), the wanderer placed and
  * the light aimed, then the frame is frozen (test-only clock: the same instant is redrawn, Pixi keeps rendering) and
- * captured at each quality WITHOUT moving anything; only __shadows.setQuality changes between captures.  Writes
+ * captured at each quality WITHOUT moving anything; only __shadows.setQuality changes between captures (each tier is settled by
+ * running the frozen clock 2/3 s forward and rewinding it to the same instant).  Writes
  * <scene>-<tier>.png, <scene>-compare.png (centre crops side by side, in tier order) and shots.json (positions, stats,
  * a hash of the darkness overlay per capture, which must not depend on the quality).  Observation only. */
 'use strict';
@@ -41,8 +42,11 @@ const SCENES = {
   flicker: { at: [600, 2930], aim: -2.2 },                                 // beside dim fixture #0
   dark: { at: [1060, 3300], aim: -0.25, light: false },
   hound: { at: [1060, 3300], aim: -0.25, hound: true },                    // a hound ~210 px away in the beam
+  houndbo: { at: [1060, 3300], aim: -0.25, hound: true, lights: 'on' },   // the same in a forced blackout: a hound makes nearby lamps fail, which changes the overlay between captures; with the lamps out only your light lights it
   pillarlit: { at: [8400, 1300], aim: 0.45 },                               // the flashlight on a pillar (8564,1364) from ~180 px
   partition: { at: [1000, 3560], aim: -1.75 },                              // the flashlight up the YELLOW HALL partition stubs
+  damp: { at: [3470, 5400], aim: -Math.PI / 2, light: false },             // DAMP ROOMS: counter L6 under the dim, flickering fixture #52 (lamps only)
+  pillarsweep: { at: [8400, 1300], aim: 0.15 },                             // the same pillar as pillarlit, the beam turned 0.3 rad (one step of a sweep)
 };
 const scenes = (opt('scenes') || 'room,props,shelf,shelfdark,lampedge,doorway,blackout,hound').split(',');
 function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port: PORT, path: p }, r => { r.resume(); r.on('end', () => res(r.statusCode)); }).on('error', () => res(0)); }); }
@@ -77,9 +81,14 @@ function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port
       await P.evaluate(() => __clock.freeze()); await H.settle(P);
       const files = [];
       for (const t of tiers) {
-        await P.evaluate(q => window.__shadows && __shadows.setQuality(q), t); await frames(P, 24); await sleep(250);   // lamp caches rebuild one per frame and ease in
+        /* switch the quality, then run the frozen clock forward 2/3 s at 60 Hz so everything that eases in settles (lamp caches,
+         * carried-light casters: under the +1 us clock their 0.1 s fades would take hundreds of frames), then rewind to the
+         * frozen instant: every capture of a scene shows the same instant (its overlay hash proves it) with settled shadows */
+        const t0 = await P.evaluate(() => __clock.get());
+        await P.evaluate(q => { window.__shadows && __shadows.setQuality(q); __clock.set(__clock.get(), 1000 / 60); }, t); await frames(P, 40);
+        await P.evaluate(t0 => __clock.set(t0, .001), t0); await frames(P, 6); await sleep(250);
         const f = `${sc}-${t}.png`; await P.screenshot({ path: path.join(OUT, f) }); files.push(f);
-        R.shots.push({ scene: sc, tier: t, file: f, lightHash: await lightHash(P), state: await P.evaluate(() => ({ x: Math.round(__api.H.x), y: Math.round(__api.H.y), angle: +__api.H.angle.toFixed(3), light: __api.lightOn(), blackout: !!__api.V.blackout })),
+        R.shots.push({ scene: sc, tier: t, file: f, lightHash: await lightHash(P), lightMean: await P.evaluate(() => { const c = document.getElementById('light'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let s = 0; for (let i = 3; i < d.length; i += 4) s += d[i]; return +(s / (d.length / 4)).toFixed(3); }), state: await P.evaluate(() => ({ x: Math.round(__api.H.x), y: Math.round(__api.H.y), angle: +__api.H.angle.toFixed(3), light: __api.lightOn(), blackout: !!__api.V.blackout })),
           stats: await P.evaluate(() => window.__shadows ? __shadows.stats() : null), snap: await P.evaluate(() => window.__shadows ? __shadows.snapshot() : null) });
       }
       await P.evaluate(() => __clock.thaw());

@@ -1,0 +1,5 @@
+profile mobile {"dpr":3,"inner":[390,844],"cores":2,"renderer":"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)","shadows":false,"shadowQualityDefault":null,"lightCanvas":[390,844],"pixi":[780,1688],"cpuThrottle":4,"staged":{"h":0,"s":0}}
+mobile-dense-baseline {"fps":0.9,"cpu":13.333,"iv95":1299.9,"gl":8,"c2d":58,"sh":null,"st":{"x":7860,"y":1150,"angle":0.65,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+mobile-dense-baseline {"fps":0.88,"cpu":14.662,"iv95":1266.6,"gl":8,"c2d":58,"sh":null,"st":{"x":7860,"y":1150,"angle":0.65,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+mobile-dense-baseline {"fps":0.87,"cpu":11.5,"iv95":1349.9,"gl":8,"c2d":58,"sh":null,"st":{"x":7860,"y":1150,"angle":0.65,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+done 3 runs ok page errors: {"mobile":[]}

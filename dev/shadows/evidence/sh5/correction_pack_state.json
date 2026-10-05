@@ -1,0 +1,18 @@
+{
+  "repository": "RoYoshi/backroomsproject",
+  "branch": "lighting-shadows-2d",
+  "continuation_parent_commit": "3f12c4795531ca68404db7a86a8bf0ad5163098c",
+  "continuation_parent_tree": "5893186598e07f16de24408b6ce5da52587a0475",
+  "original_gameplay_parent": "f2805bb904c158df17c5c75c3d0d4681049bc246",
+  "human_qa": {
+    "game_feel": "PASS",
+    "shadow_visibility": "FAIL_TOO_FAINT",
+    "shadow_noticeability": "FAIL_NOT_NOTICEABLE"
+  },
+  "authorized_runtime_scope": [
+    "assets/shadows-2d.js"
+  ],
+  "stage_3b_authorized": false,
+  "logical_z_authorized": false,
+  "main_modification_authorized": false
+}

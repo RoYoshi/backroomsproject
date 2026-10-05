@@ -11,14 +11,16 @@ const pw = (() => { try { return require('playwright'); } catch (e) { return req
 const ARGS = ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-/* page init script: a test-only clock that can be frozen (exact, or +1 us per frame so Pixi keeps rendering), and a tap on the
+/* page init script: a test-only clock that can be frozen (exact, or +1 us per frame so Pixi keeps rendering; get / set let a
+ * capture run the frozen clock forward and rewind it to the same instant), and a tap on the
  * page's WebSocket (what it sends, its id from 'hi', the latest admin snapshot) */
 const INIT = `(() => { const real = performance.now.bind(performance); let fz = null, step = .001;
   performance.now = () => fz === null ? real() : fz;
   const raf = window.requestAnimationFrame.bind(window);
   window.requestAnimationFrame = cb => raf(ts => cb(fz === null ? ts : fz));
   const adv = () => { if (fz !== null) fz += step; raf(adv); }; raf(adv);
-  window.__clock = { freeze(exact) { fz = real(); step = exact ? 0 : .001; }, thaw() { fz = null; }, get frozen() { return fz !== null; } };
+  window.__clock = { freeze(exact) { fz = real(); step = exact ? 0 : .001; }, thaw() { fz = null; }, get frozen() { return fz !== null; },
+    get() { return fz; }, set(v, s) { fz = v; if (s !== undefined) step = s; } };   // set: jump the frozen clock (and its per-frame step), e.g. run 1 s forward then rewind to the same instant
   const S = window.WebSocket; window.__sent = []; window.__wsTap = { id: 0, admin: null };
   window.WebSocket = function (u, p) { const ws = new S(u, p); window.__ws = ws; const send = ws.send.bind(ws);
     ws.send = d => { try { window.__sent.push([performance.now(), String(d)]); } catch (e) { } return send(d); };

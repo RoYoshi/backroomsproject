@@ -35,7 +35,7 @@
 (() => {
   'use strict';
   if (window.__shadows) return;
-  const VERSION = 'shadows-2d 1.0';
+  const VERSION = 'shadows-2d 1.1';
   const T = 96, CHUNK = 16, BUCKET = 384;                                  // level cell; AO chunk (cells); caster index bucket (px)
   const QUALITIES = ['off', 'low', 'medium', 'high'];
   /* per-quality budgets.  Every per-frame pass is capped and camera-culled; nothing scales with the size of the map.
@@ -52,15 +52,27 @@
     high: { ao: true, ents: 20, lamps: 9, lampK: 4, lampJ: 4, builds: 2, local: true, localK: 4, localMax: 10, localC: 12, localJ: 4,
       peers: 4, peerK: 3, peerMax: 6, peerC: 6, peerJ: 3, budget: 700 },
   };
-  /* art constants (world px).  The level is dark and the overlay does the heavy darkening: these stay restrained. */
-  const AO = { width: 30, alpha: .38, steps: 64, power: 1.7 };
-  const ENT = { player: { a: .26, la: 17, lb: 17, len: 70 }, hound: { a: .30, la: 40, lb: 17, len: 120 }, tau: .12, sight: 700 };
+  /* art constants (world px).  The level is dark and the overlay does the heavy darkening.
+   * SH5 (human QA of 1.0: "the shadows are VERY faint", "not noticeable"): every class was retuned on its own, by what a
+   * shadow takes away where the player can see (relative darkening of the lit floor), never past ~.8 (no opaque black):
+   *   grounding   wider (30 -> 50 px), a softer falloff (1.7 -> 1.35) and stronger at the base (.38 -> .56)
+   *   entities    stronger and a little longer (player .26 -> .38, hound .30 -> .42)
+   *   props       the composed strength is set directly (tail / near), independent of the sample count, so a tier with
+   *               more samples is softer-edged, not darker; next to a prop your light loses ~80 % of its own light, a
+   *               lamp ~75 % (the overlay then paints a carried light's colour tint over the beam, which keeps any of
+   *               it from going black on screen: measured ~.5 darkening at most there)
+   *   penumbrae   stronger (lamp .5 -> 1, your light .55 -> 1, others' .45 -> .75) and wider (carried half size 14 -> 22 px):
+   *               the hard edge the overlay cuts behind a pillar or corner gets a readable soft side (pillars keep the
+   *               level art's own baked contact halo; no grounding is added under them, so nothing doubles)
+   *   lamps       hang a little lower for the projection (h 240 -> 180 px): prop shadows ~50 % longer */
+  const AO = { width: 50, alpha: .56, steps: 64, power: 1.35 };
+  const ENT = { player: { a: .38, la: 17, lb: 17, len: 84 }, hound: { a: .42, la: 40, lb: 17, len: 140 }, tau: .12, sight: 700 };
   /* lamps: a fluorescent fixture is a horizontal tube (74 x 13 px of light), so its shadows have penumbrae: hx/hy are the
    * half sizes seen across a shadow edge, the jitter samples spread a prop's shadow along the tube.  A shadow's strength
    * is mapped from the lamp's own cut-out alpha c at that spot as sat(c) = A0·c / (1 − A0 + A0·c): the share of the light
    * there that is the lamp's (A0 = .92: the overlay's darkness near a wanderer after its ambient glow), scaled down by
    * wall / prop to stay restrained.  Geometry is baked at the lamp's nominal power p0, the frame alpha is p(t) / p0. */
-  const LAMP = { R: 380, h: 240, wall: .5, prop: .6, hx: 30, hy: 6, A0: .92, jitter: [[[0, 0]], [[-22, -3], [22, 3]], [[-26, -3], [0, 0], [26, 3]], [[-30, -4], [-10, 4], [10, -4], [30, 4]]] };
+  const LAMP = { R: 380, h: 180, wall: 1, prop: { tail: .52, near: .76, core: .5 }, hx: 30, hy: 6, A0: .92, jitter: [[[0, 0]], [[-22, -3], [22, 3]], [[-26, -3], [0, 0], [26, 3]], [[-30, -4], [-10, 4], [10, -4], [30, 4]]] };
   const lampP0 = i => i % 13 === 0 ? .19 : .43;                             // the overlay's brightest cut-out for a lamp (dim fixtures flicker .13-.19)
   const sat = c => LAMP.A0 * c / (1 - LAMP.A0 + LAMP.A0 * c);
   /* penumbra wedges: sub-wedge weights (inner = at the shadow edge, outer = toward the light), the grazing test probes
@@ -68,7 +80,8 @@
   const FRINGE = { 1: [.4], 2: [.5, .2], 3: [.6, .32, .12], 4: [.62, .42, .24, .09] };
   const FR = { probe: 6, side: 3, graze: .72, soft: .25, min: .05, max: .32, near: 40, nearSoft: 120 };
   /* carried lights: presentation heights of the light (for prop projection), strengths, penumbra half size, ranking softness */
-  const CARRY = { h: { flashlight: 105, headlamp: 160, lantern: 85 }, prop: .6, peerProp: .5, fringe: .55, peerFringe: .45, half: 14, kmax: 2.2, jr: 5, soft: .05 };
+  const CARRY = { h: { flashlight: 105, headlamp: 160, lantern: 85 }, prop: { tail: .55, near: .8, core: .6 }, peerProp: { tail: .4, near: .62, core: .6 },
+    fringe: 1, peerFringe: .75, half: 22, kmax: 2.2, jr: 5, soft: .05 };
   /* light textures: N x N texels covering ext x the light's range on each side (power of two: they repeat, see lightFill) */
   const COOKIE = { n: 128, ext: 1.25 };
   /* props: presentation heights (px, floor = 0) and how solid they look; baked drop-shadow offsets copied from world.js drawProp
@@ -363,14 +376,16 @@
       if (!litFrom(L, p.cx, p.cy) && !litFrom(L, nx, ny)) continue;
       if (!(propLight(p, L, o.inten) > .004)) continue;                      // the light reaches some part of it
       const ang = Math.atan2(p.cy - L.y, p.cx - L.x), baked = p.bakedAng === null ? 1 : 1 - .45 * Math.max(0, Math.cos(ang - p.bakedAng));
-      const kk = L.h > p.hp + 1 ? Math.min(o.kmax, p.hp / (L.h - p.hp)) : o.kmax, a = o.k * wp * p.a * baked / o.jit.length;
+      const kk = L.h > p.hp + 1 ? Math.min(o.kmax, p.hp / (L.h - p.hp)) : o.kmax, a = clamp(o.w * wp * p.a * baked, 0, 1);
       used++; if (S.dbg) S.dbg.props.push(p.x, p.y, p.w, p.h);
       /* a long soft tail per sample along the light, then ONE darker short core from the light's centre (the samples
-       * barely differ next to the prop; one core with the same combined alpha halves the overdraw) */
-      const K = o.jit.length;
+       * barely differ next to the prop; one core halves the overdraw).  The composed strength is set directly: where all K
+       * tails overlap they remove `tail` of the light, next to the prop tails + core remove `near` - whatever K is, so a
+       * tier with more samples gets a softer edge, not a darker shadow */
+      const K = o.jit.length, T = o.str.tail * a, N = Math.max(T, o.str.near * a), aT = 1 - Math.pow(1 - T, 1 / K), aC = 1 - (1 - N) / (1 - T);
       for (let s = 0; s <= K; s++) {
         const core = s === K, lx = core ? L.x : L.x + o.jit[s][0], ly = core ? L.y : L.y + o.jit[s][1];
-        const f = core ? .45 : 1, al = core ? 1 - Math.pow(1 - a * .5, K) : a * .6; tmpPts.length = 0;
+        const f = core ? o.str.core : 1, al = core ? aC : aT; tmpPts.length = 0;
         for (let c = 0; c < 4; c++) {
           const cx = c === 1 || c === 2 ? p.x + p.w : p.x, cy = c >= 2 ? p.y + p.h : p.y;
           let tx = cx + (cx - lx) * kk * f, ty = cy + (cy - ly) * kk * f;
@@ -424,7 +439,7 @@
       used += emitFringes(g, L, tmpC, null, { k: LAMP.wall, J: cfg.lampJ, hx: LAMP.hx, hy: LAMP.hy, tf }); walls = polyCount;
     }
     for (const p of S.props) if (Math.hypot(clamp(L.x, p.x, p.x + p.w) - L.x, clamp(L.y, p.y, p.y + p.h) - L.y) < L.R) cand++;
-    used += emitProps(g, L, S.props, null, { jit: LAMP.jitter[clamp(cfg.lampK, 1, 4) - 1], k: LAMP.prop, kmax: 1, inten, tf });
+    used += emitProps(g, L, S.props, null, { jit: LAMP.jitter[clamp(cfg.lampK, 1, 4) - 1], str: LAMP.prop, w: 1, kmax: 1, inten, tf });
     const polys = polyCount; polyBudget = saveBudget; polyCount = saveCount; S.dbg = saveDbg;
     const ms = now() - t0; ST.lampBuilds++; ST.lampBuildMs += ms; if (ms > ST.lampBuildMax) ST.lampBuildMax = ms;
     return { g, polys, walls, casters: used, cand, key: lampKey(cfg), last: 0, x: L.x, y: L.y, fade: 0, dbg: { cand: rec.cand, fr: rec.fringes, props: rec.props } };
@@ -492,7 +507,7 @@
         cand += pc.length; pickSoft(pc, pmax, CARRY.soft, tmpP, tmpPW);
         if (!peer) { eased(fadeP, tmpP, tmpPW, keyP, pmax, dt, tmpEI, tmpEW); tmpP.length = 0; tmpPW.length = 0; tmpP.push(...tmpEI); tmpPW.push(...tmpEW); }
         if (S.dbg) for (const c of pc) S.dbg.cand.push(c[2].cx, c[2].cy);
-        const u = emitProps(gp, L, tmpP, tmpPW, { jit: JIT(peer ? cfg.peerK : cfg.localK), k: (peer ? CARRY.peerProp : CARRY.prop) * w, kmax: CARRY.kmax, inten, tf });
+        const u = emitProps(gp, L, tmpP, tmpPW, { jit: JIT(peer ? cfg.peerK : cfg.localK), str: peer ? CARRY.peerProp : CARRY.prop, w, kmax: CARRY.kmax, inten, tf });
         act += u; np += u;
       }
       if (cmax > 0) {
