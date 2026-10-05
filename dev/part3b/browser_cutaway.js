@@ -16,6 +16,13 @@ try{
  await a.page.evaluate(()=>__spatial.config.quality=.5);await b.page.evaluate(()=>__spatial.config.quality=.5);
  await tp(a,{x:1584,y:864,z:0});await a.page.bringToFront();await a.page.keyboard.down('c');await a.page.waitForFunction(()=>__mv.crouch);await a.page.keyboard.up('c');
  await a.page.keyboard.down('d');try{await a.page.waitForFunction(()=>__api.H.x>1768&&__api.H.shape.height===24,null,{timeout:90000});}finally{await a.page.keyboard.up('d');}await a.page.waitForFunction(()=>Math.abs(__api.H.vx)<.1);await ready(a);await tp(b,{x:1536,y:864,z:0});
+ // HQ2: the crawler's beam previously pointed wherever the Enter click left the
+ // mouse (toward the open mouth). Light physically escaping the mouth is truth,
+ // not a leak, so aim deterministically along the tunnel (east, the crawl
+ // direction) and wait until the outside client receives that beam.
+ const crawler=await a.page.evaluate(()=>__api.H.id);await a.page.mouse.move(await a.page.evaluate(()=>innerWidth/2+300),await a.page.evaluate(()=>innerHeight/2));
+ await a.page.waitForFunction(()=>Math.abs(__spatial.state.aim?.yaw??1)<.01,null,{timeout:30000});
+ await b.page.waitForFunction(id=>{const l=__spatial.state.lights?.find(l=>l.id==='p'+id);return l&&l.direction.x>.99;},crawler,{timeout:30000});
  let inside=await capture(a,'north-inside'),outside=await capture(b,'north-outside');const aid=await a.page.evaluate(()=>__api.H.id),bid=await b.page.evaluate(()=>__api.H.id);
  assert.equal(inside.cutaway.groups.find(g=>g.id==='view:crawl:north:roof').fade,1);assert.equal(outside.cutaway.groups.find(g=>g.id==='view:crawl:north:roof').fade,0);
  await hidden(b,aid,'outside NORTH receives no hidden crawl peer or beam');

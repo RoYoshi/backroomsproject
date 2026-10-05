@@ -1,0 +1,18 @@
+{
+  "status": "FIRST DIVERGENT TICK",
+  "index": 193,
+  "tick": 194,
+  "world": 1,
+  "fields": [
+    {
+      "field": "record.entities.0.evidence.anonymous.2.c",
+      "expected": 0.679638399136415,
+      "actual": 0.6796383991364151
+    },
+    {
+      "field": "record.entities.0.evidence.sounds.0.c",
+      "expected": 0.679638399136415,
+      "actual": 0.6796383991364151
+    }
+  ]
+}

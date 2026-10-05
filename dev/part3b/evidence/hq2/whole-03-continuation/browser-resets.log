@@ -1,0 +1,8 @@
+PASS authorized teleport 0 to upper 180
+PASS authorized teleport upper to lower minus96
+PASS world reset changes epoch and snaps presentation
+PASS upper before reconnect
+PASS actual socket disconnect and reconnect
+PASS upper before lifecycle reset
+PASS death camera attaches to authoritative body
+PASS authorized revive and respawn life reset

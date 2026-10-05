@@ -1,0 +1,8 @@
+PASS perf_world25d geometry exit 0 0.389s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/geometry.log
+PASS perf_world25d navigation-perception exit 0 9.857s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/navigation-perception.log
+PASS perf_world25d navigation-measurement exit 0 3.412s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/navigation-measurement.log
+PASS perf_world25d authority-eight-clients exit 0 10.741s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/authority-eight-clients.log
+PASS perf_world25d aftermath-1-3-24 exit 0 11.142s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/aftermath-1-3-24.log
+PASS perf_world25d production-browser exit 0 6.423s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/production-browser.log
+PASS perf_world25d Z32-portability exit 0 27.589s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/Z32-portability.log
+7/7 passed

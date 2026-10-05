@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "browser": "141.0.7390.37",
+  "checks": [
+    "same XY separate floors, independent cutaway and peer masks",
+    "two real clients observe authoritative lower fall",
+    "real reconnect preserves world and receives production anchors",
+    "physical cartograph art visible",
+    "one cartograph collected through normal proximity protocol, removed for peer",
+    "selected real wall effect visible",
+    "normal glitched-wall escape loop"
+  ],
+  "errors": [
+    [],
+    []
+  ],
+  "console": [
+    [
+      "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+    ],
+    [
+      "Failed to load resource: net::ERR_TUNNEL_CONNECTION_FAILED"
+    ]
+  ],
+  "server": "THE FAR BACKROOMS | BOOTING | Node v22.22.2 | port 35989 | part-3b @ ae7157cc1fd2\nTHE FAR BACKROOMS | ONLINE | Node v22.22.2 | port 35989 | part-3b @ ae7157cc1fd2\nThe Far Backrooms → http://localhost:35989  (share  ?room=NAME  to group up)\n[admin] Production A#1 unlocked admin (room stage-h)\n[admin] room=stage-h Production A#1: god Production A -> true\n[admin] room=stage-h Production A#1: freeze true\n[admin] Production B#2 unlocked admin (room stage-h)\n[admin] room=stage-h Production B#2: god Production B -> true\n[admin] Production reconnect#3 unlocked admin (room stage-h)\n[admin] room=stage-h Production reconnect#3: god Production reconnect -> true\n"
+}

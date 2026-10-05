@@ -1,0 +1,135 @@
+[
+  {
+    "name": "invariants",
+    "command": [
+      "python",
+      "dev/part3b/verify_invariants.py",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/invariants.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.2657799270000112
+  },
+  {
+    "name": "presentation-foundation",
+    "command": [
+      "node",
+      "dev/part3b/test_foundation.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/presentation-foundation.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.9340404189999845
+  },
+  {
+    "name": "presentation-motion",
+    "command": [
+      "node",
+      "dev/part3b/test_motion.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/presentation-motion.json"
+    ],
+    "exitCode": 0,
+    "seconds": 1.382737958000007
+  },
+  {
+    "name": "presentation-cutaway",
+    "command": [
+      "node",
+      "dev/part3b/test_cutaway.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/presentation-cutaway.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.6664260280000178
+  },
+  {
+    "name": "production-base",
+    "command": [
+      "node",
+      "dev/part3a/test_base.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/production-base.json"
+    ],
+    "exitCode": 0,
+    "seconds": 2.130488369999995
+  },
+  {
+    "name": "production-vertical",
+    "command": [
+      "node",
+      "dev/part3a/test_vertical.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/production-vertical.json"
+    ],
+    "exitCode": 0,
+    "seconds": 3.5190260180000053
+  },
+  {
+    "name": "production-navigation",
+    "command": [
+      "node",
+      "dev/part3a/test_navigation.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/production-navigation.json"
+    ],
+    "exitCode": 0,
+    "seconds": 6.064122299000019
+  },
+  {
+    "name": "production-gameplay",
+    "command": [
+      "node",
+      "dev/part3a/test_gameplay.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/production-gameplay.json"
+    ],
+    "exitCode": 0,
+    "seconds": 6.9147256439999865
+  },
+  {
+    "name": "production-perception",
+    "command": [
+      "node",
+      "dev/part3a/test_perception.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/production-perception.json"
+    ],
+    "exitCode": 0,
+    "seconds": 2.5412285529999963
+  },
+  {
+    "name": "production-picking",
+    "command": [
+      "node",
+      "dev/part3a/test_picking.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/production-picking.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.5726284090000036
+  },
+  {
+    "name": "production-render_coverage",
+    "command": [
+      "node",
+      "dev/part3a/test_render_coverage.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/production-render_coverage.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.8768084820000013
+  },
+  {
+    "name": "production-aftermath",
+    "command": [
+      "node",
+      "dev/part3a/test_aftermath.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/production-aftermath.json"
+    ],
+    "exitCode": 0,
+    "seconds": 13.479406621999999
+  },
+  {
+    "name": "full-retained",
+    "command": [
+      "python",
+      "dev/stage_a/run_baseline.py",
+      "--game",
+      ".",
+      "--out",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-01/full-retained"
+    ],
+    "exitCode": 0,
+    "seconds": 634.817886637
+  }
+]

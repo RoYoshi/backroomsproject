@@ -1,0 +1,74 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "s_world25d",
+      "command": [
+        "node",
+        "dev/tests/s_world25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 6.861399023000104
+    },
+    {
+      "name": "s_nav25d",
+      "command": [
+        "node",
+        "dev/tests/s_nav25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 10.233998556000188
+    },
+    {
+      "name": "s_perception25d",
+      "command": [
+        "node",
+        "dev/tests/s_perception25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 9.043729042999985
+    },
+    {
+      "name": "network25d",
+      "command": [
+        "node",
+        "dev/tests/network25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 118.36495170699982
+    },
+    {
+      "name": "physics25d",
+      "command": [
+        "node",
+        "dev/tests/physics25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 47.90249551299985
+    },
+    {
+      "name": "view25d",
+      "command": [
+        "node",
+        "dev/tests/view25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 582.7803892010002
+    },
+    {
+      "name": "perf_world25d",
+      "command": [
+        "node",
+        "dev/tests/perf_world25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 69.6146866400004
+    }
+  ],
+  "buildHashes": {
+    "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+    "sim.js": "21c0be5a21f01bc15c4e885af021d6f4b415c83925e57da722434d75270e4e6d",
+    "ents.js": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284",
+    "levels/level0_spatial.json": "f187e5c484bf3b0efa91481e167db47702f6fb542fd9248bb2fc1a2d56d22b66"
+  }
+}

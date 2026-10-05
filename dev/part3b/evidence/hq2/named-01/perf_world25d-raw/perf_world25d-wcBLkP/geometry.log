@@ -1,0 +1,42 @@
+{
+  "status": "COMPLETED",
+  "interpretation": "Descriptive cold compile/local query measurements; no fairness or universal performance acceptance inferred. Compile-time overlap validation remains quadratic; tick queries use XY index + Z filter and support ID map.",
+  "results": [
+    {
+      "solids": 1,
+      "index": {
+        "cells": 1,
+        "solids": 1,
+        "cellSize": 128
+      },
+      "compileMs": 5.0486489999999975,
+      "localSupportAndClearanceQueries": 4000,
+      "queryMs": 26.612537000000003,
+      "signature": "support:0000"
+    },
+    {
+      "solids": 256,
+      "index": {
+        "cells": 400,
+        "solids": 256,
+        "cellSize": 128
+      },
+      "compileMs": 77.484704,
+      "localSupportAndClearanceQueries": 4000,
+      "queryMs": 17.63418199999998,
+      "signature": "support:0000"
+    },
+    {
+      "solids": 1024,
+      "index": {
+        "cells": 1600,
+        "solids": 1024,
+        "cellSize": 128
+      },
+      "compileMs": 200.73591000000002,
+      "localSupportAndClearanceQueries": 4000,
+      "queryMs": 4.267331000000013,
+      "signature": "support:0000"
+    }
+  ]
+}

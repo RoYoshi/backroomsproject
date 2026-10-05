@@ -1,0 +1,15 @@
+
+> far-backrooms@23.3.6-hqa-search-polish test:fps
+> node dev/tests/s_fps_equality.js
+
+PASS shipped integration: browser loop is wired to timing_policy.js
+PASS 30 FPS: 600 ticks, x=5492.375538, y=3825.000000, stamina=100.000000
+PASS 60 FPS: 600 ticks, x=5492.375538, y=3825.000000, stamina=100.000000
+PASS 120 FPS: 600 ticks, x=5492.375538, y=3825.000000, stamina=100.000000
+PASS 144 FPS: 600 ticks, x=5492.375538, y=3825.000000, stamina=100.000000
+PASS 240 FPS: 600 ticks, x=5492.375538, y=3825.000000, stamina=100.000000
+PASS 360 FPS: 600 ticks, x=5492.375538, y=3825.000000, stamina=100.000000
+PASS jittered FPS: 600 ticks, x=5492.375538, y=3825.000000, stamina=100.000000
+PASS 15 FPS catch-up: 60 fixed gameplay ticks in one real second
+PASS render-rate isolation: 60/120/240/360 FPS all execute exactly 60 gameplay ticks per second
+FPS EQUALITY PASS — rendering frequency does not determine gameplay speed

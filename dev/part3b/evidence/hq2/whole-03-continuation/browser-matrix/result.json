@@ -1,0 +1,5740 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "case": {
+        "id": "16x9",
+        "w": 1280,
+        "h": 720,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "yaw": 3.141592653589793,
+        "pitch": -0.19137878528442215
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "distance": 0,
+        "ray": {
+          "from": {
+            "x": 6192,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6192,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "hiddenPixels": 0,
+      "positivePixels": 4885,
+      "peer": {
+        "id": "p1",
+        "kind": "peer",
+        "x": 6192,
+        "y": 864,
+        "z": 180.05,
+        "height": 60,
+        "radius": 15,
+        "art": 2,
+        "support": "support:upper:long-room",
+        "mode": "grounded",
+        "tick": 650,
+        "generation": 1,
+        "renderOffset": 0,
+        "emissive": false,
+        "observable": false,
+        "visibilityRadius": 15
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 288,
+        "projection": {
+          "mode": "top-down",
+          "elevation": 0,
+          "enabled": false,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 446880,
+          "anchorZ": 0,
+          "band": {
+            "reach": 52,
+            "height": 640,
+            "cue": 0.5,
+            "min": 3,
+            "max": 28,
+            "share": 0.35,
+            "cover": 2
+          },
+          "bands": {
+            "quads": 89,
+            "eyeFacing": 33,
+            "culled": 56,
+            "widths": {
+              "74..90": 3,
+              "56..72": 3,
+              "68..84": 3,
+              "80..96": 3,
+              "92..108": 3,
+              "104..120": 3,
+              "116..132": 3,
+              "128..144": 3,
+              "140..156": 3,
+              "152..168": 3,
+              "164..180": 3,
+              "180..276": 5.6,
+              "0..164": 17.91596638655463
+            },
+            "joins": {
+              "convex": 120,
+              "concave": 18,
+              "square": 40
+            }
+          },
+          "relativeScales": {
+            "p2": 1,
+            "h15": 1.0000138890817927
+          }
+        },
+        "lightCount": 9,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 50,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 130,
+        "candidateOccluders": 70,
+        "occluderBatches": 2,
+        "submittedCandidateIds": [
+          "solid:ceiling:5376_1152_96_192",
+          "solid:ceiling:5376_672_768_48",
+          "solid:ceiling:5376_720_192_48",
+          "solid:ceiling:5472_768_96_96",
+          "solid:ceiling:5472_960_96_480",
+          "solid:ceiling:5664_1008_192_432",
+          "solid:ceiling:5856_1008_96_432",
+          "solid:ceiling:5952_1008_192_432",
+          "solid:ceiling:6144_1248_96_288",
+          "solid:ceiling:6144_672_768_48",
+          "solid:ceiling:6240_1008_96_432",
+          "solid:ceiling:6528_1008_96_480",
+          "solid:ceiling:6624_1008_96_432",
+          "solid:ceiling:6720_720_192_48",
+          "solid:ceiling:6720_768_96_96",
+          "solid:ceiling:6720_864_96_672",
+          "solid:ceiling:6816_1152_96_192",
+          "solid:ceiling:6912_672_288_96",
+          "solid:ceiling:6912_768_288_768",
+          "solid:ground:5376_1152_96_192",
+          "solid:ground:5376_672_768_96",
+          "solid:ground:5472_768_672_96",
+          "solid:ground:5472_960_96_480",
+          "solid:ground:5568_864_288_576",
+          "solid:ground:5856_960_96_480",
+          "solid:ground:5952_864_192_576",
+          "solid:ground:6144_1248_96_288",
+          "solid:ground:6144_672_768_96",
+          "solid:ground:6144_768_672_96",
+          "solid:ground:6144_864_96_96",
+          "solid:ground:6240_960_96_480",
+          "solid:ground:6336_864_288_672",
+          "solid:ground:6624_960_96_480",
+          "solid:ground:6720_864_96_672",
+          "solid:ground:6816_1152_96_192",
+          "solid:ground:6912_672_288_96",
+          "solid:ground:6912_768_288_768",
+          "solid:ramp:long-room",
+          "solid:stairs:long-room:tread:03",
+          "solid:stairs:long-room:tread:04",
+          "solid:stairs:long-room:tread:05",
+          "solid:stairs:long-room:tread:06",
+          "solid:stairs:long-room:tread:07",
+          "solid:stairs:long-room:tread:08",
+          "solid:stairs:long-room:tread:09",
+          "solid:stairs:long-room:tread:10",
+          "solid:stairs:long-room:tread:11",
+          "solid:stairs:long-room:tread:12",
+          "solid:stairs:long-room:tread:13",
+          "solid:stairs:long-room:tread:14",
+          "solid:stairs:long-room:tread:15",
+          "solid:upper:ceiling",
+          "solid:upper:edge:east",
+          "solid:upper:edge:north",
+          "solid:upper:edge:south-east",
+          "solid:upper:edge:south-west",
+          "solid:upper:edge:west",
+          "solid:upper:long-room",
+          "solid:wall:5376_0_768_672",
+          "solid:wall:5376_1344_96_96",
+          "solid:wall:5376_768_96_384",
+          "solid:wall:5472_864_96_96",
+          "solid:wall:5856_864_96_96",
+          "solid:wall:6144_0_768_672",
+          "solid:wall:6144_960_96_288",
+          "solid:wall:6240_864_96_96",
+          "solid:wall:6624_864_96_96",
+          "solid:wall:6816_1344_96_192",
+          "solid:wall:6816_768_96_384",
+          "solid:wall:6912_0_768_672"
+        ],
+        "totalLightCount": 92,
+        "occluders": 910,
+        "triangles": 3754,
+        "target": {
+          "width": 1280,
+          "height": 720,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 9025648,
+        "actorTextureBytes": 1507328,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 3686400,
+        "eye": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "camera": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "depth": false,
+          "elevation": 0,
+          "topDown": true,
+          "anchorZ": 0
+        },
+        "elevationScale": 0,
+        "cutaway": {
+          "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+          "continuousInterior": true,
+          "ignoredCeilings": 288,
+          "focus": {
+            "x": 6192,
+            "y": 864,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:base:6144_768_672_96",
+            "space:base:6144_864_96_96"
+          ],
+          "groups": [
+            {
+              "id": "view:crawl:north:roof",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:ramp",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:01",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:02",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:03",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:04",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:05",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:06",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:07",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:08",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:09",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:10",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:11",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:12",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:13",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:14",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:15",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:upper-slab",
+              "fade": 1,
+              "target": true
+            },
+            {
+              "id": "view:prop:G1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G3",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G4",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G5",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G6",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W2",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 57.30000000001746,
+        "cutawayMs": 0.20000000001164153
+      },
+      "expectedCandidates": [
+        "solid:ceiling:5376_1152_96_192",
+        "solid:ceiling:5376_672_768_48",
+        "solid:ceiling:5376_720_192_48",
+        "solid:ceiling:5472_768_96_96",
+        "solid:ceiling:5472_960_96_480",
+        "solid:ceiling:5664_1008_192_432",
+        "solid:ceiling:5856_1008_96_432",
+        "solid:ceiling:5952_1008_192_432",
+        "solid:ceiling:6144_1248_96_288",
+        "solid:ceiling:6144_672_768_48",
+        "solid:ceiling:6240_1008_96_432",
+        "solid:ceiling:6528_1008_96_480",
+        "solid:ceiling:6624_1008_96_432",
+        "solid:ceiling:6720_720_192_48",
+        "solid:ceiling:6720_768_96_96",
+        "solid:ceiling:6720_864_96_672",
+        "solid:ceiling:6816_1152_96_192",
+        "solid:ceiling:6912_672_288_96",
+        "solid:ceiling:6912_768_288_768",
+        "solid:ground:5376_1152_96_192",
+        "solid:ground:5376_672_768_96",
+        "solid:ground:5472_768_672_96",
+        "solid:ground:5472_960_96_480",
+        "solid:ground:5568_864_288_576",
+        "solid:ground:5856_960_96_480",
+        "solid:ground:5952_864_192_576",
+        "solid:ground:6144_1248_96_288",
+        "solid:ground:6144_672_768_96",
+        "solid:ground:6144_768_672_96",
+        "solid:ground:6144_864_96_96",
+        "solid:ground:6240_960_96_480",
+        "solid:ground:6336_864_288_672",
+        "solid:ground:6624_960_96_480",
+        "solid:ground:6720_864_96_672",
+        "solid:ground:6816_1152_96_192",
+        "solid:ground:6912_672_288_96",
+        "solid:ground:6912_768_288_768",
+        "solid:ramp:long-room",
+        "solid:stairs:long-room:tread:03",
+        "solid:stairs:long-room:tread:04",
+        "solid:stairs:long-room:tread:05",
+        "solid:stairs:long-room:tread:06",
+        "solid:stairs:long-room:tread:07",
+        "solid:stairs:long-room:tread:08",
+        "solid:stairs:long-room:tread:09",
+        "solid:stairs:long-room:tread:10",
+        "solid:stairs:long-room:tread:11",
+        "solid:stairs:long-room:tread:12",
+        "solid:stairs:long-room:tread:13",
+        "solid:stairs:long-room:tread:14",
+        "solid:stairs:long-room:tread:15",
+        "solid:upper:ceiling",
+        "solid:upper:edge:east",
+        "solid:upper:edge:north",
+        "solid:upper:edge:south-east",
+        "solid:upper:edge:south-west",
+        "solid:upper:edge:west",
+        "solid:upper:long-room",
+        "solid:wall:5376_0_768_672",
+        "solid:wall:5376_1344_96_96",
+        "solid:wall:5376_768_96_384",
+        "solid:wall:5472_864_96_96",
+        "solid:wall:5856_864_96_96",
+        "solid:wall:6144_0_768_672",
+        "solid:wall:6144_960_96_288",
+        "solid:wall:6240_864_96_96",
+        "solid:wall:6624_864_96_96",
+        "solid:wall:6816_1344_96_192",
+        "solid:wall:6816_768_96_384",
+        "solid:wall:6912_0_768_672"
+      ],
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:level0-spatial",
+        "geometryRevision": "part3a-gameplay-1",
+        "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "entityId": "p2",
+        "generation": 1,
+        "seq": 653,
+        "tick": 653,
+        "discontinuity": 3,
+        "x": 6192,
+        "y": 864,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.424603262709398,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground:6144_768_672_96",
+        "navSurface": "nav:base",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "cutaway": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "continuousInterior": true,
+        "ignoredCeilings": 288,
+        "focus": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:base:6144_768_672_96",
+          "space:base:6144_864_96_96"
+        ],
+        "groups": [
+          {
+            "id": "view:crawl:north:roof",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:ramp",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:01",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:02",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:03",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:04",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:05",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:06",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:07",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:08",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:09",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:10",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:11",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:12",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:13",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:14",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:15",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:upper-slab",
+            "fade": 1,
+            "target": true
+          },
+          {
+            "id": "view:prop:G1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G3",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G4",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G5",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G6",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W2",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "drainedFrameMs": [
+        5624.200000000012,
+        2930.6999999999825,
+        3079.8000000000175
+      ],
+      "glError": 0,
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "uiScale": "1"
+    },
+    {
+      "case": {
+        "id": "16x10",
+        "w": 1280,
+        "h": 800,
+        "dpr": 1,
+        "ui": 0.5,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.9259259259259259,
+          "minX": 5500.8,
+          "maxX": 6883.2,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.9259259259259259,
+          "minX": 5500.8,
+          "maxX": 6883.2,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "yaw": 3.141592653589793,
+        "pitch": -0.19137878528442215
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "distance": 0,
+        "ray": {
+          "from": {
+            "x": 6192,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6192,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.9259259259259259,
+          "minX": 5500.8,
+          "maxX": 6883.2,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "hiddenPixels": 0,
+      "positivePixels": 6046,
+      "peer": {
+        "id": "p1",
+        "kind": "peer",
+        "x": 6192,
+        "y": 864,
+        "z": 180.05,
+        "height": 60,
+        "radius": 15,
+        "art": 2,
+        "support": "support:upper:long-room",
+        "mode": "grounded",
+        "tick": 3248,
+        "generation": 1,
+        "renderOffset": 0,
+        "emissive": false,
+        "observable": false,
+        "visibilityRadius": 15
+      },
+      "stats": {
+        "scope": {
+          "width": 1382.4,
+          "height": 864,
+          "scale": 0.9259259259259259,
+          "minX": 5500.8,
+          "maxX": 6883.2,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 288,
+        "projection": {
+          "mode": "top-down",
+          "elevation": 0,
+          "enabled": false,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 446880,
+          "anchorZ": 0,
+          "band": {
+            "reach": 52,
+            "height": 640,
+            "cue": 0.5,
+            "min": 3,
+            "max": 28,
+            "share": 0.35,
+            "cover": 2
+          },
+          "bands": {
+            "quads": 81,
+            "eyeFacing": 29,
+            "culled": 52,
+            "widths": {
+              "74..90": 3,
+              "56..72": 3,
+              "68..84": 3,
+              "80..96": 3,
+              "92..108": 3,
+              "104..120": 3,
+              "116..132": 3,
+              "128..144": 3,
+              "140..156": 3,
+              "152..168": 3,
+              "164..180": 3,
+              "180..276": 5.6,
+              "0..164": 17.91596638655463
+            },
+            "joins": {
+              "convex": 112,
+              "concave": 14,
+              "square": 36
+            }
+          },
+          "relativeScales": {
+            "p3": 1,
+            "h15": 1.0000138890817927
+          }
+        },
+        "lightCount": 9,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 45,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 130,
+        "candidateOccluders": 66,
+        "occluderBatches": 2,
+        "submittedCandidateIds": [
+          "solid:ceiling:5376_672_768_48",
+          "solid:ceiling:5376_720_192_48",
+          "solid:ceiling:5472_768_96_96",
+          "solid:ceiling:5472_960_96_480",
+          "solid:ceiling:5664_1008_192_432",
+          "solid:ceiling:5856_1008_96_432",
+          "solid:ceiling:5952_1008_192_432",
+          "solid:ceiling:6144_1248_96_288",
+          "solid:ceiling:6144_672_768_48",
+          "solid:ceiling:6240_1008_96_432",
+          "solid:ceiling:6528_1008_96_480",
+          "solid:ceiling:6624_1008_96_432",
+          "solid:ceiling:6720_720_192_48",
+          "solid:ceiling:6720_768_96_96",
+          "solid:ceiling:6720_864_96_672",
+          "solid:ceiling:6816_1152_96_192",
+          "solid:ceiling:6912_672_288_96",
+          "solid:ceiling:6912_768_288_768",
+          "solid:ground:5376_672_768_96",
+          "solid:ground:5472_768_672_96",
+          "solid:ground:5472_960_96_480",
+          "solid:ground:5568_864_288_576",
+          "solid:ground:5856_960_96_480",
+          "solid:ground:5952_864_192_576",
+          "solid:ground:6144_1248_96_288",
+          "solid:ground:6144_672_768_96",
+          "solid:ground:6144_768_672_96",
+          "solid:ground:6144_864_96_96",
+          "solid:ground:6240_960_96_480",
+          "solid:ground:6336_864_288_672",
+          "solid:ground:6624_960_96_480",
+          "solid:ground:6720_864_96_672",
+          "solid:ground:6816_1152_96_192",
+          "solid:ground:6912_672_288_96",
+          "solid:ground:6912_768_288_768",
+          "solid:ramp:long-room",
+          "solid:stairs:long-room:tread:03",
+          "solid:stairs:long-room:tread:04",
+          "solid:stairs:long-room:tread:05",
+          "solid:stairs:long-room:tread:06",
+          "solid:stairs:long-room:tread:07",
+          "solid:stairs:long-room:tread:08",
+          "solid:stairs:long-room:tread:09",
+          "solid:stairs:long-room:tread:10",
+          "solid:stairs:long-room:tread:11",
+          "solid:stairs:long-room:tread:12",
+          "solid:stairs:long-room:tread:13",
+          "solid:stairs:long-room:tread:14",
+          "solid:stairs:long-room:tread:15",
+          "solid:upper:ceiling",
+          "solid:upper:edge:east",
+          "solid:upper:edge:north",
+          "solid:upper:edge:south-east",
+          "solid:upper:edge:south-west",
+          "solid:upper:edge:west",
+          "solid:upper:long-room",
+          "solid:wall:5376_0_768_672",
+          "solid:wall:5472_864_96_96",
+          "solid:wall:5856_864_96_96",
+          "solid:wall:6144_0_768_672",
+          "solid:wall:6144_960_96_288",
+          "solid:wall:6240_864_96_96",
+          "solid:wall:6624_864_96_96",
+          "solid:wall:6816_1344_96_192",
+          "solid:wall:6816_768_96_384",
+          "solid:wall:6912_0_768_672"
+        ],
+        "totalLightCount": 92,
+        "occluders": 910,
+        "triangles": 3752,
+        "target": {
+          "width": 1280,
+          "height": 800,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 800,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 9844848,
+        "actorTextureBytes": 1441792,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 4096000,
+        "eye": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "camera": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "depth": false,
+          "elevation": 0,
+          "topDown": true,
+          "anchorZ": 0
+        },
+        "elevationScale": 0,
+        "cutaway": {
+          "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+          "continuousInterior": true,
+          "ignoredCeilings": 288,
+          "focus": {
+            "x": 6192,
+            "y": 864,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:base:6144_768_672_96",
+            "space:base:6144_864_96_96"
+          ],
+          "groups": [
+            {
+              "id": "view:crawl:north:roof",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:ramp",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:01",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:02",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:03",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:04",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:05",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:06",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:07",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:08",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:09",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:10",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:11",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:12",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:13",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:14",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:15",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:upper-slab",
+              "fade": 1,
+              "target": true
+            },
+            {
+              "id": "view:prop:G1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G3",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G4",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G5",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G6",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W2",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 73.20000000001164,
+        "cutawayMs": 0.20000000001164153
+      },
+      "expectedCandidates": [
+        "solid:ceiling:5376_672_768_48",
+        "solid:ceiling:5376_720_192_48",
+        "solid:ceiling:5472_768_96_96",
+        "solid:ceiling:5472_960_96_480",
+        "solid:ceiling:5664_1008_192_432",
+        "solid:ceiling:5856_1008_96_432",
+        "solid:ceiling:5952_1008_192_432",
+        "solid:ceiling:6144_1248_96_288",
+        "solid:ceiling:6144_672_768_48",
+        "solid:ceiling:6240_1008_96_432",
+        "solid:ceiling:6528_1008_96_480",
+        "solid:ceiling:6624_1008_96_432",
+        "solid:ceiling:6720_720_192_48",
+        "solid:ceiling:6720_768_96_96",
+        "solid:ceiling:6720_864_96_672",
+        "solid:ceiling:6816_1152_96_192",
+        "solid:ceiling:6912_672_288_96",
+        "solid:ceiling:6912_768_288_768",
+        "solid:ground:5376_672_768_96",
+        "solid:ground:5472_768_672_96",
+        "solid:ground:5472_960_96_480",
+        "solid:ground:5568_864_288_576",
+        "solid:ground:5856_960_96_480",
+        "solid:ground:5952_864_192_576",
+        "solid:ground:6144_1248_96_288",
+        "solid:ground:6144_672_768_96",
+        "solid:ground:6144_768_672_96",
+        "solid:ground:6144_864_96_96",
+        "solid:ground:6240_960_96_480",
+        "solid:ground:6336_864_288_672",
+        "solid:ground:6624_960_96_480",
+        "solid:ground:6720_864_96_672",
+        "solid:ground:6816_1152_96_192",
+        "solid:ground:6912_672_288_96",
+        "solid:ground:6912_768_288_768",
+        "solid:ramp:long-room",
+        "solid:stairs:long-room:tread:03",
+        "solid:stairs:long-room:tread:04",
+        "solid:stairs:long-room:tread:05",
+        "solid:stairs:long-room:tread:06",
+        "solid:stairs:long-room:tread:07",
+        "solid:stairs:long-room:tread:08",
+        "solid:stairs:long-room:tread:09",
+        "solid:stairs:long-room:tread:10",
+        "solid:stairs:long-room:tread:11",
+        "solid:stairs:long-room:tread:12",
+        "solid:stairs:long-room:tread:13",
+        "solid:stairs:long-room:tread:14",
+        "solid:stairs:long-room:tread:15",
+        "solid:upper:ceiling",
+        "solid:upper:edge:east",
+        "solid:upper:edge:north",
+        "solid:upper:edge:south-east",
+        "solid:upper:edge:south-west",
+        "solid:upper:edge:west",
+        "solid:upper:long-room",
+        "solid:wall:5376_0_768_672",
+        "solid:wall:5472_864_96_96",
+        "solid:wall:5856_864_96_96",
+        "solid:wall:6144_0_768_672",
+        "solid:wall:6144_960_96_288",
+        "solid:wall:6240_864_96_96",
+        "solid:wall:6624_864_96_96",
+        "solid:wall:6816_1344_96_192",
+        "solid:wall:6816_768_96_384",
+        "solid:wall:6912_0_768_672"
+      ],
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:level0-spatial",
+        "geometryRevision": "part3a-gameplay-1",
+        "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "entityId": "p3",
+        "generation": 1,
+        "seq": 3251,
+        "tick": 3251,
+        "discontinuity": 3,
+        "x": 6192,
+        "y": 864,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.6880153322126836,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground:6144_768_672_96",
+        "navSurface": "nav:base",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "cutaway": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "continuousInterior": true,
+        "ignoredCeilings": 288,
+        "focus": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:base:6144_768_672_96",
+          "space:base:6144_864_96_96"
+        ],
+        "groups": [
+          {
+            "id": "view:crawl:north:roof",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:ramp",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:01",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:02",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:03",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:04",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:05",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:06",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:07",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:08",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:09",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:10",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:11",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:12",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:13",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:14",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:15",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:upper-slab",
+            "fade": 1,
+            "target": true
+          },
+          {
+            "id": "view:prop:G1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G3",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G4",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G5",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G6",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W2",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "drainedFrameMs": [
+        6497.100000000035,
+        3711.3000000000466,
+        3766.9000000000233
+      ],
+      "glError": 0,
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "uiScale": "0.5"
+    },
+    {
+      "case": {
+        "id": "ultrawide",
+        "w": 3440,
+        "h": 1440,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 642.9767441860465,
+          "scale": 2.2395833333333335,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 542.5116279069767,
+          "maxY": 1185.4883720930234
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 642.9767441860465,
+          "scale": 2.2395833333333335,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 542.5116279069767,
+          "maxY": 1185.4883720930234
+        },
+        "yaw": 3.141592653589793,
+        "pitch": -0.19137878528442215
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "distance": 0,
+        "ray": {
+          "from": {
+            "x": 6192,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6192,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 642.9767441860465,
+          "scale": 2.2395833333333335,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 542.5116279069767,
+          "maxY": 1185.4883720930234
+        }
+      },
+      "hiddenPixels": 0,
+      "positivePixels": 30130,
+      "peer": {
+        "id": "p1",
+        "kind": "peer",
+        "x": 6192,
+        "y": 864,
+        "z": 180.05,
+        "height": 60,
+        "radius": 15,
+        "art": 2,
+        "support": "support:upper:long-room",
+        "mode": "grounded",
+        "tick": 6825,
+        "generation": 1,
+        "renderOffset": 0,
+        "emissive": false,
+        "observable": false,
+        "visibilityRadius": 15
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 642.9767441860465,
+          "scale": 2.2395833333333335,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 542.5116279069767,
+          "maxY": 1185.4883720930234
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 288,
+        "projection": {
+          "mode": "top-down",
+          "elevation": 0,
+          "enabled": false,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 446880,
+          "anchorZ": 0,
+          "band": {
+            "reach": 52,
+            "height": 640,
+            "cue": 0.5,
+            "min": 3,
+            "max": 28,
+            "share": 0.35,
+            "cover": 2
+          },
+          "bands": {
+            "quads": 77,
+            "eyeFacing": 29,
+            "culled": 48,
+            "widths": {
+              "74..90": 3,
+              "104..120": 3,
+              "116..132": 3,
+              "128..144": 3,
+              "140..156": 3,
+              "152..168": 3,
+              "164..180": 3,
+              "180..276": 5.6,
+              "0..164": 17.91596638655463
+            },
+            "joins": {
+              "convex": 104,
+              "concave": 18,
+              "square": 32
+            }
+          },
+          "relativeScales": {
+            "p4": 1,
+            "h15": 1.0000138890817927
+          }
+        },
+        "lightCount": 9,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 45,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 130,
+        "candidateOccluders": 70,
+        "occluderBatches": 2,
+        "submittedCandidateIds": [
+          "solid:ceiling:5376_1152_96_192",
+          "solid:ceiling:5376_672_768_48",
+          "solid:ceiling:5376_720_192_48",
+          "solid:ceiling:5472_768_96_96",
+          "solid:ceiling:5472_960_96_480",
+          "solid:ceiling:5664_1008_192_432",
+          "solid:ceiling:5856_1008_96_432",
+          "solid:ceiling:5952_1008_192_432",
+          "solid:ceiling:6144_1248_96_288",
+          "solid:ceiling:6144_672_768_48",
+          "solid:ceiling:6240_1008_96_432",
+          "solid:ceiling:6528_1008_96_480",
+          "solid:ceiling:6624_1008_96_432",
+          "solid:ceiling:6720_720_192_48",
+          "solid:ceiling:6720_768_96_96",
+          "solid:ceiling:6720_864_96_672",
+          "solid:ceiling:6816_1152_96_192",
+          "solid:ceiling:6912_672_288_96",
+          "solid:ceiling:6912_768_288_768",
+          "solid:ground:5376_1152_96_192",
+          "solid:ground:5376_672_768_96",
+          "solid:ground:5472_768_672_96",
+          "solid:ground:5472_960_96_480",
+          "solid:ground:5568_864_288_576",
+          "solid:ground:5856_960_96_480",
+          "solid:ground:5952_864_192_576",
+          "solid:ground:6144_1248_96_288",
+          "solid:ground:6144_672_768_96",
+          "solid:ground:6144_768_672_96",
+          "solid:ground:6144_864_96_96",
+          "solid:ground:6240_960_96_480",
+          "solid:ground:6336_864_288_672",
+          "solid:ground:6624_960_96_480",
+          "solid:ground:6720_864_96_672",
+          "solid:ground:6816_1152_96_192",
+          "solid:ground:6912_672_288_96",
+          "solid:ground:6912_768_288_768",
+          "solid:ramp:long-room",
+          "solid:stairs:long-room:tread:03",
+          "solid:stairs:long-room:tread:04",
+          "solid:stairs:long-room:tread:05",
+          "solid:stairs:long-room:tread:06",
+          "solid:stairs:long-room:tread:07",
+          "solid:stairs:long-room:tread:08",
+          "solid:stairs:long-room:tread:09",
+          "solid:stairs:long-room:tread:10",
+          "solid:stairs:long-room:tread:11",
+          "solid:stairs:long-room:tread:12",
+          "solid:stairs:long-room:tread:13",
+          "solid:stairs:long-room:tread:14",
+          "solid:stairs:long-room:tread:15",
+          "solid:upper:ceiling",
+          "solid:upper:edge:east",
+          "solid:upper:edge:north",
+          "solid:upper:edge:south-east",
+          "solid:upper:edge:south-west",
+          "solid:upper:edge:west",
+          "solid:upper:long-room",
+          "solid:wall:5376_0_768_672",
+          "solid:wall:5376_1344_96_96",
+          "solid:wall:5376_768_96_384",
+          "solid:wall:5472_864_96_96",
+          "solid:wall:5856_864_96_96",
+          "solid:wall:6144_0_768_672",
+          "solid:wall:6144_960_96_288",
+          "solid:wall:6240_864_96_96",
+          "solid:wall:6624_864_96_96",
+          "solid:wall:6816_1344_96_192",
+          "solid:wall:6816_768_96_384",
+          "solid:wall:6912_0_768_672"
+        ],
+        "totalLightCount": 92,
+        "occluders": 910,
+        "triangles": 3754,
+        "target": {
+          "width": 3165,
+          "height": 1325,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 3440,
+          "height": 1440,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 35201848,
+        "actorTextureBytes": 1507328,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 16774500,
+        "eye": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "camera": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "depth": false,
+          "elevation": 0,
+          "topDown": true,
+          "anchorZ": 0
+        },
+        "elevationScale": 0,
+        "cutaway": {
+          "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+          "continuousInterior": true,
+          "ignoredCeilings": 288,
+          "focus": {
+            "x": 6192,
+            "y": 864,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:base:6144_768_672_96",
+            "space:base:6144_864_96_96"
+          ],
+          "groups": [
+            {
+              "id": "view:crawl:north:roof",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:ramp",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:01",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:02",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:03",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:04",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:05",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:06",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:07",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:08",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:09",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:10",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:11",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:12",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:13",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:14",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:15",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:upper-slab",
+              "fade": 1,
+              "target": true
+            },
+            {
+              "id": "view:prop:G1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G3",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G4",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G5",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G6",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W2",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 42,
+        "cutawayMs": 12.399999999965075
+      },
+      "expectedCandidates": [
+        "solid:ceiling:5376_1152_96_192",
+        "solid:ceiling:5376_672_768_48",
+        "solid:ceiling:5376_720_192_48",
+        "solid:ceiling:5472_768_96_96",
+        "solid:ceiling:5472_960_96_480",
+        "solid:ceiling:5664_1008_192_432",
+        "solid:ceiling:5856_1008_96_432",
+        "solid:ceiling:5952_1008_192_432",
+        "solid:ceiling:6144_1248_96_288",
+        "solid:ceiling:6144_672_768_48",
+        "solid:ceiling:6240_1008_96_432",
+        "solid:ceiling:6528_1008_96_480",
+        "solid:ceiling:6624_1008_96_432",
+        "solid:ceiling:6720_720_192_48",
+        "solid:ceiling:6720_768_96_96",
+        "solid:ceiling:6720_864_96_672",
+        "solid:ceiling:6816_1152_96_192",
+        "solid:ceiling:6912_672_288_96",
+        "solid:ceiling:6912_768_288_768",
+        "solid:ground:5376_1152_96_192",
+        "solid:ground:5376_672_768_96",
+        "solid:ground:5472_768_672_96",
+        "solid:ground:5472_960_96_480",
+        "solid:ground:5568_864_288_576",
+        "solid:ground:5856_960_96_480",
+        "solid:ground:5952_864_192_576",
+        "solid:ground:6144_1248_96_288",
+        "solid:ground:6144_672_768_96",
+        "solid:ground:6144_768_672_96",
+        "solid:ground:6144_864_96_96",
+        "solid:ground:6240_960_96_480",
+        "solid:ground:6336_864_288_672",
+        "solid:ground:6624_960_96_480",
+        "solid:ground:6720_864_96_672",
+        "solid:ground:6816_1152_96_192",
+        "solid:ground:6912_672_288_96",
+        "solid:ground:6912_768_288_768",
+        "solid:ramp:long-room",
+        "solid:stairs:long-room:tread:03",
+        "solid:stairs:long-room:tread:04",
+        "solid:stairs:long-room:tread:05",
+        "solid:stairs:long-room:tread:06",
+        "solid:stairs:long-room:tread:07",
+        "solid:stairs:long-room:tread:08",
+        "solid:stairs:long-room:tread:09",
+        "solid:stairs:long-room:tread:10",
+        "solid:stairs:long-room:tread:11",
+        "solid:stairs:long-room:tread:12",
+        "solid:stairs:long-room:tread:13",
+        "solid:stairs:long-room:tread:14",
+        "solid:stairs:long-room:tread:15",
+        "solid:upper:ceiling",
+        "solid:upper:edge:east",
+        "solid:upper:edge:north",
+        "solid:upper:edge:south-east",
+        "solid:upper:edge:south-west",
+        "solid:upper:edge:west",
+        "solid:upper:long-room",
+        "solid:wall:5376_0_768_672",
+        "solid:wall:5376_1344_96_96",
+        "solid:wall:5376_768_96_384",
+        "solid:wall:5472_864_96_96",
+        "solid:wall:5856_864_96_96",
+        "solid:wall:6144_0_768_672",
+        "solid:wall:6144_960_96_288",
+        "solid:wall:6240_864_96_96",
+        "solid:wall:6624_864_96_96",
+        "solid:wall:6816_1344_96_192",
+        "solid:wall:6816_768_96_384",
+        "solid:wall:6912_0_768_672"
+      ],
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:level0-spatial",
+        "geometryRevision": "part3a-gameplay-1",
+        "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "entityId": "p4",
+        "generation": 1,
+        "seq": 6828,
+        "tick": 6828,
+        "discontinuity": 4,
+        "x": 6192,
+        "y": 864,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 3.0060927260782453,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground:6144_768_672_96",
+        "navSurface": "nav:base",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "cutaway": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "continuousInterior": true,
+        "ignoredCeilings": 288,
+        "focus": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:base:6144_768_672_96",
+          "space:base:6144_864_96_96"
+        ],
+        "groups": [
+          {
+            "id": "view:crawl:north:roof",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:ramp",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:01",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:02",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:03",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:04",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:05",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:06",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:07",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:08",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:09",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:10",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:11",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:12",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:13",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:14",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:15",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:upper-slab",
+            "fade": 1,
+            "target": true
+          },
+          {
+            "id": "view:prop:G1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G3",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G4",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G5",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G6",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W2",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "drainedFrameMs": [
+        28245.70000000001,
+        15469.900000000023,
+        12836.299999999988
+      ],
+      "glError": 0,
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "uiScale": "1"
+    },
+    {
+      "case": {
+        "id": "high-dpr",
+        "w": 1280,
+        "h": 720,
+        "dpr": 2,
+        "ui": 1.5,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "yaw": 3.141592653589793,
+        "pitch": -0.19137878528442215
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "distance": 0,
+        "ray": {
+          "from": {
+            "x": 6192,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6192,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "hiddenPixels": 0,
+      "positivePixels": 19551,
+      "peer": {
+        "id": "p1",
+        "kind": "peer",
+        "x": 6192,
+        "y": 864,
+        "z": 180.05,
+        "height": 60,
+        "radius": 15,
+        "art": 2,
+        "support": "support:upper:long-room",
+        "mode": "grounded",
+        "tick": 17540,
+        "generation": 1,
+        "renderOffset": 0,
+        "emissive": false,
+        "observable": false,
+        "visibilityRadius": 15
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 288,
+        "projection": {
+          "mode": "top-down",
+          "elevation": 0,
+          "enabled": false,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 446880,
+          "anchorZ": 0,
+          "band": {
+            "reach": 52,
+            "height": 640,
+            "cue": 0.5,
+            "min": 3,
+            "max": 28,
+            "share": 0.35,
+            "cover": 2
+          },
+          "bands": {
+            "quads": 89,
+            "eyeFacing": 33,
+            "culled": 56,
+            "widths": {
+              "74..90": 3,
+              "56..72": 3,
+              "68..84": 3,
+              "80..96": 3,
+              "92..108": 3,
+              "104..120": 3,
+              "116..132": 3,
+              "128..144": 3,
+              "140..156": 3,
+              "152..168": 3,
+              "164..180": 3,
+              "180..276": 5.6,
+              "0..164": 17.91596638655463
+            },
+            "joins": {
+              "convex": 120,
+              "concave": 18,
+              "square": 40
+            }
+          },
+          "relativeScales": {
+            "p5": 1,
+            "h15": 1.0000138890817927
+          }
+        },
+        "lightCount": 9,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 50,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 130,
+        "candidateOccluders": 70,
+        "occluderBatches": 2,
+        "submittedCandidateIds": [
+          "solid:ceiling:5376_1152_96_192",
+          "solid:ceiling:5376_672_768_48",
+          "solid:ceiling:5376_720_192_48",
+          "solid:ceiling:5472_768_96_96",
+          "solid:ceiling:5472_960_96_480",
+          "solid:ceiling:5664_1008_192_432",
+          "solid:ceiling:5856_1008_96_432",
+          "solid:ceiling:5952_1008_192_432",
+          "solid:ceiling:6144_1248_96_288",
+          "solid:ceiling:6144_672_768_48",
+          "solid:ceiling:6240_1008_96_432",
+          "solid:ceiling:6528_1008_96_480",
+          "solid:ceiling:6624_1008_96_432",
+          "solid:ceiling:6720_720_192_48",
+          "solid:ceiling:6720_768_96_96",
+          "solid:ceiling:6720_864_96_672",
+          "solid:ceiling:6816_1152_96_192",
+          "solid:ceiling:6912_672_288_96",
+          "solid:ceiling:6912_768_288_768",
+          "solid:ground:5376_1152_96_192",
+          "solid:ground:5376_672_768_96",
+          "solid:ground:5472_768_672_96",
+          "solid:ground:5472_960_96_480",
+          "solid:ground:5568_864_288_576",
+          "solid:ground:5856_960_96_480",
+          "solid:ground:5952_864_192_576",
+          "solid:ground:6144_1248_96_288",
+          "solid:ground:6144_672_768_96",
+          "solid:ground:6144_768_672_96",
+          "solid:ground:6144_864_96_96",
+          "solid:ground:6240_960_96_480",
+          "solid:ground:6336_864_288_672",
+          "solid:ground:6624_960_96_480",
+          "solid:ground:6720_864_96_672",
+          "solid:ground:6816_1152_96_192",
+          "solid:ground:6912_672_288_96",
+          "solid:ground:6912_768_288_768",
+          "solid:ramp:long-room",
+          "solid:stairs:long-room:tread:03",
+          "solid:stairs:long-room:tread:04",
+          "solid:stairs:long-room:tread:05",
+          "solid:stairs:long-room:tread:06",
+          "solid:stairs:long-room:tread:07",
+          "solid:stairs:long-room:tread:08",
+          "solid:stairs:long-room:tread:09",
+          "solid:stairs:long-room:tread:10",
+          "solid:stairs:long-room:tread:11",
+          "solid:stairs:long-room:tread:12",
+          "solid:stairs:long-room:tread:13",
+          "solid:stairs:long-room:tread:14",
+          "solid:stairs:long-room:tread:15",
+          "solid:upper:ceiling",
+          "solid:upper:edge:east",
+          "solid:upper:edge:north",
+          "solid:upper:edge:south-east",
+          "solid:upper:edge:south-west",
+          "solid:upper:edge:west",
+          "solid:upper:long-room",
+          "solid:wall:5376_0_768_672",
+          "solid:wall:5376_1344_96_96",
+          "solid:wall:5376_768_96_384",
+          "solid:wall:5472_864_96_96",
+          "solid:wall:5856_864_96_96",
+          "solid:wall:6144_0_768_672",
+          "solid:wall:6144_960_96_288",
+          "solid:wall:6240_864_96_96",
+          "solid:wall:6624_864_96_96",
+          "solid:wall:6816_1344_96_192",
+          "solid:wall:6816_768_96_384",
+          "solid:wall:6912_0_768_672"
+        ],
+        "totalLightCount": 92,
+        "occluders": 910,
+        "triangles": 3754,
+        "target": {
+          "width": 2560,
+          "height": 1440,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 2
+        },
+        "quality": 1,
+        "newResourceBytes": 31144048,
+        "actorTextureBytes": 1507328,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 14745600,
+        "eye": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "camera": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "depth": false,
+          "elevation": 0,
+          "topDown": true,
+          "anchorZ": 0
+        },
+        "elevationScale": 0,
+        "cutaway": {
+          "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+          "continuousInterior": true,
+          "ignoredCeilings": 288,
+          "focus": {
+            "x": 6192,
+            "y": 864,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:base:6144_768_672_96",
+            "space:base:6144_864_96_96"
+          ],
+          "groups": [
+            {
+              "id": "view:crawl:north:roof",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:ramp",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:01",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:02",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:03",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:04",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:05",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:06",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:07",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:08",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:09",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:10",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:11",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:12",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:13",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:14",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:15",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:upper-slab",
+              "fade": 1,
+              "target": true
+            },
+            {
+              "id": "view:prop:G1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G3",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G4",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G5",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G6",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W2",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 60.10000000009313,
+        "cutawayMs": 0.19999999995343387
+      },
+      "expectedCandidates": [
+        "solid:ceiling:5376_1152_96_192",
+        "solid:ceiling:5376_672_768_48",
+        "solid:ceiling:5376_720_192_48",
+        "solid:ceiling:5472_768_96_96",
+        "solid:ceiling:5472_960_96_480",
+        "solid:ceiling:5664_1008_192_432",
+        "solid:ceiling:5856_1008_96_432",
+        "solid:ceiling:5952_1008_192_432",
+        "solid:ceiling:6144_1248_96_288",
+        "solid:ceiling:6144_672_768_48",
+        "solid:ceiling:6240_1008_96_432",
+        "solid:ceiling:6528_1008_96_480",
+        "solid:ceiling:6624_1008_96_432",
+        "solid:ceiling:6720_720_192_48",
+        "solid:ceiling:6720_768_96_96",
+        "solid:ceiling:6720_864_96_672",
+        "solid:ceiling:6816_1152_96_192",
+        "solid:ceiling:6912_672_288_96",
+        "solid:ceiling:6912_768_288_768",
+        "solid:ground:5376_1152_96_192",
+        "solid:ground:5376_672_768_96",
+        "solid:ground:5472_768_672_96",
+        "solid:ground:5472_960_96_480",
+        "solid:ground:5568_864_288_576",
+        "solid:ground:5856_960_96_480",
+        "solid:ground:5952_864_192_576",
+        "solid:ground:6144_1248_96_288",
+        "solid:ground:6144_672_768_96",
+        "solid:ground:6144_768_672_96",
+        "solid:ground:6144_864_96_96",
+        "solid:ground:6240_960_96_480",
+        "solid:ground:6336_864_288_672",
+        "solid:ground:6624_960_96_480",
+        "solid:ground:6720_864_96_672",
+        "solid:ground:6816_1152_96_192",
+        "solid:ground:6912_672_288_96",
+        "solid:ground:6912_768_288_768",
+        "solid:ramp:long-room",
+        "solid:stairs:long-room:tread:03",
+        "solid:stairs:long-room:tread:04",
+        "solid:stairs:long-room:tread:05",
+        "solid:stairs:long-room:tread:06",
+        "solid:stairs:long-room:tread:07",
+        "solid:stairs:long-room:tread:08",
+        "solid:stairs:long-room:tread:09",
+        "solid:stairs:long-room:tread:10",
+        "solid:stairs:long-room:tread:11",
+        "solid:stairs:long-room:tread:12",
+        "solid:stairs:long-room:tread:13",
+        "solid:stairs:long-room:tread:14",
+        "solid:stairs:long-room:tread:15",
+        "solid:upper:ceiling",
+        "solid:upper:edge:east",
+        "solid:upper:edge:north",
+        "solid:upper:edge:south-east",
+        "solid:upper:edge:south-west",
+        "solid:upper:edge:west",
+        "solid:upper:long-room",
+        "solid:wall:5376_0_768_672",
+        "solid:wall:5376_1344_96_96",
+        "solid:wall:5376_768_96_384",
+        "solid:wall:5472_864_96_96",
+        "solid:wall:5856_864_96_96",
+        "solid:wall:6144_0_768_672",
+        "solid:wall:6144_960_96_288",
+        "solid:wall:6240_864_96_96",
+        "solid:wall:6624_864_96_96",
+        "solid:wall:6816_1344_96_192",
+        "solid:wall:6816_768_96_384",
+        "solid:wall:6912_0_768_672"
+      ],
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:level0-spatial",
+        "geometryRevision": "part3a-gameplay-1",
+        "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "entityId": "p5",
+        "generation": 1,
+        "seq": 17546,
+        "tick": 17546,
+        "discontinuity": 3,
+        "x": 6192,
+        "y": 864,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.424603262709398,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground:6144_768_672_96",
+        "navSurface": "nav:base",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "cutaway": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "continuousInterior": true,
+        "ignoredCeilings": 288,
+        "focus": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:base:6144_768_672_96",
+          "space:base:6144_864_96_96"
+        ],
+        "groups": [
+          {
+            "id": "view:crawl:north:roof",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:ramp",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:01",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:02",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:03",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:04",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:05",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:06",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:07",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:08",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:09",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:10",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:11",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:12",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:13",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:14",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:15",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:upper-slab",
+            "fade": 1,
+            "target": true
+          },
+          {
+            "id": "view:prop:G1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G3",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G4",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G5",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G6",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W2",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "drainedFrameMs": [
+        21028.599999999977,
+        10697.099999999977,
+        10389.800000000047
+      ],
+      "glError": 0,
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "uiScale": "1.5"
+    },
+    {
+      "case": {
+        "id": "4k",
+        "w": 3840,
+        "h": 2160,
+        "dpr": 1,
+        "ui": 2,
+        "q": 1,
+        "zoom": 1,
+        "nv": false
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 2.5,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 2.5,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "yaw": 3.141592653589793,
+        "pitch": -0.19137878528442215
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "distance": 0,
+        "ray": {
+          "from": {
+            "x": 6192,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6192,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 2.5,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "hiddenPixels": 0,
+      "positivePixels": 22882,
+      "peer": {
+        "id": "p1",
+        "kind": "peer",
+        "x": 6192,
+        "y": 864,
+        "z": 180.05,
+        "height": 60,
+        "radius": 15,
+        "art": 2,
+        "support": "support:upper:long-room",
+        "mode": "grounded",
+        "tick": 26508,
+        "generation": 1,
+        "renderOffset": 0,
+        "emissive": false,
+        "observable": false,
+        "visibilityRadius": 15
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 2.5,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 288,
+        "projection": {
+          "mode": "top-down",
+          "elevation": 0,
+          "enabled": false,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 446880,
+          "anchorZ": 0,
+          "band": {
+            "reach": 52,
+            "height": 640,
+            "cue": 0.5,
+            "min": 3,
+            "max": 28,
+            "share": 0.35,
+            "cover": 2
+          },
+          "bands": {
+            "quads": 89,
+            "eyeFacing": 33,
+            "culled": 56,
+            "widths": {
+              "74..90": 3,
+              "56..72": 3,
+              "68..84": 3,
+              "80..96": 3,
+              "92..108": 3,
+              "104..120": 3,
+              "116..132": 3,
+              "128..144": 3,
+              "140..156": 3,
+              "152..168": 3,
+              "164..180": 3,
+              "180..276": 5.6,
+              "0..164": 17.91596638655463
+            },
+            "joins": {
+              "convex": 120,
+              "concave": 18,
+              "square": 40
+            }
+          },
+          "relativeScales": {
+            "p6": 1,
+            "h15": 1.0000138890817927
+          }
+        },
+        "lightCount": 9,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 50,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 130,
+        "candidateOccluders": 70,
+        "occluderBatches": 2,
+        "submittedCandidateIds": [
+          "solid:ceiling:5376_1152_96_192",
+          "solid:ceiling:5376_672_768_48",
+          "solid:ceiling:5376_720_192_48",
+          "solid:ceiling:5472_768_96_96",
+          "solid:ceiling:5472_960_96_480",
+          "solid:ceiling:5664_1008_192_432",
+          "solid:ceiling:5856_1008_96_432",
+          "solid:ceiling:5952_1008_192_432",
+          "solid:ceiling:6144_1248_96_288",
+          "solid:ceiling:6144_672_768_48",
+          "solid:ceiling:6240_1008_96_432",
+          "solid:ceiling:6528_1008_96_480",
+          "solid:ceiling:6624_1008_96_432",
+          "solid:ceiling:6720_720_192_48",
+          "solid:ceiling:6720_768_96_96",
+          "solid:ceiling:6720_864_96_672",
+          "solid:ceiling:6816_1152_96_192",
+          "solid:ceiling:6912_672_288_96",
+          "solid:ceiling:6912_768_288_768",
+          "solid:ground:5376_1152_96_192",
+          "solid:ground:5376_672_768_96",
+          "solid:ground:5472_768_672_96",
+          "solid:ground:5472_960_96_480",
+          "solid:ground:5568_864_288_576",
+          "solid:ground:5856_960_96_480",
+          "solid:ground:5952_864_192_576",
+          "solid:ground:6144_1248_96_288",
+          "solid:ground:6144_672_768_96",
+          "solid:ground:6144_768_672_96",
+          "solid:ground:6144_864_96_96",
+          "solid:ground:6240_960_96_480",
+          "solid:ground:6336_864_288_672",
+          "solid:ground:6624_960_96_480",
+          "solid:ground:6720_864_96_672",
+          "solid:ground:6816_1152_96_192",
+          "solid:ground:6912_672_288_96",
+          "solid:ground:6912_768_288_768",
+          "solid:ramp:long-room",
+          "solid:stairs:long-room:tread:03",
+          "solid:stairs:long-room:tread:04",
+          "solid:stairs:long-room:tread:05",
+          "solid:stairs:long-room:tread:06",
+          "solid:stairs:long-room:tread:07",
+          "solid:stairs:long-room:tread:08",
+          "solid:stairs:long-room:tread:09",
+          "solid:stairs:long-room:tread:10",
+          "solid:stairs:long-room:tread:11",
+          "solid:stairs:long-room:tread:12",
+          "solid:stairs:long-room:tread:13",
+          "solid:stairs:long-room:tread:14",
+          "solid:stairs:long-room:tread:15",
+          "solid:upper:ceiling",
+          "solid:upper:edge:east",
+          "solid:upper:edge:north",
+          "solid:upper:edge:south-east",
+          "solid:upper:edge:south-west",
+          "solid:upper:edge:west",
+          "solid:upper:long-room",
+          "solid:wall:5376_0_768_672",
+          "solid:wall:5376_1344_96_96",
+          "solid:wall:5376_768_96_384",
+          "solid:wall:5472_864_96_96",
+          "solid:wall:5856_864_96_96",
+          "solid:wall:6144_0_768_672",
+          "solid:wall:6144_960_96_288",
+          "solid:wall:6240_864_96_96",
+          "solid:wall:6624_864_96_96",
+          "solid:wall:6816_1344_96_192",
+          "solid:wall:6816_768_96_384",
+          "solid:wall:6912_0_768_672"
+        ],
+        "totalLightCount": 92,
+        "occluders": 910,
+        "triangles": 3754,
+        "target": {
+          "width": 2730,
+          "height": 1536,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 3840,
+          "height": 2160,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 35199088,
+        "actorTextureBytes": 1507328,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 16773120,
+        "eye": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "camera": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "depth": false,
+          "elevation": 0,
+          "topDown": true,
+          "anchorZ": 0
+        },
+        "elevationScale": 0,
+        "cutaway": {
+          "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+          "continuousInterior": true,
+          "ignoredCeilings": 288,
+          "focus": {
+            "x": 6192,
+            "y": 864,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:base:6144_768_672_96",
+            "space:base:6144_864_96_96"
+          ],
+          "groups": [
+            {
+              "id": "view:crawl:north:roof",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:ramp",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:01",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:02",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:03",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:04",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:05",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:06",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:07",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:08",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:09",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:10",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:11",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:12",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:13",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:14",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:15",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:upper-slab",
+              "fade": 1,
+              "target": true
+            },
+            {
+              "id": "view:prop:G1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G3",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G4",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G5",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G6",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W2",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 83.59999999997672,
+        "cutawayMs": 0.2000000000698492
+      },
+      "expectedCandidates": [
+        "solid:ceiling:5376_1152_96_192",
+        "solid:ceiling:5376_672_768_48",
+        "solid:ceiling:5376_720_192_48",
+        "solid:ceiling:5472_768_96_96",
+        "solid:ceiling:5472_960_96_480",
+        "solid:ceiling:5664_1008_192_432",
+        "solid:ceiling:5856_1008_96_432",
+        "solid:ceiling:5952_1008_192_432",
+        "solid:ceiling:6144_1248_96_288",
+        "solid:ceiling:6144_672_768_48",
+        "solid:ceiling:6240_1008_96_432",
+        "solid:ceiling:6528_1008_96_480",
+        "solid:ceiling:6624_1008_96_432",
+        "solid:ceiling:6720_720_192_48",
+        "solid:ceiling:6720_768_96_96",
+        "solid:ceiling:6720_864_96_672",
+        "solid:ceiling:6816_1152_96_192",
+        "solid:ceiling:6912_672_288_96",
+        "solid:ceiling:6912_768_288_768",
+        "solid:ground:5376_1152_96_192",
+        "solid:ground:5376_672_768_96",
+        "solid:ground:5472_768_672_96",
+        "solid:ground:5472_960_96_480",
+        "solid:ground:5568_864_288_576",
+        "solid:ground:5856_960_96_480",
+        "solid:ground:5952_864_192_576",
+        "solid:ground:6144_1248_96_288",
+        "solid:ground:6144_672_768_96",
+        "solid:ground:6144_768_672_96",
+        "solid:ground:6144_864_96_96",
+        "solid:ground:6240_960_96_480",
+        "solid:ground:6336_864_288_672",
+        "solid:ground:6624_960_96_480",
+        "solid:ground:6720_864_96_672",
+        "solid:ground:6816_1152_96_192",
+        "solid:ground:6912_672_288_96",
+        "solid:ground:6912_768_288_768",
+        "solid:ramp:long-room",
+        "solid:stairs:long-room:tread:03",
+        "solid:stairs:long-room:tread:04",
+        "solid:stairs:long-room:tread:05",
+        "solid:stairs:long-room:tread:06",
+        "solid:stairs:long-room:tread:07",
+        "solid:stairs:long-room:tread:08",
+        "solid:stairs:long-room:tread:09",
+        "solid:stairs:long-room:tread:10",
+        "solid:stairs:long-room:tread:11",
+        "solid:stairs:long-room:tread:12",
+        "solid:stairs:long-room:tread:13",
+        "solid:stairs:long-room:tread:14",
+        "solid:stairs:long-room:tread:15",
+        "solid:upper:ceiling",
+        "solid:upper:edge:east",
+        "solid:upper:edge:north",
+        "solid:upper:edge:south-east",
+        "solid:upper:edge:south-west",
+        "solid:upper:edge:west",
+        "solid:upper:long-room",
+        "solid:wall:5376_0_768_672",
+        "solid:wall:5376_1344_96_96",
+        "solid:wall:5376_768_96_384",
+        "solid:wall:5472_864_96_96",
+        "solid:wall:5856_864_96_96",
+        "solid:wall:6144_0_768_672",
+        "solid:wall:6144_960_96_288",
+        "solid:wall:6240_864_96_96",
+        "solid:wall:6624_864_96_96",
+        "solid:wall:6816_1344_96_192",
+        "solid:wall:6816_768_96_384",
+        "solid:wall:6912_0_768_672"
+      ],
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:level0-spatial",
+        "geometryRevision": "part3a-gameplay-1",
+        "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "entityId": "p6",
+        "generation": 1,
+        "seq": 26514,
+        "tick": 26514,
+        "discontinuity": 3,
+        "x": 6192,
+        "y": 864,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 3.1155644823271365,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground:6144_768_672_96",
+        "navSurface": "nav:base",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "cutaway": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "continuousInterior": true,
+        "ignoredCeilings": 288,
+        "focus": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:base:6144_768_672_96",
+          "space:base:6144_864_96_96"
+        ],
+        "groups": [
+          {
+            "id": "view:crawl:north:roof",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:ramp",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:01",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:02",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:03",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:04",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:05",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:06",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:07",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:08",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:09",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:10",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:11",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:12",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:13",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:14",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:15",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:upper-slab",
+            "fade": 1,
+            "target": true
+          },
+          {
+            "id": "view:prop:G1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G3",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G4",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G5",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G6",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W2",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "drainedFrameMs": [
+        24067.199999999953,
+        12536.5,
+        12782.399999999907
+      ],
+      "glError": 0,
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "uiScale": "2"
+    },
+    {
+      "case": {
+        "id": "reduced",
+        "w": 1280,
+        "h": 720,
+        "dpr": 1,
+        "ui": 2,
+        "q": 0.5,
+        "zoom": 1,
+        "nv": false
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "yaw": 3.141592653589793,
+        "pitch": -0.19137878528442215
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "distance": 0,
+        "ray": {
+          "from": {
+            "x": 6192,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6192,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        }
+      },
+      "hiddenPixels": 0,
+      "positivePixels": 1224,
+      "peer": {
+        "id": "p1",
+        "kind": "peer",
+        "x": 6192,
+        "y": 864,
+        "z": 180.05,
+        "height": 60,
+        "radius": 15,
+        "art": 2,
+        "support": "support:upper:long-room",
+        "mode": "grounded",
+        "tick": 35846,
+        "generation": 1,
+        "renderOffset": 0,
+        "emissive": false,
+        "observable": false,
+        "visibilityRadius": 15
+      },
+      "stats": {
+        "scope": {
+          "width": 1536,
+          "height": 864,
+          "scale": 0.8333333333333334,
+          "minX": 5424,
+          "maxX": 6960,
+          "minY": 432,
+          "maxY": 1296
+        },
+        "zoom": 1,
+        "ignoredContinuousCeilings": 288,
+        "projection": {
+          "mode": "top-down",
+          "elevation": 0,
+          "enabled": false,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 446880,
+          "anchorZ": 0,
+          "band": {
+            "reach": 52,
+            "height": 640,
+            "cue": 0.5,
+            "min": 3,
+            "max": 28,
+            "share": 0.35,
+            "cover": 2
+          },
+          "bands": {
+            "quads": 89,
+            "eyeFacing": 33,
+            "culled": 56,
+            "widths": {
+              "74..90": 3,
+              "56..72": 3,
+              "68..84": 3,
+              "80..96": 3,
+              "92..108": 3,
+              "104..120": 3,
+              "116..132": 3,
+              "128..144": 3,
+              "140..156": 3,
+              "152..168": 3,
+              "164..180": 3,
+              "180..276": 5.6,
+              "0..164": 17.91596638655463
+            },
+            "joins": {
+              "convex": 120,
+              "concave": 18,
+              "square": 40
+            }
+          },
+          "relativeScales": {
+            "p7": 1,
+            "h15": 1.0000138890817927
+          }
+        },
+        "lightCount": 9,
+        "lighting": true,
+        "nv": false,
+        "drawCalls": 50,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 130,
+        "candidateOccluders": 70,
+        "occluderBatches": 2,
+        "submittedCandidateIds": [
+          "solid:ceiling:5376_1152_96_192",
+          "solid:ceiling:5376_672_768_48",
+          "solid:ceiling:5376_720_192_48",
+          "solid:ceiling:5472_768_96_96",
+          "solid:ceiling:5472_960_96_480",
+          "solid:ceiling:5664_1008_192_432",
+          "solid:ceiling:5856_1008_96_432",
+          "solid:ceiling:5952_1008_192_432",
+          "solid:ceiling:6144_1248_96_288",
+          "solid:ceiling:6144_672_768_48",
+          "solid:ceiling:6240_1008_96_432",
+          "solid:ceiling:6528_1008_96_480",
+          "solid:ceiling:6624_1008_96_432",
+          "solid:ceiling:6720_720_192_48",
+          "solid:ceiling:6720_768_96_96",
+          "solid:ceiling:6720_864_96_672",
+          "solid:ceiling:6816_1152_96_192",
+          "solid:ceiling:6912_672_288_96",
+          "solid:ceiling:6912_768_288_768",
+          "solid:ground:5376_1152_96_192",
+          "solid:ground:5376_672_768_96",
+          "solid:ground:5472_768_672_96",
+          "solid:ground:5472_960_96_480",
+          "solid:ground:5568_864_288_576",
+          "solid:ground:5856_960_96_480",
+          "solid:ground:5952_864_192_576",
+          "solid:ground:6144_1248_96_288",
+          "solid:ground:6144_672_768_96",
+          "solid:ground:6144_768_672_96",
+          "solid:ground:6144_864_96_96",
+          "solid:ground:6240_960_96_480",
+          "solid:ground:6336_864_288_672",
+          "solid:ground:6624_960_96_480",
+          "solid:ground:6720_864_96_672",
+          "solid:ground:6816_1152_96_192",
+          "solid:ground:6912_672_288_96",
+          "solid:ground:6912_768_288_768",
+          "solid:ramp:long-room",
+          "solid:stairs:long-room:tread:03",
+          "solid:stairs:long-room:tread:04",
+          "solid:stairs:long-room:tread:05",
+          "solid:stairs:long-room:tread:06",
+          "solid:stairs:long-room:tread:07",
+          "solid:stairs:long-room:tread:08",
+          "solid:stairs:long-room:tread:09",
+          "solid:stairs:long-room:tread:10",
+          "solid:stairs:long-room:tread:11",
+          "solid:stairs:long-room:tread:12",
+          "solid:stairs:long-room:tread:13",
+          "solid:stairs:long-room:tread:14",
+          "solid:stairs:long-room:tread:15",
+          "solid:upper:ceiling",
+          "solid:upper:edge:east",
+          "solid:upper:edge:north",
+          "solid:upper:edge:south-east",
+          "solid:upper:edge:south-west",
+          "solid:upper:edge:west",
+          "solid:upper:long-room",
+          "solid:wall:5376_0_768_672",
+          "solid:wall:5376_1344_96_96",
+          "solid:wall:5376_768_96_384",
+          "solid:wall:5472_864_96_96",
+          "solid:wall:5856_864_96_96",
+          "solid:wall:6144_0_768_672",
+          "solid:wall:6144_960_96_288",
+          "solid:wall:6240_864_96_96",
+          "solid:wall:6624_864_96_96",
+          "solid:wall:6816_1344_96_192",
+          "solid:wall:6816_768_96_384",
+          "solid:wall:6912_0_768_672"
+        ],
+        "totalLightCount": 92,
+        "occluders": 910,
+        "triangles": 3754,
+        "target": {
+          "width": 640,
+          "height": 360,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 1
+        },
+        "quality": 0.5,
+        "newResourceBytes": 3496048,
+        "actorTextureBytes": 1507328,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 921600,
+        "eye": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "camera": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "depth": false,
+          "elevation": 0,
+          "topDown": true,
+          "anchorZ": 0
+        },
+        "elevationScale": 0,
+        "cutaway": {
+          "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+          "continuousInterior": true,
+          "ignoredCeilings": 288,
+          "focus": {
+            "x": 6192,
+            "y": 864,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:base:6144_768_672_96",
+            "space:base:6144_864_96_96"
+          ],
+          "groups": [
+            {
+              "id": "view:crawl:north:roof",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:ramp",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:01",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:02",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:03",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:04",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:05",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:06",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:07",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:08",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:09",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:10",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:11",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:12",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:13",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:14",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:15",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:upper-slab",
+              "fade": 1,
+              "target": true
+            },
+            {
+              "id": "view:prop:G1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G3",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G4",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G5",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G6",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W2",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 24.599999999976717,
+        "cutawayMs": 0.19999999995343387
+      },
+      "expectedCandidates": [
+        "solid:ceiling:5376_1152_96_192",
+        "solid:ceiling:5376_672_768_48",
+        "solid:ceiling:5376_720_192_48",
+        "solid:ceiling:5472_768_96_96",
+        "solid:ceiling:5472_960_96_480",
+        "solid:ceiling:5664_1008_192_432",
+        "solid:ceiling:5856_1008_96_432",
+        "solid:ceiling:5952_1008_192_432",
+        "solid:ceiling:6144_1248_96_288",
+        "solid:ceiling:6144_672_768_48",
+        "solid:ceiling:6240_1008_96_432",
+        "solid:ceiling:6528_1008_96_480",
+        "solid:ceiling:6624_1008_96_432",
+        "solid:ceiling:6720_720_192_48",
+        "solid:ceiling:6720_768_96_96",
+        "solid:ceiling:6720_864_96_672",
+        "solid:ceiling:6816_1152_96_192",
+        "solid:ceiling:6912_672_288_96",
+        "solid:ceiling:6912_768_288_768",
+        "solid:ground:5376_1152_96_192",
+        "solid:ground:5376_672_768_96",
+        "solid:ground:5472_768_672_96",
+        "solid:ground:5472_960_96_480",
+        "solid:ground:5568_864_288_576",
+        "solid:ground:5856_960_96_480",
+        "solid:ground:5952_864_192_576",
+        "solid:ground:6144_1248_96_288",
+        "solid:ground:6144_672_768_96",
+        "solid:ground:6144_768_672_96",
+        "solid:ground:6144_864_96_96",
+        "solid:ground:6240_960_96_480",
+        "solid:ground:6336_864_288_672",
+        "solid:ground:6624_960_96_480",
+        "solid:ground:6720_864_96_672",
+        "solid:ground:6816_1152_96_192",
+        "solid:ground:6912_672_288_96",
+        "solid:ground:6912_768_288_768",
+        "solid:ramp:long-room",
+        "solid:stairs:long-room:tread:03",
+        "solid:stairs:long-room:tread:04",
+        "solid:stairs:long-room:tread:05",
+        "solid:stairs:long-room:tread:06",
+        "solid:stairs:long-room:tread:07",
+        "solid:stairs:long-room:tread:08",
+        "solid:stairs:long-room:tread:09",
+        "solid:stairs:long-room:tread:10",
+        "solid:stairs:long-room:tread:11",
+        "solid:stairs:long-room:tread:12",
+        "solid:stairs:long-room:tread:13",
+        "solid:stairs:long-room:tread:14",
+        "solid:stairs:long-room:tread:15",
+        "solid:upper:ceiling",
+        "solid:upper:edge:east",
+        "solid:upper:edge:north",
+        "solid:upper:edge:south-east",
+        "solid:upper:edge:south-west",
+        "solid:upper:edge:west",
+        "solid:upper:long-room",
+        "solid:wall:5376_0_768_672",
+        "solid:wall:5376_1344_96_96",
+        "solid:wall:5376_768_96_384",
+        "solid:wall:5472_864_96_96",
+        "solid:wall:5856_864_96_96",
+        "solid:wall:6144_0_768_672",
+        "solid:wall:6144_960_96_288",
+        "solid:wall:6240_864_96_96",
+        "solid:wall:6624_864_96_96",
+        "solid:wall:6816_1344_96_192",
+        "solid:wall:6816_768_96_384",
+        "solid:wall:6912_0_768_672"
+      ],
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:level0-spatial",
+        "geometryRevision": "part3a-gameplay-1",
+        "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "entityId": "p7",
+        "generation": 1,
+        "seq": 35846,
+        "tick": 35846,
+        "discontinuity": 3,
+        "x": 6192,
+        "y": 864,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.683084546271126,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground:6144_768_672_96",
+        "navSurface": "nav:base",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "cutaway": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "continuousInterior": true,
+        "ignoredCeilings": 288,
+        "focus": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:base:6144_768_672_96",
+          "space:base:6144_864_96_96"
+        ],
+        "groups": [
+          {
+            "id": "view:crawl:north:roof",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:ramp",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:01",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:02",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:03",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:04",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:05",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:06",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:07",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:08",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:09",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:10",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:11",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:12",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:13",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:14",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:15",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:upper-slab",
+            "fade": 1,
+            "target": true
+          },
+          {
+            "id": "view:prop:G1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G3",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G4",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G5",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G6",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W2",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "drainedFrameMs": [
+        2312,
+        1113.2999999999302,
+        1416.9000000000233
+      ],
+      "glError": 0,
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "uiScale": "2"
+    },
+    {
+      "case": {
+        "id": "nv-low-zoom2",
+        "w": 1280,
+        "h": 800,
+        "dpr": 1,
+        "ui": 1,
+        "q": 1,
+        "zoom": 2,
+        "nv": true,
+        "ir": 1
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 691.2002276234946,
+          "height": 432.0001422646841,
+          "scale": 1.8518512420068705,
+          "minX": 5846.399886188253,
+          "maxX": 6537.600113811747,
+          "minY": 647.9999288676579,
+          "maxY": 1080.000071132342
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 691.2002276234946,
+          "height": 432.0001422646841,
+          "scale": 1.8518512420068705,
+          "minX": 5846.399886188253,
+          "maxX": 6537.600113811747,
+          "minY": 647.9999288676579,
+          "maxY": 1080.000071132342
+        },
+        "yaw": 3.141592653589793,
+        "pitch": -0.19137878528442215
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "distance": 0,
+        "ray": {
+          "from": {
+            "x": 6192,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6192,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 691.2002276234946,
+          "height": 432.0001422646841,
+          "scale": 1.8518512420068705,
+          "minX": 5846.399886188253,
+          "maxX": 6537.600113811747,
+          "minY": 647.9999288676579,
+          "maxY": 1080.000071132342
+        }
+      },
+      "hiddenPixels": 0,
+      "positivePixels": 24514,
+      "peer": {
+        "id": "p1",
+        "kind": "peer",
+        "x": 6192,
+        "y": 864,
+        "z": 180.05,
+        "height": 60,
+        "radius": 15,
+        "art": 2,
+        "support": "support:upper:long-room",
+        "mode": "grounded",
+        "tick": 38120,
+        "generation": 1,
+        "renderOffset": 0,
+        "emissive": false,
+        "observable": false,
+        "visibilityRadius": 15
+      },
+      "stats": {
+        "scope": {
+          "width": 691.2002276234946,
+          "height": 432.0001422646841,
+          "scale": 1.8518512420068705,
+          "minX": 5846.399886188253,
+          "maxX": 6537.600113811747,
+          "minY": 647.9999288676579,
+          "maxY": 1080.000071132342
+        },
+        "zoom": 1.9999993413674202,
+        "ignoredContinuousCeilings": 288,
+        "projection": {
+          "mode": "top-down",
+          "elevation": 0,
+          "enabled": false,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 446880,
+          "anchorZ": 0,
+          "band": {
+            "reach": 52,
+            "height": 640,
+            "cue": 0.5,
+            "min": 3,
+            "max": 28,
+            "share": 0.35,
+            "cover": 2
+          },
+          "bands": {
+            "quads": 34,
+            "eyeFacing": 12,
+            "culled": 22,
+            "widths": {
+              "74..90": 3,
+              "180..276": 5.6,
+              "164..180": 3,
+              "0..164": 17.91596638655463
+            },
+            "joins": {
+              "convex": 46,
+              "concave": 8,
+              "square": 14
+            }
+          },
+          "relativeScales": {
+            "p8": 1,
+            "h15": 1.0000138890817927
+          }
+        },
+        "lightCount": 6,
+        "lighting": true,
+        "nv": true,
+        "drawCalls": 25,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 130,
+        "candidateOccluders": 30,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:ceiling:5376_672_768_48",
+          "solid:ceiling:5664_1008_192_432",
+          "solid:ceiling:5856_1008_96_432",
+          "solid:ceiling:5952_1008_192_432",
+          "solid:ceiling:6144_1248_96_288",
+          "solid:ceiling:6144_672_768_48",
+          "solid:ceiling:6240_1008_96_432",
+          "solid:ceiling:6528_1008_96_480",
+          "solid:ground:5376_672_768_96",
+          "solid:ground:5472_768_672_96",
+          "solid:ground:5568_864_288_576",
+          "solid:ground:5856_960_96_480",
+          "solid:ground:5952_864_192_576",
+          "solid:ground:6144_1248_96_288",
+          "solid:ground:6144_672_768_96",
+          "solid:ground:6144_768_672_96",
+          "solid:ground:6144_864_96_96",
+          "solid:ground:6240_960_96_480",
+          "solid:ground:6336_864_288_672",
+          "solid:ramp:long-room",
+          "solid:upper:ceiling",
+          "solid:upper:edge:north",
+          "solid:upper:edge:south-east",
+          "solid:upper:edge:south-west",
+          "solid:upper:long-room",
+          "solid:wall:5376_0_768_672",
+          "solid:wall:5856_864_96_96",
+          "solid:wall:6144_0_768_672",
+          "solid:wall:6144_960_96_288",
+          "solid:wall:6240_864_96_96"
+        ],
+        "totalLightCount": 92,
+        "occluders": 910,
+        "triangles": 3752,
+        "target": {
+          "width": 1280,
+          "height": 800,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 800,
+          "dpr": 1
+        },
+        "quality": 1,
+        "newResourceBytes": 9844848,
+        "actorTextureBytes": 1441792,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 4096000,
+        "eye": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "camera": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "depth": false,
+          "elevation": 0,
+          "topDown": true,
+          "anchorZ": 0
+        },
+        "elevationScale": 0,
+        "cutaway": {
+          "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+          "continuousInterior": true,
+          "ignoredCeilings": 288,
+          "focus": {
+            "x": 6192,
+            "y": 864,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:base:6144_768_672_96",
+            "space:base:6144_864_96_96"
+          ],
+          "groups": [
+            {
+              "id": "view:crawl:north:roof",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:ramp",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:01",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:02",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:03",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:04",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:05",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:06",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:07",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:08",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:09",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:10",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:11",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:12",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:13",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:14",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:15",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:upper-slab",
+              "fade": 1,
+              "target": true
+            },
+            {
+              "id": "view:prop:G1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G3",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G4",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G5",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G6",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W2",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 97.20000000006985,
+        "cutawayMs": 0.19999999995343387
+      },
+      "expectedCandidates": [
+        "solid:ceiling:5376_672_768_48",
+        "solid:ceiling:5664_1008_192_432",
+        "solid:ceiling:5856_1008_96_432",
+        "solid:ceiling:5952_1008_192_432",
+        "solid:ceiling:6144_1248_96_288",
+        "solid:ceiling:6144_672_768_48",
+        "solid:ceiling:6240_1008_96_432",
+        "solid:ceiling:6528_1008_96_480",
+        "solid:ground:5376_672_768_96",
+        "solid:ground:5472_768_672_96",
+        "solid:ground:5568_864_288_576",
+        "solid:ground:5856_960_96_480",
+        "solid:ground:5952_864_192_576",
+        "solid:ground:6144_1248_96_288",
+        "solid:ground:6144_672_768_96",
+        "solid:ground:6144_768_672_96",
+        "solid:ground:6144_864_96_96",
+        "solid:ground:6240_960_96_480",
+        "solid:ground:6336_864_288_672",
+        "solid:ramp:long-room",
+        "solid:upper:ceiling",
+        "solid:upper:edge:north",
+        "solid:upper:edge:south-east",
+        "solid:upper:edge:south-west",
+        "solid:upper:long-room",
+        "solid:wall:5376_0_768_672",
+        "solid:wall:5856_864_96_96",
+        "solid:wall:6144_0_768_672",
+        "solid:wall:6144_960_96_288",
+        "solid:wall:6240_864_96_96"
+      ],
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:level0-spatial",
+        "geometryRevision": "part3a-gameplay-1",
+        "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "entityId": "p8",
+        "generation": 1,
+        "seq": 38126,
+        "tick": 38126,
+        "discontinuity": 7,
+        "x": 6192,
+        "y": 864,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.4492973786040912,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground:6144_768_672_96",
+        "navSurface": "nav:base",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "cutaway": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "continuousInterior": true,
+        "ignoredCeilings": 288,
+        "focus": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:base:6144_768_672_96",
+          "space:base:6144_864_96_96"
+        ],
+        "groups": [
+          {
+            "id": "view:crawl:north:roof",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:ramp",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:01",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:02",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:03",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:04",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:05",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:06",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:07",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:08",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:09",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:10",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:11",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:12",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:13",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:14",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:15",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:upper-slab",
+            "fade": 1,
+            "target": true
+          },
+          {
+            "id": "view:prop:G1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G3",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G4",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G5",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G6",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W2",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "drainedFrameMs": [
+        6259.900000000023,
+        2888.3000000000466,
+        3630.5
+      ],
+      "glError": 0,
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "uiScale": "1"
+    },
+    {
+      "case": {
+        "id": "nv-high-zoom4-dpr",
+        "w": 1280,
+        "h": 720,
+        "dpr": 2,
+        "ui": 1,
+        "q": 0.5,
+        "zoom": 4,
+        "nv": true,
+        "ir": 2
+      },
+      "hit": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 384.0000838032053,
+          "height": 216.00004713930298,
+          "scale": 3.3333326058751127,
+          "minX": 5999.999958098398,
+          "maxX": 6384.000041901602,
+          "minY": 755.9999764303485,
+          "maxY": 972.0000235696515
+        }
+      },
+      "aim": {
+        "kind": "actor",
+        "actorId": "h15",
+        "t": 0.495599365234375,
+        "point": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "presentationPoint": {
+          "x": 6120,
+          "y": 864,
+          "z": 36.05000000000018
+        },
+        "distance": 73.33895622382414,
+        "ray": {
+          "from": {
+            "x": 6120,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6120,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 384.0000838032053,
+          "height": 216.00004713930298,
+          "scale": 3.3333326058751127,
+          "minX": 5999.999958098398,
+          "maxX": 6384.000041901602,
+          "minY": 755.9999764303485,
+          "maxY": 972.0000235696515
+        },
+        "yaw": 3.141592653589793,
+        "pitch": -0.19137878528442215
+      },
+      "hiddenPick": {
+        "kind": "plane",
+        "point": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "distance": 0,
+        "ray": {
+          "from": {
+            "x": 6192,
+            "y": 864,
+            "z": 4096
+          },
+          "to": {
+            "x": 6192,
+            "y": 864,
+            "z": -4096
+          }
+        },
+        "scope": {
+          "width": 384.0000838032053,
+          "height": 216.00004713930298,
+          "scale": 3.3333326058751127,
+          "minX": 5999.999958098398,
+          "maxX": 6384.000041901602,
+          "minY": 755.9999764303485,
+          "maxY": 972.0000235696515
+        }
+      },
+      "hiddenPixels": 0,
+      "positivePixels": 79219,
+      "peer": {
+        "id": "p1",
+        "kind": "peer",
+        "x": 6192,
+        "y": 864,
+        "z": 180.05,
+        "height": 60,
+        "radius": 15,
+        "art": 2,
+        "support": "support:upper:long-room",
+        "mode": "grounded",
+        "tick": 41682,
+        "generation": 1,
+        "renderOffset": 0,
+        "emissive": false,
+        "observable": false,
+        "visibilityRadius": 15
+      },
+      "stats": {
+        "scope": {
+          "width": 384.0000838032053,
+          "height": 216.00004713930298,
+          "scale": 3.3333326058751127,
+          "minX": 5999.999958098398,
+          "maxX": 6384.000041901602,
+          "minY": 755.9999764303485,
+          "maxY": 972.0000235696515
+        },
+        "zoom": 3.999999127050135,
+        "ignoredContinuousCeilings": 288,
+        "projection": {
+          "mode": "top-down",
+          "elevation": 0,
+          "enabled": false,
+          "coefficient": 0.0002777777777777778,
+          "minScale": 0.94,
+          "maxScale": 1.06,
+          "vertexBytes": 446880,
+          "anchorZ": 0,
+          "band": {
+            "reach": 52,
+            "height": 640,
+            "cue": 0.5,
+            "min": 3,
+            "max": 28,
+            "share": 0.35,
+            "cover": 2
+          },
+          "bands": {
+            "quads": 13,
+            "eyeFacing": 3,
+            "culled": 10,
+            "widths": {
+              "164..180": 3,
+              "0..164": 17.91596638655463
+            },
+            "joins": {
+              "convex": 22,
+              "concave": 3,
+              "square": 1
+            }
+          },
+          "relativeScales": {
+            "p9": 1,
+            "h15": 1.0000138890817927
+          }
+        },
+        "lightCount": 4,
+        "lighting": true,
+        "nv": true,
+        "drawCalls": 14,
+        "passes": 2,
+        "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+        "geometryChunks": 130,
+        "candidateOccluders": 12,
+        "occluderBatches": 1,
+        "submittedCandidateIds": [
+          "solid:ground:5376_672_768_96",
+          "solid:ground:5472_768_672_96",
+          "solid:ground:5952_864_192_576",
+          "solid:ground:6144_672_768_96",
+          "solid:ground:6144_768_672_96",
+          "solid:ground:6144_864_96_96",
+          "solid:ground:6240_960_96_480",
+          "solid:ground:6336_864_288_672",
+          "solid:upper:ceiling",
+          "solid:upper:long-room",
+          "solid:wall:6144_960_96_288",
+          "solid:wall:6240_864_96_96"
+        ],
+        "totalLightCount": 92,
+        "occluders": 910,
+        "triangles": 3754,
+        "target": {
+          "width": 1280,
+          "height": 720,
+          "depth": "DEPTH_COMPONENT24",
+          "color": "RGBA8"
+        },
+        "logical": {
+          "width": 1280,
+          "height": 720,
+          "dpr": 2
+        },
+        "quality": 0.5,
+        "newResourceBytes": 9025648,
+        "actorTextureBytes": 1507328,
+        "lightTextureBytes": 8192,
+        "defaultColorBytesEstimate": 3686400,
+        "eye": {
+          "x": 6192,
+          "y": 864,
+          "z": 50
+        },
+        "camera": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "depth": false,
+          "elevation": 0,
+          "topDown": true,
+          "anchorZ": 0
+        },
+        "elevationScale": 0,
+        "cutaway": {
+          "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+          "continuousInterior": true,
+          "ignoredCeilings": 288,
+          "focus": {
+            "x": 6192,
+            "y": 864,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:base:6144_768_672_96",
+            "space:base:6144_864_96_96"
+          ],
+          "groups": [
+            {
+              "id": "view:crawl:north:roof",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:ramp",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:01",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:02",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:03",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:04",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:05",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:06",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:07",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:08",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:09",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:10",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:11",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:12",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:13",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:14",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:stairs:15",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:long-room:upper-slab",
+              "fade": 1,
+              "target": true
+            },
+            {
+              "id": "view:prop:G1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G3",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G4",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G5",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:G6",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:U2",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W1",
+              "fade": 0,
+              "target": false
+            },
+            {
+              "id": "view:prop:W2",
+              "fade": 0,
+              "target": false
+            }
+          ]
+        },
+        "cpuMs": 36.5,
+        "cutawayMs": 0.2000000000698492
+      },
+      "expectedCandidates": [
+        "solid:ground:5376_672_768_96",
+        "solid:ground:5472_768_672_96",
+        "solid:ground:5952_864_192_576",
+        "solid:ground:6144_672_768_96",
+        "solid:ground:6144_768_672_96",
+        "solid:ground:6144_864_96_96",
+        "solid:ground:6240_960_96_480",
+        "solid:ground:6336_864_288_672",
+        "solid:upper:ceiling",
+        "solid:upper:long-room",
+        "solid:wall:6144_960_96_288",
+        "solid:wall:6240_864_96_96"
+      ],
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:level0-spatial",
+        "geometryRevision": "part3a-gameplay-1",
+        "contentHash": "4c1cc53d032780befe3c03f0f5e218d9d0e8fd67bcd5bf3e189a3311e061723a",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "pose": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "entityId": "p9",
+        "generation": 1,
+        "seq": 41684,
+        "tick": 41684,
+        "discontinuity": 7,
+        "x": 6192,
+        "y": 864,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 2.4246032627093967,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground:6144_768_672_96",
+        "navSurface": "nav:base",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      },
+      "cutaway": {
+        "worldEpoch": "ec53ced1-9c2d-43f9-b9fe-8149368b65fa",
+        "continuousInterior": true,
+        "ignoredCeilings": 288,
+        "focus": {
+          "x": 6192,
+          "y": 864,
+          "z": 0,
+          "height": 60,
+          "radius": 15
+        },
+        "focusSpace": [
+          "space:base:6144_768_672_96",
+          "space:base:6144_864_96_96"
+        ],
+        "groups": [
+          {
+            "id": "view:crawl:north:roof",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:ramp",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:01",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:02",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:03",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:04",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:05",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:06",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:07",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:08",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:09",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:10",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:11",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:12",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:13",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:14",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:stairs:15",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:long-room:upper-slab",
+            "fade": 1,
+            "target": true
+          },
+          {
+            "id": "view:prop:G1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G3",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G4",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G5",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:G6",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:U2",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W1",
+            "fade": 0,
+            "target": false
+          },
+          {
+            "id": "view:prop:W2",
+            "fade": 0,
+            "target": false
+          }
+        ]
+      },
+      "drainedFrameMs": [
+        3808.29999999993,
+        2250.6999999999534,
+        1859.4000000000233
+      ],
+      "glError": 0,
+      "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+      "uiScale": "1"
+    }
+  ],
+  "server": "THE FAR BACKROOMS | BOOTING | Node v22.22.2 | port 39877 | part-3b @ ae7157cc1fd2\nTHE FAR BACKROOMS | ONLINE | Node v22.22.2 | port 39877 | part-3b @ ae7157cc1fd2\nThe Far Backrooms → http://localhost:39877  (share  ?room=NAME  to group up)\n[admin] 3B upper matrix#1 unlocked admin (room stage-h)\n[admin] room=stage-h 3B upper matrix#1: god 3B upper matrix -> true\n[admin] room=stage-h 3B upper matrix#1: freeze true\n[admin] 3B 16x9#2 unlocked admin (room stage-h)\n[admin] room=stage-h 3B 16x9#2: god 3B 16x9 -> true\n[admin] 3B 16x10#3 unlocked admin (room stage-h)\n[admin] room=stage-h 3B 16x10#3: god 3B 16x10 -> true\n[admin] 3B ultrawide#4 unlocked admin (room stage-h)\n[admin] room=stage-h 3B ultrawide#4: god 3B ultrawide -> true\n[admin] 3B high-dpr#5 unlocked admin (room stage-h)\n[admin] room=stage-h 3B high-dpr#5: god 3B high-dpr -> true\n[admin] WANDERER#6 unlocked admin (room stage-h)\n[admin] room=stage-h 3B 4k#6: god 3B 4k -> true\n[admin] 3B reduced#7 unlocked admin (room stage-h)\n[admin] room=stage-h 3B reduced#7: god 3B reduced -> true\n[admin] 3B nv-low-zoom2#8 unlocked admin (room stage-h)\n[admin] room=stage-h 3B nv-low-zoom2#8: god 3B nv-low-zoom2 -> true\n[admin] 3B nv-high-zoom4-dpr#9 unlocked admin (room stage-h)\n[admin] room=stage-h 3B nv-high-zoom4-dpr#9: god 3B nv-high-zoom4-dpr -> true\n"
+}

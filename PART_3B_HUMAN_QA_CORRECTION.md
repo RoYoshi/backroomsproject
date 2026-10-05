@@ -50,3 +50,37 @@ Remaining HQ2 work:
 - Run the full retained regression: two-client concealment, picking, the aspect/DPR/quality matrix, and the Part 3A, Stage I and Part 3B gates.
 - Update the Part 3B production gates that still assert the rejected layer-depth production camera, recording each change against this lock rather than weakening it.
 - Run a performance check. Compile adds about 65 ms once at startup in Node.
+
+## P3B-HQ2 — full retained regression
+
+Source under test: HQ1 `ae7157cc1fd246e72dc809b71c0c34acb54f0ca3` / tree `1b0080abb17629dc959ae0a30de410589f98f88c`. No runtime file changed in HQ2. The host runs Node v22.22.2 and Playwright 1.56. The frozen traces were recorded on Node v24.19.0, which is not obtainable here. Evidence is in `dev/part3b/evidence/hq2/`, summarised in `hq2-summary.json`.
+
+Preserved failures, in order:
+
+1. **`whole-01`.** Every presentation and Part 3A production suite passed. The historical baseline comparison then failed on `perf-light`: seed 1's p99 was 2.075 ms against a 2 ms limit, while seeds 2–3 were at 0.84 ms. That suite drives `sim.js` only and never loads the renderer, so this is host timing. On the unchanged rerun, `whole-02` passed exact baseline equivalence (p99 1.984 ms), with all 18 suites matching the accepted counts and failure names.
+2. **`whole-02` zero-tolerance frozen parity.** Three AI traces diverge by one ULP, for example `ai-s_hound2e-2E-H5` at tick 194 (0.679638399136415 vs 0.6796383991364151). The HQ0 source reproduces the identical divergence on this Node. The zero-tolerance gate is unchanged. `parity-cross-engine-01` instead follows the documented Stage A cross-engine procedure:
+   - HQ1 captures are byte-identical to HQ0 captures on this host, for all 46 traces;
+   - 43 traces are identical to the frozen references at zero tolerance;
+   - all 46 traces and 35,098 records match within 0.00001, with discrete state and event order exact;
+   - the map is byte-identical and the frozen files are unchanged.
+3. **`whole-03-continuation`.** It ran every remaining whole-phase gate and the HQ1 suites.
+   - **Flat browser parity failed in the harness.** The Playwright 1.56 paused clock already reads about 303 ms when the page is ready, so the original absolute 100 ms schedule would need negative ticks. It failed on the Part 3A parent before the candidate ran.
+   - **NORTH concealment changed 2 floor pixels.** They sit just outside the crawl mouth at (1629.6, 897–900). The hidden crawler's beam had been aimed by the incidental post-Enter mouse position, toward the open mouth. The authoritative geometry raycast confirms that light physically exits the mouth unblocked and that the outside eye sees those points. No body or gear pixels changed. HQ0 passed only because its slanted pick mapped the same pointer slightly differently.
+
+Narrow repairs (`whole-04-repaired`, both PASS):
+
+- **`dev/part3b/browser_flat.js`** is a copy of the Stage H harness. Parent and candidate both advance to one fixed 1000 ms start, then receive the same 20 ms schedule. The pixel and state comparison is unchanged.
+- **`dev/part3b/browser_cutaway.js`** now aims the crawler deterministically along the tunnel (east) and waits until the outside client receives that beam. The zero-pixel concealment assertion is unchanged.
+
+Passing coverage:
+
+- invariants: only the two presentation files differ from the Part 3A runtime freeze;
+- three Part 3B presentation suites and eight Part 3A production suites (vertical, navigation, gameplay, perception, picking, render coverage, aftermath);
+- the eight-case production display matrix: 16:9, 16:10, ultrawide, DPR2, 4K, reduced quality, NV zoom 2 and NV zoom 4 at DPR2. Every case has 0 hidden-peer pixels, unpickable hidden targets, an identical physical scope and candidates, and an independent upper client;
+- resets; NORTH and LONG two-client concealment;
+- twelve-room readability, aftermath and multiplayer gameplay;
+- performance, served flat and production packages, and redirect;
+- the HQ1 focused deterministic and browser checks;
+- all seven named Stage I suites (`named-01`).
+
+HQ2 status: PASS. HQ3 republication follows only after this checkpoint is remote-verified.

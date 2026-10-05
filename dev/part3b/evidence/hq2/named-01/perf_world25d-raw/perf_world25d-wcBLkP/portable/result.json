@@ -1,0 +1,136 @@
+{
+  "status": "PASS",
+  "pathContainsSpaces": true,
+  "cleanPath": "/tmp/Stage I Fresh Extraction 0gfjgrfl/package with spaces",
+  "filesCompared": 880,
+  "crc": "PASS",
+  "buildsRepeated": 2,
+  "buildHashes": {
+    "ai.js": "29adbe5d22897d0427f32fa9f9add80b0dfa9b7b07dde73ef32652ebecc2845b",
+    "sim.js": "21c0be5a21f01bc15c4e885af021d6f4b415c83925e57da722434d75270e4e6d",
+    "ents.js": "f7190223f6bdcdcf91fb1f8169d59ebe301866c160b7ff1affc48149f08d5284"
+  },
+  "checks": [
+    {
+      "name": "build-1-ai",
+      "command": [
+        "bash",
+        "dev/build_ai.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11482264200003556
+    },
+    {
+      "name": "build-1-sim",
+      "command": [
+        "bash",
+        "dev/build_sim.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11490028499974869
+    },
+    {
+      "name": "build-1-ents",
+      "command": [
+        "bash",
+        "dev/build_ents.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11483084199971927
+    },
+    {
+      "name": "build-2-ai",
+      "command": [
+        "bash",
+        "dev/build_ai.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11485794200007149
+    },
+    {
+      "name": "build-2-sim",
+      "command": [
+        "bash",
+        "dev/build_sim.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11478846499994688
+    },
+    {
+      "name": "build-2-ents",
+      "command": [
+        "bash",
+        "dev/build_ents.sh"
+      ],
+      "exitCode": 0,
+      "seconds": 0.06473955899991779
+    },
+    {
+      "name": "world",
+      "command": [
+        "node",
+        "dev/tests/s_world25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 6.125244672999997
+    },
+    {
+      "name": "nav",
+      "command": [
+        "node",
+        "dev/tests/s_nav25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 9.086655171000075
+    },
+    {
+      "name": "perception",
+      "command": [
+        "node",
+        "dev/tests/s_perception25d.js"
+      ],
+      "exitCode": 0,
+      "seconds": 8.571908301999883
+    },
+    {
+      "name": "fps",
+      "command": [
+        "npm",
+        "run",
+        "test:fps"
+      ],
+      "exitCode": 0,
+      "seconds": 0.8195100469997669
+    },
+    {
+      "name": "camera",
+      "command": [
+        "npm",
+        "run",
+        "test:camera"
+      ],
+      "exitCode": 0,
+      "seconds": 0.16506201900028827
+    },
+    {
+      "name": "http",
+      "command": [
+        "node",
+        "dev/stage_h/served_package.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/http.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.47234244199989917
+    },
+    {
+      "name": "redirect",
+      "command": [
+        "node",
+        "dev/stage_i/test_redirect.js"
+      ],
+      "exitCode": 0,
+      "seconds": 0.11553174800019406
+    }
+  ],
+  "scope": "Package-relative source/build/HTTP gate. Full exact-source all-seven-suite clean extraction and browser certification is separately required at I4/I5."
+}

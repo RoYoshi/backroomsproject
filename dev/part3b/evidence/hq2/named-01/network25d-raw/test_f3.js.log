@@ -1,0 +1,363 @@
+Z20 PASS {"seed":77,"ticks":420,"latency":[20,250],"bunchMs":1000,"duplicates":10,"sent":150,"bytes":92512,"corrections":0,"maxError":0,"stats":{"accepted":420,"rejected":10,"corrections":2,"maxQueue":45,"maxHistory":90,"maxWork":15,"work":0,"ownedTicks":0,"reasons":{"sequence":10},"cpu":{"samples":439,"median":0.047679,"p95":0.797457,"p99":1.511225,"max":3.410796}}}
+Z21 PASS {"malicious":["hugeXY","fakeZ","wrongSupport","fakeLink","futureTick","reusedTick","speed","nonfinite","overEnvelope","highGroundSpeed","completion","geometryHash","worldEpoch","life","ack","oversizedSamples"],"stats":{"accepted":420,"rejected":26,"corrections":19,"maxQueue":45,"maxHistory":90,"maxWork":15,"work":0,"ownedTicks":0,"reasons":{"sequence":10,"pose-claim":3,"link":1,"tick":2,"speed":2,"malformed":3,"identity":4,"sample-bound":1},"lastPoseFailure":{"tick":452,"claim":{"x":1000,"y":500,"z":0,"support":"support:upper","posture":"stand"},"derived":{"x":1000,"y":500,"z":0,"support":"support:ground","mode":"grounded","vault":null}},"cpu":{"samples":522,"median":0.047884,"p95":0.679554,"p99":1.37943,"max":3.410796}}}
+PASS living respawn/join rejected
+PASS correction reconciliation resumes legitimate motion with zero residual error
+Z22 PASS explicit world epoch resets correction/prediction and rejects old pose/actions
+{
+  "status": "PASS",
+  "corrections": [
+    {
+      "cause": "handshake",
+      "tick": 0
+    },
+    {
+      "cause": "handshake",
+      "tick": 0
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 439
+    },
+    {
+      "cause": "pose-claim",
+      "tick": 443
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 445
+    },
+    {
+      "cause": "pose-claim",
+      "tick": 449
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 451
+    },
+    {
+      "cause": "pose-claim",
+      "tick": 455
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 457
+    },
+    {
+      "cause": "link",
+      "tick": 461
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 463
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 469
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 475
+    },
+    {
+      "cause": "speed",
+      "tick": 479
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 481
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 487
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 493
+    },
+    {
+      "cause": "speed",
+      "tick": 497
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 501
+    },
+    {
+      "cause": "authorized-teleport",
+      "tick": 534
+    },
+    {
+      "cause": "handshake",
+      "tick": 0
+    }
+  ],
+  "stats": {
+    "accepted": 432,
+    "rejected": 27,
+    "corrections": 21,
+    "maxQueue": 45,
+    "maxHistory": 90,
+    "maxWork": 15,
+    "work": 0,
+    "ownedTicks": 0,
+    "reasons": {
+      "sequence": 10,
+      "pose-claim": 3,
+      "link": 1,
+      "tick": 2,
+      "speed": 2,
+      "malformed": 3,
+      "identity": 4,
+      "sample-bound": 1,
+      "action-identity": 1
+    },
+    "lastPoseFailure": {
+      "tick": 452,
+      "claim": {
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "support": "support:upper",
+        "posture": "stand"
+      },
+      "derived": {
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "support": "support:ground",
+        "mode": "grounded",
+        "vault": null
+      }
+    },
+    "cpu": {
+      "samples": 556,
+      "median": 0.048044,
+      "p95": 0.679554,
+      "p99": 1.37943,
+      "max": 3.410796
+    }
+  }
+}
+{
+  "last": {
+    "t": "s",
+    "p": [],
+    "e": {
+      "st": 0.1,
+      "h": [],
+      "m": [],
+      "b": 0,
+      "p": 0,
+      "gw": [],
+      "it": [],
+      "lf": [],
+      "sn": []
+    },
+    "me": "",
+    "ms": 0,
+    "cp": 0,
+    "lightFailures": [],
+    "protocol": {
+      "worldEpoch": "00163a39-002d-4b3d-beac-7da759f1acf3",
+      "simTick": 6
+    },
+    "pose": {
+      "worldEpoch": "00163a39-002d-4b3d-beac-7da759f1acf3",
+      "entityId": "p1",
+      "generation": 2,
+      "seq": 6,
+      "tick": 6,
+      "discontinuity": 1,
+      "x": 1000,
+      "y": 500,
+      "z": 0,
+      "vx": 0,
+      "vy": 0,
+      "vz": 0,
+      "yaw": 0,
+      "height": 60,
+      "profile": "profile:player-stand",
+      "support": "support:ground",
+      "navSurface": "nav:ground",
+      "mode": "grounded",
+      "link": null,
+      "progress": 0,
+      "vault": null,
+      "step": null,
+      "traversal": null
+    },
+    "spatial": [],
+    "spatialStats": {
+      "accepted": 432,
+      "rejected": 27,
+      "corrections": 21,
+      "maxQueue": 45,
+      "maxHistory": 90,
+      "maxWork": 15,
+      "work": 0,
+      "ownedTicks": 0,
+      "reasons": {
+        "sequence": 10,
+        "pose-claim": 3,
+        "link": 1,
+        "tick": 2,
+        "speed": 2,
+        "malformed": 3,
+        "identity": 4,
+        "sample-bound": 1,
+        "action-identity": 1
+      },
+      "lastPoseFailure": {
+        "tick": 452,
+        "claim": {
+          "x": 1000,
+          "y": 500,
+          "z": 0,
+          "support": "support:upper",
+          "posture": "stand"
+        },
+        "derived": {
+          "x": 1000,
+          "y": 500,
+          "z": 0,
+          "support": "support:ground",
+          "mode": "grounded",
+          "vault": null
+        }
+      },
+      "cpu": {
+        "samples": 556,
+        "median": 0.048044,
+        "p95": 0.679554,
+        "p99": 1.37943,
+        "max": 3.410796
+      }
+    },
+    "ad": {
+      "fz": 0,
+      "sp": 1,
+      "bo": "auto",
+      "hn": 0,
+      "sn": 0,
+      "mh": 64,
+      "ms": 64,
+      "dh": 3,
+      "gw": 0,
+      "it": 0,
+      "pk": 0,
+      "hs": "",
+      "dbg": 0,
+      "cm": "auto",
+      "es": [],
+      "pl": [
+        {
+          "id": 1,
+          "n": "WANDERER",
+          "a": 1,
+          "d": "",
+          "g": 0,
+          "ad": 1,
+          "st": 0,
+          "x": 1000,
+          "y": 500
+        }
+      ]
+    },
+    "you": 1
+  },
+  "corrections": [
+    {
+      "t": "correction",
+      "cause": "authorized-teleport",
+      "pose": {
+        "worldEpoch": "57c4c099-04dd-46e4-b0e1-ef862f907c41",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 501,
+        "tick": 501,
+        "discontinuity": 18,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "authorized-teleport",
+      "pose": {
+        "worldEpoch": "57c4c099-04dd-46e4-b0e1-ef862f907c41",
+        "entityId": "p1",
+        "generation": 1,
+        "seq": 534,
+        "tick": 534,
+        "discontinuity": 19,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      }
+    },
+    {
+      "t": "correction",
+      "cause": "handshake",
+      "pose": {
+        "worldEpoch": "00163a39-002d-4b3d-beac-7da759f1acf3",
+        "entityId": "p1",
+        "generation": 2,
+        "seq": 0,
+        "tick": 0,
+        "discontinuity": 1,
+        "x": 1000,
+        "y": 500,
+        "z": 0,
+        "vx": 0,
+        "vy": 0,
+        "vz": 0,
+        "yaw": 0,
+        "height": 60,
+        "profile": "profile:player-stand",
+        "support": "support:ground",
+        "navSurface": "nav:ground",
+        "mode": "grounded",
+        "link": null,
+        "progress": 0,
+        "vault": null,
+        "step": null,
+        "traversal": null
+      }
+    }
+  ]
+}
+THE FAR BACKROOMS | BOOTING | Node v22.22.2 | port 37471 | part-3b @ ae7157cc1fd2
+THE FAR BACKROOMS | ONLINE | Node v22.22.2 | port 37471 | part-3b @ ae7157cc1fd2
+The Far Backrooms → http://localhost:37471  (share  ?room=NAME  to group up)
+[admin] WANDERER#1 unlocked admin (room f)
+[admin] room=f WANDERER#1: reset world
+

@@ -1,0 +1,152 @@
+{
+  "status": "PASS",
+  "runtime": "v22.22.2",
+  "seed": 0,
+  "firstDivergentTick": null,
+  "rows": [
+    {
+      "property": "rotate/mirror physical collision",
+      "turn": 0,
+      "mirror": false,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "697bdecbb45baca40d2052f183788cdb08b83361ad7b7cb3507447806d44ae2c",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "ticks": 60
+    },
+    {
+      "property": "rotate/mirror physical collision",
+      "turn": 1,
+      "mirror": false,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "17835b9ff53466033380206db2cd60915584340d73264643debebba4a4bf1b72",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "ticks": 60
+    },
+    {
+      "property": "rotate/mirror physical collision",
+      "turn": 2,
+      "mirror": false,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "ce21817a12b865fb6ed7d0f7a7af77bb8310588c0191007f8bfd5940d27c4948",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "ticks": 60
+    },
+    {
+      "property": "rotate/mirror physical collision",
+      "turn": 3,
+      "mirror": false,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "9a696954cb596e1ca89fd1664880d08997f6981d0acdceb383d25d70dfd454b7",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "ticks": 60
+    },
+    {
+      "property": "rotate/mirror physical collision",
+      "turn": 0,
+      "mirror": true,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "ce21817a12b865fb6ed7d0f7a7af77bb8310588c0191007f8bfd5940d27c4948",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "ticks": 60
+    },
+    {
+      "property": "rotate/mirror physical collision",
+      "turn": 1,
+      "mirror": true,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "9a696954cb596e1ca89fd1664880d08997f6981d0acdceb383d25d70dfd454b7",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "ticks": 60
+    },
+    {
+      "property": "rotate/mirror physical collision",
+      "turn": 2,
+      "mirror": true,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "697bdecbb45baca40d2052f183788cdb08b83361ad7b7cb3507447806d44ae2c",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "ticks": 60
+    },
+    {
+      "property": "rotate/mirror physical collision",
+      "turn": 3,
+      "mirror": true,
+      "world": {
+        "schemaVersion": 1,
+        "assetId": "world:stage-c-test",
+        "geometryRevision": "fixture-c1",
+        "contentHash": "17835b9ff53466033380206db2cd60915584340d73264643debebba4a4bf1b72",
+        "geometryMode": "spatial",
+        "compilerRevision": "stage-c-1"
+      },
+      "ticks": 60
+    },
+    {
+      "property": "ledge/roof/contact immediately inside and outside boundaries",
+      "samples": 6
+    },
+    {
+      "property": "actual maximum iteration budget safe diagnostic",
+      "diagnostics": [
+        {
+          "tick": 1,
+          "code": "GROUND_SEGMENT_LIMIT"
+        }
+      ],
+      "pose": {
+        "x": 227.9987492255746,
+        "y": 100,
+        "z": 0.05
+      },
+      "bounds": {
+        "version": "stage-c-profile-1",
+        "dt": 0.016666666666666666,
+        "gravity": 980,
+        "maxSlopeDegrees": 35,
+        "maxStepRise": 12,
+        "stepLiftMax": 180,
+        "stepDuration": 0.1,
+        "skin": 0.05,
+        "maxContacts": 8,
+        "maxGroundSegments": 128,
+        "groundSegment": 1,
+        "epsilon": 1e-7
+      }
+    }
+  ]
+}

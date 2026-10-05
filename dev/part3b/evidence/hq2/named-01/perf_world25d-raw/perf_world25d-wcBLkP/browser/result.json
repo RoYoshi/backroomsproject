@@ -1,0 +1,797 @@
+{
+  "status": "PASS",
+  "runtime": "v22.22.2",
+  "browser": "141.0.7390.37",
+  "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+  "viewport": {
+    "width": 960,
+    "height": 600
+  },
+  "dpr": 1,
+  "rows": [
+    {
+      "quality": 1,
+      "samples": [
+        {
+          "completedRoundTripMs": 1347.4859099999999,
+          "capture": {
+            "hash": "7dc1646d",
+            "lit": 78129,
+            "frameBefore": 2,
+            "frameAfter": 3,
+            "error": 0
+          }
+        },
+        {
+          "completedRoundTripMs": 695.1641920000002,
+          "capture": {
+            "hash": "cf5ba83c",
+            "lit": 77128,
+            "frameBefore": 3,
+            "frameAfter": 4,
+            "error": 0
+          }
+        },
+        {
+          "completedRoundTripMs": 324.2076309999993,
+          "capture": {
+            "hash": "2cc839f",
+            "lit": 77131,
+            "frameBefore": 4,
+            "frameAfter": 5,
+            "error": 0
+          }
+        }
+      ],
+      "inspect": {
+        "ready": true,
+        "pipeline": {
+          "inFlight": true,
+          "skippedFrames": 28,
+          "completedFrames": [
+            674.3000000002794,
+            540.3999999999069,
+            1341.3999999999069,
+            691.2000000001863
+          ]
+        },
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 185,
+            "tick": 185,
+            "discontinuity": 2,
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 0,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ground-north",
+            "navSurface": "nav:ground",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": []
+        },
+        "frames": 5,
+        "presentation": {
+          "camera": {
+            "z": 0,
+            "velocity": 0,
+            "key": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a:1:2:false:false:false",
+            "resets": 10
+          },
+          "targetZ": 0,
+          "local": {
+            "z": 0,
+            "offset": 0,
+            "settle": 0,
+            "reset": true,
+            "physicalZ": 0,
+            "support": "support:ground-north"
+          },
+          "anchorZ": 0
+        },
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15,
+            "art": 1,
+            "support": "support:ground-north",
+            "mode": "grounded",
+            "tick": 30,
+            "generation": 1,
+            "renderOffset": 0,
+            "emissive": false,
+            "observable": true,
+            "visibilityRadius": 15
+          },
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "x": 160,
+            "y": 160,
+            "z": 150,
+            "height": 1,
+            "art": 2,
+            "radius": 45,
+            "visibilityRadius": 45,
+            "emissive": true,
+            "observable": true
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "zoom": 1,
+          "ignoredContinuousCeilings": 0,
+          "projection": {
+            "mode": "top-down",
+            "elevation": 0,
+            "enabled": false,
+            "coefficient": 0.0002777777777777778,
+            "minScale": 0.94,
+            "maxScale": 1.06,
+            "vertexBytes": 33840,
+            "anchorZ": 0,
+            "band": {
+              "reach": 52,
+              "height": 640,
+              "cue": 0.5,
+              "min": 3,
+              "max": 28,
+              "share": 0.35,
+              "cover": 2
+            },
+            "bands": {
+              "quads": 73,
+              "eyeFacing": 36,
+              "culled": 37,
+              "widths": {
+                "104..120": 3,
+                "-16..0": 3,
+                "74..90": 3,
+                "0..12": 3,
+                "0..24": 3,
+                "0..36": 3.099337748344375,
+                "0..48": 4.216216216216219,
+                "0..60": 5.379310344827585,
+                "0..72": 6.591549295774651,
+                "0..84": 7.856115107913666,
+                "0..96": 9.176470588235297,
+                "0..108": 10.556390977443606,
+                "0..120": 11.2,
+                "0..132": 11.2,
+                "0..144": 11.2,
+                "0..156": 11.2,
+                "0..168": 11.2,
+                "0..180": 11.2,
+                "168..180": 3,
+                "100..150": 5.6,
+                "0..40": 3.466666666666666,
+                "0..150": 5.6
+              },
+              "joins": {
+                "convex": 86,
+                "concave": 10,
+                "square": 50
+              }
+            },
+            "relativeScales": {
+              "p1": 1
+            }
+          },
+          "lightCount": 2,
+          "lighting": true,
+          "nv": false,
+          "drawCalls": 27,
+          "passes": 2,
+          "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+          "geometryChunks": 4,
+          "candidateOccluders": 25,
+          "occluderBatches": 1,
+          "submittedCandidateIds": [
+            "solid:balcony",
+            "solid:ground-north",
+            "solid:ramp",
+            "solid:tread-01",
+            "solid:tread-02",
+            "solid:tread-03",
+            "solid:tread-04",
+            "solid:tread-05",
+            "solid:tread-06",
+            "solid:tread-07",
+            "solid:tread-08",
+            "solid:tread-09",
+            "solid:tread-10",
+            "solid:tread-11",
+            "solid:tread-12",
+            "solid:tread-13",
+            "solid:tread-14",
+            "solid:tread-15",
+            "solid:upper-east",
+            "solid:upper-north",
+            "solid:upper-west",
+            "solid:window-lintel",
+            "solid:window-sill",
+            "solid:window-wall-back",
+            "solid:window-wall-front"
+          ],
+          "totalLightCount": 2,
+          "occluders": 32,
+          "triangles": 286,
+          "target": {
+            "width": 960,
+            "height": 600,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 1,
+          "newResourceBytes": 4692288,
+          "actorTextureBytes": 131072,
+          "lightTextureBytes": 8192,
+          "defaultColorBytesEstimate": 2304000,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "camera": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "depth": false,
+            "elevation": 0,
+            "topDown": true,
+            "anchorZ": 0
+          },
+          "elevationScale": 0,
+          "cutaway": {
+            "worldEpoch": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a",
+            "continuousInterior": false,
+            "ignoredCeilings": 0,
+            "focus": {
+              "x": 160,
+              "y": 160,
+              "z": 0,
+              "height": 60,
+              "radius": 15
+            },
+            "focusSpace": [
+              "space:lower-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 1,
+                "target": true
+              }
+            ]
+          },
+          "cpuMs": 2.6000000000931323,
+          "cutawayMs": 0.10000000009313226
+        },
+        "cutaway": {
+          "worldEpoch": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      },
+      "classification": "BOUNDED MEASUREMENT; software GPU, no hardware certification"
+    },
+    {
+      "quality": 0.5,
+      "samples": [
+        {
+          "completedRoundTripMs": 451.27838900000006,
+          "capture": {
+            "hash": "1ab98b6d",
+            "lit": 19665,
+            "frameBefore": 6,
+            "frameAfter": 7,
+            "error": 0
+          }
+        },
+        {
+          "completedRoundTripMs": 204.68616900000052,
+          "capture": {
+            "hash": "af819bd9",
+            "lit": 19416,
+            "frameBefore": 8,
+            "frameAfter": 9,
+            "error": 0
+          }
+        },
+        {
+          "completedRoundTripMs": 109.49874,
+          "capture": {
+            "hash": "fc8231a7",
+            "lit": 19417,
+            "frameBefore": 9,
+            "frameAfter": 10,
+            "error": 0
+          }
+        }
+      ],
+      "inspect": {
+        "ready": true,
+        "pipeline": {
+          "inFlight": true,
+          "skippedFrames": 32,
+          "completedFrames": [
+            674.3000000002794,
+            540.3999999999069,
+            1341.3999999999069,
+            691.2000000001863,
+            328.60000000009313,
+            9.599999999627471,
+            449.6999999997206,
+            2.1999999997206032,
+            196.79999999981374
+          ]
+        },
+        "world": {
+          "schemaVersion": 1,
+          "assetId": "world:stage-e",
+          "geometryRevision": "stage-e-1",
+          "contentHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+          "geometryMode": "spatial",
+          "compilerRevision": "stage-c-1"
+        },
+        "network": {
+          "world": {
+            "version": 2,
+            "capabilities": [
+              "spatial-pose-v1",
+              "ordered-proposals-v1",
+              "explicit-epochs-v1",
+              "spatial-aftermath-v1"
+            ],
+            "worldEpoch": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a",
+            "geometryMode": "spatial",
+            "schemaVersion": 1,
+            "geometryRevision": "stage-e-1",
+            "geometryHash": "99aa5a55fa774e33d922dd1dc507942e570517201400011b1eaa284fa8aa5f36",
+            "motionRevision": "stage-c-profile-1",
+            "simTick": 0,
+            "ids": {
+              "support": [
+                "support:balcony",
+                "support:ground-north",
+                "support:ground-south",
+                "support:lower-platform",
+                "support:ramp",
+                "support:ramp-landing",
+                "support:tread-01",
+                "support:tread-02",
+                "support:tread-03",
+                "support:tread-04",
+                "support:tread-05",
+                "support:tread-06",
+                "support:tread-07",
+                "support:tread-08",
+                "support:tread-09",
+                "support:tread-10",
+                "support:tread-11",
+                "support:tread-12",
+                "support:tread-13",
+                "support:tread-14",
+                "support:tread-15",
+                "support:upper-east",
+                "support:upper-north",
+                "support:upper-south",
+                "support:upper-west"
+              ],
+              "surface": [
+                "nav:balcony",
+                "nav:ground",
+                "nav:lower",
+                "nav:ramp",
+                "nav:ramp-landing",
+                "nav:stairs",
+                "nav:upper"
+              ],
+              "link": [
+                "link:ledge-drop",
+                "link:ramp-up",
+                "link:stairs-down",
+                "link:stairs-up"
+              ]
+            }
+          },
+          "pose": {
+            "worldEpoch": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a",
+            "entityId": "p1",
+            "generation": 1,
+            "seq": 246,
+            "tick": 246,
+            "discontinuity": 3,
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "vx": 0,
+            "vy": 0,
+            "vz": 0,
+            "yaw": 2.461148314543223,
+            "height": 60,
+            "profile": "profile:player-stand",
+            "support": "support:ground-north",
+            "navSurface": "nav:ground",
+            "mode": "grounded",
+            "link": null,
+            "progress": 0,
+            "vault": null,
+            "step": null,
+            "traversal": null
+          },
+          "blocked": false,
+          "awaiting": false,
+          "peers": []
+        },
+        "frames": 10,
+        "presentation": {
+          "camera": {
+            "z": 0,
+            "velocity": 0,
+            "key": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a:1:3:false:false:false",
+            "resets": 12
+          },
+          "targetZ": 0,
+          "local": {
+            "z": 0,
+            "offset": 0,
+            "settle": 0,
+            "reset": false,
+            "physicalZ": 0,
+            "support": "support:ground-north"
+          },
+          "anchorZ": 0
+        },
+        "packets": [
+          {
+            "id": "p1",
+            "kind": "player",
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15,
+            "art": 1,
+            "support": "support:ground-north",
+            "mode": "grounded",
+            "tick": 19,
+            "generation": 1,
+            "renderOffset": 0,
+            "emissive": false,
+            "observable": true,
+            "visibilityRadius": 15
+          },
+          {
+            "id": "light:lower-lamp",
+            "kind": "lamp",
+            "x": 160,
+            "y": 160,
+            "z": 150,
+            "height": 1,
+            "art": 2,
+            "radius": 45,
+            "visibilityRadius": 45,
+            "emissive": true,
+            "observable": true
+          }
+        ],
+        "last": {
+          "scope": {
+            "width": 1382.4,
+            "height": 864,
+            "scale": 0.6944444444444444,
+            "minX": -531.2,
+            "maxX": 851.2,
+            "minY": -272,
+            "maxY": 592
+          },
+          "zoom": 1,
+          "ignoredContinuousCeilings": 0,
+          "projection": {
+            "mode": "top-down",
+            "elevation": 0,
+            "enabled": false,
+            "coefficient": 0.0002777777777777778,
+            "minScale": 0.94,
+            "maxScale": 1.06,
+            "vertexBytes": 33840,
+            "anchorZ": 0,
+            "band": {
+              "reach": 52,
+              "height": 640,
+              "cue": 0.5,
+              "min": 3,
+              "max": 28,
+              "share": 0.35,
+              "cover": 2
+            },
+            "bands": {
+              "quads": 73,
+              "eyeFacing": 36,
+              "culled": 37,
+              "widths": {
+                "104..120": 3,
+                "-16..0": 3,
+                "74..90": 3,
+                "0..12": 3,
+                "0..24": 3,
+                "0..36": 3.099337748344375,
+                "0..48": 4.216216216216219,
+                "0..60": 5.379310344827585,
+                "0..72": 6.591549295774651,
+                "0..84": 7.856115107913666,
+                "0..96": 9.176470588235297,
+                "0..108": 10.556390977443606,
+                "0..120": 11.2,
+                "0..132": 11.2,
+                "0..144": 11.2,
+                "0..156": 11.2,
+                "0..168": 11.2,
+                "0..180": 11.2,
+                "168..180": 3,
+                "100..150": 5.6,
+                "0..40": 3.466666666666666,
+                "0..150": 5.6
+              },
+              "joins": {
+                "convex": 86,
+                "concave": 10,
+                "square": 50
+              }
+            },
+            "relativeScales": {
+              "p1": 1
+            }
+          },
+          "lightCount": 2,
+          "lighting": true,
+          "nv": false,
+          "drawCalls": 27,
+          "passes": 2,
+          "physicalVisibility": "exact convex rays across every deterministic 64-solid candidate batch",
+          "geometryChunks": 4,
+          "candidateOccluders": 25,
+          "occluderBatches": 1,
+          "submittedCandidateIds": [
+            "solid:balcony",
+            "solid:ground-north",
+            "solid:ramp",
+            "solid:tread-01",
+            "solid:tread-02",
+            "solid:tread-03",
+            "solid:tread-04",
+            "solid:tread-05",
+            "solid:tread-06",
+            "solid:tread-07",
+            "solid:tread-08",
+            "solid:tread-09",
+            "solid:tread-10",
+            "solid:tread-11",
+            "solid:tread-12",
+            "solid:tread-13",
+            "solid:tread-14",
+            "solid:tread-15",
+            "solid:upper-east",
+            "solid:upper-north",
+            "solid:upper-west",
+            "solid:window-lintel",
+            "solid:window-sill",
+            "solid:window-wall-back",
+            "solid:window-wall-front"
+          ],
+          "totalLightCount": 2,
+          "occluders": 32,
+          "triangles": 286,
+          "target": {
+            "width": 480,
+            "height": 300,
+            "depth": "DEPTH_COMPONENT24",
+            "color": "RGBA8"
+          },
+          "logical": {
+            "width": 960,
+            "height": 600,
+            "dpr": 1
+          },
+          "quality": 0.5,
+          "newResourceBytes": 1236288,
+          "actorTextureBytes": 131072,
+          "lightTextureBytes": 8192,
+          "defaultColorBytesEstimate": 576000,
+          "eye": {
+            "x": 160,
+            "y": 160,
+            "z": 50
+          },
+          "camera": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "depth": false,
+            "elevation": 0,
+            "topDown": true,
+            "anchorZ": 0
+          },
+          "elevationScale": 0,
+          "cutaway": {
+            "worldEpoch": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a",
+            "continuousInterior": false,
+            "ignoredCeilings": 0,
+            "focus": {
+              "x": 160,
+              "y": 160,
+              "z": 0,
+              "height": 60,
+              "radius": 15
+            },
+            "focusSpace": [
+              "space:lower-room"
+            ],
+            "groups": [
+              {
+                "id": "view:upper-slabs",
+                "fade": 1,
+                "target": true
+              }
+            ]
+          },
+          "cpuMs": 1.5,
+          "cutawayMs": 0.10000000009313226
+        },
+        "cutaway": {
+          "worldEpoch": "03195b48-1bae-43bf-b0ec-6ce1ac48a70a",
+          "continuousInterior": false,
+          "ignoredCeilings": 0,
+          "focus": {
+            "x": 160,
+            "y": 160,
+            "z": 0,
+            "height": 60,
+            "radius": 15
+          },
+          "focusSpace": [
+            "space:lower-room"
+          ],
+          "groups": [
+            {
+              "id": "view:upper-slabs",
+              "fade": 1,
+              "target": true
+            }
+          ]
+        },
+        "gpu": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+        "renderer": "existing production Pixi 8.21.0 / WebGL2"
+      },
+      "classification": "BOUNDED MEASUREMENT; software GPU, no hardware certification"
+    }
+  ],
+  "errors": [],
+  "externalFailures": [
+    {
+      "url": "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap",
+      "error": "net::ERR_TUNNEL_CONNECTION_FAILED"
+    }
+  ]
+}

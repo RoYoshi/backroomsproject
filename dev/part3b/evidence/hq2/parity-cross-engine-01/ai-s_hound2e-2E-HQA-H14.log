@@ -1,0 +1,5 @@
+== tolerance 0
+{"status":"IDENTICAL RECORDS","records":100,"tolerance":0,"metadataDifferences":[{"field":"metadata.runtime.node","expected":"v24.19.0","actual":"v22.22.2"}]}
+
+== tolerance 0.00001
+{"status":"IDENTICAL RECORDS","records":100,"tolerance":0.00001,"metadataDifferences":[{"field":"metadata.runtime.node","expected":"v24.19.0","actual":"v22.22.2"}]}

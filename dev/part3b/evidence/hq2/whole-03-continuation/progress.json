@@ -1,0 +1,143 @@
+[
+  {
+    "name": "flat-browser-parity",
+    "command": [
+      "node",
+      "dev/stage_h/browser_flat.js",
+      ".",
+      "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/accepted-part3a/thefarbackrooms-level0",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/flat-browser"
+    ],
+    "exitCode": 1,
+    "seconds": 3.2483221019999746
+  },
+  {
+    "name": "browser-foundation",
+    "command": [
+      "node",
+      "dev/part3b/browser_foundation.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/browser-foundation"
+    ],
+    "exitCode": 0,
+    "seconds": 11.065453444000013
+  },
+  {
+    "name": "browser-matrix",
+    "command": [
+      "node",
+      "dev/part3b/browser_matrix.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/browser-matrix"
+    ],
+    "exitCode": 0,
+    "seconds": 731.93033156
+  },
+  {
+    "name": "browser-resets",
+    "command": [
+      "node",
+      "dev/part3b/browser_resets.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/browser-resets"
+    ],
+    "exitCode": 0,
+    "seconds": 24.316885319999983
+  },
+  {
+    "name": "browser-cutaway",
+    "command": [
+      "node",
+      "dev/part3b/browser_cutaway.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/browser-cutaway"
+    ],
+    "exitCode": 1,
+    "seconds": 36.563487241000075
+  },
+  {
+    "name": "browser-production-readability",
+    "command": [
+      "node",
+      "dev/part3a/browser_readability.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/browser-production-readability"
+    ],
+    "exitCode": 0,
+    "seconds": 152.01549419100002
+  },
+  {
+    "name": "browser-production-aftermath",
+    "command": [
+      "node",
+      "dev/part3a/browser_aftermath.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/browser-production-aftermath"
+    ],
+    "exitCode": 0,
+    "seconds": 81.34623637200002
+  },
+  {
+    "name": "browser-production-gameplay",
+    "command": [
+      "node",
+      "dev/part3a/browser_gameplay.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/browser-production-gameplay"
+    ],
+    "exitCode": 0,
+    "seconds": 45.24126219200002
+  },
+  {
+    "name": "performance-production",
+    "command": [
+      "node",
+      "dev/part3a/performance.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/performance-production.json"
+    ],
+    "exitCode": 0,
+    "seconds": 6.070449110000027
+  },
+  {
+    "name": "served-flat-fixture",
+    "command": [
+      "node",
+      "dev/stage_h/served_package.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/served-flat-fixture.json"
+    ],
+    "exitCode": 0,
+    "seconds": 0.41582399399999304
+  },
+  {
+    "name": "served-production",
+    "command": [
+      "node",
+      "dev/part3a/served_production.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/served-production.json"
+    ],
+    "exitCode": 0,
+    "seconds": 4.210161120000066
+  },
+  {
+    "name": "redirect",
+    "command": [
+      "node",
+      "dev/stage_i/test_redirect.js"
+    ],
+    "exitCode": 0,
+    "seconds": 0.11791945400000259
+  },
+  {
+    "name": "hq1-focused",
+    "command": [
+      "node",
+      "dev/part3b/test_hq1.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/hq1-focused.json"
+    ],
+    "exitCode": 0,
+    "seconds": 1.4248073630001272
+  },
+  {
+    "name": "hq1-browser",
+    "command": [
+      "node",
+      "dev/part3b/browser_hq1.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-03-continuation/hq1-browser"
+    ],
+    "exitCode": 0,
+    "seconds": 69.99501962699992
+  }
+]

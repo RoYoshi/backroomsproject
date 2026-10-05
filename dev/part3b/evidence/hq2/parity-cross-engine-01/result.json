@@ -1,0 +1,391 @@
+{
+  "status": "PASS_CROSS_ENGINE",
+  "hostRuntime": "v22.22.2",
+  "recordedRuntime": [
+    "v24.19.0"
+  ],
+  "traces": 46,
+  "records": 35098,
+  "candidateEqualsBaselineOnHost": true,
+  "zeroToleranceIdentical": 43,
+  "zeroToleranceDivergent": [
+    {
+      "trace": "ai-s_hound2e-2E-H5",
+      "status": "FIRST DIVERGENT TICK",
+      "tick": 194,
+      "fields": [
+        {
+          "field": "record.entities.0.evidence.anonymous.2.c",
+          "expected": 0.679638399136415,
+          "actual": 0.6796383991364151
+        },
+        {
+          "field": "record.entities.0.evidence.sounds.0.c",
+          "expected": 0.679638399136415,
+          "actual": 0.6796383991364151
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_evidence-E5",
+      "status": "FIRST DIVERGENT TICK",
+      "tick": 211,
+      "fields": [
+        {
+          "field": "record.entities.0.evidence.identities.0.evidence.0.c",
+          "expected": 0.7074744006463842,
+          "actual": 0.7074744006463841
+        },
+        {
+          "field": "record.entities.0.evidence.sounds.0.c",
+          "expected": 0.7074744006463842,
+          "actual": 0.7074744006463841
+        }
+      ]
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F20",
+      "status": "FIRST DIVERGENT TICK",
+      "tick": 282,
+      "fields": [
+        {
+          "field": "record.entities.0.evidence.identities.0.evidence.0.c",
+          "expected": 0.6122600318761765,
+          "actual": 0.6122600318761766
+        },
+        {
+          "field": "record.entities.0.evidence.sounds.0.c",
+          "expected": 0.6122600318761765,
+          "actual": 0.6122600318761766
+        }
+      ]
+    }
+  ],
+  "crossEngineTolerance": 1e-05,
+  "map": "BYTE IDENTICAL",
+  "frozenUnchanged": true,
+  "rows": [
+    {
+      "trace": "motor-idle",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 120
+    },
+    {
+      "trace": "motor-walk",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 180
+    },
+    {
+      "trace": "motor-sprint",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 180
+    },
+    {
+      "trace": "motor-acceleration-deceleration",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 180
+    },
+    {
+      "trace": "motor-crouch",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 120
+    },
+    {
+      "trace": "motor-crawl",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 60
+    },
+    {
+      "trace": "motor-slide",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 180
+    },
+    {
+      "trace": "motor-exhaustion",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 960
+    },
+    {
+      "trace": "motor-recovery",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 240
+    },
+    {
+      "trace": "motor-recovery-threshold",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 30
+    },
+    {
+      "trace": "motor-vault",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 180
+    },
+    {
+      "trace": "motor-deep-carpet",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 180
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H1",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 30
+    },
+    {
+      "trace": "ai-s_hound2e-2E-HQA-H14",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 100
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H6",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 756
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H10",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 4215
+    },
+    {
+      "trace": "ai-s_hound2e-2E-HQA-H18",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 428
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H3",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 33
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H7",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 9
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H15",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 39
+    },
+    {
+      "trace": "ai-s_hound2e-2E-H5",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "FIRST DIVERGENT TICK",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 2160
+    },
+    {
+      "trace": "ai-s_smiler-SM01",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 1764
+    },
+    {
+      "trace": "ai-s_smiler-SM03",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 3600
+    },
+    {
+      "trace": "ai-s_smiler-SM04",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 852
+    },
+    {
+      "trace": "ai-s_smiler-SM05",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 844
+    },
+    {
+      "trace": "ai-s_smiler-SM08",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 2400
+    },
+    {
+      "trace": "ai-s_evidence-E4",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 7860
+    },
+    {
+      "trace": "ai-s_evidence-E5",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "FIRST DIVERGENT TICK",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 1440
+    },
+    {
+      "trace": "ai-s_evidence-E6",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 532
+    },
+    {
+      "trace": "ai-s_evidence-E7",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 360
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F01",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 36
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F04",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 396
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F09",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 402
+    },
+    {
+      "trace": "ai-s_shared2f-2F-F20",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "FIRST DIVERGENT TICK",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 600
+    },
+    {
+      "trace": "death-Hound-A",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 271
+    },
+    {
+      "trace": "death-Hound-B",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 283
+    },
+    {
+      "trace": "death-Hound-C",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 259
+    },
+    {
+      "trace": "death-Hound-D",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 271
+    },
+    {
+      "trace": "death-Smiler-A",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 238
+    },
+    {
+      "trace": "death-Smiler-B",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 232
+    },
+    {
+      "trace": "death-Smiler-C",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 238
+    },
+    {
+      "trace": "death-Smiler-D",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 238
+    },
+    {
+      "trace": "navigation-level0",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 1163
+    },
+    {
+      "trace": "network-interpolation",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 243
+    },
+    {
+      "trace": "network-peer-pose",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 180
+    },
+    {
+      "trace": "network-lifecycle",
+      "candidateEqualsBaselineBytes": true,
+      "zeroTolerance": "IDENTICAL",
+      "crossEngine": "IDENTICAL RECORDS",
+      "records": 16
+    }
+  ]
+}

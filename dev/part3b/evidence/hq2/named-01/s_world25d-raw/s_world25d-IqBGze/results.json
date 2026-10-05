@@ -1,0 +1,113 @@
+{
+  "runtime": "v22.22.2",
+  "rows": [
+    {
+      "name": "stage_b_test_geometry.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_b/test_geometry.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.22199094300000002,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/stage_b_test_geometry.js.log"
+    },
+    {
+      "name": "stage_c_test_spatial.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_c/test_spatial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.789603482,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/stage_c_test_spatial.js.log"
+    },
+    {
+      "name": "stage_e_test_core.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_e/test_core.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.7569906900000001,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/stage_e_test_core.js.log"
+    },
+    {
+      "name": "stage_e_test_sensors.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_e/test_sensors.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.3766031579999999,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/stage_e_test_sensors.js.log"
+    },
+    {
+      "name": "stage_c_test_adversarial.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_c/test_adversarial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.24710131899999987,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/stage_c_test_adversarial.js.log"
+    },
+    {
+      "name": "stage_i_test_properties.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_i/test_properties.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.2511987120000003,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/stage_i_test_properties.js.log"
+    },
+    {
+      "name": "stage_c_test_schedules.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_c/test_schedules.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 2.299266664,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/stage_c_test_schedules.js.log"
+    },
+    {
+      "name": "stage_i_test_z18.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_i/test_z18.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 1.1924412400000002,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/stage_i_test_z18.js.log"
+    },
+    {
+      "name": "tests_s_fps_equality.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/tests/s_fps_equality.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.6430730759999996,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze/tests_s_fps_equality.js.log"
+    }
+  ]
+}

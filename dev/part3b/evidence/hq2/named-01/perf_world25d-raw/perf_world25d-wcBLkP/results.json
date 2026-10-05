@@ -1,0 +1,95 @@
+{
+  "runtime": "v22.22.2",
+  "rows": [
+    {
+      "name": "geometry",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_c/perf_spatial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.38896502200000005,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/geometry.log"
+    },
+    {
+      "name": "navigation-perception",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/tests/run.js",
+        "s_nav25d.js",
+        "s_perception25d.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 9.856737009,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/navigation-perception.log"
+    },
+    {
+      "name": "navigation-measurement",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_e/perf_spatial.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/navigation.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 3.411675717,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/navigation-measurement.log"
+    },
+    {
+      "name": "authority-eight-clients",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_f/test_room_perf.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/eight-client.json"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 10.741014344,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/authority-eight-clients.log"
+    },
+    {
+      "name": "aftermath-1-3-24",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_g/performance.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 11.142116520000004,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/aftermath-1-3-24.log"
+    },
+    {
+      "name": "production-browser",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_i/browser_probe.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/browser"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 6.423370648000004,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/production-browser.log"
+    },
+    {
+      "name": "Z32-portability",
+      "command": [
+        "python",
+        "dev/stage_i/portability_gate.py",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 27.589478598999996,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/Z32-portability.log"
+    }
+  ]
+}

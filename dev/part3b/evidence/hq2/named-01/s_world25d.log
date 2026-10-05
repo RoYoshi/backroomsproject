@@ -1,0 +1,12 @@
+PASS Z01 Two walkable floors with identical XY stage_b_test_geometry.js exit 0 0.222s; stage_c_test_spatial.js exit 0 0.790s; stage_e_test_core.js exit 0 0.757s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z02 Open stairwell beside a closed slab stage_c_test_spatial.js exit 0 0.790s; stage_e_test_sensors.js exit 0 0.377s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z03 Ramp ascent/descent, including diagonal travel stage_c_test_spatial.js exit 0 0.790s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z04 Stair treads/risers, different approach directions stage_c_test_spatial.js exit 0 0.790s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z05 Stair interruption, reversal, sideways departure stage_c_test_spatial.js exit 0 0.790s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z06 Thin intermediate slab during fast fall stage_c_test_spatial.js exit 0 0.790s; stage_c_test_adversarial.js exit 0 0.247s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z07 Under-ceiling upward impulse / vault stage_c_test_spatial.js exit 0 0.790s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z08 Crawl passage under an occupied upper floor stage_c_test_spatial.js exit 0 0.790s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z09 Narrow seam, convex corner and near-equal contacts stage_c_test_spatial.js exit 0 0.790s; stage_c_test_adversarial.js exit 0 0.247s; stage_i_test_properties.js exit 0 0.251s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z18 Walk/sprint/stamina/exhaustion/deep carpet stage_c_test_schedules.js exit 0 2.299s; stage_i_test_z18.js exit 0 1.192s; tests_s_fps_equality.js exit 0 0.643s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+PASS Z19 Spatial slide/vault/crouch/crawl/drop stage_c_test_spatial.js exit 0 0.790s; stage_c_test_schedules.js exit 0 2.299s; /home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/s_world25d-raw/s_world25d-IqBGze
+11/11 passed

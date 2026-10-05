@@ -1,0 +1,110 @@
+[
+  {
+    "name": "motor-idle",
+    "scenario": "motor/idle",
+    "records": 120,
+    "sha256": "3e123563bc5b47467a4eed47f09f7a21da32c13912040e8d837baca93ea58a0f",
+    "semanticSha256": "f846b0eeecbfc0345b24b219e984e1c810e39f75427d7e17a2b0c6e7b507fdc1",
+    "bytes": 1128,
+    "uncompressedBytes": 24892
+  },
+  {
+    "name": "motor-walk",
+    "scenario": "motor/walk",
+    "records": 180,
+    "sha256": "3562b8b22f83856b9b9194e431e8536e3524308b0dc6dfa32f5abcc78d994c5a",
+    "semanticSha256": "d6e3661061074bb8f1442aafc3d8fb9b7843e8a54780d78441b8181e98c303e7",
+    "bytes": 4657,
+    "uncompressedBytes": 44334
+  },
+  {
+    "name": "motor-sprint",
+    "scenario": "motor/sprint",
+    "records": 180,
+    "sha256": "0063b4786c7cdf4ec653a0148a6faabcd0102e94ef1f28fad1e1d0d03f98db60",
+    "semanticSha256": "8f87206a8db8db6effd89af2ae15949acbb70b9623e49d5e541ef2fa00368c1b",
+    "bytes": 5428,
+    "uncompressedBytes": 46388
+  },
+  {
+    "name": "motor-acceleration-deceleration",
+    "scenario": "motor/acceleration-deceleration",
+    "records": 180,
+    "sha256": "413e8c4c9d5c0eecd5f881dde044b83c96c55916be74aeb97629a1875fed3c32",
+    "semanticSha256": "3148609aa3e4e3576e6a455cfba88f663a4731a527f94224a9403a7fe8b81b83",
+    "bytes": 5464,
+    "uncompressedBytes": 44833
+  },
+  {
+    "name": "motor-crouch",
+    "scenario": "motor/crouch",
+    "records": 120,
+    "sha256": "968109b81cb267f4c892bc03ec45def6798004407b99734b8b90e0c474939e4d",
+    "semanticSha256": "fca62f53ee5e8af5bfa97cfd0391545481b574ca0ae1e7e61aca6501ebe3c5f6",
+    "bytes": 3921,
+    "uncompressedBytes": 30718
+  },
+  {
+    "name": "motor-crawl",
+    "scenario": "motor/crawl",
+    "records": 60,
+    "sha256": "6d37c5b8cb8c8af7f211c81ae97fdb96d7e9d1f2ccbf38fa95c6b3080b27954e",
+    "semanticSha256": "da0b0f7abd90e18371ee27f6642563bbd006d0c03f1fb31fb17305ab66440303",
+    "bytes": 2544,
+    "uncompressedBytes": 17063
+  },
+  {
+    "name": "motor-slide",
+    "scenario": "motor/slide",
+    "records": 180,
+    "sha256": "2788b43dbc2d0517d72a9509f113d3d0f4ace611f966c68d80a78070c8b409d7",
+    "semanticSha256": "cb1d34bfd8140665ff426051bb32c7be4fc2601096d68acac4e89b39ec567a05",
+    "bytes": 7431,
+    "uncompressedBytes": 46565
+  },
+  {
+    "name": "motor-exhaustion",
+    "scenario": "motor/exhaustion",
+    "records": 960,
+    "sha256": "645bc02997ad5770571439e97aeee93df7f7a7d9bf3409b856ed3987372652d5",
+    "semanticSha256": "6a33b739928c8697f6bb91648ddb6ddc5a866643f7b82e69145d3e4eb65aec33",
+    "bytes": 24622,
+    "uncompressedBytes": 232678
+  },
+  {
+    "name": "motor-recovery",
+    "scenario": "motor/recovery",
+    "records": 240,
+    "sha256": "ff634711de6a34d373ffd9977df417c7c965d5849fd263a08072d14f2ca18612",
+    "semanticSha256": "c3d9f70cd22d3ff9e5d8681f1656ff0c7865cb123b0f577670401de5363ad412",
+    "bytes": 2653,
+    "uncompressedBytes": 49918
+  },
+  {
+    "name": "motor-recovery-threshold",
+    "scenario": "motor/recovery-threshold",
+    "records": 30,
+    "sha256": "c35a9b74bb1385c2ba071d6f5669c2301b64d37faf1cbc4b4a57941a89b7cb21",
+    "semanticSha256": "8acb31f8b16641275e5ece3eaa900439f7f13ee2774f49042cc8cab757727bad",
+    "bytes": 993,
+    "uncompressedBytes": 9107
+  },
+  {
+    "name": "motor-vault",
+    "scenario": "motor/vault",
+    "records": 180,
+    "sha256": "2b90a96b01be8318804db5f5625228ed401d035f0aacacd4714304ff3f9af01e",
+    "semanticSha256": "acd5a5579b798c93a4567e8daa421c77bdece4caeda6754ad601ae6773293db9",
+    "bytes": 6284,
+    "uncompressedBytes": 45421
+  },
+  {
+    "name": "motor-deep-carpet",
+    "scenario": "motor/deep-carpet",
+    "records": 180,
+    "sha256": "cc557467cb55592554fde01181758a86d6a84dc10362869841673cb88a34b6b3",
+    "semanticSha256": "b969a94c8acfd8c2b74b6e2b0d7e3eb4f198575d29c1b4060053de5849817206",
+    "bytes": 5491,
+    "uncompressedBytes": 44338
+  }
+]

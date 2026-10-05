@@ -1,0 +1,335 @@
+{
+  "status": "PASS",
+  "sourceUnderTest": {
+    "commit": "ae7157cc1fd246e72dc809b71c0c34acb54f0ca3",
+    "tree": "1b0080abb17629dc959ae0a30de410589f98f88c"
+  },
+  "host": {
+    "node": "v22.22.2",
+    "frozenRecordedNode": [
+      "v24.19.0"
+    ],
+    "playwright": "1.56.0"
+  },
+  "attempts": {
+    "whole-01": {
+      "status": "FAIL (preserved)",
+      "checks": [
+        {
+          "name": "invariants",
+          "exitCode": 0,
+          "seconds": 0.3
+        },
+        {
+          "name": "presentation-foundation",
+          "exitCode": 0,
+          "seconds": 0.9
+        },
+        {
+          "name": "presentation-motion",
+          "exitCode": 0,
+          "seconds": 1.4
+        },
+        {
+          "name": "presentation-cutaway",
+          "exitCode": 0,
+          "seconds": 0.7
+        },
+        {
+          "name": "production-base",
+          "exitCode": 0,
+          "seconds": 2.1
+        },
+        {
+          "name": "production-vertical",
+          "exitCode": 0,
+          "seconds": 3.5
+        },
+        {
+          "name": "production-navigation",
+          "exitCode": 0,
+          "seconds": 6.1
+        },
+        {
+          "name": "production-gameplay",
+          "exitCode": 0,
+          "seconds": 6.9
+        },
+        {
+          "name": "production-perception",
+          "exitCode": 0,
+          "seconds": 2.5
+        },
+        {
+          "name": "production-picking",
+          "exitCode": 0,
+          "seconds": 0.6
+        },
+        {
+          "name": "production-render_coverage",
+          "exitCode": 0,
+          "seconds": 0.9
+        },
+        {
+          "name": "production-aftermath",
+          "exitCode": 0,
+          "seconds": 13.5
+        },
+        {
+          "name": "full-retained",
+          "exitCode": 0,
+          "seconds": 634.8
+        }
+      ],
+      "failure": "historical baseline comparison: perf-light worst p99 2.075 ms > 2 ms on seed 1 (seeds 2-3 0.84 ms); sim.js-only suite, renderer not loaded; host timing"
+    },
+    "whole-02": {
+      "status": "FAIL (preserved)",
+      "checks": [
+        {
+          "name": "invariants",
+          "exitCode": 0,
+          "seconds": 0.1
+        },
+        {
+          "name": "presentation-foundation",
+          "exitCode": 0,
+          "seconds": 0.9
+        },
+        {
+          "name": "presentation-motion",
+          "exitCode": 0,
+          "seconds": 1.4
+        },
+        {
+          "name": "presentation-cutaway",
+          "exitCode": 0,
+          "seconds": 0.8
+        },
+        {
+          "name": "production-base",
+          "exitCode": 0,
+          "seconds": 2.5
+        },
+        {
+          "name": "production-vertical",
+          "exitCode": 0,
+          "seconds": 3.6
+        },
+        {
+          "name": "production-navigation",
+          "exitCode": 0,
+          "seconds": 6.2
+        },
+        {
+          "name": "production-gameplay",
+          "exitCode": 0,
+          "seconds": 7.1
+        },
+        {
+          "name": "production-perception",
+          "exitCode": 0,
+          "seconds": 2.4
+        },
+        {
+          "name": "production-picking",
+          "exitCode": 0,
+          "seconds": 0.6
+        },
+        {
+          "name": "production-render_coverage",
+          "exitCode": 0,
+          "seconds": 1.0
+        },
+        {
+          "name": "production-aftermath",
+          "exitCode": 0,
+          "seconds": 14.2
+        },
+        {
+          "name": "full-retained",
+          "exitCode": 0,
+          "seconds": 632.6
+        },
+        {
+          "name": "frozen-parity",
+          "exitCode": 1,
+          "seconds": 18.3
+        }
+      ],
+      "baselineEquivalence": "PASS_BASELINE_EQUIVALENCE",
+      "failure": "zero-tolerance frozen parity: 3 AI traces diverge by 1 ULP (e.g. ai-s_hound2e-2E-H5 tick 194, 0.679638399136415 vs 0.6796383991364151); frozen traces recorded on Node v24.19.0, host is v22.22.2; identical divergence reproduced on the HQ0 source; Node 24 not obtainable (nodejs.org blocked, npm binary forbidden)"
+    },
+    "parity-cross-engine-01": {
+      "status": "PASS_CROSS_ENGINE",
+      "traces": 46,
+      "records": 35098,
+      "candidateEqualsHQ0BytesOnHost": true,
+      "zeroToleranceIdentical": 43,
+      "zeroToleranceDivergent": [
+        "ai-s_hound2e-2E-H5",
+        "ai-s_evidence-E5",
+        "ai-s_shared2f-2F-F20"
+      ],
+      "tolerance": 1e-05,
+      "map": "BYTE IDENTICAL",
+      "procedure": "dev/stage_a/README.md cross-engine comparison; zero-tolerance gate unchanged"
+    },
+    "whole-03-continuation": {
+      "status": "FAIL (preserved)",
+      "checks": [
+        {
+          "name": "flat-browser-parity",
+          "exitCode": 1,
+          "seconds": 3.2
+        },
+        {
+          "name": "browser-foundation",
+          "exitCode": 0,
+          "seconds": 11.1
+        },
+        {
+          "name": "browser-matrix",
+          "exitCode": 0,
+          "seconds": 731.9
+        },
+        {
+          "name": "browser-resets",
+          "exitCode": 0,
+          "seconds": 24.3
+        },
+        {
+          "name": "browser-cutaway",
+          "exitCode": 1,
+          "seconds": 36.6
+        },
+        {
+          "name": "browser-production-readability",
+          "exitCode": 0,
+          "seconds": 152.0
+        },
+        {
+          "name": "browser-production-aftermath",
+          "exitCode": 0,
+          "seconds": 81.3
+        },
+        {
+          "name": "browser-production-gameplay",
+          "exitCode": 0,
+          "seconds": 45.2
+        },
+        {
+          "name": "performance-production",
+          "exitCode": 0,
+          "seconds": 6.1
+        },
+        {
+          "name": "served-flat-fixture",
+          "exitCode": 0,
+          "seconds": 0.4
+        },
+        {
+          "name": "served-production",
+          "exitCode": 0,
+          "seconds": 4.2
+        },
+        {
+          "name": "redirect",
+          "exitCode": 0,
+          "seconds": 0.1
+        },
+        {
+          "name": "hq1-focused",
+          "exitCode": 0,
+          "seconds": 1.4
+        },
+        {
+          "name": "hq1-browser",
+          "exitCode": 0,
+          "seconds": 70.0
+        }
+      ],
+      "failures": {
+        "flat-browser-parity": "harness/environment: under Playwright 1.56 the paused clock reads ~303 ms when the page is ready, so the absolute 100 ms schedule needs negative ticks; failed on the Part 3A parent before the candidate ran",
+        "browser-cutaway": "2 outside-floor pixels at (1629.6, 897-900) lit by the hidden crawler beam: aim came from the incidental post-Enter mouse position (yaw ~141 deg toward the open mouth); authoritative geometry raycast confirms the light exits the mouth unblocked and the outside eye sees those points; body/gear pixels unchanged; HQ0 passed only because the old slanted pick mapped the same pointer slightly differently"
+      }
+    },
+    "whole-04-repaired": {
+      "status": "PASS",
+      "checks": [
+        {
+          "name": "flat-browser-parity",
+          "exitCode": 0,
+          "seconds": 87.6
+        },
+        {
+          "name": "browser-cutaway",
+          "exitCode": 0,
+          "seconds": 49.9
+        }
+      ],
+      "repairs": {
+        "flat-browser-parity": "dev/part3b/browser_flat.js: copy of dev/stage_h/browser_flat.js advancing both parent and candidate to one fixed T0=1000 ms before the identical 20 ms schedule; comparison unchanged",
+        "browser-cutaway": "dev/part3b/browser_cutaway.js setup: crawler aims deterministically along the tunnel (east) and the outside client receives that beam before capture; zero-pixel assertion unchanged"
+      }
+    },
+    "named-01": {
+      "status": "PASS",
+      "checks": [
+        {
+          "name": "s_world25d",
+          "exitCode": 0,
+          "seconds": 6.9
+        },
+        {
+          "name": "s_nav25d",
+          "exitCode": 0,
+          "seconds": 10.2
+        },
+        {
+          "name": "s_perception25d",
+          "exitCode": 0,
+          "seconds": 9.0
+        },
+        {
+          "name": "network25d",
+          "exitCode": 0,
+          "seconds": 118.4
+        },
+        {
+          "name": "physics25d",
+          "exitCode": 0,
+          "seconds": 47.9
+        },
+        {
+          "name": "view25d",
+          "exitCode": 0,
+          "seconds": 582.8
+        },
+        {
+          "name": "perf_world25d",
+          "exitCode": 0,
+          "seconds": 69.6
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "displayMatrixCases": 8,
+    "matrixHiddenPixels": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "readabilityRooms": 12,
+    "runtimeChanged": "none in HQ2 (world_view.js/spatial_client.js identical to HQ1)"
+  },
+  "humanQA": "PENDING after HQ3",
+  "part3CBegun": false,
+  "mainModified": false
+}

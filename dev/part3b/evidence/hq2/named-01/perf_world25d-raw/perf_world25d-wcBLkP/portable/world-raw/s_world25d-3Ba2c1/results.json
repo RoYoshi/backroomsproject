@@ -1,0 +1,113 @@
+{
+  "runtime": "v22.22.2",
+  "rows": [
+    {
+      "name": "stage_b_test_geometry.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_b/test_geometry.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.20653252500000002,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/stage_b_test_geometry.js.log"
+    },
+    {
+      "name": "stage_c_test_spatial.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_c/test_spatial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.7254938439999999,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/stage_c_test_spatial.js.log"
+    },
+    {
+      "name": "stage_e_test_core.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_e/test_core.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.701633706,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/stage_e_test_core.js.log"
+    },
+    {
+      "name": "stage_e_test_sensors.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_e/test_sensors.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.3070199030000001,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/stage_e_test_sensors.js.log"
+    },
+    {
+      "name": "stage_c_test_adversarial.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_c/test_adversarial.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.2534092149999999,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/stage_c_test_adversarial.js.log"
+    },
+    {
+      "name": "stage_i_test_properties.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_i/test_properties.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.25883365,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/stage_i_test_properties.js.log"
+    },
+    {
+      "name": "stage_c_test_schedules.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_c/test_schedules.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 2.006632342,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/stage_c_test_schedules.js.log"
+    },
+    {
+      "name": "stage_i_test_z18.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/stage_i/test_z18.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 1.0139740649999995,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/stage_i_test_z18.js.log"
+    },
+    {
+      "name": "tests_s_fps_equality.js",
+      "command": [
+        "/opt/node22/bin/node",
+        "dev/tests/s_fps_equality.js"
+      ],
+      "exitCode": 0,
+      "signal": null,
+      "seconds": 0.5814214179999999,
+      "ok": true,
+      "evidence": "/home/claude/backroomsproject/dev/part3b/evidence/hq2/named-01/perf_world25d-raw/perf_world25d-wcBLkP/portable/world-raw/s_world25d-3Ba2c1/tests_s_fps_equality.js.log"
+    }
+  ]
+}

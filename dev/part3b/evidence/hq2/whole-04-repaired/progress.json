@@ -1,0 +1,24 @@
+[
+  {
+    "name": "flat-browser-parity",
+    "command": [
+      "node",
+      "dev/part3b/browser_flat.js",
+      ".",
+      "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/accepted-part3a/thefarbackrooms-level0",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-04-repaired/flat-browser"
+    ],
+    "exitCode": 0,
+    "seconds": 87.6317229560002
+  },
+  {
+    "name": "browser-cutaway",
+    "command": [
+      "node",
+      "dev/part3b/browser_cutaway.js",
+      "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-04-repaired/browser-cutaway"
+    ],
+    "exitCode": 0,
+    "seconds": 49.944921728999816
+  }
+]

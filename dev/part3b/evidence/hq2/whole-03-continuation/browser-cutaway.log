@@ -1,0 +1,10 @@
+AssertionError [ERR_ASSERTION]: outside NORTH receives no hidden crawl peer or beam
+    at hidden (/home/claude/backroomsproject/dev/part3b/browser_cutaway.js:13:178)
+    at async /home/claude/backroomsproject/dev/part3b/browser_cutaway.js:21:2 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 2,
+  expected: 0,
+  operator: '==',
+  diff: 'simple'
+}

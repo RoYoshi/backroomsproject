@@ -1,0 +1,12 @@
+standard   seed 1: 5 smilers (at the end; avg 3.4 out and working)  step avg 0.147 ms  p99 1.784 ms  max 10.15 ms
+standard   seed 2: 5 smilers (at the end; avg 3.8 out and working)  step avg 0.102 ms  p99 0.999 ms  max 6.23 ms
+standard   seed 3: 5 smilers (at the end; avg 3.5 out and working)  step avg 0.092 ms  p99 0.753 ms  max 12.51 ms
+PASS standard: average 0.114 ms (limit 0.5), worst p99 1.784 ms (limit 4)
+worst      seed 1: 10 smilers (at the end; avg 6.8 out and working)  step avg 0.163 ms  p99 0.722 ms  max 8.33 ms
+worst      seed 2: 10 smilers (at the end; avg 7.2 out and working)  step avg 0.133 ms  p99 0.622 ms  max 4.32 ms
+worst      seed 3: 10 smilers (at the end; avg 7.4 out and working)  step avg 0.150 ms  p99 0.707 ms  max 4.36 ms
+PASS worst: average 0.149 ms (limit 1.5), worst p99 0.722 ms (limit 4)
+contention seed 1: 10 smilers (at the end; avg 9.3 out and working)  step avg 0.187 ms  p99 0.955 ms  max 5.98 ms
+contention seed 2: 10 smilers (at the end; avg 9.6 out and working)  step avg 0.174 ms  p99 0.754 ms  max 1.92 ms
+contention seed 3: 10 smilers (at the end; avg 9.5 out and working)  step avg 0.199 ms  p99 0.925 ms  max 8.27 ms
+PASS contention: average 0.186 ms (limit 1.5), worst p99 0.955 ms (limit 4)

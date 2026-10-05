@@ -1,0 +1,200 @@
+[
+  {
+    "name": "ai-s_hound2e-2E-H1",
+    "scenario": "2E H1 identified human with flashlight warrants pursuit",
+    "records": 30,
+    "sha256": "662d3fde51e73754af02619d70878d3598f548f840b731cb81b86a5ee7ce1c3f",
+    "semanticSha256": "6dfcd85bd8405c5ae13aba3b3e0bfd1cf0f8621189ccfc6061c8071856d83d1f",
+    "bytes": 1658,
+    "uncompressedBytes": 25882
+  },
+  {
+    "name": "ai-s_hound2e-2E-HQA-H14",
+    "scenario": "2E/HQA H14 eye contact delays pre-pursuit commitment but never suppresses an already committed chase",
+    "records": 100,
+    "sha256": "6efc67ccfb75b36d55a604f31232552fbf5feb51be0009c9c96181d9a6504cf3",
+    "semanticSha256": "dfdb441465092cf22572c3393a5c680fc3dd706adc68b6d4a7591fb7485daadb",
+    "bytes": 4693,
+    "uncompressedBytes": 90284
+  },
+  {
+    "name": "ai-s_hound2e-2E-H6",
+    "scenario": "2E H6 hidden corner branches cannot change prediction",
+    "records": 756,
+    "sha256": "79cd42bce7a781b6521a4559b2c5902596002d64e9535723e877cca3f63f6ca5",
+    "semanticSha256": "c6b7fdb4a1411cbd4062763b5a9bd2e81308ffd74b1eacbdba885ef7cba568c2",
+    "bytes": 41160,
+    "uncompressedBytes": 935716
+  },
+  {
+    "name": "ai-s_hound2e-2E-H10",
+    "scenario": "2E H10 failed search reduces confidence and ends within finite budget",
+    "records": 4215,
+    "sha256": "7f9317a513e3fe85b739b374d23c8fb94eb73c9263d2efb435d5e805ff7d2d1b",
+    "semanticSha256": "0cfc75bcb5e8c6a8e2989d75cdc1d66c3a9b116ab10c3ee4f5ea59906322aed6",
+    "bytes": 182653,
+    "uncompressedBytes": 6535981
+  },
+  {
+    "name": "ai-s_hound2e-2E-HQA-H18",
+    "scenario": "2E/HQA H18 close-range walking orbit is not an indefinite safe zone",
+    "records": 428,
+    "sha256": "1d89cc7d2e7e902498c1068214cf04c9f3d747bc26b5c3180332a41cb88827be",
+    "semanticSha256": "f27c8585b12be07c34ed89280c796ef4887c6264688dda795a63cdc9a69ebe13",
+    "bytes": 27151,
+    "uncompressedBytes": 768406
+  },
+  {
+    "name": "ai-s_hound2e-2E-H3",
+    "scenario": "2E H3 hidden carrier: anonymous light investigation; replay cannot back-project",
+    "records": 33,
+    "sha256": "fbc72f4b5de573ebad546e1b0144d99cb9ff73ff54ebc67680d6dd042c58df26",
+    "semanticSha256": "4434d029f3a7c362e79fc1bb2ae95c7d6121873ccd844bb469d91cd6e4730210",
+    "bytes": 1714,
+    "uncompressedBytes": 21541
+  },
+  {
+    "name": "ai-s_hound2e-2E-H7",
+    "scenario": "2E H7 fresh hidden running after loss causes anonymous investigation (2F attribution)",
+    "records": 9,
+    "sha256": "067bc5ffa4b2a4af962bdec453e1445a34d19023fc8f02a1b6a13794f558b75f",
+    "semanticSha256": "dfbc687d2a5d387d5b93bb1cb0eb57182ad15e0e030195b384b587b8bddb0d5e",
+    "bytes": 1996,
+    "uncompressedBytes": 11942
+  },
+  {
+    "name": "ai-s_hound2e-2E-H15",
+    "scenario": "2E H15 flashlight off stops new light observations without deleting an identified human",
+    "records": 39,
+    "sha256": "79f397573662e954dfcaaa3ac493c1dd3d8c3bd84379b31a228090e6ab20e422",
+    "semanticSha256": "4857a6aba9d3424e00b4d3204c7357316084fb54285a16814b2542c4f02c0c33",
+    "bytes": 2330,
+    "uncompressedBytes": 35266
+  },
+  {
+    "name": "ai-s_hound2e-2E-H5",
+    "scenario": "2E H5 IR OFF vs HIGH: identical complete decisions each tick",
+    "records": 2160,
+    "sha256": "8d71ad00a082b1279eb01fef6b9e3c0193b41ceb26fbe26468771e61ceb7cda0",
+    "semanticSha256": "ab56416e3a9261470ba7d0f41364abd0a7eed39f933b87a28515113634345286",
+    "bytes": 120163,
+    "uncompressedBytes": 7068435
+  },
+  {
+    "name": "ai-s_smiler-SM01",
+    "scenario": "SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+    "records": 1764,
+    "sha256": "99102c65e0bbdd385cef09c422fa15597c9ce5ac9a3c2de1a12208a069bbd164",
+    "semanticSha256": "912d4e8067acc8fefb18c1fb15b055fbff5de49d8d688ca962657e0697aca121",
+    "bytes": 26097,
+    "uncompressedBytes": 1382730
+  },
+  {
+    "name": "ai-s_smiler-SM03",
+    "scenario": "SM03 eye contact: watched, it holds; backing away slowly while watching it gets you let go (it withdraws, no strike)",
+    "records": 3600,
+    "sha256": "fb7b0b7db42f1a4b0e6514a87fb2ab43dc1cfc15a47b4142f7f4abc213ee2f3f",
+    "semanticSha256": "f181313ca65023f8a6ea44a0da80b52100bd30f28e7c4010c04d8b14484e5bc8",
+    "bytes": 84300,
+    "uncompressedBytes": 3186400
+  },
+  {
+    "name": "ai-s_smiler-SM04",
+    "scenario": "SM04 no hidden position: an unsensed player moved elsewhere changes nothing the Smiler does (tick by tick)",
+    "records": 852,
+    "sha256": "6d9fb0cdea56c9f1c3722cb18e09ef42801b4d2c9abf8bc6289ff300cd5a37ea",
+    "semanticSha256": "4bdb3e30cbdbe588f96a817079b04775607c64bda33a39474b24901ccd3e6a6b",
+    "bytes": 20967,
+    "uncompressedBytes": 908844
+  },
+  {
+    "name": "ai-s_smiler-SM05",
+    "scenario": "SM05 lost player: it goes where it last had them (with an uncertainty), not where they really went",
+    "records": 844,
+    "sha256": "300ec21ec2c6584aca54f80c622b9f93d749b52b72166253ed55429281dcf4d6",
+    "semanticSha256": "000d3cd42ce7332c7d8a60339d3cac3770d16af72695cebd19001a76a5a43950",
+    "bytes": 13175,
+    "uncompressedBytes": 498743
+  },
+  {
+    "name": "ai-s_smiler-SM08",
+    "scenario": "SM08 infrared OFF vs HIGH: identical Smiler decisions (camcorders raised, infrared written everywhere a client could put it)",
+    "records": 2400,
+    "sha256": "f64d9c5f79122713a225ced41e0c5e9f3150e21c06c5d0c00642f9ff50c6049e",
+    "semanticSha256": "27e5e4220eedbf0fe644d0b8e407037824e4dbcc1366ab2b0cfd422474f1c61f",
+    "bytes": 43730,
+    "uncompressedBytes": 3694844
+  },
+  {
+    "name": "ai-s_evidence-E4",
+    "scenario": "E4 light off: no new light evidence, but what it already has stays (and fades like any memory)",
+    "records": 7860,
+    "sha256": "d871d173b99ba3a41661a44b7296db86e2c5783085aaed6fd87c03900fe210ed",
+    "semanticSha256": "866578b57655483e4ba49c3394b95f9fa2c011c15bb747f26d12b587e1703e9b",
+    "bytes": 37756,
+    "uncompressedBytes": 3634566
+  },
+  {
+    "name": "ai-s_evidence-E5",
+    "scenario": "E5 hidden-position invariance: an unsensed player moved elsewhere changes nothing the hound does",
+    "records": 1440,
+    "sha256": "1d51856698f08a343ff305fc728b96c7b32e64751b4f4c1f12c14853efbfcdbb",
+    "semanticSha256": "e97a69dd112dac5f9131d42802b160bd8742e1cab2e12a8c08b2748bd191c54e",
+    "bytes": 82688,
+    "uncompressedBytes": 3299174
+  },
+  {
+    "name": "ai-s_evidence-E6",
+    "scenario": "E6 observation replay: the carrier somewhere else, the same observations replayed -> the same leads and decisions (no back-projection)",
+    "records": 532,
+    "sha256": "cbdeed33e102cd64a1a6691843eefe2d3b655edb376b539786e0d135160643d9",
+    "semanticSha256": "6fbd8308615570d4d2318162a81f8d5b9a855900bb358b38a6050a00b238e589",
+    "bytes": 19483,
+    "uncompressedBytes": 424802
+  },
+  {
+    "name": "ai-s_evidence-E7",
+    "scenario": "E7 the camcorder emits no visible light: no beam, no light evidence, no glare bonus - its raised state is presentation only",
+    "records": 360,
+    "sha256": "6fae105a641b7e601dcde30428c305c87a14f7170423c00cecfba2b9d4dc242c",
+    "semanticSha256": "c54084d3f99a00ede30adff28aad652c0a5115899fd72555d6348e6bd2da2dff",
+    "bytes": 2558,
+    "uncompressedBytes": 141827
+  },
+  {
+    "name": "ai-s_shared2f-2F-F01",
+    "scenario": "2F F01 unseen footstep is anonymous, uncertain, no raw origin/identity",
+    "records": 36,
+    "sha256": "39de0b31a64280f1bfb65689d8ba3d7a44e9d29f32d7dde8ba7a7376d3d4fa86",
+    "semanticSha256": "a0d7253d972361f939efd7c63f66b2d6a6569098bd1a56580c88dd80ab42093c",
+    "bytes": 1185,
+    "uncompressedBytes": 15679
+  },
+  {
+    "name": "ai-s_shared2f-2F-F04",
+    "scenario": "2F F04 private sound source ID cannot change observations or decisions",
+    "records": 396,
+    "sha256": "fdee4f3e9cb35e8069b2829b65e7ee02052a62a15edf0485567afe34280f3130",
+    "semanticSha256": "da9a038107d97d375dea212d1d258f64b7673d8f651990c355ddaad45a05ce08",
+    "bytes": 16141,
+    "uncompressedBytes": 388755
+  },
+  {
+    "name": "ai-s_shared2f-2F-F09",
+    "scenario": "2F F09 hidden branch invariance including anonymous sound/light conflict",
+    "records": 402,
+    "sha256": "5a4af75026c4a7511e6ef8194903965f6f24f4bd4e8d2fc4cfcaab2d3789f3cb",
+    "semanticSha256": "48eb876f1274c03cf771a94e95a3aae8122f622311dafbc557c1f7a66c032126",
+    "bytes": 19043,
+    "uncompressedBytes": 401351
+  },
+  {
+    "name": "ai-s_shared2f-2F-F20",
+    "scenario": "2F F20 IR OFF/HIGH is tick-identical for both species",
+    "records": 600,
+    "sha256": "43cc362ad0bd2eff689c62416963d6a5999e84f65a70fa1be4d293e1b99c4276",
+    "semanticSha256": "a55830369fd4d5ca13dbbe2b4e422a0249eda11c8bdf6e4e4a7d6f90cc89ed77",
+    "bytes": 29717,
+    "uncompressedBytes": 876361
+  }
+]

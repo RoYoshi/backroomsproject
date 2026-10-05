@@ -1,0 +1,7 @@
+clock.runFor: TypeError: Negative ticks are not supported
+    at ClockController.runFor (<anonymous>:101:13)
+    at eval (eval at evaluate (:290:30), <anonymous>:1:33)
+    at eval (<anonymous>)
+    at UtilityScript.evaluate (<anonymous>:290:30)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at /home/claude/backroomsproject/dev/stage_h/browser_flat.js:11:48

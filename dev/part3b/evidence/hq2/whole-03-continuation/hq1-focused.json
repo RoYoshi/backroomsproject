@@ -1,0 +1,362 @@
+{
+  "status": "PASS",
+  "rows": [
+    {
+      "name": "production camera is strictly top-down: no tilt, no oblique offset, no Z-based XY scale",
+      "samples": 108,
+      "footprintCornersCoincident": 2488,
+      "camera": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "depth": false,
+        "elevation": 0,
+        "topDown": true,
+        "anchorZ": 0
+      }
+    },
+    {
+      "name": "rooms stay rectangles: caps keep exact footprints, bands are perpendicular strips inside their solid",
+      "caps": 910,
+      "strips": 5726,
+      "extensionVertices": 5628,
+      "wallBandVerticesOffFloors": 4740
+    },
+    {
+      "name": "all four wall directions get bounded local depth bands; the elevation cue is monotonic",
+      "wallBandsByDirection": {
+        "north": 161,
+        "south": 162,
+        "east": 176,
+        "west": 175
+      },
+      "joins": {
+        "convex": 804,
+        "concave": 116,
+        "square": 428
+      },
+      "eyeFacingFromAnchors": {
+        "north": 2498,
+        "south": 3071,
+        "east": 3455,
+        "west": 2857
+      },
+      "referenceWallCue": [
+        [
+          -96,
+          26.402
+        ],
+        [
+          -90,
+          25.709
+        ],
+        [
+          -84,
+          25.042
+        ],
+        [
+          -78,
+          24.401
+        ],
+        [
+          -72,
+          23.785
+        ],
+        [
+          -66,
+          23.192
+        ],
+        [
+          -60,
+          22.621
+        ],
+        [
+          -54,
+          22.071
+        ],
+        [
+          -48,
+          21.541
+        ],
+        [
+          -42,
+          21.03
+        ],
+        [
+          -36,
+          20.537
+        ],
+        [
+          -30,
+          20.061
+        ],
+        [
+          -24,
+          19.602
+        ],
+        [
+          -18,
+          19.159
+        ],
+        [
+          -12,
+          18.731
+        ],
+        [
+          -6,
+          18.316
+        ],
+        [
+          0,
+          17.916
+        ],
+        [
+          6,
+          17.529
+        ],
+        [
+          12,
+          17.154
+        ],
+        [
+          18,
+          16.791
+        ],
+        [
+          24,
+          16.44
+        ],
+        [
+          30,
+          16.099
+        ],
+        [
+          36,
+          15.769
+        ],
+        [
+          42,
+          15.449
+        ],
+        [
+          48,
+          15.139
+        ],
+        [
+          54,
+          14.839
+        ],
+        [
+          60,
+          14.547
+        ],
+        [
+          66,
+          14.263
+        ],
+        [
+          72,
+          13.988
+        ],
+        [
+          78,
+          13.721
+        ],
+        [
+          84,
+          13.462
+        ],
+        [
+          90,
+          13.21
+        ],
+        [
+          96,
+          12.964
+        ],
+        [
+          102,
+          12.726
+        ],
+        [
+          108,
+          12.494
+        ],
+        [
+          114,
+          12.269
+        ],
+        [
+          120,
+          12.049
+        ],
+        [
+          126,
+          11.836
+        ],
+        [
+          132,
+          11.628
+        ],
+        [
+          138,
+          11.426
+        ],
+        [
+          144,
+          11.228
+        ],
+        [
+          150,
+          11.036
+        ],
+        [
+          156,
+          10.849
+        ],
+        [
+          162,
+          10.667
+        ],
+        [
+          168,
+          10.489
+        ],
+        [
+          174,
+          10.315
+        ],
+        [
+          180,
+          10.146
+        ]
+      ],
+      "band": {
+        "reach": 52,
+        "height": 640,
+        "cue": 0.5,
+        "min": 3,
+        "max": 28,
+        "share": 0.35,
+        "cover": 2
+      }
+    },
+    {
+      "name": "local player renders at exactly 1.0; relative-Z actor scale is subtle, bounded and per-client",
+      "exactLocalSamples": 50,
+      "example": {
+        "bAt0OnClientA180": 0.9523809523809523,
+        "aAt180OnClientB0": 1.0526315789473684
+      },
+      "bounds": [
+        0.94,
+        1.06
+      ],
+      "relativeKinds": [
+        "player",
+        "peer",
+        "hound",
+        "smiler",
+        "vanish",
+        "body",
+        "hand:0",
+        "hand:1",
+        "light",
+        "hat",
+        "replay"
+      ]
+    },
+    {
+      "name": "picking: a band resolves to its exact physical face; floors, caps and scaled actors stay exact",
+      "bandWidth": 17.91596638655463,
+      "facesPicked": 45,
+      "bandsChecked": 7,
+      "directions": [
+        "west",
+        "north",
+        "east"
+      ],
+      "floor": {
+        "x": 1004,
+        "y": 3300,
+        "z": 0
+      },
+      "capPick": "plane",
+      "actorScale": 0.9677419354838709,
+      "cornerOwners": [
+        "solid:wall:0_2592_288_480",
+        "solid:wall:0_2304_768_288"
+      ]
+    },
+    {
+      "name": "stairs and falls keep a smoothed elevation cue (camera spring), never a snap",
+      "reference": "solid:wall:0_0_768_672",
+      "results": [
+        {
+          "name": "link:long-room-stairs:forward",
+          "startCue": 17.912685226439894,
+          "endCue": 10.144949578671035,
+          "peakFrameChangeSmoothed": 0.07823515439397255,
+          "peakFrameChangeUnsmoothed": 0.18794753250955765,
+          "reduction": 0.5837393907260044
+        },
+        {
+          "name": "link:long-room-stairs:reverse",
+          "startCue": 10.144949578671035,
+          "endCue": 17.91268522643984,
+          "peakFrameChangeSmoothed": 0.07260279784446055,
+          "peakFrameChangeUnsmoothed": 0.15396084375736052,
+          "reduction": 0.5284333595957604
+        },
+        {
+          "name": "fall 180 to 0",
+          "startCue": 10.150131940554608,
+          "endCue": 17.912685226439894,
+          "peakFrameChangeSmoothed": 0.4957587899710454,
+          "peakFrameChangeUnsmoothed": 0.5989769741863249,
+          "reduction": 0.17232412707599543
+        },
+        {
+          "name": "fall 0 to -96",
+          "startCue": 17.912685226439894,
+          "endCue": 26.396577071148755,
+          "peakFrameChangeSmoothed": 0.6087001121481137,
+          "peakFrameChangeUnsmoothed": 0.7657822508838663,
+          "reduction": 0.20512637705359238
+        }
+      ]
+    },
+    {
+      "name": "cutaway stays client-local and semantic under the top-down camera",
+      "northInside": [
+        "view:crawl:north:roof"
+      ],
+      "longLower": [
+        "view:long-room:upper-slab"
+      ],
+      "ordinaryRooms": [
+        [],
+        [],
+        [],
+        [],
+        []
+      ]
+    },
+    {
+      "name": "legacy fixtures and physical truth are untouched",
+      "legacyObliqueDefault": 0.5,
+      "legacyLayerDepth": {
+        "coefficient": 0.0002777777777777778,
+        "minScale": 0.94,
+        "maxScale": 1.06,
+        "cameraOmega": 24,
+        "maxCameraLag": 28,
+        "renderOmega": 40,
+        "maxRenderLag": 8,
+        "landingAmplitude": 1.25,
+        "landingDuration": 0.18,
+        "resetGap": 0.25
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+motor PASS
+Traceback (most recent call last):
+  File "/home/claude/backroomsproject/dev/stage_h/run_parity.py", line 7, in <module>
+    name=item['name']+'.json.gz';r=subprocess.run(['node','dev/stage_a/diff_traces.js',str(frozen/name),str(out/'captures'/name)],cwd=root,capture_output=True);(out/(item['name']+'.log')).write_bytes(r.stdout+r.stderr);assert r.returncode==0,(name,r.stdout,r.stderr);rows.append(json.loads(r.stdout))
+                                                                                                                                                                                                                                  ^^^^^^^^^^^^^^^
+AssertionError: ('ai-s_hound2e-2E-H5.json.gz', b'{\n  "status": "FIRST DIVERGENT TICK",\n  "index": 193,\n  "tick": 194,\n  "world": 1,\n  "fields": [\n    {\n      "field": "record.entities.0.evidence.anonymous.2.c",\n      "expected": 0.679638399136415,\n      "actual": 0.6796383991364151\n    },\n    {\n      "field": "record.entities.0.evidence.sounds.0.c",\n      "expected": 0.679638399136415,\n      "actual": 0.6796383991364151\n    }\n  ]\n}\n', b'')

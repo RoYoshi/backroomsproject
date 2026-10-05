@@ -1,0 +1,5 @@
+== tolerance 0
+{"status":"IDENTICAL RECORDS","records":259,"tolerance":0,"metadataDifferences":[{"field":"metadata.runtime.node","expected":"v24.19.0","actual":"v22.22.2"},{"field":"metadata.sourceSha256","expected":"631e32d14e817545c505a27ec47e9b32d81fcbd63429341050ffd1b004a1e815","actual":"0bf43f0b058990387d978112c62374529d2149adafc21a0799b0a81460768c9a"}]}
+
+== tolerance 0.00001
+{"status":"IDENTICAL RECORDS","records":259,"tolerance":0.00001,"metadataDifferences":[{"field":"metadata.runtime.node","expected":"v24.19.0","actual":"v22.22.2"},{"field":"metadata.sourceSha256","expected":"631e32d14e817545c505a27ec47e9b32d81fcbd63429341050ffd1b004a1e815","actual":"0bf43f0b058990387d978112c62374529d2149adafc21a0799b0a81460768c9a"}]}

@@ -1,0 +1,149 @@
+{
+  "status": "FAIL",
+  "error": "AssertionError('frozen-parity')",
+  "checks": [
+    {
+      "name": "invariants",
+      "command": [
+        "python",
+        "dev/part3b/verify_invariants.py",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/invariants.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.07862447399998018
+    },
+    {
+      "name": "presentation-foundation",
+      "command": [
+        "node",
+        "dev/part3b/test_foundation.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/presentation-foundation.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.9265171679999185
+    },
+    {
+      "name": "presentation-motion",
+      "command": [
+        "node",
+        "dev/part3b/test_motion.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/presentation-motion.json"
+      ],
+      "exitCode": 0,
+      "seconds": 1.401420958000017
+    },
+    {
+      "name": "presentation-cutaway",
+      "command": [
+        "node",
+        "dev/part3b/test_cutaway.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/presentation-cutaway.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.7759929860001193
+    },
+    {
+      "name": "production-base",
+      "command": [
+        "node",
+        "dev/part3a/test_base.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/production-base.json"
+      ],
+      "exitCode": 0,
+      "seconds": 2.5085021150000557
+    },
+    {
+      "name": "production-vertical",
+      "command": [
+        "node",
+        "dev/part3a/test_vertical.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/production-vertical.json"
+      ],
+      "exitCode": 0,
+      "seconds": 3.612534025000059
+    },
+    {
+      "name": "production-navigation",
+      "command": [
+        "node",
+        "dev/part3a/test_navigation.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/production-navigation.json"
+      ],
+      "exitCode": 0,
+      "seconds": 6.2253170600001795
+    },
+    {
+      "name": "production-gameplay",
+      "command": [
+        "node",
+        "dev/part3a/test_gameplay.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/production-gameplay.json"
+      ],
+      "exitCode": 0,
+      "seconds": 7.138036271000146
+    },
+    {
+      "name": "production-perception",
+      "command": [
+        "node",
+        "dev/part3a/test_perception.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/production-perception.json"
+      ],
+      "exitCode": 0,
+      "seconds": 2.3907343749999654
+    },
+    {
+      "name": "production-picking",
+      "command": [
+        "node",
+        "dev/part3a/test_picking.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/production-picking.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.5737010120001287
+    },
+    {
+      "name": "production-render_coverage",
+      "command": [
+        "node",
+        "dev/part3a/test_render_coverage.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/production-render_coverage.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.9795393659999263
+    },
+    {
+      "name": "production-aftermath",
+      "command": [
+        "node",
+        "dev/part3a/test_aftermath.js",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/production-aftermath.json"
+      ],
+      "exitCode": 0,
+      "seconds": 14.173024938000026
+    },
+    {
+      "name": "full-retained",
+      "command": [
+        "python",
+        "dev/stage_a/run_baseline.py",
+        "--game",
+        ".",
+        "--out",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/full-retained"
+      ],
+      "exitCode": 0,
+      "seconds": 632.645429955
+    },
+    {
+      "name": "frozen-parity",
+      "command": [
+        "python",
+        "dev/stage_h/run_parity.py",
+        "/home/claude/backroomsproject/dev/part3b/evidence/hq2/whole-02/parity"
+      ],
+      "exitCode": 1,
+      "seconds": 18.299730145000012
+    }
+  ]
+}
