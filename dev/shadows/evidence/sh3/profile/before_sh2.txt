@@ -1,0 +1,41 @@
+# profile_probe.js on the SH2 module (fb65693), mobile-like profile, LOW, 4x CPU throttle, DPR 3
+frames 15 mean 3.3867 p95 6.8 max 8.4
+total ms 23126
+ 22551.4 (program) :-1
+   203.2 (garbage collector) :-1
+    55.3 (idle) :-1
+    29.3 viewRect shadows-2d.js:566
+    19.5 window.__mp mp.js:791
+    13.4 (anon) :10
+    10.1 humUpdate mp.js:741
+     9.9 (anon) index-DKbV5Nv9.js:335
+     8.2 requestAnimationFrame :-1
+     8.2 frame index-DKbV5Nv9.js:335
+     8.0 lineTo :-1
+     7.8 o index-DKbV5Nv9.js:335
+     7.6 ws.onmessage mp.js:64
+     7.5 send :-1
+     7.4 Ou0 index-DKbV5Nv9.js:344
+     7.3 Uc index-DKbV5Nv9.js:322
+     7.3 Hl index-DKbV5Nv9.js:334
+     5.6 fillRect :-1
+     5.5 drawPeers mp.js:392
+     5.4 add shadows-2d.js:472
+     5.3 collide move.js:34
+     4.5 _refreshInt CanvasPool-DecUtJxW.js:3
+     4.2 window.__glitchFrame glitch.js:105
+     4.2 drawLight index-DKbV5Nv9.js:335
+     4.0 bufferSubData :-1
+--- shadows-2d.js only
+    29.3 viewRect shadows-2d.js:566
+     5.4 add shadows-2d.js:472
+     2.1 window.__mp shadows-2d.js:665
+     2.0 carried shadows-2d.js:467
+     1.8 entityShadows shadows-2d.js:531
+     1.6 clamp shadows-2d.js:81
+     1.6 frame shadows-2d.js:571
+     1.2 inten shadows-2d.js:471
+     1.1 cornersNear shadows-2d.js:265
+     1.0 lamps shadows-2d.js:429
+     0.2 cast shadows-2d.js:535
+     0.2 JIT shadows-2d.js:466

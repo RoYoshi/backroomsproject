@@ -1,0 +1,7636 @@
+{
+ "schema": "tfb-shadows-bench/2",
+ "label": "SH3 candidate (lighting-shadows-2d working tree, shadows-2d 1.0)",
+ "game": "<SH3 working tree>",
+ "secs": 8,
+ "minFrames": 20,
+ "node": "v22.22.2",
+ "chromium": "141.0.7390.37",
+ "started": "2026-10-05T09:47:30.178Z",
+ "runs": [
+  {
+   "profile": "16x9",
+   "scene": "room",
+   "tier": "off",
+   "frames": 21,
+   "fps": 2.46,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 406.65,
+    "p50": 400,
+    "p95": 483.3,
+    "p99": 499.9,
+    "max": 499.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.976,
+    "p50": 3.4,
+    "p95": 8.7,
+    "p99": 8.7,
+    "max": 8.7
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 424.125,
+    "script": 4.799,
+    "layout": 0.36
+   },
+   "heapMB": 32.25,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.008,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 25
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 6,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 6,
+     "lampBuildMsTotal": 8,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-room-off.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "room",
+   "tier": "low",
+   "frames": 21,
+   "fps": 2.48,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 403.315,
+    "p50": 400,
+    "p95": 450,
+    "p99": 516.6,
+    "max": 516.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.733,
+    "p50": 3.1,
+    "p95": 6.3,
+    "p99": 7.4,
+    "max": 7.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 439.372,
+    "script": 4.505,
+    "layout": 0.526
+   },
+   "heapMB": 35.93,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.1423,
+     "p95": 0.2,
+     "max": 0.4,
+     "n": 26
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 16,
+     "candidateMax": 16,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 15,
+     "max": 15
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 6,
+     "hits": 52,
+     "misses": 0,
+     "lampBuilds": 8,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-room-low.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "room",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 2.49,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 400.815,
+    "p50": 400,
+    "p95": 416.7,
+    "p99": 516.6,
+    "max": 516.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.381,
+    "p50": 2.9,
+    "p95": 6.3,
+    "p99": 7.4,
+    "max": 7.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 441.433,
+    "script": 3.983,
+    "layout": 0.391
+   },
+   "heapMB": 34.84,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.18,
+     "p95": 0.4,
+     "max": 0.6,
+     "n": 25
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 25,
+     "candidateMax": 25,
+     "active": 10,
+     "activeMax": 10
+    },
+    "primitives": {
+     "last": 35,
+     "max": 35
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 6,
+     "hits": 125,
+     "misses": 0,
+     "lampBuilds": 10,
+     "lampBuildMsTotal": 8.7,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-room-medium.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "room",
+   "tier": "high",
+   "frames": 21,
+   "fps": 2.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 409.985,
+    "p50": 416.6,
+    "p95": 466.6,
+    "p99": 483.3,
+    "max": 483.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.276,
+    "p50": 3.2,
+    "p95": 4.4,
+    "p99": 5.4,
+    "max": 5.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 444.011,
+    "script": 4.013,
+    "layout": 0.321
+   },
+   "heapMB": 39.83,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0885,
+     "p95": 0.2,
+     "max": 0.3,
+     "n": 26
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 29,
+     "candidateMax": 29,
+     "active": 13,
+     "activeMax": 13
+    },
+    "primitives": {
+     "last": 57,
+     "max": 57
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 7,
+     "hits": 182,
+     "misses": 0,
+     "lampBuilds": 17,
+     "lampBuildMsTotal": 9.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-room-high.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "props",
+   "tier": "off",
+   "frames": 22,
+   "fps": 2.38,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 420.619,
+    "p50": 416.7,
+    "p95": 450.1,
+    "p99": 500,
+    "max": 500
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 3.064,
+    "p50": 2.3,
+    "p95": 7.6,
+    "p99": 9.3,
+    "max": 9.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 457.236,
+    "script": 3.668,
+    "layout": 0.346
+   },
+   "heapMB": 39.39,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 27,
+    "buildMs": {
+     "mean": 0.0074,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 27
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 10,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 20,
+     "lampBuildMsTotal": 10.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-props-off.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "props",
+   "tier": "low",
+   "frames": 21,
+   "fps": 2.2,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 454.145,
+    "p50": 450,
+    "p95": 483.3,
+    "p99": 550,
+    "max": 550
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.129,
+    "p50": 2.8,
+    "p95": 5.6,
+    "p99": 6.7,
+    "max": 6.7
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 493.183,
+    "script": 3.517,
+    "layout": 0.339
+   },
+   "heapMB": 38.29,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.212,
+     "p95": 0.5,
+     "max": 2,
+     "n": 25
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 12,
+     "candidateMax": 12,
+     "active": 7,
+     "activeMax": 7
+    },
+    "primitives": {
+     "last": 16,
+     "max": 16
+    },
+    "dynamicPolys": {
+     "last": 2,
+     "max": 2,
+     "budget": 40,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 10,
+     "hits": 50,
+     "misses": 0,
+     "lampBuilds": 22,
+     "lampBuildMsTotal": 10.8,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-props-low.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "props",
+   "tier": "medium",
+   "frames": 22,
+   "fps": 2.08,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 480.138,
+    "p50": 483.3,
+    "p95": 516.6,
+    "p99": 566.6,
+    "max": 566.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 2.759,
+    "p50": 2.5,
+    "p95": 4.9,
+    "p99": 5.2,
+    "max": 5.2
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 522.774,
+    "script": 3.51,
+    "layout": 0.531
+   },
+   "heapMB": 38.53,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 27,
+    "buildMs": {
+     "mean": 0.2148,
+     "p95": 0.6,
+     "max": 0.9,
+     "n": 27
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 28,
+     "candidateMax": 28,
+     "active": 16,
+     "activeMax": 16
+    },
+    "primitives": {
+     "last": 52,
+     "max": 52
+    },
+    "dynamicPolys": {
+     "last": 4,
+     "max": 4,
+     "budget": 300,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 10,
+     "hits": 135,
+     "misses": 0,
+     "lampBuilds": 27,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-props-medium.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "props",
+   "tier": "high",
+   "frames": 21,
+   "fps": 2.04,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 489.98,
+    "p50": 499.9,
+    "p95": 533.4,
+    "p99": 549.9,
+    "max": 549.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.195,
+    "p50": 2.7,
+    "p95": 6.3,
+    "p99": 6.3,
+    "max": 6.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 512.763,
+    "script": 3.714,
+    "layout": 0.361
+   },
+   "heapMB": 39.21,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.1708,
+     "p95": 0.3,
+     "max": 0.3,
+     "n": 24
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 40,
+     "candidateMax": 40,
+     "active": 19,
+     "activeMax": 19
+    },
+    "primitives": {
+     "last": 80,
+     "max": 80
+    },
+    "dynamicPolys": {
+     "last": 5,
+     "max": 5,
+     "budget": 700,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 10,
+     "hits": 168,
+     "misses": 0,
+     "lampBuilds": 32,
+     "lampBuildMsTotal": 12.2,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-props-high.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "dense",
+   "tier": "off",
+   "frames": 22,
+   "fps": 2.34,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 427.757,
+    "p50": 433.2,
+    "p95": 466.6,
+    "p99": 499.9,
+    "max": 499.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 2.782,
+    "p50": 2.5,
+    "p95": 4,
+    "p99": 5.4,
+    "max": 5.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 467.186,
+    "script": 3.158,
+    "layout": 0.38
+   },
+   "heapMB": 38.33,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0038,
+     "p95": 0,
+     "max": 0.1,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 14,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 36,
+     "lampBuildMsTotal": 12.5,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-dense-off.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "dense",
+   "tier": "low",
+   "frames": 21,
+   "fps": 2.16,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 463.315,
+    "p50": 466.6,
+    "p95": 499.9,
+    "p99": 533.3,
+    "max": 533.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.59,
+    "p50": 2.9,
+    "p95": 6.1,
+    "p99": 7.7,
+    "max": 7.7
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 507.285,
+    "script": 4.254,
+    "layout": 0.459
+   },
+   "heapMB": 38.65,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.308,
+     "p95": 0.5,
+     "max": 2.4,
+     "n": 25
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 21,
+     "candidateMax": 21,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 9,
+     "max": 9
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 3,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 14,
+     "hits": 50,
+     "misses": 0,
+     "lampBuilds": 38,
+     "lampBuildMsTotal": 12.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-dense-low.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "dense",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 2.21,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 452.48,
+    "p50": 450,
+    "p95": 483.3,
+    "p99": 533.4,
+    "max": 533.4
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 2.871,
+    "p50": 2.7,
+    "p95": 4.5,
+    "p99": 5.3,
+    "max": 5.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 478.098,
+    "script": 3.201,
+    "layout": 0.368
+   },
+   "heapMB": 37.2,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.2167,
+     "p95": 0.4,
+     "max": 0.6,
+     "n": 24
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 43,
+     "candidateMax": 43,
+     "active": 10,
+     "activeMax": 10
+    },
+    "primitives": {
+     "last": 32,
+     "max": 32
+    },
+    "dynamicPolys": {
+     "last": 9,
+     "max": 9,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 120,
+     "misses": 0,
+     "lampBuilds": 43,
+     "lampBuildMsTotal": 13.1,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-dense-medium.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "dense",
+   "tier": "high",
+   "frames": 21,
+   "fps": 2.18,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 458.315,
+    "p50": 450,
+    "p95": 516.7,
+    "p99": 550,
+    "max": 550
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.167,
+    "p50": 2.5,
+    "p95": 7,
+    "p99": 10.1,
+    "max": 10.1
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 501.87,
+    "script": 3.711,
+    "layout": 0.515
+   },
+   "heapMB": 51.73,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.2038,
+     "p95": 0.5,
+     "max": 0.6,
+     "n": 26
+    },
+    "lights": {
+     "last": 9,
+     "max": 9
+    },
+    "casters": {
+     "candidate": 60,
+     "candidateMax": 60,
+     "active": 16,
+     "activeMax": 16
+    },
+    "primitives": {
+     "last": 66,
+     "max": 66
+    },
+    "dynamicPolys": {
+     "last": 12,
+     "max": 12,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 208,
+     "misses": 0,
+     "lampBuilds": 51,
+     "lampBuildMsTotal": 13.5,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-dense-high.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "sweep",
+   "tier": "off",
+   "frames": 22,
+   "fps": 2.3,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 434.905,
+    "p50": 433.3,
+    "p95": 483.3,
+    "p99": 500,
+    "max": 500
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 2.527,
+    "p50": 2.1,
+    "p95": 5.3,
+    "p99": 5.3,
+    "max": 5.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 471.788,
+    "script": 3.06,
+    "layout": 0.377
+   },
+   "heapMB": 53.4,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0192,
+     "p95": 0.1,
+     "max": 0.2,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 51,
+     "lampBuildMsTotal": 13.5,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 37.856,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-sweep-off.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "sweep",
+   "tier": "low",
+   "frames": 22,
+   "fps": 2.26,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 442.843,
+    "p50": 433.4,
+    "p95": 466.6,
+    "p99": 516.7,
+    "max": 516.7
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 3.564,
+    "p50": 2.4,
+    "p95": 8.6,
+    "p99": 12.9,
+    "max": 12.9
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 483.127,
+    "script": 3.986,
+    "layout": 1.75
+   },
+   "heapMB": 37.2,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.1654,
+     "p95": 0.3,
+     "max": 0.3,
+     "n": 26
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 19,
+     "candidateMax": 22,
+     "active": 5,
+     "activeMax": 6
+    },
+    "primitives": {
+     "last": 9,
+     "max": 10
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 4,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 52,
+     "misses": 0,
+     "lampBuilds": 53,
+     "lampBuildMsTotal": 13.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 75.491,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-sweep-low.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "sweep",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 2.22,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 449.985,
+    "p50": 433.4,
+    "p95": 516.7,
+    "p99": 583.4,
+    "max": 583.4
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 2.957,
+    "p50": 2.5,
+    "p95": 6.7,
+    "p99": 6.8,
+    "max": 6.8
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 470.647,
+    "script": 3.549,
+    "layout": 0.358
+   },
+   "heapMB": 35.69,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.1792,
+     "p95": 0.3,
+     "max": 0.7,
+     "n": 24
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 40,
+     "candidateMax": 43,
+     "active": 8,
+     "activeMax": 11
+    },
+    "primitives": {
+     "last": 26,
+     "max": 35
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 12,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 120,
+     "misses": 0,
+     "lampBuilds": 58,
+     "lampBuildMsTotal": 14.2,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 113.314,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-sweep-medium.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "sweep",
+   "tier": "high",
+   "frames": 22,
+   "fps": 2.12,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 472.205,
+    "p50": 466.6,
+    "p95": 516.7,
+    "p99": 633.4,
+    "max": 633.4
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 3.418,
+    "p50": 2.8,
+    "p95": 8.2,
+    "p99": 8.6,
+    "max": 8.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 508.819,
+    "script": 4.093,
+    "layout": 0.433
+   },
+   "heapMB": 35.91,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.4538,
+     "p95": 1,
+     "max": 6.2,
+     "n": 26
+    },
+    "lights": {
+     "last": 9,
+     "max": 9
+    },
+    "casters": {
+     "candidate": 59,
+     "candidateMax": 60,
+     "active": 15,
+     "activeMax": 17
+    },
+    "primitives": {
+     "last": 62,
+     "max": 70
+    },
+    "dynamicPolys": {
+     "last": 8,
+     "max": 16,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 2
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 208,
+     "misses": 0,
+     "lampBuilds": 63,
+     "lampBuildMsTotal": 14.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 152.512,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-sweep-high.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "peers",
+   "tier": "off",
+   "frames": 21,
+   "fps": 2.17,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 461.65,
+    "p50": 466.6,
+    "p95": 516.8,
+    "p99": 533.3,
+    "max": 533.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 5.043,
+    "p50": 4.4,
+    "p95": 8.2,
+    "p99": 10.4,
+    "max": 10.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 505.629,
+    "script": 5.904,
+    "layout": 0.358
+   },
+   "heapMB": 40.06,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0115,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 63,
+     "lampBuildMsTotal": 14.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-peers-off.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "peers",
+   "tier": "low",
+   "frames": 22,
+   "fps": 2.11,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 473,
+    "p50": 466.7,
+    "p95": 549.9,
+    "p99": 549.9,
+    "max": 549.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 4.8,
+    "p50": 4.2,
+    "p95": 8.6,
+    "p99": 10.6,
+    "max": 10.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 491.092,
+    "script": 5.316,
+    "layout": 0.354
+   },
+   "heapMB": 57.19,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.172,
+     "p95": 0.2,
+     "max": 0.5,
+     "n": 25
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 16,
+     "candidateMax": 16,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 18,
+     "max": 18
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 50,
+     "misses": 0,
+     "lampBuilds": 65,
+     "lampBuildMsTotal": 14.8,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-peers-low.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "peers",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 2.23,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 448.32,
+    "p50": 450,
+    "p95": 466.7,
+    "p99": 533.2,
+    "max": 533.2
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 4.976,
+    "p50": 4.1,
+    "p95": 9,
+    "p99": 11.2,
+    "max": 11.2
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 472.525,
+    "script": 5.768,
+    "layout": 0.324
+   },
+   "heapMB": 62.15,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.2083,
+     "p95": 0.4,
+     "max": 0.4,
+     "n": 24
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 27,
+     "candidateMax": 27,
+     "active": 12,
+     "activeMax": 12
+    },
+    "primitives": {
+     "last": 41,
+     "max": 41
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 3,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 2
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 120,
+     "misses": 0,
+     "lampBuilds": 70,
+     "lampBuildMsTotal": 15.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-peers-medium.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "peers",
+   "tier": "high",
+   "frames": 21,
+   "fps": 2.15,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 464.985,
+    "p50": 466.6,
+    "p95": 533.3,
+    "p99": 550,
+    "max": 550
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 5.729,
+    "p50": 4.7,
+    "p95": 13.4,
+    "p99": 13.5,
+    "max": 13.5
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 489.659,
+    "script": 6.784,
+    "layout": 0.392
+   },
+   "heapMB": 36.68,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.3875,
+     "p95": 0.4,
+     "max": 4.3,
+     "n": 24
+    },
+    "lights": {
+     "last": 11,
+     "max": 11
+    },
+    "casters": {
+     "candidate": 32,
+     "candidateMax": 32,
+     "active": 16,
+     "activeMax": 16
+    },
+    "primitives": {
+     "last": 67,
+     "max": 67
+    },
+    "dynamicPolys": {
+     "last": 7,
+     "max": 7,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 168,
+     "misses": 0,
+     "lampBuilds": 75,
+     "lampBuildMsTotal": 15.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-peers-high.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "blackout",
+   "tier": "off",
+   "frames": 22,
+   "fps": 2.57,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 389.671,
+    "p50": 383.4,
+    "p95": 416.6,
+    "p99": 483.3,
+    "max": 483.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 2.627,
+    "p50": 2.2,
+    "p95": 5.9,
+    "p99": 5.9,
+    "max": 5.9
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 46,
+    "p50": 46,
+    "p95": 46,
+    "p99": 46,
+    "max": 46
+   },
+   "cdpPerFrameMs": {
+    "task": 427.571,
+    "script": 3.005,
+    "layout": 0.347
+   },
+   "heapMB": 45.08,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0077,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 75,
+     "lampBuildMsTotal": 15.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": true,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-blackout-off.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "blackout",
+   "tier": "low",
+   "frames": 21,
+   "fps": 2.42,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 413.315,
+    "p50": 416.6,
+    "p95": 466.6,
+    "p99": 549.9,
+    "max": 549.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 2.967,
+    "p50": 2.3,
+    "p95": 5.5,
+    "p99": 6.1,
+    "max": 6.1
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 46,
+    "p50": 46,
+    "p95": 46,
+    "p99": 46,
+    "max": 46
+   },
+   "cdpPerFrameMs": {
+    "task": 450.454,
+    "script": 3.454,
+    "layout": 0.534
+   },
+   "heapMB": 42.22,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.1077,
+     "p95": 0.2,
+     "max": 0.4,
+     "n": 26
+    },
+    "lights": {
+     "last": 1,
+     "max": 1
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 4,
+     "max": 4
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 75,
+     "lampBuildMsTotal": 15.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": true,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-blackout-low.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "blackout",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 2.43,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 411.645,
+    "p50": 400,
+    "p95": 450,
+    "p99": 450.1,
+    "max": 450.1
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 2.919,
+    "p50": 2.2,
+    "p95": 5.5,
+    "p99": 6,
+    "max": 6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 46,
+    "p50": 46,
+    "p95": 46,
+    "p99": 46,
+    "max": 46
+   },
+   "cdpPerFrameMs": {
+    "task": 448.006,
+    "script": 3.403,
+    "layout": 0.383
+   },
+   "heapMB": 62.57,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.1385,
+     "p95": 0.5,
+     "max": 0.5,
+     "n": 26
+    },
+    "lights": {
+     "last": 1,
+     "max": 1
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 4,
+     "max": 4
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 75,
+     "lampBuildMsTotal": 15.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": true,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-blackout-medium.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "blackout",
+   "tier": "high",
+   "frames": 21,
+   "fps": 2.42,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 412.485,
+    "p50": 416.6,
+    "p95": 450,
+    "p99": 483.2,
+    "max": 483.2
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 2.638,
+    "p50": 2.3,
+    "p95": 5.7,
+    "p99": 5.8,
+    "max": 5.8
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 46,
+    "p50": 46,
+    "p95": 46,
+    "p99": 46,
+    "max": 46
+   },
+   "cdpPerFrameMs": {
+    "task": 429.944,
+    "script": 3.296,
+    "layout": 0.331
+   },
+   "heapMB": 52.06,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.268,
+     "p95": 0.4,
+     "max": 4,
+     "n": 25
+    },
+    "lights": {
+     "last": 1,
+     "max": 1
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 4,
+     "max": 4
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 75,
+     "lampBuildMsTotal": 15.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": true,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-blackout-high.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "flicker",
+   "tier": "off",
+   "frames": 21,
+   "fps": 2.4,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 415.815,
+    "p50": 416.6,
+    "p95": 450,
+    "p99": 550,
+    "max": 550
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 2.748,
+    "p50": 2.2,
+    "p95": 5.4,
+    "p99": 6.5,
+    "max": 6.5
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 54,
+    "p50": 54,
+    "p95": 54,
+    "p99": 54,
+    "max": 54
+   },
+   "cdpPerFrameMs": {
+    "task": 453.69,
+    "script": 3.263,
+    "layout": 0.431
+   },
+   "heapMB": 50.13,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0231,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 75,
+     "lampBuildMsTotal": 15.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 600,
+    "y": 2930,
+    "angle": -2.2,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-flicker-off.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "flicker",
+   "tier": "low",
+   "frames": 22,
+   "fps": 2.33,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 428.557,
+    "p50": 416.8,
+    "p95": 500,
+    "p99": 516.7,
+    "max": 516.7
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 3.273,
+    "p50": 2.5,
+    "p95": 7.6,
+    "p99": 8.4,
+    "max": 8.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 54,
+    "p50": 54,
+    "p95": 54,
+    "p99": 54,
+    "max": 54
+   },
+   "cdpPerFrameMs": {
+    "task": 463.237,
+    "script": 3.799,
+    "layout": 0.466
+   },
+   "heapMB": 45.29,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 27,
+    "buildMs": {
+     "mean": 0.2778,
+     "p95": 0.3,
+     "max": 4.4,
+     "n": 27
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 7,
+     "candidateMax": 7,
+     "active": 3,
+     "activeMax": 3
+    },
+    "primitives": {
+     "last": 9,
+     "max": 9
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 54,
+     "misses": 0,
+     "lampBuilds": 77,
+     "lampBuildMsTotal": 15.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 600,
+    "y": 2930,
+    "angle": -2.2,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-flicker-low.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "flicker",
+   "tier": "medium",
+   "frames": 22,
+   "fps": 2.24,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 446.81,
+    "p50": 433.3,
+    "p95": 516.7,
+    "p99": 566.7,
+    "max": 566.7
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 3.041,
+    "p50": 2.6,
+    "p95": 3.7,
+    "p99": 9.6,
+    "max": 9.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 54,
+    "p50": 54,
+    "p95": 54,
+    "p99": 54,
+    "max": 54
+   },
+   "cdpPerFrameMs": {
+    "task": 487.348,
+    "script": 3.786,
+    "layout": 0.374
+   },
+   "heapMB": 57.25,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.1346,
+     "p95": 0.2,
+     "max": 1,
+     "n": 26
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 26,
+     "candidateMax": 26,
+     "active": 11,
+     "activeMax": 11
+    },
+    "primitives": {
+     "last": 36,
+     "max": 36
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 130,
+     "misses": 0,
+     "lampBuilds": 82,
+     "lampBuildMsTotal": 16.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 600,
+    "y": 2930,
+    "angle": -2.2,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-flicker-medium.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "flicker",
+   "tier": "high",
+   "frames": 22,
+   "fps": 2.27,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 441.257,
+    "p50": 433.3,
+    "p95": 516.6,
+    "p99": 516.7,
+    "max": 516.7
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 2.623,
+    "p50": 2.4,
+    "p95": 3.7,
+    "p99": 4.4,
+    "max": 4.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 54,
+    "p50": 54,
+    "p95": 54,
+    "p99": 54,
+    "max": 54
+   },
+   "cdpPerFrameMs": {
+    "task": 479.5,
+    "script": 3.089,
+    "layout": 0.381
+   },
+   "heapMB": 52.39,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 27,
+    "buildMs": {
+     "mean": 0.1148,
+     "p95": 0.4,
+     "max": 0.5,
+     "n": 27
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 26,
+     "candidateMax": 26,
+     "active": 11,
+     "activeMax": 11
+    },
+    "primitives": {
+     "last": 47,
+     "max": 47
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 135,
+     "misses": 0,
+     "lampBuilds": 87,
+     "lampBuildMsTotal": 16.7,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 600,
+    "y": 2930,
+    "angle": -2.2,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-flicker-high.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "entities",
+   "tier": "off",
+   "frames": 22,
+   "fps": 2.08,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 480.933,
+    "p50": 466.7,
+    "p95": 550,
+    "p99": 550,
+    "max": 550
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 5.241,
+    "p50": 4.5,
+    "p95": 10.1,
+    "p99": 15.6,
+    "max": 15.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 66,
+    "p50": 66,
+    "p95": 66,
+    "p99": 66,
+    "max": 66
+   },
+   "cdpPerFrameMs": {
+    "task": 505.281,
+    "script": 6.299,
+    "layout": 0.356
+   },
+   "heapMB": 58.32,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0192,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 87,
+     "lampBuildMsTotal": 16.7,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1538,
+    "y": 2704,
+    "angle": -2.749,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 1,
+    "smilers": 1
+   },
+   "screenshot": "16x9-entities-off.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "entities",
+   "tier": "low",
+   "frames": 21,
+   "fps": 2,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 499.98,
+    "p50": 499.9,
+    "p95": 583.3,
+    "p99": 650,
+    "max": 650
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 5.381,
+    "p50": 5.2,
+    "p95": 6.7,
+    "p99": 8.6,
+    "max": 8.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 66,
+    "p50": 66,
+    "p95": 66,
+    "p99": 66,
+    "max": 66
+   },
+   "cdpPerFrameMs": {
+    "task": 524.042,
+    "script": 6.294,
+    "layout": 0.369
+   },
+   "heapMB": 51.9,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.1458,
+     "p95": 0.2,
+     "max": 0.3,
+     "n": 24
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 12,
+     "candidateMax": 12,
+     "active": 6,
+     "activeMax": 6
+    },
+    "primitives": {
+     "last": 15,
+     "max": 15
+    },
+    "dynamicPolys": {
+     "last": 1,
+     "max": 1,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 2,
+     "max": 2
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 48,
+     "misses": 0,
+     "lampBuilds": 89,
+     "lampBuildMsTotal": 16.8,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1538,
+    "y": 2704,
+    "angle": -2.749,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 1,
+    "smilers": 1
+   },
+   "screenshot": "16x9-entities-low.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "entities",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 2.07,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 484.145,
+    "p50": 483.3,
+    "p95": 550,
+    "p99": 550,
+    "max": 550
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 5.567,
+    "p50": 4.5,
+    "p95": 9.9,
+    "p99": 10.3,
+    "max": 10.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 66,
+    "p50": 66,
+    "p95": 66,
+    "p99": 66,
+    "max": 66
+   },
+   "cdpPerFrameMs": {
+    "task": 530.529,
+    "script": 6.854,
+    "layout": 0.437
+   },
+   "heapMB": 37.34,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.1625,
+     "p95": 0.4,
+     "max": 0.4,
+     "n": 24
+    },
+    "lights": {
+     "last": 4,
+     "max": 4
+    },
+    "casters": {
+     "candidate": 20,
+     "candidateMax": 20,
+     "active": 9,
+     "activeMax": 9
+    },
+    "primitives": {
+     "last": 31,
+     "max": 31
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 3,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 2,
+     "max": 2
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 72,
+     "misses": 0,
+     "lampBuilds": 92,
+     "lampBuildMsTotal": 17.1,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1538,
+    "y": 2704,
+    "angle": -2.749,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 1,
+    "smilers": 1
+   },
+   "screenshot": "16x9-entities-medium.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "entities",
+   "tier": "high",
+   "frames": 22,
+   "fps": 2.04,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 489.662,
+    "p50": 483.3,
+    "p95": 583.2,
+    "p99": 599.9,
+    "max": 599.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 5.145,
+    "p50": 4.3,
+    "p95": 9,
+    "p99": 10.9,
+    "max": 10.9
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 66,
+    "p50": 66,
+    "p95": 66,
+    "p99": 66,
+    "max": 66
+   },
+   "cdpPerFrameMs": {
+    "task": 529.885,
+    "script": 6.123,
+    "layout": 0.376
+   },
+   "heapMB": 52.02,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 27,
+    "buildMs": {
+     "mean": 0.2667,
+     "p95": 0.6,
+     "max": 2.4,
+     "n": 27
+    },
+    "lights": {
+     "last": 4,
+     "max": 4
+    },
+    "casters": {
+     "candidate": 20,
+     "candidateMax": 20,
+     "active": 9,
+     "activeMax": 9
+    },
+    "primitives": {
+     "last": 40,
+     "max": 40
+    },
+    "dynamicPolys": {
+     "last": 4,
+     "max": 4,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 2,
+     "max": 2
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 18,
+     "hits": 81,
+     "misses": 0,
+     "lampBuilds": 95,
+     "lampBuildMsTotal": 17.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 10.8
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1538,
+    "y": 2704,
+    "angle": -2.749,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 1,
+    "smilers": 1
+   },
+   "screenshot": "16x9-entities-high.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "room",
+   "tier": "off",
+   "frames": 21,
+   "fps": 0.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2292.41,
+    "p50": 2233.2,
+    "p95": 2700,
+    "p99": 2716.5,
+    "max": 2716.5
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 4.467,
+    "p50": 3.9,
+    "p95": 7.6,
+    "p99": 8.5,
+    "max": 8.5
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 2492.533,
+    "script": 5.634,
+    "layout": 0.433
+   },
+   "heapMB": 35.41,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0346,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 11,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 11,
+     "lampBuildMsTotal": 24.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-room-off.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "room",
+   "tier": "low",
+   "frames": 21,
+   "fps": 0.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2291.57,
+    "p50": 2283.3,
+    "p95": 2583.2,
+    "p99": 2599.9,
+    "max": 2599.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.61,
+    "p50": 3.4,
+    "p95": 5.7,
+    "p99": 7.1,
+    "max": 7.1
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 2528.988,
+    "script": 4.529,
+    "layout": 0.393
+   },
+   "heapMB": 34.03,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.208,
+     "p95": 0.7,
+     "max": 0.9,
+     "n": 25
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 16,
+     "candidateMax": 16,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 15,
+     "max": 15
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 11,
+     "hits": 50,
+     "misses": 0,
+     "lampBuilds": 13,
+     "lampBuildMsTotal": 27.7,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-room-low.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "room",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 0.45,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2240.745,
+    "p50": 2249.9,
+    "p95": 2333.2,
+    "p99": 2416.6,
+    "max": 2416.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.248,
+    "p50": 3.1,
+    "p95": 5.1,
+    "p99": 7.9,
+    "max": 7.9
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 2442.315,
+    "script": 4.475,
+    "layout": 0.402
+   },
+   "heapMB": 35.64,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.1462,
+     "p95": 0.3,
+     "max": 0.6,
+     "n": 26
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 25,
+     "candidateMax": 25,
+     "active": 10,
+     "activeMax": 10
+    },
+    "primitives": {
+     "last": 35,
+     "max": 35
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 11,
+     "hits": 130,
+     "misses": 0,
+     "lampBuilds": 15,
+     "lampBuildMsTotal": 28.1,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-room-medium.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "room",
+   "tier": "high",
+   "frames": 21,
+   "fps": 0.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2289.08,
+    "p50": 2283.3,
+    "p95": 2350,
+    "p99": 2766.5,
+    "max": 2766.5
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.362,
+    "p50": 3.2,
+    "p95": 4.5,
+    "p99": 5,
+    "max": 5
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 2511.055,
+    "script": 4.434,
+    "layout": 0.364
+   },
+   "heapMB": 34.91,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.14,
+     "p95": 0.3,
+     "max": 0.8,
+     "n": 25
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 29,
+     "candidateMax": 29,
+     "active": 13,
+     "activeMax": 13
+    },
+    "primitives": {
+     "last": 57,
+     "max": 57
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 175,
+     "misses": 0,
+     "lampBuilds": 22,
+     "lampBuildMsTotal": 28.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-room-high.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "dense",
+   "tier": "off",
+   "frames": 21,
+   "fps": 0.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2258.245,
+    "p50": 2233.3,
+    "p95": 2416.5,
+    "p99": 2616.7,
+    "max": 2616.7
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.648,
+    "p50": 2.9,
+    "p95": 8,
+    "p99": 11,
+    "max": 11
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2467.747,
+    "script": 4.578,
+    "layout": 0.39
+   },
+   "heapMB": 34.44,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0077,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 16,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 26,
+     "lampBuildMsTotal": 28.8,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-dense-off.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "dense",
+   "tier": "low",
+   "frames": 20,
+   "fps": 0.43,
+   "frameIntervalMs": {
+    "n": 19,
+    "mean": 2351.663,
+    "p50": 2316.5,
+    "p95": 2499.9,
+    "p99": 2550,
+    "max": 2550
+   },
+   "rafCpuMsPerFrame": {
+    "n": 20,
+    "mean": 3.535,
+    "p50": 3.4,
+    "p95": 4.8,
+    "p99": 6.7,
+    "max": 6.7
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 20,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 20,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2587.469,
+    "script": 4.534,
+    "layout": 0.372
+   },
+   "heapMB": 35.94,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.192,
+     "p95": 0.3,
+     "max": 0.5,
+     "n": 25
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 21,
+     "candidateMax": 21,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 11,
+     "max": 11
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 3,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 16,
+     "hits": 50,
+     "misses": 0,
+     "lampBuilds": 28,
+     "lampBuildMsTotal": 29,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-dense-low.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "dense",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 0.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2284.07,
+    "p50": 2266.6,
+    "p95": 2549.9,
+    "p99": 2649.8,
+    "max": 2649.8
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.833,
+    "p50": 3.2,
+    "p95": 7.1,
+    "p99": 7.6,
+    "max": 7.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2505.96,
+    "script": 4.813,
+    "layout": 0.358
+   },
+   "heapMB": 35.2,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.1923,
+     "p95": 0.3,
+     "max": 0.7,
+     "n": 26
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 47,
+     "candidateMax": 47,
+     "active": 13,
+     "activeMax": 13
+    },
+    "primitives": {
+     "last": 43,
+     "max": 43
+    },
+    "dynamicPolys": {
+     "last": 9,
+     "max": 9,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 17,
+     "hits": 130,
+     "misses": 0,
+     "lampBuilds": 33,
+     "lampBuildMsTotal": 29.7,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-dense-medium.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "dense",
+   "tier": "high",
+   "frames": 21,
+   "fps": 0.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2279.91,
+    "p50": 2283.3,
+    "p95": 2366.6,
+    "p99": 2499.8,
+    "max": 2499.8
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.838,
+    "p50": 3.3,
+    "p95": 7.8,
+    "p99": 8.8,
+    "max": 8.8
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2523.625,
+    "script": 4.939,
+    "layout": 0.383
+   },
+   "heapMB": 34.42,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.4346,
+     "p95": 0.7,
+     "max": 5.5,
+     "n": 26
+    },
+    "lights": {
+     "last": 10,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 72,
+     "candidateMax": 72,
+     "active": 19,
+     "activeMax": 19
+    },
+    "primitives": {
+     "last": 80,
+     "max": 80
+    },
+    "dynamicPolys": {
+     "last": 12,
+     "max": 12,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 234,
+     "misses": 0,
+     "lampBuilds": 42,
+     "lampBuildMsTotal": 30.5,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-dense-high.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "sweep",
+   "tier": "off",
+   "frames": 21,
+   "fps": 0.43,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2326.575,
+    "p50": 2316.6,
+    "p95": 2449.9,
+    "p99": 2766.6,
+    "max": 2766.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.014,
+    "p50": 2.8,
+    "p95": 4.8,
+    "p99": 5.9,
+    "max": 5.9
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2540.084,
+    "script": 3.831,
+    "layout": 0.356
+   },
+   "heapMB": 36.32,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.016,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 25
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 42,
+     "lampBuildMsTotal": 30.5,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 199.547,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-sweep-off.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "sweep",
+   "tier": "low",
+   "frames": 21,
+   "fps": 0.43,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2307.41,
+    "p50": 2316.6,
+    "p95": 2450,
+    "p99": 2500,
+    "max": 2500
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.219,
+    "p50": 3,
+    "p95": 4.1,
+    "p99": 7,
+    "max": 7
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2514.75,
+    "script": 4.211,
+    "layout": 0.409
+   },
+   "heapMB": 35.24,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.1615,
+     "p95": 0.4,
+     "max": 0.5,
+     "n": 26
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 17,
+     "candidateMax": 20,
+     "active": 3,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 9,
+     "max": 11
+    },
+    "dynamicPolys": {
+     "last": 1,
+     "max": 3,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 52,
+     "misses": 0,
+     "lampBuilds": 44,
+     "lampBuildMsTotal": 30.5,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 397.862,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-sweep-low.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "sweep",
+   "tier": "medium",
+   "frames": 20,
+   "fps": 0.41,
+   "frameIntervalMs": {
+    "n": 19,
+    "mean": 2444.637,
+    "p50": 2416.7,
+    "p95": 2583.2,
+    "p99": 2816.6,
+    "max": 2816.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 20,
+    "mean": 3.56,
+    "p50": 3.4,
+    "p95": 5.5,
+    "p99": 8.2,
+    "max": 8.2
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 20,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 20,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2704.539,
+    "script": 4.503,
+    "layout": 0.672
+   },
+   "heapMB": 33.88,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.228,
+     "p95": 0.6,
+     "max": 0.8,
+     "n": 25
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 42,
+     "candidateMax": 47,
+     "active": 11,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 37,
+     "max": 46
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 12,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 125,
+     "misses": 0,
+     "lampBuilds": 49,
+     "lampBuildMsTotal": 30.8,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 604.202,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-sweep-medium.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "sweep",
+   "tier": "high",
+   "frames": 20,
+   "fps": 0.42,
+   "frameIntervalMs": {
+    "n": 19,
+    "mean": 2375.347,
+    "p50": 2316.6,
+    "p95": 2566.6,
+    "p99": 2816.6,
+    "max": 2816.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 20,
+    "mean": 3.285,
+    "p50": 3.1,
+    "p95": 4.5,
+    "p99": 4.8,
+    "max": 4.8
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 20,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 20,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2610.354,
+    "script": 4.275,
+    "layout": 0.345
+   },
+   "heapMB": 35.75,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.196,
+     "p95": 0.3,
+     "max": 0.4,
+     "n": 25
+    },
+    "lights": {
+     "last": 10,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 73,
+     "candidateMax": 73,
+     "active": 21,
+     "activeMax": 21
+    },
+    "primitives": {
+     "last": 87,
+     "max": 87
+    },
+    "dynamicPolys": {
+     "last": 19,
+     "max": 19,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 5
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 225,
+     "misses": 0,
+     "lampBuilds": 54,
+     "lampBuildMsTotal": 31.2,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 802.793,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-sweep-high.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "peers",
+   "tier": "off",
+   "frames": 21,
+   "fps": 0.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2264.905,
+    "p50": 2250,
+    "p95": 2466.6,
+    "p99": 2466.6,
+    "max": 2466.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 6.062,
+    "p50": 5.4,
+    "p95": 10.9,
+    "p99": 11.4,
+    "max": 11.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 2473.926,
+    "script": 7.735,
+    "layout": 0.341
+   },
+   "heapMB": 37.14,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.0231,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 26
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 54,
+     "lampBuildMsTotal": 31.2,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-peers-off.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "peers",
+   "tier": "low",
+   "frames": 20,
+   "fps": 0.41,
+   "frameIntervalMs": {
+    "n": 19,
+    "mean": 2448.147,
+    "p50": 2449.9,
+    "p95": 2816.5,
+    "p99": 2849.9,
+    "max": 2849.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 20,
+    "mean": 5.88,
+    "p50": 5.2,
+    "p95": 9.3,
+    "p99": 10.2,
+    "max": 10.2
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 20,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 20,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 2553.866,
+    "script": 7.938,
+    "layout": 0.335
+   },
+   "heapMB": 39.44,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.2958,
+     "p95": 0.7,
+     "max": 2.5,
+     "n": 24
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 16,
+     "candidateMax": 16,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 18,
+     "max": 18
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 48,
+     "misses": 0,
+     "lampBuilds": 56,
+     "lampBuildMsTotal": 31.4,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-peers-low.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "peers",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 0.43,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2319.075,
+    "p50": 2300,
+    "p95": 2433.2,
+    "p99": 2716.6,
+    "max": 2716.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 6.676,
+    "p50": 5.2,
+    "p95": 7.4,
+    "p99": 28.9,
+    "max": 28.9
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 2564.798,
+    "script": 9.494,
+    "layout": 0.353
+   },
+   "heapMB": 36.4,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.2269,
+     "p95": 0.3,
+     "max": 0.8,
+     "n": 26
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 26,
+     "candidateMax": 27,
+     "active": 11,
+     "activeMax": 12
+    },
+    "primitives": {
+     "last": 39,
+     "max": 41
+    },
+    "dynamicPolys": {
+     "last": 1,
+     "max": 3,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 130,
+     "misses": 0,
+     "lampBuilds": 61,
+     "lampBuildMsTotal": 31.9,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-peers-medium.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "peers",
+   "tier": "high",
+   "frames": 20,
+   "fps": 0.43,
+   "frameIntervalMs": {
+    "n": 19,
+    "mean": 2351.658,
+    "p50": 2316.6,
+    "p95": 2516.6,
+    "p99": 2616.5,
+    "max": 2616.5
+   },
+   "rafCpuMsPerFrame": {
+    "n": 20,
+    "mean": 6.325,
+    "p50": 5.5,
+    "p95": 9.9,
+    "p99": 10.2,
+    "max": 10.2
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 20,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 20,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 2582.307,
+    "script": 8.738,
+    "layout": 0.338
+   },
+   "heapMB": 38.76,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.324,
+     "p95": 0.7,
+     "max": 1.2,
+     "n": 25
+    },
+    "lights": {
+     "last": 11,
+     "max": 11
+    },
+    "casters": {
+     "candidate": 32,
+     "candidateMax": 32,
+     "active": 16,
+     "activeMax": 16
+    },
+    "primitives": {
+     "last": 67,
+     "max": 67
+    },
+    "dynamicPolys": {
+     "last": 7,
+     "max": 7,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 21,
+     "hits": 175,
+     "misses": 0,
+     "lampBuilds": 66,
+     "lampBuildMsTotal": 32.2,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 6.3
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-peers-high.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "room",
+   "tier": "off",
+   "frames": 21,
+   "fps": 0.91,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1104.125,
+    "p50": 1099.9,
+    "p95": 1183.3,
+    "p99": 1449.9,
+    "max": 1449.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 14.486,
+    "p50": 13.7,
+    "p95": 23.5,
+    "p99": 33.3,
+    "max": 33.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 1227.126,
+    "script": 15.976,
+    "layout": 1.647
+   },
+   "heapMB": 33.84,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.016,
+     "p95": 0.1,
+     "max": 0.1,
+     "n": 25
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 5,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 5,
+     "lampBuildMsTotal": 14.1,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-room-off.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "room",
+   "tier": "low",
+   "frames": 21,
+   "fps": 0.87,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1154.115,
+    "p50": 1133.3,
+    "p95": 1399.9,
+    "p99": 1633.2,
+    "max": 1633.2
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 11.881,
+    "p50": 9.8,
+    "p95": 24,
+    "p99": 24.7,
+    "max": 24.7
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 1202.41,
+    "script": 13.204,
+    "layout": 0.952
+   },
+   "heapMB": 33.62,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.2583,
+     "p95": 0.8,
+     "max": 1,
+     "n": 24
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 16,
+     "candidateMax": 16,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 13,
+     "max": 13
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 5,
+     "hits": 48,
+     "misses": 0,
+     "lampBuilds": 5,
+     "lampBuildMsTotal": 14.1,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-room-low.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "room",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 0.85,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1181.62,
+    "p50": 1183.3,
+    "p95": 1283.2,
+    "p99": 1533.2,
+    "max": 1533.2
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 12.362,
+    "p50": 12.6,
+    "p95": 19.8,
+    "p99": 22.4,
+    "max": 22.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 1299.17,
+    "script": 13.516,
+    "layout": 1.589
+   },
+   "heapMB": 34.44,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.936,
+     "p95": 3.2,
+     "max": 3.3,
+     "n": 25
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 25,
+     "candidateMax": 25,
+     "active": 10,
+     "activeMax": 10
+    },
+    "primitives": {
+     "last": 33,
+     "max": 33
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 7,
+     "hits": 125,
+     "misses": 0,
+     "lampBuilds": 10,
+     "lampBuildMsTotal": 15,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-room-medium.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "room",
+   "tier": "high",
+   "frames": 21,
+   "fps": 0.87,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1149.955,
+    "p50": 1133.4,
+    "p95": 1333.2,
+    "p99": 1499.9,
+    "max": 1499.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 12.81,
+    "p50": 12.6,
+    "p95": 21,
+    "p99": 30.4,
+    "max": 30.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 1268.616,
+    "script": 15.045,
+    "layout": 1.879
+   },
+   "heapMB": 33.66,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.476,
+     "p95": 2,
+     "max": 2.2,
+     "n": 25
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 29,
+     "candidateMax": 29,
+     "active": 13,
+     "activeMax": 13
+    },
+    "primitives": {
+     "last": 55,
+     "max": 55
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 9,
+     "hits": 175,
+     "misses": 0,
+     "lampBuilds": 17,
+     "lampBuildMsTotal": 20,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-room-high.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "dense",
+   "tier": "off",
+   "frames": 21,
+   "fps": 0.88,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1140.79,
+    "p50": 1100,
+    "p95": 1300,
+    "p99": 1466.6,
+    "max": 1466.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 10.581,
+    "p50": 10.2,
+    "p95": 16.3,
+    "p99": 20.6,
+    "max": 20.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 90,
+    "p50": 90,
+    "p95": 93,
+    "p99": 95,
+    "max": 95
+   },
+   "cdpPerFrameMs": {
+    "task": 1284.952,
+    "script": 12.07,
+    "layout": 1.769
+   },
+   "heapMB": 34.45,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.052,
+     "p95": 0.4,
+     "max": 0.5,
+     "n": 25
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 13,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 21,
+     "lampBuildMsTotal": 20.4,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-dense-off.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "dense",
+   "tier": "low",
+   "frames": 21,
+   "fps": 0.76,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1311.615,
+    "p50": 1300,
+    "p95": 1433.3,
+    "p99": 1733.3,
+    "max": 1733.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 14.8,
+    "p50": 13.3,
+    "p95": 26.4,
+    "p99": 29.9,
+    "max": 29.9
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 90.429,
+    "p50": 90,
+    "p95": 94,
+    "p99": 94,
+    "max": 94
+   },
+   "cdpPerFrameMs": {
+    "task": 1363.571,
+    "script": 17.511,
+    "layout": 1.616
+   },
+   "heapMB": 34.16,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.948,
+     "p95": 3.3,
+     "max": 3.8,
+     "n": 25
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 21,
+     "candidateMax": 21,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 11,
+     "max": 11
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 3,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 13,
+     "hits": 50,
+     "misses": 0,
+     "lampBuilds": 23,
+     "lampBuildMsTotal": 21.1,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-dense-low.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "dense",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 0.82,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1214.95,
+    "p50": 1200,
+    "p95": 1366.7,
+    "p99": 1399.9,
+    "max": 1399.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 14.648,
+    "p50": 14.8,
+    "p95": 21.1,
+    "p99": 27.6,
+    "max": 27.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 90.667,
+    "p50": 90,
+    "p95": 94,
+    "p99": 95,
+    "max": 95
+   },
+   "cdpPerFrameMs": {
+    "task": 1310.65,
+    "script": 17.647,
+    "layout": 1.81
+   },
+   "heapMB": 33.36,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 26,
+    "buildMs": {
+     "mean": 0.7923,
+     "p95": 2.1,
+     "max": 3.3,
+     "n": 26
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 47,
+     "candidateMax": 47,
+     "active": 13,
+     "activeMax": 13
+    },
+    "primitives": {
+     "last": 43,
+     "max": 43
+    },
+    "dynamicPolys": {
+     "last": 9,
+     "max": 9,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 14,
+     "hits": 130,
+     "misses": 0,
+     "lampBuilds": 28,
+     "lampBuildMsTotal": 22.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-dense-medium.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "dense",
+   "tier": "high",
+   "frames": 21,
+   "fps": 0.86,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1156.625,
+    "p50": 1149.9,
+    "p95": 1333.3,
+    "p99": 1483.2,
+    "max": 1483.2
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 12.433,
+    "p50": 12.2,
+    "p95": 23.1,
+    "p99": 23.2,
+    "max": 23.2
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 91,
+    "p50": 92,
+    "p95": 94,
+    "p99": 94,
+    "max": 94
+   },
+   "cdpPerFrameMs": {
+    "task": 1209.164,
+    "script": 13.348,
+    "layout": 0.929
+   },
+   "heapMB": 35.2,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.7958,
+     "p95": 4,
+     "max": 4.2,
+     "n": 24
+    },
+    "lights": {
+     "last": 7,
+     "max": 7
+    },
+    "casters": {
+     "candidate": 59,
+     "candidateMax": 59,
+     "active": 16,
+     "activeMax": 16
+    },
+    "primitives": {
+     "last": 68,
+     "max": 68
+    },
+    "dynamicPolys": {
+     "last": 12,
+     "max": 12,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 144,
+     "misses": 0,
+     "lampBuilds": 34,
+     "lampBuildMsTotal": 23.2,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-dense-high.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "sweep",
+   "tier": "off",
+   "frames": 21,
+   "fps": 0.87,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1145.785,
+    "p50": 1133.3,
+    "p95": 1416.6,
+    "p99": 1466.6,
+    "max": 1466.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 13.067,
+    "p50": 13,
+    "p95": 19.8,
+    "p99": 21.4,
+    "max": 21.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 90.905,
+    "p50": 91,
+    "p95": 93,
+    "p99": 93,
+    "max": 93
+   },
+   "cdpPerFrameMs": {
+    "task": 1243.644,
+    "script": 13.393,
+    "layout": 1.358
+   },
+   "heapMB": 34.99,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.04,
+     "p95": 0.3,
+     "max": 0.3,
+     "n": 25
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 34,
+     "lampBuildMsTotal": 23.2,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 95.567,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-sweep-off.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "sweep",
+   "tier": "low",
+   "frames": 21,
+   "fps": 0.9,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1111.62,
+    "p50": 1100,
+    "p95": 1166.7,
+    "p99": 1349.9,
+    "max": 1349.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 14.876,
+    "p50": 13.3,
+    "p95": 21,
+    "p99": 37.1,
+    "max": 37.1
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 90.905,
+    "p50": 91,
+    "p95": 95,
+    "p99": 95,
+    "max": 95
+   },
+   "cdpPerFrameMs": {
+    "task": 1220.857,
+    "script": 16.593,
+    "layout": 1.341
+   },
+   "heapMB": 34.45,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.884,
+     "p95": 3.1,
+     "max": 3.5,
+     "n": 25
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 18,
+     "candidateMax": 22,
+     "active": 4,
+     "activeMax": 6
+    },
+    "primitives": {
+     "last": 10,
+     "max": 12
+    },
+    "dynamicPolys": {
+     "last": 2,
+     "max": 4,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 2
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 50,
+     "misses": 0,
+     "lampBuilds": 36,
+     "lampBuildMsTotal": 23.4,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 190.976,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-sweep-low.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "sweep",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 0.88,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1132.46,
+    "p50": 1133.2,
+    "p95": 1316.7,
+    "p99": 1483.4,
+    "max": 1483.4
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 13.014,
+    "p50": 13.5,
+    "p95": 19.1,
+    "p99": 22.3,
+    "max": 22.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 91.286,
+    "p50": 91,
+    "p95": 95,
+    "p99": 96,
+    "max": 96
+   },
+   "cdpPerFrameMs": {
+    "task": 1178.388,
+    "script": 15.828,
+    "layout": 1.398
+   },
+   "heapMB": 35.26,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 1.192,
+     "p95": 3.5,
+     "max": 3.7,
+     "n": 25
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 45,
+     "candidateMax": 48,
+     "active": 13,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 43,
+     "max": 46
+    },
+    "dynamicPolys": {
+     "last": 9,
+     "max": 12,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 125,
+     "misses": 0,
+     "lampBuilds": 41,
+     "lampBuildMsTotal": 24.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 289.383,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-sweep-medium.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "sweep",
+   "tier": "high",
+   "frames": 21,
+   "fps": 0.84,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1187.45,
+    "p50": 1183.3,
+    "p95": 1383.2,
+    "p99": 1433.2,
+    "max": 1433.2
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 12.605,
+    "p50": 13.2,
+    "p95": 16.7,
+    "p99": 17.1,
+    "max": 17.1
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 90.857,
+    "p50": 91,
+    "p95": 95,
+    "p99": 95,
+    "max": 95
+   },
+   "cdpPerFrameMs": {
+    "task": 1241.799,
+    "script": 14.49,
+    "layout": 1.64
+   },
+   "heapMB": 34.65,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.8167,
+     "p95": 3.4,
+     "max": 3.6,
+     "n": 24
+    },
+    "lights": {
+     "last": 7,
+     "max": 7
+    },
+    "casters": {
+     "candidate": 55,
+     "candidateMax": 60,
+     "active": 13,
+     "activeMax": 17
+    },
+    "primitives": {
+     "last": 56,
+     "max": 72
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 144,
+     "misses": 0,
+     "lampBuilds": 46,
+     "lampBuildMsTotal": 25,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 388.054,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-sweep-high.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "peers",
+   "tier": "off",
+   "frames": 21,
+   "fps": 0.72,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1381.615,
+    "p50": 1350,
+    "p95": 1633.2,
+    "p99": 1633.3,
+    "max": 1633.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 23.371,
+    "p50": 24.3,
+    "p95": 36.9,
+    "p99": 40.3,
+    "max": 40.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 1428.937,
+    "script": 27.26,
+    "layout": 1.347
+   },
+   "heapMB": 35.77,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 0.15,
+     "p95": 0.9,
+     "max": 2.6,
+     "n": 24
+    },
+    "lights": {
+     "last": 0,
+     "max": 0
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 0,
+     "active": 0,
+     "activeMax": 0
+    },
+    "primitives": {
+     "last": 0,
+     "max": 0
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 0
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 0,
+     "misses": 0,
+     "lampBuilds": 46,
+     "lampBuildMsTotal": 25,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-peers-off.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "peers",
+   "tier": "low",
+   "frames": 21,
+   "fps": 0.69,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1452.44,
+    "p50": 1416.6,
+    "p95": 1649.9,
+    "p99": 1766.6,
+    "max": 1766.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 28.376,
+    "p50": 24.6,
+    "p95": 43.6,
+    "p99": 74.9,
+    "max": 74.9
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 1513.979,
+    "script": 31.991,
+    "layout": 1.851
+   },
+   "heapMB": 36.92,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 1.1917,
+     "p95": 3.4,
+     "max": 3.7,
+     "n": 24
+    },
+    "lights": {
+     "last": 3,
+     "max": 3
+    },
+    "casters": {
+     "candidate": 16,
+     "candidateMax": 16,
+     "active": 5,
+     "activeMax": 5
+    },
+    "primitives": {
+     "last": 16,
+     "max": 16
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 0,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 48,
+     "misses": 0,
+     "lampBuilds": 48,
+     "lampBuildMsTotal": 25.3,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-peers-low.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "peers",
+   "tier": "medium",
+   "frames": 21,
+   "fps": 0.7,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1429.115,
+    "p50": 1416.6,
+    "p95": 1466.6,
+    "p99": 1933.3,
+    "max": 1933.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 26.748,
+    "p50": 24.2,
+    "p95": 42.7,
+    "p99": 43.6,
+    "max": 43.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 1564.333,
+    "script": 29.782,
+    "layout": 1.94
+   },
+   "heapMB": 41.05,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 25,
+    "buildMs": {
+     "mean": 0.916,
+     "p95": 2.1,
+     "max": 2.1,
+     "n": 25
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 27,
+     "candidateMax": 27,
+     "active": 12,
+     "activeMax": 12
+    },
+    "primitives": {
+     "last": 39,
+     "max": 39
+    },
+    "dynamicPolys": {
+     "last": 3,
+     "max": 3,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 2
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 125,
+     "misses": 0,
+     "lampBuilds": 53,
+     "lampBuildMsTotal": 27.5,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-peers-medium.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "peers",
+   "tier": "high",
+   "frames": 21,
+   "fps": 0.74,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1345.775,
+    "p50": 1316.6,
+    "p95": 1450,
+    "p99": 1766.7,
+    "max": 1766.7
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 22.319,
+    "p50": 22.8,
+    "p95": 33.2,
+    "p99": 43.8,
+    "max": 43.8
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 1412.61,
+    "script": 23.865,
+    "layout": 1.632
+   },
+   "heapMB": 38.1,
+   "shadows": {
+    "version": "shadows-2d 1.0",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 24,
+    "buildMs": {
+     "mean": 1.575,
+     "p95": 3.7,
+     "max": 4.6,
+     "n": 24
+    },
+    "lights": {
+     "last": 11,
+     "max": 11
+    },
+    "casters": {
+     "candidate": 32,
+     "candidateMax": 32,
+     "active": 16,
+     "activeMax": 16
+    },
+    "primitives": {
+     "last": 65,
+     "max": 65
+    },
+    "dynamicPolys": {
+     "last": 7,
+     "max": 7,
+     "budget": 700,
+     "props": 0,
+     "penumbrae": 3
+    },
+    "entityShadows": {
+     "last": 4,
+     "max": 4
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 168,
+     "misses": 0,
+     "lampBuilds": 58,
+     "lampBuildMsTotal": 31.6,
+     "lampBuildMsMax": 0,
+     "staticBuilds": 1,
+     "staticBuildMs": 7.2
+    },
+    "errors": 0
+   },
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-peers-high.jpg"
+  }
+ ],
+ "errors": {
+  "16x9": [],
+  "hidpi": [],
+  "mobile": []
+ },
+ "env": {
+  "16x9": {
+   "dpr": 1,
+   "inner": [
+    1280,
+    720
+   ],
+   "cores": 2,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "shadows": true,
+   "shadowQualityDefault": "medium",
+   "lightCanvas": [
+    1280,
+    720
+   ],
+   "pixi": [
+    1280,
+    720
+   ],
+   "cpuThrottle": 1,
+   "staged": {
+    "h": 0,
+    "s": 0
+   }
+  },
+  "hidpi": {
+   "dpr": 2,
+   "inner": [
+    1920,
+    1080
+   ],
+   "cores": 2,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "shadows": true,
+   "shadowQualityDefault": "medium",
+   "lightCanvas": [
+    1920,
+    1080
+   ],
+   "pixi": [
+    3840,
+    2160
+   ],
+   "cpuThrottle": 1,
+   "staged": {
+    "h": 0,
+    "s": 0
+   }
+  },
+  "mobile": {
+   "dpr": 3,
+   "inner": [
+    390,
+    844
+   ],
+   "cores": 2,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "shadows": true,
+   "shadowQualityDefault": "low",
+   "lightCanvas": [
+    390,
+    844
+   ],
+   "pixi": [
+    780,
+    1688
+   ],
+   "cpuThrottle": 4,
+   "staged": {
+    "h": 0,
+    "s": 0
+   }
+  }
+ },
+ "missing": {
+  "16x9": [
+   "/camera_policy.js",
+   "/timing_policy.js"
+  ],
+  "hidpi": [
+   "/camera_policy.js",
+   "/timing_policy.js"
+  ],
+  "mobile": [
+   "/camera_policy.js",
+   "/timing_policy.js"
+  ]
+ },
+ "finished": "2026-10-05T10:56:04.627Z",
+ "serverLog": [
+  "The Far Backrooms \u2192 http://localhost:9461  (share  ?room=NAME  to group up)",
+  "[admin] WANDERER#1 unlocked admin (room bench16x950178)",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: hound remove x10 -> 1",
+  "[admin] room=bench16x950178 BENCH#1: smiler remove x10 -> 5",
+  "[admin] room=bench16x950178 BENCH#1: hound remove x10 -> 0",
+  "[admin] room=bench16x950178 BENCH#1: smiler remove x10 -> 0",
+  "[admin] room=bench16x950178 BENCH#1: god BENCH -> true",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: blackout off",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: blackout off",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: blackout off",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: blackout off",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: blackout off",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] WANDERER#2 unlocked admin (room bench16x950178)",
+  "[admin] WANDERER#3 unlocked admin (room bench16x950178)",
+  "[admin] WANDERER#4 unlocked admin (room bench16x950178)",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: blackout on",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: blackout off",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: blackout off",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false",
+  "[admin] room=bench16x950178 BENCH#1: spawn hound near",
+  "[admin] room=bench16x950178 BENCH#1: freeze true",
+  "[admin] room=bench16x950178 BENCH#1: freeze false"
+ ]
+}

@@ -1,0 +1,35 @@
+# profile_probe.js on the SH3 module (shadows-2d 1.0), same settings
+frames 16 mean 0.5562 p95 1.5 max 3.3
+total ms 22801
+ 22300.8 (program) :-1
+   137.1 (garbage collector) :-1
+    45.2 (idle) :-1
+    22.0 window.__mp mp.js:791
+    15.4 ws.onmessage mp.js:64
+    14.9 Hl index-DKbV5Nv9.js:334
+    13.0 requestAnimationFrame :-1
+    12.4 Uc index-DKbV5Nv9.js:322
+    11.5 (anon) GraphicsContext-vm7TDg_M.js:0
+     8.8 (anon) :0
+     8.4 drawLight index-DKbV5Nv9.js:335
+     8.3 (anon) index-DKbV5Nv9.js:335
+     8.0 lineTo :-1
+     7.4 (anon) :10
+     7.2 send :-1
+     7.0 update index-DKbV5Nv9.js:329
+     6.0 (anon) CanvasPool-DecUtJxW.js:3
+     5.7 build GraphicsContext-vm7TDg_M.js:0
+     5.6 Bc index-DKbV5Nv9.js:322
+     5.5 runOnHash RenderTargetSystem-CgUxHIsn.js:181
+     4.9 stepInner move.js:151
+     4.9 save :-1
+     4.8 O GraphicsContext-vm7TDg_M.js:0
+     4.6 Ge GraphicsContext-vm7TDg_M.js:0
+     4.5 _buildInstructions RenderTargetSystem-CgUxHIsn.js:181
+--- shadows-2d.js only
+     1.9 entityShadows shadows-2d.js:534
+     1.4 frame shadows-2d.js:578
+     1.1 carried shadows-2d.js:470
+     0.9 add shadows-2d.js:475
+     0.6 viewRect shadows-2d.js:573
+     0.1 lamps shadows-2d.js:431

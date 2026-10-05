@@ -34,15 +34,19 @@ const counts = P => P.evaluate(() => ({ h: (window.__hounds || []).filter(Boolea
 const adminInfo = P => P.evaluate(() => window.__wsTap && window.__wsTap.admin);
 async function until(fn, ms = 6000, every = 150) { const t = Date.now(); for (; ;) { const v = await fn(); if (v) return v; if (Date.now() - t > ms) return v; await sleep(every); } }
 
-/* join a room as `name`; admin pages get the test admin authority (the same testAuth the retained suites use) */
-async function join(browser, port, room, name, { admin = true, viewport = { width: 1280, height: 720 }, dpr = 1, mobile = false, query = '' } = {}) {
+/* join a room as `name`; admin pages get the test admin authority (the same testAuth the retained suites use).
+ * `init`: extra page init script(s) that run after the harness's own (e.g. the bench's frame accounting) */
+async function join(browser, port, room, name, { admin = true, viewport = { width: 1280, height: 720 }, dpr = 1, mobile = false, query = '', init = null } = {}) {
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: dpr, isMobile: mobile, hasTouch: mobile }), P = await ctx.newPage(), errs = [], missing = [];
   await P.addInitScript(INIT);
+  for (const s of [].concat(init || [])) await P.addInitScript(s);
   P.on('pageerror', e => errs.push('pageerror: ' + String(e).slice(0, 240)));
   P.on('console', m => { const t = m.text(); if (m.type() === 'error' && !/Failed to load resource: the server responded with a status of 404/.test(t) && !/fonts\.g|ERR_TUNNEL/.test(t)) errs.push('console: ' + t.slice(0, 240)); if (/shadows-2d/.test(t)) errs.push('module: ' + t.slice(0, 240)); });
   P.on('response', r => { if (r.status() === 404) missing.push(new URL(r.url()).pathname); });
-  await P.goto(`http://127.0.0.1:${port}/?room=${room}${query}`); await sleep(2000);
-  await P.fill('#name', name);
+  await P.goto(`http://127.0.0.1:${port}/?room=${room}${query}`, { timeout: 60000 }); await sleep(2000);
+  /* a slow software-rendered box with other clients already drawing can take well over the default 30 s to show the lobby */
+  await P.waitForSelector('#name', { state: 'visible', timeout: 60000 });
+  await P.fill('#name', name, { timeout: 60000 });
   await P.evaluate(a => { document.getElementById('enter').click(); if (a && window.__net && __net.testAuth) __net.testAuth('smoor'); }, admin);
   await until(() => P.evaluate(() => !!(window.__api && __api.H && window.__ws && __ws.readyState === 1 && document.getElementById('hud') && !document.getElementById('hud').hidden)), 15000);
   if (admin) await until(() => adminInfo(P), 6000);

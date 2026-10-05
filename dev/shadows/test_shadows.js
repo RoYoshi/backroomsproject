@@ -490,6 +490,29 @@ run('C18 a carried light\'s shadows take away only that light: zero outside its 
   return { ok: inside > 0 && out > 0 && outLit === 0 && maxIn > .05, note: `samples in the beam ${inside} (max alpha ${maxIn.toFixed(3)}), outside it ${out} (any shadow there: ${outLit})` };
 });
 
+run('C19 bounded work: in steady state the ray queries per frame stay under a ceiling computed from the tier caps alone (never from the map), and at most `builds` lamp caches are built per frame', () => {
+  const out = {};
+  for (const q of ['low', 'medium', 'high']) {
+    const p = makePage(); p.S.setQuality(q); p.person.visible = false;         // no entity at all: entity shadows (light.js samples) are capped separately
+    const t = p.S.tiers()[q], A = p.win.__api; let uc = 0; const realUc = A.Uc; A.Uc = function () { uc++; return realUc.apply(this, arguments); };
+    /* the ceiling: per carried light, props (fading included: 2 x cap) x (4 + 4 (K + 1)) and corners (2 x cap) x (4 + J·ceil(3/J) + 1) */
+    const perLight = (props, K, corners, J) => 2 * props * (4 + 4 * (K + 1)) + 2 * corners * (4 + (J ? J * Math.ceil(3 / J) + 1 : 0));
+    const ceiling = perLight(t.localMax, t.localK, t.localC, t.localJ) + t.peers * perLight(t.peerMax, t.peerK, t.peerC, t.peerJ);
+    let worst = 0, worstAt = null, buildsWorst = 0; let rnd = 5; const R = () => (rnd = rnd * 16807 % 2147483647) / 2147483647;
+    const spots = [[8000, 1300, .3], [7860, 1150, .65], [3984, 3470, -1.57], [1776, 3460, -1.7], [1060, 3300, -.25]];
+    for (let k = 0; k < 25; k++) spots.push([300 + R() * 8800, 300 + R() * 6200, R() * 6.3]);
+    for (const [x, y, a] of spots) {
+      if (p.g.Hc(Math.floor(x / 96), Math.floor(y / 96))) continue;
+      at(p, x, y, a); p.win.__peerLights = []; for (let k = 0; k < 6; k++) p.win.__peerLights.push({ x: x + Math.cos(k) * 160, y: y + Math.sin(k) * 160, angle: k * 1.1, kind: ['flashlight', 'headlamp', 'lantern'][k % 3], on: true });
+      for (let i = 0; i < 45; i++) { const b0 = p.S.stats().cache.lampBuilds; p.frame(1 / 60); buildsWorst = Math.max(buildsWorst, p.S.stats().cache.lampBuilds - b0); }   // warms the lamp caches
+      for (let i = 0; i < 3; i++) { const b0 = p.S.stats().cache.lampBuilds; uc = 0; p.frame(1 / 60); if (p.S.stats().cache.lampBuilds === b0 && uc > worst) { worst = uc; worstAt = [x, y]; } }
+    }
+    A.Uc = realUc;
+    out[q] = { worstRayQueriesPerFrame: worst, ceiling, at: worstAt && worstAt.map(Math.round), lampBuildsPerFrameMax: buildsWorst, builds: t.builds };
+  }
+  return { ok: Object.values(out).every(o => o.worstRayQueriesPerFrame <= o.ceiling && o.lampBuildsPerFrameMax <= o.builds), note: JSON.stringify(out) + ' (entity shadows are capped separately, S09)' };
+});
+
 const pass = results.filter(r => r.ok).length;
 console.log(`\n${pass}/${results.length} passed` + (pass < results.length ? '\nFAILED: ' + results.filter(r => !r.ok).map(r => r.name).join('; ') : ''));
 process.exitCode = pass === results.length ? 0 : 1;

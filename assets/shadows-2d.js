@@ -35,7 +35,7 @@
 (() => {
   'use strict';
   if (window.__shadows) return;
-  const VERSION = 'shadows-2d SH2';
+  const VERSION = 'shadows-2d 1.0';
   const T = 96, CHUNK = 16, BUCKET = 384;                                  // level cell; AO chunk (cells); caster index bucket (px)
   const QUALITIES = ['off', 'low', 'medium', 'high'];
   /* per-quality budgets.  Every per-frame pass is capped and camera-culled; nothing scales with the size of the map.
@@ -365,18 +365,20 @@
       const ang = Math.atan2(p.cy - L.y, p.cx - L.x), baked = p.bakedAng === null ? 1 : 1 - .45 * Math.max(0, Math.cos(ang - p.bakedAng));
       const kk = L.h > p.hp + 1 ? Math.min(o.kmax, p.hp / (L.h - p.hp)) : o.kmax, a = o.k * wp * p.a * baked / o.jit.length;
       used++; if (S.dbg) S.dbg.props.push(p.x, p.y, p.w, p.h);
-      for (const [jx, jy] of o.jit) {
-        const lx = L.x + jx, ly = L.y + jy;
-        for (const [f, la] of [[1, .6], [.45, .5]]) {                         // a long soft tail and a darker short core
-          tmpPts.length = 0;
-          for (const [cx, cy] of [[p.x, p.y], [p.x + p.w, p.y], [p.x + p.w, p.y + p.h], [p.x, p.y + p.h]]) {
-            let tx = cx + (cx - lx) * kk * f, ty = cy + (cy - ly) * kk * f;
-            const dx = tx - L.x, dy = ty - L.y, d = Math.hypot(dx, dy), lim = d > 1 ? A.Uc(L.x, L.y, Math.atan2(dy, dx), d) : d;
-            if (lim < d - 1) { tx = L.x + dx / d * lim; ty = L.y + dy / d * lim; }
-            tmpPts.push(cx, cy, tx, ty);
-          }
-          const h = hull(tmpPts); if (h.length >= 6) fillPoly(g, h, a * la, o.tf);
+      /* a long soft tail per sample along the light, then ONE darker short core from the light's centre (the samples
+       * barely differ next to the prop; one core with the same combined alpha halves the overdraw) */
+      const K = o.jit.length;
+      for (let s = 0; s <= K; s++) {
+        const core = s === K, lx = core ? L.x : L.x + o.jit[s][0], ly = core ? L.y : L.y + o.jit[s][1];
+        const f = core ? .45 : 1, al = core ? 1 - Math.pow(1 - a * .5, K) : a * .6; tmpPts.length = 0;
+        for (let c = 0; c < 4; c++) {
+          const cx = c === 1 || c === 2 ? p.x + p.w : p.x, cy = c >= 2 ? p.y + p.h : p.y;
+          let tx = cx + (cx - lx) * kk * f, ty = cy + (cy - ly) * kk * f;
+          const dx = tx - L.x, dy = ty - L.y, d = Math.hypot(dx, dy), lim = d > 1 ? A.Uc(L.x, L.y, Math.atan2(dy, dx), d) : d;
+          if (lim < d - 1) { tx = L.x + dx / d * lim; ty = L.y + dy / d * lim; }
+          tmpPts.push(cx, cy, tx, ty);
         }
+        const h = hull(tmpPts); if (h.length >= 6) fillPoly(g, h, al, o.tf);
       }
     }
     return used;
@@ -464,12 +466,13 @@
    * cuts.  Other wanderers' lights: the same, fewer.  Casters are ranked by the game's own equipment light model (qc);
    * every shadow pixel is weighted by the overlay's own beam for that equipment (carryCookie), turned with the aim. */
   const SRC = { x: 0, y: 0, angle: 0, equipment: { kind: 'flashlight' } }, PT = { x: 0, y: 0 };
-  const JIT = k => { const r = CARRY.jr; return k <= 1 ? [[0, 0]] : k === 2 ? [[-r, 0], [r, 0]] : k === 3 ? [[-r, -2], [0, 2], [r, -2]] : [[-r, -2], [-r / 3, 2], [r / 3, -2], [r, 2]]; };
+  const JITS = (r => [[[0, 0]], [[-r, 0], [r, 0]], [[-r, -2], [0, 2], [r, -2]], [[-r, -2], [-r / 3, 2], [r / 3, -2], [r, 2]]])(CARRY.jr), JIT = k => JITS[clamp(k, 1, 4) - 1];
+  const carriedInten = (x, y) => { PT.x = x; PT.y = y; return window.__api.qc(SRC, PT, true); };   // the game's own light model for the light in SRC
   function carried(cfg, rect, lightOn, t, dt) {
     const A = window.__api, gp = S.dyn, gf = S.dynFr, Gc = A.Gc || {}; gp.clear(); gf.clear(); polyCount = 0; polyBudget = cfg.budget || 0;
     let lights = 0, cand = 0, act = 0, nf = 0, np = 0;
     const D = A.death && A.death();
-    const inten = (x, y) => { PT.x = x; PT.y = y; return A.qc(SRC, PT, true); };
+    const inten = carriedInten;
     const add = (sx, sy, ang, kind, peer, w, fl) => {
       const f = Gc[kind]; if (!f || f.nv || !(f.range > 1) || !(w > .01)) return;
       const ck = carryCookie(kind); if (!ck) return;
@@ -564,9 +567,13 @@
   }
 
   /* ---------- per frame (called right after the game's own frame; reads only) ---------- */
+  /* the viewport size, read on resize only: reading innerWidth / innerHeight inside a frame can force a synchronous
+   * layout (it did under mobile emulation: ~1 ms a frame); the game itself also keeps its size from its resize handler */
+  const VP = { w: 0, h: 0 }, readVP = () => { VP.w = innerWidth; VP.h = innerHeight; };
+  readVP(); addEventListener('resize', readVP); addEventListener('orientationchange', readVP);
   function viewRect() {
     const w = S.world, sc = w.scale.x || 1;
-    return { x0: -w.position.x / sc, y0: -w.position.y / sc, x1: (innerWidth - w.position.x) / sc, y1: (innerHeight - w.position.y) / sc, sc };
+    return { x0: -w.position.x / sc, y0: -w.position.y / sc, x1: (VP.w - w.position.x) / sc, y1: (VP.h - w.position.y) / sc, sc };
   }
   let lastT = 0;
   function frame(o) {

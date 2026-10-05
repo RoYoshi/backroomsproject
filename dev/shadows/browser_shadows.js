@@ -111,6 +111,8 @@ const views = P => P.evaluate(() => { const r = v => +(+v).toFixed(4); const A =
     const after = await P.evaluate(() => !!document.getElementById('shadowDebugBtn') || !!document.getElementById('shadowDebug'));
     await P.evaluate(() => { const p = document.getElementById('adminPanel'); if (p) p.hidden = true; });
     check('B06 the shadow debug view is admin-only: it appears with DEBUG MODE, disappears without it, and a non-admin never gets it', !before && onBtn && cv && !bobSaw && !after, `before ${before}, debug-on button ${onBtn}, canvas ${cv}, bob ${bobSaw}, after ${after}`);
+    /* Bob is done: close his page now so a third software-rendered client is never drawing while Carol's lobby loads */
+    const bobErrs = [...Bob.errs]; await Bob.ctx.close();
     /* ---- B05 settings control + persistence ---- */
     await P.evaluate(() => { const b = document.getElementById('settingsBtn'); b && b.click(); }); await sleep(400);
     await P.evaluate(() => { const t = document.querySelector('#settings [data-tab="custom"]'); t && t.click(); }); await sleep(300);
@@ -123,9 +125,9 @@ const views = P => P.evaluate(() => { const r = v => +(+v).toFixed(4); const A =
     await P.reload(); await sleep(2500); const q3 = await P.evaluate(() => __shadows.quality());
     check('B05 SETTINGS > CUSTOMIZE > SHADOWS switches quality and is remembered on this device (reload keeps it; another device keeps its own)', JSON.stringify(ui) === '["off","low","medium","high"]' && q1[0] === 'low' && q1[1] === 'low' && q3 === 'low' && q2 === 'medium',
       `buttons ${JSON.stringify(ui)}, after click ${JSON.stringify(q1)}, other device ${q2}, after reload ${q3}`);
-    const allErr = [...A.errs, ...Bob.errs, ...Carol.errs];
+    const allErr = [...A.errs, ...bobErrs, ...Carol.errs];
     check('B08 no page error, console error or module warning on any of the three clients', !allErr.length, JSON.stringify(allErr).slice(0, 300));
-    await Bob.ctx.close(); await Carol.ctx.close(); await A.ctx.close();
+    await Carol.ctx.close(); await A.ctx.close();
   } catch (e) { check('harness', false, String(e && e.stack || e).slice(0, 500)); }
   await browser.close(); srv.kill('SIGTERM');
   const pass = results.filter(r => r.ok).length; console.log(`\n${pass}/${results.length} passed`);

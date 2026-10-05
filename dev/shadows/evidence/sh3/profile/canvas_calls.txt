@@ -1,0 +1,6 @@
+# canvas_calls_probe.js: 2D-canvas calls by canvas:method over 10 frames, mobile-like profile, PILLAR HALL (7860,1150), flashlight on
+PARENT [["clearRect:glitchFx",11],["clearRect:light",11],["clearRect:mp",11],["clip:light",231],["fillRect:light",374]]
+CANDIDATE off [["clearRect:glitchFx",11],["clearRect:light",11],["clearRect:mp",11],["clip:light",231],["fillRect:light",374]]
+CANDIDATE low [["clearRect:glitchFx",11],["clearRect:light",11],["clearRect:mp",11],["clip:light",231],["fillRect:light",374]]
+CANDIDATE medium [["clearRect:glitchFx",11],["clearRect:light",11],["clearRect:mp",11],["clip:light",231],["fillRect:light",374]]
+CANDIDATE high [["clearRect:glitchFx",11],["clearRect:light",11],["clearRect:mp",11],["clip:light",231],["fillRect:light",374]]

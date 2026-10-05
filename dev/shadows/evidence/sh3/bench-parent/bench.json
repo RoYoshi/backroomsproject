@@ -1,0 +1,1060 @@
+{
+ "schema": "tfb-shadows-bench/2",
+ "label": "v23.3.6 parent f2805bb (pristine git archive)",
+ "game": "<parent export>",
+ "secs": 8,
+ "minFrames": 20,
+ "node": "v22.22.2",
+ "chromium": "141.0.7390.37",
+ "started": "2026-10-05T09:31:09.806Z",
+ "runs": [
+  {
+   "profile": "16x9",
+   "scene": "room",
+   "tier": "baseline",
+   "frames": 22,
+   "fps": 2.54,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 394.424,
+    "p50": 383.3,
+    "p95": 449.9,
+    "p99": 450,
+    "max": 450
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 6.114,
+    "p50": 3.4,
+    "p95": 29.2,
+    "p99": 36.4,
+    "max": 36.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 430.795,
+    "script": 7.008,
+    "layout": 0.367
+   },
+   "heapMB": 31.5,
+   "shadows": null,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-room-baseline.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "props",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 2.41,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 414.985,
+    "p50": 400,
+    "p95": 500,
+    "p99": 516.6,
+    "max": 516.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.229,
+    "p50": 3,
+    "p95": 5.7,
+    "p99": 6.8,
+    "max": 6.8
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 433.842,
+    "script": 3.769,
+    "layout": 0.331
+   },
+   "heapMB": 33.73,
+   "shadows": null,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-props-baseline.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "dense",
+   "tier": "baseline",
+   "frames": 22,
+   "fps": 2.16,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 463.467,
+    "p50": 450,
+    "p95": 533.4,
+    "p99": 549.9,
+    "max": 549.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 2.841,
+    "p50": 2.7,
+    "p95": 4,
+    "p99": 4.1,
+    "max": 4.1
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 500.285,
+    "script": 3.579,
+    "layout": 0.362
+   },
+   "heapMB": 31.78,
+   "shadows": null,
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-dense-baseline.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "sweep",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 2.21,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 453.315,
+    "p50": 433.3,
+    "p95": 500,
+    "p99": 616.7,
+    "max": 616.7
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.1,
+    "p50": 2.7,
+    "p95": 4.1,
+    "p99": 7,
+    "max": 7
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 58,
+    "p50": 58,
+    "p95": 58,
+    "p99": 58,
+    "max": 58
+   },
+   "cdpPerFrameMs": {
+    "task": 499.866,
+    "script": 3.714,
+    "layout": 0.353
+   },
+   "heapMB": 33.21,
+   "shadows": null,
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 29.861,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-sweep-baseline.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "peers",
+   "tier": "baseline",
+   "frames": 22,
+   "fps": 2.29,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 436.49,
+    "p50": 433.3,
+    "p95": 466.7,
+    "p99": 516.7,
+    "max": 516.7
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 4.659,
+    "p50": 4.4,
+    "p95": 6.5,
+    "p99": 7.1,
+    "max": 7.1
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 474.107,
+    "script": 5.549,
+    "layout": 0.326
+   },
+   "heapMB": 37.2,
+   "shadows": null,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-peers-baseline.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "blackout",
+   "tier": "baseline",
+   "frames": 22,
+   "fps": 2.61,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 383.319,
+    "p50": 383.3,
+    "p95": 433.4,
+    "p99": 466.6,
+    "max": 466.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 2.677,
+    "p50": 2.4,
+    "p95": 3,
+    "p99": 8.1,
+    "max": 8.1
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 46,
+    "p50": 46,
+    "p95": 46,
+    "p99": 46,
+    "max": 46
+   },
+   "cdpPerFrameMs": {
+    "task": 398.431,
+    "script": 3.101,
+    "layout": 0.335
+   },
+   "heapMB": 36.11,
+   "shadows": null,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": true,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-blackout-baseline.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "flicker",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 2.47,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 404.985,
+    "p50": 400,
+    "p95": 450,
+    "p99": 533.3,
+    "max": 533.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 3.01,
+    "p50": 2.6,
+    "p95": 4.7,
+    "p99": 5.3,
+    "max": 5.3
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 54,
+    "p50": 54,
+    "p95": 54,
+    "p99": 54,
+    "max": 54
+   },
+   "cdpPerFrameMs": {
+    "task": 444.418,
+    "script": 3.641,
+    "layout": 0.665
+   },
+   "heapMB": 40.9,
+   "shadows": null,
+   "state": {
+    "x": 600,
+    "y": 2930,
+    "angle": -2.2,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "16x9-flicker-baseline.jpg"
+  },
+  {
+   "profile": "16x9",
+   "scene": "entities",
+   "tier": "baseline",
+   "frames": 22,
+   "fps": 2.31,
+   "frameIntervalMs": {
+    "n": 21,
+    "mean": 433.314,
+    "p50": 433.3,
+    "p95": 466.7,
+    "p99": 500,
+    "max": 500
+   },
+   "rafCpuMsPerFrame": {
+    "n": 22,
+    "mean": 5.155,
+    "p50": 4.3,
+    "p95": 10,
+    "p99": 10.2,
+    "max": 10.2
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 22,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 22,
+    "mean": 52,
+    "p50": 52,
+    "p95": 52,
+    "p99": 52,
+    "max": 52
+   },
+   "cdpPerFrameMs": {
+    "task": 452.324,
+    "script": 6.349,
+    "layout": 0.414
+   },
+   "heapMB": 36.47,
+   "shadows": null,
+   "state": {
+    "x": 1971,
+    "y": 2797,
+    "angle": 3.142,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 1,
+    "smilers": 1
+   },
+   "screenshot": "16x9-entities-baseline.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "room",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 0.48,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2076.585,
+    "p50": 2050,
+    "p95": 2149.8,
+    "p99": 2366.6,
+    "max": 2366.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 4.357,
+    "p50": 3.5,
+    "p95": 9.3,
+    "p99": 12.8,
+    "max": 12.8
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 2278.711,
+    "script": 5.425,
+    "layout": 0.395
+   },
+   "heapMB": 32.57,
+   "shadows": null,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-room-baseline.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "dense",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 0.44,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2262.41,
+    "p50": 2266.5,
+    "p95": 2433.2,
+    "p99": 2549.9,
+    "max": 2549.9
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 4.248,
+    "p50": 3.1,
+    "p95": 6.2,
+    "p99": 24.7,
+    "max": 24.7
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2457.44,
+    "script": 5.537,
+    "layout": 0.428
+   },
+   "heapMB": 30.99,
+   "shadows": null,
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-dense-baseline.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "sweep",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 0.46,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2157.41,
+    "p50": 2166.5,
+    "p95": 2250,
+    "p99": 2349.8,
+    "max": 2349.8
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 2.971,
+    "p50": 2.9,
+    "p95": 3.9,
+    "p99": 5,
+    "max": 5
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 68,
+    "p50": 68,
+    "p95": 68,
+    "p99": 68,
+    "max": 68
+   },
+   "cdpPerFrameMs": {
+    "task": 2362.938,
+    "script": 3.878,
+    "layout": 0.343
+   },
+   "heapMB": 32.45,
+   "shadows": null,
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 141.909,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-sweep-baseline.jpg"
+  },
+  {
+   "profile": "hidpi",
+   "scene": "peers",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 0.46,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 2161.58,
+    "p50": 2166.7,
+    "p95": 2333.3,
+    "p99": 2366.5,
+    "max": 2366.5
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 5.371,
+    "p50": 5,
+    "p95": 6.6,
+    "p99": 9.8,
+    "max": 9.8
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 2365.72,
+    "script": 7.232,
+    "layout": 0.353
+   },
+   "heapMB": 35.26,
+   "shadows": null,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "hidpi-peers-baseline.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "room",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 0.95,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1057.46,
+    "p50": 1066.6,
+    "p95": 1116.7,
+    "p99": 1400,
+    "max": 1400
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 13.314,
+    "p50": 13,
+    "p95": 19.9,
+    "p99": 27.5,
+    "max": 27.5
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 60,
+    "p50": 60,
+    "p95": 60,
+    "p99": 60,
+    "max": 60
+   },
+   "cdpPerFrameMs": {
+    "task": 1155.503,
+    "script": 14.106,
+    "layout": 1.633
+   },
+   "heapMB": 32.33,
+   "shadows": null,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-room-baseline.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "dense",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 0.95,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1051.62,
+    "p50": 1016.6,
+    "p95": 1350,
+    "p99": 1383.3,
+    "max": 1383.3
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 12.971,
+    "p50": 13.1,
+    "p95": 22.6,
+    "p99": 25.5,
+    "max": 25.5
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 64.333,
+    "p50": 64,
+    "p95": 65,
+    "p99": 65,
+    "max": 65
+   },
+   "cdpPerFrameMs": {
+    "task": 1094.514,
+    "script": 14.373,
+    "layout": 1.799
+   },
+   "heapMB": 33.41,
+   "shadows": null,
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 0.65,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-dense-baseline.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "sweep",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 0.92,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1085.79,
+    "p50": 1050,
+    "p95": 1383.3,
+    "p99": 1466.6,
+    "max": 1466.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 12.714,
+    "p50": 11.9,
+    "p95": 22.7,
+    "p99": 38.4,
+    "max": 38.4
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 8,
+    "p50": 8,
+    "p95": 8,
+    "p99": 8,
+    "max": 8
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 64.381,
+    "p50": 64,
+    "p95": 65,
+    "p99": 65,
+    "max": 65
+   },
+   "cdpPerFrameMs": {
+    "task": 1177.152,
+    "script": 15.238,
+    "layout": 1.78
+   },
+   "heapMB": 32.23,
+   "shadows": null,
+   "state": {
+    "x": 7860,
+    "y": 1150,
+    "angle": 69.703,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-sweep-baseline.jpg"
+  },
+  {
+   "profile": "mobile",
+   "scene": "peers",
+   "tier": "baseline",
+   "frames": 21,
+   "fps": 0.77,
+   "frameIntervalMs": {
+    "n": 20,
+    "mean": 1292.445,
+    "p50": 1250,
+    "p95": 1549.9,
+    "p99": 1816.6,
+    "max": 1816.6
+   },
+   "rafCpuMsPerFrame": {
+    "n": 21,
+    "mean": 24.452,
+    "p50": 22.9,
+    "p95": 39.3,
+    "p99": 46.6,
+    "max": 46.6
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 21,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 21,
+    "mean": 141,
+    "p50": 141,
+    "p95": 141,
+    "p99": 141,
+    "max": 141
+   },
+   "cdpPerFrameMs": {
+    "task": 1360.834,
+    "script": 27.453,
+    "layout": 1.352
+   },
+   "heapMB": 33.82,
+   "shadows": null,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 3,
+    "hounds": 0,
+    "smilers": 0
+   },
+   "screenshot": "mobile-peers-baseline.jpg"
+  }
+ ],
+ "errors": {
+  "16x9": [],
+  "hidpi": [],
+  "mobile": []
+ },
+ "env": {
+  "16x9": {
+   "dpr": 1,
+   "inner": [
+    1280,
+    720
+   ],
+   "cores": 2,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "shadows": false,
+   "shadowQualityDefault": null,
+   "lightCanvas": [
+    1280,
+    720
+   ],
+   "pixi": [
+    1280,
+    720
+   ],
+   "cpuThrottle": 1,
+   "staged": {
+    "h": 0,
+    "s": 0
+   }
+  },
+  "hidpi": {
+   "dpr": 2,
+   "inner": [
+    1920,
+    1080
+   ],
+   "cores": 2,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "shadows": false,
+   "shadowQualityDefault": null,
+   "lightCanvas": [
+    1920,
+    1080
+   ],
+   "pixi": [
+    3840,
+    2160
+   ],
+   "cpuThrottle": 1,
+   "staged": {
+    "h": 0,
+    "s": 0
+   }
+  },
+  "mobile": {
+   "dpr": 3,
+   "inner": [
+    390,
+    844
+   ],
+   "cores": 2,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "shadows": false,
+   "shadowQualityDefault": null,
+   "lightCanvas": [
+    390,
+    844
+   ],
+   "pixi": [
+    780,
+    1688
+   ],
+   "cpuThrottle": 4,
+   "staged": {
+    "h": 0,
+    "s": 0
+   }
+  }
+ },
+ "missing": {
+  "16x9": [
+   "/camera_policy.js",
+   "/timing_policy.js"
+  ],
+  "hidpi": [
+   "/camera_policy.js",
+   "/timing_policy.js"
+  ],
+  "mobile": [
+   "/camera_policy.js",
+   "/timing_policy.js"
+  ]
+ },
+ "finished": "2026-10-05T09:47:29.535Z",
+ "serverLog": [
+  "The Far Backrooms \u2192 http://localhost:9461  (share  ?room=NAME  to group up)",
+  "[admin] WANDERER#1 unlocked admin (room bench16x969808)",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: hound remove x10 -> 2",
+  "[admin] room=bench16x969808 BENCH#1: smiler remove x10 -> 3",
+  "[admin] room=bench16x969808 BENCH#1: hound remove x10 -> 0",
+  "[admin] room=bench16x969808 BENCH#1: smiler remove x10 -> 0",
+  "[admin] room=bench16x969808 BENCH#1: god BENCH -> true",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: blackout off",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: blackout off",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: blackout off",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: blackout off",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: blackout off",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] WANDERER#2 unlocked admin (room bench16x969808)",
+  "[admin] WANDERER#3 unlocked admin (room bench16x969808)",
+  "[admin] WANDERER#4 unlocked admin (room bench16x969808)",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: blackout on",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: blackout off",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: blackout off",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false",
+  "[admin] room=bench16x969808 BENCH#1: spawn hound near",
+  "[admin] room=bench16x969808 BENCH#1: freeze true",
+  "[admin] room=bench16x969808 BENCH#1: freeze false"
+ ]
+}
