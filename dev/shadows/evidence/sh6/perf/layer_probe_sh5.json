@@ -1,0 +1,91 @@
+{
+ "viewport": [
+  1900,
+  900
+ ],
+ "at": [
+  4000,
+  3504,
+  0
+ ],
+ "quality": "medium",
+ "rounds": [
+  {
+   "round": 1,
+   "shown": "none",
+   "fps": 1.336
+  },
+  {
+   "round": 1,
+   "shown": "all",
+   "fps": 1.144
+  },
+  {
+   "round": 1,
+   "shown": "ao",
+   "fps": 1.246
+  },
+  {
+   "round": 1,
+   "shown": "lamps",
+   "fps": 1.204
+  },
+  {
+   "round": 1,
+   "shown": "cast",
+   "fps": 1.307
+  },
+  {
+   "round": 1,
+   "shown": "ents",
+   "fps": 1.345
+  },
+  {
+   "round": 2,
+   "shown": "none",
+   "fps": 1.327
+  },
+  {
+   "round": 2,
+   "shown": "all",
+   "fps": 1.107
+  },
+  {
+   "round": 2,
+   "shown": "ao",
+   "fps": 1.331
+  },
+  {
+   "round": 2,
+   "shown": "lamps",
+   "fps": 1.233
+  },
+  {
+   "round": 2,
+   "shown": "cast",
+   "fps": 1.381
+  },
+  {
+   "round": 2,
+   "shown": "ents",
+   "fps": 1.331
+  }
+ ],
+ "version": "shadows-2d 1.1",
+ "mean": {
+  "none": 1.332,
+  "all": 1.125,
+  "ao": 1.288,
+  "lamps": 1.219,
+  "cast": 1.344,
+  "ents": 1.338
+ },
+ "vsNone": {
+  "none": 0,
+  "all": -15.5,
+  "ao": -3.3,
+  "lamps": -8.5,
+  "cast": 0.9,
+  "ents": 0.5
+ }
+}

@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "<final tree export>/dev/tests/ir_test.py", line 125, in <module>
+    asyncio.run(main())
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "<final tree export>/dev/tests/ir_test.py", line 99, in main
+    await setir(A,l); h0=await A.evaluate("()=>__cam.S.heat"); g=await waitGame(A,4); h1=await A.evaluate("()=>__cam.S.heat"); heat[name]=round((h1-h0)/g,2)
+                                                                                                                                                ~~~~~~~^~
+ZeroDivisionError: float division by zero

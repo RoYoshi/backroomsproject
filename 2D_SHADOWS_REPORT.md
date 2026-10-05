@@ -1,141 +1,177 @@
 # THE FAR BACKROOMS — 2D Lighting & Shadows (visual pass only) — report
 
-**Status: `2D LIGHTING & SHADOWS — ENGINEERING COMPLETE — HUMAN QA PENDING`**
+**Status: `2D LIGHTING & SHADOWS — VISIBILITY CORRECTION ENGINEERING COMPLETE — HUMAN QA PENDING`**
 
 - **Repository:** `RoYoshi/backroomsproject`
 - **Branch:** `lighting-shadows-2d`
 - **Immutable gameplay parent:** `f2805bb904c158df17c5c75c3d0d4681049bc246` (tree `8cc77595fe6e88c425e2f8abd243f3463af44a18`, v23.3.6), the build you replayed and called *"perfect"*.
+- **Checkpoints:** SH0 freeze → SH1 grounding → SH2 cast shadows → SH3 tiers / performance → SH4 regression and
+  handoff → **SH5 visibility correction → SH6 final regression and publication** (`2D_SHADOWS_GIT_CHECKPOINTS.md`).
 
-`main` was not touched. Nothing beyond this stage was started: no Logical Z, no 2.5D, no floors, roofs, stairs,
-elevation or vertical line of sight. The camera is the v23.3.6 top-down camera; nothing isometric or perspective was
-added.
+`main` was not touched. Nothing beyond this stage was started: no Stage 3B, no Logical Z, no 2.5D, no floors, roofs,
+stairs, elevation or vertical line of sight. The camera is the v23.3.6 top-down camera; nothing isometric or perspective
+was added. The inherited `camera_policy.js` / `timing_policy.js` 404s under `node server.js` are left as they are.
+
+## The visibility correction (SH5–SH6)
+
+You played SH4 and said *"It feels like the same game"* (gameplay: PASS) and *"The Shadows are VERY Faint"*, *"The
+shadows aren't noticable"* (visibility: FAIL). SH5 corrected only how strongly the shadows are drawn, in
+`assets/shadows-2d.js` (now `shadows-2d 1.1`). No other runtime file changed.
+
+**Why SH4 was faint:**
+1. **Its strengths were restrained.** In the SH4 captures at MEDIUM, the strongest typical darkening of the visible
+   picture (p90) was 0–0.15 in five of eight scenes.
+2. **The overlay tints carried lights above the floor.** After cutting a light out of the dark, the overlay paints a
+   carried light's colour tint over its beam. Floor shadows sit under it, so only about three quarters of what the
+   module draws there reaches the screen (`tint_probe.js`).
+3. **The earlier captures understated the flashlight shadows.** Their test clock caught your light's 0.1 s fade-in
+   part-way. The capture tool now settles every capture and still shows the identical instant, so before and after are
+   compared fairly.
+
+**What changed, by class.** Each class was tuned on its own, with an upper bound so nothing approaches black:
+
+| class | change |
+|---|---|
+| wall grounding | 30 → 50 px wide, .38 → .56 at the base, a softer falloff: a soft band, not an outline |
+| your flashlight | the clearest cue: next to a prop it takes away ~80 % of its own light, ~55 % in the long tail; still zero outside the beam |
+| ceiling lamps | next to a prop, its shadow takes away ~75 % of that lamp's light (~50 % further out), and it is ~50 % longer; restrained enough to keep the fluorescent look |
+| pillars and corners | the soft side of the hard edge the overlay cuts is stronger and wider |
+| hounds and you | stronger (.30 → .42, .26 → .38) and a little longer; still soft; Smilers still get none |
+| baked prop shadows | the thinning that stops a dynamic shadow doubling the art's own drop shadow is unchanged and re-tested at the new strength |
+| quality tiers | LOW, MEDIUM and HIGH are now equally strong; HIGH is softer-edged and covers more lights, not darker |
+
+**Measured, SH4 → SH5 at MEDIUM** (`dev/shadows/evidence/sh5/visibility/`). These are the same staged scenes at the same
+frozen instants, compared pixel by pixel with OFF. Only pixels the player can see count.
+
+| scene | change |
+|---|---|
+| reception counter in your flashlight | darkening behind it p90 .33 → .55 |
+| toppled shelf, lamps and flashlight | p90 .15 → .32; area darkened ≥ 10 % 13.5 → 22.6 % |
+| the same shelf, lamps only | p90 .08 → .23 |
+| DAMP ROOMS counter under the flickering lamp | p99 .29 → .48 |
+| spawn wall grounding | p99 .23 → .43 |
+
+The two Pillar Hall views moved least: there the big pillar shadow is the overlay's own hard cut, as in v23.3.6, and the
+module only softens its lit side. The darkness overlay is unchanged across the tiers in every scene. Each scene has
+SH4 / OFF / SH5 images.
+
+These are diagnostics. **Whether the shadows are now plainly noticeable is your call** (`2D_SHADOWS_HUMAN_QA.md`).
 
 ## What you get
 
-All of it is drawn on the floor, under the level art, the props, every entity and the darkness overlay.
+Everything is drawn on the floor, under the level art, the props, every entity and the darkness overlay.
 
-- **Grounding.** A soft ambient-occlusion strip runs along every wall base. It is merged along wall runs (no per-tile
-  comb) and rounded at outer corners. It is built once and camera-culled.
+- **Grounding.** A soft band of ambient occlusion runs along every wall base. It is merged along wall runs (no
+  per-tile comb) and rounded at outer corners. It is built once and camera-culled.
 - **Entity light shadows.** You, other wanderers and the hounds you can actually see cast a soft shadow away from the
-  dominant light (`__light.sample`). It is smoothed so a light change never pops. The art already has a centred contact
-  shadow under them, so only the directional part is added. **Never for a Smiler:** no body is implied.
+  dominant light (`__light.sample`), smoothed so a light change never pops. **Never for a Smiler:** no body is implied.
 - **Prop shadows.** Counters, shelves, benches, tables and machines do not stop light in the game, so their shadows are
-  new: short soft ones from the ceiling lamps, and longer ones in your flashlight beam that turn with your aim. Where the
+  new. The ceiling lamps give soft shadows; your flashlight gives longer, darker ones that turn with your aim. Where the
   prop art already has a baked drop shadow, the cast shadow is thinned so the two do not double up.
 - **Wall and pillar penumbrae.** The darkness overlay already cuts every light off behind walls and pillars with a hard
-  edge. That dark side is never drawn again. Each grazed corner gets only a soft penumbra on the **lit** side of the
-  existing edge, from lamps (a 74 px tube) and carried lights.
-- **Light-true strength.** Every cast shadow takes away only its own light. It is filled with that light's strength over
-  the floor, taken from the overlay's own formula. It fades with the beam's cone and range, and is nothing where that
-  light does not reach.
+  edge. That dark side is never drawn again. Each grazed corner gets a soft penumbra on the **lit** side of the
+  existing edge.
+- **Light-true strength.** Every cast shadow takes away only its own light, weighted per pixel by that light's strength
+  from the overlay's own formula. It fades with the beam's cone and range, and is nothing where that light does not
+  reach.
 - **Flicker and blackout.** Lamp shadows follow the overlay's own lamp power every frame, including dim fixtures,
   failures and NV gain. They vanish in a blackout and come back with the lamps.
-- **Other players' lights.** At MEDIUM and HIGH, the nearest 2 or 4 other wanderers' lights cast shadows too. They are
-  bounded and fade at the cap.
+- **Other players' lights.** At MEDIUM and HIGH, the nearest 2 or 4 other wanderers' lights cast shadows too, a little
+  lighter than yours. They are bounded and fade at the cap.
 - **Quality.** OFF / LOW / MEDIUM / HIGH in SETTINGS ▸ CUSTOMIZE ▸ SHADOWS, or `?shadows=`. The choice is remembered per
-  device. The default is MEDIUM on desktop and LOW on touch devices and small screens. LOW is a complete tier with fewer
-  samples and smaller caps. OFF draws nothing.
-- **Admin debug view.** DEBUG MODE ▸ SHADOW DEBUG shows lights, candidate and chosen casters, polygons, bounds, counts,
-  the tier and cache stats. Ordinary players never get it.
+  device. The default is MEDIUM on desktop and LOW on touch devices and small screens. OFF draws nothing.
+- **Admin debug view.** DEBUG MODE ▸ SHADOW DEBUG. Ordinary players never get it.
 
 ## Why gameplay is untouched (and how it is proven)
 
 **Two files reach the browser.**
-- `assets/shadows-2d.js` is new. It is client-only and was placed in `assets/` because the shipped server already
-  serves that folder.
+- `assets/shadows-2d.js` is new. It is client-only and lives in `assets/` because the shipped server already serves
+  that folder.
 - `index.html` gets one 46-byte `<script>` tag. Removing it gives the parent file byte for byte.
 
 **No game file changed.** That includes the special-protection files `ai.js`, `sim.js`, `move.js`, `server.js`,
 `mp.js`, `death_srv.js`, `dphys.js` and `camera_policy.js`, and `world.js`. `dev/shadows/freeze.py verify` against the
 SH0 manifest finds 229 of the parent's 230 files byte-identical. The one that differs is `index.html`.
 
-**No bundle edit.** The module attaches through the renderer's own containers (`__api.floor().parent`) and runs right
-after the game's per-frame hook (`window.__mp`, which keeps its arguments and return value).
+**It only reads.** It never writes game state, never sends anything, and never touches the darkness overlay, an entity's
+opacity or position, or the server. Shadows are not a sensor and not concealment: AI, line of sight, collision,
+picking and visibility are exactly v23.3.6. Stronger shadows change none of that.
 
-**It only reads.** It never writes game state and never sends anything. It never touches the darkness overlay, an
-entity's opacity or position, or the server. The server never loads it. Shadows are not a sensor and not concealment:
-AI, line of sight, collision, picking and visibility are exactly v23.3.6. If it fails internally, it switches itself off
-and the game renders as v23.3.6.
+**Evidence on the final tree** (`2D_SHADOWS_TEST_SUMMARY.md`):
+- **Unit tests 43/43, browser checks 9/9** (`dev/shadows/evidence/sh5/`), including the new visibility tests V01–V08
+  (each class visible, nothing at one spot removing more than 85 % of the light, the tiers within .1 of each other,
+  never a Smiler shadow, baked shadows still thinned) and the overlay's pixels byte-identical at every quality (B02). The module and `index.html` did not change after
+  SH5, so these were not run again at SH6.
+- **Freeze:** verified again on the staged SH6 tree: 229 of 230 parent files byte-identical, the 230th `index.html`
+  (`evidence/sh6/freeze_verify.txt`).
+- **Retained v23.3.6 suites** on the final tree (`evidence/sh6/retained/`): **19 of 21 reproduce the parent's results
+  exactly**, including movement, physics, camera, FPS independence, interpolation, networking and lifecycle; six
+  logs are byte-identical. Two differ, as at SH4:
+  - **browser-ir** passed for the parent in both of its same-machine runs. For the final tree it printed no verdict in
+    the main run, failed R5 + R7 in one rerun and passed in the other. In the suite's own view the module costs ~12 %
+    of the frame rate under software rendering (fill, not CPU; SH4 cost the same). **The parent, slowed by a calibrated
+    background load by about as much, failed 3 of 3 runs on the same checks** (R7, R7, R5 + R7). R5 reads the
+    camcorder overheat lock 0.7 game-seconds after setting the heat; R7 reads a second player's view after fixed
+    real-time waits. So this suite is frame-time sensitive on this machine; it is not a gameplay difference, but it is
+    recorded as an open item for real hardware.
+  - **browser-admin**: its T5 death-preview sequence cascades on this machine. The parent cascaded in one of two runs
+    (14 extra failures) and matched the baseline exactly in the other; the final tree cascaded in all three (16, 12,
+    11 extra), only in T5 / T6. Not proven to be frame-time only; recorded as a limitation. The previews are admin
+    tooling, and their code is unchanged.
 
-**Evidence** (all in `2D_SHADOWS_TEST_SUMMARY.md`):
-- **Unit tests 35/35 and browser checks 9/9** on the final tree. Among them:
-  - B02: the darkness overlay is byte-identical at every quality, lamps on and in a blackout.
-  - B03: entity views are untouched.
-  - B04: the client sends the same network messages at OFF and HIGH.
-  - B07 and S07: no Smiler shadow.
-  - S08: a hound you cannot see gets no shadow, so nothing is revealed.
-  - S15: there is no presentation-to-AI path.
-- **The retained v23.3.6 gameplay suites.**
-  - At SH1 and SH2, all 21 suites reproduced the parent exactly: same verdicts, counts, failing assertions and error
-    messages.
-  - On the final tree, 19 of 21 reproduce it exactly in the main run. Among them are byte-identical logs for movement
-    measured through the real page, physics, camera fairness, FPS independence, network interpolation and IR
-    networking.
-  - The other two were diagnosed on the same machine against the parent:
-    - **browser-ir** passes on both trees. The main run was stopped by the test runner's own 400 s safety deadline,
-      which is not part of the suite: on this machine the suite takes about 6 minutes for the parent too.
-    - **browser-admin**'s death-preview sequence (T5) is timing-sensitive on this machine. The parent itself failed 17
-      and 4 extra T5 / T6 assertions in two runs. The final tree failed 0 and 14, all T5 / T6 as well; its first run
-      reproduced the baseline exactly (54/56).
-  - Neither difference comes from the module. The container was restarted during the SH3 work, and the same work has
-    run slower since. The SH0 baseline predates the restart, which is why the same-machine rerun was needed.
-
-## Design decisions (from reading the parent, not assumptions)
-
-1. **Umbrae already exist.** `drawLight` clips each lamp to a 96-ray visibility polygon. It clips carried lights to ray
-   fans, and your view to the exact line-of-sight polygon. Wall and pillar umbrae are therefore never drawn again, which
-   rules out a double black. Only the penumbra on the lit side is added.
-2. **Props do not occlude light** in the game (`Uc` stops at walls and pillars only), so prop shadows are new information
-   for the eye.
-3. **The shadow strength is the overlay's own light.** Every texel was checked against the formula (unit test C17). The
-   game's light values were not changed.
-4. **Pixi 8.11 keeps references** to polygon arrays and fill styles until render. Every polygon gets a fresh array
-   (unit test C09).
-5. **No forced layout.** The module never reads layout-dependent values inside a frame (SH3 finding: reading `innerWidth`
-   cost about 2 ms a frame under mobile emulation).
+  The full reading is in `2D_SHADOWS_TEST_SUMMARY.md` and `evidence/sh6/SH6_FINAL.md`.
 
 ## Performance
 
 See `2D_SHADOWS_PERFORMANCE.md`. Software rendering (SwiftShader, 2 vCPU) is evidence, not hardware certification.
 
-In short:
-- **The module's CPU time per frame** is 0.09–0.45 ms on the desktop-like profiles (p95 ≤ 1 ms), and 0.26–1.6 ms on the
-  mobile-like profile with the main thread slowed 4× (p95 ≤ 4 ms).
-- **Draw calls are unchanged.** WebGL draw calls are identical to v23.3.6 at every tier: Pixi batches the shadow
-  shapes into the draws the game already makes. The module never touches the game's 2D canvases, the darkness overlay
-  included. Its own small 2D canvases only build its textures, once each, and hold the admin-only debug view.
-- **Frame times** stay within run-to-run noise (−10 % to +8 % between the parent and OFF, which draw the same), with
-  two exceptions:
-  - one fill-bound case under software rendering: a large flashlight prop shadow costs −5 / −10 / −12 % fps at LOW /
-    MEDIUM / HIGH (A/B, three rounds each). A GPU fills that nearly for free, but real-device frame rates are for
-    human QA;
-  - one cell that was not re-measured: the mobile-like PILLAR HALL at LOW, −14 %, while MEDIUM and HIGH there stay
-    inside the noise.
-- **One-time builds.** A lamp's shadow is built the first time it is seen: 0.2–0.7 ms on average, at most 6.1 ms at
-  1280×720 and 8.1 ms on the slowed mobile-like profile. No more than 1 / 1 / 2 lamps are built in a frame.
-- **SH3 fix.** A forced layout every frame (reading `innerWidth`) cost about 2 ms a frame on the mobile-like profile.
-  Removing it took the module from 3.39 to 0.56 ms a frame there.
+Final module against the v23.3.6 parent, one round each (`evidence/sh6/`):
 
-## Checkpoints
+| | parent | OFF | LOW | MEDIUM | HIGH |
+|---|---|---|---|---|---|
+| 1280×720 YELLOW HALL spawn, fps | 2.26 | 2.27 | 2.15 | 2.33 | 2.25 |
+| 1280×720 reception counter in your flashlight, fps | 2.06 | 2.15 | 1.85 | 1.94 | 1.83 |
+| 4K PILLAR HALL, fps | 0.39 | 0.42 | 0.43 | 0.42 | 0.39 |
+| mobile-like PILLAR HALL, fps | 0.84 | 0.90 | 0.86 | 0.85 | 0.87 |
 
-See `2D_SHADOWS_GIT_CHECKPOINTS.md`. Each checkpoint was pushed and verified on GitHub before the next one started:
-SH0 freeze → SH1 grounding → SH2 cast shadows → SH3 tiers / performance / debug → SH4 regression and handoff.
+- **The module's own time:** 0.08–0.40 ms a frame on the desktop-like profiles (p95 ≤ 1.3 ms); 0.22–1.04 ms on the
+  mobile-like profile with the main thread slowed 4× (p95 ≤ 4.7 ms), where the game's own per-frame JavaScript takes
+  9–26 ms. The SH3 optimizations and every cap and budget are unchanged.
+- **The phone-sized LOW case, re-measured** (three alternating rounds per tree and tier, `evidence/sh5/perf/`): the
+  SH4 report's one-off −14 % did not reproduce. LOW against OFF is −3.5 % for SH4 and **−5.4 % for the final module**;
+  MEDIUM −7.3 %, HIGH −7.7 %. The extra cost is fill (the same polygons covering more pixels), which software rendering
+  pays on the CPU and a GPU makes nearly free.
+- **Draw calls:** within each scene, WebGL draws do not change from OFF to HIGH. In four 4K scenes the parent run drew
+  two more than every tier of the final module, OFF included, so that difference is not the module's; at SH3 those
+  scenes matched. 2D-canvas calls match in 11 of 16 scenes; the other five differ at OFF too.
+- **Noise:** OFF ran 0–14 % faster than the parent across scenes, so single-round cells are indicative only.
+
+**Not completed (stopped by instruction; recorded as limitations, nothing restarted):**
+- the mobile-like `peers` scene at MEDIUM and HIGH (the candidate matrix ended at 61 of 64 cells, without an error);
+- the repeated A/B at the reception counter in your flashlight, whose single round is the largest drop (−10 % to
+  −15 % against OFF);
+- the lamp-build tour on the 1.1 module (the report uses SH4's, for 1.0, and says so);
+- re-running the unit tests and browser checks on the unchanged SH6 tree.
 
 ## Human QA
 
-See `2D_SHADOWS_HUMAN_QA.md`: a 10-minute tour and the ten questions. Visual QA is **not** marked PASS by the engineer.
+`2D_SHADOWS_HUMAN_QA.md`: the main test is to play at MEDIUM without toggling; then a 10-minute tour and the ten
+questions. Visual QA is **not** marked PASS by the engineer.
 
 ## Known limits and notes for the tester
 
-- **Penumbrae are deliberately subtle.** A flashlight is nearly a point light, so its penumbra is narrow. Lamp
-  penumbrae are wider (tube-sized). Strengths are single constants, easy to tune after your notes.
-- **Lamp prop shadows are short.** Lamps hang at ceiling height and props are low, so these shadows are faint in dim
-  rooms. Flashlight prop shadows are the strong ones.
-- **LOW draws fewer samples,** so shadow edges are harder, and it does not draw shadows from other players' lights.
-- **Lamps in the PILLAR HALL hang above the pillars,** so they cast no pillar penumbrae there. Flashlights do.
-- **The first sight of a lamp builds its shadow** (once, then cached). That costs well under a millisecond on average,
-  with occasional single-frame spikes of a few milliseconds (see the performance report). A slow phone is the place to
-  watch for a hitch when entering a new room.
-- **Pre-existing parent behaviour is unchanged,** for example the `camera_policy.js` / `timing_policy.js` 404s under
-  `node server.js` and the parent's known retained-suite failures. Both are reproduced exactly, not fixed: they are
-  outside this stage.
+- **Pillar Hall.** The big shadow behind a pillar is the darkness overlay's own, as in v23.3.6. The module adds only
+  its soft lit-side edge, so this is where the change is smallest. Pillars keep the level art's own contact halo; no
+  grounding was added under them, so nothing doubles.
+- **Carried-light shadows stop short of black on screen.** The overlay paints the beam's colour tint above the floor,
+  so of the ~80 % the module takes away next to a prop, roughly 60 % of the beam's brightness shows as taken away on
+  screen. That is the overlay's design; the overlay was not changed.
+- **Lamp shadows of low props stay fairly short.** Lamps hang at ceiling height. They are now visibly darker and
+  ~50 % longer than at SH4.
+- **First sight of a lamp builds its shadow** (once per lamp, then cached). That costs a fraction of a millisecond on
+  average, with occasional single-frame spikes of a few milliseconds. A slow phone is the place to watch for a hitch
+  when entering a new room.
+- **Every class is tunable on its own.** Each has its own constants in `assets/shadows-2d.js`, so notes like "walls
+  too strong, lamps too weak" can be answered without touching the rest.
+- **Inherited parent behaviour is unchanged.** For example, the `camera_policy.js` / `timing_policy.js` 404s, and the
+  parent's known retained-suite failures.

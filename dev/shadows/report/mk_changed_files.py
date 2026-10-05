@@ -3,7 +3,7 @@
 import hashlib, subprocess, sys
 REPO, PARENT, OUT = sys.argv[1], 'f2805bb904c158df17c5c75c3d0d4681049bc246', sys.argv[2]
 def git(*a): return subprocess.run(['git', '-C', REPO, *a], check=True, capture_output=True, text=True).stdout
-rows = [l.split('\t') for l in git('diff', '--cached', '--name-status', '--no-renames', PARENT).splitlines() if l.strip()]   # the staged SH4 tree
+rows = [l.split('\t') for l in git('diff', '--cached', '--name-status', '--no-renames', PARENT).splitlines() if l.strip()]   # the staged final tree
 rows = [r for r in rows if r[1] != '2D_SHADOWS_CHANGED_FILES.txt']                     # listed once below as "(this file)"
 def info(path):
     data = subprocess.run(['git', '-C', REPO, 'show', f':{path}'], check=True, capture_output=True).stdout
@@ -15,8 +15,8 @@ for st, path in rows:
     else: groups['shipped'].append((st, path))
 L = ['2D LIGHTING & SHADOWS - changed files', '',
      f'Immutable gameplay parent: {PARENT} (tree 8cc77595fe6e88c425e2f8abd243f3463af44a18, v23.3.6)',
-     'Final tree: the final SH4 commit. Its commit and tree are in the package receipt (2D_SHADOWS_PACKAGE_RECEIPT.txt, beside the ZIP).',
-     'Status letters: A added, M modified, D deleted against the parent. SHA-256 and size of the file in the SH4 tree.', '',
+     'Final tree: the final SH6 commit (the visibility correction, shadows-2d 1.1). Its commit and tree are in the package receipt (2D_SHADOWS_PACKAGE_RECEIPT.txt, beside the ZIP).',
+     'Status letters: A added, M modified, D deleted against the parent. SHA-256 and size of the file in the SH6 tree.', '',
      '== Served to browsers (the game) ==']
 for st, p in groups['shipped']:
     h, n = info(p); L.append(f'{st}  {p:<40} sha256 {h}  {n} bytes')

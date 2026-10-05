@@ -1,0 +1,9 @@
+{
+ "note": "Calibration of dev/shadows/cpu_load.js against the parent's frame rate in the IR suite's view (frame_probe.js, 1900x900, corridor at 4000,3504 looking east, 2 rounds x 12 s each). These three runs printed their means to the console and were not saved as JSON at the time; the values below are transcribed from that console output. The loaded browser-ir runs (retained-diag/parent-load-1..3) used 45/100, slightly more than the largest calibrated load.",
+ "calibration": [
+  {"load": "none", "mean": {"parent baseline": 1.343}},
+  {"load": "20/100", "mean": {"parent baseline": 1.263}},
+  {"load": "40/100", "mean": {"parent baseline": 1.195}}
+ ],
+ "loadUsedForBrowserIrRuns": "45/100"
+}

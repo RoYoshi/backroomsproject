@@ -1,11 +1,11 @@
 2D LIGHTING & SHADOWS - changed files
 
 Immutable gameplay parent: f2805bb904c158df17c5c75c3d0d4681049bc246 (tree 8cc77595fe6e88c425e2f8abd243f3463af44a18, v23.3.6)
-Final tree: the final SH4 commit. Its commit and tree are in the package receipt (2D_SHADOWS_PACKAGE_RECEIPT.txt, beside the ZIP).
-Status letters: A added, M modified, D deleted against the parent. SHA-256 and size of the file in the SH4 tree.
+Final tree: the final SH6 commit (the visibility correction, shadows-2d 1.1). Its commit and tree are in the package receipt (2D_SHADOWS_PACKAGE_RECEIPT.txt, beside the ZIP).
+Status letters: A added, M modified, D deleted against the parent. SHA-256 and size of the file in the SH6 tree.
 
 == Served to browsers (the game) ==
-A  assets/shadows-2d.js                     sha256 6a2420a34589583470b323b91d555971db8afc105bc9a8eb2e1f411cbe585d62  59169 bytes
+A  assets/shadows-2d.js                     sha256 d7ddd09e90861a152338a1c4f72aab9fbe602334a907d84590588716851aea40  60900 bytes
 M  index.html                               sha256 a3046ff014f792e20681f20e26faf6f2ecf8c78e7af7a968a1dd78dcbad924bf  8995 bytes
    index.html: one 46-byte insertion, <script src="./assets/shadows-2d.js"></script> after inventory.js; removing it gives the parent file byte for byte.
    assets/shadows-2d.js: the client-only presentation module (served through the existing assets/ whitelist; the server never loads it).
@@ -17,19 +17,20 @@ ai.js, sim.js, move.js, server.js, mp.js, death_srv.js, dphys.js, camera_policy.
 byte-identical; the one that differs is index.html. FREEZE OK).
 
 == Stage reports (repository root, documentation only) ==
-A  2D_SHADOWS_GIT_CHECKPOINTS.md            sha256 1374ba0c5a5d3ce8a54b4769b52fad84a8fdfd3b44926b74866879c6647d62c6  3493 bytes
-A  2D_SHADOWS_HUMAN_QA.md                   sha256 e0f0c5c01d465d2659c26c502c85d8590bdab6f6ef80fc2cb43546893793d4e7  3972 bytes
-A  2D_SHADOWS_PERFORMANCE.md                sha256 97a9dc7ae07ae73b19f03ae5afdee3e7d98f816b6bcb05ae9a9c7e24e2724178  21109 bytes
-A  2D_SHADOWS_REPORT.md                     sha256 967773a59618c0bb77b082f004ccff55de749baba2e092818bd67097a24cd3dc  10180 bytes
-A  2D_SHADOWS_TEST_SUMMARY.md               sha256 b0284bc29a460143d7e3a668685db7f7b6c50d8c3cda8a61e0e88605e3cd3bec  22068 bytes
+A  2D_SHADOWS_GIT_CHECKPOINTS.md            sha256 929b968a5212be604cec3fe0de3fdf5b0c15ed48b6a378f642e9ddf082476e25  4650 bytes
+A  2D_SHADOWS_HUMAN_QA.md                   sha256 af9f1c13285aaffaf85a8ed195ec8e5fa4498c59f9a14159c4329e8413229f5d  6323 bytes
+A  2D_SHADOWS_PERFORMANCE.md                sha256 c30c80f072ebfa1e543b9bb035bdf5008d99704f3069366858e65c9130f47649  22441 bytes
+A  2D_SHADOWS_REPORT.md                     sha256 0a8b1e8a0a9f34600955e2bd9a5cc62d8897d3bedbfbcb774e21901168738a56  13163 bytes
+A  2D_SHADOWS_TEST_SUMMARY.md               sha256 57d011d792d90ca6a3491d3229825bb9c1f709bc18bdd136b1e88492d447b20b  30610 bytes
 A  2D_SHADOWS_CHANGED_FILES.txt             (this file)
 
 == Development tooling and evidence (dev/shadows/, never served: the server whitelist does not include dev/) ==
 A  dev/shadows/.gitignore                                                   19 bytes
-A  dev/shadows/README.md                                                    5601 bytes
+A  dev/shadows/README.md                                                    7581 bytes
 A  dev/shadows/browser_shadows.js                                           14454 bytes
 A  dev/shadows/build_probe.js                                               6226 bytes
 A  dev/shadows/canvas_calls_probe.js                                        2816 bytes
+A  dev/shadows/cpu_load.js                                                  824 bytes
 A  dev/shadows/evidence/sh0/SH0_FREEZE.md                                   12897 bytes
 A  dev/shadows/evidence/sh0/bench-parent-entities/16x9-entities-baseline.jpg 28304 bytes
 A  dev/shadows/evidence/sh0/bench-parent-entities/bench.json                3724 bytes
@@ -257,19 +258,140 @@ A  dev/shadows/evidence/sh4/sh3_remote_verify.json                          523 
 A  dev/shadows/evidence/sh4/sh4_remote_verify.json                          523 bytes
 A  dev/shadows/evidence/sh4/sh4b_remote_verify.json                         536 bytes
 A  dev/shadows/evidence/sh4/unit_tests.log                                  8340 bytes
+A  dev/shadows/evidence/sh5/HUMAN_QA_VERDICT_SH4.md                         1150 bytes
+A  dev/shadows/evidence/sh5/SH5_VISIBILITY.md                               8324 bytes
+A  dev/shadows/evidence/sh5/browser_checks.log                              1834 bytes
+A  dev/shadows/evidence/sh5/correction_pack_files.sha256                    855 bytes
+A  dev/shadows/evidence/sh5/correction_pack_state.json                      614 bytes
+A  dev/shadows/evidence/sh5/freeze_verify.txt                               17860 bytes
+A  dev/shadows/evidence/sh5/perf/ab-mobile-parent/bench.json                4481 bytes
+A  dev/shadows/evidence/sh5/perf/ab-mobile-parent/bench.log                 896 bytes
+A  dev/shadows/evidence/sh5/perf/ab-mobile-sh4/bench.json                   13465 bytes
+A  dev/shadows/evidence/sh5/perf/ab-mobile-sh4/bench.log                    2564 bytes
+A  dev/shadows/evidence/sh5/perf/ab-mobile-sh5/bench.json                   25444 bytes
+A  dev/shadows/evidence/sh5/perf/ab-mobile-sh5/bench.log                    4853 bytes
+A  dev/shadows/evidence/sh5/perf/ab_mobile_dense.md                         825 bytes
+A  dev/shadows/evidence/sh5/perf/tint_probe.json                            869 bytes
+A  dev/shadows/evidence/sh5/sh4_final_remote_verify.json                    624 bytes
+A  dev/shadows/evidence/sh5/unit_tests.log                                  10383 bytes
+A  dev/shadows/evidence/sh5/visibility/damp-diff.jpg                        10423 bytes
+A  dev/shadows/evidence/sh5/visibility/damp-sh4-off-sh5.jpg                 21407 bytes
+A  dev/shadows/evidence/sh5/visibility/damp-sh5-tiers.jpg                   19385 bytes
+A  dev/shadows/evidence/sh5/visibility/hound-diff.jpg                       15644 bytes
+A  dev/shadows/evidence/sh5/visibility/hound-sh4-off-sh5.jpg                20374 bytes
+A  dev/shadows/evidence/sh5/visibility/hound-sh5-tiers.jpg                  25441 bytes
+A  dev/shadows/evidence/sh5/visibility/houndbo-diff.jpg                     8862 bytes
+A  dev/shadows/evidence/sh5/visibility/houndbo-sh4-off-sh5.jpg              19538 bytes
+A  dev/shadows/evidence/sh5/visibility/houndbo-sh5-tiers.jpg                20331 bytes
+A  dev/shadows/evidence/sh5/visibility/pillarlit-diff.jpg                   6909 bytes
+A  dev/shadows/evidence/sh5/visibility/pillarlit-sh4-off-sh5.jpg            21375 bytes
+A  dev/shadows/evidence/sh5/visibility/pillarlit-sh5-tiers.jpg              24176 bytes
+A  dev/shadows/evidence/sh5/visibility/pillarsweep-diff.jpg                 6398 bytes
+A  dev/shadows/evidence/sh5/visibility/pillarsweep-sh4-off-sh5.jpg          21268 bytes
+A  dev/shadows/evidence/sh5/visibility/pillarsweep-sh5-tiers.jpg            23506 bytes
+A  dev/shadows/evidence/sh5/visibility/props-diff.jpg                       6655 bytes
+A  dev/shadows/evidence/sh5/visibility/props-sh4-off-sh5.jpg                14318 bytes
+A  dev/shadows/evidence/sh5/visibility/props-sh5-tiers.jpg                  16451 bytes
+A  dev/shadows/evidence/sh5/visibility/room-diff.jpg                        7318 bytes
+A  dev/shadows/evidence/sh5/visibility/room-sh4-off-sh5.jpg                 19494 bytes
+A  dev/shadows/evidence/sh5/visibility/room-sh5-tiers.jpg                   24614 bytes
+A  dev/shadows/evidence/sh5/visibility/sh4-metrics.json                     5301 bytes
+A  dev/shadows/evidence/sh5/visibility/sh4-metrics.md                       1330 bytes
+A  dev/shadows/evidence/sh5/visibility/sh4-shots.json                       77395 bytes
+A  dev/shadows/evidence/sh5/visibility/sh5-metrics.json                     5348 bytes
+A  dev/shadows/evidence/sh5/visibility/sh5-metrics.md                       1369 bytes
+A  dev/shadows/evidence/sh5/visibility/sh5-shots.json                       77949 bytes
+A  dev/shadows/evidence/sh5/visibility/shelf-diff.jpg                       11833 bytes
+A  dev/shadows/evidence/sh5/visibility/shelf-sh4-off-sh5.jpg                23222 bytes
+A  dev/shadows/evidence/sh5/visibility/shelf-sh5-tiers.jpg                  24418 bytes
+A  dev/shadows/evidence/sh5/visibility/shelfdark-diff.jpg                   10925 bytes
+A  dev/shadows/evidence/sh5/visibility/shelfdark-sh4-off-sh5.jpg            21934 bytes
+A  dev/shadows/evidence/sh5/visibility/shelfdark-sh5-tiers.jpg              22306 bytes
+A  dev/shadows/evidence/sh5/visibility/visibility.md                        1586 bytes
+A  dev/shadows/evidence/sh6/SH6_FINAL.md                                    5701 bytes
+A  dev/shadows/evidence/sh6/bench-candidate/16x9-dense-medium.jpg           37845 bytes
+A  dev/shadows/evidence/sh6/bench-candidate/16x9-props-medium.jpg           33154 bytes
+A  dev/shadows/evidence/sh6/bench-candidate/16x9-props-off.jpg              33378 bytes
+A  dev/shadows/evidence/sh6/bench-candidate/16x9-room-medium.jpg            37211 bytes
+A  dev/shadows/evidence/sh6/bench-candidate/bench.json                      124393 bytes
+A  dev/shadows/evidence/sh6/bench-candidate/bench.log                       24141 bytes
+A  dev/shadows/evidence/sh6/bench-candidate/hidpi-room-medium.jpg           48387 bytes
+A  dev/shadows/evidence/sh6/bench-candidate/mobile-dense-low.jpg            24845 bytes
+A  dev/shadows/evidence/sh6/bench-parent/16x9-props-baseline.jpg            33347 bytes
+A  dev/shadows/evidence/sh6/bench-parent/16x9-room-baseline.jpg             37379 bytes
+A  dev/shadows/evidence/sh6/bench-parent/bench.json                         19387 bytes
+A  dev/shadows/evidence/sh6/bench-parent/bench.log                          3963 bytes
+A  dev/shadows/evidence/sh6/bench_compare.md                                8695 bytes
+A  dev/shadows/evidence/sh6/freeze_verify.txt                               21989 bytes
+A  dev/shadows/evidence/sh6/perf/frame_probe_load.json                      699 bytes
+A  dev/shadows/evidence/sh6/perf/frame_probe_trees.json                     2609 bytes
+A  dev/shadows/evidence/sh6/perf/layer_probe_sh4.json                       1072 bytes
+A  dev/shadows/evidence/sh6/perf/layer_probe_sh5-overdraw-experiment.json   1067 bytes
+A  dev/shadows/evidence/sh6/perf/layer_probe_sh5.json                       1073 bytes
+A  dev/shadows/evidence/sh6/retained-diag/EXPORTS.txt                       1331 bytes
+A  dev/shadows/evidence/sh6/retained-diag/final-1/browser-admin.log         5965 bytes
+A  dev/shadows/evidence/sh6/retained-diag/final-1/browser-ir.log            1100 bytes
+A  dev/shadows/evidence/sh6/retained-diag/final-1/retained.json             2345 bytes
+A  dev/shadows/evidence/sh6/retained-diag/final-2/browser-admin.log         5914 bytes
+A  dev/shadows/evidence/sh6/retained-diag/final-2/browser-ir.log            1094 bytes
+A  dev/shadows/evidence/sh6/retained-diag/final-2/retained.json             2256 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-1/browser-admin.log        6092 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-1/browser-ir.log           1093 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-1/retained.json            2462 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-2/browser-admin.log        5216 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-2/browser-ir.log           1093 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-2/retained.json            1456 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-load-1/browser-ir.log      1096 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-load-1/retained.json       887 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-load-2/browser-ir.log      1096 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-load-2/retained.json       887 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-load-3/browser-ir.log      1098 bytes
+A  dev/shadows/evidence/sh6/retained-diag/parent-load-3/retained.json       897 bytes
+A  dev/shadows/evidence/sh6/retained-diag/table.md                          2493 bytes
+A  dev/shadows/evidence/sh6/retained/audit-net.log                          3359 bytes
+A  dev/shadows/evidence/sh6/retained/audit-net2.log                         4071 bytes
+A  dev/shadows/evidence/sh6/retained/browser-admin.log                      6243 bytes
+A  dev/shadows/evidence/sh6/retained/browser-chase.log                      309 bytes
+A  dev/shadows/evidence/sh6/retained/browser-ir.log                         974 bytes
+A  dev/shadows/evidence/sh6/retained/browser-lifecycle.log                  319 bytes
+A  dev/shadows/evidence/sh6/retained/browser-light.log                      2482 bytes
+A  dev/shadows/evidence/sh6/retained/browser-move.log                       2228 bytes
+A  dev/shadows/evidence/sh6/retained/browser-nav.log                        805 bytes
+A  dev/shadows/evidence/sh6/retained/browser-play.log                       529 bytes
+A  dev/shadows/evidence/sh6/retained/browser-smiler2d.log                   4377 bytes
+A  dev/shadows/evidence/sh6/retained/byte_identical.txt                     1293 bytes
+A  dev/shadows/evidence/sh6/retained/camera.log                             75 bytes
+A  dev/shadows/evidence/sh6/retained/compare_vs_parent.md                   3186 bytes
+A  dev/shadows/evidence/sh6/retained/entity-look.log                        569 bytes
+A  dev/shadows/evidence/sh6/retained/fps.log                                826 bytes
+A  dev/shadows/evidence/sh6/retained/humanqa.log                            1178 bytes
+A  dev/shadows/evidence/sh6/retained/interpolation.log                      760 bytes
+A  dev/shadows/evidence/sh6/retained/ir-net.log                             506 bytes
+A  dev/shadows/evidence/sh6/retained/live.log                               2873 bytes
+A  dev/shadows/evidence/sh6/retained/npm-test.log                           38842 bytes
+A  dev/shadows/evidence/sh6/retained/physics.log                            3425 bytes
+A  dev/shadows/evidence/sh6/retained/retained.json                          12790 bytes
+A  dev/shadows/evidence/sh6/retained/server-boot.log                        336 bytes
+A  dev/shadows/evidence/sh6/sh5_remote_verify.json                          523 bytes
+A  dev/shadows/frame_probe.js                                               4739 bytes
 A  dev/shadows/freeze.py                                                    8281 bytes
-A  dev/shadows/harness_lib.js                                               8676 bytes
+A  dev/shadows/harness_lib.js                                               8958 bytes
+A  dev/shadows/layer_probe.js                                               4205 bytes
 A  dev/shadows/log_identity.py                                              2730 bytes
 A  dev/shadows/profile_probe.js                                             3151 bytes
-A  dev/shadows/report/mk_changed_files.py                                   3052 bytes
-A  dev/shadows/report/mk_diag.py                                            2239 bytes
-A  dev/shadows/report/mk_performance.py                                     15851 bytes
-A  dev/shadows/report/mk_test_summary.py                                    9321 bytes
-A  dev/shadows/report/package.py                                            6471 bytes
+A  dev/shadows/report/mk_ab.py                                              2066 bytes
+A  dev/shadows/report/mk_changed_files.py                                   3098 bytes
+A  dev/shadows/report/mk_diag.py                                            2838 bytes
+A  dev/shadows/report/mk_performance.py                                     21089 bytes
+A  dev/shadows/report/mk_test_summary.py                                    16923 bytes
+A  dev/shadows/report/mk_visibility.js                                      4060 bytes
+A  dev/shadows/report/package.py                                            6605 bytes
 A  dev/shadows/run_retained.py                                              14598 bytes
 A  dev/shadows/scene_bench.js                                               16410 bytes
-A  dev/shadows/shots.js                                                     7849 bytes
+A  dev/shadows/shots.js                                                     9256 bytes
 A  dev/shadows/summarize.py                                                 5348 bytes
-A  dev/shadows/test_shadows.js                                              51662 bytes
+A  dev/shadows/test_shadows.js                                              61415 bytes
+A  dev/shadows/tint_probe.js                                                4927 bytes
+A  dev/shadows/visibility_metrics.js                                        5155 bytes
 
-Totals: 2 served, 6 reports (this file included), 246 dev files.
+Totals: 2 served, 6 reports (this file included), 368 dev files.

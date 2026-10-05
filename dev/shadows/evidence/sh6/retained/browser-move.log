@@ -1,0 +1,32 @@
+paused True
+PASS M01 speeds: walk 172, run 285, crouch 92, crawl 54 px/s
+       walk 172, run 285, crouch 92, crawl 54
+PASS M02 states: walking is WALK, holding shift is RUN, C toggles CROUCH and back
+       walk/run/crouch/walk
+PASS M03 stamina regenerates fastest standing still, slower crouching, slowest while moving
+       per second: stand 24, crouch 17, crouch-walk 10, walk 9
+PASS M04 running drains stamina: about 9-10 s of sprint from full (~2600 px), still at full speed until it is nearly gone
+       {'secs': 9.5, 'dist': 2600, 'speedWhenLow': 282}
+PASS M05 exhaustion slows you but never disables anything: you still walk (148), crouch, vault and slide; run is simply unavailable until you recover
+       exhausted: run-key speed 148, walk 148, crouch-walk 87, can vault: True
+PASS M06 stamina recovers standing still (exhaustion ends within ~2 s at rest)
+       2.2 s
+PASS M07 slide length depends on the surface: carpet short < concrete medium < wet long
+       carpet 83 px / 0.6s, concrete 148 px / 1.05s, wet 304 px / 2.12s
+PASS M08 a slide needs running speed; low stamina makes it shorter
+       from a walk: crouch; from a tired run 68 px vs 83 px fresh
+PASS M09 no infinite slide-cancel chain: after a slide a new one is throttled
+       {'first': True, 'secondImmediately': False, 'afterCancelState': 'walk', 'cd': 0.58}
+PASS M10 three vaults by approach: run = FAST (costs stamina), walk = NORMAL, crouch = SLOW (free); labels are never shown
+       q run/walk/crouch = 2/1/0; stamina cost 12/2.5/0
+PASS M11 vault detection: shallow angles vault, a very oblique approach just bumps, open floor never triggers one
+       angled q 1, very angled q -1, open floor run
+PASS M12 a wall hole: walking stops short, crouching crawls through and stands again; walking up to it lowers you by itself; running into it bumps
+       ['crouch', 'crawl', 'crouch'] / auto ['walk', 'crouch', 'crawl', 'crouch'] / run bump at -15
+PASS M13 crawling under low furniture, and vaulting a window sill
+       table: ['crouch', 'crawl']; window vault q=2
+PASS M14 the state the server hears is the real one (run, speed, stamina, exhausted flag)
+       {'s': 2, 'q': 1, 'st': 90, 'ex': 0, 'sp': 285, 'ev': []}
+errs []
+
+RESULT OK

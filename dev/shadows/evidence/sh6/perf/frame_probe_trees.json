@@ -1,0 +1,185 @@
+{
+ "viewport": [
+  1900,
+  900
+ ],
+ "at": [
+  4000,
+  3504,
+  0
+ ],
+ "secs": 12,
+ "rounds": [
+  {
+   "round": 1,
+   "tree": "parent",
+   "tier": "baseline",
+   "frames": 17,
+   "fps": 1.339,
+   "p50": 750,
+   "p95": 816.6,
+   "module": null
+  },
+  {
+   "round": 1,
+   "tree": "sh4",
+   "tier": "medium",
+   "frames": 15,
+   "fps": 1.173,
+   "p50": 850,
+   "p95": 950,
+   "module": {
+    "mean": 0.2063,
+    "p95": 0.2,
+    "max": 1.2,
+    "n": 16
+   }
+  },
+  {
+   "round": 1,
+   "tree": "sh5.1",
+   "tier": "medium",
+   "frames": 15,
+   "fps": 1.181,
+   "p50": 833.3,
+   "p95": 966.7,
+   "module": {
+    "mean": 0.55,
+    "p95": 1.2,
+    "max": 4.8,
+    "n": 16
+   }
+  },
+  {
+   "round": 1,
+   "tree": "sh5.2",
+   "tier": "medium",
+   "frames": 14,
+   "fps": 1.162,
+   "p50": 833.4,
+   "p95": 949.9,
+   "module": {
+    "mean": 0.1733,
+    "p95": 0.3,
+    "max": 0.3,
+    "n": 15
+   }
+  },
+  {
+   "round": 2,
+   "tree": "parent",
+   "tier": "baseline",
+   "frames": 16,
+   "fps": 1.28,
+   "p50": 783.3,
+   "p95": 900,
+   "module": null
+  },
+  {
+   "round": 2,
+   "tree": "sh4",
+   "tier": "medium",
+   "frames": 14,
+   "fps": 1.118,
+   "p50": 883.4,
+   "p95": 1033.2,
+   "module": {
+    "mean": 0.3533,
+    "p95": 0.7,
+    "max": 2.6,
+    "n": 15
+   }
+  },
+  {
+   "round": 2,
+   "tree": "sh5.1",
+   "tier": "medium",
+   "frames": 14,
+   "fps": 1.145,
+   "p50": 883.3,
+   "p95": 1016.6,
+   "module": {
+    "mean": 0.1333,
+    "p95": 0.2,
+    "max": 0.3,
+    "n": 15
+   }
+  },
+  {
+   "round": 2,
+   "tree": "sh5.2",
+   "tier": "medium",
+   "frames": 14,
+   "fps": 1.097,
+   "p50": 933.4,
+   "p95": 1049.9,
+   "module": {
+    "mean": 0.4733,
+    "p95": 1,
+    "max": 3.9,
+    "n": 15
+   }
+  },
+  {
+   "round": 3,
+   "tree": "parent",
+   "tier": "baseline",
+   "frames": 16,
+   "fps": 1.295,
+   "p50": 783.2,
+   "p95": 883.3,
+   "module": null
+  },
+  {
+   "round": 3,
+   "tree": "sh4",
+   "tier": "medium",
+   "frames": 14,
+   "fps": 1.166,
+   "p50": 833.3,
+   "p95": 999.9,
+   "module": {
+    "mean": 0.2067,
+    "p95": 0.4,
+    "max": 0.4,
+    "n": 15
+   }
+  },
+  {
+   "round": 3,
+   "tree": "sh5.1",
+   "tier": "medium",
+   "frames": 14,
+   "fps": 1.162,
+   "p50": 850,
+   "p95": 933.3,
+   "module": {
+    "mean": 0.34,
+    "p95": 0.2,
+    "max": 3.2,
+    "n": 15
+   }
+  },
+  {
+   "round": 3,
+   "tree": "sh5.2",
+   "tier": "medium",
+   "frames": 15,
+   "fps": 1.195,
+   "p50": 833.3,
+   "p95": 1016.6,
+   "module": {
+    "mean": 0.1813,
+    "p95": 0.3,
+    "max": 0.4,
+    "n": 16
+   }
+  }
+ ],
+ "mean": {
+  "parent baseline": 1.305,
+  "sh4 medium": 1.152,
+  "sh5.1 medium": 1.163,
+  "sh5.2 medium": 1.151
+ }
+}

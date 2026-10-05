@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Final package: ZIP of the SH4 commit (git archive), its SHA-256, and a verification receipt.
 
-  package.py REPO COMMIT OUTDIR [REMOTE_VERIFY_JSON]
+  package.py REPO COMMIT OUTDIR [REMOTE_VERIFY_JSON] [NAME]
 
 The receipt proves, from the ZIP itself (extracted to a temporary folder):
   - every file in the ZIP is the committed blob (git hash-object == git ls-tree) and nothing is missing or extra;
@@ -9,16 +9,16 @@ The receipt proves, from the ZIP itself (extracted to a temporary folder):
   - index.html is the parent's plus the one 46-byte script tag; the served module's SHA-256;
   - the commit, tree and parent of the packaged revision, and (REMOTE_VERIFY_JSON, written by the caller after the
     push) what GitHub reports for the branch.
-Writes OUTDIR/<name>.zip, <name>.zip.sha256, receipt.json and 2D_SHADOWS_PACKAGE_RECEIPT.txt.
+Writes OUTDIR/<name>.zip, <name>.zip.sha256, receipt.json and 2D_SHADOWS_PACKAGE_RECEIPT.txt (NAME defaults to the SH6 package).
 """
 import hashlib, json, subprocess, sys, tempfile, time, zipfile
 from pathlib import Path
 REPO, COMMIT, OUT = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3])
-REMOTE = json.loads(Path(sys.argv[4]).read_text()) if len(sys.argv) > 4 else None
+REMOTE = json.loads(Path(sys.argv[4]).read_text()) if len(sys.argv) > 4 and sys.argv[4] != '-' else None
 PARENT = 'f2805bb904c158df17c5c75c3d0d4681049bc246'
 def git(*a): return subprocess.run(['git', '-C', str(REPO), *a], check=True, capture_output=True, text=True).stdout
 OUT.mkdir(parents=True, exist_ok=True)
-name = 'THE_FAR_BACKROOMS_2D_LIGHTING_SHADOWS_SH4'
+name = sys.argv[5] if len(sys.argv) > 5 else 'THE_FAR_BACKROOMS_2D_LIGHTING_SHADOWS_SH6'   # SH4's package used ..._SH4
 zpath = OUT / f'{name}.zip'
 subprocess.run(['git', '-C', str(REPO), 'archive', '--format=zip', f'--prefix={name}/', '-o', str(zpath), COMMIT], check=True)
 sha = hashlib.sha256(zpath.read_bytes()).hexdigest()

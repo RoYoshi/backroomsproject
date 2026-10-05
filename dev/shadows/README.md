@@ -21,12 +21,17 @@ server does not load any of it.
 | `browser_shadows.js` | Browser checks against the real client: attach, darkness-overlay identity at every quality, untouched entity views, unchanged network messages, settings persistence, admin-only debug view, Smiler concealment, no page errors, light-weighted cast shadows really drawn by WebGL. |
 | `shots.js` | Visual QA captures: the same frozen instant at several qualities, side-by-side crops, the overlay's hash and mean alpha per capture (`--debug 1` adds the admin debug view). Before each capture the frozen clock runs 2/3 s forward and is rewound to the same instant, so fades have settled and every tier shows the identical moment (SH5: without it, caster fade-ins were caught part-way). |
 | `visibility_metrics.js` | How visible the shadows are in a `shots.js` folder: per scene and tier, the darkening of lit pixels against the OFF capture of the same instant (p90 / p99, share of lit pixels darkened ≥ 10 % / 25 %, strongest pixel, pixels made brighter), plus unamplified heat images; flags a scene whose darkness overlay changed between captures. Diagnostics, never a substitute for human QA. |
+| `tint_probe.js` | How much of a floor shadow survives the darkness overlay's colour tint over a carried light's beam, per light colour. |
+| `frame_probe.js` | Frame rate of one fixed view (default: the retained IR browser suite's 1900×900 corridor) per tree and shadow quality, one page at a time, trees alternating round by round. |
+| `layer_probe.js` | What each shadow layer (`ao`, `lamps`, `cast`, `ents`) costs in frame rate in that view, by showing one layer at a time. |
+| `cpu_load.js` | A calibrated background CPU load (`BUSY_MS PERIOD_MS [SECONDS]`), to slow the parent by as much as the module's fill does, for diagnosing frame-time-sensitive suites. |
 | `evidence/sh0/` | SH0 freeze: parent manifest, baseline retained-suite logs and summary, baseline scene captures. |
 | `evidence/sh1/` | SH1 grounding: unit / browser / retained results, freeze verification, OFF-vs-MEDIUM captures. |
 | `evidence/sh2/` | SH2 cast shadows: unit / browser / retained results, freeze verification, OFF/LOW/(MEDIUM)/HIGH captures and difference images, debug-view capture. |
 | `evidence/sh3/` | SH3 performance: parent and candidate benches (JSON, logs, screenshots), the comparison tables, the profile before/after the layout fix, unit / browser / freeze results. |
 | `evidence/sh4/` | SH4 final tree: unit / browser results, the full retained regression and its same-machine diagnosis, one-time build costs, freeze verification (`SH4_FINAL.md`). |
 | `evidence/sh5/` | SH5 human-QA visibility correction: the SH4 verdict, the correction pack's identity, before (SH4) / after captures and measurements at OFF / LOW / MEDIUM / HIGH, unit / browser / freeze results, the repeated LOW phone-sized measurement. |
+| `evidence/sh6/` | SH6 final regression: the retained suites on the final tree and their same-machine diagnosis (parent / final alternating, the parent under a calibrated load), the parent-vs-final performance matrix, frame and layer probes in the IR suite's view, freeze verification, what was not completed (`SH6_FINAL.md`). |
 | `report/` | Generators of the root `2D_SHADOWS_*` reports from the evidence (`mk_test_summary.py`, `mk_performance.py`, `mk_changed_files.py`, `mk_diag.py`) and of the final package and its receipt (`package.py`); `mk_visibility.js` builds the SH5 before / after comparison images and table. |
 
 Reproduce the SH0 baseline from a pristine export of the parent:

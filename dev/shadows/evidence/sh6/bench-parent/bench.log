@@ -1,0 +1,20 @@
+profile 16x9 {"dpr":1,"inner":[1280,720],"cores":2,"renderer":"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)","shadows":false,"shadowQualityDefault":null,"lightCanvas":[1280,720],"pixi":[1280,720],"cpuThrottle":1,"staged":{"h":0,"s":0}}
+16x9-room-baseline {"fps":2.26,"cpu":7.3,"iv95":533.3,"gl":8,"c2d":60,"sh":null,"st":{"x":1060,"y":3300,"angle":-0.25,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+16x9-props-baseline {"fps":2.06,"cpu":3.636,"iv95":549.9,"gl":8,"c2d":60,"sh":null,"st":{"x":1776,"y":3460,"angle":-1.721,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+16x9-dense-baseline {"fps":1.87,"cpu":3.886,"iv95":633.3,"gl":8,"c2d":58,"sh":null,"st":{"x":7860,"y":1150,"angle":0.65,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+16x9-sweep-baseline {"fps":1.88,"cpu":3.777,"iv95":650,"gl":8,"c2d":58,"sh":null,"st":{"x":7860,"y":1150,"angle":34.514,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+16x9-peers-baseline {"fps":1.97,"cpu":6.459,"iv95":566.7,"gl":14,"c2d":141,"sh":null,"st":{"x":1060,"y":3300,"angle":-0.25,"lightOn":true,"blackout":false,"peers":3,"hounds":0,"smilers":0}}
+16x9-blackout-baseline {"fps":2.23,"cpu":3.195,"iv95":516.6,"gl":8,"c2d":46,"sh":null,"st":{"x":1060,"y":3300,"angle":-0.25,"lightOn":true,"blackout":true,"peers":0,"hounds":0,"smilers":0}}
+16x9-flicker-baseline {"fps":2.04,"cpu":3.391,"iv95":583.3,"gl":8,"c2d":54,"sh":null,"st":{"x":600,"y":2930,"angle":-2.2,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+16x9-entities-baseline {"fps":1.92,"cpu":8.829,"iv95":600,"gl":14,"c2d":68,"sh":null,"st":{"x":1269,"y":3826,"angle":3.142,"lightOn":true,"blackout":false,"peers":0,"hounds":1,"smilers":1}}
+profile hidpi {"dpr":2,"inner":[1920,1080],"cores":2,"renderer":"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)","shadows":false,"shadowQualityDefault":null,"lightCanvas":[1920,1080],"pixi":[3840,2160],"cpuThrottle":1,"staged":{"h":0,"s":0}}
+hidpi-room-baseline {"fps":0.41,"cpu":13.755,"iv95":2633.2,"gl":10,"c2d":55,"sh":null,"st":{"x":1060,"y":3300,"angle":-0.25,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+hidpi-dense-baseline {"fps":0.39,"cpu":14.279,"iv95":2816.6,"gl":10,"c2d":55,"sh":null,"st":{"x":7860,"y":1150,"angle":0.65,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+hidpi-sweep-baseline {"fps":0.41,"cpu":12.025,"iv95":2549.9,"gl":10,"c2d":55,"sh":null,"st":{"x":7860,"y":1150,"angle":154.042,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+hidpi-peers-baseline {"fps":0.41,"cpu":13.81,"iv95":2716.5,"gl":16,"c2d":136,"sh":null,"st":{"x":1060,"y":3300,"angle":-0.25,"lightOn":true,"blackout":false,"peers":3,"hounds":0,"smilers":0}}
+profile mobile {"dpr":3,"inner":[390,844],"cores":2,"renderer":"ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)","shadows":false,"shadowQualityDefault":null,"lightCanvas":[390,844],"pixi":[780,1688],"cpuThrottle":4,"staged":{"h":0,"s":0}}
+mobile-room-baseline {"fps":0.87,"cpu":14.481,"iv95":1383.3,"gl":8,"c2d":60,"sh":null,"st":{"x":1060,"y":3300,"angle":-0.25,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+mobile-dense-baseline {"fps":0.84,"cpu":15.624,"iv95":1466.5,"gl":8,"c2d":58,"sh":null,"st":{"x":7860,"y":1150,"angle":0.65,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+mobile-sweep-baseline {"fps":0.87,"cpu":13.029,"iv95":1349.9,"gl":8,"c2d":58,"sh":null,"st":{"x":7860,"y":1150,"angle":73.078,"lightOn":true,"blackout":false,"peers":0,"hounds":0,"smilers":0}}
+mobile-peers-baseline {"fps":0.71,"cpu":25.871,"iv95":1633.3,"gl":14,"c2d":141,"sh":null,"st":{"x":1060,"y":3300,"angle":-0.25,"lightOn":true,"blackout":false,"peers":3,"hounds":0,"smilers":0}}
+done 16 runs ok page errors: {"16x9":[],"hidpi":[],"mobile":[]}
