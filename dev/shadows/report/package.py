@@ -58,7 +58,8 @@ T = ['THE FAR BACKROOMS - 2D LIGHTING & SHADOWS - package and source verificatio
      f'written {R["written"]} by dev/shadows/report/package.py', '',
      '== Package ==', f'file      {zpath.name}', f'bytes     {R["bytes"]}', f'sha256    {sha}', '',
      '== Source revision (branch lighting-shadows-2d, repository RoYoshi/backroomsproject) ==',
-     f'commit    {commit}', f'tree      {tree}', f'parent    {parent}  (SH3)', f'gameplay  {PARENT}  (immutable v23.3.6 parent)', '']
+     f'commit    {commit}', f'subject   {git("log", "-1", "--format=%s", commit).strip()}', f'tree      {tree}',
+     f'parent    {parent}  ({git("log", "-1", "--format=%s", parent).strip()})', f'gameplay  {PARENT}  (immutable v23.3.6 parent)', '']
 if REMOTE:
     T += ['== GitHub (checked after the push) ==', f'verified at       {REMOTE["verifiedAt"]}', f'git ls-remote     {REMOTE["lsRemote"]}',
           f'REST API commit   {REMOTE["githubApi"]["commit"]}', f'REST API tree     {REMOTE["githubApi"]["tree"]}',

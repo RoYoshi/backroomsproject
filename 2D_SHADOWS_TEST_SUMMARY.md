@@ -170,7 +170,7 @@ The verdict comparison was run at every checkpoint: SH1 and SH2 reproduced all 2
 `python3 dev/shadows/freeze.py verify` against the SH0 manifest of every parent file:
 
 ```
-candidate {'dir': '<SH4 staged tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 252 added
+candidate {'dir': '<SH4 staged tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 253 added
 IDENTICAL ai.js
 IDENTICAL sim.js
 IDENTICAL move.js

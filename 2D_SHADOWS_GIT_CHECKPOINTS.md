@@ -22,7 +22,8 @@ holds the previous checkpoint's verification record.
 | SH2 | `fb65693c75c7630c6f6257ebe9123d82094ad246` | `af5ccc21642ed585808bdcfc07e0b20b41349ba3` | `3151062a…` | flashlight and lamp cast shadows: prop shadows, lit-side penumbrae, light-true strength, flicker / blackout, peers | 2026-10-05T07:27:52Z |
 | SH3 | `afd71455f5795cf6f6d287584d6b8a42c3718b95` | `98a8f9ab91b32ac9d35f3e179ce0baf5f5984bc9` | `fb65693c…` | quality tiers reviewed against measurements, layout-read fix, bench rebuilt (hi-DPR, mobile-like), bounded-work test, performance evidence | 2026-10-05T11:18:22Z |
 | SH4 | `0787e1ffd21923f523897730607d74bbc39dd276` | `b46d968f7fc7c1546595208f68a890339be3b7fb` | `afd71455…` | full retained regression, final reports, human-QA handoff, package | 2026-10-05T13:03:03Z |
-| SH4 final | (this commit: see the package receipt) | | `0787e1ff…` | an independent review checked the reports against the evidence; wording corrected where it claimed more than the evidence shows, with evidence added (which export each retained run used; SH1 / SH2 log identity). No runtime file and no result changed | in the package receipt |
+| SH4 review fixes | `a90b51c4dc023c6d7cccae2e74cee880959ea348` | `5e1ef4624a5c8a3814ae2225eaf7661a9a07d40e` | `0787e1ff…` | an independent review checked the reports against the evidence; wording corrected where it claimed more than the evidence shows, with evidence added (which export each retained run used; SH1 / SH2 log identity). No runtime file and no result changed | 2026-10-05T13:24:25Z |
+| SH4 final | (this commit: see the package receipt) | | `a90b51c4…` | the package receipt names the parent commit by its subject; the review-fix commit's verification record | in the package receipt |
 
 The verification records are:
 - `dev/shadows/evidence/sh1/sh0_remote_verify.json`
@@ -30,6 +31,7 @@ The verification records are:
 - `dev/shadows/evidence/sh3/sh2_remote_verify.json`
 - `dev/shadows/evidence/sh4/sh3_remote_verify.json`
 - `dev/shadows/evidence/sh4/sh4_remote_verify.json` (the reviewed SH4 commit `0787e1f`)
+- `dev/shadows/evidence/sh4/sh4b_remote_verify.json` (the review-fix commit `a90b51c`)
 
 A commit cannot contain its own hash, so the final commit's verification is in the package receipt
 `2D_SHADOWS_PACKAGE_RECEIPT.txt`, which ships beside the ZIP.

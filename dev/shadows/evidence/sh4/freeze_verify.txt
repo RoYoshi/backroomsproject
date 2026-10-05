@@ -1,4 +1,4 @@
-candidate {'dir': '<SH4 staged tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 252 added
+candidate {'dir': '<SH4 staged tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 253 added
 IDENTICAL ai.js
 IDENTICAL sim.js
 IDENTICAL move.js
@@ -245,6 +245,7 @@ ADDED dev/shadows/evidence/sh4/retained/retained.json
 ADDED dev/shadows/evidence/sh4/retained/server-boot.log
 ADDED dev/shadows/evidence/sh4/sh3_remote_verify.json
 ADDED dev/shadows/evidence/sh4/sh4_remote_verify.json
+ADDED dev/shadows/evidence/sh4/sh4b_remote_verify.json
 ADDED dev/shadows/evidence/sh4/unit_tests.log
 ADDED dev/shadows/freeze.py
 ADDED dev/shadows/harness_lib.js

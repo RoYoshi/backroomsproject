@@ -17,11 +17,11 @@ ai.js, sim.js, move.js, server.js, mp.js, death_srv.js, dphys.js, camera_policy.
 byte-identical; the one that differs is index.html. FREEZE OK).
 
 == Stage reports (repository root, documentation only) ==
-A  2D_SHADOWS_GIT_CHECKPOINTS.md            sha256 4394718e61983124e1355e6def3df31d70279d42d7fb9f0f44d44cba4a6ec9f7  3150 bytes
+A  2D_SHADOWS_GIT_CHECKPOINTS.md            sha256 1374ba0c5a5d3ce8a54b4769b52fad84a8fdfd3b44926b74866879c6647d62c6  3493 bytes
 A  2D_SHADOWS_HUMAN_QA.md                   sha256 e0f0c5c01d465d2659c26c502c85d8590bdab6f6ef80fc2cb43546893793d4e7  3972 bytes
 A  2D_SHADOWS_PERFORMANCE.md                sha256 97a9dc7ae07ae73b19f03ae5afdee3e7d98f816b6bcb05ae9a9c7e24e2724178  21109 bytes
 A  2D_SHADOWS_REPORT.md                     sha256 967773a59618c0bb77b082f004ccff55de749baba2e092818bd67097a24cd3dc  10180 bytes
-A  2D_SHADOWS_TEST_SUMMARY.md               sha256 61e8ed97b0592ed09cf55e94d094041e4496c6af1208434694ffb8c2d7df295b  22068 bytes
+A  2D_SHADOWS_TEST_SUMMARY.md               sha256 b0284bc29a460143d7e3a668685db7f7b6c50d8c3cda8a61e0e88605e3cd3bec  22068 bytes
 A  2D_SHADOWS_CHANGED_FILES.txt             (this file)
 
 == Development tooling and evidence (dev/shadows/, never served: the server whitelist does not include dev/) ==
@@ -210,11 +210,11 @@ A  dev/shadows/evidence/sh3/profile/before_sh2.txt                          1363
 A  dev/shadows/evidence/sh3/profile/canvas_calls.txt                        766 bytes
 A  dev/shadows/evidence/sh3/sh2_remote_verify.json                          523 bytes
 A  dev/shadows/evidence/sh3/unit_tests.log                                  8340 bytes
-A  dev/shadows/evidence/sh4/SH4_FINAL.md                                    3603 bytes
+A  dev/shadows/evidence/sh4/SH4_FINAL.md                                    3693 bytes
 A  dev/shadows/evidence/sh4/browser_checks.log                              1834 bytes
 A  dev/shadows/evidence/sh4/build_probe.json                                1784 bytes
 A  dev/shadows/evidence/sh4/build_probe.log                                 1740 bytes
-A  dev/shadows/evidence/sh4/freeze_verify.txt                               14712 bytes
+A  dev/shadows/evidence/sh4/freeze_verify.txt                               14767 bytes
 A  dev/shadows/evidence/sh4/retained-diag/EXPORTS.txt                       2209 bytes
 A  dev/shadows/evidence/sh4/retained-diag/final-1/browser-admin.log         5213 bytes
 A  dev/shadows/evidence/sh4/retained-diag/final-1/browser-ir.log            1094 bytes
@@ -255,6 +255,7 @@ A  dev/shadows/evidence/sh4/retained/retained.json                          1174
 A  dev/shadows/evidence/sh4/retained/server-boot.log                        336 bytes
 A  dev/shadows/evidence/sh4/sh3_remote_verify.json                          523 bytes
 A  dev/shadows/evidence/sh4/sh4_remote_verify.json                          523 bytes
+A  dev/shadows/evidence/sh4/sh4b_remote_verify.json                         536 bytes
 A  dev/shadows/evidence/sh4/unit_tests.log                                  8340 bytes
 A  dev/shadows/freeze.py                                                    8281 bytes
 A  dev/shadows/harness_lib.js                                               8676 bytes
@@ -264,11 +265,11 @@ A  dev/shadows/report/mk_changed_files.py                                   3052
 A  dev/shadows/report/mk_diag.py                                            2239 bytes
 A  dev/shadows/report/mk_performance.py                                     15851 bytes
 A  dev/shadows/report/mk_test_summary.py                                    9321 bytes
-A  dev/shadows/report/package.py                                            6356 bytes
+A  dev/shadows/report/package.py                                            6471 bytes
 A  dev/shadows/run_retained.py                                              14598 bytes
 A  dev/shadows/scene_bench.js                                               16410 bytes
 A  dev/shadows/shots.js                                                     7849 bytes
 A  dev/shadows/summarize.py                                                 5348 bytes
 A  dev/shadows/test_shadows.js                                              51662 bytes
 
-Totals: 2 served, 6 reports (this file included), 245 dev files.
+Totals: 2 served, 6 reports (this file included), 246 dev files.

@@ -36,6 +36,7 @@ tree's game files are SH3's, and the regression below ran on an export of the SH
 | `freeze_verify.txt` | the gameplay freeze verified on the staged SH4 tree |
 | `sh3_remote_verify.json` | SH3 on GitHub: `git ls-remote` and the REST API agree on commit, tree and parent |
 | `sh4_remote_verify.json` | the reviewed SH4 commit `0787e1f` on GitHub, the same check |
+| `sh4b_remote_verify.json` | the review-fix commit `a90b51c` on GitHub, the same check |
 
 ## Why a same-machine rerun
 
