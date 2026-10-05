@@ -105,6 +105,17 @@ async function adminDo(P, tab, sel, n = 1) {
   return ok;
 }
 
+async function setLights(P, mode) {                                    // the server applies a blackout change only on a running tick: thaw, switch, wait for it, freeze
+  const want = mode === 'on';
+  for (let k = 0; k < 4; k++) {
+    await adminDo(P, 'monsters', '[data-c="freeze"][data-on="0"]'); await sleep(250);
+    await adminDo(P, 'world', `[data-c="blackout"][data-mode="${mode}"]`);
+    for (let i = 0; i < 20; i++) { await sleep(200); if (mode === 'auto' || await P.evaluate(() => !!__api.V.blackout) === want) break; }
+    await adminDo(P, 'monsters', '[data-c="freeze"][data-on="1"]'); await sleep(250);
+    if (mode === 'auto' || await P.evaluate(() => !!__api.V.blackout) === want) return true;
+  }
+  return false;
+}
 const counts = P => P.evaluate(() => ({ h: (window.__hounds || []).filter(Boolean).length, s: __api.q.filter(o => o && !o.off).length }));
 async function clearMonsters(P) {                                            // remove every hound and smiler (the room's population varies)
   for (let i = 0; i < 12; i++) {
@@ -129,9 +140,8 @@ async function setupPage(browser, prof, room) {
   await sleep(4000);
   await P.keyboard.press('Backquote'); await P.fill('#admPass', 'smoor'); await P.keyboard.press('Enter'); await sleep(900);
   await clearMonsters(P);
-  await adminDo(P, 'world', '[data-c="freeze"][data-on="1"]');
+  await adminDo(P, 'monsters', '[data-c="freeze"][data-on="1"]');
   await adminDo(P, 'players', '[data-c="god"]');                            // the bench wanderer cannot be caught while entities stand beside it
-  await adminDo(P, 'world', '[data-c="blackout"][data-mode="off"]');
   const cdp = await ctx.newCDPSession(P); await cdp.send('Performance.enable');
   const env = await P.evaluate(() => { let r = null; try { const c = document.createElement('canvas').getContext('webgl'); const e = c && c.getExtension('WEBGL_debug_renderer_info'); r = e ? c.getParameter(e.UNMASKED_RENDERER_WEBGL) : null; } catch (e) { }
     return { dpr: devicePixelRatio, inner: [innerWidth, innerHeight], cores: navigator.hardwareConcurrency, renderer: r, shadows: !!window.__shadows, lightCanvas: (c => [c.width, c.height])(document.getElementById('light')), pixi: (c => c ? [c.width, c.height] : null)(document.querySelector('#game canvas')) }; });
@@ -176,7 +186,7 @@ async function measure(S, scene, tier, name) {
       const scenes = prof === '16x9' ? sceneList : sceneList.filter(s => ['room', 'sweep', 'peers'].includes(s));
       for (const sc of scenes) {
         const D = SCENES[sc]; let peers = [];
-        await adminDo(S.P, 'world', `[data-c="blackout"][data-mode="${D.blackout}"]`);
+        await setLights(S.P, D.blackout);
         const at = await S.P.evaluate(`(${PICK})([${D.at[0]}, ${D.at[1]}, 26])`);
         await S.P.evaluate(([x, y]) => { __api.gear.eq.kind = 'flashlight'; __api.tp(x, y); }, at);
         await sleep(300);
