@@ -1,0 +1,133 @@
+{
+ "schema": "tfb-shadows-bench/1",
+ "label": "v23.3.6 parent f2805bb (entities scene, reworked placement)",
+ "game": "<pristine parent export>",
+ "secs": 4,
+ "node": "v22.22.2",
+ "chromium": "141.0.7390.37",
+ "started": "2026-10-05T04:02:11.727Z",
+ "runs": [
+  {
+   "profile": "16x9",
+   "scene": "entities",
+   "tier": "baseline",
+   "frames": 15,
+   "fps": 3.75,
+   "frameIntervalMs": {
+    "n": 14,
+    "mean": 278.564,
+    "p50": 266.7,
+    "p95": 316.7,
+    "p99": 350,
+    "max": 350
+   },
+   "rafCpuMsPerFrame": {
+    "n": 15,
+    "mean": 7.147,
+    "p50": 5.4,
+    "p95": 12.1,
+    "p99": 21.5,
+    "max": 21.5
+   },
+   "webglDrawCallsPerFrame": {
+    "n": 15,
+    "mean": 14,
+    "p50": 14,
+    "p95": 14,
+    "p99": 14,
+    "max": 14
+   },
+   "canvas2dCallsPerFrame": {
+    "n": 15,
+    "mean": 66,
+    "p50": 66,
+    "p95": 66,
+    "p99": 66,
+    "max": 66
+   },
+   "cdpPerFrameMs": {
+    "task": 293.359,
+    "script": 8.866,
+    "layout": 0.352
+   },
+   "heapMB": 42.9,
+   "shadows": null,
+   "state": {
+    "x": 1286,
+    "y": 2574,
+    "angle": -2.356,
+    "lightOn": true,
+    "blackout": false,
+    "peers": 0,
+    "hounds": 1,
+    "smilers": 1
+   },
+   "screenshot": "16x9-entities-baseline.jpg"
+  }
+ ],
+ "errors": {
+  "16x9": []
+ },
+ "env": {
+  "16x9": {
+   "dpr": 1,
+   "inner": [
+    1280,
+    720
+   ],
+   "cores": 2,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "shadows": false,
+   "lightCanvas": [
+    1280,
+    720
+   ],
+   "pixi": [
+    1280,
+    720
+   ]
+  }
+ },
+ "missing": {
+  "16x9": [
+   "/timing_policy.js",
+   "/camera_policy.js"
+  ]
+ },
+ "finished": "2026-10-05T04:02:53.446Z",
+ "serverLog": [
+  "The Far Backrooms → http://localhost:9461  (share  ?room=NAME  to group up)",
+  "[admin] WANDERER#1 unlocked admin (room bench16x931727)",
+  "[admin] BENCH#1 unlocked admin (room bench16x931727)",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 1",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 1",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 1",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: god BENCH -> true",
+  "[admin] room=bench16x931727 BENCH#1: blackout off",
+  "[admin] room=bench16x931727 BENCH#1: blackout off",
+  "[admin] room=bench16x931727 BENCH#1: spawn hound near",
+  "[admin] room=bench16x931727 BENCH#1: spawn smiler near",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 1",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: hound remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 1",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  "[admin] room=bench16x931727 BENCH#1: smiler remove x1 -> 0",
+  ""
+ ]
+}

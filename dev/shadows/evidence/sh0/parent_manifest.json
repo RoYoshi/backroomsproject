@@ -1,0 +1,1883 @@
+{
+ "schema": "tfb-shadows-freeze/1",
+ "commit": "f2805bb904c158df17c5c75c3d0d4681049bc246",
+ "tree": "8cc77595fe6e88c425e2f8abd243f3463af44a18",
+ "expectedParent": "f2805bb904c158df17c5c75c3d0d4681049bc246",
+ "expectedTree": "8cc77595fe6e88c425e2f8abd243f3463af44a18",
+ "parentVerified": true,
+ "protected": [
+  "ai.js",
+  "sim.js",
+  "move.js",
+  "server.js",
+  "mp.js",
+  "death_srv.js",
+  "dphys.js",
+  "camera_policy.js"
+ ],
+ "mixed": [
+  "world.js"
+ ],
+ "presentation": [
+  "index.html"
+ ],
+ "allowedNew": {
+  "prefixes": [
+   "dev/shadows/",
+   "2D_SHADOWS_"
+  ],
+  "files": [
+   "assets/shadows-2d.js"
+  ]
+ },
+ "classCounts": {
+  "frozen": 194,
+  "docs": 26,
+  "protected": 8,
+  "presentation": 1,
+  "mixed": 1
+ },
+ "fileCount": 230,
+ "files": [
+  {
+   "path": ".github/workflows/deploy-bloom.yml",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "7131a713f5f583373c23d7737d86b8eb2af45f72",
+   "sha256": "0cdde18246e8026342ce15e4b5f55b7a8f7085d280a65de5262d9c0926a1e7cb",
+   "bytes": 1177
+  },
+  {
+   "path": "PART_2_AI01_CHANGED_FILES.txt",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "cf88d08ef9a39f6e60ab6a72afda5165f5f2c1e8",
+   "sha256": "284338db34b6bb338ef01eb75f8e66bd5862b93d5abe0370ccb71825ed50ec8e",
+   "bytes": 580
+  },
+  {
+   "path": "PART_2_AI02_CHANGED_FILES.txt",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "59cf5f9b647dc2068409327ad900747d28f9d5af",
+   "sha256": "c5432524469e30693ed1f2f1902c09adbbf8661d67c0735a51e860ae062c155c",
+   "bytes": 206
+  },
+  {
+   "path": "PART_2_CAMERA_FIX.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "6c6f429881fb80ae0e762b3b2c56d4ce12de4b96",
+   "sha256": "2e13703530d813a7fda52471f4c0fc08b9f379e7a3d63a5cc528ed8faace19a3",
+   "bytes": 1378
+  },
+  {
+   "path": "PART_2_ENTITY_LOOK_REPORT.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "aaaee4048431e99c8be4cb6950c92d98523f4767",
+   "sha256": "bacb56f5be33e48cad2e734829c94d36e81dc00ce42d30a6ca98f40d31410455",
+   "bytes": 5024
+  },
+  {
+   "path": "PART_2_FPS_CHANGED_FILES.txt",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "4335967bf2784ac648915a7603277b63b85931e5",
+   "sha256": "ef53ae03a9779d9c67af2f72674ca6e808ce4e9ea0bea66bc1ac99e875dc4744",
+   "bytes": 640
+  },
+  {
+   "path": "PART_2_FPS_EQUALITY.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "5cac4d8523606d9b58a02a0c832a3ebdc54b03c1",
+   "sha256": "39c841892d01643264171322c625612f2609f7d5776a675cfa91f75d1fb4492e",
+   "bytes": 4618
+  },
+  {
+   "path": "PART_2_HQA_AI01_SEARCH_REPORT.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "9d2109f3e3318ce2d832cd136d1a3a46c0c51051",
+   "sha256": "6d01cc611112a3f2e51861d34f2fdb83edaad7eae6da9e294b72ea2b0e5b4f41",
+   "bytes": 4007
+  },
+  {
+   "path": "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "e947fd5c0c478d41b9bb28ad574b7b8969a59657",
+   "sha256": "d81692bca3fd82c3d2b7335d413a577a8a1c0271a825f1b599a0e1d371fbe153",
+   "bytes": 2578
+  },
+  {
+   "path": "PART_2_HQA_CHANGED_FILES.txt",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "4fa932e1a1285c7cbd06c949f168d3c9cb85d88a",
+   "sha256": "cfedaab1ac4dfab6e6987ae6387b0b96db2674bfdcee32e609b9f5385d149438",
+   "bytes": 475
+  },
+  {
+   "path": "PART_2_HQA_HOTFIX_REPORT.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "f44a026a440ecde0d29e58a7fbead8f3aa501802",
+   "sha256": "89ceac9896904f957b233a6cc67bf659bda51723236369b43c0b570ebe5adf78",
+   "bytes": 6690
+  },
+  {
+   "path": "PART_2_HQA_TEST_SUMMARY.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "016dbf7cd8842d8e18cb5b657e1f6cad476ae7b3",
+   "sha256": "006430aaf4c98e21f845bf11e2c86fe0e34a7b439d4e13009ca200196a6c870c",
+   "bytes": 2758
+  },
+  {
+   "path": "PART_2_HUMAN_QA.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "08aa3f97e26a1e9ce682c4b84221142bddfec7fe",
+   "sha256": "a76544b78831b99950947d35de37f44dc626e149c6a94db75968dd81da08acbe",
+   "bytes": 5645
+  },
+  {
+   "path": "README.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "c417ae94e8f33d86ea3e820092c15bd24137a9c3",
+   "sha256": "e6ff93c6ae573fc2bdfeb5bbc2fddadd0af7aa5a3e0ff552100833abd906d491",
+   "bytes": 69388
+  },
+  {
+   "path": "STAGE_2E_REPORT.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "c1ebaef73f906585a68768b0daa382a132726025",
+   "sha256": "cf3589bb49cbd12b513d12a4069290a3a65c1f09dbe3dc0fd456b33d9db51d67",
+   "bytes": 22674
+  },
+  {
+   "path": "STAGE_2F_REPORT.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "3d0e00c8c48d4db1208ba27c484ed436e868377a",
+   "sha256": "8b9051ffca1e06b20831c3c7b8bf2b4427370223ad09b72780185265d4533be3",
+   "bytes": 24534
+  },
+  {
+   "path": "STAGE_2F_TEST_SUMMARY.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "ec623d5e679d4ae57772ec261c842b90894f3b66",
+   "sha256": "6c872707aeac89516935ad7493323669972f1ff2a61b9926f3324bf9765b2879",
+   "bytes": 1888
+  },
+  {
+   "path": "ai.js",
+   "class": "protected",
+   "mode": "100644",
+   "blob": "0b76d2b279125e8b0237fd79ccf404bb4339cdae",
+   "sha256": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731",
+   "bytes": 206697
+  },
+  {
+   "path": "assets/BufferResource-B-thlpip.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "2d8ffb8337fc9861a5454e328374e3707e2470d8",
+   "sha256": "56f34780fd104d1cb11da624c9fab954f9de88802590170e4522281609164990",
+   "bytes": 11068
+  },
+  {
+   "path": "assets/Cache-DDo62lBW.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "ce620526a306e52b3a8d6bfd226bfa1197aa235e",
+   "sha256": "94f3d177d09bfecefa8b80e646a55ff894635dd1723d6e7128d802477f3bae3a",
+   "bytes": 1100
+  },
+  {
+   "path": "assets/CanvasPool-DecUtJxW.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "9c4e69ff04e46ea7616c8a98a415e2bc5ef55a2e",
+   "sha256": "45335d161156296b274b89eb85b9040a0d08b1870125bfcc5e7100bb937589f1",
+   "bytes": 68480
+  },
+  {
+   "path": "assets/Filter-DzecrWg_.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "efa0a97b08b93abc6c560282ee30f2cb4c359214",
+   "sha256": "de855f231760116676843943157cf0b52bf893b5f0781f8d34fc94352e1c3fbd",
+   "bytes": 42012
+  },
+  {
+   "path": "assets/GCManagedHash-Bz2ZMBJN.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "d26b4c79ccb29dbdfe9e9a2c9df7668bbda3f077",
+   "sha256": "b634a4602cfa70019626a0e83942f76dfbe49feadf28825410f0b96cb1849ef6",
+   "bytes": 19356
+  },
+  {
+   "path": "assets/GraphicsContext-vm7TDg_M.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "2bb1ce5de19d3c5fa5335ac492e99b6468db099d",
+   "sha256": "681ef439c93da35418927d0ff6ba84e4380b1656701756f973ef3df4bdd5aebc",
+   "bytes": 61700
+  },
+  {
+   "path": "assets/RenderTargetSystem-CgUxHIsn.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "bc120dff5abf479c6994b9cf108f921ddb927ed1",
+   "sha256": "cc26f4d020bdf55a0346f21b417048a129c071b2b4625463bb269eb899443aa2",
+   "bytes": 58779
+  },
+  {
+   "path": "assets/browserAll-B-iwy0YI.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "2d41bd70ea78211b8a0cfc6603c32087806c4d41",
+   "sha256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6",
+   "bytes": 42676
+  },
+  {
+   "path": "assets/canvasUtils-CxYPZET9.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4cfab69a2a62a99358fa48d8cfd694b5c04c6dfc",
+   "sha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03",
+   "bytes": 6054
+  },
+  {
+   "path": "assets/carpet.png",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "8361c4b04ee55da1d8fe872c4042346da1dfbb64",
+   "sha256": "7d72b780d2c67e205429ac4b1f5f1c9d5feeea56b4dd1ec59e7a0ad4c0d77dab",
+   "bytes": 463327
+  },
+  {
+   "path": "assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "b1e29263e72a5c93f084b97fd32fdd50b1e58a52",
+   "sha256": "f97cfacaed002298725cd05c62cb5668989473d0bfe5850c4c36dbd773b59766",
+   "bytes": 344
+  },
+  {
+   "path": "assets/index-D7hdwmUU.css",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "bf2b872034a8357a9255a3eedf830666ccc71807",
+   "sha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a",
+   "bytes": 27218
+  },
+  {
+   "path": "assets/index-DKbV5Nv9.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "944994903536160326418a65557d06864c3b02d0",
+   "sha256": "f9b7d1a525b9b2b9e80d6152d2e45e8f4f2305364a2bcdf11754f8da8dded06f",
+   "bytes": 329567
+  },
+  {
+   "path": "assets/init-Cn1_BCi0.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "dd2c5757929c873dffb7fd5f46585dde99df1328",
+   "sha256": "c6fb810d1c6d8674992f4e85779800fe63394b29eb0dcea71206fc7495714037",
+   "bytes": 15753
+  },
+  {
+   "path": "camcorder.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "9947c7ccac7e47aee0032526ff2a192fd6d83b32",
+   "sha256": "f791fe8c190825c96b2e4b4d62c5f7a77a50ffe0b4363a867cbb1bd86c88f294",
+   "bytes": 28256
+  },
+  {
+   "path": "camera_policy.js",
+   "class": "protected",
+   "mode": "100644",
+   "blob": "f6600cc2b3afa453c439d1f3d35c016bfe12de80",
+   "sha256": "4572e5cac1ba29c4398d71b30133ac677cc961290d28e875a68da0be48c3cf88",
+   "bytes": 1976
+  },
+  {
+   "path": "death_srv.js",
+   "class": "protected",
+   "mode": "100644",
+   "blob": "b99fe3e0b1f74d5f73b903a2b27832209a04d8ff",
+   "sha256": "a930d71cf4dced9e269ca4b14390398e2ea726646ef9a24116736a0875f5df90",
+   "bytes": 2891
+  },
+  {
+   "path": "dev/HOUND_CANON_LOCK_STAGE_2E.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "e2ac2d37767aa2a47f3bf2eb402ad223c47bdfe0",
+   "sha256": "969a3e85a8fa193ac79796d5cedfb2f0739fbc90fc2d3787f47a7bc0fdbd368c",
+   "bytes": 15459
+  },
+  {
+   "path": "dev/README.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "2c6e389ee72371c077cdb5a7c57514741f14cfde",
+   "sha256": "680a9b5ec7059b6c27b4827fddf4eee1dcc910e9a88eb301f9aee4b110169f8f",
+   "bytes": 18823
+  },
+  {
+   "path": "dev/SMILER_CANON_LOCK_STAGE_2F.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "0474bdffef8ea4bf38fe3b64f637c6cbedf28b76",
+   "sha256": "72090592555210c026d3087bf65d32c1010a8c007ba0cce7b397c1c79c1c0ce1",
+   "bytes": 13342
+  },
+  {
+   "path": "dev/STAGE_2E_HUMAN_QA.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "73a3e2c4057973df00f3483a7f21e1277fe4c4aa",
+   "sha256": "da70d83292dbf13b2a6edf31ef043e5c59e06cb60b2ba0147b740f7a5c168739",
+   "bytes": 6060
+  },
+  {
+   "path": "dev/STAGE_2E_PRESERVATION.json",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "18e21dbfc96f4d6224f95180779f6eb69ede272a",
+   "sha256": "6856690a846cfecf1787a82f60d678c5b336aa0f2e8253d246d3069352da7de4",
+   "bytes": 6578
+  },
+  {
+   "path": "dev/STAGE_2F_DESIGN.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "071157a5bb5271610d38fa94289ca3a425f42227",
+   "sha256": "13d5fe3f07870ccf98ea6280f21b231af64e895a70d91294c21916e9a16a0881",
+   "bytes": 3215
+  },
+  {
+   "path": "dev/STAGE_2F_IMPLEMENTATION_MAP.md",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "19a3a4941cd1fffc67cefa2321a05181f910d9c0",
+   "sha256": "f6d6674047a428670981e472d5945ba93430a3669415d37d2e3a240a25a75b78",
+   "bytes": 3587
+  },
+  {
+   "path": "dev/STAGE_2F_PRESERVATION.json",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "354f952a35c8b81caa4d442669c8cc7eb11fa572",
+   "sha256": "5e6499c5805dc7e82f02ac0935ebb8cabc37532915a95a32f4770a687320f0cb",
+   "bytes": 3927
+  },
+  {
+   "path": "dev/STAGE_2F_SPECIFICATION.txt",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "76d18f8eb861589e52db21742843816e9c16fb96",
+   "sha256": "395156ec0fb96e563019ab15551e5ea0ad75b89c9451f07f6f47a046c59cffd2",
+   "bytes": 32986
+  },
+  {
+   "path": "dev/ai_src/00_head.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4e79ac680a01008349eebabfe528a3cfeb920cf1",
+   "sha256": "8189a863d88ed64a2ae1928b111772456b49f833dc4a55d2677736c318c9c720",
+   "bytes": 3745
+  },
+  {
+   "path": "dev/ai_src/10_geo.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "0bc1c7da5ab0524328eaf367956ea6c71d86e9bc",
+   "sha256": "2881e9871940689f10f6790facc08a50ed24b04c3eddb7e2d56152f3bf7ebf48",
+   "bytes": 9699
+  },
+  {
+   "path": "dev/ai_src/20_senses.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "ac859d972739bf008f3ef3a0d38bb05299f9b866",
+   "sha256": "63ea13d5517ba5c3d10d9e44060be1cb287b9a87d7f7566857873ffcbb15578a",
+   "bytes": 18510
+  },
+  {
+   "path": "dev/ai_src/22_intelligence.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "9ab2a64a87dceac25869f8eb684db55541af2a9d",
+   "sha256": "f68977416308184867c5d237e83c6e92ce940d2760e8d7bd6679b430bbd17ffe",
+   "bytes": 9278
+  },
+  {
+   "path": "dev/ai_src/25_light.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "21be2686861b61377ab51e787af209d4c4861589",
+   "sha256": "f2d6503f13be71cece046ecb2eccb1822c284b3930e18e7412e52c73ca11d0db",
+   "bytes": 9280
+  },
+  {
+   "path": "dev/ai_src/30_entity.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c4589eeab0ba55de85ae466134f8e77b3a58c87d",
+   "sha256": "1d1d2d7e64d6e81e56750051f302cba230528ccdb220a4febadcbc4b1c9b575d",
+   "bytes": 22320
+  },
+  {
+   "path": "dev/ai_src/40_capture.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4e417c03c85a6851c2889f1056777a68659ec763",
+   "sha256": "823730e8743732d5a91788667325e3036c14249df3df88a1352b7ae1bb7f3166",
+   "bytes": 13769
+  },
+  {
+   "path": "dev/ai_src/50_hound.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c7cc0a644ea6e5bdeb7645c7675d6c510cf3b593",
+   "sha256": "d3c870a7e472af75ba8baf0151ca3ebda58ed3c09cccd73c5411e53a3e06d317",
+   "bytes": 57440
+  },
+  {
+   "path": "dev/ai_src/60_smiler.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "6bdb93d1975c04ceef913af588620324c94f4c56",
+   "sha256": "b94ba4da4dd39e3605629c9e266fc5f531250e0f5061445d66d4646cc2a3a3a2",
+   "bytes": 36300
+  },
+  {
+   "path": "dev/ai_src/90_engine.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "47e57d9a3d7350973f759d2680bfff534b22e159",
+   "sha256": "4cfe2d778fea1eabb4693927ade17239726458171a073bb5e10da51507adabaf",
+   "bytes": 26356
+  },
+  {
+   "path": "dev/build_ai.sh",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "fa755a532ecdd762e120f35890d42733dd28de12",
+   "sha256": "43e18a570273af5f6b089cb19e7332b7a684c5e66ef5d80be4a897c637a3c41f",
+   "bytes": 499
+  },
+  {
+   "path": "dev/build_ents.sh",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "91040e48b12c5e4ffdee01d5f832315fe162fb1c",
+   "sha256": "9cff0597984088403fb4b1e0101d93b2a50c9276ec580ddf914425bb6e56ff95",
+   "bytes": 372
+  },
+  {
+   "path": "dev/build_sim.sh",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "7e68cd02735e8c4373251b244bf485f82e7d232f",
+   "sha256": "9ce5f797f96728cc452b9e7b91fdcc98e77066a75db9bb5ff4863bbae6569abc",
+   "bytes": 820
+  },
+  {
+   "path": "dev/cand.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4fc5f9edbe55225968d0fb629a1fcaecb26ec948",
+   "sha256": "a7798c1824867e30ab773e1cdf32124f64a1e3cca2ffb61b099d5a888dab343d",
+   "bytes": 1512
+  },
+  {
+   "path": "dev/chk_world.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "48637b0b90f1340caa039a44968d641d277b6788",
+   "sha256": "5c9256329f36c28c7247430d2b960d1b4f6ed8cecb4ac0c09da631504d689839",
+   "bytes": 1277
+  },
+  {
+   "path": "dev/ents_src/00_head.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "95e6037b7b71b5eebf31407f21e95d44c6ab79e4",
+   "sha256": "265efc48836703b882d80782de853486f61c48edf4d16a59ef5b559eec8f5dc3",
+   "bytes": 3668
+  },
+  {
+   "path": "dev/ents_src/10_hound.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c3bae3aa78149630e7701e7afb02a5d74bf28d7f",
+   "sha256": "ba770f68c8a9036e7b7097933942da0120f825e8031ff65a127e2726bf426a45",
+   "bytes": 18810
+  },
+  {
+   "path": "dev/ents_src/20_smiler.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "43e7c9991e856d34b25a8976cb047d0ec7aa00ec",
+   "sha256": "be9d7261e3bcb947bfbc9aed91b03d607459d6ca1d6eaeb69747b1fdb210554e",
+   "bytes": 9660
+  },
+  {
+   "path": "dev/ents_src/25_death.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "e1965c176b97ff30b4897e44469c8004e08f5750",
+   "sha256": "fdf85ec8f4155b8a0a9547db1a2343ac5fb39bfcffec20f4dc224a2dcfa51e04",
+   "bytes": 5309
+  },
+  {
+   "path": "dev/ents_src/30_audio.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "923b8bb60ce3bff5132e223d53a97e4051d0cbdc",
+   "sha256": "b234e33a4d7fced779c61840f101807350aa67d1c0491be39041fbbaae53a5a5",
+   "bytes": 10205
+  },
+  {
+   "path": "dev/ents_src/40_debug.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "bfe5d73806b95ffc5b71f2c3a1ee6010a560570b",
+   "sha256": "d06bc41e5aed198a76a4bfe1a4899a09e78f1cb79b131c716a685fd2a98d73a4",
+   "bytes": 27988
+  },
+  {
+   "path": "dev/harness.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "24e6ddd29f127e69a92c4435f629ece6cfd59e84",
+   "sha256": "59f774bbc5bbf73cba1ea598a6e218933bbb35ba9d3e822d8dab67566426a6df",
+   "bytes": 6658
+  },
+  {
+   "path": "dev/map.png",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "63fbc58487d2050460a29dd8375f220d0d046e84",
+   "sha256": "ea38ecf5667a631a07e59019585a39a817c7dbb937106bc311c49ca32d4ec4e1",
+   "bytes": 4519
+  },
+  {
+   "path": "dev/map.txt",
+   "class": "docs",
+   "mode": "100644",
+   "blob": "a09531ff729b6126272d1e99e48dc2b3bec45a1d",
+   "sha256": "b96f876ec76ccccf9ee9b25b4124375544357369b1396f7f1c4d7511bb6f377c",
+   "bytes": 6984
+  },
+  {
+   "path": "dev/move_model.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "eac7d3f3beaf42554b256ff45c2b34e9a237f7f8",
+   "sha256": "3bdb6e74bdd346d3113b88c506ed24bba19c33012ef88cdca07366c0b20711ac",
+   "bytes": 2867
+  },
+  {
+   "path": "dev/paths.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "77af35093eb00791583a79077378ef87af7a5f20",
+   "sha256": "c03972cd22fe66e62b0219f714526f5992d94c21542dc8a0d66df81d01c241ac",
+   "bytes": 312
+  },
+  {
+   "path": "dev/scenarios_hound.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "ff8a30d81fd9f317ef9f083ae97863c290ee0974",
+   "sha256": "67c3206e9b7089c8a460ae1e686130c9fc7bd54ca40bb09e21af06544f5705d9",
+   "bytes": 3532
+  },
+  {
+   "path": "dev/sim_geo.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c1ec7f58b22f283097d73bf7e4ffcdb4e0b56447",
+   "sha256": "dd708a821dcb0b6556bf07acdea2f7ed1fb3446dbbce1068215925a403ae7084",
+   "bytes": 26214
+  },
+  {
+   "path": "dev/sim_glue.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "bb24b9ec1c21840704a4a96999e6ab3ae2985125",
+   "sha256": "2c829640a80e9950e55f8ea37b3ed64d4e37dfaa5da9c29bebec85a71b699f13",
+   "bytes": 20920
+  },
+  {
+   "path": "dev/sim_head.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "8d0ec93e439144a818b38cbc918980c44e579286",
+   "sha256": "7aa1c0dc106205f604d07e99fe4ecef53ee44afa3449947c6faedf634458019f",
+   "bytes": 7619
+  },
+  {
+   "path": "dev/stage2e-results/audit_net.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "11ea68f1482948fe1b85b4a248df9549b49ad1a3",
+   "sha256": "183cbc297cbd7cd9d493d72f501db1d33a2e891c8adf9c0e91cd981403d8091c",
+   "bytes": 3359
+  },
+  {
+   "path": "dev/stage2e-results/audit_net2-full.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c50f53457a2dde542388352e80026bcc3446ed43",
+   "sha256": "6cc35aa178253c54680a95a7a48764c96b3f0067c0531d36052ba2faf652abf5",
+   "bytes": 4075
+  },
+  {
+   "path": "dev/stage2e-results/escape-bench.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "79e166d37fd95898fc10871c3340d60593dabdd6",
+   "sha256": "2742d47d4835a5a869899561ed08c83464f096e9ba7823f80ec00965f43b50ff",
+   "bytes": 1157
+  },
+  {
+   "path": "dev/stage2e-results/interpolation.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "464f267780f0eedb9f8c00c06ff2ee4349b8a047",
+   "sha256": "692a7316b5e5f844df612747969d2463f2c358ffac20b2644ef26f3fe59f232f",
+   "bytes": 760
+  },
+  {
+   "path": "dev/stage2e-results/ir_net.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "63e7e808fa06a96d6917432f7593edeb9c94239f",
+   "sha256": "a8502087283567f38058e0a1777669b67d3ecf714a2d92e04e3c75fb591a7fb9",
+   "bytes": 506
+  },
+  {
+   "path": "dev/stage2e-results/legacy-baseline-same-fixtures.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4e0b0b6aeb42787d321f0794fe0890c31a037f2b",
+   "sha256": "3d626b2d237bc9ac6b9f519e27fabed217136f4f08782bd5e60b17923603967d",
+   "bytes": 1412
+  },
+  {
+   "path": "dev/stage2e-results/live.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "bc915947c88b25cb0f4cd4482f2c0922342236b1",
+   "sha256": "8b7a36620d14c2333a0554b1783366d24cbc4a9d0078f7562f641e8d6613dbfa",
+   "bytes": 2877
+  },
+  {
+   "path": "dev/stage2e-results/live_chase.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "9751c7899836e2058e669ffa455484ca987d9098",
+   "sha256": "adef3c0e3fc05086eae4b572da25f61b55bace936072ad2b341fa8d83e258a9e",
+   "bytes": 324
+  },
+  {
+   "path": "dev/stage2e-results/navigation-bench.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "6f47023f2462308faf1f3ffc0253610db93c4f07",
+   "sha256": "d0f691e59e19dd0720644ed89895ee7f849d903fcada7042a858e3e4150b22ae",
+   "bytes": 1122
+  },
+  {
+   "path": "dev/stage2e-results/performance-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "27b781764a9f136174c00e4727f22217e805a8bd",
+   "sha256": "c80e62ba4567fb966d128e140bf7415c82ca9ce6f84d617d575c19d06a58f363",
+   "bytes": 2699
+  },
+  {
+   "path": "dev/stage2e-results/performance-light.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "31cb2fc38f7cde49989afb2b6e5134a2ed86974a",
+   "sha256": "8930c612b90190953711f9f86c0b9e88824a4c1d13bbf0c42e96b457dad5a558",
+   "bytes": 544
+  },
+  {
+   "path": "dev/stage2e-results/performance-smiler.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "d28001324210061fc508394b686fdb663cd5bbde",
+   "sha256": "d9a9820cc34985b595958f63c5c56bf7587c559c05b1a178f78380c44af2ac03",
+   "bytes": 1245
+  },
+  {
+   "path": "dev/stage2e-results/physics.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "65166b0b5aef5a831e5b9c51d10072b1e3c6c0d5",
+   "sha256": "ad9f78f9061db09486f255554eba40999592e074c44b1c0515bb629b86af7c9b",
+   "bytes": 3425
+  },
+  {
+   "path": "dev/stage2e-results/portable-build.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "278bfe7f674cc1290e1649d3d63f6725f1f1c12c",
+   "sha256": "79bafd832ed65156ab548694855f553c3aefd2b8a9ea9a1ce015d15b7772bd88",
+   "bytes": 412
+  },
+  {
+   "path": "dev/stage2e-results/portable-hound.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "8a7d0c9faf811e72d8ec50aed40b5c0f8f3af131",
+   "sha256": "997afbdea44b35c6a3273340cb8291effabca7350907a555d5c877f00f01ae81",
+   "bytes": 2054
+  },
+  {
+   "path": "dev/stage2e-results/portable-interpolation.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "464f267780f0eedb9f8c00c06ff2ee4349b8a047",
+   "sha256": "692a7316b5e5f844df612747969d2463f2c358ffac20b2644ef26f3fe59f232f",
+   "bytes": 760
+  },
+  {
+   "path": "dev/stage2e-results/portable-physics.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "65166b0b5aef5a831e5b9c51d10072b1e3c6c0d5",
+   "sha256": "ad9f78f9061db09486f255554eba40999592e074c44b1c0515bb629b86af7c9b",
+   "bytes": 3425
+  },
+  {
+   "path": "dev/stage2e-results/preservation.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "cf376e5a408015d87c33de178d5dd85cd5ed8ebe",
+   "sha256": "065b29077dd26e105bd6e73dd932da363a38415ac8158bcb5cf53ba114843678",
+   "bytes": 193
+  },
+  {
+   "path": "dev/stage2e-results/scenario-results.json",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "db9975292c00a27f2171d3bc7d2832143ae0b00b",
+   "sha256": "8dbe5e97c4b5bd745f802fa0bac3c451c90ec1b8b9eddc30a3d0dea0750bc834",
+   "bytes": 28161
+  },
+  {
+   "path": "dev/stage2e-results/scenarios-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "f89bb529e85c776fe204d48cff4ea30a7fed0768",
+   "sha256": "40cde556b5cb3bd5607304f7ab5dab1129712db0a201ff61721b1a35420fd32f",
+   "bytes": 35009
+  },
+  {
+   "path": "dev/stage2e-results/smiler-debug-gate.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "b5f81d8177e0d3bf860a269d4b33db16c8af3b18",
+   "sha256": "c077a49537e360181401154d52522ef390f3cec62e6e4724c95ab9332ff3499d",
+   "bytes": 281
+  },
+  {
+   "path": "dev/stage2e-results/smiler-parity.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c8dc5ad623658918d5f3d8b2caf41a354c828ef9",
+   "sha256": "46d7c5d5239cb40dd39ef46f7376d60edb14ab33cbc0c6a8b373f19c03d09517",
+   "bytes": 416
+  },
+  {
+   "path": "dev/stage2f-results/LOG_INDEX.md",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5fb9dd352a1f380ea39ed4f9f54adf55f87fb569",
+   "sha256": "967eef5979ceba48d0cb778308f686d284f34d545826cb8223e0e31e8d8ed2e1",
+   "bytes": 2001
+  },
+  {
+   "path": "dev/stage2f-results/audit-net.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "e18af5ad138dc9d5d11953e6f998e3496e6a4987",
+   "sha256": "572ce2e2e4e035fa73c558c9caf9bebd9e6b0d770233c4ddd78e181cf7635455",
+   "bytes": 3359
+  },
+  {
+   "path": "dev/stage2f-results/audit-net2.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "0072c37d63142e58b3dc4762e8396e78077a6392",
+   "sha256": "27b8b338be621226c67d79d4bcc22fecb06360f55bb58ff050d74997dd61390e",
+   "bytes": 4073
+  },
+  {
+   "path": "dev/stage2f-results/baseline-scenarios.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "063cb0081a3354d67f5a52d412355127870a4e3b",
+   "sha256": "725501e65131d24c783c4bdcb759027d5652d0c18900b33dcc2abaeee1bf5527",
+   "bytes": 34886
+  },
+  {
+   "path": "dev/stage2f-results/breath-isolated.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4aee39ff1bfcb1038928fa45687ebe2714effcdb",
+   "sha256": "93878aefe766da197b58193f918356b31731dffad1a56afe95a9904adbd5f21e",
+   "bytes": 194
+  },
+  {
+   "path": "dev/stage2f-results/browser-status.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "dae6d1f8caee42fa1deac20c0a4ab7b910173911",
+   "sha256": "27e5299c4c7ca735e90966fb3bbf3762bb0cf36871acedaeb6cef3da29a9d525",
+   "bytes": 429
+  },
+  {
+   "path": "dev/stage2f-results/checkpoint-build.json",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "21ca8d6e1c2868b11afae2ea1a8a31d5fd28886b",
+   "sha256": "dc58fbfa3ebe768be93890c55bc33016de84f2cd900f7fb0a0d6eb683b82a025",
+   "bytes": 1127
+  },
+  {
+   "path": "dev/stage2f-results/checkpoint-stop.json",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "0637a088a01e8ddab3bf3fa98dbe804cbde1a0dc",
+   "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "bytes": 2
+  },
+  {
+   "path": "dev/stage2f-results/controlled-parity-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "83b8658113d1973cd4fd034945dc3a4404d577da",
+   "sha256": "364c1ac6d610a7c3e5beb2a401db25fc103c2f3929f3a90ef43862b9b814c3fc",
+   "bytes": 1112
+  },
+  {
+   "path": "dev/stage2f-results/controlled-parity-release.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "83b8658113d1973cd4fd034945dc3a4404d577da",
+   "sha256": "364c1ac6d610a7c3e5beb2a401db25fc103c2f3929f3a90ef43862b9b814c3fc",
+   "bytes": 1112
+  },
+  {
+   "path": "dev/stage2f-results/controlled-parity-rerun.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "2b25cb09ddf7eeffbb89a49fb29877776971a175",
+   "sha256": "1212cbeba82ae36c130dbed599c3efc6763a2014433352d80bf0192a3fa04860",
+   "bytes": 859
+  },
+  {
+   "path": "dev/stage2f-results/controlled-parity.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "2b25cb09ddf7eeffbb89a49fb29877776971a175",
+   "sha256": "1212cbeba82ae36c130dbed599c3efc6763a2014433352d80bf0192a3fa04860",
+   "bytes": 859
+  },
+  {
+   "path": "dev/stage2f-results/death-debug-cleanup.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "e94a10337a4894e0af25193bf8585ec86ddcffde",
+   "sha256": "f732dd758c7a23a9c65332ff13930c79cdde41bae4ed399b6fa4ff8a7de2be94",
+   "bytes": 115
+  },
+  {
+   "path": "dev/stage2f-results/first-2e-ir.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "299462eb4b3ee3e40c19476f92c656fb99189274",
+   "sha256": "0f7e66ec4867a3b88e967627063280013f23dcb6b07047b3a6219584037eb3b7",
+   "bytes": 3366
+  },
+  {
+   "path": "dev/stage2f-results/habit-real.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "0b2f549de491a97f7945d8c122dc2af4454090e0",
+   "sha256": "e8d2d9a962760b47d01e5c2f168c42145718a2c6d98d90bfc2059cff59edb495",
+   "bytes": 434
+  },
+  {
+   "path": "dev/stage2f-results/hound-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "1e01c21079f7c8454398c9489be88f4e734c9eb7",
+   "sha256": "c249780d514654b956f0f3452324936f8bc38ec29db277e4654556ab1551a0f1",
+   "bytes": 2076
+  },
+  {
+   "path": "dev/stage2f-results/interpolation.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "464f267780f0eedb9f8c00c06ff2ee4349b8a047",
+   "sha256": "692a7316b5e5f844df612747969d2463f2c358ffac20b2644ef26f3fe59f232f",
+   "bytes": 760
+  },
+  {
+   "path": "dev/stage2f-results/ir-net.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "63e7e808fa06a96d6917432f7593edeb9c94239f",
+   "sha256": "a8502087283567f38058e0a1777669b67d3ecf714a2d92e04e3c75fb591a7fb9",
+   "bytes": 506
+  },
+  {
+   "path": "dev/stage2f-results/live.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "7c918c2240f0f7b17e5290087dd7c760e506e7ea",
+   "sha256": "9a8b19a8e743b165ec7278033a4ddd5363f37c76f1a9b0d847f2b1df89e3c104",
+   "bytes": 2873
+  },
+  {
+   "path": "dev/stage2f-results/movement-parity-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "b3bc4b94e4b90aba4456dd041d2f1c3fd7521fef",
+   "sha256": "0ec11cc3b187574da186c70a53e97856e27de7621c487b6947c0abbdd326a761",
+   "bytes": 433
+  },
+  {
+   "path": "dev/stage2f-results/movement-parity.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "141128cab65623c5ac72a435a6993023c56886f8",
+   "sha256": "793bcd5d4b9b110905a5914b26cea583f1aca315a7fcc88c25b7d259b5fc7f98",
+   "bytes": 1332
+  },
+  {
+   "path": "dev/stage2f-results/nav-bench.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "30451e161fd50a03b85eddd47fd479b671e29b0a",
+   "sha256": "7b1b1ae89954ab866ffee5b5672bc62a39b20b5bce15dd0afe8322ae1c88d5ed",
+   "bytes": 1118
+  },
+  {
+   "path": "dev/stage2f-results/perf-habits-complete.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "d6be460645b09ecd86e1f1dd1c73cd455ce1b6f7",
+   "sha256": "669821c7e35dc2565c319783a0568902f033a5bf88069f517f1a74cde598ede8",
+   "bytes": 739
+  },
+  {
+   "path": "dev/stage2f-results/perf-hound.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "96e087175ac43e8fad4e9921f7b9aa85bf159d19",
+   "sha256": "b42be84840b68d084218f7e7628f8db6d16342fea10096621ef4af8eeb8d684a",
+   "bytes": 2699
+  },
+  {
+   "path": "dev/stage2f-results/perf-light.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "8fc3e347dad949ad2f437c1ad45697823c44a30a",
+   "sha256": "34b84b8d17abcc9131de5b2284ab6495d0bd95a0400fcee9f216323518fa321c",
+   "bytes": 543
+  },
+  {
+   "path": "dev/stage2f-results/perf-shared-release.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "8c5f674c5d9c2d49a42847eb1017c7aa0fd0a492",
+   "sha256": "66a921b797c0b40392c6316fb59a5c3c0a337ab758696f81711a3001da7db475",
+   "bytes": 6776
+  },
+  {
+   "path": "dev/stage2f-results/perf-shared.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "a4652f0ecd17156ce7a85e96b08fdec9c9370eeb",
+   "sha256": "fad64bffd363051b46839e58542a1d57482dbfc506aa0a3fe061be080884f9be",
+   "bytes": 6776
+  },
+  {
+   "path": "dev/stage2f-results/perf-smiler.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "546afdbd64ba3d07d6f8343b280dc5eff0a21cb1",
+   "sha256": "72f6a16a3dc77b43b1f74eef3a40e171173574d244d5478bbc1605bf6b0a175e",
+   "bytes": 1244
+  },
+  {
+   "path": "dev/stage2f-results/physics.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "65166b0b5aef5a831e5b9c51d10072b1e3c6c0d5",
+   "sha256": "ad9f78f9061db09486f255554eba40999592e074c44b1c0515bb629b86af7c9b",
+   "bytes": 3425
+  },
+  {
+   "path": "dev/stage2f-results/portable-build-ai.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5e3066cb2725f367321e9cf8f53d48b145de8f04",
+   "sha256": "ac92233eb68d86e4e91d3cac45b66c548029cc9623c3534e87a843b8b0a6420a",
+   "bytes": 100
+  },
+  {
+   "path": "dev/stage2f-results/portable-build-ents.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "7e1129f124b61c34b417f101cb632a047aef6d1b",
+   "sha256": "4434c0f17f0536d47292a3e940eb7c9ef6f8b44c3664fb0eea8df8b47315565c",
+   "bytes": 101
+  },
+  {
+   "path": "dev/stage2f-results/portable-build-sim.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "137fffcf144a8f847894cdc71522e1d52a153022",
+   "sha256": "dd9a03267fb0fd5958dfdbbb6fa184dbd7762092286220fff030c351e47da876",
+   "bytes": 100
+  },
+  {
+   "path": "dev/stage2f-results/portable-full-suite.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "338186f3ab399d309060cd0e67e59434ee7a5f2a",
+   "sha256": "1a01c8671d901235cab7ea69671be5987ed4dccab834607d46252c473be54eb5",
+   "bytes": 38859
+  },
+  {
+   "path": "dev/stage2f-results/portable-results.json",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "3c8159e7a7a8d75cfc58807f88e20613235287c9",
+   "sha256": "56a4a7af837f551d3f673bb775c6564fc43ac7d59201b7058a0e0645fc558ae3",
+   "bytes": 970
+  },
+  {
+   "path": "dev/stage2f-results/regression-first.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "47cd778be8d152e791a4c50e801e0a0955b4b2e6",
+   "sha256": "ce560dc2e698c385e96c37a0695165153f434ee7e3d5a425db8de896872538b7",
+   "bytes": 35908
+  },
+  {
+   "path": "dev/stage2f-results/release-focused.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5a1e4a17e15eed1e30a26ce336840e7b9d48f1d5",
+   "sha256": "c8ec8a86e8ed10a8d3337dd445ee18bd80b7f244d89114c113eed8006527f522",
+   "bytes": 8598
+  },
+  {
+   "path": "dev/stage2f-results/rng-counterfactual-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "db13659316e7ea8f83f4c209eb46d7c6fc2a91f1",
+   "sha256": "729296c2a552ae17e90b00cfbb8e93902594756fe9a1c2642574fcf60c8f9476",
+   "bytes": 296
+  },
+  {
+   "path": "dev/stage2f-results/rng-counterfactual-observations.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5d566dd7f30e7500dad17206bb643478e31404b9",
+   "sha256": "ebb8ea2c25f07936281e10a8b6b1b242380153d575da43d95ca112bb0ce6a3ab",
+   "bytes": 3502
+  },
+  {
+   "path": "dev/stage2f-results/rng-counterfactual.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4dea0ef98da28ee4fde830bc5e25baab0d08ff66",
+   "sha256": "acffab14085a14975f47009a2c0e44f487097f1ebf7d01bd27a9e0616224a2d8",
+   "bytes": 5562
+  },
+  {
+   "path": "dev/stage2f-results/scenarios-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "9c13396872045a0c924d8552c249ff50a5b12288",
+   "sha256": "51d078c8392cfe7c1755a15f8233a9adc7cd30229f8ed362288d535c2ae071fb",
+   "bytes": 35479
+  },
+  {
+   "path": "dev/stage2f-results/shared-delivery.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "e5f811f68d600efaeda6ebc39c0baa1906cc5ac3",
+   "sha256": "3e8fb1978066ccf973a26c784c0cb31197d80267a09624b2a08405bc67011bae",
+   "bytes": 3035
+  },
+  {
+   "path": "dev/stage2f-results/shared-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c1a771133634564ccd71baa9df312f7780004238",
+   "sha256": "7ebccbb0789a76dcafa4de46b52646b4894be0dc29f2ac1c016634ccba0f5939",
+   "bytes": 2870
+  },
+  {
+   "path": "dev/stage2f-results/shared-first.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "0870d7694ec0a1d9beb2b65e6e418406f3fe5b2c",
+   "sha256": "b7e02e40a2c3ca579165c47b6566164fc6bf5afffdff7d5c9141af27c16e59dd",
+   "bytes": 3889
+  },
+  {
+   "path": "dev/stage2f-results/shared-release-final.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5082276d6ce3dc3eb567d25c80b3f4e05fceb086",
+   "sha256": "e87520df0602f97ded9b3956398c1fbc0114b0f64f2b72cea54c1fbf739711e8",
+   "bytes": 3035
+  },
+  {
+   "path": "dev/stage2f-results/shared-release.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5352768061a022510fecfbb895c781535bb3eb83",
+   "sha256": "c9c732905d32f994e9fbbc560caccb1a0e6e03477412f6ed0f7285512520c364",
+   "bytes": 3024
+  },
+  {
+   "path": "dev/stage2f-results/shared-resume.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5d230a54402630015178416c12c3a78ff8567e40",
+   "sha256": "349f6c370e6667298a5819a002edf611d221c7c3d1dc0954d61f4966d638949c",
+   "bytes": 2997
+  },
+  {
+   "path": "dev/stage2f-results/shared-second.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "9ed25e0bb6da16ac156be50d5f44c544cdf2084a",
+   "sha256": "34c81ca0ca8862c64ec7d6b23ad9638700a492ccbcefcd41ae19f533ad9ef819",
+   "bytes": 3099
+  },
+  {
+   "path": "dev/stage2f-results/shared-third.log",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "552cd7f21f8941337c47d9f6ec4c34c3feb12407",
+   "sha256": "5c559e17423cd8747ec7b1a4f69c070a7d90bba2f60ad827997a6af95ea36141",
+   "bytes": 3017
+  },
+  {
+   "path": "dev/tests/admin_test.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4c56d8af20e50e3dbce3943268b8649c53140591",
+   "sha256": "eba36101272118a5172feb89290b184f948acecbff5297b21aa03059db6cc1ed",
+   "bytes": 17965
+  },
+  {
+   "path": "dev/tests/audio_test.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "70f17d742b02765454db85c586cef4e8c197d0f7",
+   "sha256": "379e9c19e6b7e633092c1db27e8643ca957447e44342e390a00d52514a83634d",
+   "bytes": 5982
+  },
+  {
+   "path": "dev/tests/audit_net.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "36dacbbe605f324929081b4b55be42357fa09f3d",
+   "sha256": "b7f9431a67cc7da791925493176e8a3f555837fe40d84ebd01cb6557828293b0",
+   "bytes": 17872
+  },
+  {
+   "path": "dev/tests/audit_net2.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "f11e07d4bbc48ef4d302ddc66d6d437ba385268b",
+   "sha256": "375ac3a2d18eadee829173798837167a37815b4bdd204a55c3588dccbb91c82d",
+   "bytes": 23050
+  },
+  {
+   "path": "dev/tests/chase_mp.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "64488c115499196b029f7003bd0bee26d51c3c12",
+   "sha256": "ee6bec25939e9fc545d5e1ba49a0f379751adb7225bd06cf37ddc4aeed8ac3b3",
+   "bytes": 3914
+  },
+  {
+   "path": "dev/tests/commit_mp.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "b598f5b667dee9f28af5d9e2ad8953186f59ab1a",
+   "sha256": "e1a796c5c0fe02ba4c5bcd46abb1c972600db49b74ff29e2beb3630c565beeb3",
+   "bytes": 4747
+  },
+  {
+   "path": "dev/tests/death_film.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "1e2a524db2713c6a4d7ee2c5adf1f8660dccf2c7",
+   "sha256": "4073df26b65a29b724ed6ec6f383da498f1f366bdeccc67992563418d8118711",
+   "bytes": 6815
+  },
+  {
+   "path": "dev/tests/death_spectator.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "75ca37c4cff21da7d760e5d009e34fd423be593d",
+   "sha256": "6047dcdd69133c8a08953f0e7d02af3bb61966ffd88f8e56f319765d00ab73b6",
+   "bytes": 4480
+  },
+  {
+   "path": "dev/tests/diagnose_rng2f.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "964a49965958506e3b35f9406fd2a6cabafb0f2d",
+   "sha256": "8a60a6794447ab4b59553a21065d5f24f23538b3cc12da30b0cb70f3037b8c75",
+   "bytes": 2247
+  },
+  {
+   "path": "dev/tests/escape_bench.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "046214d3b3a3c61c71d38d90324149f4f2a0dcd0",
+   "sha256": "a58ce7a2f89af6f33ddcffbfd37b3358aec36496dc373fb55561976e6cbcbc62",
+   "bytes": 10222
+  },
+  {
+   "path": "dev/tests/fallback_parity.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "e9acc43b509113025c0e26a402fa141f80838b7b",
+   "sha256": "e4e99279bec0d6ce6d19cf59b29b238c7545ffa013cfc3785f40cce4129e9f30",
+   "bytes": 5963
+  },
+  {
+   "path": "dev/tests/interp_test.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "3da650132b9a4aeff461066cb5255163721ac6a9",
+   "sha256": "9ed5bc2dc9a7528406ca29991d0f15cfc075873d845e8eb419426fcd181ca50f",
+   "bytes": 7254
+  },
+  {
+   "path": "dev/tests/ir_net.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "7673f42ac9a8d00f8f27ab5a1d2876b69dd7b448",
+   "sha256": "5e1d428a07f369966217a8f9f3990822af871920adadf895638ac540f0898719",
+   "bytes": 3746
+  },
+  {
+   "path": "dev/tests/ir_test.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "786ebc3c71d022741dd89584d6a1405b2c9ba83e",
+   "sha256": "d72f83150ae0052f83fb185e914d245d15558d55e39f03cb463ca18ee933c344",
+   "bytes": 13029
+  },
+  {
+   "path": "dev/tests/lib.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4980dde487931edbf4e2beef4972bb035e509e9c",
+   "sha256": "31c85d17e4bf4a3cdee99f9757c6305e0866e7e01dc2e003cd27f202515c9360",
+   "bytes": 4452
+  },
+  {
+   "path": "dev/tests/lifecycle_mp.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4f0e563e4c519e91dbd2ddc4e5299410d7ec15bb",
+   "sha256": "c3631a13835703b6e9b637971f0cadb2eedffb96a74f85afa06ff5eed33f1bb9",
+   "bytes": 5630
+  },
+  {
+   "path": "dev/tests/light_test.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "bf700e832cdee7406822a60fe7be7bb8cb6b17a1",
+   "sha256": "ffc910e1caf46fd0c95ce54078d415ecb4db49927a03b7269e205dbfc7df6cf5",
+   "bytes": 13581
+  },
+  {
+   "path": "dev/tests/live.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "3ddaa0b00e1e68bc3d97a4ddaafe285d8c8aa68d",
+   "sha256": "27029b52012767df5ddd41d7dab31ed4ac92dae10e5adeb1d18737dfe88e0bb2",
+   "bytes": 11780
+  },
+  {
+   "path": "dev/tests/live_chase.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "f9fa16de591f2ddd56304497c7794b0431e56c61",
+   "sha256": "0acc632418ec02f7855450596a68ca8eccc4e9c6280b3235aecd466b03b2afda",
+   "bytes": 6602
+  },
+  {
+   "path": "dev/tests/make_gifs.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "b03e7577d68d8be02ebea48b934cb219b7872350",
+   "sha256": "4690993cc3b957805e9cd8548f95625b1ad4b3c7e25f185af778de6570a9b2a8",
+   "bytes": 940
+  },
+  {
+   "path": "dev/tests/move_test.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "baf39ecf1f5c8265e778469bf31685ff0601b895",
+   "sha256": "db479ba1fe70199652ab92ed825232dece418e06d13fdb2b0fd2655d9cf99109",
+   "bytes": 14670
+  },
+  {
+   "path": "dev/tests/movement_parity2f.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "2031b35e42b183e9404986e72b49cd5d4d07c805",
+   "sha256": "8df5b5b29ff5f9c9227da8c905092f2b2c5406f5bde81fa995131d31f7d635d4",
+   "bytes": 1790
+  },
+  {
+   "path": "dev/tests/nav_bench.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "a4f2ae10c0234891cabba3a3170533f80c7648aa",
+   "sha256": "8557001f3a2bf459742ff7472f13fb108611eeec371fdd3994cf76fcef3edfef",
+   "bytes": 12780
+  },
+  {
+   "path": "dev/tests/nav_mp.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "38604f704baaef3cb875d1c39572845c36ae65f9",
+   "sha256": "f9ce7fc494bf1e734af28415eb0d8d24186b5ce49fcc51e21a45453e8db5f580",
+   "bytes": 6744
+  },
+  {
+   "path": "dev/tests/parity_shared2f.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "0b0fc2304e754b0ebd4e610e0587377634c28a6c",
+   "sha256": "9d4f0e37ddea83c0f211a22fe8abd45155968a32d18d570041c71b151e55beac",
+   "bytes": 1828
+  },
+  {
+   "path": "dev/tests/perf_hound2e.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "6b8e0e117eecdab9f1f2e5199892680841644031",
+   "sha256": "148ea8702e6958735ee23c31e3e48d5937d1ac4afdda8328137a4f07c949659f",
+   "bytes": 2488
+  },
+  {
+   "path": "dev/tests/perf_light.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "0e3fe44b36ff33867189012dfe4298636c0ee69f",
+   "sha256": "9cb414d83d757f926a6dfdbe0933e7a17533934f3df6d2480461fe2e8bf1eb83",
+   "bytes": 4312
+  },
+  {
+   "path": "dev/tests/perf_shared2f.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "f52b78e654c5fbc7e8d09511c559a2eff448828e",
+   "sha256": "5b39b0f2a19490072973d26edc750c71c165263ab40f8bf5696d69e7e067e02f",
+   "bytes": 3038
+  },
+  {
+   "path": "dev/tests/perf_smiler.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "8a5f874c37bd2cc887ba245d1ec86098d14c9577",
+   "sha256": "4e1e53847d7e61bf3dc6103f0e93fcded1ef68a2e2b78bcaf12cb33951e86627",
+   "bytes": 5645
+  },
+  {
+   "path": "dev/tests/phys_test.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "d207097a4a24ad226df3bed0adad8e46fff11317",
+   "sha256": "c295c594deca0fffd457f797468fafc10400ca1b12f5db9ad85cc7d044782616",
+   "bytes": 7214
+  },
+  {
+   "path": "dev/tests/play_mp.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "91a0c77ef9070c173197a7bb14fdcbdf3ff0d973",
+   "sha256": "8f78133e1e6e7b27a2d1123b0b3c7f651fe336d2a815044f3ef44e4a4fd39157",
+   "bytes": 6027
+  },
+  {
+   "path": "dev/tests/play_server.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "8f2d27033247286332b591bb4c81457da73428d0",
+   "sha256": "9cae9a3ef48c993614125cb8c84c54a64cc489f27ec7ca562d39c587c7baa572",
+   "bytes": 510
+  },
+  {
+   "path": "dev/tests/run.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "f2f9de660e1d8a1ecfc82c20395888a1b89946ba",
+   "sha256": "52750596d1e314d515472a75e8f6e5ee870ef1c58c9f75d281fcea9f3960da4d",
+   "bytes": 1114
+  },
+  {
+   "path": "dev/tests/s_admin.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "b6d631d1f576b2ad0d3e1d1bf969bd358bc875e2",
+   "sha256": "e90d84d2853d09fbc8c512ba95d744cd5d7c3ab8eef0aa2f33ce896e9e794446",
+   "bytes": 10033
+  },
+  {
+   "path": "dev/tests/s_audit.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "b8b73d52866a23ec8b571770cdb193f577dca570",
+   "sha256": "61bef581e207ec1731364a5a5a5c6eefd2da810e1a1b4f9b8773e4c2a4137672",
+   "bytes": 9661
+  },
+  {
+   "path": "dev/tests/s_camera_fairness.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "91237147a86bd915381cbbc37ed403ac2f1b7592",
+   "sha256": "f0928c923c7adcccba5ac533a4dc31a3d995d28eaae929b890120b9b4c31d17a",
+   "bytes": 2721
+  },
+  {
+   "path": "dev/tests/s_capture.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4e2318958a34fba89b4401c7de48da93cc3262d0",
+   "sha256": "6c898f44e92173b2e6d08ea0c6928c2bec4db0dc7a0195dbeed652f1ceab98ac",
+   "bytes": 12928
+  },
+  {
+   "path": "dev/tests/s_chase.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "162d8cf4ffbf105121182d75ced6d87dbb2a9cb8",
+   "sha256": "c22866fec51f419e977bb3bcd3ad7bf90e1b816956d6672fc709aed77dd6ccc1",
+   "bytes": 22929
+  },
+  {
+   "path": "dev/tests/s_commit.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5163fae0bff2fb7453c7acccdcc66a9b477e55ab",
+   "sha256": "5cc0068652bf1340ff4a96f92e45cca3973b7a0dd596da9228fc29c2934a1cc2",
+   "bytes": 3964
+  },
+  {
+   "path": "dev/tests/s_entity_look.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "e7f61db1b0312e54438c83b456e19909e5698c51",
+   "sha256": "b209f758a23d72bb4ad5a944d1b342c4feac4707f7582731a5d1d624adab225e",
+   "bytes": 2177
+  },
+  {
+   "path": "dev/tests/s_evidence.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "6ef6ff5a8cd9876db9ec4340b7594bb020b6b758",
+   "sha256": "4143e47253f5a49dcdbcda58f8e4f9079e092a53160c591374bef908662d1654",
+   "bytes": 17410
+  },
+  {
+   "path": "dev/tests/s_fps_equality.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "12fb9b7537dae2bda632ea2ffe8c690d2d5b59b4",
+   "sha256": "8b8915d833b0f60f5ac00688de1892fc13429f49bd315019640803b19e2a413b",
+   "bytes": 4482
+  },
+  {
+   "path": "dev/tests/s_hound.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "7bac9741b447e8133b97bd8def12d3bbcf37fbc0",
+   "sha256": "8ff193f78d8d40fbf85efc772d01f88435c10db2215a3eac6b2171d8ca58c3f4",
+   "bytes": 21275
+  },
+  {
+   "path": "dev/tests/s_hound2e.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "99e120566bd21f218f2b77fdbfd35bda380e4ad8",
+   "sha256": "5302e1182da4a51e6845f1ea770c091b0eebd0558c557588a88d426f462515c2",
+   "bytes": 12623
+  },
+  {
+   "path": "dev/tests/s_humanqa_hotfix.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "606a7a5b400f657da5041f52256cb092b005cef8",
+   "sha256": "ceaf30a05ed2010d08f3c1b19dd2c34494ab3548de9ba28d857c8a8910a405c5",
+   "bytes": 7716
+  },
+  {
+   "path": "dev/tests/s_ir.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "ed6fb60ad8c9ee653b3861fa505c058a4a65d87c",
+   "sha256": "9bb430f05a9643c67e0598513b051454ae62069a101d33d806a25c41417c696e",
+   "bytes": 4230
+  },
+  {
+   "path": "dev/tests/s_nav.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "abf0755e9e1f8065c694bab03cf510e170d8980d",
+   "sha256": "f82307ff0ec46aab53139ba1c91cd2f8261f9cfb7e878620826724736331dd2d",
+   "bytes": 17218
+  },
+  {
+   "path": "dev/tests/s_percept.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "6732f0de7330885fcfc04d5b49d96220b0ef7f15",
+   "sha256": "44668eb3d68c9b7f4cf4859c81749f34f8cb07bb65c3d258eda3cffdd80004c3",
+   "bytes": 12421
+  },
+  {
+   "path": "dev/tests/s_shared2f.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "b5d1cf65c4f920bacd7adf7cb68ff9b37ceeef75",
+   "sha256": "85892744693b95fbd8bf2f0ce600db6cbfc0aeb5f9425fd2832fa8a73dafde58",
+   "bytes": 13488
+  },
+  {
+   "path": "dev/tests/s_smiler.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "dbb7714eec07cf83692802f6ccb4302072a1966f",
+   "sha256": "977d5b2d6c383d6021ae91b971db3bbc15ccdf788425e09f3528778cfa64c025",
+   "bytes": 37298
+  },
+  {
+   "path": "dev/tests/s_smiler2_v22_retired.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "6823999e52a38c0c465f4ae8e1f2e5c6c4e2bc7b",
+   "sha256": "cd317eef8a0c552165d9eb8eb580f502bc29022c4b30db5b25aede762f636c76",
+   "bytes": 16782
+  },
+  {
+   "path": "dev/tests/s_smiler_v22_retired.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "a31597769c431f2e2ecfe9ca9d39ac65567c1841",
+   "sha256": "1d4aa77168dadf214067e8419f1dbe6b6d81c91b524c80005ada4bfecf8ea775",
+   "bytes": 15044
+  },
+  {
+   "path": "dev/tests/s_system.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "d2cea653b0304fce89089f23532794d61a992656",
+   "sha256": "8011cb2c0e7a32e32c5703633826dae838d7052e8c598d1f212c0ce0a3631061",
+   "bytes": 15086
+  },
+  {
+   "path": "dev/tests/smiler2d_view.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c10606b717ec98c08c7a60a933afeced0d85a2f4",
+   "sha256": "163320508e40323960af0ee33ef85402e8a0edee1317ee6f7c3e9a6270fd1389",
+   "bytes": 6183
+  },
+  {
+   "path": "dev/tests/smiler_parity.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "468de6ae579ed15ffdb7640ca2f52643e06ec819",
+   "sha256": "979095f9726ba649e2a6733659a70d70e3a160bc2be84aec68b7f3c75e2353d2",
+   "bytes": 1055
+  },
+  {
+   "path": "dev/tests/smiler_view.py",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "8859bdf3ec013bf4683bf473411341ba8c00ff10",
+   "sha256": "08cd0d0f95e887a113adc1e4557694617b3bc83d2efb30e212d72b630c75cd0f",
+   "bytes": 3689
+  },
+  {
+   "path": "dev/visual_qa/houndA.jpg",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "28d2b6d0d90534dfcb89af6f76887ac0a9b2c7ce",
+   "sha256": "3beb3b2c78b1a25900ff6d590a6bed6b39fdc1468face6dd4cffe29c76073b45",
+   "bytes": 306346
+  },
+  {
+   "path": "dev/visual_qa/houndB.jpg",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "46e613b3dc32a2cee9731c0ce013259d76d22a70",
+   "sha256": "6d46104f55d82b7ce3b3c71caef858be2ff29d52dd97985b05aa7f5596105913",
+   "bytes": 591040
+  },
+  {
+   "path": "dev/visual_qa/houndC.jpg",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "f4f5cfde8ffd8770010d769e353420e4b07a9d94",
+   "sha256": "923416f055f898f7c8af3b755d321e34505ad43413bb1ca2f60ffd7082db82ef",
+   "bytes": 305899
+  },
+  {
+   "path": "dev/visual_qa/houndD.jpg",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "2c2271d783cb80913bc9c1567068f8aee95d3a45",
+   "sha256": "0b41c2f05ed58d72976eaf42fc11c0476e06d4e174fc602e5d7d4795deb98e48",
+   "bytes": 362100
+  },
+  {
+   "path": "dev/visual_qa/smilerA.jpg",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "fc6edcb584707ae89902534908fc916806920608",
+   "sha256": "ba11e613090f44744dea4582ba763b2d162ec2945762bc49536e8865270eef0a",
+   "bytes": 237986
+  },
+  {
+   "path": "dev/visual_qa/smilerB.jpg",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "4c2db2069080cf30ea6806ac909306b6db845a50",
+   "sha256": "500c0e84dab755e8e81928614b1ab8824080ceadb7bed0967ce500a2da3e58d4",
+   "bytes": 175243
+  },
+  {
+   "path": "dev/visual_qa/smilerC.jpg",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "1ec339975a5f79bb5af5992d82ba026fd513fc01",
+   "sha256": "93cd77132b29334832c2af48b830a7f417847bf9b60c03025279b697c892fca9",
+   "bytes": 218062
+  },
+  {
+   "path": "dev/visual_qa/smilerD.jpg",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "e994c421836f9e1ad8c121af2efa48b71da40fb7",
+   "sha256": "5d440cf5c61608bd5a5a0f70a2b36237e8bdab128fbc45f2b3520c265ef5050d",
+   "bytes": 250787
+  },
+  {
+   "path": "dphys.js",
+   "class": "protected",
+   "mode": "100644",
+   "blob": "61b63da44ce7948526a900a2a3b947eaff117f04",
+   "sha256": "631e32d14e817545c505a27ec47e9b32d81fcbd63429341050ffd1b004a1e815",
+   "bytes": 37734
+  },
+  {
+   "path": "ents.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "9b8ad72ec82dd724a3008fc462ee80ba0164d63c",
+   "sha256": "0299d77769588f8b3a6b02c1c27af27cbac54e5f52c1815077e87980256bfc28",
+   "bytes": 75640
+  },
+  {
+   "path": "glitch.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "5484ca106449903f3f0ce8269034fbba44a0e7ab",
+   "sha256": "2c088bad6cc614a2ca10c8ebea4913d30ad5d9e35cd48b0765d7cbe81f1c623c",
+   "bytes": 9829
+  },
+  {
+   "path": "gore.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "438d88be26a3d74e3427843cfabc8269afb15d9a",
+   "sha256": "8848c8a0b8845ad8d382ca3d3893784b02db9c0db9d341f0eca65e5b698ef97c",
+   "bytes": 15161
+  },
+  {
+   "path": "hud.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "eecf486f344f9481349fe4805e2d7e427372027e",
+   "sha256": "11e71745201a84c21eb51173197c9fc63ee486972412beb574cc1cdc42f6586d",
+   "bytes": 10642
+  },
+  {
+   "path": "index.html",
+   "class": "presentation",
+   "mode": "100644",
+   "blob": "007e0b564c9efe0f03072479bc1d839eb2941a5f",
+   "sha256": "62051f3cd6283056f994523f9c28b689768e58175be6a42a31b289c74e12342a",
+   "bytes": 8949
+  },
+  {
+   "path": "inventory.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "7925d59473ef97d2fca3c84148ca1d6e1b76d5ee",
+   "sha256": "4d59421c523200300a035ff9f1b8d67657bacb406035089428e34ff015b9768b",
+   "bytes": 20385
+  },
+  {
+   "path": "light.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "0511277e61842e9f6e7cf54452f400c581345b48",
+   "sha256": "ca2b6f7afa20473ffb6f0a3af82e2f301368b87026ba99a62911fb1f247bc072",
+   "bytes": 5624
+  },
+  {
+   "path": "move.js",
+   "class": "protected",
+   "mode": "100644",
+   "blob": "48f4b179e22c481aa90ec0ffe87ef344b9212235",
+   "sha256": "5d415dfde394f9c2482dcfb48ff4e36706abf7396da92ae93c45d0a2fab7394d",
+   "bytes": 22025
+  },
+  {
+   "path": "mp.js",
+   "class": "protected",
+   "mode": "100644",
+   "blob": "001ce04249cb4fbde1ac7c31ee8b484a72ce8e49",
+   "sha256": "8bcbfb0357e4a0a1d53b73c693ba6281766ae49488c88efacf6986b6df6c6e61",
+   "bytes": 72712
+  },
+  {
+   "path": "package.json",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "cc45e7b22c6dcbdb5845337732ade57646adf87a",
+   "sha256": "06dbee5d4e731a8b6e2c165043c55cc52f98f92f38035b4c62e1d89ec9b55b22",
+   "bytes": 505
+  },
+  {
+   "path": "redirect.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "ff6404889ff9dd5e33a1aa9f3912aed5ee5f6390",
+   "sha256": "12dcf8bfd99ae89d5c57b9adae390279fab7874a0eda72429a48ddcaae157dcf",
+   "bytes": 466
+  },
+  {
+   "path": "run_linux.sh",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "a9204a2f11d6b8cc9c8ae5b629349151f35412fa",
+   "sha256": "ba5bc412ecec162e5c331fc104412a0a18afc958b024cd1b56975ff55528f933",
+   "bytes": 218
+  },
+  {
+   "path": "run_windows.bat",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "245bf231ff587a0cb0bae52c5774d30c1e16e525",
+   "sha256": "802f35956e33d54aa65b3e2d5ba435e45ffa8e6b3c5caaf04565b9d713c38213",
+   "bytes": 137
+  },
+  {
+   "path": "server.js",
+   "class": "protected",
+   "mode": "100644",
+   "blob": "32a0fc97e3d4f96d5efb5d0d26c01252fa25fe03",
+   "sha256": "e23359644f3078abc9a8a1fa993807d9174e3cc352c0f135dc39ebd126b8aec1",
+   "bytes": 30299
+  },
+  {
+   "path": "sfx.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "878d27bdae935a07c72352f4b5a800e319ed70ca",
+   "sha256": "1c62054afb1b53796f2419365488e5518d40c8641ee181382110e1448844adfe",
+   "bytes": 3575
+  },
+  {
+   "path": "sim.js",
+   "class": "protected",
+   "mode": "100644",
+   "blob": "f5ada5da6d8e389203f7b77d5d2bbef7955d6598",
+   "sha256": "1c96653dbf51c535c05fe8ba2536c567f5fc9881c2777a5a6ef5e6307867f321",
+   "bytes": 28580
+  },
+  {
+   "path": "sounds/README.txt",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "819d170b35f16697a82f3fd4fbac654cd58f4088",
+   "sha256": "c408927ce27cbb50c79caa8ae83a9b63599b24d091c9fad960db4cf459f3621b",
+   "bytes": 978
+  },
+  {
+   "path": "sounds/sting copy.mp3",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c71acea78fb8abac9b5e963f86dba909c8b49f6f",
+   "sha256": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+   "bytes": 113167
+  },
+  {
+   "path": "sounds/sting.mp3",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c71acea78fb8abac9b5e963f86dba909c8b49f6f",
+   "sha256": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+   "bytes": 113167
+  },
+  {
+   "path": "timing_policy.js",
+   "class": "frozen",
+   "mode": "100644",
+   "blob": "c170518a51f4e0fce80a498ec7128bf29f6ac1fa",
+   "sha256": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069",
+   "bytes": 1634
+  },
+  {
+   "path": "world.js",
+   "class": "mixed",
+   "mode": "100644",
+   "blob": "0870bae479cee4ef163b37088ac311c029372023",
+   "sha256": "ec179a5b385dcf8752a22816a7168f6a09c1764617a8a9cda831a2d05fabbb5d",
+   "bytes": 18770
+  }
+ ]
+}

@@ -1,0 +1,175 @@
+{
+ "checks": {
+  "light module loaded": {
+   "ok": true,
+   "note": ""
+  },
+  "hound in bright light is opaque": {
+   "ok": true,
+   "note": "alpha 1  light total 0.7380000000000001"
+  },
+  "hound in partial light is opaque": {
+   "ok": true,
+   "note": "alpha 1  light total 0.24661143903928356"
+  },
+  "hound in dark light is opaque": {
+   "ok": true,
+   "note": "alpha 1  light total 0.05"
+  },
+  "hound brightness follows light (bright > partial > dark shade)": {
+   "ok": true,
+   "note": "shade bright 0.89 partial 0.68 dark 0.60"
+  },
+  "darkness makes the hound dark, not invisible (silhouette kept: shade >= .58)": {
+   "ok": true,
+   "note": "dark shade 0.60"
+  },
+  "hound crossing a light boundary never fades (alpha stays 1 every frame)": {
+   "ok": true,
+   "note": "19 frames, min alpha 1, light went 0.05 -> 0.74"
+  },
+  "...and its shade changes smoothly (no per-frame pop)": {
+   "ok": false,
+   "note": "largest per-frame shade step 0.098"
+  },
+  "no NaNs in alpha / tint / light samples": {
+   "ok": true,
+   "note": ""
+  },
+  "smiler keeps its species concealment (thin in the dark, solid when readable)": {
+   "ok": true,
+   "note": "alpha dark 0.12  lit 0.9999999999885729"
+  },
+  "smiler concealment comes from its own species function": {
+   "ok": true,
+   "note": ""
+  },
+  "multiplayer: both clients show the hound opaque, at the same place": {
+   "ok": true,
+   "note": "[[[1, 456, 3528, 184]], [[1, 456, 3528, 184]]]"
+  },
+  "death animation plays through (hound A preview, real kill path)": {
+   "ok": true,
+   "note": "started True, finished True"
+  },
+  "no runtime errors (both clients)": {
+   "ok": false,
+   "note": "[\"Failed to load resource: the server responded with a status of 404 (Not Found)\", \"Failed to load resource: the server responded with a status of 404 (Not Found)\", \"Failed to load resource: the server responded with a status of 404 (Not Found)\", \"Failed to load resource: the server responded with a status of 404 (Not Found)\"]"
+  },
+  "AI never reads render visibility (no alpha / tint / __light in ai.js or sim.js)": {
+   "ok": true,
+   "note": ""
+  }
+ },
+ "spots": {
+  "bright": {
+   "x": 528,
+   "y": 2832,
+   "lamp": {
+    "x": 528,
+    "y": 2832
+   }
+  },
+  "partial": {
+   "x": 788,
+   "y": 2832
+  },
+  "dark": {
+   "x": 1020,
+   "y": 4716
+  }
+ },
+ "hound": {
+  "bright": {
+   "a": 1,
+   "t": 14935011,
+   "tot": 0.7380000000000001,
+   "lamp": 0.43,
+   "dir": [
+    0,
+    0
+   ],
+   "x": 528,
+   "y": 2832
+  },
+  "partial": {
+   "a": 1,
+   "t": 11447982,
+   "tot": 0.24661143903928356,
+   "lamp": 0.1228821493995522,
+   "dir": [
+    -1,
+    0
+   ],
+   "x": 788,
+   "y": 2832
+  },
+  "dark": {
+   "a": 1,
+   "t": 10066329,
+   "tot": 0.05,
+   "lamp": 0,
+   "dir": [
+    0,
+    0
+   ],
+   "x": 1020,
+   "y": 4716
+  }
+ },
+ "smiler": {
+  "dark": {
+   "a": 0.12,
+   "t": 16777215,
+   "tot": 0.05,
+   "lamp": 0,
+   "dir": [
+    0,
+    0
+   ],
+   "x": 1020,
+   "y": 4716
+  },
+  "lit": {
+   "a": 0.9999999999885729,
+   "t": 16777215,
+   "tot": 0.7380000000000001,
+   "lamp": 0.43,
+   "dir": [
+    0,
+    0
+   ],
+   "x": 528,
+   "y": 2832
+  }
+ },
+ "mp": [
+  [
+   [
+    1,
+    456,
+    3528,
+    184
+   ]
+  ],
+  [
+   [
+    1,
+    456,
+    3528,
+    184
+   ]
+  ]
+ ],
+ "deathBtn": true,
+ "deathDbg": {
+  "hidden": true,
+  "caught": true,
+  "active": true,
+  "toast": "PLAYING HOUND A",
+  "god": false,
+  "pv": -1,
+  "tab": "DEATHS"
+ },
+ "pass": false
+}

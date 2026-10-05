@@ -1,0 +1,46 @@
+{
+ "meta": {
+  "game": "<pristine parent export>",
+  "node": "v22.22.2",
+  "python": "3.11.15",
+  "os": "Linux-6.18.44-fc-v70-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "cpus": 2,
+  "label": "v23.3.6 parent rerun (flakiness check)",
+  "started": "2026-10-05T03:57:48Z",
+  "playwright": "1.56.0",
+  "gitHead": null,
+  "finished": "2026-10-05T04:01:03Z"
+ },
+ "suites": [
+  {
+   "id": "npm-test",
+   "command": "node dev/tests/run.js",
+   "covers": "default scenario suites: percept, hound, smiler, capture, system, admin, commit, nav, chase, audit, evidence, ir, hound2e, shared2f",
+   "result": "FAIL",
+   "exitCode": 1,
+   "durationSeconds": 195.271,
+   "counts": {
+    "passed": 151,
+    "total": 162,
+    "source": "suite summary line"
+   },
+   "failures": [
+    "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+    "P07 exhausted breathing is audible only close by",
+    "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+    "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+    "SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+    "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+    "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+    "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+    "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+    "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+    "2F F22 species physical/canon parameter preservation"
+   ],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "npm-test.log"
+  }
+ ]
+}

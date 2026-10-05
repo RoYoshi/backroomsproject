@@ -1,0 +1,36 @@
+PASS H1 malformed URLs get a 4xx and the server keeps serving
+       /% -> 400 Bad Request · /%E0%A4%A -> 400 Bad Request · /%zz -> 400 Bad Request · /world.js% -> 400 Bad Request · /%C0%AF -> 400 Bad Request · /..%2f..%2fserver.js -> 404 Not Found · /sounds/% -> 400 Bad Request · then / -> 200, /world.js -> 200, /server.js -> 404 · server process alive
+PASS A1 admin tools still move people (bring) and the moved player carries on from there
+       A told to go to 4000,3504; observer sees A at 4000,3504
+PASS M1 normal walking, running and a lag burst (8 packets held back, then sent together) are all accepted, no corrections
+       observer sees A at x 6200 (sent 6200); corrections sent to A: 0
+PASS M2 an ordinary client cannot jump thousands of px in one update (it is corrected back)
+       claimed +2600,-1400 then -3000 px: observer still sees A at 6200,3504 / 6200,3504; corrections 1 (last to 6200,3504)
+PASS M3 a sustained speed hack (3x a sprint) is held to what a body can do
+       claimed 2250 px in 2.5 s; the server accepted 900 px (a sprint is ~710); corrections 2
+PASS M4 a short hop through a wall is refused
+       from 3576,1560 to 3576,1410 (150 px, a wall between): observer sees A at 3576,1560; corrections 0
+PASS M5 a client cannot claim to stand still (silent) while it runs
+       claimed "standing, speed 0" while moving 280 px/s: the server heard 2/277 2/277 2/277 2/278 2/278 2/277 (state/speed; 2 = running) - running in 17/17 snapshots
+PASS R1 a living player cannot respawn (no free teleport home)
+       A at 4420,3504 sent respawn: still at 4420,3504 (spawn is 960,3264); A was told to stay (1 correction)
+PASS D1 victim disconnects right after the server commits its death: the observer still sees the death and gets one corpse with its dropped light
+       replay to the observer: yes (variant B, from the server); corpse after 5.4 s: at 4962,3538, light "flashlight" dropped at 5038,3495,1.828, hands 2; corpses for that player 1
+PASS D2 the aftermath persists: still one corpse later, and a player who joins afterwards gets it too
+       observer 1, late joiner 1
+PASS D3 a normal death: the victim's own replay and corpse are used - one replay, one corpse, nothing added by the server
+       replays 1 (client), corpses 1 (client)
+PASS R2 a dead player can respawn (back at the spawn point, alive)
+       after respawn the observer sees W2 at 960,3264 (spawn 960,3264), dead flag 0
+PASS R3 ...but only once: a second respawn right after (now alive) is refused
+       second respawn: correction sent 1, W2 at 960,3264
+PASS R4 an admin revive still works (the revived player's respawn is accepted)
+       W2 dead flag 0, corrections 0
+PASS S1 a new run / respawn: the client's own spawn choice (open floor, no monster near) is accepted as it always was
+       J chose 3300,3504: observer sees 3300,3504; corrections 0
+PASS S2 ...but a "spawn" right next to a hound is refused (join is not a teleport)
+       hound at 6203,3521; J claimed a spawn 60 px from it; observer sees J at 960,3264; corrections 1
+PASS H2 no server errors during all of the above
+       server alive; log: [admin] room=audit47288 VICTIM#4: preview death hound B: ok | [death] room=audit47288 #4: the victim's client never reported its corpse - the server made it | [admin] room=audit47288 W2#6: preview death hound A: ok
+
+17/17 passed

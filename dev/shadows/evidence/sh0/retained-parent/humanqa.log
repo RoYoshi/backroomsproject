@@ -1,0 +1,14 @@
+PASS HQA X01 admin stress ceiling is truly reachable without changing normal director cap  [338ms]
+       64 Hounds and 64 Smilers individually; mixed world reaches 128 entities; normal director cap remains 3
+PASS HQA X02 client/network presentation has 64 slots for each species and batch stress controls  [1ms]
+       64 Hound render slots, 64 Smiler render slots, +10 admin batching wired
+PASS HQA X03 dead hover and switched-off physical-light QOL are present in shipped client  [1ms]
+       dead peers read DEAD; local/peer 52 px equipment aura exists only while visible light is ON
+PASS HQA X04 visible light still beats Smiler gaze after the pressure fix  [704ms]
+       visible light still overcame sustained gaze in 7/8 seeded encounters
+PASS HQA X05 lost-target search uses observed heading before unrelated reversal and ignores hidden truth  [120ms]
+       first branch stayed in observed forward/side hemisphere at 1397,744,0 and was identical across hidden positions
+PASS HQA X06 Hound reassessment looks immediately and resumes search within a short bounded beat  [54ms]
+       head favored 0.62 rad immediately; search resumed with continue by 0.75s
+
+6/6 passed

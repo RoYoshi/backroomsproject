@@ -1,0 +1,24 @@
+spots {"bright": {"x": 528, "y": 2832, "lamp": {"x": 528, "y": 2832}}, "partial": {"x": 788, "y": 2832}, "dark": {"x": 1020, "y": 4716}}
+bright True {'a': 1, 't': 14935011, 'tot': 0.7380000000000001, 'lamp': 0.43, 'dir': [0, 0], 'x': 528, 'y': 2832}
+partial True {'a': 1, 't': 11447982, 'tot': 0.24661143903928356, 'lamp': 0.1228821493995522, 'dir': [-1, 0], 'x': 788, 'y': 2832}
+dark True {'a': 1, 't': 10066329, 'tot': 0.05, 'lamp': 0, 'dir': [0, 0], 'x': 1020, 'y': 4716}
+smiler dark {'a': 0.12, 't': 16777215, 'tot': 0.05, 'lamp': 0, 'dir': [0, 0], 'x': 1020, 'y': 4716}
+smiler lit {'a': 0.9999999999885729, 't': 16777215, 'tot': 0.7380000000000001, 'lamp': 0.43, 'dir': [0, 0], 'x': 528, 'y': 2832}
+mp [[[1, 456, 3528, 184]], [[1, 456, 3528, 184]]]
+DEATHDBG True {'hidden': True, 'caught': True, 'active': True, 'toast': 'PLAYING HOUND A', 'god': False, 'pv': -1, 'tab': 'DEATHS'}
+PASS light module loaded
+PASS hound in bright light is opaque   alpha 1  light total 0.7380000000000001
+PASS hound in partial light is opaque   alpha 1  light total 0.24661143903928356
+PASS hound in dark light is opaque   alpha 1  light total 0.05
+PASS hound brightness follows light (bright > partial > dark shade)   shade bright 0.89 partial 0.68 dark 0.60
+PASS darkness makes the hound dark, not invisible (silhouette kept: shade >= .58)   dark shade 0.60
+PASS hound crossing a light boundary never fades (alpha stays 1 every frame)   19 frames, min alpha 1, light went 0.05 -> 0.74
+FAIL ...and its shade changes smoothly (no per-frame pop)   largest per-frame shade step 0.098
+PASS no NaNs in alpha / tint / light samples
+PASS smiler keeps its species concealment (thin in the dark, solid when readable)   alpha dark 0.12  lit 0.9999999999885729
+PASS smiler concealment comes from its own species function
+PASS multiplayer: both clients show the hound opaque, at the same place   [[[1, 456, 3528, 184]], [[1, 456, 3528, 184]]]
+PASS death animation plays through (hound A preview, real kill path)   started True, finished True
+FAIL no runtime errors (both clients)   ["Failed to load resource: the server responded with a status of 404 (Not Found)", "Failed to load resource: the server responded with a status of 404 (Not Found)", "Failed to load resource: the server responded with a status of 404 (Not Found)", "Failed to load resource: the server responded with a status of 404 (Not Found)"]
+PASS AI never reads render visibility (no alpha / tint / __light in ai.js or sim.js)
+SOME FAILED
