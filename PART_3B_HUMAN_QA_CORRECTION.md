@@ -84,3 +84,19 @@ Passing coverage:
 - all seven named Stage I suites (`named-01`).
 
 HQ2 status: PASS. HQ3 republication follows only after this checkpoint is remote-verified.
+
+## P3B-HQ3 — corrected final publication
+
+Correction lineage:
+
+| Step | Commit | Tree | Runtime change |
+|---|---|---|---|
+| P3B5 (rejected) | `6ec76c6ca9b289c108ab933c71af196dd5c522cd` | `05a8e8926ed30012d3158e7ef0f5b6f546bc06a1` | original layer-depth presentation |
+| HQ0 | `66ca14f527244e2e2bf50790ed78d00a05a785ee` | `35bd20455ca97fa83931d676854636c868420e5b` | none (rejection authority) |
+| HQ1 | `ae7157cc1fd246e72dc809b71c0c34acb54f0ca3` | `1b0080abb17629dc959ae0a30de410589f98f88c` | `world_view.js`, `spatial_client.js` |
+| HQ2 | `1a08f3c2cd78a033e8fb81a76d20859666c9ccb4` | `00ee05b69b5589a2bd80353e051e6554c0b74e01` | none |
+| HQ3 | see publication receipt | see publication receipt | none |
+
+HQ3 re-binds acceptance to HQ1/HQ2 evidence (`dev/part3b/certify_hq3.py` → `dev/part3b/evidence/hq3/acceptance.json`). It then republishes with `dev/part3b/package_hq3.py`, which follows the P3B5 finalizer. It verifies that the local head is the independently read remote head with an identical recursive tree, and it audits every changed file. It then writes a deterministic ZIP from the exact committed Git blobs and modes and checks CRC and namelist. From a fresh extraction under a path containing spaces it verifies every blob and mode, rebuilds the generated runtime and content twice and checks them byte-identical, and runs runtime invariants, served-package, redirect and HQ1 focused smoke checks. Last, it writes the source, package and publication receipts.
+
+HQ3 changes no gameplay or runtime source. The 1-ULP Node-version parity finding and both harness/setup repairs are preserved as recorded in `PART_3B_BASELINE_FAILURES.md`, with their assertions unchanged. Human QA is not marked PASS. The engineering status is `PART 3B — MOVEMENT, CAMERA & DEPTH PRESENTATION ENGINEERING COMPLETE — HUMAN QA PENDING`.

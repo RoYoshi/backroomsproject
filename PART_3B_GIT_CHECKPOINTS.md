@@ -23,3 +23,13 @@ P3B4 second preservation: `fcb3f7e968f2bc53fe599fa7ee7239a9dbc61803`, tree `e2a5
 P3B4 completion: `f2158e5cf11d26947ff55bb92d6dbdfbc2780b44`, tree `eec4f4c8e2734846b098731b404056fd8d7a0637`. Live branch and Git commit independently verified after fast-forward publication. B-01 through B-19 and all required retained regressions PASS. Human QA remains PENDING.
 
 P3B5 final portability gates COMPLETE. Fresh extraction under a path containing spaces passed all 37 final checks; exact source blobs and modes remained unchanged through two repeated builds and all regressions. The initial ZIP-mode preflight failure and narrow packaging-only repair are retained. The final source commit/tree and independent remote verification are supplied in the accompanying publication receipt because a commit cannot embed its own identity. Main is not modified or merged. Part 3C is not begun.
+
+P3B5 final (later rejected in human QA): `6ec76c6ca9b289c108ab933c71af196dd5c522cd`, tree `05a8e8926ed30012d3158e7ef0f5b6f546bc06a1`.
+
+HQ0 rejection preservation: `66ca14f527244e2e2bf50790ed78d00a05a785ee`, tree `35bd20455ca97fa83931d676854636c868420e5b`. Documentation and authority only; no runtime change.
+
+HQ1 top-down correction: `ae7157cc1fd246e72dc809b71c0c34acb54f0ca3`, tree `1b0080abb17629dc959ae0a30de410589f98f88c`, parent HQ0. Runtime changes are limited to `world_view.js` and `spatial_client.js`. Remote ref, commit, tree and parent were independently verified with `git ls-remote`, a fresh fetch and the GitHub API. An earlier unpublished local HQ1 attempt (`2132dfa…`) was never available and was not used.
+
+HQ2 full retained regression: `1a08f3c2cd78a033e8fb81a76d20859666c9ccb4`, tree `00ee05b69b5589a2bd80353e051e6554c0b74e01`, parent HQ1. Evidence, tooling and documentation only; no runtime change. Independently verified the same way.
+
+HQ3 final corrected publication: the final source commit and tree are supplied in the accompanying publication receipt, because a commit cannot embed its own identity. Main is not modified or merged. Part 3C is not begun.

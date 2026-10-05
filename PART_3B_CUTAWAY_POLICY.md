@@ -11,7 +11,7 @@ The accepted production definition is not modified. Its existing authored group 
 | `overlapSlab` | LONG ROOM upper slab and its edge walls; ramp; individual stair treads | Only the local blocking structural group may fade. Upper/on-surface viewers retain their upper view. Each tread has independent presentation eligibility. |
 | Future `buildingRoof` | No current content | Reserved distinction only. No separate buildings, future levels or multi-level runtime are implemented. |
 
-Eligible local cover still has to obstruct a projected sample of the local body before it fades. The camera probe includes feet, middle and head, with lateral extent, and follows the actual bounded projection. Entry fade is 150 ms; exit fade is 250 ms. Screen-door fading retains camera depth and the unchanged per-fragment physical eye/light mask.
+Eligible local cover still has to obstruct a sample of the local body before it fades. The camera probe includes feet, middle and head, with lateral extent. Since the HQ1 top-down correction it rises straight up from those points (previously it followed the rejected bounded oblique projection). The NORTH, LONG and continuous-interior semantics are unchanged and re-verified in `dev/part3b/evidence/hq2`. Entry fade is 150 ms; exit fade is 250 ms. Screen-door fading retains camera depth and the unchanged per-fragment physical eye/light mask.
 
 The LONG ROOM slab/edge group is six local physical pieces over the upper branch, not the whole room. Unrelated walls, floors and ordinary-room geometry remain. The NORTH cover is one roof over the physical 288 × 96 crawl passage. Ordinary NORTH room ceilings are not concealment groups.
 

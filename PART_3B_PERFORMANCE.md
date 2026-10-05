@@ -1,23 +1,23 @@
 # Part 3B performance evidence
 
-Bounded measurements on the recorded host and software SwiftShader GPU. No hardware FPS, capacity or Part 3G certification is claimed. The seven retained named suites include their unchanged performance/portability assertions.
+HQ2 measurements of the corrected top-down presentation, on the validation host (Node v22.22.2) and software SwiftShader GPU. No hardware FPS, capacity or Part 3G certification is claimed. Host timings are noisier than the P3B4 host; the retained performance suites still pass their unchanged thresholds.
 
 | Production simulation | p50 ms | p95 ms | p99 ms | max ms |
 |---|---:|---:|---:|---:|
-| 1 players / 1,200 fixed ticks | 0.173 | 0.393 | 0.860 | 628.324 |
-| 8 players / 1,200 fixed ticks | 0.228 | 1.147 | 5.382 | 662.192 |
+| 1 players / 1,200 fixed ticks | 0.210 | 0.626 | 2.427 | 905.613 |
+| 8 players / 1,200 fixed ticks | 0.319 | 1.740 | 6.936 | 782.629 |
 
 | Completed production render/readback | Drained samples, ms |
 |---|---|
-| 16x9 | 3452.6, 1680.4, 1808.9 |
-| 16x10 | 3997.1, 1813.8, 2032.4 |
-| ultrawide | 18972.5, 8669.2, 8969.5 |
-| high-dpr | 12689.5, 7471.2, 6935.0 |
-| 4k | 15841.8, 7916.3, 7554.2 |
-| reduced | 1099.6, 443.9, 640.5 |
-| nv-low-zoom2 | 3546.8, 1674.5, 1864.0 |
-| nv-high-zoom4-dpr | 2172.7, 1056.4, 1285.9 |
+| 16x9 | 5624.2, 2930.7, 3079.8 |
+| 16x10 | 6497.1, 3711.3, 3766.9 |
+| ultrawide | 28245.7, 15469.9, 12836.3 |
+| high-dpr | 21028.6, 10697.1, 10389.8 |
+| 4k | 24067.2, 12536.5, 12782.4 |
+| reduced | 2312.0, 1113.3, 1416.9 |
+| nv-low-zoom2 | 6259.9, 2888.3, 3630.5 |
+| nv-high-zoom4-dpr | 3808.3, 2250.7, 1859.4 |
 
-GPU completion/readback is included; CPU submission is not presented as frame completion. High-DPR/4K targets are capped at 4,194,304 pixels. Geometry contains all 910 physical occluders, with conservative candidate batches; 288 continuous ceilings are camera-only omissions. CPU cold-start/navigation stalls and accepted aftermath limits remain relevant. No physics, AI, ray or quality-truth threshold was relaxed.
+GPU completion/readback is included; CPU submission is not presented as frame completion. High-DPR/4K targets are capped at 4,194,304 pixels. The top-down mesh (caps + local strips) is built once at model compile (about 65 ms one-time in Node) and needs no per-frame projection rebuild. All 910 physical occluders stay in conservative candidate batches, and the 288 continuous ceilings are camera-only omissions. No physics, AI, ray or quality-truth threshold was relaxed.
 
-Raw production CPU and GPU evidence: `dev/part3b/evidence/p3b4/whole-03/performance-production.json`, `dev/part3b/evidence/p3b4/whole-02/browser-matrix/result.json`. Parent measurements remain in `PART_3A_PERFORMANCE.md`; run-to-run timings are host-dependent.
+Raw evidence: `dev/part3b/evidence/hq2/whole-03-continuation/performance-production.json`, `dev/part3b/evidence/hq2/whole-03-continuation/browser-matrix/result.json`. P3B4 measurements of the superseded projection remain under `dev/part3b/evidence/p3b4`.
