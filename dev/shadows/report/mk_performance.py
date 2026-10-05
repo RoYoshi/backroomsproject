@@ -37,6 +37,17 @@ slowD, slowDn = worst(desk, lambda r: r['lampBuildMsMax']); slowM, slowMn = wors
 fD, fDn = worst(desk, lambda r: r['moduleMsPerFrame']['max']); fM, fMn = worst(mob, lambda r: r['moduleMsPerFrame']['max'])
 slow = max(slowD, slowM); fmax = max(fD, fM)
 
+# the measured noise band: fps of OFF (draws nothing) against the baseline, scene by scene; then every tier cell outside it
+fps_rows = []
+for l in sec[next(k for k in sec if k.startswith('frames per second'))]:
+    c = [x.strip() for x in l.strip('|').split('|')]
+    if l.startswith('|') and len(c) == 7 and c[0] not in ('profile',) and not c[0].startswith('---'): fps_rows.append((c[0], c[1], *map(float, c[2:])))
+rel = lambda a, b: 100 * (a / b - 1)
+band = [rel(r[3], r[2]) for r in fps_rows]; lo, hi = min(band), max(band)
+outside = [(p, s, t, rel(v, off)) for p, s, base, off, *tiers in fps_rows for t, v in zip(('LOW', 'MEDIUM', 'HIGH'), tiers) if not lo <= rel(v, off) <= hi]
+pc = lambda d: f'{d:+.0f}'.replace('-', '−')
+fmt_out = '; '.join(f'`{p} {s}` {t} {pc(d)} %' for p, s, t, d in outside)
+
 L = f"""# THE FAR BACKROOMS — 2D Lighting & Shadows: performance
 
 **This is evidence, not hardware certification.** Everything here was measured with SwiftShader (software GL) on a
@@ -117,9 +128,10 @@ measuring are counted in frames: at least 8 frames and until the lamp caches sto
 | mobile-like | profile `mobile` | 390×844 at DPR 3 with touch, main thread slowed 4× by CDP CPU throttling: room, dense, sweep, peers |
 
 The `16x9` profile (1280×720, DPR 1) runs all eight scenes. Software rendering draws a few frames a second at 1280×720
-and below one at 4K. Every covered pixel costs CPU time here, which a GPU makes nearly free, and frame intervals swing
-by ±15 % between identical runs. Read the **OFF** column as the noise floor: OFF draws nothing, so its distance from
-the baseline is run-to-run variation. The precise numbers are the module's own time and the call counts.
+and below one at 4K. Every covered pixel costs CPU time here, which a GPU makes nearly free. Read the **OFF** column as
+the noise floor: OFF draws nothing, so its distance from the baseline is run-to-run variation. Across the 16 scenes,
+OFF's frames per second are {pc(lo)} % to {pc(hi)} % off the baseline's. The precise numbers are the module's own
+time and the call counts.
 
 Raw data: `dev/shadows/evidence/sh3/` (`bench-parent/`, `bench-candidate/`, `bench-ab/`, `profile/`,
 `bench_compare.md`) and `dev/shadows/evidence/sh4/build_probe.json`.
@@ -141,12 +153,20 @@ with other players or monsters on screen. Pixi batches the shadow `Graphics` int
 
 {table('WebGL draw calls')}
 
-2D-canvas calls per frame (the darkness overlay) are identical to the baseline at every tier in 13 of 16 scenes. The
-three exceptions differ from the baseline at **OFF too**, where the module draws nothing, and are flat across the tiers:
-`16x9 entities` (the admin `near` command puts the hound and the smiler somewhere different in each run) and
-`mobile dense / sweep` (run-session state). `canvas_calls_probe.js` then counted every 2D call by canvas and method over
-10 frames in the mobile PILLAR HALL scene: the baseline and the candidate at OFF, LOW, MEDIUM and HIGH are identical
-(`sh3/profile/canvas_calls.txt`). The module never draws on a 2D canvas.
+The module's shapes are Pixi `Graphics` in the game's WebGL scene, batched as above. It never touches the game's 2D
+canvases, the darkness overlay included: the overlay's pixels are byte-identical at every quality (browser check B02).
+It uses small 2D canvases of its own only to build its textures, once each (grounding, contact and light textures,
+one `putImageData` per texture), and for the admin-only debug view.
+
+2D-canvas calls per frame are identical to the baseline at every tier in 13 of 16 scenes. The three exceptions differ
+from the baseline at **OFF too**, where the module draws nothing, and are flat across the tiers:
+- `16x9 entities`: the wanderer stood somewhere else in the two runs, at (1971, 2797) for the baseline and (1538, 2704)
+  for the candidate (`state` in the bench JSON), after the admin `near` command placed the monsters.
+- `mobile dense / sweep`: same spot (and in `dense` the same aim; `sweep` turns the aim by design). The cause was not
+  pinned down. `canvas_calls_probe.js` then re-counted
+  every 2D call by canvas and by method over 10 frames in that same scene and profile. The baseline and the candidate at
+  OFF, LOW, MEDIUM and HIGH gave identical counts (`sh3/profile/canvas_calls.txt`), with no call on a canvas of the
+  module's.
 
 {table('2D-canvas calls')}
 
@@ -164,9 +184,13 @@ Frame interval, ms, p50 / p95:
 
 {table('frame interval')}
 
-Frame times stay within the OFF column's noise in every scene but one: `props`, where your flashlight lights a long
-counter. That shadow is large, and SwiftShader fills every covered pixel on the CPU. A dedicated A/B (`sh3/bench-ab/`)
-ran three alternating rounds per tier in one session:
+Measured against OFF, the tier cells outside OFF's own noise band ({pc(lo)} % to {pc(hi)} %) are: {fmt_out}.
+- **`props`** is your flashlight across a long counter. That shadow is large, and SwiftShader fills every covered
+  pixel on the CPU.
+- **`mobile dense` at LOW** was not re-measured. MEDIUM and HIGH, which draw more than LOW in that scene, stayed inside
+  the band.
+
+A dedicated A/B (`sh3/bench-ab/`) ran three alternating rounds per tier of the `props` scene in one session:
 
 | props scene, 1280×720 | OFF | LOW | MEDIUM | HIGH |
 |---|---|---|---|---|
@@ -224,8 +248,9 @@ The viewport size is now read only on `resize` / `orientationchange`, the way th
 
 - **No GPU and no phone.** Software rendering shows the CPU side exactly (the module's own time, the call counts, the
   bounded work) but turns fill into CPU time, which a GPU makes nearly free. Real-device frame rates are for human QA.
-- **Noise.** Frame intervals swing by about ±15 % between identical runs. The container also restarted during the
-  stage, onto a slower machine, so only numbers from the same session are compared: the baseline and every tier in the
+- **Noise.** Between the baseline and OFF, which draw the same, frames per second differ by {pc(lo)} % to {pc(hi)} %
+  across scenes. The container was also restarted during the stage, and the same work has run slower since. Only
+  numbers from one session are compared: the baseline and every tier in the
   tables above ran back to back.
 """
 OUT.write_text(L)

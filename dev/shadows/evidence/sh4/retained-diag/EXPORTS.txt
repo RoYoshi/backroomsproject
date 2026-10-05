@@ -1,0 +1,25 @@
+Which tree each retained run used. Checked 2026-10-05T13:16:39Z, after all the runs: neither folder gained or changed a file.
+
+<pristine parent export>   git archive f2805bb904c158df17c5c75c3d0d4681049bc246, extracted (made at SH0)
+  files: 230; file list differs from `git ls-tree -r f2805bb` in 0 lines
+  dev/shadows/freeze.py verify: candidate {'dir': '<pristine parent export>'}: 230/230 parent files byte-identical; 0 changed; 0 removed; 0 added
+
+<final tree export>        git archive afd71455f5795cf6f6d287584d6b8a42c3718b95 (SH3), extracted
+  files: 423; `diff -rq` against a fresh `git archive afd7145`: 0 differences
+  dev/shadows/freeze.py verify: candidate {'dir': '<final tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 193 added
+
+Runs (retained.json meta.game names the export):
+  ../retained/            <final tree export>      default deadlines            (the SH4 main run)
+  parent-1                <pristine parent export> --only browser-admin,browser-ir --timeout-scale 3
+  final-1                 <final tree export>      --only browser-admin,browser-ir --timeout-scale 3
+  parent-2                <pristine parent export> --only browser-admin            --timeout-scale 3
+  final-2                 <final tree export>      --only browser-admin            --timeout-scale 3
+The four diagnosis runs ran back to back, in that order, from one script:
+  #!/bin/bash
+  cd /home/claude/backrooms-shadows
+  R="python3 dev/shadows/run_retained.py run --timeout-scale 3"
+  $R --game <scratch>/parent --out <scratch>/diag/parent-1 --only browser-admin,browser-ir --label "diag: parent, same box" > <scratch>/diag/parent-1.runner.log 2>&1
+  $R --game <scratch>/export-final --out <scratch>/diag/final-1 --only browser-admin,browser-ir --label "diag: final, same box" > <scratch>/diag/final-1.runner.log 2>&1
+  $R --game <scratch>/parent --out <scratch>/diag/parent-2 --only browser-admin --label "diag: parent, same box, repeat" > <scratch>/diag/parent-2.runner.log 2>&1
+  $R --game <scratch>/export-final --out <scratch>/diag/final-2 --only browser-admin --label "diag: final, same box, repeat" > <scratch>/diag/final-2.runner.log 2>&1
+  echo done > <scratch>/diag.done

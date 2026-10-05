@@ -46,8 +46,8 @@ All of it is drawn on the floor, under the level art, the props, every entity an
 - `index.html` gets one 46-byte `<script>` tag. Removing it gives the parent file byte for byte.
 
 **No game file changed.** That includes the special-protection files `ai.js`, `sim.js`, `move.js`, `server.js`,
-`mp.js`, `death_srv.js`, `dphys.js` and `camera_policy.js`, and `world.js`. The SH0 freeze manifest verifies them
-byte-identical (`FREEZE OK`).
+`mp.js`, `death_srv.js`, `dphys.js` and `camera_policy.js`, and `world.js`. `dev/shadows/freeze.py verify` against the
+SH0 manifest finds 229 of the parent's 230 files byte-identical. The one that differs is `index.html`.
 
 **No bundle edit.** The module attaches through the renderer's own containers (`__api.floor().parent`) and runs right
 after the game's per-frame hook (`window.__mp`, which keeps its arguments and return value).
@@ -77,8 +77,8 @@ and the game renders as v23.3.6.
     - **browser-admin**'s death-preview sequence (T5) is timing-sensitive on this machine. The parent itself failed 17
       and 4 extra T5 / T6 assertions in two runs. The final tree failed 0 and 14, all T5 / T6 as well; its first run
       reproduced the baseline exactly (54/56).
-  - Neither difference comes from the module. The container restarted mid-stage onto a slower machine, which is why
-    the same-machine rerun was needed.
+  - Neither difference comes from the module. The container was restarted during the SH3 work, and the same work has
+    run slower since. The SH0 baseline predates the restart, which is why the same-machine rerun was needed.
 
 ## Design decisions (from reading the parent, not assumptions)
 
@@ -101,11 +101,16 @@ See `2D_SHADOWS_PERFORMANCE.md`. Software rendering (SwiftShader, 2 vCPU) is evi
 In short:
 - **The module's CPU time per frame** is 0.09–0.45 ms on the desktop-like profiles (p95 ≤ 1 ms), and 0.26–1.6 ms on the
   mobile-like profile with the main thread slowed 4× (p95 ≤ 4 ms).
-- **Draw calls are unchanged.** WebGL draw calls are identical to v23.3.6 at every tier. The module makes no 2D-canvas
-  call at all (counted per canvas and per method), so the darkness overlay's calls are the parent's.
-- **Frame times** stay within run-to-run noise, except in one fill-bound case under software rendering: a large
-  flashlight prop shadow costs −5 / −10 / −12 % fps at LOW / MEDIUM / HIGH. A GPU fills that nearly for free, but
-  real-device frame rates are for human QA.
+- **Draw calls are unchanged.** WebGL draw calls are identical to v23.3.6 at every tier: Pixi batches the shadow
+  shapes into the draws the game already makes. The module never touches the game's 2D canvases, the darkness overlay
+  included. Its own small 2D canvases only build its textures, once each, and hold the admin-only debug view.
+- **Frame times** stay within run-to-run noise (−10 % to +8 % between the parent and OFF, which draw the same), with
+  two exceptions:
+  - one fill-bound case under software rendering: a large flashlight prop shadow costs −5 / −10 / −12 % fps at LOW /
+    MEDIUM / HIGH (A/B, three rounds each). A GPU fills that nearly for free, but real-device frame rates are for
+    human QA;
+  - one cell that was not re-measured: the mobile-like PILLAR HALL at LOW, −14 %, while MEDIUM and HIGH there stay
+    inside the noise.
 - **One-time builds.** A lamp's shadow is built the first time it is seen: 0.2–0.7 ms on average, at most 6.1 ms at
   1280×720 and 8.1 ms on the slowed mobile-like profile. No more than 1 / 1 / 2 lamps are built in a frame.
 - **SH3 fix.** A forced layout every frame (reading `innerWidth`) cost about 2 ms a frame on the mobile-like profile.

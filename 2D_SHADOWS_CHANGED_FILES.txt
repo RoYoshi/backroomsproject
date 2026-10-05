@@ -1,7 +1,7 @@
 2D LIGHTING & SHADOWS - changed files
 
 Immutable gameplay parent: f2805bb904c158df17c5c75c3d0d4681049bc246 (tree 8cc77595fe6e88c425e2f8abd243f3463af44a18, v23.3.6)
-Final tree: the SH4 checkpoint (commit and tree in 2D_SHADOWS_GIT_CHECKPOINTS.md).
+Final tree: the final SH4 commit. Its commit and tree are in the package receipt (2D_SHADOWS_PACKAGE_RECEIPT.txt, beside the ZIP).
 Status letters: A added, M modified, D deleted against the parent. SHA-256 and size of the file in the SH4 tree.
 
 == Served to browsers (the game) ==
@@ -13,14 +13,15 @@ M  index.html                               sha256 a3046ff014f792e20681f20e26faf
 == Unchanged ==
 Every other file of the parent is byte-identical, including the special-protection files
 ai.js, sim.js, move.js, server.js, mp.js, death_srv.js, dphys.js, camera_policy.js, and world.js
-(dev/shadows/freeze.py verify against dev/shadows/evidence/sh0/parent_manifest.json: FREEZE OK).
+(dev/shadows/freeze.py verify against dev/shadows/evidence/sh0/parent_manifest.json: 229 of the 230 parent files
+byte-identical; the one that differs is index.html. FREEZE OK).
 
 == Stage reports (repository root, documentation only) ==
-A  2D_SHADOWS_GIT_CHECKPOINTS.md            sha256 13828b5fe80251a4415b0a63a6fbd0db9c5a5d895af8453b92017ac42380c69e  2537 bytes
+A  2D_SHADOWS_GIT_CHECKPOINTS.md            sha256 4394718e61983124e1355e6def3df31d70279d42d7fb9f0f44d44cba4a6ec9f7  3150 bytes
 A  2D_SHADOWS_HUMAN_QA.md                   sha256 e0f0c5c01d465d2659c26c502c85d8590bdab6f6ef80fc2cb43546893793d4e7  3972 bytes
-A  2D_SHADOWS_PERFORMANCE.md                sha256 d39509a3e166ba9c1b6a1a27a71bcb1cd5d277c732e1de5783a935780b2e9421  20141 bytes
-A  2D_SHADOWS_REPORT.md                     sha256 6c9c1ef53f7c3b1eed05f8e6a82bf7b55073ec65f2eff9904f241a525487fd59  9659 bytes
-A  2D_SHADOWS_TEST_SUMMARY.md               sha256 8b953a0675ba221ab8fefc7ebcd3eb61a8aa1ef89623a7e4efe82fb0b403707f  21401 bytes
+A  2D_SHADOWS_PERFORMANCE.md                sha256 97a9dc7ae07ae73b19f03ae5afdee3e7d98f816b6bcb05ae9a9c7e24e2724178  21109 bytes
+A  2D_SHADOWS_REPORT.md                     sha256 967773a59618c0bb77b082f004ccff55de749baba2e092818bd67097a24cd3dc  10180 bytes
+A  2D_SHADOWS_TEST_SUMMARY.md               sha256 61e8ed97b0592ed09cf55e94d094041e4496c6af1208434694ffb8c2d7df295b  22068 bytes
 A  2D_SHADOWS_CHANGED_FILES.txt             (this file)
 
 == Development tooling and evidence (dev/shadows/, never served: the server whitelist does not include dev/) ==
@@ -177,7 +178,7 @@ A  dev/shadows/evidence/sh2/shots/shelf-off-low-medium-high.jpg             4047
 A  dev/shadows/evidence/sh2/shots/shelfdark-diff-x6.jpg                     17285 bytes
 A  dev/shadows/evidence/sh2/shots/shelfdark-off-low-medium-high.jpg         32588 bytes
 A  dev/shadows/evidence/sh2/unit_tests.log                                  7778 bytes
-A  dev/shadows/evidence/sh3/SH3_PERF.md                                     11789 bytes
+A  dev/shadows/evidence/sh3/SH3_PERF.md                                     12332 bytes
 A  dev/shadows/evidence/sh3/bench-ab/bench.json                             25250 bytes
 A  dev/shadows/evidence/sh3/bench-ab/bench.log                              4819 bytes
 A  dev/shadows/evidence/sh3/bench-candidate/16x9-blackout-high.jpg          36917 bytes
@@ -209,11 +210,12 @@ A  dev/shadows/evidence/sh3/profile/before_sh2.txt                          1363
 A  dev/shadows/evidence/sh3/profile/canvas_calls.txt                        766 bytes
 A  dev/shadows/evidence/sh3/sh2_remote_verify.json                          523 bytes
 A  dev/shadows/evidence/sh3/unit_tests.log                                  8340 bytes
-A  dev/shadows/evidence/sh4/SH4_FINAL.md                                    2772 bytes
+A  dev/shadows/evidence/sh4/SH4_FINAL.md                                    3603 bytes
 A  dev/shadows/evidence/sh4/browser_checks.log                              1834 bytes
 A  dev/shadows/evidence/sh4/build_probe.json                                1784 bytes
 A  dev/shadows/evidence/sh4/build_probe.log                                 1740 bytes
-A  dev/shadows/evidence/sh4/freeze_verify.txt                               14479 bytes
+A  dev/shadows/evidence/sh4/freeze_verify.txt                               14712 bytes
+A  dev/shadows/evidence/sh4/retained-diag/EXPORTS.txt                       2209 bytes
 A  dev/shadows/evidence/sh4/retained-diag/final-1/browser-admin.log         5213 bytes
 A  dev/shadows/evidence/sh4/retained-diag/final-1/browser-ir.log            1094 bytes
 A  dev/shadows/evidence/sh4/retained-diag/final-1/retained.json             1438 bytes
@@ -224,7 +226,7 @@ A  dev/shadows/evidence/sh4/retained-diag/parent-1/browser-ir.log           1094
 A  dev/shadows/evidence/sh4/retained-diag/parent-1/retained.json            2670 bytes
 A  dev/shadows/evidence/sh4/retained-diag/parent-2/browser-admin.log        5489 bytes
 A  dev/shadows/evidence/sh4/retained-diag/parent-2/retained.json            1321 bytes
-A  dev/shadows/evidence/sh4/retained-diag/table.md                          1727 bytes
+A  dev/shadows/evidence/sh4/retained-diag/table.md                          1737 bytes
 A  dev/shadows/evidence/sh4/retained/audit-net.log                          3359 bytes
 A  dev/shadows/evidence/sh4/retained/audit-net2.log                         4072 bytes
 A  dev/shadows/evidence/sh4/retained/browser-admin.log                      5346 bytes
@@ -245,20 +247,23 @@ A  dev/shadows/evidence/sh4/retained/humanqa.log                            1178
 A  dev/shadows/evidence/sh4/retained/interpolation.log                      760 bytes
 A  dev/shadows/evidence/sh4/retained/ir-net.log                             506 bytes
 A  dev/shadows/evidence/sh4/retained/live.log                               2875 bytes
+A  dev/shadows/evidence/sh4/retained/log_identity_sh1.txt                   1292 bytes
+A  dev/shadows/evidence/sh4/retained/log_identity_sh2.txt                   1292 bytes
 A  dev/shadows/evidence/sh4/retained/npm-test.log                           38848 bytes
 A  dev/shadows/evidence/sh4/retained/physics.log                            3425 bytes
 A  dev/shadows/evidence/sh4/retained/retained.json                          11741 bytes
 A  dev/shadows/evidence/sh4/retained/server-boot.log                        336 bytes
 A  dev/shadows/evidence/sh4/sh3_remote_verify.json                          523 bytes
+A  dev/shadows/evidence/sh4/sh4_remote_verify.json                          523 bytes
 A  dev/shadows/evidence/sh4/unit_tests.log                                  8340 bytes
-A  dev/shadows/freeze.py                                                    8222 bytes
+A  dev/shadows/freeze.py                                                    8281 bytes
 A  dev/shadows/harness_lib.js                                               8676 bytes
 A  dev/shadows/log_identity.py                                              2730 bytes
 A  dev/shadows/profile_probe.js                                             3151 bytes
-A  dev/shadows/report/mk_changed_files.py                                   2915 bytes
-A  dev/shadows/report/mk_diag.py                                            2234 bytes
-A  dev/shadows/report/mk_performance.py                                     14124 bytes
-A  dev/shadows/report/mk_test_summary.py                                    8873 bytes
+A  dev/shadows/report/mk_changed_files.py                                   3052 bytes
+A  dev/shadows/report/mk_diag.py                                            2239 bytes
+A  dev/shadows/report/mk_performance.py                                     15851 bytes
+A  dev/shadows/report/mk_test_summary.py                                    9321 bytes
 A  dev/shadows/report/package.py                                            6356 bytes
 A  dev/shadows/run_retained.py                                              14598 bytes
 A  dev/shadows/scene_bench.js                                               16410 bytes
@@ -266,4 +271,4 @@ A  dev/shadows/shots.js                                                     7849
 A  dev/shadows/summarize.py                                                 5348 bytes
 A  dev/shadows/test_shadows.js                                              51662 bytes
 
-Totals: 2 served, 6 reports (this file included), 241 dev files.
+Totals: 2 served, 6 reports (this file included), 245 dev files.

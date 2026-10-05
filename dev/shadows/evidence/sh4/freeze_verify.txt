@@ -1,4 +1,4 @@
-candidate {'dir': '<SH4 staged tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 248 added
+candidate {'dir': '<SH4 staged tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 252 added
 IDENTICAL ai.js
 IDENTICAL sim.js
 IDENTICAL move.js
@@ -205,6 +205,7 @@ ADDED dev/shadows/evidence/sh4/browser_checks.log
 ADDED dev/shadows/evidence/sh4/build_probe.json
 ADDED dev/shadows/evidence/sh4/build_probe.log
 ADDED dev/shadows/evidence/sh4/freeze_verify.txt
+ADDED dev/shadows/evidence/sh4/retained-diag/EXPORTS.txt
 ADDED dev/shadows/evidence/sh4/retained-diag/final-1/browser-admin.log
 ADDED dev/shadows/evidence/sh4/retained-diag/final-1/browser-ir.log
 ADDED dev/shadows/evidence/sh4/retained-diag/final-1/retained.json
@@ -236,11 +237,14 @@ ADDED dev/shadows/evidence/sh4/retained/humanqa.log
 ADDED dev/shadows/evidence/sh4/retained/interpolation.log
 ADDED dev/shadows/evidence/sh4/retained/ir-net.log
 ADDED dev/shadows/evidence/sh4/retained/live.log
+ADDED dev/shadows/evidence/sh4/retained/log_identity_sh1.txt
+ADDED dev/shadows/evidence/sh4/retained/log_identity_sh2.txt
 ADDED dev/shadows/evidence/sh4/retained/npm-test.log
 ADDED dev/shadows/evidence/sh4/retained/physics.log
 ADDED dev/shadows/evidence/sh4/retained/retained.json
 ADDED dev/shadows/evidence/sh4/retained/server-boot.log
 ADDED dev/shadows/evidence/sh4/sh3_remote_verify.json
+ADDED dev/shadows/evidence/sh4/sh4_remote_verify.json
 ADDED dev/shadows/evidence/sh4/unit_tests.log
 ADDED dev/shadows/freeze.py
 ADDED dev/shadows/harness_lib.js

@@ -1,6 +1,6 @@
 # THE FAR BACKROOMS — 2D Lighting & Shadows: test summary
 
-Every result below is generated from the logs in `dev/shadows/evidence/sh4/` (the final tree). Nothing is typed by hand.
+Every result below is generated from the logs in `dev/shadows/evidence/sh4/` (the final tree) by `dev/shadows/report/mk_test_summary.py`. Nothing is typed by hand. Measured values are copied in full; a `|` inside one is escaped for the table.
 
 ## Required focused tests → where they are covered
 
@@ -41,7 +41,7 @@ The module runs in a Node VM with the real level geometry, ray query, lamp list 
 | S13 | failure isolation: an internal error switches the module off and the game hook keeps working | **PASS** | disabled='frame error', warn 1 |
 | S14 | quality: URL > remembered > device default; LOW is a real tier (grounding + capped light shadows) | **PASS** | url high, touch low, desktop medium |
 | S15 | no presentation-to-AI data path (static): the server never loads or reads the shadow module; the module never talks to the network | **PASS** | server refs [], network [], writes into game objects [] |
-| S16 | the shipped server serves the module without any server change (assets/ is already whitelisted) | **PASS** | /^\/(index\.html/world\.js/move\.js/ents\.js/mp\.js/hud\.js/… |
+| S16 | the shipped server serves the module without any server change (assets/ is already whitelisted) | **PASS** | /^\/(index\.html\|world\.js\|move\.js\|ents\.js\|mp\.js\|hud\.js\|… |
 | C01 | lamp shadows of props fall away from the lamp (every prop-shadow polygon centroid is on the far side of the prop) | **PASS** | 5 lamps, 12 prop-shadow polygons, min dot 1869.9 |
 | C02 | lamp wall penumbrae: apex on a convex wall/pillar corner, extend away from the lamp, only where the lamp's light reaches (no double black) | **PASS** | 232 penumbra polygons from 25 lamps; off-corner 0, pointing back 0, over the umbra 0 |
 | C03 | lamp flicker: a lamp's shadow strength follows the overlay's own lamp power every frame (failures dim it, never brighter than nominal) | **PASS** | alphas ["1.000","1.000","1.000","1.000","0.531"] failing x.25 ["0.250","0.250","0.250","0.250","0.133"] failed: 0 visible; NV x1.5 ["1.000","1.000","1.000","1.000","0.531"] |
@@ -56,9 +56,9 @@ The module runs in a Node VM with the real level geometry, ray query, lamp list 
 | C12 | baked prop shadows are detected: a prop lit from the side of its baked drop shadow gets a thinner dynamic shadow | **PASS** | alpha sum lit from NW (shadow onto the baked side) 0.080 vs from SE 0.147 |
 | C13 | other wanderers' lights: bounded, cast prop shadows and pillar penumbrae, never from a dead or switched-off light | **PASS** | lights 1, penumbra polygons 4 (from pillar corners 4), bad 0/0/0, polys 4/300 |
 | C14 | your light's penumbrae: from convex corners in the beam, on the lit side of the edge the overlay already cuts, away from you | **PASS** | polygons per scene [8,4,0,4,3]; off-corner 0, pointing back 0, over the umbra 0 |
-| C15 | no popping: along an orbit of a pillar, a walk past wall corners and a 10 s run through the pillar hall (sprint speed, light swinging), no caster's shadow jumps by a third of its own peak in one frame (LOW / MEDIUM / HIGH) | **PASS** | {"low":{"orbit":{"peak":266,"casters":5,"total":10.3,"caster":13.3},"walk":{"peak":215,"casters":2,"total":16.9,"caster":16.9},"hall":{"peak":429,"casters":12,"total":10.4,"caster":28.1}},"medium":{"orbit":{"peak":201,"casters":5,"total":10,"caster":13.2},"walk":{"peak":160,"casters":2,"total":17.5,"caster":17.5},"hall":{"peak":332,"casters":13,"total":14.2,"caster":26.9}},"high":{"orbit":{"peak":195,"casters":5,"tot |
+| C15 | no popping: along an orbit of a pillar, a walk past wall corners and a 10 s run through the pillar hall (sprint speed, light swinging), no caster's shadow jumps by a third of its own peak in one frame (LOW / MEDIUM / HIGH) | **PASS** | {"low":{"orbit":{"peak":266,"casters":5,"total":10.3,"caster":13.3},"walk":{"peak":215,"casters":2,"total":16.9,"caster":16.9},"hall":{"peak":429,"casters":12,"total":10.4,"caster":28.1}},"medium":{"orbit":{"peak":201,"casters":5,"total":10,"caster":13.2},"walk":{"peak":160,"casters":2,"total":17.5,"caster":17.5},"hall":{"peak":332,"casters":13,"total":14.2,"caster":26.9}},"high":{"orbit":{"peak":195,"casters":5,"total":9.9,"caster":13.2},"walk":{"peak":155,"casters":2,"total":17.5,"caster":17.5},"hall":{"peak":322,"casters":13,"total":14.5,"caster":26.9}}} (peak mass; worst one-frame change, % of the peak: total / single caster) |
 | C16 | carried-light casters are capped per light and ranked by the light reaching them: settled, at most the cap; while the beam swings, a caster leaving the cap fades out (never more than twice the cap) | **PASS** | {"low":{"at":[7850,1700],"cand":8,"pen":2,"cap":4,"swingPen":5,"props":0,"propCap":3,"swingProps":0},"medium":{"at":[7850,1700],"cand":8,"pen":3,"cap":8,"swingPen":6,"props":0,"propCap":6,"swingProps":0},"high":{"at":[7850,1700],"cand":8,"pen":3,"cap":12,"swingPen":6,"props":0,"propCap":10,"swingProps":0}} |
-| C17 | light textures are the overlay's own light (sat-mapped): the lamp gradient, each equipment's glow + nested arcs, placed at the light and turned with the aim | **PASS** | {"lamp":0.002,"flashlight":{"worst":0.002,"nonzeroWhereNoLight":0},"headlamp":{"worst":0.002,"nonzeroWhereNoLight":0},"lantern":{"worst":0.002,"nonzeroWhereNoLight":0}} (largest /texel - overlay formula at that texel/, 8-bit texture) |
+| C17 | light textures are the overlay's own light (sat-mapped): the lamp gradient, each equipment's glow + nested arcs, placed at the light and turned with the aim | **PASS** | {"lamp":0.002,"flashlight":{"worst":0.002,"nonzeroWhereNoLight":0},"headlamp":{"worst":0.002,"nonzeroWhereNoLight":0},"lantern":{"worst":0.002,"nonzeroWhereNoLight":0}} (largest \|texel - overlay formula at that texel\|, 8-bit texture) |
 | C18 | a carried light's shadows take away only that light: zero outside its beam and range, strongest on the axis | **PASS** | samples in the beam 105 (max alpha 0.224), outside it 218 (any shadow there: 0) |
 | C19 | bounded work: in steady state the ray queries per frame stay under a ceiling computed from the tier caps alone (never from the map), and at most `builds` lamp caches are built per frame | **PASS** | {"low":{"worstRayQueriesPerFrame":24,"ceiling":136,"at":[7860,1150],"lampBuildsPerFrameMax":1,"builds":1},"medium":{"worstRayQueriesPerFrame":25,"ceiling":768,"at":[3545,3422],"lampBuildsPerFrameMax":1,"builds":1},"high":{"worstRayQueriesPerFrame":30,"ceiling":2040,"at":[3545,3422],"lampBuildsPerFrameMax":2,"builds":2}} (entity shadows are capped separately, S09) |
 
@@ -110,16 +110,16 @@ The module runs in a Node VM with the real level geometry, ray query, lamp list 
 - browser-ir: baseline PASS 1/1 [] [] vs candidate BLOCKED None/None [] []
 - browser-admin: baseline FAIL 54/56 ['T10 no script errors on either page', 'T8 debug mode: overlay on, entity data, server timings, event log and ping arrive'] ['Failed to load resource: the server responded with a status of # (Not Found)'] vs candidate FAIL 52/56 ['T10 no script errors on either page', "T5 hound A: the death starts on the victim's screen with the variant asked for", 'T5 hound A: the other player sees the same death replay', 'T8 debug mode: overlay on, entity data, server timings, event log and ping arrive'] ['Failed to load resource: the server responded with a status of # (Not Found)']
 
-### The two differences, diagnosed: the machine, not the module
+### The two differences, diagnosed: not the module
 
-The container restarted between SH2 and SH3, onto a slower machine. The SH0 baseline ran on the first machine. On this one the same suites take longer: npm-test 284 s (SH2 on the first machine: 224 s), and the **parent's own** browser-ir 361 s (SH0: 218 s).
+The container was restarted during the SH3 work, after SH2 was pushed, and the same work has run slower since. The SH0 baseline, SH1 and SH2 ran before the restart. Since then the same suites take longer: npm-test 284 s (SH2, before the restart: 224 s), and the **parent's own** browser-ir 361 s (SH0: 218 s).
 
-Both differing suites were therefore run again on this machine, back to back, alternating a pristine export of the parent `f2805bb` and the final tree. The suites are unchanged; only the runner's own safety deadlines were multiplied by 3 (`--timeout-scale 3`, recorded in each run's metadata). Evidence: `dev/shadows/evidence/sh4/retained-diag/`.
+Both differing suites were therefore run again after the restart, back to back, alternating a pristine export of the parent `f2805bb` and the final tree. The suites are unchanged; only the runner's own safety deadlines were multiplied by 3 (`--timeout-scale 3`, recorded in each run's metadata). Each run records which export it used (`meta.game`), and `retained-diag/EXPORTS.txt` shows the two exports were exactly `f2805bb` and the SH3 commit. Evidence: `dev/shadows/evidence/sh4/retained-diag/`.
 
 | run | suite | verdict | passed / total | seconds | failing assertions |
 |---|---|---|---|---|---|
-| SH0 baseline: parent, first machine | browser-ir | PASS | 1 / 1 | 218 | — |
-| SH0 baseline: parent, first machine | browser-admin | FAIL | 54 / 56 | 228 | exactly the baseline's: T8, T10 |
+| SH0 baseline: parent, before the restart | browser-ir | PASS | 1 / 1 | 218 | — |
+| SH0 baseline: parent, before the restart | browser-admin | FAIL | 54 / 56 | 228 | exactly the baseline's: T8, T10 |
 | SH4 main run: final tree, default deadlines | browser-ir | BLOCKED | — / — | 400 | runner safety deadline 400s reached |
 | SH4 main run: final tree, default deadlines | browser-admin | FAIL | 52 / 56 | 287 | the baseline's T8, T10 + 2 more (T5 ×2), the first: “T5 hound A: the death starts on the victim's screen with the variant asked for” |
 | same machine, run 1: parent (`parent-1`), deadlines ×3 | browser-ir | PASS | 1 / 1 | 361 | — |
@@ -163,14 +163,14 @@ server-boot        PASS/FAIL lines identical  (1 result lines)
 summary: 7 differs, 6 PASS/FAIL lines identical, 6 byte-identical, 2 identical except timings
 ```
 
-The same comparison was run at every checkpoint: SH1 21/21 identical and SH2 21/21 identical (both on the first machine), then SH4 on the final tree, as above. The evidence is in `dev/shadows/evidence/sh1/retained/`, `sh2/retained/` and `sh4/retained*`.
+The verdict comparison was run at every checkpoint: SH1 and SH2 reproduced all 21 suites exactly (before the restart), then SH4 as above. `log_identity.py` gives the same levels for the SH1 and SH2 logs as for SH4's (`sh4/retained/log_identity_sh1.txt`, `log_identity_sh2.txt`). The evidence is in `dev/shadows/evidence/sh1/retained/`, `sh2/retained/` and `sh4/retained*`.
 
 ## Gameplay freeze
 
 `python3 dev/shadows/freeze.py verify` against the SH0 manifest of every parent file:
 
 ```
-candidate {'dir': '<SH4 staged tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 248 added
+candidate {'dir': '<SH4 staged tree export>'}: 229/230 parent files byte-identical; 1 changed; 0 removed; 252 added
 IDENTICAL ai.js
 IDENTICAL sim.js
 IDENTICAL move.js

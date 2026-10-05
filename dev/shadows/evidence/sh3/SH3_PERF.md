@@ -57,8 +57,8 @@ Profiles: `16x9` (1280×720, DPR 1) runs all scenes. `hidpi` (1920×1080 at DPR 
 
 **This is evidence, not hardware certification.** SwiftShader rasterises on the same two CPU cores that run the game, so
 the frame rates are a few per second at 1280×720 and below one at 4K. Every extra pixel a layer covers costs frame time
-here, which a GPU would make nearly free. Frame intervals also swing by ±15 % between identical runs. The precise numbers
-are the module's own time per frame and the call counts. For the one place where fill cost shows (large flashlight
+here, which a GPU would make nearly free. Between the parent and OFF, which draw the same, frames per second differ
+by −10 % to +8 % across the 16 scenes. The precise numbers are the module's own time per frame and the call counts. For the one place where fill cost shows (large flashlight
 prop shadows), there is a dedicated A/B run below.
 
 ## Results
@@ -98,18 +98,23 @@ runs the game's own per-frame JavaScript takes 10–28 ms a frame.
   scenes, 14 with other players or monsters on screen. Pixi batches the shadow `Graphics` into the draws the game already makes.
 - **2D-canvas calls per frame (the darkness overlay) are identical to the parent at every tier** in 13 of 16 scenes.
   The three exceptions differ from the parent at **OFF too**, and are flat across the tiers:
-  - `16x9 entities` (52 / 66): the admin `near` command puts the hound and the smiler somewhere different in each run.
-  - `mobile dense / sweep` (64 / 90): run-session state.
+  - `16x9 entities` (52 / 66): the wanderer stood somewhere else in the two runs, at (1971, 2797) and (1538, 2704)
+    (`state` in the bench JSON), after the admin `near` command placed the monsters.
+  - `mobile dense / sweep` (64 / 90): same spot (and in `dense` the same aim; `sweep` turns it by design); the cause
+    was not pinned down.
 
   `canvas_calls_probe.js` then counted every 2D call by canvas and method, over 10 frames in the same mobile PILLAR
-  HALL scene (`profile/canvas_calls.txt`). The parent and the candidate at OFF, LOW, MEDIUM and HIGH are identical: the
-  module never draws on a 2D canvas.
+  HALL scene (`profile/canvas_calls.txt`). The parent and the candidate at OFF, LOW, MEDIUM and HIGH are identical, with
+  no call on a canvas of the module's. The module's shapes are Pixi `Graphics` in the game's WebGL scene. It never
+  touches the game's 2D canvases. Its own small 2D canvases only build its textures, once each, and hold the admin-only
+  debug view.
 
 #### Frames per second
 
-Frame intervals and frames per second (software rendering) stay within the OFF column's noise in every scene but one:
-`props`, where your flashlight lights a long counter. Its shadow is large, and SwiftShader pays for every covered pixel
-on the CPU. A dedicated A/B (`bench-ab/`) ran three alternating rounds per tier in the same session:
+Against OFF, three tier cells fall outside OFF's own noise band (−10 % to +8 %): `16x9 props` at MEDIUM and HIGH, and
+`mobile dense` at LOW (−14 %, not re-measured; MEDIUM and HIGH, which draw more there, stay inside the band). In
+`props` your flashlight lights a long counter: its shadow is large, and SwiftShader pays for every covered pixel on
+the CPU. A dedicated A/B (`bench-ab/`) ran three alternating rounds per tier in the same session:
 
 | props scene | OFF | LOW | MEDIUM | HIGH |
 |---|---|---|---|---|

@@ -13,8 +13,8 @@ Protection classes
   protected     special-protection gameplay files named by the pack: byte-identical, no exceptions
   frozen        every other v23.3.6 runtime/test/tool file: byte-identical (gameplay, AI, networking,
                 timing, entity presentation, the shipped bundle, the retained test suites)
-  mixed         world.js - gameplay data + art; may change only inside drawing code, proven by
-                dev/shadows/world_equiv.js (this tool only reports the change)
+  mixed         world.js - gameplay data + art; this tool only reports a change (it never fails on one). A change
+                would need its own equivalence proof; world.js did not change in this stage (`1 changed` = index.html)
   presentation  index.html - may change only to load the client-only shadow presentation script
   docs          earlier stage reports (*.md / *.txt at the root, dev/*.md): never edited in this stage
 Additions are allowed only under the presentation allowance: assets/shadows-2d.js, dev/shadows/**,

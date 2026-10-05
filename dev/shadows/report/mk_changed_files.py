@@ -15,7 +15,7 @@ for st, path in rows:
     else: groups['shipped'].append((st, path))
 L = ['2D LIGHTING & SHADOWS - changed files', '',
      f'Immutable gameplay parent: {PARENT} (tree 8cc77595fe6e88c425e2f8abd243f3463af44a18, v23.3.6)',
-     'Final tree: the SH4 checkpoint (commit and tree in 2D_SHADOWS_GIT_CHECKPOINTS.md).',
+     'Final tree: the final SH4 commit. Its commit and tree are in the package receipt (2D_SHADOWS_PACKAGE_RECEIPT.txt, beside the ZIP).',
      'Status letters: A added, M modified, D deleted against the parent. SHA-256 and size of the file in the SH4 tree.', '',
      '== Served to browsers (the game) ==']
 for st, p in groups['shipped']:
@@ -25,7 +25,8 @@ L += ['   index.html: one 46-byte insertion, <script src="./assets/shadows-2d.js
       '== Unchanged ==',
       'Every other file of the parent is byte-identical, including the special-protection files',
       'ai.js, sim.js, move.js, server.js, mp.js, death_srv.js, dphys.js, camera_policy.js, and world.js',
-      '(dev/shadows/freeze.py verify against dev/shadows/evidence/sh0/parent_manifest.json: FREEZE OK).', '',
+      '(dev/shadows/freeze.py verify against dev/shadows/evidence/sh0/parent_manifest.json: 229 of the 230 parent files',
+      'byte-identical; the one that differs is index.html. FREEZE OK).', '',
       '== Stage reports (repository root, documentation only) ==']
 for st, p in groups['reports']:
     h, n = info(p); L.append(f'{st}  {p:<40} sha256 {h}  {n} bytes')

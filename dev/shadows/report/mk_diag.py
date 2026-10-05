@@ -7,7 +7,7 @@ import collections, json, sys
 from pathlib import Path
 base, main, D, OUT = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[3]), Path(sys.argv[4])
 B = {s['id']: s for s in json.loads(base.read_text())['suites']}
-runs = [('SH0 baseline: parent, first machine', base), ('SH4 main run: final tree, default deadlines', main)]
+runs = [('SH0 baseline: parent, before the restart', base), ('SH4 main run: final tree, default deadlines', main)]
 order = ['parent-1', 'final-1', 'parent-2', 'final-2']                       # the order they ran in, back to back
 for name in order:
     p = D / name / 'retained.json'
