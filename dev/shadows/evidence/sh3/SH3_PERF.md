@@ -9,7 +9,7 @@ verified on GitHub before this work started (`sh2_remote_verify.json`).
 
 | change | why |
 |---|---|
-| The viewport size is read on `resize` / `orientationchange` only, never inside a frame | The profile (`profile_probe.js`, mobile-like profile) showed the module's own time dominated by `viewRect`, which read `innerWidth` / `innerHeight`. Under mobile emulation that forced a synchronous layout: about 22 ms over 25 frames, ~0.9 ms a frame. The game itself keeps its size from its resize handler, and the module now does the same. |
+| The viewport size is read on `resize` / `orientationchange` only, never inside a frame | The profile (`profile_probe.js`, mobile-like profile) showed the module's own time dominated by `viewRect`, which read `innerWidth` / `innerHeight`. Under mobile emulation that forced a synchronous layout: 29.3 ms of self time over 15 frames in `profile/before_sh2.txt`, about 2 ms a frame. The game itself keeps its size from its resize handler, and the module now does the same. |
 | One darker core per prop shadow instead of one per sample | Each sample along the light still draws its own soft tail, then one core is drawn from the light's centre with the same combined alpha. The samples barely differ next to the prop, so this cuts a prop shadow's overdraw (MEDIUM 6 → 4 polygons, HIGH 8 → 5) with no visible change. |
 | No per-frame allocation of constant tables (jitter samples, prop corners, the light-model closure) | Less garbage on phones |
 | `VERSION` is `shadows-2d 1.0` | the release string shown by `__shadows.stats()` and the debug panel |
@@ -94,8 +94,8 @@ runs the game's own per-frame JavaScript takes 10–28 ms a frame.
 
 #### Calls
 
-- **WebGL draw calls per frame are identical** to the parent at every tier and in every scene: 8 without other
-  players, 14 with. Pixi batches the shadow `Graphics` into the draws the game already makes.
+- **WebGL draw calls per frame are identical** to the parent at every tier and in every scene: 8 in the empty
+  scenes, 14 with other players or monsters on screen. Pixi batches the shadow `Graphics` into the draws the game already makes.
 - **2D-canvas calls per frame (the darkness overlay) are identical to the parent at every tier** in 13 of 16 scenes.
   The three exceptions differ from the parent at **OFF too**, and are flat across the tiers:
   - `16x9 entities` (52 / 66): the admin `near` command puts the hound and the smiler somewhere different in each run.

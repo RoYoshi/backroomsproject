@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """2D Lighting & Shadows - retained v23.3.6 gameplay regression runner.
 
-  python3 dev/shadows/run_retained.py run --game PATH --out DIR [--only id,id] [--skip id,id]
+  python3 dev/shadows/run_retained.py run --game PATH --out DIR [--only id,id] [--skip id,id] [--timeout-scale N]
   python3 dev/shadows/run_retained.py compare --base BASE/retained.json --cand CAND/retained.json [--out compare.md]
 
 Runs the unmodified v23.3.6 suites serially (one server / browser at a time; fixed ports inside the suites),
 one log per suite, and a machine-readable summary.  No suite, threshold or assertion is changed by this tool.
 `compare` reports, suite by suite, whether the candidate reproduces the baseline exactly: same verdict,
 same counts and the same set of failing assertion names.  Wall-clock durations are runner metadata only.
+The per-suite timeouts are this runner's own safety deadlines (a hung suite is reported BLOCKED), not part of any
+suite; `--timeout-scale` multiplies them on a slower machine and is recorded in the run's metadata.
 """
 import argparse, json, os, platform, re, signal, subprocess, sys, time, urllib.request
 from pathlib import Path
@@ -113,8 +115,10 @@ def cmd_run(a):
     rows = []
     if (not only or 'server-boot' in only) and 'server-boot' not in skip:
         r = boot_check(game, 8791, out / 'server-boot.log'); rows.append(r); print(json.dumps({k: r[k] for k in ('id', 'result', 'counts')}), flush=True)
+    meta['timeoutScale'] = a.timeout_scale
     for sid, cmd, timeout, covers in SUITES:
         if (only and sid not in only) or sid in skip: continue
+        timeout = int(round(timeout * a.timeout_scale))
         art = out / (sid + '-artifacts')
         if any('{art}' in c for c in cmd): art.mkdir(exist_ok=True)
         cmd = [c.replace('{art}', str(art)) for c in cmd]
@@ -174,6 +178,7 @@ def main():
     P = argparse.ArgumentParser(); S = P.add_subparsers(dest='cmd', required=True)
     r = S.add_parser('run'); r.add_argument('--game', default=str(Path(__file__).resolve().parents[2])); r.add_argument('--out', required=True)
     r.add_argument('--only', default=''); r.add_argument('--skip', default=''); r.add_argument('--label', default='')
+    r.add_argument('--timeout-scale', type=float, default=1.0, help='multiply the runner safety deadlines (slower machine); recorded in meta')
     c = S.add_parser('compare'); c.add_argument('--base', required=True); c.add_argument('--cand', required=True); c.add_argument('--out')
     rp = S.add_parser('reparse'); rp.add_argument('--out', required=True)
     a = P.parse_args(); sys.exit({'run': cmd_run, 'compare': cmd_compare, 'reparse': cmd_reparse}[a.cmd](a))

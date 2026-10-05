@@ -1,0 +1,11 @@
+PASS B01 the module loads from assets/, attaches right above the carpet, and adds no page or console error   version shadows-2d 1.0, quality medium, layer 1, errors [], 404s ["/camera_policy.js","/timing_policy.js"]
+PASS B02 the darkness overlay is byte-identical at OFF / LOW / MEDIUM / HIGH (lamps on and in a blackout)   lit off:e5507431 low:e5507431 medium:e5507431 high:e5507431 off:e5507431 · blackout off:148b5f85 low:148b5f85 medium:148b5f85 high:148b5f85 off:148b5f85 (staged: {"h":0,"s":0})
+PASS B03 hound / smiler / player views are untouched at every quality (position, alpha, tint, visibility)   129 creature views compared over 10 captures; hound 414,3608, smiler 1320,3912
+PASS B07 Smiler concealment: no shadow is drawn for a smiler at any quality, lit or blackout   smilers in view 1; entity shadows drawn 1
+PASS B04 the network is untouched: the client sends the same messages with shadows OFF and HIGH   8 / 8 messages, distinct 1 / 1
+PASS B09 WebGL draws the light-weighted cast shadows: the floor in a prop's shadow inside the beam darkens at HIGH and comes back at OFF; the lit floor before the prop does not change   [{"q":"off","inShadow":39.79,"beforeProp":31.13},{"q":"high","inShadow":29.11,"beforeProp":31.13},{"q":"off","inShadow":39.79,"beforeProp":31.13}]
+PASS B06 the shadow debug view is admin-only: it appears with DEBUG MODE, disappears without it, and a non-admin never gets it   before false, debug-on button true, canvas true, bob false, after false
+PASS B05 SETTINGS > CUSTOMIZE > SHADOWS switches quality and is remembered on this device (reload keeps it; another device keeps its own)   buttons ["off","low","medium","high"], after click ["low","low"], other device medium, after reload low
+PASS B08 no page error, console error or module warning on any of the three clients   []
+
+9/9 passed

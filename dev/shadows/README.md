@@ -9,9 +9,11 @@ server does not load any of it.
 | file | what it does |
 |---|---|
 | `freeze.py` | `write`: hash manifest of every tracked file of the parent (git mode, blob id, SHA-256, size, protection class). `verify`: compares a revision or an extracted folder against it and fails if any protected/frozen file changed or an unexpected file was added. |
-| `run_retained.py` | Runs the retained v23.3.6 suites serially with one log per suite (`run`); recomputes counts from saved logs (`reparse`); compares a candidate run with the baseline run suite by suite: verdict, counts and the set of failing assertion names (`compare`). |
+| `run_retained.py` | Runs the retained v23.3.6 suites serially with one log per suite (`run`; `--timeout-scale` multiplies the runner's own safety deadlines on a slower machine and records the factor); recomputes counts from saved logs (`reparse`); compares a candidate run with the baseline run suite by suite: verdict, counts, the set of failing assertion names and the error messages (`compare`). |
+| `log_identity.py` | For two retained runs, how closely each suite log matches: byte-identical, identical except per-test durations, the same PASS / FAIL lines, or different (supporting evidence; `compare` decides). |
 | `scene_bench.js` | Starts the shipped `node server.js`, drives the real client in Chromium (SwiftShader software GL), stages the world through `harness_lib` and measures representative scenes (normal, props, dense, flashlight sweep, multi-player lights, blackout, flicker, entities) on three profiles (16:9, 4K hi-DPR, mobile-like: 390×844 DPR 3 touch with the main thread slowed 4×): frame intervals, main-thread time inside rAF callbacks, WebGL draw calls, 2D-canvas calls, CDP task/script time, the shadow module's own time and counters, plus a screenshot per scene. Settling and measuring windows are counted in frames. The same script runs against the parent (tier `baseline`) and the candidate (tiers `off/low/medium/high`). |
 | `profile_probe.js` | A 20 s CPU profile of the module in the real client on the mobile-like profile: the module's own per-frame time and the self time per function. |
+| `build_probe.js` | One-time build costs in the real client: tours the whole map lamp by lamp until every lamp's cached shadow has been built, and records the grounding build, each lamp build (count, mean, slowest) and the module's worst frame, on the 16:9 and mobile-like profiles. |
 | `canvas_calls_probe.js` | Counts every 2D-canvas call per canvas and per method over 10 frames, for the parent or for each quality tier: the module never draws on a 2D canvas, so the darkness overlay's calls are the parent's. |
 | `summarize.py` | Markdown tables from the machine-readable evidence: `retained`, `bench`, and `compare` (the parent next to every quality tier). |
 | `harness_lib.js` | Shared browser-harness helpers: joins a room with the test admin authority, stages the world with explicit admin messages over the page's own WebSocket (frozen halls, no monsters, god mode, lights confirmed from snapshots), places and aims the wanderer, and provides a test-only clock that can freeze the frame. |
@@ -22,6 +24,8 @@ server does not load any of it.
 | `evidence/sh1/` | SH1 grounding: unit / browser / retained results, freeze verification, OFF-vs-MEDIUM captures. |
 | `evidence/sh2/` | SH2 cast shadows: unit / browser / retained results, freeze verification, OFF/LOW/(MEDIUM)/HIGH captures and difference images, debug-view capture. |
 | `evidence/sh3/` | SH3 performance: parent and candidate benches (JSON, logs, screenshots), the comparison tables, the profile before/after the layout fix, unit / browser / freeze results. |
+| `evidence/sh4/` | SH4 final tree: unit / browser results, the full retained regression and its same-machine diagnosis, one-time build costs, freeze verification (`SH4_FINAL.md`). |
+| `report/` | Generators of the root `2D_SHADOWS_*` reports from the evidence (`mk_test_summary.py`, `mk_performance.py`, `mk_changed_files.py`, `mk_diag.py`) and of the final package and its receipt (`package.py`). |
 
 Reproduce the SH0 baseline from a pristine export of the parent:
 

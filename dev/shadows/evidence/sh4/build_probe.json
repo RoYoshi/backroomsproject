@@ -1,0 +1,98 @@
+{
+ "schema": "tfb-shadows-build/1",
+ "started": "2026-10-05T12:54:06.589Z",
+ "results": [
+  {
+   "profile": "16x9",
+   "tier": "medium",
+   "throttle": 1,
+   "lamps": 90,
+   "lampsShown": 90,
+   "stops": 34,
+   "seconds": 242,
+   "staticBuildMs": 6.9,
+   "lampBuilds": 84,
+   "lampBuildMsTotal": 21.9,
+   "lampBuildMsMean": 0.26,
+   "lampBuildMsMax": 6.1,
+   "moduleMsPerFrame": {
+    "mean": 0.2546,
+    "p95": 0.6,
+    "max": 6.3,
+    "n": 447
+   },
+   "cacheSize": 48,
+   "errors": 0,
+   "pageErrors": []
+  },
+  {
+   "profile": "16x9",
+   "tier": "high",
+   "throttle": 1,
+   "lamps": 90,
+   "lampsShown": 90,
+   "stops": 25,
+   "seconds": 180,
+   "staticBuildMs": 6.7,
+   "lampBuilds": 83,
+   "lampBuildMsTotal": 12.9,
+   "lampBuildMsMean": 0.16,
+   "lampBuildMsMax": 1.9,
+   "moduleMsPerFrame": {
+    "mean": 0.3082,
+    "p95": 0.8,
+    "max": 6.8,
+    "n": 318
+   },
+   "cacheSize": 48,
+   "errors": 0,
+   "pageErrors": []
+  },
+  {
+   "profile": "mobile",
+   "tier": "low",
+   "throttle": 4,
+   "lamps": 90,
+   "lampsShown": 58,
+   "stops": 37,
+   "seconds": 604,
+   "staticBuildMs": 5.1,
+   "lampBuilds": 53,
+   "lampBuildMsTotal": 35.3,
+   "lampBuildMsMean": 0.67,
+   "lampBuildMsMax": 8.1,
+   "moduleMsPerFrame": {
+    "mean": 0.7687,
+    "p95": 3.4,
+    "max": 10.2,
+    "n": 483
+   },
+   "cacheSize": 48,
+   "errors": 0,
+   "pageErrors": []
+  },
+  {
+   "profile": "mobile",
+   "tier": "high",
+   "throttle": 4,
+   "lamps": 90,
+   "lampsShown": 90,
+   "stops": 27,
+   "seconds": 444,
+   "staticBuildMs": 3.9,
+   "lampBuilds": 86,
+   "lampBuildMsTotal": 57.1,
+   "lampBuildMsMean": 0.66,
+   "lampBuildMsMax": 4.2,
+   "moduleMsPerFrame": {
+    "mean": 0.8466,
+    "p95": 3.8,
+    "max": 5.4,
+    "n": 350
+   },
+   "cacheSize": 48,
+   "errors": 0,
+   "pageErrors": []
+  }
+ ]
+}
