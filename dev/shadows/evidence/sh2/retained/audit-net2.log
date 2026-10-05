@@ -1,0 +1,25 @@
+node v22.22.2
+PASS LC1 an ordinary client held by a real hound: respawn, join, a vanish, leave -> join and a spawn claim all fail; it never comes back free
+       captured (Hound, down); respawn: held (down) at 4200,3504 -> join: held (down) at 4200,3504 -> vanish: held (down) at 4200,3504 -> leave: held (crawl) at 4200,3504 -> join: held (crawl) at 4200,3504 -> claims a spawn: held (crawl) at 4200,3504
+PASS LC2 ...and the capture then ends the ordinary way, as the entity decides (a death or a release)
+       the capture ended in a release; afterwards alive at 4200,3504
+PASS LC3 closing the connection while held forfeits the capture: the victim dies where it was held (one replay, one corpse); reconnecting is a new player, not the held one set free
+       held at 5400,3504; after closing: replays 1 (server), corpse at 5454,3496 with its flashlight; the new connection is player #5 (was #4)
+PASS LC4 NEW RUN only through its sequence: a bare join or leave while alive does nothing; vanish (2.7 s on screen) -> leave -> join starts a run at the client's spawn choice; a second vanish within 30 s does not
+       bare join then a "spawn" 4700 px away: stayed at 3300,3504; bare leave: refused; vanish + leave: in the menu; join: new run at 3600,3504; second vanish within 30 s + leave: refused
+PASS LC5 death -> respawn, admin revive -> respawn, and joining from the menu (a new connection) all still work
+       died true, respawned alive true at 960,3264; revived + respawned alive true; a new player's spawn choice 3200,3504
+PASS SP1 an ordinary client pushing into a wall in 0.5 px and 0.2 px steps never gets into or through it
+       wall face at y 1551 (open again at 1410): 422 steps of 0.5 px (claimed y 1380) -> stopped at y 1541, never above 1541, inside the wall false, corrections 3; 1055 steps of 0.2 px (claimed y 1380) -> stopped at y 1540, never above 1540, inside the wall false, corrections 6
+PASS MT1 real move.js traces (walk, sprint, vault, crouch, crawl through a hole, slide; plain and in lag bursts) sent by an ordinary client: no correction, the server ends where the client does
+       walk, then sprint [states 12]: corrections 0, end gap 0 px · walk, then sprint (lag bursts) [states 12]: corrections 0, end gap 0 px · vault a counter [states 260]: corrections 0, end gap 0 px · vault a counter (lag bursts) [states 260]: corrections 0, end gap 0 px · crouch + crawl through a wall hole [states 34]: corrections 0, end gap 0 px · crouch + crawl through a wall hole (lag bursts) [states 34]: corrections 0, end gap 0 px · sprint + slide [states 512]: corrections 0, end gap 0 px · sprint + slide (lag bursts) [states 512]: corrections 0, end gap 0 px
+PASS NZ1 no report / a garbled one / a false one cannot make running silent; honest standing, walking, crouching, crawling and running are heard as they are (not louder)
+       no report, running: heard as 2 (278 px/s) · garbled report (array), running: heard as 2 (278 px/s) · report says standing, running: heard as 2 (278 px/s) · honest standing: heard as 0 (0 px/s) · honest walking: heard as 1 (172 px/s) · honest crouch-walk: heard as 3 (92 px/s) · honest crawl: heard as 4 (54 px/s) · honest run: heard as 2 (285 px/s) · no report, standing: heard as 0 (0 px/s) · no report, crouch pace: heard as 3 (89 px/s)   (0 stand, 1 walk, 2 run, 3 crouch, 4 crawl)
+PASS DD1 the victim leaves right after the kill (after the acknowledgement, or with the close frame right behind the command): one replay, one corpse, every time; a late joiner gets them all
+       after-ack: replays 1, corpses 1 · at-once: replays 1, corpses 1 · after-ack: replays 1, corpses 1 · at-once: replays 1, corpses 1 · after-ack: replays 1, corpses 1 · at-once: replays 1, corpses 1 · late joiner has 6/6
+PASS DD2 a connected victim: its own replay and corpse, exactly one of each, nothing added by the server even after the fallback deadline
+       replays client; corpses client
+PASS H3 no server errors during all of the above
+       server alive; 8 server-made corpses logged
+
+11/11 passed

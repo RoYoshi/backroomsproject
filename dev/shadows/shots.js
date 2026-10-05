@@ -41,6 +41,8 @@ const SCENES = {
   flicker: { at: [600, 2930], aim: -2.2 },                                 // beside dim fixture #0
   dark: { at: [1060, 3300], aim: -0.25, light: false },
   hound: { at: [1060, 3300], aim: -0.25, hound: true },                    // a hound ~210 px away in the beam
+  pillarlit: { at: [8400, 1300], aim: 0.45 },                               // the flashlight on a pillar (8564,1364) from ~180 px
+  partition: { at: [1000, 3560], aim: -1.75 },                              // the flashlight up the YELLOW HALL partition stubs
 };
 const scenes = (opt('scenes') || 'room,props,shelf,shelfdark,lampedge,doorway,blackout,hound').split(',');
 function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port: PORT, path: p }, r => { r.resume(); r.on('end', () => res(r.statusCode)); }).on('error', () => res(0)); }); }

@@ -1,0 +1,59 @@
+PASS N0 ordinary players have no admin data: Bob's panel stays locked
+PASS T1 the panel unlocks and shows five tabs
+PASS T1 tab PLAYERS renders  - 3 blocks
+PASS T1 tab MONSTERS renders  - 12 blocks
+PASS T1 tab DEATHS renders  - 16 blocks
+PASS T1 tab WORLD renders  - 8 blocks
+PASS T1 tab DEBUG renders  - 23 blocks
+PASS T2 players tab lists both wanderers with a live state/position line  - Alice,Bob ['stand · 600,1128', 'stand · 7464,5112 · 7936 px away']
+PASS T2 …and updates without rebuilding the buttons
+PASS T3 monsters tab lists the entities  - 4 entities
+PASS T3 removing monsters works and the list follows  - 4 -> 0; status "NO SMILERS TO REMOVE"
+PASS T3 the status line answers a command  - HOUND PLACED NEAR YOU
+PASS T3 an entity can be removed from the list  - 1 -> 0; ENTITY #12 REMOVED
+PASS T4 capture style: PLAY is applied and shown  - play; CAPTURE STYLE: ALWAYS PLAY WITH THE VICTIM
+PASS T4 …and AUTO comes back
+PASS T5 hound A: the death starts on the victim's screen with the variant asked for  - started=True record=A/Hound wall=0 panel closed=True
+PASS T5 hound A: it plays out to the end
+PASS T5 hound A: the other player sees the same death replay  - ['A/Hound']
+PASS T5 hound A: auto-revive, then back to where it happened  - alive=True at 5200,3504 (wanted 5200,3504)
+PASS T5 hound B: the death starts on the victim's screen with the variant asked for  - started=True record=B/Hound wall=0 panel closed=True
+PASS T5 hound B: it plays out to the end
+PASS T5 hound B: the other player sees the same death replay  - ['B/Hound']
+PASS T5 hound B: auto-revive, then back to where it happened  - alive=True at 5200,3504 (wanted 5200,3504)
+PASS T5 hound C: the death starts on the victim's screen with the variant asked for  - started=True record=C/Hound wall=1 panel closed=True
+PASS T5 hound C: it plays out to the end
+PASS T5 hound C: the other player sees the same death replay  - ['C/Hound']
+PASS T5 hound C: auto-revive, then back to where it happened  - alive=True at 488,728 (wanted 488,728)
+PASS T5 hound D: the death starts on the victim's screen with the variant asked for  - started=True record=D/Hound wall=0 panel closed=True
+PASS T5 hound D: it plays out to the end
+PASS T5 hound D: the other player sees the same death replay  - ['D/Hound']
+PASS T5 hound D: auto-revive, then back to where it happened  - alive=True at 5200,3504 (wanted 5200,3504)
+PASS T5 smiler A: the death starts on the victim's screen with the variant asked for  - started=True record=A/Smiler wall=0 panel closed=True
+PASS T5 smiler A: it plays out to the end
+PASS T5 smiler A: the other player sees the same death replay  - ['A/Smiler']
+PASS T5 smiler A: auto-revive, then back to where it happened  - alive=True at 5200,3504 (wanted 5200,3504)
+PASS T5 smiler B: the death starts on the victim's screen with the variant asked for  - started=True record=B/Smiler wall=0 panel closed=True
+PASS T5 smiler B: it plays out to the end
+PASS T5 smiler B: the other player sees the same death replay  - ['B/Smiler']
+PASS T5 smiler B: auto-revive, then back to where it happened  - alive=True at 5200,3504 (wanted 5200,3504)
+PASS T5 smiler C: the death starts on the victim's screen with the variant asked for  - started=True record=C/Smiler wall=0 panel closed=True
+PASS T5 smiler C: it plays out to the end
+PASS T5 smiler C: the other player sees the same death replay  - ['C/Smiler']
+PASS T5 smiler C: auto-revive, then back to where it happened  - alive=True at 5200,3504 (wanted 5200,3504)
+PASS T5 smiler D: the death starts on the victim's screen with the variant asked for  - started=True record=D/Smiler wall=0 panel closed=True
+PASS T5 smiler D: it plays out to the end
+PASS T5 smiler D: the other player sees the same death replay  - ['D/Smiler']
+PASS T5 smiler D: auto-revive, then back to where it happened  - alive=True at 5200,3504 (wanted 5200,3504)
+PASS T6 a preview that cannot be done says why and changes nothing  - NO WALL ABOUT 1-2 BODY LENGTHS FROM YOU: STAND NEAR A WALL FIRST
+PASS T7 pause fix: a kill that lands while paused closes the pause screen and starts the death at once  - before [True, True], after [False, False, True], after 1.5s
+FAIL T8 debug mode: overlay on, entity data, server timings, event log and ping arrive  - {"shown": "block", "painted": 101236, "pf": true, "ping": 603.1880000001006, "log": 14, "ents": 1, "fps": 43}
+PASS T8 …and only the admin gets it: Bob has no overlay
+PASS T8 layers switch off one by one (only the title bar is left)  - 101236 -> 3212 px
+PASS T8 COPY REPORT answers in the status line  - REPORT COPIED TO THE CLIPBOARD
+PASS T8 debug mode off hides the overlay
+PASS T9 the panel can be docked to the other side
+FAIL T10 no script errors on either page  - ['console.error: Failed to load resource: the server responded with a status of 404 (Not Found)', 'console.error: Failed to load resource: the server responded with a status of 404 (Not Found)', 'console.error: Failed to load resource: the server responded with a status of 404 (Not Found)']
+
+54/56 checks passed - FAILED: T8 debug mode: overlay on, entity data, server timings, event log and ping arrive; T10 no script errors on either page
+output folder: /tmp/admin_test_xm32likw

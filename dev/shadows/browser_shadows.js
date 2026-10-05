@@ -9,7 +9,9 @@
  * B05 SETTINGS > CUSTOMIZE > SHADOWS switches quality, is remembered on this device, and survives a reload
  * B06 the shadow debug view exists only for an admin with DEBUG MODE on; ordinary players never get it
  * B07 Smiler concealment: no shadow is ever drawn for a smiler, lit or dark, at any quality
- * B08 no page error, console error or module warning on any client */
+ * B08 no page error, console error or module warning on any client
+ * B09 WebGL really draws the light-weighted cast shadows: with the flashlight on a prop, the floor in its shadow inside the
+ *     beam is darker at HIGH than at OFF and comes back at OFF; the lit floor before the prop does not change */
 'use strict';
 const { spawn, execSync } = require('child_process');
 const fs = require('fs'), path = require('path'), http = require('http');
@@ -22,6 +24,14 @@ const PORT = +(opt('port') || 9491);
 const results = []; const check = (name, ok, note) => { results.push({ name, ok: !!ok, note }); console.log((ok ? 'PASS ' : 'FAIL ') + name + (note ? '   ' + note : '')); };
 const KNOWN_404 = ['/camera_policy.js', '/timing_policy.js'];                 // pre-existing at the v23.3.6 parent (SH0_FREEZE.md item 1)
 function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port: PORT, path: p }, r => { r.resume(); r.on('end', () => res(r.statusCode)); }).on('error', () => res(0)); }); }
+const sharp = (() => { try { return require('sharp'); } catch (e) { try { return require(path.join(execSync('npm root -g').toString().trim(), 'sharp')); } catch (x) { return null; } } })();
+/* mean RGB of a small screen patch around a world point (the composited page: the Pixi world under the overlay) */
+async function patch(P, wx, wy, r = 4) {
+  const [sx, sy] = await P.evaluate(([x, y]) => { const w = __api.floor().parent; return [w.position.x + x * w.scale.x, w.position.y + y * w.scale.y]; }, [wx, wy]);
+  const buf = await P.screenshot({ clip: { x: Math.round(sx) - r, y: Math.round(sy) - r, width: 2 * r, height: 2 * r } });
+  const { data, info } = await sharp(buf).removeAlpha().raw().toBuffer({ resolveWithObject: true }); let t = 0; for (const v of data) t += v;
+  return +(t / (info.width * info.height * 3)).toFixed(2);
+}
 const views = P => P.evaluate(() => { const r = v => +(+v).toFixed(4); const A = __api;
   return { person: (() => { const p = A.layer().parent.children.find(c => typeof c.deathPose === 'function'); return p && [r(p.x), r(p.y), r(p.alpha), p.visible, r(p.rotation)]; })(),
     creatures: A.layer().children.filter(v => v.__hound || v.__smiler || typeof v.deathPose === 'function').map(v => [v.__hound ? 'h' : v.__smiler ? 's' : 'p', r(v.x), r(v.y), r(v.alpha), v.visible, r(v.rotation), v.tint === undefined ? null : v.tint, (v.children || []).map(c => [r(c.alpha), c.visible, c.tint === undefined ? null : c.tint])]) }; });
@@ -73,6 +83,18 @@ const views = P => P.evaluate(() => { const r = v => +(+v).toFixed(4); const A =
     const uniq = a => [...new Set(a)].sort();
     check('B04 the network is untouched: the client sends the same messages with shadows OFF and HIGH', offMsgs.length >= 4 && hiMsgs.length >= 4 && JSON.stringify(uniq(offMsgs)) === JSON.stringify(uniq(hiMsgs)),
       `${offMsgs.length} / ${hiMsgs.length} messages, distinct ${uniq(offMsgs).length} / ${uniq(hiMsgs).length}`);
+    /* ---- B09 the light-weighted cast shadows render in WebGL ---- */
+    if (sharp) {
+      const L2 = await P.evaluate(() => WORLD.PROPS.find(p => p.id === 'L2').rect), cx = L2.x + L2.w / 2;
+      await H.setLights(P, 'off'); await H.place(P, cx, L2.y + L2.h + 150, -Math.PI / 2); await sleep(1500);
+      await P.evaluate(() => __clock.freeze()); await frames(P, 8);      // the +1 us test clock: Pixi keeps rendering (an exact freeze stops it)
+      const probe = async q => { await P.evaluate(q => __shadows.setQuality(q), q); await frames(P, 30); await sleep(250);
+        return { q, inShadow: await patch(P, cx, L2.y - 40), beforeProp: await patch(P, cx + 70, L2.y + L2.h + 75), light: await lightHash(P) }; };
+      const r9 = [await probe('off'), await probe('high'), await probe('off')];
+      await P.evaluate(() => __clock.thaw()); await P.evaluate(() => __shadows.setQuality('medium'));
+      check('B09 WebGL draws the light-weighted cast shadows: the floor in a prop\'s shadow inside the beam darkens at HIGH and comes back at OFF; the lit floor before the prop does not change',
+        r9[1].inShadow < r9[0].inShadow - 3 && Math.abs(r9[2].inShadow - r9[0].inShadow) < 1.5 && Math.abs(r9[1].beforeProp - r9[0].beforeProp) < 1.5, JSON.stringify(r9.map(r => ({ q: r.q, inShadow: r.inShadow, beforeProp: r.beforeProp }))));
+    } else check('B09 WebGL draws the light-weighted cast shadows', false, 'sharp not available');
     /* ---- B06 debug gating ---- */
     const Bob = await H.join(browser, PORT, room, 'BOB', { admin: false });
     const bobHas = () => Bob.P.evaluate(() => !!document.getElementById('shadowDebugBtn') || !!document.getElementById('shadowDebug'));
