@@ -57,6 +57,7 @@ const SCENES = {
   blackout: { at: [1060, 3300], aim: -0.25, lights: 'on' },
   flicker: { at: [600, 2930], aim: -2.2, lights: 'off' },
   entities: { at: [1060, 3300], aim: -0.25, lights: 'off', entities: true },
+  qa01: { at: [1130, 3420], aim: 2.6, lights: 'off' },                     // SH7: the QA01 spot - your beam across the spawn lamp's shadow edge (mixed-light fill at work)
 };
 
 function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port: PORT, path: p }, r => { r.resume(); r.on('end', () => res(r.statusCode)); }).on('error', () => res(0)); }); }

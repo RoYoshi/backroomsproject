@@ -15,10 +15,13 @@
  *              behind them (a 96-ray polygon per lamp) and every carried light (ray fans), and the line of sight blacks
  *              out the rest.  Those umbrae are never drawn again (no double black).  What a hard cut lacks is the
  *              penumbra of a light that has a size (a 74 px fluorescent tube, a hand-held lamp): from each convex
- *              corner where a light's edge grazes, a soft wedge on the LIT side, apex at the corner, darkest at the edge.
+ *              corner where a light's edge grazes, a soft lip on the LIT side, apex at the corner, darkest at the edge,
+ *              bounded in reach and width and fading out along its length (SH7), so it hugs the hard edge.
  * Every cast shadow takes away only its own light: it is filled with that light's strength over the floor (a texture
  * built from the overlay's own formula: the lamp gradient, the beam's glow and nested arcs), placed and turned with the
- * light, so it fades with the beam's cone and range and is nothing where that light does not reach.
+ * light, so it fades with the beam's cone and range and is nothing where that light does not reach.  Where another light
+ * also reaches (a lamp's shadow inside your flashlight beam), the shadow is scaled to its own light's share of the total
+ * (SH7 mixed-light composition: another light fills it, exactly as the overlay adds lights).
  * Lamp shadows are built once per lamp and cached; their strength follows the overlay's own lamp power every frame
  * (flicker, failures; nothing in a blackout).  Carried-light shadows (yours and other wanderers') are rebuilt every frame
  * within caps; casters are ranked by the light that reaches them and fade at the cap instead of popping.
@@ -35,7 +38,7 @@
 (() => {
   'use strict';
   if (window.__shadows) return;
-  const VERSION = 'shadows-2d 1.1';
+  const VERSION = 'shadows-2d 1.2';
   const T = 96, CHUNK = 16, BUCKET = 384;                                  // level cell; AO chunk (cells); caster index bucket (px)
   const QUALITIES = ['off', 'low', 'medium', 'high'];
   /* per-quality budgets.  Every per-frame pass is capped and camera-culled; nothing scales with the size of the map.
@@ -46,12 +49,21 @@
   const TIERS = {
     off: { ao: false, ents: 0, lamps: 0, local: false, peers: 0, budget: 0 },
     low: { ao: true, ents: 6, lamps: 2, lampK: 2, lampJ: 2, builds: 1, local: true, localK: 1, localMax: 3, localC: 4, localJ: 1,
-      peers: 0, peerK: 1, peerMax: 0, peerC: 0, peerJ: 0, budget: 40 },
+      peers: 0, peerK: 1, peerMax: 0, peerC: 0, peerJ: 0, budget: 40, bands: 2, fillPeers: 1, fillAll: false },
     medium: { ao: true, ents: 12, lamps: 5, lampK: 3, lampJ: 3, builds: 1, local: true, localK: 3, localMax: 6, localC: 8, localJ: 3,
-      peers: 2, peerK: 2, peerMax: 4, peerC: 4, peerJ: 2, budget: 300 },
+      peers: 2, peerK: 2, peerMax: 4, peerC: 4, peerJ: 2, budget: 300, bands: 3, fillPeers: 2, fillAll: false },
     high: { ao: true, ents: 20, lamps: 9, lampK: 4, lampJ: 4, builds: 2, local: true, localK: 4, localMax: 10, localC: 12, localJ: 4,
-      peers: 4, peerK: 3, peerMax: 6, peerC: 6, peerJ: 3, budget: 700 },
+      peers: 4, peerK: 3, peerMax: 6, peerC: 6, peerJ: 3, budget: 900, bands: 4, fillPeers: 4, fillAll: true },
   };
+  /* SH7 tier policy (human-QA correction pack): OFF draws nothing.  LOW: cached grounding, at most 2 lamp caches and 3 props +
+   * 4 corners of your light, one dominant-light blob per entity; lamp shadows inside your beam (or the nearest other
+   * wanderer's) are filled by it.  MEDIUM (the primary target): the same with more casters, two other wanderers' lights.
+   * HIGH: higher bounded budgets, finer penumbra bands, up to four other wanderers' lights filling lamp shadows, and your
+   * light's shadows also give way to other wanderers' beams that cross them (fillAll).  Not enabled at any tier: lamps
+   * filling each other's shadows or your light's - measured, it made HIGH 35 % (lamp) and 54 % (flashlight) lighter than
+   * MEDIUM in a lamp-lit room, i.e. fainter, not richer.  bands: penumbra length bands; fillPeers: other wanderers'
+   * lights that fill lamp shadows.  Lighting itself (the overlay) is the same at every tier: tiers only change the added
+   * shadows. */
   /* art constants (world px).  The level is dark and the overlay does the heavy darkening.
    * SH5 (human QA of 1.0: "the shadows are VERY faint", "not noticeable"): every class was retuned on its own, by what a
    * shadow takes away where the player can see (relative darkening of the lit floor), never past ~.8 (no opaque black):
@@ -78,7 +90,11 @@
   /* penumbra wedges: sub-wedge weights (inner = at the shadow edge, outer = toward the light), the grazing test probes
    * (px beyond the corner / to each side), the grazing fade (|cos| between the ray and the corner's diagonal), angle limits */
   const FRINGE = { 1: [.4], 2: [.5, .2], 3: [.6, .32, .12], 4: [.62, .42, .24, .09] };
-  const FR = { probe: 6, side: 3, graze: .72, soft: .25, min: .05, max: .32, near: 40, nearSoft: 120 };
+  const FR = { probe: 6, side: 3, graze: .72, soft: .25, min: .05, max: .32, near: 40, nearSoft: 120,
+    /* SH7 (human QA: "giant triangular wedges across the floor"): a penumbra is a soft lip that hugs the overlay's hard edge,
+     * bounded in reach (lamps 130 px, carried lights 110 px from the corner, was up to the light's range: 312 / 390 px) and
+     * far width (22 / 26 px, was up to 103 / 130 px), fading out along its length as (1 − t)^fade */
+    lampLen: 130, lampW: 22, carryLen: 110, carryW: 26, fade: 1.25 };
   /* carried lights: presentation heights of the light (for prop projection), strengths, penumbra half size, ranking softness */
   const CARRY = { h: { flashlight: 105, headlamp: 160, lantern: 85 }, prop: { tail: .55, near: .8, core: .6 }, peerProp: { tail: .4, near: .62, core: .6 },
     fringe: 1, peerFringe: .75, half: 22, kmax: 2.2, jr: 5, soft: .05 };
@@ -113,7 +129,7 @@
   };
   const ST = { frames: 0, ms: new Float32Array(1024), n: 0, max: 0, lights: 0, lightsMax: 0, cand: 0, candMax: 0, active: 0, activeMax: 0, prims: 0, primsMax: 0,
     ents: 0, entsMax: 0, cacheHits: 0, cacheMisses: 0, lampBuilds: 0, lampBuildMs: 0, lampBuildMax: 0, staticBuilds: 0, staticBuildMs: 0, errors: 0, dyn: 0, dynMax: 0,
-    fringes: 0, props: 0 };
+    fringes: 0, props: 0, fillEval: 0 };
   function resetStats() { ST.frames = 0; ST.n = 0; ST.max = 0; ST.lightsMax = ST.candMax = ST.activeMax = ST.primsMax = ST.entsMax = ST.dynMax = 0; ST.cacheHits = ST.cacheMisses = 0; ST.lampBuildMax = 0; }
   function msStats() {
     const k = Math.min(ST.n, ST.ms.length); if (!k) return { mean: 0, p95: 0, max: 0, n: 0 };
@@ -289,6 +305,80 @@
   }
   const lampFall = r => r <= 6 ? 1 : r <= 193 ? 1 - .65 * (r - 6) / 187 : r < 380 ? .35 * (1 - (r - 193) / 187) : 0;    // its radial gradient stops (1, .35 at half range, 0)
 
+  /* ---------- SH7 mixed-light composition (human QA: a lamp's shadow stayed dark inside the flashlight beam) ----------
+   * The overlay is one black canvas that every light cuts with destination-out, so where lights overlap their cut-outs
+   * multiply: darkness D = Π keep_i (keep = 1 − cut).  A shadow that takes away a fraction w of light i turns that light's
+   * keep into 1 − c_i(1 − w); drawn under the overlay as black of alpha a, it must darken the floor by exactly
+   *     a = w · (c_i / keep_i) · D / (1 − D)                                         (exact, any number of lights)
+   * Each light's texture was built with only that light (and the ambient A0) present: w · (c_i / keep_i) · D_i / (1 − D_i)
+   * with D_i = A0 · keep_i.  So with the other lights' keep K at the spot, every shadow of light i is scaled by
+   *     m = odds(A0 · keep_i · K) / odds(A0 · keep_i) = K (1 − D_i) / (1 − D_i K)        (1 with no other light, → 0 under a strong one)
+   * A lamp's shadow under your flashlight is filled by the flashlight's own contribution, and stays as it was outside the
+   * beam.  Evaluated per shadow element (a penumbra band, a prop's shadow) at one or two sample points, with the overlay's
+   * own formulas (drawLight's lamp gradient and power; its carried glow and 12 nested arcs, clipped by walls with the game's
+   * own ray query).  Lamp shadows are filled by the carried lights at every tier; at HIGH a carried light's shadows are also
+   * filled by the other carried lights (TIERS).  Nothing is read back from the overlay and nothing about it changes. */
+  const fillL = [];                                                         // this frame's carried lights that fill lamp shadows
+  function carriedCut(C, x, y) {                                            // the overlay's cut-out of a carried light at a world point
+    const dx = x - C.x, dy = y - C.y, d = Math.hypot(dx, dy), f = C.f, glow = d < 52;   // drawLight and drawPeers both add the 52 px hand glow
+    if (d >= f.range && !glow) return 0;
+    let keep = glow ? 1 - .35 * beamGrad(d, 52) : 1;
+    if (d < f.range) {
+      if (f.omni) keep *= 1 - f.power * C.fl * beamGrad(d, f.range);
+      else { const da = Math.atan2(dy, dx) - C.ang, ph = Math.abs(Math.atan2(Math.sin(da), Math.cos(da))); let n = 0; for (let t = 0; t < 12; t++) if (ph <= f.arc * (1 - t * .063) / 2) n++; if (n) keep *= Math.pow(1 - C.e * beamGrad(d, f.range), n); }
+    }
+    if (keep > .997) return 0;
+    if (d > 3 && window.__api.Uc(C.x, C.y, Math.atan2(dy, dx), d) < d - 2) return 0;   // a wall between: the overlay's ray fan stops there
+    return 1 - keep;
+  }
+  const odds = (ownKeep, K) => { if (K > .997) return 1; const D = LAMP.A0 * ownKeep; return K * (1 - D) / Math.max(1e-6, 1 - D * K); };
+  function fillLights(cfg, lightOn) {                                       // your light and the nearest other wanderers' lights, as the overlay draws them
+    const A = window.__api, Gc = A.Gc || {}, D = A.death && A.death(); fillL.length = 0; if (!cfg.fillPeers && !cfg.local) return;
+    const t = (S.frameTs || now()) / 1000, put = (x, y, ang, kind, own, fl) => {
+      const f = Gc[kind]; if (!f || f.nv || !(f.range > 1) || !Number.isFinite(x + y)) return;
+      fillL.push({ x, y, ang: ang || 0, f, own, fl: f.omni ? fl : 1, e: 1 - Math.pow(1 - f.power, 1 / 12), h: CARRY.h[kind] || 105 });
+    };
+    if (lightOn && !(D && D.active)) { const b = (A.beam && A.beam()) || A.H, H = A.H; put(b.x, b.y, b.angle ?? H.angle, (H.equipment && H.equipment.kind) || 'flashlight', true, .93 + Math.sin(t * 17) * .035 + Math.sin(t * 31) * .025); }
+    if (cfg.fillPeers > 0 && Array.isArray(window.__peerLights)) {
+      const V = viewer(), ps = window.__peerLights.filter(p => p && p.on && !p.dead && p.kind !== 'camcorder' && Number.isFinite(p.x + p.y)).map(p => [Math.hypot(p.x - V.x, p.y - V.y), p]).sort((a, b) => a[0] - b[0]);
+      for (let n = 0; n < ps.length && n < cfg.fillPeers; n++) { const p = ps[n][1]; put(p.x, p.y, p.angle, p.kind || 'flashlight', false, .93 + Math.sin(t * 17 + p.x) * .035 + Math.sin(t * 31 + p.y) * .025); }
+    }
+  }
+  /* the game's ray query passes over props (only walls and pillars stop light), so a light that would fill a prop's shadow
+   * may itself be shaded there by the same prop: then it does not fill it (both shadows stack, as they should).  Tested
+   * against that light's own floor shadow of the prop (its base and projected top, as emitProps draws it) */
+  function propShadowed(p, C, x, y) {
+    const dx = x - C.x, dy = y - C.y; let t0 = 0, t1 = 1;                   // does the segment from the light to the point cross the prop's footprint?
+    for (const [o, dd, lo, hi] of [[C.x, dx, p.x, p.x + p.w], [C.y, dy, p.y, p.y + p.h]]) {
+      if (Math.abs(dd) < 1e-9) { if (o < lo || o > hi) return false; continue; }
+      let a = (lo - o) / dd, b = (hi - o) / dd; if (a > b) { const q = a; a = b; b = q; } t0 = Math.max(t0, a); t1 = Math.min(t1, b); if (t0 > t1) return false;
+    }
+    const kk = C.h > p.hp + 1 ? Math.min(CARRY.kmax, p.hp / (C.h - p.hp)) : CARRY.kmax; tmpPts.length = 0;
+    for (let c = 0; c < 4; c++) { const cx = c === 1 || c === 2 ? p.x + p.w : p.x, cy = c >= 2 ? p.y + p.h : p.y; tmpPts.push(cx, cy, cx + (cx - C.x) * kk, cy + (cy - C.y) * kk); }
+    const h = hull(tmpPts); let sg = 0;
+    for (let i = 0; i < h.length; i += 2) { const ax = h[i], ay = h[i + 1], bx = h[(i + 2) % h.length], by = h[(i + 3) % h.length], cr = (bx - ax) * (y - ay) - (by - ay) * (x - ax); if (Math.abs(cr) > 1e-9) { if (sg && Math.sign(cr) !== sg) return false; sg = Math.sign(cr); } }
+    return true;
+  }
+  function carriedElementFill(smp, me, prop) {                              // HIGH: a carried light's shadow element, filled by the other carried lights
+    let sum = 0, n = 0, any = false;
+    for (let k = 0; k < smp.length; k += 2) {
+      const x = smp[k], y = smp[k + 1]; let K = 1;
+      for (const C of fillL) if (Math.abs(C.x - me.x) + Math.abs(C.y - me.y) > .5 && !(prop && propShadowed(prop, C, x, y))) { const c = carriedCut(C, x, y); if (c > 0) { K *= 1 - c; any = true; } }
+      sum += K > .997 ? 1 : odds(1 - carriedCut(me, x, y), K); n++;
+    }
+    return n && any ? clamp(sum / n, 0, 1) : 1;
+  }
+  /* the scale m of one lamp element: the mean over its samples of odds(the lamp's keep, the carried lights' keep) */
+  function lampElementFill(el, i, Lp, t) {
+    let sum = 0, n = 0; const s = el.s;
+    for (let k = 0; k < s.length; k += 2) {
+      const x = s[k], y = s[k + 1]; let K = 1;
+      for (const C of fillL) { if (el.p && propShadowed(el.p, C, x, y)) continue; const c = carriedCut(C, x, y); if (c > 0) K *= 1 - c; }
+      sum += K > .997 ? 1 : odds(1 - lampPower(i, Lp, t) * lampFall(Math.hypot(x - Lp.x, y - Lp.y)), K); n++;
+    }
+    return n ? sum / n : 1;
+  }
+
   /* ---------- shadow geometry ---------- */
   const tmpPts = [], tmpC = [], tmpCI = [], tmpCW = [], tmpP = [], tmpPW = [], tmpEnds = [];
   let polyBudget = 0, polyCount = 0;
@@ -314,9 +404,9 @@
    * the light's texture weights every pixel of it by that light's strength there; each sub-wedge ends where the light
    * along it stops (a far wall, another pillar) or at the light's range.  The umbra side is never touched: the overlay
    * already darkens it. */
-  function emitFringes(g, L, list, wts, o) {
+  function emitFringes(L, list, wts, o) {
     const Wt = FRINGE[o.J]; if (!Wt) return 0;
-    const A = window.__api, J = Wt.length; let used = 0;
+    const A = window.__api, J = Wt.length, M = Math.max(1, o.M | 0); let used = 0;
     for (let n = 0; n < list.length; n++) {
       const c = list[n], wc = wts ? wts[n] : 1; if (!(wc > .01)) continue;
       const dx = c.x - L.x, dy = c.y - L.y, d = Math.hypot(dx, dy);
@@ -329,9 +419,16 @@
       if (!clearTo(L, c.x - c.qx * 1.5, c.y - c.qy * 1.5)) continue;          // the corner itself is in the light (not behind its own wall)...
       if (!clearTo(L, c.x + ux * FR.probe + s * nx * FR.side, c.y + uy * FR.probe + s * ny * FR.side)) continue;   // ...the floor past it on the lit side too...
       if (clearTo(L, c.x + ux * FR.probe - s * nx * FR.side, c.y + uy * FR.probe - s * ny * FR.side)) continue;    // ...and not on the wall side
-      const half = o.hx * Math.abs(uy) + o.hy * Math.abs(ux), phi = clamp(Math.atan(half / d), FR.min, FR.max), th = Math.atan2(uy, ux);
-      const reach = A.Uc(L.x, L.y, th + s * Math.min(.03, phi * .5), L.R), len = Math.min(L.R, reach) - d;
+      /* your light: a corner that comes out from behind another wall or pillar fades in over FADE instead of appearing whole */
+      let vis = 1;
+      if (o.vis) { let e = o.vis.get(c.i); if (!e || e.f < ST.frames - 1) { e = { v: 0, f: ST.frames }; o.vis.set(c.i, e); } if (e.f !== ST.frames) { e.v += (1 - e.v) * (1 - Math.exp(-clamp(o.dt, 1 / 240, .25) / FADE)); e.f = ST.frames; } vis = e.v; }
+      /* SH7 (human QA: "giant geometric wedges"): a soft lip along the hard edge the overlay cuts, not a second shadow cone.
+       * Its reach is capped (o.len) and so is its far width (o.w), and it fades out along its length in M bands */
+      /* the shape depends only on the light and the corner (never on how far the light runs on: a far wall sweeping across
+       * the edge must not reshape the wedge); the rays below trim it where the light stops */
+      const th = Math.atan2(uy, ux), half = o.hx * Math.abs(uy) + o.hy * Math.abs(ux), len = Math.min(o.len, L.R - d), kv = k0 * vis;
       if (!(len > 8)) continue;
+      const phi = clamp(Math.atan(half / d), FR.min, Math.min(FR.max, Math.atan(o.w / o.len)));
       used++; if (S.dbg) S.dbg.fringes.push(c.x, c.y, th, s * phi, len);
       /* the wedge ends where the light along it stops (another wall or pillar further on): its far edge is sampled on
        * J·m + 1 rays (at least 4), so a far shadow edge sweeping across it trims it a slice at a time, never all at once */
@@ -339,12 +436,22 @@
       for (let r = 0; r <= R; r++) {
         const a = th + s * (phi * r / R + (r ? 0 : 3 / d)), ca = Math.cos(a), sa = Math.sin(a), fx = c.x + ca * len - L.x, fy = c.y + sa * len - L.y, fd = Math.hypot(fx, fy);   // the edge ray itself would graze the corner
         const fr = A.Uc(L.x, L.y, Math.atan2(fy, fx), fd), l = fr >= fd - .5 ? len : Math.max(0, len * (fr - 3 - d) / Math.max(1, fd - d));
-        ends.push(c.x + ca * l, c.y + sa * l, l);
+        ends.push(ca, sa, l);
       }
-      for (let j = 0; j < J; j++) {
-        const pts = [c.x, c.y]; let reach = 0;                                // a fan from the corner (Pixi keeps the array: a fresh one)
-        for (let r = j * m; r <= (j + 1) * m; r++) { pts.push(ends[r * 3], ends[r * 3 + 1]); reach = Math.max(reach, ends[r * 3 + 2]); }
-        if (reach > 4) fillPoly(g, pts, k0 * Wt[j], o.tf);
+      /* bands along the length (the first one a fan from the corner, the others quads between two distances), slices
+       * across it (darkest at the edge); a band's strength falls off as (1 - t)^fade toward the far end */
+      for (let b = 0; b < M; b++) {
+        const a0 = len * b / M, a1 = len * (b + 1) / M, fade = Math.pow(1 - (b + .5) / M, FR.fade), mid = (a0 + a1) / 2, am = th + s * phi * .5;
+        let maxL = 0; for (let r = 0; r <= R; r++) maxL = Math.max(maxL, ends[r * 3 + 2]); if (!(maxL > a0 + 2)) break;
+        const lm = Math.max(4, ends[Math.floor(R / 2) * 3 + 2]);
+        const grp = o.group([c.x + Math.cos(am) * Math.min(mid, lm), c.y + Math.sin(am) * Math.min(mid, lm)], 'fr'); let drawn = 0;
+        for (let j = 0; j < J; j++) {
+          const pts = b ? [] : [c.x, c.y]; let far = 0;                       // Pixi keeps the array: a fresh one
+          for (let r = j * m; r <= (j + 1) * m; r++) { const l = Math.min(ends[r * 3 + 2], a1); far = Math.max(far, l); pts.push(c.x + ends[r * 3] * l, c.y + ends[r * 3 + 1] * l); }
+          if (b) for (let r = (j + 1) * m; r >= j * m; r--) { const l = Math.min(ends[r * 3 + 2], a0); pts.push(c.x + ends[r * 3] * l, c.y + ends[r * 3 + 1] * l); }
+          if (far > a0 + 2 && fillPoly(grp.g, pts, kv * Wt[j] * fade * grp.mul, o.tf)) drawn++;
+        }
+        grp.done(drawn);
       }
     }
     return used;
@@ -367,8 +474,8 @@
     for (let i = 0; i <= 2; i++) for (let j = 0; j <= 2; j++) { const x = p.x + p.w * i / 2, y = p.y + p.h * j / 2, v = inten(x, y, Math.hypot(x - L.x, y - L.y)); if (v > m) m = v; }
     return m;
   }
-  function emitProps(g, L, props, wts, o) {
-    let used = 0; const A = window.__api;
+  function emitProps(L, props, wts, o) {
+    let used = 0; const A = window.__api, hulls = [];
     for (let n = 0; n < props.length; n++) {
       const p = props[n], wp = wts ? wts[n] : 1; if (!(wp > .01)) continue;
       const nx = clamp(L.x, p.x, p.x + p.w), ny = clamp(L.y, p.y, p.y + p.h), dn = Math.hypot(nx - L.x, ny - L.y);
@@ -383,9 +490,10 @@
        * tails overlap they remove `tail` of the light, next to the prop tails + core remove `near` - whatever K is, so a
        * tier with more samples gets a softer edge, not a darker shadow */
       const K = o.jit.length, T = o.str.tail * a, N = Math.max(T, o.str.near * a), aT = 1 - Math.pow(1 - T, 1 / K), aC = 1 - (1 - N) / (1 - T);
+      hulls.length = 0;
       for (let s = 0; s <= K; s++) {
         const core = s === K, lx = core ? L.x : L.x + o.jit[s][0], ly = core ? L.y : L.y + o.jit[s][1];
-        const f = core ? o.str.core : 1, al = core ? aC : aT; tmpPts.length = 0;
+        const f = core ? o.str.core : 1; tmpPts.length = 0;
         for (let c = 0; c < 4; c++) {
           const cx = c === 1 || c === 2 ? p.x + p.w : p.x, cy = c >= 2 ? p.y + p.h : p.y;
           let tx = cx + (cx - lx) * kk * f, ty = cy + (cy - ly) * kk * f;
@@ -393,8 +501,13 @@
           if (lim < d - 1) { tx = L.x + dx / d * lim; ty = L.y + dy / d * lim; }
           tmpPts.push(cx, cy, tx, ty);
         }
-        const h = hull(tmpPts); if (h.length >= 6) fillPoly(g, h, al, o.tf);
+        hulls.push(hull(tmpPts));
       }
+      /* one group per prop; its mixed-light samples: the middle of the core (next to the prop) and of the first tail */
+      const smp = []; for (const h of [hulls[K], hulls[0]]) if (h.length >= 6) { let sx = 0, sy = 0; for (let i = 0; i < h.length; i += 2) { sx += h[i]; sy += h[i + 1]; } smp.push(sx / (h.length / 2), sy / (h.length / 2)); }
+      const grp = o.group(smp, 'prop', p); let drawn = 0;
+      for (let s = 0; s <= K; s++) if (hulls[s].length >= 6 && fillPoly(grp.g, hulls[s], (s === K ? aC : aT) * grp.mul, o.tf)) drawn++;
+      grp.done(drawn);
     }
     return used;
   }
@@ -424,25 +537,45 @@
     live.sort((a, b) => keyOf(a.it) - keyOf(b.it)); outI.length = 0; outW.length = 0;
     for (const e of live) { outI.push(e.it); outW.push(e.w); }
   }
+  const visC = new Map();                                                   // your light: each corner's eased visibility (emitFringes)
   const fadeC = new Map(), fadeP = new Map(), tmpEI = [], tmpEW = [], keyC = c => c.i, keyP = p => p.n;
 
   /* ---------- ceiling lamps: geometry built once per lamp (nominal power), then only its alpha follows the lamp ---------- */
-  function lampKey(cfg) { return [S.quality, cfg.lampK, cfg.lampJ].join(':'); }
+  function lampKey(cfg) { return [S.quality, cfg.lampK, cfg.lampJ, cfg.bands].join(':'); }
+  /* a lamp's shadows are cached: one container per lamp (its alpha follows the lamp's power), one Graphics per shadow element
+   * (a penumbra band, a prop's shadow) whose alpha is that element's mixed-light scale (1 unless another light fills it) */
   function buildLamp(i, Lp, cfg) {
-    const t0 = now(), g = new S.G(); g.label = 'shadows-lamp-' + i;
+    const t0 = now(), box = new S.C(); box.label = 'shadows-lamp-' + i;
     const L = { x: Lp.x, y: Lp.y, R: LAMP.R, h: LAMP.h }, p0 = lampP0(i), inten = (x, y, r) => sat(p0 * lampFall(r)), tf = lightFill(lampCookie(i), L.x, L.y, 0);
     const saveBudget = polyBudget, saveCount = polyCount, saveDbg = S.dbg; polyBudget = 1e9; polyCount = 0;
     const rec = S.dbg = { cand: [], fringes: [], props: [], polys: null };   // casters are kept for the debug view, not polygons
+    const els = [];
+    const group = (smp, kind, prop) => {
+      const g = new S.G(); g.label = 'shadows-lamp-' + kind; box.addChild(g);
+      const el = { g, s: smp, kind, a: 1, p: prop || null };
+      return { g, mul: 1, done: n => { if (n) els.push(el); else { box.removeChild(g); g.destroy && g.destroy(); } } };
+    };
     let used = 0, walls = 0, cand = 0;
     if (cfg.lampJ > 0) {
       cornersNear(L.x, L.y, L.R, tmpC); cand += tmpC.length; for (const c of tmpC) rec.cand.push(c.x, c.y);
-      used += emitFringes(g, L, tmpC, null, { k: LAMP.wall, J: cfg.lampJ, hx: LAMP.hx, hy: LAMP.hy, tf }); walls = polyCount;
+      used += emitFringes(L, tmpC, null, { k: LAMP.wall, J: cfg.lampJ, M: cfg.bands, len: FR.lampLen, w: FR.lampW, hx: LAMP.hx, hy: LAMP.hy, tf, group }); walls = polyCount;
     }
     for (const p of S.props) if (Math.hypot(clamp(L.x, p.x, p.x + p.w) - L.x, clamp(L.y, p.y, p.y + p.h) - L.y) < L.R) cand++;
-    used += emitProps(g, L, S.props, null, { jit: LAMP.jitter[clamp(cfg.lampK, 1, 4) - 1], str: LAMP.prop, w: 1, kmax: 1, inten, tf });
+    used += emitProps(L, S.props, null, { jit: LAMP.jitter[clamp(cfg.lampK, 1, 4) - 1], str: LAMP.prop, w: 1, kmax: 1, inten, tf, group });
     const polys = polyCount; polyBudget = saveBudget; polyCount = saveCount; S.dbg = saveDbg;
     const ms = now() - t0; ST.lampBuilds++; ST.lampBuildMs += ms; if (ms > ST.lampBuildMax) ST.lampBuildMax = ms;
-    return { g, polys, walls, casters: used, cand, key: lampKey(cfg), last: 0, x: L.x, y: L.y, fade: 0, dbg: { cand: rec.cand, fr: rec.fringes, props: rec.props } };
+    return { g: box, els, polys, walls, casters: used, cand, key: lampKey(cfg), last: 0, x: L.x, y: L.y, fade: 0, fill: 1, dbg: { cand: rec.cand, fr: rec.fringes, props: rec.props } };
+  }
+  /* this frame's mixed-light scale of every element of a shown lamp (only where another light can reach: else 1) */
+  function fillLamp(e, i, Lp, t, cfg) {
+    const near = fillL.some(C => Math.hypot(C.x - e.x, C.y - e.y) < C.f.range + LAMP.R + 60);
+    let lo = 1;
+    for (const el of e.els) {
+      const m = near ? clamp(lampElementFill(el, i, Lp, t), 0, 1) : 1;
+      if (Math.abs(m - el.a) > .002 || (m === 1 && el.a !== 1)) { el.a = m; el.g.alpha = m; el.g.visible = m > .003; }
+      if (m < lo) lo = m; ST.fillEval += near ? 1 : 0;
+    }
+    e.fill = lo;
   }
   function lamps(cfg, rect, t, view, dt) {
     const A = window.__api, lamps = A.lamps || [], C = S.lampCache;
@@ -457,7 +590,7 @@
     for (let n = 0; n < list.length && n < cfg.lamps; n++) {
       const i = list[n][1], Lp = lamps[i];
       let e = C.get(i);
-      if (e && e.key !== key) { S.layers.lamps.removeChild(e.g); e.g.destroy && e.g.destroy(); C.delete(i); e = null; }
+      if (e && e.key !== key) { S.layers.lamps.removeChild(e.g); e.g.destroy && e.g.destroy({ children: true }); C.delete(i); e = null; }
       if (!e) { if (builds >= cfg.builds) { ST.cacheMisses++; continue; } e = buildLamp(i, Lp, cfg); C.set(i, e); S.layers.lamps.addChild(e.g); builds++; ST.cacheMisses++; } else ST.cacheHits++;
       /* the overlay's own lamp power relative to the nominal power the geometry was built at (flicker, failures, NV gain);
        * no popping: a lamp near the cap's cut-off distance is already faded (the one replacing it fades in), and a freshly
@@ -465,13 +598,13 @@
       const p = lampPower(i, Lp, t), edge = clamp((cutoff - list[n][0]) / 140, 0, 1);
       e.fade = e.last === ST.frames - 1 ? Math.min(1, e.fade + Math.max(Math.max(dt, 0) / .25, 1 / 15)) : 0;
       e.g.alpha = clamp(p / lampP0(i), 0, 1) * edge * e.fade; e.g.visible = e.g.alpha > .003; e.last = ST.frames; want.add(i);
-      if (e.g.visible) { shown++; prims += e.polys; cand += e.cand; act += e.casters; }
+      if (e.g.visible) { fillLamp(e, i, Lp, t, cfg); shown++; prims += e.polys; cand += e.cand; act += e.casters; }
       if (S.dbg) S.dbg.lights.push(Lp.x, Lp.y, LAMP.R, 0, e.g.alpha);
     }
     for (const [i, e] of C) if (!want.has(i)) e.g.visible = false;
     if (C.size > 48) {                                                        // bounded cache: drop the least recently used lamps
       const old = [...C.entries()].filter(([i]) => !want.has(i)).sort((a, b) => a[1].last - b[1].last);
-      for (let k = 0; k < old.length && C.size > 48; k++) { const [i, e] = old[k]; S.layers.lamps.removeChild(e.g); e.g.destroy && e.g.destroy(); C.delete(i); }
+      for (let k = 0; k < old.length && C.size > 48; k++) { const [i, e] = old[k]; S.layers.lamps.removeChild(e.g); e.g.destroy && e.g.destroy({ children: true }); C.delete(i); }
     }
     return { shown, prims, cand, act };
   }
@@ -498,6 +631,9 @@
       lights++; if (S.dbg) S.dbg.lights.push(sx, sy, L.R, peer ? 2 : 1, w);
       const tf = lightFill(ck, sx, sy, ang);
       const pmax = peer ? cfg.peerMax : cfg.localMax, cmax = peer ? cfg.peerC : cfg.localC;
+      /* HIGH: this light's shadows give way to the other carried lights that also light them (see fillLights) */
+      const me = { x: sx, y: sy, ang, f, own: !peer, fl: f.omni ? fl : 1, e: 1 - Math.pow(1 - f.power, 1 / 12) };
+      const grp = g => (smp, kind, prop) => ({ g, mul: cfg.fillAll && fillL.length > 1 ? carriedElementFill(smp, me, prop) : 1, done() { } }), gP = grp(gp), gF = grp(gf);
       if (pmax > 0) {
         const pc = [];
         for (const p of S.props) {
@@ -507,7 +643,7 @@
         cand += pc.length; pickSoft(pc, pmax, CARRY.soft, tmpP, tmpPW);
         if (!peer) { eased(fadeP, tmpP, tmpPW, keyP, pmax, dt, tmpEI, tmpEW); tmpP.length = 0; tmpPW.length = 0; tmpP.push(...tmpEI); tmpPW.push(...tmpEW); }
         if (S.dbg) for (const c of pc) S.dbg.cand.push(c[2].cx, c[2].cy);
-        const u = emitProps(gp, L, tmpP, tmpPW, { jit: JIT(peer ? cfg.peerK : cfg.localK), str: peer ? CARRY.peerProp : CARRY.prop, w, kmax: CARRY.kmax, inten, tf });
+        const u = emitProps(L, tmpP, tmpPW, { jit: JIT(peer ? cfg.peerK : cfg.localK), str: peer ? CARRY.peerProp : CARRY.prop, w, kmax: CARRY.kmax, inten, tf, group: gP });
         act += u; np += u;
       }
       if (cmax > 0) {
@@ -516,7 +652,7 @@
         cand += cc.length; pickSoft(cc, cmax, CARRY.soft, tmpCI, tmpCW);
         if (!peer) { eased(fadeC, tmpCI, tmpCW, keyC, cmax, dt, tmpEI, tmpEW); tmpCI.length = 0; tmpCW.length = 0; tmpCI.push(...tmpEI); tmpCW.push(...tmpEW); }
         if (S.dbg) for (const c of cc) S.dbg.cand.push(c[2].x, c[2].y);
-        const u = emitFringes(gf, L, tmpCI, tmpCW, { k: (peer ? CARRY.peerFringe : CARRY.fringe) * w, J: peer ? cfg.peerJ : cfg.localJ, hx: CARRY.half, hy: CARRY.half, tf });
+        const u = emitFringes(L, tmpCI, tmpCW, { k: (peer ? CARRY.peerFringe : CARRY.fringe) * w, J: peer ? cfg.peerJ : cfg.localJ, M: cfg.bands, len: FR.carryLen, w: FR.carryW, hx: CARRY.half, hy: CARRY.half, tf, group: gF, vis: peer ? null : visC, dt });
         act += u; nf += u;
       }
     };
@@ -596,11 +732,12 @@
     if (!S.attached) { if (++S.attachTries > 900) { disable('renderer never became available'); return; } if (!attach()) return; }
     const t0 = now(), cfg = TIERS[S.quality], dt = o && Number.isFinite(o.t) ? o.t : (lastT ? (t0 - lastT) / 1000 : .016); lastT = t0;
     const t = (S.frameTs || t0) / 1000;                                     // the game's own frame time (drawLight's flicker clock)
-    let prims = 0, lights = 0, cand = 0, act = 0; ST.ents = 0; S.aoVisible = 0; ST.dyn = 0; ST.fringes = 0; ST.props = 0;
+    let prims = 0, lights = 0, cand = 0, act = 0; ST.ents = 0; S.aoVisible = 0; ST.dyn = 0; ST.fringes = 0; ST.props = 0; ST.fillEval = 0;
     S.dbg = S.debugOn ? { lights: [], cand: [], fringes: [], props: [], polys: [] } : null;
     if (S.quality !== 'off') {
       const rect = viewRect(), lightOn = o ? !!o.light : true, V = viewer();
       if (cfg.ao) { cullAO(rect); prims += S.aoVisible; }
+      fillLights(cfg, lightOn);
       const l = lamps(cfg, rect, t, V, dt); lights += l.shown; prims += l.prims; cand += l.cand; act += l.act;
       const c = carried(cfg, rect, lightOn, t, dt); lights += c.lights; prims += c.prims; cand += c.cand; act += c.act;
       prims += cfg.ents ? entityShadows(cfg, rect, dt, lightOn) : 0;
@@ -711,7 +848,8 @@
     /* test / QA view of what is drawn this frame (copies; reading it changes nothing) */
     snapshot: () => ({ quality: S.quality, disabled: S.disabled, layerIndex: S.world ? S.world.children.indexOf(S.root) : -1,
       ents: S.pool.filter(g => g.visible).map(g => ({ x: +g.x.toFixed(2), y: +g.y.toFixed(2), sx: +g.scale.x.toFixed(2), sy: +g.scale.y.toFixed(2), rot: +g.rotation.toFixed(4), a: +g.alpha.toFixed(4) })),
-      lamps: [...S.lampCache.entries()].filter(([, e]) => e.g.visible).map(([i, e]) => ({ i, a: +e.g.alpha.toFixed(4), polys: e.polys, walls: e.walls, casters: e.casters, penumbrae: e.dbg.fr.length / 5, props: e.dbg.props.length / 4 })).sort((a, b) => a.i - b.i),
+      lamps: [...S.lampCache.entries()].filter(([, e]) => e.g.visible).map(([i, e]) => ({ i, a: +e.g.alpha.toFixed(4), polys: e.polys, walls: e.walls, casters: e.casters, penumbrae: e.dbg.fr.length / 5, props: e.dbg.props.length / 4, elements: e.els.length, fill: +e.fill.toFixed(4) })).sort((a, b) => a.i - b.i),
+      fillLights: fillL.length, fillEvaluations: ST.fillEval,
       dynamic: S.dyn ? { polys: ST.dyn, props: ST.props, penumbrae: ST.fringes } : null,
       aoVisible: S.chunks.filter(c => c.g.visible).map(c => [c.i, c.j]) }),
   };

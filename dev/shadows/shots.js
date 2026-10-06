@@ -47,7 +47,16 @@ const SCENES = {
   partition: { at: [1000, 3560], aim: -1.75 },                              // the flashlight up the YELLOW HALL partition stubs
   damp: { at: [3470, 5400], aim: -Math.PI / 2, light: false },             // DAMP ROOMS: counter L6 under the dim, flickering fixture #52 (lamps only)
   pillarsweep: { at: [8400, 1300], aim: 0.15 },                             // the same pillar as pillarlit, the beam turned 0.3 rad (one step of a sweep)
+  /* SH7 human-QA scenes (the correction pack's QA01 / QA02), at the YELLOW HALL spawn lamp #4 (1008,3312), whose light grazes
+   * the partition corners (960,3360) and below - the largest lamp penumbra wedges on the map at SH6 (312 px long, 103 px wide) */
+  qa01: { at: [1130, 3420], aim: 2.6 },                                     // QA01: your beam across the lamp's shadow edge at the partition corner
+  qa01dark: { at: [1130, 3420], aim: 2.6, light: false },                  // the same spot, flashlight off (the lamp's own shadows)
+  qa02: { at: [880, 3560], aim: -0.8, light: false },                       // QA02: flashlight off, looking back up at the lamp past the corners (the wedges)
+  qa02lit: { at: [880, 3560], aim: -0.8 },                                  // the same with the flashlight on
+  peerfill: { at: [1776, 3460], aim: -1.721, peer: [1700, 3150, 1.01] },   // HIGH multi-light: another wanderer across the reception counter, its beam back over your shadow
 };
+/* ad-hoc scenes: --def "name:x:y:aim[:light 0|1][;name2:...]" (light defaults to on) */
+for (const d of (opt('def') || '').split(';').filter(Boolean)) { const [n, x, y, a, l] = d.split(':'); SCENES[n] = { at: [+x, +y], aim: +a, light: l !== '0' }; }
 const scenes = (opt('scenes') || 'room,props,shelf,shelfdark,lampedge,doorway,blackout,hound').split(',');
 function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port: PORT, path: p }, r => { r.resume(); r.on('end', () => res(r.statusCode)); }).on('error', () => res(0)); }); }
 
@@ -58,8 +67,10 @@ function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port
   const browser = await H.pw.chromium.launch({ args: H.ARGS });
   const R = { game: GAME, viewport: [VW, VH], shots: [], errors: [] };
   try {
-    const J = await H.join(browser, PORT, 'shots' + (Date.now() % 100000), 'QA', { viewport: { width: VW, height: VH } }), P = J.P;
+    const room = 'shots' + (Date.now() % 100000), J = await H.join(browser, PORT, room, 'QA', { viewport: { width: VW, height: VH } }), P = J.P;
     await H.stage(P);
+    /* a second wanderer for scenes with `peer` (a real client in the same room: the overlay draws its light, the module its shadows) */
+
     if (opt('debug')) {
       await P.keyboard.press('Backquote'); await P.fill('#admPass', 'smoor'); await P.keyboard.press('Enter'); await sleep(900);
       await P.evaluate(() => { const t = document.querySelector('[data-a=tab][data-t=debug]'); t && t.click(); }); await sleep(300);
@@ -71,6 +82,8 @@ function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port
       const D = SCENES[sc]; if (!D) { console.log('unknown scene', sc); continue; }
       await H.setLights(P, D.lights || 'off');
       const at = await H.place(P, D.at[0], D.at[1], D.aim, { light: D.light !== false });
+      let peer = null;                                                      // another wanderer (a scripted client) with its light on, for scenes with `peer`
+      if (D.peer) { peer = new H.ScriptedPeer(PORT, room, 'PEER', 'flashlight'); await peer.standAt('QA', D.peer[0], D.peer[1], D.peer[2]); R.peer = R.peer || {}; R.peer[sc] = { at: D.peer, stood: [Math.round(peer.pos.x), Math.round(peer.pos.y)] }; }
       if (D.hound) {
         const h = await H.near(P, 'hound');
         const spot = h && await P.evaluate(([hx, hy]) => { const A = __api; for (let k = 0; k < 16; k++) { const a = k / 16 * Math.PI * 2, x = hx + Math.cos(a) * 210, y = hy + Math.sin(a) * 210; if (A.sl(x, y, 26) && A.Uc(x, y, Math.atan2(hy - y, hx - x), 210) >= 190) return [Math.round(x), Math.round(y), Math.atan2(hy - y, hx - x)]; } return null; }, h);
@@ -91,7 +104,7 @@ function get(p) { return new Promise(res => { http.get({ host: '127.0.0.1', port
         R.shots.push({ scene: sc, tier: t, file: f, lightHash: await lightHash(P), lightMean: await P.evaluate(() => { const c = document.getElementById('light'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let s = 0; for (let i = 3; i < d.length; i += 4) s += d[i]; return +(s / (d.length / 4)).toFixed(3); }), state: await P.evaluate(() => ({ x: Math.round(__api.H.x), y: Math.round(__api.H.y), angle: +__api.H.angle.toFixed(3), light: __api.lightOn(), blackout: !!__api.V.blackout })),
           stats: await P.evaluate(() => window.__shadows ? __shadows.stats() : null), snap: await P.evaluate(() => window.__shadows ? __shadows.snapshot() : null) });
       }
-      await P.evaluate(() => __clock.thaw());
+      await P.evaluate(() => __clock.thaw()); if (peer) { peer.close(); await sleep(600); }
       if (D.hound) await H.stage(P);
       if (sharp) {
         const cx = Math.round(VW / 2 - CROP / 2), cy = Math.round(VH / 2 - CROP / 2), w = Math.min(CROP, VW), h = Math.min(CROP, VH);

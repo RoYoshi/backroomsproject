@@ -1,0 +1,52 @@
+{
+ "checkpoint": "SH7 preflight",
+ "checkedAt": "2026-10-05 (before any SH7 change)",
+ "correctionPack": {
+  "file": "THE_FAR_BACKROOMS_STAGE_3A_SH7_SH8_HUMAN_QA_CORRECTION_PACK.zip",
+  "sha256": "f8fa780f426c8873dc3d4d04c1e0ee253806f6de55e8f8dad576ebc04d2c884a",
+  "matchesSuppliedChecksum": true,
+  "manifestEntriesOk": 12
+ },
+ "remote": {
+  "branch": "lighting-shadows-2d",
+  "lsRemote": "feed2d5c251bf73c301d54a3b9f2ee6163f3aa00",
+  "githubApiTree": "82b4976bbaba16efb3bb701891882c9c49afe4db",
+  "main": "7781e1ac34aa09970df57fae3fc107a873fa2731"
+ },
+ "acceptedSH6": {
+  "commit": "feed2d5c251bf73c301d54a3b9f2ee6163f3aa00",
+  "tree": "82b4976bbaba16efb3bb701891882c9c49afe4db",
+  "packageSha256": "93bb82b95abdfe184486171d640f56681ef63b4f22cf76be6620d007e400b51e"
+ },
+ "branchAdvancedBeyondSH6": false,
+ "local": {
+  "head": "feed2d5c251bf73c301d54a3b9f2ee6163f3aa00",
+  "tree": "82b4976bbaba16efb3bb701891882c9c49afe4db",
+  "workspace": "clean"
+ },
+ "filesExpectedToBeTouched": {
+  "runtime": [
+   "assets/shadows-2d.js"
+  ],
+  "devOnly": [
+   "dev/shadows/ (tests, capture tool, report generators, evidence/sh7, evidence/sh8)"
+  ],
+  "docs": [
+   "2D_SHADOWS_*.md / .txt at the repository root"
+  ]
+ },
+ "notTouched": [
+  "main",
+  "ai.js",
+  "sim.js",
+  "move.js",
+  "server.js",
+  "mp.js",
+  "death_srv.js",
+  "dphys.js",
+  "camera_policy.js",
+  "world.js",
+  "index.html",
+  "the darkness overlay / light.js / the bundle"
+ ]
+}

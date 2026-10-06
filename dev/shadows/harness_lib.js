@@ -91,4 +91,26 @@ async function near(P, k) {
 /* wait until the frozen overlay stops changing (a few frames after a freeze) */
 async function settle(P) { await frames(P, 4); for (let i = 0, h0 = null; i < 14; i++) { const h = await lightHash(P); if (h === h0) return h; h0 = h; await frames(P, 4); await sleep(120); } return null; }
 
-module.exports = { pw, ARGS, sleep, INIT, adm, frames, lightHash, counts, adminInfo, until, join, stage, setLights, place, near, settle };
+/* a scripted wanderer over the real WebSocket protocol (scene_bench.js's Peer, the live.js client format), with real admin
+ * rights to join the harness page and stand where a scene wants it, its light on, aimed: another wanderer for the overlay
+ * (its light) and for the module (its shadows), without a second rendering page */
+class ScriptedPeer {
+  constructor(port, room, name, kind = 'flashlight', color = '#ffe7b2') {
+    Object.assign(this, { name, kind, color, id: 0, admin: null, pos: { x: 0, y: 0 }, angle: 0, timer: null });
+    this.ws = new WebSocket(`ws://127.0.0.1:${port}/ws?room=${room}`);
+    this.ready = new Promise((res, rej) => { this.ws.onopen = res; this.ws.onerror = rej; });
+    this.ws.onmessage = ev => { const m = JSON.parse(ev.data); if (m.t === 'hi') this.id = m.id; else if (m.t === 'admin') this.admin = m; else if (m.t === 'tp') this.pos = { x: m.x, y: m.y }; };
+  }
+  send(o) { if (this.ws.readyState === 1) this.ws.send(JSON.stringify(o)); }
+  start() { this.send({ t: 'join' }); this.timer = setInterval(() => this.send({ t: 'p', x: Math.round(this.pos.x), y: Math.round(this.pos.y), vx: 0, vy: 0, a: +this.angle.toFixed(2), r: 0, l: 1, k: this.kind, n: this.name, c: this.color, mv: { s: 0, st: 100, ex: 0, sp: 0, ev: [] } }), 50); }
+  async walkTo(x, y, speed = 220) { for (let i = 0; i < 400; i++) { const dx = x - this.pos.x, dy = y - this.pos.y, d = Math.hypot(dx, dy); if (d < 2) break; const s = Math.min(d, speed / 20); this.pos = { x: this.pos.x + dx / d * s, y: this.pos.y + dy / d * s }; await sleep(50); } }
+  /* join, go to the harness wanderer named `host` (admin goto), then walk to (x, y) and aim */
+  async standAt(host, x, y, angle) {
+    await this.ready; this.start(); this.send({ t: 'admin', pass: 'smoor' }); await sleep(1200);
+    const me = this.admin && this.admin.pl && this.admin.pl.find(q => q.n === host); if (me) this.send({ t: 'a', c: 'goto', id: me.id });
+    await sleep(700); await this.walkTo(x, y); this.angle = angle; await sleep(800);
+  }
+  close() { clearInterval(this.timer); try { this.ws.close(); } catch (e) { } }
+}
+
+module.exports = { pw, ARGS, sleep, INIT, adm, frames, lightHash, counts, adminInfo, until, join, stage, setLights, place, near, settle, ScriptedPeer };

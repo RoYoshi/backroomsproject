@@ -12,7 +12,8 @@ The SH0 and SH1 records did not include it. Nothing in this stage pushed to `mai
 `lighting-shadows-2d`.
 
 Every checkpoint was committed, pushed, and verified on GitHub before the next stage started. SH5 and SH6 continue
-from SH4 final after human QA; SH0–SH4 and their evidence were not redone or rewritten. The branch head's commit,
+from SH4 final after human QA, and SH7 and SH8 from SH6 after the next human QA; earlier checkpoints and their evidence
+were not redone or rewritten. The branch head's commit,
 tree and parents were checked both with `git ls-remote` and with the GitHub REST API. Each stage's evidence folder
 holds the previous checkpoint's verification record.
 
@@ -26,7 +27,9 @@ holds the previous checkpoint's verification record.
 | SH4 review fixes | `a90b51c4dc023c6d7cccae2e74cee880959ea348` | `5e1ef4624a5c8a3814ae2225eaf7661a9a07d40e` | `0787e1ff…` | an independent review checked the reports against the evidence; wording corrected where it claimed more than the evidence shows, with evidence added (which export each retained run used; SH1 / SH2 log identity). No runtime file and no result changed | 2026-10-05T13:24:25Z |
 | SH4 final | `3f12c4795531ca68404db7a86a8bf0ad5163098c` | `5893186598e07f16de24408b6ce5da52587a0475` | `a90b51c4…` | the package receipt names the parent commit by its subject; the review-fix commit's verification record. Human QA of this build: *"It feels like the same game"* (PASS), *"The Shadows are VERY Faint"*, *"The shadows aren't noticable"* (FAIL) | 2026-10-05T13:25:17Z (its package receipt); re-checked 2026-10-05T15:00:11Z before SH5 |
 | SH5 | `5471ac85e14680c7cab678a988f245bf685e4471` | `72ec3c0e9f21942a9f118017046dcc868279b5c2` | `3f12c479…` | human-QA visibility correction: shadow strengths retuned by class in `assets/shadows-2d.js` (1.1), new bounded-strength tests V01–V08, before / after captures, the repeated LOW phone-sized measurement | 2026-10-05T16:50:14Z |
-| SH6 | (this commit: see the package receipt) | | `5471ac85…` | final correction regression (retained suites and their diagnosis, performance matrix; the follow-up runs stopped by instruction are listed as limitations), corrected reports, human-QA handoff, package | in the package receipt |
+| SH6 | `feed2d5c251bf73c301d54a3b9f2ee6163f3aa00` | `82b4976bbaba16efb3bb701891882c9c49afe4db` | `5471ac85…` | final correction regression (retained suites and their diagnosis, performance matrix; the follow-up runs stopped by instruction are listed as limitations), corrected reports, human-QA handoff, package (SHA-256 `93bb82b9…`). Human QA of this build: visibility *substantially improved*; mixed-light compositing FAIL (SH-QA-01); wall/corner penumbra shape FAIL (SH-QA-02) | 2026-10-05T20:49:52Z; re-checked before SH7 (`sh7/preflight.json`) |
+| SH7 | (see `sh8/sh7_remote_verify.json`) | | `feed2d5c…` | human-QA correction in `assets/shadows-2d.js` (1.2): mixed-light composition (a shadow gives way to other lights by its own light's share), bounded and fading penumbrae, the tier policy; tests X01–X05; SH6 / SH7 captures of the QA scenes | in `sh8/sh7_remote_verify.json` |
+| SH8 | (this commit: see the package receipt) | | SH7 | focused regression on the SH7 tree, protected files against SH6, the QA scenes re-checked, one desktop and one phone-like performance pass, reports, human-QA handoff, package | in the package receipt |
 
 The verification records are:
 - `dev/shadows/evidence/sh1/sh0_remote_verify.json`
@@ -37,6 +40,8 @@ The verification records are:
 - `dev/shadows/evidence/sh4/sh4b_remote_verify.json` (the review-fix commit `a90b51c`)
 - `dev/shadows/evidence/sh5/sh4_final_remote_verify.json` (SH4 final `3f12c47`, re-checked before SH5 began)
 - `dev/shadows/evidence/sh6/sh5_remote_verify.json`
+- `dev/shadows/evidence/sh7/sh6_remote_verify.json` (SH6 `feed2d5`, and `preflight.json`: re-checked before SH7 began)
+- `dev/shadows/evidence/sh8/sh7_remote_verify.json`
 
 A commit cannot contain its own hash, so the final commit's verification is in the package receipt
 `2D_SHADOWS_PACKAGE_RECEIPT.txt`, which ships beside the ZIP.

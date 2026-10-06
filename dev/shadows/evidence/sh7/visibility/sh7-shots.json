@@ -1,0 +1,6281 @@
+{
+ "game": "<scratch>/export-wt",
+ "viewport": [
+  1280,
+  720
+ ],
+ "shots": [
+  {
+   "scene": "qa01",
+   "tier": "off",
+   "file": "qa01-off.png",
+   "lightHash": "1e88b0d72b0d9b905eb83759fa705b6d775a2b65adb07c25b8c984dc66fa6966",
+   "lightMean": 224.317,
+   "state": {
+    "x": 1130,
+    "y": 3420,
+    "angle": 2.6,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 122,
+    "buildMs": {
+     "mean": 0.2893,
+     "p95": 0.9,
+     "max": 10.9,
+     "n": 122
+    },
+    "lights": {
+     "last": 0,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 29,
+     "active": 0,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 0,
+     "max": 117
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 9,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 11,
+     "hits": 294,
+     "misses": 31,
+     "lampBuilds": 11,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 1,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa01",
+   "tier": "low",
+   "file": "qa01-low.png",
+   "lightHash": "b9f732e9d875d7c3a7ba8e601916a07820785c458712485f5450f4ad2605456c",
+   "lightMean": 224.317,
+   "state": {
+    "x": 1130,
+    "y": 3420,
+    "angle": 2.6,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 182,
+    "buildMs": {
+     "mean": 0.194,
+     "p95": 0.8,
+     "max": 10.9,
+     "n": 182
+    },
+    "lights": {
+     "last": 3,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 11,
+     "candidateMax": 29,
+     "active": 5,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 23,
+     "max": 117
+    },
+    "dynamicPolys": {
+     "last": 2,
+     "max": 9,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 11,
+     "hits": 405,
+     "misses": 34,
+     "lampBuilds": 13,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1150.89,
+      "y": 3438.5,
+      "sx": 44.91,
+      "sy": 15.64,
+      "rot": 0.7246,
+      "a": 0.3156
+     }
+    ],
+    "lamps": [
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 4,
+      "walls": 4,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 2,
+      "fill": 0.2392
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 8,
+    "dynamic": {
+     "polys": 2,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa01",
+   "tier": "medium",
+   "file": "qa01-medium.png",
+   "lightHash": "7d57a3e2171ecb25169f6a7add8f2ec5a9ab41d404e10e9b025a54195984e22c",
+   "lightMean": 224.317,
+   "state": {
+    "x": 1130,
+    "y": 3420,
+    "angle": 2.6,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 242,
+    "buildMs": {
+     "mean": 0.1459,
+     "p95": 0.8,
+     "max": 10.9,
+     "n": 242
+    },
+    "lights": {
+     "last": 6,
+     "max": 6
+    },
+    "casters": {
+     "candidate": 26,
+     "candidateMax": 29,
+     "active": 11,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 103,
+     "max": 117
+    },
+    "dynamicPolys": {
+     "last": 9,
+     "max": 9,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 11,
+     "hits": 693,
+     "misses": 37,
+     "lampBuilds": 15,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1150.89,
+      "y": 3438.5,
+      "sx": 44.91,
+      "sy": 15.64,
+      "rot": 0.7246,
+      "a": 0.3156
+     }
+    ],
+    "lamps": [
+     {
+      "i": 1,
+      "a": 0.6861,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 3,
+      "a": 0.7653,
+      "polys": 18,
+      "walls": 18,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 26,
+      "walls": 26,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 0.225
+     },
+     {
+      "i": 6,
+      "a": 0.1375,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 30,
+    "dynamic": {
+     "polys": 9,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa01",
+   "tier": "high",
+   "file": "qa01-high.png",
+   "lightHash": "7d57a3e2171ecb25169f6a7add8f2ec5a9ab41d404e10e9b025a54195984e22c",
+   "lightMean": 224.317,
+   "state": {
+    "x": 1130,
+    "y": 3420,
+    "angle": 2.6,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 302,
+    "buildMs": {
+     "mean": 0.1169,
+     "p95": 0.4,
+     "max": 10.9,
+     "n": 302
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 30,
+     "candidateMax": 30,
+     "active": 14,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 216,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 16,
+     "max": 16,
+     "budget": 900,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 1091,
+     "misses": 53,
+     "lampBuilds": 22,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1150.89,
+      "y": 3438.5,
+      "sx": 44.91,
+      "sy": 15.64,
+      "rot": 0.7246,
+      "a": 0.3156
+     }
+    ],
+    "lamps": [
+     {
+      "i": 0,
+      "a": 0.7509,
+      "polys": 32,
+      "walls": 32,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 8,
+      "fill": 1
+     },
+     {
+      "i": 1,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 2,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 0.3949
+     },
+     {
+      "i": 3,
+      "a": 1,
+      "polys": 24,
+      "walls": 24,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 43,
+      "walls": 43,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 0.8659
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 0.2182
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 49,
+    "dynamic": {
+     "polys": 16,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa01dark",
+   "tier": "off",
+   "file": "qa01dark-off.png",
+   "lightHash": "8306fb23244a82b44bb9922494cdd6fcfee17156cf54e3d4082d0dde18542de6",
+   "lightMean": 227.327,
+   "state": {
+    "x": 1130,
+    "y": 3420,
+    "angle": 2.6,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 390,
+    "buildMs": {
+     "mean": 0.0967,
+     "p95": 0.3,
+     "max": 10.9,
+     "n": 390
+    },
+    "lights": {
+     "last": 0,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 30,
+     "active": 0,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 0,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 1308,
+     "misses": 53,
+     "lampBuilds": 22,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa01dark",
+   "tier": "low",
+   "file": "qa01dark-low.png",
+   "lightHash": "8306fb23244a82b44bb9922494cdd6fcfee17156cf54e3d4082d0dde18542de6",
+   "lightMean": 227.327,
+   "state": {
+    "x": 1130,
+    "y": 3420,
+    "angle": 2.6,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 450,
+    "buildMs": {
+     "mean": 0.0838,
+     "p95": 0.3,
+     "max": 10.9,
+     "n": 450
+    },
+    "lights": {
+     "last": 2,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 10,
+     "candidateMax": 30,
+     "active": 4,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 21,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 1419,
+     "misses": 56,
+     "lampBuilds": 24,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1150.89,
+      "y": 3438.5,
+      "sx": 44.91,
+      "sy": 15.64,
+      "rot": 0.7246,
+      "a": 0.3156
+     }
+    ],
+    "lamps": [
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 4,
+      "walls": 4,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 2,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa01dark",
+   "tier": "medium",
+   "file": "qa01dark-medium.png",
+   "lightHash": "8306fb23244a82b44bb9922494cdd6fcfee17156cf54e3d4082d0dde18542de6",
+   "lightMean": 227.327,
+   "state": {
+    "x": 1130,
+    "y": 3420,
+    "angle": 2.6,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 510,
+    "buildMs": {
+     "mean": 0.0739,
+     "p95": 0.3,
+     "max": 10.9,
+     "n": 510
+    },
+    "lights": {
+     "last": 5,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 25,
+     "candidateMax": 30,
+     "active": 10,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 94,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 1695,
+     "misses": 71,
+     "lampBuilds": 29,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1150.89,
+      "y": 3438.5,
+      "sx": 44.91,
+      "sy": 15.64,
+      "rot": 0.7246,
+      "a": 0.3156
+     }
+    ],
+    "lamps": [
+     {
+      "i": 1,
+      "a": 0.6861,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 3,
+      "a": 0.7653,
+      "polys": 18,
+      "walls": 18,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 26,
+      "walls": 26,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 0.1375,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa01dark",
+   "tier": "high",
+   "file": "qa01dark-high.png",
+   "lightHash": "8306fb23244a82b44bb9922494cdd6fcfee17156cf54e3d4082d0dde18542de6",
+   "lightMean": 227.327,
+   "state": {
+    "x": 1130,
+    "y": 3420,
+    "angle": 2.6,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 570,
+    "buildMs": {
+     "mean": 0.0661,
+     "p95": 0.3,
+     "max": 10.9,
+     "n": 570
+    },
+    "lights": {
+     "last": 7,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 29,
+     "candidateMax": 30,
+     "active": 13,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 200,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 900,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 2100,
+     "misses": 80,
+     "lampBuilds": 34,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1150.89,
+      "y": 3438.5,
+      "sx": 44.91,
+      "sy": 15.64,
+      "rot": 0.7246,
+      "a": 0.3156
+     }
+    ],
+    "lamps": [
+     {
+      "i": 0,
+      "a": 0.767,
+      "polys": 32,
+      "walls": 32,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 8,
+      "fill": 1
+     },
+     {
+      "i": 1,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 2,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 3,
+      "a": 1,
+      "polys": 24,
+      "walls": 24,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 43,
+      "walls": 43,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa02",
+   "tier": "off",
+   "file": "qa02-off.png",
+   "lightHash": "8d599d7ed3f43fa821d8b310b92f8bfec1e62aa73a664f111a7a032fc32f22de",
+   "lightMean": 216.562,
+   "state": {
+    "x": 880,
+    "y": 3560,
+    "angle": -0.8,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 656,
+    "buildMs": {
+     "mean": 0.0591,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 656
+    },
+    "lights": {
+     "last": 0,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 30,
+     "active": 0,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 0,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 2240,
+     "misses": 80,
+     "lampBuilds": 34,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa02",
+   "tier": "low",
+   "file": "qa02-low.png",
+   "lightHash": "8d599d7ed3f43fa821d8b310b92f8bfec1e62aa73a664f111a7a032fc32f22de",
+   "lightMean": 216.562,
+   "state": {
+    "x": 880,
+    "y": 3560,
+    "angle": -0.8,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 716,
+    "buildMs": {
+     "mean": 0.0542,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 716
+    },
+    "lights": {
+     "last": 2,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 10,
+     "candidateMax": 30,
+     "active": 4,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 18,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 2351,
+     "misses": 83,
+     "lampBuilds": 36,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 876.14,
+      "y": 3567.48,
+      "sx": 25.42,
+      "sy": 15.64,
+      "rot": 2.0473,
+      "a": 0.0953
+     }
+    ],
+    "lamps": [
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 4,
+      "walls": 4,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 2,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa02",
+   "tier": "medium",
+   "file": "qa02-medium.png",
+   "lightHash": "8d599d7ed3f43fa821d8b310b92f8bfec1e62aa73a664f111a7a032fc32f22de",
+   "lightMean": 216.562,
+   "state": {
+    "x": 880,
+    "y": 3560,
+    "angle": -0.8,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 776,
+    "buildMs": {
+     "mean": 0.05,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 776
+    },
+    "lights": {
+     "last": 4,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 15,
+     "candidateMax": 30,
+     "active": 6,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 55,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 2575,
+     "misses": 93,
+     "lampBuilds": 40,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 876.14,
+      "y": 3567.48,
+      "sx": 25.42,
+      "sy": 15.64,
+      "rot": 2.0473,
+      "a": 0.0953
+     }
+    ],
+    "lamps": [
+     {
+      "i": 1,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 2,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 26,
+      "walls": 26,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa02",
+   "tier": "high",
+   "file": "qa02-high.png",
+   "lightHash": "8d599d7ed3f43fa821d8b310b92f8bfec1e62aa73a664f111a7a032fc32f22de",
+   "lightMean": 216.562,
+   "state": {
+    "x": 880,
+    "y": 3560,
+    "angle": -0.8,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 836,
+    "buildMs": {
+     "mean": 0.0464,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 836
+    },
+    "lights": {
+     "last": 4,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 15,
+     "candidateMax": 30,
+     "active": 6,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 93,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 900,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 2809,
+     "misses": 99,
+     "lampBuilds": 44,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 876.14,
+      "y": 3567.48,
+      "sx": 25.42,
+      "sy": 15.64,
+      "rot": 2.0473,
+      "a": 0.0953
+     }
+    ],
+    "lamps": [
+     {
+      "i": 1,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 2,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 43,
+      "walls": 43,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa02lit",
+   "tier": "off",
+   "file": "qa02lit-off.png",
+   "lightHash": "e9fd1a1d51e1dafa150ff3c333ec8dfe3e878ec8bc6c9bdb04479cd27bb1d7bf",
+   "lightMean": 213.906,
+   "state": {
+    "x": 880,
+    "y": 3560,
+    "angle": -0.8,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 924,
+    "buildMs": {
+     "mean": 0.0437,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 924
+    },
+    "lights": {
+     "last": 0,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 30,
+     "active": 0,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 0,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 2933,
+     "misses": 99,
+     "lampBuilds": 44,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 1,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa02lit",
+   "tier": "low",
+   "file": "qa02lit-low.png",
+   "lightHash": "028a10e245ffc3446480067f5569e50d1bc8781bb7f612df07705ef1bbbd5625",
+   "lightMean": 213.906,
+   "state": {
+    "x": 880,
+    "y": 3560,
+    "angle": -0.8,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 984,
+    "buildMs": {
+     "mean": 0.0411,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 984
+    },
+    "lights": {
+     "last": 3,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 10,
+     "candidateMax": 30,
+     "active": 4,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 17,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 3044,
+     "misses": 102,
+     "lampBuilds": 46,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 4,
+      "walls": 4,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 2,
+      "fill": 0.3806
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 8,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa02lit",
+   "tier": "medium",
+   "file": "qa02lit-medium.png",
+   "lightHash": "75cf8c46dec30f31fe5a65d9fa1ceca9ef422ad9b39cfda8479833b0e3fa19a5",
+   "lightMean": 213.906,
+   "state": {
+    "x": 880,
+    "y": 3560,
+    "angle": -0.8,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 1044,
+    "buildMs": {
+     "mean": 0.0147,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 5,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 15,
+     "candidateMax": 30,
+     "active": 6,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 54,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 3268,
+     "misses": 112,
+     "lampBuilds": 50,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 1,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 2,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 26,
+      "walls": 26,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 0.3115
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 18,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "qa02lit",
+   "tier": "high",
+   "file": "qa02lit-high.png",
+   "lightHash": "78e891877d59b85dce95cc380a2cd214fbff5d881b732220eb3a227af7bae749",
+   "lightMean": 213.906,
+   "state": {
+    "x": 880,
+    "y": 3560,
+    "angle": -0.8,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 1104,
+    "buildMs": {
+     "mean": 0.005,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 5,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 15,
+     "candidateMax": 30,
+     "active": 6,
+     "activeMax": 14
+    },
+    "primitives": {
+     "last": 92,
+     "max": 216
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 900,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 12,
+     "hits": 3502,
+     "misses": 118,
+     "lampBuilds": 54,
+     "lampBuildMsTotal": 8.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 1,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 2,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 43,
+      "walls": 43,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 0.2995
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 23,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "props",
+   "tier": "off",
+   "file": "props-off.png",
+   "lightHash": "adcefbedebcd02b87399952e3fbe484de43d97690866861e54f14c8edda933d6",
+   "lightMean": 240.937,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 1190,
+    "buildMs": {
+     "mean": 0.0088,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 0,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 40,
+     "active": 0,
+     "activeMax": 19
+    },
+    "primitives": {
+     "last": 0,
+     "max": 267
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 3677,
+     "misses": 122,
+     "lampBuilds": 57,
+     "lampBuildMsTotal": 10.1,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 1,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "props",
+   "tier": "low",
+   "file": "props-low.png",
+   "lightHash": "adcefbedebcd02b87399952e3fbe484de43d97690866861e54f14c8edda933d6",
+   "lightMean": 240.937,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 1250,
+    "buildMs": {
+     "mean": 0.0088,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 3,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 12,
+     "candidateMax": 40,
+     "active": 7,
+     "activeMax": 19
+    },
+    "primitives": {
+     "last": 28,
+     "max": 267
+    },
+    "dynamicPolys": {
+     "last": 2,
+     "max": 16,
+     "budget": 40,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 3788,
+     "misses": 125,
+     "lampBuilds": 59,
+     "lampBuildMsTotal": 10.1,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 4,
+      "a": 0.3897,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 12,
+    "dynamic": {
+     "polys": 2,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "props",
+   "tier": "medium",
+   "file": "props-medium.png",
+   "lightHash": "b096f13357ddc9a68c731134443bc1115810b117fb9eb440dc12928d90418b85",
+   "lightMean": 240.937,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 1310,
+    "buildMs": {
+     "mean": 0.0088,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 6,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 28,
+     "candidateMax": 40,
+     "active": 16,
+     "activeMax": 19
+    },
+    "primitives": {
+     "last": 135,
+     "max": 267
+    },
+    "dynamicPolys": {
+     "last": 4,
+     "max": 16,
+     "budget": 300,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 4064,
+     "misses": 140,
+     "lampBuilds": 64,
+     "lampBuildMsTotal": 10.1,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 26,
+      "walls": 26,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 8,
+      "a": 0.4542,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 9,
+      "a": 0.8343,
+      "polys": 40,
+      "walls": 36,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 13,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 18,
+    "dynamic": {
+     "polys": 4,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "props",
+   "tier": "high",
+   "file": "props-high.png",
+   "lightHash": "b096f13357ddc9a68c731134443bc1115810b117fb9eb440dc12928d90418b85",
+   "lightMean": 240.937,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 1370,
+    "buildMs": {
+     "mean": 0.0064,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 40,
+     "candidateMax": 40,
+     "active": 19,
+     "activeMax": 19
+    },
+    "primitives": {
+     "last": 267,
+     "max": 267
+    },
+    "dynamicPolys": {
+     "last": 5,
+     "max": 16,
+     "budget": 900,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 15,
+     "hits": 4469,
+     "misses": 149,
+     "lampBuilds": 69,
+     "lampBuildMsTotal": 10.1,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 3,
+      "a": 1,
+      "polys": 24,
+      "walls": 24,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 43,
+      "walls": 43,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     },
+     {
+      "i": 8,
+      "a": 1,
+      "polys": 44,
+      "walls": 44,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 1
+     },
+     {
+      "i": 9,
+      "a": 1,
+      "polys": 69,
+      "walls": 64,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 17,
+      "fill": 1
+     },
+     {
+      "i": 10,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 23,
+    "dynamic": {
+     "polys": 5,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "shelf",
+   "tier": "off",
+   "file": "shelf-off.png",
+   "lightHash": "c7c30524c8f356897a2c1ab7cefbc594639178c0e4047d73468ed0ddaba4bf9c",
+   "lightMean": 215.117,
+   "state": {
+    "x": 3984,
+    "y": 3470,
+    "angle": -1.571,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 1455,
+    "buildMs": {
+     "mean": 0.0108,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 0,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 49,
+     "active": 0,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 0,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 22,
+     "hits": 4649,
+     "misses": 165,
+     "lampBuilds": 76,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 1,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "shelf",
+   "tier": "low",
+   "file": "shelf-low.png",
+   "lightHash": "c7c30524c8f356897a2c1ab7cefbc594639178c0e4047d73468ed0ddaba4bf9c",
+   "lightMean": 215.117,
+   "state": {
+    "x": 3984,
+    "y": 3470,
+    "angle": -1.571,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 1515,
+    "buildMs": {
+     "mean": 0.0108,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 3,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 12,
+     "candidateMax": 49,
+     "active": 6,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 22,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 2,
+     "max": 16,
+     "budget": 40,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 22,
+     "hits": 4760,
+     "misses": 168,
+     "lampBuilds": 78,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3967.3,
+      "y": 3447.38,
+      "sx": 45.12,
+      "sy": 15.64,
+      "rot": -2.2069,
+      "a": 0.318
+     }
+    ],
+    "lamps": [
+     {
+      "i": 17,
+      "a": 0.3034,
+      "polys": 7,
+      "walls": 4,
+      "casters": 2,
+      "penumbrae": 1,
+      "props": 1,
+      "elements": 3,
+      "fill": 0.691
+     },
+     {
+      "i": 18,
+      "a": 1,
+      "polys": 11,
+      "walls": 8,
+      "casters": 3,
+      "penumbrae": 2,
+      "props": 1,
+      "elements": 5,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 8,
+    "dynamic": {
+     "polys": 2,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "shelf",
+   "tier": "medium",
+   "file": "shelf-medium.png",
+   "lightHash": "457c4a39e8410b7fafef780c875753deff5dd437b1ff85f75b25207457e4dfa0",
+   "lightMean": 215.117,
+   "state": {
+    "x": 3984,
+    "y": 3470,
+    "angle": -1.571,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 1575,
+    "buildMs": {
+     "mean": 0.0108,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 6,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 38,
+     "candidateMax": 49,
+     "active": 20,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 155,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 4,
+     "max": 16,
+     "budget": 300,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 22,
+     "hits": 5036,
+     "misses": 183,
+     "lampBuilds": 83,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3967.3,
+      "y": 3447.38,
+      "sx": 45.12,
+      "sy": 15.64,
+      "rot": -2.2069,
+      "a": 0.318
+     }
+    ],
+    "lamps": [
+     {
+      "i": 13,
+      "a": 0.2981,
+      "polys": 40,
+      "walls": 36,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 13,
+      "fill": 1
+     },
+     {
+      "i": 15,
+      "a": 1,
+      "polys": 56,
+      "walls": 52,
+      "casters": 7,
+      "penumbrae": 6,
+      "props": 1,
+      "elements": 19,
+      "fill": 1
+     },
+     {
+      "i": 17,
+      "a": 1,
+      "polys": 13,
+      "walls": 9,
+      "casters": 2,
+      "penumbrae": 1,
+      "props": 1,
+      "elements": 4,
+      "fill": 0.662
+     },
+     {
+      "i": 18,
+      "a": 1,
+      "polys": 22,
+      "walls": 18,
+      "casters": 3,
+      "penumbrae": 2,
+      "props": 1,
+      "elements": 7,
+      "fill": 1
+     },
+     {
+      "i": 19,
+      "a": 1,
+      "polys": 18,
+      "walls": 18,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 36,
+    "dynamic": {
+     "polys": 4,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "shelf",
+   "tier": "high",
+   "file": "shelf-high.png",
+   "lightHash": "08856a3a9c3e89e4b7d26e9ccc0aa9aab9cef34935c66e40ee9c707578343ac3",
+   "lightMean": 215.117,
+   "state": {
+    "x": 3984,
+    "y": 3470,
+    "angle": -1.571,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 1635,
+    "buildMs": {
+     "mean": 0.0098,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 8,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 49,
+     "candidateMax": 49,
+     "active": 25,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 345,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 5,
+     "max": 16,
+     "budget": 900,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 22,
+     "hits": 5441,
+     "misses": 192,
+     "lampBuilds": 88,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3967.3,
+      "y": 3447.38,
+      "sx": 45.12,
+      "sy": 15.64,
+      "rot": -2.2069,
+      "a": 0.318
+     }
+    ],
+    "lamps": [
+     {
+      "i": 12,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 13,
+      "a": 0.7136,
+      "polys": 69,
+      "walls": 64,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 17,
+      "fill": 1
+     },
+     {
+      "i": 14,
+      "a": 1,
+      "polys": 64,
+      "walls": 64,
+      "casters": 4,
+      "penumbrae": 4,
+      "props": 0,
+      "elements": 16,
+      "fill": 1
+     },
+     {
+      "i": 15,
+      "a": 1,
+      "polys": 99,
+      "walls": 94,
+      "casters": 7,
+      "penumbrae": 6,
+      "props": 1,
+      "elements": 25,
+      "fill": 1
+     },
+     {
+      "i": 17,
+      "a": 1,
+      "polys": 21,
+      "walls": 16,
+      "casters": 2,
+      "penumbrae": 1,
+      "props": 1,
+      "elements": 5,
+      "fill": 0.662
+     },
+     {
+      "i": 18,
+      "a": 1,
+      "polys": 37,
+      "walls": 32,
+      "casters": 3,
+      "penumbrae": 2,
+      "props": 1,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 19,
+      "a": 1,
+      "polys": 32,
+      "walls": 32,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 8,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 47,
+    "dynamic": {
+     "polys": 5,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "shelfdark",
+   "tier": "off",
+   "file": "shelfdark-off.png",
+   "lightHash": "a34d73f5c06155998415aeb19cea3d07bd2aea5eb70723152a2b6defa5d3947e",
+   "lightMean": 217.424,
+   "state": {
+    "x": 3984,
+    "y": 3470,
+    "angle": -1.571,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 1723,
+    "buildMs": {
+     "mean": 0.0117,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 0,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 49,
+     "active": 0,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 0,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 22,
+     "hits": 5658,
+     "misses": 192,
+     "lampBuilds": 88,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "shelfdark",
+   "tier": "low",
+   "file": "shelfdark-low.png",
+   "lightHash": "a34d73f5c06155998415aeb19cea3d07bd2aea5eb70723152a2b6defa5d3947e",
+   "lightMean": 217.424,
+   "state": {
+    "x": 3984,
+    "y": 3470,
+    "angle": -1.571,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 1783,
+    "buildMs": {
+     "mean": 0.0117,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 2,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 11,
+     "candidateMax": 49,
+     "active": 5,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 20,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 22,
+     "hits": 5769,
+     "misses": 195,
+     "lampBuilds": 90,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3967.3,
+      "y": 3447.38,
+      "sx": 45.12,
+      "sy": 15.64,
+      "rot": -2.2069,
+      "a": 0.318
+     }
+    ],
+    "lamps": [
+     {
+      "i": 17,
+      "a": 0.3034,
+      "polys": 7,
+      "walls": 4,
+      "casters": 2,
+      "penumbrae": 1,
+      "props": 1,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 18,
+      "a": 1,
+      "polys": 11,
+      "walls": 8,
+      "casters": 3,
+      "penumbrae": 2,
+      "props": 1,
+      "elements": 5,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "shelfdark",
+   "tier": "medium",
+   "file": "shelfdark-medium.png",
+   "lightHash": "a34d73f5c06155998415aeb19cea3d07bd2aea5eb70723152a2b6defa5d3947e",
+   "lightMean": 217.424,
+   "state": {
+    "x": 3984,
+    "y": 3470,
+    "angle": -1.571,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 1843,
+    "buildMs": {
+     "mean": 0.0117,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 5,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 37,
+     "candidateMax": 49,
+     "active": 19,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 151,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 22,
+     "hits": 6045,
+     "misses": 210,
+     "lampBuilds": 95,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3967.3,
+      "y": 3447.38,
+      "sx": 45.12,
+      "sy": 15.64,
+      "rot": -2.2069,
+      "a": 0.318
+     }
+    ],
+    "lamps": [
+     {
+      "i": 13,
+      "a": 0.314,
+      "polys": 40,
+      "walls": 36,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 13,
+      "fill": 1
+     },
+     {
+      "i": 15,
+      "a": 1,
+      "polys": 56,
+      "walls": 52,
+      "casters": 7,
+      "penumbrae": 6,
+      "props": 1,
+      "elements": 19,
+      "fill": 1
+     },
+     {
+      "i": 17,
+      "a": 1,
+      "polys": 13,
+      "walls": 9,
+      "casters": 2,
+      "penumbrae": 1,
+      "props": 1,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 18,
+      "a": 1,
+      "polys": 22,
+      "walls": 18,
+      "casters": 3,
+      "penumbrae": 2,
+      "props": 1,
+      "elements": 7,
+      "fill": 1
+     },
+     {
+      "i": 19,
+      "a": 1,
+      "polys": 18,
+      "walls": 18,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "shelfdark",
+   "tier": "high",
+   "file": "shelfdark-high.png",
+   "lightHash": "a34d73f5c06155998415aeb19cea3d07bd2aea5eb70723152a2b6defa5d3947e",
+   "lightMean": 217.424,
+   "state": {
+    "x": 3984,
+    "y": 3470,
+    "angle": -1.571,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 1903,
+    "buildMs": {
+     "mean": 0.0102,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 7,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 48,
+     "candidateMax": 49,
+     "active": 24,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 340,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 900,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 1
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 22,
+     "hits": 6450,
+     "misses": 219,
+     "lampBuilds": 100,
+     "lampBuildMsTotal": 11.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3967.3,
+      "y": 3447.38,
+      "sx": 45.12,
+      "sy": 15.64,
+      "rot": -2.2069,
+      "a": 0.318
+     }
+    ],
+    "lamps": [
+     {
+      "i": 12,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 13,
+      "a": 0.752,
+      "polys": 69,
+      "walls": 64,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 17,
+      "fill": 1
+     },
+     {
+      "i": 14,
+      "a": 1,
+      "polys": 64,
+      "walls": 64,
+      "casters": 4,
+      "penumbrae": 4,
+      "props": 0,
+      "elements": 16,
+      "fill": 1
+     },
+     {
+      "i": 15,
+      "a": 1,
+      "polys": 99,
+      "walls": 94,
+      "casters": 7,
+      "penumbrae": 6,
+      "props": 1,
+      "elements": 25,
+      "fill": 1
+     },
+     {
+      "i": 17,
+      "a": 1,
+      "polys": 21,
+      "walls": 16,
+      "casters": 2,
+      "penumbrae": 1,
+      "props": 1,
+      "elements": 5,
+      "fill": 1
+     },
+     {
+      "i": 18,
+      "a": 1,
+      "polys": 37,
+      "walls": 32,
+      "casters": 3,
+      "penumbrae": 2,
+      "props": 1,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 19,
+      "a": 1,
+      "polys": 32,
+      "walls": 32,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 8,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "damp",
+   "tier": "off",
+   "file": "damp-off.png",
+   "lightHash": "42fe3662480ceec357fab381528d3c1f0badf1c4cc61c5e8f8ddba690830f58a",
+   "lightMean": 220.074,
+   "state": {
+    "x": 3470,
+    "y": 5400,
+    "angle": -1.571,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 1988,
+    "buildMs": {
+     "mean": 0.0133,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 0,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 49,
+     "active": 0,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 0,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 28,
+     "hits": 6614,
+     "misses": 231,
+     "lampBuilds": 106,
+     "lampBuildMsTotal": 12.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "damp",
+   "tier": "low",
+   "file": "damp-low.png",
+   "lightHash": "42fe3662480ceec357fab381528d3c1f0badf1c4cc61c5e8f8ddba690830f58a",
+   "lightMean": 220.074,
+   "state": {
+    "x": 3470,
+    "y": 5400,
+    "angle": -1.571,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 2048,
+    "buildMs": {
+     "mean": 0.0133,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 2,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 21,
+     "candidateMax": 49,
+     "active": 9,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 37,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 28,
+     "hits": 6725,
+     "misses": 234,
+     "lampBuilds": 108,
+     "lampBuildMsTotal": 12.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3475.99,
+      "y": 5391.81,
+      "sx": 27.15,
+      "sy": 15.64,
+      "rot": -0.9393,
+      "a": 0.1148
+     }
+    ],
+    "lamps": [
+     {
+      "i": 52,
+      "a": 0.3913,
+      "polys": 19,
+      "walls": 16,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 53,
+      "a": 0.858,
+      "polys": 15,
+      "walls": 12,
+      "casters": 4,
+      "penumbrae": 3,
+      "props": 1,
+      "elements": 7,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "damp",
+   "tier": "medium",
+   "file": "damp-medium.png",
+   "lightHash": "42fe3662480ceec357fab381528d3c1f0badf1c4cc61c5e8f8ddba690830f58a",
+   "lightMean": 220.074,
+   "state": {
+    "x": 3470,
+    "y": 5400,
+    "angle": -1.571,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 2109,
+    "buildMs": {
+     "mean": 0.0133,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 5,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 40,
+     "candidateMax": 49,
+     "active": 18,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 149,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 28,
+     "hits": 7006,
+     "misses": 249,
+     "lampBuilds": 113,
+     "lampBuildMsTotal": 12.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3475.99,
+      "y": 5391.81,
+      "sx": 27.15,
+      "sy": 15.64,
+      "rot": -0.9393,
+      "a": 0.1148
+     }
+    ],
+    "lamps": [
+     {
+      "i": 51,
+      "a": 0.1207,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 52,
+      "a": 0.6842,
+      "polys": 40,
+      "walls": 36,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 13,
+      "fill": 1
+     },
+     {
+      "i": 53,
+      "a": 1,
+      "polys": 30,
+      "walls": 26,
+      "casters": 4,
+      "penumbrae": 3,
+      "props": 1,
+      "elements": 10,
+      "fill": 1
+     },
+     {
+      "i": 54,
+      "a": 1,
+      "polys": 22,
+      "walls": 18,
+      "casters": 3,
+      "penumbrae": 2,
+      "props": 1,
+      "elements": 7,
+      "fill": 1
+     },
+     {
+      "i": 55,
+      "a": 1,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "damp",
+   "tier": "high",
+   "file": "damp-high.png",
+   "lightHash": "42fe3662480ceec357fab381528d3c1f0badf1c4cc61c5e8f8ddba690830f58a",
+   "lightMean": 220.074,
+   "state": {
+    "x": 3470,
+    "y": 5400,
+    "angle": -1.571,
+    "light": false,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 2170,
+    "buildMs": {
+     "mean": 0.0095,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 6,
+     "max": 8
+    },
+    "casters": {
+     "candidate": 48,
+     "candidateMax": 49,
+     "active": 21,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 305,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 900,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 28,
+     "hits": 7360,
+     "misses": 258,
+     "lampBuilds": 118,
+     "lampBuildMsTotal": 12.6,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 3475.99,
+      "y": 5391.81,
+      "sx": 27.15,
+      "sy": 15.64,
+      "rot": -0.9393,
+      "a": 0.1148
+     }
+    ],
+    "lamps": [
+     {
+      "i": 50,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     },
+     {
+      "i": 51,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     },
+     {
+      "i": 52,
+      "a": 0.6842,
+      "polys": 69,
+      "walls": 64,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 17,
+      "fill": 1
+     },
+     {
+      "i": 53,
+      "a": 1,
+      "polys": 52,
+      "walls": 47,
+      "casters": 4,
+      "penumbrae": 3,
+      "props": 1,
+      "elements": 13,
+      "fill": 1
+     },
+     {
+      "i": 54,
+      "a": 1,
+      "polys": 37,
+      "walls": 32,
+      "casters": 3,
+      "penumbrae": 2,
+      "props": 1,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 55,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     }
+    ],
+    "fillLights": 0,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "pillarsweep",
+   "tier": "off",
+   "file": "pillarsweep-off.png",
+   "lightHash": "fa24d487dd5e7fc8253d25c9177a540521dd7135c577c5c7b9ab17f29f553271",
+   "lightMean": 219.328,
+   "state": {
+    "x": 8400,
+    "y": 1300,
+    "angle": 0.15,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 2263,
+    "buildMs": {
+     "mean": 0.0157,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 0,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 70,
+     "active": 0,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 0,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 7635,
+     "misses": 283,
+     "lampBuilds": 127,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 1,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "pillarsweep",
+   "tier": "low",
+   "file": "pillarsweep-low.png",
+   "lightHash": "fa24d487dd5e7fc8253d25c9177a540521dd7135c577c5c7b9ab17f29f553271",
+   "lightMean": 219.328,
+   "state": {
+    "x": 8400,
+    "y": 1300,
+    "angle": 0.15,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 2323,
+    "buildMs": {
+     "mean": 0.0157,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 3,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 17,
+     "candidateMax": 70,
+     "active": 4,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 16,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 2,
+     "max": 16,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 7746,
+     "misses": 286,
+     "lampBuilds": 129,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 78,
+      "a": 0.6381,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 81,
+      "a": 1,
+      "polys": 0,
+      "walls": 0,
+      "casters": 0,
+      "penumbrae": 0,
+      "props": 0,
+      "elements": 0,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 6,
+    "dynamic": {
+     "polys": 2,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "aoVisible": [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "pillarsweep",
+   "tier": "medium",
+   "file": "pillarsweep-medium.png",
+   "lightHash": "fa24d487dd5e7fc8253d25c9177a540521dd7135c577c5c7b9ab17f29f553271",
+   "lightMean": 219.328,
+   "state": {
+    "x": 8400,
+    "y": 1300,
+    "angle": 0.15,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 2383,
+    "buildMs": {
+     "mean": 0.0157,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 6,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 34,
+     "candidateMax": 70,
+     "active": 7,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 65,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 9,
+     "max": 16,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 8022,
+     "misses": 301,
+     "lampBuilds": 134,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 77,
+      "a": 1,
+      "polys": 18,
+      "walls": 18,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 78,
+      "a": 0.6842,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 80,
+      "a": 1,
+      "polys": 0,
+      "walls": 0,
+      "casters": 0,
+      "penumbrae": 0,
+      "props": 0,
+      "elements": 0,
+      "fill": 1
+     },
+     {
+      "i": 81,
+      "a": 1,
+      "polys": 0,
+      "walls": 0,
+      "casters": 0,
+      "penumbrae": 0,
+      "props": 0,
+      "elements": 0,
+      "fill": 1
+     },
+     {
+      "i": 82,
+      "a": 0.2646,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 18,
+    "dynamic": {
+     "polys": 9,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "aoVisible": [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "pillarsweep",
+   "tier": "high",
+   "file": "pillarsweep-high.png",
+   "lightHash": "26580ef83ac6d61461a88865e5c5a98f6aa8afbb45d476697ce878550bb9db68",
+   "lightMean": 219.328,
+   "state": {
+    "x": 8400,
+    "y": 1300,
+    "angle": 0.15,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 2443,
+    "buildMs": {
+     "mean": 0.0113,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 10,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 70,
+     "candidateMax": 70,
+     "active": 15,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 236,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 16,
+     "max": 16,
+     "budget": 900,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 8541,
+     "misses": 310,
+     "lampBuilds": 139,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [
+     {
+      "i": 74,
+      "a": 1,
+      "polys": 32,
+      "walls": 32,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 8,
+      "fill": 1
+     },
+     {
+      "i": 75,
+      "a": 1,
+      "polys": 0,
+      "walls": 0,
+      "casters": 0,
+      "penumbrae": 0,
+      "props": 0,
+      "elements": 0,
+      "fill": 1
+     },
+     {
+      "i": 76,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     },
+     {
+      "i": 77,
+      "a": 1,
+      "polys": 28,
+      "walls": 28,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 7,
+      "fill": 1
+     },
+     {
+      "i": 78,
+      "a": 0.6842,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     },
+     {
+      "i": 79,
+      "a": 1,
+      "polys": 46,
+      "walls": 46,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     },
+     {
+      "i": 80,
+      "a": 1,
+      "polys": 0,
+      "walls": 0,
+      "casters": 0,
+      "penumbrae": 0,
+      "props": 0,
+      "elements": 0,
+      "fill": 1
+     },
+     {
+      "i": 81,
+      "a": 1,
+      "polys": 0,
+      "walls": 0,
+      "casters": 0,
+      "penumbrae": 0,
+      "props": 0,
+      "elements": 0,
+      "fill": 1
+     },
+     {
+      "i": 82,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 35,
+    "dynamic": {
+     "polys": 16,
+     "props": 0,
+     "penumbrae": 1
+    },
+    "aoVisible": [
+     [
+      5,
+      0
+     ],
+     [
+      5,
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "room",
+   "tier": "off",
+   "file": "room-off.png",
+   "lightHash": "057851939b625945f509f76f784cc2b3f6783f59f63eac9739e6bf0a54a4224a",
+   "lightMean": 228.114,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 2529,
+    "buildMs": {
+     "mean": 0.013,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 0,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 70,
+     "active": 0,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 0,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 8760,
+     "misses": 310,
+     "lampBuilds": 139,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 1,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "room",
+   "tier": "low",
+   "file": "room-low.png",
+   "lightHash": "fc3b46de55f7634090abb5741f7bd2175e670682cb92d7bb6a6c0e3972f7137c",
+   "lightMean": 228.114,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 2589,
+    "buildMs": {
+     "mean": 0.013,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 3,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 16,
+     "candidateMax": 70,
+     "active": 5,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 25,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 40,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 8871,
+     "misses": 313,
+     "lampBuilds": 141,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1098.54,
+      "y": 3291.11,
+      "sx": 56.55,
+      "sy": 15.64,
+      "rot": -0.2268,
+      "a": 0.38
+     }
+    ],
+    "lamps": [
+     {
+      "i": 3,
+      "a": 0.1704,
+      "polys": 8,
+      "walls": 8,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 10,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "room",
+   "tier": "medium",
+   "file": "room-medium.png",
+   "lightHash": "fc3b46de55f7634090abb5741f7bd2175e670682cb92d7bb6a6c0e3972f7137c",
+   "lightMean": 228.114,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 2649,
+    "buildMs": {
+     "mean": 0.013,
+     "p95": 0.1,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 6,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 25,
+     "candidateMax": 70,
+     "active": 10,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 94,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 300,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 9147,
+     "misses": 328,
+     "lampBuilds": 146,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1098.54,
+      "y": 3291.11,
+      "sx": 56.55,
+      "sy": 15.64,
+      "rot": -0.2268,
+      "a": 0.38
+     }
+    ],
+    "lamps": [
+     {
+      "i": 1,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 3,
+      "a": 1,
+      "polys": 18,
+      "walls": 18,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 26,
+      "walls": 26,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 0.5311,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 0.469
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 30,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "room",
+   "tier": "high",
+   "file": "room-high.png",
+   "lightHash": "a0bcd5b73927e700a38724fd2007dcb33922ecacb250df445cf673d46602ed98",
+   "lightMean": 228.114,
+   "state": {
+    "x": 1060,
+    "y": 3300,
+    "angle": -0.25,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 2709,
+    "buildMs": {
+     "mean": 0.011,
+     "p95": 0,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 8,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 29,
+     "candidateMax": 70,
+     "active": 13,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 200,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 900,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 4
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 9552,
+     "misses": 337,
+     "lampBuilds": 151,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1098.54,
+      "y": 3291.11,
+      "sx": 56.55,
+      "sy": 15.64,
+      "rot": -0.2268,
+      "a": 0.38
+     }
+    ],
+    "lamps": [
+     {
+      "i": 0,
+      "a": 0.7888,
+      "polys": 32,
+      "walls": 32,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 8,
+      "fill": 1
+     },
+     {
+      "i": 1,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 2,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 3,
+      "a": 1,
+      "polys": 24,
+      "walls": 24,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 43,
+      "walls": 43,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 0.4432
+     }
+    ],
+    "fillLights": 1,
+    "fillEvaluations": 49,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "peerfill",
+   "tier": "off",
+   "file": "peerfill-off.png",
+   "lightHash": "53fa7f4cec0dfbe86261a7ac5ee951172e1d13f503135006fbacff2ae71afb16",
+   "lightMean": 237.813,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "off",
+    "attached": true,
+    "disabled": "",
+    "frames": 2897,
+    "buildMs": {
+     "mean": 0.0236,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 0,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 0,
+     "candidateMax": 70,
+     "active": 0,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 0,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 0,
+     "max": 16,
+     "budget": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 0,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 0
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 10469,
+     "misses": 337,
+     "lampBuilds": 151,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "off",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [],
+    "lamps": [],
+    "fillLights": 2,
+    "fillEvaluations": 0,
+    "dynamic": {
+     "polys": 0,
+     "props": 0,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "peerfill",
+   "tier": "low",
+   "file": "peerfill-low.png",
+   "lightHash": "d0290c0af1b024f11b3338797d02392e581c9aef3a6ebe9548eb80a2e1791fbf",
+   "lightMean": 237.813,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "low",
+    "attached": true,
+    "disabled": "",
+    "frames": 2957,
+    "buildMs": {
+     "mean": 0.0205,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 3,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 12,
+     "candidateMax": 70,
+     "active": 7,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 29,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 2,
+     "max": 16,
+     "budget": 40,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 10580,
+     "misses": 340,
+     "lampBuilds": 153,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "low",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1698.54,
+      "y": 3143.79,
+      "sx": 23.37,
+      "sy": 15.64,
+      "rot": -1.8016,
+      "a": 0.0721
+     }
+    ],
+    "lamps": [
+     {
+      "i": 4,
+      "a": 0.3897,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 12,
+      "walls": 12,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     }
+    ],
+    "fillLights": 2,
+    "fillEvaluations": 12,
+    "dynamic": {
+     "polys": 2,
+     "props": 1,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "peerfill",
+   "tier": "medium",
+   "file": "peerfill-medium.png",
+   "lightHash": "cdafb3a781ce8bdd55727d3ce390caa9d04387ea89ebdabab183e1d55f5cc9af",
+   "lightMean": 237.812,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "medium",
+    "attached": true,
+    "disabled": "",
+    "frames": 3017,
+    "buildMs": {
+     "mean": 0.0205,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 7,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 29,
+     "candidateMax": 70,
+     "active": 17,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 139,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 7,
+     "max": 16,
+     "budget": 300,
+     "props": 2,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 10856,
+     "misses": 355,
+     "lampBuilds": 158,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "medium",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1698.54,
+      "y": 3143.79,
+      "sx": 23.37,
+      "sy": 15.64,
+      "rot": -1.8016,
+      "a": 0.0721
+     }
+    ],
+    "lamps": [
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 26,
+      "walls": 26,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 9,
+      "walls": 9,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 3,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 8,
+      "a": 0.4542,
+      "polys": 27,
+      "walls": 27,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 9,
+      "fill": 1
+     },
+     {
+      "i": 9,
+      "a": 0.8343,
+      "polys": 40,
+      "walls": 36,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 13,
+      "fill": 1
+     }
+    ],
+    "fillLights": 2,
+    "fillEvaluations": 18,
+    "dynamic": {
+     "polys": 7,
+     "props": 2,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "scene": "peerfill",
+   "tier": "high",
+   "file": "peerfill-high.png",
+   "lightHash": "7a757bf316613dcaf7dc19b2bbae5aaef34419df325b21b650507858e079a440",
+   "lightMean": 237.812,
+   "state": {
+    "x": 1776,
+    "y": 3460,
+    "angle": -1.721,
+    "light": true,
+    "blackout": false
+   },
+   "stats": {
+    "version": "shadows-2d 1.2",
+    "quality": "high",
+    "attached": true,
+    "disabled": "",
+    "frames": 3077,
+    "buildMs": {
+     "mean": 0.0205,
+     "p95": 0.2,
+     "max": 10.9,
+     "n": 1024
+    },
+    "lights": {
+     "last": 9,
+     "max": 10
+    },
+    "casters": {
+     "candidate": 41,
+     "candidateMax": 70,
+     "active": 20,
+     "activeMax": 25
+    },
+    "primitives": {
+     "last": 272,
+     "max": 345
+    },
+    "dynamicPolys": {
+     "last": 9,
+     "max": 16,
+     "budget": 900,
+     "props": 2,
+     "penumbrae": 0
+    },
+    "entityShadows": {
+     "last": 1,
+     "max": 1
+    },
+    "ao": {
+     "runs": 483,
+     "quads": 847,
+     "chunks": 24,
+     "visible": 2
+    },
+    "occluders": {
+     "wallCorners": 364,
+     "pillarCorners": 36,
+     "pillars": 9,
+     "props": 12
+    },
+    "cache": {
+     "lamps": 37,
+     "hits": 11261,
+     "misses": 364,
+     "lampBuilds": 163,
+     "lampBuildMsTotal": 13.4,
+     "lampBuildMsMax": 3.5,
+     "staticBuilds": 1,
+     "staticBuildMs": 4.5
+    },
+    "errors": 0
+   },
+   "snap": {
+    "quality": "high",
+    "disabled": "",
+    "layerIndex": 1,
+    "ents": [
+     {
+      "x": 1698.54,
+      "y": 3143.79,
+      "sx": 23.37,
+      "sy": 15.64,
+      "rot": -1.8016,
+      "a": 0.0721
+     }
+    ],
+    "lamps": [
+     {
+      "i": 3,
+      "a": 1,
+      "polys": 24,
+      "walls": 24,
+      "casters": 2,
+      "penumbrae": 2,
+      "props": 0,
+      "elements": 6,
+      "fill": 1
+     },
+     {
+      "i": 4,
+      "a": 1,
+      "polys": 43,
+      "walls": 43,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 1
+     },
+     {
+      "i": 5,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     },
+     {
+      "i": 6,
+      "a": 1,
+      "polys": 48,
+      "walls": 48,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 12,
+      "fill": 1
+     },
+     {
+      "i": 8,
+      "a": 1,
+      "polys": 44,
+      "walls": 44,
+      "casters": 3,
+      "penumbrae": 3,
+      "props": 0,
+      "elements": 11,
+      "fill": 1
+     },
+     {
+      "i": 9,
+      "a": 1,
+      "polys": 69,
+      "walls": 64,
+      "casters": 5,
+      "penumbrae": 4,
+      "props": 1,
+      "elements": 17,
+      "fill": 1
+     },
+     {
+      "i": 10,
+      "a": 1,
+      "polys": 16,
+      "walls": 16,
+      "casters": 1,
+      "penumbrae": 1,
+      "props": 0,
+      "elements": 4,
+      "fill": 1
+     }
+    ],
+    "fillLights": 2,
+    "fillEvaluations": 29,
+    "dynamic": {
+     "polys": 9,
+     "props": 2,
+     "penumbrae": 0
+    },
+    "aoVisible": [
+     [
+      0,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ]
+   }
+  }
+ ],
+ "errors": [],
+ "peer": {
+  "peerfill": {
+   "at": [
+    1700,
+    3150,
+    1.01
+   ],
+   "stood": [
+    1700,
+    3150
+   ]
+  }
+ },
+ "missing": [
+  "/camera_policy.js",
+  "/timing_policy.js"
+ ]
+}

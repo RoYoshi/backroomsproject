@@ -1,0 +1,19 @@
+Runtime and protected files: the staged SH7 tree against the accepted SH6 commit feed2d5c (git diff --stat, every path outside dev/ and the 2D_SHADOWS_* reports)
+
+ assets/shadows-2d.js | 204 ++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 171 insertions(+), 33 deletions(-)
+
+Protected files (blob ids, SH6 = staged SH7):
+ai.js  0b76d2b279125e8b0237fd79ccf404bb4339cdae  identical
+sim.js  f5ada5da6d8e389203f7b77d5d2bbef7955d6598  identical
+move.js  48f4b179e22c481aa90ec0ffe87ef344b9212235  identical
+server.js  32a0fc97e3d4f96d5efb5d0d26c01252fa25fe03  identical
+mp.js  001ce04249cb4fbde1ac7c31ee8b484a72ce8e49  identical
+death_srv.js  b99fe3e0b1f74d5f73b903a2b27832209a04d8ff  identical
+dphys.js  61b63da44ce7948526a900a2a3b947eaff117f04  identical
+camera_policy.js  f6600cc2b3afa453c439d1f3d35c016bfe12de80  identical
+world.js  0870bae479cee4ef163b37088ac311c029372023  identical
+index.html  ea2b78287c5c4a578d2e4a8d83081e05d123b163  identical
+light.js  0511277e61842e9f6e7cf54452f400c581345b48  identical
+timing_policy.js  c170518a51f4e0fce80a498ec7128bf29f6ac1fa  identical
+assets/index-DKbV5Nv9.js  944994903536160326418a65557d06864c3b02d0  identical

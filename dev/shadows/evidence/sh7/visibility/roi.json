@@ -1,0 +1,572 @@
+[
+ {
+  "label": "sh6-qa01-low",
+  "scene": "qa01",
+  "tier": "low",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 40,
+  "litPixels": 54604,
+  "mean": 0.0201,
+  "p90": 0.0701,
+  "p99": 0.3064,
+  "a10": 0.074,
+  "a25": 0.0159,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa01dark-low",
+  "scene": "qa01dark",
+  "tier": "low",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 18,
+  "litPixels": 88326,
+  "mean": 0.0194,
+  "p90": 0.067,
+  "p99": 0.3069,
+  "a10": 0.0735,
+  "a25": 0.0192,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa02-low",
+  "scene": "qa02",
+  "tier": "low",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86566,
+  "mean": 0.0428,
+  "p90": 0.1634,
+  "p99": 0.4085,
+  "a10": 0.1496,
+  "a25": 0.0548,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa02lit-low",
+  "scene": "qa02lit",
+  "tier": "low",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86874,
+  "mean": 0.0421,
+  "p90": 0.1609,
+  "p99": 0.4085,
+  "a10": 0.1464,
+  "a25": 0.0539,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-peer-low",
+  "scene": "peerfill",
+  "tier": "low",
+  "rect": [
+   480,
+   10,
+   320,
+   150
+  ],
+  "minLuma": 18,
+  "litPixels": 29855,
+  "mean": 0.4057,
+  "p90": 0.5509,
+  "p99": 0.594,
+  "a10": 0.8111,
+  "a25": 0.8042,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa01-medium",
+  "scene": "qa01",
+  "tier": "medium",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 40,
+  "litPixels": 54604,
+  "mean": 0.0195,
+  "p90": 0.0595,
+  "p99": 0.3064,
+  "a10": 0.0753,
+  "a25": 0.0189,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa01dark-medium",
+  "scene": "qa01dark",
+  "tier": "medium",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 18,
+  "litPixels": 88326,
+  "mean": 0.0189,
+  "p90": 0.0596,
+  "p99": 0.312,
+  "a10": 0.0701,
+  "a25": 0.02,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa02-medium",
+  "scene": "qa02",
+  "tier": "medium",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86566,
+  "mean": 0.0421,
+  "p90": 0.1622,
+  "p99": 0.4085,
+  "a10": 0.1464,
+  "a25": 0.055,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa02lit-medium",
+  "scene": "qa02lit",
+  "tier": "medium",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86874,
+  "mean": 0.0415,
+  "p90": 0.1594,
+  "p99": 0.4085,
+  "a10": 0.1448,
+  "a25": 0.0532,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-peer-medium",
+  "scene": "peerfill",
+  "tier": "medium",
+  "rect": [
+   480,
+   10,
+   320,
+   150
+  ],
+  "minLuma": 18,
+  "litPixels": 29855,
+  "mean": 0.4162,
+  "p90": 0.5596,
+  "p99": 0.6018,
+  "a10": 0.821,
+  "a25": 0.8104,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa01-high",
+  "scene": "qa01",
+  "tier": "high",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 40,
+  "litPixels": 54604,
+  "mean": 0.0192,
+  "p90": 0.0612,
+  "p99": 0.3064,
+  "a10": 0.0744,
+  "a25": 0.0182,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa01dark-high",
+  "scene": "qa01dark",
+  "tier": "high",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 18,
+  "litPixels": 88326,
+  "mean": 0.0186,
+  "p90": 0.0533,
+  "p99": 0.3102,
+  "a10": 0.071,
+  "a25": 0.0191,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa02-high",
+  "scene": "qa02",
+  "tier": "high",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86566,
+  "mean": 0.0418,
+  "p90": 0.1616,
+  "p99": 0.4085,
+  "a10": 0.147,
+  "a25": 0.0535,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-qa02lit-high",
+  "scene": "qa02lit",
+  "tier": "high",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86874,
+  "mean": 0.0411,
+  "p90": 0.1577,
+  "p99": 0.4085,
+  "a10": 0.1429,
+  "a25": 0.0523,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh6-peer-high",
+  "scene": "peerfill",
+  "tier": "high",
+  "rect": [
+   480,
+   10,
+   320,
+   150
+  ],
+  "minLuma": 18,
+  "litPixels": 29855,
+  "mean": 0.4191,
+  "p90": 0.563,
+  "p99": 0.606,
+  "a10": 0.8247,
+  "a25": 0.807,
+  "dir": "sh6"
+ },
+ {
+  "label": "sh7-qa01-low",
+  "scene": "qa01",
+  "tier": "low",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 40,
+  "litPixels": 54571,
+  "mean": 0.0104,
+  "p90": 0,
+  "p99": 0.3044,
+  "a10": 0.0376,
+  "a25": 0.0155,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa01dark-low",
+  "scene": "qa01dark",
+  "tier": "low",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 18,
+  "litPixels": 88320,
+  "mean": 0.0119,
+  "p90": 0,
+  "p99": 0.3028,
+  "a10": 0.0436,
+  "a25": 0.016,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa02-low",
+  "scene": "qa02",
+  "tier": "low",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86565,
+  "mean": 0.0322,
+  "p90": 0.1311,
+  "p99": 0.4077,
+  "a10": 0.1155,
+  "a25": 0.0477,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa02lit-low",
+  "scene": "qa02lit",
+  "tier": "low",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86845,
+  "mean": 0.0315,
+  "p90": 0.1272,
+  "p99": 0.4075,
+  "a10": 0.1138,
+  "a25": 0.047,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-peer-low",
+  "scene": "peerfill",
+  "tier": "low",
+  "rect": [
+   480,
+   10,
+   320,
+   150
+  ],
+  "minLuma": 18,
+  "litPixels": 29633,
+  "mean": 0.4082,
+  "p90": 0.5504,
+  "p99": 0.5937,
+  "a10": 0.8156,
+  "a25": 0.8089,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa01-medium",
+  "scene": "qa01",
+  "tier": "medium",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 40,
+  "litPixels": 54571,
+  "mean": 0.0104,
+  "p90": 0,
+  "p99": 0.3043,
+  "a10": 0.0376,
+  "a25": 0.0155,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa01dark-medium",
+  "scene": "qa01dark",
+  "tier": "medium",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 18,
+  "litPixels": 88320,
+  "mean": 0.0118,
+  "p90": 0,
+  "p99": 0.3032,
+  "a10": 0.0432,
+  "a25": 0.016,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa02-medium",
+  "scene": "qa02",
+  "tier": "medium",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86565,
+  "mean": 0.0321,
+  "p90": 0.1311,
+  "p99": 0.4079,
+  "a10": 0.1155,
+  "a25": 0.0476,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa02lit-medium",
+  "scene": "qa02lit",
+  "tier": "medium",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86845,
+  "mean": 0.0315,
+  "p90": 0.1272,
+  "p99": 0.4077,
+  "a10": 0.1138,
+  "a25": 0.047,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-peer-medium",
+  "scene": "peerfill",
+  "tier": "medium",
+  "rect": [
+   480,
+   10,
+   320,
+   150
+  ],
+  "minLuma": 18,
+  "litPixels": 29633,
+  "mean": 0.4187,
+  "p90": 0.5592,
+  "p99": 0.6009,
+  "a10": 0.8256,
+  "a25": 0.8149,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa01-high",
+  "scene": "qa01",
+  "tier": "high",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 40,
+  "litPixels": 54571,
+  "mean": 0.0104,
+  "p90": 0,
+  "p99": 0.3043,
+  "a10": 0.0375,
+  "a25": 0.0155,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa01dark-high",
+  "scene": "qa01dark",
+  "tier": "high",
+  "rect": [
+   150,
+   280,
+   500,
+   340
+  ],
+  "minLuma": 18,
+  "litPixels": 88320,
+  "mean": 0.0117,
+  "p90": 0,
+  "p99": 0.3032,
+  "a10": 0.0433,
+  "a25": 0.016,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa02-high",
+  "scene": "qa02",
+  "tier": "high",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86565,
+  "mean": 0.032,
+  "p90": 0.1305,
+  "p99": 0.4084,
+  "a10": 0.1156,
+  "a25": 0.0474,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-qa02lit-high",
+  "scene": "qa02lit",
+  "tier": "high",
+  "rect": [
+   520,
+   60,
+   300,
+   420
+  ],
+  "minLuma": 18,
+  "litPixels": 86845,
+  "mean": 0.0314,
+  "p90": 0.1263,
+  "p99": 0.4079,
+  "a10": 0.1134,
+  "a25": 0.0468,
+  "dir": "sh7"
+ },
+ {
+  "label": "sh7-peer-high",
+  "scene": "peerfill",
+  "tier": "high",
+  "rect": [
+   480,
+   10,
+   320,
+   150
+  ],
+  "minLuma": 18,
+  "litPixels": 29633,
+  "mean": 0.3338,
+  "p90": 0.4488,
+  "p99": 0.482,
+  "a10": 0.8256,
+  "a25": 0.8046,
+  "dir": "sh7"
+ }
+]

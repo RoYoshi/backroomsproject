@@ -220,8 +220,12 @@ const castLayer = p => p.world.children[1].children.find(c => c.label === 'shado
 const dynLayer = p => castLayer(p).children.find(c => c.label === 'shadows-cast-props');          // carried lights: prop shadows
 const frLayer = p => castLayer(p).children.find(c => c.label === 'shadows-cast-penumbrae');       // carried lights: corner penumbrae
 const lampIdx = g => +g.label.split('-').pop();
-const lampWalls = (p, g) => { const l = p.S.snapshot().lamps.find(l => l.i === lampIdx(g)); return g.polys.slice(0, l ? l.walls : 0); };   // a lamp builds penumbrae first, then props
-const lampProps = (p, g) => { const l = p.S.snapshot().lamps.find(l => l.i === lampIdx(g)); return g.polys.slice(l ? l.walls : 0); };
+/* SH7: a lamp's cache is a container (alpha: the lamp's power) of shadow elements, one Graphics each (alpha: its mixed-light
+ * scale): penumbra bands ('shadows-lamp-fr', built first) and prop shadows ('shadows-lamp-prop') */
+const lampEls = (g, kind) => g.children.filter(c => !kind || c.label === 'shadows-lamp-' + kind);
+const lampPolys = (g, kind) => lampEls(g, kind).flatMap(c => c.polys);
+const lampWalls = (p, g) => lampPolys(g, 'fr');
+const lampProps = (p, g) => lampPolys(g, 'prop');
 const polyPts = q => { const a = []; for (let i = 0; i < q.p.length; i += 2) a.push([q.p[i], q.p[i + 1]]); return a; };
 const centroid = q => { const a = polyPts(q); return [a.reduce((s, v) => s + v[0], 0) / a.length, a.reduce((s, v) => s + v[1], 0) / a.length]; };
 const at = (p, x, y, ang = 0) => { p.H.x = x; p.H.y = y; p.H.angle = ang; p.person.position.set(x, y); p.world.position.set(640 - x * 1.18, 360 - y * 1.18); };
@@ -262,17 +266,20 @@ function convexCorners(g) {
   for (const r of g.Pc) for (const [x, y] of [[r.x, r.y], [r.x + r.w, r.y], [r.x + r.w, r.y + r.h], [r.x, r.y + r.h]]) set.add(x + ',' + y);
   return set;
 }
-/* checks every penumbra polygon of one light: apex on a convex corner, extends away from the light, lies where the light reaches */
-function checkPenumbrae(g, L, polys, corners) {
-  let n = 0, apex = 0, back = 0, dark = 0;
+/* checks every penumbra polygon of one light: its wedge's apex is a convex corner, it extends away from the light, lies where
+ * the light reaches, and (SH7) stays within the bounded reach of its corner.  A corner's wedge is emitted as consecutive
+ * polygons: the first length band as fans from the corner (the corner first), then the further bands (quads) */
+function checkPenumbrae(g, L, polys, corners, reach = Infinity) {
+  let n = 0, apex = 0, back = 0, dark = 0, long = 0, far = 0, cur = null;
   for (const q of polys) {
     const pts = polyPts(q); n++; const dl = ([x, y]) => Math.hypot(x - L.x, y - L.y);
-    if (!corners.has(pts[0].join(','))) apex++;                               // a fan from the corner: the corner first, then its far edge
-    if (pts.slice(1).some(v => dl(v) < dl(pts[0]) - .01)) back++;
+    if (corners.has(pts[0].join(','))) cur = pts[0]; else if (!cur) { apex++; continue; }
+    if (pts.some(v => dl(v) < dl(cur) - .01)) back++;
+    for (const v of pts) { const r = Math.hypot(v[0] - cur[0], v[1] - cur[1]); far = Math.max(far, r); if (r > reach + 1) long++; }
     const [mx, my] = centroid(q), d = Math.hypot(mx - L.x, my - L.y);
     if (g.Uc(L.x, L.y, Math.atan2(my - L.y, mx - L.x), d) < d - 1) dark++;                 // the overlay already darkens there: never drawn
   }
-  return { n, apex, back, dark };
+  return { n, apex, back, dark, long, far: +far.toFixed(1) };
 }
 function settleLamps(p, n = 30) { for (let i = 0; i < n; i++) p.frame(1 / 60); }
 const propL1 = () => require(path.join(ROOT, 'world.js')).PROPS.find(p => p.id === 'L1');
@@ -289,13 +296,13 @@ run('C01 lamp shadows of props fall away from the lamp (every prop-shadow polygo
   }
   return { ok: out.length > 0 && out.every(d => d > 0), note: `${lamps.length} lamps, ${out.length} prop-shadow polygons, min dot ${Math.min(...out).toFixed(1)}` };
 });
-run('C02 lamp wall penumbrae: apex on a convex wall/pillar corner, extend away from the lamp, only where the lamp\'s light reaches (no double black)', () => {
-  const corners = convexCorners(makeGame()), tot = { n: 0, apex: 0, back: 0, dark: 0 }; let lampsWith = 0;
+run('C02 lamp wall penumbrae: apex on a convex wall/pillar corner, extend away from the lamp, only where the lamp\'s light reaches (no double black), within 130 px of the corner (SH7)', () => {
+  const corners = convexCorners(makeGame()), tot = { n: 0, apex: 0, back: 0, dark: 0, long: 0 }; let lampsWith = 0, far = 0;
   for (const [x, y] of [[1060, 3300], [3984, 3470], [8000, 1200], [600, 2930]]) {
     const p = makePage({ lightOn: false }); p.S.setQuality('high'); at(p, x, y); settleLamps(p, 40);
-    for (const g of lampLayer(p).children.filter(g => g.visible)) { const r = checkPenumbrae(p.g, p.g.Fc[lampIdx(g)], lampWalls(p, g), corners); if (r.n) lampsWith++; for (const k in tot) tot[k] += r[k]; }
+    for (const g of lampLayer(p).children.filter(g => g.visible)) { const r = checkPenumbrae(p.g, p.g.Fc[lampIdx(g)], lampWalls(p, g), corners, 130); if (r.n) lampsWith++; far = Math.max(far, r.far); for (const k in tot) tot[k] += r[k]; }
   }
-  return { ok: tot.n > 0 && lampsWith >= 3 && !tot.apex && !tot.back && !tot.dark, note: `${tot.n} penumbra polygons from ${lampsWith} lamps; off-corner ${tot.apex}, pointing back ${tot.back}, over the umbra ${tot.dark}` };
+  return { ok: tot.n > 0 && lampsWith >= 3 && !tot.apex && !tot.back && !tot.dark && !tot.long, note: `${tot.n} penumbra polygons from ${lampsWith} lamps; off-corner ${tot.apex}, pointing back ${tot.back}, over the umbra ${tot.dark}, beyond 130 px ${tot.long} (farthest ${far} px)` };
 });
 run('C03 lamp flicker: a lamp\'s shadow strength follows the overlay\'s own lamp power every frame (failures dim it, never brighter than nominal)', () => {
   const p = makePage({ lightOn: false }); at(p, 1060, 3300); settleLamps(p);
@@ -351,7 +358,7 @@ run('C09 no NaN / Infinity in any lamp or carried-light polygon, and every polyg
   for (let k = 0; k < 120; k++) {
     at(p, 300 + R() * 8800, 300 + R() * 6200, R() * 12 - 6); p.win.__peerLights = [{ x: p.H.x + R() * 300 - 150, y: p.H.y + R() * 300 - 150, angle: R() * 7, kind: 'flashlight', on: true }, { x: NaN, y: 1, on: true, kind: 'lantern' }];
     p.frame([0, 1 / 60, 3, 1e-9][k % 4]);
-    for (const g of [...lampLayer(p).children, dynLayer(p), frLayer(p)]) for (const q of g.polys) {
+    for (const g of [...lampLayer(p).children.flatMap(b => lampEls(b)), dynLayer(p), frLayer(p)]) for (const q of g.polys) {
       polys++; for (const v of q.p) if (!Number.isFinite(v)) throw Error('NaN in ' + g.label); if (!Number.isFinite(q.fill.alpha) || q.fill.alpha <= 0 || q.fill.alpha > 1) throw Error('alpha ' + q.fill.alpha);
       if (seen.has(q.p)) shared++; seen.add(q.p);
     }
@@ -361,7 +368,7 @@ run('C09 no NaN / Infinity in any lamp or carried-light polygon, and every polyg
 });
 run('C10 stable ordering: the same scene and light state build identical lamp and carried geometry', () => {
   const mk = () => { const p = makePage(); at(p, 1700, 3470, -1.2); p.win.__peerLights = [{ x: 1650, y: 3420, angle: -1, kind: 'flashlight', on: true }]; settleLamps(p, 30); return p; };
-  const a = mk(), b = mk(), sig = p => JSON.stringify([lampLayer(p).children.map(g => [g.label, g.visible, +g.alpha.toFixed(5), g.polys.length, g.polys.slice(0, 40)]), dynLayer(p).polys, frLayer(p).polys]);
+  const a = mk(), b = mk(), sig = p => JSON.stringify([lampLayer(p).children.map(g => [g.label, g.visible, +g.alpha.toFixed(5), lampEls(g).map(c => +c.alpha.toFixed(5)), lampPolys(g).length, lampPolys(g).slice(0, 40)]), dynLayer(p).polys, frLayer(p).polys]);
   return { ok: sig(a) === sig(b), note: `${lampLayer(a).children.length} lamp caches, ${dynLayer(a).polys.length} prop + ${frLayer(a).polys.length} penumbra polygons` };
 });
 run('C11 LOW / MEDIUM / HIGH: fidelity grows with the tier (lamps, samples, penumbra wedges), LOW keeps every kind of shadow; OFF draws nothing', () => {
@@ -385,26 +392,27 @@ run('C13 other wanderers\' lights: bounded, cast prop shadows and pillar penumbr
   const corners = convexCorners(makeGame());
   const p = makePage({ lightOn: false }); at(p, 8000, 1150, 0); const pl = { x: 7930, y: 1260, angle: .55, kind: 'flashlight', on: true };     // a pillar (8084,1364)-(8140,1420) in its beam
   p.win.__peerLights = [pl, { x: 7980, y: 1100, angle: 0, kind: 'flashlight', on: false }, { x: 8020, y: 1180, angle: 0, kind: 'flashlight', on: true, dead: true }]; p.win.__ents.lamp = () => 0;
-  p.frame(1 / 60); const st = p.S.stats(), pen = checkPenumbrae(p.g, pl, frLayer(p).polys, corners);
+  p.frame(1 / 60); const st = p.S.stats(), pen = checkPenumbrae(p.g, pl, frLayer(p).polys, corners, 110);
   const pillarApex = frLayer(p).polys.filter(q => p.g.Pc.some(r => [[r.x, r.y], [r.x + r.w, r.y], [r.x + r.w, r.y + r.h], [r.x, r.y + r.h]].some(([x, y]) => x === q.p[0] && y === q.p[1]))).length;
-  return { ok: st.lights.last === 1 && pen.n > 0 && pillarApex > 0 && !pen.apex && !pen.back && !pen.dark && st.dynamicPolys.last <= st.dynamicPolys.budget,
-    note: `lights ${st.lights.last}, penumbra polygons ${pen.n} (from pillar corners ${pillarApex}), bad ${pen.apex}/${pen.back}/${pen.dark}, polys ${st.dynamicPolys.last}/${st.dynamicPolys.budget}` };
+  return { ok: st.lights.last === 1 && pen.n > 0 && pillarApex > 0 && !pen.apex && !pen.back && !pen.dark && !pen.long && st.dynamicPolys.last <= st.dynamicPolys.budget,
+    note: `lights ${st.lights.last}, penumbra polygons ${pen.n} (from pillar corners ${pillarApex}), bad ${pen.apex}/${pen.back}/${pen.dark}/${pen.long} (farthest ${pen.far} px), polys ${st.dynamicPolys.last}/${st.dynamicPolys.budget}` };
 });
-run('C14 your light\'s penumbrae: from convex corners in the beam, on the lit side of the edge the overlay already cuts, away from you', () => {
-  const corners = convexCorners(makeGame()), tot = { n: 0, apex: 0, back: 0, dark: 0 }, per = [];
+run('C14 your light\'s penumbrae: from convex corners in the beam, on the lit side of the edge the overlay already cuts, away from you, within 110 px of the corner (SH7)', () => {
+  const corners = convexCorners(makeGame()), tot = { n: 0, apex: 0, back: 0, dark: 0, long: 0 }, per = [];
   for (const [x, y, a] of [[7900, 1300, .2], [8100, 1500, -2.4], [3600, 3504, 0], [1180, 2830, 2.4], [7860, 1150, .05]]) {
     const p = makePage(); p.S.setQuality('high'); at(p, x, y, a); p.win.__ents.lamp = () => 0; p.frame(1 / 60); p.frame(1 / 60);
-    const r = checkPenumbrae(p.g, { x: p.H.x, y: p.H.y }, frLayer(p).polys, corners); per.push(r.n); for (const k in tot) tot[k] += r[k];
+    const r = checkPenumbrae(p.g, { x: p.H.x, y: p.H.y }, frLayer(p).polys, corners, 110); per.push(r.n); for (const k in tot) tot[k] += r[k];
   }
-  return { ok: tot.n > 0 && per.filter(n => n > 0).length >= 3 && !tot.apex && !tot.back && !tot.dark, note: `polygons per scene ${JSON.stringify(per)}; off-corner ${tot.apex}, pointing back ${tot.back}, over the umbra ${tot.dark}` };
+  return { ok: tot.n > 0 && per.filter(n => n > 0).length >= 3 && !tot.apex && !tot.back && !tot.dark && !tot.long, note: `polygons per scene ${JSON.stringify(per)}; off-corner ${tot.apex}, pointing back ${tot.back}, over the umbra ${tot.dark}, beyond 110 px ${tot.long}` };
 });
 /* follow every caster's own shadow along a path: fringes grouped by their apex corner, carried-light props as one group */
+const CORNERS = convexCorners(makeGame());
 function trackCasters(q, path) {
   const p = makePage(); p.S.setQuality(q); p.win.__ents.lamp = () => 0; const series = new Map(), totals = []; let n = 0;
   for (const [x, y, ang] of path) {
     assert(!p.g.Hc(Math.floor(x / 96), Math.floor(y / 96)), 'path inside a wall'); at(p, x, y, ang); p.frame(1 / 60);
     const by = new Map(); let cur = null;
-    for (const t of frLayer(p).polys) { if (!cur || t.p[0] !== cur[0] || t.p[1] !== cur[1]) cur = [t.p[0], t.p[1]]; const k = cur.join(','); by.set(k, (by.get(k) || 0) + polyMass(t)); }
+    for (const t of frLayer(p).polys) { if (CORNERS.has(t.p[0] + ',' + t.p[1])) cur = [t.p[0], t.p[1]]; const k = cur ? cur.join(',') : '?'; by.set(k, (by.get(k) || 0) + polyMass(t)); }
     by.set('props', mass(dynLayer(p).polys));
     for (const k of by.keys()) if (!series.has(k)) series.set(k, new Array(n).fill(0));
     for (const [k, arr] of series) arr.push(by.get(k) || 0);
@@ -518,7 +526,7 @@ run('C19 bounded work: in steady state the ray queries per frame stay under a ce
  * alpha x its light texture of what is left), times its Graphics' alpha (lamp caches follow the lamp's power) */
 function inConvex(P, x, y) { let sg = 0; for (let i = 0; i < P.length; i++) { const [ax, ay] = P[i], [bx, by] = P[(i + 1) % P.length], c = (bx - ax) * (y - ay) - (by - ay) * (x - ax); if (Math.abs(c) > 1e-9) { if (sg && Math.sign(c) !== sg) return false; sg = Math.sign(c); } } return true; }
 function darkAt(groups, x, y) { let keep = 1; for (const [polys, ga] of groups) for (const q of polys) if (inConvex(polyPts(q), x, y)) keep *= 1 - Math.min(1, effAlpha(q, x, y) * ga); return 1 - keep; }
-const lampGroups = p => lampLayer(p).children.filter(g => g.visible).map(g => [g.polys, g.alpha]);
+const lampGroups = p => lampLayer(p).children.filter(g => g.visible).flatMap(g => lampEls(g).filter(c => c.visible).map(c => [c.polys, g.alpha * c.alpha]));
 /* grounding: the alpha a strip / corner quad puts at a point (its texture sampled as Pixi stretches it, times the chunk alpha) */
 function aoAt(q, x, y) { const img = q.tex.src.img, u = Math.floor((x - q.x) / q.w * img.width), v = Math.floor((y - q.y) / q.h * img.height); if (u < 0 || v < 0 || u >= img.width || v >= img.height) return 0; return img.data[(v * img.width + u) * 4 + 3] / 255 * q.chunk.alpha; }
 const CAP = .85;   // no shadow class, alone or overlapping, may come near opaque black
@@ -593,6 +601,88 @@ run('V08 the strongest place in the busiest scenes stays partial: everything dra
     out.push(+mx.toFixed(3));
   }
   return { ok: out.every(v => v <= CAP), note: `strongest composed darkening per scene (Pillar Hall, counter, shelf under lamps, spawn): ${JSON.stringify(out)}` };
+});
+
+/* ===== SH7: human-QA correction - mixed-light composition, bounded penumbrae, tier policy ===== */
+/* the overlay's own carried-light cut at a point (drawLight: 52 px glow .35, 12 nested arcs of 1 − (1 − power)^(1/12), radial
+ * stops 1 / .83 / .28 / 0), written here independently of the module, walls clipping it by the game's ray query */
+function beamCut(g, L, ang, x, y) {
+  const f = g.Gc.flashlight, dx = x - L.x, dy = y - L.y, d = Math.hypot(dx, dy), gr = (d, r) => { const s = Math.max(0, Math.min(1, (d - 6) / (r - 6))); return s <= .25 ? 1 - .17 * s / .25 : s <= .7 ? .83 - .55 * (s - .25) / .45 : .28 * (1 - (s - .7) / .3); };
+  if (d > 3 && g.Uc(L.x, L.y, Math.atan2(dy, dx), d) < d - 2) return 0;
+  let keep = d < 52 ? 1 - .35 * gr(d, 52) : 1; const e = 1 - Math.pow(1 - f.power, 1 / 12), ph = Math.abs(Math.atan2(Math.sin(Math.atan2(dy, dx) - ang), Math.cos(Math.atan2(dy, dx) - ang)));
+  if (d < f.range) for (let t = 0; t < 12; t++) if (ph <= f.arc * (1 - t * .063) / 2) keep *= 1 - e * gr(d, f.range);
+  return 1 - keep;
+}
+run('X01 mixed light (SH-QA-01): inside your flashlight beam a lamp\'s shadow gives way to the flashlight (strong beam, cut > .3: at most 45 % of its lamps-only darkening, and close to the exact share), outside the beam it is unchanged', () => {
+  /* the QA01 geometry: the YELLOW HALL spawn lamp (#4) grazes the partition corner (960,3360); you stand south-east of it with
+   * the beam along that lamp's shadow edge */
+  const A = Math.atan2(3400 - 3440, 930 - 1060), mk = on => { const p = makePage({ lightOn: on }); at(p, 1060, 3440, A); settleLamps(p, 40); return p; };
+  const on = mk(true), off = mk(false), L = { x: 1060, y: 3440 }, Gon = lampGroups(on), Goff = lampGroups(off), lamp = on.g.Fc[4];
+  let inN = 0, inWorst = 0, exactErr = 0, outN = 0, outDiff = 0; const pts = [];
+  /* sample inside every lamp shadow polygon (the wedges are thin now: a grid would miss them): its centroid and points 20 / 45 / 70 %
+   * of the way from it to each vertex */
+  for (const g of lampLayer(off).children.filter(g => g.visible)) for (const q of lampPolys(g)) { const P = polyPts(q), [cx, cy] = centroid(q); pts.push([cx, cy]); for (const v of P) for (const f of [.2, .45, .7]) pts.push([cx + (v[0] - cx) * f, cy + (v[1] - cy) * f]); }
+  for (const [x, y] of pts) {
+    const a0 = darkAt(Goff, x, y); if (a0 < .03) continue;
+    const a1 = darkAt(Gon, x, y), c = beamCut(on.g, L, A, x, y);
+    if (c > .3) { inN++; inWorst = Math.max(inWorst, a1 / a0);
+      /* the exact share: m = K (1 − D) / (1 − D K) with K the flashlight's keep, D = .92 × the lamp's keep (see the module) */
+      const r = Math.hypot(x - lamp.x, y - lamp.y), kl = 1 - .43 * (r <= 6 ? 1 : r <= 193 ? 1 - .65 * (r - 6) / 187 : r < 380 ? .35 * (1 - (r - 193) / 187) : 0), D = .92 * kl, K = 1 - c;
+      exactErr = Math.max(exactErr, Math.abs(a1 - a0 * K * (1 - D) / (1 - D * K))); }
+    else if (c === 0 && Math.hypot(x - L.x, y - L.y) > 60) { outN++; outDiff = Math.max(outDiff, Math.abs(a1 - a0)); }
+  }
+  return { ok: inN > 20 && inWorst <= .45 && exactErr <= .06 && outN > 20 && outDiff <= .01,
+    note: `in the beam: ${inN} lamp-shadowed samples, worst ratio to lamps-only ${inWorst.toFixed(3)}, largest error vs the exact share ${exactErr.toFixed(3)}; outside: ${outN} samples, largest change ${outDiff.toFixed(4)}` };
+});
+run('X02 mixed light at LOW and from another wanderer\'s light: LOW fills too; a peer\'s beam fills a lamp shadow as yours does', () => {
+  const pose = p => { at(p, 1130, 3420, 2.6); settleLamps(p, 40); };
+  const low = makePage(); low.S.setQuality('low'); pose(low); const lowOff = makePage({ lightOn: false }); lowOff.S.setQuality('low'); pose(lowOff);
+  const peer = makePage({ lightOn: false }); peer.win.__peerLights = [{ x: 1130, y: 3420, angle: 2.6, kind: 'flashlight', on: true }]; pose(peer);
+  const base = makePage({ lightOn: false }); pose(base);
+  const sum = G => { let s = 0; for (let x = 820; x <= 1100; x += 8) for (let y = 3380; y <= 3600; y += 8) if (beamCut(base.g, { x: 1130, y: 3420 }, 2.6, x, y) > .3) s += darkAt(G, x, y); return s; };
+  const r = { low: sum(lampGroups(low)) / Math.max(1e-6, sum(lampGroups(lowOff))), peer: sum(lampGroups(peer)) / Math.max(1e-6, sum(lampGroups(base))) };
+  return { ok: r.low > 0 && r.low <= .5 && r.peer > 0 && r.peer <= .5, note: `lamp shadow in the beam relative to no carried light: LOW (your light) ${r.low.toFixed(3)}, MEDIUM (a peer's light) ${r.peer.toFixed(3)}` };
+});
+run('X03 penumbra shape (SH-QA-02): every lamp and carried-light wedge stays within its reach (130 / 110 px) and far width (22 / 26 px) of the hard edge, and fades along its length', () => {
+  const corners = convexCorners(makeGame()); let lampW = 0, carW = 0, lampN = 0, carN = 0, fadeBad = 0;
+  const width = (L, apex, pts) => { const ux = apex[0] - L.x, uy = apex[1] - L.y, d = Math.hypot(ux, uy); let w = 0; for (const v of pts) w = Math.max(w, Math.abs((v[0] - apex[0]) * (-uy / d) + (v[1] - apex[1]) * (ux / d))); return w; };
+  /* strength along a wedge: the fill alpha of its first slice, band by band, must fall (bands are consecutive polygons) */
+  const walk = (L, polys) => { let cur = null, prev = Infinity, w = 0, seenBand = 0; for (const q of polys) { const P = polyPts(q); if (corners.has(P[0].join(','))) { if (!cur || cur.join() !== P[0].join()) { prev = Infinity; } cur = P[0]; if (q.fill.alpha > prev + 1e-9 && seenBand) fadeBad++; } if (!cur) continue; w = Math.max(w, width(L, cur, P)); } return w; };
+  for (const [x, y, a] of [[1060, 3300, -.25], [1130, 3420, 2.6], [880, 3560, -.8], [8400, 1300, .45], [7900, 1300, .2], [3600, 3504, 0]]) {
+    const p = makePage(); p.S.setQuality('high'); at(p, x, y, a); settleLamps(p, 30);
+    for (const g of lampLayer(p).children.filter(g => g.visible)) { const lp = p.g.Fc[lampIdx(g)]; lampN += lampWalls(p, g).length; lampW = Math.max(lampW, walk(lp, lampWalls(p, g))); }
+    carN += frLayer(p).polys.length; carW = Math.max(carW, walk({ x, y }, frLayer(p).polys));
+  }
+  /* the fade: a band never has more weight than the one before it, per corner and slice (checked on the module's own constants) */
+  const bandsFall = [2, 3, 4].every(M => { let prev = 2; for (let b = 0; b < M; b++) { const f = Math.pow(1 - (b + .5) / M, 1.25); if (!(f < prev)) return false; prev = f; } return prev < .3; });
+  return { ok: lampN > 0 && carN > 0 && lampW <= 23 && carW <= 27 && bandsFall, note: `lamp wedge polygons ${lampN}, widest ${lampW.toFixed(1)} px; carried ${carN}, widest ${carW.toFixed(1)} px; band weights fall to < .3: ${bandsFall}` };
+});
+run('X04 tier policy: OFF nothing; LOW cheap (fewest casters, 2 bands, one blob per entity) but every class present; MEDIUM between; HIGH richer and bounded (more bands, lights and casters) and composes several wanderers\' lights: another wanderer\'s beam from across the counter fills your shadow at HIGH (the peer\'s own new shadows are the same at MEDIUM and HIGH: the total with its beam is lower at HIGH; LOW draws no peer shadow and fills none); lamps never thin your flashlight\'s shadows at any tier', () => {
+  const t = makePage().S.tiers(), res = {};
+  for (const q of ['low', 'medium', 'high']) {
+    const one = (peer, lamps) => { const p = makePage(); p.S.setQuality(q); if (!lamps) p.win.__ents.lamp = () => 0;
+      if (peer) p.win.__peerLights = [{ x: 1700, y: 3150, angle: 1.01, kind: 'flashlight', on: true }];       // across the counter, its beam back over your shadow
+      at(p, 1776, 3460, -1.721); settleLamps(p, 40); return { m: mass(dynLayer(p).polys), st: p.S.stats() }; };
+    const a = one(false, false), b = one(true, false), c = one(false, true);
+    res[q] = { alone: +a.m.toFixed(0), withPeerBeam: +(b.m / a.m).toFixed(3), underLamps: +(c.m / a.m).toFixed(3), polys: Math.max(a.st.dynamicPolys.max, b.st.dynamicPolys.max), budget: t[q].budget };
+  }
+  const ok = !t.off.lamps && !t.off.local && !t.off.ents && t.low.bands < t.medium.bands && t.medium.bands < t.high.bands && t.low.lamps < t.medium.lamps && t.medium.lamps < t.high.lamps &&
+    t.low.budget < t.medium.budget && t.medium.budget < t.high.budget && t.low.ents < t.medium.ents && !t.low.fillAll && !t.medium.fillAll && t.high.fillAll && t.low.fillPeers <= t.medium.fillPeers && t.medium.fillPeers < t.high.fillPeers &&
+    Object.values(res).every(r => r.polys <= r.budget && Math.abs(r.underLamps - 1) < .01) && Math.abs(res.low.withPeerBeam - 1) < .01 && res.high.withPeerBeam < res.medium.withPeerBeam * .9;
+  return { ok, note: JSON.stringify(res) };
+});
+
+run('X05 a prop\'s shadows from two lights on the same side stack, never cancel: behind the counter, where both your beam and another wanderer\'s are blocked by it, HIGH stays at least as dark as your shadow alone; a lamp\'s prop shadow is not filled by your beam where the same prop shades you too', () => {
+  const W = require(path.join(ROOT, 'world.js')), r = W.PROPS.find(q => q.id === 'L1').rect, bx = r.x + r.w / 2, by = r.y - 40;     // just beyond the counter, seen from the south
+  const one = (q, peer) => { const p = makePage(); p.S.setQuality(q); p.win.__ents.lamp = () => 0; if (peer) p.win.__peerLights = [{ x: 1896, y: 3420, angle: -2.1, kind: 'flashlight', on: true }];
+    at(p, 1776, 3460, -1.721); settleLamps(p, 40); return +darkAt([[dynLayer(p).polys, 1]], bx, by).toFixed(3); };
+  const res = { mediumAlone: one('medium', false), mediumBoth: one('medium', true), highAlone: one('high', false), highBoth: one('high', true) };
+  /* lamps: the toppled shelf L2 under its two lamps, your beam from the south across it: lamp prop-shadow elements behind
+   * the shelf as seen from you keep (nearly) their lamps-only strength */
+  const S2 = W.PROPS.find(q => q.id === 'L2').rect, mk = on => { const p = makePage({ lightOn: on }); at(p, S2.x + S2.w / 2, S2.y + S2.h + 110, -Math.PI / 2); settleLamps(p, 40); return p; };
+  const on = mk(true), off = mk(false), pts = []; for (let x = S2.x + 6; x < S2.x + S2.w - 6; x += 6) pts.push([x, S2.y - 12]);
+  const sum = p => pts.reduce((a, [x, y]) => a + darkAt(lampGroups(p), x, y), 0), lamp = { off: +sum(off).toFixed(3), on: +sum(on).toFixed(3) };
+  return { ok: res.highBoth >= res.highAlone - .02 && res.mediumBoth >= res.mediumAlone - .02 && res.highAlone > .3 && lamp.off > 0 && lamp.on >= lamp.off * .9, note: JSON.stringify({ behindCounter: res, lampShadowBehindShelf: lamp }) };
 });
 
 const pass = results.filter(r => r.ok).length;
