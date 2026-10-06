@@ -1,6 +1,8 @@
 # BR-RoLE BR2.1: human QA
 
-**Status: `BR-RoLE BR2.1 HUMAN-QA CANDIDATE — WAITING FOR USER`**
+**Status: approved by the user** (BR3 began on that approval; see `BR_ROLE_1_0_HUMAN_QA.md`). This page is kept as the BR2.1 record.
+
+~~`BR-RoLE BR2.1 HUMAN-QA CANDIDATE — WAITING FOR USER`~~
 
 BR2.1 is the shadow and actor-lighting polish on top of BR2, which you accepted. I have not marked anything PASS. **BR3 does not start** until you explicitly approve BR2.1.
 

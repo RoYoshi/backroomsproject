@@ -154,7 +154,14 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
       const j = __brRole.actors().filter(a => a.kind === 'hound' && a.dominant), pr = hs.length ? __brRole.probe(hs[0].x, hs[0].y) : null;
       if (hs.length && pr && pr.total > .08) window.__k10.push(j.length ? j[0].light : '-');    // a Hound you can see, lit: does it have its shadow?
       for (const q of j) if (q.switched) window.__k10s.push(q.switched); if (window.__k10.length < 400) requestAnimationFrame(f); }; requestAnimationFrame(f); });
-    await H.adm(P, { c: 'freeze', on: 0 }); for (let i = 0; i < 300 && (await P.evaluate(() => window.__k10.length)) < 30; i++) await sleep(100); await H.adm(P, { c: 'freeze', on: 1 });   // up to 30 frames with a lit Hound in sight (it hunts where it likes; the hysteresis itself is unit-checked, U20)
+    await H.adm(P, { c: 'freeze', on: 0 });
+    for (let i = 0; i < 300 && (await P.evaluate(() => window.__k10.length)) < 30; i++) {
+      await sleep(100);
+      if (i % 100 === 99 && (await P.evaluate(() => window.__k10.length)) < 5) {   // the Hound wandered off: go to it again (its AI decides where it goes)
+        const at2 = await P.evaluate(() => { const o = (window.__hounds || []).filter(Boolean).slice(-1)[0]; return o ? [o.x, o.y] : null; });
+        if (at2) await H.place(P, at2[0] + 140, at2[1] - 30, Math.atan2(30, -140), { light: true }); }
+    }
+    await H.adm(P, { c: 'freeze', on: 1 });   // up to 30 frames with a lit Hound in sight (it hunts where it likes; the hysteresis itself is unit-checked, U20)
     const [seq, sws] = await P.evaluate(() => { const s = [window.__k10, window.__k10s]; window.__k10 = null; return s; });
     const lit = seq.filter(x => x !== '-').length, bad = sws.filter(w => w.from && w.sFrom !== null && !(w.sTo >= w.sFrom * 1.35 + .02 - 1e-3));   // a switch while the old light still counted needs a 35 % (+ .02) better one
     check('K10 BR2B a Hound on the move: a shadow from its dominant light; it changes light only when another clearly dominates (hysteresis)', seq.length >= 5 && lit >= seq.length * .8 && bad.length === 0,

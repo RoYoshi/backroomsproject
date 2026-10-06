@@ -1,0 +1,14 @@
+PASS K01 the page loads and BR-RoLE draws the light every frame; no page or console error   version br-role 1.0, quality medium, frames 73 -> 94, lamps 5, errors [], 404s ["/camera_policy.js","/timing_policy.js"]
+PASS K02 mixed light by composition: where the lamp is blocked your beam alone lights the floor; where both reach they add   blocked spot 922,3364: lamp+beam 0.455 = beam alone 0.455 (lamp alone 0.094, ambient 0.094); both spot 993,3419: lamp+beam 0.576 vs beam + lamp - ambient 0.580
+PASS K07 BR2A the counter shadows the lamps; your flashlight from the open side fills that shadow (pixels)   spot 3374,1046: lamp+beam 0.319 = beam alone 0.319; lamp alone 0.078 = ambient 0.078
+PASS K08 BR2A the same counter blocks the lamps AND your flashlight from their side: behind it nothing adds (pixels)   spot 3374,1046: lamp+beam 0.086, beam alone 0.086, ambient 0.086; the beam before the counter 0.549 (ambient 0.114)
+PASS K09 BR2B your shadow takes away only your dominant lamp's light behind you; your beam still fills it (pixels)   dominant L4; behind you the light drops by 0.051 (that lamp gives 0.305 there), in front 0.000; with your beam into it: drops by 0.053, light there 0.392 -> 0.705
+PASS K12 BR2.1 your body: the lit side untouched, the far side self-shaded (only that lamp's light), the cast on the floor beyond it (pixels)   light L4: near side 0.003, far side 0.049 (lamp gives 0.227 there), floor past the edge 0.060
+PASS K03 the light buffer is the CSS viewport x .5 / .75 / 1.0, the same on a DPR-2 page   {"low":[[640,360],1280,720],"medium":[[960,540],1280,720],"high":[[1280,720],1280,720]}; DPR 2 page at MEDIUM: buffer 960x540 for 1280x720 CSS px
+PASS K04 gameplay untouched: the client sends the same kinds of messages with BR-RoLE and with the legacy lighting   BR-RoLE ["p"], legacy ["p"]
+PASS K05 DEV switch: with the legacy lighting on, BR-RoLE draws nothing (the game draws v23.3.6); switched back, BR-RoLE draws again   BR-RoLE frames while legacy: +0; after switching back: +21
+PASS K06 a Smiler in view: no shadow of any kind for it (BR2B), BR-RoLE still on, no error   smilers 1, actor shadows 1, at a Smiler 0, errors []
+PASS K10 BR2B a Hound on the move: a shadow from its dominant light; it changes light only when another clearly dominates (hysteresis)   frames with a lit Hound in sight 15, with its shadow 15, lights ["C1","L5"], changes 3 (L5->C1 0.0734->0.2462, C1->L5 0.0043->0.1701, L5->L4 null->0.0473), without a clear winner 0
+PASS K11 BR2C crossing beams: lights add, no cancellation, no dark seam (pixels, a scripted peer)   spot 986,3528: with your beam the floor shows 0.165 more (over a mid-grey floor; your beam gives 0.317 there); deepest dip across their beam's edge 0.0013
+
+12/12 passed

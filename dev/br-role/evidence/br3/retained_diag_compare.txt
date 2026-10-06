@@ -1,0 +1,45 @@
+| suite | baseline | candidate | same verdict | same counts | same failing set | same error messages |
+|---|---|---|---|---|---|---|
+| server-boot | PASS | None | - | - | - |
+| npm-test | FAIL | None | - | - | - |
+| humanqa | PASS | None | - | - | - |
+| entity-look | PASS | None | - | - | - |
+| camera | PASS | None | - | - | - |
+| fps | PASS | None | - | - | - |
+| physics | PASS | None | - | - | - |
+| interpolation | PASS | None | - | - | - |
+| live | PASS | None | - | - | - |
+| audit-net | PASS | None | - | - | - |
+| audit-net2 | PASS | None | - | - | - |
+| ir-net | PASS | None | - | - | - |
+| browser-move | PASS | None | - | - | - |
+| browser-play | FAIL | None | - | - | - |
+| browser-light | FAIL | None | - | - | - |
+| browser-ir | PASS 1/1 | PASS 1/1 | yes | yes | yes | yes |
+| browser-admin | FAIL 54/56 | FAIL 54/56 | yes | yes | yes | yes |
+| browser-lifecycle | PASS | None | - | - | - |
+| browser-smiler2d | PASS | None | - | - | - |
+| browser-chase | FAIL | None | - | - | - |
+| browser-nav | FAIL | None | - | - | - |
+
+**Differences:**
+- server-boot missing
+- npm-test missing
+- humanqa missing
+- entity-look missing
+- camera missing
+- fps missing
+- physics missing
+- interpolation missing
+- live missing
+- audit-net missing
+- audit-net2 missing
+- ir-net missing
+- browser-move missing
+- browser-play missing
+- browser-light missing
+- browser-lifecycle missing
+- browser-smiler2d missing
+- browser-chase missing
+- browser-nav missing
+

@@ -1,0 +1,581 @@
+{
+ "profile": "desktop",
+ "secs": 6,
+ "scenes": [
+  {
+   "scene": "lamps",
+   "tier": "legacy",
+   "frames": 12,
+   "frameMs": {
+    "mean": 473.6,
+    "p95": 530.3,
+    "max": 637.8
+   },
+   "brMs": null,
+   "lamps": null,
+   "carried": null,
+   "props": null,
+   "actors": null
+  },
+  {
+   "scene": "lamps",
+   "tier": "medium",
+   "frames": 13,
+   "frameMs": {
+    "mean": 452.9,
+    "p95": 492.2,
+    "max": 534.4
+   },
+   "brMs": {
+    "mean": 14.021,
+    "p95": 17.5,
+    "max": 23.9,
+    "frames": 73,
+    "sampled": 14
+   },
+   "lamps": {
+    "drawn": 7,
+    "cached": 18,
+    "builds": 0,
+    "buildMs": 0,
+    "buildMaxMs": 0,
+    "evictions": 0
+   },
+   "carried": 0,
+   "props": 0,
+   "actors": {
+    "last": 1,
+    "cap": 12,
+    "secondary": false,
+    "on": true,
+    "castDraws": 1,
+    "actorsShaded": 1,
+    "selfShadeDraws": 3
+   }
+  },
+  {
+   "scene": "lamps",
+   "tier": "high",
+   "frames": 12,
+   "frameMs": {
+    "mean": 479,
+    "p95": 528.9,
+    "max": 542.1
+   },
+   "brMs": {
+    "mean": 23.431,
+    "p95": 30.4,
+    "max": 31,
+    "frames": 90,
+    "sampled": 13
+   },
+   "lamps": {
+    "drawn": 7,
+    "cached": 7,
+    "builds": 2,
+    "buildMs": 13.5,
+    "buildMaxMs": 9.4,
+    "evictions": 0
+   },
+   "carried": 0,
+   "props": 0,
+   "actors": {
+    "last": 1,
+    "cap": 20,
+    "secondary": true,
+    "on": true,
+    "castDraws": 1,
+    "actorsShaded": 1,
+    "selfShadeDraws": 3
+   }
+  },
+  {
+   "scene": "beam",
+   "tier": "legacy",
+   "frames": 12,
+   "frameMs": {
+    "mean": 496.7,
+    "p95": 544.2,
+    "max": 628.4
+   },
+   "brMs": null,
+   "lamps": null,
+   "carried": null,
+   "props": null,
+   "actors": null
+  },
+  {
+   "scene": "beam",
+   "tier": "medium",
+   "frames": 12,
+   "frameMs": {
+    "mean": 467,
+    "p95": 525.8,
+    "max": 539.8
+   },
+   "brMs": {
+    "mean": 23.215,
+    "p95": 28.8,
+    "max": 33,
+    "frames": 117,
+    "sampled": 13
+   },
+   "lamps": {
+    "drawn": 7,
+    "cached": 7,
+    "builds": 0,
+    "buildMs": 0,
+    "buildMaxMs": 0,
+    "evictions": 0
+   },
+   "carried": 1,
+   "props": 0,
+   "actors": {
+    "last": 1,
+    "cap": 12,
+    "secondary": false,
+    "on": true,
+    "castDraws": 1,
+    "actorsShaded": 1,
+    "selfShadeDraws": 3
+   }
+  },
+  {
+   "scene": "beam",
+   "tier": "high",
+   "frames": 12,
+   "frameMs": {
+    "mean": 485,
+    "p95": 508.4,
+    "max": 574.8
+   },
+   "brMs": {
+    "mean": 39.123,
+    "p95": 44.6,
+    "max": 52.8,
+    "frames": 135,
+    "sampled": 13
+   },
+   "lamps": {
+    "drawn": 7,
+    "cached": 7,
+    "builds": 2,
+    "buildMs": 8.8,
+    "buildMaxMs": 6.1,
+    "evictions": 0
+   },
+   "carried": 1,
+   "props": 0,
+   "actors": {
+    "last": 1,
+    "cap": 20,
+    "secondary": true,
+    "on": true,
+    "castDraws": 1,
+    "actorsShaded": 1,
+    "selfShadeDraws": 3
+   }
+  },
+  {
+   "scene": "props",
+   "tier": "legacy",
+   "frames": 12,
+   "frameMs": {
+    "mean": 476.7,
+    "p95": 533.4,
+    "max": 575.6
+   },
+   "brMs": null,
+   "lamps": null,
+   "carried": null,
+   "props": null,
+   "actors": null
+  },
+  {
+   "scene": "props",
+   "tier": "medium",
+   "frames": 10,
+   "frameMs": {
+    "mean": 549.7,
+    "p95": 665.8,
+    "max": 665.8
+   },
+   "brMs": {
+    "mean": 33.173,
+    "p95": 42.1,
+    "max": 42.1,
+    "frames": 158,
+    "sampled": 11
+   },
+   "lamps": {
+    "drawn": 8,
+    "cached": 8,
+    "builds": 5,
+    "buildMs": 19.1,
+    "buildMaxMs": 7.8,
+    "evictions": 0
+   },
+   "carried": 1,
+   "props": 1,
+   "actors": {
+    "last": 1,
+    "cap": 12,
+    "secondary": false,
+    "on": true,
+    "castDraws": 1,
+    "actorsShaded": 1,
+    "selfShadeDraws": 3
+   }
+  },
+  {
+   "scene": "props",
+   "tier": "high",
+   "frames": 9,
+   "frameMs": {
+    "mean": 627.6,
+    "p95": 705.1,
+    "max": 705.1
+   },
+   "brMs": {
+    "mean": 74.44,
+    "p95": 115.6,
+    "max": 115.6,
+    "frames": 172,
+    "sampled": 10
+   },
+   "lamps": {
+    "drawn": 8,
+    "cached": 8,
+    "builds": 5,
+    "buildMs": 80.6,
+    "buildMaxMs": 47.7,
+    "evictions": 0
+   },
+   "carried": 1,
+   "props": 1,
+   "actors": {
+    "last": 1,
+    "cap": 20,
+    "secondary": true,
+    "on": true,
+    "castDraws": 1,
+    "actorsShaded": 1,
+    "selfShadeDraws": 3
+   }
+  },
+  {
+   "scene": "hound",
+   "tier": "legacy",
+   "frames": 11,
+   "frameMs": {
+    "mean": 531.2,
+    "p95": 579.8,
+    "max": 579.8
+   },
+   "brMs": null,
+   "lamps": null,
+   "carried": null,
+   "props": null,
+   "actors": null
+  },
+  {
+   "scene": "hound",
+   "tier": "medium",
+   "frames": 11,
+   "frameMs": {
+    "mean": 497.3,
+    "p95": 653.5,
+    "max": 653.5
+   },
+   "brMs": {
+    "mean": 26.5,
+    "p95": 31.9,
+    "max": 35.1,
+    "frames": 204,
+    "sampled": 12
+   },
+   "lamps": {
+    "drawn": 6,
+    "cached": 8,
+    "builds": 4,
+    "buildMs": 21.6,
+    "buildMaxMs": 9.8,
+    "evictions": 0
+   },
+   "carried": 1,
+   "props": 0,
+   "actors": {
+    "last": 2,
+    "cap": 12,
+    "secondary": false,
+    "on": true,
+    "castDraws": 2,
+    "actorsShaded": 2,
+    "selfShadeDraws": 4
+   }
+  },
+  {
+   "scene": "hound",
+   "tier": "high",
+   "frames": 10,
+   "frameMs": {
+    "mean": 549.6,
+    "p95": 606.7,
+    "max": 606.7
+   },
+   "brMs": {
+    "mean": 57.318,
+    "p95": 111.8,
+    "max": 111.8,
+    "frames": 219,
+    "sampled": 11
+   },
+   "lamps": {
+    "drawn": 6,
+    "cached": 8,
+    "builds": 5,
+    "buildMs": 139.7,
+    "buildMaxMs": 55.1,
+    "evictions": 0
+   },
+   "carried": 1,
+   "props": 0,
+   "actors": {
+    "last": 2,
+    "cap": 20,
+    "secondary": true,
+    "on": true,
+    "castDraws": 2,
+    "actorsShaded": 2,
+    "selfShadeDraws": 4
+   }
+  },
+  {
+   "scene": "peers",
+   "tier": "legacy",
+   "frames": 12,
+   "frameMs": {
+    "mean": 486.7,
+    "p95": 580.4,
+    "max": 598.6
+   },
+   "brMs": null,
+   "lamps": null,
+   "carried": null,
+   "props": null,
+   "actors": null
+  },
+  {
+   "scene": "peers",
+   "tier": "medium",
+   "frames": 12,
+   "frameMs": {
+    "mean": 502.3,
+    "p95": 568.7,
+    "max": 583.2
+   },
+   "brMs": {
+    "mean": 33.538,
+    "p95": 44.8,
+    "max": 48.1,
+    "frames": 307,
+    "sampled": 13
+   },
+   "lamps": {
+    "drawn": 7,
+    "cached": 7,
+    "builds": 0,
+    "buildMs": 0,
+    "buildMaxMs": 0,
+    "evictions": 0
+   },
+   "carried": 2,
+   "props": 0,
+   "actors": {
+    "last": 2,
+    "cap": 12,
+    "secondary": false,
+    "on": true,
+    "castDraws": 2,
+    "actorsShaded": 2,
+    "selfShadeDraws": 6
+   }
+  },
+  {
+   "scene": "peers",
+   "tier": "high",
+   "frames": 11,
+   "frameMs": {
+    "mean": 502.5,
+    "p95": 603,
+    "max": 603
+   },
+   "brMs": {
+    "mean": 52.375,
+    "p95": 59.8,
+    "max": 61.7,
+    "frames": 323,
+    "sampled": 12
+   },
+   "lamps": {
+    "drawn": 7,
+    "cached": 7,
+    "builds": 4,
+    "buildMs": 21.2,
+    "buildMaxMs": 7.8,
+    "evictions": 0
+   },
+   "carried": 2,
+   "props": 0,
+   "actors": {
+    "last": 3,
+    "cap": 20,
+    "secondary": true,
+    "on": true,
+    "castDraws": 3,
+    "actorsShaded": 2,
+    "selfShadeDraws": 6
+   }
+  },
+  {
+   "scene": "travel",
+   "tier": "medium",
+   "arrivals": [
+    {
+     "at": [
+      3400,
+      1250
+     ],
+     "brMaxMs": 36.5,
+     "brP95": 35.1,
+     "builds": 8,
+     "buildMaxMs": 14.5,
+     "cached": 15
+    },
+    {
+     "at": [
+      7860,
+      1120
+     ],
+     "brMaxMs": 35.6,
+     "brP95": 33.5,
+     "builds": 11,
+     "buildMaxMs": 5.2,
+     "cached": 26
+    },
+    {
+     "at": [
+      5000,
+      5500
+     ],
+     "brMaxMs": 40.5,
+     "brP95": 33.3,
+     "builds": 8,
+     "buildMaxMs": 16.9,
+     "cached": 32
+    },
+    {
+     "at": [
+      1300,
+      5100
+     ],
+     "brMaxMs": 64.4,
+     "brP95": 64.4,
+     "builds": 0,
+     "buildMaxMs": 0,
+     "cached": 32
+    }
+   ]
+  },
+  {
+   "scene": "travel",
+   "tier": "high",
+   "arrivals": [
+    {
+     "at": [
+      3400,
+      1250
+     ],
+     "brMaxMs": 88.3,
+     "brP95": 88.3,
+     "builds": 8,
+     "buildMaxMs": 48.5,
+     "cached": 8
+    },
+    {
+     "at": [
+      7860,
+      1120
+     ],
+     "brMaxMs": 58.2,
+     "brP95": 58.2,
+     "builds": 10,
+     "buildMaxMs": 16.6,
+     "cached": 18
+    },
+    {
+     "at": [
+      5000,
+      5500
+     ],
+     "brMaxMs": 71.2,
+     "brP95": 65.4,
+     "builds": 8,
+     "buildMaxMs": 41.6,
+     "cached": 27
+    },
+    {
+     "at": [
+      1300,
+      5100
+     ],
+     "brMaxMs": 49.4,
+     "brP95": 49.4,
+     "builds": 0,
+     "buildMaxMs": 0,
+     "cached": 27
+    }
+   ]
+  },
+  {
+   "scene": "switch",
+   "steps": [
+    {
+     "to": "low",
+     "brMaxMs": 22.6,
+     "brP95": 22.6,
+     "builds": 7,
+     "buildMaxMs": 2.6,
+     "drawn": 7,
+     "pending": 0
+    },
+    {
+     "to": "high",
+     "brMaxMs": 31,
+     "brP95": 31,
+     "builds": 7,
+     "buildMaxMs": 10.8,
+     "drawn": 7,
+     "pending": 0
+    },
+    {
+     "to": "medium",
+     "brMaxMs": 35.9,
+     "brP95": 35.9,
+     "builds": 7,
+     "buildMaxMs": 5.6,
+     "drawn": 7,
+     "pending": 0
+    }
+   ]
+  }
+ ],
+ "when": "2026-10-06T17:41:43.870Z",
+ "page": {
+  "w": 1280,
+  "h": 720,
+  "dpr": 1,
+  "ua": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36"
+ },
+ "errors": []
+}

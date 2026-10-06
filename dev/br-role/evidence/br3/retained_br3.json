@@ -1,0 +1,429 @@
+{
+ "meta": {
+  "game": "/home/claude/backrooms-shadows",
+  "node": "v22.22.2",
+  "python": "3.11.15",
+  "os": "Linux-6.18.44-fc-v70-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "cpus": 2,
+  "label": "",
+  "started": "2026-10-06T18:07:43Z",
+  "playwright": "1.56.0",
+  "gitHead": "4d0264a57dfcd2f2ab152fa02da71e4a6031cd48",
+  "timeoutScale": 3.0,
+  "finished": "2026-10-06T18:33:34Z"
+ },
+ "suites": [
+  {
+   "id": "server-boot",
+   "command": "node server.js 8791 (+ HTTP probe)",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 0.13,
+   "counts": {
+    "passed": 1,
+    "total": 1,
+    "source": "boot probe"
+   },
+   "failures": [],
+   "served": {
+    "/": 200,
+    "/index.html": 200,
+    "/assets/index-DKbV5Nv9.js": 200,
+    "/light.js": 200,
+    "/world.js": 200,
+    "/camera_policy.js": 404,
+    "/timing_policy.js": 404,
+    "/assets/shadows-2d.js": 200,
+    "/sim.js": 404,
+    "/ai.js": 404,
+    "/server.js": 404
+   },
+   "startupLine": "The Far Backrooms \u2192 http://localhost:8791  (share  ?room=NAME  to group up)",
+   "log": "server-boot.log",
+   "covers": "server boot; which client files the shipped server serves"
+  },
+  {
+   "id": "npm-test",
+   "command": "node dev/tests/run.js",
+   "covers": "default scenario suites: percept, hound, smiler, capture, system, admin, commit, nav, chase, audit, evidence, ir, hound2e, shared2f",
+   "result": "FAIL",
+   "exitCode": 1,
+   "durationSeconds": 256.847,
+   "counts": {
+    "passed": 151,
+    "total": 162,
+    "source": "suite summary line"
+   },
+   "failures": [
+    "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+    "P07 exhausted breathing is audible only close by",
+    "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming",
+    "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+    "SM01 light: a light carrier it can see is chased after a wind-up; the same person without a light is watched, not chased",
+    "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+    "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+    "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+    "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+    "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+    "2F F22 species physical/canon parameter preservation"
+   ],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "npm-test.log"
+  },
+  {
+   "id": "humanqa",
+   "command": "node dev/tests/run.js s_humanqa_hotfix.js",
+   "covers": "human-QA hotfix suite",
+   "result": "FAIL",
+   "exitCode": 1,
+   "durationSeconds": 1.775,
+   "counts": {
+    "passed": 5,
+    "total": 6,
+    "source": "suite summary line"
+   },
+   "failures": [
+    "HQA X03 dead hover and switched-off physical-light QOL are present in shipped client"
+   ],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "humanqa.log"
+  },
+  {
+   "id": "entity-look",
+   "command": "node dev/tests/run.js s_entity_look.js",
+   "covers": "entity look",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 0.466,
+   "counts": {
+    "passed": 4,
+    "total": 4,
+    "source": "suite summary line"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "entity-look.log"
+  },
+  {
+   "id": "camera",
+   "command": "node dev/tests/s_camera_fairness.js",
+   "covers": "camera fairness",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 0.065,
+   "counts": {
+    "passed": 12,
+    "total": 12,
+    "source": "suite summary line"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "camera.log"
+  },
+  {
+   "id": "fps",
+   "command": "node dev/tests/s_fps_equality.js",
+   "covers": "FPS-independent gameplay",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 0.667,
+   "counts": {
+    "passed": 10,
+    "total": 10,
+    "source": "PASS/FAIL lines"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "fps.log"
+  },
+  {
+   "id": "physics",
+   "command": "node dev/tests/phys_test.js",
+   "covers": "death physics (dphys.js)",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 4.151,
+   "counts": {
+    "passed": 53,
+    "total": 53,
+    "source": "PASS/FAIL lines"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "physics.log"
+  },
+  {
+   "id": "interpolation",
+   "command": "node dev/tests/interp_test.js",
+   "covers": "network snapshot interpolation (mp.js, extracted verbatim)",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 0.115,
+   "counts": {
+    "passed": 3,
+    "total": 3,
+    "source": "PASS/FAIL lines"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "interpolation.log"
+  },
+  {
+   "id": "live",
+   "command": "node dev/tests/live.js",
+   "covers": "server boot + real WebSocket protocol, kill flow, admin gating",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 24.426,
+   "counts": {
+    "passed": 17,
+    "total": 17,
+    "source": "suite summary line"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "live.log"
+  },
+  {
+   "id": "audit-net",
+   "command": "node dev/tests/audit_net.js",
+   "covers": "networking audit remediation",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 55.415,
+   "counts": {
+    "passed": 17,
+    "total": 17,
+    "source": "suite summary line"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "audit-net.log"
+  },
+  {
+   "id": "audit-net2",
+   "command": "node dev/tests/audit_net2.js",
+   "covers": "networking exploit sequences",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 239.485,
+   "counts": {
+    "passed": 11,
+    "total": 11,
+    "source": "suite summary line"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "audit-net2.log"
+  },
+  {
+   "id": "ir-net",
+   "command": "node dev/tests/ir_net.js",
+   "covers": "IR on the wire",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 4.886,
+   "counts": {
+    "passed": 4,
+    "total": 4,
+    "source": "suite summary line"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "ir-net.log"
+  },
+  {
+   "id": "browser-move",
+   "command": "/usr/bin/python3 dev/tests/move_test.py",
+   "covers": "movement in the real client (move.js through the shipped page)",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 15.145,
+   "counts": {
+    "passed": 14,
+    "total": 14,
+    "source": "PASS/FAIL lines"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "browser-move.log"
+  },
+  {
+   "id": "browser-play",
+   "command": "/usr/bin/python3 dev/tests/play_mp.py <out>/browser-play-artifacts",
+   "covers": "ordinary player moves; server never corrects",
+   "result": "FAIL",
+   "exitCode": 1,
+   "durationSeconds": 52.021,
+   "counts": {
+    "passed": 0,
+    "total": 1,
+    "source": "suite JSON verdict"
+   },
+   "failures": [
+    "ok"
+   ],
+   "errorSignature": [
+    "Failed to load resource: the server responded with a status of # (Not Found)"
+   ],
+   "limitation": null,
+   "log": "browser-play.log"
+  },
+  {
+   "id": "browser-light",
+   "command": "/usr/bin/python3 dev/tests/light_test.py <out>/browser-light-artifacts",
+   "covers": "entity visibility vs lighting in the real client",
+   "result": "FAIL",
+   "exitCode": 0,
+   "durationSeconds": 86.244,
+   "counts": {
+    "passed": 13,
+    "total": 15,
+    "source": "PASS/FAIL lines"
+   },
+   "failures": [
+    "...and its shade changes smoothly (no per-frame pop)",
+    "no runtime errors (both clients)"
+   ],
+   "errorSignature": [
+    "Failed to load resource: the server responded with a status of # (Not Found)"
+   ],
+   "limitation": null,
+   "log": "browser-light.log"
+  },
+  {
+   "id": "browser-ir",
+   "command": "/usr/bin/python3 dev/tests/ir_test.py <out>/browser-ir-artifacts",
+   "covers": "IR / darkness layer measured on the #light canvas",
+   "result": "FAIL",
+   "exitCode": 1,
+   "durationSeconds": 220.042,
+   "counts": {
+    "passed": null,
+    "total": null,
+    "source": "no verdict printed; exit status only"
+   },
+   "failures": [],
+   "errorSignature": [
+    "ZeroDivisionError: float division by zero"
+   ],
+   "limitation": null,
+   "log": "browser-ir.log"
+  },
+  {
+   "id": "browser-admin",
+   "command": "/usr/bin/python3 dev/tests/admin_test.py",
+   "covers": "admin panel / death preview / pause",
+   "result": "FAIL",
+   "exitCode": 1,
+   "durationSeconds": 284.234,
+   "counts": {
+    "passed": 52,
+    "total": 56,
+    "source": "suite summary line"
+   },
+   "failures": [
+    "T5 hound A: the death starts on the victim's screen with the variant asked for",
+    "T5 hound A: the other player sees the same death replay",
+    "T8 debug mode: overlay on, entity data, server timings, event log and ping arrive",
+    "T10 no script errors on either page"
+   ],
+   "errorSignature": [
+    "Failed to load resource: the server responded with a status of # (Not Found)"
+   ],
+   "limitation": null,
+   "log": "browser-admin.log"
+  },
+  {
+   "id": "browser-lifecycle",
+   "command": "/usr/bin/python3 dev/tests/lifecycle_mp.py <out>/browser-lifecycle-artifacts",
+   "covers": "lifecycle buttons for an ordinary player",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 49.366,
+   "counts": {
+    "passed": 1,
+    "total": 1,
+    "source": "suite JSON verdict"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "browser-lifecycle.log"
+  },
+  {
+   "id": "browser-smiler2d",
+   "command": "/usr/bin/python3 dev/tests/smiler2d_view.py <out>/browser-smiler2d-artifacts",
+   "covers": "Smiler 2D presentation + debug feed",
+   "result": "PASS",
+   "exitCode": 0,
+   "durationSeconds": 149.833,
+   "counts": {
+    "passed": 2,
+    "total": 2,
+    "source": "PASS/FAIL lines"
+   },
+   "failures": [],
+   "errorSignature": [],
+   "limitation": null,
+   "log": "browser-smiler2d.log"
+  },
+  {
+   "id": "browser-chase",
+   "command": "/usr/bin/python3 dev/tests/chase_mp.py <out>/browser-chase-artifacts",
+   "covers": "search/crawl debug layers, a hunt (descriptive)",
+   "result": "FAIL",
+   "exitCode": 0,
+   "durationSeconds": 34.799,
+   "counts": {
+    "passed": 0,
+    "total": 1,
+    "source": "descriptive suite: exit status + page errors",
+    "pageErrors": 2
+   },
+   "failures": [
+    "page errors: Failed to load resource: the server responded with a status of # (Not Found)"
+   ],
+   "errorSignature": [
+    "Failed to load resource: the server responded with a status of # (Not Found)"
+   ],
+   "limitation": null,
+   "log": "browser-chase.log"
+  },
+  {
+   "id": "browser-nav",
+   "command": "/usr/bin/python3 dev/tests/nav_mp.py <out>/browser-nav-artifacts",
+   "covers": "navigation overlay, remote hound drawing (descriptive)",
+   "result": "FAIL",
+   "exitCode": 0,
+   "durationSeconds": 71.167,
+   "counts": {
+    "passed": 0,
+    "total": 1,
+    "source": "descriptive suite: exit status + page errors",
+    "pageErrors": 4
+   },
+   "failures": [
+    "page errors: Failed to load resource: the server responded with a status of # (Not Found)"
+   ],
+   "errorSignature": [
+    "Failed to load resource: the server responded with a status of # (Not Found)"
+   ],
+   "limitation": null,
+   "log": "browser-nav.log"
+  }
+ ]
+}

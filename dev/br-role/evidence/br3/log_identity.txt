@@ -1,0 +1,23 @@
+audit-net          PASS/FAIL lines identical  (17 result lines)
+audit-net2         PASS/FAIL lines identical  (11 result lines)
+browser-admin      differs  (48 of 59 lines equal after removing durations)
+browser-chase      differs  (0 of 1 lines equal after removing durations)
+browser-ir         differs  (0 of 16 lines equal after removing durations)
+browser-lifecycle  differs  (0 of 1 lines equal after removing durations)
+browser-light      differs  (17 of 24 lines equal after removing durations)
+browser-move       byte-identical
+browser-nav        differs  (0 of 1 lines equal after removing durations)
+browser-play       differs  (0 of 1 lines equal after removing durations)
+browser-smiler2d   PASS/FAIL lines identical  (2 result lines)
+camera             byte-identical
+entity-look        identical except timings
+fps                byte-identical
+humanqa            differs  (11 of 15 lines equal after removing durations)
+interpolation      byte-identical
+ir-net             byte-identical
+live               PASS/FAIL lines identical  (17 result lines)
+npm-test           PASS/FAIL lines identical  (162 result lines)
+physics            byte-identical
+server-boot        PASS/FAIL lines identical  (1 result lines)
+
+summary: 8 differs, 6 PASS/FAIL lines identical, 6 byte-identical, 1 identical except timings

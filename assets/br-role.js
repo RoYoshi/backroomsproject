@@ -1,4 +1,4 @@
-/* br-role.js - BR-RoLE, the Backrooms Rendering of Lighting Engine (presentation only, client only).  BR2.1.
+/* br-role.js - BR-RoLE 1.0, the Backrooms Rendering of Lighting Engine (presentation only, client only).
  *
  * THE 2D GAME IS THE GAME.  BR-RoLE is the one visual owner of the light in the world: ambient darkness, the ceiling
  * lamps, your carried light and the other wanderers' lights, and the shadows walls, pillars, props and actors cast in them.
@@ -34,6 +34,9 @@
  * darker away from that light) while its cast shadow stays on the floor, cut around the silhouette; prop shadows fade from
  * the footprint toward their far end.  Both still remove only their own light.
  *
+ * BR3 (1.0): a beam works only in its sector's box and every shadow fill stays inside its light's own pixel box (culling,
+ * no visual change); resetStats() no longer resets the frame counter that lamp fades and actor easing count.
+ *
  * Also carried over from the SH7 donor (ADAPT): the static wall grounding band, and the prop caster table, hull projection
  * and caster ranking ideas (BR2A).  Never anything for a Smiler: no body, contact or silhouette shadow.
  *
@@ -43,7 +46,7 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role BR2.1';
+  const VERSION = 'br-role 1.0';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
@@ -82,7 +85,7 @@
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
     lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
     layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0 };
-  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
+  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampBuildMax: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
 
   /* ---------- quality: URL > remembered > device default (touch / small screen -> LOW); ?lighting=legacy is DEV only ---------- */
   function initialQuality() {
@@ -280,7 +283,7 @@
     if (S.blur) c.filter = `blur(${(LAMP.blur * res).toFixed(2)}px)`;
     c.drawImage(S.lmask, 0, 0); if (S.blur) c.filter = 'none';
     c.globalCompositeOperation = 'source-over';
-    ST.lampBuilds++; ST.lampBuildMs += now() - t0;
+    const bms = now() - t0; ST.lampBuilds++; ST.lampBuildMs += bms; if (bms > ST.lampBuildMax) ST.lampBuildMax = bms;
     return { cv, smp, edges, props, born: -1e9, used: ST.frames };
   }
 
@@ -402,12 +405,14 @@
     const props = cast && cast.props.length ? cast.props : null, sh = cast ? cast.sh : 0, kmax = cast ? cast.kmax : 0;
     const n = smp.length / 2; let e = 0;
     if (n === 1) {                                                          // one point: walls cut out, then each prop's graded shadow (destination-out multiplies: a union)
+      boxClip(c, bb);
       c.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); c.globalCompositeOperation = 'destination-out'; c.fillStyle = '#fff';
       e = shadowPath(c, smp[0], smp[1], reach, cone, null, 0, 0); if (e) c.fill();
       if (props) e += propFills(c, props, smp[0], smp[1], sh, kmax, PFADE.carried);
+      c.restore();
     } else {
       const m = S.mx, bw = bb[2] - bb[0], bh = bb[3] - bb[1], a = (Math.ceil(255 / n) + .4) / 255;
-      m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(bb[0], bb[1], bw, bh);
+      m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(bb[0], bb[1], bw, bh); boxClip(m, bb);
       if (!props) {
         m.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); m.globalCompositeOperation = 'lighter'; m.fillStyle = rgba(a);   // n of them saturate: umbra = all of this light gone
         for (let s = 0; s < smp.length; s += 2) { const q = shadowPath(m, smp[s], smp[s + 1], reach, cone, null, 0, 0); if (q) m.fill(); e += q; }
@@ -416,12 +421,12 @@
         const t = S.cx;
         for (let s = 0; s < smp.length; s += 2) {
           t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(bb[0], bb[1], bw, bh);
-          t.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); t.fillStyle = '#fff';
-          const q = shadowPath(t, smp[s], smp[s + 1], reach, cone, null, 0, 0); if (q) t.fill(); e += q + propFills(t, props, smp[s], smp[s + 1], sh, kmax, PFADE.carried);
+          boxClip(t, bb); t.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); t.fillStyle = '#fff';
+          const q = shadowPath(t, smp[s], smp[s + 1], reach, cone, null, 0, 0); if (q) t.fill(); e += q + propFills(t, props, smp[s], smp[s + 1], sh, kmax, PFADE.carried); t.restore();
           m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'lighter'; m.globalAlpha = a; m.drawImage(S.ctmp, bb[0], bb[1], bw, bh, bb[0], bb[1], bw, bh); m.globalAlpha = 1;
         }
       }
-      m.globalCompositeOperation = 'source-over';
+      m.restore(); m.globalCompositeOperation = 'source-over';
       if (e) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out'; c.drawImage(S.msk, bb[0], bb[1], bw, bh, bb[0], bb[1], bw, bh); }
     }
     c.globalCompositeOperation = 'source-over'; ST.shadows += e; return e;
@@ -432,6 +437,18 @@
     const bb = [Math.max(0, Math.floor(bxp - rp)), Math.max(0, Math.floor(byp - rp)), Math.min(S.scr.width, Math.ceil(bxp + rp)), Math.min(S.scr.height, Math.ceil(byp + rp))];
     return bb[2] > bb[0] && bb[3] > bb[1] ? bb : null;
   }
+  /* BR3: a beam's box is its sector's (the field is zero outside its cone), not its whole circle */
+  function sectorBox(x, y, R, ang, half, F, sc) {
+    if (half >= Math.PI) return boxAt(x, y, R, F, sc);
+    let x0 = x - 8, x1 = x + 8, y0 = y - 8, y1 = y + 8;
+    const add = a => { const px = x + Math.cos(a) * R, py = y + Math.sin(a) * R; x0 = Math.min(x0, px); x1 = Math.max(x1, px); y0 = Math.min(y0, py); y1 = Math.max(y1, py); };
+    add(ang - half); add(ang + half);
+    for (let q = -4; q <= 4; q++) { const a = q * Math.PI / 2, d = Math.atan2(Math.sin(a - ang), Math.cos(a - ang)); if (Math.abs(d) <= half) add(ang + d); }
+    const k = F.r * sc, bb = [Math.max(0, Math.floor((x0 * F.r + F.ox) * sc - 2)), Math.max(0, Math.floor((y0 * F.r + F.oy) * sc - 2)), Math.min(S.scr.width, Math.ceil((x1 * F.r + F.ox) * sc + 2)), Math.min(S.scr.height, Math.ceil((y1 * F.r + F.oy) * sc + 2))];
+    void k; return bb[2] > bb[0] && bb[3] > bb[1] ? bb : null;
+  }
+  /* BR3: shadow fills stay inside the light's own box (an axis-aligned pixel box - never a visibility shape) */
+  const boxClip = (c, bb) => { c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.beginPath(); c.rect(bb[0], bb[1], bb[2] - bb[0], bb[3] - bb[1]); c.clip(); };
   /* one lamp: its cached shadowed field at this frame's strength, added.  When an actor's shadow belongs to it, the field
    * goes through the scratch first and loses that shadow there (only this lamp's light: every other light still fills it) */
   function drawLamp(r, F, k, sc) {
@@ -461,9 +478,10 @@
    * the buffer; its colour tint; then its hand glow, the same way */
   function carried(r, F, cfg, k, rec) {
     const sx = S.sx, Lc = r.Lc, f = r.f, R = r.R, sc = cfg.scale, w = r.w, power = r.power;
-    const bb = boxAt(Lc.x, Lc.y, R, F, sc); if (!bb) return;
+    const bb = f.omni ? boxAt(Lc.x, Lc.y, R, F, sc) : sectorBox(Lc.x, Lc.y, R, Lc.ang, f.arc / 2 + .05, F, sc); if (!bb) return;
     const bbw = bb[2] - bb[0], bbh = bb[3] - bb[1];
     sx.setTransform(1, 0, 0, 1, 0, 0); sx.globalCompositeOperation = 'source-over'; sx.globalAlpha = 1; sx.clearRect(bb[0], bb[1], bbw, bbh);
+    boxClip(sx, bb);                                                        // BR3: every fill (and the unbounded `in` operations) stays in this light's box
     sx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc);
     const g = sx.createRadialGradient(Lc.x, Lc.y, 6, Lc.x, Lc.y, R); g.addColorStop(0, rgba(power)); g.addColorStop(.25, rgba(power * .83)); g.addColorStop(.7, rgba(power * .28)); g.addColorStop(1, rgba(0));
     sx.fillStyle = g; sx.fillRect(Lc.x - R, Lc.y - R, R * 2, R * 2);
@@ -489,6 +507,7 @@
       sx.setTransform(1, 0, 0, 1, 0, 0); sx.globalCompositeOperation = 'source-in'; sx.fillStyle = Lc.color; sx.fillRect(bb[0], bb[1], bbw, bbh); sx.globalCompositeOperation = 'source-over';
       const tx = S.tx; tx.save(); tx.setTransform(1, 0, 0, 1, 0, 0); tx.globalCompositeOperation = 'lighter'; tx.globalAlpha = (f.omni ? TINT.omni : TINT.beam) / TINT.k; tx.drawImage(S.scr, bb[0], bb[1], bbw, bbh, bb[0], bb[1], bbw, bbh); tx.restore(); tint = true;
     }
+    sx.restore();
     /* the hand glow: a small omni field at the hand, with the shadows walls and props cast into it from the hand */
     const gb = boxAt(Lc.x, Lc.y, Lc.glowR, F, sc);
     if (gb) {
@@ -737,7 +756,7 @@
 
   /* ---------- admin-only debug counters (DEBUG MODE in the admin panel) ---------- */
   const adminDebug = () => !!(window.__ents && window.__ents.dbgCfg && window.__ents.dbgCfg.on);
-  function msStats() { const k = Math.min(ST.n, ST.ms.length); let s = 0, m = 0; for (let i = 0; i < k; i++) { s += ST.ms[i]; if (ST.ms[i] > m) m = ST.ms[i]; } return { mean: k ? +(s / k).toFixed(3) : 0, max: +m.toFixed(2), frames: ST.frames }; }
+  function msStats() { const k = Math.min(ST.n, ST.ms.length); let s = 0, m = 0; for (let i = 0; i < k; i++) { s += ST.ms[i]; if (ST.ms[i] > m) m = ST.ms[i]; } const srt = Array.from(ST.ms.subarray(0, k)).sort((a, b) => a - b); return { mean: k ? +(s / k).toFixed(3) : 0, p95: k ? +srt[Math.min(k - 1, Math.floor(.95 * (k - 1) + .5))].toFixed(2) : 0, max: +m.toFixed(2), frames: ST.frames, sampled: k }; }
   function debugPanel() {
     const on = adminDebug();
     if (!on) { if (S.dbgEl) { S.dbgEl.remove(); S.dbgEl = null; } return; }
@@ -782,11 +801,11 @@
     qualities: () => QUALITIES.slice(),
     tiers: () => JSON.parse(JSON.stringify(TIERS)),
     stats: () => ({ version: VERSION, quality: S.quality, on: on(), legacy: S.legacy, disabled: S.disabled, attached: S.attached, frames: ST.frames, frameMs: msStats(), buffer: ST.buf.slice(),
-      lamps: { last: ST.lamps, max: ST.lampsMax, cap: TIERS[S.quality].lamps, cached: S.lampCache.size, cacheCap: TIERS[S.quality].lampCache, pending: S.pending.size, builds: ST.lampBuilds, buildMs: +ST.lampBuildMs.toFixed(2), evictions: ST.lampEvictions, tube: TIERS[S.quality].tube, blur: S.blur },
+      lamps: { last: ST.lamps, max: ST.lampsMax, cap: TIERS[S.quality].lamps, cached: S.lampCache.size, cacheCap: TIERS[S.quality].lampCache, pending: S.pending.size, builds: ST.lampBuilds, buildMs: +ST.lampBuildMs.toFixed(2), buildMaxMs: +ST.lampBuildMax.toFixed(2), evictions: ST.lampEvictions, tube: TIERS[S.quality].tube, blur: S.blur },
       carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn, castDraws: ST.casts, actorsShaded: ST.shaded, selfShadeDraws: ST.shadeDraws },
       blockers: { sides: S.nEdges || 0, pillars: S.pillars || 0, props: S.props.length, propKinds: [...new Set(S.props.map(p => p.kind))] },
       props: { last: ST.props, max: ST.propsMax, drawsThisFrame: ST.propDraws, perLight: TIERS[S.quality].props, perFrame: TIERS[S.quality].propFrame }, errors: ST.errors }),
-    resetStats: () => { ST.frames = 0; ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; },
+    resetStats: () => { ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; ST.lampBuilds = 0; ST.lampBuildMs = 0; ST.lampBuildMax = 0; ST.lampEvictions = 0; },
     probe,
     lastFrame: () => S.lastF ? Object.assign({}, S.lastF) : null,      // the world -> overlay mapping BR-RoLE drew with last (tests)
     /* DEV only (comparison, tests): the v23.3.6 lighting instead of BR-RoLE; never offered to players */
