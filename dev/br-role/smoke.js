@@ -9,11 +9,18 @@
  * K03 tiers: the light buffer follows the CSS viewport (x .5 / .75 / 1.0), the same on a DPR-2 page
  * K04 gameplay untouched: the client sends the same kinds of messages with BR-RoLE and with the legacy lighting
  * K05 DEV switch: the legacy lighting still draws when asked (comparison only), and BR-RoLE takes back over
- * K06 a Smiler in view: no blob drawn for it, its face still drawn by the game, no error
+ * K06 a Smiler in view: no shadow of any kind for it (BR2B actor shadows), its face still drawn by the game, no error
  * K07 BR2A prop shadow + flashlight fill (counter L4, read from the overlay's pixels): behind the counter the lamps add
  *     nothing (lamp + beam = beam alone; lamp alone = ambient), while your beam from the open side lights the floor
  * K08 BR2A the same counter blocks lamp AND flashlight: behind it, from the lamps' side, lamp + beam = ambient, while the
- *     same beam lights the floor before the counter */
+ *     same beam lights the floor before the counter
+ * K09 BR2B your shadow (pixels, actor shadows on vs off): behind you, away from your dominant lamp, the floor loses part of
+ *     THAT lamp's light only (never more than the lamp gives there); in front of you nothing changes; with your beam
+ *     shining into it the shadow removes the same amount (the beam still adds its own light: it fills it)
+ * K10 BR2B a Hound let loose: it has a shadow while you see it lit, and its dominant light changes only when another
+ *     light clearly dominates (the hysteresis, read from the client's own record of each change)
+ * K11 BR2C crossing beams with another wanderer (a scripted peer): where both beams reach, yours adds exactly its own light
+ *     on top of theirs (no cancellation); across the edge of their beam inside yours there is no dark seam */
 'use strict';
 const { spawn, execSync } = require('child_process'); const fs = require('fs'), path = require('path'), http = require('http');
 const H = require('../shadows/harness_lib.js'); const { sleep, frames } = H;
@@ -124,7 +131,8 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     check('K06 a Smiler in view: no shadow of any kind for it (BR2B), BR-RoLE still on, no error', k6.smilers > 0 && k6.nearSmiler === 0 && k6.on && J.errs.length === 0, `smilers ${k6.smilers}, actor shadows ${k6.actors}, at a Smiler ${k6.nearSmiler}, errors ${JSON.stringify(J.errs)}`);
 
     /* K10: a Hound let loose (god mode keeps you alive); its dominant light, sampled every frame for 40 frames */
-    await H.near(P, 'hound');
+    const hAt = await H.near(P, 'hound');
+    if (hAt) { await H.place(P, hAt[0] + 140, hAt[1] - 30, Math.atan2(30, -140), { light: true }); await sleep(600); }   // stand near it: it hunts you, in sight
     await P.evaluate(() => { window.__k10 = []; window.__k10s = []; const f = () => { if (!window.__k10) return;
       const V = __api.H, hs = __api.layer().children.filter(v => v.__hound && v.visible && v.alpha > .01).filter(v => { const d = Math.hypot(v.x - V.x, v.y - V.y); return d < 600 && __api.Uc(V.x, V.y, Math.atan2(v.y - V.y, v.x - V.x), d) >= d - 20; });
       const j = __brRole.actors().filter(a => a.kind === 'hound' && a.dominant), pr = hs.length ? __brRole.probe(hs[0].x, hs[0].y) : null;
@@ -135,6 +143,32 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     const lit = seq.filter(x => x !== '-').length, bad = sws.filter(w => w.from && w.sFrom !== null && !(w.sTo >= w.sFrom * 1.35 + .02 - 1e-3));   // a switch while the old light still counted needs a 35 % (+ .02) better one
     check('K10 BR2B a Hound on the move: a shadow from its dominant light; it changes light only when another clearly dominates (hysteresis)', seq.length >= 5 && lit >= seq.length * .8 && bad.length === 0,
       `frames with a lit Hound in sight ${seq.length}, with its shadow ${lit}, lights ${JSON.stringify([...new Set(seq)])}, changes ${sws.length} (${sws.map(w => `${w.from}->${w.to} ${w.sFrom}->${w.sTo}`).join(', ')}), without a clear winner ${bad.length}`);
+
+    /* K11: crossing beams (another wanderer's light from the south-west, yours from the east) */
+    await H.stage(P); await H.setLights(P, 'off');
+    const peer = new H.ScriptedPeer(PORT, room, 'PEER', 'flashlight', '#9fd4ff'); await peer.standAt('K', 880, 3600, -0.5);
+    await H.place(P, 1180, 3470, 2.95, { light: true }); await sleep(1200); await frames(P, 8);
+    await P.evaluate(() => __clock.freeze(true)); await frames(P, 6);
+    const k11 = await P.evaluate(() => { let best = null;
+      const b = __api.beam && __api.beam() || __api.H;
+      for (let y = 3360; y < 3600; y += 8) for (let x = 900; x < 1150; x += 8) { const r = __brRole.probe(x, y), own = r.carried.find(c => c.own), pe = r.carried.find(c => !c.own); if (!own || !pe) continue;
+        if (Math.hypot(x - b.x, y - b.y) < 90) continue;                  // past your hand glow, where the beam profile is smooth
+        const da = Math.atan2(y - b.y, x - b.x) - (b.angle ?? __api.H.angle); if (Math.abs(Math.atan2(Math.sin(da), Math.cos(da))) > .15) continue;   // near your beam's axis
+        const lamps = r.lamps.reduce((s, l) => s + l.light, 0); if (own.light > .15 && pe.light > .15 && own.light + pe.light + lamps + .12 < .95 && (!best || own.light + pe.light > best[2])) best = [x, y, own.light + pe.light, own.light]; }   // below the light buffer's ceiling (ambient included)
+      const pl = (window.__peerLights || [])[0]; return { X: best, peer: pl ? [pl.x, pl.y, pl.angle] : null }; });
+    let k11ok = false, note11 = 'no spot where both beams reach';
+    if (k11.X && k11.peer) {
+      const X = k11.X, pa = k11.peer[2], nx = -Math.sin(pa), ny = Math.cos(pa), line = []; for (let t = -90; t <= 90; t += 4) line.push([X[0] + nx * t, X[1] + ny * t]);
+      /* what the overlay lets through over a mid-grey floor: its darkness AND the beams' colour tint (the tint is light, not shade) */
+      const seeAt = pts => P.evaluate(pts => { const c = document.getElementById('light'), x = c.getContext('2d'), M = __brRole.lastFrame();
+        return pts.map(([wx, wy]) => { const sx = Math.round(wx * M.r + M.ox), sy = Math.round(wy * M.r + M.oy), d = x.getImageData(sx - 1, sy - 1, 3, 3).data; let v = 0; for (let k = 0; k < d.length; k += 4) { const a = d[k + 3] / 255; v += .5 * (1 - a) + (.299 * d[k] + .587 * d[k + 1] + .114 * d[k + 2]) / 255 * a; } return v / 9; }); }, pts);
+      const both = await seeAt([[X[0], X[1]], ...line]); await P.keyboard.press('KeyF'); await frames(P, 4); const peerOnly = await seeAt([[X[0], X[1]]]); await P.keyboard.press('KeyF'); await frames(P, 4);
+      const L = both.slice(1), added = both[0] - peerOnly[0]; let seam = 0; for (let i = 3; i < L.length - 3; i++) seam = Math.max(seam, Math.min(L[i - 3], L[i + 3]) - L[i]);
+      k11ok = added > .05 && seam <= 2.5 / 255;
+      note11 = `spot ${X.slice(0, 2).map(Math.round)}: with your beam the floor shows ${added.toFixed(3)} more (over a mid-grey floor; your beam gives ${X[3].toFixed(3)} there); deepest dip across their beam's edge ${seam.toFixed(4)}`;
+    }
+    check('K11 BR2C crossing beams: lights add, no cancellation, no dark seam (pixels, a scripted peer)', k11ok, note11);
+    await P.evaluate(() => __clock.thaw()); peer.close();
   } catch (e) { check('harness', false, String(e && e.stack || e).slice(0, 500)); }
   await browser.close(); srv.kill();
   const pass = res.filter(r => r.ok).length; console.log(`\n${pass}/${res.length} passed`); process.exit(pass === res.length ? 0 : 1);

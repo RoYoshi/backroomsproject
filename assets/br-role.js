@@ -34,16 +34,16 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role BR2B';
+  const VERSION = 'br-role BR2C';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
    * shadowed field: cache resolution (px per world px), tube points its shadows are cast from, caches kept, builds per frame;
    * points across a carried light's source; prop casters per light (nearest first) and per frame (all carried lights) */
   const TIERS = {
-    low: { scale: .5, lamps: 8, peers: 1, lampRes: .3, tube: 8, lampCache: 24, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6, secondary: false },
-    medium: { scale: .75, lamps: 10, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 2, props: 8, propFrame: 48, ents: 12, secondary: false },
-    high: { scale: 1, lamps: 14, peers: 6, lampRes: .6, tube: 24, lampCache: 40, builds: 4, src: 3, props: 12, propFrame: 96, ents: 20, secondary: true },
+    low: { scale: .5, lamps: 8, peers: 1, lampRes: .3, tube: 16, lampCache: 24, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6, secondary: false },
+    medium: { scale: .75, lamps: 10, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 4, props: 8, propFrame: 48, ents: 12, secondary: false },
+    high: { scale: 1, lamps: 14, peers: 6, lampRes: .6, tube: 32, lampCache: 40, builds: 4, src: 6, props: 12, propFrame: 96, ents: 20, secondary: true },
   };
   /* a lamp: its field (the game's radial falloff, reach R), the fixture it shines from (the 86 x 24 panel the game draws:
    * tube points over ±tubeX, two rows at ±tubeY), the strength its cache is built at (P0: the game's cap), a light blur of
@@ -62,7 +62,10 @@
    * dark, so under a cast shadow it reads as the prop's contact shadow, not a second shadow */
   const PROP = { counter: { h: 70 }, shelf: { h: 46 }, lowwall: { h: 84 }, machine: { h: 96 }, table: { h: 76 }, bench: { h: 46 }, window: { h: 40 } };
   const AMB = { r0: 18, r1: 670, a0: .14, a1: .045 };                       // the ambient glow around the viewer (v23.3.6's)
-  const TINT = { beam: .25, omni: .2 };                                      // carried-light colour tint over the lit area
+  /* carried-light colour tint over the lit area (v23.3.6's .25 / .2 of the light).  BR2C: the tints are summed (`lighter`,
+   * premultiplied: overlapping colours average instead of the later one painting over the earlier) at k of their strength
+   * and laid on at 1 / k: one light looks exactly as before, crossing lights cannot stack into a saturated film */
+  const TINT = { beam: .25, omni: .2, k: .5 };
   const AO = { width: 50, alpha: .56, steps: 64, power: 1.35 };              // SH7 grounding (ADAPT)
   const LS_KEY = 'tfb.lighting.quality';
   const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
@@ -211,7 +214,7 @@
     if (n <= 1) return [x, y];
     const out = [], s = omni ? SRC.omni : SRC.beam;
     for (let k = 0; k < n; k++) { let px, py;
-      if (omni) { const a = ang + Math.PI * 2 * k / n; px = x + Math.cos(a) * s; py = y + Math.sin(a) * s; }
+      if (omni) { const a = Math.PI / 4 + Math.PI * 2 * k / n; px = x + Math.cos(a) * s; py = y + Math.sin(a) * s; }   // a lantern's flame: fixed ring (no wobble as you turn)
       else { const u = (2 * k / (n - 1) - 1) * s; px = x - Math.sin(ang) * u; py = y + Math.cos(ang) * u; }
       const p = reachable(x, y, px, py); out.push(p[0], p[1]); }
     return out;
@@ -340,7 +343,7 @@
        * the carried lights' colour */
       n.save(); n.setTransform(1, 0, 0, 1, 0, 0); n.globalAlpha = 1; n.imageSmoothingEnabled = true;
       n.globalCompositeOperation = 'destination-out'; n.drawImage(S.buf, 0, 0, bw, bh, 0, 0, F.w, F.h);
-      if (rec.carried.some(c => c.tint)) { n.globalCompositeOperation = 'source-over'; n.drawImage(S.tb, 0, 0, bw, bh, 0, 0, F.w, F.h); }
+      if (rec.carried.some(c => c.tint)) { n.globalCompositeOperation = 'source-over'; n.globalAlpha = TINT.k; n.drawImage(S.tb, 0, 0, bw, bh, 0, 0, F.w, F.h); n.globalAlpha = 1; }
       n.restore();
 
       cullAO(view);
@@ -429,7 +432,7 @@
     let tint = false;
     if (Lc.color && /^#[0-9a-f]{6}$/i.test(Lc.color)) {
       sx.setTransform(1, 0, 0, 1, 0, 0); sx.globalCompositeOperation = 'source-in'; sx.fillStyle = Lc.color; sx.fillRect(bb[0], bb[1], bbw, bbh); sx.globalCompositeOperation = 'source-over';
-      const tx = S.tx; tx.save(); tx.setTransform(1, 0, 0, 1, 0, 0); tx.globalAlpha = f.omni ? TINT.omni : TINT.beam; tx.drawImage(S.scr, bb[0], bb[1], bbw, bbh, bb[0], bb[1], bbw, bbh); tx.restore(); tint = true;
+      const tx = S.tx; tx.save(); tx.setTransform(1, 0, 0, 1, 0, 0); tx.globalCompositeOperation = 'lighter'; tx.globalAlpha = (f.omni ? TINT.omni : TINT.beam) / TINT.k; tx.drawImage(S.scr, bb[0], bb[1], bbw, bbh, bb[0], bb[1], bbw, bbh); tx.restore(); tint = true;
     }
     /* the hand glow: a small omni field at the hand, with the shadows walls and props cast into it from the hand */
     const gb = boxAt(Lc.x, Lc.y, Lc.glowR, F, sc);

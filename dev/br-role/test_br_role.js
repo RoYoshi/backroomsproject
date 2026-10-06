@@ -156,7 +156,7 @@ run('U01 loads, attaches above the carpet on the first frame, and takes over the
 run('U02 one compositor, no visibility polygon: nothing is ever clipped; every light is ADDED to the light buffer (`lighter`): each lamp as its own shadowed field, each carried light (beam, then hand glow); the overlay loses the buffer once (destination-out), then the beam colour (source-over)', () => {
   const p = makePage(); warm(p, { x: 1130, y: 3420, angle: 2.6 }); const L = p.log;
   const clips = L.filter(e => e.op === 'clip').length, lamps = lampDraws(L).filter(e => e.gco === 'lighter'), ov = L.filter(e => e.canvas === 'overlay' && e.op === 'drawImage');
-  const carriedToBuf = L.filter(e => e.canvas !== 'overlay' && e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 8), viaScratch = new Set(p.R.actors().filter(j => j.lightKind === 'lamp').map(j => j.light)).size;
+  const buf = ov.length ? ov[0].src : null, carriedToBuf = L.filter(e => e.canvas === buf && e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 8), viaScratch = new Set(p.R.actors().filter(j => j.lightKind === 'lamp').map(j => j.light)).size;
   const lampsAdded = lamps.length + viaScratch;                            // a lamp an actor shadows goes through the scratch (BR2B)
   return { ok: clips === 0 && lampsAdded >= 3 && lamps.every(e => e.clip === 0) && carriedToBuf.length === 2 + viaScratch && ov.length === 2 && ov[0].gco === 'destination-out' && ov[1].gco === 'source-over',
     note: `clips ${clips}; lamps added ${lampsAdded} (each its shadowed field, lighter; ${viaScratch} through the scratch for an actor's shadow); scratch pieces added ${carriedToBuf.length} (beam, glow + those lamps); overlay: ${ov.map(e => e.gco).join(' then ')}` };
@@ -226,7 +226,7 @@ run('U11 no NaN / Infinity reaches the canvas, whatever the inputs (random posit
   return { ok: bad === 0 && p.R.on(), note: `${n} canvas calls, non-finite ${bad}, still on ${p.R.on()}` };
 });
 
-run('U12 flashlight: its natural field first (radial falloff, then the smooth angular profile; no clip), then the shadows walls and pillars cast INSIDE the beam from the hand: one point at LOW (cut straight out), two / three across the hand at MEDIUM / HIGH (averaged); then added', () => {
+run('U12 flashlight: its natural field first (radial falloff, then the smooth angular profile; no clip), then the shadows walls and pillars cast INSIDE the beam from the hand: one point at LOW (cut straight out), four / six across the hand at MEDIUM / HIGH (averaged); then added', () => {
   const out = {}; let ok = true; const X = 1060, Y = 3440, AIM = Math.atan2(3400 - 3440, 930 - 1060), arc = GAME.Gc.flashlight.arc;
   for (const q of ['low', 'medium', 'high']) {
     const p = makePage(); p.R.setQuality(q); warm(p, { x: X, y: Y, angle: AIM }); const L = p.log, n = p.R.tiers()[q].src;
@@ -325,6 +325,28 @@ run('U22 BR2B tiers: LOW and MEDIUM one shadow per actor (the dominant light); H
     out[q] = me.map(j => `${j.light} ${j.a.toFixed(3)}`).join(' + ');
     if (q === 'high' ? !(me.length >= 1 && me.length <= 2 && (me.length === 1 || me[1].a <= me[0].a * .45 + 1e-9)) : me.length !== 1) ok = false; }
   return { ok, note: JSON.stringify(out) };
+});
+
+/* ---------- BR2C: softness, peers, colour ---------- */
+run('U23 BR2C colour: carried-light tints are summed (`lighter`: overlapping colours average, order-independent) and laid on at a bounded strength; a single light keeps BR1.1\'s tint exactly (.25 of its light)', () => {
+  const pk = (c1, c2) => { const p = makePage(); p.win.__peerLights = [{ x: 1000, y: 3330, angle: 0, kind: 'flashlight', color: c1, on: true }, { x: 1010, y: 3420, angle: -.4, kind: 'flashlight', color: c2, on: true }]; warm(p, { x: 1060, y: 3300, on: false }); return p.log; };
+  const A = pk('#9fd4ff', '#ffb070'), B = pk('#ffb070', '#9fd4ff');
+  const tints = L => L.filter(e => e.op === 'drawImage' && e.args.length === 8 && e.canvas !== 'overlay' && Math.abs(e.alpha - 1) < 1e-9 === false && (e.gco === 'lighter' || e.gco === 'source-over') && e.alpha > .3 && e.alpha < .6 && L.some(o => o.canvas === 'overlay' && o.src === e.canvas));
+  const ta = tints(A), ovA = A.filter(e => e.canvas === 'overlay' && e.op === 'drawImage'), ovB = B.filter(e => e.canvas === 'overlay' && e.op === 'drawImage');
+  const ok = ta.length === 2 && ta.every(e => e.gco === 'lighter' && Math.abs(e.alpha - .5) < 1e-9) && ovA[1] && ovA[1].gco === 'source-over' && Math.abs(ovA[1].alpha - .5) < 1e-9 && JSON.stringify(ovA.map(e => [e.gco, e.alpha])) === JSON.stringify(ovB.map(e => [e.gco, e.alpha]));
+  return { ok, note: `tint draws ${ta.map(e => e.gco + ' x' + e.alpha).join(', ')}; laid on the overlay ${ovA[1] && ovA[1].gco} x${ovA[1] && ovA[1].alpha} (one light: .5 x .5 = .25 of its light, as BR1.1); peers swapped: the same composition` };
+});
+run('U24 BR2C a lantern\'s flame casts from a fixed ring around the hand: turning does not move its shadows (no wobble); its brightness still flickers', () => {
+  const froms = ang => { const p = makePage(); p.R.setQuality('high'); warm(p, { x: 1060, y: 3440, angle: ang, kind: 'lantern' }); const L = p.log, fi = L.findIndex(e => e.op === 'fillRect' && e.style && e.style.kind === 'radial' && e.style.r[1] === 228), out = [];
+    for (const f of L.filter((e, j) => j > fi && e.op === 'fill' && e.subs && e.subs.length)) { const c = checkShadowFill(p.g, f, 228); if (c.from) out.push(c.from.map(v => +v.toFixed(3)).join(',')); } return out.sort(); };
+  const a = froms(0), b = froms(2.1);
+  return { ok: a.length === 6 && JSON.stringify(a) === JSON.stringify(b), note: `source points at aim 0: ${a.length}, the same at aim 2.1: ${JSON.stringify(a) === JSON.stringify(b)}` };
+});
+run('U25 BR2C a peer\'s flashlight casts the counter\'s shadow inside its own beam (its own prop casters, within the frame budget), and fills a lamp\'s shadow like yours', () => {
+  const p = makePage(); p.win.__peerLights = [{ x: 3400, y: 1250, angle: -Math.PI / 2, kind: 'flashlight', color: '#ffe7b2', on: true }]; warm(p, { x: 3700, y: 1300, on: false });
+  const fills = p.log.filter(e => e.op === 'fill' && e.subs && e.subs.length), withCounter = fills.filter(f => splitFill(p.g, f).props.some(q => q.prop.x === L4.x && q.prop.y === L4.y)).length;
+  let X = null; for (let y = 1046; y < 1100 && !X; y += 3) for (let x = 3330; x < 3520 && !X; x += 4) { const r = p.R.probe(x, y); if (r.lamps.some(l => l.i === 31) && r.lamps.every(l => l.light === 0) && r.carried.some(c => !c.own && c.light > .2)) X = [x, y]; }
+  return { ok: withCounter > 0 && !!X, note: `peer shadow fills with the counter: ${withCounter}; a lamp-shadowed spot the peer lights: ${X}` };
 });
 
 const pass = results.filter(r => r.ok).length;
