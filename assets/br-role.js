@@ -39,7 +39,7 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role BR2.1B';
+  const VERSION = 'br-role BR2.1C';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
@@ -78,7 +78,7 @@
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
     lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
     layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0 };
-  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampEvictions: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
+  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
 
   /* ---------- quality: URL > remembered > device default (touch / small screen -> LOW); ?lighting=legacy is DEV only ---------- */
   function initialQuality() {
@@ -158,12 +158,34 @@
     for (let k = 0; k < 4; k++) { const cx = k === 1 || k === 2 ? p.x + p.w : p.x, cy = k >= 2 ? p.y + p.h : p.y; tmpH.push(cx, cy, cx + (cx - sx) * kk, cy + (cy - sy) * kk); }
     return hull(tmpH);
   }
-  /* is (x, y) in a prop's shadow from a source point?  (inside its floor shadow, not on its own top) */
-  function inPropShadow(p, sx, sy, sh, kmax, x, y) {
-    if (x >= p.x && x <= p.x + p.w && y >= p.y && y <= p.y + p.h) return false;
-    const h = propHull(p, sx, sy, sh, kmax); if (!h || h.length < 6) return false;
-    for (let i = 0; i < h.length; i += 2) { const ax = h[i], ay = h[i + 1], bx = h[(i + 2) % h.length], by = h[(i + 3) % h.length]; if ((bx - ax) * (y - ay) - (by - ay) * (x - ax) < 0) return false; }
-    return true;
+  /* BR2.1C: a prop's shadow is solid at its footprint and fades toward its projected top (the far end of a box's shadow:
+   * height impression, no uniform slab): a gradient along the projection, 1 up to `hold`, down to `tip` at the far end */
+  const PFADE = { hold: .35, lamp: .3, carried: .2 };
+  function propGrad(p, sx, sy, sh, kmax) {
+    const kk = sh > p.hp + 1 ? Math.min(kmax, p.hp / (sh - p.hp)) : kmax, dx = p.cx - sx, dy = p.cy - sy, d = Math.hypot(dx, dy) || 1, ux = dx / d, uy = dy / d;
+    const ext = (Math.abs(ux) * p.w + Math.abs(uy) * p.h) / 2 * (1 + kk), ex = p.cx + dx * kk + ux * ext, ey = p.cy + dy * kk + uy * ext;
+    return [p.cx, p.cy, ex, ey];
+  }
+  /* how much of a source point's light a prop takes away at (x, y): 0 outside its floor shadow and on its own top */
+  function propShadowAlpha(p, sx, sy, sh, kmax, x, y, tip) {
+    if (x >= p.x && x <= p.x + p.w && y >= p.y && y <= p.y + p.h) return 0;
+    const h = propHull(p, sx, sy, sh, kmax); if (!h || h.length < 6) return 0;
+    for (let i = 0; i < h.length; i += 2) { const ax = h[i], ay = h[i + 1], bx = h[(i + 2) % h.length], by = h[(i + 3) % h.length]; if ((bx - ax) * (y - ay) - (by - ay) * (x - ax) < 0) return 0; }
+    const [x0, y0, x1, y1] = propGrad(p, sx, sy, sh, kmax), L2 = (x1 - x0) ** 2 + (y1 - y0) ** 2, t = L2 > 0 ? clamp(((x - x0) * (x1 - x0) + (y - y0) * (y1 - y0)) / L2, 0, 1) : 0;
+    return t <= PFADE.hold ? 1 : 1 + (tip - 1) * (t - PFADE.hold) / (1 - PFADE.hold);
+  }
+  const inPropShadow = (p, sx, sy, sh, kmax, x, y) => propShadowAlpha(p, sx, sy, sh, kmax, x, y, 1) > 0;
+  /* fill each prop's shadow from one source point with its graded alpha (white; the caller picks the composite operation) */
+  function propFills(c, props, sx, sy, sh, kmax, tip) {
+    let n = 0;
+    for (const p of props) {
+      const h = propHull(p, sx, sy, sh, kmax); if (!h || h.length < 6) continue;
+      c.beginPath(); c.moveTo(h[h.length - 2], h[h.length - 1]); for (let k = h.length - 4; k >= 0; k -= 2) c.lineTo(h[k], h[k + 1]); c.closePath();
+      c.moveTo(p.x, p.y); c.lineTo(p.x + p.w, p.y); c.lineTo(p.x + p.w, p.y + p.h); c.lineTo(p.x, p.y + p.h); c.closePath();   // its own top: the opposite winding (lit)
+      const [x0, y0, x1, y1] = propGrad(p, sx, sy, sh, kmax), g = c.createLinearGradient(x0, y0, x1, y1);
+      g.addColorStop(0, rgba(1)); g.addColorStop(PFADE.hold, rgba(1)); g.addColorStop(1, rgba(tip)); c.fillStyle = g; c.fill(); n++;
+    }
+    ST.propDraws += n; return n;
   }
   /* the shadow one point source at (lx, ly) casts within `reach`: for every blocker side that faces it, the polygon from the
    * side's two corners projected away from the source (through a middle point, so the far side always lies beyond the
@@ -237,7 +259,18 @@
     const m = S.lmask.getContext('2d'), smp = tubePoints(L, cfg.tube), n = smp.length / 2, reach = R + LAMP.tubeX + 4, props = propsFor(L.x, L.y, reach, null, cfg.props);
     m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(0, 0, size, size);
     m.setTransform(res, 0, 0, res, (R - L.x) * res, (R - L.y) * res); m.globalCompositeOperation = 'lighter'; m.fillStyle = rgba((Math.ceil(255 / n) + .4) / 255);   // n of them saturate: umbra = all of this light gone
-    let edges = 0; for (let s = 0; s < smp.length; s += 2) { const e = shadowPath(m, smp[s], smp[s + 1], reach, null, props, LAMP.h, LAMP.kmax); if (e) m.fill(); edges += e; }
+    let edges = 0;
+    if (!props.length) for (let s = 0; s < smp.length; s += 2) { const e = shadowPath(m, smp[s], smp[s + 1], reach, null, null, 0, 0); if (e) m.fill(); edges += e; }
+    else {                                                                  // per tube point: walls (solid) and props (graded) united, then averaged in
+      if (!S.ltmp || S.ltmp.width !== size) S.ltmp = mkCanvas(size, size);
+      const t = S.ltmp.getContext('2d'), a = (Math.ceil(255 / n) + .4) / 255;
+      for (let s = 0; s < smp.length; s += 2) {
+        t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(0, 0, size, size);
+        t.setTransform(res, 0, 0, res, (R - L.x) * res, (R - L.y) * res); t.fillStyle = '#fff';
+        const e = shadowPath(t, smp[s], smp[s + 1], reach, null, null, 0, 0); if (e) t.fill(); edges += e + propFills(t, props, smp[s], smp[s + 1], LAMP.h, LAMP.kmax, PFADE.lamp);
+        m.save(); m.setTransform(1, 0, 0, 1, 0, 0); m.globalAlpha = a; m.drawImage(S.ltmp, 0, 0); m.restore();
+      }
+    }
     m.globalCompositeOperation = 'source-over';
     c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out';
     if (S.blur) c.filter = `blur(${(LAMP.blur * res).toFixed(2)}px)`;
@@ -280,7 +313,7 @@
       const cfg = TIERS[S.quality], A = window.__api, sc = cfg.scale, k = F.r * sc;
       ensureBuffers(F.w, F.h, cfg);
       const bx = S.bx, tx = S.tx, bw = S.buf.width, bh = S.buf.height;
-      ST.shadows = 0; ST.casts = 0; ST.shadeDraws = 0;
+      ST.shadows = 0; ST.casts = 0; ST.shadeDraws = 0; ST.propDraws = 0;
       for (const c of [bx, tx]) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; c.clearRect(0, 0, bw, bh); }
       bx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); bx.globalCompositeOperation = 'lighter';
       const view = { x0: -F.ox / F.r, y0: -F.oy / F.r, x1: (F.w - F.ox) / F.r, y1: (F.h - F.oy) / F.r };
@@ -364,15 +397,28 @@
   function castInto(c, smp, reach, cone, F, k, sc, bb, cast) {
     const props = cast && cast.props.length ? cast.props : null, sh = cast ? cast.sh : 0, kmax = cast ? cast.kmax : 0;
     const n = smp.length / 2; let e = 0;
-    if (n === 1) {
+    if (n === 1) {                                                          // one point: walls cut out, then each prop's graded shadow (destination-out multiplies: a union)
       c.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); c.globalCompositeOperation = 'destination-out'; c.fillStyle = '#fff';
-      e = shadowPath(c, smp[0], smp[1], reach, cone, props, sh, kmax); if (e) c.fill();
+      e = shadowPath(c, smp[0], smp[1], reach, cone, null, 0, 0); if (e) c.fill();
+      if (props) e += propFills(c, props, smp[0], smp[1], sh, kmax, PFADE.carried);
     } else {
-      const m = S.mx; m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(bb[0], bb[1], bb[2] - bb[0], bb[3] - bb[1]);
-      m.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); m.globalCompositeOperation = 'lighter'; m.fillStyle = rgba((Math.ceil(255 / n) + .4) / 255);   // n of them saturate: umbra = all of this light gone
-      for (let s = 0; s < smp.length; s += 2) { const q = shadowPath(m, smp[s], smp[s + 1], reach, cone, props, sh, kmax); if (q) m.fill(); e += q; }
+      const m = S.mx, bw = bb[2] - bb[0], bh = bb[3] - bb[1], a = (Math.ceil(255 / n) + .4) / 255;
+      m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(bb[0], bb[1], bw, bh);
+      if (!props) {
+        m.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); m.globalCompositeOperation = 'lighter'; m.fillStyle = rgba(a);   // n of them saturate: umbra = all of this light gone
+        for (let s = 0; s < smp.length; s += 2) { const q = shadowPath(m, smp[s], smp[s + 1], reach, cone, null, 0, 0); if (q) m.fill(); e += q; }
+      } else {                                                              // with props: each point's walls + graded props united in a pooled canvas, then averaged in
+        if (!S.ctmp || S.ctmp.width !== S.msk.width || S.ctmp.height !== S.msk.height) { S.ctmp = mkCanvas(S.msk.width, S.msk.height); S.cx = S.ctmp.getContext('2d'); }
+        const t = S.cx;
+        for (let s = 0; s < smp.length; s += 2) {
+          t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(bb[0], bb[1], bw, bh);
+          t.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); t.fillStyle = '#fff';
+          const q = shadowPath(t, smp[s], smp[s + 1], reach, cone, null, 0, 0); if (q) t.fill(); e += q + propFills(t, props, smp[s], smp[s + 1], sh, kmax, PFADE.carried);
+          m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'lighter'; m.globalAlpha = a; m.drawImage(S.ctmp, bb[0], bb[1], bw, bh, bb[0], bb[1], bw, bh); m.globalAlpha = 1;
+        }
+      }
       m.globalCompositeOperation = 'source-over';
-      if (e) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out'; c.drawImage(S.msk, bb[0], bb[1], bb[2] - bb[0], bb[3] - bb[1], bb[0], bb[1], bb[2] - bb[0], bb[3] - bb[1]); }
+      if (e) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out'; c.drawImage(S.msk, bb[0], bb[1], bw, bh, bb[0], bb[1], bw, bh); }
     }
     c.globalCompositeOperation = 'source-over'; ST.shadows += e; return e;
   }
@@ -702,8 +748,8 @@
     const Uc = window.__api.Uc; let v = 0;
     for (let s = 0; s < smp.length; s += 2) {
       const dx = x - smp[s], dy = y - smp[s + 1], d = Math.hypot(dx, dy); if (!(d < .5 || Uc(smp[s], smp[s + 1], Math.atan2(dy, dx), d) >= d - .5)) continue;
-      if (props && props.some(p => inPropShadow(p, smp[s], smp[s + 1], sh, kmax, x, y))) continue;
-      v++;
+      let keep = 1; if (props) for (const p of props) keep *= 1 - propShadowAlpha(p, smp[s], smp[s + 1], sh, kmax, x, y, sh === LAMP.h ? PFADE.lamp : PFADE.carried);
+      v += keep;
     }
     return v / (smp.length / 2);
   }
@@ -735,7 +781,7 @@
       lamps: { last: ST.lamps, max: ST.lampsMax, cap: TIERS[S.quality].lamps, cached: S.lampCache.size, cacheCap: TIERS[S.quality].lampCache, pending: S.pending.size, builds: ST.lampBuilds, buildMs: +ST.lampBuildMs.toFixed(2), evictions: ST.lampEvictions, tube: TIERS[S.quality].tube, blur: S.blur },
       carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn, castDraws: ST.casts, actorsShaded: ST.shaded, selfShadeDraws: ST.shadeDraws },
       blockers: { sides: S.nEdges || 0, pillars: S.pillars || 0, props: S.props.length, propKinds: [...new Set(S.props.map(p => p.kind))] },
-      props: { last: ST.props, max: ST.propsMax, perLight: TIERS[S.quality].props, perFrame: TIERS[S.quality].propFrame }, errors: ST.errors }),
+      props: { last: ST.props, max: ST.propsMax, drawsThisFrame: ST.propDraws, perLight: TIERS[S.quality].props, perFrame: TIERS[S.quality].propFrame }, errors: ST.errors }),
     resetStats: () => { ST.frames = 0; ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; },
     probe,
     lastFrame: () => S.lastF ? Object.assign({}, S.lastF) : null,      // the world -> overlay mapping BR-RoLE drew with last (tests)

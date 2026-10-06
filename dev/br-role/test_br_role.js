@@ -45,6 +45,7 @@ function mkCanvas(log, name) {
     fill() { rec('fill', { style: st.fillStyle, path: curPath.slice(), subs: subs.map(q => q.slice()) }); },
     clip() { st.clip++; rec('clip', { path: curPath.slice() }); },
     createRadialGradient(x0, y0, r0, x1, y1, r1) { const g = { kind: 'radial', at: [x1, y1], r: [r0, r1], stops: [] }; g.addColorStop = (o, col) => g.stops.push([o, col]); return g; },
+    createLinearGradient(x0, y0, x1, y1) { const g = { kind: 'linear', from: [x0, y0], to: [x1, y1], stops: [] }; g.addColorStop = (o, col) => g.stops.push([o, col]); return g; },
     createConicGradient(a, x, y) { const g = { kind: 'conic', at: [x, y], start: a, stops: [] }; g.addColorStop = (o, col) => g.stops.push([o, col]); return g; },
     drawImage(img, ...a) { rec('drawImage', { src: img.name || '?', args: a }); },
     createImageData: (w, h) => ({ width: w, height: h, data: new Uint8ClampedArray(w * h * 4) }), putImageData() { },
@@ -259,19 +260,24 @@ run('U14 BR2A casters: counters, the shelf, the low walls, the machine, the tabl
   const p = makePage(); p.frame(); const b = p.R.stats().blockers, kinds = b.propKinds.slice().sort();
   return { ok: b.props === 11 && JSON.stringify(kinds) === JSON.stringify(['bench', 'counter', 'lowwall', 'machine', 'shelf', 'table', 'window']), note: `${b.props} prop casters: ${kinds.join(', ')}` };
 });
-run('U15 BR2A lamp: the counter beside lamp 31 casts, from EVERY tube point, the hull of its base and its top projected away from that point (x 70 / (180 - 70)), into the same averaged shadow as the walls (same winding); its own top is cut back out (opposite winding: stays lit)', () => {
+run('U15 BR2A/BR2.1C lamp: from EVERY tube point the counter beside lamp 31 casts the hull of its base and its top projected away from that point (x 70 / (180 - 70)) - its own top cut back out (opposite winding: lit) - graded from solid at the footprint to faint at the far end, united with that point\'s wall shadows, then averaged into the lamp\'s mask', () => {
   const p = makePage(); let L = null, cache = null; const lp = p.g.Fc[31], kk = 70 / 110;
   for (let k = 0; k < 8 && !cache; k++) { p.frame({ x: 3400, y: 1250, angle: -Math.PI / 2 }); L = p.log; const f = L.find(e => e.op === 'fillRect' && e.style && e.style.kind === 'radial' && e.style.r[1] === 380 && e.style.at[0] === lp.x && e.style.at[1] === lp.y); if (f) cache = f.canvas; }
-  const field = L.find(e => e.canvas === cache && e.op === 'fillRect'), sub = L.find(e => e.canvas === cache && e.op === 'drawImage');
-  const fills = L.filter(e => e.canvas === sub.src && e.op === 'fill' && L.indexOf(e) > L.indexOf(field) && L.indexOf(e) < L.indexOf(sub));
-  let withCounter = 0, bad = 0, wind = 0, far = 0;
-  for (const f of fills) {
-    const c = checkShadowFill(p.g, f, 380); wind += c.badWinding; const S = c.from, pr = splitFill(p.g, f).props.find(q => q.prop.x === L4.x && q.prop.y === L4.y); if (!pr || !S) continue; withCounter++;
+  const i0 = L.findIndex(e => e.canvas === cache && e.op === 'fillRect'), i1 = L.findIndex((e, n) => n > i0 && e.canvas === cache && e.op === 'drawImage');
+  const seg = L.slice(i0, i1), propF = seg.filter(e => e.op === 'fill' && e.style && e.style.kind === 'linear'), T = propF.length ? propF[0].canvas : null;
+  const intoMask = seg.filter(e => e.op === 'drawImage' && e.src === T && e.gco === 'lighter');
+  let bad = 0, wind = 0, grad = 0, n = 0;
+  for (const pf of propF) {
+    const k = seg.indexOf(pf), wf = seg.slice(0, k).reverse().find(e => e.canvas === T && e.op === 'fill' && e.style === '#fff'), S = wf ? checkShadowFill(p.g, wf, 380).from : null; if (!S) { bad++; continue; }
+    const pr = splitFill(p.g, pf).props.find(q => q.prop.x === L4.x && q.prop.y === L4.y); if (!pr) continue; n++;
+    if (!(area(pr.hull) < 0 && area(pr.hole) > 0)) wind++;
     const want = []; for (const [cx, cy] of [[L4.x, L4.y], [L4.x + L4.w, L4.y], [L4.x + L4.w, L4.y + L4.h], [L4.x, L4.y + L4.h]]) want.push([cx, cy], [cx + (cx - S[0]) * kk, cy + (cy - S[1]) * kk]);
-    for (let i = 0; i < pr.hull.length; i += 2) { const v = [pr.hull[i], pr.hull[i + 1]]; if (!want.some(w => Math.hypot(w[0] - v[0], w[1] - v[1]) < 1e-6)) bad++;
-      const base = want.filter((w, j) => j % 2 === 0).some(w => Math.hypot(w[0] - v[0], w[1] - v[1]) < 1e-6); if (!base) { const d = Math.hypot(v[0] - S[0], v[1] - S[1]), b0 = want[want.findIndex(w => Math.hypot(w[0] - v[0], w[1] - v[1]) < 1e-6) - 1]; if (!(b0 && d > Math.hypot(b0[0] - S[0], b0[1] - S[1]))) far++; } }
+    for (let v = 0; v < pr.hull.length; v += 2) if (!want.some(w => Math.hypot(w[0] - pr.hull[v], w[1] - pr.hull[v + 1]) < 1e-6)) bad++;
+    const st = pf.style.stops.map(q => [q[0], +q[1].match(/,([\d.]+)\)$/)[1]]), cx = L4.x + L4.w / 2, cy = L4.y + L4.h / 2;
+    if (!(st.length === 3 && st[0][1] === 1 && st[1][1] === 1 && st[2][1] < .5 && Math.hypot(pf.style.from[0] - cx, pf.style.from[1] - cy) < 1e-6 && Math.hypot(pf.style.to[0] - S[0], pf.style.to[1] - S[1]) > Math.hypot(cx - S[0], cy - S[1]))) grad++;
   }
-  return { ok: fills.length === 16 && withCounter === 16 && bad === 0 && wind === 0 && far === 0, note: `${fills.length} tube points, counter shadow from ${withCounter} of them; hull vertices off (base, top + (corner - point) x ${kk.toFixed(3)}) ${bad}; projected toward the light ${far}; winding errors ${wind}` };
+  return { ok: n === 16 && intoMask.length === 16 && bad === 0 && wind === 0 && grad === 0 && intoMask.every(e => Math.abs(e.alpha - 16.4 / 255) < 1e-3),
+    note: `${n} tube points cast the counter (united with their walls, ${intoMask.length} averaged in at ${intoMask[0] && intoMask[0].alpha.toFixed(4)}); hull vertices off ${bad}; winding errors ${wind}; gradient (solid at the footprint -> faint, away from the point) errors ${grad}` };
 });
 run('U16 BR2A behaviour (probe, the game\'s ray query + the prop\'s shadow): behind the counter the lamps are blocked but a flashlight from the open side lights it; a flashlight from the lamps\' side is blocked by the same counter there; the counter\'s own top stays lit', () => {
   const p = makePage(); warm(p, { x: 3400, y: 1250, angle: -Math.PI / 2 });
@@ -388,6 +394,15 @@ run('U29 BR2.1B self-shading follows the light\'s contrast (one dominant lamp: f
   const full = Math.atan2(3300 - 3340, 1180 - 1060), stepped = h0 && h1 ? Math.abs(h1.ang - h0.ang) : 0, wanted = h0 ? Math.abs(full - h0.ang) : 0;
   const ok = one.length === 1 && even.length === 1 && even[0].shade < one[0].shade * .75 && !!h0 && !!h1 && stepped > 0 && stepped < wanted * .5;
   return { ok, note: `self-shading: one lamp x${one[0] && one[0].shade.toFixed(3)}, even lamps x${even[0] && even[0].shade.toFixed(3)} (${even.length} crescent); Hound in your beam: you step 40 px, its shadow turns ${stepped.toFixed(3)} of ${wanted.toFixed(3)} rad this frame` };
+});
+
+run('U30 BR2.1C a prop shadow is no uniform slab: behind the counter your flashlight\'s light is fully gone at the footprint and comes back gradually toward the shadow\'s far end (height impression); the counter\'s top stays lit', () => {
+  const p = makePage(); p.R.setQuality('low'); warm(p, { x: 3430, y: 880, angle: Math.atan2(1046 - 880, 3380 - 3430) });
+  const b = [3430, 880], d = [3380 - b[0], 1046 - b[1]], L = Math.hypot(d[0], d[1]), u = [d[0] / L, d[1] / L], prof = [];
+  for (let t = 0; t <= 228; t += 12) { const x = 3405 + u[0] * t, y = 1034 + u[1] * t, r = p.R.probe(x, y).carried.find(c => c.own); prof.push(r ? +r.visible.toFixed(3) : null); }
+  const first = prof.findIndex(v => v !== null), tail = prof.filter(v => v !== null), top = p.R.probe(3400, 1008).carried.find(c => c.own);
+  let mono = true; for (let i = 1; i < tail.length; i++) if (tail[i] < tail[i - 1] - 1e-9) mono = false;
+  return { ok: tail[0] === 0 && tail.some(v => v > 0 && v < 1) && mono && top && top.visible === 1, note: `your beam's visibility walking away from the counter's far edge: ${JSON.stringify(tail)}; on the counter top ${top && top.visible}` };
 });
 
 const pass = results.filter(r => r.ok).length;

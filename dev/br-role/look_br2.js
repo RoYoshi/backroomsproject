@@ -1,10 +1,10 @@
-/* BR-RoLE BR2 - the few targeted captures for human QA (development only; never served).
+/* BR-RoLE BR2 / BR2.1 - the few targeted captures for human QA (development only; never served).
  *
  *   node dev/br-role/look_br2.js --game PATH --out DIR        (writes a handful of side-by-side JPEGs, brightened x3 for the eye)
  *
  * One staged page (frozen halls, god mode, lamps forced on), frozen clock for every shot:
  *   props       counter L4: legacy | MEDIUM (lamps only) | MEDIUM + your beam from the open side | MEDIUM, beam from the lamps' side
- *   player      your shadow under the lamps, actor shadows off | on (MEDIUM, crop around you)
+ *   player      you in two spots, actor effects off | on each (self-shading on the body, cast on the floor; MEDIUM, crop around you)
  *   hound       a Hound in your flashlight beam, actor shadows off | on (MEDIUM, crop around it)
  *   crossing    your beam and another wanderer's (a scripted peer, blue light): legacy | LOW | MEDIUM | HIGH
  *   penumbra    a fluorescent tube's shadow past the spawn partition: LOW | MEDIUM | HIGH */
@@ -38,9 +38,10 @@ const strip = async (name, shots, crop, w) => {                       // shots: 
     await pose(3430, 880, 2.0, true); await mode('medium'); ps.push(await shot());
     await strip('br2-props-counter', ps, { left: 160, top: 0, width: 960, height: 720 }, 480); log.push('props');
     /* player */
-    await pose(930, 3470, 0, false); await mode('medium');
-    await P.evaluate(() => __brRole.dev.actors(false)); await frames(P, 6); const p0 = await shot(); await P.evaluate(() => __brRole.dev.actors(true)); await frames(P, 6); const p1 = await shot();
-    await strip('br2-player-shadow-off-on', [p0, p1], { left: 470, top: 190, width: 340, height: 340 }, 510); log.push('player');
+    const pl = [];
+    for (const [x, y, a, l] of [[930, 3470, 0, false], [1110, 3230, 2.4, true]]) { await pose(x, y, a, l); await mode('medium');
+      await P.evaluate(() => __brRole.dev.actors(false)); await frames(P, 6); pl.push(await shot()); await P.evaluate(() => __brRole.dev.actors(true)); await frames(P, 6); pl.push(await shot()); }
+    await strip('br2-player-shadow-off-on', pl, { left: 520, top: 240, width: 240, height: 240 }, 400); log.push('player');
     /* hound */
     await P.evaluate(() => __clock.thaw()); await H.place(P, 1060, 3420, -1.2, { light: false }); await sleep(600);
     const at = await H.near(P, 'hound');
