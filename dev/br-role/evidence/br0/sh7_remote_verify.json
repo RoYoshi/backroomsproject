@@ -1,0 +1,20 @@
+{
+"checkpoint": "SH7",
+"verifiedAt": "2026-10-06T01:32:15Z",
+"local": {
+"commit": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+"tree": "f529607e0f3c43198a71e4670259cca2f319930f",
+"parent": "feed2d5c251bf73c301d54a3b9f2ee6163f3aa00"
+},
+"lsRemote": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+"githubApi": {
+"commit": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+"tree": "f529607e0f3c43198a71e4670259cca2f319930f",
+"parents": [
+"feed2d5c251bf73c301d54a3b9f2ee6163f3aa00"
+]
+},
+"mainUntouched": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+"reverifiedAt": "2026-10-06T02:34:33Z",
+"reverifiedNote": "ls-remote and REST API re-checked before packaging for human QA: branch head, tree and parent unchanged; main unchanged"
+}
