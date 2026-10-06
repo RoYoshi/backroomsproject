@@ -30,7 +30,7 @@ function mkCanvas(log, name) {
   const c = { width: 0, height: 0, name, style: {}, remove() { } };
   const st = { globalCompositeOperation: 'source-over', globalAlpha: 1, fillStyle: null, imageSmoothingEnabled: true, transform: [1, 0, 0, 1, 0, 0], clip: 0 }, stack = [];
   const rec = (op, extra) => log.push(Object.assign({ canvas: name, op, gco: st.globalCompositeOperation, alpha: st.globalAlpha, transform: st.transform.slice(), clip: st.clip }, extra || {}));
-  let curPath = [];
+  let curPath = [], subs = [];
   const ctx = {
     canvas: c,
     get globalCompositeOperation() { return st.globalCompositeOperation; }, set globalCompositeOperation(v) { st.globalCompositeOperation = v; },
@@ -41,7 +41,8 @@ function mkCanvas(log, name) {
     restore() { const s = stack.pop(); if (s) Object.assign(st, s); },
     setTransform(a, b, cc, d, e, f) { st.transform = [a, b, cc, d, e, f]; },
     clearRect(x, y, w, h) { rec('clearRect', { rect: [x, y, w, h] }); }, fillRect(x, y, w, h) { rec('fillRect', { rect: [x, y, w, h], style: st.fillStyle }); },
-    beginPath() { curPath = []; }, moveTo(x, y) { curPath.push(x, y); }, lineTo(x, y) { curPath.push(x, y); }, closePath() { }, arc() { }, fill() { rec('fill', { style: st.fillStyle }); },
+    beginPath() { curPath = []; subs = []; }, moveTo(x, y) { curPath.push(x, y); subs.push([x, y]); }, lineTo(x, y) { curPath.push(x, y); if (subs.length) subs[subs.length - 1].push(x, y); }, closePath() { }, arc() { }, rect() { },
+    fill() { rec('fill', { style: st.fillStyle, path: curPath.slice(), subs: subs.map(q => q.slice()) }); },
     clip() { st.clip++; rec('clip', { path: curPath.slice() }); },
     createRadialGradient(x0, y0, r0, x1, y1, r1) { const g = { kind: 'radial', at: [x1, y1], r: [r0, r1], stops: [] }; g.addColorStop = (o, col) => g.stops.push([o, col]); return g; },
     createConicGradient(a, x, y) { const g = { kind: 'conic', at: [x, y], start: a, stops: [] }; g.addColorStop = (o, col) => g.stops.push([o, col]); return g; },
@@ -86,48 +87,92 @@ function makePage(opts = {}) {
     const ok = page.R.on() && page.R.draw(page.overlay.getContext('2d'), F); return ok; };
   return page;
 }
-const lampFills = (log) => log.filter(e => e.canvas !== 'overlay' && e.op === 'fillRect' && e.style && e.style.kind === 'radial' && Math.abs(e.style.r[1] - 380) < 1e-9);
+/* a lamp is added to the light buffer as its cached shadowed field: drawImage(cache, x - 380, y - 380, 760, 760), `lighter`,
+ * at globalAlpha = strength / P0 (.9) */
+const lampDraws = (log) => log.filter(e => e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 4 && Math.abs(e.args[2] - 760) < 1e-9);
+const lampOf = (g, e) => g.Fc.findIndex(l => Math.abs(l.x - (e.args[0] + 380)) < 1e-9 && Math.abs(l.y - (e.args[1] + 380)) < 1e-9);
+/* frames until every lamp in view is built and faded in; the log keeps the last frame */
+function warm(p, o = {}, n = 40) { for (let k = 0; k < n; k++) { p.frame(o); if (k > 16 && p.R.stats().lamps.pending === 0) break; } p.frame(o); }
+/* the point a shadow polygon was cast from: where its two side rays (A -> A', B -> B') meet */
+function castFrom(q) {
+  const [ax, ay, bx, by, b2x, b2y, , , a2x, a2y] = q, ux = a2x - ax, uy = a2y - ay, vx = b2x - bx, vy = b2y - by, den = ux * vy - uy * vx;
+  if (Math.abs(den) < 1e-12) return null; const t = ((bx - ax) * vy - (by - ay) * vx) / den; return [ax + ux * t, ay + uy * t];
+}
+/* is A-B a blocker side facing the point S: a straight piece of the wall / floor boundary (the level's border counts as wall)
+ * or of a pillar's side, with the open side towards S */
+function onBlocker(g, A, B, S) {
+  const T = 96, wall = (x, y) => x < 0 || y < 0 || x >= g.FBW || y >= g.FBH ? true : !!g.Hc(x, y), mx = (A[0] + B[0]) / 2, my = (A[1] + B[1]) / 2;
+  if (Math.abs(A[1] - B[1]) < 1e-9) {
+    const pil = g.Pc.find(r => (Math.abs(r.y - my) < 1e-9 || Math.abs(r.y + r.h - my) < 1e-9) && mx > r.x && mx < r.x + r.w);
+    if (pil) return Math.abs(r_side(pil.y, pil.y + pil.h, my) * (S[1] - my)) > 0 && Math.sign(S[1] - my) === r_side(pil.y, pil.y + pil.h, my);
+    if (Math.abs(my / T - Math.round(my / T)) > 1e-9) return false; const cy = Math.round(my / T), cx = Math.floor(mx / T), up = wall(cx, cy - 1), dn = wall(cx, cy);
+    return up !== dn && (up ? S[1] > my : S[1] < my);
+  }
+  if (Math.abs(A[0] - B[0]) < 1e-9) {
+    const pil = g.Pc.find(r => (Math.abs(r.x - mx) < 1e-9 || Math.abs(r.x + r.w - mx) < 1e-9) && my > r.y && my < r.y + r.h);
+    if (pil) return Math.sign(S[0] - mx) === r_side(pil.x, pil.x + pil.w, mx);
+    if (Math.abs(mx / T - Math.round(mx / T)) > 1e-9) return false; const cx = Math.round(mx / T), cy = Math.floor(my / T), lf = wall(cx - 1, cy), rt = wall(cx, cy);
+    return lf !== rt && (lf ? S[0] > mx : S[0] < mx);
+  }
+  return false;
+}
+const r_side = (lo, hi, v) => Math.abs(v - lo) < 1e-9 ? -1 : 1;           // a pillar side faces out: its low side up / left, its high side down / right
+/* every shadow polygon of a fill: cast from one common point, anchored on a blocker side facing it, projected away beyond `reach` */
+function checkShadowFill(g, fill, reach) {
+  const out = { polys: fill.subs.length, from: null, badShape: 0, badFrom: 0, badSide: 0, badFar: 0 };
+  for (const q of fill.subs) {
+    if (q.length !== 10) { out.badShape++; continue; }
+    const S = castFrom(q); if (!S) { out.badShape++; continue; }
+    if (!out.from) out.from = S; else if (Math.hypot(S[0] - out.from[0], S[1] - out.from[1]) > .01) out.badFrom++;
+    if (!onBlocker(g, [q[0], q[1]], [q[2], q[3]], out.from)) out.badSide++;
+    const F = out.from, dA = Math.hypot(q[0] - F[0], q[1] - F[1]), dB = Math.hypot(q[2] - F[0], q[3] - F[1]);
+    for (const [px, py, d] of [[q[8], q[9], dA], [q[4], q[5], dB], [q[6], q[7], 0]]) { const dd = Math.hypot(px - F[0], py - F[1]); if (!(dd > d && dd >= reach)) out.badFar++; }
+  }
+  return out;
+}
 
-run('U01 loads, attaches above the carpet on the first frame, and takes over the light (on() true); version reported', () => {
-  const p = makePage(); const before = p.R.on(); const ok = p.frame(); const i = p.win.__api.floor().parent.children.findIndex(c => c.label === 'br-role');
-  return { ok: ok && before === true && i === 1 && p.R.stats().attached && /^br-role/.test(p.R.version), note: `version ${p.R.version}, layer index ${i}, vertices ${p.R.stats().vertices}` };
+run('U01 loads, attaches above the carpet on the first frame, and takes over the light (on() true); version reported; the blockers are every wall side and pillar side', () => {
+  const p = makePage(); const before = p.R.on(); const ok = p.frame(); const i = p.win.__api.floor().parent.children.findIndex(c => c.label === 'br-role'), b = p.R.stats().blockers;
+  return { ok: ok && before === true && i === 1 && p.R.stats().attached && p.R.version === 'br-role BR1.1' && b.sides > 100 && b.pillars === p.g.Pc.length, note: `version ${p.R.version}, layer index ${i}, blocker sides ${b.sides} (pillars ${b.pillars} of ${p.g.Pc.length})` };
 });
-run('U02 one compositor: every light is added to the light buffer (`lighter`) under its own clip, and the overlay loses the buffer once (destination-out), then the beam colour (source-over)', () => {
-  const p = makePage(); p.frame({ x: 1130, y: 3420, angle: 2.6 }); const L = p.log;
-  const ov = L.filter(e => e.canvas === 'overlay' && e.op === 'drawImage'), lamps = lampFills(L), clipped = lamps.every(e => e.clip >= 1), lighter = lamps.every(e => e.gco === 'lighter');
-  const carriedToBuf = L.filter(e => e.canvas !== 'overlay' && e.op === 'drawImage' && e.gco === 'lighter');
-  return { ok: lamps.length > 0 && clipped && lighter && carriedToBuf.length === 1 && ov.length === 2 && ov[0].gco === 'destination-out' && ov[1].gco === 'source-over',
-    note: `lamps drawn ${lamps.length} (each clipped ${clipped}, lighter ${lighter}); carried lights added ${carriedToBuf.length}; overlay: ${ov.map(e => e.gco).join(' then ')}` };
+run('U02 one compositor, no visibility polygon: nothing is ever clipped; every light is ADDED to the light buffer (`lighter`): each lamp as its own shadowed field, each carried light (beam, then hand glow); the overlay loses the buffer once (destination-out), then the beam colour (source-over)', () => {
+  const p = makePage(); warm(p, { x: 1130, y: 3420, angle: 2.6 }); const L = p.log;
+  const clips = L.filter(e => e.op === 'clip').length, lamps = lampDraws(L), ov = L.filter(e => e.canvas === 'overlay' && e.op === 'drawImage');
+  const carriedToBuf = L.filter(e => e.canvas !== 'overlay' && e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 8);
+  return { ok: clips === 0 && lamps.length >= 3 && lamps.every(e => e.clip === 0) && carriedToBuf.length === 2 && ov.length === 2 && ov[0].gco === 'destination-out' && ov[1].gco === 'source-over',
+    note: `clips ${clips}; lamps added ${lamps.length} (each its shadowed field, lighter); carried pieces added ${carriedToBuf.length} (beam, glow); overlay: ${ov.map(e => e.gco).join(' then ')}` };
 });
-run('U03 occlusion: a lamp\'s visibility polygon is the game\'s own ray query aimed at every corner in reach - each vertex is where a ray stops, and visible corners are on its outline (no 96-ray raggedness)', () => {
-  const p = makePage(); p.frame({ x: 1130, y: 3420, angle: 2.6 }); const lp = p.g.Fc[4], clip = p.log.find(e => e.op === 'clip' && e.path.length > 200 && Math.abs(e.path[0] - lp.x) < 400);
-  const poly = p.log.filter(e => e.op === 'clip').map(e => e.path).find(q => { for (let k = 0; k < q.length; k += 2) if (Math.hypot(q[k] - lp.x, q[k + 1] - lp.y) > 379) return true; return false; });
-  let bad = 0, pts = 0; for (let k = 0; k < poly.length; k += 2) { pts++; const dx = poly[k] - lp.x, dy = poly[k + 1] - lp.y, d = Math.hypot(dx, dy); if (Math.abs(p.g.Uc(lp.x, lp.y, Math.atan2(dy, dx), 380) - d) > .01) bad++; }
-  /* the partition corner (960, 3360) right beside the spawn lamp must be a vertex of its outline */
-  let near = Infinity; for (let k = 0; k < poly.length; k += 2) near = Math.min(near, Math.hypot(poly[k] - 960, poly[k + 1] - 3360));
-  return { ok: !!clip && pts > 96 && bad === 0 && near < .1, note: `${pts} outline points, off-ray ${bad}, nearest to the corner (960,3360): ${near.toFixed(4)} px` };
+run('U03 lamp: LIGHT FIELD -> BLOCKER -> CAST SHADOW.  The spawn lamp\'s cache is its full unclipped field first; then, from each point of its tube, every wall / pillar side facing that point casts the polygon of its two corners projected away from it; the averaged shadows are taken out of the field (destination-out)', () => {
+  const p = makePage(); let L = null, cache = null; const lp = p.g.Fc[4], tube = p.R.tiers().medium.tube;
+  for (let k = 0; k < 6 && !cache; k++) { p.frame({ x: 1130, y: 3420, angle: 2.6 }); L = p.log; const f = L.find(e => e.op === 'fillRect' && e.style && e.style.kind === 'radial' && e.style.r[1] === 380 && e.style.at[0] === lp.x && e.style.at[1] === lp.y); if (f) cache = f.canvas; }
+  const ops = L.filter(e => e.canvas === cache && e.op !== 'clearRect'), field = ops[0], sub = ops.find(e => e.op === 'drawImage');
+  const fieldOk = field && field.op === 'fillRect' && field.clip === 0 && field.gco === 'source-over' && Math.abs(field.style.r[1] - 380) < 1e-9 && sub && sub.gco === 'destination-out' && ops.indexOf(sub) > 0;
+  const fills = L.filter(e => e.canvas === sub.src && e.op === 'fill' && L.indexOf(e) > L.indexOf(field) && L.indexOf(e) < L.indexOf(sub));
+  let polys = 0, bad = 0, outside = 0; const froms = [];
+  for (const f of fills) { const c = checkShadowFill(p.g, f, 380); polys += c.polys; bad += c.badShape + c.badFrom + c.badSide + c.badFar; if (c.from) { froms.push(c.from); if (Math.abs(c.from[0] - lp.x) > 40.01 || Math.abs(c.from[1] - lp.y) > 8.01) outside++; } }
+  const allLighter = fills.every(f => f.gco === 'lighter'), spread = Math.max(...froms.map(q => q[0])) - Math.min(...froms.map(q => q[0]));
+  return { ok: fieldOk && fills.length === tube && allLighter && polys > tube && bad === 0 && outside === 0 && spread > 60,
+    note: `field first, unclipped: ${fieldOk}; ${fills.length} tube points (tier ${tube}), spread ${spread.toFixed(1)} px along the tube; ${polys} shadow polygons, each from its tube point, on a facing blocker side, projected away beyond 380 px: bad ${bad}` };
 });
 run('U04 blackout: no lamp is drawn; your light still is; lamps come back after', () => {
-  const p = makePage(); p.frame(); const a = lampFills(p.log).length; p.g.V.blackout = true; p.frame(); const b = lampFills(p.log).length, own = p.R.stats().carried.last; p.g.V.blackout = false; p.frame(); const c = lampFills(p.log).length;
+  const p = makePage(); warm(p); const a = lampDraws(p.log).length; p.g.V.blackout = true; p.frame(); const b = lampDraws(p.log).length, own = p.R.stats().carried.last; p.g.V.blackout = false; p.frame(); const c = lampDraws(p.log).length;
   return { ok: a > 0 && b === 0 && own === 1 && c === a, note: `lamps ${a} -> blackout ${b} (carried ${own}) -> ${c}` };
 });
-run('U05 lamp strength is the game\'s own: .43 (dim fixtures .13 + .06·max(0, sin(11t + i))), times failures and the NV gain, capped at .9', () => {
-  const p = makePage(); let worst = 0, n = 0, dims = 0;
-  const strengths = () => lampFills(p.log).map(e => +e.style.stops[0][1].match(/[\d.]+\)$/)[0].slice(0, -1));
+run('U05 lamp strength is the game\'s own: .43 (dim fixtures .13 + .06·max(0, sin(11t + i))), times failures and the NV gain, capped at .9 (the cached field is added at strength / .9)', () => {
+  const p = makePage(); let worst = 0, n = 0, dims = 0; warm(p, { x: 600, y: 2930 });
   for (const [f, gain] of [[1, 1], [.25, 1], [1, 1.5], [1, 3]]) {
     p.win.__ents.lamp = () => f; p.win.__cam = { lampGain: () => gain }; p.frame({ x: 600, y: 2930 });
-    const t = p.clock / 1000, S = p.R.stats();
-    for (const e of lampFills(p.log)) { const i = p.g.Fc.findIndex(l => Math.abs(l.x - e.style.at[0]) < 1e-9 && Math.abs(l.y - e.style.at[1]) < 1e-9); const exp = Math.min(.9, (i % 13 === 0 ? .13 + .06 * Math.max(0, Math.sin(t * 11 + i)) : .43) * f * gain), got = +e.style.stops[0][1].match(/,([\d.]+)\)$/)[1];
+    const t = p.clock / 1000;
+    for (const e of lampDraws(p.log)) { const i = lampOf(p.g, e), exp = Math.min(.9, (i % 13 === 0 ? .13 + .06 * Math.max(0, Math.sin(t * 11 + i)) : .43) * f * gain), got = e.alpha * .9;
       if (i % 13 === 0) dims++; worst = Math.max(worst, Math.abs(got - exp)); n++; }
-    void S; void strengths;
   }
-  return { ok: n > 8 && dims > 0 && worst < 1e-4, note: `${n} lamp draws checked (dim fixtures ${dims}), largest difference from the formula ${worst.toExponential(1)}` };
+  return { ok: n > 8 && dims > 0 && worst < 1e-9, note: `${n} lamp draws checked (dim fixtures ${dims}), largest difference from the formula ${worst.toExponential(1)}` };
 });
 run('U06 tiers: the light buffer is the CSS viewport x .5 / .75 / 1.0 - never scaled by devicePixelRatio; lamps and other wanderers are drawn up to each tier\'s cap (the last one may be fading)', () => {
   const out = {};
   for (const dpr of [1, 3]) for (const q of ['low', 'medium', 'high']) {
     const p = makePage({ dpr }); p.R.setQuality(q); p.win.__peerLights = []; for (let k = 0; k < 10; k++) p.win.__peerLights.push({ x: 1060 + Math.cos(k) * (120 + 14 * k), y: 3300 + Math.sin(k) * (120 + 14 * k), angle: k, kind: ['flashlight', 'headlamp', 'lantern'][k % 3], color: '#ffe7b2', on: true });
-    p.frame(); const s = p.R.stats(), t = p.R.tiers()[q]; out[q + '@' + dpr] = { buf: s.buffer.join('x'), lamps: s.lamps.last + '/' + t.lamps, peers: s.carried.peers + '/' + t.peers };
+    warm(p); const s = p.R.stats(), t = p.R.tiers()[q]; out[q + '@' + dpr] = { buf: s.buffer.join('x'), lamps: s.lamps.last + '/' + t.lamps, peers: s.carried.peers + '/' + t.peers };
     if (s.buffer[0] !== Math.ceil(1280 * t.scale) || s.buffer[1] !== Math.ceil(720 * t.scale) || s.lamps.last > t.lamps || s.carried.peers > t.peers || s.carried.peers < t.peers - 1) out.bad = true;
   }
   return { ok: !out.bad && out['low@1'].buf === out['low@3'].buf, note: JSON.stringify(out) };
@@ -158,8 +203,35 @@ run('U10 the seam: index.html loads br-role.js (not shadows-2d.js); drawLight ha
 run('U11 no NaN / Infinity reaches the canvas, whatever the inputs (random positions and aims, bad peers, zero and huge frame gaps)', () => {
   const p = makePage(); let rnd = 7; const R = () => (rnd = rnd * 16807 % 2147483647) / 2147483647; let bad = 0, n = 0;
   for (let k = 0; k < 60; k++) { p.win.__peerLights = [{ x: NaN, y: 1, on: true, kind: 'lantern' }, { x: p.H.x + 90, y: p.H.y, angle: R() * 7, kind: 'headlamp', on: true }]; p.frame({ x: 300 + R() * 8800, y: 300 + R() * 6200, angle: R() * 12 - 6 });
-    for (const e of p.log) { n++; const nums = [...(e.rect || []), ...(e.path || []), ...(e.args || []), ...e.transform]; if (nums.some(v => typeof v === 'number' && !Number.isFinite(v))) bad++; } }
+    for (const e of p.log) { n++; const nums = [...(e.rect || []), ...(e.path || []), ...(e.args || []), ...e.transform, ...(e.alpha === undefined ? [] : [e.alpha])]; if (nums.some(v => typeof v === 'number' && !Number.isFinite(v))) bad++; } }
   return { ok: bad === 0 && p.R.on(), note: `${n} canvas calls, non-finite ${bad}, still on ${p.R.on()}` };
+});
+
+run('U12 flashlight: its natural field first (radial falloff, then the smooth angular profile; no clip), then the shadows walls and pillars cast INSIDE the beam from the hand: one point at LOW (cut straight out), two / three across the hand at MEDIUM / HIGH (averaged); then added', () => {
+  const out = {}; let ok = true; const X = 1060, Y = 3440, AIM = Math.atan2(3400 - 3440, 930 - 1060), arc = GAME.Gc.flashlight.arc;
+  for (const q of ['low', 'medium', 'high']) {
+    const p = makePage(); p.R.setQuality(q); warm(p, { x: X, y: Y, angle: AIM }); const L = p.log, n = p.R.tiers()[q].src;
+    const fi = L.findIndex(e => e.op === 'fillRect' && e.style && e.style.kind === 'radial' && e.style.r[1] === 390), scr = L[fi].canvas, prof = L[fi + 1];
+    const add = L.findIndex((e, j) => j > fi && e.canvas !== scr && e.op === 'drawImage' && e.src === scr && e.gco === 'lighter');
+    const fills = L.filter((e, j) => j > fi && j < add && e.op === 'fill'), cut = L.filter((e, j) => j > fi && j < add && e.canvas === scr && e.gco === 'destination-out');
+    let polys = 0, bad = 0, outCone = 0; const froms = [];
+    for (const f of fills) { const c = checkShadowFill(p.g, f, 390); polys += c.polys; bad += c.badShape + c.badFrom + c.badSide + c.badFar; if (c.from) froms.push(c.from);
+      for (const s of f.subs) { const a1 = Math.atan2(s[1] - c.from[1], s[0] - c.from[0]) - AIM, a2 = Math.atan2(s[3] - c.from[1], s[2] - c.from[0]) - AIM, w1 = Math.atan2(Math.sin(a1), Math.cos(a1)), w2 = Math.atan2(Math.sin(a2), Math.cos(a2));
+        if ((w1 > arc / 2 + .2 && w2 > arc / 2 + .2) || (w1 < -arc / 2 - .2 && w2 < -arc / 2 - .2)) outCone++; } }
+    const hand = froms.every(f => Math.hypot(f[0] - X, f[1] - Y) <= 3.01), fieldFirst = L[fi].clip === 0 && prof.op === 'fillRect' && prof.style.kind === 'conic' && prof.gco === 'destination-in';
+    const mode = n === 1 ? fills.length === 1 && fills[0].canvas === scr && fills[0].gco === 'destination-out' : fills.length === n && fills.every(f => f.gco === 'lighter' && f.canvas !== scr) && cut.length === 1 && cut[0].op === 'drawImage';
+    out[q] = `${fills.length} source pt, ${polys} shadow polys, bad ${bad}, outside the beam ${outCone}`;
+    if (!(fieldFirst && mode && add > 0 && polys > 0 && bad === 0 && outCone === 0 && hand && froms.length === n)) { ok = false; out[q] += ' FAIL'; }
+  }
+  return { ok, note: JSON.stringify(out) };
+});
+run('U13 a fluorescent fixture is an area source: behind the partition by the spawn lamp there is an umbra (no tube point sees), a penumbra of many levels between it and full light, and the penumbra widens away from the blocker', () => {
+  const p = makePage(); warm(p, { x: 1130, y: 3420, angle: 2.6 }); const lp = p.g.Fc[4], C = [960, 3360], a0 = Math.atan2(C[1] - lp.y, C[0] - lp.x), res = {};
+  for (const r of [140, 300]) { let um = 0, pen = 0, lit = 0; const lv = new Set();
+    for (let a = a0 - .9; a <= a0 + .9; a += .002) { const x = lp.x + Math.cos(a) * r, y = lp.y + Math.sin(a) * r; if (p.g.Hc(Math.floor(x / 96), Math.floor(y / 96))) continue;
+      const v = p.R.probe(x, y).lamps.find(l => l.i === 4).visible; if (v === 0) um++; else if (v === 1) lit++; else { pen++; lv.add(v.toFixed(3)); } }
+    res[r] = { umbra: +(um * .002 * r).toFixed(0), penumbra: +(pen * .002 * r).toFixed(0), lit: +(lit * .002 * r).toFixed(0), levels: lv.size }; }
+  return { ok: res[300].umbra > 0 && res[300].penumbra > res[140].penumbra && res[140].penumbra > 0 && res[300].levels >= 8 && res[300].lit > 0, note: `arc lengths (px) around the lamp: ${JSON.stringify(res)}` };
 });
 
 const pass = results.filter(r => r.ok).length;

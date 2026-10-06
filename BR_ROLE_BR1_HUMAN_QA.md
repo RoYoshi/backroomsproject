@@ -1,6 +1,9 @@
 # BR-RoLE BR1 — human QA
 
-**Status: `BR-RoLE BR1 HUMAN-QA CANDIDATE — WAITING FOR USER`**
+> **Superseded by BR1.1** (`BR_ROLE_BR1_1_HUMAN_QA.md`): your BR-QA correction replaced BR1's visibility-polygon occlusion
+> with light field → blocker → cast shadow.  This page is kept as the BR1 record.
+
+**Status (BR1): superseded by the BR1.1 candidate**
 
 Nothing here is marked PASS by the engineer, and BR2 does not start until you approve BR1 visually.
 
