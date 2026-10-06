@@ -1,0 +1,8 @@
+PASS K01 the page loads and BR-RoLE draws the light every frame; no page or console error   version br-role BR1, quality medium, frames 75 -> 96, lamps 3, errors [], 404s ["/timing_policy.js","/camera_policy.js"]
+PASS K02 mixed light by composition: where the lamp is blocked your beam alone lights the floor; where both reach they add   blocked spot 934,3368: lamp+beam 0.467 = beam alone 0.467 (lamp alone 0.098, ambient 0.098); both spot 993,3419: lamp+beam 0.618 vs beam + lamp - ambient 0.624
+PASS K03 the light buffer is the CSS viewport x .5 / .75 / 1.0, the same on a DPR-2 page   {"low":[[640,360],1280,720],"medium":[[960,540],1280,720],"high":[[1280,720],1280,720]}; DPR 2 page at MEDIUM: buffer 960x540 for 1280x720 CSS px
+PASS K04 gameplay untouched: the client sends the same kinds of messages with BR-RoLE and with the legacy lighting   BR-RoLE ["p"], legacy ["p"]
+PASS K05 DEV switch: with the legacy lighting on, BR-RoLE draws nothing (the game draws v23.3.6); switched back, BR-RoLE draws again   BR-RoLE frames while legacy: +0; after switching back: +21
+PASS K06 a Smiler in view: no blob for it, BR-RoLE still on, no error   smilers 1, blobs near one 0, errors []
+
+6/6 passed

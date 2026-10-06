@@ -1,0 +1,13 @@
+PASS U01 loads, attaches above the carpet on the first frame, and takes over the light (on() true); version reported   version br-role BR1, layer index 1, vertices 456
+PASS U02 one compositor: every light is added to the light buffer (`lighter`) under its own clip, and the overlay loses the buffer once (destination-out), then the beam colour (source-over)   lamps drawn 7 (each clipped true, lighter true); carried lights added 1; overlay: destination-out then source-over
+PASS U03 occlusion: a lamp's visibility polygon is the game's own ray query aimed at every corner in reach - each vertex is where a ray stops, and visible corners are on its outline (no 96-ray raggedness)   152 outline points, off-ray 0, nearest to the corner (960,3360): 0.0000 px
+PASS U04 blackout: no lamp is drawn; your light still is; lamps come back after   lamps 7 -> blackout 0 (carried 1) -> 7
+PASS U05 lamp strength is the game's own: .43 (dim fixtures .13 + .06·max(0, sin(11t + i))), times failures and the NV gain, capped at .9   20 lamp draws checked (dim fixtures 4), largest difference from the formula 0.0e+0
+PASS U06 tiers: the light buffer is the CSS viewport x .5 / .75 / 1.0 - never scaled by devicePixelRatio; lamps and other wanderers are drawn up to each tier's cap (the last one may be fading)   {"low@1":{"buf":"640x360","lamps":"7/8","peers":"1/1"},"medium@1":{"buf":"960x540","lamps":"7/10","peers":"3/3"},"high@1":{"buf":"1280x720","lamps":"7/14","peers":"6/6"},"low@3":{"buf":"640x360","lamps":"7/8","peers":"1/1"},"medium@3":{"buf":"960x540","lamps":"7/10","peers":"3/3"},"high@3":{"buf":"1280x720","lamps":"7/14","peers":"6/6"}}
+PASS U07 the camcorder carries no light (its infrared stays the game's own); camcorder, dead and switched-off peers are never drawn as lights   carried lights drawn 0, peers 0
+PASS U08 read-only: the module never writes game state or talks to the network (static scan)   network [], writes [], gameplay files that mention it []
+PASS U09 fail-safe and DEV switch: ?lighting=legacy leaves the game's own lighting (on() false); an internal error switches BR-RoLE off for the session   legacy: on() false; after an error: draw false, on() false, disabled 'frame error'
+PASS U10 the seam: index.html loads br-role.js (not shadows-2d.js); drawLight hands the light cut-outs to BR-RoLE through one guarded hook, and keeps the legacy path intact behind it   hooks found 7/7
+PASS U11 no NaN / Infinity reaches the canvas, whatever the inputs (random positions and aims, bad peers, zero and huge frame gaps)   1303 canvas calls, non-finite 0, still on true
+
+11/11 passed
