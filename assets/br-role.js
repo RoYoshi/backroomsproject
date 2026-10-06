@@ -39,7 +39,7 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role BR2';
+  const VERSION = 'br-role BR2.1A';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
@@ -77,8 +77,8 @@
   const now = () => performance.now();
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
     lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
-    layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, propLeft: 0 };
-  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampEvictions: 0, ents: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
+    layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0 };
+  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampEvictions: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
 
   /* ---------- quality: URL > remembered > device default (touch / small screen -> LOW); ?lighting=legacy is DEV only ---------- */
   function initialQuality() {
@@ -280,7 +280,7 @@
       const cfg = TIERS[S.quality], A = window.__api, sc = cfg.scale, k = F.r * sc;
       ensureBuffers(F.w, F.h, cfg);
       const bx = S.bx, tx = S.tx, bw = S.buf.width, bh = S.buf.height;
-      ST.shadows = 0;
+      ST.shadows = 0; ST.casts = 0; ST.shadeDraws = 0;
       for (const c of [bx, tx]) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; c.clearRect(0, 0, bw, bh); }
       bx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); bx.globalCompositeOperation = 'lighter';
       const view = { x0: -F.ox / F.r, y0: -F.oy / F.r, x1: (F.w - F.ox) / F.r, y1: (F.h - F.oy) / F.r };
@@ -473,7 +473,7 @@
     const fall = u => Math.pow(1 - clamp(u, 0, 1), AO.power), n = AO.steps, q = 48;
     S.tex = { down: canvasTex(2, n, (i, j) => fall((j + .5) / n)), up: canvasTex(2, n, (i, j) => fall((n - j - .5) / n)), right: canvasTex(n, 2, i => fall((i + .5) / n)), left: canvasTex(n, 2, i => fall((n - i - .5) / n)),
       se: canvasTex(q, q, (i, j) => fall(Math.hypot(i + .5, j + .5) / q)), sw: canvasTex(q, q, (i, j) => fall(Math.hypot(q - i - .5, j + .5) / q)), ne: canvasTex(q, q, (i, j) => fall(Math.hypot(i + .5, q - j - .5) / q)), nw: canvasTex(q, q, (i, j) => fall(Math.hypot(q - i - .5, q - j - .5) / q)) };
-    S.castCv = castTexture();
+    S.castCv = castTexture(); S.discCv = discTexture(); S.shadeCv = shadeTexture();
     const root = new S.C(); root.label = 'br-role';
     { const c = new S.C(); c.label = 'br-role-ao'; root.addChild(c); S.layers.ao = c; }   // BR2B: actor shadows are light removal in the compositor, no Pixi layer
     world.addChildAt(root, ci + 1);                                       // right above the carpet: under walls, props, entities
@@ -501,21 +501,29 @@
     S.layers.ao.removeChildren(); S.chunks = chunks.filter(c => c.q > 0); for (const c of S.chunks) S.layers.ao.addChild(c.g);
   }
   function cullAO(r) { for (const c of S.chunks) { const v = c.x1 > r.x0 && c.x0 < r.x1 && c.y1 > r.y0 && c.y0 < r.y1; if (c.g.visible !== v) c.g.visible = v; } }
-  /* ---------- BR2B actor shadows ----------
+  /* ---------- BR2B / BR2.1 actors: a cast shadow on the floor and self-shading on the body ----------
    * The local player, other wanderers and Hounds the local player can actually see.  An actor is a blocker of its DOMINANT
    * light only: the light that really reaches it most (its unblocked contribution at the actor: falloff, beam, walls,
-   * pillars, props), kept with hysteresis so nearly equal lights never flip it; HIGH adds a faint second shadow when a second
-   * light matters too.  The shadow is that light's own contribution taken away behind the actor (destination-out in that
-   * light's scratch, before it is added), so every other light still fills it - no dark paint.  It starts at the body's rim
-   * (the art already gives players and Hounds a centred contact shadow; this adds only the directional part), points away
-   * from the light, grows with the distance to it (bounded), and fades out under a light overhead.  Weights ease per frame:
-   * a change of dominant light cross-fades, never pops.  Never a Smiler: no body, contact or silhouette shadow, ever. */
+   * pillars, props), kept with hysteresis so nearly equal lights never flip it; HIGH adds a faint second cast shadow when a
+   * second light matters too.  Both effects are that light's own contribution taken away (destination-out in that light's
+   * scratch, before it is added), so every other light still fills them - no dark paint:
+   *   CAST SHADOW (on the floor): a tapered tongue from behind the silhouette, away from the light - darkest at the contact,
+   *     softer and narrower toward the tip, its sides softening with distance; longer and fainter the farther the light,
+   *     short and dark under a light, gone right under it.  The silhouette (body and hands; a Hound's torso) is cut out of
+   *     it, so it never stains the body;
+   *   SELF-SHADING (on the body): one soft gradient across the body and each hand, darker on the side away from the same
+   *     light, no terminator line; a Hound's torso gets a restrained one.  One pass per actor (the dominant light only).
+   * Weights ease per frame: a change of dominant light cross-fades, never pops.  Never a Smiler: no body, contact,
+   * silhouette shadow or self-shading, ever. */
   const ACT = {
-    player: { a: .9, la: 17, lb: 17, len: 84 }, hound: { a: .92, la: 40, lb: 17, len: 140 },   // a: the share of that light removed just past the rim
-    k: { lamp: .5, carried: .8 },            // shadow length per px of distance from the light (a lower light: longer), up to len
-    near: 40, min: .04,                      // fades out within `near` px of the light; a dominant light adds at least `min`
+    /* r / la, lb: the silhouette (the art's 18 px body; a Hound's torso), hand: the hands' radius; a: cast strength at the
+     * contact (share of that light removed), shade: self-shading strength on the far side, len: longest cast (px) */
+    player: { a: .85, r: 18, hand: 6.5, len: 84, shade: .42 }, hound: { a: .85, la: 32, lb: 16, len: 140, shade: .3 },
+    k: { lamp: .5, carried: .8 },            // cast length per px of distance from the light (a lower light: longer), up to len
+    fadeLong: .35,                           // a cast at full length is this much fainter (a long shadow is a fainter one)
+    near: 40, min: .04,                      // both fade out within `near` px of the light; a dominant light adds at least `min`
     swap: 1.35, swapAdd: .02,                // a new dominant light must beat the current one by 35 % (+ .02)
-    second: { rel: .5, min: .06, a: .45 },   // HIGH: a second light at >= 50 % of the first: a 45 % second shadow
+    second: { rel: .5, min: .06, a: .45 },   // HIGH: a second light at >= 50 % of the first: a 45 % second cast (no second shading)
     ease: .2, sight: 700 };                  // weights ease 20 % a frame (frame-based: steady under a frozen clock)
   function seen(V, x, y) { const dx = x - V.x, dy = y - V.y, d = Math.hypot(dx, dy); if (d < 30) return true; if (d > ACT.sight) return false; return window.__api.Uc(V.x, V.y, Math.atan2(dy, dx), d) >= d - 20; }
   /* a light's unblocked contribution at an actor (lamps from three points of their tube: its ends and its middle) */
@@ -529,9 +537,21 @@
     const da = Math.atan2(y - r.y, x - r.x) - r.ang, ph = Math.abs(Math.atan2(Math.sin(da), Math.cos(da))), prof = r.omni ? 1 : beamProfile(ph, r.arc); if (!(prof > 0)) return 0;
     return r.power * beamGrad(d, r.R) * prof * seenFrom([r.x, r.y], x, y, r.props, r.sh, CARRY.kmax);
   }
+  /* an actor's silhouette as ellipses { x, y, A (semi-axis along h), B, h }: a player's round body and two hands (read from
+   * the avatar's own hand positions, never written), a Hound's torso */
+  function silhouette(v, kind, x, y, heading) {
+    if (kind === 'hound') { const c = Math.cos(heading), s = Math.sin(heading); return [{ x: x + c * 4, y: y + s * 4, A: ACT.hound.la, B: ACT.hound.lb, h: heading }]; }
+    const out = [{ x, y, A: ACT.player.r, B: ACT.player.r, h: 0 }];
+    if (Array.isArray(v.hands)) {
+      const r = v.rotation || 0, c = Math.cos(r), s = Math.sin(r), sx = v.scale ? v.scale.x : 1, sy = v.scale ? v.scale.y : 1;
+      for (const hd of v.hands) { if (!hd || !hd.position || hd.visible === false) continue; const lx = hd.position.x * sx, ly = hd.position.y * sy, hx = x + c * lx - s * ly, hy = y + s * lx + c * ly;
+        if (Number.isFinite(hx + hy) && Math.hypot(hx - x, hy - y) < 40) out.push({ x: hx, y: hy, A: ACT.player.hand, B: ACT.player.hand, h: 0 }); }
+    }
+    return out;
+  }
   let ckey = 0;
   function actorShadows(F, cfg, lampRecs, carRecs) {
-    const out = S.actorsLast = []; ST.ents = 0;
+    const out = S.actorsLast = []; ST.ents = 0; ST.shaded = 0;
     if (!S.actorsOn) return out;
     const A = window.__api, V = F.viewer, list = [], P = S.person;
     if (P && P.visible && P.parent && !F.death && P.alpha > .01) list.push([P, P.x, P.y, 'player', null, true]);
@@ -563,46 +583,82 @@
       st.dom = dom ? dom.key : null;
       const sec = cfg.secondary && dom ? cands.find(c => c !== dom && c.s >= ACT.second.min && c.s >= dom.s * ACT.second.rel) : null;
       const now_ = new Set();
-      for (const c of cands) { let e = st.w.get(c.key); if (!e) { e = { w: 0, kind: c.kind }; st.w.set(c.key, e); } e.x = c.x; e.y = c.y; e.c = c; now_.add(c.key); }
-      const Pk = ACT[kind]; let drawn = 0;
+      for (const c of cands) { let e = st.w.get(c.key); if (!e) { e = { w: 0, s: 0, kind: c.kind }; st.w.set(c.key, e); } e.x = c.x; e.y = c.y; e.c = c; now_.add(c.key); }
+      const Pk = ACT[kind], sil = silhouette(v, kind, x, y, heading); let drawn = 0, shadedHere = false;
       for (const [key, e] of st.w) {
         if (!now_.has(key)) { st.w.delete(key); continue; }               // that light is gone: its shadow goes with it
-        const target = dom && key === dom.key ? 1 : sec && key === sec.key ? ACT.second.a : 0;
-        e.w += (target - e.w) * ACT.ease; if (target === 0 && e.w < .01) { st.w.delete(key); continue; }
+        const isDom = !!(dom && key === dom.key), target = isDom ? 1 : sec && key === sec.key ? ACT.second.a : 0;
+        e.w += (target - e.w) * ACT.ease; e.s += ((isDom ? 1 : 0) - e.s) * ACT.ease;   // cast weight; self-shading weight (dominant only)
+        if (target === 0 && e.w < .01 && e.s < .01) { st.w.delete(key); continue; }
         const dx = x - e.x, dy = y - e.y, d = Math.hypot(dx, dy); if (d < 1) continue;
-        const ang = Math.atan2(dy, dx), phi = heading === null ? 0 : ang - heading, cs = Math.cos(phi), sn = Math.sin(phi);
-        const along = Math.sqrt((Pk.la * cs) ** 2 + (Pk.lb * sn) ** 2), across = Math.sqrt((Pk.la * sn) ** 2 + (Pk.lb * cs) ** 2);
-        const a = Pk.a * e.w * clamp((d - 8) / ACT.near, 0, 1) * Math.min(1, v.alpha);
-        if (!(a > .01)) continue;
-        const job = { kind, self, x, y, ang, ext: clamp(d * ACT.k[e.kind], 6, Pk.len), along, across, a, light: key, lightKind: e.kind, dominant: !!(dom && key === dom.key), score: +e.c.s.toFixed(4) };
+        const ang = Math.atan2(dy, dx), gx = dx / d, gy = dy / d, near = clamp((d - 8) / ACT.near, 0, 1), vis = Math.min(1, v.alpha);
+        /* where the cast leaves the silhouette: the farthest point of the body, hands or torso along the light's direction */
+        let start = 0, across = 0;
+        for (const q of sil) { const ph = ang - q.h, cs = Math.cos(ph), sn = Math.sin(ph), sup = Math.sqrt((q.A * cs) ** 2 + (q.B * sn) ** 2), off = (q.x - x) * gx + (q.y - y) * gy;
+          start = Math.max(start, off + sup); if (q === sil[0]) across = Math.sqrt((q.A * sn) ** 2 + (q.B * cs) ** 2); }
+        const ext = clamp(d * ACT.k[e.kind], 6, Pk.len), a = Pk.a * e.w * near * vis * (1 - ACT.fadeLong * ext / Pk.len), shade = Pk.shade * e.s * near * vis;
+        if (!(a > .01) && !(shade > .01)) continue;
+        const job = { kind, self, x, y, ang, ext, start: Math.min(start, (kind === 'hound' ? Pk.la : Pk.r) + 10), across, a: a > .01 ? a : 0, shade: shade > .01 ? shade : 0, sil,
+          light: key, lightKind: e.kind, dominant: isDom, score: +e.c.s.toFixed(4) };
         if (job.dominant && st.sw && st.sw.f === ST.frames) job.switched = st.sw;
-        e.c.r.acts.push(job); out.push(job); drawn++;
+        e.c.r.acts.push(job); out.push(job); drawn++; if (job.shade) shadedHere = true;
       }
-      if (drawn) n++;
+      if (drawn) n++; if (shadedHere) ST.shaded++;
     }
-    ST.ents = out.length;
+    ST.ents = out.filter(j => j.a).length;
     return out;
   }
-  /* take an actor's shadow out of one light's field (c: that light's scratch, buffer pixels; the cast texture runs from
-   * the body's rim, away from the light) */
+  /* take the actors' shadows and self-shading out of one light's field (c: that light's scratch, buffer pixels) */
   function castActors(c, acts, F, k, sc) {
-    c.save(); c.globalCompositeOperation = 'destination-out';
+    const ox = F.ox * sc, oy = F.oy * sc;
     for (const j of acts) {
-      const cs = Math.cos(j.ang) * k, sn = Math.sin(j.ang) * k; c.setTransform(cs, sn, -sn, cs, j.x * k + F.ox * sc, j.y * k + F.oy * sc); c.globalAlpha = clamp(j.a, 0, 1);   // world, then at the actor, turned away from the light
-      c.drawImage(S.castCv, j.along * .55, -j.across * 1.15, j.along * .45 + j.ext, j.across * 2.3);
+      if (j.a) {                                                            // the cast: built in a small pooled canvas, the silhouette cut out of it
+        const cs = Math.cos(j.ang), sn = Math.sin(j.ang), x0 = j.start * .62, x1 = j.start + j.ext, w = j.across * 1.15;
+        let bx0 = Infinity, by0 = Infinity, bx1 = -Infinity, by1 = -Infinity;
+        for (const [u, v] of [[x0, -w], [x1, -w], [x1, w], [x0, w]]) { const px = (j.x + cs * u - sn * v) * k + ox, py = (j.y + sn * u + cs * v) * k + oy; bx0 = Math.min(bx0, px); by0 = Math.min(by0, py); bx1 = Math.max(bx1, px); by1 = Math.max(by1, py); }
+        bx0 = Math.floor(Math.max(0, bx0 - 2)); by0 = Math.floor(Math.max(0, by0 - 2)); bx1 = Math.ceil(Math.min(c.canvas.width, bx1 + 2)); by1 = Math.ceil(Math.min(c.canvas.height, by1 + 2));
+        const bw = bx1 - bx0, bh = by1 - by0;
+        if (bw > 0 && bh > 0) {
+          if (!S.atmp || S.atmp.width < bw || S.atmp.height < bh) { S.atmp = mkCanvas(Math.max(bw, S.atmp ? S.atmp.width : 0, 64), Math.max(bh, S.atmp ? S.atmp.height : 0, 64)); S.ax = S.atmp.getContext('2d'); }
+          const t = S.ax; t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(0, 0, bw, bh);
+          t.setTransform(cs * k, sn * k, -sn * k, cs * k, j.x * k + ox - bx0, j.y * k + oy - by0); t.globalAlpha = clamp(j.a, 0, 1);
+          t.drawImage(S.castCv, x0, -w, x1 - x0, w * 2);
+          t.globalAlpha = 1; t.globalCompositeOperation = 'destination-out';
+          for (const q of j.sil) { const ch = Math.cos(q.h) * k, shh = Math.sin(q.h) * k; t.setTransform(ch * (q.A + 1.5), shh * (q.A + 1.5), -shh * (q.B + 1.5), ch * (q.B + 1.5), q.x * k + ox - bx0, q.y * k + oy - by0); t.drawImage(S.discCv, -1, -1, 2, 2); }
+          c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out'; c.globalAlpha = 1; c.drawImage(S.atmp, 0, 0, bw, bh, bx0, by0, bw, bh); c.restore();
+          ST.casts++;
+        }
+      }
+      if (j.shade) {                                                        // self-shading: one soft gradient per body part, away from the light
+        c.save(); c.globalCompositeOperation = 'destination-out'; c.globalAlpha = clamp(j.shade, 0, 1);
+        for (const q of j.sil) {
+          const ph = j.ang - q.h, th = Math.atan2(q.B * Math.sin(ph), q.A * Math.cos(ph)), ch = Math.cos(q.h), shh = Math.sin(q.h), ct = Math.cos(th), st_ = Math.sin(th);
+          /* M = Rot(h) diag(A, B) Rot(th): the unit disc onto the part, its gradient (texture +x) along the light's direction */
+          const m11 = ch * q.A * ct - shh * q.B * st_, m12 = -ch * q.A * st_ - shh * q.B * ct, m21 = shh * q.A * ct + ch * q.B * st_, m22 = -shh * q.A * st_ + ch * q.B * ct;
+          c.setTransform(m11 * k, m21 * k, m12 * k, m22 * k, q.x * k + ox, q.y * k + oy); c.drawImage(S.shadeCv, -1, -1, 2, 2); ST.shadeDraws++;
+        }
+        c.restore();
+      }
     }
-    c.restore();
   }
-  /* the cast texture: strongest just past the rim, fading to the tip; soft across */
-  function castTexture() {
-    const w = 96, h = 32, c = mkCanvas(w, h), x = c.getContext('2d'), img = x.createImageData(w, h);
-    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
-      const u = (i + .5) / w, v = ((j + .5) / h) * 2 - 1, ramp = clamp(u / .1, 0, 1);
-      img.data[(j * w + i) * 4] = img.data[(j * w + i) * 4 + 1] = img.data[(j * w + i) * 4 + 2] = 255;
-      img.data[(j * w + i) * 4 + 3] = Math.round(255 * ramp * ramp * (3 - 2 * ramp) * Math.pow(1 - u, 1.05) * Math.pow(Math.max(0, 1 - v * v), 1.3));
-    }
+  /* the textures (built once): the cast tongue, a soft solid disc (the silhouette cut-out), the self-shading gradient disc */
+  const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+  function alphaTex(w, h, f) {
+    const c = mkCanvas(w, h), x = c.getContext('2d'), img = x.createImageData(w, h);
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) { const o = (j * w + i) * 4; img.data[o] = img.data[o + 1] = img.data[o + 2] = 255; img.data[o + 3] = Math.round(255 * clamp(f((i + .5) / w, ((j + .5) / h) * 2 - 1), 0, 1)); }
     x.putImageData(img, 0, 0); return c;
   }
+  function castTexture() {
+    /* u along (0 = just behind the silhouette, 1 = tip), v across: tapering to 55 % width, sides softening with distance,
+     * darkest at the contact, fading out toward a rounded tip */
+    return alphaTex(128, 48, (u, v) => {
+      const half = 1 - .45 * u, q = Math.abs(v) / half, soft = .3 + .5 * u, side = 1 - sstep(1 - soft, 1, q);
+      const along = sstep(0, .06, u) * Math.pow(1 - u, 1.35) * (1 - sstep(.7, 1, u + .25 * q * q));
+      return side * along;
+    });
+  }
+  const discTexture = () => alphaTex(64, 64, (u, v) => { const r = Math.hypot(u * 2 - 1, v); return 1 - sstep(.9, 1, r); });
+  const shadeTexture = () => alphaTex(64, 64, (u, v) => { const x = u * 2 - 1, r = Math.hypot(x, v); return (1 - sstep(.84, .97, r)) * Math.pow(sstep(-.3, 1, x), 1.35); });
 
   /* ---------- settings: a LIGHTING row in SETTINGS > CUSTOMIZE (hud.js is not modified) ---------- */
   function setQuality(q, remember = true) {
@@ -628,7 +684,7 @@
     if (!on) { if (S.dbgEl) { S.dbgEl.remove(); S.dbgEl = null; } return; }
     if (!S.dbgEl) { const d = document.createElement('div'); d.id = 'brRoleDebug'; d.style.cssText = 'position:fixed;left:8px;bottom:64px;z-index:9;font:11px monospace;color:#9dff9d;background:rgba(0,0,0,.72);padding:6px 9px;pointer-events:none;white-space:pre'; document.body.appendChild(d); S.dbgEl = d; }
     const m = msStats(), c = TIERS[S.quality];
-    S.dbgEl.textContent = `BR-RoLE ${VERSION}  ${S.quality.toUpperCase()}  buffer ${ST.buf[0]}x${ST.buf[1]} (x${c.scale})\nlamps ${ST.lamps}/${c.lamps}  carried ${ST.carried} (peers ${ST.peers}/${c.peers})  shadow sides ${ST.shadows}  props ${ST.props}/${c.propFrame}\nlamp fields cached ${S.lampCache.size}/${c.lampCache} built ${ST.lampBuilds} (${ST.lampBuildMs.toFixed(1)} ms, tube ${c.tube} pts${S.blur ? ', blurred' : ''})  actor shadows ${ST.ents}\nframe ${m.mean} ms avg  ${m.max} ms max`;
+    S.dbgEl.textContent = `BR-RoLE ${VERSION}  ${S.quality.toUpperCase()}  buffer ${ST.buf[0]}x${ST.buf[1]} (x${c.scale})\nlamps ${ST.lamps}/${c.lamps}  carried ${ST.carried} (peers ${ST.peers}/${c.peers})  shadow sides ${ST.shadows}  props ${ST.props}/${c.propFrame}\nlamp fields cached ${S.lampCache.size}/${c.lampCache} built ${ST.lampBuilds} (${ST.lampBuildMs.toFixed(1)} ms, tube ${c.tube} pts${S.blur ? ', blurred' : ''})  actor casts ${ST.ents} (draws ${ST.casts})  self-shaded ${ST.shaded} (draws ${ST.shadeDraws})\nframe ${m.mean} ms avg  ${m.max} ms max`;
   }
 
   /* what the compositor puts at a world point this frame, light by light (tests / debug; reads nothing from the canvas) */
@@ -668,7 +724,7 @@
     tiers: () => JSON.parse(JSON.stringify(TIERS)),
     stats: () => ({ version: VERSION, quality: S.quality, on: on(), legacy: S.legacy, disabled: S.disabled, attached: S.attached, frames: ST.frames, frameMs: msStats(), buffer: ST.buf.slice(),
       lamps: { last: ST.lamps, max: ST.lampsMax, cap: TIERS[S.quality].lamps, cached: S.lampCache.size, cacheCap: TIERS[S.quality].lampCache, pending: S.pending.size, builds: ST.lampBuilds, buildMs: +ST.lampBuildMs.toFixed(2), evictions: ST.lampEvictions, tube: TIERS[S.quality].tube, blur: S.blur },
-      carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn },
+      carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn, castDraws: ST.casts, actorsShaded: ST.shaded, selfShadeDraws: ST.shadeDraws },
       blockers: { sides: S.nEdges || 0, pillars: S.pillars || 0, props: S.props.length, propKinds: [...new Set(S.props.map(p => p.kind))] },
       props: { last: ST.props, max: ST.propsMax, perLight: TIERS[S.quality].props, perFrame: TIERS[S.quality].propFrame }, errors: ST.errors }),
     resetStats: () => { ST.frames = 0; ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; },

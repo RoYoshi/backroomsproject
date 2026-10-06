@@ -294,14 +294,19 @@ run('U17 BR2A bounded: prop casters per light and per frame stay within the tier
 
 /* ---------- BR2B: player / Hound shadows ---------- */
 function creature(p, x, y, flags) { const v = new Container(); v.position.set(x, y); Object.assign(v, flags); p.creatures.addChild(v); return v; }
-run('U18 BR2B an actor shadow is its DOMINANT light\'s own contribution taken away behind it: that lamp alone goes through the scratch, loses the cast (destination-out, from the body\'s rim away from the lamp), then is added; every other light is untouched; no dark paint, no Pixi shadow layer', () => {
-  const p = makePage(); warm(p, { x: 1060, y: 3300, on: false }); const L = p.log, jobs = p.R.actors(), me = jobs.filter(j => j.self), lp = p.g.Fc[4];
-  const cut = L.find(e => e.op === 'drawImage' && e.gco === 'destination-out' && e.canvas !== 'overlay' && e.args.length === 4 && e.args[0] > 0);   // the cast texture
-  const before = L.slice(0, L.indexOf(cut)).reverse().find(e => e.canvas === cut.canvas && e.op === 'drawImage'), after = L.slice(L.indexOf(cut)).find(e => e.src === cut.canvas && e.gco === 'lighter');
-  const tf = cut.transform, ang = Math.atan2(tf[1], tf[0]), want = Math.atan2(3300 - lp.y, 1060 - lp.x), fills = L.filter(e => e.op === 'fill' && e.style === '#000').length;
-  const layers = p.win.__api.floor().parent.children.find(c => c.label === 'br-role').children.map(c => c.label);
-  const ok = me.length === 1 && me[0].light === 'L4' && me[0].dominant && before && before.args[2] === 760 && Math.abs(before.alpha * .9 - lampOfP(p, 4)) < 1e-6 && after && Math.abs(ang - want) < 1e-6 && cut.alpha > .85 && cut.alpha <= .9 + 1e-9 && cut.args[0] > 0 && fills === 0 && JSON.stringify(layers) === JSON.stringify(['br-role-ao']);
-  return { ok, note: `your shadow: light ${me.map(j => j.light)}, ${me.length} shadow, removal ${cut.alpha.toFixed(3)} starting ${cut.args[0].toFixed(1)} px from your centre, turned ${ang.toFixed(4)} (lamp -> you ${want.toFixed(4)}); that lamp drawn into the scratch first: ${!!before}, added after: ${!!after}; Pixi layers ${JSON.stringify(layers)}` };
+run('U18 BR2B/BR2.1 an actor\'s cast shadow and self-shading are its DOMINANT light\'s own contribution taken away: that lamp alone goes through the scratch; the cast is built in a pooled canvas with the silhouette cut out of it (never on the body), the self-shading gradient runs away from the lamp; then the lamp is added; no dark paint, no Pixi shadow layer', () => {
+  const p = makePage(); warm(p, { x: 1060, y: 3300, on: false }); const L = p.log, me = p.R.actors().filter(j => j.self), lp = p.g.Fc[4], k = 1.18 * .75;
+  const lampIn = L.find(e => e.op === 'drawImage' && e.args.length === 4 && e.args[2] === 760 && e.gco === 'source-over'), scr = lampIn && lampIn.canvas;
+  const cast = L.find(e => e.op === 'drawImage' && e.args.length === 4 && e.args[0] > 0 && e.canvas !== scr && e.gco === 'source-over' && e.alpha < 1), T = cast && cast.canvas;
+  const cuts = L.filter(e => e.canvas === T && e.op === 'drawImage' && e.gco === 'destination-out' && e.args.join() === '-1,-1,2,2');
+  const back = L.find(e => e.canvas === scr && e.src === T && e.gco === 'destination-out'), shade = L.find(e => e.canvas === scr && e.op === 'drawImage' && e.gco === 'destination-out' && e.args.join() === '-1,-1,2,2');
+  const added = L.slice(L.indexOf(shade)).find(e => e.src === scr && e.gco === 'lighter');
+  const want = Math.atan2(3300 - lp.y, 1060 - lp.x), castAng = Math.atan2(cast.transform[1], cast.transform[0]), sh = shade.transform, gradAng = Math.atan2(sh[1], sh[0]);   // a circle: the texture's +x is the gradient
+  const cutR = Math.hypot(cuts[0].transform[0], cuts[0].transform[1]) / k, startPx = cast.args[0];
+  const layers = p.win.__api.floor().parent.children.find(c => c.label === 'br-role').children.map(c => c.label), black = L.filter(e => e.op === 'fill' && e.style === '#000').length;
+  const ok = me.length === 1 && me[0].light === 'L4' && me[0].dominant && Math.abs(lampIn.alpha * .9 - lampOfP(p, 4)) < 1e-6 && Math.abs(castAng - want) < 1e-6 && Math.abs(gradAng - want) < 1e-6 && cutR >= 18 + 1 && cuts.length >= 1 && !!back && !!added
+    && cast.alpha > .5 && cast.alpha <= .85 && shade.alpha > .3 && shade.alpha <= .42 + 1e-9 && black === 0 && JSON.stringify(layers) === JSON.stringify(['br-role-ao']);
+  return { ok, note: `light ${me.map(j => j.light)}; cast x${cast.alpha.toFixed(3)} from ${startPx.toFixed(1)} px, turned ${castAng.toFixed(4)} (lamp -> you ${want.toFixed(4)}), silhouette cut out to r ${cutR.toFixed(1)} px (body 18); self-shading x${shade.alpha.toFixed(3)}, darker side toward ${gradAng.toFixed(4)}; layers ${JSON.stringify(layers)}` };
 });
 function lampOfP(p, i) { const t = p.clock / 1000; return Math.min(.9, (i % 13 === 0 ? .13 + .06 * Math.max(0, Math.sin(t * 11 + i)) : .43)); }
 run('U19 BR2B the dominant light is the one that really reaches the actor, not the nearest: at (772, 3174) the nearest lamp (4, 273 px) is walled off and lamp 1 (280 px) lights you - the shadow follows lamp 1', () => {
@@ -347,6 +352,32 @@ run('U25 BR2C a peer\'s flashlight casts the counter\'s shadow inside its own be
   const fills = p.log.filter(e => e.op === 'fill' && e.subs && e.subs.length), withCounter = fills.filter(f => splitFill(p.g, f).props.some(q => q.prop.x === L4.x && q.prop.y === L4.y)).length;
   let X = null; for (let y = 1046; y < 1100 && !X; y += 3) for (let x = 3330; x < 3520 && !X; x += 4) { const r = p.R.probe(x, y); if (r.lamps.some(l => l.i === 31) && r.lamps.every(l => l.light === 0) && r.carried.some(c => !c.own && c.light > .2)) X = [x, y]; }
   return { ok: withCounter > 0 && !!X, note: `peer shadow fills with the counter: ${withCounter}; a lamp-shadowed spot the peer lights: ${X}` };
+});
+
+/* ---------- BR2.1: self-shading and prettier casts ---------- */
+function handsOn(p) { const hs = []; for (const sx of [-1, 1]) { const h = new Container(); h.position.set(sx * 13, -13); hs.push(h); } p.person.hands = hs; p.person.rotation = .6; }
+run('U26 BR2.1 the player\'s two hands are part of the silhouette: each gets the same self-shading gradient as the body, the cast is cut out around them too and starts past them (one pass, the dominant light only)', () => {
+  const p = makePage(); handsOn(p); warm(p, { x: 1060, y: 3300, on: false }); const L = p.log, me = p.R.actors().find(j => j.self), k = 1.18 * .75;
+  const shades = L.filter(e => e.op === 'drawImage' && e.gco === 'destination-out' && e.args.join() === '-1,-1,2,2' && Math.abs(e.alpha - me.shade) < 1e-9);
+  const centres = shades.map(e => [(e.transform[4] - (640 - 1060 * 1.18) * .75) / k, (e.transform[5] - (360 - 3300 * 1.18) * .75) / k]);
+  const c = Math.cos(.6), sn = Math.sin(.6), want = [[1060, 3300], ...[-1, 1].map(sx => [1060 + c * sx * 13 - sn * -13, 3300 + sn * sx * 13 + c * -13])];
+  const match = want.every(w => centres.some(q => Math.hypot(q[0] - w[0], q[1] - w[1]) < 1e-6));
+  const g = [Math.cos(me.ang), Math.sin(me.ang)], handReach = Math.max(...want.slice(1).map(w => (w[0] - 1060) * g[0] + (w[1] - 3300) * g[1] + 6.5));
+  return { ok: me.sil.length === 3 && shades.length === 3 && match && me.start >= Math.max(18, handReach) - 1e-9, note: `silhouette parts ${me.sil.length}; self-shading draws ${shades.length} at body + hands: ${match}; cast starts ${me.start.toFixed(1)} px out (body 18, hands reach ${handReach.toFixed(1)})` };
+});
+run('U27 BR2.1 a Hound\'s torso (an ellipse along its heading) gets a restrained self-shading whose gradient still runs exactly away from its light, and a cast cut around it; a Smiler gets neither', () => {
+  const p = makePage(); creature(p, 1110, 3330, { __hound: true, rotation: 1.1 }); creature(p, 1000, 3360, { __smiler: true });
+  warm(p, { x: 1060, y: 3300, on: false }); const jobs = p.R.actors(), h = jobs.find(j => j.kind === 'hound'), L = p.log, k = 1.18 * .75;
+  const sh = L.find(e => e.op === 'drawImage' && e.gco === 'destination-out' && e.args.join() === '-1,-1,2,2' && Math.abs(e.alpha - h.shade) < 1e-9 && Math.abs(e.transform[4] - ((1110 + Math.cos(1.1 - Math.PI / 2) * 4) * k + (640 - 1060 * 1.18) * .75)) < 1e-6);
+  const [a, b, c, d] = sh.transform, det = a * d - b * c, gx = d / det, gy = -c / det, gAng = Math.atan2(gy, gx);   // the gradient of texture x in the world: M^-T e1
+  const nearSmiler = jobs.filter(j => Math.hypot(j.x - 1000, j.y - 3360) < 40).length;
+  return { ok: !!h && h.shade > 0 && h.shade <= .3 + 1e-9 && Math.abs(Math.atan2(Math.sin(gAng - h.ang), Math.cos(gAng - h.ang))) < 1e-6 && h.a > 0 && nearSmiler === 0, note: `hound self-shading x${h && h.shade.toFixed(3)}, gradient ${gAng.toFixed(4)} vs light -> hound ${h && h.ang.toFixed(4)}; cast x${h && h.a.toFixed(3)}; anything at the Smiler: ${nearSmiler}` };
+});
+run('U28 BR2.1 cast shape response: longer and fainter the farther the light (bounded), short and dark close to it, nothing right under it; HIGH\'s faint second cast carries no second self-shading', () => {
+  const at = (x, y, q) => { const p = makePage(); if (q) p.R.setQuality(q); warm(p, { x, y, on: false }); return p.R.actors().filter(j => j.self); };
+  const lp = GAME.Fc[4], close = at(lp.x + 50, lp.y + 15)[0], far = at(lp.x + 170, lp.y + 60)[0], under = at(lp.x + 2, lp.y + 3), hi = at(952, 3558, 'high');
+  const second = hi.filter(j => !j.dominant), ok = close && far && far.ext > close.ext && far.ext <= 84 && far.a < close.a && (under.length === 0 || under.every(j => j.a === 0 && j.shade === 0) || under[0].light !== 'L4') && second.every(j => j.shade === 0);
+  return { ok, note: `near the lamp: ${close && close.ext.toFixed(1)} px x${close && close.a.toFixed(3)}; farther: ${far && far.ext.toFixed(1)} px x${far && far.a.toFixed(3)}; under it: ${JSON.stringify(under.map(j => [j.light, +j.a.toFixed(3), +j.shade.toFixed(3)]))}; HIGH second casts ${second.length}, their self-shading ${second.map(j => j.shade)}` };
 });
 
 const pass = results.filter(r => r.ok).length;
