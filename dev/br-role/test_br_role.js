@@ -59,7 +59,7 @@ function makeGame() {
   vm.runInContext(cut('var FBW=96', 'var Wc={kind:') + ';\n' + cut('var Gc={flashlight', 'function Jc(') + ';\nthis.__x={FBW,FBH,kc,zc,Hc,Uc,Bc,Fc,Pc,Mc,Gc,qc,Ic,V};', ctx);
   return ctx.__x;
 }
-const GAME = makeGame();
+const GAME = makeGame(); GAME.props = require(path.join(ROOT, 'world.js')).PROPS.filter(p => p.rect).map(p => p.rect);
 function makePage(opts = {}) {
   const g = GAME, T = 96, log = [], store = new Map(), intervals = [];
   let ncan = 0;
@@ -78,7 +78,9 @@ function makePage(opts = {}) {
   win.__ents = { lamp: () => 1, dbgCfg: { on: false } };
   const page = { g, win, log, H, clock: 1000, warns: [], rays: 0, overlay: mkCanvas(log, 'overlay') };
   const ctx = vm.createContext(win);
-  vm.runInContext(read('world.js'), ctx); vm.runInContext(read('light.js'), ctx); vm.runInContext(read('assets/br-role.js'), ctx);
+  vm.runInContext(read('world.js'), ctx); vm.runInContext(read('light.js'), ctx);
+  if (opts.extraProps) for (const r of opts.extraProps) win.WORLD.PROPS.push({ id: 'X' + win.WORLD.PROPS.length, type: 'low', kind: 'counter', rect: r });
+  vm.runInContext(read('assets/br-role.js'), ctx);
   page.R = win.__brRole;
   /* one frame as drawLight hands it over: world scale 1.18, camera on the player, the overlay context */
   page.frame = (o = {}) => { page.clock += 16.7; log.length = 0; const r = 1.18, x = o.x ?? H.x, y = o.y ?? H.y;
@@ -118,22 +120,38 @@ function onBlocker(g, A, B, S) {
 }
 const r_side = (lo, hi, v) => Math.abs(v - lo) < 1e-9 ? -1 : 1;           // a pillar side faces out: its low side up / left, its high side down / right
 /* every shadow polygon of a fill: cast from one common point, anchored on a blocker side facing it, projected away beyond `reach` */
+const area = q => { let a = 0; for (let i = 0; i < q.length; i += 2) { const j = (i + 2) % q.length; a += q[i] * q[j + 1] - q[j] * q[i + 1]; } return a / 2; };
+/* split a fill's subpaths: a prop's shadow is its hull followed by its own top (the prop's rect, the opposite winding) */
+function splitFill(g, fill) {
+  const W = g.WORLD || {}, rects = (g.props || []), walls = [], props = [];
+  for (let k = 0; k < fill.subs.length; k++) {
+    const q = fill.subs[k], nx = fill.subs[k + 1];
+    const hole = nx && nx.length === 8 && rects.find(r => nx[0] === r.x && nx[1] === r.y && nx[2] === r.x + r.w && nx[3] === r.y && nx[4] === r.x + r.w && nx[5] === r.y + r.h && nx[6] === r.x && nx[7] === r.y + r.h);
+    if (hole) { props.push({ hull: q, hole: nx, prop: hole }); k++; } else walls.push(q);
+  }
+  return { walls, props };
+}
+/* every wall shadow polygon of a fill: cast from one common point, anchored on a blocker side facing it, projected away
+ * beyond `reach`; every polygon (walls, prop hulls) winds the same way (negative area) and a prop's top the other way */
 function checkShadowFill(g, fill, reach) {
-  const out = { polys: fill.subs.length, from: null, badShape: 0, badFrom: 0, badSide: 0, badFar: 0 };
-  for (const q of fill.subs) {
+  const { walls, props } = splitFill(g, fill);
+  const out = { polys: walls.length, props: props.length, from: null, badShape: 0, badFrom: 0, badSide: 0, badFar: 0, badWinding: 0 };
+  for (const q of walls) {
     if (q.length !== 10) { out.badShape++; continue; }
     const S = castFrom(q); if (!S) { out.badShape++; continue; }
     if (!out.from) out.from = S; else if (Math.hypot(S[0] - out.from[0], S[1] - out.from[1]) > .01) out.badFrom++;
     if (!onBlocker(g, [q[0], q[1]], [q[2], q[3]], out.from)) out.badSide++;
     const F = out.from, dA = Math.hypot(q[0] - F[0], q[1] - F[1]), dB = Math.hypot(q[2] - F[0], q[3] - F[1]);
     for (const [px, py, d] of [[q[8], q[9], dA], [q[4], q[5], dB], [q[6], q[7], 0]]) { const dd = Math.hypot(px - F[0], py - F[1]); if (!(dd > d && dd >= reach)) out.badFar++; }
+    if (!(area(q) < 0)) out.badWinding++;
   }
+  for (const pr of props) if (!(area(pr.hull) < 0 && area(pr.hole) > 0)) out.badWinding++;
   return out;
 }
 
 run('U01 loads, attaches above the carpet on the first frame, and takes over the light (on() true); version reported; the blockers are every wall side and pillar side', () => {
   const p = makePage(); const before = p.R.on(); const ok = p.frame(); const i = p.win.__api.floor().parent.children.findIndex(c => c.label === 'br-role'), b = p.R.stats().blockers;
-  return { ok: ok && before === true && i === 1 && p.R.stats().attached && p.R.version === 'br-role BR1.1' && b.sides > 100 && b.pillars === p.g.Pc.length, note: `version ${p.R.version}, layer index ${i}, blocker sides ${b.sides} (pillars ${b.pillars} of ${p.g.Pc.length})` };
+  return { ok: ok && before === true && i === 1 && p.R.stats().attached && /^br-role BR2/.test(p.R.version) && b.sides > 100 && b.pillars === p.g.Pc.length, note: `version ${p.R.version}, layer index ${i}, blocker sides ${b.sides} (pillars ${b.pillars} of ${p.g.Pc.length})` };
 });
 run('U02 one compositor, no visibility polygon: nothing is ever clipped; every light is ADDED to the light buffer (`lighter`): each lamp as its own shadowed field, each carried light (beam, then hand glow); the overlay loses the buffer once (destination-out), then the beam colour (source-over)', () => {
   const p = makePage(); warm(p, { x: 1130, y: 3420, angle: 2.6 }); const L = p.log;
@@ -232,6 +250,45 @@ run('U13 a fluorescent fixture is an area source: behind the partition by the sp
       const v = p.R.probe(x, y).lamps.find(l => l.i === 4).visible; if (v === 0) um++; else if (v === 1) lit++; else { pen++; lv.add(v.toFixed(3)); } }
     res[r] = { umbra: +(um * .002 * r).toFixed(0), penumbra: +(pen * .002 * r).toFixed(0), lit: +(lit * .002 * r).toFixed(0), levels: lv.size }; }
   return { ok: res[300].umbra > 0 && res[300].penumbra > res[140].penumbra && res[140].penumbra > 0 && res[300].levels >= 8 && res[300].lit > 0, note: `arc lengths (px) around the lamp: ${JSON.stringify(res)}` };
+});
+
+/* ---------- BR2A: selected prop shadows ---------- */
+const L4 = { x: 3272, y: 984, w: 272, h: 48 };                          // counter L4; lamps 31 (3600, 912) and 29 (3120, 912) beside it
+run('U14 BR2A casters: counters, the shelf, the low walls, the machine, the table, the bench and the window sills; not the see-through railing or the wall holes', () => {
+  const p = makePage(); p.frame(); const b = p.R.stats().blockers, kinds = b.propKinds.slice().sort();
+  return { ok: b.props === 11 && JSON.stringify(kinds) === JSON.stringify(['bench', 'counter', 'lowwall', 'machine', 'shelf', 'table', 'window']), note: `${b.props} prop casters: ${kinds.join(', ')}` };
+});
+run('U15 BR2A lamp: the counter beside lamp 31 casts, from EVERY tube point, the hull of its base and its top projected away from that point (x 70 / (180 - 70)), into the same averaged shadow as the walls (same winding); its own top is cut back out (opposite winding: stays lit)', () => {
+  const p = makePage(); let L = null, cache = null; const lp = p.g.Fc[31], kk = 70 / 110;
+  for (let k = 0; k < 8 && !cache; k++) { p.frame({ x: 3400, y: 1250, angle: -Math.PI / 2 }); L = p.log; const f = L.find(e => e.op === 'fillRect' && e.style && e.style.kind === 'radial' && e.style.r[1] === 380 && e.style.at[0] === lp.x && e.style.at[1] === lp.y); if (f) cache = f.canvas; }
+  const field = L.find(e => e.canvas === cache && e.op === 'fillRect'), sub = L.find(e => e.canvas === cache && e.op === 'drawImage');
+  const fills = L.filter(e => e.canvas === sub.src && e.op === 'fill' && L.indexOf(e) > L.indexOf(field) && L.indexOf(e) < L.indexOf(sub));
+  let withCounter = 0, bad = 0, wind = 0, far = 0;
+  for (const f of fills) {
+    const c = checkShadowFill(p.g, f, 380); wind += c.badWinding; const S = c.from, pr = splitFill(p.g, f).props.find(q => q.prop.x === L4.x && q.prop.y === L4.y); if (!pr || !S) continue; withCounter++;
+    const want = []; for (const [cx, cy] of [[L4.x, L4.y], [L4.x + L4.w, L4.y], [L4.x + L4.w, L4.y + L4.h], [L4.x, L4.y + L4.h]]) want.push([cx, cy], [cx + (cx - S[0]) * kk, cy + (cy - S[1]) * kk]);
+    for (let i = 0; i < pr.hull.length; i += 2) { const v = [pr.hull[i], pr.hull[i + 1]]; if (!want.some(w => Math.hypot(w[0] - v[0], w[1] - v[1]) < 1e-6)) bad++;
+      const base = want.filter((w, j) => j % 2 === 0).some(w => Math.hypot(w[0] - v[0], w[1] - v[1]) < 1e-6); if (!base) { const d = Math.hypot(v[0] - S[0], v[1] - S[1]), b0 = want[want.findIndex(w => Math.hypot(w[0] - v[0], w[1] - v[1]) < 1e-6) - 1]; if (!(b0 && d > Math.hypot(b0[0] - S[0], b0[1] - S[1]))) far++; } }
+  }
+  return { ok: fills.length === 16 && withCounter === 16 && bad === 0 && wind === 0 && far === 0, note: `${fills.length} tube points, counter shadow from ${withCounter} of them; hull vertices off (base, top + (corner - point) x ${kk.toFixed(3)}) ${bad}; projected toward the light ${far}; winding errors ${wind}` };
+});
+run('U16 BR2A behaviour (probe, the game\'s ray query + the prop\'s shadow): behind the counter the lamps are blocked but a flashlight from the open side lights it; a flashlight from the lamps\' side is blocked by the same counter there; the counter\'s own top stays lit', () => {
+  const p = makePage(); warm(p, { x: 3400, y: 1250, angle: -Math.PI / 2 });
+  let X = null;                                                          // a floor point behind the counter from both lamps (all their tube points), the flashlight reaching it
+  for (let y = 1046; y < 1110 && !X; y += 4) for (let x = 3330; x < 3520 && !X; x += 6) { const r = p.R.probe(x, y), l31 = r.lamps.find(l => l.i === 31), l29 = r.lamps.find(l => l.i === 29); if (l31 && l29 && l31.visible === 0 && l29.visible === 0 && r.carried[0].light > .1) X = [x, y]; }
+  const below = p.R.probe(X[0], X[1]), lampsBelow = below.lamps.reduce((a, l) => a + l.light, 0), beamBelow = below.carried[0].light;
+  const unblocked = p.R.probe(X[0], X[1] + 120).lamps.find(l => l.i === 31).visible;   // the same lamp past the counter's shadow
+  warm(p, { x: 3430, y: 880, angle: Math.atan2(X[1] - 880, X[0] - 3430) });
+  const aim = Math.atan2(X[1] - 880, X[0] - 3430), above = p.R.probe(X[0], X[1]), beside = p.R.probe(3430 + Math.cos(aim) * 70, 880 + Math.sin(aim) * 70), top = p.R.probe(3400, 1008).lamps.find(l => l.i === 31);   // beside: in the same beam, before the counter
+  const ok = !!X && lampsBelow === 0 && beamBelow > .1 && Math.abs(below.total - beamBelow) < 1e-9 && unblocked > 0 && above.carried[0].light === 0 && above.lamps.every(l => l.i !== 31 && l.i !== 29 || l.light === 0) && beside.carried[0].light > 0 && top.visible > .5;
+  return { ok, note: `point ${X}: lamps 31/29 there ${lampsBelow} (past the shadow lamp 31 sees ${unblocked}); flashlight from below ${beamBelow.toFixed(3)} = total ${below.total.toFixed(3)}; flashlight from the lamps' side ${above.carried[0].light} (in the same beam before the counter ${beside.carried[0].light.toFixed(3)}); counter top sees lamp 31: ${top.visible}` };
+});
+run('U17 BR2A bounded: prop casters per light and per frame stay within the tier caps however many props are near (40 extra counters, several wanderers\' lights)', () => {
+  const extra = []; for (let k = 0; k < 40; k++) extra.push({ x: 1000 + (k % 8) * 40, y: 3380 + Math.floor(k / 8) * 30, w: 24, h: 12 });
+  const out = {}; let ok = true;
+  for (const q of ['low', 'medium', 'high']) { const p = makePage({ extraProps: extra }); p.R.setQuality(q); p.win.__peerLights = []; for (let k = 0; k < 8; k++) p.win.__peerLights.push({ x: 1060 + k * 12, y: 3300, angle: Math.PI / 2, kind: 'flashlight', color: '#ffe7b2', on: true });
+    warm(p, { x: 1060, y: 3330, angle: Math.PI / 2 }); const s = p.R.stats(), t = p.R.tiers()[q]; out[q] = `${s.props.last}/${t.propFrame} (per light ${t.props})`; if (!(s.props.last <= t.propFrame && s.props.last > 0)) ok = false; }
+  return { ok, note: JSON.stringify(out) };
 });
 
 const pass = results.filter(r => r.ok).length;

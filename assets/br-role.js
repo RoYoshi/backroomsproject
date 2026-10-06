@@ -34,22 +34,33 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role BR1.1';
+  const VERSION = 'br-role BR2A';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
    * shadowed field: cache resolution (px per world px), tube points its shadows are cast from, caches kept, builds per frame;
-   * points across a carried light's source */
+   * points across a carried light's source; prop casters per light (nearest first) and per frame (all carried lights) */
   const TIERS = {
-    low: { scale: .5, lamps: 8, peers: 1, lampRes: .3, tube: 8, lampCache: 24, builds: 2, src: 1, ents: 6 },
-    medium: { scale: .75, lamps: 10, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 2, ents: 12 },
-    high: { scale: 1, lamps: 14, peers: 6, lampRes: .6, tube: 24, lampCache: 40, builds: 4, src: 3, ents: 20 },
+    low: { scale: .5, lamps: 8, peers: 1, lampRes: .3, tube: 8, lampCache: 24, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6 },
+    medium: { scale: .75, lamps: 10, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 2, props: 8, propFrame: 48, ents: 12 },
+    high: { scale: 1, lamps: 14, peers: 6, lampRes: .6, tube: 24, lampCache: 40, builds: 4, src: 3, props: 12, propFrame: 96, ents: 20 },
   };
   /* a lamp: its field (the game's radial falloff, reach R), the fixture it shines from (the 86 x 24 panel the game draws:
    * tube points over ±tubeX, two rows at ±tubeY), the strength its cache is built at (P0: the game's cap), a light blur of
-   * its shadow mask (world px; only where the browser has canvas filters), the fade of a lamp built late (frames: steady under a frozen clock) */
-  const LAMP = { R: 380, inner: 6, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360 };
+   * its shadow mask (world px; only where the browser has canvas filters), the fade of a lamp built late (frames: steady
+   * under a frozen clock); the height it hangs at for prop shadows (h, SH7's tuned 180 px) and the longest prop shadow it
+   * casts (kmax x the prop's distance from it) */
+  const LAMP = { R: 380, inner: 6, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
   const SRC = { beam: 3, omni: 4 };                                          // a carried light's half-size (world px)
+  /* carried lights: the height each is held at (for prop shadows; SH7's) and the longest prop shadow (kmax x distance) */
+  const CARRY = { h: { flashlight: 105, headlamp: 160, lantern: 85 }, kmax: 2.2 };
+  /* selected prop casters (world.js PROPS, adapted from the SH7 donor's table): presentation height above the floor (px).
+   * The game's ray query passes over props (only walls and pillars stop light), so their shadows are new.  A prop is a box:
+   * from a source point at height h its floor shadow is the hull of its base and its projected top (top corner + (corner -
+   * source) x hp / (h - hp)); its own top stays lit.  Not casters: the see-through railing and the wall holes (openings).
+   * The art's baked drop shadow (a few px, drawProp) needs no thinning here: BR-RoLE removes light instead of painting
+   * dark, so under a cast shadow it reads as the prop's contact shadow, not a second shadow */
+  const PROP = { counter: { h: 70 }, shelf: { h: 46 }, lowwall: { h: 84 }, machine: { h: 96 }, table: { h: 76 }, bench: { h: 46 }, window: { h: 40 } };
   const AMB = { r0: 18, r1: 670, a0: .14, a1: .045 };                       // the ambient glow around the viewer (v23.3.6's)
   const TINT = { beam: .25, omni: .2 };                                      // carried-light colour tint over the lit area
   const AO = { width: 50, alpha: .56, steps: 64, power: 1.35 };              // SH7 grounding (ADAPT)
@@ -58,9 +69,9 @@
   const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
   const now = () => performance.now();
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
-    lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false,
+    lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
     layers: {}, chunks: [], pool: [], person: null, last: null, dbgEl: null };
-  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampEvictions: 0, ents: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
+  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampEvictions: 0, ents: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
 
   /* ---------- quality: URL > remembered > device default (touch / small screen -> LOW); ?lighting=legacy is DEV only ---------- */
   function initialQuality() {
@@ -100,13 +111,67 @@
       for (let by = by0; by <= by1; by++) for (let bx = bx0; bx <= bx1; bx++) { const k = by * 4096 + bx; let l = S.egrid.get(k); if (!l) S.egrid.set(k, l = []); l.push(j); }
     }
   }
+  /* the selected prop casters (world.js PROPS), static */
+  function buildProps() {
+    const W = window.WORLD; S.props = [];
+    if (W && Array.isArray(W.PROPS)) for (const p of W.PROPS) {
+      const d = PROP[p.kind]; if (!d || !p.rect || p.type === 'gap') continue; const r = p.rect;
+      if (![r.x, r.y, r.w, r.h].every(Number.isFinite) || !(r.w > 0 && r.h > 0)) continue;
+      S.props.push({ n: S.props.length, id: p.id, kind: p.kind, x: r.x, y: r.y, w: r.w, h: r.h, cx: r.x + r.w / 2, cy: r.y + r.h / 2, hd: Math.hypot(r.w, r.h) / 2, hp: d.h });
+    }
+  }
+  /* the props a light at (x, y) can shadow within `reach` (inside the beam when `cone`), nearest first, at most `cap`
+   * (stable order: distance, then index - no caster-sort flicker) */
+  const tmpPC = [];
+  function propsFor(x, y, reach, cone, cap) {
+    tmpPC.length = 0; if (!(cap > 0)) return [];
+    for (const p of S.props) {
+      const d = Math.hypot(clamp(x, p.x, p.x + p.w) - x, clamp(y, p.y, p.y + p.h) - y); if (d >= reach) continue;
+      if (cone && d > 0) { const dc = Math.hypot(p.cx - x, p.cy - y), hs = dc > p.hd ? Math.asin(p.hd / dc) : Math.PI, a = Math.atan2(p.cy - y, p.cx - x) - cone[0];
+        if (Math.abs(Math.atan2(Math.sin(a), Math.cos(a))) - hs > cone[1]) continue; }
+      tmpPC.push([d, p.n, p]);
+    }
+    tmpPC.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const out = []; for (let k = 0; k < tmpPC.length && k < cap; k++) out.push(tmpPC[k][2]); return out;
+  }
+  function hull(pts) {                                                      // monotone chain (SH7 donor), flat [x, y, ...] -> counter-clockwise
+    const P = []; for (let i = 0; i < pts.length; i += 2) P.push([pts[i], pts[i + 1]]);
+    P.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]), lo = [], up = [];
+    for (const p of P) { while (lo.length >= 2 && cr(lo[lo.length - 2], lo[lo.length - 1], p) <= 0) lo.pop(); lo.push(p); }
+    for (let i = P.length - 1; i >= 0; i--) { const p = P[i]; while (up.length >= 2 && cr(up[up.length - 2], up[up.length - 1], p) <= 0) up.pop(); up.push(p); }
+    up.pop(); lo.pop(); const out = []; for (const p of lo.concat(up)) out.push(p[0], p[1]); return out;
+  }
+  /* a prop's floor shadow from a source point (sx, sy) at height sh: the hull of its base and its projected top, or null
+   * (a source inside the box below its top lights nothing outside it: no shadow to draw) */
+  const tmpH = [];
+  function propHull(p, sx, sy, sh, kmax) {
+    if (sx >= p.x && sx <= p.x + p.w && sy >= p.y && sy <= p.y + p.h && sh <= p.hp + 1) return null;
+    const kk = sh > p.hp + 1 ? Math.min(kmax, p.hp / (sh - p.hp)) : kmax; tmpH.length = 0;
+    for (let k = 0; k < 4; k++) { const cx = k === 1 || k === 2 ? p.x + p.w : p.x, cy = k >= 2 ? p.y + p.h : p.y; tmpH.push(cx, cy, cx + (cx - sx) * kk, cy + (cy - sy) * kk); }
+    return hull(tmpH);
+  }
+  /* is (x, y) in a prop's shadow from a source point?  (inside its floor shadow, not on its own top) */
+  function inPropShadow(p, sx, sy, sh, kmax, x, y) {
+    if (x >= p.x && x <= p.x + p.w && y >= p.y && y <= p.y + p.h) return false;
+    const h = propHull(p, sx, sy, sh, kmax); if (!h || h.length < 6) return false;
+    for (let i = 0; i < h.length; i += 2) { const ax = h[i], ay = h[i + 1], bx = h[(i + 2) % h.length], by = h[(i + 3) % h.length]; if ((bx - ax) * (y - ay) - (by - ay) * (x - ax) < 0) return false; }
+    return true;
+  }
   /* the shadow one point source at (lx, ly) casts within `reach`: for every blocker side that faces it, the polygon from the
    * side's two corners projected away from the source (through a middle point, so the far side always lies beyond the
-   * reach).  All of them go into ONE path (consistent winding, filled once: their union, no seams).  `cone` = [aim, half
-   * width] keeps only the sides inside a beam.  Returns how many sides cast. */
-  function shadowPath(c, lx, ly, reach, cone) {
+   * reach); then each selected prop's floor shadow from that point (at height sh), with the prop's own top cut back out.
+   * All of them go into ONE path (one winding for every shadow, the opposite for a prop's top; filled once, nonzero: their
+   * union, no seams).  `cone` = [aim, half width] keeps only the sides inside a beam.  Returns how many sides / props cast. */
+  function shadowPath(c, lx, ly, reach, cone, props, sh, kmax) {
     const E = S.edges, st = S.stamp, q = ++S.q, x0 = lx - reach, x1 = lx + reach, y0 = ly - reach, y1 = ly + reach, D = reach * 1.5 + 4;
     let n = 0; c.beginPath();
+    if (props) for (const p of props) {
+      const h = propHull(p, lx, ly, sh, kmax); if (!h || h.length < 6) continue;
+      c.moveTo(h[h.length - 2], h[h.length - 1]); for (let k = h.length - 4; k >= 0; k -= 2) c.lineTo(h[k], h[k + 1]); c.closePath();   // reversed: winds like the wall shadows
+      c.moveTo(p.x, p.y); c.lineTo(p.x + p.w, p.y); c.lineTo(p.x + p.w, p.y + p.h); c.lineTo(p.x, p.y + p.h); c.closePath();   // its own top: the opposite winding (lit)
+      n++;
+    }
     for (let by = Math.floor(y0 / VB); by <= Math.floor(y1 / VB); by++) for (let bx = Math.floor(x0 / VB); bx <= Math.floor(x1 / VB); bx++) {
       const l = S.egrid.get(by * 4096 + bx); if (!l) continue;
       for (const j of l) {
@@ -162,17 +227,17 @@
     const g = c.createRadialGradient(L.x, L.y, LAMP.inner, L.x, L.y, R); g.addColorStop(0, rgba(LAMP.P0)); g.addColorStop(.5, rgba(LAMP.P0 * .35)); g.addColorStop(1, rgba(0));
     c.fillStyle = g; c.fillRect(L.x - R, L.y - R, R * 2, R * 2);
     if (!S.lmask || S.lmask.width !== size) S.lmask = mkCanvas(size, size);
-    const m = S.lmask.getContext('2d'), smp = tubePoints(L, cfg.tube), n = smp.length / 2;
+    const m = S.lmask.getContext('2d'), smp = tubePoints(L, cfg.tube), n = smp.length / 2, reach = R + LAMP.tubeX + 4, props = propsFor(L.x, L.y, reach, null, cfg.props);
     m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(0, 0, size, size);
     m.setTransform(res, 0, 0, res, (R - L.x) * res, (R - L.y) * res); m.globalCompositeOperation = 'lighter'; m.fillStyle = rgba((Math.ceil(255 / n) + .4) / 255);   // n of them saturate: umbra = all of this light gone
-    let edges = 0; for (let s = 0; s < smp.length; s += 2) { const e = shadowPath(m, smp[s], smp[s + 1], R + LAMP.tubeX + 4, null); if (e) m.fill(); edges += e; }
+    let edges = 0; for (let s = 0; s < smp.length; s += 2) { const e = shadowPath(m, smp[s], smp[s + 1], reach, null, props, LAMP.h, LAMP.kmax); if (e) m.fill(); edges += e; }
     m.globalCompositeOperation = 'source-over';
     c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out';
     if (S.blur) c.filter = `blur(${(LAMP.blur * res).toFixed(2)}px)`;
     c.drawImage(S.lmask, 0, 0); if (S.blur) c.filter = 'none';
     c.globalCompositeOperation = 'source-over';
     ST.lampBuilds++; ST.lampBuildMs += now() - t0;
-    return { cv, smp, edges, born: -1e9, used: ST.frames };
+    return { cv, smp, edges, props, born: -1e9, used: ST.frames };
   }
 
   /* ---------- the game's own light strengths (drawLight in the bundle), so BR-RoLE lights what v23.3.6 lit ---------- */
@@ -239,7 +304,7 @@
           const p = lampPower(i, L, F.t) * (m === cfg.lamps - 1 ? clamp((cut - list[m][0]) / 140, 0, 1) : 1) * clamp((ST.frames - C.born) / LAMP.fadeFrames, 0, 1);   // only the last admitted fades (no pop at the cap)
           if (!(p > .002)) continue;
           bx.globalAlpha = Math.min(1, p / LAMP.P0); bx.drawImage(C.cv, L.x - LAMP.R, L.y - LAMP.R, LAMP.R * 2, LAMP.R * 2); bx.globalAlpha = 1;
-          nl++; rec.lamps.push({ i, p, smp: C.smp });
+          nl++; rec.lamps.push({ i, p, smp: C.smp, props: C.props });
         }
         if (canBuild()) {                                                   // spare budget: the nearest lamp about to come into view
           let best = -1, bd = Infinity;
@@ -253,14 +318,15 @@
       /* carried lights: yours (the hand that holds it, or the death torch), then the nearest other wanderers' */
       const Gc = A.Gc || {}, lights = [];
       const own = Gc[F.kind];
-      if (F.on && own && !own.nv && own.range > 1 && F.src) lights.push({ x: F.src.x, y: F.src.y, ang: F.src.angle ?? (A.H && A.H.angle) ?? 0, f: own, color: F.color, glowR: F.death ? 150 : 52, glowA: F.death ? .73 : .35, fl: own.omni ? .93 + Math.sin(F.t * 17) * .035 + Math.sin(F.t * 31) * .025 : 1, own: true });
+      if (F.on && own && !own.nv && own.range > 1 && F.src) lights.push({ x: F.src.x, y: F.src.y, ang: F.src.angle ?? (A.H && A.H.angle) ?? 0, f: own, color: F.color, glowR: F.death ? 150 : 52, glowA: F.death ? .73 : .35, fl: own.omni ? .93 + Math.sin(F.t * 17) * .035 + Math.sin(F.t * 31) * .025 : 1, own: true, kind: F.kind });
       let np = 0;
       if (cfg.peers > 0 && Array.isArray(window.__peerLights)) {
         const ps = window.__peerLights.filter(p => p && p.on && !p.dead && p.kind !== 'camcorder' && Gc[p.kind || 'flashlight'] && !Gc[p.kind || 'flashlight'].nv && Number.isFinite(p.x + p.y))
           .map(p => [Math.hypot(p.x - V.x, p.y - V.y), p]).sort((a, b) => a[0] - b[0]);
         const cut = ps.length > cfg.peers ? ps[cfg.peers][0] : Infinity;
-        for (let m = 0; m < ps.length && m < cfg.peers; m++) { const p = ps[m][1], f = Gc[p.kind || 'flashlight'], w = m === cfg.peers - 1 ? clamp((cut - ps[m][0]) / 80, 0, 1) : 1; if (w > .01) { lights.push({ x: p.x, y: p.y, ang: p.angle || 0, f, color: /^#[0-9a-f]{6}$/i.test(p.color) ? p.color : '#ffe7b2', glowR: 52, glowA: .35, fl: f.omni ? .93 + Math.sin(F.t * 17 + p.x) * .035 + Math.sin(F.t * 31 + p.y) * .025 : 1, w }); np++; } }
+        for (let m = 0; m < ps.length && m < cfg.peers; m++) { const p = ps[m][1], f = Gc[p.kind || 'flashlight'], w = m === cfg.peers - 1 ? clamp((cut - ps[m][0]) / 80, 0, 1) : 1; if (w > .01) { lights.push({ x: p.x, y: p.y, ang: p.angle || 0, f, color: /^#[0-9a-f]{6}$/i.test(p.color) ? p.color : '#ffe7b2', glowR: 52, glowA: .35, fl: f.omni ? .93 + Math.sin(F.t * 17 + p.x) * .035 + Math.sin(F.t * 31 + p.y) * .025 : 1, w, kind: p.kind || 'flashlight' }); np++; } }
       }
+      S.propLeft = cfg.propFrame; ST.props = 0;                            // prop casters for all carried lights this frame (yours first)
       for (const Lc of lights) if (meet(Lc.x, Lc.y, Lc.f.range)) carried(Lc, F, cfg, k, rec);
 
       /* into the overlay: it loses exactly the light that reached each pixel (inside drawLight's line-of-sight clip), then
@@ -271,30 +337,33 @@
       n.restore();
 
       entities(F, cfg); cullAO(view);
-      ST.lamps = nl; if (nl > ST.lampsMax) ST.lampsMax = nl; ST.carried = rec.carried.length; ST.peers = np; if (ST.shadows > ST.shadowsMax) ST.shadowsMax = ST.shadows;
+      ST.lamps = nl; if (nl > ST.lampsMax) ST.lampsMax = nl; ST.carried = rec.carried.length; ST.peers = np; if (ST.shadows > ST.shadowsMax) ST.shadowsMax = ST.shadows; if (ST.props > ST.propsMax) ST.propsMax = ST.props;
       const ms = now() - t0; ST.ms[ST.n % ST.ms.length] = ms; ST.n++; if (ms > ST.max) ST.max = ms; ST.frames++;
       if (ST.frames % 15 === 0) debugPanel();
       return true;
     } catch (e) { disable('frame error', e); return false; }
   }
   /* the shadows a light casts into the field drawn in `c` (the scratch, buffer pixels; bb its box): from one source point
-   * straight out of the field; from several, their average (umbra where no point sees, penumbra where some do) */
-  function castInto(c, smp, reach, cone, F, k, sc, bb) {
+   * straight out of the field; from several, their average (umbra where no point sees, penumbra where some do).  `cast`:
+   * the light's prop casters, its height and longest prop shadow */
+  function castInto(c, smp, reach, cone, F, k, sc, bb, cast) {
+    const props = cast && cast.props.length ? cast.props : null, sh = cast ? cast.sh : 0, kmax = cast ? cast.kmax : 0;
     const n = smp.length / 2; let e = 0;
     if (n === 1) {
       c.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); c.globalCompositeOperation = 'destination-out'; c.fillStyle = '#fff';
-      e = shadowPath(c, smp[0], smp[1], reach, cone); if (e) c.fill();
+      e = shadowPath(c, smp[0], smp[1], reach, cone, props, sh, kmax); if (e) c.fill();
     } else {
       const m = S.mx; m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(bb[0], bb[1], bb[2] - bb[0], bb[3] - bb[1]);
       m.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); m.globalCompositeOperation = 'lighter'; m.fillStyle = rgba((Math.ceil(255 / n) + .4) / 255);   // n of them saturate: umbra = all of this light gone
-      for (let s = 0; s < smp.length; s += 2) { const q = shadowPath(m, smp[s], smp[s + 1], reach, cone); if (q) m.fill(); e += q; }
+      for (let s = 0; s < smp.length; s += 2) { const q = shadowPath(m, smp[s], smp[s + 1], reach, cone, props, sh, kmax); if (q) m.fill(); e += q; }
       m.globalCompositeOperation = 'source-over';
       if (e) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out'; c.drawImage(S.msk, bb[0], bb[1], bb[2] - bb[0], bb[3] - bb[1], bb[0], bb[1], bb[2] - bb[0], bb[3] - bb[1]); }
     }
     c.globalCompositeOperation = 'source-over'; ST.shadows += e; return e;
   }
-  /* one carried light: its natural field (radial falloff x the beam's smooth angular profile), then the shadows walls and
-   * pillars cast into it from the hand, added to the buffer; its colour tint; then its hand glow, the same way */
+  /* one carried light: its natural field (radial falloff x the beam's smooth angular profile), then the shadows walls,
+   * pillars and the nearest props cast into it from the hand, added to the buffer; its colour tint; then its hand glow,
+   * the same way */
   function carried(Lc, F, cfg, k, rec) {
     const A = window.__api, sx = S.sx, f = Lc.f, R = f.range, sc = cfg.scale, w = Lc.w ?? 1;
     if (A.Hc(Math.floor(Lc.x / T), Math.floor(Lc.y / T))) return;       // a hand inside a wall lights nothing (v23.3.6: its ray query stops at once)
@@ -318,9 +387,10 @@
       }
       sx.globalCompositeOperation = 'source-over';
     }
-    /* the shadows walls and pillars cast into that field, from the hand (inside the beam only) */
-    const smp = sourcePoints(Lc.x, Lc.y, Lc.ang, !!f.omni, cfg.src);
-    castInto(sx, smp, R + 8, f.omni ? null : [Lc.ang, f.arc / 2 + .2], F, k, sc, bb);
+    /* the shadows walls, pillars and props cast into that field, from the hand (inside the beam only) */
+    const smp = sourcePoints(Lc.x, Lc.y, Lc.ang, !!f.omni, cfg.src), cone = f.omni ? null : [Lc.ang, f.arc / 2 + .2], sh = CARRY.h[Lc.kind] || CARRY.h.flashlight;
+    const props = propsFor(Lc.x, Lc.y, R + 8, cone, Math.min(cfg.props, S.propLeft)); S.propLeft -= props.length; ST.props += props.length;
+    castInto(sx, smp, R + 8, cone, F, k, sc, bb, { props, sh, kmax: CARRY.kmax });
     /* the light it adds */
     const bx = S.bx; bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.drawImage(S.scr, bb[0], bb[1], bbw, bbh, bb[0], bb[1], bbw, bbh); bx.restore();
     /* its colour over the lit area (v23.3.6 tints a carried beam with its colour) */
@@ -336,11 +406,12 @@
       sx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc);
       const gg = sx.createRadialGradient(Lc.x, Lc.y, 6, Lc.x, Lc.y, Lc.glowR); gg.addColorStop(0, rgba(Lc.glowA * w)); gg.addColorStop(.25, rgba(Lc.glowA * .83 * w)); gg.addColorStop(.7, rgba(Lc.glowA * .28 * w)); gg.addColorStop(1, rgba(0));
       sx.fillStyle = gg; sx.fillRect(Lc.x - Lc.glowR, Lc.y - Lc.glowR, Lc.glowR * 2, Lc.glowR * 2);
-      castInto(sx, [Lc.x, Lc.y], Lc.glowR + 4, null, F, k, sc, gb);
+      const gprops = propsFor(Lc.x, Lc.y, Lc.glowR + 4, null, Math.min(cfg.props, S.propLeft)); S.propLeft -= gprops.length; ST.props += gprops.length;
+      castInto(sx, [Lc.x, Lc.y], Lc.glowR + 4, null, F, k, sc, gb, { props: gprops, sh, kmax: CARRY.kmax }); Lc.gprops = gprops;
       bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.drawImage(S.scr, gb[0], gb[1], gb[2] - gb[0], gb[3] - gb[1], gb[0], gb[1], gb[2] - gb[0], gb[3] - gb[1]); bx.restore();
     }
     sx.setTransform(1, 0, 0, 1, 0, 0);
-    rec.carried.push({ x: Lc.x, y: Lc.y, ang: Lc.ang, R, arc: f.arc, omni: !!f.omni, power, smp, glowR: Lc.glowR, glowA: Lc.glowA * w, own: !!Lc.own, tint });
+    rec.carried.push({ x: Lc.x, y: Lc.y, ang: Lc.ang, R, arc: f.arc, omni: !!f.omni, power, smp, props, gprops: Lc.gprops || [], sh, glowR: Lc.glowR, glowA: Lc.glowA * w, own: !!Lc.own, tint });
   }
 
   /* ---------- the static wall grounding and one dominant-light blob per entity (SH7 donor, ADAPT) ---------- */
@@ -359,7 +430,7 @@
     S.FBW = Math.round(kids[ci].width / T); S.FBH = Math.round(kids[ci].height / T);
     if (!(S.FBW > 0 && S.FBH > 0) || typeof S.Tex.from !== 'function') { disable('level size unavailable'); return false; }
     S.person = kids.find(c => c && c !== floor && typeof c.deathPose === 'function') || null;
-    buildEdges(); S.blur = blurSupported();
+    buildEdges(); buildProps(); S.blur = blurSupported();
     const fall = u => Math.pow(1 - clamp(u, 0, 1), AO.power), n = AO.steps, q = 48, b = 64;
     S.tex = { down: canvasTex(2, n, (i, j) => fall((j + .5) / n)), up: canvasTex(2, n, (i, j) => fall((n - j - .5) / n)), right: canvasTex(n, 2, i => fall((i + .5) / n)), left: canvasTex(n, 2, i => fall((n - i - .5) / n)),
       se: canvasTex(q, q, (i, j) => fall(Math.hypot(i + .5, j + .5) / q)), sw: canvasTex(q, q, (i, j) => fall(Math.hypot(q - i - .5, j + .5) / q)), ne: canvasTex(q, q, (i, j) => fall(Math.hypot(i + .5, q - j - .5) / q)), nw: canvasTex(q, q, (i, j) => fall(Math.hypot(q - i - .5, q - j - .5) / q)),
@@ -447,22 +518,26 @@
     if (!on) { if (S.dbgEl) { S.dbgEl.remove(); S.dbgEl = null; } return; }
     if (!S.dbgEl) { const d = document.createElement('div'); d.id = 'brRoleDebug'; d.style.cssText = 'position:fixed;left:8px;bottom:64px;z-index:9;font:11px monospace;color:#9dff9d;background:rgba(0,0,0,.72);padding:6px 9px;pointer-events:none;white-space:pre'; document.body.appendChild(d); S.dbgEl = d; }
     const m = msStats(), c = TIERS[S.quality];
-    S.dbgEl.textContent = `BR-RoLE ${VERSION}  ${S.quality.toUpperCase()}  buffer ${ST.buf[0]}x${ST.buf[1]} (x${c.scale})\nlamps ${ST.lamps}/${c.lamps}  carried ${ST.carried} (peers ${ST.peers}/${c.peers})  shadow sides ${ST.shadows}\nlamp fields cached ${S.lampCache.size}/${c.lampCache} built ${ST.lampBuilds} (${ST.lampBuildMs.toFixed(1)} ms, tube ${c.tube} pts${S.blur ? ', blurred' : ''})  entity blobs ${ST.ents}\nframe ${m.mean} ms avg  ${m.max} ms max`;
+    S.dbgEl.textContent = `BR-RoLE ${VERSION}  ${S.quality.toUpperCase()}  buffer ${ST.buf[0]}x${ST.buf[1]} (x${c.scale})\nlamps ${ST.lamps}/${c.lamps}  carried ${ST.carried} (peers ${ST.peers}/${c.peers})  shadow sides ${ST.shadows}  props ${ST.props}/${c.propFrame}\nlamp fields cached ${S.lampCache.size}/${c.lampCache} built ${ST.lampBuilds} (${ST.lampBuildMs.toFixed(1)} ms, tube ${c.tube} pts${S.blur ? ', blurred' : ''})  entity blobs ${ST.ents}\nframe ${m.mean} ms avg  ${m.max} ms max`;
   }
 
   /* what the compositor puts at a world point this frame, light by light (tests / debug; reads nothing from the canvas) */
   /* the fraction of a light's source points (tube / hand) that see (x, y): the game's own ray query, no walls or pillars between */
-  function seenFrom(smp, x, y) {
+  function seenFrom(smp, x, y, props, sh, kmax) {
     const Uc = window.__api.Uc; let v = 0;
-    for (let s = 0; s < smp.length; s += 2) { const dx = x - smp[s], dy = y - smp[s + 1], d = Math.hypot(dx, dy); if (d < .5 || Uc(smp[s], smp[s + 1], Math.atan2(dy, dx), d) >= d - .5) v++; }
+    for (let s = 0; s < smp.length; s += 2) {
+      const dx = x - smp[s], dy = y - smp[s + 1], d = Math.hypot(dx, dy); if (!(d < .5 || Uc(smp[s], smp[s + 1], Math.atan2(dy, dx), d) >= d - .5)) continue;
+      if (props && props.some(p => inPropShadow(p, smp[s], smp[s + 1], sh, kmax, x, y))) continue;
+      v++;
+    }
     return v / (smp.length / 2);
   }
   function probe(x, y) {
     const L = S.last; if (!L) return null; const A = window.__api, lamps = A.lamps || [], out = { lamps: [], carried: [] };
-    for (const l of L.lamps) { const lp = lamps[l.i], r = Math.hypot(x - lp.x, y - lp.y), v = r < LAMP.R ? seenFrom(l.smp, x, y) : 0; out.lamps.push({ i: l.i, visible: v, light: l.p * lampFall(r) * v }); }
+    for (const l of L.lamps) { const lp = lamps[l.i], r = Math.hypot(x - lp.x, y - lp.y), v = r < LAMP.R ? seenFrom(l.smp, x, y, l.props, LAMP.h, LAMP.kmax) : 0; out.lamps.push({ i: l.i, visible: v, light: l.p * lampFall(r) * v }); }
     for (const c of L.carried) {
-      const d = Math.hypot(x - c.x, y - c.y), vis = d < c.R ? seenFrom(c.smp, x, y) : 0, da = Math.atan2(y - c.y, x - c.x) - c.ang, ph = Math.abs(Math.atan2(Math.sin(da), Math.cos(da)));
-      const beam = c.power * beamGrad(d, c.R) * (c.omni ? 1 : beamProfile(ph, c.arc)) * vis, glow = d < c.glowR ? c.glowA * beamGrad(d, c.glowR) * seenFrom([c.x, c.y], x, y) : 0;
+      const d = Math.hypot(x - c.x, y - c.y), vis = d < c.R ? seenFrom(c.smp, x, y, c.props, c.sh, CARRY.kmax) : 0, da = Math.atan2(y - c.y, x - c.x) - c.ang, ph = Math.abs(Math.atan2(Math.sin(da), Math.cos(da)));
+      const beam = c.power * beamGrad(d, c.R) * (c.omni ? 1 : beamProfile(ph, c.arc)) * vis, glow = d < c.glowR ? c.glowA * beamGrad(d, c.glowR) * seenFrom([c.x, c.y], x, y, c.gprops, c.sh, CARRY.kmax) : 0;
       out.carried.push({ own: c.own, visible: vis, light: beam + glow });
     }
     out.total = Math.min(1, out.lamps.reduce((s, l) => s + l.light, 0) + out.carried.reduce((s, l) => s + l.light, 0));
@@ -484,8 +559,9 @@
     stats: () => ({ version: VERSION, quality: S.quality, on: on(), legacy: S.legacy, disabled: S.disabled, attached: S.attached, frames: ST.frames, frameMs: msStats(), buffer: ST.buf.slice(),
       lamps: { last: ST.lamps, max: ST.lampsMax, cap: TIERS[S.quality].lamps, cached: S.lampCache.size, cacheCap: TIERS[S.quality].lampCache, pending: S.pending.size, builds: ST.lampBuilds, buildMs: +ST.lampBuildMs.toFixed(2), evictions: ST.lampEvictions, tube: TIERS[S.quality].tube, blur: S.blur },
       carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, shadows: { last: ST.shadows, max: ST.shadowsMax }, entityBlobs: ST.ents,
-      blockers: { sides: S.nEdges || 0, pillars: S.pillars || 0 }, errors: ST.errors }),
-    resetStats: () => { ST.frames = 0; ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; },
+      blockers: { sides: S.nEdges || 0, pillars: S.pillars || 0, props: S.props.length, propKinds: [...new Set(S.props.map(p => p.kind))] },
+      props: { last: ST.props, max: ST.propsMax, perLight: TIERS[S.quality].props, perFrame: TIERS[S.quality].propFrame }, errors: ST.errors }),
+    resetStats: () => { ST.frames = 0; ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; },
     probe,
     lastFrame: () => S.lastF ? Object.assign({}, S.lastF) : null,      // the world -> overlay mapping BR-RoLE drew with last (tests)
     /* DEV only (comparison, tests): the v23.3.6 lighting instead of BR-RoLE; never offered to players */
