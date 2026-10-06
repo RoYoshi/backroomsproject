@@ -86,6 +86,22 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
       `spot ${k7}: lamp+beam ${L8.lampBeam[0].toFixed(3)}, beam alone ${L8.beam[0].toFixed(3)}, ambient ${L8.amb[0].toFixed(3)}; the beam before the counter ${L8.beam[1].toFixed(3)} (ambient ${L8.amb[1].toFixed(3)})`);
     await P.evaluate(() => __clock.thaw());
 
+    /* K09: your own shadow under the spawn lamp (flashlight off, then on into the shadow) */
+    await H.place(P, 1060, 3300, -0.2, { light: false }); await sleep(900); await frames(P, 8);
+    await P.evaluate(() => __clock.freeze(true)); await frames(P, 4);
+    const me = await P.evaluate(() => __brRole.actors().find(j => j.self && j.dominant));
+    const pts9 = me ? [[me.x + Math.cos(me.ang) * 36, me.y + Math.sin(me.ang) * 36], [me.x - Math.cos(me.ang) * 36, me.y - Math.sin(me.ang) * 36]] : [[0, 0], [0, 0]];
+    const lampThere = await P.evaluate(([x, y]) => __brRole.probe(x, y).lamps.reduce((s, l) => s + l.light, 0), pts9[0]);
+    const ab = async () => { await P.evaluate(() => __brRole.dev.actors(true)); await frames(P, 3); const on = await reader(pts9)(); await P.evaluate(() => __brRole.dev.actors(false)); await frames(P, 3); const off = await reader(pts9)(); await P.evaluate(() => __brRole.dev.actors(true)); await frames(P, 3); return { on, off }; };
+    const noBeam = await ab();
+    await P.evaluate(() => __clock.thaw()); await P.evaluate(a => { window.__aimA = a; }, me ? me.ang : 0); await P.keyboard.press('KeyF'); await sleep(500); await frames(P, 6); await P.evaluate(() => __clock.freeze(true)); await frames(P, 4);
+    const withBeam = await ab(); await P.keyboard.press('KeyF');
+    const removed = noBeam.off[0] - noBeam.on[0], removedB = withBeam.off[0] - withBeam.on[0];      // light lost behind you
+    const k9ok = !!me && me.light === 'L4' && removed > .02 && removed <= lampThere + 2 / 255 && Math.abs(noBeam.on[1] - noBeam.off[1]) <= 2 / 255 && Math.abs(removedB - removed) <= 3 / 255 && withBeam.on[0] > noBeam.on[0] + .05;
+    check('K09 BR2B your shadow takes away only your dominant lamp\'s light behind you; your beam still fills it (pixels)', k9ok,
+      `dominant ${me && me.light}; behind you the light drops by ${removed.toFixed(3)} (that lamp gives ${lampThere.toFixed(3)} there), in front ${(noBeam.on[1] - noBeam.off[1]).toFixed(3)}; with your beam into it: drops by ${removedB.toFixed(3)}, light there ${noBeam.on[0].toFixed(3)} -> ${withBeam.on[0].toFixed(3)}`);
+    await P.evaluate(() => __clock.thaw());
+
     const tiers = {};
     for (const q of ['low', 'medium', 'high']) { await P.evaluate(q => __brRole.setQuality(q), q); await frames(P, 6); const s = await P.evaluate(() => [__brRole.stats().buffer, innerWidth, innerHeight]); tiers[q] = s; }
     const J2 = await H.join(browser, PORT, room, 'K2', { admin: false, dpr: 2 }); await frames(J2.P, 20); await J2.P.evaluate(() => __brRole.setQuality('medium')); await frames(J2.P, 6);
@@ -103,9 +119,22 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
 
     await H.place(P, 1060, 3300, -0.25); await sleep(500);
     const sm = await H.near(P, 'smiler'); await frames(P, 30);
-    const k6 = await P.evaluate(sm => { const ents = __api.layer().children.filter(v => v.__smiler && v.visible); const root = __api.floor().parent.children.find(c => c.label === 'br-role'); const blobs = root ? root.children.find(c => c.label === 'br-role-ents').children.filter(g => g.visible) : [];
-      return { smilers: ents.length, nearSmiler: blobs.filter(g => ents.some(v => Math.hypot(g.x - v.x, g.y - v.y) < 60)).length, on: __brRole.on() }; }, sm);
-    check('K06 a Smiler in view: no blob for it, BR-RoLE still on, no error', k6.nearSmiler === 0 && k6.on && J.errs.length === 0, `smilers ${k6.smilers}, blobs near one ${k6.nearSmiler}, errors ${JSON.stringify(J.errs)}`);
+    const k6 = await P.evaluate(() => { const ents = __api.layer().children.filter(v => v.__smiler && v.visible), jobs = __brRole.actors();
+      return { smilers: ents.length, nearSmiler: jobs.filter(j => ents.some(v => Math.hypot(j.x - v.x, j.y - v.y) < 40)).length, actors: jobs.length, on: __brRole.on() }; });
+    check('K06 a Smiler in view: no shadow of any kind for it (BR2B), BR-RoLE still on, no error', k6.smilers > 0 && k6.nearSmiler === 0 && k6.on && J.errs.length === 0, `smilers ${k6.smilers}, actor shadows ${k6.actors}, at a Smiler ${k6.nearSmiler}, errors ${JSON.stringify(J.errs)}`);
+
+    /* K10: a Hound let loose (god mode keeps you alive); its dominant light, sampled every frame for 40 frames */
+    await H.near(P, 'hound');
+    await P.evaluate(() => { window.__k10 = []; window.__k10s = []; const f = () => { if (!window.__k10) return;
+      const V = __api.H, hs = __api.layer().children.filter(v => v.__hound && v.visible && v.alpha > .01).filter(v => { const d = Math.hypot(v.x - V.x, v.y - V.y); return d < 600 && __api.Uc(V.x, V.y, Math.atan2(v.y - V.y, v.x - V.x), d) >= d - 20; });
+      const j = __brRole.actors().filter(a => a.kind === 'hound' && a.dominant), pr = hs.length ? __brRole.probe(hs[0].x, hs[0].y) : null;
+      if (hs.length && pr && pr.total > .08) window.__k10.push(j.length ? j[0].light : '-');    // a Hound you can see, lit: does it have its shadow?
+      for (const q of j) if (q.switched) window.__k10s.push(q.switched); if (window.__k10.length < 400) requestAnimationFrame(f); }; requestAnimationFrame(f); });
+    await H.adm(P, { c: 'freeze', on: 0 }); for (let i = 0; i < 300 && (await P.evaluate(() => window.__k10.length)) < 30; i++) await sleep(100); await H.adm(P, { c: 'freeze', on: 1 });   // up to 30 frames with a lit Hound in sight (it hunts where it likes; the hysteresis itself is unit-checked, U20)
+    const [seq, sws] = await P.evaluate(() => { const s = [window.__k10, window.__k10s]; window.__k10 = null; return s; });
+    const lit = seq.filter(x => x !== '-').length, bad = sws.filter(w => w.from && w.sFrom !== null && !(w.sTo >= w.sFrom * 1.35 + .02 - 1e-3));   // a switch while the old light still counted needs a 35 % (+ .02) better one
+    check('K10 BR2B a Hound on the move: a shadow from its dominant light; it changes light only when another clearly dominates (hysteresis)', seq.length >= 5 && lit >= seq.length * .8 && bad.length === 0,
+      `frames with a lit Hound in sight ${seq.length}, with its shadow ${lit}, lights ${JSON.stringify([...new Set(seq)])}, changes ${sws.length} (${sws.map(w => `${w.from}->${w.to} ${w.sFrom}->${w.sTo}`).join(', ')}), without a clear winner ${bad.length}`);
   } catch (e) { check('harness', false, String(e && e.stack || e).slice(0, 500)); }
   await browser.close(); srv.kill();
   const pass = res.filter(r => r.ok).length; console.log(`\n${pass}/${res.length} passed`); process.exit(pass === res.length ? 0 : 1);

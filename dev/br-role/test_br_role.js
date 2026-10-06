@@ -76,7 +76,7 @@ function makePage(opts = {}) {
   win.window = win;
   win.__api = { floor: () => corpseLayer, layer: () => creatures, Hc: g.Hc, Uc: (...a) => { page.rays++; return g.Uc(...a); }, Bc: g.Bc, Gc: g.Gc, lamps: g.Fc, H, V: g.V, lightOn: () => true };
   win.__ents = { lamp: () => 1, dbgCfg: { on: false } };
-  const page = { g, win, log, H, clock: 1000, warns: [], rays: 0, overlay: mkCanvas(log, 'overlay') };
+  const page = { g, win, log, H, clock: 1000, warns: [], rays: 0, overlay: mkCanvas(log, 'overlay'), person, creatures };
   const ctx = vm.createContext(win);
   vm.runInContext(read('world.js'), ctx); vm.runInContext(read('light.js'), ctx);
   if (opts.extraProps) for (const r of opts.extraProps) win.WORLD.PROPS.push({ id: 'X' + win.WORLD.PROPS.length, type: 'low', kind: 'counter', rect: r });
@@ -84,14 +84,14 @@ function makePage(opts = {}) {
   page.R = win.__brRole;
   /* one frame as drawLight hands it over: world scale 1.18, camera on the player, the overlay context */
   page.frame = (o = {}) => { page.clock += 16.7; log.length = 0; const r = 1.18, x = o.x ?? H.x, y = o.y ?? H.y;
-    if (o.x !== undefined) { H.x = x; H.y = y; } if (o.angle !== undefined) H.angle = o.angle;
+    if (o.x !== undefined) { H.x = x; H.y = y; } if (o.angle !== undefined) H.angle = o.angle; person.position.set(x, y);   // the local player's body, where the game draws it
     const F = { t: page.clock / 1000, on: o.on !== false, r, ox: 640 - x * r, oy: 360 - y * r, w: 1280, h: 720, viewer: { x, y }, src: { x, y, angle: H.angle }, kind: o.kind || 'flashlight', color: o.color || '#ffe7b2', death: false };
     const ok = page.R.on() && page.R.draw(page.overlay.getContext('2d'), F); return ok; };
   return page;
 }
 /* a lamp is added to the light buffer as its cached shadowed field: drawImage(cache, x - 380, y - 380, 760, 760), `lighter`,
  * at globalAlpha = strength / P0 (.9) */
-const lampDraws = (log) => log.filter(e => e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 4 && Math.abs(e.args[2] - 760) < 1e-9);
+const lampDraws = (log) => log.filter(e => e.op === 'drawImage' && (e.gco === 'lighter' || e.gco === 'source-over') && e.args.length === 4 && Math.abs(e.args[2] - 760) < 1e-9);   // into the buffer, or into the scratch when an actor shadows it (BR2B)
 const lampOf = (g, e) => g.Fc.findIndex(l => Math.abs(l.x - (e.args[0] + 380)) < 1e-9 && Math.abs(l.y - (e.args[1] + 380)) < 1e-9);
 /* frames until every lamp in view is built and faded in; the log keeps the last frame */
 function warm(p, o = {}, n = 40) { for (let k = 0; k < n; k++) { p.frame(o); if (k > 16 && p.R.stats().lamps.pending === 0) break; } p.frame(o); }
@@ -155,10 +155,11 @@ run('U01 loads, attaches above the carpet on the first frame, and takes over the
 });
 run('U02 one compositor, no visibility polygon: nothing is ever clipped; every light is ADDED to the light buffer (`lighter`): each lamp as its own shadowed field, each carried light (beam, then hand glow); the overlay loses the buffer once (destination-out), then the beam colour (source-over)', () => {
   const p = makePage(); warm(p, { x: 1130, y: 3420, angle: 2.6 }); const L = p.log;
-  const clips = L.filter(e => e.op === 'clip').length, lamps = lampDraws(L), ov = L.filter(e => e.canvas === 'overlay' && e.op === 'drawImage');
-  const carriedToBuf = L.filter(e => e.canvas !== 'overlay' && e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 8);
-  return { ok: clips === 0 && lamps.length >= 3 && lamps.every(e => e.clip === 0) && carriedToBuf.length === 2 && ov.length === 2 && ov[0].gco === 'destination-out' && ov[1].gco === 'source-over',
-    note: `clips ${clips}; lamps added ${lamps.length} (each its shadowed field, lighter); carried pieces added ${carriedToBuf.length} (beam, glow); overlay: ${ov.map(e => e.gco).join(' then ')}` };
+  const clips = L.filter(e => e.op === 'clip').length, lamps = lampDraws(L).filter(e => e.gco === 'lighter'), ov = L.filter(e => e.canvas === 'overlay' && e.op === 'drawImage');
+  const carriedToBuf = L.filter(e => e.canvas !== 'overlay' && e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 8), viaScratch = new Set(p.R.actors().filter(j => j.lightKind === 'lamp').map(j => j.light)).size;
+  const lampsAdded = lamps.length + viaScratch;                            // a lamp an actor shadows goes through the scratch (BR2B)
+  return { ok: clips === 0 && lampsAdded >= 3 && lamps.every(e => e.clip === 0) && carriedToBuf.length === 2 + viaScratch && ov.length === 2 && ov[0].gco === 'destination-out' && ov[1].gco === 'source-over',
+    note: `clips ${clips}; lamps added ${lampsAdded} (each its shadowed field, lighter; ${viaScratch} through the scratch for an actor's shadow); scratch pieces added ${carriedToBuf.length} (beam, glow + those lamps); overlay: ${ov.map(e => e.gco).join(' then ')}` };
 });
 run('U03 lamp: LIGHT FIELD -> BLOCKER -> CAST SHADOW.  The spawn lamp\'s cache is its full unclipped field first; then, from each point of its tube, every wall / pillar side facing that point casts the polygon of its two corners projected away from it; the averaged shadows are taken out of the field (destination-out)', () => {
   const p = makePage(); let L = null, cache = null; const lp = p.g.Fc[4], tube = p.R.tiers().medium.tube;
@@ -288,6 +289,41 @@ run('U17 BR2A bounded: prop casters per light and per frame stay within the tier
   const out = {}; let ok = true;
   for (const q of ['low', 'medium', 'high']) { const p = makePage({ extraProps: extra }); p.R.setQuality(q); p.win.__peerLights = []; for (let k = 0; k < 8; k++) p.win.__peerLights.push({ x: 1060 + k * 12, y: 3300, angle: Math.PI / 2, kind: 'flashlight', color: '#ffe7b2', on: true });
     warm(p, { x: 1060, y: 3330, angle: Math.PI / 2 }); const s = p.R.stats(), t = p.R.tiers()[q]; out[q] = `${s.props.last}/${t.propFrame} (per light ${t.props})`; if (!(s.props.last <= t.propFrame && s.props.last > 0)) ok = false; }
+  return { ok, note: JSON.stringify(out) };
+});
+
+/* ---------- BR2B: player / Hound shadows ---------- */
+function creature(p, x, y, flags) { const v = new Container(); v.position.set(x, y); Object.assign(v, flags); p.creatures.addChild(v); return v; }
+run('U18 BR2B an actor shadow is its DOMINANT light\'s own contribution taken away behind it: that lamp alone goes through the scratch, loses the cast (destination-out, from the body\'s rim away from the lamp), then is added; every other light is untouched; no dark paint, no Pixi shadow layer', () => {
+  const p = makePage(); warm(p, { x: 1060, y: 3300, on: false }); const L = p.log, jobs = p.R.actors(), me = jobs.filter(j => j.self), lp = p.g.Fc[4];
+  const cut = L.find(e => e.op === 'drawImage' && e.gco === 'destination-out' && e.canvas !== 'overlay' && e.args.length === 4 && e.args[0] > 0);   // the cast texture
+  const before = L.slice(0, L.indexOf(cut)).reverse().find(e => e.canvas === cut.canvas && e.op === 'drawImage'), after = L.slice(L.indexOf(cut)).find(e => e.src === cut.canvas && e.gco === 'lighter');
+  const tf = cut.transform, ang = Math.atan2(tf[1], tf[0]), want = Math.atan2(3300 - lp.y, 1060 - lp.x), fills = L.filter(e => e.op === 'fill' && e.style === '#000').length;
+  const layers = p.win.__api.floor().parent.children.find(c => c.label === 'br-role').children.map(c => c.label);
+  const ok = me.length === 1 && me[0].light === 'L4' && me[0].dominant && before && before.args[2] === 760 && Math.abs(before.alpha * .9 - lampOfP(p, 4)) < 1e-6 && after && Math.abs(ang - want) < 1e-6 && cut.alpha > .85 && cut.alpha <= .9 + 1e-9 && cut.args[0] > 0 && fills === 0 && JSON.stringify(layers) === JSON.stringify(['br-role-ao']);
+  return { ok, note: `your shadow: light ${me.map(j => j.light)}, ${me.length} shadow, removal ${cut.alpha.toFixed(3)} starting ${cut.args[0].toFixed(1)} px from your centre, turned ${ang.toFixed(4)} (lamp -> you ${want.toFixed(4)}); that lamp drawn into the scratch first: ${!!before}, added after: ${!!after}; Pixi layers ${JSON.stringify(layers)}` };
+});
+function lampOfP(p, i) { const t = p.clock / 1000; return Math.min(.9, (i % 13 === 0 ? .13 + .06 * Math.max(0, Math.sin(t * 11 + i)) : .43)); }
+run('U19 BR2B the dominant light is the one that really reaches the actor, not the nearest: at (772, 3174) the nearest lamp (4, 273 px) is walled off and lamp 1 (280 px) lights you - the shadow follows lamp 1', () => {
+  const p = makePage(); warm(p, { x: 772, y: 3174, on: false }); const me = p.R.actors().filter(j => j.self);
+  return { ok: me.length === 1 && me[0].light === 'L1', note: `shadow from ${me.map(j => j.light)} (probe: lamp 4 ${p.R.probe(772, 3174).lamps.find(l => l.i === 4).light}, lamp 1 ${p.R.probe(772, 3174).lamps.find(l => l.i === 1).light.toFixed(3)})` };
+});
+run('U20 BR2B hysteresis: between two nearly equal lamps (952, 3558: lamps 5 / 4), walking back and forth across the balance line never flips the shadow, and its strength never jumps', () => {
+  const p = makePage(); warm(p, { x: 952, y: 3558, on: false }); let flips = 0, last = null, jump = 0, prevA = null;
+  for (let k = 0; k < 60; k++) { const dx = Math.sin(k * .7) * 14; p.frame({ x: 952 + dx, y: 3558 - dx * .5, on: false }); const me = p.R.actors().filter(j => j.self && j.dominant); const l = me.length ? me[0].light : null; if (last !== null && l !== last) flips++; last = l;
+    const a = p.R.actors().filter(j => j.self).reduce((s, j) => s + j.a, 0); if (prevA !== null) jump = Math.max(jump, Math.abs(a - prevA)); prevA = a; }
+  return { ok: flips === 0 && jump < .2, note: `dominant light changes ${flips} over 60 frames of ±14 px wandering; largest frame-to-frame change of the total removal ${jump.toFixed(3)}` };
+});
+run('U21 BR2B a Hound you can see gets a shadow from its dominant light; a Smiler never (no body, contact or silhouette shadow); a Hound behind a wall (out of your sight) gets none', () => {
+  const p = makePage(); creature(p, 1110, 3330, { __hound: true, rotation: 0 }); creature(p, 1000, 3360, { __smiler: true }); creature(p, 700, 3300, { __hound: true, rotation: 0 });   // the last one is behind the partition (x 864..960)
+  warm(p, { x: 1060, y: 3300, on: false }); const jobs = p.R.actors(), hound = jobs.filter(j => j.kind === 'hound'), nearSmiler = jobs.filter(j => Math.hypot(j.x - 1000, j.y - 3360) < 40);
+  return { ok: hound.length === 1 && Math.hypot(hound[0].x - 1110, hound[0].y - 3330) < 1 && nearSmiler.length === 0, note: `hound shadows ${hound.length} (at ${hound.map(j => [j.x, j.y])}, from ${hound.map(j => j.light)}); shadows at the Smiler ${nearSmiler.length}; behind the wall: ${jobs.some(j => j.x === 700) ? 'DRAWN' : 'none'}` };
+});
+run('U22 BR2B tiers: LOW and MEDIUM one shadow per actor (the dominant light); HIGH may add one faint second shadow (<= 45 % of the first) when a second light matters', () => {
+  const out = {}; let ok = true;
+  for (const q of ['low', 'medium', 'high']) { const p = makePage(); p.R.setQuality(q); warm(p, { x: 952, y: 3558, on: false }); const me = p.R.actors().filter(j => j.self).sort((a, b) => b.a - a.a);
+    out[q] = me.map(j => `${j.light} ${j.a.toFixed(3)}`).join(' + ');
+    if (q === 'high' ? !(me.length >= 1 && me.length <= 2 && (me.length === 1 || me[1].a <= me[0].a * .45 + 1e-9)) : me.length !== 1) ok = false; }
   return { ok, note: JSON.stringify(out) };
 });
 
