@@ -45,11 +45,11 @@ These cover gameplay, AI, collision, the camera, networking, and the gameplay li
 | file | change |
 |---|---|
 | `assets/br-role.js` | The version is now `br-role 1.0`. Code changes: `sectorBox` (a beam works in its cone's box); `boxClip` (shadow fills stay in the light's own box); stats: frame p95 and samples, the longest lamp build; `resetStats` keeps the frame counter. No visual change; tier budgets are unchanged. |
-| `dev/br-role/test_br_role.js` | 31 checks (was 30). The canvas mock records `rect`. U01 accepts `1.0`. U02 allows only integer axis-aligned box clips. U12 allows one clip. U25 guards that world-space fills stay in world space. New: U31 (the sector box). |
+| `dev/br-role/test_br_role.js` | 32 checks (was 30). The canvas mock records `rect`; a test frame can be a death frame. U01 accepts `1.0`. U02 allows only integer axis-aligned box clips. U12 allows one clip. U25 guards that world-space fills stay in world space. New: U31 (the sector box) and U32 (the v23.3.6 hand-aura QOL under BR-RoLE). |
 | `dev/br-role/smoke.js` | K10 walks back to the Hound when it wanders out of view before 5 samples (a known flake of the smoke harness, not of BR-RoLE). |
 | `dev/br-role/perf_br.js` | **New.** The focused desktop and mobile performance pass. |
 | `dev/br-role/soak_br.js` | **New.** The leak and cache-growth sanity check. |
-| `dev/br-role/evidence/br3/` | **New.** Unit, browser, freeze and launch logs; performance and soak JSON; the retained-suites summary and comparison; the remote verification. |
+| `dev/br-role/evidence/br3/` | **New.** Unit, browser, freeze and launch logs; performance and soak JSON; the retained-suites results, comparisons, log identity and the two flaky suites' logs (first run and rerun); the approved parent BR2.1's GitHub verification. This commit's own verification is in the package receipt. |
 | `BR_ROLE_1_0_*.md` | **New.** The final reports. `BR_ROLE_1_0_PACKAGE_RECEIPT.txt` travels **beside** the package, not inside it, because it records this commit's own hash and the ZIP's SHA-256. |
 | `BR_ROLE_BR2_1_HUMAN_QA.md` | Its status line records your approval. |
 
