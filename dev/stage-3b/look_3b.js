@@ -21,6 +21,7 @@ const VIEWS = [
   ['yellow-spawn', 1130, 3420, 2.6, false], ['yellow-east', 1560, 3560, -0.5, false],
   ['humming-counter', 3400, 1250, -Math.PI / 2, false], ['humming-west', 2700, 1000, 0.3, false],
   ['blackout-table', 1300, 5330, -Math.PI / 2, true], ['blackout-corridor', 760, 5700, -0.4, true],
+  ['yellow-hole', 1070, 3020, Math.PI, true], ['humming-hole', 2736, 1430, -Math.PI / 2, true],
 ];
 (async () => {
   try { execSync(`fuser -k ${PORT}/tcp`, { stdio: 'ignore' }); } catch (e) { }
@@ -30,10 +31,12 @@ const VIEWS = [
   try {
     const J = await H.join(browser, PORT, room, 'QA'), P = J.P; await H.stage(P); await H.setLights(P, 'off');
     await P.evaluate(() => document.querySelectorAll('header,.location,.coordinates,#hud,#net,#encounterHint,#blackoutHint').forEach(e => e.style.visibility = 'hidden'));
-    const has = await P.evaluate(() => !!window.__l0v);
+    await H.until(() => P.evaluate(() => !window.__l0v || window.__l0v.ready()), 20000);
+    const has = await P.evaluate(() => !!window.__l0v && window.__l0v.stats().built);
+    log.push({ l0v: await P.evaluate(() => window.__l0v ? window.__l0v.stats() : null) });
     const setMode = async m => { await P.evaluate(m => { if (window.__l0v) window.__l0v.dev.remaster(m === 'on'); }, m); await frames(P, 8); await sleep(250); };
     const setTier = async t => { await P.evaluate(t => __brRole.setQuality(t), t); await frames(P, 8); await sleep(250); };
-    const pose = async (x, y, a, light) => { await P.evaluate(() => __clock.thaw()); await H.place(P, x, y, a, { light }); await sleep(1200); await frames(P, 8); await P.evaluate(() => __clock.freeze(true)); await frames(P, 6); };
+    const pose = async (x, y, a, light) => { await P.evaluate(() => __clock.thaw()); await H.place(P, x, y, a, { light }); await sleep(1200); await frames(P, 8); await P.evaluate(() => __clock.freeze(false)); await frames(P, 6); };
     for (const [name, x, y, a, light] of VIEWS) {
       if (ONLY && !ONLY.split(',').includes(name)) continue;
       await pose(x, y, a, light); const shots = [];
@@ -45,9 +48,15 @@ const VIEWS = [
           const r = await P.screenshot(); fs.writeFileSync(path.join(OUT, f.replace('.png', '-raw.png')), r); shots.push(r);
           await P.evaluate(() => { document.getElementById('light').style.visibility = ''; }); await frames(P, 3); }
       }
-      if (shots.length > 1) {
-        const w = 640, bufs = await Promise.all(shots.map(b => sharp(b).resize(w).toBuffer())), h = (await sharp(bufs[0]).metadata()).height;
-        await sharp({ create: { width: (w + 6) * bufs.length - 6, height: h, channels: 3, background: '#fff' } }).composite(bufs.map((x, i) => ({ input: x, left: i * (w + 6), top: 0 }))).jpeg({ quality: 86 }).toFile(path.join(OUT, `${TAG}-${name}-sheet.jpg`));
+      if (shots.length > 1) {                                // columns: off | on (per tier); rows: the game as played, the same x2.5 for the eye, (--raw) the bare materials
+        const w = 640, per = RAW ? 2 : 1, cols = shots.length / per, rows = [];
+        const game = shots.filter((b, i) => i % per === 0), raw = RAW ? shots.filter((b, i) => i % per === 1) : [];
+        rows.push(await Promise.all(game.map(b => sharp(b).resize(w).toBuffer())));
+        rows.push(await Promise.all(game.map(b => sharp(b).linear(2.5, 0).resize(w).toBuffer())));
+        if (RAW) rows.push(await Promise.all(raw.map(b => sharp(b).resize(w).toBuffer())));
+        const h = (await sharp(rows[0][0]).metadata()).height, tiles = [];
+        rows.forEach((r, j) => r.forEach((x, i) => tiles.push({ input: x, left: i * (w + 6), top: j * (h + 6) })));
+        await sharp({ create: { width: (w + 6) * cols - 6, height: (h + 6) * rows.length - 6, channels: 3, background: '#fff' } }).composite(tiles).jpeg({ quality: 84 }).toFile(path.join(OUT, `${TAG}-${name}-sheet.jpg`));
       }
       log.push(name);
     }

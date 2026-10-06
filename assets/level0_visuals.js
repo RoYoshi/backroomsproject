@@ -20,11 +20,12 @@
   const DEF = {
     schemaVersion: 1,
     assetId: 'visuals:level0',
-    revision: '3b0-foundation-1',
-    contentHash: '84d47acd92d8ac8930499fb210d9e292c3a96aea75b0daf114ff565cf91388d1',
+    revision: '3b1a-yellow-hall-1',
+    contentHash: 'fcc5c4e20447a0c0493816e16b12aedafc8115c527334fd1783224b734aea702',
     layoutSeed: 'tfb:level0:visuals:1',
-    /* 3B1: only these rooms are remastered; every other room keeps the v23.3.6 / BR-RoLE 1.0 look until 3B2 is approved */
-    slice: ['room:01', 'room:04', 'room:07'],
+    /* 3B1: only these rooms are remastered (3B1A: YELLOW HALL; 3B1B adds HUMMING ROOMS and BLACKOUT ZONE); every other room
+     * keeps the v23.3.6 / BR-RoLE 1.0 look until 3B2 is approved */
+    slice: ['room:01'],
     /* the game's room table, by stable id.  surface = the gameplay surface world.js gives the room (never contradicted) */
     rooms: [
       { id: 'room:01', code: '01', name: 'YELLOW HALL', surface: 'carpet', profile: 'profile:yellow-hall' },
@@ -44,7 +45,7 @@
     /* shared material palettes (sRGB hex).  A room profile scales / shifts them; it never swaps the material family */
     materials: [
       { id: 'material:baseboard', family: 'trim', base: '#8d7a45', top: '#a8935a', scuff: '#5d5030' },
-      { id: 'material:carpet', family: 'carpet', base: '#8e7c47', fiber: '#6f6034', light: '#a8955a', seam: '#5e5129', worn: '#7d7556', damp: '#5f5a3a', tide: '#4b4126', stain: '#5a4223' },
+      { id: 'material:carpet', family: 'carpet', base: '#967f3c', fiber: '#705c29', light: '#b29a52', seam: '#5e5129', worn: '#7a7150', damp: '#5b5636', tide: '#463c22', stain: '#5a4223' },
       { id: 'material:fixture', family: 'fixture', base: '#c9c4b0', frameDark: '#7f7b6c', lens: '#efe8c8', lensYellow: '#e2d39a', tube: '#fffbe6', tubeAged: '#bdb38c', dead: '#5f5b4f' },
       { id: 'material:wallcap', family: 'wall', base: '#6d6235', edge: '#857844', dark: '#4f4625' },
       { id: 'material:wallpaper', family: 'wallpaper', base: '#cbb96a', stripe: '#bba95c', motif: '#a99449', seam: '#9c8a45', grime: '#6e6133', damp: '#8a7d4a', torn: '#e0d7b2', backing: '#b9ac86' },
@@ -52,7 +53,7 @@
     /* room visual profiles (3B1: the three slice rooms).  Values are 0..1 amounts unless noted */
     profiles: [
       { id: 'profile:blackout-zone', note: 'failed power: the darkness is the game\'s lighting; the room is only dirtier and wetter',
-        carpet: { tone: .84, wear: .6, damp: .42, grime: .75, stains: .8, seams: 'y' },
+        carpet: { tone: .76, wear: .6, damp: .42, grime: .75, stains: .8, seams: 'y' },
         wallpaper: { tone: .9, condition: .6, damp: .55, peel: .75, motif: 'chevron' },
         fixtures: { diffuser: 'dead' }, accent: 'failed-power', decor: { paper: .5, scuff: .6, debris: .75, tape: .3 } },
       { id: 'profile:humming-rooms', note: 'fixtures, props and material interaction: an office that kept running too long',
@@ -65,12 +66,28 @@
         fixtures: { diffuser: 'clean' }, accent: null, decor: { paper: .5, scuff: .5, debris: .25, tape: .2 } },
     ],
     /* authored, gameplay-neutral storytelling (flat, low-profile).  Filled in 3B1; positions are world px on the room's floor */
-    decor: [],
+    decor: [
+      { id: 'decor:01:paper-counter', room: 'room:01', kind: 'paper', v: 1, x: 1700, y: 3400, r: .5 },
+      { id: 'decor:01:tape-door', room: 'room:01', kind: 'tape', v: 0, x: 1430, y: 2640, r: 1.62 },
+      { id: 'decor:04:paper-behind-1', room: 'room:04', kind: 'paper', v: 0, x: 3420, y: 935, r: -.4 },
+      { id: 'decor:04:paper-behind-2', room: 'room:04', kind: 'paper', v: 2, x: 3445, y: 948, r: .9 },
+      { id: 'decor:04:stain-counter', room: 'room:04', kind: 'stain', v: 2, x: 3330, y: 1080, r: 1.1, s: .55, a: .8 },
+      { id: 'decor:07:shards-dead', room: 'room:07', kind: 'shards', v: 0, x: 1600, y: 5068, r: .3 },
+      { id: 'decor:07:shards-hanging', room: 'room:07', kind: 'shards', v: 1, x: 1080, y: 5070, r: 2.2, s: .8 },
+      { id: 'decor:07:tile-missing', room: 'room:07', kind: 'tile', v: 0, x: 650, y: 5560, r: .4 },
+    ],
     /* visual-only fixture records (no light: BR-RoLE and gameplay light never see these) */
-    fixtures: [],
+    fixtures: [
+      { id: 'fixture:07:01', room: 'room:07', kind: 'dead', x: 624, y: 5040 },
+      { id: 'fixture:07:02', room: 'room:07', kind: 'hanging', x: 1104, y: 5040 },
+      { id: 'fixture:07:03', room: 'room:07', kind: 'dead', x: 1584, y: 5040 },
+      { id: 'fixture:07:04', room: 'room:07', kind: 'missing', x: 624, y: 5520 },
+      { id: 'fixture:07:05', room: 'room:07', kind: 'dead', x: 1104, y: 5520 },
+      { id: 'fixture:07:06', room: 'room:07', kind: 'dead', x: 1584, y: 5520 },
+    ],
     /* quality hints (the BR-RoLE tier the player picked); LOW stays cheap */
     quality: {
-      low: { carpetTex: 512, macroCell: 16, decals: .45, wallDetail: 1, artScale: 1.5 },
+      low: { carpetTex: 512, macroCell: 16, macro: false, decals: .45, wallDetail: 1, artScale: 1.5 },
       medium: { carpetTex: 1024, macroCell: 12, decals: 1, wallDetail: 2, artScale: 2 },
       high: { carpetTex: 1024, macroCell: 8, decals: 1, wallDetail: 2, artScale: 2.5 },
     },

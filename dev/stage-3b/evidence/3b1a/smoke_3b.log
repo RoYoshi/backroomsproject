@@ -1,0 +1,9 @@
+FAIL harness   page.evaluate: Target page, context or browser has been closed
+    at adminInfo (/home/claude/backrooms-shadows/dev/shadows/harness_lib.js:36:26)
+    at godOn (/home/claude/backrooms-shadows/dev/shadows/harness_lib.js:62:47)
+    at until (/home/claude/backrooms-shadows/dev/shadows/harness_lib.js:37:102)
+    at async Object.stage (/home/claude/backrooms-shadows/dev/shadows/harness_lib.js:63:63)
+    at async page (/home/claude/backrooms-shadows/dev/stage-3b/smoke_3b.js:28:3)
+    at async /home/claude/backrooms-shadows/dev/stage-3b/smoke_3b.js:49:9
+
+0/1 passed
