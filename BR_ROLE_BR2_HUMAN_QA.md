@@ -1,6 +1,7 @@
 # BR-RoLE BR2: human QA
 
-**Status: `BR-RoLE BR2 HUMAN-QA CANDIDATE — WAITING FOR USER`**
+**Status: accepted by the user** (the BR-RoLE 1.0 finish pack records BR2 as the accepted parent). BR2.1 polishes it: see
+`BR_ROLE_BR2_1_HUMAN_QA.md`. This page is kept as the BR2 record.
 
 This is BR2 (shadow, softness and multiplayer fidelity), built on top of the BR1.1 lighting you approved. I have not marked anything PASS. BR3 does not start until you approve BR2 visually.
 

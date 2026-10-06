@@ -1,4 +1,4 @@
-/* br-role.js - BR-RoLE, the Backrooms Rendering of Lighting Engine (presentation only, client only).  BR2.
+/* br-role.js - BR-RoLE, the Backrooms Rendering of Lighting Engine (presentation only, client only).  BR2.1.
  *
  * THE 2D GAME IS THE GAME.  BR-RoLE is the one visual owner of the light in the world: ambient darkness, the ceiling
  * lamps, your carried light and the other wanderers' lights, and the shadows walls, pillars, props and actors cast in them.
@@ -30,6 +30,10 @@
  * never read the overlay.  This module only reads game state; it never writes it, never sends anything.  Shadows are not a
  * sensor and not concealment; an actor you cannot see casts no shadow (no information leaks through one).
  *
+ * BR2.1: an actor's dominant light also self-shades its body (a soft gradient on the body and hands, a Hound's torso,
+ * darker away from that light) while its cast shadow stays on the floor, cut around the silhouette; prop shadows fade from
+ * the footprint toward their far end.  Both still remove only their own light.
+ *
  * Also carried over from the SH7 donor (ADAPT): the static wall grounding band, and the prop caster table, hull projection
  * and caster ranking ideas (BR2A).  Never anything for a Smiler: no body, contact or silhouette shadow.
  *
@@ -39,7 +43,7 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role BR2.1C';
+  const VERSION = 'br-role BR2.1';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
