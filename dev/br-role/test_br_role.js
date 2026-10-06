@@ -380,6 +380,16 @@ run('U28 BR2.1 cast shape response: longer and fainter the farther the light (bo
   return { ok, note: `near the lamp: ${close && close.ext.toFixed(1)} px x${close && close.a.toFixed(3)}; farther: ${far && far.ext.toFixed(1)} px x${far && far.a.toFixed(3)}; under it: ${JSON.stringify(under.map(j => [j.light, +j.a.toFixed(3), +j.shade.toFixed(3)]))}; HIGH second casts ${second.length}, their self-shading ${second.map(j => j.shade)}` };
 });
 
+run('U29 BR2.1B self-shading follows the light\'s contrast (one dominant lamp: full; two even lamps: faint, never two crescents), and a carried light\'s direction on a Hound is eased (a hand jump turns its shadow over a few frames, not at once)', () => {
+  const sh = (x, y) => { const p = makePage(); warm(p, { x, y, on: false }); const j = p.R.actors().filter(q => q.self && q.shade); return j; };
+  const one = sh(1060, 3300), even = sh(952, 3558);
+  const p = makePage(); creature(p, 1180, 3300, { __hound: true, rotation: 0 }); warm(p, { x: 1060, y: 3300, angle: 0 });
+  const h0 = p.R.actors().find(j => j.kind === 'hound' && j.lightKind === 'carried'); p.frame({ x: 1060, y: 3340, angle: -.3 }); const h1 = p.R.actors().find(j => j.kind === 'hound' && j.lightKind === 'carried');
+  const full = Math.atan2(3300 - 3340, 1180 - 1060), stepped = h0 && h1 ? Math.abs(h1.ang - h0.ang) : 0, wanted = h0 ? Math.abs(full - h0.ang) : 0;
+  const ok = one.length === 1 && even.length === 1 && even[0].shade < one[0].shade * .75 && !!h0 && !!h1 && stepped > 0 && stepped < wanted * .5;
+  return { ok, note: `self-shading: one lamp x${one[0] && one[0].shade.toFixed(3)}, even lamps x${even[0] && even[0].shade.toFixed(3)} (${even.length} crescent); Hound in your beam: you step 40 px, its shadow turns ${stepped.toFixed(3)} of ${wanted.toFixed(3)} rad this frame` };
+});
+
 const pass = results.filter(r => r.ok).length;
 console.log(`\n${pass}/${results.length} passed` + (pass < results.length ? '\nFAILED: ' + results.filter(r => !r.ok).map(r => r.name.split(' ')[0]).join(', ') : ''));
 process.exitCode = pass === results.length ? 0 : 1;

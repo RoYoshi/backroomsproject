@@ -19,6 +19,8 @@
  *     shining into it the shadow removes the same amount (the beam still adds its own light: it fills it)
  * K10 BR2B a Hound let loose: it has a shadow while you see it lit, and its dominant light changes only when another
  *     light clearly dominates (the hysteresis, read from the client's own record of each change)
+ * K12 BR2.1 on your body (pixels, actor effects on vs off): the side facing your dominant lamp is untouched, the far side
+ *     is a bit darker (self-shading, never more than that lamp gives); the floor just past your far edge darkens (the cast)
  * K11 BR2C crossing beams with another wanderer (a scripted peer): where both beams reach, yours adds exactly its own light
  *     on top of theirs (no cancellation); across the edge of their beam inside yours there is no dark seam */
 'use strict';
@@ -107,6 +109,20 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     const k9ok = !!me && me.light === 'L4' && removed > .02 && removed <= lampThere + 2 / 255 && Math.abs(noBeam.on[1] - noBeam.off[1]) <= 2 / 255 && Math.abs(removedB - removed) <= 3 / 255 && withBeam.on[0] > noBeam.on[0] + .05;
     check('K09 BR2B your shadow takes away only your dominant lamp\'s light behind you; your beam still fills it (pixels)', k9ok,
       `dominant ${me && me.light}; behind you the light drops by ${removed.toFixed(3)} (that lamp gives ${lampThere.toFixed(3)} there), in front ${(noBeam.on[1] - noBeam.off[1]).toFixed(3)}; with your beam into it: drops by ${removedB.toFixed(3)}, light there ${noBeam.on[0].toFixed(3)} -> ${withBeam.on[0].toFixed(3)}`);
+    await P.evaluate(() => __clock.thaw());
+
+    /* K12: on your body - near side untouched, far side self-shaded, the cast on the floor past the far edge */
+    await H.place(P, 1110, 3230, 2.4, { light: false }); await sleep(900); await frames(P, 10);
+    await P.evaluate(() => __clock.freeze(true)); await frames(P, 6);
+    const me12 = await P.evaluate(() => __brRole.actors().find(j => j.self && j.dominant));
+    if (me12) {
+      const g = [Math.cos(me12.ang), Math.sin(me12.ang)], pts = [[me12.x - g[0] * 11, me12.y - g[1] * 11], [me12.x + g[0] * 11, me12.y + g[1] * 11], [me12.x + g[0] * (me12.start + 10), me12.y + g[1] * (me12.start + 10)]];
+      const lampAt = await P.evaluate(pts => pts.map(([x, y]) => __brRole.probe(x, y).lamps.reduce((s, l) => s + l.light, 0)), pts);
+      await P.evaluate(() => __brRole.dev.actors(false)); await frames(P, 4); const off = await reader(pts)(); await P.evaluate(() => __brRole.dev.actors(true)); await frames(P, 4); const on = await reader(pts)();
+      const near = off[0] - on[0], far = off[1] - on[1], floor = off[2] - on[2];
+      check('K12 BR2.1 your body: the lit side untouched, the far side self-shaded (only that lamp\'s light), the cast on the floor beyond it (pixels)', Math.abs(near) <= 2 / 255 && far > .01 && far <= lampAt[1] * .42 + 3 / 255 && floor > .02,
+        `light ${me12.light}: near side ${near.toFixed(3)}, far side ${far.toFixed(3)} (lamp gives ${lampAt[1].toFixed(3)} there), floor past the edge ${floor.toFixed(3)}`);
+    } else check('K12 BR2.1 your body: lit side untouched, far side self-shaded, cast beyond', false, 'no dominant light');
     await P.evaluate(() => __clock.thaw());
 
     const tiers = {};

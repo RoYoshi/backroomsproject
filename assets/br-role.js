@@ -39,7 +39,7 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role BR2.1A';
+  const VERSION = 'br-role BR2.1B';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
@@ -524,7 +524,10 @@
     near: 40, min: .04,                      // both fade out within `near` px of the light; a dominant light adds at least `min`
     swap: 1.35, swapAdd: .02,                // a new dominant light must beat the current one by 35 % (+ .02)
     second: { rel: .5, min: .06, a: .45 },   // HIGH: a second light at >= 50 % of the first: a 45 % second cast (no second shading)
-    ease: .2, sight: 700 };                  // weights ease 20 % a frame (frame-based: steady under a frozen clock)
+    ease: .2, sight: 700,                    // weights ease 20 % a frame (frame-based: steady under a frozen clock)
+    /* BR2.1B: self-shading follows the light's CONTRAST: full when one light dominates, down to `even` when lights are even
+     * (two equal lamps light both sides alike); a carried light's direction is eased (hand bob never jitters a shadow) */
+    even: .3, turn: .35 };
   function seen(V, x, y) { const dx = x - V.x, dy = y - V.y, d = Math.hypot(dx, dy); if (d < 30) return true; if (d > ACT.sight) return false; return window.__api.Uc(V.x, V.y, Math.atan2(dy, dx), d) >= d - 20; }
   /* a light's unblocked contribution at an actor (lamps from three points of their tube: its ends and its middle) */
   function lampAt(r, x, y) {
@@ -582,6 +585,9 @@
       if ((dom ? dom.key : null) !== st.dom) st.sw = { f: ST.frames, from: st.dom, to: dom ? dom.key : null, sFrom: cur ? +cur.s.toFixed(4) : null, sTo: dom ? +dom.s.toFixed(4) : null };   // (debug: why it changed)
       st.dom = dom ? dom.key : null;
       const sec = cfg.secondary && dom ? cands.find(c => c !== dom && c.s >= ACT.second.min && c.s >= dom.s * ACT.second.rel) : null;
+      let tot = 0; for (const c of cands) tot += c.s;
+      const share = dom && tot > 0 ? dom.s / tot : 0, contrastT = clamp(ACT.even + (1 - ACT.even) * (share - .5) / .4, ACT.even, 1);   // .5 share (even) -> even, >= .9 -> 1
+      st.contrast = st.contrast === undefined ? contrastT : st.contrast + (contrastT - st.contrast) * ACT.ease;
       const now_ = new Set();
       for (const c of cands) { let e = st.w.get(c.key); if (!e) { e = { w: 0, s: 0, kind: c.kind }; st.w.set(c.key, e); } e.x = c.x; e.y = c.y; e.c = c; now_.add(c.key); }
       const Pk = ACT[kind], sil = silhouette(v, kind, x, y, heading); let drawn = 0, shadedHere = false;
@@ -591,12 +597,15 @@
         e.w += (target - e.w) * ACT.ease; e.s += ((isDom ? 1 : 0) - e.s) * ACT.ease;   // cast weight; self-shading weight (dominant only)
         if (target === 0 && e.w < .01 && e.s < .01) { st.w.delete(key); continue; }
         const dx = x - e.x, dy = y - e.y, d = Math.hypot(dx, dy); if (d < 1) continue;
-        const ang = Math.atan2(dy, dx), gx = dx / d, gy = dy / d, near = clamp((d - 8) / ACT.near, 0, 1), vis = Math.min(1, v.alpha);
+        let ang = Math.atan2(dy, dx);
+        if (e.kind === 'carried' && e.ang !== undefined) ang = e.ang + Math.atan2(Math.sin(ang - e.ang), Math.cos(ang - e.ang)) * ACT.turn;   // eased: a hand's bob never jitters it
+        e.ang = ang;
+        const gx = Math.cos(ang), gy = Math.sin(ang), near = clamp((d - 8) / ACT.near, 0, 1), vis = Math.min(1, v.alpha);
         /* where the cast leaves the silhouette: the farthest point of the body, hands or torso along the light's direction */
         let start = 0, across = 0;
         for (const q of sil) { const ph = ang - q.h, cs = Math.cos(ph), sn = Math.sin(ph), sup = Math.sqrt((q.A * cs) ** 2 + (q.B * sn) ** 2), off = (q.x - x) * gx + (q.y - y) * gy;
           start = Math.max(start, off + sup); if (q === sil[0]) across = Math.sqrt((q.A * sn) ** 2 + (q.B * cs) ** 2); }
-        const ext = clamp(d * ACT.k[e.kind], 6, Pk.len), a = Pk.a * e.w * near * vis * (1 - ACT.fadeLong * ext / Pk.len), shade = Pk.shade * e.s * near * vis;
+        const ext = clamp(d * ACT.k[e.kind], 6, Pk.len), a = Pk.a * e.w * near * vis * (1 - ACT.fadeLong * ext / Pk.len), shade = Pk.shade * e.s * near * vis * st.contrast;
         if (!(a > .01) && !(shade > .01)) continue;
         const job = { kind, self, x, y, ang, ext, start: Math.min(start, (kind === 'hound' ? Pk.la : Pk.r) + 10), across, a: a > .01 ? a : 0, shade: shade > .01 ? shade : 0, sil,
           light: key, lightKind: e.kind, dominant: isDom, score: +e.c.s.toFixed(4) };
