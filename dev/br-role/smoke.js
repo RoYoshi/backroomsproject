@@ -148,15 +148,16 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     await H.stage(P); await H.setLights(P, 'off');
     const peer = new H.ScriptedPeer(PORT, room, 'PEER', 'flashlight', '#9fd4ff'); await peer.standAt('K', 880, 3600, -0.5);
     await H.place(P, 1180, 3470, 2.95, { light: true }); await sleep(1200); await frames(P, 8);
+    for (let i = 0; i < 60 && !(await P.evaluate(() => (window.__peerLights || []).some(p => p.on && Math.hypot(p.x - 900, p.y - 3590) < 80))); i++) await sleep(100);   // their light has arrived
     await P.evaluate(() => __clock.freeze(true)); await frames(P, 6);
     const k11 = await P.evaluate(() => { let best = null;
       const b = __api.beam && __api.beam() || __api.H;
-      for (let y = 3360; y < 3600; y += 8) for (let x = 900; x < 1150; x += 8) { const r = __brRole.probe(x, y), own = r.carried.find(c => c.own), pe = r.carried.find(c => !c.own); if (!own || !pe) continue;
+      for (let y = 3330; y < 3620; y += 6) for (let x = 860; x < 1160; x += 6) { const r = __brRole.probe(x, y), own = r.carried.find(c => c.own), pe = r.carried.find(c => !c.own); if (!own || !pe) continue;
         if (Math.hypot(x - b.x, y - b.y) < 90) continue;                  // past your hand glow, where the beam profile is smooth
-        const da = Math.atan2(y - b.y, x - b.x) - (b.angle ?? __api.H.angle); if (Math.abs(Math.atan2(Math.sin(da), Math.cos(da))) > .15) continue;   // near your beam's axis
+        const da = Math.atan2(y - b.y, x - b.x) - (b.angle ?? __api.H.angle); if (Math.abs(Math.atan2(Math.sin(da), Math.cos(da))) > .25) continue;   // near your beam's axis
         const lamps = r.lamps.reduce((s, l) => s + l.light, 0); if (own.light > .15 && pe.light > .15 && own.light + pe.light + lamps + .12 < .95 && (!best || own.light + pe.light > best[2])) best = [x, y, own.light + pe.light, own.light]; }   // below the light buffer's ceiling (ambient included)
       const pl = (window.__peerLights || [])[0]; return { X: best, peer: pl ? [pl.x, pl.y, pl.angle] : null }; });
-    let k11ok = false, note11 = 'no spot where both beams reach';
+    let k11ok = false, note11 = `no spot where both beams reach (their light ${JSON.stringify(k11.peer && k11.peer.map(v => +v.toFixed(2)))})`;
     if (k11.X && k11.peer) {
       const X = k11.X, pa = k11.peer[2], nx = -Math.sin(pa), ny = Math.cos(pa), line = []; for (let t = -90; t <= 90; t += 4) line.push([X[0] + nx * t, X[1] + ny * t]);
       /* what the overlay lets through over a mid-grey floor: its darkness AND the beams' colour tint (the tint is light, not shade) */

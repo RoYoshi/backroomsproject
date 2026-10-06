@@ -1,0 +1,5 @@
+BR2 internal checkpoints on br-role (each pushed and verified on GitHub before the next stage):
+BR2A 396135038258726d23187f0955e9f9cbaa164181 tree 50ba361ca46e6f7c1e50748f8d5c582c93f5c13f parent 4e3582e21d74650e03298e0dc04a8d8fe79cc848 (BR1.1, user-approved)
+BR2B ce25bc851ec828ddc58441c839e161436e72a9da tree 3f184c0700fb4ce3ad35bf80ee906f51c07f7cd3 parent 396135038258726d23187f0955e9f9cbaa164181
+BR2C 5408f7b0eb9e4a744db7db6c5d6bd5cb97c2e600 tree bddb49a432de1963b99b17cf7a83e1b75a7bbb91 parent ce25bc851ec828ddc58441c839e161436e72a9da
+main unchanged throughout: 7781e1ac34aa09970df57fae3fc107a873fa2731

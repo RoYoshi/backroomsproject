@@ -1,40 +1,45 @@
-/* br-role.js - BR-RoLE, the Backrooms Rendering of Lighting Engine (presentation only, client only).  BR1.1.
+/* br-role.js - BR-RoLE, the Backrooms Rendering of Lighting Engine (presentation only, client only).  BR2.
  *
  * THE 2D GAME IS THE GAME.  BR-RoLE is the one visual owner of the light in the world: ambient darkness, the ceiling
- * lamps, your carried light and the other wanderers' lights, and the shadows walls and pillars cast in them.
+ * lamps, your carried light and the other wanderers' lights, and the shadows walls, pillars, props and actors cast in them.
  *
  * One model, every light on its own:   visible light = ambient + Σ fieldᵢ · (1 − shadowᵢ)
- *   LIGHT FIELD -> BLOCKER -> CAST SHADOW.  Never "light = visibility polygon".
+ *   LIGHT FIELD -> BLOCKER -> CAST SHADOW -> ADD SURVIVING LIGHTS.  Never "light = visibility polygon".
  *   - an offscreen LIGHT BUFFER (a fraction of the CSS viewport per tier; never scaled by devicePixelRatio);
  *   - each light first lays down its natural, unobstructed illumination field: a lamp's radial falloff; a beam's radial
  *     falloff times its smooth angular profile; the hand glow.  Nothing clips it;
- *   - then every wall / pillar side that faces the light casts a shadow into THAT field: the polygon from the side's two
- *     corners projected away from the light.  The shadow is the absence of that one light behind the blocker, nothing else;
+ *   - then the blockers cast shadows into THAT field, each from the light's own source points: every wall / pillar side
+ *     facing the point (its two corners projected away from it), every selected prop (the hull of its base and its top
+ *     projected away; its own top stays lit) and the actors this light is dominant for (BR2B).  A shadow is the absence of
+ *     that one light behind the blocker, nothing else;
  *   - a fluorescent fixture is a tube, not a point: its shadows are cast from many points over the fixture and averaged,
  *     so they have an umbra (no point of the tube sees it) and a penumbra that widens away from the blocker.  Static, so
- *     each lamp's shadowed field is built once (per tier) and reused every frame at the lamp's current strength;
- *   - a carried light is a small source: one to three points across the hand (per tier) inside its beam;
+ *     each lamp's shadowed field (walls, pillars, props) is built once (per tier) and reused every frame at the lamp's
+ *     current strength;
+ *   - a carried light is a small source: one to six points across the hand (per tier) inside its beam;
  *   - the lights are ADDED (`lighter`).  One light's shadow removes only that light, so any other light that reaches the
- *     spot lights it.  Nothing is erased, nothing compensates for another layer: mixed light is just the sum;
+ *     spot lights it; the same prop blocks every light that is really behind it.  Mixed light is just the sum;
  *   - the darkness overlay (#light, the game's own canvas) then loses exactly the accumulated light (destination-out),
- *     inside the game's own line-of-sight clip, and carried lights lay their colour tint on top as before.
+ *     inside the game's own line-of-sight clip, and carried lights lay their colour tint on top (summed: crossing colours
+ *     average).
  * The game's drawLight() keeps everything else it draws: the line-of-sight blackout, the camcorder's infrared, the
  * vignette, the death presentation and the Smilers' faces.  It hands the light cut-outs to BR-RoLE through one guarded hook
  * (window.__brRole.on() / draw()).  If anything here throws, BR-RoLE switches itself off and drawLight draws v23.3.6.
  *
  * Light truth is not touched: the server AI (ai.js), light.js (__light, the Smiler's readability) and the bundle's Ul()
- * never read the overlay.  This module only reads game state; it never writes it, never sends anything.
+ * never read the overlay.  This module only reads game state; it never writes it, never sends anything.  Shadows are not a
+ * sensor and not concealment; an actor you cannot see casts no shadow (no information leaks through one).
  *
- * Also carried over from the SH7 donor (ADAPT): the static wall grounding band and one soft dominant-light blob per
- * entity (never for a Smiler).  Prop and actor shadows inside the compositor come in BR2.
+ * Also carried over from the SH7 donor (ADAPT): the static wall grounding band, and the prop caster table, hull projection
+ * and caster ranking ideas (BR2A).  Never anything for a Smiler: no body, contact or silhouette shadow.
  *
  * Quality: LOW / MEDIUM / HIGH (SETTINGS > CUSTOMIZE > LIGHTING, or ?lighting=low|medium|high; remembered per device).
  * DEV only: ?lighting=legacy draws the v23.3.6 lighting for comparison (not offered in the settings).
- * window.__brRole = { version, on(), draw(ctx, frame), quality(), setQuality(q), stats(), resetStats(), probe(x, y), dev } */
+ * window.__brRole = { version, on(), draw(ctx, frame), quality(), setQuality(q), stats(), resetStats(), probe(x, y), actors(), dev } */
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role BR2C';
+  const VERSION = 'br-role BR2';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's

@@ -1,6 +1,7 @@
 # BR-RoLE BR1.1: human QA
 
-**Status: `BR-RoLE BR1.1 HUMAN-QA CANDIDATE — WAITING FOR USER`**
+**Status: approved by the user** ("this is amazing"; the BR2 pack records it as BR1.1 visual QA PASS). BR2 builds on it: see
+`BR_ROLE_BR2_HUMAN_QA.md`. This page is kept as the BR1.1 record.
 
 This is your BR-QA correction to BR1. I have not marked anything PASS, and BR2 does not start until you approve this visually.
 
