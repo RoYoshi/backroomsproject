@@ -1,0 +1,9 @@
+PASS V01 identity: schema 1, asset visuals:level0, a revision, and the recorded content hash is the SHA-256 of the canonical data (Part 3A scheme)   revision 3b0-foundation-1, hash 84d47acd92d8ac89… matches; frozen true
+PASS V02 the room table is the game's: the same 12 rooms (ids room:01..12 in the game's order, codes and names), and each visual room names the gameplay surface world.js gives it   12 rooms; surfaces 01:carpet 02:carpet 03:carpet 04:carpet 05:carpet 06:concrete 07:carpet 08:wet 09:carpet 10:carpet 11:carpet 12:deep
+PASS V03 lamps and props are named by stable ids only: lamp:001..lamp:NNN in the game's lamp order (count cross-checked), props by their world.js ids   lamps 90 (recorded 90), lamp:001..lamp:090; props L1,L2,L3,L4,L5,L6,L7,L8,U1,U2,G1,G2,G3,G4,G5,G6,W1,W2
+PASS V04 every visual record has an explicit prefixed id, unique, in canonical order within its collection, with its required keys   20 ids in 5 collections
+PASS V05 the slice is the three representative rooms; each has a profile, every other room keeps the legacy look (no profile yet); a visual floor never contradicts its gameplay surface   YELLOW HALL -> profile:yellow-hall, HUMMING ROOMS -> profile:humming-rooms, BLACKOUT ZONE -> profile:blackout-zone
+PASS V06 isolated determinism: the presentation PRNG gives the same stream for the same stable key on every call, different streams for different keys, and nothing in the presentation code calls Math.random or the game's RNG   same key true, other key differs true, in [0,1) true; scanned assets/level0_visuals.js: no Math.random / game RNG
+PASS V07 never a second map authority: no geometry, collision or gameplay keys in the visual data, and every authored decor / visual-only fixture lies on its own room's floor, clear of every physical prop   gameplay keys []; 0 decor + 0 fixture records, all on their room floor, clear of props
+
+7/7 passed

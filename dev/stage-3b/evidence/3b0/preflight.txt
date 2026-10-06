@@ -1,0 +1,10 @@
+Stage 3B 3B0 preflight (2026-10-06)
+remote br-role      b86966b5f59070b0f4c15b000c70a95e5f3b4e00  tree ec318af1d2e1160632feef755bf76ff92d7caa4d  (accepted BR-RoLE 1.0 parent)
+remote main         7781e1ac34aa09970df57fae3fc107a873fa2731  (unchanged)
+donor part-3a       4d1f17a600a10599b848b6db9d02fa16b4f479f0  tree c1e0fc5fd84e5fbea412cf3fca7c309243e8de6e
+donor part-3b       c392272e34bf26d6770a355e80638e1ac1612ac5  tree 666ad244cf0063bbd807b4a3ad83934e65072fb0
+branch              stage-3b-remaster created from b86966b5f59070b0f4c15b000c70a95e5f3b4e00
+baseline            BR-RoLE unit 32/32 (br_role_unit_baseline.log); dev/br-role/freeze_br.py FREEZE OK
+launch              node server.js 9499 -> 200 index.html, assets/br-role.js, assets/index-DKbV5Nv9.js, world.js, assets/carpet.png
+browser             dev/stage-3b/look_3b.js: six slice views staged, no page error (404s: /camera_policy.js, /timing_policy.js - the known v23.3.6 baseline)
+captures            legacy-*-game-and-materials.jpg: left the game as played (MEDIUM, lamps on), right the same frame with the darkness overlay hidden
