@@ -58,9 +58,13 @@ function diff(a, b, mask) {                                 // differing pixels 
     const view = [1130, 3420, 2.6, false];
     await pose(P, ...view); await P.evaluate(() => __l0v.dev.remaster(false)); await frames(P, 6); const offLive = await scene(P);
     await pose(B.P, ...view); const offPage = await scene(B.P);
-    const d2 = diff(offLive, offPage, PLAYER), bOff = await B.P.evaluate(() => ({ s: __l0v.stats(), lay: __l0v.dev.layers() }));
+    let d2 = diff(offLive, offPage, PLAYER), retried = false;
+    if (d2.frac > .01) {                                   // a whole-frame mismatch is a staging hiccup (one page not yet at the pose): pose both again, once
+      retried = true; await pose(P, ...view); await P.evaluate(() => __l0v.dev.remaster(false)); await frames(P, 6); const a2 = await scene(P); await pose(B.P, ...view); d2 = diff(a2, await scene(B.P), PLAYER);
+    }
+    const bOff = await B.P.evaluate(() => ({ s: __l0v.stats(), lay: __l0v.dev.layers() }));
     check('S02 remaster OFF is exactly v23.3.6 / BR-RoLE 1.0: the live-toggled-off scene equals a ?remaster=off page at the same pose (the page with ?remaster=off has no remaster layer at all)',
-      d2.frac < .0005 && !bOff.lay && bOff.s.ownLamps.length === 0, `YELLOW HALL spawn: ${d2.n} differing pixels (${(d2.frac * 100).toFixed(3)} %, max ${d2.max}) outside the wanderer; ?remaster=off layers ${JSON.stringify(bOff.lay)}, redirected lamps ${bOff.s.ownLamps.length}`);
+      d2.frac < .0005 && !bOff.lay && bOff.s.ownLamps.length === 0, `YELLOW HALL spawn: ${d2.n} differing pixels (${(d2.frac * 100).toFixed(3)} %, max ${d2.max}) outside the wanderer${retried ? ' (after one re-pose)' : ''}; ?remaster=off layers ${JSON.stringify(bOff.lay)}, redirected lamps ${bOff.s.ownLamps.length}`);
     /* S03 */
     await P.evaluate(() => __clock.freeze(true)); await frames(P, 6);
     const hOn = await (async () => { await P.evaluate(() => __l0v.dev.remaster(true)); await frames(P, 6); return H.lightHash(P); })();

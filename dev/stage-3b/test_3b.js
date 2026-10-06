@@ -19,7 +19,7 @@ function makeGame() {
   const B = read('assets/index-DKbV5Nv9.js');
   const cut = (a, b) => { const i = B.indexOf(a), j = B.indexOf(b, i); assert(i >= 0 && j > i, 'bundle marker missing: ' + a); return B.slice(i, j); };
   const ctx = vm.createContext({ window: { WORLD }, Math, Uint8Array, Set, Object, Array, Number, console });
-  vm.runInContext(cut('var FBW=96', 'var Wc={kind:') + ';\nthis.__x={FBW,FBH,kc,zc,Hc,Fc,Pc,Mc,Ic,Oc};', ctx);
+  vm.runInContext(cut('var FBW=96', 'var Wc={kind:') + ';\nthis.__x={FBW,FBH,kc,zc,Hc,Bc,Fc,Pc,Mc,Ic,Oc};', ctx);
   return ctx.__x;
 }
 const G = makeGame();
@@ -28,9 +28,9 @@ const T = 96, cellOf = (x, y) => [Math.floor(x / T), Math.floor(y / T)];
 const roomRect = id => { const r = V.room(id), o = G.Oc.find(q => q.code === r.code); return o; };
 const inRect = (o, cx, cy) => cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h;
 
-run('V01 identity: schema 1, asset visuals:level0, a revision, and the recorded content hash is the SHA-256 of the canonical data (Part 3A scheme)', () => {
+run('V01 identity: schema 2 (archetypes), asset visuals:level0, a revision, and the recorded content hash is the SHA-256 of the canonical data (Part 3A scheme)', () => {
   const d = V.definition, h = H.contentHash(d);
-  return { ok: d.schemaVersion === 1 && d.assetId === 'visuals:level0' && typeof d.revision === 'string' && d.revision.length > 0 && d.contentHash === h && Object.isFrozen(d) && Object.isFrozen(V),
+  return { ok: d.schemaVersion === 2 && d.assetId === 'visuals:level0' && typeof d.revision === 'string' && d.revision.length > 0 && d.contentHash === h && Object.isFrozen(d) && Object.isFrozen(V),
     note: `revision ${d.revision}, hash ${h.slice(0, 16)}… ${d.contentHash === h ? 'matches' : 'MISMATCH (recorded ' + d.contentHash.slice(0, 16) + '…)'}; frozen ${Object.isFrozen(d)}` };
 });
 run('V02 the room table is the game\'s: the same 12 rooms (ids room:01..12 in the game\'s order, codes and names), and each visual room names the gameplay surface world.js gives it', () => {
@@ -47,21 +47,27 @@ run('V03 lamps and props are named by stable ids only: lamp:001..lamp:NNN in the
     note: `lamps ${G.Fc.length} (recorded ${V.lampCount}), ${ids[0]}..${ids[ids.length - 1]}; props ${WORLD.PROPS.map(p => p.id).join(',')}` };
 });
 run('V04 every visual record has an explicit prefixed id, unique, in canonical order within its collection, with its required keys', () => {
-  const req = { rooms: ['code', 'name', 'surface'], profiles: ['carpet', 'wallpaper', 'fixtures', 'decor'], materials: ['family', 'base'], decor: ['room', 'kind', 'x', 'y'], fixtures: ['room', 'kind', 'x', 'y'] };
-  const pre = { rooms: 'room:', profiles: 'profile:', materials: 'material:', decor: 'decor:', fixtures: 'fixture:' }, bad = [], all = new Set();
+  const req = { rooms: ['code', 'name', 'surface'], materials: ['family', 'base'], carpetVariants: ['material'], wallFinishes: ['paper', 'trim'], fixtureProfiles: ['diffuser'], damageProfiles: ['wear', 'damp', 'grime', 'stains', 'mildew'],
+    decorSets: ['paper', 'scuff'], propSets: ['counter', 'table'], structureSets: [], archetypes: ['carpet', 'wall', 'fixtures', 'damage', 'decor', 'props'], casters: ['element', 'source', 'brRole'], decor: ['room', 'kind', 'x', 'y'], fixtures: ['room', 'kind', 'x', 'y'] };
+  const pre = { rooms: 'room:', materials: 'material:', carpetVariants: 'carpet:', wallFinishes: 'wall:', fixtureProfiles: 'fixtures:', damageProfiles: 'damage:', decorSets: 'dressing:', propSets: 'props:', structureSets: 'structure:', archetypes: 'archetype:', casters: 'caster:', decor: 'decor:', fixtures: 'fixture:' }, bad = [], all = new Set();
   for (const c of Object.keys(req)) { let prev = ''; for (const o of V[c]) {
     if (!o || typeof o.id !== 'string' || !o.id.startsWith(pre[c])) { bad.push(c + ' bad id ' + (o && o.id)); continue; }
     if (all.has(o.id)) bad.push('duplicate ' + o.id); all.add(o.id); if (prev && prev >= o.id) bad.push(c + ' order at ' + o.id); prev = o.id;
     for (const k of req[c]) if (o[k] === undefined) bad.push(o.id + ' missing ' + k); } }
   return { ok: !bad.length, note: bad.length ? bad.slice(0, 6).join('; ') : `${all.size} ids in ${Object.keys(req).length} collections` };
 });
-run('V05 the slice is (part of) the three representative rooms - YELLOW HALL, HUMMING ROOMS, BLACKOUT ZONE - with YELLOW HALL first; every slice room has a profile, only representative rooms have one, and a visual floor never contradicts its gameplay surface', () => {
-  const rep = ['room:01', 'room:04', 'room:07'], bad = [];
-  if (!V.slice.length || V.slice[0] !== 'room:01' || V.slice.some(id => !rep.includes(id)) || new Set(V.slice).size !== V.slice.length) bad.push('slice ' + V.slice.join(','));
-  for (const r of V.rooms) { const p = r.profile && V.profile(r.profile);
-    if (V.inSlice(r.id) && !p) bad.push(r.id + ' in the slice without a profile'); if (r.profile && !rep.includes(r.id)) bad.push(r.id + ' has a profile outside the representative rooms');
-    if (r.profile && !p) bad.push(r.id + ' unknown profile'); if (p && r.surface !== 'carpet') bad.push(r.id + ': the 3B1 carpet material on a ' + r.surface + ' surface'); }
-  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `slice ${V.slice.map(id => V.room(id).name).join(', ')}; profiles ${V.rooms.filter(r => r.profile).map(r => r.name + ' -> ' + r.profile).join(', ')}` };
+run('V05 room archetypes: the slice holds the representative rooms (YELLOW HALL, HUMMING ROOMS, BLACKOUT ZONE) plus PILLAR HALL; every slice room has an archetype whose parts all resolve; only slice rooms have one; a visual floor never contradicts its gameplay surface; nothing in an archetype is tied to a position', () => {
+  const need = ['room:01', 'room:04', 'room:07'], bad = [];
+  if (need.some(id => !V.inSlice(id)) || V.slice[0] !== 'room:01' || new Set(V.slice).size !== V.slice.length) bad.push('slice ' + V.slice.join(','));
+  for (const r of V.rooms) {
+    if (V.inSlice(r.id) !== !!r.archetype) bad.push(r.id + ' slice/archetype mismatch');
+    if (!r.archetype) continue; let p = null; try { p = V.resolve(r.id); } catch (e) { bad.push(r.id + ' ' + e.message); continue; }
+    if (!p || !p.carpet || !p.wallpaper || !p.fixtures || !p.decor || !p.props) bad.push(r.id + ' unresolved');
+    const cv = V.part('carpetVariants', p.carpet.variant), mat = cv && V.material(cv.material);
+    if (!mat || mat.family !== 'carpet' || r.surface !== 'carpet') bad.push(r.id + ': a ' + (mat && mat.family) + ' floor on a ' + r.surface + ' surface');
+  }
+  for (const a of V.archetypes) for (const k of Object.keys(a)) if (/^(x|y|rect|cells|room)$/.test(k)) bad.push(a.id + ' has positional key ' + k);
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : `slice ${V.slice.map(id => V.room(id).name + ' -> ' + V.room(id).archetype).join(', ')}` };
 });
 run('V06 isolated determinism: the presentation PRNG gives the same stream for the same stable key on every call, different streams for different keys, and nothing in the presentation code calls Math.random or the game\'s RNG', () => {
   const a = V.rng('room:01', 'paper'), b = V.rng('room:01', 'paper'), c = V.rng('room:04', 'paper'), sa = [], sb = [], sc = [];
@@ -110,7 +116,7 @@ function runRemaster({ search = '', quality = 'medium', patchOc = null } = {}) {
   const doc = { createElement: t => ({ width: 1, height: 1, getContext: () => ctx2d(), toDataURL: () => '' }), body: { appendChild() { } } };
   const win = { L0_VISUALS: V, WORLD, document: doc, location: { search }, innerWidth: 1280, innerHeight: 720, performance: { now: () => Date.now() },
     requestAnimationFrame: f => raf.push(f), setTimeout: f => tasks.push(f), addEventListener() { }, console: { warn: (...a) => warns.push(a.join(' ')), log() { } },
-    __brRole: { stats: () => ({ quality }) }, __api: { Oc, zc: G.zc, Hc: G.Hc, lamps: G.Fc }, URLSearchParams, Math, Number, JSON, Array, Object, Map, Set, Float32Array, Int32Array, Uint8ClampedArray, String, Error, isFinite, parseInt, Infinity, Proxy };
+    __brRole: { stats: () => ({ quality }) }, __api: { Oc, zc: G.zc, Hc: G.Hc, Bc: G.Bc, lamps: G.Fc }, URLSearchParams, Math, Number, JSON, Array, Object, Map, Set, Float32Array, Int32Array, Uint8ClampedArray, String, Error, isFinite, parseInt, Infinity, Proxy };
   win.window = win; win.self = win;
   const ctx = vm.createContext(win); vm.runInContext(read('assets/l0-remaster.js'), ctx);
   const L = win.__l0v;
@@ -169,7 +175,7 @@ run('R04 props keep their exact footprints: each slice prop\'s art is its world.
   const E = base(), bad = [], seen = [];
   for (const id of V.slice) { const R = roomOf(E, id), pg = R.children.find(c => c.label === 'props'), o = G.Oc.find(q => q.code === V.room(id).code);
     const mine = WORLD.PROPS.filter(p => { const rc = p.type === 'gap' || p.type === 'window' ? p.cell : p.rect, cx = Math.floor((rc.x + rc.w / 2) / T), cy = Math.floor((rc.y + rc.h / 2) / T); return cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h; });
-    if (pg.ops.length !== mine.length) bad.push(id + ' prop quads ' + pg.ops.length + ' vs props ' + mine.length);
+    const pq = pg.ops.filter(op => !(op.w === 56 + 24 && op.h === 56 + 24)); if (pq.length !== mine.length) bad.push(id + ' prop quads ' + pq.length + ' vs props ' + mine.length);
     for (const p of mine) { const rc = p.type === 'gap' || p.type === 'window' ? p.cell : p.rect, q = pg.ops.find(op => Math.abs(op.x + op.w / 2 - (rc.x + rc.w / 2)) < 1e-6 && Math.abs(op.y + op.h / 2 - (rc.y + rc.h / 2)) < 1e-6);
       if (!q) { bad.push(p.id + ' missing'); continue; } const m = (q.w - rc.w) / 2; if (Math.abs((q.h - rc.h) / 2 - m) > 1e-6 || m < 0 || m > 16) bad.push(p.id + ' margin'); seen.push(p.id + '+' + m); }
     for (const g of graphicsIn(R).filter(g => g.label === 'decals' || g.label === 'decals-mul')) for (const op of g.ops.filter(op => op.op === 'texture')) {
@@ -222,6 +228,18 @@ run('R10 one carpet layer, not two: while the remaster shows, the legacy carpet 
   const on = [E.carpet.visible, lf.visible]; E.L.dev.remaster(false); const off = [E.carpet.visible, lf.visible]; E.L.dev.remaster(true);
   if (on[0] !== false || on[1] !== true || off[0] !== true || off[1] !== false) bad.push('visibility on ' + on + ' off ' + off);
   return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `${lf.ops.length} rects over ${cells} non-slice floor cells, same texture and tile scale ${E.carpet.tileScale.x}; on: sprite hidden, copy shown; off: sprite back` };
+});
+
+run('R11 structure and casters: PILLAR HALL\'s nine game pillars are drawn exactly on their 56 x 56 footprints (one quad each, the same margin as props), no pillar outside a slice room is touched, and the caster notes cover every remastered element kind', () => {
+  const E = base(), bad = [], pills = []; let n = 0;
+  for (const id of V.slice) { const R = roomOf(E, id), pg = R.children.find(c => c.label === 'props'), o = G.Oc.find(q => q.code === V.room(id).code);
+    const mine = G.Pc.filter(b => { const cx = Math.floor((b.x + 28) / T), cy = Math.floor((b.y + 28) / T); return cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h; });
+    const q = pg.ops.filter(op => op.w === 56 + 24 && op.h === 56 + 24); n += q.length;
+    for (const b of mine) if (!q.some(op => op.x === b.x - 12 && op.y === b.y - 12)) bad.push('pillar ' + b.x + ',' + b.y + ' not drawn exactly'); if (q.length !== mine.length) bad.push(id + ' pillar quads ' + q.length + ' vs ' + mine.length);
+    if (mine.length) pills.push(V.room(id).name + ' ' + mine.length); }
+  const kinds = V.casters.map(c => c.id).sort().join(','), want = ['caster:decor', 'caster:fixtures', 'caster:pillars', 'caster:props', 'caster:walls'].join(',');
+  if (kinds !== want) bad.push('caster notes ' + kinds);
+  return { ok: !bad.length && n === 9, note: bad.length ? bad.slice(0, 4).join('; ') : `${pills.join(', ')} pillars, each exactly its footprint; caster notes ${kinds}` };
 });
 
 const pass = results.filter(r => r.ok).length;

@@ -22,6 +22,7 @@ const VIEWS = [
   ['humming-counter', 3400, 1250, -Math.PI / 2, false], ['humming-west', 2700, 1000, 0.3, false],
   ['blackout-table', 1300, 5330, -Math.PI / 2, true], ['blackout-corridor', 760, 5700, -0.4, true],
   ['yellow-hole', 1070, 3020, Math.PI, true], ['humming-hole', 2736, 1430, -Math.PI / 2, true],
+  ['pillar-hall', 8352, 1632, -0.6, false], ['pillar-north', 8112, 1150, 1.2, true],
 ];
 (async () => {
   try { execSync(`fuser -k ${PORT}/tcp`, { stdio: 'ignore' }); } catch (e) { }

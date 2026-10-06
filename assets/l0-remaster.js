@@ -25,7 +25,7 @@
 (() => {
   'use strict';
   if (window.__l0v) return;
-  const VERSION = 'l0-remaster 3b1';
+  const VERSION = 'l0-remaster 3b-qa1';
   const VZ = window.L0_VISUALS || null;
   const T = 96;
   const Q = (() => { try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(''); } })();
@@ -255,6 +255,15 @@
       const g = x.createRadialGradient(32, 40, 2, 32, 30, 30); g.addColorStop(0, 'rgba(14,10,6,.75)'); g.addColorStop(.5, 'rgba(20,15,8,.38)'); g.addColorStop(1, 'rgba(20,15,8,0)');
       x.fillStyle = g; x.beginPath(); x.moveTo(20, 40); x.quadraticCurveTo(10, 14, 32, 2); x.quadraticCurveTo(54, 14, 44, 40); x.closePath(); x.fill();
     });
+    const Mi = rgb(carpet.mildew || '#3c3f24');
+    for (let v = 0; v < 2; v++) make('mildew', 56, 56, (x) => {           // mildew in the carpet: a dark, speckled bloom
+      const g = x.createRadialGradient(28, 28, 2, 28, 28, 24); g.addColorStop(0, css(Mi, .32)); g.addColorStop(1, css(Mi, 0)); x.fillStyle = g; blob(x, r, 28, 28, 20, wob(12)); x.fill();
+      for (let i = 0; i < 46; i++) { const a = r() * 6.3, d2 = Math.pow(r(), .8) * 22; x.fillStyle = css(mul(Mi, .7), .3 + r() * .35); x.beginPath(); x.arc(28 + Math.cos(a) * d2, 28 + Math.sin(a) * d2, .4 + r() * 1.2, 0, 7); x.fill(); }
+    });
+    make('mildewwall', 44, 30, (x) => {                                    // black mould creeping up a wall from the base (face space)
+      for (let i = 0; i < 70; i++) { const px = 4 + r() * 36, py = 30 - Math.pow(r(), 1.8) * 26; x.fillStyle = css(Mi, .25 + r() * .4); x.beginPath(); x.arc(px, py, .4 + r() * 1.3, 0, 7); x.fill(); }
+      const g = x.createLinearGradient(0, 30, 0, 8); g.addColorStop(0, css(Mi, .35)); g.addColorStop(1, css(Mi, 0)); x.fillStyle = g; x.fillRect(4, 8, 36, 22);
+    });
     make('outlet', 12, 16, (x) => {                                        // a duplex outlet plate (face space)
       x.fillStyle = 'rgba(20,16,8,.3)'; x.fillRect(1.5, 1.5, 10, 14); x.fillStyle = css([214, 208, 186]); x.fillRect(1, 1, 9.5, 13.5);
       x.fillStyle = 'rgba(40,36,26,.85)'; x.fillRect(3.5, 3.5, 1, 2.6); x.fillRect(6.6, 3.5, 1, 2.6); x.fillRect(3.5, 9.4, 1, 2.6); x.fillRect(6.6, 9.4, 1, 2.6);
@@ -297,14 +306,16 @@
     for (let i = 1; i < 3; i++) { x.fillStyle = 'rgba(110,94,62,.45)'; x.fillRect(w * i / 3 - .5, 2, 1, h - 11); }                       // panel joints
     for (let i = 0; i < 7; i++) { x.strokeStyle = 'rgba(255,252,240,.22)'; x.lineWidth = .6; x.beginPath(); const sx = 6 + r() * (w - 20), sy = 4 + r() * (h - 16); x.moveTo(sx, sy); x.lineTo(sx + 6 + r() * 14, sy + (r() - .5) * 3); x.stroke(); }   // scratches
     x.strokeStyle = 'rgba(110,80,40,.38)'; x.lineWidth = 1.3; x.beginPath(); x.arc(w * .28, h * .38, 4.2, 0, 7); x.stroke();          // the old mug ring
-    const busy = prof && prof.accent === 'electrical';
+    const items = (prof && prof.props && prof.props.counter) || [], busy = items.includes('phone');
     const paper = (px, py, a) => { x.save(); x.translate(px, py); x.rotate(a); x.fillStyle = 'rgba(30,24,10,.25)'; x.fillRect(-6.5, -8, 14, 18); x.fillStyle = '#e4dfca'; x.fillRect(-7, -9, 14, 18); x.fillStyle = 'rgba(120,112,90,.4)'; for (let i = 0; i < 5; i++) x.fillRect(-5, -6 + i * 3, 8 + (i % 2) * 2, .6); x.restore(); };
-    paper(w * .62, h * .4, -.12 + r() * .1); if (busy) paper(w * .66, h * .44, .2);
-    if (busy) {                                                                                             // a dead desk phone, its cord, a service bell
+    const papers = items.filter(k => k === 'paper').length; if (papers) paper(w * .62, h * .4, -.12 + r() * .1); if (papers > 1) paper(w * .66, h * .44, .2);
+    if (busy) {                                                                                             // a dead desk phone, its cord
       x.fillStyle = 'rgba(20,16,8,.3)'; x.beginPath(); x.roundRect(w * .1 + 1, h * .22 + 1, 26, 17, 3); x.fill();
       x.fillStyle = '#2f302f'; x.beginPath(); x.roundRect(w * .1, h * .22, 26, 17, 3); x.fill(); x.fillStyle = '#4a4b49'; x.beginPath(); x.roundRect(w * .1 + 2, h * .22 + 1.5, 22, 5, 2); x.fill();
       x.fillStyle = '#5c5d5a'; for (let i = 0; i < 9; i++) x.fillRect(w * .1 + 6 + (i % 3) * 5, h * .22 + 8.5 + Math.floor(i / 3) * 2.6, 3, 1.6);
       x.strokeStyle = '#262624'; x.lineWidth = 1.1; x.beginPath(); x.moveTo(w * .1 + 26, h * .22 + 9); x.bezierCurveTo(w * .1 + 40, h * .22 + 4, w * .1 + 36, h * .22 + 22, w * .1 + 48, h - 9); x.stroke();
+    }
+    if (items.includes('bell')) {                                                                         // a service bell
       x.fillStyle = 'rgba(20,16,8,.3)'; x.beginPath(); x.arc(w * .84 + 1, h * .42 + 1, 5.2, 0, 7); x.fill(); x.fillStyle = '#b8a35c'; x.beginPath(); x.arc(w * .84, h * .42, 5, 0, 7); x.fill();
       x.fillStyle = '#e3d59a'; x.beginPath(); x.arc(w * .84 - 1.4, h * .42 - 1.4, 1.6, 0, 7); x.fill();
     }
@@ -323,8 +334,11 @@
     x.fillStyle = 'rgba(40,30,12,.5)'; x.fillRect(5, h - 7.5, w - 10, 1.5);                                // the edge's thickness on the south side
     for (let i = 0; i < 3; i++) { x.strokeStyle = 'rgba(70,52,26,.3)'; x.lineWidth = 1.2; x.beginPath(); x.arc(30 + r() * (w - 60), 12 + r() * (h - 30), 5 + r() * 2, 0, 7); x.stroke(); }   // rings
     const dust = x.createRadialGradient(w * .5, h * .4, 4, w * .5, h * .4, w * .5); dust.addColorStop(0, 'rgba(190,180,150,.0)'); dust.addColorStop(1, 'rgba(190,180,150,.16)'); x.fillStyle = dust; x.fillRect(4, 3, w - 8, h - 9);
-    if (prof && prof.accent === 'failed-power') {                                                           // left behind when the lights went
+    const titems = (prof && prof.props && prof.props.table) || [];
+    if (titems.includes('paper')) {                                                                         // left behind when the lights went
       x.save(); x.translate(w * .7, h * .38); x.rotate(.18); x.fillStyle = 'rgba(30,24,10,.3)'; x.fillRect(-7, -9, 15, 19); x.fillStyle = '#d9d3bb'; x.fillRect(-7.5, -9.5, 15, 19); x.fillStyle = 'rgba(110,100,80,.4)'; for (let i = 0; i < 5; i++) x.fillRect(-5, -6 + i * 3, 9, .6); x.restore();
+    }
+    if (titems.includes('binder')) {
       x.fillStyle = 'rgba(20,16,8,.3)'; x.fillRect(w * .22 + 1, h * .3 + 1, 9, 13); x.fillStyle = '#8b2c22'; x.fillRect(w * .22, h * .3, 9, 13); x.fillStyle = '#c9c4ad'; x.fillRect(w * .22 + 1, h * .3 + 2, 7, 3);   // a fire-safety binder
     }
     return c;
@@ -352,6 +366,32 @@
       const px = side < 0 ? -1 - Math.pow(r(), 1.5) * 10 : cw + 1 + Math.pow(r(), 1.5) * 10, py = 14 + r() * (chh - 28), s2 = .8 + r() * 2.2;
       x.fillStyle = r() > .3 ? 'rgba(214,206,180,.9)' : 'rgba(110,96,64,.8)'; x.fillRect(px - s2 / 2, py, s2, s2 * (.6 + r() * .6)); }
     x.restore(); return c;
+  }
+
+  /* a papered column (the game's 56 x 56 pillar, exactly): a dark top, the same paper and baseboard as the walls on all four
+   * sides (S 14 / N 7 / E-W 9, the walls' proportions), mitred corners, damp and mildew climbing from the base */
+  function pillarCanvas(s, prof, paper, key, variant) {
+    const P = 56, F = (prof.structure && prof.structure.pillar && prof.structure.pillar.faces) || { S: 14, N: 7, E: 9, W: 9 };
+    const c = mkCanvas((P + PAD * 2) * s, (P + PAD * 2) * s), x = c.getContext('2d'), r = VZ.rng('pillar', key, variant), cap = MAT('material:wallcap');
+    x.scale(s, s); contact(x, P, P, .46, 3); x.translate(PAD, PAD);
+    x.fillStyle = cap.dark; x.fillRect(0, 0, P, P);                                                         // the column's top
+    for (let i = 0; i < 40; i++) { x.fillStyle = r() > .5 ? 'rgba(130,118,70,.18)' : 'rgba(20,16,6,.2)'; x.fillRect(F.W + r() * (P - F.W - F.E), F.N + r() * (P - F.N - F.S), 1.2, 1.2); }
+    const face = (poly, tf) => { x.save(); x.beginPath(); poly.forEach(([px, py], i) => i ? x.lineTo(px, py) : x.moveTo(px, py)); x.closePath(); x.clip(); tf(); x.restore(); };
+    const strip = (fw, ox) => { const sx = ((ox % 136) + 136) % 136; x.drawImage(paper, sx * s, (48 - fw) * s, P * s, fw * s, 0, 0, P, fw); };
+    const ph = variant * 37;
+    face([[0, P], [P, P], [P - F.E, P - F.S], [F.W, P - F.S]], () => { x.translate(0, P - F.S); strip(F.S, ph); });
+    face([[0, 0], [P, 0], [P - F.E, F.N], [F.W, F.N]], () => { x.translate(0, F.N); x.scale(1, -1); strip(F.N, ph + 11); });
+    face([[P, 0], [P, P], [P - F.E, P - F.S], [P - F.E, F.N]], () => { x.translate(P - F.E, P); x.rotate(-Math.PI / 2); strip(F.E, ph + 23); });
+    face([[0, 0], [0, P], [F.W, P - F.S], [F.W, F.N]], () => { x.translate(F.W, 0); x.rotate(Math.PI / 2); strip(F.W, ph + 5); });
+    x.strokeStyle = 'rgba(255,246,206,.35)'; x.lineWidth = 1; x.strokeRect(F.W + .5, F.N + .5, P - F.W - F.E - 1, P - F.N - F.S - 1);   // the lit lip where the faces meet the top
+    x.strokeStyle = 'rgba(60,50,24,.5)'; x.lineWidth = .8; x.beginPath(); for (const [a, b] of [[[0, 0], [F.W, F.N]], [[P, 0], [P - F.E, F.N]], [[0, P], [F.W, P - F.S]], [[P, P], [P - F.E, P - F.S]]]) { x.moveTo(a[0], a[1]); x.lineTo(b[0], b[1]); } x.stroke();   // corner arrises
+    const mil = (prof.carpet && prof.carpet.mildew) || 0, Mi = rgb(MAT('material:wallpaper').mildew || '#4a4a2c');
+    for (let k = 0; k < Math.round(mil * 10); k++) {                                                                              // mildew speckling up from the base of one side
+      const side = Math.floor(r() * 4), t = 6 + r() * (P - 12), d = Math.pow(r(), 1.6) * 8;
+      const [px, py] = side === 0 ? [t, P - 1 - d] : side === 1 ? [t, 1 + d] : side === 2 ? [P - 1 - d, t] : [1 + d, t];
+      x.fillStyle = css(Mi, .25 + r() * .3); x.beginPath(); x.arc(px, py, .5 + r() * 1.3, 0, 7); x.fill(); }
+    x.strokeStyle = 'rgba(30,24,10,.75)'; x.lineWidth = 1; x.strokeRect(.5, .5, P - 1, P - 1);                    // the footprint's edge, crisp
+    return c;
   }
 
   /* ---------- ceiling fixtures (the legacy housing footprint, 90 x 28 at x-45, y-15; drawn in the ceiling layer) ---------- */
@@ -392,8 +432,10 @@
     X.carpet = texOf(carpetCanvas(q.carpetTex, 'carpet'), { mip: true, u: 'repeat', v: 'repeat' });
     X.carpetScale = .85 * 1024 / q.carpetTex * (q.carpetTex / 1024);     // world px per texel (texel ~ one screen pixel at MEDIUM)
     X.cap = texOf(capCanvas(256, 'cap'), { mip: true, u: 'repeat', v: 'repeat' });
-    for (const p of VZ.profiles) {
-      X.wall[p.id] = texOf(wallpaperCanvas(s, p, p.id), { mip: true, u: 'repeat', v: 'clamp-to-edge' });
+    const profs = []; for (const id of VZ.slice) { const p = VZ.resolve(id); if (p && !profs.some(q2 => q2.id === p.id)) profs.push(p); }
+    for (const p of profs) {
+      const pc = wallpaperCanvas(s, p, p.id); X.paper = X.paper || {}; X.paper[p.id] = pc;
+      X.wall[p.id] = texOf(pc, { mip: true, u: 'repeat', v: 'clamp-to-edge' });
       X.depth[p.id] = texOf(depthFaceCanvas(s, p, p.id), { mip: true, u: 'repeat', v: 'clamp-to-edge' });
     }
     const fall = u => Math.pow(1 - clamp(u, 0, 1), AO.power), n = AO.steps, qq = 48;
@@ -417,7 +459,7 @@
 
   function buildRoom(vr, X) {
     const o = ocOf(vr); if (!o) throw Error('room not in the game table: ' + vr.id);
-    const prof = VZ.profile(vr.profile), cp = prof.carpet, A = api(), q = X.q;
+    const prof = VZ.resolve(vr.id), cp = prof.carpet, A = api(), q = X.q;
     const R = { id: vr.id, code: vr.code, o, prof, cont: new S.C(), ceilG: new S.G(), x0: (o.x - 1) * T, y0: (o.y - 1) * T, x1: (o.x + o.w + 1) * T, y1: (o.y + o.h + 1) * T, n: { floor: 0, faces: 0, decals: 0 } };
     R.cont.label = 'l0v:' + vr.id; R.ceilG.label = 'fixtures:' + vr.id;
     const own = (cx, cy) => cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h && isFloor(cx, cy);
@@ -509,9 +551,10 @@
         put(decG, 'debris', Math.floor(u('v6') * 3), px, py, r0, .9 + u('s5') * .5, .9);
       }
       if (c.lane > .5 && u('tape') < D.tape * .05 * dens) put(decG, 'tape', Math.floor(u('v7') * 2), x, y, r0, 1, .95);
+      if (c.edge && u('mildew') < (cp.mildew || 0) * (c.corner ? .5 : .12) * dens) { const px = c.wn[0] ? c.cx * T + 22 : c.wn[1] ? (c.cx + 1) * T - 22 : x, py = c.wn[2] ? c.cy * T + 22 : c.wn[3] ? (c.cy + 1) * T - 22 : y; put(mulG, 'mildew', Math.floor(u('v8') * 2), px, py, r0, .8 + u('s8') * .6, .9); }
     }
     for (const d of VZ.decor.filter(d => d.room === vr.id)) put(d.kind === 'stain' || d.kind === 'damp' || d.kind === 'scuff' || d.kind === 'ring' ? mulG : decG, d.kind, d.v || 0, d.x, d.y, d.r || 0, d.s || 1, d.a == null ? 1 : d.a);
-    if (vr.profile && prof.accent === 'electrical') cables(R, decG);
+    if (prof.accent === 'electrical') cables(R, decG);
     R.cont.addChild(mulG, decG);
 
     /* -- 4 grounding at the wall bases: BR-RoLE's own law, on this room's floor only -- */
@@ -551,6 +594,12 @@
       const make = p.kind === 'counter' ? counterCanvas : p.kind === 'table' ? tableCanvas : p.kind === 'hole' ? holeCanvas : null; if (!make) continue;
       const cv = make(q.artScale, p, prof, vr.id); propG.texture(texOf(cv, { mip: true }), 0xffffff, rc.x - PAD, rc.y - PAD, rc.w + PAD * 2, rc.h + PAD * 2);
       (R.props || (R.props = [])).push(p.id);
+    }
+    if (prof.structure && prof.structure.pillar && A && typeof A.Bc === 'function') {               // the game's pillars in this room, found the way BR-RoLE finds them
+      const seen = new Set(), pv = [0, 1, 2].map(v => texOf(pillarCanvas(q.artScale, prof, X.paper[prof.id], vr.id, v), { mip: true }));
+      for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w; cx++) { let l = null; try { l = A.Bc((cx + .5) * T, (cy + .5) * T); } catch (e) { l = null; }
+        if (l) for (const b of l) if (b && b.w === 56 && b.h === 56) { const k = b.x + ',' + b.y; if (seen.has(k)) continue; seen.add(k); const ccx = Math.floor((b.x + 28) / T), ccy = Math.floor((b.y + 28) / T); if (!(ccx >= o.x && ccx < o.x + o.w && ccy >= o.y && ccy < o.y + o.h)) continue;
+          propG.texture(pv[Math.floor(VZ.unit(vr.id, 'pillar', k) * 3)], 0xffffff, b.x - PAD, b.y - PAD, 56 + PAD * 2, 56 + PAD * 2); (R.pillars || (R.pillars = [])).push(k); } }
     }
     R.cont.addChild(propG);
 
@@ -658,6 +707,7 @@
       const u = k => VZ.unit(R.id, 'wall', k, f.side, f.cx, f.cy);
       if (u('damp') < W.damp * .5 * dens) put(f, 'dampwall', 0, 20 + u('du') * 56, 0, .8 + u('ds') * .5, .85);
       if (u('peel') < W.peel * .16 * dens) put(f, 'peel', 0, 14 + u('pu') * 68, 9, .9, .9);
+      if (u('mildew') < (W.mildew || 0) * .35 * dens) put(f, 'mildewwall', 0, 18 + u('mu') * 60, 0, .9 + u('ms') * .4, .9);
       if (u('outlet') < .1) put(f, 'outlet', 0, 20 + u('ou') * 56, 15, .9, 1);
       if (prof.accent === 'electrical' && u('jbox') < .12) put(f, 'jbox', 0, 18 + u('ju') * 60, 19, .9, 1);
       if (prof.accent === 'failed-power' && u('scorch') < .06) { const uu = 24 + u('su') * 48; put(f, 'scorch', 0, uu, 6, 1, .9); put(f, 'outlet', 0, uu, 15, .9, 1); }
