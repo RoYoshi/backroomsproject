@@ -12,14 +12,14 @@ I have not marked anything PASS: you judge the art direction. The rest of the ma
   - BR-RoLE 1.0 `b86966b` (accepted lighting parent);
   - gameplay v23.3.6 `f2805bb`.
 - **Untouched:** `main`.
-- **To start:** run `node server.js`, or `run_linux.sh` / `run_windows.bat`, as usual. The spawn is in YELLOW HALL.
+- **To start:** run `run_linux.sh` / `run_windows.bat`, or `node server.js 8000`, then open http://localhost:8000 as usual. The spawn is in YELLOW HALL.
 
 ## Comparing with the old look
 
 | | how |
 |---|---|
-| remaster off (the exact old look) | open `http://localhost:3000/?remaster=off` in a second tab |
-| live toggle | open `http://localhost:3000/?dev3b=1`, then: **F8** remaster on/off; **F9** the experimental wall-depth cue; **Shift+F8** stains and dressing on/off. A small tag at the bottom left shows the state. |
+| remaster off (the exact old look) | open `http://localhost:8000/?remaster=off` in a second tab |
+| live toggle | open `http://localhost:8000/?dev3b=1`, then: **F8** remaster on/off; **F9** the experimental wall-depth cue; **Shift+F8** stains and dressing on/off. A small tag at the bottom left shows the state. |
 | the wall-depth experiment | `?walldepth=on` (or F9 with `?dev3b=1`) |
 | quality tiers | SETTINGS ▸ CUSTOMIZE ▸ LIGHTING: LOW / MEDIUM / HIGH. The remaster follows BR-RoLE's tier (see below). |
 
