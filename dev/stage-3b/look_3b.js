@@ -23,6 +23,12 @@ const VIEWS = [
   ['blackout-table', 1300, 5330, -Math.PI / 2, true], ['blackout-corridor', 760, 5700, -0.4, true],
   ['yellow-hole', 1070, 3020, Math.PI, true], ['humming-hole', 2736, 1430, -Math.PI / 2, true],
   ['pillar-hall', 8352, 1632, -0.6, false], ['pillar-north', 8112, 1150, 1.2, true],
+  /* the rest of Level 0 (3B-F): common rooms, special rooms, their props, corridors and transitions */
+  ['north-rooms', 1152, 1248, 0.4, false], ['repeating-shelf', 3840, 3460, -Math.PI / 2, false], ['repeating-window', 2930, 3560, 1.2, false],
+  ['segmented-bench', 4990, 3500, -1.2, false], ['segmented-lowwall', 6050, 3300, 0, false], ['long-room', 5760, 1150, 0.2, false],
+  ['damp-counter', 3456, 5420, -Math.PI / 2, false], ['red-rooms', 5700, 5470, 0.3, false], ['arch-north', 7900, 2990, -1.4, false],
+  ['arch-south', 7700, 3950, 1.0, false], ['deep-machine', 7900, 5620, -Math.PI / 2, false], ['corridor-west', 1104, 2200, Math.PI / 2, false],
+  ['corridor-hub', 4700, 3400, 0, false], ['corridor-east', 6900, 3420, Math.PI, false], ['long-to-pillar', 7250, 1200, 0, false],
 ];
 (async () => {
   try { execSync(`fuser -k ${PORT}/tcp`, { stdio: 'ignore' }); } catch (e) { }
