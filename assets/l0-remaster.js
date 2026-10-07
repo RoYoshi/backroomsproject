@@ -1463,7 +1463,7 @@
    * The texel density follows the screen (camera scale x renderer resolution), clamped per tier: never more texels than
    * the screen can show.  Nothing is drawn per frame except the chunk quads. */
   function bakeDensity(q) {
-    const b = q.bake || { min: 1, max: 1 }; let sc = 1.18;
+    const b = q.bake || { min: 1, max: 1 }; let sc = 1.25;
     try { const cp = window.__cameraPolicy; if (cp && typeof cp.baseScale === 'function') sc = cp.baseScale(innerWidth, innerHeight) || sc; } catch (e) { }
     const res = (S.renderer && S.renderer.resolution) || Math.min(window.devicePixelRatio || 1, 2);
     return Math.max(16, Math.round(CH * clamp(sc * res, b.min, b.max))) / CH;   // whole texels across a full chunk

@@ -1,0 +1,9 @@
+FAIL C01 the server serves camera_policy.js and timing_policy.js byte for byte, and still refuses server-only files   camera_policy.js 404, timing_policy.js 404; /server.js 404, /sim.js 404, /ai.js 404, /death_srv.js 404, /package.json 404, /dev/stage-3b/smoke_3b.js 404
+{"label":"16:9 1920x1080","w":1920,"h":1080,"dpr":1,"css":[1920,1080],"policy":false,"timing":false,"base":null,"scale":1.18,"res":1,"canvas":[1920,1080],"light":[1920,1080],"visible":[1627.1,915.3],"policyVisible":[1627.1,915.3],"missing":["/camera_policy.js","/timing_policy.js"],"errs":[],"sent":["p","join","admin","a"]}
+{"label":"16:9 1920x1080 DPR2","w":1920,"h":1080,"dpr":2,"css":[1920,1080],"policy":false,"timing":false,"base":null,"scale":1.18,"res":2,"canvas":[600,300],"light":[1920,1080],"visible":[1627.1,915.3],"policyVisible":[1627.1,915.3],"missing":["/camera_policy.js","/timing_policy.js"],"errs":[],"sent":["p","join","admin","a"]}
+FAIL C00 harness   page.evaluate: Target page, context or browser has been closed
+    at adm (/home/claude/backrooms-shadows/dev/shadows/harness_lib.js:32:25)
+    at Object.stage (/home/claude/backrooms-shadows/dev/shadows/harness_lib.js:60:146)
+    at async /home/claude/backrooms-shadows/dev/stage-3b-n/camera_3bn.js:45:24
+
+0/2 passed

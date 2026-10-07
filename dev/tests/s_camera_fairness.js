@@ -20,9 +20,10 @@ function checkViewport(w, h, label) {
   return v;
 }
 
-// Canonical desktop keeps the exact established feel.
+// Canonical desktop: the Stage 3B final camera lock, 1.25 at 1920x1080 (a 1536 x 864 world-space envelope).
 const ref = checkViewport(1920, 1080, '1080p');
-assert(near(ref.scale, 1.18), `1080p scale changed: ${ref.scale}`);
+assert(near(ref.scale, 1.25), `1080p scale changed: ${ref.scale}`);
+assert(near(ref.width, 1536) && near(ref.height, 864), `1080p envelope is not 1536 x 864: ${ref.width} x ${ref.height}`);
 assert(near(ref.width, maxW) && near(ref.height, maxH), '1080p world view changed');
 
 // Same-aspect resolutions get the same logical gameplay view.

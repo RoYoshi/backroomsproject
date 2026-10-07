@@ -1,0 +1,503 @@
+{
+ "views": [
+  {
+   "label": "16:9 1920x1080",
+   "w": 1920,
+   "h": 1080,
+   "dpr": 1,
+   "css": [
+    1920,
+    1080
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 1.25,
+   "scale": 1.25,
+   "res": 1,
+   "canvas": [
+    1920,
+    1080
+   ],
+   "light": [
+    1920,
+    1080
+   ],
+   "deathCam": false,
+   "visible": [
+    1536,
+    864
+   ],
+   "policyVisible": [
+    1536,
+    864
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "16:9 1920x1080 DPR2",
+   "w": 1920,
+   "h": 1080,
+   "dpr": 2,
+   "css": [
+    1920,
+    1080
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 1.25,
+   "scale": 1.25,
+   "res": 2,
+   "canvas": [
+    3840,
+    2160
+   ],
+   "light": [
+    1920,
+    1080
+   ],
+   "deathCam": false,
+   "visible": [
+    1536,
+    864
+   ],
+   "policyVisible": [
+    1536,
+    864
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "16:9 3840x2160 (4K)",
+   "w": 3840,
+   "h": 2160,
+   "dpr": 1,
+   "css": [
+    3840,
+    2160
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 2.5,
+   "scale": 2.5,
+   "res": 1,
+   "canvas": [
+    3840,
+    2160
+   ],
+   "light": [
+    3840,
+    2160
+   ],
+   "deathCam": false,
+   "visible": [
+    1536,
+    864
+   ],
+   "policyVisible": [
+    1536,
+    864
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "16:9 1280x720",
+   "w": 1280,
+   "h": 720,
+   "dpr": 1,
+   "css": [
+    1280,
+    720
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 0.8333333333333334,
+   "scale": 0.8333333333333334,
+   "res": 1,
+   "canvas": [
+    300,
+    150
+   ],
+   "light": [
+    1280,
+    720
+   ],
+   "deathCam": false,
+   "visible": [
+    1536,
+    864
+   ],
+   "policyVisible": [
+    1536,
+    864
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "16:10 1920x1200",
+   "w": 1920,
+   "h": 1200,
+   "dpr": 1,
+   "css": [
+    1920,
+    1200
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 1.3888888888888888,
+   "scale": 1.3888888888888888,
+   "res": 1,
+   "canvas": [
+    1920,
+    1200
+   ],
+   "light": [
+    1920,
+    1200
+   ],
+   "deathCam": false,
+   "visible": [
+    1382.4,
+    864
+   ],
+   "policyVisible": [
+    1382.4,
+    864
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "4:3 1600x1200",
+   "w": 1600,
+   "h": 1200,
+   "dpr": 1,
+   "css": [
+    1600,
+    1200
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 1.3888888888888888,
+   "scale": 1.3888888888888888,
+   "res": 1,
+   "canvas": [
+    300,
+    150
+   ],
+   "light": [
+    1600,
+    1200
+   ],
+   "deathCam": false,
+   "visible": [
+    1152,
+    864
+   ],
+   "policyVisible": [
+    1152,
+    864
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "21:9 2560x1080",
+   "w": 2560,
+   "h": 1080,
+   "dpr": 1,
+   "css": [
+    2560,
+    1080
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 1.6666666666666667,
+   "scale": 1.6666666666666667,
+   "res": 1,
+   "canvas": [
+    2560,
+    1080
+   ],
+   "light": [
+    2560,
+    1080
+   ],
+   "deathCam": false,
+   "visible": [
+    1536,
+    648
+   ],
+   "policyVisible": [
+    1536,
+    648
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "ultrawide 3440x1440",
+   "w": 3440,
+   "h": 1440,
+   "dpr": 1,
+   "css": [
+    3440,
+    1440
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 2.2395833333333335,
+   "scale": 2.2395833333333335,
+   "res": 1,
+   "canvas": [
+    300,
+    150
+   ],
+   "light": [
+    3440,
+    1440
+   ],
+   "deathCam": false,
+   "visible": [
+    1536,
+    643
+   ],
+   "policyVisible": [
+    1536,
+    643
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "ultrawide 3440x1440 DPR2",
+   "w": 3440,
+   "h": 1440,
+   "dpr": 2,
+   "css": [
+    3440,
+    1440
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 2.2395833333333335,
+   "scale": 2.2395833333333335,
+   "res": 2,
+   "canvas": [
+    600,
+    300
+   ],
+   "light": [
+    3440,
+    1440
+   ],
+   "deathCam": false,
+   "visible": [
+    1536,
+    643
+   ],
+   "policyVisible": [
+    1536,
+    643
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "portrait 1080x1920",
+   "w": 1080,
+   "h": 1920,
+   "dpr": 1,
+   "css": [
+    1080,
+    1920
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 2.2222222222222223,
+   "scale": 2.2222222222222223,
+   "res": 1,
+   "canvas": [
+    300,
+    150
+   ],
+   "light": [
+    1080,
+    1920
+   ],
+   "deathCam": false,
+   "visible": [
+    486,
+    864
+   ],
+   "policyVisible": [
+    486,
+    864
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  },
+  {
+   "label": "phone 390x844 DPR2",
+   "w": 390,
+   "h": 844,
+   "dpr": 2,
+   "css": [
+    390,
+    844
+   ],
+   "policy": true,
+   "timing": true,
+   "base": 0.9768518518518519,
+   "scale": 0.9768518518518519,
+   "res": 2,
+   "canvas": [
+    600,
+    300
+   ],
+   "light": [
+    390,
+    844
+   ],
+   "deathCam": false,
+   "visible": [
+    399.2,
+    864
+   ],
+   "policyVisible": [
+    399.2,
+    864
+   ],
+   "missing": [],
+   "errs": [],
+   "sent": [
+    "p",
+    "join",
+    "admin",
+    "a"
+   ]
+  }
+ ],
+ "zoom": {
+  "samples": 110,
+  "distinct": 1,
+  "values": [
+   1.25
+  ],
+  "poses": [
+   "YELLOW HALL",
+   "PILLAR HALL",
+   "LONG ROOM",
+   "DEEP CARPET",
+   "running",
+   "two Hounds near (dread)",
+   "blackout"
+  ]
+ },
+ "fallbackWouldShow": {
+  "note": "what the bundle fallback (fixed 1.18 above 700 px) would show at 2560x1440 and 3440x1440",
+  "2560x1440": [
+   2169.5,
+   1220.3
+  ],
+  "3440x1440": [
+   2915.3,
+   1220.3
+  ]
+ },
+ "results": [
+  {
+   "name": "C01 the server serves camera_policy.js and timing_policy.js byte for byte, and still refuses server-only files",
+   "ok": true,
+   "note": "camera_policy.js 200 (exact), timing_policy.js 200 (exact); /server.js 404, /sim.js 404, /ai.js 404, /death_srv.js 404, /package.json 404, /dev/stage-3b/smoke_3b.js 404"
+  },
+  {
+   "name": "C02 every viewport loads both policies (no 404) and runs on them, not on the bundle's fallbacks",
+   "ok": true,
+   "note": "16:9 1920x1080: policy true, timing true, 404s []; 16:9 1920x1080 DPR2: policy true, timing true, 404s []; 16:9 3840x2160 (4K): policy true, timing true, 404s []; 16:9 1280x720: policy true, timing true, 404s []; 16:10 1920x1200: policy true, timing true, 404s []; 4:3 1600x1200: policy true, timing true, 404s []; 21:9 2560x1080: policy true, timing true, 404s []; ultrawide 3440x1440: policy true, timing true, 404s []; ultrawide 3440x1440 DPR2: policy true, timing true, 404s []; portrait 1080x1920: policy true, timing true, 404s []; phone 390x844 DPR2: policy true, timing true, 404s []"
+  },
+  {
+   "name": "C03 Universal Camera Fairness on the running game: scale = the policy's, visible world within 1627 x 915, other aspect ratios crop one axis, DPR only sharpens",
+   "ok": true,
+   "note": "16:9 1920x1080: 1536 x 864 world px (scale 1.250, res 1); 16:9 1920x1080 DPR2: 1536 x 864 world px (scale 1.250, res 2); 16:9 3840x2160 (4K): 1536 x 864 world px (scale 2.500, res 1); 16:9 1280x720: 1536 x 864 world px (scale 0.833, res 1); 16:10 1920x1200: 1382.4 x 864 world px (scale 1.389, res 1); 4:3 1600x1200: 1152 x 864 world px (scale 1.389, res 1); 21:9 2560x1080: 1536 x 648 world px (scale 1.667, res 1); ultrawide 3440x1440: 1536 x 643 world px (scale 2.240, res 1); ultrawide 3440x1440 DPR2: 1536 x 643 world px (scale 2.240, res 2); portrait 1080x1920: 486 x 864 world px (scale 2.222, res 1); phone 390x844 DPR2: 399.2 x 864 world px (scale 0.977, res 2); same-world pairs 16:9 1920x1080 = 16:9 1920x1080 DPR2: true, 16:9 1920x1080 = 16:9 3840x2160 (4K): true, ultrawide 3440x1440 = ultrawide 3440x1440 DPR2: true"
+  },
+  {
+   "name": "C05 the canonical camera is the locked one: 1920x1080 runs at scale 1.25 with a 1536 x 864 world envelope (CAMERA_FINAL_LOCK)",
+   "ok": true,
+   "note": "scale 1.25, world 1536 x 864 px (policy REF_SCALE 1.25)"
+  },
+  {
+   "name": "C06 no dynamic zoom: the world scale stays the same standing, running, in four different rooms, with Hounds close by and in a blackout",
+   "ok": true,
+   "note": "110 frames over YELLOW HALL, PILLAR HALL, LONG ROOM, DEEP CARPET, running, two Hounds near (dread), blackout: 1 distinct scale(s) 1.25"
+  },
+  {
+   "name": "C04 the camera is presentation only: every viewport sends the same kinds of messages",
+   "ok": true,
+   "note": "message kinds a,admin,join,p"
+  }
+ ]
+}
