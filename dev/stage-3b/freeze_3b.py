@@ -19,7 +19,7 @@ spec = importlib.util.spec_from_file_location('freeze_br', HERE.parent / 'br-rol
 TAGS_3B = [b'<script src="./assets/level0_visuals.js"></script><script src="./assets/l0-remaster.js"></script>']
 HOOKS_3B = [  # (Stage 3B bundle text, the text it replaced)
     (b"L=window.__l0v?__l0v.lamp(t,e,this.lampTop):this.lampTop;", b"L=this.lampTop;"),
-    (b"this.creatures.mask=this.sightMask,window.__l0v&&__l0v.built(this.world,i,this.lampTop)}beginDeath(e){", b"this.creatures.mask=this.sightMask}beginDeath(e){"),
+    (b"this.creatures.mask=this.sightMask,window.__l0v&&__l0v.built(this.world,i,this.lampTop,this.app)}beginDeath(e){", b"this.creatures.mask=this.sightMask}beginDeath(e){"),
 ]
 NEW_OK_FILES = FB.NEW_OK_FILES + ('assets/level0_visuals.js', 'assets/l0-remaster.js')
 NEW_OK_PREFIXES = FB.NEW_OK_PREFIXES + ('dev/stage-3b/', 'STAGE_3B_')

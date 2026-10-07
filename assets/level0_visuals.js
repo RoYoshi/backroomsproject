@@ -21,8 +21,8 @@
   const DEF = {
     schemaVersion: 2,
     assetId: 'visuals:level0',
-    revision: '3b1-qa2-archetypes-1',
-    contentHash: 'bdcef2b76dd502152221bcd7005369504ba86e90dd8400000887fea25a1bd860',
+    revision: '3b-qa2-r1-bake',
+    contentHash: '44ccb6f3985751cca5c795ec248f7a687b734cfbe6422b8efc0a2ac016a4db70',
     layoutSeed: 'tfb:level0:visuals:1',
     /* rooms the remaster draws now; every other room keeps the v23.3.6 / BR-RoLE 1.0 look until it gets an archetype */
     slice: ['room:01', 'room:04', 'room:07', 'room:11'],
@@ -128,11 +128,15 @@
       { id: 'fixture:07:05', room: 'room:07', kind: 'dead', x: 1104, y: 5520 },
       { id: 'fixture:07:06', room: 'room:07', kind: 'dead', x: 1584, y: 5520 },
     ],
-    /* quality hints (the BR-RoLE tier the player picked); LOW stays cheap */
+    /* quality hints (the BR-RoLE tier the player picked); LOW stays cheap.
+     * bake: each remastered room's static art is baked into cached chunk textures (one layer per room on screen).
+     *   texel density = the screen's own (camera scale x renderer resolution), clamped to [min, max] texels per world px;
+     *   cache = how many chunk textures stay resident (chunks in view are never dropped); prefetch = chunks baked ahead per
+     *   frame as you approach (chunks entering the view are baked at once). */
     quality: {
-      low: { carpetTex: 512, macroCell: 16, macro: false, decals: .45, wallDetail: 1, artScale: 1.5 },
-      medium: { carpetTex: 1024, macroCell: 12, decals: 1, wallDetail: 2, artScale: 2 },
-      high: { carpetTex: 1024, macroCell: 8, decals: 1, wallDetail: 2, artScale: 2.5 },
+      low: { carpetTex: 512, macroCell: 16, macro: false, decals: .45, wallDetail: 1, artScale: 1.5, bake: { min: .6, max: 1, cache: 12, prefetch: 1 } },
+      medium: { carpetTex: 1024, macroCell: 12, decals: 1, wallDetail: 2, artScale: 2, bake: { min: .75, max: 1.5, cache: 20, prefetch: 1 } },
+      high: { carpetTex: 1024, macroCell: 8, decals: 1, wallDetail: 2, artScale: 2.5, bake: { min: .9, max: 2, cache: 20, prefetch: 2 } },
     },
   };
 

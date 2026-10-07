@@ -107,10 +107,13 @@ class Graphics extends Container {
   set fillStyle(v) { this._fs = v; } get fillStyle() { return this._fs; } clear() { this.ops = []; return this; }
 }
 class Texture { static from(o) { const t = new Texture(); t.source = { style: {}, w: (o && o.resource ? o.resource : o).width, h: (o && o.resource ? o.resource : o).height }; t.opts = o && o.resource ? o : null; return t; } destroy() { this.destroyed = true; } }
+class RenderTexture { static create(o) { const t = new RenderTexture(); t.o = o; RenderTexture.made++; return t; } destroy() { this.destroyed = true; RenderTexture.freed++; } }
+RenderTexture.made = 0; RenderTexture.freed = 0;
+const mockRenderer = () => ({ resolution: 1, renders: [], generateTexture() { return new RenderTexture(); }, render(o) { this.renders.push(o); } });
 class TilingSprite extends Container { constructor(w, h) { super(); this.tileScale = new Pt(); this.texture = new Texture(); this.width = w; this.height = h; } }
 const ctx2d = () => { const target = { createImageData: (w, h) => ({ width: w, height: h, data: new Uint8ClampedArray(w * h * 4) }), createLinearGradient: () => ({ addColorStop() { } }), createRadialGradient: () => ({ addColorStop() { } }) };
   return new Proxy(target, { get: (t, k) => k in t ? t[k] : () => { }, set: (t, k, v) => { t[k] = v; return true; } }); };
-function runRemaster({ search = '', quality = 'medium', patchOc = null } = {}) {
+function runRemaster({ search = '', quality = 'medium', patchOc = null, app = 'mock' } = {}) {
   const tasks = [], raf = [], warns = [];
   const Oc = G.Oc.map(o => Object.assign({}, o)); if (patchOc) patchOc(Oc);
   const doc = { createElement: t => ({ width: 1, height: 1, getContext: () => ctx2d(), toDataURL: () => '' }), body: { appendChild() { } } };
@@ -124,14 +127,17 @@ function runRemaster({ search = '', quality = 'medium', patchOc = null } = {}) {
   const world = new Container(), carpet = new TilingSprite(G.FBW * T, G.FBH * T), level = new Graphics(), trace = new Container(), actors = new Container(), lampTop = new Graphics();
   carpet.tileScale.set(.32); world.addChild(carpet, level, trace, actors, lampTop); lampTop.alpha = .84;
   const targets = G.Fc.map((e, t) => L.lamp(t, e, lampTop));
-  L.built(world, level, lampTop);
+  const A = app === 'mock' ? { stage: new Container(), renderer: mockRenderer() } : app;
+  L.built(world, level, lampTop, A);
   while (tasks.length) tasks.shift()();
-  return { L, world, level, lampTop, carpet, targets, warns, stats: L.stats() };
+  /* run the module's frame loop n times with the camera centred on world point (x, y) (scale 1, a 1280 x 720 view) */
+  const frame = (n = 1, at = null) => { if (at) { world.scale = { x: 1, y: 1 }; world.position.set(640 - at[0], 360 - at[1]); } for (let i = 0; i < n; i++) { const f = raf.splice(0); for (const cb of f) cb(0); } };
+  return { L, world, level, lampTop, carpet, targets, warns, stats: L.stats(), app: A, frame };
 }
 const sliceRects = () => V.slice.map(id => G.Oc.find(o => o.code === V.room(id).code));
 const inSliceRoom = (x, y) => sliceRects().some(o => { const cx = Math.floor(x / T), cy = Math.floor(y / T); return cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h; });
 let BASE = null; const base = () => BASE || (BASE = runRemaster());
-const roomOf = (E, id) => E.world.children.find(c => c.label === 'l0-remaster').children.find(c => c.label === 'l0v:' + id);
+const roomOf = (E, id) => E.L.dev.source(id);                 // a room's source art (baked into chunks, never on screen itself)
 const graphicsIn = c => { const out = []; const walk = n => { if (n instanceof Graphics) out.push(n); for (const k of n.children || []) walk(k); }; walk(c); return out; };
 
 run('R01 the two hooks: built() puts the remaster layer right above the level art and the ceiling layer right above lampTop; lamp() redirects exactly the slice rooms\' lamps (into one module Graphics), every other lamp stays in lampTop; ?remaster=off does nothing at all', () => {
@@ -185,7 +191,7 @@ run('R04 props keep their exact footprints: each slice prop\'s art is its world.
   return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `props ${seen.join(' ')}; decals all small, none on a prop` };
 });
 run('R05 the same dressing on every client and every load: two independent builds produce identical art (every quad, fill and transform), drawn from the seeded hash only', () => {
-  const A = base(), B = runRemaster(), sig = E => JSON.stringify(graphicsIn(E.world.children.find(c => c.label === 'l0-remaster')).concat(graphicsIn(E.world.children.find(c => c.label === 'l0-remaster-ceiling')))
+  const A = base(), B = runRemaster(), sig = E => JSON.stringify(V.slice.flatMap(id => graphicsIn(E.L.dev.source(id))).concat(graphicsIn(E.world.children.find(c => c.label === 'l0-remaster-ceiling')))
     .map(g => g.ops.map(op => [op.op, op.type, op.x, op.y, op.w, op.h, op.p, op.tf, op.alpha, op.style && op.style.matrix, op.style && op.style.color])));
   const a = sig(A), b = sig(B);
   return { ok: a === b && a.length > 1000, note: `${(a.length / 1024).toFixed(0)} KB of draw instructions; identical ${a === b}; decals ${A.stats.decals}, faces ${A.stats.faces}, floor fills ${A.stats.floorRects}` };
@@ -240,6 +246,41 @@ run('R11 structure and casters: PILLAR HALL\'s nine game pillars are drawn exact
   const kinds = V.casters.map(c => c.id).sort().join(','), want = ['caster:decor', 'caster:fixtures', 'caster:pillars', 'caster:props', 'caster:walls'].join(',');
   if (kinds !== want) bad.push('caster notes ' + kinds);
   return { ok: !bad.length && n === 9, note: bad.length ? bad.slice(0, 4).join('; ') : `${pills.join(', ')} pillars, each exactly its footprint; caster notes ${kinds}` };
+});
+
+run('R12 the bake: each slice room\'s art is baked into chunk textures on a 384 px grid that covers every floor and wall cell of the room; the chunks in view are baked at once (one render of the room\'s source each, into a texture the chunk\'s exact size at the screen\'s density), drawn as one quad at their exact rect, nothing outside view + one chunk is baked, the cache holds its cap as you travel, a DEV toggle re-bakes in place (no new textures), remaster off shows nothing; without the renderer the remaster falls back to drawing its layers directly', () => {
+  const E = runRemaster(), r = E.app.renderer, bad = [], CH = 384; let cover = 0, chunks = 0;
+  if (E.L.stats().bake.mode !== 'bake') bad.push('mode ' + E.L.stats().bake.mode);
+  for (const id of V.slice) {
+    const o = G.Oc.find(q => q.code === V.room(id).code), cs = E.L.dev.chunks(id); chunks += cs.length;
+    const x0 = (o.x - 1) * T, y0 = (o.y - 1) * T, x1 = (o.x + o.w + 1) * T, y1 = (o.y + o.h + 1) * T;
+    for (const c of cs) { if (c.x0 < x0 || c.y0 < y0 || c.x1 > x1 || c.y1 > y1 || c.x1 - c.x0 > CH || c.y1 - c.y0 > CH) bad.push(c.key + ' outside its box');
+      if ((c.x0 % CH && c.x0 !== x0) || (c.y0 % CH && c.y0 !== y0)) bad.push(c.key + ' off the grid'); }
+    for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) {
+      const mine = inRect(o, cx, cy) ? G.zc(cx, cy) : !G.zc(cx, cy); if (!mine) continue; cover++;
+      if (!cs.some(c => (cx + .5) * T > c.x0 && (cx + .5) * T < c.x1 && (cy + .5) * T > c.y0 && (cy + .5) * T < c.y1)) bad.push(id + ' cell ' + cx + ',' + cy + ' in no chunk'); }
+  }
+  const yh = G.Oc.find(q => q.code === '01'), at = [(yh.x + yh.w / 2) * T, (yh.y + yh.h / 2) * T], view = { x0: at[0] - 640, y0: at[1] - 360, x1: at[0] + 640, y1: at[1] + 360 };
+  const n0 = r.renders.length; E.frame(1, at); const st = E.L.stats(), cs = E.L.dev.chunks('room:01'), src = E.L.dev.source('room:01');
+  const inV = cs.filter(c => c.x1 > view.x0 - 8 && c.x0 < view.x1 + 8 && c.y1 > view.y0 - 8 && c.y0 < view.y1 + 8), far = cs.filter(c => !(c.x1 > view.x0 - CH && c.x0 < view.x1 + CH && c.y1 > view.y0 - CH && c.y0 < view.y1 + CH));
+  if (!inV.length || inV.some(c => !c.baked || !c.shown || !c.current)) bad.push('in-view chunks not all baked and shown');
+  if (far.some(c => c.baked)) bad.push('a far chunk was baked');
+  const R1 = r.renders.slice(n0), d = st.bake.density;
+  for (const c of inV) { const q = R1.find(o => o.container === src && o.transform && o.transform.tx === -c.x0 && o.transform.ty === -c.y0);
+    if (!q) { bad.push(c.key + ' not rendered'); continue; } const t = q.target; if (!t || !t.o || t.o.width !== c.x1 - c.x0 || t.o.height !== c.y1 - c.y0 || Math.abs(t.o.resolution - d) > 1e-3 || t.o.antialias !== false || q.clear !== true) bad.push(c.key + ' target');
+    const g = E.world.children.find(k => k.label === 'l0-remaster').children.find(k => k.label === 'l0v-view:room:01').children.find(k => k.ops && k.ops.some(op => op.tex === t));
+    if (!g || g.ops.length !== 1 || g.ops[0].x !== c.x0 || g.ops[0].y !== c.y0 || g.ops[0].w !== c.x1 - c.x0 || g.ops[0].h !== c.y1 - c.y0) bad.push(c.key + ' quad'); }
+  const first = new Map(R1.map(o => [o.transform.tx + ',' + o.transform.ty, o.target])), n1 = r.renders.length; E.L.dev.decals(false); E.frame(1, at);
+  const R2 = r.renders.slice(n1); let rebaked = 0; for (const c of inV) { const q = R2.find(o => o.transform.tx === -c.x0 && o.transform.ty === -c.y0); if (q && q.target === first.get(-c.x0 + ',' + -c.y0)) rebaked++; }
+  E.L.dev.decals(true); E.frame(1, at);
+  if (rebaked !== inV.length) bad.push(`toggle re-baked ${rebaked} / ${inV.length} in place`);
+  let maxRes = 0; for (const id of V.slice) { const o = G.Oc.find(q => q.code === V.room(id).code); for (let cy = o.y; cy < o.y + o.h; cy += 4) for (let cx = o.x; cx < o.x + o.w; cx += 6) { E.frame(2, [(cx + .5) * T, (cy + .5) * T]); maxRes = Math.max(maxRes, E.L.stats().bake.resident); } }
+  const cap = E.L.stats().bake.cache, sv = E.L.stats().bake; if (sv.resident > cap) bad.push('resident ' + sv.resident + ' > cap ' + cap);
+  E.L.dev.remaster(false); E.frame(2, at); const offShown = V.slice.flatMap(id => E.L.dev.chunks(id)).filter(c => c.shown).length; E.L.dev.remaster(true);
+  if (offShown) bad.push('remaster off still shows ' + offShown + ' chunks');
+  const D = runRemaster({ app: null }), dv = D.L.stats().bake.mode, dsrc = D.L.dev.source('room:01'); D.frame(1, at);
+  if (dv !== 'direct' || !dsrc.parent || dsrc.parent.label !== 'l0v-view:room:01' || dsrc.visible !== true) bad.push('direct fallback ' + dv);
+  return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `${chunks} chunks cover all ${cover} floor + wall cells; YELLOW HALL centre: ${inV.length} in view baked (density ${d}), ${far.length} far ones untouched; toggle re-baked ${rebaked} in place; travel: resident max ${maxRes}, now ${sv.resident} (cap ${cap}), ${sv.evictions} evictions; off: none shown; no renderer: direct` };
 });
 
 const pass = results.filter(r => r.ok).length;

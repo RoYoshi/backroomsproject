@@ -1,0 +1,826 @@
+{
+ "n": 14,
+ "viewport": [
+  1280,
+  720
+ ],
+ "tiers": [
+  "medium",
+  "low"
+ ],
+ "scenes": [
+  {
+   "scene": "yellow-spawn",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 2.2,
+     "layersRemaster": 0.01,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.191,
+      "l0/l0v-legacy-lamps": 0.01
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 18,
+     "visibleGraphics": 17,
+     "graphicsInstructions": 14527,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 3.05,
+     "layersRemaster": 1.86,
+     "byLayer": {
+      "game/Graphics": 1.191,
+      "l0/floor": 0.902,
+      "l0/macro": 0.684,
+      "l0/decals-mul": 0.012,
+      "l0/decals": 0.003,
+      "l0/grounding": 0.169,
+      "l0/walls": 0.068,
+      "l0/wall-decor": 0.005,
+      "l0/props": 0.005,
+      "l0/fixtures": 0.007
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 27,
+     "visibleGraphics": 27,
+     "graphicsInstructions": 15372,
+     "remasterRenderables": 11,
+     "remasterInstructions": 965
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "yellow-spawn",
+   "tier": "low",
+   "off": {
+    "fill": {
+     "layersTotal": 2.2,
+     "layersRemaster": 0.01,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.191,
+      "l0/l0v-legacy-lamps": 0.01
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 18,
+     "visibleGraphics": 17,
+     "graphicsInstructions": 14527,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 2.36,
+     "layersRemaster": 1.17,
+     "byLayer": {
+      "game/Graphics": 1.191,
+      "l0/floor": 0.902,
+      "l0/decals-mul": 0.009,
+      "l0/decals": 0.002,
+      "l0/grounding": 0.169,
+      "l0/walls": 0.068,
+      "l0/wall-decor": 0.004,
+      "l0/props": 0.005,
+      "l0/fixtures": 0.007
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 26,
+     "visibleGraphics": 26,
+     "graphicsInstructions": 15284,
+     "remasterRenderables": 10,
+     "remasterInstructions": 877
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "humming-counter",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 2.44,
+     "layersRemaster": 0.02,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.424,
+      "l0/l0v-legacy-lamps": 0.019
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 18,
+     "visibleGraphics": 17,
+     "graphicsInstructions": 14540,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 3.3,
+     "layersRemaster": 1.87,
+     "byLayer": {
+      "game/Graphics": 1.424,
+      "l0/floor": 0.836,
+      "l0/macro": 0.537,
+      "l0/decals-mul": 0.044,
+      "l0/decals": 0.009,
+      "l0/grounding": 0.267,
+      "l0/walls": 0.12,
+      "l0/wall-decor": 0.014,
+      "l0/props": 0.032,
+      "l0/fixtures": 0.013
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 27,
+     "visibleGraphics": 27,
+     "graphicsInstructions": 15193,
+     "remasterRenderables": 11,
+     "remasterInstructions": 773
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "humming-counter",
+   "tier": "low",
+   "off": {
+    "fill": {
+     "layersTotal": 2.44,
+     "layersRemaster": 0.02,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.424,
+      "l0/l0v-legacy-lamps": 0.019
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 18,
+     "visibleGraphics": 17,
+     "graphicsInstructions": 14540,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 2.71,
+     "layersRemaster": 1.29,
+     "byLayer": {
+      "game/Graphics": 1.424,
+      "l0/floor": 0.836,
+      "l0/decals-mul": 0.003,
+      "l0/decals": 0.005,
+      "l0/grounding": 0.267,
+      "l0/walls": 0.12,
+      "l0/wall-decor": 0.011,
+      "l0/props": 0.032,
+      "l0/fixtures": 0.013
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 26,
+     "visibleGraphics": 26,
+     "graphicsInstructions": 15129,
+     "remasterRenderables": 10,
+     "remasterInstructions": 709
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "blackout-table",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 3.16,
+     "layersRemaster": 0,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 2.158
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14480,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 4.25,
+     "layersRemaster": 2.09,
+     "byLayer": {
+      "game/Graphics": 2.158,
+      "l0/floor": 0.878,
+      "l0/macro": 0.676,
+      "l0/decals-mul": 0.114,
+      "l0/decals": 0.009,
+      "l0/grounding": 0.221,
+      "l0/walls": 0.086,
+      "l0/wall-decor": 0.059,
+      "l0/props": 0.026,
+      "l0/fixtures": 0.019
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 25,
+     "visibleGraphics": 25,
+     "graphicsInstructions": 15325,
+     "remasterRenderables": 11,
+     "remasterInstructions": 965
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "blackout-table",
+   "tier": "low",
+   "off": {
+    "fill": {
+     "layersTotal": 3.16,
+     "layersRemaster": 0,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 2.158
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14480,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 3.49,
+     "layersRemaster": 1.33,
+     "byLayer": {
+      "game/Graphics": 2.158,
+      "l0/floor": 0.878,
+      "l0/decals-mul": 0.063,
+      "l0/decals": 0.006,
+      "l0/grounding": 0.221,
+      "l0/walls": 0.086,
+      "l0/wall-decor": 0.034,
+      "l0/props": 0.026,
+      "l0/fixtures": 0.019
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 24,
+     "visibleGraphics": 24,
+     "graphicsInstructions": 15211,
+     "remasterRenderables": 10,
+     "remasterInstructions": 851
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "pillar-hall",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 2.29,
+     "layersRemaster": 0.04,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.254,
+      "l0/l0v-legacy-lamps": 0.039
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14458,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 3.01,
+     "layersRemaster": 1.75,
+     "byLayer": {
+      "game/Graphics": 1.254,
+      "l0/floor": 0.912,
+      "l0/macro": 0.472,
+      "l0/decals-mul": 0.064,
+      "l0/decals": 0.005,
+      "l0/grounding": 0.14,
+      "l0/walls": 0.057,
+      "l0/wall-decor": 0.032,
+      "l0/props": 0.04,
+      "l0/fixtures": 0.029
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 25,
+     "visibleGraphics": 25,
+     "graphicsInstructions": 15003,
+     "remasterRenderables": 11,
+     "remasterInstructions": 665
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "pillar-hall",
+   "tier": "low",
+   "off": {
+    "fill": {
+     "layersTotal": 2.29,
+     "layersRemaster": 0.04,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.254,
+      "l0/l0v-legacy-lamps": 0.039
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14458,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 2.5,
+     "layersRemaster": 1.25,
+     "byLayer": {
+      "game/Graphics": 1.254,
+      "l0/floor": 0.912,
+      "l0/decals-mul": 0.057,
+      "l0/decals": 0.002,
+      "l0/grounding": 0.14,
+      "l0/walls": 0.057,
+      "l0/wall-decor": 0.009,
+      "l0/props": 0.04,
+      "l0/fixtures": 0.029
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 24,
+     "visibleGraphics": 24,
+     "graphicsInstructions": 14925,
+     "remasterRenderables": 10,
+     "remasterInstructions": 587
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "outside-slice",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 2.67,
+     "layersRemaster": 0,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.669
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14510,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 2.4,
+     "layersRemaster": 0.73,
+     "byLayer": {
+      "l0/l0-legacy-carpet": 0.735,
+      "game/Graphics": 1.67
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 15,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14697,
+     "remasterRenderables": 1,
+     "remasterInstructions": 307
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 0,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  },
+  {
+   "scene": "outside-slice",
+   "tier": "low",
+   "off": {
+    "fill": {
+     "layersTotal": 2.67,
+     "layersRemaster": 0,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.669
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14510,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 2.4,
+     "layersRemaster": 0.73,
+     "byLayer": {
+      "l0/l0-legacy-carpet": 0.735,
+      "game/Graphics": 1.67
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 0,
+     "gl": {}
+    },
+    "cpu": {
+     "med": 0,
+     "gl": {}
+    },
+    "scene": {
+     "nodes": 677,
+     "visibleRenderables": 15,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14697,
+     "remasterRenderables": 1,
+     "remasterInstructions": 307
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 0,
+     "texMPx": 1.08,
+     "decals": 187,
+     "tier": "low"
+    }
+   },
+   "deltaSceneMs": 0,
+   "deltaCpuMs": 0
+  }
+ ],
+ "when": "2026-10-07T00:28:08.051Z",
+ "version": {
+  "remaster": "l0-remaster 3b-qa1",
+  "revision": "3b1-qa2-archetypes-1",
+  "pixi": "ok"
+ },
+ "errors": []
+}

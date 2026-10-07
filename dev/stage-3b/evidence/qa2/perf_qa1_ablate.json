@@ -1,0 +1,333 @@
+{
+ "n": 8,
+ "viewport": [
+  1280,
+  720
+ ],
+ "tiers": [
+  "medium"
+ ],
+ "scenes": [
+  {
+   "scene": "yellow-spawn",
+   "tier": "medium",
+   "off": {
+    "sync": {
+     "med": 244,
+     "min": 228.5,
+     "max": 271,
+     "gl": {
+      "draws": 9,
+      "bufBytes": 56592,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.3,
+      "blend": 0,
+      "prog": 6.8,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.2,
+     "min": 0,
+     "max": 0.8,
+     "gl": {
+      "draws": 9,
+      "bufBytes": 56592,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.3,
+      "blend": 0,
+      "prog": 6.8,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 18,
+     "visibleGraphics": 17,
+     "graphicsInstructions": 14527,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "sync": {
+     "med": 348,
+     "min": 316.4,
+     "max": 410.6,
+     "gl": {
+      "draws": 18,
+      "bufBytes": 56592,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 54,
+      "blend": 2.3,
+      "prog": 13.5,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.2,
+     "min": 0.1,
+     "max": 0.5,
+     "gl": {
+      "draws": 18,
+      "bufBytes": 56592,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 54,
+      "blend": 2.3,
+      "prog": 13.5,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 27,
+     "visibleGraphics": 27,
+     "graphicsInstructions": 15372,
+     "remasterRenderables": 11,
+     "remasterInstructions": 965
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": 104,
+   "deltaCpuMs": 0,
+   "ablate": {
+    "floor": {
+     "med": 245.2,
+     "saves": 102.8,
+     "draws": 16.9,
+     "bufBytes": 56592
+    },
+    "macro": {
+     "med": 295.5,
+     "saves": 52.5,
+     "draws": 16.9,
+     "bufBytes": 56592
+    },
+    "decals": {
+     "med": 305.6,
+     "saves": 42.4,
+     "draws": 15.8,
+     "bufBytes": 56592
+    },
+    "grounding": {
+     "med": 327.3,
+     "saves": 20.7,
+     "draws": 18,
+     "bufBytes": 56592
+    },
+    "thresholds": {
+     "med": 308.7,
+     "saves": 39.3,
+     "draws": 16.9,
+     "bufBytes": 56592
+    },
+    "walls": {
+     "med": 315.6,
+     "saves": 32.4,
+     "draws": 15.8,
+     "bufBytes": 56592
+    },
+    "props": {
+     "med": 350.7,
+     "saves": -2.7,
+     "draws": 18,
+     "bufBytes": 56592
+    },
+    "fixtures": {
+     "med": 315.4,
+     "saves": 32.6,
+     "draws": 18,
+     "bufBytes": 56592
+    },
+    "legacyCarpetCopy": {
+     "med": 377.4,
+     "saves": -29.4,
+     "draws": 16.9,
+     "bufBytes": 56592,
+     "note": "the original TilingSprite shown instead of the copy (the remaster floor still on top)"
+    }
+   }
+  },
+  {
+   "scene": "humming-counter",
+   "tier": "medium",
+   "off": {
+    "sync": {
+     "med": 274.2,
+     "min": 265.5,
+     "max": 286.4,
+     "gl": {
+      "draws": 9,
+      "bufBytes": 56592,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.3,
+      "blend": 0,
+      "prog": 6.8,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.1,
+     "min": 0,
+     "max": 0.6,
+     "gl": {
+      "draws": 9,
+      "bufBytes": 56592,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.3,
+      "blend": 0,
+      "prog": 6.8,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 18,
+     "visibleGraphics": 17,
+     "graphicsInstructions": 14540,
+     "remasterRenderables": 1,
+     "remasterInstructions": 120
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "sync": {
+     "med": 388.3,
+     "min": 323,
+     "max": 485.4,
+     "gl": {
+      "draws": 16.9,
+      "bufBytes": 56592,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 56.3,
+      "blend": 2.3,
+      "prog": 13.5,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.2,
+     "min": 0.1,
+     "max": 1,
+     "gl": {
+      "draws": 16.9,
+      "bufBytes": 56592,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 56.3,
+      "blend": 2.3,
+      "prog": 13.5,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 681,
+     "visibleRenderables": 27,
+     "visibleGraphics": 27,
+     "graphicsInstructions": 15193,
+     "remasterRenderables": 11,
+     "remasterInstructions": 773
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 2.49,
+     "decals": 325,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": 114.1,
+   "deltaCpuMs": 0.1,
+   "ablate": {
+    "floor": {
+     "med": 308.7,
+     "saves": 79.6,
+     "draws": 15.8,
+     "bufBytes": 56592
+    },
+    "macro": {
+     "med": 309.6,
+     "saves": 78.7,
+     "draws": 16.9,
+     "bufBytes": 56592
+    },
+    "decals": {
+     "med": 352.5,
+     "saves": 35.8,
+     "draws": 15.8,
+     "bufBytes": 56592
+    },
+    "grounding": {
+     "med": 365.9,
+     "saves": 22.4,
+     "draws": 16.9,
+     "bufBytes": 56592
+    },
+    "thresholds": {
+     "med": 365.1,
+     "saves": 23.2,
+     "draws": 15.8,
+     "bufBytes": 56592
+    },
+    "walls": {
+     "med": 336.2,
+     "saves": 52.1,
+     "draws": 14.6,
+     "bufBytes": 56592
+    },
+    "props": {
+     "med": 383.6,
+     "saves": 4.7,
+     "draws": 16.9,
+     "bufBytes": 56592
+    },
+    "fixtures": {
+     "med": 338.9,
+     "saves": 49.4,
+     "draws": 16.9,
+     "bufBytes": 56592
+    },
+    "legacyCarpetCopy": {
+     "med": 425.4,
+     "saves": -37.1,
+     "draws": 15.8,
+     "bufBytes": 56592,
+     "note": "the original TilingSprite shown instead of the copy (the remaster floor still on top)"
+    }
+   }
+  }
+ ],
+ "when": "2026-10-07T00:23:34.736Z",
+ "version": {
+  "remaster": "l0-remaster 3b-qa1",
+  "revision": "3b1-qa2-archetypes-1",
+  "pixi": "ok"
+ },
+ "errors": []
+}

@@ -9,7 +9,7 @@
  *   lamp(t, e, lampTop)        while build() draws the 90 fixture housings: a lamp in a remastered room draws its legacy
  *                              housing into this module's own Graphics instead of lampTop (shown only when the remaster is
  *                              off), so new and old housings never stack.  Every other lamp is untouched.
- *   built(world, level, top)   at the end of build(): the remaster layer goes right above the level art (below the
+ *   built(world, level, top, app)  at the end of build() (app: the game's Pixi application, for the bake): the remaster layer goes right above the level art (below the
  *                              objective traces, corpses and every actor), the ceiling layer right above lampTop, sharing
  *                              its parallax and alpha.  With ?remaster=off neither hook does anything: exactly v23.3.6.
  * In the slice rooms the remaster layer is opaque, so the legacy floor blots, painted lamp glows, the BLACKOUT ZONE's
@@ -18,14 +18,19 @@
  * and alpha) on its own floor, following BR-RoLE's visibility, so walls stay grounded exactly as elsewhere.
  *
  * Static art is paid once: textures are generated from the seeded presentation hash when the level is built (carpet tile,
- * wallpaper, wall cap, decals, props, fixtures; per-room low-resolution wear / damp maps), geometry is static Graphics,
- * per-room containers are culled by the view.  Nothing is drawn per frame.  LOW uses smaller textures and fewer decals.
+ * wallpaper, wall cap, decals, props, fixtures; per-room low-resolution wear / damp maps), and each room's layers form a
+ * source container that is never on screen.  QA2: the sources are BAKED into chunk textures (384 world px, the screen's
+ * own texel density, clamped per tier) by the game's renderer (the 4th built() argument) as they come into view, a few
+ * ahead of time, the oldest dropped beyond the tier's cache.  On screen a remastered room is one textured layer, about
+ * what the old carpet sprite cost (QA1 stacked five or more room-sized layers).  Without the renderer the layers are
+ * drawn directly, as in QA1.  LOW: smaller textures, fewer decals, no wear map, a lower bake density and a smaller cache.
  * DEV comparison only (QA tools, not player settings): ?remaster=off, ?walldepth=on, ?decals=off; with ?dev3b the keys
- * F8 (remaster), F9 (wall-depth cue) and Shift+F8 (decals) toggle live. */
+ * F8 (remaster), F9 (wall-depth cue) and Shift+F8 (decals) toggle live, and a readout shows the frame time, the scene's GPU
+ * time where the browser can time it, and what the bake holds. */
 (() => {
   'use strict';
   if (window.__l0v) return;
-  const VERSION = 'l0-remaster 3b-qa1';
+  const VERSION = 'l0-remaster 3b-qa2';
   const VZ = window.L0_VISUALS || null;
   const T = 96;
   const Q = (() => { try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(''); } })();
@@ -36,8 +41,13 @@
     disabled: VZ ? '' : 'presentation data missing', built: false, world: null, level: null, lampTop: null, G: null, C: null, Tex: null,
     root: null, ceil: null, legacyLamps: null, ownLamps: [], rooms: [], tier: '', tex: null, brRoot: null, frame: 0, errors: 0, tag: null,
     stats: { buildMs: 0, rooms: 0, textures: 0, texMPx: 0, decals: 0, faces: 0, floorRects: 0, fixtures: 0, visibleRooms: 0, builds: 0 },
+    app: null, renderer: null, mode: 'bake', RT: null, q: null, dens: 1, gen: 0, ao: null,
+    bake: { px: 0, bakes: 0, ms: 0, maxMs: 0, lastMs: 0, evictions: 0, visible: 0, resident: 0, error: '' },
+    perf: { last: 0, ema: 0, gpu: null, gpuEma: 0, poll: null, shown: 0 },
   };
   const now = () => Date.now();                        // wall clock for the build timings (a test may freeze performance.now)
+  const perfNow = () => { try { return performance.now(); } catch (e) { return Date.now(); } };
+  const CH = 384;                                        // bake chunk edge, world px (4 cells)
   const clamp = (v, a, b) => v < a ? a : v > b ? b : v;
   const lerp = (a, b, t) => a + (b - a) * t;
   const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
@@ -460,15 +470,15 @@
   function buildRoom(vr, X) {
     const o = ocOf(vr); if (!o) throw Error('room not in the game table: ' + vr.id);
     const prof = VZ.resolve(vr.id), cp = prof.carpet, A = api(), q = X.q;
-    const R = { id: vr.id, code: vr.code, o, prof, cont: new S.C(), ceilG: new S.G(), x0: (o.x - 1) * T, y0: (o.y - 1) * T, x1: (o.x + o.w + 1) * T, y1: (o.y + o.h + 1) * T, n: { floor: 0, faces: 0, decals: 0 } };
-    R.cont.label = 'l0v:' + vr.id; R.ceilG.label = 'fixtures:' + vr.id;
+    const R = { id: vr.id, code: vr.code, o, prof, src: new S.C(), view: new S.C(), ceilG: new S.G(), x0: (o.x - 1) * T, y0: (o.y - 1) * T, x1: (o.x + o.w + 1) * T, y1: (o.y + o.h + 1) * T, n: { floor: 0, faces: 0, decals: 0 } };
+    R.src.label = 'l0v:' + vr.id; R.view.label = 'l0v-view:' + vr.id; R.ceilG.label = 'fixtures:' + vr.id;
     const own = (cx, cy) => cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h && isFloor(cx, cy);
     const ownWall = (cx, cy) => cx >= o.x - 1 && cx <= o.x + o.w && cy >= o.y - 1 && cy <= o.y + o.h && !isFloor(cx, cy);
     const wall = (cx, cy) => !isFloor(cx, cy);
     const rnd = VZ.rng('room', vr.id);
 
     /* -- 1 floor: carpet rolls (each roll its own texture phase and a whisper of tone), seams between them -- */
-    const floorG = new S.G(); floorG.label = 'floor'; R.cont.addChild(floorG);
+    const floorG = new S.G(); floorG.label = 'floor'; R.src.addChild(floorG);
     const along = cp.seams === 'x' ? 'x' : 'y', ROLL = 184, tone = cp.tone || 1, sc = X.carpetScale;
     const runs = [];                                       // maximal horizontal runs of owned floor cells, merged vertically into rects
     for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w;) { if (!own(cx, cy)) { cx++; continue; } let e = cx; while (e + 1 < o.x + o.w && own(e + 1, cy)) e++; runs.push({ x: cx, y: cy, w: e - cx + 1, h: 1 }); cx = e + 1; }
@@ -516,7 +526,7 @@
       mx.putImageData(mi, 0, 0);
       const macroG = new S.G(), mt = texOf(mc), ms = { texture: mt, textureSpace: 'global', matrix: M(cell, 0, 0, cell, ox, oy) }; macroG.label = 'macro'; macroG.blendMode = 'multiply';
       let kept = 0; for (let cy = 0; cy < o.h; cy++) for (let cx = 0; cx < o.w;) { if (!keep[cy * o.w + cx]) { cx++; continue; } let e = cx; while (e + 1 < o.w && keep[cy * o.w + e + 1]) e++; macroG.rect((o.x + cx) * T, (o.y + cy) * T, (e - cx + 1) * T, T).fill(ms); kept += e - cx + 1; cx = e + 1; }
-      R.cont.addChild(macroG); R.macroCanvas = mc; R.n.macroCells = kept;
+      R.src.addChild(macroG); R.macroCanvas = mc; R.n.macroCells = kept;
     }
 
     /* -- 3 decals on the carpet (seeded scatter + authored storytelling) -- */
@@ -555,7 +565,7 @@
     }
     for (const d of VZ.decor.filter(d => d.room === vr.id)) put(d.kind === 'stain' || d.kind === 'damp' || d.kind === 'scuff' || d.kind === 'ring' ? mulG : decG, d.kind, d.v || 0, d.x, d.y, d.r || 0, d.s || 1, d.a == null ? 1 : d.a);
     if (prof.accent === 'electrical') cables(R, decG);
-    R.cont.addChild(mulG, decG);
+    R.src.addChild(mulG, decG);
 
     /* -- 4 grounding at the wall bases: BR-RoLE's own law, on this room's floor only -- */
     const aoG = new S.G(); aoG.label = 'grounding'; aoG.alpha = AO.alpha; const w = AO.width, Xa = X.ao;
@@ -570,7 +580,7 @@
       if (own(cx + 1, cy - 1) && !wall(cx + 1, cy) && !wall(cx, cy - 1)) aoG.texture(Xa.ne, 0xffffff, x0 + T, y0 - w, w, w);
       if (own(cx - 1, cy - 1) && !wall(cx - 1, cy) && !wall(cx, cy - 1)) aoG.texture(Xa.nw, 0xffffff, x0 - w, y0 - w, w, w);
     }
-    R.ao = aoG; R.cont.addChild(aoG);
+    R.ao = aoG; R.src.addChild(aoG);
 
     /* -- 5 thresholds where the room's carpet meets a corridor (a worn aluminium transition strip) -- */
     const thG = new S.G(); thG.label = 'thresholds';
@@ -579,12 +589,12 @@
       if (cy === o.y && isFloor(cx, cy - 1)) strip(cx * T, cy * T, T, 5); if (cy === o.y + o.h - 1 && isFloor(cx, cy + 1)) strip(cx * T, (cy + 1) * T - 5, T, 5);
       if (cx === o.x && isFloor(cx - 1, cy)) strip(cx * T, cy * T, 5, T); if (cx === o.x + o.w - 1 && isFloor(cx + 1, cy)) strip((cx + 1) * T - 5, cy * T, 5, T);
     }
-    R.cont.addChild(thG);
+    R.src.addChild(thG);
 
     /* -- 6 walls: caps, papered faces (legacy band widths), mitred corners; and the DEV depth-cue variant -- */
     R.walls = buildWalls(R, X, ownWall, wall, 'legacy'); R.depthWalls = buildWalls(R, X, ownWall, wall, 'depth');
-    R.cont.addChild(R.walls, R.depthWalls); R.depthWalls.visible = S.depth; R.walls.visible = !S.depth;
-    const wallDecG = new S.G(); wallDecG.label = 'wall-decor'; wallDecor(R, X, ownWall, wallDecG); R.cont.addChild(wallDecG); R.decalLayers.push(wallDecG);
+    R.src.addChild(R.walls, R.depthWalls); R.depthWalls.visible = S.depth; R.walls.visible = !S.depth;
+    const wallDecG = new S.G(); wallDecG.label = 'wall-decor'; wallDecor(R, X, ownWall, wallDecG); R.src.addChild(wallDecG); R.decalLayers.push(wallDecG);
 
     /* -- 7 the room's physical props, same rects -- */
     const propG = new S.G(); propG.label = 'props';
@@ -601,13 +611,23 @@
         if (l) for (const b of l) if (b && b.w === 56 && b.h === 56) { const k = b.x + ',' + b.y; if (seen.has(k)) continue; seen.add(k); const ccx = Math.floor((b.x + 28) / T), ccy = Math.floor((b.y + 28) / T); if (!(ccx >= o.x && ccx < o.x + o.w && ccy >= o.y && ccy < o.y + o.h)) continue;
           propG.texture(pv[Math.floor(VZ.unit(vr.id, 'pillar', k) * 3)], 0xffffff, b.x - PAD, b.y - PAD, 56 + PAD * 2, 56 + PAD * 2); (R.pillars || (R.pillars = [])).push(k); } }
     }
-    R.cont.addChild(propG);
+    R.src.addChild(propG);
 
     /* -- 8 ceiling: the room's fixtures (lamps in this room, plus visual-only records), legacy footprint -- */
     for (const L of S.ownLamps.filter(l => l.room === vr.id)) R.ceilG.texture(X.fix[L.aged ? 'aged' : prof.fixtures.diffuser === 'yellowed' ? 'yellowed' : 'clean'], 0xffffff, L.x - 45 - 6, L.y - 15 - 6, 102, 40);
     for (const f of VZ.fixtures.filter(f => f.room === vr.id)) R.ceilG.texture(X.fix[f.kind] || X.fix.dead, 0xffffff, f.x - 51, f.y - 21, 102, 40);
     S.stats.fixtures += S.ownLamps.filter(l => l.room === vr.id).length + VZ.fixtures.filter(f => f.room === vr.id).length;
-    S.root.addChild(R.cont); S.ceil.addChild(R.ceilG);
+    /* -- 9 the bake grid: the room's art (R.src, never on screen itself) is baked into chunk textures, CH world px square on
+     *    a global grid, clipped to the room's box; a chunk with nothing of this room in it is never made -- */
+    R.chunks = [];
+    for (let y = Math.floor(R.y0 / CH) * CH; y < R.y1; y += CH) for (let x = Math.floor(R.x0 / CH) * CH; x < R.x1; x += CH) {
+      const x0 = Math.max(x, R.x0), y0 = Math.max(y, R.y0), x1 = Math.min(x + CH, R.x1), y1 = Math.min(y + CH, R.y1);
+      let any = false; for (let cy = Math.floor(y0 / T); cy < Math.ceil(y1 / T) && !any; cy++) for (let cx = Math.floor(x0 / T); cx < Math.ceil(x1 / T) && !any; cx++) any = own(cx, cy) || ownWall(cx, cy);
+      if (!any) continue;
+      const g = new S.G(); g.label = 'chunk'; g.visible = false; R.view.addChild(g);
+      R.chunks.push({ R, key: R.id + '@' + x0 + ',' + y0, x0, y0, x1, y1, g, tex: null, ver: -1, seen: -1, px: 0 });
+    }
+    S.root.addChild(R.view); S.ceil.addChild(R.ceilG);
     S.stats.floorRects += R.n.floor; S.stats.faces += R.n.faces; S.stats.decals += R.n.decals;
     return R;
   }
@@ -731,23 +751,66 @@
       return S.legacyLamps;
     } catch (err) { S.errors++; return lampTop; }
   }
-  function built(world, level, lampTop) {
+  function built(world, level, lampTop, app) {
     try {
       if (!S.on || S.disabled || !VZ || !world || !level || !lampTop) return;
       S.world = world; S.level = level; S.lampTop = lampTop; S.G = level.constructor; S.C = world.constructor;
       const carpet = world.children.find(c => c && c.tileScale && c.texture); S.Tex = carpet && carpet.texture && carpet.texture.constructor; S.carpet = carpet || null;
       if (!S.Tex || typeof S.Tex.from !== 'function') { fail('attach', 'texture class unavailable'); return; }
+      /* the game's Pixi application (the 4th hook argument): its renderer bakes the room chunks.  Without it the remaster
+       * still works, drawing its layers directly as in QA1 (more overdraw; S.mode tells which). */
+      S.app = app || null; S.renderer = app && app.renderer && typeof app.renderer.render === 'function' && typeof app.renderer.generateTexture === 'function' ? app.renderer : null;
+      S.mode = S.renderer ? 'bake' : 'direct';
       S.root = new S.C(); S.root.label = 'l0-remaster'; S.root.visible = false;
       world.addChildAt(S.root, world.children.indexOf(level) + 1);                    // right above the level art: under traces, corpses, actors
       S.ceil = new S.C(); S.ceil.label = 'l0-remaster-ceiling';
       world.addChildAt(S.ceil, world.children.indexOf(lampTop) + 1);                  // right above the legacy fixtures
       if (S.legacyLamps) S.ceil.addChild(S.legacyLamps);
       S.ceil.onRender = () => { const L = S.lampTop; if (!L) return; S.ceil.position.copyFrom(L.position); S.ceil.scale.copyFrom(L.scale); S.ceil.alpha = L.alpha; S.ceil.visible = L.visible; };
+      if (S.dev) gpuTimer();
       setTimeout(build, 0);
     } catch (e) { fail('attach', e); }
   }
+  /* ---------- the bake: static room art -> cached chunk textures ----------
+   * In QA1 every remastered room drew five or more room-sized layers each frame (carpet, the multiplied wear map, grounding,
+   * stains, walls ...) on top of the level art: about one extra full-screen layer of fill.  Now each room's art is a source
+   * container that is never on screen; it is rendered once into chunk textures (CH world px square), and the room draws
+   * those: one opaque-ish layer, about what the old carpet sprite cost.  Chunks in view are baked at once, chunks you
+   * approach a few per frame ahead of time, and the oldest out-of-view chunks are dropped beyond the tier's cache size.
+   * The texel density follows the screen (camera scale x renderer resolution), clamped per tier: never more texels than
+   * the screen can show.  Nothing is drawn per frame except the chunk quads. */
+  function bakeDensity(q) {
+    const b = q.bake || { min: 1, max: 1 }; let sc = 1.18;
+    try { const cp = window.__cameraPolicy; if (cp && typeof cp.baseScale === 'function') sc = cp.baseScale(innerWidth, innerHeight) || sc; } catch (e) { }
+    const res = (S.renderer && S.renderer.resolution) || Math.min(window.devicePixelRatio || 1, 2);
+    return Math.max(16, Math.round(CH * clamp(sc * res, b.min, b.max))) / CH;   // whole texels across a full chunk
+  }
+  function rtClass() {                                   // Pixi's RenderTexture class, from the renderer's own generateTexture (no import needed)
+    if (S.RT) return S.RT; const probe = S.renderer.generateTexture({ target: new S.C(), frame: { copyTo: r => { r.x = 0; r.y = 0; r.width = 1; r.height = 1; return r; } }, resolution: 1 });
+    S.RT = probe.constructor; try { probe.destroy(true); } catch (e) { } if (!S.RT || typeof S.RT.create !== 'function') throw Error('no RenderTexture class'); return S.RT;
+  }
+  function bakeChunk(c) {
+    const t0 = perfNow(), w = c.x1 - c.x0, h = c.y1 - c.y0, d = S.dens;
+    if (!c.tex || c.d !== d) {
+      if (c.tex) dropChunk(c, true);
+      c.tex = rtClass().create({ width: w, height: h, resolution: d, antialias: false, scaleMode: 'linear' }); c.d = d; c.px = Math.round(w * d) * Math.round(h * d); S.bake.px += c.px;
+      c.g.clear(); c.g.texture(c.tex, 0xffffff, c.x0, c.y0, w, h);
+    }
+    S.renderer.render({ container: c.R.src, target: c.tex, clear: true, clearColor: [0, 0, 0, 0], transform: M(1, 0, 0, 1, -c.x0, -c.y0) });
+    c.ver = S.gen; const ms = perfNow() - t0; S.bake.bakes++; S.bake.ms += ms; S.bake.lastMs = ms; if (ms > S.bake.maxMs) S.bake.maxMs = ms;
+  }
+  function dropChunk(c, keepVer) {
+    if (c.tex) { try { c.g.clear(); } catch (e) { } try { c.tex.destroy(true); } catch (e) { } c.tex = null; S.bake.px -= c.px; c.px = 0; S.bake.evictions++; }
+    if (!keepVer) c.ver = -1; c.g.visible = false;
+  }
+  function invalidate() { S.gen++; }                     // the source art changed (a DEV toggle, BR-RoLE's grounding): chunks re-bake as they are needed
+  function toDirect(e) {                                 // fail-safe: no bake, draw the source layers directly (QA1's path)
+    S.errors++; S.mode = 'direct'; S.bake.error = String(e && e.message || e).slice(0, 160);
+    try { console.warn('[l0-remaster] bake unavailable (' + S.bake.error + '); drawing the layers directly'); } catch (x) { }
+    for (const R of S.rooms) { for (const c of R.chunks) dropChunk(c); R.view.addChild(R.src); }
+  }
   function destroyRooms() {
-    for (const R of S.rooms) { try { R.cont.destroy({ children: true }); R.ceilG.destroy(); } catch (e) { } }
+    for (const R of S.rooms) { for (const c of R.chunks || []) dropChunk(c); try { R.src.destroy({ children: true }); R.view.destroy({ children: true }); R.ceilG.destroy(); } catch (e) { } }
     S.rooms = []; for (const t of S.texList || []) { try { t.destroy(true); } catch (e) { } } S.texList = [];
     Object.assign(S.stats, { textures: 0, texMPx: 0, decals: 0, faces: 0, floorRects: 0, fixtures: 0 });
   }
@@ -769,43 +832,98 @@
     const t0 = now();
     try {
       if (S.rooms.length) destroyRooms();
-      S.tier = tierNow(); const t1 = now(); S.tex = makeTextures(S.tier); S.stats.texMs = +(now() - t1).toFixed(1);
+      S.tier = tierNow(); S.q = VZ.quality[S.tier]; const t1 = now(); S.tex = makeTextures(S.tier); S.stats.texMs = +(now() - t1).toFixed(1);
       for (const id of VZ.slice) S.rooms.push(buildRoom(VZ.room(id), S.tex));
+      S.dens = bakeDensity(S.q); S.gen++;
+      if (S.mode === 'direct') for (const R of S.rooms) R.view.addChild(R.src);
       buildLegacyFloor(); S.built = true; S.stats.rooms = S.rooms.length; S.stats.builds++;
       apply();
     } catch (e) { fail('build', e); }
     S.stats.buildMs = +(now() - t0).toFixed(1);
   }
-  function apply() {                                    // the DEV toggles, applied to the built layers
+  function apply() {                                    // the DEV toggles, applied to the source layers (the chunks re-bake)
     if (!S.root || S.disabled) return;
     const on = S.want && S.built;
     S.root.visible = on; if (S.legacyLamps) S.legacyLamps.visible = !on;
     if (S.legacyFloor && S.carpet) { S.legacyFloor.visible = on; S.carpet.visible = !on; }
-    for (const R of S.rooms) { R.ceilG.visible = on && R.ceilG.visible !== false; R.walls.visible = !S.depth; R.depthWalls.visible = S.depth; for (const d of R.decalLayers) d.visible = S.decals; }
-    cull(true); showTag();
+    for (const R of S.rooms) { R.walls.visible = !S.depth; R.depthWalls.visible = S.depth; for (const d of R.decalLayers) d.visible = S.decals; }
+    invalidate(); stream(true); showTag();
   }
-  function cull(force) {                                // per-room culling by the view (plus a margin); mirrors BR-RoLE's grounding visibility
+  function viewRect() { const w = S.world, k = w.scale.x || 1; return { x0: -w.position.x / k, y0: -w.position.y / k, x1: (innerWidth - w.position.x) / k, y1: (innerHeight - w.position.y) / k }; }
+  const hits = (c, v, m) => c.x1 > v.x0 - m && c.x0 < v.x1 + m && c.y1 > v.y0 - m && c.y0 < v.y1 + m;
+  function stream(force) {                              // per frame: which rooms / chunks are in view, bake what is missing, drop what is old
     if (!S.world || !S.built) return;
-    const w = S.world, k = w.scale.x || 1, m = 2 * T, x0 = -w.position.x / k - m, y0 = -w.position.y / k - m, x1 = (innerWidth - w.position.x) / k + m, y1 = (innerHeight - w.position.y) / k + m;
+    const v = viewRect(), on = S.want && !S.disabled, f = S.frame;
     if (!S.brRoot || !S.brRoot.parent) S.brRoot = S.world.children.find(c => c && c.label === 'br-role') || null;
-    const ao = S.brRoot ? S.brRoot.visible && (!S.brRoot.children[0] || S.brRoot.children[0].visible) : false;
-    let n = 0; const on = S.want && !S.disabled;
-    for (const R of S.rooms) { const v = on && R.x1 > x0 && R.x0 < x1 && R.y1 > y0 && R.y0 < y1; if (v) n++; if (R.cont.visible !== v || force) R.cont.visible = v; if (R.ceilG.visible !== v || force) R.ceilG.visible = v; if (R.ao.visible !== ao) R.ao.visible = ao; }
-    S.stats.visibleRooms = n;
+    const ao = S.brRoot ? S.brRoot.visible && (!S.brRoot.children[0] || S.brRoot.children[0].visible) : false;   // grounding mirrors BR-RoLE's
+    if (ao !== S.ao) { S.ao = ao; for (const R of S.rooms) R.ao.visible = ao; invalidate(); }
+    let rooms = 0; const must = [], ahead = [];
+    for (const R of S.rooms) {
+      const rv = on && hits(R, v, 2 * T); if (rv) rooms++;
+      if (R.ceilG.visible !== rv || force) R.ceilG.visible = rv;
+      if (S.mode !== 'bake') { if (R.src.visible !== rv || force) R.src.visible = rv; continue; }
+      for (const c of R.chunks) {
+        c.inV = on && hits(c, v, 8); c.near = on && !c.inV && hits(c, v, CH);
+        if (c.inV) { c.seen = f; if (c.ver !== S.gen) must.push(c); } else if (c.near) { c.seen = Math.max(c.seen, f - 1); if (c.ver !== S.gen) ahead.push(c); }
+      }
+    }
+    if (S.mode === 'bake') {
+      try {
+        for (const c of must) bakeChunk(c);                                           // in view: now (no pop-in)
+        if (!must.length && ahead.length) { const cx = (v.x0 + v.x1) / 2, cy = (v.y0 + v.y1) / 2, d = c => Math.hypot((c.x0 + c.x1) / 2 - cx, (c.y0 + c.y1) / 2 - cy);
+          ahead.sort((a, b) => d(a) - d(b)); for (let i = 0; i < Math.min(ahead.length, S.q.bake.prefetch || 1); i++) bakeChunk(ahead[i]); }
+      } catch (e) { toDirect(e); return stream(true); }
+      let vis = 0, res = 0; const old = [];
+      for (const R of S.rooms) for (const c of R.chunks) { const show = !!(c.inV && c.tex); if (c.g.visible !== show) c.g.visible = show; if (show) vis++; if (c.tex) { res++; if (!c.inV && !c.near) old.push(c); } }
+      const cap = S.q.bake.cache || 16;
+      if (res > cap) { old.sort((a, b) => (a.ver === S.gen) - (b.ver === S.gen) || a.seen - b.seen); for (const c of old) { if (res <= cap) break; dropChunk(c); res--; } }   // stale first, then the oldest
+      S.bake.visible = vis; S.bake.resident = res;
+    }
+    S.stats.visibleRooms = rooms;
   }
   function tick() {
     try {
       S.frame++;
-      if (S.built && !S.disabled) { cull(false); const t = Date.now(); if (t - (S.polled || 0) > 400) { S.polled = t; if (tierNow() !== S.tier) build(); } }   // the player's quality tier, a few times a second
+      if (S.built && !S.disabled) {
+        stream(false);
+        const t = Date.now(); if (t - (S.polled || 0) > 400) { S.polled = t;                   // the player's quality tier and the screen density, a few times a second
+          if (tierNow() !== S.tier) build(); else if (S.mode === 'bake' && Math.abs(bakeDensity(S.q) / S.dens - 1) > .15) { S.dens = bakeDensity(S.q); invalidate(); } }
+      }
+      if (S.dev) devTick();
     } catch (e) { fail('frame', e); }
     requestAnimationFrame(tick);
   }
   if (S.on && VZ) requestAnimationFrame(tick);
 
-  /* ---------- DEV (QA comparison only) ---------- */
+  /* ---------- DEV (QA comparison only: ?dev3b=1; none of this runs in normal play) ---------- */
+  /* scene GPU time: the main scene pass timed with EXT_disjoint_timer_query_webgl2 where the browser offers it (many desktop
+   * Chromes do; otherwise the readout says n/a and only the frame time is shown) */
+  function gpuTimer() {
+    try {
+      const r = S.renderer, gl = r && r.gl; if (!gl || !gl.createQuery) return; const ext = gl.getExtension('EXT_disjoint_timer_query_webgl2'); if (!ext) { S.perf.gpu = 'n/a'; return; }
+      const orig = r.render, pend = []; S.perf.gpu = 'wait';
+      r.render = function (o) {
+        const main = S.app && (o === S.app.stage || (o && o.container === S.app.stage));
+        if (!main || pend.length > 6) return orig.apply(this, arguments);
+        const q = gl.createQuery(); gl.beginQuery(ext.TIME_ELAPSED_EXT, q);
+        try { return orig.apply(this, arguments); } finally { gl.endQuery(ext.TIME_ELAPSED_EXT); pend.push(q); }
+      };
+      S.perf.poll = () => { while (pend.length && gl.getQueryParameter(pend[0], gl.QUERY_RESULT_AVAILABLE)) { const q = pend.shift(), ns = gl.getQueryParameter(q, gl.QUERY_RESULT), dj = gl.getParameter(ext.GPU_DISJOINT_EXT); gl.deleteQuery(q);
+        if (!dj) { const ms = ns / 1e6; S.perf.gpuEma = S.perf.gpu === 'wait' ? ms : S.perf.gpuEma * .92 + ms * .08; S.perf.gpu = 'ok'; } } };
+    } catch (e) { S.perf.gpu = 'n/a'; }
+  }
+  function devTick() {
+    const t = perfNow(), dt = S.perf.last ? t - S.perf.last : 0; S.perf.last = t;
+    if (dt > 0 && dt < 1000) S.perf.ema = S.perf.ema ? S.perf.ema * .94 + dt * .06 : dt;
+    if (S.perf.poll) S.perf.poll();
+    if (t - S.perf.shown > 250) { S.perf.shown = t; showTag(); }
+  }
   function showTag() {
-    if (!S.dev) return; if (!S.tag) { S.tag = document.createElement('div'); S.tag.id = 'l0vTag'; S.tag.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:40;font:11px/1.3 monospace;color:#e8dfa8;background:#000a;padding:4px 7px;pointer-events:none;letter-spacing:.04em'; document.body.appendChild(S.tag); }
-    S.tag.textContent = `REMASTER ${S.want && !S.disabled ? 'ON' : 'OFF'} [F8] · WALL DEPTH ${S.depth ? 'ON' : 'OFF'} [F9] · DECALS ${S.decals ? 'ON' : 'OFF'} [Shift+F8] · ${S.tier.toUpperCase()}` + (S.disabled ? ' · ' + S.disabled : '');
+    if (!S.dev) return; if (!S.tag) { S.tag = document.createElement('div'); S.tag.id = 'l0vTag'; S.tag.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:40;font:11px/1.35 monospace;color:#e8dfa8;background:#000b;padding:4px 7px;pointer-events:none;letter-spacing:.04em;white-space:pre'; document.body.appendChild(S.tag); }
+    const P = S.perf, B = S.bake, gpu = P.gpu === 'ok' ? P.gpuEma.toFixed(2) + ' ms' : P.gpu === 'wait' ? '...' : 'n/a';
+    S.tag.textContent = `REMASTER ${S.want && !S.disabled ? 'ON' : 'OFF'} [F8] · WALL DEPTH ${S.depth ? 'ON' : 'OFF'} [F9] · DECALS ${S.decals ? 'ON' : 'OFF'} [Shift+F8] · ${S.tier.toUpperCase()}` + (S.disabled ? ' · ' + S.disabled : '') +
+      `\nframe ${P.ema ? P.ema.toFixed(1) : '-'} ms (${P.ema ? Math.round(1000 / P.ema) : '-'} fps) · scene GPU ${gpu} · rooms ${S.stats.visibleRooms} · ` +
+      (S.mode === 'bake' ? `chunks ${B.visible} shown / ${B.resident} cached · ${(B.px / 1e6).toFixed(1)} MPx @ ${S.dens.toFixed(2)} tx/px · bake ${B.lastMs.toFixed(1)} ms (max ${B.maxMs.toFixed(1)})` : `DIRECT (no bake${B.error ? ': ' + B.error : ''})`);
   }
   if (S.dev) window.addEventListener('keydown', e => {
     if (e.code === 'F8' && e.shiftKey) { S.decals = !S.decals; apply(); e.preventDefault(); }
@@ -813,19 +931,26 @@
     else if (e.code === 'F9') { S.depth = !S.depth; apply(); e.preventDefault(); }
   }, true);
 
+  const bakeStats = () => { let n = 0; for (const R of S.rooms) n += (R.chunks || []).length;
+    return { mode: S.mode, chunk: CH, density: +S.dens.toFixed(4), chunks: n, resident: S.bake.resident, visible: S.bake.visible, MPx: +(S.bake.px / 1e6).toFixed(2), cache: S.q && S.q.bake ? S.q.bake.cache : 0,
+      bakes: S.bake.bakes, bakeMs: +S.bake.ms.toFixed(1), bakeMaxMs: +S.bake.maxMs.toFixed(1), evictions: S.bake.evictions, error: S.bake.error }; };
   window.__l0v = {
     version: VERSION, lamp, built,
     on: () => S.on && S.want && S.built && !S.disabled,
     ready: () => S.built || !!S.disabled || !S.on,
     stats: () => ({ version: VERSION, revision: VZ && VZ.revision, on: S.on && S.want && S.built && !S.disabled, attached: !!S.root, built: S.built, disabled: S.disabled, tier: S.tier, depth: S.depth, decalsOn: S.decals,
-      slice: VZ ? VZ.slice.slice() : [], ownLamps: S.ownLamps.map(l => l.id), errors: S.errors, ...S.stats, texMPx: +S.stats.texMPx.toFixed(2),
-      rooms: S.rooms.map(R => ({ id: R.id, floorRects: R.n.floor, faces: R.n.faces, decals: R.n.decals, props: R.props || [], visible: R.cont.visible })) }),
+      slice: VZ ? VZ.slice.slice() : [], ownLamps: S.ownLamps.map(l => l.id), errors: S.errors, ...S.stats, texMPx: +S.stats.texMPx.toFixed(2), bake: bakeStats(),
+      perf: { frameMs: +S.perf.ema.toFixed(2), gpu: S.perf.gpu, gpuMs: +S.perf.gpuEma.toFixed(3) },
+      rooms: S.rooms.map(R => ({ id: R.id, floorRects: R.n.floor, faces: R.n.faces, decals: R.n.decals, props: R.props || [], visible: S.mode === 'bake' ? R.chunks.some(c => c.g.visible) : R.src.visible, chunks: R.chunks.length })) }),
     dev: {
       remaster: v => { S.want = v === undefined ? !S.want : !!v; apply(); return S.want; },
       depth: v => { S.depth = v === undefined ? !S.depth : !!v; apply(); return S.depth; },
       decals: v => { S.decals = v === undefined ? !S.decals : !!v; apply(); return S.decals; },
       rebuild: () => { build(); return S.stats.buildMs; },
-      layer: (label, v) => { let n = 0; for (const R of S.rooms) for (const c of [...R.cont.children, R.ceilG]) if (c.label === label || (label === 'fixtures' && c === R.ceilG)) { c.visible = !!v; n++; } return n; },
+      layer: (label, v) => { let n = 0; for (const R of S.rooms) for (const c of [...R.src.children, R.ceilG]) if (c.label === label || (label === 'fixtures' && c === R.ceilG)) { c.visible = !!v; n++; } invalidate(); stream(true); return n; },
+      source: id => { const R = S.rooms.find(r => r.id === id); return R ? R.src : null; },          // a room's (never displayed) source art
+      chunks: id => { const R = S.rooms.find(r => r.id === id); return R ? R.chunks.map(c => ({ key: c.key, x0: c.x0, y0: c.y0, x1: c.x1, y1: c.y1, baked: !!c.tex, shown: c.g.visible, current: c.ver === S.gen })) : null; },
+      direct: () => { if (S.mode === 'bake') toDirect('DEV: forced direct drawing'); stream(true); return S.mode; },
       macro: id => { const R = S.rooms.find(r => r.id === id); return R && R.macroCanvas ? R.macroCanvas.toDataURL() : null; },
       layers: () => S.root ? { root: S.world.children.indexOf(S.root), level: S.world.children.indexOf(S.level), ceil: S.world.children.indexOf(S.ceil), lampTop: S.world.children.indexOf(S.lampTop), legacyLamps: !!S.legacyLamps } : null,
       art: { carpetCanvas, wallpaperCanvas, capCanvas, decalCanvases, counterCanvas, tableCanvas, holeCanvas, fixtureCanvas },
