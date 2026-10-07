@@ -105,10 +105,12 @@ section('N4', async () => {
   check('N4-1 move.js (headless): crouched + Shift + moving stands and runs at once; exhausted stays crouched; Shift without moving stays crouched; under low furniture stays low',
     s1.slice(0, 2).includes('run') && s1.slice(-1)[0] === 'run' && s2.every(s => s === 'crouch') && s3.every(s => s === 'crouch') && E && s5.every(s => s === 'crawl' || s === 'crouch'),
     `open: ${[...new Set(s1)].join('>')}; exhausted: ${[...new Set(s2)].join('>')}; not moving: ${[...new Set(s3)].join('>')}; under ${under ? under.id : '-'}: ${[...new Set(s5)].join('>')}`);
-  const cur = read('sim.js'), par = execSync('git show 69602e7c9e755fcc65402b1563d4d060f5a10066:sim.js', { cwd: ROOT, maxBuffer: 1 << 26 }).toString(), srv = read('server.js'), srvP = execSync('git show 69602e7c9e755fcc65402b1563d4d060f5a10066:server.js', { cwd: ROOT, maxBuffer: 1 << 26 }).toString();
+  let par = null, srvP = null; try { par = execSync('git show 69602e7c9e755fcc65402b1563d4d060f5a10066:sim.js', { cwd: ROOT, maxBuffer: 1 << 26, stdio: ['ignore', 'pipe', 'ignore'] }).toString(); srvP = execSync('git show 69602e7c9e755fcc65402b1563d4d060f5a10066:server.js', { cwd: ROOT, maxBuffer: 1 << 26, stdio: ['ignore', 'pipe', 'ignore'] }).toString(); } catch (e) { }
+  const cur = read('sim.js'), srv = read('server.js');
   const fnSrc = (s, name) => { const i = s.indexOf('function ' + name + '('); return i < 0 ? null : s.slice(i, s.indexOf('\n}', i) + 2); };
-  const same = ['moveOk', 'hearMove', 'gaitFloor'].every(n => fnSrc(cur, n) && fnSrc(cur, n) === fnSrc(par, n)) && ['mvCheck', 'mvAccept', 'mvReset'].every(n => fnSrc(srv, n) && fnSrc(srv, n) === fnSrc(srvP, n));
-  check('N4-2 server authority unchanged: the server\'s movement checks (moveOk, mvCheck, mvAccept) and what it hears of a gait (hearMove, gaitFloor) are the parent\'s, byte for byte', same);
+  const same = par !== null && ['moveOk', 'hearMove', 'gaitFloor'].every(n => fnSrc(cur, n) && fnSrc(cur, n) === fnSrc(par, n)) && ['mvCheck', 'mvAccept', 'mvReset'].every(n => fnSrc(srv, n) && fnSrc(srv, n) === fnSrc(srvP, n));
+  if (par === null) console.log('SKIP N4-2 (needs the git repository: it compares with the parent commit 69602e7)');
+  else check('N4-2 server authority unchanged: the server\'s movement checks (moveOk, mvCheck, mvAccept) and what it hears of a gait (hearMove, gaitFloor) are the parent\'s, byte for byte', same);
   const mv = read('move.js');
   check('N4-3 the rule is one bounded line in move.js: Shift stands you up only when running is allowed and a standing body fits (no new movement mode, no server change)',
     /if \(mv\.crouch && run && !mv\.runHold && moving && !H\.exhausted && H\.stamina > \.1 && mv\.recover <= 0 && !zone && freeAt\(H\.x, H\.y, M\.radius, 'walk'\)\) mv\.crouch = false;/.test(mv));
