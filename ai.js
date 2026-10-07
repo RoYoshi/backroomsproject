@@ -348,18 +348,26 @@ function hearEvent(e, eng, ev) {
   const unc = (26 + d * .16) * (clear ? 1 : 1.75) * (1.55 - e.tr.INTELLIGENCE * .45) * (1.4 - e.tr.HEARING * .35) * (ev.type === 'breath' ? 1.5 : 1);
   const a = e.streams.perception() * TAU, m = Math.sqrt(e.streams.perception()) * unc, hx = ev.x + Math.cos(a) * m, hy = ev.y + Math.sin(a) * m;
   const h = { id: ++e.mem.soundId, x: hx, y: hy, I, type: ev.type, t: eng.now, src: identified ? identified.id : (ev.ent || ev.src < 0) ? -1 : 0, pid: identified ? identified.id : null, attribution: identified ? 'identified' : 'anonymous', modality: 'sound', c: Math.min(1,.4+.5*I), u: unc, unc, clear };
+  /* (Stage 3B-N) a Hound already after somebody it has lost from sight connects an unidentified movement sound to that person when the sound fits
+   * where they could be by now - its own memory, the time since, the sound's own (fuzzed) position.  An inference, not an identification: it
+   * never reads who really made the sound, so another person's footsteps in the right place fool it just the same. */
+  const inferred = !identified && h.src === 0 && e.kind === 'hound' ? houndInferSource(eng, e, h) : null;
+  if (inferred) { h.src = h.pid = inferred.id; h.attribution = 'inferred'; }
   e.hear = h; e.heardCount = (e.heardCount || 0) + 1;
   e.mem.sounds.unshift(h); if (e.mem.sounds.length > 8) e.mem.sounds.pop();
-  if (identified) {
-    const r = identified;
+  if (identified || inferred) {
+    const r = identified || inferred;
     const loud = I > .3 || ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land';
-    if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (hx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (hy - r.hy) / pdt, .5); } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
-    r.heardAt = eng.now; r.hx = hx; r.hy = hy; r.aw = Math.min(1, r.aw + I * .9);
+    // (3B-N) successive inferred steps support one trail: the trail point moves part way to each step (no jump to every footstep's blur), and
+    // the heading comes from that trail, never faster than a person runs
+    const trail = inferred && eng.now - r.heardAt < 1.6, nx = trail ? lerp(r.hx, hx, .45) : hx, ny = trail ? lerp(r.hy, hy, .45) : hy;
+    if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (nx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (ny - r.hy) / pdt, .5); if (inferred) { const v = Math.hypot(r.hvx, r.hvy); if (v > 320) { r.hvx *= 320 / v; r.hvy *= 320 / v; } } } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
+    r.heardAt = eng.now; r.hx = nx; r.hy = ny; r.aw = Math.min(1, r.aw + I * .9);
     noteEv(r, 'sound', hx, hy, unc, Math.min(1, .4 + .5 * I), eng.now);
     if (eng.now - r.seenAt > 1.2) {                                              // not in sight: the sound is all we have
       const k = Math.min(1, I * 1.4 + .25);
       r.lkx = lerp(r.lkx, hx, r.conf < .35 ? 1 : k); r.lky = lerp(r.lky, hy, r.conf < .35 ? 1 : k);
-      r.conf = Math.max(r.conf, .4 + .5 * I); r.st = ev.st !== undefined ? ev.st : r.st;
+      r.conf = Math.max(r.conf, .4 + .5 * I); r.st = inferred ? (W_S[ev.type] ?? r.st) : ev.st !== undefined ? ev.st : r.st;   // inferred: only what the sound itself says (a running step is running)
       // (v23) which way it is going: only what the footsteps themselves say (the heading built from successive heard positions, fuzz and all).
       // It used to copy the player's true velocity here - the one place hearing leaked the truth.
       if (loud && Math.hypot(r.hvx, r.hvy) > 1) { r.lvx = r.hvx; r.lvy = r.hvy; }
@@ -418,7 +426,7 @@ function threatsAround(e, eng, victimId, cands) {
   }
   return out;
 }
-const W_SN = WORLD.SN;
+const W_SN = WORLD.SN, W_S = WORLD.S;
 /* Stage 2F: shared evidence tools, never a species action brain. Inputs are observations only.
  * See STAGE_2F_DESIGN.md: physical contact, lifecycle and LOD are explicit system boundaries. */
 const INTEL = Object.freeze({ players: 16, sounds: 8, soundTTL: 25, leads: 6, leadTTL: 45, evidence: 4, recordTTL: 120, visited: 128, visitedTTL: 60, habitObs: 6, hypotheses: 3, habitTTL: 30, habitRepeats: 3, habitBias: .12, candidates: 70, debugCandidates: 12 });
@@ -1178,6 +1186,7 @@ function hPerceived(eng, e, r) {
   const est = estimate(e, r, eng.now, eng.geo);
   return { ...est, vx: r.lvx, vy: r.lvy, sp: Math.hypot(r.lvx, r.lvy), seen: false };
 }
+const HEAR_PACE = .85;       // (3B-N) chasing by ear alone: sound gives a direction, not a line to run (a fresh sprinter, 285 px/s, still gains; a tired one does not)
 function hLightStart(eng, e, heardLead = null) {
   if (![S.ROAMING, S.DORMANT, S.CURIOUS, S.FRUSTRATED].includes(e.state) && !(heardLead && [S.HUNTING, S.SEARCHING, S.STALKING].includes(e.state))) return false;
   const L = heardLead || bestAnonLead(e, eng.now); if (!L || L.c < .25 || eng.now - L.t > 3) return false;
@@ -1403,6 +1412,31 @@ function hSearch(eng, e, dt, thinkNow) {
   }
 }
 
+/* (Stage 3B-N) blind pursuit helpers.  The predicted route is the search's own first-hypothesis rule (pickSearchGoal: openings around the anchor,
+ * forward hemisphere of the observed heading, momentum, the Hound's own imprecision), asked once at the start of the chase's blind phase. */
+function blindRoute(eng, e, r, B) {
+  const a = B.anchor || B.lkp;
+  return pickSearchGoal(eng, e, { rid: r.id, started: B.t0, until: B.t0 + 24, why: 'lost', routeStage: 0, visited: B.visited, lkp: a, hd: B.hd, sp: Math.max(B.sp, 60), exitsTried: [] });
+}
+/* the predicted route has been checked (or the evidence ran out): the existing search takes over from there, with what was checked marked */
+function blindDone(eng, e, r, B, why) {
+  beginSearch(eng, e, r, 'lost'); e.mood.frustration = Math.min(1, e.mood.frustration + .15);
+  const s = e.search; s.visited.push({ x: B.lkp.x, y: B.lkp.y }); if (B.goal) s.visited.push({ x: B.goal.x, y: B.goal.y });
+  s.lkp = B.anchor || B.lkp; s.hd = B.hd; s.sp = B.sp; s.routeStage = 2; s.legs = 1; s.goal = null; s.phase = 'pause'; s.pause = 0; s.lookAng = B.hd; setAct(e, 'sniff');
+  e.dbg.blindEnd = { why, at: +eng.now.toFixed(2), legs: B.legs, t: +(eng.now - B.t0).toFixed(2) }; e.blind = null;
+}
+/* (Stage 3B-N) does an unidentified movement sound fit the prey this Hound is after?  Only a Hound in pursuit or searching for one person asks;
+ * only movement sounds count; the prey could have got there since it was last seen / heard (a sprint, 300 px/s, plus the sound's own blur). */
+const MOVE_SOUNDS = { run: 1, walk: 1, crouch: 1, crawl: 1, slide: 1, vault: 1, land: 1, breath: 1 };
+function houndInferSource(eng, e, h) {
+  if (!(e.target > 0) || !(e.state === S.HUNTING || ((e.state === S.SEARCHING || e.state === S.FRUSTRATED) && e.search && e.search.rid === e.target))) return null;
+  if (!MOVE_SOUNDS[h.type]) return null;
+  const r = e.mem.p.get(e.target); if (!r || r.seen || tgtGone(eng, e, r)) return null;
+  const heard = r.heardAt > r.seenAt, last = heard ? r.heardAt : r.seenAt, age = eng.now - last; if (age > 12) return null;
+  const ax = heard ? r.hx : r.lkx, ay = heard ? r.hy : r.lky;
+  return Math.hypot(h.x - ax, h.y - ay) <= 80 + 300 * age + h.unc * .8 ? r : null;
+}
+
 /* STALKING / HUNTING with the committed lunge. ------------------------------------------------------------------------------- */
 function beginHunt(eng, e, r, why) {
   e.hLight = null; e.dbg.listen = ''; e.dbg.hWhy = why;
@@ -1488,18 +1522,38 @@ function hHunt(eng, e, dt, thinkNow) {
     else goTo(eng, e, gx, gy, { every: .45 });
     e.dbg.pursuit = { x: gx, y: gy };
   } else {
-    // out of sight but not out of hearing: fresh loud footsteps (running, sliding, vaulting) keep the hunt going, aimed where they are heading.
-    // Only silence lets the blind clock run at full speed - a prey that goes quiet is the one that gets away.
+    /* (Stage 3B-N) BLIND PURSUIT.  A committed chase that loses sight stays a chase - same state, same pursuit speed - on what the Hound itself
+     * observed: it runs to where it last saw the prey, then on along the route the prey was heading for (the opening from there that best
+     * continues its last seen heading: a corridor, a doorway, round the corner), re-aimed by any fresh running it hears from the prey's trail.
+     * Only when that predicted route has been checked does it turn into the existing search (sniff, other openings, decay, give up).  Inputs:
+     * the record's last sighting (lkx/lky, lvx/lvy, seenAt), heard trail (hx/hy, hvx/hvy, hLoud), geometry and time - never the live player. */
     const byEar = now - r.hLoud < .9 && now - r.heardAt < .9, justNow = now - r.seenAt < .6;
-    e.chaseBlind += dt * (byEar ? .12 : 1);
-    // for a moment after losing sight it keeps going for where it last saw it (a flicker at the edge of vision must not swap the goal back and forth)
-    const est = justNow ? { x: r.lkx, y: r.lky } : byEar ? { x: r.hx + r.hvx * .35, y: r.hy + r.hvy * .35 } : estimate(e, r, now, eng.geo);
+    let B = e.blind;
+    if (!B || B.rid !== r.id || B.seenAt !== r.seenAt) B = e.blind = { rid: r.id, seenAt: r.seenAt, t0: now, lkp: { x: r.lkx, y: r.lky }, hd: Math.atan2(r.lvy, r.lvx), sp: Math.hypot(r.lvx, r.lvy), phase: 'lkp', goal: null, anchor: null, visited: [], legs: 0 };
+    e.chaseBlind += dt * (byEar ? .12 : 1); e.blindEar = byEar;
+    let est;
+    if (byEar) {                                                                                                              // fresh running from the trail: follow it,
+      const tx = r.hx + r.hvx * .35, ty = r.hy + r.hvy * .35, g = B.ear;                                                     // eased toward each new step (no snap to every footfall)
+      B.ear = g && B.phase === 'ear' ? { x: g.x + (tx - g.x) * Math.min(1, dt * 6), y: g.y + (ty - g.y) * Math.min(1, dt * 6) } : { x: tx, y: ty };
+      est = B.ear; B.phase = 'ear'; B.goal = null;
+    }
+    else if (justNow || B.phase === 'lkp') {                                                                                   // first: where it vanished
+      est = B.lkp; if (!justNow && dist(e.x, e.y, B.lkp.x, B.lkp.y) < 70) B.phase = 'route';
+    }
+    if (!est) {
+      if (B.phase === 'ear') { B.phase = 'route'; B.anchor = { x: r.hx, y: r.hy }; if (Math.hypot(r.hvx, r.hvy) > 20) { B.hd = Math.atan2(r.hvy, r.hvx); B.sp = Math.hypot(r.hvx, r.hvy); } B.goal = null; }   // the trail went quiet: plan on from where it was last heard
+      if (!B.goal) { B.goal = blindRoute(eng, e, r, B); B.legs++; }
+      if (!B.goal || dist(e.x, e.y, B.goal.x, B.goal.y) < 70) { blindDone(eng, e, r, B, B.goal ? 'predicted route checked' : 'no route onward'); return; }
+      est = B.goal;
+    }
     goTo(eng, e, est.x, est.y, { every: .5 });
-    e.dbg.pursuit = { x: Math.round(est.x), y: Math.round(est.y), blind: +e.chaseBlind.toFixed(1), ear: byEar ? 1 : 0 };
-    e.dbg.hWhy = byEar ? 'fresh running sound; follow heard position and heard heading' : 'visual contact lost; predict from last observation';
-    if (e.chaseBlind > lerp(1.4, 4.6, e.tr.PERSISTENCE)) { beginSearch(eng, e, r, 'lost'); e.mood.frustration = Math.min(1, e.mood.frustration + .15); return; }
+    const src = byEar ? 'ear' : B.phase === 'lkp' ? 'lkp' : 'route';
+    e.dbg.pursuit = { x: Math.round(est.x), y: Math.round(est.y), blind: +e.chaseBlind.toFixed(1), ear: byEar ? 1 : 0, src, legs: B.legs,
+      ev: { seenAt: +r.seenAt.toFixed(2), heardAt: +r.heardAt.toFixed(2), lkp: [Math.round(B.lkp.x), Math.round(B.lkp.y)], hd: +B.hd.toFixed(2) } };   // DEV: what the goal was built from (memory only)
+    e.dbg.hWhy = byEar ? 'blind pursuit: fresh running on the prey\'s trail; follow heard position and heading' : src === 'lkp' ? 'blind pursuit: run to where the prey vanished' : 'blind pursuit: follow the route the prey was heading for';
+    if (e.chaseBlind > lerp(3.5, 7, e.tr.PERSISTENCE)) { blindDone(eng, e, r, B, 'blind pursuit ran out of evidence'); return; }
   }
-  let chaseV = hSpeed(e, 'chase', eng), turnMul = 1;
+  let chaseV = hSpeed(e, 'chase', eng) * (!seen && e.blindEar ? HEAR_PACE : 1), turnMul = 1;     // (3B-N) blind pursuit keeps the chase pace; only homing on footsteps is a little slower
   if (seen) {
     const d = dist(e.x, e.y, pvT.x, pvT.y), err = Math.abs(angDiff(Math.atan2(pvT.y - e.y, pvT.x - e.x), e.ang));
     if (d < 190) {
@@ -1514,6 +1568,7 @@ function hHunt(eng, e, dt, thinkNow) {
     } else e.dbg.closePivot = null;
   } else e.dbg.closePivot = null;
   const st = follow(eng, e, dt, chaseV, { arrive: 10, noSlow: false, turnMul });
+  if (!seen && st === 'nopath' && e.blind && e.blind.phase === 'lkp') e.blind.phase = 'route';     // (3B-N) the last-seen spot cannot be reached: go on along the predicted route
   e.head = 0;
   // touching the prey without a lunge still counts (a swipe as it runs past)
   for (const pv of eng.nearPlayers(e.x, e.y, 50)) if (pv.alive && !pv.caught && dist(e.x, e.y, pv.x, pv.y) < e.r + 12) return { pv, dir: e.ang, speed: e.speed };
@@ -1584,7 +1639,11 @@ function hReact(eng, e) {
     }
     if (isEnt) return;
     if (h.attribution === 'anonymous') {
-      const L = bestAnonLead(e, now, 'sound'), cur = e.mem.p.get(e.target);
+      const cur = e.mem.p.get(e.target);
+      // (3B-N) a committed chase is never demoted to curiosity by a sound: one that fits the prey's trail was already taken as the prey's
+      // (hearEvent, houndInferSource); one that does not is not followed
+      if (e.state === S.HUNTING) { e.dbg.retarget = 'committed pursuit; a sound off the prey\'s trail is not followed'; return; }
+      const L = bestAnonLead(e, now, 'sound');
       const weak = h.I <= .12, recentSight = cur && (cur.seen || now - cur.seenAt < 1.2);
       if (!weak && !recentSight && L) hLightStart(eng, e, L);
       e.dbg.retarget = recentSight ? 'keep visual prey; unrelated anonymous sound' : 'heard anonymous sound; no person identified';

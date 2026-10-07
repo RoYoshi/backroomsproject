@@ -169,18 +169,26 @@ function hearEvent(e, eng, ev) {
   const unc = (26 + d * .16) * (clear ? 1 : 1.75) * (1.55 - e.tr.INTELLIGENCE * .45) * (1.4 - e.tr.HEARING * .35) * (ev.type === 'breath' ? 1.5 : 1);
   const a = e.streams.perception() * TAU, m = Math.sqrt(e.streams.perception()) * unc, hx = ev.x + Math.cos(a) * m, hy = ev.y + Math.sin(a) * m;
   const h = { id: ++e.mem.soundId, x: hx, y: hy, I, type: ev.type, t: eng.now, src: identified ? identified.id : (ev.ent || ev.src < 0) ? -1 : 0, pid: identified ? identified.id : null, attribution: identified ? 'identified' : 'anonymous', modality: 'sound', c: Math.min(1,.4+.5*I), u: unc, unc, clear };
+  /* (Stage 3B-N) a Hound already after somebody it has lost from sight connects an unidentified movement sound to that person when the sound fits
+   * where they could be by now - its own memory, the time since, the sound's own (fuzzed) position.  An inference, not an identification: it
+   * never reads who really made the sound, so another person's footsteps in the right place fool it just the same. */
+  const inferred = !identified && h.src === 0 && e.kind === 'hound' ? houndInferSource(eng, e, h) : null;
+  if (inferred) { h.src = h.pid = inferred.id; h.attribution = 'inferred'; }
   e.hear = h; e.heardCount = (e.heardCount || 0) + 1;
   e.mem.sounds.unshift(h); if (e.mem.sounds.length > 8) e.mem.sounds.pop();
-  if (identified) {
-    const r = identified;
+  if (identified || inferred) {
+    const r = identified || inferred;
     const loud = I > .3 || ev.type === 'run' || ev.type === 'slide' || ev.type === 'vault' || ev.type === 'land';
-    if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (hx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (hy - r.hy) / pdt, .5); } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
-    r.heardAt = eng.now; r.hx = hx; r.hy = hy; r.aw = Math.min(1, r.aw + I * .9);
+    // (3B-N) successive inferred steps support one trail: the trail point moves part way to each step (no jump to every footstep's blur), and
+    // the heading comes from that trail, never faster than a person runs
+    const trail = inferred && eng.now - r.heardAt < 1.6, nx = trail ? lerp(r.hx, hx, .45) : hx, ny = trail ? lerp(r.hy, hy, .45) : hy;
+    if (loud) { const pdt = eng.now - r.hLoud; if (pdt > .15 && pdt < 1.6) { r.hvx = lerp(r.hvx, (nx - r.hx) / pdt, .5); r.hvy = lerp(r.hvy, (ny - r.hy) / pdt, .5); if (inferred) { const v = Math.hypot(r.hvx, r.hvy); if (v > 320) { r.hvx *= 320 / v; r.hvy *= 320 / v; } } } else if (pdt >= 1.6) { r.hvx = 0; r.hvy = 0; } r.hLoud = eng.now; }   // where the footsteps are going
+    r.heardAt = eng.now; r.hx = nx; r.hy = ny; r.aw = Math.min(1, r.aw + I * .9);
     noteEv(r, 'sound', hx, hy, unc, Math.min(1, .4 + .5 * I), eng.now);
     if (eng.now - r.seenAt > 1.2) {                                              // not in sight: the sound is all we have
       const k = Math.min(1, I * 1.4 + .25);
       r.lkx = lerp(r.lkx, hx, r.conf < .35 ? 1 : k); r.lky = lerp(r.lky, hy, r.conf < .35 ? 1 : k);
-      r.conf = Math.max(r.conf, .4 + .5 * I); r.st = ev.st !== undefined ? ev.st : r.st;
+      r.conf = Math.max(r.conf, .4 + .5 * I); r.st = inferred ? (W_S[ev.type] ?? r.st) : ev.st !== undefined ? ev.st : r.st;   // inferred: only what the sound itself says (a running step is running)
       // (v23) which way it is going: only what the footsteps themselves say (the heading built from successive heard positions, fuzz and all).
       // It used to copy the player's true velocity here - the one place hearing leaked the truth.
       if (loud && Math.hypot(r.hvx, r.hvy) > 1) { r.lvx = r.hvx; r.lvy = r.hvy; }
@@ -239,4 +247,4 @@ function threatsAround(e, eng, victimId, cands) {
   }
   return out;
 }
-const W_SN = WORLD.SN;
+const W_SN = WORLD.SN, W_S = WORLD.S;

@@ -44,10 +44,20 @@ function hiddenPair(reposition=false){
  const n=Math.min(...results.map(a=>a.tr.length));assert(n>=180,'at least three seconds without new evidence');assert.deepEqual(results[0].v,results[1].v);assert.deepEqual(results[0].tr.slice(0,n),results[1].tr.slice(0,n));return `${n} identical decisions after same visible approach`;
 }
 add('2E H6 hidden corner branches cannot change prediction',()=>hiddenPair());
-add('2E H7 fresh hidden running after loss causes anonymous investigation (2F attribution)',()=>{
- const c=corner(),w=World(33),h=still(w,c.bx,c.by,c.ba),p=w.player(c.px,c.py,{light:false});p.x=h.x+Math.cos(h.ang)*90;p.y=h.y+Math.sin(h.ang)*90;p.light=true;w.run(.12);const r=h.mem.p.get(p.id);assert(r?.seen);
- p.x=c.px;p.y=c.py;p.light=false;p.stop();w.step();r.seen=false;r.seenAt=w.eng.now-5;h.state='SEARCHING';h.target=p.id;h.search={rid:p.id,started:w.eng.now-1,goal:null,phase:'pause',legs:1,visited:[],why:'lost',until:w.eng.now+20,maxLegs:5,pause:0,exitsTried:[]};h.act='sniff';h.speed=0;
- w.eng.sound({x:p.x,y:p.y,r:1800,I:1,type:'run',src:p.id,st:2});h.thinkT=0;w.step();assert(h.hear && h.hear.t>w.eng.now-.2);assert.equal(h.hear.attribution,'anonymous');assert.equal(h.hear.pid,null);assert(r.heardAt<w.eng.now-.2);assert.equal(h.state,'CURIOUS');assert(h.hLight);assert(Math.hypot(h.hear.x-p.x,h.hear.y-p.y)>0);
+/* Stage 3B-N superseded the 2E/2F expectation here (USER_DECISION_LOCK 1-2): a Hound after a prey it has lost from sight no longer turns
+ * CURIOUS at that prey's fresh running.  The sound is connected to the prey by INFERENCE (it fits where the prey could be by now) - never by
+ * the bus's source id - and resumes the chase.  A sound that does not fit stays anonymous, exactly as 2F requires. */
+add('2E H7 (3B-N) fresh hidden running that fits the lost prey resumes the chase by inference (never by source id); an unfitting one stays anonymous',()=>{
+ const run=(src,far)=>{const c=corner(),w=World(33),h=still(w,c.bx,c.by,c.ba),p=w.player(c.px,c.py,{light:false});p.x=h.x+Math.cos(h.ang)*90;p.y=h.y+Math.sin(h.ang)*90;p.light=true;w.run(.12);const r=h.mem.p.get(p.id);assert(r?.seen);
+  p.x=c.px;p.y=c.py;p.light=false;p.stop();w.step();r.seen=false;r.seenAt=w.eng.now-(far?1.5:5);h.state='SEARCHING';h.target=p.id;h.search={rid:p.id,started:w.eng.now-1,goal:null,phase:'pause',legs:1,visited:[],why:'lost',until:w.eng.now+20,maxLegs:5,pause:0,exitsTried:[]};h.act='sniff';h.speed=0;
+  const ux=h.x-r.lkx,uy=h.y-r.lky,ul=Math.hypot(ux,uy)||1,sx=far?h.x+ux/ul*1100:p.x,sy=far?h.y+uy/ul*1100:p.y;   // far: on the other side of the Hound from where the prey was
+  if(far){r.heardAt=w.eng.now-.05;r.hx=r.lkx;r.hy=r.lky;}      // far: the prey was heard where it was lost a moment ago - a sound 1100 px the other way cannot be it
+  w.eng.sound({x:sx,y:sy,r:1800,I:1,type:'run',src,st:2});h.thinkT=0;w.step();assert(h.hear && h.hear.t>w.eng.now-.2);assert(Math.hypot(h.hear.x-sx,h.hear.y-sy)>0);return {h,r,w,p};};
+ let {h,r,w,p}=run(undefined,false);
+ const pid=p.id;({h,r,w,p}=run(pid,false));assert.equal(h.hear.attribution,'inferred');assert.equal(h.hear.pid,p.id);assert(r.heardAt>=w.eng.now-.2);assert.equal(h.state,'HUNTING');
+ const a=run(0,false);assert.equal(a.h.hear.attribution,'inferred');assert.equal(a.h.state,'HUNTING');                                       // no source id at all: the same inference
+ const b=run(pid,true);assert.equal(b.h.hear.attribution,'anonymous');assert.equal(b.h.hear.pid,null);assert(b.r.heardAt<b.w.eng.now-.01);assert(['CURIOUS','ALERT'].includes(b.h.state));   // does not fit: anonymous, 2F
+ return `fits the lost prey: ${h.hear.attribution}, ${h.state}; without a source id: ${a.h.hear.attribution}, ${a.h.state}; 1100 px the other way from where the prey was heard 0.05 s ago: ${b.h.hear.attribution}, ${b.h.state}`;
 });
 add('2E H8 silent hidden reposition does not cause magical following',()=>hiddenPair(true));
 add('2E H9 nearby noisy hiding is exposed through real movement footsteps',()=>{

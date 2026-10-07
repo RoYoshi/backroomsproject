@@ -1,0 +1,823 @@
+{
+"results": [
+{
+"id": "B0",
+"name": "hidden truth does not steer the Hound: with the prey silently somewhere else (hundreds of px away), the Hound does exactly the same, tick for tick, until it gets new evidence",
+"ok": true,
+"note": "10 paired runs; prey moved 703-1495 px between the worlds; identical for 1.39 s on average (0.95, 1.88, 0.02, 5.02, 0.95, 0.97, 0.95, 0.97, 1.43, 0.73), ended by new evidence / time; diverged without new evidence: 0"
+},
+{
+"id": "B1",
+"name": "chase around a corner: after losing sight it stays a chase (HUNTING, at pursuit speed) at least until the predicted route is checked or it sees the prey again; it never turns CURIOUS",
+"ok": true,
+"note": "16 chases lost round a corner (the prey running on): kept the chase in 16; saw the prey again within 3 s in 12; mean speed in the first 1.5 s (lunge recovery excluded) 198 px/s (chase 292); reached the last-seen spot 75% (runs not re-seen); CURIOUS in 0; pursuit sources ear, route, lkp; states HUNTING, SEARCHING"
+},
+{
+"id": "B3",
+"name": "recent running out of sight updates the pursuit: followed by ear, the chase kept, its goal nearer the real prey than when the prey goes on quietly; the goal moves far less than the steps' blur (no per-footstep jitter)",
+"ok": true,
+"note": "14 paired chases (same seed; out of sight the prey runs on, or creeps on quietly): followed by ear in 92%; the pursuit goal was 192 px from a running prey vs 315 px from a quiet one (closer in 78%); CURIOUS 0; largest jump of the ear goal between ticks 24 px, against 425 px between the raw heard steps (the steps' blur)"
+},
+{
+"id": "B2",
+"name": "a silent change of route fools it: the predicted route continues the heading it saw, away from where the prey really went",
+"ok": true,
+"note": "12 chases where the prey, out of sight, crept back the way it came: the Hound planned a predicted route in 7, ahead along the heading it saw in 85%, i.e. farther from the real prey than the spot where it vanished in 85%; the prey stayed unseen for 6 s in 25% (the rest were seen on the way to that spot)"
+},
+{
+"id": "B4",
+"name": "no evidence: the blind pursuit becomes a search, confidence decays, and the Hound gives up for a stated reason",
+"ok": true,
+"note": "10 preys gone without a trace (silently 1200-1800 px away): gave up in 10 (after 13 s on average); sequences HUNTING>SEARCHING>FRUSTRATED>ROAMING; reasons memory faded / nowhere left to look; blind phase ended: predicted route checked"
+}
+],
+"data": {
+"B0": [
+{
+"seed": 1,
+"ticks": 57,
+"secs": 0.95,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 1396,
+"statesA": "HUNTING"
+},
+{
+"seed": 3,
+"ticks": 113,
+"secs": 1.88,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 1224,
+"statesA": "HUNTING"
+},
+{
+"seed": 4,
+"ticks": 1,
+"secs": 0.02,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 892,
+"statesA": "HUNTING"
+},
+{
+"seed": 5,
+"ticks": 301,
+"secs": 5.02,
+"diff": null,
+"stopWhy": "time",
+"moved": 903,
+"statesA": "SEARCHING",
+"pursuitSrc": "route"
+},
+{
+"seed": 6,
+"ticks": 57,
+"secs": 0.95,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 1495,
+"statesA": "HUNTING"
+},
+{
+"seed": 7,
+"ticks": 58,
+"secs": 0.97,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 1252,
+"statesA": "HUNTING"
+},
+{
+"seed": 8,
+"ticks": 57,
+"secs": 0.95,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 703,
+"statesA": "HUNTING"
+},
+{
+"seed": 10,
+"ticks": 58,
+"secs": 0.97,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 965,
+"statesA": "HUNTING"
+},
+{
+"seed": 11,
+"ticks": 86,
+"secs": 1.43,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 812,
+"statesA": "HUNTING"
+},
+{
+"seed": 12,
+"ticks": 44,
+"secs": 0.73,
+"diff": null,
+"stopWhy": "new evidence",
+"moved": 747,
+"statesA": "HUNTING"
+}
+],
+"B1": [
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 0.25,
+"meanSpeed": 251,
+"reachedLkp": false,
+"srcs": [
+"ear"
+],
+"seenAgain": 0.27
+},
+{
+"states": [
+"HUNTING",
+"SEARCHING"
+],
+"curious": 0,
+"hunt": 2.28,
+"meanSpeed": 136,
+"reachedLkp": true,
+"srcs": [
+null,
+"ear",
+"route"
+],
+"seenAgain": -1
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 0.02,
+"meanSpeed": 0,
+"reachedLkp": false,
+"srcs": [
+null
+],
+"seenAgain": 0.03
+},
+{
+"states": [
+"HUNTING",
+"SEARCHING"
+],
+"curious": 0,
+"hunt": 2.33,
+"meanSpeed": 276,
+"reachedLkp": false,
+"srcs": [
+"ear",
+"route"
+],
+"seenAgain": -1
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 0.83,
+"meanSpeed": 245,
+"reachedLkp": true,
+"srcs": [
+"ear"
+],
+"seenAgain": 0.85
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 1.08,
+"meanSpeed": 248,
+"reachedLkp": true,
+"srcs": [
+"ear"
+],
+"seenAgain": 1.1
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 1.3,
+"meanSpeed": 249,
+"reachedLkp": true,
+"srcs": [
+"ear"
+],
+"seenAgain": 1.32
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 2.13,
+"meanSpeed": 248,
+"reachedLkp": true,
+"srcs": [
+"lkp",
+"ear"
+],
+"seenAgain": 2.15
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 0.5,
+"meanSpeed": 246,
+"reachedLkp": false,
+"srcs": [
+"ear"
+],
+"seenAgain": 0.52
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 0.27,
+"meanSpeed": 243,
+"reachedLkp": false,
+"srcs": [
+"lkp",
+"ear"
+],
+"seenAgain": 0.28
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 2.93,
+"meanSpeed": 245,
+"reachedLkp": true,
+"srcs": [
+"ear",
+"route"
+],
+"seenAgain": 2.95
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 3.02,
+"meanSpeed": 247,
+"reachedLkp": true,
+"srcs": [
+"lkp",
+"ear"
+],
+"seenAgain": -1
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 0.83,
+"meanSpeed": 52,
+"reachedLkp": false,
+"srcs": [
+null,
+"ear"
+],
+"seenAgain": 0.85
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 3.02,
+"meanSpeed": 243,
+"reachedLkp": true,
+"srcs": [
+"lkp",
+"ear",
+"route"
+],
+"seenAgain": -1
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 2.72,
+"meanSpeed": 244,
+"reachedLkp": false,
+"srcs": [
+"ear"
+],
+"seenAgain": 2.73
+},
+{
+"states": [
+"HUNTING"
+],
+"curious": 0,
+"hunt": 0.6,
+"meanSpeed": 0,
+"reachedLkp": false,
+"srcs": [
+null
+],
+"seenAgain": 0.62
+}
+],
+"B3": [
+{
+"run": {
+"err": 223,
+"srcs": [
+null,
+"ear",
+"route"
+],
+"curious": 0,
+"maxJump": 20,
+"rawJump": 270
+},
+"quiet": {
+"err": 231,
+"srcs": [
+null,
+"lkp",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 592,
+"srcs": [
+"ear",
+"route"
+],
+"curious": 0,
+"maxJump": 0,
+"rawJump": 0
+},
+"quiet": {
+"err": 592,
+"srcs": [
+"ear",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 118,
+"srcs": [
+"ear"
+],
+"curious": 0,
+"maxJump": 24,
+"rawJump": 425
+},
+"quiet": {
+"err": 151,
+"srcs": [
+"ear",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 71,
+"srcs": [
+"ear"
+],
+"curious": 0,
+"maxJump": 14,
+"rawJump": 191
+},
+"quiet": {
+"err": 71,
+"srcs": [
+"ear",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 185,
+"srcs": [
+"ear"
+],
+"curious": 0,
+"maxJump": 16,
+"rawJump": 222
+},
+"quiet": {
+"err": 396,
+"srcs": [
+"ear",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 114,
+"srcs": [
+"lkp",
+"ear"
+],
+"curious": 0,
+"maxJump": 20,
+"rawJump": 239
+},
+"quiet": {
+"err": 213,
+"srcs": [
+"lkp",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 150,
+"srcs": [
+"ear"
+],
+"curious": 0,
+"maxJump": 7,
+"rawJump": 104
+},
+"quiet": {
+"err": 156,
+"srcs": [
+"ear",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 178,
+"srcs": [
+"ear",
+"route"
+],
+"curious": 0,
+"maxJump": 12,
+"rawJump": 180
+},
+"quiet": {
+"err": 243,
+"srcs": [
+"ear",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 113,
+"srcs": [
+"lkp",
+"ear"
+],
+"curious": 0,
+"maxJump": 21,
+"rawJump": 240
+},
+"quiet": {
+"err": 231,
+"srcs": [
+"lkp",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 287,
+"srcs": [
+null,
+"ear"
+],
+"curious": 0,
+"maxJump": 0,
+"rawJump": 344
+},
+"quiet": {
+"err": 303,
+"srcs": [
+null,
+"ear",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 155,
+"srcs": [
+"lkp",
+"ear",
+"route"
+],
+"curious": 0,
+"maxJump": 19,
+"rawJump": 262
+},
+"quiet": {
+"err": 601,
+"srcs": [
+"lkp",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 88,
+"srcs": [
+"ear"
+],
+"curious": 0,
+"maxJump": 18,
+"rawJump": 234
+},
+"quiet": {
+"err": 537,
+"srcs": [
+"ear",
+"route"
+]
+}
+},
+{
+"run": {
+"err": 317,
+"srcs": [
+null
+],
+"curious": 0,
+"maxJump": 0,
+"rawJump": 134
+},
+"quiet": {
+"err": 288,
+"srcs": [
+null
+]
+}
+},
+{
+"run": {
+"err": 103,
+"srcs": [
+"ear"
+],
+"curious": 0,
+"maxJump": 15,
+"rawJump": 203
+},
+"quiet": {
+"err": 403,
+"srcs": [
+"ear",
+"route"
+]
+}
+}
+],
+"B2": [
+{
+"seen": true,
+"caught": false,
+"goalAhead": true,
+"routed": true,
+"away": true
+},
+{
+"seen": true,
+"caught": false,
+"goalAhead": true,
+"routed": true,
+"away": false
+},
+{
+"seen": true,
+"caught": false,
+"goalAhead": false,
+"routed": true,
+"away": true
+},
+{
+"seen": true,
+"caught": false,
+"goalAhead": null,
+"routed": false,
+"away": null
+},
+{
+"seen": false,
+"caught": false,
+"goalAhead": true,
+"routed": true,
+"away": true
+},
+{
+"seen": true,
+"caught": false,
+"goalAhead": true,
+"routed": true,
+"away": true
+},
+{
+"seen": false,
+"caught": false,
+"goalAhead": true,
+"routed": true,
+"away": true
+},
+{
+"seen": true,
+"caught": false,
+"goalAhead": null,
+"routed": false,
+"away": null
+},
+{
+"seen": true,
+"caught": false,
+"goalAhead": null,
+"routed": false,
+"away": null
+},
+{
+"seen": true,
+"caught": false,
+"goalAhead": null,
+"routed": false,
+"away": null
+},
+{
+"seen": true,
+"caught": false,
+"goalAhead": true,
+"routed": true,
+"away": true
+},
+{
+"seen": false,
+"caught": false,
+"goalAhead": null,
+"routed": false,
+"away": null
+}
+],
+"B4": [
+{
+"gave": 14.1,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0.03,
+"why": "memory faded",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 64.85,
+"legs": 1,
+"t": 2.48
+}
+},
+{
+"gave": 15.8,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0,
+"why": "memory faded",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 65.65,
+"legs": 1,
+"t": 3
+}
+},
+{
+"gave": 13.3,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0,
+"why": "memory faded",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 63.02,
+"legs": 1,
+"t": 0.68
+}
+},
+{
+"gave": 13.4,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0,
+"why": "nowhere left to look",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 65.4,
+"legs": 1,
+"t": 2.67
+}
+},
+{
+"gave": 13.7,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0,
+"why": "memory faded",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 64.5,
+"legs": 1,
+"t": 3.12
+}
+},
+{
+"gave": 9.6,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0.35,
+"why": "nowhere left to look",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 62.15,
+"legs": 1,
+"t": 1.7
+}
+},
+{
+"gave": 14.4,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0,
+"why": "memory faded",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 65.48,
+"legs": 1,
+"t": 2.98
+}
+},
+{
+"gave": 14,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0,
+"why": "memory faded",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 63.63,
+"legs": 1,
+"t": 3.2
+}
+},
+{
+"gave": 10.7,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0.31,
+"why": "nowhere left to look",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 61.7,
+"legs": 1,
+"t": 1.2
+}
+},
+{
+"gave": 10.9,
+"seq": "HUNTING>SEARCHING>FRUSTRATED>ROAMING",
+"conf": 0.29,
+"why": "nowhere left to look",
+"blindEnd": {
+"why": "predicted route checked",
+"at": 62.65,
+"legs": 1,
+"t": 2.23
+}
+}
+]
+}
+}

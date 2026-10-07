@@ -68,7 +68,7 @@ add('Y05 turning and snapping: headings change smoothly (no per-tick flips), spe
       if (!p.path || !p.path.length) p.route([{ x: p.x + 250, y: p.y }, { x: p.x - 250, y: p.y + 80 }], 'walk');
       const dh = Math.abs(angD(h.ang, ha)), ds = Math.abs(angD(sm.ang, sa)); ha = h.ang; sa = sm.ang; ticks++;
       if (!h.trav && h.tier !== 'far') { hMax = Math.max(hMax, dh); if (dh > .2) hOver++; } if (!sm.trav && sm.tier !== 'far') { sMax = Math.max(sMax, ds); if (ds > .2) sOver++; }
-      const ah = Math.abs(h.speed - hv) / DT; hv = h.speed; if (h.act !== 'lunge' && !h.cap && !h.commit && ah > aMax && h.tier !== 'far') aMax = ah; if (h.act !== 'lunge' && !h.cap && !h.commit && ah > 4500 && h.tier !== 'far') accOver++;   // (the take-off of a lunge is a deliberate burst, not a glitch)
+      const ah = Math.abs(h.speed - hv) / DT; hv = h.speed; if (h.act !== 'lunge' && !h.trav && !h.cap && !h.commit && ah > aMax && h.tier !== 'far') aMax = ah; if (h.act !== 'lunge' && !h.trav && !h.cap && !h.commit && ah > 4500 && h.tier !== 'far') accOver++;   // (the take-off of a lunge is a deliberate burst, not a glitch.  Stage 3B-N: nor is a vault / crawl traversal - its scripted arc is measured as distance per tick, and the heading check above already leaves it out; the 3B-N blind pursuit takes a Hound over a vault in seed 75, which the parent never did)
       sv = sm.speed;
     }, 1);
   }

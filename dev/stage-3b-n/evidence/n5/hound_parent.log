@@ -1,0 +1,12 @@
+PASS B0 hidden truth does not steer the Hound: with the prey silently somewhere else (hundreds of px away), the Hound does exactly the same, tick for tick, until it gets new evidence
+       10 paired runs; prey moved 703-1483 px between the worlds; identical for 1.01 s on average (0.72, 1.77, 1.07, 1.07, 0.95, 0.97, 0.83, 0.97, 0.97, 0.73), ended by new evidence; diverged without new evidence: 0
+FAIL B1 chase around a corner: after losing sight it stays a chase (HUNTING, at pursuit speed) at least until the predicted route is checked or it sees the prey again; it never turns CURIOUS
+       16 chases lost round a corner (the prey running on): kept the chase in 8; saw the prey again within 3 s in 10; mean speed in the first 1.5 s (lunge recovery excluded) 170 px/s (chase 292); reached the last-seen spot 100% (runs not re-seen); CURIOUS in 8; pursuit sources -; states HUNTING, CURIOUS
+FAIL B3 recent running out of sight updates the pursuit: followed by ear, the chase kept, its goal nearer the real prey than when the prey goes on quietly; the goal moves far less than the steps' blur (no per-footstep jitter)
+       14 paired chases (same seed; out of sight the prey runs on, or creeps on quietly): followed by ear in 0%; the pursuit goal was 219 px from a running prey vs 193 px from a quiet one (closer in 57%); CURIOUS 8; largest jump of the ear goal between ticks 0 px, against 0 px between the raw heard steps (the steps' blur)
+FAIL B2 a silent change of route fools it: the predicted route continues the heading it saw, away from where the prey really went
+       12 chases where the prey, out of sight, crept back the way it came: the Hound planned a predicted route in 0, ahead along the heading it saw in 0%, i.e. farther from the real prey than the spot where it vanished in 0%; the prey stayed unseen for 6 s in 25% (the rest were seen on the way to that spot)
+PASS B4 no evidence: the blind pursuit becomes a search, confidence decays, and the Hound gives up for a stated reason
+       10 preys gone without a trace (silently 1200-1800 px away): gave up in 10 (after 15 s on average); sequences HUNTING>SEARCHING>FRUSTRATED>ROAMING; reasons memory faded; blind phase ended: -
+
+2/5 passed

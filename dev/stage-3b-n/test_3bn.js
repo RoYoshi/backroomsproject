@@ -114,6 +114,22 @@ section('N4', async () => {
     /if \(mv\.crouch && run && !mv\.runHold && moving && !H\.exhausted && H\.stamina > \.1 && mv\.recover <= 0 && !zone && freeAt\(H\.x, H\.y, M\.radius, 'walk'\)\) mv\.crouch = false;/.test(mv));
 });
 
+/* ---------------------------------------------------------------- N5 Hound blind pursuit (static law checks; the behaviour is hound_3bn.js) */
+section('N5', async () => {
+  const H = read('dev/ai_src/50_hound.js'), SN = read('dev/ai_src/20_senses.js');
+  const body = (s, name) => { const i = s.indexOf('function ' + name + '('); if (i < 0) return ''; let d = 0, k = s.indexOf('{', i); for (let j = k; j < s.length; j++) { if (s[j] === '{') d++; else if (s[j] === '}' && !--d) return s.slice(i, j + 1); } return ''; };
+  const hunt = body(H, 'hHunt'), blind = hunt.slice(hunt.indexOf('BLIND PURSUIT'), hunt.indexOf('let chaseV')), parts = [blind, body(H, 'blindRoute'), body(H, 'blindDone'), body(H, 'houndInferSource')];
+  const TRUTH = /playerById|nearPlayers|candidates\(|eng\.pl\b|\.visual\b|ev\.src|ev\.vx|ev\.vy|ev\.st\b/;
+  check('N5-1 the blind pursuit, its route, its hand-over and the sound inference read no live player: no playerById / nearPlayers / candidates / visual sample / the sound bus\'s source id, velocity or state',
+    parts.every(p => p.length > 50) && parts.every(p => !TRUTH.test(p)), parts.map(p => p.length + ' chars' + (TRUTH.test(p) ? ' (' + p.match(TRUTH)[0] + ')' : '')).join(', '));
+  const he = body(SN, 'hearEvent');
+  check('N5-2 an inferred sound updates the record from the sound only (its blurred position, its type), never from the bus\'s true state (r.st from the type)',
+    /r\.st = inferred \? \(W_S\[ev\.type\] \?\? r\.st\)/.test(he) && /const inferred = !identified && h\.src === 0 && e\.kind === 'hound' \? houndInferSource\(eng, e, h\) : null;/.test(he));
+  check('N5-3 a committed chase is never demoted to CURIOUS by a sound (HUNTING returns before any investigation starts)', /if \(e\.state === S\.HUNTING\) \{ e\.dbg\.retarget = 'committed pursuit;[^\n]*?return; \}/.test(H));
+  const built = execSync("sh -c 'cd dev/ai_src && cat 00_head.js 10_geo.js 20_senses.js 22_intelligence.js 25_light.js 30_entity.js 40_capture.js 50_hound.js 60_smiler.js 90_engine.js'", { cwd: ROOT, maxBuffer: 1 << 26 }).toString();
+  check('N5-4 ai.js is exactly its sources (dev/ai_src, build_ai.sh)', built === read('ai.js'));
+});
+
 (async () => {
   for (const [id, fn] of sections) { if (ONLY && !ONLY.includes(id)) continue; try { await fn(); } catch (e) { check(id + ' harness', false, String(e && e.stack || e).slice(0, 500)); } }
   const pass = results.filter(r => r.ok).length;
