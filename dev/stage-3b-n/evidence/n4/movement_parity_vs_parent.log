@@ -1,0 +1,9 @@
+PASS walk: 600 identical real move.js ticks
+PASS sprint: 600 identical real move.js ticks
+PASS crouch: 600 identical real move.js ticks
+PASS crawl: 600 identical real move.js ticks
+PASS slide: 600 identical real move.js ticks
+PASS vault: 600 identical real move.js ticks
+PASS deep: 600 identical real move.js ticks
+PASS recovery: 600 identical real move.js ticks
+4800 movement trace pairs identical; radius 15; recovery threshold 36

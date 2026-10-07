@@ -15,7 +15,7 @@ const angDiff = (a, b) => Math.atan2(Math.sin(a - b), Math.cos(a - b));
 const A = () => window.__api;
 
 const mv = {
-  s: 'stand', t: 0, crouch: false, prevC: false, slide: null, slideCd: 0, recover: 0, vault: null, vaultCd: 0,
+  s: 'stand', t: 0, crouch: false, prevC: false, prevRun: false, runHold: false, slide: null, slideCd: 0, recover: 0, vault: null, vaultCd: 0,
   push: 0, pushKey: '', exh: false, ev: [], down: 0, dragTo: null, tw: 0, downMode: '', prof: 1, breathT: 0, deficit: 0, lastRun: -99, surf: 'carpet', zone: null, q: 1, speed: 0,
   slideDist: 0, stamPrev: 100, hard: 0,
 };
@@ -24,7 +24,7 @@ window.__mv = mv;
 /* ---------------------------------------------------------------- state helpers */
 function setState(s) { if (mv.s !== s) { mv.prev = mv.s; mv.s = s; mv.t = 0; } }
 function reset() {
-  Object.assign(mv, { s: 'stand', t: 0, crouch: false, prevC: false, slide: null, slideCd: 0, recover: 0, vault: null, vaultCd: 0, push: 0, exh: false, ev: [], down: 0, dragTo: null, tw: 0, downMode: '', prof: 1, breathT: 0, deficit: 0, zone: null, q: 1, speed: 0 });
+  Object.assign(mv, { s: 'stand', t: 0, crouch: false, prevC: false, prevRun: false, runHold: false, slide: null, slideCd: 0, recover: 0, vault: null, vaultCd: 0, push: 0, exh: false, ev: [], down: 0, dragTo: null, tw: 0, downMode: '', prof: 1, breathT: 0, deficit: 0, zone: null, q: 1, speed: 0 });
   const a = A(); if (a) { a.H.exhausted = false; a.H.sprinting = false; }
 }
 mv.reset = reset;
@@ -157,6 +157,8 @@ function stepInner(ix, iy, run, dt) {
   mv.surf = W.surfaceAt(H.x, H.y, a.Oc);
   const inRoom12 = (() => { const c = a.Oc[11]; return H.x >= c.x * 96 && H.x < (c.x + c.w) * 96 && H.y >= c.y * 96 && H.y < (c.y + c.h) * 96; })();
   const c = !!(Q && Q.has('KeyC')), cEdge = c && !mv.prevC; mv.prevC = c;
+  const runEdge = !!run && !mv.prevRun; mv.prevRun = !!run;
+  if (!run || runEdge) mv.runHold = false;                             // (3B-N) a fresh Shift press always asks to run again
   const speedNow = Math.hypot(H.vx, H.vy);
   if (H.exhausted && H.stamina >= M.recoverAt) H.exhausted = false;
 
@@ -185,10 +187,15 @@ function stepInner(ix, iy, run, dt) {
   if (cEdge && !mv.slide) {
     if ((mv.s === 'run' || speedNow >= 225) && speedNow >= M.slideMin && !zone) startSlide(H);
     else if (zone) { /* can't stand up under a table */ }
-    else mv.crouch = !mv.crouch;
+    else { mv.crouch = !mv.crouch; if (mv.crouch && run) mv.runHold = true; }     // (3B-N) crouching with C while Shift is already held: C wins until Shift is pressed again
     if (mv.slide) { H.sprinting = false; return stepSlide(H, dt, dx, dy); }
   }
   if (zone && !mv.crouch) mv.crouch = true;                            // spawned/teleported into low geometry
+  /* (Stage 3B-N) Shift while crouched: stand up and run, when running is allowed - moving, not exhausted, stamina left, the slide's short
+   * recovery over - and when a standing body fits here (out of any crawl zone, clear of holes and low furniture in walk mode).  Otherwise you
+   * stay low and nothing else changes; while Shift stays held it happens the moment it becomes allowed (crawling out from under a table, the
+   * slide's recovery ending, stamina coming back).  Shift never crouches you, starts or cuts a slide.  The result is the ordinary run below. */
+  if (mv.crouch && run && !mv.runHold && moving && !H.exhausted && H.stamina > .1 && mv.recover <= 0 && !zone && freeAt(H.x, H.y, M.radius, 'walk')) mv.crouch = false;
 
   /* pick the state */
   let want;

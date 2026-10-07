@@ -1,0 +1,9 @@
+FAIL M1 open space: crouched, Shift + a direction stands you up and runs (no second C), at the ordinary run speed   crouched true; states crouch; running -31 step(s) after Shift + direction reached the movement step; top speed 92 px/s (run 285)
+FAIL M2 insufficient clearance: under low furniture with Shift held you stay low (no frame standing where a standing body does not fit); out from under it you stand and run   states crawl > crouch; 111 steps under it, 165 low; standing without room 0; stood at -; ran after false
+FAIL M3 stamina: exhausted you stay crouched with Shift held; when stamina is back (Shift still held) you stand and run   exhausted: crouch (top 86 px/s); stamina back: crouch
+FAIL M4 repeated Shift presses while crouched and moving: the first press stands you up; none crouches you again (no stand/crouch flicker)   states crouch; crouched again after standing: 1 steps
+FAIL M5 C while Shift is held crouches you and moving keeps you low; pressing Shift again stands you up and runs   C with Shift held: crouched true; moving with Shift still held: crouch; Shift pressed again: crouch
+FAIL M6 slide rules kept: run + C slides, the slide ends low for its recovery, and with Shift still held you run again after it   states stand > run > slide > crouch; low after the slide 0 ms (recovery .32 s); ran after: false
+FAIL M7 networked (server-checked player): crouch -> Shift runs; the server accepts every position (no correction) and an observing player sees crouch, then run at run speed, where the player really is   client crouch; corrections 0; the observer saw stand > crouch (top 92 px/s); server vs client position after 0 px
+
+0/7 passed

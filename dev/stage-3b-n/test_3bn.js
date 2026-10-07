@@ -91,6 +91,29 @@ section('N3', async () => {
     B.includes('&&Vl.push({x:t*96,y:e*96})}for(let e of Pc)Vl.push({x:e.x,y:e.y},{x:e.x+e.w,y:e.y},{x:e.x,y:e.y+e.h},{x:e.x+e.w,y:e.y+e.h});function Hl('));
 });
 
+/* ---------------------------------------------------------------- N4 Shift while crouched (the real move.js, headless; the browser check is move_3bn.js) */
+section('N4', async () => {
+  const { makeMover } = require(path.join(ROOT, 'dev', 'move_model.js')), sim = require(path.join(ROOT, 'sim.js'))({ seed: 4 }), W = require(path.join(ROOT, 'world.js'));
+  let clock = 0; const mk = (x, y) => { const M = makeMover(sim, W, () => clock); M.H.x = x; M.H.y = y; return M; };
+  const DT = 1 / 60, steps = (M, n, ix, iy, run, c) => { const out = []; for (let i = 0; i < n; i++) { if (c && i === 0) M.mv.crouch = true; M.mv.step(ix, iy, run, DT); clock += DT; out.push(M.mv.s); } return out; };
+  const open = (() => { for (let y = 3000; y < 4300; y += 48) for (let x = 400; x < 2000; x += 48) { let ok = true; for (let d = 0; d < 700 && ok; d += 24) ok = sim.clearAt(x + d, y, 30); if (ok) return [x, y]; } return null; })();
+  const A = mk(...open); A.mv.crouch = true; const s1 = steps(A, 30, 1, 0, true);
+  const B = mk(...open); B.mv.crouch = true; B.H.exhausted = true; B.H.stamina = 0; const s2 = steps(B, 30, 1, 0, true);
+  const C = mk(...open); C.mv.crouch = true; const s3 = steps(C, 30, 0, 0, true);                                  // Shift but not moving
+  const under = W.PROPS.find(p => p.type === 'under' && (p.rect.w >= 120 || p.rect.h >= 120)), E = under ? mk(under.rect.x + under.rect.w / 2, under.rect.y + under.rect.h / 2) : null;
+  if (E) E.mv.crouch = true; const s5 = E ? steps(E, 20, under.rect.w >= under.rect.h ? .001 : 0, under.rect.w >= under.rect.h ? 0 : .001, true) : [];
+  check('N4-1 move.js (headless): crouched + Shift + moving stands and runs at once; exhausted stays crouched; Shift without moving stays crouched; under low furniture stays low',
+    s1.slice(0, 2).includes('run') && s1.slice(-1)[0] === 'run' && s2.every(s => s === 'crouch') && s3.every(s => s === 'crouch') && E && s5.every(s => s === 'crawl' || s === 'crouch'),
+    `open: ${[...new Set(s1)].join('>')}; exhausted: ${[...new Set(s2)].join('>')}; not moving: ${[...new Set(s3)].join('>')}; under ${under ? under.id : '-'}: ${[...new Set(s5)].join('>')}`);
+  const cur = read('sim.js'), par = execSync('git show 69602e7c9e755fcc65402b1563d4d060f5a10066:sim.js', { cwd: ROOT, maxBuffer: 1 << 26 }).toString(), srv = read('server.js'), srvP = execSync('git show 69602e7c9e755fcc65402b1563d4d060f5a10066:server.js', { cwd: ROOT, maxBuffer: 1 << 26 }).toString();
+  const fnSrc = (s, name) => { const i = s.indexOf('function ' + name + '('); return i < 0 ? null : s.slice(i, s.indexOf('\n}', i) + 2); };
+  const same = ['moveOk', 'hearMove', 'gaitFloor'].every(n => fnSrc(cur, n) && fnSrc(cur, n) === fnSrc(par, n)) && ['mvCheck', 'mvAccept', 'mvReset'].every(n => fnSrc(srv, n) && fnSrc(srv, n) === fnSrc(srvP, n));
+  check('N4-2 server authority unchanged: the server\'s movement checks (moveOk, mvCheck, mvAccept) and what it hears of a gait (hearMove, gaitFloor) are the parent\'s, byte for byte', same);
+  const mv = read('move.js');
+  check('N4-3 the rule is one bounded line in move.js: Shift stands you up only when running is allowed and a standing body fits (no new movement mode, no server change)',
+    /if \(mv\.crouch && run && !mv\.runHold && moving && !H\.exhausted && H\.stamina > \.1 && mv\.recover <= 0 && !zone && freeAt\(H\.x, H\.y, M\.radius, 'walk'\)\) mv\.crouch = false;/.test(mv));
+});
+
 (async () => {
   for (const [id, fn] of sections) { if (ONLY && !ONLY.includes(id)) continue; try { await fn(); } catch (e) { check(id + ' harness', false, String(e && e.stack || e).slice(0, 500)); } }
   const pass = results.filter(r => r.ok).length;
