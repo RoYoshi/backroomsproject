@@ -1,0 +1,121 @@
+THE FAR BACKROOMS - Stage 3B QA2 (QA1 refinement / performance-first) - changed files
+
+Branch stage-3b-remaster. Status letters: A added, M modified, D deleted (git diff --name-status).
+
+== Since the QA1 human-QA checkpoint (24850ef): the QA1R1, QA1R2 and QA2 commits ==
+  A  STAGE_3B_PROP_CANON_AUDIT.md    - QA2 deliverable: the prop / dressing canon audit
+  A  STAGE_3B_QA2_CHANGED_FILES.txt    - QA2 deliverable: this list
+  A  STAGE_3B_QA2_HUMAN_QA.md    - QA2 deliverable: the human-QA guide
+  A  STAGE_3B_QA2_PERFORMANCE.md    - QA2 deliverable: the performance report
+  M  assets/index-DKbV5Nv9.js    - the bundle: the guarded built() hook now also passes this.app (presentation; undone by freeze_3b.py)
+  M  assets/l0-remaster.js    - the remaster module (presentation only): QA2 bake (chunk textures), surface/decal receiver, canon removals, prop volume, DEV readout
+  M  assets/level0_visuals.js    - the presentation authority (data only): canon `kinds` table, empty prop sets, seamless carpet, new dressing params, bake quality hints
+  A  dev/stage-3b/evidence/qa2/perf_qa1_ablate.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa1_fill.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa1_interval.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa2_interval.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa2_scenes.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_r1_interval.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_r1_scenes.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-blackout-table-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-counter-qa1-vs-qa2.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-humming-counter-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-materials-qa1-vs-qa2.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-pillar-hall-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-pillar-north-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-receiver-proof-mark.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-table-qa1-vs-qa2.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-yellow-hole-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-yellow-spawn-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2_br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2_freeze_3b.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2_smoke_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2_test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/r1_br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/r1_freeze_3b.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/r1_test_3b.log    - evidence (logs, measurements, capture sheets)
+  M  dev/stage-3b/freeze_3b.py    - DEV: gameplay freeze, knows the new hook text
+  M  dev/stage-3b/package_3b.py    - DEV: packager (receipt name option, QA1 ancestry check)
+  A  dev/stage-3b/perf_3b.js    - DEV: the bounded presentation-cost profiler (overdraw, synced scene time, GL counts, layer ablation, frame interval)
+  M  dev/stage-3b/smoke_3b.js    - DEV: browser smoke (9: + S09 receiver)
+  M  dev/stage-3b/test_3b.js    - DEV: unit checks (21: + R12 bake, R13 receiver, V08 canon guard)
+
+== Since the accepted BR-RoLE 1.0 (b86966b): all of Stage 3B so far ==
+  A  STAGE_3B_DONOR_LEDGER.md
+  A  STAGE_3B_PROP_CANON_AUDIT.md    - QA2 deliverable: the prop / dressing canon audit
+  A  STAGE_3B_QA2_CHANGED_FILES.txt    - QA2 deliverable: this list
+  A  STAGE_3B_QA2_HUMAN_QA.md    - QA2 deliverable: the human-QA guide
+  A  STAGE_3B_QA2_PERFORMANCE.md    - QA2 deliverable: the performance report
+  A  STAGE_3B_VISUAL_AUDIT.md
+  A  STAGE_3B_VISUAL_SLICE_HUMAN_QA.md
+  M  assets/index-DKbV5Nv9.js    - the bundle: the guarded built() hook now also passes this.app (presentation; undone by freeze_3b.py)
+  A  assets/l0-remaster.js    - the remaster module (presentation only): QA2 bake (chunk textures), surface/decal receiver, canon removals, prop volume, DEV readout
+  A  assets/level0_visuals.js    - the presentation authority (data only): canon `kinds` table, empty prop sets, seamless carpet, new dressing params, bake quality hints
+  A  dev/stage-3b/evidence/3b0/br_role_unit_baseline.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/freeze_3b.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/legacy-blackout-corridor-game-and-materials.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/legacy-blackout-table-game-and-materials.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/legacy-humming-counter-game-and-materials.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/legacy-humming-west-game-and-materials.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/legacy-yellow-east-game-and-materials.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/legacy-yellow-spawn-game-and-materials.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/map_report.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/map_report_slice_rooms.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/preflight.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b0/test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b1a/3b1a-yellow-east-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b1a/3b1a-yellow-hole-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b1a/3b1a-yellow-spawn-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b1a/br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b1a/freeze_3b.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b1a/smoke_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/3b1a/test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/freeze_3b.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/qa1-blackout-table-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/qa1-humming-counter-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/qa1-pillar-hall-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/qa1-pillar-north-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/qa1-yellow-hole-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/qa1-yellow-spawn-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/smoke_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa1/test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa1_ablate.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa1_fill.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa1_interval.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa2_interval.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_qa2_scenes.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_r1_interval.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/perf_r1_scenes.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-blackout-table-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-counter-qa1-vs-qa2.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-humming-counter-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-materials-qa1-vs-qa2.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-pillar-hall-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-pillar-north-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-receiver-proof-mark.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-table-qa1-vs-qa2.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-yellow-hole-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2-yellow-spawn-legacy-vs-remaster.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2_br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2_freeze_3b.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2_smoke_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/qa2_test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/r1_br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/r1_freeze_3b.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/qa2/r1_test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/freeze_3b.py    - DEV: gameplay freeze, knows the new hook text
+  A  dev/stage-3b/look_3b.js    - DEV tool
+  A  dev/stage-3b/map_report.js    - DEV tool
+  A  dev/stage-3b/package_3b.py    - DEV: packager (receipt name option, QA1 ancestry check)
+  A  dev/stage-3b/perf_3b.js    - DEV: the bounded presentation-cost profiler (overdraw, synced scene time, GL counts, layer ablation, frame interval)
+  A  dev/stage-3b/smoke_3b.js    - DEV: browser smoke (9: + S09 receiver)
+  A  dev/stage-3b/test_3b.js    - DEV: unit checks (21: + R12 bake, R13 receiver, V08 canon guard)
+  A  dev/stage-3b/verify_remote.py    - DEV tool
+  A  dev/stage-3b/visuals_hash.js    - DEV tool
+  M  index.html    - the two Stage 3B script tags (presentation; undone by freeze_3b.py)
+
+== Protected gameplay files: byte-identical to BR-RoLE 1.0 (and to v23.3.6; FREEZE OK) ==
+  ai.js, sim.js, move.js, server.js, mp.js, death_srv.js, dphys.js, camera_policy.js, world.js, light.js, ents.js, camcorder.js, timing_policy.js   ALL 13 of 13
+
+Not changed: main (7781e1a), br-role (b86966b). No gameplay, AI, collision, navigation, network, server, camera or timing file.
