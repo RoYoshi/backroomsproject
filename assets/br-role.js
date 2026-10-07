@@ -1,9 +1,25 @@
-/* br-role.js - BR-RoLE 1.0, the Backrooms Rendering of Lighting Engine (presentation only, client only).
+/* br-role.js - BR-RoLE 1.1, the Backrooms Rendering of Lighting Engine (presentation only, client only).
  *
- * THE 2D GAME IS THE GAME.  BR-RoLE is the one visual owner of the light in the world: ambient darkness, the ceiling
- * lamps, your carried light and the other wanderers' lights, and the shadows walls, pillars, props and actors cast in them.
+ * THE 2D GAME IS THE GAME.  BR-RoLE is the one visual owner of the light in the world: the darkness, the ceiling lamps,
+ * your carried light and the other wanderers' lights, and the shadows walls, pillars, props and actors cast in them.
  *
- * One model, every light on its own:   visible light = ambient + Σ fieldᵢ · (1 − shadowᵢ)
+ * BR-RoLE 1.1 (Stage 3B final polish): natural fluorescent propagation.
+ *   - LIGHT HAS NO VISIBLE HARD RADIUS: a lamp's field falls off smoothly, f(d) = exp(-(d / S)^P), into a faint tail that
+ *     fades to nothing (a smoothstep to zero at its technical bound, far past where it can be seen).  The old radial stops
+ *     (1 / .35 / 0 at 380 px) ended in a visible circle;
+ *   - a fluorescent fixture is a broad source: d is the distance to the TUBE (a line the fixture's length), not to a point,
+ *     so the light is broad around the fixture and rounds out with distance;
+ *   - BOUNCE LIGHT (first order only): every wall / pillar side and floor patch a lamp lights DIRECTLY sends a small part of
+ *     that light (its albedo: pale paper more, red paper and deep or red carpet less) back into the space in front of it,
+ *     decaying fast, and casts its own shadows: it reaches round a corner only along an open path (lamp -> surface ->
+ *     point), never through a wall or a pillar.  Static, so it is cached with the lamp (built over a few frames, faded in);
+ *   - NO SURVIVING LIGHT = NO VISIBILITY: the sourceless glow v23.3.6 drew around the viewer (through walls) is gone.  Where
+ *     no lamp, carried light or bounce of a lamp reaches, the overlay stays fully dark.
+ *   - the line of sight's reach (700 px, drawLight's clip, unchanged) no longer cuts lit floor in a sharp arc: all light
+ *     fades out over its last 80 px (only ever less light, never more visibility).
+ *   Light truth is still not touched: the server's lamp field (reach 380), light.js and the bundle's Ul() are unchanged.
+ *
+ * One model, every light on its own:   visible light = Σ fieldᵢ · (1 − shadowᵢ) + Σ bounceᵢ
  *   LIGHT FIELD -> BLOCKER -> CAST SHADOW -> ADD SURVIVING LIGHTS.  Never "light = visibility polygon".
  *   - an offscreen LIGHT BUFFER (a fraction of the CSS viewport per tier; never scaled by devicePixelRatio);
  *   - each light first lays down its natural, unobstructed illumination field: a lamp's radial falloff; a beam's radial
@@ -46,23 +62,44 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role 1.0';
+  const VERSION = 'br-role 1.1';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
    * shadowed field: cache resolution (px per world px), tube points its shadows are cast from, caches kept, builds per frame;
-   * points across a carried light's source; prop casters per light (nearest first) and per frame (all carried lights) */
+   * points across a carried light's source; prop casters per light (nearest first) and per frame (all carried lights).
+   * BR-RoLE 1.1, a lamp's outer field and bounce light (one low-resolution cache per lamp): its resolution (px per world px),
+   * the tube points its shadows are cast from, the spacing of the bounce points on walls and on the floor (world px; each
+   * point stands for its share of the surface, so every tier adds the same light), the time a frame may spend building
+   * them (ms).  Tiers change sampling and resolution only: the same light reaches the same places */
   const TIERS = {
-    low: { scale: .5, lamps: 8, peers: 1, lampRes: .3, tube: 16, lampCache: 24, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6, secondary: false },
-    medium: { scale: .75, lamps: 10, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 4, props: 8, propFrame: 48, ents: 12, secondary: false },
-    high: { scale: 1, lamps: 14, peers: 6, lampRes: .6, tube: 32, lampCache: 40, builds: 4, src: 6, props: 12, propFrame: 96, ents: 20, secondary: true },
+    low: { scale: .5, lamps: 8, peers: 1, lampRes: .3, tube: 16, lampCache: 24, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6, secondary: false, farRes: .08, farTube: 6, wallStep: 56, floorStep: 120, farMs: 2 },
+    medium: { scale: .75, lamps: 10, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 4, props: 8, propFrame: 48, ents: 12, secondary: false, farRes: .11, farTube: 8, wallStep: 44, floorStep: 96, farMs: 3 },
+    high: { scale: 1, lamps: 14, peers: 6, lampRes: .6, tube: 32, lampCache: 40, builds: 4, src: 6, props: 12, propFrame: 96, ents: 20, secondary: true, farRes: .14, farTube: 12, wallStep: 36, floorStep: 80, farMs: 4 },
   };
-  /* a lamp: its field (the game's radial falloff, reach R), the fixture it shines from (the 86 x 24 panel the game draws:
-   * tube points over ±tubeX, two rows at ±tubeY), the strength its cache is built at (P0: the game's cap), a light blur of
-   * its shadow mask (world px; only where the browser has canvas filters), the fade of a lamp built late (frames: steady
-   * under a frozen clock); the height it hangs at for prop shadows (h, SH7's tuned 180 px) and the longest prop shadow it
-   * casts (kmax x the prop's distance from it) */
-  const LAMP = { R: 380, inner: 6, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
+  /* a lamp: the fixture it shines from (the 86 x 24 panel the game draws: tube points over ±tubeX, two rows at ±tubeY), the
+   * strength its cache is built at (P0: the game's cap), a light blur of its shadow mask (world px; only where the browser
+   * has canvas filters), the fade of a lamp built late (frames: steady under a frozen clock); the height it hangs at for prop
+   * shadows (h, SH7's tuned 180 px) and the longest prop shadow it casts (kmax x the prop's distance from it).
+   * BR-RoLE 1.1, its field: f(d) = exp(-(d / S)^P), d = the distance to the tube (half-length a), faded smoothly to zero
+   * between tail0 and far (a technical bound: f is under 1 % there, invisible).  Two caches: the CORE (fine, d < x1) holds
+   * f · wc, the FAR one (low resolution, with the bounce light) f · (1 - wc); wc crossfades from 1 to 0 over x0 .. x1, so the
+   * split never shows.  The far light is faint, so its cache and the quarter-resolution buffer it is drawn into hold it x fg
+   * (8-bit precision kept until the full-resolution composite: smooth, not stepped).  R (380) is the gameplay lamp reach (the server's, light.js's): used here only for the old caches'
+   * reference, never changed */
+  const LAMP = { R: 380, S: 168, P: 1.47, a: 30, tail0: 520, far: 640, x0: 330, x1: 430, fg: 2, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
+  /* BR-RoLE 1.1 bounce light.  A wall / pillar side or a floor patch the lamp lights directly (irradiance f · cos x the share
+   * of the tube that sees it) re-emits `wall` / `floor` x its albedo of it, from a point just in front of it, into the space
+   * it faces (a wall's lobe leans out along its normal by `lean` x its scale; a floor patch's is round), falling off as
+   * exp(-(r / l)^pw) to nothing at `range`; every bounce point casts its own wall and pillar shadows (a point source).
+   * Bounce points farther than `reach` from the tube, or adding under `min`, are skipped.  `direct`: the share of the lamp's
+   * own field kept, so a lit room with its bounce light is as bright as before (the darkness the user likes is kept) */
+  /* the line of sight's reach (drawLight's, 700 px: never changed here) and the fade of every light before it */
+  const SIGHT = { r: 700, fade: 80 };
+  const SPILL = { wall: .08, floor: .04, lw: 130, lf: 110, pw: 1.2, lean: .35, wallRange: 330, floorRange: 300, reach: 470, floorReach: 400, min: .0012, direct: .88 };
+  /* restrained material response (relative albedo; the yellow chevron paper = 1): pale arch paper returns more, paper peeled
+   * to crimson and red / deep carpet less; wet tile and bare concrete a little more than carpet.  No surface emits */
+  const ALBEDO = { wall: { '': 1, 'ARCH GALLERY': 1.12, 'RED ROOMS': .55 }, floor: { '': .6, 'DEEP CARPET': .42, 'RED ROOMS': .36, 'LONG ROOM': .72, 'DAMP ROOMS': .8 } };
   const SRC = { beam: 3, omni: 4 };                                          // a carried light's half-size (world px)
   /* carried lights: the height each is held at (for prop shadows; SH7's) and the longest prop shadow (kmax x distance) */
   const CARRY = { h: { flashlight: 105, headlamp: 160, lantern: 85 }, kmax: 2.2 };
@@ -73,7 +110,8 @@
    * The art's baked drop shadow (a few px, drawProp) needs no thinning here: BR-RoLE removes light instead of painting
    * dark, so under a cast shadow it reads as the prop's contact shadow, not a second shadow */
   const PROP = { counter: { h: 70 }, shelf: { h: 46 }, lowwall: { h: 84 }, machine: { h: 96 }, table: { h: 76 }, bench: { h: 46 }, window: { h: 40 } };
-  const AMB = { r0: 18, r1: 670, a0: .14, a1: .045 };                       // the ambient glow around the viewer (v23.3.6's)
+  /* (BR-RoLE 1.1: no ambient glow.  v23.3.6's sourceless glow around the viewer, through walls, is removed: no surviving
+   * light = no visibility) */
   /* carried-light colour tint over the lit area (v23.3.6's .25 / .2 of the light).  BR2C: the tints are summed (`lighter`,
    * premultiplied: overlapping colours average instead of the later one painting over the earlier) at k of their strength
    * and laid on at 1 / k: one light looks exactly as before, crossing lights cannot stack into a saturated film */
@@ -84,8 +122,10 @@
   const now = () => performance.now();
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
     lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
-    layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0 };
-  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampBuildMax: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0 };
+    layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0,
+    tpl: null, sightFade: true, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, rooms: null };
+  const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampBuildMax: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0,
+    farBuilds: 0, farMs: 0, farStepMax: 0, emitters: 0, emittersMax: 0, fars: 0 };
 
   /* ---------- quality: URL > remembered > device default (touch / small screen -> LOW); ?lighting=legacy is DEV only ---------- */
   function initialQuality() {
@@ -255,36 +295,156 @@
   }
   /* the canvases' filter support (a light blur of a lamp's shadow mask; skipped where the browser has none) */
   function blurSupported() { try { const c = mkCanvas(2, 2).getContext('2d'); if (!c || !('filter' in c)) return false; c.filter = 'blur(1px)'; return c.filter === 'blur(1px)'; } catch (e) { return false; } }
-  /* a lamp's shadowed field, built once per tier: its unobstructed field at strength P0, then the shadows its whole tube
-   * casts (each tube point's shadow, averaged: umbra where no point sees, penumbra where some do) taken out of it */
-  function buildLamp(i, L, cfg) {
-    const t0 = now(), R = LAMP.R, size = Math.max(8, Math.round(2 * R * cfg.lampRes)), res = size / (2 * R), cv = mkCanvas(size, size), c = cv.getContext('2d');
-    c.setTransform(res, 0, 0, res, (R - L.x) * res, (R - L.y) * res);
-    const g = c.createRadialGradient(L.x, L.y, LAMP.inner, L.x, L.y, R); g.addColorStop(0, rgba(LAMP.P0)); g.addColorStop(.5, rgba(LAMP.P0 * .35)); g.addColorStop(1, rgba(0));
-    c.fillStyle = g; c.fillRect(L.x - R, L.y - R, R * 2, R * 2);
-    if (!S.lmask || S.lmask.width !== size) S.lmask = mkCanvas(size, size);
-    const m = S.lmask.getContext('2d'), smp = tubePoints(L, cfg.tube), n = smp.length / 2, reach = R + LAMP.tubeX + 4, props = propsFor(L.x, L.y, reach, null, cfg.props);
-    m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(0, 0, size, size);
-    m.setTransform(res, 0, 0, res, (R - L.x) * res, (R - L.y) * res); m.globalCompositeOperation = 'lighter'; m.fillStyle = rgba((Math.ceil(255 / n) + .4) / 255);   // n of them saturate: umbra = all of this light gone
-    let edges = 0;
+  /* BR-RoLE 1.1: a lamp's field.  fall(d): the smooth falloff of the distance d to the tube, no edge anywhere (a smoothstep
+   * takes its last < 1 % to zero at the technical bound); tubeDist: that distance, from a point's offset to the lamp centre */
+  const sm = (a, b, x) => { const t = x <= a ? 0 : x >= b ? 1 : (x - a) / (b - a); return t * t * (3 - 2 * t); };
+  const fall = d => !(d < LAMP.far) ? 0 : Math.exp(-Math.pow(d / LAMP.S, LAMP.P)) * (d <= LAMP.tail0 ? 1 : 1 - sm(LAMP.tail0, LAMP.far, d));
+  const tubeDist = (dx, dy) => Math.hypot(Math.max(0, Math.abs(dx) - LAMP.a), dy);
+  const wcore = d => 1 - sm(LAMP.x0, LAMP.x1, d);
+  /* the unobstructed fields, once per tier (the same for every lamp: drawn 1:1 into each lamp's cache, then shadowed): the
+   * core f · wc over ±(x1 + a) x ±x1 and the far f · (1 - wc) over ±(far + a) x ±far, at strength P0, exact per pixel */
+  function fieldCanvas(hx, hy, res, fn, gain = 1) {
+    const w = Math.max(4, Math.ceil(2 * hx * res)), h = Math.max(4, Math.ceil(2 * hy * res)), HX = w / res / 2, HY = h / res / 2, cv = mkCanvas(w, h), x = cv.getContext('2d'), img = x.createImageData(w, h), D = img.data;
+    for (let j = 0; j < h; j++) { const dy = (j + .5) / res - HY; for (let i = 0; i < w; i++) { const o = (j * w + i) * 4; D[o] = D[o + 1] = D[o + 2] = 255; D[o + 3] = Math.round(255 * clamp(gain * LAMP.P0 * fn(tubeDist((i + .5) / res - HX, dy)), 0, 1)); } }
+    x.putImageData(img, 0, 0); return { cv, w, h, hx: HX, hy: HY, res };
+  }
+  function templates(cfg) {
+    if (S.tpl && S.tpl.q === S.quality) return S.tpl;
+    if (S.tpl) { S.tpl.core.cv.width = 0; S.tpl.far.cv.width = 0; }
+    S.tpl = { q: S.quality, core: fieldCanvas(LAMP.x1 + LAMP.a + 4, LAMP.x1 + 4, cfg.lampRes, d => SPILL.direct * fall(d) * wcore(d)), far: fieldCanvas(LAMP.far + LAMP.a + 4, LAMP.far + 4, cfg.farRes, d => SPILL.direct * fall(d) * (1 - wcore(d)), LAMP.fg) };
+    return S.tpl;
+  }
+  /* the shadows a fixture's tube points cast, averaged into `m` (white = all of this light gone; umbra where no point sees,
+   * penumbra where some do), props graded; `tmp` a pooled canvas the same size (per point, when there are props) */
+  function tubeShadows(m, tmp, w, h, tf, smp, reach, props) {
+    const n = smp.length / 2, a = (Math.ceil(255 / n) + .4) / 255; let edges = 0;
+    m.setTransform(1, 0, 0, 1, 0, 0); m.globalCompositeOperation = 'source-over'; m.globalAlpha = 1; m.clearRect(0, 0, w, h);
+    m.setTransform(...tf); m.globalCompositeOperation = 'lighter'; m.fillStyle = rgba(a);   // n of them saturate: umbra = all of this light gone
     if (!props.length) for (let s = 0; s < smp.length; s += 2) { const e = shadowPath(m, smp[s], smp[s + 1], reach, null, null, 0, 0); if (e) m.fill(); edges += e; }
     else {                                                                  // per tube point: walls (solid) and props (graded) united, then averaged in
-      if (!S.ltmp || S.ltmp.width !== size) S.ltmp = mkCanvas(size, size);
-      const t = S.ltmp.getContext('2d'), a = (Math.ceil(255 / n) + .4) / 255;
+      const t = tmp.getContext('2d');
       for (let s = 0; s < smp.length; s += 2) {
-        t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(0, 0, size, size);
-        t.setTransform(res, 0, 0, res, (R - L.x) * res, (R - L.y) * res); t.fillStyle = '#fff';
+        t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(0, 0, w, h);
+        t.setTransform(...tf); t.fillStyle = '#fff';
         const e = shadowPath(t, smp[s], smp[s + 1], reach, null, null, 0, 0); if (e) t.fill(); edges += e + propFills(t, props, smp[s], smp[s + 1], LAMP.h, LAMP.kmax, PFADE.lamp);
-        m.save(); m.setTransform(1, 0, 0, 1, 0, 0); m.globalAlpha = a; m.drawImage(S.ltmp, 0, 0); m.restore();
+        m.save(); m.setTransform(1, 0, 0, 1, 0, 0); m.globalAlpha = a; m.drawImage(tmp, 0, 0); m.restore();
       }
     }
-    m.globalCompositeOperation = 'source-over';
-    c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out';
+    m.globalCompositeOperation = 'source-over'; m.setTransform(1, 0, 0, 1, 0, 0);
+    return edges;
+  }
+  /* a lamp's CORE shadowed field, built once per tier: the core field at strength P0, then the shadows its whole tube casts
+   * (each tube point's shadow, averaged) taken out of it.  Its far field and bounce light follow over the next frames */
+  function buildLamp(i, L, cfg) {
+    const t0 = now(), tp = templates(cfg).core, res = tp.res, w = tp.w, h = tp.h, cv = mkCanvas(w, h), c = cv.getContext('2d');
+    c.drawImage(tp.cv, 0, 0);
+    if (!S.lmask || S.lmask.width !== w || S.lmask.height !== h) { S.lmask = mkCanvas(w, h); S.ltmp = mkCanvas(w, h); }
+    const smp = tubePoints(L, cfg.tube), reach = tp.hx + LAMP.tubeX + 4, props = propsFor(L.x, L.y, LAMP.x1 + LAMP.a + LAMP.tubeX, null, cfg.props);
+    const edges = tubeShadows(S.lmask.getContext('2d'), S.ltmp, w, h, [res, 0, 0, res, (tp.hx - L.x) * res, (tp.hy - L.y) * res], smp, reach, props);
+    c.globalCompositeOperation = 'destination-out';
     if (S.blur) c.filter = `blur(${(LAMP.blur * res).toFixed(2)}px)`;
     c.drawImage(S.lmask, 0, 0); if (S.blur) c.filter = 'none';
     c.globalCompositeOperation = 'source-over';
     const bms = now() - t0; ST.lampBuilds++; ST.lampBuildMs += bms; if (bms > ST.lampBuildMax) ST.lampBuildMax = bms;
-    return { cv, smp, edges, props, born: -1e9, used: ST.frames };
+    return { cv, hx: tp.hx, hy: tp.hy, smp, edges, props, born: -1e9, used: ST.frames, far: null, farBorn: -1e9, emit: 0 };
+  }
+
+  /* ---------- BR-RoLE 1.1: a lamp's FAR field and its bounce light (one low-resolution cache, built in steps) ---------- */
+  /* the room a point is in (the game's room table) -> its name, for the albedo; '' outside every room (the corridors) */
+  function roomName(x, y) {
+    const R = S.rooms || (S.rooms = (window.__api && Array.isArray(window.__api.Oc) ? window.__api.Oc : []).filter(r => r && Number.isFinite(r.x + r.y + r.w + r.h)));
+    const cx = x / T, cy = y / T; for (const r of R) if (cx >= r.x && cx < r.x + r.w && cy >= r.y && cy < r.y + r.h) return r.name || ''; return '';
+  }
+  const albedo = (kind, x, y) => { const t = ALBEDO[kind], v = t[roomName(x, y)]; return v === undefined ? t[''] : v; };
+  /* the bounce points of a lamp: every wall / pillar side facing it within reach, sampled every wallStep (2 px in front of
+   * the side), and the floor on a world grid every floorStep; each with the light it re-emits (P0 scale): irradiance (the
+   * lamp's field x the cosine on a wall) x the share of 3 tube points that see it (the game's ray query: walls and pillars
+   * stop it) x its albedo x the bounce share x the surface it stands for.  Deterministic: geometry only */
+  function bouncePoints(L, cfg) {
+    const A = window.__api, out = [], E = S.edges, st = S.stamp, q = ++S.q, R = SPILL.reach + LAMP.a, ws = cfg.wallStep, fs = cfg.floorStep;
+    const tp = tubePoints(L, 3);
+    const vis = (x, y) => { let v = 0; for (let s = 0; s < tp.length; s += 2) { const dx = x - tp[s], dy = y - tp[s + 1], d = Math.hypot(dx, dy); if (d < .5 || A.Uc(tp[s], tp[s + 1], Math.atan2(dy, dx), d) >= d - .5) v++; } return v / (tp.length / 2); };
+    for (let by = Math.floor((L.y - R) / VB); by <= Math.floor((L.y + R) / VB); by++) for (let bx = Math.floor((L.x - R) / VB); bx <= Math.floor((L.x + R) / VB); bx++) {
+      const l = S.egrid.get(by * 4096 + bx); if (!l) continue;
+      for (const j of l) {
+        if (st[j] === q) continue; st[j] = q; const o = j * 6, nx = E[o + 4], ny = E[o + 5];
+        let ax = E[o], ay = E[o + 1], bx_ = E[o + 2], by_ = E[o + 3];
+        if ((L.x - ax) * nx + (L.y - ay) * ny <= .01) continue;            // faces away: the lamp cannot light it
+        if (ax === bx_) { const s0 = Math.max(Math.min(ay, by_), L.y - R), s1 = Math.min(Math.max(ay, by_), L.y + R); if (s0 >= s1 || Math.abs(ax - L.x) > R) continue; ay = s0; by_ = s1; }
+        else { const s0 = Math.max(Math.min(ax, bx_), L.x - R), s1 = Math.min(Math.max(ax, bx_), L.x + R); if (s0 >= s1 || Math.abs(ay - L.y) > R) continue; ax = s0; bx_ = s1; }
+        const len = Math.hypot(bx_ - ax, by_ - ay), k = Math.max(1, Math.round(len / ws)), seg = len / k;
+        for (let s = 0; s < k; s++) {
+          const u = (s + .5) / k, x = ax + (bx_ - ax) * u + nx * 2, y = ay + (by_ - ay) * u + ny * 2, d = tubeDist(x - L.x, y - L.y); if (!(d < SPILL.reach)) continue;
+          const r = Math.hypot(L.x - x, L.y - y) || 1, cos = ((L.x - x) * nx + (L.y - y) * ny) / r, g = SPILL.direct * fall(d) * cos; if (!(g > 1e-4)) continue;
+          const I0 = SPILL.wall * LAMP.P0 * g * albedo('wall', x + nx * 24, y + ny * 24) * seg / 48; if (I0 < SPILL.min) continue;
+          const v = vis(x, y); if (!v) continue; const I = I0 * v; if (I < SPILL.min) continue;
+          out.push({ x, y, nx, ny, I, range: SPILL.wallRange, l: SPILL.lw });
+        }
+      }
+    }
+    const FR = SPILL.floorReach + LAMP.a;
+    for (let gy = Math.floor((L.y - FR) / fs); gy <= Math.floor((L.y + FR) / fs); gy++) for (let gx = Math.floor((L.x - FR) / fs); gx <= Math.floor((L.x + FR) / fs); gx++) {
+      const x = (gx + .5) * fs, y = (gy + .5) * fs, d = tubeDist(x - L.x, y - L.y); if (!(d < SPILL.floorReach)) continue;
+      if (A.Hc(Math.floor(x / T), Math.floor(y / T))) continue;            // inside a wall: no floor
+      const I0 = SPILL.floor * LAMP.P0 * SPILL.direct * fall(d) * albedo('floor', x, y) * fs * fs / (120 * 120); if (I0 < SPILL.min) continue;
+      const v = vis(x, y); if (!v) continue; const I = I0 * v; if (I < SPILL.min) continue;
+      out.push({ x, y, nx: 0, ny: 0, I, range: SPILL.floorRange, l: SPILL.lf });
+    }
+    return out;
+  }
+  /* one bounce point's light, added into the far cache: its lobe (leaning out of its wall) in a pooled scratch, its own
+   * shadows (walls and pillars, from the point) cut out of it, then added.  The lobe reaches zero inside `range` */
+  function drawBounce(fc, job, e) {
+    const res = job.res, H = e.range + 2, size = Math.ceil(2 * H * res) + 2;
+    if (!S.etmp || S.etmp.width < size) { S.etmp = mkCanvas(Math.max(size, 64), Math.max(size, 64)); S.ex = S.etmp.getContext('2d'); }
+    const t = S.ex, ox = Math.floor((e.x - H - (job.L.x - job.hx)) * res), oy = Math.floor((e.y - H - (job.L.y - job.hy)) * res);   // the scratch's corner in far-cache pixels
+    t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(0, 0, size, size);
+    t.setTransform(res, 0, 0, res, -(job.L.x - job.hx) * res - ox, -(job.L.y - job.hy) * res - oy);   // world -> scratch
+    const lean = e.nx || e.ny ? e.l * SPILL.lean : 0, cx = e.x + e.nx * lean, cy = e.y + e.ny * lean, rg = e.range - lean - 1;
+    const g = t.createRadialGradient(cx, cy, 0, cx, cy, rg);
+    for (let s = 0; s <= 10; s++) { const r = rg * s / 10, w = s === 10 ? 0 : Math.exp(-Math.pow(r / e.l, SPILL.pw)) * (1 - sm(rg * .6, rg, r)); g.addColorStop(s / 10, rgba(e.I * w * LAMP.fg)); }
+    t.fillStyle = g; t.fillRect(e.x - H, e.y - H, 2 * H, 2 * H);
+    t.globalCompositeOperation = 'destination-out'; t.fillStyle = '#fff';
+    if (shadowPath(t, e.x, e.y, H, null, null, 0, 0)) t.fill();
+    t.globalCompositeOperation = 'source-over'; t.setTransform(1, 0, 0, 1, 0, 0);
+    fc.globalCompositeOperation = 'lighter'; fc.drawImage(S.etmp, 0, 0, size, size, ox, oy, size, size); fc.globalCompositeOperation = 'source-over';
+  }
+  /* the far cache of lamp i, built in steps within a time budget: (0) the far field and the shadows the tube casts into it,
+   * (1) the bounce points, (2) their light, a few at a time.  Returns true when done */
+  function farStep(job, cfg, until) {
+    const L = job.L;
+    if (job.phase === 0) {
+      const tp = templates(cfg).far, w = tp.w, h = tp.h; job.res = tp.res; job.hx = tp.hx; job.hy = tp.hy;
+      job.cv = mkCanvas(w, h); const c = job.cv.getContext('2d'); c.drawImage(tp.cv, 0, 0);
+      if (!S.fmask || S.fmask.width !== w || S.fmask.height !== h) { S.fmask = mkCanvas(w, h); S.ftmp = mkCanvas(w, h); }
+      const res = tp.res, props = propsFor(L.x, L.y, LAMP.far + LAMP.a + LAMP.tubeX, null, cfg.props);
+      tubeShadows(S.fmask.getContext('2d'), S.ftmp, w, h, [res, 0, 0, res, (tp.hx - L.x) * res, (tp.hy - L.y) * res], tubePoints(L, cfg.farTube), tp.hx + LAMP.tubeX + 4, props);
+      c.globalCompositeOperation = 'destination-out'; if (S.blur) c.filter = 'blur(1.2px)';   // a texel's softening: the few tube points' penumbra steps blend
+      c.drawImage(S.fmask, 0, 0); if (S.blur) c.filter = 'none'; c.globalCompositeOperation = 'source-over';
+      job.phase = 1; return false;
+    }
+    if (job.phase === 1) { job.emit = S.spillOn ? bouncePoints(L, cfg) : []; job.k = 0; job.phase = 2; return false; }
+    const c = job.cv.getContext('2d');
+    while (job.k < job.emit.length) { drawBounce(c, job, job.emit[job.k++]); if (now() >= until) break; }
+    return job.k >= job.emit.length;
+  }
+  /* spend this frame's far budget: the lamps drawn now first (nearest first), then the other cached ones (most recent first) */
+  function farWork(lampRecs, cfg) {
+    const t0 = now(), until = t0 + cfg.farMs, lamps = window.__api.lamps || [];
+    let steps = 0;
+    while (steps++ < 64) {
+      if (S.farJob && S.lampCache.get(S.farJob.i) !== S.farJob.C) S.farJob = null;   // evicted meanwhile
+      if (!S.farJob) {
+        let pick = null; for (const r of lampRecs) if (!r.C.far) { pick = [r.i, r.C]; break; }
+        if (!pick) { const all = [...S.lampCache]; for (let m = all.length - 1; m >= 0; m--) if (!all[m][1].far) { pick = all[m]; break; } }
+        if (!pick) break;
+        S.farJob = { i: pick[0], C: pick[1], L: lamps[pick[0]], phase: 0, t: 0 };
+      }
+      const J = S.farJob, ts = now(), done = farStep(J, cfg, until); J.t += now() - ts;
+      if (done) { J.C.far = { cv: J.cv, hx: J.hx, hy: J.hy }; J.C.farBorn = ST.frames; J.C.emit = J.emit.length; ST.farBuilds++; ST.farMs += J.t; ST.emitters = J.emit.length; if (J.emit.length > ST.emittersMax) ST.emittersMax = J.emit.length; S.farJob = null; }
+      if (now() >= until) break;
+    }
+    const ms = now() - t0; if (ms > ST.farStepMax) ST.farStepMax = ms;
   }
 
   /* ---------- the game's own light strengths (drawLight in the bundle), so BR-RoLE lights what v23.3.6 lit ---------- */
@@ -292,7 +452,7 @@
     const E = window.__ents, C = window.__cam;
     return Math.min(.9, (i % 13 === 0 ? .13 + .06 * Math.max(0, Math.sin(t * 11 + i)) : .43) * (E && E.lamp ? E.lamp(L.x, L.y, t) : 1) * (C && C.lampGain ? C.lampGain() : 1));
   }
-  const lampFall = r => r <= 6 ? 1 : r <= 193 ? 1 - .65 * (r - 6) / 187 : r < 380 ? .35 * (1 - (r - 193) / 187) : 0;   // its radial stops 1 / .35 / 0
+  const lampFall = (dx, dy) => SPILL.direct * fall(tubeDist(dx, dy));     // BR-RoLE 1.1: the smooth field of the tube (no radial stops, no edge), its direct share
   const beamGrad = (d, r) => { const s = clamp((d - 6) / (r - 6), 0, 1); return s <= .25 ? 1 - .17 * s / .25 : s <= .7 ? .83 - .55 * (s - .25) / .45 : .28 * (1 - (s - .7) / .3); };
   /* a beam's angular profile: v23.3.6 nests 12 arcs of widths arc·(1 − .063 t); the fraction of them covering an angle φ off
    * the axis, made smooth (no stepped cone) */
@@ -325,19 +485,22 @@
       bx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); bx.globalCompositeOperation = 'lighter';
       const view = { x0: -F.ox / F.r, y0: -F.oy / F.r, x1: (F.w - F.ox) / F.r, y1: (F.h - F.oy) / F.r };
       const meet = (x, y, R) => x + R > view.x0 && x - R < view.x1 && y + R > view.y0 && y - R < view.y1;
-      const V = F.viewer, rec = S.last = { lamps: [], carried: [] }; S.lastF = { r: F.r, ox: F.ox, oy: F.oy, w: F.w, h: F.h, t: F.t };
-
-      /* ambient: the faint glow the viewer carries everywhere (v23.3.6's), never blocked */
-      { const g = bx.createRadialGradient(V.x, V.y, AMB.r0, V.x, V.y, AMB.r1); g.addColorStop(0, rgba(AMB.a0)); g.addColorStop(.5, rgba(AMB.a1)); g.addColorStop(1, rgba(0)); bx.fillStyle = g; bx.fillRect(V.x - AMB.r1, V.y - AMB.r1, AMB.r1 * 2, AMB.r1 * 2); }
+      const V = F.viewer, rec = S.last = { lamps: [], carried: [] }; S.lastF = { r: F.r, ox: F.ox, oy: F.oy, w: F.w, h: F.h, t: F.t, sc, bw, bh };
+      /* BR-RoLE 1.1: no ambient glow (no light without a source).  The lamps' far fields and bounce light go into a quarter-
+       * resolution buffer (low-frequency light), added to the light buffer once at the end */
+      const fbw = Math.max(1, Math.ceil(bw / 4)), fbh = Math.max(1, Math.ceil(bh / 4));
+      if (!S.fb || S.fb.width !== fbw || S.fb.height !== fbh) { S.fb = mkCanvas(fbw, fbh); S.fx = S.fb.getContext('2d'); }
+      { const fx = S.fx; fx.setTransform(1, 0, 0, 1, 0, 0); fx.globalCompositeOperation = 'source-over'; fx.globalAlpha = 1; fx.clearRect(0, 0, fbw, fbh); fx.setTransform(k / 4, 0, 0, k / 4, F.ox * sc / 4, F.oy * sc / 4); fx.globalCompositeOperation = 'lighter'; }
+      S.fbUsed = false; ST.fars = 0;
 
       /* ceiling lamps: the ones whose light reaches the screen, nearest the viewer first; the one at the cap fades out.  Each
        * is its cached shadowed field, added at the lamp's strength this frame (flicker, failures, NV gain) */
       let nl = 0; const lampRecs = [];
-      if (S.lampKey !== S.quality) { for (const C of S.lampCache.values()) C.cv.width = 0; S.lampCache.clear(); S.pending.clear(); S.lampKey = S.quality; }
+      if (S.lampKey !== S.quality) { for (const C of S.lampCache.values()) { C.cv.width = 0; if (C.far) C.far.cv.width = 0; } S.lampCache.clear(); S.pending.clear(); S.farJob = null; S.lampKey = S.quality; }
       if (!(A.V && A.V.blackout)) {
-        const lamps = A.lamps || [], list = [], tb0 = now(), pend = new Set(); let built = 0;
+        const lamps = A.lamps || [], list = [], tb0 = now(), pend = new Set(); let built = 0, RF = LAMP.far + LAMP.a;
         const canBuild = () => built < cfg.builds && (built === 0 || now() - tb0 < LAMP.buildMs);
-        for (let i = 0; i < lamps.length; i++) { const L = lamps[i]; if (meet(L.x, L.y, LAMP.R)) list.push([Math.hypot(L.x - V.x, L.y - V.y), i]); }
+        for (let i = 0; i < lamps.length; i++) { const L = lamps[i]; if (meet(L.x, L.y, RF)) list.push([Math.hypot(L.x - V.x, L.y - V.y), i]); }
         list.sort((p, q) => p[0] - q[0] || p[1] - q[1]);
         const cut = list.length > cfg.lamps ? list[cfg.lamps][0] : Infinity;
         for (let m = 0; m < list.length && m < cfg.lamps; m++) {
@@ -354,11 +517,12 @@
         }
         if (canBuild()) {                                                   // spare budget: the nearest lamp about to come into view
           let best = -1, bd = Infinity;
-          for (let i = 0; i < lamps.length; i++) { const L = lamps[i]; if (S.lampCache.has(i) || !meet(L.x, L.y, LAMP.R + LAMP.prefetch)) continue; const d = Math.hypot(L.x - V.x, L.y - V.y); if (d < bd) { bd = d; best = i; } }
+          for (let i = 0; i < lamps.length; i++) { const L = lamps[i]; if (S.lampCache.has(i) || !meet(L.x, L.y, RF + LAMP.prefetch)) continue; const d = Math.hypot(L.x - V.x, L.y - V.y); if (d < bd) { bd = d; best = i; } }
           if (best >= 0) { const C = buildLamp(best, lamps[best], cfg); C.used = ST.frames; S.lampCache.set(best, C); }
         }
-        for (const [i, C] of S.lampCache) { if (S.lampCache.size <= cfg.lampCache) break; if (C.used !== ST.frames) { C.cv.width = 0; S.lampCache.delete(i); ST.lampEvictions++; } }
+        for (const [i, C] of S.lampCache) { if (S.lampCache.size <= cfg.lampCache) break; if (C.used !== ST.frames) { C.cv.width = 0; if (C.far) C.far.cv.width = 0; S.lampCache.delete(i); ST.lampEvictions++; } }
         S.pending = pend;
+        farWork(lampRecs, cfg);                                             // BR-RoLE 1.1: far fields and bounce light, within this frame's budget
       }
 
       /* carried lights: yours (the hand that holds it, or the death torch), then the nearest other wanderers' */
@@ -380,9 +544,22 @@
       actorShadows(F, cfg, lampRecs, carRecs);
 
       /* the lamps: each its cached shadowed field at this frame's strength; one that an actor shadows goes through the scratch */
-      for (const r of lampRecs) { drawLamp(r, F, k, sc); nl++; rec.lamps.push({ i: r.i, p: r.p, smp: r.smp, props: r.props }); }
+      for (const r of lampRecs) { drawLamp(r, F, k, sc); nl++; rec.lamps.push({ i: r.i, p: r.p, smp: r.smp, props: r.props, far: !!r.C.far }); }
+      if (S.fbUsed) { bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.globalAlpha = 1 / LAMP.fg; bx.imageSmoothingEnabled = true; bx.drawImage(S.fb, 0, 0, fbw, fbh, 0, 0, fbw * 4, fbh * 4); bx.restore(); }
       /* the carried lights */
       for (const r of carRecs) carried(r, F, cfg, k, rec);
+
+      /* BR-RoLE 1.1: the sight limit is not a hard circle of light.  drawLight's line of sight (its clip, unchanged) ends
+       * SIGHT.r from the viewer; every light fades out over the last SIGHT.fade before it, so lit floor never ends in a sharp
+       * arc.  This only ever removes light: nothing is shown that was not shown before */
+      if (S.sightFade && Math.max(Math.abs(view.x0 - V.x), Math.abs(view.x1 - V.x), Math.abs(view.y0 - V.y), Math.abs(view.y1 - V.y)) * Math.SQRT2 > SIGHT.r - SIGHT.fade) {
+        const r1 = SIGHT.r, r0 = r1 - SIGHT.fade;
+        for (const c of rec.carried.some(c => c.tint) ? [bx, tx] : [bx]) {
+          c.save(); c.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); c.globalCompositeOperation = 'destination-out'; c.globalAlpha = 1;
+          const g = c.createRadialGradient(V.x, V.y, r0, V.x, V.y, r1); for (let s = 0; s <= 8; s++) g.addColorStop(s / 8, rgba(sm(0, 1, s / 8)));
+          c.fillStyle = g; c.beginPath(); c.rect(view.x0 - 8, view.y0 - 8, view.x1 - view.x0 + 16, view.y1 - view.y0 + 16); c.arc(V.x, V.y, r0, 0, Math.PI * 2, true); c.fill('evenodd'); c.restore();
+        }
+      }
 
       /* into the overlay: it loses exactly the light that reached each pixel (inside drawLight's line-of-sight clip), then
        * the carried lights' colour */
@@ -452,12 +629,15 @@
   /* one lamp: its cached shadowed field at this frame's strength, added.  When an actor's shadow belongs to it, the field
    * goes through the scratch first and loses that shadow there (only this lamp's light: every other light still fills it) */
   function drawLamp(r, F, k, sc) {
-    const bx = S.bx, L = r.L, R = LAMP.R, a = Math.min(1, r.p / LAMP.P0);
-    if (!r.acts.length) { bx.globalAlpha = a; bx.drawImage(r.C.cv, L.x - R, L.y - R, R * 2, R * 2); bx.globalAlpha = 1; return; }
-    const bb = boxAt(L.x, L.y, R, F, sc); if (!bb) return;
+    const bx = S.bx, L = r.L, C = r.C, a = Math.min(1, r.p / LAMP.P0);
+    /* BR-RoLE 1.1: its far field and bounce light into the quarter-resolution buffer (faded in once built).  An actor's
+     * shadow takes this lamp's core light (the actors stand where a lamp's light is strong; its faint far light is left) */
+    if (C.far) { const fa = a * clamp((ST.frames - C.farBorn) / LAMP.fadeFrames, 0, 1); if (fa > .001) { const f = C.far, fx = S.fx; fx.globalAlpha = fa; fx.drawImage(f.cv, L.x - f.hx, L.y - f.hy, f.hx * 2, f.hy * 2); fx.globalAlpha = 1; S.fbUsed = true; ST.fars++; } }
+    if (!r.acts.length) { bx.globalAlpha = a; bx.drawImage(C.cv, L.x - C.hx, L.y - C.hy, C.hx * 2, C.hy * 2); bx.globalAlpha = 1; return; }
+    const bb = boxAt(L.x, L.y, Math.max(C.hx, C.hy), F, sc); if (!bb) return;
     const sx = S.sx, bw = bb[2] - bb[0], bh = bb[3] - bb[1];
     sx.setTransform(1, 0, 0, 1, 0, 0); sx.globalCompositeOperation = 'source-over'; sx.globalAlpha = 1; sx.clearRect(bb[0], bb[1], bw, bh);
-    sx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); sx.globalAlpha = a; sx.drawImage(r.C.cv, L.x - R, L.y - R, R * 2, R * 2); sx.globalAlpha = 1;
+    sx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); sx.globalAlpha = a; sx.drawImage(C.cv, L.x - C.hx, L.y - C.hy, C.hx * 2, C.hy * 2); sx.globalAlpha = 1;
     castActors(sx, r.acts, F, k, sc);
     sx.setTransform(1, 0, 0, 1, 0, 0);
     bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.drawImage(S.scr, bb[0], bb[1], bw, bh, bb[0], bb[1], bw, bh); bx.restore();
@@ -600,9 +780,9 @@
   function seen(V, x, y) { const dx = x - V.x, dy = y - V.y, d = Math.hypot(dx, dy); if (d < 30) return true; if (d > ACT.sight) return false; return window.__api.Uc(V.x, V.y, Math.atan2(dy, dx), d) >= d - 20; }
   /* a light's unblocked contribution at an actor (lamps from three points of their tube: its ends and its middle) */
   function lampAt(r, x, y) {
-    const d = Math.hypot(x - r.L.x, y - r.L.y); if (d >= LAMP.R) return 0;
+    const f = lampFall(x - r.L.x, y - r.L.y); if (!(f > 0)) return 0;
     const m = r.smp, n = m.length / 2, pts = n <= 3 ? m : [m[0], m[1], m[2 * Math.floor(n / 2)], m[2 * Math.floor(n / 2) + 1], m[m.length - 2], m[m.length - 1]];
-    return r.p * lampFall(d) * seenFrom(pts, x, y, r.props, LAMP.h, LAMP.kmax);
+    return r.p * f * seenFrom(pts, x, y, r.props, LAMP.h, LAMP.kmax);
   }
   function carriedAt(r, x, y) {
     const d = Math.hypot(x - r.x, y - r.y); if (d >= r.R) return 0;
@@ -762,7 +942,7 @@
     if (!on) { if (S.dbgEl) { S.dbgEl.remove(); S.dbgEl = null; } return; }
     if (!S.dbgEl) { const d = document.createElement('div'); d.id = 'brRoleDebug'; d.style.cssText = 'position:fixed;left:8px;bottom:64px;z-index:9;font:11px monospace;color:#9dff9d;background:rgba(0,0,0,.72);padding:6px 9px;pointer-events:none;white-space:pre'; document.body.appendChild(d); S.dbgEl = d; }
     const m = msStats(), c = TIERS[S.quality];
-    S.dbgEl.textContent = `BR-RoLE ${VERSION}  ${S.quality.toUpperCase()}  buffer ${ST.buf[0]}x${ST.buf[1]} (x${c.scale})\nlamps ${ST.lamps}/${c.lamps}  carried ${ST.carried} (peers ${ST.peers}/${c.peers})  shadow sides ${ST.shadows}  props ${ST.props}/${c.propFrame}\nlamp fields cached ${S.lampCache.size}/${c.lampCache} built ${ST.lampBuilds} (${ST.lampBuildMs.toFixed(1)} ms, tube ${c.tube} pts${S.blur ? ', blurred' : ''})  actor casts ${ST.ents} (draws ${ST.casts})  self-shaded ${ST.shaded} (draws ${ST.shadeDraws})\nframe ${m.mean} ms avg  ${m.max} ms max`;
+    S.dbgEl.textContent = `BR-RoLE ${VERSION}  ${S.quality.toUpperCase()}  buffer ${ST.buf[0]}x${ST.buf[1]} (x${c.scale})\nlamps ${ST.lamps}/${c.lamps}  carried ${ST.carried} (peers ${ST.peers}/${c.peers})  shadow sides ${ST.shadows}  props ${ST.props}/${c.propFrame}\nlamp fields cached ${S.lampCache.size}/${c.lampCache} built ${ST.lampBuilds} (${ST.lampBuildMs.toFixed(1)} ms, tube ${c.tube} pts${S.blur ? ', blurred' : ''})  actor casts ${ST.ents} (draws ${ST.casts})  self-shaded ${ST.shaded} (draws ${ST.shadeDraws})\nfar + bounce: drawn ${ST.fars}  built ${ST.farBuilds} (${ST.farMs.toFixed(1)} ms, last ${ST.emitters} bounce pts)${S.farJob ? '  building lamp ' + S.farJob.i : ''}\nframe ${m.mean} ms avg  ${m.max} ms max`;
   }
 
   /* what the compositor puts at a world point this frame, light by light (tests / debug; reads nothing from the canvas) */
@@ -778,7 +958,7 @@
   }
   function probe(x, y) {
     const L = S.last; if (!L) return null; const A = window.__api, lamps = A.lamps || [], out = { lamps: [], carried: [] };
-    for (const l of L.lamps) { const lp = lamps[l.i], r = Math.hypot(x - lp.x, y - lp.y), v = r < LAMP.R ? seenFrom(l.smp, x, y, l.props, LAMP.h, LAMP.kmax) : 0; out.lamps.push({ i: l.i, visible: v, light: l.p * lampFall(r) * v }); }
+    for (const l of L.lamps) { const lp = lamps[l.i], f = lampFall(x - lp.x, y - lp.y), v = f > 0 ? seenFrom(l.smp, x, y, l.props, LAMP.h, LAMP.kmax) : 0; out.lamps.push({ i: l.i, visible: v, light: l.p * f * v }); }
     for (const c of L.carried) {
       const d = Math.hypot(x - c.x, y - c.y), vis = d < c.R ? seenFrom(c.smp, x, y, c.props, c.sh, CARRY.kmax) : 0, da = Math.atan2(y - c.y, x - c.x) - c.ang, ph = Math.abs(Math.atan2(Math.sin(da), Math.cos(da)));
       const beam = c.power * beamGrad(d, c.R) * (c.omni ? 1 : beamProfile(ph, c.arc)) * vis, glow = d < c.glowR ? c.glowA * beamGrad(d, c.glowR) * seenFrom([c.x, c.y], x, y, c.gprops, c.sh, CARRY.kmax) : 0;
@@ -802,16 +982,36 @@
     tiers: () => JSON.parse(JSON.stringify(TIERS)),
     stats: () => ({ version: VERSION, quality: S.quality, on: on(), legacy: S.legacy, disabled: S.disabled, attached: S.attached, frames: ST.frames, frameMs: msStats(), buffer: ST.buf.slice(),
       lamps: { last: ST.lamps, max: ST.lampsMax, cap: TIERS[S.quality].lamps, cached: S.lampCache.size, cacheCap: TIERS[S.quality].lampCache, pending: S.pending.size, builds: ST.lampBuilds, buildMs: +ST.lampBuildMs.toFixed(2), buildMaxMs: +ST.lampBuildMax.toFixed(2), evictions: ST.lampEvictions, tube: TIERS[S.quality].tube, blur: S.blur },
+      far: { drawn: ST.fars, cached: [...S.lampCache.values()].filter(C => C.far).length, building: S.farJob ? S.farJob.i : null, builds: ST.farBuilds, buildMs: +ST.farMs.toFixed(2), frameMaxMs: +ST.farStepMax.toFixed(2), bouncePoints: ST.emitters, bouncePointsMax: ST.emittersMax, spill: S.spillOn, res: TIERS[S.quality].farRes },
       carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn, castDraws: ST.casts, actorsShaded: ST.shaded, selfShadeDraws: ST.shadeDraws },
       blockers: { sides: S.nEdges || 0, pillars: S.pillars || 0, props: S.props.length, propKinds: [...new Set(S.props.map(p => p.kind))] },
       props: { last: ST.props, max: ST.propsMax, drawsThisFrame: ST.propDraws, perLight: TIERS[S.quality].props, perFrame: TIERS[S.quality].propFrame }, errors: ST.errors }),
-    resetStats: () => { ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; ST.lampBuilds = 0; ST.lampBuildMs = 0; ST.lampBuildMax = 0; ST.lampEvictions = 0; },
+    resetStats: () => { ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; ST.lampBuilds = 0; ST.lampBuildMs = 0; ST.lampBuildMax = 0; ST.lampEvictions = 0; ST.farBuilds = 0; ST.farMs = 0; ST.farStepMax = 0; ST.emittersMax = 0; },
     probe,
     lastFrame: () => S.lastF ? Object.assign({}, S.lastF) : null,      // the world -> overlay mapping BR-RoLE drew with last (tests)
     /* DEV only (comparison, tests): the v23.3.6 lighting instead of BR-RoLE; never offered to players */
     /* the actor shadows drawn last frame: { kind, self, x, y, ang, ext, a, light, lightKind, dominant } (tests / debug) */
     actors: () => S.actorsLast.map(j => Object.assign({}, j)),
     dev: { legacy: v => { if (v !== undefined) { S.legacy = !!v; if (S.root) S.root.visible = !S.legacy; } return S.legacy; },
-      actors: v => { if (v !== undefined) S.actorsOn = !!v; return S.actorsOn; } },   // DEV only: actor shadows off (A/B in tests)
+      actors: v => { if (v !== undefined) S.actorsOn = !!v; return S.actorsOn; },   // DEV only: actor shadows off (A/B in tests)
+      /* BR-RoLE 1.1, DEV only (tests): the bounce light off / on (the far caches are rebuilt); the light the last frame put at
+       * world points (read back from the light buffer: everything added, before the line-of-sight clip); one lamp's cached
+       * field at world points (core and far caches, P0 scale); its bounce points; the field function; whether every lamp
+       * drawn has its far cache */
+      spill: v => { if (v !== undefined && !!v !== S.spillOn) { S.spillOn = !!v; for (const C of S.lampCache.values()) if (C.far) { C.far.cv.width = 0; C.far = null; } S.farJob = null; } return S.spillOn; },
+      light: pts => { const f = S.lastF; if (!f || !S.buf) return null; const d = S.bx.getImageData(0, 0, S.buf.width, S.buf.height).data, w = S.buf.width, h = S.buf.height;
+        return pts.map(([x, y]) => { const px = Math.floor((x * f.r + f.ox) * f.sc), py = Math.floor((y * f.r + f.oy) * f.sc); return px < 0 || py < 0 || px >= w || py >= h ? null : d[(py * w + px) * 4 + 3] / 255; }); },
+      cache: (i, pts) => { const C = S.lampCache.get(i), L = (window.__api.lamps || [])[i]; if (!C || !L) return null;
+        const rd = (cv, hx, hy, res) => { const c = cv.getContext('2d'), w = cv.width, h = cv.height, d = c.getImageData(0, 0, w, h).data; return ([x, y]) => { const px = Math.floor((x - L.x + hx) * res), py = Math.floor((y - L.y + hy) * res); return px < 0 || py < 0 || px >= w || py >= h ? 0 : d[(py * w + px) * 4 + 3] / 255; }; };
+        const core = rd(C.cv, C.hx, C.hy, C.cv.width / (2 * C.hx)), far = C.far ? rd(C.far.cv, C.far.hx, C.far.hy, C.far.cv.width / (2 * C.far.hx)) : null;
+        return pts.map(p => ({ core: core(p), far: far ? far(p) / LAMP.fg : null })); },
+      bounce: i => { const L = (window.__api.lamps || [])[i]; return L ? bouncePoints(L, TIERS[S.quality]).map(e => ({ x: +e.x.toFixed(1), y: +e.y.toFixed(1), nx: e.nx, ny: e.ny, I: +e.I.toFixed(5), range: e.range })) : null; },
+      tube: i => { const C = S.lampCache.get(i), L = (window.__api.lamps || [])[i]; return C && L ? C.smp.concat(tubePoints(L, TIERS[S.quality].farTube)) : null; },
+      cacheInfo: i => { const C = S.lampCache.get(i); if (!C) return null; const g = (cv, hx, hy) => ({ hx, hy, w: cv.width, h: cv.height, res: cv.width / (2 * hx) });
+        return { core: g(C.cv, C.hx, C.hy), far: C.far ? g(C.far.cv, C.far.hx, C.far.hy) : null, bounce: C.emit }; },
+      field: (dx, dy) => lampFall(dx, dy),
+      sightFade: v => { if (v !== undefined) S.sightFade = !!v; return S.sightFade; },
+      farReady: () => !S.farJob && (!S.last || S.last.lamps.every(l => l.far)),
+      constants: () => JSON.parse(JSON.stringify({ LAMP, SPILL, ALBEDO })) },
   };
 })();
