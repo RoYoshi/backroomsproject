@@ -9,7 +9,7 @@
  * S02 remaster OFF is exactly the legacy look: a live-toggled-off frame equals a ?remaster=off page at the same pose
  * S03 BR-RoLE never sees the remaster: its light overlay is byte-identical with the remaster on and off; same blockers
  * S04 gameplay untouched: the client sends the same kinds of messages with the remaster on and off
- * S05 the remaster changes the slice rooms only: big pixel change in YELLOW HALL; none in a non-slice room
+ * S05 the remaster draws its zones only: big pixel change in YELLOW HALL and a corridor; none in a room not yet in the slice
  * S06 quality tiers: BR-RoLE LOW / HIGH rebuilds the remaster at that tier, no error
  * S07 DEV toggles: wall-depth cue and decals change the picture; with ?dev3b, F8 toggles the remaster live
  * S08 short performance sanity in the slice: frame interval and BR-RoLE time with the remaster on vs off
@@ -84,11 +84,17 @@ function diff(a, b, mask) {                                 // differing pixels 
     /* S05 */
     await pose(P, ...view); const yOn = await scene(P); await P.evaluate(() => __l0v.dev.remaster(false)); await frames(P, 6); const yOff = await scene(P); await P.evaluate(() => __l0v.dev.remaster(true));
     const dy = diff(yOn, yOff, PLAYER);
-    await pose(P, 3400, 3400, 0, false); const nOn = await scene(P); await P.evaluate(() => __l0v.dev.remaster(false)); await frames(P, 6); const nOff = await scene(P); await P.evaluate(() => __l0v.dev.remaster(true));
-    const dn = diff(nOn, nOff, PLAYER), rep = await P.evaluate(() => __l0v.stats().rooms.map(r => r.id + ':' + r.visible).join(' '));
-    check('S05 the remaster changes the slice rooms only: YELLOW HALL\'s picture changes; REPEATING ROOMS (not in the slice) stays as it was - the legacy carpet there is the same texture redrawn, so a few pixels (well under 0.1 %) may round differently by a few levels of 255 (sampler precision), invisible',
-      dy.frac > .3 && dn.max <= 6 && dn.frac < .001,
-      `YELLOW HALL ${(dy.frac * 100).toFixed(1)} % of pixels changed; REPEATING ROOMS: ${dn.n} pixels (${(dn.frac * 100).toFixed(3)} %) differ by more than 2 levels, the largest by ${dn.max} of 255; culled rooms there: ${rep}`);
+    const cv = [1104, 2200, Math.PI / 2, false]; await pose(P, ...cv); const cOn = await scene(P); await P.evaluate(() => __l0v.dev.remaster(false)); await frames(P, 6); const cOff = await scene(P); await P.evaluate(() => __l0v.dev.remaster(true));
+    const dc = diff(cOn, cOff, PLAYER);
+    /* a room the visual data leaves out of the slice (while the map is being expanded) keeps the legacy look exactly */
+    const ns = await P.evaluate(() => { const r = L0_VISUALS.rooms.find(r => !L0_VISUALS.inSlice(r.id)); if (!r) return null; const o = __api.Oc.find(o => o.code === r.code);
+      let best = null; for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w; cx++) { if (!__api.zc(cx, cy)) continue; const d = Math.hypot(cx - (o.x + o.w / 2), cy - (o.y + o.h / 2)); if (!best || d < best.d) best = { d, x: (cx + .5) * 96, y: (cy + .5) * 96 }; }
+      return { id: r.id, name: r.name, x: best.x, y: best.y }; });
+    let dn = null; if (ns) { await pose(P, ns.x, ns.y, 0, false); const nOn = await scene(P); await P.evaluate(() => __l0v.dev.remaster(false)); await frames(P, 6); const nOff = await scene(P); await P.evaluate(() => __l0v.dev.remaster(true)); dn = diff(nOn, nOff, PLAYER); }
+    const st5 = await P.evaluate(() => __l0v.stats());
+    check('S05 the remaster draws its zones and only them: YELLOW HALL\'s and a corridor\'s pictures change; a room not yet in the slice (if any) stays as it was - the legacy carpet there is the same texture redrawn, so a few pixels (well under 0.1 %) may round differently by a few levels (sampler precision), invisible; with every room in the slice, no floor is left to the legacy carpet',
+      dy.frac > .3 && dc.frac > .2 && (ns ? dn.max <= 6 && dn.frac < .001 : st5.legacyFloorRects === 0),
+      `YELLOW HALL ${(dy.frac * 100).toFixed(1)} % of pixels changed; corridor ${(dc.frac * 100).toFixed(1)} %; ` + (ns ? `${ns.name} (not in the slice): ${dn.n} pixels (${(dn.frac * 100).toFixed(3)} %) differ by more than 2 levels, the largest by ${dn.max} of 255` : `every room in the slice; legacy floor rects ${st5.legacyFloorRects}`) + `; zones ${st5.rooms.length}`);
     /* S06 */
     const tier = async q => { await P.evaluate(q => __brRole.setQuality(q), q); return H.until(() => P.evaluate(q => __l0v.stats().tier === q && __l0v.stats().built, q), 15000); };
     const lowOk = await tier('low'), sLow = await P.evaluate(() => __l0v.stats()); const highOk = await tier('high'), sHigh = await P.evaluate(() => __l0v.stats()); const medOk = await tier('medium');

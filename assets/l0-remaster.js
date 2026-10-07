@@ -1,36 +1,39 @@
-/* l0-remaster.js - Stage 3B: the Level 0 visual remaster (presentation only, client only).  3B1: the representative slice.
+/* l0-remaster.js - Stage 3B: the Level 0 visual remaster (presentation only, client only).  3B-F: the whole of Level 0.
  *
  * THE LEVEL MAY LOOK NEW.  IT MUST PLAY IN THE SAME PLACES.  This module only paints: it reads the running game (room
- * table, floor mask, lamp list, world.js props) and the presentation authority assets/level0_visuals.js, and draws
- * material art over the existing level art.  It never writes game state, never sends anything, never adds a blocker or a
- * light, and never touches BR-RoLE: lighting, shadows and the line-of-sight blackout stay exactly BR-RoLE 1.0's.
+ * table, floor mask, sight mask, lamp list, world.js props) and the presentation authority assets/level0_visuals.js, and
+ * draws material art over the existing level art.  It never writes game state, never sends anything, never adds a blocker
+ * or a light, and never touches BR-RoLE: lighting, shadows and the line-of-sight blackout stay exactly BR-RoLE 1.0's.
  *
  * How it sits in the scene (two guarded hooks in the bundle's renderer build(), undone byte for byte by the freeze tool):
  *   lamp(t, e, lampTop)        while build() draws the 90 fixture housings: a lamp in a remastered room draws its legacy
  *                              housing into this module's own Graphics instead of lampTop (shown only when the remaster is
  *                              off), so new and old housings never stack.  Every other lamp is untouched.
- *   built(world, level, top, app)  at the end of build() (app: the game's Pixi application, for the bake): the remaster layer goes right above the level art (below the
- *                              objective traces, corpses and every actor), the ceiling layer right above lampTop, sharing
- *                              its parallax and alpha.  With ?remaster=off neither hook does anything: exactly v23.3.6.
- * In the slice rooms the remaster layer is opaque, so the legacy floor blots, painted lamp glows, the BLACKOUT ZONE's
- * painted black and the old wall / prop art are covered, not edited; switching the remaster off shows them again, live.
- * BR-RoLE's static wall grounding lies under the level art; the remaster redraws the same grounding (same falloff, width
- * and alpha) on its own floor, following BR-RoLE's visibility, so walls stay grounded exactly as elsewhere.
+ *   built(world, level, top, app)  at the end of build() (app: the game's Pixi application, for the bake): the remaster
+ *                              layer goes right above the level art (below the objective traces, corpses and every actor),
+ *                              the ceiling layer right above lampTop, sharing its parallax and alpha.  With ?remaster=off
+ *                              neither hook does anything: exactly v23.3.6 / BR-RoLE 1.0.
+ * ZONES: the remaster draws zones - the game's rooms (each its rect) and the corridor network, split into its connected
+ * pieces.  A zone owns its floor cells; a wall face is drawn by the zone whose floor it looks onto (once, in that space's
+ * finish); walls are the cells the game's sight test blocks (pits are not walls).  Where two zones meet, the carpet is one
+ * world-anchored piece, the wear / damp maps blend to shared values and a corridor takes the colour of the room it leads
+ * into, so a doorway shows no seam.  BR-RoLE's static wall grounding lies under the level art; the remaster redraws the
+ * same grounding (same falloff, width and alpha) on its own floor, following BR-RoLE's visibility.
  *
  * Static art is paid once: textures are generated from the seeded presentation hash when the level is built (carpet tile,
- * wallpaper, wall cap, decals, props, fixtures; per-room low-resolution wear / damp maps), and each room's layers form a
- * source container that is never on screen.  QA2: the sources are BAKED into chunk textures (384 world px, the screen's
- * own texel density, clamped per tier) by the game's renderer (the 4th built() argument) as they come into view, a few
- * ahead of time, the oldest dropped beyond the tier's cache.  On screen a remastered room is one textured layer, about
- * what the old carpet sprite cost (QA1 stacked five or more room-sized layers).  Without the renderer the layers are
- * drawn directly, as in QA1.  LOW: smaller textures, fewer decals, no wear map, a lower bake density and a smaller cache.
+ * wallpapers, wall cap, decals, props, fixtures; per-zone low-resolution wear / damp maps), and each zone's layers form a
+ * source container that is never on screen.  The sources are BAKED into chunk textures on ONE 384 px grid over the map
+ * (each chunk renders every zone with content in it into one texture, at the screen's own texel density, clamped per
+ * tier) by the game's renderer as they come into view, a ring ahead of time, the oldest dropped beyond the tier's cache.
+ * On screen the remaster is one textured quad per visible chunk.  Without the renderer the layers are drawn directly (more
+ * overdraw).  LOW: smaller textures, fewer decals, a coarser wear map, a lower bake density and a smaller cache.
  * DEV comparison only (QA tools, not player settings): ?remaster=off, ?walldepth=on, ?decals=off; with ?dev3b the keys
- * F8 (remaster), F9 (wall-depth cue) and Shift+F8 (decals) toggle live, and a readout shows the frame time, the scene's GPU
- * time where the browser can time it, and what the bake holds. */
+ * F8 (remaster), F9 (wall-depth cue, deferred), Shift+F8 (decals) and Shift+F9 (a receiver proof mark) act live, and a
+ * readout shows the frame time, the scene's GPU time where the browser can time it, and what the bake holds. */
 (() => {
   'use strict';
   if (window.__l0v) return;
-  const VERSION = 'l0-remaster 3b-qa2';
+  const VERSION = 'l0-remaster 3b-final';
   const VZ = window.L0_VISUALS || null;
   const T = 96;
   const Q = (() => { try { return new URLSearchParams(location.search); } catch (e) { return new URLSearchParams(''); } })();
@@ -41,7 +44,7 @@
     disabled: VZ ? '' : 'presentation data missing', built: false, world: null, level: null, lampTop: null, G: null, C: null, Tex: null,
     root: null, ceil: null, legacyLamps: null, ownLamps: [], rooms: [], tier: '', tex: null, brRoot: null, frame: 0, errors: 0, tag: null,
     stats: { buildMs: 0, rooms: 0, textures: 0, texMPx: 0, decals: 0, faces: 0, floorRects: 0, fixtures: 0, visibleRooms: 0, builds: 0 },
-    app: null, renderer: null, mode: 'bake', RT: null, q: null, dens: 1, gen: 0, ao: null,
+    app: null, renderer: null, mode: 'bake', RT: null, q: null, dens: 1, gen: 0, ao: null, FBW: 96, FBH: 72, chunks: [], chunkView: null,
     bake: { px: 0, bakes: 0, ms: 0, maxMs: 0, lastMs: 0, evictions: 0, visible: 0, resident: 0, error: '' },
     dyn: [], dynSeq: 0, extTex: null,
     perf: { last: 0, ema: 0, gpu: null, gpuEma: 0, poll: null, shown: 0 },
@@ -53,7 +56,15 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
   const api = () => window.__api || null;
-  const isFloor = (cx, cy) => { const A = api(); return !!(A && A.zc(cx, cy)); };
+  /* the game's floor / sight / room masks, read once per build (the level is static), so every zone test is a lookup */
+  let GRID = null;
+  function readGrid() {
+    const A = api(), W = S.FBW, H = S.FBH, n = W * H, floor = new Uint8Array(n), wall = new Uint8Array(n), room = new Int16Array(n).fill(-1);
+    for (let cy = 0; cy < H; cy++) for (let cx = 0; cx < W; cx++) { const i = cy * W + cx; floor[i] = A.zc(cx, cy) ? 1 : 0; wall[i] = (A.Hc ? A.Hc(cx, cy) : !floor[i]) ? 1 : 0; }
+    (A.Oc || []).forEach((o, k) => { for (let cy = Math.max(0, o.y); cy < Math.min(H, o.y + o.h); cy++) for (let cx = Math.max(0, o.x); cx < Math.min(W, o.x + o.w); cx++) room[cy * W + cx] = k; });
+    GRID = { W, H, floor, wall, room };
+  }
+  const isFloor = (cx, cy) => { if (GRID) return cx >= 0 && cy >= 0 && cx < GRID.W && cy < GRID.H && GRID.floor[cy * GRID.W + cx] === 1; const A = api(); return !!(A && A.zc(cx, cy)); };
 
   /* ---------- colour ---------- */
   const rgb = h => { const n = parseInt(String(h).slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
@@ -62,6 +73,8 @@
   const mix = (a, b, t) => [lerp(a[0], b[0], t), lerp(a[1], b[1], t), lerp(a[2], b[2], t)];
   const mul = (a, k) => [a[0] * k, a[1] * k, a[2] * k];
   const MAT = id => (VZ && VZ.material(id)) || {};
+  const MATK = kind => kind === 'concrete' ? { wear: [.12, .12, .1], damp: [.32, .32, .27] } : kind === 'tile' ? { wear: [.1, .1, .08], damp: [.26, .23, .18] }
+    : { wear: [.26, .25, .14], damp: [.3, .3, .4] };   // how traffic wear and damp darken each floor (carpet: the QA2 values)
 
   /* ---------- seeded noise (presentation PRNG only) ---------- */
   function vnoise(key, L) {                              // periodic value noise, L lattice cells per period; f(u, v) in lattice units
@@ -148,7 +161,7 @@
    * grime that thickens toward the base.  Only about the lowest 24 px are ever seen (the game's sight shape enters walls
    * by 24 px), so all of the character sits there. */
   function wallpaperCanvas(s, prof, key) {
-    const W = 192, H = 48, cw = Math.round(W * s), ch = Math.round(H * s), m = MAT('material:wallpaper'), bb = MAT('material:baseboard');
+    const W = 192, H = 48, cw = Math.round(W * s), ch = Math.round(H * s), m = MAT((prof && prof.wallpaper && prof.wallpaper.paper) || 'material:wallpaper'), bb = MAT('material:baseboard');
     const tone = (prof && prof.wallpaper && prof.wallpaper.tone) || 1, cond = prof && prof.wallpaper ? prof.wallpaper.condition : .9;
     const c = mkCanvas(cw, ch), x = c.getContext('2d'), img = x.createImageData(cw, ch), d = img.data;
     const P = mul(rgb(m.base), tone), St = mul(rgb(m.stripe), tone), Mo = rgb(m.motif), Gr = rgb(m.grime), Bb = rgb(bb.base), Bt = rgb(bb.top), Sc = rgb(bb.scuff);
@@ -363,7 +376,7 @@
       for (let i = 0; i <= n; i++) { const t = i / n; pts.push([t * cw, b + d * (3 + Math.abs(Math.sin(t * 9.1 + r() * 2)) * 5 + r() * 3)]); }
       x.fillStyle = '#cfc6a6'; x.beginPath(); x.moveTo(-1, b); for (const [px, py] of pts) x.lineTo(px, py); x.lineTo(cw + 1, b); x.closePath(); x.fill();          // gypsum core
       x.strokeStyle = 'rgba(36,30,18,.75)'; x.lineWidth = 1.2; x.beginPath(); pts.forEach(([px, py], i) => i ? x.lineTo(px, py) : x.moveTo(px, py)); x.stroke();    // its shadowed break
-      x.fillStyle = 'rgba(203,185,106,.95)'; x.fillRect(-1, top ? 0 : chh - 2.2, 7, 2.2); x.fillRect(cw - 6, top ? 0 : chh - 2.2, 7, 2.2);                            // paper faces at both sides
+      x.fillStyle = css(rgb(MAT((prof.wallpaper && prof.wallpaper.paper) || 'material:wallpaper').base || '#cbb96a'), .95); x.fillRect(-1, top ? 0 : chh - 2.2, 7, 2.2); x.fillRect(cw - 6, top ? 0 : chh - 2.2, 7, 2.2);   // paper faces at both sides, in the room's own finish
       for (const sx of [cw * .3, cw * .62]) { x.fillStyle = '#7a6440'; x.fillRect(sx, top ? 0 : chh - 6, 7, 6); x.fillStyle = 'rgba(255,236,190,.22)'; x.fillRect(sx, top ? 5 : chh - 6, 7, 1); }   // cut studs
     };
     edge(true); edge(false);
@@ -373,6 +386,114 @@
     x.restore(); return c;
   }
 
+  /* draw a prop's art along x (its length) in a len x dep box, whatever its orientation on the map: a vertical prop is the same
+   * drawing turned a quarter (its long side then faces east / west, as the game's walls do) */
+  function alongX(x, w, h, f) { if (w >= h) f(w, h, false); else { x.save(); x.translate(w, 0); x.rotate(Math.PI / 2); f(h, w, true); x.restore(); } }
+  /* L2 ("shelf" in the game's data), drawn as a fallen length of rectangular ductwork (canon audit: infrastructure decay, not
+   * stock).  Galvanised sheet metal lying on the carpet: its top, its front face (the camera sees south faces), joints with
+   * bolts, a lock seam, dents, dust, one end torn open on a dark hollow, a hanger strap still bolted on.  Exactly the footprint. */
+  function ductCanvas(s, p, prof, key) {
+    const w = p.rect.w, h = p.rect.h, c = mkCanvas((w + PAD * 2) * s, (h + PAD * 2) * s), x = c.getContext('2d'), r = VZ.rng('prop', key, p.id), m = MAT('material:steel'); x.scale(s, s);
+    contact(x, w, h, .42, 3); x.translate(PAD, PAD);
+    alongX(x, w, h, (L, D, vert) => {
+      const F = 10, G = rgb(m.galv), Dk = rgb(m.dark);
+      const top = x.createLinearGradient(0, 0, 0, D - F); top.addColorStop(0, css(mul(G, 1.1))); top.addColorStop(1, css(mul(G, .94)));
+      x.fillStyle = top; x.beginPath(); x.roundRect(0, 0, L, D - F, 2); x.fill();                                   // the top skin
+      for (let i = 0; i < 90; i++) { const sx = 2 + r() * (L - 4), sy = 2 + r() * (D - F - 4), z = 2 + r() * 5; x.fillStyle = r() > .5 ? 'rgba(255,255,250,.07)' : 'rgba(40,44,42,.07)'; x.beginPath(); x.moveTo(sx, sy - z); x.lineTo(sx + z * .8, sy); x.lineTo(sx, sy + z); x.lineTo(sx - z * .8, sy); x.closePath(); x.fill(); }   // spangle
+      const fr = x.createLinearGradient(0, D - F, 0, D); fr.addColorStop(0, css(mul(G, .74))); fr.addColorStop(1, css(mul(Dk, .78)));
+      x.fillStyle = fr; x.fillRect(0, D - F, L, F);                                                                 // the front face
+      x.fillStyle = 'rgba(255,255,248,.4)'; x.fillRect(1, .6, L - 2, 1);                                            // the lit back edge
+      x.fillStyle = 'rgba(255,255,248,.22)'; x.fillRect(1, D - F - 1.2, L - 2, 1);                                  // the front arris
+      x.fillStyle = 'rgba(30,32,30,.35)'; x.fillRect(4, 7, L - 8, .8); x.fillStyle = 'rgba(255,255,248,.18)'; x.fillRect(4, 7.8, L - 8, .8);   // the lock seam
+      for (let jx = 60; jx < L - 20; jx += 68) {                                                                    // transverse joints (flanges) with bolts
+        x.fillStyle = 'rgba(40,44,42,.45)'; x.fillRect(jx, 0, 3.4, D); x.fillStyle = 'rgba(255,255,248,.22)'; x.fillRect(jx + 3.4, 0, 1, D - F);
+        x.fillStyle = 'rgba(30,30,28,.7)'; for (const by of [5, D - F - 6]) { x.beginPath(); x.arc(jx + 1.7, by, 1.1, 0, 7); x.fill(); } }
+      for (let i = 0; i < 3; i++) { const dx2 = 70 + r() * (L - 120), dy2 = 6 + r() * (D - F - 12), rr = 6 + r() * 7, g2 = x.createRadialGradient(dx2, dy2, 1, dx2, dy2, rr);   // dents
+        g2.addColorStop(0, 'rgba(30,34,32,.22)'); g2.addColorStop(.7, 'rgba(255,255,250,.08)'); g2.addColorStop(1, 'rgba(255,255,250,0)'); x.fillStyle = g2; x.fillRect(dx2 - rr, dy2 - rr, rr * 2, rr * 2); }
+      const dust = x.createLinearGradient(0, 0, L, 0); dust.addColorStop(0, 'rgba(165,155,124,.0)'); dust.addColorStop(.5, 'rgba(165,155,124,.16)'); dust.addColorStop(1, 'rgba(165,155,124,.05)');
+      x.fillStyle = dust; x.fillRect(0, 0, L, D - F);                                                               // settled dust
+      x.fillStyle = '#141514'; x.beginPath(); x.moveTo(0, 2); x.lineTo(9, 1); x.lineTo(13, 6); x.lineTo(8, 12); x.lineTo(14, 19); x.lineTo(9, 26); x.lineTo(12, D - F); x.lineTo(0, D - F); x.closePath(); x.fill();   // the torn-open end: the dark hollow
+      x.fillStyle = 'rgba(205,210,206,.55)'; x.beginPath(); x.moveTo(13, 6); x.lineTo(22, 3); x.lineTo(19, 13); x.lineTo(14, 19); x.lineTo(8, 12); x.closePath(); x.fill();   // a bent flap of sheet metal
+      x.strokeStyle = 'rgba(255,255,248,.35)'; x.lineWidth = .7; x.beginPath(); x.moveTo(9, 1); x.lineTo(13, 6); x.lineTo(8, 12); x.lineTo(14, 19); x.lineTo(9, 26); x.stroke();
+      x.strokeStyle = 'rgba(190,196,192,.85)'; x.lineWidth = 2; x.beginPath(); x.moveTo(L - 34, 3); x.quadraticCurveTo(L - 22, 10, L - 18, D - F - 6); x.stroke();   // the hanger strap, still bolted on
+      x.fillStyle = 'rgba(40,40,38,.8)'; for (let i = 0; i < 5; i++) { const t = .15 + i * .18, hx = (1 - t) * (1 - t) * (L - 34) + 2 * (1 - t) * t * (L - 22) + t * t * (L - 18), hy = (1 - t) * (1 - t) * 3 + 2 * (1 - t) * t * 10 + t * t * (D - F - 6); x.fillRect(hx - .5, hy - .5, 1, 1); }
+      x.fillStyle = 'rgba(16,14,10,.55)'; x.fillRect(0, D - 1.4, L, 1.4);                                          // where it presses into the carpet
+    });
+    x.strokeStyle = 'rgba(30,28,24,.6)'; x.lineWidth = .9; x.strokeRect(.5, .5, w - 1, h - 1);
+    return c;
+  }
+  /* L3 / L7: a half-height partition (canon: "randomly segmented rooms"): the room's own paper and baseboard on its faces (the
+   * proportions of the papered columns: the camera sees the south end and the long sides narrowly), a plaster-and-wood cap
+   * with chips and a hairline crack, damp and mildew at the base; in the red rooms the paper peels back to crimson. */
+  function lowwallCanvas(s, p, prof, key, X) {
+    const w = p.rect.w, h = p.rect.h, c = mkCanvas((w + PAD * 2) * s, (h + PAD * 2) * s), x = c.getContext('2d'), r = VZ.rng('prop', key, p.id), paper = X && X.paper && X.paper[prof.id]; x.scale(s, s);
+    contact(x, w, h, .44, 2); x.translate(PAD, PAD);
+    const vert = h > w, F = vert ? { S: 12, N: 4, E: 6, W: 6 } : { S: 12, N: 4, E: 5, W: 5 };
+    const face = (poly, tf) => { x.save(); x.beginPath(); poly.forEach(([px, py], i) => i ? x.lineTo(px, py) : x.moveTo(px, py)); x.closePath(); x.clip(); tf(); x.restore(); };
+    const strip = (len, fw, ox) => { if (!paper) { x.fillStyle = '#c9b25a'; x.fillRect(0, 0, len, fw); return; } const sx = ((ox % 136) + 136) % 136; x.drawImage(paper, sx * s, (48 - fw) * s, Math.min(len, 192 - sx) * s, fw * s, 0, 0, Math.min(len, 192 - sx), fw); if (len > 192 - sx) x.drawImage(paper, 0, (48 - fw) * s, (len - (192 - sx)) * s, fw * s, 192 - sx, 0, len - (192 - sx), fw); };
+    const ph = Math.floor(r() * 120);
+    face([[0, h], [w, h], [w - F.E, h - F.S], [F.W, h - F.S]], () => { x.translate(0, h - F.S); strip(w, F.S, ph); });
+    face([[0, 0], [w, 0], [w - F.E, F.N], [F.W, F.N]], () => { x.translate(0, F.N); x.scale(1, -1); strip(w, F.N, ph + 11); });
+    face([[w, 0], [w, h], [w - F.E, h - F.S], [w - F.E, F.N]], () => { x.translate(w - F.E, h); x.rotate(-Math.PI / 2); strip(h, F.E, ph + 23); });
+    face([[0, 0], [0, h], [F.W, h - F.S], [F.W, F.N]], () => { x.translate(F.W, 0); x.rotate(Math.PI / 2); strip(h, F.W, ph + 5); });
+    const cap = x.createLinearGradient(0, 0, w, 0); cap.addColorStop(0, '#c6bb95'); cap.addColorStop(1, '#d4caa6');
+    x.fillStyle = cap; x.fillRect(F.W, F.N, w - F.W - F.E, h - F.N - F.S);                                          // the cap: plaster on a wooden ledge
+    x.strokeStyle = 'rgba(255,250,232,.45)'; x.lineWidth = 1; x.strokeRect(F.W + .5, F.N + .5, w - F.W - F.E - 1, h - F.N - F.S - 1);   // its lit arris
+    x.strokeStyle = 'rgba(90,76,46,.35)'; x.lineWidth = .7; x.beginPath(); const L = vert ? h : w; for (let i = 0; i < 2; i++) { const a0 = L * (.2 + r() * .5); if (vert) { x.moveTo(w / 2 + (r() - .5) * 6, a0); x.lineTo(w / 2 + (r() - .5) * 8, a0 + 30 + r() * 40); } else { x.moveTo(a0, h / 2); x.lineTo(a0 + 30 + r() * 40, h / 2 + (r() - .5) * 8); } } x.stroke();   // hairline cracks
+    for (let i = 0; i < 6; i++) { const cx2 = F.W + r() * (w - F.W - F.E), cy2 = F.N + r() * (h - F.N - F.S); x.fillStyle = 'rgba(110,92,58,.4)'; x.beginPath(); x.ellipse(cx2, cy2, 1.2 + r() * 2.2, 1 + r() * 1.6, r() * 3, 0, 7); x.fill(); }   // chips in the plaster
+    const W2 = prof.wallpaper || {}, Bk = rgb(MAT(W2.paper || 'material:wallpaper').backing || '#b9ac86');
+    for (let i = 0; i < Math.round((W2.peel || .3) * 4); i++) { const along = .1 + r() * .8; x.fillStyle = css(Bk, .9);                // peeling paper showing what is underneath (crimson in the red rooms)
+      if (vert) { const side = r() > .5, yy = h * along; x.beginPath(); x.moveTo(side ? w - F.E : 0, yy); x.lineTo(side ? w : F.W, yy - 4); x.lineTo(side ? w : F.W, yy + 7); x.closePath(); x.fill(); }
+      else { const xx = w * along; x.beginPath(); x.moveTo(xx, h - F.S); x.lineTo(xx + 6, h); x.lineTo(xx - 3, h); x.closePath(); x.fill(); } }
+    const Mi = rgb(MAT(W2.paper || 'material:wallpaper').mildew || '#4a4a2c');
+    for (let k = 0; k < Math.round(((prof.floor && prof.floor.mildew) || 0) * 12); k++) { const t = r(), side = r(); x.fillStyle = css(Mi, .22 + r() * .3); x.beginPath();
+      if (vert) x.arc(side > .5 ? w - 1 - r() * 3 : 1 + r() * 3, 8 + t * (h - 16), .5 + r() * 1.2, 0, 7); else x.arc(8 + t * (w - 16), h - 1 - r() * 3, .5 + r() * 1.2, 0, 7); x.fill(); }
+    x.strokeStyle = 'rgba(40,32,14,.75)'; x.lineWidth = 1; x.strokeRect(.5, .5, w - 1, h - 1);
+    return c;
+  }
+  /* U2: a bare built-in bench (canon audit: part of the building, nothing on it): one long worn slab on two steel pedestals
+   * bolted to the carpet; the dark gap beneath stays readable, because you crawl under it.  Exactly the footprint. */
+  function benchCanvas(s, p, prof, key) {
+    const w = p.rect.w, h = p.rect.h, c = mkCanvas((w + PAD * 2) * s, (h + PAD * 2) * s), x = c.getContext('2d'), r = VZ.rng('prop', key, p.id), m = MAT('material:steel'); x.scale(s, s);
+    contact(x, w, h, .4, 3); x.translate(PAD, PAD);
+    alongX(x, w, h, (L, D) => {
+      const gap = x.createLinearGradient(0, 0, 0, D); gap.addColorStop(0, 'rgba(10,8,3,.66)'); gap.addColorStop(1, 'rgba(4,3,1,.88)');
+      x.fillStyle = gap; x.beginPath(); x.roundRect(0, 0, L, D, 3); x.fill();                                      // the dark beneath the slab
+      const TH = 4, top = D - 8 - TH;
+      for (const px of [L * .2, L * .8]) { x.fillStyle = css(rgb(m.paintDark)); x.fillRect(px - 5, top, 10, D - top - 1); x.fillStyle = css(rgb(m.paint), .9); x.fillRect(px - 9, D - 4, 18, 3.4);   // pedestals and base plates
+        x.fillStyle = 'rgba(20,20,18,.8)'; x.fillRect(px - 7.5, D - 3, 1.2, 1.2); x.fillRect(px + 6.3, D - 3, 1.2, 1.2); }
+      const sl = x.createLinearGradient(0, 0, 0, top); sl.addColorStop(0, '#9a917b'); sl.addColorStop(1, '#8a826d');
+      x.fillStyle = sl; x.beginPath(); x.roundRect(2, 2, L - 4, top - 2, 3); x.fill();                              // the slab
+      for (let i = 0; i < 14; i++) { x.strokeStyle = `rgba(${70 + r() * 30},${64 + r() * 24},${50},${.08 + r() * .08})`; x.lineWidth = .6 + r(); const yy = 4 + r() * (top - 8); x.beginPath(); x.moveTo(4, yy); x.bezierCurveTo(L * .3, yy + (r() - .5) * 2, L * .7, yy + (r() - .5) * 2, L - 4, yy + (r() - .5) * 2); x.stroke(); }
+      const worn = x.createRadialGradient(L / 2, top * .5, 4, L / 2, top * .5, L * .45); worn.addColorStop(0, 'rgba(255,248,224,.08)'); worn.addColorStop(1, 'rgba(255,248,224,0)'); x.fillStyle = worn; x.fillRect(2, 2, L - 4, top - 2);
+      const ed = x.createLinearGradient(0, top, 0, top + TH); ed.addColorStop(0, '#6d6656'); ed.addColorStop(1, '#4b463a'); x.fillStyle = ed; x.fillRect(2.5, top, L - 5, TH);   // its front edge
+      x.fillStyle = 'rgba(255,248,226,.28)'; x.fillRect(4, 2.6, L - 8, 1); x.fillStyle = 'rgba(255,248,226,.2)'; x.fillRect(3, top - .8, L - 6, .9);
+      x.fillStyle = 'rgba(40,38,32,.7)'; for (const px of [L * .2, L * .8]) for (const dx of [-5, 5]) { x.beginPath(); x.arc(px + dx, top * .5, 1.2, 0, 7); x.fill(); }   // the bolts through the slab
+      x.strokeStyle = 'rgba(46,40,28,.8)'; x.lineWidth = 1; x.beginPath(); x.roundRect(2, 2, L - 4, top - 2, 3); x.stroke();
+    });
+    return c;
+  }
+  /* W1 / W2: an unglazed opening in a partition with a sill you vault (no glass, ever: the game has none).  W1: a painted
+   * wooden sill, its paper torn back at one jamb.  W2 (ARCH GALLERY): an archway hole (canon): a pale stone-like sill and pale
+   * pilasters on the jambs either side.  The cell is the opening; the art reaches 12 px onto the jamb faces, never farther. */
+  function windowCanvas(s, p, prof, key) {
+    const c0 = p.cell, cw = c0.w, chh = c0.h, c = mkCanvas((cw + PAD * 2) * s, (chh + PAD * 2) * s), x = c.getContext('2d'), r = VZ.rng('prop', key, p.id); x.scale(s, s); x.translate(PAD, PAD);
+    const arched = !!(prof.structure && prof.structure.archway);
+    x.save(); if (p.axis !== 'x') { x.translate(cw, 0); x.rotate(Math.PI / 2); }                                  // drawn as if the partition ran north-south (you cross along x)
+    const sx0 = (cw - (p.depth || 40)) / 2, sw = p.depth || 40;
+    for (const side of [-1, 1]) { const g2 = x.createLinearGradient(side < 0 ? sx0 : sx0 + sw, 0, side < 0 ? sx0 - 12 : sx0 + sw + 12, 0); g2.addColorStop(0, 'rgba(16,12,6,.32)'); g2.addColorStop(1, 'rgba(16,12,6,0)'); x.fillStyle = g2; x.fillRect(side < 0 ? sx0 - 12 : sx0 + sw, 0, 12, chh); }   // the sill's shade on the floor
+    const top = x.createLinearGradient(sx0, 0, sx0 + sw, 0);
+    if (arched) { top.addColorStop(0, '#cfc7aa'); top.addColorStop(1, '#ddd6bc'); } else { top.addColorStop(0, '#b9aa7c'); top.addColorStop(1, '#cbbc8f'); }
+    x.fillStyle = top; x.fillRect(sx0, -2, sw, chh + 4);                                                            // the sill
+    x.fillStyle = arched ? 'rgba(120,112,90,.45)' : 'rgba(92,79,44,.6)'; x.fillRect(sx0, -2, 2.6, chh + 4); x.fillRect(sx0 + sw - 2.6, -2, 2.6, chh + 4);   // its long edges
+    x.fillStyle = 'rgba(255,250,232,.3)'; x.fillRect(sx0 + 3, -2, 1, chh + 4);
+    if (arched) { for (let i = 0; i < 4; i++) { x.strokeStyle = `rgba(150,140,110,${.12 + r() * .1})`; x.lineWidth = .7; x.beginPath(); x.moveTo(sx0 + 4 + r() * (sw - 8), r() * 20); x.bezierCurveTo(sx0 + r() * sw, chh * .4, sx0 + r() * sw, chh * .6, sx0 + 4 + r() * (sw - 8), chh - r() * 20); x.stroke(); }   // faint veining
+      for (const yy of [-PAD, chh]) { x.fillStyle = '#d6cfb2'; x.fillRect(sx0 - 6, yy, sw + 12, PAD); x.fillStyle = 'rgba(120,110,84,.5)'; x.fillRect(sx0 - 6, yy < 0 ? yy + PAD - 2 : yy, sw + 12, 2); x.fillStyle = 'rgba(255,252,236,.45)'; x.fillRect(sx0 - 6, yy < 0 ? yy : yy + PAD - 1.4, sw + 12, 1.4); } }   // the pilasters on the jambs
+    else { for (let i = 0; i < 8; i++) { x.fillStyle = 'rgba(110,92,56,.35)'; x.fillRect(sx0 + 3 + r() * (sw - 6), r() * chh, 1 + r() * 2.2, .8 + r() * 1.2); }   // worn paint
+      const B = rgb(MAT((prof.wallpaper && prof.wallpaper.paper) || 'material:wallpaper').backing || '#b9ac86'); x.fillStyle = css(B, .9); x.beginPath(); x.moveTo(sx0 + sw + 2, -PAD + 1); x.lineTo(sx0 + sw + 14, -PAD + 1); x.lineTo(sx0 + sw + 4, -1); x.closePath(); x.fill();   // paper torn back at a jamb
+      x.strokeStyle = 'rgba(255,248,220,.4)'; x.lineWidth = .7; x.beginPath(); x.moveTo(sx0 + sw + 14, -PAD + 1); x.lineTo(sx0 + sw + 4, -1); x.stroke(); }
+    x.restore(); return c;
+  }
   /* a papered column (the game's 56 x 56 pillar, exactly): a dark top, the same paper and baseboard as the walls on all four
    * sides (S 14 / N 7 / E-W 9, the walls' proportions), mitred corners, damp and mildew climbing from the base */
   function pillarCanvas(s, prof, paper, key, variant) {
@@ -390,7 +511,7 @@
     face([[0, 0], [0, P], [F.W, P - F.S], [F.W, F.N]], () => { x.translate(F.W, 0); x.rotate(Math.PI / 2); strip(F.W, ph + 5); });
     x.strokeStyle = 'rgba(255,246,206,.35)'; x.lineWidth = 1; x.strokeRect(F.W + .5, F.N + .5, P - F.W - F.E - 1, P - F.N - F.S - 1);   // the lit lip where the faces meet the top
     x.strokeStyle = 'rgba(60,50,24,.5)'; x.lineWidth = .8; x.beginPath(); for (const [a, b] of [[[0, 0], [F.W, F.N]], [[P, 0], [P - F.E, F.N]], [[0, P], [F.W, P - F.S]], [[P, P], [P - F.E, P - F.S]]]) { x.moveTo(a[0], a[1]); x.lineTo(b[0], b[1]); } x.stroke();   // corner arrises
-    const mil = (prof.carpet && prof.carpet.mildew) || 0, Mi = rgb(MAT('material:wallpaper').mildew || '#4a4a2c');
+    const mil = (prof.floor && prof.floor.mildew) || 0, Mi = rgb(MAT((prof.wallpaper && prof.wallpaper.paper) || 'material:wallpaper').mildew || '#4a4a2c');
     for (let k = 0; k < Math.round(mil * 10); k++) {                                                                              // mildew speckling up from the base of one side
       const side = Math.floor(r() * 4), t = 6 + r() * (P - 12), d = Math.pow(r(), 1.6) * 8;
       const [px, py] = side === 0 ? [t, P - 1 - d] : side === 1 ? [t, 1 + d] : side === 2 ? [P - 1 - d, t] : [1 + d, t];
@@ -428,6 +549,10 @@
     return c;
   }
 
+  /* the art for each of the game's prop kinds (world.js), by kind; a kind without art here keeps its legacy art (that zone is
+   * then not remastered).  Every drawing is exactly the footprint (cell for holes and windows) plus the flat contact margin. */
+  const PROP_ART = { counter: counterCanvas, table: tableCanvas, hole: holeCanvas, shelf: ductCanvas, lowwall: lowwallCanvas, bench: benchCanvas, window: windowCanvas };
+
   /* ======================================================================================================================
    * TEXTURE SET (per quality tier)
    * ==================================================================================================================== */
@@ -441,8 +566,9 @@
     for (const p of profs) {
       const pc = wallpaperCanvas(s, p, p.id); X.paper = X.paper || {}; X.paper[p.id] = pc;
       X.wall[p.id] = texOf(pc, { mip: true, u: 'repeat', v: 'clamp-to-edge' });
-      X.depth[p.id] = texOf(depthFaceCanvas(s, p, p.id), { mip: true, u: 'repeat', v: 'clamp-to-edge' });
+      if (S.depth) X.depth[p.id] = texOf(depthFaceCanvas(s, p, p.id), { mip: true, u: 'repeat', v: 'clamp-to-edge' });   // the DEV cue's faces only while it is on
     }
+    X.hasDepth = S.depth;
     const fall = u => Math.pow(1 - clamp(u, 0, 1), AO.power), n = AO.steps, qq = 48;
     X.ao = { down: texOf(aoCanvas(2, n, (i, j) => fall((j + .5) / n))), up: texOf(aoCanvas(2, n, (i, j) => fall((n - j - .5) / n))), right: texOf(aoCanvas(n, 2, i => fall((i + .5) / n))), left: texOf(aoCanvas(n, 2, i => fall((n - i - .5) / n))),
       se: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(i + .5, j + .5) / qq))), sw: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(qq - i - .5, j + .5) / qq))),
@@ -454,69 +580,111 @@
   }
 
   /* ======================================================================================================================
-   * ROOM BUILD
+   * ZONE BUILD.  A zone is one of the game's rooms (its rect) or the corridor network (every floor cell outside a room).
+   * Each zone owns its floor cells; a wall face belongs to the zone whose floor it looks onto, so every face is drawn once,
+   * in the finish of the space it faces.  Walls are the cells the game's sight test blocks (Hc); pits (Mc) are not walls.
    * ==================================================================================================================== */
   const ocOf = vr => { const A = api(); return A && A.Oc ? A.Oc.find(o => o.code === vr.code && o.name === vr.name) || null : null; };
   function roomAt(x, y) {                                // the visual room record whose game rect holds a world point
     const A = api(); if (!A || !A.Oc || !VZ) return null; const cx = Math.floor(x / T), cy = Math.floor(y / T);
     const o = A.Oc.find(o => cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h); return o ? VZ.rooms.find(r => r.code === o.code) || null : null;
   }
+  const inAnyRoom = (cx, cy) => { if (GRID) return cx >= 0 && cy >= 0 && cx < GRID.W && cy < GRID.H && GRID.room[cy * GRID.W + cx] >= 0; const A = api(); return !!(A && A.Oc && A.Oc.some(o => cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h)); };
+  const isWall = (cx, cy) => { if (cx < 0 || cy < 0 || cx >= S.FBW || cy >= S.FBH) return true; if (GRID) return GRID.wall[cy * GRID.W + cx] === 1; const A = api(); return !!(A && A.Hc ? A.Hc(cx, cy) : !isFloor(cx, cy)); };
+  const isPit = (cx, cy) => cx >= 0 && cy >= 0 && cx < S.FBW && cy < S.FBH && !isFloor(cx, cy) && !isWall(cx, cy);
+  /* the zones a slice id stands for, each owning its floor cells: a room is one zone (its game rect); the corridor network is
+   * split into its connected pieces (each its own compact zone with its own traffic lanes, all dressed by the one corridor
+   * archetype), found in map order, so the ids are the same on every load */
+  function zoneDefs(id) {
+    const vr = VZ.room(id); if (!vr) throw Error('no visual record ' + id);
+    if (id !== 'zone:corridors') { const o = ocOf(vr); if (!o) throw Error('room not in the game table: ' + id);
+      return [{ id, base: id, vr, o, own: (cx, cy) => cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h && isFloor(cx, cy), kind: 'room' }]; }
+    const W = S.FBW, H = S.FBH, comp = new Int32Array(W * H).fill(-1), out = [], isC = (cx, cy) => isFloor(cx, cy) && !inAnyRoom(cx, cy);
+    for (let cy = 0; cy < H; cy++) for (let cx = 0; cx < W; cx++) {
+      if (!isC(cx, cy) || comp[cy * W + cx] >= 0) continue;
+      const k = out.length, q = [[cx, cy]]; comp[cy * W + cx] = k; let x0 = cx, y0 = cy, x1 = cx, y1 = cy;
+      for (let i = 0; i < q.length; i++) { const [px, py] = q[i]; x0 = Math.min(x0, px); y0 = Math.min(y0, py); x1 = Math.max(x1, px); y1 = Math.max(y1, py);
+        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = px + dx, ny = py + dy; if (isC(nx, ny) && comp[ny * W + nx] < 0) { comp[ny * W + nx] = k; q.push([nx, ny]); } } }
+      out.push({ id: id + '/' + String(k + 1).padStart(2, '0'), base: id, vr, o: { x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1 }, own: (ax, ay) => ax >= 0 && ay >= 0 && ax < W && ay < H && comp[ay * W + ax] === k, kind: 'corridors' });
+    }
+    if (!out.length) throw Error('no corridor cells');
+    return out;
+  }
 
-  function buildRoom(vr, X) {
-    const o = ocOf(vr); if (!o) throw Error('room not in the game table: ' + vr.id);
-    const prof = VZ.resolve(vr.id), cp = prof.carpet, A = api(), q = X.q;
-    const R = { id: vr.id, code: vr.code, o, prof, src: new S.C(), view: new S.C(), ceilG: new S.G(), x0: (o.x - 1) * T, y0: (o.y - 1) * T, x1: (o.x + o.w + 1) * T, y1: (o.y + o.h + 1) * T, n: { floor: 0, faces: 0, decals: 0 } };
-    R.src.label = 'l0v:' + vr.id; R.view.label = 'l0v-view:' + vr.id; R.ceilG.label = 'fixtures:' + vr.id;
-    const own = (cx, cy) => cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h && isFloor(cx, cy);
-    const ownWall = (cx, cy) => cx >= o.x - 1 && cx <= o.x + o.w && cy >= o.y - 1 && cy <= o.y + o.h && !isFloor(cx, cy);
-    const wall = (cx, cy) => !isFloor(cx, cy);
-    const rnd = VZ.rng('room', vr.id);
+  function buildRoom(Z, X) {
+    const zid = Z.id, vr = Z.vr, o = Z.o, own = Z.own;
+    const prof = VZ.resolve(Z.base), cp = prof.floor, A = api(), q = X.q;
+    const R = { id: zid, base: Z.base, code: vr.code || null, kind: Z.kind, o, own, prof, src: new S.C(), ceilG: new S.G(), x0: (o.x - 1) * T, y0: (o.y - 1) * T, x1: (o.x + o.w + 1) * T, y1: (o.y + o.h + 1) * T, n: { floor: 0, faces: 0, decals: 0 } };
+    R.src.label = 'l0v:' + zid; R.ceilG.label = 'fixtures:' + zid;
+    const wall = isWall;                                                               // the game's sight blockers (pits are not walls)
+    const ownWall = (cx, cy) => { if (!isWall(cx, cy)) return false; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && own(cx + dx, cy + dy)) return true; return false; };
+    R.ownWall = ownWall;
+    /* the zone's edges: floor cells of OTHER zones next to this zone's floor (its doorways); marks keep clear of them and the
+     * wear / damp maps blend to shared values there, so nothing is cut off at a zone's edge */
+    const FW = S.FBW, foreign = new Uint8Array(FW * S.FBH); let nForeign = 0;
+    for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) if (own(cx, cy)) for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) { const nx = cx + dx, ny = cy + dy; if (isFloor(nx, ny) && !own(nx, ny) && !foreign[ny * FW + nx]) { foreign[ny * FW + nx] = 1; nForeign++; } }
+    const isForeign = (cx, cy) => cx >= 0 && cy >= 0 && cx < FW && cy < S.FBH && foreign[cy * FW + cx] === 1;
+    const edgeDist = (x, y, lim = 2 * T) => { const cx = Math.floor(x / T), cy = Math.floor(y / T), k = Math.ceil(lim / T); let d = 1e9;
+      for (let j = -k; j <= k; j++) for (let i = -k; i <= k; i++) if (isForeign(cx + i, cy + j)) { const fx = (cx + i) * T, fy = (cy + j) * T, ddx = Math.max(fx - x, 0, x - fx - T), ddy = Math.max(fy - y, 0, y - fy - T); d = Math.min(d, Math.sqrt(ddx * ddx + ddy * ddy)); }
+      return d; };
+    R.edgeDist = edgeDist;
 
-    /* -- 1 floor: carpet rolls (each roll its own texture phase and a whisper of tone), seams between them -- */
+    /* -- 1 floor: one continuous piece, its texture anchored to the world ("seamless": canon) -- */
     const floorG = new S.G(); floorG.label = 'floor'; R.src.addChild(floorG);
     const seamless = !cp.seams || cp.seams === 'none', along = cp.seams === 'x' ? 'x' : 'y', ROLL = seamless ? 1e9 : 184, tone = cp.tone || 1, sc = X.carpetScale;
     const runs = [];                                       // maximal horizontal runs of owned floor cells, merged vertically into rects
     for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w;) { if (!own(cx, cy)) { cx++; continue; } let e = cx; while (e + 1 < o.x + o.w && own(e + 1, cy)) e++; runs.push({ x: cx, y: cy, w: e - cx + 1, h: 1 }); cx = e + 1; }
     const rects = []; for (const r of runs) { const up = rects.find(q2 => q2.x === r.x && q2.w === r.w && q2.y + q2.h === r.y); if (up) up.h++; else rects.push({ ...r }); }
     const span0 = along === 'y' ? o.x * T : o.y * T, span1 = along === 'y' ? (o.x + o.w) * T : (o.y + o.h) * T, rolls = [];
-    /* canon: "seamless, consisting of a single continuous piece of carpet" - one piece, its texture anchored to the world, so
-     * the carpet also runs on unbroken from room to room (rolls and seams only if an archetype ever asks for them) */
     if (seamless) rolls.push({ a0: span0, a1: span1, k: 0 });
-    else for (let a = span0 - VZ.unit(vr.id, 'roll-phase') * ROLL, k = 0; a < span1; a += ROLL, k++) rolls.push({ a0: Math.max(span0, a), a1: Math.min(span1, a + ROLL), k });
+    else for (let a = span0 - VZ.unit(zid, 'roll-phase') * ROLL, k = 0; a < span1; a += ROLL, k++) rolls.push({ a0: Math.max(span0, a), a1: Math.min(span1, a + ROLL), k });
+    const tint = cp.tint || [1, 1, 1], floorColor = [tone * tint[0], tone * tint[1], Math.min(1.02, tone) * tint[2]];   // the zone's floor colour (tone x variant tint)
+    R.floorColor = floorColor;
+    const floorStyle = (ph, t) => cp.kind === 'concrete' ? { texture: X.concrete, textureSpace: 'global', matrix: M(X.concreteScale, 0, 0, X.concreteScale, 0, 0), color: hexOf(mul(floorColor, 255 * t)) }
+      : cp.kind === 'tile' ? { texture: X.tile, textureSpace: 'global', matrix: M(X.tileScale, 0, 0, X.tileScale, 0, 0), color: hexOf(mul(floorColor, 255 * t)) }
+      : { texture: X.carpet, textureSpace: 'global', matrix: M(sc, 0, 0, sc, ph[0], ph[1]), color: hexOf([255 * floorColor[0] * t, 255 * floorColor[1] * t, 255 * floorColor[2] * t]) };
     for (const rr of rolls) {
-      const ph = seamless ? [0, 0] : [VZ.unit(vr.id, 'roll', rr.k, 'u') * 1024, VZ.unit(vr.id, 'roll', rr.k, 'v') * 1024], tint = seamless ? tone : tone * (1 + (VZ.unit(vr.id, 'roll', rr.k, 't') - .5) * .05);
-      const style = { texture: X.carpet, textureSpace: 'global', matrix: M(sc, 0, 0, sc, ph[0], ph[1]), color: hexOf([255 * tint, 255 * tint, 255 * Math.min(1.02, tint)]) };
+      const ph = seamless ? [0, 0] : [VZ.unit(zid, 'roll', rr.k, 'u') * 1024, VZ.unit(zid, 'roll', rr.k, 'v') * 1024], t2 = seamless ? 1 : (1 + (VZ.unit(zid, 'roll', rr.k, 't') - .5) * .05);
+      const style = floorStyle(ph, t2);
       for (const fr of rects) {
         const x0 = fr.x * T, y0 = fr.y * T, x1 = (fr.x + fr.w) * T, y1 = (fr.y + fr.h) * T;
         const ix0 = along === 'y' ? Math.max(x0, rr.a0) : x0, ix1 = along === 'y' ? Math.min(x1, rr.a1) : x1, iy0 = along === 'x' ? Math.max(y0, rr.a0) : y0, iy1 = along === 'x' ? Math.min(y1, rr.a1) : y1;
         if (ix1 > ix0 && iy1 > iy0) { floorG.rect(ix0, iy0, ix1 - ix0, iy1 - iy0).fill(style); R.n.floor++; }
       }
     }
-    for (const rr of rolls.slice(1)) for (const fr of rects) {                                             // seams: a dark join, a lifted edge beside it
+    for (const rr of rolls.slice(1)) for (const fr of rects) {                                             // seams (only if an archetype ever asks for rolls)
       const a = rr.a0, x0 = fr.x * T, y0 = fr.y * T, x1 = (fr.x + fr.w) * T, y1 = (fr.y + fr.h) * T;
       if (along === 'y' && a > x0 && a < x1) { floorG.rect(a - .6, y0, 1.2, y1 - y0).fill({ color: 0x2c2412, alpha: .13 }); floorG.rect(a + .6, y0, 1, y1 - y0).fill({ color: 0xfff4cc, alpha: .035 }); }
       if (along === 'x' && a > y0 && a < y1) { floorG.rect(x0, a - .6, x1 - x0, 1.2).fill({ color: 0x2c2412, alpha: .13 }); floorG.rect(x0, a + .6, x1 - x0, 1).fill({ color: 0xfff4cc, alpha: .035 }); }
     }
+    if (cp.overlay && X.overlay && X.overlay[cp.overlay]) floorOverlay(R, X, rects, floorG);              // deep / coarse pile over the carpet (ramped in at doorways)
 
-    /* -- 2 the room's wear / damp / grime map (low resolution, multiplied over the carpet).  Drawn only over the floor cells it
-     *    actually darkens (wall bases, traffic, damp): untouched carpet costs no second layer.  LOW skips it. -- */
+    /* -- 2 the zone's wear / damp / grime (and, in corridors, approach tone) map: low resolution, multiplied over the floor.
+     *    Drawn only over the floor cells it actually changes.  Near the zone's doorways it blends to shared values, and a
+     *    corridor takes the colour of the room it leads into, so the floor runs on unbroken from zone to zone. -- */
     const lanes = laneField(o, own);
-    if (q.macro !== false) {
+    R.lanes = lanes;
+    const approach = R.kind === 'corridors' ? approaches(own, o) : null;
+    {
       const cell = q.macroCell, mw = Math.ceil(o.w * T / cell), mh = Math.ceil(o.h * T / cell), mc = mkCanvas(mw, mh), mx = mc.getContext('2d'), mi = mx.createImageData(mw, mh);
-      const ox = o.x * T, oy = o.y * T, dN = fieldNoise(vr.id + ':damp', ox, oy, o.w * T, o.h * T, 150), wN = fieldNoise(vr.id + ':wear', ox, oy, o.w * T, o.h * T, 70);
-      const keep = new Uint8Array(o.w * o.h);
+      const ox = o.x * T, oy = o.y * T, dN = fieldNoise(zid + ':damp', ox, oy, o.w * T, o.h * T, 150), wN = fieldNoise(zid + ':wear', ox, oy, o.w * T, o.h * T, 70);
+      const keep = new Uint8Array(o.w * o.h), MM = MATK(cp.kind), LG = lanes.grid(ox, oy, cell, mw, mh);
       for (let j = 0; j < mh; j++) for (let i = 0; i < mw; i++) {
         const wx = ox + (i + .5) * cell, wy = oy + (j + .5) * cell, cx = Math.floor(wx / T), cy = Math.floor(wy / T);
         let k = [1, 1, 1];
         if (own(cx, cy)) {
           const fx = wx - cx * T, fy = wy - cy * T;                        // distance to the nearest wall edge of this cell's neighbours
           let dw = 999; if (wall(cx - 1, cy)) dw = Math.min(dw, fx); if (wall(cx + 1, cy)) dw = Math.min(dw, T - fx); if (wall(cx, cy - 1)) dw = Math.min(dw, fy); if (wall(cx, cy + 1)) dw = Math.min(dw, T - fy);
-          if (wall(cx - 1, cy - 1)) dw = Math.min(dw, Math.hypot(fx, fy)); if (wall(cx + 1, cy - 1)) dw = Math.min(dw, Math.hypot(T - fx, fy)); if (wall(cx - 1, cy + 1)) dw = Math.min(dw, Math.hypot(fx, T - fy)); if (wall(cx + 1, cy + 1)) dw = Math.min(dw, Math.hypot(T - fx, T - fy));
-          const grime = cp.grime * (.16 * Math.exp(-dw / 26) + .05 * Math.exp(-dw / 70));                  // dirt collects along the bases
-          const lane = clamp(lanes(wx, wy) * (.7 + wN(wx, wy) * .6) * cp.wear * 1.5, 0, 1);                // matted, greyed traffic paths
+          const hy = (a, b) => Math.sqrt(a * a + b * b);
+          if (wall(cx - 1, cy - 1)) dw = Math.min(dw, hy(fx, fy)); if (wall(cx + 1, cy - 1)) dw = Math.min(dw, hy(T - fx, fy)); if (wall(cx - 1, cy + 1)) dw = Math.min(dw, hy(fx, T - fy)); if (wall(cx + 1, cy + 1)) dw = Math.min(dw, hy(T - fx, T - fy));
+          const mk = (grimeK, laneV, dampV) => { const grime = grimeK * (.16 * Math.exp(-dw / 26) + .05 * Math.exp(-dw / 70)), wear = [1 - MM.wear[0] * laneV, 1 - MM.wear[1] * laneV, 1 - MM.wear[2] * laneV], dmp = [1 - MM.damp[0] * dampV, 1 - MM.damp[1] * dampV, 1 - MM.damp[2] * dampV];
+            return [(1 - grime) * wear[0] * dmp[0], (1 - grime) * wear[1] * dmp[1], (1 - grime) * wear[2] * dmp[2]]; };
+          const lane = clamp(LG[j * mw + i] * (.7 + wN(wx, wy) * .6) * cp.wear * 1.5, 0, 1);              // matted, greyed traffic paths
           const damp = sm(1 - cp.damp * .6, 1 - cp.damp * .6 + .2, dN(wx, wy)) * Math.min(1, cp.damp * 2.4) * (.6 + .4 * Math.exp(-dw / 160));
-          const wear = [1 - .26 * lane, 1 - .25 * lane, 1 - .14 * lane], dmp = [1 - .3 * damp, 1 - .3 * damp, 1 - .4 * damp];
-          for (let c = 0; c < 3; c++) k[c] = (1 - grime) * wear[c] * dmp[c];
+          k = mk(cp.grime, lane, damp);
+          const de = nForeign ? edgeDist(wx, wy) : 1e9;
+          if (de < 1.5 * T) { const b = sm(0, 1.5 * T, de), kn = mk(.55, .45 * .6 * 1.5, 0); for (let c = 0; c < 3; c++) k[c] = lerp(kn[c], k[c], b); }   // shared values at a doorway
+          if (approach) { const t3 = approach(wx, wy); for (let c = 0; c < 3; c++) k[c] *= t3[c]; }                                       // a corridor takes the next room's floor colour
           if (Math.min(k[0], k[1], k[2]) < .985) keep[(cy - o.y) * o.w + (cx - o.x)] = 1;
         }
         const p = (j * mw + i) * 4; mi.data[p] = clamp(k[0] * 255, 0, 255); mi.data[p + 1] = clamp(k[1] * 255, 0, 255); mi.data[p + 2] = clamp(k[2] * 255, 0, 255); mi.data[p + 3] = 255;
@@ -527,24 +695,26 @@
       R.src.addChild(macroG); R.macroCanvas = mc; R.n.macroCells = kept;
     }
 
-    /* -- 3 decals on the carpet (seeded scatter + authored storytelling) -- */
+    /* -- 3 marks on the floor (seeded scatter + authored storytelling), through the receiver: clipped to this zone's floor and
+     *    kept clear of its doorways (so a mark is never cut off at a zone's edge) -- */
     const mulG = new S.G(); mulG.label = 'decals-mul'; mulG.blendMode = 'multiply'; const decG = new S.G(); decG.label = 'decals';
     R.decalLayers = [mulG, decG];
     const props = window.WORLD && window.WORLD.PROPS ? window.WORLD.PROPS : [];
     const clearOfProps = (x, y, m) => !props.some(p => { const rc = p.type === 'gap' || p.type === 'window' ? p.cell : p.rect; return x > rc.x - m && x < rc.x + rc.w + m && y > rc.y - m && y < rc.y + rc.h + m; });
-    /* the room's floor is a receiving surface: its own floor cells (world axes); every floor mark is clipped to it */
-    R.surfaces = []; R.floorSurf = { id: 'surf:' + vr.id + ':floor', room: vr.id, kind: 'floor', material: 'material:carpet', rects: rects.map(fr => ({ x: fr.x * T, y: fr.y * T, w: fr.w * T, h: fr.h * T })), o: [0, 0], U: [1, 0], N: [0, 1] };
+    R.surfaces = []; R.floorSurf = { id: 'surf:' + zid + ':floor', room: zid, kind: 'floor', material: cp.material || 'material:carpet', rects: rects.map(fr => ({ x: fr.x * T, y: fr.y * T, w: fr.w * T, h: fr.h * T })), o: [0, 0], U: [1, 0], N: [0, 1] };
     R.surfaces.push(R.floorSurf);
-    const put = (g, kind, i, x, y, rot, scl, alpha, tint = 0xffffff) => { if (!VZ.drawable(kind)) return; const set = X.dec[kind]; if (!set || !set.length) return;
-      if (decalOn(g, R.floorSurf, set[i % set.length], x, y, rot, scl, alpha, tint)) R.n.decals++; };
+    const put = (g, kind, i, x, y, rot, scl, alpha, tint = 0xffffff) => { if (!VZ.drawable(kind)) return; const set = X.dec[kind]; if (!set || !set.length) return; const d = set[i % set.length];
+      if (nForeign && edgeDist(x, y, 3 * T) < Math.max(d.w, d.h) * scl * .5 + 6) return;
+      if (decalOn(g, R.floorSurf, d, x, y, rot, scl, alpha, tint)) R.n.decals++; };
+    R.put = put;
     const cells = []; for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w; cx++) if (own(cx, cy)) {
       const wn = [wall(cx - 1, cy), wall(cx + 1, cy), wall(cx, cy - 1), wall(cx, cy + 1)], nw = wn.filter(Boolean).length;
       const corner = (wn[0] || wn[1]) && (wn[2] || wn[3]);
       cells.push({ cx, cy, edge: nw > 0, corner, lane: lanes((cx + .5) * T, (cy + .5) * T), wn });
     }
     const dens = q.decals, D = prof.decor;
-    for (const c of cells) {
-      const u = k => VZ.unit(vr.id, 'decal', k, c.cx, c.cy), x = (c.cx + .2 + u('x') * .6) * T, y = (c.cy + .2 + u('y') * .6) * T;
+    if (cp.kind === 'carpet') for (const c of cells) {
+      const u = k => VZ.unit(zid, 'decal', k, c.cx, c.cy), x = (c.cx + .2 + u('x') * .6) * T, y = (c.cy + .2 + u('y') * .6) * T;
       if (!clearOfProps(x, y, 30)) continue;
       const r0 = u('rot') * Math.PI * 2;
       if (u('stain') < cp.stains * .055 * dens && !c.edge) put(mulG, 'stain', Math.floor(u('v') * 4), x, y, r0, .7 + u('s') * .7, .8);
@@ -560,10 +730,11 @@
       }
       if (c.edge && u('mildew') < (cp.mildew || 0) * (c.corner ? .5 : .12) * dens) { const px = c.wn[0] ? c.cx * T + 22 : c.wn[1] ? (c.cx + 1) * T - 22 : x, py = c.wn[2] ? c.cy * T + 22 : c.wn[3] ? (c.cy + 1) * T - 22 : y; put(mulG, 'mildew', Math.floor(u('v8') * 2), px, py, r0, .8 + u('s8') * .6, .9); }
     }
-    for (const d of VZ.decor.filter(d => d.room === vr.id)) put(d.kind === 'stain' || d.kind === 'damp' || d.kind === 'scuff' || d.kind === 'indent' ? mulG : decG, d.kind, d.v || 0, d.x, d.y, d.r || 0, d.s || 1, d.a == null ? 1 : d.a);
+    else floorMarks(R, X, cells, put, mulG, decG, clearOfProps);                                         // concrete / tile: their own marks
+    for (const d of VZ.decor.filter(d => d.room === R.base && own(Math.floor(d.x / T), Math.floor(d.y / T)))) put(d.kind === 'stain' || d.kind === 'damp' || d.kind === 'scuff' || d.kind === 'indent' || d.kind === 'condensate' || d.kind === 'soffit' ? mulG : decG, d.kind, d.v || 0, d.x, d.y, d.r || 0, d.s || 1, d.a == null ? 1 : d.a);
     R.src.addChild(mulG, decG);
 
-    /* -- 4 grounding at the wall bases: BR-RoLE's own law, on this room's floor only -- */
+    /* -- 4 grounding at the wall bases: BR-RoLE's own law (its walls: Hc), on this zone's floor only -- */
     const aoG = new S.G(); aoG.label = 'grounding'; aoG.alpha = AO.alpha; const w = AO.width, Xa = X.ao;
     for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) {
       if (!wall(cx, cy)) continue; const x0 = cx * T, y0 = cy * T;
@@ -578,16 +749,11 @@
     }
     R.ao = aoG; R.src.addChild(aoG);
 
-    /* -- 5 thresholds where the room's carpet meets a corridor (a worn aluminium transition strip) -- */
-    const thG = new S.G(); thG.label = 'thresholds';
-    const strip = (x, y, ww, hh) => { thG.rect(x, y, ww, hh).fill({ color: 0x6d6a5c }); thG.rect(x, y, ww, Math.min(hh, ww) > 4 ? 1 : 0).fill({ color: 0xc8c4b0, alpha: .5 }); };
-    for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w; cx++) if (own(cx, cy)) {
-      if (cy === o.y && isFloor(cx, cy - 1)) strip(cx * T, cy * T, T, 5); if (cy === o.y + o.h - 1 && isFloor(cx, cy + 1)) strip(cx * T, (cy + 1) * T - 5, T, 5);
-      if (cx === o.x && isFloor(cx - 1, cy)) strip(cx * T, cy * T, 5, T); if (cx === o.x + o.w - 1 && isFloor(cx + 1, cy)) strip((cx + 1) * T - 5, cy * T, 5, T);
-    }
-    R.src.addChild(thG);
+    /* -- 5 structures that are not walls: the pits (LONG ROOM) -- */
+    if (prof.structure && prof.structure.pit) { const pitG = new S.G(); pitG.label = 'pits'; buildPits(R, X, pitG); R.src.addChild(pitG); }
 
-    /* -- 6 walls: caps, papered faces (legacy band widths), mitred corners; and the DEV depth-cue variant -- */
+    /* -- 6 walls: papered faces (legacy band widths) of the faces that look onto this zone's floor, mitred corners; and the
+     *    DEV depth-cue variant -- */
     const polys = new Map(); R.walls = buildWalls(R, X, ownWall, wall, 'legacy', (side, line, idx, poly) => { const k = side + ':' + line; (polys.get(k) || polys.set(k, []).get(k)).push({ idx, poly }); });
     R.depthWalls = buildWalls(R, X, ownWall, wall, 'depth');
     R.src.addChild(R.walls, R.depthWalls); R.depthWalls.visible = S.depth; R.walls.visible = !S.depth;
@@ -595,98 +761,128 @@
     const wallDecG = new S.G(); wallDecG.label = 'wall-decor'; wallDecor(R, X, ownWall, wallDecG); R.src.addChild(wallDecG); R.decalLayers.push(wallDecG);
     R.dynG = new S.G(); R.dynG.label = 'decals-dynamic'; R.src.addChild(R.dynG);       // stamped later through the receiver (bounded)
 
-    /* -- 7 the room's physical props, same rects -- */
+    /* -- 7 the zone's physical props, same rects (a prop belongs to the zone that owns its centre cell) -- */
     const propG = new S.G(); propG.label = 'props';
     for (const p of props) {
       const rc = p.type === 'gap' || p.type === 'window' ? p.cell : p.rect, [pcx, pcy] = [Math.floor((rc.x + rc.w / 2) / T), Math.floor((rc.y + rc.h / 2) / T)];
-      if (!(pcx >= o.x && pcx < o.x + o.w && pcy >= o.y && pcy < o.y + o.h)) continue;
-      const make = p.kind === 'counter' ? counterCanvas : p.kind === 'table' ? tableCanvas : p.kind === 'hole' ? holeCanvas : null; if (!make) continue;
-      const cv = make(q.artScale, p, prof, vr.id); propG.texture(texOf(cv, { mip: true }), 0xffffff, rc.x - PAD, rc.y - PAD, rc.w + PAD * 2, rc.h + PAD * 2);
+      if (!own(pcx, pcy)) continue;
+      const make = PROP_ART[p.kind]; if (!make) continue;
+      const cv = make(q.artScale, p, prof, zid, X); propG.texture(texOf(cv, { mip: true }), 0xffffff, rc.x - PAD, rc.y - PAD, rc.w + PAD * 2, rc.h + PAD * 2);
       (R.props || (R.props = [])).push(p.id);
     }
-    if (prof.structure && prof.structure.pillar && A && typeof A.Bc === 'function') {               // the game's pillars in this room, found the way BR-RoLE finds them
-      const seen = new Set(), pv = [0, 1, 2].map(v => texOf(pillarCanvas(q.artScale, prof, X.paper[prof.id], vr.id, v), { mip: true }));
+    if (prof.structure && prof.structure.pillar && A && typeof A.Bc === 'function') {               // the game's pillars in this zone, found the way BR-RoLE finds them
+      const seen = new Set(), pv = [0, 1, 2].map(v => texOf(pillarCanvas(q.artScale, prof, X.paper[prof.id], zid, v), { mip: true }));
       for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w; cx++) { let l = null; try { l = A.Bc((cx + .5) * T, (cy + .5) * T); } catch (e) { l = null; }
-        if (l) for (const b of l) if (b && b.w === 56 && b.h === 56) { const k = b.x + ',' + b.y; if (seen.has(k)) continue; seen.add(k); const ccx = Math.floor((b.x + 28) / T), ccy = Math.floor((b.y + 28) / T); if (!(ccx >= o.x && ccx < o.x + o.w && ccy >= o.y && ccy < o.y + o.h)) continue;
-          propG.texture(pv[Math.floor(VZ.unit(vr.id, 'pillar', k) * 3)], 0xffffff, b.x - PAD, b.y - PAD, 56 + PAD * 2, 56 + PAD * 2); (R.pillars || (R.pillars = [])).push(k); } }
+        if (l) for (const b of l) if (b && b.w === 56 && b.h === 56) { const k = b.x + ',' + b.y; if (seen.has(k)) continue; seen.add(k); const ccx = Math.floor((b.x + 28) / T), ccy = Math.floor((b.y + 28) / T); if (!own(ccx, ccy)) continue;
+          propG.texture(pv[Math.floor(VZ.unit(zid, 'pillar', k) * 3)], 0xffffff, b.x - PAD, b.y - PAD, 56 + PAD * 2, 56 + PAD * 2); (R.pillars || (R.pillars = [])).push(k); } }
     }
+    if (prof.structure && prof.structure.archway) archways(R, X, propG, wallDecG);                       // ARCH GALLERY: its openings read as archways
     R.src.addChild(propG);
 
-    /* -- 8 ceiling: the room's fixtures (lamps in this room, plus visual-only records), legacy footprint -- */
-    for (const L of S.ownLamps.filter(l => l.room === vr.id)) R.ceilG.texture(X.fix[L.aged ? 'aged' : prof.fixtures.diffuser === 'yellowed' ? 'yellowed' : 'clean'], 0xffffff, L.x - 45 - 6, L.y - 15 - 6, 102, 40);
-    for (const f of VZ.fixtures.filter(f => f.room === vr.id)) R.ceilG.texture(X.fix[f.kind] || X.fix.dead, 0xffffff, f.x - 51, f.y - 21, 102, 40);
-    S.stats.fixtures += S.ownLamps.filter(l => l.room === vr.id).length + VZ.fixtures.filter(f => f.room === vr.id).length;
-    /* -- 9 the bake grid: the room's art (R.src, never on screen itself) is baked into chunk textures, CH world px square on
-     *    a global grid, clipped to the room's box; a chunk with nothing of this room in it is never made -- */
-    R.chunks = [];
-    for (let y = Math.floor(R.y0 / CH) * CH; y < R.y1; y += CH) for (let x = Math.floor(R.x0 / CH) * CH; x < R.x1; x += CH) {
-      const x0 = Math.max(x, R.x0), y0 = Math.max(y, R.y0), x1 = Math.min(x + CH, R.x1), y1 = Math.min(y + CH, R.y1);
-      let any = false; for (let cy = Math.floor(y0 / T); cy < Math.ceil(y1 / T) && !any; cy++) for (let cx = Math.floor(x0 / T); cx < Math.ceil(x1 / T) && !any; cx++) any = own(cx, cy) || ownWall(cx, cy);
-      if (!any) continue;
-      const g = new S.G(); g.label = 'chunk'; g.visible = false; R.view.addChild(g);
-      R.chunks.push({ R, key: R.id + '@' + x0 + ',' + y0, x0, y0, x1, y1, g, tex: null, ver: -1, seen: -1, px: 0 });
-    }
-    S.root.addChild(R.view); S.ceil.addChild(R.ceilG);
+    /* -- 8 ceiling: the zone's fixtures (lamps in it, plus visual-only records), legacy footprint -- */
+    for (const L of S.ownLamps.filter(l => l.room === zid)) R.ceilG.texture(X.fix[L.aged ? 'aged' : prof.fixtures.diffuser === 'yellowed' ? 'yellowed' : 'clean'], 0xffffff, L.x - 45 - 6, L.y - 15 - 6, 102, 40);
+    const vis = VZ.fixtures.filter(f => f.room === R.base && own(Math.floor(f.x / T), Math.floor(f.y / T)));
+    for (const f of vis) R.ceilG.texture(X.fix[f.kind] || X.fix.dead, 0xffffff, f.x - 51, f.y - 21, 102, 40);
+    S.stats.fixtures += S.ownLamps.filter(l => l.room === zid).length + vis.length;
+    S.ceil.addChild(R.ceilG);
     S.stats.floorRects += R.n.floor; S.stats.faces += R.n.faces; S.stats.decals += R.n.decals;
     return R;
   }
+  /* a corridor's colour near each room it leads into: exactly the room's floor colour at the doorway, fading to the corridor's
+   * own over the room's approach reach (3 cells; RED ROOMS reach farther: canon, you "gauge distance" by "the color shift") */
+  function approaches(own, o) {
+    const src = [];
+    for (const R2 of S.rooms) { if (R2.kind !== 'room') continue; const fc = R2.floorColor, reach = ((R2.prof.approach && R2.prof.approach.reach) || 3) * T;
+      if (Math.abs(fc[0] - 1) < .005 && Math.abs(fc[1] - 1) < .005 && Math.abs(fc[2] - 1) < .005) continue;
+      const door = [], ro = R2.o; for (let cy = ro.y; cy < ro.y + ro.h; cy++) for (let cx = ro.x; cx < ro.x + ro.w; cx++) if (R2.own(cx, cy) && [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => own(cx + dx, cy + dy))) door.push([cx, cy]);
+      if (!door.length) continue;
+      let bx0 = 1e9, by0 = 1e9, bx1 = -1e9, by1 = -1e9; for (const [cx, cy] of door) { bx0 = Math.min(bx0, cx * T); by0 = Math.min(by0, cy * T); bx1 = Math.max(bx1, (cx + 1) * T); by1 = Math.max(by1, (cy + 1) * T); }
+      src.push({ fc, reach, door, bx0: bx0 - reach, by0: by0 - reach, bx1: bx1 + reach, by1: by1 + reach }); }
+    return (x, y) => { const k = [1, 1, 1]; for (const s2 of src) { if (x < s2.bx0 || x > s2.bx1 || y < s2.by0 || y > s2.by1) continue;             // beyond its reach
+      let d = 1e9; for (const [cx, cy] of s2.door) { const ddx = Math.max(cx * T - x, 0, x - cx * T - T), ddy = Math.max(cy * T - y, 0, y - cy * T - T); d = Math.min(d, Math.sqrt(ddx * ddx + ddy * ddy)); }
+      if (d >= s2.reach) continue; const t = sm(0, s2.reach, d); for (let c = 0; c < 3; c++) k[c] *= lerp(s2.fc[c], 1, t); }
+      return k; };
+  }
 
-  /* traffic: entrances are the room's openings (to corridors, through its own interior doorways); lanes are the shortest
-   * paths between every pair of them across the room's floor cells, blurred.  Presentation only (the donor's anchor flood,
-   * rebuilt in flat 2D: no clearance, no physics). */
+  /* a binary min-heap on (d, seq): equal distances pop in insertion order */
+  class Heap {
+    constructor() { this.d = []; this.s = []; this.v = []; this.n = 0; }
+    less(a, b) { return this.d[a] < this.d[b] || (this.d[a] === this.d[b] && this.s[a] < this.s[b]); }
+    swap(a, b) { const d = this.d, s = this.s, v = this.v; [d[a], d[b]] = [d[b], d[a]]; [s[a], s[b]] = [s[b], s[a]]; [v[a], v[b]] = [v[b], v[a]]; }
+    push(d, s, v) { let i = this.n++; this.d[i] = d; this.s[i] = s; this.v[i] = v; while (i > 0) { const p = (i - 1) >> 1; if (!this.less(i, p)) break; this.swap(i, p); i = p; } }
+    pop() { const last = --this.n; if (last > 0) { this.d[0] = this.d[last]; this.s[0] = this.s[last]; this.v[0] = this.v[last]; }
+      let i = 0; for (;;) { const l = i * 2 + 1, r = l + 1; let m = i; if (l < this.n && this.less(l, m)) m = l; if (r < this.n && this.less(r, m)) m = r; if (m === i) break; this.swap(i, m); i = m; } }
+  }
+  /* traffic: entrances are the zone's doorways (its floor cells next to another zone's floor); lanes are the shortest paths
+   * between every pair of them across the zone's floor cells, blurred.  Presentation only (the donor's anchor flood, rebuilt in
+   * flat 2D: no clearance, no physics). */
   function laneField(o, own) {
     const W = o.w, H = o.h, idx = (cx, cy) => (cy - o.y) * W + (cx - o.x), ent = [];
     for (let cy = o.y; cy < o.y + H; cy++) for (let cx = o.x; cx < o.x + W; cx++) if (own(cx, cy)) {
-      if ((cy === o.y && isFloor(cx, cy - 1)) || (cy === o.y + H - 1 && isFloor(cx, cy + 1)) || (cx === o.x && isFloor(cx - 1, cy)) || (cx === o.x + W - 1 && isFloor(cx + 1, cy))) ent.push([cx, cy]);
+      if ([[0, -1], [0, 1], [-1, 0], [1, 0]].some(([dx, dy]) => isFloor(cx + dx, cy + dy) && !own(cx + dx, cy + dy))) ent.push([cx, cy]);
     }
     const groups = []; for (const e of ent) { const g = groups.find(g => g.some(q => Math.abs(q[0] - e[0]) + Math.abs(q[1] - e[1]) <= 1)); if (g) g.push(e); else groups.push([e]); }
     const pts = groups.map(g => g[Math.floor(g.length / 2)]), heat = new Float32Array(W * H);
-    for (let a = 0; a < pts.length; a++) {
-      const dist = new Float32Array(W * H).fill(Infinity), prev = new Int32Array(W * H).fill(-1), open = [[0, idx(...pts[a])]]; dist[idx(...pts[a])] = 0;
-      while (open.length) { open.sort((p, q) => p[0] - q[0]); const [d, i] = open.shift(); if (d > dist[i]) continue; const cx = o.x + i % W, cy = o.y + Math.floor(i / W);
-        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]) { const nx = cx + dx, ny = cy + dy; if (nx < o.x || ny < o.y || nx >= o.x + W || ny >= o.y + H || !own(nx, ny)) continue;
-          if (dx && dy && (!own(cx + dx, cy) || !own(cx, cy + dy))) continue; const j = idx(nx, ny), nd = d + (dx && dy ? 1.414 : 1); if (nd < dist[j]) { dist[j] = nd; prev[j] = i; open.push([nd, j]); } } }
+    const ownC = new Uint8Array(W * H); for (let cy = o.y; cy < o.y + H; cy++) for (let cx = o.x; cx < o.x + W; cx++) if (own(cx, cy)) ownC[idx(cx, cy)] = 1;
+    const mine = (cx, cy) => cx >= o.x && cy >= o.y && cx < o.x + W && cy < o.y + H && ownC[idx(cx, cy)] === 1;
+    for (let a = 0; a < pts.length; a++) {                // Dijkstra; ties pop in insertion order (exactly QA2's stable-sorted open list)
+      const dist = new Float32Array(W * H).fill(Infinity), prev = new Int32Array(W * H).fill(-1), open = new Heap(); let seq = 0; open.push(0, seq++, idx(...pts[a])); dist[idx(...pts[a])] = 0;
+      while (open.n) { const d = open.d[0], i = open.v[0]; open.pop(); if (d > dist[i]) continue; const cx = o.x + i % W, cy = o.y + Math.floor(i / W);
+        for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [1, -1], [-1, 1], [-1, -1]]) { const nx = cx + dx, ny = cy + dy; if (!mine(nx, ny)) continue;
+          if (dx && dy && (!mine(cx + dx, cy) || !mine(cx, cy + dy))) continue; const j = idx(nx, ny), nd = d + (dx && dy ? 1.414 : 1); if (nd < dist[j]) { dist[j] = nd; prev[j] = i; open.push(nd, seq++, j); } } }
       for (let b = a + 1; b < pts.length; b++) { let i = idx(...pts[b]); if (!isFinite(dist[i])) continue; while (i >= 0) { heat[i] += 1; i = prev[i]; } }
     }
-    let mx = 0; for (const h of heat) mx = Math.max(mx, h); const R2 = T * 1.1;
-    return (x, y) => {                                   // smooth: a soft kernel over neighbouring cells
+    let mx = 0; for (const h of heat) mx = Math.max(mx, h); const R2 = T * 1.1, RR = R2 * R2, rt = new Float64Array(W * H); if (mx) for (let i = 0; i < rt.length; i++) rt[i] = Math.sqrt(heat[i] / mx);
+    const field = (x, y) => {                            // smooth: a soft (Gaussian) kernel over neighbouring cells
       if (!mx) return 0; const cx = Math.floor(x / T), cy = Math.floor(y / T); let s = 0, wsum = 0;
       for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) { const nx = cx + dx, ny = cy + dy; if (nx < o.x || ny < o.y || nx >= o.x + W || ny >= o.y + H) continue;
-        const d = Math.hypot(x - (nx + .5) * T, y - (ny + .5) * T), k = Math.exp(-(d * d) / (R2 * R2)); s += k * Math.sqrt(heat[idx(nx, ny)] / mx); wsum += k; }
+        const ex = x - (nx + .5) * T, ey = y - (ny + .5) * T, k = Math.exp(-(ex * ex + ey * ey) / RR); s += k * rt[idx(nx, ny)]; wsum += k; }
       return wsum ? s / wsum : 0;
     };
+    field.grid = (ox, oy, cell, mw, mh) => {             // the same field at every texel centre of a grid: the kernel is separable, so no exp per texel
+      const out = new Float64Array(mw * mh); if (!mx) return out;
+      const axis = (n, org, lo, len) => { const c = new Int32Array(n), w = new Float64Array(n * 5);
+        for (let i = 0; i < n; i++) { const p = org + (i + .5) * cell, ci = Math.floor(p / T); c[i] = ci; for (let k = 0; k < 5; k++) { const nc = ci + k - 2; if (nc < lo || nc >= lo + len) continue; const e = p - (nc + .5) * T; w[i * 5 + k] = Math.exp(-(e * e) / RR); } }
+        return { c, w }; };
+      const AX = axis(mw, ox, o.x, W), AY = axis(mh, oy, o.y, H);
+      for (let j = 0; j < mh; j++) for (let i = 0; i < mw; i++) { let s = 0, ws = 0; const cx = AX.c[i], cy = AY.c[j];
+        for (let b = 0; b < 5; b++) { const wy = AY.w[j * 5 + b]; if (!wy) continue; for (let a = 0; a < 5; a++) { const wx = AX.w[i * 5 + a]; if (!wx) continue; const k = wx * wy; s += k * rt[idx(cx + a - 2, cy + b - 2)]; ws += k; } }
+        out[j * mw + i] = ws ? s / ws : 0; }
+      return out;
+    };
+    return field;
   }
 
-  /* walls: every owned wall cell gets its cap, then a papered band on each side that faces floor.  mode 'legacy' keeps the
-   * v23.3.6 band widths (S 46, E/W 27, N 23); mode 'depth' is the DEV cue: a uniform 18 px band with a lit lip on all four
-   * sides.  Convex corners of a cell split on the diagonal; inner corners are filled from both faces, split the same way.
-   * Every band lies inside its own wall cell: nothing covers floor. */
+  /* walls: a papered band on each face of a wall cell that looks onto this zone's floor.  mode 'legacy' keeps the v23.3.6 band
+   * widths (S 46, E/W 27, N 23); mode 'depth' is the DEV cue: a uniform 18 px band with a lit lip on all four sides (and a cap).
+   * The mitre geometry uses every face the cell has (whoever draws it), so two zones' faces meet exactly on the diagonal;
+   * inner corners are filled from both faces, split the same way.  Every band lies inside its own wall cell: nothing covers floor. */
   function buildWalls(R, X, ownWall, wall, mode, rec = null) {
-    const g = new S.G(), o = R.o, tex = mode === 'depth' ? X.depth[R.prof.id] : X.wall[R.prof.id], s = X.q.artScale, ph = VZ.unit(R.id, 'paper-phase') * 192; g.label = 'walls:' + mode;
+    const g = new S.G(), o = R.o, own = R.own, tex = mode === 'depth' ? X.depth[R.prof.id] || X.wall[R.prof.id] : X.wall[R.prof.id], s = X.q.artScale, ph = VZ.unit(R.id, 'paper-phase') * 192; g.label = 'walls:' + mode;
     const Wd = mode === 'depth' ? { S: 18, N: 18, E: 18, W: 18 } : { S: 46, N: 23, E: 27, W: 27 };
     const capStyle = { texture: X.cap, textureSpace: 'global', matrix: M(1, 0, 0, 1, 0, 0) };
-    /* texel (tu along the wall, tv down the canvas; canvas row 0 is v = 48, the crease is the last row) -> world.
-     * The crease (the face's base) lies on the floor edge `base`; the face rises into its own wall cell. */
     const H = mode === 'depth' ? 18 : 48;
     const fs = (side, base) => ({ texture: tex, textureSpace: 'global',
       matrix: side === 'S' ? M(1 / s, 0, 0, 1 / s, ph, base - H) : side === 'N' ? M(1 / s, 0, 0, -1 / s, ph, base + H) : side === 'E' ? M(0, 1 / s, 1 / s, 0, base - H, ph) : M(0, 1 / s, -1 / s, 0, base + H, ph) });
+    const solid = (cx, cy) => !isFloor(cx, cy);                                         // the legacy art's own test for the band geometry
     for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) {
       if (!ownWall(cx, cy)) continue; const x0 = cx * T, y0 = cy * T, x1 = x0 + T, y1 = y0 + T;
-      if (mode === 'depth') g.rect(x0, y0, T, T).fill(capStyle);           // the legacy-width faces cover the old bands exactly; the old cap (the same dark top, hidden by the sight shape in play) stays
-      const f = { S: !wall(cx, cy + 1), N: !wall(cx, cy - 1), E: !wall(cx + 1, cy), W: !wall(cx - 1, cy) };
+      if (mode === 'depth') g.rect(x0, y0, T, T).fill(capStyle);
+      const f = { S: !solid(cx, cy + 1), N: !solid(cx, cy - 1), E: !solid(cx + 1, cy), W: !solid(cx - 1, cy) };          // the faces this cell has (geometry)
+      const mine = { S: own(cx, cy + 1), N: own(cx, cy - 1), E: own(cx + 1, cy), W: own(cx - 1, cy) };                  // the faces this zone draws
       const sw = Wd.S, nw = Wd.N, ew = Wd.E, ww = Wd.W;
-      if (f.S) { const p = [x0, y1 - sw, x1, y1 - sw, x1, y1, x0, y1]; if (f.E) { p[2] = x1 - ew; } if (f.W) { p[0] = x0 + ww; } g.poly(p).fill(fs('S', y1)); R.n.faces++; if (rec) rec('S', y1, cx, p); }
-      if (f.N) { const p = [x0, y0, x1, y0, x1, y0 + nw, x0, y0 + nw]; if (f.E) { p[4] = x1 - ew; } if (f.W) { p[6] = x0 + ww; } g.poly(p).fill(fs('N', y0)); R.n.faces++; if (rec) rec('N', y0, cx, p); }
-      if (f.E) { const p = [x1 - ew, y0, x1, y0, x1, y1, x1 - ew, y1]; if (f.N) p[1] = y0 + nw; if (f.S) p[7] = y1 - sw; g.poly(p).fill(fs('E', x1)); R.n.faces++; if (rec) rec('E', x1, cy, p); }
-      if (f.W) { const p = [x0, y0, x0 + ww, y0, x0 + ww, y1, x0, y1]; if (f.N) p[3] = y0 + nw; if (f.S) p[5] = y1 - sw; g.poly(p).fill(fs('W', x0)); R.n.faces++; if (rec) rec('W', x0, cy, p); }
-      // inner corners: a diagonal floor cell whose two orthogonal neighbours are both walls with faces toward it
+      if (f.S && mine.S) { const p = [x0, y1 - sw, x1, y1 - sw, x1, y1, x0, y1]; if (f.E) { p[2] = x1 - ew; } if (f.W) { p[0] = x0 + ww; } g.poly(p).fill(fs('S', y1)); R.n.faces++; if (rec) rec('S', y1, cx, p); }
+      if (f.N && mine.N) { const p = [x0, y0, x1, y0, x1, y0 + nw, x0, y0 + nw]; if (f.E) { p[4] = x1 - ew; } if (f.W) { p[6] = x0 + ww; } g.poly(p).fill(fs('N', y0)); R.n.faces++; if (rec) rec('N', y0, cx, p); }
+      if (f.E && mine.E) { const p = [x1 - ew, y0, x1, y0, x1, y1, x1 - ew, y1]; if (f.N) p[1] = y0 + nw; if (f.S) p[7] = y1 - sw; g.poly(p).fill(fs('E', x1)); R.n.faces++; if (rec) rec('E', x1, cy, p); }
+      if (f.W && mine.W) { const p = [x0, y0, x0 + ww, y0, x0 + ww, y1, x0, y1]; if (f.N) p[3] = y0 + nw; if (f.S) p[5] = y1 - sw; g.poly(p).fill(fs('W', x0)); R.n.faces++; if (rec) rec('W', x0, cy, p); }
+      // inner corners: a diagonal floor cell (this zone's) whose two orthogonal neighbours are both solid
       for (const [dx, dy] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
-        if (wall(cx + dx, cy + dy) || !wall(cx + dx, cy) || !wall(cx, cy + dy)) continue;
-        const hx = dx > 0 ? x1 : x0, hy = dy > 0 ? y1 : y0;                // the corner point of this cell touching the floor diagonal
-        const hw = dy > 0 ? Wd.S : Wd.N, vw = dx > 0 ? Wd.E : Wd.W;         // band widths of the neighbours' faces that meet here
-        const ax = hx - dx * vw, ay = hy - dy * hw;                         // the inner corner square of this cell
-        g.poly([hx, hy, hx, ay, ax, ay]).fill(fs(dy > 0 ? 'S' : 'N', hy));  // continues the horizontal face of the cell beside (touches its band)
-        g.poly([hx, hy, ax, hy, ax, ay]).fill(fs(dx > 0 ? 'E' : 'W', hx));  // continues the vertical face of the cell above / below
+        if (solid(cx + dx, cy + dy) || !solid(cx + dx, cy) || !solid(cx, cy + dy) || !own(cx + dx, cy + dy)) continue;
+        const hx = dx > 0 ? x1 : x0, hy = dy > 0 ? y1 : y0;
+        const hw = dy > 0 ? Wd.S : Wd.N, vw = dx > 0 ? Wd.E : Wd.W;
+        const ax = hx - dx * vw, ay = hy - dy * hw;
+        g.poly([hx, hy, hx, ay, ax, ay]).fill(fs(dy > 0 ? 'S' : 'N', hy));
+        g.poly([hx, hy, ax, hy, ax, ay]).fill(fs(dx > 0 ? 'E' : 'W', hx));
         if (rec) { rec(dy > 0 ? 'S' : 'N', hy, cx + dx, [hx, hy, hx, ay, ax, ay]); rec(dx > 0 ? 'E' : 'W', hx, cy + dy, [hx, hy, ax, hy, ax, ay]); }
       }
     }
@@ -698,7 +894,7 @@
    * upright, base at the crease); clip: the band polygons of the run, inner-corner continuations included. */
   const BAND = { S: 46, N: 23, E: 27, W: 27 };
   function wallRuns(R, ownWall, polys) {
-    const o = R.o, own = (x, y) => x >= o.x && x < o.x + o.w && y >= o.y && y < o.y + o.h && isFloor(x, y), lines = new Map();
+    const o = R.o, own = R.own, lines = new Map();
     const add = (side, line, idx) => { const k = side + ':' + line; (lines.get(k) || lines.set(k, []).get(k)).push(idx); };
     for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) {
       if (!ownWall(cx, cy)) continue;
@@ -723,7 +919,7 @@
     const o = R.o, prof = R.prof, W = prof.wallpaper, faces = [], dens = X.q.decals;
     for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) {
       if (!ownWall(cx, cy)) continue;
-      const own = (x, y) => x >= o.x && x < o.x + o.w && y >= o.y && y < o.y + o.h && isFloor(x, y);
+      const own = R.own;
       if (own(cx, cy + 1)) faces.push({ side: 'S', cx, cy, line: (cy + 1) * T, idx: cx });
       if (own(cx, cy - 1)) faces.push({ side: 'N', cx, cy, line: cy * T, idx: cx });
       if (own(cx + 1, cy)) faces.push({ side: 'E', cx, cy, line: (cx + 1) * T, idx: cy });
@@ -744,6 +940,12 @@
       if (prof.accent === 'failed-power' && u('scorch') < .06) { const uu = 24 + u('su') * 48; put(f, 'scorch', 0, uu, 6, 1, .9); put(f, 'outlet', 0, uu, 15, .9, 1); }
     }
   }
+
+  /* special floors and structures (filled in by the special rooms) */
+  function floorOverlay(R, X, rects, g) { }
+  function floorMarks(R, X, cells, put, mulG, decG, clearOfProps) { }
+  function buildPits(R, X, g) { }
+  function archways(R, X, propG, wallDecG) { }
 
   /* ======================================================================================================================
    * SURFACES: the decal receiver.
@@ -796,7 +998,7 @@
     const k = o.kind || 'proof'; if (!(VZ.drawable(k) || (k === 'proof' && S.dev))) return null; const set = S.tex && S.tex.dec[k]; return set && set.length ? set[(o.variant || 0) % set.length] : null;
   }
   function redrawDyn(R) { R.dynG.clear(); for (const r of S.dyn.filter(r => r.room === R.id)) { const h = surfOf(r.surf), d = h && decalSrc(r.o); if (h && d) r.box = decalOn(R.dynG, h.sf, d, r.u, r.v, r.rot, r.scale, r.alpha, r.tint) || r.box; } }
-  function dirty(R, box) { if (!box) return; for (const c of R.chunks || []) if (c.x1 > box.x0 && c.x0 < box.x1 && c.y1 > box.y0 && c.y0 < box.y1) c.ver = -1; }   // only the chunks it touches re-bake
+  function dirty(R, box) { if (!box) return; for (const c of S.chunks || []) if (c.x1 > box.x0 && c.x0 < box.x1 && c.y1 > box.y0 && c.y0 < box.y1 && c.zones.includes(R)) c.ver = -1; }   // only the chunks it touches re-bake
   function stamp(surfId, o = {}) {
     const h = surfOf(surfId); if (!h || !S.tex) return null; const d = decalSrc(o); if (!d) return null;
     const r = { id: ++S.dynSeq, room: h.R.id, surf: surfId, o: { kind: o.kind, variant: o.variant, image: o.image, w: o.w, h: o.h }, u: +o.u || 0, v: +o.v || 0, rot: +o.rot || 0, scale: o.scale > 0 ? +o.scale : 1,
@@ -848,6 +1050,7 @@
       if (!S.on || S.disabled || !VZ || !world || !level || !lampTop) return;
       S.world = world; S.level = level; S.lampTop = lampTop; S.G = level.constructor; S.C = world.constructor;
       const carpet = world.children.find(c => c && c.tileScale && c.texture); S.Tex = carpet && carpet.texture && carpet.texture.constructor; S.carpet = carpet || null;
+      S.FBW = carpet ? Math.round(carpet.width / T) : 96; S.FBH = carpet ? Math.round(carpet.height / T) : 72;   // the map's size: the legacy carpet spans it
       if (!S.Tex || typeof S.Tex.from !== 'function') { fail('attach', 'texture class unavailable'); return; }
       /* the game's Pixi application (the 4th hook argument): its renderer bakes the room chunks.  Without it the remaster
        * still works, drawing its layers directly as in QA1 (more overdraw; S.mode tells which). */
@@ -881,6 +1084,22 @@
     if (S.RT) return S.RT; const probe = S.renderer.generateTexture({ target: new S.C(), frame: { copyTo: r => { r.x = 0; r.y = 0; r.width = 1; r.height = 1; return r; } }, resolution: 1 });
     S.RT = probe.constructor; try { probe.destroy(true); } catch (e) { } if (!S.RT || typeof S.RT.create !== 'function') throw Error('no RenderTexture class'); return S.RT;
   }
+  /* the bake grid: CH world px chunks over the whole map; a chunk lists every zone with content in it (its floor, the wall
+   * cells whose faces it draws, its structures) and bakes them all into ONE texture, in build order: one quad on screen */
+  function buildChunks() {
+    if (!S.chunkView) { S.chunkView = new S.C(); S.chunkView.label = 'l0-chunks'; S.root.addChild(S.chunkView); }
+    S.chunks = []; const W = S.FBW * T, H = S.FBH * T;
+    const content = S.rooms.map(R => { const set = new Set(), o = R.o; for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) if (R.own(cx, cy) || R.ownWall(cx, cy) || (R.pitCells && R.pitCells.has(cy * S.FBW + cx))) set.add(cy * S.FBW + cx); return set; });
+    for (let y = 0; y < H; y += CH) for (let x = 0; x < W; x += CH) {
+      const x1 = Math.min(x + CH, W), y1 = Math.min(y + CH, H), zones = [];
+      S.rooms.forEach((R, i) => { if (R.x1 <= x || R.x0 >= x1 || R.y1 <= y || R.y0 >= y1) return;
+        for (let cy = Math.floor(y / T); cy < Math.ceil(y1 / T); cy++) for (let cx = Math.floor(x / T); cx < Math.ceil(x1 / T); cx++) if (content[i].has(cy * S.FBW + cx)) { zones.push(R); return; } });
+      if (!zones.length) continue;
+      const g = new S.G(); g.label = 'chunk'; g.visible = false; S.chunkView.addChild(g);
+      S.chunks.push({ key: x + ',' + y, x0: x, y0: y, x1, y1, zones, g, tex: null, d: 0, ver: -1, seen: -1, px: 0, inV: false, near: false });
+    }
+    S.stats.chunks = S.chunks.length;
+  }
   function bakeChunk(c) {
     const t0 = perfNow(), w = c.x1 - c.x0, h = c.y1 - c.y0, d = S.dens;
     if (!c.tex || c.d !== d) {
@@ -888,7 +1107,8 @@
       c.tex = rtClass().create({ width: w, height: h, resolution: d, antialias: false, scaleMode: 'linear' }); c.d = d; c.px = Math.round(w * d) * Math.round(h * d); S.bake.px += c.px;
       c.g.clear(); c.g.texture(c.tex, 0xffffff, c.x0, c.y0, w, h);
     }
-    S.renderer.render({ container: c.R.src, target: c.tex, clear: true, clearColor: [0, 0, 0, 0], transform: M(1, 0, 0, 1, -c.x0, -c.y0) });
+    const tf = M(1, 0, 0, 1, -c.x0, -c.y0);
+    for (let i = 0; i < c.zones.length; i++) S.renderer.render({ container: c.zones[i].src, target: c.tex, clear: i === 0, clearColor: [0, 0, 0, 0], transform: tf });
     c.ver = S.gen; const ms = perfNow() - t0; S.bake.bakes++; S.bake.ms += ms; S.bake.lastMs = ms; if (ms > S.bake.maxMs) S.bake.maxMs = ms;
   }
   function dropChunk(c, keepVer) {
@@ -899,23 +1119,26 @@
   function toDirect(e) {                                 // fail-safe: no bake, draw the source layers directly (QA1's path)
     S.errors++; S.mode = 'direct'; S.bake.error = String(e && e.message || e).slice(0, 160);
     try { console.warn('[l0-remaster] bake unavailable (' + S.bake.error + '); drawing the layers directly'); } catch (x) { }
-    for (const R of S.rooms) { for (const c of R.chunks) dropChunk(c); R.view.addChild(R.src); }
+    for (const c of S.chunks || []) dropChunk(c);
+    for (const R of S.rooms) S.root.addChild(R.src);
   }
   function destroyRooms() {
-    for (const R of S.rooms) { for (const c of R.chunks || []) dropChunk(c); try { R.src.destroy({ children: true }); R.view.destroy({ children: true }); R.ceilG.destroy(); } catch (e) { } }
+    for (const c of S.chunks || []) { dropChunk(c); try { c.g.destroy(); } catch (e) { } } S.chunks = [];
+    for (const R of S.rooms) { try { R.src.destroy({ children: true }); R.ceilG.destroy(); } catch (e) { } }
     S.rooms = []; for (const t of S.texList || []) { try { t.destroy(true); } catch (e) { } } S.texList = []; S.extTex = null;
     Object.assign(S.stats, { textures: 0, texMPx: 0, decals: 0, faces: 0, floorRects: 0, fixtures: 0 });
   }
   /* The legacy carpet is one TilingSprite over the whole world.  While the remaster shows, it is hidden and replaced by the
-   * same texture, same mapping, over the floor cells the remaster does NOT own (a pixel-identical copy there): the slice
-   * rooms then draw one carpet layer, not two.  Remaster off restores the original sprite. */
+   * same texture, same mapping, over the floor cells no remastered zone owns (a pixel-identical copy there).  With every zone
+   * remastered there are none, and the copy is empty.  Remaster off restores the original sprite. */
   function buildLegacyFloor() {
-    const C = S.carpet; if (!C || !C.texture || S.legacyFloor) return;
-    const A = api(), owned = (cx, cy) => S.rooms.some(R => cx >= R.o.x && cx < R.o.x + R.o.w && cy >= R.o.y && cy < R.o.y + R.o.h);
+    const C = S.carpet; if (!C || !C.texture) return;
+    if (S.legacyFloor) { try { S.legacyFloor.destroy(); } catch (e) { } S.legacyFloor = null; }
+    const A = api(), owned = (cx, cy) => S.rooms.some(R => R.own(cx, cy));
     try { const st = C.texture.source && C.texture.source.style; if (st && st.addressMode !== 'repeat') st.addressMode = 'repeat'; } catch (e) { }
     const g = new S.G(), ts = C.tileScale || { x: 1, y: 1 }, tp = C.tilePosition || { x: 0, y: 0 }, style = { texture: C.texture, textureSpace: 'global', matrix: M(ts.x, 0, 0, ts.y, C.position.x + tp.x, C.position.y + tp.y), color: C.tint == null ? 0xffffff : C.tint };
     g.label = 'l0-legacy-carpet'; let n = 0;
-    const W = Math.round(C.width / T), H = Math.round(C.height / T);
+    const W = S.FBW, H = S.FBH;
     for (let cy = 0; cy < H; cy++) for (let cx = 0; cx < W;) { if (!A.zc(cx, cy) || owned(cx, cy)) { cx++; continue; } let e = cx; while (e + 1 < W && A.zc(e + 1, cy) && !owned(e + 1, cy)) e++; g.rect(cx * T, cy * T, (e - cx + 1) * T, T).fill(style); n++; cx = e + 1; }
     S.world.addChildAt(g, S.world.children.indexOf(C));                // in the carpet's place (BR-RoLE still finds the carpet right before the level art)
     S.legacyFloor = g; S.stats.legacyFloorRects = n;
@@ -924,11 +1147,13 @@
     const t0 = now();
     try {
       if (S.rooms.length) destroyRooms();
+      readGrid();
       S.tier = tierNow(); S.q = VZ.quality[S.tier]; const t1 = now(); S.tex = makeTextures(S.tier); S.stats.texMs = +(now() - t1).toFixed(1);
-      for (const id of VZ.slice) S.rooms.push(buildRoom(VZ.room(id), S.tex));
+      for (const id of VZ.slice) for (const Z of zoneDefs(id)) S.rooms.push(buildRoom(Z, S.tex));
       S.dens = bakeDensity(S.q); S.gen++;
       for (const R of S.rooms) redrawDyn(R);                                           // stamped marks survive a rebuild (a tier change)
-      if (S.mode === 'direct') for (const R of S.rooms) R.view.addChild(R.src);
+      buildChunks();
+      if (S.mode === 'direct') for (const R of S.rooms) S.root.addChild(R.src);
       buildLegacyFloor(); S.built = true; S.stats.rooms = S.rooms.length; S.stats.builds++;
       apply();
     } catch (e) { fail('build', e); }
@@ -936,6 +1161,7 @@
   }
   function apply() {                                    // the DEV toggles, applied to the source layers (the chunks re-bake)
     if (!S.root || S.disabled) return;
+    if (S.depth && S.built && S.tex && !S.tex.hasDepth) { build(); return; }        // the DEV depth cue's textures are made on first use
     const on = S.want && S.built;
     S.root.visible = on; if (S.legacyLamps) S.legacyLamps.visible = !on;
     if (S.legacyFloor && S.carpet) { S.legacyFloor.visible = on; S.carpet.visible = !on; }
@@ -944,30 +1170,31 @@
   }
   function viewRect() { const w = S.world, k = w.scale.x || 1; return { x0: -w.position.x / k, y0: -w.position.y / k, x1: (innerWidth - w.position.x) / k, y1: (innerHeight - w.position.y) / k }; }
   const hits = (c, v, m) => c.x1 > v.x0 - m && c.x0 < v.x1 + m && c.y1 > v.y0 - m && c.y0 < v.y1 + m;
-  function stream(force) {                              // per frame: which rooms / chunks are in view, bake what is missing, drop what is old
+  function stream(force) {                              // per frame: which zones / chunks are in view, bake what is missing, drop what is old
     if (!S.world || !S.built) return;
     const v = viewRect(), on = S.want && !S.disabled, f = S.frame;
     if (!S.brRoot || !S.brRoot.parent) S.brRoot = S.world.children.find(c => c && c.label === 'br-role') || null;
     const ao = S.brRoot ? S.brRoot.visible && (!S.brRoot.children[0] || S.brRoot.children[0].visible) : false;   // grounding mirrors BR-RoLE's
     if (ao !== S.ao) { S.ao = ao; for (const R of S.rooms) R.ao.visible = ao; invalidate(); }
-    let rooms = 0; const must = [], ahead = [];
+    let rooms = 0;
     for (const R of S.rooms) {
       const rv = on && hits(R, v, 2 * T); if (rv) rooms++;
       if (R.ceilG.visible !== rv || force) R.ceilG.visible = rv;
-      if (S.mode !== 'bake') { if (R.src.visible !== rv || force) R.src.visible = rv; continue; }
-      for (const c of R.chunks) {
+      if (S.mode !== 'bake' && (R.src.visible !== rv || force)) R.src.visible = rv;
+    }
+    if (S.mode === 'bake') {
+      const must = [], ahead = [];
+      for (const c of S.chunks) {
         c.inV = on && hits(c, v, 8); c.near = on && !c.inV && hits(c, v, CH);
         if (c.inV) { c.seen = f; if (c.ver !== S.gen) must.push(c); } else if (c.near) { c.seen = Math.max(c.seen, f - 1); if (c.ver !== S.gen) ahead.push(c); }
       }
-    }
-    if (S.mode === 'bake') {
       try {
         for (const c of must) bakeChunk(c);                                           // in view: now (no pop-in)
         if (!must.length && ahead.length) { const cx = (v.x0 + v.x1) / 2, cy = (v.y0 + v.y1) / 2, d = c => Math.hypot((c.x0 + c.x1) / 2 - cx, (c.y0 + c.y1) / 2 - cy);
           ahead.sort((a, b) => d(a) - d(b)); for (let i = 0; i < Math.min(ahead.length, S.q.bake.prefetch || 1); i++) bakeChunk(ahead[i]); }
       } catch (e) { toDirect(e); return stream(true); }
       let vis = 0, res = 0; const old = [];
-      for (const R of S.rooms) for (const c of R.chunks) { const show = !!(c.inV && c.tex); if (c.g.visible !== show) c.g.visible = show; if (show) vis++; if (c.tex) { res++; if (!c.inV && !c.near) old.push(c); } }
+      for (const c of S.chunks) { const show = !!(c.inV && c.tex); if (c.g.visible !== show) c.g.visible = show; if (show) vis++; if (c.tex) { res++; if (!c.inV && !c.near) old.push(c); } }
       const cap = S.q.bake.cache || 16;
       if (res > cap) { old.sort((a, b) => (a.ver === S.gen) - (b.ver === S.gen) || a.seen - b.seen); for (const c of old) { if (res <= cap) break; dropChunk(c); res--; } }   // stale first, then the oldest
       S.bake.visible = vis; S.bake.resident = res;
@@ -1026,7 +1253,7 @@
     else if (e.code === 'F9') { S.depth = !S.depth; apply(); e.preventDefault(); }
   }, true);
 
-  const bakeStats = () => { let n = 0; for (const R of S.rooms) n += (R.chunks || []).length;
+  const bakeStats = () => { const n = (S.chunks || []).length;
     return { mode: S.mode, chunk: CH, density: +S.dens.toFixed(4), chunks: n, resident: S.bake.resident, visible: S.bake.visible, MPx: +(S.bake.px / 1e6).toFixed(2), cache: S.q && S.q.bake ? S.q.bake.cache : 0,
       bakes: S.bake.bakes, bakeMs: +S.bake.ms.toFixed(1), bakeMaxMs: +S.bake.maxMs.toFixed(1), evictions: S.bake.evictions, error: S.bake.error }; };
   window.__l0v = {
@@ -1036,10 +1263,10 @@
     stats: () => ({ version: VERSION, revision: VZ && VZ.revision, on: S.on && S.want && S.built && !S.disabled, attached: !!S.root, built: S.built, disabled: S.disabled, tier: S.tier, depth: S.depth, decalsOn: S.decals,
       slice: VZ ? VZ.slice.slice() : [], ownLamps: S.ownLamps.map(l => l.id), errors: S.errors, ...S.stats, texMPx: +S.stats.texMPx.toFixed(2), bake: bakeStats(),
       perf: { frameMs: +S.perf.ema.toFixed(2), gpu: S.perf.gpu, gpuMs: +S.perf.gpuEma.toFixed(3) },
-      rooms: S.rooms.map(R => ({ id: R.id, floorRects: R.n.floor, faces: R.n.faces, decals: R.n.decals, props: R.props || [], visible: S.mode === 'bake' ? R.chunks.some(c => c.g.visible) : R.src.visible, chunks: R.chunks.length })) }),
+      rooms: S.rooms.map(R => ({ id: R.id, kind: R.kind, floorRects: R.n.floor, faces: R.n.faces, decals: R.n.decals, props: R.props || [], pillars: (R.pillars || []).length, visible: S.mode === 'bake' ? (S.chunks || []).some(c => c.g.visible && c.zones.includes(R)) : R.src.visible, chunks: (S.chunks || []).filter(c => c.zones.includes(R)).length })) }),
     /* the decal receiver (presentation only): surfaces of the remastered rooms, and bounded dynamic marks on them */
     surfaces: {
-      list: room => { const out = []; for (const R of S.rooms) if (!room || R.id === room) for (const sf of R.surfaces || []) out.push(sf.kind === 'floor' ? { id: sf.id, room: sf.room, kind: 'floor', material: sf.material, rects: sf.rects.length }
+      list: room => { const out = []; for (const R of S.rooms) if (!room || R.id === room || R.base === room) for (const sf of R.surfaces || []) out.push(sf.kind === 'floor' ? { id: sf.id, room: sf.room, kind: 'floor', material: sf.material, rects: sf.rects.length }
         : { id: sf.id, room: sf.room, kind: 'wall', side: sf.side, material: sf.material, origin: sf.o.slice(), u: sf.U.slice(), up: sf.N.slice(), length: sf.len, band: sf.band, polys: sf.polys.length }); return out; },
       at: (x, y, reach) => surfaceAt(+x, +y, reach == null ? 40 : +reach),
       stamp: (id, o) => stamp(id, o || {}),
@@ -1056,11 +1283,12 @@
       rebuild: () => { build(); return S.stats.buildMs; },
       layer: (label, v) => { let n = 0; for (const R of S.rooms) for (const c of [...R.src.children, R.ceilG]) if (c.label === label || (label === 'fixtures' && c === R.ceilG)) { c.visible = !!v; n++; } invalidate(); stream(true); return n; },
       source: id => { const R = S.rooms.find(r => r.id === id); return R ? R.src : null; },          // a room's (never displayed) source art
-      chunks: id => { const R = S.rooms.find(r => r.id === id); return R ? R.chunks.map(c => ({ key: c.key, x0: c.x0, y0: c.y0, x1: c.x1, y1: c.y1, baked: !!c.tex, shown: c.g.visible, current: c.ver === S.gen })) : null; },
+      chunks: id => { const R = id ? S.rooms.find(r => r.id === id) : null; if (id && !R) return null; return (S.chunks || []).filter(c => !R || c.zones.includes(R)).map(c => ({ key: c.key, x0: c.x0, y0: c.y0, x1: c.x1, y1: c.y1, zones: c.zones.map(z => z.id), baked: !!c.tex, shown: c.g.visible, current: c.ver === S.gen })); },
       direct: () => { if (S.mode === 'bake') toDirect('DEV: forced direct drawing'); stream(true); return S.mode; },
       macro: id => { const R = S.rooms.find(r => r.id === id); return R && R.macroCanvas ? R.macroCanvas.toDataURL() : null; },
+      zone: id => { const R = S.rooms.find(r => r.id === id); return R ? { id: R.id, base: R.base, kind: R.kind, o: Object.assign({}, R.o), floorColor: R.floorColor.slice(), floor: R.prof.floor.kind, macroCell: S.q.macroCell, macroCanvas: R.macroCanvas || null } : null; },
       layers: () => S.root ? { root: S.world.children.indexOf(S.root), level: S.world.children.indexOf(S.level), ceil: S.world.children.indexOf(S.ceil), lampTop: S.world.children.indexOf(S.lampTop), legacyLamps: !!S.legacyLamps } : null,
-      art: { carpetCanvas, wallpaperCanvas, capCanvas, decalCanvases, counterCanvas, tableCanvas, holeCanvas, fixtureCanvas },
+      art: { carpetCanvas, wallpaperCanvas, capCanvas, decalCanvases, counterCanvas, tableCanvas, holeCanvas, fixtureCanvas, ductCanvas, lowwallCanvas, benchCanvas, windowCanvas },
     },
   };
 })();

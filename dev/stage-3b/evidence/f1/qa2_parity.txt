@@ -1,0 +1,26 @@
+QA2 parity (3B-F1): the QA2 parent d124371 and this checkpoint, the same staged pose, remaster on, MEDIUM, SwiftShader.
+Columns: view, frame (game = as played, -raw = darkness overlay hidden), share of pixels differing by more than 2 / 8 levels, largest difference.
+The only differences: the wanderer's breathing (about 0.04 %), the corridors now remastered beyond a doorway (yellow-east, humming-hole: the old
+corridor carpet and the doorway strip replaced by the continuous carpet), and glitch.js's random exit-wall screen tear in one run each of
+humming-west (F1) and pillar-hall (QA2) - the game's own effect, not the remaster.  QA2 room interiors: identical.
+
+yellow-spawn       game  differ>2: 0.04%  >8: 0.03%  max 47
+yellow-spawn       -raw  differ>2: 0.04%  >8: 0.03%  max 133
+yellow-east        game  differ>2: 0.02%  >8: 0.00%  max 17
+yellow-east        -raw  differ>2: 7.34%  >8: 2.56%  max 117
+humming-counter    game  differ>2: 0.05%  >8: 0.03%  max 53
+humming-counter    -raw  differ>2: 0.05%  >8: 0.05%  max 176
+humming-west       game  differ>2: 91.65%  >8: 41.07%  max 248
+humming-west       -raw  differ>2: 87.52%  >8: 30.23%  max 159
+blackout-table     game  differ>2: 2.40%  >8: 0.03%  max 67
+blackout-table     -raw  differ>2: 0.04%  >8: 0.03%  max 189
+blackout-corridor  game  differ>2: 0.17%  >8: 0.02%  max 44
+blackout-corridor  -raw  differ>2: 0.58%  >8: 0.06%  max 116
+pillar-hall        game  differ>2: 85.52%  >8: 33.96%  max 252
+pillar-hall        -raw  differ>2: 66.94%  >8: 11.20%  max 182
+pillar-north       game  differ>2: 2.58%  >8: 0.74%  max 91
+pillar-north       -raw  differ>2: 0.04%  >8: 0.04%  max 150
+yellow-hole        game  differ>2: 1.47%  >8: 0.25%  max 97
+yellow-hole        -raw  differ>2: 0.04%  >8: 0.04%  max 177
+humming-hole       game  differ>2: 0.55%  >8: 0.04%  max 104
+humming-hole       -raw  differ>2: 13.13%  >8: 6.93%  max 175
