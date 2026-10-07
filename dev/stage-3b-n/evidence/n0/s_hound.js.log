@@ -1,0 +1,32 @@
+PASS H01 bait a lunge and sidestep: a late sidestep beats it most of the time; standing still does not  [4571ms]
+       sidestep evades 100%   standing still is caught 96%
+PASS H02 no i-frames: a lunge that connects catches you whatever you were doing (walking/running); a slide can pass under it  [1017ms]
+       walking away is caught 10/10; a sliding player evaded 0/10 (slide passes under a lunge)
+PASS H03 chase outcomes in the long corridor: a fresh runner with a head start lasts; an exhausted one is caught fast  [1528ms]
+       runner with a 450px lead survives 8s+ in 100%; exhausted caught 100% (avg 3.7s); walker caught 100%
+PASS H04 lunges start only when in range, roughly aligned and with a clear line  [791ms]
+       16/16 runs produced a lunge, 0 outside range/alignment limits
+PASS H05 poor sharp turning: the hound turns much slower at full speed than at a crawl  [354ms]
+       p95 turn rate at speed>230: 1.70 rad/s (1523 samples); at slow speed 9.31 (181)
+PASS H06 after a missed lunge it recovers (skids, turns slowly) before it runs again  [670ms]
+       100% recover >0.9s before regaining speed (gaps 1.45,1.22,1.48,1.15,1.3,1.27,1.27,1.37)
+FAIL H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)  [9721ms]
+       reached 12/13: ROAMING, CURIOUS, HUNTING, EXCITED, DORMANT, PLAYING, FEEDING, SEARCHING, FRUSTRATED, STALKING, RETREATING, CAUTIOUS   MISSING: ALERT
+PASS H08 searching is logical: it starts at the last known position, fans out around it, and does not home in on a quiet crouching player  [1104ms]
+       100% began at the lead and fanned out around it (avg 4.3 goals; mean goal distance to the lead 310px vs to the real player 1667px); found the hidden player in 2/10
+PASS H09 the wall impact only ever happens against a wall that is really there  [6012ms]
+       open ground: C 0/37; wall behind: C 23/60 (bad wall records 0)
+PASS H10 exhausted prey: variant D only ever for a player with nothing left (and is the usual end for one caught from behind)  [11292ms]
+       exhausted: D 56/76; fresh: D 0/75
+PASS H11 no repeated identical death selection (variant history is respected)  [365ms]
+       90 kills: {"A":28,"B":28,"C":34,"D":0}, longest identical streak 2
+PASS H12 after a kill: it is worked up (EXCITED), then feeds; an intruder at the body is guarded against and hunted  [1510ms]
+       85% excited -> fed -> reacted to an intruder (excited 17, fed 20, guard 0, hunt/stalk 20, intruder caught 20)
+PASS H13 pack instinct: hounds near each other share a pack id, and one hound sounding off draws the others  [815ms]
+       100% of runs formed a pack and drew a second hound (largest pack seen 3)
+PASS H14 far hounds sleep and wake: no perception when far; awake when a player is near  [46ms]
+       tier far=far, perception ticks while far 0; after a player arrives: near
+
+13/14 passed
+FAILED: H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)
+exit 1

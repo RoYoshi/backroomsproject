@@ -1,0 +1,16 @@
+PASS HQA X01 admin stress ceiling is truly reachable without changing normal director cap  [342ms]
+       64 Hounds and 64 Smilers individually; mixed world reaches 128 entities; normal director cap remains 3
+PASS HQA X02 client/network presentation has 64 slots for each species and batch stress controls  [1ms]
+       64 Hound render slots, 64 Smiler render slots, +10 admin batching wired
+FAIL HQA X03 dead hover and switched-off physical-light QOL are present in shipped client  [11ms]
+       EXCEPTION AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value: |  |   assert(bundle.includes('if(e&&!f.nv){_(0,Math.PI*2,this.death.active?150:52,this.death.active?.73:.35)')) | 
+PASS HQA X04 visible light still beats Smiler gaze after the pressure fix  [718ms]
+       visible light still overcame sustained gaze in 7/8 seeded encounters
+PASS HQA X05 lost-target search uses observed heading before unrelated reversal and ignores hidden truth  [101ms]
+       first branch stayed in observed forward/side hemisphere at 1397,744,0 and was identical across hidden positions
+PASS HQA X06 Hound reassessment looks immediately and resumes search within a short bounded beat  [50ms]
+       head favored 0.62 rad immediately; search resumed with continue by 0.75s
+
+5/6 passed
+FAILED: HQA X03 dead hover and switched-off physical-light QOL are present in shipped client
+exit 1
