@@ -88,12 +88,15 @@ const PAGE = `(() => {
     check('D2 light still works: the flashlight cuts light out of the overlay in its beam, a lamp under itself', torch.minA < 200 && lamp && lamp.minA < 200, `beam ${torch.minA}/255, under a lamp ${lamp ? lamp.minA : '-'}/255`);
 
     /* ---- F1: a Hound and a test object behind a wall, within dread range ---- */
+    let hp = null, standW = null;
+    for (let tries = 0; tries < 4 && !standW; tries++) {                 // the admin 'near' spawn lands somewhere random: try again until a wall can stand between
     await H.stage(P); await P.evaluate(() => __clock.thaw()); await H.place(P, 1300, 3500, 0, { light: true }); await sleep(600);
-    const hp = await H.near(P, 'hound');
-    const standW = await P.evaluate(([hx, hy]) => { const A = __api; for (let r = 230; r <= 370; r += 20) for (let k = 0; k < 48; k++) { const a = k / 48 * Math.PI * 2, X = hx + Math.cos(a) * r, Y = hy + Math.sin(a) * r;
+    hp = await H.near(P, 'hound');
+    standW = await P.evaluate(([hx, hy]) => { const A = __api; for (let r = 230; r <= 370; r += 20) for (let k = 0; k < 48; k++) { const a = k / 48 * Math.PI * 2, X = hx + Math.cos(a) * r, Y = hy + Math.sin(a) * r;
       if (!A.sl(X, Y, 22)) continue; let ok = true; const ang = Math.atan2(hy - Y, hx - X), ox = hx + Math.cos(ang) * 30, oy = hy + Math.sin(ang) * 30;
       for (const [u, v] of [[0, 0], [-22, -22], [22, -22], [-22, 22], [22, 22], [0, 0]]) { const px = (v === 0 && u === 0 && ok === true) ? hx : ox + u, py = (v === 0 && u === 0) ? hy : oy + v, d = Math.hypot(px - X, py - Y); if (A.Uc(X, Y, Math.atan2(py - Y, px - X), d) >= d - 40) { ok = false; break; } }
       if (ok) return [Math.round(X), Math.round(Y)]; } return null; }, hp);
+    }
     const runCase = async (tag, x, y, ox, oy, aim) => {
       await H.place(P, x, y, aim, { light: true }); await sleep(900); await frames(P, 10); await addObj(P, ox, oy); await frames(P, 4);
       const los = await P.evaluate(([x, y, ox, oy]) => { const d = Math.hypot(ox - x, oy - y); return { d: Math.round(d), clear: Math.round(__api.Uc(x, y, Math.atan2(oy - y, ox - x), d)) }; }, [x, y, ox, oy]);

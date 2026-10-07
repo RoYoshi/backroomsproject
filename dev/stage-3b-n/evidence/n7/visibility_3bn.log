@@ -1,0 +1,8 @@
+PASS D1 true darkness: in a blackout with no carried light the overlay is opaque everywhere (no glow carried around you) and the screen is black   overlay min alpha 255/255 (0 px not fully dark), opacity 1; screenshot max channel near you 0
+PASS D2 light still works: the flashlight cuts light out of the overlay in its beam, a lamp under itself   beam 140/255, under a lamp 165/255
+PASS F1 behind a WALL: the danger flicker (forced every frame, then natural) shows nothing of a Hound and a bright object behind the wall in any frame   25 hidden points x 135 frames, flicker in 45 forced + 6 natural; exposed frames 0 (worst visibility 0.000, overlay opacity down to 1, shake mismatch 0); screenshots max 0/0/0 at the object; ray clear 38 of 280 px
+PASS F2 behind a PILLAR: the danger flicker (forced, then natural) shows nothing of a bright object behind a pillar in any frame   25 hidden points x 135 frames, flicker in 45 forced + 6 natural; exposed frames 0 (worst visibility 0.000, opacity down to 1, shake mismatch 0); screenshots max 0/0/0
+PASS F3 a legitimate glimpse: an in-sight point in the dim outer part of a lamp's reach (230 px) is lit more while the flicker surges   overlay alpha there 232.9 steady, 220.8 during the flicker (lower = more light); surge in 12/12 frames, up to x1.56; Hound at [339] px
+PASS F4 the flicker never lowers the overlay's opacity and the world never shakes under the overlay   opacity min 1, shake mismatch 0/135; opacity min 1, shake mismatch 0/135
+
+6/6 passed

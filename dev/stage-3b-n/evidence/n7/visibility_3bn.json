@@ -1,0 +1,116 @@
+{
+ "brRole": true,
+ "D": {
+  "dark": {
+   "minA": 255,
+   "litPx": 0,
+   "op": "1"
+  },
+  "darkShot": 0,
+  "torch": {
+   "minA": 140,
+   "meanA": 151.525,
+   "op": 1,
+   "eff": 0.5490196078431373,
+   "shakeMismatch": false,
+   "surge": 1
+  },
+  "lamp": {
+   "minA": 165,
+   "meanA": 168.76953125,
+   "op": 1,
+   "eff": 0.6470588235294118,
+   "shakeMismatch": false,
+   "surge": 1
+  }
+ },
+ "F1": {
+  "los": {
+   "d": 280,
+   "clear": 38
+  },
+  "hiddenPoints": 25,
+  "frames": 135,
+  "forcedFlickerFrames": 45,
+  "naturalFlickerFrames": 6,
+  "leakFrames": 0,
+  "worstEff": 1,
+  "shakeMismatchFrames": 0,
+  "minOpacity": 1,
+  "maxSurge": 2.123787782172701,
+  "shotMax": [
+   0,
+   0,
+   0
+  ]
+ },
+ "F2": {
+  "los": {
+   "d": 245,
+   "clear": 137
+  },
+  "hiddenPoints": 25,
+  "frames": 135,
+  "forcedFlickerFrames": 45,
+  "naturalFlickerFrames": 6,
+  "leakFrames": 0,
+  "worstEff": 1,
+  "shakeMismatchFrames": 0,
+  "minOpacity": 1,
+  "maxSurge": 2.0594037632940267,
+  "shotMax": [
+   0,
+   0,
+   0
+  ]
+ },
+ "F3pre": {
+  "hound": [
+   339
+  ]
+ },
+ "F3": {
+  "at": [
+   7190,
+   1392
+  ],
+  "base": 232.88888888888889,
+  "surge": 220.77083333333334,
+  "surgeFrames": 12,
+  "maxSurge": 1.563,
+  "minOpacity": 1
+ },
+ "errors": [],
+ "results": [
+  {
+   "name": "D1 true darkness: in a blackout with no carried light the overlay is opaque everywhere (no glow carried around you) and the screen is black",
+   "ok": true,
+   "note": "overlay min alpha 255/255 (0 px not fully dark), opacity 1; screenshot max channel near you 0"
+  },
+  {
+   "name": "D2 light still works: the flashlight cuts light out of the overlay in its beam, a lamp under itself",
+   "ok": true,
+   "note": "beam 140/255, under a lamp 165/255"
+  },
+  {
+   "name": "F1 behind a WALL: the danger flicker (forced every frame, then natural) shows nothing of a Hound and a bright object behind the wall in any frame",
+   "ok": true,
+   "note": "25 hidden points x 135 frames, flicker in 45 forced + 6 natural; exposed frames 0 (worst visibility 0.000, overlay opacity down to 1, shake mismatch 0); screenshots max 0/0/0 at the object; ray clear 38 of 280 px"
+  },
+  {
+   "name": "F2 behind a PILLAR: the danger flicker (forced, then natural) shows nothing of a bright object behind a pillar in any frame",
+   "ok": true,
+   "note": "25 hidden points x 135 frames, flicker in 45 forced + 6 natural; exposed frames 0 (worst visibility 0.000, opacity down to 1, shake mismatch 0); screenshots max 0/0/0"
+  },
+  {
+   "name": "F3 a legitimate glimpse: an in-sight point in the dim outer part of a lamp's reach (230 px) is lit more while the flicker surges",
+   "ok": true,
+   "note": "overlay alpha there 232.9 steady, 220.8 during the flicker (lower = more light); surge in 12/12 frames, up to x1.56; Hound at [339] px"
+  },
+  {
+   "name": "F4 the flicker never lowers the overlay's opacity and the world never shakes under the overlay",
+   "ok": true,
+   "note": "opacity min 1, shake mismatch 0/135; opacity min 1, shake mismatch 0/135"
+  }
+ ]
+}

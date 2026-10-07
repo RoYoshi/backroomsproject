@@ -1,0 +1,40 @@
+THE FAR BACKROOMS - Stage 3B-N (Behavior / Visibility / Camera QOL Corrections) - changed files
+Parent: 69602e7c9e755fcc65402b1563d4d060f5a10066 (accepted Stage 3B, tree 8a011aa80cba0dd08be9902f3180499ecae3b531)
+Branch: stage-3b-n.  `git diff --name-only 69602e7 <final>` lists exactly the files below (plus dev/stage-3b-n/evidence/**).
+
+SHIPPED GAME FILES
+  server.js                  N1  camera_policy.js and timing_policy.js added to the static whitelist (they were 404)
+  assets/br-role.js          N2  the sourceless ambient glow around the viewer removed (true darkness)
+  mp.js                      N2  danger flicker = lamp surge (window.__dangerFlicker), no overlay opacity; shake moves #game and #light together
+  ents.js                    N2  __ents.lamp multiplies in the danger surge (built from dev/ents_src/40_debug.js)
+  world.js                   N3  WORLD.fixLamps / WORLD.lampOk / WORLD.LAMP_BOX: fixture-housing vs blocker separation
+  assets/index-DKbV5Nv9.js   N3  two lines: WORLD.fixLamps(...) after the fixture grid; pillar corners added to the LOS critical points (Vl)
+  sim.js                     N3  WORLD.fixLamps(...) after the fixture grid (built from dev/sim_head.js + dev/sim_glue.js)
+  move.js                    N4  Shift while crouched stands you up and runs, when running is allowed and a standing body fits
+  ai.js                      N5/N6  Hound blind pursuit, sound inference, sound urgency (built from dev/ai_src/)
+
+DEVELOPMENT SOURCES (never served)
+  dev/ents_src/40_debug.js   N2  source of ents.js
+  dev/sim_head.js            N3  source of sim.js (fixLamps call)
+  dev/sim_geo.js             N3  dev copy of the sim geometry (fixLamps call, kept in step)
+  dev/ai_src/20_senses.js    N5/N6  inference of an unidentified movement sound to the pursued prey; trail easing; urgency on sounds and leads
+  dev/ai_src/22_intelligence.js  N6  soundUrgency / leadUrgency
+  dev/ai_src/50_hound.js     N5/N6  blind pursuit (hHunt), blindRoute / blindDone / houndInferSource, HEAR_PACE; hAlarm, urgency-aware hLightStart / hLightStep, ALERT for unidentified sounds
+
+EXISTING TESTS CHANGED (documented in STAGE_3B_N_HOUND_BEHAVIOR_REPORT.md)
+  dev/tests/s_hound2e.js     N5  2E H7 asserted the superseded CURIOUS demotion; now asserts the 3B-N inference (unfitting sounds stay anonymous)
+  dev/tests/s_system.js      N5  Y05 leaves scripted traversals out of its acceleration check (as it already did for heading)
+
+NEW STAGE 3B-N TOOLS / RECORDS (dev/stage-3b-n/)
+  camera_3bn.js  visibility_3bn.js  pillar_3bn.js  move_3bn.js  hound_3bn.js  test_3bn.js  verify_remote_3bn.py  package_3bn.py
+  CHECKPOINTS.md   evidence/n0 .. evidence/n7
+
+REPORTS (repository root)
+  STAGE_3B_N_CAMERA_TIMING_REPORT.md  STAGE_3B_N_LIGHTING_VISIBILITY_REPORT.md  STAGE_3B_N_HOUND_BEHAVIOR_REPORT.md
+  STAGE_3B_N_PERFORMANCE_REGRESSION.md  STAGE_3B_N_HUMAN_QA.md  STAGE_3B_N_CHANGED_FILES.txt
+
+NOT CHANGED (scope)
+  camera_policy.js, timing_policy.js, index.html (policies served as they are), light.js, hud.js, inventory.js, gore.js,
+  death_srv.js, assets/l0-remaster.js, assets/level0_visuals.js (Stage 3B remaster), assets/shadows-2d.js, the Smiler
+  (dev/ai_src/60_smiler.js), the server's movement checks and gait hearing.  No Stage 3B-W (topology, pits, DAMP
+  flooring, procedural generation) and no Stage 3C (HUD/UI, gore/death) work.

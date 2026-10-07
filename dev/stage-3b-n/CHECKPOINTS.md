@@ -24,3 +24,4 @@ Branch `stage-3b-n`, created from the accepted Stage 3B parent `69602e7c9e755fcc
 | N3 fixture / pillar separation + LOS | `7ee5b96` | `8519d32` | `pillar_3bn.js` 5/5 (parent 2/5); `test_3bn.js` N3 6/6; Stage 3B unit 26/26; BR-RoLE unit 32/32; shadows unit 47/48 (= parent) |
 | N4 Shift while crouched | `a6024cb` | `e7e9c18` | `move_3bn.js` 7/7 (parent 0/7); move.js parity with the parent 4 800 ticks; `test_3bn.js` N4 3/3 |
 | N5 Hound blind pursuit | `68d5e8a` | `54fb52f` | `hound_3bn.js` B0-B4 5/5 (parent 2/5); s_chase C1 14/14 (parent 0/18); full suite 151/162 (= parent); `test_3bn.js` N5 4/4 |
+| N6 Hound sound recency / urgency | `a657c23` | `b61df7b` | `hound_3bn.js` 10/10 (parent sound cases S2, S4 fail); full suite 151/162 (= parent); `test_3bn.js` N6 4/4 |

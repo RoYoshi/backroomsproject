@@ -1,0 +1,161 @@
+{
+ "spot": [
+  400,
+  3000
+ ],
+ "M1": {
+  "crouchedFirst": true,
+  "states": [
+   "crouch",
+   "run",
+   "stand"
+  ],
+  "stepsToRun": 0,
+  "maxSpeed": 285
+ },
+ "M2": {
+  "table": {
+   "x": 1160,
+   "y": 5009,
+   "w": 272,
+   "h": 62
+  },
+  "states": [
+   "crawl",
+   "crouch",
+   "run",
+   "stand"
+  ],
+  "standingWithoutRoom": 0,
+  "lowFrames": 109,
+  "firstStand": {
+   "t": 46890.199999999255,
+   "s": "run",
+   "x": 1450.1,
+   "y": 5040,
+   "sp": 133,
+   "st": 99.8,
+   "ex": 0,
+   "run": 1,
+   "mov": 1,
+   "crouch": 0,
+   "fits": true,
+   "zone": 0
+  },
+  "ranAfter": true,
+  "under": 96
+ },
+ "M3": {
+  "exhausted": [
+   "crouch"
+  ],
+  "refilled": [
+   "crouch",
+   "run",
+   "stand"
+  ],
+  "exhaustedMaxSpeed": 86
+ },
+ "M4": {
+  "states": [
+   "crouch",
+   "run",
+   "walk",
+   "run",
+   "walk",
+   "run",
+   "walk",
+   "run",
+   "walk",
+   "run",
+   "walk",
+   "run",
+   "walk",
+   "stand"
+  ],
+  "recrouched": 0
+ },
+ "M5": {
+  "crouched": true,
+  "heldMoving": [
+   "crouch"
+  ],
+  "afterRepress": [
+   "crouch",
+   "run",
+   "stand"
+  ]
+ },
+ "M6": {
+  "states": [
+   "stand",
+   "run",
+   "slide",
+   "crouch",
+   "run",
+   "stand"
+  ],
+  "lowAfterSlideMs": 290,
+  "ranAfter": true
+ },
+ "pageErrors": [],
+ "M7": {
+  "dir": {
+   "k": "KeyS",
+   "a": 1.5707963267948966,
+   "L": 900
+  },
+  "clientStates": [
+   "crouch",
+   "run",
+   "stand"
+  ],
+  "observedStates": [
+   "stand",
+   "crouch",
+   "run",
+   "stand"
+  ],
+  "corrections": 0,
+  "observedTopSpeed": 278,
+  "finalDrift": 0,
+  "errors": []
+ },
+ "results": [
+  {
+   "name": "M1 open space: crouched, Shift + a direction stands you up and runs (no second C), at the ordinary run speed",
+   "ok": true,
+   "note": "crouched true; states crouch > run > stand; running 0 step(s) after Shift + direction reached the movement step; top speed 285 px/s (run 285)"
+  },
+  {
+   "name": "M2 insufficient clearance: under low furniture with Shift held you stay low (no frame standing where a standing body does not fit); out from under it you stand and run",
+   "ok": true,
+   "note": "states crawl > crouch > run > stand; 96 steps under it, 109 low; standing without room 0; stood at (1450.1, 5040); ran after true"
+  },
+  {
+   "name": "M3 stamina: exhausted you stay crouched with Shift held; when stamina is back (Shift still held) you stand and run",
+   "ok": true,
+   "note": "exhausted: crouch (top 86 px/s); stamina back: crouch > run > stand"
+  },
+  {
+   "name": "M4 repeated Shift presses while crouched and moving: the first press stands you up; none crouches you again (no stand/crouch flicker)",
+   "ok": true,
+   "note": "states crouch > run > walk > run > walk > run > walk > run > walk > run > walk > run > walk > stand; crouched again after standing: 0 steps"
+  },
+  {
+   "name": "M5 C while Shift is held crouches you and moving keeps you low; pressing Shift again stands you up and runs",
+   "ok": true,
+   "note": "C with Shift held: crouched true; moving with Shift still held: crouch; Shift pressed again: crouch > run > stand"
+  },
+  {
+   "name": "M6 slide rules kept: run + C slides, the slide ends low for its recovery, and with Shift still held you run again after it",
+   "ok": true,
+   "note": "states stand > run > slide > crouch > run > stand; low after the slide 290 ms (recovery .32 s); ran after: true"
+  },
+  {
+   "name": "M7 networked (server-checked player): crouch -> Shift runs; the server accepts every position (no correction) and an observing player sees crouch, then run at run speed, where the player really is",
+   "ok": true,
+   "note": "client crouch > run > stand; corrections 0; the observer saw stand > crouch > run > stand (top 278 px/s); server vs client position after 0 px"
+  }
+ ]
+}
