@@ -833,8 +833,13 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
   hitFlash = Math.max(0, hitFlash - t * 1.6);
   const dv = k < .05 ? 0 : Math.min(1, k * 1.15) * (.75 + .25 * Math.sin(now / (140 - 70 * k)));
   dread.style.opacity = Math.max(dv, hitFlash * .95);
-  game.style.transform = k > .55 ? `translate(${(Math.random() - .5) * k * 5}px,${(Math.random() - .5) * k * 5}px)` : '';
-  light.style.opacity = k > .35 && Math.random() < k * .09 ? .35 + Math.random() * .4 : 1;
+  /* Stage 3B-N: the shake moves the world and its darkness overlay together (shaking only #game slid the world a few px
+   * under the line-of-sight mask: slivers of hidden world at every edge).  The danger flicker is a surge of the ceiling
+   * lamps (window.__dangerFlicker, read by __ents.lamp): it changes illumination inside the line of sight only, where a
+   * lamp really reaches.  It used to thin the whole overlay (opacity .35-.75): everything behind walls showed through. */
+  const shk = k > .55 ? `translate(${(Math.random() - .5) * k * 5}px,${(Math.random() - .5) * k * 5}px)` : '';
+  game.style.transform = shk; light.style.transform = shk;
+  window.__dangerFlicker = k > .35 && Math.random() < k * .09 ? 1.55 + Math.random() * .65 : 1;
   stingCd -= t;
   if (k > .45 && stingCd <= 0) { stingCd = 9 + Math.random() * 10; if (!(window.__sfx && window.__sfx.play('sting', { vol: Math.min(1, .5 + k) }))) burst(.35, .12 * k); }
 };

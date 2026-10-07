@@ -41,6 +41,27 @@ section('N1', async () => {
   check('N1-5 the policy never shows more than the canonical 1627 x 915 world at any CSS size (DPR is not an input)', !bad.length, bad.length ? 'exceeds: ' + bad.join(', ') : '12 viewports including 32:9, portrait and phones');
 });
 
+/* ---------------------------------------------------------------- N2 true darkness + danger flicker (static seams; the pixels are visibility_3bn.js) */
+section('N2', async () => {
+  const BR = read('assets/br-role.js'), MP = read('mp.js'), EN = read('ents.js'), ES = read('dev/ents_src/40_debug.js');
+  check('N2-1 BR-RoLE draws no sourceless ambient glow around the viewer (no AMB gradient left)', !/AMB\s*=\s*\{/.test(BR) && !/AMB\.r[01]/.test(BR) && !/createRadialGradient\(V\.x,\s*V\.y/.test(BR));
+  const opac = [...MP.matchAll(/light\.style\.opacity/g)].length;
+  check('N2-2 the danger flicker never thins the darkness overlay (mp.js sets no #light opacity)', opac === 0, `${opac} writes`);
+  check('N2-3 the danger shake moves the world and its darkness overlay together (same transform)', /game\.style\.transform\s*=\s*shk;\s*light\.style\.transform\s*=\s*shk/.test(MP));
+  check('N2-4 the flicker is a surge of the ceiling lamps: mp.js sets window.__dangerFlicker and __ents.lamp multiplies it in (source and build agree)',
+    /window\.__dangerFlicker\s*=/.test(MP) && [EN, ES].every(s => /E\.lamp = function[^]*?window\.__dangerFlicker[^]*?return g;[^]*?let m = g;/.test(s)));
+  /* __ents.lamp under the surge: 1 when calm, the surge when no failure, and a failing lamp still goes dark */
+  const w = { __dangerFlicker: 1 }, perf = { now: () => 0 };
+  const fn = new Function('window', 'performance', 'sm', 'E', ES.match(/E\.lamp = function[^]*?\n\};/)[0] + '; return E.lamp;');
+  const E = { fails: [] }, sm = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  const lamp = fn(w, perf, sm, E);
+  const calm = lamp(0, 0, 0); w.__dangerFlicker = 1.8; const surge = lamp(0, 0, 0);
+  E.fails = [{ x: 0, y: 0, r: 300, until: 99 }]; const failing = lamp(0, 0, 0); w.__dangerFlicker = undefined; const unset = lamp(500, 500, 0);
+  check('N2-5 __ents.lamp: calm 1, surge multiplies, a failed lamp stays nearly dark under a surge, unset flag = 1', calm === 1 && surge === 1.8 && failing < .2 && unset === 1,
+    `calm ${calm}, surge ${surge}, failing+surge ${failing.toFixed(3)}, unset ${unset}`);
+  check('N2-6 BR-RoLE still caps a lamp at .9 (a surge brightens lamps inside the line of sight; it cannot exceed the cap)', /return Math\.min\(\.9, \(i % 13 === 0/.test(BR));
+});
+
 (async () => {
   for (const [id, fn] of sections) { if (ONLY && !ONLY.includes(id)) continue; try { await fn(); } catch (e) { check(id + ' harness', false, String(e && e.stack || e).slice(0, 500)); } }
   const pass = results.filter(r => r.ok).length;

@@ -73,7 +73,8 @@
    * The art's baked drop shadow (a few px, drawProp) needs no thinning here: BR-RoLE removes light instead of painting
    * dark, so under a cast shadow it reads as the prop's contact shadow, not a second shadow */
   const PROP = { counter: { h: 70 }, shelf: { h: 46 }, lowwall: { h: 84 }, machine: { h: 96 }, table: { h: 76 }, bench: { h: 46 }, window: { h: 40 } };
-  const AMB = { r0: 18, r1: 670, a0: .14, a1: .045 };                       // the ambient glow around the viewer (v23.3.6's)
+  /* Stage 3B-N: NO SURVIVING LIGHT = NO VISIBILITY.  v23.3.6 carried a faint unblocked glow around the viewer everywhere
+   * (.14 at you, .045 at 335 px, 0 at 670): light with no source.  It is gone: where nothing lights a point, it stays black. */
   /* carried-light colour tint over the lit area (v23.3.6's .25 / .2 of the light).  BR2C: the tints are summed (`lighter`,
    * premultiplied: overlapping colours average instead of the later one painting over the earlier) at k of their strength
    * and laid on at 1 / k: one light looks exactly as before, crossing lights cannot stack into a saturated film */
@@ -327,8 +328,7 @@
       const meet = (x, y, R) => x + R > view.x0 && x - R < view.x1 && y + R > view.y0 && y - R < view.y1;
       const V = F.viewer, rec = S.last = { lamps: [], carried: [] }; S.lastF = { r: F.r, ox: F.ox, oy: F.oy, w: F.w, h: F.h, t: F.t };
 
-      /* ambient: the faint glow the viewer carries everywhere (v23.3.6's), never blocked */
-      { const g = bx.createRadialGradient(V.x, V.y, AMB.r0, V.x, V.y, AMB.r1); g.addColorStop(0, rgba(AMB.a0)); g.addColorStop(.5, rgba(AMB.a1)); g.addColorStop(1, rgba(0)); bx.fillStyle = g; bx.fillRect(V.x - AMB.r1, V.y - AMB.r1, AMB.r1 * 2, AMB.r1 * 2); }
+      /* (no ambient glow around the viewer: Stage 3B-N true darkness) */
 
       /* ceiling lamps: the ones whose light reaches the screen, nearest the viewer first; the one at the cap fades out.  Each
        * is its cached shadowed field, added at the lamp's strength this frame (flicker, failures, NV gain) */

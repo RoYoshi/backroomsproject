@@ -19,3 +19,4 @@ Branch `stage-3b-n`, created from the accepted Stage 3B parent `69602e7c9e755fcc
 
 | checkpoint | commit | tree | checks |
 |---|---|---|---|
+| N1 camera / timing policy serving | `63a492d` | `cb0afe3` | `camera_3bn.js` 4/4 (parent 1/4); `test_3bn.js` N1 5/5; Stage 3B unit 26/26 |

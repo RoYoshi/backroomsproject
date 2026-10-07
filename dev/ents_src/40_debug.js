@@ -273,9 +273,11 @@ E.setFails = function (list) {
   const had = E.fails.length; E.fails = (list || []).map(f => ({ x: f[0], y: f[1], r: f[2], until: performance.now() / 1000 + f[3] })); E.failsAt = performance.now();
   if (E.fails.length > had && E.onFail) E.onFail(E.fails[E.fails.length - 1]);
 };
-/* multiplier (0..1) for a lamp at (x,y): flickers hard while a failure is active near it */
+/* multiplier for a lamp at (x,y): flickers hard while a failure is active near it (0..1); Stage 3B-N: times the danger
+ * flicker's surge (window.__dangerFlicker, mp.js; 1 when calm), so the flicker is light from the lamps, never a see-through */
 E.lamp = function (x, y, t) {
-  if (!E.fails.length) return 1; const now = performance.now() / 1000; let m = 1;
+  const g = window.__dangerFlicker > 0 ? window.__dangerFlicker : 1;
+  if (!E.fails.length) return g; const now = performance.now() / 1000; let m = g;
   for (const f of E.fails) { if (f.until < now) continue; const d = Math.hypot(x - f.x, y - f.y); if (d > f.r) continue; const k = 1 - sm(f.r * .55, f.r, d); const fl = Math.sin(t * 61 + x * .07) > .65 ? .5 : 0; m *= 1 - k * (.94 - fl * .5); }
   return m;
 };
