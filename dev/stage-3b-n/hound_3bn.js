@@ -1,4 +1,4 @@
-/* Stage 3B-N N5 - Hound blind pursuit, headless on the real sim.js + ai.js + move.js (development only; never served).
+/* Stage 3B-N N5/N6 - Hound blind pursuit and sound urgency, headless on the real sim.js + ai.js + move.js (development only; never served).
  *
  *   node dev/stage-3b-n/hound_3bn.js [--only B0,S2] [--json FILE]      (exit 1 on any failure)
  *
@@ -14,7 +14,13 @@
  * B3 recent running updates the pursuit: a prey that keeps running out of sight is followed by ear (pursuit source 'ear'), the chase is kept,
  *    its goal is nearer the real prey than in the same chase where the prey goes on quietly, and it moves far less than
  *    the steps' blur (no per-footstep jitter)
- * B4 no evidence: the pursuit becomes a search, confidence decays, it gives up for a stated reason */
+ * B4 no evidence: the pursuit becomes a search, confidence decays, it gives up for a stated reason
+ * SOUND URGENCY
+ * S1 idle + a distant quiet step: no alarm (at most an orienting look and a walk)
+ * S2 idle + a sprint a few metres away in the dark: high alert at once (ALERT within 0.25 s), then it rushes the spot
+ * S4 stale weak vs recent strong: investigating an old faint sound, a fresh close sprint elsewhere takes over
+ * S5 repeated footsteps: a runner's steps refine one hypothesis - no switching back and forth, no jump to every step's blur
+ * S6 decay: when the sounds stop, the hypothesis is checked and dropped, and the leads' urgency fades */
 'use strict';
 const path = require('path'), fs = require('fs');
 const L = require('../tests/lib.js'); const { World, DT, dist, geo, rate, avg } = L;
@@ -151,6 +157,66 @@ T('B4', () => {
   check('B4', 'no evidence: the blind pursuit becomes a search, confidence decays, and the Hound gives up for a stated reason',
     rs.length >= 6 && gave.length >= rs.length * .85 && gave.every(x => x.why) && rs.every(x => /^HUNTING>SEARCHING/.test(x.seq)),
     `${rs.length} preys gone without a trace (silently 1200-1800 px away): gave up in ${gave.length} (after ${Math.round(avg(gave.map(x => x.gave)))} s on average); sequences ${[...new Set(rs.map(x => x.seq))].join(' | ')}; reasons ${[...new Set(gave.map(x => x.why))].join(' / ')}; blind phase ended: ${[...new Set(rs.map(x => x.blindEnd && x.blindEnd.why).filter(Boolean))].join(' / ') || '-'}`);
+});
+
+/* ======================================================================= sound */
+function idle(seed, i) {
+  const G = geo(), spots = G.cells.filter((_, k) => k % 5 === 0).map(c => ({ x: G.g.cx(c), y: G.g.cy(c) })).filter(q => G.ad.clear(q.x, q.y, 30, 'walk'));
+  const a = spots[(i * 7907 + seed) % spots.length], w = World(7000 + seed * 13 + i), h = w.hound(a.x, a.y); h.state = 'ROAMING'; h.act = 'listen'; h.actT = 0; h.roam.listenFor = 1e9; h.ang = 0; h.speed = 0; h.tierT = 1e9;   // near tier held: no player is close (a far bystander keeps the room running)
+  L.bystander(w, a.x > 4600 ? 1000 : 8200, a.y);
+  return { w, h, a };
+}
+const emit = (w, x, y, type, I, r) => w.eng.sound({ x, y, r, I, type, src: 0 });
+const NZ = L.WORLD.NOISE;
+/* a sound spot d px from the hound (angle a), on open floor */
+const spotAt = (w, h, d, a) => { for (let k = 0; k < 24; k++) { const b = a + k * .26, x = h.x + Math.cos(b) * d, y = h.y + Math.sin(b) * d; if (w.ad.clear(x, y, 20, 'walk')) return { x, y }; } return null; };
+T('S1', () => {
+  const rs = []; for (let i = 0; i < 12; i++) { const { w, h } = idle(1, i); const s = spotAt(w, h, 650, Math.PI); if (!s) continue; w.run(.3);
+    let alert = false, maxV = 0, cur = false; for (let k = 0; k < 5; k++) { emit(w, s.x, s.y, 'walk', .42, NZ.walk * 3); w.run(.45, () => { if (h.state === 'ALERT') alert = true; if (h.state === 'CURIOUS') cur = true; if (h.state === 'CURIOUS') maxV = Math.max(maxV, h.speed); }); }
+    w.run(2, () => { if (h.state === 'ALERT') alert = true; if (h.state === 'CURIOUS') { cur = true; maxV = Math.max(maxV, h.speed); } }); rs.push({ alert, cur, maxV: Math.round(maxV), urg: +(h.hear && h.hear.urg || 0).toFixed(3) }); }
+  data.S1 = rs;
+  check('S1', 'idle + a distant quiet step: no high alert; at most an orienting look and a walk to it', rs.length >= 8 && rs.every(x => !x.alert) && rs.every(x => x.maxV <= 140),
+    `${rs.length} idle Hounds, a walking step 650 px away: ALERT ${rs.filter(x => x.alert).length}; went to look (CURIOUS) ${rs.filter(x => x.cur).length}; fastest while investigating ${Math.max(...rs.map(x => x.maxV))} px/s; urgency ${Math.max(...rs.map(x => x.urg))}`);
+});
+T('S2', () => {
+  const rs = []; for (let i = 0; i < 12; i++) { const { w, h } = idle(2, i); const s = spotAt(w, h, 140, Math.PI); if (!s) continue; w.run(.3);
+    const t0 = w.t; let alertAt = -1, fastAt = -1, firstState = '', seq = [], maxV = 0;
+    for (let k = 0; k < 8; k++) { emit(w, s.x + k * 6, s.y, 'run', .9, NZ.run); w.run(.3, () => { if (!firstState && h.state !== 'ROAMING') firstState = h.state; if (seq[seq.length - 1] !== h.state) seq.push(h.state); if (alertAt < 0 && h.state === 'ALERT') alertAt = w.t - t0; if (fastAt < 0 && (dist(h, s) < 100 || (h.hLight && h.hLight.arrived))) fastAt = w.t - t0; maxV = Math.max(maxV, h.speed); }); }
+    rs.push({ firstState, alertAt: +alertAt.toFixed(2), fastAt: +fastAt.toFixed(2), maxV: Math.round(maxV), seq: seq.join('>'), urg: +(h.hear && h.hear.urg || 0).toFixed(2) }); }
+  data.S2 = rs;
+  check('S2', 'idle + a sprint a few metres away in the dark: high alert at once (ALERT within 0.25 s, or straight into a chase) and then it rushes the spot (there within 1.3 s, faster than an investigating walk)',
+    rs.length >= 8 && rs.every(x => (x.alertAt >= 0 && x.alertAt <= .25) || x.firstState === 'HUNTING') && rate(rs, x => x.fastAt >= 0 && x.fastAt <= 1.3) >= .85 && avg(rs.map(x => x.maxV)) >= 160,
+    `${rs.length} idle Hounds, a sprint 140 px behind them: first reaction ${[...new Set(rs.map(x => x.firstState))].join('/')}; ALERT after ${rs.map(x => x.alertAt).join(', ')} s; at the spot after ${rs.map(x => x.fastAt).join(', ')} s; top speed ${Math.round(avg(rs.map(x => x.maxV)))} px/s on average (investigate pace 122); urgency ~${avg(rs.map(x => x.urg)).toFixed(2)}`);
+});
+T('S4', () => {
+  const rs = []; for (let i = 0; i < 12; i++) { const { w, h } = idle(4, i); const old = spotAt(w, h, 600, Math.PI), nu = spotAt(w, h, 200, 0); if (!old || !nu) continue; w.run(.3);
+    emit(w, old.x, old.y, 'walk', .42, NZ.walk * 3); w.run(.25); emit(w, old.x, old.y, 'walk', .42, NZ.walk * 3); w.run(2);
+    const wasOn = h.hLight ? { x: h.hLight.x, y: h.hLight.y } : null;
+    for (let k = 0; k < 3; k++) { emit(w, nu.x, nu.y, 'run', .9, NZ.run); w.run(.3); }
+    const q = h.hLight || (h.alert ? h.alert.toward : null), onNew = q ? Math.hypot(q.x - nu.x, q.y - nu.y) < Math.hypot(q.x - old.x, q.y - old.y) : false;
+    rs.push({ wasInvestigatingOld: !!wasOn, state: h.state, onNew, switched: !!h.dbg.switched || h.state === 'ALERT' }); }
+  data.S4 = rs; const base = rs.filter(x => x.wasInvestigatingOld);
+  check('S4', 'stale weak vs recent strong: while it checks an old faint sound, a fresh close sprint elsewhere takes over', base.length >= 6 && rate(base, x => x.onNew) >= .9,
+    `${base.length} Hounds investigating a faint step from 2 s before when a sprint 200 px the other way began: now on the sprint in ${(rate(base, x => x.onNew) * 100) | 0}% (states ${[...new Set(base.map(x => x.state))].join(', ')})`);
+});
+T('S5', () => {
+  const rs = []; for (let i = 0; i < 10; i++) { const { w, h } = idle(5, i); const s = spotAt(w, h, 420, Math.PI / 2); if (!s) continue; w.run(.3);
+    let switches = 0, lastSw = null, maxJump = 0, prev = null, n = 0;
+    for (let k = 0; k < 12; k++) { emit(w, s.x + k * 25, s.y, 'run', .9, NZ.run); w.run(.3, () => { if (h.dbg.switched && h.dbg.switched !== lastSw) { switches++; lastSw = h.dbg.switched; } const q = h.hLight; if (q) { if (prev && q.lead === prev.lead) maxJump = Math.max(maxJump, Math.hypot(q.x - prev.x, q.y - prev.y)); prev = { x: q.x, y: q.y, lead: q.lead }; n++; } }); }
+    rs.push({ switches, maxJump: Math.round(maxJump), n }); }
+  data.S5 = rs;
+  check('S5', 'repeated footsteps refine one hypothesis: no switching back and forth between steps, no jump to every step\'s blur', rs.length >= 6 && rs.every(x => x.switches <= 1) && Math.max(...rs.map(x => x.maxJump)) <= 150,
+    `${rs.length} Hounds hearing 12 running steps (a runner passing 420 px away): hypothesis switches ${rs.map(x => x.switches).join(',')}; largest jump of its goal between ticks ${Math.max(...rs.map(x => x.maxJump))} px`);
+});
+T('S6', () => {
+  const rs = []; for (let i = 0; i < 10; i++) { const { w, h } = idle(6, i); const s = spotAt(w, h, 300, 0); if (!s) continue; w.run(.3);
+    for (let k = 0; k < 3; k++) { emit(w, s.x, s.y, 'run', .9, NZ.run); w.run(.3); }
+    const L0 = h.mem.leads.slice(-1)[0], u0 = L0 ? (L0.urg || 0) : 0; let back = -1; w.run(25, (ww, t) => { if (back < 0 && ['ROAMING', 'DORMANT'].includes(h.state) && !h.hLight) back = t; });
+    const L1 = L0 ? h.mem.leads.find(q => q.id === L0.id) : null, u1 = L1 ? (L1.urg || 0) * Math.exp(-(w.eng.now - L1.t) / 1.5) : 0;
+    rs.push({ back: +back.toFixed(1), u0: +u0.toFixed(2), u1: +u1.toFixed(3), leadLeft: !!L1 }); }
+  data.S6 = rs;
+  check('S6', 'decay: when the sounds stop, the hypothesis is checked and dropped (back to roaming) and the leads\' urgency fades', rs.length >= 6 && rs.every(x => x.back >= 0 && x.back < 20) && rs.every(x => x.u1 < .02),
+    `${rs.length} Hounds after three running steps then silence: back to roaming after ${rs.map(x => x.back).join(', ')} s; lead urgency ${avg(rs.map(x => x.u0)).toFixed(2)} at the sound -> ${Math.max(...rs.map(x => x.u1))} 25 s later`);
 });
 
 if (JS) fs.writeFileSync(JS, JSON.stringify({ results, data }, null, 1));

@@ -59,7 +59,7 @@ footsteps in the right place fool it the same way.  A committed chase is never d
   level's dark-cell list; N3's nine moved fixtures change that list, so all their set-ups land elsewhere.  SM17 runs
   with lamps off (blackout); its one new strike (a crouched 40 px side-step that also closes 102 px, at (6072, 3816),
   2 000 px from any moved fixture) is reproduced **identically on the parent build** at the same set-up
-  (`dev/stage-3b-n/evidence/n5` replay in the N5 notes of the final report): a pre-existing edge case the new sample hits.
+  (`../n6/sm17_replay.txt`, `../n6/sm17_replay.js`): a pre-existing edge case the new sample hits.
 
 ## Existing tests changed (and why)
 

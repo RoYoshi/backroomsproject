@@ -35,6 +35,7 @@ function addLead(e, now, L) {
     if (now - q.t > 6 || Math.hypot(q.x - L.x, q.y - L.y) > (q.u + L.u) * .6) continue;
     const w = L.c / (L.c + q.c * .8);
     q.x += (L.x - q.x) * w; q.y += (L.y - q.y) * w; q.u = Math.max(L.u * .75, Math.min(q.u, L.u) * .95);          // seeing the same thing again firms it up a little, never past what one look can tell
+    q.urg = Math.max(leadUrgency(q, now), L.urg || 0);                         // (3B-N) a fresh strong sound renews the lead's urgency; an old one has decayed
     q.c = Math.min(1, Math.max(q.c, L.c) + .05); q.t = now; q.n++; q.sal = Math.max(q.sal * .7, L.sal); q.k = L.k === 'source' ? 'source' : q.k; if (L.dir !== undefined) q.dir = L.dir;
     return q;
   }
@@ -174,6 +175,7 @@ function hearEvent(e, eng, ev) {
    * never reads who really made the sound, so another person's footsteps in the right place fool it just the same. */
   const inferred = !identified && h.src === 0 && e.kind === 'hound' ? houndInferSource(eng, e, h) : null;
   if (inferred) { h.src = h.pid = inferred.id; h.attribution = 'inferred'; }
+  h.urg = soundUrgency(h, eng.now);
   e.hear = h; e.heardCount = (e.heardCount || 0) + 1;
   e.mem.sounds.unshift(h); if (e.mem.sounds.length > 8) e.mem.sounds.pop();
   if (identified || inferred) {
@@ -194,7 +196,7 @@ function hearEvent(e, eng, ev) {
       if (loud && Math.hypot(r.hvx, r.hvy) > 1) { r.lvx = r.hvx; r.lvy = r.hvy; }
     }
   }
-  if (!identified && h.src === 0) addLead(e, eng.now, {k:'sound',x:h.x,y:h.y,u:h.unc,c:h.c,sal:h.I,type:h.type});
+  if (!identified && h.src === 0) h.lead = addLead(e, eng.now, {k:'sound',x:h.x,y:h.y,u:h.unc,c:h.c,sal:h.I,type:h.type,urg:h.urg}).id;
   return h;
 }
 

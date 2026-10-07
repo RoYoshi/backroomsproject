@@ -130,6 +130,25 @@ section('N5', async () => {
   check('N5-4 ai.js is exactly its sources (dev/ai_src, build_ai.sh)', built === read('ai.js'));
 });
 
+/* ---------------------------------------------------------------- N6 Hound sound recency / urgency (the evidence functions; the behaviour is hound_3bn.js S1-S6) */
+section('N6', async () => {
+  const I = read('dev/ai_src/22_intelligence.js'), H = read('dev/ai_src/50_hound.js');
+  const src = I.slice(I.indexOf('const SOUND_URGENCY'), I.indexOf('function soundChoice'));
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v)), F = new Function('clamp', src + '; return { soundUrgency, leadUrgency, SOUND_URGENCY };')(clamp);
+  const hurgent = +H.match(/const HURGENT = ([\d.]+);/)[1], u = (I0, type, age, c) => F.soundUrgency({ I: I0, type, t: 10 - age, c: c ?? Math.min(1, .4 + .5 * I0) }, 10);
+  const sprintNear = u(.85, 'run', 0), walkFar = u(.15, 'walk', 0), sprintOld = u(.85, 'run', 3), crouchNear = u(.14, 'crouch', 0);
+  check('N6-1 urgency is recency x intensity x kind x confidence: a sprint a few metres away is urgent, a far quiet step and a 3 s old sprint are not, crouching is near silent',
+    sprintNear >= hurgent && walkFar < .1 && sprintOld < hurgent * .4 && crouchNear < .05 && u(.85, 'run', 1.5) < sprintNear * .4,
+    `sprint near ${sprintNear.toFixed(2)} (alert at ${hurgent}), the same 1.5 s later ${u(.85, 'run', 1.5).toFixed(2)}, 3 s later ${sprintOld.toFixed(2)}; walking step far ${walkFar.toFixed(3)}; crouched step near ${crouchNear.toFixed(3)}`);
+  const L = { urg: .7, t: 10 }; const l1 = F.leadUrgency(L, 11), l5 = F.leadUrgency(L, 15);
+  check('N6-2 stale evidence decays: a lead keeps the urgency of its strongest sound, fading (about half per second), gone after a few seconds', l1 < .7 * .6 && l5 < .03, `.70 -> ${l1.toFixed(2)} after 1 s -> ${l5.toFixed(3)} after 5 s`);
+  const anon = H.slice(H.indexOf("if (h.attribution === 'anonymous') {"), H.indexOf("const r = e.mem.p.get(h.src); if (!r) return;"));
+  check('N6-3 the state decides: urgent sounds alarm an idle, curious or searching Hound (never a hunting one); a Hound already rushing an urgent sound refines it instead of freezing again; anything else is an ordinary investigation',
+    /if \(e\.state === S\.HUNTING\)[^\n]*return; \}/.test(anon) && /urg >= HURGENT && !onIt && \[S\.ROAMING, S\.DORMANT, S\.CURIOUS, S\.FRUSTRATED, S\.SEARCHING\]\.includes\(e\.state\)\) hAlarm/.test(anon) && /else if \(onIt\) hLightStart\(eng, e, L, urg\);/.test(anon) && /else hLightStart\(eng, e, L\);/.test(anon));
+  check('N6-4 one hypothesis at a time: more of the same trail eases the goal (35 % per sound, no restart); only a clearly more urgent sound elsewhere (1.5x + 0.1) replaces it',
+    /if \(near\) \{ if \(!q0\.arrived && L\.t > q0\.t\) \{ q0\.x \+= \(L\.x - q0\.x\) \* \.35;/.test(H) && /if \(!\(newU > curU \* 1\.5 \+ \.1\)\) return true;/.test(H));
+});
+
 (async () => {
   for (const [id, fn] of sections) { if (ONLY && !ONLY.includes(id)) continue; try { await fn(); } catch (e) { check(id + ' harness', false, String(e && e.stack || e).slice(0, 500)); } }
   const pass = results.filter(r => r.ok).length;

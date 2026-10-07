@@ -53,16 +53,35 @@ function hPerceived(eng, e, r) {
   return { ...est, vx: r.lvx, vy: r.lvy, sp: Math.hypot(r.lvx, r.lvy), seen: false };
 }
 const HEAR_PACE = .85;       // (3B-N) chasing by ear alone: sound gives a direction, not a line to run (a fresh sprinter, 285 px/s, still gains; a tired one does not)
-function hLightStart(eng, e, heardLead = null) {
-  if (![S.ROAMING, S.DORMANT, S.CURIOUS, S.FRUSTRATED].includes(e.state) && !(heardLead && [S.HUNTING, S.SEARCHING, S.STALKING].includes(e.state))) return false;
+const HURGENT = .45;          // (3B-N) sound urgency at which an idle / curious / searching Hound goes on high alert (a sprint within a few metres)
+function hLightStart(eng, e, heardLead = null, urgent = 0) {
+  if (![S.ROAMING, S.DORMANT, S.CURIOUS, S.FRUSTRATED].includes(e.state) && !(heardLead && [S.HUNTING, S.SEARCHING, S.STALKING, S.ALERT].includes(e.state))) return false;
   const L = heardLead || bestAnonLead(e, eng.now); if (!L || L.c < .25 || eng.now - L.t > 3) return false;
   const checked = e.hChecked || (e.hChecked = []);
-  if (checked.some(q => eng.now < q.until && Math.hypot(q.x - L.x, q.y - L.y) < 180)) return false;
-  if (e.hLight && e.state === S.CURIOUS) return true; // finish one hypothesis, do not restart its timer each observation
-  e.hLight = { lead: L.id, x: L.x, y: L.y, u: L.u, k: L.k, t: eng.now, until: eng.now + 7 + e.tr.CURIOSITY * 5, arrived: 0 };
+  if (!urgent && checked.some(q => eng.now < q.until && Math.hypot(q.x - L.x, q.y - L.y) < 180)) return false;
+  const q0 = e.hLight;
+  if (q0 && e.state === S.CURIOUS) {
+    // (3B-N) one hypothesis at a time, but recency and urgency count.  More of the same trail (the same lead, or a sound within its blur) only
+    // refines where it is going - eased, never a jump per footstep; a clearly more urgent sound elsewhere replaces a hypothesis gone stale.
+    const near = L.id === q0.lead || Math.hypot(L.x - q0.x, L.y - q0.y) < Math.max(160, (L.u + q0.u) * .8);
+    const curU = Math.max(leadUrgency(e.mem.leads.find(q => q.id === q0.lead), eng.now), (q0.urg || 0) * Math.exp(-(eng.now - q0.t) / 1.5)), newU = Math.max(urgent, leadUrgency(L, eng.now));
+    if (near) { if (!q0.arrived && L.t > q0.t) { q0.x += (L.x - q0.x) * .35; q0.y += (L.y - q0.y) * .35; q0.until = Math.max(q0.until, eng.now + 3); } q0.urg = Math.max(q0.urg || 0, newU); return true; }
+    if (!(newU > curU * 1.5 + .1)) return true;                                              // finish the current hypothesis
+    e.dbg.switched = { from: [Math.round(q0.x), Math.round(q0.y), +curU.toFixed(2)], to: [Math.round(L.x), Math.round(L.y), +newU.toFixed(2)], at: +eng.now.toFixed(2) };
+  }
+  const urg = Math.max(urgent, leadUrgency(L, eng.now));
+  e.hLight = { lead: L.id, x: L.x, y: L.y, u: L.u, k: L.k, t: eng.now - (urg >= HURGENT ? .2 : 0), until: eng.now + 7 + e.tr.CURIOSITY * 5, arrived: 0, urg };   // urgent: no orienting beat left (the alert was it)
   e.inv = { lead: L.id, x: L.x, y: L.y, u: L.u, k: L.k, t: eng.now, c: L.c };
-  setState(e, S.CURIOUS, 'listen'); e.dbg.hWhy = `investigate anonymous ${L.k}; carrier unidentified`;
+  setState(e, S.CURIOUS, urg >= HURGENT ? '' : 'listen'); e.dbg.hWhy = `investigate anonymous ${L.k}; carrier unidentified${urg >= HURGENT ? '; urgent' : ''}`;
   e.dbg.listen = L.k === 'sound' ? 'orienting to anonymous sound' : 'orienting to visible light'; return true;
+}
+/* (3B-N) an urgent unidentified sound (a sprint a few metres away): high alert - a short freeze facing it - then it goes for the spot at a pace
+ * that scales with the urgency.  Still a sound: no identity, no target; seeing somebody there is what starts a chase. */
+function hAlarm(eng, e, L, h, urg) {
+  if (e.state === S.ALERT) return;
+  e.hLight = null; e.inv = null; if (e.state === S.DORMANT) e.wake = 1;
+  setState(e, S.ALERT, 'freeze'); e.alert = { until: eng.now + rand(e, .12, .3) * (1.2 - e.tr.AGGRESSION * .5), rid: 0, toward: { x: h.x, y: h.y }, lead: L.id, urg };
+  e.dbg.hWhy = `high alert: urgent ${h.type} (urgency ${urg.toFixed(2)})`;
 }
 function hLightStep(eng, e, dt) {
   const q = e.hLight, now = eng.now;
@@ -71,7 +90,8 @@ function hLightStep(eng, e, dt) {
     setAct(e, 'listen'); e.dbg.listen = q.arrived ? `${q.k} location checked; listening for a source` : `orienting to ${q.k}`;
   } else {
     setAct(e, ''); e.dbg.listen = ''; goTo(eng, e, q.x, q.y, { every: 1.2 });
-    const st = follow(eng, e, dt, hSpeed(e, 'investigate', eng), {});
+    const u = clamp(((q.urg || 0) * Math.exp(-(now - q.t) / 4) - .3) / .4, 0, 1);                       // (3B-N) an urgent sound is rushed, a faint one walked to
+    const st = follow(eng, e, dt, lerp(hSpeed(e, 'investigate', eng), hSpeed(e, 'chase', eng) * .85, u), {});
     if (st === 'arrived' || st === 'nopath' || dist(e.x, e.y, q.x, q.y) < 60) q.arrived = now;
   }
   if (now > q.until || (q.arrived && now - q.arrived > .8 + e.tr.PATIENCE)) {
@@ -509,10 +529,16 @@ function hReact(eng, e) {
       // (3B-N) a committed chase is never demoted to curiosity by a sound: one that fits the prey's trail was already taken as the prey's
       // (hearEvent, houndInferSource); one that does not is not followed
       if (e.state === S.HUNTING) { e.dbg.retarget = 'committed pursuit; a sound off the prey\'s trail is not followed'; return; }
-      const L = bestAnonLead(e, now, 'sound');
-      const weak = h.I <= .12, recentSight = cur && (cur.seen || now - cur.seenAt < 1.2);
-      if (!weak && !recentSight && L) hLightStart(eng, e, L);
-      e.dbg.retarget = recentSight ? 'keep visual prey; unrelated anonymous sound' : 'heard anonymous sound; no person identified';
+      // (3B-N) a recent sound competes on its own lead and its own urgency, not on an older lead's standing
+      const own = h.lead ? e.mem.leads.find(q => q.id === h.lead) : null, L = own || bestAnonLead(e, now, 'sound');
+      const weak = h.I <= .12, recentSight = cur && (cur.seen || now - cur.seenAt < 1.2), urg = h.urg || 0;
+      if (!weak && !recentSight && L) {
+        const onIt = e.state === S.CURIOUS && e.hLight && (e.hLight.urg || 0) >= HURGENT;                       // already rushing an urgent sound: more of it refines (or replaces) that, no new freeze
+        if (urg >= HURGENT && !onIt && [S.ROAMING, S.DORMANT, S.CURIOUS, S.FRUSTRATED, S.SEARCHING].includes(e.state)) hAlarm(eng, e, L, h, urg);   // a sprint a few metres away: high alert at once
+        else if (onIt) hLightStart(eng, e, L, urg);
+        else hLightStart(eng, e, L);
+      }
+      e.dbg.retarget = recentSight ? 'keep visual prey; unrelated anonymous sound' : `heard anonymous ${h.type} (urgency ${urg.toFixed(2)}); no person identified`;
       return;
     }
     const r = e.mem.p.get(h.src); if (!r) return;
@@ -554,7 +580,7 @@ function houndTick(eng, e, dt, thinkNow) {
       faceToward(e, a.toward.x, a.toward.y, dt, 5.5); e.head = Math.sin(e.t * 9) * .08;
       if (now > a.until) {
         const r = e.mem.p.get(a.rid);
-        if (!r) { setState(e, S.ROAMING); break; }
+        if (!r) { const L = a.lead ? e.mem.leads.find(q => q.id === a.lead) : null; if (!(L && hLightStart(eng, e, L, a.urg || 0))) setState(e, S.ROAMING); break; }   // (3B-N) an unidentified alarm: go for the sound
         if (r.seen) { beginHunt(eng, e, r, 'alert-see'); break; }
         const lastRun = r.st === 2 || r.st === 5, noisy = (e.hear && e.hear.I > .55);
         if (lastRun && e.rng() < .35 + e.tr.AGGRESSION * .55) { beginHunt(eng, e, r, 'alert-run'); break; }

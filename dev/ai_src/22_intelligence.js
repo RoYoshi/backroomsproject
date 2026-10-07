@@ -8,6 +8,12 @@ function observationScore(e, q, now) {
   const c = clamp(q.c ?? q.confidence ?? 0, 0, 1), u = Math.max(0, q.u ?? q.unc ?? 0);
   return evidenceWeights(e)[modality] * c * Math.exp(-age / (modality === 'sight' ? 4 : 3)) / (1 + u / 600) + (q.pid > 0 && q.pid === e.target ? .25 : 0);
 }
+/* (Stage 3B-N) how urgent a heard sound is, from the observation only: its intensity where the entity is (distance already in it), what kind of
+ * sound it is, how recent, how sure.  0..1.  A sprint a few metres away is ~.7, a distant quiet step a few hundredths; it halves in ~1 s. */
+const SOUND_URGENCY = Object.freeze({ run: 1, slide: 1, vault: .95, land: .9, struggle: .9, walk: .55, pick: .5, breath: .45, crouch: .3, crawl: .3 });
+function soundUrgency(h, now) { return clamp((h.I || 0) * (SOUND_URGENCY[h.type] ?? .5) * Math.exp(-Math.max(0, now - h.t) / 1.5) * clamp(h.c ?? 1, 0, 1), 0, 1); }
+/* the urgency a lead still carries now (its strongest supporting sound, decayed since the lead was last heard) */
+function leadUrgency(L, now) { return L ? (L.urg || 0) * Math.exp(-Math.max(0, now - L.t) / 1.5) : 0; }
 function soundChoice(e, now) {
   let best = null, score = -Infinity;
   for (const h of e.mem.sounds) {

@@ -1,0 +1,13 @@
+PASS S1 idle + a distant quiet step: no high alert; at most an orienting look and a walk to it
+       12 idle Hounds, a walking step 650 px away: ALERT 0; went to look (CURIOUS) 12; fastest while investigating 122 px/s; urgency 0
+FAIL S2 idle + a sprint a few metres away in the dark: high alert at once (ALERT within 0.25 s, or straight into a chase) and then it rushes the spot (there within 1.3 s, faster than an investigating walk)
+       12 idle Hounds, a sprint 140 px behind them: first reaction HUNTING/CURIOUS; ALERT after -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 s; at the spot after -1, 0.73, 0.82, 1, 0.9, 0.8, 0.55, 0.92, 0.92, 1, 0.97, 0.68 s; top speed 130 px/s on average (investigate pace 122); urgency ~0.00
+FAIL S4 stale weak vs recent strong: while it checks an old faint sound, a fresh close sprint elsewhere takes over
+       12 Hounds investigating a faint step from 2 s before when a sprint 200 px the other way began: now on the sprint in 0% (states CURIOUS)
+PASS S5 repeated footsteps refine one hypothesis: no switching back and forth between steps, no jump to every step's blur
+       10 Hounds hearing 12 running steps (a runner passing 420 px away): hypothesis switches 0,0,0,0,0,0,0,0,0,0; largest jump of its goal between ticks 0 px
+PASS S6 decay: when the sounds stop, the hypothesis is checked and dropped (back to roaming) and the leads' urgency fades
+       10 Hounds after three running steps then silence: back to roaming after 3, 2.5, 2.1, 3.5, 1.7, 2.8, 1.7, 2.3, 2.3, 3.2 s; lead urgency 0.00 at the sound -> 0 25 s later
+
+3/5 passed
+EXIT 1
