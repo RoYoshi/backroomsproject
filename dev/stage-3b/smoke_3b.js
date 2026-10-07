@@ -96,11 +96,11 @@ function diff(a, b, mask) {                                 // differing pixels 
       dy.frac > .3 && dc.frac > .2 && (ns ? dn.max <= 6 && dn.frac < .001 : st5.legacyFloorRects === 0),
       `YELLOW HALL ${(dy.frac * 100).toFixed(1)} % of pixels changed; corridor ${(dc.frac * 100).toFixed(1)} %; ` + (ns ? `${ns.name} (not in the slice): ${dn.n} pixels (${(dn.frac * 100).toFixed(3)} %) differ by more than 2 levels, the largest by ${dn.max} of 255` : `every room in the slice; legacy floor rects ${st5.legacyFloorRects}`) + `; zones ${st5.rooms.length}`);
     /* S06 */
-    const tier = async q => { await P.evaluate(q => __brRole.setQuality(q), q); return H.until(() => P.evaluate(q => __l0v.stats().tier === q && __l0v.stats().built, q), 15000); };
+    const tier = async q => { await P.evaluate(q => __brRole.setQuality(q), q); return H.until(() => P.evaluate(q => __l0v.stats().tier === q && __l0v.stats().built && !__l0v.stats().job, q), 60000); };   // 3B-F3: rebuilt in the background (slow frames here: seconds)
     const lowOk = await tier('low'), sLow = await P.evaluate(() => __l0v.stats()); const highOk = await tier('high'), sHigh = await P.evaluate(() => __l0v.stats()); const medOk = await tier('medium');
-    check('S06 quality tiers: switching BR-RoLE to LOW / HIGH / MEDIUM rebuilds the remaster at that tier (LOW: smaller textures, fewer decals), with no error',
-      lowOk && highOk && medOk && sLow.texMPx < sHigh.texMPx && sLow.decals < sHigh.decals && !sHigh.disabled && !A.errs.length,
-      `LOW ${sLow.texMPx} MPx / ${sLow.decals} decals / ${sLow.buildMs} ms; HIGH ${sHigh.texMPx} MPx / ${sHigh.decals} decals / ${sHigh.buildMs} ms; builds ${sHigh.builds}`);
+    check('S06 quality tiers: switching BR-RoLE to LOW / HIGH / MEDIUM rebuilds the remaster at that tier in the background (the old tier stays on screen until the new one is ready; LOW: smaller textures, fewer decals), with no error',
+      lowOk && highOk && medOk && sLow.texMPx < sHigh.texMPx && sLow.decals < sHigh.decals && !sHigh.disabled && !A.errs.length && sLow.rebuild && sHigh.rebuild && sLow.rebuild.frames > 2,
+      `LOW ${sLow.texMPx} MPx / ${sLow.decals} decals, rebuilt over ${sLow.rebuild && sLow.rebuild.frames} frames (longest ${sLow.rebuild && sLow.rebuild.maxFrameMs} ms); HIGH ${sHigh.texMPx} MPx / ${sHigh.decals} decals, over ${sHigh.rebuild && sHigh.rebuild.frames} frames (longest ${sHigh.rebuild && sHigh.rebuild.maxFrameMs} ms); builds ${sHigh.builds}`);
     /* S07 */
     await pose(P, 1070, 3020, Math.PI, true); const base = await scene(P);
     await P.evaluate(() => __l0v.dev.depth(true)); await frames(P, 6); const dep = await scene(P); await P.evaluate(() => __l0v.dev.depth(false));

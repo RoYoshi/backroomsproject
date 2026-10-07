@@ -65,7 +65,7 @@ function runRemaster({ search = '', quality = 'medium', patchOc = null, app = 'm
   while (tasks.length) tasks.shift()();
   /* run the module's frame loop n times with the camera centred on world point (x, y) (scale 1, a 1280 x 720 view) */
   const frame = (n = 1, at = null) => { if (at) { world.scale = { x: 1, y: 1 }; world.position.set(640 - at[0], 360 - at[1]); } for (let i = 0; i < n; i++) { const f = raf.splice(0); for (const cb of f) cb(0); } };
-  return { L, world, level, lampTop, carpet, targets, warns, stats: L.stats(), app: A, frame };
+  return { L, world, level, lampTop, carpet, targets, warns, stats: L.stats(), app: A, frame, win };
 }
 
 module.exports = { ROOT, read, WORLD, G, V, T, cellOf, roomRect, inRect, Pt, Container, Graphics, Texture, RenderTexture, TilingSprite, runRemaster };

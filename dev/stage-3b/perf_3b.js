@@ -26,7 +26,10 @@ const VW = +(opt('vw') || 1280), VH = +(opt('vh') || 720), TIERS = (opt('tiers')
 const SCENES = [
   ['yellow-spawn', 1130, 3420, 2.6, false], ['humming-counter', 3400, 1250, -Math.PI / 2, false],
   ['blackout-table', 1300, 5330, -Math.PI / 2, true], ['pillar-hall', 8352, 1632, -0.6, false],
-  ['outside-slice', 5000, 5500, 0, false],          // no remastered room in view: what the remaster costs when culled
+  ['outside-slice', 5000, 5500, 0, false],          // QA2: no remastered room in view (3B-F: the corridor between DAMP and RED ROOMS)
+  /* 3B-F: the rest of Level 0 */
+  ['long-room', 5760, 1150, 0.2, false], ['red-rooms', 5700, 5470, 0.3, false], ['deep-machine', 7900, 5620, -Math.PI / 2, false],
+  ['arch-north', 7900, 2990, -1.4, false], ['damp-counter', 3456, 5420, -Math.PI / 2, false], ['corridor-west', 1104, 2200, Math.PI / 2, false],
 ];
 const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path: p }, q => { q.resume(); q.on('end', () => r(q.statusCode)); }).on('error', () => r(0)));
 /* capture the game's Pixi application through Pixi's own devtools init hook, and count GL work per render */

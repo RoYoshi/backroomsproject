@@ -104,7 +104,8 @@ Each is pushed to `stage-3b-remaster` and verified on GitHub (`dev/stage-3b/veri
 |---|---|---|---|
 | 3B-F0 parent verification, inventory, canon audit | `a3430f6` | `c32adf3` | freeze OK; unit 21/21; BR-RoLE 32/32 |
 | 3B-F1 corridors and common rooms | `f4fb0b5` | `283701d` | freeze OK; unit 23/23; BR-RoLE 32/32; smoke 9/9 |
-| 3B-F2 special rooms, the remaining props | recorded with 3B-F3 | | |
+| 3B-F2 special rooms, the remaining props | `6e9f6a1` | `b8c2246` | freeze OK; unit 24/24; BR-RoLE 32/32; smoke 9/9 |
+| 3B-F3 full-map rendering optimization | recorded with 3B-F4 | | |
 
 ## 3B-F1 and 3B-F2: what was built
 

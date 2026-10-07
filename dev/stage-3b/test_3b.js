@@ -366,6 +366,32 @@ run('R16 the special rooms keep the game\'s truth: LONG ROOM\'s ten pits (the ga
   return { ok: !bad.length, note: bad.length ? bad.slice(0, 6).join('; ') : `pits ${pits.length} = the game's; floors: concrete, tile and the one carpet by zone; overlays ${ovZones.join(' ')}; archways ${ar} (4 reveal faces, a soffit, pilasters in their jambs, nothing overhead); carpet edges in ${edges.length} zones; ${drawn.length} props drawn; legacy floor none` };
 });
 
+run('R17 3B-F3: with every floor remastered, the legacy level art rests (hidden while the remaster shows: it only drew pixels the remaster covers), every wall top beside remastered floor is drawn once instead, remaster off and the DEV keep-switch bring it back; a new quality tier is rebuilt in the background over many frames while the build on screen stays, then swapped in at once (the same art as a build made at once at that tier, the old build\'s textures freed); going back to the tier on screen abandons the rebuild', () => {
+  const E = runRemaster(), bad = [], st = E.L.stats();
+  if (!st.levelArtResting || E.level.visible !== false) bad.push('level art not resting');
+  E.L.dev.remaster(false); if (E.level.visible !== true) bad.push('remaster off: level art hidden'); E.L.dev.remaster(true); if (E.level.visible !== false) bad.push('remaster back on: level art shown');
+  E.L.dev.keepLevelArt(true); if (E.level.visible !== true) bad.push('keep-switch'); E.L.dev.keepLevelArt(false);
+  const caps = new Map(); for (const z of zonesOf(E)) for (const op of layer(E, z.id, 'walls:legacy').ops) if (op.type === 'rect' && op.w === T && op.h === T) { const k = op.x / T + ',' + op.y / T; caps.set(k, (caps.get(k) || 0) + 1); }
+  let want = 0; for (let cy = 0; cy < G.FBH; cy++) for (let cx = 0; cx < G.FBW; cx++) { if (G.zc(cx, cy) || !G.Hc(cx, cy)) continue; let nearFloor = false; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (baseAt(cx + dx, cy + dy)) nearFloor = true;
+    if (!nearFloor) continue; want++; if (caps.get(cx + ',' + cy) !== 1) bad.push('wall top ' + cx + ',' + cy + ' drawn ' + (caps.get(cx + ',' + cy) || 0) + ' times'); }
+  if (caps.size !== want) bad.push('wall tops ' + caps.size + ' vs ' + want);
+  /* the background rebuild */
+  const yh = G.Oc.find(q => q.code === '01'), at = [(yh.x + yh.w / 2) * T, (yh.y + yh.h / 2) * T], wait = ms => { const t0 = Date.now(); while (Date.now() - t0 < ms) { } };
+  E.frame(2, at); const oldTex = graphicsIn(src(E, 'room:01')).flatMap(g => g.ops).map(op => op.style && op.style.texture).filter(Boolean);
+  E.win.__brRole = { stats: () => ({ quality: 'low' }) }; wait(420); E.frame(1, at);
+  const mid = E.L.stats(); if (!mid.job || mid.job.tier !== 'low' || mid.tier !== 'medium' || !mid.on || !E.L.dev.chunks().some(c => c.shown)) bad.push('rebuild not in the background: ' + JSON.stringify(mid.job) + ' tier ' + mid.tier);
+  let n = 1; while (E.L.stats().tier !== 'low' && n < 5000) { E.frame(1, at); n++; }
+  const after = E.L.stats(); if (after.tier !== 'low' || after.job || !after.rebuild || after.rebuild.frames < 3) bad.push('rebuild ' + JSON.stringify(after.rebuild) + ' after ' + n + ' frames');
+  if (oldTex.some(t => !t.destroyed)) bad.push('old textures kept: ' + oldTex.filter(t => !t.destroyed).length);
+  const sig = X2 => JSON.stringify(zonesOf(X2).flatMap(z => graphicsIn(src(X2, z.id))).map(g => g.ops.map(op => [op.op, op.type, op.x, op.y, op.w, op.h, op.p, op.style && op.style.matrix, op.style && op.style.color])));
+  const LOW = runRemaster({ quality: 'low' }); if (sig(E) !== sig(LOW)) bad.push('the background build differs from a LOW build made at once');
+  if (!E.L.stats().levelArtResting || E.level.visible !== false) bad.push('level art after the swap');
+  E.win.__brRole = { stats: () => ({ quality: 'high' }) }; wait(420); E.frame(2, at); const j = E.L.stats().job;
+  E.win.__brRole = { stats: () => ({ quality: 'low' }) }; wait(420); E.frame(1, at); const back = E.L.stats();
+  if (!j || j.tier !== 'high' || back.job || back.tier !== 'low') bad.push('abandon: started ' + JSON.stringify(j) + ', then ' + JSON.stringify(back.job) + ' tier ' + back.tier);
+  return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `level art resting, back with remaster off; ${want} wall tops beside floor, each drawn once; MEDIUM -> LOW rebuilt in the background over ${after.rebuild.frames} frames (${after.rebuild.steps} steps) while MEDIUM stayed on screen, then swapped in: identical to a LOW build made at once, the MEDIUM textures freed; a rebuild for HIGH abandoned on going back to LOW` };
+});
+
 const pass = results.filter(r => r.ok).length;
 console.log(`\n${pass}/${results.length} passed` + (pass < results.length ? '\nFAILED: ' + results.filter(r => !r.ok).map(r => r.name.split(' ')[0]).join(', ') : ''));
 process.exit(pass === results.length ? 0 : 1);

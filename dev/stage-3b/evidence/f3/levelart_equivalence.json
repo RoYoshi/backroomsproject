@@ -1,0 +1,110 @@
+{
+ "rows": [
+  {
+   "pose": "yellow-spawn",
+   "restingBefore": false,
+   "restingAfter": true,
+   "asPlayed": {
+    "differing": 2731,
+    "frac": 0.296,
+    "max": 103
+   },
+   "bareScene": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   }
+  },
+  {
+   "pose": "blackout-table",
+   "restingBefore": false,
+   "restingAfter": true,
+   "asPlayed": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   },
+   "bareScene": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   }
+  },
+  {
+   "pose": "red-rooms",
+   "restingBefore": false,
+   "restingAfter": true,
+   "asPlayed": {
+    "differing": 3029,
+    "frac": 0.329,
+    "max": 123
+   },
+   "bareScene": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   }
+  },
+  {
+   "pose": "long-pits",
+   "restingBefore": false,
+   "restingAfter": true,
+   "asPlayed": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   },
+   "bareScene": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   }
+  },
+  {
+   "pose": "arch-arches",
+   "restingBefore": false,
+   "restingAfter": true,
+   "asPlayed": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   },
+   "bareScene": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   }
+  },
+  {
+   "pose": "corridor-west",
+   "restingBefore": false,
+   "restingAfter": true,
+   "asPlayed": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   },
+   "bareScene": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   }
+  },
+  {
+   "pose": "pillar-hall",
+   "restingBefore": false,
+   "restingAfter": true,
+   "asPlayed": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   },
+   "bareScene": {
+    "differing": 0,
+    "frac": 0,
+    "max": 0
+   }
+  }
+ ],
+ "errors": []
+}

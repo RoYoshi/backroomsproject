@@ -1,0 +1,6 @@
+3B-F3: a quality-tier change rebuilt in the background (SwiftShader container, frames ~250-350 ms here: the rebuild gets a quarter of a frame, 6..40 ms; at 60 fps it gets 6 ms a frame).
+Before 3B-F3 the same rebuild ran at once: buildMs 1 100-1 600 in one frame.
+initial {"buildMs":1488,"texMs":691,"zonesMs":723,"resting":true}
+{"tier":"low","rebuild":{"tier":"low","frames":18,"steps":635,"wallMs":5234,"maxFrameMs":52,"longestStep":[32,"room:01:lanes"],"commitMs":29},"frameMaxMs":[485,386,364,339],"frameMedMs":272,"frames":24,"bake":{"max":59},"warmLeft":0}
+{"tier":"high","rebuild":{"tier":"high","frames":32,"steps":1083,"wallMs":9379,"maxFrameMs":53,"longestStep":[31,"paper:archetype:yellow-hall"],"commitMs":34},"frameMaxMs":[518,360,359,328],"frameMedMs":289,"frames":36,"bake":{"max":59},"warmLeft":114}
+{"tier":"medium","rebuild":{"tier":"medium","frames":24,"steps":822,"wallMs":7018,"maxFrameMs":48,"longestStep":[29,"7"],"commitMs":18},"frameMaxMs":[518,432,380,372],"frameMedMs":273,"frames":30,"bake":{"max":59},"warmLeft":70}

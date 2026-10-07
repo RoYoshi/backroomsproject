@@ -49,6 +49,11 @@
     dyn: [], dynSeq: 0, extTex: null,
     perf: { last: 0, ema: 0, gpu: null, gpuEma: 0, poll: null, shown: 0 },
   };
+  /* a build (the textures, zones and counts of one tier) is made, then committed; a rebuild for a new tier is made in the
+   * background while the committed one stays on screen.  CUR: the build being made (after a commit, the one shown) */
+  let CUR = null, LIVE = null;
+  const newBuild = tier => ({ tier, q: VZ.quality[tier], texList: [], stats: { textures: 0, texMPx: 0, decals: 0, faces: 0, floorRects: 0, fixtures: 0, zoneMsList: [] }, defs: [], zoneOf: null, rooms: [] });
+  const acct = () => CUR || (CUR = newBuild('medium'));
   const now = () => Date.now();                        // wall clock for the build timings (a test may freeze performance.now)
   const perfNow = () => { try { return performance.now(); } catch (e) { return Date.now(); } };
   const CH = 384;                                        // bake chunk edge, world px (4 cells)
@@ -112,7 +117,7 @@
     try { t = S.Tex.from({ resource: canvas, autoGenerateMipmaps: !!o.mip, scaleMode: 'linear', addressModeU: o.u || 'clamp-to-edge', addressModeV: o.v || 'clamp-to-edge' }); } catch (e) { t = null; }
     if (!t || !t.source) t = S.Tex.from(canvas);
     try { const st = t.source.style; if (st) { st.addressModeU = o.u || 'clamp-to-edge'; st.addressModeV = o.v || 'clamp-to-edge'; st.scaleMode = 'linear'; if (o.mip) st.mipmapFilter = 'linear'; } if (o.mip) t.source.autoGenerateMipmaps = true; } catch (e) { }
-    S.stats.textures++; S.stats.texMPx += canvas.width * canvas.height / 1e6; (S.texList || (S.texList = [])).push(t);
+    const B = acct(); B.stats.textures++; B.stats.texMPx += canvas.width * canvas.height / 1e6; B.texList.push(t);
     return t;
   }
   const M = (a, b, c, d, tx, ty) => ({ a, b, c, d, tx, ty });   // a Pixi Matrix-shaped object: world = M x texel
@@ -123,7 +128,10 @@
 
   /* carpet: a seamless tile.  Low-frequency mottling, heathered pile grain, a faint nap direction and sparse fibre specks;
    * contrast is kept low so it never crawls while you move (one texel is about one screen pixel at MEDIUM / HIGH). */
-  function carpetCanvas(N, key) {
+  const runGen = g => { let r; while (!(r = g.next()).done); return r.value; };   // a generator run to its end, at once
+  /* (the big per-pixel generators yield every 32 rows, so a rebuild can be spread over frames; run at once they are plain functions) */
+  function carpetCanvas(N, key) { return runGen(carpetGen(N, key)); }
+  function* carpetGen(N, key) {
     const m = MAT('material:carpet'), B = rgb(m.base), F = rgb(m.fiber), L = rgb(m.light);
     const c = mkCanvas(N, N), x2 = c.getContext('2d'), img = x2.createImageData(N, N), d = img.data;
     /* the slow, low-frequency part (mottling, hue drift, nap streaks) on a quarter-resolution periodic grid, then sampled
@@ -131,11 +139,11 @@
     const Q4 = N / 4, lo = new Float32Array(Q4 * Q4 * 3);
     const m1 = vnoise(key + ':m1', 4), m2 = vnoise(key + ':m2', 9), m3 = vnoise(key + ':m3', 21), hue = vnoise(key + ':h', 6);
     const NX = Math.max(4, Math.round(N / 7)), NY = Math.max(2, Math.round(N / 48)), nap = vnoise2(key + ':nap', NX, NY);   // soft streaks along y
-    for (let j = 0; j < Q4; j++) for (let i = 0; i < Q4; i++) {
+    for (let j = 0; j < Q4; j++) { if ((j & 63) === 63) yield 'carpet'; for (let i = 0; i < Q4; i++) {
       const u = i / Q4, v = j / Q4, k = (j * Q4 + i) * 3;
       lo[k] = (m1(u * 4, v * 4) - .5) * .55 + (m2(u * 9, v * 9) - .5) * .3 + (m3(u * 21, v * 21) - .5) * .22;
       lo[k + 1] = hue(u * 6, v * 6); lo[k + 2] = nap(u * NX, v * NY) - .5;
-    }
+    } }
     const L1 = Math.max(8, Math.round(N / 3.2)), L2 = Math.max(8, Math.round(N / 1.7)), g1 = vnoise(key + ':g1', L1), g2 = vnoise(key + ':g2', L2);
     const r = VZ.rng('carpet-specks', key, N);
     for (let y = 0; y < N; y++) {
@@ -152,6 +160,7 @@
         col = mix(col, F, clamp(-gr, 0, .5) * .35);                         // grain shadows lean olive, not grey
         const i = (y * N + x) * 4; d[i] = clamp(col[0] * k, 0, 255); d[i + 1] = clamp(col[1] * k, 0, 255); d[i + 2] = clamp(col[2] * k, 0, 255); d[i + 3] = 255;
       }
+      if ((y & 31) === 31) yield;
     }
     x2.putImageData(img, 0, 0); return c;
   }
@@ -216,7 +225,8 @@
   const wrapDraw = (x, N, f) => { for (const ox of [-N, 0, N]) for (const oy of [-N, 0, N]) { x.save(); x.translate(ox, oy); f(); x.restore(); } };   // a stroke across a tile's edge comes back on the other side
   /* concrete slab (LONG ROOM: the game's concrete; canon: "almost" every floor is carpet): P world px a period (a texel is
    * P / N px): cloudy tone, power-trowel swirls, fine aggregate, sand and pores, saw-cut control joints every 384 px */
-  function concreteCanvas(N, key, P) {
+  function concreteCanvas(N, key, P) { return runGen(concreteGen(N, key, P)); }
+  function* concreteGen(N, key, P) {
     const m = MAT('material:concrete'), B = rgb(m.base), Lt = rgb(m.light), Dk = rgb(m.dark), Ag = rgb(m.aggregate), Jn = rgb(m.joint);
     const c = mkCanvas(N, N), x = c.getContext('2d'), img = x.createImageData(N, N), d = img.data;
     const Q4 = Math.round(N / 4), lo = new Float32Array(Q4 * Q4), m1 = vnoise(key + ':m1', 3), m2 = vnoise(key + ':m2', 7), m3 = vnoise(key + ':m3', 19);
@@ -231,6 +241,7 @@
         if (sp < .025) col = mix(col, Ag, .35 + r() * .35); else if (sp > .992) col = mix(col, Lt, .45); else if (sp > .986) col = mul(col, .78);   // aggregate, sand grains, pores
         const p = (y * N + i) * 4; d[p] = clamp(col[0] * k, 0, 255); d[p + 1] = clamp(col[1] * k, 0, 255); d[p + 2] = clamp(col[2] * k, 0, 255); d[p + 3] = 255;
       }
+      if ((y & 31) === 31) yield;
     }
     x.putImageData(img, 0, 0);
     for (let i = 0; i < 12; i++) { const cx = r() * N, cy = r() * N, rad = N * (.12 + r() * .3), a0 = r() * 6.3, a1 = a0 + .8 + r() * 1.6, light = r() > .45, w = N * (.025 + r() * .04), al = .035 + r() * .035;
@@ -244,39 +255,41 @@
   }
   /* old vinyl floor tile (DAMP ROOMS: the game's wet tile): 8 x 8 tiles a period (P / 8 world px each) laid in quarter turns:
    * each tile its own tone and yellowing, a directional chip pattern turned on alternate tiles, a fine dark joint, a soft bevel */
-  function tileCanvas(N, key, P) {
+  function tileCanvas(N, key, P) { return runGen(tileGen(N, key, P)); }
+  function* tileGen(N, key, P) {
     const m = MAT('material:tile'), B = rgb(m.base), Al = rgb(m.alt), Sp = rgb(m.speck), Gr = rgb(m.grout), Yl = rgb(m.yellow);
     const c = mkCanvas(N, N), x = c.getContext('2d'), img = x.createImageData(N, N), d = img.data, n = 8, ts = N / n, r = VZ.rng('tile', key, N);
     const tiles = []; for (let j = 0; j < n; j++) for (let i = 0; i < n; i++) tiles.push({ col: mix(mix(B, Al, r()), Yl, r() * .3), k: 1 + (r() - .5) * .07, turn: (i + j) % 2 });
     const La = Math.max(8, Math.round(N / 8)), Lb = Math.max(4, Math.round(N / 24)), sA = vnoise2(key + ':sa', La, Lb), sB = vnoise2(key + ':sb', Lb, La), wN = vnoise(key + ':w', 6), Lf = Math.max(8, Math.round(N / 2)), fN = vnoise(key + ':f', Lf);
     const jw = Math.max(1, 1.2 * N / P);
-    for (let y = 0; y < N; y++) for (let i = 0; i < N; i++) {
+    for (let y = 0; y < N; y++) { if ((y & 31) === 31) yield; for (let i = 0; i < N; i++) {
       const ti = Math.min(n - 1, Math.floor(i / ts)), tj = Math.min(n - 1, Math.floor(y / ts)), t = tiles[tj * n + ti], lx = i - ti * ts, ly = y - tj * ts;
       const mot = t.turn ? sA(i * La / N, y * Lb / N) : sB(i * Lb / N, y * La / N), fl = fN(i * Lf / N, y * Lf / N);   // a soft mottle along the tile's run; fine chips
       let col = mix(t.col, Sp, clamp((fl - .68) * 2.2, 0, .42)), k = t.k * (1 + (wN(i * 6 / N, y * 6 / N) - .5) * .08) * (1 + (mot - .5) * .1);
       if (fl < .3) col = mix(col, [236, 230, 206], (.3 - fl) * .8);
       if (lx < jw || ly < jw) { col = Gr; k = 1; } else if (lx < jw + 1.5 || ly < jw + 1.5) k *= .94; else if (lx > ts - 2 || ly > ts - 2) k *= 1.03;
       const p = (y * N + i) * 4; d[p] = clamp(col[0] * k, 0, 255); d[p + 1] = clamp(col[1] * k, 0, 255); d[p + 2] = clamp(col[2] * k, 0, 255); d[p + 3] = 255;
-    }
+    } }
     x.putImageData(img, 0, 0); return c;
   }
   /* the pile overlays, laid over the carpet at a strength that ramps in from a doorway: 'deep' (DEEP CARPET; canon: "carpet
    * depth is notably extensive": long tufts along the nap, dark wells between them, light tips) and 'coarse' (RED ROOMS;
    * canon: "thick, sticky, and very coarse": matted clumps, dark crevices, sticky gloss).  Seamless, 512 world px a period. */
-  function overlayCanvas(kind, N, key) {
+  function overlayCanvas(kind, N, key) { return runGen(overlayGen(kind, N, key)); }
+  function* overlayGen(kind, N, key) {
     const mC = MAT('material:carpet'), F = rgb(mC.fiber), Lt = rgb(mC.light), Sk = rgb(mC.sticky || '#4a1d14');
     const c = mkCanvas(N, N), x = c.getContext('2d'), img = x.createImageData(N, N), d = img.data, r = VZ.rng('overlay', key, N);
     const put = (p, col, a) => { d[p] = clamp(col[0], 0, 255); d[p + 1] = clamp(col[1], 0, 255); d[p + 2] = clamp(col[2], 0, 255); d[p + 3] = clamp(Math.round(a * 255), 0, 255); };
     if (kind === 'deep') {
       const Ax = Math.max(8, Math.round(N / 4)), Ay = Math.max(4, Math.round(N / 12)), Bx = Math.max(8, Math.round(N / 2.5)), By = Math.max(4, Math.round(N / 6));
       const A = vnoise2(key + ':a', Ax, Ay), B2 = vnoise2(key + ':b', Bx, By), C = vnoise(key + ':c', 6), Dw = mul(F, .5), Tp = mix(Lt, [255, 246, 214], .2);
-      for (let y = 0; y < N; y++) for (let i = 0; i < N; i++) { const t = A(i * Ax / N, y * Ay / N) * .58 + B2(i * Bx / N, y * By / N) * .42 + (C(i * 6 / N, y * 6 / N) - .5) * .1, p = (y * N + i) * 4;
-        if (t < .42) put(p, Dw, Math.min(.4, (.42 - t) * 2.2)); else if (t > .6) put(p, Tp, Math.min(.24, (t - .6) * 1.3)); else put(p, F, .06); }
+      for (let y = 0; y < N; y++) { if ((y & 31) === 31) yield; for (let i = 0; i < N; i++) { const t = A(i * Ax / N, y * Ay / N) * .58 + B2(i * Bx / N, y * By / N) * .42 + (C(i * 6 / N, y * 6 / N) - .5) * .1, p = (y * N + i) * 4;
+        if (t < .42) put(p, Dw, Math.min(.4, (.42 - t) * 2.2)); else if (t > .6) put(p, Tp, Math.min(.24, (t - .6) * 1.3)); else put(p, F, .06); } }
     } else {
       const La = Math.max(8, Math.round(N / 10)), Lb = Math.max(8, Math.round(N / 4)), A = vnoise(key + ':a', La), B2 = vnoise(key + ':b', Lb), G2 = vnoise(key + ':g', 7);
       const Cv = mul(F, .35), Tp = mix(Lt, [255, 240, 220], .15), Sd = mul(Sk, .9), Bs = mul(F, .6);
-      for (let y = 0; y < N; y++) for (let i = 0; i < N; i++) { const t = A(i * La / N, y * La / N) * .72 + B2(i * Lb / N, y * Lb / N) * .28, g = G2(i * 7 / N, y * 7 / N), p = (y * N + i) * 4, e = Math.abs(t - .5);
-        if (e < .035) put(p, Cv, .6 * (1 - e / .035)); else if (t > .62) put(p, Tp, Math.min(.28, (t - .62) * 1.4)); else if (g > .7 && r() < .5) put(p, Sd, .3); else put(p, Bs, .1); }
+      for (let y = 0; y < N; y++) { if ((y & 31) === 31) yield; for (let i = 0; i < N; i++) { const t = A(i * La / N, y * La / N) * .72 + B2(i * Lb / N, y * Lb / N) * .28, g = G2(i * 7 / N, y * 7 / N), p = (y * N + i) * 4, e = Math.abs(t - .5);
+        if (e < .035) put(p, Cv, .6 * (1 - e / .035)); else if (t > .62) put(p, Tp, Math.min(.28, (t - .62) * 1.4)); else if (g > .7 && r() < .5) put(p, Sd, .3); else put(p, Bs, .1); } }
       for (let i = 0; i < Math.round(N * N / 2600); i++) { const px = Math.floor(r() * N), py = Math.floor(r() * N); if (G2(px * 7 / N, py * 7 / N) > .66) put((py * N + px) * 4, [255, 236, 226], .35); }   // the gloss of sticky patches
     }
     x.putImageData(img, 0, 0); return c;
@@ -780,9 +793,10 @@
    * TEXTURE SET (per quality tier)
    * ==================================================================================================================== */
   function tierNow() { try { const b = window.__brRole; const q = b && b.stats ? b.stats().quality : ''; return VZ.quality[q] ? q : 'medium'; } catch (e) { return 'medium'; } }
-  function makeTextures(tier) {
+  function makeTextures(tier) { return runGen(texturesGen(tier)); }
+  function* texturesGen(tier) {                         // a tier's texture set, yielding between textures (and inside the big ones)
     const q = VZ.quality[tier], s = q.artScale, X = { tier, q, wall: {}, depth: {}, props: {}, fix: {}, dec: {} };
-    X.carpet = texOf(carpetCanvas(q.carpetTex, 'carpet'), { mip: true, u: 'repeat', v: 'repeat' });
+    X.carpet = texOf(yield* carpetGen(q.carpetTex, 'carpet'), { mip: true, u: 'repeat', v: 'repeat' });
     X.carpetScale = .85 * 1024 / q.carpetTex * (q.carpetTex / 1024);     // world px per texel (texel ~ one screen pixel at MEDIUM)
     X.cap = texOf(capCanvas(256, 'cap'), { mip: true, u: 'repeat', v: 'repeat' });
     const profs = []; for (const id of VZ.slice) { const p = VZ.resolve(id); if (p && !profs.some(q2 => q2.id === p.id)) profs.push(p); }
@@ -790,27 +804,30 @@
       const pc = wallpaperCanvas(s, p, p.id); X.paper = X.paper || {}; X.paper[p.id] = pc;
       X.wall[p.id] = texOf(pc, { mip: true, u: 'repeat', v: 'clamp-to-edge' });
       if (S.depth) X.depth[p.id] = texOf(depthFaceCanvas(s, p, p.id), { mip: true, u: 'repeat', v: 'clamp-to-edge' });   // the DEV cue's faces only while it is on
+      yield 'paper:' + p.id;
     }
     X.hasDepth = S.depth;
     const fall = u => Math.pow(1 - clamp(u, 0, 1), AO.power), n = AO.steps, qq = 48;
     X.ao = { down: texOf(aoCanvas(2, n, (i, j) => fall((j + .5) / n))), up: texOf(aoCanvas(2, n, (i, j) => fall((n - j - .5) / n))), right: texOf(aoCanvas(n, 2, i => fall((i + .5) / n))), left: texOf(aoCanvas(n, 2, i => fall((n - i - .5) / n))),
       se: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(i + .5, j + .5) / qq))), sw: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(qq - i - .5, j + .5) / qq))),
       ne: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(i + .5, qq - j - .5) / qq))), nw: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(qq - i - .5, qq - j - .5) / qq))) };
-    const dc = decalCanvases(Math.min(2, s), 'decals');
+    yield 'wallpapers'; const dc = decalCanvases(Math.min(2, s), 'decals');
     for (const k of Object.keys(dc)) X.dec[k] = dc[k].map(o => ({ t: texOf(o.c, { mip: true }), w: o.w, h: o.h, s: o.s }));
-    for (const kind of ['clean', 'yellowed', 'aged', 'dead', 'missing', 'hanging']) X.fix[kind] = texOf(fixtureCanvas(Math.max(2, s + .5), kind, 'fixture'), { mip: true });
+    yield 'decals'; for (const kind of ['clean', 'yellowed', 'aged', 'dead', 'missing', 'hanging']) X.fix[kind] = texOf(fixtureCanvas(Math.max(2, s + .5), kind, 'fixture'), { mip: true });
+    yield 'fixtures';
     /* 3B-F: only what the drawn zones use (a tier's textures are made once, when the level is built) */
     const kinds = new Set(profs.map(p => p.floor.kind)), ovs = new Set(profs.map(p => p.floor.overlay).filter(Boolean)), st = k => profs.some(p => p.structure && p.structure[k]);
-    if (kinds.has('concrete')) { const N = Math.round(q.carpetTex * .75); X.concrete = texOf(concreteCanvas(N, 'concrete', 768), { mip: true, u: 'repeat', v: 'repeat' }); X.concreteScale = 768 / N; }
-    if (kinds.has('tile')) { const N = q.carpetTex / 2; X.tile = texOf(tileCanvas(N, 'tile', 384), { mip: true, u: 'repeat', v: 'repeat' }); X.tileScale = 384 / N; }
-    if (ovs.size) { const N = q.carpetTex / 2; X.overlay = {}; for (const k of ovs) X.overlay[k] = texOf(overlayCanvas(k, N, 'overlay:' + k), { mip: true, u: 'repeat', v: 'repeat' }); X.overlayScale = 512 / N; }
+    if (kinds.has('concrete')) { const N = Math.round(q.carpetTex * .75); X.concrete = texOf(yield* concreteGen(N, 'concrete', 768), { mip: true, u: 'repeat', v: 'repeat' }); X.concreteScale = 768 / N; }
+    if (kinds.has('tile')) { const N = q.carpetTex / 2; X.tile = texOf(yield* tileGen(N, 'tile', 384), { mip: true, u: 'repeat', v: 'repeat' }); X.tileScale = 384 / N; }
+    if (ovs.size) { const N = q.carpetTex / 2; X.overlay = {}; for (const k of ovs) X.overlay[k] = texOf(yield* overlayGen(k, N, 'overlay:' + k), { mip: true, u: 'repeat', v: 'repeat' }); X.overlayScale = 512 / N; }
+    yield 'floor-textures';
     if (kinds.size > 1) { const es = Math.min(2, s); X.edge = { s: es, fray: texOf(edgeCanvas('fray', es), { mip: true }), shadow: texOf(edgeCanvas('shadow', es), { mip: true }) }; }
     if (st('pit')) X.pit = [0, 1, 2].map(v => texOf(pitCanvas(Math.max(1.5, s), 'pit', v), { mip: true }));
     if (st('archway')) { X.reveal = texOf(revealCanvas(s, 'reveal'), { mip: true, u: 'repeat', v: 'clamp-to-edge' }); X.soffit = texOf(soffitCanvas(), { u: 'repeat', v: 'repeat' }); }
     return X;
   }
   const floorColorOf = cp => { const tone = cp.tone || 1, tint = cp.tint || [1, 1, 1]; return [tone * tint[0], tone * tint[1], Math.min(1.02, tone) * tint[2]]; };   // a zone's floor colour (tone x variant tint)
-  const zoneAt = (cx, cy) => { if (!S.zoneOf || cx < 0 || cy < 0 || cx >= S.FBW || cy >= S.FBH) return null; const k = S.zoneOf[cy * S.FBW + cx]; return k >= 0 ? S.zoneDefs[k] : null; };
+  const zoneAt = (cx, cy) => { const B = CUR; if (!B || !B.zoneOf || cx < 0 || cy < 0 || cx >= S.FBW || cy >= S.FBH) return null; const k = B.zoneOf[cy * S.FBW + cx]; return k >= 0 ? B.defs[k] : null; };
 
   /* ======================================================================================================================
    * ZONE BUILD.  A zone is one of the game's rooms (its rect) or the corridor network (every floor cell outside a room).
@@ -844,10 +861,11 @@
     return out;
   }
 
-  function buildRoom(Z, X) {
+  function buildRoom(Z, X) { return runGen(buildRoomGen(Z, X)); }
+  function* buildRoomGen(Z, X) {                        // a zone's art, yielding between its sections (a rebuild spreads over frames)
     const zid = Z.id, vr = Z.vr, o = Z.o, own = Z.own;
     const prof = Z.prof || VZ.resolve(Z.base), cp = prof.floor, A = api(), q = X.q;
-    const R = { id: zid, base: Z.base, code: vr.code || null, kind: Z.kind, o, own, prof, src: new S.C(), ceilG: new S.G(), x0: (o.x - 1) * T, y0: (o.y - 1) * T, x1: (o.x + o.w + 1) * T, y1: (o.y + o.h + 1) * T, n: { floor: 0, faces: 0, decals: 0 } };
+    const R = { id: zid, base: Z.base, index: Z.index == null ? -1 : Z.index, code: vr.code || null, kind: Z.kind, o, own, prof, src: new S.C(), ceilG: new S.G(), x0: (o.x - 1) * T, y0: (o.y - 1) * T, x1: (o.x + o.w + 1) * T, y1: (o.y + o.h + 1) * T, n: { floor: 0, faces: 0, decals: 0 } };
     R.src.label = 'l0v:' + zid; R.ceilG.label = 'fixtures:' + zid;
     const wall = isWall;                                                               // the game's sight blockers (pits are not walls)
     const pitSet = new Set(); if (prof.structure && prof.structure.pit) for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w; cx++) if (isPit(cx, cy)) pitSet.add(cy * S.FBW + cx);
@@ -900,8 +918,9 @@
     /* -- 2 the zone's wear / damp / grime (and, in corridors, approach tone) map: low resolution, multiplied over the floor.
      *    Drawn only over the floor cells it actually changes.  Near the zone's doorways it blends to shared values, and a
      *    corridor takes the colour of the room it leads into, so the floor runs on unbroken from zone to zone. -- */
+    yield zid + ':floor';
     const lanes = laneField(o, own);
-    R.lanes = lanes;
+    R.lanes = lanes; yield zid + ':lanes';
     const approach = R.kind === 'corridors' ? approaches(own, o) : null; R.approach = approach;
     const ovKind = cp.overlay || (approach && approach.overlayKind) || null, ovTex = ovKind && X.overlay ? X.overlay[ovKind] : null;
     const a0 = (prof.approach && prof.approach.coarse) || 0, flat = cp.overlay === 'deep' ? .45 : .25;   // the pile's strength at a doorway; how much traffic flattens it
@@ -909,8 +928,8 @@
       const cell = q.macroCell, mw = Math.ceil(o.w * T / cell), mh = Math.ceil(o.h * T / cell), mc = mkCanvas(mw + 2, mh + 2), mx = mc.getContext('2d'), mi = mx.createImageData(mw + 2, mh + 2);
       const val = new Float32Array(mw * mh * 3).fill(1), has = new Uint8Array(mw * mh);
       const ox = o.x * T, oy = o.y * T, dN = fieldNoise(zid + ':damp', ox, oy, o.w * T, o.h * T, 150), wN = fieldNoise(zid + ':wear', ox, oy, o.w * T, o.h * T, 70);
-      const keep = new Uint8Array(o.w * o.h), MM = MATK(cp.kind), LG = lanes.grid(ox, oy, cell, mw, mh), ovA = ovTex ? new Float32Array(mw * mh) : null;
-      for (let j = 0; j < mh; j++) for (let i = 0; i < mw; i++) {
+      const keep = new Uint8Array(o.w * o.h), MM = MATK(cp.kind), LG = lanes.grid(ox, oy, cell, mw, mh), ovA = ovTex ? new Float32Array(mw * mh) : null; yield zid + ':lane-map';
+      for (let j = 0; j < mh; j++) { if ((j & 3) === 3) yield zid + ':map'; for (let i = 0; i < mw; i++) {
         const wx = ox + (i + .5) * cell, wy = oy + (j + .5) * cell, cx = Math.floor(wx / T), cy = Math.floor(wy / T);
         let k = [1, 1, 1];
         if (own(cx, cy) || myPit(cx, cy)) {                                  // (a pit's broken lip is the slab: the same map)
@@ -930,7 +949,7 @@
           if (Math.min(k[0], k[1], k[2]) < .985) keep[(cy - o.y) * o.w + (cx - o.x)] = 1;
         }
         const p = (j * mw + i) * 3; val[p] = k[0]; val[p + 1] = k[1]; val[p + 2] = k[2]; if (own(cx, cy) || myPit(cx, cy)) has[j * mw + i] = 1;
-      }
+      } }
       /* the map's edges.  It is sampled linearly, and Pixi repeats a matrix-mapped texture, so an owned cell's last half texel
        * would blend with whatever lies beyond it: a wall's neutral texel, another zone's, or (at the canvas edge) the far side's
        * - a light seam at a doorway.  So the two rings of texels around the zone's own cells take their owned neighbours'
@@ -955,6 +974,7 @@
       }
     }
 
+    yield zid + ':map-end';
     /* -- 3 marks on the floor (seeded scatter + authored storytelling), through the receiver: clipped to this zone's floor and
      *    kept clear of its doorways (so a mark is never cut off at a zone's edge) -- */
     const mulG = new S.G(); mulG.label = 'decals-mul'; mulG.blendMode = 'multiply'; const decG = new S.G(); decG.label = 'decals';
@@ -1016,6 +1036,7 @@
     }
     R.ao = aoG; R.src.addChild(aoG);
 
+    yield zid + ':marks';
     /* -- 6 walls: papered faces (legacy band widths) of the faces that look onto this zone's floor, mitred corners; and the
      *    DEV depth-cue variant -- */
     const polys = new Map(); R.walls = buildWalls(R, X, ownWall, wall, 'legacy', (side, line, idx, poly) => { const k = side + ':' + line; (polys.get(k) || polys.set(k, []).get(k)).push({ idx, poly }); });
@@ -1025,6 +1046,7 @@
     const wallDecG = new S.G(); wallDecG.label = 'wall-decor'; wallDecor(R, X, ownWall, wallDecG); R.src.addChild(wallDecG); R.decalLayers.push(wallDecG);
     R.dynG = new S.G(); R.dynG.label = 'decals-dynamic'; R.src.addChild(R.dynG);       // stamped later through the receiver (bounded)
 
+    yield zid + ':walls';
     /* -- 7 the zone's physical props, same rects (a prop belongs to the zone that owns its centre cell) -- */
     const propG = new S.G(); propG.label = 'props';
     for (const p of props) {
@@ -1047,9 +1069,8 @@
     for (const L of S.ownLamps.filter(l => l.room === zid)) R.ceilG.texture(X.fix[L.aged ? 'aged' : prof.fixtures.diffuser === 'yellowed' ? 'yellowed' : 'clean'], 0xffffff, L.x - 45 - 6, L.y - 15 - 6, 102, 40);
     const vis = VZ.fixtures.filter(f => f.room === R.base && own(Math.floor(f.x / T), Math.floor(f.y / T)));
     for (const f of vis) R.ceilG.texture(X.fix[f.kind] || X.fix.dead, 0xffffff, f.x - 51, f.y - 21, 102, 40);
-    S.stats.fixtures += S.ownLamps.filter(l => l.room === zid).length + vis.length;
-    S.ceil.addChild(R.ceilG);
-    S.stats.floorRects += R.n.floor; S.stats.faces += R.n.faces; S.stats.decals += R.n.decals;
+    const B = acct(); B.stats.fixtures += S.ownLamps.filter(l => l.room === zid).length + vis.length;   // (the ceiling layer takes it when the build is committed)
+    B.stats.floorRects += R.n.floor; B.stats.faces += R.n.faces; B.stats.decals += R.n.decals;
     return R;
   }
   /* what the rooms do to a corridor near their doorways: at a room's doorway the corridor's floor is exactly the room's floor
@@ -1061,7 +1082,7 @@
    * pile's strength, peel(x, y) the odds of crimson peel on a wall there. */
   function approaches(own, o) {
     const src = [];
-    for (const Z2 of S.zoneDefs || []) { if (Z2.kind !== 'room') continue; const ap = Z2.prof.approach || null, reach = ((ap && ap.reach) || 3) * T;
+    for (const Z2 of (CUR && CUR.defs) || []) { if (Z2.kind !== 'room') continue; const ap = Z2.prof.approach || null, reach = ((ap && ap.reach) || 3) * T;
       const door = [], ro = Z2.o; for (let cy = ro.y; cy < ro.y + ro.h; cy++) for (let cx = ro.x; cx < ro.x + ro.w; cx++) if (Z2.own(cx, cy) && [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => own(cx + dx, cy + dy))) door.push([cx, cy]);
       if (door.length) src.push({ fc: floorColorOf(Z2.prof.floor), reach, coarse: (ap && ap.coarse) || 0, kind: Z2.prof.floor.overlay, peel: (ap && ap.peel) || 0, door }); }
     const dist = (s2, x, y) => { let d = 1e9; for (const [cx, cy] of s2.door) { const ddx = Math.max(cx * T - x, 0, x - cx * T - T), ddy = Math.max(cy * T - y, 0, y - cy * T - T); d = Math.min(d, Math.sqrt(ddx * ddx + ddy * ddy)); } return d; };
@@ -1128,6 +1149,7 @@
    * widths (S 46, E/W 27, N 23); mode 'depth' is the DEV cue: a uniform 18 px band with a lit lip on all four sides (and a cap).
    * The mitre geometry uses every face the cell has (whoever draws it), so two zones' faces meet exactly on the diagonal;
    * inner corners are filled from both faces, split the same way.  Every band lies inside its own wall cell: nothing covers floor. */
+  const capOwner = (cx, cy) => { let k = Infinity; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const Z2 = zoneAt(cx + dx, cy + dy); if (Z2 && Z2.index < k) k = Z2.index; } return k; };
   function buildWalls(R, X, ownWall, wall, mode, rec = null) {
     const g = new S.G(), o = R.o, own = R.own, tex = mode === 'depth' ? X.depth[R.prof.id] || X.wall[R.prof.id] : X.wall[R.prof.id], s = X.q.artScale, ph = VZ.unit(R.id, 'paper-phase') * 192; g.label = 'walls:' + mode;
     const Wd = mode === 'depth' ? { S: 18, N: 18, E: 18, W: 18 } : { S: 46, N: 23, E: 27, W: 27 };
@@ -1139,7 +1161,7 @@
     const solid = (cx, cy) => !isFloor(cx, cy);                                         // the legacy art's own test for the band geometry
     for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) {
       if (!ownWall(cx, cy)) continue; const x0 = cx * T, y0 = cy * T, x1 = x0 + T, y1 = y0 + T;
-      if (mode === 'depth') g.rect(x0, y0, T, T).fill(capStyle);
+      if (mode === 'depth' || capOwner(cx, cy) === R.index) g.rect(x0, y0, T, T).fill(capStyle);   // the wall's top (3B-F: drawn once, by the first zone beside it, so the legacy level art can rest)
       const f = { S: !solid(cx, cy + 1), N: !solid(cx, cy - 1), E: !solid(cx + 1, cy), W: !solid(cx - 1, cy) };          // the faces this cell has (geometry)
       const mine = { S: own(cx, cy + 1), N: own(cx, cy - 1), E: own(cx + 1, cy), W: own(cx - 1, cy) };                  // the faces this zone draws
       const sw = Wd.S, nw = Wd.N, ew = Wd.E, ww = Wd.W;
@@ -1391,7 +1413,7 @@
    * ==================================================================================================================== */
   function fail(where, e) {
     S.errors++; S.disabled = where + ': ' + String(e && e.message || e).slice(0, 160);
-    try { if (S.root) S.root.visible = false; if (S.ceil) for (const c of S.ceil.children) c.visible = c === S.legacyLamps; if (S.legacyLamps) S.legacyLamps.visible = true; if (S.carpet) S.carpet.visible = true; if (S.legacyFloor) S.legacyFloor.visible = false; } catch (x) { }
+    try { if (S.root) S.root.visible = false; if (S.ceil) for (const c of S.ceil.children) c.visible = c === S.legacyLamps; if (S.legacyLamps) S.legacyLamps.visible = true; if (S.carpet) S.carpet.visible = true; if (S.legacyFloor) S.legacyFloor.visible = false; if (S.level) S.level.visible = true; S.levelRests = false; } catch (x) { }
     try { console.warn('[l0-remaster] disabled (' + S.disabled + '); the level keeps its v23.3.6 art'); } catch (x) { }
   }
   function lamp(t, e, lampTop) {
@@ -1444,8 +1466,9 @@
   }
   /* the bake grid: CH world px chunks over the whole map; a chunk lists every zone with content in it (its floor, the wall
    * cells whose faces it draws, its structures) and bakes them all into ONE texture, in build order: one quad on screen */
-  function buildChunks() {
+  function buildChunks(keep) {
     if (!S.chunkView) { S.chunkView = new S.C(); S.chunkView.label = 'l0-chunks'; S.root.addChild(S.chunkView); }
+    const prev = keep ? new Map((keep || []).map(c => [c.key + '|' + c.zones.map(z => z.id).join(','), c])) : null;
     S.chunks = []; const W = S.FBW * T, H = S.FBH * T;
     const content = S.rooms.map(R => { const set = new Set(), o = R.o; for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) if (R.own(cx, cy) || R.ownWall(cx, cy) || (R.pitCells && R.pitCells.has(cy * S.FBW + cx))) set.add(cy * S.FBW + cx); return set; });
     for (let y = 0; y < H; y += CH) for (let x = 0; x < W; x += CH) {
@@ -1453,9 +1476,12 @@
       S.rooms.forEach((R, i) => { if (R.x1 <= x || R.x0 >= x1 || R.y1 <= y || R.y0 >= y1) return;
         for (let cy = Math.floor(y / T); cy < Math.ceil(y1 / T); cy++) for (let cx = Math.floor(x / T); cx < Math.ceil(x1 / T); cx++) if (content[i].has(cy * S.FBW + cx)) { zones.push(R); return; } });
       if (!zones.length) continue;
+      const old = prev && prev.get(x + ',' + y + '|' + zones.map(z => z.id).join(','));
+      if (old) { prev.delete(x + ',' + y + '|' + zones.map(z => z.id).join(',')); old.zones = zones; old.ver = -1; S.chunks.push(old); continue; }   // the same chunk: its texture is kept and re-baked
       const g = new S.G(); g.label = 'chunk'; g.visible = false; S.chunkView.addChild(g);
       S.chunks.push({ key: x + ',' + y, x0: x, y0: y, x1, y1, zones, g, tex: null, d: 0, ver: -1, seen: -1, px: 0, inV: false, near: false });
     }
+    if (prev) for (const c of prev.values()) { dropChunk(c); try { c.g.destroy(); } catch (e) { } }   // chunks the new build no longer has
     S.stats.chunks = S.chunks.length;
   }
   function bakeChunk(c) {
@@ -1480,11 +1506,9 @@
     for (const c of S.chunks || []) dropChunk(c);
     for (const R of S.rooms) S.root.addChild(R.src);
   }
-  function destroyRooms() {
-    for (const c of S.chunks || []) { dropChunk(c); try { c.g.destroy(); } catch (e) { } } S.chunks = [];
-    for (const R of S.rooms) { try { R.src.destroy({ children: true }); R.ceilG.destroy(); } catch (e) { } }
-    S.rooms = []; for (const t of S.texList || []) { try { t.destroy(true); } catch (e) { } } S.texList = []; S.extTex = null;
-    Object.assign(S.stats, { textures: 0, texMPx: 0, decals: 0, faces: 0, floorRects: 0, fixtures: 0 });
+  function destroyBuild(B) {                            // a build's zones and textures (its chunks are the grid's, dropped by the commit)
+    if (!B) return; for (const R of B.rooms) { try { R.src.destroy({ children: true }); R.ceilG.destroy(); } catch (e) { } }
+    for (const t of B.texList) { try { t.destroy(true); } catch (e) { } } B.rooms = []; B.texList = [];
   }
   /* The legacy carpet is one TilingSprite over the whole world.  While the remaster shows, it is hidden and replaced by the
    * same texture, same mapping, over the floor cells no remastered zone owns (a pixel-identical copy there).  With every zone
@@ -1501,24 +1525,57 @@
     S.world.addChildAt(g, S.world.children.indexOf(C));                // in the carpet's place (BR-RoLE still finds the carpet right before the level art)
     S.legacyFloor = g; S.stats.legacyFloorRects = n;
   }
+  /* the build, in steps: the tier's textures (each one, and the big ones every 32 rows), the zones (each between its sections).
+   * build() runs it at once (the first build, as the level loads; DEV); a new quality tier runs it in the background, a few
+   * milliseconds a frame, while the build on screen stays; then commit() swaps it in at once. */
+  function* buildGen(B) {
+    CUR = B; readGrid();
+    const t1 = now(); B.X = yield* texturesGen(B.tier); B.stats.texMs = +(now() - t1).toFixed(1);
+    for (const id of VZ.slice) for (const Z of zoneDefs(id)) { Z.prof = VZ.resolve(Z.base); Z.index = B.defs.length; B.defs.push(Z); }
+    B.zoneOf = new Int16Array(S.FBW * S.FBH).fill(-1);                                 // which zone owns each floor cell (a doorway knows the zone across it)
+    for (const Z of B.defs) for (let cy = Z.o.y; cy < Z.o.y + Z.o.h; cy++) for (let cx = Z.o.x; cx < Z.o.x + Z.o.w; cx++) if (Z.own(cx, cy)) B.zoneOf[cy * S.FBW + cx] = Z.index;
+    const t2 = now(); for (const Z of B.defs) { const tz = now(); B.rooms.push(yield* buildRoomGen(Z, B.X)); B.stats.zoneMsList.push([Z.id, +(now() - tz).toFixed(1)]); }
+    B.stats.zonesMs = +(now() - t2).toFixed(1);
+    return B;
+  }
+  function commit(B) {                                  // the made build replaces the one on screen, at once
+    const keep = S.chunks && S.chunks.length ? S.chunks : null; S.chunks = [];        // the grid is kept where it still fits (its textures re-bake in place)
+    if (LIVE && LIVE !== B) destroyBuild(LIVE);
+    LIVE = B; CUR = B; S.extTex = null;
+    S.tier = B.tier; S.q = B.q; S.tex = B.X; S.rooms = B.rooms; S.texList = B.texList;
+    Object.assign(S.stats, B.stats); for (const R of S.rooms) S.ceil.addChild(R.ceilG);
+    S.dens = bakeDensity(S.q); S.gen++;
+    for (const R of S.rooms) redrawDyn(R);                                           // stamped marks survive a rebuild (a tier change)
+    buildChunks(keep);
+    if (S.mode === 'direct') for (const R of S.rooms) S.root.addChild(R.src);
+    buildLegacyFloor(); S.built = true; S.stats.rooms = S.rooms.length; S.stats.builds++;
+    S.warm = S.renderer ? S.texList.filter(t => t && t.source && !t.destroyed).sort((p, q2) => (q2.source.width * q2.source.height) - (p.source.width * p.source.height)) : [];   // to upload ahead of need
+    apply();
+  }
   function build() {
     const t0 = now();
-    try {
-      if (S.rooms.length) destroyRooms();
-      readGrid();
-      S.tier = tierNow(); S.q = VZ.quality[S.tier]; const t1 = now(); S.tex = makeTextures(S.tier); S.stats.texMs = +(now() - t1).toFixed(1);
-      S.zoneDefs = []; for (const id of VZ.slice) for (const Z of zoneDefs(id)) { Z.prof = VZ.resolve(Z.base); Z.index = S.zoneDefs.length; S.zoneDefs.push(Z); }
-      S.zoneOf = new Int16Array(S.FBW * S.FBH).fill(-1);                               // which zone owns each floor cell (a doorway knows the zone across it)
-      for (const Z of S.zoneDefs) for (let cy = Z.o.y; cy < Z.o.y + Z.o.h; cy++) for (let cx = Z.o.x; cx < Z.o.x + Z.o.w; cx++) if (Z.own(cx, cy)) S.zoneOf[cy * S.FBW + cx] = Z.index;
-      for (const Z of S.zoneDefs) S.rooms.push(buildRoom(Z, S.tex));
-      S.dens = bakeDensity(S.q); S.gen++;
-      for (const R of S.rooms) redrawDyn(R);                                           // stamped marks survive a rebuild (a tier change)
-      buildChunks();
-      if (S.mode === 'direct') for (const R of S.rooms) S.root.addChild(R.src);
-      buildLegacyFloor(); S.built = true; S.stats.rooms = S.rooms.length; S.stats.builds++;
-      apply();
-    } catch (e) { fail('build', e); }
+    if (S.job) { abandonJob(); }
+    try { commit(runGen(buildGen(newBuild(tierNow())))); } catch (e) { fail('build', e); }
     S.stats.buildMs = +(now() - t0).toFixed(1);
+  }
+  function startJob(tier) { if (S.job) abandonJob(); const B = newBuild(tier); S.job = { tier, B, gen: buildGen(B), t0: now(), frames: 0, maxMs: 0, steps: 0 }; }
+  function abandonJob() { const J = S.job; S.job = null; if (J) destroyBuild(J.B); CUR = LIVE;
+    if (S.extTex) { S.extTex = null; for (const R of S.rooms) redrawDyn(R); invalidate(); } }      // a caller's image may have been registered with the abandoned build
+  function runJob(budget) {                             // a slice of the background rebuild: steps until the frame's budget is spent
+    const J = S.job, t0 = now(); J.frames++;            // (wall clock: a staged test may freeze performance.now)
+    try {
+      for (;;) { const ts = now(), r = J.gen.next(), dt = now() - ts; J.steps++; if (!J.longest || dt > J.longest[0]) J.longest = [dt, String(r.value || J.steps)];
+        if (r.done) { S.job = null; const tc = now(); commit(r.value); J.maxMs = Math.max(J.maxMs, now() - t0);
+          S.stats.rebuild = { tier: J.tier, frames: J.frames, steps: J.steps, wallMs: now() - J.t0, maxFrameMs: J.maxMs, longestStep: J.longest, commitMs: now() - tc }; S.stats.buildMs = S.stats.rebuild.wallMs; return; }
+        if (now() - t0 >= budget) break; }
+    } catch (e) { S.job = null; destroyBuild(J.B); CUR = LIVE; fail('rebuild', e); return; }
+    J.maxMs = Math.max(J.maxMs, now() - t0);
+  }
+  /* uploads ahead of need: after a build the GPU has none of its textures yet, and the first chunk to use one (a room you
+   * have not seen yet) would upload it then.  A few are uploaded each quiet frame instead (largest first). */
+  function warmTextures() {
+    const ts = S.renderer && S.renderer.texture; if (!ts || typeof ts.initSource !== 'function') { S.warm = []; return; }
+    let px = 0; while (S.warm.length && px < 1.2e6) { const t = S.warm.shift(); if (!t || t.destroyed || !t.source) continue; try { ts.initSource(t); S.bake.warmed = (S.bake.warmed || 0) + 1; } catch (e) { S.warm = []; S.bake.warmError = String(e && e.message || e).slice(0, 80); return; } px += t.source.width * t.source.height; }   // (Pixi binds the texture: its source is uploaded)
   }
   function apply() {                                    // the DEV toggles, applied to the source layers (the chunks re-bake)
     if (!S.root || S.disabled) return;
@@ -1526,6 +1583,11 @@
     const on = S.want && S.built;
     S.root.visible = on; if (S.legacyLamps) S.legacyLamps.visible = !on;
     if (S.legacyFloor && S.carpet) { S.legacyFloor.visible = on; S.carpet.visible = !on; }
+    /* 3B-F3: with every floor cell remastered, the legacy level art (13 900 instructions: floor blots, walls, props, pits,
+     * pillars, room tints, painted glows) only draws pixels the remaster covers (floor, wall faces, wall tops beside floor):
+     * one to two and a half screens of hidden fill a frame.  It rests while the remaster shows; remaster off shows it again,
+     * unchanged.  A partial slice keeps it (the legacy rooms need it). */
+    S.levelRests = on && S.stats.legacyFloorRects === 0 && !S.depth && !S.keepLevel; if (S.level) S.level.visible = !S.levelRests;
     for (const R of S.rooms) { R.walls.visible = !S.depth; R.depthWalls.visible = S.depth; for (const d of R.decalLayers) d.visible = S.decals; }
     invalidate(); stream(true); showTag();
   }
@@ -1549,6 +1611,7 @@
         c.inV = on && hits(c, v, 8); c.near = on && !c.inV && hits(c, v, CH);
         if (c.inV) { c.seen = f; if (c.ver !== S.gen) must.push(c); } else if (c.near) { c.seen = Math.max(c.seen, f - 1); if (c.ver !== S.gen) ahead.push(c); }
       }
+      S.bake.mustLast = must.length;
       try {
         for (const c of must) bakeChunk(c);                                           // in view: now (no pop-in)
         if (!must.length && ahead.length) { const cx = (v.x0 + v.x1) / 2, cy = (v.y0 + v.y1) / 2, d = c => Math.hypot((c.x0 + c.x1) / 2 - cx, (c.y0 + c.y1) / 2 - cy);
@@ -1567,8 +1630,14 @@
       S.frame++;
       if (S.built && !S.disabled) {
         stream(false);
+        const tn = now(); if (S.lastTick) S.fdt = S.fdt ? S.fdt * .9 + (tn - S.lastTick) * .1 : tn - S.lastTick; S.lastTick = tn;
+        if (S.job) runJob(clamp((S.fdt || 16) * .25, 6, 40));                                     // the background rebuild: a quarter of a frame (6 ms at 60 fps)
+        else if (S.warm && S.warm.length && !S.bake.mustLast) warmTextures();                   // quiet frame: upload a few textures ahead of need
         const t = Date.now(); if (t - (S.polled || 0) > 400) { S.polled = t;                   // the player's quality tier and the screen density, a few times a second
-          if (tierNow() !== S.tier) build(); else if (S.mode === 'bake' && Math.abs(bakeDensity(S.q) / S.dens - 1) > .15) { S.dens = bakeDensity(S.q); invalidate(); }
+          const want = tierNow();
+          if (want !== S.tier) { if (!S.job || S.job.tier !== want) startJob(want); }                   // a new tier: rebuilt in the background
+          else if (S.job) abandonJob();                                                            // back to the tier on screen before it finished
+          if (S.mode === 'bake' && Math.abs(bakeDensity(S.q) / S.dens - 1) > .15) { S.dens = bakeDensity(S.q); invalidate(); }
           if (S.dyn.length) unstamp(q => q.ttl && t - q.t > q.ttl); }                    // stamped marks past their lifetime
       }
     } catch (e) { fail('frame', e); }
@@ -1603,7 +1672,7 @@
   function showTag() {
     if (!S.dev) return; if (!S.tag) { S.tag = document.createElement('div'); S.tag.id = 'l0vTag'; S.tag.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:40;font:11px/1.35 monospace;color:#e8dfa8;background:#000b;padding:4px 7px;pointer-events:none;letter-spacing:.04em;white-space:pre'; document.body.appendChild(S.tag); }
     const P = S.perf, B = S.bake, gpu = P.gpu === 'ok' ? P.gpuEma.toFixed(2) + ' ms' : P.gpu === 'wait' ? '...' : 'n/a';
-    S.tag.textContent = `REMASTER ${S.want && !S.disabled ? 'ON' : 'OFF'} [F8] · DECALS ${S.decals ? 'ON' : 'OFF'} [Shift+F8] · PROOF MARK [Shift+F9] (${S.dyn.length}) · WALL DEPTH ${S.depth ? 'ON' : 'OFF'} [F9, deferred] · ${S.tier.toUpperCase()}` + (S.disabled ? ' · ' + S.disabled : '') +
+    S.tag.textContent = `REMASTER ${S.want && !S.disabled ? 'ON' : 'OFF'} [F8] · DECALS ${S.decals ? 'ON' : 'OFF'} [Shift+F8] · PROOF MARK [Shift+F9] (${S.dyn.length}) · WALL DEPTH ${S.depth ? 'ON' : 'OFF'} [F9, deferred] · ${S.tier.toUpperCase()}` + (S.job ? ` · REBUILDING ${S.job.tier.toUpperCase()}` : '') + (S.disabled ? ' · ' + S.disabled : '') +
       `\nframe ${P.ema ? P.ema.toFixed(1) : '-'} ms (${P.ema ? Math.round(1000 / P.ema) : '-'} fps) · scene GPU ${gpu} · rooms ${S.stats.visibleRooms} · ` +
       (S.mode === 'bake' ? `chunks ${B.visible} shown / ${B.resident} cached · ${(B.px / 1e6).toFixed(1)} MPx @ ${S.dens.toFixed(2)} tx/px · bake ${B.lastMs.toFixed(1)} ms (max ${B.maxMs.toFixed(1)})` : `DIRECT (no bake${B.error ? ': ' + B.error : ''})`);
   }
@@ -1621,7 +1690,8 @@
     version: VERSION, lamp, built,
     on: () => S.on && S.want && S.built && !S.disabled,
     ready: () => S.built || !!S.disabled || !S.on,
-    stats: () => ({ version: VERSION, revision: VZ && VZ.revision, on: S.on && S.want && S.built && !S.disabled, attached: !!S.root, built: S.built, disabled: S.disabled, tier: S.tier, depth: S.depth, decalsOn: S.decals,
+    stats: () => ({ version: VERSION, revision: VZ && VZ.revision, on: S.on && S.want && S.built && !S.disabled, attached: !!S.root, built: S.built, disabled: S.disabled, tier: S.tier, depth: S.depth, decalsOn: S.decals, levelArtResting: !!S.levelRests,
+      job: S.job ? { tier: S.job.tier, frames: S.job.frames, steps: S.job.steps, maxFrameMs: S.job.maxMs } : null, warmLeft: S.warm ? S.warm.length : 0,
       slice: VZ ? VZ.slice.slice() : [], ownLamps: S.ownLamps.map(l => l.id), errors: S.errors, ...S.stats, texMPx: +S.stats.texMPx.toFixed(2), bake: bakeStats(),
       perf: { frameMs: +S.perf.ema.toFixed(2), gpu: S.perf.gpu, gpuMs: +S.perf.gpuEma.toFixed(3) },
       rooms: S.rooms.map(R => ({ id: R.id, kind: R.kind, floorRects: R.n.floor, faces: R.n.faces, decals: R.n.decals, props: R.props || [], pillars: (R.pillars || []).length, visible: S.mode === 'bake' ? (S.chunks || []).some(c => c.g.visible && c.zones.includes(R)) : R.src.visible, chunks: (S.chunks || []).filter(c => c.zones.includes(R)).length })) }),
@@ -1646,6 +1716,7 @@
       source: id => { const R = S.rooms.find(r => r.id === id); return R ? R.src : null; },          // a room's (never displayed) source art
       chunks: id => { const R = id ? S.rooms.find(r => r.id === id) : null; if (id && !R) return null; return (S.chunks || []).filter(c => !R || c.zones.includes(R)).map(c => ({ key: c.key, x0: c.x0, y0: c.y0, x1: c.x1, y1: c.y1, zones: c.zones.map(z => z.id), baked: !!c.tex, shown: c.g.visible, current: c.ver === S.gen })); },
       direct: () => { if (S.mode === 'bake') toDirect('DEV: forced direct drawing'); stream(true); return S.mode; },
+      keepLevelArt: v => { S.keepLevel = v === undefined ? !S.keepLevel : !!v; apply(); return !S.levelRests; },   // DEV: draw the legacy level art under the remaster anyway (before / after evidence)
       macro: id => { const R = S.rooms.find(r => r.id === id); return R && R.macroCanvas ? R.macroCanvas.toDataURL() : null; },
       zone: id => { const R = S.rooms.find(r => r.id === id); return R ? { id: R.id, base: R.base, kind: R.kind, o: Object.assign({}, R.o), floorColor: R.floorColor.slice(), floor: R.prof.floor.kind, macroCell: S.q.macroCell, macroCanvas: R.macroCanvas || null,
         overlay: R.ovA ? { kind: R.ovKind, a: R.ovA } : null, macroOrigin: R.macroOrigin ? R.macroOrigin.slice() : null, pits: R.pitCells ? [...R.pitCells].map(k => [k % S.FBW, Math.floor(k / S.FBW)]) : [], arches: R.arches.map(a => ({ vert: a.vert, a: a.a, b0: a.b0, b1: a.b1, faces: a.faces.slice() })), n: Object.assign({}, R.n) } : null; },
