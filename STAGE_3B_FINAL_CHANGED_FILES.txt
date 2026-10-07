@@ -1,0 +1,142 @@
+THE FAR BACKROOMS - Stage 3B final (the whole of Level 0) - changed files
+
+Branch stage-3b-remaster. Status letters: A added, M modified, D deleted (git diff --name-status).
+
+== Since the approved QA2 candidate (d124371): the 3B-F0 ... 3B-F4 commits (126 files) ==
+  A  STAGE_3B_FINAL_CHANGED_FILES.txt    - final deliverable: this list
+  A  STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md    - final deliverable: the short full-map human-QA tour and questions
+  A  STAGE_3B_FINAL_PERFORMANCE.md    - final deliverable: the performance report (LOW / MEDIUM / HIGH, moving through the map, tier changes)
+  A  STAGE_3B_FINAL_PROP_CANON_AUDIT.md    - final deliverable: the expanded prop / dressing / room canon audit, with the final pass
+  A  STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md    - final deliverable: what was optimized, why, and the measured effect
+  A  STAGE_3B_FINAL_VISUAL_AUDIT.md    - final deliverable: parent verification, the map inventory, the plan, checkpoints F0-F4, results
+  M  assets/l0-remaster.js    - the remaster module (presentation only): zones and corridor pieces, one bake grid, doorway continuity, the special rooms (concrete and pits, wet tile, red rooms and their approach, archways, deep pile), the remaining props, level-art resting, background tier rebuild, texture warm-up, LOW overlay filtering, DEV overview
+  M  assets/level0_visuals.js    - the presentation authority (data only): schema 3, every room and the corridors in the slice, new materials, archetypes, dressing kinds and decor
+  A  dev/stage-3b/harness_3b.js    - DEV: the shared VM harness of the unit checks
+  A  dev/stage-3b/levelart_3b.js    - DEV: level art kept vs resting, equivalence captures
+  M  dev/stage-3b/look_3b.js    - DEV: targeted captures (full-map views, global-blackout views, --noglitch, waits for a background rebuild)
+  A  dev/stage-3b/overview_3b.js    - DEV: the whole map in one picture
+  M  dev/stage-3b/package_3b.py    - DEV: packager (QA2 ancestry, scope since QA2: 3B-N / 3C not begun)
+  M  dev/stage-3b/perf_3b.js    - DEV: profiler (full-map poses, waits for a background rebuild)
+  A  dev/stage-3b/readability_3b.js    - DEV: readability A/B with monsters, another wanderer, the cartograph and crawl holes
+  M  dev/stage-3b/smoke_3b.js    - DEV: browser smoke (S05 full map, S06 background rebuild)
+  M  dev/stage-3b/test_3b.js    - DEV: unit checks (26: R14-R18 added for the full map)
+  A  dev/stage-3b/walk_3b.js    - DEV: bake / upload work per frame while crossing rooms and doorways
+
+   evidence under dev/stage-3b/evidence/ (108 files):
+  A  dev/stage-3b/evidence/f0/br_role_unit_baseline.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/freeze_baseline.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/legacy-arch-north.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/legacy-corridor-west.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/legacy-damp-counter.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/legacy-deep-machine.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/legacy-long-room.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/legacy-red-rooms.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/legacy-remaining-rooms-materials.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/level0_map_ascii.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f0/test_3b_baseline.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/f1-corridor-east-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/f1-corridor-hub-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/f1-corridor-west-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/f1-north-rooms-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/f1-repeating-shelf-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/f1-repeating-window-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/f1-segmented-bench-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/f1-segmented-lowwall-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/freeze.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/qa2-vs-f1-humming-hole.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/qa2-vs-f1-yellow-east.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/qa2_parity.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/smoke_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f1/test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/f2-arch-deep-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/f2-long-damp-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/f2-red-approach-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/freeze.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/qa2-parity-humming-counter-diff.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/qa2_parity.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/smoke_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f2/test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/freeze.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/levelart-red-rooms-kept-vs-resting.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/levelart_equivalence.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/perf_f2_medium.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/perf_f3_levelart_medium.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/smoke_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f3/tier_rebuild.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/checks/br_role_unit.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/checks/freeze_worktree.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/checks/smoke_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/checks/smoke_3b_run1_S09_flake.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/checks/test_3b.log    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-arch-arches-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-arch-rail-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-blackout-pillars-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-blackout-red-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-blackout-table-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-blackout-yellow-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-corridor-hub-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-damp-counter-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-damp-door-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-deep-door-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-deep-machine-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-humming-counter-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-long-door-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-long-pits-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-long-to-pillar-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-north-rooms-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-pillar-hall-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-red-approach-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-red-rooms-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-repeating-window-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-segmented-bench-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-segmented-lowwall-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/f4-yellow-spawn-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/look_batchA.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/look_batchB.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/look/look_batchC.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/overview/overview-high.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/overview/overview-legacy-vs-medium.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/overview/overview-legacy.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/overview/overview-low.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/overview/overview-medium.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/overview/overview.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/perf/perf_f4_fill_lmh_partial.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/perf/perf_f4_fill_medium.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/perf/perf_f4_time_lowhigh.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/perf/perf_f4_time_medium.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/perf/walk_f4.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/mean_luma.txt    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-blackout-flashlight.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-corridor.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-crawl-hole-arch.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-crawl-hole-damp.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-crawl-hole-yellow.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-damp-rooms.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-deep-carpet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-long-room-pits.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-red-rooms.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/read-yellow-hall.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/readability/readability.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/f4tier-arch-arches-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/f4tier-damp-counter-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/f4tier-deep-machine-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/f4tier-long-pits-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/f4tier-pillar-hall-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/f4tier-red-rooms-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/f4tier-yellow-spawn-sheet.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/red-low-overlay-before-after.jpg    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/tiers_batchD.json    - evidence (logs, measurements, capture sheets)
+  A  dev/stage-3b/evidence/f4/tiers/tiers_batchE.json    - evidence (logs, measurements, capture sheets)
+
+== Protected gameplay files: byte-identical to the QA2 parent, BR-RoLE 1.0 and v23.3.6 (FREEZE OK) ==
+  ai.js, sim.js, move.js, server.js, mp.js, death_srv.js, dphys.js, camera_policy.js, world.js, light.js, ents.js, camcorder.js, timing_policy.js   ALL 13 of 13
+
+== Unchanged since QA2 ==
+  assets/index-DKbV5Nv9.js and index.html (the Stage 3B hooks from QA2, undone by freeze_3b.py), assets/br-role.js (BR-RoLE 1.0),
+  hud.js, inventory.js, gore.js, glitch.js, sfx.js and every other game file.
+
+Not changed: main (7781e1a), br-role (b86966b). Stage 3B-N and Stage 3C not begun: no camera, timing, AI, input, UI, HUD, gore or death change.

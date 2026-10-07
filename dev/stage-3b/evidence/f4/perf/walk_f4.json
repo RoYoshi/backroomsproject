@@ -1,0 +1,421 @@
+{
+ "speed": 380,
+ "tiers": [
+  "low",
+  "medium",
+  "high"
+ ],
+ "routes": {
+  "A": [
+   [
+    1296,
+    3504
+   ],
+   [
+    2832,
+    3504
+   ],
+   [
+    2832,
+    3312
+   ],
+   [
+    3408,
+    3312
+   ],
+   [
+    3408,
+    3504
+   ],
+   [
+    4560,
+    3504
+   ],
+   [
+    6384,
+    3504
+   ],
+   [
+    7776,
+    3504
+   ]
+  ],
+  "B": [
+   [
+    1200,
+    5616
+   ],
+   [
+    2640,
+    5616
+   ],
+   [
+    2640,
+    5424
+   ],
+   [
+    3792,
+    5424
+   ],
+   [
+    3792,
+    5616
+   ],
+   [
+    5424,
+    5616
+   ],
+   [
+    5424,
+    5424
+   ],
+   [
+    6000,
+    5424
+   ],
+   [
+    6000,
+    5712
+   ],
+   [
+    7536,
+    5712
+   ]
+  ]
+ },
+ "walks": [
+  {
+   "route": "A",
+   "tier": "low",
+   "remaster": "off",
+   "frames": 44,
+   "frameMs": {
+    "med": 422.4,
+    "p95": 525.6,
+    "max": 543.2
+   },
+   "bakes": 0,
+   "maxBakesInFrame": 0,
+   "framesWithBake": 0,
+   "bakeMsInFrame": {
+    "p95": 0,
+    "max": 0
+   },
+   "residentMax": 12,
+   "visibleMax": 0,
+   "offRouteMaxPx": 0,
+   "rebuild": {
+    "tier": "low",
+    "frames": 27,
+    "steps": 667,
+    "wallMs": 14491,
+    "maxFrameMs": 106,
+    "longestStep": [
+     98,
+     "room:02:lanes"
+    ],
+    "commitMs": 14
+   }
+  },
+  {
+   "route": "A",
+   "tier": "low",
+   "remaster": "on",
+   "frames": 58,
+   "frameMs": {
+    "med": 310.4,
+    "p95": 439.9,
+    "max": 458.4
+   },
+   "bakes": 67,
+   "maxBakesInFrame": 2,
+   "framesWithBake": 58,
+   "bakeMsInFrame": {
+    "p95": 2.1,
+    "max": 2.5
+   },
+   "residentMax": 22,
+   "visibleMax": 12,
+   "offRouteMaxPx": 0,
+   "rebuild": null
+  },
+  {
+   "route": "A",
+   "tier": "medium",
+   "remaster": "off",
+   "frames": 46,
+   "frameMs": {
+    "med": 391.1,
+    "p95": 519.6,
+    "max": 584.3
+   },
+   "bakes": 0,
+   "maxBakesInFrame": 0,
+   "framesWithBake": 0,
+   "bakeMsInFrame": {
+    "p95": 0,
+    "max": 0
+   },
+   "residentMax": 12,
+   "visibleMax": 0,
+   "offRouteMaxPx": 0,
+   "rebuild": {
+    "tier": "medium",
+    "frames": 30,
+    "steps": 822,
+    "wallMs": 14934,
+    "maxFrameMs": 56,
+    "longestStep": [
+     33,
+     "77"
+    ],
+    "commitMs": 22
+   }
+  },
+  {
+   "route": "A",
+   "tier": "medium",
+   "remaster": "on",
+   "frames": 61,
+   "frameMs": {
+    "med": 295,
+    "p95": 399,
+    "max": 448.8
+   },
+   "bakes": 67,
+   "maxBakesInFrame": 3,
+   "framesWithBake": 61,
+   "bakeMsInFrame": {
+    "p95": 1.8,
+    "max": 4.8
+   },
+   "residentMax": 22,
+   "visibleMax": 12,
+   "offRouteMaxPx": 0,
+   "rebuild": null
+  },
+  {
+   "route": "A",
+   "tier": "high",
+   "remaster": "off",
+   "frames": 43,
+   "frameMs": {
+    "med": 432.2,
+    "p95": 569.9,
+    "max": 644.3
+   },
+   "bakes": 0,
+   "maxBakesInFrame": 0,
+   "framesWithBake": 0,
+   "bakeMsInFrame": {
+    "p95": 0,
+    "max": 0
+   },
+   "residentMax": 20,
+   "visibleMax": 0,
+   "offRouteMaxPx": 0,
+   "rebuild": {
+    "tier": "high",
+    "frames": 38,
+    "steps": 1083,
+    "wallMs": 20758,
+    "maxFrameMs": 89,
+    "longestStep": [
+     51,
+     "29"
+    ],
+    "commitMs": 9
+   }
+  },
+  {
+   "route": "A",
+   "tier": "high",
+   "remaster": "on",
+   "frames": 55,
+   "frameMs": {
+    "med": 324.7,
+    "p95": 486.5,
+    "max": 560.6
+   },
+   "bakes": 73,
+   "maxBakesInFrame": 2,
+   "framesWithBake": 37,
+   "bakeMsInFrame": {
+    "p95": 2.7,
+    "max": 5.1
+   },
+   "residentMax": 28,
+   "visibleMax": 12,
+   "offRouteMaxPx": 0,
+   "rebuild": null
+  },
+  {
+   "route": "B",
+   "tier": "low",
+   "remaster": "off",
+   "frames": 45,
+   "frameMs": {
+    "med": 432.8,
+    "p95": 554.4,
+    "max": 601.2
+   },
+   "bakes": 0,
+   "maxBakesInFrame": 0,
+   "framesWithBake": 0,
+   "bakeMsInFrame": {
+    "p95": 0,
+    "max": 0
+   },
+   "residentMax": 12,
+   "visibleMax": 0,
+   "offRouteMaxPx": 0,
+   "rebuild": {
+    "tier": "low",
+    "frames": 16,
+    "steps": 667,
+    "wallMs": 7397,
+    "maxFrameMs": 49,
+    "longestStep": [
+     31,
+     "3"
+    ],
+    "commitMs": 10
+   }
+  },
+  {
+   "route": "B",
+   "tier": "low",
+   "remaster": "on",
+   "frames": 69,
+   "frameMs": {
+    "med": 279.2,
+    "p95": 361.2,
+    "max": 384.2
+   },
+   "bakes": 67,
+   "maxBakesInFrame": 1,
+   "framesWithBake": 67,
+   "bakeMsInFrame": {
+    "p95": 1,
+    "max": 2.8
+   },
+   "residentMax": 23,
+   "visibleMax": 12,
+   "offRouteMaxPx": 0,
+   "rebuild": null
+  },
+  {
+   "route": "B",
+   "tier": "medium",
+   "remaster": "off",
+   "frames": 44,
+   "frameMs": {
+    "med": 430.3,
+    "p95": 550.7,
+    "max": 681.5
+   },
+   "bakes": 0,
+   "maxBakesInFrame": 0,
+   "framesWithBake": 0,
+   "bakeMsInFrame": {
+    "p95": 0,
+    "max": 0
+   },
+   "residentMax": 12,
+   "visibleMax": 0,
+   "offRouteMaxPx": 0,
+   "rebuild": {
+    "tier": "medium",
+    "frames": 23,
+    "steps": 822,
+    "wallMs": 10315,
+    "maxFrameMs": 53,
+    "longestStep": [
+     19,
+     "5"
+    ],
+    "commitMs": 8
+   }
+  },
+  {
+   "route": "B",
+   "tier": "medium",
+   "remaster": "on",
+   "frames": 59,
+   "frameMs": {
+    "med": 330.4,
+    "p95": 426.8,
+    "max": 462.6
+   },
+   "bakes": 64,
+   "maxBakesInFrame": 3,
+   "framesWithBake": 59,
+   "bakeMsInFrame": {
+    "p95": 1.6,
+    "max": 5.8
+   },
+   "residentMax": 23,
+   "visibleMax": 12,
+   "offRouteMaxPx": 0,
+   "rebuild": null
+  },
+  {
+   "route": "B",
+   "tier": "high",
+   "remaster": "off",
+   "frames": 40,
+   "frameMs": {
+    "med": 473.5,
+    "p95": 619.2,
+    "max": 637.1
+   },
+   "bakes": 0,
+   "maxBakesInFrame": 0,
+   "framesWithBake": 0,
+   "bakeMsInFrame": {
+    "p95": 0,
+    "max": 0
+   },
+   "residentMax": 20,
+   "visibleMax": 0,
+   "offRouteMaxPx": 0,
+   "rebuild": {
+    "tier": "high",
+    "frames": 33,
+    "steps": 1083,
+    "wallMs": 16724,
+    "maxFrameMs": 68,
+    "longestStep": [
+     48,
+     "paper:archetype:yellow-hall"
+    ],
+    "commitMs": 9
+   }
+  },
+  {
+   "route": "B",
+   "tier": "high",
+   "remaster": "on",
+   "frames": 54,
+   "frameMs": {
+    "med": 344.7,
+    "p95": 487.2,
+    "max": 604.7
+   },
+   "bakes": 65,
+   "maxBakesInFrame": 2,
+   "framesWithBake": 33,
+   "bakeMsInFrame": {
+    "p95": 1.8,
+    "max": 3.9
+   },
+   "residentMax": 25,
+   "visibleMax": 12,
+   "offRouteMaxPx": 0,
+   "rebuild": null
+  }
+ ],
+ "when": "2026-10-07T07:46:18.959Z",
+ "blocked": [],
+ "errors": []
+}

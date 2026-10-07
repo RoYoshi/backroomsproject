@@ -1,12 +1,14 @@
 /* Stage 3B - the few targeted captures of the visual slice (development only; never served).
  *
- *   node dev/stage-3b/look_3b.js --game PATH --out DIR [--tag NAME] [--modes off,on] [--tiers medium] [--raw]
+ *   node dev/stage-3b/look_3b.js --game PATH --out DIR [--tag NAME] [--modes off,on] [--tiers medium] [--raw] [--noglitch]
  *
  * One staged page (frozen halls, no monsters, god mode, lamps forced on), frozen clock for every shot, HUD hidden.
  * Views: YELLOW HALL (spawn, east counter), HUMMING ROOMS (counter from the south, west wing), BLACKOUT ZONE (your beam on
  * the table, a corridor).  For each view and each mode (remaster off / on, when the module exists) and tier: the game as
  * the player sees it, and (--raw) the same frame with the darkness overlay hidden - the bare materials, for the art review
- * only.  Writes PNGs plus a contact sheet per view. */
+ * only.  Writes PNGs plus a contact sheet per view.
+ * --noglitch: the server drops a few glitched exit walls at random spots in every world (glitch.js draws a full-screen tear
+ * near them); for an art review this pins the page's list of them empty (capture only: nothing else changes). */
 'use strict';
 const { spawn, execSync } = require('child_process'); const fs = require('fs'), path = require('path'), http = require('http');
 const H = require('../shadows/harness_lib.js'); const { sleep, frames } = H;
@@ -16,7 +18,7 @@ const GAME = path.resolve(opt('game') || '.'), OUT = path.resolve(opt('out') || 
 const MODES = (opt('modes') || 'off,on').split(','), TIERS = (opt('tiers') || 'medium').split(','), RAW = flag('raw'), ONLY = opt('only');
 fs.mkdirSync(OUT, { recursive: true });
 const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path: p }, q => { q.resume(); q.on('end', () => r(q.statusCode)); }).on('error', () => r(0)));
-/* x, y, aim (rad), light on */
+/* x, y, aim (rad), light on, [global blackout during the shots] */
 const VIEWS = [
   ['yellow-spawn', 1130, 3420, 2.6, false], ['yellow-east', 1560, 3560, -0.5, false],
   ['humming-counter', 3400, 1250, -Math.PI / 2, false], ['humming-west', 2700, 1000, 0.3, false],
@@ -32,6 +34,8 @@ const VIEWS = [
   ['long-door', 5664, 1900, -Math.PI / 2, false], ['long-pits', 6240, 1200, 0.1, false], ['damp-door', 2400, 5520, 0, false], ['damp-west', 2900, 5800, -0.3, false],
   ['red-approach', 4700, 5620, 0, false], ['red-east', 6620, 5700, Math.PI, false], ['arch-arches', 7650, 3500, 0, false], ['arch-rail', 8020, 3200, -Math.PI / 2, false],
   ['deep-door', 7100, 5650, 0, false], ['deep-east', 8500, 5600, Math.PI, false],
+  /* 3B-F4: a global blackout (every lamp out), your flashlight the only light */
+  ['blackout-yellow', 1300, 3500, 0.4, true, true], ['blackout-pillars', 8352, 1632, -0.6, true, true], ['blackout-red', 5700, 5470, 0.3, true, true],
 ];
 (async () => {
   try { execSync(`fuser -k ${PORT}/tcp`, { stdio: 'ignore' }); } catch (e) { }
@@ -40,15 +44,19 @@ const VIEWS = [
   const browser = await H.pw.chromium.launch({ args: H.ARGS }), room = 'look3b' + Date.now() % 1e5, log = [];
   try {
     const J = await H.join(browser, PORT, room, 'QA'), P = J.P; await H.stage(P); await H.setLights(P, 'off');
+    if (flag('noglitch')) await P.evaluate(() => Object.defineProperty(window, '__glitches', { configurable: true, get: () => [], set: () => { } }));
     await P.evaluate(() => document.querySelectorAll('header,.location,.coordinates,#hud,#net,#encounterHint,#blackoutHint').forEach(e => e.style.visibility = 'hidden'));
     await H.until(() => P.evaluate(() => !window.__l0v || window.__l0v.ready()), 20000);
     const has = await P.evaluate(() => !!window.__l0v && window.__l0v.stats().built);
     log.push({ l0v: await P.evaluate(() => window.__l0v ? window.__l0v.stats() : null) });
     const setMode = async m => { await P.evaluate(m => { if (window.__l0v) window.__l0v.dev.remaster(m === 'on'); }, m); await frames(P, 8); await sleep(250); };
-    const setTier = async t => { await P.evaluate(t => __brRole.setQuality(t), t); await frames(P, 8); await sleep(250); };
+    /* a tier change rebuilds the remaster in the background (3B-F3): wait until that tier is the one on screen */
+    const setTier = async t => { await P.evaluate(t => __brRole.setQuality(t), t); await frames(P, 4);
+      await H.until(() => P.evaluate(t => { const s = window.__l0v && __l0v.stats(); return !s || !s.built || (s.tier === t && !s.job); }, t), 120000, 400); await frames(P, 8); await sleep(250); };
     const pose = async (x, y, a, light) => { await P.evaluate(() => __clock.thaw()); await H.place(P, x, y, a, { light }); await sleep(1200); await frames(P, 8); await P.evaluate(() => __clock.freeze(false)); await frames(P, 6); };
-    for (const [name, x, y, a, light] of VIEWS) {
+    for (const [name, x, y, a, light, bo] of VIEWS) {
       if (ONLY && !ONLY.split(',').includes(name)) continue;
+      if (bo) await H.setLights(P, 'on');
       await pose(x, y, a, light); const shots = [];
       for (const t of TIERS) for (const m of MODES) {
         if (m === 'on' && !has) continue;
@@ -68,6 +76,7 @@ const VIEWS = [
         rows.forEach((r, j) => r.forEach((x, i) => tiles.push({ input: x, left: i * (w + 6), top: j * (h + 6) })));
         await sharp({ create: { width: (w + 6) * cols - 6, height: (h + 6) * rows.length - 6, channels: 3, background: '#fff' } }).composite(tiles).jpeg({ quality: 84 }).toFile(path.join(OUT, `${TAG}-${name}-sheet.jpg`));
       }
+      if (bo) await H.setLights(P, 'off');
       log.push(name);
     }
     console.log(JSON.stringify({ views: log, remasterModule: has, errors: J.errs, missing: J.missing }));

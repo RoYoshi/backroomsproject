@@ -105,7 +105,8 @@ Each is pushed to `stage-3b-remaster` and verified on GitHub (`dev/stage-3b/veri
 | 3B-F0 parent verification, inventory, canon audit | `a3430f6` | `c32adf3` | freeze OK; unit 21/21; BR-RoLE 32/32 |
 | 3B-F1 corridors and common rooms | `f4fb0b5` | `283701d` | freeze OK; unit 23/23; BR-RoLE 32/32; smoke 9/9 |
 | 3B-F2 special rooms, the remaining props | `6e9f6a1` | `b8c2246` | freeze OK; unit 24/24; BR-RoLE 32/32; smoke 9/9 |
-| 3B-F3 full-map rendering optimization | recorded with 3B-F4 | | |
+| 3B-F3 full-map rendering optimization | `9551f97` | `2b217a6` | freeze OK; unit 25/25; BR-RoLE 32/32; smoke 9/9 |
+| 3B-F4 final validation, the human-QA package | this candidate: commit and tree in `STAGE_3B_FINAL_PACKAGE_RECEIPT.txt` | | see "Results" |
 
 ## 3B-F1 and 3B-F2: what was built
 
@@ -136,6 +137,83 @@ Each is pushed to `stage-3b-remaster` and verified on GitHub (`dev/stage-3b/veri
 
 Evidence: `dev/stage-3b/evidence/f1/qa2_parity.txt`, `evidence/f2/`.
 
+## 3B-F3: the rendering, briefly
+
+Details and measurements: `STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md`.
+- **The legacy level art rests while the remaster shows.** It drew 0.3–1.5 screens of hidden pixels a frame, depending on the pose. The bare scene is pixel-identical with it kept or resting (7 poses).
+- **Tier changes rebuild in the background** and swap in when ready (no more 1.1–1.6 s freeze).
+- **Textures upload ahead of need** on quiet frames.
+
 ## Results (3B-F4)
 
-*Filled in with the final candidate.*
+### What was looked at
+
+All captures come from the game in headless Chromium at 1280 × 720 (software rendering), from a frozen, staged world. Sheets are under `dev/stage-3b/evidence/f4/`.
+
+| set | what | where |
+|---|---|---|
+| **the whole map at once** | every zone's bare materials in one picture (no lighting, no actors), legacy beside remaster, plus LOW and HIGH | `overview/` (the DEV view `__l0v.dev.overview`, tool `overview_3b.js`) |
+| **23 views across the map**, remaster OFF and ON (MEDIUM) | each sheet has three rows: as played, the same ×2.5, and the bare materials | `look/` |
+| **LOW / MEDIUM / HIGH** | 7 views at all three tiers | `tiers/` |
+| **readability** | 10 poses with Hounds, Smilers, another wanderer, the cartograph and crawl holes; ON and OFF at the same instant | `readability/` (tool `readability_3b.js`) |
+| **moving through the map** | two routes across eight rooms and their doorways, at about running speed, at each tier | `STAGE_3B_FINAL_PERFORMANCE.md` (tool `walk_3b.js`) |
+
+The 23 views:
+- **every room type:**
+  - the QA2 rooms: YELLOW HALL, HUMMING, BLACKOUT with the flashlight, PILLAR HALL;
+  - NORTH, REPEATING (the window), SEGMENTED (the bench, the knee wall);
+  - LONG ROOM (pits), DAMP (the counter), RED, ARCH GALLERY (archways, rail), DEEP CARPET (the cabinet);
+- **corridors:** the hub;
+- **transitions:**
+  - corridor → LONG ROOM's concrete;
+  - LONG ROOM → PILLAR HALL;
+  - corridor → DAMP's tile;
+  - DAMP → RED (the red approach);
+  - RED → DEEP CARPET;
+- **a global blackout with only your flashlight:** YELLOW HALL, PILLAR HALL, RED ROOMS.
+
+### What I found
+
+- **Cohesion.**
+  - **The map overview:** one Level 0. The same carpet and paper run through every corridor and doorway, and the special rooms stand out only by their own material: concrete, tile, red, deep pile.
+  - **No seams:** no strip, line or chunk edge is visible at any doorway in the captures (unit check R15 samples every doorway as the GPU does).
+- **QA2's four rooms** are unchanged since 3B-F2. There, a one-texel outline at their wall bases changed with the doorway-seam fix (see "QA2 parity" above).
+- **LOW / MEDIUM / HIGH:** the same rooms, materials and props at each tier.
+  - LOW draws fewer small marks and fewer texels; HIGH is MEDIUM with finer textures and the same marks.
+  - **One inconsistency found and fixed in 3B-F4:** at LOW, the pile overlays (RED ROOMS' coarse pile, DEEP CARPET's deep pile) came out twice as coarse as at MEDIUM. Their pattern followed the texture's texel count.
+    - **The fix:** LOW now gets MEDIUM's exact pattern, filtered to its smaller texture (unit check R18).
+    - **Unchanged:** MEDIUM and HIGH are byte-identical to before.
+    - Before and after: `tiers/red-low-overlay-before-after.jpg`.
+- **Blackout and the flashlight:** with every lamp out, the remastered rooms look as dark as the old ones. Your beam is the only light, and nothing new glows or reads in the dark.
+- **Readability:** see `STAGE_3B_FINAL_PROP_CANON_AUDIT.md`, "Final pass". In short:
+  - Hounds, Smilers, another wanderer, the cartograph and the crawl holes all read with the remaster on.
+  - **Brightness:** the scene's mean brightness ON / OFF is within about ±15 % at every pose (`readability/mean_luma.txt`).
+  - **RED ROOMS** is the exception, about 26 % darker: its floor is the deepest colour on the map.
+- **Kept, but flagged for your verdict:**
+  - RED ROOMS' depth of colour;
+  - DAMP ROOMS' missing tiles (the darkest marks on any floor);
+  - the fallen ceiling tiles (from QA2).
+
+### Harness notes (capture only, no game change)
+
+- **The danger flicker:** near a monster, the game's danger flicker (`#light` opacity) and screen shake are random per frame. During each ON / OFF pair of the readability captures they are pinned, so the two shots differ only by the remaster.
+- **Exit walls:** the server drops a few glitched exit walls at random spots in every world. Their full-screen tear covered one early archway capture, so the art captures pin the page's list of them empty (`--noglitch`).
+- **The cartograph:** the game's one item lies at a random spot, so the readability poses pin it beside you. It is still the game's own drawing.
+
+### The candidate's checks
+
+Logs: `dev/stage-3b/evidence/f4/checks/`. The receipt (`STAGE_3B_FINAL_PACKAGE_RECEIPT.txt`) repeats the freeze on the extracted ZIP.
+
+| check | result |
+|---|---|
+| gameplay freeze | **FREEZE OK**: all 13 protected files byte-identical; the two presentation files undo to the parent |
+| Stage 3B unit | **26 / 26**, with R18 new (LOW keeps MEDIUM's patterns) |
+| BR-RoLE unit | **32 / 32** |
+| browser smoke | **9 / 9** (see below) |
+| `main` / `br-role` | untouched (`7781e1a` / `b86966b`) |
+| scope since QA2 | only the remaster module, its data, `dev/stage-3b` and the `STAGE_3B_FINAL_*` documents changed |
+
+**The smoke run:**
+- **The flaky first run:** S09 read 0 changed pixels after stamping its two test marks on a freshly opened second page (`checks/smoke_3b_run1_S09_flake.log`). Nothing in S09's path changed in 3B-F4.
+- **The fix:** S07, which runs just before S09 on that page, now waits until F8 has turned the remaster back on. S09 also logs the page's state when it reads the picture.
+- **Two later runs:** 9 / 9 each, the marks showing (`checks/smoke_3b.log`).

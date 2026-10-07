@@ -1,0 +1,46 @@
+{
+ "tiers": {
+  "medium": {
+   "tier": "medium",
+   "textures": 133,
+   "texMPx": 5.83,
+   "decals": 998,
+   "chunks": 350,
+   "zones": 29,
+   "file": "overview-medium.jpg",
+   "ms": 2898,
+   "sourcePx": 4608
+  },
+  "low": {
+   "tier": "low",
+   "textures": 133,
+   "texMPx": 2.57,
+   "decals": 572,
+   "chunks": 350,
+   "zones": 29,
+   "file": "overview-low.jpg",
+   "ms": 5237,
+   "sourcePx": 4608
+  },
+  "high": {
+   "tier": "high",
+   "textures": 133,
+   "texMPx": 7.31,
+   "decals": 998,
+   "chunks": 350,
+   "zones": 29,
+   "file": "overview-high.jpg",
+   "ms": 5446,
+   "sourcePx": 4608
+  }
+ },
+ "scale": 0.5,
+ "width": 2304,
+ "legacy": {
+  "file": "overview-legacy.jpg",
+  "ms": 3186,
+  "sourcePx": 4608
+ },
+ "errors": [],
+ "note": "bare materials (no lighting, no actors), rendered by the game renderer at 0.5 and saved at 2304 px wide (1 px = 4 world px); legacy: the carpet texture laid as one fill with the sprite's own tiling, then the level art"
+}

@@ -125,6 +125,37 @@ Also never drawn:
 - hazard stripes and lit indicators, the legacy machine's;
 - any signage, labels or branding.
 
+## Final pass (3B-F4, on the candidate)
+
+**What the renderer draws, checked (unit check V08):**
+- All 32 dressing kinds have a class.
+- **Seeded and wall placements** use only: adhesive, crack, crimsonpeel, damp, dampwall, debris (grit), indent, jbox, mildew, mildewwall, outlet, peel, puddle, scorch, scuff, stain, sticky and tilegap.
+- **Placed by hand** (`assets/level0_visuals.js`, eight records):
+  - from QA2: two furniture indents, a stain, the glass shards and the fallen ceiling tiles;
+  - new: the condensate under the DEEP CARPET cabinet.
+- **Never drawn:** nothing classed AVOID can be drawn (bell, binder, cable, insects, paper, phone, ring, tape).
+- Every prop set is empty, and the carpet is seamless in every archetype.
+
+**The 18 gameplay props are all kept:**
+- **Which:** L1–L8, U1, U2, G1–G6, W1 and W2.
+- **Footprints:** each sits on its exact `world.js` footprint plus the same contact margin, drawn by the zone that owns its centre (unit check R04).
+- **Nothing removed or moved** because canon is silent about it.
+- **Casting:** BR-RoLE casts from them exactly as before (R11, and the gameplay freeze).
+
+**Readability in play.** Evidence: `dev/stage-3b/evidence/f4/readability/`; each pair is remaster ON and OFF at the same instant.
+- **Crawl holes:** the holes in YELLOW HALL (G1), ARCH GALLERY (G5) and DAMP ROOMS (G6) read as openings, and your beam passes through them.
+- **Monsters and wanderers:** Hounds, Smilers and another wanderer read on every new floor (concrete, wet tile, red, deep pile).
+- **The item:** the cartograph, the game's one item, carries its own glow and reads on every floor.
+
+**Findings for your verdict** (kept, not changed):
+- **DAMP ROOMS' missing tiles** are the darkest marks on any floor.
+  - Up close they show the adhesive and its trowel lines and read as floor damage.
+  - In the dark they are dark squares. If they ever read as pits to you, they can be lightened.
+- **The fallen ceiling tiles** (BLACKOUT ZONE, PILLAR HALL; from QA2, still "in question") are the palest loose shapes on the floor, and they catch your flashlight brightly.
+- **RED ROOMS' floor** is a deeper red than the old red-tinted carpet.
+  - In its unlit corners, a dark Hound stands out a little less than it did; it is still visible, and any light shows it fully.
+  - The fix, if you want one, is a single tone value.
+
 ## Questions for you
 
 1. Is the fallen duct right for L2? Or would you rather keep the game's shelf as a bare, empty frame?
@@ -132,3 +163,5 @@ Also never drawn:
 3. Is the red shift in the corridors near RED ROOMS a good reading of the canon "colour shift", or too much?
 4. Do the ARCH GALLERY archways read without anything overhead?
 5. Should LONG ROOM's concrete keep the faint old adhesive tracks?
+6. Keep the DAMP ROOMS missing tiles as they are, or make them lighter?
+7. RED ROOMS: keep its depth of colour, or lift the floor a little for readability in the dark?

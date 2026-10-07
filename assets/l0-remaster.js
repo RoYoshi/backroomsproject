@@ -274,11 +274,14 @@
   }
   /* the pile overlays, laid over the carpet at a strength that ramps in from a doorway: 'deep' (DEEP CARPET; canon: "carpet
    * depth is notably extensive": long tufts along the nap, dark wells between them, light tips) and 'coarse' (RED ROOMS;
-   * canon: "thick, sticky, and very coarse": matted clumps, dark crevices, sticky gloss).  Seamless, 512 world px a period. */
+   * canon: "thick, sticky, and very coarse": matted clumps, dark crevices, sticky gloss).  Seamless, 512 world px a period.
+   * The pattern is always made at 512 texels a period (3B-F4): LOW's smaller texture gets the same pattern box-filtered, not a
+   * pattern twice as coarse (its features follow the texel count).  MEDIUM and HIGH are made exactly as before. */
   function overlayCanvas(kind, N, key) { return runGen(overlayGen(kind, N, key)); }
-  function* overlayGen(kind, N, key) {
+  function* overlayGen(kind, Nout, key) {
     const mC = MAT('material:carpet'), F = rgb(mC.fiber), Lt = rgb(mC.light), Sk = rgb(mC.sticky || '#4a1d14');
-    const c = mkCanvas(N, N), x = c.getContext('2d'), img = x.createImageData(N, N), d = img.data, r = VZ.rng('overlay', key, N);
+    const f = Math.max(1, Math.round(512 / Nout)), N = Nout * f;   // N: the size the pattern is made at
+    const c = mkCanvas(Nout, Nout), x = c.getContext('2d'), img = x.createImageData(N, N), d = img.data, r = VZ.rng('overlay', key, N);
     const put = (p, col, a) => { d[p] = clamp(col[0], 0, 255); d[p + 1] = clamp(col[1], 0, 255); d[p + 2] = clamp(col[2], 0, 255); d[p + 3] = clamp(Math.round(a * 255), 0, 255); };
     if (kind === 'deep') {
       const Ax = Math.max(8, Math.round(N / 4)), Ay = Math.max(4, Math.round(N / 12)), Bx = Math.max(8, Math.round(N / 2.5)), By = Math.max(4, Math.round(N / 6));
@@ -292,7 +295,12 @@
         if (e < .035) put(p, Cv, .6 * (1 - e / .035)); else if (t > .62) put(p, Tp, Math.min(.28, (t - .62) * 1.4)); else if (g > .7 && r() < .5) put(p, Sd, .3); else put(p, Bs, .1); } }
       for (let i = 0; i < Math.round(N * N / 2600); i++) { const px = Math.floor(r() * N), py = Math.floor(r() * N); if (G2(px * 7 / N, py * 7 / N) > .66) put((py * N + px) * 4, [255, 236, 226], .35); }   // the gloss of sticky patches
     }
-    x.putImageData(img, 0, 0); return c;
+    if (f === 1) { x.putImageData(img, 0, 0); return c; }
+    const out = x.createImageData(Nout, Nout), o = out.data, n = f * f;          // f x f box filter, alpha-weighted (the colours of see-through texels do not bleed)
+    for (let y = 0; y < Nout; y++) { if ((y & 31) === 31) yield; for (let i = 0; i < Nout; i++) { let R = 0, Gs = 0, B = 0, Al = 0;
+      for (let v = 0; v < f; v++) for (let u = 0; u < f; u++) { const p = ((y * f + v) * N + i * f + u) * 4, a = d[p + 3]; R += d[p] * a; Gs += d[p + 1] * a; B += d[p + 2] * a; Al += a; }
+      const q = (y * Nout + i) * 4; if (Al) { o[q] = R / Al; o[q + 1] = Gs / Al; o[q + 2] = B / Al; } o[q + 3] = Al / n; } }
+    x.putImageData(out, 0, 0); return c;
   }
   /* an archway's jamb (ARCH GALLERY: the partition's end face at an opening; face space, like the wallpaper): pale plaster, no
    * paper, a pale stone plinth with a lit top edge, grime and the crease at the base */
@@ -1717,6 +1725,28 @@
       chunks: id => { const R = id ? S.rooms.find(r => r.id === id) : null; if (id && !R) return null; return (S.chunks || []).filter(c => !R || c.zones.includes(R)).map(c => ({ key: c.key, x0: c.x0, y0: c.y0, x1: c.x1, y1: c.y1, zones: c.zones.map(z => z.id), baked: !!c.tex, shown: c.g.visible, current: c.ver === S.gen })); },
       direct: () => { if (S.mode === 'bake') toDirect('DEV: forced direct drawing'); stream(true); return S.mode; },
       keepLevelArt: v => { S.keepLevel = v === undefined ? !S.keepLevel : !!v; apply(); return !S.levelRests; },   // DEV: draw the legacy level art under the remaster anyway (before / after evidence)
+      /* DEV: the whole map's bare materials in one image (no lighting, no actors): every zone source and its fixtures, or
+       * (which = 'legacy') the legacy carpet and level art, rendered at `scale` into a throwaway texture; a JPEG data URL.
+       * Anything parented is lifted out for the render and put back at its index in the same task.  The legacy carpet sprite
+       * does not render whole into a target this size, so its texture is laid as one fill with the sprite's own tiling
+       * (scale, offset): the same image.  Cohesion review only. */
+      overview: (scale, which) => {
+        if (!S.renderer || !S.built || !S.rooms.length) return null;
+        const k = clamp(+scale || .25, .05, 1), w = Math.round(S.FBW * T * k), h = Math.round(S.FBH * T * k), tf = M(k, 0, 0, k, 0, 0);
+        const rt = rtClass().create({ width: w, height: h, resolution: 1, antialias: false, scaleMode: 'linear' }), moved = [], temp = [];
+        const alone = c => { const p = c.parent; moved.push([c, p, p ? p.children.indexOf(c) : -1, c.visible]); if (p) p.removeChild(c); c.visible = true; return c; };
+        const carpet = () => { const sp = S.carpet; if (!sp) return null; const g = new S.G(); temp.push(g);
+          g.rect(0, 0, S.FBW * T, S.FBH * T).fill({ texture: sp.texture, textureSpace: 'global', matrix: M(sp.tileScale.x, 0, 0, sp.tileScale.y, sp.tilePosition.x, sp.tilePosition.y) }); return g; };
+        try {
+          const list = which === 'legacy' ? [carpet(), S.level && alone(S.level)] : [...S.rooms.map(R => R.src), ...S.rooms.map(R => R.ceilG)].map(alone);
+          list.filter(Boolean).forEach((c, i) => S.renderer.render({ container: c, target: rt, clear: i === 0, clearColor: [0, 0, 0, 1], transform: tf }));
+          return S.renderer.extract.canvas(rt).toDataURL('image/jpeg', .9);
+        } finally {
+          for (let i = moved.length; i--;) { const [c, p, at, vis] = moved[i]; if (p) p.addChildAt(c, Math.min(at, p.children.length)); c.visible = vis; }
+          for (const g of temp) try { g.destroy(); } catch (e) { }
+          try { rt.destroy(true); } catch (e) { }
+        }
+      },
       macro: id => { const R = S.rooms.find(r => r.id === id); return R && R.macroCanvas ? R.macroCanvas.toDataURL() : null; },
       zone: id => { const R = S.rooms.find(r => r.id === id); return R ? { id: R.id, base: R.base, kind: R.kind, o: Object.assign({}, R.o), floorColor: R.floorColor.slice(), floor: R.prof.floor.kind, macroCell: S.q.macroCell, macroCanvas: R.macroCanvas || null,
         overlay: R.ovA ? { kind: R.ovKind, a: R.ovA } : null, macroOrigin: R.macroOrigin ? R.macroOrigin.slice() : null, pits: R.pitCells ? [...R.pitCells].map(k => [k % S.FBW, Math.floor(k / S.FBW)]) : [], arches: R.arches.map(a => ({ vert: a.vert, a: a.a, b0: a.b0, b1: a.b1, faces: a.faces.slice() })), n: Object.assign({}, R.n) } : null; },

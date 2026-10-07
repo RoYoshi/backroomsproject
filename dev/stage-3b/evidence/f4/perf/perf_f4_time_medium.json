@@ -1,0 +1,678 @@
+{
+ "n": 10,
+ "viewport": [
+  1280,
+  720
+ ],
+ "tiers": [
+  "medium"
+ ],
+ "scenes": [
+  {
+   "scene": "yellow-spawn",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 2.2,
+     "layersRemaster": 0.01,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.191,
+      "l0/l0v-legacy-lamps": 0.01
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 277.2,
+     "min": 258.3,
+     "max": 356,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.5,
+     "min": 0.3,
+     "max": 1.9,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 18,
+     "visibleGraphics": 17,
+     "graphicsInstructions": 14527,
+     "remasterRenderables": 1,
+     "remasterInstructions": 450
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 1.89,
+     "layersRemaster": 1.01,
+     "byLayer": {
+      "game/Graphics": 0.887,
+      "l0/chunk": 1,
+      "l0/fixtures": 0.007
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 189.3,
+     "min": 163.5,
+     "max": 228,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 5.5,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.2,
+     "min": 0.1,
+     "max": 1,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 5.5,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 25,
+     "visibleGraphics": 25,
+     "graphicsInstructions": 166,
+     "remasterRenderables": 10,
+     "remasterInstructions": 15
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 1,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": -87.9,
+   "deltaCpuMs": -0.3,
+   "interval": {
+    "off": {
+     "med": 366.6,
+     "n": 15,
+     "br": 9.912
+    },
+    "on": {
+     "med": 276.6,
+     "n": 21,
+     "br": 14.418
+    }
+   }
+  },
+  {
+   "scene": "blackout-table",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 3.16,
+     "layersRemaster": 0,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 2.158
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 364.6,
+     "min": 308,
+     "max": 461,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.2,
+     "min": 0.1,
+     "max": 0.6,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14480,
+     "remasterRenderables": 1,
+     "remasterInstructions": 450
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 1.81,
+     "layersRemaster": 1.02,
+     "byLayer": {
+      "game/Graphics": 0.791,
+      "l0/chunk": 1,
+      "l0/fixtures": 0.019
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 211.4,
+     "min": 175,
+     "max": 341.2,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 7.7,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.3,
+     "min": 0.2,
+     "max": 0.7,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 7.7,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 25,
+     "visibleGraphics": 25,
+     "graphicsInstructions": 118,
+     "remasterRenderables": 12,
+     "remasterInstructions": 14
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 3,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": -153.2,
+   "deltaCpuMs": 0.1,
+   "interval": {
+    "off": {
+     "med": 408.7,
+     "n": 14,
+     "br": 16.907
+    },
+    "on": {
+     "med": 229.9,
+     "n": 25,
+     "br": 14.827
+    }
+   }
+  },
+  {
+   "scene": "pillar-hall",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 2.29,
+     "layersRemaster": 0.04,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.254,
+      "l0/l0v-legacy-lamps": 0.039
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 357.9,
+     "min": 317.4,
+     "max": 389.4,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.2,
+     "min": 0.1,
+     "max": 0.6,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14458,
+     "remasterRenderables": 1,
+     "remasterInstructions": 450
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 1.94,
+     "layersRemaster": 1.03,
+     "byLayer": {
+      "game/Graphics": 0.909,
+      "l0/chunk": 1,
+      "l0/fixtures": 0.029
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 192.8,
+     "min": 176,
+     "max": 236.8,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 5.5,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.2,
+     "min": 0,
+     "max": 0.6,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 5.5,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 28,
+     "visibleGraphics": 28,
+     "graphicsInstructions": 103,
+     "remasterRenderables": 15,
+     "remasterInstructions": 21
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 2,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": -165.1,
+   "deltaCpuMs": 0,
+   "interval": {
+    "off": {
+     "med": 369.4,
+     "n": 16,
+     "br": 8.106
+    },
+    "on": {
+     "med": 275.8,
+     "n": 21,
+     "br": 9.832
+    }
+   }
+  },
+  {
+   "scene": "red-rooms",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 3.36,
+     "layersRemaster": 0.02,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 2.337,
+      "l0/l0v-legacy-lamps": 0.02
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 379.9,
+     "min": 330.1,
+     "max": 451.6,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.4,
+     "min": 0.1,
+     "max": 0.8,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 16,
+     "visibleGraphics": 15,
+     "graphicsInstructions": 14496,
+     "remasterRenderables": 1,
+     "remasterInstructions": 450
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 1.92,
+     "layersRemaster": 1.01,
+     "byLayer": {
+      "game/Graphics": 0.906,
+      "l0/chunk": 1,
+      "l0/fixtures": 0.014
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 210.1,
+     "min": 164.1,
+     "max": 248.4,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 3.3,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.3,
+     "min": 0.1,
+     "max": 0.5,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 3.3,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 29,
+     "visibleGraphics": 29,
+     "graphicsInstructions": 138,
+     "remasterRenderables": 16,
+     "remasterInstructions": 18
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 3,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": -169.8,
+   "deltaCpuMs": -0.1,
+   "interval": {
+    "off": {
+     "med": 441.1,
+     "n": 12,
+     "br": 10.362
+    },
+    "on": {
+     "med": 230.4,
+     "n": 24,
+     "br": 10.296
+    }
+   }
+  },
+  {
+   "scene": "damp-door",
+   "tier": "medium",
+   "off": {
+    "fill": {
+     "layersTotal": 2.89,
+     "layersRemaster": 0.01,
+     "byLayer": {
+      "legacy/carpet-sprite": 1,
+      "game/Graphics": 1.881,
+      "l0/l0v-legacy-lamps": 0.01
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 379.4,
+     "min": 328,
+     "max": 438.1,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.2,
+     "min": 0.1,
+     "max": 2.1,
+     "gl": {
+      "draws": 7.7,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 2.2,
+      "blend": 0,
+      "prog": 6.6,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 15,
+     "visibleGraphics": 14,
+     "graphicsInstructions": 14440,
+     "remasterRenderables": 1,
+     "remasterInstructions": 450
+    },
+    "l0": {
+     "on": false,
+     "visibleRooms": 0,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "on": {
+    "fill": {
+     "layersTotal": 1.9,
+     "layersRemaster": 1.01,
+     "byLayer": {
+      "game/Graphics": 0.89,
+      "l0/chunk": 1,
+      "l0/fixtures": 0.007
+     },
+     "resolution": 1
+    },
+    "sync": {
+     "med": 211.4,
+     "min": 182.5,
+     "max": 340.7,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 12.1,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "cpu": {
+     "med": 0.3,
+     "min": 0.2,
+     "max": 0.8,
+     "gl": {
+      "draws": 5.5,
+      "bufBytes": 99686.4,
+      "texUp": 0,
+      "texUpPx": 0,
+      "binds": 12.1,
+      "blend": 0,
+      "prog": 2.2,
+      "fb": 0
+     }
+    },
+    "scene": {
+     "nodes": 1013,
+     "visibleRenderables": 28,
+     "visibleGraphics": 28,
+     "graphicsInstructions": 88,
+     "remasterRenderables": 16,
+     "remasterInstructions": 24
+    },
+    "l0": {
+     "on": true,
+     "visibleRooms": 3,
+     "texMPx": 5.83,
+     "decals": 998,
+     "tier": "medium"
+    }
+   },
+   "deltaSceneMs": -168,
+   "deltaCpuMs": 0.1,
+   "interval": {
+    "off": {
+     "med": 412.5,
+     "n": 14,
+     "br": 4.94
+    },
+    "on": {
+     "med": 236.1,
+     "n": 24,
+     "br": 5.092
+    }
+   }
+  }
+ ],
+ "when": "2026-10-07T07:40:11.965Z",
+ "version": {
+  "remaster": "l0-remaster 3b-final",
+  "revision": "3b-final-f2-special-rooms",
+  "pixi": "ok"
+ },
+ "errors": []
+}

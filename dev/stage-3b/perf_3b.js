@@ -30,6 +30,7 @@ const SCENES = [
   /* 3B-F: the rest of Level 0 */
   ['long-room', 5760, 1150, 0.2, false], ['red-rooms', 5700, 5470, 0.3, false], ['deep-machine', 7900, 5620, -Math.PI / 2, false],
   ['arch-north', 7900, 2990, -1.4, false], ['damp-counter', 3456, 5420, -Math.PI / 2, false], ['corridor-west', 1104, 2200, Math.PI / 2, false],
+  ['damp-door', 2400, 5520, 0, false],             // 3B-F4: a doorway where the corridor carpet meets DAMP ROOMS' tile (a transition)
 ];
 const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path: p }, q => { q.resume(); q.on('end', () => r(q.statusCode)); }).on('error', () => r(0)));
 /* capture the game's Pixi application through Pixi's own devtools init hook, and count GL work per render */
@@ -92,7 +93,8 @@ const PROBE = `(() => { window.__apps = []; window.__PIXI_APP_INIT__ = a => wind
     await until(() => P.evaluate(() => window.__l0v && __l0v.ready()), 20000);
     R.version = await P.evaluate(() => ({ remaster: __l0v.stats().version, revision: __l0v.stats().revision, pixi: (__game() || {}).renderer ? 'ok' : 'missing' }));
     const setMode = async (on, tier) => { await P.evaluate(([on, tier]) => { __brRole.setQuality(tier); __l0v.dev.remaster(on); }, [on, tier]);
-      await until(() => P.evaluate(t => __l0v.stats().tier === t || !__l0v.stats().on, tier), 20000); await sleep(500); await frames(P, 3); };
+      /* 3B-F3: a tier change rebuilds in the background; measure only once that tier is the one on screen */
+      await until(() => P.evaluate(t => { const s = __l0v.stats(); return (s.tier === t && !s.job) || !s.on; }, tier), 90000); await sleep(500); await frames(P, 3); };
     const measure = async () => { const s = await P.evaluate(n => ({ fill: __fill(), sync: n ? __bench(n, true) : { med: 0, gl: {} }, cpu: n ? __bench(n, false) : { med: 0, gl: {} }, scene: __sceneStats(), l0: (() => { const s = __l0v.stats(); return { on: s.on, visibleRooms: s.visibleRooms, texMPx: s.texMPx, decals: s.decals, tier: s.tier }; })() }), flag('fillonly') ? 0 : N); return s; };
     for (const [name, x, y, a, light] of SCENES) {
       if (ONLY && !ONLY.split(',').includes(name)) continue;

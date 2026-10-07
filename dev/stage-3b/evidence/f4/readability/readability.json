@@ -1,0 +1,228 @@
+{
+ "tool": "dev/stage-3b/readability_3b.js",
+ "renderer": "headless Chromium, SwiftShader (software GL), 1280x720, MEDIUM",
+ "sheet": "read-<pose>.jpg: top row as played (left remaster ON, right OFF, same frozen instant); bottom row the same x2.2 for the eye",
+ "notes": [
+  "the cartograph (the game's one item) is pinned beside you for the poses that list one: staged position, drawn by the game's own glitch.js",
+  "the game's random danger flicker (#light opacity) and shake (#game transform) are pinned during each A/B pair; otherwise one shot of a pair can be brighter for reasons unrelated to the remaster",
+  "monsters come from the admin near command; you stand 170 px from the first one facing it (some move a little before the freeze)"
+ ],
+ "poses": [
+  {
+   "pose": "yellow-hall",
+   "stand": [
+    1289,
+    3042
+   ],
+   "where": "YELLOW HALL",
+   "hounds": 1,
+   "smilers": 1,
+   "distances": [
+    [
+     "hound",
+     43
+    ],
+    [
+     "smiler",
+     967
+    ]
+   ],
+   "peer": true,
+   "item": {
+    "at": [
+     1409,
+     3043
+    ],
+    "where": "YELLOW HALL",
+    "staged": true
+   }
+  },
+  {
+   "pose": "blackout-flashlight",
+   "stand": [
+    1717,
+    5676
+   ],
+   "where": "BLACKOUT ZONE",
+   "hounds": 1,
+   "smilers": 0,
+   "distances": [
+    [
+     "hound",
+     170
+    ]
+   ],
+   "peer": false,
+   "item": {
+    "at": [
+     1791,
+     5581
+    ],
+    "where": "BLACKOUT ZONE",
+    "staged": true
+   }
+  },
+  {
+   "pose": "red-rooms",
+   "stand": [
+    5655,
+    4945
+   ],
+   "where": "RED ROOMS",
+   "hounds": 1,
+   "smilers": 1,
+   "distances": [
+    [
+     "hound",
+     526
+    ],
+    [
+     "smiler",
+     170
+    ]
+   ],
+   "peer": true,
+   "item": {
+    "at": [
+     5774,
+     4939
+    ],
+    "where": "RED ROOMS",
+    "staged": true
+   }
+  },
+  {
+   "pose": "deep-carpet",
+   "stand": [
+    7432,
+    5456
+   ],
+   "where": "DEEP CARPET",
+   "hounds": 1,
+   "smilers": 0,
+   "distances": [
+    [
+     "hound",
+     170
+    ]
+   ],
+   "peer": false,
+   "item": {
+    "at": [
+     7475,
+     5344
+    ],
+    "where": "DEEP CARPET",
+    "staged": true
+   }
+  },
+  {
+   "pose": "long-room-pits",
+   "stand": [
+    6594,
+    897
+   ],
+   "where": "LONG ROOM",
+   "hounds": 1,
+   "smilers": 0,
+   "distances": [
+    [
+     "hound",
+     224
+    ]
+   ],
+   "peer": true,
+   "item": {
+    "at": [
+     6535,
+     793
+    ],
+    "where": "LONG ROOM",
+    "staged": true
+   }
+  },
+  {
+   "pose": "damp-rooms",
+   "stand": [
+    3718,
+    5789
+   ],
+   "where": "DAMP ROOMS",
+   "hounds": 0,
+   "smilers": 1,
+   "distances": [
+    [
+     "smiler",
+     170
+    ]
+   ],
+   "peer": false,
+   "item": {
+    "at": [
+     3618,
+     5856
+    ],
+    "where": "DAMP ROOMS",
+    "staged": true
+   }
+  },
+  {
+   "pose": "crawl-hole-yellow",
+   "stand": [
+    1070,
+    3020
+   ],
+   "where": "YELLOW HALL",
+   "hounds": 0,
+   "smilers": 0,
+   "distances": [],
+   "peer": false,
+   "item": null
+  },
+  {
+   "pose": "crawl-hole-arch",
+   "stand": [
+    8150,
+    3216
+   ],
+   "where": "ARCH GALLERY",
+   "hounds": 0,
+   "smilers": 0,
+   "distances": [],
+   "peer": false,
+   "item": null
+  },
+  {
+   "pose": "crawl-hole-damp",
+   "stand": [
+    3366,
+    5136
+   ],
+   "where": "DAMP ROOMS",
+   "hounds": 0,
+   "smilers": 0,
+   "distances": [],
+   "peer": false,
+   "item": null
+  },
+  {
+   "pose": "corridor",
+   "stand": [
+    1277,
+    1533
+   ],
+   "where": "NORTH ROOMS",
+   "hounds": 1,
+   "smilers": 0,
+   "distances": [
+    [
+     "hound",
+     170
+    ]
+   ],
+   "peer": false,
+   "item": null
+  }
+ ],
+ "errors": []
+}

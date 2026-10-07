@@ -391,6 +391,22 @@ run('R17 3B-F3: with every floor remastered, the legacy level art rests (hidden 
   if (!j || j.tier !== 'high' || back.job || back.tier !== 'low') bad.push('abandon: started ' + JSON.stringify(j) + ', then ' + JSON.stringify(back.job) + ' tier ' + back.tier);
   return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `level art resting, back with remaster off; ${want} wall tops beside floor, each drawn once; MEDIUM -> LOW rebuilt in the background over ${after.rebuild.frames} frames (${after.rebuild.steps} steps) while MEDIUM stayed on screen, then swapped in: identical to a LOW build made at once, the MEDIUM textures freed; a rebuild for HIGH abandoned on going back to LOW` };
 });
+run('R18 3B-F4: LOW keeps the same patterns: its pile overlays (DEEP CARPET\'s deep pile, RED ROOMS\' coarse pile) are MEDIUM\'s exact pattern, box-filtered to half the texels (alpha-weighted), not a pattern twice as coarse; MEDIUM\'s are made as before (512 texels a period)', () => {
+  const E = base(), art = E.L.dev.art, bad = [], notes = [];
+  for (const k of ['coarse', 'deep']) {
+    const hi = art.overlayCanvas(k, 512, 'overlay:' + k), lo = art.overlayCanvas(k, 256, 'overlay:' + k), H2 = hi.__img, L2 = lo.__img;
+    if (!H2 || !L2 || H2.width !== 512 || L2.width !== 256) { bad.push(k + ': sizes ' + (H2 && H2.width) + ' / ' + (L2 && L2.width)); continue; }
+    const ref = new Uint8ClampedArray(256 * 256 * 4), d = H2.data;
+    for (let y = 0; y < 256; y++) for (let i = 0; i < 256; i++) { let R = 0, Gs = 0, B = 0, A = 0;
+      for (let v = 0; v < 2; v++) for (let u = 0; u < 2; u++) { const p = ((y * 2 + v) * 512 + i * 2 + u) * 4, a = d[p + 3]; R += d[p] * a; Gs += d[p + 1] * a; B += d[p + 2] * a; A += a; }
+      const q = (y * 256 + i) * 4; if (A) { ref[q] = R / A; ref[q + 1] = Gs / A; ref[q + 2] = B / A; } ref[q + 3] = A / 4; }
+    let diff = 0; for (let i = 0; i < ref.length; i++) diff = Math.max(diff, Math.abs(ref[i] - L2.data[i]));
+    if (diff > 0) bad.push(k + ': LOW differs from MEDIUM filtered by up to ' + diff);
+    let lit = 0; for (let i = 3; i < L2.data.length; i += 4) if (L2.data[i] > 0) lit++;
+    notes.push(`${k}: LOW = MEDIUM filtered exactly (${(lit / (256 * 256) * 100).toFixed(0)} % of its texels drawn)`);
+  }
+  return { ok: !bad.length, note: bad.length ? bad.join('; ') : notes.join('; ') };
+});
 
 const pass = results.filter(r => r.ok).length;
 console.log(`\n${pass}/${results.length} passed` + (pass < results.length ? '\nFAILED: ' + results.filter(r => !r.ok).map(r => r.name.split(' ')[0]).join(', ') : ''));
