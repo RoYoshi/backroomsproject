@@ -12,7 +12,9 @@
  * S05 the remaster changes the slice rooms only: big pixel change in YELLOW HALL; none in a non-slice room
  * S06 quality tiers: BR-RoLE LOW / HIGH rebuilds the remaster at that tier, no error
  * S07 DEV toggles: wall-depth cue and decals change the picture; with ?dev3b, F8 toggles the remaster live
- * S08 short performance sanity in the slice: frame interval and BR-RoLE time with the remaster on vs off */
+ * S08 short performance sanity in the slice: frame interval and BR-RoLE time with the remaster on vs off
+ * S09 the surface receiver (?dev3b): a proof mark stamped on a wall and one on the floor change the picture only there,
+ *     BR-RoLE's overlay is byte-identical before and after, and clearing them gives the exact picture back */
 'use strict';
 const { spawn, execSync } = require('child_process'); const fs = require('fs'), path = require('path'), http = require('http');
 const H = require('../shadows/harness_lib.js'); const { sleep, frames } = H;
@@ -102,6 +104,17 @@ function diff(a, b, mask) {                                 // differing pixels 
     const after = await C.P.evaluate(() => __l0v.stats().on), tag = await C.P.evaluate(() => (document.getElementById('l0vTag') || {}).textContent || ''); await C.P.keyboard.press('F8');
     check('S07 DEV toggles: the wall-depth cue and the decals change the picture; with ?dev3b, F8 toggles the remaster live and the tag shows it',
       ddep.n > 50 && ddec.n > 50 && before && !after && /REMASTER OFF/.test(tag), `depth cue ${ddep.n} px, decals ${ddec.n} px; F8: on ${before} -> ${after}; tag "${tag.slice(0, 60)}"`);
+    /* S09 */
+    { const Q = C.P, sp = await Q.evaluate(() => { const w = __l0v.surfaces.list('room:01').filter(s => s.kind === 'wall' && s.side === 'S' && s.length >= 288).sort((a, b) => b.length - a.length)[0];
+        return { w, x: w.origin[0] + 144, y: w.origin[1] + 110 }; });
+      await pose(Q, sp.x, sp.y, -Math.PI / 2, false); const a = await scene(Q), ha = await H.lightHash(Q);
+      const ids = await Q.evaluate(sp => { const f = __l0v.surfaces.at(sp.x - 90, sp.y + 10, 0); return [__l0v.surfaces.stamp(sp.w.id, { kind: 'proof', u: 144, v: 1, scale: .5 }), f ? __l0v.surfaces.stamp(f.id, { kind: 'proof', u: f.u, v: f.v }) : null]; }, sp);
+      await frames(Q, 6); const b = await scene(Q), hb = await H.lightHash(Q);
+      await Q.evaluate(() => __l0v.surfaces.clear()); await frames(Q, 6); const c = await scene(Q);
+      const dab = diff(a, b, PLAYER), dac = diff(a, c, PLAYER);
+      check('S09 the surface receiver (?dev3b): a proof mark stamped on a wall and one on the floor change the picture only locally, BR-RoLE\'s overlay is byte-identical before and after (marks are presentation under its lighting), and clearing them gives the exact picture back',
+        ids.every(Boolean) && dab.n > 40 && dab.frac < .01 && ha === hb && dac.n === 0,
+        `stamped ${JSON.stringify(ids)}: ${dab.n} px changed (${(dab.frac * 100).toFixed(3)} %); overlay ${ha.slice(0, 12)} -> ${hb.slice(0, 12)}; after clear ${dac.n} px differ (max ${dac.max})`); }
     /* S08 */
     for (const J of [B, C]) { try { await J.ctx.close(); } catch (e) { } }      // one rendering page only while timing
     await pose(P, 1130, 3420, 2.6, true); await P.evaluate(() => __clock.thaw());

@@ -43,6 +43,7 @@
     stats: { buildMs: 0, rooms: 0, textures: 0, texMPx: 0, decals: 0, faces: 0, floorRects: 0, fixtures: 0, visibleRooms: 0, builds: 0 },
     app: null, renderer: null, mode: 'bake', RT: null, q: null, dens: 1, gen: 0, ao: null,
     bake: { px: 0, bakes: 0, ms: 0, maxMs: 0, lastMs: 0, evictions: 0, visible: 0, resident: 0, error: '' },
+    dyn: [], dynSeq: 0, extTex: null,
     perf: { last: 0, ema: 0, gpu: null, gpuEma: 0, poll: null, shown: 0 },
   };
   const now = () => Date.now();                        // wall clock for the build timings (a test may freeze performance.now)
@@ -208,19 +209,16 @@
     x.beginPath(); for (let i = 0; i <= n; i++) { const a = i / n * Math.PI * 2; let k = 1; for (const [f, amp, ph] of h) k += amp * Math.sin(f * a + ph);
       const px = cx + Math.cos(a) * rad * k, py = cy + Math.sin(a) * rad * k * .86; i ? x.lineTo(px, py) : x.moveTo(px, py); } x.closePath();
   }
+  const DPAD = 2;                                        // every decal canvas keeps a transparent margin (decal units): a clipped fill samples past the art safely
   function decalCanvases(s, key) {
     const out = {}, r = VZ.rng('decals', key, s), wob = n => Array.from({ length: n }, () => r());
-    const make = (name, w, h, draw) => { const c = mkCanvas(w * s, h * s), x = c.getContext('2d'); x.scale(s, s); draw(x, w, h); (out[name] || (out[name] = [])).push({ c, w, h }); };
+    const make = (name, w, h, draw) => { const c = mkCanvas((w + DPAD * 2) * s, (h + DPAD * 2) * s), x = c.getContext('2d'); x.scale(s, s); x.translate(DPAD, DPAD); draw(x, w, h); (out[name] || (out[name] = [])).push({ c, w, h, s }); };
     const carpet = MAT('material:carpet'), St = rgb(carpet.stain), Dm = rgb(carpet.damp), Td = rgb(carpet.tide);
     for (let v = 0; v < 4; v++) make('stain', 64, 64, (x, w, h) => {      // a soaked-in spill: soft body, darker rim, satellite drops
       const g = x.createRadialGradient(32, 32, 2, 32, 32, 28); g.addColorStop(0, css(St, .5)); g.addColorStop(.75, css(St, .38)); g.addColorStop(1, css(St, 0));
       x.fillStyle = g; blob(x, r, 32, 32, 22 + r() * 5, wob(28)); x.fill();
       x.strokeStyle = css(mul(St, .8), .28); x.lineWidth = 1.4; blob(x, r, 32, 32, 21 + r() * 4, wob(28)); x.stroke();
       for (let i = 0; i < 5; i++) { x.fillStyle = css(St, .3 + r() * .2); x.beginPath(); x.arc(32 + (r() - .5) * 52, 32 + (r() - .5) * 52, 1 + r() * 2.5, 0, 7); x.fill(); }
-    });
-    for (let v = 0; v < 2; v++) make('ring', 24, 24, (x) => {              // a cup ring
-      x.strokeStyle = css(St, .45); x.lineWidth = 1.6; x.beginPath(); x.arc(12, 12, 8 + r() * 1.5, r() * 6, r() * 6 + 5.4); x.stroke();
-      x.strokeStyle = css(St, .18); x.lineWidth = 3; x.beginPath(); x.arc(12, 12, 8, 0, 7); x.stroke();
     });
     for (let v = 0; v < 3; v++) make('damp', 160, 160, (x) => {            // water damage: a soaked body, its edge drying darker (a soft tide line)
       const w1 = wob(12), g = x.createRadialGradient(80, 80, 6, 80, 80, 70); g.addColorStop(0, css(Dm, .3)); g.addColorStop(.75, css(Dm, .24)); g.addColorStop(1, css(Dm, .0));
@@ -232,18 +230,6 @@
       x.save(); x.filter = 'blur(2.2px)';
       for (let i = 0; i < 3; i++) { x.strokeStyle = css([70, 58, 32], .12 + r() * .08); x.lineWidth = 5 + r() * 4; x.lineCap = 'round'; x.beginPath(); const y0 = 9 + r() * 6; x.moveTo(8, y0); x.quadraticCurveTo(24, y0 + (r() - .5) * 9, 40, y0 + (r() - .5) * 5); x.stroke(); }
       x.restore();
-    });
-    for (let v = 0; v < 3; v++) make('paper', 22, 28, (x) => {             // a sheet of office paper: grey-white, faint lines, a crease
-      x.fillStyle = 'rgba(26,22,12,.22)'; x.fillRect(2.5, 3, 18, 23.5);
-      x.fillStyle = css([226, 221, 200]); x.fillRect(1.5, 1.5, 18, 23);
-      x.fillStyle = 'rgba(120,112,90,.35)'; for (let i = 0; i < 6; i++) x.fillRect(4, 5 + i * 3, 9 + r() * 4, .7);
-      x.strokeStyle = 'rgba(150,140,110,.35)'; x.lineWidth = .6; x.beginPath(); x.moveTo(1.5, 12 + r() * 4); x.lineTo(19.5, 11 + r() * 4); x.stroke();
-      if (v === 2) { x.fillStyle = 'rgba(130,100,50,.25)'; x.beginPath(); x.arc(14, 18, 4, 0, 7); x.fill(); }
-    });
-    for (let v = 0; v < 2; v++) make('tape', 26, 8, (x) => {               // a strip of grey duct tape, frayed ends
-      x.fillStyle = 'rgba(30,26,16,.2)'; x.fillRect(2, 2.5, 22, 4.6);
-      x.fillStyle = css([150, 148, 136]); x.beginPath(); x.moveTo(2, 1.6); for (let i = 0; i <= 4; i++) x.lineTo(24 - (i % 2) * .8, 1.6 + i); x.lineTo(2 + (r() > .5 ? .8 : 0), 5.6); x.closePath(); x.fill();
-      x.fillStyle = 'rgba(255,255,255,.12)'; x.fillRect(3, 2, 20, 1);
     });
     for (let v = 0; v < 3; v++) make('debris', 28, 28, (x) => {            // plaster crumbs and grit swept against a wall
       for (let i = 0; i < 16; i++) { const a = r() * 6.3, d2 = Math.pow(r(), 1.6) * 11, px = 14 + Math.cos(a) * d2, py = 14 + Math.sin(a) * d2, s2 = .5 + r() * 1.6;
@@ -293,6 +279,23 @@
       x.fillStyle = g; x.beginPath(); x.moveTo(0, 40); for (let i = 0; i <= 10; i++) x.lineTo(i * 7, 40 - 14 - r() * 18 * Math.sin(i / 10 * Math.PI)); x.lineTo(70, 40); x.closePath(); x.fill();
       x.strokeStyle = css(Td, .3); x.lineWidth = 1.3; x.beginPath(); x.moveTo(2, 34); for (let i = 1; i <= 9; i++) x.lineTo(i * 7.4, 40 - 13 - r() * 16 * Math.sin(i / 10 * Math.PI)); x.stroke();
     });
+    /* furniture indents (canon audit: "indents in the level's carpeting suggest that furniture may have been present"): crushed
+     * pile where something once stood, never anything that is still there.  v0: four post marks; v1: a long base's rectangle */
+    const Cr = mul(rgb(carpet.fiber), .8);
+    make('indent', 96, 56, (x) => {
+      for (const [px, py] of [[10, 10], [86, 10], [10, 46], [86, 46]]) { const g = x.createRadialGradient(px, py, .5, px, py, 6.5); g.addColorStop(0, css(Cr, .5)); g.addColorStop(.55, css(Cr, .34)); g.addColorStop(1, css(Cr, 0)); x.fillStyle = g; x.fillRect(px - 7, py - 7, 14, 14);
+        x.fillStyle = css(Cr, .22); x.fillRect(px - 2.6, py - 2.6, 5.2, 5.2); }
+    });
+    make('indent', 120, 44, (x) => {
+      x.save(); x.filter = 'blur(1.2px)'; x.strokeStyle = css(Cr, .36); x.lineWidth = 3.2; x.strokeRect(5, 5, 110, 34); x.restore();
+      x.fillStyle = css(Cr, .1); x.fillRect(6, 6, 108, 32);
+    });
+    /* the DEV receiver proof (only stamped with ?dev3b=1): a neutral chalk target, plainly a test mark, never blood */
+    make('proof', 44, 44, (x) => {
+      x.strokeStyle = 'rgba(198,222,232,.85)'; x.lineWidth = 2.2; x.beginPath(); x.arc(22, 22, 17, 0, 7); x.stroke();
+      x.lineWidth = 1.6; x.beginPath(); x.moveTo(22, 2); x.lineTo(22, 42); x.moveTo(2, 22); x.lineTo(42, 22); x.stroke();
+      x.fillStyle = 'rgba(198,222,232,.9)'; x.beginPath(); x.arc(22, 22, 3, 0, 7); x.fill();
+    });
     return out;
   }
 
@@ -301,56 +304,48 @@
   function contact(x, w, h, k = .38, rr = 4) {           // soft ambient contact all round (not a directional shadow: BR-RoLE owns those)
     for (let i = 6; i >= 1; i--) { x.fillStyle = `rgba(16,12,4,${k / 6})`; const e = i * 1.4; x.beginPath(); x.roundRect(PAD - e, PAD - e, w + e * 2, h + e * 2, rr + e); x.fill(); }
   }
-  function counterCanvas(s, p, prof, key) {              // laminate reception counter: kick panel to the south, worn front edge, a few things
+  /* a built-in laminate counter, bare (canon audit: nothing sits on it).  Volume: the top, a front face to the south (the
+   * game's camera sees south faces, as on the walls), narrow end faces, a lit back edge and front bevel, wear on the front
+   * edge, and a darker contact line where the face meets the carpet.  Exactly the footprint, plus the flat contact shade. */
+  function counterCanvas(s, p, prof, key) {
     const w = p.rect.w, h = p.rect.h, c = mkCanvas((w + PAD * 2) * s, (h + PAD * 2) * s), x = c.getContext('2d'), r = VZ.rng('prop', key, p.id); x.scale(s, s);
     contact(x, w, h);
     x.translate(PAD, PAD);
-    x.fillStyle = '#4e4129'; x.beginPath(); x.roundRect(0, 0, w, h, 3); x.fill();                          // body
-    x.fillStyle = '#3d3220'; x.fillRect(0, h - 7, w, 7);                                                   // kick panel / front face
-    for (let i = 1; i < 3; i++) { x.fillStyle = 'rgba(20,16,8,.6)'; x.fillRect(w * i / 3 - .7, h - 7, 1.4, 7); }
-    const top = x.createLinearGradient(0, 0, 0, h - 7); top.addColorStop(0, '#d9ccA2'); top.addColorStop(1, '#c7b98c'); x.fillStyle = top; x.beginPath(); x.roundRect(1.5, 1.5, w - 3, h - 9, 2); x.fill();
-    for (let i = 0; i < 260; i++) { x.fillStyle = r() > .5 ? 'rgba(120,104,70,.18)' : 'rgba(255,250,230,.16)'; x.fillRect(2 + r() * (w - 4), 2 + r() * (h - 11), .9, .9); }   // laminate fleck
-    x.strokeStyle = 'rgba(92,76,46,.9)'; x.lineWidth = 1.2; x.beginPath(); x.roundRect(1.5, 1.5, w - 3, h - 9, 2); x.stroke();          // edge banding
-    x.fillStyle = 'rgba(255,248,224,.35)'; x.fillRect(3, 2.4, w - 6, 1);                                                                  // the back edge catches light
-    const wear = x.createLinearGradient(0, h - 9, 0, h - 20); wear.addColorStop(0, 'rgba(90,70,40,.32)'); wear.addColorStop(1, 'rgba(90,70,40,0)'); x.fillStyle = wear; x.fillRect(3, h - 20, w - 6, 11);   // hands rest on the front edge
-    for (let i = 1; i < 3; i++) { x.fillStyle = 'rgba(110,94,62,.45)'; x.fillRect(w * i / 3 - .5, 2, 1, h - 11); }                       // panel joints
-    for (let i = 0; i < 7; i++) { x.strokeStyle = 'rgba(255,252,240,.22)'; x.lineWidth = .6; x.beginPath(); const sx = 6 + r() * (w - 20), sy = 4 + r() * (h - 16); x.moveTo(sx, sy); x.lineTo(sx + 6 + r() * 14, sy + (r() - .5) * 3); x.stroke(); }   // scratches
-    x.strokeStyle = 'rgba(110,80,40,.38)'; x.lineWidth = 1.3; x.beginPath(); x.arc(w * .28, h * .38, 4.2, 0, 7); x.stroke();          // the old mug ring
-    const items = (prof && prof.props && prof.props.counter) || [], busy = items.includes('phone');
-    const paper = (px, py, a) => { x.save(); x.translate(px, py); x.rotate(a); x.fillStyle = 'rgba(30,24,10,.25)'; x.fillRect(-6.5, -8, 14, 18); x.fillStyle = '#e4dfca'; x.fillRect(-7, -9, 14, 18); x.fillStyle = 'rgba(120,112,90,.4)'; for (let i = 0; i < 5; i++) x.fillRect(-5, -6 + i * 3, 8 + (i % 2) * 2, .6); x.restore(); };
-    const papers = items.filter(k => k === 'paper').length; if (papers) paper(w * .62, h * .4, -.12 + r() * .1); if (papers > 1) paper(w * .66, h * .44, .2);
-    if (busy) {                                                                                             // a dead desk phone, its cord
-      x.fillStyle = 'rgba(20,16,8,.3)'; x.beginPath(); x.roundRect(w * .1 + 1, h * .22 + 1, 26, 17, 3); x.fill();
-      x.fillStyle = '#2f302f'; x.beginPath(); x.roundRect(w * .1, h * .22, 26, 17, 3); x.fill(); x.fillStyle = '#4a4b49'; x.beginPath(); x.roundRect(w * .1 + 2, h * .22 + 1.5, 22, 5, 2); x.fill();
-      x.fillStyle = '#5c5d5a'; for (let i = 0; i < 9; i++) x.fillRect(w * .1 + 6 + (i % 3) * 5, h * .22 + 8.5 + Math.floor(i / 3) * 2.6, 3, 1.6);
-      x.strokeStyle = '#262624'; x.lineWidth = 1.1; x.beginPath(); x.moveTo(w * .1 + 26, h * .22 + 9); x.bezierCurveTo(w * .1 + 40, h * .22 + 4, w * .1 + 36, h * .22 + 22, w * .1 + 48, h - 9); x.stroke();
-    }
-    if (items.includes('bell')) {                                                                         // a service bell
-      x.fillStyle = 'rgba(20,16,8,.3)'; x.beginPath(); x.arc(w * .84 + 1, h * .42 + 1, 5.2, 0, 7); x.fill(); x.fillStyle = '#b8a35c'; x.beginPath(); x.arc(w * .84, h * .42, 5, 0, 7); x.fill();
-      x.fillStyle = '#e3d59a'; x.beginPath(); x.arc(w * .84 - 1.4, h * .42 - 1.4, 1.6, 0, 7); x.fill();
-    }
+    const F = 11, E = 2.5;                                                                                   // front face depth, end faces
+    x.fillStyle = '#463a24'; x.beginPath(); x.roundRect(0, 0, w, h, 3); x.fill();                          // body
+    const fr = x.createLinearGradient(0, h - F, 0, h); fr.addColorStop(0, '#5a4a2e'); fr.addColorStop(.35, '#4a3d26'); fr.addColorStop(1, '#2f2617');
+    x.fillStyle = fr; x.fillRect(E, h - F, w - E * 2, F);                                                 // the front face, darker toward the floor
+    for (let i = 1; i < 3; i++) { x.fillStyle = 'rgba(16,12,6,.55)'; x.fillRect(w * i / 3 - .6, h - F, 1.2, F); }   // panel joints on the face
+    x.fillStyle = 'rgba(20,15,8,.65)'; x.fillRect(E, h - 2.2, w - E * 2, 2.2);                            // the kick recess at the floor
+    x.fillStyle = '#3a301d'; x.fillRect(0, 3, E, h - 4); x.fillRect(w - E, 3, E, h - 4);                  // the end faces, in shade
+    const top = x.createLinearGradient(0, 0, 0, h - F); top.addColorStop(0, '#d7caa0'); top.addColorStop(1, '#c4b689'); x.fillStyle = top; x.beginPath(); x.roundRect(1.5, 1.2, w - 3, h - F - 1.2, 2); x.fill();
+    for (let i = 0; i < 220; i++) { x.fillStyle = r() > .5 ? 'rgba(120,104,70,.16)' : 'rgba(255,250,230,.14)'; x.fillRect(2 + r() * (w - 4), 2 + r() * (h - F - 3), .9, .9); }   // laminate fleck
+    x.fillStyle = 'rgba(255,248,224,.42)'; x.fillRect(3, 1.6, w - 6, 1);                                  // the back edge catches the tubes
+    x.fillStyle = 'rgba(255,244,214,.3)'; x.fillRect(2, h - F - .8, w - 4, 1.1);                          // the front bevel, lit
+    x.fillStyle = 'rgba(60,46,24,.45)'; x.fillRect(2, h - F + .3, w - 4, 1);                               // ... and its shadowed underside
+    const wear = x.createLinearGradient(0, h - F - 1, 0, h - F - 12); wear.addColorStop(0, 'rgba(90,70,40,.26)'); wear.addColorStop(1, 'rgba(90,70,40,0)'); x.fillStyle = wear; x.fillRect(3, h - F - 12, w - 6, 11);   // worn along the front edge
+    for (let i = 1; i < 3; i++) { x.fillStyle = 'rgba(110,94,62,.4)'; x.fillRect(w * i / 3 - .5, 2, 1, h - F - 3); }                      // panel joints on the top
+    for (let i = 0; i < 6; i++) { x.strokeStyle = 'rgba(255,252,240,.18)'; x.lineWidth = .6; x.beginPath(); const sx = 6 + r() * (w - 20), sy = 4 + r() * (h - F - 8); x.moveTo(sx, sy); x.lineTo(sx + 6 + r() * 14, sy + (r() - .5) * 3); x.stroke(); }   // old scratches
+    x.strokeStyle = 'rgba(70,56,32,.85)'; x.lineWidth = 1; x.beginPath(); x.roundRect(.5, .5, w - 1, h - 1, 3); x.stroke();                    // the footprint's edge
     return c;
   }
-  function tableCanvas(s, p, prof, key) {                // a long table on legs: the top overhangs a dark gap (you can crawl beneath)
+  /* a long table on legs, bare (canon audit): the top overhangs a dark gap you can crawl beneath.  Volume: the top's thick
+   * front edge (south), a lit back edge, legs standing in the shadowed gap, dust on the top.  Exactly the footprint. */
+  function tableCanvas(s, p, prof, key) {
     const w = p.rect.w, h = p.rect.h, c = mkCanvas((w + PAD * 2) * s, (h + PAD * 2) * s), x = c.getContext('2d'), r = VZ.rng('prop', key, p.id); x.scale(s, s);
     contact(x, w, h, .42); x.translate(PAD, PAD);
-    x.fillStyle = 'rgba(8,6,2,.78)'; x.beginPath(); x.roundRect(0, 0, w, h, 3); x.fill();                 // the dark beneath the top, seen at its rim
-    for (const [lx, ly] of [[3, 3], [w - 9, 3], [3, h - 9], [w - 9, h - 9]]) { x.fillStyle = '#2b2416'; x.fillRect(lx, ly, 6, 6); x.fillStyle = 'rgba(160,150,120,.25)'; x.fillRect(lx, ly, 6, 1); }   // the legs
-    const top = x.createLinearGradient(0, 0, w, h); top.addColorStop(0, '#9c8459'); top.addColorStop(1, '#8a7149');
-    x.fillStyle = top; x.beginPath(); x.roundRect(4, 3, w - 8, h - 9, 2.5); x.fill();                       // the top (overhang: the gap shows more to the south)
-    for (let i = 0; i < 26; i++) { x.strokeStyle = `rgba(${60 + r() * 30},${44 + r() * 20},${24},${.12 + r() * .12})`; x.lineWidth = .7 + r() * 1.1; const yy = 5 + r() * (h - 14); x.beginPath(); x.moveTo(5, yy); x.bezierCurveTo(w * .3, yy + (r() - .5) * 3, w * .7, yy + (r() - .5) * 3, w - 5, yy + (r() - .5) * 2); x.stroke(); }   // wood-grain laminate
-    x.strokeStyle = 'rgba(48,36,18,.85)'; x.lineWidth = 1.2; x.beginPath(); x.roundRect(4, 3, w - 8, h - 9, 2.5); x.stroke();
-    x.fillStyle = 'rgba(255,240,200,.22)'; x.fillRect(6, 4, w - 12, 1);
-    x.fillStyle = 'rgba(40,30,12,.5)'; x.fillRect(5, h - 7.5, w - 10, 1.5);                                // the edge's thickness on the south side
-    for (let i = 0; i < 3; i++) { x.strokeStyle = 'rgba(70,52,26,.3)'; x.lineWidth = 1.2; x.beginPath(); x.arc(30 + r() * (w - 60), 12 + r() * (h - 30), 5 + r() * 2, 0, 7); x.stroke(); }   // rings
-    const dust = x.createRadialGradient(w * .5, h * .4, 4, w * .5, h * .4, w * .5); dust.addColorStop(0, 'rgba(190,180,150,.0)'); dust.addColorStop(1, 'rgba(190,180,150,.16)'); x.fillStyle = dust; x.fillRect(4, 3, w - 8, h - 9);
-    const titems = (prof && prof.props && prof.props.table) || [];
-    if (titems.includes('paper')) {                                                                         // left behind when the lights went
-      x.save(); x.translate(w * .7, h * .38); x.rotate(.18); x.fillStyle = 'rgba(30,24,10,.3)'; x.fillRect(-7, -9, 15, 19); x.fillStyle = '#d9d3bb'; x.fillRect(-7.5, -9.5, 15, 19); x.fillStyle = 'rgba(110,100,80,.4)'; for (let i = 0; i < 5; i++) x.fillRect(-5, -6 + i * 3, 9, .6); x.restore();
-    }
-    if (titems.includes('binder')) {
-      x.fillStyle = 'rgba(20,16,8,.3)'; x.fillRect(w * .22 + 1, h * .3 + 1, 9, 13); x.fillStyle = '#8b2c22'; x.fillRect(w * .22, h * .3, 9, 13); x.fillStyle = '#c9c4ad'; x.fillRect(w * .22 + 1, h * .3 + 2, 7, 3);   // a fire-safety binder
-    }
+    const gap = x.createLinearGradient(0, 0, 0, h); gap.addColorStop(0, 'rgba(10,8,3,.7)'); gap.addColorStop(1, 'rgba(4,3,1,.9)');
+    x.fillStyle = gap; x.beginPath(); x.roundRect(0, 0, w, h, 3); x.fill();                                // the dark beneath the top, seen at its rim
+    for (const [lx, ly] of [[3, 3], [w - 9, 3], [3, h - 9], [w - 9, h - 9]]) { x.fillStyle = 'rgba(0,0,0,.35)'; x.fillRect(lx + 1, ly + 1.5, 6, 6); x.fillStyle = '#2b2416'; x.fillRect(lx, ly, 6, 6); x.fillStyle = 'rgba(160,150,120,.22)'; x.fillRect(lx, ly, 6, 1); }   // the legs, grounded
+    const TH = 5, top = x.createLinearGradient(0, 0, w, h); top.addColorStop(0, '#9a8358'); top.addColorStop(1, '#887049');
+    x.fillStyle = top; x.beginPath(); x.roundRect(4, 3, w - 8, h - 9 - TH, 2.5); x.fill();                 // the top
+    const edge = x.createLinearGradient(0, h - 6 - TH, 0, h - 6); edge.addColorStop(0, '#7a6440'); edge.addColorStop(1, '#4a3a20');
+    x.fillStyle = edge; x.fillRect(4.5, h - 6 - TH, w - 9, TH);                                           // its thick front edge (south face)
+    x.fillStyle = 'rgba(255,236,190,.28)'; x.fillRect(5, h - 6 - TH, w - 10, .9);                          // the lit arris
+    for (let i = 0; i < 22; i++) { x.strokeStyle = `rgba(${60 + r() * 30},${44 + r() * 20},${24},${.1 + r() * .1})`; x.lineWidth = .7 + r() * 1.1; const yy = 5 + r() * (h - 16 - TH); x.beginPath(); x.moveTo(5, yy); x.bezierCurveTo(w * .3, yy + (r() - .5) * 3, w * .7, yy + (r() - .5) * 3, w - 5, yy + (r() - .5) * 2); x.stroke(); }   // wood-grain laminate
+    x.strokeStyle = 'rgba(48,36,18,.85)'; x.lineWidth = 1.1; x.beginPath(); x.roundRect(4, 3, w - 8, h - 9 - TH, 2.5); x.stroke();
+    x.fillStyle = 'rgba(255,240,200,.24)'; x.fillRect(6, 3.6, w - 12, 1);                                // the back edge catches light
+    const dust = x.createRadialGradient(w * .5, h * .35, 4, w * .5, h * .35, w * .5); dust.addColorStop(0, 'rgba(190,180,150,.0)'); dust.addColorStop(1, 'rgba(190,180,150,.17)'); x.fillStyle = dust; x.fillRect(4, 3, w - 8, h - 9 - TH);   // dust, thicker toward the edges
     return c;
   }
   function holeCanvas(s, p, prof, key) {                 // a crawl hole broken through a partition: crumbled board edges, cut studs, a dusty sill, rubble
@@ -372,7 +367,7 @@
       for (const sx of [cw * .3, cw * .62]) { x.fillStyle = '#7a6440'; x.fillRect(sx, top ? 0 : chh - 6, 7, 6); x.fillStyle = 'rgba(255,236,190,.22)'; x.fillRect(sx, top ? 5 : chh - 6, 7, 1); }   // cut studs
     };
     edge(true); edge(false);
-    for (const side of [-1, 1]) for (let i = 0; i < 14; i++) {        // crumbs spilled out of both mouths onto the floor
+    for (const side of [-1, 1]) for (let i = 0; i < 9; i++) {         // crumbs spilled out of both mouths onto the floor
       const px = side < 0 ? -1 - Math.pow(r(), 1.5) * 10 : cw + 1 + Math.pow(r(), 1.5) * 10, py = 14 + r() * (chh - 28), s2 = .8 + r() * 2.2;
       x.fillStyle = r() > .3 ? 'rgba(214,206,180,.9)' : 'rgba(110,96,64,.8)'; x.fillRect(px - s2 / 2, py, s2, s2 * (.6 + r() * .6)); }
     x.restore(); return c;
@@ -429,7 +424,7 @@
       x.fillStyle = 'rgba(40,38,32,.8)'; x.fillRect(10, h * .36 - 1.6, w - 20, 3.2); if (kind !== 'hanging') x.fillRect(10, h * .66 - 1.6, w * .45, 3.2);   // dark tubes, one gone
       x.strokeStyle = 'rgba(20,18,14,.7)'; x.lineWidth = .8; x.beginPath(); x.moveTo(w * .58, 3); x.lineTo(w * .61, h * .3); x.lineTo(w * .66, h * .38); x.lineTo(w * .69, h * .7); x.lineTo(w * .75, h - 3); x.stroke();   // a crack across the lens
     }
-    for (let i = 0; i < 7; i++) { x.fillStyle = 'rgba(40,34,18,.32)'; x.fillRect(10 + r() * (w - 20), r() > .5 ? 4 + r() * 2.5 : h - 6.5 + r() * 2.5, .6 + r() * .6, .5 + r() * .5); }   // dead insects along the lens edges
+    x.fillStyle = 'rgba(70,60,36,.16)'; x.fillRect(9, 3, w - 18, 1.6); x.fillRect(9, h - 4.6, w - 18, 1.6);  // dust settled along the lens edges (canon audit: no insects - the level is lifeless)
     return c;
   }
 
@@ -453,7 +448,7 @@
       se: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(i + .5, j + .5) / qq))), sw: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(qq - i - .5, j + .5) / qq))),
       ne: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(i + .5, qq - j - .5) / qq))), nw: texOf(aoCanvas(qq, qq, (i, j) => fall(Math.hypot(qq - i - .5, qq - j - .5) / qq))) };
     const dc = decalCanvases(Math.min(2, s), 'decals');
-    for (const k of Object.keys(dc)) X.dec[k] = dc[k].map(o => ({ t: texOf(o.c, { mip: true }), w: o.w, h: o.h }));
+    for (const k of Object.keys(dc)) X.dec[k] = dc[k].map(o => ({ t: texOf(o.c, { mip: true }), w: o.w, h: o.h, s: o.s }));
     for (const kind of ['clean', 'yellowed', 'aged', 'dead', 'missing', 'hanging']) X.fix[kind] = texOf(fixtureCanvas(Math.max(2, s + .5), kind, 'fixture'), { mip: true });
     return X;
   }
@@ -479,14 +474,17 @@
 
     /* -- 1 floor: carpet rolls (each roll its own texture phase and a whisper of tone), seams between them -- */
     const floorG = new S.G(); floorG.label = 'floor'; R.src.addChild(floorG);
-    const along = cp.seams === 'x' ? 'x' : 'y', ROLL = 184, tone = cp.tone || 1, sc = X.carpetScale;
+    const seamless = !cp.seams || cp.seams === 'none', along = cp.seams === 'x' ? 'x' : 'y', ROLL = seamless ? 1e9 : 184, tone = cp.tone || 1, sc = X.carpetScale;
     const runs = [];                                       // maximal horizontal runs of owned floor cells, merged vertically into rects
     for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w;) { if (!own(cx, cy)) { cx++; continue; } let e = cx; while (e + 1 < o.x + o.w && own(e + 1, cy)) e++; runs.push({ x: cx, y: cy, w: e - cx + 1, h: 1 }); cx = e + 1; }
     const rects = []; for (const r of runs) { const up = rects.find(q2 => q2.x === r.x && q2.w === r.w && q2.y + q2.h === r.y); if (up) up.h++; else rects.push({ ...r }); }
     const span0 = along === 'y' ? o.x * T : o.y * T, span1 = along === 'y' ? (o.x + o.w) * T : (o.y + o.h) * T, rolls = [];
-    for (let a = span0 - VZ.unit(vr.id, 'roll-phase') * ROLL, k = 0; a < span1; a += ROLL, k++) rolls.push({ a0: Math.max(span0, a), a1: Math.min(span1, a + ROLL), k });
+    /* canon: "seamless, consisting of a single continuous piece of carpet" - one piece, its texture anchored to the world, so
+     * the carpet also runs on unbroken from room to room (rolls and seams only if an archetype ever asks for them) */
+    if (seamless) rolls.push({ a0: span0, a1: span1, k: 0 });
+    else for (let a = span0 - VZ.unit(vr.id, 'roll-phase') * ROLL, k = 0; a < span1; a += ROLL, k++) rolls.push({ a0: Math.max(span0, a), a1: Math.min(span1, a + ROLL), k });
     for (const rr of rolls) {
-      const ph = [VZ.unit(vr.id, 'roll', rr.k, 'u') * 1024, VZ.unit(vr.id, 'roll', rr.k, 'v') * 1024], tint = tone * (1 + (VZ.unit(vr.id, 'roll', rr.k, 't') - .5) * .05);
+      const ph = seamless ? [0, 0] : [VZ.unit(vr.id, 'roll', rr.k, 'u') * 1024, VZ.unit(vr.id, 'roll', rr.k, 'v') * 1024], tint = seamless ? tone : tone * (1 + (VZ.unit(vr.id, 'roll', rr.k, 't') - .5) * .05);
       const style = { texture: X.carpet, textureSpace: 'global', matrix: M(sc, 0, 0, sc, ph[0], ph[1]), color: hexOf([255 * tint, 255 * tint, 255 * Math.min(1.02, tint)]) };
       for (const fr of rects) {
         const x0 = fr.x * T, y0 = fr.y * T, x1 = (fr.x + fr.w) * T, y1 = (fr.y + fr.h) * T;
@@ -534,10 +532,11 @@
     R.decalLayers = [mulG, decG];
     const props = window.WORLD && window.WORLD.PROPS ? window.WORLD.PROPS : [];
     const clearOfProps = (x, y, m) => !props.some(p => { const rc = p.type === 'gap' || p.type === 'window' ? p.cell : p.rect; return x > rc.x - m && x < rc.x + rc.w + m && y > rc.y - m && y < rc.y + rc.h + m; });
-    const put = (g, kind, i, x, y, rot, scl, alpha, tint = 0xffffff) => {
-      const set = X.dec[kind]; if (!set || !set.length) return; const d = set[i % set.length], c = Math.cos(rot) * scl, s2 = Math.sin(rot) * scl;
-      g.setTransform(c, s2, -s2, c, x, y); g.fillStyle = { color: 0xffffff, alpha }; g.texture(d.t, tint, -d.w / 2, -d.h / 2, d.w, d.h); g.resetTransform(); R.n.decals++;
-    };
+    /* the room's floor is a receiving surface: its own floor cells (world axes); every floor mark is clipped to it */
+    R.surfaces = []; R.floorSurf = { id: 'surf:' + vr.id + ':floor', room: vr.id, kind: 'floor', material: 'material:carpet', rects: rects.map(fr => ({ x: fr.x * T, y: fr.y * T, w: fr.w * T, h: fr.h * T })), o: [0, 0], U: [1, 0], N: [0, 1] };
+    R.surfaces.push(R.floorSurf);
+    const put = (g, kind, i, x, y, rot, scl, alpha, tint = 0xffffff) => { if (!VZ.drawable(kind)) return; const set = X.dec[kind]; if (!set || !set.length) return;
+      if (decalOn(g, R.floorSurf, set[i % set.length], x, y, rot, scl, alpha, tint)) R.n.decals++; };
     const cells = []; for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w; cx++) if (own(cx, cy)) {
       const wn = [wall(cx - 1, cy), wall(cx + 1, cy), wall(cx, cy - 1), wall(cx, cy + 1)], nw = wn.filter(Boolean).length;
       const corner = (wn[0] || wn[1]) && (wn[2] || wn[3]);
@@ -549,22 +548,19 @@
       if (!clearOfProps(x, y, 30)) continue;
       const r0 = u('rot') * Math.PI * 2;
       if (u('stain') < cp.stains * .055 * dens && !c.edge) put(mulG, 'stain', Math.floor(u('v') * 4), x, y, r0, .7 + u('s') * .7, .8);
-      if (u('ring') < .012 * dens * (D.paper + .3)) put(mulG, 'ring', Math.floor(u('v2') * 2), x, y, r0, 1, .9);
       if (u('damp') < cp.damp * (c.edge ? .16 : .05) * dens) put(mulG, 'damp', Math.floor(u('v3') * 3), x + (c.wn[0] ? -20 : c.wn[1] ? 20 : 0), y + (c.wn[2] ? -20 : c.wn[3] ? 20 : 0), r0, .45 + u('s2') * (.3 + cp.damp), clamp(.35 + cp.damp * 1.3, 0, .95));
       if (c.lane > .35 && u('scuff') < D.scuff * .2 * dens) put(mulG, 'scuff', Math.floor(u('v4') * 3), x, y, r0, .8 + u('s3') * .5, .9);
-      if (u('paper') < D.paper * (c.edge ? .07 : .02) * dens) {             // papers drift against walls and into corners
-        const px = c.wn[0] ? c.cx * T + 16 : c.wn[1] ? (c.cx + 1) * T - 16 : x, py = c.wn[2] ? c.cy * T + 18 : c.wn[3] ? (c.cy + 1) * T - 18 : y;
-        put(decG, 'paper', Math.floor(u('v5') * 3), px, py, r0, .9 + u('s4') * .2, 1);
+      if (u('indent') < (D.indent || 0) * .014 * dens && clearOfProps(x, y, 80)) {   // furniture once stood here (rare; never under a prop)
+        const ix = c.wn[0] ? c.cx * T + 34 : c.wn[1] ? (c.cx + 1) * T - 34 : x, iy = c.wn[2] ? c.cy * T + 34 : c.wn[3] ? (c.cy + 1) * T - 34 : y;
+        put(mulG, 'indent', Math.floor(u('v9') * 2), ix, iy, c.wn[0] || c.wn[1] ? Math.PI / 2 + (u('r9') - .5) * .06 : (u('r9') - .5) * .06, .9 + u('s9') * .2, .9);
       }
-      if (c.edge && u('debris') < D.debris * (c.corner ? .5 : .14) * dens) {
+      if (c.edge && u('debris') < (D.grit || 0) * (c.corner ? .5 : .14) * dens) {
         const px = c.wn[0] ? c.cx * T + 10 : c.wn[1] ? (c.cx + 1) * T - 10 : x, py = c.wn[2] ? c.cy * T + 10 : c.wn[3] ? (c.cy + 1) * T - 10 : y;
         put(decG, 'debris', Math.floor(u('v6') * 3), px, py, r0, .9 + u('s5') * .5, .9);
       }
-      if (c.lane > .5 && u('tape') < D.tape * .05 * dens) put(decG, 'tape', Math.floor(u('v7') * 2), x, y, r0, 1, .95);
       if (c.edge && u('mildew') < (cp.mildew || 0) * (c.corner ? .5 : .12) * dens) { const px = c.wn[0] ? c.cx * T + 22 : c.wn[1] ? (c.cx + 1) * T - 22 : x, py = c.wn[2] ? c.cy * T + 22 : c.wn[3] ? (c.cy + 1) * T - 22 : y; put(mulG, 'mildew', Math.floor(u('v8') * 2), px, py, r0, .8 + u('s8') * .6, .9); }
     }
-    for (const d of VZ.decor.filter(d => d.room === vr.id)) put(d.kind === 'stain' || d.kind === 'damp' || d.kind === 'scuff' || d.kind === 'ring' ? mulG : decG, d.kind, d.v || 0, d.x, d.y, d.r || 0, d.s || 1, d.a == null ? 1 : d.a);
-    if (prof.accent === 'electrical') cables(R, decG);
+    for (const d of VZ.decor.filter(d => d.room === vr.id)) put(d.kind === 'stain' || d.kind === 'damp' || d.kind === 'scuff' || d.kind === 'indent' ? mulG : decG, d.kind, d.v || 0, d.x, d.y, d.r || 0, d.s || 1, d.a == null ? 1 : d.a);
     R.src.addChild(mulG, decG);
 
     /* -- 4 grounding at the wall bases: BR-RoLE's own law, on this room's floor only -- */
@@ -592,9 +588,12 @@
     R.src.addChild(thG);
 
     /* -- 6 walls: caps, papered faces (legacy band widths), mitred corners; and the DEV depth-cue variant -- */
-    R.walls = buildWalls(R, X, ownWall, wall, 'legacy'); R.depthWalls = buildWalls(R, X, ownWall, wall, 'depth');
+    const polys = new Map(); R.walls = buildWalls(R, X, ownWall, wall, 'legacy', (side, line, idx, poly) => { const k = side + ':' + line; (polys.get(k) || polys.set(k, []).get(k)).push({ idx, poly }); });
+    R.depthWalls = buildWalls(R, X, ownWall, wall, 'depth');
     R.src.addChild(R.walls, R.depthWalls); R.depthWalls.visible = S.depth; R.walls.visible = !S.depth;
+    wallRuns(R, ownWall, polys);                                                       // the papered wall faces as receiving surfaces
     const wallDecG = new S.G(); wallDecG.label = 'wall-decor'; wallDecor(R, X, ownWall, wallDecG); R.src.addChild(wallDecG); R.decalLayers.push(wallDecG);
+    R.dynG = new S.G(); R.dynG.label = 'decals-dynamic'; R.src.addChild(R.dynG);       // stamped later through the receiver (bounded)
 
     /* -- 7 the room's physical props, same rects -- */
     const propG = new S.G(); propG.label = 'props';
@@ -658,24 +657,11 @@
     };
   }
 
-  /* a taped cable run (HUMMING ROOMS): from the outlet nearest the counter, across the carpet, taped down, under the counter */
-  function cables(R, g) {
-    const props = (window.WORLD && window.WORLD.PROPS || []).filter(p => p.kind === 'counter'), o = R.o;
-    for (const p of props) { const rc = p.rect, cx = Math.floor((rc.x + rc.w / 2) / T), cy = Math.floor((rc.y + rc.h / 2) / T); if (!(cx >= o.x && cx < o.x + o.w && cy >= o.y && cy < o.y + o.h)) continue;
-      let wx = null; for (let x = cx; x >= o.x - 1; x--) if (!isFloor(x, cy)) { wx = (x + 1) * T; break; }   // the nearest wall to the west, same row
-      if (wx == null) continue; const y0 = rc.y + rc.h * .5, x1 = rc.x + 6;
-      g.moveTo(wx + 2, y0 + 30).bezierCurveTo(wx + 60, y0 + 40, x1 - 80, y0 + 34, x1 + 2, y0 + 6).stroke({ color: 0x1e1d1a, width: 2.2, alpha: .92 });
-      g.moveTo(wx + 2, y0 + 30).bezierCurveTo(wx + 60, y0 + 40, x1 - 80, y0 + 34, x1 + 2, y0 + 6).stroke({ color: 0x5a5852, width: .7, alpha: .5 });
-      const set = S.tex.dec.tape; if (set) for (let i = 1; i < 4; i++) { const t = i / 4, bx = Math.pow(1 - t, 3) * (wx + 2) + 3 * Math.pow(1 - t, 2) * t * (wx + 60) + 3 * (1 - t) * t * t * (x1 - 80) + t * t * t * (x1 + 2), by = Math.pow(1 - t, 3) * (y0 + 30) + 3 * Math.pow(1 - t, 2) * t * (y0 + 40) + 3 * (1 - t) * t * t * (y0 + 34) + t * t * t * (y0 + 6);
-        g.setTransform(0, 1, -1, 0, bx, by); g.fillStyle = { color: 0xffffff, alpha: .95 }; g.texture(set[i % 2].t, 0xffffff, -13, -4, 26, 8); g.resetTransform(); R.n.decals++; }
-    }
-  }
-
   /* walls: every owned wall cell gets its cap, then a papered band on each side that faces floor.  mode 'legacy' keeps the
    * v23.3.6 band widths (S 46, E/W 27, N 23); mode 'depth' is the DEV cue: a uniform 18 px band with a lit lip on all four
    * sides.  Convex corners of a cell split on the diagonal; inner corners are filled from both faces, split the same way.
    * Every band lies inside its own wall cell: nothing covers floor. */
-  function buildWalls(R, X, ownWall, wall, mode) {
+  function buildWalls(R, X, ownWall, wall, mode, rec = null) {
     const g = new S.G(), o = R.o, tex = mode === 'depth' ? X.depth[R.prof.id] : X.wall[R.prof.id], s = X.q.artScale, ph = VZ.unit(R.id, 'paper-phase') * 192; g.label = 'walls:' + mode;
     const Wd = mode === 'depth' ? { S: 18, N: 18, E: 18, W: 18 } : { S: 46, N: 23, E: 27, W: 27 };
     const capStyle = { texture: X.cap, textureSpace: 'global', matrix: M(1, 0, 0, 1, 0, 0) };
@@ -689,10 +675,10 @@
       if (mode === 'depth') g.rect(x0, y0, T, T).fill(capStyle);           // the legacy-width faces cover the old bands exactly; the old cap (the same dark top, hidden by the sight shape in play) stays
       const f = { S: !wall(cx, cy + 1), N: !wall(cx, cy - 1), E: !wall(cx + 1, cy), W: !wall(cx - 1, cy) };
       const sw = Wd.S, nw = Wd.N, ew = Wd.E, ww = Wd.W;
-      if (f.S) { const p = [x0, y1 - sw, x1, y1 - sw, x1, y1, x0, y1]; if (f.E) { p[2] = x1 - ew; } if (f.W) { p[0] = x0 + ww; } g.poly(p).fill(fs('S', y1)); R.n.faces++; }
-      if (f.N) { const p = [x0, y0, x1, y0, x1, y0 + nw, x0, y0 + nw]; if (f.E) { p[4] = x1 - ew; } if (f.W) { p[6] = x0 + ww; } g.poly(p).fill(fs('N', y0)); R.n.faces++; }
-      if (f.E) { const p = [x1 - ew, y0, x1, y0, x1, y1, x1 - ew, y1]; if (f.N) p[1] = y0 + nw; if (f.S) p[7] = y1 - sw; g.poly(p).fill(fs('E', x1)); R.n.faces++; }
-      if (f.W) { const p = [x0, y0, x0 + ww, y0, x0 + ww, y1, x0, y1]; if (f.N) p[3] = y0 + nw; if (f.S) p[5] = y1 - sw; g.poly(p).fill(fs('W', x0)); R.n.faces++; }
+      if (f.S) { const p = [x0, y1 - sw, x1, y1 - sw, x1, y1, x0, y1]; if (f.E) { p[2] = x1 - ew; } if (f.W) { p[0] = x0 + ww; } g.poly(p).fill(fs('S', y1)); R.n.faces++; if (rec) rec('S', y1, cx, p); }
+      if (f.N) { const p = [x0, y0, x1, y0, x1, y0 + nw, x0, y0 + nw]; if (f.E) { p[4] = x1 - ew; } if (f.W) { p[6] = x0 + ww; } g.poly(p).fill(fs('N', y0)); R.n.faces++; if (rec) rec('N', y0, cx, p); }
+      if (f.E) { const p = [x1 - ew, y0, x1, y0, x1, y1, x1 - ew, y1]; if (f.N) p[1] = y0 + nw; if (f.S) p[7] = y1 - sw; g.poly(p).fill(fs('E', x1)); R.n.faces++; if (rec) rec('E', x1, cy, p); }
+      if (f.W) { const p = [x0, y0, x0 + ww, y0, x0 + ww, y1, x0, y1]; if (f.N) p[3] = y0 + nw; if (f.S) p[5] = y1 - sw; g.poly(p).fill(fs('W', x0)); R.n.faces++; if (rec) rec('W', x0, cy, p); }
       // inner corners: a diagonal floor cell whose two orthogonal neighbours are both walls with faces toward it
       for (const [dx, dy] of [[1, 1], [-1, 1], [1, -1], [-1, -1]]) {
         if (wall(cx + dx, cy + dy) || !wall(cx + dx, cy) || !wall(cx, cy + dy)) continue;
@@ -701,27 +687,52 @@
         const ax = hx - dx * vw, ay = hy - dy * hw;                         // the inner corner square of this cell
         g.poly([hx, hy, hx, ay, ax, ay]).fill(fs(dy > 0 ? 'S' : 'N', hy));  // continues the horizontal face of the cell beside (touches its band)
         g.poly([hx, hy, ax, hy, ax, ay]).fill(fs(dx > 0 ? 'E' : 'W', hx));  // continues the vertical face of the cell above / below
+        if (rec) { rec(dy > 0 ? 'S' : 'N', hy, cx + dx, [hx, hy, hx, ay, ax, ay]); rec(dx > 0 ? 'E' : 'W', hx, cy + dy, [hx, hy, ax, hy, ax, ay]); }
       }
     }
     return g;
   }
 
-  /* things on the walls' lowest band (where the eye actually reaches): water wicking up, lifted seams, outlets; HUMMING ROOMS
-   * gets junction boxes, BLACKOUT ZONE a burnt outlet.  Face space: drawn through a transform per face orientation. */
+  /* the papered wall faces of a room as receiving surfaces: maximal runs of wall cells whose face looks onto this room's
+   * floor, on one line.  Axes: u along the face from its start, v up from the crease into the wall (the decal canvases are
+   * upright, base at the crease); clip: the band polygons of the run, inner-corner continuations included. */
+  const BAND = { S: 46, N: 23, E: 27, W: 27 };
+  function wallRuns(R, ownWall, polys) {
+    const o = R.o, own = (x, y) => x >= o.x && x < o.x + o.w && y >= o.y && y < o.y + o.h && isFloor(x, y), lines = new Map();
+    const add = (side, line, idx) => { const k = side + ':' + line; (lines.get(k) || lines.set(k, []).get(k)).push(idx); };
+    for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) {
+      if (!ownWall(cx, cy)) continue;
+      if (own(cx, cy + 1)) add('S', (cy + 1) * T, cx); if (own(cx, cy - 1)) add('N', cy * T, cx);
+      if (own(cx + 1, cy)) add('E', (cx + 1) * T, cy); if (own(cx - 1, cy)) add('W', cx * T, cy);
+    }
+    R.runOf = new Map();
+    for (const [k, list] of lines) {
+      const [side, ls] = k.split(':'), line = +ls; list.sort((a, b) => a - b);
+      for (let i = 0; i < list.length;) { let j = i; while (j + 1 < list.length && list[j + 1] === list[j] + 1) j++; const a0 = list[i], a1 = list[j], len = (a1 - a0 + 1) * T;
+        const o2 = side === 'S' ? [a0 * T, line] : side === 'N' ? [(a1 + 1) * T, line] : side === 'E' ? [line, (a1 + 1) * T] : [line, a0 * T];
+        const U = side === 'S' ? [1, 0] : side === 'N' ? [-1, 0] : side === 'E' ? [0, -1] : [0, 1], N = side === 'S' ? [0, -1] : side === 'N' ? [0, 1] : side === 'E' ? [-1, 0] : [1, 0];
+        const clip = (polys.get(k) || []).filter(q => q.idx >= a0 && q.idx <= a1).map(q => q.poly);
+        const sf = { id: `surf:${R.id}:wall:${side}:${line}:${a0}`, room: R.id, kind: 'wall', side, material: 'material:wallpaper', o: o2, U, N, len, band: BAND[side], polys: clip, a0, a1 };
+        R.surfaces.push(sf); for (let a = a0; a <= a1; a++) R.runOf.set(side + ':' + line + ':' + a, sf); i = j + 1; }
+    }
+  }
+  /* things on the walls' lowest band (where the eye actually reaches): water wicking up, lifted seams, mildew, outlets;
+   * HUMMING ROOMS gets sparse junction boxes, BLACKOUT ZONE a rare burnt outlet.  Placed per face cell (the same seeded keys
+   * as QA1), drawn through the receiver: in the run's own coordinates, clipped to its band. */
   function wallDecor(R, X, ownWall, g) {
     const o = R.o, prof = R.prof, W = prof.wallpaper, faces = [], dens = X.q.decals;
     for (let cy = o.y - 1; cy <= o.y + o.h; cy++) for (let cx = o.x - 1; cx <= o.x + o.w; cx++) {
-      if (!ownWall(cx, cy)) continue; const x0 = cx * T, y0 = cy * T;
+      if (!ownWall(cx, cy)) continue;
       const own = (x, y) => x >= o.x && x < o.x + o.w && y >= o.y && y < o.y + o.h && isFloor(x, y);
-      if (own(cx, cy + 1)) faces.push({ side: 'S', cx, cy, bx: x0, by: y0 + T, ux: 1, uy: 0, nx: 0, ny: -1 });
-      if (own(cx, cy - 1)) faces.push({ side: 'N', cx, cy, bx: x0 + T, by: y0, ux: -1, uy: 0, nx: 0, ny: 1 });
-      if (own(cx + 1, cy)) faces.push({ side: 'E', cx, cy, bx: x0 + T, by: y0 + T, ux: 0, uy: -1, nx: -1, ny: 0 });
-      if (own(cx - 1, cy)) faces.push({ side: 'W', cx, cy, bx: x0, by: y0, ux: 0, uy: 1, nx: 1, ny: 0 });
+      if (own(cx, cy + 1)) faces.push({ side: 'S', cx, cy, line: (cy + 1) * T, idx: cx });
+      if (own(cx, cy - 1)) faces.push({ side: 'N', cx, cy, line: cy * T, idx: cx });
+      if (own(cx + 1, cy)) faces.push({ side: 'E', cx, cy, line: (cx + 1) * T, idx: cy });
+      if (own(cx - 1, cy)) faces.push({ side: 'W', cx, cy, line: cx * T, idx: cy });
     }
-    const put = (f, kind, i, u, v, scl = 1, alpha = 1) => {               // u along the face (0..96), v up from the crease
-      const set = X.dec[kind]; if (!set) return; const d = set[i % set.length], x = f.bx + f.ux * u + f.nx * v, y = f.by + f.uy * u + f.ny * v;
-      // decal canvases are drawn upright with their base at the bottom: map canvas +x -> along the wall, canvas +y -> down toward the crease
-      g.setTransform(f.ux * scl, f.uy * scl, -f.nx * scl, -f.ny * scl, x, y); g.fillStyle = { color: 0xffffff, alpha }; g.texture(d.t, 0xffffff, -d.w / 2, -d.h, d.w, d.h); g.resetTransform(); R.n.decals++;
+    const put = (f, kind, i, u, v, scl = 1, alpha = 1) => {               // u along this cell's face (0..96), v up from the crease
+      if (!VZ.drawable(kind)) return; const set = X.dec[kind], sf = R.runOf.get(f.side + ':' + f.line + ':' + f.idx); if (!set || !sf) return;
+      const off = (f.side === 'S' || f.side === 'W' ? f.idx - sf.a0 : sf.a1 - f.idx) * T;   // this cell's start along the run
+      if (decalOn(g, sf, set[i % set.length], off + u, v, 0, scl, alpha)) R.n.decals++;
     };
     for (const f of faces) {
       const u = k => VZ.unit(R.id, 'wall', k, f.side, f.cx, f.cy);
@@ -729,9 +740,90 @@
       if (u('peel') < W.peel * .16 * dens) put(f, 'peel', 0, 14 + u('pu') * 68, 9, .9, .9);
       if (u('mildew') < (W.mildew || 0) * .35 * dens) put(f, 'mildewwall', 0, 18 + u('mu') * 60, 0, .9 + u('ms') * .4, .9);
       if (u('outlet') < .1) put(f, 'outlet', 0, 20 + u('ou') * 56, 15, .9, 1);
-      if (prof.accent === 'electrical' && u('jbox') < .12) put(f, 'jbox', 0, 18 + u('ju') * 60, 19, .9, 1);
+      if (prof.accent === 'electrical' && u('jbox') < .07) put(f, 'jbox', 0, 18 + u('ju') * 60, 19, .9, 1);
       if (prof.accent === 'failed-power' && u('scorch') < .06) { const uu = 24 + u('su') * 48; put(f, 'scorch', 0, uu, 6, 1, .9); put(f, 'outlet', 0, uu, 15, .9, 1); }
     }
+  }
+
+  /* ======================================================================================================================
+   * SURFACES: the decal receiver.
+   * Each remastered room exposes the surfaces that can receive marks: its floor and each run of papered wall face (above).
+   * A decal is drawn in its surface's own coordinates and clipped to the surface (each clip polygon filled with the decal's
+   * texture through one matrix), into the room's source art; the bake then carries it.  So a mark stays attached when the
+   * camera moves, sits in the same stack as its host material (BR-RoLE lights it exactly as the wall or carpet beneath: no
+   * second lighting), costs nothing per frame, and never blocks, hides or tells the game anything.  Static marks are the
+   * seeded dressing; dynamic marks are stamped later through window.__l0v.surfaces (bounded per surface, per room and in
+   * all; oldest dropped first; an optional lifetime) and only the chunks they touch re-bake.  Future blood belongs to the
+   * gore / death stage, which would only call stamp(): nothing here spawns any.
+   * ==================================================================================================================== */
+  function decalMatrix(sf, d, u, v, rot, scl) {          // canvas px -> world, for a decal at (u, v) on surface sf; and its quad (with margin) in world
+    const k = 1 / (d.s || 1), cr = Math.cos(rot), sr = Math.sin(rot), pad = d.pad == null ? DPAD : d.pad;
+    let P, A, B, ax, by;
+    if (sf.kind === 'floor') { P = [u, v]; A = [cr * scl, sr * scl]; B = [-sr * scl, cr * scl]; ax = d.w / 2; by = d.h / 2; }          // centred, rotated in the floor plane
+    else { P = [sf.o[0] + sf.U[0] * u + sf.N[0] * v, sf.o[1] + sf.U[1] * u + sf.N[1] * v];                                               // upright on the face, base at (u, v)
+      const D = [-sf.N[0], -sf.N[1]]; A = [(sf.U[0] * cr + D[0] * sr) * scl, (sf.U[1] * cr + D[1] * sr) * scl]; B = [(D[0] * cr - sf.U[0] * sr) * scl, (D[1] * cr - sf.U[1] * sr) * scl]; ax = d.w / 2; by = d.h; }
+    const ox = -pad - ax, oy = -pad - by, W2 = d.w + pad * 2, H2 = d.h + pad * 2, at = (a, b) => [P[0] + A[0] * a + B[0] * b, P[1] + A[1] * a + B[1] * b];
+    const quad = [at(ox, oy), at(ox + W2, oy), at(ox + W2, oy + H2), at(ox, oy + H2)];
+    return { m: M(A[0] * k, A[1] * k, B[0] * k, B[1] * k, P[0] + A[0] * ox + B[0] * oy, P[1] + A[1] * ox + B[1] * oy), quad,
+      box: { x0: Math.min(...quad.map(c => c[0])), y0: Math.min(...quad.map(c => c[1])), x1: Math.max(...quad.map(c => c[0])), y1: Math.max(...quad.map(c => c[1])) } };
+  }
+  /* Pixi tiles a matrix-mapped texture fill (it switches clamp-to-edge to repeat), so a decal is never filled over a whole
+   * surface polygon: only over (surface polygon) AND (the decal's own quad), both convex (Sutherland-Hodgman).  Inside that
+   * the texture coordinates stay within the decal, whose transparent margin also covers the sampler's edge. */
+  function clipConvex(subj, clip) {                      // flat [x, y, ...] subject, [[x, y] x4] convex clipper; returns flat or null
+    let pts = []; for (let i = 0; i < subj.length; i += 2) pts.push([subj[i], subj[i + 1]]);
+    let area = 0; for (let i = 0; i < clip.length; i++) { const a = clip[i], b = clip[(i + 1) % clip.length]; area += a[0] * b[1] - b[0] * a[1]; } const sg = area >= 0 ? 1 : -1;
+    for (let i = 0; i < clip.length && pts.length; i++) {
+      const a = clip[i], b = clip[(i + 1) % clip.length], inside = p => sg * ((b[0] - a[0]) * (p[1] - a[1]) - (b[1] - a[1]) * (p[0] - a[0])) >= -1e-9, out = [];
+      for (let j = 0; j < pts.length; j++) { const p = pts[j], q = pts[(j + 1) % pts.length], ip = inside(p), iq = inside(q);
+        if (ip) out.push(p);
+        if (ip !== iq) { const dx = q[0] - p[0], dy = q[1] - p[1], ex = b[0] - a[0], ey = b[1] - a[1], den = ex * dy - ey * dx; if (Math.abs(den) > 1e-12) { const t = (ex * (a[1] - p[1]) - ey * (a[0] - p[0])) / den; out.push([p[0] + dx * t, p[1] + dy * t]); } } }
+      pts = out;
+    }
+    if (pts.length < 3) return null; let ar = 0; for (let i = 0; i < pts.length; i++) { const a = pts[i], b = pts[(i + 1) % pts.length]; ar += a[0] * b[1] - b[0] * a[1]; } if (Math.abs(ar) < .5) return null;
+    return pts.flat();
+  }
+  function decalOn(g, sf, d, u, v, rot, scl, alpha, tint = 0xffffff) {   // draws one decal, clipped to its surface; its world box, or null if it touches nothing
+    const { m, quad, box } = decalMatrix(sf, d, u, v, rot, scl), style = { texture: d.t, textureSpace: 'global', matrix: m, alpha, color: tint }; let n = 0;
+    const polys = sf.kind === 'floor' ? sf.rects.filter(r => r.x < box.x1 && r.x + r.w > box.x0 && r.y < box.y1 && r.y + r.h > box.y0).map(r => [r.x, r.y, r.x + r.w, r.y, r.x + r.w, r.y + r.h, r.x, r.y + r.h]) : sf.polys;
+    for (const p of polys) { const c = clipConvex(p, quad); if (c) { g.poly(c).fill(style); n++; } }
+    return n > 0 ? box : null;
+  }
+  const DYN = { perSurface: 12, perRoom: 48, total: 160 };
+  function surfOf(id) { for (const R of S.rooms) for (const sf of R.surfaces || []) if (sf.id === id) return { R, sf }; return null; }
+  function decalSrc(o) {                                 // a built-in kind (drawable by the canon audit; 'proof' only in DEV), or a caller's own image
+    if (o.image) { if (!o.w || !o.h || !o.image.width) return null; let t = S.extTex && S.extTex.get(o.image); if (!t) { t = texOf(o.image, { mip: true }); (S.extTex || (S.extTex = new Map())).set(o.image, t); } return { t, w: o.w, h: o.h, s: o.image.width / o.w, pad: 0 }; }   // a caller's image: w x h world px, give it a transparent border
+    const k = o.kind || 'proof'; if (!(VZ.drawable(k) || (k === 'proof' && S.dev))) return null; const set = S.tex && S.tex.dec[k]; return set && set.length ? set[(o.variant || 0) % set.length] : null;
+  }
+  function redrawDyn(R) { R.dynG.clear(); for (const r of S.dyn.filter(r => r.room === R.id)) { const h = surfOf(r.surf), d = h && decalSrc(r.o); if (h && d) r.box = decalOn(R.dynG, h.sf, d, r.u, r.v, r.rot, r.scale, r.alpha, r.tint) || r.box; } }
+  function dirty(R, box) { if (!box) return; for (const c of R.chunks || []) if (c.x1 > box.x0 && c.x0 < box.x1 && c.y1 > box.y0 && c.y0 < box.y1) c.ver = -1; }   // only the chunks it touches re-bake
+  function stamp(surfId, o = {}) {
+    const h = surfOf(surfId); if (!h || !S.tex) return null; const d = decalSrc(o); if (!d) return null;
+    const r = { id: ++S.dynSeq, room: h.R.id, surf: surfId, o: { kind: o.kind, variant: o.variant, image: o.image, w: o.w, h: o.h }, u: +o.u || 0, v: +o.v || 0, rot: +o.rot || 0, scale: o.scale > 0 ? +o.scale : 1,
+      alpha: o.alpha == null ? 1 : clamp(+o.alpha, 0, 1), tint: o.tint == null ? 0xffffff : o.tint, t: Date.now(), ttl: o.ttl > 0 ? +o.ttl : 0, box: null };
+    S.dyn.push(r);
+    const drop = []; const over = (list, cap) => { while (list.length > cap) drop.push(list.shift()); };     // the caps: oldest first
+    over(S.dyn.filter(q => q.surf === surfId), DYN.perSurface); over(S.dyn.filter(q => q.room === r.room && !drop.includes(q)), DYN.perRoom); over(S.dyn.filter(q => !drop.includes(q)), DYN.total);
+    for (const q of drop) { S.dyn.splice(S.dyn.indexOf(q), 1); const R2 = S.rooms.find(R => R.id === q.room); if (R2) dirty(R2, q.box); }
+    for (const R of S.rooms) if (R.id === r.room || drop.some(q => q.room === R.id)) redrawDyn(R);
+    dirty(h.R, r.box); return r.box ? r.id : (S.dyn.splice(S.dyn.indexOf(r), 1), null);
+  }
+  function unstamp(pred) { const gone = S.dyn.filter(pred); if (!gone.length) return 0; S.dyn = S.dyn.filter(q => !gone.includes(q));
+    for (const R of S.rooms) if (gone.some(q => q.room === R.id)) { redrawDyn(R); for (const q of gone) if (q.room === R.id) dirty(R, q.box); } return gone.length; }
+  function surfaceAt(x, y, reach = 40) {                 // the surface under / in front of a world point: a wall face within reach of it, else the floor
+    let best = null;
+    for (const R of S.rooms) for (const sf of R.surfaces || []) {
+      if (sf.kind !== 'wall') continue; const dx = x - sf.o[0], dy = y - sf.o[1], u = dx * sf.U[0] + dy * sf.U[1], v = dx * sf.N[0] + dy * sf.N[1];
+      if (u < 0 || u > sf.len || v < -reach || v > sf.band) continue; const dist = v < 0 ? -v : 0; if (!best || dist < best.dist) best = { id: sf.id, kind: 'wall', u, v: Math.max(0, v), dist };
+    }
+    if (best) return best;
+    for (const R of S.rooms) { const sf = R.floorSurf; if (sf && sf.rects.some(r => x >= r.x && x < r.x + r.w && y >= r.y && y < r.y + r.h)) return { id: sf.id, kind: 'floor', u: x, v: y, dist: 0 }; }
+    return null;
+  }
+  function proofStamp() {                                // DEV (Shift+F9): a neutral proof mark on the wall in front of you, else on the floor ahead
+    const A = api(), H = A && A.H; if (!H) return null; const a = H.angle || 0;
+    for (let d = 16; d <= 220; d += 8) { const hit = surfaceAt(H.x + Math.cos(a) * d, H.y + Math.sin(a) * d, 10); if (hit && hit.kind === 'wall') return stamp(hit.id, { kind: 'proof', u: hit.u, v: 1, scale: .5 }); }   // inside the ~24 px of face the sight shape shows
+    const hit = surfaceAt(H.x + Math.cos(a) * 70, H.y + Math.sin(a) * 70, 0); return hit ? stamp(hit.id, { kind: 'proof', u: hit.u, v: hit.v, scale: 1.2 }) : null;
   }
 
   /* ======================================================================================================================
@@ -811,7 +903,7 @@
   }
   function destroyRooms() {
     for (const R of S.rooms) { for (const c of R.chunks || []) dropChunk(c); try { R.src.destroy({ children: true }); R.view.destroy({ children: true }); R.ceilG.destroy(); } catch (e) { } }
-    S.rooms = []; for (const t of S.texList || []) { try { t.destroy(true); } catch (e) { } } S.texList = [];
+    S.rooms = []; for (const t of S.texList || []) { try { t.destroy(true); } catch (e) { } } S.texList = []; S.extTex = null;
     Object.assign(S.stats, { textures: 0, texMPx: 0, decals: 0, faces: 0, floorRects: 0, fixtures: 0 });
   }
   /* The legacy carpet is one TilingSprite over the whole world.  While the remaster shows, it is hidden and replaced by the
@@ -835,6 +927,7 @@
       S.tier = tierNow(); S.q = VZ.quality[S.tier]; const t1 = now(); S.tex = makeTextures(S.tier); S.stats.texMs = +(now() - t1).toFixed(1);
       for (const id of VZ.slice) S.rooms.push(buildRoom(VZ.room(id), S.tex));
       S.dens = bakeDensity(S.q); S.gen++;
+      for (const R of S.rooms) redrawDyn(R);                                           // stamped marks survive a rebuild (a tier change)
       if (S.mode === 'direct') for (const R of S.rooms) R.view.addChild(R.src);
       buildLegacyFloor(); S.built = true; S.stats.rooms = S.rooms.length; S.stats.builds++;
       apply();
@@ -887,10 +980,11 @@
       if (S.built && !S.disabled) {
         stream(false);
         const t = Date.now(); if (t - (S.polled || 0) > 400) { S.polled = t;                   // the player's quality tier and the screen density, a few times a second
-          if (tierNow() !== S.tier) build(); else if (S.mode === 'bake' && Math.abs(bakeDensity(S.q) / S.dens - 1) > .15) { S.dens = bakeDensity(S.q); invalidate(); } }
+          if (tierNow() !== S.tier) build(); else if (S.mode === 'bake' && Math.abs(bakeDensity(S.q) / S.dens - 1) > .15) { S.dens = bakeDensity(S.q); invalidate(); }
+          if (S.dyn.length) unstamp(q => q.ttl && t - q.t > q.ttl); }                    // stamped marks past their lifetime
       }
-      if (S.dev) devTick();
     } catch (e) { fail('frame', e); }
+    if (S.dev) { try { devTick(); } catch (e) { S.errors++; } }                       // a DEV readout problem never touches the remaster
     requestAnimationFrame(tick);
   }
   if (S.on && VZ) requestAnimationFrame(tick);
@@ -921,13 +1015,14 @@
   function showTag() {
     if (!S.dev) return; if (!S.tag) { S.tag = document.createElement('div'); S.tag.id = 'l0vTag'; S.tag.style.cssText = 'position:fixed;left:8px;bottom:8px;z-index:40;font:11px/1.35 monospace;color:#e8dfa8;background:#000b;padding:4px 7px;pointer-events:none;letter-spacing:.04em;white-space:pre'; document.body.appendChild(S.tag); }
     const P = S.perf, B = S.bake, gpu = P.gpu === 'ok' ? P.gpuEma.toFixed(2) + ' ms' : P.gpu === 'wait' ? '...' : 'n/a';
-    S.tag.textContent = `REMASTER ${S.want && !S.disabled ? 'ON' : 'OFF'} [F8] · WALL DEPTH ${S.depth ? 'ON' : 'OFF'} [F9] · DECALS ${S.decals ? 'ON' : 'OFF'} [Shift+F8] · ${S.tier.toUpperCase()}` + (S.disabled ? ' · ' + S.disabled : '') +
+    S.tag.textContent = `REMASTER ${S.want && !S.disabled ? 'ON' : 'OFF'} [F8] · DECALS ${S.decals ? 'ON' : 'OFF'} [Shift+F8] · PROOF MARK [Shift+F9] (${S.dyn.length}) · WALL DEPTH ${S.depth ? 'ON' : 'OFF'} [F9, deferred] · ${S.tier.toUpperCase()}` + (S.disabled ? ' · ' + S.disabled : '') +
       `\nframe ${P.ema ? P.ema.toFixed(1) : '-'} ms (${P.ema ? Math.round(1000 / P.ema) : '-'} fps) · scene GPU ${gpu} · rooms ${S.stats.visibleRooms} · ` +
       (S.mode === 'bake' ? `chunks ${B.visible} shown / ${B.resident} cached · ${(B.px / 1e6).toFixed(1)} MPx @ ${S.dens.toFixed(2)} tx/px · bake ${B.lastMs.toFixed(1)} ms (max ${B.maxMs.toFixed(1)})` : `DIRECT (no bake${B.error ? ': ' + B.error : ''})`);
   }
   if (S.dev) window.addEventListener('keydown', e => {
     if (e.code === 'F8' && e.shiftKey) { S.decals = !S.decals; apply(); e.preventDefault(); }
     else if (e.code === 'F8') { S.want = !S.want; apply(); e.preventDefault(); }
+    else if (e.code === 'F9' && e.shiftKey) { proofStamp(); e.preventDefault(); }
     else if (e.code === 'F9') { S.depth = !S.depth; apply(); e.preventDefault(); }
   }, true);
 
@@ -942,7 +1037,19 @@
       slice: VZ ? VZ.slice.slice() : [], ownLamps: S.ownLamps.map(l => l.id), errors: S.errors, ...S.stats, texMPx: +S.stats.texMPx.toFixed(2), bake: bakeStats(),
       perf: { frameMs: +S.perf.ema.toFixed(2), gpu: S.perf.gpu, gpuMs: +S.perf.gpuEma.toFixed(3) },
       rooms: S.rooms.map(R => ({ id: R.id, floorRects: R.n.floor, faces: R.n.faces, decals: R.n.decals, props: R.props || [], visible: S.mode === 'bake' ? R.chunks.some(c => c.g.visible) : R.src.visible, chunks: R.chunks.length })) }),
+    /* the decal receiver (presentation only): surfaces of the remastered rooms, and bounded dynamic marks on them */
+    surfaces: {
+      list: room => { const out = []; for (const R of S.rooms) if (!room || R.id === room) for (const sf of R.surfaces || []) out.push(sf.kind === 'floor' ? { id: sf.id, room: sf.room, kind: 'floor', material: sf.material, rects: sf.rects.length }
+        : { id: sf.id, room: sf.room, kind: 'wall', side: sf.side, material: sf.material, origin: sf.o.slice(), u: sf.U.slice(), up: sf.N.slice(), length: sf.len, band: sf.band, polys: sf.polys.length }); return out; },
+      at: (x, y, reach) => surfaceAt(+x, +y, reach == null ? 40 : +reach),
+      stamp: (id, o) => stamp(id, o || {}),
+      remove: id => unstamp(q => q.id === id),
+      clear: surf => unstamp(q => !surf || q.surf === surf),
+      count: () => S.dyn.length,
+      caps: () => Object.assign({}, DYN),
+    },
     dev: {
+      proof: () => proofStamp(),
       remaster: v => { S.want = v === undefined ? !S.want : !!v; apply(); return S.want; },
       depth: v => { S.depth = v === undefined ? !S.depth : !!v; apply(); return S.depth; },
       decals: v => { S.decals = v === undefined ? !S.decals : !!v; apply(); return S.decals; },

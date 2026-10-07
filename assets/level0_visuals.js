@@ -3,7 +3,8 @@
  *
  * OWNS     how existing things LOOK: reusable archetype parts (carpet variants, wall finishes, fixture profiles, damage,
  *          decor, prop and structure sets) combined into room archetypes, material palettes, authored decor and visual-only
- *          fixture records, BR-RoLE caster notes, quality hints, the presentation revision and the layout seed.
+ *          fixture records, BR-RoLE caster notes, the canon class of every dressing kind (STAGE_3B_PROP_CANON_AUDIT.md),
+ *          quality hints, the presentation revision and the layout seed.
  * NEVER    geometry or gameplay truth.  Rooms, walls, lamps, props, floor surfaces and collision are read from the running
  *          game (the bundle's room table / floor mask / lamp list, world.js PROPS and SURF).  Every record here is keyed by a
  *          stable ID (room:NN as in the Part 3A donor, lamp:NNN in lamp order, the world.js prop ids) and is cross-checked
@@ -21,8 +22,8 @@
   const DEF = {
     schemaVersion: 2,
     assetId: 'visuals:level0',
-    revision: '3b-qa2-r1-bake',
-    contentHash: '44ccb6f3985751cca5c795ec248f7a687b734cfbe6422b8efc0a2ac016a4db70',
+    revision: '3b-qa2-r2-canon',
+    contentHash: '3bf2c7a7073f811bdeaef1c063e27e9bf27e39a06ccc67365df679c79a68045c',
     layoutSeed: 'tfb:level0:visuals:1',
     /* rooms the remaster draws now; every other room keeps the v23.3.6 / BR-RoLE 1.0 look until it gets an archetype */
     slice: ['room:01', 'room:04', 'room:07', 'room:11'],
@@ -54,7 +55,7 @@
     ],
     /* ---- reusable archetype parts (procedural-ready: a room archetype is a combination of these) ---- */
     carpetVariants: [
-      { id: 'carpet:mustard-loop', material: 'material:carpet', note: 'brownish-beige loop pile that photographs yellow under the tubes' },
+      { id: 'carpet:mustard-loop', material: 'material:carpet', note: 'brownish-beige loop pile that photographs yellow under the tubes; one seamless piece (canon), seams: none' },
     ],
     wallFinishes: [
       { id: 'wall:chevron-paper', paper: 'material:wallpaper', trim: 'material:baseboard', cap: 'material:wallcap', motif: 'chevron', note: 'the sickly yellow paper, faint chevrons, a scuffed baseboard' },
@@ -70,53 +71,76 @@
       { id: 'damage:office-worn', wear: .78, damp: .12, grime: .55, stains: .7, mildew: .08, wallCondition: .8, wallDamp: .2, peel: .45 },
       { id: 'damage:pillared-damp', wear: .62, damp: .3, grime: .6, stains: .55, mildew: .45, wallCondition: .75, wallDamp: .45, peel: .5 },
     ],
-    decorSets: [
-      { id: 'dressing:abandoned', paper: .5, scuff: .6, debris: .75, tape: .3 },
-      { id: 'dressing:office', paper: .8, scuff: .8, debris: .35, tape: .7 },
-      { id: 'dressing:sparse', paper: .5, scuff: .5, debris: .25, tape: .2 },
+    decorSets: [                         // floor dressing densities: grit (plaster crumbs), indent (furniture once stood here), scuff (matted pile)
+      { id: 'dressing:abandoned', grit: .75, indent: .5, scuff: .5 },
+      { id: 'dressing:sparse', grit: .25, indent: .35, scuff: .5 },
+      { id: 'dressing:worn', grit: .35, indent: .8, scuff: .8 },
     ],
-    propSets: [                          // what sits ON existing physical props (never a new physical object)
-      { id: 'props:abandoned', counter: ['paper'], table: ['paper', 'binder'] },
-      { id: 'props:none', counter: [], table: [] },
-      { id: 'props:reception-busy', counter: ['phone', 'paper', 'paper', 'bell'], table: ['paper'] },
-      { id: 'props:reception-quiet', counter: ['paper'], table: [] },
+    propSets: [                          // what sits ON existing physical props (never a new physical object).  QA2 audit: nothing.
+      { id: 'props:bare', counter: [], table: [], note: 'no loose objects (phones, papers, bells, binders were AVOID in the canon audit)' },
     ],
     structureSets: [                     // how the game's own structural elements are dressed (their footprints stay the game's)
       { id: 'structure:papered-columns', pillar: { finish: 'wall:chevron-paper', faces: { S: 14, N: 7, E: 9, W: 9 }, corner: 'trim' } },
     ],
     archetypes: [
-      { id: 'archetype:blackout-zone', note: 'failed power: the darkness is the game\'s lighting; the room is only dirtier, wetter, abandoned',
-        carpet: 'carpet:mustard-loop', carpetTone: .76, seams: 'y', wall: 'wall:chevron-paper', wallTone: .9, fixtures: 'fixtures:failed', damage: 'damage:failed-wet',
-        decor: 'dressing:abandoned', props: 'props:abandoned', structure: null, accent: 'failed-power' },
-      { id: 'archetype:humming-rooms', note: 'an office that kept running too long: worn paths, cables, yellowed lenses',
-        carpet: 'carpet:mustard-loop', carpetTone: .97, seams: 'x', wall: 'wall:chevron-paper', wallTone: .98, fixtures: 'fixtures:yellowed', damage: 'damage:office-worn',
-        decor: 'dressing:office', props: 'props:reception-busy', structure: null, accent: 'electrical' },
+      { id: 'archetype:blackout-zone', note: 'failed power: the darkness is the game\'s lighting; told by dead fixtures, glass, a fallen tile, a burnt outlet, damp and mildew',
+        carpet: 'carpet:mustard-loop', carpetTone: .76, seams: 'none', wall: 'wall:chevron-paper', wallTone: .9, fixtures: 'fixtures:failed', damage: 'damage:failed-wet',
+        decor: 'dressing:abandoned', props: 'props:bare', structure: null, accent: 'failed-power' },
+      { id: 'archetype:humming-rooms', note: 'where the hum is loudest: yellowed lenses, aged tubes, outlets and junction boxes on the walls, worn carpet; no loose equipment',
+        carpet: 'carpet:mustard-loop', carpetTone: .97, seams: 'none', wall: 'wall:chevron-paper', wallTone: .98, fixtures: 'fixtures:yellowed', damage: 'damage:office-worn',
+        decor: 'dressing:worn', props: 'props:bare', structure: null, accent: 'electrical' },
       { id: 'archetype:pillar-hall', note: 'the columned hall: papered columns, wear and damp gathering at their bases',
-        carpet: 'carpet:mustard-loop', carpetTone: .94, seams: 'x', wall: 'wall:chevron-paper', wallTone: .95, fixtures: 'fixtures:standard', damage: 'damage:pillared-damp',
-        decor: 'dressing:sparse', props: 'props:none', structure: 'structure:papered-columns', accent: 'structural' },
+        carpet: 'carpet:mustard-loop', carpetTone: .94, seams: 'none', wall: 'wall:chevron-paper', wallTone: .95, fixtures: 'fixtures:standard', damage: 'damage:pillared-damp',
+        decor: 'dressing:sparse', props: 'props:bare', structure: 'structure:papered-columns', accent: 'structural' },
       { id: 'archetype:yellow-hall', note: 'the iconic baseline: uncanny, maintained enough to be wrong',
-        carpet: 'carpet:mustard-loop', carpetTone: 1.0, seams: 'y', wall: 'wall:chevron-paper', wallTone: 1.0, fixtures: 'fixtures:standard', damage: 'damage:maintained',
-        decor: 'dressing:sparse', props: 'props:reception-quiet', structure: null, accent: null },
+        carpet: 'carpet:mustard-loop', carpetTone: 1.0, seams: 'none', wall: 'wall:chevron-paper', wallTone: 1.0, fixtures: 'fixtures:standard', damage: 'damage:maintained',
+        decor: 'dressing:sparse', props: 'props:bare', structure: null, accent: null },
     ],
     /* how each remastered element relates to BR-RoLE: physical elements keep the game's footprint, which BR-RoLE already
      * casts from; everything Stage 3B adds is flat presentation and casts nothing */
     casters: [
-      { id: 'caster:decor', element: 'decals, papers, debris, cables, wall marks', source: 'level0_visuals.js / seeded scatter', brRole: 'none: flat, never a blocker' },
+      { id: 'caster:decor', element: 'stains, damp, mildew, grit, indents, glass, tiles, wall marks (static and future dynamic surface decals)', source: 'level0_visuals.js / seeded scatter / the surface receiver', brRole: 'none: flat, never a blocker' },
       { id: 'caster:fixtures', element: 'fixture housings', source: 'the game lamp list (Fc)', brRole: 'the lamps stay BR-RoLE light sources, unchanged; housings are presentation in the ceiling layer' },
       { id: 'caster:pillars', element: 'pillars', source: 'the game pillar list (Pc), 56 x 56', brRole: 'pillar blockers, unchanged; the art is exactly the footprint' },
-      { id: 'caster:props', element: 'counter, table, crawl holes', source: 'world.js PROPS rect / cell', brRole: 'prop casters as before (counters, table); holes cast nothing; the art is exactly the footprint plus a flat contact shade' },
+      { id: 'caster:props', element: 'counter, table, crawl holes', source: 'world.js PROPS rect / cell', brRole: 'prop casters as before (counters, table); holes cast nothing; the art (top, faces, contact shade) is exactly the footprint plus a flat contact margin' },
       { id: 'caster:walls', element: 'walls', source: 'the game floor mask (Hc)', brRole: 'wall shadow edges, unchanged; papered faces lie inside wall cells' },
+    ],
+    /* the canon class of every dressing kind the renderer knows (STAGE_3B_PROP_CANON_AUDIT.md).  confirmed / supported /
+     * inference may be drawn (inference: sparse); avoid is never drawn; dev only by the DEV receiver proof.  A future
+     * generator may only pick from the drawable kinds. */
+    kinds: [
+      { id: 'kind:bell', class: 'avoid', surface: 'prop', note: 'retail/reception prop; implies a staffed desk' },
+      { id: 'kind:binder', class: 'avoid', surface: 'prop', note: 'office storytelling object' },
+      { id: 'kind:cable', class: 'avoid', surface: 'floor', note: 'a plugged-in device taped down: recent occupation' },
+      { id: 'kind:damp', class: 'confirmed', surface: 'floor', note: '"persistent moisture", "soggy carpet"' },
+      { id: 'kind:dampwall', class: 'supported', surface: 'wall', note: 'moisture wicking up from the carpet' },
+      { id: 'kind:debris', class: 'supported', surface: 'floor', note: 'grit and plaster crumbs: material decay' },
+      { id: 'kind:indent', class: 'supported', surface: 'floor', note: 'furniture once stood here (secondary wiki); rare, never under a prop' },
+      { id: 'kind:insects', class: 'avoid', surface: 'ceiling', note: '"devoid of all life" (secondary)' },
+      { id: 'kind:jbox', class: 'inference', surface: 'wall', note: 'electrical infrastructure (HUMMING ROOMS identity); sparse' },
+      { id: 'kind:mildew', class: 'confirmed', surface: 'floor', note: '"mildew-ridden carpets"' },
+      { id: 'kind:mildewwall', class: 'supported', surface: 'wall', note: 'mildew climbing from the carpet' },
+      { id: 'kind:outlet', class: 'supported', surface: 'wall', note: '"scattered electrical outlets" (secondary)' },
+      { id: 'kind:paper', class: 'avoid', surface: 'floor', note: 'office clutter; the level is "barren"' },
+      { id: 'kind:peel', class: 'supported', surface: 'wall', note: 'ageing wallpaper (peeling is canon in red rooms)' },
+      { id: 'kind:phone', class: 'avoid', surface: 'prop', note: 'office equipment; implies occupation' },
+      { id: 'kind:proof', class: 'dev', surface: 'any', note: 'the DEV surface-receiver proof mark (?dev3b=1 only)' },
+      { id: 'kind:ring', class: 'avoid', surface: 'floor', note: 'cup rings imply people' },
+      { id: 'kind:scorch', class: 'inference', surface: 'wall', note: 'a burnt outlet: restrained blackout story; rare' },
+      { id: 'kind:scuff', class: 'supported', surface: 'floor', note: 'matted pile on worn paths ("worn, moist carpeting", secondary)' },
+      { id: 'kind:shards', class: 'supported', surface: 'floor', note: 'broken tube glass under failed fixtures only' },
+      { id: 'kind:stain', class: 'confirmed', surface: 'floor', note: 'liquids soaked into the carpet' },
+      { id: 'kind:tape', class: 'avoid', surface: 'floor', note: 'implies people taping things down' },
+      { id: 'kind:tile', class: 'supported', surface: 'floor', note: 'a fallen drop-ceiling tile (secondary); rare, authored' },
     ],
     /* authored, gameplay-neutral storytelling (flat, low-profile); positions are world px on the room's floor */
     decor: [
-      { id: 'decor:01:paper-counter', room: 'room:01', kind: 'paper', v: 1, x: 1700, y: 3400, r: .5 },
-      { id: 'decor:01:tape-door', room: 'room:01', kind: 'tape', v: 0, x: 1430, y: 2640, r: 1.62 },
-      { id: 'decor:04:paper-behind-1', room: 'room:04', kind: 'paper', v: 0, x: 3420, y: 935, r: -.4 },
-      { id: 'decor:04:paper-behind-2', room: 'room:04', kind: 'paper', v: 2, x: 3445, y: 948, r: .9 },
+      { id: 'decor:01:indent', room: 'room:01', kind: 'indent', v: 0, x: 1300, y: 3750, r: .04 },
       { id: 'decor:04:stain-counter', room: 'room:04', kind: 'stain', v: 2, x: 3330, y: 1080, r: 1.1, s: .55, a: .8 },
       { id: 'decor:07:shards-dead', room: 'room:07', kind: 'shards', v: 0, x: 1600, y: 5068, r: .3 },
       { id: 'decor:07:shards-hanging', room: 'room:07', kind: 'shards', v: 1, x: 1080, y: 5070, r: 2.2, s: .8 },
       { id: 'decor:07:tile-missing', room: 'room:07', kind: 'tile', v: 0, x: 650, y: 5560, r: .4 },
+      { id: 'decor:11:indent', room: 'room:11', kind: 'indent', v: 1, x: 8700, y: 1300, r: 1.6 },
       { id: 'decor:11:tile-fallen', room: 'room:11', kind: 'tile', v: 0, x: 8400, y: 1640, r: -.7, s: .9 },
     ],
     /* visual-only fixture records (no light: BR-RoLE and gameplay light never see these) */
@@ -165,7 +189,7 @@
       id: A.id, archetype: A.id, accent: A.accent || null,
       carpet: { variant: A.carpet, tone: A.carpetTone, seams: A.seams, wear: dmg.wear, damp: dmg.damp, grime: dmg.grime, stains: dmg.stains, mildew: dmg.mildew },
       wallpaper: { finish: wf.id, tone: A.wallTone, condition: dmg.wallCondition, damp: dmg.wallDamp, peel: dmg.peel, mildew: dmg.mildew, motif: wf.motif },
-      fixtures: { profile: fx.id, diffuser: fx.diffuser }, decor: { paper: dec.paper, scuff: dec.scuff, debris: dec.debris, tape: dec.tape },
+      fixtures: { profile: fx.id, diffuser: fx.diffuser }, decor: { grit: dec.grit, indent: dec.indent, scuff: dec.scuff },
       props: { counter: ps.counter.slice(), table: ps.table.slice() }, structure: st ? JSON.parse(JSON.stringify(st)) : null,
     };
   }
@@ -181,6 +205,8 @@
     part: (collection, id) => byId(D[collection] || [], id),
     resolve,
     material: id => byId(D.materials, id),
+    kind: name => byId(D.kinds, 'kind:' + name),
+    drawable: name => { const k = byId(D.kinds, 'kind:' + name); return !!k && (k.class === 'confirmed' || k.class === 'supported' || k.class === 'inference'); },
     inSlice: id => D.slice.includes(id),
     lampId: index => 'lamp:' + String(index + 1).padStart(3, '0'),
   }));

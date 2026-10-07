@@ -48,8 +48,8 @@ run('V03 lamps and props are named by stable ids only: lamp:001..lamp:NNN in the
 });
 run('V04 every visual record has an explicit prefixed id, unique, in canonical order within its collection, with its required keys', () => {
   const req = { rooms: ['code', 'name', 'surface'], materials: ['family', 'base'], carpetVariants: ['material'], wallFinishes: ['paper', 'trim'], fixtureProfiles: ['diffuser'], damageProfiles: ['wear', 'damp', 'grime', 'stains', 'mildew'],
-    decorSets: ['paper', 'scuff'], propSets: ['counter', 'table'], structureSets: [], archetypes: ['carpet', 'wall', 'fixtures', 'damage', 'decor', 'props'], casters: ['element', 'source', 'brRole'], decor: ['room', 'kind', 'x', 'y'], fixtures: ['room', 'kind', 'x', 'y'] };
-  const pre = { rooms: 'room:', materials: 'material:', carpetVariants: 'carpet:', wallFinishes: 'wall:', fixtureProfiles: 'fixtures:', damageProfiles: 'damage:', decorSets: 'dressing:', propSets: 'props:', structureSets: 'structure:', archetypes: 'archetype:', casters: 'caster:', decor: 'decor:', fixtures: 'fixture:' }, bad = [], all = new Set();
+    decorSets: ['grit', 'indent', 'scuff'], propSets: ['counter', 'table'], structureSets: [], archetypes: ['carpet', 'wall', 'fixtures', 'damage', 'decor', 'props'], casters: ['element', 'source', 'brRole'], kinds: ['class', 'surface', 'note'], decor: ['room', 'kind', 'x', 'y'], fixtures: ['room', 'kind', 'x', 'y'] };
+  const pre = { rooms: 'room:', materials: 'material:', carpetVariants: 'carpet:', wallFinishes: 'wall:', fixtureProfiles: 'fixtures:', damageProfiles: 'damage:', decorSets: 'dressing:', propSets: 'props:', structureSets: 'structure:', archetypes: 'archetype:', casters: 'caster:', kinds: 'kind:', decor: 'decor:', fixtures: 'fixture:' }, bad = [], all = new Set();
   for (const c of Object.keys(req)) { let prev = ''; for (const o of V[c]) {
     if (!o || typeof o.id !== 'string' || !o.id.startsWith(pre[c])) { bad.push(c + ' bad id ' + (o && o.id)); continue; }
     if (all.has(o.id)) bad.push('duplicate ' + o.id); all.add(o.id); if (prev && prev >= o.id) bad.push(c + ' order at ' + o.id); prev = o.id;
@@ -87,6 +87,18 @@ run('V07 never a second map authority: no geometry, collision or gameplay keys i
   return { ok: !keys.length && !bad.length, note: `gameplay keys ${JSON.stringify(keys)}; ${V.decor.length} decor + ${V.fixtures.length} fixture records${bad.length ? ': ' + bad.slice(0, 5).join('; ') : ', all on their room floor, clear of props'}` };
 });
 
+run('V08 the canon audit holds (STAGE_3B_PROP_CANON_AUDIT.md): every dressing kind has a class; nothing classed AVOID can be drawn (no loose objects on any prop, no authored record, no seeded or wall placement of one); the carpet is seamless in every archetype', () => {
+  const bad = [], classes = ['confirmed', 'supported', 'inference', 'avoid', 'dev'];
+  for (const k of V.kinds) if (!classes.includes(k.class)) bad.push(k.id + ' class ' + k.class);
+  for (const ps of V.propSets) for (const it of [...ps.counter, ...ps.table]) bad.push(ps.id + ' carries ' + it);
+  for (const d of V.decor) if (!V.drawable(d.kind)) bad.push(d.id + ' is ' + ((V.kind(d.kind) || {}).class || 'unclassified'));
+  const src = read('assets/l0-remaster.js'), placed = new Set([...src.matchAll(/\bput\((?:mulG|decG|f|g), '([a-z]+)'/g)].map(m => m[1]));
+  for (const k of placed) if (!V.drawable(k)) bad.push('the renderer places ' + k + ' (' + ((V.kind(k) || {}).class || 'unclassified') + ')');
+  for (const a of V.archetypes) if (a.seams !== 'none') bad.push(a.id + ' seams ' + a.seams);
+  const avoid = V.kinds.filter(k => k.class === 'avoid').map(k => k.id.slice(5));
+  return { ok: !bad.length, note: bad.length ? bad.slice(0, 6).join('; ') : `${V.kinds.length} kinds classified; placed by the renderer: ${[...placed].sort().join(', ')}; never drawn (avoid): ${avoid.join(', ')}; prop sets empty; seamless carpet` };
+});
+
 /* ---------- the remaster module in a VM: the real bundle tables, a recording Pixi mock, a no-op 2D canvas ---------- */
 class Pt { constructor() { this.x = 0; this.y = 0; } set(x, y) { this.x = x; this.y = y === undefined ? x : y; } copyFrom(p) { this.x = p.x; this.y = p.y; return this; } }
 class Container {
@@ -116,7 +128,7 @@ const ctx2d = () => { const target = { createImageData: (w, h) => ({ width: w, h
 function runRemaster({ search = '', quality = 'medium', patchOc = null, app = 'mock' } = {}) {
   const tasks = [], raf = [], warns = [];
   const Oc = G.Oc.map(o => Object.assign({}, o)); if (patchOc) patchOc(Oc);
-  const doc = { createElement: t => ({ width: 1, height: 1, getContext: () => ctx2d(), toDataURL: () => '' }), body: { appendChild() { } } };
+  const doc = { createElement: t => ({ width: 1, height: 1, style: {}, textContent: '', getContext: () => ctx2d(), toDataURL: () => '' }), body: { appendChild() { } } };
   const win = { L0_VISUALS: V, WORLD, document: doc, location: { search }, innerWidth: 1280, innerHeight: 720, performance: { now: () => Date.now() },
     requestAnimationFrame: f => raf.push(f), setTimeout: f => tasks.push(f), addEventListener() { }, console: { warn: (...a) => warns.push(a.join(' ')), log() { } },
     __brRole: { stats: () => ({ quality }) }, __api: { Oc, zc: G.zc, Hc: G.Hc, Bc: G.Bc, lamps: G.Fc }, URLSearchParams, Math, Number, JSON, Array, Object, Map, Set, Float32Array, Int32Array, Uint8ClampedArray, String, Error, isFinite, parseInt, Infinity, Proxy };
@@ -184,11 +196,17 @@ run('R04 props keep their exact footprints: each slice prop\'s art is its world.
     const pq = pg.ops.filter(op => !(op.w === 56 + 24 && op.h === 56 + 24)); if (pq.length !== mine.length) bad.push(id + ' prop quads ' + pq.length + ' vs props ' + mine.length);
     for (const p of mine) { const rc = p.type === 'gap' || p.type === 'window' ? p.cell : p.rect, q = pg.ops.find(op => Math.abs(op.x + op.w / 2 - (rc.x + rc.w / 2)) < 1e-6 && Math.abs(op.y + op.h / 2 - (rc.y + rc.h / 2)) < 1e-6);
       if (!q) { bad.push(p.id + ' missing'); continue; } const m = (q.w - rc.w) / 2; if (Math.abs((q.h - rc.h) / 2 - m) > 1e-6 || m < 0 || m > 16) bad.push(p.id + ' margin'); seen.push(p.id + '+' + m); }
-    for (const g of graphicsIn(R).filter(g => g.label === 'decals' || g.label === 'decals-mul')) for (const op of g.ops.filter(op => op.op === 'texture')) {
-      const sc = op.tf ? Math.hypot(op.tf[0], op.tf[1]) : 1, size = Math.max(op.w, op.h) * sc, x = op.tf ? op.tf[4] : op.x, y = op.tf ? op.tf[5] : op.y;
+    let nd = 0;
+    for (const g of graphicsIn(R).filter(g => g.label === 'decals' || g.label === 'decals-mul' || g.label === 'wall-decor')) for (const op of g.ops.filter(op => op.op === 'fill' && op.style && op.style.texture)) {
+      nd++; const m = op.style.matrix, src = op.style.texture.source, cx = m.a * src.w / 2 + m.c * src.h / 2 + m.tx, cy = m.b * src.w / 2 + m.d * src.h / 2 + m.ty, size = Math.max(Math.hypot(m.a, m.b) * src.w, Math.hypot(m.c, m.d) * src.h);
       if (size > 200) bad.push('large decal ' + size.toFixed(0));
-      for (const p of WORLD.PROPS) { const rc = p.type === 'gap' || p.type === 'window' ? p.cell : p.rect; if (x > rc.x && x < rc.x + rc.w && y > rc.y && y < rc.y + rc.h) bad.push('decal centred on prop ' + p.id); } } }
-  return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `props ${seen.join(' ')}; decals all small, none on a prop` };
+      const xs = op.type === 'rect' ? [op.x, op.x + op.w] : op.p.filter((v, i) => i % 2 === 0), ys = op.type === 'rect' ? [op.y, op.y + op.h] : op.p.filter((v, i) => i % 2 === 1);
+      const c0 = Math.floor(Math.min(...xs) / T + 1e-6), c1 = Math.ceil(Math.max(...xs) / T - 1e-6) - 1, r0 = Math.floor(Math.min(...ys) / T + 1e-6), r1 = Math.ceil(Math.max(...ys) / T - 1e-6) - 1;
+      if (g.label === 'wall-decor') { if (c0 !== c1 || r0 !== r1 || G.zc(c0, r0)) bad.push('wall mark leaves its wall cell at ' + c0 + ',' + r0); }        // clipped to one band polygon of a wall cell
+      else for (let yy = r0; yy <= r1; yy++) for (let xx = c0; xx <= c1; xx++) if (!G.zc(xx, yy) || !inRect(o, xx, yy)) bad.push('floor mark off its floor at ' + xx + ',' + yy);   // clipped to the room's floor
+      for (const p of WORLD.PROPS) { const rc = p.type === 'gap' || p.type === 'window' ? p.cell : p.rect; if (g.label !== 'wall-decor' && cx > rc.x && cx < rc.x + rc.w && cy > rc.y && cy < rc.y + rc.h) bad.push('decal centred on prop ' + p.id); } }
+    if (!nd) bad.push(id + ' no decal fills found'); seen.push(id.slice(5) + ':' + nd + ' clipped fills'); }
+  return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `props and decals: ${seen.join(' ')}; every floor mark clipped to its room's floor, every wall mark to one wall band, all small, none on a prop` };
 });
 run('R05 the same dressing on every client and every load: two independent builds produce identical art (every quad, fill and transform), drawn from the seeded hash only', () => {
   const A = base(), B = runRemaster(), sig = E => JSON.stringify(V.slice.flatMap(id => graphicsIn(E.L.dev.source(id))).concat(graphicsIn(E.world.children.find(c => c.label === 'l0-remaster-ceiling')))
@@ -281,6 +299,38 @@ run('R12 the bake: each slice room\'s art is baked into chunk textures on a 384 
   const D = runRemaster({ app: null }), dv = D.L.stats().bake.mode, dsrc = D.L.dev.source('room:01'); D.frame(1, at);
   if (dv !== 'direct' || !dsrc.parent || dsrc.parent.label !== 'l0v-view:room:01' || dsrc.visible !== true) bad.push('direct fallback ' + dv);
   return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `${chunks} chunks cover all ${cover} floor + wall cells; YELLOW HALL centre: ${inV.length} in view baked (density ${d}), ${far.length} far ones untouched; toggle re-baked ${rebaked} in place; travel: resident max ${maxRes}, now ${sv.resident} (cap ${cap}), ${sv.evictions} evictions; off: none shown; no renderer: direct` };
+});
+
+run('R13 the surface receiver: each room exposes its floor and its papered wall runs (every face cell onto the room\'s floor belongs to exactly one run); a stamped mark is drawn in surface coordinates and clipped to its surface (a wall mark only on that run\'s band polygons), only the chunks it touches re-bake, the caps hold (oldest first), lifetimes expire, AVOID kinds are refused, the DEV proof only with ?dev3b, a caller\'s own image is accepted, and the marks survive a rebuild', () => {
+  const E = runRemaster({ search: '?dev3b=1' }), S = E.L.surfaces, bad = [], yh = G.Oc.find(q => q.code === '01');
+  const list = S.list('room:01'), walls = list.filter(s => s.kind === 'wall'), floor = list.find(s => s.kind === 'floor');
+  if (!floor || !walls.length) return { ok: false, note: 'no surfaces' };
+  let faces = 0; for (let cy = yh.y - 1; cy <= yh.y + yh.h; cy++) for (let cx = yh.x - 1; cx <= yh.x + yh.w; cx++) { if (G.zc(cx, cy)) continue;
+    for (const [dx, dy, side] of [[0, 1, 'S'], [0, -1, 'N'], [1, 0, 'E'], [-1, 0, 'W']]) { const fx = cx + dx, fy = cy + dy; if (!(inRect(yh, fx, fy) && G.zc(fx, fy))) continue; faces++;
+      const mid = side === 'S' || side === 'N' ? [(cx + .5) * T, side === 'S' ? (cy + 1) * T - 5 : cy * T + 5] : [side === 'E' ? (cx + 1) * T - 5 : cx * T + 5, (cy + .5) * T];
+      const hits = walls.filter(w => w.side === side && (() => { const ux = mid[0] - w.origin[0], uy = mid[1] - w.origin[1], u = ux * w.u[0] + uy * w.u[1], v = ux * w.up[0] + uy * w.up[1]; return u >= 0 && u <= w.length && v >= 0 && v <= w.band; })());
+      if (hits.length !== 1) bad.push(`face ${side} of ${cx},${cy} in ${hits.length} runs`); } }
+  const w0 = walls.find(w => w.length >= 192) || walls[0], r = E.app.renderer;
+  const at = [w0.origin[0] + w0.u[0] * 48 - w0.up[0] * 30, w0.origin[1] + w0.u[1] * 48 - w0.up[1] * 30], hit = S.at(at[0], at[1], 40);
+  if (!hit || hit.id !== w0.id || Math.abs(hit.u - 48) > 1e-6) bad.push('at() in front of a face: ' + JSON.stringify(hit));
+  const mid = [(yh.x + yh.w / 2) * T, (yh.y + yh.h / 2) * T], fh = S.at(mid[0], mid[1], 0); if (!fh || fh.kind !== 'floor') bad.push('at() mid-room: ' + JSON.stringify(fh));
+  E.frame(1, at);
+  const src = E.L.dev.source('room:01'), dyn = src.children.find(c => c.label === 'decals-dynamic'), wallsG = src.children.find(c => c.label === 'walls:legacy');
+  const n0 = r.renders.length, id1 = S.stamp(w0.id, { kind: 'proof', u: 48, v: 12 }); E.frame(1, at); const rebaked = r.renders.length - n0;
+  const bands = wallsG.ops.filter(op => op.type === 'poly').map(op => op.p), mine = dyn.ops.filter(op => op.style && op.style.texture);
+  const inConvex = (poly, x, y) => { let sg = 0; for (let i = 0; i < poly.length; i += 2) { const ax = poly[i], ay = poly[i + 1], bx = poly[(i + 2) % poly.length], by = poly[(i + 3) % poly.length], c = (bx - ax) * (y - ay) - (by - ay) * (x - ax); if (Math.abs(c) < 1e-6) continue; const s2 = Math.sign(c); if (sg && s2 !== sg) return false; sg = s2; } return true; };
+  const within = p => bands.some(b => { for (let i = 0; i < p.length; i += 2) if (!inConvex(b, p[i], p[i + 1])) return false; return true; });
+  if (!id1 || !mine.length || mine.some(op => op.type !== 'poly' || !within(op.p))) bad.push('proof stamp not clipped to band polygons');
+  if (E.L.stats().disabled) bad.push('disabled: ' + E.L.stats().disabled); if (rebaked < 1 || rebaked > 4) bad.push('re-baked ' + rebaked + ' chunks');
+  if (S.stamp(floor.id, { kind: 'paper', u: mid[0], v: mid[1] }) !== null) bad.push('an AVOID kind was accepted');
+  const P = runRemaster(); if (P.L.surfaces.stamp(floor.id, { kind: 'proof', u: mid[0], v: mid[1] }) !== null) bad.push('proof accepted without ?dev3b');
+  for (let i = 0; i < 20; i++) S.stamp(w0.id, { kind: 'stain', u: 20 + i * 3, v: 10, scale: .3 }); const onW = S.count();
+  if (onW !== E.L.surfaces.caps().perSurface) bad.push('per-surface cap: ' + onW);
+  S.clear(); const tt = S.stamp(floor.id, { kind: 'damp', u: mid[0], v: mid[1], ttl: 1 }); const img = { width: 36, height: 36, getContext: () => ({}) };
+  const ext = S.stamp(floor.id, { image: img, w: 30, h: 30, u: mid[0] + 100, v: mid[1] }); E.L.dev.rebuild(); const afterRebuild = S.count();
+  const t0 = Date.now(); while (Date.now() - t0 < 450) { } E.frame(1, at); const afterTtl = S.count();
+  if (!tt || !ext || afterRebuild !== 2 || afterTtl !== 1) bad.push(`ttl ${!!tt} ext ${!!ext} rebuild kept ${afterRebuild} ttl left ${afterTtl}`);
+  return { ok: !bad.length, note: bad.length ? bad.slice(0, 5).join('; ') : `YELLOW HALL: floor + ${walls.length} wall runs, ${faces} face cells each in exactly one run; a proof mark on a wall: ${mine.length} clipped fill(s), ${rebaked} chunk(s) re-baked; caps ${JSON.stringify(E.L.surfaces.caps())}; AVOID refused, proof DEV-only, an external image accepted, marks survive a rebuild, a lifetime expires` };
 });
 
 const pass = results.filter(r => r.ok).length;
