@@ -89,6 +89,7 @@ Stage 3B cannot remove, move or reshape any of this. It only decides how the gam
 | Red tubes in RED ROOMS | not kept | The legacy fixture art drew red tubes. Through an unbounded position test, that also caught DEEP CARPET. BR-RoLE lights every lamp in its normal colour, so a red tube would contradict the light it gives. The canon "colour shift to red" is carried by the materials. |
 | Painted glow ellipses and dark strips under lamps; room tint rectangles (red, brown, green); the floor blots | not kept | Painted light and flat tints over walls and floor alike. BR-RoLE lights the room; the materials carry identity. This matches QA2. |
 | Doorway metal threshold strips | **removed** | A QA2 slice-boundary cover only. The carpet is now one continuous piece through every doorway, as canon says. |
+| Where the carpet meets a hard floor (the doorways of LONG ROOM and DAMP ROOMS) | GAMEPLAY INFERENCE (the game's surfaces change there) | The carpet's own bound edge on its side, a soft shade of the pile's thickness on the slab or tile. **No metal strip:** nothing is added that a carpet-to-carpet doorway does not have. |
 
 ## Dressing kinds added for the full map
 
@@ -102,7 +103,9 @@ All are flat, static, clipped to their surface, and cast nothing.
 | `crack` | LONG ROOM | SUPPORTED INTERPRETATION | A hairline crack in the slab |
 | `condensate` | under the DEEP CARPET cabinet | GAMEPLAY INFERENCE | Water soaked into the pile from the dead unit |
 | `soffit` | ARCH GALLERY openings | CONFIRMED CANON (archways) | The arch's shade on the floor |
-| `crimsonpeel` | RED ROOMS walls, and walls near them | CONFIRMED CANON | Paper peeling back to crimson |
+| `crimsonpeel` | RED ROOMS walls, and walls near them | CONFIRMED CANON | Paper torn back along a seam to the crimson beneath, a curled flap; a dark, brownish crimson, so it reads as the wall under the paper, never as a splash |
+| `sticky` | RED ROOMS floor | CONFIRMED CANON ("sticky") | A dark, faintly glossy patch in the pile |
+| deep / coarse pile | DEEP CARPET; RED ROOMS and the corridors leading to them | SUPPORTED INTERPRETATION / CONFIRMED CANON | Drawn as an overlay on the one carpet, ramped in from the doorways. DEEP CARPET's pile is flattened along its traffic lanes (an inference). Near RED ROOMS the corridors grow the coarse pile, shift toward red and show crimson peel as you approach (canon: you "gauge distance" by them) |
 
 ## Still AVOID: never drawn anywhere
 

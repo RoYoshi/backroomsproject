@@ -1,0 +1,19 @@
+QA2 parity (3B-F2): QA2 parent d124371 against this checkpoint, the same staged pose, remaster on, MEDIUM, SwiftShader.
+The interiors are identical except the wanderer; the wear-map edge fix changes a one-texel outline at the base of the walls
+(qa2-parity-humming-counter-diff.jpg: the difference x32); yellow-east: the corridor beyond the doorway is remastered;
+pillar-hall: glitch.js's random exit-wall screen tear in the QA2 run (the game's own effect).
+
+yellow-spawn       game  differ>2: 0.03%  >8: 0.02%  max 42
+yellow-spawn       -raw  differ>2: 0.21%  >8: 0.03%  max 117
+yellow-east        game  differ>2: 0.04%  >8: 0.01%  max 28
+yellow-east        -raw  differ>2: 7.53%  >8: 2.61%  max 195
+humming-counter    game  differ>2: 0.03%  >8: 0.02%  max 35
+humming-counter    -raw  differ>2: 0.55%  >8: 0.03%  max 116
+blackout-table     game  differ>2: 0.69%  >8: 0.03%  max 79
+blackout-table     -raw  differ>2: 0.51%  >8: 0.04%  max 129
+pillar-hall        game  differ>2: 87.03%  >8: 34.45%  max 252
+pillar-hall        -raw  differ>2: 67.14%  >8: 11.31%  max 182
+pillar-north       game  differ>2: 2.58%  >8: 0.75%  max 74
+pillar-north       -raw  differ>2: 0.21%  >8: 0.03%  max 117
+yellow-hole        game  differ>2: 0.56%  >8: 0.03%  max 130
+yellow-hole        -raw  differ>2: 0.19%  >8: 0.04%  max 234

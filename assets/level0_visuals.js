@@ -22,12 +22,12 @@
   const DEF = {
     schemaVersion: 3,
     assetId: 'visuals:level0',
-    revision: '3b-final-f1-zones',
-    contentHash: '1ed54fce75b3476d7843bcd6d90b0a522724681af09d4b9869df006601cec40f',
+    revision: '3b-final-f2-special-rooms',
+    contentHash: '2ebce35edce0a806f540ad58bdf6bfe00d00e35804c03f4fa915d3dd2ea40c26',
     layoutSeed: 'tfb:level0:visuals:1',
-    /* the zones the remaster draws now (rooms by stable id, plus the corridor network); a zone not listed keeps the v23.3.6 /
-     * BR-RoLE 1.0 look.  Order is build order (and the order zones bake into a shared chunk). */
-    slice: ['room:01', 'room:02', 'room:03', 'room:04', 'room:05', 'room:07', 'room:11', 'zone:corridors'],
+    /* the zones the remaster draws (rooms by stable id, plus the corridor network): since 3B-F2 the whole of Level 0.  A zone
+     * left out keeps the v23.3.6 / BR-RoLE 1.0 look.  Order is build order (and the order zones bake into a shared chunk). */
+    slice: ['room:01', 'room:02', 'room:03', 'room:04', 'room:05', 'room:06', 'room:07', 'room:08', 'room:09', 'room:10', 'room:11', 'room:12', 'zone:corridors'],
     /* the game's room table, by stable id.  surface = the gameplay surface world.js gives the room (never contradicted).
      * archetype = which reusable room archetype dresses it (null: legacy look).  A future seeded Level 0 generator picks
      * archetypes for rooms it lays out; nothing below is tied to a room's position. */
@@ -54,13 +54,13 @@
     materials: [
       { id: 'material:baseboard', family: 'trim', base: '#8d7a45', top: '#a8935a', scuff: '#5d5030' },
       { id: 'material:carpet', family: 'carpet', base: '#967f3c', fiber: '#705c29', light: '#b29a52', seam: '#5e5129', worn: '#7a7150', damp: '#5b5636', tide: '#463c22', stain: '#5a4223', mildew: '#3c3f24', sticky: '#4a1d14' },
-      { id: 'material:concrete', family: 'concrete', base: '#8a8473', light: '#a09a87', dark: '#6b665a', aggregate: '#5c574d', damp: '#5f5a4c', joint: '#47433b', adhesive: '#5e4c2f', lip: '#77725f' },
+      { id: 'material:concrete', family: 'concrete', base: '#90876f', light: '#a79e84', dark: '#706956', aggregate: '#605a4b', damp: '#635c4b', joint: '#4b463b', adhesive: '#5e4c2f', lip: '#7c7560' },
       { id: 'material:fixture', family: 'fixture', base: '#c9c4b0', frameDark: '#7f7b6c', lens: '#efe8c8', lensYellow: '#e2d39a', tube: '#fffbe6', tubeAged: '#bdb38c', dead: '#5f5b4f' },
-      { id: 'material:steel', family: 'metal', base: '#9a9f9c', galv: '#9a9f9c', dark: '#5c615f', paint: '#7c8781', paintDark: '#59625d', rust: '#7b4b2a', dust: '#a59b7c' },
-      { id: 'material:tile', family: 'tile', base: '#bcb299', alt: '#b0a68b', speck: '#6c6555', grout: '#5d5644', mastic: '#1f1c17', water: '#4c5244', yellow: '#a5996c' },
+      { id: 'material:steel', family: 'metal', base: '#9a9f9c', galv: '#9a9f9c', dark: '#5c615f', paint: '#7c8781', paintDark: '#59625d', rust: '#7b4b2a', dust: '#a59b7c', enamel: '#aba58e', enamelDark: '#7a7562' },
+      { id: 'material:tile', family: 'tile', base: '#a99d7b', alt: '#9e9270', speck: '#6a6252', grout: '#71684f', mastic: '#1f1c17', water: '#4c5244', yellow: '#978855' },
       { id: 'material:wallcap', family: 'wall', base: '#6d6235', edge: '#857844', dark: '#4f4625' },
       { id: 'material:wallpaper', family: 'wallpaper', base: '#cbb96a', stripe: '#bba95c', motif: '#a99449', seam: '#9c8a45', grime: '#6e6133', damp: '#8a7d4a', torn: '#e0d7b2', backing: '#b9ac86', mildew: '#4a4a2c' },
-      { id: 'material:wallpaper-crimson', family: 'wallpaper', base: '#c6a964', stripe: '#b89a58', motif: '#a3814a', seam: '#9a7c44', grime: '#6a4a30', damp: '#86664a', torn: '#d9c7a4', backing: '#7c1a14', mildew: '#4a3a2a' },
+      { id: 'material:wallpaper-crimson', family: 'wallpaper', base: '#c6a964', stripe: '#b89a58', motif: '#a3814a', seam: '#9a7c44', grime: '#6a4a30', damp: '#86664a', torn: '#d9c7a4', backing: '#6b2018', mildew: '#4a3a2a' },
       { id: 'material:wallpaper-pale', family: 'wallpaper', base: '#d8cf9f', stripe: '#cdc392', motif: '#beb17e', seam: '#b2a677', grime: '#7b7149', damp: '#9a9165', torn: '#ebe5ca', backing: '#c9c09d', mildew: '#585a3c' },
     ],
     /* ---- reusable archetype parts (procedural-ready: a room archetype is a combination of these) ---- */
@@ -71,7 +71,7 @@
       { id: 'floor:concrete-slab', material: 'material:concrete', kind: 'concrete', surface: 'concrete', note: 'bare slab: trowel marks, saw-cut joints, damp (LONG ROOM: the game\'s concrete; canon: "almost" every floor is carpet)' },
       { id: 'floor:deep-pile', material: 'material:carpet', kind: 'carpet', surface: 'deep', overlay: 'deep', tint: [.84, .78, .7], note: 'the same carpet, deeper and shaggier ("carpet depth is notably extensive": canon)' },
       { id: 'floor:mustard-loop', material: 'material:carpet', kind: 'carpet', surface: 'carpet', overlay: null, tint: [1, 1, 1], note: 'brownish-beige loop pile that photographs yellow under the tubes; one seamless piece (canon)' },
-      { id: 'floor:red-coarse', material: 'material:carpet', kind: 'carpet', surface: 'carpet', overlay: 'coarse', tint: [1, .58, .5], note: 'the colour shift to red; thick, sticky, very coarse (canon: red rooms)' },
+      { id: 'floor:red-coarse', material: 'material:carpet', kind: 'carpet', surface: 'carpet', overlay: 'coarse', tint: [1, .44, .5], note: 'the colour shift to red; thick, sticky, very coarse (canon: red rooms)' },
       { id: 'floor:vinyl-tile', material: 'material:tile', kind: 'tile', surface: 'wet', note: 'old vinyl floor tile under standing water (DAMP ROOMS: the game\'s wet tile)' },
     ],
     wallFinishes: [
@@ -114,7 +114,8 @@
       { id: 'structure:pits', pit: { lip: 'material:concrete', note: 'pits deep into the floor, in a grid (canon); the game carves them: no walking, sight passes over' } },
     ],
     /* room archetypes: combinations of the parts above, never tied to a position.  approach: what a zone does to the corridor
-     * floor and walls near its doorways (canon: you "gauge distance to the red rooms" by the colour shift). */
+     * floor and walls near its doorways (canon: you "gauge distance to the red rooms" by the colour shift, the coarse carpet
+     * and the peeling paper): reach in cells, coarse = the coarse pile's strength at the doorway, peel = crimson peel odds. */
     archetypes: [
       { id: 'archetype:arch-gallery', note: 'pale walls with archway holes (canon); the most stable rooms: little wear, little damp; normal pile (its gameplay surface)',
         floor: 'floor:mustard-loop', floorTone: .99, seams: 'none', wall: 'wall:pale-paper', wallTone: 1, fixtures: 'fixtures:standard', damage: 'damage:arch-stable',
@@ -144,8 +145,8 @@
         floor: 'floor:mustard-loop', floorTone: .94, seams: 'none', wall: 'wall:chevron-paper', wallTone: .95, fixtures: 'fixtures:standard', damage: 'damage:pillared-damp',
         decor: 'dressing:sparse', props: 'props:bare', structure: 'structure:papered-columns', accent: 'structural' },
       { id: 'archetype:red-rooms', note: 'the colour shift to red; thick, sticky, very coarse carpet; paper peeling to crimson (canon); the shift reaches into the corridors that lead here',
-        floor: 'floor:red-coarse', floorTone: .92, seams: 'none', wall: 'wall:crimson-peel', wallTone: .95, fixtures: 'fixtures:standard', damage: 'damage:red-sticky',
-        decor: 'dressing:sparse', props: 'props:bare', structure: null, accent: 'red', approach: { reach: 7, tint: [1, .64, .56], peel: .55 } },
+        floor: 'floor:red-coarse', floorTone: .87, seams: 'none', wall: 'wall:crimson-peel', wallTone: .95, fixtures: 'fixtures:standard', damage: 'damage:red-sticky',
+        decor: 'dressing:sparse', props: 'props:bare', structure: null, accent: 'red', approach: { reach: 7, coarse: .5, peel: .55 } },
       { id: 'archetype:repeating-rooms', note: 'the purest Level 0: identical bays, maintained, uniform; its one anomaly a fallen length of ductwork',
         floor: 'floor:mustard-loop', floorTone: 1, seams: 'none', wall: 'wall:chevron-paper', wallTone: 1, fixtures: 'fixtures:standard', damage: 'damage:maintained',
         decor: 'dressing:sparse', props: 'props:bare', structure: null, accent: 'repetition' },
@@ -212,6 +213,7 @@
       { id: 'decor:07:tile-missing', room: 'room:07', kind: 'tile', v: 0, x: 650, y: 5560, r: .4 },
       { id: 'decor:11:indent', room: 'room:11', kind: 'indent', v: 1, x: 8700, y: 1300, r: 1.6 },
       { id: 'decor:11:tile-fallen', room: 'room:11', kind: 'tile', v: 0, x: 8400, y: 1640, r: -.7, s: .9 },
+      { id: 'decor:12:condensate', room: 'room:12', kind: 'condensate', v: 0, x: 7964, y: 5492, r: .08, s: 1.2, a: .95 },
     ],
     /* visual-only fixture records (no light: BR-RoLE and gameplay light never see these) */
     fixtures: [

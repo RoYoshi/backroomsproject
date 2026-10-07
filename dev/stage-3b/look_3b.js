@@ -29,6 +29,9 @@ const VIEWS = [
   ['damp-counter', 3456, 5420, -Math.PI / 2, false], ['red-rooms', 5700, 5470, 0.3, false], ['arch-north', 7900, 2990, -1.4, false],
   ['arch-south', 7700, 3950, 1.0, false], ['deep-machine', 7900, 5620, -Math.PI / 2, false], ['corridor-west', 1104, 2200, Math.PI / 2, false],
   ['corridor-hub', 4700, 3400, 0, false], ['corridor-east', 6900, 3420, Math.PI, false], ['long-to-pillar', 7250, 1200, 0, false],
+  ['long-door', 5664, 1900, -Math.PI / 2, false], ['long-pits', 6240, 1200, 0.1, false], ['damp-door', 2400, 5520, 0, false], ['damp-west', 2900, 5800, -0.3, false],
+  ['red-approach', 4700, 5620, 0, false], ['red-east', 6620, 5700, Math.PI, false], ['arch-arches', 7650, 3500, 0, false], ['arch-rail', 8020, 3200, -Math.PI / 2, false],
+  ['deep-door', 7100, 5650, 0, false], ['deep-east', 8500, 5600, Math.PI, false],
 ];
 (async () => {
   try { execSync(`fuser -k ${PORT}/tcp`, { stdio: 'ignore' }); } catch (e) { }

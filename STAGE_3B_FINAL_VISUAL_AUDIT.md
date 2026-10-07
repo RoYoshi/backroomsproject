@@ -96,6 +96,45 @@ Evidence: `dev/stage-3b/evidence/f0/`.
 - **Remove duplicate work:** once every floor and wall-facing cell is covered by baked chunks, the legacy carpet sprite and the legacy level art beneath them draw pixels nobody can see. Hiding them while the remaster shows removes about a full screen of hidden fill. Remaster off shows them again, unchanged.
 - **Bake:** bounded tier caches, prewarm one ring ahead, measured at LOW / MEDIUM / HIGH.
 
+## Checkpoints
+
+Each is pushed to `stage-3b-remaster` and verified on GitHub (`dev/stage-3b/verify_remote.py`: remote tip, commit, tree and parent equal the local ones; `main` and `br-role` untouched; BR-RoLE 1.0 an ancestor).
+
+| checkpoint | commit | tree | checks |
+|---|---|---|---|
+| 3B-F0 parent verification, inventory, canon audit | `a3430f6` | `c32adf3` | freeze OK; unit 21/21; BR-RoLE 32/32 |
+| 3B-F1 corridors and common rooms | `f4fb0b5` | `283701d` | freeze OK; unit 23/23; BR-RoLE 32/32; smoke 9/9 |
+| 3B-F2 special rooms, the remaining props | recorded with 3B-F3 | | |
+
+## 3B-F1 and 3B-F2: what was built
+
+**Zones and ownership (F1).**
+- The remaster draws zones: the 12 rooms, plus the corridor network split into its **17 connected pieces** (each compact, with its own traffic lanes).
+- A zone owns its floor cells. A wall face is drawn once, by the zone whose floor it faces, in that space's finish (unit check R14: all 1 489 faces that look onto floor, each exactly once).
+- **One bake grid** over the whole map (384 px chunks). A chunk bakes every zone with content in it into one texture, so the screen still shows one quad per visible chunk.
+
+**Doorways (F1, fixed in F2).**
+- The carpet is one world-anchored texture in every carpeted zone, so it runs on unbroken.
+- The wear / damp maps blend to shared values within 1.5 cells of a doorway; floor marks never cross into another zone (R15).
+- A corridor takes the colour of the room it leads into. **F2 fix:** every room a corridor reaches now counts, and the two nearest doorways blend near the point midway between them, so at each doorway the corridor matches that room exactly. (F1 multiplied the rooms' tints, so a short corridor between RED ROOMS and DEEP CARPET carried red right up to DEEP CARPET's door.)
+- **F2 fix, the wear map's edges:** the map is sampled linearly and Pixi repeats a matrix-mapped texture, so a zone's last half-texel blended with whatever lay beyond it (a wall's neutral texel, or the far side of the map). At a corridor tinted toward a room, that showed as a thin light line at the doorway. The texels around a zone's own cells now take their owned neighbours' values, and each map has a one-texel border. A unit check (R15) now samples the maps as the GPU does, half a pixel either side of every doorway: within 0.5 %.
+
+**The special rooms (F2), per `STAGE_3B_FINAL_PROP_CANON_AUDIT.md`.**
+- **LONG ROOM:** a warm concrete slab (trowel swirls, saw-cut joints, faint old adhesive, hairline cracks, damp); its 10 pits drawn on the game's pit cells as voids with a broken lip, over the slab's own concrete, with grit beside them.
+- **DAMP ROOMS:** old yellowed vinyl tile under standing water, missing and lifted tiles on the tile grid, mildew, heavy damp wicking up the walls; the counter's kick panel swollen and tide-marked; the crawl hole's insulation sodden.
+- **RED ROOMS:** a deep brick-red carpet with a coarse, matted, sticky pile and sticky patches; the paper peeling to crimson. The corridors leading there shift toward red, grow the coarse pile and show crimson peel as you approach (canon: you "gauge distance" by them).
+- **ARCH GALLERY:** pale paper; its two partition openings found and drawn as archways (pale plaster reveals on the jambs, small pilasters, a faint shade beneath the arch; nothing overhead); the steel guard rail; the arched window.
+- **DEEP CARPET:** a deeper, shaggier pile, flattened along the traffic lanes; the dead mechanical cabinet and the condensate soaked into the pile beside it.
+- **Carpet meeting a hard floor** (LONG ROOM, DAMP ROOMS): the carpet's own bound edge on its side and the pile's soft shade on the slab's. No metal strip.
+- With every room remastered, no floor is left to the legacy carpet copy (R16).
+
+**QA2 parity.** The four QA2 rooms render as approved:
+- **Interiors:** identical except the wanderer's breathing.
+- **The F2 edge fix:** it changes a one-texel outline at the base of their walls, under BR-RoLE's grounding shadow (up to 0.5 % of pixels by a few levels in the bare-material view; nothing visible in play).
+- **Beyond their doorways:** the corridors are now remastered.
+
+Evidence: `dev/stage-3b/evidence/f1/qa2_parity.txt`, `evidence/f2/`.
+
 ## Results (3B-F4)
 
 *Filled in with the final candidate.*

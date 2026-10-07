@@ -304,28 +304,66 @@ run('R14 each wall face once: every face of a sight-blocking wall cell that look
   if (pitFaces.length) bad.push('faces into non-floor ' + pitFaces.slice(0, 3).join(','));
   return { ok: !bad.length && drawn.size === want, note: bad.length ? bad.slice(0, 5).join('; ') : `${want} faces look onto remastered floor; each drawn once by its floor's zone; no doorway strips` };
 });
-run('R15 doorways run on unbroken: where two zones\' floors meet, both sides use the same carpet texture with the same world mapping, and the floor colour times the wear / damp map agrees across the edge (within 3 %); no floor mark is cut off at a zone\'s edge (every mark\'s whole quad stays off other zones\' floor)', () => {
-  const E = base(), { own } = ownership(E), bad = [], styleAt = new Map(); let pairs = 0, worst = 0, carpetPairs = 0;
+run('R15 doorways run on unbroken: where two zones\' floors meet, both sides use the same carpet texture with the same world mapping; the floor colour times the wear map, sampled as the GPU does (linear, repeating) half a pixel either side of the edge, agrees within 3 %; the pile overlay\'s strength agrees across the edge; no floor mark is cut off at a zone\'s edge', () => {
+  const E = base(), { own } = ownership(E), bad = [], styleAt = new Map(); let pairs = 0, worst = 0, carpetPairs = 0, ovPairs = 0, ovWorst = 0;
   for (const z of zonesOf(E)) for (const op of layer(E, z.id, 'floor').ops.filter(op => op.style && op.style.texture)) for (let cy = op.y / T; cy < (op.y + op.h) / T; cy++) for (let cx = op.x / T; cx < (op.x + op.w) / T; cx++) styleAt.set(cx + ',' + cy, op.style);
   const Z = new Map(zonesOf(E).map(z => [z.id, E.L.dev.zone(z.id)]));
-  const sample = (zid, x, y) => { const z = Z.get(zid), img = z.macroCanvas && z.macroCanvas.__img, cell = z.macroCell, i = Math.floor((x - z.o.x * T) / cell), j = Math.floor((y - z.o.y * T) / cell);
-    if (!img || i < 0 || j < 0 || i >= img.width || j >= img.height) return null; const p = (j * img.width + i) * 4; return [0, 1, 2].map(c => img.data[p + c] / 255 * z.floorColor[c]); };
+  const sample = (zid, x, y) => {                          // the wear map as the GPU samples it: texel centres, bilinear, repeat
+    const z = Z.get(zid), img = z.macroCanvas && z.macroCanvas.__img, cell = z.macroCell, [ox, oy] = z.macroOrigin || [z.o.x * T, z.o.y * T]; if (!img) return null;
+    const W = img.width, H2 = img.height, tx = (x - ox) / cell - .5, ty = (y - oy) / cell - .5, i0 = Math.floor(tx), j0 = Math.floor(ty), fx = tx - i0, fy = ty - j0;
+    const at = (i, j) => { const ii = ((i % W) + W) % W, jj = ((j % H2) + H2) % H2, p = (jj * W + ii) * 4; return [img.data[p], img.data[p + 1], img.data[p + 2]]; };
+    const A = at(i0, j0), B = at(i0 + 1, j0), C = at(i0, j0 + 1), D = at(i0 + 1, j0 + 1);
+    return [0, 1, 2].map(c => ((A[c] * (1 - fx) + B[c] * fx) * (1 - fy) + (C[c] * (1 - fx) + D[c] * fx) * fy) / 255 * z.floorColor[c]); };
+  const ovAt = (zid, x, y) => { const z = Z.get(zid); if (!z.overlay) return 0; const cell = z.macroCell, mw = Math.ceil(z.o.w * T / cell), i = Math.floor((x - z.o.x * T) / cell), j = Math.floor((y - z.o.y * T) / cell); return Math.round(z.overlay.a[j * mw + i] * 24) / 24; };
   const interior = (cx, cy) => { for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (!G.zc(cx + dx, cy + dy)) return false; return true; };
   for (const [k, za] of own) { const [ax, ay] = k.split(',').map(Number);
     for (const [dx, dy] of [[1, 0], [0, 1]]) { const bx = ax + dx, by = ay + dy, zb = own.get(bx + ',' + by); if (!zb || zb === za) continue; pairs++;
-      const sa = styleAt.get(k), sb = styleAt.get(bx + ',' + by), ka = Z.get(za).floor, kb = Z.get(zb).floor;
+      const sa = styleAt.get(k), sb = styleAt.get(bx + ',' + by), ka = Z.get(za).floor, kb = Z.get(zb).floor, edge = dx ? bx * T : by * T;
+      for (let t = 6; t < T; t += 12) { const pa = dx ? [edge - 6, ay * T + t] : [ax * T + t, edge - 6], pb = dx ? [edge + 6, ay * T + t] : [ax * T + t, edge + 6];   // the overlay: the texels either side
+        if (Z.get(za).overlay || Z.get(zb).overlay) { ovPairs++; const d = Math.abs(ovAt(za, ...pa) - ovAt(zb, ...pb)); if (d > ovWorst) ovWorst = d; if (d > .08) { bad.push(`overlay ${za} | ${zb} at ${k}: ${ovAt(za, ...pa)} vs ${ovAt(zb, ...pb)}`); break; } } }
       if (ka !== 'carpet' || kb !== 'carpet') continue; carpetPairs++;
       const ma = sa.matrix, mb = sb.matrix; if (sa.texture !== sb.texture || ['a', 'b', 'c', 'd', 'tx', 'ty'].some(q => Math.abs(ma[q] - mb[q]) > 1e-9)) bad.push(`carpet mapping differs at ${k} (${za} | ${zb})`);
       if (!interior(ax, ay) || !interior(bx, by)) continue;
-      const cell = Z.get(za).macroCell, ex = dx ? bx * T : null, ey = dy ? by * T : null;
-      for (let t = cell / 2; t < T; t += cell) { const pa = dx ? [ex - cell / 2, ay * T + t] : [ax * T + t, ey - cell / 2], pb = dx ? [ex + cell / 2, ay * T + t] : [ax * T + t, ey + cell / 2];
+      for (let t = 3; t < T; t += 6) { const pa = dx ? [edge - .5, ay * T + t] : [ax * T + t, edge - .5], pb = dx ? [edge + .5, ay * T + t] : [ax * T + t, edge + .5];
         const A = sample(za, ...pa), B = sample(zb, ...pb); if (!A || !B) { bad.push('no map at ' + k); break; }
-        for (let c = 0; c < 3; c++) { const rel = Math.abs(A[c] - B[c]) / Math.max(.05, (A[c] + B[c]) / 2); if (rel > worst) worst = rel; if (rel > .03) { bad.push(`${za} | ${zb} at ${k}: ${A.map(v => v.toFixed(3))} vs ${B.map(v => v.toFixed(3))}`); break; } } } } }
+        let fail = false; for (let c = 0; c < 3; c++) { const rel = Math.abs(A[c] - B[c]) / Math.max(.05, (A[c] + B[c]) / 2); if (rel > worst) worst = rel; if (rel > .03) fail = true; }
+        if (fail) { bad.push(`${za} | ${zb} at ${k}+${t}: ${A.map(v => v.toFixed(3))} vs ${B.map(v => v.toFixed(3))}`); break; } } } }
   let marks = 0;
   for (const z of zonesOf(E)) for (const g of graphicsIn(src(E, z.id)).filter(g => g.label === 'decals' || g.label === 'decals-mul')) for (const op of g.ops.filter(op => op.style && op.style.texture)) {
     marks++; const m = op.style.matrix, s = op.style.texture.source, quad = [[0, 0], [s.w, 0], [s.w, s.h], [0, s.h], [s.w / 2, 0], [s.w, s.h / 2], [s.w / 2, s.h], [0, s.h / 2]].map(([u, v]) => [m.a * u + m.c * v + m.tx, m.b * u + m.d * v + m.ty]);
     for (const [x, y] of quad) { const [cx, cy] = cellOf(x, y), o = own.get(cx + ',' + cy); if (o && o !== z.id) { bad.push(`${z.id} mark reaches ${o} at ${cx},${cy}`); break; } } }
-  return { ok: !bad.length && pairs > 0, note: bad.length ? bad.slice(0, 5).join('; ') : `${pairs} doorway cell pairs (${carpetPairs} carpet to carpet): one texture, one mapping; colour across the edge within ${(worst * 100).toFixed(2)} %; ${marks} floor mark fills, none reaching another zone's floor` };
+  return { ok: !bad.length && pairs > 0, note: bad.length ? bad.slice(0, 5).join('; ') : `${pairs} doorway cell pairs (${carpetPairs} carpet to carpet): one texture, one mapping; colour across the edge (GPU-sampled) within ${(worst * 100).toFixed(2)} %; overlay strength within ${ovWorst.toFixed(3)} over ${ovPairs} samples; ${marks} floor mark fills, none reaching another zone's floor` };
+});
+run('R16 the special rooms keep the game\'s truth: LONG ROOM\'s ten pits (the game\'s pit cells, not walls) are drawn exactly on their cells over the slab, its floor concrete; DAMP ROOMS\' floor tile; every other floor the one carpet; the deep / coarse pile only in DEEP CARPET, RED ROOMS and the corridors that lead to RED ROOMS; ARCH GALLERY\'s two archways found in its partitions, their jambs drawn as reveals, nothing overhead; a carpet edge on both sides of each carpet / hard-floor doorway; every one of the 18 props drawn; no floor left to the legacy carpet', () => {
+  const E = base(), bad = [], zs = zonesOf(E), Z = id => E.L.dev.zone(id), notes = [];
+  if (!V.slice.every(id => zs.some(z => z.id === id || E.L.dev.zone(z.id).base === id))) bad.push('not every slice zone built');
+  const pits = Z('room:06').pits.map(p => p.join(',')).sort(), mc = G.Mc.map(p => p.x + ',' + p.y).sort();
+  if (JSON.stringify(pits) !== JSON.stringify(mc)) bad.push('pits ' + pits.length + ' vs ' + mc.length);
+  const pg = layer(E, 'room:06', 'pits'); for (const p of G.Mc) { const x = p.x * T, y = p.y * T; if (G.zc(p.x, p.y) || G.Hc(p.x, p.y)) bad.push('pit ' + p.x + ',' + p.y + ' is floor or wall');
+    if (!pg.ops.some(op => op.op === 'texture' && op.x === x && op.y === y && op.w === T && op.h === T) || !pg.ops.some(op => op.op === 'fill' && op.x === x && op.y === y && op.w === T && op.h === T)) bad.push('pit ' + p.x + ',' + p.y + ' not drawn exactly'); }
+  const tex = id => { const op = layer(E, id, 'floor').ops.find(op => op.style && op.style.texture); return op && op.style.texture; }, carpetT = tex('room:01');
+  for (const z of zs) { const want = Z(z.id).floor, t = tex(z.id); if ((want === 'carpet') !== (t === carpetT)) bad.push(z.id + ' floor texture'); }
+  if (tex('room:06') === tex('room:08')) bad.push('concrete and tile share a texture');
+  const ovZones = zs.filter(z => Z(z.id).overlay && layer(E, z.id, 'floor-overlay').ops.length).map(z => z.id + ':' + Z(z.id).overlay.kind);
+  for (const s of ovZones) { const [id, k] = s.split(':').length > 2 ? [s.slice(0, s.lastIndexOf(':')), s.slice(s.lastIndexOf(':') + 1)] : s.split(':');
+    const ok = (id === 'room:12' && k === 'deep') || (id === 'room:09' && k === 'coarse') || (id.startsWith('zone:corridors/') && k === 'coarse');
+    if (!ok) bad.push('overlay in ' + s); }
+  if (!ovZones.some(s => s.startsWith('room:12')) || !ovZones.some(s => s.startsWith('room:09'))) bad.push('missing room overlay');
+  for (const s of ovZones.filter(s => s.startsWith('zone:'))) { const id = s.slice(0, s.lastIndexOf(':')), o = Z(id).o, red = G.Oc.find(q => q.code === '09');     // a corridor with the coarse pile touches RED ROOMS
+    let touches = false; for (let cy = o.y; cy < o.y + o.h; cy++) for (let cx = o.x; cx < o.x + o.w; cx++) for (const [dx, dy] of Object.values(SIDES)) if (inRect(red, cx + dx, cy + dy) && G.zc(cx + dx, cy + dy)) touches = true;
+    if (!touches) bad.push(id + ' has the coarse pile but does not lead to RED ROOMS'); }
+  const ar = Z('room:10').arches.map(a => (a.vert ? 'x' : 'y') + a.a + ':' + a.b0 + '-' + a.b1).sort().join(' ');
+  if (ar !== 'x79:34-37 x86:36-37') bad.push('archways ' + ar);
+  const wl = layer(E, 'room:10', 'walls:legacy'), revealFills = wl.ops.filter(op => op.type === 'poly' && op.p.length === 8 && op.style.texture !== wl.ops.find(o2 => o2.type === 'poly').style.texture);
+  if (revealFills.length !== 4) bad.push('reveal faces ' + revealFills.length);
+  if (!layer(E, 'room:10', 'soffit') || !layer(E, 'room:10', 'soffit').ops.length) bad.push('no soffit');
+  const ceil = E.world.children.find(c => c.label === 'l0-remaster-ceiling'); if (graphicsIn(ceil).some(g => /arch|soffit|struct/.test(g.label))) bad.push('something overhead');
+  for (const op of layer(E, 'room:10', 'structures').ops) { const [cx, cy] = cellOf(op.x + op.w / 2, op.y + op.h / 2); if (G.zc(cx, cy) || op.x < cx * T || op.x + op.w > (cx + 1) * T + 1e-6 || op.y < cy * T || op.y + op.h > (cy + 1) * T + 1e-6) { bad.push('pilaster outside its jamb at ' + cx + ',' + cy); break; } }
+  const edges = zs.filter(z => layer(E, z.id, 'floor-edges') && layer(E, z.id, 'floor-edges').ops.length).map(z => z.id);
+  if (!edges.includes('room:06') || !edges.includes('room:08') || !edges.some(id => id.startsWith('zone:'))) bad.push('carpet edges ' + edges.join(','));
+  const drawn = zs.flatMap(z => z.props); if (drawn.length !== WORLD.PROPS.length || new Set(drawn).size !== WORLD.PROPS.length) bad.push('props drawn ' + drawn.length);
+  if (E.L.stats().legacyFloorRects !== 0) bad.push('legacy floor rects ' + E.L.stats().legacyFloorRects);
+  return { ok: !bad.length, note: bad.length ? bad.slice(0, 6).join('; ') : `pits ${pits.length} = the game's; floors: concrete, tile and the one carpet by zone; overlays ${ovZones.join(' ')}; archways ${ar} (4 reveal faces, a soffit, pilasters in their jambs, nothing overhead); carpet edges in ${edges.length} zones; ${drawn.length} props drawn; legacy floor none` };
 });
 
 const pass = results.filter(r => r.ok).length;
