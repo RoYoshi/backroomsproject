@@ -1,0 +1,15 @@
+FAIL P1 no fixture housing overlaps a pillar or a wall, on the client or the server, and both machines have the same fixtures   client 90 fixtures (9 on a blocker: 74 pillar, 75 pillar, 76 pillar, 77 pillar, 78 pillar, 79 pillar, 80 pillar, 81 pillar, 82 pillar), server 90 (9 on a blocker); identical: true; PILLAR HALL fixtures [[7632,912],[7632,1392],[7632,1872],[8112,912],[8112,1392],[8112,1872],[8592,912],[8592,1392],[8592,1872]]
+  step 0: reveal 0, over 0, edge 22.0 px, overlay min 255
+  step 30: reveal 0, over 0, edge 7.0 px, overlay min 255
+  step 60: reveal 0, over 0, edge 22.5 px, overlay min 255
+  step 120: reveal 0, over 0, edge 22.0 px, overlay min 255
+  step 150: reveal 0, over 0, edge 5.0 px, overlay min 255
+  step 180: reveal 0, over 0, edge 22.0 px, overlay min 255
+  step 210: reveal 0, over 0, edge 7.0 px, overlay min 255
+FAIL P2 full loop around a pillar: the sight polygon never reveals a point the pillar hides nor hides a point in plain view (no one-frame reveal, no false wedge) and its edge is the pillar's silhouette (stable, no jitter)   194/240 steps; ~639 hidden points a step; reveal in 0 steps (up to 0 points), over-hide in 0; silhouette error max 28.5 px, mean 14.93 px, step-to-step change up to 24.5 px
+PASS P3 the darkness overlay shows nothing behind the pillar at any step of the loop   27664 hidden samples; steps showing something 0; lowest overlay alpha there 255/255
+PASS P4 no oscillation: at held poses around the pillar (clock frozen) the overlay and the sight polygon do not change frame to frame   pose 0: overlay 1 state(s), polygon 1; pose 1: overlay 1 state(s), polygon 1; pose 4: overlay 1 state(s), polygon 1; pose 5: overlay 1 state(s), polygon 1; pose 6: overlay 1 state(s), polygon 1; pose 7: overlay 1 state(s), polygon 1
+FAIL P5 stable light origin: the fixtures around the pillar never move during the loop and none sits inside a pillar   5 fixtures within 520 px: [[75,7632,1392],[77,8112,912],[78,8112,1392],[79,8112,1872],[81,8592,1392]]; steps with a moved fixture 0, with a fixture inside a pillar 194; BR-RoLE lamp-field builds during the loop 2
+
+2/5 passed
+EXIT 1

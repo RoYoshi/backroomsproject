@@ -74,6 +74,39 @@
   /* open the wall cells that gaps and windows sit in */
   W.carve = function (kc, width) { for (const p of PROPS) if (p.type === 'gap' || p.type === 'window') kc[p.ty * width + p.tx] = 1; };
 
+  /* Stage 3B-N - LIGHT SOURCE / OCCLUDER SEPARATION for the ceiling fixtures.
+   * The fixtures are laid on a 5-cell grid per room and kept only where their cell is floor (kc).  The PILLAR HALL's nine
+   * free-standing pillars are not in kc (they are separate 56 px blockers), so all nine of that hall's fixtures landed exactly
+   * on a pillar: the housing drawn over it and the light shining from inside the blocker.  fixLamps enforces the invariant
+   * for every fixture: its housing (90 x 28, W.LAMP_BOX) lies wholly on floor cells, off every pillar and off every other
+   * housing.  A fixture that breaks it moves to the nearest grid cell centre where it holds (rings of 1, then 2 cells; in each
+   * ring the order is fixed: +x, -x, +y, -y, then the diagonals) or, if none does, is removed.  Pure function of the static
+   * map, run where the fixtures are made on the client (bundle) and on the server (sim): every machine gets the same list.
+   * The pillars are never moved or shrunk and nothing about line of sight changes.  Returns { moved, removed } for DEV checks. */
+  W.LAMP_BOX = { l: 45, r: 45, t: 15, b: 13 };                   // the housing the bundle draws: roundRect(x - 45, y - 15, 90, 28)
+  W.lampOk = function (x, y, pillars, kc, width, height, others, cell) {
+    const B = W.LAMP_BOX, x0 = x - B.l, x1 = x + B.r, y0 = y - B.t, y1 = y + B.b; cell = cell || 96;
+    for (let cy = Math.floor(y0 / cell); cy <= Math.floor((y1 - 1e-6) / cell); cy++) for (let cx = Math.floor(x0 / cell); cx <= Math.floor((x1 - 1e-6) / cell); cx++)
+      if (cx < 0 || cy < 0 || cx >= width || cy >= height || !kc[cy * width + cx]) return false;
+    for (const p of pillars) if (x1 > p.x && x0 < p.x + p.w && y1 > p.y && y0 < p.y + p.h) return false;
+    if (others) for (const o of others) if (o && x1 > o.x - B.l && x0 < o.x + B.r && y1 > o.y - B.t && y0 < o.y + B.b) return false;
+    return true;
+  };
+  W.fixLamps = function (lamps, pillars, kc, width, height, cell) {
+    cell = cell || 96; const out = { moved: [], removed: [] }, ORDER = [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]];
+    const rings = [ORDER, ORDER.map(([a, b]) => [a * 2, b * 2]).concat([[2, 1], [2, -1], [-2, 1], [-2, -1], [1, 2], [-1, 2], [1, -2], [-1, -2]])];
+    const others = i => lamps.filter((o, j) => j !== i && o);
+    for (let i = 0; i < lamps.length; i++) {
+      const L = lamps[i]; if (W.lampOk(L.x, L.y, pillars, kc, width, height, others(i), cell)) continue;
+      let to = null;
+      for (const ring of rings) { for (const [dx, dy] of ring) { const x = L.x + dx * cell, y = L.y + dy * cell; if (W.lampOk(x, y, pillars, kc, width, height, others(i), cell)) { to = { x, y }; break; } } if (to) break; }
+      if (to) { out.moved.push({ i, from: [L.x, L.y], to: [to.x, to.y] }); L.x = to.x; L.y = to.y; }
+      else { out.removed.push({ i, at: [L.x, L.y] }); lamps[i] = null; }
+    }
+    for (let i = lamps.length - 1; i >= 0; i--) if (!lamps[i]) lamps.splice(i, 1);
+    W.lampFix = out; return out;
+  };
+
   /* props whose (padded) rect contains a point */
   W.propAt = function (x, y, pad = 0, types) {
     for (const p of PROPS) {

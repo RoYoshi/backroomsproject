@@ -20,3 +20,4 @@ Branch `stage-3b-n`, created from the accepted Stage 3B parent `69602e7c9e755fcc
 | checkpoint | commit | tree | checks |
 |---|---|---|---|
 | N1 camera / timing policy serving | `63a492d` | `cb0afe3` | `camera_3bn.js` 4/4 (parent 1/4); `test_3bn.js` N1 5/5; Stage 3B unit 26/26 |
+| N2 true darkness + danger flicker | `21ec7b6` | `1517861` | `visibility_3bn.js` 6/6 (parent 1/6); `test_3bn.js` N2 6/6; BR-RoLE unit 32/32; Stage 3B unit 26/26; BR-RoLE cost lower in every profiled scene |

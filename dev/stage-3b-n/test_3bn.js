@@ -62,6 +62,35 @@ section('N2', async () => {
   check('N2-6 BR-RoLE still caps a lamp at .9 (a surge brightens lamps inside the line of sight; it cannot exceed the cap)', /return Math\.min\(\.9, \(i % 13 === 0/.test(BR));
 });
 
+/* ---------------------------------------------------------------- N3 fixture / blocker separation + LOS around pillars */
+section('N3', async () => {
+  const W = require(path.join(ROOT, 'world.js')), B = read('assets/index-DKbV5Nv9.js');
+  const GEN = 'kc[r*FBW+n]&&Fc.push({x:(n+.5)*96,y:(r+.5)*96})});';
+  const calls = { bundle: B.includes(GEN + 'window.WORLD.fixLamps(Fc,Pc,kc,FBW,FBH);var Ic='), sim_head: read('dev/sim_head.js').includes(GEN + 'WORLD.fixLamps(Fc,Pc,kc,FBW,FBH);var Ic='),
+    sim_geo: read('dev/sim_geo.js').includes(GEN + 'WORLD.fixLamps(Fc,Pc,kc,FBW,FBH);var Ic='), sim: read('sim.js').includes(GEN + 'WORLD.fixLamps(Fc,Pc,kc,FBW,FBH);var Ic=') };
+  check('N3-1 the fixtures are corrected where they are made, on the client (bundle) and on the server (sim.js and its dev sources): same call, right after the grid', Object.values(calls).every(Boolean), JSON.stringify(calls));
+  const PCG = 'var Pc=[];for(let e of[79.5,84.5,89.5])for(let t of[9.5,14.5,19.5])Pc.push({x:e*96-28,y:t*96-28,w:56,h:56});';
+  check('N3-2 the pillars are untouched (same nine 56 x 56 blockers, same code in the bundle and the sim)', B.includes(PCG) && read('sim.js').includes(PCG));
+  /* the real map: the grid before the correction (sim_geo's own debug export, re-made without the call) and after */
+  const geo = require(path.join(ROOT, 'dev', 'sim_geo.js'))().debug, { kc, Fc, Pc, FBW, FBH, Oc } = geo;
+  const raw = []; Oc.forEach((e, t) => { if (t !== 6) for (let n = e.x + 2; n < e.x + e.w - 1; n += 5) for (let r = e.y + 2; r < e.y + e.h - 1; r += 5) kc[r * FBW + n] && raw.push({ x: (n + .5) * 96, y: (r + .5) * 96 }); });
+  const onPillar = L => Pc.some(p => L.x + 45 > p.x && L.x - 45 < p.x + p.w && L.y + 13 > p.y && L.y - 15 < p.y + p.h);
+  const before = raw.filter(onPillar).length, copy = raw.map(l => ({ ...l })), fix = W.fixLamps(copy, Pc, kc, FBW, FBH);
+  const okAll = copy.every((L, i) => W.lampOk(L.x, L.y, Pc, kc, FBW, FBH, copy.filter((o, j) => j !== i)));
+  check('N3-3 the raw grid puts a fixture on each of the 9 pillars; after fixLamps every housing is on floor, off pillars and off other housings, 9 moved one cell (+x), none removed',
+    before === 9 && fix.moved.length === 9 && !fix.removed.length && fix.moved.every(m => m.to[0] - m.from[0] === 96 && m.to[1] === m.from[1]) && okAll && copy.length === raw.length,
+    `${raw.length} fixtures, ${before} on a pillar before; moved ${fix.moved.map(m => m.i + ' ' + m.from + '->' + m.to).join(', ')}; removed ${fix.removed.length}; all valid after: ${okAll}`);
+  const untouched = raw.every((L, i) => fix.moved.some(m => m.i === i) || (copy[i].x === L.x && copy[i].y === L.y));
+  const again = W.fixLamps(copy.map(l => ({ ...l })), Pc, kc, FBW, FBH), copy2 = raw.map(l => ({ ...l })); W.fixLamps(copy2, Pc, kc, FBW, FBH);
+  check('N3-4 deterministic and minimal: the other 81 fixtures keep their places, a second pass changes nothing, two runs give the same list, and the game\'s own list (sim) is that list',
+    untouched && !again.moved.length && !again.removed.length && JSON.stringify(copy2) === JSON.stringify(copy) && JSON.stringify(Fc) === JSON.stringify(copy));
+  const sim = require(path.join(ROOT, 'sim.js'))({ seed: 3 });
+  check('N3-5 the server\'s AI uses the corrected fixtures (sim.adapter.lamps)', JSON.stringify(sim.adapter.lamps.map(l => [l.x, l.y])) === JSON.stringify(copy.map(l => [l.x, l.y])), `${sim.adapter.lamps.length} lamps`);
+  try { sim.stop && sim.stop(); } catch (e) { }
+  check('N3-6 the client\'s line of sight casts its critical rays at the pillar corners too (not only the wall-grid corners): exact pillar silhouettes',
+    B.includes('&&Vl.push({x:t*96,y:e*96})}for(let e of Pc)Vl.push({x:e.x,y:e.y},{x:e.x+e.w,y:e.y},{x:e.x,y:e.y+e.h},{x:e.x+e.w,y:e.y+e.h});function Hl('));
+});
+
 (async () => {
   for (const [id, fn] of sections) { if (ONLY && !ONLY.includes(id)) continue; try { await fn(); } catch (e) { check(id + ' harness', false, String(e && e.stack || e).slice(0, 500)); } }
   const pass = results.filter(r => r.ok).length;

@@ -1,0 +1,19 @@
+PASS N1-1 every script index.html loads is served (200): camera_policy.js and timing_policy.js included   18 scripts; all 200
+PASS N1-2 server-only and development files are still never served   /server.js 404, /sim.js 404, /ai.js 404, /death_srv.js 404, /package.json 404, /dev/tests/run.js 404, /dev/stage-3b-n/test_3bn.js 404, /../server.js 404
+PASS N1-3 the served policies are the repository files byte for byte (policy contents unchanged)
+PASS N1-4 the bundle reads both policies at start-up, and index.html loads them before the bundle (classic scripts run before the deferred module)   camera hook true, timing hook true, order ./camera_policy.js ./timing_policy.js ./assets/index-DKbV5Nv9.js
+PASS N1-5 the policy never shows more than the canonical 1627 x 915 world at any CSS size (DPR is not an input)   12 viewports including 32:9, portrait and phones
+PASS N2-1 BR-RoLE draws no sourceless ambient glow around the viewer (no AMB gradient left)
+PASS N2-2 the danger flicker never thins the darkness overlay (mp.js sets no #light opacity)   0 writes
+PASS N2-3 the danger shake moves the world and its darkness overlay together (same transform)
+PASS N2-4 the flicker is a surge of the ceiling lamps: mp.js sets window.__dangerFlicker and __ents.lamp multiplies it in (source and build agree)
+PASS N2-5 __ents.lamp: calm 1, surge multiplies, a failed lamp stays nearly dark under a surge, unset flag = 1   calm 1, surge 1.8, failing+surge 0.108, unset 1
+PASS N2-6 BR-RoLE still caps a lamp at .9 (a surge brightens lamps inside the line of sight; it cannot exceed the cap)
+PASS N3-1 the fixtures are corrected where they are made, on the client (bundle) and on the server (sim.js and its dev sources): same call, right after the grid   {"bundle":true,"sim_head":true,"sim_geo":true,"sim":true}
+PASS N3-2 the pillars are untouched (same nine 56 x 56 blockers, same code in the bundle and the sim)
+PASS N3-3 the raw grid puts a fixture on each of the 9 pillars; after fixLamps every housing is on floor, off pillars and off other housings, 9 moved one cell (+x), none removed   90 fixtures, 9 on a pillar before; moved 74 7632,912->7728,912, 75 7632,1392->7728,1392, 76 7632,1872->7728,1872, 77 8112,912->8208,912, 78 8112,1392->8208,1392, 79 8112,1872->8208,1872, 80 8592,912->8688,912, 81 8592,1392->8688,1392, 82 8592,1872->8688,1872; removed 0; all valid after: true
+PASS N3-4 deterministic and minimal: the other 81 fixtures keep their places, a second pass changes nothing, two runs give the same list, and the game's own list (sim) is that list
+PASS N3-5 the server's AI uses the corrected fixtures (sim.adapter.lamps)   90 lamps
+PASS N3-6 the client's line of sight casts its critical rays at the pillar corners too (not only the wall-grid corners): exact pillar silhouettes
+
+17/17 passed
