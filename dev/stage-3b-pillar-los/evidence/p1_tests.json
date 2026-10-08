@@ -1,0 +1,71 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "parent": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+ "results": [
+  {
+   "name": "T01 polygon lookup = even-odd point test",
+   "ok": true,
+   "note": "0 / 60000 points differ"
+  },
+  {
+   "name": "T02 only Hl changed; its two call sites unchanged",
+   "ok": true,
+   "note": "prefix+suffix identical: true; Hl 337 -> 1339 chars"
+  },
+  {
+   "name": "T03 exact ray query and its tables unchanged",
+   "ok": true,
+   "note": "functions Uc Hc zc Bc identical: true; Pc/Vl/Fc identical: true; 4000 random Uc rays equal: true"
+  },
+  {
+   "name": "T04 walls: away from pillars both polygons byte-identical to the parent",
+   "ok": true,
+   "note": "1505 positions map-wide, 0 differ"
+  },
+  {
+   "name": "T05 walls in PILLAR HALL: every parent ray kept, same distance; wall padding unchanged",
+   "ok": true,
+   "note": "2404 polygons; parent rays missing 0; distance changed 0; vertex changed on a ray not stopping at a pillar 0"
+  },
+  {
+   "name": "T06 three events per corner of each pillar in reach, none for pillars out of reach",
+   "ok": true,
+   "note": "76 corners checked, 0 problems"
+  },
+  {
+   "name": "T07 entity mask = exact visibility around the pillar",
+   "ok": true,
+   "note": "666 poses; worst leak 0.0 px2, worst over-hide 1.0 px2"
+  },
+  {
+   "name": "T08 darkness clip: no floor behind a pillar; pillar-ray padding stays inside the pillar",
+   "ok": true,
+   "note": "666 poses; worst floor shown behind the pillar 0.0 px2; padded vertices outside their pillar 0"
+  },
+  {
+   "name": "T09 pillar face bands: nothing within the allowance lost; the 24 px allowance kept everywhere",
+   "ok": true,
+   "note": "371267 band points in sight; lost 0; inside the allowance but hidden 0; (deeper than 24 px along the ray, shown before only by a chord across the pillar's side: 5348; now shown, hidden before: 114)"
+  },
+  {
+   "name": "T10 actor behind a pillar: shown exactly when its body truly clears the corner",
+   "ok": true,
+   "note": "785 poses (0.25 px); shown early 0, late 0; first truly visible at x 8596.75"
+  },
+  {
+   "name": "T11 on a pillar face line (event angle at +-pi / +-pi/2): no leak",
+   "ok": true,
+   "note": "8 poses; worst 0"
+  },
+  {
+   "name": "T12 shadow edges on the exact silhouette corners while strafing (0.25 px)",
+   "ok": true,
+   "note": "1025 poses; worst edge offset 0.0057 deg"
+  },
+  {
+   "name": "T13 bounded: 12 extra rays per pillar in reach (entity mask), 14 (darkness clip); no quality input",
+   "ok": true,
+   "note": "beyond 12 per pillar: 0; beyond 14: 0; Hl reads no tier / quality state: true"
+  }
+ ]
+}

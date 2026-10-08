@@ -1,0 +1,28 @@
+orbit 0 orbit r90 68 deg | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+orbit 1 orbit r90 69 deg | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+orbit 2 orbit r90 70 deg | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+orbit 3 orbit r90 71 deg | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+orbit 4 orbit r90 72 deg | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+orbit 5 orbit r90 73 deg | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+orbit 6 orbit r90 74 deg | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+orbit 7 orbit r90 75 deg | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+strafe 0 strafe y+200 x 8502 | clip verts 205 | node Hl verts 205 | max |page - node| px 0
+strafe 1 strafe y+200 x 8504 | clip verts 205 | node Hl verts 205 | max |page - node| px 0
+strafe 2 strafe y+200 x 8506 | clip verts 205 | node Hl verts 205 | max |page - node| px 0
+strafe 3 strafe y+200 x 8508 | clip verts 205 | node Hl verts 205 | max |page - node| px 0
+strafe 4 strafe y+200 x 8510 | clip verts 205 | node Hl verts 205 | max |page - node| px 0
+strafe 5 strafe y+200 x 8512 | clip verts 205 | node Hl verts 205 | max |page - node| px 0
+strafe 6 strafe y+200 x 8514 | clip verts 205 | node Hl verts 205 | max |page - node| px 0
+strafe 7 strafe y+200 x 8516 | clip verts 205 | node Hl verts 205 | max |page - node| px 0
+close 0 close N face | clip verts 219 | node Hl verts 219 | max |page - node| px 0
+close 1 close E face | clip verts 213 | node Hl verts 213 | max |page - node| px 0
+close 2 close S face | clip verts 216 | node Hl verts 216 | max |page - node| px 0
+close 3 close W face | clip verts 222 | node Hl verts 222 | max |page - node| px 0
+close 4 close NW corner | clip verts 219 | node Hl verts 219 | max |page - node| px 0
+close 5 close NE corner | clip verts 196 | node Hl verts 196 | max |page - node| px 0
+close 6 close SE corner | clip verts 202 | node Hl verts 202 | max |page - node| px 0
+close 7 close SW corner | clip verts 216 | node Hl verts 216 | max |page - node| px 0
+diag 0 diagonal t 0.18 | clip verts 220 | node Hl verts 220 | max |page - node| px 0
+diag 1 diagonal t 0.38 | clip verts 245 | node Hl verts 245 | max |page - node| px 0
+diag 2 diagonal t 0.58 | clip verts 233 | node Hl verts 233 | max |page - node| px 0
+diag 3 diagonal t 0.78 | clip verts 191 | node Hl verts 191 | max |page - node| px 0
