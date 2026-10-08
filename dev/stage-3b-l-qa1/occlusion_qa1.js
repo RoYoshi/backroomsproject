@@ -4,7 +4,8 @@
  *   node dev/stage-3b-l-qa1/occlusion_qa1.js [--game PATH] [--port 9479] [--quality medium] [--lamps all|0,5,9] [--out FILE.json]
  *
  * QA1: light inside a wall or pillar is legitimate only on a FACE band of a side turned towards the lamp, and only where the
- * floor at that face's foot (its strip) has a legitimate path itself; anywhere else inside a blocker it is a leak.
+ * floor at that face's foot (its strip) has a legitimate path itself (direct; in the far cache, which holds the bounce light,
+ * direct or first bounce); anywhere else inside a blocker it is a leak.
  *
  * For each ceiling lamp, BR-RoLE 1.1's two caches (the CORE field and the FAR field + bounce light) are read back texel by
  * texel.  Every texel that holds light must have a LEGITIMATE path to that lamp, checked with the game's own ray query (walls
@@ -35,20 +36,20 @@ const AUDIT = `window.__occ = function (i) {
   const viaBounce = (x, y) => { for (const e of bounce) if (Math.hypot(x - e.x, y - e.y) < e.range && sees(e.x, e.y, x, y)) return true; return false; };
   const turned = R.dev.bands(L.x - info.far.hx, L.y - info.far.hy, L.x + info.far.hx, L.y + info.far.hy).filter(f => (L.x - f.edge[0]) * f.n[0] + (L.y - f.edge[1]) * f.n[1] > .5);
   /* on a turned face's band, its foot point (the strip centre in front of it, pushed out by push) */
-  const footOf = (x, y, push) => { for (const f of turned) { const b = f.band; if (x < b[0] - .5 || x > b[2] + .5 || y < b[1] - .5 || y > b[3] + .5) continue;
-      const s = f.strip; return f.n[1] !== 0 ? [x, (s[1] + s[3]) / 2 + f.n[1] * push] : [(s[0] + s[2]) / 2 + f.n[0] * push, y]; } return null; };
+  const feetOf = (x, y, push) => { const out = []; for (const f of turned) { const b = f.band; if (x < b[0] - .5 || x > b[2] + .5 || y < b[1] - .5 || y > b[3] + .5) continue;
+      const s = f.strip; out.push(f.n[1] !== 0 ? [x, (s[1] + s[3]) / 2 + f.n[1] * push] : [(s[0] + s[2]) / 2 + f.n[0] * push, y]); } return out; };   // (at a convex corner a point can sit on two bands' shared edge)
   const near = (x, y, m, f) => { if (f(x, y)) return true; for (let k = 0; k < 12; k++) { const a = k / 12 * Math.PI * 2; if (f(x + Math.cos(a) * m, y + Math.sin(a) * m) || f(x + Math.cos(a) * m / 2, y + Math.sin(a) * m / 2)) return true; } return false; };
   const out = { i, x: L.x, y: L.y, bounce: bounce.length, core: { lit: 0, bad: [] }, far: { lit: 0, bad: [], bounceOnly: 0, bounceOnlyMax: 0 }, peak: 0 };
   /* the core cache: every texel */
   { const { hx, hy, w, h, res } = info.core, pts = []; for (let j = 0; j < h; j++) for (let q = 0; q < w; q++) pts.push([L.x - hx + (q + .5) / res, L.y - hy + (j + .5) / res]);
     const v = R.dev.cache(i, pts); for (let n = 0; n < pts.length; n++) { const c = v[n].core; if (c > out.peak) out.peak = c; if (c * 255 < 1.5) continue; out.core.lit++;
-      const [x, y] = pts[n]; if (near(x, y, 12, direct)) continue; const ft = footOf(x, y, 0); if (ft && near(ft[0], ft[1], 12, direct)) { out.core.face = (out.core.face || 0) + 1; continue; }
+      const [x, y] = pts[n]; if (near(x, y, 12, direct)) continue; if (feetOf(x, y, 0).some(ft => near(ft[0], ft[1], 12, direct))) { out.core.face = (out.core.face || 0) + 1; continue; }
       { if (out.core.bad.length < 8) out.core.bad.push([Math.round(x), Math.round(y), +(c * 255).toFixed(1)]); out.core.badN = (out.core.badN || 0) + 1; } } }
   /* the far cache (far field + bounce light): every texel */
   { const { hx, hy, w, h, res } = info.far, pts = [], m = 2 / res + 4; for (let j = 0; j < h; j++) for (let q = 0; q < w; q++) pts.push([L.x - hx + (q + .5) / res, L.y - hy + (j + .5) / res]);
     const v = R.dev.cache(i, pts); for (let n = 0; n < pts.length; n++) { const f = v[n].far; if (f === null) { out.far.missing = true; break; } if (f * 255 * K.LAMP.fg < 1.5) continue; out.far.lit++;
       const [x, y] = pts[n]; if (near(x, y, m, direct)) continue;
-      const ft = footOf(x, y, 1.5 / res); if (ft && near(ft[0], ft[1], m, direct)) { out.far.face = (out.far.face || 0) + 1; continue; }
+      if (feetOf(x, y, 1.5 / res).some(ft => near(ft[0], ft[1], m, direct) || near(ft[0], ft[1], m, viaBounce))) { out.far.face = (out.far.face || 0) + 1; continue; }   // a face receives what reaches its foot: direct, or (far cache) first bounce
       if (near(x, y, m, viaBounce)) { if (!direct(x, y) && !near(x, y, m, direct)) { out.far.bounceOnly++; if (f > out.far.bounceOnlyMax) out.far.bounceOnlyMax = f; } continue; }
       if (out.far.bad.length < 8) out.far.bad.push([Math.round(x), Math.round(y), +(f * 255).toFixed(2)]); out.far.badN = (out.far.badN || 0) + 1; } }
   return out;

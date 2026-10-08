@@ -12,7 +12,7 @@
  *   R2 the field is a broad source: brighter along the tube than across it at the same distance from the centre
  *   R3 one open-floor lamp's CACHED light along every unobstructed direction: never rising (beyond the fixture), still lit
  *      past 380 px, dark by the bound
- *   R4 a corridor lit from one end by one lamp (no other lamp reaches it): the RENDERED light runs on past 380 px and fades
+ *   R4 a corridor lit from one end (QA1: the corridor down to the BLACKOUT ZONE): the RENDERED light runs on past 380 px and fades
  *      to black smoothly - no slope jump anywhere along it, no step beyond the 8-bit quantum
  *   R5 two lamps overlap naturally: on the line between them the light is continuous (no seam, no dark ring) and never
  *      below either lamp's own light there
@@ -59,20 +59,23 @@ const kinkOf = (w, k0, span) => { let m = 0, at = -1; for (let k = k0 + span; k 
     { let rise = 0, lit = 1, end = 0; for (const { v } of R.cache) { for (let k = 16; k < v.length; k++) rise = Math.max(rise, v[k] - Math.min(...v.slice(15, k))); lit = Math.min(lit, v[100]); end = Math.max(end, v[163]); }
       check('R3 one open lamp\'s cached light (core + far + bounce) along every open direction: never rising past the fixture, lit past 380 px, dark at the bound', rise <= 2.5 / 255 && lit > 3 / 255 && end < 1 / 255,
         `lamp ${pick.i}, ${R.cache.length} directions; largest rise ${(rise * 255).toFixed(2)}/255 (8-bit / low-res texels); at 400 px >= ${(lit * 255).toFixed(1)}/255; at 652 px <= ${(end * 255).toFixed(2)}/255`); }
-    /* R4: a corridor lit from one end - YELLOW HALL's lamp below the corridor to NORTH ROOMS (no other lamp reaches its middle) */
-    const cor = await P.evaluate(() => { const A = __api; let i = A.lamps.findIndex(L => Math.floor(L.x / 96) === 10 && Math.floor(L.y / 96) === 29); return i < 0 ? null : { i, x: A.lamps[i].x, y: A.lamps[i].y }; });
+    /* R4: a corridor lit from one end.  QA1: the corridors now have their own fixtures, except the BLACKOUT ZONE's approaches
+     * (world.js W.lamps keeps 7.5 cells clear of it): the corridor from YELLOW HALL down to the zone (cells 10..13, rows 45..49)
+     * is lit only from its YELLOW HALL end - by the lowest YELLOW HALL fixture above it (and what reaches past that one) */
+    const cor = await P.evaluate(() => { const A = __api; let i = -1, by = -1; A.lamps.forEach((L, k) => { if (L.x > 960 && L.x < 1344 && L.y < 45 * 96 && L.y > 27 * 96 && L.y > by) { by = L.y; i = k; } });
+      return i < 0 ? null : { i, x: A.lamps[i].x, y: A.lamps[i].y, lx: Math.min(1290, Math.max(1010, A.lamps[i].x + 40)) }; });
     if (cor) {
-      await H.place(P, cor.x + 100, cor.y - 420, -Math.PI / 2, { light: false }); await waitFar(P, cor.i); await frames(P, 20);
-      R.corridor = await P.evaluate(c => { const pts = []; for (let d = 0; d <= 720; d += 4) pts.push([c.x + 110, c.y - d]); const others = __api.lamps.filter((L, k) => k !== c.i && pts.some(([x, y]) => Math.hypot(L.x - x, L.y - y) < 690)).length;
+      await H.place(P, cor.x, cor.y + 360, Math.PI / 2, { light: false }); await waitFar(P, cor.i); await frames(P, 20);
+      R.corridor = await P.evaluate(c => { const pts = []; for (let d = 0; d <= 720; d += 4) pts.push([c.lx, c.y + d]); const others = __api.lamps.filter((L, k) => k !== c.i && pts.some(([x, y]) => Math.hypot(L.x - x, L.y - y) < 690)).length;
         return { v: __brRole.dev.light(pts), others }; }, cor);
       /* the slope change is measured from 300 px out (where the parent's edge was, and the tail): its own curvature near the
        * fixture is the falloff itself.  The parent's edge there: a slope of .35 / 187 x .43 per px dropping to zero at 380 px */
       const vis = VIS, w = R.corridor.v, k1 = kinkOf(w, 75, 4), k2 = kinkOf(w, 75, 8), old = .35 / 187 * .43 * vis * 4; let step = 0; for (let k = 76; k < w.length; k++) if (w[k] !== null && w[k - 1] !== null) step = Math.max(step, Math.abs(w[k] - w[k - 1]));
       const at = d => w[Math.round(d / 4)], firstBlack = w.findIndex((v, k) => k > 50 && v !== null && v * 255 < .5) * 4;
-      check('R4 a corridor lit from one end: the rendered light runs on past 380 px and fades to black smoothly (no slope jump, no step)', at(400) * 255 >= 2 && firstBlack > 420 && step <= 2.5 / 255 && k2.m <= old / 2,
-        `lamp ${cor.i} up the corridor (other lamps reaching it: ${R.corridor.others}): ${[200, 300, 380, 420, 460, 500, 540, 580].map(d => d + ' px ' + Math.round(at(d) * 255)).join(', ')} /255; black from ${firstBlack} px; ` +
+      check('R4 a corridor lit from one end (YELLOW HALL down to the BLACKOUT ZONE): the rendered light runs on past 380 px and fades to black smoothly (no slope jump, no step)', at(400) * 255 >= 2 && firstBlack > 420 && step <= 2.5 / 255 && k2.m <= old / 2,
+        `lamp ${cor.i} down the corridor (other lamps reaching the line: ${R.corridor.others}): ${[200, 300, 380, 420, 460, 500, 540, 580].map(d => d + ' px ' + Math.round(at(d) * 255)).join(', ')} /255; black from ${firstBlack} px; ` +
         `largest step from 300 px out ${(step * 255).toFixed(1)}/255 per 4 px, slope change from 300 px out <= ${(k2.m * 255).toFixed(2)}/255 per 4 px over 32 px windows (16 px: ${(k1.m * 255).toFixed(2)}); the parent's edge at this output (x ${vis}): ${(old * 255).toFixed(2)}`);
-    } else check('R4 a corridor lit from one end', false, 'the YELLOW HALL lamp below the corridor was not found');
+    } else check('R4 a corridor lit from one end', false, 'the YELLOW HALL lamp above the corridor was not found');
     /* R5: overlap - the open lamp and its nearest neighbour in sight */
     await H.place(P, pick.x, pick.y + 40, 0, { light: false }); await waitFar(P, pick.i); await frames(P, 10);
     R.pair = await P.evaluate(i => { const A = __api, L = A.lamps[i]; let j = -1, bd = 1e9;

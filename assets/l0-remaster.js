@@ -1074,10 +1074,11 @@
     if (R.arches.length) { const stG = new S.G(); stG.label = 'structures'; pilasters(R, stG); R.src.addChild(stG); }   // ARCH GALLERY: pilasters beside its archways
 
     /* -- 8 ceiling: the zone's fixtures (lamps in it, plus visual-only records), legacy footprint -- */
-    for (const L of S.ownLamps.filter(l => l.room === zid)) R.ceilG.texture(X.fix[L.aged ? 'aged' : prof.fixtures.diffuser === 'yellowed' ? 'yellowed' : 'clean'], 0xffffff, L.x - 45 - 6, L.y - 15 - 6, 102, 40);
+    const mine = S.ownLamps.filter(l => l.room === zid || (l.room === Z.base && Z.kind === 'corridors' && own(Math.floor(l.x / T), Math.floor(l.y / T))));   // (a corridor piece: the fixtures over its own floor)
+    for (const L of mine) R.ceilG.texture(X.fix[L.aged ? 'aged' : prof.fixtures.diffuser === 'yellowed' ? 'yellowed' : 'clean'], 0xffffff, L.x - 45 - 6, L.y - 15 - 6, 102, 40);
     const vis = VZ.fixtures.filter(f => f.room === R.base && own(Math.floor(f.x / T), Math.floor(f.y / T)));
     for (const f of vis) R.ceilG.texture(X.fix[f.kind] || X.fix.dead, 0xffffff, f.x - 51, f.y - 21, 102, 40);
-    const B = acct(); B.stats.fixtures += S.ownLamps.filter(l => l.room === zid).length + vis.length;   // (the ceiling layer takes it when the build is committed)
+    const B = acct(); B.stats.fixtures += mine.length + vis.length;   // (the ceiling layer takes it when the build is committed)
     B.stats.floorRects += R.n.floor; B.stats.faces += R.n.faces; B.stats.decals += R.n.decals;
     return R;
   }
@@ -1427,9 +1428,11 @@
   function lamp(t, e, lampTop) {
     try {
       if (!S.on || S.disabled || !VZ || !e) return lampTop;
-      const r = roomAt(e.x, e.y); if (!r || !VZ.inSlice(r.id)) return lampTop;
+      const r = roomAt(e.x, e.y), cx = Math.floor(e.x / T), cy = Math.floor(e.y / T);
+      const zone = r ? r.id : isFloor(cx, cy) && !inAnyRoom(cx, cy) ? 'zone:corridors' : null;   // QA1: a corridor fixture (world.js W.lamps) belongs to the corridor network
+      if (!zone || !VZ.inSlice(zone)) return lampTop;
       if (!S.legacyLamps) { S.legacyLamps = new lampTop.constructor(); S.legacyLamps.label = 'l0v-legacy-lamps'; }
-      S.ownLamps.push({ t, id: VZ.lampId(t), x: e.x, y: e.y, room: r.id, aged: t % 13 === 0 });
+      S.ownLamps.push({ t, id: VZ.lampId(t), x: e.x, y: e.y, room: zone, aged: t % 13 === 0 });
       return S.legacyLamps;
     } catch (err) { S.errors++; return lampTop; }
   }

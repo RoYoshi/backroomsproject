@@ -195,15 +195,15 @@ run('U04 blackout: no lamp is drawn; your light still is; lamps come back after'
   const p = makePage(); warm(p); const a = lampDraws(p.log).length; p.g.V.blackout = true; p.frame(); const b = lampDraws(p.log).length, own = p.R.stats().carried.last; p.g.V.blackout = false; p.frame(); const c = lampDraws(p.log).length;
   return { ok: a > 0 && b === 0 && own === 1 && c === a, note: `lamps ${a} -> blackout ${b} (carried ${own}) -> ${c}` };
 });
-run('U05 lamp strength is the game\'s own: .43 (dim fixtures .13 + .06·max(0, sin(11t + i))), times failures and the NV gain, capped at .9 (the cached field is added at strength / .9)', () => {
-  const p = makePage(); let worst = 0, n = 0, dims = 0; warm(p, { x: 600, y: 2930 });
+run('U05 lamp strength is the game\'s own: .43 (dim fixtures .13 + .06·max(0, sin(11t + i))), times failures and the NV gain, capped at .9; QA1: shown at LAMP.vis x that (the cached field is added at min(1, vis x strength / .9))', () => {
+  const p = makePage(); let worst = 0, n = 0, dims = 0; warm(p, { x: 600, y: 2930 }); const VIS = p.R.dev.constants().LAMP.vis || 1;
   for (const [f, gain] of [[1, 1], [.25, 1], [1, 1.5], [1, 3]]) {
     p.win.__ents.lamp = () => f; p.win.__cam = { lampGain: () => gain }; p.frame({ x: 600, y: 2930 });
     const t = p.clock / 1000;
-    for (const e of lampDraws(p.log)) { const i = lampOf(p.g, e), exp = Math.min(.9, (i % 13 === 0 ? .13 + .06 * Math.max(0, Math.sin(t * 11 + i)) : .43) * f * gain), got = e.alpha * .9;
+    for (const e of lampDraws(p.log)) { const i = lampOf(p.g, e), exp = Math.min(1, Math.min(.9, (i % 13 === 0 ? .13 + .06 * Math.max(0, Math.sin(t * 11 + i)) : .43) * f * gain) * VIS / .9), got = e.alpha;
       if (i % 13 === 0) dims++; worst = Math.max(worst, Math.abs(got - exp)); n++; }
   }
-  return { ok: n > 8 && dims > 0 && worst < 1e-9, note: `${n} lamp draws checked (dim fixtures ${dims}), largest difference from the formula ${worst.toExponential(1)}` };
+  return { ok: n > 8 && dims > 0 && worst < 1e-9, note: `${n} lamp draws checked (dim fixtures ${dims}), vis ${VIS}, largest difference from the formula ${worst.toExponential(1)}` };
 });
 run('U06 tiers: the light buffer is the CSS viewport x .5 / .75 / 1.0 - never scaled by devicePixelRatio; lamps and other wanderers are drawn up to each tier\'s cap (the last one may be fading)', () => {
   const out = {};
@@ -328,18 +328,18 @@ run('U18 BR2B/BR2.1 an actor\'s cast shadow and self-shading are its DOMINANT li
   const want = Math.atan2(3300 - lp.y, 1060 - lp.x), castAng = Math.atan2(cast.transform[1], cast.transform[0]), sh = shade.transform, gradAng = Math.atan2(sh[1], sh[0]);   // a circle: the texture's +x is the gradient
   const cutR = Math.hypot(cuts[0].transform[0], cuts[0].transform[1]) / k, startPx = cast.args[0];
   const layers = p.win.__api.floor().parent.children.find(c => c.label === 'br-role').children.map(c => c.label), black = L.filter(e => e.op === 'fill' && e.style === '#000').length;
-  const ok = me.length === 1 && me[0].light === 'L4' && me[0].dominant && Math.abs(lampIn.alpha * .9 - lampOfP(p, 4)) < 1e-6 && Math.abs(castAng - want) < 1e-6 && Math.abs(gradAng - want) < 1e-6 && cutR >= 18 + 1 && cuts.length >= 1 && !!back && !!added
-    && cast.alpha > .5 && cast.alpha <= .85 && shade.alpha > .3 && shade.alpha <= .42 + 1e-9 && black === 0 && JSON.stringify(layers) === JSON.stringify(['br-role-ao']);
-  return { ok, note: `light ${me.map(j => j.light)}; cast x${cast.alpha.toFixed(3)} from ${startPx.toFixed(1)} px, turned ${castAng.toFixed(4)} (lamp -> you ${want.toFixed(4)}), silhouette cut out to r ${cutR.toFixed(1)} px (body 18); self-shading x${shade.alpha.toFixed(3)}, darker side toward ${gradAng.toFixed(4)}; layers ${JSON.stringify(layers)}` };
+  const VIS = p.R.dev.constants().LAMP.vis || 1, ok = me.length === 1 && me[0].light === 'L4' && me[0].dominant && Math.abs(lampIn.alpha - Math.min(1, lampOfP(p, 4) * VIS / .9)) < 1e-6 && Math.abs(castAng - want) < 1e-6 && Math.abs(gradAng - want) < 1e-6 && cutR >= 18 + 1 && cuts.length >= 1 && !!back && !!added
+    && cast.alpha > .5 && cast.alpha <= .85 && shade.alpha > .42 * .3 * .9 && shade.alpha <= .42 + 1e-9 && black === 0 && JSON.stringify(layers) === JSON.stringify(['br-role-ao']);
+  return { ok, note: `light ${me.map(j => j.light)}; cast x${cast.alpha.toFixed(3)} from ${startPx.toFixed(1)} px, turned ${castAng.toFixed(4)} (lamp -> you ${want.toFixed(4)}), silhouette cut out to r ${cutR.toFixed(1)} px (body 18); self-shading x${shade.alpha.toFixed(3)} (.42 x the dominant light's contrast: ACT.even .3 at an even share .. 1; QA1 has more fixtures sharing the light here), darker side toward ${gradAng.toFixed(4)}; layers ${JSON.stringify(layers)}` };
 });
 function lampOfP(p, i) { const t = p.clock / 1000; return Math.min(.9, (i % 13 === 0 ? .13 + .06 * Math.max(0, Math.sin(t * 11 + i)) : .43)); }
-run('U19 BR2B the dominant light is the one that really reaches the actor, not the nearest: at (772, 3174) the nearest lamp (4, 273 px) is walled off and lamp 1 (280 px) lights you - the shadow follows lamp 1', () => {
-  const p = makePage(); warm(p, { x: 772, y: 3174, on: false }); const me = p.R.actors().filter(j => j.self);
-  return { ok: me.length === 1 && me[0].light === 'L1', note: `shadow from ${me.map(j => j.light)} (probe: lamp 4 ${p.R.probe(772, 3174).lamps.find(l => l.i === 4).light}, lamp 1 ${p.R.probe(772, 3174).lamps.find(l => l.i === 1).light.toFixed(3)})` };
+run('U19 BR2B the dominant light is the one that really reaches the actor, not the nearest: at (784, 2772) the nearest lamp (3, 232 px) is walled off and lamp 90 (254 px) lights you - the shadow follows lamp 90 (Stage 3B-L QA1 fixture layout; before it: (772, 3174), lamps 4 / 1)', () => {
+  const p = makePage(); warm(p, { x: 784, y: 2772, on: false }); const me = p.R.actors().filter(j => j.self), pr = p.R.probe(784, 2772), a = pr.lamps.find(l => l.i === 3), b = pr.lamps.find(l => l.i === 90);
+  return { ok: me.length === 1 && me[0].light === 'L90' && !!a && a.light === 0 && !!b && b.light > 0, note: `shadow from ${me.map(j => j.light)} (probe: lamp 3 ${a ? a.light : '-'}, lamp 90 ${b ? b.light.toFixed(3) : '-'})` };
 });
-run('U20 BR2B hysteresis: between two nearly equal lamps (952, 3558: lamps 5 / 4), walking back and forth across the balance line never flips the shadow, and its strength never jumps', () => {
-  const p = makePage(); warm(p, { x: 952, y: 3558, on: false }); let flips = 0, last = null, jump = 0, prevA = null;
-  for (let k = 0; k < 60; k++) { const dx = Math.sin(k * .7) * 14; p.frame({ x: 952 + dx, y: 3558 - dx * .5, on: false }); const me = p.R.actors().filter(j => j.self && j.dominant); const l = me.length ? me[0].light : null; if (last !== null && l !== last) flips++; last = l;
+run('U20 BR2B hysteresis: between two nearly equal lamps (1156, 3684: lamps 5 / 94; Stage 3B-L QA1 fixture layout, before it (952, 3558): lamps 5 / 4), walking back and forth across the balance line never flips the shadow, and its strength never jumps', () => {
+  const p = makePage(); warm(p, { x: 1156, y: 3684, on: false }); let flips = 0, last = null, jump = 0, prevA = null;
+  for (let k = 0; k < 60; k++) { const dx = Math.sin(k * .7) * 14; p.frame({ x: 1156 + dx, y: 3684 - dx * .5, on: false }); const me = p.R.actors().filter(j => j.self && j.dominant); const l = me.length ? me[0].light : null; if (last !== null && l !== last) flips++; last = l;
     const a = p.R.actors().filter(j => j.self).reduce((s, j) => s + j.a, 0); if (prevA !== null) jump = Math.max(jump, Math.abs(a - prevA)); prevA = a; }
   return { ok: flips === 0 && jump < .2, note: `dominant light changes ${flips} over 60 frames of ±14 px wandering; largest frame-to-frame change of the total removal ${jump.toFixed(3)}` };
 });
@@ -350,7 +350,7 @@ run('U21 BR2B a Hound you can see gets a shadow from its dominant light; a Smile
 });
 run('U22 BR2B tiers: LOW and MEDIUM one shadow per actor (the dominant light); HIGH may add one faint second shadow (<= 45 % of the first) when a second light matters', () => {
   const out = {}; let ok = true;
-  for (const q of ['low', 'medium', 'high']) { const p = makePage(); p.R.setQuality(q); warm(p, { x: 952, y: 3558, on: false }); const me = p.R.actors().filter(j => j.self).sort((a, b) => b.a - a.a);
+  for (const q of ['low', 'medium', 'high']) { const p = makePage(); p.R.setQuality(q); warm(p, { x: 1156, y: 3684, on: false }); const me = p.R.actors().filter(j => j.self).sort((a, b) => b.a - a.a);   // (U20's balance point)
     out[q] = me.map(j => `${j.light} ${j.a.toFixed(3)}`).join(' + ');
     if (q === 'high' ? !(me.length >= 1 && me.length <= 2 && (me.length === 1 || me[1].a <= me[0].a * .45 + 1e-9)) : me.length !== 1) ok = false; }
   return { ok, note: JSON.stringify(out) };

@@ -22,8 +22,8 @@
   const DEF = {
     schemaVersion: 3,
     assetId: 'visuals:level0',
-    revision: '3b-final-f2-special-rooms',
-    contentHash: '2ebce35edce0a806f540ad58bdf6bfe00d00e35804c03f4fa915d3dd2ea40c26',
+    revision: '3b-l-qa1-fixtures',
+    contentHash: 'b0b227abd23f166c8d31dbce24fdea75f4624b8d600c8315bb042abcdfcfd516',
     layoutSeed: 'tfb:level0:visuals:1',
     /* the zones the remaster draws (rooms by stable id, plus the corridor network): since 3B-F2 the whole of Level 0.  A zone
      * left out keeps the v23.3.6 / BR-RoLE 1.0 look.  Order is build order (and the order zones bake into a shared chunk). */
@@ -47,9 +47,9 @@
     ],
     /* zones that are not rooms of the game's table: the corridor network (every floor cell outside a room) */
     zones: [
-      { id: 'zone:corridors', name: 'CORRIDORS', surface: 'carpet', archetype: 'archetype:corridor', note: 'the hallways between rooms ("hallways": canon); no lamps, as in the game' },
+      { id: 'zone:corridors', name: 'CORRIDORS', surface: 'carpet', archetype: 'archetype:corridor', note: 'the hallways between rooms ("hallways": canon); a line of real fixtures down each (world.js W.lamps, Stage 3B-L QA1)' },
     ],
-    lampCount: 90,                       // lamp:001 .. lamp:090 in the game's lamp order (read live; the count is cross-checked)
+    lampCount: 170,                      // lamp:001 .. lamp:170 in the game's lamp order (world.js W.lamps since Stage 3B-L QA1; read live; the count is cross-checked)
     /* shared material palettes (sRGB hex) */
     materials: [
       { id: 'material:baseboard', family: 'trim', base: '#8d7a45', top: '#a8935a', scuff: '#5d5030' },
@@ -123,7 +123,7 @@
       { id: 'archetype:blackout-zone', note: 'failed power: the darkness is the game\'s lighting; told by dead fixtures, glass, a fallen tile, a burnt outlet, damp and mildew',
         floor: 'floor:mustard-loop', floorTone: .76, seams: 'none', wall: 'wall:chevron-paper', wallTone: .9, fixtures: 'fixtures:failed', damage: 'damage:failed-wet',
         decor: 'dressing:abandoned', props: 'props:bare', structure: null, accent: 'failed-power' },
-      { id: 'archetype:corridor', note: 'the hallways: the same carpet and paper, trodden lanes along their length, no lamps (as in the game)',
+      { id: 'archetype:corridor', note: 'the hallways: the same carpet and paper, trodden lanes along their length, standard fixtures down them (Stage 3B-L QA1)',
         floor: 'floor:mustard-loop', floorTone: 1, seams: 'none', wall: 'wall:chevron-paper', wallTone: 1, fixtures: 'fixtures:standard', damage: 'damage:corridor-trodden',
         decor: 'dressing:trodden', props: 'props:bare', structure: null, accent: 'corridor' },
       { id: 'archetype:damp-rooms', note: 'the wettest rooms: old vinyl tile under standing water (the game\'s wet tile), mildew, walls wicking water',
@@ -161,7 +161,7 @@
      * casts from; everything Stage 3B adds is flat presentation and casts nothing */
     casters: [
       { id: 'caster:decor', element: 'stains, damp, mildew, grit, indents, glass, tiles, wall marks (static and future dynamic surface decals)', source: 'level0_visuals.js / seeded scatter / the surface receiver', brRole: 'none: flat, never a blocker' },
-      { id: 'caster:fixtures', element: 'fixture housings', source: 'the game lamp list (Fc)', brRole: 'the lamps stay BR-RoLE light sources, unchanged; housings are presentation in the ceiling layer' },
+      { id: 'caster:fixtures', element: 'fixture housings', source: 'the game lamp list (Fc: world.js W.lamps)', brRole: 'the lamps stay BR-RoLE light sources, unchanged; housings are presentation in the ceiling layer' },
       { id: 'caster:pillars', element: 'pillars', source: 'the game pillar list (Pc), 56 x 56', brRole: 'pillar blockers, unchanged; the art is exactly the footprint' },
       { id: 'caster:pits', element: 'pits (LONG ROOM)', source: 'the game pit list (Mc)', brRole: 'none: the game lets sight pass over pits (Hc) and BR-RoLE casts nothing from them; the art stays inside the pit cells' },
       { id: 'caster:props', element: 'all 18 world.js props: counters, the shelf (drawn as fallen ductwork), low walls, railing, machine (drawn as a dead cabinet), table, bench, crawl holes, windows', source: 'world.js PROPS rect / cell', brRole: 'prop casters as before, by the game\'s kind and height; railing and holes cast nothing; the art is exactly the footprint plus a flat contact margin' },

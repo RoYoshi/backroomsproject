@@ -21,6 +21,7 @@ const roomIdAt = (cx, cy) => { const o = G.Oc.find(o => inRect(o, cx, cy)); retu
 const baseAt = (cx, cy) => { if (!G.zc(cx, cy)) return null; const r = roomIdAt(cx, cy); return r ? (V.inSlice(r) ? r : null) : (V.inSlice('zone:corridors') ? 'zone:corridors' : null); };
 const sliceRoomIds = () => V.slice.filter(id => id.startsWith('room:'));
 const inSliceRoom = (x, y) => { const [cx, cy] = cellOf(x, y), r = roomIdAt(cx, cy); return !!r && V.inSlice(r); };
+const inSliceZone = (x, y) => !!baseAt(...cellOf(x, y));        // Stage 3B-L QA1: a fixture over a slice zone's floor (rooms, and the corridors' own fixtures)
 const SIDES = { S: [0, 1], N: [0, -1], E: [1, 0], W: [-1, 0] };
 const sideOf = m => m.a > 0 && m.d > 0 ? 'S' : m.a > 0 ? 'N' : m.c > 0 ? 'E' : 'W';      // a band's paper orientation (buildWalls' matrices)
 let BASE = null; const base = () => BASE || (BASE = runRemaster());
@@ -112,13 +113,13 @@ run('V08 the canon audit holds (STAGE_3B_FINAL_PROP_CANON_AUDIT.md): every dress
 });
 
 /* ---------- the remaster module in a VM ---------- */
-run('R01 the two hooks: built() puts the remaster layer right above the level art and the ceiling layer right above lampTop; lamp() redirects exactly the slice rooms\' lamps (into one module Graphics), every other lamp stays in lampTop; ?remaster=off does nothing at all', () => {
+run('R01 the two hooks: built() puts the remaster layer right above the level art and the ceiling layer right above lampTop; lamp() redirects exactly the slice zones\' lamps (rooms, and since Stage 3B-L QA1 the corridors\' fixtures; into one module Graphics), every other lamp stays in lampTop; ?remaster=off does nothing at all', () => {
   const E = base(), k = E.world.children, iL = k.indexOf(E.level), iR = k.findIndex(c => c.label === 'l0-remaster'), iT = k.indexOf(E.lampTop), iC = k.findIndex(c => c.label === 'l0-remaster-ceiling');
-  const want = G.Fc.map(e => inSliceRoom(e.x, e.y)), redirected = E.targets.map(g => g !== E.lampTop), legacy = E.targets.find(g => g !== E.lampTop);
+  const want = G.Fc.map(e => inSliceZone(e.x, e.y)), redirected = E.targets.map(g => g !== E.lampTop), legacy = E.targets.find(g => g !== E.lampTop);
   const exact = want.every((w, i) => w === redirected[i]), one = new Set(E.targets.filter(g => g !== E.lampTop)).size === 1;
   const O = runRemaster({ search: '?remaster=off' }), offClean = O.targets.every(g => g === O.lampTop) && !O.world.children.some(c => /^l0-remaster/.test(c.label));
   return { ok: iR === iL + 1 && iC === iT + 1 && exact && one && legacy && legacy.parent && legacy.parent.label === 'l0-remaster-ceiling' && offClean && E.stats.built && !E.stats.disabled,
-    note: `world order: level ${iL}, remaster ${iR}, lampTop ${iT}, ceiling ${iC}; redirected ${redirected.filter(Boolean).length}/${G.Fc.length} lamps, exactly the slice rooms' ${exact}; ?remaster=off: untouched ${offClean}` };
+    note: `world order: level ${iL}, remaster ${iR}, lampTop ${iT}, ceiling ${iC}; redirected ${redirected.filter(Boolean).length}/${G.Fc.length} lamps, exactly the slice zones' ${exact}; ?remaster=off: untouched ${offClean}` };
 });
 run('R02 zones own the floor once: every floor fill lies on floor cells of its own zone (a room: its game rect; a corridor piece: corridor floor), no cell is drawn twice, and every floor cell of every slice zone is drawn (rooms, and the corridor network split into its connected pieces, in map order)', () => {
   const E = base(), { own, bad } = ownership(E), per = new Map();
@@ -188,9 +189,9 @@ run('R08 LOW stays cheap: at BR-RoLE LOW the remaster builds smaller textures an
   return { ok: lo.tier === 'low' && me.tier === 'medium' && hi.tier === 'high' && lo.texMPx < me.texMPx * .75 && ratio < .75 && ratio > .2 && hi.decals === me.decals && hi.rooms.length === me.rooms.length && lo.rooms.length === me.rooms.length,
     note: `LOW: ${lo.texMPx} MPx textures, ${lo.decals} decals; MEDIUM: ${me.texMPx} MPx, ${me.decals} decals (LOW x${ratio.toFixed(2)}); HIGH ${hi.texMPx} MPx, ${hi.decals} decals; the same ${me.rooms.length} zones at every tier` };
 });
-run('R09 fixtures: the ceiling layer holds one housing per slice-room lamp at the legacy footprint (90 x 28 at x-45, y-15, inside a 6 px art margin) plus the visual-only records; none for any other lamp (the corridors have none, as in the game)', () => {
+run('R09 fixtures: the ceiling layer holds one housing per slice-zone lamp at the legacy footprint (90 x 28 at x-45, y-15, inside a 6 px art margin) plus the visual-only records; none for any other lamp (since Stage 3B-L QA1 the corridors have real fixtures too: world.js W.lamps)', () => {
   const E = base(), ceil = E.world.children.find(c => c.label === 'l0-remaster-ceiling'), quads = graphicsIn(ceil).filter(g => g.label && g.label.startsWith('fixtures')).flatMap(g => g.ops), bad = [];
-  const own = G.Fc.map((e, t) => [e, t]).filter(([e]) => inSliceRoom(e.x, e.y)), vis = V.fixtures.filter(f => V.inSlice(f.room));
+  const own = G.Fc.map((e, t) => [e, t]).filter(([e]) => inSliceZone(e.x, e.y)), vis = V.fixtures.filter(f => V.inSlice(f.room));
   for (const [e, t] of own) if (!quads.some(q => q.x === e.x - 51 && q.y === e.y - 21 && q.w === 102 && q.h === 40)) bad.push('lamp ' + t);
   for (const f of vis) if (!quads.some(q => q.x === f.x - 51 && q.y === f.y - 21)) bad.push(f.id);
   const extra = quads.length - own.length - vis.length;

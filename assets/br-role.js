@@ -81,11 +81,14 @@
    * BR-RoLE 1.1, a lamp's outer field and bounce light (one low-resolution cache per lamp): its resolution (px per world px),
    * the tube points its shadows are cast from, the spacing of the bounce points on walls and on the floor (world px; each
    * point stands for its share of the surface, so every tier adds the same light), the time a frame may spend building
-   * them (ms).  Tiers change sampling and resolution only: the same light reaches the same places */
+   * them (ms).  Tiers change sampling and resolution only: the same light reaches the same places.
+   * QA1: Level 0 has about twice the fixtures (world.js W.lamps), so the lamp caps hold every fixture whose light can reach
+   * what you see in the densest rooms (measured: 21-23 at most at MEDIUM; the light a cap of 20 drops there is <= 3 / 255), and
+   * the caches hold the cap plus the lamps about to come into view (a prefetch never evicts) */
   const TIERS = {
-    low: { scale: .5, lamps: 10, peers: 1, lampRes: .3, tube: 16, lampCache: 24, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6, secondary: false, farRes: .08, farTube: 6, wallStep: 56, floorStep: 120, farMs: 2 },
-    medium: { scale: .75, lamps: 14, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 4, props: 8, propFrame: 48, ents: 12, secondary: false, farRes: .11, farTube: 8, wallStep: 44, floorStep: 96, farMs: 3 },
-    high: { scale: 1, lamps: 18, peers: 6, lampRes: .6, tube: 32, lampCache: 40, builds: 4, src: 6, props: 12, propFrame: 96, ents: 20, secondary: true, farRes: .14, farTube: 12, wallStep: 36, floorStep: 80, farMs: 4 },
+    low: { scale: .5, lamps: 20, peers: 1, lampRes: .3, tube: 16, lampCache: 36, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6, secondary: false, farRes: .08, farTube: 6, wallStep: 56, floorStep: 120, farMs: 2 },
+    medium: { scale: .75, lamps: 24, peers: 3, lampRes: .45, tube: 16, lampCache: 44, builds: 3, src: 4, props: 8, propFrame: 48, ents: 12, secondary: false, farRes: .11, farTube: 8, wallStep: 44, floorStep: 96, farMs: 3 },
+    high: { scale: 1, lamps: 28, peers: 6, lampRes: .6, tube: 32, lampCache: 52, builds: 4, src: 6, props: 12, propFrame: 96, ents: 20, secondary: true, farRes: .14, farTube: 12, wallStep: 36, floorStep: 80, farMs: 4 },
   };
   /* a lamp: the fixture it shines from (the 86 x 24 panel the game draws: tube points over ±tubeX, two rows at ±tubeY), the
    * strength its cache is built at (P0: the game's cap), a light blur of its shadow mask (world px; only where the browser
@@ -100,8 +103,9 @@
    * Stage 3B-L QA1 (lighting reality): a working fluorescent fixture is a real light.  Its visible output is `vis` x the game's
    * own strength (.43: the light truth the server and light.js keep using, unchanged), its field broader (S, P), its tail
    * longer (tail0, far: still smooth to an exact zero), so the room between fixtures reads as lit, then dims, then goes black
-   * where the light really runs out.  No ambient floor: every bit of it comes from a fixture */
-  const LAMP = { R: 380, S: 185, P: 1.42, a: 30, tail0: 580, far: 720, x0: 300, x1: 400, fg: 2, vis: 1.5, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
+   * where the light really runs out.  No ambient floor: every bit of it comes from a fixture.  (vis 1.5 with the parent's 90
+   * fixtures; 1.4 with world.js's 170: overlapping fixtures add, so the room keeps its pools and is not washed flat) */
+  const LAMP = { R: 380, S: 185, P: 1.42, a: 30, tail0: 580, far: 720, x0: 300, x1: 400, fg: 2, vis: 1.4, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
   /* BR-RoLE 1.1 bounce light.  A wall / pillar side or a floor patch the lamp lights directly (irradiance f · cos x the share
    * of the tube that sees it) re-emits `wall` / `floor` x its albedo of it, from a point just in front of it, into the space
    * it faces (a wall's lobe leans out along its normal by `lean` x its scale; a floor patch's is round), falling off as
@@ -595,7 +599,7 @@
           if (!(p > .002)) continue;
           lampRecs.push({ i, L, p, C, smp: C.smp, props: C.props, acts: [] });
         }
-        if (canBuild()) {                                                   // spare budget: the nearest lamp about to come into view
+        if (canBuild() && S.lampCache.size < cfg.lampCache) {               // spare budget AND room in the cache (QA1: never evict to prefetch, no build / evict churn): the nearest lamp about to come into view
           let best = -1, bd = Infinity;
           for (let i = 0; i < lamps.length; i++) { const L = lamps[i]; if (S.lampCache.has(i) || !meet(L.x, L.y, RF + LAMP.prefetch)) continue; const d = Math.hypot(L.x - V.x, L.y - V.y); if (d < bd) { bd = d; best = i; } }
           if (best >= 0) { const C = buildLamp(best, lamps[best], cfg); C.used = ST.frames; S.lampCache.set(best, C); }
@@ -1100,10 +1104,12 @@
         return out; },
       /* QA1, DEV only (tests): the surface receivers (face light) off / on; every lamp cache is rebuilt */
       faces: v => { if (v !== undefined && !!v !== S.facesOn) { S.facesOn = !!v; S.lampKey = null; } return S.facesOn; },
+      vis: v => { if (v !== undefined && Number.isFinite(+v) && +v > 0) LAMP.vis = Math.min(3, +v); return LAMP.vis; },   // QA1, DEV only (human QA): try another fixture output live (drawn at once, nothing rebuilt; light truth unaffected)
       field: (dx, dy) => lampFall(dx, dy),
       sightFade: v => { if (v !== undefined) S.sightFade = !!v; return S.sightFade; },
       farReady: () => !S.farJob && (!S.last || S.last.lamps.every(l => l.far)),
       skip: o => { if (o !== undefined) S.skip = Object.assign({}, o || {}); return Object.assign({}, S.skip); },   // DEV only (perf A/B): skip drawing parts
+      tier: o => { if (o) Object.assign(TIERS[S.quality], o); return Object.assign({}, TIERS[S.quality]); },   // QA1, DEV only (A/B): override this tier's caps (lamps, lampCache)
       constants: () => JSON.parse(JSON.stringify({ LAMP, SPILL, ALBEDO, FACE, CARRY })) },
   };
 })();
