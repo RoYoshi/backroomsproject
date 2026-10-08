@@ -1,7 +1,7 @@
 /* Stage 3B-L QA1 (from dev/stage-3b-l/perf_3bl.js) - performance after warm-up, parent vs QA1 on the same scenes
  * (development only; never served).
  *
- *   node dev/stage-3b-l-qa1/perf_qa1.js [--game PATH] [--port 9483] [--tiers medium,high] [--secs 5] [--out FILE.json]
+ *   node dev/stage-3b-l-qa1/perf_qa1.js [--game PATH] [--port 9483] [--tiers medium,high] [--scenes A,I,D,H,E] [--secs 5] [--out FILE.json]
  *
  * 1920x1080 (the accepted 1.25 camera), the lamps on, no monsters.  Per scene and tier: arrive, let every lamp in view be
  * built (its far field and bounce light too), then measure for `secs` standing and `secs` walking across the room (D held):
@@ -15,7 +15,7 @@
 const { spawn, execSync } = require('child_process'); const fs = require('fs'), path = require('path'), http = require('http');
 const H = require('../shadows/harness_lib.js'); const { sleep, frames } = H;
 const argv = process.argv.slice(2), opt = k => { const i = argv.indexOf('--' + k); return i >= 0 ? argv[i + 1] : null; };
-const GAME = path.resolve(opt('game') || '.'), PORT = +(opt('port') || 9483), TIERS = (opt('tiers') || 'medium,high').split(','), SECS = +(opt('secs') || 5), OUT = opt('out');
+const GAME = path.resolve(opt('game') || '.'), PORT = +(opt('port') || 9483), TIERS = (opt('tiers') || 'medium,high').split(','), SECS = +(opt('secs') || 5), OUT = opt('out'), ONLY = opt('scenes') ? opt('scenes').split(',') : null;
 const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path: p }, q => { q.resume(); q.on('end', () => r(q.statusCode)); }).on('error', () => r(0)));
 const pct = (a, q) => { if (!a.length) return 0; const s = a.slice().sort((x, y) => x - y); return s[Math.min(s.length - 1, Math.floor(q * (s.length - 1) + .5))]; };
 const C = c => c * 96 + 48;
@@ -39,6 +39,7 @@ const SCENES = [['A normal room (YELLOW HALL)', C(12), C(35), null], ['I dense f
     for (const tier of TIERS) {
       await P.evaluate(t => __brRole.setQuality(t), tier);
       for (const [label, x, y, kind] of SCENES) {
+        if (ONLY && !ONLY.includes(label.split(' ')[0])) continue;
         await H.place(P, x, y, kind ? Math.PI : 0, { light: !!kind, kind: kind || 'flashlight' }); await P.evaluate(() => __brRole.resetStats());
         const t0 = Date.now(); let ok = false; for (let k = 0; k < 120 && !ok; k++) { await frames(P, 3); ok = await ready(); } await frames(P, 10);
         const warm = await P.evaluate(() => { const s = __brRole.stats(); return { lampBuilds: s.lamps.builds, lampBuildMs: s.lamps.buildMs, lampBuildMaxMs: s.lamps.buildMaxMs, far: s.far ? { builds: s.far.builds, buildMs: s.far.buildMs, frameMaxMs: s.far.frameMaxMs } : null, brMaxMs: s.frameMs.max }; });

@@ -1,0 +1,116 @@
+Stage 3B-L QA1 - Q3 final checks (the human-QA candidate's tree; MEDIUM unless stated; SwiftShader software rendering, 2026-10-08T06:51Z)
+
+== fixtures_qa1.js (node: one placement; client = server = world.js W.lamps; AI field; parent grid kept; BLACKOUT ZONE clear; density)
+PASS T1 one source: world.js W.lamps is the only placement; the bundle, sim.js, dev/sim_head.js and dev/sim_geo.js all call it, none keeps the old grid loop   {"bundle":{"calls":1,"oldLoop":false},"sim":{"calls":1,"oldLoop":false},"simHead":{"calls":1,"oldLoop":false},"simGeo":{"calls":1,"oldLoop":false}}
+PASS T2 the client's lamp list (the bundle's own code) and the server's (sim.js -> the AI engine's adapter) are the same fixtures in the same order, both W.lamps on the same map; deterministic   client 170, server 170, W.lamps 170; identical true; a second run identical true
+PASS T3 the server AI knows every fixture: its lamp field is the full .43 at each one, and every cell it reads lamp light in has a fixture of the list within 380 px in clear line   field at the 170 fixtures: min 0.430 max 0.430; 11579 lit 48 px cells, 0 without a fixture in reach
+PASS T4 the original grid is kept: the first fixtures are the parent's, in its order (the dim every-13th tubes unchanged), except PILLAR HALL's, each moved one cell off the pillar it sat inside   parent 90 fixtures: 81 unchanged, 9 moved off pillars (74,75,76,77,78,79,80,81,82), other changes 0
+PASS T5 the BLACKOUT ZONE stays unlit: no fixture in it, none within 720 px of it (past every light's reach)   nearest fixture 720 px from its edge (parent: 720 px)
+PASS T6 every fixture over open floor, none on a pillar, no added one in a doorway or a wall hole, none closer than 2.2 cells (211 px) to another   closest pair 272 px
+PASS T7 substantially denser: fixtures before / after by zone, the corridors lit, the working floor's coverage up; the AI lamp field follows the same fixtures   total 90 -> 170 (x1.89); YELLOW HALL 7->15, REPEATING ROOMS 13->19, SEGMENTED ROOMS 7->13, HUMMING ROOMS 8->12, NORTH ROOMS 6->12, LONG ROOM 9->13, BLACKOUT ZONE 0->0, DAMP ROOMS 6->9, RED ROOMS 6->10, ARCH GALLERY 12->20, PILLAR HALL 9->13, DEEP CARPET 7->13, CORRIDORS 0->21; working floor with a fixture in clear line within 240 / 380 / 480 px: 49.3/70.6/80.3 % -> 77/92.5/96.6 %; AI lamp field over walkable cells: lit 68.9 % -> 87.7 % (the engine's own: 87.7 %)
+
+7/7 passed
+
+== fixtures_page_qa1.js (the running game, beside each of the 170 fixtures)
+PASS P1 the page's lamp list is world.js W.lamps on the page's own map, and the server's list (fixtures_qa1.js: sim.js -> the AI engine)   page 170 (__api.lamps is the bundle's Fc: true), W.lamps on the page's map 170 (identical true), server 170 (identical true)
+PASS P2 every fixture has its housing: the remaster took it into its ceiling layer (lamp:NNN in its zone: a room or a corridor)   170/170 checked have their housing; the remaster holds 170 of 170
+PASS P3 BR-RoLE draws every fixture as a light (one of the lights of the frame; its light in the buffer beside it, a dim tube dimmer)   170/170; light beside a fixture 148..248/255 (dim tubes from 52)
+PASS P4 client light truth sees every fixture: light.js lamp light beside it (the game's .43 x its failure state) and the bundle's Ul() readable there   170/170 light.js lamp >= .4 (min 0.430); Ul > 0 at 170/170
+4/4 passed
+
+== occlusion_qa1.js (24 lamps; core + far + bounce + faces against the geometry)
+PASS O0 every lamp audited (its core and far caches built and read back)   24/24 lamps
+PASS O1 the core field: no light without a direct path from the fixture, or (a face) a direct path to its foot   1738468 lit texels checked (72733 on lit faces); none through geometry
+PASS O2 the far field + bounce light: no light without a direct or first-bounce path (or a lit face's foot)   192518 lit texels checked (1983 on lit faces); none through geometry
+PASS O3 bounce light reaches round corners where no direct light goes (legitimately)   1992 texels lit only by a bounce path, over 18 lamps
+PASS O4 the bounce stays much weaker than direct light   brightest bounce-only texel 11.50/255 vs a lamp's peak 233.0/255 (P0 scale)
+5/5 passed
+
+== receivers_qa1.js (surface receivers)
+PASS F1 ceiling lamps light the wall faces turned to them (band ~ the floor at its foot x facing), and none turned away   12 lamps; 771 lit face samples: band / foot 0.43 .. 1.11 (771 carry it); faces turned away 559 samples: face light added to them 0 (max added 0.0/255; 37 sit within the mask blur of a lit edge, max 10.0/255 with or without receivers)
+PASS F3 a face whose foot the lamp does not reach (blocked) receives none of its light   141 blocked face samples, lit 0
+PASS C1 carried light lights the wall face it hits; swept away, the face darkens; a lantern lights it from beside; nothing with every light off   face light: flashlight on it 43.0/255 (floor at its foot 43.9), swept away 0.0, lantern 27.7, all lights off max 0.0/255
+PASS C2 no face light through the wall: its far side stays dark while the flashlight lights the near side   far-side face max 0.0/255
+PASS F2 pillar faces: the side turned to the light is lit, its far side gets none of that light   flashlight on a PILLAR HALL pillar (lamps off): near face 65.3/255, far face max 0.0/255; lamp-lit pillar faces 110 samples, pillar faces turned away from a lamp 168 (face light added max 0/255); lamps sitting inside a blocker (left out) 0
+
+5/5 passed
+
+== falloff_qa1.js (no hard radius)
+PASS R1 the field is smooth and edgeless: never rising, no slope jump, a faint tail past 380 px, zero at its bound   largest slope change per 2 px 1.08e-3 (at 4 px; the parent's edge: 3.37e-3 at 380 px, then nothing); f(380) 0.0621, f(450) 0.0292, f(720) 0
+PASS R2 a broad fluorescent source, not a point: brighter along the tube than across it at the same distance   200 px along the tube 0.412 vs across 0.327
+PASS R3 one open lamp's cached light (core + far + bounce) along every open direction: never rising past the fixture, lit past 380 px, dark at the bound   lamp 66, 18 directions; largest rise 1.50/255 (8-bit / low-res texels); at 400 px >= 11.0/255; at 652 px <= 0.50/255
+PASS R4 a corridor lit from one end (YELLOW HALL down to the BLACKOUT ZONE): the rendered light runs on past 380 px and fades to black smoothly (no slope jump, no step)   lamp 95 down the corridor (other lamps reaching the line: 4): 200 px 60, 300 px 25, 380 px 12, 420 px 8, 460 px 5, 500 px 3, 540 px 2, 580 px 2 /255; black from 656 px; largest step from 300 px out 2.0/255 per 4 px, slope change from 300 px out <= 0.63/255 per 4 px over 32 px windows (16 px: 0.50); the parent's edge at this output (x 1.4): 1.15 (bound 60 % of it)
+PASS R5 two lamps overlap naturally: the light between them is continuous (no seam or dark ring)   lamps 66 and 133, 346 px apart: light between them 222 214 207 202 198 195 194 192 190 192 193 198 203 206 212 /255; largest step 4.0/255 per 8 px (bound 7.0: the parent's 5 at this output); darkest 190/255
+PASS R6 the sight limit is soft: lit floor fades out over the last 80 px before the 700 px reach (no sharp arc)   overlay alpha 560..740 px from the player: with the fade 163 158 157 157 154 152 158 173 196 217 239 251 255 255 255 255; without (the parent's cut) 163 158 157 157 154 152 151 149 150 150 151 151 255 255 255 255; largest step 9 vs 80 per 4 px
+
+6/6 passed
+
+== parity_qa1.js (LOW / MEDIUM / HIGH)
+PASS T1 the same fixtures are drawn at LOW, MEDIUM and HIGH (every lamp whose light reaches the view, under every tier's cap)   A: 16/16/16 lamps (caps 24/24/28); I: 21/21/21 lamps (caps 24/24/28); D: 18/18/18 lamps (caps 24/24/28); H: 19/19/19 lamps (caps 24/24/28)
+PASS T2 the same light: LOW and HIGH vs MEDIUM point by point - mean |difference| <= 4 / 255 and the mean light within 4 %   A: mean light 0.624/0.621/0.614, |LOW-MED| mean 1.35 p95 3, |HIGH-MED| mean 1.78 p95 4 /255; I: mean light 0.665/0.664/0.659, |LOW-MED| mean 1.11 p95 3, |HIGH-MED| mean 1.46 p95 3 /255; D: mean light 0.635/0.634/0.629, |LOW-MED| mean 1.06 p95 3, |HIGH-MED| mean 1.4 p95 3 /255; H: mean light 0.378/0.377/0.375, |LOW-MED| mean 0.85 p95 2, |HIGH-MED| mean 0.83 p95 2 /255
+2/2 passed
+
+== dev/br-role/test_br_role.js
+32/32 passed
+
+== dev/br-role/smoke.js
+PASS K01 the page loads and BR-RoLE draws the light every frame; no page or console error   version br-role 1.1-qa1, quality medium, frames 88 -> 109, lamps 18, errors [], 404s []
+PASS K02 mixed light by composition: where the lamp is blocked your beam alone lights the floor; where both reach they add   blocked spot 922,3364: lamp+beam 0.508 = beam alone 0.508 (lamp alone 0.000, ambient 0.000); both spot 996,3391: lamp+beam 0.641 vs beam + lamp - ambient 0.657
+PASS K07 BR2A the counter shadows the lamps; your flashlight from the open side fills that shadow (pixels)   spot 3370,1046: lamp+beam 0.316 = beam alone 0.316; lamp alone 0.000 = ambient 0.000
+PASS K08 BR2A the same counter blocks the lamps AND your flashlight from their side: behind it nothing adds (pixels)   spot 3370,1046: lamp+beam 0.000, beam alone 0.000, ambient 0.000; the beam before the counter 0.577 (ambient 0.000)
+PASS K09 BR2B your shadow takes away only your dominant lamp's light behind you; your beam still fills it (pixels)   dominant L4; behind you the light drops by 0.082 (that lamp gives 0.491 there), in front 0.000; with your beam into it: drops by 0.085, light there 0.409 -> 0.722
+PASS K12 BR2.1 your body: the lit side untouched, the far side self-shaded (only that lamp's light), the cast on the floor beyond it (pixels)   light L4: near side 0.002, far side 0.027 (lamp gives 0.722 there), floor past the edge 0.094
+PASS K03 the light buffer is the CSS viewport x .5 / .75 / 1.0, the same on a DPR-2 page   {"low":[[640,360],1280,720],"medium":[[960,540],1280,720],"high":[[1280,720],1280,720]}; DPR 2 page at MEDIUM: buffer 960x540 for 1280x720 CSS px
+PASS K04 gameplay untouched: the client sends the same kinds of messages with BR-RoLE and with the legacy lighting   BR-RoLE ["p"], legacy ["p"]
+PASS K05 DEV switch: with the legacy lighting on, BR-RoLE draws nothing (the game draws v23.3.6); switched back, BR-RoLE draws again   BR-RoLE frames while legacy: +0; after switching back: +21
+PASS K06 a Smiler in view: no shadow of any kind for it (BR2B), BR-RoLE still on, no error   smilers 1, actor shadows 1, at a Smiler 0, errors []
+PASS K10 BR2B a Hound on the move: a shadow from its dominant light; it changes light only when another clearly dominates (hysteresis)   frames with a lit Hound in sight 25, with its shadow 25, lights ["C2","L95","L94"], changes 2 (C2->L95 null->0.2722, L95->L94 0.0485->0.0945), without a clear winner 0
+PASS K11 BR2C crossing beams: lights add, no cancellation, no dark seam (pixels, a scripted peer)   spot 914,3564: with your beam the floor shows 0.126 more (over a mid-grey floor; your beam gives 0.221 there); deepest dip across their beam's edge 0.0020
+12/12 passed
+
+== dev/stage-3b/test_3b.js
+26/26 passed
+
+== dev/stage-3b/smoke_3b.js
+PASS S01 the page loads: BR-RoLE draws, the remaster is built for the slice, its layer sits right above the level art and its ceiling right above lampTop, no page error   remaster l0-remaster 3b-final rev 3b-l-qa1-fixtures, tier medium, rooms room:01,room:02,room:03,room:04,room:05,room:06,room:07,room:08,room:09,room:10,room:11,room:12,zone:corridors/01,zone:corridors/02,zone:corridors/03,zone:corridors/04,zone:corridors/05,zone:corridors/06,zone:corridors/07,zone:corridors/08,zone:corridors/09,zone:corridors/10,zone:corridors/11,zone:corridors/12,zone:corridors/13,zone:corridors/14,zone:corridors/15,zone:corridors/16,zone:corridors/17, build 1363 ms (textures 593 ms, 133 textures 5.83 MPx); layers {"root":4,"level":3,"ceil":12,"lampTop":11,"legacyLamps":true}; BR-RoLE br-role 1.1-qa1 on true; errors []
+PASS S02 remaster OFF is exactly v23.3.6 / BR-RoLE 1.0: the live-toggled-off scene equals a ?remaster=off page at the same pose (the page with ?remaster=off has no remaster layer at all)   YELLOW HALL spawn: 0 differing pixels (0.000 %, max 0) outside the wanderer; ?remaster=off layers null, redirected lamps 0
+PASS S03 BR-RoLE never sees the remaster: its light overlay is byte-identical with the remaster on, off and on again (frozen clock), and it has the same blockers as a ?remaster=off page   overlay sha-256 on 0880e4f4c130 off 0880e4f4c130 on 0880e4f4c130; blockers {"sides":456,"pillars":9,"props":11,"propKinds":["counter","shelf","lowwall","machine","table","bench","window"]}
+PASS S04 gameplay untouched: the client sends the same kinds of messages with the remaster on and off   on ["p"], off ["p"]
+PASS S05 the remaster draws its zones and only them: YELLOW HALL's and a corridor's pictures change; a room not yet in the slice (if any) stays as it was - the legacy carpet there is the same texture redrawn, so a few pixels (well under 0.1 %) may round differently by a few levels (sampler precision), invisible; with every room in the slice, no floor is left to the legacy carpet   YELLOW HALL 96.5 % of pixels changed; corridor 98.6 %; every room in the slice; legacy floor rects 0; zones 29
+PASS S06 quality tiers: switching BR-RoLE to LOW / HIGH / MEDIUM rebuilds the remaster at that tier in the background (the old tier stays on screen until the new one is ready; LOW: smaller textures, fewer decals), with no error   LOW 2.57 MPx / 572 decals, rebuilt over 29 frames (longest 91 ms); HIGH 7.31 MPx / 998 decals, over 42 frames (longest 53 ms); builds 3
+PASS S07 DEV toggles: the wall-depth cue and the decals change the picture; with ?dev3b, F8 toggles the remaster live and the tag shows it   depth cue 44106 px, decals 12198 px; F8: on true -> false -> true; tag "REMASTER OFF [F8] · DECALS ON [Shift+F8] · PROOF MARK [Shift"
+PASS S09 the surface receiver (?dev3b): a proof mark stamped on a wall and one on the floor change the picture only locally, BR-RoLE's overlay is byte-identical before and after (marks are presentation under its lighting), and clearing them gives the exact picture back   stamped [1,2]: 433 px changed (0.048 %); overlay 8810d9f69d58 -> 8810d9f69d58; after clear 0 px differ (max 0); state when read {"on":true,"job":false,"marks":2,"tier":"medium"}
+PASS S08 short performance sanity in YELLOW HALL (SwiftShader software rendering here, where every full-screen layer costs tens of ms: relative only): the frame interval with the remaster on stays within 35 % of off, BR-RoLE's own time unchanged   remaster off: 317.2 ms / frame (28 frames), BR-RoLE 19.414 ms; on: 201 ms (44 frames), BR-RoLE 19.189 ms
+9/9 passed
+
+== camera regression: dev/stage-3b-n/test_3bn.js and dev/tests/s_camera_fairness.js
+PASS N1-1 every script index.html loads is served (200): camera_policy.js and timing_policy.js included   18 scripts; all 200
+PASS N1-2 server-only and development files are still never served   /server.js 404, /sim.js 404, /ai.js 404, /death_srv.js 404, /package.json 404, /dev/tests/run.js 404, /dev/stage-3b-n/test_3bn.js 404, /../server.js 404
+PASS N1-3 the served policies are the repository files byte for byte
+PASS N1-4 the bundle reads both policies at start-up, and index.html loads them before the bundle (classic scripts run before the deferred module)   camera hook true, timing hook true, order ./camera_policy.js ./timing_policy.js ./assets/index-DKbV5Nv9.js
+PASS N1-5 the policy never shows more than the canonical 1536 x 864 world at any CSS size (DPR is not an input)   12 viewports including 32:9, portrait and phones
+PASS N1-6 CAMERA_FINAL_LOCK: 1920x1080 is scale 1.25 and a 1536 x 864 world envelope; 4K at the same aspect sees the same world   REF_SCALE 1.25; 1920x1080 -> 1536.0 x 864.0 at 1.25
+PASS N1-7 the bundle's own fallback (used only if the policy ever failed to load) is the canonical 1.25 too
+7/7 passed
+CAMERA FAIRNESS: 12/12 PASS
+Canonical world view: 1536.000 x 864.000 units
+
+== AI scenario suite dev/tests/run.js (server AI in node; not a QA1 deliverable - the gameplay consequence of real fixtures)
+parent b9f3a9b: 151/162 passed   this branch: 151/162 passed
+failing on both (pre-existing): 2F F22 species physical/canon parameter preservation  [;C1 losing sight does not erase memory: 3 s after the pr;C18 memory eventually decays: when the prey gets away, ;C4 noise gives the prey away: a prey that has slipped a;C5 silent hiding can succeed, and good decisions beat b;D: P01 noticing distance: run > walk > crouch (resting ;H07 hound state coverage: every state of the framework ;NV09 N a runner through 3+ rooms (real AI): caught ever;P01 noticing distance: run > walk > crouch (resting hou;P08 memory: the last known position is used, then goes ;
+flipped by the new fixtures (3 runs each, deterministic):
+  now failing: C3 (a hidden prey is aimed at directly 16 of 2514 ticks: its hiding spot is now lit), C9 / C10 (fresh runners caught more often)
+  now passing: P07, SM01
+  no AI threshold or behaviour was retuned (STAGE_3B_LIGHTING_QA_CORRECTION_MASTER_PROMPT: 'Do NOT retune AI thresholds/behavior around that consequence')
+
+== perf_ab_qa1.js (parent vs QA1, interleaved; SwiftShader; medians)
+medium | A normal room (YELLOW HALL)      | BR standing 22.4 -> 25.9 ms, walking 22.2 -> 29.7 ms | lamps 7 -> 16 | page 424.5 -> 446.6 ms | runs 2/2
+medium | I dense fixtures (REPEATING ROOMS) | BR standing 26.4 -> 27.2 ms, walking 28.4 -> 32.3 ms | lamps 10 -> 21 | page 462.5 -> 504.8 ms | runs 2/2
+medium | D PILLAR HALL                    | BR standing 26.6 -> 25.7 ms, walking 27.5 -> 29.1 ms | lamps 10 -> 18 | page 452.3 -> 450.1 ms | runs 2/2
+medium | H long corridor                  | BR standing 12.7 -> 21.5 ms, walking 16.2 -> 22.8 ms | lamps 6 -> 19 | page 328.8 -> 289.2 ms | runs 2/2
+medium | E BLACKOUT ZONE, flashlight on   | BR standing 28.8 -> 30.6 ms, walking 27.1 -> 27.2 ms | lamps 0 -> 2 | page 393.4 -> 409.1 ms | runs 2/2
+high | A normal room (YELLOW HALL)      | BR standing 41.4 -> 56.4 ms, walking 54.1 -> 70 ms | lamps 7 -> 16 | page 449.1 -> 486.2 ms | runs 1/1
+high | I dense fixtures (REPEATING ROOMS) | BR standing 47.6 -> 47.1 ms, walking 44.5 -> 55.9 ms | lamps 13 -> 21 | page 468.1 -> 509.9 ms | runs 1/1
+high | D PILLAR HALL                    | BR standing 42.7 -> 41.9 ms, walking 46.3 -> 55.4 ms | lamps 11 -> 18 | page 413 -> 423.6 ms | runs 1/1
+high | H long corridor                  | BR standing 18.6 -> 34.7 ms, walking 30.8 -> 50 ms | lamps 6 -> 19 | page 271.7 -> 297.2 ms | runs 1/1
+high | E BLACKOUT ZONE, flashlight on   | BR standing 55.6 -> 56.7 ms, walking 49.1 -> 50.1 ms | lamps 0 -> 2 | page 388.1 -> 397 ms | runs 1/1

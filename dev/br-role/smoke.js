@@ -23,7 +23,10 @@
  * K12 BR2.1 on your body (pixels, actor effects on vs off): the side facing your dominant lamp is untouched, the far side
  *     is a bit darker (self-shading, never more than that lamp gives); the floor just past your far edge darkens (the cast)
  * K11 BR2C crossing beams with another wanderer (a scripted peer): where both beams reach, yours adds exactly its own light
- *     on top of theirs (no cancellation); across the edge of their beam inside yours there is no dark seam */
+ *     on top of theirs (no cancellation); across the edge of their beam inside yours there is no dark seam
+ * Stage 3B-L QA1: Level 0 has twice the fixtures (world.js W.lamps), so K02 and K07 / K08 draw only the lamps they are about
+ * (DEV solo: the spawn lamp; lamps 29 and 31 over the counter), and so does K09 (the spawn lamp: with every fixture, your
+ * shadowed floor plus your beam reaches the overlay's full light, where nothing more can show); the mechanisms are unchanged */
 'use strict';
 const { spawn, execSync } = require('child_process'); const fs = require('fs'), path = require('path'), http = require('http');
 const H = require('../shadows/harness_lib.js'); const { sleep, frames } = H;
@@ -49,7 +52,10 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     check('K01 the page loads and BR-RoLE draws the light every frame; no page or console error', s1.on && s1b.frames > s1.frames + 10 && !s1.disabled && J.errs.length === 0,
       `version ${s1.version}, quality ${s1.quality}, frames ${s1.frames} -> ${s1b.frames}, lamps ${s1b.lamps.last}, errors ${JSON.stringify(J.errs)}, 404s ${JSON.stringify([...new Set(J.missing)])}`);
 
-    /* K02: the QA01 geometry - beam aimed along the spawn lamp's shadow edge at the partition corner */
+    /* K02: the QA01 geometry - beam aimed along the spawn lamp's shadow edge at the partition corner.  Stage 3B-L QA1: Level 0
+     * now has a fixture on nearly every side of everything (world.js W.lamps), so the mechanism is checked in isolation: only
+     * the lamps the check is about are drawn (DEV solo); K07 / K08 likewise */
+    await P.evaluate(() => __brRole.dev.solo && __brRole.dev.solo([4]));
     const X = 1060, Y = 3440, AIM = Math.atan2(3400 - 3440, 930 - 1060);
     await H.place(P, X, Y, AIM, { light: true }); await sleep(900); await frames(P, 6);
     await P.evaluate(() => __clock.freeze(true)); await frames(P, 4);
@@ -80,7 +86,8 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
       `blocked spot ${pick.blocked.slice(0, 2).map(Math.round)}: lamp+beam ${L.lampBeam[bl].toFixed(3)} = beam alone ${L.beam[bl].toFixed(3)} (lamp alone ${L.lamp[bl].toFixed(3)}, ambient ${L.amb[bl].toFixed(3)}); both spot ${pick.both.slice(0, 2).map(Math.round)}: lamp+beam ${L.lampBeam[bo].toFixed(3)} vs beam + lamp - ambient ${(L.beam[bo] + L.lamp[bo] - L.amb[bo]).toFixed(3)}`);
     await P.evaluate(() => __clock.thaw());
 
-    /* K07 / K08: counter L4 (3272..3544 x 984..1032), lamps 31 (3600, 912) and 29 (3120, 912) above it */
+    /* K07 / K08: counter L4 (3272..3544 x 984..1032), lamps 31 (3600, 912) and 29 (3120, 912) above it (QA1: only these two drawn) */
+    await P.evaluate(() => __brRole.dev.solo && __brRole.dev.solo([29, 31]));
     await H.place(P, 3400, 1250, -Math.PI / 2, { light: true }); await sleep(900); await frames(P, 6);
     await P.evaluate(() => __clock.freeze(true)); await frames(P, 4);
     const k7 = await P.evaluate(() => { const ok = (x, y) => { const r = __brRole.probe(x, y); return r.lamps.some(l => l.i === 31) && r.lamps.filter(l => l.i === 31 || l.i === 29).every(l => l.light === 0) && r.lamps.reduce((s, l) => s + l.light, 0) < 6 / 255 && r.carried[0] && r.carried[0].light > .2; };   // BR-RoLE 1.1: 31 / 29 blocked; other lamps' faint tails small
@@ -100,8 +107,11 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     check('K08 BR2A the same counter blocks the lamps AND your flashlight from their side: behind it nothing adds (pixels)', k8ok,
       `spot ${k7}: lamp+beam ${L8.lampBeam[0].toFixed(3)}, beam alone ${L8.beam[0].toFixed(3)}, ambient ${L8.amb[0].toFixed(3)}; the beam before the counter ${L8.beam[1].toFixed(3)} (ambient ${L8.amb[1].toFixed(3)})`);
     await P.evaluate(() => __clock.thaw());
+    await P.evaluate(() => __brRole.dev.solo && __brRole.dev.solo(null));
 
-    /* K09: your own shadow under the spawn lamp (flashlight off, then on into the shadow) */
+    /* K09: your own shadow under the spawn lamp (flashlight off, then on into the shadow; QA1: the spawn lamp alone, so the
+     * shadowed floor plus your beam stays below the overlay's full light) */
+    await P.evaluate(() => __brRole.dev.solo && __brRole.dev.solo([4]));
     await H.place(P, 1060, 3300, -0.2, { light: false }); await sleep(900); await frames(P, 8);
     await P.evaluate(() => __clock.freeze(true)); await frames(P, 4);
     const me = await P.evaluate(() => __brRole.actors().find(j => j.self && j.dominant));
@@ -116,6 +126,7 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     check('K09 BR2B your shadow takes away only your dominant lamp\'s light behind you; your beam still fills it (pixels)', k9ok,
       `dominant ${me && me.light}; behind you the light drops by ${removed.toFixed(3)} (that lamp gives ${lampThere.toFixed(3)} there), in front ${(noBeam.on[1] - noBeam.off[1]).toFixed(3)}; with your beam into it: drops by ${removedB.toFixed(3)}, light there ${noBeam.on[0].toFixed(3)} -> ${withBeam.on[0].toFixed(3)}`);
     await P.evaluate(() => __clock.thaw());
+    await P.evaluate(() => __brRole.dev.solo && __brRole.dev.solo(null));
 
     /* K12: on your body - near side untouched, far side self-shaded, the cast on the floor past the far edge */
     await H.place(P, 1110, 3230, 2.4, { light: false }); await sleep(900); await frames(P, 10);

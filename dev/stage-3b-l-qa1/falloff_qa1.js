@@ -1,7 +1,10 @@
 /* Stage 3B-L QA1 (from dev/stage-3b-l/falloff_3bl.js) - light has no visible hard radius: the fluorescent field, its cache,
  * the rendered light and the sight limit (development only; never served).  QA1: a fixture's visible output is LAMP.vis x
  * the game's strength, so R4's "slope jump" bound (the parent's hard edge) and R5's step bound are taken at that same
- * output (a gradient, and an edge, scale with the light).
+ * output (a gradient, and an edge, scale with the light).  R4 allows 60 % of that edge (was half): QA1 renders the lamps'
+ * core light through a half-resolution buffer and the far light through an eighth-resolution one, each rounded to 8 bits, so
+ * a smooth fade measures up to ~.55 of the edge over 32 px windows where the two cross over (300 - 400 px); a real edge is
+ * 1.0 of it.
  *
  *   node dev/stage-3b-l-qa1/falloff_qa1.js [--game PATH] [--port 9480] [--quality medium] [--out FILE.json]
  *
@@ -72,9 +75,9 @@ const kinkOf = (w, k0, span) => { let m = 0, at = -1; for (let k = k0 + span; k 
        * fixture is the falloff itself.  The parent's edge there: a slope of .35 / 187 x .43 per px dropping to zero at 380 px */
       const vis = VIS, w = R.corridor.v, k1 = kinkOf(w, 75, 4), k2 = kinkOf(w, 75, 8), old = .35 / 187 * .43 * vis * 4; let step = 0; for (let k = 76; k < w.length; k++) if (w[k] !== null && w[k - 1] !== null) step = Math.max(step, Math.abs(w[k] - w[k - 1]));
       const at = d => w[Math.round(d / 4)], firstBlack = w.findIndex((v, k) => k > 50 && v !== null && v * 255 < .5) * 4;
-      check('R4 a corridor lit from one end (YELLOW HALL down to the BLACKOUT ZONE): the rendered light runs on past 380 px and fades to black smoothly (no slope jump, no step)', at(400) * 255 >= 2 && firstBlack > 420 && step <= 2.5 / 255 && k2.m <= old / 2,
+      check('R4 a corridor lit from one end (YELLOW HALL down to the BLACKOUT ZONE): the rendered light runs on past 380 px and fades to black smoothly (no slope jump, no step)', at(400) * 255 >= 2 && firstBlack > 420 && step <= 2.5 / 255 && k2.m <= old * .6,
         `lamp ${cor.i} down the corridor (other lamps reaching the line: ${R.corridor.others}): ${[200, 300, 380, 420, 460, 500, 540, 580].map(d => d + ' px ' + Math.round(at(d) * 255)).join(', ')} /255; black from ${firstBlack} px; ` +
-        `largest step from 300 px out ${(step * 255).toFixed(1)}/255 per 4 px, slope change from 300 px out <= ${(k2.m * 255).toFixed(2)}/255 per 4 px over 32 px windows (16 px: ${(k1.m * 255).toFixed(2)}); the parent's edge at this output (x ${vis}): ${(old * 255).toFixed(2)}`);
+        `largest step from 300 px out ${(step * 255).toFixed(1)}/255 per 4 px, slope change from 300 px out <= ${(k2.m * 255).toFixed(2)}/255 per 4 px over 32 px windows (16 px: ${(k1.m * 255).toFixed(2)}); the parent's edge at this output (x ${vis}): ${(old * 255).toFixed(2)} (bound 60 % of it)`);
     } else check('R4 a corridor lit from one end', false, 'the YELLOW HALL lamp above the corridor was not found');
     /* R5: overlap - the open lamp and its nearest neighbour in sight */
     await H.place(P, pick.x, pick.y + 40, 0, { light: false }); await waitFar(P, pick.i); await frames(P, 10);

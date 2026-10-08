@@ -1,0 +1,54 @@
+THE FAR BACKROOMS - Stage 3B Lighting QA Correction (stage-3b-l-qa1) - changed files
+Parent: b9f3a9b934f40e35d51596f593eae810d077f194 (stage-3b-l, tree 3a1ccbb6ca3bf869b9e4c56722a4bf755ee4e36a)
+(git diff --name-only b9f3a9b..stage-3b-l-qa1; the package receipt re-checks this list from the ZIP)
+
+== Game files (served) ==
+assets/br-role.js         BR-RoLE 1.1-qa1.
+                          Fixture output: direct field at its full level (SPILL.direct 1.0, was .88), broader
+                          (S 185, P 1.42), tail to an exact zero at 720 px; visible output LAMP.vis 1.4 x the game's .43.
+                          Surface receivers: wall / pillar face bands receive the light at their foot from the same light,
+                          scaled by facing; cached with each lamp (core + far), drawn per carried light.
+                          Carried lights: CARRY.vis 1.35.
+                          Lamp caps 24 / 24 / 28 and caches 40 / 44 / 52; a prefetch never evicts (no build churn).
+                          Performance: the lamps' core fields drawn into a half-resolution buffer and their far fields into
+                          an eighth-resolution one (each cache's own density); the far cache's face pass a build step of its
+                          own (96 px pieces); the face pass copies only the strips it reads; only the box the lamps drew
+                          into is cleared and composited.
+                          DEV hooks: bands, faces, vis, solo, tier, cb, fbDiv; constants include FACE / CARRY.
+                          Light truth not touched.
+world.js                  W.lamps / W.LAMPS: Level 0's one fixture placement (the original grid kept in order, PILLAR HALL's
+                          moved off its pillars, a staggered second grid, corridor lines, nothing near the BLACKOUT ZONE)
+assets/index-DKbV5Nv9.js  one statement: the lamp list (Fc) is window.WORLD.lamps(...) instead of its own copy of the grid loop
+assets/l0-remaster.js     corridor fixtures get their housings (lamp() assigns them to the corridor network; each corridor
+                          piece draws the fixtures over its own floor)
+assets/level0_visuals.js  lampCount 170; corridor notes; revision 3b-l-qa1-fixtures; contentHash refreshed
+
+== Server (never served) ==
+sim.js                    rebuilt with dev/build_sim.sh: one statement, the lamp list (Fc) is WORLD.lamps(...) - the same list
+                          the client draws; the AI and its thresholds untouched
+
+== Development (never served) ==
+dev/sim_head.js           the source of sim.js: the same one statement
+dev/sim_geo.js            development copy of the map code: the same one statement
+dev/br-role/test_br_role.js  U05 / U18: the lamp draw at LAMP.vis; U19 / U20 / U22 at positions with the same situation on the
+                          new fixture layout
+dev/br-role/smoke.js      K02, K07 / K08, K09 draw only the lamps they check (DEV solo); the mechanisms unchanged
+                          (test_br_role.js also: U02 counts the half-resolution core buffer and the eighth far buffer)
+dev/stage-3b/test_3b.js   R01 / R09: corridor fixtures are slice-zone lamps with housings
+dev/stage-3b-l-qa1/       look_qa1.js (scenes), receivers_qa1.js, occlusion_qa1.js, falloff_qa1.js, fixtures_qa1.js,
+                          fixtures_page_qa1.js, parity_qa1.js, perf_qa1.js, perf_ab_qa1.js, verify_remote_qa1.py,
+                          package_qa1.py, evidence/ (check logs per checkpoint, the fixture map, before / after scenes,
+                          the interleaved performance runs)
+
+== Documents ==
+STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md
+STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md
+STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md
+STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md
+STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt
+
+== Untouched (byte-identical to the parent; checked by the receipt) ==
+camera_policy.js, timing_policy.js, server.js, index.html   (camera 1.25 and its serving, timing)
+light.js, ai.js, dev/ai_src/, dev/sim_glue.js               (client light truth, the AI, its adapter)
+move.js, mp.js, ents.js, dev/ents_src/, death_srv.js, dphys.js, hud.js, inventory.js, gore.js, glitch.js, camcorder.js,
+sfx.js, assets/shadows-2d.js

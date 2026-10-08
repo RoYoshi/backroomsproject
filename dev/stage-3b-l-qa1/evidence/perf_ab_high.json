@@ -1,0 +1,188 @@
+{
+ "parent": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/qparent",
+ "game": "/home/claude/backrooms-shadows",
+ "reps": 1,
+ "secs": 4,
+ "rows": [
+  {
+   "tier": "high",
+   "scene": "A",
+   "parent": {
+    "label": "A normal room (YELLOW HALL)",
+    "standBR": 41.4,
+    "walkBR": 54.1,
+    "standP95": 55.5,
+    "lamps": 7,
+    "standPage": 449.1,
+    "walkPage": 530.8,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 6,
+     "lampBuildMs": 136.6,
+     "farFrameMaxMs": 8.3,
+     "brMaxMs": 92.7
+    }
+   },
+   "qa1": {
+    "label": "A normal room (YELLOW HALL)",
+    "standBR": 56.4,
+    "walkBR": 70,
+    "standP95": 75.5,
+    "lamps": 16,
+    "standPage": 486.2,
+    "walkPage": 521,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 18,
+     "lampBuildMs": 632.6,
+     "farFrameMaxMs": 11,
+     "brMaxMs": 203.8
+    }
+   }
+  },
+  {
+   "tier": "high",
+   "scene": "I",
+   "parent": {
+    "label": "I dense fixtures (REPEATING ROOMS)",
+    "standBR": 47.6,
+    "walkBR": 44.5,
+    "standP95": 56.9,
+    "lamps": 13,
+    "standPage": 468.1,
+    "walkPage": 462.1,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 12,
+     "lampBuildMs": 400,
+     "farFrameMaxMs": 9.9,
+     "brMaxMs": 118.9
+    }
+   },
+   "qa1": {
+    "label": "I dense fixtures (REPEATING ROOMS)",
+    "standBR": 47.1,
+    "walkBR": 55.9,
+    "standP95": 66.6,
+    "lamps": 21,
+    "standPage": 509.9,
+    "walkPage": 541.6,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 24,
+     "lampBuildMs": 827.3,
+     "farFrameMaxMs": 11.3,
+     "brMaxMs": 114.7
+    }
+   }
+  },
+  {
+   "tier": "high",
+   "scene": "D",
+   "parent": {
+    "label": "D PILLAR HALL",
+    "standBR": 42.7,
+    "walkBR": 46.3,
+    "standP95": 49.2,
+    "lamps": 11,
+    "standPage": 413,
+    "walkPage": 474.7,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 10,
+     "lampBuildMs": 95.8,
+     "farFrameMaxMs": 17.7,
+     "brMaxMs": 189.6
+    }
+   },
+   "qa1": {
+    "label": "D PILLAR HALL",
+    "standBR": 41.9,
+    "walkBR": 55.4,
+    "standP95": 57.3,
+    "lamps": 18,
+    "standPage": 423.6,
+    "walkPage": 480.1,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 17,
+     "lampBuildMs": 336,
+     "farFrameMaxMs": 12.5,
+     "brMaxMs": 120.2
+    }
+   }
+  },
+  {
+   "tier": "high",
+   "scene": "H",
+   "parent": {
+    "label": "H long corridor",
+    "standBR": 18.6,
+    "walkBR": 30.8,
+    "standP95": 23.1,
+    "lamps": 6,
+    "standPage": 271.7,
+    "walkPage": 310.4,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 11,
+     "lampBuildMs": 141.8,
+     "farFrameMaxMs": 8.2,
+     "brMaxMs": 70.8
+    }
+   },
+   "qa1": {
+    "label": "H long corridor",
+    "standBR": 34.7,
+    "walkBR": 50,
+    "standP95": 37.9,
+    "lamps": 19,
+    "standPage": 297.2,
+    "walkPage": 323.6,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 28,
+     "lampBuildMs": 615.6,
+     "farFrameMaxMs": 11.2,
+     "brMaxMs": 137.6
+    }
+   }
+  },
+  {
+   "tier": "high",
+   "scene": "E",
+   "parent": {
+    "label": "E BLACKOUT ZONE, flashlight on",
+    "standBR": 55.6,
+    "walkBR": 49.1,
+    "standP95": 69,
+    "lamps": 0,
+    "standPage": 388.1,
+    "walkPage": 402.1,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 3,
+     "lampBuildMs": 56.6,
+     "farFrameMaxMs": 7.1,
+     "brMaxMs": 94.4
+    }
+   },
+   "qa1": {
+    "label": "E BLACKOUT ZONE, flashlight on",
+    "standBR": 56.7,
+    "walkBR": 50.1,
+    "standP95": 65.6,
+    "lamps": 2,
+    "standPage": 397,
+    "walkPage": 382.6,
+    "runs": 1,
+    "warm": {
+     "lampBuilds": 12,
+     "lampBuildMs": 426.1,
+     "farFrameMaxMs": 11.4,
+     "brMaxMs": 127.6
+    }
+   }
+  }
+ ]
+}

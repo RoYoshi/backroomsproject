@@ -1,0 +1,471 @@
+{
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/qparent",
+ "quality": "medium",
+ "scenes": [
+  {
+   "id": "A",
+   "label": "normal Level 0 room, lights working (YELLOW HALL)",
+   "at": [
+    1200,
+    3408
+   ],
+   "aim": 0,
+   "kind": null,
+   "floorPoints": 1057,
+   "light": {
+    "mean": 0.115,
+    "bright": 0.028,
+    "mid": 0.367,
+    "dim": 0.367,
+    "black": 0.237
+   },
+   "stats": {
+    "lamps": 7,
+    "far": {
+     "drawn": 7,
+     "cached": 32,
+     "building": null,
+     "builds": 32,
+     "buildMs": 243.2,
+     "frameMaxMs": 7.1,
+     "bouncePoints": 45,
+     "bouncePointsMax": 74,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 24.119,
+     "p95": 57,
+     "max": 81,
+     "frames": 133,
+     "sampled": 133
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "B",
+   "label": "between fixtures (REPEATING ROOMS)",
+   "at": [
+    2928,
+    3024
+   ],
+   "aim": 0,
+   "kind": null,
+   "floorPoints": 884,
+   "light": {
+    "mean": 0.141,
+    "bright": 0.037,
+    "mid": 0.441,
+    "dim": 0.35,
+    "black": 0.172
+   },
+   "stats": {
+    "lamps": 10,
+    "far": {
+     "drawn": 10,
+     "cached": 32,
+     "building": null,
+     "builds": 34,
+     "buildMs": 255.2,
+     "frameMaxMs": 7.1,
+     "bouncePoints": 55,
+     "bouncePointsMax": 74,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 19.776,
+     "p95": 55.2,
+     "max": 81,
+     "frames": 196,
+     "sampled": 196
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "C",
+   "label": "wall receiver: the partition beside a YELLOW HALL lamp",
+   "at": [
+    1248,
+    3216
+   ],
+   "aim": 3.141592653589793,
+   "kind": null,
+   "floorPoints": 921,
+   "light": {
+    "mean": 0.15,
+    "bright": 0.034,
+    "mid": 0.548,
+    "dim": 0.282,
+    "black": 0.136
+   },
+   "stats": {
+    "lamps": 7,
+    "far": {
+     "drawn": 7,
+     "cached": 32,
+     "building": null,
+     "builds": 34,
+     "buildMs": 255.2,
+     "frameMaxMs": 7.1,
+     "bouncePoints": 55,
+     "bouncePointsMax": 74,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 13.409,
+     "p95": 38,
+     "max": 69.2,
+     "frames": 268,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "D",
+   "label": "pillar receiver (PILLAR HALL)",
+   "at": [
+    7920,
+    1200
+   ],
+   "aim": 0,
+   "kind": null,
+   "floorPoints": 1182,
+   "light": {
+    "mean": 0.12,
+    "bright": 0,
+    "mid": 0.418,
+    "dim": 0.532,
+    "black": 0.05
+   },
+   "stats": {
+    "lamps": 10,
+    "far": {
+     "drawn": 10,
+     "cached": 32,
+     "building": null,
+     "builds": 47,
+     "buildMs": 363.9,
+     "frameMaxMs": 22.7,
+     "bouncePoints": 43,
+     "bouncePointsMax": 74,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 11.263,
+     "p95": 27.5,
+     "max": 46.5,
+     "frames": 364,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "E1",
+   "label": "flashlight aimed at a BLACKOUT ZONE wall",
+   "at": [
+    1296,
+    5136
+   ],
+   "aim": 3.141592653589793,
+   "kind": "flashlight",
+   "floorPoints": 851,
+   "light": {
+    "mean": 0.011,
+    "bright": 0.011,
+    "mid": 0.022,
+    "dim": 0.011,
+    "black": 0.957
+   },
+   "stats": {
+    "lamps": 0,
+    "far": {
+     "drawn": 0,
+     "cached": 32,
+     "building": null,
+     "builds": 49,
+     "buildMs": 387.9,
+     "frameMaxMs": 22.7,
+     "bouncePoints": 72,
+     "bouncePointsMax": 74,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 12.288,
+     "p95": 30,
+     "max": 46.5,
+     "frames": 430,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "E2",
+   "label": "the same flashlight swept away from that wall",
+   "at": [
+    1296,
+    5136
+   ],
+   "aim": -1.5707963267948966,
+   "kind": "flashlight",
+   "floorPoints": 851,
+   "light": {
+    "mean": 0.005,
+    "bright": 0,
+    "mid": 0.005,
+    "dim": 0.038,
+    "black": 0.958
+   },
+   "stats": {
+    "lamps": 0,
+    "far": {
+     "drawn": 0,
+     "cached": 32,
+     "building": null,
+     "builds": 49,
+     "buildMs": 387.9,
+     "frameMaxMs": 22.7,
+     "bouncePoints": 72,
+     "bouncePointsMax": 74,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 12.805,
+     "p95": 30.4,
+     "max": 46.5,
+     "frames": 489,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "F",
+   "label": "lantern beside the same wall (broad carried light)",
+   "at": [
+    1200,
+    5136
+   ],
+   "aim": 0,
+   "kind": "lantern",
+   "floorPoints": 806,
+   "light": {
+    "mean": 0.047,
+    "bright": 0.032,
+    "mid": 0.119,
+    "dim": 0.051,
+    "black": 0.798
+   },
+   "stats": {
+    "lamps": 0,
+    "far": {
+     "drawn": 0,
+     "cached": 32,
+     "building": null,
+     "builds": 49,
+     "buildMs": 387.9,
+     "frameMaxMs": 22.7,
+     "bouncePoints": 72,
+     "bouncePointsMax": 74,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 11.563,
+     "p95": 30.4,
+     "max": 38.9,
+     "frames": 549,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "G",
+   "label": "BLACKOUT ZONE, carried light off (true black)",
+   "at": [
+    720,
+    5040
+   ],
+   "aim": 0,
+   "kind": null,
+   "floorPoints": 640,
+   "light": {
+    "mean": 0,
+    "bright": 0,
+    "mid": 0,
+    "dim": 0,
+    "black": 1
+   },
+   "stats": {
+    "lamps": 0,
+    "far": {
+     "drawn": 0,
+     "cached": 32,
+     "building": null,
+     "builds": 49,
+     "buildMs": 387.9,
+     "frameMaxMs": 22.7,
+     "bouncePoints": 72,
+     "bouncePointsMax": 74,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 10.091,
+     "p95": 30.4,
+     "max": 38.9,
+     "frames": 607,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "H",
+   "label": "long corridor from YELLOW HALL toward NORTH ROOMS",
+   "at": [
+    1152,
+    2160
+   ],
+   "aim": -1.5707963267948966,
+   "kind": null,
+   "floorPoints": 556,
+   "light": {
+    "mean": 0.009,
+    "bright": 0,
+    "mid": 0,
+    "dim": 0.04,
+    "black": 0.96
+   },
+   "stats": {
+    "lamps": 6,
+    "far": {
+     "drawn": 6,
+     "cached": 32,
+     "building": null,
+     "builds": 61,
+     "buildMs": 461.4,
+     "frameMaxMs": 22.7,
+     "bouncePoints": 41,
+     "bouncePointsMax": 75,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 7.562,
+     "p95": 27.3,
+     "max": 34.7,
+     "frames": 684,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "I",
+   "label": "dense-fixture room (REPEATING ROOMS centre)",
+   "at": [
+    3312,
+    3312
+   ],
+   "aim": 0,
+   "kind": null,
+   "floorPoints": 1153,
+   "light": {
+    "mean": 0.144,
+    "bright": 0.019,
+    "mid": 0.513,
+    "dim": 0.403,
+    "black": 0.065
+   },
+   "stats": {
+    "lamps": 10,
+    "far": {
+     "drawn": 10,
+     "cached": 32,
+     "building": null,
+     "builds": 74,
+     "buildMs": 560,
+     "frameMaxMs": 22.7,
+     "bouncePoints": 65,
+     "bouncePointsMax": 75,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 9.079,
+     "p95": 29.4,
+     "max": 47.8,
+     "frames": 781,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  },
+  {
+   "id": "K",
+   "label": "headlamp in the dark corridor below YELLOW HALL",
+   "at": [
+    1152,
+    4560
+   ],
+   "aim": 1.5707963267948966,
+   "kind": "headlamp",
+   "floorPoints": 600,
+   "light": {
+    "mean": 0.026,
+    "bright": 0.008,
+    "mid": 0.072,
+    "dim": 0.053,
+    "black": 0.867
+   },
+   "stats": {
+    "lamps": 2,
+    "far": {
+     "drawn": 2,
+     "cached": 32,
+     "building": null,
+     "builds": 79,
+     "buildMs": 602.4,
+     "frameMaxMs": 22.7,
+     "bouncePoints": 56,
+     "bouncePointsMax": 75,
+     "spill": true,
+     "res": 0.11
+    },
+    "map": null,
+    "frameMs": {
+     "mean": 11.817,
+     "p95": 30.1,
+     "max": 47.8,
+     "frames": 850,
+     "sampled": 240
+    },
+    "faceDraws": null
+   }
+  }
+ ],
+ "version": "br-role 1.1",
+ "lamps": 90,
+ "errs": []
+}
