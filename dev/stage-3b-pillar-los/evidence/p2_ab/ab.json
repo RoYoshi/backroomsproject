@@ -1,0 +1,184 @@
+{
+ "parent": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/plos/parent",
+ "game": "/home/claude/backrooms-shadows",
+ "scenes": [
+  {
+   "id": "D",
+   "label": "PILLAR HALL (QA1 scene D)",
+   "at": [
+    [
+     7920,
+     1200
+    ],
+    [
+     7920,
+     1200
+    ]
+   ],
+   "clipVerts": [
+    147,
+    259
+   ],
+   "insideBoth": 1192343,
+   "identicalInsideBoth": 1192343,
+   "identicalShare": 1,
+   "meanDiff": 0,
+   "maxDiff": 0,
+   "onlyParentClip": 2914,
+   "onlyFixClip": 11937,
+   "edgeBand": 49275,
+   "edgeBandDiffering": 13711
+  },
+  {
+   "id": "FL",
+   "label": "flashlight on a pillar's south face",
+   "at": [
+    [
+     8592,
+     1502
+    ],
+    [
+     8592,
+     1502
+    ]
+   ],
+   "clipVerts": [
+    132,
+    202
+   ],
+   "insideBoth": 1000054,
+   "identicalInsideBoth": 1000054,
+   "identicalShare": 1,
+   "meanDiff": 0,
+   "maxDiff": 0,
+   "onlyParentClip": 1425,
+   "onlyFixClip": 11965,
+   "edgeBand": 36926,
+   "edgeBandDiffering": 11454
+  },
+  {
+   "id": "LA",
+   "label": "lantern beside a pillar",
+   "at": [
+    [
+     8672,
+     1432
+    ],
+    [
+     8672,
+     1432
+    ]
+   ],
+   "clipVerts": [
+    129,
+    199
+   ],
+   "insideBoth": 776685,
+   "identicalInsideBoth": 776685,
+   "identicalShare": 1,
+   "meanDiff": 0,
+   "maxDiff": 0,
+   "onlyParentClip": 1116,
+   "onlyFixClip": 12918,
+   "edgeBand": 26858,
+   "edgeBandDiffering": 8492
+  },
+  {
+   "id": "HD",
+   "label": "headlamp across PILLAR HALL's diagonal",
+   "at": [
+    [
+     8330,
+     1650
+    ],
+    [
+     8330,
+     1650
+    ]
+   ],
+   "clipVerts": [
+    135,
+    205
+   ],
+   "insideBoth": 1090277,
+   "identicalInsideBoth": 1090277,
+   "identicalShare": 1,
+   "meanDiff": 0,
+   "maxDiff": 0,
+   "onlyParentClip": 3951,
+   "onlyFixClip": 5665,
+   "edgeBand": 48090,
+   "edgeBandDiffering": 13277
+  },
+  {
+   "id": "C",
+   "label": "YELLOW HALL partition (QA1 scene C, walls only)",
+   "at": [
+    [
+     1248,
+     3216
+    ],
+    [
+     1248,
+     3216
+    ]
+   ],
+   "clipVerts": [
+    153,
+    153
+   ],
+   "insideBoth": 911089,
+   "identicalInsideBoth": 911089,
+   "identicalShare": 1,
+   "meanDiff": 0,
+   "maxDiff": 0,
+   "onlyParentClip": 0,
+   "onlyFixClip": 0,
+   "edgeBand": 21294,
+   "edgeBandDiffering": 0
+  },
+  {
+   "id": "H",
+   "label": "long corridor (QA1 scene H, walls only)",
+   "at": [
+    [
+     1152,
+     2160
+    ],
+    [
+     1152,
+     2160
+    ]
+   ],
+   "clipVerts": [
+    132,
+    132
+   ],
+   "insideBoth": 563139,
+   "identicalInsideBoth": 563139,
+   "identicalShare": 1,
+   "meanDiff": 0,
+   "maxDiff": 0,
+   "onlyParentClip": 0,
+   "onlyFixClip": 0,
+   "edgeBand": 13130,
+   "edgeBandDiffering": 0
+  }
+ ],
+ "tiers": [
+  {
+   "id": "D",
+   "verts": 259,
+   "identical": true
+  },
+  {
+   "id": "LA",
+   "verts": 199,
+   "identical": true
+  }
+ ],
+ "errs": [
+  [],
+  []
+ ]
+}

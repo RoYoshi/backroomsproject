@@ -1,0 +1,122 @@
+{
+ "mode": "micro",
+ "game": "/home/claude/backrooms-shadows",
+ "parent": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/plos/parent",
+ "rounds": 9,
+ "paths": {
+  "corridor": {
+   "parentMsPerFrame": {
+    "median": 0.1153,
+    "worstRound": 0.1614
+   },
+   "fixMsPerFrame": {
+    "median": 0.1302,
+    "worstRound": 0.1659
+   },
+   "raysPerFrame": {
+    "parent": 290.8,
+    "fix": 290.8
+   },
+   "rounds": {
+    "parent": [
+     0.1614,
+     0.1269,
+     0.0948,
+     0.1062,
+     0.0971,
+     0.1384,
+     0.1024,
+     0.1357,
+     0.1153
+    ],
+    "fix": [
+     0.1659,
+     0.1079,
+     0.11,
+     0.104,
+     0.151,
+     0.1302,
+     0.1178,
+     0.1559,
+     0.1593
+    ]
+   }
+  },
+  "hallCentre": {
+   "parentMsPerFrame": {
+    "median": 0.1043,
+    "worstRound": 0.124
+   },
+   "fixMsPerFrame": {
+    "median": 0.2466,
+    "worstRound": 0.3193
+   },
+   "raysPerFrame": {
+    "parent": 288,
+    "fix": 496
+   },
+   "rounds": {
+    "parent": [
+     0.1057,
+     0.1219,
+     0.1019,
+     0.1043,
+     0.0922,
+     0.1036,
+     0.0976,
+     0.1198,
+     0.124
+    ],
+    "fix": [
+     0.3193,
+     0.2466,
+     0.2119,
+     0.2086,
+     0.2866,
+     0.2081,
+     0.2778,
+     0.2414,
+     0.25
+    ]
+   }
+  },
+  "nearPillar": {
+   "parentMsPerFrame": {
+    "median": 0.1012,
+    "worstRound": 0.1393
+   },
+   "fixMsPerFrame": {
+    "median": 0.2443,
+    "worstRound": 0.3208
+   },
+   "raysPerFrame": {
+    "parent": 265.6,
+    "fix": 421.6
+   },
+   "rounds": {
+    "parent": [
+     0.1012,
+     0.1126,
+     0.0971,
+     0.0957,
+     0.0979,
+     0.0946,
+     0.1031,
+     0.1019,
+     0.1393
+    ],
+    "fix": [
+     0.3208,
+     0.2029,
+     0.2168,
+     0.2625,
+     0.2039,
+     0.2003,
+     0.2443,
+     0.2675,
+     0.2531
+    ]
+   }
+  }
+ }
+}

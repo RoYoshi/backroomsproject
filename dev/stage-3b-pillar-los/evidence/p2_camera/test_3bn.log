@@ -1,0 +1,9 @@
+PASS N1-1 every script index.html loads is served (200): camera_policy.js and timing_policy.js included   18 scripts; all 200
+PASS N1-2 server-only and development files are still never served   /server.js 404, /sim.js 404, /ai.js 404, /death_srv.js 404, /package.json 404, /dev/tests/run.js 404, /dev/stage-3b-n/test_3bn.js 404, /../server.js 404
+PASS N1-3 the served policies are the repository files byte for byte
+PASS N1-4 the bundle reads both policies at start-up, and index.html loads them before the bundle (classic scripts run before the deferred module)   camera hook true, timing hook true, order ./camera_policy.js ./timing_policy.js ./assets/index-DKbV5Nv9.js
+PASS N1-5 the policy never shows more than the canonical 1536 x 864 world at any CSS size (DPR is not an input)   12 viewports including 32:9, portrait and phones
+PASS N1-6 CAMERA_FINAL_LOCK: 1920x1080 is scale 1.25 and a 1536 x 864 world envelope; 4K at the same aspect sees the same world   REF_SCALE 1.25; 1920x1080 -> 1536.0 x 864.0 at 1.25
+PASS N1-7 the bundle's own fallback (used only if the policy ever failed to load) is the canonical 1.25 too
+
+7/7 passed

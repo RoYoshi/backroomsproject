@@ -1,0 +1,37 @@
+THE FAR BACKROOMS - Stage 3B Pillar LOS Presentation Correction (stage-3b-pillar-los) - changed files
+Parent: d3ec2269af873dbc381d223ad538a43ba06f5c45 (stage-3b-l-qa1, tree cffbc3125619170d9a55344b2519042a720a798d)
+(git diff --name-only d3ec226..stage-3b-pillar-los; the package receipt re-checks this list from the ZIP)
+
+== Game files (served) ==
+assets/index-DKbV5Nv9.js  one function, Hl (the player's sight polygon; 337 -> 1339 chars); everything before and after it
+                          byte-identical, both call sites unchanged:
+                          - every pillar within sight range + its half-diagonal adds angle - eps, angle, angle + eps at its
+                            four real corners (the wall corners' strategy), cast through the unchanged exact ray query Uc;
+                          - darkness clip (r 24) only: a ray that stops at a pillar is extended at most to that pillar's far
+                            side (min(24, exit)); walls keep 24 px; one ray per silhouette corner where the pillar chord
+                            reaches 24 px, so the clip follows the pillar's side exactly there;
+                          - entity mask (r 0): exact, no allowance.
+
+== Development (never served) ==
+dev/stage-3b-pillar-los/  los_lib.js (the game's own LOS code loaded verbatim in node; a recording copy for tests),
+                          los_audit.js (sight polygons against exact visibility: orbit, strafe, close, diagonal, wall end),
+                          los_tests.js (13 focused tests), look_los.js + contact_los.js (browser captures and before / after
+                          contact sheets), ab_los.js (the same frozen frame from both builds: light identical inside both
+                          clips; LOW / MEDIUM / HIGH clips identical), perf_los.js (micro-benchmark and in-game profile),
+                          verify_remote_plos.py, package_plos.py,
+                          evidence/ (P0 parent check, audit before / after, test logs, contact sheets, browser capture logs,
+                          A/B frames, performance runs, camera checks, remote verification of P1)
+
+== Documents ==
+STAGE_3B_PILLAR_LOS_CORRECTION_REPORT.md
+STAGE_3B_PILLAR_LOS_CORRECTION_HUMAN_QA.md
+STAGE_3B_PILLAR_LOS_CORRECTION_PERFORMANCE.md
+STAGE_3B_PILLAR_LOS_CORRECTION_CHANGED_FILES.txt
+
+== Untouched (byte-identical to the parent; checked by the receipt) ==
+camera_policy.js, timing_policy.js, server.js, index.html            (camera 1.25 and its serving, timing)
+sim.js, ai.js, light.js, dev/ai_src/, dev/sim_glue.js, dev/sim_head.js, dev/sim_geo.js   (AI, server sim, gameplay light)
+move.js, dphys.js, death_srv.js                                      (movement, collision, server deaths)
+world.js                                                             (the 170-fixture placement)
+assets/br-role.js, assets/l0-remaster.js, assets/level0_visuals.js   (BR-RoLE lighting and receivers, level art)
+assets/shadows-2d.js, mp.js, ents.js, dev/ents_src/, hud.js, inventory.js, gore.js, glitch.js, camcorder.js, sfx.js

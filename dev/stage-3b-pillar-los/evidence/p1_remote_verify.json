@@ -1,0 +1,40 @@
+{
+ "checkpoint": "P1 geometric correction",
+ "verifiedAt": "2026-10-08T09:37:43Z",
+ "branch": "stage-3b-pillar-los",
+ "local": {
+  "commit": "0f1b516ad273d3c9813631d395d407e713140e69",
+  "tree": "58eda063f05d9a4040a1689eef4bd310450de1d0",
+  "parent": "d3ec2269af873dbc381d223ad538a43ba06f5c45"
+ },
+ "lsRemote": "0f1b516ad273d3c9813631d395d407e713140e69",
+ "githubApi": {
+  "commit": "0f1b516ad273d3c9813631d395d407e713140e69",
+  "tree": "58eda063f05d9a4040a1689eef4bd310450de1d0",
+  "parents": [
+   "d3ec2269af873dbc381d223ad538a43ba06f5c45"
+  ],
+  "message": "Stage 3B pillar LOS (P1): exact pillar corners in the sight polygon"
+ },
+ "qa1Parent": {
+  "branch": "stage-3b-l-qa1",
+  "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+  "commit": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+  "tree": "cffbc3125619170d9a55344b2519042a720a798d",
+  "ancestorOfHead": true
+ },
+ "cameraCheckpoint": {
+  "branch": "stage-3b-n-camera",
+  "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+  "commit": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+  "tree": "bdef2606b50dc485eac648a70300e33bf7a32723",
+  "ancestorOfHead": true
+ },
+ "mainUntouched": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+ "brRoleUntouched": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+ "stage3bLUntouched": "b9f3a9b934f40e35d51596f593eae810d077f194",
+ "stage3bRemasterUntouched": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+ "supersededStage3bNUntouched": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+ "stage3bWor3cBranches": [],
+ "ok": true
+}
