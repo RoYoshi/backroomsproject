@@ -85,9 +85,9 @@
    * between tail0 and far (a technical bound: f is under 1 % there, invisible).  Two caches: the CORE (fine, d < x1) holds
    * f · wc, the FAR one (low resolution, with the bounce light) f · (1 - wc); wc crossfades from 1 to 0 over x0 .. x1, so the
    * split never shows.  The far light is faint, so its cache and the quarter-resolution buffer it is drawn into hold it x fg
-   * (8-bit precision kept until the full-resolution composite: smooth, not stepped).  R (380) is the gameplay lamp reach (the server's, light.js's): used here only for the old caches'
-   * reference, never changed */
-  const LAMP = { R: 380, S: 168, P: 1.47, a: 30, tail0: 520, far: 640, x0: 330, x1: 430, fg: 2, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
+   * (8-bit precision kept until the full-resolution composite: smooth, not stepped).  R (380) is the gameplay lamp reach (the server's, light.js's),
+   * kept for reference only: nothing here draws by it */
+  const LAMP = { R: 380, S: 168, P: 1.47, a: 30, tail0: 520, far: 640, x0: 300, x1: 400, fg: 2, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
   /* BR-RoLE 1.1 bounce light.  A wall / pillar side or a floor patch the lamp lights directly (irradiance f · cos x the share
    * of the tube that sees it) re-emits `wall` / `floor` x its albedo of it, from a point just in front of it, into the space
    * it faces (a wall's lobe leans out along its normal by `lean` x its scale; a floor patch's is round), falling off as
@@ -123,7 +123,7 @@
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
     lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
     layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0,
-    tpl: null, sightFade: true, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, rooms: null };
+    tpl: null, sightFade: true, skip: {}, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, rooms: null };
   const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampBuildMax: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0,
     farBuilds: 0, farMs: 0, farStepMax: 0, emitters: 0, emittersMax: 0, fars: 0 };
 
@@ -485,7 +485,7 @@
       bx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); bx.globalCompositeOperation = 'lighter';
       const view = { x0: -F.ox / F.r, y0: -F.oy / F.r, x1: (F.w - F.ox) / F.r, y1: (F.h - F.oy) / F.r };
       const meet = (x, y, R) => x + R > view.x0 && x - R < view.x1 && y + R > view.y0 && y - R < view.y1;
-      const V = F.viewer, rec = S.last = { lamps: [], carried: [] }; S.lastF = { r: F.r, ox: F.ox, oy: F.oy, w: F.w, h: F.h, t: F.t, sc, bw, bh };
+      const V = F.viewer, rec = S.last = { lamps: [], carried: [] }; S.lastV = V; S.lastF = { r: F.r, ox: F.ox, oy: F.oy, w: F.w, h: F.h, t: F.t, sc, bw, bh };
       /* BR-RoLE 1.1: no ambient glow (no light without a source).  The lamps' far fields and bounce light go into a quarter-
        * resolution buffer (low-frequency light), added to the light buffer once at the end */
       const fbw = Math.max(1, Math.ceil(bw / 4)), fbh = Math.max(1, Math.ceil(bh / 4));
@@ -500,7 +500,9 @@
       if (!(A.V && A.V.blackout)) {
         const lamps = A.lamps || [], list = [], tb0 = now(), pend = new Set(); let built = 0, RF = LAMP.far + LAMP.a;
         const canBuild = () => built < cfg.builds && (built === 0 || now() - tb0 < LAMP.buildMs);
-        for (let i = 0; i < lamps.length; i++) { const L = lamps[i]; if (meet(L.x, L.y, RF)) list.push([Math.hypot(L.x - V.x, L.y - V.y), i]); }
+        /* a lamp counts if its light reaches the screen AND the line of sight's reach (SIGHT.r around the viewer: nothing past it
+         * is ever shown), so the tier's cap goes to the lamps that can light what you see */
+        for (let i = 0; i < lamps.length; i++) { const L = lamps[i], d = Math.hypot(L.x - V.x, L.y - V.y); if (d < SIGHT.r + RF && meet(L.x, L.y, RF)) list.push([d, i]); }
         list.sort((p, q) => p[0] - q[0] || p[1] - q[1]);
         const cut = list.length > cfg.lamps ? list[cfg.lamps][0] : Infinity;
         for (let m = 0; m < list.length && m < cfg.lamps; m++) {
@@ -545,19 +547,20 @@
 
       /* the lamps: each its cached shadowed field at this frame's strength; one that an actor shadows goes through the scratch */
       for (const r of lampRecs) { drawLamp(r, F, k, sc); nl++; rec.lamps.push({ i: r.i, p: r.p, smp: r.smp, props: r.props, far: !!r.C.far }); }
-      if (S.fbUsed) { bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.globalAlpha = 1 / LAMP.fg; bx.imageSmoothingEnabled = true; bx.drawImage(S.fb, 0, 0, fbw, fbh, 0, 0, fbw * 4, fbh * 4); bx.restore(); }
+      if (S.fbUsed && !S.skip.fb) { bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.globalAlpha = 1 / LAMP.fg; bx.imageSmoothingEnabled = true; bx.drawImage(S.fb, 0, 0, fbw, fbh, 0, 0, fbw * 4, fbh * 4); bx.restore(); }
       /* the carried lights */
       for (const r of carRecs) carried(r, F, cfg, k, rec);
 
       /* BR-RoLE 1.1: the sight limit is not a hard circle of light.  drawLight's line of sight (its clip, unchanged) ends
        * SIGHT.r from the viewer; every light fades out over the last SIGHT.fade before it, so lit floor never ends in a sharp
-       * arc.  This only ever removes light: nothing is shown that was not shown before */
+       * arc.  This only ever removes light: nothing is shown that was not shown before.  Only the ring is filled: the clip never
+       * reaches past SIGHT.r */
       if (S.sightFade && Math.max(Math.abs(view.x0 - V.x), Math.abs(view.x1 - V.x), Math.abs(view.y0 - V.y), Math.abs(view.y1 - V.y)) * Math.SQRT2 > SIGHT.r - SIGHT.fade) {
         const r1 = SIGHT.r, r0 = r1 - SIGHT.fade;
         for (const c of rec.carried.some(c => c.tint) ? [bx, tx] : [bx]) {
           c.save(); c.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); c.globalCompositeOperation = 'destination-out'; c.globalAlpha = 1;
           const g = c.createRadialGradient(V.x, V.y, r0, V.x, V.y, r1); for (let s = 0; s <= 8; s++) g.addColorStop(s / 8, rgba(sm(0, 1, s / 8)));
-          c.fillStyle = g; c.beginPath(); c.rect(view.x0 - 8, view.y0 - 8, view.x1 - view.x0 + 16, view.y1 - view.y0 + 16); c.arc(V.x, V.y, r0, 0, Math.PI * 2, true); c.fill('evenodd'); c.restore();
+          c.fillStyle = g; c.beginPath(); c.arc(V.x, V.y, r1 + 2, 0, Math.PI * 2); c.arc(V.x, V.y, r0, 0, Math.PI * 2, true); c.fill('evenodd'); c.restore();   // the ring only: past it the clip shows nothing
         }
       }
 
@@ -632,7 +635,8 @@
     const bx = S.bx, L = r.L, C = r.C, a = Math.min(1, r.p / LAMP.P0);
     /* BR-RoLE 1.1: its far field and bounce light into the quarter-resolution buffer (faded in once built).  An actor's
      * shadow takes this lamp's core light (the actors stand where a lamp's light is strong; its faint far light is left) */
-    if (C.far) { const fa = a * clamp((ST.frames - C.farBorn) / LAMP.fadeFrames, 0, 1); if (fa > .001) { const f = C.far, fx = S.fx; fx.globalAlpha = fa; fx.drawImage(f.cv, L.x - f.hx, L.y - f.hy, f.hx * 2, f.hy * 2); fx.globalAlpha = 1; S.fbUsed = true; ST.fars++; } }
+    if (C.far && !S.skip.far) { const fa = a * clamp((ST.frames - C.farBorn) / LAMP.fadeFrames, 0, 1); if (fa > .001) { const f = C.far, fx = S.fx; fx.globalAlpha = fa; fx.drawImage(f.cv, L.x - f.hx, L.y - f.hy, f.hx * 2, f.hy * 2); fx.globalAlpha = 1; S.fbUsed = true; ST.fars++; } }
+    if (S.skip.core || Math.hypot(L.x - S.lastV.x, L.y - S.lastV.y) - Math.hypot(C.hx, C.hy) > SIGHT.r) return;   // its core cannot reach the line of sight's reach
     if (!r.acts.length) { bx.globalAlpha = a; bx.drawImage(C.cv, L.x - C.hx, L.y - C.hy, C.hx * 2, C.hy * 2); bx.globalAlpha = 1; return; }
     const bb = boxAt(L.x, L.y, Math.max(C.hx, C.hy), F, sc); if (!bb) return;
     const sx = S.sx, bw = bb[2] - bb[0], bh = bb[3] - bb[1];
@@ -1012,6 +1016,7 @@
       field: (dx, dy) => lampFall(dx, dy),
       sightFade: v => { if (v !== undefined) S.sightFade = !!v; return S.sightFade; },
       farReady: () => !S.farJob && (!S.last || S.last.lamps.every(l => l.far)),
+      skip: o => { if (o !== undefined) S.skip = Object.assign({}, o || {}); return Object.assign({}, S.skip); },   // DEV only (perf A/B): skip drawing parts
       constants: () => JSON.parse(JSON.stringify({ LAMP, SPILL, ALBEDO })) },
   };
 })();

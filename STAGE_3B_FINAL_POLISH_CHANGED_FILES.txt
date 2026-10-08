@@ -1,0 +1,40 @@
+THE FAR BACKROOMS - Stage 3B Final Polish - changed files (since the accepted Stage 3B parent 69602e7)
+
+Phase A - Stage 3B-N camera correction (checkpoint stage-3b-n-camera b2783b3)
+  server.js                          serve camera_policy.js and timing_policy.js (they were 404: the client ran on the 1.18 fallback);
+                                     every server-only file still refused
+  camera_policy.js                   REF_SCALE 1.25: 1920x1080 = a 1536 x 864 world envelope (the canonical maximum view)
+  assets/index-DKbV5Nv9.js           the bundle's own camera fallback 1.18 -> 1.25 (two literals; dead code now the policy loads)
+  assets/l0-remaster.js              one token: the bake-density camera fallback 1.18 -> 1.25 (dead code now the policy loads)
+  dev/tests/s_camera_fairness.js     locks 1.25 / 1536 x 864
+  dev/stage-3b-n/test_3bn.js         fast checks: serving, privacy, byte identity, load order, 12-viewport maths, the 1.25 lock
+  dev/stage-3b-n/camera_3bn.js       the served-runtime camera checks (11 viewports, no dynamic zoom)
+  dev/stage-3b-n/verify_remote_3bn.py  remote verification of the camera checkpoint
+  dev/stage-3b-n/evidence/a/         camera run logs / JSON, parent (before) and after
+
+Phase B - Stage 3B-L BR-RoLE 1.1 (branch stage-3b-l)
+  assets/br-role.js                  BR-RoLE 1.1: the smooth edgeless fluorescent field of the tube (no 380 px radius); the core
+                                     and far caches; first-bounce spill from directly lit walls / pillar sides / floor (albedo,
+                                     own shadows, strong decay, cached, built in steps within a frame budget); the sourceless
+                                     glow around the viewer removed (true black); the 700 px sight reach fades instead of
+                                     cutting an arc; DEV-only test / A-B hooks under __brRole.dev
+  dev/br-role/test_br_role.js        the BR-RoLE unit checks updated where they encoded 1.0's 760 px cache, its radial field and
+                                     lamps reaching exactly 0 at 380 px (32 / 32)
+  dev/br-role/smoke.js               the BR-RoLE browser smoke: its direct-light composition checks run with the bounce light off and
+                                     pick spots by the blocked lamp itself (other lamps' faint tails now legitimately reach) (12 / 12)
+  dev/stage-3b-l/look_3bl.js         scenes A-G captured from the real client (before / after)
+  dev/stage-3b-l/falloff_3bl.js      R1-R6: no hard radius (field, caches, rendered light, overlap, the sight edge)
+  dev/stage-3b-l/occlusion_3bl.js    O1-O4: every lamp's cached light against the level geometry (zero transmission)
+  dev/stage-3b-l/fieldmap_3bl.js     one lamp's light and bounce as a world-space map (evidence)
+  dev/stage-3b-l/perf_3bl.js         performance after warm-up, parent vs 1.1, same scenes
+  dev/stage-3b-l/verify_remote_3bl.py, package_3bl.py   remote verification; the package and its receipt
+  dev/stage-3b-l/evidence/           test logs, scene images, field maps
+
+Reports (repository root)
+  STAGE_3B_FINAL_POLISH_HUMAN_QA.md, _CAMERA_REPORT.md, _BR_ROLE_1_1_REPORT.md, _PERFORMANCE.md, _CHANGED_FILES.txt
+
+Not touched (byte-identical to the parent; checked in the package receipt)
+  gameplay / AI / light truth: light.js, world.js, move.js, sim.js, ai.js, ents.js, mp.js, dphys.js, death_srv.js, dev/ai_src/, dev/ents_src/
+  timing_policy.js (now served, unchanged); index.html; hud.js, inventory.js, gore.js, glitch.js, camcorder.js, sfx.js
+  the Stage 3B remaster's level visuals: assets/level0_visuals.js (l0-remaster.js: only its camera fallback token)
+  main, stage-3b-remaster, br-role and the superseded stage-3b-n branches; Stage 3C not begun

@@ -90,10 +90,25 @@ function makePage(opts = {}) {
     const ok = page.R.on() && page.R.draw(page.overlay.getContext('2d'), F); return ok; };
   return page;
 }
-/* a lamp is added to the light buffer as its cached shadowed field: drawImage(cache, x - 380, y - 380, 760, 760), `lighter`,
- * at globalAlpha = strength / P0 (.9) */
-const lampDraws = (log) => log.filter(e => e.op === 'drawImage' && (e.gco === 'lighter' || e.gco === 'source-over') && e.args.length === 4 && Math.abs(e.args[2] - 760) < 1e-9);   // into the buffer, or into the scratch when an actor shadows it (BR2B)
-const lampOf = (g, e) => g.Fc.findIndex(l => Math.abs(l.x - (e.args[0] + 380)) < 1e-9 && Math.abs(l.y - (e.args[1] + 380)) < 1e-9);
+/* a lamp is added to the light buffer as its cached shadowed field, at globalAlpha = strength / P0 (.9).  BR-RoLE 1.1: its
+ * CORE cache, drawImage(cache, x - hx, y - hy, 2 hx, 2 hy) with hx = 400 + 30 + 4 (the core crossfade and the tube's
+ * half-length; rounded up to the cache's texels) and hx - hy = 30; its far field + bounce light go into the quarter-resolution
+ * buffer (a 2 x 674 px cache) and are not lamp draws here */
+const isCore = e => e.args.length === 4 && Math.abs(e.args[2] - 868) < 6 && Math.abs(e.args[2] - e.args[3] - 60) < 6;
+const lampDraws = (log) => log.filter(e => e.op === 'drawImage' && (e.gco === 'lighter' || e.gco === 'source-over') && isCore(e));   // into the buffer, or into the scratch when an actor shadows it (BR2B)
+const lampOf = (g, e) => g.Fc.findIndex(l => Math.abs(l.x - (e.args[0] + e.args[2] / 2)) < 1e-6 && Math.abs(l.y - (e.args[1] + e.args[3] / 2)) < 1e-6);
+/* BR-RoLE 1.1: a lamp's core cache is built as drawImage(field, 0, 0) (the unobstructed field, once per tier), then the
+ * averaged shadow mask taken out (destination-out); find the build of lamp `lp`: its field op and its mask op, the shadow
+ * fills between them cast from points within the lamp's tube */
+function coreBuild(g, L, lp, tube) {
+  for (let a = 0; a < L.length; a++) { const f = L[a]; if (!(f.op === 'drawImage' && f.args.length === 2 && f.args[0] === 0 && f.args[1] === 0 && f.gco === 'source-over')) continue;
+    const b = L.findIndex((e, n) => n > a && e.canvas === f.canvas && e.op === 'drawImage' && e.gco === 'destination-out'); if (b < 0) continue;
+    const sub = L[b], fills = L.filter((e, n) => n > a && n < b && e.op === 'fill' && (e.canvas === sub.src || e.style === '#fff'));
+    const from = fills.map(q => checkShadowFill(g, q, 380).from).filter(Boolean);
+    if (fills.filter(q => q.canvas === sub.src).length + fills.filter(q => q.canvas !== sub.src).length >= tube && from.length && from.every(q => Math.abs(q[0] - lp.x) <= 40.01 && Math.abs(q[1] - lp.y) <= 8.01)) return { a, b, field: f, sub, cache: f.canvas };
+  }
+  return null;
+}
 /* frames until every lamp in view is built and faded in; the log keeps the last frame */
 function warm(p, o = {}, n = 40) { for (let k = 0; k < n; k++) { p.frame(o); if (k > 16 && p.R.stats().lamps.pending === 0) break; } p.frame(o); }
 /* the point a shadow polygon was cast from: where its two side rays (A -> A', B -> B') meet */
@@ -152,28 +167,29 @@ function checkShadowFill(g, fill, reach) {
 
 run('U01 loads, attaches above the carpet on the first frame, and takes over the light (on() true); version reported; the blockers are every wall side and pillar side', () => {
   const p = makePage(); const before = p.R.on(); const ok = p.frame(); const i = p.win.__api.floor().parent.children.findIndex(c => c.label === 'br-role'), b = p.R.stats().blockers;
-  return { ok: ok && before === true && i === 1 && p.R.stats().attached && /^br-role (BR2|1\.0)/.test(p.R.version) && b.sides > 100 && b.pillars === p.g.Pc.length, note: `version ${p.R.version}, layer index ${i}, blocker sides ${b.sides} (pillars ${b.pillars} of ${p.g.Pc.length})` };
+  return { ok: ok && before === true && i === 1 && p.R.stats().attached && /^br-role (BR2|1\.[01])/.test(p.R.version) && b.sides > 100 && b.pillars === p.g.Pc.length, note: `version ${p.R.version}, layer index ${i}, blocker sides ${b.sides} (pillars ${b.pillars} of ${p.g.Pc.length})` };
 });
 run('U02 one compositor, no visibility polygon: nothing is clipped to any shape (only, BR3, shadow fills to their light\'s own pixel box); every light is ADDED to the light buffer (`lighter`): each lamp as its own shadowed field, each carried light (beam, then hand glow); the overlay loses the buffer once (destination-out), then the beam colour (source-over)', () => {
   const p = makePage(); warm(p, { x: 1130, y: 3420, angle: 2.6 }); const L = p.log;
   const isBox = q => q.length === 8 && q[1] === q[3] && q[2] === q[4] && q[5] === q[7] && q[0] === q[6] && [q[0], q[1], q[2], q[5]].every(Number.isInteger);   // BR3: a light's own pixel box
   const clips = L.filter(e => e.op === 'clip' && !isBox(e.path)).length, boxClips = L.filter(e => e.op === 'clip' && isBox(e.path)).length, lamps = lampDraws(L).filter(e => e.gco === 'lighter'), ov = L.filter(e => e.canvas === 'overlay' && e.op === 'drawImage');
-  const buf = ov.length ? ov[0].src : null, carriedToBuf = L.filter(e => e.canvas === buf && e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 8), viaScratch = new Set(p.R.actors().filter(j => j.lightKind === 'lamp').map(j => j.light)).size;
+  const buf = ov.length ? ov[0].src : null, farIn = L.filter(e => e.canvas === buf && e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 8 && e.args[6] === e.args[2] * 4 && e.args[7] === e.args[3] * 4),
+    carriedToBuf = L.filter(e => e.canvas === buf && e.op === 'drawImage' && e.gco === 'lighter' && e.args.length === 8 && !farIn.includes(e)), viaScratch = new Set(p.R.actors().filter(j => j.lightKind === 'lamp').map(j => j.light)).size;
   const lampsAdded = lamps.length + viaScratch;                            // a lamp an actor shadows goes through the scratch (BR2B)
-  return { ok: clips === 0 && lampsAdded >= 3 && lamps.every(e => e.clip === 0) && carriedToBuf.length === 2 + viaScratch && ov.length === 2 && ov[0].gco === 'destination-out' && ov[1].gco === 'source-over',
-    note: `clips other than a light's own pixel box ${clips} (box clips ${boxClips}); lamps added ${lampsAdded} (each its shadowed field, lighter; ${viaScratch} through the scratch for an actor's shadow); scratch pieces added ${carriedToBuf.length} (beam, glow + those lamps); overlay: ${ov.map(e => e.gco).join(' then ')}` };
+  return { ok: clips === 0 && lampsAdded >= 3 && lamps.every(e => e.clip === 0) && carriedToBuf.length === 2 + viaScratch && farIn.length <= 1 && ov.length === 2 && ov[0].gco === 'destination-out' && ov[1].gco === 'source-over',
+    note: `clips other than a light's own pixel box ${clips} (box clips ${boxClips}); lamps added ${lampsAdded} (each its shadowed field, lighter; ${viaScratch} through the scratch for an actor's shadow); scratch pieces added ${carriedToBuf.length} (beam, glow + those lamps); BR-RoLE 1.1 far + bounce buffer added ${farIn.length}x; overlay: ${ov.map(e => e.gco).join(' then ')}` };
 });
 run('U03 lamp: LIGHT FIELD -> BLOCKER -> CAST SHADOW.  The spawn lamp\'s cache is its full unclipped field first; then, from each point of its tube, every wall / pillar side facing that point casts the polygon of its two corners projected away from it; the averaged shadows are taken out of the field (destination-out)', () => {
   const p = makePage(); let L = null, cache = null; const lp = p.g.Fc[4], tube = p.R.tiers().medium.tube;
-  for (let k = 0; k < 6 && !cache; k++) { p.frame({ x: 1130, y: 3420, angle: 2.6 }); L = p.log; const f = L.find(e => e.op === 'fillRect' && e.style && e.style.kind === 'radial' && e.style.r[1] === 380 && e.style.at[0] === lp.x && e.style.at[1] === lp.y); if (f) cache = f.canvas; }
-  const ops = L.filter(e => e.canvas === cache && e.op !== 'clearRect'), field = ops[0], sub = ops.find(e => e.op === 'drawImage');
-  const fieldOk = field && field.op === 'fillRect' && field.clip === 0 && field.gco === 'source-over' && Math.abs(field.style.r[1] - 380) < 1e-9 && sub && sub.gco === 'destination-out' && ops.indexOf(sub) > 0;
+  let B = null; for (let k = 0; k < 6 && !cache; k++) { p.frame({ x: 1130, y: 3420, angle: 2.6 }); L = p.log; B = coreBuild(p.g, L, lp, tube); if (B) cache = B.cache; }
+  const ops = L.filter(e => e.canvas === cache && e.op !== 'clearRect'), field = B && B.field, sub = B && B.sub;
+  const fieldOk = field && ops[0] === field && field.clip === 0 && field.gco === 'source-over' && sub && sub.gco === 'destination-out' && ops.indexOf(sub) > 0;
   const fills = L.filter(e => e.canvas === sub.src && e.op === 'fill' && L.indexOf(e) > L.indexOf(field) && L.indexOf(e) < L.indexOf(sub));
   let polys = 0, bad = 0, outside = 0; const froms = [];
   for (const f of fills) { const c = checkShadowFill(p.g, f, 380); polys += c.polys; bad += c.badShape + c.badFrom + c.badSide + c.badFar; if (c.from) { froms.push(c.from); if (Math.abs(c.from[0] - lp.x) > 40.01 || Math.abs(c.from[1] - lp.y) > 8.01) outside++; } }
   const allLighter = fills.every(f => f.gco === 'lighter'), spread = Math.max(...froms.map(q => q[0])) - Math.min(...froms.map(q => q[0]));
   return { ok: fieldOk && fills.length === tube && allLighter && polys > tube && bad === 0 && outside === 0 && spread > 60,
-    note: `field first, unclipped: ${fieldOk}; ${fills.length} tube points (tier ${tube}), spread ${spread.toFixed(1)} px along the tube; ${polys} shadow polygons, each from its tube point, on a facing blocker side, projected away beyond 380 px: bad ${bad}` };
+    note: `field first (BR-RoLE 1.1: the per-tier field drawn 1:1), unclipped: ${fieldOk}; ${fills.length} tube points (tier ${tube}), spread ${spread.toFixed(1)} px along the tube; ${polys} shadow polygons, each from its tube point, on a facing blocker side, projected away beyond 380 px: bad ${bad}` };
 });
 run('U04 blackout: no lamp is drawn; your light still is; lamps come back after', () => {
   const p = makePage(); warm(p); const a = lampDraws(p.log).length; p.g.V.blackout = true; p.frame(); const b = lampDraws(p.log).length, own = p.R.stats().carried.last; p.g.V.blackout = false; p.frame(); const c = lampDraws(p.log).length;
@@ -263,8 +279,8 @@ run('U14 BR2A casters: counters, the shelf, the low walls, the machine, the tabl
 });
 run('U15 BR2A/BR2.1C lamp: from EVERY tube point the counter beside lamp 31 casts the hull of its base and its top projected away from that point (x 70 / (180 - 70)) - its own top cut back out (opposite winding: lit) - graded from solid at the footprint to faint at the far end, united with that point\'s wall shadows, then averaged into the lamp\'s mask', () => {
   const p = makePage(); let L = null, cache = null; const lp = p.g.Fc[31], kk = 70 / 110;
-  for (let k = 0; k < 8 && !cache; k++) { p.frame({ x: 3400, y: 1250, angle: -Math.PI / 2 }); L = p.log; const f = L.find(e => e.op === 'fillRect' && e.style && e.style.kind === 'radial' && e.style.r[1] === 380 && e.style.at[0] === lp.x && e.style.at[1] === lp.y); if (f) cache = f.canvas; }
-  const i0 = L.findIndex(e => e.canvas === cache && e.op === 'fillRect'), i1 = L.findIndex((e, n) => n > i0 && e.canvas === cache && e.op === 'drawImage');
+  let B = null; for (let k = 0; k < 8 && !cache; k++) { p.frame({ x: 3400, y: 1250, angle: -Math.PI / 2 }); L = p.log; B = coreBuild(p.g, L, lp, 16); if (B) cache = B.cache; }
+  const i0 = B ? B.a : -1, i1 = B ? B.b : -1;
   const seg = L.slice(i0, i1), propF = seg.filter(e => e.op === 'fill' && e.style && e.style.kind === 'linear'), T = propF.length ? propF[0].canvas : null;
   const intoMask = seg.filter(e => e.op === 'drawImage' && e.src === T && e.gco === 'lighter');
   let bad = 0, wind = 0, grad = 0, n = 0;
@@ -284,12 +300,13 @@ run('U16 BR2A behaviour (probe, the game\'s ray query + the prop\'s shadow): beh
   const p = makePage(); warm(p, { x: 3400, y: 1250, angle: -Math.PI / 2 });
   let X = null;                                                          // a floor point behind the counter from both lamps (all their tube points), the flashlight reaching it
   for (let y = 1046; y < 1110 && !X; y += 4) for (let x = 3330; x < 3520 && !X; x += 6) { const r = p.R.probe(x, y), l31 = r.lamps.find(l => l.i === 31), l29 = r.lamps.find(l => l.i === 29); if (l31 && l29 && l31.visible === 0 && l29.visible === 0 && r.carried[0].light > .1) X = [x, y]; }
-  const below = p.R.probe(X[0], X[1]), lampsBelow = below.lamps.reduce((a, l) => a + l.light, 0), beamBelow = below.carried[0].light;
+  /* BR-RoLE 1.1: other lamps' faint tails may reach the spot; the counter blocks lamps 31 / 29, and the total is the beam plus those others */
+  const below = p.R.probe(X[0], X[1]), lampsBelow = below.lamps.filter(l => l.i === 31 || l.i === 29).reduce((a, l) => a + l.light, 0), others = below.lamps.filter(l => l.i !== 31 && l.i !== 29).reduce((a, l) => a + l.light, 0), beamBelow = below.carried[0].light;
   const unblocked = p.R.probe(X[0], X[1] + 120).lamps.find(l => l.i === 31).visible;   // the same lamp past the counter's shadow
   warm(p, { x: 3430, y: 880, angle: Math.atan2(X[1] - 880, X[0] - 3430) });
   const aim = Math.atan2(X[1] - 880, X[0] - 3430), above = p.R.probe(X[0], X[1]), beside = p.R.probe(3430 + Math.cos(aim) * 70, 880 + Math.sin(aim) * 70), top = p.R.probe(3400, 1008).lamps.find(l => l.i === 31);   // beside: in the same beam, before the counter
-  const ok = !!X && lampsBelow === 0 && beamBelow > .1 && Math.abs(below.total - beamBelow) < 1e-9 && unblocked > 0 && above.carried[0].light === 0 && above.lamps.every(l => l.i !== 31 && l.i !== 29 || l.light === 0) && beside.carried[0].light > 0 && top.visible > .5;
-  return { ok, note: `point ${X}: lamps 31/29 there ${lampsBelow} (past the shadow lamp 31 sees ${unblocked}); flashlight from below ${beamBelow.toFixed(3)} = total ${below.total.toFixed(3)}; flashlight from the lamps' side ${above.carried[0].light} (in the same beam before the counter ${beside.carried[0].light.toFixed(3)}); counter top sees lamp 31: ${top.visible}` };
+  const ok = !!X && lampsBelow === 0 && beamBelow > .1 && Math.abs(below.total - Math.min(1, beamBelow + others)) < 1e-9 && unblocked > 0 && above.carried[0].light === 0 && above.lamps.every(l => l.i !== 31 && l.i !== 29 || l.light === 0) && beside.carried[0].light > 0 && top.visible > .5;
+  return { ok, note: `point ${X}: lamps 31/29 there ${lampsBelow} (past the shadow lamp 31 sees ${unblocked}); flashlight from below ${beamBelow.toFixed(3)} + other lamps' tails ${others.toFixed(4)} = total ${below.total.toFixed(3)}; flashlight from the lamps' side ${above.carried[0].light} (in the same beam before the counter ${beside.carried[0].light.toFixed(3)}); counter top sees lamp 31: ${top.visible}` };
 });
 run('U17 BR2A bounded: prop casters per light and per frame stay within the tier caps however many props are near (40 extra counters, several wanderers\' lights)', () => {
   const extra = []; for (let k = 0; k < 40; k++) extra.push({ x: 1000 + (k % 8) * 40, y: 3380 + Math.floor(k / 8) * 30, w: 24, h: 12 });
@@ -303,7 +320,7 @@ run('U17 BR2A bounded: prop casters per light and per frame stay within the tier
 function creature(p, x, y, flags) { const v = new Container(); v.position.set(x, y); Object.assign(v, flags); p.creatures.addChild(v); return v; }
 run('U18 BR2B/BR2.1 an actor\'s cast shadow and self-shading are its DOMINANT light\'s own contribution taken away: that lamp alone goes through the scratch; the cast is built in a pooled canvas with the silhouette cut out of it (never on the body), the self-shading gradient runs away from the lamp; then the lamp is added; no dark paint, no Pixi shadow layer', () => {
   const p = makePage(); warm(p, { x: 1060, y: 3300, on: false }); const L = p.log, me = p.R.actors().filter(j => j.self), lp = p.g.Fc[4], k = 1.18 * .75;
-  const lampIn = L.find(e => e.op === 'drawImage' && e.args.length === 4 && e.args[2] === 760 && e.gco === 'source-over'), scr = lampIn && lampIn.canvas;
+  const lampIn = L.find(e => e.op === 'drawImage' && isCore(e) && e.gco === 'source-over'), scr = lampIn && lampIn.canvas;
   const cast = L.find(e => e.op === 'drawImage' && e.args.length === 4 && e.args[0] > 0 && e.canvas !== scr && e.gco === 'source-over' && e.alpha < 1), T = cast && cast.canvas;
   const cuts = L.filter(e => e.canvas === T && e.op === 'drawImage' && e.gco === 'destination-out' && e.args.join() === '-1,-1,2,2');
   const back = L.find(e => e.canvas === scr && e.src === T && e.gco === 'destination-out'), shade = L.find(e => e.canvas === scr && e.op === 'drawImage' && e.gco === 'destination-out' && e.args.join() === '-1,-1,2,2');
@@ -343,7 +360,8 @@ run('U22 BR2B tiers: LOW and MEDIUM one shadow per actor (the dominant light); H
 run('U23 BR2C colour: carried-light tints are summed (`lighter`: overlapping colours average, order-independent) and laid on at a bounded strength; a single light keeps BR1.1\'s tint exactly (.25 of its light)', () => {
   const pk = (c1, c2) => { const p = makePage(); p.win.__peerLights = [{ x: 1000, y: 3330, angle: 0, kind: 'flashlight', color: c1, on: true }, { x: 1010, y: 3420, angle: -.4, kind: 'flashlight', color: c2, on: true }]; warm(p, { x: 1060, y: 3300, on: false }); return p.log; };
   const A = pk('#9fd4ff', '#ffb070'), B = pk('#ffb070', '#9fd4ff');
-  const tints = L => L.filter(e => e.op === 'drawImage' && e.args.length === 8 && e.canvas !== 'overlay' && Math.abs(e.alpha - 1) < 1e-9 === false && (e.gco === 'lighter' || e.gco === 'source-over') && e.alpha > .3 && e.alpha < .6 && L.some(o => o.canvas === 'overlay' && o.src === e.canvas));
+  /* the tints go into the canvas the overlay gets second (source-over); BR-RoLE 1.1's far buffer is added to the light buffer at 1 / 2 (not a tint) */
+  const tints = L => { const ov = L.filter(o => o.canvas === 'overlay' && o.op === 'drawImage'), tb = ov[1] && ov[1].src; return L.filter(e => e.op === 'drawImage' && e.args.length === 8 && e.canvas === tb && (e.gco === 'lighter' || e.gco === 'source-over') && e.alpha > .3 && e.alpha < .6); };
   const ta = tints(A), ovA = A.filter(e => e.canvas === 'overlay' && e.op === 'drawImage'), ovB = B.filter(e => e.canvas === 'overlay' && e.op === 'drawImage');
   const ok = ta.length === 2 && ta.every(e => e.gco === 'lighter' && Math.abs(e.alpha - .5) < 1e-9) && ovA[1] && ovA[1].gco === 'source-over' && Math.abs(ovA[1].alpha - .5) < 1e-9 && JSON.stringify(ovA.map(e => [e.gco, e.alpha])) === JSON.stringify(ovB.map(e => [e.gco, e.alpha]));
   return { ok, note: `tint draws ${ta.map(e => e.gco + ' x' + e.alpha).join(', ')}; laid on the overlay ${ovA[1] && ovA[1].gco} x${ovA[1] && ovA[1].alpha} (one light: .5 x .5 = .25 of its light, as BR1.1); peers swapped: the same composition` };
@@ -357,7 +375,7 @@ run('U24 BR2C a lantern\'s flame casts from a fixed ring around the hand: turnin
 run('U25 BR2C a peer\'s flashlight casts the counter\'s shadow inside its own beam (its own prop casters, within the frame budget), and fills a lamp\'s shadow like yours', () => {
   const p = makePage(); p.win.__peerLights = [{ x: 3400, y: 1250, angle: -Math.PI / 2, kind: 'flashlight', color: '#ffe7b2', on: true }]; warm(p, { x: 3700, y: 1300, on: false });
   const fills = p.log.filter(e => e.op === 'fill' && e.subs && e.subs.length), cf = fills.filter(f => splitFill(p.g, f).props.some(q => q.prop.x === L4.x && q.prop.y === L4.y)), withCounter = cf.length, worldTf = cf.every(f => Math.abs(f.transform[0] - 1.18 * .75) < 1e-9);   // drawn in world space (BR3 regression guard)
-  let X = null; for (let y = 1046; y < 1100 && !X; y += 3) for (let x = 3330; x < 3520 && !X; x += 4) { const r = p.R.probe(x, y); if (r.lamps.some(l => l.i === 31) && r.lamps.every(l => l.light === 0) && r.carried.some(c => !c.own && c.light > .2)) X = [x, y]; }
+  let X = null; for (let y = 1046; y < 1100 && !X; y += 3) for (let x = 3330; x < 3520 && !X; x += 4) { const r = p.R.probe(x, y); if (r.lamps.some(l => l.i === 31) && r.lamps.filter(l => l.i === 31 || l.i === 29).every(l => l.light === 0) && r.carried.some(c => !c.own && c.light > .2)) X = [x, y]; }   // BR-RoLE 1.1: other lamps' tails may reach it
   return { ok: withCounter > 0 && worldTf && !!X, note: `peer shadow fills with the counter: ${withCounter} (in world space: ${worldTf}); a lamp-shadowed spot the peer lights: ${X}` };
 });
 

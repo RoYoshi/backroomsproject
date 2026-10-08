@@ -1,0 +1,407 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "rows": [
+  {
+   "tier": "medium",
+   "scene": "YELLOW HALL (open room)",
+   "warmUp": {
+    "lampBuilds": 0,
+    "lampBuildMs": 0,
+    "lampBuildMaxMs": 0,
+    "far": {
+     "builds": 7,
+     "buildMs": 72.9,
+     "frameMaxMs": 4.6
+    },
+    "brMaxMs": 58.8,
+    "seconds": 30.4
+   },
+   "standing": {
+    "frames": 9,
+    "pageMs": {
+     "mean": 515.6,
+     "p95": 556.5
+    },
+    "brMs": {
+     "mean": 34.66,
+     "p95": 52.1,
+     "max": 52.1,
+     "frames": 90,
+     "sampled": 10
+    },
+    "lamps": 7,
+    "builds": 0,
+    "farBuilds": 0
+   },
+   "walking": {
+    "frames": 10,
+    "pageMs": {
+     "mean": 568.5,
+     "p95": 698.5
+    },
+    "brMs": {
+     "mean": 33.864,
+     "p95": 44.1,
+     "max": 44.1,
+     "frames": 102,
+     "sampled": 11
+    },
+    "lamps": 9,
+    "builds": 0,
+    "farBuilds": 0
+   }
+  },
+  {
+   "tier": "medium",
+   "scene": "PILLAR HALL",
+   "warmUp": {
+    "lampBuilds": 8,
+    "lampBuildMs": 29.3,
+    "lampBuildMaxMs": 4.4,
+    "far": {
+     "builds": 13,
+     "buildMs": 148.7,
+     "frameMaxMs": 5.5
+    },
+    "brMaxMs": 67.3,
+    "seconds": 48.9
+   },
+   "standing": {
+    "frames": 8,
+    "pageMs": {
+     "mean": 607.1,
+     "p95": 630.8
+    },
+    "brMs": {
+     "mean": 44.7,
+     "p95": 54.9,
+     "max": 54.9,
+     "frames": 171,
+     "sampled": 9
+    },
+    "lamps": 10,
+    "builds": 0,
+    "farBuilds": 0
+   },
+   "walking": {
+    "frames": 10,
+    "pageMs": {
+     "mean": 612.1,
+     "p95": 808.4
+    },
+    "brMs": {
+     "mean": 44.818,
+     "p95": 57.9,
+     "max": 57.9,
+     "frames": 183,
+     "sampled": 11
+    },
+    "lamps": 9,
+    "builds": 0,
+    "farBuilds": 0
+   }
+  },
+  {
+   "tier": "medium",
+   "scene": "REPEATING ROOMS (overlap)",
+   "warmUp": {
+    "lampBuilds": 1,
+    "lampBuildMs": 14,
+    "lampBuildMaxMs": 14,
+    "far": {
+     "builds": 3,
+     "buildMs": 48,
+     "frameMaxMs": 5.4
+    },
+    "brMaxMs": 100.7,
+    "seconds": 29
+   },
+   "standing": {
+    "frames": 8,
+    "pageMs": {
+     "mean": 610.5,
+     "p95": 661.9
+    },
+    "brMs": {
+     "mean": 41.389,
+     "p95": 52.9,
+     "max": 52.9,
+     "frames": 220,
+     "sampled": 9
+    },
+    "lamps": 10,
+    "builds": 0,
+    "farBuilds": 0
+   },
+   "walking": {
+    "frames": 9,
+    "pageMs": {
+     "mean": 637.8,
+     "p95": 735
+    },
+    "brMs": {
+     "mean": 44,
+     "p95": 59.9,
+     "max": 59.9,
+     "frames": 231,
+     "sampled": 10
+    },
+    "lamps": 10,
+    "builds": 4,
+    "farBuilds": 1
+   }
+  },
+  {
+   "tier": "medium",
+   "scene": "corridor mouth",
+   "warmUp": {
+    "lampBuilds": 11,
+    "lampBuildMs": 46.7,
+    "lampBuildMaxMs": 6.9,
+    "far": {
+     "builds": 15,
+     "buildMs": 161,
+     "frameMaxMs": 6.1
+    },
+    "brMaxMs": 46.8,
+    "seconds": 36.2
+   },
+   "standing": {
+    "frames": 12,
+    "pageMs": {
+     "mean": 387.2,
+     "p95": 414.9
+    },
+    "brMs": {
+     "mean": 22.338,
+     "p95": 25.5,
+     "max": 32.4,
+     "frames": 308,
+     "sampled": 13
+    },
+    "lamps": 8,
+    "builds": 0,
+    "farBuilds": 0
+   },
+   "walking": {
+    "frames": 11,
+    "pageMs": {
+     "mean": 461.1,
+     "p95": 603.1
+    },
+    "brMs": {
+     "mean": 33.35,
+     "p95": 37.4,
+     "max": 84.1,
+     "frames": 321,
+     "sampled": 12
+    },
+    "lamps": 9,
+    "builds": 2,
+    "farBuilds": 2
+   }
+  },
+  {
+   "tier": "high",
+   "scene": "YELLOW HALL (open room)",
+   "warmUp": {
+    "lampBuilds": 7,
+    "lampBuildMs": 135.3,
+    "lampBuildMaxMs": 45.3,
+    "far": {
+     "builds": 11,
+     "buildMs": 202.7,
+     "frameMaxMs": 8.6
+    },
+    "brMaxMs": 109,
+    "seconds": 48.2
+   },
+   "standing": {
+    "frames": 9,
+    "pageMs": {
+     "mean": 556.7,
+     "p95": 605.8
+    },
+    "brMs": {
+     "mean": 62.59,
+     "p95": 83.4,
+     "max": 83.4,
+     "frames": 392,
+     "sampled": 10
+    },
+    "lamps": 7,
+    "builds": 0,
+    "farBuilds": 0
+   },
+   "walking": {
+    "frames": 10,
+    "pageMs": {
+     "mean": 570.8,
+     "p95": 743.9
+    },
+    "brMs": {
+     "mean": 66.318,
+     "p95": 100.4,
+     "max": 100.4,
+     "frames": 404,
+     "sampled": 11
+    },
+    "lamps": 9,
+    "builds": 4,
+    "farBuilds": 2
+   }
+  },
+  {
+   "tier": "high",
+   "scene": "PILLAR HALL",
+   "warmUp": {
+    "lampBuilds": 11,
+    "lampBuildMs": 132.1,
+    "lampBuildMaxMs": 18.3,
+    "far": {
+     "builds": 14,
+     "buildMs": 237.6,
+     "frameMaxMs": 6.5
+    },
+    "brMaxMs": 133.7,
+    "seconds": 57.8
+   },
+   "standing": {
+    "frames": 8,
+    "pageMs": {
+     "mean": 624.7,
+     "p95": 669.5
+    },
+    "brMs": {
+     "mean": 75.967,
+     "p95": 90,
+     "max": 90,
+     "frames": 485,
+     "sampled": 9
+    },
+    "lamps": 11,
+    "builds": 0,
+    "farBuilds": 0
+   },
+   "walking": {
+    "frames": 9,
+    "pageMs": {
+     "mean": 637.5,
+     "p95": 779.6
+    },
+    "brMs": {
+     "mean": 75.48,
+     "p95": 83.1,
+     "max": 83.1,
+     "frames": 496,
+     "sampled": 10
+    },
+    "lamps": 9,
+    "builds": 0,
+    "farBuilds": 0
+   }
+  },
+  {
+   "tier": "high",
+   "scene": "REPEATING ROOMS (overlap)",
+   "warmUp": {
+    "lampBuilds": 3,
+    "lampBuildMs": 71.8,
+    "lampBuildMaxMs": 49.2,
+    "far": {
+     "builds": 5,
+     "buildMs": 85.7,
+     "frameMaxMs": 6
+    },
+    "brMaxMs": 120.9,
+    "seconds": 33.3
+   },
+   "standing": {
+    "frames": 8,
+    "pageMs": {
+     "mean": 609.3,
+     "p95": 637.3
+    },
+    "brMs": {
+     "mean": 71.133,
+     "p95": 81.2,
+     "max": 81.2,
+     "frames": 541,
+     "sampled": 9
+    },
+    "lamps": 12,
+    "builds": 0,
+    "farBuilds": 0
+   },
+   "walking": {
+    "frames": 9,
+    "pageMs": {
+     "mean": 657.9,
+     "p95": 761.4
+    },
+    "brMs": {
+     "mean": 86.33,
+     "p95": 146.2,
+     "max": 146.2,
+     "frames": 552,
+     "sampled": 10
+    },
+    "lamps": 13,
+    "builds": 3,
+    "farBuilds": 1
+   }
+  },
+  {
+   "tier": "high",
+   "scene": "corridor mouth",
+   "warmUp": {
+    "lampBuilds": 8,
+    "lampBuildMs": 81.8,
+    "lampBuildMaxMs": 15.8,
+    "far": {
+     "builds": 12,
+     "buildMs": 197.7,
+     "frameMaxMs": 5
+    },
+    "brMaxMs": 73,
+    "seconds": 35.2
+   },
+   "standing": {
+    "frames": 12,
+    "pageMs": {
+     "mean": 402.7,
+     "p95": 432.1
+    },
+    "brMs": {
+     "mean": 38.915,
+     "p95": 43.3,
+     "max": 47.9,
+     "frames": 625,
+     "sampled": 13
+    },
+    "lamps": 8,
+    "builds": 0,
+    "farBuilds": 0
+   },
+   "walking": {
+    "frames": 13,
+    "pageMs": {
+     "mean": 439.8,
+     "p95": 510.4
+    },
+    "brMs": {
+     "mean": 47.65,
+     "p95": 77.5,
+     "max": 85.2,
+     "frames": 640,
+     "sampled": 14
+    },
+    "lamps": 9,
+    "builds": 2,
+    "farBuilds": 2
+   }
+  }
+ ],
+ "version": "br-role 1.1",
+ "errs": []
+}

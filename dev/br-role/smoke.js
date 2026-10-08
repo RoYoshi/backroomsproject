@@ -5,7 +5,8 @@
  * K01 the page loads, BR-RoLE owns the light (frames drawn by it, not by the legacy path), no page / console error
  * K02 mixed light, read from the darkness overlay's own pixels at the QA01 spot (frozen clock): where the spawn lamp is
  *     blocked, your beam alone lights the floor (the blackout changes nothing there); where both reach, their light ADDS:
- *     L(lamp+beam) = L(beam) + L(lamp) - L(ambient), within 8-bit rounding
+ *     L(lamp+beam) = L(beam) + L(lamp) - L(ambient), within 8-bit rounding  (BR-RoLE 1.1: no ambient glow, L(ambient) = 0;
+ *     bounce light off for these direct-light checks)
  * K03 tiers: the light buffer follows the CSS viewport (x .5 / .75 / 1.0), the same on a DPR-2 page
  * K04 gameplay untouched: the client sends the same kinds of messages with BR-RoLE and with the legacy lighting
  * K05 DEV switch: the legacy lighting still draws when asked (comparison only), and BR-RoLE takes back over
@@ -38,6 +39,10 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
   try {
     const room = 'brsmoke' + Date.now() % 1e5, J = await H.join(browser, PORT, room, 'K'), P = J.P;
     await H.stage(P); await H.setLights(P, 'off');
+    /* BR-RoLE 1.1: these checks read the DIRECT light's composition and blocking from the overlay's pixels.  Bounce light is
+     * legitimate light round a blocker (checked in dev/stage-3b-l/occlusion_3bl.js), so it is off here: a blocked spot then
+     * really receives no lamp light (other lamps' faint tails are kept under half an 8-bit step by the spot choice) */
+    await P.evaluate(() => __brRole.dev.spill && __brRole.dev.spill(false));
     await P.evaluate(() => document.querySelectorAll('header,.location,.coordinates,#hud').forEach(e => e.style.visibility = 'hidden'));
     await frames(P, 30);
     const s1 = await P.evaluate(() => __brRole.stats()), s1b = (await frames(P, 20), await P.evaluate(() => __brRole.stats()));
@@ -50,9 +55,9 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     await P.evaluate(() => __clock.freeze(true)); await frames(P, 4);
     const pick = await P.evaluate(([X, Y]) => { let blocked = null, both = null;
       for (let d = 70; d < 300; d += 6) for (let o = -40; o <= 40; o += 4) { const a = Math.atan2(3400 - Y, 930 - X), x = X + Math.cos(a) * d - Math.sin(a) * o, y = Y + Math.sin(a) * d + Math.cos(a) * o, pr = __brRole.probe(x, y);
-        const lamp = pr.lamps.reduce((s, l) => s + l.light, 0), beam = pr.carried.reduce((s, c) => s + c.light, 0);
-        const clear = [[12, 0], [-12, 0], [0, 12], [0, -12], [9, 9], [-9, -9], [9, -9], [-9, 9]].every(([u, v]) => __brRole.probe(x + u, y + v).lamps.every(l => l.light === 0));   // well inside the lamp's shadow (the buffer is soft at its edges)
-        if (!blocked && lamp === 0 && clear && beam > .2 && pr.lamps.some(l => l.i === 4) && Math.hypot(x - 1008, y - 3312) < 330) blocked = [x, y, beam];
+        const lamp = pr.lamps.reduce((s, l) => s + l.light, 0), beam = pr.carried.reduce((s, c) => s + c.light, 0), l4 = pr.lamps.find(l => l.i === 4);   // BR-RoLE 1.1: the spawn lamp (4) blocked; other lamps' faint tails may reach the spot (kept small)
+        const clear = [[12, 0], [-12, 0], [0, 12], [0, -12], [9, 9], [-9, -9], [9, -9], [-9, 9]].every(([u, v]) => { const q = __brRole.probe(x + u, y + v).lamps.find(l => l.i === 4); return !q || q.light === 0; });
+        if (!blocked && l4 && l4.light === 0 && lamp < 2 / 255 && clear && beam > .2 && pr.lamps.some(l => l.i === 4) && Math.hypot(x - 1008, y - 3312) < 330) blocked = [x, y, beam];
         if (!both && lamp > .06 && beam > .15 && beam + lamp < .65) both = [x, y, beam, lamp];   /* mid-range: well below where the 8-bit overlay and the vignette compress */ }
       return { blocked, both }; }, [X, Y]);
     /* read the overlay at those world points (screen = world * scale + offset, the scale / offset the game used this frame) */
@@ -68,7 +73,8 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
       return pts.map(([wx, wy]) => { const sx = Math.round(wx * M.r + M.ox), sy = Math.round(wy * M.r + M.oy), d = x.getImageData(sx - 1, sy - 1, 3, 3).data; let a = 0; for (let k = 3; k < d.length; k += 4) a += d[k]; return 1 - a / 9 / 255; }); }, [pick.blocked, pick.both].map(p => [p[0], p[1]]));
     const L = await states(read);
     const [bl, bo] = [0, 1], tol = 3 / 255;
-    const blockedOk = Math.abs(L.lampBeam[bl] - L.beam[bl]) <= tol && L.lampBeam[bl] > L.lamp[bl] + .1;
+    /* blocked: the lamps add there only what they add without the beam (other lamps' faint tails, at most ~2/255): the blocked spawn lamp adds nothing */
+    const blockedOk = Math.abs((L.lampBeam[bl] - L.beam[bl]) - (L.lamp[bl] - L.amb[bl])) <= tol && L.lamp[bl] - L.amb[bl] <= 2 / 255 + tol && L.lampBeam[bl] > L.lamp[bl] + .1;
     const addOk = L.lampBeam[bo] > L.beam[bo] + tol && Math.abs(L.lampBeam[bo] - (L.beam[bo] + L.lamp[bo] - L.amb[bo])) <= 2 * tol;
     check('K02 mixed light by composition: where the lamp is blocked your beam alone lights the floor; where both reach they add', blockedOk && addOk,
       `blocked spot ${pick.blocked.slice(0, 2).map(Math.round)}: lamp+beam ${L.lampBeam[bl].toFixed(3)} = beam alone ${L.beam[bl].toFixed(3)} (lamp alone ${L.lamp[bl].toFixed(3)}, ambient ${L.amb[bl].toFixed(3)}); both spot ${pick.both.slice(0, 2).map(Math.round)}: lamp+beam ${L.lampBeam[bo].toFixed(3)} vs beam + lamp - ambient ${(L.beam[bo] + L.lamp[bo] - L.amb[bo]).toFixed(3)}`);
@@ -77,10 +83,10 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     /* K07 / K08: counter L4 (3272..3544 x 984..1032), lamps 31 (3600, 912) and 29 (3120, 912) above it */
     await H.place(P, 3400, 1250, -Math.PI / 2, { light: true }); await sleep(900); await frames(P, 6);
     await P.evaluate(() => __clock.freeze(true)); await frames(P, 4);
-    const k7 = await P.evaluate(() => { const ok = (x, y) => { const r = __brRole.probe(x, y); return r.lamps.some(l => l.i === 31) && r.lamps.every(l => l.light === 0) && r.carried[0] && r.carried[0].light > .2; };
+    const k7 = await P.evaluate(() => { const ok = (x, y) => { const r = __brRole.probe(x, y); return r.lamps.some(l => l.i === 31) && r.lamps.filter(l => l.i === 31 || l.i === 29).every(l => l.light === 0) && r.lamps.reduce((s, l) => s + l.light, 0) < 6 / 255 && r.carried[0] && r.carried[0].light > .2; };   // BR-RoLE 1.1: 31 / 29 blocked; other lamps' faint tails small
       for (let y = 1046; y < 1100; y += 3) for (let x = 3330; x < 3520; x += 4) if ([[0, 0], [10, 0], [-10, 0], [0, 10], [0, -10], [7, 7], [-7, 7], [7, -7], [-7, -7]].every(([u, v]) => ok(x + u, y + v))) return [x, y]; return null; });
     const L7 = await states(reader([k7]));
-    const k7ok = !!k7 && Math.abs(L7.lampBeam[0] - L7.beam[0]) <= 3 / 255 && Math.abs(L7.lamp[0] - L7.amb[0]) <= 3 / 255 && L7.beam[0] > L7.amb[0] + .1;
+    const k7ok = !!k7 && Math.abs((L7.lampBeam[0] - L7.beam[0]) - (L7.lamp[0] - L7.amb[0])) <= 3 / 255 && L7.lamp[0] - L7.amb[0] <= 8 / 255 && L7.beam[0] > L7.amb[0] + .1;
     check('K07 BR2A the counter shadows the lamps; your flashlight from the open side fills that shadow (pixels)', k7ok,
       `spot ${k7}: lamp+beam ${L7.lampBeam[0].toFixed(3)} = beam alone ${L7.beam[0].toFixed(3)}; lamp alone ${L7.lamp[0].toFixed(3)} = ambient ${L7.amb[0].toFixed(3)}`);
     await P.evaluate(() => __clock.thaw());
@@ -88,9 +94,9 @@ const get = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path
     await H.place(P, 3430, 880, aim8, { light: true }); await sleep(900); await frames(P, 6);
     await P.evaluate(() => __clock.freeze(true)); await frames(P, 4);
     const k8 = await P.evaluate(([X, Y]) => { const H = __api.H, b = __api.beam && __api.beam() || H, pr = __brRole.probe(X, Y), a = Math.atan2(Y - b.y, X - b.x), ref = [b.x + Math.cos(a) * 70, b.y + Math.sin(a) * 70];
-      return { blocked: pr.carried[0] && pr.carried[0].light === 0 && pr.lamps.every(l => l.light === 0), ref, refLight: __brRole.probe(ref[0], ref[1]).carried[0].light }; }, k7);
+      return { blocked: pr.carried[0] && pr.carried[0].light === 0 && pr.lamps.filter(l => l.i === 31 || l.i === 29).every(l => l.light === 0), ref, refLight: __brRole.probe(ref[0], ref[1]).carried[0].light }; }, k7);
     const L8 = await states(reader([k7, k8.ref]));
-    const k8ok = k8.blocked && Math.abs(L8.lampBeam[0] - L8.amb[0]) <= 3 / 255 && Math.abs(L8.beam[0] - L8.amb[0]) <= 3 / 255 && L8.beam[1] > L8.amb[1] + .1;
+    const k8ok = k8.blocked && Math.abs(L8.lampBeam[0] - L8.lamp[0]) <= 3 / 255 && Math.abs(L8.beam[0] - L8.amb[0]) <= 3 / 255 && L8.lamp[0] - L8.amb[0] <= 8 / 255 && L8.beam[1] > L8.amb[1] + .1;   // the beam adds nothing; the lamps only other lamps' faint tails
     check('K08 BR2A the same counter blocks the lamps AND your flashlight from their side: behind it nothing adds (pixels)', k8ok,
       `spot ${k7}: lamp+beam ${L8.lampBeam[0].toFixed(3)}, beam alone ${L8.beam[0].toFixed(3)}, ambient ${L8.amb[0].toFixed(3)}; the beam before the counter ${L8.beam[1].toFixed(3)} (ambient ${L8.amb[1].toFixed(3)})`);
     await P.evaluate(() => __clock.thaw());
