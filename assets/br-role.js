@@ -39,6 +39,12 @@
  *     extrude): a convex corner's square is split on its diagonal between the two faces (QA1 gave it whole to the front /
  *     back face), an inner corner's block is lit from both faces (QA1 left it dark), and a light close to a wall steps along
  *     it in pieces of at most FACE.da (QA1: 32 px steps).  (The line of sight's clip shows the same bands: the bundle's Hl);
+ *   - NIGHT VISION: the camcorder's infrared is a BR-RoLE light while this player's sensor is on (irLight): each emitter
+ *     the sensor sees (window.__cam.irLights) - a field of the camcorder's own picture (__cam.irProfile: v23's stacked fans
+ *     made smooth - its range, core and outer field, a soft rim and tail; no stepped cone, no hard rim), the shadows walls,
+ *     pillars and props cast into it from the lens, the wall / pillar faces it reaches, a small spill at the lens - added to
+ *     the picture.  A sensor channel: never a visible light (no colour, nothing in it without the sensor), never light
+ *     truth (the server never has it); nothing is computed while the sensor is off.  The bundle's old infrared fans stand down while BR-RoLE draws it.
  *
  * One model, every light on its own:   visible light = Σ fieldᵢ · (1 − shadowᵢ) + Σ bounceᵢ
  *   LIGHT FIELD -> BLOCKER -> CAST SHADOW -> ADD SURVIVING LIGHTS.  Never "light = visibility polygon".
@@ -59,8 +65,8 @@
  *   - the darkness overlay (#light, the game's own canvas) then loses exactly the accumulated light (destination-out),
  *     inside the game's own line-of-sight clip, and carried lights lay their colour tint on top (summed: crossing colours
  *     average).
- * The game's drawLight() keeps everything else it draws: the line-of-sight blackout, the camcorder's infrared, the
- * vignette, the death presentation and the Smilers' faces.  It hands the light cut-outs to BR-RoLE through one guarded hook
+ * The game's drawLight() keeps everything else it draws: the line-of-sight blackout, the camcorder's infrared (QA2: only
+ * while BR-RoLE is off - BR-RoLE draws it), the vignette, the death presentation and the Smilers' faces.  It hands the light cut-outs to BR-RoLE through one guarded hook
  * (window.__brRole.on() / draw()).  If anything here throws, BR-RoLE switches itself off and drawLight draws v23.3.6.
  *
  * Light truth is not touched: the server AI (ai.js), light.js (__light, the Smiler's readability) and the bundle's Ul()
@@ -161,9 +167,9 @@
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
     lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
     layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0,
-    tpl: null, sightFade: true, skip: {}, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, facesOn: true, solo: null, cbOn: true, cb: null, cbx: null, cbUsed: false, fbDiv: 8, rooms: null };
+    tpl: null, sightFade: true, skip: {}, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, facesOn: true, solo: null, cbOn: true, cb: null, cbx: null, cbUsed: false, fbDiv: 8, rooms: null, irOn: true };
   const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampBuildMax: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0,
-    faceDraws: 0, farBuilds: 0, farMs: 0, farStepMax: 0, farPh: [0, 0, 0, 0], emitters: 0, emittersMax: 0, fars: 0 };
+    faceDraws: 0, farBuilds: 0, farMs: 0, farStepMax: 0, farPh: [0, 0, 0, 0], emitters: 0, emittersMax: 0, fars: 0, ir: 0 };
 
   /* ---------- quality: URL > remembered > device default (touch / small screen -> LOW); ?lighting=legacy is DEV only ---------- */
   function initialQuality() {
@@ -686,6 +692,14 @@
       S.propLeft = cfg.propFrame; ST.props = 0;                            // prop casters for all carried lights this frame (yours first)
       const carRecs = [];
       for (const Lc of lights) if (meet(Lc.x, Lc.y, Lc.f.range)) { const r = prepCarried(Lc, cfg); if (r) carRecs.push(r); }
+      /* QA2: the camcorder's infrared, only while this player's night-vision sensor is on: yours, then the nearest other
+       * camcorders' (the tier's peer cap), each a light of its own */
+      const irRecs = [], CAM = window.__cam;
+      if (S.irOn && CAM && CAM.nv && typeof CAM.irLights === 'function' && CAM.irProfile) {
+        const src = F.death || !F.src ? null : { x: F.src.x, y: F.src.y, angle: F.src.angle ?? (A.H && A.H.angle) ?? 0 };
+        const es = CAM.irLights(src).map(e => [e.own ? -1 : Math.hypot(e.x - V.x, e.y - V.y), e]).sort((a, b) => a[0] - b[0]);
+        let npi = 0; for (const [, e] of es) { if (!e.own && npi++ >= cfg.peers) break; if (!meet(e.x, e.y, e.P.range)) continue; const r = prepIR(e, cfg); if (r) irRecs.push(r); }
+      }
 
       /* actors (BR2B): each blocks its dominant light only - known before any light is drawn */
       actorShadows(F, cfg, lampRecs, carRecs);
@@ -696,6 +710,8 @@
       { const d = S.fbUsed && !S.skip.fb && boxOf(S.fbD, fbw, fbh); if (d) { bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.globalAlpha = 1 / LAMP.fg; bx.imageSmoothingEnabled = true; bx.drawImage(S.fb, d[0], d[1], d[2] - d[0], d[3] - d[1], d[0] * FD, d[1] * FD, (d[2] - d[0]) * FD, (d[3] - d[1]) * FD); bx.restore(); } }
       /* the carried lights */
       for (const r of carRecs) carried(r, F, cfg, k, rec);
+      /* QA2: the infrared (the sensor's picture) */
+      rec.ir = []; for (const r of irRecs) irLight(r, F, cfg, k, rec); ST.ir = irRecs.length;
 
       /* BR-RoLE 1.1: the sight limit is not a hard circle of light.  drawLight's line of sight (its clip, unchanged) ends
        * SIGHT.r from the viewer; every light fades out over the last SIGHT.fade before it, so lit floor never ends in a sharp
@@ -857,6 +873,56 @@
     }
     sx.setTransform(1, 0, 0, 1, 0, 0);
     rec.carried.push({ x: Lc.x, y: Lc.y, ang: Lc.ang, R, arc: f.arc, omni: !!f.omni, power, smp: r.smp, props: r.props, gprops: r.gprops, sh: r.sh, glowR: Lc.glowR, glowA: Lc.glowA * w, own: r.own, tint });
+  }
+
+  /* QA2: an infrared emitter (window.__cam.irLights: { x, y, angle, P: the camcorder's IR level, own }) before anything is
+   * drawn: its source points across the lens, its cone, the prop casters (the frame's prop budget, after the visible lights) */
+  function prepIR(e, cfg) {
+    const A = window.__api; if (A.Hc(Math.floor(e.x / T), Math.floor(e.y / T))) return null;
+    const P = e.P, R = P.range, cone = [e.angle, P.arc / 2 + .2], sh = CARRY.h.flashlight, prof = window.__cam.irProfile;
+    const props = propsFor(e.x, e.y, R + 8, cone, Math.min(cfg.props, S.propLeft)); S.propLeft -= props.length; ST.props += props.length;
+    const gprops = propsFor(e.x, e.y, prof.spillR + 4, null, Math.min(cfg.props, S.propLeft)); S.propLeft -= gprops.length; ST.props += gprops.length;
+    return { e, x: e.x, y: e.y, ang: e.angle, P, R, cone, sh, props, gprops, prof, smp: sourcePoints(e.x, e.y, e.angle, false, cfg.src), own: !!e.own };
+  }
+  /* QA2: one infrared emitter, BR-RoLE-style: its field (the camcorder's own picture: power x radial(d / range) x angular),
+   * the shadows walls, pillars and props cast into it from the lens, the wall / pillar faces it reaches (extrude), added to
+   * the buffer (no colour: the sensor's picture is tinted by the camcorder's own overlay); then the spill at the lens, with
+   * the shadows cast from the lens.  Exactly like a carried light, so no wall is lit through and nothing lit past a corner */
+  function irLight(r, F, cfg, k, rec) {
+    const sx = S.sx, P = r.P, R = r.R, sc = cfg.scale, prof = r.prof, TAU = Math.PI * 2;
+    const hw = prof.halfWidth ? prof.halfWidth(P) : P.arc / 2, bb = sectorBox(r.x, r.y, R, r.ang, hw + .05, F, sc);   // (the cone out to where its soft rim ends)
+    if (bb) {
+      const bbw = bb[2] - bb[0], bbh = bb[3] - bb[1];
+      sx.setTransform(1, 0, 0, 1, 0, 0); sx.globalCompositeOperation = 'source-over'; sx.globalAlpha = 1; sx.clearRect(bb[0], bb[1], bbw, bbh);
+      boxClip(sx, bb); sx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc);
+      const g = sx.createRadialGradient(r.x, r.y, 6, r.x, r.y, R);         // the radial profile, finely sampled (its tail smooth to the range)
+      for (let i = 0; i <= 24; i++) { const u = i / 24; g.addColorStop(u, rgba(P.power * prof.radial((6 + u * (R - 6)) / R, P))); }
+      sx.fillStyle = g; sx.fillRect(r.x - R, r.y - R, R * 2, R * 2);
+      sx.globalCompositeOperation = 'destination-in';
+      if (typeof sx.createConicGradient === 'function') {                  // the angular profile: core, outer field, no edge
+        const cg = sx.createConicGradient(r.ang - Math.PI, r.x, r.y);
+        for (let i = 0; i <= 32; i++) { const ph = hw * i / 32, v = rgba(prof.angular(ph, P)); cg.addColorStop(clamp(.5 - ph / TAU, 0, 1), v); cg.addColorStop(clamp(.5 + ph / TAU, 0, 1), v); }
+        cg.addColorStop(clamp(.5 - (hw + .002) / TAU, 0, 1), rgba(0)); cg.addColorStop(clamp(.5 + (hw + .002) / TAU, 0, 1), rgba(0));   // (nothing past the rim)
+        cg.addColorStop(0, rgba(0)); cg.addColorStop(1, rgba(0)); sx.fillStyle = cg; sx.fillRect(r.x - R, r.y - R, R * 2, R * 2);
+      } else { sx.beginPath(); sx.moveTo(r.x, r.y); sx.arc(r.x, r.y, R, r.ang - hw, r.ang + hw); sx.closePath(); sx.fillStyle = rgba(1); sx.fill(); }
+      sx.globalCompositeOperation = 'source-over';
+      castInto(sx, r.smp, R + 8, r.cone, F, k, sc, bb, { props: r.props, sh: r.sh, kmax: CARRY.kmax });
+      if (!S.ctmp || S.ctmp.width !== S.scr.width || S.ctmp.height !== S.scr.height) { S.ctmp = mkCanvas(S.scr.width, S.scr.height); S.cx = S.ctmp.getContext('2d'); }
+      sx.restore(); sx.save(); extrude(sx, S.ctmp, k, F.ox * sc, F.oy * sc, r.x, r.y, R + 8, bb); sx.restore();
+      const bx = S.bx; bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.drawImage(S.scr, bb[0], bb[1], bbw, bbh, bb[0], bb[1], bbw, bbh); bx.restore();
+    }
+    /* the spill at the lens (the camcorder's: .3 inside 20 px, gone by 70), shadowed from the lens */
+    const gR = prof.spillR, gb = boxAt(r.x, r.y, gR, F, sc);
+    if (gb) {
+      sx.setTransform(1, 0, 0, 1, 0, 0); sx.globalCompositeOperation = 'source-over'; sx.globalAlpha = 1; sx.clearRect(gb[0], gb[1], gb[2] - gb[0], gb[3] - gb[1]);
+      sx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc);
+      const gg = sx.createRadialGradient(r.x, r.y, 0, r.x, r.y, gR); for (let i = 0; i <= 10; i++) gg.addColorStop(i / 10, rgba(prof.spill(i / 10 * gR)));
+      sx.fillStyle = gg; sx.fillRect(r.x - gR, r.y - gR, gR * 2, gR * 2);
+      castInto(sx, [r.x, r.y], gR + 4, null, F, k, sc, gb, { props: r.gprops, sh: r.sh, kmax: CARRY.kmax });
+      const bx = S.bx; bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.drawImage(S.scr, gb[0], gb[1], gb[2] - gb[0], gb[3] - gb[1], gb[0], gb[1], gb[2] - gb[0], gb[3] - gb[1]); bx.restore();
+    }
+    sx.setTransform(1, 0, 0, 1, 0, 0);
+    rec.ir.push({ x: r.x, y: r.y, ang: r.ang, R, arc: P.arc, core: P.core, power: P.power, lvl: r.e.lvl, own: r.own, smp: r.smp });
   }
 
   /* ---------- the static wall grounding (SH7 donor, ADAPT) ---------- */
@@ -1133,6 +1199,7 @@
     version: VERSION,
     on,
     draw,
+    get ir() { return S.irOn; },                                       // QA2: BR-RoLE draws the camcorder's infrared (camcorder.js's own fans stand down)
     quality: () => S.quality,
     setQuality: q => setQuality(q, false),
     qualities: () => QUALITIES.slice(),
@@ -1140,7 +1207,7 @@
     stats: () => ({ version: VERSION, quality: S.quality, on: on(), legacy: S.legacy, disabled: S.disabled, attached: S.attached, frames: ST.frames, frameMs: msStats(), buffer: ST.buf.slice(),
       lamps: { last: ST.lamps, max: ST.lampsMax, cap: TIERS[S.quality].lamps, cached: S.lampCache.size, cacheCap: TIERS[S.quality].lampCache, pending: S.pending.size, builds: ST.lampBuilds, buildMs: +ST.lampBuildMs.toFixed(2), buildMaxMs: +ST.lampBuildMax.toFixed(2), evictions: ST.lampEvictions, tube: TIERS[S.quality].tube, blur: S.blur },
       far: { drawn: ST.fars, cached: [...S.lampCache.values()].filter(C => C.far).length, building: S.farJob ? S.farJob.i : null, builds: ST.farBuilds, buildMs: +ST.farMs.toFixed(2), frameMaxMs: +ST.farStepMax.toFixed(2), phaseMaxMs: ST.farPh.slice(), bouncePoints: ST.emitters, bouncePointsMax: ST.emittersMax, spill: S.spillOn, res: TIERS[S.quality].farRes },
-      carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn, castDraws: ST.casts, actorsShaded: ST.shaded, selfShadeDraws: ST.shadeDraws },
+      carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, ir: { on: S.irOn, last: ST.ir }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn, castDraws: ST.casts, actorsShaded: ST.shaded, selfShadeDraws: ST.shadeDraws },
       blockers: { sides: S.nEdges || 0, pillars: S.pillars || 0, props: S.props.length, propKinds: [...new Set(S.props.map(p => p.kind))] },
       props: { last: ST.props, max: ST.propsMax, drawsThisFrame: ST.propDraws, perLight: TIERS[S.quality].props, perFrame: TIERS[S.quality].propFrame }, errors: ST.errors }),
     resetStats: () => { ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; ST.lampBuilds = 0; ST.lampBuildMs = 0; ST.lampBuildMax = 0; ST.lampEvictions = 0; ST.farBuilds = 0; ST.farMs = 0; ST.farStepMax = 0; ST.farPh = [0, 0, 0, 0]; ST.emittersMax = 0; },
@@ -1174,6 +1241,8 @@
         return out; },
       /* QA1, DEV only (tests): the surface receivers (face light) off / on; every lamp cache is rebuilt */
       faces: v => { if (v !== undefined && !!v !== S.facesOn) { S.facesOn = !!v; S.lampKey = null; } return S.facesOn; },
+      ir: v => { if (v !== undefined) S.irOn = !!v; return S.irOn; },   // QA2, DEV only (A/B): BR-RoLE's infrared off = the camcorder's old fans
+      irLast: () => S.last && S.last.ir ? S.last.ir.map(o => Object.assign({}, o, { smp: o.smp.slice() })) : [],
       vis: v => { if (v !== undefined && Number.isFinite(+v) && +v > 0) LAMP.vis = Math.min(3, +v); return LAMP.vis; },
       cb: v => { if (v !== undefined) S.cbOn = !!v; return S.cbOn; },   // QA1, DEV only (A/B): the lamps' half-resolution core buffer off / on
       fbDiv: v => { if (v === 4 || v === 8) S.fbDiv = v; return S.fbDiv; },   // QA1, DEV only (A/B): the far buffer at a quarter (1.1) or an eighth (QA1) of the light buffer

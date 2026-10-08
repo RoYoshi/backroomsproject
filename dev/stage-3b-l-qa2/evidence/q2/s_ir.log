@@ -1,0 +1,8 @@
+PASS I1 infrared never reaches the simulation: ai.js / sim.js do not name it; server.js stores it on the connection, not on the player  [2ms]
+       infrared names in ai.js 0, in sim.js 0; server.js writes it on the player false, on the connection true, relays it to the other clients true
+PASS I2 toggling infrared alone changes no AI decision (OFF vs HIGH, same world, same players, tick by tick)  [1841ms]
+       4/4 worlds identical over 1500 ticks with infrared OFF and HIGH (kills in the runs: 3,3,3,3)
+PASS I3 a raised camcorder is no light to the AI: no lit player, no light evidence from it  [93ms]
+       visible light false; lit players the AI knows of 0; light leads 0
+
+3/3 passed

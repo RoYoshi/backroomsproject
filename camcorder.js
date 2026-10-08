@@ -19,6 +19,18 @@
      OVEREXPOSURE          HIGH (and LOW, less) pointed at a surface close to the lens floods the picture: the near
                            image blooms and distant detail washes out, easing in and out.
 
+   Stage 3B-L QA2 - THE INFRARED IS DRAWN BY BR-RoLE.  The illuminator's picture is no longer a stack of wall-clipped fans
+   (a stepped cone with a hard rim and a flat disc at the lens): while this sensor is on, BR-RoLE lights every emitter it
+   sees (yours, and other camcorders') as a carried light of its own - its field, the shadows walls, pillars and props cast
+   from the lens, and the wall / pillar faces it reaches - added to the picture inside the line of sight (irLights below).
+   Its field (irProfile) is v23's own picture made smooth: the six stacked fans' coverage - the core under all six, the
+   outer field under fewer, each fan out to its own range - with every step eased into the next and the edge and the end of
+   the range faded (no stepped cone, no rim); the same range, power, core and arc.  What the sensor reads (irFrom: an
+   entity's readability) keeps v23's own profile, with its two hard places eased: the step at the core's edge (over
+   +-.075 rad) and the straight ramp over the last 30 % of the range (a smooth tail).  Still a sensor channel only: never
+   sent to the AI, never counted as visible light, nothing without this player's sensor on.  (If BR-RoLE is off the old
+   fans draw it.)
+
    ---------------------------------------------------------------------------------------------
    BALANCE  – every number is in CFG below (also live-editable from the console: __cam.CFG.X = …)
    ---------------------------------------------------------------------------------------------
@@ -175,24 +187,42 @@ body.cam-kind #touch .camBtn{display:inline-block}
   const irNow = () => nvNow() && !S.locked ? S.ir : 0;               // the emitter: 0 off / 1 low / 2 high
   const angDiff = (a, b) => { let d = a - b; while (d > Math.PI) d -= 2 * Math.PI; while (d < -Math.PI) d += 2 * Math.PI; return d; };
   const ss = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+  /* QA2: the sensor's reading of the field (irFrom).  radial (u = d / range): v23's 1, .83 at .25, .28 at .7, then a
+   * smooth (Hermite) tail to 0 at the range instead of a straight ramp; angular (da off the axis): the core (1) eased into
+   * the outer field (.45) over +-.075 rad round core / 2 (v23: a step), the outer field fading smoothly to 0 at arc / 2 as
+   * before; the spill at the lens: .3 inside 20 px, 0 by 70 px (v23's) */
+  const irRadial = u => { if (u <= 0) return 1; if (u < .25) return 1 - .17 * u / .25; if (u < .7) return .83 - .55 * (u - .25) / .45; if (u >= 1) return 0;
+    const t = (u - .7) / .3; return (2 * t * t * t - 3 * t * t + 1) * .28 - (t * t * t - 2 * t * t + t) * .55 / .45 * .3; };
+  const irAngular = (da, P) => { if (da >= P.arc / 2) return 0; const c = P.core / 2; return .55 * (1 - ss(c - .075, c + .075, da)) + .45 * (1 - ss(c, P.arc / 2, da)); };
+  const irSpill = d => (1 - ss(20, 70, d)) * .3;
+  /* QA2: the picture (BR-RoLE draws it): v23's six stacked fans (drawFan below: fan k of n spans arc - (arc - core) k / (n - 1)
+   * out to range (.82 + .18 k / (n - 1)), each 1 - (1 - power)^(1/n) strong, through v23's radial stops) made smooth - each
+   * fan's edge eased over the gap to the next (so the steps blend), the widest one's over twice that (the cone's soft rim,
+   * gone by halfWidth), each fan's radial ending in the smooth tail.  Relative to the core's strength at the lens (x power =
+   * the picture) */
+  const FANS = 6, PIC = { w: .5, rim: 1.1 };
+  const picAngular = (da, P) => { const a1 = 1 - (1 - P.power) ** (1 / FANS), g = (P.arc - P.core) / (FANS - 1); let n = 0;
+    for (let k = 0; k < FANS; k++) { const h = (P.arc - (P.arc - P.core) * k / (FANS - 1)) / 2, w = g * (k ? PIC.w : PIC.rim); n += 1 - ss(h - w, h + w, da); }
+    return (1 - (1 - a1) ** n) / P.power; };
+  const picRadial = (u, P) => { const a1 = 1 - (1 - P.power) ** (1 / FANS); let keep = 1;
+    for (let k = 0; k < FANS; k++) keep *= 1 - a1 * irRadial(u / (.82 + .18 * k / (FANS - 1)));
+    return (1 - keep) / P.power; };
   /* infrared reaching (x,y) from an illuminator at src {x,y,angle} at power level lvl: 0..1, 0 behind a wall */
   function irFrom(src, lvl, x, y) {
     const P = CFG.IR[lvl], A = window.__api; if (!P || !src || !A || !A.Uc) return 0;
     const dx = x - src.x, dy = y - src.y, d = Math.hypot(dx, dy);
-    let v = (1 - ss(20, 70, d)) * .3;                                   // spill at the lens
+    let v = irSpill(d);                                                 // spill at the lens
     if (d < P.range) {
       const da = Math.abs(angDiff(Math.atan2(dy, dx), src.angle || 0));
-      if (da < P.arc / 2) {
-        const wa = da < P.core / 2 ? 1 : .45 * (1 - ss(P.core / 2, P.arc / 2, da)), u = d / P.range;
-        const wr = u < .25 ? 1 - .17 * u / .25 : u < .7 ? .83 - .55 * (u - .25) / .45 : .28 * (1 - (u - .7) / .3);
-        v = Math.max(v, P.power * wa * wr);
-      }
+      if (da < P.arc / 2) v = Math.max(v, P.power * irAngular(da, P) * irRadial(d / P.range));
     }
     if (v <= 0) return 0;
     if (d > 2 && A.Uc(src.x, src.y, Math.atan2(dy, dx), d + 1) < d - .5) return 0;
     return v;
   }
-  /* the fan, drawn with the bundle's own wall-clipped light fan (mk) as cut-outs of the darkness: stacked, so the core is strongest */
+  /* the fan, drawn with the bundle's own wall-clipped light fan (mk) as cut-outs of the darkness: stacked, so the core is strongest
+   * (QA2: only when BR-RoLE is off - it draws the infrared itself) */
+  const brIR = () => { const B = window.__brRole; return !!(B && B.ir && B.on && B.on()); };
   function drawFan(mk, src, lvl) {
     const P = CFG.IR[lvl]; if (!P) return; const f = mk(src, 0, 0, 0), n = 6, a1 = 1 - (1 - P.power) ** (1 / n);
     for (let k = 0; k < n; k++) f(src.angle || 0, P.arc - (P.arc - P.core) * k / (n - 1), P.range * (.82 + .18 * k / (n - 1)), a1);
@@ -216,6 +246,15 @@ body.cam-kind #touch .camBtn{display:inline-block}
     get irNet() { return irNow(); },                                 // what other players' sensors may see (mp.js sends it; presentation only)
     get bloom() { return S.bloom; },
     irFrom,
+    irProfile: { radial: picRadial, angular: picAngular, halfWidth: P => P.arc / 2 + (P.arc - P.core) / (FANS - 1) * PIC.rim, spill: irSpill, spillR: 70 },   // QA2: the picture (BR-RoLE; halfWidth: where its soft rim reaches 0); irFrom reads irRadial / irAngular
+    /* QA2: the infrared emitters this sensor sees this frame (BR-RoLE draws them): yours (src: the lens; none when null),
+     * then every other camcorder's.  Nothing at all without this player's sensor on */
+    irLights(src) {
+      const out = []; if (!nvNow()) return out; const L = irNow();
+      if (L && src && Number.isFinite(src.x + src.y)) out.push({ x: src.x, y: src.y, angle: src.angle || 0, lvl: L, P: CFG.IR[L], own: true });
+      const P = window.__peerLights; if (P) for (const p of P) if (p && p.ir > 0 && !p.dead && CFG.IR[p.ir] && Number.isFinite(p.x + p.y)) out.push({ x: p.x, y: p.y, angle: p.angle || 0, lvl: p.ir, P: CFG.IR[p.ir], own: false });
+      return out;
+    },
     /* infrared at a point from this player's emitter and every other camcorder's (only meaningful while this sensor is on) */
     irAt(x, y) {
       if (!nvNow()) return 0; let v = 0; const A = window.__api;
@@ -229,8 +268,8 @@ body.cam-kind #touch .camBtn{display:inline-block}
       if (S.bloom > .01) v *= 1 - .7 * S.bloom * ss(120, 300, dist);
       return v;
     },
-    irDraw(mk, src) { if (irNow()) drawFan(mk, src, irNow()); },
-    peerIR(mk, p) { if (nvNow() && p.ir > 0 && !p.dead) drawFan(mk, { x: p.x, y: p.y, angle: p.angle }, p.ir); },
+    irDraw(mk, src) { if (irNow() && !brIR()) drawFan(mk, src, irNow()); },
+    peerIR(mk, p) { if (nvNow() && p.ir > 0 && !p.dead && !brIR()) drawFan(mk, { x: p.x, y: p.y, angle: p.angle }, p.ir); },
     lampGain() { return nvNow() ? CFG.SENSOR_GAIN : 1; },
     cycleIR() {
       if (!S.active || !playing()) return;

@@ -1,0 +1,50 @@
+{
+ "results": [
+  {
+   "name": "P1 the reading is v23's everywhere except the two eased places (the core's edge +-.075 rad, past 70 % of the range)",
+   "ok": true,
+   "note": "LOW: elsewhere max |diff| 1.3877787807814457e-17 (0 samples differ); in the eased places max |diff| 0.1976; HIGH: elsewhere max |diff| 1.3877787807814457e-17 (0 samples differ); in the eased places max |diff| 0.2362"
+  },
+  {
+   "name": "P2 no step: the largest change between neighbouring samples (.0025 rad) is a fraction of v23's",
+   "ok": true,
+   "note": "LOW: 0.0088 (v23 0.3326); HIGH: 0.0112 (v23 0.4271)"
+  },
+  {
+   "name": "P3 the same range, power, core and arc; nothing past the range or outside the arc (bar the lens spill)",
+   "ok": true,
+   "note": "LOW: range 340, power 0.72, core 0.5, arc 1.05; light past them 0; HIGH: range 560, power 0.86, core 0.5, arc 1.05; light past them 0"
+  }
+ ],
+ "R": {
+  "game": "/home/claude/backrooms-shadows",
+  "levels": {
+   "1": {
+    "name": "LOW",
+    "range": 340,
+    "power": 0.72,
+    "core": 0.5,
+    "arc": 1.05,
+    "maxDiffInEased": 0.1976,
+    "maxDiffElsewhere": 1.3877787807814457e-17,
+    "samplesDifferingElsewhere": 0,
+    "largestStepQA2": 0.0088,
+    "largestStepV23": 0.3326,
+    "lightPastRangeOrArc": 0
+   },
+   "2": {
+    "name": "HIGH",
+    "range": 560,
+    "power": 0.86,
+    "core": 0.5,
+    "arc": 1.05,
+    "maxDiffInEased": 0.2362,
+    "maxDiffElsewhere": 1.3877787807814457e-17,
+    "samplesDifferingElsewhere": 0,
+    "largestStepQA2": 0.0112,
+    "largestStepV23": 0.4271,
+    "lightPastRangeOrArc": 0
+   }
+  }
+ }
+}
