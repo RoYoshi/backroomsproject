@@ -34,6 +34,12 @@
  *     only the box the lamps drew into composited; the far cache's face pass a build step of its own; a prefetch never
  *     evicts.
  *
+ * 1.1-qa2 (Stage 3B-L QA2, final visual polish):
+ *   - CORNERS: a wall's or pillar's face bands meet at a corner on the mitre the remaster's art draws (buildBands, bandPoly,
+ *     extrude): a convex corner's square is split on its diagonal between the two faces (QA1 gave it whole to the front /
+ *     back face), an inner corner's block is lit from both faces (QA1 left it dark), and a light close to a wall steps along
+ *     it in pieces of at most FACE.da (QA1: 32 px steps).  (The line of sight's clip shows the same bands: the bundle's Hl);
+ *
  * One model, every light on its own:   visible light = Σ fieldᵢ · (1 − shadowᵢ) + Σ bounceᵢ
  *   LIGHT FIELD -> BLOCKER -> CAST SHADOW -> ADD SURVIVING LIGHTS.  Never "light = visibility polygon".
  *   - an offscreen LIGHT BUFFER (a fraction of the CSS viewport per tier; never scaled by devicePixelRatio);
@@ -77,7 +83,7 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role 1.1-qa1';
+  const VERSION = 'br-role 1.1-qa2';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
@@ -130,8 +136,8 @@
    * (`s0` .. `s0 + sw` px out, past the mask's blur) is carried onto the face band: the face is lit exactly where the floor at
    * its foot is lit by that light - the same walls, pillars and props block it - scaled by how squarely the face turns to the
    * light (base + k cos, in `seg` px pieces).  Faces turned away get nothing; nothing reaches past a face into the blocker.
-   * At a convex corner the side faces give way to the front / back ones (their bands would overlap there) */
-  const FACE = { S: 46, N: 23, E: 27, W: 27, pS: 18, pN: 12, pE: 14, pW: 14, s0: 5, sw: 3, seg: 32, farSeg: 96, base: .45, k: .55, gain: 1 };   // farSeg: the far cache's pieces (its light varies slowly along a face; a third of the draws)
+   * At a corner the bands meet on the mitre the art draws (QA2; QA1 gave a convex corner's square to the front / back face) */
+  const FACE = { S: 46, N: 23, E: 27, W: 27, pS: 18, pN: 12, pE: 14, pW: 14, s0: 5, sw: 3, seg: 32, farSeg: 96, base: .45, k: .55, gain: 1, da: .04 };   // farSeg: the far cache's pieces (its light varies slowly along a face; a third of the draws)
   const SRC = { beam: 3, omni: 4 };                                          // a carried light's half-size (world px)
   /* carried lights: the height each is held at (for prop shadows; SH7's) and the longest prop shadow (kmax x distance) */
   const CARRY = { h: { flashlight: 105, headlamp: 160, lantern: 85 }, kmax: 2.2, vis: 1.35 };   // vis (QA1): a carried light's visible output x the game's own power (light truth unchanged)
@@ -199,29 +205,49 @@
     buildBands(wall);
   }
   /* QA1: every side's visible face band (inside its wall / pillar) and the strip of open floor in front of it (world px):
-   * S.bands[j * 8 ..] = band x0, y0, x1, y1, strip x0, y0, x1, y1 (an empty band: x1 <= x0) */
+   * S.bands[j * 8 ..] = band x0, y0, x1, y1, strip x0, y0, x1, y1 (an empty band: x1 <= x0).
+   * QA2: the bands meet at corners the way the remaster's art draws the faces - MITRED.  Every band runs the whole side (a
+   * side face is no longer cut short where a front / back face turns the corner) and S.bandM[j * 2 ..] gives the mitre at its
+   * start and end: the shift along the face at the band's full depth.  + (a convex corner): the band ends on the diagonal from
+   * the corner to where the two faces' bands meet inside the block (the side's share of the corner square, the rest is the
+   * other face's);  - (an inner corner): it goes on past the end of the side into the corner block, to the same diagonal
+   * (the art fills the inner corner from both faces, split the same way).  The strips (the floor in front) are unchanged */
   function buildBands(wall) {
-    const E = S.edges, B = S.bands = new Float32Array(S.nEdges * 8), s0 = FACE.s0, s1 = FACE.s0 + FACE.sw;
+    const E = S.edges, B = S.bands = new Float32Array(S.nEdges * 8), M = S.bandM = new Float32Array(S.nEdges * 2), s0 = FACE.s0, s1 = FACE.s0 + FACE.sw;
     for (let j = 0; j < S.nEdges; j++) {
       const o = j * 6, ax = E[o], ay = E[o + 1], bx = E[o + 2], by = E[o + 3], nx = E[o + 4], ny = E[o + 5], pil = j >= S.nWall, q = j * 8;
       if (ay === by) {                                                      // a front (S, wall above the floor) or back (N) face: the whole run
         const x0 = Math.min(ax, bx), x1 = Math.max(ax, bx), d = ny > 0 ? (pil ? FACE.pS : FACE.S) : (pil ? FACE.pN : FACE.N);
         B.set(ny > 0 ? [x0, ay - d, x1, ay, x0, ay + s0, x1, ay + s1] : [x0, ay, x1, ay + d, x0, ay - s1, x1, ay - s0], q);
-      } else {                                                              // a side face (E: wall on the left, W: on the right), clear of the corners
+        if (pil) { M[j * 2] = FACE.pW; M[j * 2 + 1] = FACE.pE; }
+        else { const wr = ny > 0 ? ay / T - 1 : ay / T, fr = ny > 0 ? ay / T : ay / T - 1, c0 = x0 / T - 1, c1 = x1 / T;
+          M[j * 2] = wall(c0, wr) && wall(c0, fr) ? -FACE.E : FACE.W; M[j * 2 + 1] = wall(c1, wr) && wall(c1, fr) ? -FACE.W : FACE.E; }
+      } else {                                                              // a side face (E: wall on the left, W: on the right): the whole run
         const y0 = Math.min(ay, by), y1 = Math.max(ay, by), d = pil ? (nx > 0 ? FACE.pE : FACE.pW) : (nx > 0 ? FACE.E : FACE.W);
-        let t0 = 0, t1 = 0;
-        if (pil) { t0 = FACE.pN; t1 = FACE.pS; }
-        else { const cw = nx > 0 ? ax / T - 1 : ax / T; if (!wall(cw, y0 / T - 1)) t0 = FACE.N; if (!wall(cw, y1 / T)) t1 = FACE.S; }   // convex corners: the block's back / front face owns them
-        if (y1 - t1 <= y0 + t0) { B[q + 2] = B[q]; continue; }
-        B.set(nx > 0 ? [ax - d, y0 + t0, ax, y1 - t1, ax + s0, y0 + t0, ax + s1, y1 - t1] : [ax, y0 + t0, ax + d, y1 - t1, ax - s1, y0 + t0, ax - s0, y1 - t1], q);
+        B.set(nx > 0 ? [ax - d, y0, ax, y1, ax + s0, y0, ax + s1, y1] : [ax, y0, ax + d, y1, ax - s1, y0, ax - s0, y1], q);
+        if (pil) { M[j * 2] = FACE.pN; M[j * 2 + 1] = FACE.pS; }
+        else { const wc = nx > 0 ? ax / T - 1 : ax / T, fc = nx > 0 ? ax / T : ax / T - 1, r0 = y0 / T - 1, r1 = y1 / T;
+          M[j * 2] = wall(wc, r0) && wall(fc, r0) ? -FACE.S : FACE.N; M[j * 2 + 1] = wall(wc, r1) && wall(fc, r1) ? -FACE.N : FACE.S; }
       }
     }
   }
+  /* QA2: band j as its mitred outline (world px): the face's run at depth 0, the mitred ends at the band's full depth */
+  function bandPoly(j) {
+    const E = S.edges, B = S.bands, M = S.bandM, o = j * 6, g = j * 8, nx = E[o + 4], ny = E[o + 5], hor = ny !== 0;
+    const f0 = hor ? B[g] : B[g + 1], f1 = hor ? B[g + 2] : B[g + 3], d = hor ? B[g + 3] - B[g + 1] : B[g + 2] - B[g], line = hor ? E[o + 1] : E[o];
+    let i0 = f0 + M[j * 2], i1 = f1 - M[j * 2 + 1]; if (i0 > i1) i0 = i1 = (i0 + i1) / 2;
+    const P = (u, t) => hor ? [u, line - ny * t] : [line - nx * t, u];
+    return [...P(f0, 0), ...P(f1, 0), ...P(i1, d), ...P(i0, d)];
+  }
   /* QA1: carry a light's field (already drawn and shadowed in canvas c: world -> c px is x * k + ox) from the strip in front of
    * every face turned towards (lx, ly) within reach onto that face's band, in pieces scaled base + k cos.  `tmp`: a pooled canvas
-   * at least c's size (the field is read from a copy of c's pixel box bb = [x0, y0, x1, y1]) */
+   * at least c's size (the field is read from a copy of c's pixel box bb = [x0, y0, x1, y1]).
+   * QA2: the pieces at a band's ends are drawn inside its mitred outline (bandPoly: the remaster's corner joints); at an inner
+   * corner the end piece reaches on into the corner block (the strip's last piece, stretched over it).  And the pieces are as
+   * short as it takes for base + k cos to step by at most FACE.da between neighbours (a light close to a wall turns quickly
+   * along it: 32 px steps showed), at most 4 x as many */
   function extrude(c, tmp, k, ox, oy, lx, ly, reach, bb, push = 0, seg = FACE.seg) {   // push: the strip moved that much farther out (a low-resolution cache's blur); seg: piece length (world px)
-    const E = S.edges, B = S.bands; if (!B || !S.facesOn) return 0;
+    const E = S.edges, B = S.bands, M = S.bandM; if (!B || !S.facesOn) return 0;
     const bw = bb[2] - bb[0], bh = bb[3] - bb[1]; if (!(bw > 0 && bh > 0)) return 0;
     const wx0 = (bb[0] - ox) / k, wy0 = (bb[1] - oy) / k, wx1 = (bb[2] - ox) / k, wy1 = (bb[3] - oy) / k;   // the box in world px
     /* first the pieces (strip -> band, c px) of every face turned to the light, then one copy of just the field they read */
@@ -233,18 +259,19 @@
         if (st[j] === q) continue; st[j] = q; const o = j * 6, nx = E[o + 4], ny = E[o + 5];
         if ((lx - E[o]) * nx + (ly - E[o + 1]) * ny <= .5) continue;      // turned away (or edge-on): no light on this face
         const g = j * 8; if (!(B[g + 2] > B[g])) continue;
-        const hor = ny !== 0, a0 = hor ? B[g] : B[g + 1], a1 = hor ? B[g + 2] : B[g + 3];   // along the face
+        const hor = ny !== 0, a0 = hor ? B[g] : B[g + 1], a1 = hor ? B[g + 2] : B[g + 3], m0 = M ? M[j * 2] : 0, m1 = M ? M[j * 2 + 1] : 0;   // along the face
         const lo = Math.max(a0, hor ? x0 - 2 : y0 - 2), hi = Math.min(a1, hor ? x1 + 2 : y1 + 2); if (!(hi > lo)) continue;
-        const m = Math.max(1, Math.ceil((hi - lo) / seg)), step = (hi - lo) / m;
+        const aAt = u => { const mx = hor ? u : E[o], my = hor ? E[o + 1] : u, dx = lx - mx, dy = ly - my, d = Math.hypot(dx, dy) || 1, cs = (dx * nx + dy * ny) / d; return cs > 0 ? Math.min(1, FACE.gain * (FACE.base + FACE.k * cs)) : 0; };
+        let tv = 0; for (let s = 0, pa = aAt(lo); s < 8; s++) { const na = aAt(lo + (hi - lo) * (s + 1) / 8); tv += Math.abs(na - pa); pa = na; }
+        const mb = Math.max(1, Math.ceil((hi - lo) / seg)), m = Math.min(mb * 4, Math.max(mb, Math.ceil(tv / FACE.da))), step = (hi - lo) / m;
         for (let s = 0; s < m; s++) {
-          const u0 = lo + s * step, u1 = u0 + step, mx = hor ? (u0 + u1) / 2 : E[o], my = hor ? E[o + 1] : (u0 + u1) / 2, dx = lx - mx, dy = ly - my, d = Math.hypot(dx, dy) || 1;
-          const cos = (dx * nx + dy * ny) / d; if (!(cos > 0)) continue;
-          const a = Math.min(1, FACE.gain * (FACE.base + FACE.k * cos));
+          const u0 = lo + s * step, u1 = u0 + step, a = aAt((u0 + u1) / 2); if (!(a > 0)) continue;
+          const e0 = u0 <= a0 + 1e-6 && m0 !== 0, e1 = u1 >= a1 - 1e-6 && m1 !== 0, du0 = e0 && m0 < 0 ? u0 + m0 : u0, du1 = e1 && m1 < 0 ? u1 - m1 : u1;   // an inner corner: on into the corner block
           let sx, sy, sw_, sh_, dx_, dy_, dw, dh;                           // strip (source) and band (destination), c px
-          if (hor) { sx = u0 * k + ox; sw_ = step * k; sy = (B[g + 5] + ny * push) * k + oy; sh_ = (B[g + 7] - B[g + 5]) * k; dx_ = sx; dw = sw_; dy_ = B[g + 1] * k + oy; dh = (B[g + 3] - B[g + 1]) * k; }
-          else { sy = u0 * k + oy; sh_ = step * k; sx = (B[g + 4] + nx * push) * k + ox; sw_ = (B[g + 6] - B[g + 4]) * k; dy_ = sy; dh = sh_; dx_ = B[g] * k + ox; dw = (B[g + 2] - B[g]) * k; }
+          if (hor) { sx = u0 * k + ox; sw_ = step * k; sy = (B[g + 5] + ny * push) * k + oy; sh_ = (B[g + 7] - B[g + 5]) * k; dx_ = du0 * k + ox; dw = (du1 - du0) * k; dy_ = B[g + 1] * k + oy; dh = (B[g + 3] - B[g + 1]) * k; }
+          else { sy = u0 * k + oy; sh_ = step * k; sx = (B[g + 4] + nx * push) * k + ox; sw_ = (B[g + 6] - B[g + 4]) * k; dy_ = du0 * k + oy; dh = (du1 - du0) * k; dx_ = B[g] * k + ox; dw = (B[g + 2] - B[g]) * k; }
           if (sx < bb[0] || sy < bb[1] || sx + sw_ > bb[2] || sy + sh_ > bb[3]) continue;   // the strip outside the light's box: nothing known there
-          P[np++] = a; P[np++] = sx; P[np++] = sy; P[np++] = sw_; P[np++] = sh_; P[np++] = dx_; P[np++] = dy_; P[np++] = dw; P[np++] = dh;
+          P[np++] = a; P[np++] = sx; P[np++] = sy; P[np++] = sw_; P[np++] = sh_; P[np++] = dx_; P[np++] = dy_; P[np++] = dw; P[np++] = dh; P[np++] = e0 || e1 ? j : -1;
           if (sx < ux0) ux0 = sx; if (sy < uy0) uy0 = sy; if (sx + sw_ > ux1) ux1 = sx + sw_; if (sy + sh_ > uy1) uy1 = sy + sh_;
         }
       }
@@ -255,8 +282,14 @@
     const cx0 = Math.max(bb[0], Math.floor(ux0) - 1), cy0 = Math.max(bb[1], Math.floor(uy0) - 1), cx1 = Math.min(bb[2], Math.ceil(ux1) + 1), cy1 = Math.min(bb[3], Math.ceil(uy1) + 1);
     const t = tmp.getContext('2d'); t.save(); t.setTransform(1, 0, 0, 1, 0, 0); t.globalAlpha = 1; t.globalCompositeOperation = 'copy'; t.drawImage(c.canvas, cx0, cy0, cx1 - cx0, cy1 - cy0, cx0, cy0, cx1 - cx0, cy1 - cy0); t.restore();
     c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-over'; c.imageSmoothingEnabled = true;
-    for (let i = 0; i < np; i += 9) { c.globalAlpha = P[i]; c.drawImage(tmp, P[i + 1], P[i + 2], P[i + 3], P[i + 4], P[i + 5], P[i + 6], P[i + 7], P[i + 8]); }
-    c.restore(); ST.faceDraws += np / 9; return np / 9;
+    for (let i = 0; i < np; i += 10) {
+      c.globalAlpha = P[i];
+      if (P[i + 9] >= 0) {                                                   // an end piece: inside the band's mitred outline
+        const w = bandPoly(P[i + 9]); c.save(); c.beginPath(); c.moveTo(w[0] * k + ox, w[1] * k + oy); for (let v = 2; v < 8; v += 2) c.lineTo(w[v] * k + ox, w[v + 1] * k + oy); c.closePath(); c.clip();
+        c.drawImage(tmp, P[i + 1], P[i + 2], P[i + 3], P[i + 4], P[i + 5], P[i + 6], P[i + 7], P[i + 8]); c.restore();
+      } else c.drawImage(tmp, P[i + 1], P[i + 2], P[i + 3], P[i + 4], P[i + 5], P[i + 6], P[i + 7], P[i + 8]);
+    }
+    c.restore(); ST.faceDraws += np / 10; return np / 10;
   }
   /* the selected prop casters (world.js PROPS), static */
   function buildProps() {
@@ -1133,10 +1166,11 @@
       tube: i => { const C = S.lampCache.get(i), L = (window.__api.lamps || [])[i]; return C && L ? C.smp.concat(tubePoints(L, TIERS[S.quality].farTube)) : null; },
       cacheInfo: i => { const C = S.lampCache.get(i); if (!C) return null; const g = (cv, hx, hy) => ({ hx, hy, w: cv.width, h: cv.height, res: cv.width / (2 * hx) });
         return { core: g(C.cv, C.hx, C.hy), far: C.far ? g(C.far.cv, C.far.hx, C.far.hy) : null, bounce: C.emit }; },
-      /* QA1: the visible faces (bands) of walls / pillars in a world box: { j, n: [nx, ny], pillar, band: [x0, y0, x1, y1], strip: [...] } */
+      /* QA1: the visible faces (bands) of walls / pillars in a world box: { j, n: [nx, ny], pillar, band: [x0, y0, x1, y1], strip: [...] }
+       * (QA2: band is the run's box at depth 0..d; mitre: its end shifts; poly: its mitred outline) */
       bands: (x0, y0, x1, y1) => { const E = S.edges, B = S.bands, out = []; if (!B) return out;
         for (let j = 0; j < S.nEdges; j++) { const g = j * 8, o = j * 6; if (!(B[g + 2] > B[g]) || B[g + 2] < x0 || B[g] > x1 || B[g + 3] < y0 || B[g + 1] > y1) continue;
-          out.push({ j, n: [E[o + 4], E[o + 5]], pillar: j >= S.nWall, edge: [E[o], E[o + 1], E[o + 2], E[o + 3]], band: Array.from(B.subarray(g, g + 4)), strip: Array.from(B.subarray(g + 4, g + 8)) }); }
+          out.push({ j, n: [E[o + 4], E[o + 5]], pillar: j >= S.nWall, edge: [E[o], E[o + 1], E[o + 2], E[o + 3]], band: Array.from(B.subarray(g, g + 4)), strip: Array.from(B.subarray(g + 4, g + 8)), mitre: S.bandM ? [S.bandM[j * 2], S.bandM[j * 2 + 1]] : null, poly: S.bandM ? bandPoly(j) : null }); }
         return out; },
       /* QA1, DEV only (tests): the surface receivers (face light) off / on; every lamp cache is rebuilt */
       faces: v => { if (v !== undefined && !!v !== S.facesOn) { S.facesOn = !!v; S.lampKey = null; } return S.facesOn; },

@@ -1,0 +1,7 @@
+# receivers_qa2.js, part 1 (K1, F1-F3, C1-C2) on the QA2 corner build; the corner checks K2-K5 were re-run with their final metrics: receivers_K.log
+PASS K1 at every corner the two faces' bands meet on one mitre (the same diagonal, no overlap, no gap)   456 bands; 456 corners where two perpendicular faces meet: mitre segments that differ 0, outlines overlapping 0
+PASS F1 ceiling lamps light the faces turned to them (band ~ the floor at its foot x facing), and none turned away   12 lamps; 715 lit face samples: band / foot 0.43 .. 1.13 (715 carry it); faces turned away 481 samples: face light added to them 0; samples in a neighbour's corner share (left out) 423
+PASS F3 a face whose foot the lamp does not reach (blocked) receives none of its light   138 blocked face samples, lit 0
+PASS C1 a flashlight lights the face it hits; swept away the face darkens; a lantern lights it from beside; nothing with every light off   face light: flashlight on it 43.3/255 (floor at its foot 44.1), swept away 0.0, lantern 25.8, all lights off max 0.0/255
+PASS C2 no face light through the wall: its far side stays dark while the flashlight lights the near side   far-side face max 0.0/255
+PASS F2 pillar faces: the side turned to the light is lit, its far side (its own share) gets none of it; lamp-lit pillar faces turned away get none   flashlight on a PILLAR HALL pillar (lamps off): near face 73.5/255, far face (15 samples in its own share) max 0.0/255; lamp-lit pillar faces 86 samples, turned away from a lamp 147 (added max 0/255)

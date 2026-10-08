@@ -1,0 +1,155 @@
+{
+ "other": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/q2/parent",
+ "game": "/home/claude/backrooms-shadows",
+ "quality": "medium",
+ "scenes": [
+  {
+   "id": "A",
+   "label": "YELLOW HALL, lamps on",
+   "at": [
+    1200,
+    3408
+   ],
+   "same": true,
+   "floorBoth": 1051973,
+   "floorDiff": 3881,
+   "floorMax": 44,
+   "floorOpen": 1043116,
+   "floorOpenDiff": 1478,
+   "floorOpenMax": 2,
+   "solidBoth": 27628,
+   "solidDiff": 16611,
+   "solidMax": 133,
+   "onlyOther": 1076,
+   "onlyThis": 5247,
+   "edge": 36302,
+   "edgeDiff": 13284,
+   "all": 2073600,
+   "allDiff": 40099
+  },
+  {
+   "id": "C",
+   "label": "YELLOW HALL partition",
+   "at": [
+    1248,
+    3216
+   ],
+   "same": true,
+   "floorBoth": 883474,
+   "floorDiff": 3285,
+   "floorMax": 33,
+   "floorOpen": 876235,
+   "floorOpenDiff": 1013,
+   "floorOpenMax": 2,
+   "solidBoth": 24496,
+   "solidDiff": 18019,
+   "solidMax": 127,
+   "onlyOther": 1265,
+   "onlyThis": 1365,
+   "edge": 26098,
+   "edgeDiff": 8949,
+   "all": 2073600,
+   "allDiff": 32883
+  },
+  {
+   "id": "D",
+   "label": "PILLAR HALL, lamps on",
+   "at": [
+    7920,
+    1200
+   ],
+   "same": true,
+   "floorBoth": 1167411,
+   "floorDiff": 5201,
+   "floorMax": 35,
+   "floorOpen": 1156992,
+   "floorOpenDiff": 1609,
+   "floorOpenMax": 2,
+   "solidBoth": 22620,
+   "solidDiff": 11601,
+   "solidMax": 133,
+   "onlyOther": 4294,
+   "onlyThis": 28836,
+   "edge": 58754,
+   "edgeDiff": 27230,
+   "all": 2073600,
+   "allDiff": 77119
+  },
+  {
+   "id": "H",
+   "label": "long corridor",
+   "at": [
+    1152,
+    2160
+   ],
+   "same": true,
+   "floorBoth": 525764,
+   "floorDiff": 1730,
+   "floorMax": 8,
+   "floorOpen": 516192,
+   "floorOpenDiff": 288,
+   "floorOpenMax": 2,
+   "solidBoth": 36375,
+   "solidDiff": 13718,
+   "solidMax": 32,
+   "onlyOther": 268,
+   "onlyThis": 5072,
+   "edge": 21985,
+   "edgeDiff": 11831,
+   "all": 2073600,
+   "allDiff": 32619
+  },
+  {
+   "id": "FL",
+   "label": "flashlight across a convex corner (BLACKOUT ZONE)",
+   "at": [
+    1136,
+    5360
+   ],
+   "same": true,
+   "floorBoth": 999993,
+   "floorDiff": 73,
+   "floorMax": 9,
+   "floorOpen": 988712,
+   "floorOpenDiff": 0,
+   "floorOpenMax": 0,
+   "solidBoth": 27498,
+   "solidDiff": 2004,
+   "solidMax": 75,
+   "onlyOther": 1490,
+   "onlyThis": 20262,
+   "edge": 45956,
+   "edgeDiff": 1242,
+   "all": 2073600,
+   "allDiff": 4289
+  },
+  {
+   "id": "LA",
+   "label": "lantern by an inner corner (BLACKOUT ZONE)",
+   "at": [
+    430,
+    4850
+   ],
+   "same": true,
+   "floorBoth": 460559,
+   "floorDiff": 407,
+   "floorMax": 26,
+   "floorOpen": 450972,
+   "floorOpenDiff": 0,
+   "floorOpenMax": 0,
+   "solidBoth": 22604,
+   "solidDiff": 8775,
+   "solidMax": 99,
+   "onlyOther": 268,
+   "onlyThis": 18975,
+   "edge": 23719,
+   "edgeDiff": 5460,
+   "all": 2073600,
+   "allDiff": 20059
+  }
+ ],
+ "errs": [
+  [],
+  []
+ ]
+}

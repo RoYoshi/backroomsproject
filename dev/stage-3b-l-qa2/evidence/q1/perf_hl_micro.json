@@ -1,0 +1,160 @@
+{
+ "mode": "micro",
+ "game": "/home/claude/backrooms-shadows",
+ "parent": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/q2/parent",
+ "rounds": 9,
+ "paths": {
+  "corridor": {
+   "parentMsPerFrame": {
+    "median": 0.169,
+    "worstRound": 0.2198
+   },
+   "fixMsPerFrame": {
+    "median": 0.1526,
+    "worstRound": 0.2276
+   },
+   "raysPerFrame": {
+    "parent": 290.8,
+    "fix": 318.9
+   },
+   "rounds": {
+    "parent": [
+     0.136,
+     0.1903,
+     0.2024,
+     0.1581,
+     0.2198,
+     0.1483,
+     0.1381,
+     0.169,
+     0.1764
+    ],
+    "fix": [
+     0.1505,
+     0.2276,
+     0.1526,
+     0.1462,
+     0.1524,
+     0.2264,
+     0.1622,
+     0.1612,
+     0.1464
+    ]
+   }
+  },
+  "yellowHall": {
+   "parentMsPerFrame": {
+    "median": 0.1555,
+    "worstRound": 0.231
+   },
+   "fixMsPerFrame": {
+    "median": 0.185,
+    "worstRound": 0.2279
+   },
+   "raysPerFrame": {
+    "parent": 285.6,
+    "fix": 324.2
+   },
+   "rounds": {
+    "parent": [
+     0.1362,
+     0.2073,
+     0.1861,
+     0.1555,
+     0.1403,
+     0.1416,
+     0.1514,
+     0.2112,
+     0.231
+    ],
+    "fix": [
+     0.1698,
+     0.1737,
+     0.1785,
+     0.185,
+     0.2063,
+     0.1858,
+     0.1756,
+     0.2042,
+     0.2279
+    ]
+   }
+  },
+  "hallCentre": {
+   "parentMsPerFrame": {
+    "median": 0.1516,
+    "worstRound": 0.2117
+   },
+   "fixMsPerFrame": {
+    "median": 0.266,
+    "worstRound": 0.3495
+   },
+   "raysPerFrame": {
+    "parent": 288,
+    "fix": 448
+   },
+   "rounds": {
+    "parent": [
+     0.1445,
+     0.1484,
+     0.1781,
+     0.1472,
+     0.2117,
+     0.1557,
+     0.1448,
+     0.1779,
+     0.1516
+    ],
+    "fix": [
+     0.2472,
+     0.2571,
+     0.2703,
+     0.266,
+     0.2412,
+     0.245,
+     0.2802,
+     0.3495,
+     0.3072
+    ]
+   }
+  },
+  "nearPillar": {
+   "parentMsPerFrame": {
+    "median": 0.1469,
+    "worstRound": 0.2268
+   },
+   "fixMsPerFrame": {
+    "median": 0.254,
+    "worstRound": 0.3096
+   },
+   "raysPerFrame": {
+    "parent": 265.6,
+    "fix": 383.2
+   },
+   "rounds": {
+    "parent": [
+     0.1404,
+     0.1901,
+     0.1749,
+     0.1469,
+     0.1399,
+     0.1586,
+     0.1422,
+     0.2268,
+     0.1357
+    ],
+    "fix": [
+     0.2329,
+     0.2658,
+     0.2365,
+     0.2289,
+     0.2826,
+     0.2885,
+     0.3096,
+     0.2349,
+     0.254
+    ]
+   }
+  }
+ }
+}

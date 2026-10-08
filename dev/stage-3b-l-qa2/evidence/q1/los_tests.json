@@ -1,0 +1,61 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "parent": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/q2/parent",
+ "results": [
+  {
+   "name": "L01 the bundle = the parent with Hl replaced by hl_qa2.js (nothing else changed)",
+   "ok": true,
+   "note": "Hl 337 -> 8258 chars; call sites unchanged"
+  },
+  {
+   "name": "L02 exact ray query and its tables unchanged (AI / light / collision truth)",
+   "ok": true,
+   "note": "Uc Hc zc Bc identical true; Pc, Vl, lamps identical true; 4000 random rays equal true"
+  },
+  {
+   "name": "L03 entity mask: byte-identical away from pillars; near them every parent ray kept",
+   "ok": true,
+   "note": "1505 positions away from pillars, 0 differ; 134 near pillars: parent rays missing 0, distance changed 0"
+  },
+  {
+   "name": "L04 a face seen square-on: the clip ends 24 px into it, exactly as the parent",
+   "ok": true,
+   "note": "630 square-on rays (base-fan directions straight at long faces); differing 0; worst |new - parent| 9.1e-13 px"
+  },
+  {
+   "name": "L05 nothing hidden is shown: no unseen floor in the clip; every wall / pillar point in it is in a seen face's band",
+   "ok": true,
+   "note": "168 poses; unseen floor inside the clip: 0 samples (parent 25873); wall / pillar samples inside: 1252576, outside any seen face's band: 0"
+  },
+  {
+   "name": "L06 a face seen at a slant shows its 24 px band like a face seen square-on",
+   "ok": true,
+   "note": "band points (depth 6 / 14 / 21 px) of seen faces inside the clip: 99.68 % of 130325 (parent 64.13 %)"
+  },
+  {
+   "name": "L07 a face turned away from the player stays black",
+   "ok": true,
+   "note": "band points of faces turned away (and in no seen face's band): 0 of 76145 inside the clip"
+  },
+  {
+   "name": "L08 corners: band points within 30 px of a face's end inside the clip",
+   "ok": true,
+   "note": "99.54 % of 11888 (parent 73.44 %)"
+  },
+  {
+   "name": "L09 bounded: at most 12 rays per pillar in reach + 10 per face turned to the player",
+   "ok": true,
+   "note": "rays beyond that bound: -2196"
+  },
+  {
+   "name": "L10 a side face seen along its length keeps its band right to its convex corner's mitre",
+   "ok": true,
+   "note": "1288 views along side faces; band points within 40 px of the corner, in the face's own share, foot seen: 100.00 % of 43677 inside the clip (parent 17.39 %)"
+  },
+  {
+   "name": "L11 no cracks: no ray stops short inside a wall or pillar between close rays that go on (other than at an outline's tip)",
+   "ok": true,
+   "note": "1456 views: 0 (parent 0)"
+  }
+ ]
+}
