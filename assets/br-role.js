@@ -19,6 +19,16 @@
  *     fades out over its last 80 px (only ever less light, never more visibility).
  *   Light truth is still not touched: the server's lamp field (reach 380), light.js and the bundle's Ul() are unchanged.
  *
+ * 1.1-qa1 (Stage 3B-L QA1, lighting reality correction): THE PLAYER IS NOT A LIGHT SOURCE. THEIR EQUIPMENT IS.
+ *   - a working fixture is a real light: the direct field at its full legitimate level (no longer scaled down for bounce),
+ *     broader, its visible output LAMP.vis x the game's strength, a longer smooth tail.  No ambient floor, no viewer glow:
+ *     where no fixture, carried light or bounce of a fixture reaches, the overlay stays fully dark;
+ *   - SURFACE RECEIVERS: a wall's or pillar's visible face (a band inside it) receives the light that reaches the floor at
+ *     its foot from that same light, scaled by how squarely it faces the light (source-dependent, occlusion-aware: the same
+ *     shadows; nothing for a face turned away, nothing through the blocker).  Cached with each lamp; drawn per carried
+ *     light (a flashlight lights the wall it hits, sweeping away darkens it);
+ *   - carried lights at CARRY.vis x the game's own power (light truth unchanged).
+ *
  * One model, every light on its own:   visible light = Σ fieldᵢ · (1 − shadowᵢ) + Σ bounceᵢ
  *   LIGHT FIELD -> BLOCKER -> CAST SHADOW -> ADD SURVIVING LIGHTS.  Never "light = visibility polygon".
  *   - an offscreen LIGHT BUFFER (a fraction of the CSS viewport per tier; never scaled by devicePixelRatio);
@@ -62,7 +72,7 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role 1.1';
+  const VERSION = 'br-role 1.1-qa1';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
@@ -73,9 +83,9 @@
    * point stands for its share of the surface, so every tier adds the same light), the time a frame may spend building
    * them (ms).  Tiers change sampling and resolution only: the same light reaches the same places */
   const TIERS = {
-    low: { scale: .5, lamps: 8, peers: 1, lampRes: .3, tube: 16, lampCache: 24, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6, secondary: false, farRes: .08, farTube: 6, wallStep: 56, floorStep: 120, farMs: 2 },
-    medium: { scale: .75, lamps: 10, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 4, props: 8, propFrame: 48, ents: 12, secondary: false, farRes: .11, farTube: 8, wallStep: 44, floorStep: 96, farMs: 3 },
-    high: { scale: 1, lamps: 14, peers: 6, lampRes: .6, tube: 32, lampCache: 40, builds: 4, src: 6, props: 12, propFrame: 96, ents: 20, secondary: true, farRes: .14, farTube: 12, wallStep: 36, floorStep: 80, farMs: 4 },
+    low: { scale: .5, lamps: 10, peers: 1, lampRes: .3, tube: 16, lampCache: 24, builds: 2, src: 1, props: 4, propFrame: 16, ents: 6, secondary: false, farRes: .08, farTube: 6, wallStep: 56, floorStep: 120, farMs: 2 },
+    medium: { scale: .75, lamps: 14, peers: 3, lampRes: .45, tube: 16, lampCache: 32, builds: 3, src: 4, props: 8, propFrame: 48, ents: 12, secondary: false, farRes: .11, farTube: 8, wallStep: 44, floorStep: 96, farMs: 3 },
+    high: { scale: 1, lamps: 18, peers: 6, lampRes: .6, tube: 32, lampCache: 40, builds: 4, src: 6, props: 12, propFrame: 96, ents: 20, secondary: true, farRes: .14, farTube: 12, wallStep: 36, floorStep: 80, farMs: 4 },
   };
   /* a lamp: the fixture it shines from (the 86 x 24 panel the game draws: tube points over ±tubeX, two rows at ±tubeY), the
    * strength its cache is built at (P0: the game's cap), a light blur of its shadow mask (world px; only where the browser
@@ -86,8 +96,12 @@
    * f · wc, the FAR one (low resolution, with the bounce light) f · (1 - wc); wc crossfades from 1 to 0 over x0 .. x1, so the
    * split never shows.  The far light is faint, so its cache and the quarter-resolution buffer it is drawn into hold it x fg
    * (8-bit precision kept until the full-resolution composite: smooth, not stepped).  R (380) is the gameplay lamp reach (the server's, light.js's),
-   * kept for reference only: nothing here draws by it */
-  const LAMP = { R: 380, S: 168, P: 1.47, a: 30, tail0: 520, far: 640, x0: 300, x1: 400, fg: 2, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
+   * kept for reference only: nothing here draws by it.
+   * Stage 3B-L QA1 (lighting reality): a working fluorescent fixture is a real light.  Its visible output is `vis` x the game's
+   * own strength (.43: the light truth the server and light.js keep using, unchanged), its field broader (S, P), its tail
+   * longer (tail0, far: still smooth to an exact zero), so the room between fixtures reads as lit, then dims, then goes black
+   * where the light really runs out.  No ambient floor: every bit of it comes from a fixture */
+  const LAMP = { R: 380, S: 185, P: 1.42, a: 30, tail0: 580, far: 720, x0: 300, x1: 400, fg: 2, vis: 1.5, tubeX: 40, tubeY: 8, P0: .9, blur: 3, fadeFrames: 12, buildMs: 6, prefetch: 360, h: 180, kmax: 1 };
   /* BR-RoLE 1.1 bounce light.  A wall / pillar side or a floor patch the lamp lights directly (irradiance f · cos x the share
    * of the tube that sees it) re-emits `wall` / `floor` x its albedo of it, from a point just in front of it, into the space
    * it faces (a wall's lobe leans out along its normal by `lean` x its scale; a floor patch's is round), falling off as
@@ -96,13 +110,21 @@
    * own field kept, so a lit room with its bounce light is as bright as before (the darkness the user likes is kept) */
   /* the line of sight's reach (drawLight's, 700 px: never changed here) and the fade of every light before it */
   const SIGHT = { r: 700, fade: 80 };
-  const SPILL = { wall: .08, floor: .04, lw: 130, lf: 110, pw: 1.2, lean: .35, wallRange: 330, floorRange: 300, reach: 470, floorReach: 400, min: .0012, direct: .88 };
+  const SPILL = { wall: .08, floor: .04, lw: 130, lf: 110, pw: 1.2, lean: .35, wallRange: 330, floorRange: 300, reach: 470, floorReach: 400, min: .0012, direct: 1 };
   /* restrained material response (relative albedo; the yellow chevron paper = 1): pale arch paper returns more, paper peeled
    * to crimson and red / deep carpet less; wet tile and bare concrete a little more than carpet.  No surface emits */
   const ALBEDO = { wall: { '': 1, 'ARCH GALLERY': 1.12, 'RED ROOMS': .55 }, floor: { '': .6, 'DEEP CARPET': .42, 'RED ROOMS': .36, 'LONG ROOM': .72, 'DAMP ROOMS': .8 } };
+  /* Stage 3B-L QA1 SURFACE RECEIVERS.  A wall's (or pillar's) visible face is a band inside it along its edge (the remaster
+   * papers it: S 46, N 23, E / W 27 px; a pillar's faces are shallower, inside its 56 px).  A light's shadows start at the edge,
+   * so that band was always dark.  Now each light's own shadowed field just in front of a face that turns towards the light
+   * (`s0` .. `s0 + sw` px out, past the mask's blur) is carried onto the face band: the face is lit exactly where the floor at
+   * its foot is lit by that light - the same walls, pillars and props block it - scaled by how squarely the face turns to the
+   * light (base + k cos, in `seg` px pieces).  Faces turned away get nothing; nothing reaches past a face into the blocker.
+   * At a convex corner the side faces give way to the front / back ones (their bands would overlap there) */
+  const FACE = { S: 46, N: 23, E: 27, W: 27, pS: 18, pN: 12, pE: 14, pW: 14, s0: 5, sw: 3, seg: 32, base: .45, k: .55, gain: 1 };
   const SRC = { beam: 3, omni: 4 };                                          // a carried light's half-size (world px)
   /* carried lights: the height each is held at (for prop shadows; SH7's) and the longest prop shadow (kmax x distance) */
-  const CARRY = { h: { flashlight: 105, headlamp: 160, lantern: 85 }, kmax: 2.2 };
+  const CARRY = { h: { flashlight: 105, headlamp: 160, lantern: 85 }, kmax: 2.2, vis: 1.35 };   // vis (QA1): a carried light's visible output x the game's own power (light truth unchanged)
   /* selected prop casters (world.js PROPS, adapted from the SH7 donor's table): presentation height above the floor (px).
    * The game's ray query passes over props (only walls and pillars stop light), so their shadows are new.  A prop is a box:
    * from a source point at height h its floor shadow is the hull of its base and its projected top (top corner + (corner -
@@ -123,9 +145,9 @@
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
     lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
     layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0,
-    tpl: null, sightFade: true, skip: {}, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, rooms: null };
+    tpl: null, sightFade: true, skip: {}, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, facesOn: true, rooms: null };
   const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampBuildMax: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0,
-    farBuilds: 0, farMs: 0, farStepMax: 0, emitters: 0, emittersMax: 0, fars: 0 };
+    faceDraws: 0, farBuilds: 0, farMs: 0, farStepMax: 0, emitters: 0, emittersMax: 0, fars: 0 };
 
   /* ---------- quality: URL > remembered > device default (touch / small screen -> LOW); ?lighting=legacy is DEV only ---------- */
   function initialQuality() {
@@ -153,7 +175,7 @@
       let e = y; while (e + 1 < H && wall(x - 1, e + 1) === lf && wall(x, e + 1) === rt) e++;
       E.push(x * T, y * T, x * T, (e + 1) * T, lf ? 1 : -1, 0); y = e + 1;
     }
-    const seen = new Set(); let pillars = 0;
+    const seen = new Set(); let pillars = 0; S.nWall = E.length / 6;
     if (typeof A.Bc === 'function') for (let y = 96; y < H * T; y += 192) for (let x = 96; x < W * T; x += 192) {
       let l = null; try { l = A.Bc(x, y); } catch (e) { l = null; }
       if (l) for (const r of l) if (r && r.w === 56 && r.h === 56) { const k = r.x + ',' + r.y; if (seen.has(k)) continue; seen.add(k); pillars++;
@@ -164,6 +186,60 @@
       const o = j * 6, bx0 = Math.floor(Math.min(E[o], E[o + 2]) / VB), bx1 = Math.floor(Math.max(E[o], E[o + 2]) / VB), by0 = Math.floor(Math.min(E[o + 1], E[o + 3]) / VB), by1 = Math.floor(Math.max(E[o + 1], E[o + 3]) / VB);
       for (let by = by0; by <= by1; by++) for (let bx = bx0; bx <= bx1; bx++) { const k = by * 4096 + bx; let l = S.egrid.get(k); if (!l) S.egrid.set(k, l = []); l.push(j); }
     }
+    buildBands(wall);
+  }
+  /* QA1: every side's visible face band (inside its wall / pillar) and the strip of open floor in front of it (world px):
+   * S.bands[j * 8 ..] = band x0, y0, x1, y1, strip x0, y0, x1, y1 (an empty band: x1 <= x0) */
+  function buildBands(wall) {
+    const E = S.edges, B = S.bands = new Float32Array(S.nEdges * 8), s0 = FACE.s0, s1 = FACE.s0 + FACE.sw;
+    for (let j = 0; j < S.nEdges; j++) {
+      const o = j * 6, ax = E[o], ay = E[o + 1], bx = E[o + 2], by = E[o + 3], nx = E[o + 4], ny = E[o + 5], pil = j >= S.nWall, q = j * 8;
+      if (ay === by) {                                                      // a front (S, wall above the floor) or back (N) face: the whole run
+        const x0 = Math.min(ax, bx), x1 = Math.max(ax, bx), d = ny > 0 ? (pil ? FACE.pS : FACE.S) : (pil ? FACE.pN : FACE.N);
+        B.set(ny > 0 ? [x0, ay - d, x1, ay, x0, ay + s0, x1, ay + s1] : [x0, ay, x1, ay + d, x0, ay - s1, x1, ay - s0], q);
+      } else {                                                              // a side face (E: wall on the left, W: on the right), clear of the corners
+        const y0 = Math.min(ay, by), y1 = Math.max(ay, by), d = pil ? (nx > 0 ? FACE.pE : FACE.pW) : (nx > 0 ? FACE.E : FACE.W);
+        let t0 = 0, t1 = 0;
+        if (pil) { t0 = FACE.pN; t1 = FACE.pS; }
+        else { const cw = nx > 0 ? ax / T - 1 : ax / T; if (!wall(cw, y0 / T - 1)) t0 = FACE.N; if (!wall(cw, y1 / T)) t1 = FACE.S; }   // convex corners: the block's back / front face owns them
+        if (y1 - t1 <= y0 + t0) { B[q + 2] = B[q]; continue; }
+        B.set(nx > 0 ? [ax - d, y0 + t0, ax, y1 - t1, ax + s0, y0 + t0, ax + s1, y1 - t1] : [ax, y0 + t0, ax + d, y1 - t1, ax - s1, y0 + t0, ax - s0, y1 - t1], q);
+      }
+    }
+  }
+  /* QA1: carry a light's field (already drawn and shadowed in canvas c: world -> c px is x * k + ox) from the strip in front of
+   * every face turned towards (lx, ly) within reach onto that face's band, in pieces scaled base + k cos.  `tmp`: a pooled canvas
+   * at least c's size (the field is read from a copy of c's pixel box bb = [x0, y0, x1, y1]) */
+  function extrude(c, tmp, k, ox, oy, lx, ly, reach, bb, push = 0) {   // push: the strip moved that much farther out (a low-resolution cache's blur)
+    const E = S.edges, B = S.bands; if (!B || !S.facesOn) return 0;
+    const bw = bb[2] - bb[0], bh = bb[3] - bb[1]; if (!(bw > 0 && bh > 0)) return 0;
+    const wx0 = (bb[0] - ox) / k, wy0 = (bb[1] - oy) / k, wx1 = (bb[2] - ox) / k, wy1 = (bb[3] - oy) / k;   // the box in world px
+    const t = tmp.getContext('2d'); t.save(); t.setTransform(1, 0, 0, 1, 0, 0); t.globalAlpha = 1; t.globalCompositeOperation = 'copy'; t.drawImage(c.canvas, bb[0], bb[1], bw, bh, bb[0], bb[1], bw, bh); t.restore();
+    c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-over'; c.imageSmoothingEnabled = true;
+    const st = S.stamp, q = ++S.q; let n = 0;
+    const x0 = Math.max(wx0, lx - reach), x1 = Math.min(wx1, lx + reach), y0 = Math.max(wy0, ly - reach), y1 = Math.min(wy1, ly + reach);
+    for (let by = Math.floor(y0 / VB); by <= Math.floor(y1 / VB); by++) for (let bx = Math.floor(x0 / VB); bx <= Math.floor(x1 / VB); bx++) {
+      const l = S.egrid.get(by * 4096 + bx); if (!l) continue;
+      for (const j of l) {
+        if (st[j] === q) continue; st[j] = q; const o = j * 6, nx = E[o + 4], ny = E[o + 5];
+        if ((lx - E[o]) * nx + (ly - E[o + 1]) * ny <= .5) continue;      // turned away (or edge-on): no light on this face
+        const g = j * 8; if (!(B[g + 2] > B[g])) continue;
+        const hor = ny !== 0, a0 = hor ? B[g] : B[g + 1], a1 = hor ? B[g + 2] : B[g + 3];   // along the face
+        const lo = Math.max(a0, hor ? x0 - 2 : y0 - 2), hi = Math.min(a1, hor ? x1 + 2 : y1 + 2); if (!(hi > lo)) continue;
+        const m = Math.max(1, Math.ceil((hi - lo) / FACE.seg)), step = (hi - lo) / m;
+        for (let s = 0; s < m; s++) {
+          const u0 = lo + s * step, u1 = u0 + step, mx = hor ? (u0 + u1) / 2 : E[o], my = hor ? E[o + 1] : (u0 + u1) / 2, dx = lx - mx, dy = ly - my, d = Math.hypot(dx, dy) || 1;
+          const cos = (dx * nx + dy * ny) / d; if (!(cos > 0)) continue;
+          const a = Math.min(1, FACE.gain * (FACE.base + FACE.k * cos));
+          let sx, sy, sw_, sh_, dx_, dy_, dw, dh;                           // strip (source) and band (destination), c px
+          if (hor) { sx = u0 * k + ox; sw_ = step * k; sy = (B[g + 5] + ny * push) * k + oy; sh_ = (B[g + 7] - B[g + 5]) * k; dx_ = sx; dw = sw_; dy_ = B[g + 1] * k + oy; dh = (B[g + 3] - B[g + 1]) * k; }
+          else { sy = u0 * k + oy; sh_ = step * k; sx = (B[g + 4] + nx * push) * k + ox; sw_ = (B[g + 6] - B[g + 4]) * k; dy_ = sy; dh = sh_; dx_ = B[g] * k + ox; dw = (B[g + 2] - B[g]) * k; }
+          if (sx < bb[0] || sy < bb[1] || sx + sw_ > bb[2] || sy + sh_ > bb[3]) continue;   // the strip outside the copied box: nothing known there
+          c.globalAlpha = a; c.drawImage(tmp, sx, sy, sw_, sh_, dx_, dy_, dw, dh); n++;
+        }
+      }
+    }
+    c.restore(); ST.faceDraws += n; return n;
   }
   /* the selected prop casters (world.js PROPS), static */
   function buildProps() {
@@ -345,6 +421,7 @@
     if (S.blur) c.filter = `blur(${(LAMP.blur * res).toFixed(2)}px)`;
     c.drawImage(S.lmask, 0, 0); if (S.blur) c.filter = 'none';
     c.globalCompositeOperation = 'source-over';
+    extrude(c, S.ltmp, res, (tp.hx - L.x) * res, (tp.hy - L.y) * res, L.x, L.y, reach, [0, 0, w, h]);   // QA1: the faces turned to it receive its light
     const bms = now() - t0; ST.lampBuilds++; ST.lampBuildMs += bms; if (bms > ST.lampBuildMax) ST.lampBuildMax = bms;
     return { cv, hx: tp.hx, hy: tp.hy, smp, edges, props, born: -1e9, used: ST.frames, far: null, farBorn: -1e9, emit: 0 };
   }
@@ -421,6 +498,7 @@
       tubeShadows(S.fmask.getContext('2d'), S.ftmp, w, h, [res, 0, 0, res, (tp.hx - L.x) * res, (tp.hy - L.y) * res], tubePoints(L, cfg.farTube), tp.hx + LAMP.tubeX + 4, props);
       c.globalCompositeOperation = 'destination-out'; if (S.blur) c.filter = 'blur(1.2px)';   // a texel's softening: the few tube points' penumbra steps blend
       c.drawImage(S.fmask, 0, 0); if (S.blur) c.filter = 'none'; c.globalCompositeOperation = 'source-over';
+      extrude(c, S.ftmp, res, (tp.hx - L.x) * res, (tp.hy - L.y) * res, L.x, L.y, tp.hx + LAMP.tubeX + 4, [0, 0, w, h], 1.5 / res);   // QA1: faces receive its far light too
       job.phase = 1; return false;
     }
     if (job.phase === 1) { job.emit = S.spillOn ? bouncePoints(L, cfg) : []; job.k = 0; job.phase = 2; return false; }
@@ -513,7 +591,7 @@
             C = buildLamp(i, L, cfg); built++; if (S.pending.has(i)) C.born = ST.frames; S.lampCache.set(i, C);
           } else { S.lampCache.delete(i); S.lampCache.set(i, C); }          // most recently used last
           C.used = ST.frames;
-          const p = lampPower(i, L, F.t) * (m === cfg.lamps - 1 ? clamp((cut - list[m][0]) / 140, 0, 1) : 1) * clamp((ST.frames - C.born) / LAMP.fadeFrames, 0, 1);   // only the last admitted fades (no pop at the cap)
+          const p = lampPower(i, L, F.t) * LAMP.vis * (m === cfg.lamps - 1 ? clamp((cut - list[m][0]) / 140, 0, 1) : 1) * clamp((ST.frames - C.born) / LAMP.fadeFrames, 0, 1);   // only the last admitted fades (no pop at the cap)
           if (!(p > .002)) continue;
           lampRecs.push({ i, L, p, C, smp: C.smp, props: C.props, acts: [] });
         }
@@ -654,7 +732,7 @@
     const R = f.range, cone = f.omni ? null : [Lc.ang, f.arc / 2 + .2], sh = CARRY.h[Lc.kind] || CARRY.h.flashlight;
     const props = propsFor(Lc.x, Lc.y, R + 8, cone, Math.min(cfg.props, S.propLeft)); S.propLeft -= props.length; ST.props += props.length;
     const gprops = propsFor(Lc.x, Lc.y, Lc.glowR + 4, null, Math.min(cfg.props, S.propLeft)); S.propLeft -= gprops.length; ST.props += gprops.length;
-    return { Lc, x: Lc.x, y: Lc.y, ang: Lc.ang, f, R, arc: f.arc, omni: !!f.omni, power: f.power * (f.omni ? Lc.fl : 1) * w, w, cone, sh, props, gprops,
+    return { Lc, x: Lc.x, y: Lc.y, ang: Lc.ang, f, R, arc: f.arc, omni: !!f.omni, power: f.power * CARRY.vis * (f.omni ? Lc.fl : 1) * w, w, cone, sh, props, gprops,
       smp: sourcePoints(Lc.x, Lc.y, Lc.ang, !!f.omni, cfg.src), own: !!Lc.own, acts: [] };
   }
   /* one carried light: its natural field (radial falloff x the beam's smooth angular profile), then the shadows walls,
@@ -683,6 +761,8 @@
     /* the shadows walls, pillars and props cast into that field, from the hand (inside the beam only); then the actors' */
     castInto(sx, r.smp, R + 8, r.cone, F, k, sc, bb, { props: r.props, sh: r.sh, kmax: CARRY.kmax });
     if (r.acts.length) castActors(sx, r.acts, F, k, sc);
+    if (!S.ctmp || S.ctmp.width !== S.scr.width || S.ctmp.height !== S.scr.height) { S.ctmp = mkCanvas(S.scr.width, S.scr.height); S.cx = S.ctmp.getContext('2d'); }
+    sx.restore(); sx.save(); extrude(sx, S.ctmp, k, F.ox * sc, F.oy * sc, Lc.x, Lc.y, R + 8, bb); sx.restore(); boxClip(sx, bb);   // QA1: the walls and pillars it hits light up (outside the box clip: a face just past the box edge still belongs to this light's box copy)
     /* the light it adds */
     const bx = S.bx; bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.drawImage(S.scr, bb[0], bb[1], bbw, bbh, bb[0], bb[1], bbw, bbh); bx.restore();
     /* its colour over the lit area (v23.3.6 tints a carried beam with its colour) */
@@ -1013,10 +1093,17 @@
       tube: i => { const C = S.lampCache.get(i), L = (window.__api.lamps || [])[i]; return C && L ? C.smp.concat(tubePoints(L, TIERS[S.quality].farTube)) : null; },
       cacheInfo: i => { const C = S.lampCache.get(i); if (!C) return null; const g = (cv, hx, hy) => ({ hx, hy, w: cv.width, h: cv.height, res: cv.width / (2 * hx) });
         return { core: g(C.cv, C.hx, C.hy), far: C.far ? g(C.far.cv, C.far.hx, C.far.hy) : null, bounce: C.emit }; },
+      /* QA1: the visible faces (bands) of walls / pillars in a world box: { j, n: [nx, ny], pillar, band: [x0, y0, x1, y1], strip: [...] } */
+      bands: (x0, y0, x1, y1) => { const E = S.edges, B = S.bands, out = []; if (!B) return out;
+        for (let j = 0; j < S.nEdges; j++) { const g = j * 8, o = j * 6; if (!(B[g + 2] > B[g]) || B[g + 2] < x0 || B[g] > x1 || B[g + 3] < y0 || B[g + 1] > y1) continue;
+          out.push({ j, n: [E[o + 4], E[o + 5]], pillar: j >= S.nWall, edge: [E[o], E[o + 1], E[o + 2], E[o + 3]], band: Array.from(B.subarray(g, g + 4)), strip: Array.from(B.subarray(g + 4, g + 8)) }); }
+        return out; },
+      /* QA1, DEV only (tests): the surface receivers (face light) off / on; every lamp cache is rebuilt */
+      faces: v => { if (v !== undefined && !!v !== S.facesOn) { S.facesOn = !!v; S.lampKey = null; } return S.facesOn; },
       field: (dx, dy) => lampFall(dx, dy),
       sightFade: v => { if (v !== undefined) S.sightFade = !!v; return S.sightFade; },
       farReady: () => !S.farJob && (!S.last || S.last.lamps.every(l => l.far)),
       skip: o => { if (o !== undefined) S.skip = Object.assign({}, o || {}); return Object.assign({}, S.skip); },   // DEV only (perf A/B): skip drawing parts
-      constants: () => JSON.parse(JSON.stringify({ LAMP, SPILL, ALBEDO })) },
+      constants: () => JSON.parse(JSON.stringify({ LAMP, SPILL, ALBEDO, FACE, CARRY })) },
   };
 })();
