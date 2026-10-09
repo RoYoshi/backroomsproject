@@ -13,13 +13,13 @@
     flashlight: 'A long, narrow, soft-edged beam that follows your mouse. The best reach there is, but it sees almost nothing to the sides.',
     headlamp: 'A wider cone strapped to your head. Hands-free and always where you look, with a shorter reach and a slightly dimmer beam.',
     lantern: 'A warm camping lantern carried at your side. It lights a circle around you, not what lies ahead. Short to medium reach.',
-    camcorder: 'Gives off no light at all. Raise it and see the dark through the lens: grainy green-gray, zoomable with the wheel. The night-vision sensor overheats, so watch TEMP.',
+    camcorder: 'Night Vision Camcorder emits no visible light; its night vision uses infrared. Raise it and see the dark through the lens: grainy green-gray, zoomable with the wheel. The sensor overheats, so watch TEMP.',
   };
   const CARD_TEXT = {
     flashlight: 'Longest reach. Narrow, soft-edged beam that follows your mouse.',
     headlamp: 'Hands-free. Wider, shorter cone that follows where you look.',
     lantern: 'Warm glow all around you. Short reach, no aim needed.',
-    camcorder: 'No light. Night vision through the lens; it overheats.',
+    camcorder: 'No visible light: its night vision uses infrared. It overheats.',
   };
   const KIND_STATS = {           // [reach, spread] out of 5, shown on the loadout cards
     flashlight: [5, 1], headlamp: [3, 3], lantern: [2, 5], camcorder: null,
@@ -228,7 +228,7 @@
     const A = window.__api; if (!A || !A.gear) return;
     const k0 = A.gear.eq.kind, lock = loadoutLocked();
     cards.innerHTML = Object.keys(KINDS).map(k => {
-      const st = KIND_STATS[k], line = st ? `REACH ${bar(st[0])} SPREAD ${bar(st[1])}` : 'NO LIGHT · NIGHT VISION';
+      const st = KIND_STATS[k], line = st ? `REACH ${bar(st[0])} SPREAD ${bar(st[1])}` : 'NO VISIBLE LIGHT · INFRARED';
       return `<button type="button" class="lc ${k === k0 ? 'on' : ''}" data-kind="${k}" role="radio" aria-checked="${k === k0}" ${lock ? 'disabled' : ''}><canvas data-kind="${k}" width="64" height="64"></canvas><b>${KINDS[k].toUpperCase()}</b><small>${CARD_TEXT[k]}<i>${line}</i></small></button>`;
     }).join('');
     lockNote.textContent = lock ? 'LOADOUT LOCKED · you carry one device per run. Get caught and choose again, or reload to start over.' : '';

@@ -66,12 +66,12 @@ const inside = (P, sel) => P.evaluate(s => { const a = document.activeElement, r
 
       // CUSTOMIZE: the game's own panel opens over the menu and closes with Escape
       await P.click('#menu .mm-item[data-go="customize"]'); await sleep(700);
-      const cu = await P.evaluate(() => ({ st: __ui.state(), vis: !document.getElementById('appearancePanel').hidden, tab: window.__uiCustomizeTab }));
+      const cu = await P.evaluate(() => ({ st: __ui.state(), vis: !document.getElementById('appearancePanel').hidden, tab: document.getElementById('appearancePanel').dataset.tab || window.__uiCustomizeTab }));
       await P.keyboard.press('Escape'); await sleep(500);
       const cc = await P.evaluate(() => ({ st: __ui.state(), started: __api.started(), paused: __api.paused(), dialog: document.getElementById('dialog').hidden }));
       check('CUSTOMIZE opens the game\'s customize panel; Escape returns to the menu (not started, not paused)', cu.st === 'customize' && cu.vis && cc.st === 'menu' && !cc.started && !cc.paused && cc.dialog, { cu, cc });
       await P.click('#menu .mm-loadout [data-go="customize"]'); await sleep(600);
-      const cl = await P.evaluate(() => ({ st: __ui.state(), tab: window.__uiCustomizeTab }));
+      const cl = await P.evaluate(() => ({ st: __ui.state(), tab: document.getElementById('appearancePanel').dataset.tab || window.__uiCustomizeTab }));
       await P.evaluate(() => __ui.go('customize', 'wanderer')); await sleep(300);    // switching tabs while customize is open
       await P.evaluate(() => __ui.go('home')); await sleep(500);
       const ch = await P.evaluate(() => ({ st: __ui.state(), paused: __api.paused(), dialog: document.getElementById('dialog').hidden, panel: document.getElementById('appearancePanel').hidden }));

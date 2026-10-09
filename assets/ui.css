@@ -426,3 +426,92 @@ body.ui-paused #net{z-index:18}
   .mm-foot p{font-size:9.5px}
   body.ui-menu #net{display:none}
 }
+
+/* ================================================================ C3: customize - WANDERER and LOADOUT
+   (#appearancePanel is the game's panel; inventory.js injects its loadout-card styles at run time, hence the #appearancePanel prefix) */
+#appearancePanel{padding:20px;background:#060504d1;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#appearancePanel .appearance-card.cz{position:relative;display:flex;flex-direction:column;width:min(920px,100%);max-height:calc(100dvh - 40px);padding:0;overflow:hidden;
+  border:1px solid var(--u-line2);background:linear-gradient(170deg,#17130bf6,#0d0b07f8 70%);box-shadow:0 34px 90px #000d;color:var(--u-text);font-family:var(--u-mono);animation:uPanelIn .45s var(--u-ease) both}
+#appearancePanel .cz::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:2px;background:var(--u-sick);transform-origin:0 50%;animation:uLine .8s .15s var(--u-ease) both}
+#appearancePanel .cz-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:26px 30px 0}
+#appearancePanel .cz-head h2{margin:0;color:var(--u-cream);font:600 clamp(28px,3vw,38px)/1 var(--u-display);letter-spacing:.06em;text-transform:uppercase}
+#closeAppearance{display:inline-flex;align-items:center;gap:10px;flex:none;min-height:40px;padding:0 12px 0 14px;border:1px solid var(--u-line2);background:none;color:var(--u-cream);
+  font:500 11px/1 var(--u-mono);letter-spacing:.08em;text-transform:uppercase}
+#closeAppearance kbd{margin:0;padding:3px 5px;border:1px solid var(--u-line2);color:var(--u-moss);font:500 9.5px/1 var(--u-mono);letter-spacing:.04em}
+#closeAppearance:hover{border-color:var(--u-line-hi);color:#fff8de}
+.cz-tabs{display:flex;padding:16px 30px 0;border-bottom:1px solid var(--u-line)}
+.cz-tabs [role=tab]{display:grid;gap:5px;margin:0 30px -1px 0;padding:10px 0 12px;text-align:left;background:none;border:0;border-bottom:2px solid transparent;color:var(--u-mute);transition:color var(--u-fast),border-color var(--u-fast)}
+.cz-tabs [role=tab] b{font:600 22px/1 var(--u-display);letter-spacing:.08em;text-transform:uppercase}
+.cz-tabs [role=tab] small{color:var(--u-moss-dim);font:400 10.5px/1.3 var(--u-mono)}
+.cz-tabs [role=tab]:hover{color:var(--u-cream)}
+.cz-tabs [role=tab][aria-selected=true]{color:var(--u-sick-hi);border-bottom-color:var(--u-sick)}
+.cz-tabs [role=tab][aria-selected=true] small{color:var(--u-moss)}
+#appearancePanel .cz-body{display:block;flex:1;min-height:0;overflow:auto;padding:24px 30px;scrollbar-width:thin;scrollbar-color:#5b5236 transparent;overscroll-behavior:contain}
+#czWanderer[hidden],#czLoadout[hidden],#czBeam[hidden]{display:none!important}
+.cz-label{color:var(--u-moss);font:500 11px/1.3 var(--u-mono);letter-spacing:.06em}
+
+/* wanderer: the live preview beside the choices */
+.cz-wanderer{display:grid;grid-template-columns:minmax(0,330px) minmax(0,1fr);gap:28px;align-items:start}
+.cz-stage{position:sticky;top:0;display:grid;justify-items:center;padding:18px 12px 14px;border:1px solid var(--u-line);background:radial-gradient(ellipse 60% 55% at 50% 48%,#3a3118,#0c0a06 72%)}
+#appearancePanel #avatarPreview{display:grid;place-items:center;width:300px;max-width:100%;height:150px;margin:0;background:none}
+#appearancePanel #avatarPreview canvas{width:300px;height:150px;max-width:100%;object-fit:contain}
+.cz-cap{margin:10px 0 0;color:var(--u-mute);font:400 11px/1.55 var(--u-mono);text-align:center}
+.cz-field{display:grid;gap:10px;margin:0 0 18px;padding:0 0 18px;border-bottom:1px solid var(--u-line)}
+.cz-field:last-of-type{border-bottom:0}
+#appearancePanel .cz-pick{display:inline-flex;align-items:center;gap:10px;margin:0;color:var(--u-mute);font:400 11px/1 var(--u-mono);letter-spacing:.04em;cursor:pointer}
+#appearancePanel .cz-pick input[type=color]{width:46px;height:30px;margin:0;padding:2px;border:1px solid var(--u-line2);background:var(--u-field);cursor:pointer}
+#appearancePanel .cz-pick.on input[type=color]{outline:2px solid var(--u-tube);outline-offset:2px}
+.cz-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cz-chip{min-height:40px;padding:0 15px;border:1px solid var(--u-line2);background:var(--u-ink);color:var(--u-cream);font:500 11.5px/1 var(--u-mono);letter-spacing:.06em;text-transform:uppercase;
+  transition:background-color var(--u-fast),border-color var(--u-fast),color var(--u-fast)}
+.cz-chip:hover{border-color:var(--u-line-hi);background:var(--u-panel2)}
+.cz-chip[aria-checked=true]{background:var(--u-sick);color:var(--u-on-sick);border-color:var(--u-sick-hi)}
+.cz-chip:focus-visible,#appearancePanel .u-sw:focus-visible,.cz-tabs [role=tab]:focus-visible,#closeAppearance:focus-visible,#appearancePanel button:focus-visible{outline:2px solid var(--u-tube);outline-offset:3px}
+
+/* loadout: choose the device on the left, colour it on the right */
+#czLoadout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);grid-template-areas:"cards parts" "lock parts" "note parts" "beam parts" ". parts";gap:14px 30px;align-items:start}
+#appearancePanel #lightCards{grid-area:cards;margin:0;gap:8px}
+#appearancePanel #lightCards .lc{grid-template-columns:56px 1fr;gap:4px 12px;padding:10px;border:1px solid var(--u-line2);background:var(--u-ink);color:var(--u-text);font:400 11px var(--u-mono);letter-spacing:.02em}
+#appearancePanel #lightCards .lc:hover:not(:disabled){border-color:var(--u-line-hi)}
+#appearancePanel #lightCards .lc.on{border-color:var(--u-sick);background:#211b0d;box-shadow:inset 0 0 0 1px var(--u-sick)}
+#appearancePanel #lightCards canvas{width:56px;height:56px;background:#090705;border:1px solid var(--u-line)}
+#appearancePanel #lightCards b{color:var(--u-cream);font:600 15px/1.05 var(--u-display);letter-spacing:.06em}
+#appearancePanel #lightCards small{color:var(--u-mute);font:400 10.5px/1.45 var(--u-mono);letter-spacing:0}
+#appearancePanel #lightCards i{margin-top:5px;color:var(--u-sick-hi);font:500 9.5px/1.3 var(--u-mono);letter-spacing:.08em}
+#appearancePanel #lightLock{grid-area:lock;margin:0;padding:2px 0 2px 10px;border-left:2px solid var(--u-danger);color:var(--u-danger-hi);font:400 11px/1.55 var(--u-mono);letter-spacing:.02em}
+.cz-note{grid-area:note;margin:0;color:var(--u-text);font:400 12px/1.65 var(--u-mono)}
+.cz-note b{display:block;margin-bottom:4px;color:var(--u-cream);font:600 17px/1.1 var(--u-display);letter-spacing:.06em;text-transform:uppercase}
+.cz-beam{grid-area:beam;display:grid;gap:10px}
+#appearancePanel #lightParts{grid-area:parts;margin:0;padding:0;border:0}
+#appearancePanel #lightZoom{width:100%;height:170px;margin:0 0 12px;border:1px solid var(--u-line);background:radial-gradient(ellipse 60% 70% at 50% 50%,#3b3218,#0b0905 75%)}
+#appearancePanel .lp-head{margin:0 0 8px;color:var(--u-moss);font:500 11px/1 var(--u-mono);letter-spacing:.08em}
+#appearancePanel #lpReset{min-height:32px;padding:0 12px;border:1px solid var(--u-line2);background:var(--u-ink);color:var(--u-cream);font:500 10.5px/1 var(--u-mono);letter-spacing:.08em}
+#appearancePanel .lp-fields{grid-template-columns:1fr 1fr;gap:0 18px}
+#appearancePanel .lp-fields label{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0;padding:8px 0;border-bottom:1px solid var(--u-line);color:var(--u-text);font:400 12px/1.3 var(--u-mono);letter-spacing:0}
+#appearancePanel .lp-fields input[type=color]{flex:none;width:46px;height:28px;margin:0;padding:2px;border:1px solid var(--u-line2);background:var(--u-field)}
+
+/* the foot: what saving means, and Done */
+.cz-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 30px 20px;border-top:1px solid var(--u-line)}
+#appearancePanel .appearance-note{margin:0;color:var(--u-mute);font:400 11px/1.5 var(--u-mono);text-align:left}
+#appearancePanel #doneAppearance{display:flex;align-items:center;justify-content:center;width:auto;min-width:180px;min-height:50px;margin:0;padding:0 26px;border:1px solid var(--u-sick-hi);background:var(--u-sick);
+  color:var(--u-on-sick);font:600 18px/1 var(--u-display);letter-spacing:.14em;text-transform:uppercase}
+#appearancePanel #doneAppearance:hover{background:var(--u-sick-hi)}
+
+@media (max-width:760px){
+  #appearancePanel{padding:0}
+  #appearancePanel .appearance-card.cz{width:100%;max-height:100dvh;height:100dvh;border:0}
+  #appearancePanel .cz-head{padding:18px 18px 0}
+  .cz-tabs{padding:10px 18px 0}
+  .cz-tabs [role=tab]{margin-right:22px}
+  .cz-tabs [role=tab] small{display:none}
+  #appearancePanel .cz-body{padding:18px}
+  .cz-wanderer{grid-template-columns:minmax(0,1fr);gap:18px}
+  .cz-stage{position:static}
+  #czLoadout{grid-template-columns:minmax(0,1fr);grid-template-areas:"cards" "lock" "note" "beam" "parts"}
+  #appearancePanel .lp-fields{grid-template-columns:1fr}
+  .cz-foot{padding:12px 18px max(14px,env(safe-area-inset-bottom))}
+  #appearancePanel .appearance-note{font-size:10px}
+  #appearancePanel #doneAppearance{min-width:120px}
+}
+@media (max-width:760px),(pointer:coarse){#closeAppearance kbd{display:none}#closeAppearance span{display:inline}}
+@media (max-height:640px) and (min-width:761px){#appearancePanel .cz-head{padding-top:18px}.cz-tabs [role=tab] small{display:none}#appearancePanel .cz-body{padding:16px 30px}}

@@ -1,0 +1,234 @@
+{
+ "checks": [
+  {
+   "name": "a saved legacy backpack loads as \"none\" (look and save); the backpack field offers only \"none\" and nothing visible mentions a backpack",
+   "ok": true,
+   "note": {
+    "look": "none",
+    "saved": "none",
+    "opts": [
+     "none"
+    ],
+    "shown": false
+   }
+  },
+  {
+   "name": "the preview renderer is idle while customize is closed and draws once it opens (WANDERER tab first, focus on the tab)",
+   "ok": true,
+   "note": {
+    "t0": {
+     "app": true,
+     "started": false
+    },
+    "o1": {
+     "st": "customize",
+     "tab": "wanderer",
+     "sel": "true",
+     "focus": "czTab_wanderer",
+     "started": true,
+     "wPane": true,
+     "lPane": false
+    }
+   }
+  },
+  {
+   "name": "hat and texture chips set the game's look and save it; arrow keys move and select",
+   "ok": true,
+   "note": {
+    "c1": {
+     "hat": "cap",
+     "tex": "patched",
+     "aria": "true"
+    },
+    "c2": {
+     "hat": "beanie",
+     "focus": "beanie"
+    },
+    "s1": {
+     "hat": "beanie",
+     "texture": "patched",
+     "hands": "#e6bb76",
+     "main": "#ffcc77",
+     "backpack": "none"
+    }
+   }
+  },
+  {
+   "name": "body and hand swatches set the colours; a custom colour clears the swatches and marks the picker; all saved",
+   "ok": true,
+   "note": {
+    "w1": {
+     "main": "#a7b298",
+     "hands": "#55524a"
+    },
+    "w2": {
+     "main": "#123456",
+     "pick": true,
+     "none": true
+    },
+    "s2": {
+     "hat": "beanie",
+     "texture": "patched",
+     "hands": "#55524a",
+     "main": "#123456",
+     "backpack": "none"
+    }
+   }
+  },
+  {
+   "name": "LOADOUT lists the four devices (flashlight, headlamp, lantern, Night Vision Camcorder) with parts and a close-up",
+   "ok": true,
+   "note": {
+    "cards": [
+     "flashlight",
+     "headlamp",
+     "lantern",
+     "camcorder"
+    ],
+    "disabled": false,
+    "parts": true,
+    "zoom": true
+   }
+  },
+  {
+   "name": "choosing the headlamp, a beam colour and a part colour drives the game's equipment and saves it",
+   "ok": true,
+   "note": {
+    "l1": {
+     "kind": "headlamp",
+     "color": "#ffc98a",
+     "part": "#336699",
+     "note": "HeadlampHands-free: a wider, shorter cone that turns with you.",
+     "beam": true
+    },
+    "s3": {
+     "kind": "headlamp",
+     "color": "#ffc98a",
+     "parts": {
+      "flashlight": {
+       "body": "#3b4650",
+       "head": "#a1a9b0",
+       "button": "#d8443a",
+       "grip": "#181b1e"
+      },
+      "headlamp": {
+       "strap": "#336699",
+       "housing": "#3a4054",
+       "bracket": "#9a9ea6"
+      },
+      "lantern": {
+       "frame": "#3d423c",
+       "handle": "#9aa0a6",
+       "cap": "#a3372c"
+      },
+      "camcorder": {
+       "body": "#2b2f36",
+       "lens": "#69717c",
+       "grip": "#1b1d20",
+       "trim": "#c9ccd0"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "the Night Vision Camcorder has no beam colour and says: \"Night Vision Camcorder emits no visible light; its night vision uses infrared.\"",
+   "ok": true,
+   "note": {
+    "kind": "camcorder",
+    "beam": true,
+    "note": "Night Vision CamcorderNight Vision Camcorder emits no visible light; its night vision uses infrared. F raises it, N switches night vision, B sets the infrared illuminator, the wheel zooms. It overheats.",
+    "card": "NIGHT VISION CAMCORDERNo visible light: its night vision uses infrared. It overheats.NO VISIBLE LIGHT · INFRARED"
+   }
+  },
+  {
+   "name": "Escape closes customize back to the menu: preview idle again, nothing paused, the PLAY panel shows the new device",
+   "ok": true,
+   "note": {
+    "st": "menu",
+    "started": false,
+    "paused": false,
+    "kind": "Lantern"
+   }
+  },
+  {
+   "name": "during a run the device is locked (cards disabled, lock note, a click changes nothing) while the hat can still change; Done returns to the pause",
+   "ok": true,
+   "note": {
+    "k0": {
+     "dis": true,
+     "lock": true,
+     "kind": "lantern"
+    },
+    "k1": "lantern",
+    "k2": "hardhat",
+    "k3": {
+     "st": "paused",
+     "paused": true
+    }
+   }
+  },
+  {
+   "name": "a second wanderer sees the first one's look (hard hat, patched, custom body and hands) and light (lantern, amber)",
+   "ok": true,
+   "note": {
+    "a": {
+     "look": {
+      "hat": "hardhat",
+      "texture": "patched",
+      "hands": "#55524a",
+      "main": "#123456",
+      "backpack": "none"
+     },
+     "kind": "lantern",
+     "color": "#ffc98a"
+    },
+    "peerLights": [
+     {
+      "kind": "lantern",
+      "color": "#ffc98a"
+     },
+     {
+      "kind": "flashlight",
+      "color": "#ffe7b2"
+     }
+    ]
+   }
+  },
+  {
+   "name": "an older client still sending a backpack is drawn without it",
+   "ok": true,
+   "note": {
+    "look": {
+     "hat": "cap",
+     "texture": "stripes",
+     "hands": "#112233",
+     "main": "#445566",
+     "backpack": "none"
+    },
+    "kind": "flashlight",
+    "color": "#ffe7b2"
+   }
+  },
+  {
+   "name": "390 x 844 touch: customize fills the screen, Done stays reachable, the cards fit, Done returns to the menu",
+   "ok": true,
+   "note": {
+    "m1": {
+     "w": 390,
+     "over": 0,
+     "done": true
+    },
+    "m2": true,
+    "m3": "menu"
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "ok": true
+}

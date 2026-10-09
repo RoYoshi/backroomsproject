@@ -90,23 +90,52 @@
 <div id="encounterHint" role="status" hidden>Something is moving in the halls.</div>
 <div id="blackoutHint" role="status" hidden>THE FLUORESCENTS ARE FAILING</div>
 
+<!-- Stage 3C: customize in two areas. Every field keeps the id the game binds (hat, texture, hands, main, backpack, lightKind,
+     lightColor, lightParts); the selects are driven by the chips and swatches below them. Cosmetic backpacks are gone: the
+     backpack field stays only as the game's "none". -->
 <div id="appearancePanel" role="dialog" aria-modal="true" aria-labelledby="appearanceTitle" hidden>
-  <section class="appearance-card">
-    <div class="appearance-heading"><h2 id="appearanceTitle">Your wanderer & light</h2><button id="closeAppearance" aria-label="Close appearance">✕</button></div>
-    <div id="avatarPreview" aria-label="Live character preview"></div>
-    <div class="appearance-fields">
-      <label>Hat<select id="avatarHat"><option value="none">None</option><option value="cap">Cap</option><option value="beanie">Beanie</option><option value="hardhat">Hard hat</option></select></label>
-      <label>Skin texture<select id="avatarTexture"><option value="plain">Plain</option><option value="freckles">Freckles</option><option value="stripes">Stripes</option><option value="patched">Patched</option></select></label>
-      <label>Hand color<input type="color" id="avatarHands"></label>
-      <label>Main color<input type="color" id="avatarMain"></label>
-      <label>Backpack<select id="avatarBackpack"><option value="none">None</option><option value="canvas">Canvas</option><option value="utility">Utility</option></select></label>
-      <label>Light source<select id="lightKind"><option value="flashlight">Flashlight</option><option value="headlamp">Headlamp</option><option value="lantern">Lantern</option><option value="camcorder">Night Vision Camcorder</option></select></label>
-      <label>Beam colour<input type="color" id="lightColor"></label>
-      <p id="lightDescription" class="light-description">A long, narrow handheld beam. Aim with the mouse.</p>
-      <div id="lightParts" class="light-parts"></div>
+  <section class="appearance-card cz">
+    <div class="appearance-heading cz-head">
+      <h2 id="appearanceTitle">Customize</h2>
+      <button id="closeAppearance" type="button" aria-label="Close customize"><span>Close</span><kbd>Esc</kbd></button>
     </div>
-    <button id="doneAppearance" class="primary">DONE</button>
-    <p class="appearance-note">Saved on this device.</p>
+    <div class="cz-tabs" role="tablist" aria-label="Customize">
+      <button type="button" role="tab" id="czTab_wanderer" aria-controls="czWanderer" data-tab="wanderer"><b>Wanderer</b><small>Body, hands, texture, hat</small></button>
+      <button type="button" role="tab" id="czTab_loadout" aria-controls="czLoadout" data-tab="loadout"><b>Loadout</b><small>Your one light for the run</small></button>
+    </div>
+    <div class="appearance-fields cz-body">
+      <div class="cz-pane cz-wanderer" id="czWanderer" role="tabpanel" aria-labelledby="czTab_wanderer">
+        <div class="cz-stage">
+          <div id="avatarPreview" aria-label="Live preview of your wanderer"></div>
+          <p class="cz-cap">A round body and two hands. Other wanderers see you like this.</p>
+        </div>
+        <div class="cz-opts">
+          <div class="cz-field"><span class="cz-label" id="czBodyL">Body colour</span>
+            <div class="u-sws" role="radiogroup" aria-labelledby="czBodyL" data-for="avatarMain"></div>
+            <label class="cz-pick"><span>Custom</span><input type="color" id="avatarMain"></label></div>
+          <div class="cz-field"><span class="cz-label" id="czHandsL">Hand colour</span>
+            <div class="u-sws" role="radiogroup" aria-labelledby="czHandsL" data-for="avatarHands"></div>
+            <label class="cz-pick"><span>Custom</span><input type="color" id="avatarHands"></label></div>
+          <div class="cz-field"><span class="cz-label" id="czTexL">Texture</span>
+            <div class="cz-chips" role="radiogroup" aria-labelledby="czTexL" data-for="avatarTexture"></div>
+            <select id="avatarTexture" hidden tabindex="-1" aria-hidden="true"><option value="plain">Plain</option><option value="freckles">Freckles</option><option value="stripes">Stripes</option><option value="patched">Patched</option></select></div>
+          <div class="cz-field"><span class="cz-label" id="czHatL">Hat</span>
+            <div class="cz-chips" role="radiogroup" aria-labelledby="czHatL" data-for="avatarHat"></div>
+            <select id="avatarHat" hidden tabindex="-1" aria-hidden="true"><option value="none">None</option><option value="cap">Cap</option><option value="beanie">Beanie</option><option value="hardhat">Hard hat</option></select></div>
+          <select id="avatarBackpack" hidden tabindex="-1" aria-hidden="true"><option value="none">None</option></select>
+        </div>
+      </div>
+      <div class="cz-pane cz-loadout" id="czLoadout" role="tabpanel" aria-labelledby="czTab_loadout" hidden>
+        <label class="cz-kind" hidden>Light source<select id="lightKind" tabindex="-1"><option value="flashlight">Flashlight</option><option value="headlamp">Headlamp</option><option value="lantern">Lantern</option><option value="camcorder">Night Vision Camcorder</option></select></label>
+        <p id="lightDescription" class="light-description" hidden>A long, narrow handheld beam. Aim with the mouse.</p>
+        <p class="cz-note" id="czKindNote"></p>
+        <div class="cz-beam" id="czBeam"><span class="cz-label" id="czBeamL">Beam colour</span>
+          <div class="u-sws" role="radiogroup" aria-labelledby="czBeamL" data-for="lightColor"></div>
+          <label class="cz-pick"><span>Custom</span><input type="color" id="lightColor"></label></div>
+        <div id="lightParts" class="light-parts"></div>
+      </div>
+    </div>
+    <div class="cz-foot"><p class="appearance-note">Saved on this device. Other wanderers see your wanderer and your light.</p><button id="doneAppearance" type="button" class="primary">Done</button></div>
   </section>
 </div>
 <div id="touch"><div class="dpad"><button data-key="KeyW">↑</button><button data-key="KeyA">←</button><button data-key="KeyS">↓</button><button data-key="KeyD">→</button></div><button data-key="ShiftLeft">RUN</button><button data-key="KeyC">CROUCH</button><button id="touchFlash">LIGHT</button><button type="button" id="touchInv" aria-label="Inventory">INV</button></div>

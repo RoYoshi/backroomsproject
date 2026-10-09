@@ -26,10 +26,15 @@
     flashlight: 'Longest reach. A narrow beam that follows your mouse.',
     headlamp: 'Hands-free. A wider, shorter cone that turns with you.',
     lantern: 'A warm glow all around you. Short reach, no aiming.',
-    camcorder: 'No visible light. Its night vision sees by infrared, and it overheats.',
+    camcorder: 'Emits no visible light; its night vision uses infrared.',
   };
   const NAME_KEY = 'tfb.wanderer.name';
   const coarse = () => !!(window.matchMedia && matchMedia('(pointer: coarse)').matches);
+
+  /* cosmetic backpacks are gone: a saved legacy pack becomes "none" before the game reads the save (this file runs before the
+     game's module). Nothing else in the save changes. */
+  try { const k = 'wanderer-appearance', a = JSON.parse(localStorage.getItem(k) || 'null');
+    if (a && typeof a === 'object' && 'backpack' in a && a.backpack !== 'none') { a.backpack = 'none'; localStorage.setItem(k, JSON.stringify(a)); } } catch (e) { }
 
   /* ---------------------------------------------------------------- reduced motion */
   const mq = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false, addEventListener() {} };
@@ -168,7 +173,7 @@
       window.__uiCustomizeTab = sub || 'wanderer';
       // already open: only the tab changes. (Pressing #customize again would make the game remember "paused" as the state
       // to return to, and closing would then pause a run that was never started.)
-      if (!vis('appearancePanel')) { const c = $('customize'); if (c) c.click(); }
+      if (!vis('appearancePanel')) { const c = $('customize'); if (c) c.click(); } else { czTab(window.__uiCustomizeTab); czSync(); window.__uiCustomizeTab = null; }
       requestAnimationFrame(syncNav);
       return;
     }
@@ -283,6 +288,72 @@
     creditsEl.querySelector('.us-body').innerHTML = out.join('') || '<p class="cr-text">No credits yet.</p>';
   }
 
+  /* ---------------------------------------------------------------- customize: WANDERER and LOADOUT (C3)
+     The game binds its own fields by id and listens for 'input' / 'change' on them: the chips and swatches here only set those
+     fields and fire the same events, so saving, the live preview, the light and what other wanderers see stay the game's. */
+  const ap = $('appearancePanel');
+  const SKIN = [['#ffcc77', 'Warm yellow'], ['#e6bb76', 'Sand'], ['#f3dcb2', 'Pale'], ['#d49a62', 'Ochre'], ['#a9724a', 'Umber'], ['#6e4a33', 'Dark brown'],
+    ['#e7e0cc', 'Bone'], ['#a7b298', 'Moss'], ['#8e98c9', 'Slate blue'], ['#c87b6b', 'Clay'], ['#55524a', 'Charcoal'], ['#efd25c', 'Signal yellow']];
+  const BEAM = [['#ffe7b2', 'Warm white'], ['#fff0c8', 'Soft white'], ['#ffc98a', 'Amber'], ['#ffffff', 'White'], ['#e6efff', 'Cool white'], ['#ffdf80', 'Gold']];
+  const KIND_NOTE = {
+    flashlight: 'The longest reach: a narrow beam that follows your mouse.',
+    headlamp: 'Hands-free: a wider, shorter cone that turns with you.',
+    lantern: 'A warm glow all around you. Short reach, no aiming.',
+    camcorder: 'Night Vision Camcorder emits no visible light; its night vision uses infrared. F raises it, N switches night vision, B sets the infrared illuminator, the wheel zooms. It overheats.',
+  };
+  let czCur = 'wanderer';
+  function czTab(t, focusTab) {
+    if (!ap) return;
+    czCur = t === 'loadout' ? 'loadout' : 'wanderer';
+    ap.querySelectorAll('.cz-tabs [role=tab]').forEach(b => { const on = b.dataset.tab === czCur; b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; });
+    const w = $('czWanderer'), l = $('czLoadout'); if (w) w.hidden = czCur !== 'wanderer'; if (l) l.hidden = czCur !== 'loadout';
+    ap.dataset.tab = czCur;
+    if (focusTab) { const b = $('czTab_' + czCur); if (b) b.focus({ preventScroll: true }); }
+  }
+  const czVal = id => { const e = $(id); return e ? String(e.value).toLowerCase() : ''; };
+  function czSync() {
+    if (!ap) return;
+    ap.querySelectorAll('[data-for]').forEach(g => { const v = czVal(g.dataset.for); let any = false;
+      g.querySelectorAll('[data-v]').forEach(b => { const on = b.dataset.v.toLowerCase() === v; any = any || on; b.setAttribute('aria-checked', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; });
+      if (!any) { const f = g.querySelector('[data-v]'); if (f) f.tabIndex = 0; }
+      const pick = g.parentElement && g.parentElement.querySelector('.cz-pick'); if (pick) pick.classList.toggle('on', !any && g.classList.contains('u-sws')); });
+    const A = window.__api, k = A && A.gear ? A.gear.eq.kind : 'flashlight';
+    const note = $('czKindNote'); if (note) note.innerHTML = `<b>${esc(KINDS[k] || k)}</b>${esc(KIND_NOTE[k] || '')}`;
+    const beam = $('czBeam'); if (beam) beam.hidden = k === 'camcorder';                // the camcorder has no beam
+  }
+  function czSet(id, v, ev) { const e = $(id); if (!e || String(e.value).toLowerCase() === String(v).toLowerCase()) return; e.value = v; e.dispatchEvent(new Event(ev || 'input', { bubbles: true })); }
+  if (ap) {
+    // build the chips from the game's own options, and the swatches from the palettes
+    ap.querySelectorAll('.cz-chips[data-for]').forEach(g => { const sel = $(g.dataset.for); if (!sel) return;
+      g.innerHTML = [...sel.options].map(o => `<button type="button" class="cz-chip" role="radio" data-v="${esc(o.value)}">${esc(o.textContent)}</button>`).join(''); });
+    ap.querySelectorAll('.u-sws[data-for]').forEach(g => { const pal = g.dataset.for === 'lightColor' ? BEAM : SKIN;
+      g.innerHTML = pal.map(([c, n]) => `<button type="button" class="u-sw" role="radio" data-v="${c}" title="${esc(n)}" aria-label="${esc(n)}" style="--sw:${c}"></button>`).join(''); });
+    ap.addEventListener('click', e => {
+      const t = e.target.closest('.cz-tabs [role=tab]'); if (t) { czTab(t.dataset.tab); czSync(); return; }
+      const b = e.target.closest('[data-for] [data-v]'); if (!b) return;
+      const g = b.closest('[data-for]'); czSet(g.dataset.for, b.dataset.v); czSync();
+    });
+    ap.addEventListener('keydown', e => {                                     // arrows: tabs and radio groups (roving focus, select on move)
+      const d = ['ArrowRight', 'ArrowDown'].includes(e.key) ? 1 : ['ArrowLeft', 'ArrowUp'].includes(e.key) ? -1 : 0; if (!d) return;
+      const t = e.target.closest && e.target.closest('.cz-tabs [role=tab]');
+      if (t) { e.preventDefault(); const l = [...ap.querySelectorAll('.cz-tabs [role=tab]')], n = l[(l.indexOf(t) + d + l.length) % l.length]; czTab(n.dataset.tab, true); czSync(); return; }
+      const b = e.target.closest && e.target.closest('[data-for] [data-v]'); if (!b) return;
+      e.preventDefault(); const l = [...b.parentElement.querySelectorAll('[data-v]')], n = l[(l.indexOf(b) + d + l.length) % l.length]; n.focus(); n.click();
+    });
+    ap.addEventListener('input', e => { if (e.target && e.target.type === 'color') czSync(); });
+    document.addEventListener('change', e => { if (e.target && e.target.id === 'lightKind') setTimeout(czSync, 0); });
+  }
+  /* the live preview is a second, tiny renderer in the game: it draws only while this panel is open */
+  let avatarApp = null;
+  const previewRun = () => { if (!avatarApp) return; try { if (vis('appearancePanel')) avatarApp.start(); else avatarApp.stop(); } catch (e) { } };
+  try { Object.defineProperty(window, '__avatarApp', { configurable: true, get: () => avatarApp, set: v => { avatarApp = v; previewRun(); } }); } catch (e) { }
+  function czOpened() {
+    const tab = window.__loadout ? 'loadout' : (window.__uiCustomizeTab || 'wanderer');
+    window.__uiCustomizeTab = null;
+    czTab(tab); czSync(); previewRun();
+    const b = $('czTab_' + czCur); if (b) b.focus({ preventScroll: true });   // the game focuses a field that is now a hidden select
+  }
+
   /* ---------------------------------------------------------------- run states: focus and body classes */
   let last = '';
   function state() {
@@ -308,7 +379,8 @@
       if (prev !== 'customize') { menu.classList.remove('enter'); void menu.offsetWidth; if (!reduced()) menu.classList.add('enter'); }
       loadoutSummary(); syncNav();
     }
-    if (prev === 'customize') { loadoutSummary(); syncNav(); }
+    if (st === 'customize') czOpened();
+    if (prev === 'customize') { previewRun(); loadoutSummary(); syncNav(); }
     if (st === 'playing') closeAll();
     if (prev && st !== 'playing' && st !== 'boot') setTimeout(() => { if (state() === st && !stack.length) focusState(); }, prev === 'customize' ? 0 : 60);
   }
