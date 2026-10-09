@@ -1,0 +1,448 @@
+{
+ "checks": [
+  {
+   "name": "desktop: objective, status, key hints, location, coordinates, header and connection line are all on screen",
+   "ok": true,
+   "note": {
+    "objective": [
+     [
+      38,
+      29,
+      383,
+      75
+     ]
+    ],
+    "status": [
+     [
+      38,
+      1006,
+      595,
+      1024
+     ]
+    ],
+    "keys": [
+     [
+      38,
+      1037,
+      595,
+      1050
+     ]
+    ],
+    "location": [
+     [
+      1684,
+      120,
+      1880,
+      239
+     ]
+    ],
+    "coords": [
+     [
+      1618,
+      1028,
+      1885,
+      1055
+     ]
+    ],
+    "tools": [
+     [
+      1676,
+      30,
+      1882,
+      70
+     ]
+    ],
+    "net": [
+     [
+      38,
+      84,
+      442,
+      98
+     ]
+    ]
+   }
+  },
+  {
+   "name": "desktop: nothing in the centre of the screen (the middle 40 %)",
+   "ok": true,
+   "note": []
+  },
+  {
+   "name": "desktop: no two HUD blocks overlap",
+   "ok": true,
+   "note": []
+  },
+  {
+   "name": "desktop: the game still writes every readout; the brand gives way to the objective; a PAUSE button is shown",
+   "ok": true,
+   "note": {
+    "obj": "FIND A GLITCHED WALL",
+    "pace": "STANDING",
+    "stam": "100",
+    "light": "FLASHLIGHT ON",
+    "sector": "01 / YELLOW HALL",
+    "coords": "X 1200 / Y 3408"
+   }
+  },
+  {
+   "name": "the HUD PAUSE button pauses through the game (controls shown, focus in the dialog); CONTINUE resumes; Escape still pauses and resumes",
+   "ok": true,
+   "note": {
+    "p1": {
+     "paused": true,
+     "st": "paused",
+     "keys": true,
+     "focusIn": true
+    },
+    "p2": {
+     "paused": false,
+     "st": "playing"
+    },
+    "p3": true,
+    "p4": false
+   }
+  },
+  {
+   "name": "HUD size, colour, coordinates, key hints and title settings drive the new HUD (and reset)",
+   "ok": true,
+   "note": {
+    "r0": 43,
+    "r1": 64,
+    "col": "rgb(111, 230, 255)",
+    "hidden": [
+     "none",
+     "none",
+     "none"
+    ],
+    "back": "flex"
+   }
+  },
+  {
+   "name": "caught (RESPAWN, CHANGE LOADOUT, red line) and won (RESTART) panels show their own buttons",
+   "ok": true,
+   "note": {
+    "cg": {
+     "retry": true,
+     "lo": true,
+     "line": "rgb(196, 80, 63)"
+    },
+    "wn": {
+     "again": true,
+     "st": "won"
+    }
+   }
+  },
+  {
+   "name": "NEW RUN reaches the run menu with SPAWN / CUSTOMIZE / END",
+   "ok": true,
+   "note": {
+    "st": "run",
+    "btns": [
+     true,
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "name": "Night Vision Camcorder raised: the viewfinder takes over (location hidden, objective kept)",
+   "ok": true,
+   "note": {
+    "raised": true,
+    "loc": "none",
+    "obj": "block"
+   }
+  },
+  {
+   "name": "touch portrait: pad, RUN, CROUCH, LIGHT and INV on screen; key hints and the Esc label hidden",
+   "ok": true,
+   "note": {
+    "touch": {
+     "dpad": [
+      [
+       16,
+       718,
+       184,
+       828
+      ]
+     ],
+     "run": [
+      [
+       238,
+       776,
+       302,
+       828
+      ]
+     ],
+     "crouch": [
+      [
+       310,
+       776,
+       380,
+       828
+      ]
+     ],
+     "light": [
+      [
+       238,
+       716,
+       302,
+       768
+      ]
+     ],
+     "inv": [
+      [
+       310,
+       716,
+       374,
+       768
+      ]
+     ]
+    },
+    "keys": "none"
+   }
+  },
+  {
+   "name": "touch portrait: nothing overlaps (HUD blocks, header, pad and buttons)",
+   "ok": true,
+   "note": []
+  },
+  {
+   "name": "touch portrait: PAUSE pauses (connection line shown, keyboard reference hidden), CONTINUE resumes, INV opens and closes the inventory",
+   "ok": true,
+   "note": {
+    "pz": {
+     "paused": true,
+     "net": "block",
+     "keys": "none",
+     "over": 0
+    },
+    "rs": false,
+    "i1": true,
+    "i2": false
+   }
+  },
+  {
+   "name": "touch landscape: pad, RUN, CROUCH, LIGHT and INV on screen; key hints and the Esc label hidden",
+   "ok": true,
+   "note": {
+    "touch": {
+     "dpad": [
+      [
+       16,
+       264,
+       184,
+       374
+      ]
+     ],
+     "run": [
+      [
+       700,
+       322,
+       760,
+       374
+      ]
+     ],
+     "crouch": [
+      [
+       768,
+       322,
+       838,
+       374
+      ]
+     ],
+     "light": [
+      [
+       564,
+       322,
+       624,
+       374
+      ]
+     ],
+     "inv": [
+      [
+       632,
+       322,
+       692,
+       374
+      ]
+     ]
+    },
+    "keys": "none"
+   }
+  },
+  {
+   "name": "touch landscape: nothing overlaps (HUD blocks, header, pad and buttons)",
+   "ok": true,
+   "note": []
+  },
+  {
+   "name": "touch landscape: PAUSE pauses (connection line shown, keyboard reference hidden), CONTINUE resumes, INV opens and closes the inventory",
+   "ok": true,
+   "note": {
+    "pz": {
+     "paused": true,
+     "net": "block",
+     "keys": "none",
+     "over": 0
+    },
+    "rs": false,
+    "i1": true,
+    "i2": false
+   }
+  },
+  {
+   "name": "touch portrait, Night Vision Camcorder: NV, IR and ZOOM join the cluster, all on screen, nothing overlapping",
+   "ok": true,
+   "note": {
+    "touch": {
+     "dpad": [
+      [
+       16,
+       718,
+       184,
+       828
+      ]
+     ],
+     "run": [
+      [
+       238,
+       776,
+       302,
+       828
+      ]
+     ],
+     "crouch": [
+      [
+       310,
+       776,
+       380,
+       828
+      ]
+     ],
+     "light": [
+      [
+       238,
+       716,
+       302,
+       768
+      ]
+     ],
+     "inv": [
+      [
+       310,
+       716,
+       374,
+       768
+      ]
+     ],
+     "nv": [
+      [
+       238,
+       656,
+       302,
+       708
+      ]
+     ],
+     "ir": [
+      [
+       310,
+       656,
+       374,
+       708
+      ]
+     ],
+     "zoom": [
+      [
+       238,
+       596,
+       374,
+       648
+      ]
+     ]
+    },
+    "overlaps": []
+   }
+  },
+  {
+   "name": "touch landscape, Night Vision Camcorder: NV, IR and ZOOM join the cluster, all on screen, nothing overlapping",
+   "ok": true,
+   "note": {
+    "touch": {
+     "dpad": [
+      [
+       16,
+       264,
+       184,
+       374
+      ]
+     ],
+     "run": [
+      [
+       700,
+       322,
+       760,
+       374
+      ]
+     ],
+     "crouch": [
+      [
+       768,
+       322,
+       838,
+       374
+      ]
+     ],
+     "light": [
+      [
+       564,
+       322,
+       624,
+       374
+      ]
+     ],
+     "inv": [
+      [
+       632,
+       322,
+       692,
+       374
+      ]
+     ],
+     "nv": [
+      [
+       564,
+       262,
+       624,
+       314
+      ]
+     ],
+     "ir": [
+      [
+       632,
+       262,
+       692,
+       314
+      ]
+     ],
+     "zoom": [
+      [
+       700,
+       262,
+       828,
+       314
+      ]
+     ]
+    },
+    "overlaps": []
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "ok": true
+}

@@ -319,6 +319,11 @@
   const ps = $('pauseSettings'), pc = $('pauseCustomize');
   if (ps) ps.addEventListener('click', () => go('settings', undefined, ps));
   if (pc) pc.addEventListener('click', () => go('customize', 'wanderer'));
+  /* the HUD's pause button presses the game's own pause (#help); the touch INV button opens the game's inventory drawer */
+  const hp = $('hudPause');
+  if (hp) hp.addEventListener('click', () => { const A = window.__api, h = $('help'); if (h && A && A.started() && !A.paused()) h.click(); });
+  const ti = $('touchInv');
+  if (ti) ti.addEventListener('click', () => { const A = window.__api; if (window.__inv && __inv.toggle && A && A.started() && !A.paused()) __inv.toggle(); });
   /* the settings model (hud.js) loads right after this file; the game's API arrives with the bundle (a module, later still) */
   let subbed = false;
   const hook = () => { if (subbed || !window.__settings || !__settings.on) return; subbed = true; __settings.on(() => { syncSettings(); applyMotion(); }); applyMotion(); };

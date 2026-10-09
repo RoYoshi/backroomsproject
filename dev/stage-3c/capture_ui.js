@@ -5,7 +5,8 @@
  * Surfaces: boot (the page as it lands), play (Stage 3C's PLAY panel; the parent's entry), hud (Level 0, lit), dark (a
  * blackout, flashlight off: true darkness), darklight (blackout, flashlight on), customize, settings (each tab or page),
  * inventory (TAB), pause, caught, won, run (the run menu after NEW RUN), credits (Stage 3C), mobile (390 x 844 touch: boot, hud),
- * narrow (700 x 900 desktop), reduced (prefers-reduced-motion: boot).
+ * narrow (700 x 900 desktop), reduced (prefers-reduced-motion: boot); Stage 3C builds also: mobile_pause and mobile_inventory (the
+ * touch PAUSE and INV buttons), mobilecam (390 x 844, Night Vision Camcorder: its touch buttons), landscape (844 x 390 touch).
  * Static panels the run state normally reaches by death or a win are shown through the game's own API where one exists
  * (__api.win) and otherwise by un-hiding the panel: what is captured is its presentation, nothing it does. */
 'use strict';
@@ -52,7 +53,18 @@ const v3 = P => P.evaluate(() => !!(window.__ui && window.__ui.version));
       await s.ctx.close(); }
     if (want('mobile')) { const s = await U.page(b, PORT, { viewport: { width: 390, height: 844 }, mobile: true, dpr: 2 }); await sleep(2500); log.push(await U.shot(s.P, f('mobile_boot')));
       if (await v3(s.P)) { await s.P.evaluate(() => __ui.go('play')); await sleep(1000); log.push(await U.shot(s.P, f('mobile_play'))); }
-      await U.start(s.P, 'PHONE'); await sleep(3000); log.push(await U.shot(s.P, f('mobile_hud'))); if (s.errs.length) log.push('mobile errors: ' + s.errs.join(' | ')); await s.ctx.close(); }
+      await U.start(s.P, 'PHONE'); await U.admin(s.P); await H.stage(s.P); await H.place(s.P, 1200, 3408, -0.4, { light: true, kind: 'flashlight' }); await sleep(2500); log.push(await U.shot(s.P, f('mobile_hud')));
+      if (await s.P.evaluate(() => !!document.getElementById('hudPause'))) {        // Stage 3C: the touch pause button and the touch inventory button
+        await s.P.tap('#hudPause'); await sleep(1200); log.push(await U.shot(s.P, f('mobile_pause'))); await s.P.tap('#resume'); await sleep(800);
+        if (await s.P.evaluate(() => !!document.getElementById('touchInv'))) { await s.P.tap('#touchInv'); await sleep(1000); log.push(await U.shot(s.P, f('mobile_inventory'))); await s.P.tap('#touchInv'); await sleep(500); }
+      }
+      if (s.errs.length) log.push('mobile errors: ' + s.errs.join(' | ')); await s.ctx.close(); }
+    if (want('mobilecam')) { const s = await U.page(b, PORT, { viewport: { width: 390, height: 844 }, mobile: true, dpr: 2, storage: { 'wanderer-light': '{"kind":"camcorder"}' } });
+      await U.start(s.P, 'PHONE'); await U.admin(s.P); await H.stage(s.P); await H.place(s.P, 1200, 3408, -0.4, { light: true, kind: 'camcorder' }); await sleep(2500); log.push(await U.shot(s.P, f('mobile_cam')));
+      if (s.errs.length) log.push('mobilecam errors: ' + s.errs.join(' | ')); await s.ctx.close(); }
+    if (want('landscape')) { const s = await U.page(b, PORT, { viewport: { width: 844, height: 390 }, mobile: true, dpr: 2 }); await sleep(2000); log.push(await U.shot(s.P, f('landscape_boot')));
+      await U.start(s.P, 'PHONE'); await U.admin(s.P); await H.stage(s.P); await H.place(s.P, 1200, 3408, -0.4, { light: true, kind: 'flashlight' }); await sleep(2500); log.push(await U.shot(s.P, f('landscape_hud')));
+      if (s.errs.length) log.push('landscape errors: ' + s.errs.join(' | ')); await s.ctx.close(); }
     if (want('narrow')) { const s = await U.page(b, PORT, { viewport: { width: 700, height: 900 } }); await sleep(2500); log.push(await U.shot(s.P, f('narrow_boot'))); await s.ctx.close(); }
     if (want('reduced')) { const s = await U.page(b, PORT, { reduced: true }); await sleep(2500); log.push(await U.shot(s.P, f('reduced_boot'))); await s.ctx.close(); }
   } finally { await U.close(b, srv); }

@@ -85,6 +85,9 @@ const inside = (P, sel) => P.evaluate(s => { const a = document.activeElement, r
       const run = await P.evaluate(() => ({ started: __api.started(), st: __ui.state(), joins: window.__joins, menuCls: document.body.classList.contains('ui-menu'), name: document.getElementById('nameplate').textContent, saved: localStorage.getItem('tfb.wanderer.name'), header: getComputedStyle(document.querySelector('header')).visibility }));
       check('Enter in the name field starts exactly one run; the menu is gone and the HUD is up', run.started && run.st === 'playing' && run.joins === 1 && !run.menuCls && run.header === 'visible', run);
       check('the wanderer name reaches the nameplate and is remembered for next time', /PROBE/i.test(run.name) && run.saved === 'Probe', { name: run.name, saved: run.saved });
+      // from here on the monsters are frozen (the retained suites' test admin): online, the halls do not stop for the pause screen, and a
+      // kill while paused would legitimately unpause into the death sequence
+      await U.admin(P); await U.H.stage(P);
 
       // pause: Tab is trapped in the dialog and does not open the inventory
       await P.keyboard.press('Escape'); await sleep(500);
@@ -96,7 +99,7 @@ const inside = (P, sel) => P.evaluate(s => { const a = document.activeElement, r
       // pause -> Settings: over the paused game; Escape closes only the sheet; Escape again resumes
       await P.click('#pauseSettings'); await sleep(600);
       const ps = await P.evaluate(() => ({ sheet: !document.getElementById('uiSettings').hidden, paused: __api.paused(), dialog: !document.getElementById('dialog').hidden }));
-      await P.keyboard.press('Escape'); await sleep(500);
+      await P.keyboard.press('Escape'); await hiddenSoon(P, 'uiSettings');
       const ps2 = await P.evaluate(() => ({ sheet: !document.getElementById('uiSettings').hidden, paused: __api.paused(), st: __ui.state(), focus: document.activeElement && document.activeElement.id }));
       await P.keyboard.press('Escape'); await sleep(500);
       const ps3 = await P.evaluate(() => ({ paused: __api.paused(), st: __ui.state() }));

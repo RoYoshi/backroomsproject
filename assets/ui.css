@@ -230,5 +230,199 @@ body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-men
 @media (max-width:640px){.cr-entry{grid-template-columns:1fr;gap:2px}}
 
 /* the pause dialog's way into settings / customize (C2 restyles the dialog) */
-.pz-more{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.pz-more{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .pz-more .u-btn{width:100%}
+
+/* ================================================================ C2: the HUD, pause, run states, hints, touch
+   Presentation only: every readout keeps its id and its writer (the game bundle, hud.js, camcorder.js, mp.js). The HUD
+   settings still drive it: --hs (size), --ho (opacity), --hv / --hd / --ht (colour, from hud.js). */
+
+/* header during play: the brand goes (the HUD already says where you are); two quiet controls on the right */
+header .brand{display:none}
+header:before{height:118px;background:linear-gradient(#060504b3,#0000)}
+header .tools{gap:8px;align-items:center;margin-left:auto}
+header .tools button{display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0 14px;border:1px solid var(--u-line2);background:#0c0a06b8;color:var(--u-cream);
+  font:500 11px/1 var(--u-mono);letter-spacing:.08em;text-transform:uppercase}
+header .tools button:hover{border-color:var(--u-line-hi);color:#fff8de;background:#1b160cd9;transform:none}
+header .tools button:focus-visible{outline:2px solid var(--u-sick-hi);outline-offset:3px}
+#hudPause kbd{margin:0;padding:3px 5px;border:1px solid var(--u-line2);color:var(--u-moss);font:500 9.5px/1 var(--u-mono);letter-spacing:.04em}
+
+/* the objective: top left, the one thing to do */
+.hud-obj{position:fixed;top:30px;left:38px;pointer-events:none;transform:scale(var(--hs));transform-origin:left top;opacity:var(--ho);isolation:isolate;transition:opacity .6s ease;text-shadow:0 1px 8px #000d}
+#hud[hidden]~.hud-obj,body.ui-menu .hud-obj{display:none}
+body.captured .hud-obj{opacity:.2}
+.hud-obj::before{content:"";position:absolute;z-index:-1;inset:-30px -80px -26px -40px;pointer-events:none;background:radial-gradient(ellipse 70% 80% at 22% 40%,#040302b8,#0000 72%)}
+.hud-obj .objective{display:grid;gap:7px}
+.hud-obj small{color:var(--hd);font:500 10.5px/1 var(--u-mono);letter-spacing:.22em;text-transform:uppercase}
+.hud-obj b{color:var(--hv);font:600 25px/1 var(--u-display);letter-spacing:.08em;text-transform:uppercase}
+#hud:not([hidden])~.hud-obj .objective{animation:hudIn .9s cubic-bezier(.2,.7,.2,1) both}   /* on the child: the block itself carries the HUD size */
+/* the connection line sits under the objective */
+body:not(.ui-menu) #net{top:calc(30px + 54px * var(--hs,1));left:38px;color:var(--hd);font:500 10px/1.4 var(--u-mono);letter-spacing:.16em;text-shadow:0 1px 6px #000c}
+
+/* the status line, bottom left: who, how you move, stamina, light */
+#hud{left:38px;bottom:30px}
+#hud .walk{font-family:var(--u-mono);letter-spacing:.14em;margin-bottom:14px}
+#hud .walk #nameplate{font:600 15px/1 var(--u-display);letter-spacing:.14em}
+#hud .walk>span+span{margin-left:14px;padding-left:14px}
+.staminaHud i{width:84px!important;height:5px!important;border-radius:0!important;background:#ffffff1c!important}
+.staminaHud em{border-radius:0!important}
+#hud .keyline kbd{padding-bottom:3px}
+
+/* hints: off the centre, never flashing */
+#encounterHint{bottom:132px;padding:11px 18px 11px 16px;border:1px solid var(--u-line2);border-left:2px solid var(--u-moss);background:#0b0906e6;color:var(--u-cream);
+  font:400 12px/1.45 var(--u-mono);letter-spacing:.04em;box-shadow:0 10px 40px #0009;animation:uHintIn .6s var(--u-ease) both}
+#blackoutHint{top:26px;padding:10px 18px;border:1px solid #c4503f66;border-top:2px solid var(--u-danger);background:#0c0605eb;color:#f1dccb;
+  font:600 15px/1 var(--u-display);letter-spacing:.26em;box-shadow:0 10px 40px #000a;animation:uHintIn .6s var(--u-ease) both}
+@keyframes uHintIn{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
+
+/* ---------------------------------------------------------------- pause, caught, won, run: one panel family */
+#dialog,#caught,#won,#runMenu{padding:20px;overflow:auto;background:#060504c4;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#caught{background:#0b0504d1}
+#dialog .panel,#caught .panel,#won .panel,#runMenu .panel{position:relative;width:min(460px,100%);max-width:none;margin:auto;padding:34px 34px 30px;border:1px solid var(--u-line2);
+  background:linear-gradient(170deg,#17130bf4,#0d0b07f7 70%);box-shadow:0 34px 90px #000d;color:var(--u-text);font-family:var(--u-mono);animation:uPanelIn .45s var(--u-ease) both}
+#dialog .panel::before,#caught .panel::before,#won .panel::before,#runMenu .panel::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:2px;background:var(--u-sick);transform-origin:0 50%;animation:uLine .8s .15s var(--u-ease) both}
+#caught .panel::before{background:var(--u-danger)}
+@keyframes uPanelIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+#dialog .eyebrow,#caught .eyebrow,#won .eyebrow,#runMenu .eyebrow{margin:0;color:var(--u-moss);font:500 11px/1.4 var(--u-mono);letter-spacing:.2em}
+#caught .eyebrow{color:var(--u-danger-hi)}
+#dialog .panel h2,#caught .panel h2,#won .panel h2,#runMenu .panel h2{margin:12px 0 14px;color:var(--u-cream);font:500 clamp(34px,3.6vw,46px)/1.02 var(--u-display);letter-spacing:.01em}
+#caught .panel h2{font-size:clamp(40px,5vw,58px)}
+#dialog .intro,#caught .intro,#won .intro,#runMenu .intro{margin:0 0 22px;color:var(--u-text);font:400 12.5px/1.75 var(--u-mono)}
+#dialog .primary,#caught .primary,#won .primary,#runMenu .primary{min-height:56px;margin:0;padding:0 20px;border:1px solid var(--u-sick-hi);background:var(--u-sick);color:var(--u-on-sick);
+  font:600 18px/1 var(--u-display);letter-spacing:.14em;text-transform:uppercase;transition:background-color var(--u-fast)}
+#dialog .primary:hover,#caught .primary:hover,#won .primary:hover,#runMenu .primary:hover{background:var(--u-sick-hi);color:var(--u-on-sick);border-color:var(--u-tube)}
+#dialog .primary span,#caught .primary span,#won .primary span,#runMenu .primary span{font:400 21px/1 var(--u-mono);transition:transform var(--u-mid) var(--u-ease)}
+#dialog .primary:hover span,#caught .primary:hover span,#won .primary:hover span,#runMenu .primary:hover span{transform:translate(3px,-3px)}
+#dialog .secondary,#caught .secondary,#runMenu .secondary,#loadoutBtn{display:flex;align-items:center;justify-content:center;width:100%;min-height:46px;margin:10px 0 0;padding:0 16px;border:1px solid var(--u-line2);
+  background:var(--u-ink);color:var(--u-cream);font:500 12px/1 var(--u-mono);letter-spacing:.08em;text-transform:uppercase;transition:background-color var(--u-fast),border-color var(--u-fast),color var(--u-fast)}
+#dialog .secondary:hover,#caught .secondary:hover,#runMenu .secondary:hover,#loadoutBtn:hover{border-color:var(--u-line-hi);color:#fff8de;background:var(--u-panel2)}
+#dialog #reset:hover{border-color:var(--u-danger-hi);color:var(--u-danger-hi)}
+#dialog .panel button:focus-visible,#caught .panel button:focus-visible,#won .panel button:focus-visible,#runMenu .panel button:focus-visible,#dialog a:focus-visible{outline:2px solid var(--u-tube);outline-offset:3px}
+#dialog .lore-credit,#dialog #onlineNote{margin:20px 0 0;color:var(--u-mute);font:400 11px/1.6 var(--u-mono)}
+#dialog #onlineNote{color:var(--u-moss)}
+#dialog .lore-credit a{color:var(--u-moss)}
+#won .soon{margin:0 0 10px;color:var(--u-moss);font:500 11px/1.4 var(--u-mono);letter-spacing:.32em}
+#won .stats{margin:0 0 16px;color:var(--u-sick-hi);font:500 12px/1.4 var(--u-mono);letter-spacing:.08em}
+#won .panel h2{font-size:clamp(36px,6vh,50px);line-height:.98;text-transform:uppercase;letter-spacing:.03em}
+
+/* pause: the actions on the left, the controls on the right */
+#dialog .panel.pz{display:grid;grid-template-columns:minmax(0,350px) minmax(0,1fr);gap:0 44px;width:min(900px,100%);padding:36px 38px 32px}
+.pz-main{display:flex;flex-direction:column;min-width:0}
+.pz-main #resume{margin-top:8px}
+.pz-more{margin-top:10px}
+.pz-keys{min-width:0;padding-left:40px;border-left:1px solid var(--u-line)}
+.pz-keys h3{margin:2px 0 6px;color:var(--u-moss);font:500 11px/1 var(--u-mono);letter-spacing:.2em;text-transform:uppercase}
+#dialog .controlRows{margin:0}
+#dialog .controlRows p{display:flex;justify-content:space-between;gap:16px;margin:0;padding:8.5px 0;border-bottom:1px solid var(--u-line);color:var(--u-text);font:400 12px/1.4 var(--u-mono)}
+#dialog .controlRows b{color:var(--u-cream);font:500 11.5px/1.4 var(--u-mono);letter-spacing:.06em;text-align:right}
+@media (max-width:820px){
+  #dialog .panel.pz{grid-template-columns:minmax(0,1fr);gap:26px;width:min(480px,100%);padding:28px 24px 24px}
+  .pz-keys{padding:20px 0 0;border-left:0;border-top:1px solid var(--u-line)}
+}
+
+/* ---------------------------------------------------------------- touch and small screens */
+@media (pointer:coarse),(max-width:700px){
+  header{top:14px;left:16px;right:16px}
+  header:before{height:200px;background:linear-gradient(#060504c4,#06050400)}
+  .hud-obj{top:16px;left:16px}
+  .hud-obj b{font-size:19px}
+  .hud-obj small{font-size:9.5px}
+  #hud{top:calc(16px + 46px * var(--hs,1));bottom:auto;left:16px;transform-origin:left top}
+  #hud::before{inset:-20px -40px -20px -20px;background:radial-gradient(ellipse 80% 90% at 20% 30%,#040302b0,#0000 72%)}
+  #hud .walk{display:grid;grid-template-columns:auto auto;justify-content:start;gap:7px 14px;margin:0;font-size:10px;letter-spacing:.12em;max-width:calc(64vw / var(--hs))}
+  #hud .walk .staminaHud,#hud .walk #lightStatus{grid-column:1/-1}   /* name and pace, then stamina, then the light: a narrow column clear of the level title */
+  #hud .walk>span+span{margin-left:0;padding-left:0}
+  #hud .walk>span+span::before{display:none}
+  #hud .walk #nameplate{font-size:13px}
+  .staminaHud i{width:52px!important}
+  #hud .keyline{display:none}
+  .location{top:64px;right:16px}
+  .location h1{margin:4px 0;font-size:20px}
+  .location h1 b{font-size:32px}
+  .location .eyebrow,.location>span:last-child{font-size:10px}
+  .coordinates{top:156px;bottom:auto;right:16px;transform-origin:right top}
+  .coordinates span:last-child{display:none}
+  body:not(.ui-menu) #net{display:none}
+  body.ui-paused #net{display:block;top:14px;left:16px;right:16px;font-size:9.5px;text-align:center}
+  #blackoutHint{top:auto;bottom:calc(var(--touch-h,0px) + 74px);max-width:calc(100vw - 32px);font-size:13px;letter-spacing:.2em}
+  #encounterHint{bottom:calc(var(--touch-h,0px) + 26px);max-width:calc(100vw - 32px)}
+  #hudPause kbd{display:none}
+}
+@media (pointer:coarse){
+  /* the pad on the left, the actions on the right: the light and the inventory, then run and crouch at the thumb */
+  body.playing #touch{display:grid;grid-template-columns:auto minmax(0,1fr) repeat(2,64px);grid-template-rows:repeat(4,auto);gap:8px;align-items:end;
+    left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom))}
+  #touch .dpad{grid-column:1/3;grid-row:1/-1;align-self:end;justify-self:start;grid-template-columns:repeat(3,52px);gap:6px}
+  #touch .dpad button{width:52px;height:52px}
+  #touch button{border:1px solid var(--u-line2);background:#0c0a06c7;color:var(--u-cream);border-radius:0;-webkit-tap-highlight-color:transparent}
+  #touch>button{min-width:0;min-height:52px;padding:0 2px;font:600 13px/1 var(--u-display);letter-spacing:.06em;text-transform:uppercase;overflow:hidden}
+  #touch button:active{background:var(--u-sick);color:var(--u-on-sick);border-color:var(--u-sick-hi)}
+  #touch [data-key=ShiftLeft]{grid-column:3;grid-row:4}
+  #touch [data-key=KeyC]{grid-column:4;grid-row:4}
+  #touchFlash{grid-column:3;grid-row:3}
+  #touchInv{grid-column:4;grid-row:3}
+  #touchNV{grid-column:3;grid-row:2}
+  #touchIR{grid-column:4;grid-row:2}
+  #touchZoom{grid-column:3/5;grid-row:1}
+  body.playing{--touch-h:136px}
+  body.playing.cam-kind{--touch-h:254px}
+}
+@media (pointer:coarse) and (orientation:landscape) and (max-height:520px){
+  /* a phone on its side: the actions in two rows of four, so the cluster stays low */
+  body.playing #touch{grid-template-columns:auto minmax(0,1fr) repeat(4,60px);grid-template-rows:repeat(2,auto)}
+  #touch [data-key=ShiftLeft]{grid-column:5;grid-row:2}
+  #touch [data-key=KeyC]{grid-column:6;grid-row:2}
+  #touchFlash{grid-column:3;grid-row:2}
+  #touchInv{grid-column:4;grid-row:2}
+  #touchNV{grid-column:3;grid-row:1}
+  #touchIR{grid-column:4;grid-row:1}
+  #touchZoom{grid-column:5/7;grid-row:1}
+  body.playing,body.playing.cam-kind{--touch-h:112px}
+  .coordinates{top:150px}
+}
+
+/* the game's own message if the renderer cannot start (it replaces the menu's contents) */
+#menu>h2{position:relative;z-index:1;max-width:22ch;margin:22vh clamp(24px,6.5vw,124px) 14px;color:var(--u-cream);font:500 clamp(32px,4vw,46px)/1.05 var(--u-display)}
+#menu>p{position:relative;z-index:1;max-width:52ch;margin:0 clamp(24px,6.5vw,124px);color:var(--u-text);font:400 13px/1.7 var(--u-mono)}
+
+/* run-state overlays sit above the touch pad and the HUD (the connection line stays readable over the pause) */
+#dialog{z-index:17}
+body.ui-paused #net{z-index:18}
+@media (pointer:coarse){
+  .pz-keys{display:none}                                      /* touch has its own pad: the keyboard reference is noise */
+  #dialog .panel.pz{grid-template-columns:minmax(0,1fr);width:min(460px,100%)}
+}
+@media (pointer:coarse),(max-width:700px){
+  header #sound{display:none}                                 /* in Settings and on the pause screen's Settings */
+  .hud-obj b{font-size:17px}
+  .location .eyebrow{display:none}
+  #dialog{padding-top:44px}
+  body.cam-raised #camHud .rec{top:132px}                     /* the viewfinder's lines move below the status block */
+  body.cam-raised #camHud .hint{top:156px}
+  #camHud .hint{width:calc(100vw - 32px);white-space:normal;text-align:center;line-height:1.6}   /* the viewfinder's key line wraps instead of running off a phone */
+}
+@media (max-width:420px){
+  #dialog .primary,#caught .primary,#won .primary,#runMenu .primary{padding:0 16px;font-size:16px;letter-spacing:.1em}
+}
+
+/* a phone on its side: the menu keeps PLAY and ENTER on the first screen */
+@media (max-height:500px) and (min-width:560px){
+  .mm-wrap{grid-template-columns:minmax(0,1fr) minmax(300px,400px);grid-template-areas:"title play" "nav play" "foot foot";row-gap:12px;padding:22px 28px 20px}
+  .mm-fixture{top:-14px;height:8px}
+  .mm-title h1 .a{font-size:13px}
+  .mm-title h1 .b,html.u-cond .mm-title h1 .b{font-size:min(54px,12.6cqi)}
+  .mm-title p{display:none}
+  .mm-nav{display:flex;flex-direction:column;gap:2px}
+  #menu .mm-item{padding:6px 0 6px 14px;border:0;border-left:2px solid transparent;background:none}
+  #menu .mm-item.on{border-left-color:var(--u-sick)}
+  #menu .mm-item b{font-size:22px}
+  #menu .mm-item small{display:none}
+  .mm-play{padding:16px 20px 14px}
+  .mm-play h2,.mm-play .intro,.mm-play .u-note{display:none}
+  .mm-loadout{grid-template-columns:48px 1fr auto;margin:10px 0;padding:8px 0}
+  .mm-loadout canvas{width:48px;height:48px}
+  .mm-loadout small{display:none}
+  #menu .mm-play .u-primary{min-height:50px}
+  .mm-foot p{font-size:9.5px}
+  body.ui-menu #net{display:none}
+}

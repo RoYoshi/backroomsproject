@@ -15,7 +15,7 @@
 <div id="game"></div><canvas id="mp"></canvas><div id="dread"></div><canvas id="light"></canvas><div class="grain"></div>
 <header>
   <a class="brand" href="#">THE FAR BACKROOMS<span>LEVEL 0 / THRESHOLD</span></a>
-  <div class="tools"><button id="sound" aria-label="Toggle ambient audio">SOUND ON</button><button id="customize">CUSTOMIZE</button><button id="help">CONTROLS</button></div>
+  <div class="tools"><button id="sound" aria-label="Toggle ambient audio">SOUND ON</button><button id="customize">CUSTOMIZE</button><button id="help">CONTROLS</button><button type="button" id="hudPause" aria-label="Pause"><span>Pause</span><kbd>Esc</kbd></button></div>
 </header>
 <div class="location"><span class="eyebrow">THRESHOLD</span><h1>LEVEL <b>0</b></h1><span id="sector">01 / YELLOW HALL</span></div>
 
@@ -56,34 +56,39 @@
 </main>
 
 <div id="hud" hidden>
-  <div class="walk"><span class="objective">OBJECTIVE <b id="evidenceCount">FIND A GLITCHED WALL</b></span><span id="nameplate">WANDERER</span><span id="pace">WALKING</span><span class="staminaHud">STAMINA <b id="staminaText">100</b><i><em id="staminaFill"></em></i></span><span id="lightStatus">FLASHLIGHT ON</span></div>
+  <div class="walk"><span id="nameplate">WANDERER</span><span id="pace">WALKING</span><span class="staminaHud">STAMINA <b id="staminaText">100</b><i><em id="staminaFill"></em></i></span><span id="lightStatus">FLASHLIGHT ON</span></div>
   <div class="keyline"><span><kbd>W A S D</kbd> Move</span><span><kbd>SHIFT</kbd> Run</span><span><kbd>C</kbd> Crouch · Slide</span><span><kbd>F</kbd> Light</span><span class="camkey"><kbd>N</kbd> NV</span><span class="camkey"><kbd>WHEEL</kbd> Zoom</span><span><kbd>TAB</kbd> Inventory</span><span><kbd>ESC</kbd> Pause</span></div>
 </div>
+<div class="hud-obj"><span class="objective"><small>Objective</small><b id="evidenceCount">FIND A GLITCHED WALL</b></span></div>
 <div class="coordinates"><span id="coords">X 0960 / Y 2208</span><span>THRESHOLD · ENTITY REPORTS UNCONFIRMED</span></div>
 
 <div id="dialog" hidden>
-  <div class="panel">
+  <div class="panel pz" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+    <div class="pz-main">
     <p class="eyebrow">TAKE A BREATH</p>
     <h2 id="dialogTitle">You’re still here.</h2>
-    <div class="controlRows"><p><span>Move</span><b>W A S D / ARROWS</b></p><p><span>Run (drains stamina)</span><b>HOLD SHIFT</b></p><p><span>Crouch / stand</span><b>C</b></p><p><span>Slide (while running)</span><b>C</b></p><p><span>Vault / crawl</span><b>WALK INTO IT</b></p><p><span>Aim handheld light</span><b>MOUSE</b></p><p><span>Toggle light / raise camcorder</span><b>F</b></p><p><span>Night vision (camcorder)</span><b>N</b></p><p><span>Camera zoom (camcorder)</span><b>MOUSE WHEEL</b></p><p><span>Inventory</span><b>TAB</b></p><p><span>Cartograph (once found)</span><b>M</b></p><p><span>Pause / resume</span><b>ESC</b></p></div>
     <button class="primary" id="resume">CONTINUE EXPLORING <span>↗</span></button>
-    <button class="secondary" id="reset">NEW RUN</button>
     <div class="pz-more"><button type="button" class="u-btn" id="pauseSettings">Settings</button><button type="button" class="u-btn" id="pauseCustomize">Customize</button></div>
+    <button class="secondary" id="reset">NEW RUN</button>
     <p class="lore-credit">Level 0 environment and entity behavior adapted from <a href="https://backrooms-wiki.wikidot.com/level-0" target="_blank" rel="noopener noreferrer">The Backrooms Wiki</a>: <a href="https://backrooms-wiki.wikidot.com/entity-8" target="_blank" rel="noopener noreferrer">Hound</a> · <a href="https://backrooms-wiki.wikidot.com/entity-3" target="_blank" rel="noopener noreferrer">Smilers</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>.</p>
+    </div>
+    <div class="pz-keys"><h3>Controls</h3>
+    <div class="controlRows"><p><span>Move</span><b>W A S D / ARROWS</b></p><p><span>Run (drains stamina)</span><b>HOLD SHIFT</b></p><p><span>Crouch / stand</span><b>C</b></p><p><span>Slide (while running)</span><b>C</b></p><p><span>Vault / crawl</span><b>WALK INTO IT</b></p><p><span>Aim handheld light</span><b>MOUSE</b></p><p><span>Toggle light / raise camcorder</span><b>F</b></p><p><span>Night vision (camcorder)</span><b>N</b></p><p><span>Camera zoom (camcorder)</span><b>MOUSE WHEEL</b></p><p><span>Inventory</span><b>TAB</b></p><p><span>Cartograph (once found)</span><b>M</b></p><p><span>Pause / resume</span><b>ESC</b></p></div>
+    </div>
   </div>
 </div>
 <div id="mapPanel" hidden><div><span>CARTOGRAPH // SIGNAL UNSTABLE</span><button id="closeMap" aria-label="Close cartograph">✕</button></div><canvas id="map" width="576" height="432"></canvas><p>LAST KNOWN POSITION <b>●</b> · THE LINES DRIFT</p></div>
 <div id="caught" hidden>
-  <div class="panel"><p class="eyebrow">CONTACT LOST</p><h2 id="caughtTitle">It found you.</h2><p class="intro" id="caughtAdvice">Break line of sight and move quietly.</p><button class="primary" id="retry">RESPAWN <span>↗</span></button></div>
+  <div class="panel" role="alertdialog" aria-modal="true" aria-labelledby="caughtTitle" aria-describedby="caughtAdvice"><p class="eyebrow">CONTACT LOST</p><h2 id="caughtTitle">It found you.</h2><p class="intro" id="caughtAdvice">Break line of sight and move quietly.</p><button class="primary" id="retry">RESPAWN <span>↗</span></button></div>
 </div>
 <div id="won" hidden>
-  <div class="panel"><p class="eyebrow">YOU NO-CLIPPED OUT OF LEVEL 0</p><h2>LEVEL 1<br>COMING SOON</h2><p class="soon">SIGNAL LOST · STAND BY</p><p class="stats" id="wonStats"></p><p class="intro">The wall gave way and the static swallowed you. Whatever waits on the other side is still being built.</p><button class="primary" id="playAgain">RESTART LEVEL 0 <span>↗</span></button></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="wonTitle"><p class="eyebrow">YOU NO-CLIPPED OUT OF LEVEL 0</p><h2 id="wonTitle">LEVEL 1<br>COMING SOON</h2><p class="soon">SIGNAL LOST · STAND BY</p><p class="stats" id="wonStats"></p><p class="intro">The wall gave way and the static swallowed you. Whatever waits on the other side is still being built.</p><button class="primary" id="playAgain">RESTART LEVEL 0 <span>↗</span></button></div>
 </div>
 <div id="runMenu" hidden>
-  <div class="panel"><p class="eyebrow">YOU FADE FROM THE LEVEL</p><h2>Where to now?</h2><p class="intro">Your light source stays where you left it.</p><button class="primary" id="runSpawn">SPAWN <span>↗</span></button><button class="secondary" id="runCustomize">CUSTOMIZE</button><button class="secondary" id="runEnd">END</button></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-labelledby="runTitle"><p class="eyebrow">YOU FADE FROM THE LEVEL</p><h2 id="runTitle">Where to now?</h2><p class="intro">Your light source stays where you left it.</p><button class="primary" id="runSpawn">SPAWN <span>↗</span></button><button class="secondary" id="runCustomize">CUSTOMIZE</button><button class="secondary" id="runEnd">END</button></div>
 </div>
-<div id="encounterHint" hidden>Something is moving in the halls.</div>
-<div id="blackoutHint" hidden>THE FLUORESCENTS ARE FAILING</div>
+<div id="encounterHint" role="status" hidden>Something is moving in the halls.</div>
+<div id="blackoutHint" role="status" hidden>THE FLUORESCENTS ARE FAILING</div>
 
 <div id="appearancePanel" role="dialog" aria-modal="true" aria-labelledby="appearanceTitle" hidden>
   <section class="appearance-card">
@@ -104,7 +109,7 @@
     <p class="appearance-note">Saved on this device.</p>
   </section>
 </div>
-<div id="touch"><div class="dpad"><button data-key="KeyW">↑</button><button data-key="KeyA">←</button><button data-key="KeyS">↓</button><button data-key="KeyD">→</button></div><button data-key="ShiftLeft">RUN</button><button data-key="KeyC">CROUCH</button><button id="touchFlash">LIGHT</button></div>
+<div id="touch"><div class="dpad"><button data-key="KeyW">↑</button><button data-key="KeyA">←</button><button data-key="KeyS">↓</button><button data-key="KeyD">→</button></div><button data-key="ShiftLeft">RUN</button><button data-key="KeyC">CROUCH</button><button id="touchFlash">LIGHT</button><button type="button" id="touchInv" aria-label="Inventory">INV</button></div>
 <script src="./world.js"></script>
 <script src="./move.js"></script>
 <script src="./camcorder.js"></script>
