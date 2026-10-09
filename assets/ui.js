@@ -18,7 +18,7 @@
   const $ = id => document.getElementById(id);
   const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
   const shown = el => !!el && !el.hidden && el.getClientRects().length > 0;
-  const focusables = el => [...el.querySelectorAll(FOCUSABLE)].filter(e => shown(e) && !e.closest('[hidden]') && getComputedStyle(e).visibility !== 'hidden');
+  const focusables = el => [...el.querySelectorAll(FOCUSABLE)].filter(e => e.tabIndex >= 0 && shown(e) && !e.closest('[hidden]') && getComputedStyle(e).visibility !== 'hidden');   // what Tab can reach (roving radios keep one stop)
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const root = document.documentElement;
   const KINDS = { flashlight: 'Flashlight', headlamp: 'Headlamp', lantern: 'Lantern', camcorder: 'Night Vision Camcorder' };
@@ -38,10 +38,12 @@
 
   /* ---------------------------------------------------------------- reduced motion */
   const mq = window.matchMedia ? matchMedia('(prefers-reduced-motion: reduce)') : { matches: false, addEventListener() {} };
-  const motionMode = () => { const s = window.__settings && __settings.get(); return (s && s.rm) || 'auto'; };
+  // the settings model (hud.js) loads just after this file: until then the stored choice is read directly, so a saved "on" holds from the first frame
+  const storedRm = () => { try { const v = JSON.parse(localStorage.getItem('fb_settings_v1') || '{}').rm; return ['auto', 'on', 'off'].includes(v) ? v : 'auto'; } catch (e) { return 'auto'; } };
+  const motionMode = () => { const s = window.__settings && __settings.get(); return s ? (s.rm || 'auto') : storedRm(); };
   const reduced = () => { const m = motionMode(); return m === 'on' || (m === 'auto' && mq.matches); };
   const applyMotion = () => root.classList.toggle('rm', reduced());
-  mq.addEventListener && mq.addEventListener('change', applyMotion);
+  mq.addEventListener && mq.addEventListener('change', () => { applyMotion(); if (typeof syncSettings === 'function') syncSettings(); });
   applyMotion();
 
   /* the title is sized for a wide fallback face until Barlow Condensed has actually loaded (then html.u-cond: the full size).
@@ -183,7 +185,7 @@
 
   /* ---------------------------------------------------------------- settings */
   let settingsEl = null, lastPage = 'sound';
-  const PAGES = [['sound', 'Sound'], ['hud', 'HUD'], ['graphics', 'Graphics'], ['controls', 'Controls']];
+  const PAGES = [['sound', 'Sound'], ['hud', 'HUD'], ['graphics', 'Display'], ['controls', 'Controls']];
   const pct = v => Math.round(v * 100) + '%';
   const rangeFill = r => r.style.setProperty('--p', ((r.value - r.min) / (r.max - r.min) * 100) + '%');
   function buildSettings() {
@@ -212,16 +214,18 @@
   <div class="us-actions"><button type="button" class="u-btn ghost" id="stHudReset">Reset HUD</button></div>
 </section>
 <section class="us-page" id="stPage_graphics" role="tabpanel" aria-labelledby="stTab_graphics" hidden>
-  <h3>Graphics</h3><p class="u-note">How finely the lights and their shadows are drawn. Every level lights the same places: higher only draws them more finely. Low suits phones and older computers.</p>
-  <div class="us-row wide"><span>Lighting and shadows</span><div class="us-seg" role="radiogroup" aria-label="Lighting and shadows quality" id="stLq">${['low', 'medium', 'high'].map(q => `<button type="button" class="u-btn" role="radio" data-lq="${q}">${q}</button>`).join('')}</div></div>
+  <h3>Display</h3>
+  <div class="us-row wide"><span>Lighting and shadows<small>How finely the lights and their shadows are drawn. Every setting lights the same places: higher only draws them more finely. Low suits phones and older computers.</small></span><div class="us-seg" role="radiogroup" aria-label="Lighting and shadows quality" id="stLq">${['low', 'medium', 'high'].map(q => `<button type="button" class="u-btn" role="radio" data-lq="${q}">${q}</button>`).join('')}</div></div>
+  <div class="us-row wide"><span>Reduced motion<small>Stops the menus' flicker, slides and drifting haze, the HUD's fades, and the screen effects' animation. System follows your device's setting.</small></span><div class="us-seg" role="radiogroup" aria-label="Reduced motion" id="stRm">${[['auto', 'System'], ['on', 'On'], ['off', 'Off']].map(([v, n]) => `<button type="button" class="u-btn" role="radio" data-rm="${v}">${n}</button>`).join('')}</div><p class="u-note" id="stRmNow"></p></div>
 </section>
 <section class="us-page" id="stPage_controls" role="tabpanel" aria-labelledby="stTab_controls" hidden>
-  <h3>Controls</h3><p class="u-note">Touch screens get an on-screen pad, a light button and a pause button.</p>
+  <h3>Controls</h3><p class="u-note">Keyboard and mouse. On a touch screen the same actions are on screen.</p>
   <div class="us-keys">
     <h4>Moving</h4>${keys([['Move', 'W A S D / Arrows'], ['Run (drains stamina, louder)', 'Hold Shift'], ['Crouch / stand', 'C'], ['Slide (while running)', 'C'], ['Vault or crawl', 'Walk into it']])}
     <h4>Light</h4>${keys([['Aim a handheld light', 'Mouse'], ['Light on / off, raise the camcorder', 'F']])}
     <h4>Night Vision Camcorder</h4>${keys([['Night vision', 'N or right click'], ['Infrared illuminator off / low / high', 'B'], ['Zoom', 'Mouse wheel / Z']])}
     <h4>Everything else</h4>${keys([['Inventory', 'Tab'], ['Cartograph (once you carry it)', 'M'], ['Pause / resume', 'Esc']])}
+    <h4>Touch</h4>${keys([['Move', 'Pad, bottom left'], ['Run, crouch, light, inventory', 'Buttons, bottom right'], ['Night vision, infrared, zoom', 'NV, IR, ZOOM (camcorder)'], ['Pause', 'PAUSE, top right']])}
   </div>
 </section>
 </div></div>`;
@@ -241,6 +245,13 @@
     q('#stColor').addEventListener('input', e => { S() && S().set('c', e.target.value.toLowerCase()); syncSettings(); });
     q('#stHudReset').addEventListener('click', () => { S() && S().reset('hud'); syncSettings(); });
     q('#stLq').addEventListener('click', e => { const b = e.target.closest('[data-lq]'); if (!b) return; setQuality(b.dataset.lq); syncSettings(); });
+    q('#stRm').addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b || !S()) return; S().set('rm', b.dataset.rm); applyMotion(); syncSettings(); });
+    // radio groups: arrow keys move the choice (and the focus) along the group
+    settingsEl.addEventListener('keydown', e => {
+      const d = ['ArrowRight', 'ArrowDown'].includes(e.key) ? 1 : ['ArrowLeft', 'ArrowUp'].includes(e.key) ? -1 : 0; if (!d) return;
+      const b = e.target.closest && e.target.closest('[role=radiogroup] [role=radio]'); if (!b) return;
+      e.preventDefault(); const l = [...b.closest('[role=radiogroup]').querySelectorAll('[role=radio]')], n = l[(l.indexOf(b) + d + l.length) % l.length]; n.focus(); n.click();
+    });
     syncSettings();
   }
   function setQuality(qv) {
@@ -269,6 +280,11 @@
     const pv = q('#stPrev'); pv.style.setProperty('--ps', Math.min(s.s, 1.4));
     const lq = window.__brRole && __brRole.quality ? __brRole.quality() : '';
     settingsEl.querySelectorAll('[data-lq]').forEach(b => b.setAttribute('aria-checked', b.dataset.lq === lq ? 'true' : 'false'));
+    const rm = s.rm || 'auto';
+    settingsEl.querySelectorAll('[data-rm]').forEach(b => b.setAttribute('aria-checked', b.dataset.rm === rm ? 'true' : 'false'));
+    q('#stRmNow').textContent = rm === 'auto' ? (mq.matches ? 'Your device asks for reduced motion, so it is on.' : 'Your device does not ask for reduced motion, so it is off.') : '';
+    // roving focus: one stop per radio group (the chosen one)
+    settingsEl.querySelectorAll('[role=radiogroup]').forEach(g => { const l = [...g.querySelectorAll('[role=radio]')], on = l.find(x => x.getAttribute('aria-checked') === 'true') || l[0]; l.forEach(x => { x.tabIndex = x === on ? 0 : -1; }); });
   }
   const ui = { settingsPages: () => PAGES.map(p => p[0]) };
 
