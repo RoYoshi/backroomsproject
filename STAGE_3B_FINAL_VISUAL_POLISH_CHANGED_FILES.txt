@@ -65,7 +65,7 @@ dev/stage-3b-l-qa2/
   evidence/q3/            final-tree checks: LOS, receivers, NV (all tiers), occlusion (and the Q2 build's, for the Q3b
                           receiver fault), A/B (the parent; the Q2 build vs the Q1 build with NV off), the human-QA scenes
                           before / after, performance parent vs QA2, Part 2's infrared tests, camera, unit, the remote
-                          checks after the Q3a / Q3b pushes
+                          checks after the Q3a / Q3b / Q3c pushes
 
 == Documents ==
 STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md        the engineering report (Q0 seams, Q1, Q2, evidence, the reported rule change)

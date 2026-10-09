@@ -89,7 +89,7 @@ The camcorder's *reading* of the infrared (how readable a concealing creature is
   - the step at the edge of the bright core is eased over ±0.075 rad (±4.3°);
   - the last 30 % of the range ends in a smooth tail instead of a straight ramp.
 - Range, power, core, cone, spill and wall occlusion are unchanged.
-- No AI, stealth or perception rule was touched. The server never has the infrared.
+- No AI or stealth rule was touched, and this easing is the only perception change. The server never has the infrared.
 
 ## Known, unchanged (recorded, not part of this pass)
 

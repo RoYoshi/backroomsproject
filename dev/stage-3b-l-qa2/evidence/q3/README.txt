@@ -25,4 +25,6 @@ real-GPU numbers.
   ir_test_first_run_crash.err           ir_test.py's first run on the final code: a missing sample (timing) before any
                                         verdict; the rerun (ir_test.json) passed R1-R9
   ab_q3c_vs_q3b.*      ab_qa2.js, Q3c against Q3b: the receivers' clip grouping changes no pixel
+  los_l12_on_q3a.log   L12's measurement with Q3a's clip: 96.70 % (the convex-corner notch Q3b removed; final 100.00 %)
+  corner_light_A2.txt  BR-RoLE's light at scene A2's convex corner, the Q2 build vs the final code: the receiver fault Q3b fixed
   remote_q3a.json, remote_q3b.json, remote_q3c.json   dev/stage-3b-l-qa2/verify_remote_qa2.py after each correction push

@@ -1,0 +1,3 @@
+L12's measurement (los_qa2_tests.js) run with Q3a's clip (3b697c3's Hl) and the final code's face list (Q3a's faces have no
+corner neighbours): the notch Q3b removed.  The final code: 100.00 % (los_tests.log).
+FAIL L12 a convex corner seen with both its faces: the two 24 px bands make the whole L (no notch at the joint)   400 convex corners, 1643 views in front of them; band points within 40 px of the corner on either face (half a pillar's), the face seen from the corner to past them: 96.70 % of 223054 inside the clip (parent 77.52 %)

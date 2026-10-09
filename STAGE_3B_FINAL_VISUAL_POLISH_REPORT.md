@@ -12,7 +12,7 @@ Everything the user accepted in QA1 is kept:
 - no body glow;
 - wall and pillar receivers in general.
 
-No AI, stealth, movement, collision, network-timing, fixture or brightness change was made. The one changed rule is reported below.
+No AI, stealth, movement, collision, network-timing, fixture or brightness change was made. The one changed rule, the camcorder's reading of the infrared (a night-vision perception rule on the client), is reported below.
 
 | | |
 |---|---|
@@ -20,7 +20,7 @@ No AI, stealth, movement, collision, network-timing, fixture or brightness chang
 | parent | `stage-3b-l-qa1` `d3ec2269af873dbc381d223ad538a43ba06f5c45`, tree `cffbc3125619170d9a55344b2519042a720a798d`. Both verified on GitHub before work began, and again after every push. |
 | camera checkpoint | `stage-3b-n-camera` `b2783b34e1185b30002350f5b482dd8c5e10b000` (tree `bdef2606…`), an ancestor, unchanged |
 | branch | `stage-3b-l-qa2`. It did not exist; it was created from exactly `d3ec226`. It was never force-pushed. |
-| checkpoints | Q1 `c6e5278f7a6fb3879126f0d979cac20ee0299db7` (tree `917e9849c43837b2e241149457c65ed2e1e438c9`): the corner polish.<br>Q2 `270b60322ae47311d39fdc99ea41b7a6cea2cfc0` (tree `571b0ebb9f88741ed80bec2ce63bef7d27b91fbb`): the infrared.<br>Q3a `3b697c3df2ad9c8bab1cd0e29ee30fb300edc3f9` (tree `fc3c569a5fc716949787dda584addab08a76f244`): an inner-corner correction to the clip, found in the Q3 scenes.<br>Q3b `2b585357d9f04a53b68bf52108c63ae1bae8d9e0` (tree `995c07cab446bdf30697c65c92d69507794c10e4`): a convex-corner correction (the clip, and one receiver fault it exposed), also found in the Q3 scenes.<br>Q3c `1972506ee1edb96f8f8da8ea8ad555662242bca9` (tree `fb2b94819e9fadb7855c2e40130cba8a88a75436`): one clip per band end in the receivers (performance only, pixel-identical).<br>Q3: these documents, the final evidence and the development tools, in two commits (the second fixes the receipt's check of the unit-test allowance); no game file. The final commit and tree are in the package receipt.<br>Each was pushed without force and verified on GitHub. |
+| checkpoints | Q1 `c6e5278f7a6fb3879126f0d979cac20ee0299db7` (tree `917e9849c43837b2e241149457c65ed2e1e438c9`): the corner polish.<br>Q2 `270b60322ae47311d39fdc99ea41b7a6cea2cfc0` (tree `571b0ebb9f88741ed80bec2ce63bef7d27b91fbb`): the infrared.<br>Q3a `3b697c3df2ad9c8bab1cd0e29ee30fb300edc3f9` (tree `fc3c569a5fc716949787dda584addab08a76f244`): an inner-corner correction to the clip, found in the Q3 scenes.<br>Q3b `2b585357d9f04a53b68bf52108c63ae1bae8d9e0` (tree `995c07cab446bdf30697c65c92d69507794c10e4`): a convex-corner correction (the clip, and one receiver fault it exposed), also found in the Q3 scenes.<br>Q3c `1972506ee1edb96f8f8da8ea8ad555662242bca9` (tree `fb2b94819e9fadb7855c2e40130cba8a88a75436`): one clip per band end in the receivers (performance only, pixel-identical).<br>Q3: these documents, the final evidence and the development tools, in two commits (the second fixes the receipt's check of the unit-test allowance); no game file. The final commit and tree are in the package receipt.<br>Each was pushed without force and checked on GitHub with `verify_remote_qa2.py`. The outputs for Q3a, Q3b and Q3c are in `evidence/q3/remote_q3*.json`, and the final commit's are in the package receipt. Q1 and Q2 were checked the same way when they were pushed, but those outputs were not kept. |
 | untouched | `main`, `stage-3b-l-qa1`, `stage-3b-l`, `stage-3b-n-camera`, `stage-3b-remaster`, `br-role`, the superseded `stage-3b-n` and `stage-3b-pillar-los`. No Stage 3C branch. |
 | package | `THE_FAR_BACKROOMS_STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.zip` (+ `.sha256`). Receipt: `STAGE_3B_FINAL_VISUAL_POLISH_PACKAGE_RECEIPT.txt`. |
 
@@ -115,17 +115,17 @@ Unchanged:
 **`receivers_qa2.js`** (browser, BR-RoLE's own buffers):
 - **K1**: all 456 corners where two faces meet share one mitre, with no gap and no overlap.
 - **F1–F3, C1–C2** (QA1's receiver checks, sampled inside each face's own share of a corner): all pass.
-- **K2 (inner corners)**: the corner block is lit with its two faces (block ÷ bands 0.72–1.16 across a flashlight sweep, 0.77 lamp-lit). The parent's block was 0.00.
-- **K3 (convex corners, wall and pillar, flashlight sweeps)**: each face's share of the corner carries its own face's light (light ÷ its own foot within 0.15 of its own facing) in **483/487** samples (479 before Q3b's receiver fix). The parent managed 256/487.
+- **K2 (inner corners)**: the corner block is lit with its two faces: block ÷ bands 0.72–1.16 across a flashlight sweep where the bands are lit (the fifth aim lights neither: 0.00), and 0.77 lamp-lit. The parent's block was 0.00 in the sweep and 0.01 lamp-lit.
+- **K3 (convex corners, wall and pillar, flashlight sweeps)**: each face's share of the corner carries its own face's light (light ÷ its own foot within 0.15 of its own facing) in **483/487** samples (479 in Q1's run, `evidence/q1/receivers_K.log`, before Q3b's receiver fix). The parent managed 256/487.
 - **K4 (along a face, a flashlight 28 px from the wall)**: the largest step in the face light is 0.061; the parent's 32 px pieces gave 0.075.
 - **K5 (no around-the-corner reveal, lamps on, the clip itself)**: 0 hidden floor and 0 turned-away band in the clip, at a convex wall corner and at a pillar corner. The parent showed 27 and 38 hidden-floor samples, and 23 and 34 band samples. The seen band is all inside.
 
-**A/B vs the parent** (`ab_qa2.js`: the same frozen 1920×1080 frame in both builds, NV off; five scenes: a lamp-lit room, PILLAR HALL, a corridor, a flashlight across a convex corner, a lantern by an inner corner). Open floor inside both clips:
+**A/B vs the parent** (`ab_qa2.js`, captured on Q3b, which draws the same pixels as the final code: the same frozen 1920×1080 frame in both builds, NV off; five scenes: a lamp-lit room, PILLAR HALL, a corridor, a flashlight across a convex corner, a lantern by an inner corner). Open floor inside both clips:
 - **more than 20 px from any wall or pillar: identical** in every scene (0 pixels differ);
 - 4–20 px from one: identical under carried lights; in lamp-lit rooms at most **2/255**, where the 0.75-scale light buffer and the lamps' caches (0.45 and 0.11 texels per px) smooth a face's light onto the floor at its foot;
 - within 4 px of a face: the face bands' own edges, which differ by design (up to 30/255 at a foot's antialiased edge).
 
-**Occlusion audit** (`occlusion_qa2.js`: 25 lamps, every texel of their core and far caches against the game's own ray query): **5/5**, with no light through geometry in 1 718 498 core texels or 180 357 far texels. The Q2 build fails O1: 329 texels at 22 of the 25 lamps, up to 183/255. That is the receiver fault Q3b fixed (a face's light in the share of a turned-away face across a deep mitre). The audit now counts a texel that straddles a band's outline as on the band: one texel, its cache's resolution.
+**Occlusion audit** (`occlusion_qa2.js`: 25 lamps, every texel of their core and far caches against the game's own ray query): **5/5**, with no light through geometry in 1 718 498 core texels or 180 357 far texels. The Q2 build fails O1: 329 texels at 22 of the 25 lamps, up to at least 183/255 (the audit keeps up to 8 samples per lamp). That is the receiver fault Q3b fixed (a face's light in the share of a turned-away face across a deep mitre). Both runs use the same audit, which now counts a texel that straddles a band's outline as on the band: one texel, its cache's resolution.
 
 **Camera** 7/7 and 12/12. **BR-RoLE unit** 32/32.
 
@@ -157,7 +157,7 @@ It is **v23's own picture made smooth**: the six fans' coverage (the core under 
 - Each fan's radial ends in a smooth tail, so there is no rim at the range.
 - Range, power, core and arc are the CFG's, unchanged.
 
-On the beam's axis it matches v23's darkness to within a few /255 (`ir_test.py` profile):
+On the beam's axis it matches v23's darkness to within 8/255 (`ir_test.py` profile):
 - QA2 HIGH 39 / 61 / 103 / 147 / 205 / 251;
 - the parent 42 / 59 / 102 / 145 / 197 / 245 (at 80–520 px).
 
@@ -172,7 +172,7 @@ On the beam's axis it matches v23's darkness to within a few /255 (`ir_test.py` 
 `nv_profile_qa2.js` **P1** shows it identical to v23 everywhere else (0 samples differ). Inside the eased places it differs by up to 0.20 (LOW) / 0.24 (HIGH), in place of a jump of that size.
 
 Range, power, core, arc, the lens spill and wall occlusion are unchanged (**P3**). No other entity or night-vision rule changed:
-- the readability along the beam / to the side / past the range, with NV on and off, is identical: `ir_test.py` R9, 0.967 / 0.04 / 0 / 0.04 on the final code (0.967–0.969 across runs; the parent's 0.969 / 0.04 / 0 / 0.04);
+- the readability along the beam / to the side / past the range, with NV on and off, is the same within run-to-run noise: `ir_test.py` R9, 0.967 / 0.04 / 0 / 0.04 on the final code (0.968 in Q2's run), against the parent's 0.969 / 0.04 / 0 / 0.04;
 - heat, overheating, bloom, the sensor gain, zoom, the HUD and the keys are untouched.
 
 ### Gameplay boundary: night vision is presentation only (exact proof)
@@ -221,16 +221,19 @@ The two corrections were found while capturing the human-QA scenes. Both change 
 - The same commit also has the capture helpers hide the glitch overlay (`#glitchFx`, `#glitchTear`). The server places it per run, and it otherwise tainted some frozen scenes.
 
 **Q3b, convex corners seen with both faces (`2b58535`; scenes A2, A3 and B1).**
-- *The problem.* The clip shows 24 px of every face, but it ended each face's band on the art's mitre. A wall's south face is drawn 46 px deep, so at its corners the art's mitre runs steeply into the side face's column. The side band was cut along that mitre, while the south band stopped at 24 px. Between them was a black triangle up to about 10 × 17 px: a **notch** at the joint, where the corner should read as one piece.
+- *The problem.* The clip shows 24 px of every face, but it ended each face's band on the art's mitre. A wall's south face is drawn 46 px deep, so at its corners the art's mitre runs steeply into the side face's column. The side band was cut along that mitre, while the south band stopped at 24 px. Between them was a black triangle, about 10 × 17 px by the art's geometry (the side band's 24 px against the south face's 46 px mitre): a **notch** at the joint, where the corner should read as one piece.
 - *The fix.* Where the player sees both faces of a convex corner right to the corner, the two 24 px bands meet on their own diagonal: the whole 24 px L, with the art's mitre drawn inside it. Where only one face is seen, its band still ends on the art's mitre, so nothing of the face turned away is shown (L07, K5).
 - One more ray at each such corner's L, where both its faces are turned to the player.
-- *And the receivers* (`assets/br-role.js` `extrude`). Showing the whole joint exposed an older fault inside it. BR-RoLE drew only a band's *last* piece inside its mitred outline. A wall's south-face mitre runs 46 px along the side face, so the side face's pieces before the last one lit the south face's share of the joint with the side face's light: a bright triangle in A2. Now every piece that reaches over a convex end's mitre is drawn inside the outline. Each face's share of the joint carries its own light (measured at the A2 corner: the south share 0.22–0.23, as the south band; the side face's share 0.43–0.64).
-- New check **L12**: 400 convex corners from 1 643 viewpoints in front of them. Band points within 40 px of the corner on either face come out at **100.00 %** inside the clip (223 040 points). The same check on Q3a gives 96.70 %, and on the parent 77.52 %.
+- *And the receivers* (`assets/br-role.js` `extrude`). Showing the whole joint exposed an older fault inside it. BR-RoLE drew only a band's *last* piece inside its mitred outline. A wall's south-face mitre runs 46 px along the side face, so the side face's pieces before the last one lit the south face's share of the joint with the side face's light: a bright triangle in A2. Now every piece that reaches over a convex end's mitre is drawn inside the outline. Each face's share of the joint carries its own light. At the A2 corner the south share reads 0.22–0.23, like the south band, and the side face's share 0.43–0.64; in the Q2 build the south share reached 0.65–0.69 (`evidence/q3/corner_light_A2.txt`).
+- New check **L12**: 400 convex corners from 1 643 viewpoints in front of them. Band points within 40 px of the corner on either face come out at **100.00 %** inside the clip (223 040 points). The same measurement with Q3a's clip gives 96.70 % (`evidence/q3/los_l12_on_q3a.log`), and the parent 77.52 %.
 - **L05** now also accepts points inside such a corner's 24 px L. That is the same 24 px of a face turned to the player as everywhere else along it, and still never floor or a face turned away.
 
 **Q3c (`1972506`), performance only.** Q3b clips every piece over a convex end's mitre, which can be several pieces where a light is close to a wall. `extrude` now sets the clip once for each end's run of pieces. The pixels are identical: in `ab_qa2.js` against Q3b, 0 of 2 073 600 pixels differ in each of four frozen frames (a lamp-lit room, PILLAR HALL, a flashlight across a convex corner, a lantern by an inner corner).
 
-All the Q1 and Q2 checks were rerun on the final code (Q3c; `evidence/q3/`), and the figures in this report are from those reruns. The human-QA scenes and the A/B against the parent were captured on Q3b, which draws the same pixels.
+All the Q1 and Q2 checks were rerun on the final code (Q3c; `evidence/q3/`), and the figures in this report are from those reruns, with these exceptions:
+- the human-QA scenes and the A/B against the parent were captured on Q3b, which draws the same pixels;
+- the parent's infrared profile and readability are from Q2's run (`evidence/q2/ir_test_parent.json`);
+- figures marked as Q1's or Q3a's are from those runs.
 
 ---
 
@@ -242,18 +245,18 @@ All the Q1 and Q2 checks were rerun on the final code (Q3c; `evidence/q3/`), and
 
 ## Performance
 
-See `STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md`. In short: NV off shows no material regression. With 4 interleaved runs per build, the page frame medians differ by −1.8 % to +2.7 %, while the same build varies by up to 15 % between runs. drawLight is flat, except YELLOW HALL walked across with the player's own light (+5.5 ms of about 45 ms; the page frame there is unchanged). The clip costs +0.01 to +0.07 ms per frame in the micro benchmark. NV on, the infrared is a real light, bounded like a carried light: 15–23 ms per frame at LOW and 42–43 ms at HIGH in the profile, and nothing with the sensor off. **Software rendering only (SwiftShader, 2 CPUs): no real-GPU numbers are claimed.**
+See `STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md`. In short: NV off shows no material regression. With 4 interleaved runs per build, the page frame medians differ by −1.8 % to +2.7 %, while the same build varies by up to 16 % between runs. drawLight is flat, except YELLOW HALL walked across with the player's own light (+5.5 ms of about 45 ms; the page frame there is unchanged). The clip costs +0.01 to +0.07 ms per frame in the micro benchmark. NV on, the infrared is a real light, bounded like a carried light: 14–23 ms per frame at LOW and 42–43 ms at HIGH in the profile, and nothing with the sensor off. **Software rendering only (SwiftShader, 2 CPUs): no real-GPU numbers are claimed.**
 
 ## Human QA
 
-`STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md`: scenes A–I, about 15 minutes. Before/after screenshots for every scene are in `dev/stage-3b-l-qa2/evidence/q3/scenes/`, with the parent on the left.
+`STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md`: scenes A–I, about 15 minutes. Before/after screenshots for scenes A–H are in `dev/stage-3b-l-qa2/evidence/q3/scenes/`, with the parent on the left; scene I is performance.
 
 ## Recorded, not changed (out of scope)
 
 - **Hound dread flicker.** With a Hound near you the screen can flash brighter for a moment (the old dread flicker in `mp.js`).
 - **Dim tubes.** `light.js` and the server treat the old dim tubes (every 13th fixture) as full-strength lamps; only BR-RoLE and the housings show them dim.
 - **Hand glow.** A carried light's hand glow (52 px) is not carried onto wall faces (QA1 design).
-- **Flaky `ir_test.py`.** Part 2's browser test is timing-sensitive. Its R7 (two pages) failed once on the parent and passed on the rerun. On QA2 it crashed twice before reaching a verdict, both times on a missing sample (once in Q2; once on the final code, in R3's baseline read, `evidence/q3/ir_test_first_run_crash.err`). Both times it passed R1–R9 on the rerun.
+- **Flaky `ir_test.py`.** Part 2's browser test is timing-sensitive. Its R7 (two pages) failed once on the parent and passed on the rerun. On QA2 it crashed before any verdict on a missing sample, once in Q2 (that log was not kept) and once on the final code, in R3's baseline read (`evidence/q3/ir_test_first_run_crash.err`). Both times it passed R1–R9 on the rerun.
 - **Along-face steps.** A face lit very close to a light still steps a little between pieces (largest 0.061 of the facing; 0.075 before). Pieces sized by equal changes of facing would remove it; this was not pursued.
 
 ## Files

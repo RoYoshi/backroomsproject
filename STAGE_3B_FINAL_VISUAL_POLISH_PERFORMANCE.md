@@ -63,7 +63,9 @@ The final code (Q3c `1972506`).
 | NP PILLAR HALL, NV on, IR LOW | standing | 982.3 → 1004.4 (+22.1) | 52.45 → 74.12 (+21.67) | 0.11 → 1.00 | 0.65 → 20.38 | 54.51 → 76.02 |
 | NP PILLAR HALL, NV on, IR LOW | walking | 1019.2 → 1007.1 (−12.1) | 61.33 → 58.89 (−2.44) | 0.16 → 0.72 | 0.44 → 14.49 | 62.54 → 80.55 |
 
-`drawLight` is the game's whole darkness overlay per frame: BR-RoLE, the line-of-sight clip and, in the parent, the camcorder's infrared fans. `Hl` is the two sight polygons. `IR` is the infrared alone: QA2's `irLight`, the parent's `drawFan`. These come from the DevTools sampling profiler (100 µs), per rendered frame. "BR" is BR-RoLE's own counter. "page" is the frame interval (rAF).
+`drawLight` is the game's whole darkness overlay per frame: BR-RoLE, the line-of-sight clip and, in the parent, the camcorder's infrared fans. `Hl` is the two sight polygons. `IR` is the infrared alone: QA2's `irLight`, the parent's `drawFan`. These come from the DevTools sampling profiler (100 µs), per rendered frame: JavaScript on the stack, not the canvas work the browser does later. "BR" is BR-RoLE's own counter, a wall-clock timer around its frame (sampled every few frames), which also catches canvas work that blocks; that is why it often exceeds drawLight. "page" is the frame interval (rAF).
+
+With 2 runs per build these NV-off figures are noisy: A walking's drawLight falls 2.7 ms here and rises 5.5 ms in the 4-run table below, and D walking's rises 6.7 ms here and falls 0.5 ms there. The NV-off page frame rises by up to 9.4 % here (A standing). The 4-run rerun below supersedes them for NV off.
 
 ### NV off, again with 4 runs per build (`evidence/q3/perf_ab_off4.*`)
 
@@ -83,13 +85,14 @@ Each run is a fresh server and browser, alternating parent and QA2:
 ## In short
 
 **NV off: no material regression.**
-- The page frame medians differ by −1.8 % to +2.7 % (mean +0.9 %). Two runs of the same build differ by up to 15 % here (A, parent: 668 to 773 ms).
-- drawLight is flat in seven of the eight measurements (−3.7 to +1.9 ms).
+- The page frame medians differ by −1.8 % to +2.7 % (mean +0.9 %). Two runs of the same build differ by up to 16 % here (A, parent: 668 to 773 ms).
+- drawLight is flat in seven of the eight measurements (−3.7 to +2.0 ms).
 - The one consistent increase is YELLOW HALL walked across with the player's own light: **+5.5 ms of drawLight** (the median; all 4 QA2 runs above all 4 parent runs). The light sweeps past the partitions' corners, where the face pieces are cut finer (Q1: by how fast the facing turns, up to 4×) and clipped at the mitres. The page frame there is unchanged (−0.3 %).
 - The clip itself (`Hl`): +0.0 to +0.6 ms per frame in the profile, +0.01 to +0.07 ms in the micro benchmark.
 
 **NV on: bounded.**
-- The infrared costs **15–23 ms per frame at LOW and 42–43 ms at HIGH** in the profile. The parent's fans cost under 1 ms, but drew no shadows, lit no walls, and stepped.
+- The infrared costs **14–23 ms per frame at LOW and 42–43 ms at HIGH** in the profile. The parent's fans cost 0.3–1.0 ms, but drew no shadows, lit no walls, and stepped.
+- BR-RoLE's own timer, which also catches blocking canvas work, rises more: by 18–46 ms at LOW and by 49–50 ms at HIGH.
 - drawLight rises by up to 27 ms at LOW in the lit halls. In the BLACKOUT ZONE at HIGH, where it is the only light, it rises by 43–45 ms.
 - For scale: the whole overlay with a flashlight in the BLACKOUT ZONE (scene E) costs 26–45 ms.
 - The page frame moves −4 % to +6 % in these runs.
