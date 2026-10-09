@@ -250,7 +250,8 @@
    * at least c's size (the field is read from a copy of c's pixel box bb = [x0, y0, x1, y1]).
    * QA2: the pieces at a band's ends are drawn inside its mitred outline (bandPoly: the remaster's corner joints) - every piece
    * that reaches over a convex end's mitre, which runs up to 46 px along a side face (Q3b: only the last one was, so the pieces
-   * before it lit the other face's share of a deep mitre with this face's light); at an inner corner the end piece reaches on
+   * before it lit the other face's share of a deep mitre with this face's light), one clip for each end's pieces; at an inner
+   * corner the end piece reaches on
    * into the corner block (the strip's last piece, stretched over it).  And the pieces are as
    * short as it takes for base + k cos to step by at most FACE.da between neighbours (a light close to a wall turns quickly
    * along it: 32 px steps showed), at most 4 x as many */
@@ -291,13 +292,17 @@
     const cx0 = Math.max(bb[0], Math.floor(ux0) - 1), cy0 = Math.max(bb[1], Math.floor(uy0) - 1), cx1 = Math.min(bb[2], Math.ceil(ux1) + 1), cy1 = Math.min(bb[3], Math.ceil(uy1) + 1);
     const t = tmp.getContext('2d'); t.save(); t.setTransform(1, 0, 0, 1, 0, 0); t.globalAlpha = 1; t.globalCompositeOperation = 'copy'; t.drawImage(c.canvas, cx0, cy0, cx1 - cx0, cy1 - cy0, cx0, cy0, cx1 - cx0, cy1 - cy0); t.restore();
     c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-over'; c.imageSmoothingEnabled = true;
+    let cj = -1;                                                             // the band whose mitred outline is the clip now (-1: none)
     for (let i = 0; i < np; i += 10) {
+      const j = P[i + 9];
+      if (j !== cj) {                                                        // an end zone's pieces (consecutive, one band): inside its mitred outline, one clip for them all
+        if (cj >= 0) c.restore(); cj = j;
+        if (j >= 0) { const w = bandPoly(j); c.save(); c.beginPath(); c.moveTo(w[0] * k + ox, w[1] * k + oy); for (let v = 2; v < 8; v += 2) c.lineTo(w[v] * k + ox, w[v + 1] * k + oy); c.closePath(); c.clip(); }
+      }
       c.globalAlpha = P[i];
-      if (P[i + 9] >= 0) {                                                   // an end piece: inside the band's mitred outline
-        const w = bandPoly(P[i + 9]); c.save(); c.beginPath(); c.moveTo(w[0] * k + ox, w[1] * k + oy); for (let v = 2; v < 8; v += 2) c.lineTo(w[v] * k + ox, w[v + 1] * k + oy); c.closePath(); c.clip();
-        c.drawImage(tmp, P[i + 1], P[i + 2], P[i + 3], P[i + 4], P[i + 5], P[i + 6], P[i + 7], P[i + 8]); c.restore();
-      } else c.drawImage(tmp, P[i + 1], P[i + 2], P[i + 3], P[i + 4], P[i + 5], P[i + 6], P[i + 7], P[i + 8]);
+      c.drawImage(tmp, P[i + 1], P[i + 2], P[i + 3], P[i + 4], P[i + 5], P[i + 6], P[i + 7], P[i + 8]);
     }
+    if (cj >= 0) c.restore();
     c.restore(); ST.faceDraws += np / 10; return np / 10;
   }
   /* the selected prop casters (world.js PROPS), static */
