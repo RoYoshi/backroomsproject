@@ -86,8 +86,12 @@ bundle_diff = {'before_Hl_identical': old[:oi] == zb[:ci], 'after_Hl_identical':
                'new_Hl_is_hl_qa2_js': zb[ci:cj] == block, 'call_sites_unchanged': old.count(CALLS) == 1 == zb.count(CALLS), 'Hl_chars': [oj - oi, cj - ci]}
 # the U02 allowance: the BR-RoLE unit test changed only in U02's clip check
 ut = git('diff', '-U0', PARENT, commit, '--', 'dev/br-role/test_br_role.js')
-ut_lines = [l for l in ut.splitlines() if l[:1] in '+-' and not l.startswith(('+++', '---'))]
-ut_ok = all(('U02' in l or 'isMitre' in l or 'mitreClips' in l or 'mitred outline' in l) for l in ut_lines)
+def u02_span(text):   # the U02 test's lines (1-based, inclusive): from its run('U02 to the line before run('U03
+    L = text.splitlines(); a = next(i for i, l in enumerate(L) if l.startswith("run('U02")); b = next(i for i, l in enumerate(L) if l.startswith("run('U03")); return a + 1, b
+ua, ub = u02_span(blob(PARENT, 'dev/br-role/test_br_role.js').decode('utf-8')), u02_span(blob(commit, 'dev/br-role/test_br_role.js').decode('utf-8'))
+hunks = [tuple(int(x or 1) for x in m) for m in re.findall(r'^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@', ut, re.M)]
+inside = lambda start, n, span: n == 0 and span[0] - 1 <= start <= span[1] or n > 0 and span[0] <= start and start + n - 1 <= span[1]
+ut_ok = bool(hunks) and all(inside(h[0], h[1], ua) and inside(h[2], h[3], ub) for h in hunks)   # every hunk inside U02, in the parent and in the commit
 chain = [l for l in git('log', '--format=%H %s', f'{PARENT}..{commit}').splitlines()]
 remote_ok = (REMOTE['local']['commit'] == commit == REMOTE['lsRemote'] == REMOTE['githubApi']['commit'] and REMOTE['githubApi']['tree'] == tree
              and REMOTE['githubApi']['parents'] == [parent] and REMOTE.get('ok') is True)
