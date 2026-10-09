@@ -1,0 +1,92 @@
+{
+ "other": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/q2/q1build",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/q2/q2build",
+ "quality": "medium",
+ "scenes": [
+  {
+   "id": "A",
+   "label": "YELLOW HALL, lamps on",
+   "at": [
+    1200,
+    3408
+   ],
+   "same": true,
+   "floorBoth": 1051973,
+   "floorDiff": 0,
+   "floorMax": 0,
+   "floorOpen": 1043116,
+   "floorOpenDiff": 0,
+   "floorOpenMax": 0,
+   "floorFar": 1002276,
+   "floorFarDiff": 0,
+   "floorFarMax": 0,
+   "solidBoth": 39892,
+   "solidDiff": 0,
+   "solidMax": 0,
+   "onlyOther": 0,
+   "onlyThis": 0,
+   "edge": 28042,
+   "edgeDiff": 0,
+   "all": 2073600,
+   "allDiff": 0
+  },
+  {
+   "id": "CN",
+   "label": "camcorder raised, night vision OFF, lit room",
+   "at": [
+    1200,
+    3408
+   ],
+   "same": true,
+   "floorBoth": 1052013,
+   "floorDiff": 0,
+   "floorMax": 0,
+   "floorOpen": 1043151,
+   "floorOpenDiff": 0,
+   "floorOpenMax": 0,
+   "floorFar": 1002385,
+   "floorFarDiff": 0,
+   "floorFarMax": 0,
+   "solidBoth": 39885,
+   "solidDiff": 0,
+   "solidMax": 0,
+   "onlyOther": 0,
+   "onlyThis": 0,
+   "edge": 27966,
+   "edgeDiff": 0,
+   "all": 2073600,
+   "allDiff": 0
+  },
+  {
+   "id": "CB",
+   "label": "camcorder raised, night vision OFF, BLACKOUT ZONE",
+   "at": [
+    1296,
+    5136
+   ],
+   "same": true,
+   "floorBoth": 857284,
+   "floorDiff": 0,
+   "floorMax": 0,
+   "floorOpen": 846068,
+   "floorOpenDiff": 0,
+   "floorOpenMax": 0,
+   "floorFar": 795268,
+   "floorFarDiff": 0,
+   "floorFarMax": 0,
+   "solidBoth": 53902,
+   "solidDiff": 0,
+   "solidMax": 0,
+   "onlyOther": 0,
+   "onlyThis": 0,
+   "edge": 24237,
+   "edgeDiff": 0,
+   "all": 2073600,
+   "allDiff": 0
+  }
+ ],
+ "errs": [
+  [],
+  []
+ ]
+}

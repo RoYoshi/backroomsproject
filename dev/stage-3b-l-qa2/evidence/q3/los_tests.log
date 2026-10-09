@@ -1,0 +1,15 @@
+poses 168
+PASS L01 the bundle = the parent with Hl replaced by hl_qa2.js (nothing else changed)   Hl 337 -> 9982 chars; call sites unchanged
+PASS L02 exact ray query and its tables unchanged (AI / light / collision truth)   Uc Hc zc Bc identical true; Pc, Vl, lamps identical true; 4000 random rays equal true
+PASS L03 entity mask: byte-identical away from pillars; near them every parent ray kept   1505 positions away from pillars, 0 differ; 134 near pillars: parent rays missing 0, distance changed 0
+PASS L04 a face seen square-on: the clip ends 24 px into it, exactly as the parent   630 square-on rays (base-fan directions straight at long faces); differing 0; worst |new - parent| 9.1e-13 px
+PASS L05 nothing hidden is shown: no unseen floor in the clip; every wall / pillar point in it is in a seen face's band   168 poses; unseen floor inside the clip: 0 samples (parent 25873); wall / pillar samples inside: 1254486, outside any seen face's band: 0
+PASS L06 a face seen at a slant shows its 24 px band like a face seen square-on   band points (depth 6 / 14 / 21 px) of seen faces inside the clip: 99.68 % of 130320 (parent 64.13 %)
+PASS L07 a face turned away from the player stays black   band points of faces turned away (and in no seen face's band): 0 of 76142 inside the clip
+PASS L08 corners: band points within 30 px of a face's end inside the clip   99.56 % of 11884 (parent 73.42 %)
+PASS L09 bounded: at most 12 rays per pillar in reach + 10 per face turned to the player   rays beyond that bound: -2176
+PASS L10 a side face seen along its length keeps its band right to its convex corner's mitre   1288 views along side faces; band points within 40 px of the corner, in the face's own share, foot seen: 100.00 % of 43671 inside the clip (parent 17.39 %)
+PASS L12 a convex corner seen with both its faces: the two 24 px bands make the whole L (no notch at the joint)   400 convex corners, 1643 views in front of them; band points within 40 px of the corner on either face (half a pillar's), the face seen from the corner to past them: 100.00 % of 223040 inside the clip (parent 77.52 %)
+PASS L11 no cracks: no ray stops short inside a wall or pillar between close rays that go on (other than at an outline's tip)   1456 views: 0 (parent 0)
+
+QA2 LOS TESTS: 12/12 PASS

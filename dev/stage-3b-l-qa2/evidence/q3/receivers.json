@@ -1,0 +1,54 @@
+{
+ "results": [
+  {
+   "name": "K1 at every corner the two faces' bands meet on one mitre (the same diagonal, no overlap, no gap)",
+   "ok": true,
+   "note": "456 bands; 456 corners where two perpendicular faces meet: mitre segments that differ 0, outlines overlapping 0"
+  },
+  {
+   "name": "F1 ceiling lamps light the faces turned to them (band ~ the floor at its foot x facing), and none turned away",
+   "ok": true,
+   "note": "12 lamps; 715 lit face samples: band / foot 0.43 .. 1.13 (715 carry it); faces turned away 481 samples: face light added to them 0; samples in a neighbour's corner share (left out) 423"
+  },
+  {
+   "name": "F3 a face whose foot the lamp does not reach (blocked) receives none of its light",
+   "ok": true,
+   "note": "138 blocked face samples, lit 0"
+  },
+  {
+   "name": "C1 a flashlight lights the face it hits; swept away the face darkens; a lantern lights it from beside; nothing with every light off",
+   "ok": true,
+   "note": "face light: flashlight on it 43.1/255 (floor at its foot 43.9), swept away 0.0, lantern 29.1, all lights off max 0.0/255"
+  },
+  {
+   "name": "C2 no face light through the wall: its far side stays dark while the flashlight lights the near side",
+   "ok": true,
+   "note": "far-side face max 0.0/255"
+  },
+  {
+   "name": "F2 pillar faces: the side turned to the light is lit, its far side (its own share) gets none of it; lamp-lit pillar faces turned away get none",
+   "ok": true,
+   "note": "flashlight on a PILLAR HALL pillar (lamps off): near face 76.2/255, far face (15 samples in its own share) max 0.0/255; lamp-lit pillar faces 86 samples, turned away from a lamp 147 (added max 0/255)"
+  },
+  {
+   "name": "K2 an inner corner's block is lit with its two faces (flashlight swept across it; a lamp-lit room corner)",
+   "ok": true,
+   "note": "block / its two bands' light, flashlight sweep: 1.14 0.96 1.16 0.72 0.00 (parent 0.00 0.00 0.00 0.00 0.00); lamp-lit room corner 0.77 (parent 0.01)"
+  },
+  {
+   "name": "K3 a convex corner (wall, pillar), flashlight swept across: each face's share of the corner carries that face's own light",
+   "ok": true,
+   "note": "share samples whose light / the floor at their own face's foot is within .15 of their own face's facing: 483/487 (wall@-2.75: 28/28, wall@-2.55: 45/49, wall@-2.356: 56/56, wall@-2.2: 28/28, wall@-1.95: 18/18, wall-side@-3.08: 56/56, wall-side@-3: 56/56, wall-side@-2.9: 56/56, pillar@-2.6: 56/56, pillar@-2.36: 56/56, pillar@-2.1: 28/28) || parent 256/487 (wall@-2.75: 28/28, wall@-2.55: 28/49, wall@-2.356: 47/56, wall@-2.2: 0/28, wall@-1.95: 0/18, wall-side@-3.08: 28/56, wall-side@-3: 28/56, wall-side@-2.9: 28/56, pillar@-2.6: 28/56, pillar@-2.36: 41/56, pillar@-2.1: 0/28)"
+  },
+  {
+   "name": "K4 along a face lit at a grazing angle the face light steps less than the parent's 32 px pieces",
+   "ok": true,
+   "note": "band / floor-at-its-foot ratio every 2 px over 82 pairs: worst step 0.061, steps over .06: 1 (parent: worst 0.075, over .06: 2)"
+  },
+  {
+   "name": "K5 no around-the-corner reveal: floor hidden behind a convex corner and the band of the face turned away are outside the clip; the seen face's band is inside",
+   "ok": true,
+   "note": "convex wall corner (960, 2976): hidden floor in the clip 0/175 (175 of it lamp-lit; 0 counting the outline's 1.5 px), turned-away band in it 0/487, seen band in it 220/220; pillar corner (8620, 1364): hidden floor in the clip 0/162 (162 of it lamp-lit; 0 counting the outline's 1.5 px), turned-away band in it 0/103, seen band in it 84/84 || parent convex wall corner (960, 2976): hidden floor in the clip 27/175 (175 of it lamp-lit; 32 counting the outline's 1.5 px), turned-away band in it 23/487, seen band in it 215/220; pillar corner (8620, 1364): hidden floor in the clip 38/162 (162 of it lamp-lit; 47 counting the outline's 1.5 px), turned-away band in it 34/103, seen band in it 84/84"
+  }
+ ]
+}

@@ -1,0 +1,614 @@
+[
+ {
+  "id": "A1",
+  "title": "A corner, flashlight sweep: diagonal",
+  "scene": {
+   "x": 1136,
+   "y": 5360,
+   "aim": -2.356,
+   "kind": "flashlight",
+   "blackout": true
+  },
+  "crop": [
+   976,
+   5200,
+   160,
+   160
+  ],
+  "before": {
+   "x": 1136,
+   "y": 5360,
+   "wx": -460,
+   "wy": -6160,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 1136,
+   "y": 5360,
+   "wx": -460,
+   "wy": -6160,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "A2",
+  "title": "A corner, flashlight sweep: across the side face",
+  "scene": {
+   "x": 1200,
+   "y": 5300,
+   "aim": -2.97,
+   "kind": "flashlight",
+   "blackout": true
+  },
+  "crop": [
+   976,
+   5200,
+   160,
+   160
+  ],
+  "before": {
+   "x": 1200,
+   "y": 5300,
+   "wx": -540,
+   "wy": -6085,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 1200,
+   "y": 5300,
+   "wx": -540,
+   "wy": -6085,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "A3",
+  "title": "A corner, flashlight sweep: along the side face",
+  "scene": {
+   "x": 1076,
+   "y": 5420,
+   "aim": -1.75,
+   "kind": "flashlight",
+   "blackout": true
+  },
+  "crop": [
+   976,
+   5200,
+   160,
+   160
+  ],
+  "before": {
+   "x": 1076,
+   "y": 5420,
+   "wx": -385,
+   "wy": -6235,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 1076,
+   "y": 5420,
+   "wx": -385,
+   "wy": -6235,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "A4",
+  "title": "A inner corner, flashlight",
+  "scene": {
+   "x": 470,
+   "y": 4890,
+   "aim": -2.33,
+   "kind": "flashlight",
+   "blackout": true
+  },
+  "crop": [
+   344,
+   4760,
+   160,
+   160
+  ],
+  "before": {
+   "x": 470,
+   "y": 4890,
+   "wx": 372.5,
+   "wy": -5572.5,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 470,
+   "y": 4890,
+   "wx": 372.5,
+   "wy": -5572.5,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "B1",
+  "title": "B fluorescent-lit convex corner",
+  "scene": {
+   "x": 1040,
+   "y": 3056,
+   "aim": -2.356
+  },
+  "crop": [
+   880,
+   2896,
+   160,
+   160
+  ],
+  "before": {
+   "x": 1040,
+   "y": 3056,
+   "wx": -340,
+   "wy": -3280,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 17
+  },
+  "after": {
+   "x": 1040,
+   "y": 3056,
+   "wx": -340,
+   "wy": -3280,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 17
+  }
+ },
+ {
+  "id": "B2",
+  "title": "B fluorescent-lit inner corner",
+  "scene": {
+   "x": 380,
+   "y": 2690,
+   "aim": -2.3
+  },
+  "crop": [
+   248,
+   2552,
+   160,
+   160
+  ],
+  "before": {
+   "x": 380,
+   "y": 2690,
+   "wx": 485,
+   "wy": -2822.5,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 15
+  },
+  "after": {
+   "x": 380,
+   "y": 2690,
+   "wx": 485,
+   "wy": -2822.5,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 15
+  }
+ },
+ {
+  "id": "B3",
+  "title": "B fluorescent-lit pillar corners (PILLAR HALL)",
+  "scene": {
+   "x": 8700,
+   "y": 1480,
+   "aim": -2.4
+  },
+  "crop": [
+   8520,
+   1320,
+   240,
+   160
+  ],
+  "before": {
+   "x": 8700,
+   "y": 1480,
+   "wx": -9915,
+   "wy": -1310,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 16
+  },
+  "after": {
+   "x": 8700,
+   "y": 1480,
+   "wx": -9915,
+   "wy": -1310,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 16
+  }
+ },
+ {
+  "id": "C1",
+  "title": "C convex corner: nothing round it revealed",
+  "scene": {
+   "x": 1000,
+   "y": 2900,
+   "aim": 1.9
+  },
+  "crop": [
+   880,
+   2860,
+   160,
+   160
+  ],
+  "before": {
+   "x": 1000,
+   "y": 2900,
+   "wx": -290,
+   "wy": -3085,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 17
+  },
+  "after": {
+   "x": 1000,
+   "y": 2900,
+   "wx": -290,
+   "wy": -3085,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 17
+  }
+ },
+ {
+  "id": "C2",
+  "title": "C pillar corner: nothing round it revealed",
+  "scene": {
+   "x": 8640,
+   "y": 1392,
+   "aim": 3.141592653589793
+  },
+  "crop": [
+   8540,
+   1300,
+   160,
+   160
+  ],
+  "before": {
+   "x": 8640,
+   "y": 1392,
+   "wx": -9840,
+   "wy": -1200,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 16
+  },
+  "after": {
+   "x": 8640,
+   "y": 1392,
+   "wx": -9840,
+   "wy": -1200,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 16
+  }
+ },
+ {
+  "id": "D1",
+  "title": "D night vision: a wall in the infrared (LOW)",
+  "scene": {
+   "x": 1296,
+   "y": 5136,
+   "aim": 3.141592653589793,
+   "kind": "camcorder",
+   "nv": true,
+   "ir": 1,
+   "blackout": true
+  },
+  "crop": [
+   900,
+   4880,
+   440,
+   420
+  ],
+  "before": {
+   "x": 1296,
+   "y": 5136,
+   "wx": -660.2305608915003,
+   "wy": -5880.1159498750085,
+   "s": 1.25,
+   "nv": true,
+   "ir": 1,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 1296,
+   "y": 5136,
+   "wx": -660.2305608596785,
+   "wy": -5880.115949859005,
+   "s": 1.25,
+   "nv": true,
+   "ir": 1,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "D2",
+  "title": "D night vision: swept away from the wall",
+  "scene": {
+   "x": 1296,
+   "y": 5136,
+   "aim": -1.5707963267948966,
+   "kind": "camcorder",
+   "nv": true,
+   "ir": 1,
+   "blackout": true
+  },
+  "crop": [
+   900,
+   4880,
+   440,
+   420
+  ],
+  "before": {
+   "x": 1296,
+   "y": 5136,
+   "wx": -660.2305609302075,
+   "wy": -5880.115949894474,
+   "s": 1.25,
+   "nv": true,
+   "ir": 1,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 1296,
+   "y": 5136,
+   "wx": -660.2305609302075,
+   "wy": -5880.115949894474,
+   "s": 1.25,
+   "nv": true,
+   "ir": 1,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "E1",
+  "title": "E night vision: a pillar's infrared shadow (LOW)",
+  "scene": {
+   "x": 8760,
+   "y": 1392,
+   "aim": 3.141592653589793,
+   "kind": "camcorder",
+   "nv": true,
+   "ir": 1,
+   "blackout": true
+  },
+  "crop": [
+   8360,
+   1180,
+   440,
+   420
+  ],
+  "before": {
+   "x": 8760,
+   "y": 1392,
+   "wx": -9990.230560930208,
+   "wy": -1200.1159498944746,
+   "s": 1.25,
+   "nv": true,
+   "ir": 1,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 8760,
+   "y": 1392,
+   "wx": -9990.230560930208,
+   "wy": -1200.1159498944746,
+   "s": 1.25,
+   "nv": true,
+   "ir": 1,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "F1",
+  "title": "F night vision: a wall between the lens and what is behind it",
+  "scene": {
+   "x": 1150,
+   "y": 5136,
+   "aim": 3.141592653589793,
+   "kind": "camcorder",
+   "nv": true,
+   "ir": 2,
+   "blackout": true
+  },
+  "crop": [
+   820,
+   4900,
+   400,
+   420
+  ],
+  "before": {
+   "x": 1150,
+   "y": 5136,
+   "wx": -477.73056093020756,
+   "wy": -5880.115949894474,
+   "s": 1.25,
+   "nv": true,
+   "ir": 2,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 1150,
+   "y": 5136,
+   "wx": -477.73056093020756,
+   "wy": -5880.115949894474,
+   "s": 1.25,
+   "nv": true,
+   "ir": 2,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "G1",
+  "title": "G night vision: range and falloff, LOW",
+  "scene": {
+   "x": 2352,
+   "y": 5424,
+   "aim": 2.749,
+   "kind": "camcorder",
+   "nv": true,
+   "ir": 1,
+   "blackout": true
+  },
+  "crop": null,
+  "before": {
+   "x": 2352,
+   "y": 5424,
+   "wx": -1980.2305609302075,
+   "wy": -6240.115949894474,
+   "s": 1.25,
+   "nv": true,
+   "ir": 1,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 2352,
+   "y": 5424,
+   "wx": -1980.2305609302075,
+   "wy": -6240.115949894474,
+   "s": 1.25,
+   "nv": true,
+   "ir": 1,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "G2",
+  "title": "G night vision: range and falloff, HIGH",
+  "scene": {
+   "x": 2352,
+   "y": 5424,
+   "aim": 2.749,
+   "kind": "camcorder",
+   "nv": true,
+   "ir": 2,
+   "blackout": true
+  },
+  "crop": null,
+  "before": {
+   "x": 2352,
+   "y": 5424,
+   "wx": -1980.2305609302075,
+   "wy": -6240.115949894474,
+   "s": 1.25,
+   "nv": true,
+   "ir": 2,
+   "blackout": true,
+   "lamps": 0
+  },
+  "after": {
+   "x": 2352,
+   "y": 5424,
+   "wx": -1980.2305609302075,
+   "wy": -6240.115949894474,
+   "s": 1.25,
+   "nv": true,
+   "ir": 2,
+   "blackout": true,
+   "lamps": 0
+  }
+ },
+ {
+  "id": "H1",
+  "title": "H camcorder raised, night vision OFF (YELLOW HALL)",
+  "scene": {
+   "x": 1200,
+   "y": 3408,
+   "aim": 0,
+   "kind": "camcorder",
+   "nv": false,
+   "ir": 1
+  },
+  "crop": null,
+  "before": {
+   "x": 1200,
+   "y": 3408,
+   "wx": -540.2305609302075,
+   "wy": -3720.115949894475,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 16
+  },
+  "after": {
+   "x": 1200,
+   "y": 3408,
+   "wx": -540.2305609302075,
+   "wy": -3720.115949894475,
+   "s": 1.25,
+   "nv": false,
+   "ir": 0,
+   "blackout": false,
+   "lamps": 16
+  }
+ }
+]

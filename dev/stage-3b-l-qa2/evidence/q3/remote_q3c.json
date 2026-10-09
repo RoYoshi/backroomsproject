@@ -1,0 +1,115 @@
+{
+ "checkpoint": "Q3c",
+ "verifiedAt": "2026-10-09T06:33:27Z",
+ "branch": "stage-3b-l-qa2",
+ "local": {
+  "commit": "1972506ee1edb96f8f8da8ea8ad555662242bca9",
+  "tree": "fb2b94819e9fadb7855c2e40130cba8a88a75436",
+  "parent": "2b585357d9f04a53b68bf52108c63ae1bae8d9e0"
+ },
+ "lsRemote": "1972506ee1edb96f8f8da8ea8ad555662242bca9",
+ "githubApi": {
+  "commit": "1972506ee1edb96f8f8da8ea8ad555662242bca9",
+  "tree": "fb2b94819e9fadb7855c2e40130cba8a88a75436",
+  "parents": [
+   "2b585357d9f04a53b68bf52108c63ae1bae8d9e0"
+  ],
+  "message": "Stage 3B-L QA2 (Q3c): one clip per band end in the face receivers"
+ },
+ "sinceQa1Parent": [
+  {
+   "commit": "c6e5278f7a6fb3879126f0d979cac20ee0299db7",
+   "tree": "917e9849c43837b2e241149457c65ed2e1e438c9",
+   "subject": "Stage 3B-L QA2 (Q1): wall-corner receiver polish"
+  },
+  {
+   "commit": "270b60322ae47311d39fdc99ea41b7a6cea2cfc0",
+   "tree": "571b0ebb9f88741ed80bec2ce63bef7d27b91fbb",
+   "subject": "Stage 3B-L QA2 (Q2): night-vision infrared as a BR-RoLE light"
+  },
+  {
+   "commit": "3b697c3df2ad9c8bab1cd0e29ee30fb300edc3f9",
+   "tree": "fc3c569a5fc716949787dda584addab08a76f244",
+   "subject": "Stage 3B-L QA2 (Q3a): inner-corner clip meets on the block's diagonal"
+  },
+  {
+   "commit": "2b585357d9f04a53b68bf52108c63ae1bae8d9e0",
+   "tree": "995c07cab446bdf30697c65c92d69507794c10e4",
+   "subject": "Stage 3B-L QA2 (Q3b): a convex corner seen with both faces is one L"
+  },
+  {
+   "commit": "1972506ee1edb96f8f8da8ea8ad555662242bca9",
+   "tree": "fb2b94819e9fadb7855c2e40130cba8a88a75436",
+   "subject": "Stage 3B-L QA2 (Q3c): one clip per band end in the face receivers"
+  }
+ ],
+ "merges": [],
+ "qa1Parent": {
+  "branch": "stage-3b-l-qa1",
+  "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+  "commit": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+  "tree": "cffbc3125619170d9a55344b2519042a720a798d",
+  "ancestorOfHead": true,
+  "firstQa2CommitsParent": "d3ec2269af873dbc381d223ad538a43ba06f5c45"
+ },
+ "cameraCheckpoint": {
+  "branch": "stage-3b-n-camera",
+  "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+  "commit": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+  "tree": "bdef2606b50dc485eac648a70300e33bf7a32723",
+  "ancestorOfHead": true
+ },
+ "untouched": {
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "remote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "br-role": {
+   "expected": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "remote": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "ok": true
+  },
+  "stage-3b-l": {
+   "expected": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "remote": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "ok": true
+  },
+  "stage-3b-remaster": {
+   "expected": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "remote": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "ok": true
+  },
+  "stage-3b-n": {
+   "expected": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "remote": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "ok": true
+  },
+  "stage-3b-pillar-los": {
+   "expected": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "remote": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "ok": true
+  }
+ },
+ "stage3cBranches": [],
+ "remoteHeads": {
+  "br-role": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+  "lighting-shadows-2d": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+  "main": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+  "part-3a": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+  "part-3b": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+  "stage-3b-l": "b9f3a9b934f40e35d51596f593eae810d077f194",
+  "stage-3b-l-qa1": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+  "stage-3b-l-qa2": "1972506ee1edb96f8f8da8ea8ad555662242bca9",
+  "stage-3b-n": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+  "stage-3b-n-camera": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+  "stage-3b-pillar-los": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+  "stage-3b-remaster": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+  "stage-e": "da90dbb48ac4702d666d26c638fe074a78478212",
+  "stage-f": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+  "stage-g": "7fb4dafef92040571209403358e536ccb1105509",
+  "stage-h": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+  "stage-i": "106c87015ae8702f452979e0277cbacb5435fa6a"
+ },
+ "ok": true
+}

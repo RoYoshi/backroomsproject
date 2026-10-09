@@ -1,0 +1,32 @@
+lamp 0 (528,2832): core lit 79327 bad 5 | far lit 6697 bad 0 bounce-only 2 (max 1.00/255) | 73 bounce pts
+lamp 7 (2640,2640): core lit 70291 bad 0 | far lit 4142 bad 0 bounce-only 118 (max 4.50/255) | 79 bounce pts
+lamp 14 (3120,4080): core lit 71136 bad 3 | far lit 7216 bad 0 bounce-only 223 (max 9.50/255) | 66 bounce pts
+lamp 21 (4944,3408): core lit 62362 bad 26 | far lit 8054 bad 0 bounce-only 185 (max 7.00/255) | 43 bounce pts
+lamp 28 (2640,1392): core lit 65405 bad 40 | far lit 6748 bad 0 bounce-only 435 (max 7.00/255) | 57 bounce pts
+lamp 35 (624,912): core lit 78611 bad 7 | far lit 5156 bad 0 bounce-only 2 (max 2.00/255) | 82 bounce pts
+lamp 42 (5040,1392): core lit 59800 bad 15 | far lit 5455 bad 0 bounce-only 238 (max 3.50/255) | 57 bounce pts
+lamp 49 (6960,1392): core lit 66813 bad 48 | far lit 7251 bad 0 bounce-only 429 (max 4.50/255) | 55 bounce pts
+lamp 56 (5136,5136): core lit 78587 bad 15 | far lit 5325 bad 0 bounce-only 0 (max 0.00/255) | 73 bounce pts
+lamp 63 (7248,3312): core lit 60300 bad 5 | far lit 6838 bad 0 bounce-only 126 (max 3.00/255) | 50 bounce pts
+lamp 70 (8208,3792): core lit 63342 bad 15 | far lit 8550 bad 0 bounce-only 137 (max 2.50/255) | 39 bounce pts
+lamp 77 (8112,816): core lit 48110 bad 15 | far lit 5484 bad 0 bounce-only 421 (max 20.00/255) | 37 bounce pts
+lamp 84 (7728,5136): core lit 56179 bad 32 | far lit 6487 bad 0 bounce-only 249 (max 9.00/255) | 36 bounce pts
+lamp 91 (816,3600): core lit 85972 bad 5 | far lit 11721 bad 0 bounce-only 17 (max 1.00/255) | 48 bounce pts
+lamp 98 (2832,2832): core lit 46517 bad 0 | far lit 4073 bad 0 bounce-only 113 (max 2.00/255) | 54 bounce pts
+lamp 105 (5712,3120): core lit 82949 bad 3 | far lit 10347 bad 0 bounce-only 197 (max 4.00/255) | 57 bounce pts
+lamp 112 (3888,1104): core lit 81153 bad 3 | far lit 8910 bad 0 bounce-only 113 (max 2.00/255) | 69 bounce pts
+lamp 119 (1872,1680): core lit 50847 bad 6 | far lit 5136 bad 0 bounce-only 61 (max 3.50/255) | 51 bounce pts
+lamp 126 (4080,5328): core lit 68150 bad 13 | far lit 7177 bad 0 bounce-only 10 (max 1.00/255) | 65 bounce pts
+lamp 133 (7920,3024): core lit 87299 bad 13 | far lit 10261 bad 0 bounce-only 0 (max 0.00/255) | 65 bounce pts
+lamp 140 (7824,1584): core lit 82405 bad 8 | far lit 9615 bad 0 bounce-only 103 (max 2.50/255) | 65 bounce pts
+lamp 147 (8400,5328): core lit 63306 bad 32 | far lit 6955 bad 0 bounce-only 1 (max 1.00/255) | 51 bounce pts
+lamp 154 (5712,2544): core lit 66468 bad 14 | far lit 7165 bad 0 bounce-only 169 (max 4.00/255) | 58 bounce pts
+lamp 161 (6576,3504): core lit 73336 bad 0 | far lit 7385 bad 0 bounce-only 0 (max 0.00/255) | 54 bounce pts
+lamp 168 (6864,5520): core lit 70306 bad 6 | far lit 8209 bad 0 bounce-only 2 (max 1.00/255) | 47 bounce pts
+PASS O0 every lamp audited (its core and far caches built and read back)   25/25 lamps
+FAIL O1 the core field: no light without a direct path from the fixture, or (a face) a direct path to its foot   1718971 lit texels checked (82791 on lit faces); through geometry at lamp 0 [[890,2938,21],[888,2940,20],[890,2940,20]]; lamp 14 [[2951,4188,88],[2951,4190,87],[2953,4190,88]]; lamp 21 [[4817,3316,87],[4820,3316,88],[4822,3316,89]]; lamp 28 [[2511,1300,86],[2513,1300,87],[2516,1300,88]]; lamp 35 [[986,1113,5],[986,1115,4],[984,1118,4]]; lamp 42 [[4916,1300,89],[4918,1300,90],[5258,1300,41]]; lamp 49 [[6887,1360,180],[6889,1360,183],[6887,1362,182]]; lamp 56 [[5498,5337,5],[5498,5339,4],[5496,5342,4]]; lamp 63 [[7124,3380,91],[7124,3382,89],[7126,3382,91]]; lamp 70 [[8281,4091,16],[8279,4093,15],[8281,4093,15]]; lamp 77 [[8039,1115,2],[8039,1117,2],[8041,1117,2]]; lamp 84 [[7655,5010,77],[7655,5339,38],[7655,5342,37]]; lamp 91 [[940,3668,90],[943,3668,89],[938,3670,90]]; lamp 105 [[5881,3228,89],[5879,3230,89],[5881,3230,88]]; lamp 112 [[3719,1212,88],[3719,1214,87],[3721,1214,88]]; lamp 119 [[1605,1688,66],[1605,1690,66],[1605,1692,66]]; lamp 126 [[4347,5431,51],[4347,5434,51],[4344,5436,52]]; lamp 133 [[8282,3130,21],[8280,3132,20],[8282,3132,20]]; lamp 140 [[7993,1594,133],[7993,1596,133],[7991,1598,134]]; lamp 147 [[8327,5202,77],[8327,5531,38],[8327,5534,37]]; lamp 154 [[5445,2647,51],[5445,2650,51],[5445,2652,51]]; lamp 168 [[7131,5623,51],[7131,5626,50],[7128,5628,51]]
+PASS O2 the far field + bounce light: no light without a direct or first-bounce path (or a lit face's foot)   180357 lit texels checked (1897 on lit faces); none through geometry
+PASS O3 bounce light reaches round corners where no direct light goes (legitimately)   3351 texels lit only by a bounce path, over 22 lamps
+PASS O4 the bounce stays much weaker than direct light   brightest bounce-only texel 20.00/255 vs a lamp's peak 235.0/255 (P0 scale)
+
+4/5 passed

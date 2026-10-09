@@ -1,0 +1,505 @@
+{
+ "quality": "medium",
+ "results": [
+  {
+   "name": "O0 every lamp audited (its core and far caches built and read back)",
+   "ok": true,
+   "note": "25/25 lamps"
+  },
+  {
+   "name": "O1 the core field: no light without a direct path from the fixture, or (a face) a direct path to its foot",
+   "ok": true,
+   "note": "1718498 lit texels checked (82650 on lit faces); none through geometry"
+  },
+  {
+   "name": "O2 the far field + bounce light: no light without a direct or first-bounce path (or a lit face's foot)",
+   "ok": true,
+   "note": "180357 lit texels checked (1897 on lit faces); none through geometry"
+  },
+  {
+   "name": "O3 bounce light reaches round corners where no direct light goes (legitimately)",
+   "ok": true,
+   "note": "3351 texels lit only by a bounce path, over 22 lamps"
+  },
+  {
+   "name": "O4 the bounce stays much weaker than direct light",
+   "ok": true,
+   "note": "brightest bounce-only texel 20.00/255 vs a lamp's peak 235.0/255 (P0 scale)"
+  }
+ ],
+ "lamps": [
+  {
+   "i": 0,
+   "x": 528,
+   "y": 2832,
+   "bounce": 73,
+   "core": {
+    "lit": 79318,
+    "bad": [],
+    "face": 6527
+   },
+   "far": {
+    "lit": 6697,
+    "bad": [],
+    "bounceOnly": 2,
+    "bounceOnlyMax": 0.00392156862745098,
+    "face": 59
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 7,
+   "x": 2640,
+   "y": 2640,
+   "bounce": 79,
+   "core": {
+    "lit": 70291,
+    "bad": [],
+    "face": 7907
+   },
+   "far": {
+    "lit": 4142,
+    "bad": [],
+    "bounceOnly": 118,
+    "bounceOnlyMax": 0.01764705882352941,
+    "face": 31
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 14,
+   "x": 3120,
+   "y": 4080,
+   "bounce": 66,
+   "core": {
+    "lit": 71131,
+    "bad": [],
+    "face": 2876
+   },
+   "far": {
+    "lit": 7216,
+    "bad": [],
+    "bounceOnly": 223,
+    "bounceOnlyMax": 0.03725490196078431,
+    "face": 74
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 21,
+   "x": 4944,
+   "y": 3408,
+   "bounce": 43,
+   "core": {
+    "lit": 62325,
+    "bad": [],
+    "face": 2171
+   },
+   "far": {
+    "lit": 8054,
+    "bad": [],
+    "bounceOnly": 185,
+    "bounceOnlyMax": 0.027450980392156862,
+    "face": 101
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 28,
+   "x": 2640,
+   "y": 1392,
+   "bounce": 57,
+   "core": {
+    "lit": 65351,
+    "bad": [],
+    "face": 3182
+   },
+   "far": {
+    "lit": 6748,
+    "bad": [],
+    "bounceOnly": 435,
+    "bounceOnlyMax": 0.027450980392156862,
+    "face": 2
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 35,
+   "x": 624,
+   "y": 912,
+   "bounce": 82,
+   "core": {
+    "lit": 78597,
+    "bad": [],
+    "face": 7560
+   },
+   "far": {
+    "lit": 5156,
+    "bad": [],
+    "bounceOnly": 2,
+    "bounceOnlyMax": 0.00784313725490196,
+    "face": 64
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 42,
+   "x": 5040,
+   "y": 1392,
+   "bounce": 57,
+   "core": {
+    "lit": 59776,
+    "bad": [],
+    "face": 4552
+   },
+   "far": {
+    "lit": 5455,
+    "bad": [],
+    "bounceOnly": 238,
+    "bounceOnlyMax": 0.013725490196078431,
+    "face": 1
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 49,
+   "x": 6960,
+   "y": 1392,
+   "bounce": 55,
+   "core": {
+    "lit": 66755,
+    "bad": [],
+    "face": 2917
+   },
+   "far": {
+    "lit": 7251,
+    "bad": [],
+    "bounceOnly": 429,
+    "bounceOnlyMax": 0.01764705882352941,
+    "face": 58
+   },
+   "peak": 0.9215686274509803
+  },
+  {
+   "i": 56,
+   "x": 5136,
+   "y": 5136,
+   "bounce": 73,
+   "core": {
+    "lit": 78558,
+    "bad": [],
+    "face": 7521
+   },
+   "far": {
+    "lit": 5325,
+    "bad": [],
+    "bounceOnly": 0,
+    "bounceOnlyMax": 0,
+    "face": 43
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 63,
+   "x": 7248,
+   "y": 3312,
+   "bounce": 50,
+   "core": {
+    "lit": 60294,
+    "bad": [],
+    "face": 3184
+   },
+   "far": {
+    "lit": 6838,
+    "bad": [],
+    "bounceOnly": 126,
+    "bounceOnlyMax": 0.011764705882352941,
+    "face": 106
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 70,
+   "x": 8208,
+   "y": 3792,
+   "bounce": 39,
+   "core": {
+    "lit": 63321,
+    "bad": [],
+    "face": 1581
+   },
+   "far": {
+    "lit": 8550,
+    "bad": [],
+    "bounceOnly": 137,
+    "bounceOnlyMax": 0.00980392156862745,
+    "face": 15
+   },
+   "peak": 0.9215686274509803
+  },
+  {
+   "i": 77,
+   "x": 8112,
+   "y": 816,
+   "bounce": 37,
+   "core": {
+    "lit": 48079,
+    "bad": [],
+    "face": 4904
+   },
+   "far": {
+    "lit": 5484,
+    "bad": [],
+    "bounceOnly": 421,
+    "bounceOnlyMax": 0.0784313725490196,
+    "face": 90
+   },
+   "peak": 0.9098039215686274
+  },
+  {
+   "i": 84,
+   "x": 7728,
+   "y": 5136,
+   "bounce": 36,
+   "core": {
+    "lit": 56141,
+    "bad": [],
+    "face": 2455
+   },
+   "far": {
+    "lit": 6487,
+    "bad": [],
+    "bounceOnly": 249,
+    "bounceOnlyMax": 0.03529411764705882,
+    "face": 24
+   },
+   "peak": 0.9176470588235294
+  },
+  {
+   "i": 91,
+   "x": 816,
+   "y": 3600,
+   "bounce": 48,
+   "core": {
+    "lit": 85966,
+    "bad": [],
+    "face": 1612
+   },
+   "far": {
+    "lit": 11721,
+    "bad": [],
+    "bounceOnly": 17,
+    "bounceOnlyMax": 0.00392156862745098
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 98,
+   "x": 2832,
+   "y": 2832,
+   "bounce": 54,
+   "core": {
+    "lit": 46517,
+    "bad": [],
+    "face": 2174
+   },
+   "far": {
+    "lit": 4073,
+    "bad": [],
+    "bounceOnly": 113,
+    "bounceOnlyMax": 0.00784313725490196,
+    "face": 170
+   },
+   "peak": 0.9215686274509803
+  },
+  {
+   "i": 105,
+   "x": 5712,
+   "y": 3120,
+   "bounce": 57,
+   "core": {
+    "lit": 82944,
+    "bad": [],
+    "face": 1210
+   },
+   "far": {
+    "lit": 10347,
+    "bad": [],
+    "bounceOnly": 197,
+    "bounceOnlyMax": 0.01568627450980392,
+    "face": 87
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 112,
+   "x": 3888,
+   "y": 1104,
+   "bounce": 69,
+   "core": {
+    "lit": 81148,
+    "bad": [],
+    "face": 1088
+   },
+   "far": {
+    "lit": 8910,
+    "bad": [],
+    "bounceOnly": 113,
+    "bounceOnlyMax": 0.00784313725490196,
+    "face": 320
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 119,
+   "x": 1872,
+   "y": 1680,
+   "bounce": 51,
+   "core": {
+    "lit": 50838,
+    "bad": [],
+    "face": 2713
+   },
+   "far": {
+    "lit": 5136,
+    "bad": [],
+    "bounceOnly": 61,
+    "bounceOnlyMax": 0.013725490196078431,
+    "face": 19
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 126,
+   "x": 4080,
+   "y": 5328,
+   "bounce": 65,
+   "core": {
+    "lit": 68130,
+    "bad": [],
+    "face": 2253
+   },
+   "far": {
+    "lit": 7177,
+    "bad": [],
+    "bounceOnly": 10,
+    "bounceOnlyMax": 0.00392156862745098,
+    "face": 224
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 133,
+   "x": 7920,
+   "y": 3024,
+   "bounce": 65,
+   "core": {
+    "lit": 87278,
+    "bad": [],
+    "face": 2093
+   },
+   "far": {
+    "lit": 10261,
+    "bad": [],
+    "bounceOnly": 0,
+    "bounceOnlyMax": 0,
+    "face": 119
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 140,
+   "x": 7824,
+   "y": 1584,
+   "bounce": 65,
+   "core": {
+    "lit": 82392,
+    "bad": [],
+    "face": 694
+   },
+   "far": {
+    "lit": 9615,
+    "bad": [],
+    "bounceOnly": 103,
+    "bounceOnlyMax": 0.00980392156862745,
+    "face": 27
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 147,
+   "x": 8400,
+   "y": 5328,
+   "bounce": 51,
+   "core": {
+    "lit": 63268,
+    "bad": [],
+    "face": 911
+   },
+   "far": {
+    "lit": 6955,
+    "bad": [],
+    "bounceOnly": 1,
+    "bounceOnlyMax": 0.00392156862745098,
+    "face": 183
+   },
+   "peak": 0.9176470588235294
+  },
+  {
+   "i": 154,
+   "x": 5712,
+   "y": 2544,
+   "bounce": 58,
+   "core": {
+    "lit": 66447,
+    "bad": [],
+    "face": 2959
+   },
+   "far": {
+    "lit": 7165,
+    "bad": [],
+    "bounceOnly": 169,
+    "bounceOnlyMax": 0.01568627450980392,
+    "face": 37
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 161,
+   "x": 6576,
+   "y": 3504,
+   "bounce": 54,
+   "core": {
+    "lit": 73336,
+    "bad": [],
+    "face": 4146
+   },
+   "far": {
+    "lit": 7385,
+    "bad": [],
+    "bounceOnly": 0,
+    "bounceOnlyMax": 0,
+    "face": 43
+   },
+   "peak": 0.8980392156862745
+  },
+  {
+   "i": 168,
+   "x": 6864,
+   "y": 5520,
+   "bounce": 47,
+   "core": {
+    "lit": 70297,
+    "bad": [],
+    "face": 3460
+   },
+   "far": {
+    "lit": 8209,
+    "bad": [],
+    "bounceOnly": 2,
+    "bounceOnlyMax": 0.00392156862745098
+   },
+   "peak": 0.8980392156862745
+  }
+ ]
+}

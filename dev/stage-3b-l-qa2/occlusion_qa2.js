@@ -18,7 +18,8 @@
  *             list BR-RoLE uses) is within its reach and sees it (lamp -> surface -> point: first order only).
  * A texel's light is allowed within a small margin of a legitimate point (the caches' own resolution: a penumbra / filter
  * edge, never a wall's thickness - walls are 96 px, pillars 56): CORE 12 px (its 3 px shadow-mask blur, as in BR-RoLE 1.0, and a
- * texel), FAR 2 texels + 4 px.  Anything else is light through a wall or a pillar.
+ * texel), FAR 2 texels + 4 px.  On a face, a texel counts as on the band within one texel of its outline (Q3:
+ * the mitre between a lit face's share and a turned-away face's share is antialiased in the cache, at its resolution).  Anything else is light through a wall or a pillar.
  *   O1 core field: no light without a direct path              O2 far field + bounce: no light without a direct or bounce path
  *   O3 bounce really goes round corners: texels lit ONLY by a bounce path exist (spill is there, and it is legitimate)
  *   O4 the bounce stays much weaker than the direct light (largest bounce-only texel vs the lamp's peak) */
@@ -38,10 +39,11 @@ const AUDIT = `window.__occ = function (i) {
   const direct = (x, y) => { for (let s = 0; s < tube.length; s += 2) if (sees(tube[s], tube[s + 1], x, y)) return true; return false; };
   const viaBounce = (x, y) => { for (const e of bounce) if (Math.hypot(x - e.x, y - e.y) < e.range && sees(e.x, e.y, x, y)) return true; return false; };
   const turned = R.dev.bands(L.x - info.far.hx, L.y - info.far.hy, L.x + info.far.hx, L.y + info.far.hy).filter(f => (L.x - f.edge[0]) * f.n[0] + (L.y - f.edge[1]) * f.n[1] > .5);
-  /* on a turned face's band, its foot point (the strip centre in front of it, pushed out by push) */
-  const inPoly = (w, x, y) => { let ar = 0; for (let k = 0; k < 8; k += 2) ar += w[k] * w[(k + 3) % 8] - w[(k + 2) % 8] * w[k + 1]; const sg = ar >= 0 ? 1 : -1;
-    for (let k = 0; k < 8; k += 2) { const ax = w[k], ay = w[k + 1], bx = w[(k + 2) % 8], by = w[(k + 3) % 8], L = Math.hypot(bx - ax, by - ay); if (L < 1e-9) continue; if (sg * ((bx - ax) * (y - ay) - (by - ay) * (x - ax)) / L < -.5) return false; } return true; };
-  const feetOf = (x, y, push) => { const out = []; for (const f of turned) { if (!inPoly(f.poly, x, y)) continue; const b = f.band, s = f.strip, h = f.n[1] !== 0;
+  /* on a turned face's band, its foot point (the strip centre in front of it, pushed out by push); on its band within tol: a
+   * texel straddling the band's outline (a mitre) holds part of the band's light - the cache's own resolution, one texel */
+  const inPoly = (w, x, y, tol = .5) => { let ar = 0; for (let k = 0; k < 8; k += 2) ar += w[k] * w[(k + 3) % 8] - w[(k + 2) % 8] * w[k + 1]; const sg = ar >= 0 ? 1 : -1;
+    for (let k = 0; k < 8; k += 2) { const ax = w[k], ay = w[k + 1], bx = w[(k + 2) % 8], by = w[(k + 3) % 8], L = Math.hypot(bx - ax, by - ay); if (L < 1e-9) continue; if (sg * ((bx - ax) * (y - ay) - (by - ay) * (x - ax)) / L < -tol) return false; } return true; };
+  const feetOf = (x, y, push, tol) => { const out = []; for (const f of turned) { if (!inPoly(f.poly, x, y, tol)) continue; const b = f.band, s = f.strip, h = f.n[1] !== 0;
       const u = h ? Math.min(b[2] - 1, Math.max(b[0] + 1, x)) : Math.min(b[3] - 1, Math.max(b[1] + 1, y));   // (the corner block's share: the strip's end)
       out.push(h ? [u, (s[1] + s[3]) / 2 + f.n[1] * push] : [(s[0] + s[2]) / 2 + f.n[0] * push, u]); } return out; };   // (on a mitre a point can sit on two bands' shared edge)
   const near = (x, y, m, f) => { if (f(x, y)) return true; for (let k = 0; k < 12; k++) { const a = k / 12 * Math.PI * 2; if (f(x + Math.cos(a) * m, y + Math.sin(a) * m) || f(x + Math.cos(a) * m / 2, y + Math.sin(a) * m / 2)) return true; } return false; };
@@ -49,13 +51,13 @@ const AUDIT = `window.__occ = function (i) {
   /* the core cache: every texel */
   { const { hx, hy, w, h, res } = info.core, pts = []; for (let j = 0; j < h; j++) for (let q = 0; q < w; q++) pts.push([L.x - hx + (q + .5) / res, L.y - hy + (j + .5) / res]);
     const v = R.dev.cache(i, pts); for (let n = 0; n < pts.length; n++) { const c = v[n].core; if (c > out.peak) out.peak = c; if (c * 255 < 1.5) continue; out.core.lit++;
-      const [x, y] = pts[n]; if (near(x, y, 12, direct)) continue; if (feetOf(x, y, 0).some(ft => near(ft[0], ft[1], 12, direct))) { out.core.face = (out.core.face || 0) + 1; continue; }
+      const [x, y] = pts[n]; if (near(x, y, 12, direct)) continue; if (feetOf(x, y, 0, Math.max(.5, 1 / res)).some(ft => near(ft[0], ft[1], 12, direct))) { out.core.face = (out.core.face || 0) + 1; continue; }
       { if (out.core.bad.length < 8) out.core.bad.push([Math.round(x), Math.round(y), +(c * 255).toFixed(1)]); out.core.badN = (out.core.badN || 0) + 1; } } }
   /* the far cache (far field + bounce light): every texel */
   { const { hx, hy, w, h, res } = info.far, pts = [], m = 2 / res + 4; for (let j = 0; j < h; j++) for (let q = 0; q < w; q++) pts.push([L.x - hx + (q + .5) / res, L.y - hy + (j + .5) / res]);
     const v = R.dev.cache(i, pts); for (let n = 0; n < pts.length; n++) { const f = v[n].far; if (f === null) { out.far.missing = true; break; } if (f * 255 * K.LAMP.fg < 1.5) continue; out.far.lit++;
       const [x, y] = pts[n]; if (near(x, y, m, direct)) continue;
-      if (feetOf(x, y, 1.5 / res).some(ft => near(ft[0], ft[1], m, direct) || near(ft[0], ft[1], m, viaBounce))) { out.far.face = (out.far.face || 0) + 1; continue; }   // a face receives what reaches its foot: direct, or (far cache) first bounce
+      if (feetOf(x, y, 1.5 / res, Math.max(.5, 1 / res)).some(ft => near(ft[0], ft[1], m, direct) || near(ft[0], ft[1], m, viaBounce))) { out.far.face = (out.far.face || 0) + 1; continue; }   // a face receives what reaches its foot: direct, or (far cache) first bounce
       if (near(x, y, m, viaBounce)) { if (!direct(x, y) && !near(x, y, m, direct)) { out.far.bounceOnly++; if (f > out.far.bounceOnlyMax) out.far.bounceOnlyMax = f; } continue; }
       if (out.far.bad.length < 8) out.far.bad.push([Math.round(x), Math.round(y), +(f * 255).toFixed(2)]); out.far.badN = (out.far.badN || 0) + 1; } }
   return out;

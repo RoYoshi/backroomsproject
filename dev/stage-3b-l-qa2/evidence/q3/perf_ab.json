@@ -1,0 +1,481 @@
+{
+ "parent": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/q2/parent",
+ "game": "/home/claude/backrooms-shadows",
+ "quality": "medium",
+ "reps": 2,
+ "secs": 4,
+ "rows": [
+  {
+   "scene": "A",
+   "parent": {
+    "label": "YELLOW HALL (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 688.05,
+     "drawLight": 44.5,
+     "br": 50.62,
+     "hl": 0.11,
+     "ir": 0
+    },
+    "walk": {
+     "page": 701.75,
+     "drawLight": 54.34,
+     "br": 57.03,
+     "hl": 0.28,
+     "ir": 0
+    },
+    "lamps": 16,
+    "warm": {
+     "lampBuildMs": 38.1,
+     "lampBuildMaxMs": 9.55,
+     "farFrameMaxMs": 9.6,
+     "facePhaseMaxMs": 4.1,
+     "brMaxMs": 118.95
+    }
+   },
+   "qa2": {
+    "label": "YELLOW HALL (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 753.05,
+     "drawLight": 44.06,
+     "br": 50.22,
+     "hl": 0.54,
+     "ir": 0
+    },
+    "walk": {
+     "page": 730.15,
+     "drawLight": 51.67,
+     "br": 55.59,
+     "hl": 0.42,
+     "ir": 0
+    },
+    "lamps": 16,
+    "warm": {
+     "lampBuildMs": 0,
+     "lampBuildMaxMs": 0,
+     "farFrameMaxMs": 14.95,
+     "facePhaseMaxMs": 1.35,
+     "brMaxMs": 108
+    }
+   }
+  },
+  {
+   "scene": "D",
+   "parent": {
+    "label": "PILLAR HALL (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 715.3,
+     "drawLight": 46.47,
+     "br": 51.48,
+     "hl": 0.18,
+     "ir": 0
+    },
+    "walk": {
+     "page": 713.7,
+     "drawLight": 42.69,
+     "br": 46.67,
+     "hl": 0.41,
+     "ir": 0
+    },
+    "lamps": 18,
+    "warm": {
+     "lampBuildMs": 144.6,
+     "lampBuildMaxMs": 15.1,
+     "farFrameMaxMs": 8.45,
+     "facePhaseMaxMs": 2,
+     "brMaxMs": 83.55
+    }
+   },
+   "qa2": {
+    "label": "PILLAR HALL (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 754.75,
+     "drawLight": 45.03,
+     "br": 50.86,
+     "hl": 0.25,
+     "ir": 0
+    },
+    "walk": {
+     "page": 766.75,
+     "drawLight": 49.38,
+     "br": 54.67,
+     "hl": 0.68,
+     "ir": 0
+    },
+    "lamps": 18,
+    "warm": {
+     "lampBuildMs": 138,
+     "lampBuildMaxMs": 20.65,
+     "farFrameMaxMs": 7.45,
+     "facePhaseMaxMs": 2.55,
+     "brMaxMs": 97.1
+    }
+   }
+  },
+  {
+   "scene": "H",
+   "parent": {
+    "label": "long corridor (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 487.85,
+     "drawLight": 37.33,
+     "br": 39.9,
+     "hl": 0.15,
+     "ir": 0
+    },
+    "walk": {
+     "page": 551.1,
+     "drawLight": 47.11,
+     "br": 49.72,
+     "hl": 0.18,
+     "ir": 0
+    },
+    "lamps": 19,
+    "warm": {
+     "lampBuildMs": 82.35,
+     "lampBuildMaxMs": 13.55,
+     "farFrameMaxMs": 8.05,
+     "facePhaseMaxMs": 3.55,
+     "brMaxMs": 94.15
+    }
+   },
+   "qa2": {
+    "label": "long corridor (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 499.45,
+     "drawLight": 35.24,
+     "br": 38.08,
+     "hl": 0.44,
+     "ir": 0
+    },
+    "walk": {
+     "page": 550.3,
+     "drawLight": 39.77,
+     "br": 42.41,
+     "hl": 0.46,
+     "ir": 0
+    },
+    "lamps": 19,
+    "warm": {
+     "lampBuildMs": 139.4,
+     "lampBuildMaxMs": 20.75,
+     "farFrameMaxMs": 7.15,
+     "facePhaseMaxMs": 4.25,
+     "brMaxMs": 102.95
+    }
+   }
+  },
+  {
+   "scene": "E",
+   "parent": {
+    "label": "BLACKOUT ZONE, flashlight (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 682.95,
+     "drawLight": 41.52,
+     "br": 45.15,
+     "hl": 0.06,
+     "ir": 0
+    },
+    "walk": {
+     "page": 664.85,
+     "drawLight": 26.39,
+     "br": 31.57,
+     "hl": 0.07,
+     "ir": 0
+    },
+    "lamps": 0,
+    "warm": {
+     "lampBuildMs": 0,
+     "lampBuildMaxMs": 0,
+     "farFrameMaxMs": 4.8,
+     "facePhaseMaxMs": 0.45,
+     "brMaxMs": 90.25
+    }
+   },
+   "qa2": {
+    "label": "BLACKOUT ZONE, flashlight (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 682.85,
+     "drawLight": 45.09,
+     "br": 48.96,
+     "hl": 0.45,
+     "ir": 0
+    },
+    "walk": {
+     "page": 696.55,
+     "drawLight": 27.47,
+     "br": 32.21,
+     "hl": 0.7,
+     "ir": 0
+    },
+    "lamps": 0,
+    "warm": {
+     "lampBuildMs": 0,
+     "lampBuildMaxMs": 0,
+     "farFrameMaxMs": 6.95,
+     "facePhaseMaxMs": 1.05,
+     "brMaxMs": 81.95
+    }
+   }
+  },
+  {
+   "scene": "K",
+   "parent": {
+    "label": "flashlight across a convex corner (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 724.1,
+     "drawLight": 25.59,
+     "br": 28.64,
+     "hl": 0.14,
+     "ir": 0
+    },
+    "walk": {
+     "page": 760.35,
+     "drawLight": 30.59,
+     "br": 34.21,
+     "hl": 0.1,
+     "ir": 0
+    },
+    "lamps": 0,
+    "warm": {
+     "lampBuildMs": 0,
+     "lampBuildMaxMs": 0,
+     "farFrameMaxMs": 6.1,
+     "facePhaseMaxMs": 0.65,
+     "brMaxMs": 104.75
+    }
+   },
+   "qa2": {
+    "label": "flashlight across a convex corner (NV off)",
+    "nv": false,
+    "ir": 0,
+    "runs": 2,
+    "stand": {
+     "page": 723.4,
+     "drawLight": 26.25,
+     "br": 29.06,
+     "hl": 0.1,
+     "ir": 0
+    },
+    "walk": {
+     "page": 808.85,
+     "drawLight": 33.59,
+     "br": 36.54,
+     "hl": 0.39,
+     "ir": 0
+    },
+    "lamps": 0,
+    "warm": {
+     "lampBuildMs": 0,
+     "lampBuildMaxMs": 0,
+     "farFrameMaxMs": 6.1,
+     "facePhaseMaxMs": 0.6,
+     "brMaxMs": 65.85
+    }
+   }
+  },
+  {
+   "scene": "NA",
+   "parent": {
+    "label": "YELLOW HALL, NV on, IR LOW",
+    "nv": true,
+    "ir": 1,
+    "runs": 2,
+    "stand": {
+     "page": 893.9,
+     "drawLight": 46.73,
+     "br": 51.01,
+     "hl": 0.16,
+     "ir": 0.53
+    },
+    "walk": {
+     "page": 947.9,
+     "drawLight": 51.77,
+     "br": 50.26,
+     "hl": 0.82,
+     "ir": 0.35
+    },
+    "lamps": 16,
+    "warm": {
+     "lampBuildMs": 23.15,
+     "lampBuildMaxMs": 9.8,
+     "farFrameMaxMs": 11.9,
+     "facePhaseMaxMs": 1.1,
+     "brMaxMs": 85.8
+    }
+   },
+   "qa2": {
+    "label": "YELLOW HALL, NV on, IR LOW",
+    "nv": true,
+    "ir": 1,
+    "runs": 2,
+    "stand": {
+     "page": 943.25,
+     "drawLight": 73.56,
+     "br": 77.84,
+     "hl": 0.21,
+     "ir": 22.8
+    },
+    "walk": {
+     "page": 990.9,
+     "drawLight": 67.3,
+     "br": 96.7,
+     "hl": 0.5,
+     "ir": 19.54
+    },
+    "lamps": 16,
+    "warm": {
+     "lampBuildMs": 0,
+     "lampBuildMaxMs": 0,
+     "farFrameMaxMs": 8.3,
+     "facePhaseMaxMs": 2.45,
+     "brMaxMs": 111.5
+    }
+   }
+  },
+  {
+   "scene": "NB",
+   "parent": {
+    "label": "BLACKOUT ZONE, NV on, IR HIGH",
+    "nv": true,
+    "ir": 2,
+    "runs": 2,
+    "stand": {
+     "page": 837.45,
+     "drawLight": 5.62,
+     "br": 5.14,
+     "hl": 0.21,
+     "ir": 1.03
+    },
+    "walk": {
+     "page": 831.15,
+     "drawLight": 3.27,
+     "br": 4.64,
+     "hl": 0.13,
+     "ir": 0.3
+    },
+    "lamps": 0,
+    "warm": {
+     "lampBuildMs": 0,
+     "lampBuildMaxMs": 0,
+     "farFrameMaxMs": 5.05,
+     "facePhaseMaxMs": 0.8,
+     "brMaxMs": 91.85
+    }
+   },
+   "qa2": {
+    "label": "BLACKOUT ZONE, NV on, IR HIGH",
+    "nv": true,
+    "ir": 2,
+    "runs": 2,
+    "stand": {
+     "page": 804.15,
+     "drawLight": 49.04,
+     "br": 54.33,
+     "hl": 0.51,
+     "ir": 43.36
+    },
+    "walk": {
+     "page": 837.35,
+     "drawLight": 48.34,
+     "br": 54.72,
+     "hl": 0.59,
+     "ir": 41.94
+    },
+    "lamps": 0,
+    "warm": {
+     "lampBuildMs": 0,
+     "lampBuildMaxMs": 0,
+     "farFrameMaxMs": 4.9,
+     "facePhaseMaxMs": 1.15,
+     "brMaxMs": 80.55
+    }
+   }
+  },
+  {
+   "scene": "NP",
+   "parent": {
+    "label": "PILLAR HALL, NV on, IR LOW",
+    "nv": true,
+    "ir": 1,
+    "runs": 2,
+    "stand": {
+     "page": 982.3,
+     "drawLight": 52.45,
+     "br": 54.51,
+     "hl": 0.11,
+     "ir": 0.65
+    },
+    "walk": {
+     "page": 1019.25,
+     "drawLight": 61.33,
+     "br": 62.54,
+     "hl": 0.16,
+     "ir": 0.44
+    },
+    "lamps": 18,
+    "warm": {
+     "lampBuildMs": 180.5,
+     "lampBuildMaxMs": 18.9,
+     "farFrameMaxMs": 6.75,
+     "facePhaseMaxMs": 2.25,
+     "brMaxMs": 122.45
+    }
+   },
+   "qa2": {
+    "label": "PILLAR HALL, NV on, IR LOW",
+    "nv": true,
+    "ir": 1,
+    "runs": 2,
+    "stand": {
+     "page": 1004.4,
+     "drawLight": 74.12,
+     "br": 76.02,
+     "hl": 1,
+     "ir": 20.38
+    },
+    "walk": {
+     "page": 1007.15,
+     "drawLight": 58.89,
+     "br": 80.55,
+     "hl": 0.72,
+     "ir": 14.49
+    },
+    "lamps": 18,
+    "warm": {
+     "lampBuildMs": 145.1,
+     "lampBuildMaxMs": 15,
+     "farFrameMaxMs": 9.05,
+     "facePhaseMaxMs": 2,
+     "brMaxMs": 142.55
+    }
+   }
+  }
+ ]
+}

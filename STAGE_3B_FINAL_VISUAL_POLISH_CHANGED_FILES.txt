@@ -1,0 +1,79 @@
+THE FAR BACKROOMS - Stage 3B Final Visual Polish (stage-3b-l-qa2) - changed files
+Parent: d3ec2269af873dbc381d223ad538a43ba06f5c45 (stage-3b-l-qa1, tree cffbc3125619170d9a55344b2519042a720a798d)
+(git diff --name-only d3ec226..stage-3b-l-qa2; the package receipt re-checks this list from the ZIP)
+
+== Game files (served) ==
+assets/index-DKbV5Nv9.js  ONLY the sight-polygon builder Hl (Q1, corrected in Q3a / Q3b; dev/stage-3b-l-qa2/hl_qa2.js, put
+                          in by apply_hl.py).  The darkness clip (r 24): a ray that stops at a wall / pillar face goes on
+                          only inside that face's band as the art draws it - 24 px square to the face, between its mitred
+                          ends, over the stretch seen - and on through a neighbouring seen face's band across the mitre
+                          (never into a face turned away, never out of the blocker; no floor round a corner).  At an inner
+                          corner the two bands meet on the block's diagonal (Q3a); at a convex corner seen with both its
+                          faces they make the whole 24 px L, the art's mitre drawn inside it (Q3b).  Rays at the bands'
+                          inner corners and where they cross the sight limit; both polygons get rays at a pillar's outline
+                          corners.  The clip reuses the entity mask's rays.  Uc, Vl and both call sites unchanged; the
+                          entity mask (r 0) byte-identical away from pillars.  Everything before and after Hl unchanged.
+assets/br-role.js         BR-RoLE 1.1-qa2.
+                          Q1 CORNERS: the face bands are mitred like the remaster's art (buildBands: whole runs + S.bandM;
+                          bandPoly; extrude draws a band's end pieces inside its mitred outline - Q3b: every piece that
+                          reaches over a convex end's mitre, not only the last; Q3c: one clip for each end's pieces -
+                          stretches the last strip piece over an
+                          inner corner's block, and sizes its pieces by how fast the facing changes: FACE.da .04, at most
+                          4x).
+                          Q2 NIGHT VISION: prepIR / irLight - while this player's NV sensor is on, each infrared emitter
+                          it sees (window.__cam.irLights) is a light of its own: the camcorder's picture profile, the
+                          shadows walls / pillars / props cast from the lens, the faces it reaches, the lens spill; added
+                          to the light buffer, no colour.  Nothing computed with the sensor off.  __brRole.ir (BR-RoLE
+                          draws it), stats().ir; DEV: dev.ir(v) (off = the old fans, for comparison), dev.irLast().
+                          dev.bands() also gives each band's mitre and outline.  Light truth not touched.
+camcorder.js              Q2: irLights(src) (the emitters this sensor sees); irProfile (the picture: v23's six stacked
+                          fans' coverage made smooth - blended steps, a soft rim, a smooth tail; halfWidth); irDraw /
+                          peerIR stand down while BR-RoLE draws the infrared.  irFrom (the sensor's reading, an entity's
+                          readability): v23's profile with its step at the core's edge eased (+-.075 rad) and its last-30 %
+                          ramp made a smooth tail - identical elsewhere (the one reported rule change).  Heat, overheating,
+                          bloom, sensor gain, zoom, HUD and keys untouched.
+
+== Development (never served) ==
+dev/br-role/test_br_role.js   U02 only: a face band's mitred outline is an allowed clip (like a light's own pixel box)
+dev/stage-3b-l-qa2/
+  hl_qa2.js               the readable source of the new Hl (between its bundle-text markers)
+  apply_hl.py             puts hl_qa2.js into the parent's bundle in place of Hl (and --check)
+  los_lib.js              loads the game's LOS code (tables, Uc, Vl, Hl, the Hlq helpers) verbatim from a bundle, in node
+  los_qa2_tests.js        L01-L12: the bundle is the parent with only Hl replaced; Uc / tables identical; entity mask; the
+                          clip's bands (square-on, slant, corners, grazing side faces, a convex corner's L); nothing hidden
+                          shown; no cracks
+  perf_hl_qa2.js          the two sight polygons' cost, parent vs QA2, interleaved in Chromium (micro; --ingame profile)
+  qa2_lib.js              browser capture helpers (scenes with a frozen clock; blackout; camcorder NV / IR; overlay reads;
+                          the glitch overlay hidden)
+  receivers_qa2.js        K1-K5 corner checks (mitres, inner blocks, convex shares, along-face steps, no reveal; also on the
+                          parent) and QA1's F1-F3 / C1-C2 receiver checks sampled inside each face's own share
+  occlusion_qa2.js        QA1's occlusion audit with the mitred bands (every lamp's cached light against the geometry; a
+                          texel straddling a band's outline counts as on it - one texel, the cache's resolution)
+  ab_qa2.js               the same frozen frame in two builds: floor / faces / clip-only pixels, difference maps
+  nv_qa2.js               N1-N7: the infrared on walls / pillars, its shadows, no through-wall, range and falloff, no body
+                          glow, nothing with NV off, LOW / MEDIUM / HIGH (the parent measured the same way)
+  nv_profile_qa2.js       P1-P3: the sensor's reading (irFrom) against v23's formula
+  scenes_qa2.js           the human-QA scenes A-H, parent | QA2 side by side
+  perf_qa2.js             one build: page frame, drawLight, BR-RoLE, Hl and IR time per frame (DevTools profiler), warm-up
+  perf_ab_qa2.js          parent vs QA2, interleaved runs of perf_qa2.js, medians
+  verify_remote_qa2.py    a pushed checkpoint against GitHub (ls-remote + REST commit / tree / parents; untouched branches)
+  package_qa2.py          the ZIP, its SHA-256 and the receipt (from the extracted ZIP)
+  evidence/q0_audit.md    the seams, recorded before any change
+  evidence/q1/            Q1 checks: LOS tests, receivers (F + K), A/B vs the parent + difference maps, camera, unit,
+                          the Hl micro benchmark, corner close-ups before / after
+  evidence/q2/            Q2 checks: nv_qa2 (MEDIUM), nv_profile, s_ir, ir_net, ir_test (QA2 and the parent), unit, camera
+  evidence/q3/            final-tree checks: LOS, receivers, NV (all tiers), occlusion (and the Q2 build's, for the Q3b
+                          receiver fault), A/B (the parent; the Q2 build vs the Q1 build with NV off), the human-QA scenes
+                          before / after, performance parent vs QA2, Part 2's infrared tests, camera, unit, the remote
+                          checks after the Q3a / Q3b pushes
+
+== Documents ==
+STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md        the engineering report (Q0 seams, Q1, Q2, evidence, the reported rule change)
+STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md      the human-QA guide, scenes A-I
+STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md   NV off / NV on, parent vs QA2 (software rendering only)
+STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt   this file
+
+== Untouched (byte-identical to the parent; re-checked by the receipt) ==
+camera_policy.js, timing_policy.js, server.js, index.html (camera / timing / serving); sim.js, ai.js, dev/ai_src/ (AI);
+light.js (gameplay light); move.js, dphys.js (movement / collision); mp.js (network); world.js (the 170 fixtures);
+assets/l0-remaster.js, assets/level0_visuals.js, assets/shadows-2d.js; dev/tests/ (Part 2 tests, incl. s_ir / ir_net / ir_test)
