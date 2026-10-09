@@ -12,7 +12,8 @@
  *   L04 a face seen square-on shows exactly what it did: the clip ends 24 px into it, as the parent's
  *   L05 nothing hidden is shown: no floor the player cannot see is inside the clip (the parent showed slivers past wall ends
  *       and pillars); every point of a wall or pillar inside it lies in the band of a face turned to the player, within its
- *       mitred ends, over a part of that face the player sees
+ *       mitred ends (or, at a convex corner both of whose faces are turned to the player, within their 24 px L), over a part
+ *       of that face the player sees
  *   L06 a face seen at a slant shows the same 24 px band as square-on (the parent's thinned to a wedge): band coverage
  *   L07 the face around a corner that is turned away from the player stays black (its band is never inside the clip)
  *   L08 a corner seen from the diagonal: both faces' bands meet on the mitre, nothing missing between them
@@ -20,7 +21,9 @@
  *   L10 a side face seen along its length (standing close to it, looking toward its convex corner) keeps its band right to
  *       the corner's mitre (the band reached through the front face's band near the corner)
  *   L11 no cracks: no ray of the clip stops short (> 2 px) inside a wall or pillar between two rays within 1e-4 rad that go
- *       on (a thin dark line across a lit band), other than a ray ending on a corner itself (an outline's tip) */
+ *       on (a thin dark line across a lit band), other than a ray ending on a corner itself (an outline's tip)
+ *   L12 a convex corner seen with both its faces (viewers in front of it): the two faces' 24 px bands make the whole L, with
+ *       no notch at the joint (the art's mitre runs deeper than 24 px into a wall's 46 px south face) */
 'use strict';
 const fs = require('fs'), os = require('os'), path = require('path'), { execSync } = require('child_process');
 const argv = process.argv.slice(2), opt = k => { const i = argv.indexOf('--' + k); return i >= 0 ? argv[i + 1] : null; };
@@ -51,6 +54,10 @@ N.Hl(1000, 3000, 700, DEP);                                                   //
 const quadAt = (f, D) => N.g.HlqQuad(f, D).q;
 const quadOf = f => f.q24 || (f.q24 = quadAt(f, DEP)), fullOf = f => f.qf || (f.qf = quadAt(f, Math.max(DEP, f.d))),   // fullOf: the face's whole band as the art draws it (or the 24 px the parent always showed, where that is deeper)
       near = (x, y) => (F.G.get(Math.floor(y / 96) * 4096 + Math.floor(x / 96)) || []).map(j => F[j]);
+/* the 24 px L at a convex corner both of whose faces are turned to the player: the face's 24 px band runs to that end of
+ * the face (its rectangle; the two rectangles make the L) */
+const rectOf = (f, k) => (f.rq || (f.rq = []))[k] || (f.rq[k] = N.g.HlqQuad({ h: f.h, nx: f.nx, ny: f.ny, L: f.L, a0: f.a0, a1: f.a1, d: f.d, s0: k ? f.s0 : 0, s1: k ? 0 : f.s1 }, DEP).q),
+      inL = (f, x, y, vx, vy) => [0, 1].some(k => { const j = k ? f.n1 : f.n0; return j >= 0 && visible(F[j], vx, vy) && inQuad(rectOf(f, k), x, y); });
 const inQuad = (q, x, y, tol = 1e-6) => { let s = 0; for (let k = 0; k < 8; k += 2) { const ax = q[k], ay = q[k + 1], bx = q[(k + 2) % 8], by = q[(k + 3) % 8], c = (bx - ax) * (y - ay) - (by - ay) * (x - ax); if (Math.abs(c) < tol) continue; if (!s) s = Math.sign(c); else if (Math.sign(c) !== s) return false; } return true; };
 /* the foot seen (to 1.5 px along the face: the clip's visible stretch of a face ends on the ray through an occluder's corner,
  * found to its .5 px tolerance; the foot is tested .25 px in front of the face) */
@@ -98,7 +105,7 @@ console.log('poses', poses.length);
         if (!solidAt(x, y)) { const ex = sees(vx, vy, x, y); if (ins && !ex) { floorLeak++; if (badAt.length < 6) badAt.push(['floor', Math.round(vx), Math.round(vy), Math.round(x), Math.round(y)]); } if (insP && !ex) floorLeakP++; continue; }
         if (!ins) continue; solidIn++;
         /* inside a wall / pillar: within a visible face's quad, its foot seen */
-        let ok = false; for (const f of near(x, y)) { if (!visible(f, vx, vy)) continue; const q = fullOf(f); if (!inQuad(q, x, y)) continue; if (seenFoot(f, x, y, vx, vy)) { ok = true; break; } }
+        let ok = false; for (const f of near(x, y)) { if (!visible(f, vx, vy)) continue; if (!inQuad(fullOf(f), x, y) && !inL(f, x, y, vx, vy)) continue; if (seenFoot(f, x, y, vx, vy)) { ok = true; break; } }
         if (!ok) { solidBad++; if (badAt.length < 12) badAt.push(['solid', Math.round(vx), Math.round(vy), Math.round(x), Math.round(y)]); } } }
     /* L06 / L07 / L08: sample the bands of faces within 400 px */
     for (const f of F) { const mid = f.h ? [(f.a0 + f.a1) / 2, f.L] : [f.L, (f.a0 + f.a1) / 2]; if (Math.hypot(mid[0] - vx, mid[1] - vy) > 400 + (f.a1 - f.a0) / 2) continue;
@@ -131,6 +138,25 @@ console.log('poses', poses.length);
           const a = inClip(R, vx, vy, x, y), b = inClip(RP, vx, vy, x, y); if (a === null || b === null) continue; n++; if (a) inN++; if (b) inP++; } } } }
   check('L10 a side face seen along its length keeps its band right to its convex corner\'s mitre', n > 1000 && inN / n > .98, `${views} views along side faces; band points within 40 px of the corner, in the face's own share, foot seen: ${(100 * inN / n).toFixed(2)} % of ${n} inside the clip (parent ${(100 * inP / n).toFixed(2)} %)`); }
 
+
+/* L12: a convex corner seen with both its faces: the two bands make the whole 24 px L (no notch where the art's mitre runs
+ * deeper than 24 px), from viewers in front of the corner */
+{ let n = 0, inN = 0, inP = 0, views = 0, corners = 0;
+  for (let i = 0; i < F.length; i++) { const f = F[i];
+    for (const k of [0, 1]) { const j = k ? f.n1 : f.n0; if (!(j > i)) continue; const g = F[j], c = k ? f.c1 : f.c0, u = k ? f.a1 : f.a0, px = f.h ? u : f.L, py = f.h ? f.L : u;
+      const qx = f.h ? (k ? -1 : 1) : -f.nx, qy = f.h ? -f.ny : (k ? -1 : 1); corners++;
+      for (const [a, b] of [[60, 60], [130, 50], [50, 130], [220, 100], [100, 220]]) { const vx = px - qx * a, vy = py - qy * b;
+        if (solidAt(vx, vy) || N.Pc.some(p => vx > p.x - 16 && vx < p.x + p.w + 16 && vy > p.y - 16 && vy < p.y + p.h + 16)) continue;
+        if (!visible(f, vx, vy) || !visible(g, vx, vy) || !sees(vx, vy, px - qx * .3, py - qy * .3)) continue;
+        const R = radial(N.Hl(vx, vy, 700, 24), vx, vy), RP = radial(O.Hl(vx, vy, 700, 24), vx, vy); views++;
+        for (const [h, e] of [[f, k], [g, c]]) for (let w = 1; w <= Math.min(40, (h.a1 - h.a0) / 2 - 1); w += 3) for (const t of [2, 8, 14, 20, 23]) {
+          const base = h.h ? px : py, along = base + (e ? -w : w), x = h.h ? along : h.L - h.nx * t, y = h.h ? h.L - h.ny * t : along;
+          /* the face seen from the corner to past this point (not a stretch an occluder cuts short) */
+          if (![1, w / 3, 2 * w / 3, w, w + 4].every(z => { const [fx, fy] = footOf(h, h.h ? base + (e ? -z : z) : x, h.h ? y : base + (e ? -z : z)); return sees(vx, vy, fx, fy); })) continue;
+          const A = inClip(R, vx, vy, x, y), B = inClip(RP, vx, vy, x, y); if (A === null || B === null) continue;
+          n++; if (A) inN++; if (B) inP++; } } } }
+  check('L12 a convex corner seen with both its faces: the two 24 px bands make the whole L (no notch at the joint)', n > 1000 && inN / n > .995,
+    `${corners} convex corners, ${views} views in front of them; band points within 40 px of the corner on either face (half a pillar's), the face seen from the corner to past them: ${(100 * inN / n).toFixed(2)} % of ${n} inside the clip (parent ${(100 * inP / n).toFixed(2)} %)`); }
 
 /* L11: cracks, over the poses and L10's views */
 { const views = poses.slice();

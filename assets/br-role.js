@@ -248,8 +248,10 @@
   /* QA1: carry a light's field (already drawn and shadowed in canvas c: world -> c px is x * k + ox) from the strip in front of
    * every face turned towards (lx, ly) within reach onto that face's band, in pieces scaled base + k cos.  `tmp`: a pooled canvas
    * at least c's size (the field is read from a copy of c's pixel box bb = [x0, y0, x1, y1]).
-   * QA2: the pieces at a band's ends are drawn inside its mitred outline (bandPoly: the remaster's corner joints); at an inner
-   * corner the end piece reaches on into the corner block (the strip's last piece, stretched over it).  And the pieces are as
+   * QA2: the pieces at a band's ends are drawn inside its mitred outline (bandPoly: the remaster's corner joints) - every piece
+   * that reaches over a convex end's mitre, which runs up to 46 px along a side face (Q3b: only the last one was, so the pieces
+   * before it lit the other face's share of a deep mitre with this face's light); at an inner corner the end piece reaches on
+   * into the corner block (the strip's last piece, stretched over it).  And the pieces are as
    * short as it takes for base + k cos to step by at most FACE.da between neighbours (a light close to a wall turns quickly
    * along it: 32 px steps showed), at most 4 x as many */
   function extrude(c, tmp, k, ox, oy, lx, ly, reach, bb, push = 0, seg = FACE.seg) {   // push: the strip moved that much farther out (a low-resolution cache's blur); seg: piece length (world px)
@@ -273,11 +275,12 @@
         for (let s = 0; s < m; s++) {
           const u0 = lo + s * step, u1 = u0 + step, a = aAt((u0 + u1) / 2); if (!(a > 0)) continue;
           const e0 = u0 <= a0 + 1e-6 && m0 !== 0, e1 = u1 >= a1 - 1e-6 && m1 !== 0, du0 = e0 && m0 < 0 ? u0 + m0 : u0, du1 = e1 && m1 < 0 ? u1 - m1 : u1;   // an inner corner: on into the corner block
+          const cl = e0 || e1 || m0 > 0 && u0 < a0 + m0 || m1 > 0 && u1 > a1 - m1;   // any piece reaching over a convex end's mitre: inside the outline (the other face's share is not this face's)
           let sx, sy, sw_, sh_, dx_, dy_, dw, dh;                           // strip (source) and band (destination), c px
           if (hor) { sx = u0 * k + ox; sw_ = step * k; sy = (B[g + 5] + ny * push) * k + oy; sh_ = (B[g + 7] - B[g + 5]) * k; dx_ = du0 * k + ox; dw = (du1 - du0) * k; dy_ = B[g + 1] * k + oy; dh = (B[g + 3] - B[g + 1]) * k; }
           else { sy = u0 * k + oy; sh_ = step * k; sx = (B[g + 4] + nx * push) * k + ox; sw_ = (B[g + 6] - B[g + 4]) * k; dy_ = du0 * k + oy; dh = (du1 - du0) * k; dx_ = B[g] * k + ox; dw = (B[g + 2] - B[g]) * k; }
           if (sx < bb[0] || sy < bb[1] || sx + sw_ > bb[2] || sy + sh_ > bb[3]) continue;   // the strip outside the light's box: nothing known there
-          P[np++] = a; P[np++] = sx; P[np++] = sy; P[np++] = sw_; P[np++] = sh_; P[np++] = dx_; P[np++] = dy_; P[np++] = dw; P[np++] = dh; P[np++] = e0 || e1 ? j : -1;
+          P[np++] = a; P[np++] = sx; P[np++] = sy; P[np++] = sw_; P[np++] = sh_; P[np++] = dx_; P[np++] = dy_; P[np++] = dw; P[np++] = dh; P[np++] = cl ? j : -1;
           if (sx < ux0) ux0 = sx; if (sy < uy0) uy0 = sy; if (sx + sw_ > ux1) ux1 = sx + sw_; if (sy + sh_ > uy1) uy1 = sy + sh_;
         }
       }
