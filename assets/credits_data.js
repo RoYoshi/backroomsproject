@@ -26,7 +26,7 @@ window.TFB_CREDITS = {
         { label: 'CC BY-SA 3.0', url: 'https://creativecommons.org/licenses/by-sa/3.0/' },
       ] },
     { heading: 'Software', entries: [
-      { name: 'PixiJS', note: '2D WebGL rendering. MIT License.', url: 'https://pixijs.com' },
+      { name: 'PixiJS', note: 'The 2D WebGL renderer (version 8.21.0, as bundled). MIT License.', url: 'https://pixijs.com' },
     ] },
     { heading: 'Typefaces', entries: [
       { name: 'Barlow Condensed', note: 'Jeremy Tribby. SIL Open Font License 1.1.', url: 'https://fonts.google.com/specimen/Barlow+Condensed' },

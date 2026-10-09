@@ -1,0 +1,4 @@
+{"what": "Main menu idle, desktop 1920x1080, SwiftShader: mean page frame interval (ms) over 5 s, two rounds, with one menu animation switched off at a time (injected CSS). Run on the C4 snapshot (before the fix), then on the final tree (after removing the idle haze drift).",
+ "beforeFix_C4": {"current": [620.4, 531.6], "noHazeDrift": [331.9, 346.4], "noTubeHum": [526.1, 551.7], "noBoth": [329.3, 319.7], "menuHidden": [333.3, 354.4]},
+ "afterFix_final": {"current": [339.9, 404.7], "noHazeDrift": [335.1, 320.9], "noTubeHum": [331.0, 333.6], "noBoth": [304.8, 334.6], "menuHidden": [326.8, 335.3]},
+ "finding": "The continuously drifting full-screen haze layer cost about as much as the rest of the frame under software compositing; the tube's hum costs nothing measurable. The drift was removed (the haze still follows the pointer)."}

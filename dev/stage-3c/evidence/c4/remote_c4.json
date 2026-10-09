@@ -1,0 +1,164 @@
+{
+ "checkpoint": "C4",
+ "verifiedAt": "2026-10-09T20:11:06Z",
+ "branch": "stage-3c",
+ "local": {
+  "commit": "370a3bb432ff41d64d115a3730d3b945a692c541",
+  "tree": "52ee5f23ca29625c5133f7a20a96710273b15789",
+  "parent": "3249cbb60aeb699098363a46827201ff047cf298"
+ },
+ "lsRemote": "370a3bb432ff41d64d115a3730d3b945a692c541",
+ "githubApi": {
+  "commit": "370a3bb432ff41d64d115a3730d3b945a692c541",
+  "tree": "52ee5f23ca29625c5133f7a20a96710273b15789",
+  "parents": [
+   "3249cbb60aeb699098363a46827201ff047cf298"
+  ],
+  "message": "Stage 3C (C4): settings, migration and accessibility"
+ },
+ "sinceStage3bParent": [
+  {
+   "commit": "16a6b1723695bcdf542ed830f8b9345b65294b2b",
+   "tree": "788606e214b8ed961f352cc28bf6d2d88b36c058",
+   "subject": "Stage 3C (C0): UI audit, freeze and architecture"
+  },
+  {
+   "commit": "cf3f8b112e3798d911b49afc24b8c8e377f7b8cc",
+   "tree": "3ef344fe8db37813b9cd258e38c6a7b13d686de9",
+   "subject": "Stage 3C (C1): the game's main menu"
+  },
+  {
+   "commit": "ad1f34493e6c6b7d3a4579fb07d760a66e288d05",
+   "tree": "f47420172073baf14a40465d2e5e4ad9e3c85508",
+   "subject": "Stage 3C (C2): the HUD, pause, run states and touch in one visual system"
+  },
+  {
+   "commit": "3249cbb60aeb699098363a46827201ff047cf298",
+   "tree": "c84cc97f33f697491c90496f816d6bb52508ab1e",
+   "subject": "Stage 3C (C3): customize in two areas, WANDERER and LOADOUT"
+  },
+  {
+   "commit": "370a3bb432ff41d64d115a3730d3b945a692c541",
+   "tree": "52ee5f23ca29625c5133f7a20a96710273b15789",
+   "subject": "Stage 3C (C4): settings, migration and accessibility"
+  }
+ ],
+ "merges": [],
+ "stage3bParent": {
+  "commit": "6e6fa46ecab537f716942b94f873776b09049a40",
+  "tree": "33ed11b672d3a2a45767accccbb9f04fdd7949c3",
+  "remoteStage3bLQa2": "6e6fa46ecab537f716942b94f873776b09049a40",
+  "ancestorOfHead": true,
+  "firstStage3cCommitsParent": "6e6fa46ecab537f716942b94f873776b09049a40"
+ },
+ "cameraCheckpointAncestor": true,
+ "untouched": {
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "remote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "stage-3b-l-qa2": {
+   "expected": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "remote": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "ok": true
+  },
+  "stage-3b-l-qa1": {
+   "expected": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "ok": true
+  },
+  "stage-3b-n-camera": {
+   "expected": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "ok": true
+  },
+  "br-role": {
+   "expected": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "remote": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "ok": true
+  },
+  "stage-3b-l": {
+   "expected": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "remote": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "ok": true
+  },
+  "stage-3b-remaster": {
+   "expected": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "remote": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "ok": true
+  },
+  "stage-3b-n": {
+   "expected": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "remote": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "ok": true
+  },
+  "stage-3b-pillar-los": {
+   "expected": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "remote": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "ok": true
+  },
+  "lighting-shadows-2d": {
+   "expected": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "remote": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "ok": true
+  },
+  "part-3a": {
+   "expected": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "remote": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "ok": true
+  },
+  "part-3b": {
+   "expected": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "remote": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "ok": true
+  },
+  "stage-e": {
+   "expected": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "remote": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "ok": true
+  },
+  "stage-f": {
+   "expected": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "remote": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "ok": true
+  },
+  "stage-g": {
+   "expected": "7fb4dafef92040571209403358e536ccb1105509",
+   "remote": "7fb4dafef92040571209403358e536ccb1105509",
+   "ok": true
+  },
+  "stage-h": {
+   "expected": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "remote": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "ok": true
+  },
+  "stage-i": {
+   "expected": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "remote": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "ok": true
+  }
+ },
+ "otherRemoteBranches": [],
+ "remoteHeads": {
+  "br-role": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+  "lighting-shadows-2d": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+  "main": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+  "part-3a": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+  "part-3b": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+  "stage-3b-l": "b9f3a9b934f40e35d51596f593eae810d077f194",
+  "stage-3b-l-qa1": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+  "stage-3b-l-qa2": "6e6fa46ecab537f716942b94f873776b09049a40",
+  "stage-3b-n": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+  "stage-3b-n-camera": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+  "stage-3b-pillar-los": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+  "stage-3b-remaster": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+  "stage-3c": "370a3bb432ff41d64d115a3730d3b945a692c541",
+  "stage-e": "da90dbb48ac4702d666d26c638fe074a78478212",
+  "stage-f": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+  "stage-g": "7fb4dafef92040571209403358e536ccb1105509",
+  "stage-h": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+  "stage-i": "106c87015ae8702f452979e0277cbacb5435fa6a"
+ },
+ "ok": true
+}

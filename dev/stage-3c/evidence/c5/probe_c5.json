@@ -1,0 +1,100 @@
+{
+ "checks": [
+  {
+   "name": "Credits are built from credits_data.js: an added section appears, an empty one does not; the wiki and CC BY-SA attribution and the software are there",
+   "ok": true,
+   "note": [
+    "Created by",
+    "Playtesting (probe)",
+    "Source material",
+    "Software",
+    "Typefaces"
+   ]
+  },
+  {
+   "name": "arrows on a Settings slider change it; W / D held in Settings (over the paused run) never move the wanderer and no key is left held",
+   "ok": true,
+   "note": {
+    "v0": 1,
+    "v1": 0.9,
+    "p0": [
+     1200,
+     3408
+    ],
+    "p1": {
+     "pos": [
+      1200,
+      3408
+     ],
+     "keys": [],
+     "st": "playing"
+    }
+   }
+  },
+  {
+   "name": "during play with every menu closed no UI script asks for animation frames and the customize preview is stopped",
+   "ok": true,
+   "note": {
+    "by": {
+     "l0-remaster.js": 6,
+     "Filter-DzecrWg_.js": 12,
+     "index-DKbV5Nv9.js": 6,
+     "?": 6
+    },
+    "preview": false
+   }
+  },
+  {
+   "name": "Escape is consistent: ignored on the menu, closes a sheet, closes customize back to the pause, resumes from the pause, closes the inventory (without pausing)",
+   "ok": true,
+   "note": {
+    "e0": {
+     "st": "menu",
+     "started": false,
+     "sheets": 0
+    },
+    "e1": "paused",
+    "c0": "customize",
+    "c1": "paused",
+    "c2": "playing",
+    "i0": true,
+    "i1": {
+     "open": false,
+     "paused": false
+    }
+   }
+  },
+  {
+   "name": "win -> RESTART LEVEL 0 plays on; NEW RUN -> run menu -> END returns to the main menu (focus on PLAY, HUD hidden); ENTER LEVEL 0 starts exactly one new run",
+   "ok": true,
+   "note": {
+    "w1": {
+     "st": "playing",
+     "started": true
+    },
+    "m1": {
+     "st": "menu",
+     "cls": true,
+     "focus": "play",
+     "header": "hidden"
+    },
+    "m2": {
+     "st": "playing",
+     "joins": 1
+    }
+   }
+  },
+  {
+   "name": "responsive: menu (PLAY and ENTER), Settings, Credits and Customize fit 1920x1080, 1366x768, 1280x720, 1024x768 and 768x1024, 390x844, 844x390, 360x640 touch without horizontal overflow",
+   "ok": true,
+   "note": []
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "ok": true
+}

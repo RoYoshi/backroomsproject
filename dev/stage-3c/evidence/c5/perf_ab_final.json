@@ -1,0 +1,695 @@
+{
+ "parent": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c3parent",
+ "c3": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5tree",
+ "rounds": 2,
+ "secs": 4,
+ "note": "SwiftShader software rendering on 2 CPUs: only parent vs Stage 3C on the same states means anything.",
+ "summary": {
+  "desktop | menu idle": {
+   "parent": {
+    "n": 2,
+    "mean": 426.55,
+    "p95": 599.4,
+    "uiJs": 0,
+    "js": 5.29,
+    "preview": 2.95
+   },
+   "stage-3c": {
+    "n": 2,
+    "mean": 397.5,
+    "p95": 502.85,
+    "uiJs": 0.017,
+    "js": 4.96,
+    "preview": 0
+   }
+  },
+  "desktop | settings open (over the menu)": {
+   "parent": {
+    "n": 2,
+    "mean": 404.35,
+    "p95": 497.85,
+    "uiJs": 0.021,
+    "js": 4.23,
+    "preview": 2.95
+   },
+   "stage-3c": {
+    "n": 2,
+    "mean": 395.35,
+    "p95": 548.55,
+    "uiJs": 0.05,
+    "js": 3.93,
+    "preview": 0
+   }
+  },
+  "desktop | customize open (over the menu)": {
+   "parent": {
+    "n": 2,
+    "mean": 461.7,
+    "p95": 538.85,
+    "uiJs": 0.826,
+    "js": 5.06,
+    "preview": 5.3
+   },
+   "stage-3c": {
+    "n": 2,
+    "mean": 428.05,
+    "p95": 484.45,
+    "uiJs": 0.992,
+    "js": 6.69,
+    "preview": 5.15
+   }
+  },
+  "desktop | Level 0 lit, standing (menus closed)": {
+   "parent": {
+    "n": 2,
+    "mean": 579.2,
+    "p95": 783.3,
+    "uiJs": 0.009,
+    "js": 4.61,
+    "preview": 4.45
+   },
+   "stage-3c": {
+    "n": 2,
+    "mean": 556.25,
+    "p95": 808,
+    "uiJs": 0.156,
+    "js": 4.2,
+    "preview": 0
+   }
+  },
+  "desktop | Level 0 lit, walking (menus closed)": {
+   "parent": {
+    "n": 2,
+    "mean": 614.1,
+    "p95": 827.3,
+    "uiJs": 0.145,
+    "js": 7.2,
+    "preview": 4.65
+   },
+   "stage-3c": {
+    "n": 2,
+    "mean": 581.55,
+    "p95": 806.65,
+    "uiJs": 0.123,
+    "js": 6.64,
+    "preview": 0
+   }
+  },
+  "desktop | Level 0 dark, flashlight (menus closed)": {
+   "parent": {
+    "n": 2,
+    "mean": 555.3,
+    "p95": 751.35,
+    "uiJs": 0,
+    "js": 3.2,
+    "preview": 4.5
+   },
+   "stage-3c": {
+    "n": 2,
+    "mean": 577.95,
+    "p95": 755.75,
+    "uiJs": 0,
+    "js": 6.02,
+    "preview": 0
+   }
+  },
+  "touch 390x844 | menu idle": {
+   "parent": {
+    "n": 1,
+    "mean": 162.8,
+    "p95": 334.8,
+    "uiJs": 0.019,
+    "js": 3.48,
+    "preview": 6.9
+   },
+   "stage-3c": {
+    "n": 1,
+    "mean": 153.7,
+    "p95": 170,
+    "uiJs": 0.006,
+    "js": 3.32,
+    "preview": 0
+   }
+  },
+  "touch 390x844 | settings open (over the menu)": {
+   "parent": {
+    "n": 1,
+    "mean": 186.2,
+    "p95": 313.2,
+    "uiJs": 0.031,
+    "js": 3.46,
+    "preview": 6
+   },
+   "stage-3c": {
+    "n": 1,
+    "mean": 144.1,
+    "p95": 184.3,
+    "uiJs": 0.007,
+    "js": 3.14,
+    "preview": 0
+   }
+  },
+  "touch 390x844 | customize open (over the menu)": {
+   "parent": {
+    "n": 1,
+    "mean": 175.6,
+    "p95": 200.9,
+    "uiJs": 0.932,
+    "js": 4.66,
+    "preview": 12.5
+   },
+   "stage-3c": {
+    "n": 1,
+    "mean": 186.1,
+    "p95": 244.1,
+    "uiJs": 0.791,
+    "js": 4.27,
+    "preview": 12.1
+   }
+  },
+  "touch 390x844 | Level 0 lit, standing (menus closed)": {
+   "parent": {
+    "n": 1,
+    "mean": 403,
+    "p95": 485,
+    "uiJs": 0.016,
+    "js": 3.37,
+    "preview": 5.9
+   },
+   "stage-3c": {
+    "n": 1,
+    "mean": 384.1,
+    "p95": 432.4,
+    "uiJs": 0,
+    "js": 2.8,
+    "preview": 0
+   }
+  },
+  "touch 390x844 | Level 0 lit, walking (menus closed)": {
+   "parent": {
+    "n": 1,
+    "mean": 358.8,
+    "p95": 409.9,
+    "uiJs": 0.18,
+    "js": 5.2,
+    "preview": 6.9
+   },
+   "stage-3c": {
+    "n": 1,
+    "mean": 354,
+    "p95": 407.5,
+    "uiJs": 0.107,
+    "js": 4.87,
+    "preview": 0
+   }
+  },
+  "touch 390x844 | Level 0 dark, flashlight (menus closed)": {
+   "parent": {
+    "n": 1,
+    "mean": 399.2,
+    "p95": 495.8,
+    "uiJs": 0.196,
+    "js": 4.17,
+    "preview": 5.9
+   },
+   "stage-3c": {
+    "n": 1,
+    "mean": 384.6,
+    "p95": 500.9,
+    "uiJs": 0.317,
+    "js": 4.43,
+    "preview": 0
+   }
+  }
+ },
+ "runs": [
+  {
+   "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c3parent",
+   "mobile": false,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 12,
+     "pageMs": {
+      "mean": 414.3,
+      "p95": 492.7
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 5.75,
+     "previewDrawsPerSec": 3
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 416,
+      "p95": 547.8
+     },
+     "uiJsMsPerFrame": 0.042,
+     "jsMsPerFrame": 4.21,
+     "previewDrawsPerSec": 2.9
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 10,
+     "pageMs": {
+      "mean": 470.3,
+      "p95": 539.6
+     },
+     "uiJsMsPerFrame": 0.698,
+     "jsMsPerFrame": 5.8,
+     "previewDrawsPerSec": 5.2
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 629.6,
+      "p95": 865
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 4.87,
+     "previewDrawsPerSec": 4
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 10,
+     "pageMs": {
+      "mean": 615.9,
+      "p95": 850.1
+     },
+     "uiJsMsPerFrame": 0.162,
+     "jsMsPerFrame": 7.97,
+     "previewDrawsPerSec": 4.7
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 569.3,
+      "p95": 761.6
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 2.93,
+     "previewDrawsPerSec": 4.3
+    }
+   ],
+   "build": "parent",
+   "errors": [],
+   "round": 0,
+   "label": "parent",
+   "view": "desktop"
+  },
+  {
+   "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5tree",
+   "mobile": false,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 13,
+     "pageMs": {
+      "mean": 373.6,
+      "p95": 396.7
+     },
+     "uiJsMsPerFrame": 0.013,
+     "jsMsPerFrame": 3.75,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 402.2,
+      "p95": 569.8
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 3.86,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 10,
+     "pageMs": {
+      "mean": 430.7,
+      "p95": 460.3
+     },
+     "uiJsMsPerFrame": 0.866,
+     "jsMsPerFrame": 6.05,
+     "previewDrawsPerSec": 5.1
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 535.5,
+      "p95": 829.2
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 4.22,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 10,
+     "pageMs": {
+      "mean": 623.3,
+      "p95": 888.7
+     },
+     "uiJsMsPerFrame": 0.106,
+     "jsMsPerFrame": 5.96,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 7,
+     "pageMs": {
+      "mean": 604.2,
+      "p95": 724.3
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 6.92,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 0,
+   "label": "stage-3c",
+   "view": "desktop"
+  },
+  {
+   "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c3parent",
+   "mobile": false,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 11,
+     "pageMs": {
+      "mean": 438.8,
+      "p95": 706.1
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 4.82,
+     "previewDrawsPerSec": 2.9
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 12,
+     "pageMs": {
+      "mean": 392.7,
+      "p95": 447.9
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 4.25,
+     "previewDrawsPerSec": 3
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 453.1,
+      "p95": 538.1
+     },
+     "uiJsMsPerFrame": 0.954,
+     "jsMsPerFrame": 4.32,
+     "previewDrawsPerSec": 5.4
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 528.8,
+      "p95": 701.6
+     },
+     "uiJsMsPerFrame": 0.019,
+     "jsMsPerFrame": 4.34,
+     "previewDrawsPerSec": 4.9
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 10,
+     "pageMs": {
+      "mean": 612.3,
+      "p95": 804.5
+     },
+     "uiJsMsPerFrame": 0.128,
+     "jsMsPerFrame": 6.43,
+     "previewDrawsPerSec": 4.6
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 541.3,
+      "p95": 741.1
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 3.46,
+     "previewDrawsPerSec": 4.7
+    }
+   ],
+   "build": "parent",
+   "errors": [],
+   "round": 1,
+   "label": "parent",
+   "view": "desktop"
+  },
+  {
+   "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5tree",
+   "mobile": false,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 11,
+     "pageMs": {
+      "mean": 421.4,
+      "p95": 609
+     },
+     "uiJsMsPerFrame": 0.022,
+     "jsMsPerFrame": 6.18,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 388.5,
+      "p95": 527.3
+     },
+     "uiJsMsPerFrame": 0.099,
+     "jsMsPerFrame": 4,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 10,
+     "pageMs": {
+      "mean": 425.4,
+      "p95": 508.6
+     },
+     "uiJsMsPerFrame": 1.117,
+     "jsMsPerFrame": 7.32,
+     "previewDrawsPerSec": 5.2
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 577,
+      "p95": 786.8
+     },
+     "uiJsMsPerFrame": 0.312,
+     "jsMsPerFrame": 4.18,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 539.8,
+      "p95": 724.6
+     },
+     "uiJsMsPerFrame": 0.14,
+     "jsMsPerFrame": 7.33,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 551.7,
+      "p95": 787.2
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 5.12,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 1,
+   "label": "stage-3c",
+   "view": "desktop"
+  },
+  {
+   "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c3parent",
+   "mobile": true,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 27,
+     "pageMs": {
+      "mean": 162.8,
+      "p95": 334.8
+     },
+     "uiJsMsPerFrame": 0.019,
+     "jsMsPerFrame": 3.48,
+     "previewDrawsPerSec": 6.9
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 24,
+     "pageMs": {
+      "mean": 186.2,
+      "p95": 313.2
+     },
+     "uiJsMsPerFrame": 0.031,
+     "jsMsPerFrame": 3.46,
+     "previewDrawsPerSec": 6
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 25,
+     "pageMs": {
+      "mean": 175.6,
+      "p95": 200.9
+     },
+     "uiJsMsPerFrame": 0.932,
+     "jsMsPerFrame": 4.66,
+     "previewDrawsPerSec": 12.5
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 403,
+      "p95": 485
+     },
+     "uiJsMsPerFrame": 0.016,
+     "jsMsPerFrame": 3.37,
+     "previewDrawsPerSec": 5.9
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 15,
+     "pageMs": {
+      "mean": 358.8,
+      "p95": 409.9
+     },
+     "uiJsMsPerFrame": 0.18,
+     "jsMsPerFrame": 5.2,
+     "previewDrawsPerSec": 6.9
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 12,
+     "pageMs": {
+      "mean": 399.2,
+      "p95": 495.8
+     },
+     "uiJsMsPerFrame": 0.196,
+     "jsMsPerFrame": 4.17,
+     "previewDrawsPerSec": 5.9
+    }
+   ],
+   "build": "parent",
+   "errors": [],
+   "round": 0,
+   "label": "parent",
+   "view": "touch 390x844"
+  },
+  {
+   "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/c5tree",
+   "mobile": true,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 29,
+     "pageMs": {
+      "mean": 153.7,
+      "p95": 170
+     },
+     "uiJsMsPerFrame": 0.006,
+     "jsMsPerFrame": 3.32,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 28,
+     "pageMs": {
+      "mean": 144.1,
+      "p95": 184.3
+     },
+     "uiJsMsPerFrame": 0.007,
+     "jsMsPerFrame": 3.14,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 24,
+     "pageMs": {
+      "mean": 186.1,
+      "p95": 244.1
+     },
+     "uiJsMsPerFrame": 0.791,
+     "jsMsPerFrame": 4.27,
+     "previewDrawsPerSec": 12.1
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 12,
+     "pageMs": {
+      "mean": 384.1,
+      "p95": 432.4
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 2.8,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 15,
+     "pageMs": {
+      "mean": 354,
+      "p95": 407.5
+     },
+     "uiJsMsPerFrame": 0.107,
+     "jsMsPerFrame": 4.87,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 12,
+     "pageMs": {
+      "mean": 384.6,
+      "p95": 500.9
+     },
+     "uiJsMsPerFrame": 0.317,
+     "jsMsPerFrame": 4.43,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 0,
+   "label": "stage-3c",
+   "view": "touch 390x844"
+  }
+ ]
+}
