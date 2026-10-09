@@ -14,7 +14,7 @@
 const { spawn, execSync } = require('child_process'); const fs = require('fs'), path = require('path'), http = require('http');
 const H = require('../shadows/harness_lib.js'); const { sleep, frames } = H;
 const sharp = (() => { try { return require('sharp'); } catch (e) { return require(path.join(execSync('npm root -g').toString().trim(), 'sharp')); } })();
-const UI = 'header,.location,.coordinates,#hud,#net,#encounterHint,#blackoutHint,#l0vTag,#dread,.grain,#mp,#tip,#brRoleDebug,#camHud,#camGrain,#camTear';
+const UI = 'header,.location,.coordinates,#hud,#net,#encounterHint,#blackoutHint,#l0vTag,#dread,.grain,#mp,#tip,#brRoleDebug,#camHud,#camGrain,#camTear,#glitchFx,#glitchTear';   // (the glitched exit walls are placed per server: hidden so two builds compare)
 const T0 = 400000;
 const get = (port, p) => new Promise(r => http.get({ host: '127.0.0.1', port, path: p }, q => { q.resume(); q.on('end', () => r(q.statusCode)); }).on('error', () => r(0)));
 async function open(GAME, PORT, { quality = 'medium', viewport = { width: 1920, height: 1080 }, init = null, browser = null } = {}) {

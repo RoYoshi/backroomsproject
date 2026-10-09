@@ -9,7 +9,7 @@
  *   - a ray that stops at a wall or pillar face goes on into it only inside that face's band as the art draws it: depth r
  *     measured square to the face (the same 24 px seen square-on, now at every angle), between the face's mitred ends (the
  *     remaster's mitres: from a convex corner in to where the two faces' bands meet; at an inner corner on into the corner
- *     block), and only over the part of the face the player really sees (the rays that reach that face, in order; seen up
+ *     block, the two bands meeting on its diagonal - an L, as the art draws it), and only over the part of the face the player really sees (the rays that reach that face, in order; seen up
  *     to its end, the band goes on to its mitre);
  *   - where it leaves that band into the band of a neighbouring face the player also sees (a corner seen from the
  *     diagonal), it goes on through that one, the same way; never into a face turned away, never out of the blocker;
@@ -25,12 +25,13 @@
 // ---- begin (bundle text) ----
 var HlqD={S:46,N:23,E:27,W:27,pS:18,pN:12,pE:14,pW:14},HlqF=null,HlqC=null,HlqK=-1;
 /* the faces (wall runs and pillar sides) once: outward normal, line, extent along it, band depth, and the mitre shift
- * at each end (+ a convex end: the band ends inside it; - an inner corner: it goes on into the corner block) */
+ * at each end (+ a convex end: the band ends inside it, on the art's mitre; - an inner corner: it goes on into the corner
+ * block as far as it is deep - the two faces' bands meet on the block's own diagonal, an L, at any depth) */
 function HlqFaces(){if(HlqF)return HlqF;let F=[],W=(x,y)=>!!Hc(x,y),D=HlqD,O=(h,nx,ny,L,a0,a1,d,s0,s1,p)=>({h,nx,ny,L,a0,a1,d,s0,s1,p,q:null,E:null,EF:null,b:null,v:0,w:0});
 for(let y=0;y<=FBH;y++)for(let x=0;x<FBW;){let u=W(x,y-1),d=W(x,y);if(u===d){x++;continue}let e=x;while(e+1<FBW&&W(e+1,y-1)===u&&W(e+1,y)===d)e++;let ny=u?1:-1,wr=u?y-1:y,fr=u?y:y-1;
-F.push(O(1,0,ny,y*96,x*96,(e+1)*96,u?D.S:D.N,W(x-1,wr)&&W(x-1,fr)?-D.E:D.W,W(e+1,wr)&&W(e+1,fr)?-D.W:D.E,0));x=e+1}
+let dd=u?D.S:D.N;F.push(O(1,0,ny,y*96,x*96,(e+1)*96,dd,W(x-1,wr)&&W(x-1,fr)?-dd:D.W,W(e+1,wr)&&W(e+1,fr)?-dd:D.E,0));x=e+1}
 for(let x=0;x<=FBW;x++)for(let y=0;y<FBH;){let l=W(x-1,y),r=W(x,y);if(l===r){y++;continue}let e=y;while(e+1<FBH&&W(x-1,e+1)===l&&W(x,e+1)===r)e++;let nx=l?1:-1,wc=l?x-1:x,fc=l?x:x-1;
-F.push(O(0,nx,0,x*96,y*96,(e+1)*96,l?D.E:D.W,W(wc,y-1)&&W(fc,y-1)?-D.S:D.N,W(wc,e+1)&&W(fc,e+1)?-D.N:D.S,0));y=e+1}
+let dd=l?D.E:D.W;F.push(O(0,nx,0,x*96,y*96,(e+1)*96,dd,W(wc,y-1)&&W(fc,y-1)?-dd:D.N,W(wc,e+1)&&W(fc,e+1)?-dd:D.S,0));y=e+1}
 for(let p of Pc)F.push(O(1,0,1,p.y+p.h,p.x,p.x+p.w,D.pS,D.pW,D.pE,1),O(1,0,-1,p.y,p.x,p.x+p.w,D.pN,D.pW,D.pE,1),
 O(0,1,0,p.x+p.w,p.y,p.y+p.h,D.pE,D.pN,D.pS,1),O(0,-1,0,p.x,p.y,p.y+p.h,D.pW,D.pN,D.pS,1));
 F.D=0;F.S=0;return HlqF=F}
