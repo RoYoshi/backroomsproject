@@ -1,0 +1,622 @@
+{
+ "what": "touch 390x844 (DPR 2) only: dev/stage-3c/perf_c3.js --mobile, three rounds, the order alternating (first/QA1, QA1/first, first/QA1), to check the single touch run of perf_final.json",
+ "first": "76bcc4a (git archive)",
+ "qa1": "the final tree",
+ "note": "SwiftShader software rendering on 2 CPUs: comparison only",
+ "summary": {
+  "menu idle": {
+   "first-candidate": {
+    "means": [
+     220.2,
+     218.8,
+     224.4
+    ],
+    "mean": 221.1,
+    "uiJs": [
+     0.059,
+     0,
+     0.029
+    ]
+   },
+   "qa1": {
+    "means": [
+     219.4,
+     204.7,
+     227.1
+    ],
+    "mean": 217.1,
+    "uiJs": [
+     0.074,
+     0.008,
+     0.031
+    ]
+   },
+   "qa1VsFirstMeanPct": -1.8
+  },
+  "settings open (over the menu)": {
+   "first-candidate": {
+    "means": [
+     220.5,
+     199.6,
+     213.5
+    ],
+    "mean": 211.2,
+    "uiJs": [
+     0.095,
+     0.117,
+     0
+    ]
+   },
+   "qa1": {
+    "means": [
+     209.9,
+     200.8,
+     223.1
+    ],
+    "mean": 211.3,
+    "uiJs": [
+     0.051,
+     0.026,
+     0.036
+    ]
+   },
+   "qa1VsFirstMeanPct": 0.0
+  },
+  "customize open (over the menu)": {
+   "first-candidate": {
+    "means": [
+     285,
+     249,
+     264.4
+    ],
+    "mean": 266.1,
+    "uiJs": [
+     1.515,
+     1.054,
+     1.014
+    ]
+   },
+   "qa1": {
+    "means": [
+     243.4,
+     252.1,
+     242.5
+    ],
+    "mean": 246.0,
+    "uiJs": [
+     0.774,
+     0.754,
+     1.069
+    ]
+   },
+   "qa1VsFirstMeanPct": -7.6
+  },
+  "Level 0 lit, standing (menus closed)": {
+   "first-candidate": {
+    "means": [
+     573,
+     586.8,
+     587.3
+    ],
+    "mean": 582.4,
+    "uiJs": [
+     0.047,
+     0,
+     0
+    ]
+   },
+   "qa1": {
+    "means": [
+     513.4,
+     602.7,
+     595.4
+    ],
+    "mean": 570.5,
+    "uiJs": [
+     0.046,
+     0.081,
+     0
+    ]
+   },
+   "qa1VsFirstMeanPct": -2.0
+  },
+  "Level 0 lit, walking (menus closed)": {
+   "first-candidate": {
+    "means": [
+     524.7,
+     536.1,
+     517.1
+    ],
+    "mean": 526.0,
+    "uiJs": [
+     0.362,
+     0.139,
+     0.093
+    ]
+   },
+   "qa1": {
+    "means": [
+     532.3,
+     513.5,
+     543.1
+    ],
+    "mean": 529.6,
+    "uiJs": [
+     0.044,
+     0.097,
+     0.168
+    ]
+   },
+   "qa1VsFirstMeanPct": 0.7
+  },
+  "Level 0 dark, flashlight (menus closed)": {
+   "first-candidate": {
+    "means": [
+     527.2,
+     562.2,
+     539.1
+    ],
+    "mean": 542.8,
+    "uiJs": [
+     0,
+     0,
+     0
+    ]
+   },
+   "qa1": {
+    "means": [
+     619.5,
+     537.9,
+     557.7
+    ],
+    "mean": 571.7,
+    "uiJs": [
+     0.128,
+     0.043,
+     0.022
+    ]
+   },
+   "qa1VsFirstMeanPct": 5.3
+  }
+ },
+ "runs": [
+  {
+   "round": 0,
+   "build": "first",
+   "order": 0,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 21,
+     "pageMs": {
+      "mean": 220.2,
+      "p95": 287.8
+     },
+     "uiJsMsPerFrame": 0.059,
+     "jsMsPerFrame": 3.81,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 20,
+     "pageMs": {
+      "mean": 220.5,
+      "p95": 275
+     },
+     "uiJsMsPerFrame": 0.095,
+     "jsMsPerFrame": 3.23,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 15,
+     "pageMs": {
+      "mean": 285,
+      "p95": 342.9
+     },
+     "uiJsMsPerFrame": 1.515,
+     "jsMsPerFrame": 5.98,
+     "previewDrawsPerSec": 7.5
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 573,
+      "p95": 647.9
+     },
+     "uiJsMsPerFrame": 0.047,
+     "jsMsPerFrame": 3.81,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 524.7,
+      "p95": 607.5
+     },
+     "uiJsMsPerFrame": 0.362,
+     "jsMsPerFrame": 6.11,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 527.2,
+      "p95": 603.5
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 2.76,
+     "previewDrawsPerSec": 0
+    }
+   ]
+  },
+  {
+   "round": 0,
+   "build": "qa1",
+   "order": 1,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 21,
+     "pageMs": {
+      "mean": 219.4,
+      "p95": 272.7
+     },
+     "uiJsMsPerFrame": 0.074,
+     "jsMsPerFrame": 3.42,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 20,
+     "pageMs": {
+      "mean": 209.9,
+      "p95": 240.2
+     },
+     "uiJsMsPerFrame": 0.051,
+     "jsMsPerFrame": 3.99,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 17,
+     "pageMs": {
+      "mean": 243.4,
+      "p95": 342.7
+     },
+     "uiJsMsPerFrame": 0.774,
+     "jsMsPerFrame": 4.54,
+     "previewDrawsPerSec": 8.7
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 513.4,
+      "p95": 556.7
+     },
+     "uiJsMsPerFrame": 0.046,
+     "jsMsPerFrame": 2.86,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 532.3,
+      "p95": 616.9
+     },
+     "uiJsMsPerFrame": 0.044,
+     "jsMsPerFrame": 6.52,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 619.5,
+      "p95": 812.3
+     },
+     "uiJsMsPerFrame": 0.128,
+     "jsMsPerFrame": 4.48,
+     "previewDrawsPerSec": 0
+    }
+   ]
+  },
+  {
+   "round": 1,
+   "build": "qa1",
+   "order": 0,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 22,
+     "pageMs": {
+      "mean": 204.7,
+      "p95": 248
+     },
+     "uiJsMsPerFrame": 0.008,
+     "jsMsPerFrame": 2.69,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 22,
+     "pageMs": {
+      "mean": 200.8,
+      "p95": 232.8
+     },
+     "uiJsMsPerFrame": 0.026,
+     "jsMsPerFrame": 3.43,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 18,
+     "pageMs": {
+      "mean": 252.1,
+      "p95": 287.9
+     },
+     "uiJsMsPerFrame": 0.754,
+     "jsMsPerFrame": 4.44,
+     "previewDrawsPerSec": 9.3
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 602.7,
+      "p95": 680.9
+     },
+     "uiJsMsPerFrame": 0.081,
+     "jsMsPerFrame": 6.2,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 513.5,
+      "p95": 637.2
+     },
+     "uiJsMsPerFrame": 0.097,
+     "jsMsPerFrame": 6.12,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 537.9,
+      "p95": 625.3
+     },
+     "uiJsMsPerFrame": 0.043,
+     "jsMsPerFrame": 3,
+     "previewDrawsPerSec": 0
+    }
+   ]
+  },
+  {
+   "round": 1,
+   "build": "first",
+   "order": 1,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 21,
+     "pageMs": {
+      "mean": 218.8,
+      "p95": 272.4
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 3.42,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 22,
+     "pageMs": {
+      "mean": 199.6,
+      "p95": 234.9
+     },
+     "uiJsMsPerFrame": 0.117,
+     "jsMsPerFrame": 3.07,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 17,
+     "pageMs": {
+      "mean": 249,
+      "p95": 302.3
+     },
+     "uiJsMsPerFrame": 1.054,
+     "jsMsPerFrame": 4.14,
+     "previewDrawsPerSec": 8.5
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 586.8,
+      "p95": 663.6
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 3.75,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 536.1,
+      "p95": 631.5
+     },
+     "uiJsMsPerFrame": 0.139,
+     "jsMsPerFrame": 6.15,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 562.2,
+      "p95": 649.2
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 3.58,
+     "previewDrawsPerSec": 0
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "build": "first",
+   "order": 0,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 21,
+     "pageMs": {
+      "mean": 224.4,
+      "p95": 265.2
+     },
+     "uiJsMsPerFrame": 0.029,
+     "jsMsPerFrame": 3.2,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 19,
+     "pageMs": {
+      "mean": 213.5,
+      "p95": 243.9
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 3.3,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 17,
+     "pageMs": {
+      "mean": 264.4,
+      "p95": 333
+     },
+     "uiJsMsPerFrame": 1.014,
+     "jsMsPerFrame": 5.39,
+     "previewDrawsPerSec": 8.8
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 587.3,
+      "p95": 653
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 5.06,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 517.1,
+      "p95": 591.9
+     },
+     "uiJsMsPerFrame": 0.093,
+     "jsMsPerFrame": 5.35,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 539.1,
+      "p95": 604.6
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 3.64,
+     "previewDrawsPerSec": 0
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "build": "qa1",
+   "order": 1,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 20,
+     "pageMs": {
+      "mean": 227.1,
+      "p95": 248.2
+     },
+     "uiJsMsPerFrame": 0.031,
+     "jsMsPerFrame": 2.78,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 20,
+     "pageMs": {
+      "mean": 223.1,
+      "p95": 317.1
+     },
+     "uiJsMsPerFrame": 0.036,
+     "jsMsPerFrame": 2.86,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 17,
+     "pageMs": {
+      "mean": 242.5,
+      "p95": 273
+     },
+     "uiJsMsPerFrame": 1.069,
+     "jsMsPerFrame": 5.74,
+     "previewDrawsPerSec": 8.7
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 595.4,
+      "p95": 762.1
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 4.55,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 543.1,
+      "p95": 638.6
+     },
+     "uiJsMsPerFrame": 0.168,
+     "jsMsPerFrame": 6.37,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 557.7,
+      "p95": 639.5
+     },
+     "uiJsMsPerFrame": 0.022,
+     "jsMsPerFrame": 3.11,
+     "previewDrawsPerSec": 0
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+FAIL desktop: objective, status, key hints, location, coordinates, header and connection line are all on screen  - {"status":[[38,1040,258,1054]],"tools":[[1774,30,1882,70]]}
+PASS desktop: nothing in the centre of the screen (the middle 40 %)  - []
+PASS desktop: no two HUD blocks overlap  - []
+PASS desktop: the game still writes every readout; the brand gives way to the objective; a PAUSE button is shown  - {"obj":"FIND A GLITCHED WALL","pace":"STANDING","stam":"100","light":"FLASHLIGHT ON","sector":"01 / YELLOW HALL","coords":"X 1200 / Y 3408"}
+PASS the HUD PAUSE button pauses through the game (controls shown, focus in the dialog); CONTINUE resumes; Escape still pauses and resumes  - {"p1":{"paused":true,"st":"paused","keys":true,"focusIn":true},"p2":{"paused":false,"st":"playing"},"p3":true,"p4":false}
+FAIL HUD size, colour, coordinates, key hints and title settings drive the new HUD (and reset)  - {"r0":0,"r1":0,"col":"rgb(111, 230, 255)","hidden":["none","none","none"],"back":"none"}
+PASS caught (RESPAWN, CHANGE LOADOUT, red line) and won (RESTART) panels show their own buttons  - {"cg":{"retry":true,"lo":true,"line":"rgb(196, 80, 63)"},"wn":{"again":true,"st":"won"}}
+PASS NEW RUN reaches the run menu with SPAWN / CUSTOMIZE / END  - {"st":"run","btns":[true,true,true]}
+FAIL Night Vision Camcorder raised: the viewfinder takes over (location hidden, objective kept)  - {"raised":true,"loc":"none","obj":"none"}
+FAIL touch portrait: pad, RUN, CROUCH, LIGHT and INV on screen; key hints and the Esc label hidden  - {"touch":{"run":[[228,760,296,828]],"crouch":[[306,760,374,828]],"light":[[228,694,296,750]],"inv":[[306,694,374,750]]},"keys":"none"}
+PASS touch portrait: nothing overlaps (HUD blocks, header, pad and buttons)  - []
+PASS touch portrait: PAUSE pauses (connection line shown, keyboard reference hidden), CONTINUE resumes, INV opens and closes the inventory  - {"pz":{"paused":true,"net":"block","keys":"none","over":0},"rs":false,"i1":true,"i2":false}
+FAIL touch landscape: pad, RUN, CROUCH, LIGHT and INV on screen; key hints and the Esc label hidden  - {"touch":{"run":[[694,316,756,374]],"crouch":[[766,316,829,374]],"light":[[550,322,612,374]],"inv":[[622,322,684,374]]},"keys":"none"}
+PASS touch landscape: nothing overlaps (HUD blocks, header, pad and buttons)  - []
+PASS touch landscape: PAUSE pauses (connection line shown, keyboard reference hidden), CONTINUE resumes, INV opens and closes the inventory  - {"pz":{"paused":true,"net":"block","keys":"none","over":0},"rs":false,"i1":true,"i2":false}
+PASS touch portrait, Night Vision Camcorder: NV, IR and ZOOM join the cluster, all on screen, nothing overlapping  - {"touch":{"run":[[228,760,296,828]],"crouch":[[306,760,374,828]],"light":[[228,694,296,750]],"inv":[[306,694,374,750]],"nv":[[228,628,296,684]],"ir":[[306,628,374,684]],"zoom":[[228,562,374,618]]},"overlaps":[]}
+PASS touch landscape, Night Vision Camcorder: NV, IR and ZOOM join the cluster, all on screen, nothing overlapping  - {"touch":{"run":[[694,316,756,374]],"crouch":[[766,316,829,374]],"light":[[550,322,612,374]],"inv":[[622,322,684,374]],"nv":[[550,254,612,306]],"ir":[[622,254,684,306]],"zoom":[[694,254,828,306]]},"overlaps":[]}
+PASS no page errors  - []
+SOME CHECKS FAILED

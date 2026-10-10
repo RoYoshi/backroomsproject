@@ -1,0 +1,45 @@
+{
+ "suite": "dev/tests/lifecycle_mp.py (PORT=9358)",
+ "result": {
+  "start": {
+   "client": [
+    360,
+    3432
+   ],
+   "server": [
+    360,
+    3432,
+    0
+   ]
+  },
+  "menuShown": true,
+  "inWorldWhileInMenu": null,
+  "newRun": {
+   "client": [
+    5064,
+    2856
+   ],
+   "server": [
+    5064,
+    2856,
+    0
+   ]
+  },
+  "playerCorrections": 0,
+  "deathScreen": true,
+  "retry": {
+   "client": [
+    648,
+    5688
+   ],
+   "server": [
+    648,
+    5688,
+    0
+   ],
+   "refusals": 0
+  },
+  "errors": [],
+  "ok": true
+ }
+}

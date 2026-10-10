@@ -1,0 +1,239 @@
+THE FAR BACKROOMS - Stage 3C QA1 (main menu / HUD / mobile UX human-QA correction) - changed files
+since the first Stage 3C candidate 76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace (git diff --name-status; branch stage-3c-qa1)
+
+Untouched (byte-identical to the first candidate; checked file by file in the package receipt): the game bundle (assets/index-DKbV5Nv9.js
+and its stylesheet), mp.js, server.js, sim.js, ai.js, move.js, light.js, ents.js, world.js, camcorder.js, death_srv.js, dphys.js, gore.js,
+glitch.js, sfx.js, redirect.js, the camera and timing policies, assets/br-role.js, assets/l0-remaster.js, assets/level0_visuals.js,
+assets/shadows-2d.js, package.json, sounds/, and every earlier dev/ folder (dev/stage-3c/ included).
+
+added     STAGE_3C_QA1_CHANGED_FILES.txt
+          DOC. This list.
+added     STAGE_3C_QA1_HUMAN_QA.md
+          DOC. What to check by hand: scenes A to N.
+added     STAGE_3C_QA1_MENU_COMPARISON.jpg
+          DOC. The rough draft, the first candidate and QA1 side by side (desktop, phone, phone on its side).
+added     STAGE_3C_QA1_PERFORMANCE.md
+          DOC. Performance: first candidate vs QA1, interleaved, and the hidden-work checks.
+added     STAGE_3C_QA1_Q0_AUDIT.md
+          DOC. Q0 audit: parent and branches, the rough draft, the measured menu / run lifecycle, the audio graph, serving and PWA, key bindings, touch, the smallest seams (with the Q2 correction note).
+added     STAGE_3C_QA1_REPORT.md
+          DOC. The QA1 report.
+added     assets/MainTheme_MenuIntro.wav
+          THE USER'S AUDIO. The main-menu theme's Intro, byte-identical to the supplied derivative (SHA-256 64b2124b...).
+added     assets/MainTheme_MenuLoop.wav
+          THE USER'S AUDIO. The main-menu theme's Loop, byte-identical to the supplied derivative (SHA-256 848db3af...).
+modified  assets/credits_data.js
+          UI-FACING EDIT. One field, version: '23.3.6' (the menu's bottom-right corner), and its comment line.
+added     assets/manifest.webmanifest
+          NEW. The web app manifest: name, short name, standalone display, start URL and scope at the game, dark colours. No icons yet (no official icon exists).
+modified  assets/ui.css
+          EXTENDED (first candidate UI file). The rough-draft menu and its breakpoints; Help; the minimal HUD, contextual stamina, the dormant health slot, the location reveal; the pause objective; Controls; the touch stick, thumb-sized actions and safe areas.
+modified  assets/ui.js
+          EXTENDED (first candidate UI file). The hide-self gate before ENTER LEVEL 0; the menu (rails, PLAY entry, connection line, hum); the main-menu theme; Help with install guidance; the location reveal; Settings > HUD and Controls; keybinds (input adapter at the window, capture, conflicts, persistence, labels); the touch stick and press-acting buttons.
+added     audio_source/MainTheme.wav
+          THE USER'S AUDIO. The full source, preserved byte-identical (SHA-256 ba087949...). The game never loads it.
+added     dev/stage-3c-qa1/capture_q1.js
+          DEV. Main-menu and entry captures at every size.
+added     dev/stage-3c-qa1/capture_q3.js
+          DEV. Minimal-HUD captures (run begins, calm, sprinting, pause, Settings).
+added     dev/stage-3c-qa1/first_candidate/probe_c1.js
+          DEV. Adapted copy of dev/stage-3c/probe_c1.js, written by run.js (the original is unchanged).
+added     dev/stage-3c-qa1/first_candidate/probe_c2.js
+          DEV. Adapted copy of dev/stage-3c/probe_c2.js, written by run.js (the original is unchanged).
+added     dev/stage-3c-qa1/first_candidate/probe_c3.js
+          DEV. Adapted copy of dev/stage-3c/probe_c3.js, written by run.js (the original is unchanged).
+added     dev/stage-3c-qa1/first_candidate/probe_c4.js
+          DEV. Adapted copy of dev/stage-3c/probe_c4.js, written by run.js (the original is unchanged).
+added     dev/stage-3c-qa1/first_candidate/probe_c5.js
+          DEV. Adapted copy of dev/stage-3c/probe_c5.js, written by run.js (the original is unchanged).
+added     dev/stage-3c-qa1/first_candidate/run.js
+          DEV. Runs the first candidate's five probes on QA1 through adapted copies, with each QA1 supersession named.
+added     dev/stage-3c-qa1/lifecycle.js
+          DEV. The menu / run boundary measured on any build (two pages, the server's admin data).
+added     dev/stage-3c-qa1/menu_comparison.py
+          DEV. Builds STAGE_3C_QA1_MENU_COMPARISON.jpg.
+added     dev/stage-3c-qa1/newrun_cooldown.js
+          DEV. Measures the parent's NEW RUN cooldown (one vanish every 30 s) on any build: a finding, documented, not changed.
+added     dev/stage-3c-qa1/package_qa1.py
+          DEV. The packager and receipt.
+added     dev/stage-3c-qa1/perf_ab_qa1.js
+          DEV. First candidate vs QA1, interleaved A B A B, menu idle and play.
+added     dev/stage-3c-qa1/probe_q1.js
+          DEV. Q1 checks: composition at five sizes, the entry, the whole theme lifecycle, the offline seam render.
+added     dev/stage-3c-qa1/probe_q2.js
+          DEV. Q2 checks: no wanderer before ENTER, one join, NEW RUN / END / RESPAWN.
+added     dev/stage-3c-qa1/probe_q3.js
+          DEV. Q3 checks: migration, reveals, calm play, stamina, health hook, pause, default-key identity against the first candidate, rebinding.
+added     dev/stage-3c-qa1/probe_q4.js
+          DEV. Q4 checks: the stick (real touch input), multitouch, layouts and safe areas, the manifest and Help.
+added     dev/stage-3c-qa1/probe_q5.js
+          DEV. Q5 checks: true darkness, no hidden UI work, the HUD settings on the QA1 HUD, the theme in a hidden tab.
+added     dev/stage-3c-qa1/q0_lifecycle.js
+          DEV. The Q0 lifecycle instrument (kept unchanged; see the Q2 correction).
+added     dev/stage-3c-qa1/reference/MAIN_MENU_ROUGH_DRAFT.png
+          REFERENCE. The supplied rough draft, unchanged.
+added     dev/stage-3c-qa1/theme_assets_check.py
+          DEV. The theme files' SHA-256, format, and the Intro -> Loop and Loop -> Loop seams.
+added     dev/stage-3c-qa1/verify_remote_qa1.py
+          DEV. GitHub verification after each push (ls-remote, REST commit / tree / parents, other branches untouched).
+modified  hud.js
+          UI-FACING EDIT. The settings model: same fields, saves carry v: 2, coordinates off by default (old saves switched off once); contextual stamina (stam-on, fades 1.8 s after full); the dormant window.__hud.health(v) hook.
+modified  index.html
+          UI-FACING EDIT. The rough-draft menu markup (#mmPlay, the rails, the entry around the game's own #name / #enter); the HUD health slot; the reveal; the pause objective and Change keys; the stick zone in the touch layer; viewport-fit=cover, the manifest link and app metadata. Every element id of the first candidate is kept.
+modified  inventory.js
+          UI-FACING EDIT, TEXT ONLY. Three key-label hooks so the inventory, its toast and the camcorder note name the player's own keys (the defaults when unchanged).
+
+evidence under dev/stage-3c-qa1/evidence/ (153 files): checks (.json / .log), captures (.jpg / .png), measurements and notes per checkpoint:
+  added     dev/stage-3c-qa1/evidence/q0/lifecycle_parent.json
+  added     dev/stage-3c-qa1/evidence/q0/remote_heads_before_qa1.json
+  added     dev/stage-3c-qa1/evidence/q0/remote_q0.json
+  added     dev/stage-3c-qa1/evidence/q1/Q1_NOTES.md
+  added     dev/stage-3c-qa1/evidence/q1/audio/MainTheme_LoopBoundaryPreview.wav
+  added     dev/stage-3c-qa1/evidence/q1/audio/theme_assets.json
+  added     dev/stage-3c-qa1/evidence/q1/perf_q1_vs_first.json
+  added     dev/stage-3c-qa1/evidence/q1/probe_q1.json
+  added     dev/stage-3c-qa1/evidence/q1/probe_q1.log
+  added     dev/stage-3c-qa1/evidence/q1/q1_1024x768_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1024x768_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1280x720_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1280x720_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1366x768_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1366x768_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1920x1080_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1920x1080_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1920x1080r_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_1920x1080r_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_360x640m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_360x640m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_390x844m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_390x844m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_640x360m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_640x360m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_768x1024m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_768x1024m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_844x390m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_844x390m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q1/q1_captures.json
+  added     dev/stage-3c-qa1/evidence/q2/Q2_AUDIT.md
+  added     dev/stage-3c-qa1/evidence/q2/lifecycle_first_candidate.json
+  added     dev/stage-3c-qa1/evidence/q2/lifecycle_qa1.json
+  added     dev/stage-3c-qa1/evidence/q2/probe_q2.json
+  added     dev/stage-3c-qa1/evidence/q2/probe_q2.log
+  added     dev/stage-3c-qa1/evidence/q2/q2_1920x1080_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q2/q2_1920x1080_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q2/q2_390x844m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q2/q2_390x844m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q2/q2_844x390m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q2/q2_844x390m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q2/q2_captures.json
+  added     dev/stage-3c-qa1/evidence/q3/Q3_NOTES.md
+  added     dev/stage-3c-qa1/evidence/q3/probe_q3.json
+  added     dev/stage-3c-qa1/evidence/q3/probe_q3.log
+  added     dev/stage-3c-qa1/evidence/q3/q3_1920x1080_calm.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_1920x1080_pause.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_1920x1080_run_begins.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_1920x1080_settings_controls.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_1920x1080_settings_hud.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_1920x1080_sprinting.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_390x844m_calm.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_390x844m_pause.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_390x844m_run_begins.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_390x844m_settings_controls.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_390x844m_settings_hud.jpg
+  added     dev/stage-3c-qa1/evidence/q3/q3_captures.json
+  added     dev/stage-3c-qa1/evidence/q4/Q4_NOTES.md
+  added     dev/stage-3c-qa1/evidence/q4/probe_q4.json
+  added     dev/stage-3c-qa1/evidence/q4/probe_q4.log
+  added     dev/stage-3c-qa1/evidence/q4/q4_360x640_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q4/q4_390x844_stick_held.jpg
+  added     dev/stage-3c-qa1/evidence/q4/q4_390x844_stick_idle.jpg
+  added     dev/stage-3c-qa1/evidence/q4/q4_390x844_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q4/q4_430x932_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q4/q4_768x1024_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q4/q4_844x390_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q5/Q5_NOTES.md
+  added     dev/stage-3c-qa1/evidence/q5/br_role.log
+  added     dev/stage-3c-qa1/evidence/q5/camera_3bn.log
+  added     dev/stage-3c-qa1/evidence/q5/camera_fairness.log
+  added     dev/stage-3c-qa1/evidence/q5/capture_hud.log
+  added     dev/stage-3c-qa1/evidence/q5/capture_menu.log
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_1920x1080_calm.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_1920x1080_pause.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_1920x1080_run_begins.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_1920x1080_settings_controls.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_1920x1080_settings_hud.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_1920x1080_sprinting.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_390x844m_calm.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_390x844m_pause.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_390x844m_run_begins.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_390x844m_settings_controls.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_390x844m_settings_hud.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_844x390m_calm.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_844x390m_pause.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_844x390m_run_begins.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_844x390m_settings_controls.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_844x390m_settings_hud.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q3_captures.json
+  added     dev/stage-3c-qa1/evidence/q5/captures/q4_360x640_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q4_390x844_stick_held.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q4_390x844_stick_idle.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q4_390x844_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q4_430x932_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q4_768x1024_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q4_844x390_touch_play.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1024x768_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1024x768_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1280x720_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1280x720_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1366x768_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1366x768_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1920x1080_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1920x1080_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1920x1080r_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_1920x1080r_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_360x640m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_360x640m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_390x844m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_390x844m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_640x360m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_640x360m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_768x1024m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_768x1024m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_844x390m_entry.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_844x390m_menu.jpg
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_captures.json
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_true_darkness_hud_off.png
+  added     dev/stage-3c-qa1/evidence/q5/captures/q5_true_darkness_hud_on.png
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/first_candidate_probes.json
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c1.json
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c1.log
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c2.json
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c2.log
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c3.json
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c3.log
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c4.json
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c4.log
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c5.json
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/probe_c5.log
+  added     dev/stage-3c-qa1/evidence/q5/first_candidate/run.log
+  added     dev/stage-3c-qa1/evidence/q5/lifecycle_mp.json
+  added     dev/stage-3c-qa1/evidence/q5/lifecycle_mp.log
+  added     dev/stage-3c-qa1/evidence/q5/lifecycle_qa1.json
+  added     dev/stage-3c-qa1/evidence/q5/lifecycle_qa1.log
+  added     dev/stage-3c-qa1/evidence/q5/newrun_cooldown_first_candidate.json
+  added     dev/stage-3c-qa1/evidence/q5/newrun_cooldown_qa1.json
+  added     dev/stage-3c-qa1/evidence/q5/perf_final.json
+  added     dev/stage-3c-qa1/evidence/q5/perf_final.log
+  added     dev/stage-3c-qa1/evidence/q5/perf_touch_ab.json
+  added     dev/stage-3c-qa1/evidence/q5/probe_q1.json
+  added     dev/stage-3c-qa1/evidence/q5/probe_q1.log
+  added     dev/stage-3c-qa1/evidence/q5/probe_q2.json
+  added     dev/stage-3c-qa1/evidence/q5/probe_q2.log
+  added     dev/stage-3c-qa1/evidence/q5/probe_q3.json
+  added     dev/stage-3c-qa1/evidence/q5/probe_q3.log
+  added     dev/stage-3c-qa1/evidence/q5/probe_q4.json
+  added     dev/stage-3c-qa1/evidence/q5/probe_q4.log
+  added     dev/stage-3c-qa1/evidence/q5/probe_q5.json
+  added     dev/stage-3c-qa1/evidence/q5/probe_q5.log
+  added     dev/stage-3c-qa1/evidence/q5/theme_assets.json
+  added     dev/stage-3c-qa1/evidence/q5/theme_assets.log

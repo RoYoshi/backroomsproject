@@ -1,0 +1,10 @@
+PASS audio_source/MainTheme.wav is the user's file (SHA-256 as locked)
+PASS assets/MainTheme_MenuIntro.wav is the user's file (SHA-256 as locked)
+PASS assets/MainTheme_MenuLoop.wav is the user's file (SHA-256 as locked)
+PASS assets/MainTheme_MenuIntro.wav: 44.1 kHz, stereo, PCM-24, 1357824 frames (30.789660 s)
+PASS assets/MainTheme_MenuLoop.wav: 44.1 kHz, stereo, PCM-24, 2416640 frames (54.799093 s)
+PASS Intro -> Loop handoff: the jump is no bigger than the ordinary sample-to-sample motion there
+PASS Loop seam (last frame -> first frame): the jump is no bigger than the ordinary sample-to-sample motion there
+PASS the player's cache version (assets/ui.js THEME.v) names these exact files
+written dev/stage-3c-qa1/evidence/q5/theme_assets.json
+EXIT 0

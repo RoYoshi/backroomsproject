@@ -875,17 +875,20 @@
 
   /* the touch buttons the game wires as clicks (LIGHT; the camcorder's NV, IR, ZOOM; INV): on a touch screen they act on the press
      itself, so they work while another finger holds the stick (browsers make no click for a tap while a second finger is down).
-     The click a lone tap may still produce afterwards is swallowed, so a tap never acts twice. RUN and CROUCH are the game's own
-     hold buttons and already act on the press. */
-  const PRESS = ['touchFlash', 'touchInv', 'touchNV', 'touchIR', 'touchZoom'], pressedAt = new WeakMap();
+     The click a lone tap may still produce afterwards is swallowed, so a tap never acts twice: each touch press arms its button
+     for exactly one following touch click, however long a busy page takes to deliver it (no timer). Clicks from a key or a mouse
+     are never swallowed. RUN and CROUCH are the game's own hold buttons and already act on the press. */
+  const PRESS = ['touchFlash', 'touchInv', 'touchNV', 'touchIR', 'touchZoom'], armed = new WeakSet();
   document.addEventListener('pointerdown', e => {
-    if (e.pointerType === 'mouse') return;
     const bt = e.target && e.target.closest && e.target.closest('#touch > button'); if (!bt || !PRESS.includes(bt.id)) return;
-    e.preventDefault(); pressedAt.set(bt, Date.now()); bt.click();
+    if (e.pointerType === 'mouse') { armed.delete(bt); return; }
+    e.preventDefault(); armed.add(bt); bt.click();
   }, true);
   document.addEventListener('click', e => {
-    const bt = e.isTrusted && e.target && e.target.closest && e.target.closest('#touch > button'); if (!bt) return;
-    const t = pressedAt.get(bt); if (t && Date.now() - t < 900) { e.preventDefault(); e.stopImmediatePropagation(); }
+    if (!e.isTrusted) return;
+    const bt = e.target && e.target.closest && e.target.closest('#touch > button'); if (!bt || !armed.has(bt)) return;
+    if ('pointerType' in e && (e.pointerType === '' || e.pointerType === 'mouse')) return;     // a key or a mouse: an ordinary click
+    armed.delete(bt); e.preventDefault(); e.stopImmediatePropagation();
   }, true);
 
   /* ---------------------------------------------------------------- every place that names a key follows the bindings (QA1 Q3) */

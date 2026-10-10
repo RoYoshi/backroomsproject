@@ -669,16 +669,19 @@ body[data-stam=low].stam-on #hud .staminaHud i{height:5px!important}
 .coordinates{gap:0}
 
 /* the reveal: THRESHOLD / LEVEL 0 as a run begins (with the objective and, if wanted, a line of keys); a part of the level's name
-   as you walk into it. High in the frame, never in the centre; it fades. */
+   as you walk into it. High in the frame, never in the centre; it fades. The HUD settings reach it too: size (within limits, so
+   LEVEL 0 still fits a phone), opacity, and a custom colour for the name (the default look is unchanged). */
 .hud-reveal{position:fixed;left:50%;top:max(15vh,72px);z-index:12;display:grid;justify-items:center;gap:10px;width:min(92vw,980px);pointer-events:none;text-align:center;
-  transform:translate(-50%,8px);opacity:0;transition:opacity 1.2s ease,transform 1.6s var(--u-ease)}
+  --rvs:clamp(.8,var(--hs,1),1.2);transform-origin:50% 0;
+  transform:translate(-50%,8px) scale(var(--rvs));opacity:0;transition:opacity 1.2s ease,transform 1.6s var(--u-ease)}
 .hud-reveal[hidden]{display:none}
-.hud-reveal.in{opacity:1;transform:translate(-50%,0);transition-duration:.8s,1.2s}
+.hud-reveal.in{opacity:var(--ho,1);transform:translate(-50%,0) scale(var(--rvs));transition-duration:.8s,1.2s}
 .hud-reveal>[hidden]{display:none}
 .hud-reveal::before{content:"";position:absolute;inset:-40px -60px;z-index:-1;background:radial-gradient(closest-side,#030201a8,#03020100)}
 .rv-eye{color:var(--u-moss);font:500 11px/1 var(--u-mono);letter-spacing:.42em;padding-left:.42em;text-transform:uppercase;text-shadow:0 1px 6px #000}
 .rv-title{color:#efe3b4;font:600 clamp(40px,6.4vw,84px)/1 var(--u-display);letter-spacing:.34em;padding-left:.34em;text-transform:uppercase;
-  text-shadow:0 0 18px #f7eab04a,0 0 46px #e3c76826,0 2px 0 #000}
+  text-shadow:0 2px 0 #000,0 0 22px #000c}   /* no glow: in true darkness the name may darken what is behind it, never light it */
+body.hudc .rv-title{color:var(--hc)}
 .rv-sub{color:var(--u-cream);font:500 13px/1.4 var(--u-mono);letter-spacing:.06em;text-shadow:0 1px 8px #000}
 .rv-sub::before{content:"";display:block;width:56px;height:1px;margin:2px auto 12px;background:var(--u-line-hi)}
 .rv-keys{color:var(--u-mute);font:400 11px/1.5 var(--u-mono);letter-spacing:.06em;white-space:pre-wrap;text-shadow:0 1px 6px #000}
@@ -746,7 +749,7 @@ body.captured .hud-reveal{display:none}
   .stick-zone.on .stick-knob{background:#f2d9875e;border-color:#f7eab0b3}
   /* safe areas for everything else that touches an edge */
   header{top:max(14px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right))}
-  #dialog,#caught,#won,#runMenu,#appearancePanel{padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+  #dialog,#caught,#won,#runMenu{padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
   #dialog{padding-top:max(44px,env(safe-area-inset-top))}
   #inventory{top:calc(96px + env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left))}
   #encounterHint{bottom:calc(var(--touch-h,0px) + 26px + env(safe-area-inset-bottom))}
@@ -759,6 +762,12 @@ body.captured .hud-reveal{display:none}
   body.playing .stick-zone{width:46vw;height:74vh}
   .stick-base{width:112px;height:112px;margin:-56px 0 0 -56px;top:var(--sy,calc(100% - max(12px,env(safe-area-inset-bottom)) - 70px));left:var(--sx,calc(max(16px,env(safe-area-inset-left)) + 66px))}
   body.playing,body.playing.cam-kind{--touch-h:122px}
+}
+/* customize: a framed panel on wide screens, the whole screen on narrow ones (as the first candidate), inside the safe area */
+@media (pointer:coarse) and (min-width:761px){#appearancePanel{padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}}
+@media (max-width:760px){
+  #appearancePanel{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+  #appearancePanel .appearance-card.cz{height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom));max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom))}
 }
 /* sheets: their head and body stay inside the safe area too */
 .us-head{padding-top:max(34px,calc(env(safe-area-inset-top) + 14px));padding-right:max(36px,calc(env(safe-area-inset-right) + 16px))}

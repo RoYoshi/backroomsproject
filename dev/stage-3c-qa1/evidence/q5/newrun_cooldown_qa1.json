@@ -1,0 +1,45 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "rule": "sim.js: VANISH_CD = 30 s between NEW RUN vanishes; leave() refuses an alive player without a finished vanish",
+ "errors": [],
+ "firstNewRun": {
+  "state": "run",
+  "started": false,
+  "serverActive": false,
+  "insideSees": "ONLINE · ROOM CD587762 · 1 WANDERER · SHARED MONSTERS",
+  "insideAvatars": 0
+ },
+ "secondNewRunWithinCooldownThenEnd": {
+  "secondsAfterFirstNewRun": 21.4,
+  "clientState": "menu",
+  "clientStarted": false,
+  "clientHideSelf": true,
+  "clientSent": [
+   "fx",
+   "leave",
+   "join",
+   "b",
+   "fx",
+   "leave"
+  ],
+  "serverActiveOverNext8s": [
+   true,
+   true,
+   true,
+   true
+  ],
+  "insideSees": [
+   "ONLINE · ROOM CD587762 · 2 WANDERERS · SHARED MONSTERS",
+   "ONLINE · ROOM CD587762 · 2 WANDERERS · SHARED MONSTERS",
+   "ONLINE · ROOM CD587762 · 2 WANDERERS · SHARED MONSTERS",
+   "ONLINE · ROOM CD587762 · 2 WANDERERS · SHARED MONSTERS"
+  ],
+  "insideAvatars": [
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ "summary": "first NEW RUN: server active false; second NEW RUN 21.4 s later, then END: the client is on the menu (not started: true), the server keeps it active: true, and the player inside still draws it: true"
+}

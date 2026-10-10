@@ -36,6 +36,10 @@ const OBS = async (P, id) => { await P.evaluate(TAP); const t = Date.now(); for 
   return P.evaluate(id => { const a = window.__ad, me = a && a.pl && a.pl.find(q => q.id === id);
   return { serverActive: me ? !!me.a : null, serverDead: me ? me.d || '' : null, listed: !!me, net: (document.getElementById('net') || {}).textContent,
     peerAvatars: __api.layer().children.filter(c => c.look && c.look !== __api.look).length }; }, id); };
+/* the observer's view once it shows what is expected (a fresh admin snapshot each try, up to 10 s): on this software renderer a
+   page's messages can queue for seconds behind slow frames, so one snapshot can still be an old one. waitedMs is recorded. */
+const OBSUNTIL = async (P, id, ok) => { const t0 = Date.now(); let o; do { o = await OBS(P, id); if (ok(o)) break; await sleep(300); } while (Date.now() - t0 < 10000); return Object.assign(o, { waitedMs: Date.now() - t0 }); };
+const OUT_OF_WORLD = o => o.serverActive === false && /· 1 WANDERER\b/.test(o.net) && o.peerAvatars === 0;
 (async () => {
   const srv = await U.serve(GAME, PORT), b = await U.browser(), room = 'q2gate' + Date.now() % 1e6;
   try {
@@ -71,7 +75,7 @@ const OBS = async (P, id) => { await P.evaluate(TAP); const t = Date.now(); for 
     // ENTER LEVEL 0: exactly one start / join; drawn, lit, seen; walks
     await U.start(A.P, 'Visitor'); await sleep(2500);
     await U.admin(A.P); await adm(A.P, { c: 'god', id: a0.myId }); await sleep(900);
-    const a3 = await A.P.evaluate(SELF), o3 = await OBS(B.P, a0.myId);
+    const a3 = await A.P.evaluate(SELF), o3 = await OBSUNTIL(B.P, a0.myId, o => o.serverActive === true && /· 2 WANDERERS\b/.test(o.net) && o.peerAvatars === 1);
     await A.P.evaluate(() => document.activeElement && document.activeElement.blur && document.activeElement.blur());
     await A.P.keyboard.down('KeyD'); await sleep(1200); await A.P.keyboard.up('KeyD'); await sleep(300);
     const a4 = await A.P.evaluate(SELF);
@@ -79,16 +83,20 @@ const OBS = async (P, id) => { await P.evaluate(TAP); const t = Date.now(); for 
       a3.started && a3.joins === 1 && a3.hideSelf === false && a3.lightOn === true && a3.avatarDrawn === true && o3.serverActive === true && /· 2 WANDERERS\b/.test(o3.net) && o3.peerAvatars === 1 && Math.hypot(a4.x - a3.x, a4.y - a3.y) > 40,
       { a3, o3, walked: Math.round(Math.hypot(a4.x - a3.x, a4.y - a3.y)) });
     // NEW RUN -> the run menu (not in the world) -> SPAWN (one join)
-    await A.P.keyboard.press('Escape'); await sleep(500); await A.P.click('#reset'); await A.P.waitForFunction(() => __ui.state() === 'run', null, { timeout: 15000 }).catch(() => { });
-    await sleep(1800); const a5 = await A.P.evaluate(SELF), o5 = await OBS(B.P, a0.myId);
+    await A.P.keyboard.press('Escape'); await sleep(500); const vanish1 = Date.now(); await A.P.click('#reset'); await A.P.waitForFunction(() => __ui.state() === 'run', null, { timeout: 15000 }).catch(() => { });
+    await sleep(1800); const a5 = await A.P.evaluate(SELF), o5 = await OBSUNTIL(B.P, a0.myId, OUT_OF_WORLD);
     await A.P.click('#runSpawn'); await sleep(2200); const a6 = await A.P.evaluate(SELF);
     check('NEW RUN: the run menu hides the wanderer and the player inside stops counting it; SPAWN starts exactly one new run, drawn again',
       a5.state === 'run' && !a5.started && a5.hideSelf === true && a5.avatarDrawn === false && o5.serverActive === false && /· 1 WANDERER\b/.test(o5.net) && o5.peerAvatars === 0
       && a6.started && a6.joins === a5.joins + 1 && a6.avatarDrawn === true && a6.hideSelf === false, { a5: [a5.state, a5.started, a5.hideSelf, a5.avatarDrawn], o5, a6: [a6.started, a6.joins, a6.avatarDrawn] });
     // NEW RUN -> END: the menu is clean; ENTER: one join
+    // the server allows one NEW RUN vanish every 30 s (sim.js VANISH_CD, unchanged since Stage 2): a second NEW RUN sooner is refused
+    // by the server (the wanderer stays in the world) - the parent's rule, measured separately by newrun_cooldown.js. Wait it out, with a
+    // margin: the server starts its 30 s when the vanish reaches it, which on this slow renderer can be seconds after the click.
+    const cdWait = Math.max(0, vanish1 + 40000 - Date.now()); R.notes.newRunCooldownWaitMs = cdWait; await sleep(cdWait);
     await A.P.keyboard.press('Escape'); await sleep(500); await A.P.click('#reset'); await A.P.waitForFunction(() => __ui.state() === 'run', null, { timeout: 15000 }).catch(() => { });
     await A.P.click('#runEnd'); await sleep(1500);
-    const a7 = await A.P.evaluate(SELF), o7 = await OBS(B.P, a0.myId);
+    const a7 = await A.P.evaluate(SELF), o7 = await OBSUNTIL(B.P, a0.myId, OUT_OF_WORLD);
     await U.start(A.P, 'Visitor'); await sleep(2000); const a8 = await A.P.evaluate(SELF);
     check('END returns to a clean menu (not started, hidden, unlit, not counted); ENTER LEVEL 0 again: exactly one join',
       a7.state === 'menu' && !a7.started && a7.hideSelf === true && a7.lightOn === false && a7.avatarDrawn === false && o7.serverActive === false && /· 1 WANDERER\b/.test(o7.net)

@@ -1,0 +1,8 @@
+PASS Credits are built from credits_data.js: an added section appears, an empty one does not; the wiki and CC BY-SA attribution and the software are there  - ["Created by","Playtesting (probe)","Source material","Software","Typefaces"]
+PASS arrows on a Settings slider change it; W / D held in Settings (over the paused run) never move the wanderer and no key is left held  - {"v0":1,"v1":0.9,"p0":[1200,3408],"p1":{"pos":[1200,3408],"keys":[],"st":"playing"}}
+PASS during play with every menu closed no UI script asks for animation frames and the customize preview is stopped  - {"by":{"l0-remaster.js":4,"Filter-DzecrWg_.js":8,"index-DKbV5Nv9.js":4,"?":4},"preview":false}
+PASS Escape is consistent: ignored on the menu, closes a sheet, closes customize back to the pause, resumes from the pause, closes the inventory (without pausing)  - {"e0":{"st":"menu","started":false,"sheets":0},"e1":"paused","c0":"customize","c1":"paused","c2":"playing","i0":true,"i1":{"open":false,"paused":false}}
+PASS win -> RESTART LEVEL 0 plays on; NEW RUN -> run menu -> END returns to the main menu (focus on PLAY, HUD hidden); ENTER LEVEL 0 starts exactly one new run  - {"w1":{"st":"playing","started":true},"m1":{"st":"menu","cls":true,"focus":"play","header":"hidden"},"m2":{"st":"playing","joins":1}}
+PASS responsive: menu (PLAY and ENTER), Settings, Credits and Customize fit 1920x1080, 1366x768, 1280x720, 1024x768 and 768x1024, 390x844, 844x390, 360x640 touch without horizontal overflow  - []
+PASS no page errors  - []
+ALL PASS

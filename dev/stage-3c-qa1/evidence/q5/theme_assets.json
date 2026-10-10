@@ -1,0 +1,98 @@
+{
+ "files": {
+  "audio_source/MainTheme.wav": {
+   "sha256": "ba087949275af24c7ceb4c927c5b2ba64ede448a850dd6ecd1be968763af4fa8",
+   "bytes": 42201548
+  },
+  "assets/MainTheme_MenuIntro.wav": {
+   "sha256": "64b2124ba6970b36284802e9fdf53b3ba373b665dc6bccce95bd3895a5b6fbd0",
+   "bytes": 8146988,
+   "rate": 44100,
+   "bits": 24,
+   "channels": 2,
+   "frames": 1357824,
+   "seconds": 30.78966,
+   "peakDbfs": -2.49,
+   "rmsDbfs": -20.96
+  },
+  "assets/MainTheme_MenuLoop.wav": {
+   "sha256": "848db3af81c7bd023b3e32e68f39fd83ed835232ecf8fc44278b2c232ca158b9",
+   "bytes": 14499884,
+   "rate": 44100,
+   "bits": 24,
+   "channels": 2,
+   "frames": 2416640,
+   "seconds": 54.799093,
+   "peakDbfs": -0.92,
+   "rmsDbfs": -16.13
+  }
+ },
+ "checks": [
+  {
+   "name": "audio_source/MainTheme.wav is the user's file (SHA-256 as locked)",
+   "ok": true,
+   "note": "ba087949275af24c7ceb4c927c5b2ba64ede448a850dd6ecd1be968763af4fa8"
+  },
+  {
+   "name": "assets/MainTheme_MenuIntro.wav is the user's file (SHA-256 as locked)",
+   "ok": true,
+   "note": "64b2124ba6970b36284802e9fdf53b3ba373b665dc6bccce95bd3895a5b6fbd0"
+  },
+  {
+   "name": "assets/MainTheme_MenuLoop.wav is the user's file (SHA-256 as locked)",
+   "ok": true,
+   "note": "848db3af81c7bd023b3e32e68f39fd83ed835232ecf8fc44278b2c232ca158b9"
+  },
+  {
+   "name": "assets/MainTheme_MenuIntro.wav: 44.1 kHz, stereo, PCM-24, 1357824 frames (30.789660 s)",
+   "ok": true,
+   "note": null
+  },
+  {
+   "name": "assets/MainTheme_MenuLoop.wav: 44.1 kHz, stereo, PCM-24, 2416640 frames (54.799093 s)",
+   "ok": true,
+   "note": null
+  },
+  {
+   "name": "Intro -> Loop handoff: the jump is no bigger than the ordinary sample-to-sample motion there",
+   "ok": true,
+   "note": {
+    "introToLoopJumpRms": 0.00330257,
+    "loopEndToStartJumpRms": 0.00330166,
+    "adjacentSampleRms": {
+     "loopStart": 0.00569659,
+     "loopEnd": 0.00555686,
+     "introEnd": 0.00556279
+    }
+   }
+  },
+  {
+   "name": "Loop seam (last frame -> first frame): the jump is no bigger than the ordinary sample-to-sample motion there",
+   "ok": true,
+   "note": {
+    "introToLoopJumpRms": 0.00330257,
+    "loopEndToStartJumpRms": 0.00330166,
+    "adjacentSampleRms": {
+     "loopStart": 0.00569659,
+     "loopEnd": 0.00555686,
+     "introEnd": 0.00556279
+    }
+   }
+  },
+  {
+   "name": "the player's cache version (assets/ui.js THEME.v) names these exact files",
+   "ok": true,
+   "note": "v: '64b2124b.848db3af'"
+  }
+ ],
+ "seams": {
+  "introToLoopJumpRms": 0.00330257,
+  "loopEndToStartJumpRms": 0.00330166,
+  "adjacentSampleRms": {
+   "loopStart": 0.00569659,
+   "loopEnd": 0.00555686,
+   "introEnd": 0.00556279
+  }
+ },
+ "ok": true
+}

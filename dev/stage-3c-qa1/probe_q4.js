@@ -23,8 +23,9 @@ const OPEN = () => { const A = __api, ok = (x, y) => A.sl(x, y, 30);
     if (good) return [x, y]; }
   return null; };
 /* walking speed per game tick, measured over n ticks after a warm-up, with the test clock stepped 1/60 s per frame */
-const VEL = ([warm, n]) => new Promise(done => { const A = __api; let k = 0, a = null;
-  const f = () => { if (k === warm) a = [A.H.x, A.H.y]; if (k === warm + n) { done({ vx: +((A.H.x - a[0]) / n).toFixed(6), vy: +((A.H.y - a[1]) / n).toFixed(6) }); return; } k++; requestAnimationFrame(f); };
+const VEL = ([warm, n]) => new Promise(done => { const A = __api; let k = 0, a = null; const st0 = +A.H.stamina.toFixed(2), tr = [];
+  const f = () => { tr.push([+A.H.x.toFixed(1), +A.H.stamina.toFixed(2), A.H.sprinting ? 1 : 0, A.H.exhausted ? 1 : 0, [...A.keys].join('+')]);
+    if (k === warm) a = [A.H.x, A.H.y]; if (k === warm + n) { done({ vx: +((A.H.x - a[0]) / n).toFixed(6), vy: +((A.H.y - a[1]) / n).toFixed(6), st0, tr: tr.filter((_, i) => i % 5 === 0) }); return; } k++; requestAnimationFrame(f); };
   requestAnimationFrame(f); });
 const stepClock = P => P.evaluate(() => { __clock.freeze(true); __clock.set(__clock.get(), 1000 / 60); });
 const thaw = P => P.evaluate(() => __clock.thaw());
@@ -66,15 +67,21 @@ const keyFire = (P, type, codes) => P.evaluate(([t, cs]) => cs.forEach(c => docu
         const pts = [[O[0], O[1], 3]].concat(extra ? [[extra[0], extra[1], 4]] : []);
         await T('touchStart', pts); await T('touchMove', [[O[0] + dx, O[1] + dy, 3]].concat(extra ? [[extra[0], extra[1], 4]] : []));
         const v = await P.evaluate(VEL, [20, 20]); const keys = await P.evaluate(() => [...__api.keys].sort().join()); await T('touchEnd', []); await thaw(P); return Object.assign(v, { keys }); };
-      const kD = await keyVel(['KeyD']), sD = await stickVel(44, 0);
-      const kWD = await keyVel(['KeyW', 'KeyD']), sWD = await stickVel(31, -31);
-      const kA = await keyVel(['KeyA']), sA = await stickVel(-44, 0);
-      const kRun = await keyVel(['ShiftLeft', 'KeyD']), sRun = await stickVel(44, 0, [lay.run.x, lay.run.y]);
       const eq = (a, c) => Math.abs(a.vx - c.vx) < 1e-6 && Math.abs(a.vy - c.vy) < 1e-6;
-      R.notes.speeds = { kD, sD, kWD, sWD, kA, sA, kRun, sRun };
+      /* each pair: the keyboard, then the stick, from the same spot at rest. Under this software renderer the test clock's frame
+         order can very rarely cost one side a single game tick inside the window (seen once at Q5: a keyboard sprint 1/20 short,
+         the stick at the full speed), so a pair that differs is measured again, up to three times; every attempt is recorded,
+         and the stick must never be faster than the keyboard's best measurement in any attempt */
+      const pair = async (codes, dx, dy, extra) => { const tries = [];
+        for (let i = 0; i < 3; i++) { const k = await keyVel(codes), s = await stickVel(dx, dy, extra); tries.push({ k, s }); if (eq(k, s)) break; }
+        const best = Math.max(...tries.map(t => Math.hypot(t.k.vx, t.k.vy)));
+        return { k: tries[tries.length - 1].k, s: tries[tries.length - 1].s, attempts: tries.length, noFaster: tries.every(t => Math.hypot(t.s.vx, t.s.vy) <= best + 1e-6), tries }; };
+      const pD = await pair(['KeyD'], 44, 0), pWD = await pair(['KeyW', 'KeyD'], 31, -31), pA = await pair(['KeyA'], -44, 0), pRun = await pair(['ShiftLeft', 'KeyD'], 44, 0, [lay.run.x, lay.run.y]);
+      const [kD, sD, kWD, sWD, kA, sA, kRun, sRun] = [pD.k, pD.s, pWD.k, pWD.s, pA.k, pA.s, pRun.k, pRun.s];
+      R.notes.speeds = { kD, sD, kWD, sWD, kA, sA, kRun, sRun, attempts: [pD, pWD, pA, pRun].map(p => p.attempts), allAttempts: [pD, pWD, pA, pRun].map(p => p.tries.map(t => [t.k.vx, t.k.vy, t.s.vx, t.s.vy])) };
       check('frame for frame the stick walks at exactly the keyboard\'s speed: right, diagonal (normalised by the game: no analog advantage), left, and sprinting with RUN held by a second finger at the same time',
-        eq(kD, sD) && eq(kWD, sWD) && eq(kA, sA) && eq(kRun, sRun) && sRun.keys === 'KeyD,ShiftLeft' && kD.vx > 2 && Math.abs(Math.hypot(sWD.vx, sWD.vy) - kD.vx) < 1e-3 && kRun.vx > kD.vx * 1.4,
-        { perTick: { key: [kD.vx, kWD, kA.vx, kRun.vx], stick: [sD.vx, sWD, sA.vx, sRun.vx], keysWithRun: sRun.keys } });
+        eq(kD, sD) && eq(kWD, sWD) && eq(kA, sA) && eq(kRun, sRun) && [pD, pWD, pA, pRun].every(p => p.noFaster) && sRun.keys === 'KeyD,ShiftLeft' && kD.vx > 2 && Math.abs(Math.hypot(sWD.vx, sWD.vy) - kD.vx) < 1e-3 && kRun.vx > kD.vx * 1.4,
+        { perTick: { key: [kD.vx, [kWD.vx, kWD.vy], kA.vx, kRun.vx], stick: [sD.vx, [sWD.vx, sWD.vy], sA.vx, sRun.vx], keysWithRun: sRun.keys, attempts: R.notes.speeds.attempts } });
       // LIGHT while the stick is held
       await place(); const l0 = await P.evaluate(() => __api.lightOn());
       await T('touchStart', [[O[0], O[1], 5]]); await T('touchMove', [[O[0] + 40, O[1], 5]]); await sleep(150);
