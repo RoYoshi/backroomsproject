@@ -28,6 +28,12 @@ async function passGate(s, how = 'key') {
   }
   return bootState(s, 'menu', 30000);
 }
+/* wait until the menu's entrance (logo first, then the rest; about 1.3 s) is over; returns how long it took, or null */
+async function settle(s, ms = 6000) {
+  const t0 = Date.now();
+  while (Date.now() - t0 < ms) { const v = await ev(s.cdp, `(() => { const m = document.getElementById('menu'); return !!m && !m.classList.contains('mm-intro'); })()`); if (v === true) return Date.now() - t0; await sleep(100); }
+  return null;
+}
 async function page(b, PORT, o = {}) {
   const { viewport = { width: 1920, height: 1080 }, mobile = false, dpr = mobile ? 2 : 1, reduced = false, room = 'q2' + Date.now() % 1e6, query = '', init = null, storage = null, gate = 'key', ctxOpts = {} } = o;
   const ctx = await b.newContext(Object.assign({ viewport, deviceScaleFactor: dpr, isMobile: mobile, hasTouch: mobile, reducedMotion: reduced ? 'reduce' : 'no-preference' }, ctxOpts));
@@ -44,8 +50,9 @@ async function page(b, PORT, o = {}) {
   await P.goto(`http://127.0.0.1:${PORT}/?room=${room}${query}`, { waitUntil: 'commit', timeout: 90000 });
   if (gate === false) return s;
   s.boot = await passGate(s, gate);
-  await sleep(500);
+  s.entrance = await settle(s);                                            // (QA2 R1: the menu's entrance has played out)
+  await sleep(300);
   return s;
 }
 const browser = (o = {}) => H.pw.chromium.launch({ args: H.ARGS.concat(o.autoplay ? ['--autoplay-policy=no-user-gesture-required'] : []) });
-module.exports = Object.assign({}, U, { ev, bootState, passGate, page, browser, sleep, H });
+module.exports = Object.assign({}, U, { ev, bootState, passGate, settle, page, browser, sleep, H });

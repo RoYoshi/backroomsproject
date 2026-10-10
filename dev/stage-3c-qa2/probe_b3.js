@@ -15,7 +15,10 @@
  *  - Intro -> Loop is sample-accurate (offline render through the player's own scheduling, as in QA1);
  *  - the menu's pages do not restart it; SOUND and the master volume control it; a hidden tab is silent and carries on;
  *  - ENTER LEVEL 0: a 1 s fade of the music; the screen goes from the menu to black to the world (recorded frame by frame), the
- *    game's audio graph starts only now; END: the black menu and the Intro again;
+ *    game's audio graph starts only now; END: what the player hears of the game and the world fade down to black, then the black
+ *    menu's entrance - the logo first, with the Intro - and the rest of the menu; the next run restores the game's sound;
+ *  - both entrances (the first reveal, the return): the logo powers on first while the rest is dark, the theme starts with it, and
+ *    the other parts arrive in the locked order;
  *  - the music failing (missing, or arriving short) is the boot's error with RETRY; a slow first download says how much has
  *    arrived (real bytes); a browser without Web Audio gets the menu at once, silent;
  *  - a run started by a script before the reveal (as older test harnesses do) is not covered by the boot layer or a gate.
@@ -34,6 +37,20 @@ const py = (script, args) => { const r = spawnSync('python3', ['-I', path.join(_
 const errs = (s, tag) => R.errors.push(...s.errs.map(e => tag + ': ' + e));
 const TH = `(() => { const i = __ui.theme.info(); delete i.files; return i; })()`;
 const KEYS = () => { window.__keysSeen = []; document.addEventListener('keydown', e => window.__keysSeen.push(e.key)); };
+/* every start of the menu's entrance, read in the same moment (a MutationObserver on #menu's class): which animations run, with what
+   delay, how dark each part is, and the theme's own start */
+const ENT_INIT = () => { window.__ent = []; document.addEventListener('DOMContentLoaded', () => { const m = document.getElementById('menu'); if (!m) return; let on = false;
+  new MutationObserver(() => { const go = m.classList.contains('mm-go'); if (go && !on) { const th = window.__ui && __ui.theme.info(), Z = window.__api && __api.audio && __api.audio();
+    window.__ent.push({ t: Math.round(performance.now()), anims: document.getAnimations().filter(a => a.animationName && a.effect && a.effect.target && a.effect.target.closest && a.effect.target.closest('#menu')).map(a => [a.animationName, a.effect.getTiming().delay, String(a.effect.target.className)]),
+      op: ['.mm-dest', '.mm-play', '.mm-row', '.mm-rail', '.mm-util', '.mm-foot'].map(q => +getComputedStyle(m.querySelector(q)).opacity), logo: +getComputedStyle(document.getElementById('mmLogo')).opacity,
+      theme: th && { plays: th.plays, state: th.state, startedAt: th.startedAt }, boot: window.__boot && __boot.state(), game: Z && Z.context ? { ctx: Z.context.state, gain: +Z.gain.gain.value.toFixed(4) } : null }); }
+    on = go; }).observe(m, { attributes: true, attributeFilter: ['class'] }); }); };
+const ORDER = ['mm-logo', 'mm-dest', 'mm-play', 'mm-row', 'mm-rail', 'mm-util', 'mm-foot'];
+/* the entrance as recorded: the logo's ignition first (no delay), every other part dark at that moment and arriving after it, in the
+   locked order, and the theme started in the same step (within 50 ms) */
+const entOk = (e, logoAnim = 'mmIgnite') => { if (!e) return false; const d = k => { const a = e.anims.find(x => x[2].split(' ').includes(k)); return a ? a[1] : null; };
+  const ds = ORDER.map(d); return ds.every(x => x !== null) && ds[0] === 0 && (e.anims.find(x => x[2].split(' ').includes('mm-logo')) || [])[0] === logoAnim && ds.slice(1).every((x, i) => x > ds[i]) && e.logo === 0 && e.op.every(o => o === 0) && e.theme && e.theme.state === 'playing' && Math.abs(e.theme.startedAt - e.t) <= 50; };
+const entNote = e => e && { delays: ORDER.map(k => (e.anims.find(x => x[2].split(' ').includes(k)) || [])[1]), logoAnimation: (e.anims.find(x => x[2].split(' ').includes('mm-logo')) || [])[0], logo: e.logo, partsOpacity: e.op, theme: e.theme, at: e.t, boot: e.boot, game: e.game };
 const SNAP = `(() => { const b = document.getElementById('boot'), g = document.getElementById('bootGo'), m = document.getElementById('menu'), gr = g.getBoundingClientRect(), A = window.__api;
   return { st: __boot.state(), tl: __boot.info().timeline, boot: __ui.boot(), th: ${TH}, html: document.documentElement.className, bootCls: b.className, bootShown: !b.hidden,
     bootOpacity: getComputedStyle(b).opacity, bootTransition: getComputedStyle(b).transitionDuration, bootPointer: getComputedStyle(b).pointerEvents,
@@ -76,7 +93,7 @@ async function recordAround(s, tag, title, act, ms) {
   try {
     /* ---------- A. the ready gate (a browser that wants a gesture), passed by a key; then the whole menu-music life */
     { const wav = [];
-      const s = await Q.page(bG, PORT, { viewport: { width: 1280, height: 720 }, gate: false, init: KEYS, route: ['**/MainTheme_*', r => { wav.push([Date.now(), new URL(r.request().url()).pathname + new URL(r.request().url()).search]); r.continue(); }] });
+      const s = await Q.page(bG, PORT, { viewport: { width: 1280, height: 720 }, gate: false, init: [KEYS, ENT_INIT], route: ['**/MainTheme_*', r => { wav.push([Date.now(), new URL(r.request().url()).pathname + new URL(r.request().url()).search]); r.continue(); }] });
       const P = s.P;
       const g = await waitGate(s);
       const shot = path.join(SHOTS, 'b3_gate_1280x720.png'); await P.screenshot({ path: shot, timeout: 90000 });
@@ -100,6 +117,10 @@ async function recordAround(s, tag, title, act, ms) {
         && !p.keysSeen.includes('a') && p.keysSeen.includes('Escape') && p.ui === 'menu' && !p.entry && !p.started && !p.gameAudio && !p.bootShown && !/tfb-boot/.test(p.html),
         p && { st: p.st, passedBy: p.boot.passedBy, passedAt: p.boot.passedAt, menuAt: p.tl.menu, beganAt: p.th.beganAt, t0: p.th.t0, loopAt: p.th.loopAt, now: p.th.now, ctx: p.th.ctx, keys: p.keysSeen, entry: p.entry, gameAudio: p.gameAudio });
       R.notes.afterKey = p && { timeline: p.tl, boot: p.boot, theme: p.th };
+      const ent0 = (await s.ev('window.__ent') || [])[0];
+      check('the first entrance, logo first: at the reveal the logo starts dark and powers on (its ignition, no delay) while every other part is still dark; LEVEL 0, PLAY, the row, the left rail, the right rail and the footer then arrive in that order; the theme starts in the same step (within 50 ms)',
+        entOk(ent0) && Math.abs(ent0.t - p.tl.menu) <= 50, entNote(ent0));
+      R.notes.firstEntrance = entNote(ent0);
       // SOUND and the master volume (the game's own flag, from the rail); the menu's pages do not restart it
       await sleep(300); const g0 = (await s.ev(TH)).gain;
       await P.evaluate(() => __settings.set('vol', .5)); await sleep(500); const g1 = (await s.ev(TH)).gain;
@@ -129,7 +150,7 @@ async function recordAround(s, tag, title, act, ms) {
         await P.click('#enter');
         // the boot layer's state, sampled until the curtain has lifted (at most 20 s)
         states = []; const w0 = Date.now(); while (Date.now() - w0 < 20000) { const v = await s.ev(`[__boot.state(), document.getElementById('boot').className, !document.getElementById('boot').hidden, getComputedStyle(document.getElementById('boot')).pointerEvents, document.getElementById('menu').hidden]`); states.push([Date.now() - w0].concat(v || [])); if (v && v[0] === 'playing' && !v[2]) break; await sleep(60); }
-      }, 1500);
+      }, 5000);                                       // (the software renderer's frames lag the page by seconds: record well past the lift)
       await sleep(600);
       const e1 = await s.ev(SNAP);
       const seq = (tr.sequence || []).map(x => x.cls), firstOther = seq.find(c => c !== 'before');
@@ -145,19 +166,48 @@ async function recordAround(s, tag, title, act, ms) {
       // END: the black menu, and the music from the Intro again
       await P.keyboard.press('Escape'); await sleep(500); await P.click('#reset'); await P.waitForFunction(() => __ui.state() === 'run', null, { timeout: 15000 }).catch(() => { });
       const mid = await s.ev(TH);
-      await P.click('#runEnd'); await sleep(1500);
+      const GA = `(() => { const Z = __api.audio(); return Z && Z.context ? { ctx: Z.context.state, gain: +Z.gain.gain.value.toFixed(4), vol: window.__vol, muted: Z.muted } : null; })()`;
+      const sent0 = await s.ev('(window.__sent || []).length'), gameBefore = await s.ev(GA);
+      let endStates = null;
+      const trEnd = await recordAround(s, 'end', 'END in the run menu: frames where the picture changed (ms since the click, class, share not black)', async () => {
+        await P.click('#runEnd');
+        endStates = []; const w0 = Date.now();
+        while (Date.now() - w0 < 20000) { const v = await s.ev(`[__boot.state(), document.getElementById('boot').className, !document.getElementById('boot').hidden, document.getElementById('menu').hidden, (() => { const Z = __api.audio(); return Z && Z.context ? [Z.context.state, +Z.gain.gain.value.toFixed(4)] : null; })(), document.getElementById('menu').className]`);
+          endStates.push([Date.now() - w0].concat(v || [])); if (v && v[0] === 'menu' && !v[3] && !/mm-intro/.test(v[5])) break; await sleep(60); }
+      }, 3000);
       const back = await s.ev(SNAP);
+      const entR = ((await s.ev('window.__ent')) || [])[1], gameOnMenu = await s.ev(GA);
+      const sentTypes = await s.ev(`(window.__sent || []).slice(${sent0}).map(x => { try { return JSON.parse(x[1]).t; } catch (e) { return '?'; } })`);
+      const eseq = (trEnd.sequence || []).map(x => x.cls), iBlack = eseq.indexOf('black');
+      const gains = (endStates || []).filter(x => x[1] === 'exit' && x[5]).map(x => x[5][1]);
+      check('END returns through black: the run menu and the world fade down to full black (the boot layer fading in, taking the pointer), and only then does the game\'s own END run and the menu appear; no frame of the world after the black',
+        trEnd.sequence && eseq[0] === 'before' && iBlack > 0 && !eseq.slice(iBlack + 1).includes('lit') && !eseq.slice(iBlack + 1).includes('before') && endStates.some(x => x[1] === 'exit' && /exiting/.test(x[2]) && x[3] && x[4] === true) && back.st === 'menu',
+        { sequence: trEnd.sequence, states: endStates && endStates.filter((x, i, a) => i === 0 || x[1] !== a[i - 1][1] || x[4] !== a[i - 1][4]) });
+      R.notes.endFrames = trEnd;
+      check('END: what the player hears of the game fades down with the picture (its own master output ramping to 0 during the fade), and stays silent on the menu (the game\'s context suspended); nothing about the run is sent to the server on the way (no join, respawn, vanish or leave - only the routine messages)',
+        gameBefore && gameBefore.gain > .1 && gameBefore.ctx === 'running' && gains.length && Math.min(...gains) < gameBefore.gain && gameOnMenu && gameOnMenu.gain === 0 && gameOnMenu.ctx === 'suspended'
+        && Array.isArray(sentTypes) && !sentTypes.some(t => ['join', 'respawn', 'vanish', 'leave'].includes(t)),
+        { gameBefore, gainsDuringFade: gains, gameOnMenu, sentTypes: [...new Set(sentTypes || [])] });
+      check('the return entrance, logo first: on the black field the logo powers on first while every other part is still dark, the theme starts again from the Intro in the same step (within 50 ms), then LEVEL 0, PLAY, the row, the rails and the footer arrive in order',
+        entOk(entR) && entR.theme.plays === 2 && entR.boot === 'menu', entNote(entR));
+      R.notes.returnEntrance = entNote(entR);
       const endShot = path.join(SHOTS, 'b3_after_end_1280x720.png'); await P.screenshot({ path: endShot, timeout: 90000 });
       const endField = py('black_field.py', [endShot, JSON.stringify(await P.evaluate(PARTS)), '--limit', '10']);
       check('END: the black menu comes back (no world behind it) and the music starts again from the Intro (a new start, both sources, no download)',
         mid.state === 'stopped' && back.st === 'menu' && back.ui === 'menu' && /tfb-black/.test(back.html) && endField.shareAboveLimit === 0 && back.th.state === 'playing' && back.th.plays === 2 && back.th.t0 > e1.th.fadeAt
         && back.th.sources === 2 && back.th.ctx === 'running' && schedOk(back.th) && back.th.fetched === 2 && wav.length === 2,
         { mid: mid.state, st: back.st, html: back.html, endField, theme: { state: back.th.state, plays: back.th.plays, t0: back.th.t0, ctx: back.th.ctx, fetched: back.th.fetched }, wav: wav.length });
+      // the next run: the halls are heard again, at the game's own level
+      await P.click('#mmPlay'); await sleep(700); await P.click('#enter');
+      await P.waitForFunction(() => window.__boot && __boot.state() === 'playing', null, { timeout: 30000 }).catch(() => { }); await sleep(800);
+      const gameNext = await s.ev(GA);
+      check('the next ENTER LEVEL 0 restores what the player hears of the game: its context running again at the game\'s own level (0.14 x the master volume)',
+        gameNext && gameNext.ctx === 'running' && Math.abs(gameNext.gain - .14 * (gameNext.vol ?? 1)) < .005 && !gameNext.muted, gameNext);
       errs(s, 'gate-key'); await s.ctx.close(); }
 
     /* ---------- B. the gate passed by a mouse click where PLAY is: the click enters, nothing else (normal and reduced motion) */
     for (const reduced of [false, true]) {
-      const s = await Q.page(bG, PORT, { viewport: { width: 1366, height: 768 }, gate: false, reduced });
+      const s = await Q.page(bG, PORT, { viewport: { width: 1366, height: 768 }, gate: false, reduced, init: ENT_INIT });
       const g = await waitGate(s); const at = await s.ev(PLAY_AT);
       await sleep(900); const goOpacity = await s.ev(`getComputedStyle(document.getElementById('bootGo')).opacity`);
       await s.P.mouse.click(at[0], at[1]);
@@ -167,6 +217,9 @@ async function recordAround(s, tag, title, act, ms) {
         g && g.boot.gate && goOpacity === '1' && p && p.st === 'menu' && p.boot.passedBy === 'pointerdown:mouse' && p.th.beganAt >= p.boot.passedAt && p.th.beganAt <= p.tl.menu && p.tl.menu - p.boot.passedAt <= 50 && p.th.state === 'playing' && p.th.ctx === 'running' && !p.entry && !p.started && !p.bootShown
         && right && (right.goVis === 'hidden' || right.go === null) && (!reduced || (right.bootOpacity === '0' && parseFloat(right.bootTransition) <= .01)),
         p && { goOpacity, passedBy: p.boot.passedBy, theme: [p.th.state, p.th.ctx], entry: p.entry, right: right && [right.st, right.goVis, right.bootOpacity, right.bootTransition, right.bootShown] });
+      const e0 = ((await s.ev('window.__ent')) || [])[0];
+      check(reduced ? 'reduced motion keeps the entrance\'s order with short plain fades: the logo first (a fade, no flicker), the theme with it, then the other parts in order'
+        : 'a click entrance is the same as a key\'s: the logo powers on first, the theme with it, the rest in order', entOk(e0, reduced ? 'mmFade' : 'mmIgnite'), entNote(e0));
       errs(s, 'gate-click' + (reduced ? '-reduced' : '')); await s.ctx.close();
     }
 

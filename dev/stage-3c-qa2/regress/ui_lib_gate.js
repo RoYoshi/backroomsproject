@@ -4,7 +4,8 @@
  * menu at once. On QA2 the menu is behind the black boot until everything it needs is ready, and where the browser wants a
  * gesture before sound may start, behind the ready gate. This module is ui_lib.js with one difference: every page opened through
  * its browser (U.browser(), then newContext / newPage, U.page()) waits, after each goto() and reload(), for the boot to finish, and
- * passes the ready gate the way a player does - one key press (Space), as real input - before handing the page back. The waiting
+ * passes the ready gate the way a player does - one key press (Space), as real input - and lets the menu's entrance play out
+ * before handing the page back. The waiting
  * reads the page through CDP without a user gesture, so it never fakes the gate. On a build without the QA2 boot (no
  * window.__boot once the document has loaded) it returns at once. Nothing else changes: the probes' own steps and checks are theirs.
  *
@@ -24,7 +25,11 @@ async function passBoot(P) {
       st = await ev(`window.__boot ? [__boot.state(), !!(window.__ui && __ui.boot && __ui.boot().gate)] : document.readyState === 'loading' ? 'parsing' : 'none'`);
       if (st === 'none') break;                                            // not the QA2 boot
       if (Array.isArray(st)) {
-        if (['menu', 'error', 'run', 'playing'].includes(st[0])) break;
+        if (st[0] === 'menu') {                                            // and its entrance (logo first, then the rest) played out
+          const t1 = Date.now(); while (Date.now() - t1 < 6000 && await ev(`document.getElementById('menu').classList.contains('mm-intro')`)) await sleep(100);
+          break;
+        }
+        if (['error', 'run', 'playing'].includes(st[0])) break;
         if (st[0] === 'ready' && st[1] && !pressed) { await P.keyboard.press('Space'); pressed = true; }
       }
       await sleep(100);

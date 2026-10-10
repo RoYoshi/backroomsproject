@@ -1,0 +1,316 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "cold start: the page's first paint is black, every frame until the reveal stays black but for the small loading line (under 1 % of the screen), the states run black -> loading -> ready -> menu, and the menu is up after it",
+   "ok": true,
+   "note": {
+    "firstPaint": 1272,
+    "timeline": {
+     "black": 45,
+     "loading": 777,
+     "ready": 14012,
+     "menu": 15850
+    },
+    "framesBeforeReveal": 46,
+    "firstFrameNonBlack": 0,
+    "maxNonBlack": 0.00148,
+    "lastNonBlack": 0.0347
+   }
+  },
+  {
+   "name": "warm start: the page's first paint is black, every frame until the reveal stays black but for the small loading line (under 1 % of the screen), the states run black -> loading -> ready -> menu, and the menu is up after it",
+   "ok": true,
+   "note": {
+    "firstPaint": 1356,
+    "timeline": {
+     "black": 653,
+     "loading": 1064,
+     "ready": 2194,
+     "menu": 8133
+    },
+    "framesBeforeReveal": 36,
+    "firstFrameNonBlack": 0,
+    "maxNonBlack": 0.00098,
+    "lastNonBlack": 0.05897
+   }
+  },
+  {
+   "name": "4 Mbit/s cold start: the page's first paint is black, every frame until the reveal stays black but for the small loading line (under 1 % of the screen), the states run black -> loading -> ready -> menu, and the menu is up after it",
+   "ok": true,
+   "note": {
+    "firstPaint": 640,
+    "timeline": {
+     "black": 81,
+     "loading": 1116,
+     "ready": 52705,
+     "menu": 55058
+    },
+    "framesBeforeReveal": 355,
+    "firstFrameNonBlack": 0,
+    "maxNonBlack": 0.00148,
+    "lastNonBlack": 0.05894
+   }
+  },
+  {
+   "name": "a slow start shows the quiet \"Loading\" line once the black has lasted about a second (before ui.js has even run) and, on a first download of the music, the note under it; nothing else until the ready gate's line",
+   "ok": true,
+   "note": {
+    "blackMs": 54418,
+    "firstFrame": [
+     644,
+     0
+    ],
+    "lastWhileLoading": [
+     52688,
+     0.00146
+    ],
+    "lastBeforeReveal": [
+     54872,
+     0.00098
+    ],
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": false,
+     "gate": true,
+     "gateShownAt": 53164,
+     "passedBy": "keydown: ",
+     "passedAt": 55057,
+     "noteShown": true,
+     "done": {
+      "stylesheets": 1117,
+      "credits": 1117,
+      "runtime": 2071,
+      "logo": 4631,
+      "music": 52446,
+      "fonts": 52447,
+      "frames": 52705
+     },
+     "entrances": [
+      55061
+     ]
+    }
+   }
+  },
+  {
+   "name": "the reveal is one entrance that settles: once it is over the title, LEVEL 0 line and PLAY, the row, both rails and the footer are at full opacity, nothing is still animating, the light is drawn; the QA1 menu underneath, its theme playing",
+   "ok": true,
+   "note": {
+    "entrances": 1,
+    "st": "menu",
+    "booted": true,
+    "parts": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "menuAnims": [],
+    "light": 8140,
+    "enterClass": false,
+    "bootText": "LoadingDownloading the menu music (first visit only): 18.6 of 22.6 MBPress any key or click to enterRetry",
+    "note": "Downloading the menu music (first visit only): 18.6 of 22.6 MB",
+    "theme": "playing"
+   }
+  },
+  {
+   "name": "no percentage anywhere in the boot layer; the only figure is the real-bytes note of a first download of the music, when it takes a while",
+   "ok": true,
+   "note": {
+    "text": "LoadingDownloading the menu music (first visit only): 18.6 of 22.6 MBPress any key or click to enterRetry",
+    "note": "Downloading the menu music (first visit only): 18.6 of 22.6 MB"
+   }
+  },
+  {
+   "name": "the stylesheet fails to load: the page stays black with \"the interface did not load\" and RETRY (focused); the menu never shows",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "info": {
+     "state": "error",
+     "failed": "the interface",
+     "timeline": {
+      "black": 33,
+      "loading": 466,
+      "error": 470
+     }
+    },
+    "boot": true,
+    "err": true,
+    "msg": "The game could not start: the interface did not load. Check your connection, then try again.",
+    "retry": true,
+    "focus": "bootRetry",
+    "hiddenPage": true,
+    "menuVisible": "hidden"
+   }
+  },
+  {
+   "name": "the credits data fails to load: the page stays black with \"the credits did not load\" and RETRY (focused); the menu never shows",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "info": {
+     "state": "error",
+     "failed": "the credits",
+     "timeline": {
+      "black": 21,
+      "loading": 412,
+      "error": 417
+     }
+    },
+    "boot": true,
+    "err": true,
+    "msg": "The game could not start: the credits did not load. Check your connection, then try again.",
+    "retry": true,
+    "focus": "bootRetry",
+    "hiddenPage": true,
+    "menuVisible": "hidden"
+   }
+  },
+  {
+   "name": "RETRY (the failed piece now available) reloads and the menu comes up normally",
+   "ok": true,
+   "note": "menu"
+  },
+  {
+   "name": "the game module fails to load: the page stays black with \"the game did not load\" and RETRY (focused); the menu never shows",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "info": {
+     "state": "error",
+     "failed": "the game",
+     "timeline": {
+      "black": 31,
+      "loading": 459,
+      "error": 12527
+     }
+    },
+    "boot": true,
+    "err": true,
+    "msg": "The game could not start: the game did not load. Check your connection, then try again.",
+    "retry": true,
+    "focus": "bootRetry",
+    "hiddenPage": true,
+    "menuVisible": "hidden"
+   }
+  },
+  {
+   "name": "ui.js itself fails to load: the page stays black with \"the interface did not load\" and RETRY (focused); the menu never shows",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "info": {
+     "state": "error",
+     "failed": "the interface",
+     "timeline": {
+      "black": 32,
+      "error": 6227
+     }
+    },
+    "boot": true,
+    "err": true,
+    "msg": "The game could not start: the interface did not load. Check your connection, then try again.",
+    "retry": true,
+    "focus": "bootRetry",
+    "hiddenPage": true,
+    "menuVisible": "hidden"
+   }
+  },
+  {
+   "name": "reduced motion: at the reveal the boot layer is invisible at once (no fade), and removed a moment later",
+   "ok": true,
+   "note": {
+    "atReveal": {
+     "hidden": true,
+     "opacity": "1",
+     "transition": "0.01s"
+    },
+    "later": {
+     "hidden": true,
+     "opacity": "1",
+     "transition": "0.01s"
+    }
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "notes": {
+  "starts": {
+   "cold": {
+    "firstPaint": 1272,
+    "timeline": {
+     "black": 45,
+     "loading": 777,
+     "ready": 14012,
+     "menu": 15850
+    },
+    "framesBeforeReveal": 46,
+    "maxNonBlackBeforeReveal": 0.00148,
+    "firstOwnFrameNonBlack": 0,
+    "lastNonBlack": 0.0347,
+    "order": true
+   },
+   "warm": {
+    "firstPaint": 1356,
+    "timeline": {
+     "black": 653,
+     "loading": 1064,
+     "ready": 2194,
+     "menu": 8133
+    },
+    "framesBeforeReveal": 36,
+    "maxNonBlackBeforeReveal": 0.00098,
+    "firstOwnFrameNonBlack": 0,
+    "lastNonBlack": 0.05897,
+    "order": true
+   },
+   "slow": {
+    "firstPaint": 640,
+    "timeline": {
+     "black": 81,
+     "loading": 1116,
+     "ready": 52705,
+     "menu": 55058
+    },
+    "framesBeforeReveal": 355,
+    "maxNonBlackBeforeReveal": 0.00148,
+    "firstOwnFrameNonBlack": 0,
+    "lastNonBlack": 0.05894,
+    "order": true
+   }
+  },
+  "slowGate": {
+   "revealed": true,
+   "music": true,
+   "allowed": false,
+   "gate": true,
+   "gateShownAt": 53164,
+   "passedBy": "keydown: ",
+   "passedAt": 55057,
+   "noteShown": true,
+   "done": {
+    "stylesheets": 1117,
+    "credits": 1117,
+    "runtime": 2071,
+    "logo": 4631,
+    "music": 52446,
+    "fonts": 52447,
+    "frames": 52705
+   },
+   "entrances": [
+    55061
+   ]
+  }
+ },
+ "ok": true
+}

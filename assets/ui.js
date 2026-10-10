@@ -429,7 +429,7 @@
   const theme = (() => {
     const CACHE = 'tfb-menu-theme-' + THEME.v;
     let ctx = null, out = null, bufs = null, prep = null, srcs = [], fading = [], want = false, begun = false, st = 'idle', stopT = 0, hidPause = false;
-    const T = { plays: 0, loads: 0, fetched: 0, cacheHits: 0, bytes: 0, need: 0, t0: null, loopAt: null, fadeAt: null, fadeEnd: null, error: null, preparedAt: null, beganAt: null, policy: null, allowedAtReady: null };
+    const T = { plays: 0, loads: 0, fetched: 0, cacheHits: 0, bytes: 0, need: 0, startedAt: null, t0: null, loopAt: null, fadeAt: null, fadeEnd: null, error: null, preparedAt: null, beganAt: null, policy: null, allowedAtReady: null };
     const Z = () => window.__api && __api.audio && __api.audio();
     const muted = () => { const z = Z(); return !!(z && z.muted); };
     const vol = () => { const s = window.__settings && __settings.get && __settings.get(); const v = s ? s.vol : window.__vol; return Number.isFinite(v) ? v : 1; };
@@ -510,7 +510,7 @@
       const sr = ctx.sampleRate, now = ctx.currentTime, t0 = Math.ceil((now + .06) * sr) / sr;
       out.gain.cancelScheduledValues(now); out.gain.setValueAtTime(level(), now);
       const s = schedule(ctx, out, t0, bufs.intro, bufs.loop);
-      srcs = [s.a, s.b]; T.t0 = t0; T.loopAt = s.t1; T.plays++; st = 'playing';
+      srcs = [s.a, s.b]; T.t0 = t0; T.loopAt = s.t1; T.plays++; T.startedAt = Math.round(performance.now()); st = 'playing';
     }
     function stop(fade) {
       if (!ctx) return;
@@ -968,6 +968,7 @@
     // QA2: ENTER LEVEL 0 from the main menu passes through black (curtain); the menu coming back (END) is the menu state again
     if (menuWas && !inMenu && runOn) curtain();
     else if (inMenu && revealed && BOOT) { BOOT.set('menu'); theme.begin(); }   // (begun already, but for a run started before the reveal)
+    if (inMenu && !menuWas && revealed) menuEntrance();                      // back from a run: the logo first, with the theme (above)
     menuWas = inMenu;
     if (!inMenu) closeEntry(false);
     if (st === last) return;
@@ -1020,7 +1021,7 @@
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const twoFrames = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
   const domReady = new Promise(r => { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', r, { once: true }); else r(); });
-  const bootInfo = { music: null, allowed: null, gate: false, gateShownAt: null, passedBy: null, passedAt: null, noteShown: false, done: {} };   // done: when each part was ready (ms)
+  const bootInfo = { music: null, allowed: null, gate: false, gateShownAt: null, passedBy: null, passedAt: null, noteShown: false, done: {}, entrances: [] };   // done: when each part was ready (ms)
   const bootT0 = performance.now();
   let noteAt = 0;
   function musicNote(got, need) {                     // per downloaded chunk of the music (never for a Cache Storage read)
@@ -1063,10 +1064,11 @@
     BOOT.set('menu');
     document.documentElement.classList.remove('tfb-boot');
     if (!bootEl) return;
-    // the boot layer's lines go at once and its black fades (reduced motion: gone at once); it keeps taking the pointer until it
-    // is removed, so the press that passed the gate - and the click that follows it - lands on nothing in the menu
-    bootEl.classList.add('out');
-    bootLater(() => { bootEl.hidden = true; bootEl.classList.remove('out', 'gate'); const g = $('bootGo'); if (g) g.hidden = true; }, 450);
+    // the boot layer goes at once (the menu's own field is black, and every part of the menu starts dark: the entrance follows);
+    // it keeps taking the pointer until it is removed, so the press that passed the gate - and its click - lands on nothing
+    menuEntrance();
+    bootEl.classList.add('lift');
+    bootLater(() => { bootEl.hidden = true; bootEl.classList.remove('lift', 'gate'); const g = $('bootGo'); if (g) g.hidden = true; }, 450);
   }
   /* the black ready gate: everything is ready, and the browser wants a key, click or tap before sound may start */
   const GATE_SKIP = /^(Escape|Tab|Shift|Control|Alt|AltGraph|Meta|OS|Super|Hyper|Fn|FnLock|CapsLock|NumLock|ScrollLock|ContextMenu|Dead|Unidentified|Process|Print|PrintScreen|F\d{1,2}|Audio\w*|Media\w*|Browser\w*|Launch\w*|Volume\w*|Mic\w*)$/;
@@ -1132,14 +1134,63 @@
     if (!revealed) { if (gateOff) gateOff(); revealed = true; document.documentElement.classList.remove('tfb-boot'); }   // (see settled())
     const my = ++curN, g = $('bootGo'); if (g) g.hidden = true;
     clearTimeout(bootT);
-    bootEl.classList.remove('out', 'gate'); bootEl.classList.add('curtain'); bootEl.hidden = false;
+    bootEl.classList.remove('out', 'gate', 'lift', 'exiting'); bootEl.classList.add('curtain'); bootEl.hidden = false;
     BOOT.set('run');
+    gameSound(true);                                                         // (after a return from a run: the halls are heard again)
     twoFrames().then(() => wait(180)).then(() => {
       if (my !== curN) return;
       bootEl.classList.add('out');
       bootLater(() => { if (my !== curN) return; bootEl.hidden = true; bootEl.classList.remove('out', 'curtain'); if (BOOT.state() === 'run') BOOT.set('playing'); }, reduced() ? 0 : 450);
     });
   }
+
+  /* QA2: the menu's entrance (ui.css: #menu.mm-intro / .mm-go). The first reveal and every return from a run: on the black field
+     the logo powers on first and the theme starts in the same step (the caller's); LEVEL 0 and PLAY, the row, the rails and the
+     footer follow, settled within about 1.3 s. The classes are removed once it is over: an idle menu runs nothing. */
+  let entT = 0;
+  function menuEntrance() {
+    if (!menu) return;
+    clearTimeout(entT);
+    menu.classList.remove('mm-go'); menu.classList.add('mm-intro'); void menu.offsetWidth; menu.classList.add('mm-go');
+    bootInfo.entrances.push(Math.round(performance.now()));
+    entT = setTimeout(() => menu.classList.remove('mm-intro', 'mm-go'), reduced() ? 800 : 1800);
+  }
+  /* QA2: END in the run menu returns to the main menu through black. What the player hears of the game (its own master output:
+     the halls' hum, threats, footsteps, effects) and what they see of the world fade down together (0.8 s; reduced motion 0.25 s);
+     on full black the game's own END runs (the bundle's handler, unchanged), and the menu's entrance follows - logo and theme
+     first. Only that local output is touched: AI hearing, the noise the server is told about, the network and the run's
+     lifecycle are the game's, as before. The game's output stays silent (its context suspended) on the menu and is restored when
+     the next run starts. */
+  let exiting = false, passEnd = false, gameMuted = false;
+  const GZ = () => { const Z = window.__api && __api.audio && __api.audio(); return Z && Z.context && Z.gain ? Z : null; };
+  function gameSound(on) {
+    const Z = GZ(); if (!Z) return;
+    const g = Z.gain.gain, now = Z.context.currentTime;
+    if (on) {
+      if (!gameMuted) return; gameMuted = false;
+      g.cancelScheduledValues(now); g.setValueAtTime(Z.muted ? 0 : .14 * (window.__vol ?? 1), now);   // the game's own level (its toggle() / hud.js)
+      if (Z.context.state !== 'running') Z.context.resume().catch(() => { });
+    } else {
+      gameMuted = true;
+      g.cancelScheduledValues(now); g.setValueAtTime(g.value, now); g.linearRampToValueAtTime(0, now + (reduced() ? .25 : .8));
+    }
+  }
+  document.addEventListener('click', e => {
+    const t = e.target && e.target.closest && e.target.closest('#runEnd');
+    if (!t || passEnd) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (exiting || !bootEl) return;
+    exiting = true; BOOT && BOOT.set('exit');
+    clearTimeout(bootT); curN++;
+    bootEl.classList.remove('out', 'gate', 'lift', 'curtain'); bootEl.classList.add('exiting', 'out'); bootEl.hidden = false; void bootEl.offsetWidth;
+    bootEl.classList.remove('out');                                          // the black fades in over the run menu and the world
+    gameSound(false);
+    wait(reduced() ? 250 : 800).then(() => wait(120)).then(() => {           // a moment of full black, then the real END
+      const Z = GZ(); if (Z && Z.context.state === 'running') Z.context.suspend().catch(() => { });
+      passEnd = true; try { t.click(); } finally { passEnd = false; }
+      bootEl.hidden = true; bootEl.classList.remove('exiting'); exiting = false;
+    });
+  }, true);
 
   Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, keys, standalone,
     boot: () => Object.assign({ revealed }, bootInfo),

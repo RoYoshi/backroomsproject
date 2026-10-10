@@ -93,6 +93,30 @@ html.tfb-black{background:#000}
 .mm-logo{position:absolute;left:-33.252%;top:-97.156%;width:166.504%;height:auto;max-width:none;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
 @keyframes mmHum{0%,100%{opacity:1}14%{opacity:.5}20%{opacity:.94}31%{opacity:.68}44%{opacity:1}}
 .mm-title.hum .mm-logo{animation:mmHum .9s linear}
+/* QA2: the menu's entrance - the first reveal and every return from a run. On the black field the logo powers on first, like a
+   tube striking (the menu theme starts in the same step); LEVEL 0 and PLAY follow, then the row, the left rail, the right rail and
+   the footer. One-shot animations (opacity, and a few pixels of translate that composes with each part's own transform); ui.js
+   removes the classes once they are over, so nothing runs on an idle menu. Reduced motion keeps the order with short plain fades. */
+#menu.mm-intro :is(.mm-title,.mm-dest,.mm-play,.mm-row,.mm-rail,.mm-util,.mm-foot){opacity:0}
+#menu.mm-intro.mm-go :is(.mm-title,.mm-dest,.mm-play,.mm-row,.mm-rail,.mm-util,.mm-foot){opacity:1}
+#menu.mm-intro.mm-go .mm-logo{animation:mmIgnite .6s linear both}
+#menu.mm-intro.mm-go .mm-dest{animation:mmArrive .5s cubic-bezier(.2,.7,.2,1) .2s both}
+#menu.mm-intro.mm-go .mm-play{animation:mmArrive .55s cubic-bezier(.2,.7,.2,1) .26s both}
+#menu.mm-intro.mm-go .mm-row{animation:mmArrive .5s cubic-bezier(.2,.7,.2,1) .4s both}
+#menu.mm-intro.mm-go .mm-rail{animation:mmArriveL .55s cubic-bezier(.2,.7,.2,1) .52s both}
+#menu.mm-intro.mm-go .mm-util{animation:mmArriveR .55s cubic-bezier(.2,.7,.2,1) .6s both}
+#menu.mm-intro.mm-go .mm-foot{animation:mmFade .5s ease .72s both}
+@keyframes mmIgnite{0%{opacity:0}5%{opacity:.6}9%{opacity:.04}17%{opacity:.85}22%{opacity:.18}31%{opacity:.95}36%{opacity:.55}46%,100%{opacity:1}}
+@keyframes mmArrive{from{opacity:0;translate:0 10px}to{opacity:1;translate:0 0}}
+@keyframes mmArriveL{from{opacity:0;translate:-12px 0}to{opacity:1;translate:0 0}}
+@keyframes mmArriveR{from{opacity:0;translate:12px 0}to{opacity:1;translate:0 0}}
+html.rm #menu.mm-intro.mm-go .mm-logo{animation:mmFade .22s ease both!important}
+html.rm #menu.mm-intro.mm-go .mm-dest{animation:mmFade .18s ease .1s both!important}
+html.rm #menu.mm-intro.mm-go .mm-play{animation:mmFade .18s ease .13s both!important}
+html.rm #menu.mm-intro.mm-go .mm-row{animation:mmFade .18s ease .18s both!important}
+html.rm #menu.mm-intro.mm-go .mm-rail{animation:mmFade .18s ease .24s both!important}
+html.rm #menu.mm-intro.mm-go .mm-util{animation:mmFade .18s ease .28s both!important}
+html.rm #menu.mm-intro.mm-go .mm-foot{animation:mmFade .18s ease .32s both!important}
 #menu.mm-tight .mm-title{visibility:hidden}
 @media (hover:hover) and (pointer:fine){.mm-title{will-change:transform}}   /* the logo is one cached layer: the pointer lean only moves it */
 

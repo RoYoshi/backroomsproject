@@ -7,7 +7,8 @@
  *    from it until the reveal is black but for the small lines of the boot layer ("Loading", the slow first download's note, the
  *    ready gate's line); the boot states run black -> loading -> ready -> menu (this Chromium wants a gesture before sound may
  *    start, so each start passes the ready gate with a key press, as a player would, once its line has been up for a moment);
- *  - the reveal shows the whole menu at once: no part of it is still animating in, nothing is missing;
+ *  - the reveal is the menu's entrance (QA2 R1: the logo first, then the rest - its order is checked by probe_b3); once it is over
+ *    (about 1.3 s) the whole menu is there, nothing is still animating, nothing is missing;
  *  - no percentage is ever shown (the only figure: the real bytes of a slow first download of the music);
  *  - a required piece that fails (the stylesheet, the credits data, the game's module, ui.js itself) leaves the page black with a
  *    small message naming what failed and RETRY; the menu never shows; RETRY (with the piece back) starts the game normally;
@@ -80,13 +81,13 @@ const ev = (cdp, expr) => cdp.send('Runtime.evaluate', { expression: expr, retur
   try {
     /* ---------- the reveal shows the whole menu at once; QA1 continues underneath */
     { const s = await fresh(); await s.P.goto(url(), { waitUntil: 'commit' });
-      await toMenu(s, 60000); await sleep(500);
+      await toMenu(s, 60000); const ent = await until(s.cdp, `!document.getElementById('menu').classList.contains('mm-intro') && __ui.boot().entrances.length`, 8000); await sleep(300);
       const m = await ev(s.cdp, `(() => { const op = s => { const e = document.querySelector(s); return e ? +getComputedStyle(e).opacity : null; };
         const anims = document.getAnimations().filter(a => a.playState === 'running' && a.effect && a.effect.target && a.effect.target.closest && a.effect.target.closest('#menu')).map(a => a.animationName || a.transitionProperty);
         return { st: __ui.state(), booted: !document.documentElement.classList.contains('tfb-boot'), parts: ['#mmTitle', '.mm-stage', '#mmPlay', '.mm-row', '.mm-rail', '.mm-util', '.mm-foot'].map(op), menuAnims: anims, light: (() => { const c = document.getElementById('mmLight'); try { const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; let n = 0; for (let i = 3; i < d.length; i += 4) if (d[i]) n++; return n; } catch (e) { return -1; } })(),
           enterClass: document.getElementById('menu').classList.contains('enter'), bootText: document.getElementById('boot').textContent, note: document.getElementById('bootNote').textContent, theme: __ui.theme.info().state }; })()`);
-      check('the reveal shows the whole menu at once: title, LEVEL 0 line and PLAY, the row, both rails and the footer at full opacity, no part animating in, the light already drawn; the QA1 menu underneath, its theme playing',
-        m && m.st === 'menu' && m.booted && m.parts.every(x => x === 1) && !m.menuAnims.length && m.light > 50 && !m.enterClass && m.theme === 'playing', m);
+      check('the reveal is one entrance that settles: once it is over the title, LEVEL 0 line and PLAY, the row, both rails and the footer are at full opacity, nothing is still animating, the light is drawn; the QA1 menu underneath, its theme playing',
+        ent === 1 && m && m.st === 'menu' && m.booted && m.parts.every(x => x === 1) && !m.menuAnims.length && m.light > 50 && !m.enterClass && m.theme === 'playing', Object.assign({ entrances: ent }, m));
       check('no percentage anywhere in the boot layer; the only figure is the real-bytes note of a first download of the music, when it takes a while',
         m && !/%/.test(m.bootText) && !/\d/.test(m.bootText.replace(m.note, '')) && (m.note === '' || /^Downloading the menu music( \(first visit only\))?: \d+\.\d of 22\.6 MB$/.test(m.note)), m && { text: m.bootText, note: m.note });
       await s.ctx.close(); }

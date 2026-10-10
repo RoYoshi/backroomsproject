@@ -94,7 +94,9 @@ const LAYOUT = () => {
       const runField = py('black_field.py', [runShot, '[]', '--limit', '10']);
       await P.keyboard.press('Escape'); await sleep(600); await P.click('#pauseCustomize'); await sleep(1200); const pc = await world(); await P.keyboard.press('Escape'); await sleep(600); await P.keyboard.press('Escape'); await sleep(600);
       await P.keyboard.press('Escape'); await sleep(500); await P.click('#reset'); await P.waitForFunction(() => __ui.state() === 'run', null, { timeout: 15000 }).catch(() => { });
-      const rm = await world(); await P.click('#runEnd'); await sleep(1200); const back = await world();
+      // (QA2 R1: END fades the run down to black first; the menu and its entrance follow)
+      const rm = await world(); await P.click('#runEnd');
+      await P.waitForFunction(() => window.__ui && __ui.state() === 'menu' && !document.getElementById('menu').classList.contains('mm-intro'), null, { timeout: 20000 }).catch(() => { }); await sleep(300); const back = await world();
       check('a run shows the world (the black field and the logo gone); Customize from the pause shows the world behind it; the run menu (NEW RUN) as before; END brings the black menu back',
         !run.black && !run.menu && runField.shareAboveLimit > .2 && !pc.black && !rm.black && back.black && back.menu, { run, litShare: runField.shareAboveLimit, pauseCustomize: pc, runMenu: rm, back });
       R.errors.push(...s.errs.map(e => 'field: ' + e)); await s.ctx.close(); }
