@@ -1,4 +1,25 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060504">
+<!doctype html><html lang="en" class="tfb-boot" data-boot="black"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060504">
+  <!-- Stage 3C QA2: the boot gate. Black from the first paint: these few rules come before every stylesheet, so nothing of the page can
+       show (no menu, no world, no half-loaded logo) until assets/ui.js has everything the menu needs and reveals it in one step. The
+       script names the boot states and makes sure a page whose interface never starts ends in a small error with RETRY, not in black. -->
+  <style id="tfbBootCss">html.tfb-boot,html.tfb-boot body{background:#000}html.tfb-boot body>:not(#boot){visibility:hidden!important}
+#boot{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;align-content:center;gap:20px;padding:24px;background:#000;color:#8d856a;font:500 11px/1.7 "IBM Plex Mono",ui-monospace,Menlo,Consolas,"DejaVu Sans Mono",monospace;letter-spacing:.34em;text-transform:uppercase;text-align:center;opacity:1;transition:opacity .42s ease;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#boot[hidden],#boot [hidden]{display:none}#boot.out{opacity:0;pointer-events:none}#boot p{margin:0}.boot-msg{opacity:0;animation:tfbBootIn .5s ease .9s forwards}@keyframes tfbBootIn{to{opacity:.8}}#boot.slow .boot-msg{opacity:.8}#boot.failed .boot-msg,#boot.failed .boot-note{display:none}
+.boot-note{max-width:30em;color:#6f684f;letter-spacing:.14em;text-transform:none}#bootErr{display:grid;gap:20px;justify-items:center;max-width:34em}#bootErr p{color:#d8cfae;letter-spacing:.1em;text-transform:none;font-size:12px}
+#bootRetry{min-width:132px;min-height:44px;padding:0 22px;border:1px solid #8d856a;border-radius:0;background:transparent;color:#efe3b4;font:inherit;letter-spacing:.34em;text-transform:uppercase;cursor:pointer}#bootRetry:hover{border-color:#efe3b4}#bootRetry:focus-visible{outline:2px solid #efe3b4;outline-offset:4px}
+@media (prefers-reduced-motion:reduce){#boot{transition:none}.boot-msg{animation-duration:1ms}}</style>
+  <script>(function(){var d=document.documentElement,T={black:Math.round(performance.now())},st="black",why=null,claimed=false;
+  var B=window.__boot={state:function(){return st},
+    set:function(s){if(st==="error")return;st=s;d.setAttribute("data-boot",s);if(!(s in T))T[s]=Math.round(performance.now())},
+    claim:function(){claimed=true},
+    fail:function(what,detail){if(st==="error")return;st="error";why=what;T.error=Math.round(performance.now());d.setAttribute("data-boot","error");d.classList.add("tfb-boot");
+      var b=document.getElementById("boot"),e=document.getElementById("bootErr"),m=document.getElementById("bootErrMsg"),r=document.getElementById("bootRetry");
+      if(b){b.hidden=false;b.classList.remove("out");b.classList.add("failed")}
+      if(m)m.textContent="The game could not start: "+what+" did not load. Check your connection, then try again.";
+      if(e)e.hidden=false;if(r){r.onclick=function(){location.reload()};try{r.focus()}catch(x){}}
+      try{console.warn("[boot] "+what+(detail?": "+detail:""))}catch(x){}},
+    info:function(){return{state:st,failed:why,timeline:T}}};
+  addEventListener("load",function(){setTimeout(function(){if(!claimed)B.fail("the interface","assets/ui.js did not start")},5000)});})();</script>
   <!-- Stage 3C QA1: installable as an app (Add to Home Screen opens it without the browser's address bar). No service worker and no
        offline mode: an online game, always the live build. The manifest has no icons because the project has no official icon yet;
        see STAGE_3C_QA1_REPORT.md for the two files to add. -->
@@ -18,6 +39,7 @@
   <link rel="stylesheet" href="./assets/ui.css">
 <style>#runMenu{z-index:19;background:#080c0b88;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);place-items:center;display:grid;position:fixed;inset:0}#runMenu[hidden]{display:none}/* the flash at a capture is a punch, not a curtain: it fades away so the victim watches what actually happens to them */@keyframes flashout{0%{background:#fff}9%{background:#c00}40%{background:#5a000066}100%{background:#10000000}}body.captured #dread{animation-duration:1.15s}</style></head>
 <body class="ui-menu">
+<div id="boot" role="status" aria-live="polite"><p class="boot-msg" id="bootMsg">Loading</p><p class="boot-note" id="bootNote" hidden></p><div id="bootErr" hidden><p id="bootErrMsg"></p><button type="button" id="bootRetry">Retry</button></div></div>
 <div id="game"></div><canvas id="mp"></canvas><div id="dread"></div><canvas id="light"></canvas><div class="grain"></div>
 <header>
   <a class="brand" href="#">THE FAR BACKROOMS<span>LEVEL 0 / THRESHOLD</span></a>

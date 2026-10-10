@@ -19,14 +19,15 @@ def font(sz):
     try: return ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', sz)
     except Exception: return ImageFont.load_default()
 for run in R['runs']:
-    prev = None; keep = []
+    prev = None; prevNb = None; keep = []
+    fp = next((p[1] for p in (run.get('page') or {}).get('paints', []) if p[0] == 'first-paint'), None)
     for f in run['frames']:
         a = np.asarray(Image.open(D / f['file']).convert('RGB')).astype(np.int16)
         mx = a.max(axis=2); f['nonBlack'] = round(float((mx > 24).mean()), 5); f['mean'] = round(float(a.mean()), 2)
         small = a[::8, ::8]
-        changed = prev is None or float(np.abs(small - prev).mean()) > 1.5
-        prev = small
-        if changed: keep.append(f)
+        f['beforeFirstPaint'] = fp is not None and f['t'] < fp - 5        # still the previous page: the browser keeps it until this page paints
+        changed = prev is None or float(np.abs(small - prev).mean()) > 1.5 or abs(f['nonBlack'] - prevNb) > .0001   # against the last frame kept
+        if changed: keep.append(f); prev = small; prevNb = f['nonBlack']
     fr = run['frames']
     firstAny = next((f for f in fr if f['nonBlack'] > .002), None)
     firstMost = next((f for f in fr if f['nonBlack'] > .3), None)
@@ -44,7 +45,7 @@ for run in R['runs']:
         for i, f in enumerate(keep):
             x = 8 + (i % COLS) * (tw + 8); y = 40 + (i // COLS) * (th + lab + 8)
             sheet.paste(Image.open(D / f['file']).convert('RGB').resize((tw, th)), (x, y + lab))
-            d.text((x, y + 2), f"{f['t']} ms  ·  {f['nonBlack'] * 100:.1f}%", font=font(14), fill=(236, 228, 198))
+            d.text((x, y + 2), f"{f['t']} ms  ·  {f['nonBlack'] * 100:.2f}%" + ('  (previous page)' if f.get('beforeFirstPaint') else ''), font=font(14), fill=(236, 228, 198))
         sheet.save(D / f"{TAG}_{run['kind']}_sheet.jpg", quality=86)
 (D / f'{TAG}.json').write_text(json.dumps(R, indent=1) + '\n')
 print(json.dumps([{**r['summary'], 'kind': r['kind'], 'gestureAt': r['gestureAt']} for r in R['runs']]))

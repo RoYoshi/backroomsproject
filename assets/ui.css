@@ -62,7 +62,7 @@ html.rm *,html.rm *::before,html.rm *::after{animation:none!important;transition
    your light, the connection, where the draft had a profile, "stuff" and a chat); a narrow utility rail on the right (settings,
    wanderer, sound, help); the version in the bottom-right corner. Phones keep the same places: the identity block top left,
    the utility rail top right, the title, then PLAY at the bottom.
-   Nothing here moves while the menu idles: the entrance plays once, the title's light dips only when ui.js asks for it (every
+   Nothing here moves while the menu idles (QA2: no entrance; the boot gate reveals the menu whole): the title's light dips only when ui.js asks for it (every
    half minute or so), and the title leans with the pointer (one style write per frame, only while the mouse moves). */
 #menu{position:fixed;inset:0;top:0;left:0;z-index:15;width:auto;max-width:none;max-height:none;overflow:hidden;color:var(--u-text);font-family:var(--u-mono);-webkit-tap-highlight-color:transparent;
   --edge:clamp(16px,3.2vw,40px);
@@ -200,12 +200,7 @@ html.rm *,html.rm *::before,html.rm *::after{animation:none!important;transition
 body.ui-menu #net{display:none}
 body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-menu #touch,body.ui-menu #hud{visibility:hidden}
 
-/* entrance: one orchestrated reveal. The title's tube catches, PLAY rises, the rails come up. */
-#menu.enter .mm-title{animation:mmOn 1.3s steps(1,end) both}
-#menu.enter .mm-stage{animation:mmRise .8s .55s var(--u-ease) both}
-#menu.enter .mm-rail,#menu.enter .mm-util,#menu.enter .mm-foot{animation:mmFade .9s .85s ease both}
-@keyframes mmOn{0%{opacity:0}12%{opacity:.7}18%{opacity:.06}27%{opacity:.88}33%{opacity:.3}42%,100%{opacity:1}}
-@keyframes mmRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* QA2: no entrance. The menu appears whole, revealed by the boot gate (the menu never assembles in front of the player) */
 @keyframes mmFade{from{opacity:0}to{opacity:1}}
 @keyframes uLine{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 

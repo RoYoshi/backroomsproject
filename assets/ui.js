@@ -21,7 +21,7 @@
      module runs. The game's start (Su(), every ENTER LEVEL 0 / SPAWN / RESTART) clears it, exactly as before. Nothing else changes:
      the server already keeps a visitor who has not joined out of the world (inactive: not broadcast, not alive for the AI). */
   window.__hideSelf = true;
-  const VERSION = 'stage-3c-qa1';
+  const VERSION = 'stage-3c-qa2';
   const $ = id => document.getElementById(id);
   const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
   const shown = el => !!el && !el.hidden && el.getClientRects().length > 0;
@@ -941,7 +941,7 @@
     const prev = last; last = st;
     if (st === 'menu') {
       if (prev && prev !== 'customize' && prev !== 'boot') closeAll();
-      if (prev !== 'customize') { menu.classList.remove('enter'); void menu.offsetWidth; if (!reduced()) menu.classList.add('enter'); }
+      // QA2: the menu never assembles piece by piece (QA1's staggered entrance is gone); it appears whole
       loadoutSummary(); syncNav(); connKey = ''; connRefresh(); soundSync(); humLater();
     }
     if (st === 'customize') czOpened();
@@ -969,7 +969,61 @@
   const boot = () => { hook(); if (window.__api && window.__api.gear) { loadoutSummary(); onState(); } else setTimeout(boot, 120); };
   boot();
   labelsRefresh();
-  if (menu && !menu.hidden && !reduced()) menu.classList.add('enter');
+
+  /* ---------------------------------------------------------------- QA2: the boot gate (the states live on window.__boot,
+     defined by the few inline lines at the top of index.html, which also keep the page black until this reveals it)
+     black -> loading: this file has started and gathers what the menu needs, each as a promise (no timers pretending to load,
+       no percentages): both stylesheets, the credits data, the game's runtime far enough that PLAY can enter its own flow, then the
+       fonts (waited for, but never more than 2.5 s: a dead font server falls back to the system faces rather than hanging).
+     -> ready -> menu: the menu is laid out underneath, two frames are drawn, and the whole menu is revealed in one short fade.
+     Anything required that fails keeps the page black with a small message naming what failed and RETRY. A quiet "Loading"
+     appears only if this takes longer than a moment. */
+  const BOOT = window.__boot || null, bootEl = $('boot');
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const twoFrames = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const domReady = new Promise(r => { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', r, { once: true }); else r(); });
+  const NEED = {
+    stylesheets() {
+      const bad = [...document.querySelectorAll('link[rel="stylesheet"]')].filter(l => { try { return !l.sheet || !l.sheet.cssRules.length; } catch (e) { return true; } });
+      if (bad.length) throw new Error('stylesheet missing: ' + bad.map(l => l.getAttribute('href')).join(', '));
+    },
+    credits() { if (!(window.TFB_CREDITS && Array.isArray(TFB_CREDITS.sections))) throw new Error('assets/credits_data.js missing'); },
+    runtime() {                                       // the game's module runs after this file; its API and its own ENTER wiring must exist
+      return domReady.then(() => new Promise((ok, no) => {
+        const t0 = performance.now();
+        const chk = () => {
+          const A = window.__api, e = $('enter');
+          if (A && A.H && A.gear && A.started && e && typeof e.onclick === 'function') return ok();
+          if (performance.now() - t0 > 12000) return no(new Error('the game runtime did not start'));
+          setTimeout(chk, 150);
+        };
+        chk();
+      }));
+    }
+  };
+  const REQUIRED = [['the interface', 'stylesheets'], ['the credits', 'credits'], ['the game', 'runtime']];
+  const fontsSettled = () => { void document.body.offsetWidth; return document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, wait(2500)]).catch(() => { }) : Promise.resolve(); };
+  let revealed = false;
+  function reveal() {
+    if (revealed) return; revealed = true;
+    BOOT.set('menu');
+    document.documentElement.classList.remove('tfb-boot');
+    if (!bootEl) return;
+    if (reduced()) { bootEl.hidden = true; return; }
+    bootEl.classList.add('out');
+    setTimeout(() => { bootEl.hidden = true; bootEl.classList.remove('out'); }, 450);
+  }
+  function bootStart() {
+    if (!BOOT) return;                                // no inline boot script: nothing is held back
+    BOOT.claim(); BOOT.set('loading');
+    const slowT = setTimeout(() => { if (bootEl) bootEl.classList.add('slow'); }, 700);
+    Promise.all(REQUIRED.map(([what, k]) => Promise.resolve().then(NEED[k]).catch(e => { throw { what, e }; })))
+      .then(fontsSettled)
+      .then(() => { hook(); loadoutSummary(); onState(); return twoFrames(); })
+      .then(() => { clearTimeout(slowT); if (BOOT.state() === 'error') return; BOOT.set('ready'); reveal(); })
+      .catch(x => { clearTimeout(slowT); BOOT.fail(x && x.what || 'the game', String(x && x.e && (x.e.message || x.e) || x)); });
+  }
+  bootStart();
 
   Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, keys, standalone,
     stick: () => ({ held: stickId !== null, want: [...stickWant].sort(), owned: [...stickOwned].sort() }),

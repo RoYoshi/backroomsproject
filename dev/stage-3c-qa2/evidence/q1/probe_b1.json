@@ -1,0 +1,252 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "cold start: the page's first paint is black, every frame until the reveal stays black but for the small loading line (under 1 % of the screen), the states run black -> loading -> ready -> menu, and the menu is up after it",
+   "ok": true,
+   "note": {
+    "firstPaint": 532,
+    "timeline": {
+     "black": 42,
+     "loading": 554,
+     "ready": 748,
+     "menu": 748
+    },
+    "framesBeforeReveal": 1,
+    "maxNonBlack": 0,
+    "lastNonBlack": 0.09197
+   }
+  },
+  {
+   "name": "warm start: the page's first paint is black, every frame until the reveal stays black but for the small loading line (under 1 % of the screen), the states run black -> loading -> ready -> menu, and the menu is up after it",
+   "ok": true,
+   "note": {
+    "firstPaint": 740,
+    "timeline": {
+     "black": 339,
+     "loading": 679,
+     "ready": 1042,
+     "menu": 1042
+    },
+    "framesBeforeReveal": 1,
+    "maxNonBlack": 0,
+    "lastNonBlack": 0.09163
+   }
+  },
+  {
+   "name": "1.5 Mbps cold start: the page's first paint is black, every frame until the reveal stays black but for the small loading line (under 1 % of the screen), the states run black -> loading -> ready -> menu, and the menu is up after it",
+   "ok": true,
+   "note": {
+    "firstPaint": 740,
+    "timeline": {
+     "black": 73,
+     "loading": 2191,
+     "ready": 2978,
+     "menu": 2978
+    },
+    "framesBeforeReveal": 32,
+    "maxNonBlack": 0.0002,
+    "lastNonBlack": 0.0919
+   }
+  },
+  {
+   "name": "a slow start shows the quiet \"Loading\" line once the black has lasted about a second (before ui.js has even run), and nothing else; a fast start reveals before it would appear",
+   "ok": true,
+   "note": {
+    "blackMs": 2238,
+    "firstFrame": [
+     741,
+     0
+    ],
+    "lastBeforeReveal": [
+     2172,
+     0.0002
+    ]
+   }
+  },
+  {
+   "name": "the reveal shows the whole menu at once: title, LEVEL 0 line and PLAY, the row, both rails and the footer at full opacity, no part animating in, the light already drawn; the QA1 menu underneath (state menu, the theme still waiting for a press until QA2-3)",
+   "ok": true,
+   "note": {
+    "st": "menu",
+    "booted": true,
+    "parts": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "menuAnims": [],
+    "light": 8140,
+    "enterClass": false,
+    "bootText": "LoadingRetry",
+    "theme": "waiting"
+   }
+  },
+  {
+   "name": "no progress figure anywhere in the boot layer (no percentage, no count)",
+   "ok": true,
+   "note": "LoadingRetry"
+  },
+  {
+   "name": "the stylesheet fails to load: the page stays black with \"the interface did not load\" and RETRY (focused); the menu never shows",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "info": {
+     "state": "error",
+     "failed": "the interface",
+     "timeline": {
+      "black": 127,
+      "loading": 598,
+      "error": 600
+     }
+    },
+    "boot": true,
+    "err": true,
+    "msg": "The game could not start: the interface did not load. Check your connection, then try again.",
+    "retry": true,
+    "focus": "bootRetry",
+    "hiddenPage": true,
+    "menuVisible": "hidden"
+   }
+  },
+  {
+   "name": "the credits data fails to load: the page stays black with \"the credits did not load\" and RETRY (focused); the menu never shows",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "info": {
+     "state": "error",
+     "failed": "the credits",
+     "timeline": {
+      "black": 38,
+      "loading": 736,
+      "error": 736
+     }
+    },
+    "boot": true,
+    "err": true,
+    "msg": "The game could not start: the credits did not load. Check your connection, then try again.",
+    "retry": true,
+    "focus": "bootRetry",
+    "hiddenPage": true,
+    "menuVisible": "hidden"
+   }
+  },
+  {
+   "name": "RETRY (the failed piece now available) reloads and the menu comes up normally",
+   "ok": true,
+   "note": "menu"
+  },
+  {
+   "name": "the game module fails to load: the page stays black with \"the game did not load\" and RETRY (focused); the menu never shows",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "info": {
+     "state": "error",
+     "failed": "the game",
+     "timeline": {
+      "black": 34,
+      "loading": 468,
+      "error": 12519
+     }
+    },
+    "boot": true,
+    "err": true,
+    "msg": "The game could not start: the game did not load. Check your connection, then try again.",
+    "retry": true,
+    "focus": "bootRetry",
+    "hiddenPage": true,
+    "menuVisible": "hidden"
+   }
+  },
+  {
+   "name": "ui.js itself fails to load: the page stays black with \"the interface did not load\" and RETRY (focused); the menu never shows",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "info": {
+     "state": "error",
+     "failed": "the interface",
+     "timeline": {
+      "black": 27,
+      "error": 5790
+     }
+    },
+    "boot": true,
+    "err": true,
+    "msg": "The game could not start: the interface did not load. Check your connection, then try again.",
+    "retry": true,
+    "focus": "bootRetry",
+    "hiddenPage": true,
+    "menuVisible": "hidden"
+   }
+  },
+  {
+   "name": "reduced motion: the boot layer is gone at the reveal itself, with no fade",
+   "ok": true,
+   "note": {
+    "hidden": true,
+    "out": false
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "notes": {
+  "starts": {
+   "cold": {
+    "firstPaint": 532,
+    "timeline": {
+     "black": 42,
+     "loading": 554,
+     "ready": 748,
+     "menu": 748
+    },
+    "framesBeforeReveal": 1,
+    "maxNonBlackBeforeReveal": 0,
+    "firstOwnFrameNonBlack": 0,
+    "lastNonBlack": 0.09197,
+    "order": true
+   },
+   "warm": {
+    "firstPaint": 740,
+    "timeline": {
+     "black": 339,
+     "loading": 679,
+     "ready": 1042,
+     "menu": 1042
+    },
+    "framesBeforeReveal": 1,
+    "maxNonBlackBeforeReveal": 0,
+    "firstOwnFrameNonBlack": 0,
+    "lastNonBlack": 0.09163,
+    "order": true
+   },
+   "slow": {
+    "firstPaint": 740,
+    "timeline": {
+     "black": 73,
+     "loading": 2191,
+     "ready": 2978,
+     "menu": 2978
+    },
+    "framesBeforeReveal": 32,
+    "maxNonBlackBeforeReveal": 0.0002,
+    "firstOwnFrameNonBlack": 0,
+    "lastNonBlack": 0.0919,
+    "order": true
+   }
+  }
+ },
+ "ok": true
+}
