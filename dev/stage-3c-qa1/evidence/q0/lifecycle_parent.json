@@ -1,0 +1,39 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "idleSeconds": 8,
+ "menuVisitor": {
+  "started": false,
+  "hideSelf": "undefined",
+  "lightOn": true,
+  "avatarDrawn": true,
+  "joinsSent": 0,
+  "positionPacketsSent": 5,
+  "net": "ONLINE · ROOM Q0LIFE156204 · 2 WANDERERS · SHARED MONSTERS",
+  "wsOpen": true,
+  "myId": 2
+ },
+ "observerWhileVisitorInMenu": {
+  "serverSaysActive": null,
+  "adminListed": false,
+  "observerNet": "ONLINE · ROOM Q0LIFE156204 · 1 WANDERER · SHARED MONSTERS",
+  "observerPeerAvatars": 0
+ },
+ "afterEnter": {
+  "started": true,
+  "hideSelf": false,
+  "lightOn": true,
+  "avatarDrawn": true,
+  "joinsSent": 1,
+  "positionPacketsSent": 34,
+  "net": "ONLINE · ROOM Q0LIFE156204 · 2 WANDERERS · SHARED MONSTERS",
+  "wsOpen": true,
+  "myId": 2
+ },
+ "observerAfterEnter": {
+  "serverSaysActive": null,
+  "adminListed": false,
+  "observerNet": "ONLINE · ROOM Q0LIFE156204 · 2 WANDERERS · SHARED MONSTERS",
+  "observerPeerAvatars": 1
+ },
+ "errors": []
+}
