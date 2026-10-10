@@ -1,0 +1,440 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "the stick reads eight ways from the full angle (16 in-between angles and the 8 exact ones), drives the game's own direction keys, and the old pad is hidden",
+   "ok": true,
+   "note": {
+    "mismatches": [],
+    "dpad": "none"
+   }
+  },
+  {
+   "name": "a dead zone at the centre; travel capped at the ring; lifting the thumb clears the move at once, and so does a cancelled touch",
+   "ok": true,
+   "note": {
+    "dead": "",
+    "cap": {
+     "keys": "KeyD",
+     "knob": "translate3d(52px, 0px, 0px)",
+     "on": true
+    },
+    "rel": {
+     "keys": "",
+     "held": false,
+     "on": false
+    },
+    "pre": "KeyA,KeyW",
+    "can": {
+     "keys": "",
+     "held": false
+    }
+   }
+  },
+  {
+   "name": "frame for frame the stick walks at exactly the keyboard's speed: right, diagonal (normalised by the game: no analog advantage), left, and sprinting with RUN held by a second finger at the same time",
+   "ok": true,
+   "note": {
+    "perTick": {
+     "key": [
+      2.865811,
+      {
+       "vx": 2.026434,
+       "vy": -2.026434
+      },
+      -2.865811,
+      4.746606
+     ],
+     "stick": [
+      2.865811,
+      {
+       "vx": 2.026434,
+       "vy": -2.026434,
+       "keys": "KeyD,KeyW"
+      },
+      -2.865811,
+      4.746606
+     ],
+     "keysWithRun": "KeyD,ShiftLeft"
+    }
+   }
+  },
+  {
+   "name": "a second finger works LIGHT while the first holds the stick (the move held throughout), both lifting clears everything, and a lone tap on LIGHT toggles it exactly once",
+   "ok": true,
+   "note": {
+    "l0": true,
+    "during": "KeyD",
+    "l1": {
+     "light": false,
+     "keys": ""
+    },
+    "l2": true
+   }
+  },
+  {
+   "name": "touch layouts at 360x640, 390x844 and 430x932 (notch and home indicator), 768x1024 tablet and 844x390 on its side (notch at the side): buttons, PAUSE and stamina inside the safe areas; nothing under the stick zone, the status or the reveal; no sideways scroll",
+   "ok": true,
+   "note": []
+  },
+  {
+   "name": "a valid manifest (Chromium parses it without errors): name, standalone display, start URL and scope at the game itself, dark theme and background; the page links it with viewport-fit=cover and the app metadata; no service worker (no offline mode, no stale builds)",
+   "ok": true,
+   "note": {
+    "errors": [],
+    "installabilityErrors": {
+     "installabilityErrors": []
+    },
+    "display": "standalone",
+    "start": "/",
+    "icons": [],
+    "fetched": {
+     "status": 200,
+     "type": "application/octet-stream",
+     "cache": "no-store"
+    },
+    "sw": 0
+   }
+  },
+  {
+   "name": "in a browser tab the game plays as always, with no install banner; Help explains Add to Home Screen for iPhone / iPad and Android; launched as an app, Help says so instead",
+   "ok": true,
+   "note": {
+    "tab": {
+     "standalone": false,
+     "banner": false
+    },
+    "ran": true,
+    "help": "Add The Far Backrooms to your home screen and it opens on its own, without the browser's address bar.iPhone and iPad (Safari): Share, then Add to Home Screen. A",
+    "help2": {
+     "standalone": true,
+     "text": "You are playing the installed app: no browser bar. It is always the live game; there is nothing to update."
+    }
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "notes": {
+  "stickAngles": [
+   [
+    11.25,
+    "KeyD",
+    "KeyD",
+    "KeyD"
+   ],
+   [
+    33.75,
+    "KeyD,KeyS",
+    "KeyD,KeyS",
+    "KeyD,KeyS"
+   ],
+   [
+    56.25,
+    "KeyD,KeyS",
+    "KeyD,KeyS",
+    "KeyD,KeyS"
+   ],
+   [
+    78.75,
+    "KeyS",
+    "KeyS",
+    "KeyS"
+   ],
+   [
+    101.25,
+    "KeyS",
+    "KeyS",
+    "KeyS"
+   ],
+   [
+    123.75,
+    "KeyA,KeyS",
+    "KeyA,KeyS",
+    "KeyA,KeyS"
+   ],
+   [
+    146.25,
+    "KeyA,KeyS",
+    "KeyA,KeyS",
+    "KeyA,KeyS"
+   ],
+   [
+    168.75,
+    "KeyA",
+    "KeyA",
+    "KeyA"
+   ],
+   [
+    191.25,
+    "KeyA",
+    "KeyA",
+    "KeyA"
+   ],
+   [
+    213.75,
+    "KeyA,KeyW",
+    "KeyA,KeyW",
+    "KeyA,KeyW"
+   ],
+   [
+    236.25,
+    "KeyA,KeyW",
+    "KeyA,KeyW",
+    "KeyA,KeyW"
+   ],
+   [
+    258.75,
+    "KeyW",
+    "KeyW",
+    "KeyW"
+   ],
+   [
+    281.25,
+    "KeyW",
+    "KeyW",
+    "KeyW"
+   ],
+   [
+    303.75,
+    "KeyD,KeyW",
+    "KeyD,KeyW",
+    "KeyD,KeyW"
+   ],
+   [
+    326.25,
+    "KeyD,KeyW",
+    "KeyD,KeyW",
+    "KeyD,KeyW"
+   ],
+   [
+    348.75,
+    "KeyD",
+    "KeyD",
+    "KeyD"
+   ],
+   [
+    0,
+    "KeyD",
+    "KeyD",
+    "KeyD"
+   ],
+   [
+    45,
+    "KeyD,KeyS",
+    "KeyD,KeyS",
+    "KeyD,KeyS"
+   ],
+   [
+    90,
+    "KeyS",
+    "KeyS",
+    "KeyS"
+   ],
+   [
+    135,
+    "KeyA,KeyS",
+    "KeyA,KeyS",
+    "KeyA,KeyS"
+   ],
+   [
+    180,
+    "KeyA",
+    "KeyA",
+    "KeyA"
+   ],
+   [
+    225,
+    "KeyA,KeyW",
+    "KeyA,KeyW",
+    "KeyA,KeyW"
+   ],
+   [
+    270,
+    "KeyW",
+    "KeyW",
+    "KeyW"
+   ],
+   [
+    315,
+    "KeyD,KeyW",
+    "KeyD,KeyW",
+    "KeyD,KeyW"
+   ]
+  ],
+  "speeds": {
+   "kD": {
+    "vx": 2.865811,
+    "vy": 0
+   },
+   "sD": {
+    "vx": 2.865811,
+    "vy": 0,
+    "keys": "KeyD"
+   },
+   "kWD": {
+    "vx": 2.026434,
+    "vy": -2.026434
+   },
+   "sWD": {
+    "vx": 2.026434,
+    "vy": -2.026434,
+    "keys": "KeyD,KeyW"
+   },
+   "kA": {
+    "vx": -2.865811,
+    "vy": 0
+   },
+   "sA": {
+    "vx": -2.865811,
+    "vy": 0,
+    "keys": "KeyA"
+   },
+   "kRun": {
+    "vx": 4.746606,
+    "vy": 0
+   },
+   "sRun": {
+    "vx": 4.746606,
+    "vy": 0,
+    "keys": "KeyD,ShiftLeft"
+   }
+  },
+  "layout 360x640": {
+   "buttons": 4,
+   "zone": {
+    "l": 0,
+    "t": 281.609375,
+    "r": 187.1875,
+    "b": 640,
+    "w": 187.1875,
+    "h": 358.390625
+   },
+   "pause": {
+    "l": 276.484375,
+    "t": 14,
+    "r": 344,
+    "b": 54,
+    "w": 67.515625,
+    "h": 40
+   }
+  },
+  "layout 390x844 (safe areas 47/0/34/0)": {
+   "buttons": 4,
+   "zone": {
+    "l": 0,
+    "t": 371.375,
+    "r": 202.796875,
+    "b": 844,
+    "w": 202.796875,
+    "h": 472.625
+   },
+   "pause": {
+    "l": 306.484375,
+    "t": 47,
+    "r": 374,
+    "b": 87,
+    "w": 67.515625,
+    "h": 40
+   }
+  },
+  "layout 430x932 (safe areas 59/0/34/0)": {
+   "buttons": 4,
+   "zone": {
+    "l": 0,
+    "t": 410.09375,
+    "r": 223.59375,
+    "b": 932,
+    "w": 223.59375,
+    "h": 521.90625
+   },
+   "pause": {
+    "l": 346.484375,
+    "t": 59,
+    "r": 414,
+    "b": 99,
+    "w": 67.515625,
+    "h": 40
+   }
+  },
+  "layout 768x1024 (safe areas 24/0/20/0)": {
+   "buttons": 4,
+   "zone": {
+    "l": 0,
+    "t": 450.5625,
+    "r": 399.359375,
+    "b": 1024,
+    "w": 399.359375,
+    "h": 573.4375
+   },
+   "pause": {
+    "l": 684.484375,
+    "t": 24,
+    "r": 752,
+    "b": 64,
+    "w": 67.515625,
+    "h": 40
+   }
+  },
+  "layout 844x390 (safe areas 0/47/21/47)": {
+   "buttons": 4,
+   "zone": {
+    "l": 0,
+    "t": 101.40625,
+    "r": 388.234375,
+    "b": 390,
+    "w": 388.234375,
+    "h": 288.59375
+   },
+   "pause": {
+    "l": 729.484375,
+    "t": 14,
+    "r": 797,
+    "b": 54,
+    "w": 67.515625,
+    "h": 40
+   }
+  },
+  "manifest": {
+   "url": "http://127.0.0.1:9741/assets/manifest.webmanifest",
+   "errors": [],
+   "data": {
+    "id": "/",
+    "name": "The Far Backrooms",
+    "short_name": "Far Backrooms",
+    "description": "Level 0 of the Backrooms, online: find a glitched wall and walk through it before something in the dark finds you.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#060504",
+    "theme_color": "#060504",
+    "categories": [
+     "games"
+    ],
+    "icons": []
+   },
+   "installabilityErrors": {
+    "installabilityErrors": []
+   },
+   "head": {
+    "manifest": "http://127.0.0.1:9741/assets/manifest.webmanifest",
+    "viewport": "width=device-width,initial-scale=1,viewport-fit=cover",
+    "theme": "#060504",
+    "apple": "yes",
+    "bar": "black-translucent"
+   },
+   "fetched": {
+    "status": 200,
+    "type": "application/octet-stream",
+    "cache": "no-store"
+   },
+   "serviceWorkers": 0
+  }
+ },
+ "ok": true
+}

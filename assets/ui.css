@@ -721,3 +721,46 @@ body.captured .hud-reveal{display:none}
   .hud-reveal.sector .rv-title{font-size:18px}
   .pz-keys #pzKeys{position:static;margin:0 0 6px}
 }
+
+/* ================================================================ QA1 (Q4): the touch stick, the action buttons, safe areas
+   The four-way pad is gone from view (kept in the page: the game binds its buttons at start); a floating stick takes the lower
+   left. The actions stay on the right, bigger, run and crouch at the thumb. Everything keeps clear of notches, rounded corners
+   and the home indicator (env(safe-area-inset-*); the page asks for the whole screen with viewport-fit=cover). */
+#touch .dpad{display:none}
+.stick-zone{display:none}
+@media (pointer:coarse){
+  body.playing #touch{pointer-events:none;left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));
+    grid-template-columns:auto minmax(0,1fr) repeat(2,68px);gap:10px}
+  body.playing #touch>button{pointer-events:auto}
+  #touch>button{min-height:56px}
+  #touch [data-key=ShiftLeft],#touch [data-key=KeyC]{min-height:68px}
+  body.playing{--touch-h:156px}
+  body.playing.cam-kind{--touch-h:276px}
+  /* the stick's zone: the lower left, clear of the buttons and of the status at the top */
+  body.playing .stick-zone{display:block;position:fixed;left:0;bottom:0;width:52vw;height:56vh;pointer-events:auto;touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+  .stick-base{position:absolute;left:var(--sx,calc(max(16px,env(safe-area-inset-left)) + 70px));top:var(--sy,calc(100% - max(16px,env(safe-area-inset-bottom)) - 82px));
+    width:124px;height:124px;margin:-62px 0 0 -62px;border-radius:50%;border:1px solid #ece4c63d;background:radial-gradient(circle,#0c0a0629 0,#0c0a0666 70%);
+    opacity:.2;transition:opacity .45s ease}
+  .stick-zone.on .stick-base{opacity:1;transition-duration:.06s}
+  .stick-knob{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;border:1px solid #f7eab07a;background:#ece4c647;box-shadow:0 2px 10px #0009}
+  .stick-zone.on .stick-knob{background:#f2d9875e;border-color:#f7eab0b3}
+  /* safe areas for everything else that touches an edge */
+  header{top:max(14px,env(safe-area-inset-top));left:max(16px,env(safe-area-inset-left));right:max(16px,env(safe-area-inset-right))}
+  #dialog,#caught,#won,#runMenu,#appearancePanel{padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+  #dialog{padding-top:max(44px,env(safe-area-inset-top))}
+  #inventory{top:calc(96px + env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left))}
+  #encounterHint{bottom:calc(var(--touch-h,0px) + 26px + env(safe-area-inset-bottom))}
+  #blackoutHint{bottom:calc(var(--touch-h,0px) + 74px + env(safe-area-inset-bottom))}
+}
+@media (pointer:coarse) and (orientation:landscape) and (max-height:520px){
+  body.playing #touch{grid-template-columns:auto minmax(0,1fr) repeat(4,62px)}
+  #touch [data-key=ShiftLeft],#touch [data-key=KeyC]{min-height:58px}
+  #touch>button{min-height:52px}
+  body.playing .stick-zone{width:46vw;height:74vh}
+  .stick-base{width:112px;height:112px;margin:-56px 0 0 -56px;top:var(--sy,calc(100% - max(12px,env(safe-area-inset-bottom)) - 70px));left:var(--sx,calc(max(16px,env(safe-area-inset-left)) + 66px))}
+  body.playing,body.playing.cam-kind{--touch-h:122px}
+}
+/* sheets: their head and body stay inside the safe area too */
+.us-head{padding-top:max(34px,calc(env(safe-area-inset-top) + 14px));padding-right:max(36px,calc(env(safe-area-inset-right) + 16px))}
+.us-body{padding-right:max(36px,calc(env(safe-area-inset-right) + 16px));padding-bottom:calc(48px + env(safe-area-inset-bottom))}
+@media (max-width:640px){.us-head{padding-top:max(22px,calc(env(safe-area-inset-top) + 10px));padding-right:max(18px,calc(env(safe-area-inset-right) + 12px))}.us-body{padding-right:max(18px,calc(env(safe-area-inset-right) + 12px))}}

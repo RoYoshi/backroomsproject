@@ -1,4 +1,10 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101514"><title>The Far Backrooms · Level 0</title>  <script src="./camera_policy.js"></script><script src="./timing_policy.js"></script><script type="module" crossorigin src="./assets/index-DKbV5Nv9.js"></script>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060504">
+  <!-- Stage 3C QA1: installable as an app (Add to Home Screen opens it without the browser's address bar). No service worker and no
+       offline mode: an online game, always the live build. The manifest has no icons because the project has no official icon yet;
+       see STAGE_3C_QA1_REPORT.md for the two files to add. -->
+  <link rel="manifest" href="./assets/manifest.webmanifest">
+  <meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Far Backrooms"><meta name="application-name" content="The Far Backrooms"><title>The Far Backrooms · Level 0</title>  <script src="./camera_policy.js"></script><script src="./timing_policy.js"></script><script type="module" crossorigin src="./assets/index-DKbV5Nv9.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/CanvasPool-DecUtJxW.js">
   <link rel="modulepreload" crossorigin href="./assets/Filter-DzecrWg_.js">
   <link rel="modulepreload" crossorigin href="./assets/canvasUtils-CxYPZET9.js">
@@ -168,7 +174,7 @@
     <div class="cz-foot"><p class="appearance-note">Saved on this device. Other wanderers see your wanderer and your light.</p><button id="doneAppearance" type="button" class="primary">Done</button></div>
   </section>
 </div>
-<div id="touch"><div class="dpad"><button data-key="KeyW">↑</button><button data-key="KeyA">←</button><button data-key="KeyS">↓</button><button data-key="KeyD">→</button></div><button data-key="ShiftLeft">RUN</button><button data-key="KeyC">CROUCH</button><button id="touchFlash">LIGHT</button><button type="button" id="touchInv" aria-label="Inventory">INV</button></div>
+<div id="touch"><div class="stick-zone" id="stickZone" aria-hidden="true"><div class="stick-base" id="stickBase"><i class="stick-knob" id="stickKnob"></i></div></div><div class="dpad"><button data-key="KeyW">↑</button><button data-key="KeyA">←</button><button data-key="KeyS">↓</button><button data-key="KeyD">→</button></div><button data-key="ShiftLeft">RUN</button><button data-key="KeyC">CROUCH</button><button id="touchFlash">LIGHT</button><button type="button" id="touchInv" aria-label="Inventory">INV</button></div>
 <script src="./world.js"></script>
 <script src="./move.js"></script>
 <script src="./camcorder.js"></script>

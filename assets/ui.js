@@ -558,10 +558,21 @@
 
   /* ---------------------------------------------------------------- help (the right rail's "i"): how to play, where the controls are */
   let helpEl = null;
-  const helpControls = () => coarse() ? 'On a touch screen: move with the on-screen control at the bottom left; RUN, CROUCH, LIGHT and INV are at the bottom right; PAUSE is at the top right.'
+  const helpControls = () => coarse() ? 'On a touch screen: put a thumb down low on the left of the screen and drag to move (the stick appears under your thumb); RUN, CROUCH, LIGHT and INV are at the bottom right; PAUSE is at the top right.'
     : `Move with ${keys.move()}${KBS.up[1] ? ' or ' + ['up', 'left', 'down', 'right'].map(a => keyName(KBS[a][1])).filter(Boolean).join(' ') : ''}, aim your light with the mouse, hold ${keys.label('run')} to run, ${keys.label('crouch')} to crouch, ${keys.label('light')} for your light, ${keys.label('inventory')} for the inventory, Esc to pause.`;
+  /* playing it like an app (Q4): how to add it to a home screen, said once, here; nothing on the menu nags about it */
+  const standalone = () => !!((window.matchMedia && (matchMedia('(display-mode: standalone)').matches || matchMedia('(display-mode: fullscreen)').matches)) || navigator.standalone === true);
+  let installEvt = null;
+  addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; if (helpEl) buildHelp(); });   // the browser's own offer, kept for Help instead of a banner
+  addEventListener('appinstalled', () => { installEvt = null; if (helpEl) buildHelp(); });
+  const helpApp = () => standalone()
+    ? '<p>You are playing the installed app: no browser bar. It is always the live game; there is nothing to update.</p>'
+    : '<p>Add The Far Backrooms to your home screen and it opens on its own, without the browser\'s address bar.</p>'
+      + '<p>iPhone and iPad (Safari): Share, then Add to Home Screen. Android (Chrome): the menu, then Add to Home screen (or Install app, when it is offered).</p>'
+      + '<p>In a browser tab everything works the same; the bar may just stay.</p>'
+      + (installEvt ? '<button type="button" class="u-btn" data-help-install>Install the app</button>' : '');
   function buildHelp() {
-    if (helpEl) { const c = helpEl.querySelector('[data-help-text]'); if (c) c.textContent = helpControls(); return; }
+    if (helpEl) { const c = helpEl.querySelector('[data-help-text]'); if (c) c.textContent = helpControls(); const a = helpEl.querySelector('[data-help-app]'); if (a) a.innerHTML = helpApp(); return; }
     helpEl = sheet('uiHelp', 'Help');
     helpEl.querySelector('.us-body').innerHTML = `<section class="hp-sec"><h3>How to play</h3>
 <p>Level 0 is a maze of yellow rooms under humming lights. Somewhere a wall is glitching: find it and walk through it to get out.</p>
@@ -569,7 +580,9 @@
 <p>You carry one light for the run, chosen in Customize. Others in your room walk the same halls and meet the same monsters.</p></section>
 <section class="hp-sec"><h3>Controls</h3>
 <p data-help-text>${esc(helpControls())}</p>
-<button type="button" class="u-btn" data-help-controls>Every control and key</button></section>`;
+<button type="button" class="u-btn" data-help-controls>Every control and key</button></section>
+<section class="hp-sec"><h3>Play it like an app</h3><div data-help-app>${helpApp()}</div></section>`;
+    helpEl.querySelector('[data-help-app]').addEventListener('click', e => { if (!e.target.closest('[data-help-install]') || !installEvt) return; const ev = installEvt; installEvt = null; try { ev.prompt(); } catch (x) { } buildHelp(); });
     helpEl.querySelector('[data-help-controls]').addEventListener('click', () => { const s = stack.find(x => x.el === helpEl), op = s && s.opener; closeSheet(helpEl); go('controls', undefined, op); });
   }
 
@@ -805,6 +818,76 @@
     const b = $('czTab_' + czCur); if (b) b.focus({ preventScroll: true });   // the game focuses a field that is now a hidden select
   }
 
+  /* ---------------------------------------------------------------- the touch stick (QA1 Q4)
+     A floating stick low on the left, on touch screens (it lives in the game's touch layer, shown only there and only in play).
+     Put a thumb down anywhere in that zone and the stick appears under it; drag to move. It drives the same four direction keys
+     the keyboard and the old pad drive, eight ways (a direction counts once the thumb leans more than 22.5 degrees towards it),
+     so the game's own movement turns it into a walk: the same speed, diagonals normalised by the game, no analog advantage; and
+     on touch the game's aim follows that direction, as before. A dead zone at the centre; the knob's travel is capped at the
+     ring. Lifting, cancelling or losing the touch clears the move at once. Each touch is its own pointer, so the buttons on the
+     right (RUN, CROUCH, LIGHT, INV, the camcorder's) work while the stick is held. Input-driven only: nothing runs while idle. */
+  const stickZone = $('stickZone'), stickBase = $('stickBase'), stickKnob = $('stickKnob');
+  const STICK = { R: 52, DEAD: 12, LEAN: .383 };                          // travel radius (px), dead zone (px), sin(22.5 degrees)
+  let stickId = null, stickX = 0, stickY = 0, stickWant = new Set();
+  const stickOwned = new Set();                                            // keys the stick put down (a key the keyboard holds stays the keyboard's)
+  function stickApply() {
+    const A = window.__api; if (!A || !A.keys) return;
+    const Q = A.keys, live = !!(A.started && A.started() && !A.paused());
+    for (const c of [...stickOwned]) if (!live || !stickWant.has(c)) { Q.delete(c); stickOwned.delete(c); }
+    if (!live) return;
+    for (const c of stickWant) if (!Q.has(c)) { Q.add(c); stickOwned.add(c); }   // re-asserted on every move (a pause clears the game's keys)
+  }
+  function stickAt(px, py) {
+    let dx = px - stickX, dy = py - stickY; const d = Math.hypot(dx, dy);
+    if (d > STICK.R) { dx *= STICK.R / d; dy *= STICK.R / d; }
+    if (stickKnob) stickKnob.style.transform = `translate3d(${dx.toFixed(1)}px,${dy.toFixed(1)}px,0)`;
+    const want = new Set();
+    if (d > STICK.DEAD) {
+      const ux = dx / Math.hypot(dx, dy), uy = dy / Math.hypot(dx, dy);
+      if (ux > STICK.LEAN) want.add('KeyD'); else if (ux < -STICK.LEAN) want.add('KeyA');
+      if (uy > STICK.LEAN) want.add('KeyS'); else if (uy < -STICK.LEAN) want.add('KeyW');
+    }
+    stickWant = want; stickApply();
+  }
+  function stickEnd(e) {
+    if (stickId === null || (e && e.pointerId !== undefined && e.pointerId !== stickId)) return;
+    stickId = null; stickWant = new Set(); stickApply();
+    if (stickKnob) stickKnob.style.transform = '';
+    if (stickZone) { stickZone.classList.remove('on'); stickZone.style.removeProperty('--sx'); stickZone.style.removeProperty('--sy'); }
+  }
+  if (stickZone) {
+    stickZone.addEventListener('pointerdown', e => {
+      if (stickId !== null || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      const A = window.__api; if (!A || !A.started || !A.started() || A.paused()) return;
+      e.preventDefault(); stickId = e.pointerId;
+      try { stickZone.setPointerCapture(e.pointerId); } catch (x) { }
+      const r = stickZone.getBoundingClientRect();
+      stickX = e.clientX; stickY = e.clientY;
+      stickZone.style.setProperty('--sx', (stickX - r.left) + 'px'); stickZone.style.setProperty('--sy', (stickY - r.top) + 'px');
+      stickZone.classList.add('on');
+      stickAt(stickX, stickY);
+    });
+    stickZone.addEventListener('pointermove', e => { if (e.pointerId !== stickId) return; e.preventDefault(); stickAt(e.clientX, e.clientY); });
+    for (const t of ['pointerup', 'pointercancel', 'lostpointercapture']) stickZone.addEventListener(t, stickEnd);
+    addEventListener('blur', () => stickEnd());
+    document.addEventListener('visibilitychange', () => { if (document.hidden) stickEnd(); });
+  }
+
+  /* the touch buttons the game wires as clicks (LIGHT; the camcorder's NV, IR, ZOOM; INV): on a touch screen they act on the press
+     itself, so they work while another finger holds the stick (browsers make no click for a tap while a second finger is down).
+     The click a lone tap may still produce afterwards is swallowed, so a tap never acts twice. RUN and CROUCH are the game's own
+     hold buttons and already act on the press. */
+  const PRESS = ['touchFlash', 'touchInv', 'touchNV', 'touchIR', 'touchZoom'], pressedAt = new WeakMap();
+  document.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'mouse') return;
+    const bt = e.target && e.target.closest && e.target.closest('#touch > button'); if (!bt || !PRESS.includes(bt.id)) return;
+    e.preventDefault(); pressedAt.set(bt, Date.now()); bt.click();
+  }, true);
+  document.addEventListener('click', e => {
+    const bt = e.isTrusted && e.target && e.target.closest && e.target.closest('#touch > button'); if (!bt) return;
+    const t = pressedAt.get(bt); if (t && Date.now() - t < 900) { e.preventDefault(); e.stopImmediatePropagation(); }
+  }, true);
+
   /* ---------------------------------------------------------------- every place that names a key follows the bindings (QA1 Q3) */
   function pauseKeys() {
     const box = document.querySelector('#dialog .controlRows'); if (!box) return;
@@ -818,7 +901,7 @@
   // the camcorder's viewfinder line (camcorder.js writes it once and only toggles it afterwards): the same words, the player's keys
   function camHint() { const h = $('camHint'); if (h) h.innerHTML = `${esc(keys.label('nv').toUpperCase())} · NIGHT VISION &nbsp;&nbsp; ${esc(keys.label('ir').toUpperCase())} · IR POWER &nbsp;&nbsp; WHEEL · ZOOM &nbsp;&nbsp; ${esc(keys.label('light').toUpperCase())} · LOWER`; }
   function labelsRefresh() {
-    const n = $('mmNote'); if (n) n.textContent = coarse() ? 'Headphones recommended. Move with the on-screen control, bottom left. PAUSE is top right.' : `Headphones recommended. Move with ${keys.move()}, aim your light with the mouse, Esc pauses.`;
+    const n = $('mmNote'); if (n) n.textContent = coarse() ? 'Headphones recommended. Touch low on the left and drag to move. PAUSE is top right.' : `Headphones recommended. Move with ${keys.move()}, aim your light with the mouse, Esc pauses.`;
     pauseKeys(); if (!IDENT || !keys.isDefault()) camHint(); kbRender(); if (helpEl) buildHelp(); if (vis('appearancePanel')) czSync();
   }
   keys.on(() => { camHint(); labelsRefresh(); });
@@ -885,7 +968,8 @@
   labelsRefresh();
   if (menu && !menu.hidden && !reduced()) menu.classList.add('enter');
 
-  Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, keys,
+  Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, keys, standalone,
+    stick: () => ({ held: stickId !== null, want: [...stickWant].sort(), owned: [...stickOwned].sort() }),
     reveal: () => ({ shown: !!rvEl && !rvEl.hidden, kind: rvEl && rvEl.className, eye: ($('rvEye') || {}).textContent, title: ($('rvTitle') || {}).textContent, sub: ($('rvSub') || {}).textContent, keys: ($('rvKeys') || {}).textContent, last: rvLast }) });
   window.__ui = ui;
 })();
