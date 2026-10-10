@@ -1,0 +1,60 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "idleSeconds": 8,
+ "menuVisitor": {
+  "started": false,
+  "hideSelf": true,
+  "lightOn": false,
+  "personFound": true,
+  "avatarDrawn": false,
+  "joinsSent": 0,
+  "positionPacketsSent": 17,
+  "lastPositionPacketLightBit": 1,
+  "net": "ONLINE · ROOM LIFE209880 · 2 WANDERERS · SHARED MONSTERS",
+  "menuConnection": "One other wanderer is in the halls right now.",
+  "wsOpen": true,
+  "myId": 2,
+  "x": 960,
+  "y": 3264,
+  "stamina": 100
+ },
+ "serverWhileVisitorInMenu": {
+  "listed": true,
+  "active": false,
+  "dead": "",
+  "x": 960,
+  "y": 3264,
+  "observerNet": "ONLINE · ROOM LIFE209880 · 1 WANDERER · SHARED MONSTERS",
+  "observerPeerAvatars": 0
+ },
+ "afterEnter": {
+  "started": true,
+  "hideSelf": false,
+  "lightOn": true,
+  "personFound": true,
+  "avatarDrawn": true,
+  "joinsSent": 1,
+  "positionPacketsSent": 47,
+  "lastPositionPacketLightBit": 1,
+  "net": "ONLINE · ROOM LIFE209880 · 2 WANDERERS · SHARED MONSTERS",
+  "menuConnection": "One other wanderer is in the halls right now.",
+  "wsOpen": true,
+  "myId": 2,
+  "x": 7704,
+  "y": 1224,
+  "stamina": 100
+ },
+ "serverAfterEnter": {
+  "listed": true,
+  "active": true,
+  "dead": "",
+  "x": 7704,
+  "y": 1224,
+  "observerNet": "ONLINE · ROOM LIFE209880 · 2 WANDERERS · SHARED MONSTERS",
+  "observerPeerAvatars": 1
+ },
+ "errors": []
+}
+[ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 21594 ms
+
+EXIT 0

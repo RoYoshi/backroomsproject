@@ -1,0 +1,354 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "a browser that wants a gesture: the ready gate is black but for one line (\"Press any key or click to enter\"); the menu is still hidden; the music is already downloaded and decoded (Intro 1357824 + Loop 2416640 frames, 44.1 kHz, both requested once, before the gate) but has not begun, its context suspended; the game's own audio graph does not exist",
+   "ok": true,
+   "note": {
+    "st": "ready",
+    "gate": true,
+    "go": "Press any key or click to enter",
+    "menuVis": "hidden",
+    "theme": {
+     "state": "ready",
+     "ctx": "suspended",
+     "begun": false,
+     "preparedAt": 8197,
+     "fetched": 2
+    },
+    "timeline": {
+     "black": 35,
+     "loading": 519,
+     "ready": 8468
+    },
+    "gameAudio": false,
+    "field": {
+     "fieldPixels": 895242,
+     "shareAboveLimit": 0,
+     "brightest": 0,
+     "mean": 0,
+     "limit": 10
+    },
+    "whole": {
+     "fieldPixels": 921600,
+     "shareAboveLimit": 0.001012,
+     "brightest": 216,
+     "mean": 0.104,
+     "limit": 24
+    },
+    "wav": [
+     "/assets/MainTheme_MenuIntro.wav?v=64b2124b.848db3af",
+     "/assets/MainTheme_MenuLoop.wav?v=64b2124b.848db3af"
+    ]
+   }
+  },
+  {
+   "name": "Escape, Shift, Tab and Control do not pass the gate (system and browser keys pass by)",
+   "ok": true,
+   "note": {
+    "st": "ready",
+    "passedBy": null,
+    "keys": [
+     "Escape",
+     "Shift",
+     "Tab",
+     "Control"
+    ]
+   }
+  },
+  {
+   "name": "the first real key (A) starts the music and reveals the menu in the same step: the reveal, the music's start and the key are one moment; the Intro is scheduled 60 ms into its context and the Loop exactly one Intro later (on a sample frame, looping its whole buffer); the key never reaches the menu or the game",
+   "ok": true,
+   "note": {
+    "st": "menu",
+    "passedBy": "keydown:a",
+    "passedAt": 14109,
+    "menuAt": 14110,
+    "beganAt": 14109,
+    "t0": 0.06,
+    "loopAt": 30.849659863945575,
+    "now": 2.3219954648526078,
+    "ctx": "running",
+    "keys": [
+     "Escape",
+     "Shift",
+     "Tab",
+     "Control"
+    ],
+    "entry": false,
+    "gameAudio": false
+   }
+  },
+  {
+   "name": "SOUND and the master volume control it: 0.7 x volume, SOUND OFF -> 0, back on -> the level again",
+   "ok": true,
+   "note": {
+    "g0": 0.699999988079071,
+    "g1": 0.3499999940395355,
+    "g2": {
+     "g": 0,
+     "muted": true
+    },
+    "g3": 0.3499999940395355,
+    "g4": 0.699999988079071
+   }
+  },
+  {
+   "name": "the music plays on through Settings, Credits, Help, PLAY's entry and Customize (the same start, no restart, its clock running)",
+   "ok": true,
+   "note": {
+    "inCz": "customize",
+    "c0": [
+     1,
+     0.06,
+     12.004716553287983
+    ],
+    "c1": [
+     1,
+     0.06,
+     34.59773242630386,
+     "playing"
+    ]
+   }
+  },
+  {
+   "name": "a hidden tab is silent (its context suspended) and the music carries on where it was when the tab shows again (no restart)",
+   "ok": true,
+   "note": {
+    "a": [
+     "running",
+     0.06,
+     1
+    ],
+    "h": [
+     "suspended",
+     0.06,
+     1
+    ],
+    "v": [
+     "running",
+     0.06,
+     1
+    ]
+   }
+  },
+  {
+   "name": "ENTER LEVEL 0 from the menu passes through black: on screen the menu, then black (the curtain: no logo, no menu, no half-made frame), then the world fading in; the curtain never takes the pointer",
+   "ok": false,
+   "note": {
+    "sequence": [
+     {
+      "cls": "before",
+      "frames": 14,
+      "from": -1
+     },
+     {
+      "cls": "black",
+      "frames": 62,
+      "from": 2429
+     },
+     {
+      "cls": "dim",
+      "frames": 18,
+      "from": 5760
+     }
+    ],
+    "states": [
+     [
+      407,
+      "run",
+      "slow curtain out",
+      true,
+      "none",
+      true
+     ],
+     [
+      2912,
+      "playing",
+      "slow",
+      false,
+      "auto",
+      true
+     ]
+    ],
+    "after": {
+     "st": "playing",
+     "bootShown": false,
+     "started": true
+    }
+   }
+  },
+  {
+   "name": "the music fades out over 1 s at ENTER (a linear ramp from its level, then its sources stop and its context is suspended); the game's own audio graph exists only now (no menu music and halls together)",
+   "ok": true,
+   "note": {
+    "before": [
+     "playing",
+     false
+    ],
+    "after": {
+     "state": "stopped",
+     "ctx": "suspended",
+     "sources": 0,
+     "fade": [
+      42.00489795918367,
+      43.00489795918367
+     ],
+     "gameAudio": true
+    }
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": false,
+   "note": [
+    "probe: page.click: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('#reset')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"reset\" class=\"secondary\">NEW RUN</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\n    at /home/claude/backrooms-shadows/dev/stage-3c-qa2/probe_b3.js:146:67"
+   ]
+  }
+ ],
+ "errors": [
+  "probe: page.click: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - waiting for locator('#reset')\u001b[22m\n\u001b[2m    - locator resolved to <button id=\"reset\" class=\"secondary\">NEW RUN</button>\u001b[22m\n\u001b[2m  - attempting click action\u001b[22m\n\u001b[2m    - waiting for element to be visible, enabled and stable\u001b[22m\n\u001b[2m    - element is visible, enabled and stable\u001b[22m\n\u001b[2m    - scrolling into view if needed\u001b[22m\n\u001b[2m    - done scrolling\u001b[22m\n\n    at /home/claude/backrooms-shadows/dev/stage-3c-qa2/probe_b3.js:146:67"
+ ],
+ "notes": {
+  "gate": {
+   "timeline": {
+    "black": 35,
+    "loading": 519,
+    "ready": 8468
+   },
+   "boot": {
+    "revealed": false,
+    "music": true,
+    "allowed": false,
+    "gate": true,
+    "gateShownAt": 8978,
+    "passedBy": null,
+    "passedAt": null,
+    "noteShown": true,
+    "done": {
+     "stylesheets": 529,
+     "credits": 529,
+     "runtime": 770,
+     "logo": 775,
+     "music": 8197,
+     "fonts": 8197,
+     "frames": 8467
+    }
+   },
+   "theme": {
+    "state": "ready",
+    "want": true,
+    "begun": false,
+    "ctx": "suspended",
+    "sampleRate": 44100,
+    "now": 0,
+    "gain": 0,
+    "level": 0.7,
+    "muted": false,
+    "introFrames": 1357824,
+    "loopFrames": 2416640,
+    "introRate": 44100,
+    "sources": 0,
+    "loopSourceLoops": null,
+    "loopSourceLoopStart": null,
+    "loopSourceLoopEnd": null,
+    "plays": 0,
+    "loads": 1,
+    "fetched": 2,
+    "cacheHits": 0,
+    "bytes": 22646872,
+    "need": 22646872,
+    "t0": null,
+    "loopAt": null,
+    "fadeAt": null,
+    "fadeEnd": null,
+    "error": null,
+    "preparedAt": 8197,
+    "beganAt": null,
+    "policy": null,
+    "allowedAtReady": false
+   }
+  },
+  "afterKey": {
+   "timeline": {
+    "black": 35,
+    "loading": 519,
+    "ready": 8468,
+    "menu": 14110
+   },
+   "boot": {
+    "revealed": true,
+    "music": true,
+    "allowed": false,
+    "gate": true,
+    "gateShownAt": 8978,
+    "passedBy": "keydown:a",
+    "passedAt": 14109,
+    "noteShown": true,
+    "done": {
+     "stylesheets": 529,
+     "credits": 529,
+     "runtime": 770,
+     "logo": 775,
+     "music": 8197,
+     "fonts": 8197,
+     "frames": 8467
+    }
+   },
+   "theme": {
+    "state": "playing",
+    "want": true,
+    "begun": true,
+    "ctx": "running",
+    "sampleRate": 44100,
+    "now": 2.3219954648526078,
+    "gain": 0.699999988079071,
+    "level": 0.7,
+    "muted": false,
+    "introFrames": 1357824,
+    "loopFrames": 2416640,
+    "introRate": 44100,
+    "sources": 2,
+    "loopSourceLoops": true,
+    "loopSourceLoopStart": 0,
+    "loopSourceLoopEnd": 0,
+    "plays": 1,
+    "loads": 1,
+    "fetched": 2,
+    "cacheHits": 0,
+    "bytes": 22646872,
+    "need": 22646872,
+    "t0": 0.06,
+    "loopAt": 30.849659863945575,
+    "fadeAt": null,
+    "fadeEnd": null,
+    "error": null,
+    "preparedAt": 8197,
+    "beganAt": 14109,
+    "policy": null,
+    "allowedAtReady": false
+   }
+  },
+  "enterFrames": {
+   "sequence": [
+    {
+     "cls": "before",
+     "frames": 14,
+     "from": -1
+    },
+    {
+     "cls": "black",
+     "frames": 62,
+     "from": 2429
+    },
+    {
+     "cls": "dim",
+     "frames": 18,
+     "from": 5760
+    }
+   ],
+   "frames": 94
+  }
+ },
+ "ok": false
+}

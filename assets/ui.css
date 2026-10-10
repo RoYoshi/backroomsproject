@@ -85,9 +85,10 @@ html.tfb-black{background:#000}
 .mm-center>*{pointer-events:auto}
 
 /* the identity: the user's logo (QA2), exactly as supplied. The title box is the sign's own box (1230 x 422 of the 2048 x 1152
-   image), centred; the image is placed so its sign fills that box and its transparent surround overflows, invisible, never
-   cropped, stretched, recoloured or filtered. Its glow is the image's own. It dips only on request, like a fluorescent. */
-.mm-title{position:absolute;left:50%;top:var(--ttop);width:var(--lw);aspect-ratio:1230/422;margin:0;pointer-events:none;
+   image: every pixel of the file that is not fully transparent lies inside it), centred; the image is placed so its sign fills
+   that box, never cropped, stretched, recoloured or filtered. The rest of the image - alpha 0 everywhere - is clipped by the box,
+   so it adds nothing to the page's layout (no overflow to scroll). Its glow is the image's own. It dips only on request. */
+.mm-title{position:absolute;left:50%;top:var(--ttop);width:var(--lw);aspect-ratio:1230/422;margin:0;overflow:hidden;pointer-events:none;
   transform:translate3d(calc(-50% + var(--mx,0) * 6px),calc(var(--my,0) * 4px),0)}
 .mm-logo{position:absolute;left:-33.252%;top:-97.156%;width:166.504%;height:auto;max-width:none;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
 @keyframes mmHum{0%,100%{opacity:1}14%{opacity:.5}20%{opacity:.94}31%{opacity:.68}44%{opacity:1}}

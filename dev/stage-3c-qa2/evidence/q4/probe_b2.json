@@ -1,0 +1,917 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "the logo is the user's file: the served bytes have the supplied SHA-256 (906e19a8...), 2048 x 1152, in the menu's H1 with alt text",
+   "ok": true,
+   "note": {
+    "sha": "906e19a8f4423bc7",
+    "bytes": 814957,
+    "natural": [
+     2048,
+     1152
+    ],
+    "src": "./assets/MAIN_MENU_LOGO_USER_SUPPLIED.png"
+   }
+  },
+  {
+   "name": "drawn as supplied: its aspect ratio kept (no stretch), no filter, blend or opacity change on it or above it, no uneven scaling, and its sign box mapped exactly onto the title box (no crop of the sign)",
+   "ok": true,
+   "note": {
+    "ratio": 1.7778,
+    "signOffset": [
+     0,
+     0.01,
+     -0.01,
+     0
+    ],
+    "chain": [
+     {
+      "el": "mmLogo",
+      "filter": "none",
+      "blend": "normal",
+      "opacity": "1"
+     },
+     {
+      "el": "mmTitle",
+      "filter": "none",
+      "blend": "normal",
+      "opacity": "1"
+     },
+     {
+      "el": "mm-center",
+      "filter": "none",
+      "blend": "normal",
+      "opacity": "1"
+     },
+     {
+      "el": "menu",
+      "filter": "none",
+      "blend": "normal",
+      "opacity": "1"
+     }
+    ],
+    "scale": [
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "name": "pixel by pixel the sign on screen is the file drawn on black: mean difference under 2 of 255, the same mean colour (no recolour), correlation above 0.99",
+   "ok": true,
+   "note": {
+    "box": [
+     538,
+     71,
+     1382,
+     361
+    ],
+    "meanAbsDiff": 1.121,
+    "p99AbsDiff": 15,
+    "meanColourOnScreen": [
+     19.94,
+     19.94,
+     16.6
+    ],
+    "meanColourOfFile": [
+     20.53,
+     20.54,
+     17.18
+    ],
+    "correlation": 0.9964
+   }
+  },
+  {
+   "name": "the field is black on the menu, the PLAY entry, Settings, Credits, Help and Customize opened from the menu: no pixel outside the menu's own parts above 10 of 255 (the scrim opaque black, the page behind black)",
+   "ok": true,
+   "note": {
+    "menu": [
+     0,
+     7,
+     true
+    ],
+    "entry": [
+     0,
+     0,
+     true
+    ],
+    "settings": [
+     0,
+     3,
+     true
+    ],
+    "credits": [
+     0,
+     3,
+     true
+    ],
+    "help": [
+     0,
+     3,
+     true
+    ],
+    "customize": [
+     0,
+     6,
+     true
+    ]
+   }
+  },
+  {
+   "name": "a run shows the world (the black field and the logo gone); Customize from the pause shows the world behind it; the run menu (NEW RUN) as before; END brings the black menu back",
+   "ok": true,
+   "note": {
+    "run": {
+     "black": false,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": false
+    },
+    "litShare": 0.348053,
+    "pauseCustomize": {
+     "black": false,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": false
+    },
+    "runMenu": {
+     "black": false,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": false
+    },
+    "back": {
+     "black": true,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": true
+    }
+   }
+  },
+  {
+   "name": "layouts at 1920x1080, 1366x768, 1280x720, 390x844, 844x390, 360x640, 667x375 and 640x360: the logo centred and high, then the LEVEL 0 line right above PLAY, PLAY the largest control and centred, the row under it, both rails; nothing overlapping or off screen; the logo never drawn above its own resolution",
+   "ok": true,
+   "note": {
+    "bad": [],
+    "logo": {
+     "1920x1080": [
+      538,
+      71,
+      845,
+      290,
+      845
+     ],
+     "1366x768": [
+      382,
+      51,
+      601,
+      206,
+      601
+     ],
+     "1280x720": [
+      358,
+      48,
+      563,
+      193,
+      563
+     ],
+     "390x844m": [
+      27,
+      220,
+      335,
+      115,
+      671
+     ],
+     "844x390m": [
+      269,
+      27,
+      306,
+      105,
+      612
+     ],
+     "360x640m": [
+      25,
+      220,
+      310,
+      106,
+      619
+     ],
+     "667x375m": [
+      159,
+      105,
+      349,
+      120,
+      697
+     ],
+     "640x360m": [
+      166,
+      104,
+      307,
+      105,
+      615
+     ]
+    }
+   }
+  },
+  {
+   "name": "the logo failing to load: the boot stays black with \"the menu artwork did not load\" and RETRY; the menu never shows without its logo",
+   "ok": true,
+   "note": {
+    "st": "error",
+    "msg": "The game could not start: the menu artwork did not load. Check your connection, then try again.",
+    "hidden": true
+   }
+  },
+  {
+   "name": "the logo's only motion is its rare fluorescent dip (an opacity flicker of the whole image, under a second)",
+   "ok": true,
+   "note": "mmHum"
+  },
+  {
+   "name": "reduced motion: the logo never dips",
+   "ok": true,
+   "note": "none"
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "notes": {
+  "logoMatch": {
+   "box": [
+    538,
+    71,
+    1382,
+    361
+   ],
+   "meanAbsDiff": 1.121,
+   "p99AbsDiff": 15,
+   "meanColourOnScreen": [
+    19.94,
+    19.94,
+    16.6
+   ],
+   "meanColourOfFile": [
+    20.53,
+    20.54,
+    17.18
+   ],
+   "correlation": 0.9964
+  },
+  "field": {
+   "menu": {
+    "fieldPixels": 1172395,
+    "shareAboveLimit": 0,
+    "brightest": 7,
+    "mean": 0.018,
+    "limit": 10,
+    "world": {
+     "black": true,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": true
+    }
+   },
+   "entry": {
+    "fieldPixels": 1108833,
+    "shareAboveLimit": 0,
+    "brightest": 0,
+    "mean": 0,
+    "limit": 10,
+    "world": {
+     "black": true,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": true
+    }
+   },
+   "settings": {
+    "fieldPixels": 483729,
+    "shareAboveLimit": 0,
+    "brightest": 3,
+    "mean": 1.18,
+    "limit": 10,
+    "world": {
+     "black": true,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": true
+    }
+   },
+   "credits": {
+    "fieldPixels": 483729,
+    "shareAboveLimit": 0,
+    "brightest": 3,
+    "mean": 1.18,
+    "limit": 10,
+    "world": {
+     "black": true,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": true
+    }
+   },
+   "help": {
+    "fieldPixels": 483729,
+    "shareAboveLimit": 0,
+    "brightest": 3,
+    "mean": 1.18,
+    "limit": 10,
+    "world": {
+     "black": true,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": true
+    }
+   },
+   "customize": {
+    "fieldPixels": 764543,
+    "shareAboveLimit": 0,
+    "brightest": 6,
+    "mean": 3.642,
+    "limit": 10,
+    "world": {
+     "black": true,
+     "scrim": "rgb(0, 0, 0)",
+     "menu": true
+    }
+   }
+  },
+  "layouts": {
+   "1920x1080": {
+    "W": 1920,
+    "H": 1080,
+    "dpr": 1,
+    "box": {
+     "logo": {
+      "l": 537.6015625,
+      "t": 71.265625,
+      "r": 1382.3984375,
+      "b": 361.09375,
+      "w": 844.796875,
+      "h": 289.828125
+     },
+     "rail": {
+      "l": 48,
+      "t": 48,
+      "r": 441.59375,
+      "b": 1032,
+      "w": 393.59375,
+      "h": 984
+     },
+     "util": {
+      "l": 1812,
+      "t": 48,
+      "r": 1872,
+      "b": 285,
+      "w": 60,
+      "h": 237
+     },
+     "dest": {
+      "l": 640,
+      "t": 738.65625,
+      "r": 1280,
+      "b": 759.65625,
+      "w": 640,
+      "h": 21
+     },
+     "play": {
+      "l": 640,
+      "t": 771.65625,
+      "r": 1280,
+      "b": 935.8125,
+      "w": 640,
+      "h": 164.15625
+     },
+     "row": {
+      "l": 640,
+      "t": 934.8125,
+      "r": 1280,
+      "b": 1032,
+      "w": 640,
+      "h": 97.1875
+     },
+     "foot": {
+      "l": 1608.90625,
+      "t": 981.5,
+      "r": 1872,
+      "b": 1032,
+      "w": 263.09375,
+      "h": 50.5
+     }
+    },
+    "over": [],
+    "off": [],
+    "biggest": "mmPlay",
+    "centred": true,
+    "playCentred": true,
+    "order": true,
+    "destRightAbovePlay": true,
+    "deviceSignWidth": 845,
+    "imgRatio": 1.7778
+   },
+   "1366x768": {
+    "W": 1366,
+    "H": 768,
+    "dpr": 1,
+    "box": {
+     "logo": {
+      "l": 382.484375,
+      "t": 50.6875,
+      "r": 983.515625,
+      "b": 256.890625,
+      "w": 601.03125,
+      "h": 206.203125
+     },
+     "rail": {
+      "l": 34.140625,
+      "t": 34.140625,
+      "r": 314.15625,
+      "b": 733.859375,
+      "w": 280.015625,
+      "h": 699.71875
+     },
+     "util": {
+      "l": 1271.859375,
+      "t": 34.140625,
+      "r": 1331.859375,
+      "b": 271.140625,
+      "w": 60,
+      "h": 237
+     },
+     "dest": {
+      "l": 363,
+      "t": 521.015625,
+      "r": 1003,
+      "b": 537.015625,
+      "w": 640,
+      "h": 16
+     },
+     "play": {
+      "l": 363,
+      "t": 549.015625,
+      "r": 1003,
+      "b": 665.75,
+      "w": 640,
+      "h": 116.734375
+     },
+     "row": {
+      "l": 363,
+      "t": 664.75,
+      "r": 1003,
+      "b": 733.859375,
+      "w": 640,
+      "h": 69.109375
+     },
+     "foot": {
+      "l": 1068.765625,
+      "t": 683.359375,
+      "r": 1331.859375,
+      "b": 733.859375,
+      "w": 263.09375,
+      "h": 50.5
+     }
+    },
+    "over": [],
+    "off": [],
+    "biggest": "mmPlay",
+    "centred": true,
+    "playCentred": true,
+    "order": true,
+    "destRightAbovePlay": true,
+    "deviceSignWidth": 601,
+    "imgRatio": 1.7778
+   },
+   "1280x720": {
+    "W": 1280,
+    "H": 720,
+    "dpr": 1,
+    "box": {
+     "logo": {
+      "l": 358.40625,
+      "t": 47.515625,
+      "r": 921.59375,
+      "b": 240.734375,
+      "w": 563.1875,
+      "h": 193.21875
+     },
+     "rail": {
+      "l": 32,
+      "t": 32,
+      "r": 302,
+      "b": 688,
+      "w": 270,
+      "h": 656
+     },
+     "util": {
+      "l": 1188,
+      "t": 32,
+      "r": 1248,
+      "b": 269,
+      "w": 60,
+      "h": 237
+     },
+     "dest": {
+      "l": 342,
+      "t": 486.765625,
+      "r": 938,
+      "b": 502.765625,
+      "w": 596,
+      "h": 16
+     },
+     "play": {
+      "l": 342,
+      "t": 514.765625,
+      "r": 938,
+      "b": 624.203125,
+      "w": 596,
+      "h": 109.4375
+     },
+     "row": {
+      "l": 342,
+      "t": 623.203125,
+      "r": 938,
+      "b": 688,
+      "w": 596,
+      "h": 64.796875
+     },
+     "foot": {
+      "l": 984.90625,
+      "t": 637.5,
+      "r": 1248,
+      "b": 688,
+      "w": 263.09375,
+      "h": 50.5
+     }
+    },
+    "over": [],
+    "off": [],
+    "biggest": "mmPlay",
+    "centred": true,
+    "playCentred": true,
+    "order": true,
+    "destRightAbovePlay": true,
+    "deviceSignWidth": 563,
+    "imgRatio": 1.7778
+   },
+   "390x844m": {
+    "W": 390,
+    "H": 844,
+    "dpr": 2,
+    "box": {
+     "logo": {
+      "l": 27.3046875,
+      "t": 220,
+      "r": 362.6953125,
+      "b": 335.0625,
+      "w": 335.390625,
+      "h": 115.0625
+     },
+     "rail": {
+      "l": 16,
+      "t": 16,
+      "r": 316,
+      "b": 109.9375,
+      "w": 300,
+      "h": 93.9375
+     },
+     "util": {
+      "l": 330,
+      "t": 16,
+      "r": 374,
+      "b": 189,
+      "w": 44,
+      "h": 173
+     },
+     "dest": {
+      "l": 16,
+      "t": 608.34375,
+      "r": 374,
+      "b": 626.90625,
+      "w": 358,
+      "h": 18.5625
+     },
+     "play": {
+      "l": 16,
+      "t": 638.90625,
+      "r": 374,
+      "b": 723.296875,
+      "w": 358,
+      "h": 84.390625
+     },
+     "row": {
+      "l": 16,
+      "t": 722.296875,
+      "r": 374,
+      "b": 778,
+      "w": 358,
+      "h": 55.703125
+     },
+     "foot": {
+      "l": 16,
+      "t": 799.5,
+      "r": 374,
+      "b": 828,
+      "w": 358,
+      "h": 28.5
+     }
+    },
+    "over": [],
+    "off": [],
+    "biggest": "mmPlay",
+    "centred": true,
+    "playCentred": true,
+    "order": true,
+    "destRightAbovePlay": true,
+    "deviceSignWidth": 671,
+    "imgRatio": 1.7778
+   },
+   "844x390m": {
+    "W": 844,
+    "H": 390,
+    "dpr": 2,
+    "box": {
+     "logo": {
+      "l": 269.015625,
+      "t": 27,
+      "r": 574.984375,
+      "b": 131.96875,
+      "w": 305.96875,
+      "h": 104.96875
+     },
+     "rail": {
+      "l": 27,
+      "t": 27,
+      "r": 257,
+      "b": 100.1875,
+      "w": 230,
+      "h": 73.1875
+     },
+     "util": {
+      "l": 660,
+      "t": 27,
+      "r": 817,
+      "b": 67,
+      "w": 157,
+      "h": 40
+     },
+     "dest": {
+      "l": 162,
+      "t": 240.515625,
+      "r": 682,
+      "b": 254.515625,
+      "w": 520,
+      "h": 14
+     },
+     "play": {
+      "l": 162,
+      "t": 262.515625,
+      "r": 682,
+      "b": 317.109375,
+      "w": 520,
+      "h": 54.59375
+     },
+     "row": {
+      "l": 162,
+      "t": 316.109375,
+      "r": 682,
+      "b": 359,
+      "w": 520,
+      "h": 42.890625
+     },
+     "foot": {
+      "l": 765.046875,
+      "t": 353,
+      "r": 817,
+      "b": 363,
+      "w": 51.953125,
+      "h": 10
+     }
+    },
+    "over": [],
+    "off": [],
+    "biggest": "mmPlay",
+    "centred": true,
+    "playCentred": true,
+    "order": true,
+    "destRightAbovePlay": true,
+    "deviceSignWidth": 612,
+    "imgRatio": 1.7779
+   },
+   "360x640m": {
+    "W": 360,
+    "H": 640,
+    "dpr": 2,
+    "box": {
+     "logo": {
+      "l": 25.203125,
+      "t": 220,
+      "r": 334.796875,
+      "b": 326.203125,
+      "w": 309.59375,
+      "h": 106.203125
+     },
+     "rail": {
+      "l": 16,
+      "t": 16,
+      "r": 286,
+      "b": 109.9375,
+      "w": 270,
+      "h": 93.9375
+     },
+     "util": {
+      "l": 300,
+      "t": 16,
+      "r": 344,
+      "b": 189,
+      "w": 44,
+      "h": 173
+     },
+     "dest": {
+      "l": 16,
+      "t": 436,
+      "r": 344,
+      "b": 451,
+      "w": 328,
+      "h": 15
+     },
+     "play": {
+      "l": 16,
+      "t": 463,
+      "r": 344,
+      "b": 527,
+      "w": 328,
+      "h": 64
+     },
+     "row": {
+      "l": 16,
+      "t": 526,
+      "r": 344,
+      "b": 574,
+      "w": 328,
+      "h": 48
+     },
+     "foot": {
+      "l": 16,
+      "t": 581.25,
+      "r": 344,
+      "b": 624,
+      "w": 328,
+      "h": 42.75
+     }
+    },
+    "over": [],
+    "off": [],
+    "biggest": "mmPlay",
+    "centred": true,
+    "playCentred": true,
+    "order": true,
+    "destRightAbovePlay": true,
+    "deviceSignWidth": 619,
+    "imgRatio": 1.7778
+   },
+   "667x375m": {
+    "W": 667,
+    "H": 375,
+    "dpr": 2,
+    "box": {
+     "logo": {
+      "l": 159.1640625,
+      "t": 105.34375,
+      "r": 507.8359375,
+      "b": 224.96875,
+      "w": 348.671875,
+      "h": 119.625
+     },
+     "rail": {
+      "l": 21.34375,
+      "t": 21.34375,
+      "r": 251.34375,
+      "b": 94.53125,
+      "w": 230,
+      "h": 73.1875
+     },
+     "util": {
+      "l": 488.65625,
+      "t": 21.34375,
+      "r": 645.65625,
+      "b": 61.34375,
+      "w": 157,
+      "h": 40
+     },
+     "dest": {
+      "l": 91.34375,
+      "t": 234.90625,
+      "r": 575.640625,
+      "b": 248.90625,
+      "w": 484.296875,
+      "h": 14
+     },
+     "play": {
+      "l": 91.34375,
+      "t": 256.90625,
+      "r": 575.640625,
+      "b": 309.40625,
+      "w": 484.296875,
+      "h": 52.5
+     },
+     "row": {
+      "l": 91.34375,
+      "t": 308.40625,
+      "r": 575.640625,
+      "b": 349.65625,
+      "w": 484.296875,
+      "h": 41.25
+     },
+     "foot": {
+      "l": 593.703125,
+      "t": 343.65625,
+      "r": 645.65625,
+      "b": 353.65625,
+      "w": 51.953125,
+      "h": 10
+     }
+    },
+    "over": [],
+    "off": [],
+    "biggest": "mmPlay",
+    "centred": true,
+    "playCentred": true,
+    "order": true,
+    "destRightAbovePlay": true,
+    "deviceSignWidth": 697,
+    "imgRatio": 1.7778
+   },
+   "640x360m": {
+    "W": 640,
+    "H": 360,
+    "dpr": 2,
+    "box": {
+     "logo": {
+      "l": 166.2578125,
+      "t": 104.46875,
+      "r": 473.7421875,
+      "b": 209.953125,
+      "w": 307.484375,
+      "h": 105.484375
+     },
+     "rail": {
+      "l": 20.46875,
+      "t": 20.46875,
+      "r": 250.46875,
+      "b": 93.65625,
+      "w": 230,
+      "h": 73.1875
+     },
+     "util": {
+      "l": 462.53125,
+      "t": 20.46875,
+      "r": 619.53125,
+      "b": 60.46875,
+      "w": 157,
+      "h": 40
+     },
+     "dest": {
+      "l": 90.484375,
+      "t": 224.140625,
+      "r": 549.515625,
+      "b": 238.140625,
+      "w": 459.03125,
+      "h": 14
+     },
+     "play": {
+      "l": 90.484375,
+      "t": 246.140625,
+      "r": 549.515625,
+      "b": 296.53125,
+      "w": 459.03125,
+      "h": 50.390625
+     },
+     "row": {
+      "l": 90.484375,
+      "t": 295.53125,
+      "r": 549.515625,
+      "b": 335.53125,
+      "w": 459.03125,
+      "h": 40
+     },
+     "foot": {
+      "l": 567.578125,
+      "t": 329.53125,
+      "r": 619.53125,
+      "b": 339.53125,
+      "w": 51.953125,
+      "h": 10
+     }
+    },
+    "over": [],
+    "off": [],
+    "biggest": "mmPlay",
+    "centred": true,
+    "playCentred": true,
+    "order": true,
+    "destRightAbovePlay": true,
+    "deviceSignWidth": 615,
+    "imgRatio": 1.7779
+   }
+  },
+  "hum": "mmHum",
+  "humReduced": "none"
+ },
+ "ok": true
+}

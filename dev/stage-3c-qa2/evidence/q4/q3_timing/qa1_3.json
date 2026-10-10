@@ -1,0 +1,633 @@
+{
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/qa1_exact",
+ "first": null,
+ "checks": [
+  {
+   "name": "fb_settings_v1 migration: an old save keeps its choices (volume 0.8, title, keys) but loses the old coordinates default and is written back as v2; a v2 save with coordinates on keeps them (and its title off); no save: coordinates off",
+   "ok": true,
+   "note": [
+    [
+     "a save from before QA1 (coordinates on, the old default)",
+     false,
+     true,
+     0.8,
+     2
+    ],
+    [
+     "a QA1 save with coordinates switched on",
+     true,
+     false,
+     1,
+     2
+    ],
+    [
+     "no save",
+     false,
+     true,
+     1,
+     null
+    ]
+   ]
+  },
+  {
+   "name": "as a run begins: THRESHOLD / LEVEL 0, the objective and a line of the player's keys appear, then fade away (gone after about 6 s)",
+   "ok": false,
+   "note": {
+    "rv1": {
+     "shown": true,
+     "kind": "hud-reveal entry in",
+     "eye": "Threshold",
+     "title": "Level 0",
+     "sub": "Find a glitched wall",
+     "keys": "W A S D move   Shift run   F light   Tab inventory   Esc pause",
+     "last": ""
+    },
+    "rv2": {
+     "shown": true,
+     "kind": "hud-reveal entry",
+     "eye": "Threshold",
+     "title": "Level 0",
+     "sub": "Find a glitched wall",
+     "keys": "W A S D move   Shift run   F light   Tab inventory   Esc pause",
+     "last": "11 / PILLAR HALL"
+    }
+   }
+  },
+  {
+   "name": "calm play shows almost only the world: no name, pace, light state, controls strip, objective, LEVEL 0 / sector, connection line, sound button, coordinates, stamina or health; PAUSE stays",
+   "ok": true,
+   "note": {
+    "#nameplate": false,
+    "#pace": false,
+    "#lightStatus": false,
+    "#hud .keyline": false,
+    ".hud-obj": false,
+    ".location": false,
+    "#net": false,
+    "#sound": false,
+    ".coordinates": false,
+    "#hud .staminaHud": false,
+    "#hudHealth": false,
+    "#hudReveal": false,
+    "#hudPause": true
+   }
+  },
+  {
+   "name": "stamina appears as soon as it is spent and stays while it recovers; once full it fades (the game's own value)",
+   "ok": true,
+   "note": {
+    "st1": {
+     "on": true,
+     "stamina": 95
+    },
+    "st2": {
+     "on": false,
+     "stamina": 100
+    }
+   }
+  },
+  {
+   "name": "walking into another part of the level reveals its own name (\"code / name\"), only after it has held for a moment, then fades",
+   "ok": true,
+   "note": {
+    "target": "01 / YELLOW HALL",
+    "sv0": false,
+    "sv1": [
+     "hud-reveal sector in",
+     "01 / YELLOW HALL"
+    ],
+    "sv2": false
+   }
+  },
+  {
+   "name": "the health slot is dormant (hidden; the game has no health); its hook shows a real value and hides again on null",
+   "ok": true,
+   "note": [
+    true,
+    false,
+    "mid",
+    "40%",
+    true
+   ]
+  },
+  {
+   "name": "the pause screen keeps what left the HUD: the objective and the connection line; its controls list names the player's keys",
+   "ok": true,
+   "note": {
+    "st": "paused",
+    "obj": "Find a glitched wall",
+    "move": "W A S D / ↑ ← ↓ →",
+    "net": "block"
+   }
+  },
+  {
+   "name": "QA1 with the default bindings: every key press reaches the page untouched (trusted, once, the same code), nothing is held back at the window; light, inventory and the rest respond",
+   "ok": true,
+   "note": {
+    "windowEvents": 40,
+    "documentEvents": 38,
+    "st0": {
+     "light": true,
+     "inv": false
+    },
+    "st1": {
+     "light": true,
+     "inv": false,
+     "started": true,
+     "paused": false
+    },
+    "inv": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "name": "Settings > Controls: a slot waits for a key (\"Press a key\"), takes it (Move up = I, saved), refuses a key kept for the game or the browser, and Esc cancels a capture without closing Settings",
+   "ok": true,
+   "note": {
+    "cap": "Press a key",
+    "b1": {
+     "up": [
+      "KeyI",
+      "ArrowUp"
+     ],
+     "stored": {
+      "v": 1,
+      "b": {
+       "up": [
+        "KeyI",
+        "ArrowUp"
+       ],
+       "left": [
+        "KeyA",
+        "ArrowLeft"
+       ],
+       "down": [
+        "KeyS",
+        "ArrowDown"
+       ],
+       "right": [
+        "KeyD",
+        "ArrowRight"
+       ],
+       "run": [
+        "ShiftLeft",
+        "ShiftRight"
+       ],
+       "crouch": [
+        "KeyC",
+        null
+       ],
+       "light": [
+        "KeyF",
+        null
+       ],
+       "nv": [
+        "KeyN",
+        null
+       ],
+       "ir": [
+        "KeyB",
+        null
+       ],
+       "zoom": [
+        "KeyZ",
+        null
+       ],
+       "inventory": [
+        "Tab",
+        null
+       ],
+       "map": [
+        "KeyM",
+        null
+       ]
+      }
+     },
+     "msg": "Move up: I."
+    },
+    "ref": {
+     "msg": "Backquote is kept for the browser or the game. Press another key, or Esc to cancel.",
+     "capturing": true
+    },
+    "esc1": {
+     "capturing": false,
+     "sheet": true,
+     "light": [
+      "KeyF",
+      null
+     ]
+    }
+   }
+  },
+  {
+   "name": "a key already used elsewhere is shown as a conflict and nothing changes until it is resolved; Swap exchanges the two keys",
+   "ok": true,
+   "note": {
+    "c1": {
+     "msg": "I is already used for Move up. Swap them (Move up gets F), or cancel. Swap keys Cancel",
+     "swap": true,
+     "up": "KeyI",
+     "light": "KeyF"
+    },
+    "c2": {
+     "up": "KeyF",
+     "light": "KeyI"
+    }
+   }
+  },
+  {
+   "name": "every key label follows the bindings: the pause list, the menu's entry note, the camcorder's viewfinder line",
+   "ok": true,
+   "note": {
+    "pause": [
+     "F A S D / ↑ ← ↓ →",
+     "Toggle light / raise camcorderI",
+     "InventoryQ"
+    ],
+    "note": "Headphones recommended. Move with F A S D, aim your light with the mouse, Esc pauses.",
+    "cam": "N · NIGHT VISION    B · IR POWER    WHEEL · ZOOM    I · LOWER",
+    "inv": "Q"
+   }
+  },
+  {
+   "name": "in play with the new keys (40 game ticks each, frame for frame): F (now Move up) walks up exactly as W did, W does nothing, the arrow still walks up; I toggles the light; Q opens and closes the inventory; Tab is held back (no inventory, no focus jump); Esc still pauses",
+   "ok": true,
+   "note": {
+    "wW0": {
+     "dx": 0,
+     "dy": -113.759,
+     "dist": 113.759,
+     "ang": -90,
+     "stamina": 0
+    },
+    "wF": {
+     "dx": 0,
+     "dy": -113.759,
+     "dist": 113.759,
+     "ang": -90,
+     "stamina": 0
+    },
+    "wW": {
+     "dx": 0,
+     "dy": 0,
+     "dist": 0,
+     "ang": 0,
+     "stamina": 0
+    },
+    "wArrow": {
+     "dx": 0,
+     "dy": -113.759,
+     "dist": 113.759,
+     "ang": -90,
+     "stamina": 0
+    },
+    "light": [
+     true,
+     false
+    ],
+    "inv1": true,
+    "tab": {
+     "inv": false,
+     "focus": "BODY",
+     "B": []
+    },
+    "paused": true
+   }
+  },
+  {
+   "name": "the bindings survive a reload; Reset controls to defaults restores every default (and clears the save)",
+   "ok": true,
+   "note": {
+    "kept": {
+     "up": [
+      "KeyF",
+      "ArrowUp"
+     ],
+     "left": [
+      "KeyA",
+      "ArrowLeft"
+     ],
+     "down": [
+      "KeyS",
+      "ArrowDown"
+     ],
+     "right": [
+      "KeyD",
+      "ArrowRight"
+     ],
+     "run": [
+      "ShiftLeft",
+      "ShiftRight"
+     ],
+     "crouch": [
+      "KeyC",
+      null
+     ],
+     "light": [
+      "KeyI",
+      null
+     ],
+     "nv": [
+      "KeyN",
+      null
+     ],
+     "ir": [
+      "KeyB",
+      null
+     ],
+     "zoom": [
+      "KeyZ",
+      null
+     ],
+     "inventory": [
+      "KeyQ",
+      null
+     ],
+     "map": [
+      "KeyM",
+      null
+     ]
+    },
+    "reset": {
+     "b": {
+      "up": [
+       "KeyW",
+       "ArrowUp"
+      ],
+      "left": [
+       "KeyA",
+       "ArrowLeft"
+      ],
+      "down": [
+       "KeyS",
+       "ArrowDown"
+      ],
+      "right": [
+       "KeyD",
+       "ArrowRight"
+      ],
+      "run": [
+       "ShiftLeft",
+       "ShiftRight"
+      ],
+      "crouch": [
+       "KeyC",
+       null
+      ],
+      "light": [
+       "KeyF",
+       null
+      ],
+      "nv": [
+       "KeyN",
+       null
+      ],
+      "ir": [
+       "KeyB",
+       null
+      ],
+      "zoom": [
+       "KeyZ",
+       null
+      ],
+      "inventory": [
+       "Tab",
+       null
+      ],
+      "map": [
+       "KeyM",
+       null
+      ]
+     },
+     "def": true,
+     "stored": null,
+     "cam": "N · NIGHT VISION    B · IR POWER    WHEEL · ZOOM    F · LOWER"
+    }
+   }
+  },
+  {
+   "name": "a save that would put one key on two actions is not trusted: the defaults are used",
+   "ok": true,
+   "note": {
+    "def": true,
+    "up": [
+     "KeyW",
+     "ArrowUp"
+    ],
+    "light": [
+     "KeyF",
+     null
+    ]
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "notes": {
+  "migration": [
+   {
+    "name": "a save from before QA1 (coordinates on, the old default)",
+    "get": {
+     "c": "",
+     "s": 1,
+     "o": 1,
+     "keys": true,
+     "coords": false,
+     "title": true,
+     "auto": true,
+     "vol": 0.8,
+     "rm": "auto",
+     "v": 2
+    },
+    "stored": {
+     "c": "",
+     "s": 1,
+     "o": 1,
+     "keys": true,
+     "coords": false,
+     "title": true,
+     "auto": true,
+     "vol": 0.8,
+     "rm": "auto",
+     "v": 2
+    },
+    "nocoords": true
+   },
+   {
+    "name": "a QA1 save with coordinates switched on",
+    "get": {
+     "c": "",
+     "s": 1,
+     "o": 1,
+     "keys": true,
+     "coords": true,
+     "title": false,
+     "auto": true,
+     "vol": 1,
+     "rm": "auto",
+     "v": 2
+    },
+    "stored": {
+     "c": "",
+     "s": 1,
+     "o": 1,
+     "keys": true,
+     "coords": true,
+     "title": false,
+     "auto": true,
+     "vol": 1,
+     "rm": "auto",
+     "v": 2
+    },
+    "nocoords": false
+   },
+   {
+    "name": "no save",
+    "get": {
+     "c": "",
+     "s": 1,
+     "o": 1,
+     "keys": true,
+     "coords": false,
+     "title": true,
+     "auto": true,
+     "vol": 1,
+     "rm": "auto",
+     "v": 2
+    },
+    "stored": null,
+    "nocoords": true
+   }
+  ],
+  "defaultsQa1": {
+   "seq": {
+    "A": [
+     "d:KeyW",
+     "u:KeyW",
+     "d:KeyA",
+     "u:KeyA",
+     "d:KeyS",
+     "u:KeyS",
+     "d:KeyD",
+     "u:KeyD",
+     "d:ArrowUp",
+     "u:ArrowUp",
+     "d:ArrowLeft",
+     "u:ArrowLeft",
+     "d:ArrowDown",
+     "u:ArrowDown",
+     "d:ArrowRight",
+     "u:ArrowRight",
+     "d:ShiftLeft",
+     "u:ShiftLeft",
+     "d:ShiftRight",
+     "u:ShiftRight",
+     "d:KeyC",
+     "u:KeyC",
+     "d:KeyC",
+     "u:KeyC",
+     "d:KeyF",
+     "u:KeyF",
+     "d:KeyF",
+     "u:KeyF",
+     "d:KeyN",
+     "u:KeyN",
+     "d:KeyB",
+     "u:KeyB",
+     "d:KeyZ",
+     "u:KeyZ",
+     "d:KeyM",
+     "u:KeyM",
+     "d:Tab",
+     "u:Tab",
+     "d:Tab",
+     "u:Tab"
+    ],
+    "B": [
+     "d:KeyW",
+     "u:KeyW",
+     "d:KeyA",
+     "u:KeyA",
+     "d:KeyS",
+     "u:KeyS",
+     "d:KeyD",
+     "u:KeyD",
+     "d:ArrowUp",
+     "u:ArrowUp",
+     "d:ArrowLeft",
+     "u:ArrowLeft",
+     "d:ArrowDown",
+     "u:ArrowDown",
+     "d:ArrowRight",
+     "u:ArrowRight",
+     "d:ShiftLeft",
+     "u:ShiftLeft",
+     "d:ShiftRight",
+     "u:ShiftRight",
+     "d:KeyC",
+     "u:KeyC",
+     "d:KeyC",
+     "u:KeyC",
+     "d:KeyF",
+     "u:KeyF",
+     "d:KeyF",
+     "u:KeyF",
+     "d:KeyN",
+     "u:KeyN",
+     "d:KeyB",
+     "u:KeyB",
+     "d:KeyZ",
+     "u:KeyZ",
+     "d:KeyM",
+     "u:KeyM",
+     "u:Tab",
+     "u:Tab"
+    ],
+    "st0": {
+     "light": true,
+     "inv": false
+    },
+    "st1": {
+     "light": true,
+     "inv": false,
+     "started": true,
+     "paused": false
+    },
+    "invAfterEachTab": [
+     true,
+     false
+    ]
+   },
+   "w1": {
+    "dx": 153.893,
+    "dy": 0,
+    "dist": 153.893,
+    "ang": 0,
+    "stamina": 0
+   },
+   "w2": {
+    "dx": 178.739,
+    "dy": -178.739,
+    "dist": 252.775,
+    "ang": -45,
+    "stamina": 6.25
+   },
+   "w3": {
+    "dx": -60.214,
+    "dy": 0,
+    "dist": 60.214,
+    "ang": 180,
+    "stamina": 0
+   },
+   "errs": [],
+   "isQa1": true
+  }
+ },
+ "ok": false
+}

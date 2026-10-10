@@ -1020,7 +1020,7 @@
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const twoFrames = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
   const domReady = new Promise(r => { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', r, { once: true }); else r(); });
-  const bootInfo = { music: null, allowed: null, gate: false, gateShownAt: null, passedBy: null, passedAt: null, noteShown: false };
+  const bootInfo = { music: null, allowed: null, gate: false, gateShownAt: null, passedBy: null, passedAt: null, noteShown: false, done: {} };   // done: when each part was ready (ms)
   const bootT0 = performance.now();
   let noteAt = 0;
   function musicNote(got, need) {                     // per downloaded chunk of the music (never for a Cache Storage read)
@@ -1110,9 +1110,10 @@
     if (!BOOT) return;                                // no inline boot script: nothing is held back
     BOOT.claim(); BOOT.set('loading');
     const slowT = setTimeout(() => { if (bootEl) bootEl.classList.add('slow'); }, 700);
-    Promise.all(REQUIRED.map(([what, k]) => Promise.resolve().then(NEED[k]).catch(e => { throw { what, e }; })))
-      .then(fontsSettled)
-      .then(() => { hook(); loadoutSummary(); onState(); return twoFrames(); })
+    const at = k => { bootInfo.done[k] = Math.round(performance.now()); };
+    Promise.all(REQUIRED.map(([what, k]) => Promise.resolve().then(NEED[k]).then(() => at(k), e => { throw { what, e }; })))
+      .then(fontsSettled).then(() => at('fonts'))
+      .then(() => { hook(); loadoutSummary(); onState(); return twoFrames(); }).then(() => at('frames'))
       .then(() => { clearTimeout(slowT); if (BOOT.state() === 'error') return; if (revealed) settled(); else ready(); })
       .catch(x => {
         clearTimeout(slowT); const what = x && x.what || 'the game', why = String(x && x.e && (x.e.message || x.e) || x);

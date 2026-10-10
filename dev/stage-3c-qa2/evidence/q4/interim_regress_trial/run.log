@@ -1,0 +1,21 @@
+probe_q1: 19/26 pass, 0 superseded, 7 unexplained  (251 s)  [ui_lib_gate] navigations: 10 {"menu (gate passed by a key)":10}, longest wait 14845 ms
+   UNEXPLAINED FAIL composition 1920x1080: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail (tall), right utility rail (4), version bottom right; nothing off screen, no overlaps
+   UNEXPLAINED FAIL composition 1366x768: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail (tall), right utility rail (4), version bottom right; nothing off screen, no overlaps
+   UNEXPLAINED FAIL composition 390x844 touch: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail, right utility rail (4), version bottom right; nothing off screen, no overlaps
+   UNEXPLAINED FAIL composition 844x390 touch: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail, right utility rail (4), version bottom right; nothing off screen, no overlaps
+   UNEXPLAINED FAIL composition 360x640 touch: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail, right utility rail (4), version bottom right; nothing off screen, no overlaps
+   UNEXPLAINED FAIL before any press: no audio context, no theme request, the theme waits
+   UNEXPLAINED FAIL a run started straight from ENTER (the press that starts the run) loads and plays no theme
+probe_q3: 14/15 pass, 0 superseded, 1 unexplained  (318 s)  [ui_lib_gate] navigations: 8 {"menu (gate passed by a key)":8}, longest wait 7852 ms
+   UNEXPLAINED FAIL as a run begins: THRESHOLD / LEVEL 0, the objective and a line of the player's keys appear, then fade away (gone after about 6 s)
+probe_q4: 8/8 pass, 0 superseded, 0 unexplained  (632 s)  [ui_lib_gate] navigations: 8 {"menu (gate passed by a key)":8}, longest wait 8019 ms
+lifecycle: 1/1 pass, 0 superseded, 0 unexplained  (134 s)  [ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 21594 ms
+probe_c1: 21/23 pass, 1 superseded, 1 unexplained  (248 s)  [ui_lib_gate] navigations: 3 {"menu (gate passed by a key)":3}, longest wait 13414 ms
+   UNEXPLAINED FAIL 390 x 844 touch: no horizontal overflow, all four menu items and the PLAY panel inside the screen, touch-sized ENTER, touch wording
+probe_c2: 13/18 pass, 5 superseded, 0 unexplained  (313 s)  [ui_lib_gate] navigations: 5 {"menu (gate passed by a key)":5}, longest wait 13017 ms
+probe_c3: 13/13 pass, 0 superseded, 0 unexplained  (267 s)  [ui_lib_gate] navigations: 3 {"menu (gate passed by a key)":3}, longest wait 16326 ms
+probe_c4: 10/11 pass, 1 superseded, 0 unexplained  (142 s)  [ui_lib_gate] navigations: 4 {"menu (gate passed by a key)":4}, longest wait 12360 ms
+probe_c5: 7/7 pass, 0 superseded, 0 unexplained  (370 s)  [ui_lib_gate] navigations: 9 {"menu (gate passed by a key)":9}, longest wait 12787 ms
+lifecycle_mp: 1/1 pass, 0 superseded, 0 unexplained  (52 s)
+REGRESSION: PROBLEMS
+EXIT 1
