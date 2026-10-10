@@ -1,0 +1,3246 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "tag": "slow",
+ "size": "1280x720",
+ "throttleKbps": 4000,
+ "secs": 80,
+ "autoplayFlag": false,
+ "gesture": true,
+ "runs": [
+  {
+   "kind": "cold",
+   "navigationAt": 1791651883194,
+   "gestureAt": 54265,
+   "frames": [
+    {
+     "file": "slow_cold_0000.jpg",
+     "t": 8,
+     "nonBlack": 1.0,
+     "mean": 255.0,
+     "beforeFirstPaint": true
+    },
+    {
+     "file": "slow_cold_0001.jpg",
+     "t": 757,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0002.jpg",
+     "t": 1662,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0003.jpg",
+     "t": 1711,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0004.jpg",
+     "t": 1694,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0005.jpg",
+     "t": 1741,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0006.jpg",
+     "t": 1829,
+     "nonBlack": 0.00015,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0007.jpg",
+     "t": 1874,
+     "nonBlack": 0.00018,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0008.jpg",
+     "t": 1922,
+     "nonBlack": 0.00019,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0009.jpg",
+     "t": 2013,
+     "nonBlack": 0.00019,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0010.jpg",
+     "t": 1976,
+     "nonBlack": 0.00019,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0011.jpg",
+     "t": 2065,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0012.jpg",
+     "t": 2181,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0013.jpg",
+     "t": 2110,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0014.jpg",
+     "t": 2903,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0015.jpg",
+     "t": 2938,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0016.jpg",
+     "t": 2989,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0017.jpg",
+     "t": 3018,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0018.jpg",
+     "t": 3058,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0019.jpg",
+     "t": 3086,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0020.jpg",
+     "t": 3114,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0021.jpg",
+     "t": 3150,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0022.jpg",
+     "t": 3181,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0023.jpg",
+     "t": 3208,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0024.jpg",
+     "t": 3237,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0025.jpg",
+     "t": 3268,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0026.jpg",
+     "t": 3298,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0027.jpg",
+     "t": 3325,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0028.jpg",
+     "t": 3356,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0029.jpg",
+     "t": 3392,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0030.jpg",
+     "t": 3415,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0031.jpg",
+     "t": 3447,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0032.jpg",
+     "t": 3477,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0033.jpg",
+     "t": 3509,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0034.jpg",
+     "t": 3533,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0035.jpg",
+     "t": 3556,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0036.jpg",
+     "t": 3583,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0037.jpg",
+     "t": 3615,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0038.jpg",
+     "t": 3638,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0039.jpg",
+     "t": 3667,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0040.jpg",
+     "t": 3684,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0041.jpg",
+     "t": 3710,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0042.jpg",
+     "t": 3743,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0043.jpg",
+     "t": 3764,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0044.jpg",
+     "t": 3836,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0045.jpg",
+     "t": 3809,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0046.jpg",
+     "t": 3859,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0047.jpg",
+     "t": 3883,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0048.jpg",
+     "t": 3911,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0049.jpg",
+     "t": 3934,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0050.jpg",
+     "t": 3957,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0051.jpg",
+     "t": 3987,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0052.jpg",
+     "t": 4013,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0053.jpg",
+     "t": 4042,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0054.jpg",
+     "t": 4067,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0055.jpg",
+     "t": 4096,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0056.jpg",
+     "t": 4125,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0057.jpg",
+     "t": 4150,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0058.jpg",
+     "t": 4181,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0059.jpg",
+     "t": 4204,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0060.jpg",
+     "t": 4234,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0061.jpg",
+     "t": 4265,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0062.jpg",
+     "t": 4293,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0063.jpg",
+     "t": 4319,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0064.jpg",
+     "t": 4345,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0065.jpg",
+     "t": 4381,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0066.jpg",
+     "t": 4402,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0067.jpg",
+     "t": 4430,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0068.jpg",
+     "t": 4448,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0069.jpg",
+     "t": 4478,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0070.jpg",
+     "t": 4517,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0071.jpg",
+     "t": 4495,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0072.jpg",
+     "t": 4541,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0073.jpg",
+     "t": 4561,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0074.jpg",
+     "t": 4584,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0075.jpg",
+     "t": 4608,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0076.jpg",
+     "t": 4631,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0077.jpg",
+     "t": 4652,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0078.jpg",
+     "t": 4689,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0079.jpg",
+     "t": 4723,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0080.jpg",
+     "t": 4750,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0081.jpg",
+     "t": 4773,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0082.jpg",
+     "t": 4807,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0083.jpg",
+     "t": 4836,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0084.jpg",
+     "t": 4866,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0085.jpg",
+     "t": 4899,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0086.jpg",
+     "t": 4934,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0087.jpg",
+     "t": 4958,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0088.jpg",
+     "t": 4987,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0089.jpg",
+     "t": 5006,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0090.jpg",
+     "t": 5051,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0091.jpg",
+     "t": 5076,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0092.jpg",
+     "t": 5114,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0093.jpg",
+     "t": 5154,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0094.jpg",
+     "t": 5182,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0095.jpg",
+     "t": 5210,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0096.jpg",
+     "t": 5235,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0097.jpg",
+     "t": 5258,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0098.jpg",
+     "t": 5289,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0099.jpg",
+     "t": 5309,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0100.jpg",
+     "t": 5340,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0101.jpg",
+     "t": 5371,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0102.jpg",
+     "t": 5393,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0103.jpg",
+     "t": 5455,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0104.jpg",
+     "t": 5432,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0105.jpg",
+     "t": 5482,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0106.jpg",
+     "t": 5516,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0107.jpg",
+     "t": 5539,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0108.jpg",
+     "t": 5560,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0109.jpg",
+     "t": 5593,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0110.jpg",
+     "t": 5611,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0111.jpg",
+     "t": 5640,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0112.jpg",
+     "t": 5681,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0113.jpg",
+     "t": 5704,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0114.jpg",
+     "t": 5734,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0115.jpg",
+     "t": 5755,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0116.jpg",
+     "t": 5797,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0117.jpg",
+     "t": 5832,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0118.jpg",
+     "t": 5860,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0119.jpg",
+     "t": 5892,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0120.jpg",
+     "t": 5936,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0121.jpg",
+     "t": 5960,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0122.jpg",
+     "t": 5992,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0123.jpg",
+     "t": 6015,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0124.jpg",
+     "t": 6056,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0125.jpg",
+     "t": 6089,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0126.jpg",
+     "t": 6120,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0127.jpg",
+     "t": 6153,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0128.jpg",
+     "t": 6185,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0129.jpg",
+     "t": 6219,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0130.jpg",
+     "t": 6240,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0131.jpg",
+     "t": 6294,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0132.jpg",
+     "t": 6325,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0133.jpg",
+     "t": 6359,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0134.jpg",
+     "t": 6389,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0135.jpg",
+     "t": 6408,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0136.jpg",
+     "t": 6441,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0137.jpg",
+     "t": 6470,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0138.jpg",
+     "t": 6503,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0139.jpg",
+     "t": 6532,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0140.jpg",
+     "t": 6555,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0141.jpg",
+     "t": 6587,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0142.jpg",
+     "t": 6628,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0143.jpg",
+     "t": 6664,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0144.jpg",
+     "t": 6696,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0145.jpg",
+     "t": 8173,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0146.jpg",
+     "t": 11739,
+     "nonBlack": 0.00144,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0147.jpg",
+     "t": 12048,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0148.jpg",
+     "t": 12417,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0149.jpg",
+     "t": 12805,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0150.jpg",
+     "t": 13064,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0151.jpg",
+     "t": 13384,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0152.jpg",
+     "t": 13720,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0153.jpg",
+     "t": 14045,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0154.jpg",
+     "t": 14361,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0155.jpg",
+     "t": 14673,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0156.jpg",
+     "t": 15035,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0157.jpg",
+     "t": 15321,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0158.jpg",
+     "t": 15658,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0159.jpg",
+     "t": 15941,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0160.jpg",
+     "t": 16253,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0161.jpg",
+     "t": 16557,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0162.jpg",
+     "t": 16828,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0163.jpg",
+     "t": 17115,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0164.jpg",
+     "t": 17388,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0165.jpg",
+     "t": 17749,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0166.jpg",
+     "t": 18106,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0167.jpg",
+     "t": 18487,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0168.jpg",
+     "t": 18768,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0169.jpg",
+     "t": 19024,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0170.jpg",
+     "t": 19274,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0171.jpg",
+     "t": 19509,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0172.jpg",
+     "t": 19716,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0173.jpg",
+     "t": 19973,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0174.jpg",
+     "t": 20262,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0175.jpg",
+     "t": 20515,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0176.jpg",
+     "t": 20769,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0177.jpg",
+     "t": 21044,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0178.jpg",
+     "t": 21293,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0179.jpg",
+     "t": 21515,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0180.jpg",
+     "t": 21755,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0181.jpg",
+     "t": 21989,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0182.jpg",
+     "t": 22342,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0183.jpg",
+     "t": 22592,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0184.jpg",
+     "t": 22840,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0185.jpg",
+     "t": 23123,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0186.jpg",
+     "t": 23512,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0187.jpg",
+     "t": 23782,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0188.jpg",
+     "t": 23991,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0189.jpg",
+     "t": 24227,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0190.jpg",
+     "t": 24473,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0191.jpg",
+     "t": 24740,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0192.jpg",
+     "t": 24968,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0193.jpg",
+     "t": 25233,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0194.jpg",
+     "t": 25488,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0195.jpg",
+     "t": 25750,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0196.jpg",
+     "t": 26073,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0197.jpg",
+     "t": 26331,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0198.jpg",
+     "t": 26570,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0199.jpg",
+     "t": 26820,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0200.jpg",
+     "t": 27112,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0201.jpg",
+     "t": 27339,
+     "nonBlack": 0.00145,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0202.jpg",
+     "t": 27593,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0203.jpg",
+     "t": 27875,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0204.jpg",
+     "t": 28125,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0205.jpg",
+     "t": 28341,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0206.jpg",
+     "t": 28561,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0207.jpg",
+     "t": 28819,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0208.jpg",
+     "t": 29056,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0209.jpg",
+     "t": 29287,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0210.jpg",
+     "t": 29536,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0211.jpg",
+     "t": 29767,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0212.jpg",
+     "t": 29982,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0213.jpg",
+     "t": 30253,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0214.jpg",
+     "t": 30488,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0215.jpg",
+     "t": 30758,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0216.jpg",
+     "t": 31074,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0217.jpg",
+     "t": 31350,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0218.jpg",
+     "t": 31612,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0219.jpg",
+     "t": 31884,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0220.jpg",
+     "t": 32213,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0221.jpg",
+     "t": 32522,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0222.jpg",
+     "t": 32772,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0223.jpg",
+     "t": 33005,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0224.jpg",
+     "t": 33249,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0225.jpg",
+     "t": 33569,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0226.jpg",
+     "t": 33876,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0227.jpg",
+     "t": 34166,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0228.jpg",
+     "t": 34399,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0229.jpg",
+     "t": 34625,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0230.jpg",
+     "t": 34877,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0231.jpg",
+     "t": 35121,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0232.jpg",
+     "t": 35376,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0233.jpg",
+     "t": 35619,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0234.jpg",
+     "t": 35866,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0235.jpg",
+     "t": 36088,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0236.jpg",
+     "t": 36316,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0237.jpg",
+     "t": 36578,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0238.jpg",
+     "t": 36823,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0239.jpg",
+     "t": 37080,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0240.jpg",
+     "t": 37396,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0241.jpg",
+     "t": 37632,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0242.jpg",
+     "t": 37859,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0243.jpg",
+     "t": 38101,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0244.jpg",
+     "t": 38363,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0245.jpg",
+     "t": 38584,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0246.jpg",
+     "t": 38818,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0247.jpg",
+     "t": 39041,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0248.jpg",
+     "t": 39283,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0249.jpg",
+     "t": 39584,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0250.jpg",
+     "t": 39839,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0251.jpg",
+     "t": 40071,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0252.jpg",
+     "t": 40322,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0253.jpg",
+     "t": 40565,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0254.jpg",
+     "t": 40869,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0255.jpg",
+     "t": 41105,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0256.jpg",
+     "t": 41353,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0257.jpg",
+     "t": 41622,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0258.jpg",
+     "t": 41815,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0259.jpg",
+     "t": 42038,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0260.jpg",
+     "t": 42270,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0261.jpg",
+     "t": 42529,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0262.jpg",
+     "t": 42736,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0263.jpg",
+     "t": 42972,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0264.jpg",
+     "t": 43231,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0265.jpg",
+     "t": 43487,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0266.jpg",
+     "t": 43707,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0267.jpg",
+     "t": 43930,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0268.jpg",
+     "t": 44140,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0269.jpg",
+     "t": 44358,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0270.jpg",
+     "t": 44574,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0271.jpg",
+     "t": 44783,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0272.jpg",
+     "t": 45010,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0273.jpg",
+     "t": 45228,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0274.jpg",
+     "t": 45467,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0275.jpg",
+     "t": 45726,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0276.jpg",
+     "t": 46075,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0277.jpg",
+     "t": 46357,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0278.jpg",
+     "t": 46611,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0279.jpg",
+     "t": 46842,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0280.jpg",
+     "t": 47061,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0281.jpg",
+     "t": 47338,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0282.jpg",
+     "t": 47615,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0283.jpg",
+     "t": 47880,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0284.jpg",
+     "t": 48136,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0285.jpg",
+     "t": 48383,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0286.jpg",
+     "t": 48602,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0287.jpg",
+     "t": 48838,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0288.jpg",
+     "t": 49062,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0289.jpg",
+     "t": 49280,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0290.jpg",
+     "t": 49487,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0291.jpg",
+     "t": 49736,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0292.jpg",
+     "t": 49995,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0293.jpg",
+     "t": 50265,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0294.jpg",
+     "t": 50526,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0295.jpg",
+     "t": 50746,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0296.jpg",
+     "t": 50951,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0297.jpg",
+     "t": 51160,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0298.jpg",
+     "t": 51386,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0299.jpg",
+     "t": 51595,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0300.jpg",
+     "t": 51996,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0301.jpg",
+     "t": 52265,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0302.jpg",
+     "t": 52515,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0303.jpg",
+     "t": 52751,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0304.jpg",
+     "t": 53033,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0305.jpg",
+     "t": 53070,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0306.jpg",
+     "t": 53103,
+     "nonBlack": 2e-05,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0307.jpg",
+     "t": 53134,
+     "nonBlack": 0.00044,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0308.jpg",
+     "t": 53174,
+     "nonBlack": 0.00063,
+     "mean": 1.04,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0309.jpg",
+     "t": 53200,
+     "nonBlack": 0.00069,
+     "mean": 1.05,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0310.jpg",
+     "t": 53236,
+     "nonBlack": 0.00073,
+     "mean": 1.06,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0311.jpg",
+     "t": 53272,
+     "nonBlack": 0.00076,
+     "mean": 1.07,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0312.jpg",
+     "t": 53306,
+     "nonBlack": 0.00078,
+     "mean": 1.08,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0313.jpg",
+     "t": 53332,
+     "nonBlack": 0.00078,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0314.jpg",
+     "t": 53357,
+     "nonBlack": 0.0008,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0315.jpg",
+     "t": 53388,
+     "nonBlack": 0.0008,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0316.jpg",
+     "t": 53396,
+     "nonBlack": 0.00081,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0317.jpg",
+     "t": 53428,
+     "nonBlack": 0.00082,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0318.jpg",
+     "t": 53479,
+     "nonBlack": 0.00081,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0319.jpg",
+     "t": 53489,
+     "nonBlack": 0.00081,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0320.jpg",
+     "t": 53543,
+     "nonBlack": 0.00081,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0321.jpg",
+     "t": 53519,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0322.jpg",
+     "t": 53578,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0323.jpg",
+     "t": 53615,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0324.jpg",
+     "t": 53647,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0325.jpg",
+     "t": 53839,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0326.jpg",
+     "t": 54069,
+     "nonBlack": 0.00098,
+     "mean": 1.12,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0327.jpg",
+     "t": 54283,
+     "nonBlack": 0.00098,
+     "mean": 1.12,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0328.jpg",
+     "t": 54510,
+     "nonBlack": 0.00098,
+     "mean": 1.12,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0329.jpg",
+     "t": 54789,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0330.jpg",
+     "t": 54821,
+     "nonBlack": 0.0,
+     "mean": 1.05,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0331.jpg",
+     "t": 54850,
+     "nonBlack": 0.00723,
+     "mean": 1.58,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0332.jpg",
+     "t": 54886,
+     "nonBlack": 0.02641,
+     "mean": 2.75,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0333.jpg",
+     "t": 54922,
+     "nonBlack": 0.03677,
+     "mean": 4.17,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0334.jpg",
+     "t": 54960,
+     "nonBlack": 0.04161,
+     "mean": 5.35,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0335.jpg",
+     "t": 54988,
+     "nonBlack": 0.04567,
+     "mean": 6.34,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0336.jpg",
+     "t": 55020,
+     "nonBlack": 0.04984,
+     "mean": 7.05,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0337.jpg",
+     "t": 55055,
+     "nonBlack": 0.05299,
+     "mean": 7.42,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0338.jpg",
+     "t": 55089,
+     "nonBlack": 0.055,
+     "mean": 7.74,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0339.jpg",
+     "t": 55136,
+     "nonBlack": 0.05628,
+     "mean": 7.92,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0340.jpg",
+     "t": 55184,
+     "nonBlack": 0.05703,
+     "mean": 8.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0341.jpg",
+     "t": 55223,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0342.jpg",
+     "t": 55261,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0343.jpg",
+     "t": 55458,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0344.jpg",
+     "t": 55684,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0345.jpg",
+     "t": 55896,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0346.jpg",
+     "t": 56144,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0347.jpg",
+     "t": 56367,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0348.jpg",
+     "t": 56599,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0349.jpg",
+     "t": 56819,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0350.jpg",
+     "t": 57036,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0351.jpg",
+     "t": 57255,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0352.jpg",
+     "t": 57474,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0353.jpg",
+     "t": 57692,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0354.jpg",
+     "t": 57908,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0355.jpg",
+     "t": 58131,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0356.jpg",
+     "t": 58362,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0357.jpg",
+     "t": 58587,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0358.jpg",
+     "t": 58786,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0359.jpg",
+     "t": 58996,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0360.jpg",
+     "t": 59210,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0361.jpg",
+     "t": 59408,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0362.jpg",
+     "t": 59623,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0363.jpg",
+     "t": 59837,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0364.jpg",
+     "t": 60039,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0365.jpg",
+     "t": 60268,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0366.jpg",
+     "t": 60483,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0367.jpg",
+     "t": 60687,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0368.jpg",
+     "t": 60912,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0369.jpg",
+     "t": 61134,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0370.jpg",
+     "t": 61353,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0371.jpg",
+     "t": 61584,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0372.jpg",
+     "t": 61795,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0373.jpg",
+     "t": 62025,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0374.jpg",
+     "t": 62253,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0375.jpg",
+     "t": 62518,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0376.jpg",
+     "t": 62724,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0377.jpg",
+     "t": 62972,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0378.jpg",
+     "t": 63195,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0379.jpg",
+     "t": 63395,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0380.jpg",
+     "t": 63619,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0381.jpg",
+     "t": 63864,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0382.jpg",
+     "t": 64077,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0383.jpg",
+     "t": 64282,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0384.jpg",
+     "t": 64503,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0385.jpg",
+     "t": 64710,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0386.jpg",
+     "t": 64944,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0387.jpg",
+     "t": 65148,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0388.jpg",
+     "t": 65348,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0389.jpg",
+     "t": 65549,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0390.jpg",
+     "t": 65764,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0391.jpg",
+     "t": 65974,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0392.jpg",
+     "t": 66178,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0393.jpg",
+     "t": 66393,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0394.jpg",
+     "t": 66638,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0395.jpg",
+     "t": 66879,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0396.jpg",
+     "t": 67090,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0397.jpg",
+     "t": 67319,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0398.jpg",
+     "t": 67534,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0399.jpg",
+     "t": 67790,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0400.jpg",
+     "t": 68028,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0401.jpg",
+     "t": 68255,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0402.jpg",
+     "t": 68477,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0403.jpg",
+     "t": 68683,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0404.jpg",
+     "t": 68894,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0405.jpg",
+     "t": 69103,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0406.jpg",
+     "t": 69312,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0407.jpg",
+     "t": 69551,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0408.jpg",
+     "t": 69774,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0409.jpg",
+     "t": 69982,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0410.jpg",
+     "t": 70191,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0411.jpg",
+     "t": 70401,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0412.jpg",
+     "t": 70653,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0413.jpg",
+     "t": 70894,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0414.jpg",
+     "t": 71132,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0415.jpg",
+     "t": 71382,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0416.jpg",
+     "t": 71655,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0417.jpg",
+     "t": 71861,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0418.jpg",
+     "t": 72096,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0419.jpg",
+     "t": 72299,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0420.jpg",
+     "t": 72500,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0421.jpg",
+     "t": 72719,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0422.jpg",
+     "t": 72926,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0423.jpg",
+     "t": 73137,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0424.jpg",
+     "t": 73340,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0425.jpg",
+     "t": 73577,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0426.jpg",
+     "t": 73789,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0427.jpg",
+     "t": 73997,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0428.jpg",
+     "t": 74204,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0429.jpg",
+     "t": 74428,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0430.jpg",
+     "t": 74678,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0431.jpg",
+     "t": 74902,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0432.jpg",
+     "t": 75107,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0433.jpg",
+     "t": 75385,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0434.jpg",
+     "t": 75616,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0435.jpg",
+     "t": 75836,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0436.jpg",
+     "t": 76066,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0437.jpg",
+     "t": 76278,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0438.jpg",
+     "t": 76504,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0439.jpg",
+     "t": 76786,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0440.jpg",
+     "t": 77005,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0441.jpg",
+     "t": 77209,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0442.jpg",
+     "t": 77540,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0443.jpg",
+     "t": 77832,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0444.jpg",
+     "t": 78064,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0445.jpg",
+     "t": 78380,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0446.jpg",
+     "t": 78690,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0447.jpg",
+     "t": 78981,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0448.jpg",
+     "t": 79183,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0449.jpg",
+     "t": 79391,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0450.jpg",
+     "t": 79608,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "slow_cold_0451.jpg",
+     "t": 79859,
+     "nonBlack": 0.05881,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    }
+   ],
+   "page": {
+    "marks": {
+     "domContentLoaded": 2158,
+     "gameApi": 2173,
+     "load": 5024
+    },
+    "paints": [
+     [
+      "first-paint",
+      756
+     ],
+     [
+      "first-contentful-paint",
+      756
+     ]
+    ],
+    "nav": {
+     "responseEnd": 62,
+     "domInteractive": 1730,
+     "loadEventEnd": 5024
+    },
+    "boot": {
+     "state": "menu",
+     "failed": null,
+     "timeline": {
+      "black": 65,
+      "loading": 1116,
+      "ready": 52276,
+      "menu": 54489
+     }
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 1,
+     "t0": 0.06,
+     "ctx": "running",
+     "fetched": 2,
+     "cacheHits": 0,
+     "preparedAt": 52003,
+     "beganAt": 54488
+    },
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": false,
+     "gate": true,
+     "gateShownAt": 52732,
+     "passedBy": "keydown: ",
+     "passedAt": 54488,
+     "noteShown": true
+    },
+    "uiState": "menu",
+    "activated": true
+   },
+   "summary": {
+    "frames": 452,
+    "firstFrameAt": 8,
+    "firstFrameNonBlack": 1.0,
+    "firstNonBlackAt": 8,
+    "firstNonBlackShare": 1.0,
+    "firstMostlyLitAt": 8,
+    "changes": 21
+   }
+  }
+ ],
+ "errors": []
+}

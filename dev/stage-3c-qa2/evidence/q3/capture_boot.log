@@ -1,0 +1,7 @@
+gate_desktop cold {"timeline":{"black":64,"loading":581,"ready":9190,"menu":11361},"gate":[true,"keydown: "],"theme":["playing",8823,11361,2,0],"firstPaint":940}
+gate_desktop warm {"timeline":{"black":281,"loading":653,"ready":6360,"menu":8468},"gate":[true,"keydown: "],"theme":["playing",6017,8466,0,2],"firstPaint":868}
+gate_phone cold {"timeline":{"black":54,"loading":525,"ready":8774,"menu":11214},"gate":[true,"pointerup:touch"],"theme":["playing",8456,11211,2,0],"firstPaint":584}
+direct_desktop cold {"timeline":{"black":49,"loading":477,"ready":8059,"menu":8088},"gate":[false,"allowed"],"theme":["playing",7757,8087,2,0],"firstPaint":624}
+direct_desktop warm {"timeline":{"black":300,"loading":723,"ready":1243,"menu":1245},"gate":[false,"allowed"],"theme":["playing",1206,1245,0,2],"firstPaint":880}
+done
+EXIT 0

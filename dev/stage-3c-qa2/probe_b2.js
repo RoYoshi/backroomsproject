@@ -88,7 +88,8 @@ const LAYOUT = () => {
       check('the field is black on the menu, the PLAY entry, Settings, Credits, Help and Customize opened from the menu: no pixel outside the menu\'s own parts above 10 of 255 (the scrim opaque black, the page behind black)',
         Object.values(views).every(v => v.shareAboveLimit === 0 && v.world.black && v.world.scrim === 'rgb(0, 0, 0)'), Object.fromEntries(Object.entries(views).map(([k, v]) => [k, [v.shareAboveLimit, v.brightest, v.world.black]])));
       // into a run: the world, not the logo
-      await Q.start(P, 'Black'); await sleep(2500);
+      // (QA2-3: a run starts behind the black curtain; the world is looked at once it has lifted)
+      await Q.start(P, 'Black'); await P.waitForFunction(() => window.__boot && __boot.state() === 'playing' && document.getElementById('boot').hidden, null, { timeout: 30000 }).catch(() => { }); await sleep(1500);
       const run = await world(), runShot = path.join(SHOTS, 'b2_run.png'); await P.screenshot({ path: runShot });
       const runField = py('black_field.py', [runShot, '[]', '--limit', '10']);
       await P.keyboard.press('Escape'); await sleep(600); await P.click('#pauseCustomize'); await sleep(1200); const pc = await world(); await P.keyboard.press('Escape'); await sleep(600); await P.keyboard.press('Escape'); await sleep(600);

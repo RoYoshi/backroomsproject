@@ -1,12 +1,13 @@
 /* Stage 3C QA2 - what a player sees while the page starts, frame by frame (development only; never served).
  *
  *   node dev/stage-3c-qa2/boot_capture.js --game DIR --out DIR [--tag NAME] [--port 9801] [--size 1280x720 | 390x844m]
- *        [--throttle KBPS] [--secs 10] [--warm 1] [--autoplay 1] [--gesture 1] [--gesture-at MS]
+ *        [--throttle KBPS] [--secs 10] [--warm 1] [--autoplay 1] [--gesture 1] [--gesture-after MS] [--gesture-how key|click|tap] [--gesture-at MS]
  *
  * Records every frame the compositor produces from the moment of navigation (Chromium's screencast, before the first paint), with
  * its time since navigation, for a cold start (a new browser profile: empty caches) and, with --warm, a second start in the same
- * profile (Cache Storage and the HTTP cache kept). --throttle limits the download rate (CDP network emulation). --gesture presses a
- * key as soon as the QA2 boot gate says it is ready (or at --gesture-at ms for a build without one). --autoplay starts Chromium with
+ * profile (Cache Storage and the HTTP cache kept). --throttle limits the download rate (CDP network emulation). --gesture passes the
+ * QA2 ready gate as a player would (a key press, or a click / tap in the middle of the screen with --gesture-how) once the gate's line
+ * has been on screen for --gesture-after ms (default 0); --gesture-at MS clicks at that time instead (a build without a gate). --autoplay starts Chromium with
  * --autoplay-policy=no-user-gesture-required (the "browser allows sound" path). Also records the page's own marks: DOMContentLoaded,
  * load, the game API, first paint, and the QA2 boot timeline when the build has one (window.__boot). Frames are analysed by
  * boot_sheet.py (what share of each frame is not black, and a contact sheet). */
@@ -16,7 +17,7 @@ const U = require('../stage-3c/ui_lib.js'); const { sleep, H } = U;
 const argv = process.argv.slice(2), opt = (k, d) => { const i = argv.indexOf('--' + k); return i >= 0 ? argv[i + 1] : d; };
 const GAME = path.resolve(opt('game', path.join(__dirname, '..', '..'))), OUT = path.resolve(opt('out', path.join(__dirname, 'evidence', 'boot'))), TAG = opt('tag', 'boot');
 const PORT = +opt('port', 9801), SIZE = opt('size', '1280x720'), THROTTLE = +opt('throttle', 0), SECS = +opt('secs', 10), WARM = opt('warm', '0') === '1';
-const AUTOPLAY = opt('autoplay', '0') === '1', GESTURE = opt('gesture', '0') === '1', GESTURE_AT = opt('gesture-at', null);
+const AUTOPLAY = opt('autoplay', '0') === '1', GESTURE = opt('gesture', '0') === '1', GESTURE_AT = opt('gesture-at', null), GESTURE_AFTER = +opt('gesture-after', 0), HOW = opt('gesture-how', 'key');
 const mobile = /m$/.test(SIZE), [W, Hh] = SIZE.replace(/m$/, '').split('x').map(Number);
 const MARKS = () => { const T = window.__bootMarks = {}; const mark = k => { if (!(k in T)) T[k] = Math.round(performance.now()); };
   document.addEventListener('DOMContentLoaded', () => mark('domContentLoaded')); addEventListener('load', () => mark('load'));
@@ -48,17 +49,22 @@ const MARKS = () => { const T = window.__bootMarks = {}; const mark = k => { if 
       frames = { kind, list: [] }; n = 0;
       t0 = Date.now();
       await P.goto(`http://127.0.0.1:${PORT}/?room=boot${Date.now() % 1e6}`, { waitUntil: 'commit', timeout: 120000 });
-      let gestureAt = null; const end = t0 + SECS * 1000;
+      let gestureAt = null, gateSeen = null; const end = t0 + SECS * 1000;
       while (Date.now() < end) {
         if (GESTURE && gestureAt === null) {
-          const st = await ev('window.__boot && __boot.state && __boot.state()');
-          if (st === 'ready') { gestureAt = Date.now() - t0; await P.keyboard.press('Space'); }
+          const g = await ev('window.__boot && __boot.state && [__boot.state(), !!(window.__ui && __ui.boot && __ui.boot().gate)]');
+          if (g && g[0] === 'ready' && g[1] && gateSeen === null) gateSeen = Date.now();
+          if (gateSeen !== null && Date.now() - gateSeen >= GESTURE_AFTER) {
+            gestureAt = Date.now() - t0;
+            if (HOW === 'click') await P.mouse.click(W / 2, Hh / 2); else if (HOW === 'tap') await P.touchscreen.tap(W / 2, Hh / 2); else await P.keyboard.press('Space');
+          }
         } else if (GESTURE_AT && gestureAt === null && Date.now() - t0 >= +GESTURE_AT) { gestureAt = Date.now() - t0; await P.mouse.click(W / 2, Hh * .2); }
         await sleep(100);
       }
       const page = (await ev(`(() => ({ marks: window.__bootMarks || {}, paints: performance.getEntriesByType('paint').map(p => [p.name, Math.round(p.startTime)]),
         nav: (() => { const e = performance.getEntriesByType('navigation')[0]; return e ? { responseEnd: Math.round(e.responseEnd), domInteractive: Math.round(e.domInteractive), loadEventEnd: Math.round(e.loadEventEnd) } : null; })(),
-        boot: window.__boot && __boot.info ? __boot.info() : null, theme: window.__ui && __ui.theme && __ui.theme.info ? (({ state, plays, t0, ctx, fetched, cacheHits }) => ({ state, plays, t0, ctx, fetched, cacheHits }))(__ui.theme.info()) : null,
+        boot: window.__boot && __boot.info ? __boot.info() : null, theme: window.__ui && __ui.theme && __ui.theme.info ? (({ state, plays, t0, ctx, fetched, cacheHits, preparedAt, beganAt }) => ({ state, plays, t0, ctx, fetched, cacheHits, preparedAt, beganAt }))(__ui.theme.info()) : null,
+        gate: window.__ui && __ui.boot ? __ui.boot() : null,
         uiState: window.__ui && __ui.state ? __ui.state() : null, activated: navigator.userActivation ? navigator.userActivation.hasBeenActive : null }))()`)) || { error: 'no page info' };
       R.runs.push({ kind, navigationAt: t0, gestureAt, frames: frames.list, page });
       frames = null;

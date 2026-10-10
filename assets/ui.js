@@ -1,4 +1,5 @@
-/* THE FAR BACKROOMS - Stage 3C UI controller (QA1: the main menu rebuilt from the user's rough draft, and its theme).
+/* THE FAR BACKROOMS - Stage 3C UI controller (QA1: the main menu rebuilt from the user's rough draft, and its theme; QA2: the
+ * black boot gate, the menu and its theme starting together, the black curtain a run starts behind).
  *
  * One owner for the game's menus: the main menu (PLAY and its entry / CUSTOMIZE / SETTINGS / CREDITS, the identity rail, the
  * utility rail), the main-menu theme, the shared sheet behaviour (open, close, focus trap, Escape, focus return), the Settings,
@@ -11,9 +12,9 @@
  * Event-driven: no per-frame work, except the menu's pointer parallax (one style write per animation frame, and only while
  * the menu is open and the pointer moves).
  *
- *   window.__ui = { version, go(view, sub), state(), settingsPages(), close(), entryOpen(), theme }   (go: 'home' | 'play' |
+ *   window.__ui = { version, go(view, sub), state(), settingsPages(), close(), entryOpen(), theme, boot() }   (go: 'home' | 'play' |
  *   'customize' | 'settings' | 'credits' | 'controls' | 'help'; sub: a settings page or a customize tab; 'play' opens the entry,
- *   'home' closes it; theme.info() reports the menu music's state) */
+ *   'home' closes it; theme.info() reports the menu music's state; boot() how the boot gate was passed) */
 (() => {
   'use strict';
   /* QA1 (Q2): the menu is not a run. Until ENTER LEVEL 0 the visitor's own wanderer is not drawn in the world and its light does
@@ -352,7 +353,7 @@
     // Enter in the name field: on the menu it opens the entry (PLAY); inside the entry it is the game's own start, as before
     if (e.key === 'Enter' && t && t.id === 'name' && vis('menu')) {
       saveName();
-      if (!entryOpen) { e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) { openEntry(false); if (e.isTrusted) theme.unlock(); } }
+      if (!entryOpen) { e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) openEntry(false); }
       return;
     }
     // a held Enter that opened the entry never repeats into ENTER LEVEL 0
@@ -418,54 +419,85 @@
      out over a second when ENTER LEVEL 0 starts the run, and starts again from the Intro when the menu comes back after a run.
      Its own small Web Audio graph: the game's audio graph only exists once a run starts (creating it starts the halls' ambience),
      so the menu cannot use it early; the theme follows the game's SOUND ON/OFF flag and the master volume all the same.
-     Autoplay: nothing is created or fetched until the player's first press on the menu. The two files (22.6 MB, PCM, served
-     uncached) are fetched once and then kept in this browser's Cache Storage under their content hashes. No per-frame work. */
-  const THEME = { intro: 'assets/MainTheme_MenuIntro.wav', loop: 'assets/MainTheme_MenuLoop.wav', v: '64b2124b.848db3af', gain: .7, fade: 1, rate: 44100 };
+     QA2: the menu and its music start together. During the black boot both files are fetched (from this browser's Cache Storage
+     after the first visit; 22.6 MB of PCM, served uncached) and decoded, once - in an OfflineAudioContext, which needs no gesture -
+     and the menu is not revealed before they are ready. At the reveal the Intro starts in the same step: at once where the browser
+     lets sound start, otherwise on the black ready gate's first key, click or tap, which also reveals the menu. A download that
+     stops sending data for 20 s, or arrives short, is an error (the boot's RETRY), not an endless black screen. No per-frame work. */
+  const THEME = { intro: 'assets/MainTheme_MenuIntro.wav', loop: 'assets/MainTheme_MenuLoop.wav', v: '64b2124b.848db3af', gain: .7, fade: 1, rate: 44100,
+    size: { intro: 8146988, loop: 14499884 }, stall: 20000 };
   const theme = (() => {
     const CACHE = 'tfb-menu-theme-' + THEME.v;
-    let ctx = null, out = null, bufs = null, loading = null, abort = null, srcs = [], fading = [], want = false, st = 'idle', loadT = 0, stopT = 0, hidPause = false;
-    const T = { plays: 0, loads: 0, fetched: 0, cacheHits: 0, t0: null, loopAt: null, fadeAt: null, fadeEnd: null, error: null };
+    let ctx = null, out = null, bufs = null, prep = null, srcs = [], fading = [], want = false, begun = false, st = 'idle', stopT = 0, hidPause = false;
+    const T = { plays: 0, loads: 0, fetched: 0, cacheHits: 0, bytes: 0, need: 0, t0: null, loopAt: null, fadeAt: null, fadeEnd: null, error: null, preparedAt: null, beganAt: null, policy: null, allowedAtReady: null };
     const Z = () => window.__api && __api.audio && __api.audio();
     const muted = () => { const z = Z(); return !!(z && z.muted); };
     const vol = () => { const s = window.__settings && __settings.get && __settings.get(); const v = s ? s.vol : window.__vol; return Number.isFinite(v) ? v : 1; };
     const level = () => muted() ? 0 : THEME.gain * vol();
+    const AC = () => window.AudioContext || window.webkitAudioContext;
     function ensure() {
       if (ctx) return ctx;
-      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
-      try { ctx = new AC({ sampleRate: THEME.rate, latencyHint: 'playback' }); }     // the files' own rate: decoding never resamples the seams
-      catch (e) { try { ctx = new AC(); } catch (e2) { return null; } }
+      const C = AC(); if (!C) return null;
+      try { ctx = new C({ sampleRate: THEME.rate, latencyHint: 'playback' }); }     // the files' own rate: playback never resamples the seams
+      catch (e) { try { ctx = new C(); } catch (e2) { return null; } }
       out = ctx.createGain(); out.gain.value = 0; out.connect(ctx.destination);
       return ctx;
     }
-    async function get(path, signal) {
-      const url = path + '?v=' + THEME.v;
+    /* one file: Cache Storage first; otherwise downloaded in chunks (given up if no data arrives for 20 s; checked for length) */
+    async function get(key, onBytes) {
+      const url = THEME[key] + '?v=' + THEME.v;
       let cache = null, res = null;
       try { if (window.caches && window.isSecureContext) { cache = await caches.open(CACHE); res = await cache.match(url, { ignoreVary: true }); } } catch (e) { cache = null; res = null; }
       if (res) { T.cacheHits++; return res.arrayBuffer(); }
-      res = await fetch(url, { signal, credentials: 'same-origin' });
+      T.need += THEME.size[key];
+      const ac = window.AbortController ? new AbortController() : null;
+      res = await fetch(url, { signal: ac && ac.signal, credentials: 'same-origin' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      const ab = await res.arrayBuffer(); T.fetched++;
+      let ab;
+      if (res.body && res.body.getReader) {
+        const rd = res.body.getReader(), parts = []; let got = 0, stallT = 0;
+        const arm = () => { clearTimeout(stallT); stallT = setTimeout(() => { try { if (ac) ac.abort(); rd.cancel(); } catch (e) { } }, THEME.stall); };
+        arm();
+        try { for (; ;) { const { done, value } = await rd.read(); if (done) break; parts.push(value); got += value.length; T.bytes += value.length; arm(); if (onBytes) onBytes(T.bytes, T.need); } }
+        finally { clearTimeout(stallT); }
+        if (got !== THEME.size[key]) throw new Error(`incomplete download (${got} of ${THEME.size[key]} bytes)`);
+        const u8 = new Uint8Array(got); let o = 0; for (const p of parts) { u8.set(p, o); o += p.length; } ab = u8.buffer;
+      } else ab = await res.arrayBuffer();
+      T.fetched++;
       if (cache) cache.put(url, new Response(ab.slice(0), { headers: { 'Content-Type': 'audio/wav' } })).catch(() => { });
       return ab;
     }
-    const decode = ab => new Promise((ok, no) => { const p = ctx.decodeAudioData(ab, ok, no); if (p && p.catch) p.catch(no); });
-    function load() {
-      if (bufs || loading || !ctx) return;
-      st = 'loading'; T.loads++; abort = window.AbortController ? new AbortController() : null;
-      const sig = abort && abort.signal;
-      loading = Promise.all([get(THEME.intro, sig), get(THEME.loop, sig)]).then(([a, b]) => Promise.all([decode(a), decode(b)])).then(([ib, lb]) => {
-        bufs = { intro: ib, loop: lb };
+    const decodeOn = (c, ab) => new Promise((ok, no) => { const p = c.decodeAudioData(ab, ok, no); if (p && p.catch) p.catch(no); });
+    /* during the black boot: both files fetched and decoded, once per page. Resolves false only where the browser has no Web Audio */
+    function prepare(onBytes) {
+      if (prep) return prep;
+      if (!AC()) { st = 'unsupported'; prep = Promise.resolve(false); return prep; }
+      st = 'loading'; T.loads++;
+      const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+      prep = Promise.resolve().then(() => {
+        const dc = OAC ? new OAC(2, 1, THEME.rate) : ensure(); if (!dc) throw new Error('no audio context');
+        return Promise.all([get('intro', onBytes), get('loop', onBytes)]).then(([a, b]) => Promise.all([decodeOn(dc, a), decodeOn(dc, b)]));
+      }).then(([ib, lb]) => {
+        bufs = { intro: ib, loop: lb }; st = 'ready'; T.preparedAt = Math.round(performance.now());
         try { caches.keys().then(ks => ks.forEach(k => { if (k.indexOf('tfb-menu-theme-') === 0 && k !== CACHE) caches.delete(k); })).catch(() => { }); } catch (e) { }
-        if (want) start(); else st = 'ready';
-      }).catch(e => { T.error = String(e && (e.name || e.message) || e); st = want ? 'error' : 'idle'; }).finally(() => { loading = null; abort = null; });
+        return true;
+      }).catch(e => { T.error = String(e && (e.message || e.name) || e); st = 'error'; throw e; });
+      return prep;
     }
-    const loadSoon = ms => { clearTimeout(loadT); loadT = setTimeout(() => { if (want && vis('menu') && !muted()) load(); }, ms); };
+    /* may sound start now, without a gesture? Only the browser knows: its autoplay policy where it says, otherwise the real context
+       either runs or stays suspended (in Chromium, creating it without a gesture also logs a console warning saying so) */
+    function allowed() {
+      try { if (navigator.getAutoplayPolicy) { T.policy = navigator.getAutoplayPolicy('audiocontext'); if (T.policy !== 'allowed') return Promise.resolve(T.allowedAtReady = false); } } catch (e) { }
+      const c = ensure(); if (!c) return Promise.resolve(T.allowedAtReady = false);
+      if (c.state === 'running') return Promise.resolve(T.allowedAtReady = true);
+      return Promise.race([c.resume().then(() => c.state === 'running', () => false), new Promise(r => setTimeout(() => r(c.state === 'running'), 150))]).then(v => (T.allowedAtReady = v));
+    }
     // the Intro at t0 (on a sample frame), the Loop at the frame right after the Intro's last one, looping its whole buffer
     function schedule(c, dest, t0, ib, lb) {
       const a = c.createBufferSource(), b = c.createBufferSource();
       a.buffer = ib; b.buffer = lb; b.loop = true;
       a.connect(dest); b.connect(dest);
-      const t1 = t0 + ib.length / c.sampleRate;
+      const t1 = t0 + ib.length / ib.sampleRate;
       a.start(t0); b.start(t1);
       return { a, b, t1 };
     }
@@ -473,17 +505,16 @@
     function start() {
       if (!ctx || !bufs) return;
       drop(); clearTimeout(stopT);
+      if (document.hidden) { hidPause = true; if (ctx.state === 'running') ctx.suspend().catch(() => { }); }   // starts where it is when the tab shows
+      else if (ctx.state !== 'running') ctx.resume().catch(() => { });
       const sr = ctx.sampleRate, now = ctx.currentTime, t0 = Math.ceil((now + .06) * sr) / sr;
       out.gain.cancelScheduledValues(now); out.gain.setValueAtTime(level(), now);
       const s = schedule(ctx, out, t0, bufs.intro, bufs.loop);
       srcs = [s.a, s.b]; T.t0 = t0; T.loopAt = s.t1; T.plays++; st = 'playing';
-      if (ctx.state !== 'running' && !document.hidden) ctx.resume().catch(() => { });
     }
     function stop(fade) {
-      clearTimeout(loadT);
-      if (loading && abort) abort.abort();                                   // the run started before the music arrived
-      if (!ctx) { st = 'idle'; return; }
-      if (!srcs.length) { if (ctx.state === 'running') ctx.suspend().catch(() => { }); if (st !== 'loading') st = bufs ? 'stopped' : 'idle'; return; }
+      if (!ctx) return;
+      if (!srcs.length) { if (ctx.state === 'running') ctx.suspend().catch(() => { }); if (bufs) st = 'stopped'; return; }
       const now = ctx.currentTime, end = now + (fade ? THEME.fade : .03), g = out.gain;
       g.cancelScheduledValues(now); g.setValueAtTime(g.value, now); g.linearRampToValueAtTime(0, end);
       const mine = srcs; srcs = []; fading = mine;
@@ -492,42 +523,33 @@
       clearTimeout(stopT);
       stopT = setTimeout(() => { for (const s of mine) { try { s.disconnect(); } catch (e) { } } if (fading === mine) fading = []; if (want) return; st = 'stopped'; ctx.suspend().catch(() => { }); }, (end - now) * 1000 + 150);
     }
+    /* the menu's start: called in the same step that reveals the menu (by the gate's gesture, or at once where sound may start) */
+    function begin() {
+      if (begun) return; begun = true; T.beganAt = Math.round(performance.now());
+      if (!bufs || !ensure()) return;
+      if (want) start();
+    }
     function setWant(on) {
       on = !!on; if (on === want) return; want = on;
+      if (!begun) return;                                                   // before the menu's start nothing plays
       if (!on) { stop(true); return; }
-      if (!ctx) { st = 'waiting'; return; }                                  // until the first press on the menu
-      if (bufs) start(); else loadSoon(250);
-    }
-    function unlock() {                                                      // a press on the menu: the browser now lets sound start
-      if (!want || !vis('menu')) return;
-      const c = ensure(); if (!c) return;
-      if (c.state !== 'running' && !document.hidden) c.resume().catch(() => { });
-      if (bufs) { if (st !== 'playing') start(); } else if (!loading) loadSoon(250);
+      if (bufs) start();
     }
     function sync() {                                                        // SOUND ON/OFF or the master volume changed
-      if (!ctx || !out) return;
-      if (st === 'playing') out.gain.setTargetAtTime(level(), ctx.currentTime, .05);
-      if (want && !bufs && !loading && !muted() && vis('menu')) loadSoon(0);
+      if (ctx && out && st === 'playing') out.gain.setTargetAtTime(level(), ctx.currentTime, .05);
     }
-    const onPress = e => {
-      if (!e.isTrusted) return;                                             // only a real press lets sound start
-      if (e.type === 'pointerdown' && e.pointerType !== 'mouse') return;     // touch and pen unlock on release (the browsers' rule)
-      if (e.type === 'pointerup' && e.pointerType === 'mouse') return;
-      if (e.type === 'keydown' && (e.key === 'Escape' || e.repeat)) return;
-      const t = e.target;
-      if (t && t.closest && t.closest('#enter')) return;                    // this press starts the run: no music for it
-      if (e.type === 'keydown' && e.key === 'Enter' && t && t.id === 'name' && entryOpen) return;
-      unlock();
-    };
-    for (const n of ['pointerdown', 'pointerup', 'touchend', 'keydown', 'click']) addEventListener(n, onPress, { capture: true, passive: true });
+    /* a later press on the menu revives a context that did not start or was suspended by the system (a phone call, an audio route
+       change; a browser that takes only the touch's release, or only a click, as the gesture that lets sound start) */
+    const onPress = e => { if (e.isTrusted && begun && ctx && ctx.state !== 'running' && want && st === 'playing' && !document.hidden && vis('menu')) ctx.resume().catch(() => { }); };
+    for (const n of ['pointerup', 'touchend', 'keydown', 'click']) addEventListener(n, onPress, { capture: true, passive: true });
     document.addEventListener('visibilitychange', () => {                   // a hidden tab is silent; the music carries on where it was
       if (!ctx) return;
       if (document.hidden) { if (ctx.state === 'running') { hidPause = true; ctx.suspend().catch(() => { }); } }
       else if (hidPause) { hidPause = false; if (want && srcs.length) ctx.resume().catch(() => { }); }
     });
     return {
-      want: setWant, sync, unlock, _schedule: schedule,
-      info: () => ({ state: st, want, ctx: ctx ? ctx.state : null, sampleRate: ctx ? ctx.sampleRate : null, now: ctx ? ctx.currentTime : null, gain: out ? out.gain.value : null, level: level(), muted: muted(),
+      want: setWant, sync, prepare, allowed, begin, _schedule: schedule,
+      info: () => ({ state: st, want, begun, ctx: ctx ? ctx.state : null, sampleRate: ctx ? ctx.sampleRate : null, now: ctx ? ctx.currentTime : null, gain: out ? out.gain.value : null, level: level(), muted: muted(),
         introFrames: bufs ? bufs.intro.length : null, loopFrames: bufs ? bufs.loop.length : null, introRate: bufs ? bufs.intro.sampleRate : null, sources: srcs.length,
         loopSourceLoops: srcs[1] ? srcs[1].loop : null, loopSourceLoopStart: srcs[1] ? srcs[1].loopStart : null, loopSourceLoopEnd: srcs[1] ? srcs[1].loopEnd : null, ...T, files: THEME }),
     };
@@ -924,6 +946,10 @@
     f.focus({ preventScroll: true });
   }
   let hudWas = false, rvStartT = 0;
+  // QA2: the boot layer (index.html) is also the black curtain a run starts behind; its states live on window.__boot
+  const BOOT = window.__boot || null, bootEl = $('boot');
+  let revealed = false, menuWas = false, bootT = 0, curN = 0;
+  const bootLater = (f, ms) => { clearTimeout(bootT); bootT = setTimeout(f, ms); };
   function onState() {
     const st = state(), b = document.body.classList, inMenu = vis('menu');
     // a run has begun (the game shows its HUD): the LEVEL 0 reveal, a moment later; a run has ended: any reveal goes
@@ -939,6 +965,10 @@
     document.documentElement.classList.toggle('tfb-black', inMenu || (st === 'customize' && !runOn) || st === 'boot');
     // the theme belongs to the true main menu (and everything opened over it); leaving it means ENTER LEVEL 0 began the run
     theme.want(inMenu);
+    // QA2: ENTER LEVEL 0 from the main menu passes through black (curtain); the menu coming back (END) is the menu state again
+    if (menuWas && !inMenu && runOn) curtain();
+    else if (inMenu && revealed && BOOT) { BOOT.set('menu'); theme.begin(); }   // (begun already, but for a run started before the reveal)
+    menuWas = inMenu;
     if (!inMenu) closeEntry(false);
     if (st === last) return;
     const prev = last; last = st;
@@ -975,17 +1005,32 @@
 
   /* ---------------------------------------------------------------- QA2: the boot gate (the states live on window.__boot,
      defined by the few inline lines at the top of index.html, which also keep the page black until this reveals it)
-     black -> loading: this file has started and gathers what the menu needs, each as a promise (no timers pretending to load,
-       no percentages): both stylesheets, the credits data, the user's logo fully decoded, the game's runtime far enough that PLAY
-       can enter its own flow, then the
-       fonts (waited for, but never more than 2.5 s: a dead font server falls back to the system faces rather than hanging).
-     -> ready -> menu: the menu is laid out underneath, two frames are drawn, and the whole menu is revealed in one short fade.
+     black -> loading: this file has started and gathers what the menu needs, each as a promise (no timers pretending to load):
+       both stylesheets, the credits data, the user's logo fully decoded, the menu music downloaded (or read from this browser's
+       Cache Storage) and decoded, the game's runtime far enough that PLAY can enter its own flow, then the fonts (waited for, but
+       never more than 2.5 s: a dead font server falls back to the system faces rather than hanging).
+     -> ready: the menu is laid out underneath and two frames are drawn. Where the browser lets sound start, the menu is revealed
+       and its music begins in the same step. Where it wants a gesture first, the screen stays black but for one small line
+       (PRESS ANY KEY OR CLICK TO ENTER; TAP TO ENTER on a touch screen), and the first key, click or tap anywhere starts the
+       music and reveals the menu together.
+     -> menu: revealed whole, in one short fade.
      Anything required that fails keeps the page black with a small message naming what failed and RETRY. A quiet "Loading"
-     appears only if this takes longer than a moment. */
-  const BOOT = window.__boot || null, bootEl = $('boot');
+     appears only if this takes longer than a moment; a first download of the music still running after 3 s also says how much
+     of it has arrived (real bytes, rewritten at most twice a second). */
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const twoFrames = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
   const domReady = new Promise(r => { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', r, { once: true }); else r(); });
+  const bootInfo = { music: null, allowed: null, gate: false, gateShownAt: null, passedBy: null, passedAt: null, noteShown: false };
+  const bootT0 = performance.now();
+  let noteAt = 0;
+  function musicNote(got, need) {                     // per downloaded chunk of the music (never for a Cache Storage read)
+    const now = performance.now();
+    if (now - bootT0 < 3000 || now - noteAt < 500 || !BOOT || BOOT.state() !== 'loading') return;
+    noteAt = now;
+    const n = $('bootNote'); if (!n) return;
+    n.textContent = `Downloading the menu music${window.caches && window.isSecureContext ? ' (first visit only)' : ''}: ${(got / 1e6).toFixed(1)} of ${(need / 1e6).toFixed(1)} MB`;
+    n.hidden = false; bootInfo.noteShown = true;
+  }
   const NEED = {
     stylesheets() {
       const bad = [...document.querySelectorAll('link[rel="stylesheet"]')].filter(l => { try { return !l.sheet || !l.sheet.cssRules.length; } catch (e) { return true; } });
@@ -997,6 +1042,7 @@
       return (img.decode ? img.decode() : new Promise((ok, no) => { if (img.complete && img.naturalWidth) ok(); else { img.onload = ok; img.onerror = no; } }))
         .then(() => { if (!img.naturalWidth) throw new Error('logo empty'); });
     },
+    music() { return theme.prepare(musicNote).then(ok => { bootInfo.music = ok; }); },   // false: no Web Audio here (the menu comes up silent)
     runtime() {                                       // the game's module runs after this file; its API and its own ENTER wiring must exist
       return domReady.then(() => new Promise((ok, no) => {
         const t0 = performance.now();
@@ -1010,17 +1056,55 @@
       }));
     }
   };
-  const REQUIRED = [['the interface', 'stylesheets'], ['the credits', 'credits'], ['the menu artwork', 'logo'], ['the game', 'runtime']];
+  const REQUIRED = [['the interface', 'stylesheets'], ['the credits', 'credits'], ['the menu artwork', 'logo'], ['the menu music', 'music'], ['the game', 'runtime']];
   const fontsSettled = () => { void document.body.offsetWidth; return document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, wait(2500)]).catch(() => { }) : Promise.resolve(); };
-  let revealed = false;
   function reveal() {
     if (revealed) return; revealed = true;
     BOOT.set('menu');
     document.documentElement.classList.remove('tfb-boot');
     if (!bootEl) return;
-    if (reduced()) { bootEl.hidden = true; return; }
+    // the boot layer's lines go at once and its black fades (reduced motion: gone at once); it keeps taking the pointer until it
+    // is removed, so the press that passed the gate - and the click that follows it - lands on nothing in the menu
     bootEl.classList.add('out');
-    setTimeout(() => { bootEl.hidden = true; bootEl.classList.remove('out'); }, 450);
+    bootLater(() => { bootEl.hidden = true; bootEl.classList.remove('out', 'gate'); const g = $('bootGo'); if (g) g.hidden = true; }, 450);
+  }
+  /* the black ready gate: everything is ready, and the browser wants a key, click or tap before sound may start */
+  const GATE_SKIP = /^(Escape|Tab|Shift|Control|Alt|AltGraph|Meta|OS|Super|Hyper|Fn|FnLock|CapsLock|NumLock|ScrollLock|ContextMenu|Dead|Unidentified|Process|Print|PrintScreen|F\d{1,2}|Audio\w*|Media\w*|Browser\w*|Launch\w*|Volume\w*|Mic\w*)$/;
+  let gateOff = null;
+  function ready() {
+    BOOT.set('ready');
+    if (!bootInfo.music) { reveal(); return; }                 // no Web Audio in this browser: nothing to wait for
+    // the listeners are armed before the browser is asked whether sound may start at once, so a press during that check counts
+    const EV = ['keydown', 'pointerdown', 'pointerup', 'touchend', 'click'], O = { capture: true };
+    let done = false;
+    const finish = by => {
+      if (done) return; done = true;
+      for (const t of EV) removeEventListener(t, onGesture, O);
+      bootInfo.passedBy = by; bootInfo.passedAt = Math.round(performance.now());
+      theme.begin(); reveal();                                     // the music and the menu start in the same step
+    };
+    function onGesture(e) {
+      if (done || !e.isTrusted || BOOT.state() === 'error') return;
+      if (e.type === 'keydown') {
+        if (e.repeat || e.ctrlKey || e.metaKey || e.altKey || GATE_SKIP.test(e.key || '')) return;   // browser and system keys pass by
+        e.preventDefault(); e.stopImmediatePropagation();          // the key that enters is not also a key for the menu or the game
+      } else if (e.type === 'pointerdown') { if (e.pointerType !== 'mouse' || e.button !== 0) return; }   // a mouse on its press,
+      else if (e.type === 'pointerup') { if (e.pointerType === 'mouse') return; }                         // touch and pen on release
+      finish(e.type + (e.pointerType ? ':' + e.pointerType : e.type === 'keydown' ? ':' + e.key : ''));
+    }
+    for (const t of EV) addEventListener(t, onGesture, O);
+    gateOff = () => { if (done) return; done = true; for (const t of EV) removeEventListener(t, onGesture, O); };
+    theme.allowed().then(ok => {
+      bootInfo.allowed = ok;
+      if (done || BOOT.state() === 'error') return;
+      if (ok) { finish('allowed'); return; }
+      const go = $('bootGo');
+      if (!bootEl || !go) { finish('no gate'); return; }
+      const touchOnly = !!(window.matchMedia && matchMedia('(any-pointer: coarse)').matches && !matchMedia('(any-pointer: fine)').matches);
+      go.textContent = touchOnly ? 'Tap to enter' : 'Press any key or click to enter';
+      bootEl.classList.add('gate'); go.hidden = false;
+      bootInfo.gate = true; bootInfo.gateShownAt = Math.round(performance.now());
+    });
   }
   function bootStart() {
     if (!BOOT) return;                                // no inline boot script: nothing is held back
@@ -1029,12 +1113,35 @@
     Promise.all(REQUIRED.map(([what, k]) => Promise.resolve().then(NEED[k]).catch(e => { throw { what, e }; })))
       .then(fontsSettled)
       .then(() => { hook(); loadoutSummary(); onState(); return twoFrames(); })
-      .then(() => { clearTimeout(slowT); if (BOOT.state() === 'error') return; BOOT.set('ready'); reveal(); })
-      .catch(x => { clearTimeout(slowT); BOOT.fail(x && x.what || 'the game', String(x && x.e && (x.e.message || x.e) || x)); });
+      .then(() => { clearTimeout(slowT); if (BOOT.state() === 'error') return; if (revealed) settled(); else ready(); })
+      .catch(x => {
+        clearTimeout(slowT); const what = x && x.what || 'the game', why = String(x && x.e && (x.e.message || x.e) || x);
+        if (revealed) { try { console.warn('[boot] ' + what + ' (after the run had started): ' + why); } catch (e) { } return; }
+        BOOT.fail(what, why);
+      });
   }
+  /* a run started before the reveal (only automation can: the menu's own ENTER is not reachable before it) has already taken the
+     screen; the boot finishing later only records it, and the music waits for the menu */
+  function settled() { BOOT.set('ready'); const on = !!(window.__api && __api.started && __api.started()); BOOT.set(on ? 'playing' : 'menu'); if (!on) theme.begin(); }
   bootStart();
+  /* QA2: ENTER LEVEL 0 from the main menu passes through black. The run's first frames are drawn under the black layer (no logo,
+     no menu, no half-made frame), which then fades to the world; it never takes the pointer, so play is not held up */
+  function curtain() {
+    if (!bootEl || !BOOT || BOOT.state() === 'error') return;
+    if (!revealed) { if (gateOff) gateOff(); revealed = true; document.documentElement.classList.remove('tfb-boot'); }   // (see settled())
+    const my = ++curN, g = $('bootGo'); if (g) g.hidden = true;
+    clearTimeout(bootT);
+    bootEl.classList.remove('out', 'gate'); bootEl.classList.add('curtain'); bootEl.hidden = false;
+    BOOT.set('run');
+    twoFrames().then(() => wait(180)).then(() => {
+      if (my !== curN) return;
+      bootEl.classList.add('out');
+      bootLater(() => { if (my !== curN) return; bootEl.hidden = true; bootEl.classList.remove('out', 'curtain'); if (BOOT.state() === 'run') BOOT.set('playing'); }, reduced() ? 0 : 450);
+    });
+  }
 
   Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, keys, standalone,
+    boot: () => Object.assign({ revealed }, bootInfo),
     stick: () => ({ held: stickId !== null, want: [...stickWant].sort(), owned: [...stickOwned].sort() }),
     reveal: () => ({ shown: !!rvEl && !rvEl.hidden, kind: rvEl && rvEl.className, eye: ($('rvEye') || {}).textContent, title: ($('rvTitle') || {}).textContent, sub: ($('rvSub') || {}).textContent, keys: ($('rvKeys') || {}).textContent, last: rvLast }) });
   window.__ui = ui;

@@ -1,7 +1,7 @@
 /* Stage 3C QA2 - browser helpers on top of dev/stage-3c/ui_lib.js (development only; never served).
  *
  *   const Q = require('./qa2_lib.js');
- *   const s = await Q.page(b, PORT, { viewport, mobile, reduced, gate: 'key' | 'click' | 'tap' | false, init, storage, autoplay });
+ *   const s = await Q.page(b, PORT, { viewport, mobile, reduced, gate: 'key' | 'click' | 'tap' | false, init, storage, route, before });
  *   // s.P (Playwright page), s.cdp (a CDP session), s.ev(expr) reads the page WITHOUT a user gesture, s.errs
  *   await Q.bootState(s, 'ready' | 'menu' | 'error', ms)
  *
@@ -40,6 +40,7 @@ async function page(b, PORT, o = {}) {
   const cdp = await ctx.newCDPSession(P);
   const s = { ctx, P, cdp, errs, ev: expr => ev(cdp, expr) };
   if (o.route) for (const [pat, fn] of [].concat([o.route])) await ctx.route(pat, fn);
+  if (o.before) await o.before(s);                                        // e.g. network throttling, before the page loads
   await P.goto(`http://127.0.0.1:${PORT}/?room=${room}${query}`, { waitUntil: 'commit', timeout: 90000 });
   if (gate === false) return s;
   s.boot = await passGate(s, gate);

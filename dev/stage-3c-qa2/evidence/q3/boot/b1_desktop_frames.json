@@ -1,0 +1,1552 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "tag": "desktop",
+ "size": "1280x720",
+ "throttleKbps": 0,
+ "secs": 16,
+ "autoplayFlag": false,
+ "gesture": true,
+ "runs": [
+  {
+   "kind": "cold",
+   "navigationAt": 1791651837640,
+   "gestureAt": 9950,
+   "frames": [
+    {
+     "file": "desktop_cold_0000.jpg",
+     "t": 22,
+     "nonBlack": 1.0,
+     "mean": 255.0,
+     "beforeFirstPaint": true
+    },
+    {
+     "file": "desktop_cold_0001.jpg",
+     "t": 797,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0002.jpg",
+     "t": 1248,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0003.jpg",
+     "t": 1297,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0004.jpg",
+     "t": 1357,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0005.jpg",
+     "t": 1416,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0006.jpg",
+     "t": 1460,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0007.jpg",
+     "t": 1497,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0008.jpg",
+     "t": 1536,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0009.jpg",
+     "t": 1580,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0010.jpg",
+     "t": 1626,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0011.jpg",
+     "t": 1678,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0012.jpg",
+     "t": 1733,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0013.jpg",
+     "t": 1770,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0014.jpg",
+     "t": 1815,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0015.jpg",
+     "t": 1874,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0016.jpg",
+     "t": 1939,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0017.jpg",
+     "t": 1943,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0018.jpg",
+     "t": 1984,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0019.jpg",
+     "t": 2020,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0020.jpg",
+     "t": 2059,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0021.jpg",
+     "t": 2097,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0022.jpg",
+     "t": 2138,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0023.jpg",
+     "t": 2214,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0024.jpg",
+     "t": 2187,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0025.jpg",
+     "t": 2309,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0026.jpg",
+     "t": 3689,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0027.jpg",
+     "t": 6636,
+     "nonBlack": 0.00146,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0028.jpg",
+     "t": 6934,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0029.jpg",
+     "t": 7214,
+     "nonBlack": 0.00147,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0030.jpg",
+     "t": 7492,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0031.jpg",
+     "t": 7803,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0032.jpg",
+     "t": 8182,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0033.jpg",
+     "t": 8518,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0034.jpg",
+     "t": 8784,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0035.jpg",
+     "t": 9045,
+     "nonBlack": 0.00148,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0036.jpg",
+     "t": 9403,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0037.jpg",
+     "t": 9437,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0038.jpg",
+     "t": 9473,
+     "nonBlack": 2e-05,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0039.jpg",
+     "t": 9502,
+     "nonBlack": 0.00018,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0040.jpg",
+     "t": 9522,
+     "nonBlack": 0.00044,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0041.jpg",
+     "t": 9540,
+     "nonBlack": 0.00057,
+     "mean": 1.03,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0042.jpg",
+     "t": 9571,
+     "nonBlack": 0.00069,
+     "mean": 1.05,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0043.jpg",
+     "t": 9589,
+     "nonBlack": 0.00071,
+     "mean": 1.06,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0044.jpg",
+     "t": 9604,
+     "nonBlack": 0.00073,
+     "mean": 1.06,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0045.jpg",
+     "t": 9624,
+     "nonBlack": 0.00076,
+     "mean": 1.07,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0046.jpg",
+     "t": 9642,
+     "nonBlack": 0.00076,
+     "mean": 1.07,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0047.jpg",
+     "t": 9654,
+     "nonBlack": 0.00077,
+     "mean": 1.08,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0048.jpg",
+     "t": 9690,
+     "nonBlack": 0.00078,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0049.jpg",
+     "t": 9705,
+     "nonBlack": 0.0008,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0050.jpg",
+     "t": 9727,
+     "nonBlack": 0.00081,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0051.jpg",
+     "t": 9785,
+     "nonBlack": 0.00082,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0052.jpg",
+     "t": 9805,
+     "nonBlack": 0.00081,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0053.jpg",
+     "t": 9777,
+     "nonBlack": 0.00081,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0054.jpg",
+     "t": 9825,
+     "nonBlack": 0.00081,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0055.jpg",
+     "t": 9855,
+     "nonBlack": 0.00081,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0056.jpg",
+     "t": 9873,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0057.jpg",
+     "t": 9898,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0058.jpg",
+     "t": 9920,
+     "nonBlack": 0.00081,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0059.jpg",
+     "t": 9952,
+     "nonBlack": 0.00081,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0060.jpg",
+     "t": 9982,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0061.jpg",
+     "t": 9997,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0062.jpg",
+     "t": 10019,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0063.jpg",
+     "t": 10302,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0064.jpg",
+     "t": 10596,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0065.jpg",
+     "t": 10644,
+     "nonBlack": 0.0,
+     "mean": 1.05,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0066.jpg",
+     "t": 10672,
+     "nonBlack": 0.0,
+     "mean": 1.24,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0067.jpg",
+     "t": 10697,
+     "nonBlack": 0.01781,
+     "mean": 2.04,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0068.jpg",
+     "t": 10725,
+     "nonBlack": 0.03676,
+     "mean": 4.17,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0069.jpg",
+     "t": 10761,
+     "nonBlack": 0.04161,
+     "mean": 5.35,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0070.jpg",
+     "t": 10793,
+     "nonBlack": 0.04564,
+     "mean": 6.34,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0071.jpg",
+     "t": 10823,
+     "nonBlack": 0.04981,
+     "mean": 7.05,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0072.jpg",
+     "t": 10862,
+     "nonBlack": 0.05297,
+     "mean": 7.42,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0073.jpg",
+     "t": 10891,
+     "nonBlack": 0.05498,
+     "mean": 7.74,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0074.jpg",
+     "t": 10925,
+     "nonBlack": 0.05627,
+     "mean": 7.92,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0075.jpg",
+     "t": 10948,
+     "nonBlack": 0.05683,
+     "mean": 7.98,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0076.jpg",
+     "t": 10978,
+     "nonBlack": 0.05703,
+     "mean": 8.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0077.jpg",
+     "t": 11010,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0078.jpg",
+     "t": 11046,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0079.jpg",
+     "t": 11096,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0080.jpg",
+     "t": 11350,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0081.jpg",
+     "t": 11566,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0082.jpg",
+     "t": 11835,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0083.jpg",
+     "t": 12113,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0084.jpg",
+     "t": 12330,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0085.jpg",
+     "t": 12559,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0086.jpg",
+     "t": 12780,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0087.jpg",
+     "t": 13003,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0088.jpg",
+     "t": 13221,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0089.jpg",
+     "t": 13479,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0090.jpg",
+     "t": 13738,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0091.jpg",
+     "t": 13947,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0092.jpg",
+     "t": 14184,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0093.jpg",
+     "t": 14425,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0094.jpg",
+     "t": 14645,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0095.jpg",
+     "t": 15001,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0096.jpg",
+     "t": 15225,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0097.jpg",
+     "t": 15499,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0098.jpg",
+     "t": 15810,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_cold_0099.jpg",
+     "t": 16083,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    }
+   ],
+   "page": {
+    "marks": {
+     "domContentLoaded": 829,
+     "load": 831,
+     "gameApi": 838
+    },
+    "paints": [
+     [
+      "first-paint",
+      796
+     ],
+     [
+      "first-contentful-paint",
+      796
+     ]
+    ],
+    "nav": {
+     "responseEnd": 30,
+     "domInteractive": 537,
+     "loadEventEnd": 831
+    },
+    "boot": {
+     "state": "menu",
+     "failed": null,
+     "timeline": {
+      "black": 35,
+      "loading": 529,
+      "ready": 8540,
+      "menu": 10281
+     }
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 1,
+     "t0": 0.06,
+     "ctx": "running",
+     "fetched": 2,
+     "cacheHits": 0,
+     "preparedAt": 8192,
+     "beganAt": 10280
+    },
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": false,
+     "gate": true,
+     "gateShownAt": 9020,
+     "passedBy": "keydown: ",
+     "passedAt": 10280,
+     "noteShown": true
+    },
+    "uiState": "menu",
+    "activated": true
+   },
+   "summary": {
+    "frames": 100,
+    "firstFrameAt": 22,
+    "firstFrameNonBlack": 1.0,
+    "firstNonBlackAt": 22,
+    "firstNonBlackShare": 1.0,
+    "firstMostlyLitAt": 22,
+    "changes": 22
+   }
+  },
+  {
+   "kind": "warm",
+   "navigationAt": 1791651853926,
+   "gestureAt": 7081,
+   "frames": [
+    {
+     "file": "desktop_warm_0000.jpg",
+     "t": 31,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": true
+    },
+    {
+     "file": "desktop_warm_0001.jpg",
+     "t": 257,
+     "nonBlack": 0.05882,
+     "mean": 8.51,
+     "beforeFirstPaint": true
+    },
+    {
+     "file": "desktop_warm_0002.jpg",
+     "t": 862,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0003.jpg",
+     "t": 1169,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0004.jpg",
+     "t": 1233,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0005.jpg",
+     "t": 1262,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0006.jpg",
+     "t": 1282,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0007.jpg",
+     "t": 1319,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0008.jpg",
+     "t": 1338,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0009.jpg",
+     "t": 1424,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0010.jpg",
+     "t": 1402,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0011.jpg",
+     "t": 1369,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0012.jpg",
+     "t": 1769,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0013.jpg",
+     "t": 1812,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0014.jpg",
+     "t": 1831,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0015.jpg",
+     "t": 1877,
+     "nonBlack": 3e-05,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0016.jpg",
+     "t": 1849,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0017.jpg",
+     "t": 1895,
+     "nonBlack": 7e-05,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0018.jpg",
+     "t": 1913,
+     "nonBlack": 0.00015,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0019.jpg",
+     "t": 1938,
+     "nonBlack": 0.00017,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0020.jpg",
+     "t": 1969,
+     "nonBlack": 0.00018,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0021.jpg",
+     "t": 2004,
+     "nonBlack": 0.00018,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0022.jpg",
+     "t": 2026,
+     "nonBlack": 0.00019,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0023.jpg",
+     "t": 2060,
+     "nonBlack": 0.0002,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0024.jpg",
+     "t": 2088,
+     "nonBlack": 0.00019,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0025.jpg",
+     "t": 2118,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0026.jpg",
+     "t": 2107,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0027.jpg",
+     "t": 2184,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0028.jpg",
+     "t": 2205,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0029.jpg",
+     "t": 2237,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0030.jpg",
+     "t": 2270,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0031.jpg",
+     "t": 2925,
+     "nonBlack": 0.0002,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0032.jpg",
+     "t": 6161,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0033.jpg",
+     "t": 6188,
+     "nonBlack": 0.0,
+     "mean": 1.01,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0034.jpg",
+     "t": 6220,
+     "nonBlack": 0.00018,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0035.jpg",
+     "t": 6243,
+     "nonBlack": 0.00044,
+     "mean": 1.02,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0036.jpg",
+     "t": 6270,
+     "nonBlack": 0.00057,
+     "mean": 1.03,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0037.jpg",
+     "t": 6298,
+     "nonBlack": 0.00063,
+     "mean": 1.04,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0038.jpg",
+     "t": 6320,
+     "nonBlack": 0.00069,
+     "mean": 1.05,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0039.jpg",
+     "t": 6346,
+     "nonBlack": 0.00071,
+     "mean": 1.06,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0040.jpg",
+     "t": 6366,
+     "nonBlack": 0.00076,
+     "mean": 1.07,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0041.jpg",
+     "t": 6389,
+     "nonBlack": 0.00076,
+     "mean": 1.07,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0042.jpg",
+     "t": 6410,
+     "nonBlack": 0.00078,
+     "mean": 1.08,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0043.jpg",
+     "t": 6452,
+     "nonBlack": 0.0008,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0044.jpg",
+     "t": 6431,
+     "nonBlack": 0.00078,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0045.jpg",
+     "t": 6473,
+     "nonBlack": 0.00081,
+     "mean": 1.09,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0046.jpg",
+     "t": 6524,
+     "nonBlack": 0.00082,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0047.jpg",
+     "t": 6497,
+     "nonBlack": 0.00081,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0048.jpg",
+     "t": 6555,
+     "nonBlack": 0.00081,
+     "mean": 1.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0049.jpg",
+     "t": 6583,
+     "nonBlack": 0.00081,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0050.jpg",
+     "t": 6606,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0051.jpg",
+     "t": 6639,
+     "nonBlack": 0.00081,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0052.jpg",
+     "t": 6669,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0053.jpg",
+     "t": 6685,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0054.jpg",
+     "t": 6705,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0055.jpg",
+     "t": 6734,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0056.jpg",
+     "t": 6794,
+     "nonBlack": 0.00082,
+     "mean": 1.11,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0057.jpg",
+     "t": 7105,
+     "nonBlack": 0.00098,
+     "mean": 1.12,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0058.jpg",
+     "t": 7410,
+     "nonBlack": 0.00098,
+     "mean": 1.12,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0059.jpg",
+     "t": 7709,
+     "nonBlack": 0.0,
+     "mean": 1.0,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0060.jpg",
+     "t": 7746,
+     "nonBlack": 0.0,
+     "mean": 1.16,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0061.jpg",
+     "t": 7905,
+     "nonBlack": 0.01781,
+     "mean": 2.04,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0062.jpg",
+     "t": 7944,
+     "nonBlack": 0.02641,
+     "mean": 2.75,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0063.jpg",
+     "t": 7978,
+     "nonBlack": 0.0513,
+     "mean": 7.26,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0064.jpg",
+     "t": 8007,
+     "nonBlack": 0.05404,
+     "mean": 7.58,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0065.jpg",
+     "t": 8036,
+     "nonBlack": 0.05528,
+     "mean": 7.83,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0066.jpg",
+     "t": 8058,
+     "nonBlack": 0.0568,
+     "mean": 7.98,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0067.jpg",
+     "t": 8110,
+     "nonBlack": 0.05693,
+     "mean": 8.1,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0068.jpg",
+     "t": 8146,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0069.jpg",
+     "t": 8322,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0070.jpg",
+     "t": 8618,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0071.jpg",
+     "t": 8867,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0072.jpg",
+     "t": 9114,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0073.jpg",
+     "t": 9400,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0074.jpg",
+     "t": 9662,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0075.jpg",
+     "t": 9898,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0076.jpg",
+     "t": 10138,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0077.jpg",
+     "t": 10412,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0078.jpg",
+     "t": 10691,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0079.jpg",
+     "t": 10897,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0080.jpg",
+     "t": 11109,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0081.jpg",
+     "t": 11319,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0082.jpg",
+     "t": 11551,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0083.jpg",
+     "t": 11818,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0084.jpg",
+     "t": 12047,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0085.jpg",
+     "t": 12271,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0086.jpg",
+     "t": 12510,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0087.jpg",
+     "t": 12744,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0088.jpg",
+     "t": 12997,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0089.jpg",
+     "t": 13198,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0090.jpg",
+     "t": 13404,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0091.jpg",
+     "t": 13662,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0092.jpg",
+     "t": 13898,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0093.jpg",
+     "t": 14158,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0094.jpg",
+     "t": 14445,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0095.jpg",
+     "t": 14776,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0096.jpg",
+     "t": 15070,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0097.jpg",
+     "t": 15355,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0098.jpg",
+     "t": 15648,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    },
+    {
+     "file": "desktop_warm_0099.jpg",
+     "t": 15981,
+     "nonBlack": 0.05878,
+     "mean": 8.51,
+     "beforeFirstPaint": false
+    }
+   ],
+   "page": {
+    "marks": {
+     "domContentLoaded": 871,
+     "load": 872,
+     "gameApi": 873
+    },
+    "paints": [
+     [
+      "first-paint",
+      860
+     ],
+     [
+      "first-contentful-paint",
+      860
+     ]
+    ],
+    "nav": {
+     "responseEnd": 26,
+     "domInteractive": 709,
+     "loadEventEnd": 872
+    },
+    "boot": {
+     "state": "menu",
+     "failed": null,
+     "timeline": {
+      "black": 323,
+      "loading": 687,
+      "ready": 1215,
+      "menu": 7378
+     }
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 1,
+     "t0": 0.06,
+     "ctx": "running",
+     "fetched": 0,
+     "cacheHits": 2,
+     "preparedAt": 1184,
+     "beganAt": 7377
+    },
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": false,
+     "gate": true,
+     "gateShownAt": 2894,
+     "passedBy": "keydown: ",
+     "passedAt": 7377,
+     "noteShown": false
+    },
+    "uiState": "menu",
+    "activated": true
+   },
+   "summary": {
+    "frames": 100,
+    "firstFrameAt": 31,
+    "firstFrameNonBlack": 0.05882,
+    "firstNonBlackAt": 31,
+    "firstNonBlackShare": 0.05882,
+    "firstMostlyLitAt": null,
+    "changes": 19
+   }
+  }
+ ],
+ "errors": []
+}
