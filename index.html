@@ -81,23 +81,28 @@
 </main>
 
 <div id="hud" hidden>
+  <div class="hud-hp" id="hudHealth" hidden aria-hidden="true"><span>Health</span><i><em id="hudHealthFill"></em></i></div>
   <div class="walk"><span id="nameplate">WANDERER</span><span id="pace">WALKING</span><span class="staminaHud">STAMINA <b id="staminaText">100</b><i><em id="staminaFill"></em></i></span><span id="lightStatus">FLASHLIGHT ON</span></div>
   <div class="keyline"><span><kbd>W A S D</kbd> Move</span><span><kbd>SHIFT</kbd> Run</span><span><kbd>C</kbd> Crouch · Slide</span><span><kbd>F</kbd> Light</span><span class="camkey"><kbd>N</kbd> NV</span><span class="camkey"><kbd>WHEEL</kbd> Zoom</span><span><kbd>TAB</kbd> Inventory</span><span><kbd>ESC</kbd> Pause</span></div>
 </div>
 <div class="hud-obj"><span class="objective"><small>Objective</small><b id="evidenceCount">FIND A GLITCHED WALL</b></span></div>
 <div class="coordinates"><span id="coords">X 0960 / Y 2208</span><span>THRESHOLD · ENTITY REPORTS UNCONFIRMED</span></div>
+<!-- Stage 3C QA1: where you are is an event, not wallpaper. LEVEL 0 as a run begins (with the objective, and a one-line key
+     reminder), and each new part of the level as you enter it; then it fades. Written by assets/ui.js from the game's own names. -->
+<div class="hud-reveal" id="hudReveal" role="status" aria-live="polite" hidden><span class="rv-eye" id="rvEye"></span><b class="rv-title" id="rvTitle"></b><span class="rv-sub" id="rvSub"></span><span class="rv-keys" id="rvKeys"></span></div>
 
 <div id="dialog" hidden>
   <div class="panel pz" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
     <div class="pz-main">
     <p class="eyebrow">TAKE A BREATH</p>
     <h2 id="dialogTitle">You’re still here.</h2>
+    <p class="pz-obj"><small>Objective</small><b id="pzObjective">Find a glitched wall</b></p>
     <button class="primary" id="resume">CONTINUE EXPLORING <span>↗</span></button>
     <div class="pz-more"><button type="button" class="u-btn" id="pauseSettings">Settings</button><button type="button" class="u-btn" id="pauseCustomize">Customize</button></div>
     <button class="secondary" id="reset">NEW RUN</button>
     <p class="lore-credit">Level 0 environment and entity behavior adapted from <a href="https://backrooms-wiki.wikidot.com/level-0" target="_blank" rel="noopener noreferrer">The Backrooms Wiki</a>: <a href="https://backrooms-wiki.wikidot.com/entity-8" target="_blank" rel="noopener noreferrer">Hound</a> · <a href="https://backrooms-wiki.wikidot.com/entity-3" target="_blank" rel="noopener noreferrer">Smilers</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>.</p>
     </div>
-    <div class="pz-keys"><h3>Controls</h3>
+    <div class="pz-keys"><h3>Controls</h3><button type="button" class="u-btn ghost" id="pzKeys">Change keys</button>
     <div class="controlRows"><p><span>Move</span><b>W A S D / ARROWS</b></p><p><span>Run (drains stamina)</span><b>HOLD SHIFT</b></p><p><span>Crouch / stand</span><b>C</b></p><p><span>Slide (while running)</span><b>C</b></p><p><span>Vault / crawl</span><b>WALK INTO IT</b></p><p><span>Aim handheld light</span><b>MOUSE</b></p><p><span>Toggle light / raise camcorder</span><b>F</b></p><p><span>Night vision (camcorder)</span><b>N</b></p><p><span>Camera zoom (camcorder)</span><b>MOUSE WHEEL</b></p><p><span>Inventory</span><b>TAB</b></p><p><span>Cartograph (once found)</span><b>M</b></p><p><span>Pause / resume</span><b>ESC</b></p></div>
     </div>
   </div>

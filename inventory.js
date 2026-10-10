@@ -24,7 +24,9 @@
   const KIND_STATS = {           // [reach, spread] out of 5, shown on the loadout cards
     flashlight: [5, 1], headlamp: [3, 3], lantern: [2, 5], camcorder: null,
   };
-  const KIND_KEYS = { camcorder: 'F raise / lower · N night vision · WHEEL zoom' };
+  // Stage 3C QA1: the keys named here are the player's own (assets/ui.js's window.__keys; the defaults when it is absent)
+  const K = (a, d) => { try { return ((window.__keys && window.__keys.label(a)) || d).toUpperCase(); } catch (e) { return d; } };
+  const KIND_KEYS = { get camcorder() { return `${K('light', 'F')} raise / lower · ${K('nv', 'N')} night vision · WHEEL zoom`; } };
   const DEF_COL = { flashlight: '#ffe7b2', headlamp: '#fff0c8', lantern: '#ffc98a', camcorder: '#ffe7b2' };
   const DRAW_X = { cr: 1, hat: 'none' };
   const ITEMS = {
@@ -42,7 +44,7 @@
     give(id, found) {
       if (!ITEMS[id] || this.has(id)) return false;
       this.items.push(id); this.sel = this.items.length - 1;
-      if (found) { toast('FOUND · ' + ITEMS[id].name, 'Press TAB to see what you are carrying. M opens it.'); const A = window.__api, z = A && A.audio && A.audio(); try { z && z.collect && z.collect(); } catch { } }
+      if (found) { toast('FOUND · ' + ITEMS[id].name, `Press ${K('inventory', 'TAB')} to see what you are carrying. ${K('map', 'M')} opens it.`); const A = window.__api, z = A && A.audio && A.audio(); try { z && z.collect && z.collect(); } catch { } }
       render(); return true;
     },
     reset() { this.items = []; this.sel = -1; close(); render(); },
@@ -136,7 +138,8 @@
     $('invSw').innerHTML = swatches();
     $('invKeys').textContent = KIND_KEYS[k] || '';
     const st = ($('lightStatus') && $('lightStatus').textContent) || 'ON', on = /\bON\b|RAISED/.test(st) && !/LOWERED/.test(st);
-    $('invToggle').innerHTML = (k === 'camcorder' ? (on ? 'RAISED' : 'LOWERED') : on ? 'LIGHT ON' : 'LIGHT OFF') + ' <kbd>F</kbd>'; $('invToggle').classList.toggle('off', !on);
+    $('invToggle').innerHTML = (k === 'camcorder' ? (on ? 'RAISED' : 'LOWERED') : on ? 'LIGHT ON' : 'LIGHT OFF') + ` <kbd>${K('light', 'F')}</kbd>`;
+    const hk = root.querySelector('.inv-head kbd'); if (hk) hk.textContent = K('inventory', 'TAB'); $('invToggle').classList.toggle('off', !on);
     const slots = 6, grid = [];
     for (let i = 0; i < slots; i++) {
       const id = inv.items[i];
@@ -146,7 +149,7 @@
     const id = inv.items[inv.sel];
     if (id) {
       const it = ITEMS[id], showing = window.__api.mapOpen && window.__api.mapOpen();
-      $('invDetail').innerHTML = `<div class="inv-tag">${it.tag}</div><h4>${it.name}</h4><p>${it.desc}</p><button type="button" id="invUse">${showing ? 'PUT AWAY' : 'OPEN'} <kbd>${it.use}</kbd></button>`;
+      $('invDetail').innerHTML = `<div class="inv-tag">${it.tag}</div><h4>${it.name}</h4><p>${it.desc}</p><button type="button" id="invUse">${showing ? 'PUT AWAY' : 'OPEN'} <kbd>${K('map', it.use)}</kbd></button>`;
     } else {
       $('invDetail').innerHTML = `<p class="inv-empty">${inv.items.length ? 'Select something.' : 'Your pockets are empty. Something out in the halls might be worth carrying.'}</p>`;
     }

@@ -94,6 +94,162 @@
     return el;
   }
 
+  /* ---------------------------------------------------------------- keybinds (QA1 Q3)
+     The game reads fixed key codes: the bundle's key set (W A S D / arrows, Shift) and its F, M and Esc; move.js's C;
+     inventory.js's Tab; camcorder.js's N, B and Z. A rebound key is turned into the code the game already reads, here, at the
+     window's capture phase before any game listener sees it; a default key that no longer belongs to its own action is held
+     back. With the default bindings nothing is intercepted at all, so the game behaves exactly as before. Only while a run is
+     live (started, not paused, nothing open over it); a release always follows the press it belongs to. Esc (pause), the mouse
+     (aim, right-click night vision, wheel zoom) and the admin key are fixed and never offered. Saved as tfb.keys.v1. */
+  const KB_KEY = 'tfb.keys.v1';
+  const KB = [                                                             // [action, name, group, the game's own codes per slot]
+    ['up', 'Move up', 'Moving', ['KeyW', 'ArrowUp']], ['left', 'Move left', 'Moving', ['KeyA', 'ArrowLeft']],
+    ['down', 'Move down', 'Moving', ['KeyS', 'ArrowDown']], ['right', 'Move right', 'Moving', ['KeyD', 'ArrowRight']],
+    ['run', 'Run (hold)', 'Moving', ['ShiftLeft', 'ShiftRight']], ['crouch', 'Crouch / stand, slide while running', 'Moving', ['KeyC', null]],
+    ['light', 'Light on / off, raise the camcorder', 'Light', ['KeyF', null]],
+    ['nv', 'Night vision', 'Night Vision Camcorder', ['KeyN', null]], ['ir', 'Infrared illuminator: off / low / high', 'Night Vision Camcorder', ['KeyB', null]],
+    ['zoom', 'Zoom', 'Night Vision Camcorder', ['KeyZ', null]],
+    ['inventory', 'Inventory', 'Everything else', ['Tab', null]], ['map', 'Cartograph (once you carry it)', 'Everything else', ['KeyM', null]],
+  ];
+  const KB_DEF = Object.fromEntries(KB.map(a => [a[0], a[3].slice()]));
+  const kbClone = b => Object.fromEntries(Object.entries(b).map(([k, v]) => [k, v.slice()]));
+  const GAME = (a, i) => KB_DEF[a][i] || KB_DEF[a][0];                   // the code the game reads for that action and slot
+  // keys that are never offered: pause and admin, function keys (reload, fullscreen, devtools), the system's modifiers and toggles
+  const NOBIND = /^(Escape|Backquote|F\d{1,2}|Meta\w*|OS\w*|Control\w*|Alt\w*|ContextMenu|CapsLock|NumLock|ScrollLock|Pause|PrintScreen|Fn\w*|Help|Power|Sleep|WakeUp|Eject|Launch\w*|Media\w*|Audio\w*|Browser\w*|Lang\d|Convert|NonConvert|KanaMode|Unidentified)$/;
+  function kbLoad() {
+    let r = null; try { r = JSON.parse(localStorage.getItem(KB_KEY) || 'null'); } catch (e) { }
+    if (!r || r.v !== 1 || !r.b || typeof r.b !== 'object') return kbClone(KB_DEF);   // no save (or not ours): the defaults
+    const b = kbClone(KB_DEF), seen = new Set();
+    for (const [a] of KB) {
+      const s = Array.isArray(r.b[a]) ? r.b[a] : KB_DEF[a];
+      const ok = c => typeof c === 'string' && /^[A-Za-z0-9]+$/.test(c) && !NOBIND.test(c);
+      b[a] = [ok(s[0]) ? s[0] : KB_DEF[a][0], s[1] === null ? null : ok(s[1]) ? s[1] : KB_DEF[a][1]];
+      for (const c of b[a]) if (c) { if (seen.has(c)) return kbClone(KB_DEF); seen.add(c); }   // a damaged save never double-binds a key
+    }
+    return b;
+  }
+  let KBS = kbLoad(), T = new Map(), SWALLOW = new Set(), IDENT = true;
+  function kbBuild() {
+    T = new Map(); for (const [a] of KB) for (const i of [0, 1]) { const p = KBS[a][i]; if (p) T.set(p, GAME(a, i)); }
+    SWALLOW = new Set(); for (const [a] of KB) for (const g of KB_DEF[a]) if (g && !T.has(g)) SWALLOW.add(g);
+    IDENT = [...T].every(([p, g]) => p === g) && !SWALLOW.size;
+  }
+  kbBuild();
+  const kbSave = () => { try { localStorage.setItem(KB_KEY, JSON.stringify({ v: 1, b: KBS })); } catch (e) { } };
+  const kbSubs = new Set();
+  const kbChanged = () => { kbBuild(); kbSubs.forEach(f => { try { f(); } catch (e) { } }); };
+  // names: the user's own keyboard layout where the browser can tell (an AZERTY KeyW is "Z"), the position's QWERTY name if not
+  const PRETTY = { ArrowUp: '↑', ArrowDown: '↓', ArrowLeft: '←', ArrowRight: '→', ShiftLeft: 'Shift', ShiftRight: 'Right Shift', Space: 'Space', Tab: 'Tab', Enter: 'Enter',
+    Backspace: 'Backspace', Delete: 'Del', Insert: 'Ins', Home: 'Home', End: 'End', PageUp: 'PgUp', PageDown: 'PgDn', NumpadEnter: 'Num Enter', NumpadAdd: 'Num +', NumpadSubtract: 'Num -',
+    NumpadMultiply: 'Num *', NumpadDivide: 'Num /', NumpadDecimal: 'Num .', Minus: '-', Equal: '=', BracketLeft: '[', BracketRight: ']', Backslash: '\\', IntlBackslash: '\\', Semicolon: ';',
+    Quote: "'", Comma: ',', Period: '.', Slash: '/', Escape: 'Esc' };
+  let layoutMap = null;
+  try { if (navigator.keyboard && navigator.keyboard.getLayoutMap) navigator.keyboard.getLayoutMap().then(m => { layoutMap = m; kbChanged(); }).catch(() => { }); } catch (e) { }
+  const keyName = c => !c ? '' : PRETTY[c] || (/^(Key[A-Z]|Digit\d)$/.test(c) ? String((layoutMap && layoutMap.get(c)) || c.replace(/^(Key|Digit)/, '')).toUpperCase()
+    : /^Numpad\d$/.test(c) ? 'Num ' + c.slice(6) : c);
+  const keys = {
+    label: a => keyName(KBS[a] && KBS[a][0]),                             // the first key of an action, as the player sees it
+    labels: a => { const l = (KBS[a] || []).filter(Boolean); return l.length === 2 && l.includes('ShiftLeft') && l.includes('ShiftRight') ? ['Shift'] : l.map(keyName); },   // both Shifts read as one
+    move: () => ['up', 'left', 'down', 'right'].map(a => keyName(KBS[a][0])).join(' '),
+    bindings: () => kbClone(KBS), defaults: () => kbClone(KB_DEF), isDefault: () => IDENT && KB.every(([a]) => KBS[a][0] === KB_DEF[a][0] && KBS[a][1] === KB_DEF[a][1]),
+    on: f => { kbSubs.add(f); return () => kbSubs.delete(f); },
+    reset() { KBS = kbClone(KB_DEF); try { localStorage.removeItem(KB_KEY); } catch (e) { } kbChanged(); },
+  };
+  window.__keys = keys;
+  // the adapter
+  const SYN = new WeakSet(), heldBy = new Map();                           // physical code -> the game code it went down as
+  const KEYOF = c => /^Key[A-Z]$/.test(c) ? c.slice(3).toLowerCase() : /^Digit\d$/.test(c) ? c.slice(5) : /^Shift/.test(c) ? 'Shift' : c === 'Space' ? ' ' : c;
+  const typingIn = t => t instanceof HTMLInputElement || t instanceof HTMLTextAreaElement || t instanceof HTMLSelectElement || !!(t && t.isContentEditable);
+  const liveRun = () => { const A = window.__api; return !!(A && A.started && A.started() && !A.paused() && !stack.length && !vis('appearancePanel') && !vis('dialog') && !vis('caught') && !vis('won') && !vis('runMenu')); };
+  function synth(e, type, code) {
+    const ev = new KeyboardEvent(type, { key: KEYOF(code), code, location: code === 'ShiftLeft' ? 1 : code === 'ShiftRight' ? 2 : 0, repeat: e.repeat, shiftKey: e.shiftKey, bubbles: true, cancelable: true, composed: true });
+    SYN.add(ev); (e.target && e.target.dispatchEvent ? e.target : window).dispatchEvent(ev); return ev;
+  }
+  let capturing = null;                                                    // a Controls slot waiting for its key
+  addEventListener('keydown', e => {
+    if (SYN.has(e) || capturing || IDENT) return;
+    if (e.ctrlKey || e.metaKey || e.altKey || typingIn(e.target) || !liveRun()) return;
+    const g = T.get(e.code);
+    if (g === undefined) { if (SWALLOW.has(e.code)) { e.preventDefault(); e.stopImmediatePropagation(); } return; }
+    heldBy.set(e.code, g);
+    if (g === e.code) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    synth(e, 'keydown', g);
+  }, true);
+  addEventListener('keyup', e => {
+    if (SYN.has(e)) return;
+    const g = heldBy.get(e.code);
+    if (g === undefined) { if (!IDENT && SWALLOW.has(e.code) && !typingIn(e.target) && liveRun()) e.stopImmediatePropagation(); return; }
+    heldBy.delete(e.code);
+    if (g === e.code) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if ([...heldBy.values()].includes(g)) return;                           // another key still holds that action down
+    synth(e, 'keyup', g);
+  }, true);
+  addEventListener('blur', () => heldBy.clear());
+  // capturing a new key for a Controls slot: every key goes here first (before the sheets' Escape / Tab handling and the game)
+  addEventListener('keydown', e => {
+    if (!capturing || SYN.has(e)) return;
+    e.preventDefault(); e.stopImmediatePropagation();
+    if (e.repeat) return;
+    const { a, i } = capturing;
+    if (e.code === 'Escape') { kbEnd('Cancelled.'); return; }
+    if (e.code === 'Backspace' || e.code === 'Delete') {
+      if (i === 1) { KBS[a][1] = null; kbSave(); kbChanged(); kbEnd(`${kbName(a)}: second key cleared.`); }
+      else kbMsg('Every action keeps a first key. Press the key you want, or Esc to cancel.');
+      return;
+    }
+    if (!e.code || NOBIND.test(e.code) || !/^[A-Za-z0-9]+$/.test(e.code)) { kbMsg(`${keyName(e.code) || 'That key'} is kept for the browser or the game. Press another key, or Esc to cancel.`); return; }
+    kbTry(a, i, e.code);
+  }, true);
+  addEventListener('keyup', e => { if (capturing && !SYN.has(e)) e.stopImmediatePropagation(); }, true);
+  const kbName = a => (KB.find(x => x[0] === a) || [, a])[1];
+  let kbPending = null;                                                    // a conflict waiting for Swap or Cancel
+  function kbTry(a, i, code) {
+    if (KBS[a][i] === code) { kbEnd(); return; }
+    let other = null; for (const [b] of KB) for (const j of [0, 1]) if (KBS[b][j] === code && !(b === a && j === i)) other = [b, j];
+    if (!other) { KBS[a][i] = code; kbSave(); kbChanged(); kbEnd(`${kbName(a)}: ${keyName(code)}.`); return; }
+    const [b, j] = other;
+    if (b === a) { kbEnd(`${keyName(code)} is already ${kbName(a)}'s other key.`); return; }
+    if (j === 0 && !KBS[a][i]) { kbEnd(`${keyName(code)} is ${kbName(b)}'s only key, and nothing would be left for it. Give ${kbName(b)} another key first.`); return; }
+    kbPending = { a, i, b, j, code };
+    capturing = null; kbRender();
+    kbMsg(`${keyName(code)} is already used for ${kbName(b)}. Swap them (${kbName(b)} gets ${keyName(KBS[a][i]) || 'no second key'}), or cancel.`, true);
+  }
+  function kbSwap() {
+    const p = kbPending; if (!p) return; kbPending = null;
+    const was = KBS[p.a][p.i]; KBS[p.b][p.j] = was || null; KBS[p.a][p.i] = p.code;
+    kbSave(); kbChanged(); kbMsg(`Swapped: ${kbName(p.a)} is ${keyName(p.code)}, ${kbName(p.b)} is ${keyName(was) || 'unset'}.`);
+  }
+  let kbMsgEl = null;
+  function kbMsg(t, conflict) {
+    if (!kbMsgEl) return;
+    kbMsgEl.innerHTML = esc(t) + (conflict ? ' <button type="button" class="u-btn" data-kb="swap">Swap keys</button> <button type="button" class="u-btn ghost" data-kb="cancel">Cancel</button>' : '');
+    kbMsgEl.classList.toggle('warn', !!conflict);
+    if (conflict) { const s = kbMsgEl.querySelector('[data-kb=swap]'); if (s) s.focus(); }
+  }
+  function kbStart(a, i, btn) { kbPending = null; capturing = { a, i, btn }; kbRender(); kbMsg(`Press a key for ${kbName(a)}${i ? ' (second key)' : ''}. Esc cancels${i ? ', Delete clears it' : ''}.`); }
+  function kbEnd(note) {
+    const c = capturing; capturing = null; kbRender();
+    if (note !== undefined) kbMsg(note);
+    if (c && settingsEl) { const b = settingsEl.querySelector(`.kb-slot[data-a="${c.a}"][data-i="${c.i}"]`); if (b) b.focus({ preventScroll: true }); }
+  }
+  // the Controls page body (built into Settings; redrawn on every change)
+  function kbRender() {
+    if (!settingsEl) return; const box = settingsEl.querySelector('#kbList'); if (!box) return;
+    let g = '', h = '';
+    for (const [a, name, grp] of KB) {
+      if (grp !== g) { g = grp; h += `<h4>${esc(grp)}</h4>`; }
+      const slot = i => { const c = KBS[a][i], cap = capturing && capturing.a === a && capturing.i === i;
+        return `<button type="button" class="kb-slot${cap ? ' cap' : ''}${c ? '' : ' empty'}" data-a="${a}" data-i="${i}" aria-label="${esc(name)}, ${i ? 'second' : 'first'} key: ${c ? esc(keyName(c)) : 'none'}. Change">${cap ? 'Press a key' : c ? esc(keyName(c)) : '+'}</button>`; };
+      const extra = a === 'nv' ? '<small>also right click</small>' : a === 'zoom' ? '<small>also the mouse wheel</small>' : '';
+      h += `<span>${esc(name)}${extra}</span><span class="kb-pair">${slot(0)}${slot(1)}</span>`;
+    }
+    h += `<h4>Fixed</h4><span>Pause / resume</span><span class="kb-pair"><b>Esc</b></span><span>Aim a handheld light</span><span class="kb-pair"><b>Mouse</b></span><span>Vault or crawl</span><span class="kb-pair"><b>Walk into it</b></span>`;
+    box.innerHTML = h;
+    const rs = settingsEl.querySelector('#kbReset'); if (rs) rs.disabled = keys.isDefault();
+  }
+
   /* ---------------------------------------------------------------- keys: Escape and Tab inside UI modals */
   const vis = id => { const e = $(id); return !!e && !e.hidden; };
   function topModal() {
@@ -188,7 +344,7 @@
     if (rn && nm) rn.addEventListener('click', () => { nm.focus(); nm.select(); });
     const snd = $('mmSound');
     if (snd) snd.addEventListener('click', () => { const s = $('sound'); if (s) s.click(); });   // the game's own SOUND ON/OFF
-    const note = $('mmNote'); if (note && coarse()) note.textContent = 'Headphones recommended. Move with the on-screen control, bottom left. PAUSE is top right.';
+    // (#mmNote is written by labelsRefresh(): the keys it names are the player's own)
     const ver = $('mmVer'), V = window.TFB_CREDITS && TFB_CREDITS.version; if (ver && V) ver.textContent = 'v' + V;
   }
   addEventListener('keydown', e => {
@@ -402,19 +558,61 @@
 
   /* ---------------------------------------------------------------- help (the right rail's "i"): how to play, where the controls are */
   let helpEl = null;
+  const helpControls = () => coarse() ? 'On a touch screen: move with the on-screen control at the bottom left; RUN, CROUCH, LIGHT and INV are at the bottom right; PAUSE is at the top right.'
+    : `Move with ${keys.move()}${KBS.up[1] ? ' or ' + ['up', 'left', 'down', 'right'].map(a => keyName(KBS[a][1])).filter(Boolean).join(' ') : ''}, aim your light with the mouse, hold ${keys.label('run')} to run, ${keys.label('crouch')} to crouch, ${keys.label('light')} for your light, ${keys.label('inventory')} for the inventory, Esc to pause.`;
   function buildHelp() {
-    if (helpEl) return;
+    if (helpEl) { const c = helpEl.querySelector('[data-help-text]'); if (c) c.textContent = helpControls(); return; }
     helpEl = sheet('uiHelp', 'Help');
-    const touch = coarse();
     helpEl.querySelector('.us-body').innerHTML = `<section class="hp-sec"><h3>How to play</h3>
 <p>Level 0 is a maze of yellow rooms under humming lights. Somewhere a wall is glitching: find it and walk through it to get out.</p>
 <p>Something hunts in the dark. If it finds you, break its line of sight and move quietly. Running drains stamina, and it is loud.</p>
 <p>You carry one light for the run, chosen in Customize. Others in your room walk the same halls and meet the same monsters.</p></section>
 <section class="hp-sec"><h3>Controls</h3>
-<p>${touch ? 'On a touch screen: move with the on-screen control at the bottom left; RUN, CROUCH, LIGHT and INV are at the bottom right; PAUSE is at the top right.' : 'Move with W A S D or the arrow keys, aim your light with the mouse, hold Shift to run, C to crouch, F for your light, Tab for the inventory, Esc to pause.'}</p>
+<p data-help-text>${esc(helpControls())}</p>
 <button type="button" class="u-btn" data-help-controls>Every control and key</button></section>`;
     helpEl.querySelector('[data-help-controls]').addEventListener('click', () => { const s = stack.find(x => x.el === helpEl), op = s && s.opener; closeSheet(helpEl); go('controls', undefined, op); });
   }
+
+  /* ---------------------------------------------------------------- location reveals (QA1 Q3)
+     As a run begins: THRESHOLD / LEVEL 0, the objective, and (if wanted) one line of keys; it fades after a few seconds. As you
+     walk into a new part of the level: the game's own name for it (its sector line, "01 / YELLOW HALL"), smaller, then it fades.
+     A part counts once you have been in it for a moment (no flicker along a border), connecting passages are not announced, and
+     the same part is not announced twice in a row. Settings > HUD > Location reveals turns the names off (the objective and the
+     key line still show as a run begins). Timers only: nothing runs between reveals. */
+  const rvEl = $('hudReveal'), secEl = $('sector');
+  let rvHideT = 0, rvGoneT = 0, rvBusyUntil = 0, rvLast = '', rvCand = '', rvCandT = 0, rvQueued = null, rvAdoptUntil = 0;
+  const rvSet = (id, v) => { const e = $(id); if (e) { e.textContent = v || ''; e.hidden = !v; } };
+  const rvOn = () => { const s = window.__settings && __settings.get(); return !s || s.title !== false; };
+  const rvKeysOn = () => { const s = window.__settings && __settings.get(); return !s || s.keys !== false; };
+  function rvShow(kind, eye, title, sub, keyLine, hold) {
+    if (!rvEl) return;
+    clearTimeout(rvHideT); clearTimeout(rvGoneT);
+    rvEl.className = 'hud-reveal ' + kind; rvSet('rvEye', eye); rvSet('rvTitle', title); rvSet('rvSub', sub); rvSet('rvKeys', keyLine);
+    rvEl.hidden = false; void rvEl.offsetWidth; rvEl.classList.add('in');
+    rvBusyUntil = Date.now() + hold + 1300;
+    rvHideT = setTimeout(() => { rvEl.classList.remove('in'); rvGoneT = setTimeout(() => { rvEl.hidden = true; if (rvQueued) { const q = rvQueued; rvQueued = null; q(); } }, reduced() ? 0 : 1300); }, hold);
+  }
+  function rvHide() { clearTimeout(rvHideT); clearTimeout(rvGoneT); rvQueued = null; if (rvEl) { rvEl.classList.remove('in'); rvEl.hidden = true; } }
+  const objective = () => { const o = $('evidenceCount'); const t = (o && o.textContent || '').trim(); return t ? t.charAt(0) + t.slice(1).toLowerCase() : ''; };
+  const keyLine = () => coarse() ? '' : `${keys.move()} move   ${keys.label('run')} run   ${keys.label('light')} light   ${keys.label('inventory')} inventory   Esc pause`;
+  function rvRunStart() {
+    rvLast = ''; rvCand = ''; rvQueued = null; rvAdoptUntil = Date.now() + 2500;   // where the run starts is not news: adopted quietly
+    rvShow('entry', rvOn() ? 'Threshold' : '', rvOn() ? 'Level 0' : '', objective(), rvKeysOn() ? keyLine() : '', 3800);
+  }
+  function rvSector() {
+    if (!rvOn() || !secEl || state() !== 'playing') return;
+    const t = (secEl.textContent || '').trim();
+    if (!t || /^—|CONNECTING/.test(t)) { rvCand = ''; return; }
+    if (Date.now() < rvAdoptUntil) { rvLast = t; rvCand = ''; return; }
+    if (t === rvLast) { rvCand = ''; return; }
+    if (t !== rvCand) { rvCand = t; rvCandT = Date.now(); return; }
+    if (Date.now() - rvCandT < 1500) return;
+    rvLast = t; rvCand = '';
+    const go = () => { if (state() === 'playing') rvShow('sector', 'Level 0', t, '', '', 2600); };
+    if (Date.now() < rvBusyUntil) rvQueued = go; else go();
+  }
+  // the game rewrites the sector line about eight times a second; a change is acted on only once it has held for 1.5 s
+  if (secEl) new MutationObserver(rvSector).observe(secEl, { childList: true, characterData: true, subtree: true });
 
   /* ---------------------------------------------------------------- settings */
   let settingsEl = null, lastPage = 'sound';
@@ -425,7 +623,7 @@
     if (settingsEl) return syncSettings();
     settingsEl = sheet('uiSettings', 'Settings', 'Saved on this device. Nothing here changes what you or the entities can see.');
     const SW = window.__settings ? __settings.swatches() : [];
-    const keys = (rows) => rows.map(([a, b]) => `<span>${esc(a)}</span><b>${esc(b)}</b>`).join('');
+    const rowsOf = (rows) => rows.map(([a, b]) => `<span>${esc(a)}</span><b>${esc(b)}</b>`).join('');
     settingsEl.querySelector('.us-body').innerHTML = `<div class="us-split">
 <nav class="us-pages" role="tablist" aria-label="Settings pages">${PAGES.map(([k, n]) => `<button type="button" role="tab" id="stTab_${k}" aria-controls="stPage_${k}" data-page="${k}">${n}</button>`).join('')}</nav>
 <div>
@@ -435,15 +633,14 @@
   <div class="us-row wide"><label class="us-slider"><span>Master volume</span><output id="stVolV"></output><input class="u-range" type="range" id="stVol" min="0" max="100" step="5" aria-label="Master volume"></label></div>
 </section>
 <section class="us-page" id="stPage_hud" role="tabpanel" aria-labelledby="stTab_hud" hidden>
-  <h3>HUD</h3><p class="u-note">How the on-screen readouts look. The camera and what you can see never change.</p>
-  <div class="us-prev" id="stPrev" aria-hidden="true"><span>OBJECTIVE<b>FIND A GLITCHED WALL</b></span><span>WALKING</span><span>STAMINA<b>82</b><i></i></span></div>
+  <h3>HUD</h3><p class="u-note">The world is the interface: during play the screen shows stamina only while it changes, and names where you are only as you arrive. The camera and what you can see never change.</p>
+  <div class="us-prev" id="stPrev" aria-hidden="true"><span class="pv-rv">LEVEL 0</span><span class="pv-st">STAMINA<i></i></span></div>
   <div class="us-row wide"><span>Colour</span><div class="u-sws" role="radiogroup" aria-label="HUD colour" id="stSw">${SW.map(([c, n, show]) => `<button type="button" class="u-sw" role="radio" data-c="${c}" title="${n}" aria-label="${n}" style="--sw:${c || show}"></button>`).join('')}<span class="u-sw pick" title="Custom colour"><input type="color" id="stColor" value="#f3e7a7" aria-label="Custom HUD colour"></span></div></div>
   <div class="us-row wide"><label class="us-slider"><span>Size</span><output id="stSizeV"></output><input class="u-range" type="range" id="stSize" min="50" max="200" step="5" aria-label="HUD size"></label></div>
   <div class="us-row wide"><label class="us-slider"><span>Opacity</span><output id="stOpV"></output><input class="u-range" type="range" id="stOp" min="30" max="100" step="5" aria-label="HUD opacity"></label></div>
-  <div class="us-row"><span>Key hints<small>The controls line at the bottom left.</small></span><button type="button" class="u-switch" role="switch" data-k="keys" aria-label="Key hints"></button></div>
-  <div class="us-row"><span>Fade key hints<small>They dim after a while, until a run starts again.</small></span><button type="button" class="u-switch" role="switch" data-k="auto" aria-label="Fade key hints"></button></div>
-  <div class="us-row"><span>Coordinates<small>Your position, bottom right.</small></span><button type="button" class="u-switch" role="switch" data-k="coords" aria-label="Coordinates"></button></div>
-  <div class="us-row"><span>Level and sector title<small>Top right.</small></span><button type="button" class="u-switch" role="switch" data-k="title" aria-label="Level and sector title"></button></div>
+  <div class="us-row"><span>Location reveals<small>LEVEL 0 as a run begins, and the name of each new part of the level as you walk into it. Both fade away.</small></span><button type="button" class="u-switch" role="switch" data-k="title" aria-label="Location reveals"></button></div>
+  <div class="us-row"><span>Key reminder<small>One line of your keys as a run begins, then it fades.</small></span><button type="button" class="u-switch" role="switch" data-k="keys" aria-label="Key reminder"></button></div>
+  <div class="us-row"><span>Coordinates<small>Your position, bottom right. Off unless you want it.</small></span><button type="button" class="u-switch" role="switch" data-k="coords" aria-label="Coordinates"></button></div>
   <div class="us-actions"><button type="button" class="u-btn ghost" id="stHudReset">Reset HUD</button></div>
 </section>
 <section class="us-page" id="stPage_graphics" role="tabpanel" aria-labelledby="stTab_graphics" hidden>
@@ -452,17 +649,20 @@
   <div class="us-row wide"><span>Reduced motion<small>Stops the menus' flicker and slides, the title's lean and light, the HUD's fades, and the screen effects' animation. System follows your device's setting.</small></span><div class="us-seg" role="radiogroup" aria-label="Reduced motion" id="stRm">${[['auto', 'System'], ['on', 'On'], ['off', 'Off']].map(([v, n]) => `<button type="button" class="u-btn" role="radio" data-rm="${v}">${n}</button>`).join('')}</div><p class="u-note" id="stRmNow"></p></div>
 </section>
 <section class="us-page" id="stPage_controls" role="tabpanel" aria-labelledby="stTab_controls" hidden>
-  <h3>Controls</h3><p class="u-note">Keyboard and mouse. On a touch screen the same actions are on screen.</p>
+  <h3>Controls</h3><p class="u-note">Choose the keys. Each action can have a second key. Changes save on this device and apply at once; Esc, the mouse and the touch controls stay as they are.</p>
+  <div class="us-keys kb" id="kbList"></div>
+  <p class="kb-msg" id="kbMsg" role="status" aria-live="polite"></p>
+  <div class="us-actions"><button type="button" class="u-btn ghost" id="kbReset">Reset controls to defaults</button></div>
   <div class="us-keys">
-    <h4>Moving</h4>${keys([['Move', 'W A S D / Arrows'], ['Run (drains stamina, louder)', 'Hold Shift'], ['Crouch / stand', 'C'], ['Slide (while running)', 'C'], ['Vault or crawl', 'Walk into it']])}
-    <h4>Light</h4>${keys([['Aim a handheld light', 'Mouse'], ['Light on / off, raise the camcorder', 'F']])}
-    <h4>Night Vision Camcorder</h4>${keys([['Night vision', 'N or right click'], ['Infrared illuminator off / low / high', 'B'], ['Zoom', 'Mouse wheel / Z']])}
-    <h4>Everything else</h4>${keys([['Inventory', 'Tab'], ['Cartograph (once you carry it)', 'M'], ['Pause / resume', 'Esc']])}
-    <h4>Touch</h4>${keys([['Move', 'Pad, bottom left'], ['Run, crouch, light, inventory', 'Buttons, bottom right'], ['Night vision, infrared, zoom', 'NV, IR, ZOOM (camcorder)'], ['Pause', 'PAUSE, top right']])}
+    <h4>Touch</h4>${rowsOf([['Move', 'The stick: touch anywhere low on the left'], ['Run, crouch, light, inventory', 'Buttons, bottom right'], ['Night vision, infrared, zoom', 'NV, IR, ZOOM (camcorder)'], ['Pause', 'PAUSE, top right']])}
   </div>
 </section>
 </div></div>`;
     const q = s => settingsEl.querySelector(s);
+    kbMsgEl = q('#kbMsg');
+    q('#kbList').addEventListener('click', e => { const b = e.target.closest('.kb-slot'); if (!b) return; if (capturing && capturing.a === b.dataset.a && capturing.i === +b.dataset.i) { kbEnd('Cancelled.'); return; } kbStart(b.dataset.a, +b.dataset.i, b); });
+    kbMsgEl.addEventListener('click', e => { const b = e.target.closest('[data-kb]'); if (!b) return; if (b.dataset.kb === 'swap') kbSwap(); else { kbPending = null; kbMsg('Cancelled.'); } });
+    q('#kbReset').addEventListener('click', () => { capturing = null; kbPending = null; keys.reset(); kbMsg('Controls are back to their defaults.'); });
     settingsEl.querySelector('.us-pages').addEventListener('click', e => { const b = e.target.closest('[data-page]'); if (b) showPage(b.dataset.page, true); });
     settingsEl.querySelector('.us-pages').addEventListener('keydown', e => {
       const l = [...settingsEl.querySelectorAll('.us-pages button')], i = l.indexOf(document.activeElement);
@@ -499,6 +699,7 @@
     settingsEl.querySelectorAll('.us-pages button').forEach(b => { const on = b.dataset.page === p; b.setAttribute('aria-selected', on ? 'true' : 'false'); b.tabIndex = on ? 0 : -1; b.toggleAttribute('data-autofocus', on); });
     settingsEl.querySelectorAll('.us-page').forEach(s => { s.hidden = s.id !== 'stPage_' + p; });
     if (focusPage) { const f = settingsEl.querySelector('#stTab_' + p); f && f.focus(); }
+    if (p !== 'controls' && capturing) kbEnd();
   }
   function syncSettings() {
     if (!settingsEl || !window.__settings) return;
@@ -517,6 +718,7 @@
     settingsEl.querySelectorAll('[data-rm]').forEach(b => b.setAttribute('aria-checked', b.dataset.rm === rm ? 'true' : 'false'));
     q('#stRmNow').textContent = rm === 'auto' ? (mq.matches ? 'Your device asks for reduced motion, so it is on.' : 'Your device does not ask for reduced motion, so it is off.') : '';
     // roving focus: one stop per radio group (the chosen one)
+    kbRender();
     settingsEl.querySelectorAll('[role=radiogroup]').forEach(g => { const l = [...g.querySelectorAll('[role=radio]')], on = l.find(x => x.getAttribute('aria-checked') === 'true') || l[0]; l.forEach(x => { x.tabIndex = x === on ? 0 : -1; }); });
   }
   const ui = { settingsPages: () => PAGES.map(p => p[0]) };
@@ -548,7 +750,7 @@
     flashlight: 'The longest reach: a narrow beam that follows your mouse.',
     headlamp: 'Hands-free: a wider, shorter cone that turns with you.',
     lantern: 'A warm glow all around you. Short reach, no aiming.',
-    camcorder: 'Night Vision Camcorder emits no visible light; its night vision uses infrared. F raises it, N switches night vision, B sets the infrared illuminator, the wheel zooms. It overheats.',
+    get camcorder() { return `Night Vision Camcorder emits no visible light; its night vision uses infrared. ${keys.label('light')} raises it, ${keys.label('nv')} switches night vision, ${keys.label('ir')} sets the infrared illuminator, the wheel (or ${keys.label('zoom')}) zooms. It overheats.`; },
   };
   let czCur = 'wanderer';
   function czTab(t, focusTab) {
@@ -603,6 +805,24 @@
     const b = $('czTab_' + czCur); if (b) b.focus({ preventScroll: true });   // the game focuses a field that is now a hidden select
   }
 
+  /* ---------------------------------------------------------------- every place that names a key follows the bindings (QA1 Q3) */
+  function pauseKeys() {
+    const box = document.querySelector('#dialog .controlRows'); if (!box) return;
+    const sec = ['up', 'left', 'down', 'right'].map(a => keyName(KBS[a][1])).filter(Boolean).join(' ');
+    const both = a => keys.labels(a).join(' / ');
+    const rows = [['Move', keys.move() + (sec ? ' / ' + sec : '')], ['Run (drains stamina)', 'Hold ' + both('run')], ['Crouch / stand', both('crouch')], ['Slide (while running)', both('crouch')],
+      ['Vault / crawl', 'Walk into it'], ['Aim handheld light', 'Mouse'], ['Toggle light / raise camcorder', both('light')], ['Night vision (camcorder)', both('nv') + ' / right click'],
+      ['Infrared (camcorder)', both('ir')], ['Camera zoom (camcorder)', 'Wheel / ' + both('zoom')], ['Inventory', both('inventory')], ['Cartograph (once found)', both('map')], ['Pause / resume', 'Esc']];
+    box.innerHTML = rows.map(([a, b]) => `<p><span>${esc(a)}</span><b>${esc(b.toUpperCase())}</b></p>`).join('');
+  }
+  // the camcorder's viewfinder line (camcorder.js writes it once and only toggles it afterwards): the same words, the player's keys
+  function camHint() { const h = $('camHint'); if (h) h.innerHTML = `${esc(keys.label('nv').toUpperCase())} · NIGHT VISION &nbsp;&nbsp; ${esc(keys.label('ir').toUpperCase())} · IR POWER &nbsp;&nbsp; WHEEL · ZOOM &nbsp;&nbsp; ${esc(keys.label('light').toUpperCase())} · LOWER`; }
+  function labelsRefresh() {
+    const n = $('mmNote'); if (n) n.textContent = coarse() ? 'Headphones recommended. Move with the on-screen control, bottom left. PAUSE is top right.' : `Headphones recommended. Move with ${keys.move()}, aim your light with the mouse, Esc pauses.`;
+    pauseKeys(); if (!IDENT || !keys.isDefault()) camHint(); kbRender(); if (helpEl) buildHelp(); if (vis('appearancePanel')) czSync();
+  }
+  keys.on(() => { camHint(); labelsRefresh(); });
+
   /* ---------------------------------------------------------------- run states: focus and body classes */
   let last = '';
   function state() {
@@ -617,8 +837,15 @@
     if (!f.hasAttribute('tabindex') && !f.matches(FOCUSABLE)) f.setAttribute('tabindex', '-1');
     f.focus({ preventScroll: true });
   }
+  let hudWas = false, rvStartT = 0;
   function onState() {
     const st = state(), b = document.body.classList, inMenu = vis('menu');
+    // a run has begun (the game shows its HUD): the LEVEL 0 reveal, a moment later; a run has ended: any reveal goes
+    const hudNow = vis('hud') && !!(window.__api && __api.started && __api.started());
+    if (hudNow && !hudWas) { clearTimeout(rvStartT); rvStartT = setTimeout(() => { const s2 = state(); if (s2 === 'playing' || s2 === 'paused') rvRunStart(); }, 450); }
+    if (!hudNow && hudWas) { clearTimeout(rvStartT); rvHide(); }
+    hudWas = hudNow;
+    if (st === 'paused') { const o = $('pzObjective'), t = objective(); if (o && t) o.textContent = t; }
     b.toggle('ui-menu', inMenu);
     b.toggle('ui-paused', st === 'paused');
     // the theme belongs to the true main menu (and everything opened over it); leaving it means ENTER LEVEL 0 began the run
@@ -640,6 +867,7 @@
   for (const id of ['menu', 'hud', 'dialog', 'caught', 'won', 'runMenu', 'appearancePanel']) { const e = $(id); if (e) mo.observe(e, { attributes: true, attributeFilter: ['hidden'] }); }
 
   /* the pause dialog's ways into settings and customize */
+  const pk = $('pzKeys'); if (pk) pk.addEventListener('click', () => go('controls', undefined, pk));
   const ps = $('pauseSettings'), pc = $('pauseCustomize');
   if (ps) ps.addEventListener('click', () => go('settings', undefined, ps));
   if (pc) pc.addEventListener('click', () => go('customize', 'wanderer'));
@@ -654,8 +882,10 @@
   document.addEventListener('DOMContentLoaded', hook);
   const boot = () => { hook(); if (window.__api && window.__api.gear) { loadoutSummary(); onState(); } else setTimeout(boot, 120); };
   boot();
+  labelsRefresh();
   if (menu && !menu.hidden && !reduced()) menu.classList.add('enter');
 
-  Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme });
+  Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme, keys,
+    reveal: () => ({ shown: !!rvEl && !rvEl.hidden, kind: rvEl && rvEl.className, eye: ($('rvEye') || {}).textContent, title: ($('rvTitle') || {}).textContent, sub: ($('rvSub') || {}).textContent, keys: ($('rvKeys') || {}).textContent, last: rvLast }) });
   window.__ui = ui;
 })();
