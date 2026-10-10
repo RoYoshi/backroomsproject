@@ -24,7 +24,9 @@ The receipt proves, from the ZIP itself (extracted to a temporary folder):
     QA1 document or dev/stage-3c-qa1/; the game bundle, mp.js and every gameplay, AI, movement, collision, network, camera,
     lighting (BR-RoLE), night-vision, remaster and server file are byte-identical to the first candidate;
   - the accounted edits, each exactly: inventory.js (key-label hooks only), hud.js (the settings model: same fields, v2), credits
-    data (one version field), index.html (every element id of the first candidate still there; the manifest link and app metadata);
+    data (one version field), index.html (every element id of the first candidate still there, except the first candidate's own
+    menu ids that QA1's rebuilt menu retired - each listed with its reason, and referenced by no shipped script; the manifest link and
+    app metadata);
   - the theme audio is the user's (SHA-256 as locked), and the source is preserved;
   - the camera checks, BR-RoLE unit checks, the retained lifecycle suite, the five QA1 probes and the first candidate's probes pass
     on the final tree (a first-candidate check that QA1 deliberately superseded is listed with the QA1 check that covers it);
@@ -107,7 +109,12 @@ protected_dirs = [f for f in since if f.startswith(PROTECTED_PREFIX)]
 inv_ok = applied(blob(PARENT, 'inventory.js'), INV) == zf['inventory.js']
 cred_ok = applied(blob(PARENT, 'assets/credits_data.js'), CREDITS) == zf['assets/credits_data.js']
 pids, nids = ids(blob(PARENT, 'index.html')), ids(zf['index.html'])
-ids_kept = sorted(set(pids) - set(nids)) == []
+# first-candidate element ids QA1's rebuilt menu retired on purpose (none is bound by the game or any shipped script; checked below)
+RETIRED_IDS = {'mmPlayT': "the first candidate's PLAY panel heading (\"You have been here before.\"); QA1's PLAY is a button and its entry has its own heading, #mmEntryT"}
+gone = sorted(set(pids) - set(nids))
+SCRIPTS = [f for f in listing if f.endswith('.js') and not f.startswith('dev/')]
+gone_refs = {g: [f for f in SCRIPTS if g in (blob(commit, f) or '')] for g in gone}
+ids_kept = all(g in RETIRED_IDS for g in gone) and not any(gone_refs.values())
 html_meta = all(k in zf['index.html'] for k in ['rel="manifest" href="./assets/manifest.webmanifest"', 'viewport-fit=cover', 'apple-mobile-web-app-capable'])
 hud_keeps = all(k in zf['hud.js'] for k in ["const KEY = 'fb_settings_v1'", "c: '', s: 1, o: 1, keys: true, coords: false, title: true, auto: true, vol: 1, rm: 'auto', v: 2"])
 audio_ok = all(audio[f] == h for f, h in AUDIO.items()) and THEME.get('ok') is True
@@ -132,7 +139,7 @@ R = {'package': zpath.name, 'sha256': sha, 'bytes': zpath.stat().st_size, 'zipIn
      'parentCommit': parent, 'filesInZip': len(files), 'filesInCommit': len(listing), 'missing': missing, 'extra': extra, 'contentMismatches': mism,
      'qa1Parent': PARENT, 'qa1ParentTree': parent_tree, 'qa1ParentIsAncestor': anc, 'stage3b': STAGE3B, 'stage3bTree': s3b_tree, 'stage3bIsAncestor': anc3b,
      'checkpoints': chain, 'merges': merges, 'remote': REMOTE, 'changedSinceQa1Parent': since, 'outsideScope': outside, 'protected': protected, 'protectedDirsChanged': protected_dirs,
-     'accounted': {'inventoryKeyLabelHooksOnly': inv_ok, 'creditsVersionFieldOnly': cred_ok, 'indexHtmlKeepsEveryParentId': ids_kept, 'indexHtmlIdsMissing': sorted(set(pids) - set(nids)),
+     'accounted': {'inventoryKeyLabelHooksOnly': inv_ok, 'creditsVersionFieldOnly': cred_ok, 'indexHtmlKeepsEveryParentId': ids_kept, 'indexHtmlIdsMissing': gone, 'indexHtmlIdsRetired': {g: RETIRED_IDS.get(g) for g in gone}, 'retiredIdsReferencedBy': gone_refs,
                    'indexHtmlIdsAdded': sorted(set(nids) - set(pids)), 'indexHtmlAppMetadata': html_meta, 'hudJsSettingsModelV2': hud_keeps},
      'themeAudio': {'sha256': audio, 'asLocked': audio_ok, 'check': THEME.get('seams')},
      'cameraTests': cam_lines, 'cameraFairness': [l for l in FAIR.splitlines() if 'CAMERA FAIRNESS' in l], 'brRole': {'pass': sum(l.startswith('PASS') for l in br_lines), 'total': len(br_lines)},
@@ -169,7 +176,8 @@ T = ['THE FAR BACKROOMS - Stage 3C QA1 (main menu / HUD / mobile UX human-QA cor
      f'  inventory.js: key-label hooks only (the keys it names follow Settings > Controls): {yn(inv_ok)}',
      f'  assets/credits_data.js: one version field for the menu corner, and its comment: {yn(cred_ok)}',
      f'  hud.js: the settings model (fb_settings_v1, same fields, v: 2, coordinates off by default), contextual stamina, the dormant health hook: {yn(hud_keeps)}',
-     f'  index.html: the menu, HUD, pause and touch markup, the manifest link and app metadata: {yn(html_meta)}; every element id of the first candidate kept: {yn(ids_kept)}',
+     f'  index.html: the menu, HUD, pause and touch markup, the manifest link and app metadata: {yn(html_meta)}; every element id of the first candidate kept, except the retired ones below, which no shipped script references: {yn(ids_kept)}',
+     *[f'    retired: #{g} - {RETIRED_IDS.get(g, "NOT ACCOUNTED")}; referenced by: {", ".join(gone_refs[g]) or "nothing"}' for g in gone],
      f'    (added: {", ".join(R["accounted"]["indexHtmlIdsAdded"])})', '',
      'protected files, byte-identical to the first candidate (the game bundle and mp.js too: no AI, movement, collision, network, camera, lighting, NV, remaster or server change):',
      *[f'  {f:<28} {v}' for f, v in protected.items()],

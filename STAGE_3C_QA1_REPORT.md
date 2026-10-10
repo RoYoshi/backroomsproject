@@ -15,7 +15,8 @@
 | Q2 | `80b2aece9533fbfff7245741a63daf8dc7f94906` | `7f85051a5998b7f8515b811346b0f54bafe92f06` | No wanderer in the world before ENTER LEVEL 0 |
 | Q3 | `d7691c4d758171b3c6bbf784e70064a114bd8b28` | `ad28c2cc57d9e71f2c8829ed2b48a2a906b94af5` | The minimal HUD, location reveals, Controls with real keybinds |
 | Q4 | `6428da3c4ccf95575edcac8de4a179b03324d699` | `6dabdcb9e211a846aa59cab5e535e1598a83261f` | The touch stick, thumb-sized actions, safe areas, the installable app |
-| Q5 | this commit | see the receipt | Integration fixes, the full regression on the final tree, the documents |
+| Q5 | `561d218c3f4554ecc696e8341990f33ef4809080` | `6536c80577f31a8608d1c58d9b9390f7ecbbd775` | Integration fixes, the full regression on the final tree, the documents |
+| Q5, receipt | this commit (in the receipt) | in the receipt | The packager accounts for the one first-candidate menu id QA1 retired (`#mmPlayT`, the old PLAY panel's heading, which nothing references); this report's table. No game file changes |
 
 Each checkpoint was pushed without force and checked on GitHub (ls-remote and the REST API: commit, tree, parent). `stage-3c` and `main` were never touched.
 
@@ -150,7 +151,7 @@ BR-RoLE's warm-up and every graphics setting are untouched. These are not real-G
   - `camcorder.js`, `ents.js`, `world.js` and every other gameplay file;
   - `sounds/`, and every earlier `dev/` folder.
 - **Edits to existing files, each accounted for exactly in the receipt:**
-  - `index.html`: markup, the manifest link and app metadata. Every first-candidate element id is kept.
+  - `index.html`: markup, the manifest link and app metadata. Every first-candidate element id is kept, except `#mmPlayT`: the heading of the first candidate's PLAY panel, retired with that panel and referenced by no script.
   - `hud.js`: the settings model at v2, contextual stamina, the health hook.
   - `inventory.js`: three key-label hooks, text only.
   - `assets/credits_data.js`: one version field.
