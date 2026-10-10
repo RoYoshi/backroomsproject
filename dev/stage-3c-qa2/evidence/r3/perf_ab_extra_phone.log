@@ -1,0 +1,131 @@
+{"state":"menu idle","frames":16,"pageMs":{"mean":279.3,"p95":322.1},"uiJsMsPerFrame":0.045,"jsMsPerFrame":3.86,"previewDrawsPerSec":0}
+{"state":"settings open (over the menu)","frames":18,"pageMs":{"mean":258.1,"p95":297.6},"uiJsMsPerFrame":0.207,"jsMsPerFrame":4.69,"previewDrawsPerSec":0}
+{"state":"customize open (over the menu)","frames":14,"pageMs":{"mean":363.9,"p95":460.2},"uiJsMsPerFrame":0.983,"jsMsPerFrame":7.77,"previewDrawsPerSec":6.9}
+{"state":"Level 0 lit, standing (menus closed)","frames":6,"pageMs":{"mean":882.5,"p95":1148.8},"uiJsMsPerFrame":0.033,"jsMsPerFrame":23.65,"previewDrawsPerSec":0}
+{"state":"Level 0 lit, walking (menus closed)","frames":9,"pageMs":{"mean":727.5,"p95":917.7},"uiJsMsPerFrame":0.211,"jsMsPerFrame":11.56,"previewDrawsPerSec":0}
+{"state":"Level 0 dark, flashlight (menus closed)","frames":8,"pageMs":{"mean":646.6,"p95":759},"uiJsMsPerFrame":0.051,"jsMsPerFrame":4,"previewDrawsPerSec":0}
+[ui_lib_gate] navigations: 1 {"none":1}, longest wait 9 ms
+{"state":"menu idle","frames":19,"pageMs":{"mean":243.3,"p95":261.5},"uiJsMsPerFrame":0.01,"jsMsPerFrame":3.41,"previewDrawsPerSec":0}
+{"state":"settings open (over the menu)","frames":17,"pageMs":{"mean":261.3,"p95":304.2},"uiJsMsPerFrame":0.053,"jsMsPerFrame":5.35,"previewDrawsPerSec":0}
+{"state":"customize open (over the menu)","frames":14,"pageMs":{"mean":293.6,"p95":364.3},"uiJsMsPerFrame":1.41,"jsMsPerFrame":8.25,"previewDrawsPerSec":7.3}
+{"state":"Level 0 lit, standing (menus closed)","frames":8,"pageMs":{"mean":645.5,"p95":731.5},"uiJsMsPerFrame":0.024,"jsMsPerFrame":5.49,"previewDrawsPerSec":0}
+{"state":"Level 0 lit, walking (menus closed)","frames":10,"pageMs":{"mean":626.7,"p95":740.2},"uiJsMsPerFrame":0.116,"jsMsPerFrame":8.7,"previewDrawsPerSec":0}
+{"state":"Level 0 dark, flashlight (menus closed)","frames":8,"pageMs":{"mean":645.5,"p95":797.3},"uiJsMsPerFrame":0,"jsMsPerFrame":7.04,"previewDrawsPerSec":0}
+[ui_lib_gate] navigations: 1 {"menu (gate passed by a key)":1}, longest wait 9313 ms
+{
+ "touch 390x844 | menu idle": {
+  "qa1": {
+   "n": 1,
+   "mean": 279.3,
+   "p95": 322.1,
+   "uiJs": 0.045,
+   "js": 3.86,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 1,
+   "mean": 243.3,
+   "p95": 261.5,
+   "uiJs": 0.01,
+   "js": 3.41,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": -12.9
+ },
+ "touch 390x844 | settings open (over the menu)": {
+  "qa1": {
+   "n": 1,
+   "mean": 258.1,
+   "p95": 297.6,
+   "uiJs": 0.207,
+   "js": 4.69,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 1,
+   "mean": 261.3,
+   "p95": 304.2,
+   "uiJs": 0.053,
+   "js": 5.35,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": 1.2
+ },
+ "touch 390x844 | customize open (over the menu)": {
+  "qa1": {
+   "n": 1,
+   "mean": 363.9,
+   "p95": 460.2,
+   "uiJs": 0.983,
+   "js": 7.77,
+   "preview": 6.9
+  },
+  "qa2": {
+   "n": 1,
+   "mean": 293.6,
+   "p95": 364.3,
+   "uiJs": 1.41,
+   "js": 8.25,
+   "preview": 7.3
+  },
+  "qa2VsQa1MeanPct": -19.3
+ },
+ "touch 390x844 | Level 0 lit, standing (menus closed)": {
+  "qa1": {
+   "n": 1,
+   "mean": 882.5,
+   "p95": 1148.8,
+   "uiJs": 0.033,
+   "js": 23.65,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 1,
+   "mean": 645.5,
+   "p95": 731.5,
+   "uiJs": 0.024,
+   "js": 5.49,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": -26.9
+ },
+ "touch 390x844 | Level 0 lit, walking (menus closed)": {
+  "qa1": {
+   "n": 1,
+   "mean": 727.5,
+   "p95": 917.7,
+   "uiJs": 0.211,
+   "js": 11.56,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 1,
+   "mean": 626.7,
+   "p95": 740.2,
+   "uiJs": 0.116,
+   "js": 8.7,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": -13.9
+ },
+ "touch 390x844 | Level 0 dark, flashlight (menus closed)": {
+  "qa1": {
+   "n": 1,
+   "mean": 646.6,
+   "p95": 759,
+   "uiJs": 0.051,
+   "js": 4,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 1,
+   "mean": 645.5,
+   "p95": 797.3,
+   "uiJs": 0,
+   "js": 7.04,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": -0.2
+ }
+}
+EXIT 0

@@ -1,0 +1,316 @@
+{
+ "qa1": "/tmp/tmp.X14jqKc3fN",
+ "qa2": "/home/claude/backrooms-shadows",
+ "rounds": 2,
+ "secs": 4,
+ "note": "SwiftShader software rendering on 2 CPUs, localhost: only QA1 against QA2 on the same machine means anything; never quote as GPU or network performance.",
+ "starts": [
+  {
+   "build": "qa1",
+   "kind": "cold",
+   "firstPaint": 1000,
+   "settledAt": 6383,
+   "musicAt": 12672,
+   "pressAt": 6383,
+   "boot": null,
+   "preparedAt": null,
+   "fetched": 2,
+   "cacheHits": 0,
+   "done": null,
+   "musicAfterPressMs": 6289,
+   "round": 0
+  },
+  {
+   "build": "qa1",
+   "kind": "warm",
+   "firstPaint": 1084,
+   "settledAt": 6453,
+   "musicAt": 11918,
+   "pressAt": 6453,
+   "boot": null,
+   "preparedAt": null,
+   "fetched": 0,
+   "cacheHits": 2,
+   "done": null,
+   "musicAfterPressMs": 5465,
+   "round": 0
+  },
+  {
+   "build": "qa2",
+   "kind": "cold",
+   "firstPaint": 768,
+   "settledAt": 11533,
+   "musicAt": 9986,
+   "pressAt": null,
+   "boot": {
+    "black": 80,
+    "loading": 529,
+    "ready": 9721,
+    "menu": 9724
+   },
+   "preparedAt": 9355,
+   "fetched": 2,
+   "cacheHits": 0,
+   "done": {
+    "stylesheets": 540,
+    "credits": 540,
+    "runtime": 716,
+    "logo": 721,
+    "music": 9355,
+    "fonts": 9355,
+    "frames": 9720
+   },
+   "round": 0
+  },
+  {
+   "build": "qa2",
+   "kind": "warm",
+   "firstPaint": 872,
+   "settledAt": 6112,
+   "musicAt": 1295,
+   "pressAt": null,
+   "boot": {
+    "black": 298,
+    "loading": 655,
+    "ready": 1215,
+    "menu": 1218
+   },
+   "preparedAt": 1186,
+   "fetched": 0,
+   "cacheHits": 2,
+   "done": {
+    "stylesheets": 656,
+    "credits": 656,
+    "logo": 673,
+    "runtime": 893,
+    "music": 1186,
+    "fonts": 1186,
+    "frames": 1215
+   },
+   "round": 0
+  },
+  {
+   "build": "qa1",
+   "kind": "cold",
+   "firstPaint": 908,
+   "settledAt": 6221,
+   "musicAt": 11779,
+   "pressAt": 6221,
+   "boot": null,
+   "preparedAt": null,
+   "fetched": 2,
+   "cacheHits": 0,
+   "done": null,
+   "musicAfterPressMs": 5558,
+   "round": 1
+  },
+  {
+   "build": "qa1",
+   "kind": "warm",
+   "firstPaint": 1228,
+   "settledAt": 6913,
+   "musicAt": 12455,
+   "pressAt": 6913,
+   "boot": null,
+   "preparedAt": null,
+   "fetched": 0,
+   "cacheHits": 2,
+   "done": null,
+   "musicAfterPressMs": 5542,
+   "round": 1
+  },
+  {
+   "build": "qa2",
+   "kind": "cold",
+   "firstPaint": 500,
+   "settledAt": 8524,
+   "musicAt": 6716,
+   "pressAt": null,
+   "boot": {
+    "black": 32,
+    "loading": 384,
+    "ready": 6397,
+    "menu": 6402
+   },
+   "preparedAt": 5949,
+   "fetched": 2,
+   "cacheHits": 0,
+   "done": {
+    "stylesheets": 385,
+    "credits": 385,
+    "runtime": 644,
+    "logo": 651,
+    "music": 5949,
+    "fonts": 5949,
+    "frames": 6397
+   },
+   "round": 1
+  },
+  {
+   "build": "qa2",
+   "kind": "warm",
+   "firstPaint": 532,
+   "settledAt": 8251,
+   "musicAt": 6636,
+   "pressAt": null,
+   "boot": {
+    "black": 128,
+    "loading": 473,
+    "ready": 6318,
+    "menu": 6322
+   },
+   "preparedAt": 5949,
+   "fetched": 0,
+   "cacheHits": 2,
+   "done": {
+    "stylesheets": 494,
+    "credits": 494,
+    "runtime": 625,
+    "logo": 627,
+    "music": 5949,
+    "fonts": 5949,
+    "frames": 6318
+   },
+   "round": 1
+  }
+ ],
+ "gate": [
+  {
+   "state": "QA2 ready gate (black, waiting for a key, click or tap)",
+   "frames": 15,
+   "pageMs": {
+    "mean": 326.5,
+    "p95": 360.1
+   },
+   "uiJsMsPerFrame": 0.013,
+   "jsMsPerFrame": 5.71,
+   "menuAnimations": [
+    "glTear"
+   ]
+  },
+  {
+   "state": "QA2 menu idle (after the gate, music playing)",
+   "frames": 14,
+   "pageMs": {
+    "mean": 330.4,
+    "p95": 405.3
+   },
+   "uiJsMsPerFrame": 0,
+   "jsMsPerFrame": 4.99,
+   "menuAnimations": [
+    "glTear"
+   ]
+  }
+ ],
+ "errors": [],
+ "summary": {
+  "qa1 cold": {
+   "n": 2,
+   "firstPaint": {
+    "median": 954,
+    "min": 908,
+    "max": 1000,
+    "n": 2
+   },
+   "settledAt": {
+    "median": 6302,
+    "min": 6221,
+    "max": 6383,
+    "n": 2
+   },
+   "musicAt": {
+    "median": 12226,
+    "min": 11779,
+    "max": 12672,
+    "n": 2
+   },
+   "musicAfterPressMs": {
+    "median": 5924,
+    "min": 5558,
+    "max": 6289,
+    "n": 2
+   }
+  },
+  "qa1 warm": {
+   "n": 2,
+   "firstPaint": {
+    "median": 1156,
+    "min": 1084,
+    "max": 1228,
+    "n": 2
+   },
+   "settledAt": {
+    "median": 6683,
+    "min": 6453,
+    "max": 6913,
+    "n": 2
+   },
+   "musicAt": {
+    "median": 12187,
+    "min": 11918,
+    "max": 12455,
+    "n": 2
+   },
+   "musicAfterPressMs": {
+    "median": 5504,
+    "min": 5465,
+    "max": 5542,
+    "n": 2
+   }
+  },
+  "qa2 cold": {
+   "n": 2,
+   "firstPaint": {
+    "median": 634,
+    "min": 500,
+    "max": 768,
+    "n": 2
+   },
+   "settledAt": {
+    "median": 10029,
+    "min": 8524,
+    "max": 11533,
+    "n": 2
+   },
+   "musicAt": {
+    "median": 8351,
+    "min": 6716,
+    "max": 9986,
+    "n": 2
+   },
+   "musicAfterPressMs": {
+    "median": null,
+    "min": null,
+    "max": null,
+    "n": 0
+   }
+  },
+  "qa2 warm": {
+   "n": 2,
+   "firstPaint": {
+    "median": 702,
+    "min": 532,
+    "max": 872,
+    "n": 2
+   },
+   "settledAt": {
+    "median": 7182,
+    "min": 6112,
+    "max": 8251,
+    "n": 2
+   },
+   "musicAt": {
+    "median": 3966,
+    "min": 1295,
+    "max": 6636,
+    "n": 2
+   },
+   "musicAfterPressMs": {
+    "median": null,
+    "min": null,
+    "max": null,
+    "n": 0
+   }
+  }
+ }
+}

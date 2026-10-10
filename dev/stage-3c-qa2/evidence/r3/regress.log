@@ -1,0 +1,14 @@
+probe_q2: 9/9 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (377 s)  [ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 16564 ms
+probe_q3: 15/15 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (335 s)  [ui_lib_gate] navigations: 8 {"menu (gate passed by a key)":8}, longest wait 9392 ms
+probe_q4: 7/8 pass, 0 superseded, 0 timing (also on QA1), 1 unexplained  (702 s)  [ui_lib_gate] navigations: 8 {"menu (gate passed by a key)":8}, longest wait 10088 ms
+   UNEXPLAINED FAIL frame for frame the stick walks at exactly the keyboard's speed: right, diagonal (normalised by the game: no analog advantage), left, and sprinting with RUN held by a second finger at the same time
+probe_q5: 5/5 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (155 s)  [ui_lib_gate] navigations: 4 {"menu (gate passed by a key)":4}, longest wait 10720 ms
+lifecycle: 1/1 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (106 s)  [ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 21349 ms
+probe_c2: 13/18 pass, 5 superseded, 0 timing (also on QA1), 0 unexplained  (310 s)  [ui_lib_gate] navigations: 5 {"menu (gate passed by a key)":5}, longest wait 13718 ms
+probe_c3: 13/13 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (274 s)  [ui_lib_gate] navigations: 3 {"menu (gate passed by a key)":3}, longest wait 19336 ms
+probe_c4: 10/11 pass, 1 superseded, 0 timing (also on QA1), 0 unexplained  (141 s)  [ui_lib_gate] navigations: 4 {"menu (gate passed by a key)":4}, longest wait 13632 ms
+probe_c5: 6/7 pass, 0 superseded, 0 timing (also on QA1), 1 unexplained  (393 s)  [ui_lib_gate] navigations: 9 {"menu (gate passed by a key)":9}, longest wait 13169 ms
+   UNEXPLAINED FAIL win -> RESTART LEVEL 0 plays on; NEW RUN -> run menu -> END returns to the main menu (focus on PLAY, HUD hidden); ENTER LEVEL 0 starts exactly one new run
+lifecycle_mp: 1/1 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (53 s)
+REGRESSION: PROBLEMS
+EXIT 1

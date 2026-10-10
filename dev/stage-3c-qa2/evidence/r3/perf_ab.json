@@ -1,0 +1,745 @@
+{
+ "qa1": "/tmp/tmp.X14jqKc3fN",
+ "qa2": "/home/claude/backrooms-shadows",
+ "rounds": 2,
+ "secs": 4,
+ "note": "SwiftShader software rendering on 2 CPUs: only QA1 vs QA2 on the same states means anything; never quote as GPU performance.",
+ "summary": {
+  "desktop 1920x1080 | menu idle": {
+   "qa1": {
+    "n": 2,
+    "mean": 697,
+    "p95": 939.65,
+    "uiJs": 0.31,
+    "js": 5.5,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 585.8,
+    "p95": 771.75,
+    "uiJs": 0.025,
+    "js": 3.65,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": -16
+  },
+  "desktop 1920x1080 | settings open (over the menu)": {
+   "qa1": {
+    "n": 2,
+    "mean": 629.9,
+    "p95": 798.05,
+    "uiJs": 0.047,
+    "js": 3.59,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 701,
+    "p95": 930.1,
+    "uiJs": 0.059,
+    "js": 5.99,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": 11.3
+  },
+  "desktop 1920x1080 | customize open (over the menu)": {
+   "qa1": {
+    "n": 2,
+    "mean": 810.15,
+    "p95": 1116.5,
+    "uiJs": 2.013,
+    "js": 9.82,
+    "preview": 3.2
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 825.45,
+    "p95": 1367.1,
+    "uiJs": 1.356,
+    "js": 7.41,
+    "preview": 3.6
+   },
+   "qa2VsQa1MeanPct": 1.9
+  },
+  "desktop 1920x1080 | Level 0 lit, standing (menus closed)": {
+   "qa1": {
+    "n": 2,
+    "mean": 950.8,
+    "p95": 1192.6,
+    "uiJs": 0.045,
+    "js": 5.93,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 1042.3,
+    "p95": 1396.15,
+    "uiJs": 0.019,
+    "js": 8.8,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": 9.6
+  },
+  "desktop 1920x1080 | Level 0 lit, walking (menus closed)": {
+   "qa1": {
+    "n": 2,
+    "mean": 897.2,
+    "p95": 1021.3,
+    "uiJs": 0.054,
+    "js": 8.05,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 972.1,
+    "p95": 1152.35,
+    "uiJs": 0.075,
+    "js": 13.09,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": 8.3
+  },
+  "desktop 1920x1080 | Level 0 dark, flashlight (menus closed)": {
+   "qa1": {
+    "n": 2,
+    "mean": 933.9,
+    "p95": 1368.9,
+    "uiJs": 0.016,
+    "js": 5.17,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 919.65,
+    "p95": 1301.65,
+    "uiJs": 0.018,
+    "js": 6.05,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": -1.5
+  },
+  "touch 390x844 | menu idle": {
+   "qa1": {
+    "n": 1,
+    "mean": 301.1,
+    "p95": 359.2,
+    "uiJs": 0.012,
+    "js": 3.75,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 1,
+    "mean": 286.7,
+    "p95": 374.9,
+    "uiJs": 0.087,
+    "js": 3.62,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": -4.8
+  },
+  "touch 390x844 | settings open (over the menu)": {
+   "qa1": {
+    "n": 1,
+    "mean": 259.6,
+    "p95": 295.4,
+    "uiJs": 0.014,
+    "js": 3.51,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 1,
+    "mean": 282.2,
+    "p95": 343.1,
+    "uiJs": 0,
+    "js": 4.16,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": 8.7
+  },
+  "touch 390x844 | customize open (over the menu)": {
+   "qa1": {
+    "n": 1,
+    "mean": 288.7,
+    "p95": 305.7,
+    "uiJs": 1.38,
+    "js": 7.97,
+    "preview": 7.4
+   },
+   "qa2": {
+    "n": 1,
+    "mean": 375.8,
+    "p95": 555.7,
+    "uiJs": 1.576,
+    "js": 10.7,
+    "preview": 5.8
+   },
+   "qa2VsQa1MeanPct": 30.2
+  },
+  "touch 390x844 | Level 0 lit, standing (menus closed)": {
+   "qa1": {
+    "n": 1,
+    "mean": 772.3,
+    "p95": 1014.8,
+    "uiJs": 0.034,
+    "js": 6.93,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 1,
+    "mean": 667.3,
+    "p95": 780.2,
+    "uiJs": 0,
+    "js": 5.06,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": -13.6
+  },
+  "touch 390x844 | Level 0 lit, walking (menus closed)": {
+   "qa1": {
+    "n": 1,
+    "mean": 790.5,
+    "p95": 953.7,
+    "uiJs": 0.067,
+    "js": 12.2,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 1,
+    "mean": 705.6,
+    "p95": 835.1,
+    "uiJs": 0.123,
+    "js": 8.43,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": -10.7
+  },
+  "touch 390x844 | Level 0 dark, flashlight (menus closed)": {
+   "qa1": {
+    "n": 1,
+    "mean": 707.8,
+    "p95": 862.2,
+    "uiJs": 0.082,
+    "js": 4.21,
+    "preview": 0
+   },
+   "qa2": {
+    "n": 1,
+    "mean": 747.3,
+    "p95": 855.2,
+    "uiJs": 0.029,
+    "js": 5.4,
+    "preview": 0
+   },
+   "qa2VsQa1MeanPct": 5.6
+  }
+ },
+ "runs": [
+  {
+   "game": "/tmp/tmp.X14jqKc3fN",
+   "mobile": false,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 8,
+     "pageMs": {
+      "mean": 616.9,
+      "p95": 790.3
+     },
+     "uiJsMsPerFrame": 0.593,
+     "jsMsPerFrame": 5.1,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 634.5,
+      "p95": 847.1
+     },
+     "uiJsMsPerFrame": 0.068,
+     "jsMsPerFrame": 3.22,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 6,
+     "pageMs": {
+      "mean": 855.4,
+      "p95": 1211
+     },
+     "uiJsMsPerFrame": 2.553,
+     "jsMsPerFrame": 10.35,
+     "previewDrawsPerSec": 3.4
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 6,
+     "pageMs": {
+      "mean": 890.9,
+      "p95": 959.4
+     },
+     "uiJsMsPerFrame": 0.051,
+     "jsMsPerFrame": 6.09,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 894.8,
+      "p95": 999.7
+     },
+     "uiJsMsPerFrame": 0.025,
+     "jsMsPerFrame": 9.48,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 6,
+     "pageMs": {
+      "mean": 870,
+      "p95": 1200.8
+     },
+     "uiJsMsPerFrame": 0.032,
+     "jsMsPerFrame": 4.71,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 0,
+   "label": "qa1",
+   "view": "desktop 1920x1080"
+  },
+  {
+   "game": "/home/claude/backrooms-shadows",
+   "mobile": false,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 9,
+     "pageMs": {
+      "mean": 564.9,
+      "p95": 698
+     },
+     "uiJsMsPerFrame": 0.027,
+     "jsMsPerFrame": 3.57,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 646.9,
+      "p95": 826.9
+     },
+     "uiJsMsPerFrame": 0.119,
+     "jsMsPerFrame": 5.47,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 7,
+     "pageMs": {
+      "mean": 748.7,
+      "p95": 1132
+     },
+     "uiJsMsPerFrame": 1.528,
+     "jsMsPerFrame": 8.08,
+     "previewDrawsPerSec": 3.8
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 5,
+     "pageMs": {
+      "mean": 1024.9,
+      "p95": 1244.5
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 9.44,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 981,
+      "p95": 1129.1
+     },
+     "uiJsMsPerFrame": 0.121,
+     "jsMsPerFrame": 14.61,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 6,
+     "pageMs": {
+      "mean": 905.8,
+      "p95": 1296.5
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 6.52,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 0,
+   "label": "qa2",
+   "view": "desktop 1920x1080"
+  },
+  {
+   "game": "/tmp/tmp.X14jqKc3fN",
+   "mobile": false,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 7,
+     "pageMs": {
+      "mean": 777.1,
+      "p95": 1089
+     },
+     "uiJsMsPerFrame": 0.028,
+     "jsMsPerFrame": 5.9,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 625.3,
+      "p95": 749
+     },
+     "uiJsMsPerFrame": 0.026,
+     "jsMsPerFrame": 3.96,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 5,
+     "pageMs": {
+      "mean": 764.9,
+      "p95": 1022
+     },
+     "uiJsMsPerFrame": 1.473,
+     "jsMsPerFrame": 9.29,
+     "previewDrawsPerSec": 3
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 5,
+     "pageMs": {
+      "mean": 1010.7,
+      "p95": 1425.8
+     },
+     "uiJsMsPerFrame": 0.039,
+     "jsMsPerFrame": 5.77,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 899.6,
+      "p95": 1042.9
+     },
+     "uiJsMsPerFrame": 0.082,
+     "jsMsPerFrame": 6.62,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 5,
+     "pageMs": {
+      "mean": 997.8,
+      "p95": 1537
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 5.63,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 1,
+   "label": "qa1",
+   "view": "desktop 1920x1080"
+  },
+  {
+   "game": "/home/claude/backrooms-shadows",
+   "mobile": false,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 8,
+     "pageMs": {
+      "mean": 606.7,
+      "p95": 845.5
+     },
+     "uiJsMsPerFrame": 0.023,
+     "jsMsPerFrame": 3.72,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 6,
+     "pageMs": {
+      "mean": 755.1,
+      "p95": 1033.3
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 6.51,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 7,
+     "pageMs": {
+      "mean": 902.2,
+      "p95": 1602.2
+     },
+     "uiJsMsPerFrame": 1.183,
+     "jsMsPerFrame": 6.74,
+     "previewDrawsPerSec": 3.4
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 5,
+     "pageMs": {
+      "mean": 1059.7,
+      "p95": 1547.8
+     },
+     "uiJsMsPerFrame": 0.039,
+     "jsMsPerFrame": 8.16,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 7,
+     "pageMs": {
+      "mean": 963.2,
+      "p95": 1175.6
+     },
+     "uiJsMsPerFrame": 0.029,
+     "jsMsPerFrame": 11.56,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 6,
+     "pageMs": {
+      "mean": 933.5,
+      "p95": 1306.8
+     },
+     "uiJsMsPerFrame": 0.036,
+     "jsMsPerFrame": 5.58,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 1,
+   "label": "qa2",
+   "view": "desktop 1920x1080"
+  },
+  {
+   "game": "/tmp/tmp.X14jqKc3fN",
+   "mobile": true,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 15,
+     "pageMs": {
+      "mean": 301.1,
+      "p95": 359.2
+     },
+     "uiJsMsPerFrame": 0.012,
+     "jsMsPerFrame": 3.75,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 18,
+     "pageMs": {
+      "mean": 259.6,
+      "p95": 295.4
+     },
+     "uiJsMsPerFrame": 0.014,
+     "jsMsPerFrame": 3.51,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 14,
+     "pageMs": {
+      "mean": 288.7,
+      "p95": 305.7
+     },
+     "uiJsMsPerFrame": 1.38,
+     "jsMsPerFrame": 7.97,
+     "previewDrawsPerSec": 7.4
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 7,
+     "pageMs": {
+      "mean": 772.3,
+      "p95": 1014.8
+     },
+     "uiJsMsPerFrame": 0.034,
+     "jsMsPerFrame": 6.93,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 790.5,
+      "p95": 953.7
+     },
+     "uiJsMsPerFrame": 0.067,
+     "jsMsPerFrame": 12.2,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 7,
+     "pageMs": {
+      "mean": 707.8,
+      "p95": 862.2
+     },
+     "uiJsMsPerFrame": 0.082,
+     "jsMsPerFrame": 4.21,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 0,
+   "label": "qa1",
+   "view": "touch 390x844"
+  },
+  {
+   "game": "/home/claude/backrooms-shadows",
+   "mobile": true,
+   "secs": 4,
+   "rows": [
+    {
+     "state": "menu idle",
+     "frames": 16,
+     "pageMs": {
+      "mean": 286.7,
+      "p95": 374.9
+     },
+     "uiJsMsPerFrame": 0.087,
+     "jsMsPerFrame": 3.62,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "settings open (over the menu)",
+     "frames": 16,
+     "pageMs": {
+      "mean": 282.2,
+      "p95": 343.1
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 4.16,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "customize open (over the menu)",
+     "frames": 11,
+     "pageMs": {
+      "mean": 375.8,
+      "p95": 555.7
+     },
+     "uiJsMsPerFrame": 1.576,
+     "jsMsPerFrame": 10.7,
+     "previewDrawsPerSec": 5.8
+    },
+    {
+     "state": "Level 0 lit, standing (menus closed)",
+     "frames": 8,
+     "pageMs": {
+      "mean": 667.3,
+      "p95": 780.2
+     },
+     "uiJsMsPerFrame": 0,
+     "jsMsPerFrame": 5.06,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 lit, walking (menus closed)",
+     "frames": 9,
+     "pageMs": {
+      "mean": 705.6,
+      "p95": 835.1
+     },
+     "uiJsMsPerFrame": 0.123,
+     "jsMsPerFrame": 8.43,
+     "previewDrawsPerSec": 0
+    },
+    {
+     "state": "Level 0 dark, flashlight (menus closed)",
+     "frames": 7,
+     "pageMs": {
+      "mean": 747.3,
+      "p95": 855.2
+     },
+     "uiJsMsPerFrame": 0.029,
+     "jsMsPerFrame": 5.4,
+     "previewDrawsPerSec": 0
+    }
+   ],
+   "build": "stage-3c",
+   "errors": [],
+   "round": 0,
+   "label": "qa2",
+   "view": "touch 390x844"
+  }
+ ],
+ "errors": [
+  [
+   "qa1",
+   "desktop 1920x1080",
+   null,
+   0
+  ],
+  [
+   "qa2",
+   "desktop 1920x1080",
+   null,
+   0
+  ],
+  [
+   "qa1",
+   "desktop 1920x1080",
+   null,
+   0
+  ],
+  [
+   "qa2",
+   "desktop 1920x1080",
+   null,
+   0
+  ],
+  [
+   "qa1",
+   "touch 390x844",
+   null,
+   0
+  ],
+  [
+   "qa2",
+   "touch 390x844",
+   null,
+   0
+  ]
+ ]
+}

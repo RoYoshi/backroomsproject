@@ -1,0 +1,3154 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "originals": "unchanged (dev/stage-3c-qa1/, dev/stage-3c-qa1/first_candidate/, dev/tests/)",
+ "copies": "dev/stage-3c-qa2/regress/",
+ "ok": true,
+ "probes": {
+  "probe_q1": {
+   "source": "dev/stage-3c-qa1/probe_q1.js",
+   "checks": [
+    {
+     "name": "composition 1920x1080: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail (tall), right utility rail (4), version bottom right; nothing off screen, no overlaps",
+     "ok": true,
+     "note": {
+      "ttl": {
+       "x": 647.496452331543,
+       "y": 105.62515258789062,
+       "w": 626.3807373046875,
+       "h": 140.79830169677734,
+       "r": 1273.8771896362305,
+       "b": 246.42345428466797
+      },
+      "play": {
+       "x": 640,
+       "y": 771.65625,
+       "w": 640,
+       "h": 164.15625,
+       "r": 1280,
+       "b": 935.8125
+      },
+      "row": [
+       [
+        "customize",
+        640,
+        935,
+        213,
+        97
+       ],
+       [
+        "settings",
+        853,
+        935,
+        213,
+        97
+       ],
+       [
+        "credits",
+        1067,
+        935,
+        213,
+        97
+       ]
+      ],
+      "rail": {
+       "x": 48,
+       "y": 48,
+       "w": 393.59375,
+       "h": 984,
+       "r": 441.59375,
+       "b": 1032
+      },
+      "util": {
+       "x": 1812,
+       "y": 48,
+       "w": 60,
+       "h": 237,
+       "r": 1872,
+       "b": 285
+      },
+      "ver": {
+       "x": 1809.65625,
+       "y": 1020,
+       "w": 62.34375,
+       "h": 12,
+       "r": 1872,
+       "b": 1032
+      },
+      "utilBtns": [
+       "Settings",
+       "Customize your wanderer",
+       "Sound on",
+       "Help"
+      ],
+      "outside": 0,
+      "overlaps": {
+       "titleStage": false,
+       "railTitle": false,
+       "railStage": false,
+       "utilTitle": false,
+       "utilStage": false,
+       "railUtil": false
+      },
+      "version": "v23.3.6"
+     }
+    },
+    {
+     "name": "the menu offers only real systems: no chat, friends, accounts, servers, level select, saves, CONTINUE, cloud or timers",
+     "ok": true,
+     "note": null
+    },
+    {
+     "name": "entry 1920x1080: ENTER LEVEL 0 and Back on screen, focus on ENTER, the title never under the entry",
+     "ok": true,
+     "note": {
+      "enter": {
+       "x": 653,
+       "y": 921,
+       "r": 1267,
+       "b": 981,
+       "w": 614
+      },
+      "back": {
+       "x": 653,
+       "y": 989,
+       "r": 691.015625,
+       "b": 1025,
+       "w": 38.015625
+      },
+      "entry": {
+       "x": 620,
+       "y": 676.25,
+       "r": 1300,
+       "b": 1044,
+       "w": 680
+      },
+      "titleShown": true,
+      "overlap": false,
+      "W": 1920,
+      "H": 1080,
+      "focus": "enter"
+     }
+    },
+    {
+     "name": "composition 1366x768: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail (tall), right utility rail (4), version bottom right; nothing off screen, no overlaps",
+     "ok": true,
+     "note": {
+      "ttl": {
+       "x": 460.6766891479492,
+       "y": 75.13369750976562,
+       "w": 445.6395263671875,
+       "h": 100.1711654663086,
+       "r": 906.3162155151367,
+       "b": 175.30486297607422
+      },
+      "play": {
+       "x": 363,
+       "y": 549.015625,
+       "w": 640,
+       "h": 116.734375,
+       "r": 1003,
+       "b": 665.75
+      },
+      "row": [
+       [
+        "customize",
+        363,
+        665,
+        213,
+        69
+       ],
+       [
+        "settings",
+        576,
+        665,
+        213,
+        69
+       ],
+       [
+        "credits",
+        790,
+        665,
+        213,
+        69
+       ]
+      ],
+      "rail": {
+       "x": 34.140625,
+       "y": 34.140625,
+       "w": 280.015625,
+       "h": 699.71875,
+       "r": 314.15625,
+       "b": 733.859375
+      },
+      "util": {
+       "x": 1271.859375,
+       "y": 34.140625,
+       "w": 60,
+       "h": 237,
+       "r": 1331.859375,
+       "b": 271.140625
+      },
+      "ver": {
+       "x": 1269.515625,
+       "y": 721.859375,
+       "w": 62.34375,
+       "h": 12,
+       "r": 1331.859375,
+       "b": 733.859375
+      },
+      "utilBtns": [
+       "Settings",
+       "Customize your wanderer",
+       "Sound on",
+       "Help"
+      ],
+      "outside": 0,
+      "overlaps": {
+       "titleStage": false,
+       "railTitle": false,
+       "railStage": false,
+       "utilTitle": false,
+       "utilStage": false,
+       "railUtil": false
+      },
+      "version": "v23.3.6"
+     }
+    },
+    {
+     "name": "entry 1366x768: ENTER LEVEL 0 and Back on screen, focus on ENTER, the title never under the entry",
+     "ok": true,
+     "note": {
+      "enter": {
+       "x": 376,
+       "y": 622.859375,
+       "r": 990,
+       "b": 682.859375,
+       "w": 614
+      },
+      "back": {
+       "x": 376,
+       "y": 690.859375,
+       "r": 414.015625,
+       "b": 726.859375,
+       "w": 38.015625
+      },
+      "entry": {
+       "x": 343,
+       "y": 385.859375,
+       "r": 1023,
+       "b": 745.859375,
+       "w": 680
+      },
+      "titleShown": true,
+      "overlap": false,
+      "W": 1366,
+      "H": 768,
+      "focus": "enter"
+     }
+    },
+    {
+     "name": "composition 390x844 touch: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail, right utility rail (4), version bottom right; nothing off screen, no overlaps",
+     "ok": true,
+     "note": {
+      "ttl": {
+       "x": 70.94088745117188,
+       "y": 233.6490478515625,
+       "w": 248.67919921875,
+       "h": 55.898284912109375,
+       "r": 319.6200866699219,
+       "b": 289.5473327636719
+      },
+      "play": {
+       "x": 16,
+       "y": 638.90625,
+       "w": 358,
+       "h": 84.390625,
+       "r": 374,
+       "b": 723.296875
+      },
+      "row": [
+       [
+        "customize",
+        16,
+        722,
+        119,
+        56
+       ],
+       [
+        "settings",
+        135,
+        722,
+        119,
+        56
+       ],
+       [
+        "credits",
+        255,
+        722,
+        119,
+        56
+       ]
+      ],
+      "rail": {
+       "x": 16,
+       "y": 16,
+       "w": 300,
+       "h": 93.9375,
+       "r": 316,
+       "b": 109.9375
+      },
+      "util": {
+       "x": 330,
+       "y": 16,
+       "w": 44,
+       "h": 173,
+       "r": 374,
+       "b": 189
+      },
+      "ver": {
+       "x": 316.859375,
+       "y": 817,
+       "w": 57.140625,
+       "h": 11,
+       "r": 374,
+       "b": 828
+      },
+      "utilBtns": [
+       "Settings",
+       "Customize your wanderer",
+       "Sound on",
+       "Help"
+      ],
+      "outside": 0,
+      "overlaps": {
+       "titleStage": false,
+       "railTitle": false,
+       "railStage": false,
+       "utilTitle": false,
+       "utilStage": false,
+       "railUtil": false
+      },
+      "version": "v23.3.6"
+     }
+    },
+    {
+     "name": "entry 390x844 touch: ENTER LEVEL 0 and Back on screen, focus on ENTER, the title never under the entry",
+     "ok": true,
+     "note": {
+      "enter": {
+       "x": 35,
+       "y": 661,
+       "r": 355,
+       "b": 721,
+       "w": 320
+      },
+      "back": {
+       "x": 316.984375,
+       "y": 729,
+       "r": 355,
+       "b": 765,
+       "w": 38.015625
+      },
+      "entry": {
+       "x": 16,
+       "y": 354.796875,
+       "r": 374,
+       "b": 778,
+       "w": 358
+      },
+      "titleShown": true,
+      "overlap": false,
+      "W": 390,
+      "H": 844,
+      "focus": "enter"
+     }
+    },
+    {
+     "name": "composition 844x390 touch: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail, right utility rail (4), version bottom right; nothing off screen, no overlaps",
+     "ok": true,
+     "note": {
+      "ttl": {
+       "x": 308.8193054199219,
+       "y": 39.4556884765625,
+       "w": 226.85888671875,
+       "h": 50.993499755859375,
+       "r": 535.6781921386719,
+       "b": 90.44918823242188
+      },
+      "play": {
+       "x": 162,
+       "y": 262.515625,
+       "w": 520,
+       "h": 54.59375,
+       "r": 682,
+       "b": 317.109375
+      },
+      "row": [
+       [
+        "customize",
+        162,
+        316,
+        173,
+        43
+       ],
+       [
+        "settings",
+        335,
+        316,
+        173,
+        43
+       ],
+       [
+        "credits",
+        509,
+        316,
+        173,
+        43
+       ]
+      ],
+      "rail": {
+       "x": 27,
+       "y": 27,
+       "w": 230,
+       "h": 73.1875,
+       "r": 257,
+       "b": 100.1875
+      },
+      "util": {
+       "x": 660,
+       "y": 27,
+       "w": 157,
+       "h": 40,
+       "r": 817,
+       "b": 67
+      },
+      "ver": {
+       "x": 765.046875,
+       "y": 353,
+       "w": 51.953125,
+       "h": 10,
+       "r": 817,
+       "b": 363
+      },
+      "utilBtns": [
+       "Settings",
+       "Customize your wanderer",
+       "Sound on",
+       "Help"
+      ],
+      "outside": 0,
+      "overlaps": {
+       "titleStage": false,
+       "railTitle": false,
+       "railStage": false,
+       "utilTitle": false,
+       "utilStage": false,
+       "railUtil": false
+      },
+      "version": "v23.3.6"
+     }
+    },
+    {
+     "name": "entry 844x390 touch: ENTER LEVEL 0 and Back on screen, focus on ENTER, the title never under the entry",
+     "ok": true,
+     "note": {
+      "enter": {
+       "x": 133,
+       "y": 256.09967041015625,
+       "r": 711,
+       "b": 304.09967041015625,
+       "w": 578
+      },
+      "back": {
+       "x": 133,
+       "y": 312.09967041015625,
+       "r": 171.015625,
+       "b": 348.09967041015625,
+       "w": 38.015625
+      },
+      "entry": {
+       "x": 112,
+       "y": 129.0996551513672,
+       "r": 732,
+       "b": 359.09967041015625,
+       "w": 620
+      },
+      "titleShown": false,
+      "overlap": false,
+      "W": 844,
+      "H": 390,
+      "focus": "enter"
+     }
+    },
+    {
+     "name": "composition 360x640 touch: title centred high, PLAY centred low and biggest, CUSTOMIZE / SETTINGS / CREDITS under it, left rail, right utility rail (4), version bottom right; nothing off screen, no overlaps",
+     "ok": true,
+     "note": {
+      "ttl": {
+       "x": 65.48369598388672,
+       "y": 232.61074829101562,
+       "w": 229.5516357421875,
+       "h": 51.598777770996094,
+       "r": 295.0353317260742,
+       "b": 284.2095260620117
+      },
+      "play": {
+       "x": 16,
+       "y": 463,
+       "w": 328,
+       "h": 64,
+       "r": 344,
+       "b": 527
+      },
+      "row": [
+       [
+        "customize",
+        16,
+        526,
+        109,
+        48
+       ],
+       [
+        "settings",
+        125,
+        526,
+        109,
+        48
+       ],
+       [
+        "credits",
+        235,
+        526,
+        109,
+        48
+       ]
+      ],
+      "rail": {
+       "x": 16,
+       "y": 16,
+       "w": 270,
+       "h": 93.9375,
+       "r": 286,
+       "b": 109.9375
+      },
+      "util": {
+       "x": 300,
+       "y": 16,
+       "w": 44,
+       "h": 173,
+       "r": 344,
+       "b": 189
+      },
+      "ver": {
+       "x": 286.859375,
+       "y": 613,
+       "w": 57.140625,
+       "h": 11,
+       "r": 344,
+       "b": 624
+      },
+      "utilBtns": [
+       "Settings",
+       "Customize your wanderer",
+       "Sound on",
+       "Help"
+      ],
+      "outside": 0,
+      "overlaps": {
+       "titleStage": false,
+       "railTitle": false,
+       "railStage": false,
+       "utilTitle": false,
+       "utilStage": false,
+       "railUtil": false
+      },
+      "version": "v23.3.6"
+     }
+    },
+    {
+     "name": "entry 360x640 touch: ENTER LEVEL 0 and Back on screen, focus on ENTER, the title never under the entry",
+     "ok": true,
+     "note": {
+      "enter": {
+       "x": 35,
+       "y": 457,
+       "r": 325,
+       "b": 517,
+       "w": 290
+      },
+      "back": {
+       "x": 286.984375,
+       "y": 525,
+       "r": 325,
+       "b": 561,
+       "w": 38.015625
+      },
+      "entry": {
+       "x": 16,
+       "y": 251,
+       "r": 344,
+       "b": 574,
+       "w": 328
+      },
+      "titleShown": false,
+      "overlap": false,
+      "W": 360,
+      "H": 640,
+      "focus": "enter"
+     }
+    },
+    {
+     "name": "before any press: no audio context, no theme request, the theme waits",
+     "ok": false,
+     "supersededBy": "probe_b3: \"a browser that wants a gesture: the ready gate is black but for one line ... the music is already downloaded and decoded ... but has not begun, its context suspended\" and \"the first real key (A) starts the music and reveals the menu in the same step\"",
+     "why": "QA2 decision 3-5 (the menu and the theme start together): the theme is downloaded and decoded during the black boot and begins with the menu's reveal, so by the time the menu is up there is an audio context, the two requests were made, and the theme plays. QA1 fetched nothing until the first press on an already visible menu",
+     "note": {
+      "i0": {
+       "state": "playing",
+       "want": true,
+       "begun": true,
+       "ctx": "running",
+       "sampleRate": 44100,
+       "now": 7.75546485260771,
+       "gain": 0.699999988079071,
+       "level": 0.7,
+       "muted": false,
+       "introFrames": 1357824,
+       "loopFrames": 2416640,
+       "introRate": 44100,
+       "sources": 2,
+       "loopSourceLoops": true,
+       "loopSourceLoopStart": 0,
+       "loopSourceLoopEnd": 0,
+       "plays": 1,
+       "loads": 1,
+       "fetched": 2,
+       "cacheHits": 0,
+       "bytes": 22646872,
+       "need": 22646872,
+       "startedAt": 7207,
+       "t0": 0.06,
+       "loopAt": 30.849659863945575,
+       "fadeAt": null,
+       "fadeEnd": null,
+       "error": null,
+       "preparedAt": 5912,
+       "beganAt": 7204,
+       "policy": null,
+       "allowedAtReady": false,
+       "files": {
+        "intro": "assets/MainTheme_MenuIntro.wav",
+        "loop": "assets/MainTheme_MenuLoop.wav",
+        "v": "64b2124b.848db3af",
+        "gain": 0.7,
+        "fade": 1,
+        "rate": 44100,
+        "size": {
+         "intro": 8146988,
+         "loop": 14499884
+        },
+        "stall": 20000
+       }
+      },
+      "wav": [
+       "/assets/MainTheme_MenuIntro.wav?v=64b2124b.848db3af",
+       "/assets/MainTheme_MenuLoop.wav?v=64b2124b.848db3af"
+      ]
+     }
+    },
+    {
+     "name": "PLAY opens the entry with ENTER LEVEL 0 focused; a double click on PLAY (its second click lands where ENTER now is) does not start the run",
+     "ok": true,
+     "note": {
+      "f0": {
+       "entry": true,
+       "started": false,
+       "joins": 0
+      },
+      "f1": {
+       "entry": true,
+       "started": false,
+       "focus": "enter",
+       "stageHidden": true
+      }
+     }
+    },
+    {
+     "name": "Escape and Back close the entry (focus back on PLAY); Enter in the name field opens the entry and does not start the run",
+     "ok": true,
+     "note": {
+      "f2": {
+       "entry": false,
+       "focus": "mmPlay",
+       "started": false
+      },
+      "f3": {
+       "entry": false,
+       "focus": "mmPlay"
+      },
+      "f4": {
+       "entry": true,
+       "started": false,
+       "focus": "enter",
+       "shown": "Probe"
+      }
+     }
+    },
+    {
+     "name": "after the first press the theme plays: 44.1 kHz context, Intro 1357824 + Loop 2416640 frames, the Loop starts exactly one Intro after it (on a sample frame) and loops its whole buffer; only the two derivatives are fetched",
+     "ok": true,
+     "note": {
+      "i1": {
+       "state": "playing",
+       "want": true,
+       "begun": true,
+       "ctx": "running",
+       "sampleRate": 44100,
+       "now": 31.393378684807256,
+       "gain": 0.699999988079071,
+       "level": 0.7,
+       "muted": false,
+       "introFrames": 1357824,
+       "loopFrames": 2416640,
+       "introRate": 44100,
+       "sources": 2,
+       "loopSourceLoops": true,
+       "loopSourceLoopStart": 0,
+       "loopSourceLoopEnd": 0,
+       "plays": 1,
+       "loads": 1,
+       "fetched": 2,
+       "cacheHits": 0,
+       "bytes": 22646872,
+       "need": 22646872,
+       "startedAt": 7207,
+       "t0": 0.06,
+       "loopAt": 30.849659863945575,
+       "fadeAt": null,
+       "fadeEnd": null,
+       "error": null,
+       "preparedAt": 5912,
+       "beganAt": 7204,
+       "policy": null,
+       "allowedAtReady": false,
+       "files": {
+        "intro": "assets/MainTheme_MenuIntro.wav",
+        "loop": "assets/MainTheme_MenuLoop.wav",
+        "v": "64b2124b.848db3af",
+        "gain": 0.7,
+        "fade": 1,
+        "rate": 44100,
+        "size": {
+         "intro": 8146988,
+         "loop": 14499884
+        },
+        "stall": 20000
+       }
+      },
+      "wav": [
+       "/assets/MainTheme_MenuIntro.wav?v=64b2124b.848db3af",
+       "/assets/MainTheme_MenuLoop.wav?v=64b2124b.848db3af"
+      ]
+     }
+    },
+    {
+     "name": "gain follows the master volume (0.7 x volume) and SOUND ON/OFF (the game's own flag: muted -> 0, the rail and the header agree)",
+     "ok": true,
+     "note": {
+      "g0": 0.699999988079071,
+      "g1": 0.3499999940395355,
+      "g2": {
+       "g": 0,
+       "muted": true,
+       "pressed": "false",
+       "header": "SOUND OFF"
+      },
+      "g3": 0.3499999940395355,
+      "g4": 0.699999988079071
+     }
+    },
+    {
+     "name": "the theme plays on through Settings, Credits, Help, the entry and Customize (same start, no restart, the clock running)",
+     "ok": true,
+     "note": {
+      "inCz": "customize",
+      "c0": {
+       "t0": 0.06,
+       "now": 42.00489795918367,
+       "plays": 1
+      },
+      "c1": {
+       "t0": 0.06,
+       "now": 66.64126984126985,
+       "plays": 1,
+       "state": "playing"
+      }
+     }
+    },
+    {
+     "name": "ENTER LEVEL 0 starts the run with exactly one join; at that moment the theme begins a 1 s fade from its playing level, then its sources stop and its context is suspended",
+     "ok": true,
+     "note": {
+      "fadeSamples": 2,
+      "first": [
+       [
+        0.441,
+        0.391
+       ],
+       [
+        1.811,
+        0
+       ]
+      ],
+      "last": [
+       [
+        0.441,
+        0.391
+       ],
+       [
+        1.811,
+        0
+       ]
+      ],
+      "e1": {
+       "state": "stopped",
+       "ctx": "suspended",
+       "sources": 0,
+       "fadeAt": 73.25895691609978,
+       "fadeEnd": 74.25895691609978
+      },
+      "j1": 1
+     }
+    },
+    {
+     "name": "the run menu stays silent; END brings back the true main menu and the theme starts again from the Intro (a new start, both sources, no fetch)",
+     "ok": true,
+     "note": {
+      "midRun": "stopped",
+      "back0": {
+       "state": "playing",
+       "ctx": "suspended",
+       "plays": 2
+      },
+      "back1": {
+       "state": "playing",
+       "plays": 2,
+       "t0": 75.15333333333334,
+       "ctx": "running"
+      }
+     }
+    },
+    {
+     "name": "after END the menu is fresh (entry closed); ENTER again starts exactly one run and the theme stops again",
+     "ok": true,
+     "note": {
+      "ent": false,
+      "th": "stopped"
+     }
+    },
+    {
+     "name": "a second visit plays from Cache Storage (no network fetch of the theme)",
+     "ok": true,
+     "note": {
+      "k1": {
+       "state": "playing",
+       "cacheHits": 2,
+       "fetched": 0
+      },
+      "wav": [
+       "/assets/MainTheme_MenuIntro.wav",
+       "/assets/MainTheme_MenuLoop.wav"
+      ]
+     }
+    },
+    {
+     "name": "the fade is a 1 s linear ramp from 0.7 to 0 (every sample within 0.02 of the line), and the theme then stops",
+     "ok": true,
+     "note": {
+      "samples": 272,
+      "maxDeviation": 0.0021
+     }
+    },
+    {
+     "name": "offline render through the player's scheduling equals Intro then Loop then Loop sample for sample (handoff and two loop seams); each seam's jump is no bigger than the local sample-to-sample motion",
+     "ok": true,
+     "note": {
+      "frames": {
+       "intro": 1357824,
+       "loop": 2416640
+      },
+      "windows": [
+       {
+        "name": "intro->loop",
+        "at": 1357824,
+        "maxAbsDiffVsFiles": 0,
+        "seamJumpRms": 0.0033025675580386042,
+        "localAdjacentRms": 0.006279607966603917
+       },
+       {
+        "name": "loop seam 1",
+        "at": 3774464,
+        "maxAbsDiffVsFiles": 0,
+        "seamJumpRms": 0.0033016627213778515,
+        "localAdjacentRms": 0.006278331707849995
+       },
+       {
+        "name": "loop seam 2",
+        "at": 6191104,
+        "maxAbsDiffVsFiles": 0,
+        "seamJumpRms": 0.0033016627213778515,
+        "localAdjacentRms": 0.006278331707849995
+       }
+      ],
+      "sampledWholeRenderMaxDiff": 0
+     }
+    },
+    {
+     "name": "a run started straight from ENTER (the press that starts the run) loads and plays no theme",
+     "ok": false,
+     "supersededBy": "probe_b3: \"the music fades out over 1 s at ENTER (a linear ramp from its level, then its sources stop and its context is suspended); the game's own audio graph exists only now\"",
+     "why": "QA2 decision 5: the theme plays from the moment the menu shows, so a run started straight away (PLAY, then ENTER LEVEL 0) fades it out like any ENTER. Its downloads happened during the boot. QA1 had loaded nothing before that first press",
+     "note": {
+      "wav": [],
+      "i": {
+       "state": "stopped",
+       "ctx": "suspended"
+      }
+     }
+    },
+    {
+     "name": "reduced motion: no entrance animation; an idle menu (after its entrance) runs no animation at all",
+     "ok": true,
+     "note": {
+      "rm": {
+       "rm": true,
+       "enter": false
+      },
+      "idle": []
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "the same default game folder (the repository root) from the copy's location",
+    "QA2-2: the title is the user's logo (an image, #mmLogo) instead of QA1's two lines of lettering; the lettering's own box - the opaque glyphs of the PNG, x 569-1480 and y 460-664 of its 2048 x 1152 - is measured in place of QA1's two text lines' glyph boxes. The composition checks themselves are unchanged",
+    "QA2-2: the title is the user's logo (an image, #mmLogo) instead of QA1's two lines of lettering; the image's own box includes the PNG's fully transparent surround, which the title box clips (it is invisible, takes no pointer and adds no overflow); the visible sign - the title box - stays in the off-screen and overlap checks, and the page still may not scroll sideways"
+   ],
+   "exit": 1,
+   "seconds": 267,
+   "gate": "[ui_lib_gate] navigations: 10 {\"menu (gate passed by a key)\":10}, longest wait 14433 ms"
+  },
+  "probe_c1": {
+   "source": "dev/stage-3c-qa1/first_candidate/probe_c1.js",
+   "checks": [
+    {
+     "name": "boot lands on the main menu with the PLAY panel (name field visible), header and HUD hidden",
+     "ok": true,
+     "note": {
+      "st": "menu",
+      "menuCls": true,
+      "nameVis": true,
+      "items": [
+       "play",
+       "customize",
+       "settings",
+       "credits"
+      ],
+      "header": "hidden",
+      "hud": true,
+      "kind": "Flashlight",
+      "fixture": false
+     }
+    },
+    {
+     "name": "the PLAY panel shows the real equipped light",
+     "ok": true,
+     "note": "Flashlight"
+    },
+    {
+     "name": "Settings opens from the menu, Tab and Shift+Tab stay inside it",
+     "ok": true,
+     "note": {
+      "so": {
+       "vis": true,
+       "nav": "settings"
+      },
+      "trapped": true,
+      "trappedBack": true
+     }
+    },
+    {
+     "name": "Escape closes Settings, focus returns to SETTINGS, the game did not start or pause",
+     "ok": true,
+     "note": {
+      "hidden": true,
+      "st": "menu",
+      "focus": "settings",
+      "started": false
+     }
+    },
+    {
+     "name": "a HUD setting changes the model, the body class and fb_settings_v1, and switches back",
+     "ok": false,
+     "supersededBy": "probe_q3: \"fb_settings_v1 migration: ... no save: coordinates off\" and \"calm play shows almost only the world: ... coordinates ...\"",
+     "why": "QA1 Q3: coordinates are off by default (settings v2), so the first click turns them on. The probe's own readings show the switch still drives the model, fb_settings_v1, aria-checked and the body class, and switches back",
+     "by": "QA1",
+     "note": {
+      "c1": {
+       "model": true,
+       "saved": true,
+       "cls": false,
+       "aria": "true"
+      },
+      "c2": false
+     }
+    },
+    {
+     "name": "Lighting and shadows quality drives BR-RoLE and is remembered",
+     "ok": true,
+     "note": {
+      "q0": "medium",
+      "ql": {
+       "q": "low",
+       "saved": "low",
+       "aria": "true"
+      },
+      "qb": "medium"
+     }
+    },
+    {
+     "name": "Space on a focused menu item presses it (CREDITS opens)",
+     "ok": true,
+     "note": [
+      "Created by",
+      "Source material",
+      "Software",
+      "Typefaces"
+     ]
+    },
+    {
+     "name": "Credits come from credits_data.js: empty sections hidden, the wiki attribution and PixiJS present",
+     "ok": true,
+     "note": [
+      "Created by",
+      "Source material",
+      "Software",
+      "Typefaces"
+     ]
+    },
+    {
+     "name": "Escape closes Credits and focus returns to CREDITS",
+     "ok": true
+    },
+    {
+     "name": "CUSTOMIZE opens the game's customize panel; Escape returns to the menu (not started, not paused)",
+     "ok": true,
+     "note": {
+      "cu": {
+       "st": "customize",
+       "vis": true,
+       "tab": "wanderer"
+      },
+      "cc": {
+       "st": "menu",
+       "started": false,
+       "paused": false,
+       "dialog": true
+      }
+     }
+    },
+    {
+     "name": "the loadout row's Change opens customize on the loadout tab",
+     "ok": true,
+     "note": {
+      "st": "customize",
+      "tab": "loadout"
+     }
+    },
+    {
+     "name": "switching customize tabs and going home leaves the menu unpaused (no pause dialog over the menu)",
+     "ok": true,
+     "note": {
+      "st": "menu",
+      "paused": false,
+      "dialog": true,
+      "panel": true
+     }
+    },
+    {
+     "name": "Enter in the name field starts exactly one run; the menu is gone and the HUD is up",
+     "ok": true,
+     "note": {
+      "started": true,
+      "st": "playing",
+      "joins": 1,
+      "menuCls": false,
+      "name": "Probe",
+      "saved": "Probe",
+      "header": "visible"
+     }
+    },
+    {
+     "name": "the wanderer name reaches the nameplate and is remembered for next time",
+     "ok": true,
+     "note": {
+      "name": "Probe",
+      "saved": "Probe"
+     }
+    },
+    {
+     "name": "Escape pauses; Tab moves focus inside the pause dialog and does not open the inventory",
+     "ok": true,
+     "note": {
+      "pz": {
+       "st": "paused",
+       "paused": true,
+       "more": true
+      },
+      "ptrap": true,
+      "inv": false,
+      "active": "reset"
+     }
+    },
+    {
+     "name": "pause -> Settings opens over the paused game; Escape closes the sheet (still paused, focus back on Settings); Escape again resumes",
+     "ok": true,
+     "note": {
+      "ps": {
+       "sheet": true,
+       "paused": true,
+       "dialog": true
+      },
+      "ps2": {
+       "sheet": false,
+       "paused": true,
+       "st": "paused",
+       "focus": "pauseSettings"
+      },
+      "ps3": {
+       "paused": false,
+       "st": "playing"
+      }
+     }
+    },
+    {
+     "name": "Tab still opens the inventory during play",
+     "ok": true
+    },
+    {
+     "name": "prefers-reduced-motion: html.rm, no entrance replay, the fixture does not flicker",
+     "ok": true,
+     "note": {
+      "rm": true,
+      "enter": false,
+      "anim": "none"
+     }
+    },
+    {
+     "name": "390 x 844 touch: no horizontal overflow, all four menu items and the PLAY panel inside the screen, touch-sized ENTER, touch wording",
+     "ok": true,
+     "note": {
+      "docOver": 0,
+      "menuOver": 0,
+      "items": [
+       true,
+       true,
+       true,
+       true
+      ],
+      "title": 363,
+      "panel": 374,
+      "enterH": 60,
+      "note": "Headphones recommended. Touch low on the left and drag to move. PAUSE is top right."
+     }
+    },
+    {
+     "name": "390 x 844: Settings fills the screen without overflow",
+     "ok": true,
+     "note": {
+      "w": 390,
+      "x": 0,
+      "over": 0
+     }
+    },
+    {
+     "name": "390 x 844: the sheet's Close button closes it",
+     "ok": true
+    },
+    {
+     "name": "390 x 844 touch: ENTER starts the run",
+     "ok": true,
+     "note": {
+      "started": true,
+      "st": "playing"
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "QA2-2: the title is the user's logo (an image, #mmLogo) instead of QA1's two lines of lettering; the title's occasional hum (the same mmHum keyframes) now dims the image, so the forced hum is read from it",
+    "QA2-2: the title is the user's logo (an image, #mmLogo) instead of QA1's two lines of lettering; the title's right edge is the logo's sign box"
+   ],
+   "exit": 1,
+   "seconds": 272,
+   "gate": "[ui_lib_gate] navigations: 3 {\"menu (gate passed by a key)\":3}, longest wait 13855 ms"
+  },
+  "probe_q2": {
+   "source": "dev/stage-3c-qa1/probe_q2.js",
+   "checks": [
+    {
+     "name": "after 8 s on the menu: not started, the game's hide-self state on, its light not shining, its wanderer not drawn, no join sent",
+     "ok": true,
+     "note": {
+      "started": false,
+      "hideSelf": true,
+      "lightOn": false,
+      "avatarDrawn": false,
+      "joins": 0,
+      "respawns": 0,
+      "positionPackets": 21,
+      "x": 960,
+      "y": 3264,
+      "stamina": 100,
+      "caught": false,
+      "state": "menu",
+      "net": "ONLINE · ROOM Q2GATE113815 · 2 WANDERERS · SHARED MONSTERS",
+      "railInside": "One other wanderer is in the halls right now.",
+      "myId": 2
+     }
+    },
+    {
+     "name": "the server lists the visitor as not in the world; the player inside counts only itself and draws no avatar for it; the visitor's menu counts the one wanderer inside",
+     "ok": true,
+     "note": {
+      "o0": {
+       "serverActive": false,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE113815 · 1 WANDERER · SHARED MONSTERS",
+       "peerAvatars": 0
+      },
+      "railInside": "One other wanderer is in the halls right now."
+     }
+    },
+    {
+     "name": "held D + Shift on the menu: the wanderer does not move and spends no stamina",
+     "ok": true,
+     "note": {
+      "before": [
+       960,
+       3264,
+       100
+      ],
+      "after": [
+       960,
+       3264,
+       100
+      ]
+     }
+    },
+    {
+     "name": "a Hound summoned onto the visitor's spot and a Smiler nearby, loose for 10 s (closer than a Hound sees): the visitor is never caught (the server keeps it out of the world)",
+     "ok": true,
+     "note": {
+      "minDistanceToVisitorSpot": 110,
+      "observerAt": [
+       960,
+       3264
+      ],
+      "visitorSpot": [
+       960,
+       3264
+      ],
+      "samples": 40,
+      "server": {
+       "serverActive": false,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE113815 · 1 WANDERER · SHARED MONSTERS",
+       "peerAvatars": 0
+      }
+     }
+    },
+    {
+     "name": "ENTER LEVEL 0: exactly one join; the wanderer is drawn with its light; the player inside counts and draws it; it walks",
+     "ok": true,
+     "note": {
+      "a3": {
+       "started": true,
+       "hideSelf": false,
+       "lightOn": true,
+       "avatarDrawn": true,
+       "joins": 1,
+       "respawns": 0,
+       "positionPackets": 126,
+       "x": 2616,
+       "y": 5064,
+       "stamina": 100,
+       "caught": false,
+       "state": "playing",
+       "net": "ONLINE · ROOM Q2GATE113815 · 2 WANDERERS · SHARED MONSTERS",
+       "railInside": "One other wanderer is in the halls right now.",
+       "myId": 2
+      },
+      "o3": {
+       "serverActive": true,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE113815 · 2 WANDERERS · SHARED MONSTERS",
+       "peerAvatars": 1,
+       "waitedMs": 3169
+      },
+      "walked": 43
+     }
+    },
+    {
+     "name": "NEW RUN: the run menu hides the wanderer and the player inside stops counting it; SPAWN starts exactly one new run, drawn again",
+     "ok": true,
+     "note": {
+      "a5": [
+       "run",
+       false,
+       true,
+       false
+      ],
+      "o5": {
+       "serverActive": false,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE113815 · 1 WANDERER · SHARED MONSTERS",
+       "peerAvatars": 0,
+       "waitedMs": 4598
+      },
+      "a6": [
+       true,
+       2,
+       true
+      ]
+     }
+    },
+    {
+     "name": "END returns to a clean menu (not started, hidden, unlit, not counted); ENTER LEVEL 0 again: exactly one join",
+     "ok": true,
+     "note": {
+      "a7": [
+       "menu",
+       false,
+       true,
+       false,
+       false
+      ],
+      "o7": {
+       "serverActive": false,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE113815 · 1 WANDERER · SHARED MONSTERS",
+       "peerAvatars": 0,
+       "waitedMs": 1912
+      },
+      "a8": [
+       true,
+       1,
+       true
+      ]
+     }
+    },
+    {
+     "name": "caught by a Hound -> RESPAWN: back in the run by a respawn (no extra join), the wanderer drawn and lit",
+     "ok": true,
+     "note": {
+      "caught": true,
+      "before": [
+       3,
+       0
+      ],
+      "after": [
+       true,
+       false,
+       3,
+       1,
+       true,
+       false
+      ]
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "the same default game folder (the repository root) from the copy's location"
+   ],
+   "exit": 0,
+   "seconds": 377,
+   "gate": "[ui_lib_gate] navigations: 2 {\"menu (gate passed by a key)\":2}, longest wait 16564 ms"
+  },
+  "probe_q3": {
+   "source": "dev/stage-3c-qa1/probe_q3.js",
+   "checks": [
+    {
+     "name": "fb_settings_v1 migration: an old save keeps its choices (volume 0.8, title, keys) but loses the old coordinates default and is written back as v2; a v2 save with coordinates on keeps them (and its title off); no save: coordinates off",
+     "ok": true,
+     "note": [
+      [
+       "a save from before QA1 (coordinates on, the old default)",
+       false,
+       true,
+       0.8,
+       2
+      ],
+      [
+       "a QA1 save with coordinates switched on",
+       true,
+       false,
+       1,
+       2
+      ],
+      [
+       "no save",
+       false,
+       true,
+       1,
+       null
+      ]
+     ]
+    },
+    {
+     "name": "as a run begins: THRESHOLD / LEVEL 0, the objective and a line of the player's keys appear, then fade away (gone after about 6 s)",
+     "ok": true,
+     "note": {
+      "rv1": {
+       "shown": true,
+       "kind": "hud-reveal entry in",
+       "eye": "Threshold",
+       "title": "Level 0",
+       "sub": "Find a glitched wall",
+       "keys": "W A S D move   Shift run   F light   Tab inventory   Esc pause",
+       "last": "11 / PILLAR HALL"
+      },
+      "rv2": {
+       "shown": false,
+       "kind": "hud-reveal entry",
+       "eye": "Threshold",
+       "title": "Level 0",
+       "sub": "Find a glitched wall",
+       "keys": "W A S D move   Shift run   F light   Tab inventory   Esc pause",
+       "last": "11 / PILLAR HALL"
+      }
+     }
+    },
+    {
+     "name": "calm play shows almost only the world: no name, pace, light state, controls strip, objective, LEVEL 0 / sector, connection line, sound button, coordinates, stamina or health; PAUSE stays",
+     "ok": true,
+     "note": {
+      "#nameplate": false,
+      "#pace": false,
+      "#lightStatus": false,
+      "#hud .keyline": false,
+      ".hud-obj": false,
+      ".location": false,
+      "#net": false,
+      "#sound": false,
+      ".coordinates": false,
+      "#hud .staminaHud": false,
+      "#hudHealth": false,
+      "#hudReveal": false,
+      "#hudPause": true
+     }
+    },
+    {
+     "name": "stamina appears as soon as it is spent and stays while it recovers; once full it fades (the game's own value)",
+     "ok": true,
+     "note": {
+      "st1": {
+       "on": true,
+       "stamina": 95
+      },
+      "st2": {
+       "on": false,
+       "stamina": 100
+      }
+     }
+    },
+    {
+     "name": "walking into another part of the level reveals its own name (\"code / name\"), only after it has held for a moment, then fades",
+     "ok": true,
+     "note": {
+      "target": "01 / YELLOW HALL",
+      "sv0": false,
+      "sv1": [
+       "hud-reveal sector in",
+       "01 / YELLOW HALL"
+      ],
+      "sv2": false
+     }
+    },
+    {
+     "name": "the health slot is dormant (hidden; the game has no health); its hook shows a real value and hides again on null",
+     "ok": true,
+     "note": [
+      true,
+      false,
+      "mid",
+      "40%",
+      true
+     ]
+    },
+    {
+     "name": "the pause screen keeps what left the HUD: the objective and the connection line; its controls list names the player's keys",
+     "ok": true,
+     "note": {
+      "st": "paused",
+      "obj": "Find a glitched wall",
+      "move": "W A S D / ↑ ← ↓ →",
+      "net": "block"
+     }
+    },
+    {
+     "name": "QA1 with the default bindings: every key press reaches the page untouched (trusted, once, the same code), nothing is held back at the window; light, inventory and the rest respond",
+     "ok": true,
+     "note": {
+      "windowEvents": 40,
+      "documentEvents": 38,
+      "st0": {
+       "light": true,
+       "inv": false
+      },
+      "st1": {
+       "light": true,
+       "inv": false,
+       "started": true,
+       "paused": false
+      },
+      "inv": [
+       true,
+       false
+      ]
+     }
+    },
+    {
+     "name": "Settings > Controls: a slot waits for a key (\"Press a key\"), takes it (Move up = I, saved), refuses a key kept for the game or the browser, and Esc cancels a capture without closing Settings",
+     "ok": true,
+     "note": {
+      "cap": "Press a key",
+      "b1": {
+       "up": [
+        "KeyI",
+        "ArrowUp"
+       ],
+       "stored": {
+        "v": 1,
+        "b": {
+         "up": [
+          "KeyI",
+          "ArrowUp"
+         ],
+         "left": [
+          "KeyA",
+          "ArrowLeft"
+         ],
+         "down": [
+          "KeyS",
+          "ArrowDown"
+         ],
+         "right": [
+          "KeyD",
+          "ArrowRight"
+         ],
+         "run": [
+          "ShiftLeft",
+          "ShiftRight"
+         ],
+         "crouch": [
+          "KeyC",
+          null
+         ],
+         "light": [
+          "KeyF",
+          null
+         ],
+         "nv": [
+          "KeyN",
+          null
+         ],
+         "ir": [
+          "KeyB",
+          null
+         ],
+         "zoom": [
+          "KeyZ",
+          null
+         ],
+         "inventory": [
+          "Tab",
+          null
+         ],
+         "map": [
+          "KeyM",
+          null
+         ]
+        }
+       },
+       "msg": "Move up: I."
+      },
+      "ref": {
+       "msg": "Backquote is kept for the browser or the game. Press another key, or Esc to cancel.",
+       "capturing": true
+      },
+      "esc1": {
+       "capturing": false,
+       "sheet": true,
+       "light": [
+        "KeyF",
+        null
+       ]
+      }
+     }
+    },
+    {
+     "name": "a key already used elsewhere is shown as a conflict and nothing changes until it is resolved; Swap exchanges the two keys",
+     "ok": true,
+     "note": {
+      "c1": {
+       "msg": "I is already used for Move up. Swap them (Move up gets F), or cancel. Swap keys Cancel",
+       "swap": true,
+       "up": "KeyI",
+       "light": "KeyF"
+      },
+      "c2": {
+       "up": "KeyF",
+       "light": "KeyI"
+      }
+     }
+    },
+    {
+     "name": "every key label follows the bindings: the pause list, the menu's entry note, the camcorder's viewfinder line",
+     "ok": true,
+     "note": {
+      "pause": [
+       "F A S D / ↑ ← ↓ →",
+       "Toggle light / raise camcorderI",
+       "InventoryQ"
+      ],
+      "note": "Headphones recommended. Move with F A S D, aim your light with the mouse, Esc pauses.",
+      "cam": "N · NIGHT VISION    B · IR POWER    WHEEL · ZOOM    I · LOWER",
+      "inv": "Q"
+     }
+    },
+    {
+     "name": "in play with the new keys (40 game ticks each, frame for frame): F (now Move up) walks up exactly as W did, W does nothing, the arrow still walks up; I toggles the light; Q opens and closes the inventory; Tab is held back (no inventory, no focus jump); Esc still pauses",
+     "ok": true,
+     "note": {
+      "wW0": {
+       "dx": 0,
+       "dy": -113.759,
+       "dist": 113.759,
+       "ang": -90,
+       "stamina": 0
+      },
+      "wF": {
+       "dx": 0,
+       "dy": -113.759,
+       "dist": 113.759,
+       "ang": -90,
+       "stamina": 0
+      },
+      "wW": {
+       "dx": 0,
+       "dy": 0,
+       "dist": 0,
+       "ang": 0,
+       "stamina": 0
+      },
+      "wArrow": {
+       "dx": 0,
+       "dy": -113.759,
+       "dist": 113.759,
+       "ang": -90,
+       "stamina": 0
+      },
+      "light": [
+       true,
+       false
+      ],
+      "inv1": true,
+      "tab": {
+       "inv": false,
+       "focus": "BODY",
+       "B": []
+      },
+      "paused": true
+     }
+    },
+    {
+     "name": "the bindings survive a reload; Reset controls to defaults restores every default (and clears the save)",
+     "ok": true,
+     "note": {
+      "kept": {
+       "up": [
+        "KeyF",
+        "ArrowUp"
+       ],
+       "left": [
+        "KeyA",
+        "ArrowLeft"
+       ],
+       "down": [
+        "KeyS",
+        "ArrowDown"
+       ],
+       "right": [
+        "KeyD",
+        "ArrowRight"
+       ],
+       "run": [
+        "ShiftLeft",
+        "ShiftRight"
+       ],
+       "crouch": [
+        "KeyC",
+        null
+       ],
+       "light": [
+        "KeyI",
+        null
+       ],
+       "nv": [
+        "KeyN",
+        null
+       ],
+       "ir": [
+        "KeyB",
+        null
+       ],
+       "zoom": [
+        "KeyZ",
+        null
+       ],
+       "inventory": [
+        "KeyQ",
+        null
+       ],
+       "map": [
+        "KeyM",
+        null
+       ]
+      },
+      "reset": {
+       "b": {
+        "up": [
+         "KeyW",
+         "ArrowUp"
+        ],
+        "left": [
+         "KeyA",
+         "ArrowLeft"
+        ],
+        "down": [
+         "KeyS",
+         "ArrowDown"
+        ],
+        "right": [
+         "KeyD",
+         "ArrowRight"
+        ],
+        "run": [
+         "ShiftLeft",
+         "ShiftRight"
+        ],
+        "crouch": [
+         "KeyC",
+         null
+        ],
+        "light": [
+         "KeyF",
+         null
+        ],
+        "nv": [
+         "KeyN",
+         null
+        ],
+        "ir": [
+         "KeyB",
+         null
+        ],
+        "zoom": [
+         "KeyZ",
+         null
+        ],
+        "inventory": [
+         "Tab",
+         null
+        ],
+        "map": [
+         "KeyM",
+         null
+        ]
+       },
+       "def": true,
+       "stored": null,
+       "cam": "N · NIGHT VISION    B · IR POWER    WHEEL · ZOOM    F · LOWER"
+      }
+     }
+    },
+    {
+     "name": "a save that would put one key on two actions is not trusted: the defaults are used",
+     "ok": true,
+     "note": {
+      "def": true,
+      "up": [
+       "KeyW",
+       "ArrowUp"
+      ],
+      "light": [
+       "KeyF",
+       null
+      ]
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "the same default game folder (the repository root) from the copy's location"
+   ],
+   "exit": 0,
+   "seconds": 335,
+   "gate": "[ui_lib_gate] navigations: 8 {\"menu (gate passed by a key)\":8}, longest wait 9392 ms"
+  },
+  "probe_q4": {
+   "source": "dev/stage-3c-qa1/probe_q4.js",
+   "checks": [
+    {
+     "name": "the stick reads eight ways from the full angle (16 in-between angles and the 8 exact ones), drives the game's own direction keys, and the old pad is hidden",
+     "ok": true,
+     "note": {
+      "mismatches": [],
+      "dpad": "none"
+     }
+    },
+    {
+     "name": "a dead zone at the centre; travel capped at the ring; lifting the thumb clears the move at once, and so does a cancelled touch",
+     "ok": true,
+     "note": {
+      "dead": "",
+      "cap": {
+       "keys": "KeyD",
+       "knob": "translate3d(52px, 0px, 0px)",
+       "on": true
+      },
+      "rel": {
+       "keys": "",
+       "held": false,
+       "on": false
+      },
+      "pre": "KeyA,KeyW",
+      "can": {
+       "keys": "",
+       "held": false
+      }
+     }
+    },
+    {
+     "name": "frame for frame the stick walks at exactly the keyboard's speed: right, diagonal (normalised by the game: no analog advantage), left, and sprinting with RUN held by a second finger at the same time",
+     "ok": false,
+     "note": {
+      "perTick": {
+       "key": [
+        2.865811,
+        [
+         2.026434,
+         -2.026434
+        ],
+        -2.865811,
+        4.746606
+       ],
+       "stick": [
+        2.865811,
+        [
+         2.026434,
+         -2.026434
+        ],
+        -2.865811,
+        4.746606
+       ],
+       "keysWithRun": "KeyD,ShiftLeft",
+       "attempts": [
+        1,
+        1,
+        3,
+        1
+       ]
+      }
+     },
+     "artifact": "dev/stage-3c-qa2/evidence/r3/q4_compare/: QA1's own dev/stage-3c-qa1/probe_q4.js on the QA1 tree (5f30e28), two runs, and the QA2 copy once, interleaved",
+     "why": "The check compares per-tick speeds measured by the key and by the stick in turn, up to three attempts, and also requires no attempt's stick reading to exceed the fastest key reading. Under the software renderer the readings wobble (a few 0.01 % to 5 %, in both directions): QA1's own probe failed this check on the QA1 tree in both comparison runs (run 1: the diagonal never matched in three attempts; run 2: a left-stick reading of 3.009143 against the key's 2.865811 - the very reading the QA2 copy failed on in R3), and QA1 Q5 had already added the retries for this artifact. The QA2 copy failed it in 2 of its 4 runs and passed in 2. QA2 changes no movement, input or touch code (the stick is QA1's, in ui.js, unchanged)"
+    },
+    {
+     "name": "a second finger works LIGHT while the first holds the stick (the move held throughout), both lifting clears everything, and a lone tap on LIGHT toggles it exactly once",
+     "ok": true,
+     "note": {
+      "l0": true,
+      "during": "KeyD",
+      "l1": {
+       "light": false,
+       "keys": ""
+      },
+      "l2": true
+     }
+    },
+    {
+     "name": "touch layouts at 360x640, 390x844 and 430x932 (notch and home indicator), 768x1024 tablet and 844x390 on its side (notch at the side): buttons, PAUSE and stamina inside the safe areas; nothing under the stick zone, the status or the reveal; no sideways scroll",
+     "ok": true,
+     "note": []
+    },
+    {
+     "name": "a valid manifest (Chromium parses it without errors): name, standalone display, start URL and scope at the game itself, dark theme and background; the page links it with viewport-fit=cover and the app metadata; no service worker (no offline mode, no stale builds)",
+     "ok": true,
+     "note": {
+      "errors": [],
+      "installabilityErrors": {
+       "installabilityErrors": []
+      },
+      "display": "standalone",
+      "start": "/",
+      "icons": [],
+      "fetched": {
+       "status": 200,
+       "type": "application/octet-stream",
+       "cache": "no-store"
+      },
+      "sw": 0
+     }
+    },
+    {
+     "name": "in a browser tab the game plays as always, with no install banner; Help explains Add to Home Screen for iPhone / iPad and Android; launched as an app, Help says so instead",
+     "ok": true,
+     "note": {
+      "tab": {
+       "standalone": false,
+       "banner": false
+      },
+      "ran": true,
+      "help": "Add The Far Backrooms to your home screen and it opens on its own, without the browser's address bar.iPhone and iPad (Safari): Share, then Add to Home Screen. A",
+      "help2": {
+       "standalone": true,
+       "text": "You are playing the installed app: no browser bar. It is always the live game; there is nothing to update."
+      }
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "the same default game folder (the repository root) from the copy's location"
+   ],
+   "exit": 1,
+   "seconds": 702,
+   "gate": "[ui_lib_gate] navigations: 8 {\"menu (gate passed by a key)\":8}, longest wait 10088 ms"
+  },
+  "probe_q5": {
+   "source": "dev/stage-3c-qa1/probe_q5.js",
+   "checks": [
+    {
+     "name": "hidden UI does no continuous work: the idle main menu and calm play request no animation frames from ui.js / hud.js / inventory.js, and no UI animation runs",
+     "ok": true,
+     "note": {
+      "menuRaf": {
+       "l0-remaster.js": 20,
+       "Filter-DzecrWg_.js": 40,
+       "index-DKbV5Nv9.js": 20
+      },
+      "playRaf": {
+       "l0-remaster.js": 17,
+       "Filter-DzecrWg_.js": 34,
+       "index-DKbV5Nv9.js": 17
+      },
+      "menuAnims": [],
+      "playAnims": []
+     }
+    },
+    {
+     "name": "true darkness: in the blackout with the light off, showing stamina and the LEVEL 0 reveal brightens no pixel of the world outside their own text and bars (it may only darken)",
+     "ok": true,
+     "note": {
+      "sampled": 214676,
+      "brighter": 0,
+      "maxUp": 0,
+      "darker": 0,
+      "darkWorldShare": 0.997
+     }
+    },
+    {
+     "name": "the HUD settings still drive what the HUD shows: size scales stamina (and the reveal, within 0.8 to 1.2 so LEVEL 0 fits), opacity fades both, a custom colour tints the stamina bar and the location name; Reset HUD restores the default look",
+     "ok": true,
+     "note": {
+      "d0": {
+       "hudScale": 1,
+       "hudOpacity": 1,
+       "bar": "rgb(243, 231, 167)",
+       "revealScale": 1,
+       "revealOpacity": 1,
+       "title": "rgb(239, 227, 180)",
+       "titleW": 551
+      },
+      "d1": {
+       "hudScale": 1.5,
+       "hudOpacity": 0.6,
+       "bar": "rgb(111, 230, 255)",
+       "revealScale": 1.2,
+       "revealOpacity": 0.6,
+       "title": "rgb(111, 230, 255)",
+       "titleW": 662
+      },
+      "d2": {
+       "hudScale": 0.5,
+       "hudOpacity": 0.6,
+       "bar": "rgb(111, 230, 255)",
+       "revealScale": 0.8,
+       "revealOpacity": 0.6,
+       "title": "rgb(111, 230, 255)",
+       "titleW": 441
+      },
+      "d3": {
+       "hudScale": 1,
+       "hudOpacity": 1,
+       "bar": "rgb(243, 231, 167)",
+       "revealScale": 1,
+       "revealOpacity": 1,
+       "title": "rgb(239, 227, 180)",
+       "titleW": 551
+      }
+     }
+    },
+    {
+     "name": "the menu theme goes quiet in a hidden tab (its clock stops) and carries on from the same place when the tab is visible again (no restart)",
+     "ok": true,
+     "note": {
+      "a": [
+       "playing",
+       "running",
+       1
+      ],
+      "hidden": [
+       "suspended",
+       8.103764172335602,
+       8.103764172335602
+      ],
+      "back": [
+       "playing",
+       "running",
+       1
+      ]
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "the same default game folder (the repository root) from the copy's location"
+   ],
+   "exit": 0,
+   "seconds": 155,
+   "gate": "[ui_lib_gate] navigations: 4 {\"menu (gate passed by a key)\":4}, longest wait 10720 ms"
+  },
+  "lifecycle": {
+   "source": "dev/stage-3c-qa1/lifecycle.js",
+   "checks": [
+    {
+     "name": "lifecycle.js: a visitor on the menu is not in the world (not started, hidden, no light, not drawn, no join; the server lists it inactive; the other player draws no one); ENTER LEVEL 0 puts it in with exactly one join (drawn, lit, active, seen)",
+     "ok": true,
+     "note": {
+      "menuVisitor": {
+       "started": false,
+       "hideSelf": true,
+       "lightOn": false,
+       "personFound": true,
+       "avatarDrawn": false,
+       "joinsSent": 0,
+       "positionPacketsSent": 20,
+       "lastPositionPacketLightBit": 1,
+       "net": "ONLINE · ROOM LIFE681509 · 2 WANDERERS · SHARED MONSTERS",
+       "menuConnection": "One other wanderer is in the halls right now.",
+       "wsOpen": true,
+       "myId": 2,
+       "x": 960,
+       "y": 3264,
+       "stamina": 100
+      },
+      "serverWhileVisitorInMenu": {
+       "listed": true,
+       "active": false,
+       "dead": "",
+       "x": 960,
+       "y": 3264,
+       "observerNet": "ONLINE · ROOM LIFE681509 · 1 WANDERER · SHARED MONSTERS",
+       "observerPeerAvatars": 0
+      },
+      "afterEnter": {
+       "started": true,
+       "hideSelf": false,
+       "lightOn": true,
+       "personFound": true,
+       "avatarDrawn": true,
+       "joinsSent": 1,
+       "positionPacketsSent": 36,
+       "lastPositionPacketLightBit": 1,
+       "net": "ONLINE · ROOM LIFE681509 · 2 WANDERERS · SHARED MONSTERS",
+       "menuConnection": "One other wanderer is in the halls right now.",
+       "wsOpen": true,
+       "myId": 2,
+       "x": 1272,
+       "y": 1272,
+       "stamina": 100
+      },
+      "serverAfterEnter": {
+       "listed": true,
+       "active": true,
+       "dead": "",
+       "x": 1272,
+       "y": 1272,
+       "observerNet": "ONLINE · ROOM LIFE681509 · 2 WANDERERS · SHARED MONSTERS",
+       "observerPeerAvatars": 1
+      }
+     }
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "the same default game folder (the repository root) from the copy's location"
+   ],
+   "exit": 0,
+   "seconds": 106,
+   "gate": "[ui_lib_gate] navigations: 2 {\"menu (gate passed by a key)\":2}, longest wait 21349 ms"
+  },
+  "probe_c2": {
+   "source": "dev/stage-3c-qa1/first_candidate/probe_c2.js",
+   "checks": [
+    {
+     "name": "desktop: objective, status, key hints, location, coordinates, header and connection line are all on screen",
+     "ok": false,
+     "supersededBy": "probe_q3: \"calm play shows almost only the world ...\", \"as a run begins: THRESHOLD / LEVEL 0, the objective and a line of the player's keys appear, then fade away\", \"the pause screen keeps what left the HUD: the objective and the connection line\"",
+     "why": "QA1 Q3 (the minimal HUD): calm play shows the world, stamina only while it changes, and PAUSE. The objective, LEVEL 0 and the keys are shown as a run begins and on the pause screen; the connection line on the pause screen; coordinates are an option, off by default",
+     "by": "QA1",
+     "note": {
+      "status": [
+       [
+        38,
+        1040,
+        258,
+        1054
+       ]
+      ],
+      "tools": [
+       [
+        1774,
+        30,
+        1882,
+        70
+       ]
+      ]
+     }
+    },
+    {
+     "name": "desktop: nothing in the centre of the screen (the middle 40 %)",
+     "ok": true,
+     "note": []
+    },
+    {
+     "name": "desktop: no two HUD blocks overlap",
+     "ok": true,
+     "note": []
+    },
+    {
+     "name": "desktop: the game still writes every readout; the brand gives way to the objective; a PAUSE button is shown",
+     "ok": true,
+     "note": {
+      "obj": "FIND A GLITCHED WALL",
+      "pace": "STANDING",
+      "stam": "100",
+      "light": "FLASHLIGHT ON",
+      "sector": "01 / YELLOW HALL",
+      "coords": "X 1200 / Y 3408"
+     }
+    },
+    {
+     "name": "the HUD PAUSE button pauses through the game (controls shown, focus in the dialog); CONTINUE resumes; Escape still pauses and resumes",
+     "ok": true,
+     "note": {
+      "p1": {
+       "paused": true,
+       "st": "paused",
+       "keys": true,
+       "focusIn": true
+      },
+      "p2": {
+       "paused": false,
+       "st": "playing"
+      },
+      "p3": true,
+      "p4": false
+     }
+    },
+    {
+     "name": "HUD size, colour, coordinates, key hints and title settings drive the new HUD (and reset)",
+     "ok": false,
+     "supersededBy": "probe_q3: \"fb_settings_v1 migration ...\" and probe_q5: \"the HUD settings still drive what the HUD shows ...\"",
+     "why": "QA1 Q3: the probe measures the permanent objective block (gone: its height reads 0) and expects coordinates back on after Reset HUD (now off by default). The colour and the hidden switches pass in its own readings; size, opacity and colour on the QA1 HUD are checked by probe_q5",
+     "by": "QA1",
+     "note": {
+      "r0": 0,
+      "r1": 0,
+      "col": "rgb(111, 230, 255)",
+      "hidden": [
+       "none",
+       "none",
+       "none"
+      ],
+      "back": "none"
+     }
+    },
+    {
+     "name": "caught (RESPAWN, CHANGE LOADOUT, red line) and won (RESTART) panels show their own buttons",
+     "ok": true,
+     "note": {
+      "cg": {
+       "retry": true,
+       "lo": true,
+       "line": "rgb(196, 80, 63)"
+      },
+      "wn": {
+       "again": true,
+       "st": "won"
+      }
+     }
+    },
+    {
+     "name": "NEW RUN reaches the run menu with SPAWN / CUSTOMIZE / END",
+     "ok": true,
+     "note": {
+      "st": "run",
+      "btns": [
+       true,
+       true,
+       true
+      ]
+     }
+    },
+    {
+     "name": "Night Vision Camcorder raised: the viewfinder takes over (location hidden, objective kept)",
+     "ok": false,
+     "supersededBy": "probe_q3: \"calm play shows almost only the world ...\" and \"the pause screen keeps what left the HUD: the objective ...\"",
+     "why": "QA1 Q3: no permanent objective in play with any device; the location stays hidden while the camcorder is raised (passes in the probe's readings), and the objective is on the pause screen and in the run-begins reveal",
+     "by": "QA1",
+     "note": {
+      "raised": true,
+      "loc": "none",
+      "obj": "none"
+     }
+    },
+    {
+     "name": "touch portrait: pad, RUN, CROUCH, LIGHT and INV on screen; key hints and the Esc label hidden",
+     "ok": false,
+     "supersededBy": "probe_q4: \"the stick reads eight ways ... and the old pad is hidden\" and \"touch layouts at 360x640, 390x844 ...: buttons, PAUSE and stamina inside the safe areas ...\"",
+     "why": "QA1 Q4: the D-pad is replaced by the floating stick (the pad is hidden, not removed). RUN, CROUCH, LIGHT and INV are on screen and the key hints hidden in the probe's readings",
+     "by": "QA1",
+     "note": {
+      "touch": {
+       "run": [
+        [
+         228,
+         760,
+         296,
+         828
+        ]
+       ],
+       "crouch": [
+        [
+         306,
+         760,
+         374,
+         828
+        ]
+       ],
+       "light": [
+        [
+         228,
+         694,
+         296,
+         750
+        ]
+       ],
+       "inv": [
+        [
+         306,
+         694,
+         374,
+         750
+        ]
+       ]
+      },
+      "keys": "none"
+     }
+    },
+    {
+     "name": "touch portrait: nothing overlaps (HUD blocks, header, pad and buttons)",
+     "ok": true,
+     "note": []
+    },
+    {
+     "name": "touch portrait: PAUSE pauses (connection line shown, keyboard reference hidden), CONTINUE resumes, INV opens and closes the inventory",
+     "ok": true,
+     "note": {
+      "pz": {
+       "paused": true,
+       "net": "block",
+       "keys": "none",
+       "over": 0
+      },
+      "rs": false,
+      "i1": true,
+      "i2": false
+     }
+    },
+    {
+     "name": "touch landscape: pad, RUN, CROUCH, LIGHT and INV on screen; key hints and the Esc label hidden",
+     "ok": false,
+     "supersededBy": "probe_q4: \"the stick reads eight ways ... and the old pad is hidden\" and \"touch layouts ... 844x390 on its side ...\"",
+     "why": "QA1 Q4: the D-pad is replaced by the floating stick. RUN, CROUCH, LIGHT and INV are on screen and the key hints hidden in the probe's readings",
+     "by": "QA1",
+     "note": {
+      "touch": {
+       "run": [
+        [
+         694,
+         316,
+         756,
+         374
+        ]
+       ],
+       "crouch": [
+        [
+         766,
+         316,
+         829,
+         374
+        ]
+       ],
+       "light": [
+        [
+         550,
+         322,
+         612,
+         374
+        ]
+       ],
+       "inv": [
+        [
+         622,
+         322,
+         684,
+         374
+        ]
+       ]
+      },
+      "keys": "none"
+     }
+    },
+    {
+     "name": "touch landscape: nothing overlaps (HUD blocks, header, pad and buttons)",
+     "ok": true,
+     "note": []
+    },
+    {
+     "name": "touch landscape: PAUSE pauses (connection line shown, keyboard reference hidden), CONTINUE resumes, INV opens and closes the inventory",
+     "ok": true,
+     "note": {
+      "pz": {
+       "paused": true,
+       "net": "block",
+       "keys": "none",
+       "over": 0
+      },
+      "rs": false,
+      "i1": true,
+      "i2": false
+     }
+    },
+    {
+     "name": "touch portrait, Night Vision Camcorder: NV, IR and ZOOM join the cluster, all on screen, nothing overlapping",
+     "ok": true,
+     "note": {
+      "touch": {
+       "run": [
+        [
+         228,
+         760,
+         296,
+         828
+        ]
+       ],
+       "crouch": [
+        [
+         306,
+         760,
+         374,
+         828
+        ]
+       ],
+       "light": [
+        [
+         228,
+         694,
+         296,
+         750
+        ]
+       ],
+       "inv": [
+        [
+         306,
+         694,
+         374,
+         750
+        ]
+       ],
+       "nv": [
+        [
+         228,
+         628,
+         296,
+         684
+        ]
+       ],
+       "ir": [
+        [
+         306,
+         628,
+         374,
+         684
+        ]
+       ],
+       "zoom": [
+        [
+         228,
+         562,
+         374,
+         618
+        ]
+       ]
+      },
+      "overlaps": []
+     }
+    },
+    {
+     "name": "touch landscape, Night Vision Camcorder: NV, IR and ZOOM join the cluster, all on screen, nothing overlapping",
+     "ok": true,
+     "note": {
+      "touch": {
+       "run": [
+        [
+         694,
+         316,
+         756,
+         374
+        ]
+       ],
+       "crouch": [
+        [
+         766,
+         316,
+         829,
+         374
+        ]
+       ],
+       "light": [
+        [
+         550,
+         322,
+         612,
+         374
+        ]
+       ],
+       "inv": [
+        [
+         622,
+         322,
+         684,
+         374
+        ]
+       ],
+       "nv": [
+        [
+         550,
+         254,
+         612,
+         306
+        ]
+       ],
+       "ir": [
+        [
+         622,
+         254,
+         684,
+         306
+        ]
+       ],
+       "zoom": [
+        [
+         694,
+         254,
+         828,
+         306
+        ]
+       ]
+      },
+      "overlaps": []
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it"
+   ],
+   "exit": 1,
+   "seconds": 310,
+   "gate": "[ui_lib_gate] navigations: 5 {\"menu (gate passed by a key)\":5}, longest wait 13718 ms"
+  },
+  "probe_c3": {
+   "source": "dev/stage-3c-qa1/first_candidate/probe_c3.js",
+   "checks": [
+    {
+     "name": "a saved legacy backpack loads as \"none\" (look and save); the backpack field offers only \"none\" and nothing visible mentions a backpack",
+     "ok": true,
+     "note": {
+      "look": "none",
+      "saved": "none",
+      "opts": [
+       "none"
+      ],
+      "shown": false
+     }
+    },
+    {
+     "name": "the preview renderer is idle while customize is closed and draws once it opens (WANDERER tab first, focus on the tab)",
+     "ok": true,
+     "note": {
+      "t0": {
+       "app": true,
+       "started": false
+      },
+      "o1": {
+       "st": "customize",
+       "tab": "wanderer",
+       "sel": "true",
+       "focus": "czTab_wanderer",
+       "started": true,
+       "wPane": true,
+       "lPane": false
+      }
+     }
+    },
+    {
+     "name": "hat and texture chips set the game's look and save it; arrow keys move and select",
+     "ok": true,
+     "note": {
+      "c1": {
+       "hat": "cap",
+       "tex": "patched",
+       "aria": "true"
+      },
+      "c2": {
+       "hat": "beanie",
+       "focus": "beanie"
+      },
+      "s1": {
+       "hat": "beanie",
+       "texture": "patched",
+       "hands": "#e6bb76",
+       "main": "#ffcc77",
+       "backpack": "none"
+      }
+     }
+    },
+    {
+     "name": "body and hand swatches set the colours; a custom colour clears the swatches and marks the picker; all saved",
+     "ok": true,
+     "note": {
+      "w1": {
+       "main": "#a7b298",
+       "hands": "#55524a"
+      },
+      "w2": {
+       "main": "#123456",
+       "pick": true,
+       "none": true
+      },
+      "s2": {
+       "hat": "beanie",
+       "texture": "patched",
+       "hands": "#55524a",
+       "main": "#123456",
+       "backpack": "none"
+      }
+     }
+    },
+    {
+     "name": "LOADOUT lists the four devices (flashlight, headlamp, lantern, Night Vision Camcorder) with parts and a close-up",
+     "ok": true,
+     "note": {
+      "cards": [
+       "flashlight",
+       "headlamp",
+       "lantern",
+       "camcorder"
+      ],
+      "disabled": false,
+      "parts": true,
+      "zoom": true
+     }
+    },
+    {
+     "name": "choosing the headlamp, a beam colour and a part colour drives the game's equipment and saves it",
+     "ok": true,
+     "note": {
+      "l1": {
+       "kind": "headlamp",
+       "color": "#ffc98a",
+       "part": "#336699",
+       "note": "HeadlampHands-free: a wider, shorter cone that turns with you.",
+       "beam": true
+      },
+      "s3": {
+       "kind": "headlamp",
+       "color": "#ffc98a",
+       "parts": {
+        "flashlight": {
+         "body": "#3b4650",
+         "head": "#a1a9b0",
+         "button": "#d8443a",
+         "grip": "#181b1e"
+        },
+        "headlamp": {
+         "strap": "#336699",
+         "housing": "#3a4054",
+         "bracket": "#9a9ea6"
+        },
+        "lantern": {
+         "frame": "#3d423c",
+         "handle": "#9aa0a6",
+         "cap": "#a3372c"
+        },
+        "camcorder": {
+         "body": "#2b2f36",
+         "lens": "#69717c",
+         "grip": "#1b1d20",
+         "trim": "#c9ccd0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "name": "the Night Vision Camcorder has no beam colour and says: \"Night Vision Camcorder emits no visible light; its night vision uses infrared.\"",
+     "ok": true,
+     "note": {
+      "kind": "camcorder",
+      "beam": true,
+      "note": "Night Vision CamcorderNight Vision Camcorder emits no visible light; its night vision uses infrared. F raises it, N switches night vision, B sets the infrared illuminator, the wheel (or Z) zooms. It overheats.",
+      "card": "NIGHT VISION CAMCORDERNo visible light: its night vision uses infrared. It overheats.NO VISIBLE LIGHT · INFRARED"
+     }
+    },
+    {
+     "name": "Escape closes customize back to the menu: preview idle again, nothing paused, the PLAY panel shows the new device",
+     "ok": true,
+     "note": {
+      "st": "menu",
+      "started": false,
+      "paused": false,
+      "kind": "Lantern"
+     }
+    },
+    {
+     "name": "during a run the device is locked (cards disabled, lock note, a click changes nothing) while the hat can still change; Done returns to the pause",
+     "ok": true,
+     "note": {
+      "k0": {
+       "dis": true,
+       "lock": true,
+       "kind": "lantern"
+      },
+      "k1": "lantern",
+      "k2": "hardhat",
+      "k3": {
+       "st": "paused",
+       "paused": true
+      }
+     }
+    },
+    {
+     "name": "a second wanderer sees the first one's look (hard hat, patched, custom body and hands) and light (lantern, amber)",
+     "ok": true,
+     "note": {
+      "a": {
+       "look": {
+        "hat": "hardhat",
+        "texture": "patched",
+        "hands": "#55524a",
+        "main": "#123456",
+        "backpack": "none"
+       },
+       "kind": "lantern",
+       "color": "#ffc98a"
+      },
+      "peerLights": [
+       {
+        "kind": "lantern",
+        "color": "#ffc98a"
+       },
+       {
+        "kind": "flashlight",
+        "color": "#ffe7b2"
+       }
+      ]
+     }
+    },
+    {
+     "name": "an older client still sending a backpack is drawn without it",
+     "ok": true,
+     "note": {
+      "look": {
+       "hat": "cap",
+       "texture": "stripes",
+       "hands": "#112233",
+       "main": "#445566",
+       "backpack": "none"
+      },
+      "kind": "flashlight",
+      "color": "#ffe7b2"
+     }
+    },
+    {
+     "name": "390 x 844 touch: customize fills the screen, Done stays reachable, the cards fit, Done returns to the menu",
+     "ok": true,
+     "note": {
+      "m1": {
+       "w": 390,
+       "over": 0,
+       "done": true
+      },
+      "m2": true,
+      "m3": "menu"
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it"
+   ],
+   "exit": 0,
+   "seconds": 274,
+   "gate": "[ui_lib_gate] navigations: 3 {\"menu (gate passed by a key)\":3}, longest wait 19336 ms"
+  },
+  "probe_c4": {
+   "source": "dev/stage-3c-qa1/first_candidate/probe_c4.js",
+   "checks": [
+    {
+     "name": "a pre-3C fb_settings_v1 save loads unchanged, gains rm = \"auto\", and is written back complete",
+     "ok": false,
+     "supersededBy": "probe_q3: \"fb_settings_v1 migration: an old save keeps its choices ... but loses the old coordinates default and is written back as v2\"",
+     "why": "QA1 Q3: an old save has coordinates switched off once (the old default was on) and is written back with v: 2. In the probe's readings every other field is kept, rm = \"auto\" is added and the save is written back",
+     "by": "QA1",
+     "note": {
+      "model": {
+       "c": "#ff6b5e",
+       "s": 1.3,
+       "o": 0.7,
+       "keys": false,
+       "coords": false,
+       "title": false,
+       "auto": true,
+       "vol": 0.4,
+       "rm": "auto",
+       "v": 2
+      },
+      "stored": {
+       "c": "#ff6b5e",
+       "s": 1.3,
+       "o": 0.7,
+       "keys": false,
+       "coords": false,
+       "title": false,
+       "auto": true,
+       "vol": 0.4,
+       "rm": "auto",
+       "v": 2
+      },
+      "hs": "1.3",
+      "cls": [
+       "hud-nokeys",
+       "hud-notitle",
+       "hud-nocoords",
+       "hudc"
+      ]
+     }
+    },
+    {
+     "name": "the Settings page shows the saved values",
+     "ok": true,
+     "note": {
+      "ui": {
+       "size": "130%",
+       "op": "70%",
+       "keys": "false",
+       "title": "false",
+       "red": "true"
+      },
+      "vol": "40%"
+     }
+    },
+    {
+     "name": "keyboard: arrows move through the pages and a radio group (choosing as they go); Tab stays in Settings",
+     "ok": true,
+     "note": {
+      "pg": {
+       "focus": "stTab_graphics",
+       "shown": [
+        "stPage_graphics"
+       ]
+      },
+      "r0": "auto",
+      "r1": {
+       "rm": "on",
+       "focus": "on",
+       "rmCls": true
+      },
+      "r2": "auto",
+      "inside": true
+     }
+    },
+    {
+     "name": "only real controls: no zoom, awareness, field-of-view or radar setting",
+     "ok": true,
+     "note": []
+    },
+    {
+     "name": "text tokens meet 4.5:1 on every panel (and dark text on the yellow buttons)",
+     "ok": true,
+     "note": {
+      "--u-cream on --u-void": 15.98,
+      "--u-cream on --u-panel": 14.9,
+      "--u-cream on --u-panel2": 14.13,
+      "--u-text on --u-void": 12.78,
+      "--u-text on --u-panel": 11.91,
+      "--u-text on --u-panel2": 11.3,
+      "--u-mute on --u-void": 7.31,
+      "--u-mute on --u-panel": 6.82,
+      "--u-mute on --u-panel2": 6.46,
+      "--u-moss on --u-void": 7.91,
+      "--u-moss on --u-panel": 7.37,
+      "--u-moss on --u-panel2": 6.99,
+      "--u-moss-dim on --u-void": 5.89,
+      "--u-moss-dim on --u-panel": 5.49,
+      "--u-moss-dim on --u-panel2": 5.21,
+      "--u-sick-hi on --u-void": 14.6,
+      "--u-sick-hi on --u-panel": 13.61,
+      "--u-sick-hi on --u-panel2": 12.9,
+      "--u-danger-hi on --u-void": 7.5,
+      "--u-danger-hi on --u-panel": 6.99,
+      "--u-danger-hi on --u-panel2": 6.63,
+      "--u-on-sick on --u-sick": 10.47
+     }
+    },
+    {
+     "name": "Escape closes Settings",
+     "ok": true
+    },
+    {
+     "name": "damaged values fall back: colour to default, size and opacity clamped, volume to its default, reduced motion to System",
+     "ok": true,
+     "note": {
+      "c": "",
+      "s": 2,
+      "o": 0.3,
+      "keys": true,
+      "coords": false,
+      "title": true,
+      "auto": true,
+      "vol": 1,
+      "rm": "auto",
+      "v": 2
+     }
+    },
+    {
+     "name": "System follows a device that asks for reduced motion; Off overrides it (the fixture hums again)",
+     "ok": true,
+     "note": {
+      "a1": {
+       "rm": true,
+       "anim": "none"
+      },
+      "a2": {
+       "rm": false,
+       "anim": "mmHum",
+       "note": ""
+      }
+     }
+    },
+    {
+     "name": "a saved \"On\" holds from the first frame on a device that does not ask (no entrance, no flicker)",
+     "ok": true,
+     "note": {
+      "atStart": true,
+      "rm": true,
+      "enter": false,
+      "anim": "none"
+     }
+    },
+    {
+     "name": "reduced motion also stills the HUD entrance",
+     "ok": true,
+     "note": {
+      "walk": "none",
+      "obj": "none"
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "QA2-2: the title is the user's logo (an image, #mmLogo) instead of QA1's two lines of lettering; the title's occasional hum (the same mmHum keyframes) now dims the image, so the forced hum is read from it"
+   ],
+   "exit": 1,
+   "seconds": 141,
+   "gate": "[ui_lib_gate] navigations: 4 {\"menu (gate passed by a key)\":4}, longest wait 13632 ms"
+  },
+  "probe_c5": {
+   "source": "dev/stage-3c-qa1/first_candidate/probe_c5.js",
+   "checks": [
+    {
+     "name": "Credits are built from credits_data.js: an added section appears, an empty one does not; the wiki and CC BY-SA attribution and the software are there",
+     "ok": true,
+     "note": [
+      "Created by",
+      "Playtesting (probe)",
+      "Source material",
+      "Software",
+      "Typefaces"
+     ]
+    },
+    {
+     "name": "arrows on a Settings slider change it; W / D held in Settings (over the paused run) never move the wanderer and no key is left held",
+     "ok": true,
+     "note": {
+      "v0": 1,
+      "v1": 0.9,
+      "p0": [
+       1200,
+       3408
+      ],
+      "p1": {
+       "pos": [
+        1200,
+        3408
+       ],
+       "keys": [],
+       "st": "playing"
+      }
+     }
+    },
+    {
+     "name": "during play with every menu closed no UI script asks for animation frames and the customize preview is stopped",
+     "ok": true,
+     "note": {
+      "by": {
+       "l0-remaster.js": 4,
+       "Filter-DzecrWg_.js": 8,
+       "index-DKbV5Nv9.js": 4,
+       "?": 4
+      },
+      "preview": false
+     }
+    },
+    {
+     "name": "Escape is consistent: ignored on the menu, closes a sheet, closes customize back to the pause, resumes from the pause, closes the inventory (without pausing)",
+     "ok": true,
+     "note": {
+      "e0": {
+       "st": "menu",
+       "started": false,
+       "sheets": 0
+      },
+      "e1": "paused",
+      "c0": "customize",
+      "c1": "paused",
+      "c2": "playing",
+      "i0": true,
+      "i1": {
+       "open": false,
+       "paused": false
+      }
+     }
+    },
+    {
+     "name": "win -> RESTART LEVEL 0 plays on; NEW RUN -> run menu -> END returns to the main menu (focus on PLAY, HUD hidden); ENTER LEVEL 0 starts exactly one new run",
+     "ok": true,
+     "note": {
+      "w1": {
+       "st": "playing",
+       "started": true
+      },
+      "m1": {
+       "st": "menu",
+       "cls": true,
+       "focus": "play",
+       "header": "hidden"
+      },
+      "m2": {
+       "st": "playing",
+       "joins": 1
+      }
+     }
+    },
+    {
+     "name": "responsive: menu (PLAY and ENTER), Settings, Credits and Customize fit 1920x1080, 1366x768, 1280x720, 1024x768 and 768x1024, 390x844, 844x390, 360x640 touch without horizontal overflow",
+     "ok": true,
+     "note": []
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "QA2 R1 (the user's return choreography): END first fades the run and the game's sound down to black (0.8 s, then 0.12 s of black) before the game's own END runs, and the menu then makes its logo-first entrance; the copy waits for the menu and its entrance instead of a fixed 0.9 s. Every assertion after it is unchanged"
+   ],
+   "exit": 0,
+   "seconds": 416,
+   "gate": "[ui_lib_gate] navigations: 9 {\"menu (gate passed by a key)\":9}, longest wait 15237 ms"
+  },
+  "lifecycle_mp": {
+   "source": "dev/tests/lifecycle_mp.py",
+   "checks": [
+    {
+     "name": "lifecycle_mp: NEW RUN, the start from the title, death -> RETRY (its own verdict)",
+     "ok": true,
+     "note": {
+      "start": {
+       "client": [
+        696,
+        3576
+       ],
+       "server": [
+        696,
+        3576,
+        0
+       ]
+      },
+      "menuShown": true,
+      "inWorldWhileInMenu": null,
+      "newRun": {
+       "client": [
+        2760,
+        3816
+       ],
+       "server": [
+        2760,
+        3816,
+        0
+       ]
+      },
+      "playerCorrections": 0,
+      "deathScreen": true,
+      "retry": {
+       "client": [
+        2824,
+        1578
+       ],
+       "server": [
+        2824,
+        1578,
+        0
+       ],
+       "refusals": 0
+      },
+      "errors": [],
+      "ok": true
+     }
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "the game folder from the copy's location (or GAME)",
+    "a helper that waits for the QA2 boot and passes its ready gate",
+    "QA2: the menu (and the name field) is shown only once the boot has finished and the ready gate is passed"
+   ],
+   "exit": 0,
+   "seconds": 53,
+   "gate": null
+  }
+ },
+ "written": "2026-10-10T21:43:01.737Z",
+ "rescoredAt": "2026-10-10T22:30:01.225Z"
+}

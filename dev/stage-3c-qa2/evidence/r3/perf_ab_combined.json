@@ -1,0 +1,233 @@
+{
+ "note": "perf_ab.json (2 desktop rounds + 1 phone), perf_ab_extra.json (2 more desktop rounds) and perf_ab_extra_phone.json (1 more phone round) combined: means over runs; SwiftShader on 2 CPUs; only QA1 vs QA2 on the same states means anything",
+ "summary": {
+  "desktop 1920x1080 | menu idle": {
+   "qa1": {
+    "n": 4,
+    "mean": 668.3,
+    "p95": 860.2,
+    "uiJs": 0.19,
+    "js": 5.68,
+    "frames": 31
+   },
+   "qa2": {
+    "n": 4,
+    "mean": 584.7,
+    "p95": 758.7,
+    "uiJs": 0.029,
+    "js": 4.31,
+    "frames": 34
+   },
+   "qa2VsQa1MeanPct": -12.5
+  },
+  "desktop 1920x1080 | settings open (over the menu)": {
+   "qa1": {
+    "n": 4,
+    "mean": 607.4,
+    "p95": 765.4,
+    "uiJs": 0.047,
+    "js": 4.26,
+    "frames": 32
+   },
+   "qa2": {
+    "n": 4,
+    "mean": 672.6,
+    "p95": 846.0,
+    "uiJs": 0.036,
+    "js": 5.97,
+    "frames": 27
+   },
+   "qa2VsQa1MeanPct": 10.7
+  },
+  "desktop 1920x1080 | customize open (over the menu)": {
+   "qa1": {
+    "n": 4,
+    "mean": 749.2,
+    "p95": 990.2,
+    "uiJs": 1.655,
+    "js": 9.86,
+    "frames": 25
+   },
+   "qa2": {
+    "n": 4,
+    "mean": 736.8,
+    "p95": 1054.5,
+    "uiJs": 1.342,
+    "js": 7.8,
+    "frames": 29
+   },
+   "qa2VsQa1MeanPct": -1.7
+  },
+  "desktop 1920x1080 | Level 0 lit, standing (menus closed)": {
+   "qa1": {
+    "n": 4,
+    "mean": 941.2,
+    "p95": 1279.8,
+    "uiJs": 0.03,
+    "js": 6.83,
+    "frames": 23
+   },
+   "qa2": {
+    "n": 4,
+    "mean": 971.9,
+    "p95": 1280.6,
+    "uiJs": 0.01,
+    "js": 7.65,
+    "frames": 21
+   },
+   "qa2VsQa1MeanPct": 3.3
+  },
+  "desktop 1920x1080 | Level 0 lit, walking (menus closed)": {
+   "qa1": {
+    "n": 4,
+    "mean": 873.3,
+    "p95": 981.2,
+    "uiJs": 0.058,
+    "js": 7.62,
+    "frames": 32
+   },
+   "qa2": {
+    "n": 4,
+    "mean": 910.9,
+    "p95": 1062.1,
+    "uiJs": 0.09,
+    "js": 11.04,
+    "frames": 31
+   },
+   "qa2VsQa1MeanPct": 4.3
+  },
+  "desktop 1920x1080 | Level 0 dark, flashlight (menus closed)": {
+   "qa1": {
+    "n": 4,
+    "mean": 925.5,
+    "p95": 1321.5,
+    "uiJs": 0.017,
+    "js": 5.55,
+    "frames": 22
+   },
+   "qa2": {
+    "n": 4,
+    "mean": 902.5,
+    "p95": 1344.0,
+    "uiJs": 0.009,
+    "js": 5.77,
+    "frames": 24
+   },
+   "qa2VsQa1MeanPct": -2.5
+  },
+  "touch 390x844 | menu idle": {
+   "qa1": {
+    "n": 2,
+    "mean": 290.2,
+    "p95": 340.6,
+    "uiJs": 0.028,
+    "js": 3.8,
+    "frames": 31
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 265.0,
+    "p95": 318.2,
+    "uiJs": 0.048,
+    "js": 3.52,
+    "frames": 35
+   },
+   "qa2VsQa1MeanPct": -8.7
+  },
+  "touch 390x844 | settings open (over the menu)": {
+   "qa1": {
+    "n": 2,
+    "mean": 258.9,
+    "p95": 296.5,
+    "uiJs": 0.111,
+    "js": 4.1,
+    "frames": 36
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 271.8,
+    "p95": 323.6,
+    "uiJs": 0.026,
+    "js": 4.75,
+    "frames": 33
+   },
+   "qa2VsQa1MeanPct": 5.0
+  },
+  "touch 390x844 | customize open (over the menu)": {
+   "qa1": {
+    "n": 2,
+    "mean": 326.3,
+    "p95": 382.9,
+    "uiJs": 1.181,
+    "js": 7.87,
+    "frames": 28
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 334.7,
+    "p95": 460.0,
+    "uiJs": 1.493,
+    "js": 9.47,
+    "frames": 25
+   },
+   "qa2VsQa1MeanPct": 2.6
+  },
+  "touch 390x844 | Level 0 lit, standing (menus closed)": {
+   "qa1": {
+    "n": 2,
+    "mean": 827.4,
+    "p95": 1081.8,
+    "uiJs": 0.034,
+    "js": 15.29,
+    "frames": 13
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 656.4,
+    "p95": 755.9,
+    "uiJs": 0.012,
+    "js": 5.28,
+    "frames": 16
+   },
+   "qa2VsQa1MeanPct": -20.7
+  },
+  "touch 390x844 | Level 0 lit, walking (menus closed)": {
+   "qa1": {
+    "n": 2,
+    "mean": 759.0,
+    "p95": 935.7,
+    "uiJs": 0.139,
+    "js": 11.88,
+    "frames": 18
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 666.2,
+    "p95": 787.7,
+    "uiJs": 0.119,
+    "js": 8.56,
+    "frames": 19
+   },
+   "qa2VsQa1MeanPct": -12.2
+  },
+  "touch 390x844 | Level 0 dark, flashlight (menus closed)": {
+   "qa1": {
+    "n": 2,
+    "mean": 677.2,
+    "p95": 810.6,
+    "uiJs": 0.067,
+    "js": 4.11,
+    "frames": 15
+   },
+   "qa2": {
+    "n": 2,
+    "mean": 696.4,
+    "p95": 826.2,
+    "uiJs": 0.015,
+    "js": 6.22,
+    "frames": 15
+   },
+   "qa2VsQa1MeanPct": 2.8
+  }
+ }
+}

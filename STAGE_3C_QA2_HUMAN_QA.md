@@ -1,12 +1,13 @@
 # Stage 3C QA2: what to check by hand
 
-**Status: DRAFT - QA2-4 work in progress (preservation checkpoint). Not yet a human-QA candidate.**
+**Status: `STAGE 3C UI QA2 HUMAN-QA CANDIDATE — WAITING FOR USER`**
 
 QA2 corrects the QA1 menu from your review:
 - your supplied logo is the main-menu title;
 - the menu stands on pure black, with no Level 0 behind it;
 - the page is black from its first frame until everything the menu needs (your theme included) is ready;
-- the menu and its theme then start as one event.
+- the menu and its theme then start as one event: your logo powers on first with the Intro, and the rest of the menu follows;
+- returning from a run fades the game's sound and the world down to black before the menu (logo first again) comes back.
 
 Nothing else changes: the receipt proves file by file that the world, lighting (BR-RoLE), camera, monsters, movement, network, HUD, keybinds, touch layout, Customize and the installable app are QA1's.
 
@@ -39,7 +40,11 @@ Most browsers want a click, key or tap before a page may play sound, at least on
 
 ## C. The menu starts
 The key, click or tap from B.
-- **The start:** the line vanishes and the menu fades in from black, about 0.4 s, whole. The first notes of your theme's Intro start with it.
+- **The start:** the line vanishes and the screen stays black for an instant. Then:
+  1. **Your logo powers on first,** stuttering on for about half a second like a fluorescent tube striking. The first notes of your theme's Intro start at the same moment.
+  2. **The rest follows, in order:** `LEVEL 0  THRESHOLD` and PLAY rise into place, then CUSTOMIZE / SETTINGS / CREDITS, then the left rail, the right rail, and last the credit and version.
+  3. **It is settled** about 1.2 s after the logo lit, and nothing moves after that.
+- **With reduced motion** (Settings, or your system's setting), the order is the same, but every part simply fades in quickly, the logo included. There is no flicker.
 - **The click itself:** clicking or tapping where PLAY is does not open PLAY's entry. The press only enters.
 - **Logo:** it is your supplied file, unaltered.
   - Your PNG is transparent around the lettering, and most of the "sign" behind it is almost fully transparent (alpha 1 to 31 of 255).
@@ -51,7 +56,7 @@ The key, click or tap from B.
 Open `STAGE_3C_QA2_MENU_COMPARISON.jpg` beside the game (QA1 on the left, QA2 on the right).
 - **Layout:** the logo is high and centred; `LEVEL 0  THRESHOLD` sits above PLAY; PLAY is the largest control; CUSTOMIZE / SETTINGS / CREDITS form a row under it.
 - **Rails:** your name, light and connection are in the left rail; Settings, Your wanderer, Sound and Help are in the right rail; the credit and the version are at the bottom.
-- **Check:** no world anywhere, at any window size. The only motion on an idle menu is the logo's rare under-a-second flicker (every 25 to 55 s).
+- **Check:** no world anywhere, at any window size. Once the entrance is over, the only motion on an idle menu is the logo's rare under-a-second flicker (every 25 to 55 s).
 
 ## E. Phone, portrait (about 390 x 844)
 - **Layout:** identity at the top left, the four rail buttons at the top right, then the logo, then PLAY low with the row under it.
@@ -72,13 +77,17 @@ Open Settings, Credits, Help (the "i"), Customize, and PLAY's entry, closing eac
 ## H. ENTER LEVEL 0
 PLAY, then ENTER LEVEL 0.
 - **Music:** it fades out over about a second.
-- **Screen:** it goes black for a moment and then fades to the world. The LEVEL 0 reveal comes in as the run begins. On a normal GPU the black lasts well under a second; the evidence machine renders in software and takes longer.
+- **Screen:** it goes black for a moment, then fades to the world. The LEVEL 0 reveal comes in as the run begins. On a normal GPU the black lasts well under a second; the evidence machine renders in software and takes longer.
 - **Check:** the logo never shows over the game. No half-made world frame shows (the world appears only once the run has started). The halls' own ambience starts here and never together with the menu music.
 
 ## I. Back to the menu
-In the run: Esc, END RUN (NEW RUN), then END in the run menu.
-- **The menu:** the black menu comes back, with nothing of the world behind it.
-- **The music:** your theme starts again from the Intro. There is no second download, because it was kept from the first.
+In the run: Esc, then NEW RUN, then END in the run menu.
+1. **Fade down:** the run menu and the world fade to full black over about 0.8 s. The game's own sound fades out with them: the halls' hum, footsteps and any threat sounds. Clicks during the fade do nothing.
+2. **The return:** on full black the run ends as before, and the menu comes back exactly as in scene C: your logo powers on first, your theme starts again from the Intro with it, then the rest arrives in the same order.
+3. **On the menu:** nothing of the world is seen, and nothing of the halls is heard; only your theme plays. There is no second download, because the music was kept from the first.
+4. **Your next ENTER LEVEL 0** brings the halls' sound back at its normal level.
+
+Only what you hear changes. The monsters' hearing, the noise your movement makes for them, the server and the network behave exactly as before.
 
 ## J. Everything QA1 gave you
 - **Before ENTER:** no wanderer at the spawn in a second window's world (QA1 scene C).

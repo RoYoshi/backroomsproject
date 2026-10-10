@@ -1,0 +1,145 @@
+{"state":"menu idle","frames":8,"pageMs":{"mean":639.2,"p95":768.8},"uiJsMsPerFrame":0,"jsMsPerFrame":4.88,"previewDrawsPerSec":0}
+{"state":"settings open (over the menu)","frames":7,"pageMs":{"mean":590.7,"p95":745.3},"uiJsMsPerFrame":0.028,"jsMsPerFrame":5.31,"previewDrawsPerSec":0}
+{"state":"customize open (over the menu)","frames":7,"pageMs":{"mean":728.9,"p95":1001.7},"uiJsMsPerFrame":1.328,"jsMsPerFrame":9.31,"previewDrawsPerSec":3.9}
+{"state":"Level 0 lit, standing (menus closed)","frames":6,"pageMs":{"mean":931.5,"p95":1342.7},"uiJsMsPerFrame":0.03,"jsMsPerFrame":7.58,"previewDrawsPerSec":0}
+{"state":"Level 0 lit, walking (menus closed)","frames":8,"pageMs":{"mean":867.2,"p95":933.5},"uiJsMsPerFrame":0.094,"jsMsPerFrame":8.88,"previewDrawsPerSec":0}
+{"state":"Level 0 dark, flashlight (menus closed)","frames":5,"pageMs":{"mean":965,"p95":1364.7},"uiJsMsPerFrame":0,"jsMsPerFrame":6.5,"previewDrawsPerSec":0}
+[ui_lib_gate] navigations: 1 {"none":1}, longest wait 2 ms
+{"state":"menu idle","frames":9,"pageMs":{"mean":556.9,"p95":741.4},"uiJsMsPerFrame":0.042,"jsMsPerFrame":3.82,"previewDrawsPerSec":0}
+{"state":"settings open (over the menu)","frames":7,"pageMs":{"mean":612.6,"p95":714.6},"uiJsMsPerFrame":0.026,"jsMsPerFrame":6.31,"previewDrawsPerSec":0}
+{"state":"customize open (over the menu)","frames":8,"pageMs":{"mean":661,"p95":767.3},"uiJsMsPerFrame":1.118,"jsMsPerFrame":8.04,"previewDrawsPerSec":4}
+{"state":"Level 0 lit, standing (menus closed)","frames":5,"pageMs":{"mean":980.2,"p95":1442.2},"uiJsMsPerFrame":0,"jsMsPerFrame":5.93,"previewDrawsPerSec":0}
+{"state":"Level 0 lit, walking (menus closed)","frames":8,"pageMs":{"mean":814,"p95":909.1},"uiJsMsPerFrame":0.097,"jsMsPerFrame":7.15,"previewDrawsPerSec":0}
+{"state":"Level 0 dark, flashlight (menus closed)","frames":6,"pageMs":{"mean":866.8,"p95":1375},"uiJsMsPerFrame":0,"jsMsPerFrame":5.17,"previewDrawsPerSec":0}
+[ui_lib_gate] navigations: 1 {"menu (gate passed by a key)":1}, longest wait 13105 ms
+{"state":"menu idle","frames":8,"pageMs":{"mean":640,"p95":792.8},"uiJsMsPerFrame":0.138,"jsMsPerFrame":6.86,"previewDrawsPerSec":0}
+{"state":"settings open (over the menu)","frames":9,"pageMs":{"mean":579,"p95":720.4},"uiJsMsPerFrame":0.066,"jsMsPerFrame":4.56,"previewDrawsPerSec":0}
+{"state":"customize open (over the menu)","frames":7,"pageMs":{"mean":647.8,"p95":726},"uiJsMsPerFrame":1.264,"jsMsPerFrame":10.48,"previewDrawsPerSec":3.5}
+{"state":"Level 0 lit, standing (menus closed)","frames":6,"pageMs":{"mean":931.8,"p95":1391.4},"uiJsMsPerFrame":0,"jsMsPerFrame":7.88,"previewDrawsPerSec":0}
+{"state":"Level 0 lit, walking (menus closed)","frames":8,"pageMs":{"mean":831.7,"p95":948.6},"uiJsMsPerFrame":0.029,"jsMsPerFrame":5.48,"previewDrawsPerSec":0}
+{"state":"Level 0 dark, flashlight (menus closed)","frames":6,"pageMs":{"mean":869.1,"p95":1183.3},"uiJsMsPerFrame":0.034,"jsMsPerFrame":5.37,"previewDrawsPerSec":0}
+[ui_lib_gate] navigations: 1 {"none":1}, longest wait 2 ms
+{"state":"menu idle","frames":8,"pageMs":{"mean":610.4,"p95":750},"uiJsMsPerFrame":0.025,"jsMsPerFrame":6.12,"previewDrawsPerSec":0}
+{"state":"settings open (over the menu)","frames":6,"pageMs":{"mean":675.9,"p95":809.3},"uiJsMsPerFrame":0,"jsMsPerFrame":5.58,"previewDrawsPerSec":0}
+{"state":"customize open (over the menu)","frames":7,"pageMs":{"mean":635.2,"p95":716.7},"uiJsMsPerFrame":1.54,"jsMsPerFrame":8.34,"previewDrawsPerSec":3.5}
+{"state":"Level 0 lit, standing (menus closed)","frames":6,"pageMs":{"mean":822.8,"p95":888},"uiJsMsPerFrame":0,"jsMsPerFrame":7.07,"previewDrawsPerSec":0}
+{"state":"Level 0 lit, walking (menus closed)","frames":8,"pageMs":{"mean":885.6,"p95":1034.6},"uiJsMsPerFrame":0.114,"jsMsPerFrame":10.85,"previewDrawsPerSec":0}
+{"state":"Level 0 dark, flashlight (menus closed)","frames":6,"pageMs":{"mean":904,"p95":1397.8},"uiJsMsPerFrame":0,"jsMsPerFrame":5.82,"previewDrawsPerSec":0}
+[ui_lib_gate] navigations: 1 {"menu (gate passed by a key)":1}, longest wait 13639 ms
+{
+ "desktop 1920x1080 | menu idle": {
+  "qa1": {
+   "n": 2,
+   "mean": 639.6,
+   "p95": 780.8,
+   "uiJs": 0.069,
+   "js": 5.87,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 2,
+   "mean": 583.65,
+   "p95": 745.7,
+   "uiJs": 0.034,
+   "js": 4.97,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": -8.7
+ },
+ "desktop 1920x1080 | settings open (over the menu)": {
+  "qa1": {
+   "n": 2,
+   "mean": 584.85,
+   "p95": 732.85,
+   "uiJs": 0.047,
+   "js": 4.93,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 2,
+   "mean": 644.25,
+   "p95": 761.95,
+   "uiJs": 0.013,
+   "js": 5.95,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": 10.2
+ },
+ "desktop 1920x1080 | customize open (over the menu)": {
+  "qa1": {
+   "n": 2,
+   "mean": 688.35,
+   "p95": 863.85,
+   "uiJs": 1.296,
+   "js": 9.89,
+   "preview": 3.7
+  },
+  "qa2": {
+   "n": 2,
+   "mean": 648.1,
+   "p95": 742,
+   "uiJs": 1.329,
+   "js": 8.19,
+   "preview": 3.75
+  },
+  "qa2VsQa1MeanPct": -5.8
+ },
+ "desktop 1920x1080 | Level 0 lit, standing (menus closed)": {
+  "qa1": {
+   "n": 2,
+   "mean": 931.65,
+   "p95": 1367.05,
+   "uiJs": 0.015,
+   "js": 7.73,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 2,
+   "mean": 901.5,
+   "p95": 1165.1,
+   "uiJs": 0,
+   "js": 6.5,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": -3.2
+ },
+ "desktop 1920x1080 | Level 0 lit, walking (menus closed)": {
+  "qa1": {
+   "n": 2,
+   "mean": 849.45,
+   "p95": 941.05,
+   "uiJs": 0.061,
+   "js": 7.18,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 2,
+   "mean": 849.8,
+   "p95": 971.85,
+   "uiJs": 0.106,
+   "js": 9,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": 0
+ },
+ "desktop 1920x1080 | Level 0 dark, flashlight (menus closed)": {
+  "qa1": {
+   "n": 2,
+   "mean": 917.05,
+   "p95": 1274,
+   "uiJs": 0.017,
+   "js": 5.94,
+   "preview": 0
+  },
+  "qa2": {
+   "n": 2,
+   "mean": 885.4,
+   "p95": 1386.4,
+   "uiJs": 0,
+   "js": 5.5,
+   "preview": 0
+  },
+  "qa2VsQa1MeanPct": -3.5
+ }
+}
+EXIT 0

@@ -1,0 +1,182 @@
+{
+ "checkpoint": "R1",
+ "verifiedAt": "2026-10-10T20:18:41Z",
+ "branch": "stage-3c-qa2",
+ "local": {
+  "commit": "06d7ae7a4ba08d0abb9b4b2b616647c2e4ad4a3b",
+  "tree": "98536dbc6196efa16291140b63b25dc013a1f083",
+  "parent": "48bcbe265cc25c655d57bab9c19c4798565054ac"
+ },
+ "lsRemote": "06d7ae7a4ba08d0abb9b4b2b616647c2e4ad4a3b",
+ "githubApi": {
+  "commit": "06d7ae7a4ba08d0abb9b4b2b616647c2e4ad4a3b",
+  "tree": "98536dbc6196efa16291140b63b25dc013a1f083",
+  "parents": [
+   "48bcbe265cc25c655d57bab9c19c4798565054ac"
+  ],
+  "message": "Stage 3C QA2 R1: logo-first menu entrance and run-return transition"
+ },
+ "sinceQa1": [
+  {
+   "commit": "839910fc7e4eb775aaec4d8f8c9216bb4e908a1c",
+   "tree": "3e17f5d8b96d8d8f9794c3c3f4804b67f03d773a",
+   "subject": "Stage 3C QA2 (QA2-0): safety check, the supplied logo inspected, the QA1 boot audited"
+  },
+  {
+   "commit": "663bc4891d0c475a4cabff439c4e1cf42f3a817c",
+   "tree": "1c66b55077b329b3e4bf20967a651ed88e03fe67",
+   "subject": "Stage 3C QA2 (QA2-1): the black boot gate - black from the first paint, the menu revealed whole"
+  },
+  {
+   "commit": "3af362ec2aa5c2c2c4d3f2c1f849fffa28034d2d",
+   "tree": "4907dd44e29b44d449aaddd5a19b6885d00ef292",
+   "subject": "Stage 3C QA2 (QA2-2): the supplied logo on a fully black main menu"
+  },
+  {
+   "commit": "a85c51e4606abe491d2855259a39277f333a298c",
+   "tree": "04a055071851d459b2ba5a1c1f7b17f8a083bd3b",
+   "subject": "Stage 3C QA2 (QA2-3): the menu and its music start together"
+  },
+  {
+   "commit": "48bcbe265cc25c655d57bab9c19c4798565054ac",
+   "tree": "9ab30d0e30b7c92186a4fb42a7d1bacd47a6db96",
+   "subject": "Stage 3C QA2 preservation: integration, regression and packaging work in progress"
+  },
+  {
+   "commit": "06d7ae7a4ba08d0abb9b4b2b616647c2e4ad4a3b",
+   "tree": "98536dbc6196efa16291140b63b25dc013a1f083",
+   "subject": "Stage 3C QA2 R1: logo-first menu entrance and run-return transition"
+  }
+ ],
+ "merges": [],
+ "qa1Parent": {
+  "commit": "5f30e28532200bca52b57a112c6691498a263e92",
+  "tree": "374911e01e2a66706a3938fcd2f7495ee4133a49",
+  "remoteStage3cQa1": "5f30e28532200bca52b57a112c6691498a263e92",
+  "ancestorOfHead": true,
+  "firstQa2CommitsParent": "5f30e28532200bca52b57a112c6691498a263e92"
+ },
+ "first3cAncestor": true,
+ "stage3bAncestor": true,
+ "untouched": {
+  "br-role": {
+   "expected": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "remote": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "ok": true
+  },
+  "lighting-shadows-2d": {
+   "expected": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "remote": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "ok": true
+  },
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "remote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "part-3a": {
+   "expected": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "remote": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "ok": true
+  },
+  "part-3b": {
+   "expected": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "remote": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "ok": true
+  },
+  "stage-3b-l": {
+   "expected": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "remote": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "ok": true
+  },
+  "stage-3b-l-qa1": {
+   "expected": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "ok": true
+  },
+  "stage-3b-l-qa2": {
+   "expected": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "remote": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "ok": true
+  },
+  "stage-3b-n": {
+   "expected": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "remote": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "ok": true
+  },
+  "stage-3b-n-camera": {
+   "expected": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "ok": true
+  },
+  "stage-3b-pillar-los": {
+   "expected": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "remote": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "ok": true
+  },
+  "stage-3b-remaster": {
+   "expected": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "remote": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "ok": true
+  },
+  "stage-3c": {
+   "expected": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "remote": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "ok": true
+  },
+  "stage-3c-qa1": {
+   "expected": "5f30e28532200bca52b57a112c6691498a263e92",
+   "remote": "5f30e28532200bca52b57a112c6691498a263e92",
+   "ok": true
+  },
+  "stage-e": {
+   "expected": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "remote": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "ok": true
+  },
+  "stage-f": {
+   "expected": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "remote": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "ok": true
+  },
+  "stage-g": {
+   "expected": "7fb4dafef92040571209403358e536ccb1105509",
+   "remote": "7fb4dafef92040571209403358e536ccb1105509",
+   "ok": true
+  },
+  "stage-h": {
+   "expected": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "remote": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "ok": true
+  },
+  "stage-i": {
+   "expected": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "remote": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "ok": true
+  }
+ },
+ "otherRemoteBranches": [],
+ "remoteHeads": {
+  "br-role": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+  "lighting-shadows-2d": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+  "main": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+  "part-3a": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+  "part-3b": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+  "stage-3b-l": "b9f3a9b934f40e35d51596f593eae810d077f194",
+  "stage-3b-l-qa1": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+  "stage-3b-l-qa2": "6e6fa46ecab537f716942b94f873776b09049a40",
+  "stage-3b-n": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+  "stage-3b-n-camera": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+  "stage-3b-pillar-los": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+  "stage-3b-remaster": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+  "stage-3c": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+  "stage-3c-qa1": "5f30e28532200bca52b57a112c6691498a263e92",
+  "stage-3c-qa2": "06d7ae7a4ba08d0abb9b4b2b616647c2e4ad4a3b",
+  "stage-e": "da90dbb48ac4702d666d26c638fe074a78478212",
+  "stage-f": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+  "stage-g": "7fb4dafef92040571209403358e536ccb1105509",
+  "stage-h": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+  "stage-i": "106c87015ae8702f452979e0277cbacb5435fa6a"
+ },
+ "ok": true
+}

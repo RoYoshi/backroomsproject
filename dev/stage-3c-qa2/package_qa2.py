@@ -40,6 +40,7 @@ from pathlib import Path
 REPO, COMMIT, OUT, EV, name = Path(sys.argv[1]), sys.argv[2], Path(sys.argv[3]), Path(sys.argv[4]), sys.argv[5]
 PARENT = '5f30e28532200bca52b57a112c6691498a263e92'; PARENT_TREE = '374911e01e2a66706a3938fcd2f7495ee4133a49'
 FIRST3C = '76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace'; FIRST3C_TREE = 'd8f0949500168294e3856d64ff24df111dc76bd2'
+R1 = '06d7ae7a4ba08d0abb9b4b2b616647c2e4ad4a3b'                                   # the QA2 probes' source tree (probe_b1..b3 ran on it; R1/R2)
 STAGE3B = '6e6fa46ecab537f716942b94f873776b09049a40'; STAGE3B_TREE = '33ed11b672d3a2a45767accccbb9f04fdd7949c3'
 QA2_UI = {'assets/ui.js', 'assets/ui.css'}
 LOGO = {'assets/MAIN_MENU_LOGO_USER_SUPPLIED.png': '906e19a8f4423bc7b2a7bf924a05201b3b2ba2c13753df3eec6eb6abc9cb9cb9'}
@@ -135,7 +136,9 @@ def reg_line(p):
             + (f", {len(art)} timing-sensitive (fails on QA1 too under software rendering; evidence listed)" if art else ''))
 reg_counts = {k: reg_line(p) for k, p in reg_rows.items()}
 life = reg_rows.get('lifecycle_mp', {}); life_ok = bool(life.get('checks')) and all(c['ok'] for c in life['checks'])
-scope_ok = (anc and anc1 and anc3b and parent_tree == PARENT_TREE and first_tree == FIRST3C_TREE and s3b_tree == STAGE3B_TREE and not merges and not outside
+src_since_r1 = [l for l in git('diff', '--name-only', R1, commit).splitlines() if l and not l.startswith(('dev/', 'STAGE_3C_QA2_'))]
+r1_anc = subprocess.run(['git', '-C', str(REPO), 'merge-base', '--is-ancestor', R1, commit]).returncode == 0
+scope_ok = (r1_anc and not src_since_r1 and anc and anc1 and anc3b and parent_tree == PARENT_TREE and first_tree == FIRST3C_TREE and s3b_tree == STAGE3B_TREE and not merges and not outside
             and all(v == 'unchanged' for v in protected.values()) and not protected_dirs)
 accounted_ok = index_exact and ids_kept and ids_added_ok
 R = {'package': zpath.name, 'sha256': sha, 'bytes': zpath.stat().st_size, 'zipIntegrity': bad_zip is None, 'zipEntries': entries, 'commit': commit, 'tree': tree,
@@ -146,7 +149,7 @@ R = {'package': zpath.name, 'sha256': sha, 'bytes': zpath.stat().st_size, 'zipIn
      'accounted': {'indexHtmlIsQa1PlusTheFourQa2Edits': index_exact, 'indexHtmlKeepsEveryQa1Id': ids_kept, 'indexHtmlIdsAdded': ids_added, 'indexHtmlIdsAddedAsExpected': ids_added_ok},
      'logo': {'sha256': logo, 'asSupplied': logo_ok}, 'themeAudio': {'sha256': audio, 'asLocked': audio_ok, 'check': THEME.get('seams')},
      'cameraTests': cam_lines, 'cameraFairness': [l for l in FAIR.splitlines() if 'CAMERA FAIRNESS' in l], 'brRole': {'pass': sum(l.startswith('PASS') for l in br_lines), 'total': len(br_lines)},
-     'probes': probe_counts, 'regression': reg_counts, 'lifecycle': life.get('checks'), 'shipped': shipped, 'written': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
+     'probesSourceTree': {'r1': R1, 'r1IsAncestor': r1_anc, 'shippedFilesChangedSinceR1': src_since_r1}, 'probes': probe_counts, 'regression': reg_counts, 'lifecycle': life.get('checks'), 'shipped': shipped, 'written': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}
 R['ok'] = bool(bad_zip is None and not missing and not extra and not mism and remote_ok and untouched_ok and scope_ok and accounted_ok and logo_ok and audio_ok and camera_ok
                and br_ok and life_ok and all(probes_ok.values()) and reg_ok)
 (OUT / 'receipt.json').write_text(json.dumps(R, indent=1) + '\n')
@@ -184,6 +187,7 @@ T = ['THE FAR BACKROOMS - Stage 3C QA2 (main menu branding / black background / 
      *[f'  {f:<32} {v}' for f, v in protected.items()],
      f'  {"dev/ai_src/, dev/ents_src/, dev/tests/, dev/br-role/, dev/stage-3b*, dev/shadows/, dev/stage-3c/, dev/stage-3c-qa1/, sounds/, audio_source/":<32} {"unchanged" if not protected_dirs else "CHANGED: " + ", ".join(protected_dirs)}', '',
      '== Checks on the final tree ==',
+     f'probe_b1..b3 ran on R1 {R1[:7]} (an ancestor: {yn(r1_anc)}); shipped files changed between R1 and this commit: {len(src_since_r1)}' + (' -> ' + ', '.join(src_since_r1) if src_since_r1 else ' (the same source)'),
      *[f'{k} (dev/stage-3c-qa2/{k}.js): {probe_counts[k]} {"PASS" if probes_ok[k] else "FAIL"}' for k in PROBES],
      'the older probes re-run on QA2 (dev/stage-3c-qa2/regress/run.js; originals unchanged):',
      *[f'  {k} ({reg_rows[k]["source"]}): {reg_counts[k]}' for k in reg_rows],

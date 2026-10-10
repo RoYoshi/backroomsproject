@@ -1,0 +1,15 @@
+FAIL a pre-3C fb_settings_v1 save loads unchanged, gains rm = "auto", and is written back complete  - {"model":{"c":"#ff6b5e","s":1.3,"o":0.7,"keys":false,"coords":false,"title":false,"auto":true,"vol":0.4,"rm":"auto","v":2},"stored":{"c":"#ff6b5e","s":1.3,"o":0.7,"keys":false,"coords":false,"title":false,"auto":true,"vol":0.4,"rm":"auto","v":2},"hs":"1.3","cls":["hud-nokeys","hud-notitle","hud-nocoords","hudc"]}
+PASS the Settings page shows the saved values  - {"ui":{"size":"130%","op":"70%","keys":"false","title":"false","red":"true"},"vol":"40%"}
+PASS keyboard: arrows move through the pages and a radio group (choosing as they go); Tab stays in Settings  - {"pg":{"focus":"stTab_graphics","shown":["stPage_graphics"]},"r0":"auto","r1":{"rm":"on","focus":"on","rmCls":true},"r2":"auto","inside":true}
+PASS only real controls: no zoom, awareness, field-of-view or radar setting  - []
+PASS text tokens meet 4.5:1 on every panel (and dark text on the yellow buttons)  - {"--u-cream on --u-void":15.98,"--u-cream on --u-panel":14.9,"--u-cream on --u-panel2":14.13,"--u-text on --u-void":12.78,"--u-text on --u-panel":11.91,"--u-text on --u-panel2":11.3,"--u-mute on --u-void":7.31,"--u-mute on --u-panel":6.82,"--u-mute on --u-panel2":6.46,"--u-moss on --u-void":7.91,"--u-moss on --u-panel":7.37,"--u-moss on --u-panel2":6.99,"--u-moss-dim on --u-void":5.89,"--u-moss-dim on --u-panel":5.49,"--u-moss-dim on --u-panel2":5.21,"--u-sick-hi on --u-void":14.6,"--u-sick-hi on --u-panel":13.61,"--u-sick-hi on --u-panel2":12.9,"--u-danger-hi on --u-void":7.5,"--u-danger-hi on --u-panel":6.99,"--u-danger-hi on --u-panel2":6.63,"--u-on-sick on --u-sick":10.47}
+PASS Escape closes Settings
+PASS damaged values fall back: colour to default, size and opacity clamped, volume to its default, reduced motion to System  - {"c":"","s":2,"o":0.3,"keys":true,"coords":false,"title":true,"auto":true,"vol":1,"rm":"auto","v":2}
+PASS System follows a device that asks for reduced motion; Off overrides it (the fixture hums again)  - {"a1":{"rm":true,"anim":"none"},"a2":{"rm":false,"anim":"mmHum","note":""}}
+PASS a saved "On" holds from the first frame on a device that does not ask (no entrance, no flicker)  - {"atStart":true,"rm":true,"enter":false,"anim":"none"}
+PASS reduced motion also stills the HUD entrance  - {"walk":"none","obj":"none"}
+PASS no page errors  - []
+SOME CHECKS FAILED
+[ui_lib_gate] navigations: 4 {"menu (gate passed by a key)":4}, longest wait 13632 ms
+
+EXIT 1

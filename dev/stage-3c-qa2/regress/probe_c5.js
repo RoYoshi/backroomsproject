@@ -1,5 +1,6 @@
 /* ADAPTED COPY of dev/stage-3c-qa1/first_candidate/probe_c5.js for Stage 3C QA2 - written by dev/stage-3c-qa2/regress/run.js; do not edit by hand.
  *   - helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it
+ *   - QA2 R1 (the user's return choreography): END first fades the run and the game's sound down to black (0.8 s, then 0.12 s of black) before the game's own END runs, and the menu then makes its logo-first entrance; the copy waits for the menu and its entrance instead of a fixed 0.9 s. Every assertion after it is unchanged
  */
 /* ADAPTED COPY of dev/stage-3c/probe_c5.js for Stage 3C QA1 - written by dev/stage-3c-qa1/first_candidate/run.js; do not edit by hand.
  *   - QA1 Q1: after END, ENTER LEVEL 0 is in the entry that PLAY opens. The check still requires exactly one join
@@ -71,7 +72,7 @@ const RAF = () => { const raf = window.requestAnimationFrame.bind(window); windo
       await P.evaluate(() => __api.win()); await sleep(600); await P.click('#playAgain'); await sleep(1500);
       const w1 = await P.evaluate(() => ({ st: __ui.state(), started: __api.started() }));
       await P.keyboard.press('Escape'); await sleep(500); await P.click('#reset'); await P.waitForFunction(() => __ui.state() === 'run', null, { timeout: 15000 }).catch(() => { });
-      await P.click('#runEnd'); await sleep(900);
+      await P.click('#runEnd'); await P.waitForFunction(() => __ui.state() === 'menu' && !document.getElementById('menu').classList.contains('mm-intro'), null, { timeout: 20000 }).catch(() => { }); await sleep(300);
       const m1 = await P.evaluate(() => ({ st: __ui.state(), cls: document.body.classList.contains('ui-menu'), focus: document.activeElement && document.activeElement.dataset.go, header: getComputedStyle(document.querySelector('body > header')).visibility }));
       await P.evaluate(() => { window.__j0 = (window.__sent || []).filter(x => /"t":"join"/.test(x[1])).length; });
       await P.click('#mmPlay'); await sleep(900); await P.click('#enter'); await sleep(2000);

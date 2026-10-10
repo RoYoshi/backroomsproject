@@ -48,7 +48,9 @@ const SOURCES = {
   probe_c4: { src: 'dev/stage-3c-qa1/first_candidate/probe_c4.js', adapt: [SHIM_C,
     { from: "getComputedStyle(t.querySelector('span')).animationName", to: "getComputedStyle(t.querySelector('.mm-logo')).animationName", n: 3,
       why: LOGO_WHY + 'the title\'s occasional hum (the same mmHum keyframes) now dims the image, so the forced hum is read from it' }], port: 9976, qa1: true },
-  probe_c5: { src: 'dev/stage-3c-qa1/first_candidate/probe_c5.js', adapt: [SHIM_C], port: 9978, qa1: true, shots: true },
+  probe_c5: { src: 'dev/stage-3c-qa1/first_candidate/probe_c5.js', adapt: [SHIM_C,
+    { from: "await P.click('#runEnd'); await sleep(900);", to: "await P.click('#runEnd'); await P.waitForFunction(() => __ui.state() === 'menu' && !document.getElementById('menu').classList.contains('mm-intro'), null, { timeout: 20000 }).catch(() => { }); await sleep(300);", n: 1,
+      why: 'QA2 R1 (the user\'s return choreography): END first fades the run and the game\'s sound down to black (0.8 s, then 0.12 s of black) before the game\'s own END runs, and the menu then makes its logo-first entrance; the copy waits for the menu and its entrance instead of a fixed 0.9 s. Every assertion after it is unchanged' }], port: 9978, qa1: true, shots: true },
   lifecycle_mp: { src: 'dev/tests/lifecycle_mp.py', py: true, port: 9988, adapt: [
     { from: "ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))",
       to: "ROOT=os.environ.get('GAME') or os.path.join(_HERE,'..','..','..')", n: 1, why: 'the game folder from the copy\'s location (or GAME)' },
@@ -77,6 +79,10 @@ const ARTIFACTS = {
       artifact: 'dev/stage-3c-qa2/evidence/q4/q3_timing/: QA1\'s own dev/stage-3c-qa1/probe_q3.js on the QA1 tree (5f30e28) and the QA2 copy, three runs each, interleaved',
       why: 'The reveal is three chained timers (0.45 s + 3.8 s + 1.3 s = 5.55 s); the probe looks once, 7.3 s after the HUD appears. Under the software renderer each timer fires up to a frame late (300-700 ms frames), so the reveal is sometimes still fading at 7.3 s - on QA1 as on QA2 (measured in play: the reveal gone at 7.7-7.8 s on QA1, 6.7-6.9 s on QA2). QA2 changes no HUD or reveal code (hud.js unchanged; the reveal code in ui.js is QA1\'s)' } }
 };
+ARTIFACTS.probe_q4 = {
+  'frame for frame the stick walks at exactly the keyboard\'s speed: right, diagonal (normalised by the game: no analog advantage), left, and sprinting with RUN held by a second finger at the same time': {
+    artifact: 'dev/stage-3c-qa2/evidence/r3/q4_compare/: QA1\'s own dev/stage-3c-qa1/probe_q4.js on the QA1 tree (5f30e28), two runs, and the QA2 copy once, interleaved',
+    why: 'The check compares per-tick speeds measured by the key and by the stick in turn, up to three attempts, and also requires no attempt\'s stick reading to exceed the fastest key reading. Under the software renderer the readings wobble (a few 0.01 % to 5 %, in both directions): QA1\'s own probe failed this check on the QA1 tree in both comparison runs (run 1: the diagonal never matched in three attempts; run 2: a left-stick reading of 3.009143 against the key\'s 2.865811 - the very reading the QA2 copy failed on in R3), and QA1 Q5 had already added the retries for this artifact. The QA2 copy failed it in 2 of its 4 runs and passed in 2. QA2 changes no movement, input or touch code (the stick is QA1\'s, in ui.js, unchanged)' } };
 const qa1Sup = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'dev/stage-3c-qa1/evidence/q5/first_candidate/first_candidate_probes.json'), 'utf8')).probes; } catch (e) { return {}; } })();
 const names = Object.keys(SOURCES).filter(n => !ONLY || ONLY.includes(n));
 const adapted = {};
@@ -90,6 +96,20 @@ for (const n of names) {
   adapted[n] = why;
 }
 if (argv.includes('--generate-only')) { console.log('adapted copies written'); process.exit(0); }
+/* --rescore: run nothing; re-read OUT/regression.json and classify its failing checks again with the lists above (a reason added
+   after the run, with its evidence). Passing checks and every recorded reading stay as they were. */
+if (argv.includes('--rescore')) {
+  const J = JSON.parse(fs.readFileSync(path.join(OUT, 'regression.json'), 'utf8'));
+  for (const [n, p] of Object.entries(J.probes)) {
+    p.checks = p.checks.map(c => c.ok || c.supersededBy || c.artifact ? c : Object.assign({}, c, (SUPERSEDED[n] || {})[c.name] || (ARTIFACTS[n] || {})[c.name] || {}));
+    p.unexplained = p.checks.filter(c => !c.ok && !c.supersededBy && !c.artifact).map(c => c.name);
+    console.log(`${n}: ${p.checks.filter(c => c.ok).length}/${p.checks.length} pass, ${p.checks.filter(c => !c.ok && c.supersededBy).length} superseded, ${p.checks.filter(c => !c.ok && c.artifact).length} timing (also on QA1), ${p.unexplained.length} unexplained${p.crashed ? ', CRASHED' : ''}`);
+  }
+  J.ok = Object.values(J.probes).every(p => !p.crashed && !p.unexplained.length); J.rescoredAt = new Date().toISOString();
+  fs.writeFileSync(path.join(OUT, 'regression.json'), JSON.stringify(J, null, 1) + '\n');
+  console.log(J.ok ? 'REGRESSION: CLEAN (every check passes or is a listed supersession or timing artifact)' : 'REGRESSION: PROBLEMS');
+  process.exit(J.ok ? 0 : 1);
+}
 fs.mkdirSync(OUT, { recursive: true });
 const probes = {}; let clean = true;
 for (const n of names) {
