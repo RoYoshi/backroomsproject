@@ -1,7 +1,8 @@
-/* THE FAR BACKROOMS - Stage 3C UI controller.
+/* THE FAR BACKROOMS - Stage 3C UI controller (QA1: the main menu rebuilt from the user's rough draft, and its theme).
  *
- * One owner for the game's menus: the main menu (PLAY / CUSTOMIZE / SETTINGS / CREDITS), the shared sheet behaviour (open,
- * close, focus trap, Escape, focus return), the Settings and Credits pages, reduced motion, and the run-state focus hooks.
+ * One owner for the game's menus: the main menu (PLAY and its entry / CUSTOMIZE / SETTINGS / CREDITS, the identity rail, the
+ * utility rail), the main-menu theme, the shared sheet behaviour (open, close, focus trap, Escape, focus return), the Settings,
+ * Credits and Help pages, reduced motion, and the run-state focus hooks.
  *
  * It never re-implements what the game does. The game bundle wires its own buttons by id (#enter starts a run, #customize
  * opens the customize panel, #help pauses, #resume / #reset / #retry / #playAgain / #runSpawn / #runEnd ...); this file
@@ -10,11 +11,12 @@
  * Event-driven: no per-frame work, except the menu's pointer parallax (one style write per animation frame, and only while
  * the menu is open and the pointer moves).
  *
- *   window.__ui = { version, go(view, sub), state(), settingsPages(), close() }   (go: 'home' | 'play' | 'customize' |
- *   'settings' | 'credits' | 'controls'; sub: a settings page or a customize tab) */
+ *   window.__ui = { version, go(view, sub), state(), settingsPages(), close(), entryOpen(), theme }   (go: 'home' | 'play' |
+ *   'customize' | 'settings' | 'credits' | 'controls' | 'help'; sub: a settings page or a customize tab; 'play' opens the entry,
+ *   'home' closes it; theme.info() reports the menu music's state) */
 (() => {
   'use strict';
-  const VERSION = 'stage-3c';
+  const VERSION = 'stage-3c-qa1';
   const $ = id => document.getElementById(id);
   const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
   const shown = el => !!el && !el.hidden && el.getClientRects().length > 0;
@@ -102,7 +104,9 @@
     else if (!e.shiftKey && (i === -1 || i === f.length - 1)) { e.preventDefault(); f[0].focus(); }
   }
   addEventListener('keydown', e => {
-    const m = topModal(); if (!m) return;
+    const m = topModal();
+    if (!m && e.key === 'Escape' && entryOpen && vis('menu') && !vis('appearancePanel')) { e.preventDefault(); e.stopImmediatePropagation(); closeEntry(true); return; }
+    if (!m) return;
     if (e.key === 'Escape' && m.sheet) { e.preventDefault(); e.stopImmediatePropagation(); closeSheet(); return; }
     if (e.key === 'Tab') { trap(m.el, e); e.stopImmediatePropagation(); }       // focus stays in the modal; the inventory's TAB does not fire under it
   }, true);
@@ -116,58 +120,265 @@
     if (t.matches('button,[role=switch],[role=tab],[role=radio],a[href]')) e.stopPropagation();
   });
 
-  /* ---------------------------------------------------------------- the main menu */
-  const menu = $('menu');
-  const navBtns = () => [...menu.querySelectorAll('.mm-item')];
-  let current = 'play';
+  /* ---------------------------------------------------------------- the main menu (QA1: built from the user's rough draft)
+     PLAY opens the entry (Level 0, your name and light, ENTER LEVEL 0). Only ENTER LEVEL 0 - the game's own #enter - starts a run. */
+  const menu = $('menu'), stageEl = $('mmStage'), entryEl = $('mmEntry');
+  const navBtns = () => [...menu.querySelectorAll('.mm-play,.mm-row .mm-item')];
+  let current = 'play', entryOpen = false, guardUntil = 0;
   function syncNav() {
     const top = stack.length ? stack[stack.length - 1].el.id : (vis('appearancePanel') ? 'appearancePanel' : '');
-    current = top === 'uiSettings' ? 'settings' : top === 'uiCredits' ? 'credits' : top === 'appearancePanel' ? 'customize' : 'play';
-    navBtns().forEach(b => { const on = b.dataset.go === current; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+    current = top === 'uiSettings' ? 'settings' : top === 'uiCredits' ? 'credits' : top === 'uiHelp' ? 'help' : top === 'appearancePanel' ? 'customize' : 'play';
+    if (!menu) return;
+    menu.querySelectorAll('.mm-row [data-go],.mm-util [data-go]').forEach(b => { const on = b.dataset.go === current; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
   }
+  const NAME_FALLBACK = 'Wanderer';
+  const nm = $('name');
+  const saveName = () => { try { const v = (nm && nm.value || '').trim(); if (v) localStorage.setItem(NAME_KEY, v); else localStorage.removeItem(NAME_KEY); } catch (e) { } };
+  const nameNow = () => ((nm && nm.value || '').trim() || NAME_FALLBACK);
+  function openEntry(byPointer) {
+    if (!entryEl || !vis('menu')) return;
+    if (!entryOpen) { entryOpen = true; stageEl.hidden = true; entryEl.hidden = false; menu.classList.add('in-entry'); }
+    // a double click on PLAY must not also press ENTER LEVEL 0, which now sits under the pointer
+    guardUntil = byPointer ? Date.now() + 450 : 0;
+    menuRefresh(); entryFit();
+    const e = $('enter'); if (e) e.focus({ preventScroll: true });
+  }
+  function closeEntry(focusPlay) {
+    if (!entryOpen) return;
+    entryOpen = false; entryEl.hidden = true; stageEl.hidden = false; menu.classList.remove('in-entry', 'mm-tight');
+    if (focusPlay) { const p = $('mmPlay'); if (p) p.focus({ preventScroll: true }); }
+  }
+  // where the entry would cover the title (a short screen), the title steps back while the entry is open
+  function entryFit() {
+    const t = $('mmTitle'); if (!t) return;
+    menu.classList.remove('mm-tight');
+    if (entryOpen) menu.classList.toggle('mm-tight', entryEl.offsetTop < t.offsetTop + t.offsetHeight + 12);
+  }
+  addEventListener('resize', () => { if (entryOpen) entryFit(); });
   if (menu) {
     menu.addEventListener('click', e => {
       const b = e.target.closest('[data-go]'); if (!b) return;
-      e.preventDefault(); go(b.dataset.go, b.dataset.sub, b);
+      e.preventDefault(); go(b.dataset.go, b.dataset.sub, b, e.detail > 0);
     });
-    menu.addEventListener('keydown', e => {                                  // arrows move through the menu list
-      const b = e.target.closest && e.target.closest('.mm-item'); if (!b) return;
+    menu.addEventListener('keydown', e => {                                  // arrows move through PLAY and its row
+      const b = e.target.closest && e.target.closest('.mm-play,.mm-row .mm-item'); if (!b) return;
       const l = navBtns(), i = l.indexOf(b), d = ['ArrowDown', 'ArrowRight'].includes(e.key) ? 1 : ['ArrowUp', 'ArrowLeft'].includes(e.key) ? -1 : 0;
       if (d) { e.preventDefault(); l[(i + d + l.length) % l.length].focus(); }
     });
-    // parallax: the pointer leans the title and the haze a few pixels (one style write per frame, only while it moves)
+    // parallax: the pointer leans the title a few pixels (one style write per frame, only while the mouse moves)
     let px = 0, py = 0, pend = false;
     menu.addEventListener('pointermove', e => {
       if (e.pointerType !== 'mouse' || reduced()) return;
       px = (e.clientX / innerWidth - .5) * 2; py = (e.clientY / innerHeight - .5) * 2;
       if (!pend) { pend = true; requestAnimationFrame(() => { pend = false; menu.style.setProperty('--mx', px.toFixed(3)); menu.style.setProperty('--my', py.toFixed(3)); }); }
     });
-    const nm = $('name');
-    if (nm) { try { const v = localStorage.getItem(NAME_KEY); if (v && !nm.value) nm.value = v.slice(0, 20); } catch (e) { } }
+    if (nm) {
+      try { const v = localStorage.getItem(NAME_KEY); if (v && !nm.value) nm.value = v.slice(0, 20); } catch (e) { }
+      nm.addEventListener('input', () => { const n = $('mmEntryName'); if (n) n.textContent = nameNow(); });
+      nm.addEventListener('change', saveName);
+    }
     const enter = $('enter');
-    if (enter) enter.addEventListener('click', () => { try { const v = (nm && nm.value || '').trim(); if (v) localStorage.setItem(NAME_KEY, v); else localStorage.removeItem(NAME_KEY); } catch (e) { } }, true);
-    // Enter in the name field starts the run through the game's own handler; remember the name on that path too
-    if (nm) nm.addEventListener('keydown', e => { if (e.key === 'Enter') { try { const v = nm.value.trim(); if (v) localStorage.setItem(NAME_KEY, v); else localStorage.removeItem(NAME_KEY); } catch (er) { } } }, true);
-    const note = $('mmNote'); if (note && coarse()) note.textContent = 'Headphones recommended. Use the on-screen pad to move; tap PAUSE for the menu.';
+    if (enter) enter.addEventListener('click', saveName, true);
+    const rn = $('mmRename');
+    if (rn && nm) rn.addEventListener('click', () => { nm.focus(); nm.select(); });
+    const snd = $('mmSound');
+    if (snd) snd.addEventListener('click', () => { const s = $('sound'); if (s) s.click(); });   // the game's own SOUND ON/OFF
+    const note = $('mmNote'); if (note && coarse()) note.textContent = 'Headphones recommended. Move with the on-screen control, bottom left. PAUSE is top right.';
+    const ver = $('mmVer'), V = window.TFB_CREDITS && TFB_CREDITS.version; if (ver && V) ver.textContent = 'v' + V;
+  }
+  addEventListener('keydown', e => {
+    const t = e.target;
+    // Enter in the name field: on the menu it opens the entry (PLAY); inside the entry it is the game's own start, as before
+    if (e.key === 'Enter' && t && t.id === 'name' && vis('menu')) {
+      saveName();
+      if (!entryOpen) { e.preventDefault(); e.stopImmediatePropagation(); if (!e.repeat) { openEntry(false); if (e.isTrusted) theme.unlock(); } }
+      return;
+    }
+    // a held Enter that opened the entry never repeats into ENTER LEVEL 0
+    if (e.key === 'Enter' && e.repeat && t && t.id === 'enter') { e.preventDefault(); e.stopImmediatePropagation(); }
+  }, true);
+  document.addEventListener('click', e => {
+    if (guardUntil && Date.now() < guardUntil && e.target && e.target.closest && e.target.closest('#enter')) { e.preventDefault(); e.stopImmediatePropagation(); }
+  }, true);
+  // SOUND ON/OFF from anywhere (this rail, Settings, the header): the rail's icon and the theme follow the game's own flag
+  document.addEventListener('click', e => { if (e.target && e.target.closest && e.target.closest('#sound')) soundSync(); });
+  function soundSync() {
+    const Z = window.__api && __api.audio && __api.audio(), on = !(Z && Z.muted), b = $('mmSound');
+    if (b) { b.setAttribute('aria-pressed', on ? 'true' : 'false'); b.setAttribute('aria-label', on ? 'Sound on' : 'Sound off'); b.dataset.tip = on ? 'Sound on' : 'Sound off'; }
+    theme.sync();
   }
 
-  /* the loadout summary on the PLAY panel (drawn once per change: no loop) */
-  function loadoutSummary() {
+  /* what the menu shows about you: name, light, and your wanderer's colours on the little round glyph (drawn once per change) */
+  function menuRefresh() {
     const A = window.__api; if (!A || !A.gear) return;
-    const k = A.gear.eq.kind, cv = $('mmLight');
-    const kn = $('mmKind'), kt = $('mmKindText');
-    if (kn) kn.textContent = KINDS[k] || k;
-    if (kt) kt.textContent = KIND_LINE[k] || '';
-    if (cv && window.__inv && __inv._paint) { try { __inv._paint(cv, k, .78, 0, -.5); } catch (e) { } }
+    const k = A.gear.eq.kind, kn = KINDS[k] || k;
+    const set = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+    set('mmKind', kn); set('mmKindText', KIND_LINE[k] || ''); set('mmEntryKind', kn); set('mmEntryName', nameNow());
+    if (window.__inv && __inv._paint) for (const [id, s] of [['mmLight', .78], ['mmEntryLight', .8]]) { const cv = $(id); if (cv && shown(cv)) { try { __inv._paint(cv, k, s, 0, -.5); } catch (e) { } } }
+    const g = $('mmGlyph'), L = A.look; if (g && L) { g.style.setProperty('--gm', L.main || '#ffcc77'); g.style.setProperty('--gh', L.hands || L.main || '#ffcc77'); }
   }
+  const loadoutSummary = menuRefresh;
+
+  /* the connection, from the game's own line (mp.js: SOLO / CONNECTING / ONLINE · ROOM x · n WANDERERS ...). On the menu you are
+     not in the world, so the line's count (which includes you) becomes "the others inside". Rewritten only when it changes. */
+  const netEl = $('net'), bootAt = Date.now();
+  let connKey = '';
+  function connRefresh() {
+    if (!menu || !vis('menu')) return;
+    const t = (netEl && netEl.textContent || '').trim(), m = /^ONLINE · ROOM (.+?) · (\d+) WANDERERS?\b/.exec(t);
+    const c = m ? { mode: 'online', room: m[1], others: Math.max(0, +m[2] - 1) }
+      : /RECONNECTING/.test(t) ? { mode: 'reconnecting' }
+      : /^CONNECTING/.test(t) || (t === 'SOLO' && Date.now() - bootAt < 5000 && location.protocol !== 'file:') ? { mode: 'connecting' } : { mode: 'solo' };
+    const key = JSON.stringify(c); if (key === connKey) return; connKey = key;
+    const set = (id, v) => { const e = $(id); if (e) e.textContent = v; };
+    set('mmRoom', c.mode === 'online' ? 'Room ' + c.room : 'Connection');
+    const link = $('mmLink'); if (link) { link.textContent = { online: 'Online', reconnecting: 'Reconnecting', connecting: 'Connecting', solo: 'Solo' }[c.mode]; link.dataset.mode = c.mode; }
+    set('mmInside', c.mode === 'online' ? (c.others === 0 ? 'No one else is in the halls right now.' : c.others === 1 ? 'One other wanderer is in the halls right now.' : c.others + ' other wanderers are in the halls right now.')
+      : c.mode === 'connecting' ? 'Looking for the server.' : c.mode === 'reconnecting' ? 'The server dropped. Trying again; you can still play alone.' : 'No server. You will play alone.');
+    set('mmShared', c.mode === 'online' ? 'Everyone in this room walks the same halls and meets the same monsters.' : '');
+  }
+  if (netEl) new MutationObserver(connRefresh).observe(netEl, { childList: true, characterData: true, subtree: true });
+  setTimeout(connRefresh, 5100);
+
+  /* the title's tube dips now and then: a 0.9 s animation every 25-55 s while the menu is up (no animation runs in between) */
+  let humT = 0;
+  function humLater() {
+    clearTimeout(humT);
+    humT = setTimeout(() => {
+      const t = $('mmTitle');
+      if (t && vis('menu') && !reduced() && !document.hidden) { t.classList.remove('hum'); void t.offsetWidth; t.classList.add('hum'); setTimeout(() => t.classList.remove('hum'), 1000); }
+      if (vis('menu')) humLater();
+    }, 25000 + Math.random() * 30000);
+  }
+
+  /* ---------------------------------------------------------------- the main-menu theme (the user's MainTheme)
+     The Intro plays once, the Loop follows it sample-accurately and repeats on its own (the Loop file is the whole repeating body,
+     authored with its own seam). It plays only on the true main menu - through PLAY, Customize, Settings, Credits and Help - fades
+     out over a second when ENTER LEVEL 0 starts the run, and starts again from the Intro when the menu comes back after a run.
+     Its own small Web Audio graph: the game's audio graph only exists once a run starts (creating it starts the halls' ambience),
+     so the menu cannot use it early; the theme follows the game's SOUND ON/OFF flag and the master volume all the same.
+     Autoplay: nothing is created or fetched until the player's first press on the menu. The two files (22.6 MB, PCM, served
+     uncached) are fetched once and then kept in this browser's Cache Storage under their content hashes. No per-frame work. */
+  const THEME = { intro: 'assets/MainTheme_MenuIntro.wav', loop: 'assets/MainTheme_MenuLoop.wav', v: '64b2124b.848db3af', gain: .7, fade: 1, rate: 44100 };
+  const theme = (() => {
+    const CACHE = 'tfb-menu-theme-' + THEME.v;
+    let ctx = null, out = null, bufs = null, loading = null, abort = null, srcs = [], fading = [], want = false, st = 'idle', loadT = 0, stopT = 0, hidPause = false;
+    const T = { plays: 0, loads: 0, fetched: 0, cacheHits: 0, t0: null, loopAt: null, fadeAt: null, fadeEnd: null, error: null };
+    const Z = () => window.__api && __api.audio && __api.audio();
+    const muted = () => { const z = Z(); return !!(z && z.muted); };
+    const vol = () => { const s = window.__settings && __settings.get && __settings.get(); const v = s ? s.vol : window.__vol; return Number.isFinite(v) ? v : 1; };
+    const level = () => muted() ? 0 : THEME.gain * vol();
+    function ensure() {
+      if (ctx) return ctx;
+      const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+      try { ctx = new AC({ sampleRate: THEME.rate, latencyHint: 'playback' }); }     // the files' own rate: decoding never resamples the seams
+      catch (e) { try { ctx = new AC(); } catch (e2) { return null; } }
+      out = ctx.createGain(); out.gain.value = 0; out.connect(ctx.destination);
+      return ctx;
+    }
+    async function get(path, signal) {
+      const url = path + '?v=' + THEME.v;
+      let cache = null, res = null;
+      try { if (window.caches && window.isSecureContext) { cache = await caches.open(CACHE); res = await cache.match(url, { ignoreVary: true }); } } catch (e) { cache = null; res = null; }
+      if (res) { T.cacheHits++; return res.arrayBuffer(); }
+      res = await fetch(url, { signal, credentials: 'same-origin' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const ab = await res.arrayBuffer(); T.fetched++;
+      if (cache) cache.put(url, new Response(ab.slice(0), { headers: { 'Content-Type': 'audio/wav' } })).catch(() => { });
+      return ab;
+    }
+    const decode = ab => new Promise((ok, no) => { const p = ctx.decodeAudioData(ab, ok, no); if (p && p.catch) p.catch(no); });
+    function load() {
+      if (bufs || loading || !ctx) return;
+      st = 'loading'; T.loads++; abort = window.AbortController ? new AbortController() : null;
+      const sig = abort && abort.signal;
+      loading = Promise.all([get(THEME.intro, sig), get(THEME.loop, sig)]).then(([a, b]) => Promise.all([decode(a), decode(b)])).then(([ib, lb]) => {
+        bufs = { intro: ib, loop: lb };
+        try { caches.keys().then(ks => ks.forEach(k => { if (k.indexOf('tfb-menu-theme-') === 0 && k !== CACHE) caches.delete(k); })).catch(() => { }); } catch (e) { }
+        if (want) start(); else st = 'ready';
+      }).catch(e => { T.error = String(e && (e.name || e.message) || e); st = want ? 'error' : 'idle'; }).finally(() => { loading = null; abort = null; });
+    }
+    const loadSoon = ms => { clearTimeout(loadT); loadT = setTimeout(() => { if (want && vis('menu') && !muted()) load(); }, ms); };
+    // the Intro at t0 (on a sample frame), the Loop at the frame right after the Intro's last one, looping its whole buffer
+    function schedule(c, dest, t0, ib, lb) {
+      const a = c.createBufferSource(), b = c.createBufferSource();
+      a.buffer = ib; b.buffer = lb; b.loop = true;
+      a.connect(dest); b.connect(dest);
+      const t1 = t0 + ib.length / c.sampleRate;
+      a.start(t0); b.start(t1);
+      return { a, b, t1 };
+    }
+    function drop() { for (const s of srcs.concat(fading)) { try { s.stop(); } catch (e) { } try { s.disconnect(); } catch (e) { } } srcs = []; fading = []; }
+    function start() {
+      if (!ctx || !bufs) return;
+      drop(); clearTimeout(stopT);
+      const sr = ctx.sampleRate, now = ctx.currentTime, t0 = Math.ceil((now + .06) * sr) / sr;
+      out.gain.cancelScheduledValues(now); out.gain.setValueAtTime(level(), now);
+      const s = schedule(ctx, out, t0, bufs.intro, bufs.loop);
+      srcs = [s.a, s.b]; T.t0 = t0; T.loopAt = s.t1; T.plays++; st = 'playing';
+      if (ctx.state !== 'running' && !document.hidden) ctx.resume().catch(() => { });
+    }
+    function stop(fade) {
+      clearTimeout(loadT);
+      if (loading && abort) abort.abort();                                   // the run started before the music arrived
+      if (!ctx) { st = 'idle'; return; }
+      if (!srcs.length) { if (ctx.state === 'running') ctx.suspend().catch(() => { }); if (st !== 'loading') st = bufs ? 'stopped' : 'idle'; return; }
+      const now = ctx.currentTime, end = now + (fade ? THEME.fade : .03), g = out.gain;
+      g.cancelScheduledValues(now); g.setValueAtTime(g.value, now); g.linearRampToValueAtTime(0, end);
+      const mine = srcs; srcs = []; fading = mine;
+      for (const s of mine) { try { s.stop(end + .01); } catch (e) { } }
+      st = 'fading'; T.fadeAt = now; T.fadeEnd = end;
+      clearTimeout(stopT);
+      stopT = setTimeout(() => { for (const s of mine) { try { s.disconnect(); } catch (e) { } } if (fading === mine) fading = []; if (want) return; st = 'stopped'; ctx.suspend().catch(() => { }); }, (end - now) * 1000 + 150);
+    }
+    function setWant(on) {
+      on = !!on; if (on === want) return; want = on;
+      if (!on) { stop(true); return; }
+      if (!ctx) { st = 'waiting'; return; }                                  // until the first press on the menu
+      if (bufs) start(); else loadSoon(250);
+    }
+    function unlock() {                                                      // a press on the menu: the browser now lets sound start
+      if (!want || !vis('menu')) return;
+      const c = ensure(); if (!c) return;
+      if (c.state !== 'running' && !document.hidden) c.resume().catch(() => { });
+      if (bufs) { if (st !== 'playing') start(); } else if (!loading) loadSoon(250);
+    }
+    function sync() {                                                        // SOUND ON/OFF or the master volume changed
+      if (!ctx || !out) return;
+      if (st === 'playing') out.gain.setTargetAtTime(level(), ctx.currentTime, .05);
+      if (want && !bufs && !loading && !muted() && vis('menu')) loadSoon(0);
+    }
+    const onPress = e => {
+      if (!e.isTrusted) return;                                             // only a real press lets sound start
+      if (e.type === 'pointerdown' && e.pointerType !== 'mouse') return;     // touch and pen unlock on release (the browsers' rule)
+      if (e.type === 'pointerup' && e.pointerType === 'mouse') return;
+      if (e.type === 'keydown' && (e.key === 'Escape' || e.repeat)) return;
+      const t = e.target;
+      if (t && t.closest && t.closest('#enter')) return;                    // this press starts the run: no music for it
+      if (e.type === 'keydown' && e.key === 'Enter' && t && t.id === 'name' && entryOpen) return;
+      unlock();
+    };
+    for (const n of ['pointerdown', 'pointerup', 'touchend', 'keydown', 'click']) addEventListener(n, onPress, { capture: true, passive: true });
+    document.addEventListener('visibilitychange', () => {                   // a hidden tab is silent; the music carries on where it was
+      if (!ctx) return;
+      if (document.hidden) { if (ctx.state === 'running') { hidPause = true; ctx.suspend().catch(() => { }); } }
+      else if (hidPause) { hidPause = false; if (want && srcs.length) ctx.resume().catch(() => { }); }
+    });
+    return {
+      want: setWant, sync, unlock, _schedule: schedule,
+      info: () => ({ state: st, want, ctx: ctx ? ctx.state : null, sampleRate: ctx ? ctx.sampleRate : null, now: ctx ? ctx.currentTime : null, gain: out ? out.gain.value : null, level: level(), muted: muted(),
+        introFrames: bufs ? bufs.intro.length : null, loopFrames: bufs ? bufs.loop.length : null, introRate: bufs ? bufs.intro.sampleRate : null, sources: srcs.length,
+        loopSourceLoops: srcs[1] ? srcs[1].loop : null, loopSourceLoopStart: srcs[1] ? srcs[1].loopStart : null, loopSourceLoopEnd: srcs[1] ? srcs[1].loopEnd : null, ...T, files: THEME }),
+    };
+  })();
 
   /* ---------------------------------------------------------------- navigation */
-  function go(view, sub, opener) {
+  function go(view, sub, opener, byPointer) {
     view = view || 'home';
     if (view === 'home' || view === 'play') {
       closeAll();
       if (vis('appearancePanel')) { const d = $('doneAppearance'); if (d) d.click(); }   // the game's own close (saves, restores the pause state)
-      if (vis('menu')) { syncNav(); if (view === 'play') { const n = $('name'); (n && !coarse() ? n : $('enter'))?.focus({ preventScroll: false }); } }
+      if (vis('menu')) { if (view === 'play') openEntry(!!byPointer); else closeEntry(true); syncNav(); }
       return;
     }
     if (view === 'customize') {
@@ -181,6 +392,23 @@
     }
     if (view === 'settings' || view === 'controls') { buildSettings(); showPage(view === 'controls' ? 'controls' : (sub || lastPage)); openSheet(settingsEl, opener); return; }
     if (view === 'credits') { buildCredits(); openSheet(creditsEl, opener); return; }
+    if (view === 'help') { buildHelp(); openSheet(helpEl, opener); return; }
+  }
+
+  /* ---------------------------------------------------------------- help (the right rail's "i"): how to play, where the controls are */
+  let helpEl = null;
+  function buildHelp() {
+    if (helpEl) return;
+    helpEl = sheet('uiHelp', 'Help');
+    const touch = coarse();
+    helpEl.querySelector('.us-body').innerHTML = `<section class="hp-sec"><h3>How to play</h3>
+<p>Level 0 is a maze of yellow rooms under humming lights. Somewhere a wall is glitching: find it and walk through it to get out.</p>
+<p>Something hunts in the dark. If it finds you, break its line of sight and move quietly. Running drains stamina, and it is loud.</p>
+<p>You carry one light for the run, chosen in Customize. Others in your room walk the same halls and meet the same monsters.</p></section>
+<section class="hp-sec"><h3>Controls</h3>
+<p>${touch ? 'On a touch screen: move with the on-screen control at the bottom left; RUN, CROUCH, LIGHT and INV are at the bottom right; PAUSE is at the top right.' : 'Move with W A S D or the arrow keys, aim your light with the mouse, hold Shift to run, C to crouch, F for your light, Tab for the inventory, Esc to pause.'}</p>
+<button type="button" class="u-btn" data-help-controls>Every control and key</button></section>`;
+    helpEl.querySelector('[data-help-controls]').addEventListener('click', () => { const s = stack.find(x => x.el === helpEl), op = s && s.opener; closeSheet(helpEl); go('controls', undefined, op); });
   }
 
   /* ---------------------------------------------------------------- settings */
@@ -198,7 +426,7 @@
 <div>
 <section class="us-page" id="stPage_sound" role="tabpanel" aria-labelledby="stTab_sound">
   <h3>Sound</h3><p class="u-note">Headphones recommended. The halls are quiet; footsteps and what moves in the dark carry.</p>
-  <div class="us-row"><span>Sound<small>Ambience, footsteps, hum and entities.</small></span><button type="button" class="u-switch" role="switch" id="stSound" aria-label="Sound"></button></div>
+  <div class="us-row"><span>Sound<small>The menu music, the ambience, footsteps, hum and entities.</small></span><button type="button" class="u-switch" role="switch" id="stSound" aria-label="Sound"></button></div>
   <div class="us-row wide"><label class="us-slider"><span>Master volume</span><output id="stVolV"></output><input class="u-range" type="range" id="stVol" min="0" max="100" step="5" aria-label="Master volume"></label></div>
 </section>
 <section class="us-page" id="stPage_hud" role="tabpanel" aria-labelledby="stTab_hud" hidden>
@@ -216,7 +444,7 @@
 <section class="us-page" id="stPage_graphics" role="tabpanel" aria-labelledby="stTab_graphics" hidden>
   <h3>Display</h3>
   <div class="us-row wide"><span>Lighting and shadows<small>How finely the lights and their shadows are drawn. Every setting lights the same places: higher only draws them more finely. Low suits phones and older computers.</small></span><div class="us-seg" role="radiogroup" aria-label="Lighting and shadows quality" id="stLq">${['low', 'medium', 'high'].map(q => `<button type="button" class="u-btn" role="radio" data-lq="${q}">${q}</button>`).join('')}</div></div>
-  <div class="us-row wide"><span>Reduced motion<small>Stops the menus' flicker, slides and drifting haze, the HUD's fades, and the screen effects' animation. System follows your device's setting.</small></span><div class="us-seg" role="radiogroup" aria-label="Reduced motion" id="stRm">${[['auto', 'System'], ['on', 'On'], ['off', 'Off']].map(([v, n]) => `<button type="button" class="u-btn" role="radio" data-rm="${v}">${n}</button>`).join('')}</div><p class="u-note" id="stRmNow"></p></div>
+  <div class="us-row wide"><span>Reduced motion<small>Stops the menus' flicker and slides, the title's lean and light, the HUD's fades, and the screen effects' animation. System follows your device's setting.</small></span><div class="us-seg" role="radiogroup" aria-label="Reduced motion" id="stRm">${[['auto', 'System'], ['on', 'On'], ['off', 'Off']].map(([v, n]) => `<button type="button" class="u-btn" role="radio" data-rm="${v}">${n}</button>`).join('')}</div><p class="u-note" id="stRmNow"></p></div>
 </section>
 <section class="us-page" id="stPage_controls" role="tabpanel" aria-labelledby="stTab_controls" hidden>
   <h3>Controls</h3><p class="u-note">Keyboard and mouse. On a touch screen the same actions are on screen.</p>
@@ -379,21 +607,24 @@
     const st = state();
     const target = st === 'paused' ? $('dialog') : st === 'caught' ? $('caught') : st === 'won' ? $('won') : st === 'run' ? $('runMenu') : st === 'menu' ? menu : null;
     if (!target) return;
-    const into = st === 'menu' ? menu.querySelector(current === 'customize' ? '[data-go="customize"]' : '.mm-item.on') : null;
+    const into = st === 'menu' ? (entryOpen ? $('enter') : current === 'customize' ? menu.querySelector('.mm-row [data-go="customize"]') : menu.querySelector('.mm-row .mm-item.on') || $('mmPlay')) : null;
     const f = into || target.querySelector('.panel') || target;
     if (!f.hasAttribute('tabindex') && !f.matches(FOCUSABLE)) f.setAttribute('tabindex', '-1');
     f.focus({ preventScroll: true });
   }
   function onState() {
-    const st = state(), b = document.body.classList;
-    b.toggle('ui-menu', vis('menu'));
+    const st = state(), b = document.body.classList, inMenu = vis('menu');
+    b.toggle('ui-menu', inMenu);
     b.toggle('ui-paused', st === 'paused');
+    // the theme belongs to the true main menu (and everything opened over it); leaving it means ENTER LEVEL 0 began the run
+    theme.want(inMenu);
+    if (!inMenu) closeEntry(false);
     if (st === last) return;
     const prev = last; last = st;
     if (st === 'menu') {
       if (prev && prev !== 'customize' && prev !== 'boot') closeAll();
       if (prev !== 'customize') { menu.classList.remove('enter'); void menu.offsetWidth; if (!reduced()) menu.classList.add('enter'); }
-      loadoutSummary(); syncNav();
+      loadoutSummary(); syncNav(); connKey = ''; connRefresh(); soundSync(); humLater();
     }
     if (st === 'customize') czOpened();
     if (prev === 'customize') { previewRun(); loadoutSummary(); syncNav(); }
@@ -414,12 +645,12 @@
   if (ti) ti.addEventListener('click', () => { const A = window.__api; if (window.__inv && __inv.toggle && A && A.started() && !A.paused()) __inv.toggle(); });
   /* the settings model (hud.js) loads right after this file; the game's API arrives with the bundle (a module, later still) */
   let subbed = false;
-  const hook = () => { if (subbed || !window.__settings || !__settings.on) return; subbed = true; __settings.on(() => { syncSettings(); applyMotion(); }); applyMotion(); };
+  const hook = () => { if (subbed || !window.__settings || !__settings.on) return; subbed = true; __settings.on(() => { syncSettings(); applyMotion(); theme.sync(); }); applyMotion(); };
   document.addEventListener('DOMContentLoaded', hook);
   const boot = () => { hook(); if (window.__api && window.__api.gear) { loadoutSummary(); onState(); } else setTimeout(boot, 120); };
   boot();
   if (menu && !menu.hidden && !reduced()) menu.classList.add('enter');
 
-  Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced });
+  Object.assign(ui, { version: VERSION, go, state, close: closeSheet, closeAll, refresh: loadoutSummary, reduced, entryOpen: () => entryOpen, theme });
   window.__ui = ui;
 })();

@@ -19,40 +19,65 @@
 </header>
 <div class="location"><span class="eyebrow">THRESHOLD</span><h1>LEVEL <b>0</b></h1><span id="sector">01 / YELLOW HALL</span></div>
 
-<!-- Stage 3C: the game's main menu. #name and #enter are the game's own start controls (the bundle wires them by id). -->
+<!-- Stage 3C QA1: the game's main menu, built from the user's rough draft (dev/stage-3c-qa1/reference/MAIN_MENU_ROUGH_DRAFT.png):
+     the identity rail on the left, THE FAR BACKROOMS in the middle, PLAY low and centred with its three neighbours under it, the
+     utility rail on the right, the version in the corner. #name and #enter are the game's own start controls (the bundle wires
+     them by id); PLAY opens the entry panel that holds ENTER LEVEL 0. Every status shown is the game's own (name, light, the
+     multiplayer connection line). -->
 <main id="menu" aria-label="Main menu">
-  <div class="mm-atmos" aria-hidden="true"><div class="mm-haze"></div></div>
-  <div class="mm-wrap">
-    <div class="mm-title">
-      <div class="mm-fixture" aria-hidden="true"><i></i></div>
-      <h1><span class="a">The Far</span><span class="b">Backrooms</span></h1>
-      <p>Level 0 / Threshold</p>
-    </div>
-    <nav class="mm-nav" aria-label="Main menu">
-      <button type="button" class="mm-item on" data-go="play" aria-current="page"><b>Play</b><small>Enter Level 0</small></button>
-      <button type="button" class="mm-item" data-go="customize"><b>Customize</b><small>Your wanderer and your light</small></button>
-      <button type="button" class="mm-item" data-go="settings"><b>Settings</b><small>Sound, HUD, display, controls</small></button>
-      <button type="button" class="mm-item" data-go="credits"><b>Credits</b><small>Who made it, and the source</small></button>
-    </nav>
-    <section class="mm-play" id="mmPlay" aria-labelledby="mmPlayT">
-      <h2 id="mmPlayT">You have been here before.</h2>
-      <p class="intro">Yellow walls, damp carpet, the hum of the lights. Somewhere a wall is glitching: find it and walk through. Something hunts in the dark. Keep moving.</p>
-      <label for="name">Wanderer name</label>
+  <div class="mm-scrim" aria-hidden="true"></div>
+  <aside class="mm-rail" aria-label="Your wanderer">
+    <div class="mm-id">
+      <span class="mm-glyph" id="mmGlyph" aria-hidden="true"><i></i><i></i></span>
+      <label class="u-vh" for="name">Wanderer name</label>
       <input id="name" maxlength="20" placeholder="Wanderer" autocomplete="off" spellcheck="false">
-      <div class="mm-loadout">
-        <canvas id="mmLight" width="76" height="76" aria-hidden="true"></canvas>
-        <span class="k">Loadout</span>
-        <b id="mmKind">Flashlight</b>
-        <small id="mmKindText">Longest reach. A narrow beam that follows your mouse.</small>
-        <button type="button" class="u-btn" data-go="customize" data-sub="loadout" aria-label="Change loadout">Change</button>
+    </div>
+    <section class="mm-kit" aria-labelledby="mmKitT">
+      <h2 id="mmKitT">Your light</h2>
+      <canvas id="mmLight" width="132" height="132" aria-hidden="true"></canvas>
+      <b id="mmKind">Flashlight</b>
+      <p id="mmKindText">Longest reach. A narrow beam that follows your mouse.</p>
+      <button type="button" class="u-btn ghost" data-go="customize" data-sub="loadout">Change light</button>
+    </section>
+    <section class="mm-conn" aria-labelledby="mmRoom">
+      <h2><span id="mmRoom">Connection</span><b id="mmLink" data-mode="connecting">Connecting</b></h2>
+      <p id="mmInside" aria-live="polite">Looking for the server.</p>
+      <p class="mm-shared" id="mmShared"></p>
+    </section>
+  </aside>
+  <div class="mm-center">
+    <h1 class="mm-title" id="mmTitle"><span class="a">The Far</span><span class="b">Backrooms</span></h1>
+    <div class="mm-stage" id="mmStage">
+      <p class="mm-dest"><b>Level 0</b><span>Threshold</span></p>
+      <button type="button" class="mm-play" id="mmPlay" data-go="play" aria-describedby="mmPlayD"><span>Play</span></button>
+      <span class="u-vh" id="mmPlayD">Level 0, Threshold. Choose your name and light, then enter.</span>
+      <nav class="mm-row" aria-label="Menu">
+        <button type="button" class="mm-item" data-go="customize">Customize</button>
+        <button type="button" class="mm-item" data-go="settings">Settings</button>
+        <button type="button" class="mm-item" data-go="credits">Credits</button>
+      </nav>
+    </div>
+    <section class="mm-entry" id="mmEntry" aria-labelledby="mmEntryT" hidden>
+      <div class="mm-entry-head"><h2 id="mmEntryT">Level 0</h2><span>Threshold</span></div>
+      <p class="mm-brief">Yellow walls, damp carpet, the hum of the lights. Somewhere a wall is glitching: find it and walk through. Something hunts in the dark. Keep moving.</p>
+      <div class="mm-kitrow">
+        <div class="mm-who"><span class="k">Wanderer</span><b id="mmEntryName">Wanderer</b><button type="button" class="mm-link" id="mmRename">Rename</button></div>
+        <div class="mm-what"><canvas id="mmEntryLight" width="44" height="44" aria-hidden="true"></canvas><span class="k">Light</span><b id="mmEntryKind">Flashlight</b><button type="button" class="mm-link" data-go="customize" data-sub="loadout">Change</button></div>
       </div>
       <button type="button" class="u-primary" id="enter">Enter Level 0 <span aria-hidden="true">↗</span></button>
-      <p class="u-note" id="mmNote">Headphones recommended. Move with W A S D, aim your light with the mouse, Esc pauses.</p>
+      <div class="mm-entry-foot"><button type="button" class="mm-link" id="mmBack" data-go="home">Back</button><p class="u-note" id="mmNote">Headphones recommended. Move with W A S D, aim your light with the mouse, Esc pauses.</p></div>
     </section>
-    <footer class="mm-foot">
-      <p>Level 0, the Hound and the Smilers are adapted from <a href="https://backrooms-wiki.wikidot.com/level-0" target="_blank" rel="noopener noreferrer">The Backrooms Wiki</a> under <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>.</p>
-    </footer>
   </div>
+  <nav class="mm-util" aria-label="Quick settings">
+    <button type="button" data-go="settings" aria-label="Settings" data-tip="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.3"/><path d="M10.3 2.8h3.4l.5 2.4 1.6.9 2.3-.8 1.7 2.9-1.8 1.6v1.9l1.8 1.6-1.7 2.9-2.3-.8-1.6.9-.5 2.4h-3.4l-.5-2.4-1.6-.9-2.3.8-1.7-2.9 1.8-1.6v-1.9L4.2 8.2l1.7-2.9 2.3.8 1.6-.9Z"/></svg></button>
+    <button type="button" data-go="customize" data-sub="wanderer" aria-label="Customize your wanderer" data-tip="Your wanderer"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="10.6" r="6"/><circle cx="4.4" cy="17.2" r="2.1"/><circle cx="19.6" cy="17.2" r="2.1"/></svg></button>
+    <button type="button" id="mmSound" aria-label="Sound" aria-pressed="true" data-tip="Sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.8 9.3h3.6l4.6-3.9v13.2l-4.6-3.9H3.8Z"/><path class="on" d="M15.4 8.9a4.4 4.4 0 0 1 0 6.2M17.9 6.4a8 8 0 0 1 0 11.2"/><path class="off" d="M15.6 9.4l5.2 5.2M20.8 9.4l-5.2 5.2"/></svg></button>
+    <button type="button" data-go="help" aria-label="Help" data-tip="Help"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.7"/><path d="M12 10.6v6M12 7.2v.2"/></svg></button>
+  </nav>
+  <footer class="mm-foot">
+    <p class="mm-src">Level 0, the Hound and the Smilers are adapted from <a href="https://backrooms-wiki.wikidot.com/level-0" target="_blank" rel="noopener noreferrer">The Backrooms Wiki</a> under <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>.</p>
+    <p class="mm-ver" id="mmVer"></p>
+  </footer>
 </main>
 
 <div id="hud" hidden>

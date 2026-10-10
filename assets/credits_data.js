@@ -6,8 +6,10 @@
  * - A section can have a paragraph instead of (or as well as) entries: text: '...'. Links inside text use
  *   links: [{ label, url }], shown after the paragraph.
  * - Only list real people and real software. Nothing here is generated.
+ * - version is the build number the main menu shows in its bottom-right corner (package.json's version).
  */
 window.TFB_CREDITS = {
+  version: '23.3.6',
   sections: [
     { heading: 'Created by', entries: [
       { name: 'RoYoshi', note: 'The Far Backrooms' },
