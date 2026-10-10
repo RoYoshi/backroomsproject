@@ -68,30 +68,32 @@ html.rm *,html.rm *::before,html.rm *::after{animation:none!important;transition
   --edge:clamp(16px,3.2vw,40px);
   --sl:max(var(--edge),env(safe-area-inset-left));--sr:max(var(--edge),env(safe-area-inset-right));--st:max(var(--edge),env(safe-area-inset-top));--sb:max(var(--edge),env(safe-area-inset-bottom));
   --uw:44px;                                                     /* a utility cell */
-  --tt:clamp(28px,8.2vw,64px);--tk:.3em;--ttop:calc(var(--st) + 4 * var(--uw) + 28px);
+  --lw:min(86vw,460px);--ttop:calc(var(--st) + 4 * var(--uw) + 28px);      /* QA2: --lw, the logo's sign width (its box is 1230 x 422) */
   --stw:min(560px,calc(100vw - var(--sl) - var(--sr)));--ew:min(640px,calc(100vw - var(--sl) - var(--sr)));
   --ph:clamp(64px,10vh,104px);--pf:clamp(34px,5.4vh,56px);--rh:clamp(48px,6.6vh,64px);--rf:min(clamp(14px,2vh,18px),3.6vw);--rk:.12em;--df:clamp(15px,2.2vh,20px);
   --stb:calc(var(--sb) + 40px)}
 #menu::before{content:none}
 #menu [hidden]{display:none!important}
 .u-vh{position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.mm-scrim{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 72% 64% at 50% 46%,#060504a8 0%,#060504de 58%,#060504f7 100%)}
+/* QA2: the main menu's field is black. Level 0 is not shown behind it: the scrim is opaque black and covers the whole screen, and while
+   the main menu (or anything opened from it) is up the page behind is black too (html.tfb-black). The world's own layers stay as they
+   are underneath, covered: hiding them would stop the browser presenting the game's canvas while the game keeps drawing into it, and
+   under a software GPU that work piles up (measured at QA2-2: screenshots and page loads stalled for seconds). */
+.mm-scrim{position:absolute;inset:0;pointer-events:none;background:#000}
+html.tfb-black{background:#000}
 .mm-center{position:absolute;inset:0;pointer-events:none}
 .mm-center>*{pointer-events:auto}
 
-/* the identity: THE FAR / BACKROOMS, two tracked lines, lit like the fixtures (a still glow; it dips only on request) */
-.mm-title{position:absolute;left:var(--sl);right:var(--sr);top:var(--ttop);margin:0;text-align:center;pointer-events:none;
-  font-family:var(--u-display);font-weight:600;line-height:1;text-transform:uppercase;transform:translate3d(calc(var(--mx,0) * 6px),calc(var(--my,0) * 4px),0)}
-.mm-title::before{content:"";position:absolute;left:50%;top:-55%;z-index:-1;width:min(1080px,100vw);height:210%;transform:translateX(-50%);pointer-events:none;
-  background:radial-gradient(closest-side,#f7eab017,#f7eab008 55%,#f7eab000)}
-.mm-title span{display:block;font-size:var(--tt);letter-spacing:var(--tk);padding-left:var(--tk);white-space:nowrap;color:#efe3b4;
-  background:linear-gradient(180deg,#fffadf 0%,#f1e5b5 46%,#c9bd93 54%,#e4d8aa 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 .12em #f7eab05e) drop-shadow(0 0 .48em #e3c7682e)}
-.mm-title .a{margin-bottom:.34em}
+/* the identity: the user's logo (QA2), exactly as supplied. The title box is the sign's own box (1230 x 422 of the 2048 x 1152
+   image), centred; the image is placed so its sign fills that box and its transparent surround overflows, invisible, never
+   cropped, stretched, recoloured or filtered. Its glow is the image's own. It dips only on request, like a fluorescent. */
+.mm-title{position:absolute;left:50%;top:var(--ttop);width:var(--lw);aspect-ratio:1230/422;margin:0;pointer-events:none;
+  transform:translate3d(calc(-50% + var(--mx,0) * 6px),calc(var(--my,0) * 4px),0)}
+.mm-logo{position:absolute;left:-33.252%;top:-97.156%;width:166.504%;height:auto;max-width:none;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
 @keyframes mmHum{0%,100%{opacity:1}14%{opacity:.5}20%{opacity:.94}31%{opacity:.68}44%{opacity:1}}
-.mm-title.hum span{animation:mmHum .9s linear}
+.mm-title.hum .mm-logo{animation:mmHum .9s linear}
 #menu.mm-tight .mm-title{visibility:hidden}
-@media (hover:hover) and (pointer:fine){.mm-title{will-change:transform}}   /* the lit title is one cached layer: the pointer lean only moves it */
+@media (hover:hover) and (pointer:fine){.mm-title{will-change:transform}}   /* the logo is one cached layer: the pointer lean only moves it */
 
 /* PLAY and its row: one block, low and centred */
 .mm-stage{position:absolute;left:0;right:0;bottom:var(--stb);width:var(--stw);margin:0 auto}
@@ -219,11 +221,11 @@ body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-men
 
 /* a phone on its side (and any short window): the utility rail lies along the top, the title rises, PLAY stays on the first screen */
 @media (max-height:560px){
-  #menu{--uw:40px;--tt:min(8vw,10.5vh);--tk:.28em;--ttop:var(--st);--ph:clamp(50px,14vh,64px);--pf:clamp(28px,8.4vh,40px);--rh:clamp(40px,11vh,48px);--rf:14px;--df:14px;
+  #menu{--uw:40px;--lw:min(40vw,calc(100vw - 2 * (230px + var(--edge) + 12px)),calc((100vh - 230px) * 2.914));--ttop:var(--st);--ph:clamp(50px,14vh,64px);--pf:clamp(28px,8.4vh,40px);--rh:clamp(40px,11vh,48px);--rf:14px;--df:14px;
     --stw:min(520px,calc(100vw - var(--sl) - var(--sr)));--stb:calc(var(--sb) + 4px)}
   .mm-util{flex-direction:row}
   #menu .mm-util button+button{margin:0 0 0 -1px}
-  .mm-rail{right:auto;width:min(230px,calc(50vw - 4.6 * var(--tt) - 24px));min-width:170px}
+  .mm-rail{right:auto;width:min(230px,calc(50vw - var(--lw) / 2 - 24px));min-width:170px}
   .mm-conn p{display:none}
   .mm-dest{margin-bottom:8px}
   .mm-foot{left:auto;width:auto;bottom:var(--sb)}
@@ -237,18 +239,19 @@ body.ui-menu>header,body.ui-menu .location,body.ui-menu .coordinates,body.ui-men
   #menu.in-entry .mm-foot{visibility:hidden}
 }
 @media (max-height:560px) and (max-width:760px){
-  #menu{--tt:min(6.6vw,9.6vh);--ttop:calc(var(--st) + 66px)}           /* a small phone on its side: the title goes under the identity */
+  /* a small phone on its side: the logo goes under the identity block, PLAY's block narrows so the version keeps its corner */
+  #menu{--ttop:calc(var(--st) + 84px);--lw:min(56vw,calc((100vh - var(--ttop) - 150px) * 2.914));--stw:min(520px,calc(100vw - var(--sl) - var(--sr) - 140px))}
   .mm-rail{width:min(230px,calc(100vw - var(--sl) - var(--sr) - 4 * var(--uw) - 20px))}
 }
 
 /* a wide screen: the tall left rail of the draft, the cells of its right rail, the title at full size */
 @media (min-width:1180px) and (min-height:620px){
   #menu{--edge:clamp(24px,2.5vw,48px);--railw:clamp(270px,20.5vw,400px);--uw:60px;
-    --tt:clamp(46px,4.4vw,84px);--tk:.38em;--ttop:clamp(40px,6.6vh,84px);
+    --ttop:clamp(40px,6.6vh,84px);
     --stw:min(640px,calc(100vw - 2 * (var(--railw) + var(--edge) + 40px)));--ew:min(680px,calc(100vw - 2 * (var(--railw) + var(--edge) + 28px)));
     --ph:clamp(96px,15.2vh,168px);--pf:clamp(54px,8vh,88px);--rh:clamp(60px,9vh,100px);--rf:min(clamp(18px,2.3vh,25px),calc(var(--stw) / 26));--rk:.16em;--df:clamp(16px,2vh,21px);
     --stb:var(--sb)}
-  html.u-cond #menu{--tt:clamp(54px,5.4vw,104px);--tk:.5em}       /* Barlow Condensed has loaded: the draft's full size and its very wide tracking */
+  #menu{--lw:min(44vw,calc(100vw - 2 * (var(--railw) + var(--edge) + 40px)),920px,calc((100vh - var(--ttop) - var(--ph) - var(--rh) - var(--stb) - 120px) * 2.914))}
   .mm-rail{right:auto;bottom:var(--sb);width:var(--railw);max-width:none;display:flex;flex-direction:column;border:1px solid var(--u-line2);background:#0a0805e3}
   .mm-id{padding:10px 16px 10px 14px;border:0;border-bottom:1px solid var(--u-line2);background:#110e09}
   .mm-kit{display:flex;flex:1;min-height:0;flex-direction:column;align-items:flex-start;padding:22px 22px 18px;overflow:hidden}

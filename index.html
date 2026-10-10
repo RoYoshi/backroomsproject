@@ -1,8 +1,9 @@
-<!doctype html><html lang="en" class="tfb-boot" data-boot="black"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060504">
+<!doctype html><html lang="en" class="tfb-boot tfb-black" data-boot="black"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060504">
   <!-- Stage 3C QA2: the boot gate. Black from the first paint: these few rules come before every stylesheet, so nothing of the page can
-       show (no menu, no world, no half-loaded logo) until assets/ui.js has everything the menu needs and reveals it in one step. The
+       show (no menu, no world, no half-loaded logo) until assets/ui.js has everything the menu needs and reveals it in one step: the
+       black #boot layer covers everything, and every part of the page but the world's own layers (left presented, covered) is hidden. The
        script names the boot states and makes sure a page whose interface never starts ends in a small error with RETRY, not in black. -->
-  <style id="tfbBootCss">html.tfb-boot,html.tfb-boot body{background:#000}html.tfb-boot body>:not(#boot){visibility:hidden!important}
+  <style id="tfbBootCss">html.tfb-boot,html.tfb-boot body{background:#000}html.tfb-boot body>:not(#boot):not(#game):not(#mp):not(#light):not(.grain):not(#dread){visibility:hidden!important}
 #boot{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center;align-content:center;gap:20px;padding:24px;background:#000;color:#8d856a;font:500 11px/1.7 "IBM Plex Mono",ui-monospace,Menlo,Consolas,"DejaVu Sans Mono",monospace;letter-spacing:.34em;text-transform:uppercase;text-align:center;opacity:1;transition:opacity .42s ease;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 #boot[hidden],#boot [hidden]{display:none}#boot.out{opacity:0;pointer-events:none}#boot p{margin:0}.boot-msg{opacity:0;animation:tfbBootIn .5s ease .9s forwards}@keyframes tfbBootIn{to{opacity:.8}}#boot.slow .boot-msg{opacity:.8}#boot.failed .boot-msg,#boot.failed .boot-note{display:none}
 .boot-note{max-width:30em;color:#6f684f;letter-spacing:.14em;text-transform:none}#bootErr{display:grid;gap:20px;justify-items:center;max-width:34em}#bootErr p{color:#d8cfae;letter-spacing:.1em;text-transform:none;font-size:12px}
@@ -74,7 +75,9 @@
     </section>
   </aside>
   <div class="mm-center">
-    <h1 class="mm-title" id="mmTitle"><span class="a">The Far</span><span class="b">Backrooms</span></h1>
+    <!-- QA2: the user's own logo (assets/MAIN_MENU_LOGO_USER_SUPPLIED.png, byte-identical to the supplied file). The sign sits in a
+         1230 x 422 box of the 2048 x 1152 image; the rest of the image is transparent, so the box is laid out by the sign. -->
+    <h1 class="mm-title" id="mmTitle"><img id="mmLogo" class="mm-logo" src="./assets/MAIN_MENU_LOGO_USER_SUPPLIED.png" width="2048" height="1152" alt="The Far Backrooms" decoding="async" fetchpriority="high" draggable="false"></h1>
     <div class="mm-stage" id="mmStage">
       <p class="mm-dest"><b>Level 0</b><span>Threshold</span></p>
       <button type="button" class="mm-play" id="mmPlay" data-go="play" aria-describedby="mmPlayD"><span>Play</span></button>

@@ -934,6 +934,9 @@
     if (st === 'paused') { const o = $('pzObjective'), t = objective(); if (o && t) o.textContent = t; }
     b.toggle('ui-menu', inMenu);
     b.toggle('ui-paused', st === 'paused');
+    // QA2: the black field. The main menu and everything opened from it (Customize included) show no world; a run shows it again
+    const runOn = !!(window.__api && __api.started && __api.started());
+    document.documentElement.classList.toggle('tfb-black', inMenu || (st === 'customize' && !runOn) || st === 'boot');
     // the theme belongs to the true main menu (and everything opened over it); leaving it means ENTER LEVEL 0 began the run
     theme.want(inMenu);
     if (!inMenu) closeEntry(false);
@@ -973,7 +976,8 @@
   /* ---------------------------------------------------------------- QA2: the boot gate (the states live on window.__boot,
      defined by the few inline lines at the top of index.html, which also keep the page black until this reveals it)
      black -> loading: this file has started and gathers what the menu needs, each as a promise (no timers pretending to load,
-       no percentages): both stylesheets, the credits data, the game's runtime far enough that PLAY can enter its own flow, then the
+       no percentages): both stylesheets, the credits data, the user's logo fully decoded, the game's runtime far enough that PLAY
+       can enter its own flow, then the
        fonts (waited for, but never more than 2.5 s: a dead font server falls back to the system faces rather than hanging).
      -> ready -> menu: the menu is laid out underneath, two frames are drawn, and the whole menu is revealed in one short fade.
      Anything required that fails keeps the page black with a small message naming what failed and RETRY. A quiet "Loading"
@@ -988,6 +992,11 @@
       if (bad.length) throw new Error('stylesheet missing: ' + bad.map(l => l.getAttribute('href')).join(', '));
     },
     credits() { if (!(window.TFB_CREDITS && Array.isArray(TFB_CREDITS.sections))) throw new Error('assets/credits_data.js missing'); },
+    logo() {                                          // the user's logo, fully decoded before anything is shown (no half-loaded image)
+      const img = $('mmLogo'); if (!img) throw new Error('#mmLogo missing');
+      return (img.decode ? img.decode() : new Promise((ok, no) => { if (img.complete && img.naturalWidth) ok(); else { img.onload = ok; img.onerror = no; } }))
+        .then(() => { if (!img.naturalWidth) throw new Error('logo empty'); });
+    },
     runtime() {                                       // the game's module runs after this file; its API and its own ENTER wiring must exist
       return domReady.then(() => new Promise((ok, no) => {
         const t0 = performance.now();
@@ -1001,7 +1010,7 @@
       }));
     }
   };
-  const REQUIRED = [['the interface', 'stylesheets'], ['the credits', 'credits'], ['the game', 'runtime']];
+  const REQUIRED = [['the interface', 'stylesheets'], ['the credits', 'credits'], ['the menu artwork', 'logo'], ['the game', 'runtime']];
   const fontsSettled = () => { void document.body.offsetWidth; return document.fonts && document.fonts.ready ? Promise.race([document.fonts.ready, wait(2500)]).catch(() => { }) : Promise.resolve(); };
   let revealed = false;
   function reveal() {

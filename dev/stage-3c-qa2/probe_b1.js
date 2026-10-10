@@ -45,13 +45,15 @@ const ev = (cdp, expr) => cdp.send('Runtime.evaluate', { expression: expr, retur
   fs.mkdirSync(SHOTS, { recursive: true });
   try {
     /* ---------- cold, warm, slow */
-    const A = record('desktop', ['--secs', '7', '--warm', '1']), S = record('slow', ['--secs', '12', '--throttle', '1500']);
+    const A = record('desktop', ['--secs', '7', '--warm', '1']), S = record('slow', ['--secs', '25', '--throttle', '1500']);
     const cold = boot(A.runs[0]), warm = boot(A.runs[1]), slow = boot(S.runs[0]);
     R.notes.starts = { cold, warm, slow };
     for (const [name, b] of [['cold', cold], ['warm', warm], ['1.5 Mbps cold', slow]])
+      // (a start so quick that everything is ready before the browser's first paint reveals before it: that first frame is still
+      //  black, because the reveal's fade starts from the black boot layer)
       check(`${name} start: the page's first paint is black, every frame until the reveal stays black but for the small loading line (under 1 % of the screen), the states run black -> loading -> ready -> menu, and the menu is up after it`,
-        b.firstOwnFrameNonBlack !== null && b.firstOwnFrameNonBlack < .01 && b.framesBeforeReveal >= 1 && b.maxNonBlackBeforeReveal < .01 && b.order && b.lastNonBlack > .03,
-        { firstPaint: b.firstPaint, timeline: b.timeline, framesBeforeReveal: b.framesBeforeReveal, maxNonBlack: b.maxNonBlackBeforeReveal, lastNonBlack: b.lastNonBlack });
+        b.firstOwnFrameNonBlack !== null && b.firstOwnFrameNonBlack < .01 && (b.framesBeforeReveal === 0 || b.maxNonBlackBeforeReveal < .01) && b.order && b.lastNonBlack > .03,
+        { firstPaint: b.firstPaint, timeline: b.timeline, framesBeforeReveal: b.framesBeforeReveal, firstFrameNonBlack: b.firstOwnFrameNonBlack, maxNonBlack: b.maxNonBlackBeforeReveal, lastNonBlack: b.lastNonBlack });
     // the screencast sends a frame only when the picture changes: the last frame before the reveal is what was on screen until then
     const pre = S.runs[0].frames.filter(f => f.t >= slow.firstPaint - 5 && f.t < slow.timeline.menu), lastPre = pre[pre.length - 1];
     check('a slow start shows the quiet "Loading" line once the black has lasted about a second (before ui.js has even run), and nothing else; a fast start reveals before it would appear',
