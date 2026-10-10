@@ -41,6 +41,7 @@ QA1 corrects the first Stage 3C candidate against the user's later design decisi
 - **After ENTER LEVEL 0:** exactly 1 `join`, and the observer sees 2 wanderers and 1 avatar.
 - **Movement, stamina, solo AI:** run only inside the game's `started && !paused` block (bundle `Ou0`). There is no run tick before ENTER.
 - **After END:** the game's own `Nend()` sets `__hideSelf = true` and leaves, so the post-run menu is already clean. **Only the first menu after page load shows a local Wanderer.**
+- **Q2 correction to this measurement:** the "avatar drawn" reading above followed `__api.beam()`, a plain object with no parent chain, so it could only read "drawn". Q2's `lifecycle.js` reads the person object itself and confirms it for the parent (`evidence/q2/lifecycle_first_candidate.json`), as the Q1 captures had already shown. The server's view in Q2 comes from the admin data on its snapshots: the visitor is listed, not active.
 - **Smallest safe gate (Q2):** set the game's own `__hideSelf = true` before the bundle runs, which is the state the game itself uses after END. `Su()` (the game's start) already clears it at ENTER. Also fix the menu's connection wording so it counts only the wanderers inside. No change to networking, movement, AI or the server.
 
 ## 4. Audio graph (for the menu theme)

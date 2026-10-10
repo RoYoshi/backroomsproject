@@ -16,6 +16,11 @@
  *   'home' closes it; theme.info() reports the menu music's state) */
 (() => {
   'use strict';
+  /* QA1 (Q2): the menu is not a run. Until ENTER LEVEL 0 the visitor's own wanderer is not drawn in the world and its light does
+     not shine: this is the game's own hide-self state, the one END leaves you in (the bundle's Nend()), set here before the game's
+     module runs. The game's start (Su(), every ENTER LEVEL 0 / SPAWN / RESTART) clears it, exactly as before. Nothing else changes:
+     the server already keeps a visitor who has not joined out of the world (inactive: not broadcast, not alive for the AI). */
+  window.__hideSelf = true;
   const VERSION = 'stage-3c-qa1';
   const $ = id => document.getElementById(id);
   const FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';

@@ -1,0 +1,57 @@
+{
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/firsttree",
+ "idleSeconds": 8,
+ "menuVisitor": {
+  "started": false,
+  "hideSelf": "undefined",
+  "lightOn": true,
+  "personFound": true,
+  "avatarDrawn": true,
+  "joinsSent": 0,
+  "positionPacketsSent": 6,
+  "lastPositionPacketLightBit": 1,
+  "net": "ONLINE · ROOM LIFE764517 · 2 WANDERERS · SHARED MONSTERS",
+  "menuConnection": null,
+  "wsOpen": true,
+  "myId": 2,
+  "x": 960,
+  "y": 3264,
+  "stamina": 100
+ },
+ "serverWhileVisitorInMenu": {
+  "listed": true,
+  "active": false,
+  "dead": "",
+  "x": 960,
+  "y": 3264,
+  "observerNet": "ONLINE · ROOM LIFE764517 · 1 WANDERER · SHARED MONSTERS",
+  "observerPeerAvatars": 0
+ },
+ "afterEnter": {
+  "started": true,
+  "hideSelf": false,
+  "lightOn": true,
+  "personFound": true,
+  "avatarDrawn": true,
+  "joinsSent": 1,
+  "positionPacketsSent": 37,
+  "lastPositionPacketLightBit": 1,
+  "net": "ONLINE · ROOM LIFE764517 · 2 WANDERERS · SHARED MONSTERS",
+  "menuConnection": null,
+  "wsOpen": true,
+  "myId": 2,
+  "x": 7464,
+  "y": 5688,
+  "stamina": 100
+ },
+ "serverAfterEnter": {
+  "listed": true,
+  "active": true,
+  "dead": "",
+  "x": 7464,
+  "y": 5688,
+  "observerNet": "ONLINE · ROOM LIFE764517 · 2 WANDERERS · SHARED MONSTERS",
+  "observerPeerAvatars": 1
+ },
+ "errors": []
+}
