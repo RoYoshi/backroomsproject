@@ -8,7 +8,14 @@
   - from `server.js`: the WebSocket framing, the checks on what clients send, and the static file serving.
 - **Nine seams are NO-GO,** each explained in `3H0_DEFERRED_FULL_3H.md`: the client transport, admin panel, replays, peers and audio; the server sessions, snapshot builder, admin commands, and movement and aftermath. They cannot move without redesigning who owns what.
 
-**How it was checked.** Before anything moved, the parent's behavior was recorded byte for byte, and the recording was shown to notice small deliberate changes. Every extraction was then compared with the accepted parent at every level: functions, deterministic traces of both programs, the real server and game over the wire, the existing test suites, QA2's own regression probes, and performance.
+**How it was checked.** Before anything moved, the parent's behavior was recorded byte for byte, and the recording was shown to notice small deliberate changes. Every extraction was then compared with the accepted parent:
+- function by function;
+- in deterministic traces of both programs;
+- with the real server and game over the wire;
+- with the existing tests that touch it;
+- for performance.
+
+The final tree then went through all of it again (H0-5), with the full existing suites and QA2's own regression probes.
 
 **What changes for you.** Nothing visible. `mp.js` and `server.js` stay the composition roots, and `node server.js [port]` starts the server exactly as before.
 
@@ -28,20 +35,21 @@ Each was tested, committed, pushed normally, and checked on GitHub before the ne
 | H0-4a | `eee9596` | `eb43768` | the WebSocket framing moved to `server/ws.js` (GO) |
 | H0-4b | `f076092` | `fa7dfdb` | the field checks moved to `server/fields.js` (GO) |
 | H0-4c | `44395a2` | `f6c6a01` | the static file serving moved to `server/static.js` (GO) |
-| H0-5 | in the receipt | in the receipt | cross-boundary regression and performance on the final tree; the review's corrections; architecture, deferred work, level-authoring seams |
-| H0-6 | in the receipt | in the receipt | the gate and quick checks once more on the final tree, the secret scan, the changed-files list; this report, the human-QA checklist, the package |
+| H0-5 | `2dcdca2` | `6ecb0c0` | cross-boundary regression and performance on the final tree; the first independent review's corrections; architecture, deferred work, level-authoring seams; first versions of this report, the performance report and the human-QA checklist |
+| H0-6 | `0f97b80` | `c095ef7` | the gate and quick checks once more on the final tree; the secret scan; the changed-files list; this report and the performance report revised |
+| H0-6b | in the receipt | in the receipt | documents, tooling and evidence only, no production change: the corrections from a second independent review (below), a size check for the documents, H0-6's GitHub check, the scope check and the secret scan again. The package is made from this commit |
 
 ## What moved
 
 | New file | From | What, verbatim | Bytes |
 |---|---|---|---:|
-| `assets/net-wire.js` | `mp.js` | `toRec`, `partList`, `partObj`, `parseLook`; plus `lookStr`, the look encoder `mp.js` wrote inline three times | 2,653 |
+| `assets/net-wire.js` | `mp.js` | `toRec`, `partList`, `partObj`, `parseLook`; plus `lookStr`, the look encoder `mp.js` wrote inline three times | 2,691 |
 | `assets/net-interp.js` | `mp.js` | `NET`, `netReset`, `netHist`, `angD2`, `netPose`, with their comments | 4,163 |
 | `server/ws.js` | `server.js` | `frame`, and the inbound frame parser as `reader(sock, onMessage)` | 2,170 |
 | `server/fields.js` | `server.js` | `num`, `KINDS`, `LEGACY`, `kindOf`, `cleanParts`, `HEX`, `DEFAULT_LOOK`, `cleanLook` | 1,770 |
-| `server/static.js` | `server.js` | the `SERVE` allowlist, the MIME table, the gzip cache, the request handler | 3,839 |
+| `server/static.js` | `server.js` | the `SERVE` allowlist, the MIME table, the gzip cache, the request handler | 3,861 |
 
-**Sizes:** `mp.js` 72,790 → 68,144 bytes; `server.js` 30,485 → 26,506 bytes.
+**Sizes:** `mp.js` 72,790 → 68,139 bytes; `server.js` 30,485 → 26,506 bytes. The new files' sizes above are final, with their headers.
 
 **The other changes:**
 - `index.html` gains exactly two `<script>` lines;
@@ -56,12 +64,12 @@ Nothing else outside `dev/stage-3h0/` and the stage's documents changed. `dev/st
 ## How equivalence was proven
 
 1. **Golden traces, recorded on the parent before anything moved (H0-1):**
-   - **Server.** `server.js` runs in a closed world: a fake clock and timers, seeded randomness, the real simulation wrapped so that every call into it is recorded, and fake sockets and HTTP. Eleven scenarios cover HTTP, upgrades, frames, lifecycle, deaths, admin, the tick schedule, every field and the exit. Every byte out is compared.
+   - **Server.** `server.js` runs in a closed world: a fake clock and timers, seeded randomness, the real simulation wrapped so that every call into it is recorded, and fake sockets and HTTP. Ten scenarios cover HTTP, upgrades, frames, lifecycle, deaths, admin, the tick schedule, every field and the exit. Every byte out is compared. From H0-2, an eleventh scenario (`http_h0`) asks for the new files' addresses, served and never served. It has no H0-1 baseline, so it compares old code against new only.
    - **Client.** `mp.js` runs in Chromium with a fake clock, WebSocket and game. Nine scenes cover menu, run, interpolation, replays and bodies, the facade, admin, reconnect and audio. Every send, game call, global, DOM and timer change is compared.
 2. **The recordings have teeth.** Deliberate small changes to the parent's files are caught: 37 of 37 on the server and 35 of 35 on the client. Two more changes, one on each side, cannot be revealed by any input, because the code they touch has no effect; they are documented and not counted.
 3. **Function equivalence, with its own mutants.** Each pure piece was run against the parent's own text on generated inputs. Totals: 140,000 wire calls, 80,000 interpolation steps, 3,000 frames and 1,000 parser streams, 100,000 field checks, all identical. Every set of deliberately wrong versions was caught: wire 8/8, interpolation 8/8, framing 12/12, fields 11/11. The static serving got 12/12 through the server traces.
 4. **The protocol contract.** Every traced message (11,554 + 912) matches the frozen key list: 0 violations.
-5. **Live.** The real server and the real game, two players, through every phase: boot, menu, entering, NEW RUN twice, END, re-entering, an admin-driven death, respawn, a server restart. Compared structurally, phase by phase, with the parent's checkout: identical at every checkpoint.
+5. **Live.** The real server and the real game, two players, through every phase: boot, menu, entering, NEW RUN twice, END, re-entering, an admin-driven death, respawn, a server restart. Compared structurally, phase by phase, with the parent's checkout: identical at every extraction checkpoint, H0-2 to H0-4c. For the final tree, see below.
 6. **Real sockets.** `node server.js` old and new on the same files: the start-up line, 108 raw HTTP exchanges byte for byte except `Date`, and 25 WebSocket checks. Identical.
 7. **Tests first.** At each checkpoint the checks were run before the production file changed: on drafts in a scratch copy for the server, and as A/A runs. Every failing first run was kept next to its repair (below).
 
@@ -75,7 +83,7 @@ All gated items hold (`dev/stage-3h0/evidence/h0-5/summary.json`):
   - BR-RoLE 32/32;
   - the theme files;
   - QA2's probes: `probe_b1` 13/13, `probe_b2` 10/10, `probe_b3` 28/28;
-  - the regression of the 12 older probes, clean once its three first-run failures were re-run (below).
+  - the regression of the 12 older probes. Its main run failed three checks; each passed on a re-run, and the parent's own re-runs failed one of them too (below).
 - **Menu and boot captures** of the parent and the final tree, taken the same day. They differ only by the random room name in the rail, the Customize preview's idle animation and frame timing, as much as the parent differs from its own QA2 captures.
 - **The gate** (golden traces and contract): ALL EQUIVALENT, again after the comment-only corrections.
 - **Function equivalence** of all four pure pieces: identical on the final tree. Static mutants: 12/12.
@@ -84,13 +92,17 @@ All gated items hold (`dev/stage-3h0/evidence/h0-5/summary.json`):
 - **Live wire:** identical in every phase in the third run. The first two runs differed only in the server-outage phases, each for a reason outside the extracted code; two A/A runs were identical.
 - **Performance:** within the rules (below).
 
+The existing suites, QA2's checks and the captures ran before the comment-only corrections of H0-5. Those corrections change no code. The gate, function equivalence, the static mutants, `interp_test.js` and `test_3bn.js` were run again after them.
+
 **Four first-run differences were each investigated before going on.** The evidence is kept, and `3H0_EQUIVALENCE_REPORT.md` (H0-5) has the detail:
-1. Two QA2 probe checks that depend on the AI and on a random spawn. The summon sequence is byte-identical old against new for 30 of 30 seeded worlds, and a fresh 24-round replication on the real server shows no difference (p = 0.28).
+1. Three QA2 probe checks:
+   - two depend on the AI and on a random spawn. The final tree's first re-run failed one of them again and its second passed; the parent's re-runs failed the other once. The summon sequence is byte-identical old against new for 30 of 30 seeded worlds, and a fresh 24-round replication on the real server shows no difference (p = 0.28);
+   - the third, "no page errors", failed on a timed-out click, and passed in all four re-runs.
 2. The live wire's outage phases: a late reconnect on the parent's side, and an ignored death replay from the final tree's offline game.
 3. The real-stack CPU: a 3-round +22.9 % became −8.8 % over 6 rounds.
 4. A slow warm boot on the parent's side.
 
-**H0-6 ran the quick checks once more** before the final commit, with the production files unchanged since H0-5 (`dev/stage-3h0/evidence/h0-6/`). All held:
+**H0-6 ran the quick checks once more** before its own commit, with the production files unchanged since H0-5 (`dev/stage-3h0/evidence/h0-6/`). All held:
 - the gate: ALL EQUIVALENT;
 - function equivalence of the four pure pieces;
 - the static mutants, 12/12;
@@ -102,7 +114,9 @@ All gated items hold (`dev/stage-3h0/evidence/h0-5/summary.json`):
 ## Failing evidence kept, and what it taught
 
 - **H0-1:** the first performance rule failed on identical code (`perf_aa.json`). It was recalibrated before any extraction.
-- **H0-2:** the first gate failed on a harness artifact: the page-state record hashed `<script>` tags (`evidence/h0-2/attempt1/`). The harness was fixed, and the client baseline rebuilt from the parent's code (`evidence/h0-1b/`).
+- **H0-2:** the first gate failed on two harness artifacts (`evidence/h0-2/attempt1/`):
+  - on the client, the page-state record hashed `<script>` tags. The harness was fixed, and the client baseline rebuilt from the parent's code (`evidence/h0-1b/`);
+  - on the server, the new `http_h0` scenario had no baseline, and was counted as a failure. It is now compared old against new only.
 - **H0-3:** the interpolation check first caught 6 of 8 wrong versions. Its generator was sharpened, and it then caught 8 of 8.
 - **H0-4a:** the first A/A run of the real-socket check differed: it read too early, and it did not normalize a second `Date` header. Fixed; then identical.
 - **H0-4c:** `dev/tests/live.js` failed once. Its L5b check gives an AI kill 70 s, and none came. 46 repeats, including a rotated three-arm run, showed the parent with the same long kill times. It is a property of the test, not of the move.
@@ -113,7 +127,7 @@ All kept under `dev/stage-3h0/evidence/`, with the explanations in `3H0_EQUIVALE
 
 **The rules were fixed at H0-1, before any extraction:**
 - **Deterministic workloads** (`perf_det.js`): server CPU within max(old's spread, 5 %); client hook and handler times within max(spread, 10 %).
-- **The real stack** (`perf_h0.js`): server CPU within 15 %; bytes and client timings reported.
+- **The real stack** (`perf_h0.js`): server CPU within max(old's spread, 15 %); bytes and client timings reported.
 
 **Results.** Every checkpoint was within those rules, and so is the final tree: server CPU on the deterministic workloads −1.7 % to +2.2 % (tolerances 18-23 %); client hook and handler timings within their tolerances; the real-stack server CPU −8.8 % (`play8`) and +0.6 % (`debug4`) over 6 rounds; QA2's frame-time tool −8.2 % to +8.5 % across 12 states, in both directions. `STAGE_3H0_PERFORMANCE.md` has every number.
 
@@ -129,13 +143,14 @@ All kept under `dev/stage-3h0/evidence/`, with the explanations in `3H0_EQUIVALE
   - the QA2 menu, boot, theme, HUD, keybinds, touch layout and PWA files;
   - `package.json` and the start scripts;
   - deployment (`.github/`);
-  - every earlier stage's tests and evidence.
+  - every earlier stage's tests and evidence, except `dev/tests/interp_test.js`, adapted as described above.
 
   The package receipt checks each one against the parent.
 - **The protocol and `window.__net`** are unchanged. The two new globals' namespace, `window.__mpLib`, is the only addition, and it is declared.
 - **Security behavior** is unchanged:
   - the HTTP allowlist is the same regular expression, character for character;
-  - admin authentication and the lockout, and raw WebSocket acceptance (the whole upgrade), stay in `server.js` untouched.
+  - admin authentication and the lockout stay in `server.js`, untouched;
+  - raw WebSocket acceptance stays in `server.js`, unchanged: the path and key checks, the room cap and the 101 response. The only change in the upgrade handler is that it registers the moved frame parser, `reader(sock, onMessage)`, where the same parser was written inline.
 - **The new `server/` folder is never served.** Its URLs and traversal variants are tested at 404.
 
 ## Findings (recorded, not changed)
@@ -165,15 +180,30 @@ All kept under `dev/stage-3h0/evidence/`, with the explanations in `3H0_EQUIVALE
   - The Bloom host pulls `main`, which would bring the folder, but 3H0 does not touch `main`.
   - When this is merged, check on the first deploy that the server starts. A missing folder fails loudly, at start-up.
 - **Local paths in the evidence.** Some evidence files record the build machine's folders and session scratch paths, as earlier stages' evidence does. They contain no secrets.
-- **The secret scan.** Before the final commit, `dev/stage-3h0/secret_scan_h0.py` read every file 3H0 added or changed. It looked for:
+- **The secret scan.** Before the H0-6 commit and again before H0-6b, `dev/stage-3h0/secret_scan_h0.py` read every file 3H0 added or changed. It looked for:
   - the server's default admin passcode and its hash;
   - credential shapes;
   - e-mail addresses;
   - public IP addresses;
   - personal home folders.
 
-  It found nothing (`evidence/h0-6/secret_scan.json`). Its self-test plants 21 such items in memory and finds all 21. The tools and evidence use only synthetic passcodes, the loopback address and the documentation address ranges.
-- **The independent review's other notes were corrected at H0-5:**
+  It found nothing (`evidence/h0-6/secret_scan.json`, `evidence/h0-6b/secret_scan.json`). Its self-test plants 21 such items in memory and finds all 21. The tools and evidence use only synthetic passcodes, the loopback address and the documentation address ranges.
+- **Found at H0-6b, before packaging: stale or imprecise statements in the documents.** No code changed; the documents are corrected.
+  - **Sizes.** Five documents still gave, as final, the sizes from before H0-5's comment corrections:
+    - `mp.js`: 68,144 bytes, now 68,139;
+    - `assets/net-wire.js`: 2,653 bytes, now 2,691;
+    - `server/static.js`: 3,839 bytes, now 3,861.
+
+    `dev/stage-3h0/doc_sizes_h0.py` now checks every size the documents give against the files. The package receipt takes its sizes from the ZIP itself.
+  - **A second independent review** of the final documents against the evidence found other statements that were wrong, stale or too broad, among them:
+    - the parent's slow warm boots were not all held up by the same piece;
+    - "every served byte" ignored the changed files themselves;
+    - H0-1 recorded ten server scenarios, not eleven;
+    - the live wire on the final tree was not identical in every run;
+    - some performance figures were rounded twice.
+
+    All were checked and corrected (`dev/stage-3h0/evidence/h0-6b/`).
+- **The first independent review's other notes were corrected at H0-5:**
   - stale comments in `assets/net-wire.js`, `mp.js` and `server/static.js` (comment-only; the gate was re-run);
   - the static module's factory being called `createStatic` in the documents, though it is anonymous in the code.
 

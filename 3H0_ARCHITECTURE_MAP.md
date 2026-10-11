@@ -5,20 +5,26 @@
 - the five small files cut out of them;
 - where to make a change now, and how to check it.
 
-**What did not change.** Nothing a player, a browser or a server operator can observe. The protocol, the facade `window.__net`, the load order of everything that was there before, `node server.js [port]`, the timing and every served byte are as they were. The evidence is in `3H0_EQUIVALENCE_REPORT.md`.
+**What did not change.** Nothing a player, a browser or a server operator can observe. These are as they were:
+- the protocol and the facade `window.__net`;
+- the load order of everything that was there before;
+- `node server.js [port]` and the timing;
+- every server response, apart from the new content of the two changed files themselves (`index.html`, `mp.js`) and the two new scripts it now serves.
+
+The evidence is in `3H0_EQUIVALENCE_REPORT.md`.
 
 ## 1. Module sizes
 
 | File | At `edd2af9` | After 3H0 | Change |
 |---|---:|---:|---|
-| `mp.js` | 72,790 B / 841 lines | 68,144 B / 799 lines | −4,646 B |
-| `assets/net-wire.js` | — | 2,653 B / 23 lines | new (H0-2) |
+| `mp.js` | 72,790 B / 841 lines | 68,139 B / 799 lines | −4,651 B |
+| `assets/net-wire.js` | — | 2,691 B / 24 lines | new (H0-2) |
 | `assets/net-interp.js` | — | 4,163 B / 46 lines | new (H0-3) |
 | `index.html` | | +2 lines | one `<script>` per new client file |
 | `server.js` | 30,485 B / 368 lines | 26,506 B / 307 lines | −3,979 B |
 | `server/ws.js` | — | 2,170 B / 34 lines | new (H0-4a) |
 | `server/fields.js` | — | 1,770 B / 22 lines | new (H0-4b) |
-| `server/static.js` | — | 3,839 B / 47 lines | new (H0-4c) |
+| `server/static.js` | — | 3,861 B / 48 lines | new (H0-4c) |
 
 Together the new files are larger than the code they took out, mostly because of their headers: each says what it does and what it must keep.
 
@@ -105,7 +111,7 @@ server.js (30,485 B)
 node server.js [port]
 server.js (26,506 B), the composition root
   require http fs path crypto zlib ./sim.js          (same order; fs, path and zlib are now used only by static.js)
-  config (PORT, ROOT, admin hash and lockout, BODY_TTL, cadence)
+  config (PORT, ROOT, MAX_ROOM, admin hash and lockout, BODY_TTL, cadence)
   http.createServer( require('./server/static.js')(ROOT) )   ◄── server/static.js: SERVE, MIME, gzip cache, /sounds, the handler
   rooms, nextId, require ./death_srv.js
   movement validation; death aftermath; moveTo

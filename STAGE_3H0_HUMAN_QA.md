@@ -122,8 +122,8 @@ The page works as before; DevTools > Network shows the two new scripts loaded ju
 
 **Covered by the evidence** (`3H0_EQUIVALENCE_REPORT.md`, `STAGE_3H0_REPORT.md`):
 - **Every message both sides send and receive is byte-identical to QA2's for the same inputs.** This was checked at every checkpoint on deterministic traces.
-- **Live, two real players** gave structurally identical wire traffic in every phase: boot, menu, entering, NEW RUN, death, respawn, END, server restart.
-- **Over real sockets,** 108 HTTP requests and 25 WebSocket checks gave identical bytes.
+- **Live, two real players** gave structurally identical wire traffic in every phase (boot, menu, entering, NEW RUN, death, respawn, END, server restart) at every extraction checkpoint. On the final tree, two of three runs differed only while the server was down and restarting, through reconnect timing and offline play. The third run was identical.
+- **Over real sockets,** 108 HTTP requests and 25 WebSocket checks gave identical bytes, apart from the `Date` header's value.
 - **QA2's own regression probes** were run again (menu, boot, keys, touch, lifecycle, camera, BR-RoLE, theme files), and **the performance** was compared with QA2's code.
 
 **Only you can judge:**

@@ -205,7 +205,12 @@
 - `mp.js` said the same of `net-wire.js`;
 - `server/static.js` named its export `createStatic`, but the export is an anonymous factory.
 
-These are comment-only changes. The gate, the four function-equivalence checks, the static mutants, `interp_test.js` and `test_3bn.js` were all run again on the corrected tree: all identical, 12 of 12 caught, all passed (`evidence/h0-5/final_tree/`). The review also found the text-reading test `dev/shadows/test_shadows.js` S16 (H0-4c above).
+These are comment-only changes. They changed three sizes, so the figures given above for H0-2, H0-3 and H0-4c are those of their own checkpoints:
+- `mp.js`: 68,144 → 68,139 bytes;
+- `assets/net-wire.js`: 2,653 → 2,691 bytes, 23 → 24 lines;
+- `server/static.js`: 3,839 → 3,861 bytes, 47 → 48 lines.
+
+The gate, the four function-equivalence checks, the static mutants, `interp_test.js` and `test_3bn.js` were all run again on the corrected tree: all identical, 12 of 12 caught, all passed (`evidence/h0-5/final_tree/`). The review also found the text-reading test `dev/shadows/test_shadows.js` S16 (H0-4c above).
 
 **The final regression** is in `evidence/h0-5/summary.json`, with each result next to what it is compared with. Every gated item holds:
 - **Existing suites, as at H0-1 on the parent:** `live.js` 17/17, `audit_net.js` 17/17, `audit_net2.js` 11/11, `ir_net.js` 4/4, `test_3bn.js` 7/7, `interp_test.js` passed. `npm test` gives 151/162, with the same 11 historical failures.
@@ -233,8 +238,8 @@ These are comment-only changes. The gate, the four function-equivalence checks, 
      - "a monster loose near the menu visitor's spot": the closest monster came to 680 px, and the check wants under 620;
      - "ENTER LEVEL 0 … it walks": the player walked 36 px, and the check wants more than 40.
    - Both probes were re-run through QA2's own runner, twice on each side, alternating (`qa2/rerun/`):
-     - the final tree passed every one of these checks at least once;
-     - the parent failed the "walks" check once;
+     - the final tree failed the 620 px check again in its first re-run and passed it in the second; it passed the "walks" check both times;
+     - the parent passed the 620 px check both times and failed the "walks" check once;
      - `probe_c3` passed 13/13 in all four runs.
    - **The 620 px check sits at the median of its own distribution.** The same summon sequence in the closed world (`summon_seeds.js`) is byte-identical old against new for 30 of 30 seeded worlds, and the closest monster comes within 620 px in only 17 of the 30.
    - On the real server (`summon_probe.js`), a first run of 12 rounds per side looked different: 8 of 12 under 620 px old, 4 of 12 new, p = 0.024. A fresh replication of 24 rounds per side does not: 13 of 24 against 12 of 24, p = 0.28.
@@ -245,8 +250,9 @@ These are comment-only changes. The gate, the four function-equivalence checks, 
    - Reconnect timing and offline play are real-time events, which the comparison does not control.
 3. **The real-stack server CPU** moved +22.9 % on `play8` over 3 rounds. This passed the rule, because the parent's own rounds spread 58.5 to 73.5 ms per second. Measured again with 6 rounds, it moved −8.8 %, and the deterministic CPU gate shows −1.7 % to +2.2 %.
 4. **The parent's warm boot was slow in this session** (`qa2/boot_*/boot_starts.json`). The final tree is not the slow side.
-   - **Through the ready gate,** the parent waited for its first steady frames until 4.8 s and 5.7 s in two captures. The final tree took 1.2 s, and the same parent code took 1.1 s at QA2 R3.
+   - **Through the ready gate,** the parent's warm start took 4.8 s and 5.7 s in two captures. The final tree took 1.2 s, and the same parent code took 1.1 s at QA2 R3.
    - **The direct warm start** took 5.1 s in the parent's first capture and 1.2 s in its second, against 1.1 s for the final tree.
-   - These are rendering stalls of the capture machine. No code that draws changed.
+   - **What held them up differed.** In the first capture, both slow starts waited for the page's first steady frames, and every other piece was ready by 1.4 s. In the second capture's gate run, the menu music was ready only at 5.4 s, though it came from the browser's cache.
+   - These are stalls of the capture machine at those moments. No code that draws or plays sound changed, and the same parent code started warm in 1.1 to 1.2 s at other times.
 
 **Conclusion.** No difference attributable to the extractions was found on the final tree. Every apparent one was traced to a timing- or randomness-dependent check, with the evidence kept beside it.

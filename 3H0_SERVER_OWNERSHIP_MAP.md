@@ -75,3 +75,4 @@
 | H0-4a | the WebSocket framing: `frame` and the inbound frame parser (as `reader(sock, onMessage)`), verbatim. The 101 response stays in the upgrade handler (raw WebSocket acceptance), unlike the H0-0 proposal for S2 | `server/ws.js` (2,170 B, 34 lines) | 29,776 / 350 | `3H0_EQUIVALENCE_REPORT.md` H0-4a |
 | H0-4b | the field checks: `num`, `KINDS`, `LEGACY`, `kindOf`, `cleanParts`, `HEX`, `DEFAULT_LOOK`, `cleanLook`, verbatim | `server/fields.js` (1,770 B, 22 lines) | 29,040 / 341 | `3H0_EQUIVALENCE_REPORT.md` H0-4b |
 | H0-4c | the static file serving: the `SERVE` allowlist, the MIME table, the gzip cache and the request handler (the module's export is a function of `ROOT` that returns it), verbatim | `server/static.js` (3,839 B, 47 lines) | 26,506 / 307 | `3H0_EQUIVALENCE_REPORT.md` H0-4c |
+| H0-5 | nothing: the header comment of `server/static.js` corrected (now 3,861 B, 48 lines) | | 26,506 / 307 | `3H0_EQUIVALENCE_REPORT.md` H0-5 |

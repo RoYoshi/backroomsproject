@@ -18,13 +18,13 @@ else:
     rows += [['A', f] for f in run('git', 'ls-files', '--others', '--exclude-standard').split() if f not in seen]
 ST = {'A': 'added', 'M': 'modified', 'D': 'deleted'}
 D = {
- 'mp.js': 'PRODUCTION, MOVED OUT OF. H0-2: the wire codec moved to assets/net-wire.js (toRec, partList, partObj, parseLook verbatim; the three inline look encoders now call lookStr). H0-3: the snapshot interpolation moved to assets/net-interp.js (NET, netReset, netHist, angD2, netPose verbatim). mp.js reads both on the first two lines of its IIFE and keeps everything else, including window.__net, window.__NET and window.__netPose (the same objects). 72,790 -> 68,144 bytes.',
+ 'mp.js': 'PRODUCTION, MOVED OUT OF. H0-2: the wire codec moved to assets/net-wire.js (toRec, partList, partObj, parseLook verbatim; the three inline look encoders now call lookStr). H0-3: the snapshot interpolation moved to assets/net-interp.js (NET, netReset, netHist, angD2, netPose verbatim). mp.js reads both on the first two lines of its IIFE and keeps everything else, including window.__net, window.__NET and window.__netPose (the same objects). 72,790 -> 68,139 bytes.',
  'index.html': 'PRODUCTION, TWO LINES ADDED. <script src="./assets/net-wire.js"> and <script src="./assets/net-interp.js">, immediately before mp.js. Nothing else.',
  'assets/net-wire.js': 'PRODUCTION, NEW (H0-2). The look / light-part / corpse field codec, moved verbatim from mp.js; window.__mpLib.wire. Classic script, no side effects but its namespace entry.',
  'assets/net-interp.js': 'PRODUCTION, NEW (H0-3). The snapshot interpolation, moved verbatim from mp.js; window.__mpLib.interp. Classic script, no side effects but its namespace entry.',
  'server.js': 'PRODUCTION, MOVED OUT OF. H0-4a: frame() and the inbound frame parser to server/ws.js. H0-4b: the field checks to server/fields.js. H0-4c: the static file serving to server/static.js. Each is required where its code was; the upgrade (raw WebSocket acceptance), sessions, the tick, admin, movement and aftermath stay. Still started by `node server.js [port]`. 30,485 -> 26,506 bytes.',
  'server/ws.js': 'PRODUCTION, NEW (H0-4a). The WebSocket framing: frame(str) and reader(sock, onMessage), moved verbatim. CommonJS, never served.',
- 'server/fields.js': 'PRODUCTION, NEW (H0-4b). The checks on what clients send: num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, moved verbatim. CommonJS, never served.',
+ 'server/fields.js': 'PRODUCTION, NEW (H0-4b). The checks on what clients send: num, KINDS, LEGACY, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, moved verbatim. CommonJS, never served.',
  'server/static.js': 'PRODUCTION, NEW (H0-4c). The static file serving: the SERVE allowlist, MIME types, gzip cache and the request handler, moved verbatim; the export is a function of ROOT that returns the handler. CommonJS, never served.',
  'dev/tests/interp_test.js': 'EXISTING TEST, ADAPTED (H0-3). It cut the interpolation code out of mp.js by its text; it now reads it from assets/net-interp.js when that exists (else mp.js, and OLD_MP as before). Its output is identical before and after the move.',
  '3H0_Q0_AUDIT.md': 'DOC (H0-0). Source authority, start paths, protected files, test couplings, findings, risk map, plan and preliminary GO / NO-GO.',
@@ -35,13 +35,13 @@ D = {
  '3H0_PROTOCOL_INVENTORY.md': 'DOC (H0-0; section 8 at H0-5). The frozen wire protocol, and where its code lives after 3H0.',
  '3H0_H0_1_BASELINE.md': 'DOC (H0-1). The golden traces, baselines, sensitivity runs and performance rules recorded before any extraction.',
  '3H0_EQUIVALENCE_REPORT.md': 'DOC (H0-2 onward). One equivalence receipt per extraction, with the failing first runs kept and explained.',
- '3H0_ARCHITECTURE_MAP.md': 'DOC (H0-5). Before / after diagrams of mp.js and server.js, module sizes, one message end to end, where to change things now.',
+ '3H0_ARCHITECTURE_MAP.md': 'DOC (H0-5; corrected at H0-6b). Before / after diagrams of mp.js and server.js, module sizes, one message end to end, where to change things now.',
  '3H0_DEFERRED_FULL_3H.md': 'DOC (H0-5). Every seam with its GO / NO-GO and reason, what full 3H needs first, and the findings recorded on the way.',
  '3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md': 'DOC (H0-5). Where Level 0 is wired into the code today, a possible separation for a future level editor, and the open questions. Nothing of it is built.',
- 'STAGE_3H0_REPORT.md': 'DOC (H0-6). The Stage 3H0 report.',
+ 'STAGE_3H0_REPORT.md': 'DOC (H0-5; revised at H0-6 and H0-6b). The Stage 3H0 report.',
  'STAGE_3H0_CHANGED_FILES.txt': 'DOC (H0-6). This list.',
- 'STAGE_3H0_PERFORMANCE.md': 'DOC (H0-6). Performance: the rules fixed at H0-1, every checkpoint, and the final runs.',
- 'STAGE_3H0_HUMAN_QA.md': 'DOC (H0-6). What to check by hand.',
+ 'STAGE_3H0_PERFORMANCE.md': 'DOC (H0-5; revised at H0-6 and H0-6b). Performance: the rules fixed at H0-1, every checkpoint, and the final runs.',
+ 'STAGE_3H0_HUMAN_QA.md': 'DOC (H0-5; corrected at H0-6b). What to check by hand.',
 }
 TOOLS = {
  'dev/stage-3h0/README.md': 'what every tool and evidence folder is',
@@ -53,6 +53,7 @@ TOOLS = {
  'dev/stage-3h0/changed_files_h0.py': 'writes this list',
  'dev/stage-3h0/package_h0.py': 'the ZIP, its SHA-256 and the package receipt',
  'dev/stage-3h0/secret_scan_h0.py': 'scans every added or changed file for secrets, with a self-test',
+ 'dev/stage-3h0/doc_sizes_h0.py': 'checks the file sizes the stage documents give against the files',
 }
 GOLDEN = 'dev/stage-3h0/golden/'
 groups, lines, undescribed = collections.Counter(), [], []

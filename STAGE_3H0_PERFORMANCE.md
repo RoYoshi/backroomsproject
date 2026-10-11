@@ -36,7 +36,7 @@ They are in `3H0_H0_1_BASELINE.md` section 6.2.
 | Checkpoint | What moved | Deterministic result (medians, new against old) | Within the rule |
 |---|---|---|---|
 | H0-2 | client wire codec | 7 rounds: hook −4 % to +14 %, handler −4 % to +8 %. A repeat over 15 rounds: hook −12 % to +3 %, handler −8 % to +8 % (the sign flips between runs) | yes |
-| H0-3 | client interpolation | 15 rounds: hook −5.6 % to −1.4 %, handler −9.1 % to +10.8 % (the largest is 1.3 ms against a 6.8 ms tolerance) | yes |
+| H0-3 | client interpolation | 15 rounds: hook −5.5 % to −1.4 %, handler −9.1 % to +10.8 % (the largest is 1.3 ms against a 6.8 ms tolerance) | yes |
 | H0-4a | server framing | 15 rounds, server CPU: −0.6 % to +4.1 % (tolerances 15-21 %) | yes |
 | H0-4b | server field checks | 15 rounds, server CPU: −1.1 % to +1.5 % (tolerances 12-28 %) | yes |
 | H0-4c | server static serving | 15 rounds, server CPU: −3.0 % to +0.7 % (tolerances 11-45 %). The HTTP wall time over 108 real requests was 676 ms old, 654 ms new (`raw_live.js`; reported) | yes |
@@ -55,7 +55,7 @@ They are in `3H0_H0_1_BASELINE.md` section 6.2.
 | client `run_online` | 82.6 / 6.8 | 83.9 / 7.0 | +1.6 % / +2.9 % | 59.6 / 4.3 | yes |
 | client `interp` | 104.3 / 7.2 | 103.5 / 7.9 | −0.8 % / +9.7 % | 84.4 / 9.1 | yes |
 | client `fx_bodies` | 146.2 / 12.9 | 143.7 / 13.8 | −1.7 % / +7.0 % | 47.9 / 7.3 | yes |
-| client `hum_dread` | 62.1 / 0.3 | 64.8 / 0.3 | +4.4 % / 0 % | 32.7 / 0.3 | yes |
+| client `hum_dread` | 62.1 / 0.3 | 64.8 / 0.3 | +4.3 % / 0 % | 32.7 / 0.3 | yes |
 
 **Reading it:**
 - **Server:** the four medians moved by at most 2.2 %, against old's own spread of 18-23 %.
@@ -67,18 +67,18 @@ They are in `3H0_H0_1_BASELINE.md` section 6.2.
 |---|---|---|---|---:|---:|---|---|
 | 3 rounds | `play8` | 73.5, 59, 58.5 | 60, 72.5, 80.5 | 59 / 72.5 | +22.9 % | yes (tolerance 15) | 38,146 / 38,064 (−0.2 %) |
 | 3 rounds | `debug4` | 56.66, 49.33, 46 | 50.66, 46, 55.99 | 49.33 / 50.66 | +2.7 % | yes (tolerance 10.66) | 22,002 / 24,365 (+10.7 %) |
-| 6 rounds (repeat) | `play8` | 53, 62, 63, 73, 69.49, 68.5 | 59.5, 59.99, 60, 72, 63.5, 55.99 | 65.75 / 59.995 | −8.8 % | yes (tolerance 20) | 38,102 / 36,944 (−3.0 %) |
-| 6 rounds (repeat) | `debug4` | 61.33, 56.66, 52, 58, 48.66, 48.67 | 46.66, 56.66, 52.66, 58, 46.67, 57.33 | 54.33 / 54.66 | +0.6 % | yes (tolerance 12.67) | 26,540 / 24,431 (−8.0 %) |
+| 6 rounds (repeat) | `play8` | 53, 62, 63, 73, 69.49, 68.5 | 59.5, 59.99, 60, 72, 63.5, 55.99 | 65.75 / 59.995 | −8.8 % | yes (tolerance 20) | 38,102 / 36,944.5 (−3.0 %) |
+| 6 rounds (repeat) | `debug4` | 61.33, 56.66, 52, 58, 48.66, 48.67 | 46.66, 56.66, 52.66, 58, 46.67, 57.33 | 54.33 / 54.66 | +0.6 % | yes (tolerance 12.67) | 26,540.5 / 24,431 (−7.9 %) |
 
 **The first run's `play8` +22.9 % passed the rule only because the parent's own rounds spread from 58.5 to 73.5 ms per second.** It was measured again with twice the rounds and nothing else running: −8.8 % (`perf_h0_server_r6.json`).
 - The real-stack CPU follows the AI in a freshly random world, so a three-round median moves by tens of percent on identical code. At H0-1, the A/A run moved `play8` +10.1 % and `debug4` +7.8 %.
 - The precise figure is the deterministic one above (section 3.1).
 
-**The client timings on the real stack** (reported only) are about a dozen frames a phase under software rendering. The final tree's means against the parent's, as `perf_h0.js` prints them: per-frame hook in the menu −8.1 %, in a run −18.1 %; message handler in the menu +29.3 % (0.032 → 0.041 ms), in a run −19.7 %. These move by tens of percent between rounds on identical code (H0-1).
+**The client timings on the real stack** (reported only) are 13 to 24 frames a phase per round under software rendering. The final tree's means against the parent's, as `perf_h0.js` prints them: per-frame hook in the menu −8.1 %, in a run −18.1 %; message handler in the menu +29.3 % (0.032 → 0.041 ms), in a run −19.7 %. These move by tens of percent between rounds on identical code (H0-1).
 
 ### 3.3 QA2's tools: the parent against the final tree
 
-**Frame time** (`evidence/h0-5/qa2/perf_ab.json`). The tool's `qa1` side is the parent here, and its `qa2` side the final tree. Each figure is the mean frame time QA2's tool reports under software rendering, 2 rounds of 4 s, on a desktop (1920 × 1080) and a phone (390 × 844).
+**Frame time** (`evidence/h0-5/qa2/perf_ab.json`). The tool's `qa1` side is the parent here, and its `qa2` side the final tree. Each figure is the mean frame time QA2's tool reports under software rendering, in 4 s per state: 2 rounds on a desktop (1920 × 1080), and 1 round on a phone (390 × 844), as the tool does.
 
 | State | Parent mean | Final mean | Change |
 |---|---:|---:|---:|
@@ -95,7 +95,7 @@ They are in `3H0_H0_1_BASELINE.md` section 6.2.
 | touch 390x844: Level 0 lit, walking (menus closed) | 678.8 | 646.6 | −4.7 % |
 | touch 390x844: Level 0 dark, flashlight (menus closed) | 709.7 | 758.6 | +6.9 % |
 
-The 12 states moved between −8.2 % and +8.5 %, in both directions. At QA2 R3, the same tool put QA2 against QA1 at −16 % to +11 % for an intended change. 3H0 changes nothing that draws.
+The 12 states moved between −8.2 % and +8.5 %, in both directions. At QA2 R3, the same tool put QA2 against QA1 at −16.0 % to +11.3 % on the desktop and −13.6 % to +30.2 % on the phone (`dev/stage-3c-qa2/evidence/r3/perf_ab.json`), for an intended change. 3H0 changes nothing that draws.
 
 **Starts** (`evidence/h0-5/qa2/perf_start.json`): medians of 2 rounds; a fresh profile (cold) and a reload (warm).
 
@@ -120,11 +120,11 @@ Milliseconds from navigation until the boot is ready, through QA2's ready gate (
 
 The cold starts are within their run-to-run spread (about 7.2 to 9.1 s, mostly the 22.6 MB menu music).
 
-The parent's slow warm starts in this session waited for the page's first steady frames, a rendering stall of the capture machine:
-- the boot's own record has every other piece ready by 1.3 s;
-- the same parent code took 1.1 s at QA2 R3.
+The parent's three slow warm starts in this session were held up by different pieces of the boot:
+- in the first capture, both waited for the page's first steady frames, and every other piece was ready by 1.4 s;
+- in the second capture's gate run, the menu music was ready only at 5.4 s, though it came from the browser's cache.
 
-The final tree is not the slow side.
+These are stalls of the capture machine at those moments. The same parent code started warm in 1.2 s in the second capture's direct run, and in 1.1 s at QA2 R3. The final tree is not the slow side.
 
 ### 3.5 The HTTP wall time over real sockets (`raw_live.js`, reported only)
 

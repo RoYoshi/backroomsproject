@@ -4,11 +4,11 @@ dev/stage-3c-qa2/package_qa2.py).
 
   python3 -I dev/stage-3h0/package_h0.py REPO COMMIT OUTDIR REMOTE_JSON NAME
 
-  REMOTE_JSON  dev/stage-3h0/verify_remote_h0.py H0-6 --out FILE, run after the final push
+  REMOTE_JSON  dev/stage-3h0/verify_remote_h0.py LABEL --out FILE, run after the final push (LABEL: the final checkpoint, H0-6b)
 
 The receipt proves, from the ZIP itself (extracted to a temporary folder):
   - every file in the ZIP is the committed blob (git hash-object == the commit's blob id); nothing missing or extra; every CRC OK;
-  - the commit, its tree, the checkpoints H0-0..H0-6 after the accepted QA2 commit edd2af9 (tree 108d89f) in a straight line; QA1
+  - the commit, its tree, every checkpoint after the accepted QA2 commit edd2af9 (tree 108d89f) in a straight line; QA1
     5f30e28, the first 3C candidate 76bcc4a and the accepted Stage 3B 6e6fa46 are ancestors; what GitHub reports for stage-3h0 after
     the push; main, stage-3c-qa2, stage-3c-qa1, stage-3c and every other branch untouched;
   - scope (dev/stage-3h0/scope_check.py's rules, applied to the commit): every changed file is an approved extraction file, the one
@@ -105,7 +105,7 @@ T = ['THE FAR BACKROOMS - Stage 3H0 (safe architecture: mp.js / server.js extrac
      f'tree       {tree}', f'parent     {parent}',
      f'accepted QA2 parent  {PARENT}  (tree {parent_tree}; as accepted: {yn(parent_tree == PARENT_TREE)}; the first 3H0 commit\'s parent: {yn(first_parent == PARENT)})',
      *[f'ancestor: {k:<34} {yn(v)}' for k, v in anc.items()], '',
-     '== Checkpoints H0-0..H0-6 (after edd2af9, oldest first: commit  tree  subject) ==', *[f'  {c}' for c in chain], f'  merges: {len(merges)} (a straight line)', '',
+     '== Checkpoints (every commit after edd2af9, oldest first: commit  tree  subject) ==', *[f'  {c}' for c in chain], f'  merges: {len(merges)} (a straight line)', '',
      '== GitHub (checked after the final push) ==', f'verified at       {REMOTE["verifiedAt"]}', f'git ls-remote     {REMOTE["lsRemote"]}',
      f'REST API commit   {REMOTE["githubApi"]["commit"]}', f'REST API tree     {REMOTE["githubApi"]["tree"]}', f'REST API parents  {", ".join(REMOTE["githubApi"]["parents"])}',
      f'matches the packaged commit, tree and parent: {yn(remote_ok)}', '',
