@@ -236,7 +236,7 @@ srv.on('upgrade', (req, sock) => {
       room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
         sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
-        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 6).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0,
+        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 8).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0,
         ph: m.ph && Array.isArray(m.hd) && m.hd.length === 4 ? 1 : 0, hd: Array.isArray(m.hd) && m.hd.length === 4 ? m.hd.map(v => num(v, -80, 80)) : 0, ho: m.ho ? 1 : 0,
         tr: (Array.isArray(m.tr) ? m.tr : []).slice(0, 24).map(q => [num(q && q[0], 0, 9216), num(q && q[1], 0, 6912)]) });
     }

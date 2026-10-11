@@ -244,7 +244,8 @@
       const k = S.hitsDone++, mag = hound ? (k === 0 ? 30 : 48) : 20;
       if (S.firstBlow < 0) S.firstBlow = t;
       b.vx += nAx * mag * (.6 + .4 * S.rr()); b.vy += nAy * mag * (.6 + .4 * S.rr()); b.om += (S.rr() - .5) * 5 * (hound ? 1 : .3); b.sqv += hound ? 3.5 : 1.4;
-      S.h[k & 1].vx += (S.rr() - .5) * 220; S.h[k & 1].vy += (S.rr() - .5) * 220; at.bite = 1; S.ev.push({ t, k: 'hit', i: k });
+      S.h[k & 1].vx += (S.rr() - .5) * 220; S.h[k & 1].vy += (S.rr() - .5) * 220; at.bite = 1;
+      { const jx = at.x - b.x, jy = at.y - b.y, jd = hyp(jx, jy) || 1; S.ev.push({ t, k: 'hit', i: k, x: b.x + jx / jd * 9, y: b.y + jy / jd * 9 }); }   // Stage 3D: where the jaws are at the blow itself, whatever the frame rate
       shock(S, nAx, nAy, hound ? 9 : 4);
       if (k === 1 && cfg.eq === 'hit1') release(S, 'eq', t, { x: -nAy * 150 + nAx * 60, y: nAx * 150 + nAy * 60 });
       if (k === 2 && cfg.hat === 'hit2') release(S, 'hat', t, { x: nAx * 90, y: nAy * 90 });
@@ -287,7 +288,7 @@
       if (hit.sp > 60) {
         b.nx = -hit.nx; b.ny = -hit.ny; b.sqv += clamp(hit.sp * .028, 0, 8); shock(S, -hit.nx, -hit.ny, clamp(hit.sp * .05, 0, 26));
         if (!S.wallHit || hit.sp > S.wallHit.sp * .6 && t - S.wallHit.t > .25) { if (!S.wallHit) S.wallHit = { t, x: hit.x, y: hit.y, sp: hit.sp, nx: hit.nx, ny: hit.ny }; }
-        S.trace.hit.push([hit.x, hit.y, t]); S.ev.push({ t, k: 'wall', sp: hit.sp });
+        S.trace.hit.push([hit.x, hit.y, t]); S.ev.push({ t, k: 'wall', sp: hit.sp, x: hit.x, y: hit.y, nx: hit.nx, ny: hit.ny });
         S.h.forEach(h => { h.vx += (b.vx * 0 - hit.nx * 0) + (-hit.nx) * hit.sp * .25; h.vy += (-hit.ny) * hit.sp * .25; });                    // the hands keep going
         if (cfg.eq === 'wall') release(S, 'eq', t, { x: -hit.nx * hit.sp * -.25, y: -hit.ny * hit.sp * -.25 });
         if (cfg.hat === 'wall') release(S, 'hat', t, { x: hit.nx * hit.sp * .3, y: hit.ny * hit.sp * .3 });
@@ -465,11 +466,11 @@
     const bursts = []; let evi = 0;
     for (let t = 0; t <= dur + 1e-9; t = Math.min(dur, t + 1 / 60)) {        // the frames a screen would have drawn: blood lands where the jaws are at each blow
       advance(S, t);
-      while (evi < S.ev.length) { const q = S.ev[evi++]; if (q.k === 'hit') { const dx = S.at.x - S.b.x, dy = S.at.y - S.b.y, d = hyp(dx, dy) || 1; bursts.push({ x: S.b.x + dx / d * 9, y: S.b.y + dy / d * 9, seed: q.i }); } }
+      while (evi < S.ev.length) { const q = S.ev[evi++]; if (q.k === 'hit') bursts.push({ x: q.x, y: q.y, seed: q.i }); }
       if (t >= dur) break;
     }
     const pz = pose(S);
-    return { S, kind, v, angle: ang, dur, body: { x: S.b.x, y: S.b.y, angle: S.b.th, scaleX: pz.sx, scaleY: pz.sy }, attacker: { x: S.at.x, y: S.at.y, angle: S.at.a }, bursts, remains: remains({ ph: S }) };
+    return { S, kind, v, angle: ang, dur, body: { x: S.b.x, y: S.b.y, angle: S.b.th, scaleX: pz.sx, scaleY: pz.sy }, attacker: { x: S.at.x, y: S.at.y, angle: S.at.a }, bursts, remains: remains({ ph: S, bursts }) };
   }
   const lab = () => window.__dlab;
   /* the death's own clock: real time, or - for the admin's death lab - slowed, paused or stepped */
@@ -499,19 +500,37 @@
     // the blows: blood appears where the jaws are, at the moment of the blow
     while ((jl.evi | 0) < S.ev.length) {
       const q = S.ev[jl.evi | 0]; jl.evi = (jl.evi | 0) + 1;
-      if (q.k === 'hit') { const dx = S.at.x - b.x, dy = S.at.y - b.y, d = hyp(dx, dy) || 1; jl.bursts.push({ x: b.x + dx / d * 9, y: b.y + dy / d * 9, at: q.t, seed: q.i }); jl.nextHit = q.i + 1; }
+      if (q.k === 'hit') { jl.bursts.push({ x: q.x, y: q.y, at: q.t, seed: q.i }); jl.nextHit = q.i + 1; }
     }
     jl.black = jl.blackFn ? jl.blackFn(t) : 0;
     jl.drawBlood(t); jl.drawShadow(t);
     jl.foreground.alpha = 1 - sm(2.65, 3.2, t); jl.shade = sm(jl.duration - .75, jl.duration, t); jl.phase = S.phase; jl.settle = S.state;
     return jl.finished = t >= jl.duration;
   }
+  /* Stage 3D: where the body really struck a wall hard (the physics' own contacts, faster than 80 px/s): at most three, 20 px apart, in
+   * the order they happened.  The blood on the wall is drawn there, for every variant, during the death and on the corpse. */
+  function marks(S) {
+    const out = []; if (!S || !S.ev) return out;
+    const solid = (x, y) => S.walls(x, y).some(q => x > q.x && x < q.x + q.w && y > q.y && y < q.y + q.h);
+    for (const e of S.ev) {
+      if (e.k !== 'wall' || !(e.sp > 80) || e.x == null) continue;
+      if (e.ok === undefined) e.ok = !solid(e.x + e.nx * 4, e.y + e.ny * 4);          // a seam or an inside corner: no clear floor in front of the face
+      if (!e.ok) continue;
+      const near = out.find(o => hyp(o.x - e.x, o.y - e.y) < 20);
+      if (near) { if (e.sp > near.sp) Object.assign(near, e); continue; }
+      out.push(Object.assign({}, e));
+    }
+    return out.sort((a, b) => b.sp - a.sp).slice(0, 3).sort((a, b) => a.t - b.t);
+  }
+  /* a wall mark in a corpse's blood list: seed 512 + the direction out of the wall in 32 steps (blows keep their own small seeds) */
+  const MARK = 512, markSeed = (nx, ny) => MARK + ((Math.round(Math.atan2(ny, nx) / TAU * 32) % 32) + 32) % 32;
   /* the corpse is the last configuration of this same simulation */
   function remains(jl) {
     const S = jl.ph; if (!S) return null; const pz = pose(S), e = S.eq, hd = S.hat;
-    return { hands: pz.hands.map(h => [+h.x.toFixed(1), +h.y.toFixed(1)]), dropped: { x: e.has ? e.x : S.b.x, y: e.has ? e.y : S.b.y, angle: e.has ? e.rot : S.b.th },
+    const blood = (jl.bursts || []).slice(0, 5).map(q => ({ x: q.x, y: q.y, seed: q.seed | 0 })).concat(marks(S).map(m => ({ x: m.x, y: m.y, seed: markSeed(m.nx, m.ny) })));
+    return { blood, hands: pz.hands.map(h => [+h.x.toFixed(1), +h.y.toFixed(1)]), dropped: { x: e.has ? e.x : S.b.x, y: e.has ? e.y : S.b.y, angle: e.has ? e.rot : S.b.th },
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0 };
   }
 
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, DURS };
+  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, marks, markSeed, MARK };
 })();

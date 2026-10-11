@@ -29,7 +29,7 @@ function bodyFor(id, kill, info, sim) {
   const b = R.body, m = R.remains, f = v => +(+v).toFixed(3);
   return {
     body: { k: id, n: info.name, x: Math.round(b.x), y: Math.round(b.y), a: f(b.angle), sx: f(b.scaleX), sy: f(b.scaleY), c: R.kind, aa: f(R.angle), lk: info.look,
-      eq: { kind: info.ek, color: info.ec, parts: info.ep }, bl: R.bursts.slice(0, 6).map(q => [Math.round(q.x), Math.round(q.y), (q.seed | 0) % 1000]),
+      eq: { kind: info.ek, color: info.ec, parts: info.ep }, bl: m.blood.slice(0, 8).map(q => [Math.round(q.x), Math.round(q.y), (q.seed | 0) % 1000]),
       dr: [Math.round(m.dropped.x), Math.round(m.dropped.y), f(m.dropped.angle)], ht: [Math.round(m.hat.x), Math.round(m.hat.y), f(m.hat.angle)], lo: info.light ? 1 : 0,
       ph: 1, hd: m.hands.flat().map(v => Math.max(-80, Math.min(80, v))), ho: m.hatOn ? 1 : 0, tr: m.trail, srv: 1 },
     attacker: R.attacker, dur: R.dur };

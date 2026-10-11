@@ -1,0 +1,202 @@
+{
+ "tool": "dev/stage-3d/gore_geo_test.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/d3base",
+ "deaths": 508,
+ "live": {
+  "points": 2249903,
+  "onSolid": 2103
+ },
+ "corpse": {
+  "points": 2802531,
+  "onSolid": 2465
+ },
+ "byKind": {
+  "corridor Hound A": {
+   "live": 11,
+   "corpse": 6
+  },
+  "corridor Hound C": {
+   "live": 21,
+   "corpse": 33
+  },
+  "corridor Smiler A": {
+   "live": 8,
+   "corpse": 39
+  },
+  "corridor Smiler C": {
+   "live": 0,
+   "corpse": 2
+  },
+  "corridor Smiler D": {
+   "live": 0,
+   "corpse": 2
+  },
+  "corner Hound A": {
+   "live": 2,
+   "corpse": 6
+  },
+  "corner Hound B": {
+   "live": 2,
+   "corpse": 0
+  },
+  "corner Hound C": {
+   "live": 6,
+   "corpse": 55
+  },
+  "corner Smiler A": {
+   "live": 5,
+   "corpse": 3
+  },
+  "corridor Hound B": {
+   "live": 3,
+   "corpse": 3
+  },
+  "corridor Hound D": {
+   "live": 1,
+   "corpse": 3
+  },
+  "wall Hound B": {
+   "live": 5,
+   "corpse": 3
+  },
+  "wall Hound C": {
+   "live": 9,
+   "corpse": 110
+  },
+  "wall Hound D": {
+   "live": 2,
+   "corpse": 4
+  },
+  "wall Smiler A": {
+   "live": 1,
+   "corpse": 0
+  },
+  "wall Smiler C": {
+   "live": 0,
+   "corpse": 68
+  },
+  "pillar Hound A": {
+   "live": 111,
+   "corpse": 107
+  },
+  "pillar Hound B": {
+   "live": 116,
+   "corpse": 117
+  },
+  "pillar Hound C": {
+   "live": 827,
+   "corpse": 825
+  },
+  "pillar Hound D": {
+   "live": 112,
+   "corpse": 109
+  },
+  "pillar Smiler A": {
+   "live": 217,
+   "corpse": 289
+  },
+  "pillar Smiler B": {
+   "live": 155,
+   "corpse": 154
+  },
+  "pillar Smiler C": {
+   "live": 158,
+   "corpse": 157
+  },
+  "pillar Smiler D": {
+   "live": 145,
+   "corpse": 164
+  },
+  "open Hound C": {
+   "live": 186,
+   "corpse": 206
+  }
+ },
+ "worst": [
+  {
+   "where": "live",
+   "tag": "corridor Hound A",
+   "k": "poly",
+   "x": 462.2,
+   "y": 670.4
+  },
+  {
+   "where": "live",
+   "tag": "corridor Hound A",
+   "k": "poly",
+   "x": 461,
+   "y": 670.4
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound A",
+   "k": "poly",
+   "x": 461.9,
+   "y": 670.3
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound A",
+   "k": "poly",
+   "x": 460.7,
+   "y": 670.4
+  },
+  {
+   "where": "live",
+   "tag": "corridor Hound C",
+   "k": "poly",
+   "x": 382.4,
+   "y": 708.7
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound C",
+   "k": "poly",
+   "x": 382.3,
+   "y": 707
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound C",
+   "k": "poly",
+   "x": 382.1,
+   "y": 708.8
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound C",
+   "k": "poly",
+   "x": 380.7,
+   "y": 726.8
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound C",
+   "k": "poly",
+   "x": 379.2,
+   "y": 724.6
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound C",
+   "k": "poly",
+   "x": 378.5,
+   "y": 722
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound C",
+   "k": "poly",
+   "x": 380.3,
+   "y": 718.9
+  },
+  {
+   "where": "corpse",
+   "tag": "corridor Hound C",
+   "k": "poly",
+   "x": 380.6,
+   "y": 716.5
+  }
+ ],
+ "ok": false
+}

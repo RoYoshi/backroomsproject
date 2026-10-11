@@ -18,6 +18,7 @@ E.deathPlan = function (jl, kind, K) {
 /* extra marks a variant leaves on the floor (drawn into the same Graphics as the blood, after it) */
 const hsh = (i, s) => { const x = Math.sin(i * 12.9898 + s * 78.233) * 43758.5453; return x - Math.floor(x); };
 E.deathExtras = function (g, jl, t) {
+  if (window.__gore && window.__gore.ownsWalls) return;          // Stage 3D: gore.js draws every wall impact where the physics struck, Hound C's included
   if (jl.kind !== 'Hound' || jl.variant !== 'C' || !jl.wall) return;
   const at = jl.ph && jl.ph.wallHit ? jl.ph.wallHit.t : jl.kt[1] * .9; if (t < at) return;
   const w = jl.wall, back = w.ang + Math.PI, k = clamp((t - at) / .55, 0, 1), fresh = 1 - clamp((t - .2) / 9, 0, 1), col = fresh > .5 ? 0x7a1512 : 0x4a0b0a;

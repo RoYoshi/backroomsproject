@@ -25,11 +25,31 @@
     }
     return pts;
   }
-  const outline = (shape, x, y, R, k = 1, ox = 0, oy = 0) => { const o = []; for (const [c, s, m] of shape) o.push(x + ox + c * m * R * k, y + oy + s * m * R * k * .82); return o; };
+  /* Stage 3D: a pool spreads on the floor only.  lim[i] (optional) is how far the floor reaches from the pool's centre along the shape's
+   * i-th direction before a wall or pillar; every outline point is pulled in to stay inside it, so blood never paints the top of a wall. */
+  const outline = (shape, x, y, R, k = 1, ox = 0, oy = 0, lim = null) => { const o = [];
+    for (let i = 0; i < shape.length; i++) { const [c, s, m] = shape[i]; let px = c * m * R * k + ox, py = s * m * R * k * .82 + oy;
+      if (lim) { const d = Math.hypot(px, py); if (d > lim[i]) { px *= lim[i] / d; py *= lim[i] / d; } }
+      o.push(x + px, y + py); }
+    return o; };
+  const API = () => window.__api;
+  /* the level's props block according to WORLD.mode (how low the viewer is standing); blood is placed as the death physics collides, in
+   * 'walk' mode, so every viewer draws the same blood whatever their own posture */
+  const walk = f => { const W0 = window.WORLD; if (!W0 || !W0.setMode || W0.mode === 'walk') return f(); const m = W0.mode; W0.setMode('walk'); try { return f(); } finally { W0.setMode(m); } };
+  /* the floor test the game hands in looks at the tile grid only; a drop that lands on a pillar or a prop is refused too */
+  const onFloor = (floor, x, y) => { if (!floor(x, y)) return false; const A = API(); return !A || !A.sl || walk(() => A.sl(x, y, .5)); };
+  /* a drop is elongated along its flight: its head, middle and the end of its tail must all be on the floor */
+  const dropOk = (floor, x, y, a, s, el) => { const c = Math.cos(a), n = Math.sin(a), L = s * el + 1; return onFloor(floor, x, y) && onFloor(floor, x - c * L, y - n * L) && onFloor(floor, x + c * (s + 1), y + n * (s + 1)); };
+  /* how far the floor reaches from (x, y) in each of a pool shape's directions (walls and pillars: the level's own ray), once per pool */
+  function reach(x, y, shape) {
+    const A = API(); if (!A || !A.Uc) return null; const out = new Float32Array(shape.length);
+    walk(() => { for (let i = 0; i < shape.length; i++) { const [c, s] = shape[i]; out[i] = Math.max(1.5, A.Uc(x, y, Math.atan2(s * .82, c), 90) - 1.5); } });
+    return out;
+  }
 
-  function drawPool(g, x, y, R, shape, fresh, seed, dirx = 1, diry = 0) {
+  function drawPool(g, x, y, R, shape, fresh, seed, dirx = 1, diry = 0, lim = null) {
     const dry = 1 - fresh;
-    LAYERS.forEach(([k, ci, al], i) => { const lo = Math.floor(ci), c = mix(shade(lo, dry), shade(Math.min(lo + 1, 3), dry), ci - lo); g.poly(outline(shape, x, y, R, k, dirx * R * .025 * i, diry * R * .025 * i)).fill({ color: c, alpha: al }); });
+    LAYERS.forEach(([k, ci, al], i) => { const lo = Math.floor(ci), c = mix(shade(lo, dry), shade(Math.min(lo + 1, 3), dry), ci - lo); g.poly(outline(shape, x, y, R, k, dirx * R * .025 * i, diry * R * .025 * i, lim)).fill({ color: c, alpha: al }); });
     if (fresh > .08) {                                                                                     // wet highlights
       const a = .2 * fresh;
       g.moveTo(x - R * .55, y - R * .32).quadraticCurveTo(x - R * .15, y - R * .58, x + R * .28, y - R * .42).stroke({ color: 0xffe9dc, width: 1.5, alpha: a, cap: 'round' });
@@ -90,18 +110,54 @@
     }
   }
 
+  /* ---------- Stage 3D: where the body struck a wall ----------
+   * (x, y) is the point of the wall face that was hit, (nx, ny) points out of the wall onto the floor, sp is the impact speed (px/s).
+   * A smear along the base of the wall and spray thrown back onto the floor, sized by the impact; k grows it in (0..1).  Every variant gets
+   * it where its body really hit (the physics' own contact), not only the hound's scripted wall slam. */
+  function wallMark(g, x, y, nx, ny, sp, seed, fresh, k, floor) {
+    const r = rng(seed * 977 + 31), tx = -ny, ty = nx, dry = 1 - fresh, size = clamp((sp - 60) / 260, .25, 1), L = (9 + 13 * size) * k, off = 1 + (7 * size + 2) / 2, bx = x + nx * off, by = y + ny * off;   // the stroke's edge stays on the floor
+    if (!onFloor(floor, bx, by)) return;
+    // the smear runs along the foot of the wall only as far as there is floor beside it (it stops at a corner or a pillar)
+    const run = s => { let d = 0; while (d < L && onFloor(floor, bx + tx * s * (d + 3), by + ty * s * (d + 3))) d += 3; return Math.min(L, d); }, La = run(-1), Lb = run(1);
+    g.moveTo(bx - tx * La, by - ty * La).lineTo(bx + tx * Lb, by + ty * Lb).stroke({ color: shade(2, dry), width: 7 * size + 2, alpha: .42 * k, cap: 'round' });
+    g.moveTo(bx - tx * La * .7 + nx, by - ty * La * .7 + ny).lineTo(bx + tx * Lb * .55 + nx, by + ty * Lb * .55 + ny).stroke({ color: shade(0, dry), width: 2.2 + 2 * size, alpha: .62 * k, cap: 'round' });
+    const n = 8 + Math.round(12 * size), base = Math.atan2(ny, nx);
+    for (let i = 0; i < n; i++) {
+      const a = base + (r() - .5) * 2.1, d = (4 + Math.pow(r(), 1.6) * (16 + 30 * size)) * k, sz = .6 + Math.pow(r(), 2) * 2.2, px = bx + Math.cos(a) * d, py = by + Math.sin(a) * d;
+      if (!dropOk(floor, px, py, a, sz, 1 + Math.min(3.5, d / 14))) continue;
+      drop(g, px, py, a, sz, 1 + Math.min(3.5, d / 14), shade(r() < .5 ? 1 : 2, dry), .85);
+    }
+  }
+  /* the strongest wall impacts of a death: the physics' own selection (dphys.marks), so the corpse record carries the same ones */
+  const impacts = S => window.__dphys && window.__dphys.marks ? window.__dphys.marks(S) : [];
+  /* a wall mark in a corpse record's blood list: seed 512 + the direction out of the wall in 32 steps (an older client draws it as a small pool) */
+  const MARK = 512, isMark = s => s >= MARK && s < MARK + 32, markSeed = (nx, ny) => MARK + ((Math.round(Math.atan2(ny, nx) / TAU * 32) % 32) + 32) % 32;
+  const markDir = s => { const a = (s - MARK) / 32 * TAU; return [Math.cos(a), Math.sin(a)]; };
+
   /* ---------- live death animation (called every frame in place of the old drawBlood) ---------- */
   function fx(g, d, t, floor) {
+    /* Stage 3D: the blood is redrawn only when something visible changed (a pool still growing, spray in flight, the drying colour moving
+     * on a step, the trail getting longer); once the death has settled that is a few times a second instead of every frame */
+    const walls = d.ph ? impacts(d.ph) : [];
+    const tl = d.trail && d.trail.length ? d.trail[d.trail.length - 1] : null;
+    let sig = d.bursts.length + '|' + (d.trail ? d.trail.length : 0) + (tl ? ',' + Math.round(tl[0]) + ',' + Math.round(tl[1]) : '') + '|' + walls.length;
+    for (const b of d.bursts) { const r = t - b.at; sig += r < 0 ? '|-' : r < .2 ? '|' + Math.round(r * 120) : '|' + Math.round(clamp(r / 1.6) * 48) + ',' + Math.round(clamp(r * 3.4) * 40) + ',' + Math.round(clamp(r / 9) * 24); }
+    for (const w of walls) { const r = t - w.t; sig += r < 0 ? '|w-' : '|w' + Math.round(clamp(r / .45) * 30) + ',' + Math.round(clamp(r / 9) * 24); }
+    if (d.ph) sig += '|tr' + Math.round(clamp((t - 1) / 4) * 24);
+    else sig += '|s' + Math.round(t * 30);
+    if (g.__goreSig === sig) return; g.__goreSig = sig;
     g.clear();
     for (const b of d.bursts) {
       const r = t - b.at; if (r < 0) continue;
       const geo = b.geo || (b.geo = { shape: poolShape(b.seed + 1 + (d.kind === 'Smiler' ? 40 : 0)), drops: spatterSet(b.seed + 3, d.angle) });
+      if (geo.lim === undefined) geo.lim = reach(b.x, b.y, geo.shape);
       const grow = 1 - Math.pow(1 - clamp(r / 1.6), 3), R = 4 + grow * 7.5, fresh = 1 - clamp(r / 9);
-      drawPool(g, b.x, b.y, R, geo.shape, fresh, b.seed, d.direction.x, d.direction.y);
+      drawPool(g, b.x, b.y, R, geo.shape, fresh, b.seed, d.direction.x, d.direction.y, geo.lim);
       const sp = clamp(r * 3.4);
       for (const s of geo.drops) {
         const x = b.x + Math.cos(s.a) * s.d * sp, y = b.y + Math.sin(s.a) * s.d * sp;
-        if (!floor(x, y)) continue;
+        const el = 1 + (s.el - 1) * (r < .3 ? 1 : .55);
+        if (sp >= 1) { if (s.ok === undefined) s.ok = dropOk(floor, x, y, s.a, s.s, 1 + (s.el - 1) * .55); if (!s.ok) continue; } else if (!dropOk(floor, x, y, s.a, s.s, el)) continue;
         drop(g, x, y, s.a, s.s * (.6 + .4 * sp), 1 + (s.el - 1) * (r < .3 ? 1 : .55), shade(s.c < .5 ? 1 : 2, 1 - fresh), .9);
       }
       if (r < .16) for (let k = 0; k < 4; k++) {          // arterial spray: short bright arcs that die fast
@@ -110,6 +166,7 @@
           .lineTo(b.x + Math.cos(a) * l * f, b.y + Math.sin(a) * l * f).stroke({ color: 0xa3201a, width: 1.6 * (1 - f) + .6, alpha: .8 * (1 - f), cap: 'round' });
       }
     }
+    for (const w of walls) { const r = t - w.t; if (r >= 0) wallMark(g, w.x, w.y, w.nx, w.ny, w.sp, Math.round(w.x * 7 + w.y * 13) & 1023, 1 - clamp(r / 9), clamp(r / .45), floor); }
     if (d.ph) { if (d.trail && d.trail.length > 1 && d.bursts.length) smearPath(g, d.trail, d.bursts[0].seed + 9, 1 - clamp((t - 1) / 4)); }
     else if (t > (d.dw ? d.dw[0] : 2.03) && d.bursts.length) { const b = d.bursts[d.bursts.length - 1]; smear(g, b.x, b.y, d.body.x, d.body.y, b.seed + 9, 1 - clamp((t - 2) / 3)); }
   }
@@ -118,16 +175,19 @@
   function corpse(g, rec, floor) {
     const dry = .82;
     g.ellipse(rec.x, rec.y + 2, 21, 27).fill({ color: 0x000000, alpha: .09 });                 // contact shadow grounds the body
-    rec.blood.forEach((b, i) => {
+    const pools = rec.blood.filter(b => !isMark(b.seed)), marks = rec.blood.filter(b => isMark(b.seed));
+    for (const b of marks) { const [nx, ny] = markDir(b.seed); wallMark(g, b.x, b.y, nx, ny, 220, Math.round(b.x * 7 + b.y * 13) & 1023, 1 - dry, 1, floor); }
+    pools.forEach((b, i) => {
       const shape = poolShape(b.seed + 1 + (rec.cause === 'Smiler' ? 40 : 0));
       const spr = spatterSet(b.seed + 3, rec.attackAngle);
-      for (const s of spr) { const x = b.x + Math.cos(s.a) * s.d, y = b.y + Math.sin(s.a) * s.d; if (floor(x, y)) drop(g, x, y, s.a, s.s, 1 + (s.el - 1) * .55, shade(s.c < .5 ? 1 : 2, dry), .85); }
-      drawPool(g, b.x, b.y, rec.hands ? 9 + (i % 2) * 1.5 : 17 + (i % 2) * 2, shape, 1 - dry + .12, b.seed, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle));
+      for (const s of spr) { const x = b.x + Math.cos(s.a) * s.d, y = b.y + Math.sin(s.a) * s.d; if (dropOk(floor, x, y, s.a, s.s, 1 + (s.el - 1) * .55)) drop(g, x, y, s.a, s.s, 1 + (s.el - 1) * .55, shade(s.c < .5 ? 1 : 2, dry), .85); }
+      drawPool(g, b.x, b.y, rec.hands ? 9 + (i % 2) * 1.5 : 17 + (i % 2) * 2, shape, 1 - dry + .12, b.seed, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle), reach(b.x, b.y, shape));
     });
-    const last = rec.blood[rec.blood.length - 1];
+    const last = pools[pools.length - 1];
     if (rec.trail && rec.trail.length > 1) smearPath(g, rec.trail, (last ? last.seed : 1) + 9, .1); else if (last && !rec.hands) smear(g, last.x, last.y, rec.x, rec.y, last.seed + 9, .1);
     // the pool under the torso (smaller when the body came to rest where it fell: it did not lie in it for long)
-    drawPool(g, rec.x, rec.y, rec.hands ? 15 : 25, poolShape(hash(String(rec.id)) % 997), .28, 1, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle));
+    const ts = poolShape(hash(String(rec.id)) % 997);
+    drawPool(g, rec.x, rec.y, rec.hands ? 15 : 25, ts, .28, 1, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle), reach(rec.x, rec.y, ts));
   }
 
   /* ---------- wounds drawn ON the avatar (local coords: torso ~ x -14..14, y -14..10) ---------- */
@@ -181,5 +241,5 @@
     }
   }
 
-  window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear };
+  window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear, wallMark, impacts, markSeed, ownsWalls: true };
 })();
