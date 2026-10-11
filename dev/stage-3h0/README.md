@@ -38,3 +38,5 @@ Nothing here is served to browsers or loaded by the game. The server's allowlist
 | `evidence/h0-1/` | The baselines (`srv_traces/`, `cli_traces/`) and the reports of every H0-1 step (`steps.txt` lists them with exit codes). It also keeps the existing suites' logs, and the failing first performance rule with its rescoring. |
 | `evidence/h0-1b/` | The client baseline, rebuilt from the parent's code after the H0-2 harness fix. Its `README.md` says why. |
 | `evidence/h0-2/` | The wire-codec extraction's receipt: function equivalence and its mutants, the gate (traces, contract), live, performance, serving tests. `attempt1/` keeps the first, failing gate run. |
+| `evidence/h0-3/` | The interpolation extraction's receipt: `interp_test.js` before and after the move, function equivalence (with its A/A run) and its mutants (`fn_mutants_interp_attempt1.json` keeps the first run, which missed 2 of 8), the gate, live, performance. |
+| `evidence/remote/` | The independent remote verification of each pushed checkpoint (`verify_remote_h0.py`). |

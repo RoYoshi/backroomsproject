@@ -92,3 +92,4 @@
 |---|---|---|---|---|
 | (H0-0) | nothing | | 72,790 / 841 | |
 | H0-2 | the look / light / corpse wire codec: `toRec`, `partList`, `partObj`, `parseLook` (verbatim), plus `lookStr`, the look encoder mp.js wrote inline three times (`fxBase`, `bodyMade`, the `p` packet), which now call it | `assets/net-wire.js` (2,653 B, 23 lines); one `<script>` line in `index.html` | 71,189 / 833 | `3H0_EQUIVALENCE_REPORT.md` H0-2 |
+| H0-3 | the snapshot interpolation: `NET`, `netReset`, `netHist`, `angD2` and `netPose`, verbatim with their comments. mp.js keeps publishing `__NET` and `__netPose` and setting `NET.onEpoch` | `assets/net-interp.js` (4,163 B, 46 lines); one more `<script>` line in `index.html` | 68,144 / 799 | `3H0_EQUIVALENCE_REPORT.md` H0-3 |

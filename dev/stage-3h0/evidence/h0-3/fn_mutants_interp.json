@@ -1,0 +1,49 @@
+{
+ "tool": "dev/stage-3h0/golden/fn_mutants.js",
+ "target": "interp",
+ "file": "assets/net-interp.js",
+ "applied": 8,
+ "caught": 8,
+ "results": [
+  {
+   "name": "delay 0.11 s",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "extrapolation 0.2 s",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "jump limit 299 px",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "step back 0.5 s",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "history of 9",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "prune after 6 s",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "no epoch callback",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "facing not on the shortest arc",
+   "applied": true,
+   "caught": true
+  }
+ ]
+}

@@ -2,11 +2,14 @@
  * compared with the previous client behaviour (chase the newest snapshot with an exponential ease).   node tests/interp_test.js */
 'use strict';
 const fs = require('fs'), path = require('path');
-const src = fs.readFileSync(path.join(require('../paths.js'), 'mp.js'), 'utf8');
-const a = src.indexOf('const NET = {'), b = src.indexOf('window.__netPose');
-if (a < 0 || b < 0) { console.log('FAIL: interpolation code not found in mp.js'); process.exit(1); }
+/* Stage 3H0 H0-3: the interpolation moved, unchanged, from mp.js to assets/net-interp.js.  The test reads it from there when that file
+ * exists (else from mp.js, as before) and cuts either text at the same code: from `const NET = {` to the line that publishes it. */
+const GAME = require('../paths.js'), MOD = path.join(GAME, 'assets', 'net-interp.js');
+const cut = code => { const a = code.indexOf('const NET = {'); let b = code.indexOf('window.__netPose'); if (b < a) b = code.indexOf('(window.__mpLib'); return a >= 0 && b > a ? code.slice(a, b) : null; };
+const src = fs.readFileSync(fs.existsSync(MOD) ? MOD : path.join(GAME, 'mp.js'), 'utf8');
+if (!cut(src)) { console.log('FAIL: interpolation code not found in ' + (fs.existsSync(MOD) ? 'assets/net-interp.js' : 'mp.js')); process.exit(1); }
 let NOW = 0; const performance = { now: () => NOW }, window = {};
-const mod = new Function('performance', 'window', src.slice(a, b) + '\nreturn { NET, netHist, netPose };')(performance, window);
+const mod = new Function('performance', 'window', cut(src) + '\nreturn { NET, netHist, netPose };')(performance, window);
 function rng(s) { return () => { s = (s * 1103515245 + 12345) % 2147483648; return s / 2147483648; }; }
 function run(seed, lateEvery) {
   const R = rng(seed), NET = mod.NET; NET.off = null; NET.hist.clear();
@@ -45,8 +48,7 @@ for (const [name, late] of cases) {
  * new world at once, not stay frozen on the old one's last pose.  Stepping the same stream through code given as `code` (the fixed mp.js, or an
  * older one passed with OLD_MP=path) shows the difference. */
 function newWorld(code, gapMs) {
-  const a2 = code.indexOf('const NET = {'), b2 = code.indexOf('window.__netPose');
-  const M = new Function('performance', 'window', code.slice(a2, b2) + '\nreturn { NET, netHist, netPose };')(performance, window);
+  const M = new Function('performance', 'window', cut(code) + '\nreturn { NET, netHist, netPose };')(performance, window);
   NOW = 0; let at = 0;
   for (let k = 0; k <= 40; k++) { at = k * 50; NOW = at; M.netHist({ st: 60 + k * .05, h: [{ i: 1, x: 5000, y: 3000, a: 0 }] }, at); }         // old world: h1 standing at x 5000
   const t0 = at + gapMs; let firstNear = -1; const ep0 = M.NET.epoch;
@@ -59,8 +61,7 @@ function newWorld(code, gapMs) {
 }
 /* ordinary jitter and a repeated / reordered snapshot never reset anything */
 function jitterKeeps(code) {
-  const a2 = code.indexOf('const NET = {'), b2 = code.indexOf('window.__netPose');
-  const M = new Function('performance', 'window', code.slice(a2, b2) + '\nreturn { NET, netHist, netPose };')(performance, window);
+  const M = new Function('performance', 'window', cut(code) + '\nreturn { NET, netHist, netPose };')(performance, window);
   const R = rng(7); let resets = 0, ep = M.NET.epoch;
   for (let k = 0; k < 200; k++) { const st = 100 + k * .05; NOW = k * 50 + R() * 90; M.netHist({ st: k % 17 === 5 ? st - .05 : st, h: [{ i: 1, x: k * 14, y: 0, a: 0 }] }, NOW); if (M.NET.epoch !== ep) { resets++; ep = M.NET.epoch; } }
   return { resets, hist: M.NET.hist.get('h1').length };

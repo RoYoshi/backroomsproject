@@ -139,3 +139,18 @@ Only what an approved extraction needs: a classic script under `assets/` loaded 
 - **No new facade member:** `window.__net` and every global above are unchanged. The harness proves this: `__mpLib` is the only global the new page adds (`dev/stage-3h0/golden/declared_new_globals.json`).
 
 **If the file fails to load:** mp.js stops on its first line, so `window.__net`, `window.__mp` and its DOM never appear. The bundle guards every use of them (`window.__net && …`, `window.__mp && …`), so the game would run as if mp.js itself had failed to load: single-player, without the network layer. This is a new dependency edge of the same kind as mp.js itself, not a new failure mode.
+
+### Added at H0-3: the snapshot interpolation
+
+**`assets/net-interp.js`** is a classic script with no `'use strict'`. `index.html` loads it on the line after `net-wire.js` and immediately before `mp.js`.
+- **Serving:** the existing `assets/` rule, as for `net-wire.js`.
+- **Side effects:** none apart from defining its entry in the namespace. Its state object `NET` is created when the file runs, with the same initial content as before: `{off: null, hist: new Map(), DELAY: .1, lastSt: null, epoch: 0, onEpoch: null}`. Nothing could call it between that moment and the moment mp.js used to create it.
+
+**`window.__mpLib.interp`** is a frozen object with `NET`, `netReset`, `netHist` and `netPose`.
+- mp.js destructures it on its second line.
+- mp.js still publishes `window.__netPose = netPose; window.__NET = NET;` at the same point of its start-up as before. `window.__NET` is the very same object the module uses.
+- mp.js still sets `NET.onEpoch`; the namespace is frozen, `NET` is not.
+
+**The one test that read this code by its text** is `dev/tests/interp_test.js`. It now cuts the same code from `assets/net-interp.js` (or from `mp.js` when that file is absent, and for `OLD_MP`). Its output is identical before and after the move.
+
+**If the file fails to load:** the same as for `net-wire.js`. mp.js stops on its second line, and the game runs as if mp.js had failed to load.

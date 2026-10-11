@@ -44,3 +44,37 @@
 - **Fix:** the harness now leaves `<script>` elements out of that record.
 - **Re-check:** the client baseline was rebuilt from the parent's code on both sides (`evidence/h0-1b/`). The parent against itself is identical, and 35 of 35 deliberate changes are still caught.
 - **Server:** the new `http_h0` scenario has no H0-1 baseline, and the first run counted that as a failure. It is now reported as "no baseline (new scenario)", and compared old code against new code only.
+
+## H0-3: the snapshot interpolation (client) — GO
+
+**What moved.** From `mp.js` into the new `assets/net-interp.js`, character for character with their comments: `NET`, `netReset`, `netHist`, `angD2` and `netPose`.
+
+**What stayed in mp.js:**
+- it reads `NET`, `netReset`, `netHist` and `netPose` once, on the second line of its IIFE, from `window.__mpLib.interp`;
+- it publishes `window.__netPose` and `window.__NET` at the same point of its start-up as before;
+- it sets `NET.onEpoch` as before.
+
+`index.html` gains one more line, before `mp.js`. **mp.js:** 71,189 → 68,144 bytes (72,790 at the parent). The new file is 4,163 bytes.
+
+**Why it is safe by construction:**
+- `NET` is one object, created with the same initial content, and nothing calls it before mp.js runs;
+- `netPose` reads `performance.now()` at call time, as before;
+- no timer, listener or randomness;
+- the file has no `'use strict'`, like the context it came from.
+
+**Tests first.** `dev/tests/interp_test.js` cut this code out of `mp.js` by its text. Before the move it was changed only in where it reads the code: `assets/net-interp.js` when present, else `mp.js` (and still `OLD_MP`). Its output was recorded, the code moved, and the output compared: **identical** (`interp_test_before_move.log`, `interp_test_after_move.log`).
+
+**The evidence** (`dev/stage-3h0/evidence/h0-3/`):
+
+| Check | Result |
+|---|---|
+| Function level (`fn_equiv.js --target interp`): 200 generated streams of 400 operations, comparing after every operation every pose, `NET`'s whole state and the epoch-callback count. The streams include jitter, repeats, late and reordered snapshots, steps right at the 300 px line, 0.3-2 s steps back, 30-50 s leaps, missing clocks and pose queries, plus a quarter of calm streams in which one entity leaves for 4.75-6.75 s (pruning) | **80,000 of 80,000 steps identical** (the A/A run of the same generator is identical too) |
+| Does that check have teeth? (`fn_mutants.js --target interp`) | 8 of 8 wrong versions caught: delay, extrapolation, jump line, step-back line, history length, pruning, the epoch callback, shortest-arc facing. The first run caught 6 of 8 (`fn_mutants_interp_attempt1.json`): the generator never stepped exactly to the 300 px line, and reset too often for pruning to happen. Both were added to the generator, and then all 8 were caught. |
+| `dev/tests/interp_test.js` | 3/3, output identical to before the move |
+| Client golden traces, all 9 scenes; `interp` probes `__netPose`, `__NET` and its epochs at exact times | **byte-identical**, and identical to the client baseline; the only new global is still `__mpLib` |
+| Server golden traces, 11 scenarios | identical old against new; against the baseline only the expected body changes of `index.html` and `mp.js` |
+| `http_h0` | `assets/net-interp.js` served as `text/javascript`, `no-store`, gzip; old and new server code identical |
+| Protocol contract | 0 violations |
+| `test_3bn.js` | 7/7 |
+| Live wire: the real server and game, the parent's checkout against the new tree | **structurally identical in all 56 phase, player and direction summaries** (7,160 and 7,177 frames); 0 page errors on either side |
+| Deterministic performance (client, 15 rounds interleaved) | within the rule fixed at H0-1. The hook medians moved −5.6 % to −1.4 %, the handler medians −9.1 % to +10.8 %. The largest, `fx_bodies` handler +10.8 %, is 1.3 ms against a tolerance of 6.8 ms from the old side's own spread. The move adds no per-frame work: `netPose` is called as often as before, from the same places. |

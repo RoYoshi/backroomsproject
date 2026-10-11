@@ -1,6 +1,6 @@
 /* Stage 3H0 - function-level equivalence of an extracted mp.js helper (development only).
  *
- *   node dev/stage-3h0/golden/fn_equiv.js --target wire|interp [--new FILE] [--old-ref edd2af9] [--cases N] [--out FILE.json]
+ *   node dev/stage-3h0/golden/fn_equiv.js --target wire|interp|ws|fields [--new FILE] [--old-ref edd2af9] [--cases N] [--out FILE.json]
  *
  * OLD: the functions cut out of the accepted parent's mp.js by their own text (the way dev/tests/interp_test.js already does), evaluated in
  *      a sandbox whose `window` and `performance` are the harness's.
@@ -114,16 +114,25 @@ function interp() {
     const O = make(oldCode, false), N = newFile ? make(fs.readFileSync(newFile, 'utf8'), true) : make(oldCode, false);
     let epochsO = 0, epochsN = 0; O.NET.onEpoch = () => epochsO++; N.NET.onEpoch = () => epochsN++;
     P.now = 1000 + R() * 5000; let st = R() * 300;
-    const ids = ['h1', 'h2', 'm3', 'm4', 'h5'];
+    const ids = ['h1', 'h2', 'm3', 'm4', 'h5'], last = {};
+    const away = { id: pick(ids), from: 60 + Math.floor(R() * 80), steps: 95 + Math.floor(R() * 40) };     // one entity leaves for 4.75-6.75 s of server clock (pruning at 5 s)
     for (let k = 0; k < 400; k++) {
       const kind = R();
       let line;
-      if (kind < .08) { P.now += R() * 80; line = ['pose', pick(ids.concat(['h99']))]; }
-      else if (kind < .1) { line = ['reset']; }
+      if (kind < .08 || (kind < .1 && !(s % 4))) { P.now += R() * 80; line = ['pose', pick(ids.concat(['h99']))]; }
+      else if (kind < .1 && s % 4) { line = ['reset']; }
       else {
-        const r = R(); st = r < .03 ? st - R() * 2 : r < .05 ? st + 31 + R() * 20 : r < .08 ? st : st + .05 + (R() - .5) * .02;
+        const r = R(), calm = s % 4 === 0;                                  // a quarter of the streams have no new world at all, so pruning (5 s unseen) can happen
+        st = !calm && r < .03 ? st - R() * 2 : !calm && r < .05 ? st + 31 + R() * 20 : r < .08 ? st : st + .05 + (R() - .5) * .02;
         const e = { st: R() < .03 ? undefined : +st.toFixed(3), h: [], m: [] };
-        for (const id of ids) if (R() < .85) { const t = { i: +id.slice(1), x: R() < .05 ? R() * 9000 : 1000 + k * 7 + R() * 5, y: 2000 + R() * 3, a: R() * 7 - 3.5 }; (id[0] === 'h' ? e.h : e.m).push(t); }
+        for (const id of ids) {
+          if (id === away.id && k >= away.from && k < away.from + away.steps) continue;
+          if (R() >= .85) continue;
+          const j = R(), base = last[id] !== undefined ? last[id] : 1000 + k * 7;
+          const x = j < .05 ? R() * 9000 : j < .08 ? base + pick([299.5, 300.5, -299.5, 300, 299.99]) : 1000 + k * 7 + R() * 5;       // big jumps, and steps right at the 300 px line
+          last[id] = x;
+          const t = { i: +id.slice(1), x, y: 2000 + (j >= .05 && j < .08 ? 0 : R() * 3), a: R() * 7 - 3.5 }; (id[0] === 'h' ? e.h : e.m).push(t);
+        }
         if (R() < .02) delete e.h; if (R() < .02) e.m = undefined;
         P.now += 20 + R() * 60; line = ['hist', e, P.now + (R() - .5) * 30];
       }
@@ -142,7 +151,75 @@ function interp() {
   return res;
 }
 
-const res = ARG.target === 'interp' ? interp() : wire();
+/* ---------- server: the raw WebSocket wire (handshake text, outbound frames, the inbound reader) ---------- */
+const OLDSRV = () => execFileSync('git', ['-C', REPO, 'show', ARG['old-ref'] + ':server.js'], { encoding: 'utf8' });
+function ws() {
+  const S = OLDSRV();
+  const frameCode = slice(S, 'function frame(str) {', 'const send =');
+  const hsExpr = slice(S, "'HTTP/1.1 101 Switching Protocols", "'\\r\\n\\r\\n'", true);
+  const readerCode = slice(S, '  let buf = Buffer.alloc(0);\n  sock.on(\'data\'', '  const bye = () =>');
+  const mk = () => vm.createContext({ Buffer, crypto: require('crypto'), JSON, Math });
+  const O = vm.runInContext(frameCode + `\n;({ frame, handshake: req => ${hsExpr}, register: (sock, onMessage) => { ${readerCode} } })`, mk());
+  let N, newFile = null;
+  if (ARG.new && fs.existsSync(ARG.new)) { newFile = ARG.new; const m = require(path.resolve(ARG.new)); N = { frame: m.frame, handshake: req => m.handshake(req.headers['sec-websocket-key']), register: (sock, onMessage) => sock.on('data', m.reader(sock, onMessage)) }; }
+  else N = vm.runInContext(frameCode + `\n;({ frame, handshake: req => ${hsExpr}, register: (sock, onMessage) => { ${readerCode} } })`, mk());
+  const res = { target: 'ws', newFile, functions: {}, mismatches: [] };
+  const n = +ARG.cases;
+  const str = () => { const L = pick([0, 1, 5, 124, 125, 126, 127, 1000, 65535, 65536, 70000, Math.floor(R() * 300), Math.floor(R() * 66000)]); let t = ''; const al = pick(['ascii', 'utf8', 'mixed']); for (let i = 0; i < L; i++) t += al === 'ascii' ? String.fromCharCode(32 + Math.floor(R() * 90)) : al === 'utf8' ? pick(['é', '✓', '😀', 'a']) : pick(['a', '{', '"', 'é']); return t; };
+  { let same = 0; const m = Math.min(n, 3000); for (let i = 0; i < m; i++) { const x = str(), a = call(O.frame, [x]), b = call(N.frame, [x]); if (a === b) same++; else if (res.mismatches.length < 20) res.mismatches.push({ fn: 'frame', len: x.length, old: a.slice(0, 200), new: b.slice(0, 200) }); } res.functions.frame = { cases: m, identical: same }; }
+  { let same = 0; for (let i = 0; i < n; i++) { const key = pick([() => 'dGhlIHNhbXBsZSBub25jZQ==', () => require('crypto').randomBytes(16).toString('base64'), () => '', () => undefined, () => 'x'.repeat(Math.floor(R() * 80)), () => 'é✓', () => 42])(); const req = { headers: { 'sec-websocket-key': key } }; const a = call(O.handshake, [req]), b = call(N.handshake, [req]); if (a === b) same++; else if (res.mismatches.length < 20) res.mismatches.push({ fn: 'handshake', key, old: a.slice(0, 200), new: b.slice(0, 200) }); } res.functions.handshake = { cases: n, identical: same }; }
+  /* the reader: random byte streams of frames (valid and not), cut into random chunks, fed to both; every effect recorded in order */
+  const cfr = (payload, { op = 1, fin = true, mask = true, len16 = false, len64 = false, key } = {}) => {
+    const p = Buffer.isBuffer(payload) ? payload : Buffer.from(String(payload)); const nn = p.length, h = [(fin ? 0x80 : 0) | op], mm = mask ? 0x80 : 0;
+    if (len64) h.push(mm | 127, 0, 0, 0, 0, (nn >>> 24) & 255, (nn >> 16) & 255, (nn >> 8) & 255, nn & 255); else if (nn < 126 && !len16) h.push(mm | nn); else h.push(mm | 126, nn >> 8, nn & 255);
+    const k = mask ? Buffer.from(key || [Math.floor(R() * 256), Math.floor(R() * 256), Math.floor(R() * 256), Math.floor(R() * 256)]) : Buffer.alloc(0), body = Buffer.from(p);
+    if (mask) for (let i = 0; i < nn; i++) body[i] ^= k[i & 3]; return Buffer.concat([Buffer.from(h), k, body]);
+  };
+  const msg = () => pick([() => JSON.stringify({ t: 'p', x: Math.floor(R() * 9000), y: 3 }), () => JSON.stringify({ t: 'boom' }), () => '{"t":', () => 'null', () => '[1,2]', () => '"s"', () => '42', () => JSON.stringify({ t: 'ping', pad: 'x'.repeat(Math.floor(R() * 1500)) }), () => JSON.stringify({ t: 'x', u: 'é😀' })])();
+  const piece = () => pick([() => cfr(msg()), () => cfr(msg()), () => cfr(msg(), { len16: true }), () => cfr('hi', { op: 9 }), () => cfr('', { op: 10 }), () => cfr(Buffer.from([1, 2, 3]), { op: 2 }), () => cfr(msg(), { op: 0 }), () => cfr(msg(), { fin: false }),
+    () => cfr(msg(), { mask: false }), () => cfr('', { op: 8 }), () => cfr(msg(), { len64: true }), () => Buffer.from([0x81]), () => cfr('x'.repeat(1399)), () => cfr('x'.repeat(1400))])();
+  let same = 0; const runs = Math.max(200, Math.round(n / 20));
+  for (let r = 0; r < runs; r++) {
+    const parts = []; const k = 1 + Math.floor(R() * 8); for (let i = 0; i < k; i++) { if (R() < .03 && r % 5) break; parts.push(piece()); }
+    const all = Buffer.concat(parts), cuts = []; let at = 0; while (at < all.length) { const c = Math.max(1, Math.floor(R() * (R() < .3 ? 4 : 400))); cuts.push(all.slice(at, at + c)); at += c; }
+    const effects = impl => { const ev = []; const sock = { on(e, fn) { ev.push('on ' + e); this.h = fn; }, write(b) { ev.push('write ' + Buffer.from(b).toString('hex')); return true; }, end() { ev.push('end'); }, destroy() { ev.push('destroy'); } };
+      impl.register(sock, m => { ev.push('msg ' + canon(m)); if (m && m.t === 'boom') throw new Error('handler threw'); });
+      for (const c of cuts) { try { const rv = sock.h(Buffer.from(c)); if (rv !== undefined) ev.push('ret ' + typeof rv); } catch (e) { ev.push('threw ' + e.message); } }
+      return ev.join('\n'); };
+    const a = effects(O), b = effects(N);
+    if (a === b) same++; else if (res.mismatches.length < 20) res.mismatches.push({ fn: 'reader', run: r, old: a.slice(0, 300), new: b.slice(0, 300) });
+  }
+  res.functions.reader = { streams: runs, identical: same };
+  return res;
+}
+
+/* ---------- server: inbound field validation ---------- */
+function fields() {
+  const S = OLDSRV(), code = slice(S, 'const num = (v, lo, hi)', 'function getRoom(');
+  const O = vm.runInContext(code + '\n;({ num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook })', vm.createContext({ Math, String, Array }));
+  let N, newFile = null;
+  if (ARG.new && fs.existsSync(ARG.new)) { newFile = ARG.new; N = require(path.resolve(ARG.new)); }
+  else N = vm.runInContext(code + '\n;({ num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook })', vm.createContext({ Math, String, Array }));
+  const res = { target: 'fields', newFile, functions: {}, mismatches: [] };
+  const n = +ARG.cases;
+  const any = () => pick([() => Math.floor(R() * 20000) - 5000, () => R() * 100, () => -0, () => NaN, () => Infinity, () => -Infinity, () => '12', () => '1e3', () => 'abc', () => '', () => null, () => undefined, () => true, () => [], () => [7], () => ({}), () => '0x1f', () => ' 5 '])();
+  const hex = () => '#' + Array.from({ length: pick([3, 6, 6, 6, 7]) }, () => pick('0123456789abcdefABCDEFg')).join('');
+  const lookStr = () => pick([() => [pick(['none', 'cap', 'beanie', 'hardhat', 'crown', '']), pick(['plain', 'freckles', 'stripes', 'patched', 'x']), hex(), hex(), pick(['none', 'canvas', 'utility', 'bag'])].join('|'),
+    () => 'none|plain|#e6bb76|#ffcc77|none', () => 'cap|freckles|#e6bb76|#3a6ea5|none|extra', () => 'cap|freckles', () => any()])();
+  const parts = () => pick([() => Array.from({ length: Math.floor(R() * 7) }, hex).join(','), () => any(), () => '#111111,#222222,#333333', () => ',,'])();
+  const cases = { num: () => [any(), pick([0, -500, -20, .5]), pick([9216, 6912, 500, 20, 1.6])], kindOf: () => [pick(['flashlight', 'headlamp', 'lantern', 'camcorder', 'chestlamp', 'torch', 'rocket', '', 'constructor', '__proto__', 'toString', undefined, null, 3])],
+    cleanParts: () => [parts()], cleanLook: () => [lookStr()], 'HEX.test': () => [pick([hex(), any(), '#e6bb76', '#E6BB76', ' #e6bb76', '#e6bb76 '])] };
+  for (const [name, gen] of Object.entries(cases)) {
+    let same = 0;
+    for (let i = 0; i < n; i++) { const args = gen(); const f = o => name === 'HEX.test' ? (x => o.HEX.test(x)) : o[name]; const a = call(f(O), args), b = call(f(N), args); if (a === b) same++; else if (res.mismatches.length < 20) res.mismatches.push({ fn: name, args: canon(args), old: a, new: b }); }
+    res.functions[name] = { cases: n, identical: same };
+  }
+  const k1 = canon(O.DEFAULT_LOOK), k2 = canon(N.DEFAULT_LOOK); res.functions.DEFAULT_LOOK = { identical: k1 === k2 ? 1 : 0 }; if (k1 !== k2) res.mismatches.push({ fn: 'DEFAULT_LOOK', old: k1, new: k2 });
+  res.functions['HEX source'] = { identical: String(O.HEX) === String(N.HEX) ? 1 : 0 }; if (String(O.HEX) !== String(N.HEX)) res.mismatches.push({ fn: 'HEX source', old: String(O.HEX), new: String(N.HEX) });
+  return res;
+}
+
+const res = ARG.target === 'interp' ? interp() : ARG.target === 'ws' ? ws() : ARG.target === 'fields' ? fields() : wire();
 res.tool = 'dev/stage-3h0/golden/fn_equiv.js'; res.oldRef = ARG['old-ref']; res.ok = !res.mismatches.length;
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(res, null, 1) + '\n');
 console.log(JSON.stringify(Object.assign({}, res, { mismatches: res.mismatches.length }), null, 1));
