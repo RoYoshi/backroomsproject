@@ -25,6 +25,13 @@ EDITS = [
     ('D4', "the victim's own death starts from the server's kill record (mp.js window.__dvic), so victim, spectators and the server's corpse run one death",
      'start(e,t,n,r=-1,V=null,K=null){let H=V||window.__api.H;',
      'start(e,t,n,r=-1,V=null,K=null){let H=V||window.__dvic&&window.__dvic(K)||window.__api.H;'),
+    ('D5', "the death sound's blows fall when the physics' blows fall (dphys hits, not a fixed table); a spectator hears it placed: gain, pan and muffling",
+     'death(e){if(!this.context||!this.gain)return;if(window.__sfx&&window.__sfx.death(e))return;const t=this.context,n=t.currentTime,H=e===`Hound`,hits=ql[e],bus=t.createDynamicsCompressor();bus.threshold.value=-14;bus.ratio.value=5;bus.connect(this.gain);setTimeout(()=>{try{bus.disconnect()}catch{}},6500);',
+     'death(e,O){if(!this.context||!this.gain)return;if(window.__sfx&&window.__sfx.death(e,O))return;const t=this.context,n=t.currentTime,H=e===`Hound`,hits=O&&O.hits||window.__dsndHits&&window.__dsndHits(e)||ql[e],bus=t.createDynamicsCompressor();bus.threshold.value=-14;bus.ratio.value=5;const og3=t.createGain(),lf3=t.createBiquadFilter(),pn3=t.createStereoPanner();og3.gain.value=O&&O.gain!=null?O.gain:1;lf3.type=`lowpass`;lf3.frequency.value=O&&O.lp||20000;pn3.pan.value=O&&O.pan||0;bus.connect(og3);og3.connect(lf3);lf3.connect(pn3);pn3.connect(this.gain);setTimeout(()=>{try{bus.disconnect();og3.disconnect();lf3.disconnect();pn3.disconnect()}catch{}},6500);'),
+    ('D5', 'reduced motion: the death\'s camera shake (dphys impulse) is scaled down (window.__dcamK)',
+     'i.ph?i.ph.cam.x*this.scale:', 'i.ph?i.ph.cam.x*this.scale*(window.__dcamK?window.__dcamK():1):'),
+    ('D5', 'reduced motion: the same for the vertical shake',
+     'i.ph?i.ph.cam.y*this.scale:', 'i.ph?i.ph.cam.y*this.scale*(window.__dcamK?window.__dcamK():1):'),
 ]
 
 

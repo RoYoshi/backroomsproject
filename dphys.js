@@ -508,6 +508,7 @@
     while ((jl.evi | 0) < S.ev.length) {
       const q = S.ev[jl.evi | 0]; jl.evi = (jl.evi | 0) + 1;
       if (q.k === 'hit') { jl.bursts.push({ x: q.x, y: q.y, at: q.t, seed: q.i }); jl.nextHit = q.i + 1; }
+      else if (window.__ents && window.__ents.deathEvent) window.__ents.deathEvent(q, jl, S);                       // Stage 3D: the sound of what really happened (a wall, the light, the hat)
     }
     jl.black = jl.blackFn ? jl.blackFn(t) : 0;
     jl.drawBlood(t); jl.drawShadow(t);
@@ -539,5 +540,7 @@
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0 };
   }
 
+  /* Stage 3D: with reduced motion (the settings' 'rm' class) the death's camera shake is a quarter as strong; the zoom is unchanged */
+  window.__dcamK = () => (typeof document !== 'undefined' && document.documentElement.classList.contains('rm') ? .25 : 1);
   window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, marks, markSeed, MARK, LEN };
 })();

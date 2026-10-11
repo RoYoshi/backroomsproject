@@ -1,0 +1,16 @@
+houndC sources quiet [0, 0, 0] death [32, 22, 3] shake 0
+  victim [('death', 'Hound', None)]
+  spectator []
+  far []
+smilerA sources quiet [0, 0, 0] death [24, 16, 0] shake 0
+  victim [('death', 'Smiler', None)]
+  spectator []
+  far []
+houndA_bobSoundOff sources quiet [0, 0, 0] death [31, 0, 3] shake 0
+  victim [('death', 'Hound', None)]
+  spectator []
+  far []
+houndA_reducedMotion sources quiet [0, 0, 0] death [32, 21, 3] shake 0
+  victim [('death', 'Hound', None)]
+  spectator []
+  far []

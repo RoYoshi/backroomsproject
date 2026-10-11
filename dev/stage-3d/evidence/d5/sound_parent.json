@@ -1,0 +1,130 @@
+{
+ "tool": "dev/stage-3d/sound_check.py",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/d3base",
+ "runs": {
+  "houndC": {
+   "quietStartsPer3s": [
+    0,
+    0,
+    0
+   ],
+   "deathStarts": [
+    32,
+    22,
+    3
+   ],
+   "victim": [
+    {
+     "t": 80630.09999999776,
+     "what": "death",
+     "kind": "Hound",
+     "hits": null,
+     "gain": null,
+     "pan": null,
+     "lp": null
+    }
+   ],
+   "spectator": [],
+   "far": [],
+   "maxShake": 0,
+   "reducedMotion": false,
+   "spectatorSoundOff": false
+  },
+  "smilerA": {
+   "quietStartsPer3s": [
+    0,
+    0,
+    0
+   ],
+   "deathStarts": [
+    24,
+    16,
+    0
+   ],
+   "victim": [
+    {
+     "t": 105540.09999999776,
+     "what": "death",
+     "kind": "Smiler",
+     "hits": null,
+     "gain": null,
+     "pan": null,
+     "lp": null
+    }
+   ],
+   "spectator": [],
+   "far": [],
+   "maxShake": 0,
+   "reducedMotion": false,
+   "spectatorSoundOff": false
+  },
+  "houndA_bobSoundOff": {
+   "quietStartsPer3s": [
+    0,
+    0,
+    0
+   ],
+   "deathStarts": [
+    31,
+    0,
+    3
+   ],
+   "victim": [
+    {
+     "t": 132494.8999999985,
+     "what": "death",
+     "kind": "Hound",
+     "hits": null,
+     "gain": null,
+     "pan": null,
+     "lp": null
+    }
+   ],
+   "spectator": [],
+   "far": [],
+   "maxShake": 0,
+   "reducedMotion": false,
+   "spectatorSoundOff": true
+  },
+  "houndA_reducedMotion": {
+   "quietStartsPer3s": [
+    0,
+    0,
+    0
+   ],
+   "deathStarts": [
+    32,
+    21,
+    3
+   ],
+   "victim": [
+    {
+     "t": 159561.5,
+     "what": "death",
+     "kind": "Hound",
+     "hits": null,
+     "gain": null,
+     "pan": null,
+     "lp": null
+    }
+   ],
+   "spectator": [],
+   "far": [],
+   "maxShake": 0,
+   "reducedMotion": true,
+   "spectatorSoundOff": false
+  }
+ },
+ "audio": [
+  true,
+  true,
+  true
+ ],
+ "dcamK": {
+  "houndC": null,
+  "smilerA": null,
+  "houndA_bobSoundOff": null,
+  "houndA_reducedMotion": null
+ },
+ "errors": []
+}

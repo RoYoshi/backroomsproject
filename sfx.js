@@ -23,7 +23,7 @@
       s.onended = () => { try { s.disconnect(); g.disconnect(); p && p.disconnect(); } catch (e) {} };
       s.start(); return true;
     },
-    death(kind) { return api.play('death_' + String(kind).toLowerCase(), { vol: 1 }) || api.play('death', { vol: 1 }); },
+    death(kind, O) { const o = { vol: O && O.gain != null ? O.gain : 1, pan: O && O.pan || 0 }; return api.play('death_' + String(kind).toLowerCase(), o) || api.play('death', o); },   // O: Stage 3D, a spectator's placement
     loop(n, vol, pan = 0) {                                     // start on first use, then just steer gain/pan
       const z = Zc(); if (!z || !has(n)) return false;
       let l = loops[n];

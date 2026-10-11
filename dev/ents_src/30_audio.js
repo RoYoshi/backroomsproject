@@ -110,6 +110,28 @@ E.sfxKnock = function () {
 E.sfxGasp = function () { if (!soundOn() || !Zc()) return; const n = node(.6, { pan: 0, lp: 5000 }); noiseLayer(n, 'bandpass', 800, .9, .3, .12, .1, 1900); };
 E.sfxRelease = function () { if (!soundOn() || !Zc()) return; const n = node(.7, { pan: 0, lp: 2500 }); toneLayer(n, 'sine', 60, 40, .4, .01, .1); noiseLayer(n, 'bandpass', 500, 1, .22, .06, .1, 900); };
 
+/* ---------------------------------------------------------------- Stage 3D: the sounds of a death, from its physics
+ * Only during a death (the victim's own or a replayed one), only through the game's own audio (master volume, sound on/off; never the
+ * menu's music), procedural.  The blows themselves are the bundle's death sound, now timed by the physics (__dsndHits).  Here: the body
+ * striking a wall, the light leaving the hand and landing, the light knocking a wall, the hat landing - each placed where it happened
+ * (distance, pan, muffled through walls), so a spectator hears them from where they stand. */
+window.__dsndHits = kind => { const a = API(), D = a && a.death && a.death(); return D && D.active && D.kind === kind && D.ph && D.ph.ctx && D.ph.ctx.hits ? D.ph.ctx.hits.slice() : null; };
+E.deathEvent = function (q, jl, S) {
+  if (!S) return;
+  if (q.k === 'wall' && q.sp > 80) { const k = clamp(q.sp / 420, .3, 1); play(q.x, q.y, .75 * k, .45, (n, v) => { toneLayer(n, 'sine', 92, 44, v * .9, .004, .04); noiseLayer(n, 'lowpass', 420, .8, v * .7, .004, .03, 150); noiseLayer(n, 'bandpass', 1300, 1.2, v * .18, .003, .02, 600); }, { far: 1300 }); }
+  else if (q.k === 'eq' && S.eq && S.ctx.eqKind !== 'headlamp') { const x = S.eq.x, y = S.eq.y, hard = S.ctx.eqKind !== 'lantern';
+    setTimeout(() => play(x, y, .42, .3, (n, v) => { noiseLayer(n, 'bandpass', hard ? 2600 : 1500, 5, v * .6, .002, .012, 1700); toneLayer(n, 'triangle', hard ? 1350 : 820, hard ? 980 : 600, v * .22, .002, .01); }, { far: 1000 }), 90);
+    setTimeout(() => play(x, y, .25, .25, (n, v) => { noiseLayer(n, 'bandpass', hard ? 2200 : 1300, 5, v * .5, .002, .01, 1600); }, { far: 900 }), 175); }
+  else if (q.k === 'eqhit' && q.sp > 40 && S.eq) play(S.eq.x, S.eq.y, clamp(q.sp / 300, .12, .35), .2, (n, v) => noiseLayer(n, 'bandpass', 2000, 4, v * .6, .002, .01, 1400), { far: 900 });
+  else if (q.k === 'hat' && S.hat) { const x = S.hat.x, y = S.hat.y; setTimeout(() => play(x, y, .2, .25, (n, v) => noiseLayer(n, 'lowpass', 520, .8, v * .7, .004, .02, 260), { far: 700 }), 120); }
+};
+/* a spectator hears the death's own sound (the blows, the victim) from where they stand */
+E.deathVoice = function (kind, x, y, hits) {
+  const a = API(); if (!a || !soundOn() || !Zc()) return; const Z = a.audio(); if (!Z || !Z.death) return;
+  const p = place(x, y, 160, 1700); if (p.g < .02) return;
+  Z.death(kind === 'Smiler' ? 'Smiler' : 'Hound', { hits, gain: p.g, pan: p.pan, lp: p.lp });
+};
+
 /* per-frame voice of every entity that is near: breathing, footfalls, the smiler's face forming */
 const AS = { hb: [0, 0, 0], sb: [], sf: [0, 0, 0, 0, 0], ss: new Map() };
 E.entAudio = function (dt, hounds, smilers) {
