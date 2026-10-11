@@ -1,0 +1,30 @@
+{
+ "target": "wire",
+ "newFile": null,
+ "functions": {
+  "parseLook": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 0
+  },
+  "partObj": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 2239
+  },
+  "partList": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 4554
+  },
+  "toRec": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 4922
+  }
+ },
+ "mismatches": 0,
+ "tool": "dev/stage-3h0/golden/fn_equiv.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "ok": true
+}

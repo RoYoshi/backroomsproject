@@ -1,0 +1,446 @@
+{
+ "tool": "dev/stage-3h0/golden/cli_mutants.js",
+ "ref": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "equivalentNotCounted": [
+  {
+   "name": "peer snap distance 450 px",
+   "why": "the following Object.assign(o, p, ...) copies x and y anyway"
+  }
+ ],
+ "mutants": 35,
+ "applied": 35,
+ "caught": 35,
+ "missed": [],
+ "results": [
+  {
+   "name": "p every 51 ms in a run",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "p every 240 ms in the menu",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "menu_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "p angle with 3 decimals",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "interpolation delay 0.11 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "interp",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "extrapolation limit 0.2 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "interp",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "no smoothing above 299 px",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "interp",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "new world after a 0.5 s step back",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "interp",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "history of 9 samples",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "interp",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "histories pruned after 6 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "interp",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "clock offset drifts faster",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "interp",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "missing look parses another default",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "menu_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "older clients' backpacks drawn",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "menu_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "light parts accept 3-digit colours",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "fx_bodies",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "corpse hands with 3 values",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "fx_bodies",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "light part list joined with ;",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "reconnect after 900 ms",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "reconnect_solo",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "badge says WANDERERS for one",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "menu_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "ping every 900 ms",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "admin",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "+10 hounds button sends 9",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "admin",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "heartbeat at 71 Hz",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "hum_dread",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "hum buzz gain 0.21",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "hum_dread",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "vanish replay 2.6 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "fx_bodies",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "corpse scale with 2 decimals",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "facade",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "exhausted below 21 stamina",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "facade",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "killer end for every cause",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "facade",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "no join when reopening during a run",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    },
+    {
+     "scene": "reconnect_solo",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "G parked at -9000",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "interp",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "drag target [0,0] when none",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "cartograph reach 50 px",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "kill announced every snapshot",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "room name not encoded",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "load",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "spawn grace 3 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "banner shown 7 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "run_online",
+     "differs": true,
+     "errors": 0
+    },
+    {
+     "scene": "admin",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "solo glitches 2500 px from the start",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "reconnect_solo",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  },
+  {
+   "name": "peer avatars swept every 2.5 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scene": "load",
+     "differs": true,
+     "errors": 0
+    }
+   ]
+  }
+ ]
+}

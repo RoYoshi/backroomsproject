@@ -2,10 +2,36 @@
 
 Nothing here is served to browsers or loaded by the game. The server's allowlist does not reach `dev/`.
 
+## Checkpoint tools
+
 | File | Purpose |
 |---|---|
-| `verify_remote_h0.py LABEL --out FILE` | Verifies a pushed checkpoint, independently of the local repository's word for it: <br>- the remote tip via `git ls-remote` and the GitHub REST commit and branch; <br>- the tree and the parent; <br>- a straight line from the accepted QA2 commit `edd2af9`; <br>- that every other remote branch is untouched. |
-| `record_parent_h0.py PACK_DIR [QA2_ZIP] --out FILE` | H0-0's independent check of the accepted parent: <br>- the remote three ways, plus a fetch; <br>- the master pack's checksums; <br>- the pack's read-only snapshots against Git. |
-| `evidence/h0-0/` | The remote heads before 3H0, the parent verification, and the checkpoint's remote verification. |
+| `verify_remote_h0.py LABEL --out FILE` | Verifies a pushed checkpoint independently. Checks: <br>- the remote tip via `git ls-remote` and the GitHub REST commit and branch; <br>- the tree and the parent; <br>- a straight line from the accepted QA2 commit `edd2af9`; <br>- every other remote branch is untouched. |
+| `record_parent_h0.py PACK_DIR [QA2_ZIP] --out FILE` | H0-0's independent check of the accepted parent. |
+| `protocol_contract.json` | The read-only wire contract: every compact key, in wire order, described. Test data only. |
 
-Later checkpoints add the golden-trace harnesses and their evidence (`evidence/h0-1/` onward).
+## Golden traces and equivalence (`golden/`, H0-1 onward)
+
+| File | Purpose |
+|---|---|
+| `srv_harness.js`, `srv_scenarios.js` | Run a `server.js` source in a closed world: <br>- fake clock and timers, seeded randomness and simulation; <br>- fake sockets and HTTP. <br>The scenarios drive it. Each run writes a byte-exact trace. |
+| `srv_golden.js` | The parent's `server.js` and the working tree's, on the same inputs, byte for byte. Can also compare against or write the H0-1 baseline. |
+| `srv_mutants.js` | Proves the server harness sees small deliberate changes to the parent's file. |
+| `cli_env.js`, `cli_stubs.js`, `cli_scenes.js`, `cli_lib.js` | Run `mp.js` in a real Chromium page: <br>- fake clock, WebSocket and audio; <br>- recording stand-ins for the game. <br>The scenes drive it. |
+| `cli_golden.js` | The parent's `mp.js` and the working tree's `mp.js` (with its helper scripts), byte for byte. Can also compare against or write the baseline. |
+| `cli_mutants.js` | Proves the client harness sees small deliberate changes. |
+| `declared_new_globals.json` | Globals an approved extraction adds on purpose. They are reported separately, never hidden. |
+| `contract_check.js` | Every traced message against `protocol_contract.json`. |
+| `fn_equiv.js` | Function-level equivalence of an extracted helper against the parent's own text, on generated inputs. |
+| `live_wire.js` | The real server and the real game, two players, every frame recorded. A structural comparison per phase. |
+| `perf_det.js` | CPU and time on the deterministic workloads, old against new, interleaved. This is the precise performance gate. |
+| `perf_h0.js` | The real stack's server CPU (gated) and bytes and client timings (reported), A/B interleaved. |
+| `run_checkpoint.js LABEL` | The gate at every later checkpoint: server and client traces, old against new and against the baseline, plus the contract check. |
+| `collect_h0_1.sh PARENT_EXPORT` | Ran every H0-1 baseline. |
+
+## Evidence
+
+| Folder | Contents |
+|---|---|
+| `evidence/h0-0/` | The remote heads before 3H0, the parent verification, the H0-0 remote verification. |
+| `evidence/h0-1/` | The baselines (`srv_traces/`, `cli_traces/`) and the reports of every H0-1 step (`steps.txt` lists them with exit codes). It also keeps the existing suites' logs, and the failing first performance rule with its rescoring. |

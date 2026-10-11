@@ -1,0 +1,49 @@
+{
+ "about": "Stage 3H0 READ-ONLY protocol contract: the compact wire keys of The Far Backrooms at the accepted Stage 3C QA2 commit edd2af9, mapped to plain descriptions. Documentation and test data only: neither the game nor the server loads this file, and nothing on the wire depends on it. Fields are listed in the order they appear on the wire; 'optional' fields may be absent. dev/stage-3h0/golden/contract_check.js checks every message in the golden traces against it. Prose: 3H0_PROTOCOL_INVENTORY.md.",
+ "version": "edd2af9 (frozen in Stage 3H0; not a wire version)",
+ "clientToServer": {
+  "p": { "about": "position and state report, from the per-frame hook: every 50 ms in a run, every 250 ms in the menu", "fields": [
+   ["t", "type"], ["x", "x, rounded"], ["y", "y, rounded"], ["vx", "velocity x, rounded"], ["vy", "velocity y, rounded"], ["a", "facing, 2 decimals"], ["r", "sprinting 0/1"],
+   ["l", "light raised 0/1 (absent counts as raised on the server)"], ["ir", "camcorder infrared level from __cam.irNet", "optional"], ["k", "light kind", "optional"], ["lp", "light parts c1,c2,c3[,c4]"],
+   ["n", "name (nameplate text, at most 20)"], ["c", "light colour", "optional"], ["f", "fall-in progress 0..1, or -1"], ["lk", "look hat|texture|hands|main|backpack", "optional"], ["mv", "movement report {s, sp, st, ex, ev} (only in a run)", "optional"]] },
+  "join": { "about": "enter the world (ENTER / SPAWN, or a reconnect during a run)", "fields": [["t", "type"]] },
+  "respawn": { "about": "RESPAWN after a death (or an admin revive)", "fields": [["t", "type"]] },
+  "leave": { "about": "back to the menu (END, or the end of a NEW RUN vanish)", "fields": [["t", "type"]] },
+  "fx": { "about": "a death or vanish to replay for everybody else; note t is not the first key", "fields": [
+   ["lk", "look"], ["ek", "light kind"], ["ec", "light colour"], ["ep", "light parts"], ["t", "type"], ["k", "death | vanish"], ["c", "Hound | Smiler (deaths)", "optional"], ["x", "victim x"], ["y", "victim y"], ["a", "victim facing, 3 decimals"],
+   ["sx", "attacker x (deaths)", "optional"], ["sy", "attacker y (deaths)", "optional"], ["vx", "victim velocity x (deaths)", "optional"], ["vy", "victim velocity y (deaths)", "optional"], ["ex", "exhausted 0/1 (deaths)", "optional"],
+   ["v", "variant A-D (deaths)", "optional"], ["w", "wall [x, y, angle] or 0 (deaths)", "optional"]] },
+  "b": { "about": "our finished corpse", "fields": [
+   ["t", "type"], ["n", "name"], ["x", "x"], ["y", "y"], ["a", "angle"], ["sx", "scale x"], ["sy", "scale y"], ["c", "cause Hound | Smiler | Vanish"], ["aa", "attack angle"], ["lk", "look"], ["ek", "light kind"], ["ec", "light colour"],
+   ["ep", "light parts"], ["lo", "light left on 0/1"], ["bl", "blood bursts [[x, y, seed]]"], ["dr", "dropped light [x, y, angle]"], ["ht", "hat [x, y, angle]"], ["hd", "hands [x1, y1, x2, y2] or 0"], ["tr", "drag trail [[x, y]] or 0"],
+   ["ho", "hat on 0/1"], ["ph", "has hands 0/1"], ["ka", "killer end [x, y, angle] or 0"]] },
+  "pick": { "about": "pick up the cartograph under us (at most every 700 ms)", "fields": [["t", "type"]] },
+  "admin": { "about": "admin unlock attempt", "fields": [["t", "type"], ["pass", "passcode"], ["quiet", "1 for a test unlock", "optional"]] },
+  "a": { "about": "admin command", "fields": [["t", "type"], ["c", "command"], ["id", "player id", "optional"], ["eid", "entity id", "optional"], ["v", "value", "optional"], ["mode", "mode", "optional"], ["k", "kind", "optional"],
+   ["var", "death variant", "optional"], ["on", "0/1", "optional"], ["n", "count", "optional"], ["cmd", "navigation command", "optional"], ["text", "broadcast text", "optional"]] },
+  "ping": { "about": "round-trip probe, once a second while admin debug is on", "fields": [["t", "type"], ["ts", "client performance.now()"]] }
+ },
+ "serverToClient": {
+  "hi": { "about": "first frame on a connection", "fields": [["t", "type"], ["id", "this connection's player id"], ["sim", "1: the server simulates the world"]] },
+  "s": { "about": "snapshot, every 2nd 25 ms wake, to every client in the room", "fields": [
+   ["t", "type"], ["p", "peers: active players except the receiver"], ["e", "entities and world (sim.entities())"], ["me", "receiver's death cause or ''"], ["ms", "receiver's death sequence"], ["cp", "receiver's capture {ph, e, k, d} or 0"],
+   ["mk", "receiver's kill record (dead with a kill)", "optional"], ["ad", "admin data (admins, every 8th wake)", "optional"], ["you", "receiver's id (with ad)", "optional"],
+   ["dbg", "AI debug list (admins with debug on, every 6th wake)", "optional"], ["dx", "debug log and timings (with dbg)", "optional"]],
+   "peer": [["id", "id"], ["x", "x"], ["y", "y"], ["a", "facing, 2 decimals"], ["n", "name"], ["c", "light colour"], ["d", "dead 0/1"], ["r", "sprinting 0/1"], ["k", "light kind"], ["l", "raised 0/1"], ["ir", "infrared 0-2"],
+    ["lk", "look"], ["lp", "light parts"], ["f", "fall-in or -1"], ["mv", "[state, speed, stamina, exhausted]"]],
+   "e": [["st", "server clock s"], ["h", "hounds"], ["m", "smilers"], ["b", "blackout 0/1"], ["p", "pressure"], ["gw", "glitched walls [x, y, nx, ny]"], ["it", "items [x, y, id]"], ["lf", "failing lamps"], ["sn", "entity sounds (last 24)"]] },
+  "tp": { "about": "server-side move or correction", "fields": [["t", "type"], ["x", "x"], ["y", "y"]] },
+  "bodies": { "about": "every corpse, when the body version changed", "fields": [["t", "type"], ["v", "body version"], ["b", "corpse records"]] },
+  "fx": { "about": "replay of someone's death or vanish (relayed, or the server's own with srv: 1)", "fields": [
+   ["t", "type"], ["k", "death | vanish"], ["id", "victim id"], ["c", "Hound | Smiler"], ["x", "x"], ["y", "y"], ["a", "facing"], ["sx", "attacker x"], ["sy", "attacker y"], ["v", "variant"], ["w", "wall or 0"], ["lk", "look"],
+   ["ek", "light kind"], ["ec", "light colour"], ["ep", "light parts"], ["vx", "velocity x"], ["vy", "velocity y"], ["ex", "exhausted"], ["srv", "1 when the server made the replay", "optional"]] },
+  "exit": { "about": "this player walked through a glitched wall", "fields": [["t", "type"], ["secs", "seconds in the run"]] },
+  "got": { "about": "picked up an item", "fields": [["t", "type"], ["item", "item id"]] },
+  "revive": { "about": "revived by an admin", "fields": [["t", "type"]] },
+  "kick": { "about": "removed by an admin (a close frame follows 150 ms later)", "fields": [["t", "type"]] },
+  "msg": { "about": "admin broadcast", "fields": [["t", "type"], ["text", "text (at most 140)"], ["from", "sender name"]] },
+  "ares": { "about": "answer to an admin command", "fields": [["t", "type"], ["ok", "success"], ["msg", "one line (at most 90)"]] },
+  "admin": { "about": "answer to an unlock attempt", "fields": [["t", "type"], ["ok", "unlocked"], ["q", "quiet unlock 0/1 (success)", "optional"], ["wait", "lockout seconds (failure)", "optional"]] },
+  "pong": { "about": "answer to ping (at most every 400 ms)", "fields": [["t", "type"], ["ts", "the ping's ts"]] }
+ }
+}

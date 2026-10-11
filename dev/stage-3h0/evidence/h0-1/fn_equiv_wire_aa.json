@@ -1,0 +1,45 @@
+{
+ "target": "wire",
+ "newFile": null,
+ "functions": {
+  "lookStr @ fxBase": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 3090
+  },
+  "lookStr @ bodyMade": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 3324
+  },
+  "lookStr @ p packet": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 3102
+  },
+  "parseLook": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 0
+  },
+  "partObj": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 2237
+  },
+  "partList": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 4553
+  },
+  "toRec": {
+   "cases": 20000,
+   "identical": 20000,
+   "oldThrew": 4919
+  }
+ },
+ "mismatches": [],
+ "tool": "dev/stage-3h0/golden/fn_equiv.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "ok": true
+}

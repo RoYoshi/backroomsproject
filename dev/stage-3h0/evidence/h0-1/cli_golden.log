@@ -1,0 +1,10 @@
+PASS load: old 20 entries 6c3054d092f3 (212 ms) | new 20 entries 6c3054d092f3 (131 ms) | identical | repeats same
+PASS menu_online: old 1785 entries 52279cc51bd9 (185 ms) | new 1785 entries 52279cc51bd9 (187 ms) | identical | repeats same
+PASS run_online: old 7137 entries 22ee4e6fbfde (308 ms) | new 7137 entries 22ee4e6fbfde (350 ms) | identical | repeats same
+PASS interp: old 11481 entries d2b9b7a25554 (392 ms) | new 11481 entries d2b9b7a25554 (400 ms) | identical | repeats same
+PASS fx_bodies: old 22761 entries 648c2509852c (463 ms) | new 22761 entries 648c2509852c (484 ms) | identical | repeats same
+PASS facade: old 1176 entries c4047d761213 (172 ms) | new 1176 entries c4047d761213 (161 ms) | identical | repeats same
+PASS admin: old 1328 entries c6ed933055d2 (393 ms) | new 1328 entries c6ed933055d2 (331 ms) | identical | repeats same
+PASS reconnect_solo: old 737 entries 299e86cc7047 (175 ms) | new 737 entries 299e86cc7047 (161 ms) | identical | repeats same
+PASS hum_dread: old 4875 entries 9dc6dd8f44f4 (229 ms) | new 4875 entries 9dc6dd8f44f4 (239 ms) | identical | repeats same
+client golden traces: ALL IDENTICAL

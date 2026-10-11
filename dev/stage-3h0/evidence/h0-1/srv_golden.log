@@ -1,0 +1,11 @@
+PASS boot: old 19 lines 03be5f62f2dc (89 ms) | new 19 lines 03be5f62f2dc (86 ms) | identical | repeats same
+PASS http_base: old 267 lines 438e96a5a701 (510 ms) | new 267 lines 438e96a5a701 (514 ms) | identical | repeats same
+PASS ws_upgrade: old 624 lines ba434e824a0c (732 ms) | new 624 lines ba434e824a0c (865 ms) | identical | repeats same
+PASS ws_frames: old 1120 lines 5fed70763ad2 (429 ms) | new 1120 lines 5fed70763ad2 (497 ms) | identical | repeats same
+PASS lifecycle: old 11113 lines 23815f7e28c5 (1288 ms) | new 11113 lines 23815f7e28c5 (1495 ms) | identical | repeats same
+PASS deaths: old 51957 lines 1c52c281b935 (1738 ms) | new 51957 lines 1c52c281b935 (1814 ms) | identical | repeats same
+PASS admin: old 17264 lines d17f9c1664e8 (1427 ms) | new 17264 lines d17f9c1664e8 (1393 ms) | identical | repeats same
+PASS schedule: old 1165 lines f71a9835ecb0 (557 ms) | new 1165 lines f71a9835ecb0 (537 ms) | identical | repeats same
+PASS p_fields: old 1026 lines 73fedac6f411 (455 ms) | new 1026 lines 73fedac6f411 (475 ms) | identical | repeats same
+PASS exit_glitch: old 703 lines 6e51f6a71d07 (458 ms) | new 703 lines 6e51f6a71d07 (483 ms) | identical | repeats same
+server golden traces: ALL IDENTICAL

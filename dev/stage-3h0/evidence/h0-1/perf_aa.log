@@ -1,0 +1,19 @@
+server play8 round 1: A {"cpuMsPerSec":64,"bytesPerClientSec":38406,"snapsPerClientSec":19.8,"adminBytesPerSec":null} B {"cpuMsPerSec":69.5,"bytesPerClientSec":40210,"snapsPerClientSec":19.75,"adminBytesPerSec":null}
+server play8 round 2: A {"cpuMsPerSec":57.49,"bytesPerClientSec":36084,"snapsPerClientSec":19.75,"adminBytesPerSec":null} B {"cpuMsPerSec":56.5,"bytesPerClientSec":40292,"snapsPerClientSec":19.75,"adminBytesPerSec":null}
+server play8 round 3: A {"cpuMsPerSec":59.5,"bytesPerClientSec":40204,"snapsPerClientSec":19.75,"adminBytesPerSec":null} B {"cpuMsPerSec":65.5,"bytesPerClientSec":40253,"snapsPerClientSec":19.8,"adminBytesPerSec":null}
+server debug4 round 1: A {"cpuMsPerSec":50.67,"bytesPerClientSec":24406,"snapsPerClientSec":19.8,"adminBytesPerSec":72660} B {"cpuMsPerSec":55.33,"bytesPerClientSec":22725,"snapsPerClientSec":19.8,"adminBytesPerSec":63009}
+server debug4 round 2: A {"cpuMsPerSec":51.33,"bytesPerClientSec":22227,"snapsPerClientSec":19.8,"adminBytesPerSec":63217} B {"cpuMsPerSec":52,"bytesPerClientSec":26639,"snapsPerClientSec":19.8,"adminBytesPerSec":84181}
+server debug4 round 3: A {"cpuMsPerSec":52,"bytesPerClientSec":28933,"snapsPerClientSec":19.73,"adminBytesPerSec":94240} B {"cpuMsPerSec":60,"bytesPerClientSec":29191,"snapsPerClientSec":19.8,"adminBytesPerSec":95672}
+client round 1: A {"menu":{"mp":{"n":25,"mean":0.308,"p95":0.5},"msg":{"n":102,"mean":0.0598,"p95":0.2}},"run":{"mp":{"n":15,"mean":1.6933,"p95":15},"msg":{"n":122,"mean":0.0262,"p95":0.1}}}
+                B {"menu":{"mp":{"n":24,"mean":0.4417,"p95":1.1},"msg":{"n":102,"mean":0.0324,"p95":0.1}},"run":{"mp":{"n":18,"mean":0.8222,"p95":1.6},"msg":{"n":119,"mean":0.0521,"p95":0.1}}}
+client round 2: A {"menu":{"mp":{"n":24,"mean":0.45,"p95":1},"msg":{"n":102,"mean":0.0539,"p95":0.1}},"run":{"mp":{"n":18,"mean":0.8833,"p95":2.1},"msg":{"n":122,"mean":0.0525,"p95":0.2}}}
+                B {"menu":{"mp":{"n":24,"mean":0.3792,"p95":0.9},"msg":{"n":101,"mean":0.0594,"p95":0.2}},"run":{"mp":{"n":18,"mean":0.8944,"p95":3.6},"msg":{"n":120,"mean":0.0442,"p95":0.2}}}
+client round 3: A {"menu":{"mp":{"n":23,"mean":0.5391,"p95":1.1},"msg":{"n":102,"mean":0.0441,"p95":0.2}},"run":{"mp":{"n":16,"mean":0.9063,"p95":2.1},"msg":{"n":124,"mean":0.0315,"p95":0.1}}}
+                B {"menu":{"mp":{"n":24,"mean":0.3958,"p95":0.6},"msg":{"n":102,"mean":0.1284,"p95":0.6}},"run":{"mp":{"n":16,"mean":0.7625,"p95":1.4},"msg":{"n":120,"mean":0.0433,"p95":0.1}}}
+server play8: cpu ms/s A 59.5 B 65.5 (10.08 %, tol 6.51) ok; bytes/client/s A 38406 B 40253 ok
+server debug4: cpu ms/s A 51.33 B 55.33 (7.79 %, tol 2.5665) OVER; bytes/client/s A 24406 B 26639 ok
+client menu.mpMeanMs: A 0.45 B 0.3958 (-12.04 %, tol 0.2311) ok
+client menu.msgMeanMs: A 0.0539 B 0.0594 (10.2 %, tol 0.0157) ok
+client run.mpMeanMs: A 0.9063 B 0.8222 (-9.28 %, tol 0.81) ok
+client run.msgMeanMs: A 0.0315 B 0.0442 (40.32 %, tol 0.0263) ok
+performance: OUTSIDE the predeclared tolerance

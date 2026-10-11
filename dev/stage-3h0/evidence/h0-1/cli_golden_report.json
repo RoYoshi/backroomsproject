@@ -1,0 +1,267 @@
+{
+ "tool": "dev/stage-3h0/golden/cli_golden.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "chromium": "141.0.7390.37",
+ "helpers": {
+  "old": [],
+  "new": []
+ },
+ "declaredNewGlobals": [],
+ "startedAt": "2026-10-11T02:54:42.267Z",
+ "scenes": [
+  {
+   "scene": "load",
+   "old": {
+    "entries": 20,
+    "bytes": 3061,
+    "sha256": "6c3054d092f3107f7a1139d21479b4ea8909ad243b854fff5abb113c9bea7446",
+    "ms": 212,
+    "errors": []
+   },
+   "new": {
+    "entries": 20,
+    "bytes": 3061,
+    "sha256": "6c3054d092f3107f7a1139d21479b4ea8909ad243b854fff5abb113c9bea7446",
+    "ms": 131,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "6c3054d092f3107f7a1139d21479b4ea8909ad243b854fff5abb113c9bea7446",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scene": "menu_online",
+   "old": {
+    "entries": 1785,
+    "bytes": 214877,
+    "sha256": "52279cc51bd9d05502e801c6c357755a44e7d036f0fe9e3e1bd588d4aa773123",
+    "ms": 185,
+    "errors": []
+   },
+   "new": {
+    "entries": 1785,
+    "bytes": 214877,
+    "sha256": "52279cc51bd9d05502e801c6c357755a44e7d036f0fe9e3e1bd588d4aa773123",
+    "ms": 187,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "52279cc51bd9d05502e801c6c357755a44e7d036f0fe9e3e1bd588d4aa773123",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scene": "run_online",
+   "old": {
+    "entries": 7137,
+    "bytes": 891912,
+    "sha256": "22ee4e6fbfdeb914146aadd7706ea71f6be7d9d93570952a2f2448bad2fab361",
+    "ms": 308,
+    "errors": []
+   },
+   "new": {
+    "entries": 7137,
+    "bytes": 891912,
+    "sha256": "22ee4e6fbfdeb914146aadd7706ea71f6be7d9d93570952a2f2448bad2fab361",
+    "ms": 350,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "22ee4e6fbfdeb914146aadd7706ea71f6be7d9d93570952a2f2448bad2fab361",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scene": "interp",
+   "old": {
+    "entries": 11481,
+    "bytes": 1645556,
+    "sha256": "d2b9b7a255549b5713a780de4de35e5abf05b882cdc3718154920ec3518e40ca",
+    "ms": 392,
+    "errors": []
+   },
+   "new": {
+    "entries": 11481,
+    "bytes": 1645556,
+    "sha256": "d2b9b7a255549b5713a780de4de35e5abf05b882cdc3718154920ec3518e40ca",
+    "ms": 400,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "d2b9b7a255549b5713a780de4de35e5abf05b882cdc3718154920ec3518e40ca",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scene": "fx_bodies",
+   "old": {
+    "entries": 22761,
+    "bytes": 2311459,
+    "sha256": "648c2509852c8dbd77c1cd1a230de67e2b2b3789a41a618eea8e94e3457541d6",
+    "ms": 463,
+    "errors": []
+   },
+   "new": {
+    "entries": 22761,
+    "bytes": 2311459,
+    "sha256": "648c2509852c8dbd77c1cd1a230de67e2b2b3789a41a618eea8e94e3457541d6",
+    "ms": 484,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "648c2509852c8dbd77c1cd1a230de67e2b2b3789a41a618eea8e94e3457541d6",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scene": "facade",
+   "old": {
+    "entries": 1176,
+    "bytes": 138181,
+    "sha256": "c4047d7612137c04d1c4d043387becd58964a7cadff4020e670503e001249890",
+    "ms": 172,
+    "errors": []
+   },
+   "new": {
+    "entries": 1176,
+    "bytes": 138181,
+    "sha256": "c4047d7612137c04d1c4d043387becd58964a7cadff4020e670503e001249890",
+    "ms": 161,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "c4047d7612137c04d1c4d043387becd58964a7cadff4020e670503e001249890",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scene": "admin",
+   "old": {
+    "entries": 1328,
+    "bytes": 135092,
+    "sha256": "c6ed933055d2b449bbafca4bb80a52f9bf7cdb588b542482f360040fb3369077",
+    "ms": 393,
+    "errors": []
+   },
+   "new": {
+    "entries": 1328,
+    "bytes": 135092,
+    "sha256": "c6ed933055d2b449bbafca4bb80a52f9bf7cdb588b542482f360040fb3369077",
+    "ms": 331,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "c6ed933055d2b449bbafca4bb80a52f9bf7cdb588b542482f360040fb3369077",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scene": "reconnect_solo",
+   "old": {
+    "entries": 737,
+    "bytes": 69203,
+    "sha256": "299e86cc7047a1402d03dff864c4b0fcbb84e8c0c04746154b8b60e1b1c07f70",
+    "ms": 175,
+    "errors": []
+   },
+   "new": {
+    "entries": 737,
+    "bytes": 69203,
+    "sha256": "299e86cc7047a1402d03dff864c4b0fcbb84e8c0c04746154b8b60e1b1c07f70",
+    "ms": 161,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "299e86cc7047a1402d03dff864c4b0fcbb84e8c0c04746154b8b60e1b1c07f70",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scene": "hum_dread",
+   "old": {
+    "entries": 4875,
+    "bytes": 377653,
+    "sha256": "9dc6dd8f44f4b93cc42123ee39ddf35986923628dbe89c2fdfb080d692a57663",
+    "ms": 229,
+    "errors": []
+   },
+   "new": {
+    "entries": 4875,
+    "bytes": 377653,
+    "sha256": "9dc6dd8f44f4b93cc42123ee39ddf35986923628dbe89c2fdfb080d692a57663",
+    "ms": 239,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [
+    {
+     "sha256": "9dc6dd8f44f4b93cc42123ee39ddf35986923628dbe89c2fdfb080d692a57663",
+     "equal": true
+    }
+   ],
+   "ok": true
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-11T02:54:50.129Z"
+}

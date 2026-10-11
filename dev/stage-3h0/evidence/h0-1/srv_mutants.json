@@ -1,0 +1,485 @@
+{
+ "tool": "dev/stage-3h0/golden/srv_mutants.js",
+ "ref": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "equivalentNotCounted": [
+  {
+   "name": "ares message cut at 80 instead of 90",
+   "why": "no admin answer reaches 80 characters (longest seen: 44)"
+  }
+ ],
+ "mutants": 37,
+ "applied": 37,
+ "caught": 37,
+ "missed": [],
+ "results": [
+  {
+   "name": "inbound text limit 1400 -> 1401",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_frames",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "ping is answered with an echo payload",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_frames",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "close frame ignored instead of ending",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_frames",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "no try around parsing / handling",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_frames",
+     "status": 2,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "outbound 16-bit length limit moved",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "deaths",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "peer keys reordered (c before n)",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "lifecycle",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "peer angle rounded to 1 decimal",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "lifecycle",
+     "status": 0,
+     "differs": false
+    },
+    {
+     "scenario": "p_fields",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "snapshot every 3rd wake",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "schedule",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "wake every 26 ms",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "boot",
+     "status": 0,
+     "differs": true
+    },
+    {
+     "scenario": "schedule",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "accumulator cap 0.25 -> 0.3 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "schedule",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "15-step limit -> 14",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "schedule",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "admin data every 4th wake",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "admin",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "allowlist also serves dev/",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "http_base",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "png gzipped too",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "http_base",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "wav served as audio/wav",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "http_base",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "sounds cache 300 -> 301",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "http_base",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "room cap 8 -> 9",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_upgrade",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "room names keep dots",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_upgrade",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "position throttle 30 -> 31 ms",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "lifecycle",
+     "status": 0,
+     "differs": false
+    },
+    {
+     "scenario": "p_fields",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "missing l no longer counts as raised",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "p_fields",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "infrared cap 2 -> 3",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "p_fields",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "legacy torch maps to flashlight",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "p_fields",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "looks: a fifth hat allowed",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "p_fields",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "light parts may have 6 colours",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "p_fields",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "fx cooldown 1500 -> 1400 ms",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "deaths",
+     "status": 0,
+     "differs": true
+    },
+    {
+     "scenario": "lifecycle",
+     "status": 0,
+     "differs": false
+    }
+   ]
+  },
+  {
+   "name": "server replay after 1.6 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "deaths",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "corpse slack 8 -> 7 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "deaths",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "corpse blood keeps 7 bursts",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "deaths",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "lockout after 6 wrong guesses",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "admin",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "broadcast cut at 139",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "admin",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "pong throttle 400 -> 200 ms",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "admin",
+     "status": 0,
+     "differs": true
+    },
+    {
+     "scenario": "ws_frames",
+     "status": 0,
+     "differs": false
+    }
+   ]
+  },
+  {
+   "name": "kick close after 100 ms",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "admin",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "exit message rounds down",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "exit_glitch",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "movement budget burst 1.5 -> 1.4 s",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "lifecycle",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "one frame buffer shared by every connection",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_frames",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "close / error listeners before data",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_upgrade",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  },
+  {
+   "name": "handshake without the trailing blank line",
+   "applied": true,
+   "detected": true,
+   "per": [
+    {
+     "scenario": "ws_upgrade",
+     "status": 0,
+     "differs": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+srv_golden exit=0 seconds=25
+cli_golden exit=0 seconds=9
+srv_mutants exit=0 seconds=45
+cli_mutants exit=0 seconds=14
+contract_check exit=0 seconds=1
+fn_equiv_wire_aa exit=0 seconds=2
+fn_equiv_interp_aa exit=0 seconds=3
+live_wire_aa exit=0 seconds=363
+perf_aa exit=1 seconds=472
+existing/interp_test exit=0 seconds=0
+existing/test_3bn exit=0 seconds=0
+existing/live exit=0 seconds=32
+existing/audit_net exit=0 seconds=56
+existing/audit_net2 exit=0 seconds=232
+existing/ir_net exit=0 seconds=5
+existing/npm_test exit=1 seconds=332

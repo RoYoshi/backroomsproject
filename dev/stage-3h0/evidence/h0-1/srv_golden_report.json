@@ -1,0 +1,502 @@
+{
+ "tool": "dev/stage-3h0/golden/srv_golden.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "newSrc": "server.js (working tree)",
+ "dir": "/home/claude/backrooms-shadows",
+ "node": "v22.22.2",
+ "startedAt": "2026-10-11T02:54:16.677Z",
+ "scenarios": [
+  {
+   "scenario": "boot",
+   "old": {
+    "ok": true,
+    "lines": 19,
+    "bytes": 516,
+    "sha256": "03be5f62f2dc6a108a60b899c93784e09c929c47c70a7551d1afce7f34420d14",
+    "ms": 89
+   },
+   "new": {
+    "ok": true,
+    "lines": 19,
+    "bytes": 516,
+    "sha256": "03be5f62f2dc6a108a60b899c93784e09c929c47c70a7551d1afce7f34420d14",
+    "ms": 86
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "03be5f62f2dc6a108a60b899c93784e09c929c47c70a7551d1afce7f34420d14",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "http_base",
+   "old": {
+    "ok": true,
+    "lines": 267,
+    "bytes": 24553,
+    "sha256": "438e96a5a701df9aac9bf7c44b3c617b74732590bfcc832f46d1fe855c1d9fa5",
+    "ms": 510
+   },
+   "new": {
+    "ok": true,
+    "lines": 267,
+    "bytes": 24553,
+    "sha256": "438e96a5a701df9aac9bf7c44b3c617b74732590bfcc832f46d1fe855c1d9fa5",
+    "ms": 514
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "438e96a5a701df9aac9bf7c44b3c617b74732590bfcc832f46d1fe855c1d9fa5",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "ws_upgrade",
+   "old": {
+    "ok": true,
+    "lines": 624,
+    "bytes": 134114,
+    "sha256": "ba434e824a0c52fac5470af1ee5e63e69c1b3963b9718251faf4b01b70a9d11e",
+    "ms": 732
+   },
+   "new": {
+    "ok": true,
+    "lines": 624,
+    "bytes": 134114,
+    "sha256": "ba434e824a0c52fac5470af1ee5e63e69c1b3963b9718251faf4b01b70a9d11e",
+    "ms": 865
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "ba434e824a0c52fac5470af1ee5e63e69c1b3963b9718251faf4b01b70a9d11e",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "ws_frames",
+   "old": {
+    "ok": true,
+    "lines": 1120,
+    "bytes": 146815,
+    "sha256": "5fed70763ad2bc1a105e6f84f4bd5b2e039e653725020cc8bd2b16a92aacc58b",
+    "ms": 429
+   },
+   "new": {
+    "ok": true,
+    "lines": 1120,
+    "bytes": 146815,
+    "sha256": "5fed70763ad2bc1a105e6f84f4bd5b2e039e653725020cc8bd2b16a92aacc58b",
+    "ms": 497
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "5fed70763ad2bc1a105e6f84f4bd5b2e039e653725020cc8bd2b16a92aacc58b",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "lifecycle",
+   "old": {
+    "ok": true,
+    "lines": 11113,
+    "bytes": 6596045,
+    "sha256": "23815f7e28c5c99a3cc15faf04288f7a5dc6369e333f0bfea54c888e71b23665",
+    "ms": 1288
+   },
+   "new": {
+    "ok": true,
+    "lines": 11113,
+    "bytes": 6596045,
+    "sha256": "23815f7e28c5c99a3cc15faf04288f7a5dc6369e333f0bfea54c888e71b23665",
+    "ms": 1495
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "23815f7e28c5c99a3cc15faf04288f7a5dc6369e333f0bfea54c888e71b23665",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "deaths",
+   "old": {
+    "ok": true,
+    "lines": 51957,
+    "bytes": 16222970,
+    "sha256": "1c52c281b9358d3bfc5d814d022307196923172e514670dd09df999ec9d0b99a",
+    "ms": 1738
+   },
+   "new": {
+    "ok": true,
+    "lines": 51957,
+    "bytes": 16222970,
+    "sha256": "1c52c281b9358d3bfc5d814d022307196923172e514670dd09df999ec9d0b99a",
+    "ms": 1814
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "1c52c281b9358d3bfc5d814d022307196923172e514670dd09df999ec9d0b99a",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "admin",
+   "old": {
+    "ok": true,
+    "lines": 17264,
+    "bytes": 7863547,
+    "sha256": "d17f9c1664e87c20b06a55622c48fa74ffa9fcd26ae656ed3be9e3282733619c",
+    "ms": 1427
+   },
+   "new": {
+    "ok": true,
+    "lines": 17264,
+    "bytes": 7863547,
+    "sha256": "d17f9c1664e87c20b06a55622c48fa74ffa9fcd26ae656ed3be9e3282733619c",
+    "ms": 1393
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "d17f9c1664e87c20b06a55622c48fa74ffa9fcd26ae656ed3be9e3282733619c",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "schedule",
+   "old": {
+    "ok": true,
+    "lines": 1165,
+    "bytes": 646233,
+    "sha256": "f71a9835ecb0115e16551b5ab0fdc56f298cabcaa96118ad988e020e13d84149",
+    "ms": 557
+   },
+   "new": {
+    "ok": true,
+    "lines": 1165,
+    "bytes": 646233,
+    "sha256": "f71a9835ecb0115e16551b5ab0fdc56f298cabcaa96118ad988e020e13d84149",
+    "ms": 537
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "f71a9835ecb0115e16551b5ab0fdc56f298cabcaa96118ad988e020e13d84149",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "p_fields",
+   "old": {
+    "ok": true,
+    "lines": 1026,
+    "bytes": 254253,
+    "sha256": "73fedac6f411e30cc0a2fb6a9e25a6a079c2e11dd71251a2f3c64cbeb6f75391",
+    "ms": 455
+   },
+   "new": {
+    "ok": true,
+    "lines": 1026,
+    "bytes": 254253,
+    "sha256": "73fedac6f411e30cc0a2fb6a9e25a6a079c2e11dd71251a2f3c64cbeb6f75391",
+    "ms": 475
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "73fedac6f411e30cc0a2fb6a9e25a6a079c2e11dd71251a2f3c64cbeb6f75391",
+     "equal": true
+    }
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "exit_glitch",
+   "old": {
+    "ok": true,
+    "lines": 703,
+    "bytes": 198558,
+    "sha256": "6e51f6a71d07bbb77a50b0ccf6a8675c977d0077725e4fd5e1d578f81a77dd4d",
+    "ms": 458
+   },
+   "new": {
+    "ok": true,
+    "lines": 703,
+    "bytes": 198558,
+    "sha256": "6e51f6a71d07bbb77a50b0ccf6a8675c977d0077725e4fd5e1d578f81a77dd4d",
+    "ms": 483
+   },
+   "equal": true,
+   "structNew": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "structOld": {
+    "requires": [
+     "http",
+     "fs",
+     "path",
+     "crypto",
+     "zlib",
+     "./sim.js",
+     "./death_srv.js"
+    ],
+    "newRequires": []
+   },
+   "repeats": [
+    {
+     "sha256": "6e51f6a71d07bbb77a50b0ccf6a8675c977d0077725e4fd5e1d578f81a77dd4d",
+     "equal": true
+    }
+   ],
+   "ok": true
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-11T02:54:41.311Z"
+}
