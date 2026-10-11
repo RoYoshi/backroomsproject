@@ -1,0 +1,297 @@
+{
+ "tool": "dev/stage-3h0/golden/summon_probe.js",
+ "rounds": 12,
+ "spot": [
+  960,
+  3264
+ ],
+ "old": {
+  "runs": 12,
+  "median": 580,
+  "under620": 8,
+  "values": [
+   580,
+   641,
+   726,
+   580,
+   600,
+   645,
+   131,
+   287,
+   367,
+   634,
+   166,
+   259
+  ]
+ },
+ "new": {
+  "runs": 12,
+  "median": 645,
+  "under620": 4,
+  "values": [
+   792,
+   612,
+   716,
+   754,
+   645,
+   342,
+   645,
+   638,
+   659,
+   580,
+   580,
+   686
+  ]
+ },
+ "mwu": {
+  "U": 33,
+  "z": -2.252,
+  "p": 0.0243
+ },
+ "raw": {
+  "old": [
+   {
+    "minDistance": 580,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 641,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 726,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 580,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 600,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 645,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 131,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 287,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 367,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 634,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 166,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 259,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   }
+  ],
+  "new": [
+   {
+    "minDistance": 792,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 612,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 716,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 754,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 645,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 342,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 645,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 638,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 659,
+    "snapshotsMeasured": 197,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 580,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 580,
+    "snapshotsMeasured": 196,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   },
+   {
+    "minDistance": 686,
+    "snapshotsMeasured": 198,
+    "answers": [
+     "WORLD RUNNING",
+     "HOUND PLACED NEAR YOU",
+     "SMILER PLACED NEAR YOU",
+     "A HOUND IS COMING FOR YOU"
+    ]
+   }
+  ]
+ }
+}

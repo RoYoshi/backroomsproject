@@ -80,7 +80,7 @@ Any change to these needs explicit approval, so 3H0 does not touch them:
 **What 3H0 may change, and only at the checkpoint that justifies it:**
 - `mp.js` and `server.js`;
 - new helper files (client: under `assets/`; server: a new directory the allowlist cannot reach);
-- a test that reads moved code by its text (only `dev/tests/interp_test.js`, and only if interpolation moves; see section 5);
+- a test that reads moved code by its text (only `dev/tests/interp_test.js`, and only if interpolation moves; see section 5). Correction at H0-5: the independent review found a second test that reads moved code by its text, `dev/shadows/test_shadows.js` S16 (section 5). It was not adapted;
 - new documents, and `dev/stage-3h0/`.
 
 ## 4. Public surface and protocol
@@ -133,6 +133,7 @@ All of these are frozen.
 | `dev/tests/s_humanqa_hotfix.js` X02 | mp.js `const CLIENT_ENTITY_SLOTS = 64` and `data-n="10"`; server.js `Math.max(1, Math.min(10, m.n \| 0 \|\| 1))` | Keeps the entity slots and the admin panel in mp.js, and the admin commands in server.js. They are not moved in 3H0. |
 | `dev/tests/s_humanqa_hotfix.js` X03 | mp.js `hover.o.d ? ' · DEAD' : ''` | Keeps peer drawing in mp.js. |
 | `dev/tests/s_ir.js` I1 | server.js `me.ir =`, `ir: c.ir`, and no `player.ir =` | Keeps the `p` handler and the snapshot builder in server.js. |
+| `dev/shadows/test_shadows.js` S16 (found at H0-5 by the independent review; missed at H0-0) | server.js `const SERVE = /…/;`, evaluated | H0-4c moved `SERVE` to `server/static.js`, so S16 now throws instead of reading it. S16 already failed at the parent, because it expects `index.html` to load the retired `shadows-2d.js`. The suite gives 43/48 on the parent and on the final tree, with the same five failures. Not adapted. |
 
 ## 6. Findings recorded, not changed
 

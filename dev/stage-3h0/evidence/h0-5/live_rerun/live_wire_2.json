@@ -1,0 +1,1987 @@
+{
+ "tool": "dev/stage-3h0/golden/live_wire.js",
+ "comparedAt": "2026-10-11T08:09:03.832Z",
+ "phases": [
+  "A_admin_death|A|rx",
+  "A_admin_death|A|tx",
+  "A_admin_death|B|rx",
+  "A_admin_death|B|tx",
+  "A_end|A|rx",
+  "A_end|A|tx",
+  "A_end|B|rx",
+  "A_end|B|tx",
+  "A_enters_again|A|rx",
+  "A_enters_again|A|tx",
+  "A_enters_again|B|rx",
+  "A_enters_again|B|tx",
+  "A_enters|A|rx",
+  "A_enters|A|tx",
+  "A_enters|B|rx",
+  "A_enters|B|tx",
+  "A_new_run_again|A|rx",
+  "A_new_run_again|A|tx",
+  "A_new_run_again|B|rx",
+  "A_new_run_again|B|tx",
+  "A_new_run|A|rx",
+  "A_new_run|A|tx",
+  "A_new_run|B|rx",
+  "A_new_run|B|tx",
+  "A_respawn|A|rx",
+  "A_respawn|A|tx",
+  "A_respawn|B|rx",
+  "A_respawn|B|tx",
+  "A_spawn|A|rx",
+  "A_spawn|A|tx",
+  "A_spawn|B|rx",
+  "A_spawn|B|tx",
+  "B_enters|A|rx",
+  "B_enters|A|tx",
+  "B_enters|B|rx",
+  "B_enters|B|tx",
+  "boot|A|rx",
+  "boot|A|tx",
+  "boot|B|rx",
+  "boot|B|tx",
+  "menu|A|rx",
+  "menu|A|tx",
+  "menu|B|rx",
+  "menu|B|tx",
+  "server_down|A|rx",
+  "server_down|A|tx",
+  "server_down|B|rx",
+  "server_down|B|tx",
+  "server_restart|A|rx",
+  "server_restart|A|tx",
+  "server_restart|B|rx",
+  "server_restart|B|tx",
+  "setup|A|rx",
+  "setup|A|tx",
+  "setup|B|rx",
+  "setup|B|tx"
+ ],
+ "structurallyIdentical": false,
+ "diffs": [
+  {
+   "at": "server_restart|B|tx",
+   "field": "events",
+   "old": "{\"admin\":1,\"join\":1}",
+   "new": "{\"admin\":1,\"fx\":\"present\",\"join\":1}"
+  },
+  {
+   "at": "server_restart|B|tx",
+   "field": "keys",
+   "old": "{\"admin\":[\"t,pass,quiet\"],\"join\":[\"t\"],\"p\":[\"t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv\"]}",
+   "new": "{\"admin\":[\"t,pass,quiet\"],\"fx\":[\"lk,ek,ec,ep,t,k,c,x,y,a,sx,sy,vx,vy,ex,v,w\"],\"join\":[\"t\"],\"p\":[\"t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv\"]}"
+  }
+ ],
+ "old": {
+  "dir": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h0base",
+  "ms": 177312,
+  "ids": {
+   "A": 1,
+   "B": 2
+  },
+  "errors": {
+   "A": [],
+   "B": []
+  },
+  "serverLog": [
+   "[admin] WANDERER#1 unlocked admin (room h0liveold)",
+   "[admin] WANDERER#2 unlocked admin (room h0liveold)"
+  ],
+  "summary": {
+   "boot|A|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "hi": [
+      "t,id,sim"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "bodies": "present",
+     "hi": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "boot|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "menu|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "menu|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "setup|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "setup|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "B_enters|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "B_enters|A|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_enters|A|tx": {
+    "keys": {
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_new_run|A|tx": {
+    "keys": {
+     "b": [
+      "t,n,x,y,a,sx,sy,c,aa,lk,ek,ec,ep,lo,bl,dr,ht,hd,tr,ho,ph,ka"
+     ],
+     "fx": [
+      "lk,ek,ec,ep,t,k,x,y,a"
+     ],
+     "leave": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "b": "present",
+     "fx": "present",
+     "leave": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_new_run|A|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_spawn|A|tx": {
+    "keys": {
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_spawn|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_new_run_again|A|tx": {
+    "keys": {
+     "b": [
+      "t,n,x,y,a,sx,sy,c,aa,lk,ek,ec,ep,lo,bl,dr,ht,hd,tr,ho,ph,ka"
+     ],
+     "fx": [
+      "lk,ek,ec,ep,t,k,x,y,a"
+     ],
+     "leave": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "b": "present",
+     "fx": "present",
+     "leave": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_new_run_again|A|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_end|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_end|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_enters_again|A|tx": {
+    "keys": {
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters_again|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ],
+     "tp": [
+      "t,x,y"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "tp": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_admin_death|A|tx": {
+    "keys": {
+     "a": [
+      "t,c,k",
+      "t,c,k,var"
+     ],
+     "admin": [
+      "t,pass,quiet"
+     ],
+     "b": [
+      "t,n,x,y,a,sx,sy,c,aa,lk,ek,ec,ep,lo,bl,dr,ht,hd,tr,ho,ph,ka"
+     ],
+     "fx": [
+      "lk,ek,ec,ep,t,k,c,x,y,a,sx,sy,vx,vy,ex,v,w"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "a": 2,
+     "admin": 1,
+     "b": "present",
+     "fx": "present"
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_admin_death|A|rx": {
+    "keys": {
+     "admin": [
+      "t,ok,q"
+     ],
+     "ares": [
+      "t,ok,msg"
+     ],
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "admin": 1,
+     "ares": "present",
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_respawn|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ],
+     "respawn": [
+      "t"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "respawn": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_respawn|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "server_down|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "server_down|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "server_restart|A|tx": {
+    "keys": {
+     "admin": [
+      "t,pass,quiet"
+     ],
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "admin": 1,
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "server_restart|A|rx": {
+    "keys": {
+     "admin": [
+      "t,ok,q"
+     ],
+     "bodies": [
+      "t,v,b"
+     ],
+     "hi": [
+      "t,id,sim"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "admin": 1,
+     "bodies": "present",
+     "hi": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "boot|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "hi": [
+      "t,id,sim"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "bodies": "present",
+     "hi": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "boot|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "menu|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "menu|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "setup|B|tx": {
+    "keys": {
+     "a": [
+      "t,c,id",
+      "t,c,mode,n"
+     ],
+     "admin": [
+      "t,pass,quiet"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "a": 4,
+     "admin": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "setup|B|rx": {
+    "keys": {
+     "admin": [
+      "t,ok,q"
+     ],
+     "ares": [
+      "t,ok,msg"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "admin": 1,
+     "ares": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "B_enters|B|tx": {
+    "keys": {
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "B_enters|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_enters|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_new_run|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_new_run|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "fx": [
+      "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {
+     "bodies": "present",
+     "fx": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_spawn|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_spawn|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_new_run_again|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_new_run_again|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_end|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_end|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_enters_again|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters_again|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_admin_death|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_admin_death|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "fx": [
+      "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {
+     "bodies": "present",
+     "fx": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_respawn|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_respawn|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "server_down|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "server_down|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "server_restart|B|tx": {
+    "keys": {
+     "admin": [
+      "t,pass,quiet"
+     ],
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "admin": 1,
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "server_restart|B|rx": {
+    "keys": {
+     "admin": [
+      "t,ok,q"
+     ],
+     "bodies": [
+      "t,v,b"
+     ],
+     "hi": [
+      "t,id,sim"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {
+     "admin": 1,
+     "bodies": "present",
+     "hi": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   }
+  },
+  "frames": {
+   "A": 3657,
+   "B": 3403
+  }
+ },
+ "new": {
+  "dir": "/home/claude/backrooms-shadows",
+  "ms": 178683,
+  "ids": {
+   "A": 1,
+   "B": 2
+  },
+  "errors": {
+   "A": [],
+   "B": []
+  },
+  "serverLog": [
+   "[admin] WANDERER#1 unlocked admin (room h0livenew)",
+   "[admin] WANDERER#2 unlocked admin (room h0livenew)"
+  ],
+  "summary": {
+   "boot|A|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "hi": [
+      "t,id,sim"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "bodies": "present",
+     "hi": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "boot|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "menu|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "menu|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "setup|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "setup|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "B_enters|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "B_enters|A|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_enters|A|tx": {
+    "keys": {
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_new_run|A|tx": {
+    "keys": {
+     "b": [
+      "t,n,x,y,a,sx,sy,c,aa,lk,ek,ec,ep,lo,bl,dr,ht,hd,tr,ho,ph,ka"
+     ],
+     "fx": [
+      "lk,ek,ec,ep,t,k,x,y,a"
+     ],
+     "leave": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "b": "present",
+     "fx": "present",
+     "leave": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_new_run|A|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_spawn|A|tx": {
+    "keys": {
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_spawn|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_new_run_again|A|tx": {
+    "keys": {
+     "b": [
+      "t,n,x,y,a,sx,sy,c,aa,lk,ek,ec,ep,lo,bl,dr,ht,hd,tr,ho,ph,ka"
+     ],
+     "fx": [
+      "lk,ek,ec,ep,t,k,x,y,a"
+     ],
+     "leave": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "b": "present",
+     "fx": "present",
+     "leave": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_new_run_again|A|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_end|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_end|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_enters_again|A|tx": {
+    "keys": {
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters_again|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ],
+     "tp": [
+      "t,x,y"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "tp": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_admin_death|A|tx": {
+    "keys": {
+     "a": [
+      "t,c,k",
+      "t,c,k,var"
+     ],
+     "admin": [
+      "t,pass,quiet"
+     ],
+     "b": [
+      "t,n,x,y,a,sx,sy,c,aa,lk,ek,ec,ep,lo,bl,dr,ht,hd,tr,ho,ph,ka"
+     ],
+     "fx": [
+      "lk,ek,ec,ep,t,k,c,x,y,a,sx,sy,vx,vy,ex,v,w"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "a": 2,
+     "admin": 1,
+     "b": "present",
+     "fx": "present"
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_admin_death|A|rx": {
+    "keys": {
+     "admin": [
+      "t,ok,q"
+     ],
+     "ares": [
+      "t,ok,msg"
+     ],
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "admin": 1,
+     "ares": "present",
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_respawn|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ],
+     "respawn": [
+      "t"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "respawn": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_respawn|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "server_down|A|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "server_down|A|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "server_restart|A|tx": {
+    "keys": {
+     "admin": [
+      "t,pass,quiet"
+     ],
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "admin": 1,
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "server_restart|A|rx": {
+    "keys": {
+     "admin": [
+      "t,ok,q"
+     ],
+     "bodies": [
+      "t,v,b"
+     ],
+     "hi": [
+      "t,id,sim"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "B"
+    ],
+    "events": {
+     "admin": 1,
+     "bodies": "present",
+     "hi": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "boot|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "hi": [
+      "t,id,sim"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "bodies": "present",
+     "hi": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "boot|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "menu|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "menu|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "setup|B|tx": {
+    "keys": {
+     "a": [
+      "t,c,id",
+      "t,c,mode,n"
+     ],
+     "admin": [
+      "t,pass,quiet"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "a": 4,
+     "admin": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "setup|B|rx": {
+    "keys": {
+     "admin": [
+      "t,ok,q"
+     ],
+     "ares": [
+      "t,ok,msg"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "admin": 1,
+     "ares": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "B_enters|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "B_enters|B|tx": {
+    "keys": {
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_new_run|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_new_run|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "fx": [
+      "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {
+     "bodies": "present",
+     "fx": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_spawn|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_spawn|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_new_run_again|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_new_run_again|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {
+     "bodies": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_end|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_end|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_enters_again|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_enters_again|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_admin_death|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_admin_death|B|rx": {
+    "keys": {
+     "bodies": [
+      "t,v,b"
+     ],
+     "fx": [
+      "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {
+     "bodies": "present",
+     "fx": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   },
+   "A_respawn|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "A_respawn|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "server_down|B|tx": {
+    "keys": {
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {},
+    "periodic": [
+     "p"
+    ]
+   },
+   "server_down|B|rx": {
+    "keys": {
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {},
+    "periodic": [
+     "s"
+    ]
+   },
+   "server_restart|B|tx": {
+    "keys": {
+     "admin": [
+      "t,pass,quiet"
+     ],
+     "fx": [
+      "lk,ek,ec,ep,t,k,c,x,y,a,sx,sy,vx,vy,ex,v,w"
+     ],
+     "join": [
+      "t"
+     ],
+     "p": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    "peersSeen": [],
+    "events": {
+     "admin": 1,
+     "fx": "present",
+     "join": 1
+    },
+    "periodic": [
+     "p"
+    ]
+   },
+   "server_restart|B|rx": {
+    "keys": {
+     "admin": [
+      "t,ok,q"
+     ],
+     "bodies": [
+      "t,v,b"
+     ],
+     "hi": [
+      "t,id,sim"
+     ],
+     "s": [
+      "t,p,e,me,ms,cp"
+     ]
+    },
+    "peersSeen": [
+     "A"
+    ],
+    "events": {
+     "admin": 1,
+     "bodies": "present",
+     "hi": "present"
+    },
+    "periodic": [
+     "s"
+    ]
+   }
+  },
+  "frames": {
+   "A": 3641,
+   "B": 3414
+  }
+ }
+}

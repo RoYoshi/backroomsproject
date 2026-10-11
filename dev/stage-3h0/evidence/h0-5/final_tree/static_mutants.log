@@ -1,0 +1,14 @@
+CONTROL SAME 
+CAUGHT the server/ folder served (http_base, http_h0)
+CAUGHT a malformed escape gives 404 (http_base)
+CAUGHT a NUL not refused (http_base)
+CAUGHT / is not index.html (http_base)
+CAUGHT the query string kept (http_base, http_h0)
+CAUGHT the sounds list keeps every file (http_base)
+CAUGHT sounds cached for an hour (http_base)
+CAUGHT PNG cached for an hour (http_base)
+CAUGHT unknown types served as text (http_base)
+CAUGHT no Vary header (http_base, http_h0)
+CAUGHT gzip matched without regard to case (http_base)
+CAUGHT PNG gzipped too (http_base)
+12/12 caught; control same

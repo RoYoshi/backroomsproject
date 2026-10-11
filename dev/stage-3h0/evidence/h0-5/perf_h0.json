@@ -1,0 +1,433 @@
+{
+ "tool": "dev/stage-3h0/golden/perf_h0.js",
+ "a": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h0base",
+ "b": "/home/claude/backrooms-shadows",
+ "rounds": 3,
+ "node": "v22.22.2",
+ "cpus": 2,
+ "startedAt": "2026-10-11T07:42:08.845Z",
+ "server": {
+  "play8": {
+   "rounds": {
+    "a": [
+     {
+      "cpuMsPerSec": 73.5,
+      "bytesPerClientSec": 42348,
+      "snapsPerClientSec": 19.75,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 59,
+      "bytesPerClientSec": 33899,
+      "snapsPerClientSec": 19.75,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 58.5,
+      "bytesPerClientSec": 38146,
+      "snapsPerClientSec": 19.75,
+      "adminBytesPerSec": null
+     }
+    ],
+    "b": [
+     {
+      "cpuMsPerSec": 60,
+      "bytesPerClientSec": 33935,
+      "snapsPerClientSec": 19.7,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 72.5,
+      "bytesPerClientSec": 40052,
+      "snapsPerClientSec": 19.65,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 80.5,
+      "bytesPerClientSec": 38064,
+      "snapsPerClientSec": 19.65,
+      "adminBytesPerSec": null
+     }
+    ]
+   },
+   "cpuMsPerSec": {
+    "a": [
+     73.5,
+     59,
+     58.5
+    ],
+    "b": [
+     60,
+     72.5,
+     80.5
+    ],
+    "aMedian": 59,
+    "bMedian": 72.5,
+    "tolerance": 15,
+    "changePct": 22.88,
+    "gated": true,
+    "ok": true
+   },
+   "bytesPerClientSec": {
+    "a": [
+     42348,
+     33899,
+     38146
+    ],
+    "b": [
+     33935,
+     40052,
+     38064
+    ],
+    "aMedian": 38146,
+    "bMedian": 38064,
+    "tolerance": "reported only",
+    "changePct": -0.21,
+    "gated": false,
+    "ok": true
+   },
+   "snapsPerClientSec": {
+    "a": [
+     19.75,
+     19.75,
+     19.75
+    ],
+    "b": [
+     19.7,
+     19.65,
+     19.65
+    ]
+   }
+  },
+  "debug4": {
+   "rounds": {
+    "a": [
+     {
+      "cpuMsPerSec": 56.66,
+      "bytesPerClientSec": 22157,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 62795
+     },
+     {
+      "cpuMsPerSec": 49.33,
+      "bytesPerClientSec": 21938,
+      "snapsPerClientSec": 19.6,
+      "adminBytesPerSec": 58793
+     },
+     {
+      "cpuMsPerSec": 46,
+      "bytesPerClientSec": 22002,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 62159
+     }
+    ],
+    "b": [
+     {
+      "cpuMsPerSec": 50.66,
+      "bytesPerClientSec": 24365,
+      "snapsPerClientSec": 19.8,
+      "adminBytesPerSec": 72459
+     },
+     {
+      "cpuMsPerSec": 46,
+      "bytesPerClientSec": 22391,
+      "snapsPerClientSec": 19.8,
+      "adminBytesPerSec": 60935
+     },
+     {
+      "cpuMsPerSec": 55.99,
+      "bytesPerClientSec": 28505,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 90158
+     }
+    ]
+   },
+   "cpuMsPerSec": {
+    "a": [
+     56.66,
+     49.33,
+     46
+    ],
+    "b": [
+     50.66,
+     46,
+     55.99
+    ],
+    "aMedian": 49.33,
+    "bMedian": 50.66,
+    "tolerance": 10.66,
+    "changePct": 2.7,
+    "gated": true,
+    "ok": true
+   },
+   "bytesPerClientSec": {
+    "a": [
+     22157,
+     21938,
+     22002
+    ],
+    "b": [
+     24365,
+     22391,
+     28505
+    ],
+    "aMedian": 22002,
+    "bMedian": 24365,
+    "tolerance": "reported only",
+    "changePct": 10.74,
+    "gated": false,
+    "ok": true
+   },
+   "snapsPerClientSec": {
+    "a": [
+     19.73,
+     19.6,
+     19.73
+    ],
+    "b": [
+     19.8,
+     19.8,
+     19.73
+    ]
+   }
+  }
+ },
+ "client": {
+  "menu.mpMeanMs": {
+   "a": [
+    0.7261,
+    0.4304,
+    0.35
+   ],
+   "b": [
+    0.3955,
+    0.3625,
+    0.3958
+   ],
+   "aMedian": 0.4304,
+   "bMedian": 0.3955,
+   "tolerance": "reported only",
+   "changePct": -8.11,
+   "gated": false,
+   "ok": true
+  },
+  "menu.msgMeanMs": {
+   "a": [
+    0.0317,
+    0.0363,
+    0.0223
+   ],
+   "b": [
+    0.0296,
+    0.0676,
+    0.041
+   ],
+   "aMedian": 0.0317,
+   "bMedian": 0.041,
+   "tolerance": "reported only",
+   "changePct": 29.34,
+   "gated": false,
+   "ok": true
+  },
+  "run.mpMeanMs": {
+   "a": [
+    1.0556,
+    1.3846,
+    0.8733
+   ],
+   "b": [
+    0.8647,
+    0.8643,
+    1.1643
+   ],
+   "aMedian": 1.0556,
+   "bMedian": 0.8647,
+   "tolerance": "reported only",
+   "changePct": -18.08,
+   "gated": false,
+   "ok": true
+  },
+  "run.msgMeanMs": {
+   "a": [
+    0.0492,
+    0.074,
+    0.0479
+   ],
+   "b": [
+    0.0222,
+    0.0395,
+    0.0443
+   ],
+   "aMedian": 0.0492,
+   "bMedian": 0.0395,
+   "tolerance": "reported only",
+   "changePct": -19.72,
+   "gated": false,
+   "ok": true
+  },
+  "rounds": {
+   "a": [
+    {
+     "menu": {
+      "mp": {
+       "n": 23,
+       "mean": 0.7261,
+       "p95": 2
+      },
+      "msg": {
+       "n": 101,
+       "mean": 0.0317,
+       "p95": 0.1
+      }
+     },
+     "run": {
+      "mp": {
+       "n": 18,
+       "mean": 1.0556,
+       "p95": 1.8
+      },
+      "msg": {
+       "n": 118,
+       "mean": 0.0492,
+       "p95": 0.2
+      }
+     }
+    },
+    {
+     "menu": {
+      "mp": {
+       "n": 23,
+       "mean": 0.4304,
+       "p95": 1
+      },
+      "msg": {
+       "n": 102,
+       "mean": 0.0363,
+       "p95": 0.1
+      }
+     },
+     "run": {
+      "mp": {
+       "n": 13,
+       "mean": 1.3846,
+       "p95": 4.9
+      },
+      "msg": {
+       "n": 127,
+       "mean": 0.074,
+       "p95": 0.2
+      }
+     }
+    },
+    {
+     "menu": {
+      "mp": {
+       "n": 24,
+       "mean": 0.35,
+       "p95": 0.6
+      },
+      "msg": {
+       "n": 103,
+       "mean": 0.0223,
+       "p95": 0.1
+      }
+     },
+     "run": {
+      "mp": {
+       "n": 15,
+       "mean": 0.8733,
+       "p95": 1.5
+      },
+      "msg": {
+       "n": 117,
+       "mean": 0.0479,
+       "p95": 0.2
+      }
+     }
+    }
+   ],
+   "b": [
+    {
+     "menu": {
+      "mp": {
+       "n": 22,
+       "mean": 0.3955,
+       "p95": 0.6
+      },
+      "msg": {
+       "n": 98,
+       "mean": 0.0296,
+       "p95": 0.1
+      }
+     },
+     "run": {
+      "mp": {
+       "n": 17,
+       "mean": 0.8647,
+       "p95": 2
+      },
+      "msg": {
+       "n": 126,
+       "mean": 0.0222,
+       "p95": 0.1
+      }
+     }
+    },
+    {
+     "menu": {
+      "mp": {
+       "n": 24,
+       "mean": 0.3625,
+       "p95": 0.6
+      },
+      "msg": {
+       "n": 102,
+       "mean": 0.0676,
+       "p95": 0.3
+      }
+     },
+     "run": {
+      "mp": {
+       "n": 14,
+       "mean": 0.8643,
+       "p95": 1.4
+      },
+      "msg": {
+       "n": 119,
+       "mean": 0.0395,
+       "p95": 0.1
+      }
+     }
+    },
+    {
+     "menu": {
+      "mp": {
+       "n": 24,
+       "mean": 0.3958,
+       "p95": 0.9
+      },
+      "msg": {
+       "n": 100,
+       "mean": 0.041,
+       "p95": 0.1
+      }
+     },
+     "run": {
+      "mp": {
+       "n": 14,
+       "mean": 1.1643,
+       "p95": 8.3
+      },
+      "msg": {
+       "n": 122,
+       "mean": 0.0443,
+       "p95": 0.2
+      }
+     }
+    }
+   ]
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-11T07:50:08.008Z"
+}

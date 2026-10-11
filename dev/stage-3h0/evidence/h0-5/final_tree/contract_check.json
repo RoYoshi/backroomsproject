@@ -1,0 +1,39 @@
+{
+ "tool": "dev/stage-3h0/golden/contract_check.js",
+ "counts": {
+  "serverToClient": {
+   "hi": 41,
+   "bodies": 73,
+   "s": 11296,
+   "pong": 14,
+   "admin": 27,
+   "ares": 57,
+   "tp": 14,
+   "got": 1,
+   "fx": 22,
+   "msg": 6,
+   "kick": 1,
+   "revive": 1,
+   "exit": 1
+  },
+  "clientToServer": {
+   "join": 11,
+   "admin": 9,
+   "p": 819,
+   "a": 60,
+   "ping": 2,
+   "fx": 3,
+   "b": 4,
+   "respawn": 2,
+   "leave": 1,
+   "pick": 1
+  }
+ },
+ "unseenContractTypes": {
+  "serverToClient": [],
+  "clientToServer": []
+ },
+ "violations": 0,
+ "firstViolations": [],
+ "ok": true
+}

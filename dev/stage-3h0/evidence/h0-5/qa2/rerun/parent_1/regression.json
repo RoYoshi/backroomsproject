@@ -1,0 +1,447 @@
+{
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h0base",
+ "originals": "unchanged (dev/stage-3c-qa1/, dev/stage-3c-qa1/first_candidate/, dev/tests/)",
+ "copies": "dev/stage-3c-qa2/regress/",
+ "ok": false,
+ "probes": {
+  "probe_q2": {
+   "source": "dev/stage-3c-qa1/probe_q2.js",
+   "checks": [
+    {
+     "name": "after 8 s on the menu: not started, the game's hide-self state on, its light not shining, its wanderer not drawn, no join sent",
+     "ok": true,
+     "note": {
+      "started": false,
+      "hideSelf": true,
+      "lightOn": false,
+      "avatarDrawn": false,
+      "joins": 0,
+      "respawns": 0,
+      "positionPackets": 23,
+      "x": 960,
+      "y": 3264,
+      "stamina": 100,
+      "caught": false,
+      "state": "menu",
+      "net": "ONLINE · ROOM Q2GATE11917 · 2 WANDERERS · SHARED MONSTERS",
+      "railInside": "One other wanderer is in the halls right now.",
+      "myId": 2
+     }
+    },
+    {
+     "name": "the server lists the visitor as not in the world; the player inside counts only itself and draws no avatar for it; the visitor's menu counts the one wanderer inside",
+     "ok": true,
+     "note": {
+      "o0": {
+       "serverActive": false,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE11917 · 1 WANDERER · SHARED MONSTERS",
+       "peerAvatars": 0
+      },
+      "railInside": "One other wanderer is in the halls right now."
+     }
+    },
+    {
+     "name": "held D + Shift on the menu: the wanderer does not move and spends no stamina",
+     "ok": true,
+     "note": {
+      "before": [
+       960,
+       3264,
+       100
+      ],
+      "after": [
+       960,
+       3264,
+       100
+      ]
+     }
+    },
+    {
+     "name": "a Hound summoned onto the visitor's spot and a Smiler nearby, loose for 10 s (closer than a Hound sees): the visitor is never caught (the server keeps it out of the world)",
+     "ok": true,
+     "note": {
+      "minDistanceToVisitorSpot": 615,
+      "observerAt": [
+       960,
+       3264
+      ],
+      "visitorSpot": [
+       960,
+       3264
+      ],
+      "samples": 40,
+      "server": {
+       "serverActive": false,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE11917 · 1 WANDERER · SHARED MONSTERS",
+       "peerAvatars": 0
+      }
+     }
+    },
+    {
+     "name": "ENTER LEVEL 0: exactly one join; the wanderer is drawn with its light; the player inside counts and draws it; it walks",
+     "ok": false,
+     "note": {
+      "a3": {
+       "started": true,
+       "hideSelf": false,
+       "lightOn": true,
+       "avatarDrawn": true,
+       "joins": 1,
+       "respawns": 0,
+       "positionPackets": 132,
+       "x": 5832,
+       "y": 2328,
+       "stamina": 100,
+       "caught": false,
+       "state": "playing",
+       "net": "ONLINE · ROOM Q2GATE11917 · 2 WANDERERS · SHARED MONSTERS",
+       "railInside": "One other wanderer is in the halls right now.",
+       "myId": 2
+      },
+      "o3": {
+       "serverActive": true,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE11917 · 2 WANDERERS · SHARED MONSTERS",
+       "peerAvatars": 1,
+       "waitedMs": 2846
+      },
+      "walked": 9
+     }
+    },
+    {
+     "name": "NEW RUN: the run menu hides the wanderer and the player inside stops counting it; SPAWN starts exactly one new run, drawn again",
+     "ok": true,
+     "note": {
+      "a5": [
+       "run",
+       false,
+       true,
+       false
+      ],
+      "o5": {
+       "serverActive": false,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE11917 · 1 WANDERER · SHARED MONSTERS",
+       "peerAvatars": 0,
+       "waitedMs": 3082
+      },
+      "a6": [
+       true,
+       2,
+       true
+      ]
+     }
+    },
+    {
+     "name": "END returns to a clean menu (not started, hidden, unlit, not counted); ENTER LEVEL 0 again: exactly one join",
+     "ok": true,
+     "note": {
+      "a7": [
+       "menu",
+       false,
+       true,
+       false,
+       false
+      ],
+      "o7": {
+       "serverActive": false,
+       "serverDead": "",
+       "listed": true,
+       "net": "ONLINE · ROOM Q2GATE11917 · 1 WANDERER · SHARED MONSTERS",
+       "peerAvatars": 0,
+       "waitedMs": 3195
+      },
+      "a8": [
+       true,
+       1,
+       true
+      ]
+     }
+    },
+    {
+     "name": "caught by a Hound -> RESPAWN: back in the run by a respawn (no extra join), the wanderer drawn and lit",
+     "ok": true,
+     "note": {
+      "caught": true,
+      "before": [
+       3,
+       0
+      ],
+      "after": [
+       true,
+       false,
+       3,
+       1,
+       true,
+       false
+      ]
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [
+    "ENTER LEVEL 0: exactly one join; the wanderer is drawn with its light; the player inside counts and draws it; it walks"
+   ],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it",
+    "the same default game folder (the repository root) from the copy's location"
+   ],
+   "exit": 1,
+   "seconds": 389,
+   "gate": "[ui_lib_gate] navigations: 2 {\"menu (gate passed by a key)\":2}, longest wait 18559 ms"
+  },
+  "probe_c3": {
+   "source": "dev/stage-3c-qa1/first_candidate/probe_c3.js",
+   "checks": [
+    {
+     "name": "a saved legacy backpack loads as \"none\" (look and save); the backpack field offers only \"none\" and nothing visible mentions a backpack",
+     "ok": true,
+     "note": {
+      "look": "none",
+      "saved": "none",
+      "opts": [
+       "none"
+      ],
+      "shown": false
+     }
+    },
+    {
+     "name": "the preview renderer is idle while customize is closed and draws once it opens (WANDERER tab first, focus on the tab)",
+     "ok": true,
+     "note": {
+      "t0": {
+       "app": true,
+       "started": false
+      },
+      "o1": {
+       "st": "customize",
+       "tab": "wanderer",
+       "sel": "true",
+       "focus": "czTab_wanderer",
+       "started": true,
+       "wPane": true,
+       "lPane": false
+      }
+     }
+    },
+    {
+     "name": "hat and texture chips set the game's look and save it; arrow keys move and select",
+     "ok": true,
+     "note": {
+      "c1": {
+       "hat": "cap",
+       "tex": "patched",
+       "aria": "true"
+      },
+      "c2": {
+       "hat": "beanie",
+       "focus": "beanie"
+      },
+      "s1": {
+       "hat": "beanie",
+       "texture": "patched",
+       "hands": "#e6bb76",
+       "main": "#ffcc77",
+       "backpack": "none"
+      }
+     }
+    },
+    {
+     "name": "body and hand swatches set the colours; a custom colour clears the swatches and marks the picker; all saved",
+     "ok": true,
+     "note": {
+      "w1": {
+       "main": "#a7b298",
+       "hands": "#55524a"
+      },
+      "w2": {
+       "main": "#123456",
+       "pick": true,
+       "none": true
+      },
+      "s2": {
+       "hat": "beanie",
+       "texture": "patched",
+       "hands": "#55524a",
+       "main": "#123456",
+       "backpack": "none"
+      }
+     }
+    },
+    {
+     "name": "LOADOUT lists the four devices (flashlight, headlamp, lantern, Night Vision Camcorder) with parts and a close-up",
+     "ok": true,
+     "note": {
+      "cards": [
+       "flashlight",
+       "headlamp",
+       "lantern",
+       "camcorder"
+      ],
+      "disabled": false,
+      "parts": true,
+      "zoom": true
+     }
+    },
+    {
+     "name": "choosing the headlamp, a beam colour and a part colour drives the game's equipment and saves it",
+     "ok": true,
+     "note": {
+      "l1": {
+       "kind": "headlamp",
+       "color": "#ffc98a",
+       "part": "#336699",
+       "note": "HeadlampHands-free: a wider, shorter cone that turns with you.",
+       "beam": true
+      },
+      "s3": {
+       "kind": "headlamp",
+       "color": "#ffc98a",
+       "parts": {
+        "flashlight": {
+         "body": "#3b4650",
+         "head": "#a1a9b0",
+         "button": "#d8443a",
+         "grip": "#181b1e"
+        },
+        "headlamp": {
+         "strap": "#336699",
+         "housing": "#3a4054",
+         "bracket": "#9a9ea6"
+        },
+        "lantern": {
+         "frame": "#3d423c",
+         "handle": "#9aa0a6",
+         "cap": "#a3372c"
+        },
+        "camcorder": {
+         "body": "#2b2f36",
+         "lens": "#69717c",
+         "grip": "#1b1d20",
+         "trim": "#c9ccd0"
+        }
+       }
+      }
+     }
+    },
+    {
+     "name": "the Night Vision Camcorder has no beam colour and says: \"Night Vision Camcorder emits no visible light; its night vision uses infrared.\"",
+     "ok": true,
+     "note": {
+      "kind": "camcorder",
+      "beam": true,
+      "note": "Night Vision CamcorderNight Vision Camcorder emits no visible light; its night vision uses infrared. F raises it, N switches night vision, B sets the infrared illuminator, the wheel (or Z) zooms. It overheats.",
+      "card": "NIGHT VISION CAMCORDERNo visible light: its night vision uses infrared. It overheats.NO VISIBLE LIGHT · INFRARED"
+     }
+    },
+    {
+     "name": "Escape closes customize back to the menu: preview idle again, nothing paused, the PLAY panel shows the new device",
+     "ok": true,
+     "note": {
+      "st": "menu",
+      "started": false,
+      "paused": false,
+      "kind": "Lantern"
+     }
+    },
+    {
+     "name": "during a run the device is locked (cards disabled, lock note, a click changes nothing) while the hat can still change; Done returns to the pause",
+     "ok": true,
+     "note": {
+      "k0": {
+       "dis": true,
+       "lock": true,
+       "kind": "lantern"
+      },
+      "k1": "lantern",
+      "k2": "hardhat",
+      "k3": {
+       "st": "paused",
+       "paused": true
+      }
+     }
+    },
+    {
+     "name": "a second wanderer sees the first one's look (hard hat, patched, custom body and hands) and light (lantern, amber)",
+     "ok": true,
+     "note": {
+      "a": {
+       "look": {
+        "hat": "hardhat",
+        "texture": "patched",
+        "hands": "#55524a",
+        "main": "#123456",
+        "backpack": "none"
+       },
+       "kind": "lantern",
+       "color": "#ffc98a"
+      },
+      "peerLights": [
+       {
+        "kind": "lantern",
+        "color": "#ffc98a"
+       },
+       {
+        "kind": "flashlight",
+        "color": "#ffe7b2"
+       }
+      ]
+     }
+    },
+    {
+     "name": "an older client still sending a backpack is drawn without it",
+     "ok": true,
+     "note": {
+      "look": {
+       "hat": "cap",
+       "texture": "stripes",
+       "hands": "#112233",
+       "main": "#445566",
+       "backpack": "none"
+      },
+      "kind": "flashlight",
+      "color": "#ffe7b2"
+     }
+    },
+    {
+     "name": "390 x 844 touch: customize fills the screen, Done stays reachable, the cards fit, Done returns to the menu",
+     "ok": true,
+     "note": {
+      "m1": {
+       "w": 390,
+       "over": 0,
+       "done": true
+      },
+      "m2": true,
+      "m3": "menu"
+     }
+    },
+    {
+     "name": "no page errors",
+     "ok": true,
+     "note": []
+    }
+   ],
+   "crashed": false,
+   "unexplained": [],
+   "adaptations": [
+    "helpers from ui_lib_gate.js: each page passes the QA2 boot and its ready gate (one key press, as a player would) before the probe acts on it"
+   ],
+   "exit": 0,
+   "seconds": 249,
+   "gate": "[ui_lib_gate] navigations: 3 {\"menu (gate passed by a key)\":3}, longest wait 19381 ms"
+  }
+ },
+ "written": "2026-10-11T07:10:49.255Z"
+}

@@ -1,6 +1,7 @@
 /* server/static.js - the static file serving of server.js.
  *
- * Stage 3H0: moved out of server.js without a change.  createStatic(ROOT) returns the request handler server.js gives http.createServer:
+ * Stage 3H0: moved out of server.js without a change.  Its export is a function of ROOT that returns the request handler server.js gives
+ * http.createServer:
  *   - the path is decoded (a malformed escape or a NUL gives 400), '/' means index.html, and it is joined to ROOT and normalized;
  *   - /sounds and /sounds/ list the audio files in ROOT/sounds as JSON; /sounds/<file> serves one of them, cached for 5 minutes;
  *   - anything else is served only when it is inside ROOT and the SERVE allowlist names it, otherwise 404;

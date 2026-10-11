@@ -1,0 +1,26 @@
+PASS boot: old 19 lines 03be5f62f2dc (102 ms) | new 19 lines 03be5f62f2dc (125 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS http_base: old 267 lines b372c8537646 (650 ms) | new 267 lines b372c8537646 (570 ms) | identical | baseline same except 10 lines about changed files | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS http_h0: old 72 lines ba885bdb65a0 (102 ms) | new 72 lines ba885bdb65a0 (98 ms) | identical | baseline none (new scenario) | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS ws_upgrade: old 624 lines ba434e824a0c (888 ms) | new 624 lines ba434e824a0c (932 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS ws_frames: old 1120 lines 5fed70763ad2 (592 ms) | new 1120 lines 5fed70763ad2 (532 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS lifecycle: old 11113 lines 23815f7e28c5 (1411 ms) | new 11113 lines 23815f7e28c5 (1307 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS deaths: old 51957 lines 1c52c281b935 (1703 ms) | new 51957 lines 1c52c281b935 (1667 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS admin: old 17264 lines d17f9c1664e8 (1705 ms) | new 17264 lines d17f9c1664e8 (1769 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS schedule: old 1165 lines f71a9835ecb0 (647 ms) | new 1165 lines f71a9835ecb0 (596 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS p_fields: old 1026 lines 73fedac6f411 (562 ms) | new 1026 lines 73fedac6f411 (500 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+PASS exit_glitch: old 703 lines 6e51f6a71d07 (582 ms) | new 703 lines 6e51f6a71d07 (584 ms) | identical | baseline same | new requires: ./server/static.js ./server/ws.js ./server/fields.js
+server golden traces: ALL IDENTICAL
+PASS load: old 20 entries 54c2ffb012b6 (252 ms) | new 20 entries 54c2ffb012b6 (181 ms) | identical | baseline same | new globals: __mpLib
+PASS menu_online: old 1785 entries ace7daf8d265 (233 ms) | new 1785 entries ace7daf8d265 (252 ms) | identical | baseline same | new globals: __mpLib
+PASS run_online: old 7137 entries 6b0c80bb8897 (323 ms) | new 7137 entries 6b0c80bb8897 (389 ms) | identical | baseline same | new globals: __mpLib
+PASS interp: old 11481 entries a554fac9ce11 (456 ms) | new 11481 entries a554fac9ce11 (485 ms) | identical | baseline same | new globals: __mpLib
+PASS fx_bodies: old 22761 entries 04fdec710bc9 (573 ms) | new 22761 entries 04fdec710bc9 (646 ms) | identical | baseline same | new globals: __mpLib
+PASS facade: old 1176 entries e2e15edecdbc (215 ms) | new 1176 entries e2e15edecdbc (172 ms) | identical | baseline same | new globals: __mpLib
+PASS admin: old 1328 entries e2935e3291e0 (430 ms) | new 1328 entries e2935e3291e0 (387 ms) | identical | baseline same | new globals: __mpLib
+PASS reconnect_solo: old 737 entries d231269b9ac7 (210 ms) | new 737 entries d231269b9ac7 (216 ms) | identical | baseline same | new globals: __mpLib
+PASS hum_dread: old 4875 entries 802e45f94a5e (243 ms) | new 4875 entries 802e45f94a5e (245 ms) | identical | baseline same | new globals: __mpLib
+client golden traces: ALL IDENTICAL
+messages checked: server->client 11554 (13 types), client->server 912 (10 types)
+contract types never seen: server->client none; client->server none
+every message matches the contract
+checkpoint h0-5/final_tree: ALL EQUIVALENT {"server":true,"client":true,"contract":true}

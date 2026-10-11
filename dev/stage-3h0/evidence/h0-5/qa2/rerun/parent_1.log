@@ -1,0 +1,4 @@
+probe_q2: 8/9 pass, 0 superseded, 0 timing (also on QA1), 1 unexplained  (389 s)  [ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 18559 ms
+   UNEXPLAINED FAIL ENTER LEVEL 0: exactly one join; the wanderer is drawn with its light; the player inside counts and draws it; it walks
+probe_c3: 13/13 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (249 s)  [ui_lib_gate] navigations: 3 {"menu (gate passed by a key)":3}, longest wait 19381 ms
+REGRESSION: PROBLEMS

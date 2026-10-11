@@ -1,6 +1,8 @@
 /* Stage 3H0 - deterministic server harness (development only; never served, never loaded by the game).
  *
  *   node dev/stage-3h0/golden/srv_harness.js --src SERVER_SOURCE_FILE --dir GAME_DIR --scenario NAME --out TRACE.jsonl [--struct STRUCT.json]
+ *                                            [--scenarios FILE] [--seed N]
+ *   --scenarios  another scenario module (default srv_scenarios.js);  --seed  another fixed world and random stream (H0-5; absent = as before)
  *
  * Runs the given server.js SOURCE as if it were GAME_DIR/server.js (so the accepted parent's text and the working tree's text can be run
  * against the very same files: sim.js, death_srv.js, assets ...), inside a closed world:
@@ -35,9 +37,9 @@ const STRUCT = { requires: [], newRequires: [] };
 /* ---------- fake clock, hrtime, randomness ---------- */
 Date.now = () => NOW;
 let HR = 0n; process.hrtime.bigint = () => (HR += 1000000n);
-let rs = 0x3d0c0de1;
+let rs = ARG.seed ? (0x3d0c0de1 + Math.imul(+ARG.seed, 0x9e3779b1)) | 0 : 0x3d0c0de1;
 Math.random = () => { rs |= 0; rs = rs + 0x6D2B79F5 | 0; let t = Math.imul(rs ^ rs >>> 15, 1 | rs); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
-let rbN = 0;
+let rbN = ARG.seed ? +ARG.seed * 7919 : 0;
 crypto.randomBytes = (n, cb) => { const b = Buffer.alloc(n); for (let i = 0; i < n; i++) b[i] = (0x5a + rbN * 31 + i * 17) & 255; rbN++; out('crypto.randomBytes', n, b.toString('hex')); if (cb) { cb(null, b); return undefined; } return b; };
 
 /* ---------- fake timers ---------- */
@@ -204,7 +206,7 @@ async function main() {
   delete process.env.BODY_TTL; delete process.env.PORT;
   if (ARG.bodyttl) process.env.BODY_TTL = ARG.bodyttl;
   process.argv = [process.argv[0], SERVER_PATH, '8123'];
-  const scen = require('./srv_scenarios.js')[ARG.scenario];
+  const scen = require(ARG.scenarios ? path.resolve(ARG.scenarios) : './srv_scenarios.js')[ARG.scenario];
   if (!scen) throw new Error('no scenario ' + ARG.scenario);
   out('load.begin', ARG.scenario);
   const m = new Module(SERVER_PATH, null); m.filename = SERVER_PATH; m.paths = Module._nodeModulePaths(DIR);

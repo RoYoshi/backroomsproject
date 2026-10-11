@@ -4,7 +4,7 @@
  * - Falls back to the game's built-in single-player AI when there is no server.
  * - Also draws other wanderers and adds the proximity scare effects. */
 (() => {
-const { lookStr, partList, partObj, parseLook, toRec } = window.__mpLib.wire;   // Stage 3H0: the look / light / corpse wire codec (assets/net-wire.js, loaded just before this file)
+const { lookStr, partList, partObj, parseLook, toRec } = window.__mpLib.wire;   // Stage 3H0: the look / light / corpse wire codec (assets/net-wire.js, loaded before this file)
 const { NET, netReset, netHist, netPose } = window.__mpLib.interp;   // Stage 3H0: the snapshot interpolation (assets/net-interp.js, loaded just before this file)
 const cv = document.getElementById('mp'), cx = cv.getContext('2d'), dread = document.getElementById('dread'),
   game = document.getElementById('game'), light = document.getElementById('light'),

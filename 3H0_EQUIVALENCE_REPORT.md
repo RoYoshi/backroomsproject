@@ -147,7 +147,7 @@
 - the `SERVE` allowlist, with its comment;
 - the MIME table;
 - the gzip cache;
-- the request handler, now `createStatic(ROOT)`.
+- the request handler. The module's export is now a function of `ROOT` that returns it: `require('./server/static.js')(ROOT)`.
 
 `server.js` passes its own `ROOT`, because the module's `__dirname` is `server/`.
 
@@ -158,6 +158,10 @@
 - its state is the gzip cache, still one per process;
 - every path rule resolves against the same `ROOT` string;
 - no `'use strict'`, no timer.
+
+**Found later, at H0-5.** The independent review found that `dev/shadows/test_shadows.js` S16 reads the `SERVE` line from `server.js` by its text, and now throws.
+- S16 already failed at the parent: it expects `index.html` to load the retired `shadows-2d.js`.
+- The suite gives 43/48 on the parent and on the final tree, with the same five failures. Its result does not change, and the test was not adapted.
 
 **This is security-sensitive code, so it was tested first and hardest:**
 - **Draft first.** A candidate `server.js` and the draft `static.js` were run in a scratch copy of the tree before the real files were edited. Their start-up and HTTP traces were identical to the tree's, and 12 deliberate wrong versions of `static.js` were all caught (`static_mutants_draft.json`).
@@ -193,3 +197,56 @@
 - the CPU of the server workloads is unchanged.
 
 **Conclusion.** The 70 s limit of L5b can run out by chance on any version. This is a property of the existing test, and the test was not changed. It is listed with the other findings at H0-5 (`3H0_DEFERRED_FULL_3H.md`). `live.js` passed at H0-1, H0-4a, H0-4b and in all 46 repeats.
+
+## H0-5: the final tree, across every boundary
+
+**Corrections first.** The independent review (a separate agent that had not seen the work) found three stale comments, now fixed:
+- `assets/net-wire.js` said it loads immediately before `mp.js`; since H0-3, `net-interp.js` sits between them;
+- `mp.js` said the same of `net-wire.js`;
+- `server/static.js` named its export `createStatic`, but the export is an anonymous factory.
+
+These are comment-only changes. The gate, the four function-equivalence checks, the static mutants, `interp_test.js` and `test_3bn.js` were all run again on the corrected tree: all identical, 12 of 12 caught, all passed (`evidence/h0-5/final_tree/`). The review also found the text-reading test `dev/shadows/test_shadows.js` S16 (H0-4c above).
+
+**The final regression** is in `evidence/h0-5/summary.json`, with each result next to what it is compared with. Every gated item holds:
+- **Existing suites, as at H0-1 on the parent:** `live.js` 17/17, `audit_net.js` 17/17, `audit_net2.js` 11/11, `ir_net.js` 4/4, `test_3bn.js` 7/7, `interp_test.js` passed. `npm test` gives 151/162, with the same 11 historical failures.
+- **QA2's own final checks** (QA2 R3 ran them on the parent):
+  - camera fairness 12/12;
+  - BR-RoLE 32/32;
+  - the theme files;
+  - QA2's probes: `probe_b1` 13/13, `probe_b2` 10/10, `probe_b3` 28/28;
+  - the regression of the 12 older probes. Its main run had three checks failing without a listed reason; see below.
+- **Menu and boot captures** of the parent and the final tree, taken now. They differ only where the tool itself varies:
+  - the random room name printed in the rail (`qa2/compare_crops/`);
+  - the idle animation of the Customize preview;
+  - frame timing in the boot sheets.
+
+  The parent captured now differs from QA2 R3's captures of the same code by as much (largest share of changed pixels: 0.31 % against 0.26 %).
+- **The gate:** the golden traces and the contract, ALL EQUIVALENT, before and after the comment corrections.
+- **Scope:** every change is an approved extraction, the adapted test, the stage's tooling or a stage document. Every line removed from `mp.js` and `server.js` reappears verbatim in the new files, except the five changed by design.
+- **Real sockets:** the 108 HTTP exchanges and 25 WebSocket checks are identical.
+- **Deterministic performance, 15 rounds:** within the rule (`STAGE_3H0_PERFORMANCE.md`).
+
+**Four things looked different at first. Each was investigated before going on, and each investigation is kept.**
+
+1. **QA2's older-probe regression: 3 checks failed in the main run** (`qa2/regress/`).
+   - `probe_c3` timed out clicking the pause menu's Customize, so its "no page errors" check failed. `probe_q2` failed two checks:
+     - "a monster loose near the menu visitor's spot": the closest monster came to 680 px, and the check wants under 620;
+     - "ENTER LEVEL 0 … it walks": the player walked 36 px, and the check wants more than 40.
+   - Both probes were re-run through QA2's own runner, twice on each side, alternating (`qa2/rerun/`):
+     - the final tree passed every one of these checks at least once;
+     - the parent failed the "walks" check once;
+     - `probe_c3` passed 13/13 in all four runs.
+   - **The 620 px check sits at the median of its own distribution.** The same summon sequence in the closed world (`summon_seeds.js`) is byte-identical old against new for 30 of 30 seeded worlds, and the closest monster comes within 620 px in only 17 of the 30.
+   - On the real server (`summon_probe.js`), a first run of 12 rounds per side looked different: 8 of 12 under 620 px old, 4 of 12 new, p = 0.024. A fresh replication of 24 rounds per side does not: 13 of 24 against 12 of 24, p = 0.28.
+2. **The live wire differed in two of three final runs, each time only in the server-outage phases** (`live_wire.json`, `live_rerun/`). These are the phases where the test stops and restarts the server.
+   - **In the first run, the parent's player B reconnected late.** Its `hi` arrived just before the phase ended, so the other frames of that phase were missing on the old side.
+   - **In the second, the final tree's player B sent a death replay right after reconnecting.** The server had recorded no death for B, so it ignored the replay, as it does for any living player, and player A received nothing. The replay comes from B's own game, which plays offline with its own monsters while the server is down.
+   - The third run is identical in every phase, and so are two A/A runs of the parent against itself.
+   - Reconnect timing and offline play are real-time events, which the comparison does not control.
+3. **The real-stack server CPU** moved +22.9 % on `play8` over 3 rounds. This passed the rule, because the parent's own rounds spread 58.5 to 73.5 ms per second. Measured again with 6 rounds, it moved −8.8 %, and the deterministic CPU gate shows −1.7 % to +2.2 %.
+4. **The parent's warm boot was slow in this session** (`qa2/boot_*/boot_starts.json`). The final tree is not the slow side.
+   - **Through the ready gate,** the parent waited for its first steady frames until 4.8 s and 5.7 s in two captures. The final tree took 1.2 s, and the same parent code took 1.1 s at QA2 R3.
+   - **The direct warm start** took 5.1 s in the parent's first capture and 1.2 s in its second, against 1.1 s for the final tree.
+   - These are rendering stalls of the capture machine. No code that draws changed.
+
+**Conclusion.** No difference attributable to the extractions was found on the final tree. Every apparent one was traced to a timing- or randomness-dependent check, with the evidence kept beside it.

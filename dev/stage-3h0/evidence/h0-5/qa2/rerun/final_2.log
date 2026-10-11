@@ -1,0 +1,3 @@
+probe_q2: 9/9 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (364 s)  [ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 15573 ms
+probe_c3: 13/13 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (257 s)  [ui_lib_gate] navigations: 3 {"menu (gate passed by a key)":3}, longest wait 20915 ms
+REGRESSION: CLEAN (every check passes or is a listed supersession)

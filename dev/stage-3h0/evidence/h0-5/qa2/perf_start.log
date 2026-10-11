@@ -1,0 +1,120 @@
+{"build":"qa1","kind":"cold","firstPaint":684,"settledAt":9746,"musicAt":8202,"pressAt":null,"boot":{"black":25,"loading":416,"ready":7956,"menu":7986},"preparedAt":7649,"fetched":2,"cacheHits":0,"done":{"stylesheets":417,"credits":417,"runtime":584,"logo":639,"music":7649,"fonts":7649,"frames":7955}}
+{"build":"qa1","kind":"warm","firstPaint":680,"settledAt":6752,"musicAt":5286,"pressAt":null,"boot":{"black":150,"loading":468,"ready":5048,"menu":5050},"preparedAt":2152,"fetched":0,"cacheHits":2,"done":{"stylesheets":468,"credits":468,"logo":504,"runtime":685,"music":2152,"fonts":2152,"frames":5048}}
+{"build":"qa2","kind":"cold","firstPaint":804,"settledAt":9762,"musicAt":8162,"pressAt":null,"boot":{"black":45,"loading":486,"ready":7931,"menu":7933},"preparedAt":7634,"fetched":2,"cacheHits":0,"done":{"stylesheets":487,"credits":487,"runtime":775,"logo":780,"music":7635,"fonts":7635,"frames":7931}}
+{"build":"qa2","kind":"warm","firstPaint":748,"settledAt":6858,"musicAt":5241,"pressAt":null,"boot":{"black":215,"loading":526,"ready":5010,"menu":5013},"preparedAt":2176,"fetched":0,"cacheHits":2,"done":{"stylesheets":526,"credits":526,"logo":529,"runtime":694,"music":2176,"fonts":2176,"frames":5010}}
+{"build":"qa1","kind":"cold","firstPaint":728,"settledAt":8370,"musicAt":6724,"pressAt":null,"boot":{"black":36,"loading":456,"ready":6511,"menu":6515},"preparedAt":6251,"fetched":2,"cacheHits":0,"done":{"stylesheets":457,"credits":457,"runtime":760,"logo":765,"music":6251,"fonts":6251,"frames":6511}}
+{"build":"qa1","kind":"warm","firstPaint":740,"settledAt":7585,"musicAt":6000,"pressAt":null,"boot":{"black":224,"loading":530,"ready":5789,"menu":5795},"preparedAt":5466,"fetched":0,"cacheHits":2,"done":{"stylesheets":530,"credits":530,"logo":535,"runtime":679,"music":5466,"fonts":5466,"frames":5789}}
+{"build":"qa2","kind":"cold","firstPaint":640,"settledAt":8842,"musicAt":7211,"pressAt":null,"boot":{"black":33,"loading":489,"ready":6991,"menu":6994},"preparedAt":6725,"fetched":2,"cacheHits":0,"done":{"stylesheets":490,"credits":490,"runtime":793,"logo":798,"music":6725,"fonts":6725,"frames":6991}}
+{"build":"qa2","kind":"warm","firstPaint":608,"settledAt":5376,"musicAt":2099,"pressAt":null,"boot":{"black":153,"loading":512,"ready":1336,"menu":1339},"preparedAt":1038,"fetched":0,"cacheHits":2,"done":{"stylesheets":512,"credits":512,"logo":514,"runtime":660,"music":1038,"fonts":1038,"frames":1336}}
+{"state":"QA2 ready gate (black, waiting for a key, click or tap)","frames":16,"pageMs":{"mean":287.2,"p95":338.3},"uiJsMsPerFrame":0.012,"jsMsPerFrame":5.6,"menuAnimations":["glTear"]}
+{"state":"QA2 menu idle (after the gate, music playing)","frames":16,"pageMs":{"mean":272.6,"p95":296.1},"uiJsMsPerFrame":0,"jsMsPerFrame":4.92,"menuAnimations":["glTear"]}
+{
+ "qa1 cold": {
+  "n": 2,
+  "firstPaint": {
+   "median": 706,
+   "min": 684,
+   "max": 728,
+   "n": 2
+  },
+  "settledAt": {
+   "median": 9058,
+   "min": 8370,
+   "max": 9746,
+   "n": 2
+  },
+  "musicAt": {
+   "median": 7463,
+   "min": 6724,
+   "max": 8202,
+   "n": 2
+  },
+  "musicAfterPressMs": {
+   "median": null,
+   "min": null,
+   "max": null,
+   "n": 0
+  }
+ },
+ "qa1 warm": {
+  "n": 2,
+  "firstPaint": {
+   "median": 710,
+   "min": 680,
+   "max": 740,
+   "n": 2
+  },
+  "settledAt": {
+   "median": 7169,
+   "min": 6752,
+   "max": 7585,
+   "n": 2
+  },
+  "musicAt": {
+   "median": 5643,
+   "min": 5286,
+   "max": 6000,
+   "n": 2
+  },
+  "musicAfterPressMs": {
+   "median": null,
+   "min": null,
+   "max": null,
+   "n": 0
+  }
+ },
+ "qa2 cold": {
+  "n": 2,
+  "firstPaint": {
+   "median": 722,
+   "min": 640,
+   "max": 804,
+   "n": 2
+  },
+  "settledAt": {
+   "median": 9302,
+   "min": 8842,
+   "max": 9762,
+   "n": 2
+  },
+  "musicAt": {
+   "median": 7687,
+   "min": 7211,
+   "max": 8162,
+   "n": 2
+  },
+  "musicAfterPressMs": {
+   "median": null,
+   "min": null,
+   "max": null,
+   "n": 0
+  }
+ },
+ "qa2 warm": {
+  "n": 2,
+  "firstPaint": {
+   "median": 678,
+   "min": 608,
+   "max": 748,
+   "n": 2
+  },
+  "settledAt": {
+   "median": 6117,
+   "min": 5376,
+   "max": 6858,
+   "n": 2
+  },
+  "musicAt": {
+   "median": 3670,
+   "min": 2099,
+   "max": 5241,
+   "n": 2
+  },
+  "musicAfterPressMs": {
+   "median": null,
+   "min": null,
+   "max": null,
+   "n": 0
+  }
+ }
+}

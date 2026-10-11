@@ -129,7 +129,7 @@ Only what an approved extraction needs: a classic script under `assets/` loaded 
 
 ### Added at H0-2: the wire codec
 
-**`assets/net-wire.js`** is a classic script with no `'use strict'`, like mp.js. `index.html` loads it on the line immediately before `mp.js`; that one added line is the only change to `index.html`.
+**`assets/net-wire.js`** is a classic script with no `'use strict'`, like mp.js. `index.html` loads it just before `mp.js`. At H0-2 that one added line was the only change to `index.html`; H0-3 adds a second, for `net-interp.js`, between the two.
 - **Serving:** it is served by the existing `assets/[\w.\-]+` allowlist rule, so the server is unchanged: `text/javascript`, `no-store`, gzip.
 - **Side effects:** none apart from defining its namespace. It registers no listener or timer, touches no DOM, and draws no random numbers.
 

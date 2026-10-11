@@ -1,0 +1,306 @@
+{
+ "tool": "dev/stage-3h0/golden/perf_h0.js",
+ "a": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h0base",
+ "b": "/home/claude/backrooms-shadows",
+ "rounds": 6,
+ "node": "v22.22.2",
+ "cpus": 2,
+ "startedAt": "2026-10-11T08:22:31.136Z",
+ "server": {
+  "play8": {
+   "rounds": {
+    "a": [
+     {
+      "cpuMsPerSec": 53,
+      "bytesPerClientSec": 35775,
+      "snapsPerClientSec": 19.75,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 62,
+      "bytesPerClientSec": 37810,
+      "snapsPerClientSec": 19.7,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 63,
+      "bytesPerClientSec": 35701,
+      "snapsPerClientSec": 19.6,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 73,
+      "bytesPerClientSec": 40387,
+      "snapsPerClientSec": 19.7,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 69.49,
+      "bytesPerClientSec": 42213,
+      "snapsPerClientSec": 19.75,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 68.5,
+      "bytesPerClientSec": 38394,
+      "snapsPerClientSec": 19.75,
+      "adminBytesPerSec": null
+     }
+    ],
+    "b": [
+     {
+      "cpuMsPerSec": 59.5,
+      "bytesPerClientSec": 36047,
+      "snapsPerClientSec": 19.7,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 59.99,
+      "bytesPerClientSec": 33751,
+      "snapsPerClientSec": 19.7,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 60,
+      "bytesPerClientSec": 38272,
+      "snapsPerClientSec": 19.75,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 72,
+      "bytesPerClientSec": 42613,
+      "snapsPerClientSec": 19.74,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 63.5,
+      "bytesPerClientSec": 37842,
+      "snapsPerClientSec": 19.7,
+      "adminBytesPerSec": null
+     },
+     {
+      "cpuMsPerSec": 55.99,
+      "bytesPerClientSec": 35736,
+      "snapsPerClientSec": 19.75,
+      "adminBytesPerSec": null
+     }
+    ]
+   },
+   "cpuMsPerSec": {
+    "a": [
+     53,
+     62,
+     63,
+     73,
+     69.49,
+     68.5
+    ],
+    "b": [
+     59.5,
+     59.99,
+     60,
+     72,
+     63.5,
+     55.99
+    ],
+    "aMedian": 65.75,
+    "bMedian": 59.995,
+    "tolerance": 20,
+    "changePct": -8.75,
+    "gated": true,
+    "ok": true
+   },
+   "bytesPerClientSec": {
+    "a": [
+     35775,
+     37810,
+     35701,
+     40387,
+     42213,
+     38394
+    ],
+    "b": [
+     36047,
+     33751,
+     38272,
+     42613,
+     37842,
+     35736
+    ],
+    "aMedian": 38102,
+    "bMedian": 36944.5,
+    "tolerance": "reported only",
+    "changePct": -3.04,
+    "gated": false,
+    "ok": true
+   },
+   "snapsPerClientSec": {
+    "a": [
+     19.75,
+     19.7,
+     19.6,
+     19.7,
+     19.75,
+     19.75
+    ],
+    "b": [
+     19.7,
+     19.7,
+     19.75,
+     19.74,
+     19.7,
+     19.75
+    ]
+   }
+  },
+  "debug4": {
+   "rounds": {
+    "a": [
+     {
+      "cpuMsPerSec": 61.33,
+      "bytesPerClientSec": 26578,
+      "snapsPerClientSec": 19.67,
+      "adminBytesPerSec": 83096
+     },
+     {
+      "cpuMsPerSec": 56.66,
+      "bytesPerClientSec": 22446,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 61434
+     },
+     {
+      "cpuMsPerSec": 52,
+      "bytesPerClientSec": 24213,
+      "snapsPerClientSec": 19.67,
+      "adminBytesPerSec": 72558
+     },
+     {
+      "cpuMsPerSec": 58,
+      "bytesPerClientSec": 28753,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 92391
+     },
+     {
+      "cpuMsPerSec": 48.66,
+      "bytesPerClientSec": 26503,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 78930
+     },
+     {
+      "cpuMsPerSec": 48.67,
+      "bytesPerClientSec": 28529,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 91245
+     }
+    ],
+    "b": [
+     {
+      "cpuMsPerSec": 46.66,
+      "bytesPerClientSec": 22205,
+      "snapsPerClientSec": 19.67,
+      "adminBytesPerSec": 60477
+     },
+     {
+      "cpuMsPerSec": 56.66,
+      "bytesPerClientSec": 26708,
+      "snapsPerClientSec": 19.67,
+      "adminBytesPerSec": 83810
+     },
+     {
+      "cpuMsPerSec": 52.66,
+      "bytesPerClientSec": 26597,
+      "snapsPerClientSec": 19.66,
+      "adminBytesPerSec": 83795
+     },
+     {
+      "cpuMsPerSec": 58,
+      "bytesPerClientSec": 26586,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 79171
+     },
+     {
+      "cpuMsPerSec": 46.67,
+      "bytesPerClientSec": 20013,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 49927
+     },
+     {
+      "cpuMsPerSec": 57.33,
+      "bytesPerClientSec": 22276,
+      "snapsPerClientSec": 19.73,
+      "adminBytesPerSec": 63651
+     }
+    ]
+   },
+   "cpuMsPerSec": {
+    "a": [
+     61.33,
+     56.66,
+     52,
+     58,
+     48.66,
+     48.67
+    ],
+    "b": [
+     46.66,
+     56.66,
+     52.66,
+     58,
+     46.67,
+     57.33
+    ],
+    "aMedian": 54.33,
+    "bMedian": 54.66,
+    "tolerance": 12.67,
+    "changePct": 0.61,
+    "gated": true,
+    "ok": true
+   },
+   "bytesPerClientSec": {
+    "a": [
+     26578,
+     22446,
+     24213,
+     28753,
+     26503,
+     28529
+    ],
+    "b": [
+     22205,
+     26708,
+     26597,
+     26586,
+     20013,
+     22276
+    ],
+    "aMedian": 26540.5,
+    "bMedian": 24431,
+    "tolerance": "reported only",
+    "changePct": -7.95,
+    "gated": false,
+    "ok": true
+   },
+   "snapsPerClientSec": {
+    "a": [
+     19.67,
+     19.73,
+     19.67,
+     19.73,
+     19.73,
+     19.73
+    ],
+    "b": [
+     19.67,
+     19.67,
+     19.66,
+     19.73,
+     19.73,
+     19.73
+    ]
+   }
+  }
+ },
+ "client": {},
+ "ok": true,
+ "finishedAt": "2026-10-11T08:31:33.875Z"
+}

@@ -1,0 +1,60 @@
+{
+ "tool": "dev/stage-3h0/golden/compare_captures.py",
+ "old": "dev/stage-3h0/evidence/h0-5/qa2/boot_parent",
+ "new": "dev/stage-3h0/evidence/h0-5/qa2/boot_final",
+ "images": 5,
+ "missing": [],
+ "rows": [
+  {
+   "image": "boot_direct_desktop_cold_sheet.jpg",
+   "size": [
+    1976,
+    880
+   ],
+   "changedShare": 0.007005,
+   "meanAbs": 1.132,
+   "max": 237
+  },
+  {
+   "image": "boot_direct_desktop_warm_sheet.jpg",
+   "size": [
+    1976,
+    880
+   ],
+   "changedShare": 0.010747,
+   "meanAbs": 1.437,
+   "max": 234
+  },
+  {
+   "image": "boot_gate_desktop_cold_sheet.jpg",
+   "size": [
+    1976,
+    880
+   ],
+   "changedShare": 0.003822,
+   "meanAbs": 0.571,
+   "max": 231
+  },
+  {
+   "image": "boot_gate_desktop_warm_sheet.jpg",
+   "size": [
+    1976,
+    880
+   ],
+   "changedShare": 0.003375,
+   "meanAbs": 0.649,
+   "max": 227
+  },
+  {
+   "image": "boot_gate_phone_cold_sheet.jpg",
+   "size": [
+    1976,
+    2932
+   ],
+   "changedShare": 0.00544,
+   "meanAbs": 0.7,
+   "max": 234
+  }
+ ],
+ "largestChangedShare": 0.010747
+}

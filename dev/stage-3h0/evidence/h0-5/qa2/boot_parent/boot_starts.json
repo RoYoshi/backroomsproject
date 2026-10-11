@@ -1,0 +1,353 @@
+{
+ "gate_desktop": {
+  "size": "1280x720",
+  "autoplayFlag": false,
+  "errors": [],
+  "runs": [
+   {
+    "kind": "cold",
+    "gestureAt": 10869,
+    "summary": {
+     "frames": 126,
+     "firstFrameAt": 21,
+     "firstFrameNonBlack": 1,
+     "firstNonBlackAt": 21,
+     "firstNonBlackShare": 1,
+     "firstMostlyLitAt": 21,
+     "changes": 47
+    },
+    "paints": [
+     [
+      "first-paint",
+      888
+     ],
+     [
+      "first-contentful-paint",
+      888
+     ]
+    ],
+    "boot": {
+     "state": "menu",
+     "failed": null,
+     "timeline": {
+      "black": 45,
+      "loading": 518,
+      "ready": 9023,
+      "menu": 11081
+     }
+    },
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": false,
+     "gate": true,
+     "gateShownAt": 9498,
+     "passedBy": "keydown: ",
+     "passedAt": 11080,
+     "noteShown": true,
+     "done": {
+      "stylesheets": 519,
+      "credits": 519,
+      "runtime": 779,
+      "logo": 787,
+      "music": 8731,
+      "fonts": 8731,
+      "frames": 9022
+     },
+     "entrances": [
+      11086
+     ]
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 1,
+     "t0": 0.06,
+     "ctx": "running",
+     "fetched": 2,
+     "cacheHits": 0,
+     "preparedAt": 8731,
+     "beganAt": 11080
+    },
+    "uiState": "menu"
+   },
+   {
+    "kind": "warm",
+    "gestureAt": 7252,
+    "summary": {
+     "frames": 131,
+     "firstFrameAt": 25,
+     "firstFrameNonBlack": 0.05896,
+     "firstNonBlackAt": 25,
+     "firstNonBlackShare": 0.05896,
+     "firstMostlyLitAt": null,
+     "changes": 40
+    },
+    "paints": [
+     [
+      "first-paint",
+      848
+     ],
+     [
+      "first-contentful-paint",
+      848
+     ]
+    ],
+    "boot": {
+     "state": "menu",
+     "failed": null,
+     "timeline": {
+      "black": 294,
+      "loading": 609,
+      "ready": 4822,
+      "menu": 7508
+     }
+    },
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": false,
+     "gate": true,
+     "gateShownAt": 5816,
+     "passedBy": "keydown: ",
+     "passedAt": 7507,
+     "noteShown": false,
+     "done": {
+      "stylesheets": 609,
+      "credits": 609,
+      "logo": 614,
+      "runtime": 910,
+      "music": 1341,
+      "fonts": 1341,
+      "frames": 4822
+     },
+     "entrances": [
+      7515
+     ]
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 1,
+     "t0": 0.06,
+     "ctx": "running",
+     "fetched": 0,
+     "cacheHits": 2,
+     "preparedAt": 1340,
+     "beganAt": 7507
+    },
+    "uiState": "menu"
+   }
+  ]
+ },
+ "gate_phone": {
+  "size": "390x844m",
+  "autoplayFlag": false,
+  "errors": [],
+  "runs": [
+   {
+    "kind": "cold",
+    "gestureAt": 9973,
+    "summary": {
+     "frames": 161,
+     "firstFrameAt": 19,
+     "firstFrameNonBlack": 1,
+     "firstNonBlackAt": 19,
+     "firstNonBlackShare": 1,
+     "firstMostlyLitAt": 19,
+     "changes": 74
+    },
+    "paints": [
+     [
+      "first-paint",
+      636
+     ],
+     [
+      "first-contentful-paint",
+      636
+     ]
+    ],
+    "boot": {
+     "state": "menu",
+     "failed": null,
+     "timeline": {
+      "black": 51,
+      "loading": 608,
+      "ready": 8267,
+      "menu": 10849
+     }
+    },
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": false,
+     "gate": true,
+     "gateShownAt": 8742,
+     "passedBy": "pointerup:touch",
+     "passedAt": 10848,
+     "noteShown": true,
+     "done": {
+      "stylesheets": 609,
+      "credits": 609,
+      "runtime": 820,
+      "logo": 824,
+      "music": 7960,
+      "fonts": 7961,
+      "frames": 8266
+     },
+     "entrances": [
+      10854
+     ]
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 1,
+     "t0": 0.06,
+     "ctx": "running",
+     "fetched": 2,
+     "cacheHits": 0,
+     "preparedAt": 7960,
+     "beganAt": 10848
+    },
+    "uiState": "menu"
+   }
+  ]
+ },
+ "direct_desktop": {
+  "size": "1280x720",
+  "autoplayFlag": true,
+  "errors": [],
+  "runs": [
+   {
+    "kind": "cold",
+    "gestureAt": null,
+    "summary": {
+     "frames": 80,
+     "firstFrameAt": 26,
+     "firstFrameNonBlack": 1,
+     "firstNonBlackAt": 26,
+     "firstNonBlackShare": 1,
+     "firstMostlyLitAt": 26,
+     "changes": 35
+    },
+    "paints": [
+     [
+      "first-paint",
+      612
+     ],
+     [
+      "first-contentful-paint",
+      612
+     ]
+    ],
+    "boot": {
+     "state": "menu",
+     "failed": null,
+     "timeline": {
+      "black": 36,
+      "loading": 439,
+      "ready": 8534,
+      "menu": 8568
+     }
+    },
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": true,
+     "gate": false,
+     "gateShownAt": null,
+     "passedBy": "allowed",
+     "passedAt": 8567,
+     "noteShown": true,
+     "done": {
+      "stylesheets": 440,
+      "credits": 440,
+      "runtime": 710,
+      "logo": 718,
+      "music": 8163,
+      "fonts": 8163,
+      "frames": 8534
+     },
+     "entrances": [
+      8572
+     ]
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 1,
+     "t0": 0.06,
+     "ctx": "running",
+     "fetched": 2,
+     "cacheHits": 0,
+     "preparedAt": 8163,
+     "beganAt": 8567
+    },
+    "uiState": "menu"
+   },
+   {
+    "kind": "warm",
+    "gestureAt": null,
+    "summary": {
+     "frames": 85,
+     "firstFrameAt": 38,
+     "firstFrameNonBlack": 0.05901,
+     "firstNonBlackAt": 38,
+     "firstNonBlackShare": 0.05901,
+     "firstMostlyLitAt": null,
+     "changes": 29
+    },
+    "paints": [
+     [
+      "first-paint",
+      916
+     ],
+     [
+      "first-contentful-paint",
+      916
+     ]
+    ],
+    "boot": {
+     "state": "menu",
+     "failed": null,
+     "timeline": {
+      "black": 361,
+      "loading": 683,
+      "ready": 5093,
+      "menu": 5100
+     }
+    },
+    "gate": {
+     "revealed": true,
+     "music": true,
+     "allowed": true,
+     "gate": false,
+     "gateShownAt": null,
+     "passedBy": "allowed",
+     "passedAt": 5099,
+     "noteShown": false,
+     "done": {
+      "stylesheets": 683,
+      "credits": 683,
+      "logo": 686,
+      "runtime": 902,
+      "music": 1380,
+      "fonts": 1380,
+      "frames": 5093
+     },
+     "entrances": [
+      5105
+     ]
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 1,
+     "t0": 0.06,
+     "ctx": "running",
+     "fetched": 0,
+     "cacheHits": 2,
+     "preparedAt": 1380,
+     "beganAt": 5099
+    },
+    "uiState": "menu"
+   }
+  ]
+ }
+}

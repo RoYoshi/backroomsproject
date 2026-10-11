@@ -5,7 +5,8 @@
  *   light parts 'c1,c2,c3[,c4]' in the order of the game's own part table  (partList: equipment -> wire; partObj: wire -> parts)
  *   corpse      the server's body record -> the game's body record  (toRec)
  * The functions read window.__api (the game bundle) when they are called, exactly as they did inside mp.js, and keep no state.
- * Loaded by index.html immediately before mp.js, as a classic script; its only global is window.__mpLib.wire, which mp.js reads once at
+ * Loaded by index.html before mp.js (only assets/net-interp.js comes between them), as a classic script; its only global is
+ * window.__mpLib.wire, which mp.js reads once at
  * start-up.  Never loaded by the server. */
 (() => {
 const lookStr = L => [L.hat, L.texture, L.hands, L.main, L.backpack].join('|');

@@ -1,0 +1,4 @@
+probe_q2: 8/9 pass, 0 superseded, 0 timing (also on QA1), 1 unexplained  (400 s)  [ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 19700 ms
+   UNEXPLAINED FAIL a Hound summoned onto the visitor's spot and a Smiler nearby, loose for 10 s (closer than a Hound sees): the visitor is never caught (the server keeps it out of the world)
+probe_c3: 13/13 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (231 s)  [ui_lib_gate] navigations: 3 {"menu (gate passed by a key)":3}, longest wait 19494 ms
+REGRESSION: PROBLEMS

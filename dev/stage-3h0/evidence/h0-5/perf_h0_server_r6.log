@@ -1,0 +1,15 @@
+server play8 round 1: A {"cpuMsPerSec":53,"bytesPerClientSec":35775,"snapsPerClientSec":19.75,"adminBytesPerSec":null} B {"cpuMsPerSec":59.5,"bytesPerClientSec":36047,"snapsPerClientSec":19.7,"adminBytesPerSec":null}
+server play8 round 2: A {"cpuMsPerSec":62,"bytesPerClientSec":37810,"snapsPerClientSec":19.7,"adminBytesPerSec":null} B {"cpuMsPerSec":59.99,"bytesPerClientSec":33751,"snapsPerClientSec":19.7,"adminBytesPerSec":null}
+server play8 round 3: A {"cpuMsPerSec":63,"bytesPerClientSec":35701,"snapsPerClientSec":19.6,"adminBytesPerSec":null} B {"cpuMsPerSec":60,"bytesPerClientSec":38272,"snapsPerClientSec":19.75,"adminBytesPerSec":null}
+server play8 round 4: A {"cpuMsPerSec":73,"bytesPerClientSec":40387,"snapsPerClientSec":19.7,"adminBytesPerSec":null} B {"cpuMsPerSec":72,"bytesPerClientSec":42613,"snapsPerClientSec":19.74,"adminBytesPerSec":null}
+server play8 round 5: A {"cpuMsPerSec":69.49,"bytesPerClientSec":42213,"snapsPerClientSec":19.75,"adminBytesPerSec":null} B {"cpuMsPerSec":63.5,"bytesPerClientSec":37842,"snapsPerClientSec":19.7,"adminBytesPerSec":null}
+server play8 round 6: A {"cpuMsPerSec":68.5,"bytesPerClientSec":38394,"snapsPerClientSec":19.75,"adminBytesPerSec":null} B {"cpuMsPerSec":55.99,"bytesPerClientSec":35736,"snapsPerClientSec":19.75,"adminBytesPerSec":null}
+server debug4 round 1: A {"cpuMsPerSec":61.33,"bytesPerClientSec":26578,"snapsPerClientSec":19.67,"adminBytesPerSec":83096} B {"cpuMsPerSec":46.66,"bytesPerClientSec":22205,"snapsPerClientSec":19.67,"adminBytesPerSec":60477}
+server debug4 round 2: A {"cpuMsPerSec":56.66,"bytesPerClientSec":22446,"snapsPerClientSec":19.73,"adminBytesPerSec":61434} B {"cpuMsPerSec":56.66,"bytesPerClientSec":26708,"snapsPerClientSec":19.67,"adminBytesPerSec":83810}
+server debug4 round 3: A {"cpuMsPerSec":52,"bytesPerClientSec":24213,"snapsPerClientSec":19.67,"adminBytesPerSec":72558} B {"cpuMsPerSec":52.66,"bytesPerClientSec":26597,"snapsPerClientSec":19.66,"adminBytesPerSec":83795}
+server debug4 round 4: A {"cpuMsPerSec":58,"bytesPerClientSec":28753,"snapsPerClientSec":19.73,"adminBytesPerSec":92391} B {"cpuMsPerSec":58,"bytesPerClientSec":26586,"snapsPerClientSec":19.73,"adminBytesPerSec":79171}
+server debug4 round 5: A {"cpuMsPerSec":48.66,"bytesPerClientSec":26503,"snapsPerClientSec":19.73,"adminBytesPerSec":78930} B {"cpuMsPerSec":46.67,"bytesPerClientSec":20013,"snapsPerClientSec":19.73,"adminBytesPerSec":49927}
+server debug4 round 6: A {"cpuMsPerSec":48.67,"bytesPerClientSec":28529,"snapsPerClientSec":19.73,"adminBytesPerSec":91245} B {"cpuMsPerSec":57.33,"bytesPerClientSec":22276,"snapsPerClientSec":19.73,"adminBytesPerSec":63651}
+server play8: cpu ms/s A 65.75 B 59.995 (-8.75 %, tol 20) ok; bytes/client/s A 38102 B 36944.5 ok
+server debug4: cpu ms/s A 54.33 B 54.66 (0.61 %, tol 12.67) ok; bytes/client/s A 26540.5 B 24431 ok
+performance: within the predeclared tolerance

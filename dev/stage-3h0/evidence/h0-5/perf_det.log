@@ -1,0 +1,10 @@
+server lifecycle: cpu ms old 1920.722 new 1887.708 (-1.72 %, tol 353.532) ok
+server deaths: cpu ms old 2211.891 new 2208.416 (-0.16 %, tol 498.822) ok
+server admin: cpu ms old 2222.157 new 2214.393 (-0.35 %, tol 454.717) ok
+server schedule: cpu ms old 556.254 new 568.354 (2.18 %, tol 115.435) ok
+client menu_online: hook ms old 27.8 new 30.6 (10.07 %) ok; handler ms old 2.3 new 2.3 (0 %) ok
+client run_online: hook ms old 82.6 new 83.9 (1.57 %) ok; handler ms old 6.8 new 7 (2.94 %) ok
+client interp: hook ms old 104.3 new 103.5 (-0.77 %) ok; handler ms old 7.2 new 7.9 (9.72 %) ok
+client fx_bodies: hook ms old 146.2 new 143.7 (-1.71 %) ok; handler ms old 12.9 new 13.8 (6.98 %) ok
+client hum_dread: hook ms old 62.1 new 64.8 (4.35 %) ok; handler ms old 0.3 new 0.3 (0 %) ok
+deterministic performance: within the predeclared tolerance

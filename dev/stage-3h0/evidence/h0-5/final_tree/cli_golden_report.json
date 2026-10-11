@@ -1,0 +1,282 @@
+{
+ "tool": "dev/stage-3h0/golden/cli_golden.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "newSide": "working tree",
+ "chromium": "141.0.7390.37",
+ "helpers": {
+  "old": [],
+  "new": [
+   "assets/net-wire.js",
+   "assets/net-interp.js"
+  ]
+ },
+ "declaredNewGlobals": [
+  "__mpLib"
+ ],
+ "startedAt": "2026-10-11T06:47:57.218Z",
+ "scenes": [
+  {
+   "scene": "load",
+   "old": {
+    "entries": 20,
+    "bytes": 2953,
+    "sha256": "54c2ffb012b661fa6ef54307cc82be48d8a795d2e2de6d9b5c1e9decab8973c4",
+    "ms": 252,
+    "errors": []
+   },
+   "new": {
+    "entries": 20,
+    "bytes": 2953,
+    "sha256": "54c2ffb012b661fa6ef54307cc82be48d8a795d2e2de6d9b5c1e9decab8973c4",
+    "ms": 181,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "54c2ffb012b661fa6ef54307cc82be48d8a795d2e2de6d9b5c1e9decab8973c4",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "menu_online",
+   "old": {
+    "entries": 1785,
+    "bytes": 214769,
+    "sha256": "ace7daf8d2657737a44e2ce420c3a5b531e9c0e6b5f0d6e40430a83cbc5b8cd6",
+    "ms": 233,
+    "errors": []
+   },
+   "new": {
+    "entries": 1785,
+    "bytes": 214769,
+    "sha256": "ace7daf8d2657737a44e2ce420c3a5b531e9c0e6b5f0d6e40430a83cbc5b8cd6",
+    "ms": 252,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "ace7daf8d2657737a44e2ce420c3a5b531e9c0e6b5f0d6e40430a83cbc5b8cd6",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "run_online",
+   "old": {
+    "entries": 7137,
+    "bytes": 891803,
+    "sha256": "6b0c80bb88977699a43dda27d373d15fff7686cc67e63df42afcd2b7aef669dd",
+    "ms": 323,
+    "errors": []
+   },
+   "new": {
+    "entries": 7137,
+    "bytes": 891803,
+    "sha256": "6b0c80bb88977699a43dda27d373d15fff7686cc67e63df42afcd2b7aef669dd",
+    "ms": 389,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "6b0c80bb88977699a43dda27d373d15fff7686cc67e63df42afcd2b7aef669dd",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "interp",
+   "old": {
+    "entries": 11481,
+    "bytes": 1645447,
+    "sha256": "a554fac9ce1125e662da95c31c1bf0a028ece94119b7421f0af8d94b32e2a936",
+    "ms": 456,
+    "errors": []
+   },
+   "new": {
+    "entries": 11481,
+    "bytes": 1645447,
+    "sha256": "a554fac9ce1125e662da95c31c1bf0a028ece94119b7421f0af8d94b32e2a936",
+    "ms": 485,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "a554fac9ce1125e662da95c31c1bf0a028ece94119b7421f0af8d94b32e2a936",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "fx_bodies",
+   "old": {
+    "entries": 22761,
+    "bytes": 2311351,
+    "sha256": "04fdec710bc9270e514074d8cdc012b91e471c5656ab5a2bfa084445c19d1b2f",
+    "ms": 573,
+    "errors": []
+   },
+   "new": {
+    "entries": 22761,
+    "bytes": 2311351,
+    "sha256": "04fdec710bc9270e514074d8cdc012b91e471c5656ab5a2bfa084445c19d1b2f",
+    "ms": 646,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "04fdec710bc9270e514074d8cdc012b91e471c5656ab5a2bfa084445c19d1b2f",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "facade",
+   "old": {
+    "entries": 1176,
+    "bytes": 138073,
+    "sha256": "e2e15edecdbc241e5f48e65ac581dfd18cb52aa21a4b2de4f458628612f36c84",
+    "ms": 215,
+    "errors": []
+   },
+   "new": {
+    "entries": 1176,
+    "bytes": 138073,
+    "sha256": "e2e15edecdbc241e5f48e65ac581dfd18cb52aa21a4b2de4f458628612f36c84",
+    "ms": 172,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "e2e15edecdbc241e5f48e65ac581dfd18cb52aa21a4b2de4f458628612f36c84",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "admin",
+   "old": {
+    "entries": 1328,
+    "bytes": 134984,
+    "sha256": "e2935e3291e08d38f5b57b1ec775ba87bc2ae466ef4177bc0f62dc4e577b5b2c",
+    "ms": 430,
+    "errors": []
+   },
+   "new": {
+    "entries": 1328,
+    "bytes": 134984,
+    "sha256": "e2935e3291e08d38f5b57b1ec775ba87bc2ae466ef4177bc0f62dc4e577b5b2c",
+    "ms": 387,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "e2935e3291e08d38f5b57b1ec775ba87bc2ae466ef4177bc0f62dc4e577b5b2c",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "reconnect_solo",
+   "old": {
+    "entries": 737,
+    "bytes": 69095,
+    "sha256": "d231269b9ac7e00ebc636b157693e93588bea5f85e1d1a06e9a86f0734886ebe",
+    "ms": 210,
+    "errors": []
+   },
+   "new": {
+    "entries": 737,
+    "bytes": 69095,
+    "sha256": "d231269b9ac7e00ebc636b157693e93588bea5f85e1d1a06e9a86f0734886ebe",
+    "ms": 216,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "d231269b9ac7e00ebc636b157693e93588bea5f85e1d1a06e9a86f0734886ebe",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "hum_dread",
+   "old": {
+    "entries": 4875,
+    "bytes": 377545,
+    "sha256": "802e45f94a5ec6198a87908d9ba59e5697afe9d79f52ad39698eda083557368e",
+    "ms": 243,
+    "errors": []
+   },
+   "new": {
+    "entries": 4875,
+    "bytes": 377545,
+    "sha256": "802e45f94a5ec6198a87908d9ba59e5697afe9d79f52ad39698eda083557368e",
+    "ms": 245,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "repeats": [],
+   "baseline": {
+    "sha256": "802e45f94a5ec6198a87908d9ba59e5697afe9d79f52ad39698eda083557368e",
+    "equal": true
+   },
+   "ok": true
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-11T06:48:03.432Z"
+}

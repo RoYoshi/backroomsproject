@@ -181,3 +181,29 @@ When the simulation commits a death, the server keeps an aftermath record: the k
 - **Compression:** when `Accept-Encoding` contains `gzip`, everything but `.png` is gzipped at level 9 (`Content-Encoding: gzip`). The compressed copy is cached in memory per file for the life of the process.
 - **`Vary: Accept-Encoding`** is set on every allowlisted file.
 - **The HTTP method is not checked.**
+
+## 8. After 3H0: where the code for each part now lives
+
+**The protocol did not change.** Every table above still holds, byte for byte. The evidence is in `3H0_EQUIVALENCE_REPORT.md`:
+- the golden traces, old against new at every checkpoint;
+- the contract check, 0 violations;
+- the live wire comparison;
+- the real-socket comparison (`raw_live.js`).
+
+**What changed is only which file holds some of the code.** The line numbers in the sections above are those of the parent `edd2af9`.
+
+| Part of the protocol | At `edd2af9` | After 3H0 |
+|---|---|---|
+| Outbound frames (`frame`, used by `send`) | `server.js` | `server/ws.js` (H0-4a); `send` stays in `server.js` |
+| Inbound frames: buffering, unmasking, the 1,400-byte limit, ping / pong, close, 64-bit lengths | `server.js`, inside the upgrade handler | `server/ws.js`, `reader(sock, onMessage)` (H0-4a) |
+| The upgrade: path, key, room name, room cap, the 101 response, `hi` | `server.js` | `server.js` (unchanged) |
+| Field checks on `p`, `fx`, `b`: `num`, `kindOf`, `cleanParts`, `HEX`, `cleanLook`, the default look | `server.js` | `server/fields.js` (H0-4b) |
+| Every message handler, the snapshot builder, the cadence, the lifecycle, the death aftermath | `server.js` | `server.js` (unchanged) |
+| HTTP: the allowlist, MIME types, caching, gzip, `/sounds` | `server.js` | `server/static.js` (H0-4c) |
+| The client's look string (`lk`), light parts (`lp`, `ep`), corpse records (`bodies` → game) | `mp.js` | `assets/net-wire.js` (H0-2) |
+| The client's snapshot interpolation (`st`, entity histories, the epoch) | `mp.js` | `assets/net-interp.js` (H0-3) |
+| The client's connection, every other message, the facade `window.__net` | `mp.js` | `mp.js` (unchanged) |
+
+**Five files are new: two are served, three never are.**
+- **Served:** `assets/net-wire.js` and `assets/net-interp.js`, under the existing `assets/` rule.
+- **Never served:** the three `server/` modules. Their URLs, traversal variants and the folder itself answer 404, and the `http_base`, `http_h0` and `raw_live.js` checks request each of them.

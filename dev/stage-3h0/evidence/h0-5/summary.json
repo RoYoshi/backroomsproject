@@ -1,0 +1,227 @@
+{
+ "tool": "dev/stage-3h0/summarize_h05.py",
+ "ok": true,
+ "gates": {
+  "existing/live": true,
+  "existing/audit_net": true,
+  "existing/audit_net2": true,
+  "existing/ir_net": true,
+  "existing/test_3bn": true,
+  "existing/interp_test": true,
+  "existing/npm_test": true,
+  "qa2/camera_fairness": true,
+  "qa2/br_role": true,
+  "qa2/theme_assets": true,
+  "qa2/probe_b1": true,
+  "qa2/probe_b2": true,
+  "qa2/probe_b3": true,
+  "qa2/regress": true,
+  "gate": true,
+  "gate/final_tree": true,
+  "fn_equiv/final_tree": true,
+  "static_mutants/final_tree": true,
+  "final_tree/interp_test": true,
+  "final_tree/test_3bn": true,
+  "test_shadows": true,
+  "scope": true,
+  "live_wire": true,
+  "raw_live": true,
+  "perf_det": true,
+  "perf_h0": true,
+  "perf_h0_r6": true,
+  "summon_seeds": true,
+  "clean/repo_status_after.txt": true,
+  "clean/repo_status_after_b.txt": true,
+  "clean/repo_status_after_c.txt": true,
+  "clean/repo_status_after_e.txt": true
+ },
+ "lines": [
+  "PASS live: 17/17 (H0-1 on the parent: 17/17)",
+  "PASS audit_net: 17/17 (H0-1 on the parent: 17/17)",
+  "PASS audit_net2: 11/11 (H0-1 on the parent: 11/11)",
+  "PASS ir_net: 4/4 (H0-1 on the parent: 4/4)",
+  "PASS test_3bn: 7/7 (H0-1 on the parent: 7/7)",
+  "PASS interp_test: interpolation checks passed",
+  "PASS npm test: 151/162, the same 11 historical failures as H0-1 on the parent: yes",
+  "PASS camera fairness: CAMERA FAIRNESS: 12/12 PASS (QA2 R3: CAMERA FAIRNESS: 12/12 PASS)",
+  "PASS BR-RoLE unit checks: 32/32 PASS (QA2 R3: 32/32)",
+  "PASS theme files (the menu music and its seams): ok",
+  "PASS QA2 probe_b1: 13/13 checks pass",
+  "PASS QA2 probe_b2: 10/10 checks pass",
+  "PASS QA2 probe_b3: 28/28 checks pass",
+  "PASS QA2's regression of the older probes (12 probes): 3 check(s) failed without a listed reason in the main run; probe_q1 24/26, probe_q2 7/9, probe_q3 15/15, probe_q4 8/8, probe_q5 5/5, lifecycle 1/1, probe_c1 22/23, probe_c2 13/18, probe_c3 8/9, probe_c4 10/11, probe_c5 7/7, lifecycle_mp 1/1; checks whose result differs from QA2 R3: 4",
+  "     probe_q2: a Hound summoned onto the visitor's spot and a Smiler nearby, loose for 10 s (closer than  - final-tree re-runs ['FAIL', 'pass'], parent re-runs ['pass', 'pass']",
+  "     probe_q2: ENTER LEVEL 0: exactly one join; the wanderer is drawn with its light; the player inside c - final-tree re-runs ['pass', 'pass'], parent re-runs ['FAIL', 'pass']",
+  "     probe_c3: no page errors - final-tree re-runs ['pass', 'pass'], parent re-runs ['pass', 'pass']",
+  "NOTE menu captures, the final tree against the parent, both taken now: 32 pairs, unpaired 0, largest share of pixels changed 0.0031",
+  "NOTE   the same for the parent now against QA2 R3 (the same code, another day): largest share 0.0026",
+  "NOTE boot captures, the final tree against the parent, both taken now: 5 pairs, unpaired 0, largest share of pixels changed 0.0107",
+  "PASS golden traces (server 11 scenarios, client 9 scenes) old against new and against the baselines, and the protocol contract: ALL EQUIVALENT",
+  "PASS the same gate again after the comment-only corrections (the final tree): ALL EQUIVALENT",
+  "PASS function equivalence of all four pure pieces on the final tree (wire, interp, ws, fields): identical",
+  "PASS static serving mutants on the final tree: 12/12 caught, control identical",
+  "PASS interp_test on the final tree: passed",
+  "PASS test_3bn on the final tree: passed",
+  "PASS dev/shadows/test_shadows.js (reads server.js text in S16): parent 43/48, final 43/48, the same failing checks: yes",
+  "PASS scope: every change is an approved extraction, the adapted test, tooling or documentation ({'tooling': 552, 'docs': 14, 'production': 8, 'test': 1})",
+  "PASS live wire (the real server and game, two players, every phase), old against new: main 9 differences, all in the outage phases, rerun 2 2 differences, all in the outage phases, rerun 3 identical; A/A (the parent against itself): identical, identical",
+  "PASS real sockets (node server.js old and new): 108 HTTP exchanges and 25 WebSocket checks identical",
+  "PASS deterministic performance (server CPU, client hook and handler; 15 rounds): within the H0-1 rule",
+  "PASS real-stack server CPU (perf_h0.js, 3 rounds): within the H0-1 rule (play8 +22.9 %, debug4 +2.7 %)",
+  "PASS real-stack server CPU again, 6 rounds: within the H0-1 rule (play8 -8.8 %, debug4 +0.6 %)",
+  "PASS the summoned-Hound sequence in the closed world, 30 seeds: 30/30 byte-identical old against new; a monster came within 620 px in 17 of 30 worlds",
+  "NOTE the same on the real server (first run, 12 rounds): under 620 px old 8/12, new 4/12; Mann-Whitney p = 0.0243",
+  "NOTE the same on the real server (replication, 24 rounds): under 620 px old 13/24, new 12/24; Mann-Whitney p = 0.279",
+  "NOTE QA2's perf_ab_qa2.js, the parent against the final tree: reported in STAGE_3H0_PERFORMANCE.md",
+  "NOTE QA2's perf_start_qa2.js, the parent against the final tree: reported in STAGE_3H0_PERFORMANCE.md",
+  "PASS the suites left the repository clean outside dev/stage-3h0/ (repo_status_after.txt): yes",
+  "PASS the suites left the repository clean outside dev/stage-3h0/ (repo_status_after_b.txt): yes",
+  "PASS the suites left the repository clean outside dev/stage-3h0/ (repo_status_after_c.txt): yes",
+  "PASS the suites left the repository clean outside dev/stage-3h0/ (repo_status_after_e.txt): yes"
+ ],
+ "details": {
+  "npm_test": {
+   "now": [
+    "151",
+    "162"
+   ],
+   "h01": [
+    "151",
+    "162"
+   ],
+   "failingNow": [
+    "2F F22 species physical/canon parameter preservation",
+    "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+    "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+    "C3 it does not track the hidden prey exactly: after losing it, its goals come from memory and sound, never from where the prey really is",
+    "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+    "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+    "C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance",
+    "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+    "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+    "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+    "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming"
+   ],
+   "failingAtH01": [
+    "2F F22 species physical/canon parameter preservation",
+    "C1 losing sight does not erase memory: 3 s after the prey vanishes the hound still has it (confidence, position, heading) and is still after it",
+    "C18 memory eventually decays: when the prey gets away, the hound gives up for a stated reason and its confidence has run out",
+    "C3 it does not track the hidden prey exactly: after losing it, its goals come from memory and sound, never from where the prey really is",
+    "C4 noise gives the prey away: a prey that has slipped away quietly and then breaks into a run is re-acquired by ear at once (no new detection wait)",
+    "C5 silent hiding can succeed, and good decisions beat bad ones: out of sight, going quiet and moving on gets away far more often than hiding right where it lost you",
+    "C9 / C10 an exhausted runner is far more vulnerable; a fresh one can still make distance",
+    "H07 hound state coverage: every state of the framework is reached by emergent play (no scripting of state changes)",
+    "NV09 N a runner through 3+ rooms (real AI): caught every time, no ramming, little touching, no repath storm",
+    "P01 noticing distance: run > walk > crouch (resting hound, corridor)",
+    "P08 memory: the last known position is used, then goes stale; the hound gives up and goes back to roaming"
+   ],
+   "newFailures": [],
+   "nowPassing": []
+  },
+  "regress": {
+   "ok": false,
+   "differFromR3": [
+    {
+     "probe": "probe_q2",
+     "check": "a Hound summoned onto the visitor's spot and a Smiler nearby, loose for 10 s (closer than a Hound sees): the visitor is never caught (the server keeps it out of",
+     "r3": true,
+     "now": false,
+     "why": null,
+     "artifact": null,
+     "supersededBy": null
+    },
+    {
+     "probe": "probe_q2",
+     "check": "ENTER LEVEL 0: exactly one join; the wanderer is drawn with its light; the player inside counts and draws it; it walks",
+     "r3": true,
+     "now": false,
+     "why": null,
+     "artifact": null,
+     "supersededBy": null
+    },
+    {
+     "probe": "probe_q4",
+     "check": "frame for frame the stick walks at exactly the keyboard's speed: right, diagonal (normalised by the game: no analog advantage), left, and sprinting with RUN hel",
+     "r3": false,
+     "now": true,
+     "why": null,
+     "artifact": null,
+     "supersededBy": null
+    },
+    {
+     "probe": "probe_c3",
+     "check": "no page errors",
+     "r3": true,
+     "now": false,
+     "why": null,
+     "artifact": null,
+     "supersededBy": null
+    }
+   ],
+   "perProbe": {
+    "probe_q1": "24/26",
+    "probe_q2": "7/9",
+    "probe_q3": "15/15",
+    "probe_q4": "8/8",
+    "probe_q5": "5/5",
+    "lifecycle": "1/1",
+    "probe_c1": "22/23",
+    "probe_c2": "13/18",
+    "probe_c3": "8/9",
+    "probe_c4": "10/11",
+    "probe_c5": "7/7",
+    "lifecycle_mp": "1/1"
+   },
+   "unexplainedInTheMainRun": [
+    {
+     "probe": "probe_q2",
+     "check": "a Hound summoned onto the visitor's spot and a Smiler nearby, loose for 10 s (closer than a Hound sees): the visitor is never caught (the server keeps it out of",
+     "finalReruns": [
+      false,
+      true
+     ],
+     "parentReruns": [
+      true,
+      true
+     ],
+     "passedOnARerunOfTheFinalTree": true,
+     "failedOnTheParentToo": false
+    },
+    {
+     "probe": "probe_q2",
+     "check": "ENTER LEVEL 0: exactly one join; the wanderer is drawn with its light; the player inside counts and draws it; it walks",
+     "finalReruns": [
+      true,
+      true
+     ],
+     "parentReruns": [
+      false,
+      true
+     ],
+     "passedOnARerunOfTheFinalTree": true,
+     "failedOnTheParentToo": true
+    },
+    {
+     "probe": "probe_c3",
+     "check": "no page errors",
+     "finalReruns": [
+      true,
+      true
+     ],
+     "parentReruns": [
+      true,
+      true
+     ],
+     "passedOnARerunOfTheFinalTree": true,
+     "failedOnTheParentToo": false
+    }
+   ],
+   "reruns": {
+    "final_1": false,
+    "final_2": true,
+    "parent_1": false,
+    "parent_2": true
+   }
+  }
+ }
+}

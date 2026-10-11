@@ -1,0 +1,23 @@
+diff --git a/assets/net-wire.js b/assets/net-wire.js
+index 26a28ba..b3b4566 100644
+--- a/assets/net-wire.js
++++ b/assets/net-wire.js
+@@ -8 +8,2 @@
+- * Loaded by index.html immediately before mp.js, as a classic script; its only global is window.__mpLib.wire, which mp.js reads once at
++ * Loaded by index.html before mp.js (only assets/net-interp.js comes between them), as a classic script; its only global is
++ * window.__mpLib.wire, which mp.js reads once at
+diff --git a/mp.js b/mp.js
+index 2122261..be50c67 100644
+--- a/mp.js
++++ b/mp.js
+@@ -7 +7 @@
+-const { lookStr, partList, partObj, parseLook, toRec } = window.__mpLib.wire;   // Stage 3H0: the look / light / corpse wire codec (assets/net-wire.js, loaded just before this file)
++const { lookStr, partList, partObj, parseLook, toRec } = window.__mpLib.wire;   // Stage 3H0: the look / light / corpse wire codec (assets/net-wire.js, loaded before this file)
+diff --git a/server/static.js b/server/static.js
+index 7969825..e8ecdea 100644
+--- a/server/static.js
++++ b/server/static.js
+@@ -3 +3,2 @@
+- * Stage 3H0: moved out of server.js without a change.  createStatic(ROOT) returns the request handler server.js gives http.createServer:
++ * Stage 3H0: moved out of server.js without a change.  Its export is a function of ROOT that returns the request handler server.js gives
++ * http.createServer:

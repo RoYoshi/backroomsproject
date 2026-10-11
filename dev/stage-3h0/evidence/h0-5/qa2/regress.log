@@ -1,0 +1,16 @@
+probe_q1: 24/26 pass, 2 superseded, 0 timing (also on QA1), 0 unexplained  (258 s)  [ui_lib_gate] navigations: 10 {"menu (gate passed by a key)":10}, longest wait 13954 ms
+probe_q2: 7/9 pass, 0 superseded, 0 timing (also on QA1), 2 unexplained  (367 s)  [ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 17401 ms
+   UNEXPLAINED FAIL a Hound summoned onto the visitor's spot and a Smiler nearby, loose for 10 s (closer than a Hound sees): the visitor is never caught (the server keeps it out of the world)
+   UNEXPLAINED FAIL ENTER LEVEL 0: exactly one join; the wanderer is drawn with its light; the player inside counts and draws it; it walks
+probe_q3: 15/15 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (306 s)  [ui_lib_gate] navigations: 8 {"menu (gate passed by a key)":8}, longest wait 8024 ms
+probe_q4: 8/8 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (597 s)  [ui_lib_gate] navigations: 8 {"menu (gate passed by a key)":8}, longest wait 9392 ms
+probe_q5: 5/5 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (160 s)  [ui_lib_gate] navigations: 4 {"menu (gate passed by a key)":4}, longest wait 10349 ms
+lifecycle: 1/1 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (123 s)  [ui_lib_gate] navigations: 2 {"menu (gate passed by a key)":2}, longest wait 18743 ms
+probe_c1: 22/23 pass, 1 superseded, 0 timing (also on QA1), 0 unexplained  (251 s)  [ui_lib_gate] navigations: 3 {"menu (gate passed by a key)":3}, longest wait 14228 ms
+probe_c2: 13/18 pass, 5 superseded, 0 timing (also on QA1), 0 unexplained  (310 s)  [ui_lib_gate] navigations: 5 {"menu (gate passed by a key)":5}, longest wait 12643 ms
+probe_c3: 8/9 pass, 0 superseded, 0 timing (also on QA1), 1 unexplained, CRASHED  (153 s)  [ui_lib_gate] navigations: 1 {"menu (gate passed by a key)":1}, longest wait 13480 ms
+   UNEXPLAINED FAIL no page errors
+probe_c4: 10/11 pass, 1 superseded, 0 timing (also on QA1), 0 unexplained  (138 s)  [ui_lib_gate] navigations: 4 {"menu (gate passed by a key)":4}, longest wait 13208 ms
+probe_c5: 7/7 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (359 s)  [ui_lib_gate] navigations: 9 {"menu (gate passed by a key)":9}, longest wait 13598 ms
+lifecycle_mp: 1/1 pass, 0 superseded, 0 timing (also on QA1), 0 unexplained  (49 s)
+REGRESSION: PROBLEMS

@@ -172,7 +172,7 @@ The upgrade handler registers `sock.on('data', reader(sock, onMessage))` at the 
 - the `SERVE` allowlist, with its comment;
 - the MIME table `types`;
 - the gzip cache `gz`, one per process as before;
-- the request handler, as `createStatic(ROOT)`, which returns the handler.
+- the request handler. The module's export is a function of `ROOT` that returns the handler.
 
 It requires `fs`, `path` and `zlib`, and does nothing when loaded but create those constants and the empty cache.
 
