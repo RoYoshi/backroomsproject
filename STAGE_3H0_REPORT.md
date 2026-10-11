@@ -29,7 +29,7 @@ Each was tested, committed, pushed normally, and checked on GitHub before the ne
 | H0-4b | `f076092` | `fa7dfdb` | the field checks moved to `server/fields.js` (GO) |
 | H0-4c | `44395a2` | `f6c6a01` | the static file serving moved to `server/static.js` (GO) |
 | H0-5 | in the receipt | in the receipt | cross-boundary regression and performance on the final tree; the review's corrections; architecture, deferred work, level-authoring seams |
-| H0-6 | in the receipt | in the receipt | this report, the human-QA checklist, the package |
+| H0-6 | in the receipt | in the receipt | the gate and quick checks once more on the final tree, the secret scan, the changed-files list; this report, the human-QA checklist, the package |
 
 ## What moved
 
@@ -89,6 +89,15 @@ All gated items hold (`dev/stage-3h0/evidence/h0-5/summary.json`):
 2. The live wire's outage phases: a late reconnect on the parent's side, and an ignored death replay from the final tree's offline game.
 3. The real-stack CPU: a 3-round +22.9 % became −8.8 % over 6 rounds.
 4. A slow warm boot on the parent's side.
+
+**H0-6 ran the quick checks once more** before the final commit, with the production files unchanged since H0-5 (`dev/stage-3h0/evidence/h0-6/`). All held:
+- the gate: ALL EQUIVALENT;
+- function equivalence of the four pure pieces;
+- the static mutants, 12/12;
+- `interp_test.js`;
+- real sockets: identical;
+- the scope check;
+- the secret scan: nothing found.
 
 ## Failing evidence kept, and what it taught
 
@@ -156,6 +165,14 @@ All kept under `dev/stage-3h0/evidence/`, with the explanations in `3H0_EQUIVALE
   - The Bloom host pulls `main`, which would bring the folder, but 3H0 does not touch `main`.
   - When this is merged, check on the first deploy that the server starts. A missing folder fails loudly, at start-up.
 - **Local paths in the evidence.** Some evidence files record the build machine's folders and session scratch paths, as earlier stages' evidence does. They contain no secrets.
+- **The secret scan.** Before the final commit, `dev/stage-3h0/secret_scan_h0.py` read every file 3H0 added or changed. It looked for:
+  - the server's default admin passcode and its hash;
+  - credential shapes;
+  - e-mail addresses;
+  - public IP addresses;
+  - personal home folders.
+
+  It found nothing (`evidence/h0-6/secret_scan.json`). Its self-test plants 21 such items in memory and finds all 21. The tools and evidence use only synthetic passcodes, the loopback address and the documentation address ranges.
 - **The independent review's other notes were corrected at H0-5:**
   - stale comments in `assets/net-wire.js`, `mp.js` and `server/static.js` (comment-only; the gate was re-run);
   - the static module's factory being called `createStatic` in the documents, though it is anonymous in the code.
@@ -174,4 +191,4 @@ All kept under `dev/stage-3h0/evidence/`, with the explanations in `3H0_EQUIVALE
 
 **Outside the repository:** `3H0_PRIVATE_SECURITY_FINDINGS.md`, for you only.
 
-**STAGE 3H0 SAFE ARCHITECTURE HUMAN-QA CANDIDATE — WAITING FOR USER**
+STAGE 3H0 SAFE ARCHITECTURE HUMAN-QA CANDIDATE — WAITING FOR USER

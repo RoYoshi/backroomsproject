@@ -1,0 +1,11 @@
+{
+ "target": "interp",
+ "newFile": "assets/net-interp.js",
+ "streams": 40,
+ "steps": 16000,
+ "identicalSteps": 16000,
+ "mismatches": [],
+ "tool": "dev/stage-3h0/golden/fn_equiv.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "ok": true
+}

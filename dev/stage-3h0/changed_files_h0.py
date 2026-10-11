@@ -52,6 +52,7 @@ TOOLS = {
  'dev/stage-3h0/summarize_h05.py': 'the final regression summary',
  'dev/stage-3h0/changed_files_h0.py': 'writes this list',
  'dev/stage-3h0/package_h0.py': 'the ZIP, its SHA-256 and the package receipt',
+ 'dev/stage-3h0/secret_scan_h0.py': 'scans every added or changed file for secrets, with a self-test',
 }
 GOLDEN = 'dev/stage-3h0/golden/'
 groups, lines, undescribed = collections.Counter(), [], []
@@ -59,7 +60,7 @@ head = ['THE FAR BACKROOMS - Stage 3H0 (safe architecture: mp.js / server.js ext
         f'since the accepted Stage 3C QA2 commit {PARENT} (git diff --name-status; branch stage-3h0)', '',
         'Untouched (byte-identical to the parent; checked in the package receipt): the game bundle and its stylesheet, sim.js, ai.js, world.js,',
         'move.js, ents.js, light.js, glitch.js, gore.js, dphys.js, death_srv.js, camcorder.js, sfx.js, hud.js, inventory.js, the camera and timing',
-        'policies, assets/ui.js and ui.css (QA2 menu, boot, HUD, keybinds, touch), assets/br-role.js, l0-remaster.js, level0_visuals.js, the logo, the',
+        'policies, assets/ui.js and ui.css (QA2 menu, boot, HUD, keybinds, touch), assets/br-role.js, assets/l0-remaster.js, assets/level0_visuals.js, the logo, the',
         'theme audio, the manifest, package.json, the start scripts, .github/ (deployment), sounds/, and every dev/ folder but dev/stage-3h0/ and the',
         'one adapted test. main and every Stage 3C branch are untouched.', '']
 for st, *names in sorted(rows, key=lambda r: (0 if r[-1] in D and not r[-1].startswith(('3H0', 'STAGE_3H0')) else 1 if r[-1] in D else 2, r[-1])):

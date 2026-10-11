@@ -126,6 +126,19 @@ The parent's slow warm starts in this session waited for the page's first steady
 
 The final tree is not the slow side.
 
+### 3.5 The HTTP wall time over real sockets (`raw_live.js`, reported only)
+
+The time to answer the same 108 HTTP requests, once per run, parent against the code of the time:
+
+| Run | Parent | New |
+|---|---:|---:|
+| H0-4c, the parent against itself (A/A) | 623 ms | 620 ms |
+| H0-4c | 676 ms | 654 ms |
+| H0-5 | 668 ms | 654 ms |
+| H0-6 (the same production files as H0-5) | 672 ms | 710 ms |
+
+These are single runs, and they move both ways. The static serving is the parent's code, verbatim. `server.js` hands the same request handler to `http.createServer` as before, with no extra layer per request.
+
 ## 4. Conclusion
 
 **No cost from the extractions was found:**

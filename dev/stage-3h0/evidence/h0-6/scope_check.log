@@ -1,0 +1,14 @@
+files changed since the parent: 603 {'test': 1, 'docs': 15, 'tooling': 579, 'production': 8}
+mp.js: 47 lines removed, 44 of them verbatim in the new files, 3 changed by design, 0 unexplained; 5 lines added
+   + const { lookStr, partList, partObj, parseLook, toRec } = window.__mpLib.wire;   // Stage 3H0: the look / light / corpse wire codec (assets/net-wire.js, loaded b
+   + const { NET, netReset, netHist, netPose } = window.__mpLib.interp;   // Stage 3H0: the snapshot interpolation (assets/net-interp.js, loaded just before this fil
+   + lk: lookStr(t.appearance), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment), lo: t.lo ? 1 : 0,
+   + const fxBase = A => ({ lk: lookStr(A.look), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
+   + lk: window.__api ? lookStr(window.__api.look) : undefined,
+server.js: 65 lines removed, 63 of them verbatim in the new files, 2 changed by design, 0 unexplained; 4 lines added
+   + const srv = http.createServer(require('./server/static.js')(ROOT));   // Stage 3H0: the static file serving (the SERVE allowlist, MIME types, caching, gzip, /so
+   + const { frame, reader } = require('./server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
+   + const { num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook } = require('./server/fields.js');   // Stage 3H0: the checks applied to what clients send
+   + sock.on('data', reader(sock, onMessage));                                // Stage 3H0: server/ws.js (frames in, pong, close; text under 1,400 bytes to onMessage
+index.html: only the two script lines
+scope: OK
