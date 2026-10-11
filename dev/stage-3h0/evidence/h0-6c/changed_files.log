@@ -1,0 +1,144 @@
+THE FAR BACKROOMS - Stage 3H0 (safe architecture: mp.js / server.js extraction) - changed files
+since the accepted Stage 3C QA2 commit edd2af954627caf7721c7614df5ff1c7f20d3f3b (git diff --name-status; branch stage-3h0)
+
+Untouched (byte-identical to the parent; checked in the package receipt): the game bundle and its stylesheet, sim.js, ai.js, world.js,
+move.js, ents.js, light.js, glitch.js, gore.js, dphys.js, death_srv.js, camcorder.js, sfx.js, hud.js, inventory.js, the camera and timing
+policies, assets/ui.js and ui.css (QA2 menu, boot, HUD, keybinds, touch), assets/br-role.js, assets/l0-remaster.js, assets/level0_visuals.js, the logo, the
+theme audio, the manifest, package.json, the start scripts, .github/ (deployment), sounds/, and every dev/ folder but dev/stage-3h0/ and the
+one adapted test. main and every Stage 3C branch are untouched.
+
+added     assets/net-interp.js
+          PRODUCTION, NEW (H0-3). The snapshot interpolation, moved verbatim from mp.js; window.__mpLib.interp. Classic script, no side effects but its namespace entry.
+added     assets/net-wire.js
+          PRODUCTION, NEW (H0-2). The look / light-part / corpse field codec, moved verbatim from mp.js; window.__mpLib.wire. Classic script, no side effects but its namespace entry.
+modified  dev/tests/interp_test.js
+          EXISTING TEST, ADAPTED (H0-3). It cut the interpolation code out of mp.js by its text; it now reads it from assets/net-interp.js when that exists (else mp.js, and OLD_MP as before). Its output is identical before and after the move.
+modified  index.html
+          PRODUCTION, TWO LINES ADDED. <script src="./assets/net-wire.js"> and <script src="./assets/net-interp.js">, immediately before mp.js. Nothing else.
+modified  mp.js
+          PRODUCTION, MOVED OUT OF. H0-2: the wire codec moved to assets/net-wire.js (toRec, partList, partObj, parseLook verbatim; the three inline look encoders now call lookStr). H0-3: the snapshot interpolation moved to assets/net-interp.js (NET, netReset, netHist, angD2, netPose verbatim). mp.js reads both on the first two lines of its IIFE and keeps everything else, including window.__net, window.__NET and window.__netPose (the same objects). 72,790 -> 68,139 bytes.
+modified  server.js
+          PRODUCTION, MOVED OUT OF. H0-4a: frame() and the inbound frame parser to server/ws.js. H0-4b: the field checks to server/fields.js. H0-4c: the static file serving to server/static.js. Each is required where its code was; the upgrade (raw WebSocket acceptance), sessions, the tick, admin, movement and aftermath stay. Still started by `node server.js [port]`. 30,485 -> 26,506 bytes.
+added     server/fields.js
+          PRODUCTION, NEW (H0-4b). The checks on what clients send: num, KINDS, LEGACY, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook, moved verbatim. CommonJS, never served.
+added     server/static.js
+          PRODUCTION, NEW (H0-4c). The static file serving: the SERVE allowlist, MIME types, gzip cache and the request handler, moved verbatim; the export is a function of ROOT that returns the handler. CommonJS, never served.
+added     server/ws.js
+          PRODUCTION, NEW (H0-4a). The WebSocket framing: frame(str) and reader(sock, onMessage), moved verbatim. CommonJS, never served.
+added     3H0_ARCHITECTURE_MAP.md
+          DOC (H0-5; corrected at H0-6b and H0-6c). Before / after diagrams of mp.js and server.js, module sizes, one message end to end, where to change things now.
+added     3H0_DEFERRED_FULL_3H.md
+          DOC (H0-5). Every seam with its GO / NO-GO and reason, what full 3H needs first, and the findings recorded on the way.
+added     3H0_EQUIVALENCE_REPORT.md
+          DOC (H0-2 onward). One equivalence receipt per extraction, with the failing first runs kept and explained.
+added     3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md
+          DOC (H0-5). Where Level 0 is wired into the code today, a possible separation for a future level editor, and the open questions. Nothing of it is built.
+added     3H0_H0_1_BASELINE.md
+          DOC (H0-1). The golden traces, baselines, sensitivity runs and performance rules recorded before any extraction.
+added     3H0_MP_API_LOCK.md
+          DOC (H0-0, section 7 per checkpoint). mp.js's public surface (window.__net, globals, DOM, listeners, timers, load order), and what 3H0 added.
+added     3H0_MP_OWNERSHIP_MAP.md
+          DOC (H0-0, updated per checkpoint). Who owns what in mp.js, before and after.
+added     3H0_PROTOCOL_INVENTORY.md
+          DOC (H0-0; section 8 at H0-5). The frozen wire protocol, and where its code lives after 3H0.
+added     3H0_Q0_AUDIT.md
+          DOC (H0-0). Source authority, start paths, protected files, test couplings, findings, risk map, plan and preliminary GO / NO-GO.
+added     3H0_SERVER_API_LOCK.md
+          DOC (H0-0, section 7 per checkpoint). server.js's public surface (start-up, console, HTTP, WebSocket, the calls into sim.js, state), and what 3H0 added.
+added     3H0_SERVER_OWNERSHIP_MAP.md
+          DOC (H0-0, updated per checkpoint). Who owns what in server.js, before and after.
+added     STAGE_3H0_CHANGED_FILES.txt
+          DOC (H0-6). This list.
+added     STAGE_3H0_HUMAN_QA.md
+          DOC (H0-5; corrected at H0-6b). What to check by hand.
+added     STAGE_3H0_PERFORMANCE.md
+          DOC (H0-5; revised at H0-6 and H0-6b). Performance: the rules fixed at H0-1, every checkpoint, and the final runs.
+added     STAGE_3H0_REPORT.md
+          DOC (H0-5; revised at H0-6, H0-6b and H0-6c). The Stage 3H0 report.
+added     dev/stage-3h0/README.md
+          DEV TOOL. What every tool and evidence folder is.
+added     dev/stage-3h0/changed_files_h0.py
+          DEV TOOL. Writes this list.
+added     dev/stage-3h0/doc_sizes_h0.py
+          DEV TOOL. Checks the file sizes the stage documents give against the files.
+added     dev/stage-3h0/golden/cli_env.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/cli_golden.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/cli_lib.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/cli_mutants.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/cli_scenes.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/cli_stubs.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/collect_h0_1.sh
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/compare_captures.py
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/contract_check.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/declared_new_globals.json
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/fn_equiv.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/fn_mutants.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/live_kill_times.py
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/live_wire.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/perf_det.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/perf_h0.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/raw_live.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/run_checkpoint.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/srv_golden.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/srv_harness.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/srv_mutants.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/srv_scenarios.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/srv_scenarios_summon.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/static_mutants.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/summon_probe.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/golden/summon_seeds.js
+          DEV TOOL (golden traces and equivalence; dev/stage-3h0/README.md says what it does).
+added     dev/stage-3h0/package_h0.py
+          DEV TOOL. The ZIP, its SHA-256 and the package receipt.
+added     dev/stage-3h0/protocol_contract.json
+          DEV TOOL. The wire contract the traces are checked against.
+added     dev/stage-3h0/record_parent_h0.py
+          DEV TOOL. H0-0's independent check of the accepted parent.
+added     dev/stage-3h0/scope_check.py
+          DEV TOOL. Every change is in scope; removed lines moved verbatim.
+added     dev/stage-3h0/secret_scan_h0.py
+          DEV TOOL. Scans every added or changed file for secrets, with a self-test.
+added     dev/stage-3h0/summarize_h05.py
+          DEV TOOL. The final regression summary.
+added     dev/stage-3h0/verify_remote_h0.py
+          DEV TOOL. Verifies a pushed checkpoint on GitHub independently.
+
+evidence (dev/stage-3h0/evidence/; dev/stage-3h0/README.md describes each folder):
+added     dev/stage-3h0/evidence/h0-0/                 3 files
+added     dev/stage-3h0/evidence/h0-1/                 49 files
+added     dev/stage-3h0/evidence/h0-1b/                13 files
+added     dev/stage-3h0/evidence/h0-2/                 17 files
+added     dev/stage-3h0/evidence/h0-3/                 16 files
+added     dev/stage-3h0/evidence/h0-4a/                28 files
+added     dev/stage-3h0/evidence/h0-4b/                26 files
+added     dev/stage-3h0/evidence/h0-4c/                71 files
+added     dev/stage-3h0/evidence/h0-5/                 289 files
+added     dev/stage-3h0/evidence/h0-6/                 25 files
+added     dev/stage-3h0/evidence/h0-6b/                10 files
+added     dev/stage-3h0/evidence/h0-6c/                9 files
+added     dev/stage-3h0/evidence/remote/               9 files

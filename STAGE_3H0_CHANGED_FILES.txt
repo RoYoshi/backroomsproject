@@ -26,7 +26,7 @@ added     server/static.js
 added     server/ws.js
           PRODUCTION, NEW (H0-4a). The WebSocket framing: frame(str) and reader(sock, onMessage), moved verbatim. CommonJS, never served.
 added     3H0_ARCHITECTURE_MAP.md
-          DOC (H0-5; corrected at H0-6b). Before / after diagrams of mp.js and server.js, module sizes, one message end to end, where to change things now.
+          DOC (H0-5; corrected at H0-6b and H0-6c). Before / after diagrams of mp.js and server.js, module sizes, one message end to end, where to change things now.
 added     3H0_DEFERRED_FULL_3H.md
           DOC (H0-5). Every seam with its GO / NO-GO and reason, what full 3H needs first, and the findings recorded on the way.
 added     3H0_EQUIVALENCE_REPORT.md
@@ -54,7 +54,7 @@ added     STAGE_3H0_HUMAN_QA.md
 added     STAGE_3H0_PERFORMANCE.md
           DOC (H0-5; revised at H0-6 and H0-6b). Performance: the rules fixed at H0-1, every checkpoint, and the final runs.
 added     STAGE_3H0_REPORT.md
-          DOC (H0-5; revised at H0-6 and H0-6b). The Stage 3H0 report.
+          DOC (H0-5; revised at H0-6, H0-6b and H0-6c). The Stage 3H0 report.
 added     dev/stage-3h0/README.md
           DEV TOOL. What every tool and evidence folder is.
 added     dev/stage-3h0/changed_files_h0.py
@@ -140,4 +140,5 @@ added     dev/stage-3h0/evidence/h0-4c/                71 files
 added     dev/stage-3h0/evidence/h0-5/                 289 files
 added     dev/stage-3h0/evidence/h0-6/                 25 files
 added     dev/stage-3h0/evidence/h0-6b/                10 files
-added     dev/stage-3h0/evidence/remote/               8 files
+added     dev/stage-3h0/evidence/h0-6c/                9 files
+added     dev/stage-3h0/evidence/remote/               9 files

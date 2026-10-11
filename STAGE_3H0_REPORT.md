@@ -9,7 +9,7 @@
 - **Nine seams are NO-GO,** each explained in `3H0_DEFERRED_FULL_3H.md`: the client transport, admin panel, replays, peers and audio; the server sessions, snapshot builder, admin commands, and movement and aftermath. They cannot move without redesigning who owns what.
 
 **How it was checked.** Before anything moved, the parent's behavior was recorded byte for byte, and the recording was shown to notice small deliberate changes. Every extraction was then compared with the accepted parent:
-- function by function;
+- function by function, for the four pure pieces (the static serving through the server traces and real sockets);
 - in deterministic traces of both programs;
 - with the real server and game over the wire;
 - with the existing tests that touch it;
@@ -37,7 +37,8 @@ Each was tested, committed, pushed normally, and checked on GitHub before the ne
 | H0-4c | `44395a2` | `f6c6a01` | the static file serving moved to `server/static.js` (GO) |
 | H0-5 | `2dcdca2` | `6ecb0c0` | cross-boundary regression and performance on the final tree; the first independent review's corrections; architecture, deferred work, level-authoring seams; first versions of this report, the performance report and the human-QA checklist |
 | H0-6 | `0f97b80` | `c095ef7` | the gate and quick checks once more on the final tree; the secret scan; the changed-files list; this report and the performance report revised |
-| H0-6b | in the receipt | in the receipt | documents, tooling and evidence only, no production change: the corrections from a second independent review (below), a size check for the documents, H0-6's GitHub check, the scope check and the secret scan again. The package is made from this commit |
+| H0-6b | `73039aa` | `6e11558` | documents, tooling and evidence only, no production change: the corrections from a second independent review (below), a size check for the documents, H0-6's GitHub check, the scope check and the secret scan again |
+| H0-6c | in the receipt | in the receipt | documents, tooling and evidence only, no production change: six wording points from the reviewer's check of the H0-6b package; H0-6b's GitHub check; the checks again. The package is made from this commit |
 
 ## What moved
 
@@ -188,13 +189,13 @@ All kept under `dev/stage-3h0/evidence/`, with the explanations in `3H0_EQUIVALE
   - personal home folders.
 
   It found nothing (`evidence/h0-6/secret_scan.json`, `evidence/h0-6b/secret_scan.json`). Its self-test plants 21 such items in memory and finds all 21. The tools and evidence use only synthetic passcodes, the loopback address and the documentation address ranges.
-- **Found at H0-6b, before packaging: stale or imprecise statements in the documents.** No code changed; the documents are corrected.
+- **Found at H0-6b, before packaging: stale or imprecise statements in the documents.** No production code changed; the documents are corrected.
   - **Sizes.** Five documents still gave, as final, the sizes from before H0-5's comment corrections:
     - `mp.js`: 68,144 bytes, now 68,139;
     - `assets/net-wire.js`: 2,653 bytes, now 2,691;
     - `server/static.js`: 3,839 bytes, now 3,861.
 
-    `dev/stage-3h0/doc_sizes_h0.py` now checks every size the documents give against the files. The package receipt takes its sizes from the ZIP itself.
+    `dev/stage-3h0/doc_sizes_h0.py` now checks the 23 size figures in those five documents against the files. The package receipt takes its sizes from the ZIP itself.
   - **A second independent review** of the final documents against the evidence found other statements that were wrong, stale or too broad, among them:
     - the parent's slow warm boots were not all held up by the same piece;
     - "every served byte" ignored the changed files themselves;
@@ -203,6 +204,7 @@ All kept under `dev/stage-3h0/evidence/`, with the explanations in `3H0_EQUIVALE
     - some performance figures were rounded twice.
 
     All were checked and corrected (`dev/stage-3h0/evidence/h0-6b/`).
+  - **The same reviewer then checked the H0-6b package.** Its checksums, CRCs, file match and receipt all passed. It found six small wording points, corrected at H0-6c (`evidence/h0-6c/corrections.md`).
 - **The first independent review's other notes were corrected at H0-5:**
   - stale comments in `assets/net-wire.js`, `mp.js` and `server/static.js` (comment-only; the gate was re-run);
   - the static module's factory being called `createStatic` in the documents, though it is anonymous in the code.
@@ -210,7 +212,7 @@ All kept under `dev/stage-3h0/evidence/`, with the explanations in `3H0_EQUIVALE
 ## Deliverables
 
 **The package:**
-- `THE_FAR_BACKROOMS_STAGE_3H0_SAFE_ARCHITECTURE_HUMAN_QA.zip`, with its `.sha256`;
+- `THE_FAR_BACKROOMS_STAGE_3H0_SAFE_ARCHITECTURE_HUMAN_QA.zip`, with its `.sha256`. It may come in numbered parts of 28 MiB (`.zip.part0`, `.zip.part1`, …) with `THE_FAR_BACKROOMS_STAGE_3H0_SAFE_ARCHITECTURE_HUMAN_QA_PARTS.sha256`. Join the parts in order into the ZIP, then check the ZIP against its `.sha256`;
 - `STAGE_3H0_PACKAGE_RECEIPT.txt`: the ZIP's CRCs, a file-by-file Git match, the commit, tree and checkpoints, the GitHub check and the scope.
 
 **In the repository and the ZIP:**

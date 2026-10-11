@@ -5,7 +5,7 @@
 - the five small files cut out of them;
 - where to make a change now, and how to check it.
 
-**What did not change.** Nothing a player, a browser or a server operator can observe. These are as they were:
+**What did not change.** Nothing a player or a server operator would notice. These are as they were:
 - the protocol and the facade `window.__net`;
 - the load order of everything that was there before;
 - `node server.js [port]` and the timing;

@@ -4,7 +4,7 @@ dev/stage-3c-qa2/package_qa2.py).
 
   python3 -I dev/stage-3h0/package_h0.py REPO COMMIT OUTDIR REMOTE_JSON NAME
 
-  REMOTE_JSON  dev/stage-3h0/verify_remote_h0.py LABEL --out FILE, run after the final push (LABEL: the final checkpoint, H0-6b)
+  REMOTE_JSON  dev/stage-3h0/verify_remote_h0.py LABEL --out FILE, run after the final push (LABEL: the final checkpoint)
 
 The receipt proves, from the ZIP itself (extracted to a temporary folder):
   - every file in the ZIP is the committed blob (git hash-object == the commit's blob id); nothing missing or extra; every CRC OK;

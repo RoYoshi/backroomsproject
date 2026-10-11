@@ -77,7 +77,7 @@
 | Protocol contract | 0 violations |
 | `test_3bn.js` | 7/7 |
 | Live wire: the real server and game, the parent's checkout against the new tree | **structurally identical in all 56 phase, player and direction summaries** (7,160 and 7,177 frames); 0 page errors on either side |
-| Deterministic performance (client, 15 rounds interleaved) | within the rule fixed at H0-1. The hook medians moved −5.6 % to −1.4 %, the handler medians −9.1 % to +10.8 %. The largest, `fx_bodies` handler +10.8 %, is 1.3 ms against a tolerance of 6.8 ms from the old side's own spread. The move adds no per-frame work: `netPose` is called as often as before, from the same places. |
+| Deterministic performance (client, 15 rounds interleaved) | within the rule fixed at H0-1. The hook medians moved −5.5 % to −1.4 %, the handler medians −9.1 % to +10.8 %. The largest, `fx_bodies` handler +10.8 %, is 1.3 ms against a tolerance of 6.8 ms from the old side's own spread. The move adds no per-frame work: `netPose` is called as often as before, from the same places. |
 
 ## H0-4a: the WebSocket framing (server) — GO
 
