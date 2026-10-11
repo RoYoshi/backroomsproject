@@ -91,3 +91,4 @@
 | Checkpoint | Moved | New file | mp.js bytes / lines | Equivalence receipt |
 |---|---|---|---|---|
 | (H0-0) | nothing | | 72,790 / 841 | |
+| H0-2 | the look / light / corpse wire codec: `toRec`, `partList`, `partObj`, `parseLook` (verbatim), plus `lookStr`, the look encoder mp.js wrote inline three times (`fxBase`, `bodyMade`, the `p` packet), which now call it | `assets/net-wire.js` (2,653 B, 23 lines); one `<script>` line in `index.html` | 71,189 / 833 | `3H0_EQUIVALENCE_REPORT.md` H0-2 |

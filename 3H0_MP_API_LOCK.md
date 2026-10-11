@@ -126,3 +126,16 @@ Admin panel preferences only: `adm.tab`, `adm.side`, `adm.lay`, `adm.opts`. Ever
 Only what an approved extraction needs: a classic script under `assets/` loaded immediately before `mp.js`, and one namespace object for the extracted helpers. Each addition is listed here at the checkpoint that makes it, with its equivalence receipt.
 
 `window.__net`, the globals above, the DOM, the listeners and timers and the WebSocket URL stay exactly as listed.
+
+### Added at H0-2: the wire codec
+
+**`assets/net-wire.js`** is a classic script with no `'use strict'`, like mp.js. `index.html` loads it on the line immediately before `mp.js`; that one added line is the only change to `index.html`.
+- **Serving:** it is served by the existing `assets/[\w.\-]+` allowlist rule, so the server is unchanged: `text/javascript`, `no-store`, gzip.
+- **Side effects:** none apart from defining its namespace. It registers no listener or timer, touches no DOM, and draws no random numbers.
+
+**`window.__mpLib`** is the namespace for helpers cut out of mp.js.
+- **Its content:** `__mpLib.wire` is a frozen object with `lookStr`, `partList`, `partObj`, `parseLook` and `toRec`.
+- **Who reads it:** mp.js destructures it on the first line of its IIFE. Nothing else reads it, and the bundle does not know it exists.
+- **No new facade member:** `window.__net` and every global above are unchanged. The harness proves this: `__mpLib` is the only global the new page adds (`dev/stage-3h0/golden/declared_new_globals.json`).
+
+**If the file fails to load:** mp.js stops on its first line, so `window.__net`, `window.__mp` and its DOM never appear. The bundle guards every use of them (`window.__net && …`, `window.__mp && …`), so the game would run as if mp.js itself had failed to load: single-player, without the network layer. This is a new dependency edge of the same kind as mp.js itself, not a new failure mode.

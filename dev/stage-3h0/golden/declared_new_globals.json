@@ -1,1 +1,5 @@
-{ "globals": [] }
+{
+ "about": "Globals that an approved Stage 3H0 extraction adds on purpose. The client golden harness keeps them out of the strict trace and reports them on their own; any other new or missing global fails the comparison.",
+ "globals": ["__mpLib"],
+ "why": { "__mpLib": "H0-2: the namespace of the helper scripts cut out of mp.js (assets/net-wire.js -> __mpLib.wire). Read by mp.js once at start-up; nothing else uses it." }
+}

@@ -67,7 +67,7 @@ for (const s of SCEN) {
   for (let k = 0; k < +ARG.repeat; k++) { const r = run(newSrc, s, 'rep' + k); rec.repeats.push({ sha256: r.sha256, equal: r.sha256 === n.sha256 }); if (r.sha256 !== n.sha256) rec.repeatDiff = firstDiff(n.buf, r.buf); }
   if (baseline) {
     const b = baseline.scenarios[s];
-    rec.baseline = { sha256: b ? b.sha256 : null, equal: !!b && b.sha256 === n.sha256 };
+    rec.baseline = b ? { sha256: b.sha256, equal: b.sha256 === n.sha256 } : { sha256: null, equal: null, note: 'no baseline: a scenario added after H0-1 (compared old code against new code only)' };
     if (b && !rec.baseline.equal) {
       const bl = zlib.gunzipSync(fs.readFileSync(path.join(path.resolve(ARG.baseline), b.file))).toString('utf8').split('\n'), nl = n.buf.toString('utf8').split('\n');
       const exp = [], unexp = [];
@@ -79,12 +79,12 @@ for (const s of SCEN) {
       rec.baseline.expectedContentChanges = exp; rec.baseline.unexpected = unexp; rec.baseline.equalExceptChangedFiles = !unexp.length && bl.length === nl.length;
     }
   }
-  rec.ok = rec.equal && rec.repeats.every(r => r.equal) && (!baseline || rec.baseline.equal || rec.baseline.equalExceptChangedFiles);
+  rec.ok = rec.equal && rec.repeats.every(r => r.equal) && (!baseline || rec.baseline.equal !== false || rec.baseline.equalExceptChangedFiles);
   report.ok = report.ok && rec.ok;
   report.scenarios.push(rec);
   console.log(`${rec.ok ? 'PASS' : 'FAIL'} ${s}: old ${o.lines} lines ${o.sha256.slice(0, 12)} (${o.ms} ms) | new ${n.lines} lines ${n.sha256.slice(0, 12)} (${n.ms} ms)` +
     `${rec.equal ? ' | identical' : ' | DIFFERENT'}${rec.repeats.length ? ' | repeats ' + rec.repeats.map(r => r.equal ? 'same' : 'DIFF').join(',') : ''}` +
-    `${baseline ? ' | baseline ' + (rec.baseline.equal ? 'same' : rec.baseline.equalExceptChangedFiles ? 'same except ' + rec.baseline.expectedContentChanges.length + ' lines about changed files' : 'DIFFERENT') : ''}` +
+    `${baseline ? ' | baseline ' + (rec.baseline.equal === null ? 'none (new scenario)' : rec.baseline.equal ? 'same' : rec.baseline.equalExceptChangedFiles ? 'same except ' + rec.baseline.expectedContentChanges.length + ' lines about changed files' : 'DIFFERENT') : ''}` +
     `${n.struct && n.struct.newRequires.length ? ' | new requires: ' + n.struct.newRequires.join(' ') : ''}`);
   if (!rec.ok && rec.firstDiff) console.log('   first difference at line ' + rec.firstDiff.line + '\n   old: ' + rec.firstDiff.old.slice(0, 300) + '\n   new: ' + rec.firstDiff.new.slice(0, 300));
   if (rec.errors) console.log('   errors: ' + JSON.stringify(rec.errors).slice(0, 800));

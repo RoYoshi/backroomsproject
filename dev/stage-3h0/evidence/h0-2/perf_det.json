@@ -1,0 +1,273 @@
+{
+ "tool": "dev/stage-3h0/golden/perf_det.js",
+ "rounds": 7,
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "node": "v22.22.2",
+ "cpus": 2,
+ "startedAt": "2026-10-11T03:35:33.735Z",
+ "server": {},
+ "client": {
+  "menu_online": {
+   "hookMs": {
+    "old": [
+     26.4,
+     24.1,
+     26,
+     45.3,
+     26,
+     25.9,
+     28
+    ],
+    "new": [
+     25,
+     26,
+     28.2,
+     26.8,
+     30.4,
+     29.6,
+     29.7
+    ],
+    "oldMedian": 26,
+    "newMedian": 28.2,
+    "tolerance": 21.2,
+    "changePct": 8.46,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     2.6,
+     2,
+     1.8,
+     2.5,
+     3.7,
+     2.1,
+     5.3
+    ],
+    "new": [
+     2.6,
+     1.7,
+     2.5,
+     2.2,
+     2.4,
+     2.2,
+     2.4
+    ],
+    "oldMedian": 2.5,
+    "newMedian": 2.4,
+    "tolerance": 3.5,
+    "changePct": -4,
+    "ok": true
+   }
+  },
+  "run_online": {
+   "hookMs": {
+    "old": [
+     79.2,
+     81.1,
+     71.4,
+     70.4,
+     70.7,
+     72.8,
+     66.9
+    ],
+    "new": [
+     77,
+     66,
+     81.7,
+     74.2,
+     76.4,
+     81.4,
+     72
+    ],
+    "oldMedian": 71.4,
+    "newMedian": 76.4,
+    "tolerance": 14.2,
+    "changePct": 7,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     4.8,
+     7.7,
+     6.1,
+     5.8,
+     6.3,
+     6.4,
+     7.1
+    ],
+    "new": [
+     6.3,
+     5.9,
+     6.8,
+     6.8,
+     6.8,
+     7.1,
+     7.1
+    ],
+    "oldMedian": 6.3,
+    "newMedian": 6.8,
+    "tolerance": 2.9,
+    "changePct": 7.94,
+    "ok": true
+   }
+  },
+  "interp": {
+   "hookMs": {
+    "old": [
+     107.9,
+     88.1,
+     91.5,
+     96.4,
+     92.8,
+     94.4,
+     125.7
+    ],
+    "new": [
+     94.4,
+     94.3,
+     85.5,
+     96.8,
+     99,
+     89.6,
+     94.1
+    ],
+    "oldMedian": 94.4,
+    "newMedian": 94.3,
+    "tolerance": 37.6,
+    "changePct": -0.11,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     7.4,
+     4.9,
+     7,
+     6.5,
+     10.3,
+     6.3,
+     8.9
+    ],
+    "new": [
+     6.8,
+     6,
+     8.8,
+     6.7,
+     6.8,
+     6.4,
+     6.3
+    ],
+    "oldMedian": 7,
+    "newMedian": 6.7,
+    "tolerance": 5.4,
+    "changePct": -4.29,
+    "ok": true
+   }
+  },
+  "fx_bodies": {
+   "hookMs": {
+    "old": [
+     138.8,
+     132.5,
+     140.5,
+     141,
+     160,
+     124.2,
+     143.2
+    ],
+    "new": [
+     151.2,
+     128.8,
+     133.3,
+     134.9,
+     161.1,
+     134.5,
+     130.6
+    ],
+    "oldMedian": 140.5,
+    "newMedian": 134.5,
+    "tolerance": 35.8,
+    "changePct": -4.27,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     12.4,
+     11.2,
+     12.3,
+     13.5,
+     11.6,
+     10.2,
+     13.2
+    ],
+    "new": [
+     12.5,
+     11.3,
+     13.9,
+     13.2,
+     10.5,
+     11.9,
+     14.1
+    ],
+    "oldMedian": 12.3,
+    "newMedian": 12.5,
+    "tolerance": 3.3,
+    "changePct": 1.63,
+    "ok": true
+   }
+  },
+  "hum_dread": {
+   "hookMs": {
+    "old": [
+     56.7,
+     46.5,
+     81.4,
+     52,
+     55.6,
+     55.8,
+     76.8
+    ],
+    "new": [
+     53.5,
+     57.2,
+     56.1,
+     66.1,
+     69.4,
+     65.2,
+     63.7
+    ],
+    "oldMedian": 55.8,
+    "newMedian": 63.7,
+    "tolerance": 34.9,
+    "changePct": 14.16,
+    "ok": true
+   },
+   "handlerMs": {
+    "old": [
+     0.2,
+     0.3,
+     0.1,
+     0.1,
+     0.2,
+     0.3,
+     0.2
+    ],
+    "new": [
+     0.3,
+     0.4,
+     0.2,
+     0.2,
+     0.2,
+     0.2,
+     0.4
+    ],
+    "oldMedian": 0.2,
+    "newMedian": 0.2,
+    "tolerance": 0.2,
+    "changePct": 0,
+    "ok": true
+   }
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-11T03:35:56.714Z"
+}

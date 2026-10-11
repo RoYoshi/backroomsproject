@@ -23,6 +23,7 @@ Nothing here is served to browsers or loaded by the game. The server's allowlist
 | `declared_new_globals.json` | Globals an approved extraction adds on purpose. They are reported separately, never hidden. |
 | `contract_check.js` | Every traced message against `protocol_contract.json`. |
 | `fn_equiv.js` | Function-level equivalence of an extracted helper against the parent's own text, on generated inputs. |
+| `fn_mutants.js` | Proves `fn_equiv.js` catches wrong versions of an extracted file. |
 | `live_wire.js` | The real server and the real game, two players, every frame recorded. A structural comparison per phase. |
 | `perf_det.js` | CPU and time on the deterministic workloads, old against new, interleaved. This is the precise performance gate. |
 | `perf_h0.js` | The real stack's server CPU (gated) and bytes and client timings (reported), A/B interleaved. |
@@ -35,3 +36,5 @@ Nothing here is served to browsers or loaded by the game. The server's allowlist
 |---|---|
 | `evidence/h0-0/` | The remote heads before 3H0, the parent verification, the H0-0 remote verification. |
 | `evidence/h0-1/` | The baselines (`srv_traces/`, `cli_traces/`) and the reports of every H0-1 step (`steps.txt` lists them with exit codes). It also keeps the existing suites' logs, and the failing first performance rule with its rescoring. |
+| `evidence/h0-1b/` | The client baseline, rebuilt from the parent's code after the H0-2 harness fix. Its `README.md` says why. |
+| `evidence/h0-2/` | The wire-codec extraction's receipt: function equivalence and its mutants, the gate (traces, contract), live, performance, serving tests. `attempt1/` keeps the first, failing gate run. |

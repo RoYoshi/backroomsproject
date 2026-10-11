@@ -1,0 +1,49 @@
+{
+ "tool": "dev/stage-3h0/golden/fn_mutants.js",
+ "target": "wire",
+ "file": "assets/net-wire.js",
+ "applied": 8,
+ "caught": 8,
+ "results": [
+  {
+   "name": "look fields in another order",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "3-digit colours accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "another default look",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "older clients' backpacks kept",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "hands with 3 values",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "parts joined with \", \"",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "light-on flag passed through",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "no part list without equipment kind check",
+   "applied": true,
+   "caught": true
+  }
+ ]
+}

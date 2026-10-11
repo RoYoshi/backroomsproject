@@ -1,0 +1,325 @@
+{
+ "tool": "dev/stage-3h0/golden/cli_golden.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "chromium": "141.0.7390.37",
+ "helpers": {
+  "old": [],
+  "new": [
+   "assets/net-wire.js"
+  ]
+ },
+ "declaredNewGlobals": [
+  "__mpLib"
+ ],
+ "startedAt": "2026-10-11T03:26:57.036Z",
+ "scenes": [
+  {
+   "scene": "load",
+   "old": {
+    "entries": 20,
+    "bytes": 3059,
+    "sha256": "e3e9e49e64148208713addd952676534a3e8bd3a9230425382b3fb9affa76a17",
+    "ms": 198,
+    "errors": []
+   },
+   "new": {
+    "entries": 20,
+    "bytes": 3079,
+    "sha256": "9c92f1b8fc6817fc063385dba46b74e503ed5e74f4113472ef97dc66330da58a",
+    "ms": 133,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "6c3054d092f3107f7a1139d21479b4ea8909ad243b854fff5abb113c9bea7446",
+    "equal": false
+   },
+   "ok": false
+  },
+  {
+   "scene": "menu_online",
+   "old": {
+    "entries": 1785,
+    "bytes": 214876,
+    "sha256": "a7e5a545ed3e2d0db8e6e08eb85076c7aa9f56d993b4f977f41f347a42a1d8c9",
+    "ms": 197,
+    "errors": []
+   },
+   "new": {
+    "entries": 1785,
+    "bytes": 214894,
+    "sha256": "1062d30c7c42f07a58f96c7abed73e9bbda3c12c979346ba11d5220bea056b09",
+    "ms": 243,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "52279cc51bd9d05502e801c6c357755a44e7d036f0fe9e3e1bd588d4aa773123",
+    "equal": false
+   },
+   "ok": false
+  },
+  {
+   "scene": "run_online",
+   "old": {
+    "entries": 7137,
+    "bytes": 891911,
+    "sha256": "c7c5cef0df87cfaacd5f5a3f399c1377d6ff856f9e85a249526973f825ccd6ed",
+    "ms": 308,
+    "errors": []
+   },
+   "new": {
+    "entries": 7137,
+    "bytes": 891930,
+    "sha256": "8c334b90dc8f2fd3a0fbdbcf9bd3ef1add6e0dc064de6b51ceb55ccbacae1df4",
+    "ms": 331,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "22ee4e6fbfdeb914146aadd7706ea71f6be7d9d93570952a2f2448bad2fab361",
+    "equal": false
+   },
+   "ok": false
+  },
+  {
+   "scene": "interp",
+   "old": {
+    "entries": 11481,
+    "bytes": 1645555,
+    "sha256": "3abd797b8e8cb461ae0bf3e2a0d9ff08a54808aa635620cbddbb8966725ff7a0",
+    "ms": 362,
+    "errors": []
+   },
+   "new": {
+    "entries": 11481,
+    "bytes": 1645573,
+    "sha256": "106431a879e13dc689369b99cad7b074d167219b2a22f62bd60345f293ea174c",
+    "ms": 496,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "d2b9b7a255549b5713a780de4de35e5abf05b882cdc3718154920ec3518e40ca",
+    "equal": false
+   },
+   "ok": false
+  },
+  {
+   "scene": "fx_bodies",
+   "old": {
+    "entries": 22761,
+    "bytes": 2311458,
+    "sha256": "192b17f833e2a48ef221341423439bd42be16e543bcb4e266a8374a30c3f6001",
+    "ms": 545,
+    "errors": []
+   },
+   "new": {
+    "entries": 22761,
+    "bytes": 2311477,
+    "sha256": "0455f399917c5a2bd798e89a11d2d4f6b3f61e64ba3e03c4714d9e9fbfe214d8",
+    "ms": 464,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "648c2509852c8dbd77c1cd1a230de67e2b2b3789a41a618eea8e94e3457541d6",
+    "equal": false
+   },
+   "ok": false
+  },
+  {
+   "scene": "facade",
+   "old": {
+    "entries": 1176,
+    "bytes": 138180,
+    "sha256": "8446fc4e61ee8af6f3db220c19824a5454edcbd52873da909d1bab8105c779aa",
+    "ms": 230,
+    "errors": []
+   },
+   "new": {
+    "entries": 1176,
+    "bytes": 138199,
+    "sha256": "fde67cb31950e275d112ce0d30c5621feba538b548901b24c704a801b4d254f0",
+    "ms": 250,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "c4047d7612137c04d1c4d043387becd58964a7cadff4020e670503e001249890",
+    "equal": false
+   },
+   "ok": false
+  },
+  {
+   "scene": "admin",
+   "old": {
+    "entries": 1328,
+    "bytes": 135091,
+    "sha256": "1b53471589ff2a26a2f9422ea2bd69cfabe9b6b9d7d5e96630088e2ad50a7949",
+    "ms": 339,
+    "errors": []
+   },
+   "new": {
+    "entries": 1328,
+    "bytes": 135109,
+    "sha256": "3ad171b28e284a62b3f1af2c229aac3f0e0237a73d0f3a12405b996f5e7f7441",
+    "ms": 355,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "c6ed933055d2b449bbafca4bb80a52f9bf7cdb588b542482f360040fb3369077",
+    "equal": false
+   },
+   "ok": false
+  },
+  {
+   "scene": "reconnect_solo",
+   "old": {
+    "entries": 737,
+    "bytes": 69202,
+    "sha256": "dd146c049e2cb56270de33cd77304ce91295e25a2b87db9e20bf53784feb2960",
+    "ms": 202,
+    "errors": []
+   },
+   "new": {
+    "entries": 737,
+    "bytes": 69221,
+    "sha256": "2a79831509c076c72713b8d34e934e61176626d4be3509839a0920072ba7eaf2",
+    "ms": 165,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "299e86cc7047a1402d03dff864c4b0fcbb84e8c0c04746154b8b60e1b1c07f70",
+    "equal": false
+   },
+   "ok": false
+  },
+  {
+   "scene": "hum_dread",
+   "old": {
+    "entries": 4875,
+    "bytes": 377651,
+    "sha256": "dc00716e8bdea27dbd35cab80ea647723b8eb31a466a8f21cf0183d0cbe52aad",
+    "ms": 214,
+    "errors": []
+   },
+   "new": {
+    "entries": 4875,
+    "bytes": 377671,
+    "sha256": "888dda09227ac188bdb57af114e5c3cf3e8f88d59b6b65e2f41d6262b26337be",
+    "ms": 222,
+    "errors": []
+   },
+   "globalsOnlyInNew": [
+    "__mpLib"
+   ],
+   "globalsOnlyInOld": [],
+   "equal": false,
+   "undeclaredGlobals": [],
+   "firstDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"set:0\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick\",\"function\"],[\"join\",\"function\"],[\"respawn\",\"function\"],[\"leave\",\"function\"],[\"testAuth\",\"funct"
+   },
+   "repeats": [],
+   "baseline": {
+    "sha256": "9dc6dd8f44f4b93cc42123ee39ddf35986923628dbe89c2fdfb080d692a57663",
+    "equal": false
+   },
+   "ok": false
+  }
+ ],
+ "ok": false,
+ "finishedAt": "2026-10-11T03:27:02.685Z"
+}

@@ -20,7 +20,8 @@ const keepS = fs.mkdtempSync(path.join(os.tmpdir(), 'h0cks-')), keepC = fs.mkdte
 const run = (args, timeout) => { const r = spawnSync(process.execPath, args, { stdio: 'inherit', timeout }); return r.status; };
 const sum = { label, at: new Date().toISOString(), steps: {} };
 if (!process.argv.includes('--skip-server')) sum.steps.server = run([path.join(HERE, 'srv_golden.js'), '--out', OUT, '--baseline', path.join(BASE, 'srv_traces'), '--keep', keepS], 1800000) === 0;
-if (!process.argv.includes('--skip-client')) sum.steps.client = run([path.join(HERE, 'cli_golden.js'), '--out', OUT, '--baseline', path.join(BASE, 'cli_traces'), '--keep', keepC], 1800000) === 0;
+const CBASE = fs.existsSync(path.join(EV, 'h0-1b', 'cli_traces')) ? path.join(EV, 'h0-1b', 'cli_traces') : path.join(BASE, 'cli_traces');   // the client baseline rebuilt from the parent's code after the H0-2 harness fix
+if (!process.argv.includes('--skip-client')) sum.steps.client = run([path.join(HERE, 'cli_golden.js'), '--out', OUT, '--baseline', CBASE, '--keep', keepC], 1800000) === 0;
 const nd = d => { const t = fs.mkdtempSync(path.join(os.tmpdir(), 'h0n-')); for (const f of fs.readdirSync(d)) if (/\.new\.json(l)?$/.test(f)) fs.copyFileSync(path.join(d, f), path.join(t, f)); return t; };
 sum.steps.contract = run([path.join(HERE, 'contract_check.js'), '--srv', nd(keepS), '--cli', nd(keepC), '--out', path.join(OUT, 'contract_check.json')], 600000) === 0;
 sum.ok = Object.values(sum.steps).every(Boolean);

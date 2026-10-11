@@ -18,10 +18,13 @@
   function pageState() {
     const g = Object.keys(window).filter(k => k.startsWith('__') && !OWN.has(k) && !NEWG.has(k)).sort().map(k => [k, kind(window[k])]);
     const net = window.__net ? Object.keys(window.__net).map(k => [k, kind(window.__net[k])]) : null;
-    const body = [...document.body.children].map(e => e.tagName + (e.id ? '#' + e.id : '') + (e.hidden ? '[hidden]' : '')), head = [...document.head.children].map(e => e.tagName + (e.id ? '#' + e.id : ''));
+    /* the page's own <script> elements are the harness's loading order (which differs on purpose when a helper script is added), not mp.js's
+     * output: they are left out of the DOM state (H0-2 fix; see evidence/h0-1b/README.md) */
+    const body = [...document.body.children].filter(e => e.tagName !== 'SCRIPT').map(e => e.tagName + (e.id ? '#' + e.id : '') + (e.hidden ? '[hidden]' : '')), head = [...document.head.children].map(e => e.tagName + (e.id ? '#' + e.id : ''));
+    const bc = document.body.cloneNode(true); bc.querySelectorAll('script').forEach(x => x.remove());
     const ls = {}; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); ls[k] = localStorage.getItem(k); } } catch (e) { }
     const N = window.__NET;
-    return { globals: g, net, body, head, bodyHtml: [document.body.innerHTML.length, fnv(document.body.innerHTML)], ls,
+    return { globals: g, net, body, head, bodyHtml: [bc.innerHTML.length, fnv(bc.innerHTML)], ls,
       NET: N ? { off: N.off, DELAY: N.DELAY, lastSt: N.lastSt, epoch: N.epoch, hist: [...N.hist].map(([k, h]) => [k, h.length, h.seen]), onEpoch: typeof N.onEpoch } : null,
       pending: H.pending(), fxs: (window.__fxs || []).length, peerLights: (window.__peerLights || []).length };
   }

@@ -57,6 +57,15 @@ module.exports = {
     await H.http('/server.js', { method: 'DELETE', headers: {} });
   },
 
+  /* the files Stage 3H0 itself may add, served (client helpers under assets/) or never served (server modules): compared old code against new
+   * code on the same tree, so the rule that serves them is what is tested, whether or not the file exists yet */
+  async http_h0(H) {
+    const GZ = { 'accept-encoding': 'gzip, deflate, br' };
+    for (const f of ['net-wire.js', 'net-interp.js']) { await H.http('/assets/' + f, { headers: GZ }); await H.http('/assets/' + f, {}); await H.http('/assets/' + f, { method: 'HEAD', headers: GZ }); await H.http('/assets/' + f + '?v=1', {}); }
+    for (const u of ['/server/ws.js', '/server/static.js', '/server/fields.js', '/server/', '/server', '/assets/../server/ws.js', '/assets/%2e%2e/server/static.js', '/server%2fws.js', '/./server/ws.js', '/assets/net-wire.js/', '/ASSETS/net-wire.js'])
+      await H.http(u, { headers: GZ });
+  },
+
   /* upgrades: bad paths, no key, room-name cleaning, the 8-socket room cap, ids, a room thrown away and made again */
   async ws_upgrade(H) {
     H.connect('/ws2?room=a'); H.connect('/ws', { key: null }); H.connect('/WS?room=a'); H.connect('/ws/?room=a'); H.connect('/ws?room=a', { key: null });

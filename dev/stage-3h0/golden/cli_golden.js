@@ -2,7 +2,9 @@
  * scripts the working tree's index.html loads between glitch.js and mp.js), in the same fake-clock page, and compare byte for byte.
  * (development only)
  *
- *   node dev/stage-3h0/golden/cli_golden.js [--scenes a,b] [--old-ref edd2af9] [--repeat 1] [--out DIR] [--write-baseline] [--baseline DIR] [--keep DIR]
+ *   node dev/stage-3h0/golden/cli_golden.js [--scenes a,b] [--old-ref edd2af9] [--new-ref REF] [--repeat 1] [--out DIR] [--write-baseline] [--baseline DIR] [--keep DIR]
+ *
+ *   --new-ref     take the "new" side from a commit instead of the working tree (e.g. to rebuild a baseline from the parent's own code)
  *
  * Globals that the working tree adds on purpose are listed in declared_new_globals.json: they are left out of the strict trace and reported
  * on their own (like the server harness's new requires), so the new namespace is visible without hiding any other change.
@@ -15,9 +17,9 @@ for (let i = 2; i < process.argv.length; i++) { const k = process.argv[i].replac
 const SCENES = ARG.scenes ? ARG.scenes.split(',') : L.SCENES;
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 (async () => {
-  const OLD = L.fromRef(ARG['old-ref']), NEW = L.fromTree();
+  const OLD = L.fromRef(ARG['old-ref']), NEW = ARG['new-ref'] ? L.fromRef(ARG['new-ref']) : L.fromTree();
   const browser = await L.launch();
-  const report = { tool: 'dev/stage-3h0/golden/cli_golden.js', oldRef: ARG['old-ref'], chromium: browser.version(), helpers: { old: OLD.helpers.map(h => h.f), new: NEW.helpers.map(h => h.f) },
+  const report = { tool: 'dev/stage-3h0/golden/cli_golden.js', oldRef: ARG['old-ref'], newSide: ARG['new-ref'] ? 'ref ' + ARG['new-ref'] : 'working tree', chromium: browser.version(), helpers: { old: OLD.helpers.map(h => h.f), new: NEW.helpers.map(h => h.f) },
     declaredNewGlobals: L.NEWG, startedAt: new Date().toISOString(), scenes: [], ok: true };
   const tmp = ARG.keep ? path.resolve(ARG.keep) : fs.mkdtempSync(path.join(os.tmpdir(), 'h0cli-')); fs.mkdirSync(tmp, { recursive: true });
   let baseline = null; if (ARG.baseline) baseline = JSON.parse(fs.readFileSync(path.join(path.resolve(ARG.baseline), 'hashes.json'), 'utf8'));
