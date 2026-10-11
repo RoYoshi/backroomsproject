@@ -1,0 +1,55 @@
+PASS Hound A: body never jumps (max 2.7 px / frame)
+PASS Hound A: hands never jump (max 2.9 px / frame)
+PASS Hound A: the light never teleports (max 3.0 px / frame)
+PASS Hound A: never turns more than 1.7°/frame
+PASS Hound A: is at rest by the end  - state SLEEPING, v 6.0, sleeps at 4.316666666666666
+PASS Hound A: travelled a plausible distance  - 35 px, angle 87°
+PASS Hound B: body never jumps (max 1.9 px / frame)
+PASS Hound B: hands never jump (max 3.8 px / frame)
+PASS Hound B: the light never teleports (max 0.7 px / frame)
+PASS Hound B: never turns more than 2.0°/frame
+PASS Hound B: is at rest by the end  - state SLEEPING, v 2.2, sleeps at 4.466666666666667
+PASS Hound B: travelled a plausible distance  - 75 px, angle 81°
+PASS Hound C: body never jumps (max 7.1 px / frame)
+PASS Hound C: hands never jump (max 7.2 px / frame)
+PASS Hound C: the light never teleports (max 1.6 px / frame)
+PASS Hound C: never turns more than 5.1°/frame
+PASS Hound C: is at rest by the end  - state SLEEPING, v 5.0, sleeps at 2.9166666666666665
+PASS Hound C: travelled a plausible distance  - 63 px, angle 10°
+PASS Hound C: the wall stops it (no penetration)  - pen 0.00, wall hit {"t":0.23,"sp":306}
+PASS Hound D: body never jumps (max 0.6 px / frame)
+PASS Hound D: hands never jump (max 1.5 px / frame)
+PASS Hound D: the light never teleports (max 1.6 px / frame)
+PASS Hound D: never turns more than 1.5°/frame
+PASS Hound D: is at rest by the end  - state SLEEPING, v 5.4, sleeps at 2.9166666666666665
+PASS Hound D: travelled a plausible distance  - 18 px, angle 81°
+PASS Smiler A: body never jumps (max 2.1 px / frame)
+PASS Smiler A: hands never jump (max 2.2 px / frame)
+PASS Smiler A: the light never teleports (max 0.0 px / frame)
+PASS Smiler A: never turns more than 0.5°/frame
+PASS Smiler A: is at rest by the end  - state SLEEPING, v 0.0, sleeps at 4.316666666666666
+PASS Smiler A: travelled a plausible distance  - 30 px, angle 76°
+PASS Smiler B: body never jumps (max 0.2 px / frame)
+PASS Smiler B: hands never jump (max 1.7 px / frame)
+PASS Smiler B: the light never teleports (max 0.1 px / frame)
+PASS Smiler B: never turns more than 0.6°/frame
+PASS Smiler B: is at rest by the end  - state SLEEPING, v 0.0, sleeps at 2.6166666666666667
+PASS Smiler B: travelled a plausible distance  - 1 px, angle 60°
+PASS Smiler C: body never jumps (max 2.2 px / frame)
+PASS Smiler C: hands never jump (max 2.4 px / frame)
+PASS Smiler C: the light never teleports (max 0.5 px / frame)
+PASS Smiler C: never turns more than 0.5°/frame
+PASS Smiler C: is at rest by the end  - state SLEEPING, v 0.0, sleeps at 4.316666666666666
+PASS Smiler C: travelled a plausible distance  - 38 px, angle 78°
+PASS Smiler D: body never jumps (max 2.1 px / frame)
+PASS Smiler D: hands never jump (max 2.4 px / frame)
+PASS Smiler D: the light never teleports (max 0.5 px / frame)
+PASS Smiler D: never turns more than 0.5°/frame
+PASS Smiler D: is at rest by the end  - state SLEEPING, v 0.0, sleeps at 4.316666666666666
+PASS Smiler D: travelled a plausible distance  - 32 px, angle 78°
+PASS deterministic: two runs are identical
+PASS sampling-independent: 30 Hz and 120 Hz agree
+PASS exhausted victim resists less
+PASS matrix: 240 runs (8 variants x 6 situations x 5 seeds): no jumps, no wall clipping, everything comes to rest  - worst body 6.2 px/frame, hand 5.2, light 4.5, closest to a wall 18.0 px (radius 18)
+
+all physics checks passed

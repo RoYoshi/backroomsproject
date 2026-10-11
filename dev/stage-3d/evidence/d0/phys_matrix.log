@@ -1,0 +1,10 @@
+spots open open open corridor corridor corridor corner corner corner pillar pillar wall wall wall low low ; runs 690
+variant      runs  same  fin  bodyPen handPen gearPen attPen crossed maxStep asleepByEnd sleepMed never afterSleep dispMed walls
+Hound A        96  true  true     0.0     0.0     0.0    0.0       0    2.44          96    4.017    30      12.25      32     4
+Hound B        96  true  true     0.1     0.0     0.0    0.2       0    2.19          83      4.1    59       2.69      75     0
+Hound C        18  true  true     0.1     0.0     0.0    0.0       0    1.73          18        4     6      10.23      69    18
+Hound D        96  true  true     0.0     0.0     0.0    0.0       0    2.04          96    3.517    32      12.18      16     0
+Smiler A       96  true  true     0.0     0.0     0.0    0.0       0    0.53          96     4.15    46       2.20      30     0
+Smiler B       96  true  true     0.0     0.0     0.0    0.1       0    0.05          96    2.533     0       1.36       1     0
+Smiler C       96  true  true     0.0     0.0     0.0    0.0       0    0.55          96    4.017    46       2.79      38     5
+Smiler D       96  true  true     0.0     0.0     0.0    0.0       0    0.53          96    4.017    46       2.79      32     3

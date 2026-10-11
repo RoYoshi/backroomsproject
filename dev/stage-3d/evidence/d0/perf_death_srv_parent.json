@@ -1,0 +1,61 @@
+{
+ "tool": "dev/stage-3d/perf_death_srv.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/d3base",
+ "node": "v22.22.2",
+ "reps": 15,
+ "bodyFor": {
+  "Hound A": {
+   "medianMs": 50.738,
+   "maxMs": 67.001
+  },
+  "Hound B": {
+   "medianMs": 21.356,
+   "maxMs": 61.666
+  },
+  "Hound C": {
+   "medianMs": 45.055,
+   "maxMs": 64.746
+  },
+  "Hound D": {
+   "medianMs": 42.213,
+   "maxMs": 47.355
+  },
+  "Smiler A": {
+   "medianMs": 39.779,
+   "maxMs": 131.664
+  },
+  "Smiler B": {
+   "medianMs": 35.609,
+   "maxMs": 89.014
+  },
+  "Smiler C": {
+   "medianMs": 41.111,
+   "maxMs": 130.252
+  },
+  "Smiler D": {
+   "medianMs": 33.475,
+   "maxMs": 43.202
+  }
+ },
+ "step": {
+  "noCorpses": {
+   "medianMs": 0.0003,
+   "p95Ms": 0.0005
+  },
+  "corpses24": {
+   "medianMs": 0.0003,
+   "p95Ms": 0.0005
+  }
+ },
+ "bodiesMsg": {
+  "corpses": 24,
+  "bytes": 8615,
+  "bytesPerCorpse": 359
+ },
+ "memory": {
+  "heapBeforeMB": 5.33,
+  "heapAfter500MB": 5.4,
+  "bodiesKept": 24,
+  "gcExposed": true
+ }
+}
