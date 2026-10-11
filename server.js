@@ -57,36 +57,48 @@ function mvCheck(room, me, x, y) {
   return false;
 }
 /* a server-side move of a player (spawn, admin tools): set it, tell the client when asked, and restart the movement check from there */
-/* Death aftermath.  When the server commits a death it keeps the event (kill record + the victim's look and gear) until the corpse exists.
- * The victim's client normally sends the replay ('fx') and then the corpse ('b').  If it has not sent the replay 1.5 s after the kill -
- * or has disconnected - the server sends the same replay itself; if the corpse has not come when the death would have finished
- * (plus 8 s of slack while the victim is still connected, 0.6 s once it is gone), the server makes it from the same physical simulation
- * (death_srv.js).  Bodies are keyed by player id, so a late client corpse simply replaces the server's: never two. */
+/* Death aftermath (Stage 3D: one event, decided and finished by the server).  When the server commits a death (sim -> onDeath) it opens
+ * the event: a death id (de), the kill record completed with what the death needs (the victim's speed and exhaustion, rounded as sent),
+ * and the replay message for everyone else (fxFor: the same inputs).  The victim's own client plays the same death from the same record
+ * (it reads it in the snapshot's 'mk'), so victim, spectators and the server run one physical death.  Each client gets the replay once
+ * (aftSend), with how far it has run if they arrive late.  When the death's length has passed the server makes the corpse itself from
+ * that simulation's last frame and places the attacker where the death left it; clients no longer report corpses (only the light a NEW
+ * RUN vanish leaves, below).  An admin revive cancels the event; a world reset drops it.  Bodies stay keyed by player id: never two. */
 function aftStart(room, c) {
   const p = c.player; c.aftSeq = p.dseq;
   room.afts = (room.afts || []).filter(a => a.id !== c.id);
-  room.afts.push({ id: c.id, seq: p.dseq, at: Date.now(), kill: Object.assign({}, p.kill), fx: false, body: false,
-    info: { name: c.name, look: c.look, ek: p.equipment.kind, ec: HEX.test(c.color) ? c.color : '#ffe7b2', ep: c.lp || '', vx: p.vx, vy: p.vy, ex: p.ex || (p.stamina != null && p.stamina < 22) ? 1 : 0, light: p.light } });
+  const de = room.deSeq = (room.deSeq | 0) + 1;
+  const info = { name: c.name, look: c.look, ek: p.equipment.kind, ec: HEX.test(c.color) ? c.color : '#ffe7b2', ep: c.lp || '', vx: Math.round(p.vx || 0), vy: Math.round(p.vy || 0), ex: p.ex || (p.stamina != null && p.stamina < 22) ? 1 : 0, light: p.light };
+  if (p.kill) Object.assign(p.kill, { de, vx: info.vx, vy: info.vy, ex: info.ex });               // the victim's copy of the record ('mk')
+  const kill = Object.assign({}, p.kill), fx = Object.assign(deathSrv.fxFor(c.id, kill, info), { de, lo: info.light ? 1 : 0 });
+  room.afts.push({ id: c.id, seq: p.dseq, de, at: Date.now(), world: room.sim.worldSeq, kill, fx: true, fxMsg: fx, sent: new Set([c.id]), body: false, info });
 }
 const aftOf = (room, id) => (room.afts || []).find(a => a.id === id && !a.body);
+/* the replay to every client that has not had it yet (a late joiner gets it with el: the seconds it has already run) */
+function aftSend(room) {
+  if (!room.afts || !room.afts.length) return;
+  const now = Date.now();
+  for (const a of room.afts) {
+    if (a.body || !a.fxMsg) continue;
+    const el = (now - a.at) / 1000;
+    for (const c of room.clients.values()) if (!a.sent.has(c.id)) { a.sent.add(c.id); send(c, el > .25 ? Object.assign({}, a.fxMsg, { el: +el.toFixed(2) }) : a.fxMsg); }
+  }
+}
 function aftTick(room) {
   if (!room.afts || !room.afts.length) return;
   const now = Date.now();
   for (const a of room.afts) {
-    const victim = room.clients.get(a.id), gone = !victim || victim.player.dseq !== a.seq && !victim.player.dead;
-    if (!a.fx && (gone || now - a.at > 1500)) {
-      a.fx = true; a.fxSrv = true; const out = deathSrv.fxFor(a.id, a.kill, a.info);
-      for (const c of room.clients.values()) if (c.id !== a.id) send(c, out);
-    }
-    if (!a.body && now > a.at + (deathSrv.durOf(a.kill) + (gone ? .6 : 8)) * 1000) {
-      a.body = true;
-      try {
-        const R = deathSrv.bodyFor(a.id, a.kill, a.info, room.sim);
-        putBody(room, a.id, R.body); a.srvBody = true;
-        if (a.kill.k !== 'Smiler' && room.sim.killerEnd) room.sim.killerEnd(a.id, R.attacker.x, R.attacker.y, R.attacker.angle);
-        console.log(`[death] room=${room.name} #${a.id}: the victim's client never reported its corpse - the server made it`);
-      } catch (e) { console.error('[death] fallback failed', e && e.message); }
-    }
+    if (a.body) continue;
+    if (room.sim.worldSeq !== a.world) { a.body = true; a.dropped = 'world reset'; continue; }        // the world it died in is gone
+    if (now < a.at + deathSrv.durOf(a.kill) * 1000) continue;
+    a.body = true;
+    try {
+      const R = deathSrv.bodyFor(a.id, a.kill, a.info, room.sim);
+      R.body.de = a.de;
+      putBody(room, a.id, R.body);
+      if (a.kill.k !== 'Smiler' && room.sim.killerEnd) room.sim.killerEnd(a.id, R.attacker.x, R.attacker.y, R.attacker.angle);
+      console.log(`[death] room=${room.name} #${a.id} de=${a.de}: ${a.kill.k} ${a.kill.v} corpse placed`);
+    } catch (e) { console.error('[death] corpse failed', e && e.message); }
   }
   room.afts = room.afts.filter(a => !a.body || now - a.at < 60000);
 }
@@ -115,7 +127,9 @@ function adminCommand(room, me, m) {
     case 'kick':
       if (target && target !== me) { log(`kick ${target.name}#${target.id}`); res(true, 'KICKED ' + who(target)); send(target, { t: 'kick' }); setTimeout(() => { try { target.sock.write(Buffer.from([0x88, 0])); target.sock.end(); } catch (e) {} }, 150); }
       break;
-    case 'revive': if (target) { log(`revive ${target.name}`); target.player.dead = ''; target.player.reviveOk = true; target.player.safe = 3; A.endPreview(target.player); send(target, { t: 'revive' }); res(true, 'REVIVED ' + who(target)); } break;
+    case 'revive': if (target) {
+      { const a = aftOf(room, target.id); if (a) { a.body = true; a.dropped = 'revived'; for (const c of room.clients.values()) if (c !== target) send(c, { t: 'fx', k: 'end', id: target.id, de: a.de }); } }   // Stage 3D: undone, so no corpse
+      log(`revive ${target.name}`); target.player.dead = ''; target.player.reviveOk = true; target.player.safe = 3; A.endPreview(target.player); send(target, { t: 'revive' }); res(true, 'REVIVED ' + who(target)); } break;
     case 'god': if (target) { const on = A.god(target.player); log(`god ${target.name} -> ${on}`); res(true, 'GOD MODE ' + (on ? 'ON' : 'OFF') + ' · ' + who(target)); } break;
     case 'bring': if (target && target !== me) { log(`bring ${target.name}`); const { x, y } = me.player; moveTo(target, x, y); res(true, 'BROUGHT ' + who(target)); } break;
     case 'goto': if (target && target !== me) { log(`goto ${target.name}`); const { x, y } = target.player; moveTo(me, x, y); res(true, 'WENT TO ' + who(target)); } break;
@@ -214,10 +228,9 @@ srv.on('upgrade', (req, sock) => {
     else if (m.t === 'leave') { if (!room.sim.leave(player, Date.now() / 1000)) me.leaveRefused = (me.leaveRefused | 0) + 1; }      // to the menu: only from death or at the end of a new-run vanish, never while held (sim.js lifecycle)
     else if (m.t === 'fx') {                                                // replay someone's death / vanishing for everybody else
       const t = Date.now(), k = m.k === 'death' ? 'death' : m.k === 'vanish' ? 'vanish' : '';
-      if (!k || !player.active || t - (me.fxAt || 0) < 1500 || (k === 'death' && !player.dead)) return;
+      if (!k || k === 'death' || !player.active || t - (me.fxAt || 0) < 1500) return;      // Stage 3D: a death's replay is the server's own (aftStart)
       if (k === 'vanish' && !room.sim.vanish(player, t / 1000)) return;       // the new-run sequence: only while alive and free, once every 30 s (it protects for 4 s)
       me.fxAt = t;
-      if (k === 'death') { const a = aftOf(room, id); if (a) { if (a.fx) return; a.fx = true; } }        // the server already replayed it for this victim: not twice
       const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
         v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0,
         lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep), vx: num(m.vx, -900, 900), vy: num(m.vy, -900, 900), ex: m.ex ? 1 : 0 };
@@ -232,17 +245,15 @@ srv.on('upgrade', (req, sock) => {
     }
     else if (m.t === 'a') { if (me.admin) adminCommand(room, me, m); }
     else if (m.t === 'ping') { const t = Date.now(); if (t - (me.pingAt || 0) > 400) { me.pingAt = t; send(me, { t: 'pong', ts: +m.ts || 0 }); } }
-    else if (m.t === 'b') {                 // the finished corpse of a player we already know was caught; one per player
-      if (!player.dead && m.c !== 'Vanish') return;
-      const n3 = a => [num(a && a[0], 0, 9216), num(a && a[1], 0, 6912), num(a && a[2], -20, 20)];
-      if (m.c === 'Hound' && Array.isArray(m.ka) && room.sim.killerEnd) room.sim.killerEnd(id, num(m.ka[0], 0, 9216), num(m.ka[1], 0, 6912), num(m.ka[2], -20, 20));   // where the kill animation left the hound
-      { const a = aftOf(room, id); if (a) a.body = true; }                 // the victim's own corpse: the server's fallback is not needed
-      putBody(room, id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
-        sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
+    else if (m.t === 'b') {                 // Stage 3D: corpses are the server's (aftTick).  A client reports only the light a NEW RUN vanish leaves
+      if (m.c !== 'Vanish' || player.dead || !player.active) return;      // where it stood: alive, once in 5 s, at its own position
+      const t = Date.now(); if (t - (me.vbAt || 0) < 5000) return;
+      const x = num(m.x, 0, 9216), y = num(m.y, 0, 6912), dr = [num(m.dr && m.dr[0], 0, 9216), num(m.dr && m.dr[1], 0, 6912), num(m.dr && m.dr[2], -20, 20)];
+      if (Math.hypot(x - player.x, y - player.y) > 64 || Math.hypot(dr[0] - x, dr[1] - y) > 48) return;
+      me.vbAt = t;
+      putBody(room, id, { k: id, n: String(m.n || me.name).slice(0, 20), x, y, a: 0, sx: 1, sy: 1, c: 'Vanish', aa: 0,
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
-        bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 8).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0,
-        ph: m.ph && Array.isArray(m.hd) && m.hd.length === 4 ? 1 : 0, hd: Array.isArray(m.hd) && m.hd.length === 4 ? m.hd.map(v => num(v, -80, 80)) : 0, ho: m.ho ? 1 : 0,
-        tr: (Array.isArray(m.tr) ? m.tr : []).slice(0, 24).map(q => [num(q && q[0], 0, 9216), num(q && q[1], 0, 6912)]) });
+        bl: [], dr, ht: [x, y, 0], lo: m.lo ? 1 : 0, ph: 0, hd: 0, ho: 0, tr: [] });
     }
   }
 
@@ -268,7 +279,7 @@ setInterval(() => {
     if (++room.tick % SNAP_EVERY) continue;
 
     for (const c of room.clients.values()) if (c.player.dead && c.player.kill && c.aftSeq !== c.player.dseq) aftStart(room, c);
-    aftTick(room);
+    aftSend(room); aftTick(room);
     const ent = room.sim.entities();
     const peers = [];
     for (const c of room.clients.values()) {

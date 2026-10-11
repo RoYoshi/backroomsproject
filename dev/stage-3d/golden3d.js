@@ -54,22 +54,31 @@ function cls(line) {
 /* the non-death view of a trace: death-domain lines dropped; in snapshots the entity list (e) and the kill record (mk) dropped, and the frame
  * length with them (both follow from where a death left its attacker); in the admin's entity list (ad.es), the admin debug list (dbg) and
  * sim.debugInfo, each entity's position dropped but its identity and state kept (where the attacker stands after a death is the one
- * documented follow-on; if it changed what any monster DOES, the states would differ and the check fails); every other line kept exactly */
-function nonDeath(lines) {
-  const out = [];
+ * documented follow-on; if it changed what any monster DOES, the states would differ and the check fails); the monsters that made a kill
+ * are left out of those lists altogether (when the death hands them back to the AI is death aftermath); every other line kept exactly */
+function nonDeath(lines, killers = new Set()) {
+  const out = [], alive = q => !killers.has(q);
+  // the AI's event log (admin debug): an event that names a killer (H#6, S#12 ...) is that killer's aftermath; the log's running
+  // sequence numbers shift with it, so only each event's time and text are compared
+  const aboutKiller = x => { const r = /\b[HS]#(\d+)/g; let m; while ((m = r.exec(String(x)))) if (killers.has(+m[1])) return true; return false; };
   for (const line of lines) {
     const c = cls(line); if (c === 'death') continue;
     let a; try { a = JSON.parse(line); } catch (e) { out.push(line); continue; }
     const m = Array.isArray(a) ? payload(a) : null;
     if (m && m.t === 's') {
       delete m.e; delete m.mk;
-      if (m.ad && Array.isArray(m.ad.es)) m.ad.es = m.ad.es.map(q => [q[0], q[1], q[2]]);                       // admin entity list: who and in which state, not where
-      if (Array.isArray(m.dbg)) m.dbg = m.dbg.map(q => [q.i, q.k, q.s]);                                         // admin debug list: the same
+      if (m.ad && Array.isArray(m.ad.es)) m.ad.es = m.ad.es.filter(q => alive(q[0])).map(q => [q[0], q[1], q[2]]);   // admin entity list: who and in which state, not where
+      if (m.ad && killers.size) delete m.ad.hs;                                                                  // (its per-hound state summary is the same list again)
+      if (Array.isArray(m.dbg)) m.dbg = m.dbg.filter(q => alive(q.i)).map(q => [q.i, q.k, q.s]);                // admin debug list: the same
       if (m.dx && m.dx.pf) delete m.dx.pf.kb;                                                                    // the admin's snapshot size: the entity list's bytes
+      if (m.dx && m.dx.pf && killers.size) { delete m.dx.pf.pa; delete m.dx.pf.se; }                             // the AI's paths / senses per second: the killer's included
+      if (m.dx && Array.isArray(m.dx.lg)) m.dx.lg = m.dx.lg.filter(e => !aboutKiller(e[2])).map(e => [e[1], e[2]]);
       out.push(JSON.stringify([a[0], a[1], a[2], a[3], m])); continue;
     }
     if (Array.isArray(a) && a[1] === 'sim.entities') { out.push(JSON.stringify([a[0], a[1]])); continue; }
-    if (Array.isArray(a) && a[1] === 'sim.debugInfo' && Array.isArray(a[3])) { out.push(JSON.stringify([a[0], a[1], a[3].map(q => [q.i, q.k, q.s])])); continue; }
+    if (Array.isArray(a) && a[1] === 'sim.admin.info' && a[3] && typeof a[3] === 'object' && killers.size) { const r = Object.assign({}, a[3]); delete r.hs; out.push(JSON.stringify([a[0], a[1], a[2], r])); continue; }
+    if (Array.isArray(a) && a[1] === 'sim.logSince') { const L = (Array.isArray(a[3]) ? a[3] : []).filter(l => !aboutKiller(l.x)).map(l => [l.t, l.x]); if (L.length) out.push(JSON.stringify([a[0], a[1], L])); continue; }
+    if (Array.isArray(a) && a[1] === 'sim.debugInfo' && Array.isArray(a[3])) { out.push(JSON.stringify([a[0], a[1], a[3].filter(q => alive(q.i)).map(q => [q.i, q.k, q.s])])); continue; }
     if (c === 'changed-file') { out.push(JSON.stringify([a[0], a[1], a[2], a[3], '~', '~', a[6]])); continue; }
     out.push(line);
   }
@@ -83,7 +92,7 @@ function deepDiff(x, y) {
   const out = []; let X, Y; try { X = JSON.parse(x); Y = JSON.parse(y); } catch (e) { return ['(not JSON)']; }
   const walk = (a, b, p) => { if (out.length >= 6) return; if (JSON.stringify(a) === JSON.stringify(b)) return;
     if (a && b && typeof a === 'object' && typeof b === 'object') { for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k], p + '/' + k); }
-    else out.push(p + ': ' + JSON.stringify(a).slice(0, 120) + ' -> ' + JSON.stringify(b).slice(0, 120)); };
+    else out.push(p + ': ' + String(JSON.stringify(a)).slice(0, 120) + ' -> ' + String(JSON.stringify(b)).slice(0, 120)); };
   walk(X, Y, ''); return out;
 }
 const report = { tool: 'dev/stage-3d/golden3d.js', old: OLD, new: NEW, changedFiles: [...CHANGED].sort(), scenarios: {} };
@@ -101,19 +110,32 @@ for (const s of SCEN) {
     // after the first difference: how many lines of each class differ (aligned by index; a shift makes the rest differ, so this is a rough count)
     const cnt = {}; for (let i = first; i < L; i++) if (o.lines[i] !== n.lines[i]) { const c = cls(o.lines[i] || n.lines[i] || ''); cnt[c] = (cnt[c] || 0) + 1; }
     R.differingAfter = cnt;
-    const on = nonDeath(o.lines), nn = nonDeath(n.lines); let fd = -1;
+    // the monsters that made a kill (the kill records' e): where and in which state the death hands each back to the AI is death
+    // aftermath (Stage 3D: on the server's clock, at the death's end); every OTHER entity must still match in identity and state
+    const killers = new Set(); for (const L of [o.lines, n.lines]) for (const line of L) { let a; try { a = JSON.parse(line); } catch (e) { continue; } const m = Array.isArray(a) ? payload(a) : null; if (m && m.t === 's' && m.mk && m.mk.e != null) killers.add(m.mk.e); }
+    R.killers = [...killers];
+    const on = nonDeath(o.lines, killers), nn = nonDeath(n.lines, killers); let fd = -1;
     for (let i = 0; i < Math.max(on.length, nn.length); i++) if (on[i] !== nn[i]) { fd = i; break; }
     R.nonDeathIdentical = fd < 0;
     if (fd >= 0) R.firstNonDeathDiff = { index: fd, where: deepDiff(on[fd], nn[fd]), old: (on[fd] || '').slice(0, 400), new: (nn[fd] || '').slice(0, 400) };
     const dom = c => c.startsWith('death') || c === 'changed-file';
-    R.pass = R.harnessOk && (hasDeath || fc === 'changed-file') && (dom(fc) || dom(fcN)) && R.nonDeathIdentical;
+    // When a killer is handed back to the AI is death aftermath (Stage 3D: at the death's end on the server's clock; the parent: when the
+    // victim's client reported its corpse, or 8 s later if it never did).  A world in which a monster is released earlier may legitimately
+    // go another way from then on - it may even kill again.  So: the non-death view must be identical up to the first hand-back in either
+    // trace (sim.killerEnd); a difference after it is reported as a follow-on, with its time, and is the one documented exception.
+    const firstHandback = L => { for (const line of L) { let a; try { a = JSON.parse(line); } catch (e) { continue; } if (Array.isArray(a) && a[1] === 'sim.killerEnd') return a[0]; } return Infinity; };
+    const tHand = Math.min(firstHandback(o.lines), firstHandback(n.lines)), tAt = L => { try { return JSON.parse(L)[0]; } catch (e) { return -1; } };
+    if (fd >= 0 && tAt(on[fd]) >= tHand && tAt(nn[fd]) >= tHand) R.followOnAfterHandback = { handbackAt: tHand, divergesAt: Math.min(tAt(on[fd]), tAt(nn[fd])) };
+    R.pass = R.harnessOk && (hasDeath || fc === 'changed-file') && (dom(fc) || dom(fcN)) && (R.nonDeathIdentical || !!R.followOnAfterHandback);
   } else R.pass = R.harnessOk;
   if (!R.pass) ok = false;
   report.scenarios[s] = R;
-  console.log(`${s}: ${R.identical ? 'IDENTICAL' : R.firstDiff ? 'differs from line ' + R.firstDiff.line + ' (' + R.firstDiff.classOld + ' / ' + R.firstDiff.classNew + '); non-death view ' + (R.nonDeathIdentical ? 'identical' : 'DIFFERS at ' + R.firstNonDeathDiff.index) : 'harness error'}; death lines in the old trace: ${hasDeath}; ${R.pass ? 'PASS' : 'FAIL'}`);
+  console.log(`${s}: ${R.identical ? 'IDENTICAL' : R.firstDiff ? 'differs from line ' + R.firstDiff.line + ' (' + R.firstDiff.classOld + ' / ' + R.firstDiff.classNew + '); non-death view ' + (R.nonDeathIdentical ? 'identical' : R.followOnAfterHandback ? 'identical until the first killer hand-back (' + R.followOnAfterHandback.handbackAt + ' ms), then a follow-on from ' + R.followOnAfterHandback.divergesAt + ' ms' : 'DIFFERS at ' + R.firstNonDeathDiff.index) : 'harness error'}; death lines in the old trace: ${hasDeath}; ${R.pass ? 'PASS' : 'FAIL'}`);
 }
 report.ok = ok;
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(report, null, 1) + '\n');
 if (!ARG.keep) fs.rmSync(tmp, { recursive: true, force: true });
-console.log(ok ? 'GOLDEN 3D: every non-death output identical; every difference starts in the death domain' : 'GOLDEN 3D: FAIL');
+const fol = Object.entries(report.scenarios).filter(([k, v]) => v.followOnAfterHandback).map(([k, v]) => `${k} (hand-back ${v.followOnAfterHandback.handbackAt} ms, diverges ${v.followOnAfterHandback.divergesAt} ms)`);
+report.followOns = fol;
+console.log(!ok ? 'GOLDEN 3D: FAIL' : 'GOLDEN 3D: every difference starts in the death domain; non-death output identical' + (fol.length ? ' except the documented follow-on after a killer hand-back in: ' + fol.join(', ') : ''));
 process.exitCode = ok ? 0 : 1;

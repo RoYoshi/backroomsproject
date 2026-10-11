@@ -7,7 +7,7 @@ const SIM_SEED=(opts.seed??require('crypto').randomBytes(4).readUInt32LE(0))>>>0
 const RND=AI.mkRng(SIM_SEED);
 var PR=0;const ANCHOR={x:1056,y:3264};   // spawn is hard against a wall; this open spot next to it is used for reachability checks
 const players=[];
-let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,debugOn=false;
+let frozen=false,speed=1,bmode=`auto`,runT=0,spawnT=0,debugOn=false,worldSeq=0;      // worldSeq: Stage 3D, counts world resets (a death's corpse belongs to its world)
 // Shipped/director population remains intentionally small.  Human-QA/stress tools get a much higher ceiling without silently changing normal balance.
 const DIRECTOR_MAX_HOUNDS=3,ADMIN_MAX_HOUNDS=64,ADMIN_MAX_SMILERS=64,MAX_BODIES=24;
 const adminCap=k=>k===`hound`?ADMIN_MAX_HOUNDS:ADMIN_MAX_SMILERS;
@@ -120,6 +120,7 @@ function pruneBodies(dt){
 }
 
 function resetWorld(){
+  worldSeq++;
   Lc();runT=0;PR=0;eng.pressure=0;spawnT=rnd(70,150);
   spawnMonsters(RND()<.5?1:2,2+((RND()*4)|0));      // 1-2 hounds to begin with (up to 3 later), 2-5 smilers
   glitches=makeGlitches(3);items=makeItems();
@@ -315,7 +316,7 @@ function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110)
 resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,vanish,forfeit,gaitFloor,lifeOf,
   clearAt:(x,y,r)=>sl(x,y,r),blockersAt:(x,y)=>Bc(x,y),step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
-  get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},
+  get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},get worldSeq(){return worldSeq},
   debug:{V,Ic,get glitches(){return glitches}}};
 
 

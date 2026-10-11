@@ -430,6 +430,13 @@
       const W0 = window.WORLD, walls = !W0 || !W0.setMode ? Bc : (x, y) => { const m = W0.mode; if (m === 'walk') return Bc(x, y); W0.setMode('walk'); try { return Bc(x, y); } finally { W0.setMode(m); } };
       const v = plan && plan.v || 'A', kind = jl.kind === 'Smiler' ? 'Smiler' : 'Hound';
       const vic = jl.victim, hat = opt.hat || 'none';
+      // Stage 3D: the knock and drag limits as the server measures them (simulate: 4 px steps while a 22 px circle is clear, walk mode)
+      const sl = window.__api.sl;
+      if (sl && plan) {
+        const clear = (x, y, r) => { const m = W0 && W0.setMode ? W0.mode : 'walk'; if (m === 'walk') return sl(x, y, r); W0.setMode('walk'); try { return sl(x, y, r); } finally { W0.setMode(m); } };
+        const safe = (p, a, n) => { let r = 0; for (let i = 4; i <= n && clear(p.x + Math.cos(a) * i, p.y + Math.sin(a) * i, 22); i += 4) r = i; return r; };
+        jl.knock = safe(vic, jl.angle, plan.kn); jl.drag = safe({ x: vic.x + Math.cos(jl.angle) * jl.knock, y: vic.y + Math.sin(jl.angle) * jl.knock }, jl.angle + PI, plan.dr);
+      }
       const S = create({ kind, v, victim: { x: vic.x, y: vic.y, angle: vic.angle, vx: opt.vx || 0, vy: opt.vy || 0 }, src: { x: jl.source.x, y: jl.source.y }, dir: jl.angle,
         hits: jl.hits || [.24, .74, 1.2, 1.7], kn: jl.knock, drag: jl.drag, seed: hsh(vic.x, vic.y, v + kind), exhausted: !!opt.exhausted, eqKind: opt.eqKind || 'flashlight', hat, walls, dur: (DURS[kind] || DURS.Hound)[v] || 4.4 });
       return S;

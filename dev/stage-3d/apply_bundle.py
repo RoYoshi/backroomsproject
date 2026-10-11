@@ -22,6 +22,9 @@ EDITS = [
     ('D3', 'a corpse view, once built, is kept as one texture (gore.cached); its blood dries on it over the first minute',
      'n.position.set(t.hat.x,t.hat.y),n.rotation=t.hat.angle,this.addChild(n)}}},tu=class{',
      'n.position.set(t.hat.x,t.hat.y),n.rotation=t.hat.angle,this.addChild(n)}window.__gore&&window.__gore.cached&&window.__gore.cached(this,t)}},tu=class{'),
+    ('D4', "the victim's own death starts from the server's kill record (mp.js window.__dvic), so victim, spectators and the server's corpse run one death",
+     'start(e,t,n,r=-1,V=null,K=null){let H=V||window.__api.H;',
+     'start(e,t,n,r=-1,V=null,K=null){let H=V||window.__dvic&&window.__dvic(K)||window.__api.H;'),
 ]
 
 

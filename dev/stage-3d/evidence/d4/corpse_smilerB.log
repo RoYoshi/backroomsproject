@@ -1,0 +1,48 @@
+{
+ "pop": {
+  "spectator": {
+   "last->plus6f": 6.44,
+   "plus6f->plus1s": 0.86,
+   "plus1s->age5": 0.26,
+   "age5->age20": 0.4
+  }
+ },
+ "farAway": [
+  {
+   "id": "r:1:5721:920",
+   "cause": "Smiler",
+   "visible": false,
+   "cached": false
+  }
+ ],
+ "back": [
+  {
+   "id": "r:1:5721:920",
+   "cause": "Smiler",
+   "visible": true,
+   "cached": true
+  }
+ ],
+ "lateJoiner": {
+  "bodies": [
+   {
+    "id": "r:1:5721:920",
+    "owner": "r1",
+    "remote": true,
+    "x": 5721,
+    "y": 920,
+    "age": 48.3,
+    "born": true
+   }
+  ],
+  "views": [
+   {
+    "id": "r:1:5721:920",
+    "cause": "Smiler",
+    "visible": true,
+    "cached": true
+   }
+  ]
+ },
+ "errors": []
+}
