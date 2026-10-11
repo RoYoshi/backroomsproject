@@ -153,3 +153,15 @@ The upgrade handler registers `sock.on('data', reader(sock, onMessage))` at the 
 **If the file is missing:** `node server.js` stops at start-up with `MODULE_NOT_FOUND`, before it listens. A deployment has to ship the `server/` folder with `server.js`.
 - The deploy workflow says the Bloom host's start-up script pulls the latest `main` commit. A pull brings the whole folder.
 - That script is on the host, not in the repository. On the first deploy that includes 3H0, check that the server starts.
+
+### Added at H0-4b: the field checks
+
+**`server/fields.js`** is a CommonJS module with no `'use strict'`. It requires nothing, keeps no state, and does nothing when loaded but define:
+- `num`, `kindOf`, `cleanParts`, `HEX`, `DEFAULT_LOOK` and `cleanLook`, exported;
+- `KINDS` and `LEGACY`, used only by `kindOf` and not exported (nothing else in `server.js` used them).
+
+**`server.js`** takes the six names in one `require`, at the point where they used to be defined (after `server/ws.js`).
+- `HEX` stays one shared regular expression, as before. It has no `g` flag, so sharing it carries no state between calls.
+- `cleanLook` used to be a function declaration, visible to the whole file from the start. Every use of it, and of the five other names, is inside a handler or a function that runs only after start-up, so the order does not matter. The `boot` scenario and every other golden trace confirm it.
+
+**Serving:** `/server/fields.js` is 404, like `/server/ws.js`.

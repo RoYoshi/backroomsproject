@@ -1,0 +1,36 @@
+{
+ "target": "fields",
+ "newFile": null,
+ "functions": {
+  "num": {
+   "cases": 20000,
+   "identical": 20000
+  },
+  "kindOf": {
+   "cases": 20000,
+   "identical": 20000
+  },
+  "cleanParts": {
+   "cases": 20000,
+   "identical": 20000
+  },
+  "cleanLook": {
+   "cases": 20000,
+   "identical": 20000
+  },
+  "HEX.test": {
+   "cases": 20000,
+   "identical": 20000
+  },
+  "DEFAULT_LOOK": {
+   "identical": 1
+  },
+  "HEX source": {
+   "identical": 1
+  }
+ },
+ "mismatches": 0,
+ "tool": "dev/stage-3h0/golden/fn_equiv.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "ok": true
+}

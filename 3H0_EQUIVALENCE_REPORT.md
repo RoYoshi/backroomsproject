@@ -112,3 +112,31 @@
 | Existing network suites on the new server | the same as at H0-1: `live.js` 17/17, `audit_net.js` 17/17, `audit_net2.js` 11/11, `ir_net.js` 4/4, `test_3bn.js` 7/7 |
 | Live wire: the real server and game, the parent's checkout against the new tree | **structurally identical in all 56 phase, player and direction summaries** (7,200 and 7,274 frames); 0 page errors on either side |
 | Deterministic performance (server, 15 rounds interleaved) | within the rule fixed at H0-1. The CPU medians of the four server workloads moved −0.6 % to +4.1 %, against tolerances of 15-21 % of the old medians (the old side's own spread across rounds). The framing does the same work per frame as before. |
+
+## H0-4b: the field checks (server) — GO
+
+**What moved.** From `server.js` into the new `server/fields.js`, character for character: `num`, `KINDS`, `LEGACY`, `kindOf`, `cleanParts`, `HEX`, `DEFAULT_LOOK` and `cleanLook`. These are the checks `server.js` applies to every field a client sends (`p`, `fx`, `b`) and its default look.
+
+**server.js:** one `require` of the six names it uses, where they were defined. 29,776 → 29,040 bytes, 350 → 341 lines. The new file is 1,770 bytes.
+
+**Why it is safe by construction:**
+- the functions are pure, and `HEX` has no `g` flag, so sharing it carries no state;
+- every caller runs after start-up, so the one ordering change (`cleanLook` is no longer a hoisted declaration) cannot be seen;
+- no `'use strict'`, nothing required.
+
+**The current results are pinned on purpose, whatever they are.** The field tests include odd inputs (non-strings, prototype-named keys, malformed colours), so the move keeps every result exactly. 3H0 changes no validation rule.
+
+**Tests first.** The draft module passed function equivalence and 11 of 11 deliberate wrong versions before `server.js` was touched (`fn_equiv_fields_draft.json`, `fn_mutants_fields_draft.json`). The A/A run of the field check is identical (`fn_equiv_fields_aa.json`).
+
+**The evidence** (`dev/stage-3h0/evidence/h0-4b/`):
+
+| Check | Result |
+|---|---|
+| Function level (`fn_equiv.js --target fields --new server/fields.js`): 20,000 generated calls for each of `num`, `kindOf`, `cleanParts`, `cleanLook` and `HEX.test`, with numbers, numeric strings, `NaN`, infinities, `null`, arrays, objects, prototype keys, 3- to 7-digit and mixed-case colours, looks with missing or extra parts; plus `DEFAULT_LOOK` and the `HEX` source | **100,000 of 100,000 calls identical**, and both constants identical |
+| Does that check have teeth? (`fn_mutants.js --target fields`) | **11 of 11** wrong versions caught: missing numbers as 1, camcorder dropped, a legacy name remapped, another fallback kind, 6 light parts, 3-digit part colours, case-sensitive colours, another default look, an extra hat, an extra backpack, `''` instead of `null` for a bad look |
+| Server golden traces, 11 scenarios (`p_fields` sends every field type, valid and not) | **byte-identical** old against new, and against the baseline (except the expected `index.html` / `mp.js` bodies). The only structural difference is the new `require` |
+| Client golden traces, 9 scenes; protocol contract | identical; 0 violations |
+| Real sockets (`raw_live.js`) | identical: the start-up line, 108 HTTP exchanges, 25 WebSocket checks |
+| Existing network suites on the new server | the same as at H0-1: `live.js` 17/17, `audit_net.js` 17/17, `audit_net2.js` 11/11, `ir_net.js` 4/4, `test_3bn.js` 7/7 |
+| Live wire: the real server and game, the parent's checkout against the new tree | **structurally identical in all 56 phase, player and direction summaries** (6,949 and 6,741 frames); 0 page errors on either side |
+| Deterministic performance (server, 15 rounds interleaved) | within the rule fixed at H0-1. The CPU medians of the four server workloads moved −1.1 % to +1.5 %, against tolerances of 12-28 % of the old medians. The checks do the same work per field as before. |

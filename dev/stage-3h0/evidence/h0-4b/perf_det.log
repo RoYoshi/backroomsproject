@@ -1,0 +1,5 @@
+server lifecycle: cpu ms old 1763.183 new 1744.43 (-1.06 %, tol 279.529) ok
+server deaths: cpu ms old 2085.277 new 2084.962 (-0.02 %, tol 240.93) ok
+server admin: cpu ms old 1971.829 new 2001.718 (1.52 %, tol 553.757) ok
+server schedule: cpu ms old 535.33 new 540.622 (0.99 %, tol 91.193) ok
+deterministic performance: within the predeclared tolerance

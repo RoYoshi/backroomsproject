@@ -1,0 +1,64 @@
+{
+ "tool": "dev/stage-3h0/golden/fn_mutants.js",
+ "target": "fields",
+ "file": "server/fields.js",
+ "applied": 11,
+ "caught": 11,
+ "results": [
+  {
+   "name": "missing numbers become 1",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "camcorder not a kind",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "torch becomes a flashlight",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "unknown kinds become headlamps",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "6 light parts accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "3-digit part colours accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "colours case-sensitive",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "another default look",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "an unknown hat accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "an unknown backpack accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "a bad look gives an empty string",
+   "applied": true,
+   "caught": true
+  }
+ ]
+}

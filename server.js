@@ -128,16 +128,7 @@ function moveTo(me, x, y, tell = true) { Object.assign(me.player, { x, y }); if 
 
 const { frame, reader } = require('./server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
 const send = (c, obj) => { const f = frame(JSON.stringify(obj)); if (f && !c.sock.destroyed) c.sock.write(f); };
-const num = (v, lo, hi) => Math.max(lo, Math.min(hi, +v || 0));
-const KINDS = ['flashlight', 'headlamp', 'lantern', 'camcorder'], LEGACY = { chestlamp: 'headlamp', torch: 'lantern' };
-const kindOf = k => KINDS.includes(k) ? k : (LEGACY[k] || 'flashlight');
-const cleanParts = s => { const a = String(s || '').split(','); return a.length >= 3 && a.length <= 5 && a.every(c => /^#[0-9a-f]{6}$/i.test(c)) ? a.join(',') : ''; };
-const HEX = /^#[0-9a-f]{6}$/i, DEFAULT_LOOK = 'none|plain|#e6bb76|#ffcc77|none';
-function cleanLook(s) {                       // hat|texture|hands|main|backpack, validated
-  const [h, t, ha, m, b] = String(s || '').split('|');
-  return ['none', 'cap', 'beanie', 'hardhat'].includes(h) && ['plain', 'freckles', 'stripes', 'patched'].includes(t) &&
-    HEX.test(ha) && HEX.test(m) && ['none', 'canvas', 'utility'].includes(b) ? [h, t, ha, m, b].join('|') : null;
-}
+const { num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook } = require('./server/fields.js');   // Stage 3H0: the checks applied to what clients send
 
 function getRoom(name) {
   let r = rooms.get(name);

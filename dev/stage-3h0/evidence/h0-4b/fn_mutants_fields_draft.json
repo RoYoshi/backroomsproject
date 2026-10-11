@@ -1,0 +1,64 @@
+{
+ "tool": "dev/stage-3h0/golden/fn_mutants.js",
+ "target": "fields",
+ "file": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h0-4/fields.js",
+ "applied": 11,
+ "caught": 11,
+ "results": [
+  {
+   "name": "missing numbers become 1",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "camcorder not a kind",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "torch becomes a flashlight",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "unknown kinds become headlamps",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "6 light parts accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "3-digit part colours accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "colours case-sensitive",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "another default look",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "an unknown hat accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "an unknown backpack accepted",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "a bad look gives an empty string",
+   "applied": true,
+   "caught": true
+  }
+ ]
+}
