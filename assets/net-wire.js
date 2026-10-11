@@ -18,6 +18,7 @@ const parseLook = s => { const [hat, texture, hands, main] = String(s || 'none|p
 function toRec(b) {
   return { id: 'r:' + b.k + ':' + Math.round(b.x) + ':' + Math.round(b.y), ownerId: 'r' + b.k, remote: true, name: b.n, cause: b.c, x: b.x, y: b.y, angle: b.a, scaleX: b.sx, scaleY: b.sy, attackAngle: b.aa, lo: b.lo ? 1 : 0,
     appearance: parseLook(b.lk), equipment: { kind: b.eq.kind, color: b.eq.color, parts: { [b.eq.kind]: partObj(b.eq.kind, b.eq.parts) } }, blood: b.bl.map(([x, y, seed]) => ({ x, y, seed })), dropped: { x: b.dr[0], y: b.dr[1], angle: b.dr[2] }, hat: { x: b.ht[0], y: b.ht[1], angle: b.ht[2] },
+    born: Number.isFinite(b.ag) ? performance.now() / 1000 - b.ag : undefined,        // Stage 3D: how old the corpse is (the server's 'ag'), for its blood's drying
     ...(b.ph && Array.isArray(b.hd) && b.hd.length === 4 ? { hands: [[b.hd[0], b.hd[1]], [b.hd[2], b.hd[3]]], hatOn: b.ho ? 1 : 0, trail: Array.isArray(b.tr) ? b.tr : [], ph: 1 } : {}) };
 }
 (window.__mpLib = window.__mpLib || {}).wire = Object.freeze({ lookStr, partList, partObj, parseLook, toRec });

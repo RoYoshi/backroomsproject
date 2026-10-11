@@ -532,5 +532,5 @@
       hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0 };
   }
 
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, marks, markSeed, MARK };
+  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, marks, markSeed, MARK, LEN };
 })();

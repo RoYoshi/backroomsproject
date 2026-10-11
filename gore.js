@@ -171,23 +171,72 @@
     else if (t > (d.dw ? d.dw[0] : 2.03) && d.bursts.length) { const b = d.bursts[d.bursts.length - 1]; smear(g, b.x, b.y, d.body.x, d.body.y, b.seed + 9, 1 - clamp((t - 2) / 3)); }
   }
 
-  /* ---------- static remains for corpses ---------- */
+  /* ---------- static remains for corpses ----------
+   * Stage 3D: a corpse made by the physical death (rec.hands) starts as the death's last frame - the same pools, spatter and wall marks
+   * at the same size and wetness - and then dries on the floor: the blood darkens at the rate it did during the death until it reaches
+   * the old corpse colour (about 5 s), and the pool under the torso spreads out over the first 18 s.  The age comes from the record:
+   * the server says how old a corpse is (ag, so a late joiner sees an old corpse dry), the victim's own corpse from its creation time.
+   * Records of the older kind (no hands) are drawn as before. */
+  const nowS = () => window.__goreNow ? window.__goreNow() : performance.now() / 1000;   // (__goreNow: a test's frozen clock, development only)
+  const ageOf = rec => rec.born != null ? Math.max(0, nowS() - rec.born) : (!rec.remote && rec.createdAt != null ? Math.max(0, nowS() - rec.createdAt) : 600);
+  const dryAt = age => Math.min(.82, (2.6 + age) / 9), torsoAt = age => Math.sqrt(clamp(age / 18)), DRYING = 25;
+  const stateKey = rec => { const a = ageOf(rec); return Math.round(dryAt(a) * 40) + ':' + Math.round(torsoAt(a) * 24); };
+  const drying = new Map();                                            // corpse blood still changing: Graphics -> { rec, floor, view, key }
   function corpse(g, rec, floor) {
-    const dry = .82;
+    const ph = !!rec.hands, age = ageOf(rec), dry = ph ? dryAt(age) : .82, tk = ph ? torsoAt(age) : 1, lim = rec.__lim || (rec.__lim = {});
+    g.clear();
     g.ellipse(rec.x, rec.y + 2, 21, 27).fill({ color: 0x000000, alpha: .09 });                 // contact shadow grounds the body
     const pools = rec.blood.filter(b => !isMark(b.seed)), marks = rec.blood.filter(b => isMark(b.seed));
     for (const b of marks) { const [nx, ny] = markDir(b.seed); wallMark(g, b.x, b.y, nx, ny, 220, Math.round(b.x * 7 + b.y * 13) & 1023, 1 - dry, 1, floor); }
     pools.forEach((b, i) => {
       const shape = poolShape(b.seed + 1 + (rec.cause === 'Smiler' ? 40 : 0));
       const spr = spatterSet(b.seed + 3, rec.attackAngle);
-      for (const s of spr) { const x = b.x + Math.cos(s.a) * s.d, y = b.y + Math.sin(s.a) * s.d; if (dropOk(floor, x, y, s.a, s.s, 1 + (s.el - 1) * .55)) drop(g, x, y, s.a, s.s, 1 + (s.el - 1) * .55, shade(s.c < .5 ? 1 : 2, dry), .85); }
-      drawPool(g, b.x, b.y, rec.hands ? 9 + (i % 2) * 1.5 : 17 + (i % 2) * 2, shape, 1 - dry + .12, b.seed, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle), reach(b.x, b.y, shape));
+      const ok = lim['s' + i] || (lim['s' + i] = spr.map(s => dropOk(floor, b.x + Math.cos(s.a) * s.d, b.y + Math.sin(s.a) * s.d, s.a, s.s, 1 + (s.el - 1) * .55)));     // where the floor is: tested once
+      spr.forEach((s, j) => { if (ok[j]) drop(g, b.x + Math.cos(s.a) * s.d, b.y + Math.sin(s.a) * s.d, s.a, s.s, 1 + (s.el - 1) * .55, shade(s.c < .5 ? 1 : 2, dry), .85); });
+      const k = 'p' + i; if (lim[k] === undefined) lim[k] = reach(b.x, b.y, shape);
+      drawPool(g, b.x, b.y, ph ? 11.5 : 17 + (i % 2) * 2, shape, ph ? 1 - dry : 1 - dry + .12, b.seed, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle), lim[k]);
     });
     const last = pools[pools.length - 1];
     if (rec.trail && rec.trail.length > 1) smearPath(g, rec.trail, (last ? last.seed : 1) + 9, .1); else if (last && !rec.hands) smear(g, last.x, last.y, rec.x, rec.y, last.seed + 9, .1);
-    // the pool under the torso (smaller when the body came to rest where it fell: it did not lie in it for long)
-    const ts = poolShape(hash(String(rec.id)) % 997);
-    drawPool(g, rec.x, rec.y, rec.hands ? 15 : 25, ts, .28, 1, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle), reach(rec.x, rec.y, ts));
+    // the pool under the torso: it spreads while the body lies in it
+    const ts = poolShape(hash(String(rec.id)) % 997); if (lim.t === undefined) lim.t = reach(rec.x, rec.y, ts);
+    if (tk > .06) drawPool(g, rec.x, rec.y, (ph ? 15 : 25) * tk, ts, ph ? Math.max(.28, .62 - age / 40) : .28, 1, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle), lim.t);
+    if (ph && age < DRYING && !drying.has(g)) drying.set(g, { rec, floor, view: null, key: stateKey(rec) });
+  }
+  /* the drying: four times a second, every corpse younger than DRYING seconds whose look has moved on a step is redrawn (and its texture
+   * refreshed); older ones are left alone for good */
+  setInterval(() => {
+    for (const [g, e] of drying) {
+      if (g.destroyed || (e.view && e.view.destroyed)) { drying.delete(g); continue; }
+      const k = stateKey(e.rec);
+      if (k !== e.key) { e.key = k; corpse(g, e.rec, e.floor); if (e.view && e.view.isCachedAsTexture) e.view.updateCacheTexture(); }
+      if (ageOf(e.rec) > DRYING) drying.delete(g);
+    }
+  }, 250);
+  /* a corpse view (blood, body, gear, hat) does not change between those steps: it is drawn once into a texture and that texture is what
+   * every frame draws (the 15 translucent layers of every pool were rasterised again each frame).  Only views near the camera keep one. */
+  const CACHE_RES = () => Math.min(2.5, Math.max(1, (window.devicePixelRatio || 1) * 1.25));
+  function cached(view, rec) {
+    view.__rec = rec;
+    for (const e of drying.values()) if (e.rec === rec) e.view = view;
+  }
+  /* is this corpse far enough from the camera to skip?  Its reach (blood, gear, hat, trail around the body) is measured once; a view that
+   * leaves the screen gives its texture back, one that comes into view makes it again */
+  function extent(rec) {
+    if (rec.__ext) return rec.__ext; let r = 60;
+    const see = (x, y) => { r = Math.max(r, Math.hypot(x - rec.x, y - rec.y)); };
+    for (const b of rec.blood) see(b.x, b.y); if (rec.dropped) see(rec.dropped.x, rec.dropped.y); if (rec.hat) see(rec.hat.x, rec.hat.y); for (const q of rec.trail || []) see(q[0], q[1]);
+    return rec.__ext = r + 110;                                        // + a pool, its spatter and the gear's own size
+  }
+  function cull(rec, sc) {
+    if (!sc || !sc.camera || !(sc.scale > 0) || !sc.width) return false;
+    const R = extent(rec), out = Math.abs(rec.x - sc.camera.x) > sc.width / 2 / sc.scale + R || Math.abs(rec.y - sc.camera.y) > sc.height / 2 / sc.scale + R;
+    const v = sc.corpseViews && sc.corpseViews.get(rec.id);
+    if (v && v.__rec && !v.destroyed) {
+      if (out && v.isCachedAsTexture) v.cacheAsTexture(false);
+      else if (!out && !v.isCachedAsTexture && window.__goreCache !== false) v.cacheAsTexture({ resolution: CACHE_RES(), antialias: true });
+    }
+    return out;
   }
 
   /* ---------- wounds drawn ON the avatar (local coords: torso ~ x -14..14, y -14..10) ---------- */
@@ -241,5 +290,5 @@
     }
   }
 
-  window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear, wallMark, impacts, markSeed, ownsWalls: true };
+  window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear, wallMark, impacts, markSeed, ownsWalls: true, cull, cached, ageOf };
 })();

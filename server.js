@@ -82,7 +82,7 @@ function aftTick(room) {
       a.body = true;
       try {
         const R = deathSrv.bodyFor(a.id, a.kill, a.info, room.sim);
-        room.sim.setBody(a.id, R.body); a.srvBody = true;
+        putBody(room, a.id, R.body); a.srvBody = true;
         if (a.kill.k !== 'Smiler' && room.sim.killerEnd) room.sim.killerEnd(a.id, R.attacker.x, R.attacker.y, R.attacker.angle);
         console.log(`[death] room=${room.name} #${a.id}: the victim's client never reported its corpse - the server made it`);
       } catch (e) { console.error('[death] fallback failed', e && e.message); }
@@ -90,6 +90,10 @@ function aftTick(room) {
   }
   room.afts = room.afts.filter(a => !a.body || now - a.at < 60000);
 }
+/* Stage 3D: when each corpse was made (server time, kept beside the record, never sent), so every client can be told its age ('ag' in
+ * 'bodies'): blood that has dried on one screen is dry on a late joiner's too */
+const bodyAt = new WeakMap();
+function putBody(room, id, rec) { bodyAt.set(rec, Date.now()); room.sim.setBody(id, rec); }
 function moveTo(me, x, y, tell = true) { Object.assign(me.player, { x, y }); if (tell) send(me, { t: 'tp', x, y }); mvReset(me); }
 
 const { frame, reader } = require('./server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
@@ -233,7 +237,7 @@ srv.on('upgrade', (req, sock) => {
       const n3 = a => [num(a && a[0], 0, 9216), num(a && a[1], 0, 6912), num(a && a[2], -20, 20)];
       if (m.c === 'Hound' && Array.isArray(m.ka) && room.sim.killerEnd) room.sim.killerEnd(id, num(m.ka[0], 0, 9216), num(m.ka[1], 0, 6912), num(m.ka[2], -20, 20));   // where the kill animation left the hound
       { const a = aftOf(room, id); if (a) a.body = true; }                 // the victim's own corpse: the server's fallback is not needed
-      room.sim.setBody(id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
+      putBody(room, id, { k: id, n: String(m.n || me.name).slice(0, 20), x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20),
         sx: num(m.sx, .5, 1.6), sy: num(m.sy, .5, 1.6), c: m.c === 'Smiler' ? 'Smiler' : m.c === 'Vanish' ? 'Vanish' : 'Hound', aa: num(m.aa, -20, 20),
         lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
         bl: (Array.isArray(m.bl) ? m.bl : []).slice(0, 8).map(b => [num(b && b[0], 0, 9216), num(b && b[1], 0, 6912), (b && b[2] | 0) % 1000]), dr: n3(m.dr), ht: n3(m.ht), lo: m.lo ? 1 : 0,
@@ -286,7 +290,7 @@ setInterval(() => {
     }
     let ad = null;
     if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0, st: c.player.st | 0, x: Math.round(c.player.x), y: Math.round(c.player.y) })) });
-    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()] });
+    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()].map(r => bodyAt.has(r) ? Object.assign({}, r, { ag: Math.min(999, Math.round((now - bodyAt.get(r)) / 1000)) }) : r) });
     let bm = null;
     for (const c of room.clients.values()) {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }

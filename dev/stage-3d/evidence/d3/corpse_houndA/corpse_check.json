@@ -1,0 +1,194 @@
+{
+ "tool": "dev/stage-3d/corpse_check.py",
+ "game": "/home/claude/backrooms-shadows",
+ "variant": "hound-A",
+ "timeline": [
+  [
+   "preview",
+   0,
+   39.59739999999851
+  ],
+  [
+   "last",
+   6.0,
+   [
+    45.7515,
+    []
+   ]
+  ],
+  [
+   "plus6f",
+   16.7,
+   [
+    56.207,
+    [
+     52.216699999999996
+    ]
+   ]
+  ],
+  [
+   "afterEnd",
+   21.3,
+   60.86939999999851
+  ]
+ ],
+ "dur": 4.5,
+ "afterEnd": {
+  "victimState": {
+   "t": 0,
+   "fin": false,
+   "dur": 4.5,
+   "x": 5750.813317537133,
+   "y": 919.278792398803,
+   "corpse": null
+  },
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5751,
+    "y": 919,
+    "age": 0,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5751:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5751,
+    "y": 919,
+    "age": 0,
+    "born": true
+   }
+  ]
+ },
+ "at1s": {
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5751,
+    "y": 919,
+    "age": 1,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5751:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5751,
+    "y": 919,
+    "age": 1,
+    "born": true
+   }
+  ],
+  "victimViews": [
+   {
+    "id": "2:1:1",
+    "cause": "Hound",
+    "visible": true,
+    "cached": true
+   }
+  ],
+  "spectatorViews": [
+   {
+    "id": "r:1:5751:919",
+    "cause": "Hound",
+    "visible": true,
+    "cached": true
+   }
+  ]
+ },
+ "screen": {
+  "corpse": [
+   5751,
+   919
+  ],
+  "aliceScale": [
+   0.6018518518518519,
+   5720,
+   920
+  ],
+  "bobScale": [
+   0.6018518518518519,
+   5826.066017177982,
+   1026.066017177982
+  ]
+ },
+ "at20s": {
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5751,
+    "y": 919,
+    "age": 20,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5751:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5751,
+    "y": 919,
+    "age": 20,
+    "born": true
+   }
+  ]
+ },
+ "farAway": [
+  {
+   "id": "r:1:5751:919",
+   "cause": "Hound",
+   "visible": false,
+   "cached": false
+  }
+ ],
+ "back": [
+  {
+   "id": "r:1:5751:919",
+   "cause": "Hound",
+   "visible": true,
+   "cached": true
+  }
+ ],
+ "lateJoiner": {
+  "bodies": [
+   {
+    "id": "r:1:5751:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5751,
+    "y": 919,
+    "age": 42.6,
+    "born": true
+   }
+  ],
+  "views": [
+   {
+    "id": "r:1:5751:919",
+    "cause": "Hound",
+    "visible": true,
+    "cached": true
+   }
+  ]
+ },
+ "pop": {
+  "spectator": {
+   "last->plus6f": 32.26,
+   "plus6f->plus1s": 0.89,
+   "plus1s->age5": 0.57,
+   "age5->age20": 0.48
+  }
+ },
+ "errors": []
+}

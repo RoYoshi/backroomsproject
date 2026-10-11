@@ -1,0 +1,27 @@
+{
+ "pop": {
+  "spectator": {
+   "last->plus6f": 16.51,
+   "plus6f->plus1s": 0.38,
+   "plus1s->age5": 1.1,
+   "age5->age20": 0.98
+  }
+ },
+ "farAway": null,
+ "back": null,
+ "lateJoiner": {
+  "bodies": [
+   {
+    "id": "r:1:5738:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5738,
+    "y": 919,
+    "age": null,
+    "born": false
+   }
+  ],
+  "views": null
+ },
+ "errors": []
+}

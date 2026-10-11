@@ -295,7 +295,8 @@ function startFx(m) {
   for (const f of fxs) if (f.id === m.id) f.end = true;                          // a newer event for the same player replaces the older one
   const look = parseLook(m.lk), gear = { kind: m.ek || 'flashlight', color: m.ec || '#ffe7b2', parts: {} }; gear.parts[gear.kind] = partObj(gear.kind, m.ep);
   const now = performance.now() / 1000, av = A.mkAvatar(look, gear); av.__key = m.id; av.__cause = m.c; layer.addChild(av);
-  const f = { id: m.id, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id) };
+  const pe = peers.get(m.id), f = { id: m.id, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id),
+    lo: m.lo != null ? !!m.lo : !!(pe && pe.l) };                              // was their light on when they died (the server says so since 3D; else their last snapshot)
   if (m.k === 'death') {
     const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: m.ex ? 1 : 0 }, { v: m.v, w: m.w });
     f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground, jl.debris);
@@ -339,13 +340,27 @@ function peerMv(o, now) {
   const t = now - (o.mvT0 || now);
   return { s, t, sp: a[1] || 0, st: a[2] === undefined ? 100 : a[2], ex: a[3] ? 1 : 0, vp: s === 'vault' ? Math.min(1, t / .55) : 0, lean: o.mvLean || 1, tw: s === 'down' && (a[1] || 0) > 4 ? 1 : 0 };
 }
-/* what a fallen wanderer left behind can still shine: a flashlight lying on its side keeps its beam, a lantern keeps lighting the floor */
+/* what a fallen wanderer left behind can still shine: a flashlight lying on its side keeps its beam, a lantern keeps lighting the floor.
+ * Stage 3D: a physical corpse's light shines from the lens of the dropped light (as it did for the victim while the death played), not
+ * from the middle of the object */
 function bodyLights(p, out) {
   const A = window.__api; if (!A || !A.bodyList) return;
+  const LEN = (window.__dphys && window.__dphys.LEN) || {};
   for (const b of A.bodyList()) {
     if (!b.lo || b.cause === 'Vanish' || !b.equipment || b.equipment.kind === 'camcorder' || !b.dropped) continue;
     if (Math.hypot(b.dropped.x - p.x, b.dropped.y - p.y) > 950) continue;
-    out.push({ x: b.dropped.x, y: b.dropped.y, angle: b.hands ? b.dropped.angle - Math.PI / 2 : b.dropped.angle, kind: b.equipment.kind, color: b.equipment.color, on: true, dead: false });
+    const a = b.hands ? b.dropped.angle - Math.PI / 2 : b.dropped.angle, L = b.hands ? LEN[b.equipment.kind] || 0 : 0;
+    out.push({ x: b.dropped.x + Math.cos(a) * L, y: b.dropped.y + Math.sin(a) * L, angle: a, kind: b.equipment.kind, color: b.equipment.color, on: true, dead: false });
+  }
+}
+/* Stage 3D: while someone's death is replayed, their light is where the replay's light is - tumbling out of the hand, sliding, coming to
+ * rest - as it is on the victim's own screen (it was dark for everyone else until the corpse appeared).  Not the camcorder: its IR view
+ * is the camcorder's own (camcorder.js), and corpses never carry one either. */
+function replayLights(p, out) {
+  for (const f of fxs) {
+    if (f.k !== 'death' || !f.jl || f.gone || !f.lo || f.gear.kind === 'camcorder') continue;
+    const T = f.jl.torch; if (!T || Math.hypot(T.x - p.x, T.y - p.y) > 950) continue;
+    out.push({ x: T.x, y: T.y, angle: T.angle, kind: f.gear.kind, color: f.gear.color, on: true, dead: false });
   }
 }
 function drawPeers(p, cam, sc, los, dt, W, H) {
@@ -384,7 +399,7 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
       best = dm; hover = { o, sx, sy };          // hover requires actual line of sight; emitted-light state is handled separately
     }
   }
-  bodyLights(p, lights);
+  replayLights(p, lights); bodyLights(p, lights);
   window.__peerLights = lights;
   if (EN() && N.on) EN().drawDebug(cx, view);                                 // admin-only overlay (the server only sends its data to unlocked admins who switched it on)
   if (hover) {

@@ -1,0 +1,194 @@
+{
+ "tool": "dev/stage-3d/corpse_check.py",
+ "game": "/home/claude/backrooms-shadows",
+ "variant": "smiler-D",
+ "timeline": [
+  [
+   "preview",
+   0,
+   44.62019999999926
+  ],
+  [
+   "last",
+   6.1,
+   [
+    50.65589999999851,
+    []
+   ]
+  ],
+  [
+   "plus6f",
+   15.3,
+   [
+    60.105,
+    [
+     56.06
+    ]
+   ]
+  ],
+  [
+   "afterEnd",
+   21.0,
+   65.45880000000075
+  ]
+ ],
+ "dur": 3.95,
+ "afterEnd": {
+  "victimState": {
+   "t": 0,
+   "fin": false,
+   "dur": 3.95,
+   "x": 5687.268721108323,
+   "y": 919.9934678746431,
+   "corpse": null
+  },
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5687,
+    "y": 920,
+    "age": 0,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5687:920",
+    "owner": "r1",
+    "remote": true,
+    "x": 5687,
+    "y": 920,
+    "age": 0,
+    "born": true
+   }
+  ]
+ },
+ "at1s": {
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5687,
+    "y": 920,
+    "age": 1,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5687:920",
+    "owner": "r1",
+    "remote": true,
+    "x": 5687,
+    "y": 920,
+    "age": 1,
+    "born": true
+   }
+  ],
+  "victimViews": [
+   {
+    "id": "2:1:1",
+    "cause": "Smiler",
+    "visible": true,
+    "cached": true
+   }
+  ],
+  "spectatorViews": [
+   {
+    "id": "r:1:5687:920",
+    "cause": "Smiler",
+    "visible": true,
+    "cached": true
+   }
+  ]
+ },
+ "screen": {
+  "corpse": [
+   5687,
+   920
+  ],
+  "aliceScale": [
+   0.6018518518518519,
+   5720,
+   920
+  ],
+  "bobScale": [
+   0.6018518518518519,
+   5826.066017177982,
+   1026.066017177982
+  ]
+ },
+ "at20s": {
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5687,
+    "y": 920,
+    "age": 20,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5687:920",
+    "owner": "r1",
+    "remote": true,
+    "x": 5687,
+    "y": 920,
+    "age": 20,
+    "born": true
+   }
+  ]
+ },
+ "farAway": [
+  {
+   "id": "r:1:5687:920",
+   "cause": "Smiler",
+   "visible": false,
+   "cached": false
+  }
+ ],
+ "back": [
+  {
+   "id": "r:1:5687:920",
+   "cause": "Smiler",
+   "visible": true,
+   "cached": true
+  }
+ ],
+ "lateJoiner": {
+  "bodies": [
+   {
+    "id": "r:1:5687:920",
+    "owner": "r1",
+    "remote": true,
+    "x": 5687,
+    "y": 920,
+    "age": 43,
+    "born": true
+   }
+  ],
+  "views": [
+   {
+    "id": "r:1:5687:920",
+    "cause": "Smiler",
+    "visible": true,
+    "cached": true
+   }
+  ]
+ },
+ "pop": {
+  "spectator": {
+   "last->plus6f": 7.54,
+   "plus6f->plus1s": 1.12,
+   "plus1s->age5": 0.28,
+   "age5->age20": 0.8
+  }
+ },
+ "errors": []
+}

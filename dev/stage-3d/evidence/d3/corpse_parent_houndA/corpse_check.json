@@ -1,0 +1,159 @@
+{
+ "tool": "dev/stage-3d/corpse_check.py",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/d3base",
+ "variant": "hound-A",
+ "timeline": [
+  [
+   "preview",
+   0,
+   39.8375
+  ],
+  [
+   "last",
+   5.7,
+   [
+    45.731800000000746,
+    []
+   ]
+  ],
+  [
+   "plus6f",
+   16.7,
+   [
+    56.44309999999776,
+    [
+     52.3567
+    ]
+   ]
+  ],
+  [
+   "afterEnd",
+   22.1,
+   61.91259999999777
+  ]
+ ],
+ "dur": 4.5,
+ "afterEnd": {
+  "victimState": {
+   "t": 0,
+   "fin": false,
+   "dur": 4.5,
+   "x": 5738.333974048963,
+   "y": 919.3890413686946,
+   "corpse": null
+  },
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5738,
+    "y": 919,
+    "age": null,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5738:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5738,
+    "y": 919,
+    "age": null,
+    "born": false
+   }
+  ]
+ },
+ "at1s": {
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5738,
+    "y": 919,
+    "age": null,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5738:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5738,
+    "y": 919,
+    "age": null,
+    "born": false
+   }
+  ],
+  "victimViews": null,
+  "spectatorViews": null
+ },
+ "screen": {
+  "corpse": [
+   5738,
+   919
+  ],
+  "aliceScale": [
+   0.6018518518518519,
+   5720,
+   920
+  ],
+  "bobScale": [
+   0.6018518518518519,
+   5826.066017177982,
+   1026.066017177982
+  ]
+ },
+ "at20s": {
+  "victimBodies": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "x": 5738,
+    "y": 919,
+    "age": null,
+    "born": false
+   }
+  ],
+  "spectatorBodies": [
+   {
+    "id": "r:1:5738:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5738,
+    "y": 919,
+    "age": null,
+    "born": false
+   }
+  ]
+ },
+ "farAway": null,
+ "back": null,
+ "lateJoiner": {
+  "bodies": [
+   {
+    "id": "r:1:5738:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5738,
+    "y": 919,
+    "age": null,
+    "born": false
+   }
+  ],
+  "views": null
+ },
+ "pop": {
+  "spectator": {
+   "last->plus6f": 16.51,
+   "plus6f->plus1s": 0.38,
+   "plus1s->age5": 1.1,
+   "age5->age20": 0.98
+  }
+ },
+ "errors": []
+}
