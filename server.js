@@ -4,7 +4,6 @@
 const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto');
 const zlib = require('zlib');
 const createSim = require('./sim.js');
-const gz = new Map();
 
 const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = __dirname, MAX_ROOM = 8;
 // Admin passcode. Override on the host with the ADMIN_PASSCODE environment variable (recommended).
@@ -16,41 +15,8 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
-const SERVE = /^\/(index\.html|camera_policy\.js|timing_policy\.js|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|light\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js.  Stage 3B-N: camera_policy.js and timing_policy.js are client policies index.html loads (they were missing here, so the client ran on its fallbacks)
-const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
 
-const srv = http.createServer((req, res) => {
-  let u;
-  try { u = decodeURIComponent(String(req.url || '/').split('?')[0]); }
-  catch (e) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Bad request'); }       // malformed %-escapes (e.g. "/%"): refuse, never crash
-  if (u.includes('\0')) { res.writeHead(400, { 'Content-Type': 'text/plain' }); return res.end('Bad request'); }
-  if (u === '/') u = '/index.html';
-  const f = path.join(ROOT, path.normalize(u));
-  // drop-in custom sounds: any files in ./sounds are listed and served (see sounds/README.txt)
-  const AUDIO = { '.mp3': 'audio/mpeg', '.ogg': 'audio/ogg', '.wav': 'audio/wav', '.m4a': 'audio/mp4', '.aac': 'audio/aac', '.flac': 'audio/flac', '.webm': 'audio/webm' };
-  if (u === '/sounds' || u === '/sounds/') {
-    let l = []; try { l = fs.readdirSync(path.join(ROOT, 'sounds')).filter(n => AUDIO[path.extname(n).toLowerCase()]); } catch (e) {}
-    res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); return res.end(JSON.stringify(l));
-  }
-  if (/^\/sounds\/[\w.\- ]+$/.test(u) && AUDIO[path.extname(u).toLowerCase()] && f.startsWith(path.join(ROOT, 'sounds'))) {
-    return fs.readFile(f, (e, b) => {
-      if (e) { res.writeHead(404); return res.end('Not found'); }
-      res.writeHead(200, { 'Content-Type': AUDIO[path.extname(f).toLowerCase()], 'Cache-Control': 'public, max-age=300', 'Content-Length': b.length }); res.end(b);
-    });
-  }
-  if (!f.startsWith(ROOT) || !SERVE.test(u)) { res.writeHead(404); return res.end('Not found'); }
-  fs.readFile(f, (e, b) => {
-    if (e) { res.writeHead(404); return res.end('Not found'); }
-    const ext = path.extname(f), h = { 'Content-Type': types[ext] || 'application/octet-stream', 'Vary': 'Accept-Encoding' };
-    // code is never cached (the bundle keeps the same file name across versions); the big texture may be
-    h['Cache-Control'] = ext === '.png' ? 'public, max-age=86400' : 'no-store';
-    if (ext !== '.png' && /\bgzip\b/.test(req.headers['accept-encoding'] || '')) {
-      let z = gz.get(f); if (!z) { z = zlib.gzipSync(b, { level: 9 }); gz.set(f, z); }
-      h['Content-Encoding'] = 'gzip'; res.writeHead(200, h); return res.end(z);
-    }
-    res.writeHead(200, h); res.end(b);
-  });
-});
+const srv = http.createServer(require('./server/static.js')(ROOT));   // Stage 3H0: the static file serving (the SERVE allowlist, MIME types, caching, gzip, /sounds).  fs, path and zlib are still required first, as before, though only server/static.js uses them now
 
 const rooms = new Map();
 let nextId = 1;

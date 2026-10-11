@@ -1,0 +1,198 @@
+{
+ "tool": "dev/stage-3h0/golden/live_kill_times.py",
+ "arms": {
+  "live_ab3:A": {
+   "runs": 10,
+   "median": 4.7,
+   "min": 3.0,
+   "max": 38.0,
+   "over20s": 2,
+   "timedOut": 0,
+   "killers": {
+    "Hound": 10
+   },
+   "allPassed": true,
+   "times": [
+    4.4,
+    14.3,
+    30.6,
+    38.0,
+    3.1,
+    5.0,
+    5.4,
+    4.2,
+    4.1,
+    3.0
+   ]
+  },
+  "live_ab3:B": {
+   "runs": 10,
+   "median": 6.25,
+   "min": 3.1,
+   "max": 44.2,
+   "over20s": 2,
+   "timedOut": 0,
+   "killers": {
+    "Hound": 10
+   },
+   "allPassed": true,
+   "times": [
+    14.2,
+    44.2,
+    4.4,
+    4.8,
+    4.7,
+    9.1,
+    5.9,
+    3.1,
+    6.6,
+    22.5
+   ]
+  },
+  "live_ab3:C": {
+   "runs": 10,
+   "median": 5.4,
+   "min": 2.6,
+   "max": 53.0,
+   "over20s": 3,
+   "timedOut": 0,
+   "killers": {
+    "Hound": 9,
+    "Smiler": 1
+   },
+   "allPassed": true,
+   "times": [
+    36.5,
+    4.7,
+    2.8,
+    6.1,
+    8.3,
+    4.1,
+    3.2,
+    53.0,
+    2.6,
+    46.4
+   ]
+  },
+  "live_repeat:new": {
+   "runs": 8,
+   "median": 10.0,
+   "min": 4.1,
+   "max": 51.5,
+   "over20s": 2,
+   "timedOut": 0,
+   "killers": {
+    "Hound": 6,
+    "Smiler": 2
+   },
+   "allPassed": true,
+   "times": [
+    27.5,
+    15.6,
+    51.5,
+    11.5,
+    7.9,
+    7.0,
+    8.5,
+    4.1
+   ]
+  },
+  "live_repeat:old": {
+   "runs": 8,
+   "median": 4.949999999999999,
+   "min": 2.6,
+   "max": 11.6,
+   "over20s": 0,
+   "timedOut": 0,
+   "killers": {
+    "Hound": 8
+   },
+   "allPassed": true,
+   "times": [
+    4.8,
+    5.1,
+    4.3,
+    5.2,
+    8.1,
+    11.6,
+    2.6,
+    4.8
+   ]
+  }
+ },
+ "pairs": {
+  "live_ab3:A vs live_ab3:B": {
+   "U": 38.0,
+   "z": -0.908,
+   "p": 0.364
+  },
+  "live_ab3:A vs live_ab3:C": {
+   "U": 47.5,
+   "z": -0.189,
+   "p": 0.8501
+  },
+  "live_ab3:A vs live_repeat:new": {
+   "U": 23.5,
+   "z": -1.467,
+   "p": 0.1424
+  },
+  "live_ab3:A vs live_repeat:old": {
+   "U": 40.0,
+   "z": 0.0,
+   "p": 1.0
+  },
+  "live_ab3:B vs live_ab3:C": {
+   "U": 55.5,
+   "z": 0.416,
+   "p": 0.6775
+  },
+  "live_ab3:B vs live_repeat:new": {
+   "U": 27.0,
+   "z": -1.155,
+   "p": 0.2481
+  },
+  "live_ab3:B vs live_repeat:old": {
+   "U": 51.0,
+   "z": 0.979,
+   "p": 0.3274
+  },
+  "live_ab3:C vs live_repeat:new": {
+   "U": 27.5,
+   "z": -1.111,
+   "p": 0.2665
+  },
+  "live_ab3:C vs live_repeat:old": {
+   "U": 42.5,
+   "z": 0.222,
+   "p": 0.824
+  },
+  "live_repeat:new vs live_repeat:old": {
+   "U": 51.0,
+   "z": 1.997,
+   "p": 0.0458
+  }
+ },
+ "pooled": {
+  "parentCode": {
+   "runs": 18,
+   "median": 4.9,
+   "over20s": 2
+  },
+  "newCode": {
+   "runs": 28,
+   "median": 7.45,
+   "over20s": 7
+  },
+  "mwu": {
+   "U": 188.5,
+   "z": -1.429,
+   "p": 0.1529
+  },
+  "mwuWithTheH04cFailureAs70s": {
+   "U": 188.5,
+   "z": -1.587,
+   "p": 0.1126
+  },
+  "note": "live_repeat ran old first in every pair; live_ab3 rotated the order of three arms (A parent, B working tree, C the working tree code archived into the scratchpad) with nothing else running"
+ }
+}

@@ -159,7 +159,9 @@ async function wsCases(port) {
 
 async function side(dir) {
   const p = await start(dir); const res = { console: p.out.replace(String(p.port), 'PORT'), http: {} };
+  const h0 = Date.now();
   for (const c of httpCases()) { const r = await exchange(p.port, [c.raw], { wait: 15000 }); const n = normHttp(r.bytes); res.http[c.name] = { head: n.head, dates: n.dates, bodyLen: n.body.length, bodySha: sha(n.body), ev: r.ev.filter(e => e !== 'end') }; }
+  res.httpMs = Date.now() - h0;                              // wall time of the HTTP exchanges (reported only, never compared: it includes the first gzip of every file)
   res.ws = await wsCases(p.port);
   await sleep(200); res.consoleAfter = p.out.replace(new RegExp(String(p.port), 'g'), 'PORT');
   await stop(p); res.exit = { code: p.exitCode, signal: p.signalCode };
@@ -175,6 +177,7 @@ async function side(dir) {
   cmp('console', A.consoleAfter, B.consoleAfter);
   for (const k of Object.keys(A.http)) cmp('http ' + k, A.http[k], B.http[k]);
   for (const k of Object.keys(A.ws)) cmp('ws ' + k, A.ws[k], B.ws[k]);
+  console.log(`HTTP wall time (reported only): old ${A.httpMs} ms, new ${B.httpMs} ms`);
   const rep = { tool: 'dev/stage-3h0/golden/raw_live.js', oldRef: ARG['old-ref'], mode: ARG.aa ? 'A/A (the parent on both sides)' : 'the parent against the working tree', at: new Date().toISOString(), ms: Date.now() - t0,
     httpCases: Object.keys(A.http).length, wsChecks: Object.keys(A.ws).length, identical: !diffs.length, diffs, old: A, new: B };
   for (const d of [oldDir].concat(ARG.aa ? [newDir] : [])) fs.rmSync(d, { recursive: true, force: true });

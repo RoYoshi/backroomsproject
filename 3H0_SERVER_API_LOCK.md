@@ -165,3 +165,29 @@ The upgrade handler registers `sock.on('data', reader(sock, onMessage))` at the 
 - `cleanLook` used to be a function declaration, visible to the whole file from the start. Every use of it, and of the five other names, is inside a handler or a function that runs only after start-up, so the order does not matter. The `boot` scenario and every other golden trace confirm it.
 
 **Serving:** `/server/fields.js` is 404, like `/server/ws.js`.
+
+### Added at H0-4c: the static file serving
+
+**`server/static.js`** is a CommonJS module with no `'use strict'`. It holds, character for character:
+- the `SERVE` allowlist, with its comment;
+- the MIME table `types`;
+- the gzip cache `gz`, one per process as before;
+- the request handler, as `createStatic(ROOT)`, which returns the handler.
+
+It requires `fs`, `path` and `zlib`, and does nothing when loaded but create those constants and the empty cache.
+
+**ROOT is passed in.** `server.js` passes its own `ROOT` (`__dirname`, the repository folder): `http.createServer(require('./server/static.js')(ROOT))`. The handler cannot use its own `__dirname`, which is `server/`. Every path rule (`path.join(ROOT, …)`, `f.startsWith(ROOT)`, the `sounds` folder) therefore resolves exactly as before.
+
+**`server.js` still requires `fs`, `path` and `zlib` first,** in the old order, although only `server/static.js` uses them now. The golden traces record the start-up `require` order, and it stays identical.
+
+**Serving:** unchanged in every byte. `/server/static.js` is 404: `SERVE` does not reach `server/`, and the check that proves it now lives next to the rule.
+
+**Start-up load order after H0-4:**
+1. `http, fs, path, crypto`, then `zlib`, then `./sim.js`;
+2. `./server/static.js`, as the HTTP server is created;
+3. `./death_srv.js`;
+4. `./server/ws.js`, then `./server/fields.js`;
+5. the 25 ms interval;
+6. `listen`.
+
+The console line, the cadence and everything the server does at start-up are unchanged.

@@ -28,6 +28,8 @@ Nothing here is served to browsers or loaded by the game. The server's allowlist
 | `perf_det.js` | CPU and time on the deterministic workloads, old against new, interleaved. This is the precise performance gate. |
 | `perf_h0.js` | The real stack's server CPU (gated) and bytes and client timings (reported), A/B interleaved. |
 | `raw_live.js` | The parent's `server.js` and the working tree's, each started with `node server.js PORT` on the same files, spoken to with raw sockets: the start-up line, 108 HTTP exchanges byte for byte (except `Date`), 25 WebSocket checks. `--aa` runs the parent on both sides. |
+| `static_mutants.js` | Proves the start-up and HTTP scenarios notice small deliberate changes to `server/static.js`. A control run must not differ. With `--server-src` it checks a draft `server.js` before the real one is edited. |
+| `live_kill_times.py` | Reads repeated `dev/tests/live.js` logs and compares how long its L5 check waited for the kill, per version (H0-4c). |
 | `run_checkpoint.js LABEL` | The gate at every later checkpoint: server and client traces, old against new and against the baseline, plus the contract check. |
 | `collect_h0_1.sh PARENT_EXPORT` | Ran every H0-1 baseline. |
 
@@ -42,4 +44,5 @@ Nothing here is served to browsers or loaded by the game. The server's allowlist
 | `evidence/h0-3/` | The interpolation extraction's receipt: `interp_test.js` before and after the move, function equivalence (with its A/A run) and its mutants (`fn_mutants_interp_attempt1.json` keeps the first run, which missed 2 of 8), the gate, live, performance. |
 | `evidence/h0-4a/` | The WebSocket framing extraction's receipt: the checks of the draft before `server.js` was touched, then function equivalence and its mutants, the gate, real sockets (`raw_live_aa_attempt1.json` keeps the first A/A run, which differed), the existing network suites (`existing/`, `steps.txt`), live, performance. |
 | `evidence/h0-4b/` | The field-check extraction's receipt: the A/A run and the checks of the draft before `server.js` was touched, then function equivalence and its mutants, the gate, real sockets, the existing network suites, live, performance. |
+| `evidence/h0-4c/` | The static-serving extraction's receipt: the draft's check and mutants before `server.js` was touched, then the mutants, the gate, real sockets (A/A and old against new), the existing network suites, live, performance. `existing/live.log` keeps the one failed `live.js` run; `live_repeat/` and `live_ab3/` hold the 46 repeats that show its cause, summarized in `live_kill_times.json`. |
 | `evidence/remote/` | The independent remote verification of each pushed checkpoint (`verify_remote_h0.py`). |

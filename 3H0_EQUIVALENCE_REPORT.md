@@ -140,3 +140,56 @@
 | Existing network suites on the new server | the same as at H0-1: `live.js` 17/17, `audit_net.js` 17/17, `audit_net2.js` 11/11, `ir_net.js` 4/4, `test_3bn.js` 7/7 |
 | Live wire: the real server and game, the parent's checkout against the new tree | **structurally identical in all 56 phase, player and direction summaries** (6,949 and 6,741 frames); 0 page errors on either side |
 | Deterministic performance (server, 15 rounds interleaved) | within the rule fixed at H0-1. The CPU medians of the four server workloads moved −1.1 % to +1.5 %, against tolerances of 12-28 % of the old medians. The checks do the same work per field as before. |
+
+## H0-4c: the static file serving (server) — GO
+
+**What moved.** From `server.js` into the new `server/static.js`, character for character:
+- the `SERVE` allowlist, with its comment;
+- the MIME table;
+- the gzip cache;
+- the request handler, now `createStatic(ROOT)`.
+
+`server.js` passes its own `ROOT`, because the module's `__dirname` is `server/`.
+
+**server.js:** `http.createServer(require('./server/static.js')(ROOT))`. It still requires `fs`, `path` and `zlib` first, so the start-up order the traces record is unchanged. 29,040 → 26,506 bytes, 341 → 307 lines. The new file is 3,839 bytes.
+
+**Why it is safe by construction:**
+- the handler shares nothing with the game;
+- its state is the gzip cache, still one per process;
+- every path rule resolves against the same `ROOT` string;
+- no `'use strict'`, no timer.
+
+**This is security-sensitive code, so it was tested first and hardest:**
+- **Draft first.** A candidate `server.js` and the draft `static.js` were run in a scratch copy of the tree before the real files were edited. Their start-up and HTTP traces were identical to the tree's, and 12 deliberate wrong versions of `static.js` were all caught (`static_mutants_draft.json`).
+- **Exact copy.** The applied files are exactly the files that were tested: the apply step copies the draft in, and refuses if `server.js` had changed since the draft was made.
+
+**The evidence** (`dev/stage-3h0/evidence/h0-4c/`):
+
+| Check | Result |
+|---|---|
+| Does the gate have teeth? (`static_mutants.js`): the `boot`, `http_base` and `http_h0` scenarios on 12 wrong versions of `static.js`, and a control run | **12 of 12** caught: `server/` served, 404 for a malformed escape, a NUL let through, `/` not `index.html`, the query string kept, every file listed in `/sounds`, two cache lifetimes, unknown types as text, no `Vary`, case-insensitive gzip, gzipped PNG. The control run is identical |
+| Server golden traces, 11 scenarios: `http_base` makes 84 requests (every allowlisted file, every private file, traversal in plain and `%`-encoded forms, malformed escapes, NUL, `/sounds`, `GZIP`, `x-gzip`, and HEAD / POST / DELETE); `http_h0` has the 3H0 files, including all three `server/` modules | **byte-identical** old against new; against the baseline only the expected `index.html` / `mp.js` bodies |
+| Client golden traces, 9 scenes; protocol contract | identical; 0 violations |
+| Real sockets (`raw_live.js`): `node server.js` old and new on the same files | **identical**: the start-up line, 108 raw HTTP exchanges byte for byte except `Date` (including the three `server/` modules, `..` and `%2e%2e` traversal, `/sounds` with a space in a file name, HEAD, POST, an absolute URL, two requests on one connection, a malformed request line), and the 25 WebSocket checks. The A/A run of the final tool is identical too. The wall time of the HTTP exchanges is about the same (676 and 654 ms; reported only) |
+| Existing network suites on the new server (`test_3bn.js` fetches every script `index.html` loads) | `test_3bn.js` 7/7, `audit_net.js` 17/17, `audit_net2.js` 11/11, `ir_net.js` 4/4, as at H0-1. **`live.js` failed once: 7/10** (`existing/live.log`, kept). Its L5b check waits 70 s for the Hound it summons to kill a player standing still; no kill came, and L5c and the end of the test failed on the missing kill. See the note below the table |
+| Live wire: the real server and game, the parent's checkout against the new tree | **structurally identical in all 56 phase, player and direction summaries** (6,960 and 6,682 frames); 0 page errors on either side |
+| Deterministic performance (server, 15 rounds interleaved) | within the rule fixed at H0-1: the CPU medians moved −3.0 % to +0.7 %, against tolerances of 11-45 % of the old medians. These workloads do not serve files; the HTTP timing is the `raw_live.js` line above |
+
+**The `live.js` failure was investigated before going on; the evidence is kept** (`evidence/h0-4c/`).
+
+**Why it is not this extraction.** The kill in L5b comes from the AI, in a world generated at random for each run, in real time. How long it takes varies widely on every version, the parent included.
+1. **Repeat** (`live_repeat/`): 8 runs of the parent's own tree and 8 of the new tree, alternating. All 16 passed 17/17. The parent's kills came after 2.6-11.6 s, the new tree's after 4.1-51.5 s. That looked like a difference (p = 0.05), so the order was suspected.
+2. **Controlled run** (`live_ab3/`): 10 rounds of three arms, the order rotated every round, nothing else running:
+   - A, the parent;
+   - B, the new tree;
+   - C, the new code copied next to the parent's copy.
+
+   All 30 runs passed 17/17. The median kill times were 4.7, 6.3 and 5.4 s, and the slowest 38.0, 44.2 and 53.0 s: **the parent had kills of 30.6 and 38.0 s too**. No pair differs (p = 0.36, 0.85, 0.68, two-sided Mann-Whitney).
+3. **Pooled:** over all 46 runs, the new code's median is 7.5 s against the parent's 4.9 s, with p = 0.15 (0.11 when the failed run is counted as 70 s). That is not a significant difference. It is reported so the reader can judge.
+
+**Why the extraction cannot change it:**
+- `server/static.js` serves files and is not on the path of a kill;
+- the closed-world `admin` scenario places a Hound with the same admin command and runs the simulation on, and its trace stays byte-identical;
+- the CPU of the server workloads is unchanged.
+
+**Conclusion.** The 70 s limit of L5b can run out by chance on any version. This is a property of the existing test, and the test was not changed. It is listed with the other findings at H0-5 (`3H0_DEFERRED_FULL_3H.md`). `live.js` passed at H0-1, H0-4a, H0-4b and in all 46 repeats.
