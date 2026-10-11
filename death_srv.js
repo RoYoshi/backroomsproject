@@ -7,10 +7,14 @@
  * dropped light always exist, exactly one of each (bodies are keyed by player id), and every observer sees the same thing.
  */
 'use strict';
-const fs = require('fs'), path = require('path'), vm = require('vm');
-const box = { window: {}, console, Math };
-vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'dphys.js'), 'utf8'), box, { filename: 'dphys.js' });
-const DP = box.window.__dphys;
+const fs = require('fs'), path = require('path');
+/* Stage 3D: dphys.js runs in this process's own context (its 'window' is a private object), not a vm sandbox: the same code and the same
+ * numbers, about four times faster once warm, because nothing crosses a context boundary at every wall query.  One short run of each
+ * killer at load warms it up, so the first real fallback does not pay for the compiler. */
+const box = {};
+new Function('window', fs.readFileSync(path.join(__dirname, 'dphys.js'), 'utf8') + '\n//# sourceURL=dphys.js')(box);
+const DP = box.__dphys;
+for (const kind of ['Hound', 'Smiler']) DP.simulate({ kind, v: 'A', victim: { x: 500, y: 500, angle: 0 }, src: { x: 454, y: 500 }, walls: () => [], clear: () => true });
 
 /* what the victim's client would have sent as 'fx' for a death, from the server's own record */
 function fxFor(id, kill, info) {

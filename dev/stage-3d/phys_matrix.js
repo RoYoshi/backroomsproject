@@ -107,6 +107,12 @@ function run(spot, kind, v, side, seedOff, hz) {
   M.end = { x: r3(b.x), y: r3(b.y), th: r3(b.th), disp: Math.round(hyp(b.x - spot.x, b.y - spot.y)), eqD: Math.round(hyp(S.eq.x - b.x, S.eq.y - b.y)), hatD: S.hat.on ? 0 : Math.round(hyp(S.hat.x - b.x, S.hat.y - b.y)),
     hands: S.h.map(h => [r3(h.x - b.x), r3(h.y - b.y)]), events: S.ev.length, wall: !!S.wallHit, state: S.state };
   M.endKey = endKey;
+  // Stage 3D D2: the blood's anchors.  A blow's pool centre must be on the floor; a wall mark must sit on a blocker's face (within 0.5 px of it)
+  // with clear floor in front of it (along its normal).  Older dphys builds record neither (null).
+  const blows = S.ev.filter(q => q.k === 'hit' && q.x != null);
+  M.end.blowsOff = blows.length ? blows.filter(q => inside(q.x, q.y)).length : null;
+  if (DP.marks) { const mk = DP.marks(S); M.end.marks = mk.length; const onFace = q => sim.blockersAt(q.x, q.y).some(r => hyp(Math.max(r.x - q.x, 0, q.x - r.x - r.w), Math.max(r.y - q.y, 0, q.y - r.y - r.h)) <= .5);
+    const bad = mk.filter(q => !onFace(q) || inside(q.x + q.nx * 2, q.y + q.ny * 2)); M.end.marksBad = bad.length; if (bad.length) M.end.marksBadAt = bad.map(q => [q.x, q.y, +q.nx.toFixed(3), +q.ny.toFixed(3)]); }
   return M;
 }
 
@@ -131,10 +137,11 @@ for (const kind of ['Hound', 'Smiler']) for (const v of 'ABCD') {
   byVar[kind + ' ' + v] = { runs: rs.length, samplingSame: rs.every(r => r.samplingSame), finite: rs.every(r => r.finite), maxBodyPen: Math.max(...q('bodyPen')), maxHandPen: Math.max(...q('handPen')),
     maxGearPen: Math.max(...q('gearPen')), maxAttPen: Math.max(...q('attPen')), crossed: rs.filter(r => r.crossed).length, maxStep: Math.max(...q('maxStep')),
     asleepByEnd: rs.filter(r => r.restAfterDur).length, sleepMedian: sl.length ? sl[sl.length >> 1] : null, neverSlept: rs.filter(r => r.sleepT == null).length,
-    moveAfterSleep: Math.max(...q('moveAfterSleep')), dispMedian: rs.map(r => r.end.disp).sort((a, b) => a - b)[rs.length >> 1], wallHits: rs.filter(r => r.end.wall).length };
+    moveAfterSleep: Math.max(...q('moveAfterSleep')), dispMedian: rs.map(r => r.end.disp).sort((a, b) => a - b)[rs.length >> 1], wallHits: rs.filter(r => r.end.wall).length,
+    runsWithMarks: rs.filter(r => r.end.marks > 0).length, marksBad: rs.reduce((a, r) => a + (r.end.marksBad || 0), 0), blowsOff: rs.reduce((a, r) => a + (r.end.blowsOff || 0), 0) };
 }
 const out = { tool: 'dev/stage-3d/phys_matrix.js', game: G, spots: spots.map(s => ({ kind: s.kind, x: s.x, y: s.y })), runs: rows.length, byVariant: byVar, rows };
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(out, null, 1) + '\n');
 console.log('spots', spots.map(s => s.kind).join(' '), '; runs', rows.length);
-console.log('variant      runs  same  fin  bodyPen handPen gearPen attPen crossed maxStep asleepByEnd sleepMed never afterSleep dispMed walls');
-for (const [k, s] of Object.entries(byVar)) console.log(k.padEnd(11), String(s.runs).padStart(5), String(s.samplingSame).padStart(5), String(s.finite).padStart(5), String(s.maxBodyPen.toFixed(1)).padStart(7), String(s.maxHandPen.toFixed(1)).padStart(7), String(s.maxGearPen.toFixed(1)).padStart(7), String(s.maxAttPen.toFixed(1)).padStart(6), String(s.crossed).padStart(7), String(s.maxStep.toFixed(2)).padStart(7), String(s.asleepByEnd).padStart(11), String(s.sleepMedian).padStart(8), String(s.neverSlept).padStart(5), String(s.moveAfterSleep.toFixed(2)).padStart(10), String(s.dispMedian).padStart(7), String(s.wallHits).padStart(5));
+console.log('variant      runs  same  fin  bodyPen handPen gearPen attPen crossed maxStep asleepByEnd sleepMed never afterSleep dispMed walls marks markBad blowOff');
+for (const [k, s] of Object.entries(byVar)) console.log(k.padEnd(11), String(s.runs).padStart(5), String(s.samplingSame).padStart(5), String(s.finite).padStart(5), String(s.maxBodyPen.toFixed(1)).padStart(7), String(s.maxHandPen.toFixed(1)).padStart(7), String(s.maxGearPen.toFixed(1)).padStart(7), String(s.maxAttPen.toFixed(1)).padStart(6), String(s.crossed).padStart(7), String(s.maxStep.toFixed(2)).padStart(7), String(s.asleepByEnd).padStart(11), String(s.sleepMedian).padStart(8), String(s.neverSlept).padStart(5), String(s.moveAfterSleep.toFixed(2)).padStart(10), String(s.dispMedian).padStart(7), String(s.wallHits).padStart(5), String(s.runsWithMarks).padStart(6), String(s.marksBad).padStart(7), String(s.blowsOff).padStart(7));

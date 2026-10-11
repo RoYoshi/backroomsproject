@@ -8,7 +8,10 @@
  *
  * Every trace line is classed:
  *   death       a message or call of the death domain: sock.frame of t 'fx' (death), 'bodies', a snapshot's kill record (mk), and the calls
- *               sim.setBody / sim.killerEnd, console '[death]' lines
+ *               sim.setBody / sim.killerEnd, console '[death]' lines; and sim.blockersAt / sim.clearAt, which only the server's death
+ *               simulation (death_srv.js) calls - checked at run time: no other server file may call them, or the tool fails
+ *   changed-file  an HTTP response for a file that differs between OLD and NEW (a client death file Stage 3D changed): its length and
+ *               hash may differ, its path and status code may not (a server-only file must stay 404)
  *   follow-on   a non-death line that differs only AFTER the first death-domain difference of the same trace, and only in data a death
  *               feeds (entity positions and states in snapshots, after the server placed the attacker where the death animation left it)
  *   other       anything else
@@ -25,6 +28,9 @@ const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.arg
 const H0 = path.resolve(__dirname, '..', 'stage-3h0', 'golden'), HARNESS = path.join(H0, 'srv_harness.js');
 const OLD = path.resolve(ARG.old), NEW = path.resolve(ARG.new);
 const SCEN = ARG.scenarios ? ARG.scenarios.split(',') : Object.keys(require(path.join(H0, 'srv_scenarios.js')));
+/* only death_srv.js may query the level's geometry on the server; anything else would make those calls non-death output */
+const geoCallers = [path.join(NEW, 'server.js'), ...fs.readdirSync(path.join(NEW, 'server')).map(f => path.join(NEW, 'server', f))].filter(f => /blockersAt|clearAt/.test(fs.readFileSync(f, 'utf8')));
+if (geoCallers.length) { console.error('golden3d: a server file other than death_srv.js queries the level geometry:', geoCallers.join(', ')); process.exit(2); }
 const tmp = ARG.keep ? path.resolve(ARG.keep) : fs.mkdtempSync(path.join(os.tmpdir(), 'g3d-')); fs.mkdirSync(tmp, { recursive: true });
 
 function run(dir, scen, tag) {
@@ -36,7 +42,8 @@ function payload(arr) { if (arr[1] !== 'sock.frame' || typeof arr[5] !== 'string
 function cls(line) {
   let a; try { a = JSON.parse(line); } catch (e) { return 'other'; }
   if (!Array.isArray(a)) return 'other';
-  if (a[1] === 'sim.setBody' || a[1] === 'sim.killerEnd') return 'death';
+  if (a[1] === 'sim.setBody' || a[1] === 'sim.killerEnd' || a[1] === 'sim.blockersAt' || a[1] === 'sim.clearAt') return 'death';
+  if (a[1] === 'http.end' && typeof a[3] === 'string' && CHANGED.has(a[3].split('?')[0].replace(/^\//, ''))) return 'changed-file';
   if (a[1] === 'console.log' && /^\[death\]/.test(String(a[2]))) return 'death';
   if (a[1] === 'console.error' && /\[death\]/.test(String(a[2]))) return 'death';
   const m = payload(a);
@@ -45,20 +52,41 @@ function cls(line) {
   return 'other';
 }
 /* the non-death view of a trace: death-domain lines dropped; in snapshots the entity list (e) and the kill record (mk) dropped, and the frame
- * length with them (both follow from where a death left its attacker); every other line kept exactly */
+ * length with them (both follow from where a death left its attacker); in the admin's entity list (ad.es), the admin debug list (dbg) and
+ * sim.debugInfo, each entity's position dropped but its identity and state kept (where the attacker stands after a death is the one
+ * documented follow-on; if it changed what any monster DOES, the states would differ and the check fails); every other line kept exactly */
 function nonDeath(lines) {
   const out = [];
   for (const line of lines) {
     const c = cls(line); if (c === 'death') continue;
     let a; try { a = JSON.parse(line); } catch (e) { out.push(line); continue; }
     const m = Array.isArray(a) ? payload(a) : null;
-    if (m && m.t === 's') { delete m.e; delete m.mk; out.push(JSON.stringify([a[0], a[1], a[2], a[3], m])); continue; }
+    if (m && m.t === 's') {
+      delete m.e; delete m.mk;
+      if (m.ad && Array.isArray(m.ad.es)) m.ad.es = m.ad.es.map(q => [q[0], q[1], q[2]]);                       // admin entity list: who and in which state, not where
+      if (Array.isArray(m.dbg)) m.dbg = m.dbg.map(q => [q.i, q.k, q.s]);                                         // admin debug list: the same
+      if (m.dx && m.dx.pf) delete m.dx.pf.kb;                                                                    // the admin's snapshot size: the entity list's bytes
+      out.push(JSON.stringify([a[0], a[1], a[2], a[3], m])); continue;
+    }
     if (Array.isArray(a) && a[1] === 'sim.entities') { out.push(JSON.stringify([a[0], a[1]])); continue; }
+    if (Array.isArray(a) && a[1] === 'sim.debugInfo' && Array.isArray(a[3])) { out.push(JSON.stringify([a[0], a[1], a[3].map(q => [q.i, q.k, q.s])])); continue; }
+    if (c === 'changed-file') { out.push(JSON.stringify([a[0], a[1], a[2], a[3], '~', '~', a[6]])); continue; }
     out.push(line);
   }
   return out;
 }
-const report = { tool: 'dev/stage-3d/golden3d.js', old: OLD, new: NEW, scenarios: {} };
+/* the files (relative paths) whose bytes differ between the two trees */
+function files(dir, rel = '') { let o = []; for (const e of fs.readdirSync(path.join(dir, rel), { withFileTypes: true })) { if (e.name === '.git' || e.name === 'node_modules' || (rel === '' && e.name === 'dev')) continue; const r = rel ? rel + '/' + e.name : e.name; if (e.isDirectory()) o = o.concat(files(dir, r)); else o.push(r); } return o; }
+const CHANGED = new Set([...new Set([...files(OLD), ...files(NEW)])].filter(f => { try { return !fs.readFileSync(path.join(OLD, f)).equals(fs.readFileSync(path.join(NEW, f))); } catch (e) { return true; } }));
+/* the first few paths at which two JSON lines differ (for the report) */
+function deepDiff(x, y) {
+  const out = []; let X, Y; try { X = JSON.parse(x); Y = JSON.parse(y); } catch (e) { return ['(not JSON)']; }
+  const walk = (a, b, p) => { if (out.length >= 6) return; if (JSON.stringify(a) === JSON.stringify(b)) return;
+    if (a && b && typeof a === 'object' && typeof b === 'object') { for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) walk(a[k], b[k], p + '/' + k); }
+    else out.push(p + ': ' + JSON.stringify(a).slice(0, 120) + ' -> ' + JSON.stringify(b).slice(0, 120)); };
+  walk(X, Y, ''); return out;
+}
+const report = { tool: 'dev/stage-3d/golden3d.js', old: OLD, new: NEW, changedFiles: [...CHANGED].sort(), scenarios: {} };
 let ok = true;
 for (const s of SCEN) {
   const o = run(OLD, s, 'old'), n = run(NEW, s, 'new');
@@ -76,8 +104,9 @@ for (const s of SCEN) {
     const on = nonDeath(o.lines), nn = nonDeath(n.lines); let fd = -1;
     for (let i = 0; i < Math.max(on.length, nn.length); i++) if (on[i] !== nn[i]) { fd = i; break; }
     R.nonDeathIdentical = fd < 0;
-    if (fd >= 0) R.firstNonDeathDiff = { index: fd, old: (on[fd] || '').slice(0, 400), new: (nn[fd] || '').slice(0, 400) };
-    R.pass = R.harnessOk && hasDeath && (fc.startsWith('death') || fcN.startsWith('death')) && R.nonDeathIdentical;
+    if (fd >= 0) R.firstNonDeathDiff = { index: fd, where: deepDiff(on[fd], nn[fd]), old: (on[fd] || '').slice(0, 400), new: (nn[fd] || '').slice(0, 400) };
+    const dom = c => c.startsWith('death') || c === 'changed-file';
+    R.pass = R.harnessOk && (hasDeath || fc === 'changed-file') && (dom(fc) || dom(fcN)) && R.nonDeathIdentical;
   } else R.pass = R.harnessOk;
   if (!R.pass) ok = false;
   report.scenarios[s] = R;

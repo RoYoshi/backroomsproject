@@ -67,9 +67,30 @@
     },
   };
 
+  /* Stage 3D: the level's blocking rects, fetched once per 96 px tile for the life of one death.  The level's own query (Bc) returns the
+   * 3 x 3 tiles around the point and every pillar / prop within 250 px of it; the union of its answers at the tile's four corners holds
+   * every rect it can return for any point inside the tile (each of those regions is wider than a tile).  Only rects that can touch a
+   * circle of up to 40 px around the point are handed on, in the order the level gave them, so a contact sees what it saw before -
+   * without rebuilding the lists a thousand times per death (the server ran the whole death in ~40 ms; most of it was this). */
+  function wallCache(raw) {
+    const tiles = new Map();
+    return (x, y) => {
+      const tx = Math.floor(x / 96), ty = Math.floor(y / 96), key = tx * 4096 + ty;
+      let u = tiles.get(key);
+      if (!u) {
+        u = []; const seen = new Set();
+        for (const [cx, cy] of [[tx * 96, ty * 96], [tx * 96 + 95.999, ty * 96], [tx * 96, ty * 96 + 95.999], [tx * 96 + 95.999, ty * 96 + 95.999], [tx * 96 + 48, ty * 96 + 48]])
+          for (const q of raw(cx, cy)) { const k = q.x + ',' + q.y + ',' + q.w + ',' + q.h; if (!seen.has(k)) { seen.add(k); u.push(q); } }
+        tiles.set(key, u);
+      }
+      const out = []; for (let i = 0; i < u.length; i++) { const q = u[i]; if (x > q.x - 40 && x < q.x + q.w + 40 && y > q.y - 40 && y < q.y + q.h + 40) out.push(q); }
+      return out;
+    };
+  }
+
   function create(ctx) {
     const hound = ctx.kind === 'Hound', cfg = CFG[hound ? 'Hound' : 'Smiler'][ctx.v] || CFG[hound ? 'Hound' : 'Smiler'].A;
-    const r = rng(ctx.seed), walls = ctx.walls || (() => []);
+    const r = rng(ctx.seed), walls = ctx.walls ? wallCache(ctx.walls) : (() => []);
     const nz = [noise(r), noise(r), noise(r), noise(r), noise(r), noise(r)];
     const ux = Math.cos(ctx.dir), uy = Math.sin(ctx.dir), th0 = ctx.victim.angle + PI / 2;
     const exh = ctx.exhausted ? .5 : 1;
@@ -120,6 +141,7 @@
   function shock(S, x, y, mag) { const c = S.cam; c.vx += x * mag; c.vy += y * mag; }
 
   function stepOnce(S) {
+    if (S.state === 'SLEEPING' && S.frozen) { stepAttacker(S); S.t += DT; S.stepN++; return; }          // Stage 3D: at rest is at rest
     const t = S.t, dt = DT, cfg = S.cfg, b = S.b, at = S.at, hound = S.hound, ux = S.ux, uy = S.uy, W = S.walls, ctx = S.ctx;
     const res = S.res = resist(S, t);
     const dx0 = b.x - at.x, dy0 = b.y - at.y, dist = hyp(dx0, dy0) || 1, nAx = dx0 / dist, nAy = dy0 / dist;     // attacker -> victim
@@ -180,6 +202,7 @@
       const c = Math.cos(b.th), s = Math.sin(b.th), lx = (-nAx * RB * .8), ly = (-nAy * RB * .8);      // the point of the body nearest the hound, fixed in body space
       S.rope = { lx: lx * c + ly * s, ly: -lx * s + ly * c, k: cfg.drag ? 70 : 34, c: cfg.drag ? 13 : 9, stretch: 0 };
     }
+    if (S.rope && hound && cfg.back && t >= cfg.back[0]) { S.rope = null; S.ev.push({ t, k: 'release' }); }       // Stage 3D: the jaw lets go as the hound eases off; the body is no longer towed
     if (S.rope) {
       const c = Math.cos(b.th), s = Math.sin(b.th), gx = b.x + S.rope.lx * c - S.rope.ly * s, gy = b.y + S.rope.lx * s + S.rope.ly * c;
       const hx = at.x + Math.cos(at.a) * 14, hy = at.y + Math.sin(at.a) * 14;
@@ -294,8 +317,11 @@
         ox = alx * reach + nzx * 7 * fight; oy = aly * reach + nzy * 7 * fight;
         k = 240 + 220 * fight;
       } else {
-        // overpowered: they go slack and trail (weaker springs, out and slightly back)
-        ox = side * 5 - (cth * 0) + nzx * 3; oy = 7 + nzy * 3; k = 90; z = .7;
+        // overpowered: they go slack and trail (weaker springs, out and slightly back).  Stage 3D: the last twitches die away within about a
+        // second of the fight ending, so dead hands come to rest instead of trembling for ever
+        if (S.limpAt == null && t > S.cfg.res[0]) S.limpAt = t;
+        const tw = S.limpAt == null ? 1 : Math.exp(-(t - S.limpAt) * 2.2);
+        ox = side * 5 + nzx * 3 * tw; oy = 7 + nzy * 3 * tw; k = 90; z = .7;
       }
       if (!hound && cfg.still != null && t < (cfg.draw ? cfg.draw[0] : 9)) { const q = sm(.05, cfg.still + .15, t); ox = ox * .4 - side * 5 * q; oy = oy * .4 + 3 * q; }         // the smiler: they tense inward and hold still
       if (S.contactT >= 0 && t - S.contactT < .5) { const q = Math.exp(-(t - S.contactT) * 7); ox += side * 11 * q; }                      // spread outward at the moment of impact
@@ -349,6 +375,21 @@
     const moving = hyp(b.vx, b.vy) > 6 || Math.abs(b.om) > .25 || S.h.some(h => hyp(h.vx - b.vx, h.vy - b.vy) > 14) || (eq.has && !eq.held && eq.st !== 'SLEEPING') || (ha.has && !ha.on && ha.st !== 'SLEEPING') || Math.abs(b.sqv) > .3;
     if (moving) S.calm = 0; else S.calm += dt;
     S.state = S.calm > .5 && t > (S.cfg.back ? S.cfg.back[1] : 1.6) ? 'SLEEPING' : S.calm > .12 ? 'SETTLING' : 'ACTIVE';
+    if (S.state === 'SLEEPING') { S.frozen = true; S.sleepAt = S.t; for (const o of [b, ...S.h, eq, ha]) { o.vx = 0; o.vy = 0; } b.om = 0; b.sqv = 0; S.ev.push({ t: S.t, k: 'sleep' }); }
+  }
+  /* once the victim sleeps, only the attacker still moves: it finishes easing off the body (same steering as before, no contact needed) */
+  function stepAttacker(S) {
+    const at = S.at, b = S.b, dt = DT, hound = S.hound, cfg = S.cfg, t = S.t;
+    const dx0 = b.x - at.x, dy0 = b.y - at.y, dist = hyp(dx0, dy0) || 1, nAx = dx0 / dist, nAy = dy0 / dist, contactD = RB + (hound ? 22 : 18);
+    let d = hound ? contactD - 3 : (cfg.stand || 36); if (hound && cfg.back && t > cfg.back[0]) d += cfg.back[2] * sm(cfg.back[0], cfg.back[1], t);
+    const tx = (!hound && cfg.draw) ? at.x : b.x - nAx * d, ty = (!hound && cfg.draw) ? at.y : b.y - nAy * d, kp = hound ? 170 : 55, kd = hound ? 24 : 14;
+    let ax = kp * (tx - at.x) - kd * at.vx, ay = kp * (ty - at.y) - kd * at.vy; const am = hyp(ax, ay); if (am > 3600) { ax *= 3600 / am; ay *= 3600 / am; }
+    at.vx += ax * dt; at.vy += ay * dt;
+    const ao = { x: at.x, y: at.y, vx: at.vx, vy: at.vy }; collide(S.walls, ao, (hound ? 22 : 18) - 4, .05, .2); at.x = ao.x; at.y = ao.y; at.vx = ao.vx; at.vy = ao.vy;
+    at.x += at.vx * dt; at.y += at.vy * dt; at.walk = (at.walk || 0) + hyp(at.vx, at.vy) * dt;
+    const wantA = Math.atan2(dy0, dx0), da = wrap(wantA - at.a); at.av += (da * 60 - at.av * 12) * dt; at.a += at.av * dt;
+    S.pitch += ((hyp(at.vx, at.vy) / 400) - S.pitch) * Math.min(1, dt * 8);
+    at.bite *= Math.exp(-dt * 9); const cm = S.cam; cm.vx += (-cm.x * 260 - cm.vx * 21) * dt; cm.vy += (-cm.y * 260 - cm.vy * 21) * dt; cm.x += cm.vx * dt; cm.y += cm.vy * dt;
   }
 
   /* a loose object (the light, the hat): carries the momentum it had, slides, spins, hits walls, and stops */
@@ -382,7 +423,10 @@
   /* called from Jl.start: builds the simulation for this death (or returns null and the old scripted death plays) */
   function begin(jl, plan, opt) {
     try {
-      const walls = window.__api && window.__api.Bc; if (!walls) return null;
+      const Bc = window.__api && window.__api.Bc; if (!Bc) return null;
+      // Stage 3D: the level's props block according to WORLD.mode (how low the mover is); a death always collides as the server's fallback
+      // does, in 'walk' mode, whatever the living player's posture was a moment ago
+      const W0 = window.WORLD, walls = !W0 || !W0.setMode ? Bc : (x, y) => { const m = W0.mode; if (m === 'walk') return Bc(x, y); W0.setMode('walk'); try { return Bc(x, y); } finally { W0.setMode(m); } };
       const v = plan && plan.v || 'A', kind = jl.kind === 'Smiler' ? 'Smiler' : 'Hound';
       const vic = jl.victim, hat = opt.hat || 'none';
       const S = create({ kind, v, victim: { x: vic.x, y: vic.y, angle: vic.angle, vx: opt.vx || 0, vy: opt.vy || 0 }, src: { x: jl.source.x, y: jl.source.y }, dir: jl.angle,

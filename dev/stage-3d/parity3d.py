@@ -14,7 +14,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import lib3d
 from playwright.async_api import async_playwright
 
-ap = argparse.ArgumentParser(); ap.add_argument('--game', default=lib3d.REPO); ap.add_argument('--out', required=True); ap.add_argument('--rounds', type=int, default=1); A_ = ap.parse_args()
+ap = argparse.ArgumentParser(); ap.add_argument('--game', default=lib3d.REPO); ap.add_argument('--out', required=True); ap.add_argument('--rounds', type=int, default=1)
+ap.add_argument('--recompute', help='only redo the Node comparison on the raw rows saved in this earlier output'); A_ = ap.parse_args(); A_.game = os.path.abspath(A_.game)
 HOOK = """(()=>{ window.__tx=[]; window.__rx=[]; const S=WebSocket.prototype.send; WebSocket.prototype.send=function(d){ try{ const m=JSON.parse(d); if(m.t==='fx'||m.t==='b') window.__tx.push(m); }catch(e){} return S.call(this,d); };
   const W=window.WebSocket; window.WebSocket=function(u,p){ const ws=new W(u,p); ws.addEventListener('message',e=>{ try{ const m=JSON.parse(e.data); if(m.t==='s'&&m.mk) window.__rx.push({mk:m.mk, ms:m.ms}); }catch(_){} }); return ws; };
   window.WebSocket.prototype=W.prototype; Object.assign(window.WebSocket, W); })()"""
@@ -33,7 +34,17 @@ console.log(JSON.stringify(out));
 """
 
 
+def compare(rows):
+    r = subprocess.run(['node', '-e', NODE, A_.game], input=json.dumps(rows), capture_output=True, text=True)
+    return (json.loads(r.stdout or '[]') if r.returncode == 0 else []), r.stderr[-400:]
+
+
 async def main():
+    if A_.recompute:
+        old = json.load(open(A_.recompute)); res, err = compare(old['raw'])
+        old.update({'deaths': len(res), 'compare': res, 'nodeErr': err, 'recomputed': True}); lib3d.dump(A_.out, old)
+        for x in res: print(x['v'], 'body', x['body'], 'turn', x['turn'], 'light', x['light'], 'hat', x['hat'], 'hands', x['hands'], 'fx==kill', x['fxMatchesKill'])
+        return
     port = lib3d.free_port(); srv = lib3d.start_server(A_.game, port, A_.out + '.server.log'); errs = []; rows = []
     try:
         async with async_playwright() as p:
@@ -61,9 +72,8 @@ async def main():
             await b.close()
     finally:
         lib3d.stop_server(srv)
-    r = subprocess.run(['node', '-e', NODE, A_.game], input=json.dumps(rows), capture_output=True, text=True)
-    res = json.loads(r.stdout or '[]') if r.returncode == 0 else []
-    lib3d.dump(A_.out, {'tool': 'dev/stage-3d/parity3d.py', 'game': A_.game, 'deaths': len(res), 'compare': res, 'raw': rows, 'nodeErr': r.stderr[-400:], 'errors': errs})
+    res, err = compare(rows)
+    lib3d.dump(A_.out, {'tool': 'dev/stage-3d/parity3d.py', 'game': A_.game, 'deaths': len(res), 'compare': res, 'raw': rows, 'nodeErr': err, 'errors': errs})
     for x in res: print(x['v'], 'body', x['body'], 'turn', x['turn'], 'light', x['light'], 'hat', x['hat'], 'hands', x['hands'], 'fx==kill', x['fxMatchesKill'])
 
 asyncio.run(main())

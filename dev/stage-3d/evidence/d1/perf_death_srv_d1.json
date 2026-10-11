@@ -1,0 +1,61 @@
+{
+ "tool": "dev/stage-3d/perf_death_srv.js",
+ "game": "/home/claude/backrooms-shadows",
+ "node": "v22.22.2",
+ "reps": 15,
+ "bodyFor": {
+  "Hound A": {
+   "medianMs": 10.778,
+   "maxMs": 18.681
+  },
+  "Hound B": {
+   "medianMs": 8.612,
+   "maxMs": 14.946
+  },
+  "Hound C": {
+   "medianMs": 8.624,
+   "maxMs": 12.669
+  },
+  "Hound D": {
+   "medianMs": 7.669,
+   "maxMs": 9.519
+  },
+  "Smiler A": {
+   "medianMs": 7.86,
+   "maxMs": 17.847
+  },
+  "Smiler B": {
+   "medianMs": 7.134,
+   "maxMs": 15.958
+  },
+  "Smiler C": {
+   "medianMs": 7.558,
+   "maxMs": 14.563
+  },
+  "Smiler D": {
+   "medianMs": 7.161,
+   "maxMs": 23.629
+  }
+ },
+ "step": {
+  "noCorpses": {
+   "medianMs": 0.0003,
+   "p95Ms": 0.0005
+  },
+  "corpses24": {
+   "medianMs": 0.0003,
+   "p95Ms": 0.0005
+  }
+ },
+ "bodiesMsg": {
+  "corpses": 24,
+  "bytes": 8541,
+  "bytesPerCorpse": 356
+ },
+ "memory": {
+  "heapBeforeMB": 11.79,
+  "heapAfter500MB": 12.66,
+  "bodiesKept": 24,
+  "gcExposed": false
+ }
+}

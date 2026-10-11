@@ -1,0 +1,1063 @@
+{
+ "tool": "dev/stage-3d/parity3d.py",
+ "game": ".",
+ "deaths": 8,
+ "compare": [
+  {
+   "v": "Hound A",
+   "killFromServer": true,
+   "fxMatchesKill": true,
+   "body": 0,
+   "turn": 0.019,
+   "light": 49,
+   "hat": 0,
+   "hands": 0,
+   "client": [
+    5712,
+    895,
+    3.13
+   ],
+   "server": [
+    5712,
+    895,
+    3.111
+   ],
+   "trailClient": 2,
+   "trailServer": 2,
+   "bloodClient": 4,
+   "bloodServer": 4
+  },
+  {
+   "v": "Hound B",
+   "killFromServer": true,
+   "fxMatchesKill": true,
+   "body": 0,
+   "turn": 0.004,
+   "light": 6,
+   "hat": 0,
+   "hands": 0,
+   "client": [
+    5661,
+    867,
+    3.265
+   ],
+   "server": [
+    5661,
+    867,
+    3.269
+   ],
+   "trailClient": 9,
+   "trailServer": 9,
+   "bloodClient": 4,
+   "bloodServer": 4
+  },
+  {
+   "v": "Hound C",
+   "killFromServer": true,
+   "fxMatchesKill": true,
+   "body": 1,
+   "turn": 0.002,
+   "light": 1,
+   "hat": 0,
+   "hands": 0,
+   "client": [
+    1929,
+    690,
+    3.151
+   ],
+   "server": [
+    1930,
+    690,
+    3.153
+   ],
+   "trailClient": 1,
+   "trailServer": 1,
+   "bloodClient": 4,
+   "bloodServer": 4
+  },
+  {
+   "v": "Hound D",
+   "killFromServer": true,
+   "fxMatchesKill": true,
+   "body": 1,
+   "turn": 0.057,
+   "light": 1,
+   "hat": 0,
+   "hands": 0,
+   "client": [
+    5717,
+    947,
+    3.074
+   ],
+   "server": [
+    5717,
+    946,
+    3.017
+   ],
+   "trailClient": 2,
+   "trailServer": 2,
+   "bloodClient": 3,
+   "bloodServer": 3
+  },
+  {
+   "v": "Smiler A",
+   "killFromServer": true,
+   "fxMatchesKill": true,
+   "body": 1,
+   "turn": 0.001,
+   "light": 1,
+   "hat": 0,
+   "hands": 0,
+   "client": [
+    5713,
+    954,
+    3.106
+   ],
+   "server": [
+    5713,
+    955,
+    3.107
+   ],
+   "trailClient": 4,
+   "trailServer": 4,
+   "bloodClient": 4,
+   "bloodServer": 4
+  },
+  {
+   "v": "Smiler B",
+   "killFromServer": true,
+   "fxMatchesKill": true,
+   "body": 0,
+   "turn": 0.001,
+   "light": 0,
+   "hat": 0,
+   "hands": 0,
+   "client": [
+    5715,
+    927,
+    2.655
+   ],
+   "server": [
+    5715,
+    927,
+    2.654
+   ],
+   "trailClient": 0,
+   "trailServer": 0,
+   "bloodClient": 3,
+   "bloodServer": 3
+  },
+  {
+   "v": "Smiler C",
+   "killFromServer": true,
+   "fxMatchesKill": true,
+   "body": 0,
+   "turn": 0,
+   "light": 0,
+   "hat": 0,
+   "hands": 0,
+   "client": [
+    5715,
+    950,
+    3.129
+   ],
+   "server": [
+    5715,
+    950,
+    3.129
+   ],
+   "trailClient": 4,
+   "trailServer": 4,
+   "bloodClient": 3,
+   "bloodServer": 3
+  },
+  {
+   "v": "Smiler D",
+   "killFromServer": true,
+   "fxMatchesKill": true,
+   "body": 1,
+   "turn": 0.001,
+   "light": 0,
+   "hat": 0,
+   "hands": 0,
+   "client": [
+    5729,
+    951,
+    3.274
+   ],
+   "server": [
+    5729,
+    952,
+    3.273
+   ],
+   "trailClient": 4,
+   "trailServer": 4,
+   "bloodClient": 3,
+   "bloodServer": 3
+  }
+ ],
+ "raw": [
+  {
+   "fx": {
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "t": "fx",
+    "k": "death",
+    "c": "Hound",
+    "x": 5712,
+    "y": 926,
+    "a": 1.571,
+    "sx": 5712,
+    "sy": 980,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "v": "A",
+    "w": 0
+   },
+   "b": {
+    "t": "b",
+    "n": "Alice",
+    "x": 5712,
+    "y": 895,
+    "a": 3.13,
+    "sx": 1,
+    "sy": 1,
+    "c": "Hound",
+    "aa": -1.566,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "lo": 1,
+    "bl": [
+     [
+      5712,
+      927,
+      0
+     ],
+     [
+      5712,
+      921,
+      1
+     ],
+     [
+      5712,
+      916,
+      2
+     ],
+     [
+      5712,
+      910,
+      3
+     ]
+    ],
+    "dr": [
+     5771,
+     927,
+     3.646
+    ],
+    "ht": [
+     5712,
+     926,
+     3.142
+    ],
+    "hd": [
+     -17.8,
+     -6,
+     18.2,
+     -5.8
+    ],
+    "tr": [
+     [
+      5712,
+      914
+     ],
+     [
+      5712,
+      903
+     ]
+    ],
+    "ho": 1,
+    "ph": 1,
+    "ka": [
+     5712,
+     946,
+     -1.574
+    ]
+   },
+   "mk": {
+    "v": "A",
+    "k": "Hound",
+    "e": 13,
+    "ax": 5712,
+    "ay": 980,
+    "aa": -1.572,
+    "w": 0,
+    "x": 5712,
+    "y": 926,
+    "a": 1.57,
+    "why": "preview"
+   },
+   "asked": "hound-A"
+  },
+  {
+   "fx": {
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "t": "fx",
+    "k": "death",
+    "c": "Hound",
+    "x": 5712,
+    "y": 925,
+    "a": 1.571,
+    "sx": 5677,
+    "sy": 884,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "v": "B",
+    "w": 0
+   },
+   "b": {
+    "t": "b",
+    "n": "Alice",
+    "x": 5661,
+    "y": 867,
+    "a": 3.265,
+    "sx": 1,
+    "sy": 1,
+    "c": "Hound",
+    "aa": 0.86,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "lo": 1,
+    "bl": [
+     [
+      5710,
+      922,
+      0
+     ],
+     [
+      5714,
+      928,
+      1
+     ],
+     [
+      5692,
+      902,
+      2
+     ],
+     [
+      5659,
+      864,
+      3
+     ]
+    ],
+    "dr": [
+     5697,
+     940,
+     3.191
+    ],
+    "ht": [
+     5712,
+     925,
+     3.142
+    ],
+    "hd": [
+     -18.1,
+     -6,
+     18,
+     -6
+    ],
+    "tr": [
+     [
+      5720,
+      934
+     ],
+     [
+      5714,
+      927
+     ],
+     [
+      5707,
+      920
+     ],
+     [
+      5700,
+      912
+     ],
+     [
+      5692,
+      903
+     ],
+     [
+      5685,
+      896
+     ],
+     [
+      5678,
+      887
+     ],
+     [
+      5671,
+      879
+     ],
+     [
+      5665,
+      872
+     ]
+    ],
+    "ho": 1,
+    "ph": 1,
+    "ka": [
+     5631,
+     831,
+     0.877
+    ]
+   },
+   "mk": {
+    "v": "B",
+    "k": "Hound",
+    "e": 14,
+    "ax": 5677,
+    "ay": 884,
+    "aa": 0.87,
+    "w": 0,
+    "x": 5712,
+    "y": 925,
+    "a": 1.57,
+    "why": "preview"
+   },
+   "asked": "hound-B"
+  },
+  {
+   "fx": {
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "t": "fx",
+    "k": "death",
+    "c": "Hound",
+    "x": 1930,
+    "y": 731,
+    "a": 1.571,
+    "sx": 1930,
+    "sy": 785,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "v": "C",
+    "w": [
+     1930,
+     672,
+     -1.572
+    ]
+   },
+   "b": {
+    "t": "b",
+    "n": "Alice",
+    "x": 1929,
+    "y": 690,
+    "a": 3.151,
+    "sx": 1,
+    "sy": 1,
+    "c": "Hound",
+    "aa": -1.576,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "lo": 1,
+    "bl": [
+     [
+      1929,
+      699,
+      0
+     ],
+     [
+      1929,
+      699,
+      1
+     ],
+     [
+      1929,
+      699,
+      2
+     ],
+     [
+      1929,
+      699,
+      3
+     ]
+    ],
+    "dr": [
+     1931,
+     684,
+     2.794
+    ],
+    "ht": [
+     1930,
+     731,
+     3.142
+    ],
+    "hd": [
+     -18,
+     -6,
+     18.1,
+     -6
+    ],
+    "tr": [
+     [
+      1929,
+      690
+     ]
+    ],
+    "ho": 1,
+    "ph": 1,
+    "ka": [
+     1930,
+     739,
+     -1.589
+    ]
+   },
+   "mk": {
+    "v": "C",
+    "k": "Hound",
+    "e": 15,
+    "ax": 1930,
+    "ay": 785,
+    "aa": -1.572,
+    "w": [
+     1930,
+     672,
+     -1.572
+    ],
+    "x": 1930,
+    "y": 731,
+    "a": 1.57,
+    "why": "preview"
+   },
+   "asked": "hound-C"
+  },
+  {
+   "fx": {
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "t": "fx",
+    "k": "death",
+    "c": "Hound",
+    "x": 5717,
+    "y": 919,
+    "a": 1.571,
+    "sx": 5717,
+    "sy": 865,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "v": "D",
+    "w": 0
+   },
+   "b": {
+    "t": "b",
+    "n": "Alice",
+    "x": 5717,
+    "y": 947,
+    "a": 3.074,
+    "sx": 1.2,
+    "sy": 0.78,
+    "c": "Hound",
+    "aa": 1.563,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "lo": 1,
+    "bl": [
+     [
+      5717,
+      918,
+      0
+     ],
+     [
+      5717,
+      924,
+      1
+     ],
+     [
+      5717,
+      931,
+      2
+     ]
+    ],
+    "dr": [
+     5699,
+     943,
+     2.642
+    ],
+    "ht": [
+     5717,
+     919,
+     3.142
+    ],
+    "hd": [
+     -18,
+     -6,
+     18,
+     -6
+    ],
+    "tr": [
+     [
+      5717,
+      925
+     ],
+     [
+      5717,
+      939
+     ]
+    ],
+    "ho": 1,
+    "ph": 1,
+    "ka": [
+     5717,
+     900,
+     1.57
+    ]
+   },
+   "mk": {
+    "v": "D",
+    "k": "Hound",
+    "e": 16,
+    "ax": 5717,
+    "ay": 865,
+    "aa": 1.57,
+    "w": 0,
+    "x": 5717,
+    "y": 919,
+    "a": 1.57,
+    "why": "preview"
+   },
+   "asked": "hound-D"
+  },
+  {
+   "fx": {
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "t": "fx",
+    "k": "death",
+    "c": "Smiler",
+    "x": 5713,
+    "y": 925,
+    "a": 1.571,
+    "sx": 5713,
+    "sy": 975,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "v": "A",
+    "w": 0
+   },
+   "b": {
+    "t": "b",
+    "n": "Alice",
+    "x": 5713,
+    "y": 954,
+    "a": 3.106,
+    "sx": 1,
+    "sy": 1,
+    "c": "Smiler",
+    "aa": -1.578,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "lo": 1,
+    "bl": [
+     [
+      5713,
+      929,
+      0
+     ],
+     [
+      5713,
+      928,
+      1
+     ],
+     [
+      5713,
+      928,
+      2
+     ],
+     [
+      5713,
+      927,
+      3
+     ]
+    ],
+    "dr": [
+     5701,
+     927,
+     3.835
+    ],
+    "ht": [
+     5713,
+     925,
+     3.142
+    ],
+    "hd": [
+     -18,
+     -6,
+     18,
+     -6
+    ],
+    "tr": [
+     [
+      5712,
+      923
+     ],
+     [
+      5713,
+      933
+     ],
+     [
+      5713,
+      945
+     ],
+     [
+      5713,
+      955
+     ]
+    ],
+    "ho": 1,
+    "ph": 1,
+    "ka": 0
+   },
+   "mk": {
+    "v": "A",
+    "k": "Smiler",
+    "e": 17,
+    "ax": 5713,
+    "ay": 975,
+    "aa": -1.572,
+    "w": 0,
+    "x": 5713,
+    "y": 925,
+    "a": 1.57,
+    "why": "preview"
+   },
+   "asked": "smiler-A"
+  },
+  {
+   "fx": {
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "t": "fx",
+    "k": "death",
+    "c": "Smiler",
+    "x": 5715,
+    "y": 928,
+    "a": 1.571,
+    "sx": 5715,
+    "sy": 978,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "v": "B",
+    "w": 0
+   },
+   "b": {
+    "t": "b",
+    "n": "Alice",
+    "x": 5715,
+    "y": 927,
+    "a": 2.655,
+    "sx": 1.162,
+    "sy": 0.822,
+    "c": "Smiler",
+    "aa": -1.577,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "lo": 1,
+    "bl": [
+     [
+      5715,
+      936,
+      0
+     ],
+     [
+      5715,
+      936,
+      1
+     ],
+     [
+      5715,
+      936,
+      2
+     ]
+    ],
+    "dr": [
+     5707,
+     938,
+     3.155
+    ],
+    "ht": [
+     5715,
+     928,
+     3.142
+    ],
+    "hd": [
+     -10.5,
+     -7.6,
+     10.6,
+     -7.6
+    ],
+    "tr": [],
+    "ho": 1,
+    "ph": 1,
+    "ka": 0
+   },
+   "mk": {
+    "v": "B",
+    "k": "Smiler",
+    "e": 18,
+    "ax": 5715,
+    "ay": 978,
+    "aa": -1.572,
+    "w": 0,
+    "x": 5715,
+    "y": 928,
+    "a": 1.57,
+    "why": "preview"
+   },
+   "asked": "smiler-B"
+  },
+  {
+   "fx": {
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "t": "fx",
+    "k": "death",
+    "c": "Smiler",
+    "x": 5715,
+    "y": 912,
+    "a": 1.571,
+    "sx": 5715,
+    "sy": 962,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "v": "C",
+    "w": 0
+   },
+   "b": {
+    "t": "b",
+    "n": "Alice",
+    "x": 5715,
+    "y": 950,
+    "a": 3.129,
+    "sx": 1,
+    "sy": 1,
+    "c": "Smiler",
+    "aa": -1.569,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "lo": 1,
+    "bl": [
+     [
+      5715,
+      918,
+      0
+     ],
+     [
+      5715,
+      918,
+      1
+     ],
+     [
+      5715,
+      917,
+      2
+     ]
+    ],
+    "dr": [
+     5712,
+     919,
+     3.061
+    ],
+    "ht": [
+     5715,
+     912,
+     3.142
+    ],
+    "hd": [
+     -18,
+     -6,
+     18,
+     -6
+    ],
+    "tr": [
+     [
+      5715,
+      909
+     ],
+     [
+      5715,
+      919
+     ],
+     [
+      5715,
+      931
+     ],
+     [
+      5715,
+      943
+     ]
+    ],
+    "ho": 1,
+    "ph": 1,
+    "ka": 0
+   },
+   "mk": {
+    "v": "C",
+    "k": "Smiler",
+    "e": 19,
+    "ax": 5715,
+    "ay": 962,
+    "aa": -1.572,
+    "w": 0,
+    "x": 5715,
+    "y": 912,
+    "a": 1.57,
+    "why": "preview"
+   },
+   "asked": "smiler-C"
+  },
+  {
+   "fx": {
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "t": "fx",
+    "k": "death",
+    "c": "Smiler",
+    "x": 5729,
+    "y": 919,
+    "a": 1.571,
+    "sx": 5729,
+    "sy": 969,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "v": "D",
+    "w": 0
+   },
+   "b": {
+    "t": "b",
+    "n": "Alice",
+    "x": 5729,
+    "y": 951,
+    "a": 3.274,
+    "sx": 1,
+    "sy": 1,
+    "c": "Smiler",
+    "aa": -1.57,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "#3b4650,#a1a9b0,#d8443a,#181b1e",
+    "lo": 1,
+    "bl": [
+     [
+      5729,
+      923,
+      0
+     ],
+     [
+      5729,
+      923,
+      1
+     ],
+     [
+      5729,
+      923,
+      2
+     ]
+    ],
+    "dr": [
+     5725,
+     924,
+     3.683
+    ],
+    "ht": [
+     5729,
+     919,
+     3.142
+    ],
+    "hd": [
+     -18.1,
+     -6,
+     17.9,
+     -6
+    ],
+    "tr": [
+     [
+      5729,
+      915
+     ],
+     [
+      5729,
+      925
+     ],
+     [
+      5729,
+      936
+     ],
+     [
+      5729,
+      948
+     ]
+    ],
+    "ho": 1,
+    "ph": 1,
+    "ka": 0
+   },
+   "mk": {
+    "v": "D",
+    "k": "Smiler",
+    "e": 20,
+    "ax": 5729,
+    "ay": 969,
+    "aa": -1.572,
+    "w": 0,
+    "x": 5729,
+    "y": 919,
+    "a": 1.57,
+    "why": "preview"
+   },
+   "asked": "smiler-D"
+  }
+ ],
+ "nodeErr": "",
+ "errors": [],
+ "recomputed": true
+}
