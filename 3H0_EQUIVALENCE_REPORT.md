@@ -78,3 +78,37 @@
 | `test_3bn.js` | 7/7 |
 | Live wire: the real server and game, the parent's checkout against the new tree | **structurally identical in all 56 phase, player and direction summaries** (7,160 and 7,177 frames); 0 page errors on either side |
 | Deterministic performance (client, 15 rounds interleaved) | within the rule fixed at H0-1. The hook medians moved −5.6 % to −1.4 %, the handler medians −9.1 % to +10.8 %. The largest, `fx_bodies` handler +10.8 %, is 1.3 ms against a tolerance of 6.8 ms from the old side's own spread. The move adds no per-frame work: `netPose` is called as often as before, from the same places. |
+
+## H0-4a: the WebSocket framing (server) — GO
+
+**What moved.** From `server.js` into the new `server/ws.js`, character for character:
+- `frame(str)`, the outbound text frame;
+- the inbound frame parser, as `reader(sock, onMessage)`, which returns the socket's `data` handler. Its body is the old inline handler's, and its buffer is the old `let buf`, now one per call instead of one per connection closure (the same thing: one call per connection).
+
+**What stayed in `server.js`:** the whole upgrade (raw WebSocket acceptance: path, key, room cap, room name, the 101 response, the player, `hi`). The H0-0 map proposed moving the 101 response text too; it stays, because the master prompt puts raw WebSocket acceptance outside 3H0, and the upgrade decision reads best in one place.
+
+**server.js:** one `require` where `frame` was, and one line `sock.on('data', reader(sock, onMessage))` where the inline handler was registered. 30,485 → 29,776 bytes, 368 → 350 lines. The new file is 2,170 bytes.
+
+**Why it is safe by construction:**
+- `frame` is pure;
+- the reader's only state is the buffer it owns, and its only effects go to the socket and the callback it is given;
+- it is registered at the same moment, so the listener order is unchanged;
+- no `'use strict'` in either file, no timer, nothing required.
+
+**Tests first.** Before `server.js` was touched:
+- `fn_equiv.js` was taught to accept a module without the handshake, and its generator gained valid JSON frames of exactly 1,399, 1,400 and 1,401 bytes. The A/A run is identical.
+- The draft module was checked by function equivalence and 12 deliberate wrong versions (`fn_equiv_ws_draft.json`, `fn_mutants_ws_draft.json`).
+- A new real-socket check, `raw_live.js`, was run A/A. Its first A/A run differed: it read the 101 response and the second response's `Date` header too early or too narrowly. That run is kept (`raw_live_aa_attempt1.json`). The tool now waits for replies and replaces every `Date` header; the A/A run is identical, three times.
+
+**The evidence** (`dev/stage-3h0/evidence/h0-4a/`):
+
+| Check | Result |
+|---|---|
+| Function level (`fn_equiv.js --target ws --new server/ws.js`): `frame` on 3,000 strings (lengths around 125, 126, 65,535 and 65,536, ASCII and multi-byte); the reader on 1,000 random byte streams cut into random chunks: valid, partial, unmasked, ping, pong, binary, continuation, close and 64-bit frames, bad JSON, a handler that throws, frames at the 1,400-byte limit | **all identical**: 3,000 frames and 1,000 streams, every socket effect and callback in the same order |
+| Does that check have teeth? (`fn_mutants.js --target ws`) | **12 of 12** wrong versions caught: the 7-bit and 16-bit length limits, the 16-bit length bytes, reading before the mask and payload are in, a 2-byte mask, the 1,400-byte limit, close destroying instead of ending, pong sent as ping, 64-bit lengths waited on, a 3-bit opcode, a handler error escaping, reading stopped after a ping |
+| Server golden traces, 11 scenarios (`ws_upgrade`, `ws_frames`, lifecycle, deaths, admin, schedule, fields, HTTP ...) | **byte-identical** old against new, and against the baseline (except the expected `index.html` / `mp.js` bodies). The only structural difference is the new `require('./server/ws.js')` |
+| Client golden traces, 9 scenes; protocol contract | identical; 0 violations |
+| Real sockets (`raw_live.js`): the parent's `server.js` and the new one, each started with `node server.js PORT` on the same files | **identical**: the start-up line; 108 raw HTTP exchanges byte for byte except `Date`; 25 WebSocket checks (the 101 bytes, `hi`, pings whole and one byte per write, JSON ping and its 400 ms limit, bad JSON, the 1,399 / 1,400-byte limit, binary and pong frames ignored, the close frame, a 64-bit length, refused upgrades, the 8-player cap) |
+| Existing network suites on the new server | the same as at H0-1: `live.js` 17/17, `audit_net.js` 17/17, `audit_net2.js` 11/11, `ir_net.js` 4/4, `test_3bn.js` 7/7 |
+| Live wire: the real server and game, the parent's checkout against the new tree | **structurally identical in all 56 phase, player and direction summaries** (7,200 and 7,274 frames); 0 page errors on either side |
+| Deterministic performance (server, 15 rounds interleaved) | within the rule fixed at H0-1. The CPU medians of the four server workloads moved −0.6 % to +4.1 %, against tolerances of 15-21 % of the old medians (the old side's own spread across rounds). The framing does the same work per frame as before. |

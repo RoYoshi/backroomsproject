@@ -1,0 +1,13 @@
+CAUGHT 7-bit length limit 125
+CAUGHT a 65,536-byte message sent
+CAUGHT 16-bit length written wrong
+CAUGHT frame read before the mask and payload are in
+CAUGHT mask applied with 2 bytes
+CAUGHT text limit 1,400 bytes inclusive
+CAUGHT close frame destroys instead of ending
+CAUGHT pong sent as ping
+CAUGHT 64-bit length waited on instead of refused
+CAUGHT opcode read with 3 bits
+CAUGHT a handler error escapes the reader
+CAUGHT stop reading after a ping
+12/12 caught

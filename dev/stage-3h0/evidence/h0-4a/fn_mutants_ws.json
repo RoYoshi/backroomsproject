@@ -1,0 +1,69 @@
+{
+ "tool": "dev/stage-3h0/golden/fn_mutants.js",
+ "target": "ws",
+ "file": "server/ws.js",
+ "applied": 12,
+ "caught": 12,
+ "results": [
+  {
+   "name": "7-bit length limit 125",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "a 65,536-byte message sent",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "16-bit length written wrong",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "frame read before the mask and payload are in",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "mask applied with 2 bytes",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "text limit 1,400 bytes inclusive",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "close frame destroys instead of ending",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "pong sent as ping",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "64-bit length waited on instead of refused",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "opcode read with 3 bits",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "a handler error escapes the reader",
+   "applied": true,
+   "caught": true
+  },
+  {
+   "name": "stop reading after a ping",
+   "applied": true,
+   "caught": true
+  }
+ ]
+}

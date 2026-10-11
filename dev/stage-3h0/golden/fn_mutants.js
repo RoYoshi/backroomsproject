@@ -1,6 +1,6 @@
 /* Stage 3H0 - does fn_equiv.js notice a wrong extraction?  (development only)
  *
- *   node dev/stage-3h0/golden/fn_mutants.js --target wire|interp --file assets/net-wire.js [--out FILE.json]
+ *   node dev/stage-3h0/golden/fn_mutants.js --target wire|interp|ws|fields --file EXTRACTED_FILE [--out FILE.json]
  *
  * Copies the extracted helper with one small deliberate change at a time and runs fn_equiv.js against the parent's text: every copy must be
  * reported as different.  The real file is never touched. */
@@ -29,6 +29,33 @@ const M = {
     ['prune after 6 s', 'if (e.st - h.seen > 5) NET.hist.delete(k);', 'if (e.st - h.seen > 6) NET.hist.delete(k);'],
     ['no epoch callback', 'NET.epoch++; if (NET.onEpoch) NET.onEpoch();', 'NET.epoch++;'],
     ['facing not on the shortest arc', 'a: a.a + angD2(b.a, a.a) * u }', 'a: a.a + (b.a - a.a) * u }'],
+  ],
+  ws: [
+    ['7-bit length limit 125', 'n < 126 ? Buffer.from([0x81, n])', 'n < 125 ? Buffer.from([0x81, n])'],
+    ['a 65,536-byte message sent', 'n < 65536 ? Buffer.from', 'n <= 65536 ? Buffer.from'],
+    ['16-bit length written wrong', '0x81, 126, n >> 8, n & 255', '0x81, 126, n >> 7, n & 255'],
+    ['frame read before the mask and payload are in', 'if (buf.length < off + 4 + len) return;', 'if (buf.length < off + len) return;'],
+    ['mask applied with 2 bytes', 'pl[i] ^= mask[i & 3]', 'pl[i] ^= mask[i & 1]'],
+    ['text limit 1,400 bytes inclusive', 'op === 1 && len < 1400', 'op === 1 && len <= 1400'],
+    ['close frame destroys instead of ending', 'if (op === 8) return sock.end();', 'if (op === 8) return sock.destroy();'],
+    ['pong sent as ping', 'sock.write(Buffer.from([0x8a, 0]))', 'sock.write(Buffer.from([0x89, 0]))'],
+    ['64-bit length waited on instead of refused', 'else if (len === 127) return sock.destroy();', 'else if (len === 127) return;'],
+    ['opcode read with 3 bits', 'const op = buf[0] & 15;', 'const op = buf[0] & 7;'],
+    ['a handler error escapes the reader', 'try { onMessage(JSON.parse(pl)); } catch (e) { /* ignore bad input */ }', 'let mm; try { mm = JSON.parse(pl); } catch (e) { /* ignore bad input */ } if (mm !== undefined) onMessage(mm);'],
+    ['stop reading after a ping', 'sock.write(Buffer.from([0x8a, 0])); continue; }', 'sock.write(Buffer.from([0x8a, 0])); return; }'],
+  ],
+  fields: [
+    ['missing numbers become 1', '+v || 0', '+v || 1'],
+    ['camcorder not a kind', "'lantern', 'camcorder']", "'lantern']"],
+    ['torch becomes a flashlight', "torch: 'lantern'", "torch: 'flashlight'"],
+    ['unknown kinds become headlamps', "(LEGACY[k] || 'flashlight')", "(LEGACY[k] || 'headlamp')"],
+    ['6 light parts accepted', 'a.length >= 3 && a.length <= 5', 'a.length >= 3 && a.length <= 6'],
+    ['3-digit part colours accepted', 'a.every(c => /^#[0-9a-f]{6}$/i.test(c))', 'a.every(c => /^#[0-9a-f]{3,6}$/i.test(c))'],
+    ['colours case-sensitive', 'HEX = /^#[0-9a-f]{6}$/i', 'HEX = /^#[0-9a-f]{6}$/'],
+    ['another default look', "DEFAULT_LOOK = 'none|plain|#e6bb76|#ffcc77|none'", "DEFAULT_LOOK = 'none|plain|#e6bb76|#ffcc78|none'"],
+    ['an unknown hat accepted', "['none', 'cap', 'beanie', 'hardhat']", "['none', 'cap', 'beanie', 'hardhat', 'crown']"],
+    ['an unknown backpack accepted', "['none', 'canvas', 'utility'].includes(b)", "['none', 'canvas', 'utility', 'bag'].includes(b)"],
+    ['a bad look gives an empty string', "join('|') : null;", "join('|') : '';"],
   ],
 }[ARG.target];
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'h0fm-')), res = [];

@@ -1,0 +1,22 @@
+{
+ "target": "ws",
+ "newFile": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h0-4/ws.js",
+ "functions": {
+  "frame": {
+   "cases": 3000,
+   "identical": 3000
+  },
+  "handshake": {
+   "moved": false,
+   "note": "the 101 response stays in server.js (raw WebSocket acceptance); the server golden traces cover its bytes"
+  },
+  "reader": {
+   "streams": 1000,
+   "identical": 1000
+  }
+ },
+ "mismatches": 0,
+ "tool": "dev/stage-3h0/golden/fn_equiv.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "ok": true
+}

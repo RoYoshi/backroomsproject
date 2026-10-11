@@ -72,3 +72,4 @@
 | Checkpoint | Moved | New file | server.js bytes / lines | Equivalence receipt |
 |---|---|---|---|---|
 | (H0-0) | nothing | | 30,485 / 368 | |
+| H0-4a | the WebSocket framing: `frame` and the inbound frame parser (as `reader(sock, onMessage)`), verbatim. The 101 response stays in the upgrade handler (raw WebSocket acceptance), unlike the H0-0 proposal for S2 | `server/ws.js` (2,170 B, 34 lines) | 29,776 / 350 | `3H0_EQUIVALENCE_REPORT.md` H0-4a |

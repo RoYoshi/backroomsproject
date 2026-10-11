@@ -126,11 +126,7 @@ function aftTick(room) {
 }
 function moveTo(me, x, y, tell = true) { Object.assign(me.player, { x, y }); if (tell) send(me, { t: 'tp', x, y }); mvReset(me); }
 
-function frame(str) {
-  const b = Buffer.from(str), n = b.length;
-  const h = n < 126 ? Buffer.from([0x81, n]) : n < 65536 ? Buffer.from([0x81, 126, n >> 8, n & 255]) : null;
-  return h ? Buffer.concat([h, b]) : null;
-}
+const { frame, reader } = require('./server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
 const send = (c, obj) => { const f = frame(JSON.stringify(obj)); if (f && !c.sock.destroyed) c.sock.write(f); };
 const num = (v, lo, hi) => Math.max(lo, Math.min(hi, +v || 0));
 const KINDS = ['flashlight', 'headlamp', 'lantern', 'camcorder'], LEGACY = { chestlamp: 'headlamp', torch: 'lantern' };
@@ -289,21 +285,7 @@ srv.on('upgrade', (req, sock) => {
     }
   }
 
-  let buf = Buffer.alloc(0);
-  sock.on('data', d => {
-    buf = Buffer.concat([buf, d]);
-    while (buf.length >= 2) {
-      const op = buf[0] & 15; let len = buf[1] & 127, off = 2;
-      if (len === 126) { if (buf.length < 4) return; len = buf.readUInt16BE(2); off = 4; } else if (len === 127) return sock.destroy();
-      if (buf.length < off + 4 + len) return;
-      const mask = buf.slice(off, off + 4), pl = Buffer.from(buf.slice(off + 4, off + 4 + len));
-      for (let i = 0; i < len; i++) pl[i] ^= mask[i & 3];
-      buf = buf.slice(off + 4 + len);
-      if (op === 8) return sock.end();
-      if (op === 9) { sock.write(Buffer.from([0x8a, 0])); continue; }       // ping -> pong
-      if (op === 1 && len < 1400) { try { onMessage(JSON.parse(pl)); } catch (e) { /* ignore bad input */ } }
-    }
-  });
+  sock.on('data', reader(sock, onMessage));                                // Stage 3H0: server/ws.js (frames in, pong, close; text under 1,400 bytes to onMessage)
   const bye = () => {
     if (!room.clients.has(id)) return;
     if (player.caught && !player.dead) room.sim.forfeit(player);          // walking out of a capture is a death (its aftermath is recorded before we go), not an escape

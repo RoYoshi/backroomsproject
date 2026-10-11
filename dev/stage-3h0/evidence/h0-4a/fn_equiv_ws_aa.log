@@ -1,0 +1,22 @@
+{
+ "target": "ws",
+ "newFile": null,
+ "functions": {
+  "frame": {
+   "cases": 3000,
+   "identical": 3000
+  },
+  "handshake": {
+   "cases": 20000,
+   "identical": 20000
+  },
+  "reader": {
+   "streams": 1000,
+   "identical": 1000
+  }
+ },
+ "mismatches": 0,
+ "tool": "dev/stage-3h0/golden/fn_equiv.js",
+ "oldRef": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "ok": true
+}

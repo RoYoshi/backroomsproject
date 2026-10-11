@@ -129,3 +129,27 @@ New server-side CommonJS modules, required by `server.js` at the point where the
 - add no dependency.
 
 Each addition is listed here at the checkpoint that makes it.
+
+`node server.js [port]`, the console output, every HTTP response, the WebSocket protocol, the calls into `sim.js` and the process-wide state stay exactly as listed above.
+
+### Added at H0-4a: the WebSocket framing
+
+**`server/ws.js`** is a CommonJS module with no `'use strict'`, like `server.js`. It requires nothing and does nothing when loaded but define its two functions:
+- `frame(str)`: the server's text frame (7-bit or 16-bit length, never masked), or `null` for 65,536 bytes and over. `send()` in `server.js` uses it exactly as before.
+- `reader(sock, onMessage)`: returns the socket's `data` handler. The handler owns that socket's buffer and keeps every rule of the old inline parser: it waits for whole frames, unmasks them, answers a ping with a pong, ends the socket on a close frame, destroys it on a 64-bit length, and gives every text frame under 1,400 bytes, parsed as JSON, to `onMessage`. Bad JSON, and errors thrown by `onMessage`, are swallowed as before.
+
+**What stays in `server.js`:** the whole upgrade, which is raw WebSocket acceptance:
+- which requests are accepted (path, key, room cap);
+- the room name;
+- the 101 response text;
+- `setNoDelay`, the player and the `hi` message.
+
+The upgrade handler registers `sock.on('data', reader(sock, onMessage))` at the point where the inline handler was registered, so the listener order (`data`, then `close` and `error`) is unchanged.
+
+**Start-up:** `server.js` requires the module where `frame` used to be defined, after `./death_srv.js`. That is one more module loaded at start-up, before the interval and `listen`.
+
+**Serving:** `/server/ws.js` is 404. `SERVE` does not reach `server/`; the `http_base` and `http_h0` scenarios and the raw TCP check request it.
+
+**If the file is missing:** `node server.js` stops at start-up with `MODULE_NOT_FOUND`, before it listens. A deployment has to ship the `server/` folder with `server.js`.
+- The deploy workflow says the Bloom host's start-up script pulls the latest `main` commit. A pull brings the whole folder.
+- That script is on the host, not in the repository. On the first deploy that includes 3H0, check that the server starts.

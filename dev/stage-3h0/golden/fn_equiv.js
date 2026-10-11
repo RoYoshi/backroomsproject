@@ -161,13 +161,14 @@ function ws() {
   const mk = () => vm.createContext({ Buffer, crypto: require('crypto'), JSON, Math });
   const O = vm.runInContext(frameCode + `\n;({ frame, handshake: req => ${hsExpr}, register: (sock, onMessage) => { ${readerCode} } })`, mk());
   let N, newFile = null;
-  if (ARG.new && fs.existsSync(ARG.new)) { newFile = ARG.new; const m = require(path.resolve(ARG.new)); N = { frame: m.frame, handshake: req => m.handshake(req.headers['sec-websocket-key']), register: (sock, onMessage) => sock.on('data', m.reader(sock, onMessage)) }; }
+  if (ARG.new && fs.existsSync(ARG.new)) { newFile = ARG.new; const m = require(path.resolve(ARG.new)); N = { frame: m.frame, handshake: typeof m.handshake === 'function' ? req => m.handshake(req.headers['sec-websocket-key']) : null, register: (sock, onMessage) => sock.on('data', m.reader(sock, onMessage)) }; }
   else N = vm.runInContext(frameCode + `\n;({ frame, handshake: req => ${hsExpr}, register: (sock, onMessage) => { ${readerCode} } })`, mk());
   const res = { target: 'ws', newFile, functions: {}, mismatches: [] };
   const n = +ARG.cases;
   const str = () => { const L = pick([0, 1, 5, 124, 125, 126, 127, 1000, 65535, 65536, 70000, Math.floor(R() * 300), Math.floor(R() * 66000)]); let t = ''; const al = pick(['ascii', 'utf8', 'mixed']); for (let i = 0; i < L; i++) t += al === 'ascii' ? String.fromCharCode(32 + Math.floor(R() * 90)) : al === 'utf8' ? pick(['é', '✓', '😀', 'a']) : pick(['a', '{', '"', 'é']); return t; };
   { let same = 0; const m = Math.min(n, 3000); for (let i = 0; i < m; i++) { const x = str(), a = call(O.frame, [x]), b = call(N.frame, [x]); if (a === b) same++; else if (res.mismatches.length < 20) res.mismatches.push({ fn: 'frame', len: x.length, old: a.slice(0, 200), new: b.slice(0, 200) }); } res.functions.frame = { cases: m, identical: same }; }
-  { let same = 0; for (let i = 0; i < n; i++) { const key = pick([() => 'dGhlIHNhbXBsZSBub25jZQ==', () => require('crypto').randomBytes(16).toString('base64'), () => '', () => undefined, () => 'x'.repeat(Math.floor(R() * 80)), () => 'é✓', () => 42])(); const req = { headers: { 'sec-websocket-key': key } }; const a = call(O.handshake, [req]), b = call(N.handshake, [req]); if (a === b) same++; else if (res.mismatches.length < 20) res.mismatches.push({ fn: 'handshake', key, old: a.slice(0, 200), new: b.slice(0, 200) }); } res.functions.handshake = { cases: n, identical: same }; }
+  if (!N.handshake) res.functions.handshake = { moved: false, note: 'the 101 response stays in server.js (raw WebSocket acceptance); the server golden traces cover its bytes' };   // the new module does not take it
+  else { let same = 0; for (let i = 0; i < n; i++) { const key = pick([() => 'dGhlIHNhbXBsZSBub25jZQ==', () => require('crypto').randomBytes(16).toString('base64'), () => '', () => undefined, () => 'x'.repeat(Math.floor(R() * 80)), () => 'é✓', () => 42])(); const req = { headers: { 'sec-websocket-key': key } }; const a = call(O.handshake, [req]), b = call(N.handshake, [req]); if (a === b) same++; else if (res.mismatches.length < 20) res.mismatches.push({ fn: 'handshake', key, old: a.slice(0, 200), new: b.slice(0, 200) }); } res.functions.handshake = { cases: n, identical: same }; }
   /* the reader: random byte streams of frames (valid and not), cut into random chunks, fed to both; every effect recorded in order */
   const cfr = (payload, { op = 1, fin = true, mask = true, len16 = false, len64 = false, key } = {}) => {
     const p = Buffer.isBuffer(payload) ? payload : Buffer.from(String(payload)); const nn = p.length, h = [(fin ? 0x80 : 0) | op], mm = mask ? 0x80 : 0;
@@ -175,7 +176,8 @@ function ws() {
     const k = mask ? Buffer.from(key || [Math.floor(R() * 256), Math.floor(R() * 256), Math.floor(R() * 256), Math.floor(R() * 256)]) : Buffer.alloc(0), body = Buffer.from(p);
     if (mask) for (let i = 0; i < nn; i++) body[i] ^= k[i & 3]; return Buffer.concat([Buffer.from(h), k, body]);
   };
-  const msg = () => pick([() => JSON.stringify({ t: 'p', x: Math.floor(R() * 9000), y: 3 }), () => JSON.stringify({ t: 'boom' }), () => '{"t":', () => 'null', () => '[1,2]', () => '"s"', () => '42', () => JSON.stringify({ t: 'ping', pad: 'x'.repeat(Math.floor(R() * 1500)) }), () => JSON.stringify({ t: 'x', u: 'é😀' })])();
+  const sized = len => JSON.stringify({ t: 'ping', pad: 'x'.repeat(len - 21) });                 // valid JSON of exactly len bytes (the 1,400-byte limit)
+  const msg = () => pick([() => sized(pick([1399, 1400, 1401])), () => JSON.stringify({ t: 'p', x: Math.floor(R() * 9000), y: 3 }), () => JSON.stringify({ t: 'boom' }), () => '{"t":', () => 'null', () => '[1,2]', () => '"s"', () => '42', () => JSON.stringify({ t: 'ping', pad: 'x'.repeat(Math.floor(R() * 1500)) }), () => JSON.stringify({ t: 'x', u: 'é😀' })])();
   const piece = () => pick([() => cfr(msg()), () => cfr(msg()), () => cfr(msg(), { len16: true }), () => cfr('hi', { op: 9 }), () => cfr('', { op: 10 }), () => cfr(Buffer.from([1, 2, 3]), { op: 2 }), () => cfr(msg(), { op: 0 }), () => cfr(msg(), { fin: false }),
     () => cfr(msg(), { mask: false }), () => cfr('', { op: 8 }), () => cfr(msg(), { len64: true }), () => Buffer.from([0x81]), () => cfr('x'.repeat(1399)), () => cfr('x'.repeat(1400))])();
   let same = 0; const runs = Math.max(200, Math.round(n / 20));
