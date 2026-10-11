@@ -1,0 +1,83 @@
+{
+ "recordedAt": "2026-10-11T01:46:17Z",
+ "acceptedParent": {
+  "commit": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+  "tree": "108d89fa07634ef4816428939fc7dda1e03ec971"
+ },
+ "lsRemoteStage3cQa2": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+ "githubApiCommit": {
+  "sha": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+  "tree": "108d89fa07634ef4816428939fc7dda1e03ec971",
+  "parents": [
+   "06d7ae7a4ba08d0abb9b4b2b616647c2e4ad4a3b"
+  ],
+  "message": "Stage 3C QA2 R3: final validation, documents and package tooling"
+ },
+ "githubApiBranch": {
+  "sha": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+  "tree": "108d89fa07634ef4816428939fc7dda1e03ec971"
+ },
+ "gitFetch": {
+  "FETCH_HEAD": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+  "tree": "108d89fa07634ef4816428939fc7dda1e03ec971"
+ },
+ "localObject": {
+  "tree": "108d89fa07634ef4816428939fc7dda1e03ec971"
+ },
+ "stage3h0OnRemote": false,
+ "packChecksums": {
+  "entries": 27,
+  "allMatch": true
+ },
+ "packSnapshotsVsGit": {
+  "mp.js": {
+   "git": "9de0ad7ab1b74b9ab850fe91772b00b0cdbaea609c04e4a63614dae128cd5fac",
+   "bytes": 72790,
+   "pack": "9de0ad7ab1b74b9ab850fe91772b00b0cdbaea609c04e4a63614dae128cd5fac",
+   "match": true
+  },
+  "server.js": {
+   "git": "a2867137b6e6955c5bc826e1754ab90d1a0950508f223413e38352ca3aca2e50",
+   "bytes": 30485,
+   "pack": "a2867137b6e6955c5bc826e1754ab90d1a0950508f223413e38352ca3aca2e50",
+   "match": true
+  },
+  "index.html": {
+   "git": "de6e44863bef17a639f179368d6513e17aab12a5b98882d56bfd86a12a61f483",
+   "bytes": 24325,
+   "pack": "de6e44863bef17a639f179368d6513e17aab12a5b98882d56bfd86a12a61f483",
+   "match": true
+  },
+  "package.json": {
+   "git": "06dbee5d4e731a8b6e2c165043c55cc52f98f92f38035b4c62e1d89ec9b55b22",
+   "bytes": 505,
+   "pack": "06dbee5d4e731a8b6e2c165043c55cc52f98f92f38035b4c62e1d89ec9b55b22",
+   "match": true
+  },
+  "sim.js": {
+   "git": "3e0525714b6642c14f50b478a87cc7bb0de6bf3ee4dbbb0568016fd182c07f47",
+   "bytes": 28507,
+   "pack": "3e0525714b6642c14f50b478a87cc7bb0de6bf3ee4dbbb0568016fd182c07f47",
+   "match": true
+  }
+ },
+ "packQa2DocumentsVsGit": {
+  "STAGE_3C_QA2_CHANGED_FILES.txt": true,
+  "STAGE_3C_QA2_HUMAN_QA.md": true,
+  "STAGE_3C_QA2_PERFORMANCE.md": true,
+  "STAGE_3C_QA2_Q0_AUDIT.md": true,
+  "STAGE_3C_QA2_REPORT.md": true
+ },
+ "environment": {
+  "node": "v22.22.2",
+  "git": "git version 2.43.0",
+  "python": "3.11.15",
+  "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39"
+ },
+ "acceptedQa2Zip": {
+  "sha256": "aa844c6872dad8d77d2b1176aa99259a4b470eabf998c16573794e2d24aeaaff",
+  "expected": "aa844c6872dad8d77d2b1176aa99259a4b470eabf998c16573794e2d24aeaaff",
+  "match": true
+ },
+ "ok": true
+}
