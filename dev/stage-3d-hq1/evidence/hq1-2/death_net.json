@@ -1,0 +1,102 @@
+{
+ "tool": "dev/stage-3d/death_net.js",
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "N1a the kill record reaches the victim with a death id and the death's inputs",
+   "ok": true,
+   "note": "{\"v\":\"A\",\"k\":\"Hound\",\"e\":9,\"ax\":5054,\"ay\":3504,\"aa\":3.142,\"w\":0,\"x\":5000,\"y\":3504,\"a\":0,\"why\":\"preview\",\"de\":1,\"vx\":0,\"vy\":0,\"ex\":0,\"lf\":[3.1,1.5,399]}"
+  },
+  {
+   "name": "N1b every other client gets exactly one replay, from the server, with the same id and the same inputs; the victim gets none",
+   "ok": true,
+   "note": "replays to the observer: 1 {\"at\":1791804498310,\"bytes\":241,\"t\":\"fx\",\"k\":\"death\",\"id\":2,\"c\":\"Hound\",\"x\":5000,\"y\":3504,\"a\":0,\"sx\":5054,\"sy\":3504,\"v\":\"A\",\"w\":0,\"lk\":\"none|plain|#e6bb76|#ffcc77|none\",\"ek\":\"flashlight\",\"ec\":\"#ffe7b2; to the victim: 0"
+  },
+  {
+   "name": "N1c the server makes the corpse itself when the death's length has passed: same id, once, where the death left it (not where the client said)",
+   "ok": true,
+   "note": "corpse de 1 at 4969,3504 after 4.51 s (death length 4.5 s); corpses for the victim: 1"
+  },
+  {
+   "name": "N2a the victim's own replay and corpse reports are not relayed and add no corpse",
+   "ok": true,
+   "note": "bodies messages since the death: 1"
+  },
+  {
+   "name": "N2b a living player cannot claim a death replay or a corpse, forged, repeated or far away (bodies version unchanged)",
+   "ok": true,
+   "note": "bodies version 4 -> 4; replays 0"
+  },
+  {
+   "name": "N9 a NEW RUN light-left-behind record is accepted from a living player at its own position, once per 5 s (replacing its corpse: one per player)",
+   "ok": true,
+   "note": "records 1 (Vanish), bodies messages 1"
+  },
+  {
+   "name": "N8a respawning one second into the death does not cancel its corpse",
+   "ok": true,
+   "note": "corpse de 2 (Smiler)"
+  },
+  {
+   "name": "N8b dying again replaces the corpse: one per player",
+   "ok": true,
+   "note": "now 1 corpse(s), de 3"
+  },
+  {
+   "name": "N3 the victim disconnects as it dies: everyone still gets the replay and, on time, the corpse with its light",
+   "ok": true,
+   "note": "replays 1; corpse de 4, light flashlight at 5324,3506,0.997"
+  },
+  {
+   "name": "N4 a player arriving during a death gets the replay with how far it has run, then the same corpse",
+   "ok": true,
+   "note": "replay el 1.89, de 5; corpse de 5"
+  },
+  {
+   "name": "N5 a player arriving later gets the corpse with its age (ag)",
+   "ok": true,
+   "note": "ag 2.6 s"
+  },
+  {
+   "name": "N6 an admin revive during the death: the others are told to end the replay; no corpse",
+   "ok": true,
+   "note": "end {\"at\":1791804532366,\"bytes\":34,\"t\":\"fx\",\"k\":\"end\",\"id\":4,\"de\":6}; corpse for that death: false"
+  },
+  {
+   "name": "N7 a world reset during the death: no corpse from the old world in the new one",
+   "ok": true,
+   "note": "corpses now []"
+  },
+  {
+   "name": "N10 sizes: the replay message under 400 bytes; a corpse record within D7's 384 bytes + 32 (HQ1: the light profile)",
+   "ok": true,
+   "note": "replay 241 B; corpse 410 B"
+  },
+  {
+   "name": "N11 400 random malformed death messages: the server keeps running and no corpse or death replay appears",
+   "ok": true,
+   "note": "server alive; death replays 0 (vanish replays 1); bodies messages 0"
+  },
+  {
+   "name": "N12 no server errors",
+   "ok": true,
+   "note": "none"
+  }
+ ],
+ "sizes": {
+  "fx": 241,
+  "corpse": 410,
+  "bodiesMsg": {
+   "bytes": 28,
+   "corpses": 0
+  }
+ },
+ "serverLog": [
+  "[death] room=dn37125 #2 de=1: Hound A corpse placed",
+  "[death] room=dn37125 #2 de=2: Smiler A corpse placed",
+  "[death] room=dn37125 #2 de=3: Hound D corpse placed",
+  "[death] room=dn37125 #3 de=4: Hound B corpse placed",
+  "[death] room=dn37125 #4 de=5: Smiler D corpse placed"
+ ],
+ "ok": true
+}

@@ -6,14 +6,15 @@
  * sends and every message mp.js sends is checked as dev/stage-3h0/golden/contract_check.js checks it (type listed, required fields present,
  * no field the contract does not list, the contract's field order), against dev/stage-3h0/protocol_contract.json plus these additions,
  * all of them death-domain and documented in STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md:
- *   server -> client 'fx':  de (death id), lo (the light was on), el (seconds already run, late joiners), after the existing fields, optional
+ *   server -> client 'fx':  de (death id), lo (the light was on), lf (Stage 3D HQ1: how the light fails), el (seconds already run, late joiners),
+ *                           after the existing fields, optional
  *   server -> client 'fx' with k 'end' (an admin revive undid a death): t, k, id, de
  * The contract file itself is not changed.  Exit 0 when nothing violates the contract with the additions. */
 'use strict';
 const fs = require('fs'), path = require('path');
 const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
 const C = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'stage-3h0', 'protocol_contract.json'), 'utf8'));
-const ADD = { fx: [['de', 'death id', 'optional'], ['lo', 'the light was on', 'optional'], ['el', 'seconds already run (late joiner)', 'optional']] };
+const ADD = { fx: [['de', 'death id', 'optional'], ['lo', 'the light was on', 'optional'], ['lf', 'HQ1: how the light fails [hold, fade, seed]', 'optional'], ['el', 'seconds already run (late joiner)', 'optional']] };
 C.serverToClient.fx.fields = C.serverToClient.fx.fields.concat(ADD.fx);
 const END = { fields: [['t', 'type'], ['k', 'end'], ['id', 'victim id'], ['de', 'death id']] };
 const stats = { serverToClient: {}, clientToServer: {} }, bad = [];

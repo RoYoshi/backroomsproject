@@ -1,0 +1,384 @@
+{
+ "tool": "dev/stage-3d-hq1/light_lifecycle.py",
+ "game": "/home/claude/backrooms-shadows",
+ "steps": [
+  {
+   "step": "1 reconnect + reload",
+   "aliceAnchor": 1791802195.6745,
+   "aliceFocusResize": {
+    "before": 1791802195.6744,
+    "after": 1791802195.6628
+   },
+   "bob": {
+    "before": 1791802195.6552,
+    "after": 1791802195.637,
+    "reconnectedSockets": 1,
+    "lastLit": 1791802198.717,
+    "litAfterEnd": 0
+   },
+   "carol": {
+    "before": 1791802195.6518,
+    "afterReload": 1791802195.629,
+    "lastLit": null,
+    "litAfterEnd": 0
+   },
+   "aliceLastLit": 1791802198.398,
+   "end": 1791802200.2745,
+   "lf": [
+    3.1,
+    1.5,
+    399
+   ]
+  },
+  {
+   "step": "2 second death",
+   "de1": 1,
+   "de2": 2,
+   "anchor1": 1791802195.6745,
+   "anchor2": 1791802306.9373,
+   "spectatorAnchors2": {
+    "bob": 1791802306.9428,
+    "carol": 1791802306.9049
+   },
+   "deadLights1.5sIn": {
+    "alice": [],
+    "bob": [],
+    "carol": []
+   },
+   "corpses": {
+    "alice": [
+     [
+      null,
+      null
+     ],
+     [
+      3,
+      null
+     ]
+    ],
+    "bob": [
+     [
+      2,
+      [
+       4.7,
+       1.8,
+       810,
+       -3.879
+      ]
+     ],
+     [
+      null,
+      null
+     ]
+    ],
+    "carol": [
+     [
+      2,
+      [
+       4.7,
+       1.8,
+       810,
+       -3.879
+      ]
+     ],
+     [
+      3,
+      null
+     ]
+    ]
+   }
+  },
+  {
+   "step": "3 revive mid-death",
+   "de3": 4,
+   "litFramesFrom1.5sAfterRevive": {
+    "alice": 0,
+    "bob": 0,
+    "carol": 0
+   },
+   "frames": {
+    "alice": 8,
+    "bob": 9,
+    "carol": 9
+   },
+   "corpses": {
+    "alice": [
+     null,
+     3
+    ],
+    "bob": [
+     null,
+     4
+    ],
+    "carol": [
+     3,
+     4
+    ]
+   }
+  },
+  {
+   "step": "4 world reset",
+   "de4": 5,
+   "bobLitBeforeReset": [
+    {
+     "x": 5737,
+     "y": 968,
+     "kind": "flashlight",
+     "on": true,
+     "dead": false,
+     "pw": 0.7506
+    }
+   ],
+   "placedBackNearTheCorpse": {
+    "bob": true,
+    "carol": true
+   },
+   "corpsesAfter": {
+    "bob": [
+     null
+    ],
+    "carol": []
+   },
+   "litFramesFrom1.5sAfterReset": {
+    "alice": 0,
+    "bob": 0,
+    "carol": 0
+   },
+   "end": 1791802431.1309001,
+   "aliceLastLit": null,
+   "aliceOwnLocalCorpses": [
+    "2:1:3"
+   ]
+  }
+ ],
+ "checks": [
+  {
+   "step": "1 focus lost / hidden / resized (Alice, dying), a dropped connection (Bob) and a reloaded page (Carol) keep the light's timeline: the same anchor as Alice's within 150 ms (Bob's never later than before), nothing lit after the end",
+   "ok": true,
+   "info": {
+    "aliceAnchor": 1791802195.6745,
+    "aliceFocusResize": {
+     "before": 1791802195.6744,
+     "after": 1791802195.6628
+    },
+    "bob": {
+     "before": 1791802195.6552,
+     "after": 1791802195.637,
+     "reconnectedSockets": 1,
+     "lastLit": 1791802198.717,
+     "litAfterEnd": 0
+    },
+    "carol": {
+     "before": 1791802195.6518,
+     "afterReload": 1791802195.629,
+     "lastLit": null,
+     "litAfterEnd": 0
+    },
+    "aliceLastLit": 1791802198.398,
+    "end": 1791802200.2745,
+    "lf": [
+     3.1,
+     1.5,
+     399
+    ]
+   }
+  },
+  {
+   "step": "2 a second death has its own timeline (a new anchor, lit in its hold on the other screens), one dead light per screen, one corpse (death 2's)",
+   "ok": false,
+   "info": {
+    "de1": 1,
+    "de2": 2,
+    "anchor1": 1791802195.6745,
+    "anchor2": 1791802306.9373,
+    "spectatorAnchors2": {
+     "bob": 1791802306.9428,
+     "carol": 1791802306.9049
+    },
+    "deadLights1.5sIn": {
+     "alice": [],
+     "bob": [],
+     "carol": []
+    },
+    "corpses": {
+     "alice": [
+      [
+       null,
+       null
+      ],
+      [
+       3,
+       null
+      ]
+     ],
+     "bob": [
+      [
+       2,
+       [
+        4.7,
+        1.8,
+        810,
+        -3.879
+       ]
+      ],
+      [
+       null,
+       null
+      ]
+     ],
+     "carol": [
+      [
+       2,
+       [
+        4.7,
+        1.8,
+        810,
+        -3.879
+       ]
+      ],
+      [
+       3,
+       null
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "step": "3 an admin revive mid-death: no dead light on any screen from 1.5 s after it (10 s watched), no corpse for that death",
+   "ok": false,
+   "info": {
+    "de3": 4,
+    "litFramesFrom1.5sAfterRevive": {
+     "alice": 0,
+     "bob": 0,
+     "carol": 0
+    },
+    "frames": {
+     "alice": 8,
+     "bob": 9,
+     "carol": 9
+    },
+    "corpses": {
+     "alice": [
+      null,
+      3
+     ],
+     "bob": [
+      null,
+      4
+     ],
+     "carol": [
+      3,
+      4
+     ]
+    }
+   }
+  },
+  {
+   "step": "4 a world reset during the hold: no dead light on the other screens from 1.5 s after it",
+   "ok": true,
+   "info": {
+    "de4": 5,
+    "bobLitBeforeReset": [
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": 0.7506
+     }
+    ],
+    "placedBackNearTheCorpse": {
+     "bob": true,
+     "carol": true
+    },
+    "corpsesAfter": {
+     "bob": [
+      null
+     ],
+     "carol": []
+    },
+    "litFramesFrom1.5sAfterReset": {
+     "alice": 0,
+     "bob": 0,
+     "carol": 0
+    },
+    "end": 1791802431.1309001,
+    "aliceLastLit": null,
+    "aliceOwnLocalCorpses": [
+     "2:1:3"
+    ]
+   }
+  }
+ ],
+ "known": [
+  {
+   "step": "4b the victim's own screen after a world reset: no dead light",
+   "ok": true,
+   "info": {
+    "litFrames": 0,
+    "lastLit": null,
+    "end": 1791802431.1309001,
+    "endsOnTime": true,
+    "why": "D7 keeps the victim's own local corpse through an admin world reset; its light follows it and still ends at the death's end"
+   }
+  }
+ ],
+ "spot": [
+  5720,
+  920,
+  3.141592653589793
+ ],
+ "death1": {
+  "since": 1791802189.522,
+  "T0": 1791802198.0344632,
+  "rel": 0.6208,
+  "de": 1,
+  "lf": [
+   3.1,
+   1.5,
+   399
+  ],
+  "anchorA": 1791802195.6745
+ },
+ "death2": {
+  "since": 1791802303.328,
+  "T0": 1791802309.065335,
+  "rel": 0.6208,
+  "de": 2,
+  "lf": [
+   4.7,
+   1.8,
+   810
+  ],
+  "anchorA": 1791802306.9373
+ },
+ "death3": {
+  "since": 1791802361,
+  "T0": 1791802368.5546076,
+  "rel": 0.6208,
+  "de": 4,
+  "lf": [
+   4.3,
+   2,
+   321
+  ],
+  "anchorA": 1791802366.237
+ },
+ "death4": {
+  "since": 1791802418.835,
+  "T0": 1791802427.512688,
+  "rel": 0.6208,
+  "de": 5,
+  "lf": [
+   4.4,
+   1.7,
+   73
+  ],
+  "anchorA": 1791802425.0309
+ },
+ "errors": [],
+ "ok": false
+}

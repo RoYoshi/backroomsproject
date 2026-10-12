@@ -37,7 +37,8 @@ function corpse(id, kill, info, P) {
     body: { k: id, n: info.name, x: Math.round(b.x), y: Math.round(b.y), a: f(b.angle), sx: f(b.scaleX), sy: f(b.scaleY), c: R.kind, aa: f(R.angle), lk: info.look,
       eq: { kind: info.ek, color: info.ec, parts: info.ep }, bl: m.blood.slice(0, 8).map(q => [Math.round(q.x), Math.round(q.y), (q.seed | 0) % 1000]),
       dr: [Math.round(m.dropped.x), Math.round(m.dropped.y), f(m.dropped.angle)], ht: [Math.round(m.hat.x), Math.round(m.hat.y), f(m.hat.angle)], lo: info.light ? 1 : 0,
-      ph: 1, hd: m.hands.flat().map(v => Math.max(-80, Math.min(80, v))), ho: m.hatOn ? 1 : 0, tr: m.trail, srv: 1 },
+      ph: 1, hd: m.hands.flat().map(v => Math.max(-80, Math.min(80, v))), ho: m.hatOn ? 1 : 0, tr: m.trail, srv: 1,
+      ...(Array.isArray(kill.lf) ? { lf: [kill.lf[0], kill.lf[1], kill.lf[2], f((info.ek === 'headlamp' || !(R.S.eqAt >= 0) ? 0 : R.S.eqAt) - R.dur)] } : {}) },   // Stage 3D HQ1: [hold, fade, seed, release - death length]
     attacker: R.attacker, dur: R.dur };
 }
 const bodyFor = (id, kill, info, sim) => corpse(id, kill, info, begin(kill, info, sim));

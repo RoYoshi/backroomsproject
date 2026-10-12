@@ -54,8 +54,8 @@ const N = window.__net = {
 /* Stage 3D: our own death starts from the server's kill record (the bundle's death class asks for it): the position, facing, speed and
  * exhaustion the server decided the death with, as it sent them - so our death, every spectator's replay and the server's corpse are one
  * physical run.  Only a record that came with a death id; anything else (offline play) uses the player as before. */
-let ownDeath = null;                                 // Stage 3D HQ1: our own latest death (its id, when it began here; offline: a local key) - wall stains, its light
-window.__dvic = K => { const A = window.__api; ownDeath = { de: K && K.de != null ? K.de : 'L' + Math.round(performance.now()), t0: performance.now() / 1000 };
+let ownDeath = null, mkAt = null;                    // Stage 3D HQ1: our own latest death (its id, when it began here - when its kill record arrived; offline: a local key; the light's profile) - wall stains, its light
+window.__dvic = K => { const A = window.__api; ownDeath = { de: K && K.de != null ? K.de : 'L' + Math.round(performance.now()), t0: K && K.de != null && mkAt && mkAt.de === K.de ? mkAt.t : performance.now() / 1000, lf: K && Array.isArray(K.lf) ? K.lf : null, srv: !!(K && K.de != null), rel: null };
   if (!K || K.de == null || !A || !Number.isFinite(K.x) || !Number.isFinite(K.y)) return null;
   return { x: K.x, y: K.y, angle: +K.a || 0, vx: K.vx || 0, vy: K.vy || 0, exhausted: !!K.ex, stamina: undefined, equipment: A.H.equipment }; };
 const kaOf = t => { const D = window.__api && window.__api.death && window.__api.death(); const at = D && D.attacker; return t.cause === 'Hound' && at && Number.isFinite(at.x) ? [Math.round(at.x), Math.round(at.y), +(at.angle || 0).toFixed(3)] : 0; };
@@ -90,8 +90,8 @@ function connect() {
     }
     else if (m.t === 'pong') { const E = EN(); if (E) { const r = performance.now() - (+m.ts || 0); E.dbgX.ping = E.dbgX.ping < 0 ? r : E.dbgX.ping + (r - E.dbgX.ping) * .3; } }
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
-    else if (m.t === 'bodies') { bodiesList = m.b || []; applyBodies(); }
-    else if (m.t === 'fx') startFx(m);
+    else if (m.t === 'bodies') { bodiesList = m.b || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null && Array.isArray(b.lf) && b.lf.length === 4 && Number.isFinite(b.ag + b.lf[3])) { relOf(b.de, tb - b.ag + b.lf[3]); pendSt.push(['r', b.de, b.ag, b.lf[3]]); } applyBodies(); }   // (HQ1: when each corpse's light was let go)
+    else if (m.t === 'fx') { if (m.k === 'death' && m.de != null && m.id !== myId) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock)
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {
@@ -104,8 +104,9 @@ function connect() {
       }
       for (const [id, o] of peers) if (!seen.has(id)) { dropAvatar(o); peers.delete(id); }
       peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0;
-      if (m.mk && m.ms !== killSeq) { killSeq = m.ms; announceKill(m.mk); }          // who killed us, how, and where the wall is
+      if (m.mk && m.ms !== killSeq) { killSeq = m.ms; mkAt = { de: m.mk.de, t: performance.now() / 1000 }; if (m.mk.de != null && m.e && typeof m.e.st === 'number') stNote(m.mk.de, 'k', m.e.st); announceKill(m.mk); }   // who killed us, how, and where the wall is (HQ1: and when, on the server's clock)
       if (m.e) { snap = m.e; N.on = true; entitySignals(m.e); netHist(m.e, now); }
+      if (m.e && typeof m.e.st === 'number' && pendSt.length) { for (const q of pendSt) stNote(q[1], q[0], q[0] === 'k' ? m.e.st - q[2] : m.e.st - q[2] + q[3]); pendSt.length = 0; }   // (HQ1: a replay or corpse that came just before this snapshot was sent in its pass)
       if (m.dbg && EN()) { EN().setDebug(m.dbg); if (m.dx) EN().setDebugX(m.dx); }
       if (m.ad) { adm.data = m.ad; adm.you = m.you; renderAdminData(); }
     }
@@ -305,7 +306,7 @@ function startFx(m) {
   for (const f of fxs) if (f.id === m.id) f.end = true;                          // a newer event for the same player replaces the older one
   const look = parseLook(m.lk), gear = { kind: m.ek || 'flashlight', color: m.ec || '#ffe7b2', parts: {} }; gear.parts[gear.kind] = partObj(gear.kind, m.ep);
   const now = performance.now() / 1000 - Math.max(0, Math.min(10, +m.el || 0)), av = A.mkAvatar(look, gear); av.__key = m.id; av.__cause = m.c; layer.addChild(av);   // el: a late joiner sees it from where it is
-  const pe = peers.get(m.id), f = { id: m.id, de: m.de, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id),
+  const pe = peers.get(m.id), f = { id: m.id, de: m.de, k: m.k, t0: now, av, look, gear, src: { x: m.x, y: m.y, angle: m.a, vx: 0, vy: 0, distance: 0 }, old: bodiesList.find(b => b.k === m.id), lf: Array.isArray(m.lf) ? m.lf : null,
     lo: m.lo != null ? !!m.lo : !!(pe && pe.l) };                              // was their light on when they died (the server says so since 3D; else their last snapshot)
   if (m.k === 'death') {
     const jl = new A.Jl(); jl.start(m.c === 'Smiler' ? 'Smiler' : 'Hound', now, { x: m.sx, y: m.sy }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: m.ex ? 1 : 0 }, { v: m.v, w: m.w });
@@ -356,14 +357,57 @@ function peerMv(o, now) {
  * from the middle of the object */
 function bodyLights(p, out) {
   const A = window.__api; if (!A || !A.bodyList) return;
-  const LEN = (window.__dphys && window.__dphys.LEN) || {};
+  const LEN = (window.__dphys && window.__dphys.LEN) || {}, d = A.death && A.death(), hide = window.__hideBodies;
   for (const b of A.bodyList()) {
     if (!b.lo || b.cause === 'Vanish' || !b.equipment || b.equipment.kind === 'camcorder' || !b.dropped) continue;
+    if (hide && hide.has(b.ownerId)) continue;                                  // Stage 3D HQ1: its death is still playing here (a replay, or ours): that light is this light
+    if (d && d.active && b.id === d.corpseId) continue;                         // Stage 3D HQ1: our own corpse while our death is still on screen - the death's own light is it
     if (Math.hypot(b.dropped.x - p.x, b.dropped.y - p.y) > 950) continue;
+    const pw = corpsePower(b); if (!(pw > 0)) continue;                         // Stage 3D HQ1: failed for good: no light at all
     const a = b.hands ? b.dropped.angle - Math.PI / 2 : b.dropped.angle, L = b.hands ? LEN[b.equipment.kind] || 0 : 0;
-    out.push({ x: b.dropped.x + Math.cos(a) * L, y: b.dropped.y + Math.sin(a) * L, angle: a, kind: b.equipment.kind, color: b.equipment.color, on: true, dead: false });
+    out.push({ x: b.dropped.x + Math.cos(a) * L, y: b.dropped.y + Math.sin(a) * L, angle: a, kind: b.equipment.kind, color: b.equipment.color, on: true, dead: false, pw });
   }
 }
+/* Stage 3D HQ1: a dead wanderer's light holds for its death's chosen 3-7 s after it was let go, flickers and dims for 1-2 s, then is off
+ * for good (dphys.lightPower; the profile is the server's, sent with the death).  One timeline per death id: the moment its light was
+ * let go, on this page's clock, from every piece of the server's timing this page gets - our own kill record's arrival + the physics'
+ * release, a replay's arrival (late joiners' el included) + the replay physics' release, each corpse record's arrival - its age ag +
+ * the release relative to its making - and the EARLIEST of them is kept: a message can arrive late (a busy page handles it a frame or
+ * more after it came), never early, so the earliest is the nearest to the server's own moment.  The same moments are also read on the
+ * server's own clock: the snapshot that carries the kill record, or the first snapshot after a replay or corpse message (the server
+ * sends them in one pass), gives its clock 'st'; with the snapshot clock offset the page already keeps from its fastest packets
+ * (net-interp.js NET.off) that is this page's time without the page's own delay in handling messages.  It can only move earlier, never
+ * later: a replay, a corpse, a reconnect or a reload never starts the light again.  The Death Lab slows what one screen shows, not this
+ * clock. */
+const lnow = () => window.__deathLightNow ? window.__deathLightNow() : performance.now() / 1000;   // (__deathLightNow: a test's frozen clock, development only)
+const relAt = new Map(), DLOG = [], srvSt = new Map(), eqOf = new Map(), pendSt = [];   // srvSt: death id -> { k: when it began, r: when its light was let go } on the server's clock; eqOf: its physics' release
+function relOf(de, cand) { if (de == null || cand == null) return cand; let v = relAt.get(de); if (v === undefined || cand < v) { if (v === undefined && relAt.size >= 64) relAt.delete(relAt.keys().next().value); relAt.set(de, v = cand); } return v; }
+const capMap = M => { if (M.size > 64) M.delete(M.keys().next().value); };
+function stNote(de, k, v) { if (de == null || !Number.isFinite(v)) return; let o = srvSt.get(de); if (!o || o.ep !== NET.epoch) { srvSt.set(de, o = { ep: NET.epoch }); capMap(srvSt); } if (o[k] === undefined || v < o[k]) o[k] = v; }
+function eqKnown(de, r) { if (de == null || r == null || eqOf.has(de)) return; eqOf.set(de, r); capMap(eqOf); }
+function srvAnchors() { if (NET.off == null) return; for (const [de, o] of srvSt) { if (o.ep !== NET.epoch) continue; if (o.r !== undefined) relOf(de, o.r - NET.off); const r = eqOf.get(de); if (o.k !== undefined && r !== undefined) relOf(de, o.k + r - NET.off); } }
+const relRun = S => !S ? null : window.__dphys && window.__dphys.releaseOf ? window.__dphys.releaseOf(S) : S.ctx && S.ctx.eqKind === 'headlamp' ? 0 : (S.eqAt >= 0 ? S.eqAt : null);   // seconds into the death when the light is let go (dphys.releaseOf: known from the death's first frame, whatever the screen shows); a headlamp: its start
+function powerAt(src, de, lf, rel, kind) {
+  const D = window.__dphys, now = lnow(), pw = rel == null ? 1 : D && D.lightPower ? D.lightPower(lf, now - rel) : 1;
+  if (DLOG.length < 32) DLOG.push({ src, de, kind, lf: lf || null, rel: rel == null ? null : +rel.toFixed(4), now: +now.toFixed(4), pw: +pw.toFixed(4) });
+  return pw;
+}
+function corpsePower(b) {
+  if (b.remote) { const lf = b.lf || null, rr = lf ? lf[3] : 0, key = b.de != null ? b.de : 'b:' + b.id; return powerAt('corpse', b.de, lf, relOf(key, (b.born != null ? b.born : performance.now() / 1000) + rr), b.equipment.kind); }
+  if (!localDe.has(b.id) && ownDeath) localDe.set(b.id, ownDeath.de);
+  const de = localDe.get(b.id), mineNow = ownDeath && ownDeath.de === de;
+  if (mineNow && ownDeath.srv && !ownDeath.lf) return 0;                       // the server's record says this light was not a lit emitter when we died
+  const cand = mineNow && ownDeath.rel != null ? ownDeath.t0 + ownDeath.rel : (b.createdAt != null ? b.createdAt : performance.now() / 1000);
+  return powerAt('own corpse', de, mineNow ? ownDeath.lf : null, relOf(de != null ? de : 'l:' + b.id, cand), b.equipment.kind);
+}
+function ownPower() {
+  const A = window.__api, d = A && A.death && A.death(); if (!d || !d.active || !ownDeath) return 1;
+  if (ownDeath.srv && !ownDeath.lf) return 0;                                  // the server's record says our light was not a lit emitter (off, or a camcorder)
+  const r = relRun(d.ph); if (r == null) return 1;
+  ownDeath.rel = r; eqKnown(ownDeath.de, r); return powerAt('own death', ownDeath.de, ownDeath.lf, relOf(ownDeath.de, ownDeath.t0 + r), A.H && A.H.equipment && A.H.equipment.kind);
+}
+window.__deathLight = { own: ownPower,
+  debug: () => ({ epoch: Date.now() / 1000 - performance.now() / 1000, frame: DLOG.slice(), anchors: [...relAt].map(([k, v]) => [k, +v.toFixed(4)]), off: NET.off, srv: [...srvSt].map(([k, o]) => [k, o.k ?? null, o.r ?? null]), own: ownDeath ? { de: ownDeath.de, t0: +ownDeath.t0.toFixed(4), lf: ownDeath.lf, rel: ownDeath.rel } : null }) };
 /* Stage 3D HQ1: the wall contacts this screen shows now - our own death while it plays, every replay, every corpse (ours by our own death
  * id) - handed to gore.js, which keeps one wallpaper stain per impact (a few times a second; the physics' own dphys.marks, the corpse
  * record's wall marks) */
@@ -391,7 +435,8 @@ function replayLights(p, out) {
   for (const f of fxs) {
     if (f.k !== 'death' || !f.jl || f.gone || !f.lo || f.gear.kind === 'camcorder') continue;
     const T = f.jl.torch; if (!T || Math.hypot(T.x - p.x, T.y - p.y) > 950) continue;
-    out.push({ x: T.x, y: T.y, angle: T.angle, kind: f.gear.kind, color: f.gear.color, on: true, dead: false });
+    const r = relRun(f.jl.ph); if (r != null) eqKnown(f.de, r); const pw = powerAt('replay', f.de, f.lf, r == null ? null : relOf(f.de, f.t0 + r), f.gear.kind); if (!(pw > 0)) continue;   // Stage 3D HQ1
+    out.push({ x: T.x, y: T.y, angle: T.angle, kind: f.gear.kind, color: f.gear.color, on: true, dead: false, pw });
   }
 }
 function drawPeers(p, cam, sc, los, dt, W, H) {
@@ -430,6 +475,8 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
       best = dm; hover = { o, sx, sy };          // hover requires actual line of sight; emitted-light state is handled separately
     }
   }
+  DLOG.length = 0; if (window.__api && window.__api.death && window.__api.death() && window.__api.death().active) ownPower();   // (our own death's release is noted every frame)
+  srvAnchors();
   replayLights(p, lights); bodyLights(p, lights);
   window.__peerLights = lights;
   wallStains(now);

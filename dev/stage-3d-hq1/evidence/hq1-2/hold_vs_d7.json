@@ -1,0 +1,106 @@
+{
+ "tool": "dev/stage-3d-hq1/light_hold_compare.py",
+ "hq1": "dev/stage-3d-hq1/evidence/hq1-2/timeline/houndA_flashlight.json",
+ "d7": "dev/stage-3d-hq1/evidence/hq1-2/d7_baseline/d7_houndA_flashlight.json",
+ "rows": [
+  {
+   "screen": "spectator",
+   "what": "corpse light (HQ1 frozen at release + 0.5 s; D7 real time)",
+   "measure": "BR-RoLE probe",
+   "hq1": 0.8211,
+   "d7": 0.8211,
+   "within10pct": true
+  },
+  {
+   "screen": "spectator",
+   "what": "corpse light (HQ1 frozen at release + 0.5 s; D7 real time)",
+   "measure": "BR-RoLE buffer",
+   "hq1": 0.8196078431372549,
+   "d7": 0.8196078431372549,
+   "within10pct": true
+  },
+  {
+   "screen": "spectator",
+   "what": "corpse light (HQ1 frozen at release + 0.5 s; D7 real time)",
+   "measure": "screen brightness / 255",
+   "hq1": 0.3596,
+   "d7": 0.3596,
+   "within10pct": true
+  },
+  {
+   "screen": "late",
+   "what": "corpse light (HQ1 frozen at release + 0.5 s; D7 real time)",
+   "measure": "BR-RoLE probe",
+   "hq1": 0.8211,
+   "d7": 0.8211,
+   "within10pct": true
+  },
+  {
+   "screen": "late",
+   "what": "corpse light (HQ1 frozen at release + 0.5 s; D7 real time)",
+   "measure": "BR-RoLE buffer",
+   "hq1": 0.8196078431372549,
+   "d7": 0.8196078431372549,
+   "within10pct": true
+  },
+  {
+   "screen": "late",
+   "what": "corpse light (HQ1 frozen at release + 0.5 s; D7 real time)",
+   "measure": "screen brightness / 255",
+   "hq1": 0.3596,
+   "d7": 0.3596,
+   "within10pct": true
+  }
+ ],
+ "info": [
+  {
+   "screen": "victim",
+   "what": "in the death, release + 1 s (not gated)",
+   "measure": "BR-RoLE probe",
+   "hq1": 0,
+   "d7": 1,
+   "within10pct": false
+  },
+  {
+   "screen": "victim",
+   "what": "in the death, release + 1 s (not gated)",
+   "measure": "BR-RoLE buffer",
+   "hq1": 0,
+   "d7": 1,
+   "within10pct": false
+  },
+  {
+   "screen": "victim",
+   "what": "in the death, release + 1 s (not gated)",
+   "measure": "screen brightness / 255",
+   "hq1": 0.0,
+   "d7": 0.4072,
+   "within10pct": false
+  },
+  {
+   "screen": "spectator",
+   "what": "in the death, release + 1 s (not gated)",
+   "measure": "BR-RoLE probe",
+   "hq1": 0,
+   "d7": 0.621,
+   "within10pct": false
+  },
+  {
+   "screen": "spectator",
+   "what": "in the death, release + 1 s (not gated)",
+   "measure": "BR-RoLE buffer",
+   "hq1": 0,
+   "d7": 0.4470588235294118,
+   "within10pct": false
+  },
+  {
+   "screen": "spectator",
+   "what": "in the death, release + 1 s (not gated)",
+   "measure": "screen brightness / 255",
+   "hq1": 0.0,
+   "d7": 0.218,
+   "within10pct": false
+  }
+ ],
+ "ok": true
+}

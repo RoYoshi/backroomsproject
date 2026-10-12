@@ -69,8 +69,9 @@ function aftStart(room, c) {
   room.afts = (room.afts || []).filter(a => a.id !== c.id);
   const de = room.deSeq = (room.deSeq | 0) + 1;
   const info = { name: c.name, look: c.look, ek: p.equipment.kind, ec: HEX.test(c.color) ? c.color : '#ffe7b2', ep: c.lp || '', vx: Math.round(p.vx || 0), vy: Math.round(p.vy || 0), ex: p.ex || (p.stamina != null && p.stamina < 22) ? 1 : 0, light: p.light };
-  if (p.kill) Object.assign(p.kill, { de, vx: info.vx, vy: info.vy, ex: info.ex });               // the victim's copy of the record ('mk')
-  const kill = Object.assign({}, p.kill), fx = Object.assign(deathSrv.fxFor(c.id, kill, info), { de, lo: info.light ? 1 : 0 });
+  const lf = info.light ? deathSrv.DP.lightProfile(room.sim.worldSeq, de, info.ek) : null;      // Stage 3D HQ1: how its light fails (a lit light that is not a camcorder)
+  if (p.kill) Object.assign(p.kill, { de, vx: info.vx, vy: info.vy, ex: info.ex }, lf ? { lf } : {});   // the victim's copy of the record ('mk')
+  const kill = Object.assign({}, p.kill), fx = Object.assign(deathSrv.fxFor(c.id, kill, info), { de, lo: info.light ? 1 : 0 }, lf ? { lf } : {});
   let run = null; try { run = deathSrv.begin(kill, info, room.sim); } catch (e) { console.error('[death] begin failed', e && e.message); }
   room.afts.push({ id: c.id, seq: p.dseq, de, at: Date.now(), world: room.sim.worldSeq, kill, fx: true, fxMsg: fx, sent: new Set([c.id]), body: false, info, run });
 }
@@ -96,7 +97,7 @@ function aftTick(room) {
     try {
       const R = a.run ? deathSrv.corpse(a.id, a.kill, a.info, a.run) : deathSrv.bodyFor(a.id, a.kill, a.info, room.sim); a.run = null;
       R.body.de = a.de;
-      putBody(room, a.id, R.body);
+      putBody(room, a.id, R.body, a.at + deathSrv.durOf(a.kill) * 1000);                          // (Stage 3D HQ1: made at the death's end, its own time)
       if (a.kill.k !== 'Smiler' && room.sim.killerEnd) room.sim.killerEnd(a.id, R.attacker.x, R.attacker.y, R.attacker.angle);
       console.log(`[death] room=${room.name} #${a.id} de=${a.de}: ${a.kill.k} ${a.kill.v} corpse placed`);
     } catch (e) { console.error('[death] corpse failed', e && e.message); }
@@ -106,7 +107,7 @@ function aftTick(room) {
 /* Stage 3D: when each corpse was made (server time, kept beside the record, never sent), so every client can be told its age ('ag' in
  * 'bodies'): blood that has dried on one screen is dry on a late joiner's too */
 const bodyAt = new WeakMap();
-function putBody(room, id, rec) { bodyAt.set(rec, Date.now()); room.sim.setBody(id, rec); }
+function putBody(room, id, rec, at) { bodyAt.set(rec, at == null ? Date.now() : Math.min(Date.now(), at)); room.sim.setBody(id, rec); }   // at: Stage 3D HQ1, a death's corpse is as old as its death's end
 function moveTo(me, x, y, tell = true) { Object.assign(me.player, { x, y }); if (tell) send(me, { t: 'tp', x, y }); mvReset(me); }
 
 const { frame, reader } = require('./server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
@@ -302,7 +303,7 @@ setInterval(() => {
     }
     let ad = null;
     if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0, st: c.player.st | 0, x: Math.round(c.player.x), y: Math.round(c.player.y) })) });
-    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()].map(r => bodyAt.has(r) ? Object.assign({}, r, { ag: Math.min(999, Math.round((now - bodyAt.get(r)) / 1000)) }) : r) });
+    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()].map(r => bodyAt.has(r) ? Object.assign({}, r, { ag: Math.min(999, Math.round((now - bodyAt.get(r)) / 100) / 10) }) : r) });
     let bm = null;
     for (const c of room.clients.values()) {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }

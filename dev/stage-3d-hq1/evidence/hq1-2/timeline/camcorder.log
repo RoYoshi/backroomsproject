@@ -1,0 +1,26 @@
+{"phase": "death", "k": 0.5, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 1.5, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 3.0, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 4.95, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 5.02, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 5.375, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 5.75, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 6.125, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 6.47, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 6.5, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 7.0, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 36.5, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 0.5, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 1.5, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 3.0, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 4.95, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 5.02, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 5.375, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 5.75, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 6.125, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 6.47, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 6.5, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 7.0, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 36.5, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+PASS L6 no light (a camcorder): no profile, no dead light on any screen in any frame, nothing drawn for it  {"lf": null, "deadLightFrames": {"victim": 0, "spectator": 0, "late": 0}, "ownDyingLightPowerFrames": 0, "drawnInFrozenPictures": [], "kind": "camcorder", "lo": 1, "lum": {"lit": {"victim": 0.0, "spectator": 0.13}, "dark": {"victim": 0.0, "spectator": 0.0}, "corpse": {"victim": null, "spectator": 0.0}}, "ir": {"lit": {"victim": {"on": true, "last": 0}, "spectator": {"on": true, "last": 0}}, "dark": {"victim": {"on": true, "last": 0}, "spectator": {"on": true, "last": 0}}, "corpse": {"victim": nu
+LIGHT TIMELINE OK houndA_camcorder

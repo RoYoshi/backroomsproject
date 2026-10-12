@@ -531,6 +531,57 @@
     }
     return out.sort((a, b) => b.sp - a.sp).slice(0, 3).sort((a, b) => a.t - b.t);
   }
+  /* ---------- Stage 3D HQ1: a dead wanderer's light fails, once ----------
+   * A light that was on when its carrier died keeps shining normally for HOLD seconds after the death's physics lets go of it (a headlamp
+   * is never let go: from the death's start), then fails over FADE seconds - an electrical flicker under an envelope that only falls,
+   * with short blackouts - and is exactly 0 from then on, for good.  The server chooses the profile once per death (lightProfile: a hash
+   * of the world's number, the death id and the light's kind; never a client's Math.random) and sends it with the death ([hold, fade,
+   * seed], and on the corpse the release time relative to the corpse's making); every screen computes the same power from the same
+   * numbers (lightPower).  The flicker comes in steps of 0.1 s from the start of the failure: each step shines at the envelope's full
+   * height for a moment somewhere in it, and dips or goes black for the rest, so the brightest moment of every step is never brighter
+   * than the step before (the overall dimming is monotonic) while the flicker itself is irregular. */
+  const LKIND = { flashlight: 1, lantern: 2, headlamp: 3 }, LSTEP = .1;
+  function lightProfile(world, de, kind) {
+    if (!LKIND[kind]) return null;
+    let h = 0x811c9dc5;
+    for (const v of [world | 0, de | 0, LKIND[kind], 0x5ead]) { h = Math.imul(h ^ (v & 0xffff), 0x01000193) >>> 0; h = Math.imul(h ^ (v >>> 16), 0x01000193) >>> 0; h = (h ^ (h >>> 13)) >>> 0; h = Math.imul(h, 0x5bd1e995) >>> 0; h = (h ^ (h >>> 15)) >>> 0; }
+    return [(30 + h % 41) / 10, (10 + (h >>> 9) % 11) / 10, (h >>> 20) & 1023];
+  }
+  const LPLAN = new Map();
+  function lightPlan(fade, seed) {                       // the failure's steps: where in each the light is at full envelope, and how low it dips or blacks out
+    const key = fade + ':' + seed; let P = LPLAN.get(key); if (P) return P;
+    let s = (seed * 2654435761 + 12345) >>> 0 || 1; const r = () => { s ^= s << 13; s >>>= 0; s ^= s >>> 17; s ^= s << 5; s >>>= 0; return s / 4294967296; };
+    const n = Math.ceil(fade / LSTEP), steps = []; let black = 0;
+    for (let i = 0; i < n; i++) {
+      const u = i / n, on0 = r() * .55, on1 = on0 + .18 + r() * .27;          // the full-height moment, as a part of the step
+      const pb = .12 + .55 * u, dark = r() < pb, lo = dark ? 0 : .3 + .55 * r();   // the rest: black (more often near the end) or a dip
+      if (dark) black++; steps.push([on0, Math.min(1, on1), lo]);
+    }
+    if (!black && n > 1) { const i = Math.max(1, Math.floor(n * .6)); steps[i][2] = 0; }   // at least one blackout
+    P = steps; LPLAN.set(key, P); if (LPLAN.size > 64) LPLAN.delete(LPLAN.keys().next().value);
+    return P;
+  }
+  /* lf: [hold, fade, seed] (a corpse's has the release time as a 4th number, used by whoever finds the release); s: seconds since release */
+  function lightPower(lf, s) {
+    if (!(typeof s === 'number' && s === s)) return 0;                             // no clock: dark rather than lit forever
+    if (!Array.isArray(lf)) lf = LDEFAULT;
+    const hold = Math.min(7, Math.max(3, +lf[0] || 5)), fade = Math.min(2, Math.max(1, +lf[1] || 1.5)), seed = (lf[2] | 0) & 1023;
+    if (s < hold) return 1;
+    const t = s - hold; if (t >= fade) return 0;
+    const P = lightPlan(fade, seed), i = Math.min(P.length - 1, Math.floor(t / LSTEP)), st = P[i], f = t / LSTEP - i, u = t / fade;
+    const env = Math.pow(1 - u, 1.4);
+    return f >= st[0] && f < st[1] ? env : env * st[2];
+  }
+  const LDEFAULT = [5, 1.5, 0];                           // a record that came without a profile (none should): still fails
+  /* when (seconds into the death) its physics lets the light go - without waiting for the death on this screen to get there: the same run
+   * again from the same start, ahead of it (a paused or slowed Death Lab slows only what one screen shows; the light's clock does not wait
+   * for it).  A headlamp is never let go: 0.  Computed once per death (a few hundred 240 Hz steps), then kept on its state. */
+  function releaseOf(S) {
+    if (!S || !S.ctx) return null; if (S.ctx.eqKind === 'headlamp') return 0; if (S.eqAt >= 0) return S.eqAt;
+    if (S.relAhead === undefined) { S.relAhead = null; try { const S2 = create(S.ctx); advance(S2, Math.min(S.dur || 4.4, 1.9)); if (S2.eqAt >= 0) S.relAhead = S2.eqAt; } catch (e) { } }
+    return S.relAhead;
+  }
+
   /* a wall mark in a corpse's blood list: seed 512 + the direction out of the wall in 32 steps (blows keep their own small seeds) */
   const MARK = 512, markSeed = (nx, ny) => MARK + ((Math.round(Math.atan2(ny, nx) / TAU * 32) % 32) + 32) % 32;
   /* the corpse is the last configuration of this same simulation */
@@ -543,5 +594,5 @@
 
   /* Stage 3D: with reduced motion (the settings' 'rm' class) the death's camera shake is a quarter as strong; the zoom is unchanged */
   window.__dcamK = () => (typeof document !== 'undefined' && document.documentElement.classList.contains('rm') ? .25 : 1);
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN };
+  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN, lightProfile, lightPower, releaseOf };
 })();

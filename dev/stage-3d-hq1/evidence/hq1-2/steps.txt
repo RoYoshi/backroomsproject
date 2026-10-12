@@ -1,0 +1,25 @@
+timeline/flashlight exit=0 seconds=813
+timeline/lantern exit=1 seconds=791
+timeline/headlamp exit=1 seconds=605
+timeline/camcorder exit=0 seconds=586
+timeline/flashlight_off exit=0 seconds=625
+timeline/flashlight_legacy exit=0 seconds=739
+timeline/flashlight_high exit=0 seconds=630
+d7_baseline/flashlight exit=1 seconds=237
+hold_vs_d7 exit=0 seconds=0
+lifecycle exit=1 seconds=399
+golden3d exit=0 seconds=24
+cli_golden3d exit=0 seconds=5
+contract3d exit=0 seconds=1
+timeline/flashlight exit=0 seconds=799  (final harness: real-time pictures at the held first frame; the end photographed 0.1 ms past it)
+timeline/lantern exit=0 seconds=844  (final harness: real-time pictures at the held first frame; the end photographed 0.1 ms past it)
+timeline/headlamp exit=0 seconds=687  (final harness: real-time pictures at the held first frame; the end photographed 0.1 ms past it)
+hold_vs_d7 exit=0 seconds=0  (final harness: real-time pictures at the held first frame; the end photographed 0.1 ms past it)
+lifecycle exit=1 seconds=470  (rerun: the harness re-authenticates Bob after his reconnect)
+lifecycle exit=1 seconds=389  (rerun: all three in god mode, so no real monster kills between the steps)
+lifecycle exit=1 seconds=393  (rerun: god mode for all three; the second death checked from the frame logs; the mid-death revive timed in the page)
+lifecycle exit=1 seconds=385  (rerun: god mode for all three; the second death checked from the frame logs; the revive and the world reset timed in the victim's page from her death's start)
+lifecycle exit=1 seconds=234  (rerun: as before, and every check on each page's final anchor, never the victim's first estimate)
+lifecycle exit=1 seconds=396  (rerun: every check on each page's final anchor; the victim in god mode only between her deaths)
+lifecycle exit=1 seconds=339  (rerun: final anchors; the victim in god mode only between deaths; the revive and the reset sent by ws_admin.js)
+lifecycle exit=0 seconds=414  (rerun: final anchors; the victim in god mode only between deaths; the revive and the reset sent by ws_admin.js)

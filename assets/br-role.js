@@ -688,14 +688,14 @@
 
       /* carried lights: yours (the hand that holds it, or the death torch), then the nearest other wanderers' */
       const Gc = A.Gc || {}, lights = [];
-      const own = Gc[F.kind];
-      if (F.on && own && !own.nv && own.range > 1 && F.src) lights.push({ x: F.src.x, y: F.src.y, ang: F.src.angle ?? (A.H && A.H.angle) ?? 0, f: own, color: F.color, glowR: F.death ? 150 : 52, glowA: F.death ? .73 : .35, fl: own.omni ? .93 + Math.sin(F.t * 17) * .035 + Math.sin(F.t * 31) * .025 : 1, own: true, kind: F.kind });
+      const own = Gc[F.kind], ow = F.death && window.__deathLight ? clamp(+window.__deathLight.own(), 0, 1) : 1;   // Stage 3D HQ1: our own light while we are dying fails like anyone's
+      if (F.on && own && !own.nv && own.range > 1 && F.src && ow > 0) lights.push({ x: F.src.x, y: F.src.y, ang: F.src.angle ?? (A.H && A.H.angle) ?? 0, f: own, color: F.color, glowR: F.death ? 150 : 52, glowA: F.death ? .73 : .35, fl: own.omni ? .93 + Math.sin(F.t * 17) * .035 + Math.sin(F.t * 31) * .025 : 1, own: true, kind: F.kind, w: ow });
       let np = 0;
       if (cfg.peers > 0 && Array.isArray(window.__peerLights)) {
-        const ps = window.__peerLights.filter(p => p && p.on && !p.dead && p.kind !== 'camcorder' && Gc[p.kind || 'flashlight'] && !Gc[p.kind || 'flashlight'].nv && Number.isFinite(p.x + p.y))
+        const ps = window.__peerLights.filter(p => p && p.on && !p.dead && !(p.pw != null && !(p.pw > 0)) && p.kind !== 'camcorder' && Gc[p.kind || 'flashlight'] && !Gc[p.kind || 'flashlight'].nv && Number.isFinite(p.x + p.y))
           .map(p => [Math.hypot(p.x - V.x, p.y - V.y), p]).sort((a, b) => a[0] - b[0]);
         const cut = ps.length > cfg.peers ? ps[cfg.peers][0] : Infinity;
-        for (let m = 0; m < ps.length && m < cfg.peers; m++) { const p = ps[m][1], f = Gc[p.kind || 'flashlight'], w = m === cfg.peers - 1 ? clamp((cut - ps[m][0]) / 80, 0, 1) : 1; if (w > .01) { lights.push({ x: p.x, y: p.y, ang: p.angle || 0, f, color: /^#[0-9a-f]{6}$/i.test(p.color) ? p.color : '#ffe7b2', glowR: 52, glowA: .35, fl: f.omni ? .93 + Math.sin(F.t * 17 + p.x) * .035 + Math.sin(F.t * 31 + p.y) * .025 : 1, w, kind: p.kind || 'flashlight' }); np++; } }
+        for (let m = 0; m < ps.length && m < cfg.peers; m++) { const p = ps[m][1], f = Gc[p.kind || 'flashlight'], w = (m === cfg.peers - 1 ? clamp((cut - ps[m][0]) / 80, 0, 1) : 1) * (p.pw == null ? 1 : clamp(+p.pw, 0, 1)); /* Stage 3D HQ1: a dead light's power */ if (w > .01) { lights.push({ x: p.x, y: p.y, ang: p.angle || 0, f, color: /^#[0-9a-f]{6}$/i.test(p.color) ? p.color : '#ffe7b2', glowR: 52, glowA: .35, fl: f.omni ? .93 + Math.sin(F.t * 17 + p.x) * .035 + Math.sin(F.t * 31 + p.y) * .025 : 1, w, kind: p.kind || 'flashlight' }); np++; } }
       }
       S.propLeft = cfg.propFrame; ST.props = 0;                            // prop casters for all carried lights this frame (yours first)
       const carRecs = [];

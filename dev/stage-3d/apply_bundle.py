@@ -32,6 +32,12 @@ EDITS = [
      'i.ph?i.ph.cam.x*this.scale:', 'i.ph?i.ph.cam.x*this.scale*(window.__dcamK?window.__dcamK():1):'),
     ('D5', 'reduced motion: the same for the vertical shake',
      'i.ph?i.ph.cam.y*this.scale:', 'i.ph?i.ph.cam.y*this.scale*(window.__dcamK?window.__dcamK():1):'),
+    ('HQ1', "the victim's own death light fails like anyone's (mp.js window.__deathLight.own) where the game draws its own lighting (BR-RoLE off)",
+     'if(!BR&&e&&!f.nv){_(0,Math.PI*2,this.death.active?150:52,this.death.active?.73:.35);let e=f.omni?.93+Math.sin(t*17)*.035+Math.sin(t*31)*.025:1;if(f.omni)_(0,Math.PI*2,f.range,f.power*e,!0);else{let e=1-(1-f.power)**(1/12);for(let t=0;t<12;t++)_(d.angle,f.arc*(1-t*.063),f.range,e,!0)}}',
+     'let HQ=this.death.active&&window.__deathLight?window.__deathLight.own():1;if(!BR&&e&&!f.nv&&HQ>0){_(0,Math.PI*2,this.death.active?150:52,(this.death.active?.73:.35)*HQ);let e=f.omni?.93+Math.sin(t*17)*.035+Math.sin(t*31)*.025:1;if(f.omni)_(0,Math.PI*2,f.range,f.power*e*HQ,!0);else{let e=1-(1-f.power*HQ)**(1/12);for(let t=0;t<12;t++)_(d.angle,f.arc*(1-t*.063),f.range,e,!0)}}'),
+    ('HQ1', "a dead wanderer's failing light (window.__peerLights pw) where the game draws its own lighting (BR-RoLE off); living lights have no pw",
+     'if(p.dead||!p.on||f.nv)continue;_(0,Math.PI*2,52,.35);{let e=f.omni?.93+Math.sin(t*17+p.x)*.035+Math.sin(t*31+p.y)*.025:1;if(f.omni)_(0,Math.PI*2,f.range,f.power*e,!0);else{let e=1-(1-f.power)**(1/12);for(let i=0;i<12;i++)_(o.angle,f.arc*(1-i*.063),f.range,e,!0)}}',
+     'let HQ=p.pw==null?1:+p.pw;if(p.dead||!p.on||f.nv||!(HQ>0))continue;_(0,Math.PI*2,52,.35*HQ);{let e=f.omni?.93+Math.sin(t*17+p.x)*.035+Math.sin(t*31+p.y)*.025:1;if(f.omni)_(0,Math.PI*2,f.range,f.power*e*HQ,!0);else{let e=1-(1-f.power*HQ)**(1/12);for(let i=0;i<12;i++)_(o.angle,f.arc*(1-i*.063),f.range,e,!0)}}'),
 ]
 
 

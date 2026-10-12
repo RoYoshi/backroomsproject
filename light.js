@@ -56,12 +56,14 @@
       }
     }
     const H = A.H;
-    if (H && lightOn) { o.torch = carried(A, H, x, y, true); if (o.torch > best) { best = o.torch; bx = H.x - x; by = H.y - y; o.flicker = 1; } }
+    const D = A.death && A.death(), kw = D && D.active && window.__deathLight ? window.__deathLight.own() : 1;   // Stage 3D HQ1: our own light while we are dying fails like anyone's
+    if (H && lightOn && kw > 0) { o.torch = carried(A, H, x, y, true) * kw; if (o.torch > best) { best = o.torch; bx = H.x - x; by = H.y - y; o.flicker = 1; } }
     const P = window.__peerLights;
     if (P && P.length) for (const p of P) {
       if (!p.on || p.dead) continue;
+      const pw = p.pw == null ? 1 : +p.pw; if (!(pw > 0)) continue;              // Stage 3D HQ1: a dead wanderer's failing light (living lights have no pw)
       TMP.x = p.x; TMP.y = p.y; TMP.angle = p.angle || 0; TMP.equipment.kind = p.kind || 'flashlight';
-      const v = carried(A, TMP, x, y, true); if (v > o.peers) o.peers = v;
+      const v = carried(A, TMP, x, y, true) * pw; if (v > o.peers) o.peers = v;
       if (v > best) { best = v; bx = p.x - x; by = p.y - y; o.flicker = 1; }
     }
     o.direct = Math.max(o.lamp, o.torch, o.peers);

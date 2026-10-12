@@ -1,0 +1,30 @@
+{"phase": "death", "k": 0.5, "victim": [1, [], 1, 73.3], "spectator": [null, [1], 0.8274509803921568, 58.88]}
+{"phase": "death", "k": 1.5, "victim": [1, [], 1, 73.3], "spectator": [null, [1], 0.8274509803921568, 58.88]}
+{"phase": "death", "k": 3.0, "victim": [1, [], 1, 73.3], "spectator": [null, [1], 0.8274509803921568, 58.88]}
+{"phase": "death", "k": 3.05, "victim": [1, [], 1, 73.3], "spectator": [null, [1], 0.8274509803921568, 58.88]}
+{"phase": "death", "k": 3.12, "victim": [0.9709, [], 1, 72.19], "spectator": [null, [0.9814], 0.8156862745098039, 57.92]}
+{"phase": "death", "k": 3.475, "victim": [0.6591, [], 0.8901960784313725, 56.02], "spectator": [null, [0.6685], 0.5529411764705883, 40.65]}
+{"phase": "death", "k": 3.85, "victim": [0.1747, [], 0.23529411764705882, 15.71], "spectator": [null, [0.1785], 0.14901960784313725, 11.71]}
+{"phase": "death", "k": 4.225, "victim": [0.1376, [], 0.1843137254901961, 12.49], "spectator": [null, [0.1436], 0.12156862745098039, 9.68]}
+{"phase": "death", "k": 4.57, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 4.6, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 7.0, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "death", "k": 34.6, "victim": [0, [], 0, 0.0], "spectator": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 0.5, "victim": [null, [1], 0.8313725490196079, 91.62], "spectator": [null, [1], 0.8196078431372549, 91.71], "late": [null, [1], 0.8196078431372549, 91.71]}
+{"phase": "corpse", "k": 1.5, "victim": [null, [1], 0.8313725490196079, 91.62], "spectator": [null, [1], 0.8196078431372549, 91.71], "late": [null, [1], 0.8196078431372549, 91.71]}
+{"phase": "corpse", "k": 3.0, "victim": [null, [1], 0.8313725490196079, 91.62], "spectator": [null, [1], 0.8196078431372549, 91.71], "late": [null, [1], 0.8196078431372549, 91.71]}
+{"phase": "corpse", "k": 3.05, "victim": [null, [1], 0.8313725490196079, 91.62], "spectator": [null, [1], 0.8196078431372549, 91.71], "late": [null, [1], 0.8196078431372549, 91.71]}
+{"phase": "corpse", "k": 3.12, "victim": [null, [0.9814], 0.8196078431372549, 90.31], "spectator": [null, [0.9804], 0.803921568627451, 90.14], "late": [null, [0.9814], 0.803921568627451, 90.33]}
+{"phase": "corpse", "k": 3.475, "victim": [null, [0.6685], 0.5568627450980392, 64.01], "spectator": [null, [0.6676], 0.5450980392156862, 63.98], "late": [null, [0.6685], 0.5450980392156862, 64.04]}
+{"phase": "corpse", "k": 3.85, "victim": [null, [0.1785], 0.14901960784313725, 18.6], "spectator": [null, [0.1762], 0.1411764705882353, 18.18], "late": [null, [0.1785], 0.1450980392156863, 18.61]}
+{"phase": "corpse", "k": 4.225, "victim": [null, [0.1436], 0.12156862745098039, 15.47], "spectator": [null, [0.1399], 0.11372549019607843, 14.78], "late": [null, [0.1436], 0.11764705882352941, 15.49]}
+{"phase": "corpse", "k": 4.57, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 4.6, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 7.0, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+{"phase": "corpse", "k": 34.6, "victim": [null, [], 0, 0.0], "spectator": [null, [], 0, 0.0], "late": [null, [], 0, 0.0]}
+PASS L4 parity: victim, spectator and late joiner put the light's end within 150 ms of each other and of the reference (a quiet observer of the server's messages)  {"pages": {"victim": 1791797147.3507, "spectator": 1791797147.364, "late": 1791797147.3503}, "spreadMs": 13.7, "reference": {"fromReplay": 1791797142.7648, "fromCorpse": 1791797142.753, "used": 1791797142.753, "end": 1791797147.353}, "pageMinusReferenceMs": {"victim": -2.3, "spectator": 11.0, "late": -2.7}, "serverClock": {"release": {"fromCorpse": 119.888, "fromKill": 119.8878}, "pagesOnIt": {"victim": 119.807, "spectator": 119.7955, "late": 119.6689}, "note": "the snapshot clock runs a little 
+PASS L6 one timeline per death: the corpse keeps the death's timeline (its anchor never later; earlier only by better server timing, under 150 ms)  {"death": {"victim": {"anchor": 120.355, "epoch": 1791797022.4362998, "anchorEpoch": 1791797142.7913}, "spectator": {"anchor": 97.5188, "epoch": 1791797045.2479, "anchorEpoch": 1791797142.7667}}, "corpse": {"victim": {"anchor": 120.3145, "epoch": 1791797022.4362001, "anchorEpoch": 1791797142.7507}, "spectator": {"anchor": 97.5155, "epoch": 1791797045.2485, "anchorEpoch": 1791797142.764}}, "movedMs": {"victim": 40.6, "spectator": 2.7}}
+PASS L5/L6 every frame: full through the hold, never lit after the end (the Death Lab paused on the victim's and spectator's screens throughout)  {"victim": {"off": 1791797147.3507, "lastLitFrame": 1791797147.245, "lastLitBeforeOffMs": 105.7, "framesAfterOff": 342, "litFramesAfterOff": 0, "holdFrames": 4, "holdFramesNotFull": 0}, "spectator": {"off": 1791797147.364, "lastLitFrame": 1791797145.495, "lastLitBeforeOffMs": 1869.0, "framesAfterOff": 163, "litFramesAfterOff": 0, "holdFrames": 4, "holdFramesNotFull": 0}, "late": {"off": 1791797147.3503, "lastLitFrame": null, "lastLitBeforeOffMs": null, "framesAfterOff": 239, "litFramesAfterOff":
+PASS L5 frozen clock: full in the hold; at and after the end no power, no peer entry, nothing in BR-RoLE's buffer, light.js 0, the screen dark (death and corpse, every screen)  {"bad": [], "phases": ["death", "corpse"]}
+PASS L5 a survivor's light (Bob's, switched on afterwards): on the other screens as a living light, lighting the floor  {"victim": {"living": [{"x": 5808, "y": 991, "kind": "flashlight"}], "buffer": 0.44313725490196076, "lightjs": {"torch": 0, "peers": 0.1449, "direct": 0.1449}, "lum": 70.36}, "late": {"living": [{"x": 5808, "y": 991, "kind": "flashlight"}], "buffer": 0.3215686274509804, "lightjs": {"torch": 0, "peers": 0.1026, "direct": 0.1026}, "lum": 64.18}}
+LIGHT TIMELINE OK houndA_flashlight

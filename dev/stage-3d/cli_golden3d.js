@@ -3,8 +3,9 @@
  *
  *   node dev/stage-3d/cli_golden3d.js [--old-ref 06949a8] [--scenes a,b] [--out FILE.json] [--keep DIR]   (--keep: write both sides' traces)
  *
- * Runs dev/stage-3h0/golden/cli_lib.js's nine scenes on both sides.  3D's one new global, window.__dvic (mp.js: the victim's death starts
- * from the server's kill record), is declared like 3H0's own __mpLib: kept out of the strict trace and listed.  Then:
+ * Runs dev/stage-3h0/golden/cli_lib.js's nine scenes on both sides.  3D's new globals, window.__dvic (mp.js: the victim's death starts
+ * from the server's kill record) and, since HQ1, window.__deathLight (mp.js: the victim's own dying light's power, for the renderers), are
+ * declared like 3H0's own __mpLib: kept out of the strict trace and listed.  Then:
  *   - a scene whose traces are byte-identical passes;
  *   - otherwise both traces are put in their non-death view, and that must be identical.  Taken out, on both sides:
  *       the client's own death claims, which 3D no longer sends: a 'ws.send' of a death replay (t 'fx', k 'death') or of a corpse (t 'b',
@@ -12,13 +13,15 @@
  *       in the 'hb' field of the scene's state records, only the player's own corpse ('r' + the scene's own id; 3D hides the server's copy of
  *       your own corpse while you are still dying), and the size of window.__hideBodies in the page's global listings; every other
  *       hidden corpse must match (a state record left equal to the one before it by this is dropped, as the scene itself does);
- *       a corpse record's 'born' (its age, 3D) in 'api.bodies'.
+ *       a corpse record's 'born' (its age, 3D) in 'api.bodies';
+ *       HQ1: in the 'pl' light list a scene records, the lights of replays and corpses (dead lights: they fail since HQ1 and carry a power
+ *       'pw'); every wanderer's own light (it has 'ir') must match.
  * Exit status 0 only if every scene passes. */
 'use strict';
 const fs = require('fs'), path = require('path');
 const L = require(path.join(__dirname, '..', 'stage-3h0', 'golden', 'cli_lib.js'));
 const ARG = { 'old-ref': '06949a8a4204a1ce8144b87b2192251b259b21ec' }; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
-const DECLARED_3D = ['__dvic'];
+const DECLARED_3D = ['__dvic', '__deathLight'];   // HQ1: __deathLight (mp.js: our own dying light's power, for the renderers)
 for (const g of DECLARED_3D) if (!L.NEWG.includes(g)) L.NEWG.push(g);
 const SCENES = ARG.scenes ? ARG.scenes.split(',') : L.SCENES;
 // Each scene's own player ids (its 'hi' messages): only the own corpse ('r' + id) may be hidden in 3D and not in the parent
@@ -38,6 +41,7 @@ function nonDeath(T, own) {
     if (Array.isArray(e) && e[1] === 'api.bodies' && Array.isArray(e[2])) { out.push([e[0], e[1], e[2].map(r => { const o = Object.assign({}, r); delete o.born; return o; })].concat(e.slice(3))); continue; }
     if (Array.isArray(e) && e[1] === 'state' && e[2] && typeof e[2] === 'object') {
       const o = Object.assign({}, e[2]); if (Array.isArray(o.hb)) o.hb = o.hb.filter(k => !own.includes(k));
+      if (Array.isArray(o.pl)) o.pl = o.pl.filter(q => q && 'ir' in q);   // HQ1: the lights of replays and corpses (death domain: they fail now) out; every wanderer's own light (it has 'ir') kept
       const d = JSON.stringify(o); if (d === lastState) continue; lastState = d;   // the scene records state only when it changes
       out.push([e[0], e[1], o].concat(e.slice(3))); continue; }
     if (Array.isArray(e) && e[2] && typeof e[2] === 'object' && Array.isArray(e[2].globals)) { const o = Object.assign({}, e[2], { globals: e[2].globals.map(g => g[0] === '__hideBodies' ? [g[0], '~'] : g) }); out.push([e[0], e[1], o].concat(e.slice(3))); continue; }

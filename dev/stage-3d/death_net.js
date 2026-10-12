@@ -16,7 +16,8 @@
  *   N7  a world reset during the death: no corpse from the old world appears in the new one
  *   N8  respawning early does not cancel the corpse; dying again replaces it (one corpse per player)
  *   N9  NEW RUN vanish: its light-left-behind record is accepted only from a living player at its own position, once per 5 s
- *   N10 sizes: the replay message and a corpse record stay small; 'bodies' per corpse within D0's + 10 %
+ *   N10 sizes: the replay message and a corpse record stay small; 'bodies' per corpse within D0's + 10 % (HQ1: a corpse whose light was on
+ *       also carries its light's profile; the sample corpse within D7's 384 B + 32)
  *   N11 400 random malformed death messages: the server keeps running, no corpse appears
  * Exit status 0 only if every check passes. */
 'use strict';
@@ -138,7 +139,8 @@ const durOf = mk => (DURS[mk.k === 'Smiler' ? 'Smiler' : 'Hound'] || {})[mk.v] |
     const bm = O.bodyMsgs[O.bodyMsgs.length - 1];
     out.sizes.bodiesMsg = bm ? { bytes: bm.bytes, corpses: bm.b.length } : null;
     const per = out.sizes.corpse;
-    check('N10 sizes: the replay message under 400 bytes; a corpse record within D0\'s 359 bytes + 10 %', out.sizes.fx > 0 && out.sizes.fx < 400 && per > 0 && per <= 395, `replay ${out.sizes.fx} B; corpse ${per} B`);
+    // Stage 3D HQ1: a corpse whose light was on also carries its light's profile (lf, about 25 B): this one sample may reach D7's 384 B + 32 (gate L3)
+    check('N10 sizes: the replay message under 400 bytes; a corpse record within D7\'s 384 bytes + 32 (HQ1: the light profile)', out.sizes.fx > 0 && out.sizes.fx < 400 && per > 0 && per <= 416, `replay ${out.sizes.fx} B; corpse ${per} B`);
     // N11: fuzz
     const F = await client(room, 'FUZZ', false); const fb0 = O.bodyMsgs.length, ffx0 = O.fx.length;
     const rnd = () => { const r = Math.random(); return r < .2 ? null : r < .4 ? Math.random() * 1e12 - 5e11 : r < .55 ? 'x'.repeat(Math.random() * 300 | 0) : r < .7 ? [1, 'a', null, { q: 1 }] : r < .85 ? NaN : { __proto__: { k: 1 }, toString: 1 }; };

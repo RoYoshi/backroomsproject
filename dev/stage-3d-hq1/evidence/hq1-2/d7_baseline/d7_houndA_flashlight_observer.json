@@ -1,0 +1,46 @@
+{
+ "tool": "dev/stage-3d-hq1/ws_observer.js",
+ "room": "hq1lt",
+ "opened": 1791801811.763,
+ "fx": [
+  {
+   "at": 1791801922.232,
+   "id": 2,
+   "de": 1,
+   "el": null,
+   "lf": null,
+   "lo": 1,
+   "c": "Hound",
+   "v": "A",
+   "ek": "flashlight"
+  }
+ ],
+ "bodies": [
+  {
+   "at": 1791801811.782,
+   "b": []
+  },
+  {
+   "at": 1791801820.14,
+   "b": []
+  },
+  {
+   "at": 1791801926.742,
+   "b": [
+    {
+     "k": 2,
+     "de": 1,
+     "ag": 0,
+     "lf": null,
+     "c": "Hound"
+    }
+   ]
+  }
+ ],
+ "snaps": 4609,
+ "firstSnap": {
+  "at": 1791801811.782,
+  "st": 0.017
+ },
+ "errors": []
+}
