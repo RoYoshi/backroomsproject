@@ -1,0 +1,66 @@
+Stage 3D (Gore & Death 2.0): files changed since the accepted parent 06949a8 (stage-3h0) - working tree
+
+production (death code): 13 files
+  assets/index-DKbV5Nv9.js     +   1 -   1  D3 corpse culling and caching hooks; D4 victim-from-record hook; D5 death sound options, shake factor (dev/stage-3d/apply_bundle.py)
+  assets/net-wire.js           +   1 -   0  D3/D6 corpse age (born) when the server sends it
+  death_srv.js                 +  21 -  10  D1 main-context load and warm-up; D2 wall marks in the corpse blood list; D6 begin / step / corpse (spread over the death)
+  dev/ents_src/25_death.js     +   1 -   0  D2 Hound C's scripted smear replaced by real wall marks
+  dev/ents_src/30_audio.js     +  22 -   0  D5 death-only sounds (physics hits, wall, light, hat; spectator voice); D6 a late joiner skips the sounds already past
+  dev/sim_glue.js              +   3 -   2  D4 worldSeq (counts world resets)
+  dphys.js                     +  93 -  19  D1 rest is final, jaw release, hand twitch, walk-mode collision, blocker cache; D2 blow / wall events and marks; D4 knock and drag in walk mode; D5 sound hook, reduced-motion shake factor; D6 the jaw lets go once, prepare / finish (the server runs it in pieces)
+  ents.js                      +  23 -   0  built from dev/ents_src (dev/build_ents.sh)
+  gore.js                      + 141 -  14  D2 floor-clamped pools and spatter, wall marks, redraw only on change; D3 corpse drying, caching, culling; D6 drying only on screen, wall-mark plans kept, a culling margin
+  mp.js                        +  37 -  13  D3 replay lights, corpse light from the lens; D4 victim from the kill record, no client death claims, dedupe, late join, end; D5 spectator death voice; D6 the own-corpse hiding ends on a new id or a closed connection
+  server.js                    +  53 -  37  D2 blood list bound; D3 corpse age; D4 the server-authored death event, replay, corpse, revive / world-reset handling, NEW RUN record checks; D6 the death run spread over the ticks, the NEW RUN record's light and look from the server's state
+  sfx.js                       +   1 -   1  D5 a drop-in death recording follows a spectator's placement
+  sim.js                       +   3 -   2  built from dev/sim_head.js + dev/sim_glue.js (dev/build_sim.sh)
+
+stage documents: 7
+  STAGE_3D_D0_AUDIT.md
+  STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md
+  STAGE_3D_HUMAN_QA.md
+  STAGE_3D_PERFORMANCE.md
+  STAGE_3D_REGRESSION_AND_EQUIVALENCE.md
+  STAGE_3D_REPORT.md
+  STAGE_3D_VARIANT_MATRIX.md
+
+tools and evidence under dev/stage-3d/: 497 files
+  dev/stage-3d/README.md                       1
+  dev/stage-3d/apply_bundle.py                 1
+  dev/stage-3d/changed_files_3d.py             1
+  dev/stage-3d/cli_golden3d.js                 1
+  dev/stage-3d/contract_check3d.js             1
+  dev/stage-3d/corpse_check.py                 1
+  dev/stage-3d/death_net.js                    1
+  dev/stage-3d/evidence/d0                     38
+  dev/stage-3d/evidence/d1                     33
+  dev/stage-3d/evidence/d2                     37
+  dev/stage-3d/evidence/d3                     35
+  dev/stage-3d/evidence/d4                     47
+  dev/stage-3d/evidence/d5                     13
+  dev/stage-3d/evidence/d6                     268
+  dev/stage-3d/film_3d.py                      1
+  dev/stage-3d/fixtures                        1
+  dev/stage-3d/golden3d.js                     1
+  dev/stage-3d/gore_geo_test.js                1
+  dev/stage-3d/lib3d.py                        1
+  dev/stage-3d/package_3d.py                   1
+  dev/stage-3d/parity3d.py                     1
+  dev/stage-3d/perf_compare.py                 1
+  dev/stage-3d/perf_death.py                   1
+  dev/stage-3d/perf_death_srv.js               1
+  dev/stage-3d/phys_matrix.js                  1
+  dev/stage-3d/regrid.py                       1
+  dev/stage-3d/secret_scan_3d.py               1
+  dev/stage-3d/server_soak.js                  1
+  dev/stage-3d/soak_death.py                   1
+  dev/stage-3d/sound_check.py                  1
+  dev/stage-3d/static_check.js                 1
+  dev/stage-3d/summarize_d6.py                 1
+  dev/stage-3d/verify_remote_3d.py             1
+
+anything else: 0
+
+Not changed (byte-identical to the parent): index.html (no new script, same load order), ai.js, world.js, move.js, light.js, glitch.js, camcorder.js, hud.js,
+inventory.js, camera_policy.js, timing_policy.js, server/ws.js, server/fields.js, server/static.js, assets/net-interp.js, assets/ui.js, the CSS, the menu,
+BR-RoLE, Level 0 visuals, the theme files, sounds/, audio_source/, the deployment workflow, every older test (dev/tests) and every earlier stage folder.

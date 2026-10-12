@@ -13,7 +13,7 @@ rows = []
 for w in wins:
     for i, who in enumerate(('victim', 'spectator')):
         fa = [r[w][i]['frameMedianMs'] for r in a['rounds'] if w in r]; fb = [r[w][i]['frameMedianMs'] for r in b['rounds'] if w in r]
-        pa = [r[w][i]['fps'] for r in a['rounds'] if w in r]; pb = [r[w][i]['fps'] for r in b['rounds'] if w in r]
+        pa = [r[w][i].get('fps') for r in a['rounds'] if w in r]; pb = [r[w][i].get('fps') for r in b['rounds'] if w in r]   # (whole_<v> windows have none)
         ma, mb = max(fa), max(fb); rows.append((w, who, fa, fb, pa, pb, ma, mb, round((mb - ma) / ma * 100, 1)))
 if md:
     print('| window | page | frame median ms, before (each round) | after | worst before → after | change |'); print('|---|---|---|---|---|---|')

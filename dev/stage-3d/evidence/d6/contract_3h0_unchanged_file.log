@@ -1,0 +1,13 @@
+messages checked: server->client 23111 (13 types), client->server 1819 (10 types)
+contract types never seen: server->client none; client->server none
+VIOLATIONS: 32
+  {"where":"admin.new.jsonl @70850","why":"field not in the contract","t":"fx","k":"de"}
+  {"where":"admin.new.jsonl @70850","why":"field not in the contract","t":"fx","k":"lo"}
+  {"where":"admin.new.jsonl @70850","why":"field not in the contract","t":"fx","k":"de"}
+  {"where":"admin.new.jsonl @70850","why":"field not in the contract","t":"fx","k":"lo"}
+  {"where":"deaths.new.jsonl @1400","why":"field not in the contract","t":"fx","k":"de"}
+  {"where":"deaths.new.jsonl @1400","why":"field not in the contract","t":"fx","k":"lo"}
+  {"where":"deaths.new.jsonl @1400","why":"field not in the contract","t":"fx","k":"de"}
+  {"where":"deaths.new.jsonl @1400","why":"field not in the contract","t":"fx","k":"lo"}
+  {"where":"deaths.new.jsonl @6500","why":"field not in the contract","t":"fx","k":"de"}
+  {"where":"deaths.new.jsonl @6500","why":"field not in the contract","t":"fx","k":"lo"}

@@ -114,19 +114,34 @@
    * (x, y) is the point of the wall face that was hit, (nx, ny) points out of the wall onto the floor, sp is the impact speed (px/s).
    * A smear along the base of the wall and spray thrown back onto the floor, sized by the impact; k grows it in (0..1).  Every variant gets
    * it where its body really hit (the physics' own contact), not only the hound's scripted wall slam. */
+  /* what a mark looks like at full size depends only on where it is (and the floor around it): worked out once and kept (the last 128) */
+  const MARKS = new Map();
+  function markPlan(x, y, nx, ny, sp, seed, k, floor) {
+    const key = k === 1 ? x + ',' + y + ',' + nx + ',' + ny + ',' + sp + ',' + seed : null;
+    if (key && MARKS.has(key)) return MARKS.get(key);
+    const r = rng(seed * 977 + 31), tx = -ny, ty = nx, size = clamp((sp - 60) / 260, .25, 1), L = (9 + 13 * size) * k, off = 1 + (7 * size + 2) / 2, bx = x + nx * off, by = y + ny * off;   // the stroke's edge stays on the floor
+    let P;
+    if (!onFloor(floor, bx, by)) P = { skip: true };
+    else {
+      // the smear runs along the foot of the wall only as far as there is floor beside it (it stops at a corner or a pillar)
+      const run = s => { let d = 0; while (d < L && onFloor(floor, bx + tx * s * (d + 3), by + ty * s * (d + 3))) d += 3; return Math.min(L, d); };
+      P = { size, tx, ty, bx, by, La: run(-1), Lb: run(1), drops: [] };
+      const n = 8 + Math.round(12 * size), base = Math.atan2(ny, nx);
+      for (let i = 0; i < n; i++) {
+        const a = base + (r() - .5) * 2.1, d = (4 + Math.pow(r(), 1.6) * (16 + 30 * size)) * k, sz = .6 + Math.pow(r(), 2) * 2.2, px = bx + Math.cos(a) * d, py = by + Math.sin(a) * d, el = 1 + Math.min(3.5, d / 14);
+        if (!dropOk(floor, px, py, a, sz, el)) continue;
+        P.drops.push({ px, py, a, sz, el, c: r() < .5 ? 1 : 2 });
+      }
+    }
+    if (key) { MARKS.set(key, P); if (MARKS.size > 128) MARKS.delete(MARKS.keys().next().value); }
+    return P;
+  }
   function wallMark(g, x, y, nx, ny, sp, seed, fresh, k, floor) {
-    const r = rng(seed * 977 + 31), tx = -ny, ty = nx, dry = 1 - fresh, size = clamp((sp - 60) / 260, .25, 1), L = (9 + 13 * size) * k, off = 1 + (7 * size + 2) / 2, bx = x + nx * off, by = y + ny * off;   // the stroke's edge stays on the floor
-    if (!onFloor(floor, bx, by)) return;
-    // the smear runs along the foot of the wall only as far as there is floor beside it (it stops at a corner or a pillar)
-    const run = s => { let d = 0; while (d < L && onFloor(floor, bx + tx * s * (d + 3), by + ty * s * (d + 3))) d += 3; return Math.min(L, d); }, La = run(-1), Lb = run(1);
+    const P = markPlan(x, y, nx, ny, sp, seed, k, floor); if (P.skip) return;
+    const dry = 1 - fresh, { size, tx, ty, bx, by, La, Lb } = P;
     g.moveTo(bx - tx * La, by - ty * La).lineTo(bx + tx * Lb, by + ty * Lb).stroke({ color: shade(2, dry), width: 7 * size + 2, alpha: .42 * k, cap: 'round' });
     g.moveTo(bx - tx * La * .7 + nx, by - ty * La * .7 + ny).lineTo(bx + tx * Lb * .55 + nx, by + ty * Lb * .55 + ny).stroke({ color: shade(0, dry), width: 2.2 + 2 * size, alpha: .62 * k, cap: 'round' });
-    const n = 8 + Math.round(12 * size), base = Math.atan2(ny, nx);
-    for (let i = 0; i < n; i++) {
-      const a = base + (r() - .5) * 2.1, d = (4 + Math.pow(r(), 1.6) * (16 + 30 * size)) * k, sz = .6 + Math.pow(r(), 2) * 2.2, px = bx + Math.cos(a) * d, py = by + Math.sin(a) * d;
-      if (!dropOk(floor, px, py, a, sz, 1 + Math.min(3.5, d / 14))) continue;
-      drop(g, px, py, a, sz, 1 + Math.min(3.5, d / 14), shade(r() < .5 ? 1 : 2, dry), .85);
-    }
+    for (const q of P.drops) drop(g, q.px, q.py, q.a, q.sz, q.el, shade(q.c, dry), .85);
   }
   /* the strongest wall impacts of a death: the physics' own selection (dphys.marks), so the corpse record carries the same ones */
   const impacts = S => window.__dphys && window.__dphys.marks ? window.__dphys.marks(S) : [];
@@ -180,7 +195,7 @@
   const nowS = () => window.__goreNow ? window.__goreNow() : performance.now() / 1000;   // (__goreNow: a test's frozen clock, development only)
   const ageOf = rec => rec.born != null ? Math.max(0, nowS() - rec.born) : (!rec.remote && rec.createdAt != null ? Math.max(0, nowS() - rec.createdAt) : 600);
   const dryAt = age => Math.min(.82, (2.6 + age) / 9), torsoAt = age => Math.sqrt(clamp(age / 18)), DRYING = 25;
-  const stateKey = rec => { const a = ageOf(rec); return Math.round(dryAt(a) * 40) + ':' + Math.round(torsoAt(a) * 24); };
+  const stateKey = rec => { const a = ageOf(rec); return Math.round(dryAt(a) * 30) + ':' + Math.round(torsoAt(a) * 16); };
   const drying = new Map();                                            // corpse blood still changing: Graphics -> { rec, floor, view, key }
   function corpse(g, rec, floor) {
     const ph = !!rec.hands, age = ageOf(rec), dry = ph ? dryAt(age) : .82, tk = ph ? torsoAt(age) : 1, lim = rec.__lim || (rec.__lim = {});
@@ -204,13 +219,15 @@
     if (ph && age < DRYING && !drying.has(g)) drying.set(g, { rec, floor, view: null, key: stateKey(rec) });
   }
   /* the drying: four times a second, every corpse younger than DRYING seconds whose look has moved on a step is redrawn (and its texture
-   * refreshed); older ones are left alone for good */
+   * refreshed) - only while it is on screen: one that is off screen catches up in one redraw when it comes back.  Once a corpse has been
+   * drawn in its final state it is left alone for good */
   setInterval(() => {
     for (const [g, e] of drying) {
       if (g.destroyed || (e.view && e.view.destroyed)) { drying.delete(g); continue; }
       const k = stateKey(e.rec);
-      if (k !== e.key) { e.key = k; corpse(g, e.rec, e.floor); if (e.view && e.view.isCachedAsTexture) e.view.updateCacheTexture(); }
-      if (ageOf(e.rec) > DRYING) drying.delete(g);
+      if (k === e.key) { if (ageOf(e.rec) > DRYING) drying.delete(g); continue; }
+      if (e.view && !e.view.visible) continue;
+      e.key = k; corpse(g, e.rec, e.floor); if (e.view && e.view.isCachedAsTexture) e.view.updateCacheTexture();
     }
   }, 250);
   /* a corpse view (blood, body, gear, hat) does not change between those steps: it is drawn once into a texture and that texture is what
@@ -230,8 +247,9 @@
   }
   function cull(rec, sc) {
     if (!sc || !sc.camera || !(sc.scale > 0) || !sc.width) return false;
-    const R = extent(rec), out = Math.abs(rec.x - sc.camera.x) > sc.width / 2 / sc.scale + R || Math.abs(rec.y - sc.camera.y) > sc.height / 2 / sc.scale + R;
-    const v = sc.corpseViews && sc.corpseViews.get(rec.id);
+    const v = sc.corpseViews && sc.corpseViews.get(rec.id), R = extent(rec) + (v && v.__out ? 0 : 64);   // 64 px of hysteresis: a corpse at the edge does not flip every frame
+    const out = Math.abs(rec.x - sc.camera.x) > sc.width / 2 / sc.scale + R || Math.abs(rec.y - sc.camera.y) > sc.height / 2 / sc.scale + R;
+    if (v) v.__out = out;
     if (v && v.__rec && !v.destroyed) {
       if (out && v.isCachedAsTexture) v.cacheAsTexture(false);
       else if (!out && !v.isCachedAsTexture && window.__goreCache !== false) v.cacheAsTexture({ resolution: CACHE_RES(), antialias: true });

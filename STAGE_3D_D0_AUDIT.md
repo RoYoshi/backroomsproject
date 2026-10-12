@@ -130,7 +130,7 @@ The contact sheets of all eight, victim and spectator, are in `evidence/d0/film/
 1. **Sleep is not final.** Of the 690, 265 never reached SLEEPING within 0.6 s after their end, and 13 were still moving when the death ended. Of those that slept, 394 woke again: things moved up to 12.3 px after "SLEEPING" (Hound A, C, D).
 2. **A dead body creeps.** After a hound "eases off", its grip (a spring to the jaw) keeps towing the body at a constant 5–6 px/s until the end. Hound A's body moves 12 px in its last 1.5 s.
 3. **Dead hands tremble forever.** The slack hands follow an endless noise signal, so the death flickers between ACTIVE and SETTLING.
-4. **The server's fallback death costs 37–95 ms** of one thread per death (`perf_death_srv_parent.json`). It runs inside the 25 ms wake that steps every room, on the first fallback of a process (cold JIT) and in a separate VM context (about 4 × slower than the main context when warm). The level's blocker query is rebuilt about 9,600 times per death.
+4. **The server's fallback death costs 21–51 ms** (median per variant; worst 132 ms) of one thread per death (`perf_death_srv_parent.json`; corrected at D6, this line first said 37–95 ms). It runs inside the 25 ms wake that steps every room, on the first fallback of a process (cold JIT) and in a separate VM context (about 4 × slower than the main context when warm). The level's blocker query is rebuilt about 9,600 times per death.
 
 ## 5. What the server trusts today
 
@@ -189,7 +189,7 @@ The contact sheets of all eight, victim and spectator, are in `evidence/d0/film/
 | Baseline | Tool | Result |
 |---|---|---|
 | Physics on the real map | `phys_matrix.js` | section 4 |
-| Server cost | `perf_death_srv.js` | fallback corpse 37–95 ms per death; 60 Hz step unaffected by 24 corpses; `bodies` 8.6 KB with 24 corpses |
+| Server cost | `perf_death_srv.js` | fallback corpse 21–51 ms median per variant, worst 132 ms (corrected at D6); 60 Hz step unaffected by 24 corpses; `bodies` 8.6 KB with 24 corpses |
 | Browser cost | `perf_death.py` | below; `perf_death_parent.json` |
 | The eight deaths, victim and spectator | `film_3d.py`, `regrid.py` | `film/sheet_*.jpg` (victim row over spectator row, every frame labelled with its time), `trace_*.json` |
 | Victim corpse against server corpse | `parity3d.py` | below; `parity_parent.json` |

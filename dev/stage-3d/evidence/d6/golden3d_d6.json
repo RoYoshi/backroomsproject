@@ -1,0 +1,196 @@
+{
+ "tool": "dev/stage-3d/golden3d.js",
+ "old": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/d3base",
+ "new": "/home/claude/backrooms-shadows",
+ "changedFiles": [
+  "STAGE_3D_D0_AUDIT.md",
+  "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+  "STAGE_3D_HUMAN_QA.md",
+  "STAGE_3D_PERFORMANCE.md",
+  "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+  "STAGE_3D_REPORT.md",
+  "STAGE_3D_VARIANT_MATRIX.md",
+  "assets/index-DKbV5Nv9.js",
+  "assets/net-wire.js",
+  "death_srv.js",
+  "dphys.js",
+  "ents.js",
+  "gore.js",
+  "mp.js",
+  "server.js",
+  "sfx.js",
+  "sim.js"
+ ],
+ "scenarios": {
+  "boot": {
+   "oldLines": 20,
+   "newLines": 20,
+   "identical": true,
+   "hasDeath": false,
+   "harnessOk": true,
+   "pass": true
+  },
+  "http_base": {
+   "oldLines": 268,
+   "newLines": 268,
+   "identical": false,
+   "hasDeath": false,
+   "harnessOk": true,
+   "firstDiff": {
+    "line": 34,
+    "classOld": "changed-file",
+    "classNew": "changed-file",
+    "old": "[0,\"http.end\",\"GET\",\"/mp.js\",24621,\"00370bf41400e18c658bc047128702df9438a225c5484f9bed1b88788b7e5731\",null]",
+    "new": "[0,\"http.end\",\"GET\",\"/mp.js\",25588,\"26a9382640721de5115e4389e4c6552ad3f0059433d67578acb1b2c44eb88e17\",null]"
+   },
+   "differingAfter": {
+    "changed-file": 9
+   },
+   "killers": [],
+   "nonDeathIdentical": true,
+   "pass": true
+  },
+  "http_h0": {
+   "oldLines": 73,
+   "newLines": 73,
+   "identical": false,
+   "hasDeath": false,
+   "harnessOk": true,
+   "firstDiff": {
+    "line": 16,
+    "classOld": "changed-file",
+    "classNew": "changed-file",
+    "old": "[0,\"http.end\",\"GET\",\"/assets/net-wire.js\",1346,\"6b8ee27dfd08e723b03e64af6e05269502d65913a59328eebb7a3c003e9dd304\",null]",
+    "new": "[0,\"http.end\",\"GET\",\"/assets/net-wire.js\",1431,\"755f651da461b0fd761cab203fc98d2c004e0e5f8cb7ea6578fe270dac37cb7f\",null]"
+   },
+   "differingAfter": {
+    "changed-file": 4
+   },
+   "killers": [],
+   "nonDeathIdentical": true,
+   "pass": true
+  },
+  "ws_upgrade": {
+   "oldLines": 625,
+   "newLines": 625,
+   "identical": true,
+   "hasDeath": true,
+   "harnessOk": true,
+   "pass": true
+  },
+  "ws_frames": {
+   "oldLines": 1121,
+   "newLines": 1121,
+   "identical": true,
+   "hasDeath": true,
+   "harnessOk": true,
+   "pass": true
+  },
+  "lifecycle": {
+   "oldLines": 11114,
+   "newLines": 11114,
+   "identical": false,
+   "hasDeath": true,
+   "harnessOk": true,
+   "firstDiff": {
+    "line": 2530,
+    "classOld": "death",
+    "classNew": "death",
+    "old": "[9780,\"sim.setBody\",[1,{\"k\":1,\"n\":\"RUN-A\",\"x\":960,\"y\":3264,\"a\":0,\"sx\":1,\"sy\":1,\"c\":\"Vanish\",\"aa\":0,\"lk\":\"cap|freckles|#e6bb76|#3a6ea5|none\",\"eq\":{\"kind\":\"flashlight\",\"color\":\"#ffe7b2\",\"parts\":\"\"},\"bl\":[],\"dr\":[960,3264,0],\"ht\":[960,3264,0]}],\"~u\"]",
+    "new": "[9780,\"sim.setBody\",[1,{\"k\":1,\"n\":\"RUN-A\",\"x\":960,\"y\":3264,\"a\":0,\"sx\":1,\"sy\":1,\"c\":\"Vanish\",\"aa\":0,\"lk\":\"none|plain|#e6bb76|#ffcc77|none\",\"eq\":{\"kind\":\"flashlight\",\"color\":\"#ffe7b2\",\"parts\":\"#ffe7b2,#333333,#888888\"},\"bl\":[],\"dr\":[960,3264,0],\"ht\":[960,3264,0]}],\"~u\"]"
+   },
+   "differingAfter": {
+    "death": 4
+   },
+   "killers": [],
+   "nonDeathIdentical": true,
+   "pass": true
+  },
+  "deaths": {
+   "oldLines": 51958,
+   "newLines": 15056,
+   "identical": false,
+   "hasDeath": true,
+   "harnessOk": true,
+   "firstDiff": {
+    "line": 477,
+    "classOld": "other",
+    "classNew": "death",
+    "old": "[1360,\"sim.admin.previewKill\",[\"~player1\",\"hound\",\"A\"],{\"ok\":true,\"v\":\"A\",\"eid\":6}]",
+    "new": "[1360,\"sim.clearAt\",[956,3264,22],false]"
+   },
+   "differingAfter": {
+    "other": 11642,
+    "death-snapshot": 2766,
+    "death": 37073
+   },
+   "killers": [
+    6,
+    10
+   ],
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 1863,
+    "where": [
+     "/4/e/sn/0: undefined -> [\"kill\",1029,3264,0.9,6]"
+    ],
+    "old": "[6150,\"sock.frame\",\"c1\",129,{\"t\":\"s\",\"p\":[{\"id\":2,\"x\":960,\"y\":3264,\"a\":0,\"n\":\"D-c2\",\"c\":\"#ffe7b2\",\"d\":0,\"r\":0,\"k\":\"flashlight\",\"l\":1,\"ir\":0,\"lk\":\"none|plain|#e6bb76|#ffcc77|none\",\"lp\":\"#ffe7b2,#333333,#888888\",\"f\":-1,\"mv\":[0,0,100,0]},{\"id\":3,\"x\":960,\"y\":3264,\"a\":0,\"n\":\"D-c3\",\"c\":\"#ffe7b2\",\"d\":0,\"r\":0,\"k\":\"flashlight\",\"l\":1,\"ir\":0,\"lk\":\"none|plain|#e6bb76|#ffcc77|none\",\"lp\":\"#ffe7b2,#333333,#88888",
+    "new": "[6150,\"sock.frame\",\"c1\",129,{\"t\":\"s\",\"p\":[{\"id\":2,\"x\":960,\"y\":3264,\"a\":0,\"n\":\"D-c2\",\"c\":\"#ffe7b2\",\"d\":0,\"r\":0,\"k\":\"flashlight\",\"l\":1,\"ir\":0,\"lk\":\"none|plain|#e6bb76|#ffcc77|none\",\"lp\":\"#ffe7b2,#333333,#888888\",\"f\":-1,\"mv\":[0,0,100,0]},{\"id\":3,\"x\":960,\"y\":3264,\"a\":0,\"n\":\"D-c3\",\"c\":\"#ffe7b2\",\"d\":0,\"r\":0,\"k\":\"flashlight\",\"l\":1,\"ir\":0,\"lk\":\"none|plain|#e6bb76|#ffcc77|none\",\"lp\":\"#ffe7b2,#333333,#88888"
+   },
+   "followOnAfterHandback": {
+    "handbackAt": 5900,
+    "divergesAt": 6150
+   },
+   "pass": true
+  },
+  "admin": {
+   "oldLines": 17265,
+   "newLines": 17296,
+   "identical": false,
+   "hasDeath": true,
+   "harnessOk": true,
+   "firstDiff": {
+    "line": 16341,
+    "classOld": "other",
+    "classNew": "death",
+    "old": "[70850,\"sim.entities\",[],\"~e\"]",
+    "new": "[70850,\"sim.clearAt\",[8085.907600069585,4152.854787515222,22],true]"
+   },
+   "differingAfter": {
+    "other": 923,
+    "death-snapshot": 27,
+    "death": 5
+   },
+   "killers": [
+    27
+   ],
+   "nonDeathIdentical": true,
+   "pass": true
+  },
+  "schedule": {
+   "oldLines": 1166,
+   "newLines": 1166,
+   "identical": true,
+   "hasDeath": true,
+   "harnessOk": true,
+   "pass": true
+  },
+  "p_fields": {
+   "oldLines": 1027,
+   "newLines": 1027,
+   "identical": true,
+   "hasDeath": true,
+   "harnessOk": true,
+   "pass": true
+  },
+  "exit_glitch": {
+   "oldLines": 704,
+   "newLines": 704,
+   "identical": true,
+   "hasDeath": true,
+   "harnessOk": true,
+   "pass": true
+  }
+ },
+ "ok": true
+}

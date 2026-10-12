@@ -1,0 +1,48 @@
+{
+ "pop": {
+  "spectator": {
+   "last->plus6f": 14.73,
+   "plus6f->plus1s": 0.83,
+   "plus1s->age5": 0.63,
+   "age5->age20": 1.5
+  }
+ },
+ "farAway": [
+  {
+   "id": "r:1:5751:919",
+   "cause": "Hound",
+   "visible": false,
+   "cached": false
+  }
+ ],
+ "back": [
+  {
+   "id": "r:1:5751:919",
+   "cause": "Hound",
+   "visible": true,
+   "cached": true
+  }
+ ],
+ "lateJoiner": {
+  "bodies": [
+   {
+    "id": "r:1:5751:919",
+    "owner": "r1",
+    "remote": true,
+    "x": 5751,
+    "y": 919,
+    "age": 46.1,
+    "born": true
+   }
+  ],
+  "views": [
+   {
+    "id": "r:1:5751:919",
+    "cause": "Hound",
+    "visible": true,
+    "cached": true
+   }
+  ]
+ },
+ "errors": []
+}

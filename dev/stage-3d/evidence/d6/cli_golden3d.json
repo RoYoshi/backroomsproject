@@ -1,0 +1,141 @@
+{
+ "tool": "dev/stage-3d/cli_golden3d.js",
+ "oldRef": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+ "declared3d": [
+  "__dvic"
+ ],
+ "scenes": [
+  {
+   "scene": "load",
+   "oldEntries": 20,
+   "newEntries": 20,
+   "identical": true,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "ok": true
+  },
+  {
+   "scene": "menu_online",
+   "oldEntries": 1785,
+   "newEntries": 1785,
+   "identical": true,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "ok": true
+  },
+  {
+   "scene": "run_online",
+   "oldEntries": 7137,
+   "newEntries": 7137,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "interp",
+   "oldEntries": 11481,
+   "newEntries": 11481,
+   "identical": true,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "ok": true
+  },
+  {
+   "scene": "fx_bodies",
+   "oldEntries": 22761,
+   "newEntries": 22761,
+   "identical": true,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "ok": true
+  },
+  {
+   "scene": "facade",
+   "oldEntries": 1176,
+   "newEntries": 1166,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "removed": {
+    "old": 10,
+    "new": 0,
+    "claimsOld": 5,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "admin",
+   "oldEntries": 1328,
+   "newEntries": 1328,
+   "identical": true,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "ok": true
+  },
+  {
+   "scene": "reconnect_solo",
+   "oldEntries": 737,
+   "newEntries": 737,
+   "identical": true,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "ok": true
+  },
+  {
+   "scene": "hum_dread",
+   "oldEntries": 4875,
+   "newEntries": 4875,
+   "identical": true,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__dvic"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [],
+   "ok": true
+  }
+ ],
+ "ok": true
+}

@@ -71,7 +71,8 @@ function aftStart(room, c) {
   const info = { name: c.name, look: c.look, ek: p.equipment.kind, ec: HEX.test(c.color) ? c.color : '#ffe7b2', ep: c.lp || '', vx: Math.round(p.vx || 0), vy: Math.round(p.vy || 0), ex: p.ex || (p.stamina != null && p.stamina < 22) ? 1 : 0, light: p.light };
   if (p.kill) Object.assign(p.kill, { de, vx: info.vx, vy: info.vy, ex: info.ex });               // the victim's copy of the record ('mk')
   const kill = Object.assign({}, p.kill), fx = Object.assign(deathSrv.fxFor(c.id, kill, info), { de, lo: info.light ? 1 : 0 });
-  room.afts.push({ id: c.id, seq: p.dseq, de, at: Date.now(), world: room.sim.worldSeq, kill, fx: true, fxMsg: fx, sent: new Set([c.id]), body: false, info });
+  let run = null; try { run = deathSrv.begin(kill, info, room.sim); } catch (e) { console.error('[death] begin failed', e && e.message); }
+  room.afts.push({ id: c.id, seq: p.dseq, de, at: Date.now(), world: room.sim.worldSeq, kill, fx: true, fxMsg: fx, sent: new Set([c.id]), body: false, info, run });
 }
 const aftOf = (room, id) => (room.afts || []).find(a => a.id === id && !a.body);
 /* the replay to every client that has not had it yet (a late joiner gets it with el: the seconds it has already run) */
@@ -90,10 +91,10 @@ function aftTick(room) {
   for (const a of room.afts) {
     if (a.body) continue;
     if (room.sim.worldSeq !== a.world) { a.body = true; a.dropped = 'world reset'; continue; }        // the world it died in is gone
-    if (now < a.at + deathSrv.durOf(a.kill) * 1000) continue;
+    if (now < a.at + deathSrv.durOf(a.kill) * 1000) { if (a.run) try { deathSrv.step(a.run, (now - a.at) / 1000); } catch (e) { a.run = null; } continue; }   // the death plays: its physics advances with it
     a.body = true;
     try {
-      const R = deathSrv.bodyFor(a.id, a.kill, a.info, room.sim);
+      const R = a.run ? deathSrv.corpse(a.id, a.kill, a.info, a.run) : deathSrv.bodyFor(a.id, a.kill, a.info, room.sim); a.run = null;
       R.body.de = a.de;
       putBody(room, a.id, R.body);
       if (a.kill.k !== 'Smiler' && room.sim.killerEnd) room.sim.killerEnd(a.id, R.attacker.x, R.attacker.y, R.attacker.angle);
@@ -251,9 +252,9 @@ srv.on('upgrade', (req, sock) => {
       const x = num(m.x, 0, 9216), y = num(m.y, 0, 6912), dr = [num(m.dr && m.dr[0], 0, 9216), num(m.dr && m.dr[1], 0, 6912), num(m.dr && m.dr[2], -20, 20)];
       if (Math.hypot(x - player.x, y - player.y) > 64 || Math.hypot(dr[0] - x, dr[1] - y) > 48) return;
       me.vbAt = t;
-      putBody(room, id, { k: id, n: String(m.n || me.name).slice(0, 20), x, y, a: 0, sx: 1, sy: 1, c: 'Vanish', aa: 0,
-        lk: cleanLook(m.lk) || me.look, eq: { kind: kindOf(m.ek), color: HEX.test(m.ec) ? m.ec : '#ffe7b2', parts: cleanParts(m.ep) },
-        bl: [], dr, ht: [x, y, 0], lo: m.lo ? 1 : 0, ph: 0, hd: 0, ho: 0, tr: [] });
+      putBody(room, id, { k: id, n: String(m.n || me.name).slice(0, 20), x, y, a: 0, sx: 1, sy: 1, c: 'Vanish', aa: 0,      // the light: what the server knows it carries
+        lk: me.look, eq: { kind: player.equipment.kind, color: HEX.test(me.color) ? me.color : '#ffe7b2', parts: me.lp || '' },
+        bl: [], dr, ht: [x, y, 0], lo: player.light ? 1 : 0, ph: 0, hd: 0, ho: 0, tr: [] });
     }
   }
 

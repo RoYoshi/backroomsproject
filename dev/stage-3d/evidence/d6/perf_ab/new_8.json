@@ -1,0 +1,221 @@
+{
+ "tool": "dev/stage-3d/perf_death.py",
+ "game": ".",
+ "lighting": "default",
+ "rounds": [
+  {
+   "idle": [
+    {
+     "secs": 4.73,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 733.3,
+     "frameP95Ms": 783.3,
+     "frameMaxMs": 1149.9,
+     "scriptMsPerSec": 77.4,
+     "taskMsPerSec": 996.4,
+     "heapMB": 49.26
+    },
+    {
+     "secs": 4.69,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 716.6,
+     "frameP95Ms": 816.6,
+     "frameMaxMs": 1066.7,
+     "scriptMsPerSec": 97.5,
+     "taskMsPerSec": 994.9,
+     "heapMB": 44.99
+    }
+   ],
+   "death_houndA": [
+    {
+     "secs": 2.85,
+     "frames": 4,
+     "fps": 1.4,
+     "frameMedianMs": 916.6,
+     "frameP95Ms": 916.6,
+     "frameMaxMs": 1000,
+     "scriptMsPerSec": 92.8,
+     "taskMsPerSec": 992.9,
+     "heapMB": 67.59
+    },
+    {
+     "secs": 2.83,
+     "frames": 4,
+     "fps": 1.4,
+     "frameMedianMs": 949.95,
+     "frameP95Ms": 983.3,
+     "frameMaxMs": 1033.4,
+     "scriptMsPerSec": 118.2,
+     "taskMsPerSec": 996.9,
+     "heapMB": 52.29
+    }
+   ],
+   "whole_houndA": [
+    {
+     "frames": 7,
+     "secs": 5.45,
+     "frameMedianMs": 916.6,
+     "frameMeanMs": 908.3,
+     "frameMaxMs": 1000.0
+    },
+    {
+     "frames": 6,
+     "secs": 4.48,
+     "frameMedianMs": 866.6,
+     "frameMeanMs": 896.64,
+     "frameMaxMs": 1033.4
+    }
+   ],
+   "death_houndC": [
+    {
+     "secs": 2.29,
+     "frames": 4,
+     "fps": 1.8,
+     "frameMedianMs": 783.3,
+     "frameP95Ms": 816.6,
+     "frameMaxMs": 1000,
+     "scriptMsPerSec": 118.3,
+     "taskMsPerSec": 996.2,
+     "heapMB": 58.24
+    },
+    {
+     "secs": 2.28,
+     "frames": 4,
+     "fps": 1.8,
+     "frameMedianMs": 825.0,
+     "frameP95Ms": 883.4,
+     "frameMaxMs": 899.9,
+     "scriptMsPerSec": 114.5,
+     "taskMsPerSec": 996.3,
+     "heapMB": 65.22
+    }
+   ],
+   "whole_houndC": [
+    {
+     "frames": 7,
+     "secs": 4.85,
+     "frameMedianMs": 774.95,
+     "frameMeanMs": 808.3,
+     "frameMaxMs": 1000.0
+    },
+    {
+     "frames": 6,
+     "secs": 4.12,
+     "frameMedianMs": 766.6,
+     "frameMeanMs": 823.3,
+     "frameMaxMs": 1033.4
+    }
+   ]
+  },
+  {
+   "idle": [
+    {
+     "secs": 4.72,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 733.3,
+     "frameP95Ms": 783.3,
+     "frameMaxMs": 1183.2,
+     "scriptMsPerSec": 43.5,
+     "taskMsPerSec": 996.2,
+     "heapMB": 59.99
+    },
+    {
+     "secs": 4.77,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 733.3,
+     "frameP95Ms": 866.5,
+     "frameMaxMs": 1083.3,
+     "scriptMsPerSec": 39.7,
+     "taskMsPerSec": 998.7,
+     "heapMB": 57.26
+    }
+   ],
+   "death_houndA": [
+    {
+     "secs": 2.59,
+     "frames": 4,
+     "fps": 1.5,
+     "frameMedianMs": 883.3,
+     "frameP95Ms": 883.4,
+     "frameMaxMs": 899.9,
+     "scriptMsPerSec": 107.0,
+     "taskMsPerSec": 998.0,
+     "heapMB": 70.72
+    },
+    {
+     "secs": 2.54,
+     "frames": 4,
+     "fps": 1.6,
+     "frameMedianMs": 850.0,
+     "frameP95Ms": 850,
+     "frameMaxMs": 999.9,
+     "scriptMsPerSec": 95.4,
+     "taskMsPerSec": 997.5,
+     "heapMB": 61.78
+    }
+   ],
+   "whole_houndA": [
+    {
+     "frames": 7,
+     "secs": 5.07,
+     "frameMedianMs": 849.95,
+     "frameMeanMs": 844.42,
+     "frameMaxMs": 883.4
+    },
+    {
+     "frames": 6,
+     "secs": 4.17,
+     "frameMedianMs": 816.8,
+     "frameMeanMs": 833.3,
+     "frameMaxMs": 883.2
+    }
+   ],
+   "death_houndC": [
+    {
+     "secs": 2.2,
+     "frames": 4,
+     "fps": 1.8,
+     "frameMedianMs": 716.65,
+     "frameP95Ms": 716.7,
+     "frameMaxMs": 750,
+     "scriptMsPerSec": 91.5,
+     "taskMsPerSec": 988.4,
+     "heapMB": 60.23
+    },
+    {
+     "secs": 2.12,
+     "frames": 4,
+     "fps": 1.9,
+     "frameMedianMs": 716.65,
+     "frameP95Ms": 716.7,
+     "frameMaxMs": 833.3,
+     "scriptMsPerSec": 95.9,
+     "taskMsPerSec": 996.0,
+     "heapMB": 69.63
+    }
+   ],
+   "whole_houndC": [
+    {
+     "frames": 7,
+     "secs": 4.38,
+     "frameMedianMs": 716.7,
+     "frameMeanMs": 730.53,
+     "frameMaxMs": 783.2
+    },
+    {
+     "frames": 6,
+     "secs": 3.65,
+     "frameMedianMs": 716.7,
+     "frameMeanMs": 729.96,
+     "frameMaxMs": 766.6
+    }
+   ]
+  }
+ ],
+ "note": "SwiftShader software rendering, 2 CPUs: compare versions on the same machine only",
+ "errors": []
+}

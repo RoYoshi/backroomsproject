@@ -8,6 +8,10 @@
  *  2. The 60 Hz step and the snapshot with 24 corpses in the room (MAX_BODIES) against none: sim.step time, and the bytes of the
  *     'bodies' message every client receives when the corpse list changes (and each joiner receives once).
  *  3. Process memory before and after 500 fallback corpses (setBody keeps at most 24).
+ *  4. Where death_srv has begin / step / corpse (Stage 3D's server since the D6 review): the death as the server runs it, spread over its
+ *     ticks - begin at the kill, step every 50 ms (aftTick runs on every second 25 ms wake) to the death's current time, corpse at its
+ *     end.  Per variant: the largest single tick (begin, a step or the corpse), median and worst over the spots, and the total.
+ *     The parent has none of this (its fallback is section 1, all in one tick).
  * GAME's own files are loaded (the parent export or the working tree). */
 'use strict';
 const path = require('path'), fs = require('fs');
@@ -36,5 +40,20 @@ if (global.gc) global.gc(); const m0 = process.memoryUsage().heapUsed;
 for (let i = 0; i < 500; i++) { const sp = spots[i % spots.length]; sim.setBody(1000 + i, D.bodyFor(1000 + i, Object.assign({}, kill0, { x: sp[0], y: sp[1], ax: sp[0] - 46, ay: sp[1] }), info, sim).body); }
 if (global.gc) global.gc(); const m1 = process.memoryUsage().heapUsed;
 out.memory = { heapBeforeMB: +(m0 / 1048576).toFixed(2), heapAfter500MB: +(m1 / 1048576).toFixed(2), bodiesKept: sim.bodies.size, gcExposed: !!global.gc };
+if (D.begin && D.step && D.corpse) {
+  out.incremental = {};
+  for (const k of ['Hound', 'Smiler']) for (const v of 'ABCD') {
+    const big = [], tot = [];
+    for (const [x, y] of spots) {
+      const kill = { k, v, x, y, a: 0, ax: x - 46, ay: y, w: 0 }, dur = D.durOf(kill); let P, worst = 0, sum = 0;
+      const tk = f => { const t = ms(f); worst = Math.max(worst, t); sum += t; };
+      tk(() => { P = D.begin(kill, info, sim); });
+      for (let t = .05; t < dur; t += .05) tk(() => D.step(P, t));
+      tk(() => D.corpse(1, kill, info, P));
+      big.push(worst); tot.push(sum);
+    }
+    out.incremental[k + ' ' + v] = { largestTickMedianMs: +med(big).toFixed(3), largestTickMaxMs: +Math.max(...big).toFixed(3), totalMedianMs: +med(tot).toFixed(3) };
+  }
+}
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(out, null, 1) + '\n');
 console.log(JSON.stringify(out, null, 1));

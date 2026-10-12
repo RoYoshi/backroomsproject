@@ -1,0 +1,54 @@
+{
+ "game": "/home/claude/backrooms-shadows",
+ "t": 2.0,
+ "idle": [
+  324.9,
+  14
+ ],
+ "stats": {
+  "blood": {
+   "n": 1,
+   "vis": 1,
+   "gi": 165,
+   "cached": 0,
+   "visible": true
+  },
+  "foreground": {
+   "n": 1,
+   "vis": 1,
+   "gi": 0,
+   "cached": 0,
+   "visible": true
+  },
+  "debris": {
+   "n": 2,
+   "vis": 2,
+   "gi": 17,
+   "cached": 0,
+   "visible": true
+  },
+  "t": 2,
+  "state": "ACTIVE"
+ },
+ "paused": [
+  441.7,
+  10
+ ],
+ "no_blood": [
+  416.6,
+  11
+ ],
+ "no_debris": [
+  416.7,
+  11
+ ],
+ "no_foreground": [
+  400.0,
+  12
+ ],
+ "paused_again": [
+  416.6,
+  12
+ ],
+ "errors": []
+}

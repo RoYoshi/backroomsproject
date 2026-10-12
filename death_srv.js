@@ -21,12 +21,18 @@ function fxFor(id, kill, info) {
   return { t: 'fx', k: 'death', id, c: kill.k === 'Smiler' ? 'Smiler' : 'Hound', x: kill.x, y: kill.y, a: kill.a, sx: kill.ax, sy: kill.ay,
     v: /^[ABCD]$/.test(kill.v) ? kill.v : 'A', w: kill.w || 0, lk: info.look, ek: info.ek, ec: info.ec, ep: info.ep, vx: Math.round(info.vx || 0), vy: Math.round(info.vy || 0), ex: info.ex ? 1 : 0, srv: 1 };
 }
-/* the corpse record (the same fields the victim's client reports in 'b'), from the physical death run to its end */
-function bodyFor(id, kill, info, sim) {
+/* Stage 3D: the physical death as the server runs it - begun at the kill (begin), advanced a little on every pass of the server's loop
+ * while it plays (step: the cost is spread over the death instead of landing in one tick), finished at its end (corpse).  Running it in
+ * pieces ends exactly where one run ends (dphys.finish). */
+function begin(kill, info, sim) {
   const hat = String(info.look || '').split('|')[0] || 'none';
-  const R = DP.simulate({ kind: kill.k, v: kill.v, w: kill.w, victim: { x: kill.x, y: kill.y, angle: kill.a }, src: { x: kill.ax, y: kill.ay },
+  return DP.prepare({ kind: kill.k, v: kill.v, w: kill.w, victim: { x: kill.x, y: kill.y, angle: kill.a }, src: { x: kill.ax, y: kill.ay },
     vx: info.vx, vy: info.vy, exhausted: !!info.ex, eqKind: info.ek, hat, walls: (x, y) => sim.blockersAt(x, y), clear: (x, y, r) => sim.clearAt(x, y, r) });
-  const b = R.body, m = R.remains, f = v => +(+v).toFixed(3);
+}
+const step = (P, secs) => DP.advance(P.S, Math.min(P.dur, Math.max(0, secs)));
+/* the corpse record (the same fields the victim's client used to report in 'b'), from the physical death run to its end */
+function corpse(id, kill, info, P) {
+  const R = DP.finish(P), b = R.body, m = R.remains, f = v => +(+v).toFixed(3);
   return {
     body: { k: id, n: info.name, x: Math.round(b.x), y: Math.round(b.y), a: f(b.angle), sx: f(b.scaleX), sy: f(b.scaleY), c: R.kind, aa: f(R.angle), lk: info.look,
       eq: { kind: info.ek, color: info.ec, parts: info.ep }, bl: m.blood.slice(0, 8).map(q => [Math.round(q.x), Math.round(q.y), (q.seed | 0) % 1000]),
@@ -34,5 +40,6 @@ function bodyFor(id, kill, info, sim) {
       ph: 1, hd: m.hands.flat().map(v => Math.max(-80, Math.min(80, v))), ho: m.hatOn ? 1 : 0, tr: m.trail, srv: 1 },
     attacker: R.attacker, dur: R.dur };
 }
+const bodyFor = (id, kill, info, sim) => corpse(id, kill, info, begin(kill, info, sim));
 const durOf = kill => (DP.DURS[kill.k === 'Smiler' ? 'Smiler' : 'Hound'] || {})[kill.v] || 4.4;
-module.exports = { fxFor, bodyFor, durOf, DP };
+module.exports = { fxFor, bodyFor, begin, step, corpse, durOf, DP };

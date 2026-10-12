@@ -1,0 +1,87 @@
+The Far Backrooms → http://localhost:56245  (share  ?room=NAME  to group up)
+[5543:0x1cd79000]     7928 ms: Mark-Compact 7.7 (9.6) -> 6.4 (9.6) MB, pooled: 2 MB, 6.69 / 0.00 ms  (average mu = 0.999, current mu = 0.999) background allocation failure; GC in old space requested
+[admin] Alice#1 unlocked admin (room soak3d)
+[admin] Alice#1 unlocked admin (room soak3d)
+[admin] room=soak3d Alice#1: hound remove x1 -> 1
+[admin] room=soak3d Alice#1: hound remove x1 -> 1
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] WANDERER#2 unlocked admin (room soak3d)
+[admin] room=soak3d Alice#1: god Bob -> true
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound B: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[5543:0x1cd79000]    89187 ms: Mark-Compact (reduce) 10.2 (11.6) -> 7.4 (11.6) MB, pooled: 0 MB, 6.95 / 0.00 ms  (+ 4.5 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 15 ms) (average mu = 1.000, current mu = 1.000) finalize incremental marking via task; GC in old space requested
+[5543:0x1cd79000]    89808 ms: Mark-Compact (reduce) 7.6 (11.6) -> 7.3 (9.1) MB, pooled: 0 MB, 9.43 / 0.00 ms  (+ 9.2 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 20 ms) (average mu = 0.999, current mu = 0.970) finalize incremental marking via task; GC in old space requested
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound B: you are not in the halls right now
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound B: ok
+[admin] room=soak3d Alice#1: revive Alice
+[5543:0x1cd79000]   349818 ms: Mark-Compact 14.8 (16.6) -> 8.0 (16.6) MB, pooled: 1 MB, 3.76 / 0.00 ms  (+ 0.7 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 13 ms) (average mu = 1.000, current mu = 1.000) finalize incremental marking via task; GC in old space requested
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound D: you are not in the halls right now
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler C: you are not in the halls right now
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound B: you are not in the halls right now
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler A: you are not in the halls right now
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[admin] room=soak3d Alice#1: revive Alice

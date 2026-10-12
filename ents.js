@@ -567,7 +567,7 @@ E.sfxRelease = function () { if (!soundOn() || !Zc()) return; const n = node(.7,
  * (distance, pan, muffled through walls), so a spectator hears them from where they stand. */
 window.__dsndHits = kind => { const a = API(), D = a && a.death && a.death(); return D && D.active && D.kind === kind && D.ph && D.ph.ctx && D.ph.ctx.hits ? D.ph.ctx.hits.slice() : null; };
 E.deathEvent = function (q, jl, S) {
-  if (!S) return;
+  if (!S || S.t - q.t > .25) return;                                    // an event from long ago (a late joiner's replay starts mid-way): not heard
   if (q.k === 'wall' && q.sp > 80) { const k = clamp(q.sp / 420, .3, 1); play(q.x, q.y, .75 * k, .45, (n, v) => { toneLayer(n, 'sine', 92, 44, v * .9, .004, .04); noiseLayer(n, 'lowpass', 420, .8, v * .7, .004, .03, 150); noiseLayer(n, 'bandpass', 1300, 1.2, v * .18, .003, .02, 600); }, { far: 1300 }); }
   else if (q.k === 'eq' && S.eq && S.ctx.eqKind !== 'headlamp') { const x = S.eq.x, y = S.eq.y, hard = S.ctx.eqKind !== 'lantern';
     setTimeout(() => play(x, y, .42, .3, (n, v) => { noiseLayer(n, 'bandpass', hard ? 2600 : 1500, 5, v * .6, .002, .012, 1700); toneLayer(n, 'triangle', hard ? 1350 : 820, hard ? 980 : 600, v * .22, .002, .01); }, { far: 1000 }), 90);

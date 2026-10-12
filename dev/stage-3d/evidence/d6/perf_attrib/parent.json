@@ -1,0 +1,54 @@
+{
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/d3base",
+ "t": 2.0,
+ "idle": [
+  350,
+  13
+ ],
+ "stats": {
+  "blood": {
+   "n": 1,
+   "vis": 1,
+   "gi": 165,
+   "cached": 0,
+   "visible": true
+  },
+  "foreground": {
+   "n": 1,
+   "vis": 1,
+   "gi": 0,
+   "cached": 0,
+   "visible": true
+  },
+  "debris": {
+   "n": 2,
+   "vis": 2,
+   "gi": 17,
+   "cached": 0,
+   "visible": true
+  },
+  "t": 2,
+  "state": "ACTIVE"
+ },
+ "paused": [
+  416.7,
+  11
+ ],
+ "no_blood": [
+  458.3,
+  10
+ ],
+ "no_debris": [
+  483.3,
+  10
+ ],
+ "no_foreground": [
+  566.6,
+  9
+ ],
+ "paused_again": [
+  458.3,
+  10
+ ],
+ "errors": []
+}

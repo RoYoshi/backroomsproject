@@ -1,0 +1,156 @@
+{
+ "tool": "dev/stage-3d/perf_death.py",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/d3base",
+ "rounds": [
+  {
+   "idle": [
+    {
+     "secs": 4.93,
+     "frames": 7,
+     "fps": 1.4,
+     "frameMedianMs": 866.6,
+     "frameP95Ms": 1000,
+     "frameMaxMs": 1083.3,
+     "scriptMsPerSec": 75.9,
+     "taskMsPerSec": 995.7,
+     "heapMB": 50.87
+    },
+    {
+     "secs": 4.92,
+     "frames": 7,
+     "fps": 1.4,
+     "frameMedianMs": 783.3,
+     "frameP95Ms": 950.0,
+     "frameMaxMs": 966.7,
+     "scriptMsPerSec": 76.5,
+     "taskMsPerSec": 996.6,
+     "heapMB": 66.85
+    }
+   ],
+   "death_houndA": [
+    {
+     "secs": 2.51,
+     "frames": 4,
+     "fps": 1.6,
+     "frameMedianMs": 841.6,
+     "frameP95Ms": 849.9,
+     "frameMaxMs": 850,
+     "scriptMsPerSec": 120.5,
+     "taskMsPerSec": 996.2,
+     "heapMB": 63.89
+    },
+    {
+     "secs": 2.59,
+     "frames": 4,
+     "fps": 1.5,
+     "frameMedianMs": 875.0,
+     "frameP95Ms": 916.6,
+     "frameMaxMs": 933.4,
+     "scriptMsPerSec": 92.7,
+     "taskMsPerSec": 999.1,
+     "heapMB": 75.77
+    }
+   ],
+   "death_houndC": [
+    {
+     "secs": 2.54,
+     "frames": 4,
+     "fps": 1.6,
+     "frameMedianMs": 858.3,
+     "frameP95Ms": 866.6,
+     "frameMaxMs": 866.6,
+     "scriptMsPerSec": 97.5,
+     "taskMsPerSec": 992.0,
+     "heapMB": 83.02
+    },
+    {
+     "secs": 2.49,
+     "frames": 4,
+     "fps": 1.6,
+     "frameMedianMs": 858.3,
+     "frameP95Ms": 866.7,
+     "frameMaxMs": 966.6,
+     "scriptMsPerSec": 98.8,
+     "taskMsPerSec": 997.7,
+     "heapMB": 77.89
+    }
+   ]
+  },
+  {
+   "idle": [
+    {
+     "secs": 4.64,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 683.3,
+     "frameP95Ms": 866.6,
+     "frameMaxMs": 933.3,
+     "scriptMsPerSec": 44.4,
+     "taskMsPerSec": 996.2,
+     "heapMB": 68.08
+    },
+    {
+     "secs": 4.65,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 750,
+     "frameP95Ms": 883.3,
+     "frameMaxMs": 916.5,
+     "scriptMsPerSec": 50.0,
+     "taskMsPerSec": 998.6,
+     "heapMB": 91.78
+    }
+   ],
+   "death_houndA": [
+    {
+     "secs": 2.41,
+     "frames": 4,
+     "fps": 1.7,
+     "frameMedianMs": 808.3,
+     "frameP95Ms": 816.7,
+     "frameMaxMs": 849.9,
+     "scriptMsPerSec": 101.6,
+     "taskMsPerSec": 994.0,
+     "heapMB": 65.38
+    },
+    {
+     "secs": 2.39,
+     "frames": 4,
+     "fps": 1.7,
+     "frameMedianMs": 833.25,
+     "frameP95Ms": 849.9,
+     "frameMaxMs": 850,
+     "scriptMsPerSec": 78.5,
+     "taskMsPerSec": 998.6,
+     "heapMB": 76.97
+    }
+   ],
+   "death_houndC": [
+    {
+     "secs": 2.64,
+     "frames": 5,
+     "fps": 1.9,
+     "frameMedianMs": 666.6,
+     "frameP95Ms": 666.6,
+     "frameMaxMs": 666.7,
+     "scriptMsPerSec": 97.3,
+     "taskMsPerSec": 994.5,
+     "heapMB": 86.46
+    },
+    {
+     "secs": 2.65,
+     "frames": 5,
+     "fps": 1.9,
+     "frameMedianMs": 666.6,
+     "frameP95Ms": 683.3,
+     "frameMaxMs": 783.2,
+     "scriptMsPerSec": 97.7,
+     "taskMsPerSec": 997.7,
+     "heapMB": 66.73
+    }
+   ]
+  }
+ ],
+ "note": "SwiftShader software rendering, 2 CPUs: compare versions on the same machine only",
+ "errors": []
+}

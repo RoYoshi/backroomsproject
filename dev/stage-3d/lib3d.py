@@ -13,9 +13,9 @@ def free_port():
     s = socket.socket(); s.bind(('127.0.0.1', 0)); p = s.getsockname()[1]; s.close(); return p
 
 
-def start_server(game, port, log):
+def start_server(game, port, log, node_args=()):
     env = dict(os.environ, ADMIN_PASSCODE=PASS); env.pop('BODY_TTL', None); env.pop('PORT', None)
-    p = subprocess.Popen(['node', 'server.js', str(port)], cwd=game, env=env, stdout=open(log, 'w'), stderr=subprocess.STDOUT)
+    p = subprocess.Popen(['node', *node_args, 'server.js', str(port)], cwd=game, env=env, stdout=open(log, 'w'), stderr=subprocess.STDOUT)
     t0 = time.time()
     while time.time() - t0 < 10:
         try:
@@ -57,11 +57,11 @@ async def aim(P, ang, w, h):
     await P.evaluate("a=>{__api.H.angle=a}", ang)
 
 
-async def join(ctx, port, room, name, errs):
+async def join(ctx, port, room, name, errs, query=''):
     P = await ctx.new_page()
     P.on('pageerror', lambda e: errs.append('pageerror: ' + str(e)[:300]))
     P.on('console', lambda m: errs.append('console: ' + m.text[:200]) if m.type == 'error' and 'ERR_TUNNEL' not in m.text and 'favicon' not in m.text and 'fonts.g' not in m.text else None)
-    await P.goto(f'http://127.0.0.1:{port}/?room={room}', timeout=90000)
+    await P.goto(f'http://127.0.0.1:{port}/?room={room}{query}', timeout=90000)                 # query: e.g. '&lighting=high' (BR-RoLE quality)
     await P.wait_for_function("()=>!!(window.__api && window.__api.H)", timeout=90000); await P.wait_for_timeout(1200)
     if await P.evaluate("()=>!!(window.__ui && window.__ui.version)"):              # Stage 3C's menu: PLAY, then the name field
         await P.evaluate("()=>window.__ui.go('play')"); await P.wait_for_selector('#name', state='visible', timeout=30000)

@@ -1,0 +1,232 @@
+{
+ "tool": "dev/stage-3h0/golden/contract_check.js",
+ "counts": {
+  "serverToClient": {
+   "hi": 82,
+   "bodies": 149,
+   "s": 22592,
+   "pong": 28,
+   "admin": 54,
+   "ares": 114,
+   "tp": 28,
+   "got": 2,
+   "fx": 44,
+   "msg": 12,
+   "kick": 2,
+   "revive": 2,
+   "exit": 2
+  },
+  "clientToServer": {
+   "join": 22,
+   "admin": 18,
+   "p": 1638,
+   "a": 120,
+   "ping": 4,
+   "fx": 4,
+   "b": 5,
+   "respawn": 4,
+   "leave": 2,
+   "pick": 2
+  }
+ },
+ "unseenContractTypes": {
+  "serverToClient": [],
+  "clientToServer": []
+ },
+ "violations": 32,
+ "firstViolations": [
+  {
+   "where": "admin.new.jsonl @70850",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "admin.new.jsonl @70850",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "admin.new.jsonl @70850",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "admin.new.jsonl @70850",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @1400",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @1400",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @1400",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @1400",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @6500",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @6500",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @6500",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @6500",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @11400",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @11400",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @11400",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @11400",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @14650",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @14650",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @14650",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @14650",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @29650",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @29650",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @29650",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @29650",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @45250",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @45250",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @45250",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @45250",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @49950",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @49950",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  },
+  {
+   "where": "deaths.new.jsonl @49950",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "de"
+  },
+  {
+   "where": "deaths.new.jsonl @49950",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "lo"
+  }
+ ],
+ "ok": false
+}

@@ -18,8 +18,12 @@
  * The rule (Stage 3D pack, PROTOCOL_AND_3H0_COMPATIBILITY: strict non-death equality, documented death deltas):
  *   - a scenario whose OLD trace has no death-domain line must be byte-identical;
  *   - in the others, the first difference must be a death-domain line, AND the non-death view of the two traces must be identical: every
- *     line that is not death-domain, with the snapshots' entity list and kill record taken out (where a death leaves its attacker is death
- *     presentation feeding the AI's position: the one documented follow-on), must match line for line.
+ *     line that is not death-domain, with the snapshots' kill record taken out and the monsters that made a kill left out of the entity
+ *     lists (where and when a death hands its attacker back to the AI is death aftermath; every other entity is compared as is), must
+ *     match line for line - up to the first killer hand-back (sim.killerEnd) in either trace.  A difference after that is reported as
+ *     a follow-on with its time: a monster released at another moment may legitimately take the world another way.  This is the rule's
+ *     one bound: after the hand-back, that scenario's non-death output is reported, not compared (in the 3H0 scenarios only 'deaths'
+ *     reaches it; summarize_d6.py fails on a follow-on in any other scenario).
  * Exit status 0 only when the rule holds. */
 'use strict';
 const fs = require('fs'), path = require('path'), os = require('os');
@@ -66,7 +70,10 @@ function nonDeath(lines, killers = new Set()) {
     let a; try { a = JSON.parse(line); } catch (e) { out.push(line); continue; }
     const m = Array.isArray(a) ? payload(a) : null;
     if (m && m.t === 's') {
-      delete m.e; delete m.mk;
+      delete m.mk;
+      if (m.e && typeof m.e === 'object') {                                                                       // the entities: the killers left out, every other monster compared as is
+        const e = Object.assign({}, m.e); if (Array.isArray(e.h)) e.h = e.h.filter(q => alive(q.i)); if (Array.isArray(e.m)) e.m = e.m.filter(q => alive(q.i)); m.e = e;
+      }
       if (m.ad && Array.isArray(m.ad.es)) m.ad.es = m.ad.es.filter(q => alive(q[0])).map(q => [q[0], q[1], q[2]]);   // admin entity list: who and in which state, not where
       if (m.ad && killers.size) delete m.ad.hs;                                                                  // (its per-hound state summary is the same list again)
       if (Array.isArray(m.dbg)) m.dbg = m.dbg.filter(q => alive(q.i)).map(q => [q.i, q.k, q.s]);                // admin debug list: the same

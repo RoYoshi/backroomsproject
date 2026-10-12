@@ -1,0 +1,205 @@
+{
+ "tool": "dev/stage-3d/perf_death.py",
+ "game": ".",
+ "lighting": "default",
+ "rounds": [
+  {
+   "idle": [
+    {
+     "secs": 4.74,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 733.3,
+     "frameP95Ms": 916.7,
+     "frameMaxMs": 966.6,
+     "scriptMsPerSec": 54.7,
+     "taskMsPerSec": 994.3,
+     "heapMB": 58.15
+    },
+    {
+     "secs": 4.73,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 716.6,
+     "frameP95Ms": 800,
+     "frameMaxMs": 1149.9,
+     "scriptMsPerSec": 86.0,
+     "taskMsPerSec": 995.1,
+     "heapMB": 46.54
+    }
+   ],
+   "death_houndA": [
+    {
+     "secs": 15.98,
+     "frames": 26,
+     "fps": 1.6,
+     "frameMedianMs": 649.9,
+     "frameP95Ms": 666.7,
+     "frameMaxMs": 700,
+     "scriptMsPerSec": 89.6,
+     "taskMsPerSec": 996.9,
+     "heapMB": 49.23
+    },
+    {
+     "secs": 16.03,
+     "frames": 26,
+     "fps": 1.6,
+     "frameMedianMs": 641.6,
+     "frameP95Ms": 700,
+     "frameMaxMs": 700,
+     "scriptMsPerSec": 88.8,
+     "taskMsPerSec": 997.6,
+     "heapMB": 51.21
+    }
+   ],
+   "death_houndC": [
+    {
+     "secs": 2.19,
+     "frames": 4,
+     "fps": 1.8,
+     "frameMedianMs": 749.95,
+     "frameP95Ms": 766.5,
+     "frameMaxMs": 816.7,
+     "scriptMsPerSec": 114.3,
+     "taskMsPerSec": 998.2,
+     "heapMB": 54.52
+    },
+    {
+     "secs": 2.22,
+     "frames": 4,
+     "fps": 1.8,
+     "frameMedianMs": 766.65,
+     "frameP95Ms": 783.3,
+     "frameMaxMs": 866.7,
+     "scriptMsPerSec": 126.0,
+     "taskMsPerSec": 997.3,
+     "heapMB": 63.37
+    }
+   ],
+   "whole_houndC": [
+    {
+     "frames": 7,
+     "secs": 4.65,
+     "frameMedianMs": 791.6,
+     "frameMeanMs": 774.98,
+     "frameMaxMs": 850.0
+    },
+    {
+     "frames": 6,
+     "secs": 3.92,
+     "frameMedianMs": 783.2,
+     "frameMeanMs": 783.3,
+     "frameMaxMs": 833.4
+    }
+   ]
+  },
+  {
+   "idle": [
+    {
+     "secs": 4.35,
+     "frames": 6,
+     "fps": 1.4,
+     "frameMedianMs": 858.3,
+     "frameP95Ms": 1066.6,
+     "frameMaxMs": 1166.6,
+     "scriptMsPerSec": 72.4,
+     "taskMsPerSec": 997.9,
+     "heapMB": 66.7
+    },
+    {
+     "secs": 4.36,
+     "frames": 6,
+     "fps": 1.4,
+     "frameMedianMs": 849.95,
+     "frameP95Ms": 966.6,
+     "frameMaxMs": 1033.2,
+     "scriptMsPerSec": 87.5,
+     "taskMsPerSec": 995.8,
+     "heapMB": 54.75
+    }
+   ],
+   "death_houndA": [
+    {
+     "secs": 2.62,
+     "frames": 4,
+     "fps": 1.5,
+     "frameMedianMs": 858.3,
+     "frameP95Ms": 883.3,
+     "frameMaxMs": 883.3,
+     "scriptMsPerSec": 104.0,
+     "taskMsPerSec": 995.4,
+     "heapMB": 69.97
+    },
+    {
+     "secs": 2.49,
+     "frames": 4,
+     "fps": 1.6,
+     "frameMedianMs": 858.3,
+     "frameP95Ms": 883.2,
+     "frameMaxMs": 916.6,
+     "scriptMsPerSec": 90.1,
+     "taskMsPerSec": 998.4,
+     "heapMB": 65.32
+    }
+   ],
+   "whole_houndA": [
+    {
+     "frames": 7,
+     "secs": 4.9,
+     "frameMedianMs": 816.65,
+     "frameMeanMs": 816.63,
+     "frameMaxMs": 883.3
+    },
+    {
+     "frames": 6,
+     "secs": 4.03,
+     "frameMedianMs": 800.0,
+     "frameMeanMs": 806.64,
+     "frameMaxMs": 883.2
+    }
+   ],
+   "death_houndC": [
+    {
+     "secs": 2.78,
+     "frames": 5,
+     "fps": 1.8,
+     "frameMedianMs": 666.7,
+     "frameP95Ms": 700,
+     "frameMaxMs": 733.3,
+     "scriptMsPerSec": 108.7,
+     "taskMsPerSec": 996.7,
+     "heapMB": 71.25
+    },
+    {
+     "secs": 2.76,
+     "frames": 5,
+     "fps": 1.8,
+     "frameMedianMs": 683.4,
+     "frameP95Ms": 700,
+     "frameMaxMs": 783.4,
+     "scriptMsPerSec": 107.1,
+     "taskMsPerSec": 995.8,
+     "heapMB": 79.61
+    }
+   ],
+   "whole_houndC": [
+    {
+     "frames": 8,
+     "secs": 4.9,
+     "frameMedianMs": 666.7,
+     "frameMeanMs": 699.97,
+     "frameMaxMs": 766.7
+    },
+    {
+     "frames": 7,
+     "secs": 4.23,
+     "frameMedianMs": 700.0,
+     "frameMeanMs": 705.52,
+     "frameMaxMs": 783.3
+    }
+   ]
+  }
+ ],
+ "note": "SwiftShader software rendering, 2 CPUs: compare versions on the same machine only",
+ "errors": []
+}

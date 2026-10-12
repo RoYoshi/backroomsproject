@@ -1,0 +1,105 @@
+The Far Backrooms → http://localhost:59859  (share  ?room=NAME  to group up)
+[4936:0x44b1e000]     6068 ms: Mark-Compact 8.6 (12.1) -> 6.3 (11.6) MB, pooled: 0 MB, 17.68 / 0.00 ms  (average mu = 0.997, current mu = 0.997) background allocation failure; GC in old space requested
+[admin] Alice#1 unlocked admin (room soak3d)
+[admin] Alice#1 unlocked admin (room soak3d)
+[admin] room=soak3d Alice#1: hound remove x1 -> 1
+[admin] room=soak3d Alice#1: hound remove x1 -> 1
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] Bob#2 unlocked admin (room soak3d)
+[admin] room=soak3d Alice#1: god Bob -> true
+[4936:0x44b1e000]    32527 ms: Mark-Compact (reduce) 8.0 (9.8) -> 6.9 (9.8) MB, pooled: 0 MB, 5.47 / 0.00 ms  (+ 0.0 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 13 ms) (average mu = 0.999, current mu = 1.000) finalize incremental marking via task; GC in old space requested
+[4936:0x44b1e000]    33144 ms: Mark-Compact (reduce) 7.2 (9.8) -> 6.9 (8.8) MB, pooled: 0 MB, 8.46 / 0.00 ms  (+ 0.6 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 17 ms) (average mu = 0.999, current mu = 0.985) finalize incremental marking via task; GC in old space requested
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[death] room=soak3d #1 de=1: Hound A corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound B: ok
+[death] room=soak3d #1 de=2: Hound B corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[death] room=soak3d #1 de=3: Hound C corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[death] room=soak3d #1 de=4: Hound D corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[death] room=soak3d #1 de=5: Smiler A corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[death] room=soak3d #1 de=6: Smiler B corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[death] room=soak3d #1 de=7: Smiler C corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler D: you are not in the halls right now
+[death] room=soak3d #1 de=8: Hound A corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound A: you are already caught
+[death] room=soak3d #1 de=9: Hound B corpse placed
+[4936:0x44b1e000]   190927 ms: Mark-Compact 13.8 (16.6) -> 8.3 (16.4) MB, pooled: 1 MB, 3.54 / 0.00 ms  (+ 11.1 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 16 ms) (average mu = 1.000, current mu = 1.000) finalize incremental marking via task; GC in old space requested
+[admin] room=soak3d Alice#1: preview death hound B: ok
+[admin] room=soak3d Alice#1: revive Alice
+[death] room=soak3d #1 de=11: Hound B corpse placed
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[admin] room=soak3d Alice#1: revive Alice
+[death] room=soak3d #1 de=13: Hound C corpse placed
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[admin] room=soak3d Alice#1: revive Alice
+[death] room=soak3d #1 de=15: Hound A corpse placed
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[admin] room=soak3d Alice#1: revive Alice
+[4936:0x44b1e000]   423940 ms: Mark-Compact 15.7 (19.0) -> 8.8 (18.7) MB, pooled: 0 MB, 5.44 / 0.00 ms  (+ 7.5 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 17 ms) (average mu = 1.000, current mu = 1.000) finalize incremental marking via task; GC in old space requested
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[death] room=soak3d #1 de=17: Smiler B corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[death] room=soak3d #1 de=18: Smiler C corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[death] room=soak3d #1 de=19: Smiler D corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[death] room=soak3d #1 de=20: Hound A corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound B: ok
+[death] room=soak3d #1 de=21: Hound B corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[death] room=soak3d #1 de=22: Hound C corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[death] room=soak3d #1 de=23: Hound D corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[death] room=soak3d #1 de=24: Smiler A corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[death] room=soak3d #1 de=25: Smiler B corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[death] room=soak3d #1 de=26: Smiler C corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[death] room=soak3d #1 de=27: Smiler D corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[4936:0x44b1e000]   665867 ms: Mark-Compact 16.0 (19.4) -> 8.1 (19.2) MB, pooled: 0 MB, 36.74 / 0.00 ms  (+ 7.6 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 46 ms) (average mu = 1.000, current mu = 1.000) finalize incremental marking via task; GC in old space requested
+[death] room=soak3d #1 de=28: Hound A corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[admin] room=soak3d Alice#1: preview death hound B: you are not in the halls right now
+[admin] room=soak3d Alice#1: preview death hound C: you are not in the halls right now
+[admin] room=soak3d Alice#1: preview death hound D: you are not in the halls right now
+[admin] room=soak3d Alice#1: preview death smiler A: you are not in the halls right now
+[admin] room=soak3d Alice#1: preview death smiler B: you are not in the halls right now
+[admin] room=soak3d Alice#1: preview death smiler C: you are not in the halls right now
+[admin] room=soak3d Alice#1: preview death smiler D: you are not in the halls right now

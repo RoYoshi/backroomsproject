@@ -72,7 +72,7 @@ function connect() {
   };
   ws.onmessage = e => {
     let m; try { m = JSON.parse(e.data); } catch { return; }
-    if (m.t === 'hi') { myId = m.id; const A = window.__api; if (A) A.H.id = myId; }
+    if (m.t === 'hi') { if (myId && myId !== m.id) window.__hideBodies.delete('r' + myId); myId = m.id; const A = window.__api; if (A) A.H.id = myId; }   // Stage 3D: a new connection is a new owner
     else if (m.t === 'admin' && m.q) { /* a test's quiet unlock: nothing to show */ }
     else if (m.t === 'admin') {
       adm.unlocked = !!m.ok; adm.err = m.ok ? '' : (m.wait ? 'TOO MANY TRIES · WAIT ' + m.wait + 'S' : 'WRONG PASSCODE');
@@ -109,7 +109,7 @@ function connect() {
     }
   };
   ws.onclose = () => {
-    netReset();
+    netReset(); if (myId) window.__hideBodies.delete('r' + myId);                  // Stage 3D: the old connection's corpse is no longer ours to hide
     for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; cpNow = 0; window.__kill = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null); sSlot.fill(null);
     if (EN()) { EN().clearDebug(); EN().dbgCfg.on = false; EN().drawDebug(); EN().setFails([]); }
     if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; }

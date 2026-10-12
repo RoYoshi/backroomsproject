@@ -198,11 +198,11 @@
     at.contact = overlap > -2;
 
     /* ---------------- grip rope (the pull point) ---------------- */
-    if (!S.rope && cfg.grip != null && t >= cfg.grip && hound) {
+    if (!S.rope && !S.released && cfg.grip != null && t >= cfg.grip && hound) {
       const c = Math.cos(b.th), s = Math.sin(b.th), lx = (-nAx * RB * .8), ly = (-nAy * RB * .8);      // the point of the body nearest the hound, fixed in body space
       S.rope = { lx: lx * c + ly * s, ly: -lx * s + ly * c, k: cfg.drag ? 70 : 34, c: cfg.drag ? 13 : 9, stretch: 0 };
     }
-    if (S.rope && hound && cfg.back && t >= cfg.back[0]) { S.rope = null; S.ev.push({ t, k: 'release' }); }       // Stage 3D: the jaw lets go as the hound eases off; the body is no longer towed
+    if (S.rope && hound && cfg.back && t >= cfg.back[0]) { S.rope = null; S.released = true; S.ev.push({ t, k: 'release' }); }       // Stage 3D: the jaw lets go as the hound eases off; the body is no longer towed
     if (S.rope) {
       const c = Math.cos(b.th), s = Math.sin(b.th), gx = b.x + S.rope.lx * c - S.rope.ly * s, gy = b.y + S.rope.lx * s + S.rope.ly * c;
       const hx = at.x + Math.cos(at.a) * 14, hy = at.y + Math.sin(at.a) * 14;
@@ -461,7 +461,7 @@
   /* the whole death, start to rest, without a screen: the same inputs the death class gives begin(), the same knock / drag limits
    * (the bundle's safeDistance: 4 px steps while a 22 px circle is clear), the same seed.  Used by the server when a victim's own client
    * never reports its corpse (it disconnected): the aftermath is this simulation's last frame, as it would have been on the victim's screen. */
-  function simulate(o) {
+  function prepare(o) {
     const kind = o.kind === 'Smiler' ? 'Smiler' : 'Hound', v = /^[ABCD]$/.test(o.v) ? o.v : 'A', vic = o.victim, src = o.src;
     const wall = o.w && o.w.length === 3 ? { x: o.w[0], y: o.w[1], ang: o.w[2] } : null;
     const P = PLAN(kind, v, wall ? hyp(wall.x - vic.x, wall.y - vic.y) : 40), ang = Math.atan2(vic.y - src.y, vic.x - src.x);
@@ -470,15 +470,16 @@
     const dur = (DURS[kind] || DURS.Hound)[v] || 4.4;
     const S = create({ kind, v, victim: { x: vic.x, y: vic.y, angle: vic.angle, vx: o.vx || 0, vy: o.vy || 0 }, src: { x: src.x, y: src.y }, dir: ang,
       hits: P.hits || [.24, .74, 1.2, 1.7], kn: knock, drag, seed: hsh(vic.x, vic.y, v + kind), exhausted: !!o.exhausted, eqKind: o.eqKind || 'flashlight', hat: o.hat || 'none', walls: o.walls, dur });
-    const bursts = []; let evi = 0;
-    for (let t = 0; t <= dur + 1e-9; t = Math.min(dur, t + 1 / 60)) {        // the frames a screen would have drawn: blood lands where the jaws are at each blow
-      advance(S, t);
-      while (evi < S.ev.length) { const q = S.ev[evi++]; if (q.k === 'hit') bursts.push({ x: q.x, y: q.y, seed: q.i }); }
-      if (t >= dur) break;
-    }
-    const pz = pose(S);
-    return { S, kind, v, angle: ang, dur, body: { x: S.b.x, y: S.b.y, angle: S.b.th, scaleX: pz.sx, scaleY: pz.sy }, attacker: { x: S.at.x, y: S.at.y, angle: S.at.a }, bursts, remains: remains({ ph: S, bursts }) };
+    return { S, kind, v, angle: ang, dur };
   }
+  /* Stage 3D: the death run to its end (the 240 Hz steps decide, so running it in pieces - the server advances it a little on every pass
+   * of its loop while the death plays - ends exactly where one run would); the blood lands where the jaws were at each blow */
+  function finish(R) {
+    const S = R.S; advance(S, R.dur);
+    const bursts = S.ev.filter(q => q.k === 'hit').map(q => ({ x: q.x, y: q.y, seed: q.i })), pz = pose(S);
+    return { S, kind: R.kind, v: R.v, angle: R.angle, dur: R.dur, body: { x: S.b.x, y: S.b.y, angle: S.b.th, scaleX: pz.sx, scaleY: pz.sy }, attacker: { x: S.at.x, y: S.at.y, angle: S.at.a }, bursts, remains: remains({ ph: S, bursts }) };
+  }
+  const simulate = o => finish(prepare(o));
   const lab = () => window.__dlab;
   /* the death's own clock: real time, or - for the admin's death lab - slowed, paused or stepped */
   function clock(jl, e) {
@@ -542,5 +543,5 @@
 
   /* Stage 3D: with reduced motion (the settings' 'rm' class) the death's camera shake is a quarter as strong; the zoom is unchanged */
   window.__dcamK = () => (typeof document !== 'undefined' && document.documentElement.classList.contains('rm') ? .25 : 1);
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, DURS, marks, markSeed, MARK, LEN };
+  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN };
 })();
