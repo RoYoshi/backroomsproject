@@ -1,0 +1,17 @@
+PASS H1 a lit flashlight: the same profile on the kill record, the replay and the corpse; the corpse's release equals the server physics'
+       mk [3.1,1.5,399] fx [3.1,1.5,399] corpse [3.1,1.5,399,-3.879] expected release -3.879
+PASS H2 a lantern and a headlamp likewise; the headlamp's light starts with the death (release = - the death's length)
+       lantern [6.2,1.6,601,-3.879] (expected -3.879); headlamp [5.3,1.1,665,-4.5] (expected -4.5)
+PASS H3 a light that was off, and a camcorder: no profile anywhere
+       off: mk undefined fx undefined corpse undefined; camcorder: mk undefined corpse undefined
+PASS H4 the profile is the server's: a forged replay or corpse with lf changes nothing; the NEW RUN record carries none
+       forged replays relayed: 0; NEW RUN record {"k":2,"n":"VIC","x":5000,"y":3504,"a":0,"sx":1,"sy":1,"c":"Vanish","aa":0,"lk":"none|plain|#e6bb76|#ffcc77|none","eq":{"kind":"flashlight","color":"#ffe7b2","p; bodies before changed
+PASS H5 one profile per death (every client the same), different deaths different; over 1,000 deaths hold covers 3-7 and fade 1-2 in tenths
+       profiles [3.1,1.5,399] [6.2,1.6,601] [5.3,1.1,665]; holds 41 values 3-7, fades 11 values; out of range or not repeatable: 0
+PASS H6 sizes: the replay under 400 B; a corpse record with its light profile within D7's 384 B + 32
+       replay 241 B; corpse 412 B (no light: 384 B)
+PASS H7 corpse ages in tenths of a second
+       ages: [0]
+PASS H8 no server errors
+       none
+8/8 passed

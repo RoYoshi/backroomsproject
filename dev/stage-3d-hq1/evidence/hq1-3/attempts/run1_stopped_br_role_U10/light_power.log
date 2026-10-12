@@ -1,0 +1,17 @@
+PASS P1 full power through the hold (release - e, release + 0.1, end of the hold - e), 36 profiles
+       wrong: []
+PASS P2 the failure flickers: at least one blackout and 3 levels in every profile
+       wrong: []
+PASS P3 the overall dimming is monotonic (the brightest moment of each 0.1 s step never rises)
+       rises: []
+PASS P4 at most 0.2 just before the end; exactly 0 at the end, +30 s and +600 s
+       wrong: []
+PASS P5 within 0-1, never NaN, the same at every call; no clock gives 0
+       wrong: []; no clock -> [0,0,0]
+PASS P6 lightProfile: 1,000 deaths x 3 kinds within 3-7 / 1-2 in tenths, covering both ranges; repeatable; null for a camcorder or unknown kind
+       holds 41 values 3-7; fades 11 values 1-2; bad 0; camcorder/unknown -> [null,null,null]
+PASS P7 a record without a profile still fails: full before 5 s, 0 from 6.5 s
+       [1,0,0]
+PASS P8 releaseOf at the first frame = the run's own release (192 deaths); asking does not change the death
+       wrong: []
+8/8 passed

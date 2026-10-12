@@ -1,0 +1,10 @@
+PASS load: IDENTICAL | new globals: __deathLight
+PASS menu_online: IDENTICAL | new globals: __deathLight
+PASS run_online: differs; non-death view identical (removed: old 0, new 0; client death claims: old 0, new 0) | new globals: __deathLight
+PASS interp: IDENTICAL | new globals: __deathLight
+PASS fx_bodies: differs; non-death view identical (removed: old 0, new 0; client death claims: old 0, new 0) | new globals: __deathLight
+PASS facade: IDENTICAL | new globals: __deathLight
+PASS admin: IDENTICAL | new globals: __deathLight
+PASS reconnect_solo: IDENTICAL | new globals: __deathLight
+PASS hum_dread: IDENTICAL | new globals: __deathLight
+CLIENT GOLDEN 3D: every non-death output identical

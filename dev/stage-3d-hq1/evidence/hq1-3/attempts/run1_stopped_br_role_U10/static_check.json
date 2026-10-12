@@ -1,0 +1,448 @@
+{
+ "tool": "dev/stage-3d/static_check.js",
+ "ok": true,
+ "rows": [
+  {
+   "path": "/",
+   "old": {
+    "code": 200,
+    "type": "text/html",
+    "bytes": 24417,
+    "sha": "0805a0abb69fa666"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/html",
+    "bytes": 24417,
+    "sha": "0805a0abb69fa666"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/index.html",
+   "old": {
+    "code": 200,
+    "type": "text/html",
+    "bytes": 24417,
+    "sha": "0805a0abb69fa666"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/html",
+    "bytes": 24417,
+    "sha": "0805a0abb69fa666"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/dphys.js",
+   "old": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 44878,
+    "sha": "ed3f059cae10b6bc"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 49309,
+    "sha": "1998ba52252d2916"
+   },
+   "sameStatus": true,
+   "sameBody": false
+  },
+  {
+   "path": "/gore.js",
+   "old": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 26930,
+    "sha": "1993e63c00688fa1"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 34247,
+    "sha": "89cbf06e3e090d43"
+   },
+   "sameStatus": true,
+   "sameBody": false
+  },
+  {
+   "path": "/ents.js",
+   "old": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 78410,
+    "sha": "979d37a07c29094f"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 78410,
+    "sha": "979d37a07c29094f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/mp.js",
+   "old": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 70929,
+    "sha": "00181fc0429a67ba"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 79963,
+    "sha": "87fb462f382035d8"
+   },
+   "sameStatus": true,
+   "sameBody": false
+  },
+  {
+   "path": "/sfx.js",
+   "old": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 3677,
+    "sha": "790e24e875c799f1"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 3677,
+    "sha": "790e24e875c799f1"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/assets/net-wire.js",
+   "old": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 2858,
+    "sha": "d6d5eecdae1b2ccc"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 3216,
+    "sha": "07f624f689e1ed2d"
+   },
+   "sameStatus": true,
+   "sameBody": false
+  },
+  {
+   "path": "/assets/index-DKbV5Nv9.js",
+   "old": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 340095,
+    "sha": "b516fda7cb504954"
+   },
+   "new": {
+    "code": 200,
+    "type": "text/javascript",
+    "bytes": 340230,
+    "sha": "2f1876b32894ff20"
+   },
+   "sameStatus": true,
+   "sameBody": false
+  },
+  {
+   "path": "/death_srv.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/sim.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/ai.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/server.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/server/fields.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/server/static.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/package.json",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/dev/sim_glue.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/dev/ents_src/30_audio.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/dev/stage-3d/lib3d.py",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/dev/stage-3d/death_net.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/dev/stage-3d/evidence/d0/steps.txt",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/STAGE_3D_D0_AUDIT.md",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/.git/HEAD",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/%2e%2e/death_srv.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  },
+  {
+   "path": "/assets/../death_srv.js",
+   "old": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "new": {
+    "code": 404,
+    "type": "",
+    "bytes": 9,
+    "sha": "e3ebaa16dd9d9b9f"
+   },
+   "sameStatus": true,
+   "sameBody": true
+  }
+ ]
+}

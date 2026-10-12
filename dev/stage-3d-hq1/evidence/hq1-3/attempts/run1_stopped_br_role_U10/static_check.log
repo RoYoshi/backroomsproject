@@ -1,0 +1,27 @@
+same /                                          200  200  text/html                        
+same /index.html                                200  200  text/html                        
+same /dphys.js                                  200  200  text/javascript                  body changed
+same /gore.js                                   200  200  text/javascript                  body changed
+same /ents.js                                   200  200  text/javascript                  
+same /mp.js                                     200  200  text/javascript                  body changed
+same /sfx.js                                    200  200  text/javascript                  
+same /assets/net-wire.js                        200  200  text/javascript                  body changed
+same /assets/index-DKbV5Nv9.js                  200  200  text/javascript                  body changed
+same /death_srv.js                              404  404                                   
+same /sim.js                                    404  404                                   
+same /ai.js                                     404  404                                   
+same /server.js                                 404  404                                   
+same /server/fields.js                          404  404                                   
+same /server/static.js                          404  404                                   
+same /package.json                              404  404                                   
+same /dev/sim_glue.js                           404  404                                   
+same /dev/ents_src/30_audio.js                  404  404                                   
+same /dev/stage-3d/lib3d.py                     404  404                                   
+same /dev/stage-3d/death_net.js                 404  404                                   
+same /dev/stage-3d/evidence/d0/steps.txt        404  404                                   
+same /STAGE_3D_D0_AUDIT.md                      404  404                                   
+same /STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md  404  404                                   
+same /.git/HEAD                                 404  404                                   
+same /%2e%2e/death_srv.js                       404  404                                   
+same /assets/../death_srv.js                    404  404                                   
+STATIC: every path answers as at the parent (status and type)
