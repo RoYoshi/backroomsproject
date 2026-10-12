@@ -15,7 +15,8 @@ production (death code): 13 files
   sfx.js                       +   1 -   1  D5 a drop-in death recording follows a spectator's placement
   sim.js                       +   3 -   2  built from dev/sim_head.js + dev/sim_glue.js (dev/build_sim.sh)
 
-stage documents: 7
+stage documents: 8
+  STAGE_3D_CHANGED_FILES.txt
   STAGE_3D_D0_AUDIT.md
   STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md
   STAGE_3D_HUMAN_QA.md
@@ -24,7 +25,7 @@ stage documents: 7
   STAGE_3D_REPORT.md
   STAGE_3D_VARIANT_MATRIX.md
 
-tools and evidence under dev/stage-3d/: 497 files
+tools and evidence under dev/stage-3d/: 505 files
   dev/stage-3d/README.md                       1
   dev/stage-3d/apply_bundle.py                 1
   dev/stage-3d/changed_files_3d.py             1
@@ -39,6 +40,7 @@ tools and evidence under dev/stage-3d/: 497 files
   dev/stage-3d/evidence/d4                     47
   dev/stage-3d/evidence/d5                     13
   dev/stage-3d/evidence/d6                     268
+  dev/stage-3d/evidence/d7                     8
   dev/stage-3d/film_3d.py                      1
   dev/stage-3d/fixtures                        1
   dev/stage-3d/golden3d.js                     1

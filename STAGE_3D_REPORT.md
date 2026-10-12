@@ -15,7 +15,7 @@ What changed is everything around them.
 2. **Blood follows the geometry and the motion.**
    - Pools stop at walls and pillars, and spatter lands only on floor: 0 drawn points on anything solid, against 4,568 at the parent.
    - Blood lands where the jaws were at each blow.
-   - Every variant leaves a mark on the wall where its body really struck.
+   - A body that really strikes a wall leaves a mark on that wall, where it struck, in any variant (Hound C every time).
    - A corpse starts as the death's last frame and dries over the next half minute.
 3. **The server decides the death and finishes it.** One event per death:
    - the server gives it an id and sends everyone the replay itself;
@@ -54,8 +54,8 @@ The bundle carries six small exact-text hooks, rebuilt from the parent's own bun
 | D3 | 56f87d4 | 2ecc02b | settled and drying corpses, lights, culling, caching |
 | D4 | ee5b8e6 | 897b7c4 | the server owns each death |
 | D5 | 6bc27a9 | 47cdd0e | death-only sound, spectator sound, reduced motion |
-| D6 | (see below) | | full regression and performance; two performance corrections, then an independent review's corrections and the whole D6 again (`evidence/d6/corrections.md`) |
-| D7 | (see below) | | the package, its receipt, this report |
+| D6 | 8d6e66a | 6e7fe92 | full regression and performance; two performance corrections, then an independent review's corrections and the whole D6 again (`evidence/d6/corrections.md`) |
+| D7 | in the receipt | | the package, its receipt, this report (a commit cannot hold its own hash: `STAGE_3D_PACKAGE_RECEIPT.txt` gives D7's commit and tree, verified from the ZIP; full hashes for D0–D6 in `evidence/d7/CHECKPOINTS.md`) |
 
 Each checkpoint:
 1. ran its focused tests first and kept failing first runs;
@@ -90,3 +90,5 @@ Each checkpoint:
 ## Human QA
 
 `STAGE_3D_HUMAN_QA.md` lists every check with what you should see. The admin Death Lab plays any of the eight on yourself through the real path; there is no unauthenticated control. Only the user can say **HUMAN QA PASSED**.
+
+**STAGE 3D GORE & DEATH 2.0 HUMAN-QA CANDIDATE — WAITING FOR USER**

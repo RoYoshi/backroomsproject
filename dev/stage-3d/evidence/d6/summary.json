@@ -5,7 +5,7 @@
   "browser, interleaved with the parent (D6's own line: +10 % on the same machine and session), the whole death on both pages (perf_ab pairs 7-10, 8 rounds each), median of the rounds' frame-time medians: idle victim 742 -> 733 ms (-1.1 %); idle spectator 700 -> 717 ms (+2.4 %); houndA victim 783 -> 850 ms (+8.5 %); houndA spectator 767 -> 850 ms (+10.9 %); houndC victim 696 -> 733 ms (+5.4 %); houndC spectator 675 -> 717 ms (+6.2 %); OVER +10 %: houndA spectator"
  ],
  "lines": [
-  "ok   golden3d (server, whole tree): every difference starts in the death domain; non-death output identical; follow-ons: none",
+  "ok   golden3d (server, whole tree): every difference starts in the death domain; non-death output identical, except the one bounded follow-on: deaths identical up to the first killer hand-back at 5900 ms, diverging from 6150 ms",
   "ok   golden3d A/A (parent against parent): 11/11 identical",
   "ok   client golden (mp.js scenes): 7 identical, 2 with only death-domain differences, of 9",
   "ok   protocol contract with the 3D death fields: 0 violations",

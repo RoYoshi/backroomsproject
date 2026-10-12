@@ -23,8 +23,9 @@ for l in log('steps.txt').splitlines():
 passed = lambda f: re.search(r'(\d+)/(\d+) passed', log(f))
 fails = lambda f: sorted(set(re.sub(r'\s+\[\d+ms\]$', '', l[5:].split('   EXCEPTION')[0]).strip() for l in log(f).splitlines() if l.startswith('FAIL ')))
 
-g = j('golden3d_d6.json'); gate(g['ok'] and set(g.get('followOns', [])) <= {f for f in g.get('followOns', []) if f.startswith('deaths ')},
-    f"golden3d (server, whole tree): every difference starts in the death domain; non-death output identical; follow-ons: {', '.join(g.get('followOns', [])) or 'none'}")
+g = j('golden3d_d6.json'); fo = {k: v['followOnAfterHandback'] for k, v in g['scenarios'].items() if v.get('followOnAfterHandback')}
+gate(g['ok'] and set(fo) <= {'deaths'} and all(v.get('pass') or v.get('identical') for v in g['scenarios'].values()),
+    f"golden3d (server, whole tree): every difference starts in the death domain; non-death output identical, except the one bounded follow-on: " + ('; '.join(f"{k} identical up to the first killer hand-back at {v['handbackAt']} ms, diverging from {v['divergesAt']} ms" for k, v in fo.items()) or 'none'))
 ga = j('golden3d_aa.json'); gate(all(v['identical'] for v in ga['scenarios'].values()), f"golden3d A/A (parent against parent): {sum(v['identical'] for v in ga['scenarios'].values())}/{len(ga['scenarios'])} identical")
 c = j('cli_golden3d.json'); gate(c['ok'], f"client golden (mp.js scenes): {sum(s['identical'] for s in c['scenes'])} identical, {sum((not s['identical']) and s.get('nonDeathIdentical', False) for s in c['scenes'])} with only death-domain differences, of {len(c['scenes'])}")
 k = j('contract3d.json'); gate(k['ok'], f"protocol contract with the 3D death fields: {k['violations']} violations")
