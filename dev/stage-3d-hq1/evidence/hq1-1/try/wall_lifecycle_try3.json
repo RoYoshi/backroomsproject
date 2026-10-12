@@ -1,0 +1,868 @@
+{
+ "tool": "dev/stage-3d-hq1/wall_lifecycle.py",
+ "game": "/home/claude/backrooms-shadows",
+ "steps": [
+  {
+   "step": "death1 corpse",
+   "alice": {
+    "stains": [
+     {
+      "de": 1,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 1,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 1,
+     "removed": 0,
+     "noface": 0,
+     "failed": 0,
+     "ms": 1.8,
+     "maxMs": 1.8
+    },
+    "receiver": 1
+   },
+   "bob": {
+    "stains": [
+     {
+      "de": 1,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 1,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 1,
+     "removed": 0,
+     "noface": 0,
+     "failed": 0,
+     "ms": 1.9,
+     "maxMs": 1.9
+    },
+    "receiver": 1
+   }
+  },
+  {
+   "step": "carol joined",
+   "alice": {
+    "stains": [
+     {
+      "de": 1,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 1,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 1,
+     "removed": 0,
+     "noface": 0,
+     "failed": 0,
+     "ms": 1.8,
+     "maxMs": 1.8
+    },
+    "receiver": 1
+   },
+   "bob": {
+    "stains": [
+     {
+      "de": 1,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 1,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 1,
+     "removed": 0,
+     "noface": 0,
+     "failed": 0,
+     "ms": 1.9,
+     "maxMs": 1.9
+    },
+    "receiver": 1
+   },
+   "carol": {
+    "stains": [
+     {
+      "de": 1,
+      "x": 552,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 2,
+     "removed": 1,
+     "noface": 0,
+     "failed": 0,
+     "ms": 6.1,
+     "maxMs": 5.8
+    },
+    "receiver": 1
+   }
+  },
+  {
+   "step": "idle 10 s",
+   "alice": {
+    "stains": [
+     {
+      "de": 1,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 1,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 1,
+     "removed": 0,
+     "noface": 0,
+     "failed": 0,
+     "ms": 1.8,
+     "maxMs": 1.8
+    },
+    "receiver": 1
+   },
+   "bob": {
+    "stains": [
+     {
+      "de": 1,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 1,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 1,
+     "removed": 0,
+     "noface": 0,
+     "failed": 0,
+     "ms": 1.9,
+     "maxMs": 1.9
+    },
+    "receiver": 1
+   },
+   "carol": {
+    "stains": [
+     {
+      "de": 1,
+      "x": 552,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 2,
+     "removed": 1,
+     "noface": 0,
+     "failed": 0,
+     "ms": 6.1,
+     "maxMs": 5.8
+    },
+    "receiver": 1
+   }
+  },
+  {
+   "step": "death2 corpse",
+   "alice": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 2,
+     "stamps": 2,
+     "removed": 1,
+     "noface": 0,
+     "failed": 0,
+     "ms": 6.7,
+     "maxMs": 4.9
+    },
+    "receiver": 1
+   },
+   "bob": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 2,
+     "stamps": 2,
+     "removed": 1,
+     "noface": 0,
+     "failed": 0,
+     "ms": 3,
+     "maxMs": 1.9
+    },
+    "receiver": 1
+   },
+   "carol": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 3,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 2,
+     "stamps": 3,
+     "removed": 2,
+     "noface": 0,
+     "failed": 0,
+     "ms": 7,
+     "maxMs": 5.8
+    },
+    "receiver": 1
+   }
+  },
+  {
+   "step": "death3 impact (before the revive lands)",
+   "alice": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     },
+     {
+      "de": 3,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 3,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 2,
+     "images": 3,
+     "stamps": 3,
+     "removed": 1,
+     "noface": 0,
+     "failed": 0,
+     "ms": 7.6,
+     "maxMs": 4.9
+    },
+    "receiver": 2
+   },
+   "bob": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     },
+     {
+      "de": 3,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 3,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 2,
+     "images": 3,
+     "stamps": 3,
+     "removed": 1,
+     "noface": 0,
+     "failed": 0,
+     "ms": 3.7,
+     "maxMs": 1.9
+    },
+    "receiver": 2
+   },
+   "carol": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 3,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     },
+     {
+      "de": 3,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 4,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "stats": {
+     "stains": 2,
+     "images": 3,
+     "stamps": 4,
+     "removed": 2,
+     "noface": 0,
+     "failed": 0,
+     "ms": 8,
+     "maxMs": 5.8
+    },
+    "receiver": 2
+   }
+  },
+  {
+   "step": "death3 revived mid-death",
+   "alice": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 3,
+     "stamps": 3,
+     "removed": 2,
+     "noface": 0,
+     "failed": 0,
+     "ms": 7.6,
+     "maxMs": 4.9
+    },
+    "receiver": 1
+   },
+   "bob": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 3,
+     "stamps": 3,
+     "removed": 2,
+     "noface": 0,
+     "failed": 0,
+     "ms": 3.7,
+     "maxMs": 1.9
+    },
+    "receiver": 1
+   },
+   "carol": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 3,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 3,
+     "stamps": 4,
+     "removed": 3,
+     "noface": 0,
+     "failed": 0,
+     "ms": 8,
+     "maxMs": 5.8
+    },
+    "receiver": 1
+   }
+  },
+  {
+   "step": "bob reconnected",
+   "bob": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 216
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 1,
+     "stamps": 2,
+     "removed": 1,
+     "noface": 0,
+     "failed": 0,
+     "ms": 3.4,
+     "maxMs": 3.1
+    },
+    "receiver": 1
+   }
+  },
+  {
+   "step": "world reset",
+   "alice": {
+    "stains": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "stats": {
+     "stains": 1,
+     "images": 3,
+     "stamps": 3,
+     "removed": 2,
+     "noface": 0,
+     "failed": 0,
+     "ms": 7.6,
+     "maxMs": 4.9
+    },
+    "receiver": 1
+   },
+   "bob": {
+    "stains": [],
+    "stats": {
+     "stains": 0,
+     "images": 1,
+     "stamps": 2,
+     "removed": 2,
+     "noface": 0,
+     "failed": 0,
+     "ms": 3.4,
+     "maxMs": 3.1
+    },
+    "receiver": 0
+   },
+   "carol": {
+    "stains": [],
+    "stats": {
+     "stains": 0,
+     "images": 3,
+     "stamps": 4,
+     "removed": 4,
+     "noface": 0,
+     "failed": 0,
+     "ms": 8,
+     "maxMs": 5.8
+    },
+    "receiver": 0
+   }
+  }
+ ],
+ "checks": [
+  {
+   "step": "1-2 one stain per screen through replay -> corpse",
+   "ok": true,
+   "info": {
+    "alice": [
+     {
+      "de": 1,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 1,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "bob": [
+     {
+      "de": 1,
+      "x": 552.4,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 1,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72.4
+     }
+    ],
+    "receiver": [
+     1,
+     1
+    ]
+   }
+  },
+  {
+   "step": "3 the late joiner rebuilds the same stain from the corpse",
+   "ok": true,
+   "info": {
+    "carol": [
+     {
+      "de": 1,
+      "x": 552,
+      "y": 1344,
+      "nx": 0,
+      "ny": 1,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:05:wall:S:1344:5",
+      "side": "S",
+      "u": 72
+     }
+    ]
+   }
+  },
+  {
+   "step": "4 idle: no new stamp",
+   "ok": true,
+   "info": {
+    "before": {
+     "alice": 1,
+     "bob": 1,
+     "carol": 2
+    },
+    "after": {
+     "alice": 1,
+     "bob": 1,
+     "carol": 2
+    }
+   }
+  },
+  {
+   "step": "5 a second death: the old stain gone, the new one there, on all three",
+   "ok": true,
+   "info": {
+    "alice": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "bob": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "carol": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 3,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ]
+   }
+  },
+  {
+   "step": "6 a revive mid-death: its stain gone everywhere, the previous corpse's stays",
+   "ok": true,
+   "info": {
+    "alice": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "bob": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ],
+    "carol": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760.4,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 3,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 215.6
+     }
+    ]
+   }
+  },
+  {
+   "step": "7 Bob reconnects: exactly the remaining stain, once",
+   "ok": true,
+   "info": {
+    "bob": [
+     {
+      "de": 2,
+      "x": 960,
+      "y": 2760,
+      "nx": 1,
+      "ny": 0,
+      "status": "stamped",
+      "id": 2,
+      "surf": "surf:room:01:wall:E:960:28",
+      "side": "E",
+      "u": 216
+     }
+    ],
+    "receiver": 1
+   }
+  },
+  {
+   "step": "8 a world reset: no stain anywhere, receivers empty",
+   "ok": false,
+   "info": {
+    "alice": [
+     [
+      {
+       "de": 2,
+       "x": 960,
+       "y": 2760.4,
+       "nx": 1,
+       "ny": 0,
+       "status": "stamped",
+       "id": 2,
+       "surf": "surf:room:01:wall:E:960:28",
+       "side": "E",
+       "u": 215.6
+      }
+     ],
+     1
+    ],
+    "bob": [
+     [],
+     0
+    ],
+    "carol": [
+     [],
+     0
+    ]
+   }
+  }
+ ],
+ "spots": [
+  {
+   "face": "surf:room:05:wall:S:1344:5",
+   "side": "S",
+   "x": 552,
+   "y": 1434,
+   "a": 1.5708,
+   "wx": 552,
+   "wy": 1344,
+   "ox": -0.0,
+   "oy": 1,
+   "lamp": {
+    "x": 624,
+    "y": 1392,
+    "r": 83
+   }
+  },
+  {
+   "face": "surf:room:01:wall:E:960:28",
+   "side": "E",
+   "x": 1050,
+   "y": 2760,
+   "a": 0,
+   "wx": 960,
+   "wy": 2760,
+   "ox": 1,
+   "oy": -0.0,
+   "lamp": {
+    "x": 1008,
+    "y": 2832,
+    "r": 83
+   }
+  }
+ ],
+ "carolIn": true,
+ "errors": [],
+ "ok": false
+}

@@ -30,6 +30,31 @@ FACE_SPOT = r"""([side, d, skip])=>{ const A=__api, L=window.__l0v; if(!L||!L.su
   out.sort((p,q)=>p.lamp.r-q.lamp.r || p.x-q.x || p.y-q.y);                                  // the best lit first
   return out[Math.min(out.length-1, skip||0)] || null }"""
 
+# an inner corner of a room (two papered faces meeting), lit; the victim stands on the diagonal d px from each face, facing out of it
+CORNER_SPOT = r"""([d, skip])=>{ const A=__api, L=window.__l0v; if(!L||!L.surfaces) return null; const lamps=A.lamps||[], gl=window.__glitches||[], out=[];
+  const faces=L.surfaces.list().filter(f=>f.kind==='wall');
+  for(const f of faces) for(const end of [0, f.length]){ const cx=f.origin[0]+f.u[0]*end, cy=f.origin[1]+f.u[1]*end, ox=-f.up[0], oy=-f.up[1];
+    for(const s of [1,-1]){ const tx=f.u[0]*(end?-1:1), ty=f.u[1]*(end?-1:1);                    // along the face, away from its end
+      const x=cx+ox*d+tx*d, y=cy+oy*d+ty*d; if(!A.sl(x,y,26) || gl.some(g=>Math.hypot(g.x-x,g.y-y)<260)) continue;
+      const ax=-(ox+tx)/Math.SQRT2, ay=-(oy+ty)/Math.SQRT2; if(Math.abs(A.Uc(x,y,Math.atan2(ay,ax),220)-d*Math.SQRT2)>8) continue;   // the corner right behind, on the diagonal
+      if(A.Uc(x,y,Math.atan2(-ay,-ax),260)<170) continue;
+      let lit=null; for(const l of lamps){ const r=Math.hypot(l.x-x,l.y-y); if(r<60||r>260) continue; if(A.Uc(l.x,l.y,Math.atan2(y-l.y,x-l.x),r+2)>=r-2){ lit={x:l.x,y:l.y,r:Math.round(r)}; break; } }
+      if(!lit) continue;
+      out.push({face:f.id, side:f.side, x:Math.round(x), y:Math.round(y), a:+Math.atan2(-ay,-ax).toFixed(4), wx:Math.round(cx), wy:Math.round(cy), ox:-ax, oy:-ay, lamp:lit, corner:true}); break; } }
+  out.sort((p,q)=>p.lamp.r-q.lamp.r || p.x-q.x || p.y-q.y); return out[Math.min(out.length-1, skip||0)] || null }"""
+
+# a pillar (a 56 x 56 blocker, not a wall cell) with open floor around it, lit; the victim d px from the middle of one of its sides
+PILLAR_SPOT = r"""([d, skip])=>{ const A=__api, lamps=A.lamps||[], gl=window.__glitches||[], out=[], seen=new Set();
+  for(let y=200;y<6700;y+=48) for(let x=200;x<9000;x+=48) for(const q of (A.Bc(x,y)||[])){ if(!(q.w===56&&q.h===56)) continue; const k=q.x+','+q.y; if(seen.has(k)) continue; seen.add(k);
+    for(const [px,py,nx,ny] of [[q.x+28,q.y+56,0,1],[q.x+28,q.y,0,-1],[q.x,q.y+28,-1,0],[q.x+56,q.y+28,1,0]]){ const vx=px+nx*d, vy=py+ny*d, a=Math.atan2(ny,nx);
+      if(!A.sl(vx,vy,26) || gl.some(g=>Math.hypot(g.x-vx,g.y-vy)<260)) continue; if(Math.abs(A.Uc(vx,vy,a+Math.PI,220)-d)>3) continue; if(A.Uc(vx,vy,a,260)<170) continue;
+      let lit=null; for(const l of lamps){ const r=Math.hypot(l.x-px,l.y-py); if(r<60||r>260) continue; if(A.Uc(l.x,l.y,Math.atan2(py+ny*6-l.y,px+nx*6-l.x),r+2)>=r-8){ lit={x:l.x,y:l.y,r:Math.round(r)}; break; } }
+      if(!lit) continue; out.push({face:'pillar:'+k, side:nx>0?'E':nx<0?'W':ny>0?'S':'N', x:Math.round(vx), y:Math.round(vy), a:+a.toFixed(4), wx:Math.round(px), wy:Math.round(py), ox:nx, oy:ny, lamp:lit, pillar:true}); } }
+  out.sort((p,q)=>p.lamp.r-q.lamp.r || p.x-q.x || p.y-q.y); return out[Math.min(out.length-1, skip||0)] || null }"""
+
+# the far side of the wall behind spot S: floor on the other side of that wall, facing the wall (the struck face is not in its sight)
+BEHIND_SPOT = r"""(S)=>{ const A=__api; for(let k=120;k<=320;k+=12){ const x=S.wx-S.ox*k, y=S.wy-S.oy*k; if(A.sl(x,y,26)) return [Math.round(x+(-S.ox)*0),Math.round(y),+Math.atan2(S.oy,S.ox).toFixed(4)] } return null }"""
+
 # a spectator for spot S: in front of the face, off to one side, clear, with a line of sight to the victim and to the face
 VIEW_SPOT = r"""(S)=>{ const A=__api, tx=-S.oy, ty=S.ox;
   for(const [k,s] of [[230,140],[230,-140],[200,170],[200,-170],[260,90],[260,-90],[180,0],[260,0]]){ const x=S.wx+S.ox*k+tx*s, y=S.wy+S.oy*k+ty*s;
@@ -68,6 +93,8 @@ async def preview(P, kind, var, timeout=20):
             await P.evaluate("()=>{document.getElementById('adminPanel').hidden=true}"); return True
         await P.wait_for_timeout(50)
     await P.evaluate("()=>{document.getElementById('adminPanel').hidden=true}")
+    try: print('preview not seen on the page:', await P.evaluate("s=>({s, startAt:__api.death().startAt, active:__api.death().active, fin:__api.death().finished, caught:!!__api.G.caught, fall:__api.fall(), mk:!!(window.__kill)})", s0), flush=True)
+    except Exception as e: print('preview not seen; state unreadable', e)
     return False
 
 
@@ -129,4 +156,11 @@ async def step_to(P, getter, T):
         n = max(0, round((T - st['t']) * 60))
         if n: await P.evaluate("n=>{window.__dlab.step=n}", n); await P.wait_for_timeout(250)
     return st
+
+
+async def clear_monsters(P, hounds=6, smilers=8):
+    """the room's hounds and smilers taken away again (the world brings them back after a while; a test that runs for minutes needs
+    this before each death, or a real monster kills someone in the middle of it)"""
+    for _ in range(hounds): await admin_cmd(P, {'c': 'hounds', 'mode': 'remove'}); await P.wait_for_timeout(60)
+    for _ in range(smilers): await admin_cmd(P, {'c': 'smilers', 'mode': 'remove'}); await P.wait_for_timeout(60)
 

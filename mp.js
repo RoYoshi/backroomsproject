@@ -54,7 +54,9 @@ const N = window.__net = {
 /* Stage 3D: our own death starts from the server's kill record (the bundle's death class asks for it): the position, facing, speed and
  * exhaustion the server decided the death with, as it sent them - so our death, every spectator's replay and the server's corpse are one
  * physical run.  Only a record that came with a death id; anything else (offline play) uses the player as before. */
-window.__dvic = K => { const A = window.__api; if (!K || K.de == null || !A || !Number.isFinite(K.x) || !Number.isFinite(K.y)) return null;
+let ownDeath = null;                                 // Stage 3D HQ1: our own latest death (its id, when it began here; offline: a local key) - wall stains, its light
+window.__dvic = K => { const A = window.__api; ownDeath = { de: K && K.de != null ? K.de : 'L' + Math.round(performance.now()), t0: performance.now() / 1000 };
+  if (!K || K.de == null || !A || !Number.isFinite(K.x) || !Number.isFinite(K.y)) return null;
   return { x: K.x, y: K.y, angle: +K.a || 0, vx: K.vx || 0, vy: K.vy || 0, exhausted: !!K.ex, stamina: undefined, equipment: A.H.equipment }; };
 const kaOf = t => { const D = window.__api && window.__api.death && window.__api.death(); const at = D && D.attacker; return t.cause === 'Hound' && at && Number.isFinite(at.x) ? [Math.round(at.x), Math.round(at.y), +(at.angle || 0).toFixed(3)] : 0; };
 const fxBase = A => ({ lk: lookStr(A.look), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
@@ -362,6 +364,26 @@ function bodyLights(p, out) {
     out.push({ x: b.dropped.x + Math.cos(a) * L, y: b.dropped.y + Math.sin(a) * L, angle: a, kind: b.equipment.kind, color: b.equipment.color, on: true, dead: false });
   }
 }
+/* Stage 3D HQ1: the wall contacts this screen shows now - our own death while it plays, every replay, every corpse (ours by our own death
+ * id) - handed to gore.js, which keeps one wallpaper stain per impact (a few times a second; the physics' own dphys.marks, the corpse
+ * record's wall marks) */
+let stainAt = 0; const localDe = new Map();             // our own local corpse record -> the death it came from (the latest when it first appears)
+function wallStains(now) {
+  const G = window.__gore, D = window.__dphys, A = window.__api; if (!G || !G.wallStains || !D || !D.marks || !A || !A.bodyList) return;
+  if (now - stainAt < .12 && now >= stainAt) return; stainAt = now;
+  const want = [], add = (de, x, y, nx, ny) => want.push({ de, x, y, nx, ny });
+  const d = A.death && A.death();
+  if (d && d.active && d.ph && ownDeath) for (const m of D.marks(d.ph)) add(ownDeath.de, m.x, m.y, m.nx, m.ny);
+  for (const f of fxs) if (f.k === 'death' && f.jl && f.jl.ph && !f.gone && f.de != null) for (const m of D.marks(f.jl.ph)) add(f.de, m.x, m.y, m.nx, m.ny);
+  for (const b of A.bodyList()) {
+    if (b.cause === 'Vanish' || !b.blood) continue;
+    let de = b.remote ? b.de : null;
+    if (!b.remote && ownDeath) { if (!localDe.has(b.id)) { localDe.set(b.id, ownDeath.de); if (localDe.size > 8) localDe.delete(localDe.keys().next().value); } de = localDe.get(b.id); }
+    if (de == null) continue;
+    for (const q of b.blood) if (q.seed >= 512 && q.seed < 544) { const a = (q.seed - 512) / 32 * Math.PI * 2; add(de, q.x, q.y, Math.cos(a), Math.sin(a)); }
+  }
+  G.wallStains.sync(want);
+}
 /* Stage 3D: while someone's death is replayed, their light is where the replay's light is - tumbling out of the hand, sliding, coming to
  * rest - as it is on the victim's own screen (it was dark for everyone else until the corpse appeared).  Not the camcorder: its IR view
  * is the camcorder's own (camcorder.js), and corpses never carry one either. */
@@ -410,6 +432,7 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
   }
   replayLights(p, lights); bodyLights(p, lights);
   window.__peerLights = lights;
+  wallStains(now);
   if (EN() && N.on) EN().drawDebug(cx, view);                                 // admin-only overlay (the server only sends its data to unlocked admins who switched it on)
   if (hover) {
     tip.textContent = (hover.o.n || 'WANDERER') + (hover.o.d ? ' · DEAD' : '');

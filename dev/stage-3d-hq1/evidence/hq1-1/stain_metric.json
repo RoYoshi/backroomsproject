@@ -1,0 +1,1144 @@
+[
+ {
+  "capture": "houndC_S.json",
+  "side": "S",
+  "contact": [
+   552,
+   1344
+  ],
+  "resolved": true,
+  "stains": [
+   {
+    "de": 1,
+    "x": 552,
+    "y": 1344,
+    "nx": 0,
+    "ny": 1,
+    "status": "stamped",
+    "id": 1,
+    "surf": "surf:room:05:wall:S:1344:5",
+    "side": "S",
+    "u": 72
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     237,
+     506,
+     254
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "impact_victim": {
+    "band": 287,
+    "above": 0,
+    "bandBox": [
+     444,
+     278,
+     515,
+     302
+    ]
+   },
+   "impact_spectator": {
+    "band": 199,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "corpse_victim": {
+    "band": 173,
+    "above": 0,
+    "bandBox": [
+     454,
+     207,
+     506,
+     224
+    ]
+   },
+   "corpse_spectator": {
+    "band": 184,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "late_joiner": {
+    "band": 188,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "late_spectator": {
+    "band": 188,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   }
+  }
+ },
+ {
+  "capture": "houndC_N.json",
+  "side": "N",
+  "contact": [
+   3528,
+   1440
+  ],
+  "resolved": true,
+  "stains": [
+   {
+    "de": 1,
+    "x": 3528,
+    "y": 1440,
+    "nx": -0.0,
+    "ny": -1,
+    "status": "stamped",
+    "id": 1,
+    "surf": "surf:room:04:wall:N:1440:34",
+    "side": "N",
+    "u": 216
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     386,
+     506,
+     403
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     490,
+     609,
+     507
+    ]
+   },
+   "impact_victim": {
+    "band": 493,
+    "above": 0,
+    "bandBox": [
+     444,
+     338,
+     516,
+     362
+    ]
+   },
+   "impact_spectator": {
+    "band": 257,
+    "above": 0,
+    "bandBox": [
+     558,
+     490,
+     609,
+     507
+    ]
+   },
+   "corpse_victim": {
+    "band": 222,
+    "above": 0,
+    "bandBox": [
+     454,
+     416,
+     506,
+     433
+    ]
+   },
+   "corpse_spectator": {
+    "band": 230,
+    "above": 0,
+    "bandBox": [
+     558,
+     490,
+     609,
+     507
+    ]
+   },
+   "late_joiner": {
+    "band": 232,
+    "above": 0,
+    "bandBox": [
+     558,
+     490,
+     609,
+     507
+    ]
+   },
+   "late_spectator": {
+    "band": 233,
+    "above": 0,
+    "bandBox": [
+     558,
+     490,
+     609,
+     507
+    ]
+   }
+  }
+ },
+ {
+  "capture": "houndC_E.json",
+  "side": "E",
+  "contact": [
+   960,
+   2760
+  ],
+  "resolved": true,
+  "stains": [
+   {
+    "de": 1,
+    "x": 960,
+    "y": 2760,
+    "nx": 1,
+    "ny": 0,
+    "status": "stamped",
+    "id": 1,
+    "surf": "surf:room:01:wall:E:960:28",
+    "side": "E",
+    "u": 216
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     397,
+     294,
+     414,
+     346
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     293,
+     191,
+     310,
+     242
+    ]
+   },
+   "impact_victim": {
+    "band": 408,
+    "above": 0,
+    "bandBox": [
+     438,
+     284,
+     462,
+     355
+    ]
+   },
+   "impact_spectator": {
+    "band": 362,
+    "above": 0,
+    "bandBox": [
+     293,
+     191,
+     310,
+     242
+    ]
+   },
+   "corpse_victim": {
+    "band": 337,
+    "above": 0,
+    "bandBox": [
+     367,
+     294,
+     384,
+     346
+    ]
+   },
+   "corpse_spectator": {
+    "band": 343,
+    "above": 0,
+    "bandBox": [
+     293,
+     191,
+     310,
+     242
+    ]
+   },
+   "late_joiner": {
+    "band": 345,
+    "above": 0,
+    "bandBox": [
+     293,
+     191,
+     310,
+     242
+    ]
+   },
+   "late_spectator": {
+    "band": 348,
+    "above": 0,
+    "bandBox": [
+     293,
+     191,
+     310,
+     242
+    ]
+   }
+  }
+ },
+ {
+  "capture": "houndC_W.json",
+  "side": "W",
+  "contact": [
+   2880,
+   2760
+  ],
+  "resolved": true,
+  "stains": [
+   {
+    "de": 1,
+    "x": 2880,
+    "y": 2760,
+    "nx": -1,
+    "ny": 0,
+    "status": "stamped",
+    "id": 1,
+    "surf": "surf:room:02:wall:W:2880:26",
+    "side": "W",
+    "u": 264
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     546,
+     294,
+     563,
+     346
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     650,
+     398,
+     667,
+     449
+    ]
+   },
+   "impact_victim": {
+    "band": 428,
+    "above": 0,
+    "bandBox": [
+     498,
+     284,
+     522,
+     356
+    ]
+   },
+   "impact_spectator": {
+    "band": 264,
+    "above": 0,
+    "bandBox": [
+     650,
+     398,
+     667,
+     449
+    ]
+   },
+   "corpse_victim": {
+    "band": 184,
+    "above": 0,
+    "bandBox": [
+     576,
+     294,
+     593,
+     346
+    ]
+   },
+   "corpse_spectator": {
+    "band": 254,
+    "above": 0,
+    "bandBox": [
+     650,
+     398,
+     667,
+     449
+    ]
+   },
+   "late_joiner": {
+    "band": 254,
+    "above": 0,
+    "bandBox": [
+     650,
+     398,
+     667,
+     449
+    ]
+   },
+   "late_spectator": {
+    "band": 254,
+    "above": 0,
+    "bandBox": [
+     650,
+     398,
+     667,
+     449
+    ]
+   }
+  }
+ },
+ {
+  "capture": "houndC_S_medium.json",
+  "side": "S",
+  "contact": [
+   552,
+   1344
+  ],
+  "resolved": true,
+  "stains": [
+   {
+    "de": 1,
+    "x": 552,
+    "y": 1344,
+    "nx": 0,
+    "ny": 1,
+    "status": "stamped",
+    "id": 1,
+    "surf": "surf:room:05:wall:S:1344:5",
+    "side": "S",
+    "u": 72
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     237,
+     506,
+     254
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "impact_victim": {
+    "band": 388,
+    "above": 0,
+    "bandBox": [
+     444,
+     278,
+     515,
+     302
+    ]
+   },
+   "impact_spectator": {
+    "band": 197,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "corpse_victim": {
+    "band": 170,
+    "above": 0,
+    "bandBox": [
+     454,
+     207,
+     506,
+     224
+    ]
+   },
+   "corpse_spectator": {
+    "band": 162,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "late_joiner": {
+    "band": 154,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "late_spectator": {
+    "band": 155,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   }
+  }
+ },
+ {
+  "capture": "houndC_S_high.json",
+  "side": "S",
+  "contact": [
+   552,
+   1344
+  ],
+  "resolved": true,
+  "stains": [
+   {
+    "de": 1,
+    "x": 552,
+    "y": 1344,
+    "nx": 0,
+    "ny": 1,
+    "status": "stamped",
+    "id": 1,
+    "surf": "surf:room:05:wall:S:1344:5",
+    "side": "S",
+    "u": 72
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     237,
+     506,
+     254
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "impact_victim": {
+    "band": 394,
+    "above": 0,
+    "bandBox": [
+     444,
+     278,
+     515,
+     302
+    ]
+   },
+   "impact_spectator": {
+    "band": 194,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "corpse_victim": {
+    "band": 174,
+    "above": 0,
+    "bandBox": [
+     454,
+     207,
+     506,
+     224
+    ]
+   },
+   "corpse_spectator": {
+    "band": 168,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "late_joiner": {
+    "band": 158,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   },
+   "late_spectator": {
+    "band": 161,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     609,
+     150
+    ]
+   }
+  }
+ },
+ {
+  "capture": "corner.json",
+  "side": "S",
+  "contact": [
+   497,
+   1344
+  ],
+  "resolved": true,
+  "stains": [
+   {
+    "de": 1,
+    "x": 497,
+    "y": 1344,
+    "nx": 0,
+    "ny": 1,
+    "status": "stamped",
+    "id": 1,
+    "surf": "surf:room:05:wall:S:1344:5",
+    "side": "S",
+    "u": 17
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     420,
+     256,
+     471,
+     273
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     420,
+     109,
+     471,
+     126
+    ]
+   },
+   "impact_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     462,
+     278,
+     533,
+     302
+    ]
+   },
+   "impact_spectator": {
+    "band": 26,
+    "above": 0,
+    "bandBox": [
+     420,
+     109,
+     471,
+     126
+    ]
+   },
+   "corpse_victim": {
+    "band": 91,
+    "above": 0,
+    "bandBox": [
+     399,
+     235,
+     450,
+     252
+    ]
+   },
+   "corpse_spectator": {
+    "band": 87,
+    "above": 0,
+    "bandBox": [
+     420,
+     109,
+     471,
+     126
+    ]
+   },
+   "late_joiner": {
+    "band": 85,
+    "above": 0,
+    "bandBox": [
+     420,
+     109,
+     471,
+     126
+    ]
+   },
+   "late_spectator": {
+    "band": 86,
+    "above": 0,
+    "bandBox": [
+     420,
+     109,
+     471,
+     126
+    ]
+   }
+  }
+ },
+ {
+  "capture": "pillar.json",
+  "side": "N",
+  "contact": [
+   7632.1,
+   1364
+  ],
+  "resolved": false,
+  "stains": [
+   {
+    "de": 1,
+    "x": 7632,
+    "y": 1364,
+    "nx": -0.0,
+    "ny": -1,
+    "status": "noface",
+    "id": null,
+    "surf": null,
+    "side": null,
+    "u": null
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     379,
+     506,
+     396
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     351,
+     490,
+     402,
+     507
+    ]
+   },
+   "impact_victim": {
+    "band": 9,
+    "above": 0,
+    "bandBox": [
+     444,
+     338,
+     516,
+     362
+    ]
+   },
+   "impact_spectator": {
+    "band": 3,
+    "above": 0,
+    "bandBox": [
+     351,
+     490,
+     402,
+     507
+    ]
+   },
+   "corpse_victim": {
+    "band": 13,
+    "above": 0,
+    "bandBox": [
+     454,
+     408,
+     506,
+     426
+    ]
+   },
+   "corpse_spectator": {
+    "band": 9,
+    "above": 0,
+    "bandBox": [
+     351,
+     490,
+     402,
+     507
+    ]
+   },
+   "late_joiner": {
+    "band": 8,
+    "above": 0,
+    "bandBox": [
+     351,
+     490,
+     402,
+     507
+    ]
+   },
+   "late_spectator": {
+    "band": 8,
+    "above": 0,
+    "bandBox": [
+     351,
+     490,
+     402,
+     507
+    ]
+   }
+  }
+ },
+ {
+  "capture": "behind_S.json",
+  "side": "S",
+  "contact": [
+   552,
+   1344
+  ],
+  "resolved": true,
+  "stains": [
+   {
+    "de": 1,
+    "x": 552,
+    "y": 1344,
+    "nx": 0,
+    "ny": 1,
+    "status": "stamped",
+    "id": 1,
+    "surf": "surf:room:05:wall:S:1344:5",
+    "side": "S",
+    "u": 72
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     237,
+     506,
+     254
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     401,
+     506,
+     418
+    ]
+   },
+   "impact_victim": {
+    "band": 287,
+    "above": 0,
+    "bandBox": [
+     444,
+     278,
+     515,
+     302
+    ]
+   },
+   "impact_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     401,
+     506,
+     418
+    ]
+   },
+   "corpse_victim": {
+    "band": 174,
+    "above": 0,
+    "bandBox": [
+     454,
+     207,
+     506,
+     224
+    ]
+   },
+   "corpse_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     401,
+     506,
+     418
+    ]
+   },
+   "late_joiner": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     401,
+     506,
+     418
+    ]
+   },
+   "late_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     454,
+     401,
+     506,
+     418
+    ]
+   }
+  }
+ },
+ {
+  "capture": "remaster_off_S.json",
+  "side": "S",
+  "contact": [
+   552.4,
+   1344
+  ],
+  "resolved": false,
+  "stains": [
+   {
+    "de": 1,
+    "x": 552,
+    "y": 1344,
+    "nx": 0,
+    "ny": 1,
+    "status": "pending",
+    "id": null,
+    "surf": null,
+    "side": null,
+    "u": null
+   }
+  ],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     455,
+     237,
+     506,
+     254
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   },
+   "impact_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     444,
+     278,
+     516,
+     302
+    ]
+   },
+   "impact_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   },
+   "corpse_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     455,
+     207,
+     506,
+     224
+    ]
+   },
+   "corpse_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   },
+   "late_joiner": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   },
+   "late_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   }
+  }
+ },
+ {
+  "capture": "red_houndC_S.json",
+  "side": "S",
+  "contact": [
+   552.4,
+   1344
+  ],
+  "resolved": false,
+  "stains": [],
+  "shots": {
+   "before_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     455,
+     237,
+     506,
+     254
+    ]
+   },
+   "before_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   },
+   "impact_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     444,
+     278,
+     516,
+     302
+    ]
+   },
+   "impact_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   },
+   "corpse_victim": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     455,
+     207,
+     506,
+     224
+    ]
+   },
+   "corpse_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   },
+   "late_joiner": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   },
+   "late_spectator": {
+    "band": 0,
+    "above": 0,
+    "bandBox": [
+     558,
+     133,
+     610,
+     150
+    ]
+   }
+  }
+ }
+]

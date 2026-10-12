@@ -308,5 +308,74 @@
     }
   }
 
-  window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear, wallMark, impacts, markSeed, ownsWalls: true, cull, cached, ageOf };
+  /* ---------- Stage 3D HQ1: blood ON the wallpaper where a body struck a wall ----------
+   * The floor marks above stay as they were.  Each hard wall contact of a death (the physics' own dphys.marks while it plays, the corpse
+   * record's wall marks after) is also stamped onto the papered wall face it struck, through the Level 0 remaster's decal receiver
+   * (window.__l0v.surfaces): the stain becomes part of that wall's art, clipped to its band, lit by BR-RoLE exactly as the wallpaper
+   * under it, never a light of its own.  A contact counts only on a papered face that faces it (outward normal . contact normal >= 0.6),
+   * on that face's line (within 4 px) and not within 6 px of the run's end (an outer corner); pillars, props and floor never match.
+   * mp.js says a few times a second which contacts are wanted (running deaths, replays, corpses: what this screen already shows);
+   * a stain stays while it is wanted (the same death id within 8 px is the same impact: a replay hands over to its corpse without a
+   * second stamp) and is removed when nothing wants it (a new death of that player, a revive mid-death, a world reset).  A face that
+   * does not resolve is remembered, not retried every time; with the remaster off or not yet built nothing is stamped (it is once it is). */
+  const ST = { w: 66, h: 22, res: 4, imgs: new Map(), faces: null, stains: new Map(), n: { stamps: 0, removed: 0, noface: 0, failed: 0, ms: 0, maxMs: 0 } };
+  function stainImage(seed) {                            // one of 36 looks (12 shapes x 3 sizes), drawn once: 57-76 px along the wall, base at the crease, splash ~12 px up
+    const key = seed % 36; if (ST.imgs.has(key)) return ST.imgs.get(key);
+    const r = rng(key * 7919 + 101), k = .86 + (key % 3) * .14, w = Math.round(ST.w * k), h = ST.h, R = ST.res, c = document.createElement('canvas');
+    c.width = w * R; c.height = h * R; const g = c.getContext('2d'); g.scale(R, R);
+    const cx = w / 2 + (r() - .5) * 4, cy = h - (12 + r() * 2), r0 = (10.8 + r() * 2) * k;           // y down = toward the crease (the canvas's bottom row is the crease)
+    const blob = (rad, col, a, sq) => { g.beginPath(); const n = 20; for (let i = 0; i <= n; i++) { const t = i / n * TAU, q = rad * (.72 + .5 * Math.abs(Math.sin(t * 2.3 + key) * Math.cos(t * 1.7 + key * .3)) + (r() - .5) * .22);
+      const x = cx + Math.cos(t) * q * 1.32, y = cy + Math.sin(t) * q * sq; i ? g.lineTo(x, y) : g.moveTo(x, y); } g.closePath(); g.globalAlpha = a; g.fillStyle = col; g.fill(); };
+    blob(r0 * 1.22, '#3e0706', .6, .74); blob(r0, '#5e0b09', .92, .74); blob(r0 * .6, '#7a1311', .92, .7);   // a splash: a dark rim, the body of it, a wetter core
+    for (let i = 0, n = 16 + Math.floor(r() * 9); i < n; i++) {                                       // the spray, flung mostly along the wall
+      const a = (r() < .5 ? 0 : Math.PI) + (r() - .5) * 1.7, d = r0 * (1.1 + r() * 1.5), x = cx + Math.cos(a) * d * 1.3, y = cy + Math.sin(a) * d * .7;
+      if (y > h - .6 || y < .6) continue; g.globalAlpha = .7 + r() * .3; g.fillStyle = r() < .5 ? '#5c0b09' : '#4a0908'; g.beginPath(); g.arc(x, y, .45 + r() * 1.1, 0, TAU); g.fill(); }
+    for (let i = 0, n = 4 + Math.floor(r() * 3); i < n; i++) {                                         // thin runs down the wall to the crease, a bead at the end
+      const x0 = cx + (r() - .5) * r0 * 2, y0 = cy + r0 * .35, len = 3 + r() * (h - y0 - 2), wd = .7 + r() * .8, y1 = Math.min(h - .4, y0 + len), xe = x0 + (r() - .5) * .8;
+      g.globalAlpha = .85; g.strokeStyle = '#4e0908'; g.lineCap = 'round'; g.lineWidth = wd; g.beginPath(); g.moveTo(x0, y0); g.lineTo(xe, y1); g.stroke();
+      g.fillStyle = '#4e0908'; g.beginPath(); g.ellipse(xe, Math.min(h - .6, y1), wd * .8, wd * 1.1, 0, 0, TAU); g.fill(); }
+    g.globalAlpha = 1;
+    const im = { image: c, w, h }; ST.imgs.set(key, im); return im;
+  }
+  const L0 = () => { const L = window.__l0v; return L && L.surfaces && typeof L.on === 'function' && L.on() ? L : null; };
+  function faceFor(x, y, nx, ny) {                       // the papered face a contact struck, or null (read only: the receiver's own list)
+    const L = L0(); if (!L) return null;
+    if (!ST.faces) ST.faces = L.surfaces.list().filter(f => f.kind === 'wall' && f.material === 'material:wallpaper');
+    const n = Math.hypot(nx, ny) || 1; nx /= n; ny /= n; let best = null;
+    for (const f of ST.faces) {
+      const dot = -(nx * f.up[0] + ny * f.up[1]); if (dot < .6) continue;                              // its outward normal is -up
+      const dx = x - f.origin[0], dy = y - f.origin[1], u = dx * f.u[0] + dy * f.u[1], w = dx * f.up[0] + dy * f.up[1];
+      if (Math.abs(w) > 4 || u < 6 || u > f.length - 6) continue;
+      if (!best || dot > best.dot + 1e-6 || (Math.abs(dot - best.dot) <= 1e-6 && Math.abs(w) < Math.abs(best.w))) best = { id: f.id, side: f.side, u, w, dot };
+    }
+    return best;
+  }
+  function stamp(e) {
+    const L = L0(); if (!L) return;
+    const f = faceFor(e.x, e.y, e.nx, e.ny); if (!f) { e.status = 'noface'; ST.n.noface++; return; }
+    const t0 = performance.now(), im = stainImage(e.seed);
+    const id = L.surfaces.stamp(f.id, { image: im.image, w: im.w, h: im.h, u: f.u + ((e.seed >> 6) % 7 - 3), v: 0 });
+    const ms = performance.now() - t0; ST.n.ms += ms; ST.n.maxMs = Math.max(ST.n.maxMs, ms);
+    if (id == null) { e.status = 'failed'; ST.n.failed++; ST.faces = null; return; }
+    Object.assign(e, { status: 'stamped', id, surf: f.id, side: f.side, u: +f.u.toFixed(1) }); ST.n.stamps++;
+  }
+  /* wanted: [{ de, x, y, nx, ny }] - every wall contact this screen shows now (a death id, or the local death's own key offline) */
+  function stainSync(wanted) {
+    const keep = new Set(), live = !!L0(), now = performance.now();
+    for (const w of wanted) {
+      let e = null; for (const s of ST.stains.values()) if (s.de === w.de && Math.abs(s.x - w.x) < 8 && Math.abs(s.y - w.y) < 8) { e = s; break; }
+      if (!e) { const key = w.de + ':' + Math.round(w.x) + ':' + Math.round(w.y); e = { key, de: w.de, x: w.x, y: w.y, nx: w.nx, ny: w.ny, seed: hash(w.de + ':' + Math.floor(w.x / 24) + ':' + Math.floor(w.y / 24)), status: 'pending', id: null }; ST.stains.set(key, e); }
+      keep.add(e.key); e.miss = 0; if (e.status === 'pending' && live) stamp(e);
+    }
+    for (const [k, s] of ST.stains) {                    // gone from what this screen shows for half a second (not one frame: the corpse list is rebuilt on joining)
+      if (keep.has(k)) continue; if (!s.miss) { s.miss = now; continue; } if (now - s.miss < 500) continue;
+      if (s.id != null) { const L = window.__l0v; if (L && L.surfaces) L.surfaces.remove(s.id); ST.n.removed++; } ST.stains.delete(k);
+    }
+  }
+  const wallStains = { sync: stainSync, faceFor, image: stainImage,
+    list: () => [...ST.stains.values()].map(s => ({ de: s.de, x: +s.x.toFixed(1), y: +s.y.toFixed(1), nx: +s.nx.toFixed(3), ny: +s.ny.toFixed(3), status: s.status, id: s.id, surf: s.surf || null, side: s.side || null, u: s.u == null ? null : s.u })),
+    stats: () => Object.assign({ stains: ST.stains.size, images: ST.imgs.size }, ST.n, { ms: +ST.n.ms.toFixed(2), maxMs: +ST.n.maxMs.toFixed(2) }),
+    reset: () => { ST.faces = null; } };      // (the receiver's faces are read again: a rebuilt level)
+
+  window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear, wallMark, impacts, markSeed, ownsWalls: true, cull, cached, ageOf, wallStains };
 })();

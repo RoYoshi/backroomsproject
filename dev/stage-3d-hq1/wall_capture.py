@@ -21,7 +21,10 @@ from playwright.async_api import async_playwright
 
 ap = argparse.ArgumentParser(); ap.add_argument('--game', default=L.REPO); ap.add_argument('--out', required=True); ap.add_argument('--side', default='S')
 ap.add_argument('--variant', default='hound-C'); ap.add_argument('--late', type=float, default=30); ap.add_argument('--skip', type=int, default=0); ap.add_argument('--tag', default='')
-ap.add_argument('--quality', default='', help='remaster / lighting quality query, e.g. lighting=low'); ap.add_argument('--query', default='')
+ap.add_argument('--query', default='', help="extra URL query for every page, e.g. lighting=high or remaster=off")
+ap.add_argument('--spot', default='face', help='face (a papered face of --side), corner (an inner corner), pillar (a 56 px pillar)')
+ap.add_argument('--viewer', default='front', help='front (in front of the face, off to one side) or behind (the far side of that wall)')
+ap.add_argument('--at', default='', help='a fixed spot instead of a search: x,y,a,wx,wy,ox,oy (for a run with the remaster off, which has no face list)')
 A_ = ap.parse_args(); A_.game = os.path.abspath(A_.game); os.makedirs(A_.out, exist_ok=True)
 W, H = 960, 640
 KIND, VAR = A_.variant.split('-')
@@ -29,7 +32,7 @@ TAG = A_.tag or f'{A_.variant}_{A_.side}'
 HOOK = """()=>{ if(!window.__camWrapped){ const o=window.__mp; window.__mp=a=>{ window.__cam0=a; return o&&o(a) }; window.__camWrapped=1 } }"""
 CAM = "()=>window.__cam0?[window.__cam0.sc, window.__cam0.cam.x, window.__cam0.cam.y]:null"
 MARKS = "()=>{ const d=__api.death(); const S=d&&d.ph; return S&&window.__dphys&&window.__dphys.marks ? window.__dphys.marks(S).map(m=>({t:+m.t.toFixed(3), x:+m.x.toFixed(1), y:+m.y.toFixed(1), nx:+m.nx.toFixed(3), ny:+m.ny.toFixed(3), sp:Math.round(m.sp)})) : [] }"
-RECV = "()=>{ const L=window.__l0v; if(!L||!L.surfaces) return null; return { on:L.on(), count:L.surfaces.count(), caps:L.surfaces.caps(), stains: window.__gore&&window.__gore.wallStains ? window.__gore.wallStains.list() : null } }"
+RECV = "()=>{ const L=window.__l0v; if(!L||!L.surfaces) return null; const G=window.__gore&&window.__gore.wallStains; return { on:L.on(), count:L.surfaces.count(), caps:L.surfaces.caps(), stains: G ? G.list() : null, stats: G&&G.stats ? G.stats() : null, bake: L.stats().bake, tier: L.stats().tier } }"
 NOHUD = "()=>{ for (const id of ['caught','adminPanel']) { const e=document.getElementById(id); if(e) e.hidden=true } }"
 
 
@@ -72,15 +75,29 @@ async def main():
                 await A.wait_for_timeout(250)
             R['remaster'] = await A.evaluate("()=>window.__l0v?{on:window.__l0v.on(), tier:window.__l0v.stats().tier, disabled:window.__l0v.stats().disabled}:null")
             R['lighting'] = await A.evaluate("()=>window.__brRole?{on:window.__brRole.on(), quality:window.__brRole.quality()}:null")
-            S = await A.evaluate(L.FACE_SPOT, [A_.side, 90, A_.skip]); R['spot'] = S
-            if not S: raise SystemExit('no lit face of side ' + A_.side)
-            V = await B.evaluate(L.VIEW_SPOT, S); R['viewer'] = V
+            S = None
+            if A_.at:
+                x, y, a, wx, wy, ox, oy = [float(v) for v in A_.at.split(',')]; S = {'face': 'fixed', 'side': A_.side, 'x': x, 'y': y, 'a': a, 'wx': wx, 'wy': wy, 'ox': ox, 'oy': oy, 'lamp': None}
+            else: S = await A.evaluate(L.FACE_SPOT if A_.spot == 'face' else L.CORNER_SPOT if A_.spot == 'corner' else L.PILLAR_SPOT, [A_.side, 90, A_.skip] if A_.spot == 'face' else [64 if A_.spot == 'corner' else 80, A_.skip]); R['spot'] = S
+            if not S: raise SystemExit('no spot: ' + A_.spot + ' ' + A_.side)
+            if A_.spot != 'face': R['side'] = S['side']
+            V = await B.evaluate(L.VIEW_SPOT if A_.viewer == 'front' else L.BEHIND_SPOT, S); R['viewer'] = V; R['viewerKind'] = A_.viewer
             await L.place(A, S['x'], S['y'], S['a'], W, H)
             if V: await L.place(B, V[0], V[1], V[2], W, H)
             await A.wait_for_timeout(4000)
             await shot(A, 'before_victim', [S['wx'], S['wy']], R); await shot(B, 'before_spectator', [S['wx'], S['wy']], R)
             for P in (A, B): await L.lab(P, True, True)                                  # Death Lab paused on both screens: pictures at a chosen moment
             ok = await L.preview(A, KIND, VAR); R['previewOk'] = ok; R['previewLog'] = lib_last(A_.out)
+            if not ok:                                                                   # harness: the server committed it but the page never showed it (a monster
+                R['previewRetry'] = {'firstLog': R['previewLog']}                         # got her during set-up); stand her up, clear again and try once more
+                aid = await A.evaluate("()=>__api.H.id"); await L.admin_cmd(A, {'c': 'revive', 'id': aid}); await A.wait_for_timeout(3000)
+                await L.clear_monsters(A); await L.ensure_alive(A); await A.wait_for_timeout(4500)
+                for P in (A, B): await L.lab(P, False, False)
+                await L.place(A, S['x'], S['y'], S['a'], W, H)
+                if V: await L.place(B, V[0], V[1], V[2], W, H)
+                await A.wait_for_timeout(2000)
+                for P in (A, B): await L.lab(P, True, True)
+                ok = await L.preview(A, KIND, VAR); R['previewOk'] = ok; R['previewLog'] = lib_last(A_.out)
             if not ok: raise SystemExit('preview refused: ' + R['previewLog'])
             T0 = time.time()
             for _ in range(80):
@@ -109,6 +126,7 @@ async def main():
             await shot(A, 'corpse_victim', cxy, R); await shot(B, 'corpse_spectator', cxy, R)
             R['bodies'] = {'victim': await A.evaluate(L.BODIES), 'spectator': await B.evaluate(L.BODIES)}
             R['receiverAtCorpse'] = {'victim': await A.evaluate(RECV), 'spectator': await B.evaluate(RECV)}
+            await L.clear_monsters(A); await L.admin_cmd(A, {'c': 'god', 'id': await A.evaluate("()=>__api.H.id")})   # harness: no real monster kills her again before the late joiner looks
             # the late joiner presses ENTER LATE seconds after the death started, then stands where Bob stands
             wait = A_.late - (time.time() - T0)
             if wait > 0: await A.wait_for_timeout(int(wait * 1000))

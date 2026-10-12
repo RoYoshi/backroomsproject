@@ -1,0 +1,55 @@
+{
+ "faces": 419,
+ "materials": [
+  "material:wallpaper"
+ ],
+ "kinds": [
+  "floor",
+  "wall"
+ ],
+ "cases": {
+  "face": {
+   "n": 419,
+   "ok": 419
+  },
+  "tilted40": {
+   "n": 838,
+   "ok": 838
+  },
+  "tilted55": {
+   "n": 838,
+   "ok": 838
+  },
+  "ends": {
+   "n": 838,
+   "ok": 838
+  },
+  "inside6": {
+   "n": 419,
+   "ok": 419
+  },
+  "diagonal": {
+   "n": 1532,
+   "ok": 1532
+  },
+  "pillars": {
+   "n": 36,
+   "ok": 36
+  },
+  "props": {
+   "n": 44,
+   "ok": 44
+  },
+  "floor": {
+   "n": 1200,
+   "ok": 1200
+  }
+ },
+ "bad": [],
+ "ok": true,
+ "tool": "dev/stage-3d-hq1/wall_faces_test.py",
+ "game": "/home/claude/backrooms-shadows",
+ "query": "lighting=high",
+ "errors": [],
+ "tier": "high"
+}

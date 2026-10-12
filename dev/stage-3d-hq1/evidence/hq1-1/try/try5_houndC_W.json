@@ -1,0 +1,360 @@
+{
+ "tool": "dev/stage-3d-hq1/wall_capture.py",
+ "game": "/home/claude/backrooms-shadows",
+ "commit": "dcf9f8425b002d925be49660fc5a803e1b22a2b2",
+ "side": "W",
+ "variant": "hound-C",
+ "shots": {
+  "before_victim": {
+   "file": "try5_houndC_W_before_victim.png",
+   "cam": [
+    0.7407407407407407,
+    2790,
+    2760
+   ],
+   "contactOnScreen": [
+    547,
+    320
+   ]
+  },
+  "before_spectator": {
+   "file": "try5_houndC_W_before_spectator.png",
+   "cam": [
+    0.7407407407407407,
+    2650,
+    2620
+   ],
+   "contactOnScreen": [
+    650,
+    424
+   ]
+  },
+  "impact_victim": {
+   "file": "try5_houndC_W_impact_victim.png",
+   "cam": [
+    1.0370366308269372,
+    2861.9999999999545,
+    2759.9045030561215
+   ],
+   "contactOnScreen": [
+    499,
+    320
+   ]
+  },
+  "impact_spectator": {
+   "file": "try5_houndC_W_impact_spectator.png",
+   "cam": [
+    0.7407407407407407,
+    2650,
+    2620
+   ],
+   "contactOnScreen": [
+    650,
+    423
+   ]
+  },
+  "corpse_victim": {
+   "file": "try5_houndC_W_corpse_victim.png",
+   "cam": [
+    0.7407407407407407,
+    2750,
+    2760
+   ],
+   "contactOnScreen": [
+    576,
+    320
+   ]
+  },
+  "corpse_spectator": {
+   "file": "try5_houndC_W_corpse_spectator.png",
+   "cam": [
+    0.7407407407407407,
+    2650,
+    2620
+   ],
+   "contactOnScreen": [
+    650,
+    423
+   ]
+  },
+  "late_joiner": {
+   "file": "try5_houndC_W_late_joiner.png",
+   "cam": [
+    0.7407407407407407,
+    2650,
+    2620
+   ],
+   "contactOnScreen": [
+    650,
+    423
+   ]
+  },
+  "late_spectator": {
+   "file": "try5_houndC_W_late_spectator.png",
+   "cam": [
+    0.7407407407407407,
+    2650,
+    2620
+   ],
+   "contactOnScreen": [
+    650,
+    423
+   ]
+  }
+ },
+ "renderer": "SwiftShader (Chromium software GL), 960x640",
+ "when": "2026-10-12T01:10:20-0500",
+ "remaster": {
+  "on": true,
+  "tier": "low",
+  "disabled": ""
+ },
+ "lighting": {
+  "on": true,
+  "quality": "low"
+ },
+ "spot": {
+  "face": "surf:room:02:wall:W:2880:26",
+  "side": "W",
+  "x": 2790,
+  "y": 2760,
+  "a": -3.1416,
+  "wx": 2880,
+  "wy": 2760,
+  "ox": -1,
+  "oy": -0.0,
+  "lamp": {
+   "x": 2832,
+   "y": 2832,
+   "r": 83
+  }
+ },
+ "viewer": [
+  2650,
+  2620,
+  0.7854
+ ],
+ "previewOk": true,
+ "previewLog": "[admin] room=hq1wall Alice#1: preview death hound C: ok",
+ "marks": [
+  {
+   "t": 0.263,
+   "x": 2880,
+   "y": 2759.7,
+   "nx": -1,
+   "ny": 0,
+   "sp": 248
+  }
+ ],
+ "contact": [
+  2880,
+  2759.7
+ ],
+ "deathAtImpact": {
+  "t": 0.8667,
+  "active": true,
+  "fin": false,
+  "dur": 4.3,
+  "x": 2862,
+  "y": 2759.9045030561297,
+  "corpse": null,
+  "torch": {
+   "x": 2833.8,
+   "y": 2743.7,
+   "a": 3.03
+  }
+ },
+ "specAtImpact": [
+  {
+   "id": 1,
+   "de": 1,
+   "t": 0.857,
+   "fin": false,
+   "lo": true
+  }
+ ],
+ "receiverAtImpact": {
+  "victim": {
+   "on": true,
+   "count": 1,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": [
+    {
+     "de": 1,
+     "x": 2880,
+     "y": 2759.7,
+     "nx": -1,
+     "ny": 0,
+     "status": "stamped",
+     "id": 1,
+     "surf": "surf:room:02:wall:W:2880:26",
+     "side": "W",
+     "u": 263.7
+    }
+   ]
+  },
+  "spectator": {
+   "on": true,
+   "count": 1,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": [
+    {
+     "de": 1,
+     "x": 2880,
+     "y": 2760,
+     "nx": -1,
+     "ny": 0,
+     "status": "stamped",
+     "id": 1,
+     "surf": "surf:room:02:wall:W:2880:26",
+     "side": "W",
+     "u": 264
+    }
+   ]
+  }
+ },
+ "bodies": {
+  "victim": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "de": null,
+    "x": 2862,
+    "y": 2760,
+    "lo": 1,
+    "lf": null,
+    "marks": [
+     [
+      2880,
+      2760,
+      528
+     ]
+    ]
+   }
+  ],
+  "spectator": [
+   {
+    "id": "r:1:2862:2760",
+    "owner": "r1",
+    "remote": true,
+    "de": 1,
+    "x": 2862,
+    "y": 2760,
+    "lo": 1,
+    "lf": null,
+    "marks": [
+     [
+      2880,
+      2760,
+      528
+     ]
+    ]
+   }
+  ]
+ },
+ "receiverAtCorpse": {
+  "victim": {
+   "on": true,
+   "count": 1,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": [
+    {
+     "de": 1,
+     "x": 2880,
+     "y": 2759.7,
+     "nx": -1,
+     "ny": 0,
+     "status": "stamped",
+     "id": 1,
+     "surf": "surf:room:02:wall:W:2880:26",
+     "side": "W",
+     "u": 263.7
+    }
+   ]
+  },
+  "spectator": {
+   "on": true,
+   "count": 1,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": [
+    {
+     "de": 1,
+     "x": 2880,
+     "y": 2760,
+     "nx": -1,
+     "ny": 0,
+     "status": "stamped",
+     "id": 1,
+     "surf": "surf:room:02:wall:W:2880:26",
+     "side": "W",
+     "u": 264
+    }
+   ]
+  }
+ },
+ "lateJoinAt": 40.9,
+ "lateJoinPlaced": true,
+ "lateJoiner": {
+  "shotAt": 74.2,
+  "bodies": [
+   {
+    "id": "r:1:2862:2760",
+    "owner": "r1",
+    "remote": true,
+    "de": 1,
+    "x": 2862,
+    "y": 2760,
+    "lo": 1,
+    "lf": null,
+    "marks": [
+     [
+      2880,
+      2760,
+      528
+     ]
+    ]
+   }
+  ],
+  "receiver": {
+   "on": true,
+   "count": 1,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": [
+    {
+     "de": 1,
+     "x": 2880,
+     "y": 2760,
+     "nx": -1,
+     "ny": 0,
+     "status": "stamped",
+     "id": 2,
+     "surf": "surf:room:02:wall:W:2880:26",
+     "side": "W",
+     "u": 264
+    }
+   ]
+  }
+ },
+ "errors": []
+}

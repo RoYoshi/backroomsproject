@@ -1,0 +1,18 @@
+faces/houndC_S exit=0 seconds=190
+faces/houndC_N exit=0 seconds=196
+faces/houndC_E exit=0 seconds=193
+faces/houndC_W exit=0 seconds=175
+tiers/houndC_S_medium exit=0 seconds=192
+tiers/houndC_S_high exit=1 seconds=168
+special/corner exit=0 seconds=190
+special/pillar exit=0 seconds=194
+special/behind_S exit=0 seconds=179
+special/remaster_off_S exit=0 seconds=307
+wall_faces_low exit=0 seconds=14
+wall_faces_high exit=0 seconds=17
+wall_lifecycle exit=0 seconds=295
+gore_geo exit=0 seconds=20
+stain_metric exit=1 seconds=2
+tiers/houndC_S_high exit=0 seconds=198  (rerun: harness retry + monsters cleared after the corpse pictures)
+special/remaster_off_S exit=0 seconds=283  (rerun: harness retry + monsters cleared after the corpse pictures)
+stain_metric exit=0 seconds=5  (rerun: harness retry + monsters cleared after the corpse pictures)
