@@ -1,0 +1,5 @@
+PASS 1 twenty corpses with three wall marks each: 60 stains, <= 3 per corpse, each on the face it was put on; the receiver holds 60; <= 36 stain images  {"stains": 60, "perCorpseMax": 3, "onTheirFace": 60, "receiver": 60, "images": 30, "stamps": 60, "stampMsTotal": 24.7, "stampMsMax": 2.3, "noface": 0, "failed": 0, "caps": {"perSurface": 12, "perRoom": 48, "total": 160}}
+PASS 2 ten seconds idle: no new stamp, no removal  {"stamps": [60, 60], "removed": [0, 0], "receiver": 60, "frameIntervalMedianMs": {"before": 166.6, "with60stains": 166.6, "note": "SwiftShader, one page: the stains are baked into the wall art, so nothing is drawn per frame for them"}}
+PASS 3 the twenty replaced by twenty others: the old 60 removed, 60 new on their faces; receiver 60; images still <= 36  {"removed": 60, "newStamps": 60, "stains": 60, "onTheirFace": 60, "receiver": 60, "images": 35, "stampMsMax": 3.9}
+PASS 4 every corpse gone: no stain, the receiver empty  {"stains": 0, "receiver": 0, "stats": {"stains": 0, "images": 35, "stamps": 120, "removed": 120, "noface": 0, "failed": 0, "ms": 43, "maxMs": 3.9}}
+STAIN BUDGET OK

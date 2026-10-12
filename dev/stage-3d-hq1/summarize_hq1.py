@@ -6,7 +6,10 @@
 D6's summary (dev/stage-3d/summarize_d6.py) re-based on HQ1: the parent is D7 (ffe2b53, its export run side by side in the same session),
 and the gates are STAGE_3D_HQ1_AUDIT.md's R1-R5.  "ok"/"FAIL" lines are gated; "OVER" lines are over a performance line and are reported,
 not passed and not hidden; "note" lines are context.  The five older network-suite checks that assert the pre-D4 death protocol (the
-victim reports its replay and corpse) are superseded by death_net, as at D6: the run passes only when exactly those five fail."""
+victim reports its replay and corpse) are superseded by death_net, as at D6: the run passes only when exactly those five fail.
+The HQ1 features are run again on the final tree (evidence/hq1-3/hq1/): wall faces, the south-face Hound C capture and its stain metric,
+the cache rebuild, the wall lifecycle, the flashlight timeline with BR-RoLE and with the game's own lighting, the light lifecycle, and the
+twenty-corpse stain budget (run after the regression, alone)."""
 import json, re, statistics
 from pathlib import Path
 E = Path('dev/stage-3d-hq1/evidence/hq1-3'); L = []; OK = True; WATCH = []
@@ -73,6 +76,9 @@ gate(steps.get('qa2/theme_assets') == 0, 'theme files unchanged')
 gate('stage-3c-qa2 evidence untouched: yes' in log('steps.txt'), "QA2 probes wrote their pictures under evidence/hq1-3/qa2/; stage-3c-qa2's own evidence untouched (git status)")
 for b in ('probe_b1', 'probe_b2', 'probe_b3'):
     t = log(f'qa2/{b}.log'); gate(steps.get(f'qa2/{b}') == 0 and 'FAIL' not in t, f"QA2 {b}: {t.count(chr(10) + 'PASS') + t.startswith('PASS')} PASS, 0 FAIL")
+if 'qa2/probe_b3_parent' in steps:
+    tp = log('qa2/probe_b3_parent.log')
+    note(f"QA2 probe_b3 was run again after the regression, alone (its first run failed the warm-start timing comparison: attempts/probe_b3_warm_start_not_sooner/); the D7 parent in the same session: exit {steps['qa2/probe_b3_parent']}, {'0 FAIL' if 'FAIL' not in tp else 'FAIL: ' + '; '.join(sorted(set(l[5:80] for l in tp.splitlines() if l.startswith('FAIL '))))}")
 # ---- R5: all eight variants as at D7
 pa = j('parity.json')['compare3d']
 mx = lambda key: max(max(c['victimVsServer'][key], c['spectatorVsServer'][key]) for c in pa)
@@ -103,6 +109,16 @@ for w in ('idle', 'houndA', 'houndC'):
         if a and b: rows.append((w, who, statistics.median(a), statistics.median(b), len(b)))
 over = [f'{w} {who}' for w, who, a, b, k in rows if b > a * 1.07]
 watch(len(rows) == 6 and not over, "browser A/B, interleaved with D7 (R3: within +7 %), the whole death on both pages, 4 pairs, median of the rounds' frame-time medians: " + '; '.join(f'{w} {who} {a:.0f} -> {b:.0f} ms ({(b - a) / a * 100:+.1f} %)' for w, who, a, b, k in rows) + (f'; over: {", ".join(over)}' if over else ''))
+if (E / 'perf_ab_high/new_1.json').exists():                                  # (added after the regression: the HIGH run's Hound A swing, interleaved)
+    ABH = lambda side: [r for i in range(1, 4) if (E / f'perf_ab_high/{side}_{i}.json').exists() for r in j(f'perf_ab_high/{side}_{i}.json')['rounds']]
+    ph, nh = ABH('parent'), ABH('new'); rh = []
+    for w in ('idle', 'houndA'):
+        key = 'idle' if w == 'idle' else 'whole_' + w
+        for i, who in enumerate(('victim', 'spectator')):
+            a = [r[key][i]['frameMedianMs'] for r in ph if key in r]; b = [r[key][i]['frameMedianMs'] for r in nh if key in r]
+            if a and b: rh.append((w, who, statistics.median(a), statistics.median(b)))
+    oh = [f'{w} {who}' for w, who, a, b in rh if b > a * 1.07]
+    watch(len(rh) == 4 and not oh, "browser A/B at HIGH lighting, interleaved with D7, idle and the whole Hound A death, 3 pairs (added after the regression; R3's +7 % line): " + '; '.join(f'{w} {who} {a:.0f} -> {b:.0f} ms ({(b - a) / a * 100:+.1f} %)' for w, who, a, b in rh) + (f'; over: {", ".join(oh)}' if oh else ''))
 # ---- R4: 20 corpses, memory
 pd, p7 = j('perf_death.json'), j('perf_death_parent.json')
 worst = lambda d, w: max(x['frameMedianMs'] for r in d['rounds'] if w in r for x in r[w])
@@ -123,12 +139,35 @@ gate(all(sk['slopeMBPerDeath'][k] <= skp['slopeMBPerDeath'][k] + .1 for k in sk[
 g6, gp = j('soak_gc/soak_gc.json'), j('soak_gc/soak_gc_parent.json'); r6 = [r['serverRssMB'] for r in g6['rows']]; rp = [r['serverRssMB'] for r in gp['rows']]
 gate(g6['serverHeapAfterFullGC']['last'] <= gp['serverHeapAfterFullGC']['last'] + 1 and max(r6[-8:]) - min(r6[-8:]) < 2,
      f"browser soak, {len(r6)} deaths, the server's GC traced: its heap after full collections {g6['serverHeapAfterFullGC']['first']} -> {g6['serverHeapAfterFullGC']['last']} MB (D7 {gp['serverHeapAfterFullGC']['first']} -> {gp['serverHeapAfterFullGC']['last']}; R4: within D7 + 1 MB); RSS over the last 8 deaths {min(r6[-8:])}-{max(r6[-8:])} MB (D7 {min(rp[-8:])}-{max(rp[-8:])})")
+if (E / 'soak_gc/soak_gc64.json').exists() and (E / 'soak_gc/soak_gc64_parent.json').exists():
+    g64, g64p = j('soak_gc/soak_gc64.json'), j('soak_gc/soak_gc64_parent.json'); s64 = [r['serverRssMB'] for r in g64['rows']]; s64p = [r['serverRssMB'] for r in g64p['rows']]
+    note(f"the same browser soak with {len(s64)} deaths, after the regression, alone (the 32-death RSS had not levelled, HQ1 or D7): the server's heap after full collections "
+         f"{g64['serverHeapAfterFullGC']['first']} -> {g64['serverHeapAfterFullGC']['last']} MB (D7 {g64p['serverHeapAfterFullGC']['first']} -> {g64p['serverHeapAfterFullGC']['last']}); "
+         f"RSS {s64[0]} -> {max(s64)} MB, last 16 deaths {min(s64[-16:])}-{max(s64[-16:])} (D7 {s64p[0]} -> {max(s64p)}, last 16 {min(s64p[-16:])}-{max(s64p[-16:])})")
 ss, ssp = j('server_soak.json'), j('server_soak_parent.json')
 gate(ss['died'] == ss['deaths'] and abs(ss['heapSlopeMBPerDeath']) < .05 and abs(ss['rssSlopeMBPerDeath']) < .5 and not ss['serverErrors'],
      f"server soak, {ss['deaths']} deaths, forced GC: heap {ss['heapFirstLast'][0]} -> {ss['heapFirstLast'][1]} MB ({ss['heapSlopeMBPerDeath']} MB per death; D7 {ssp['heapSlopeMBPerDeath']}), RSS slope {ss['rssSlopeMBPerDeath']} MB per death (D7 {ssp['rssSlopeMBPerDeath']})")
 sn, snp = j('server_soak_nogc.json'), j('server_soak_nogc_parent.json'); q = [r['rssMB'] for r in sn['rows']]; qp = [r['rssMB'] for r in snp['rows']]
 gate(sn['died'] == sn['deaths'] and not sn['serverErrors'] and max(q[-16:]) <= max(q[:-16]),
      f"server soak, {sn['deaths']} deaths, no forced GC: RSS {q[0]} -> peak {max(q)} -> {q[-1]} MB, no new peak in the last 16 deaths (D7 {qp[0]} -> peak {max(qp)} -> {qp[-1]})")
+# ---- the HQ1 features themselves, again on the final tree (HQ1-1 and HQ1-2 ran them on their own commits)
+hf, hfp = fails('existing/humanqa_hotfix.log'), fails('existing/humanqa_hotfix_parent.log')
+gate(hf == hfp and passed('existing/humanqa_hotfix.log') and passed('existing/humanqa_hotfix.log').group(0) == passed('existing/humanqa_hotfix_parent.log').group(0),
+     f"humanqa hotfix suite: {passed('existing/humanqa_hotfix.log').group(0) if passed('existing/humanqa_hotfix.log') else '?'}, the same failure as D7 by name ({', '.join(norm(hf))}: its exact-text check predates BR-RoLE's seam)")
+for f in ('hq1/wall_faces_low.json', 'hq1/wall_faces_high.json'):
+    w = j(f); gate(w['ok'], f"{f[4:-5]}: every wall face chosen from the contact normal; corners, pillars, props and non-wall surfaces rejected")
+sm = j('hq1/stain_metric.json')[0]['shots']; band = {k: v['band'] for k, v in sm.items()}
+gate(all(band[k] >= 150 for k in band if not k.startswith('before')) and all(band[k] == 0 for k in band if k.startswith('before')) and all(v['above'] == 0 for v in sm.values()),
+     f"W1 Hound C, south face, lit corridor: blood pixels in the wallpaper band {band} (gate >= 150 after the death, nothing above the band)")
+wr = j('hq1/rebuild/wall_rebuild.json'); gate(wr['ok'], 'W3 cache: the stain survives a full rebuild, two tier rebuilds and a cache eviction: one stain, one mark, no second stamp')
+wl = j('hq1/wall_lifecycle.json'); gate(wl['ok'], f"W3/W5 wall lifecycle: {sum(c['ok'] for c in wl['checks'])}/{len(wl['checks'])}; reported, not gated: " + ('; '.join(f"{k['step']} ({'holds' if k['ok'] else 'does not hold'}: {k['info'].get('why', '')})" for k in wl.get('known', [])) or 'none'))
+for t in ('houndA_flashlight', 'houndA_flashlight_legacy'):
+    tl = j(f'hq1/timeline/{t}.json'); par = next((c for c in tl['checks'] if c['name'].startswith('L4')), {'info': {}})
+    gate(tl['ok'], f"light timeline {t}: {sum(c['ok'] for c in tl['checks'])}/{len(tl['checks'])} (L4 spread {par['info'].get('spreadMs')} ms; pages against the reference {par['info'].get('pageMinusReferenceMs')})")
+sb = j('hq1/stain_budget.json'); c1 = sb['checks'][0]['info'] if sb.get('checks') else {}
+gate(sb['ok'], f"R4/W6 twenty corpses with three wall marks each: {sum(c['ok'] for c in sb['checks'])}/{len(sb['checks'])}; {c1.get('stains')} stains, <= {c1.get('perCorpseMax')} per corpse, receiver {c1.get('receiver')}, "
+     f"{c1.get('images')} stain images (<= 36); stamping {c1.get('stampMsTotal')} ms for all, {c1.get('stampMsMax')} ms the dearest; idle: no new stamp; replaced: 60 out, 60 in; gone: receiver 0")
+ll = j('hq1/light_lifecycle.json'); gate(ll['ok'], f"light lifecycle (focus/hide/resize, reconnect, reload, second death, revive, world reset): {sum(c['ok'] for c in ll['checks'])}/{len(ll['checks'])}; reported: " + ('; '.join(f"{k['step']} ({'holds' if k['ok'] else 'does not hold'})" for k in ll.get('known', [])) or 'none'))
 R = {'tool': 'dev/stage-3d-hq1/summarize_hq1.py', 'ok': OK, 'over': WATCH, 'lines': L,
      'how': "ok: every gated line holds. 'over' lists the lines over a performance line (R3, R4); they are reported in STAGE_3D_HQ1_PERFORMANCE.md and the report, not passed"}
 (E / 'summary.json').write_text(json.dumps(R, indent=1, ensure_ascii=False) + '\n'); print('\n'.join(L)); print(('OK' if OK else 'NOT OK') + (f'; OVER a performance line: {len(WATCH)}' if WATCH else ''))

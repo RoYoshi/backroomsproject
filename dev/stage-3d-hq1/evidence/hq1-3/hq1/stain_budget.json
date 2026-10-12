@@ -1,0 +1,152 @@
+{
+ "tool": "dev/stage-3d-hq1/stain_budget.py",
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "1 twenty corpses with three wall marks each: 60 stains, <= 3 per corpse, each on the face it was put on; the receiver holds 60; <= 36 stain images",
+   "ok": true,
+   "info": {
+    "stains": 60,
+    "perCorpseMax": 3,
+    "onTheirFace": 60,
+    "receiver": 60,
+    "images": 30,
+    "stamps": 60,
+    "stampMsTotal": 24.7,
+    "stampMsMax": 2.3,
+    "noface": 0,
+    "failed": 0,
+    "caps": {
+     "perSurface": 12,
+     "perRoom": 48,
+     "total": 160
+    }
+   }
+  },
+  {
+   "name": "2 ten seconds idle: no new stamp, no removal",
+   "ok": true,
+   "info": {
+    "stamps": [
+     60,
+     60
+    ],
+    "removed": [
+     0,
+     0
+    ],
+    "receiver": 60,
+    "frameIntervalMedianMs": {
+     "before": 166.6,
+     "with60stains": 166.6,
+     "note": "SwiftShader, one page: the stains are baked into the wall art, so nothing is drawn per frame for them"
+    }
+   }
+  },
+  {
+   "name": "3 the twenty replaced by twenty others: the old 60 removed, 60 new on their faces; receiver 60; images still <= 36",
+   "ok": true,
+   "info": {
+    "removed": 60,
+    "newStamps": 60,
+    "stains": 60,
+    "onTheirFace": 60,
+    "receiver": 60,
+    "images": 35,
+    "stampMsMax": 3.9
+   }
+  },
+  {
+   "name": "4 every corpse gone: no stain, the receiver empty",
+   "ok": true,
+   "info": {
+    "stains": 0,
+    "receiver": 0,
+    "stats": {
+     "stains": 0,
+     "images": 35,
+     "stamps": 120,
+     "removed": 120,
+     "noface": 0,
+     "failed": 0,
+     "ms": 43,
+     "maxMs": 3.9
+    }
+   }
+  }
+ ],
+ "facesAvailable": 255,
+ "facesUsed": {
+  "A": [
+   "surf:room:01:wall:S:2592:3",
+   "surf:room:01:wall:E:1536:38",
+   "surf:room:02:wall:E:2976:35",
+   "surf:room:02:wall:N:2976:26",
+   "surf:room:03:wall:W:6432:38",
+   "surf:room:03:wall:S:3360:50",
+   "surf:room:04:wall:W:4320:15",
+   "surf:room:04:wall:S:1536:41",
+   "surf:room:05:wall:W:960:14",
+   "surf:room:06:wall:W:7200:7",
+   "surf:room:06:wall:S:1536:59",
+   "surf:room:07:wall:W:960:57",
+   "surf:room:08:wall:W:4320:51",
+   "surf:room:08:wall:N:6048:27",
+   "surf:room:09:wall:E:6240:60",
+   "surf:room:10:wall:E:7680:38",
+   "surf:room:10:wall:N:3360:74",
+   "surf:room:11:wall:N:2016:86",
+   "surf:room:12:wall:W:8256:54",
+   "surf:zone:corridors/04:wall:W:5856:18"
+  ],
+  "B": [
+   "surf:room:01:wall:E:960:32",
+   "surf:room:02:wall:S:2400:36",
+   "surf:room:02:wall:E:3648:30",
+   "surf:room:02:wall:N:4320:37",
+   "surf:room:03:wall:E:5952:32",
+   "surf:room:03:wall:N:4320:49",
+   "surf:room:04:wall:E:3744:15",
+   "surf:room:05:wall:E:384:7",
+   "surf:room:05:wall:N:1248:5",
+   "surf:room:06:wall:W:6816:8",
+   "surf:room:07:wall:E:384:50",
+   "surf:room:07:wall:N:5376:5",
+   "surf:room:08:wall:E:3936:54",
+   "surf:room:09:wall:W:6624:60",
+   "surf:room:10:wall:S:2592:73",
+   "surf:room:10:wall:E:8352:34",
+   "surf:room:11:wall:W:8832:7",
+   "surf:room:12:wall:E:7680:52",
+   "surf:zone:corridors/01:wall:N:1440:21",
+   "surf:zone:corridors/07:wall:W:8256:21"
+  ]
+ },
+ "before": {
+  "stains": 0,
+  "images": 0,
+  "stamps": 0,
+  "removed": 0,
+  "noface": 0,
+  "failed": 0,
+  "ms": 0,
+  "maxMs": 0
+ },
+ "after1": {
+  "stains": 60,
+  "images": 30,
+  "stamps": 60,
+  "removed": 0,
+  "noface": 0,
+  "failed": 0,
+  "ms": 24.7,
+  "maxMs": 2.3
+ },
+ "frameIntervalMedianMs": {
+  "before": 166.6,
+  "with60stains": 166.6,
+  "note": "SwiftShader, one page: the stains are baked into the wall art, so nothing is drawn per frame for them"
+ },
+ "errors": [],
+ "ok": true
+}

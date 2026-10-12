@@ -1,0 +1,7 @@
+{"step": "before", "file": "wall_rebuild_before.png", "band": 195, "stamped": 1, "receiver": 1, "stamps": 1, "removed": 0, "tier": "low", "builds": 1, "bake": {"bakes": 82, "evictions": 59, "resident": 22, "chunks": 350}}
+{"step": "rebuild", "file": "wall_rebuild_rebuild.png", "band": 192, "stamped": 1, "receiver": 1, "stamps": 1, "removed": 0, "tier": "low", "builds": 2, "bake": {"bakes": 99, "evictions": 59, "resident": 22, "chunks": 350}}
+{"step": "tier_high", "file": "wall_rebuild_tier_high.png", "band": 199, "stamped": 1, "receiver": 1, "stamps": 1, "removed": 0, "tier": "high", "builds": 3, "bake": {"bakes": 122, "evictions": 77, "resident": 22, "chunks": 350}}
+{"step": "tier_low", "file": "wall_rebuild_tier_low.png", "band": 194, "stamped": 1, "receiver": 1, "stamps": 1, "removed": 0, "tier": "low", "builds": 4, "bake": {"bakes": 140, "evictions": 95, "resident": 22, "chunks": 350}}
+{"step": "evict_back", "file": "wall_rebuild_evict_back.png", "band": 183, "stamped": 1, "receiver": 1, "stamps": 1, "removed": 0, "tier": "low", "builds": 4, "bake": {"bakes": 206, "evictions": 163, "resident": 20, "chunks": 350}}
+PASS the stain stays through a full rebuild, two tier rebuilds and a cache eviction: one stain, one receiver mark, no second stamp, >= 150 blood pixels on the band each time  {"before": [195, 1, 1, 1, "low", 59], "rebuild": [192, 1, 1, 1, "low", 59], "tier_high": [199, 1, 1, 1, "high", 77], "tier_low": [194, 1, 1, 1, "low", 95], "evict_back": [183, 1, 1, 1, "low", 163]}
+WALL REBUILD OK

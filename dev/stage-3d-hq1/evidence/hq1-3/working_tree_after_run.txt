@@ -1,0 +1,23 @@
+Recorded 2026-10-12 12:43 CDT, after the HQ1-3 regression on a1d9cb9.
+Tracked files that differ from a1d9cb9 (git diff --stat), all development tools changed while the run went on:
+ dev/stage-3d-hq1/README.md          |  6 +++++-
+ dev/stage-3d-hq1/light_lifecycle.py | 31 ++++++++++++++++++++++++-------
+ dev/stage-3d-hq1/summarize_hq1.py   | 31 ++++++++++++++++++++++++++++++-
+ 3 files changed, 59 insertions(+), 9 deletions(-)
+Untracked tools (outside the evidence folder):
+dev/stage-3d-hq1/changed_files_hq1.py
+dev/stage-3d-hq1/package_hq1.py
+dev/stage-3d-hq1/stain_budget.py
+dev/stage-3d-hq1/visual_evidence.py
+Production files byte-identical to a1d9cb9:
+  yes gore.js
+  yes mp.js
+  yes assets/net-wire.js
+  yes dphys.js
+  yes server.js
+  yes death_srv.js
+  yes light.js
+  yes assets/br-role.js
+  yes assets/index-DKbV5Nv9.js
+  yes index.html
+The captures label this state 'a1d9cb9...+working-tree' (light_timeline.py adds the suffix whenever a tracked file differs).

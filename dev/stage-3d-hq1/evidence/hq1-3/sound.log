@@ -1,0 +1,16 @@
+houndC sources quiet [0, 0, 0] death [34, 44, 3] shake 0
+  victim [('death', 'Hound', [0.2, 0.21, 0.8, 1.4]), ('event', 'wall', None), ('event', 'eq', None), ('event', 'eqhit', None)]
+  spectator [('death', 'Hound', 1), ('event', 'wall', None), ('event', 'eq', None), ('event', 'eqhit', None)]
+  far [('event', 'wall'), ('event', 'eq'), ('event', 'eqhit')]
+smilerA sources quiet [0, 0, 0] death [28, 40, 0] shake 0.084
+  victim [('death', 'Smiler', [0.24, 0.74, 1.2, 1.7]), ('event', 'eq', None)]
+  spectator [('death', 'Smiler', 1), ('event', 'eq', None)]
+  far [('event', 'eq')]
+houndA_bobSoundOff sources quiet [0, 0, 0] death [35, 0, 3] shake 0.189
+  victim [('death', 'Hound', [0.2, 0.62, 1.05, 1.55]), ('event', 'eq', None)]
+  spectator [('event', 'eq', None)]
+  far [('event', 'eq')]
+houndA_reducedMotion sources quiet [11, 14, 0] death [41, 58, 3] shake 0.046
+  victim [('death', 'Hound', [0.2, 0.62, 1.05, 1.55]), ('event', 'eq', None)]
+  spectator [('death', 'Hound', 1), ('event', 'eq', None)]
+  far [('event', 'eq')]

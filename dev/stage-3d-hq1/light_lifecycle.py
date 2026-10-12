@@ -15,11 +15,14 @@ across pages).  Hound A deaths in an open room, lamps on.
      ended at once by death 1's clock) - one dead light per screen, and death 1's corpse is replaced by death 2's
   3  death 3 after every light is out; Alice is revived 1.5 s after the death begins (mid-death: the admin command is sent by a
      WebSocket client doing nothing else, ws_admin.js): no dead light on any screen afterwards, no corpse
-  4  death 4; 2 s after it begins (the death playing, its light in its hold) the world is reset (NEW RUN FOR EVERYONE, by ws_admin.js) (NEW RUN FOR EVERYONE): no dead light on Bob's or Carol's screen afterwards.
+  4  death 4; 2 s after it begins (the death playing, its light in its hold) the world is reset (NEW RUN FOR EVERYONE, by ws_admin.js): no dead light on Bob's or Carol's screen afterwards.
      Alice's own screen is recorded separately (known D7: an admin world reset keeps the victim's own local corpse, and its light
      follows it, ending at the same moment as anywhere)
-Exit 0 only if every check holds (the victim-after-reset line is reported under 'known')."""
-import os, sys, asyncio, argparse, json, time, subprocess
+The harness keeps real monsters out of it: the monsters are cleared before each death, as soon as the lab's auto-revive stands Alice up,
+and when Bob is back; Alice is in god mode from the moment she is up.  Every death the server made is compared with the four the test
+played ('deathsOnTheServer'): an unplanned one (a real monster kill) makes the run a harness fault to repeat, never a pass.
+Exit 0 only if every check holds and no unplanned death happened (the victim-after-reset line is reported under 'known')."""
+import os, re, sys, asyncio, argparse, json, time, subprocess
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import hq1lib as L
 from playwright.async_api import async_playwright
@@ -70,7 +73,7 @@ async def main():
             agod = {'on': False}
             async def god_alice(on):                                             # (harness) Alice in god mode while she waits between deaths, so no real monster
                 if agod['on'] != on:                                             # kills her; out of it for each death (a page in god mode never starts its death)
-                    await L.admin_cmd(A, {'c': 'god', 'id': aid}); agod['on'] = on; await A.wait_for_timeout(250)
+                    agod['on'] = on; await L.admin_cmd(A, {'c': 'god', 'id': aid}); await A.wait_for_timeout(250)   # (set first: two callers never toggle twice)
             async def up_and_safe():
                 t1 = time.time()
                 while time.time() - t1 < 25 and not await A.evaluate("()=>!__api.G.caught && __api.fall()<0"): await A.wait_for_timeout(200)
@@ -112,6 +115,11 @@ async def main():
 
             # ---- 1: reconnect and reload during the hold
             D1 = await die(); R['death1'] = D1; hold, fade = D1['lf'][0], D1['lf'][1]
+            async def guard_when_up():                                            # (harness) the moment the lab's auto-revive stands Alice up: god mode and the
+                t1 = time.time()                                                  # monsters cleared, so no real monster kills anyone while step 1's checks run
+                while time.time() - t1 < 40 and not await A.evaluate("()=>!__api.G.caught && __api.fall()<0"): await A.wait_for_timeout(150)   # (HQ1-3: a real
+                await god_alice(True); await L.clear_monsters(A)                  # Hound B killed Alice, then the reconnected Bob, between death 1 and death 2)
+            guard = asyncio.create_task(guard_when_up())
             preA = anchor(await A.evaluate(DEBUG), D1['de'])                       # the victim, during her death: her window loses focus, is hidden and resized, then back
             await A.evaluate(HIDE); await A.set_viewport_size({'width': 800, 'height': 540}); await A.wait_for_timeout(500)
             await A.set_viewport_size({'width': W, 'height': H}); await A.evaluate(SHOW); await A.wait_for_timeout(300)
@@ -132,8 +140,8 @@ async def main():
                 if await B.evaluate("()=>window.__wsList.filter(w=>w.readyState===1).length"): break   # test passcode and god mode again
                 await B.wait_for_timeout(250)
             await B.wait_for_timeout(800); await B.evaluate("p=>window.__net && __net.testAuth && __net.testAuth(p)", L.PASS); await B.wait_for_timeout(300)
-            await L.admin_cmd(A, {'c': 'god', 'id': await B.evaluate("()=>__api.H.id")})
-            await up_and_safe()
+            await L.admin_cmd(A, {'c': 'god', 'id': await B.evaluate("()=>__api.H.id")}); await L.clear_monsters(A)
+            await guard; await up_and_safe()
             while time.time() - D1['T0'] < (D1['rel'] or 0) + hold + fade + 2.5: await A.wait_for_timeout(100)
             postB = anchor(await B.evaluate(DEBUG), D1['de']); postC = anchor(await C.evaluate(DEBUG), D1['de']); finA = anchor(await A.evaluate(DEBUG), D1['de'])
             fin = {'alice': finA, 'bob': postB, 'carol': postC}
@@ -214,7 +222,16 @@ async def main():
             await b.close()
     finally:
         L.stop_server(srv)
-    R['errors'] = errs[:20]; R['ok'] = len(R['checks']) == 4 and all(c['ok'] for c in R['checks'])
+    # (harness) every death the server made, against the four the test played: a real monster kill in between would add dead lights and corpses
+    # the checks do not expect, so it is reported as a harness fault (the run must be repeated), never passed
+    try: srvlog = open(A_.out + '.server.log').read()
+    except Exception: srvlog = ''
+    planned = {d.get('de') for d in (R.get(k) or {} for k in ('death1', 'death2', 'death3', 'death4'))} - {None}
+    seen = sorted({int(m) for m in re.findall(r'\bde=(\d+)', srvlog)} | planned)
+    R['deathsOnTheServer'] = {'planned': sorted(planned), 'highestDe': max(seen) if seen else None, 'unplanned': sorted(set(range(1, (max(seen) if seen else 0) + 1)) - planned),
+                              'corpseLines': re.findall(r'\[death\][^\n]*', srvlog)[:20]}
+    R['errors'] = errs[:20]; R['ok'] = len(R['checks']) == 4 and all(c['ok'] for c in R['checks']) and not R['deathsOnTheServer']['unplanned']
+    if R['deathsOnTheServer']['unplanned']: print('HARNESS: deaths the test did not play (real monster kills): de ' + str(R['deathsOnTheServer']['unplanned']) + ' - the run must be repeated')
     L.dump(A_.out, R); print('LIGHT LIFECYCLE OK' if R['ok'] else 'LIGHT LIFECYCLE NOT OK'); sys.exit(0 if R['ok'] else 1)
 
 

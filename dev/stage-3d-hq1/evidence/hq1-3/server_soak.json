@@ -1,0 +1,404 @@
+{
+ "tool": "dev/stage-3d/server_soak.js",
+ "game": "/home/claude/backrooms-shadows",
+ "forcedGC": true,
+ "deaths": 48,
+ "died": 48,
+ "rows": [
+  {
+   "i": 0,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 6.29,
+   "heapTotalMB": 7.8,
+   "rssMB": 58.3
+  },
+  {
+   "i": 1,
+   "death": "hound-B",
+   "died": true,
+   "heapMB": 6.36,
+   "heapTotalMB": 8.05,
+   "rssMB": 59
+  },
+  {
+   "i": 2,
+   "death": "hound-D",
+   "died": true,
+   "heapMB": 6.41,
+   "heapTotalMB": 8.3,
+   "rssMB": 61.3
+  },
+  {
+   "i": 3,
+   "death": "smiler-A",
+   "died": true,
+   "heapMB": 6.58,
+   "heapTotalMB": 8.3,
+   "rssMB": 59
+  },
+  {
+   "i": 4,
+   "death": "smiler-B",
+   "died": true,
+   "heapMB": 6.66,
+   "heapTotalMB": 8.3,
+   "rssMB": 59.3
+  },
+  {
+   "i": 5,
+   "death": "smiler-C",
+   "died": true,
+   "heapMB": 6.67,
+   "heapTotalMB": 8.3,
+   "rssMB": 59.6
+  },
+  {
+   "i": 6,
+   "death": "smiler-D",
+   "died": true,
+   "heapMB": 6.82,
+   "heapTotalMB": 8.55,
+   "rssMB": 59.7
+  },
+  {
+   "i": 7,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 6.8,
+   "heapTotalMB": 8.8,
+   "rssMB": 59.3
+  },
+  {
+   "i": 8,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 6.92,
+   "heapTotalMB": 8.8,
+   "rssMB": 61
+  },
+  {
+   "i": 9,
+   "death": "hound-B",
+   "died": true,
+   "heapMB": 6.88,
+   "heapTotalMB": 8.8,
+   "rssMB": 59.7
+  },
+  {
+   "i": 10,
+   "death": "hound-D",
+   "died": true,
+   "heapMB": 6.97,
+   "heapTotalMB": 8.8,
+   "rssMB": 59.8
+  },
+  {
+   "i": 11,
+   "death": "smiler-A",
+   "died": true,
+   "heapMB": 7.02,
+   "heapTotalMB": 8.8,
+   "rssMB": 59.6
+  },
+  {
+   "i": 12,
+   "death": "smiler-B",
+   "died": true,
+   "heapMB": 7.07,
+   "heapTotalMB": 9.05,
+   "rssMB": 59.7
+  },
+  {
+   "i": 13,
+   "death": "smiler-C",
+   "died": true,
+   "heapMB": 7.02,
+   "heapTotalMB": 8.8,
+   "rssMB": 59.7
+  },
+  {
+   "i": 14,
+   "death": "smiler-D",
+   "died": true,
+   "heapMB": 7.09,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.8
+  },
+  {
+   "i": 15,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.06,
+   "heapTotalMB": 8.8,
+   "rssMB": 60.6
+  },
+  {
+   "i": 16,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.13,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.4
+  },
+  {
+   "i": 17,
+   "death": "hound-B",
+   "died": true,
+   "heapMB": 7.08,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.3
+  },
+  {
+   "i": 18,
+   "death": "hound-D",
+   "died": true,
+   "heapMB": 7.14,
+   "heapTotalMB": 9.05,
+   "rssMB": 61
+  },
+  {
+   "i": 19,
+   "death": "smiler-A",
+   "died": true,
+   "heapMB": 7.14,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.3
+  },
+  {
+   "i": 20,
+   "death": "smiler-B",
+   "died": true,
+   "heapMB": 7.17,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.2
+  },
+  {
+   "i": 21,
+   "death": "smiler-C",
+   "died": true,
+   "heapMB": 7.13,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.2
+  },
+  {
+   "i": 22,
+   "death": "smiler-D",
+   "died": true,
+   "heapMB": 7.19,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.6
+  },
+  {
+   "i": 23,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.1,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.5
+  },
+  {
+   "i": 24,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.19,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.5
+  },
+  {
+   "i": 25,
+   "death": "hound-B",
+   "died": true,
+   "heapMB": 7.15,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.7
+  },
+  {
+   "i": 26,
+   "death": "hound-D",
+   "died": true,
+   "heapMB": 7.19,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.9
+  },
+  {
+   "i": 27,
+   "death": "smiler-A",
+   "died": true,
+   "heapMB": 7.18,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.2
+  },
+  {
+   "i": 28,
+   "death": "smiler-B",
+   "died": true,
+   "heapMB": 7.19,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.1
+  },
+  {
+   "i": 29,
+   "death": "smiler-C",
+   "died": true,
+   "heapMB": 7.14,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.7
+  },
+  {
+   "i": 30,
+   "death": "smiler-D",
+   "died": true,
+   "heapMB": 7.2,
+   "heapTotalMB": 9.05,
+   "rssMB": 61
+  },
+  {
+   "i": 31,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.16,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.3
+  },
+  {
+   "i": 32,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.21,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.3
+  },
+  {
+   "i": 33,
+   "death": "hound-B",
+   "died": true,
+   "heapMB": 7.15,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.4
+  },
+  {
+   "i": 34,
+   "death": "hound-D",
+   "died": true,
+   "heapMB": 7.2,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.8
+  },
+  {
+   "i": 35,
+   "death": "smiler-A",
+   "died": true,
+   "heapMB": 7.18,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.9
+  },
+  {
+   "i": 36,
+   "death": "smiler-B",
+   "died": true,
+   "heapMB": 7.21,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.9
+  },
+  {
+   "i": 37,
+   "death": "smiler-C",
+   "died": true,
+   "heapMB": 7.16,
+   "heapTotalMB": 9.05,
+   "rssMB": 61
+  },
+  {
+   "i": 38,
+   "death": "smiler-D",
+   "died": true,
+   "heapMB": 7.21,
+   "heapTotalMB": 9.05,
+   "rssMB": 61.4
+  },
+  {
+   "i": 39,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.19,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.7
+  },
+  {
+   "i": 40,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.23,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.9
+  },
+  {
+   "i": 41,
+   "death": "hound-B",
+   "died": true,
+   "heapMB": 7.18,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.8
+  },
+  {
+   "i": 42,
+   "death": "hound-D",
+   "died": true,
+   "heapMB": 7.23,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.9
+  },
+  {
+   "i": 43,
+   "death": "smiler-A",
+   "died": true,
+   "heapMB": 7.17,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.9
+  },
+  {
+   "i": 44,
+   "death": "smiler-B",
+   "died": true,
+   "heapMB": 7.22,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.9
+  },
+  {
+   "i": 45,
+   "death": "smiler-C",
+   "died": true,
+   "heapMB": 7.17,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.7
+  },
+  {
+   "i": 46,
+   "death": "smiler-D",
+   "died": true,
+   "heapMB": 7.23,
+   "heapTotalMB": 9.05,
+   "rssMB": 61
+  },
+  {
+   "i": 47,
+   "death": "hound-A",
+   "died": true,
+   "heapMB": 7.21,
+   "heapTotalMB": 9.05,
+   "rssMB": 60.7
+  }
+ ],
+ "heapSlopeMBPerDeath": 0.0057,
+ "rssSlopeMBPerDeath": 0.02,
+ "heapFirstLast": [
+  6.92,
+  7.21
+ ],
+ "rssFirstLast": [
+  61,
+  60.7
+ ],
+ "serverErrors": []
+}

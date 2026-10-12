@@ -1,0 +1,77 @@
+{
+ "tool": "dev/stage-3d/contract_check3d.js",
+ "additions": {
+  "fx": [
+   [
+    "de",
+    "death id",
+    "optional"
+   ],
+   [
+    "lo",
+    "the light was on",
+    "optional"
+   ],
+   [
+    "lf",
+    "HQ1: how the light fails [hold, fade, seed]",
+    "optional"
+   ],
+   [
+    "el",
+    "seconds already run (late joiner)",
+    "optional"
+   ]
+  ],
+  "fx:end": [
+   [
+    "t",
+    "type"
+   ],
+   [
+    "k",
+    "end"
+   ],
+   [
+    "id",
+    "victim id"
+   ],
+   [
+    "de",
+    "death id"
+   ]
+  ]
+ },
+ "counts": {
+  "serverToClient": {
+   "hi": 41,
+   "bodies": 76,
+   "s": 11296,
+   "pong": 14,
+   "admin": 27,
+   "ares": 57,
+   "tp": 14,
+   "got": 1,
+   "fx": 22,
+   "msg": 6,
+   "kick": 1,
+   "revive": 1,
+   "exit": 1
+  },
+  "clientToServer": {
+   "join": 11,
+   "admin": 9,
+   "p": 819,
+   "a": 60,
+   "ping": 2,
+   "fx": 1,
+   "b": 1,
+   "respawn": 2,
+   "leave": 1,
+   "pick": 1
+  }
+ },
+ "violations": 0,
+ "firstViolations": [],
+ "ok": true
+}

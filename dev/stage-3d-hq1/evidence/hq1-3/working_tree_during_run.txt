@@ -1,0 +1,23 @@
+Recorded 2026-10-12 08:21 CDT while the HQ1-3 regression ran on a1d9cb9.
+Tracked files that differ from a1d9cb9 (git diff --stat):
+ dev/stage-3d-hq1/summarize_hq1.py | 23 ++++++++++++++++++++++-
+ 1 file changed, 22 insertions(+), 1 deletion(-)
+Untracked (outside the evidence folder):
+dev/stage-3d-hq1/__pycache__/hq1lib.cpython-311.pyc
+dev/stage-3d-hq1/__pycache__/stain_metric.cpython-311.pyc
+dev/stage-3d-hq1/changed_files_hq1.py
+dev/stage-3d-hq1/package_hq1.py
+dev/stage-3d-hq1/stain_budget.py
+dev/stage-3d-hq1/visual_evidence.py
+dev/stage-3d/__pycache__/lib3d.cpython-311.pyc
+Production files byte-identical to a1d9cb9:
+  yes gore.js
+  yes mp.js
+  yes assets/net-wire.js
+  yes dphys.js
+  yes server.js
+  yes death_srv.js
+  yes light.js
+  yes assets/br-role.js
+  yes assets/index-DKbV5Nv9.js
+  yes index.html

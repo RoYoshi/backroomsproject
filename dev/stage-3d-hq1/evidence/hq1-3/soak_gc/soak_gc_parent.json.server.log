@@ -1,0 +1,958 @@
+[2292:0xe2cb000]       45 ms: Scavenge 5.1 (5.6) -> 4.6 (6.6) MB, pooled: 0 MB, 0.78 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       52 ms: Scavenge 5.4 (6.8) -> 5.0 (7.3) MB, pooled: 0 MB, 0.67 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       53 ms: Scavenge 5.8 (7.3) -> 5.0 (9.3) MB, pooled: 0 MB, 0.37 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       56 ms: Scavenge 7.0 (9.3) -> 5.0 (9.3) MB, pooled: 0 MB, 0.15 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       58 ms: Scavenge 7.0 (9.3) -> 5.0 (9.3) MB, pooled: 0 MB, 0.15 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       62 ms: Scavenge 7.0 (9.3) -> 5.0 (9.6) MB, pooled: 0 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       65 ms: Scavenge 7.0 (9.6) -> 5.0 (9.6) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       68 ms: Scavenge 7.0 (9.6) -> 5.1 (9.6) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       71 ms: Scavenge 7.0 (9.6) -> 5.1 (9.6) MB, pooled: 0 MB, 0.18 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       73 ms: Scavenge 7.0 (9.6) -> 5.1 (9.6) MB, pooled: 0 MB, 0.64 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       75 ms: Scavenge 7.1 (9.6) -> 5.1 (9.6) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]       77 ms: Scavenge 7.1 (9.6) -> 5.1 (9.6) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+The Far Backrooms → http://localhost:40031  (share  ?room=NAME  to group up)
+[2292:0xe2cb000]      566 ms: Scavenge 7.1 (9.8) -> 5.6 (9.8) MB, pooled: 0 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]     1092 ms: Scavenge 7.9 (10.3) -> 6.4 (10.3) MB, pooled: 0 MB, 1.97 / 0.02 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1120 ms: Scavenge 8.0 (10.6) -> 6.4 (11.1) MB, pooled: 0 MB, 20.37 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1139 ms: Scavenge 8.4 (11.1) -> 6.5 (11.1) MB, pooled: 0 MB, 5.52 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1152 ms: Scavenge 8.4 (11.1) -> 6.5 (11.1) MB, pooled: 0 MB, 0.46 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1163 ms: Scavenge 8.5 (11.1) -> 6.5 (11.1) MB, pooled: 0 MB, 2.45 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1171 ms: Scavenge 8.5 (11.1) -> 6.5 (11.1) MB, pooled: 0 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1179 ms: Scavenge 8.5 (11.1) -> 6.5 (11.1) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1195 ms: Scavenge 8.8 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.35 / 0.01 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1204 ms: Scavenge 8.8 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 1.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1207 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1211 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1214 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.16 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1219 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.19 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1225 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1227 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1230 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1232 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1235 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.16 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1237 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.19 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1240 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1242 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1245 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 0.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1253 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 2.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1257 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 1.75 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1269 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 4.64 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1272 ms: Scavenge 8.9 (11.6) -> 6.9 (11.6) MB, pooled: 0 MB, 1.12 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1279 ms: Scavenge 8.9 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.15 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1280 ms: Scavenge 8.9 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.15 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1286 ms: Scavenge 8.9 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1287 ms: Scavenge 8.9 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.09 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1293 ms: Scavenge 8.9 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 4.15 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1295 ms: Scavenge 8.9 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.12 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1297 ms: Scavenge 8.9 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.09 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1301 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 1.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1303 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.13 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1304 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.08 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1306 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1307 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1308 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1310 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1311 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1313 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1314 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1315 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1317 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1318 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1319 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1321 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1322 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1324 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1325 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.12 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1327 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1328 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1329 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1331 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1332 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1334 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1335 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1336 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1338 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.09 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1339 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1340 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1342 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1343 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1344 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1346 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1347 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1348 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1350 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.09 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1351 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1352 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1354 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1355 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1357 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1358 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1359 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1361 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1362 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1363 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.06 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1365 ms: Scavenge 9.0 (11.6) -> 7.0 (11.6) MB, pooled: 0 MB, 0.07 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1368 ms: Scavenge 9.0 (11.6) -> 7.1 (11.6) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1375 ms: Scavenge 9.0 (11.6) -> 7.1 (11.8) MB, pooled: 0 MB, 0.57 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1379 ms: Scavenge 9.1 (11.8) -> 7.1 (11.8) MB, pooled: 0 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1383 ms: Scavenge 9.1 (11.8) -> 7.1 (11.8) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1387 ms: Scavenge 9.1 (11.8) -> 7.1 (11.8) MB, pooled: 0 MB, 0.37 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1393 ms: Scavenge 9.1 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.50 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1396 ms: Scavenge 9.1 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1398 ms: Scavenge 9.1 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1401 ms: Scavenge 9.1 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1403 ms: Scavenge 9.1 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.18 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1407 ms: Scavenge 9.1 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 1.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1414 ms: Scavenge 9.1 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.16 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1417 ms: Scavenge 9.2 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1419 ms: Scavenge 9.2 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1421 ms: Scavenge 9.2 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1423 ms: Scavenge 9.2 (11.8) -> 7.2 (11.8) MB, pooled: 0 MB, 0.18 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]     1749 ms: Scavenge 9.0 (11.8) -> 7.3 (11.8) MB, pooled: 0 MB, 0.35 / 0.01 ms  (average mu = 1.000, current mu = 1.000) external memory pressure; 
+[2292:0xe2cb000]     1859 ms: Scavenge 7.4 (11.8) -> 7.3 (11.8) MB, pooled: 0 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) external memory pressure; 
+[2292:0xe2cb000]     6179 ms: Mark-Compact 8.5 (11.8) -> 6.3 (11.8) MB, pooled: 0 MB, 31.95 / 0.00 ms  (average mu = 0.995, current mu = 0.995) background allocation failure; GC in old space requested
+[2292:0xe2cb000]     7615 ms: Scavenge 8.3 (11.8) -> 6.4 (8.8) MB, pooled: 3 MB, 0.36 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7616 ms: Scavenge 7.3 (8.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7617 ms: Scavenge 7.4 (9.8) -> 6.4 (8.8) MB, pooled: 3 MB, 0.11 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7618 ms: Scavenge 7.4 (8.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.11 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7619 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.10 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7620 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.19 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7622 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.17 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7623 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.25 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7625 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 1.55 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7626 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.18 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7627 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7628 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.16 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7629 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.14 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7631 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7632 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.65 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7633 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.10 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7634 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.10 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7637 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 2.20 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7646 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 7.74 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7653 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 5.03 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7658 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 3.97 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7661 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 1.38 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7662 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.60 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7663 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7664 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.12 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7665 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.12 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7666 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.12 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7667 ms: Scavenge 7.4 (9.8) -> 6.4 (9.8) MB, pooled: 2 MB, 0.10 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7675 ms: Scavenge 7.5 (10.1) -> 6.5 (10.1) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7682 ms: Scavenge 7.5 (10.1) -> 6.6 (10.1) MB, pooled: 2 MB, 0.25 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     7685 ms: Scavenge 7.5 (10.1) -> 6.6 (10.1) MB, pooled: 2 MB, 1.88 / 0.00 ms  (average mu = 0.995, current mu = 0.995) allocation failure; 
+[2292:0xe2cb000]     8582 ms: Scavenge 7.5 (10.3) -> 6.8 (10.3) MB, pooled: 2 MB, 0.39 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[admin] Alice#1 unlocked admin (room soak3d)
+[2292:0xe2cb000]     9890 ms: Scavenge 7.6 (10.3) -> 6.9 (10.3) MB, pooled: 2 MB, 1.59 / 0.01 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    11055 ms: Scavenge 7.8 (10.3) -> 7.0 (10.3) MB, pooled: 2 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    11759 ms: Scavenge 7.9 (10.3) -> 7.1 (10.3) MB, pooled: 2 MB, 0.36 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    12485 ms: Scavenge 8.0 (10.3) -> 7.2 (10.3) MB, pooled: 2 MB, 0.31 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[admin] Alice#1 unlocked admin (room soak3d)
+[2292:0xe2cb000]    13266 ms: Scavenge 8.1 (10.6) -> 7.3 (9.6) MB, pooled: 3 MB, 0.25 / 0.01 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    14048 ms: Scavenge 8.1 (9.6) -> 7.3 (10.6) MB, pooled: 2 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[admin] room=soak3d Alice#1: hound remove x1 -> 1
+[admin] room=soak3d Alice#1: hound remove x1 -> 1
+[2292:0xe2cb000]    14835 ms: Scavenge 8.2 (10.6) -> 7.4 (10.6) MB, pooled: 2 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: hound remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[2292:0xe2cb000]    15733 ms: Scavenge 8.2 (10.6) -> 7.5 (10.6) MB, pooled: 2 MB, 0.32 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 1
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[admin] room=soak3d Alice#1: smiler remove x1 -> 0
+[2292:0xe2cb000]    17450 ms: Scavenge 8.3 (10.6) -> 7.5 (9.6) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    18141 ms: Scavenge 8.3 (9.6) -> 7.6 (9.6) MB, pooled: 3 MB, 0.37 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    19706 ms: Scavenge 8.4 (9.6) -> 7.6 (9.6) MB, pooled: 3 MB, 0.31 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    21595 ms: Scavenge 8.4 (9.6) -> 7.7 (9.6) MB, pooled: 3 MB, 0.29 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    23439 ms: Scavenge 8.5 (9.6) -> 7.7 (9.6) MB, pooled: 3 MB, 0.30 / 0.00 ms  (average mu = 0.995, current mu = 0.995) task; 
+[2292:0xe2cb000]    24454 ms: Mark-Compact (reduce) 8.2 (9.6) -> 7.0 (9.6) MB, pooled: 0 MB, 50.79 / 0.00 ms  (+ 17.1 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 69 ms) (average mu = 0.996, current mu = 0.996) finalize incremental marking via task; GC in old space requested
+[2292:0xe2cb000]    25069 ms: Mark-Compact (reduce) 7.3 (9.6) -> 7.0 (8.8) MB, pooled: 0 MB, 6.48 / 0.00 ms  (+ 2.5 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 14 ms) (average mu = 0.995, current mu = 0.985) finalize incremental marking via task; GC in old space requested
+[2292:0xe2cb000]    26885 ms: Scavenge 7.8 (8.8) -> 7.0 (8.8) MB, pooled: 1 MB, 0.40 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    28740 ms: Scavenge 7.9 (8.8) -> 7.1 (8.8) MB, pooled: 1 MB, 0.57 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    30231 ms: Scavenge 7.9 (8.8) -> 7.2 (9.1) MB, pooled: 1 MB, 0.48 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] Bob#2 unlocked admin (room soak3d)
+[2292:0xe2cb000]    31809 ms: Scavenge 8.0 (9.1) -> 7.3 (9.1) MB, pooled: 1 MB, 1.11 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: god Bob -> true
+[2292:0xe2cb000]    33470 ms: Scavenge 8.1 (9.1) -> 7.4 (9.3) MB, pooled: 1 MB, 0.63 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    35054 ms: Scavenge 8.1 (9.3) -> 7.4 (9.3) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    36751 ms: Scavenge 8.2 (9.3) -> 7.5 (9.3) MB, pooled: 1 MB, 0.43 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    38491 ms: Scavenge 8.3 (9.3) -> 7.6 (9.3) MB, pooled: 1 MB, 0.65 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[2292:0xe2cb000]    38795 ms: Scavenge 8.5 (9.3) -> 7.8 (10.3) MB, pooled: 0 MB, 0.59 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    39046 ms: Scavenge 8.7 (10.3) -> 7.8 (9.8) MB, pooled: 1 MB, 0.38 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    39310 ms: Scavenge 8.7 (9.8) -> 7.8 (9.8) MB, pooled: 1 MB, 0.32 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    39565 ms: Scavenge 8.8 (9.8) -> 7.8 (10.8) MB, pooled: 0 MB, 2.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    39818 ms: Scavenge 8.8 (10.8) -> 7.9 (10.8) MB, pooled: 0 MB, 0.81 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    40021 ms: Scavenge 8.7 (10.8) -> 7.9 (10.8) MB, pooled: 0 MB, 2.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    40271 ms: Scavenge 8.8 (10.8) -> 7.9 (10.8) MB, pooled: 0 MB, 0.30 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    40525 ms: Scavenge 8.8 (10.8) -> 7.9 (10.8) MB, pooled: 0 MB, 2.37 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    40778 ms: Scavenge 8.8 (10.8) -> 7.9 (10.8) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    41074 ms: Scavenge 8.8 (10.8) -> 7.9 (10.8) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    41397 ms: Scavenge 8.8 (10.8) -> 8.0 (10.8) MB, pooled: 0 MB, 0.46 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    41699 ms: Scavenge 8.7 (10.8) -> 7.9 (10.8) MB, pooled: 0 MB, 3.47 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    42323 ms: Scavenge 8.8 (10.8) -> 8.0 (10.8) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    43056 ms: Scavenge 8.8 (10.8) -> 8.0 (10.8) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[death] room=soak3d #1 de=1: Hound A corpse placed
+[2292:0xe2cb000]    43709 ms: Scavenge 8.9 (10.8) -> 8.1 (10.8) MB, pooled: 0 MB, 0.66 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    43845 ms: Scavenge 9.1 (10.8) -> 8.1 (10.8) MB, pooled: 0 MB, 2.81 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]    44202 ms: Scavenge 9.0 (10.8) -> 8.2 (10.8) MB, pooled: 0 MB, 1.94 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    45849 ms: Scavenge 9.0 (10.8) -> 8.2 (10.8) MB, pooled: 0 MB, 0.75 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]    47548 ms: Scavenge 9.0 (10.8) -> 8.3 (10.8) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    49245 ms: Scavenge 9.1 (10.8) -> 8.3 (10.1) MB, pooled: 1 MB, 0.37 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    51346 ms: Scavenge 9.1 (10.1) -> 8.4 (10.1) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    53501 ms: Scavenge 9.3 (10.3) -> 8.5 (10.3) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    55186 ms: Scavenge 9.3 (10.3) -> 8.6 (10.3) MB, pooled: 1 MB, 0.36 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    56905 ms: Scavenge 9.4 (10.3) -> 8.6 (10.3) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: preview death hound B: ok
+[2292:0xe2cb000]    57231 ms: Scavenge 9.5 (10.3) -> 8.6 (10.3) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    57481 ms: Scavenge 9.5 (10.3) -> 8.6 (10.3) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    57732 ms: Scavenge 9.5 (10.3) -> 8.7 (10.3) MB, pooled: 1 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    57982 ms: Scavenge 9.5 (10.3) -> 8.7 (10.3) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    58235 ms: Scavenge 9.6 (10.3) -> 8.7 (11.3) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    58487 ms: Scavenge 9.6 (11.3) -> 8.7 (11.3) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    58789 ms: Scavenge 9.7 (11.3) -> 8.7 (11.3) MB, pooled: 0 MB, 1.04 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    59092 ms: Scavenge 9.7 (11.3) -> 8.7 (11.3) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    59395 ms: Scavenge 9.7 (11.3) -> 8.8 (11.3) MB, pooled: 0 MB, 0.31 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    59698 ms: Scavenge 9.6 (11.6) -> 8.8 (11.6) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    59979 ms: Scavenge 9.6 (11.6) -> 8.8 (11.6) MB, pooled: 0 MB, 0.48 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    60433 ms: Scavenge 9.6 (11.6) -> 8.8 (11.6) MB, pooled: 0 MB, 0.92 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    61188 ms: Scavenge 9.6 (11.6) -> 8.8 (11.6) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[death] room=soak3d #1 de=2: Hound B corpse placed
+[2292:0xe2cb000]    61994 ms: Scavenge 9.6 (11.6) -> 8.9 (11.6) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    62272 ms: Scavenge 9.8 (11.6) -> 8.9 (11.8) MB, pooled: 0 MB, 1.10 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]    63053 ms: Scavenge 9.7 (11.8) -> 8.9 (11.8) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]    64869 ms: Scavenge 9.7 (11.8) -> 8.9 (11.8) MB, pooled: 0 MB, 3.66 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    66913 ms: Scavenge 9.8 (11.8) -> 9.0 (10.8) MB, pooled: 1 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    68941 ms: Scavenge 9.8 (10.8) -> 9.0 (10.8) MB, pooled: 1 MB, 0.91 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    70906 ms: Scavenge 9.9 (10.8) -> 9.1 (10.8) MB, pooled: 1 MB, 0.44 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    72920 ms: Scavenge 10.0 (10.8) -> 9.2 (10.8) MB, pooled: 1 MB, 2.52 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    75123 ms: Scavenge 10.3 (10.8) -> 9.3 (10.8) MB, pooled: 1 MB, 0.35 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[2292:0xe2cb000]    75368 ms: Scavenge 10.1 (10.8) -> 9.4 (10.8) MB, pooled: 1 MB, 0.34 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    75597 ms: Scavenge 10.3 (10.8) -> 9.4 (11.8) MB, pooled: 0 MB, 0.44 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    75799 ms: Scavenge 10.2 (12.1) -> 9.4 (11.1) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    76001 ms: Scavenge 10.3 (11.1) -> 9.4 (12.1) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    76201 ms: Scavenge 10.2 (12.1) -> 9.4 (12.1) MB, pooled: 0 MB, 0.34 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    76454 ms: Scavenge 10.4 (12.1) -> 9.4 (12.1) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]    76704 ms: Scavenge 10.4 (12.1) -> 9.4 (12.1) MB, pooled: 0 MB, 0.19 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    76958 ms: Scavenge 10.3 (12.1) -> 9.4 (12.1) MB, pooled: 0 MB, 0.34 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    77213 ms: Scavenge 10.4 (12.1) -> 9.4 (12.1) MB, pooled: 0 MB, 0.51 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    77464 ms: Scavenge 10.3 (12.1) -> 9.5 (12.1) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    77767 ms: Scavenge 10.4 (12.1) -> 9.5 (12.1) MB, pooled: 0 MB, 0.29 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    78071 ms: Scavenge 10.4 (12.1) -> 9.5 (12.1) MB, pooled: 0 MB, 0.29 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    78829 ms: Scavenge 10.3 (12.1) -> 9.5 (12.1) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[death] room=soak3d #1 de=3: Hound C corpse placed
+[2292:0xe2cb000]    79688 ms: Scavenge 10.4 (12.3) -> 9.6 (12.3) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    80723 ms: Scavenge 10.4 (12.3) -> 9.6 (12.3) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]    83032 ms: Scavenge 10.5 (12.3) -> 9.7 (11.3) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    85545 ms: Scavenge 10.5 (11.6) -> 9.7 (11.6) MB, pooled: 1 MB, 1.03 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    87881 ms: Scavenge 10.6 (11.6) -> 9.8 (11.6) MB, pooled: 1 MB, 1.04 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    90203 ms: Scavenge 10.6 (11.6) -> 9.9 (11.6) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[2292:0xe2cb000]    91716 ms: Scavenge 10.7 (11.6) -> 9.9 (11.6) MB, pooled: 1 MB, 0.39 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    92018 ms: Scavenge 10.9 (11.6) -> 10.0 (11.6) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    92271 ms: Scavenge 10.8 (11.6) -> 10.0 (11.6) MB, pooled: 1 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    92522 ms: Scavenge 10.8 (11.6) -> 10.0 (11.8) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    92776 ms: Scavenge 10.8 (11.8) -> 10.0 (11.8) MB, pooled: 1 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    93052 ms: Scavenge 10.8 (11.8) -> 10.0 (12.8) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    93329 ms: Scavenge 10.9 (12.8) -> 10.0 (12.8) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    93606 ms: Scavenge 10.8 (12.8) -> 10.0 (12.8) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    93885 ms: Scavenge 10.9 (12.8) -> 10.0 (12.8) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    94240 ms: Scavenge 10.9 (12.8) -> 10.0 (12.8) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    94597 ms: Scavenge 10.9 (12.8) -> 10.0 (12.8) MB, pooled: 0 MB, 1.80 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    95463 ms: Scavenge 10.9 (12.8) -> 10.1 (12.8) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[death] room=soak3d #1 de=4: Hound D corpse placed
+[2292:0xe2cb000]    96451 ms: Scavenge 11.0 (12.8) -> 10.1 (12.8) MB, pooled: 0 MB, 1.08 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]    96488 ms: Scavenge 11.1 (12.8) -> 10.1 (12.8) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]    96489 ms: Scavenge 11.1 (12.8) -> 10.1 (12.8) MB, pooled: 0 MB, 0.13 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]    98162 ms: Scavenge 11.0 (12.8) -> 10.2 (12.8) MB, pooled: 0 MB, 0.32 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   100606 ms: Scavenge 11.0 (12.8) -> 10.2 (11.8) MB, pooled: 1 MB, 0.84 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   103248 ms: Scavenge 11.1 (12.1) -> 10.3 (12.1) MB, pooled: 1 MB, 0.34 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   105721 ms: Scavenge 11.1 (12.1) -> 10.3 (12.1) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   108070 ms: Scavenge 11.1 (12.1) -> 10.4 (12.1) MB, pooled: 1 MB, 1.19 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[2292:0xe2cb000]   108923 ms: Scavenge 11.2 (12.3) -> 10.5 (12.3) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   109176 ms: Scavenge 11.2 (12.3) -> 10.5 (12.3) MB, pooled: 1 MB, 1.15 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   109478 ms: Scavenge 11.4 (12.3) -> 10.5 (12.3) MB, pooled: 1 MB, 0.40 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   109779 ms: Scavenge 11.4 (12.6) -> 10.5 (12.6) MB, pooled: 1 MB, 0.50 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   110079 ms: Scavenge 11.3 (12.6) -> 10.5 (12.6) MB, pooled: 1 MB, 0.40 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   110386 ms: Scavenge 11.4 (12.6) -> 10.5 (13.6) MB, pooled: 0 MB, 0.30 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   110684 ms: Scavenge 11.4 (13.6) -> 10.5 (13.6) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   110990 ms: Scavenge 11.4 (13.6) -> 10.6 (13.6) MB, pooled: 0 MB, 1.48 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   111293 ms: Scavenge 11.4 (13.6) -> 10.6 (13.6) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   111645 ms: Scavenge 11.5 (13.6) -> 10.6 (13.6) MB, pooled: 0 MB, 0.77 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   111999 ms: Scavenge 11.5 (13.6) -> 10.6 (13.6) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   112350 ms: Scavenge 11.5 (13.6) -> 10.6 (13.6) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[death] room=soak3d #1 de=5: Smiler A corpse placed
+[2292:0xe2cb000]   113413 ms: Scavenge 11.7 (13.7) -> 11.0 (13.7) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   115716 ms: Scavenge 11.8 (13.9) -> 11.0 (14.2) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   118357 ms: Scavenge 11.8 (14.2) -> 11.0 (13.2) MB, pooled: 1 MB, 3.81 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   121007 ms: Scavenge 11.9 (13.2) -> 11.1 (13.2) MB, pooled: 1 MB, 0.38 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   123514 ms: Scavenge 12.0 (13.2) -> 11.2 (13.2) MB, pooled: 1 MB, 0.29 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[2292:0xe2cb000]   125436 ms: Scavenge 12.1 (13.2) -> 11.3 (13.2) MB, pooled: 1 MB, 0.38 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   125741 ms: Scavenge 12.2 (13.2) -> 11.3 (14.2) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   126041 ms: Scavenge 12.2 (14.2) -> 11.3 (13.2) MB, pooled: 1 MB, 1.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   126341 ms: Scavenge 12.2 (13.2) -> 11.3 (13.2) MB, pooled: 1 MB, 0.37 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   126648 ms: Scavenge 12.2 (13.2) -> 11.3 (13.2) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   126962 ms: Scavenge 12.2 (13.2) -> 11.4 (14.2) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   127312 ms: Scavenge 12.2 (14.2) -> 11.4 (14.2) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   127669 ms: Scavenge 12.2 (14.2) -> 11.4 (14.2) MB, pooled: 0 MB, 0.40 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   128123 ms: Scavenge 12.2 (14.2) -> 11.4 (14.2) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   129099 ms: Scavenge 12.2 (14.2) -> 11.4 (14.2) MB, pooled: 0 MB, 0.18 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[death] room=soak3d #1 de=6: Smiler B corpse placed
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   131333 ms: Scavenge 12.2 (14.2) -> 11.4 (14.2) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   134181 ms: Scavenge 12.3 (14.4) -> 11.5 (13.4) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   136876 ms: Scavenge 12.3 (13.4) -> 11.6 (13.7) MB, pooled: 1 MB, 0.37 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   139426 ms: Scavenge 12.4 (13.7) -> 11.6 (13.7) MB, pooled: 1 MB, 0.38 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   141991 ms: Scavenge 12.5 (13.7) -> 11.7 (13.7) MB, pooled: 1 MB, 0.61 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[2292:0xe2cb000]   142574 ms: Scavenge 12.5 (13.7) -> 11.8 (13.7) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   142852 ms: Scavenge 12.7 (13.7) -> 11.8 (13.7) MB, pooled: 1 MB, 0.40 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   143154 ms: Scavenge 12.7 (13.7) -> 11.8 (13.7) MB, pooled: 1 MB, 0.79 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   143456 ms: Scavenge 12.7 (13.7) -> 11.8 (13.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   143706 ms: Scavenge 12.8 (13.7) -> 11.8 (13.7) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]   143711 ms: Scavenge 12.8 (13.7) -> 11.8 (14.7) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]   143959 ms: Scavenge 12.7 (14.7) -> 11.9 (14.7) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   144261 ms: Scavenge 12.8 (14.7) -> 11.9 (14.9) MB, pooled: 0 MB, 0.30 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   144563 ms: Scavenge 12.8 (14.9) -> 11.9 (14.9) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   144921 ms: Scavenge 12.8 (14.9) -> 11.9 (14.9) MB, pooled: 0 MB, 0.61 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   145222 ms: Scavenge 12.7 (14.9) -> 11.9 (14.9) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   145525 ms: Scavenge 12.7 (14.9) -> 11.9 (14.9) MB, pooled: 0 MB, 1.19 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   145978 ms: Scavenge 12.7 (14.9) -> 11.9 (14.9) MB, pooled: 0 MB, 0.55 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[death] room=soak3d #1 de=7: Smiler C corpse placed
+[2292:0xe2cb000]   147290 ms: Scavenge 12.8 (14.9) -> 12.0 (14.9) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   149054 ms: Scavenge 12.8 (14.9) -> 12.0 (14.9) MB, pooled: 0 MB, 0.38 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   150920 ms: Scavenge 12.9 (14.9) -> 12.0 (13.9) MB, pooled: 1 MB, 0.51 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   152785 ms: Scavenge 12.9 (13.9) -> 12.1 (13.9) MB, pooled: 1 MB, 2.15 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   154566 ms: Scavenge 12.9 (13.9) -> 12.1 (13.9) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   155904 ms: Scavenge 13.1 (13.9) -> 12.2 (13.9) MB, pooled: 1 MB, 0.31 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]   156209 ms: Scavenge 13.0 (13.9) -> 12.2 (13.9) MB, pooled: 1 MB, 5.17 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   156631 ms: Scavenge 13.0 (13.9) -> 12.2 (13.9) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   157366 ms: Scavenge 13.1 (13.9) -> 12.3 (13.9) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   158250 ms: Scavenge 13.1 (13.9) -> 12.3 (14.2) MB, pooled: 1 MB, 0.29 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   159108 ms: Scavenge 13.1 (14.2) -> 12.3 (14.2) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   159967 ms: Scavenge 13.2 (14.2) -> 12.4 (15.2) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[2292:0xe2cb000]   160347 ms: Scavenge 13.4 (15.2) -> 12.4 (15.2) MB, pooled: 0 MB, 0.32 / 0.00 ms  (average mu = 0.995, current mu = 0.985) allocation failure; 
+[2292:0xe2cb000]   160604 ms: Scavenge 13.3 (15.2) -> 12.4 (15.2) MB, pooled: 0 MB, 0.41 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   160904 ms: Scavenge 13.3 (15.2) -> 12.4 (15.2) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   161207 ms: Scavenge 13.3 (15.2) -> 12.4 (15.2) MB, pooled: 0 MB, 0.53 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   161512 ms: Scavenge 13.3 (15.2) -> 12.4 (15.2) MB, pooled: 0 MB, 0.29 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   161813 ms: Scavenge 13.3 (15.2) -> 12.5 (15.2) MB, pooled: 0 MB, 0.84 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   162115 ms: Scavenge 13.4 (15.2) -> 12.5 (15.2) MB, pooled: 0 MB, 0.30 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   162423 ms: Scavenge 13.4 (15.2) -> 12.5 (15.2) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   162751 ms: Scavenge 13.3 (15.2) -> 12.5 (15.2) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   163081 ms: Scavenge 13.4 (15.2) -> 12.5 (15.2) MB, pooled: 0 MB, 0.93 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   163384 ms: Scavenge 13.3 (15.2) -> 12.5 (15.2) MB, pooled: 0 MB, 0.83 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   163891 ms: Scavenge 13.4 (15.2) -> 12.6 (15.2) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[death] room=soak3d #1 de=8: Smiler D corpse placed
+[2292:0xe2cb000]   165303 ms: Scavenge 13.4 (15.2) -> 12.6 (15.2) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   167388 ms: Scavenge 13.4 (15.4) -> 12.6 (15.4) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   169763 ms: Scavenge 13.5 (15.4) -> 12.7 (14.4) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   171911 ms: Scavenge 13.5 (14.4) -> 12.8 (14.4) MB, pooled: 1 MB, 0.34 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   173134 ms: Scavenge 13.7 (14.4) -> 12.8 (14.4) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   174089 ms: Scavenge 13.6 (14.4) -> 12.8 (14.4) MB, pooled: 1 MB, 1.24 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   175031 ms: Scavenge 13.7 (14.4) -> 12.9 (14.4) MB, pooled: 1 MB, 0.36 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   175793 ms: Scavenge 13.7 (14.7) -> 12.9 (14.7) MB, pooled: 1 MB, 0.33 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   176334 ms: Scavenge 13.8 (14.7) -> 12.9 (14.7) MB, pooled: 1 MB, 0.32 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   176753 ms: Scavenge 13.7 (14.7) -> 12.9 (14.7) MB, pooled: 1 MB, 0.21 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   177536 ms: Scavenge 13.7 (14.7) -> 12.9 (17.7) MB, pooled: 0 MB, 0.41 / 0.00 ms  (average mu = 0.995, current mu = 0.985) task; 
+[2292:0xe2cb000]   177699 ms: Mark-Compact 13.1 (17.7) -> 7.9 (17.6) MB, pooled: 0 MB, 3.51 / 0.00 ms  (+ 6.2 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 14 ms) (average mu = 1.000, current mu = 1.000) finalize incremental marking via task; GC in old space requested
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[2292:0xe2cb000]   178579 ms: Scavenge 9.9 (17.7) -> 8.2 (17.7) MB, pooled: 0 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   179083 ms: Scavenge 9.8 (17.7) -> 8.3 (17.7) MB, pooled: 0 MB, 0.47 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   179587 ms: Scavenge 9.9 (17.7) -> 8.3 (17.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   180101 ms: Scavenge 9.9 (17.7) -> 8.3 (17.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   180761 ms: Scavenge 10.0 (17.7) -> 8.3 (17.7) MB, pooled: 0 MB, 0.65 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   181976 ms: Scavenge 9.9 (17.7) -> 8.4 (17.7) MB, pooled: 0 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=9: Hound A corpse placed
+[2292:0xe2cb000]   183156 ms: Scavenge 10.0 (17.7) -> 8.4 (17.7) MB, pooled: 0 MB, 0.39 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   187950 ms: Scavenge 10.1 (17.7) -> 8.5 (14.7) MB, pooled: 3 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   190571 ms: Scavenge 9.5 (14.7) -> 8.5 (14.7) MB, pooled: 3 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   192448 ms: Scavenge 9.4 (14.7) -> 8.7 (14.7) MB, pooled: 3 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   192551 ms: Scavenge 9.6 (14.7) -> 8.7 (14.7) MB, pooled: 3 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   193002 ms: Scavenge 9.5 (14.7) -> 8.7 (14.7) MB, pooled: 3 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   193476 ms: Scavenge 9.6 (14.7) -> 8.8 (14.7) MB, pooled: 3 MB, 0.44 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   194078 ms: Scavenge 9.6 (14.7) -> 8.8 (14.7) MB, pooled: 3 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   194684 ms: Scavenge 9.6 (14.7) -> 8.8 (14.7) MB, pooled: 3 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   195261 ms: Scavenge 9.7 (14.7) -> 8.9 (15.7) MB, pooled: 2 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   196401 ms: Scavenge 9.7 (15.7) -> 8.9 (15.7) MB, pooled: 2 MB, 0.57 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound B: ok
+[2292:0xe2cb000]   196782 ms: Scavenge 9.8 (15.7) -> 9.0 (15.7) MB, pooled: 2 MB, 0.36 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   197034 ms: Scavenge 9.8 (15.7) -> 9.0 (15.7) MB, pooled: 2 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   197288 ms: Scavenge 9.8 (15.7) -> 9.0 (15.7) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   197540 ms: Scavenge 9.8 (15.7) -> 9.0 (15.7) MB, pooled: 2 MB, 1.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   197791 ms: Scavenge 9.8 (15.7) -> 9.0 (15.7) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   198041 ms: Scavenge 9.8 (15.7) -> 9.0 (15.7) MB, pooled: 2 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   198347 ms: Scavenge 9.9 (15.7) -> 9.0 (15.7) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   198651 ms: Scavenge 9.9 (15.7) -> 9.1 (15.7) MB, pooled: 2 MB, 2.10 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   198953 ms: Scavenge 10.0 (15.7) -> 9.1 (15.7) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   199303 ms: Scavenge 9.9 (15.7) -> 9.1 (15.7) MB, pooled: 2 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   199655 ms: Scavenge 10.0 (15.7) -> 9.1 (15.7) MB, pooled: 2 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   200416 ms: Scavenge 9.9 (15.7) -> 9.1 (15.7) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=10: Hound B corpse placed
+[2292:0xe2cb000]   201632 ms: Scavenge 10.1 (15.7) -> 9.1 (15.7) MB, pooled: 2 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   202343 ms: Scavenge 9.9 (15.7) -> 9.1 (15.7) MB, pooled: 2 MB, 1.13 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   204883 ms: Scavenge 10.0 (15.7) -> 9.2 (14.7) MB, pooled: 3 MB, 0.19 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   207360 ms: Scavenge 10.0 (14.7) -> 9.2 (14.7) MB, pooled: 3 MB, 0.17 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   209534 ms: Scavenge 10.1 (14.7) -> 9.3 (14.7) MB, pooled: 3 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   211437 ms: Scavenge 10.3 (14.7) -> 9.4 (14.7) MB, pooled: 3 MB, 1.92 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   212078 ms: Scavenge 10.2 (14.7) -> 9.4 (14.7) MB, pooled: 3 MB, 0.37 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   213104 ms: Scavenge 10.2 (14.7) -> 9.4 (14.7) MB, pooled: 3 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   213885 ms: Scavenge 10.3 (14.7) -> 9.5 (14.7) MB, pooled: 3 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   214466 ms: Scavenge 10.3 (14.7) -> 9.5 (14.7) MB, pooled: 3 MB, 0.39 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   214942 ms: Scavenge 10.3 (14.7) -> 9.5 (15.7) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[2292:0xe2cb000]   215679 ms: Scavenge 10.3 (15.7) -> 9.5 (15.7) MB, pooled: 2 MB, 4.48 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   215980 ms: Scavenge 10.4 (15.7) -> 9.5 (15.7) MB, pooled: 2 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   216230 ms: Scavenge 10.4 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   216432 ms: Scavenge 10.5 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   216647 ms: Scavenge 10.4 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   216902 ms: Scavenge 10.5 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.19 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   217152 ms: Scavenge 10.5 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   217406 ms: Scavenge 10.5 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   217661 ms: Scavenge 10.5 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 1.94 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   217963 ms: Scavenge 10.6 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.49 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   218272 ms: Scavenge 10.5 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   218572 ms: Scavenge 10.4 (15.7) -> 9.6 (15.7) MB, pooled: 2 MB, 0.45 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=11: Hound C corpse placed
+[2292:0xe2cb000]   220091 ms: Scavenge 10.5 (15.7) -> 9.7 (15.7) MB, pooled: 2 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   220368 ms: Scavenge 10.6 (15.7) -> 9.7 (15.7) MB, pooled: 2 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   222758 ms: Scavenge 10.5 (15.7) -> 9.7 (15.7) MB, pooled: 2 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   225127 ms: Scavenge 10.6 (15.7) -> 9.8 (14.7) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   227344 ms: Scavenge 10.6 (14.7) -> 9.9 (14.7) MB, pooled: 3 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   228714 ms: Scavenge 10.8 (14.7) -> 9.9 (15.7) MB, pooled: 2 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   229570 ms: Scavenge 10.7 (15.7) -> 9.9 (14.7) MB, pooled: 3 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   230726 ms: Scavenge 10.7 (14.7) -> 9.9 (14.7) MB, pooled: 3 MB, 0.94 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   231688 ms: Scavenge 10.8 (14.7) -> 10.0 (14.7) MB, pooled: 3 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   232525 ms: Scavenge 10.8 (14.7) -> 10.0 (14.7) MB, pooled: 3 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[2292:0xe2cb000]   233009 ms: Scavenge 10.9 (14.7) -> 10.0 (14.7) MB, pooled: 3 MB, 0.59 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   233260 ms: Scavenge 10.8 (14.7) -> 10.0 (15.7) MB, pooled: 2 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   233511 ms: Scavenge 10.9 (15.7) -> 10.0 (15.7) MB, pooled: 2 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   233974 ms: Scavenge 11.2 (15.8) -> 10.4 (15.8) MB, pooled: 2 MB, 0.83 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   234631 ms: Scavenge 11.2 (15.8) -> 10.4 (15.8) MB, pooled: 2 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   235341 ms: Scavenge 11.2 (15.8) -> 10.4 (15.8) MB, pooled: 2 MB, 0.68 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   236540 ms: Scavenge 11.2 (15.8) -> 10.4 (15.8) MB, pooled: 2 MB, 1.00 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=12: Hound D corpse placed
+[2292:0xe2cb000]   237901 ms: Scavenge 11.3 (15.8) -> 10.5 (15.8) MB, pooled: 2 MB, 1.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   240388 ms: Scavenge 11.3 (15.8) -> 10.5 (14.8) MB, pooled: 3 MB, 0.18 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   242816 ms: Scavenge 11.4 (14.8) -> 10.6 (14.8) MB, pooled: 3 MB, 0.17 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   245040 ms: Scavenge 11.4 (14.8) -> 10.6 (14.8) MB, pooled: 3 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   247001 ms: Scavenge 11.4 (14.8) -> 10.7 (14.8) MB, pooled: 3 MB, 0.55 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   248004 ms: Scavenge 11.6 (14.8) -> 10.7 (14.8) MB, pooled: 3 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   248080 ms: Scavenge 11.5 (14.8) -> 10.7 (14.8) MB, pooled: 3 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   248989 ms: Scavenge 11.6 (14.8) -> 10.7 (14.8) MB, pooled: 3 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   250000 ms: Scavenge 11.6 (14.8) -> 10.8 (14.8) MB, pooled: 3 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[2292:0xe2cb000]   250807 ms: Scavenge 11.6 (14.8) -> 10.8 (14.8) MB, pooled: 3 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   250986 ms: Scavenge 11.8 (14.8) -> 10.9 (15.8) MB, pooled: 2 MB, 0.42 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   250987 ms: Scavenge 11.7 (15.8) -> 10.9 (15.8) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   251561 ms: Scavenge 11.6 (15.8) -> 10.8 (15.8) MB, pooled: 2 MB, 2.13 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   252267 ms: Scavenge 11.7 (15.8) -> 10.9 (15.8) MB, pooled: 2 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   252877 ms: Scavenge 11.7 (15.8) -> 10.9 (15.8) MB, pooled: 2 MB, 0.39 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   253533 ms: Scavenge 11.7 (15.8) -> 10.9 (15.8) MB, pooled: 2 MB, 0.83 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   254198 ms: Scavenge 11.7 (15.8) -> 10.9 (15.8) MB, pooled: 2 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=13: Smiler A corpse placed
+[2292:0xe2cb000]   255742 ms: Scavenge 11.8 (15.8) -> 11.0 (15.8) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   257856 ms: Scavenge 11.8 (15.8) -> 11.0 (14.8) MB, pooled: 3 MB, 1.03 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   260283 ms: Scavenge 11.8 (14.8) -> 11.1 (14.8) MB, pooled: 3 MB, 1.09 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   262397 ms: Scavenge 11.9 (14.8) -> 11.1 (14.8) MB, pooled: 3 MB, 0.55 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   264317 ms: Scavenge 11.9 (14.8) -> 11.2 (14.8) MB, pooled: 3 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   264747 ms: Scavenge 11.9 (14.8) -> 11.2 (14.8) MB, pooled: 3 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   265553 ms: Scavenge 12.0 (14.8) -> 11.2 (14.8) MB, pooled: 3 MB, 0.36 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   266356 ms: Scavenge 12.0 (14.8) -> 11.3 (14.8) MB, pooled: 3 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   267134 ms: Scavenge 12.1 (14.8) -> 11.3 (14.8) MB, pooled: 3 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   268197 ms: Scavenge 12.1 (14.8) -> 11.3 (14.8) MB, pooled: 3 MB, 1.71 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[2292:0xe2cb000]   268628 ms: Scavenge 12.3 (14.8) -> 11.3 (14.8) MB, pooled: 3 MB, 1.92 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   268629 ms: Scavenge 12.1 (14.8) -> 11.3 (15.8) MB, pooled: 2 MB, 0.17 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   269212 ms: Scavenge 12.2 (15.8) -> 11.4 (15.8) MB, pooled: 2 MB, 1.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   269915 ms: Scavenge 12.2 (15.8) -> 11.4 (15.8) MB, pooled: 2 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   270624 ms: Scavenge 12.2 (15.8) -> 11.4 (15.8) MB, pooled: 2 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   271890 ms: Scavenge 12.2 (15.8) -> 11.4 (15.8) MB, pooled: 2 MB, 0.72 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=14: Smiler B corpse placed
+[2292:0xe2cb000]   273800 ms: Scavenge 12.3 (15.8) -> 11.5 (14.8) MB, pooled: 3 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   276093 ms: Scavenge 12.3 (14.8) -> 11.5 (14.8) MB, pooled: 3 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   278533 ms: Scavenge 12.4 (14.8) -> 11.6 (14.8) MB, pooled: 3 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   280604 ms: Scavenge 12.4 (14.8) -> 11.6 (14.8) MB, pooled: 3 MB, 0.68 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   280917 ms: Scavenge 12.6 (14.8) -> 11.6 (14.8) MB, pooled: 3 MB, 2.58 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   280931 ms: Scavenge 12.5 (14.8) -> 11.7 (14.8) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   281786 ms: Scavenge 12.5 (14.8) -> 11.7 (15.8) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   282341 ms: Scavenge 12.5 (15.8) -> 11.7 (14.8) MB, pooled: 3 MB, 0.41 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   283097 ms: Scavenge 12.5 (14.8) -> 11.7 (14.8) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   283881 ms: Scavenge 12.5 (14.8) -> 11.7 (15.8) MB, pooled: 2 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[2292:0xe2cb000]   284707 ms: Scavenge 12.6 (15.8) -> 11.8 (15.8) MB, pooled: 2 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   284917 ms: Scavenge 12.8 (15.8) -> 11.8 (15.8) MB, pooled: 2 MB, 4.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   285114 ms: Scavenge 12.7 (16.1) -> 11.8 (16.1) MB, pooled: 2 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   285725 ms: Scavenge 12.7 (16.1) -> 11.9 (16.1) MB, pooled: 2 MB, 1.10 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   286427 ms: Scavenge 12.7 (16.1) -> 11.9 (16.1) MB, pooled: 2 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   286727 ms: Scavenge 12.7 (16.1) -> 11.9 (16.1) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   287081 ms: Scavenge 12.8 (16.1) -> 11.9 (16.1) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   287432 ms: Scavenge 12.8 (16.1) -> 11.9 (16.1) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   287788 ms: Scavenge 12.8 (16.1) -> 11.9 (16.1) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   288320 ms: Scavenge 12.7 (16.1) -> 11.9 (16.1) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=15: Smiler C corpse placed
+[2292:0xe2cb000]   290117 ms: Scavenge 12.8 (16.1) -> 12.0 (16.1) MB, pooled: 2 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   292281 ms: Scavenge 12.8 (16.1) -> 12.0 (15.1) MB, pooled: 3 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   294685 ms: Scavenge 12.9 (15.1) -> 12.1 (15.1) MB, pooled: 3 MB, 0.55 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   295943 ms: Scavenge 13.0 (15.1) -> 12.2 (15.1) MB, pooled: 3 MB, 1.94 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   296720 ms: Scavenge 13.0 (15.1) -> 12.2 (15.1) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   297685 ms: Scavenge 13.0 (15.1) -> 12.2 (15.1) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   298462 ms: Scavenge 13.0 (15.1) -> 12.2 (15.1) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   298970 ms: Scavenge 13.1 (15.1) -> 12.3 (15.1) MB, pooled: 3 MB, 0.95 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   299647 ms: Scavenge 13.1 (15.1) -> 12.3 (15.1) MB, pooled: 3 MB, 0.68 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   300537 ms: Scavenge 13.1 (15.1) -> 12.3 (16.1) MB, pooled: 2 MB, 3.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   301038 ms: Scavenge 13.1 (16.1) -> 12.3 (16.1) MB, pooled: 2 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[2292:0xe2cb000]   301570 ms: Scavenge 13.1 (16.1) -> 12.4 (16.1) MB, pooled: 2 MB, 0.59 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   301716 ms: Scavenge 13.3 (16.1) -> 12.4 (16.1) MB, pooled: 2 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   301919 ms: Scavenge 13.2 (16.1) -> 12.4 (16.1) MB, pooled: 2 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   302222 ms: Scavenge 13.3 (16.1) -> 12.4 (16.1) MB, pooled: 2 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   302524 ms: Scavenge 13.3 (16.1) -> 12.4 (16.1) MB, pooled: 2 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   302824 ms: Scavenge 13.3 (16.1) -> 12.4 (16.1) MB, pooled: 2 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   303126 ms: Scavenge 13.3 (16.1) -> 12.4 (16.1) MB, pooled: 2 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   303427 ms: Scavenge 13.2 (16.1) -> 12.5 (16.1) MB, pooled: 2 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   303729 ms: Scavenge 13.3 (16.1) -> 12.5 (16.1) MB, pooled: 2 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   304061 ms: Scavenge 13.2 (16.1) -> 12.5 (16.1) MB, pooled: 2 MB, 1.60 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   304388 ms: Scavenge 13.4 (16.1) -> 12.5 (16.1) MB, pooled: 2 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   304691 ms: Scavenge 13.3 (16.1) -> 12.5 (16.1) MB, pooled: 2 MB, 0.41 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   305298 ms: Scavenge 13.3 (16.1) -> 12.5 (16.1) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=16: Smiler D corpse placed
+[2292:0xe2cb000]   307173 ms: Scavenge 13.3 (16.1) -> 12.5 (16.1) MB, pooled: 2 MB, 0.41 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   309236 ms: Scavenge 13.4 (16.1) -> 12.6 (15.1) MB, pooled: 3 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   311663 ms: Scavenge 13.4 (15.1) -> 12.6 (15.1) MB, pooled: 3 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   313835 ms: Scavenge 13.5 (15.1) -> 12.7 (15.1) MB, pooled: 3 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   314721 ms: Scavenge 13.6 (15.1) -> 12.7 (15.1) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   315401 ms: Scavenge 13.5 (15.1) -> 12.7 (15.1) MB, pooled: 3 MB, 0.46 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   316557 ms: Scavenge 13.5 (15.1) -> 12.7 (15.1) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   317665 ms: Scavenge 13.6 (15.1) -> 12.8 (15.1) MB, pooled: 3 MB, 0.36 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[2292:0xe2cb000]   318622 ms: Scavenge 13.6 (15.1) -> 12.8 (15.1) MB, pooled: 3 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   318926 ms: Scavenge 13.7 (15.1) -> 12.9 (16.1) MB, pooled: 2 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   319179 ms: Scavenge 13.7 (16.1) -> 12.8 (16.1) MB, pooled: 2 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   319482 ms: Scavenge 13.8 (16.1) -> 12.9 (16.1) MB, pooled: 2 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   319782 ms: Scavenge 13.8 (16.1) -> 12.9 (16.1) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   320061 ms: Scavenge 13.7 (16.1) -> 12.9 (16.1) MB, pooled: 2 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   320338 ms: Scavenge 13.8 (16.1) -> 12.9 (16.1) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   320639 ms: Scavenge 13.8 (16.1) -> 12.9 (16.1) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   320944 ms: Scavenge 13.7 (16.1) -> 12.9 (16.1) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   321317 ms: Scavenge 13.8 (16.1) -> 12.9 (16.1) MB, pooled: 2 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   321671 ms: Scavenge 13.7 (16.1) -> 12.9 (16.1) MB, pooled: 2 MB, 4.11 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=17: Hound A corpse placed
+[2292:0xe2cb000]   323254 ms: Scavenge 13.8 (16.1) -> 13.0 (16.1) MB, pooled: 2 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   323737 ms: Scavenge 13.8 (16.1) -> 13.0 (16.1) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   326255 ms: Scavenge 13.8 (16.1) -> 13.0 (15.1) MB, pooled: 3 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   328649 ms: Scavenge 13.9 (15.1) -> 13.1 (15.1) MB, pooled: 3 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   330846 ms: Scavenge 13.9 (15.1) -> 13.1 (15.1) MB, pooled: 3 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   332754 ms: Scavenge 14.1 (15.1) -> 13.2 (15.1) MB, pooled: 3 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   332754 ms: Scavenge 14.2 (15.1) -> 13.2 (16.1) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   333359 ms: Scavenge 14.0 (16.1) -> 13.2 (15.1) MB, pooled: 3 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   334186 ms: Scavenge 14.0 (15.1) -> 13.3 (15.1) MB, pooled: 3 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   334592 ms: Scavenge 14.1 (15.1) -> 13.3 (15.1) MB, pooled: 3 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   335099 ms: Scavenge 14.1 (15.1) -> 13.3 (16.1) MB, pooled: 2 MB, 1.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   335756 ms: Scavenge 14.1 (16.3) -> 13.3 (16.3) MB, pooled: 2 MB, 0.73 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   336263 ms: Scavenge 14.2 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 1.57 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound B: you are not in the halls right now
+[2292:0xe2cb000]   336567 ms: Scavenge 14.3 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 3.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   336817 ms: Scavenge 14.2 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   337069 ms: Scavenge 14.2 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   337323 ms: Scavenge 14.2 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   337624 ms: Scavenge 14.3 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   337927 ms: Scavenge 14.3 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   338233 ms: Scavenge 14.3 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   338538 ms: Scavenge 14.3 (16.3) -> 13.4 (16.3) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   338892 ms: Scavenge 14.3 (16.3) -> 13.5 (16.3) MB, pooled: 2 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   339253 ms: Scavenge 14.3 (16.3) -> 13.5 (16.3) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   340514 ms: Scavenge 14.3 (16.3) -> 13.5 (16.3) MB, pooled: 2 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=18: Hound B corpse placed
+[2292:0xe2cb000]   341244 ms: Scavenge 14.5 (16.3) -> 13.5 (16.3) MB, pooled: 2 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   342880 ms: Scavenge 14.3 (16.3) -> 13.5 (16.3) MB, pooled: 2 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   345222 ms: Scavenge 14.4 (16.6) -> 13.6 (15.6) MB, pooled: 2 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   347599 ms: Scavenge 14.4 (15.6) -> 13.6 (15.6) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   349493 ms: Scavenge 14.5 (15.6) -> 13.7 (15.6) MB, pooled: 2 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   350930 ms: Scavenge 14.7 (15.6) -> 13.7 (15.6) MB, pooled: 2 MB, 1.88 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   351154 ms: Scavenge 14.7 (15.6) -> 13.8 (15.6) MB, pooled: 2 MB, 0.56 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   351431 ms: Scavenge 14.5 (15.6) -> 13.7 (15.6) MB, pooled: 2 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   351688 ms: Scavenge 14.7 (15.6) -> 13.8 (15.6) MB, pooled: 2 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   351913 ms: Scavenge 14.6 (15.6) -> 13.8 (15.6) MB, pooled: 2 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   352871 ms: Scavenge 14.6 (15.6) -> 13.8 (16.8) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   353883 ms: Scavenge 14.6 (16.8) -> 13.8 (16.8) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound C: ok
+[2292:0xe2cb000]   354644 ms: Scavenge 14.7 (16.8) -> 13.9 (16.8) MB, pooled: 1 MB, 0.44 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   354899 ms: Scavenge 14.6 (16.8) -> 13.9 (16.8) MB, pooled: 1 MB, 0.61 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   355151 ms: Scavenge 14.7 (16.8) -> 13.9 (16.8) MB, pooled: 1 MB, 0.18 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   355412 ms: Scavenge 14.8 (16.8) -> 13.9 (16.8) MB, pooled: 1 MB, 8.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   355655 ms: Scavenge 15.0 (17.2) -> 14.2 (17.2) MB, pooled: 1 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   356110 ms: Scavenge 15.0 (17.2) -> 14.2 (17.2) MB, pooled: 1 MB, 1.83 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   356513 ms: Scavenge 15.0 (17.2) -> 14.2 (17.5) MB, pooled: 1 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   356965 ms: Scavenge 15.1 (17.5) -> 14.2 (17.5) MB, pooled: 1 MB, 2.97 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   357466 ms: Scavenge 15.1 (17.5) -> 14.3 (17.5) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   358526 ms: Scavenge 15.1 (17.5) -> 14.3 (17.5) MB, pooled: 1 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=19: Hound C corpse placed
+[2292:0xe2cb000]   359441 ms: Scavenge 15.3 (17.5) -> 14.3 (17.5) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   359442 ms: Scavenge 15.2 (17.5) -> 14.3 (17.5) MB, pooled: 1 MB, 0.15 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   361808 ms: Scavenge 15.2 (17.5) -> 14.4 (17.5) MB, pooled: 1 MB, 2.62 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   364166 ms: Scavenge 15.2 (17.5) -> 14.4 (16.5) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   366117 ms: Scavenge 15.2 (16.5) -> 14.4 (16.5) MB, pooled: 2 MB, 4.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   367971 ms: Scavenge 15.5 (16.7) -> 14.5 (16.7) MB, pooled: 2 MB, 0.94 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   368807 ms: Scavenge 15.4 (16.7) -> 14.6 (16.7) MB, pooled: 2 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   370056 ms: Scavenge 15.4 (16.7) -> 14.6 (16.7) MB, pooled: 2 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   371270 ms: Scavenge 15.4 (16.7) -> 14.6 (16.7) MB, pooled: 2 MB, 0.88 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound D: ok
+[2292:0xe2cb000]   371928 ms: Scavenge 15.4 (16.7) -> 14.7 (16.7) MB, pooled: 2 MB, 0.57 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   372537 ms: Scavenge 15.5 (16.7) -> 14.7 (17.0) MB, pooled: 2 MB, 2.84 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   373188 ms: Scavenge 15.5 (17.0) -> 14.7 (18.0) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   373901 ms: Scavenge 15.5 (18.0) -> 14.7 (18.0) MB, pooled: 0 MB, 1.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   375114 ms: Scavenge 15.6 (18.0) -> 14.8 (18.0) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=20: Hound D corpse placed
+[2292:0xe2cb000]   376554 ms: Scavenge 15.8 (18.0) -> 14.8 (18.0) MB, pooled: 0 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   378870 ms: Scavenge 15.7 (18.0) -> 14.9 (17.0) MB, pooled: 2 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   381353 ms: Scavenge 15.7 (17.0) -> 14.9 (17.0) MB, pooled: 2 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   383552 ms: Scavenge 15.7 (17.0) -> 15.0 (17.2) MB, pooled: 1 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   384933 ms: Scavenge 16.0 (17.2) -> 15.0 (17.2) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   385523 ms: Scavenge 15.9 (17.2) -> 15.1 (18.2) MB, pooled: 0 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   386411 ms: Scavenge 15.9 (18.2) -> 15.1 (17.2) MB, pooled: 1 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   387295 ms: Scavenge 16.0 (17.2) -> 15.2 (17.2) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   388224 ms: Scavenge 16.0 (17.2) -> 15.2 (17.2) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   389260 ms: Scavenge 16.0 (17.2) -> 15.2 (17.2) MB, pooled: 1 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[2292:0xe2cb000]   390061 ms: Scavenge 16.2 (17.2) -> 15.3 (18.2) MB, pooled: 0 MB, 0.78 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   390063 ms: Scavenge 16.2 (18.2) -> 15.3 (18.5) MB, pooled: 0 MB, 0.43 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   390616 ms: Scavenge 16.1 (18.5) -> 15.3 (18.5) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   391272 ms: Scavenge 16.1 (18.5) -> 15.3 (18.5) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   391982 ms: Scavenge 16.2 (18.5) -> 15.3 (18.5) MB, pooled: 0 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   392637 ms: Scavenge 16.1 (18.5) -> 15.4 (18.5) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   393324 ms: Scavenge 16.2 (18.5) -> 15.4 (18.5) MB, pooled: 0 MB, 1.73 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=21: Smiler A corpse placed
+[2292:0xe2cb000]   394455 ms: Scavenge 16.2 (18.5) -> 15.4 (18.7) MB, pooled: 0 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   396428 ms: Scavenge 16.2 (18.7) -> 15.4 (17.7) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   398821 ms: Scavenge 16.3 (17.7) -> 15.5 (17.7) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   401163 ms: Scavenge 16.3 (17.7) -> 15.6 (17.7) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   403066 ms: Scavenge 16.4 (17.7) -> 15.6 (17.7) MB, pooled: 1 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   403747 ms: Scavenge 16.6 (17.7) -> 15.6 (17.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   403748 ms: Scavenge 16.4 (17.7) -> 15.6 (17.7) MB, pooled: 1 MB, 0.15 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   404707 ms: Scavenge 16.4 (17.7) -> 15.6 (17.7) MB, pooled: 1 MB, 0.48 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   405591 ms: Scavenge 16.5 (17.7) -> 15.7 (17.7) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   406475 ms: Scavenge 16.5 (17.7) -> 15.7 (18.7) MB, pooled: 0 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[2292:0xe2cb000]   407291 ms: Scavenge 16.5 (18.7) -> 15.7 (18.7) MB, pooled: 0 MB, 1.19 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   407717 ms: Scavenge 16.6 (18.7) -> 15.8 (18.7) MB, pooled: 0 MB, 0.45 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   408076 ms: Scavenge 16.6 (18.7) -> 15.8 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   408729 ms: Scavenge 16.6 (18.7) -> 15.8 (18.7) MB, pooled: 0 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   409441 ms: Scavenge 16.6 (18.7) -> 15.8 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   410551 ms: Scavenge 16.6 (19.0) -> 15.8 (19.0) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=22: Smiler B corpse placed
+[2292:0xe2cb000]   412295 ms: Scavenge 16.7 (19.0) -> 15.9 (19.0) MB, pooled: 0 MB, 1.15 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   414514 ms: Scavenge 16.7 (19.0) -> 15.9 (18.0) MB, pooled: 1 MB, 0.97 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   416988 ms: Scavenge 16.7 (18.0) -> 15.9 (18.0) MB, pooled: 1 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   417010 ms: Mark-Compact 16.0 (18.0) -> 8.7 (17.7) MB, pooled: 1 MB, 12.68 / 0.00 ms  (+ 8.4 ms in 0 steps since start of marking, biggest step 0.0 ms, walltime since start of marking 22 ms) (average mu = 1.000, current mu = 1.000) finalize incremental marking via task; GC in old space requested
+[2292:0xe2cb000]   418482 ms: Scavenge 9.6 (17.7) -> 8.8 (17.7) MB, pooled: 1 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   419340 ms: Scavenge 9.6 (17.7) -> 8.8 (17.7) MB, pooled: 1 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   419924 ms: Scavenge 9.6 (17.7) -> 8.8 (17.7) MB, pooled: 1 MB, 0.41 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   420457 ms: Scavenge 9.6 (17.7) -> 8.8 (17.7) MB, pooled: 1 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   421296 ms: Scavenge 9.7 (17.7) -> 8.9 (17.7) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   421801 ms: Scavenge 9.7 (17.7) -> 8.9 (17.7) MB, pooled: 1 MB, 1.14 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   422310 ms: Scavenge 9.8 (17.7) -> 8.9 (18.7) MB, pooled: 0 MB, 1.41 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   422867 ms: Scavenge 9.7 (18.7) -> 9.0 (18.7) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   423526 ms: Scavenge 9.8 (18.7) -> 9.0 (18.7) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   424283 ms: Scavenge 9.8 (18.7) -> 9.0 (18.7) MB, pooled: 0 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler C: you are not in the halls right now
+[death] room=soak3d #1 de=23: Hound A corpse placed
+[2292:0xe2cb000]   425748 ms: Scavenge 9.8 (18.7) -> 9.0 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   426200 ms: Scavenge 9.9 (18.7) -> 9.0 (18.7) MB, pooled: 0 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   428603 ms: Scavenge 9.9 (18.7) -> 9.1 (17.7) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   430858 ms: Scavenge 9.9 (17.7) -> 9.2 (17.7) MB, pooled: 1 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   432918 ms: Scavenge 10.0 (17.7) -> 9.2 (17.7) MB, pooled: 1 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   434865 ms: Scavenge 10.0 (17.7) -> 9.2 (17.7) MB, pooled: 1 MB, 0.53 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   435423 ms: Scavenge 10.1 (17.7) -> 9.3 (17.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   436434 ms: Scavenge 10.1 (17.7) -> 9.3 (17.7) MB, pooled: 1 MB, 0.39 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   437518 ms: Scavenge 10.1 (17.7) -> 9.3 (17.7) MB, pooled: 1 MB, 0.42 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   438782 ms: Scavenge 10.1 (17.7) -> 9.4 (17.7) MB, pooled: 1 MB, 0.69 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   440110 ms: Scavenge 10.2 (17.7) -> 9.4 (18.7) MB, pooled: 0 MB, 0.68 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   441426 ms: Scavenge 10.2 (18.7) -> 9.4 (17.7) MB, pooled: 1 MB, 0.96 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[2292:0xe2cb000]   442437 ms: Scavenge 10.4 (17.7) -> 9.5 (17.7) MB, pooled: 1 MB, 2.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   442713 ms: Scavenge 10.3 (17.7) -> 9.5 (17.7) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   443294 ms: Scavenge 10.3 (17.7) -> 9.5 (17.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   443948 ms: Scavenge 10.3 (17.7) -> 9.5 (18.7) MB, pooled: 0 MB, 0.36 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   444555 ms: Scavenge 10.4 (18.7) -> 9.6 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   445212 ms: Scavenge 10.4 (18.7) -> 9.6 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   446100 ms: Scavenge 10.4 (18.7) -> 9.6 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=24: Smiler D corpse placed
+[2292:0xe2cb000]   447927 ms: Scavenge 10.4 (18.7) -> 9.7 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   450098 ms: Scavenge 10.5 (18.7) -> 9.7 (17.7) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   452567 ms: Scavenge 10.6 (17.7) -> 9.8 (17.7) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   454758 ms: Scavenge 10.6 (17.7) -> 9.8 (17.7) MB, pooled: 1 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   455692 ms: Scavenge 10.8 (17.7) -> 9.9 (17.7) MB, pooled: 1 MB, 1.63 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   456554 ms: Scavenge 10.7 (17.7) -> 9.9 (17.7) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   457436 ms: Scavenge 10.7 (17.7) -> 9.9 (17.7) MB, pooled: 1 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   458219 ms: Scavenge 10.7 (17.7) -> 10.0 (17.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   459071 ms: Scavenge 10.8 (17.7) -> 10.0 (17.7) MB, pooled: 1 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   459852 ms: Scavenge 10.8 (17.7) -> 10.0 (18.7) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound A: ok
+[2292:0xe2cb000]   460506 ms: Scavenge 10.8 (18.7) -> 10.0 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   461061 ms: Scavenge 10.9 (18.7) -> 10.1 (18.7) MB, pooled: 0 MB, 1.57 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   461564 ms: Scavenge 10.9 (18.7) -> 10.1 (18.7) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   462172 ms: Scavenge 10.9 (18.7) -> 10.1 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   462877 ms: Scavenge 10.9 (18.7) -> 10.1 (18.7) MB, pooled: 0 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   464281 ms: Scavenge 10.9 (18.7) -> 10.2 (18.7) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=25: Hound A corpse placed
+[2292:0xe2cb000]   464790 ms: Scavenge 11.0 (18.7) -> 10.2 (18.7) MB, pooled: 0 MB, 5.79 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   465344 ms: Scavenge 11.1 (18.7) -> 10.2 (18.7) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   466627 ms: Scavenge 11.0 (18.7) -> 10.2 (18.7) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   468519 ms: Scavenge 11.0 (18.7) -> 10.2 (17.7) MB, pooled: 1 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   470436 ms: Scavenge 11.1 (17.7) -> 10.3 (17.7) MB, pooled: 1 MB, 1.05 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   472228 ms: Scavenge 11.1 (17.7) -> 10.3 (17.7) MB, pooled: 1 MB, 0.63 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   473418 ms: Scavenge 11.3 (17.7) -> 10.3 (17.7) MB, pooled: 1 MB, 0.39 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   473421 ms: Scavenge 11.3 (17.7) -> 10.3 (17.7) MB, pooled: 1 MB, 0.63 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   474328 ms: Scavenge 11.2 (17.7) -> 10.4 (17.7) MB, pooled: 1 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   475055 ms: Scavenge 11.2 (17.7) -> 10.4 (17.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   475736 ms: Scavenge 11.3 (17.7) -> 10.4 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   476567 ms: Scavenge 11.2 (18.7) -> 10.5 (18.7) MB, pooled: 0 MB, 0.41 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   477145 ms: Scavenge 11.3 (18.7) -> 10.5 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   477953 ms: Scavenge 11.3 (18.7) -> 10.5 (18.7) MB, pooled: 0 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound B: you are not in the halls right now
+[2292:0xe2cb000]   478568 ms: Scavenge 11.3 (18.7) -> 10.5 (18.7) MB, pooled: 0 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   479128 ms: Scavenge 11.3 (18.7) -> 10.6 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   479583 ms: Scavenge 11.4 (18.7) -> 10.6 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   479885 ms: Scavenge 11.5 (18.7) -> 10.6 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   480187 ms: Scavenge 11.5 (18.7) -> 10.6 (18.7) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   480471 ms: Scavenge 11.4 (18.7) -> 10.6 (18.7) MB, pooled: 0 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   480824 ms: Scavenge 11.5 (18.7) -> 10.6 (18.7) MB, pooled: 0 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   481177 ms: Scavenge 11.4 (18.7) -> 10.6 (18.7) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   482460 ms: Scavenge 11.4 (18.7) -> 10.6 (18.7) MB, pooled: 0 MB, 2.39 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=26: Hound B corpse placed
+[2292:0xe2cb000]   483138 ms: Scavenge 11.6 (18.7) -> 10.7 (18.7) MB, pooled: 0 MB, 0.48 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   484781 ms: Scavenge 11.5 (18.7) -> 10.7 (18.7) MB, pooled: 0 MB, 1.72 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   486739 ms: Scavenge 11.5 (18.7) -> 10.7 (17.7) MB, pooled: 1 MB, 0.54 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   488705 ms: Scavenge 11.6 (17.7) -> 10.8 (17.7) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   490391 ms: Scavenge 11.7 (17.7) -> 10.8 (17.7) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   492363 ms: Scavenge 11.6 (17.7) -> 10.8 (17.7) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   494333 ms: Scavenge 11.7 (17.7) -> 10.9 (17.7) MB, pooled: 1 MB, 0.19 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   496296 ms: Scavenge 11.7 (17.7) -> 10.9 (17.7) MB, pooled: 1 MB, 1.17 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   498242 ms: Scavenge 11.7 (17.7) -> 10.9 (17.7) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   500180 ms: Scavenge 11.8 (17.7) -> 11.0 (17.7) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   502123 ms: Scavenge 11.8 (17.7) -> 11.0 (17.7) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   503181 ms: Scavenge 12.0 (17.7) -> 11.0 (17.7) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   504147 ms: Scavenge 11.8 (17.7) -> 11.0 (17.7) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   505993 ms: Scavenge 12.1 (17.7) -> 11.1 (17.7) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   507537 ms: Scavenge 11.9 (17.7) -> 11.1 (17.7) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   509516 ms: Scavenge 11.9 (17.7) -> 11.1 (17.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   511488 ms: Scavenge 12.0 (17.7) -> 11.2 (17.7) MB, pooled: 1 MB, 0.45 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   513452 ms: Scavenge 12.0 (17.7) -> 11.2 (17.7) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   515418 ms: Scavenge 12.1 (17.7) -> 11.2 (17.7) MB, pooled: 1 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   517398 ms: Scavenge 12.1 (17.7) -> 11.3 (17.7) MB, pooled: 1 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   519363 ms: Scavenge 12.1 (17.7) -> 11.3 (17.7) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   521308 ms: Scavenge 12.2 (17.7) -> 11.4 (17.7) MB, pooled: 1 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   523273 ms: Scavenge 12.2 (17.7) -> 11.4 (17.7) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   524057 ms: Scavenge 12.4 (17.7) -> 11.4 (17.7) MB, pooled: 1 MB, 2.70 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   525307 ms: Scavenge 12.2 (17.7) -> 11.4 (17.7) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   527253 ms: Scavenge 12.3 (17.7) -> 11.5 (17.7) MB, pooled: 1 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   527304 ms: Scavenge 12.4 (17.7) -> 11.5 (17.7) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   528558 ms: Scavenge 12.3 (17.7) -> 11.5 (17.7) MB, pooled: 1 MB, 0.74 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   530431 ms: Scavenge 12.3 (17.7) -> 11.5 (18.7) MB, pooled: 0 MB, 0.36 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   531970 ms: Scavenge 12.4 (18.7) -> 11.6 (17.7) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   532277 ms: Scavenge 12.4 (17.7) -> 11.6 (17.7) MB, pooled: 1 MB, 3.62 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   532324 ms: Scavenge 12.6 (17.7) -> 11.6 (17.7) MB, pooled: 1 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   532777 ms: Scavenge 12.4 (17.7) -> 11.6 (17.7) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   533303 ms: Scavenge 12.4 (17.7) -> 11.6 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   533857 ms: Scavenge 12.4 (18.7) -> 11.6 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   534415 ms: Scavenge 12.4 (18.7) -> 11.7 (18.7) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   535048 ms: Scavenge 12.5 (18.7) -> 11.7 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   535401 ms: Scavenge 12.5 (18.7) -> 11.7 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   535805 ms: Scavenge 12.5 (18.7) -> 11.7 (18.7) MB, pooled: 0 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   536282 ms: Scavenge 12.5 (18.7) -> 11.7 (18.7) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   536759 ms: Scavenge 12.5 (18.7) -> 11.7 (18.7) MB, pooled: 0 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   536985 ms: Scavenge 12.6 (18.7) -> 11.7 (18.7) MB, pooled: 0 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   537186 ms: Scavenge 12.6 (18.7) -> 11.8 (18.7) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   537463 ms: Scavenge 12.6 (18.7) -> 11.8 (18.7) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   537693 ms: Scavenge 12.6 (18.7) -> 11.8 (18.7) MB, pooled: 0 MB, 1.92 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   537944 ms: Scavenge 12.6 (18.7) -> 11.8 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   538212 ms: Scavenge 12.7 (18.7) -> 11.8 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   538463 ms: Scavenge 12.6 (18.7) -> 11.8 (18.7) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   538762 ms: Scavenge 12.7 (18.7) -> 11.8 (18.7) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   539067 ms: Scavenge 12.7 (18.7) -> 11.8 (18.7) MB, pooled: 0 MB, 0.36 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   539418 ms: Scavenge 12.7 (18.7) -> 11.9 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   539771 ms: Scavenge 12.7 (18.7) -> 11.9 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   541040 ms: Scavenge 12.7 (18.7) -> 11.9 (18.7) MB, pooled: 0 MB, 2.42 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=27: Hound A corpse placed
+[2292:0xe2cb000]   541934 ms: Scavenge 12.7 (18.7) -> 11.9 (18.7) MB, pooled: 0 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   543858 ms: Scavenge 12.7 (18.7) -> 11.9 (18.7) MB, pooled: 0 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   545840 ms: Scavenge 12.8 (18.7) -> 12.0 (17.7) MB, pooled: 1 MB, 0.80 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   547818 ms: Scavenge 12.8 (17.7) -> 12.0 (17.7) MB, pooled: 1 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   549787 ms: Scavenge 12.9 (17.7) -> 12.1 (17.7) MB, pooled: 1 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   551109 ms: Scavenge 12.9 (17.7) -> 12.1 (17.7) MB, pooled: 1 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound C: you are not in the halls right now
+[2292:0xe2cb000]   553053 ms: Scavenge 12.9 (17.7) -> 12.1 (17.7) MB, pooled: 1 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   554801 ms: Scavenge 13.1 (17.7) -> 12.2 (17.7) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   554802 ms: Scavenge 13.1 (17.7) -> 12.1 (17.7) MB, pooled: 1 MB, 0.18 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   556579 ms: Scavenge 13.0 (17.7) -> 12.2 (17.7) MB, pooled: 1 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   558373 ms: Scavenge 13.0 (17.7) -> 12.2 (17.7) MB, pooled: 1 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   559486 ms: Scavenge 13.2 (17.7) -> 12.3 (17.7) MB, pooled: 1 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   559865 ms: Scavenge 13.1 (17.7) -> 12.3 (17.7) MB, pooled: 1 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   560651 ms: Scavenge 13.1 (17.7) -> 12.3 (17.7) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   561406 ms: Scavenge 13.1 (17.7) -> 12.3 (17.7) MB, pooled: 1 MB, 0.43 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   562080 ms: Scavenge 13.1 (17.7) -> 12.3 (17.7) MB, pooled: 1 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   562706 ms: Scavenge 13.2 (17.7) -> 12.4 (18.7) MB, pooled: 0 MB, 0.89 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   563513 ms: Scavenge 13.2 (18.7) -> 12.4 (18.7) MB, pooled: 0 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   564353 ms: Scavenge 13.2 (18.7) -> 12.4 (18.7) MB, pooled: 0 MB, 0.68 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   565001 ms: Scavenge 13.3 (18.7) -> 12.5 (18.7) MB, pooled: 0 MB, 0.53 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   565780 ms: Scavenge 13.3 (18.7) -> 12.5 (18.7) MB, pooled: 0 MB, 0.42 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   566258 ms: Scavenge 13.3 (18.7) -> 12.5 (18.7) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   566683 ms: Scavenge 13.4 (18.7) -> 12.5 (18.7) MB, pooled: 0 MB, 0.49 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   567316 ms: Scavenge 13.4 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   567518 ms: Scavenge 13.4 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death hound D: you are not in the halls right now
+[2292:0xe2cb000]   567770 ms: Scavenge 13.4 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 1.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   568023 ms: Scavenge 13.4 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   568275 ms: Scavenge 13.5 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   568528 ms: Scavenge 13.5 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   568783 ms: Scavenge 13.4 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   569085 ms: Scavenge 13.5 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   569386 ms: Scavenge 13.5 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   569687 ms: Scavenge 13.6 (18.7) -> 12.6 (18.7) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   570005 ms: Scavenge 13.5 (18.7) -> 12.7 (18.7) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   570333 ms: Scavenge 13.5 (18.7) -> 12.7 (18.7) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   571222 ms: Scavenge 13.5 (18.7) -> 12.7 (18.7) MB, pooled: 0 MB, 1.60 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=28: Hound B corpse placed
+[2292:0xe2cb000]   572428 ms: Scavenge 13.5 (18.7) -> 12.7 (18.7) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   572606 ms: Scavenge 13.7 (18.7) -> 12.7 (18.7) MB, pooled: 0 MB, 0.34 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   574385 ms: Scavenge 13.6 (18.7) -> 12.8 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   576208 ms: Scavenge 13.6 (18.7) -> 12.8 (17.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   578025 ms: Scavenge 13.6 (17.7) -> 12.8 (17.7) MB, pooled: 1 MB, 0.41 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   579566 ms: Scavenge 13.7 (17.7) -> 12.9 (17.7) MB, pooled: 1 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   581056 ms: Scavenge 13.7 (17.7) -> 12.9 (17.7) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   581688 ms: Scavenge 13.7 (17.7) -> 13.0 (17.7) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   582451 ms: Scavenge 13.9 (17.7) -> 13.0 (17.7) MB, pooled: 1 MB, 2.69 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   582975 ms: Scavenge 13.8 (17.7) -> 13.0 (17.7) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   583478 ms: Scavenge 13.8 (17.7) -> 13.0 (18.7) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   583979 ms: Scavenge 13.8 (18.7) -> 13.0 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   584483 ms: Scavenge 13.9 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   584858 ms: Scavenge 13.9 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler A: ok
+[2292:0xe2cb000]   585340 ms: Scavenge 13.9 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   585564 ms: Scavenge 13.9 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   585665 ms: Scavenge 14.1 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.48 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   585741 ms: Scavenge 14.0 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.47 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   586042 ms: Scavenge 14.0 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.35 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   586345 ms: Scavenge 14.0 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   586657 ms: Scavenge 14.0 (18.7) -> 13.1 (18.7) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   587317 ms: Scavenge 14.3 (18.9) -> 13.5 (18.9) MB, pooled: 0 MB, 2.79 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   587923 ms: Scavenge 14.3 (18.9) -> 13.5 (18.9) MB, pooled: 0 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   588581 ms: Scavenge 14.4 (18.9) -> 13.5 (18.9) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=29: Smiler A corpse placed
+[2292:0xe2cb000]   589439 ms: Scavenge 14.4 (18.9) -> 13.6 (18.9) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   591214 ms: Scavenge 14.4 (18.9) -> 13.6 (18.9) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   593083 ms: Scavenge 14.4 (18.9) -> 13.6 (17.9) MB, pooled: 1 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   594994 ms: Scavenge 14.5 (17.9) -> 13.7 (17.9) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   596742 ms: Scavenge 14.5 (17.9) -> 13.7 (17.9) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   598306 ms: Scavenge 14.6 (17.9) -> 13.8 (17.9) MB, pooled: 1 MB, 0.32 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   598708 ms: Scavenge 14.8 (17.9) -> 13.8 (17.9) MB, pooled: 1 MB, 0.45 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   598985 ms: Scavenge 14.8 (17.9) -> 13.8 (17.9) MB, pooled: 1 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   599618 ms: Scavenge 14.6 (17.9) -> 13.8 (17.9) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   600302 ms: Scavenge 14.7 (17.9) -> 13.9 (18.9) MB, pooled: 0 MB, 1.04 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   600979 ms: Scavenge 14.7 (18.9) -> 13.9 (18.9) MB, pooled: 0 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   601641 ms: Scavenge 14.7 (18.9) -> 13.9 (18.9) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   602270 ms: Scavenge 14.7 (18.9) -> 13.9 (18.9) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   602849 ms: Scavenge 14.7 (18.9) -> 13.9 (18.9) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   603416 ms: Scavenge 14.8 (18.9) -> 14.0 (18.9) MB, pooled: 0 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler B: ok
+[2292:0xe2cb000]   603672 ms: Scavenge 14.9 (18.9) -> 14.0 (18.9) MB, pooled: 0 MB, 0.63 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   603822 ms: Scavenge 14.9 (18.9) -> 14.0 (18.9) MB, pooled: 0 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   604373 ms: Scavenge 14.8 (18.9) -> 14.0 (18.9) MB, pooled: 0 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   605032 ms: Scavenge 14.9 (18.9) -> 14.0 (18.9) MB, pooled: 0 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   605689 ms: Scavenge 14.8 (18.9) -> 14.0 (18.9) MB, pooled: 0 MB, 0.44 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   606756 ms: Scavenge 14.9 (18.9) -> 14.1 (18.9) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=30: Smiler B corpse placed
+[2292:0xe2cb000]   608326 ms: Scavenge 14.9 (18.9) -> 14.1 (18.9) MB, pooled: 0 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   610140 ms: Scavenge 14.9 (18.9) -> 14.1 (17.9) MB, pooled: 1 MB, 0.58 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   612036 ms: Scavenge 15.0 (17.9) -> 14.2 (17.9) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   613912 ms: Scavenge 15.0 (17.9) -> 14.2 (17.9) MB, pooled: 1 MB, 1.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   615500 ms: Scavenge 15.1 (17.9) -> 14.3 (17.9) MB, pooled: 1 MB, 0.21 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   616204 ms: Scavenge 15.3 (17.9) -> 14.3 (17.9) MB, pooled: 1 MB, 0.44 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   616380 ms: Scavenge 15.1 (17.9) -> 14.3 (17.9) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   617233 ms: Scavenge 15.1 (17.9) -> 14.3 (17.9) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   617975 ms: Scavenge 15.2 (17.9) -> 14.4 (17.9) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   618891 ms: Scavenge 15.2 (17.9) -> 14.4 (17.9) MB, pooled: 1 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   619572 ms: Scavenge 15.2 (17.9) -> 14.4 (18.9) MB, pooled: 0 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   620126 ms: Scavenge 15.2 (18.9) -> 14.4 (18.9) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   620580 ms: Scavenge 15.2 (18.9) -> 14.4 (18.9) MB, pooled: 0 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   620913 ms: Scavenge 15.2 (18.9) -> 14.5 (18.9) MB, pooled: 0 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   621294 ms: Scavenge 15.3 (18.9) -> 14.5 (18.9) MB, pooled: 0 MB, 0.22 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler C: ok
+[2292:0xe2cb000]   621665 ms: Scavenge 15.3 (18.9) -> 14.5 (18.9) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   621821 ms: Scavenge 15.5 (18.9) -> 14.5 (18.9) MB, pooled: 0 MB, 0.45 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   621822 ms: Scavenge 15.5 (18.9) -> 14.5 (18.9) MB, pooled: 0 MB, 0.18 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   622422 ms: Scavenge 15.4 (18.9) -> 14.5 (18.9) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   623086 ms: Scavenge 15.3 (18.9) -> 14.6 (18.9) MB, pooled: 0 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   623717 ms: Scavenge 15.4 (18.9) -> 14.6 (18.9) MB, pooled: 0 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   624378 ms: Scavenge 15.4 (18.9) -> 14.6 (18.9) MB, pooled: 0 MB, 0.31 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=31: Smiler C corpse placed
+[2292:0xe2cb000]   625342 ms: Scavenge 15.4 (18.9) -> 14.6 (18.9) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   626813 ms: Scavenge 15.4 (18.9) -> 14.6 (18.9) MB, pooled: 0 MB, 0.37 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   628648 ms: Scavenge 15.5 (18.9) -> 14.7 (17.9) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   630551 ms: Scavenge 15.5 (17.9) -> 14.7 (17.9) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   632377 ms: Scavenge 15.6 (17.9) -> 14.7 (17.9) MB, pooled: 1 MB, 0.47 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   634002 ms: Scavenge 15.6 (17.9) -> 14.8 (18.9) MB, pooled: 0 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   635571 ms: Scavenge 15.7 (18.9) -> 14.9 (17.9) MB, pooled: 1 MB, 0.52 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   636075 ms: Scavenge 15.7 (17.9) -> 14.9 (17.9) MB, pooled: 1 MB, 0.38 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   637036 ms: Scavenge 15.7 (17.9) -> 14.9 (17.9) MB, pooled: 1 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   637798 ms: Scavenge 15.8 (17.9) -> 15.0 (17.9) MB, pooled: 1 MB, 0.28 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   638150 ms: Scavenge 15.8 (17.9) -> 15.0 (17.9) MB, pooled: 1 MB, 1.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   638801 ms: Scavenge 15.8 (17.9) -> 15.0 (17.9) MB, pooled: 1 MB, 0.26 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: preview death smiler D: ok
+[2292:0xe2cb000]   639305 ms: Scavenge 15.9 (17.9) -> 15.0 (18.9) MB, pooled: 0 MB, 0.27 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   639507 ms: Scavenge 16.0 (18.9) -> 15.1 (18.9) MB, pooled: 0 MB, 0.29 / 0.00 ms  (average mu = 1.000, current mu = 1.000) allocation failure; 
+[2292:0xe2cb000]   639659 ms: Scavenge 15.8 (19.1) -> 15.0 (19.1) MB, pooled: 0 MB, 2.57 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   640286 ms: Scavenge 15.9 (19.1) -> 15.1 (19.1) MB, pooled: 0 MB, 0.25 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   640931 ms: Scavenge 15.9 (19.1) -> 15.1 (19.1) MB, pooled: 0 MB, 5.81 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   641529 ms: Scavenge 15.9 (19.1) -> 15.1 (19.1) MB, pooled: 0 MB, 0.23 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   642192 ms: Scavenge 16.0 (19.1) -> 15.1 (19.1) MB, pooled: 0 MB, 0.48 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[death] room=soak3d #1 de=32: Smiler D corpse placed
+[2292:0xe2cb000]   643224 ms: Scavenge 16.0 (19.1) -> 15.2 (19.1) MB, pooled: 0 MB, 0.40 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   645003 ms: Scavenge 16.0 (19.1) -> 15.2 (18.1) MB, pooled: 1 MB, 0.33 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[admin] room=soak3d Alice#1: revive Alice
+[2292:0xe2cb000]   646871 ms: Scavenge 16.0 (18.1) -> 15.2 (18.1) MB, pooled: 1 MB, 0.20 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   648791 ms: Scavenge 16.1 (18.1) -> 15.3 (18.1) MB, pooled: 1 MB, 0.84 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   650630 ms: Scavenge 16.1 (18.1) -> 15.3 (18.1) MB, pooled: 1 MB, 0.24 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 
+[2292:0xe2cb000]   652222 ms: Scavenge 16.1 (18.1) -> 15.4 (18.1) MB, pooled: 1 MB, 0.30 / 0.00 ms  (average mu = 1.000, current mu = 1.000) task; 

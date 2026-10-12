@@ -18,7 +18,11 @@ HQ1 corrects two things in the Stage 3D D7 candidate: blood on the wallpaper whe
 | `light_hold_compare.py` | Gate L5's hold part: the corpse light in its hold against D7's, the same corpse, the same viewers |
 | `light_lifecycle.py` | Gate L6: focus / hide / resize, a dropped connection, a reloaded page, a second death, a revive mid-death and a world reset, on three screens |
 | `traffic8.js` | Eight players' network traffic through six deaths, for the A/B against D7 |
-| `summarize_hq1.py` | HQ1-3's whole regression in one summary (D6's summary re-based on D7) |
+| `summarize_hq1.py` | HQ1-3's whole regression in one summary (D6's summary re-based on D7), with the HQ1 features run again on the final tree |
+| `stain_budget.py` | Gates R4 / W6 at scale: twenty corpses with three wall marks each on twenty faces; stamps per corpse, receiver marks, stain images, stamping time, no churn when idle, replaced and cleared |
+| `visual_evidence.py` | The composed pictures of `STAGE_3D_HQ1_VISUAL_EVIDENCE.md` (D7 against HQ1, the four faces, the special cases, the timecoded light failure with its power curve, a 10 fps clip), from the captures |
+| `changed_files_hq1.py` | Writes `STAGE_3D_HQ1_CHANGED_FILES.txt`: every file changed since D7, by group |
+| `package_hq1.py` | The human-QA package: the ZIP of the final commit, its SHA-256, split parts with their checksums and join instructions (joined back and checked), and the receipt verifying the ZIP against the commit and GitHub |
 | `light_capture.py` | A dead light over time: both screens and a late joiner; what each page hands its lighting; BR-RoLE's light at the lens |
 | `probes/band_probe.py` | Which part of a wall face the line of sight shows (calibration stripes) |
 | `probes/victim_probe.py` | The victim's death clock and its lights during and after the death |

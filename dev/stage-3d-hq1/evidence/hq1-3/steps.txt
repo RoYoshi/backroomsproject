@@ -1,0 +1,85 @@
+-- HQ1-3 on a1d9cb98f7677cd5439bf731432c5b226e7d4d35 (tree 07c83d1ab93f00973f5e5cf4f45768cb91891b9d); parent D7 export /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq1base; 3H0 export /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/d3base --
+existing/interp_test exit=0 seconds=0
+existing/test_3bn exit=0 seconds=0
+qa2/camera_fairness exit=0 seconds=0
+qa2/br_role exit=0 seconds=40
+qa2/theme_assets exit=0 seconds=0
+phys_test exit=0 seconds=5
+phys_matrix exit=0 seconds=49
+gore_geo exit=0 seconds=22
+light_power exit=0 seconds=3
+light_net exit=0 seconds=38
+existing/humanqa_hotfix exit=1 seconds=2
+existing/humanqa_hotfix_parent exit=1 seconds=2
+hq1/wall_faces_low exit=0 seconds=16
+hq1/wall_faces_high exit=0 seconds=18
+hq1/faces_houndC_S exit=0 seconds=184
+hq1/stain_metric exit=0 seconds=0
+hq1/wall_rebuild exit=0 seconds=182
+hq1/wall_lifecycle exit=0 seconds=297
+hq1/timeline_flashlight exit=0 seconds=791
+hq1/timeline_flashlight_legacy exit=0 seconds=625
+hq1/light_lifecycle exit=1 seconds=587
+golden3d exit=0 seconds=18
+golden3d_vs_d7 exit=0 seconds=17
+golden3d_aa exit=0 seconds=16
+cli_golden3d exit=0 seconds=5
+cli_golden3d_vs_d7 exit=0 seconds=5
+contract3d exit=0 seconds=0
+contract_3h0_unchanged_file exit=1 seconds=1
+static_check exit=0 seconds=1
+perf_death_srv exit=0 seconds=5
+perf_death_srv_parent exit=0 seconds=5
+death_net exit=0 seconds=53
+traffic8/hq1 exit=0 seconds=64
+traffic8/d7 exit=0 seconds=64
+existing/live exit=1 seconds=73
+existing/audit_net exit=1 seconds=55
+existing/audit_net2 exit=1 seconds=231
+existing/ir_net exit=0 seconds=5
+existing/npm_test exit=1 seconds=252
+existing/npm_test_parent exit=1 seconds=256
+existing/test_shadows exit=1 seconds=31
+existing/test_shadows_parent exit=1 seconds=32
+qa2/probe_b1 exit=0 seconds=204
+qa2/probe_b2 exit=0 seconds=233
+qa2/probe_b3 exit=1 seconds=172
+stage-3c-qa2 evidence untouched: yes
+parity exit=0 seconds=148
+sound exit=0 seconds=184
+corpse_houndC exit=0 seconds=125
+corpse_houndA exit=0 seconds=144
+perf_ab/parent_1 exit=0 seconds=167
+perf_ab/new_1 exit=0 seconds=166
+perf_ab/parent_2 exit=0 seconds=165
+perf_ab/new_2 exit=0 seconds=169
+perf_ab/parent_3 exit=0 seconds=247
+perf_ab/new_3 exit=0 seconds=474
+perf_ab/parent_4 exit=0 seconds=482
+perf_ab/new_4 exit=0 seconds=164
+perf_death exit=0 seconds=360
+perf_death_parent exit=0 seconds=362
+perf_high/parent_high exit=0 seconds=353
+perf_high/new_high exit=0 seconds=259
+soak exit=0 seconds=329
+soak_parent exit=0 seconds=328
+soak_gc/soak_gc exit=0 seconds=912
+soak_gc/soak_gc_parent exit=0 seconds=653
+server_soak exit=0 seconds=312
+server_soak_parent exit=0 seconds=312
+server_soak_nogc exit=0 seconds=414
+server_soak_nogc_parent exit=0 seconds=414
+film exit=0 seconds=2055
+film_xray exit=0 seconds=1999
+hq1/stain_budget exit=0 seconds=47  (after the regression, alone)
+hq1/light_lifecycle exit=0 seconds=378  (after the regression, alone)
+qa2/probe_b3 exit=0 seconds=166  (after the regression, alone)
+qa2/probe_b3_parent exit=0 seconds=169  (after the regression, alone)
+soak_gc/soak_gc64 exit=0 seconds=1204  (after the regression, alone: the 32-death soak's RSS had not levelled)
+soak_gc/soak_gc64_parent exit=0 seconds=1278  (after the regression, alone: the 32-death soak's RSS had not levelled)
+perf_ab_high/parent_1 exit=0 seconds=125  (after the regression, alone: HIGH A/B for Hound A)
+perf_ab_high/new_1 exit=0 seconds=119  (after the regression, alone: HIGH A/B for Hound A)
+perf_ab_high/parent_2 exit=0 seconds=121  (after the regression, alone: HIGH A/B for Hound A)
+perf_ab_high/new_2 exit=0 seconds=121  (after the regression, alone: HIGH A/B for Hound A)
+perf_ab_high/parent_3 exit=0 seconds=129  (after the regression, alone: HIGH A/B for Hound A)
+perf_ab_high/new_3 exit=0 seconds=123  (after the regression, alone: HIGH A/B for Hound A)

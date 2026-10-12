@@ -1,0 +1,1062 @@
+{
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq1base",
+ "checks": [
+  {
+   "name": "a browser that wants a gesture: the ready gate is black but for one line (\"Press any key or click to enter\"); the menu is still hidden; the music is already downloaded and decoded (Intro 1357824 + Loop 2416640 frames, 44.1 kHz, both requested once, before the gate) but has not begun, its context suspended; the game's own audio graph does not exist",
+   "ok": true,
+   "note": {
+    "st": "ready",
+    "gate": true,
+    "go": "Press any key or click to enter",
+    "menuVis": "hidden",
+    "theme": {
+     "state": "ready",
+     "ctx": "suspended",
+     "begun": false,
+     "preparedAt": 6306,
+     "fetched": 2
+    },
+    "timeline": {
+     "black": 24,
+     "loading": 546,
+     "ready": 6557
+    },
+    "gameAudio": false,
+    "field": {
+     "fieldPixels": 895242,
+     "shareAboveLimit": 0,
+     "brightest": 0,
+     "mean": 0,
+     "limit": 10
+    },
+    "whole": {
+     "fieldPixels": 921600,
+     "shareAboveLimit": 0.001012,
+     "brightest": 216,
+     "mean": 0.104,
+     "limit": 24
+    },
+    "wav": [
+     "/assets/MainTheme_MenuIntro.wav?v=64b2124b.848db3af",
+     "/assets/MainTheme_MenuLoop.wav?v=64b2124b.848db3af"
+    ]
+   }
+  },
+  {
+   "name": "Escape, Shift, Tab and Control do not pass the gate (system and browser keys pass by)",
+   "ok": true,
+   "note": {
+    "st": "ready",
+    "passedBy": null,
+    "keys": [
+     "Escape",
+     "Shift",
+     "Tab",
+     "Control"
+    ]
+   }
+  },
+  {
+   "name": "the first real key (A) starts the music and reveals the menu in the same step: the reveal, the music's start and the key are one moment; the Intro is scheduled 60 ms into its context and the Loop exactly one Intro later (on a sample frame, looping its whole buffer); the key never reaches the menu or the game",
+   "ok": true,
+   "note": {
+    "st": "menu",
+    "passedBy": "keydown:a",
+    "passedAt": 11708,
+    "menuAt": 11708,
+    "beganAt": 11708,
+    "t0": 0.06,
+    "loopAt": 30.849659863945575,
+    "now": 1.9736961451247166,
+    "ctx": "running",
+    "keys": [
+     "Escape",
+     "Shift",
+     "Tab",
+     "Control"
+    ],
+    "entry": false,
+    "gameAudio": false
+   }
+  },
+  {
+   "name": "the first entrance, logo first: at the reveal the logo starts dark and powers on (its ignition, no delay) while every other part is still dark; LEVEL 0, PLAY, the row, the left rail, the right rail and the footer then arrive in that order; the theme starts in the same step (within 50 ms)",
+   "ok": true,
+   "note": {
+    "delays": [
+     0,
+     200,
+     260,
+     400,
+     520,
+     600,
+     720
+    ],
+    "logoAnimation": "mmIgnite",
+    "logo": 0,
+    "partsOpacity": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "theme": {
+     "plays": 1,
+     "state": "playing",
+     "startedAt": 11708
+    },
+    "at": 11711,
+    "boot": "menu",
+    "game": null
+   }
+  },
+  {
+   "name": "SOUND and the master volume control it: 0.7 x volume, SOUND OFF -> 0, back on -> the level again",
+   "ok": true,
+   "note": {
+    "g0": 0.699999988079071,
+    "g1": 0.3499999940395355,
+    "g2": {
+     "g": 0,
+     "muted": true
+    },
+    "g3": 0.3499999940395355,
+    "g4": 0.699999988079071
+   }
+  },
+  {
+   "name": "the music plays on through Settings, Credits, Help, PLAY's entry and Customize (the same start, no restart, its clock running)",
+   "ok": true,
+   "note": {
+    "inCz": "customize",
+    "c0": [
+     1,
+     0.06,
+     9.868480725623582
+    ],
+    "c1": [
+     1,
+     0.06,
+     28.65342403628118,
+     "playing"
+    ]
+   }
+  },
+  {
+   "name": "a hidden tab is silent (its context suspended) and the music carries on where it was when the tab shows again (no restart)",
+   "ok": true,
+   "note": {
+    "a": [
+     "running",
+     0.06,
+     1
+    ],
+    "h": [
+     "suspended",
+     0.06,
+     1
+    ],
+    "v": [
+     "running",
+     0.06,
+     1
+    ]
+   }
+  },
+  {
+   "name": "ENTER LEVEL 0 from the menu passes through black: on screen the menu, then black (the curtain: no logo, no menu, no half-made frame), then the world fading in; the curtain never takes the pointer",
+   "ok": true,
+   "note": {
+    "sequence": [
+     {
+      "cls": "before",
+      "frames": 14,
+      "from": -1
+     },
+     {
+      "cls": "black",
+      "frames": 51,
+      "from": 2000
+     },
+     {
+      "cls": "dim",
+      "frames": 1,
+      "from": 4240
+     },
+     {
+      "cls": "lit",
+      "frames": 87,
+      "from": 4292
+     }
+    ],
+    "states": [
+     [
+      379,
+      "run",
+      "slow curtain out",
+      true,
+      "none",
+      true
+     ],
+     [
+      1596,
+      "playing",
+      "slow",
+      false,
+      "auto",
+      true
+     ]
+    ],
+    "after": {
+     "st": "playing",
+     "bootShown": false,
+     "started": true
+    }
+   }
+  },
+  {
+   "name": "the music fades out over 1 s at ENTER (a linear ramp from its level, then its sources stop and its context is suspended); the game's own audio graph exists only now (no menu music and halls together)",
+   "ok": true,
+   "note": {
+    "before": [
+     "playing",
+     false
+    ],
+    "after": {
+     "state": "stopped",
+     "ctx": "suspended",
+     "sources": 0,
+     "fade": [
+      35.54975056689342,
+      36.54975056689342
+     ],
+     "gameAudio": true
+    }
+   }
+  },
+  {
+   "name": "END returns through black: the run menu and the world fade down to full black (the boot layer fading in, taking the pointer), and only then does the game's own END run and the menu appear; no frame of the world after the black",
+   "ok": true,
+   "note": {
+    "sequence": [
+     {
+      "cls": "before",
+      "frames": 1,
+      "from": -1
+     },
+     {
+      "cls": "lit",
+      "frames": 26,
+      "from": -1
+     },
+     {
+      "cls": "dim",
+      "frames": 5,
+      "from": 2706
+     },
+     {
+      "cls": "black",
+      "frames": 7,
+      "from": 3101
+     },
+     {
+      "cls": "dim",
+      "frames": 3,
+      "from": 4290
+     },
+     {
+      "cls": "black",
+      "frames": 1,
+      "from": 4322
+     },
+     {
+      "cls": "dim",
+      "frames": 71,
+      "from": 4356
+     }
+    ],
+    "states": [
+     [
+      18,
+      "exit",
+      "slow exiting",
+      true,
+      true,
+      [
+       "running",
+       0.012
+      ],
+      ""
+     ],
+     [
+      1356,
+      "menu",
+      "slow",
+      false,
+      false,
+      [
+       "suspended",
+       0
+      ],
+      "mm-intro mm-go"
+     ]
+    ]
+   }
+  },
+  {
+   "name": "END: what the player hears of the game fades down with the picture (its own master output ramping to 0 during the fade), and stays silent on the menu (the game's context suspended); nothing about the run is sent to the server on the way (no join, respawn, vanish or leave - only the routine messages)",
+   "ok": true,
+   "note": {
+    "gameBefore": {
+     "ctx": "running",
+     "gain": 0.14,
+     "vol": 1,
+     "muted": false
+    },
+    "gainsDuringFade": [
+     0.012,
+     0,
+     0,
+     0
+    ],
+    "gameOnMenu": {
+     "ctx": "suspended",
+     "gain": 0,
+     "vol": 1,
+     "muted": false
+    },
+    "sentTypes": [
+     "p"
+    ]
+   }
+  },
+  {
+   "name": "the return entrance, logo first: on the black field the logo powers on first while every other part is still dark, the theme starts again from the Intro in the same step (within 50 ms), then LEVEL 0, PLAY, the row, the rails and the footer arrive in order",
+   "ok": true,
+   "note": {
+    "delays": [
+     0,
+     200,
+     260,
+     400,
+     520,
+     600,
+     720
+    ],
+    "logoAnimation": "mmIgnite",
+    "logo": 0,
+    "partsOpacity": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "theme": {
+     "plays": 2,
+     "state": "playing",
+     "startedAt": 74750
+    },
+    "at": 74754,
+    "boot": "menu",
+    "game": {
+     "ctx": "suspended",
+     "gain": 0
+    }
+   }
+  },
+  {
+   "name": "END: the black menu comes back (no world behind it) and the music starts again from the Intro (a new start, both sources, no download)",
+   "ok": true,
+   "note": {
+    "mid": "stopped",
+    "st": "menu",
+    "html": "tfb-black",
+    "endField": {
+     "fieldPixels": 446704,
+     "shareAboveLimit": 0,
+     "brightest": 7,
+     "mean": 0.027,
+     "limit": 10
+    },
+    "theme": {
+     "state": "playing",
+     "plays": 2,
+     "t0": 37.39768707482993,
+     "ctx": "running",
+     "fetched": 2
+    },
+    "wav": 2
+   }
+  },
+  {
+   "name": "the next ENTER LEVEL 0 restores what the player hears of the game: its context running again at the game's own level (0.14 x the master volume)",
+   "ok": true,
+   "note": {
+    "ctx": "running",
+    "gain": 0.14,
+    "vol": 1,
+    "muted": false
+   }
+  },
+  {
+   "name": "the gate's line is shown (fully opaque); a mouse click on the gate, right where PLAY is, starts the music and reveals the menu together - the line goes at once and the black fades - and does nothing else (PLAY's entry stays closed)",
+   "ok": true,
+   "note": {
+    "goOpacity": "1",
+    "passedBy": "pointerdown:mouse",
+    "theme": [
+     "playing",
+     "running"
+    ],
+    "entry": false,
+    "right": [
+     "menu",
+     "hidden",
+     "0",
+     "0s",
+     true
+    ]
+   }
+  },
+  {
+   "name": "a click entrance is the same as a key's: the logo powers on first, the theme with it, the rest in order",
+   "ok": true,
+   "note": {
+    "delays": [
+     0,
+     200,
+     260,
+     400,
+     520,
+     600,
+     720
+    ],
+    "logoAnimation": "mmIgnite",
+    "logo": 0,
+    "partsOpacity": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "theme": {
+     "plays": 1,
+     "state": "playing",
+     "startedAt": 7603
+    },
+    "at": 7608,
+    "boot": "menu",
+    "game": null
+   }
+  },
+  {
+   "name": "reduced motion: the gate's line is shown (fully opaque); a mouse click on the gate, right where PLAY is, starts the music and reveals the menu together - the line goes at once and the black fades - and does nothing else (PLAY's entry stays closed; the boot layer is gone at once, no fade)",
+   "ok": true,
+   "note": {
+    "goOpacity": "1",
+    "passedBy": "pointerdown:mouse",
+    "theme": [
+     "playing",
+     "running"
+    ],
+    "entry": false,
+    "right": [
+     "menu",
+     "hidden",
+     "0",
+     "0.01s",
+     true
+    ]
+   }
+  },
+  {
+   "name": "reduced motion keeps the entrance's order with short plain fades: the logo first (a fade, no flicker), the theme with it, then the other parts in order",
+   "ok": true,
+   "note": {
+    "delays": [
+     0,
+     100,
+     130,
+     180,
+     240,
+     280,
+     320
+    ],
+    "logoAnimation": "mmFade",
+    "logo": 0,
+    "partsOpacity": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "theme": {
+     "plays": 1,
+     "state": "playing",
+     "startedAt": 6472
+    },
+    "at": 6477,
+    "boot": "menu",
+    "game": null
+   }
+  },
+  {
+   "name": "a phone (390 x 844, touch): the gate reads \"Tap to enter\" on black; a tap anywhere - here right where PLAY is - starts the music and reveals the menu together, and does nothing else",
+   "ok": true,
+   "note": {
+    "go": "Tap to enter",
+    "field": {
+     "fieldPixels": 1265950,
+     "shareAboveLimit": 0,
+     "brightest": 0,
+     "mean": 0,
+     "limit": 10
+    },
+    "passedBy": "pointerup:touch",
+    "theme": [
+     "playing",
+     "running"
+    ],
+    "entry": false
+   }
+  },
+  {
+   "name": "a browser that lets sound start: no gate at all; at the ready moment the menu is revealed and the Intro begins in the same step (the music decoded before it)",
+   "ok": true,
+   "note": {
+    "timeline": {
+     "black": 24,
+     "loading": 541,
+     "ready": 5493,
+     "menu": 5518
+    },
+    "boot": {
+     "revealed": true,
+     "music": true,
+     "allowed": true,
+     "gate": false,
+     "gateShownAt": null,
+     "passedBy": "allowed",
+     "passedAt": 5518,
+     "noteShown": true,
+     "done": {
+      "stylesheets": 541,
+      "credits": 541,
+      "runtime": 710,
+      "logo": 718,
+      "music": 5255,
+      "fonts": 5255,
+      "frames": 5492
+     },
+     "entrances": [
+      5522
+     ]
+    },
+    "theme": {
+     "state": "playing",
+     "beganAt": 5518,
+     "preparedAt": 5255,
+     "fetched": 2
+    }
+   }
+  },
+  {
+   "name": "a second visit reads the music from Cache Storage (no download) and is ready sooner; it still starts with the menu",
+   "ok": true,
+   "note": {
+    "cold": {
+     "ready": 5493,
+     "menu": 5518,
+     "preparedAt": 5255
+    },
+    "warm": {
+     "ready": 974,
+     "menu": 975,
+     "preparedAt": 950,
+     "cacheHits": 2,
+     "fetched": 0
+    },
+    "wav": 0
+   }
+  },
+  {
+   "name": "Intro -> Loop is seamless: an offline render through the player's own scheduling equals Intro then Loop then Loop sample for sample (the handoff and two loop seams); each seam's jump is no bigger than the local sample-to-sample motion",
+   "ok": true,
+   "note": {
+    "frames": {
+     "intro": 1357824,
+     "loop": 2416640
+    },
+    "windows": [
+     {
+      "name": "intro->loop",
+      "at": 1357824,
+      "maxAbsDiffVsFiles": 0,
+      "seamJumpRms": 0.0033025675580386042,
+      "localAdjacentRms": 0.006279607966603917
+     },
+     {
+      "name": "loop seam 1",
+      "at": 3774464,
+      "maxAbsDiffVsFiles": 0,
+      "seamJumpRms": 0.0033016627213778515,
+      "localAdjacentRms": 0.006278331707849995
+     },
+     {
+      "name": "loop seam 2",
+      "at": 6191104,
+      "maxAbsDiffVsFiles": 0,
+      "seamJumpRms": 0.0033016627213778515,
+      "localAdjacentRms": 0.006278331707849995
+     }
+    ],
+    "sampledWholeRenderMaxDiff": 0
+   }
+  },
+  {
+   "name": "the Loop file is missing: the page stays black with \"the menu music did not load\" and RETRY (focused); the menu never shows; the reason goes to the console only",
+   "ok": true,
+   "note": {
+    "e": {
+     "st": "error",
+     "info": {
+      "state": "error",
+      "failed": "the menu music",
+      "timeline": {
+       "black": 36,
+       "loading": 425,
+       "error": 687
+      }
+     },
+     "msg": "The game could not start: the menu music did not load. Check your connection, then try again.",
+     "retry": true,
+     "focus": "bootRetry",
+     "menuVis": "hidden",
+     "theme": "error",
+     "go": true
+    },
+    "warns": [
+     "[boot] the menu music: Failed to fetch"
+    ]
+   }
+  },
+  {
+   "name": "the Intro arrives short (1000 bytes): the page stays black with \"the menu music did not load\" and RETRY (focused); the menu never shows; the reason goes to the console only",
+   "ok": true,
+   "note": {
+    "e": {
+     "st": "error",
+     "info": {
+      "state": "error",
+      "failed": "the menu music",
+      "timeline": {
+       "black": 22,
+       "loading": 408,
+       "error": 570
+      }
+     },
+     "msg": "The game could not start: the menu music did not load. Check your connection, then try again.",
+     "retry": true,
+     "focus": "bootRetry",
+     "menuVis": "hidden",
+     "theme": "error",
+     "go": true
+    },
+    "warns": [
+     "[boot] the menu music: incomplete download (1000 of 8146988 bytes)"
+    ]
+   }
+  },
+  {
+   "name": "a slow first download (8 Mbit/s): still black, the quiet \"Loading\" line and under it how much of the music has arrived (\"Downloading the menu music (first visit only): x of 22.6 MB\", real bytes, rising), no percentage",
+   "ok": true,
+   "note": {
+    "n1": {
+     "st": "loading",
+     "note": "Downloading the menu music (first visit only): 5.0 of 22.6 MB",
+     "msg": "0.8"
+    },
+    "n2": "Downloading the menu music (first visit only): 9.4 of 22.6 MB",
+    "whole": {
+     "fieldPixels": 921600,
+     "shareAboveLimit": 0.001582,
+     "brightest": 112,
+     "mean": 0.09,
+     "limit": 24
+    }
+   }
+  },
+  {
+   "name": "a browser without Web Audio: no gate, the menu is revealed as soon as the rest is ready, and the theme reports itself unsupported",
+   "ok": true,
+   "note": {
+    "st": "menu",
+    "boot": {
+     "revealed": true,
+     "music": false,
+     "allowed": null,
+     "gate": false,
+     "gateShownAt": null,
+     "passedBy": null,
+     "passedAt": null,
+     "noteShown": false,
+     "done": {
+      "stylesheets": 515,
+      "credits": 515,
+      "music": 515,
+      "runtime": 658,
+      "logo": 668,
+      "fonts": 675,
+      "frames": 684
+     },
+     "entrances": [
+      687
+     ]
+    },
+    "theme": "unsupported"
+   }
+  },
+  {
+   "name": "automation that starts a run before the reveal (a scripted ENTER while the music is still loading): the boot layer serves as the curtain and then leaves for good; when loading ends no gate appears over the run, keys reach the game, and the menu music does not start",
+   "ok": true,
+   "note": {
+    "st": "loading+runtime",
+    "during": {
+     "st": "playing",
+     "started": true,
+     "bootShown": false,
+     "html": ""
+    },
+    "after": {
+     "st": "playing",
+     "gate": false,
+     "bootShown": false,
+     "theme": [
+      "ready",
+      false
+     ],
+     "timeline": {
+      "black": 36,
+      "loading": 372,
+      "run": 570,
+      "playing": 4242,
+      "ready": 5306
+     }
+    },
+    "keys": [
+     "z"
+    ]
+   }
+  },
+  {
+   "name": "no page errors",
+   "ok": true,
+   "note": []
+  }
+ ],
+ "errors": [],
+ "notes": {
+  "gate": {
+   "timeline": {
+    "black": 24,
+    "loading": 546,
+    "ready": 6557
+   },
+   "boot": {
+    "revealed": false,
+    "music": true,
+    "allowed": false,
+    "gate": true,
+    "gateShownAt": 7005,
+    "passedBy": null,
+    "passedAt": null,
+    "noteShown": true,
+    "done": {
+     "stylesheets": 546,
+     "credits": 546,
+     "runtime": 743,
+     "logo": 750,
+     "music": 6306,
+     "fonts": 6307,
+     "frames": 6557
+    },
+    "entrances": []
+   },
+   "theme": {
+    "state": "ready",
+    "want": true,
+    "begun": false,
+    "ctx": "suspended",
+    "sampleRate": 44100,
+    "now": 0,
+    "gain": 0,
+    "level": 0.7,
+    "muted": false,
+    "introFrames": 1357824,
+    "loopFrames": 2416640,
+    "introRate": 44100,
+    "sources": 0,
+    "loopSourceLoops": null,
+    "loopSourceLoopStart": null,
+    "loopSourceLoopEnd": null,
+    "plays": 0,
+    "loads": 1,
+    "fetched": 2,
+    "cacheHits": 0,
+    "bytes": 22646872,
+    "need": 22646872,
+    "startedAt": null,
+    "t0": null,
+    "loopAt": null,
+    "fadeAt": null,
+    "fadeEnd": null,
+    "error": null,
+    "preparedAt": 6306,
+    "beganAt": null,
+    "policy": null,
+    "allowedAtReady": false
+   }
+  },
+  "afterKey": {
+   "timeline": {
+    "black": 24,
+    "loading": 546,
+    "ready": 6557,
+    "menu": 11708
+   },
+   "boot": {
+    "revealed": true,
+    "music": true,
+    "allowed": false,
+    "gate": true,
+    "gateShownAt": 7005,
+    "passedBy": "keydown:a",
+    "passedAt": 11708,
+    "noteShown": true,
+    "done": {
+     "stylesheets": 546,
+     "credits": 546,
+     "runtime": 743,
+     "logo": 750,
+     "music": 6306,
+     "fonts": 6307,
+     "frames": 6557
+    },
+    "entrances": [
+     11711
+    ]
+   },
+   "theme": {
+    "state": "playing",
+    "want": true,
+    "begun": true,
+    "ctx": "running",
+    "sampleRate": 44100,
+    "now": 1.9736961451247166,
+    "gain": 0.699999988079071,
+    "level": 0.7,
+    "muted": false,
+    "introFrames": 1357824,
+    "loopFrames": 2416640,
+    "introRate": 44100,
+    "sources": 2,
+    "loopSourceLoops": true,
+    "loopSourceLoopStart": 0,
+    "loopSourceLoopEnd": 0,
+    "plays": 1,
+    "loads": 1,
+    "fetched": 2,
+    "cacheHits": 0,
+    "bytes": 22646872,
+    "need": 22646872,
+    "startedAt": 11708,
+    "t0": 0.06,
+    "loopAt": 30.849659863945575,
+    "fadeAt": null,
+    "fadeEnd": null,
+    "error": null,
+    "preparedAt": 6306,
+    "beganAt": 11708,
+    "policy": null,
+    "allowedAtReady": false
+   }
+  },
+  "firstEntrance": {
+   "delays": [
+    0,
+    200,
+    260,
+    400,
+    520,
+    600,
+    720
+   ],
+   "logoAnimation": "mmIgnite",
+   "logo": 0,
+   "partsOpacity": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "theme": {
+    "plays": 1,
+    "state": "playing",
+    "startedAt": 11708
+   },
+   "at": 11711,
+   "boot": "menu",
+   "game": null
+  },
+  "enterFrames": {
+   "sequence": [
+    {
+     "cls": "before",
+     "frames": 14,
+     "from": -1
+    },
+    {
+     "cls": "black",
+     "frames": 51,
+     "from": 2000
+    },
+    {
+     "cls": "dim",
+     "frames": 1,
+     "from": 4240
+    },
+    {
+     "cls": "lit",
+     "frames": 87,
+     "from": 4292
+    }
+   ],
+   "frames": 153
+  },
+  "endFrames": {
+   "sequence": [
+    {
+     "cls": "before",
+     "frames": 1,
+     "from": -1
+    },
+    {
+     "cls": "lit",
+     "frames": 26,
+     "from": -1
+    },
+    {
+     "cls": "dim",
+     "frames": 5,
+     "from": 2706
+    },
+    {
+     "cls": "black",
+     "frames": 7,
+     "from": 3101
+    },
+    {
+     "cls": "dim",
+     "frames": 3,
+     "from": 4290
+    },
+    {
+     "cls": "black",
+     "frames": 1,
+     "from": 4322
+    },
+    {
+     "cls": "dim",
+     "frames": 71,
+     "from": 4356
+    }
+   ],
+   "frames": 114
+  },
+  "returnEntrance": {
+   "delays": [
+    0,
+    200,
+    260,
+    400,
+    520,
+    600,
+    720
+   ],
+   "logoAnimation": "mmIgnite",
+   "logo": 0,
+   "partsOpacity": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "theme": {
+    "plays": 2,
+    "state": "playing",
+    "startedAt": 74750
+   },
+   "at": 74754,
+   "boot": "menu",
+   "game": {
+    "ctx": "suspended",
+    "gain": 0
+   }
+  },
+  "startTimes": {
+   "cold": {
+    "ready": 5493,
+    "menu": 5518,
+    "preparedAt": 5255
+   },
+   "warm": {
+    "ready": 974,
+    "menu": 975,
+    "preparedAt": 950
+   }
+  },
+  "offline": {
+   "frames": {
+    "intro": 1357824,
+    "loop": 2416640
+   },
+   "windows": [
+    {
+     "name": "intro->loop",
+     "at": 1357824,
+     "maxAbsDiffVsFiles": 0,
+     "seamJumpRms": 0.0033025675580386042,
+     "localAdjacentRms": 0.006279607966603917
+    },
+    {
+     "name": "loop seam 1",
+     "at": 3774464,
+     "maxAbsDiffVsFiles": 0,
+     "seamJumpRms": 0.0033016627213778515,
+     "localAdjacentRms": 0.006278331707849995
+    },
+    {
+     "name": "loop seam 2",
+     "at": 6191104,
+     "maxAbsDiffVsFiles": 0,
+     "seamJumpRms": 0.0033016627213778515,
+     "localAdjacentRms": 0.006278331707849995
+    }
+   ],
+   "sampledWholeRenderMaxDiff": 0
+  }
+ },
+ "ok": true
+}

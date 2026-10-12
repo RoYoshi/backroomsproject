@@ -1,0 +1,12 @@
+boot: IDENTICAL; death lines in the old trace: false; PASS
+http_base: differs from line 34 (changed-file / changed-file); non-death view identical; death lines in the old trace: false; PASS
+http_h0: differs from line 16 (changed-file / changed-file); non-death view identical; death lines in the old trace: false; PASS
+ws_upgrade: IDENTICAL; death lines in the old trace: true; PASS
+ws_frames: IDENTICAL; death lines in the old trace: true; PASS
+lifecycle: IDENTICAL; death lines in the old trace: true; PASS
+deaths: differs from line 485 (death / death); non-death view identical; death lines in the old trace: true; PASS
+admin: differs from line 16362 (death / death); non-death view identical; death lines in the old trace: true; PASS
+schedule: IDENTICAL; death lines in the old trace: true; PASS
+p_fields: IDENTICAL; death lines in the old trace: true; PASS
+exit_glitch: IDENTICAL; death lines in the old trace: true; PASS
+GOLDEN 3D: every difference starts in the death domain; non-death output identical
