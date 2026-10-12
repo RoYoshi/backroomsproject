@@ -1,0 +1,775 @@
+{
+ "tool": "dev/stage-3d-hq1/light_capture.py",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq1base",
+ "commit": "export",
+ "variant": "hound-A",
+ "kind": "flashlight",
+ "lightOnAtDeath": true,
+ "blackout": "on",
+ "renderer": "SwiftShader (Chromium software GL), 960x640",
+ "when": "2026-10-12T00:31:21-0500",
+ "samples": [
+  {
+   "afterRelease": 1.0,
+   "sinceDeath": 1.609,
+   "death": {
+    "t": 2.267,
+    "rel": 0.6208,
+    "kind": "flashlight"
+   },
+   "replay": {
+    "t": 3.16,
+    "real": 3.967,
+    "rel": 0.6208,
+    "de": 1,
+    "lf": null
+   },
+   "lens": [
+    5737.3992852119,
+    967.966215067754,
+    3.6922036732051033
+   ],
+   "bodies": [
+    {
+     "id": "r:1:5751:919",
+     "owner": "r1",
+     "remote": true,
+     "de": null,
+     "x": 5751,
+     "y": 919,
+     "lo": 1,
+     "lf": null,
+     "marks": []
+    }
+   ],
+   "spectator": {
+    "file": "red_light_houndA_flashlight_r1_spectator.png",
+    "measuredAt": 4.312,
+    "shotAt": 6.643,
+    "peers": [
+     {
+      "x": 5683,
+      "y": 907,
+      "kind": "flashlight",
+      "on": true,
+      "dead": true,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8196078431372549,
+     0.6666666666666666,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 1,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5826.066017177982,
+     1026.066017177982
+    ]
+   },
+   "victim": {
+    "file": "red_light_houndA_flashlight_r1_victim.png",
+    "measuredAt": 8.546,
+    "shotAt": 15.437,
+    "peers": [
+     {
+      "x": 5808,
+      "y": 990,
+      "kind": "flashlight",
+      "on": false,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8627450980392157,
+     0.8862745098039215,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 2,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5720,
+     920
+    ]
+   }
+  },
+  {
+   "afterRelease": 4.0,
+   "sinceDeath": 16.869,
+   "death": null,
+   "replay": null,
+   "lens": [
+    5737.3992852119,
+    967.966215067754,
+    3.6922036732051033
+   ],
+   "bodies": [
+    {
+     "id": "r:1:5751:919",
+     "owner": "r1",
+     "remote": true,
+     "de": null,
+     "x": 5751,
+     "y": 919,
+     "lo": 1,
+     "lf": null,
+     "marks": []
+    }
+   ],
+   "spectator": {
+    "file": "red_light_houndA_flashlight_r4_spectator.png",
+    "measuredAt": 20.816,
+    "shotAt": 26.297,
+    "peers": [
+     {
+      "x": 5682,
+      "y": 907,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8196078431372549,
+     0.6666666666666666,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 1,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5826.066017177982,
+     1026.066017177982
+    ]
+   },
+   "victim": {
+    "file": "red_light_houndA_flashlight_r4_victim.png",
+    "measuredAt": 27.788,
+    "shotAt": 33.083,
+    "peers": [
+     {
+      "x": 5808,
+      "y": 991,
+      "kind": "flashlight",
+      "on": false,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8666666666666667,
+     0.8862745098039215,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 2,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5720,
+     920
+    ]
+   }
+  },
+  {
+   "afterRelease": 7.0,
+   "sinceDeath": 34.307,
+   "death": null,
+   "replay": null,
+   "lens": [
+    5737.3992852119,
+    967.966215067754,
+    3.6922036732051033
+   ],
+   "bodies": [
+    {
+     "id": "r:1:5751:919",
+     "owner": "r1",
+     "remote": true,
+     "de": null,
+     "x": 5751,
+     "y": 919,
+     "lo": 1,
+     "lf": null,
+     "marks": []
+    }
+   ],
+   "spectator": {
+    "file": "red_light_houndA_flashlight_r7_spectator.png",
+    "measuredAt": 39.895,
+    "shotAt": 45.391,
+    "peers": [
+     {
+      "x": 5682,
+      "y": 907,
+      "kind": "flashlight",
+      "on": false,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8196078431372549,
+     0.6666666666666666,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 1,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5826.066017177982,
+     1026.066017177982
+    ]
+   },
+   "victim": {
+    "file": "red_light_houndA_flashlight_r7_victim.png",
+    "measuredAt": 46.812,
+    "shotAt": 52.228,
+    "peers": [
+     {
+      "x": 5809,
+      "y": 990,
+      "kind": "flashlight",
+      "on": false,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8235294117647058,
+     0.6705882352941176,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 1,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5720,
+     920
+    ]
+   }
+  },
+  {
+   "afterRelease": 12.0,
+   "sinceDeath": 53.42,
+   "death": null,
+   "replay": null,
+   "lens": [
+    5737.3992852119,
+    967.966215067754,
+    3.6922036732051033
+   ],
+   "bodies": [
+    {
+     "id": "r:1:5751:919",
+     "owner": "r1",
+     "remote": true,
+     "de": null,
+     "x": 5751,
+     "y": 919,
+     "lo": 1,
+     "lf": null,
+     "marks": []
+    }
+   ],
+   "spectator": {
+    "file": "red_light_houndA_flashlight_r12_spectator.png",
+    "measuredAt": 58.138,
+    "shotAt": 63.379,
+    "peers": [
+     {
+      "x": 5682,
+      "y": 907,
+      "kind": "flashlight",
+      "on": false,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8196078431372549,
+     0.6666666666666666,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 1,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5826.066017177982,
+     1026.066017177982
+    ]
+   },
+   "victim": {
+    "file": "red_light_houndA_flashlight_r12_victim.png",
+    "measuredAt": 64.953,
+    "shotAt": 70.683,
+    "peers": [
+     {
+      "x": 5808,
+      "y": 991,
+      "kind": "flashlight",
+      "on": false,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8235294117647058,
+     0.6705882352941176,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 1,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5720,
+     920
+    ]
+   }
+  },
+  {
+   "afterRelease": 30.0,
+   "sinceDeath": 71.777,
+   "death": null,
+   "replay": null,
+   "lens": [
+    5737.3992852119,
+    967.966215067754,
+    3.6922036732051033
+   ],
+   "bodies": [
+    {
+     "id": "r:1:5751:919",
+     "owner": "r1",
+     "remote": true,
+     "de": null,
+     "x": 5751,
+     "y": 919,
+     "lo": 1,
+     "lf": null,
+     "marks": []
+    }
+   ],
+   "spectator": {
+    "file": "red_light_houndA_flashlight_r30_spectator.png",
+    "measuredAt": 76.774,
+    "shotAt": 82.344,
+    "peers": [
+     {
+      "x": 5682,
+      "y": 907,
+      "kind": "flashlight",
+      "on": false,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8196078431372549,
+     0.6666666666666666,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 1,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5826.066017177982,
+     1026.066017177982
+    ]
+   },
+   "victim": {
+    "file": "red_light_houndA_flashlight_r30_victim.png",
+    "measuredAt": 83.697,
+    "shotAt": 89.016,
+    "peers": [
+     {
+      "x": 5809,
+      "y": 991,
+      "kind": "flashlight",
+      "on": false,
+      "dead": false,
+      "pw": null
+     },
+     {
+      "x": 5737,
+      "y": 968,
+      "kind": "flashlight",
+      "on": true,
+      "dead": false,
+      "pw": null
+     }
+    ],
+    "own": null,
+    "buffer": [
+     0.8235294117647058,
+     0.6705882352941176,
+     0.34901960784313724
+    ],
+    "probe": [
+     [
+      5703.311085580422,
+      947.0378934464566
+     ],
+     [
+      5660.700836041074,
+      920.8774914198348
+     ],
+     [
+      5737.3992852119,
+      967.966215067754
+     ]
+    ],
+    "carried": {
+     "carried": 1,
+     "peers": 1,
+     "on": true
+    },
+    "cam": [
+     0.7407407407407407,
+     5720,
+     920
+    ]
+   }
+  }
+ ],
+ "equipment": "flashlight",
+ "spot": [
+  5720,
+  920,
+  3.141592653589793
+ ],
+ "viewer": [
+  5826.066017177982,
+  1026.066017177982,
+  -2.356194490192344
+ ],
+ "lightOnBefore": {
+  "victim": true,
+  "spectator": false
+ },
+ "previewOk": true,
+ "t0wall": 1791783165.7838807,
+ "release": {
+  "t": 1.433,
+  "rel": 0.6208,
+  "kind": "flashlight"
+ },
+ "lateJoinAt": 90.2,
+ "lateJoinPlaced": true,
+ "late": {
+  "sinceDeath": 113.7,
+  "bodies": [
+   {
+    "id": "r:1:5751:919",
+    "owner": "r1",
+    "remote": true,
+    "de": null,
+    "x": 5751,
+    "y": 919,
+    "lo": 1,
+    "lf": null,
+    "marks": []
+   }
+  ],
+  "joiner": {
+   "file": "red_light_houndA_flashlight_late_late.png",
+   "measuredAt": 115.277,
+   "shotAt": 122.033,
+   "peers": [
+    {
+     "x": 5682,
+     "y": 907,
+     "kind": "flashlight",
+     "on": false,
+     "dead": false,
+     "pw": null
+    },
+    {
+     "x": 5808,
+     "y": 990,
+     "kind": "flashlight",
+     "on": false,
+     "dead": false,
+     "pw": null
+    },
+    {
+     "x": 5737,
+     "y": 968,
+     "kind": "flashlight",
+     "on": true,
+     "dead": false,
+     "pw": null
+    }
+   ],
+   "own": null,
+   "buffer": [
+    0.8196078431372549,
+    0.6666666666666666,
+    0.34901960784313724
+   ],
+   "probe": [
+    [
+     5703.311085580422,
+     947.0378934464566
+    ],
+    [
+     5660.700836041074,
+     920.8774914198348
+    ],
+    [
+     5737.3992852119,
+     967.966215067754
+    ]
+   ],
+   "carried": {
+    "carried": 1,
+    "peers": 1,
+    "on": true
+   },
+   "cam": [
+    0.7407407407407407,
+    5826.066017177982,
+    1026.066017177982
+   ]
+  }
+ },
+ "errors": []
+}

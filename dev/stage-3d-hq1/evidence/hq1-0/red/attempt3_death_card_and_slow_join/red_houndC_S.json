@@ -1,0 +1,289 @@
+{
+ "tool": "dev/stage-3d-hq1/wall_capture.py",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq1base",
+ "commit": "export",
+ "side": "S",
+ "variant": "hound-C",
+ "shots": {
+  "before_victim": {
+   "file": "red_houndC_S_before_victim.png",
+   "cam": [
+    0.7407407407407407,
+    456,
+    2682
+   ],
+   "contactOnScreen": [
+    480,
+    253
+   ]
+  },
+  "before_spectator": {
+   "file": "red_houndC_S_before_spectator.png",
+   "cam": [
+    0.7407407407407407,
+    316,
+    2822
+   ],
+   "contactOnScreen": [
+    584,
+    150
+   ]
+  },
+  "impact_victim": {
+   "file": "red_houndC_S_impact_victim.png",
+   "cam": [
+    1.0370197645440797,
+    456.11236745999173,
+    2610.000002060488
+   ],
+   "contactOnScreen": [
+    480,
+    301
+   ]
+  },
+  "impact_spectator": {
+   "file": "red_houndC_S_impact_spectator.png",
+   "cam": [
+    0.7407407407407407,
+    316,
+    2822
+   ],
+   "contactOnScreen": [
+    584,
+    150
+   ]
+  },
+  "corpse_victim": {
+   "file": "red_houndC_S_corpse_victim.png",
+   "cam": [
+    1.0370370370317532,
+    456.1123674607238,
+    2610.0000020573298
+   ],
+   "contactOnScreen": [
+    480,
+    301
+   ]
+  },
+  "corpse_spectator": {
+   "file": "red_houndC_S_corpse_spectator.png",
+   "cam": [
+    0.7407407407407407,
+    316,
+    2822
+   ],
+   "contactOnScreen": [
+    584,
+    150
+   ]
+  },
+  "late_joiner": {
+   "file": "red_houndC_S_late_joiner.png",
+   "cam": [
+    0.7407407407407407,
+    316,
+    2822
+   ],
+   "contactOnScreen": [
+    584,
+    150
+   ]
+  },
+  "late_spectator": {
+   "file": "red_houndC_S_late_spectator.png",
+   "cam": [
+    0.7407407407407407,
+    316,
+    2822
+   ],
+   "contactOnScreen": [
+    584,
+    150
+   ]
+  }
+ },
+ "renderer": "SwiftShader (Chromium software GL), 960x640",
+ "when": "2026-10-12T00:06:53-0500",
+ "remaster": {
+  "on": true,
+  "tier": "low",
+  "disabled": ""
+ },
+ "spot": {
+  "face": "surf:room:01:wall:S:2592:3",
+  "side": "S",
+  "x": 456,
+  "y": 2682,
+  "a": 1.5708,
+  "wx": 456,
+  "wy": 2592,
+  "ox": -0.0,
+  "oy": 1,
+  "lamp": {
+   "x": 528,
+   "y": 2832,
+   "r": 245
+  }
+ },
+ "viewer": [
+  316,
+  2822,
+  -0.7854
+ ],
+ "previewOk": true,
+ "previewLog": "[admin] room=hq1wall Alice#1: preview death hound C: ok",
+ "marks": [
+  {
+   "t": 0.263,
+   "x": 456.2,
+   "y": 2592,
+   "nx": 0,
+   "ny": 1,
+   "sp": 248
+  }
+ ],
+ "contact": [
+  456.2,
+  2592
+ ],
+ "deathAtImpact": {
+  "t": 2.0498,
+  "active": true,
+  "fin": false,
+  "dur": 4.3,
+  "x": 456.1106377423769,
+  "y": 2610,
+  "corpse": null,
+  "torch": {
+   "x": 471.1,
+   "y": 2625.9,
+   "a": 0.443
+  }
+ },
+ "specAtImpact": [
+  {
+   "id": 1,
+   "de": 1,
+   "t": 2.596,
+   "fin": false,
+   "lo": true
+  }
+ ],
+ "receiverAtImpact": {
+  "victim": {
+   "on": true,
+   "count": 0,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": null
+  },
+  "spectator": {
+   "on": true,
+   "count": 0,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": null
+  }
+ },
+ "bodies": {
+  "victim": [
+   {
+    "id": "2:1:1",
+    "owner": "1",
+    "remote": false,
+    "de": null,
+    "x": 456,
+    "y": 2610,
+    "lo": 1,
+    "lf": null,
+    "marks": [
+     [
+      456,
+      2592,
+      520
+     ]
+    ]
+   }
+  ],
+  "spectator": [
+   {
+    "id": "r:1:456:2610",
+    "owner": "r1",
+    "remote": true,
+    "de": null,
+    "x": 456,
+    "y": 2610,
+    "lo": 1,
+    "lf": null,
+    "marks": [
+     [
+      456,
+      2592,
+      520
+     ]
+    ]
+   }
+  ]
+ },
+ "receiverAtCorpse": {
+  "victim": {
+   "on": true,
+   "count": 0,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": null
+  },
+  "spectator": {
+   "on": true,
+   "count": 0,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": null
+  }
+ },
+ "lateJoiner": {
+  "at": 97.2,
+  "bodies": [
+   {
+    "id": "r:1:456:2610",
+    "owner": "r1",
+    "remote": true,
+    "de": null,
+    "x": 456,
+    "y": 2610,
+    "lo": 1,
+    "lf": null,
+    "marks": [
+     [
+      456,
+      2592,
+      520
+     ]
+    ]
+   }
+  ],
+  "receiver": {
+   "on": true,
+   "count": 0,
+   "caps": {
+    "perSurface": 12,
+    "perRoom": 48,
+    "total": 160
+   },
+   "stains": null
+  }
+ },
+ "errors": []
+}
