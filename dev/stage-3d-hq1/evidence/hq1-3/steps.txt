@@ -83,3 +83,6 @@ perf_ab_high/parent_2 exit=0 seconds=121  (after the regression, alone: HIGH A/B
 perf_ab_high/new_2 exit=0 seconds=121  (after the regression, alone: HIGH A/B for Hound A)
 perf_ab_high/parent_3 exit=0 seconds=129  (after the regression, alone: HIGH A/B for Hound A)
 perf_ab_high/new_3 exit=0 seconds=123  (after the regression, alone: HIGH A/B for Hound A)
+hq1/light_lifecycle exit=1 seconds=395  (HQ1-4, alone: check 4b now counts the victim's own light; attempts/light_lifecycle_4b_counted_other_lights_only/)
+hq1/light_lifecycle exit=1 seconds=375  (HQ1-4, alone: checks 4b and 4c; attempts/light_lifecycle_world_reset_light_plays_on/)
+note (HQ1-4): each HQ1-4 light_lifecycle line above names the folder that holds the run before it; the first HQ1-4 run is in attempts/light_lifecycle_world_reset_light_plays_on/, the second (checks 4b and 4c) is hq1/light_lifecycle.json

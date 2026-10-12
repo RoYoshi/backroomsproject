@@ -64,7 +64,7 @@
   "ok   light timeline houndA_flashlight: 5/5 (L4 spread 18.3 ms; pages against the reference {'victim': -13.9, 'spectator': -14.5, 'late': 3.8})",
   "ok   light timeline houndA_flashlight_legacy: 5/5 (L4 spread 1.3 ms; pages against the reference {'victim': -12.8, 'spectator': -13.4, 'late': -14.1})",
   "ok   R4/W6 twenty corpses with three wall marks each: 4/4; 60 stains, <= 3 per corpse, receiver 60, 30 stain images (<= 36); stamping 24.7 ms for all, 2.3 ms the dearest; idle: no new stamp; replaced: 60 out, 60 in; gone: receiver 0",
-  "ok   light lifecycle (focus/hide/resize, reconnect, reload, second death, revive, world reset): 4/4; reported: 4b the victim's own screen after a world reset: no dead light (holds)"
+  "FAIL light lifecycle (focus/hide/resize, reconnect, reload, second death, revive, world reset): 3/4; reported: 4b the victim's own screen after a world reset: no dead light (her own death's light included) (does not hold); 4c every screen after a world reset: the death's light is not cut at the reset; it fails on its own schedule, nothing lit after its end (holds)"
  ],
  "how": "ok: every gated line holds. 'over' lists the lines over a performance line (R3, R4); they are reported in STAGE_3D_HQ1_PERFORMANCE.md and the report, not passed"
 }

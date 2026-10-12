@@ -34,24 +34,24 @@ The first run (`attempts/run1_stopped_br_role_U10/`) found BR-RoLE's own test U1
 | Physics, blood, parity | `phys_matrix` 690 runs all asleep, nothing moves after; `gore_geo` 0 of 5.06 M points on anything solid; parity in all eight variants < 1 px; sound as at D7; corpse culling and caching; film: all eight asleep, seen by the spectator |
 | Older suites | `npm test` 151/162 and `test_shadows` 43/48: the same failures as D7, by name. The five pre-D4 protocol checks are superseded by `death_net`, as at D7. `s_humanqa_hotfix` 5/6, the same failure as D7. Camera fairness 12/12, BR-RoLE 32/32, theme files unchanged, QA2 probes b1–b3 0 FAIL |
 | 8 players | every client got every replay once and every corpse, with the same light profile; 35,298 B/s per client (D7 35,159, +0.4 %) |
-| HQ1 again, final tree | wall faces 100 %; W1 south face 166–389 blood pixels on the band (0 before, 0 above); cache rebuild; wall lifecycle 7/7 (8b reported); light timelines: BR-RoLE 18.3 ms spread, game's own lighting 1.3 ms; light lifecycle 4/4 (4b holds); twenty corpses 4/4 |
+| HQ1 again, final tree | wall faces 100 %; W1 south face 166–389 blood pixels on the band (0 before, 0 above); cache rebuild; wall lifecycle 7/7 (8b reported); light timelines: BR-RoLE 18.3 ms spread, game's own lighting 1.3 ms; light lifecycle: see "Corrected in HQ1-4" below; twenty corpses 4/4 |
 | R3 interleaved A/B against D7 (≤ +7 %) | **met**: idle −9.7 / −2.6 %, Hound A −8.9 / −8.6 %, Hound C +2.2 / −2.1 % (victim / spectator, 4 pairs) |
 | The same at HIGH lighting, idle and Hound A (added after the regression, 3 pairs) | **within the line**: idle 0.0 / −3.3 %, Hound A −1.4 / −0.5 %. The non-interleaved HIGH run had shown Hound A +14–20 % and Hound C −39 % against D7, back to back: the session's swing, not the code |
 | R4 20 corpses, idle (≤ D7 + 10 %, + 7 %) | **met**: on screen 833 ms (D7 817), off screen 700 (D7 783), idle 733 (D7 850) |
 | R4 memory | browser heap slope within D7's (0.41 / 0.15 MB per death against D7's 0.50 / 0.30); the server's heap after full collections 6.3 → 8.0 MB (D7 6.3 → 8.7); forced-GC server soak flat. **The RSS lines: see below** |
 
-### Gated lines not met (3)
+### Gated lines not met (3 in the HQ1-3 run; a fourth, the light lifecycle, found in HQ1-4: see the end)
 
-Each line is reported as the summary gates it; none is moved. Each is an absolute line, and D7, measured in the same session, misses it as well or by more.
+Each line is reported as the summary gates it; none is moved. D7, measured in the same session, misses the first two as well, or by more; it passes the third.
 
 1. **D0's absolute frame-time thresholds** (fixed at D0, in another session, and kept by D6's summary):
    - Hound A death window: 983 ms against D0's limit of 972; D7 in this session 1,150.
    - Hound C death window: 817 ms against 788; D7 858.
    - The other four windows are within their limits.
 
-   This session's machine is slower than D0's and D6's (idle median 717 ms here, 633 at D6). The HQ1 audit's own performance gates compare with D7 in the same session (R3, R4), and those are met.
+   This session's machine is slower than D6's (idle median 717 ms here, 633 at D6). The HQ1 audit's own performance gates compare with D7 in the same session (R3, R4), and those are met.
 2. **The 32-death browser soak's server RSS did not level off in its last 8 deaths:** 176.8–205.9 MB. D7 did not either: 200.1–222.8 MB.
-   - Both rise in the same 22–28 MB steps, and HQ1's stays below D7's throughout.
+   - Both rise in steps of about 18–27 MB, and in this pair HQ1's stays below D7's throughout.
    - The heap after each full collection is HQ1 6.3 → 8.0 MB against D7's 6.3 → 8.7.
 
    The same soak with 64 deaths, HQ1 and D7, was run afterwards, alone, to see where it levels (`soak_gc/soak_gc64*.json`). Both level off:
@@ -59,8 +59,8 @@ Each line is reported as the summary gates it; none is moved. Each is an absolut
    - **D7:** 122.9 → 212.3 MB, within 6 MB from death 34 on; the last 16 deaths 210.8–212.3 MB.
    - The heap after full collections was 6.3 → 8.3 MB in both.
 
-   HQ1's plateau is one ~20 MB step higher than D7's in this pair, where in the 32-death pair D7's was higher.
-3. **The 64-death server soak without forced GC set a new RSS peak in its last 16 deaths:** 97.8 MB at death 51, against 97.3 before it, 0.5 MB higher. It ended at 97.6 MB. D7's run peaked at 108 MB (death 9) and ended at 104.7.
+   HQ1's plateau is 14 MB higher than D7's in this pair, where in the 32-death pair D7's was the higher.
+3. **The 64-death server soak without forced GC set a new RSS peak in its last 16 deaths:** 97.8 MB at death 51, against 97.3 before it, 0.5 MB higher. It ended at 97.6 MB. D7 passes this line: its run peaked at 108 MB (death 9) and ended at 104.7, above HQ1 throughout the end of the run.
 
 HQ1's server keeps no new per-death state:
 - the light profile is a few numbers on the death's own records;
@@ -78,7 +78,7 @@ The forced-GC server soak shows no growth: heap +0.0057 MB per death (D7 +0.0042
 - **`attempts/light_lifecycle_real_monster_kills/`.** A real Hound B killed Alice, then Bob's reconnected player, between the test's first and second deaths. Their light and corpse spoiled checks 1 and 2.
   - The harness now guards the victim and clears the monsters the moment she is revived and when Bob is back.
   - It now compares every death the server made with the ones it played; an unplanned one is a harness fault to repeat, never a pass.
-  - The rerun: 4/4, no unplanned death.
+  - The rerun: 4/4, no unplanned death; it is now kept in `attempts/light_lifecycle_4b_counted_other_lights_only/` (see "Corrected in HQ1-4").
 - **`attempts/probe_b3_warm_start_not_sooner/`.** QA2's probe_b3 failed one timing comparison: a warm start, from the cache, was not faster than the cold one (5,711 ms against 5,223). The cache itself worked: 2 hits, 0 downloads. HQ1 changes no menu file.
   - The rerun passed: warm 1,323 ms against cold 4,381.
   - D7 in the same session passed too: warm 974 against cold 5,493.
@@ -89,3 +89,12 @@ The forced-GC server soak shows no growth: heap +0.0057 MB per death (D7 +0.0042
 - **One push was refused once.** The push of HQ1-2 was refused once by GitHub ("remote rejected (failure)"). The same normal push, retried at once, went through, and the remote check passed (`remote_hq1-2.json`).
 - **Remote checks.** `remote_hq1-2.json` and `remote_hq1-3a.json` are the remote verifications of HQ1-2 and HQ1-3a, run after their pushes.
 - **Secret scan.** `secret_scan.json`: every file changed since the Stage 3H0 parent, scanned before this commit.
+
+## Corrected in HQ1-4
+
+An independent review of the documents found that the light lifecycle had not measured a world reset during a death correctly.
+- The reset teleported the spectators away from the replay, and check 4b counted only other wanderers' lights on the victim's screen.
+- HQ1-4 fixed the harness and ran the light lifecycle again (`hq1/light_lifecycle.json`; the intermediate runs in `attempts/`). Checks 1–3 pass.
+- **Check 4 fails:** a world reset does not cut a death short on any screen that shows it (D7's replay lifecycle), and its light fails on its normal schedule.
+- **4c holds:** nothing is lit after that scheduled end.
+- `summary.json` was regenerated: 4 gated lines not met, the light lifecycle being the fourth. Every other line is unchanged.

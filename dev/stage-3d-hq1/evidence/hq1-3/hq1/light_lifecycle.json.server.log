@@ -1,4 +1,4 @@
-The Far Backrooms → http://localhost:40685  (share  ?room=NAME  to group up)
+The Far Backrooms → http://localhost:58277  (share  ?room=NAME  to group up)
 [admin] Alice#1 unlocked admin (room hq1ll)
 [admin] Alice#1 unlocked admin (room hq1ll)
 [admin] room=hq1ll Alice#1: hound remove x1 -> 1
@@ -10,7 +10,7 @@ The Far Backrooms → http://localhost:40685  (share  ?room=NAME  to group up)
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 1
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 1
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 1
-[admin] room=hq1ll Alice#1: smiler remove x1 -> 1
+[admin] room=hq1ll Alice#1: smiler remove x1 -> 0
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 0
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 0
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 0
@@ -66,8 +66,8 @@ The Far Backrooms → http://localhost:40685  (share  ?room=NAME  to group up)
 [admin] room=hq1ll Alice#1: preview death hound A: ok
 [death] room=hq1ll #1 de=1: Hound A corpse placed
 [admin] room=hq1ll Alice#1: revive Alice
-[admin] WANDERER#4 unlocked admin (room hq1ll)
-[admin] WANDERER#4 unlocked admin (room hq1ll)
+[admin] WANDERER#5 unlocked admin (room hq1ll)
+[admin] WANDERER#5 unlocked admin (room hq1ll)
 [admin] room=hq1ll Alice#1: god Alice -> true
 [admin] room=hq1ll Alice#1: hound remove x1 -> 1
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0
@@ -83,9 +83,9 @@ The Far Backrooms → http://localhost:40685  (share  ?room=NAME  to group up)
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 0
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 0
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 0
-[admin] Carol#5 unlocked admin (room hq1ll)
+[admin] Carol#4 unlocked admin (room hq1ll)
 [admin] room=hq1ll Alice#1: god Carol -> true
-[admin] Bob#4 unlocked admin (room hq1ll)
+[admin] Bob#5 unlocked admin (room hq1ll)
 [admin] room=hq1ll Alice#1: god Bob -> true
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0
@@ -102,7 +102,7 @@ The Far Backrooms → http://localhost:40685  (share  ?room=NAME  to group up)
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 0
 [admin] room=hq1ll Alice#1: smiler remove x1 -> 0
 [admin] room=hq1ll Alice#1: god Alice -> false
-[admin] room=hq1ll Alice#1: hound remove x1 -> 0
+[admin] room=hq1ll Alice#1: hound remove x1 -> 1
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0
@@ -121,7 +121,7 @@ The Far Backrooms → http://localhost:40685  (share  ?room=NAME  to group up)
 [admin] room=hq1ll Alice#1: revive Alice
 [admin] room=hq1ll Alice#1: god Alice -> true
 [admin] room=hq1ll Alice#1: god Alice -> false
-[admin] room=hq1ll Alice#1: hound remove x1 -> 1
+[admin] room=hq1ll Alice#1: hound remove x1 -> 0
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0
 [admin] room=hq1ll Alice#1: hound remove x1 -> 0

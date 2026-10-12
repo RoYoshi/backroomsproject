@@ -17,7 +17,7 @@ ws.onopen = () => ws.send(JSON.stringify({ t: 'admin', pass: ARG.pass, quiet: 1 
 ws.onmessage = ev => {
   let m; try { m = JSON.parse(ev.data); } catch (e) { return; }
   if (m.t === 'fx' && m.k === 'death' && m.id === out.victim && !out.sawDeath) {
-    out.sawDeath = Date.now() / 1000; out.de = m.de;
+    out.sawDeath = Date.now() / 1000; out.de = m.de; out.lf = m.lf || null;
     setTimeout(() => { ws.send(JSON.stringify(ARG.cmd === 'world' ? { t: 'a', c: 'world' } : { t: 'a', c: 'revive', id: out.victim })); out.sent = Date.now() / 1000; }, out.after);
   } else if (m.t === 'ares' && out.sent) { out.answer = m.msg; setTimeout(finish, 200); }
 };

@@ -1,0 +1,92 @@
+Stage 3D HQ1 (wall blood + dying lights): files changed since the D7 parent ffe2b53 (stage-3d) - working tree
+
+production: 9 files
+  assets/br-role.js            +   4 -   4  HQ1-2 the same power in BR-RoLE: the victim's own dying beam and every dead peer light
+  assets/index-DKbV5Nv9.js     +   2 -   2  HQ1-2 the game's own lighting (BR-RoLE off) scales the victim's dying light and dead peer lights by the same power; HQ1-3a the power read inside BR-RoLE's seam so its text stays verbatim (dev/stage-3d/apply_bundle.py)
+  assets/net-wire.js           +   2 -   0  HQ1-1 the corpse's death id (de) reaches the game's record; HQ1-2 its lf
+  death_srv.js                 +   2 -   1  HQ1-2 the corpse record carries lf = [hold, fade, seed, release - death length]
+  dphys.js                     +  52 -   1  HQ1-2 lightProfile (hold 3-7 s, fade 1-2 s, seed; a hash of world and death id), lightPower (hold, irregular falling flicker with blackouts, exactly 0 after), releaseOf (the moment the death lets the light go)
+  gore.js                      +  70 -   1  HQ1-1 wallStains: a wallpaper-face stain per death from the server's wall contacts (dphys marks; corpse bl seeds 512-543), the face chosen from the contact normal, stamped through window.__l0v.surfaces; removed and rebuilt by death id
+  light.js                     +   4 -   2  HQ1-2 a dead light's power (pw) scales its field, colour and glow; geometry, shadows and masks untouched
+  mp.js                        +  78 -   8  HQ1-1 the stains driven from replays, corpses and the victim's own death (throttled, by death id); HQ1-2 one light timeline per death id (anchor from the server's timing, never later), power on every dead light (__peerLights pw, __deathLight.own), no second light at the replay -> corpse handoff
+  server.js                    +   6 -   5  HQ1-2 one light profile per death for a light on at death (not the camcorder) on mk and fx; the corpse's age ag in tenths, counted from the death's end
+
+Stage 3D tools adjusted for HQ1: 4 files
+  dev/stage-3d/apply_bundle.py         +  8 -  0  the two HQ1 bundle edits (HQ1-2; HQ1-3a keeps the seam verbatim)
+  dev/stage-3d/cli_golden3d.js         +  8 -  4  __deathLight declared; dead lights left out of the non-death view of the light list
+  dev/stage-3d/contract_check3d.js     +  3 -  2  lf among the replay's optional fields
+  dev/stage-3d/death_net.js            +  4 -  2  N10's corpse-size line: D7's 384 B + 32 for the light profile
+
+stage documents: 7
+  STAGE_3D_HQ1_AUDIT.md
+  STAGE_3D_HQ1_CHANGED_FILES.txt
+  STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md
+  STAGE_3D_HQ1_HUMAN_QA.md
+  STAGE_3D_HQ1_PERFORMANCE.md
+  STAGE_3D_HQ1_REPORT.md
+  STAGE_3D_HQ1_VISUAL_EVIDENCE.md
+
+HQ1 tools and evidence under dev/stage-3d-hq1/: 2287 files
+  dev/stage-3d-hq1/README.md                                     1
+  dev/stage-3d-hq1/changed_files_hq1.py                          1
+  dev/stage-3d-hq1/evidence/hq1-0                                2
+  dev/stage-3d-hq1/evidence/hq1-0/probes                         4
+  dev/stage-3d-hq1/evidence/hq1-0/red                            139
+  dev/stage-3d-hq1/evidence/hq1-1                                17
+  dev/stage-3d-hq1/evidence/hq1-1/attempts                       26
+  dev/stage-3d-hq1/evidence/hq1-1/faces                          112
+  dev/stage-3d-hq1/evidence/hq1-1/rebuild                        7
+  dev/stage-3d-hq1/evidence/hq1-1/red_band                       8
+  dev/stage-3d-hq1/evidence/hq1-1/special                        112
+  dev/stage-3d-hq1/evidence/hq1-1/tiers                          56
+  dev/stage-3d-hq1/evidence/hq1-1/try                            328
+  dev/stage-3d-hq1/evidence/hq1-2                                23
+  dev/stage-3d-hq1/evidence/hq1-2/attempts                       22
+  dev/stage-3d-hq1/evidence/hq1-2/d7_baseline                    13
+  dev/stage-3d-hq1/evidence/hq1-2/timeline                       865
+  dev/stage-3d-hq1/evidence/hq1-3                                69
+  dev/stage-3d-hq1/evidence/hq1-3/attempts                       65
+  dev/stage-3d-hq1/evidence/hq1-3/corpse_houndA                  5
+  dev/stage-3d-hq1/evidence/hq1-3/corpse_houndC                  5
+  dev/stage-3d-hq1/evidence/hq1-3/existing                       12
+  dev/stage-3d-hq1/evidence/hq1-3/film                           9
+  dev/stage-3d-hq1/evidence/hq1-3/film_xray                      8
+  dev/stage-3d-hq1/evidence/hq1-3/fix_seam                       4
+  dev/stage-3d-hq1/evidence/hq1-3/hq1                            226
+  dev/stage-3d-hq1/evidence/hq1-3/perf_ab                        24
+  dev/stage-3d-hq1/evidence/hq1-3/perf_ab_high                   18
+  dev/stage-3d-hq1/evidence/hq1-3/perf_high                      6
+  dev/stage-3d-hq1/evidence/hq1-3/qa2                            50
+  dev/stage-3d-hq1/evidence/hq1-3/soak_gc                        12
+  dev/stage-3d-hq1/evidence/hq1-3/traffic8                       4
+  dev/stage-3d-hq1/evidence/hq1-4                                4
+  dev/stage-3d-hq1/evidence/visual                               8
+  dev/stage-3d-hq1/hq1lib.py                                     1
+  dev/stage-3d-hq1/light_capture.py                              1
+  dev/stage-3d-hq1/light_hold_compare.py                         1
+  dev/stage-3d-hq1/light_lifecycle.py                            1
+  dev/stage-3d-hq1/light_net.js                                  1
+  dev/stage-3d-hq1/light_power_test.js                           1
+  dev/stage-3d-hq1/light_timeline.py                             1
+  dev/stage-3d-hq1/package_hq1.py                                1
+  dev/stage-3d-hq1/probes/band_probe.py                          1
+  dev/stage-3d-hq1/probes/victim_probe.py                        1
+  dev/stage-3d-hq1/stain_budget.py                               1
+  dev/stage-3d-hq1/stain_metric.py                               1
+  dev/stage-3d-hq1/summarize_hq1.py                              1
+  dev/stage-3d-hq1/traffic8.js                                   1
+  dev/stage-3d-hq1/verify_remote_hq1.py                          1
+  dev/stage-3d-hq1/visual_evidence.py                            1
+  dev/stage-3d-hq1/wall_capture.py                               1
+  dev/stage-3d-hq1/wall_faces_test.py                            1
+  dev/stage-3d-hq1/wall_lifecycle.py                             1
+  dev/stage-3d-hq1/wall_rebuild_test.py                          1
+  dev/stage-3d-hq1/ws_admin.js                                   1
+  dev/stage-3d-hq1/ws_observer.js                                1
+
+anything else: 0
+
+Not changed (byte-identical to D7): index.html (no new script, same load order), assets/l0-remaster.js (its surfaces API is used as it is), ai.js, sim.js,
+world.js, move.js, ents.js and dev/ents_src, camcorder.js, glitch.js, hud.js, inventory.js, camera_policy.js, timing_policy.js, sfx.js, server/, assets/net-interp.js,
+assets/ui.js, the CSS, the menu, the theme files, sounds/, audio_source/, the deployment workflow, every older test (dev/tests), dev/stage-3d/evidence and every
+earlier stage folder.

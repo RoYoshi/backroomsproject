@@ -16,8 +16,9 @@ across pages).  Hound A deaths in an open room, lamps on.
   3  death 3 after every light is out; Alice is revived 1.5 s after the death begins (mid-death: the admin command is sent by a
      WebSocket client doing nothing else, ws_admin.js): no dead light on any screen afterwards, no corpse
   4  death 4; 2 s after it begins (the death playing, its light in its hold) the world is reset (NEW RUN FOR EVERYONE, by ws_admin.js): no dead light on Bob's or Carol's screen afterwards.
-     Alice's own screen is recorded separately (known D7: an admin world reset keeps the victim's own local corpse, and its light
-     follows it, ending at the same moment as anywhere)
+     Alice's own screen is recorded separately (4b, known D7: an admin world reset keeps the victim's own local death and corpse, and
+     its light follows them, ending at the same moment as anywhere).  4c (HQ1-4): on every screen, nothing is lit after the light's own
+     scheduled end (a reset does not end a death in progress: D7's replay plays on and waits up to 8 s for the cancelled corpse)
 The harness keeps real monsters out of it: the monsters are cleared before each death, as soon as the lab's auto-revive stands Alice up,
 and when Bob is back; Alice is in god mode from the moment she is up.  Every death the server made is compared with the four the test
 played ('deathsOnTheServer'): an unplanned one (a real monster kill) makes the run a harness fault to repeat, never a pass.
@@ -216,9 +217,21 @@ async def main():
                     'aliceLastLit': last_lit(fr['alice']), 'aliceOwnLocalCorpses': await A.evaluate("()=>(__api.bodyList()||[]).filter(b=>!b.remote&&b.cause!=='Vanish').map(b=>String(b.id))")}
             R['steps'].append({'step': '4 world reset', **info})
             check('4 a world reset during the hold: no dead light on the other screens from 1.5 s after it', hadLight and info['litFramesFrom1.5sAfterReset']['bob'] == 0 and info['litFramesFrom1.5sAfterReset']['carol'] == 0, info)
-            known('4b the victim\'s own screen after a world reset: no dead light', info['litFramesFrom1.5sAfterReset']['alice'] == 0,
-                  {'litFrames': info['litFramesFrom1.5sAfterReset']['alice'], 'lastLit': info['aliceLastLit'], 'end': off4, 'endsOnTime': info['aliceLastLit'] is None or info['aliceLastLit'] <= off4 + .001,
-                   'why': 'D7 keeps the victim\'s own local corpse through an admin world reset; its light follows it and still ends at the death\'s end'})
+            ownLit = sum(1 for r in fr['alice'] if (r[1] or 0) > 0)                # (HQ1-4: her own dying light counts too - the first version counted only the
+            known('4b the victim\'s own screen after a world reset: no dead light (her own death\'s light included)',   # other wanderers' lights on her screen)
+                  info['litFramesFrom1.5sAfterReset']['alice'] == 0 and ownLit == 0,
+                  {'litFrames': info['litFramesFrom1.5sAfterReset']['alice'], 'ownLightLitFrames': ownLit, 'ownLightLitAfterResetS': round(info['aliceLastLit'] - sinceReset, 2) if info['aliceLastLit'] else None, 'lastLit': info['aliceLastLit'], 'end': off4, 'endsOnTime': info['aliceLastLit'] is None or info['aliceLastLit'] <= off4 + .001,
+                   'why': 'D7 keeps the victim\'s own local death and corpse through an admin world reset: her death plays on, and its light fails on its normal schedule'})
+            # (HQ1-4) every screen: a reset does not cut the death short (D7: a replay waits up to 8 s after its end for the corpse the reset
+            # cancelled); its light must still fail on its own schedule - nothing lit after that page's anchor + hold + fade
+            lf4 = D4['lf'] or wa4.get('lf'); ends, lastAfter = {}, {}
+            for w, P in (('alice', A), ('bob', B), ('carol', C)):
+                an = anchor(await P.evaluate(DEBUG), D4['de']); ends[w] = round(an + lf4[0] + lf4[1], 3) if an and lf4 else None
+                lastAfter[w] = last_lit(await frames(P, sinceReset))
+            known('4c every screen after a world reset: the death\'s light is not cut at the reset; it fails on its own schedule, nothing lit after its end',
+                  all(lastAfter[w] is None or (ends[w] is not None and lastAfter[w] <= ends[w] + .05) for w in ends),
+                  {'lf': lf4, 'scheduledEnd': ends, 'lastLitAfterReset': lastAfter, 'litAfterResetS': {w: (round(v - sinceReset, 2) if v else None) for w, v in lastAfter.items()},
+                   'why': 'D7: an admin world reset does not end a death in progress on any screen; its replay plays on and waits up to 8 s for a corpse the reset cancelled'})
             await b.close()
     finally:
         L.stop_server(srv)

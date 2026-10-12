@@ -4,32 +4,32 @@
  "steps": [
   {
    "step": "1 reconnect + reload",
-   "aliceFirstAnchor": 1791826147.7703,
+   "aliceFirstAnchor": 1791832575.8276,
    "finalAnchors": {
-    "alice": 1791826147.6188,
-    "bob": 1791826147.6027,
-    "carol": 1791826147.6401
+    "alice": 1791832575.7008,
+    "bob": 1791832575.6507,
+    "carol": 1791832575.7228
    },
-   "finalSpreadMs": 37.4,
+   "finalSpreadMs": 72.1,
    "aliceFocusResize": {
-    "before": 1791826147.7697,
-    "after": 1791826147.6186
+    "before": 1791832575.8273,
+    "after": 1791832575.7101
    },
    "bob": {
-    "before": 1791826147.6205,
-    "after": 1791826147.6027,
+    "before": 1791832575.7126,
+    "after": 1791832575.6507,
     "reconnectedSockets": 1,
-    "lastLit": 1791826151.342,
+    "lastLit": 1791832580.025,
     "litAfterEnd": 0
    },
    "carol": {
-    "before": 1791826147.6278,
-    "afterReload": 1791826147.6401,
+    "before": 1791832575.7041,
+    "afterReload": 1791832575.7228,
     "lastLit": null,
     "litAfterEnd": 0
    },
-   "aliceLastLit": 1791826151.33,
-   "end": 1791826152.2027,
+   "aliceLastLit": 1791832578.298,
+   "end": 1791832580.2507,
    "lf": [
     3.1,
     1.5,
@@ -40,12 +40,12 @@
    "step": "2 second death",
    "de1": 1,
    "de2": 2,
-   "anchor1": 1791826147.7703,
-   "anchor2": 1791826261.8308,
+   "anchor1": 1791832575.8276,
+   "anchor2": 1791832693.5503,
    "anchors2": {
-    "bob": 1791826261.7944,
-    "carol": 1791826261.787,
-    "alice": 1791826261.7869
+    "bob": 1791832693.3784,
+    "carol": 1791832693.3676,
+    "alice": 1791832693.3877
    },
    "lf2": [
     4.7,
@@ -54,13 +54,13 @@
    ],
    "framesInHold": {
     "alice": 4,
-    "bob": 5,
-    "carol": 4
+    "bob": 4,
+    "carol": 5
    },
    "litFramesInHold": {
     "alice": 4,
-    "bob": 5,
-    "carol": 4
+    "bob": 4,
+    "carol": 5
    },
    "framesNotFullInHold": {
     "alice": 0,
@@ -107,10 +107,10 @@
    "step": "3 revive mid-death",
    "de3": 3,
    "revive": {
-    "sent": 1791826314.14,
-    "sawTheDeath": 1791826312.64,
+    "sent": 1791832744.12,
+    "sawTheDeath": 1791832742.62,
     "answer": "REVIVED ALICE",
-    "afterTheRelease": 0.88
+    "afterTheRelease": 0.83
    },
    "litFramesFrom1.5sAfterRevive": {
     "alice": 0,
@@ -118,9 +118,9 @@
     "carol": 0
    },
    "frames": {
-    "alice": 33,
-    "bob": 34,
-    "carol": 34
+    "alice": 32,
+    "bob": 33,
+    "carol": 33
    },
    "corpses": {
     "alice": [
@@ -137,7 +137,7 @@
   {
    "step": "4 world reset",
    "de4": 4,
-   "resetAt": 1791826372.694,
+   "resetAt": 1791832804.765,
    "resetAfterTheDeathBegan": 2.0,
    "resetAnswer": "NEW RUN FOR EVERYONE",
    "bobLitFramesBeforeReset": 1,
@@ -151,11 +151,11 @@
    },
    "litFramesFrom1.5sAfterReset": {
     "alice": 0,
-    "bob": 0,
+    "bob": 1,
     "carol": 0
    },
-   "end": 1791826381.404,
-   "aliceLastLit": 1791826377.289,
+   "end": 1791832813.471,
+   "aliceLastLit": 1791832809.441,
    "aliceOwnLocalCorpses": [
     "2:1:3"
    ]
@@ -166,32 +166,32 @@
    "step": "1 focus lost / hidden / resized (Alice, dying), a dropped connection (Bob) and a reloaded page (Carol) keep the light's timeline: no anchor ever moves later, the three end within 150 ms of each other, nothing lit after the end",
    "ok": true,
    "info": {
-    "aliceFirstAnchor": 1791826147.7703,
+    "aliceFirstAnchor": 1791832575.8276,
     "finalAnchors": {
-     "alice": 1791826147.6188,
-     "bob": 1791826147.6027,
-     "carol": 1791826147.6401
+     "alice": 1791832575.7008,
+     "bob": 1791832575.6507,
+     "carol": 1791832575.7228
     },
-    "finalSpreadMs": 37.4,
+    "finalSpreadMs": 72.1,
     "aliceFocusResize": {
-     "before": 1791826147.7697,
-     "after": 1791826147.6186
+     "before": 1791832575.8273,
+     "after": 1791832575.7101
     },
     "bob": {
-     "before": 1791826147.6205,
-     "after": 1791826147.6027,
+     "before": 1791832575.7126,
+     "after": 1791832575.6507,
      "reconnectedSockets": 1,
-     "lastLit": 1791826151.342,
+     "lastLit": 1791832580.025,
      "litAfterEnd": 0
     },
     "carol": {
-     "before": 1791826147.6278,
-     "afterReload": 1791826147.6401,
+     "before": 1791832575.7041,
+     "afterReload": 1791832575.7228,
      "lastLit": null,
      "litAfterEnd": 0
     },
-    "aliceLastLit": 1791826151.33,
-    "end": 1791826152.2027,
+    "aliceLastLit": 1791832578.298,
+    "end": 1791832580.2507,
     "lf": [
      3.1,
      1.5,
@@ -205,12 +205,12 @@
    "info": {
     "de1": 1,
     "de2": 2,
-    "anchor1": 1791826147.7703,
-    "anchor2": 1791826261.8308,
+    "anchor1": 1791832575.8276,
+    "anchor2": 1791832693.5503,
     "anchors2": {
-     "bob": 1791826261.7944,
-     "carol": 1791826261.787,
-     "alice": 1791826261.7869
+     "bob": 1791832693.3784,
+     "carol": 1791832693.3676,
+     "alice": 1791832693.3877
     },
     "lf2": [
      4.7,
@@ -219,13 +219,13 @@
     ],
     "framesInHold": {
      "alice": 4,
-     "bob": 5,
-     "carol": 4
+     "bob": 4,
+     "carol": 5
     },
     "litFramesInHold": {
      "alice": 4,
-     "bob": 5,
-     "carol": 4
+     "bob": 4,
+     "carol": 5
     },
     "framesNotFullInHold": {
      "alice": 0,
@@ -275,10 +275,10 @@
    "info": {
     "de3": 3,
     "revive": {
-     "sent": 1791826314.14,
-     "sawTheDeath": 1791826312.64,
+     "sent": 1791832744.12,
+     "sawTheDeath": 1791832742.62,
      "answer": "REVIVED ALICE",
-     "afterTheRelease": 0.88
+     "afterTheRelease": 0.83
     },
     "litFramesFrom1.5sAfterRevive": {
      "alice": 0,
@@ -286,9 +286,9 @@
      "carol": 0
     },
     "frames": {
-     "alice": 33,
-     "bob": 34,
-     "carol": 34
+     "alice": 32,
+     "bob": 33,
+     "carol": 33
     },
     "corpses": {
      "alice": [
@@ -305,10 +305,10 @@
   },
   {
    "step": "4 a world reset during the hold: no dead light on the other screens from 1.5 s after it",
-   "ok": true,
+   "ok": false,
    "info": {
     "de4": 4,
-    "resetAt": 1791826372.694,
+    "resetAt": 1791832804.765,
     "resetAfterTheDeathBegan": 2.0,
     "resetAnswer": "NEW RUN FOR EVERYONE",
     "bobLitFramesBeforeReset": 1,
@@ -322,11 +322,11 @@
     },
     "litFramesFrom1.5sAfterReset": {
      "alice": 0,
-     "bob": 0,
+     "bob": 1,
      "carol": 0
     },
-    "end": 1791826381.404,
-    "aliceLastLit": 1791826377.289,
+    "end": 1791832813.471,
+    "aliceLastLit": 1791832809.441,
     "aliceOwnLocalCorpses": [
      "2:1:3"
     ]
@@ -335,14 +335,43 @@
  ],
  "known": [
   {
-   "step": "4b the victim's own screen after a world reset: no dead light",
-   "ok": true,
+   "step": "4b the victim's own screen after a world reset: no dead light (her own death's light included)",
+   "ok": false,
    "info": {
     "litFrames": 0,
-    "lastLit": 1791826377.289,
-    "end": 1791826381.404,
+    "ownLightLitFrames": 3,
+    "ownLightLitAfterResetS": 4.68,
+    "lastLit": 1791832809.441,
+    "end": 1791832813.471,
     "endsOnTime": true,
-    "why": "D7 keeps the victim's own local corpse through an admin world reset; its light follows it and still ends at the death's end"
+    "why": "D7 keeps the victim's own local death and corpse through an admin world reset: her death plays on, and its light fails on its normal schedule"
+   }
+  },
+  {
+   "step": "4c every screen after a world reset: the death's light is not cut at the reset; it fails on its own schedule, nothing lit after its end",
+   "ok": true,
+   "info": {
+    "lf": [
+     4.3,
+     2,
+     321
+    ],
+    "scheduledEnd": {
+     "alice": 1791832809.673,
+     "bob": 1791832809.672,
+     "carol": 1791832809.667
+    },
+    "lastLitAfterReset": {
+     "alice": 1791832809.441,
+     "bob": 1791832809.116,
+     "carol": 1791832805.706
+    },
+    "litAfterResetS": {
+     "alice": 4.68,
+     "bob": 4.35,
+     "carol": 0.94
+    },
+    "why": "D7: an admin world reset does not end a death in progress on any screen; its replay plays on and waits up to 8 s for a corpse the reset cancelled"
    }
   }
  ],
@@ -352,8 +381,8 @@
   3.141592653589793
  ],
  "death1": {
-  "since": 1791826141.798,
-  "T0": 1791826150.901097,
+  "since": 1791832569.938,
+  "T0": 1791832577.8195224,
   "rel": 0.6208,
   "de": 1,
   "lf": [
@@ -361,11 +390,11 @@
    1.5,
    399
   ],
-  "anchorA": 1791826147.7703
+  "anchorA": 1791832575.8276
  },
  "death2": {
-  "since": 1791826257.968,
-  "T0": 1791826263.9658527,
+  "since": 1791832689.709,
+  "T0": 1791832695.3832123,
   "rel": 0.6208,
   "de": 2,
   "lf": [
@@ -373,11 +402,11 @@
    1.8,
    810
   ],
-  "anchorA": 1791826261.8308
+  "anchorA": 1791832693.5503
  },
  "death3": {
-  "since": 1791826307.948,
-  "T0": 1791826322.4720504,
+  "since": 1791832737.948,
+  "T0": 1791832752.311963,
   "rel": null,
   "de": 3,
   "lf": [
@@ -385,22 +414,27 @@
    1,
    413
   ],
-  "anchorA": 1791826313.2609,
+  "anchorA": 1791832743.2856,
   "admin": {
    "tool": "dev/stage-3d-hq1/ws_admin.js",
    "cmd": "revive",
    "victim": 1,
    "after": 1500,
-   "sawDeath": 1791826312.64,
+   "sawDeath": 1791832742.62,
    "de": 3,
-   "sent": 1791826314.14,
-   "answer": "REVIVED ALICE"
+   "sent": 1791832744.12,
+   "answer": "REVIVED ALICE",
+   "lf": [
+    4.6,
+    1,
+    413
+   ]
   },
-  "reviveAfterKillRecordS": 6.19
+  "reviveAfterKillRecordS": 6.17
  },
  "death4": {
-  "since": 1791826366.606,
-  "T0": 1791826374.3075588,
+  "since": 1791832798.245,
+  "T0": 1791832805.360762,
   "rel": 0.6208,
   "de": 4,
   "lf": [
@@ -408,16 +442,21 @@
    2,
    321
   ],
-  "anchorA": 1791826371.346,
+  "anchorA": 1791832803.453,
   "admin": {
    "tool": "dev/stage-3d-hq1/ws_admin.js",
    "cmd": "world",
    "victim": 1,
    "after": 2000,
-   "sawDeath": 1791826370.694,
+   "sawDeath": 1791832802.761,
    "de": 4,
-   "sent": 1791826372.694,
-   "answer": "NEW RUN FOR EVERYONE"
+   "sent": 1791832804.765,
+   "answer": "NEW RUN FOR EVERYONE",
+   "lf": [
+    4.3,
+    2,
+    321
+   ]
   }
  },
  "deathsOnTheServer": {
@@ -435,5 +474,5 @@
   ]
  },
  "errors": [],
- "ok": true
+ "ok": false
 }
