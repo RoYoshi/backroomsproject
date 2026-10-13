@@ -1,0 +1,108 @@
+{
+ "tool": "dev/stage-3d-hq2/ws_reset.js",
+ "kind": "boom",
+ "victim": 1,
+ "after": 2000,
+ "sawEvent": 1791912030.764,
+ "de": 1,
+ "w0": 2,
+ "sent": 1791912032.764,
+ "answer": "WORLD RESET FOR EVERYONE · NOBODY BLOWN UP · NO COOLDOWNS",
+ "after3s": [
+  {
+   "at": 0.027,
+   "t": "world",
+   "w": 3
+  },
+  {
+   "at": 0.027,
+   "t": "fx",
+   "k": "end",
+   "id": 1,
+   "de": 1,
+   "w": 3
+  },
+  {
+   "at": 0.027,
+   "t": "ares",
+   "msg": "WORLD RESET FOR EVERYONE · NOBODY BLOWN UP · NO COOLDOWNS"
+  },
+  {
+   "at": 0.035,
+   "t": "bodies",
+   "w": 3,
+   "n": 0
+  },
+  {
+   "at": 0.156,
+   "t": "ares",
+   "msg": "1 HOUND REMOVED · 1/64"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "1 HOUND REMOVED · 0/64"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 3/64"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 2/64"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 1/64"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 0/64"
+  },
+  {
+   "at": 0.158,
+   "t": "ares",
+   "msg": "NO SMILERS TO REMOVE"
+  },
+  {
+   "at": 0.159,
+   "t": "ares",
+   "msg": "NO SMILERS TO REMOVE"
+  },
+  {
+   "at": 0.159,
+   "t": "ares",
+   "msg": "NO SMILERS TO REMOVE"
+  },
+  {
+   "at": 0.159,
+   "t": "ares",
+   "msg": "NO SMILERS TO REMOVE"
+  }
+ ],
+ "snapW": 3
+}

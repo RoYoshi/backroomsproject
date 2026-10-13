@@ -1,0 +1,8 @@
+PASS nr_e02: setup: the first NEW RUN is approved  {"at":1791911892427,"t":"nra","q":1,"ok":1,"de":1,"w":2}
+PASS nr_e02: E02 a press 1 s after the approval is refused (cooldown, wait ~29.0 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791911893428,"t":"nra","q":2,"ok":0,"why":"cooldown","wait":29},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 a press 10 s after the approval is refused (cooldown, wait ~20.0 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791911902428,"t":"nra","q":3,"ok":0,"why":"cooldown","wait":20},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 a flood of 100 intents inside the cooldown: bounded answers (one per 250 ms), all refused, nothing changes  {"sent":100,"answers":1,"approvals":0}
+PASS nr_e02: E02 a press 29.9 s after the approval is refused (cooldown, wait ~0.1 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791911922328,"t":"nra","q":104,"ok":0,"why":"cooldown","wait":0.1},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 the refused presses sent nothing to the spectator: no other replay, and no corpse or light record other than the approved NEW RUN's own (H2-2: its blast's corpse, event 1)  {"fx":0,"bodiesMessages":1,"aliceRecords":[["Boom",1]]}
+PASS nr_e02: E02 at the 30 s boundary the next press is approved  {"at":1791911922773,"t":"nra","q":105,"ok":1,"de":2,"w":2}
+7/7 checks passed

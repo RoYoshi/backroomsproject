@@ -1,0 +1,43 @@
+Stage 3D HQ3 - changed files since the accepted HQ2 parent f542b7cbd90f95148e644e6cba513cf55ddd52c9 (branch stage-3d-hq2)
+
+PRODUCTION (what the game runs; 7 files)
+  dphys.js            Boom only (NEW RUN). gibShapes(seed): the seeded breakup of the round body into one core lump and 4-6 rim chunks (5-7 pieces,
+                      uneven cuts, notched edges). stepBoom: at the blast every piece and both hands become free bodies (outward + along the blast,
+                      a hop off the floor and a bounce, spin, skid, walls, rest). Blood bursts at the blast and where the biggest piece first lands;
+                      a hard wall strike is a wall contact (HQ1's wallpaper stain). The light and hat are torn away as in HQ2; a headlamp rides the
+                      biggest piece. gibRecord: the final layout for the corpse record. The eight Hound/Smiler deaths are untouched.
+  death_srv.js        The Boom corpse record carries the breakup: gs (seed), gb (each piece's resting x, y, turn; at most 8), gh (both hands).
+  assets/net-wire.js  toRec passes gs/gb/gh for Boom records only, validated and bounded (gb 1-8 entries of 3 finite numbers, gh 4 finite numbers).
+  gore.js             gibs(): draws the pieces (body colour, dark outer rim, raw flesh edge, shadows, the hands with stumps). A gibbed corpse
+                      draws its pieces from the record and hides the bundle's whole avatar for that corpse.
+  mp.js               The blast replay draws the pieces from its own physics (no whole avatar from the first frame). The admin panel: DEATHS
+                      gets YOUR NEW RUN - INSTANT GIB (UNLIMITED NEW RUN toggle shown as the server states it, SERVER SAYS, LAST NEW RUN, help);
+                      WORLD's NEW RUN FOR EVERYONE is labelled a whole-room reset that blows nobody up; PLAYERS gets a help line on solid
+                      wanderers. The toggle state comes only from the server (nrf, nf) and is cleared when the connection closes.
+  server.js           UNLIMITED NEW RUN: the per-connection flag me.nrFree (OFF by default), set only by an unlocked admin's {t:'a', c:'nrfree'}
+                      for themselves; answered {t:'nrf', on} and a status line; nf in that admin's snapshots; nrIntent passes free only when
+                      me.admin && me.nrFree. The world reset's answer says nobody is blown up.
+  sim.js              (built) nrWhy/newRun take free: it skips only the 30 s cooldown.
+
+BUILD SOURCE (1 file)
+  dev/sim_glue.js     The source of sim.js's change above (sim.js = dev/build_sim.sh: sim_head.js + sim_glue.js).
+
+UNCHANGED SINCE HQ2 (byte-identical; the package receipt checks them)
+  the bundle assets/index-DKbV5Nv9.js, index.html, move.js, light.js, ai.js, world.js, sfx.js, ents.js, camcorder.js, server/peers.js,
+  assets/br-role.js, assets/l0-remaster.js, assets/net-interp.js, dev/sim_head.js, package.json, sounds/, audio_source/, every older stage's tools
+  and evidence. No reference-audio candidate is shipped.
+
+DEVELOPMENT ONLY (not served)
+  dev/stage-3d-hq3/README.md                the tool table
+  dev/stage-3d-hq3/verify_remote_hq3.py     after each push: the remote branch, commit and tree, the line from f542b7c, every other branch untouched
+  dev/stage-3d-hq3/gib_check.js             the gibs without a screen (120 blasts) and the same record at three frame rates
+  dev/stage-3d-hq3/gib_browser.py           two screens and a late joiner: no whole torso, one blast, the same settled pieces; screenshots
+  dev/stage-3d-hq3/admin_nr.js              UNLIMITED NEW RUN on a real server: who may use it, what it skips, reconnect, world reset
+  dev/stage-3d-hq3/admin_browser.py         UNLIMITED NEW RUN in the real panel; screenshots
+  dev/stage-3d-hq3/nr_free_unit.js          free skips only the cooldown (state, dead, held, epoch); a gibbed corpse replaced by a hound death's
+  dev/stage-3d-hq3/package_hq3.py           the human-QA package and its receipt
+  dev/stage-3d-hq3/evidence/                h3-0 (audit, branch heads), h3-1 (gibs), h3-2 (admin), h3-3 (focused checks)
+
+DOCUMENTS
+  STAGE_3D_HQ3_REPORT.md, STAGE_3D_HQ3_CHANGED_FILES.txt (this file), STAGE_3D_HQ3_HUMAN_QA.md
+  STAGE_3D_HQ3_PACKAGE_RECEIPT.txt is delivered beside the ZIP: it names the final commit, which a commit cannot contain.

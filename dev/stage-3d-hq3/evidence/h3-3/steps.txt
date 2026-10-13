@@ -1,0 +1,15 @@
+-- H3-3 on commit c5602aa92953d14cdf2301355bfc067942a1a0ef (tree f77100d9b416c8d2210090c8895c80822eb35d3f), exported with git archive to a scratch folder, Tue Oct 13 12:18:08 CDT 2026 --
+proto_lab_nr_e02 exit=0 seconds=35
+nr_free_unit exit=0 seconds=5
+reset_epoch_boom exit=0 seconds=229
+boom_browser exit=0 seconds=110
+col_browser_head exit=0 seconds=42
+gib_browser_final exit=0 seconds=111
+-- finished Tue Oct 13 12:27:00 CDT 2026 --
+-- H3-3 follow-up on the same export, Tue Oct 13 12:28:08 CDT 2026: the light OFF with the camcorder (pack check 8); nr_free_unit again with U2c added (a gibbed corpse replaced by an ordinary death's; the first run, 3/3 without U2c, is nr_free_unit_v1.*) --
+nr_free_unit exit=0 seconds=12
+boom_browser_camcorder_off exit=0 seconds=108
+-- finished Tue Oct 13 12:30:08 CDT 2026 --
+contact_sheet exit=0 (dev/stage-3d-hq3/contact_sheet.py: hq3_gibs_two_browsers.png, hq3_admin_toggle.png)
+secret_scan exit=1 (1 finding: HQ2's documented film.mp4 false positive, nothing in HQ3's files; secret_scan_note.txt) - run again below once the documents were final; the first pass is in attempts/secret_scan_before_the_documents_were_final
+secret_scan (final documents) exit=1 (the same single inherited finding: dev/stage-3d-hq2/evidence/h2-5/video/main/film.mp4, line 1236; nothing in HQ3's files)
