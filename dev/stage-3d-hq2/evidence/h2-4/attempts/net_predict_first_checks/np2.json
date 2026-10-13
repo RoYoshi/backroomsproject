@@ -1,0 +1,554 @@
+{
+ "tool": "dev/stage-3d-hq2/net_predict.js",
+ "game": "/home/claude/backrooms-shadows",
+ "scenarios": {
+  "c09_pass_0": {
+   "lag": 0,
+   "checks": [
+    {
+     "name": "C09 he stands aside (30 px off her line), 0 ms each way: her page slides her past his shoulder and on, never closer than D; no correction; he is not moved",
+     "ok": false,
+     "info": {
+      "min": {
+       "min": 36.7,
+       "snapshots": 57
+      },
+      "alice": [
+       3,
+       1598,
+       720,
+       0
+      ],
+      "bob": [
+       2,
+       1012,
+       691,
+       0
+      ],
+      "aliceCorrections": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      }
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36.7,
+     "snapshots": 57
+    },
+    "alice": [
+     3,
+     1598,
+     720,
+     0
+    ],
+    "bob": [
+     2,
+     1012,
+     691,
+     0
+    ]
+   },
+   "alice": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "page": [
+     1612,
+     720
+    ]
+   }
+  },
+  "c09_pass_150": {
+   "lag": 150,
+   "checks": [
+    {
+     "name": "C09 he stands aside (30 px off her line), 150 ms each way: her page slides her past his shoulder and on, never closer than D; no correction; he is not moved",
+     "ok": false,
+     "info": {
+      "min": {
+       "min": 36.7,
+       "snapshots": 70
+      },
+      "alice": [
+       6,
+       1731,
+       720,
+       0
+      ],
+      "bob": [
+       5,
+       1012,
+       691,
+       0
+      ],
+      "aliceCorrections": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      }
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36.7,
+     "snapshots": 70
+    },
+    "alice": [
+     6,
+     1731,
+     720,
+     0
+    ],
+    "bob": [
+     5,
+     1012,
+     691,
+     0
+    ]
+   },
+   "alice": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "page": [
+     1783,
+     720
+    ]
+   }
+  },
+  "c10_two_0": {
+   "lag": 0,
+   "checks": [
+    {
+     "name": "C10 two pages sprinting at each other, 0 ms each way (each sees the other at least 0 ms late): never closer than D on the server, and in every snapshot neither past the other",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 76
+      },
+      "alice": [
+       8,
+       1000,
+       720,
+       0
+      ],
+      "bob": [
+       9,
+       1036,
+       720,
+       0
+      ],
+      "alwaysInOrder": true
+     }
+    },
+    {
+     "name": "C10 ...on each page's own screen it never comes within D of the other as drawn (35 px with the blend), nor past him",
+     "ok": false,
+     "info": {
+      "alice": {
+       "min": 33.8,
+       "past": false
+      },
+      "bob": {
+       "min": 23.6,
+       "past": false
+      },
+      "closestThePagesThemselvesCame": 20.7
+     }
+    },
+    {
+     "name": "C10 ...any correction is soft (blended), at most one per 0.3 s each",
+     "ok": true,
+     "info": {
+      "alice": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      },
+      "bob": {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 362
+      }
+     }
+    },
+    {
+     "name": "C10 ...and once they stand, each page is where the server has it (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "pages": {
+       "alice": [
+        1002.3,
+        720
+       ],
+       "bob": [
+        1036,
+        720
+       ]
+      },
+      "server": [
+       [
+        8,
+        1000,
+        720,
+        0
+       ],
+       [
+        9,
+        1036,
+        720,
+        0
+       ]
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36,
+     "snapshots": 76
+    },
+    "alice": [
+     8,
+     1000,
+     720,
+     0
+    ],
+    "bob": [
+     9,
+     1036,
+     720,
+     0
+    ],
+    "alwaysInOrder": true
+   },
+   "corrections": {
+    "alice": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "bob": {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 362
+    }
+   },
+   "pages": {
+    "alice": [
+     1002.3,
+     720
+    ],
+    "bob": [
+     1036,
+     720
+    ]
+   },
+   "screens": {
+    "alice": {
+     "min": 33.8,
+     "past": false
+    },
+    "bob": {
+     "min": 23.6,
+     "past": false
+    },
+    "closestThePagesThemselvesCame": 20.7
+   }
+  },
+  "c10_two_60": {
+   "lag": 60,
+   "checks": [
+    {
+     "name": "C10 two pages sprinting at each other, 60 ms each way (each sees the other at least 120 ms late): never closer than D on the server, and in every snapshot neither past the other",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 81
+      },
+      "alice": [
+       11,
+       1000,
+       720,
+       0
+      ],
+      "bob": [
+       12,
+       1036,
+       720,
+       0
+      ],
+      "alwaysInOrder": true
+     }
+    },
+    {
+     "name": "C10 ...on each page's own screen it never comes within D of the other as drawn (35 px with the blend), nor past him",
+     "ok": false,
+     "info": {
+      "alice": {
+       "min": 19.8,
+       "past": false
+      },
+      "bob": {
+       "min": 12,
+       "past": false
+      },
+      "closestThePagesThemselvesCame": 0.5
+     }
+    },
+    {
+     "name": "C10 ...any correction is soft (blended), at most one per 0.3 s each",
+     "ok": true,
+     "info": {
+      "alice": {
+       "n": 1,
+       "soft": 1,
+       "minGapMs": null
+      },
+      "bob": {
+       "n": 1,
+       "soft": 1,
+       "minGapMs": null
+      }
+     }
+    },
+    {
+     "name": "C10 ...and once they stand, each page is where the server has it (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "pages": {
+       "alice": [
+        1000,
+        720
+       ],
+       "bob": [
+        1036,
+        720
+       ]
+      },
+      "server": [
+       [
+        11,
+        1000,
+        720,
+        0
+       ],
+       [
+        12,
+        1036,
+        720,
+        0
+       ]
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36,
+     "snapshots": 81
+    },
+    "alice": [
+     11,
+     1000,
+     720,
+     0
+    ],
+    "bob": [
+     12,
+     1036,
+     720,
+     0
+    ],
+    "alwaysInOrder": true
+   },
+   "corrections": {
+    "alice": {
+     "n": 1,
+     "soft": 1,
+     "minGapMs": null
+    },
+    "bob": {
+     "n": 1,
+     "soft": 1,
+     "minGapMs": null
+    }
+   },
+   "pages": {
+    "alice": [
+     1000,
+     720
+    ],
+    "bob": [
+     1036,
+     720
+    ]
+   },
+   "screens": {
+    "alice": {
+     "min": 19.8,
+     "past": false
+    },
+    "bob": {
+     "min": 12,
+     "past": false
+    },
+    "closestThePagesThemselvesCame": 0.5
+   }
+  },
+  "c10_two_150": {
+   "lag": 150,
+   "checks": [
+    {
+     "name": "C10 two pages sprinting at each other, 150 ms each way (each sees the other at least 300 ms late): never closer than D on the server, and in every snapshot neither past the other",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 87
+      },
+      "alice": [
+       14,
+       1000,
+       720,
+       0
+      ],
+      "bob": [
+       15,
+       1036,
+       720,
+       0
+      ],
+      "alwaysInOrder": true
+     }
+    },
+    {
+     "name": "C10 ...on each page's own screen it never comes within D of the other as drawn (35 px with the blend), nor past him",
+     "ok": false,
+     "info": {
+      "alice": {
+       "min": 1.4,
+       "past": true
+      },
+      "bob": {
+       "min": 0.5,
+       "past": true
+      },
+      "closestThePagesThemselvesCame": 0
+     }
+    },
+    {
+     "name": "C10 ...any correction is soft (blended), at most one per 0.3 s each",
+     "ok": true,
+     "info": {
+      "alice": {
+       "n": 3,
+       "soft": 3,
+       "minGapMs": 311
+      },
+      "bob": {
+       "n": 3,
+       "soft": 3,
+       "minGapMs": 308
+      }
+     }
+    },
+    {
+     "name": "C10 ...and once they stand, each page is where the server has it (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "pages": {
+       "alice": [
+        1000,
+        720
+       ],
+       "bob": [
+        1036,
+        720
+       ]
+      },
+      "server": [
+       [
+        14,
+        1000,
+        720,
+        0
+       ],
+       [
+        15,
+        1036,
+        720,
+        0
+       ]
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36,
+     "snapshots": 87
+    },
+    "alice": [
+     14,
+     1000,
+     720,
+     0
+    ],
+    "bob": [
+     15,
+     1036,
+     720,
+     0
+    ],
+    "alwaysInOrder": true
+   },
+   "corrections": {
+    "alice": {
+     "n": 3,
+     "soft": 3,
+     "minGapMs": 311
+    },
+    "bob": {
+     "n": 3,
+     "soft": 3,
+     "minGapMs": 308
+    }
+   },
+   "pages": {
+    "alice": [
+     1000,
+     720
+    ],
+    "bob": [
+     1036,
+     720
+    ]
+   },
+   "screens": {
+    "alice": {
+     "min": 1.4,
+     "past": true
+    },
+    "bob": {
+     "min": 0.5,
+     "past": true
+    },
+    "closestThePagesThemselvesCame": 0
+   }
+  }
+ },
+ "passed": 9,
+ "total": 14,
+ "ok": false
+}

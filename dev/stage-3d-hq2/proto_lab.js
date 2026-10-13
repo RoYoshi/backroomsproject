@@ -43,6 +43,11 @@
  *   col_rooms    C07: players in different rooms never block each other
  *   col_bypass   C08: tiny steps, sub-pixel steps, a burst, a skim through the body to a legal point, a burst whose only wall route
  *                runs past him, a packet flood, malformed numbers: none of them gets through
+ * H2-4 (GREEN): the world epoch on the wire
+ *   world_msgs   R01-R04 (server part): a world reset while one player's death plays, another is alive and a third is in the menu: each
+ *                connection gets one world message (the next world; with where it now stands if it is in a run, the same as its tp),
+ *                then the death's end; the dead one is alive again on its own spot; nothing sent afterwards names the old world (the
+ *                corpse list neither); a connection opened afterwards hears nothing of it; nobody's NEW RUN is answered, nothing explodes
  * Writes the raw observations, a short `measured` block per RED scenario and the `checks` of the GREEN ones. */
 'use strict';
 const fs = require('fs'), path = require('path'), { spawn } = require('child_process'), net = require('net');
@@ -72,8 +77,9 @@ class Client {
       if (m.t === 'hi') this.id = m.id;
       else if (m.t === 'tp') { this.tp.push({ t, x: m.x, y: m.y, pc: m.pc | 0 }); if (this.obey) { this.x = m.x; this.y = m.y; } }   // (obey: H2-3, the client follows a correction as mp.js does)
       else if (m.t === 'fx') this.fx.push(Object.assign({ at: t }, m));
-      else if (m.t === 'bodies') this.bodies.push({ at: t, v: m.v, b: (m.b || []).map(b => ({ k: b.k, c: b.c, x: b.x, y: b.y, de: b.de, lo: b.lo, lf: b.lf || null })) });
+      else if (m.t === 'bodies') this.bodies.push({ at: t, v: m.v, w: m.w, b: (m.b || []).map(b => ({ k: b.k, c: b.c, x: b.x, y: b.y, de: b.de, lo: b.lo, lf: b.lf || null })) });
       else if (m.t === 'nra') this.nra.push(Object.assign({ at: t }, m));
+      else if (m.t === 'world') { this.worlds = this.worlds || []; this.worlds.push(Object.assign({ at: t }, m)); this.extra.push(Object.assign({ at: t }, m)); }
       else if (m.t === 's') {
         if (m.w != null) this.w = m.w; this.last = m;
         if (this.rec) this.peerLog.push({ t, p: (m.p || []).map(p => ({ id: p.id, x: p.x, y: p.y, d: p.d })), me: m.me || '' });
@@ -264,7 +270,8 @@ async function nr_elig(port) {
   const C = new Client(port, rm, 'CAROL', true); await joinAt(C, CORR.x0 + 300, CORR.y); await hold([A, B, C], 500);
   const w0 = C.w, na = [A.nra.length, B.nra.length, C.nra.length];
   adm.send({ t: 'a', c: 'world' }); await hold([A, B, C], 1200);
-  check('R04 an admin world reset sends no NEW RUN answer to anyone and explodes nobody (no fx)', A.nra.length === na[0] && B.nra.length === na[1] && C.nra.length === na[2] && !C.fx.some(f => f.at > now() - 1500), { w0, w1: C.w });
+  check('R04 an admin world reset sends no NEW RUN answer to anyone and explodes nobody (no replay; H2-4: only the end of the blast still playing from the approval above)', A.nra.length === na[0] && B.nra.length === na[1] && C.nra.length === na[2] && !C.fx.some(f => f.at > now() - 1500 && f.k !== 'end'),
+    { w0, w1: C.w, fx: C.fx.filter(f => f.at > now() - 1500).map(f => [f.k, f.de, f.w]) });
   const rc = await press(C, 1);
   check('R04 the reset did not start anyone\'s cooldown: Carol\'s first NEW RUN after it is approved', rc && rc.ok === 1, rc);
   const stale = await press(B, 1, w0);
@@ -717,6 +724,38 @@ async function col_bypass(port) {
   A.close(); B.close(); adm.close(); return out;
 }
 
+/* ---------------------------------------------------------------- H2-4: the world epoch on the wire */
+async function world_msgs(port) {
+  const rm = 'h24world', adm = await room(port, rm, true), out = { room: rm }, check = checker(out);
+  const V = new Client(port, rm, 'VIC', true), A = new Client(port, rm, 'ALICE', true), M = new Client(port, rm, 'MENU', true);
+  await joinAt(A, HALL.x - 100, HALL.y); await joinAt(V, HALL.x + 60, HALL.y); await M.open; await hold([A, V], 400);
+  V.send({ t: 'admin', pass: PASS, quiet: 1 }); await sleep(300);            // (only so the admin's death preview can be played on him)
+  adm.send({ t: 'a', c: 'god', id: A.id }); V.send({ t: 'a', c: 'preview', k: 'hound', var: 'A' });
+  const deFx = await until(3000, () => A.fx.find(f => f.k === 'death' && f.id === V.id)); await hold([A], 1200);
+  const w0 = A.w, n0 = { A: A.extra.length, V: V.extra.length, M: M.extra.length, adm: adm.extra.length }, fx0 = { A: A.fx.length, V: V.fx.length, M: M.fx.length }, b0 = A.bodies.length, nra0 = A.nra.length + V.nra.length + M.nra.length, tp0 = { A: A.tp.length, V: V.tp.length };
+  const tR = now(); adm.send({ t: 'a', c: 'world' }); await sleep(200);
+  for (let i = 0; i < 6; i++) adm.send({ t: 'a', c: 'hounds', mode: 'remove' }); for (let i = 0; i < 8; i++) adm.send({ t: 'a', c: 'smilers', mode: 'remove' });
+  await hold([A], 1500);
+  const L = await (async () => { const c = new Client(port, rm, 'LATE', true); await c.open; await sleep(1200); return c; })();
+  const wOf = c => (c.worlds || []).filter(m => m.at >= tR), ends = c => c.fx.slice(fx0[c.name === 'ALICE' ? 'A' : c.name === 'VIC' ? 'V' : 'M']).filter(f => f.k === 'end');
+  const wa = wOf(A), wv = wOf(V), wm = wOf(M), ta = A.tp.slice(tp0.A), tv = V.tp.slice(tp0.V);
+  out.world = { w0, alice: wa, vic: wv, menu: wm, aliceTp: ta, vicTp: tv, deathDe: deFx && deFx.de };
+  check("setup: Vic's death is playing (its replay reached Alice)", !!deFx, deFx && { de: deFx.de, w: deFx.w });
+  check('R01 every connection gets exactly one world message, the next world', [wa, wv, wm].every(x => x.length === 1 && x[0].w === w0 + 1), { alice: wa, vic: wv, menu: wm });
+  check('R01 a player in a run is told where it now stands (x, y), the same spot as its tp; one in the menu is not', wa[0] && Number.isFinite(wa[0].x) && ta.some(q => q.x === wa[0].x && q.y === wa[0].y) && wv[0] && Number.isFinite(wv[0].x) && tv.some(q => q.x === wv[0].x && q.y === wv[0].y) && wm[0] && wm[0].x == null,
+    { alice: wa[0], aliceTp: ta, vic: wv[0], vicTp: tv, menu: wm[0] });
+  const ea = A.fx.slice(fx0.A).filter(f => f.k === 'end'), em = M.fx.slice(fx0.M).filter(f => f.k === 'end');
+  check('R01 then the end of the death in progress (its id), to the others; with the new world\'s number', deFx && ea.some(f => f.de === deFx.de && f.w === w0 + 1) && em.some(f => f.de === deFx.de), { alice: ea, menu: em });
+  const sv = srvPos(adm, V.id);
+  check('R01 the dead player is alive again, in a run, on the spot he was told', sv && sv.a === 1 && !sv.d && wv[0] && Math.abs(sv.x - wv[0].x) <= 1 && Math.abs(sv.y - wv[0].y) <= 1, { server: sv, told: wv[0] });
+  const oldAfter = [A, V, M].flatMap(c => c.fx.filter(f => f.at >= tR && f.w != null && f.w <= w0).map(f => [c.name, f.k, f.de, f.w])).concat(A.bodies.slice(b0).filter(b => b.w != null && b.w <= w0).map(b => ['ALICE', 'bodies', b.v, b.w]));
+  const bodyAfter = A.bodies.slice(b0);
+  check('R01 nothing sent after the reset names the old world: no death or blast replay, and the corpse list says the new world and holds no corpse of Vic', !oldAfter.length && bodyAfter.length >= 1 && bodyAfter.every(b => b.w === w0 + 1 && !b.b.some(r => r.k === V.id)), { old: oldAfter, bodies: bodyAfter.map(b => ({ w: b.w, n: b.b.length })) });
+  check('R03 a connection opened after the reset hears nothing of the old death: no replay, no corpse, nothing naming the old world', !L.fx.some(f => f.k === 'death' || f.k === 'boom') && !L.bodies.some(b => b.w != null && b.w <= w0) && !L.bodies.some(b => b.b.some(r => r.k === V.id)) && L.w === w0 + 1, { fx: L.fx.map(f => [f.k, f.de, f.w]), bodies: L.bodies.map(b => [b.w, b.b.length]), w: L.w });
+  check('R04 the reset answers nobody\'s NEW RUN and explodes nobody', A.nra.length + V.nra.length + M.nra.length === nra0 && ![A, V, M, L].some(c => c.fx.some(f => f.k === 'boom')), { nra: A.nra.length + V.nra.length + M.nra.length - nra0 });
+  A.close(); V.close(); M.close(); L.close(); adm.close(); return out;
+}
+
 (async () => {
   const port = +ARG.port || await freePort(), log = (ARG.out || 'proto_lab.json').replace(/\.json$/, '') + '.server.log';
   const srv = await startServer(port, log);
@@ -736,6 +775,7 @@ async function col_bypass(port) {
       else if (s === 'nr_boom_lights') res.scenarios[s] = await nr_boom_lights(port);
       else if (s === 'nr_boom_reset') res.scenarios[s] = await nr_boom_reset(port);
       else if (s === 'nr_boom_again') res.scenarios[s] = await nr_boom_again(port);
+      else if (s === 'world_msgs') res.scenarios[s] = await world_msgs(port);
       else if (/^col_(head|wide|two|crowd|spawn|respawn|member|held|rooms|bypass)$/.test(s)) res.scenarios[s] = await ({ col_head, col_wide, col_two, col_crowd, col_spawn, col_respawn, col_member, col_held, col_rooms, col_bypass })[s](port);
       await sleep(400);
     }

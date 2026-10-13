@@ -93,8 +93,56 @@ Spawns, respawns, admin BRING / GOTO / glitch / item / entity teleports and the 
 | H2-1 and H2-2 again | 43/43 on the protocol; the blast and E02 in the browser 7/7 each |
 | Older suites | the expected deltas only: H2-1's three, plus `audit_net` A1, M4, R2 and `audit_net2` MT1, whose fixture stands a player on their admin's or observer's spot. `old_fixtures.js` re-runs those four checks with the body out of the way (6/6) |
 
-### What H2-3 does not do yet
+### What H2-3 did not do yet
 
-- **No prediction in the browser** (`move.js`, H2-4). A page walking into a player is stopped by the server and pulled back by its corrections, a snap every 0.3 s or so: the server's answer is right, the feel is not yet. `browser/col_pass` measures it.
-- **No blending** of the soft correction (`mp.js`, H2-4): the page treats it as an ordinary `tp`.
+- **No prediction in the browser** (`move.js`, H2-4). A page walking into a player was stopped by the server and pulled back by its corrections, a snap every 0.3 s or so: the server's answer was right, the feel was not yet. `browser/col_pass` measured it.
+- **No blending** of the soft correction (`mp.js`, H2-4): the page treated it as an ordinary `tp`.
 - **The world epoch on the screens** (R01–R03, H2-4).
+
+## H2-4: the browser
+
+### Who the page steers round (`mp.js`, `window.__peerBodies`)
+
+From every snapshot, mp.js keeps the other players who are solid, at their latest **server** positions (the snapshot's own `x, y`, not the smoothed drawing):
+- in the snapshot (in a run);
+- not dead;
+- not held: no hound or smiler in the snapshot names them as its capture (`cp`).
+
+The list is empty offline, and while our own player is not solid: not in a run, dead, held, out through a glitched wall, or out of the world after an approved NEW RUN. Nothing new travels on the wire for this.
+
+### The prediction (`move.js`)
+
+**Each fixed 60 Hz step**, before the walls' push-out (`collide`):
+- The velocity loses the part that would take us within D of a body this step; the part along it is kept, so the player slides round a body instead of stopping dead.
+- This is done over every body four times. If a crowd's corners still leave the step inside someone, it is cut back along itself to the last free point.
+- Nobody is pushed: only our own motion is constrained, and standing still nothing happens.
+
+**Every movement uses the same step.** Walking, running, crouching and crawling go through it, and so does a slide: a slide into a body dies at contact, as against a wall.
+
+**A vault** (a fixed path with no collision) does not start when a body is on its landing, or in the way over the obstacle (closer to its path than they already are). It bumps, like a wall.
+
+**The 0.75 px margin.** The page keeps 36.75 px, not 36. It sends whole pixels, and the margin keeps the rounded position outside the server's limit, so a predicted move is always a free one on the server. This is not in D3; it is invisible (a quarter of a pixel each side).
+
+**With nobody there, the step is exactly HQ1's.** The list is empty and nothing is touched.
+
+**Frame rate.** Gameplay runs in fixed 60 Hz steps whatever the screen's rate (`timing_policy.js`), and the prediction is inside the step.
+
+### Soft corrections (`mp.js`)
+
+A `tp` with `pc:1` within 96 px is blended in over 120 ms:
+- the offset is added a little each fixed step;
+- the part of the velocity that runs back against it (into the body the server would not allow) is dropped, the sideways part kept.
+
+A larger one, or any other `tp`, is a jump as before.
+
+### What the page and the server agree on
+
+| Case | Result |
+|---|---|
+| A standing player, any lag | The page knows exactly where he is. Its predicted moves are all free on the server: no correction at all, at 0, 60 and 150 ms each way, in Node and in a real browser |
+| Two players running at each other with lag | Each page sees the other where its last snapshot put him, one round trip and up to a snapshot late. While both run, their bodies can overlap on a screen for a moment (measured: none to 0.07 s with no lag, about 0.19 s at 60 ms each way, about 0.5 s at 150 ms each way). The server never lets them overlap. Its soft corrections, at most one per 0.3 s, bring both pages back within 0.3–0.6 s |
+| The residual | Within 2 px of the server, a page is left alone (D3's silent band). Two bodies can therefore rest up to about 2–3 px into each other on one screen, never on the server |
+
+### Evidence (H2-4)
+
+`dev/stage-3d-hq2/evidence/h2-4/` (its `SUMMARY.md`).

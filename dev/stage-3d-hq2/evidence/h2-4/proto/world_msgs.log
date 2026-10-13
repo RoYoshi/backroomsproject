@@ -1,0 +1,9 @@
+PASS world_msgs: setup: Vic's death is playing (its replay reached Alice)  {"de":1,"w":2}
+PASS world_msgs: R01 every connection gets exactly one world message, the next world  {"alice":[{"at":1791861785295,"t":"world","w":3,"x":960,"y":3264}],"vic":[{"at":1791861785294,"t":"world","w":3,"x":1004,"y":3264}],"menu":[{"at":1791861785295,"t":"world","w":3}]}
+PASS world_msgs: R01 a player in a run is told where it now stands (x, y), the same spot as its tp; one in the menu is not  {"alice":{"at":1791861785295,"t":"world","w":3,"x":960,"y":3264},"aliceTp":[{"t":1791861785295,"x":960,"y":3264,"pc":0},{"t":1791861786240,"x":960,"y":3264,"pc":0}],"vic":{"at":1791861785294,"t":"world","w":3,"x":1004,"y":3264},"vicTp":[{"t":1791861785294,"x":1004,"y":3264,"pc":0}],"menu":{"at":1791
+PASS world_msgs: R01 then the end of the death in progress (its id), to the others; with the new world's number  {"alice":[{"at":1791861785295,"t":"fx","k":"end","id":2,"de":1,"w":3}],"menu":[{"at":1791861785295,"t":"fx","k":"end","id":2,"de":1,"w":3}]}
+PASS world_msgs: R01 the dead player is alive again, in a run, on the spot he was told  {"server":{"a":1,"d":"","x":1004,"y":3264},"told":{"at":1791861785294,"t":"world","w":3,"x":1004,"y":3264}}
+PASS world_msgs: R01 nothing sent after the reset names the old world: no death or blast replay, and the corpse list says the new world and holds no corpse of Vic  {"old":[],"bodies":[{"w":3,"n":0}]}
+PASS world_msgs: R03 a connection opened after the reset hears nothing of the old death: no replay, no corpse, nothing naming the old world  {"fx":[],"bodies":[[3,0]],"w":3}
+PASS world_msgs: R04 the reset answers nobody's NEW RUN and explodes nobody  {"nra":0}
+8/8 checks passed

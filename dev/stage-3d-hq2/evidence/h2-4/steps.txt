@@ -1,0 +1,29 @@
+-- H2-4 on the working tree over c61469de8d429eeae533c873cdad597575881fdc (production files as committed next); parent export /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base; the older suites with the synthetic admin passcode --
+unit/predict_unit exit=0 seconds=0
+unit/peers_unit exit=0 seconds=6
+proto/world_msgs exit=0 seconds=9
+proto/col_all exit=0 seconds=136
+proto/nr_all exit=1 seconds=135
+net/net_predict exit=0 seconds=68
+old_fixtures exit=0 seconds=94
+browser/col_head exit=0 seconds=40
+browser/col_aside exit=0 seconds=39
+browser/col_head_lag150 exit=0 seconds=41
+browser/col_aside_lag150 exit=0 seconds=37
+browser/reset_death exit=0 seconds=255
+browser/reset_boom exit=0 seconds=227
+browser/boom_flashlight exit=0 seconds=104
+browser/nr_e02 exit=0 seconds=83
+mutation/c09_no_predict__predict_unit exit=1 seconds=1
+mutation/c09_no_predict__col_head exit=1 seconds=38
+mutation/r01_replays_live_on__reset_death exit=1 seconds=218
+mutation/r03_no_old_filter__reset_death exit=1 seconds=236
+existing/light_lifecycle exit=0 seconds=404
+existing/s_fps_equality exit=0 seconds=1
+existing/s_audit exit=1 seconds=2
+existing/death_net exit=1 seconds=53
+existing/light_net exit=0 seconds=41
+existing/audit_net exit=1 seconds=55
+existing/audit_net2 exit=1 seconds=228
+-- again: proto/nr_all (H2-1's nr_elig R04 check counted any fx after the reset as an explosion; H2-4's world reset now sends the end of the blast still playing from that scenario's own approval: the check now excludes k:'end'; the first run is in attempts/) --
+proto/nr_all exit=0 seconds=134

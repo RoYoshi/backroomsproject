@@ -1,0 +1,198 @@
+{
+ "tool": "dev/stage-3d-hq2/predict_unit.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h24run/m_c09_no_predict",
+ "old": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base",
+ "checks": [
+  {
+   "name": "P1 solo, unchanged: with no other player (no list, or an empty one) every tick of seven scripts - stand, walk, sprint, crouch-walk, a vault, a crawl through a wall hole, sprint + slide - is identical, number for number, to HQ1's move.js",
+   "ok": true,
+   "info": {
+    "scripts": 14,
+    "ticks": 3360,
+    "firstDifferingTick": {},
+    "theVaultHappened": true
+   }
+  },
+  {
+   "name": "P2 sprinting into a standing player at 30, 60, 120, 144, 240, 360 FPS and a jittered schedule: the same trace tick for tick (240 fixed ticks); never closer than D; stopped at contact",
+   "ok": false,
+   "info": {
+    "differing": [],
+    "ticks": 240,
+    "minDistance": 1.776,
+    "endDistance": 388.707
+   }
+  },
+  {
+   "name": "P3 the server agrees: every position a page would send (every third tick, whole px) is a free move under the server's own rule - head-on, past his shoulder, round him, dead centre, into a crowd of five: no correction at all with no lag",
+   "ok": false,
+   "info": {
+    "headOn": {
+     "packets": 79,
+     "notFree": 68,
+     "worstMissPx": 428
+    },
+    "pastHisShoulder": {
+     "packets": 79,
+     "notFree": 3,
+     "worstMissPx": 8.723
+    },
+    "roundHimOnOpenFloor": {
+     "packets": 79,
+     "notFree": 8,
+     "worstMissPx": 30.738
+    },
+    "deadCentre": {
+     "packets": 79,
+     "notFree": 66,
+     "worstMissPx": 339
+    },
+    "intoACrowdOfFive": {
+     "packets": 79,
+     "notFree": 72,
+     "worstMissPx": 64.4
+    }
+   }
+  },
+  {
+   "name": "P4 the slide: 12 px off his line on open floor she slides round him and gets past (never closer than D); past his shoulder in the corridor when he stands aside; dead centre she stops at contact and is never pushed sideways",
+   "ok": false,
+   "info": {
+    "wide": {
+     "end": [
+      4979.248,
+      3462
+     ],
+     "min": 12.049,
+     "widestSideways": 12
+    },
+    "centre": {
+     "end": [
+      4750.067,
+      3450
+     ],
+     "y": [
+      3450,
+      3450
+     ]
+    },
+    "aside": {
+     "end": [
+      1935.276,
+      720
+     ],
+     "min": 30.053
+    },
+    "sprintSlide": {
+     "slid": true,
+     "min": 2.117,
+     "end": [
+      1398.845,
+      720
+     ],
+     "state": "run"
+    },
+    "crowdMin": 12.234
+   }
+  },
+  {
+   "name": "P4 a sprint-slide into a standing player dies at contact, as against a wall (never closer than D, on her own side)",
+   "ok": false,
+   "info": {
+    "slid": true,
+    "min": 2.117,
+    "end": [
+     1398.845,
+     720
+    ],
+    "state": "run"
+   }
+  },
+  {
+   "name": "P5 the vault: with nobody there it vaults the counter; with a player standing on the landing it does not start (she stays on her side, never closer than D); with a player beside the run-up, not in the way, it still vaults",
+   "ok": true,
+   "info": {
+    "obstacle": {
+     "x": 1640,
+     "y": 3288,
+     "w": 272,
+     "h": 48
+    },
+    "free": {
+     "vaulted": true,
+     "farSide": true
+    },
+    "landingTaken": {
+     "vaulted": false,
+     "farSide": false,
+     "min": 85
+    },
+    "someoneBeside": {
+     "vaulted": true,
+     "farSide": true,
+     "min": 60.009
+    }
+   }
+  }
+ ],
+ "slide": {
+  "wide": {
+   "end": [
+    4979.248,
+    3462
+   ],
+   "min": 12.049,
+   "widestSideways": 12
+  },
+  "centre": {
+   "end": [
+    4750.067,
+    3450
+   ],
+   "y": [
+    3450,
+    3450
+   ]
+  },
+  "aside": {
+   "end": [
+    1935.276,
+    720
+   ],
+   "min": 30.053
+  },
+  "sprintSlide": {
+   "slid": true,
+   "min": 2.117,
+   "end": [
+    1398.845,
+    720
+   ],
+   "state": "run"
+  },
+  "crowdMin": 12.234
+ },
+ "vault": {
+  "obstacle": {
+   "x": 1640,
+   "y": 3288,
+   "w": 272,
+   "h": 48
+  },
+  "free": {
+   "vaulted": true,
+   "farSide": true
+  },
+  "landingTaken": {
+   "vaulted": false,
+   "farSide": false,
+   "min": 85
+  },
+  "someoneBeside": {
+   "vaulted": true,
+   "farSide": true,
+   "min": 60.009
+  }
+ },
+ "ok": false
+}

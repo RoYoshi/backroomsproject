@@ -1,0 +1,44 @@
+PASS nr_flow: E01 an eligible intent is approved once (nra ok, an event id, the current world)  {"at":1791864511598,"t":"nra","q":1,"ok":1,"de":1,"w":2}
+PASS nr_flow: E01 the player is out of the world at once: the spectator's next snapshots have no living Alice  {"msToGone":42}
+PASS nr_flow: E01 the server holds her in the menu (not active)  {"a":0,"d":"","x":812,"y":720}
+PASS nr_flow: E05 a second intent from the menu is refused (state), no second event  {"at":1791864512237,"t":"nra","q":2,"ok":0,"why":"state"}
+PASS nr_flow: E01 her join starts the new run (active, alive, where her client chose to spawn)  {"a":1,"d":"","x":892,"y":720}
+PASS nr_flow: E01 no vanish / light record traffic anywhere  {"fx":1,"bodies":2}
+PASS nr_elig: E05 from the menu (never joined): refused (state)  {"at":1791864514860,"t":"nra","q":1,"ok":0,"why":"state"}
+PASS nr_elig: E08 the old client channels are dead: fx vanish / fx death / b Vanish / b Hound from a client relay nothing and store nothing  {"fx":0,"bodies":0}
+PASS nr_elig: E05 an intent naming another world is refused (epoch)  {"at":1791864518005,"t":"nra","q":1,"ok":0,"why":"epoch"}
+PASS nr_elig: E08 malformed press numbers get no answer  {"answered":[]}
+PASS nr_elig: setup: approved  {"at":1791864520431,"t":"nra","q":5,"ok":1,"de":1,"w":2}
+PASS nr_elig: E05 the same press again (a resend) gets the same answer and no second event  {"at":1791864520753,"t":"nra","q":5,"ok":1,"de":1,"w":2}
+PASS nr_elig: E05 an older press number gets no answer  {}
+PASS nr_elig: R04 an admin world reset sends no NEW RUN answer to anyone and explodes nobody (no replay; H2-4: only the end of the blast still playing from the approval above)  {"w0":2,"w1":3,"fx":[["end",1,3]]}
+PASS nr_elig: R04 the reset did not start anyone's cooldown: Carol's first NEW RUN after it is approved  {"at":1791864524795,"t":"nra","q":1,"ok":1,"de":2,"w":3}
+PASS nr_elig: R04 / E05 a press still naming the old world after the reset is refused (epoch)  {"stale":{"at":1791864524815,"t":"nra","q":1,"ok":0,"why":"epoch"},"w0":2,"w1":3}
+PASS nr_elig: E05 a dead (just killed) player is refused (dead or held), no event  {"at":1791864526930,"t":"nra","q":1,"ok":0,"why":"dead"}
+PASS nr_held: setup: a real hound holds the victim  {"ph":"down","e":12,"k":"Hound","d":0}
+PASS nr_held: E05 held in a capture: NEW RUN is refused (held) and the victim stays held (no escape)  {"answer":{"at":1791864535565,"t":"nra","q":1,"ok":0,"why":"held"},"cp":{"ph":"down","e":12,"k":"Hound","d":0}}
+PASS nr_e02: setup: the first NEW RUN is approved  {"at":1791864539818,"t":"nra","q":1,"ok":1,"de":1,"w":2}
+PASS nr_e02: E02 a press 1 s after the approval is refused (cooldown, wait ~29.0 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791864540820,"t":"nra","q":2,"ok":0,"why":"cooldown","wait":29},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 a press 10 s after the approval is refused (cooldown, wait ~20.0 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791864549819,"t":"nra","q":3,"ok":0,"why":"cooldown","wait":20},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 a flood of 100 intents inside the cooldown: bounded answers (one per 250 ms), all refused, nothing changes  {"sent":100,"answers":1,"approvals":0}
+PASS nr_e02: E02 a press 29.9 s after the approval is refused (cooldown, wait ~0.1 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791864569719,"t":"nra","q":104,"ok":0,"why":"cooldown","wait":0.1},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 the refused presses sent nothing to the spectator: no other replay, and no corpse or light record other than the approved NEW RUN's own (H2-2: its blast's corpse, event 1)  {"fx":0,"bodiesMessages":1,"aliceRecords":[["Boom",1]]}
+PASS nr_e02: E02 at the 30 s boundary the next press is approved  {"at":1791864570161,"t":"nra","q":105,"ok":1,"de":2,"w":2}
+PASS nr_boom: setup: approved  {"at":1791864574095,"t":"nra","q":1,"ok":1,"de":1,"w":2}
+PASS nr_boom: E01 one blast event: the initiator, the spectator and the late joiner each get exactly one boom replay, the same event (id, world, seed, direction, place)  {"de":1,"s":4157792193,"d":3.0561,"x":812,"y":720}
+PASS nr_boom: E01 at the player's real position (where the server held her)  [812,720]
+PASS nr_boom: E04 the late joiner's replay says how far it has run (el ~1.4 s)  1.07
+PASS nr_boom: E03 the light was on: the replay carries the HQ1 light profile (hold 3-7 s, fade 1-2 s)  [3.1,1.5,399]
+PASS nr_boom: E01 one authoritative corpse, cause Boom, the same record on every screen, with the event id and the light's failure (lf with its release)  {"corpse":{"k":17,"c":"Boom","x":736,"y":739,"de":1,"lo":1,"lf":[3.1,1.5,399,-3.2]}}
+PASS nr_boom: no effect on anyone else: Bob was not moved, corrected, hurt or killed  {"before":{"a":1,"d":"","x":1312,"y":720},"after":{"a":1,"d":"","x":1312,"y":720},"corrections":0}
+PASS nr_boom: no death message for a NEW RUN  {}
+PASS nr_boom: E07 inside its cooldown a second NEW RUN is refused and makes no second blast  {"at":1791864577965,"t":"nra","q":2,"ok":0,"why":"state"}
+PASS nr_boom_lights: E03 light OFF: the blast and the corpse say the light was off and carry no light profile  {"fx":[0,null],"corpse":[0,null]}
+PASS nr_boom_lights: E03 camcorder: no light profile (it is not a white light)  {"fx":[0,null,"camcorder"],"corpse":[0,null]}
+PASS nr_boom_reset: setup: approved and the blast began  {"at":1791864590965,"t":"nra","q":1,"ok":1,"de":1,"w":2}
+PASS nr_boom_reset: R02 the world was reset 0.6 s into the blast: no Boom corpse in the new world, on any screen  {"bob":null}
+PASS nr_boom_again: setup: the first blast's corpse  [{"k":28,"c":"Boom","x":736,"y":739,"de":1,"lo":1,"lf":[3.1,1.5,399,-3.2]}]
+PASS nr_boom_again: E07 a second blast after the cooldown: its corpse replaces the first (one per player, no duplicate)  {"r2":{"at":1791864629262,"t":"nra","q":2,"ok":1,"de":2,"w":2},"corpse":[{"k":28,"c":"Boom","x":763,"y":791,"de":2,"lo":1,"lf":[4.7,1.8,810,-3.2]}]}
+PASS nr_boom_again: E07 her next natural death replaces the blast's corpse (one per player)  {"corpse":[{"k":28,"c":"Hound","x":4169,"y":3504,"de":3,"lo":1,"lf":[4.6,1,413,-3.879]}]}
+PASS nr_boom_again: E07 a world reset clears it  {"corpse":[]}
+43/43 checks passed

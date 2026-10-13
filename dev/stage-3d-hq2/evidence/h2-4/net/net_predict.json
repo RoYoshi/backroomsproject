@@ -1,0 +1,1066 @@
+{
+ "tool": "dev/stage-3d-hq2/net_predict.js",
+ "game": "/home/claude/backrooms-shadows",
+ "scenarios": {
+  "c09_head_0": {
+   "lag": 0,
+   "checks": [
+    {
+     "name": "C09 head-on into a standing player, 0 ms each way: never closer than D on the server; stopped at contact on her side",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 37,
+       "snapshots": 77
+      },
+      "alice": [
+       3,
+       975,
+       720,
+       0
+      ],
+      "bob": [
+       2,
+       1012,
+       720,
+       0
+      ]
+     }
+    },
+    {
+     "name": "C09 ...her own page predicted it: never closer than D on her screen either, and no correction at all (he stands still: she knows exactly where he is)",
+     "ok": true,
+     "info": {
+      "corrections": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      },
+      "page": [
+       975.3,
+       720
+      ],
+      "pageMinToBob": 36.8
+     }
+    },
+    {
+     "name": "C09 ...he was never moved or corrected, and her page ends where the server has her (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "bob": [
+       2,
+       1012,
+       720,
+       0
+      ],
+      "alicePage": [
+       975.3,
+       720
+      ],
+      "aliceServer": [
+       3,
+       975,
+       720,
+       0
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 37,
+     "snapshots": 77
+    },
+    "alice": [
+     3,
+     975,
+     720,
+     0
+    ],
+    "bob": [
+     2,
+     1012,
+     720,
+     0
+    ]
+   },
+   "alice": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "page": [
+     975.3,
+     720
+    ],
+    "pageMinToBob": 36.8
+   },
+   "bob": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    }
+   }
+  },
+  "c09_head_60": {
+   "lag": 60,
+   "checks": [
+    {
+     "name": "C09 head-on into a standing player, 60 ms each way: never closer than D on the server; stopped at contact on her side",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 37,
+       "snapshots": 82
+      },
+      "alice": [
+       6,
+       975,
+       720,
+       0
+      ],
+      "bob": [
+       5,
+       1012,
+       720,
+       0
+      ]
+     }
+    },
+    {
+     "name": "C09 ...her own page predicted it: never closer than D on her screen either, and no correction at all (he stands still: she knows exactly where he is)",
+     "ok": true,
+     "info": {
+      "corrections": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      },
+      "page": [
+       975.3,
+       720
+      ],
+      "pageMinToBob": 36.8
+     }
+    },
+    {
+     "name": "C09 ...he was never moved or corrected, and her page ends where the server has her (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "bob": [
+       5,
+       1012,
+       720,
+       0
+      ],
+      "alicePage": [
+       975.3,
+       720
+      ],
+      "aliceServer": [
+       6,
+       975,
+       720,
+       0
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 37,
+     "snapshots": 82
+    },
+    "alice": [
+     6,
+     975,
+     720,
+     0
+    ],
+    "bob": [
+     5,
+     1012,
+     720,
+     0
+    ]
+   },
+   "alice": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "page": [
+     975.3,
+     720
+    ],
+    "pageMinToBob": 36.8
+   },
+   "bob": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    }
+   }
+  },
+  "c09_head_150": {
+   "lag": 150,
+   "checks": [
+    {
+     "name": "C09 head-on into a standing player, 150 ms each way: never closer than D on the server; stopped at contact on her side",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 37,
+       "snapshots": 89
+      },
+      "alice": [
+       9,
+       975,
+       720,
+       0
+      ],
+      "bob": [
+       8,
+       1012,
+       720,
+       0
+      ]
+     }
+    },
+    {
+     "name": "C09 ...her own page predicted it: never closer than D on her screen either, and no correction at all (he stands still: she knows exactly where he is)",
+     "ok": true,
+     "info": {
+      "corrections": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      },
+      "page": [
+       975.3,
+       720
+      ],
+      "pageMinToBob": 36.8
+     }
+    },
+    {
+     "name": "C09 ...he was never moved or corrected, and her page ends where the server has her (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "bob": [
+       8,
+       1012,
+       720,
+       0
+      ],
+      "alicePage": [
+       975.3,
+       720
+      ],
+      "aliceServer": [
+       9,
+       975,
+       720,
+       0
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 37,
+     "snapshots": 89
+    },
+    "alice": [
+     9,
+     975,
+     720,
+     0
+    ],
+    "bob": [
+     8,
+     1012,
+     720,
+     0
+    ]
+   },
+   "alice": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "page": [
+     975.3,
+     720
+    ],
+    "pageMinToBob": 36.8
+   },
+   "bob": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    }
+   }
+  },
+  "c09_pass_0": {
+   "lag": 0,
+   "checks": [
+    {
+     "name": "C09 he stands aside (about 30 px off her line), 0 ms each way: her page slides her past his shoulder and on, never closer than D; no correction; he is not moved",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36.7,
+       "snapshots": 58
+      },
+      "alice": [
+       12,
+       1598,
+       720,
+       0
+      ],
+      "bobBefore": [
+       11,
+       1012,
+       691,
+       0
+      ],
+      "bob": [
+       11,
+       1012,
+       691,
+       0
+      ],
+      "bobMoved": false,
+      "aliceCorrections": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      }
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36.7,
+     "snapshots": 58
+    },
+    "alice": [
+     12,
+     1598,
+     720,
+     0
+    ],
+    "bobBefore": [
+     11,
+     1012,
+     691,
+     0
+    ],
+    "bob": [
+     11,
+     1012,
+     691,
+     0
+    ],
+    "bobMoved": false
+   },
+   "alice": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "page": [
+     1612,
+     720
+    ]
+   }
+  },
+  "c09_pass_150": {
+   "lag": 150,
+   "checks": [
+    {
+     "name": "C09 he stands aside (about 30 px off her line), 150 ms each way: her page slides her past his shoulder and on, never closer than D; no correction; he is not moved",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36.7,
+       "snapshots": 70
+      },
+      "alice": [
+       15,
+       1726,
+       720,
+       0
+      ],
+      "bobBefore": [
+       14,
+       1012,
+       691,
+       0
+      ],
+      "bob": [
+       14,
+       1012,
+       691,
+       0
+      ],
+      "bobMoved": false,
+      "aliceCorrections": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      }
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36.7,
+     "snapshots": 70
+    },
+    "alice": [
+     15,
+     1726,
+     720,
+     0
+    ],
+    "bobBefore": [
+     14,
+     1012,
+     691,
+     0
+    ],
+    "bob": [
+     14,
+     1012,
+     691,
+     0
+    ],
+    "bobMoved": false
+   },
+   "alice": {
+    "corrections": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "page": [
+     1778.3,
+     720
+    ]
+   }
+  },
+  "c10_two_0": {
+   "lag": 0,
+   "checks": [
+    {
+     "name": "C10 two pages sprinting at each other, 0 ms each way (each sees the other at least 0 ms late): never closer than D on the server, and in every snapshot neither past the other",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 76
+      },
+      "alice": [
+       17,
+       1000,
+       720,
+       0
+      ],
+      "bob": [
+       18,
+       1036,
+       720,
+       0
+      ],
+      "alwaysInOrder": true
+     }
+    },
+    {
+     "name": "C10 ...on each page's own screen they are apart again once they stand (>= 33 px: D less the server's silent 2 px and the whole-pixel rounding; while both run the other is drawn up to 0 ms + a snapshot late, so they may overlap for a moment: measured)",
+     "ok": true,
+     "info": {
+      "alice": {
+       "min": 33.8,
+       "msCloserThan30": 0,
+       "pastHimForAMoment": false,
+       "atTheEnd": 33.8
+      },
+      "bob": {
+       "min": 23.4,
+       "msCloserThan30": 74,
+       "pastHimForAMoment": false,
+       "atTheEnd": 36
+      },
+      "closestThePagesThemselvesCame": 20.2
+     }
+    },
+    {
+     "name": "C10 ...any correction is soft (blended), at most one per 0.3 s each",
+     "ok": true,
+     "info": {
+      "alice": {
+       "n": 0,
+       "soft": 0,
+       "minGapMs": null
+      },
+      "bob": {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 358
+      }
+     }
+    },
+    {
+     "name": "C10 ...and once they stand, each page is where the server has it (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "pages": {
+       "alice": [
+        1002.3,
+        720
+       ],
+       "bob": [
+        1036,
+        720
+       ]
+      },
+      "server": [
+       [
+        17,
+        1000,
+        720,
+        0
+       ],
+       [
+        18,
+        1036,
+        720,
+        0
+       ]
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36,
+     "snapshots": 76
+    },
+    "alice": [
+     17,
+     1000,
+     720,
+     0
+    ],
+    "bob": [
+     18,
+     1036,
+     720,
+     0
+    ],
+    "alwaysInOrder": true
+   },
+   "corrections": {
+    "alice": {
+     "n": 0,
+     "soft": 0,
+     "minGapMs": null
+    },
+    "bob": {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 358
+    }
+   },
+   "pages": {
+    "alice": [
+     1002.3,
+     720
+    ],
+    "bob": [
+     1036,
+     720
+    ]
+   },
+   "screens": {
+    "alice": {
+     "min": 33.8,
+     "msCloserThan30": 0,
+     "pastHimForAMoment": false,
+     "atTheEnd": 33.8
+    },
+    "bob": {
+     "min": 23.4,
+     "msCloserThan30": 74,
+     "pastHimForAMoment": false,
+     "atTheEnd": 36
+    },
+    "closestThePagesThemselvesCame": 20.2
+   }
+  },
+  "c10_two_60": {
+   "lag": 60,
+   "checks": [
+    {
+     "name": "C10 two pages sprinting at each other, 60 ms each way (each sees the other at least 120 ms late): never closer than D on the server, and in every snapshot neither past the other",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 80
+      },
+      "alice": [
+       20,
+       1000,
+       720,
+       0
+      ],
+      "bob": [
+       21,
+       1036,
+       720,
+       0
+      ],
+      "alwaysInOrder": true
+     }
+    },
+    {
+     "name": "C10 ...on each page's own screen they are apart again once they stand (>= 33 px: D less the server's silent 2 px and the whole-pixel rounding; while both run the other is drawn up to 120 ms + a snapshot late, so they may overlap for a moment: measured)",
+     "ok": true,
+     "info": {
+      "alice": {
+       "min": 19.8,
+       "msCloserThan30": 187,
+       "pastHimForAMoment": false,
+       "atTheEnd": 36
+      },
+      "bob": {
+       "min": 7.8,
+       "msCloserThan30": 154,
+       "pastHimForAMoment": false,
+       "atTheEnd": 36
+      },
+      "closestThePagesThemselvesCame": 1.4
+     }
+    },
+    {
+     "name": "C10 ...any correction is soft (blended), at most one per 0.3 s each",
+     "ok": true,
+     "info": {
+      "alice": {
+       "n": 1,
+       "soft": 1,
+       "minGapMs": null
+      },
+      "bob": {
+       "n": 1,
+       "soft": 1,
+       "minGapMs": null
+      }
+     }
+    },
+    {
+     "name": "C10 ...and once they stand, each page is where the server has it (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "pages": {
+       "alice": [
+        1000,
+        720
+       ],
+       "bob": [
+        1036,
+        720
+       ]
+      },
+      "server": [
+       [
+        20,
+        1000,
+        720,
+        0
+       ],
+       [
+        21,
+        1036,
+        720,
+        0
+       ]
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36,
+     "snapshots": 80
+    },
+    "alice": [
+     20,
+     1000,
+     720,
+     0
+    ],
+    "bob": [
+     21,
+     1036,
+     720,
+     0
+    ],
+    "alwaysInOrder": true
+   },
+   "corrections": {
+    "alice": {
+     "n": 1,
+     "soft": 1,
+     "minGapMs": null
+    },
+    "bob": {
+     "n": 1,
+     "soft": 1,
+     "minGapMs": null
+    }
+   },
+   "pages": {
+    "alice": [
+     1000,
+     720
+    ],
+    "bob": [
+     1036,
+     720
+    ]
+   },
+   "screens": {
+    "alice": {
+     "min": 19.8,
+     "msCloserThan30": 187,
+     "pastHimForAMoment": false,
+     "atTheEnd": 36
+    },
+    "bob": {
+     "min": 7.8,
+     "msCloserThan30": 154,
+     "pastHimForAMoment": false,
+     "atTheEnd": 36
+    },
+    "closestThePagesThemselvesCame": 1.4
+   }
+  },
+  "c10_two_150": {
+   "lag": 150,
+   "checks": [
+    {
+     "name": "C10 two pages sprinting at each other, 150 ms each way (each sees the other at least 300 ms late): never closer than D on the server, and in every snapshot neither past the other",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 87
+      },
+      "alice": [
+       23,
+       1000,
+       720,
+       0
+      ],
+      "bob": [
+       24,
+       1036,
+       720,
+       0
+      ],
+      "alwaysInOrder": true
+     }
+    },
+    {
+     "name": "C10 ...on each page's own screen they are apart again once they stand (>= 33 px: D less the server's silent 2 px and the whole-pixel rounding; while both run the other is drawn up to 300 ms + a snapshot late, so they may overlap for a moment: measured)",
+     "ok": true,
+     "info": {
+      "alice": {
+       "min": 2.1,
+       "msCloserThan30": 495,
+       "pastHimForAMoment": true,
+       "atTheEnd": 36
+      },
+      "bob": {
+       "min": 0.8,
+       "msCloserThan30": 245,
+       "pastHimForAMoment": true,
+       "atTheEnd": 36
+      },
+      "closestThePagesThemselvesCame": 3.6
+     }
+    },
+    {
+     "name": "C10 ...any correction is soft (blended), at most one per 0.3 s each",
+     "ok": true,
+     "info": {
+      "alice": {
+       "n": 3,
+       "soft": 3,
+       "minGapMs": 308
+      },
+      "bob": {
+       "n": 3,
+       "soft": 3,
+       "minGapMs": 306
+      }
+     }
+    },
+    {
+     "name": "C10 ...and once they stand, each page is where the server has it (what it sends, within 2 px)",
+     "ok": true,
+     "info": {
+      "pages": {
+       "alice": [
+        1000,
+        720
+       ],
+       "bob": [
+        1036,
+        720
+       ]
+      },
+      "server": [
+       [
+        23,
+        1000,
+        720,
+        0
+       ],
+       [
+        24,
+        1036,
+        720,
+        0
+       ]
+      ]
+     }
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 36,
+     "snapshots": 87
+    },
+    "alice": [
+     23,
+     1000,
+     720,
+     0
+    ],
+    "bob": [
+     24,
+     1036,
+     720,
+     0
+    ],
+    "alwaysInOrder": true
+   },
+   "corrections": {
+    "alice": {
+     "n": 3,
+     "soft": 3,
+     "minGapMs": 308
+    },
+    "bob": {
+     "n": 3,
+     "soft": 3,
+     "minGapMs": 306
+    }
+   },
+   "pages": {
+    "alice": [
+     1000,
+     720
+    ],
+    "bob": [
+     1036,
+     720
+    ]
+   },
+   "screens": {
+    "alice": {
+     "min": 2.1,
+     "msCloserThan30": 495,
+     "pastHimForAMoment": true,
+     "atTheEnd": 36
+    },
+    "bob": {
+     "min": 0.8,
+     "msCloserThan30": 245,
+     "pastHimForAMoment": true,
+     "atTheEnd": 36
+    },
+    "closestThePagesThemselvesCame": 3.6
+   }
+  },
+  "c10_crowd8": {
+   "lag": 40,
+   "players": 8,
+   "checks": [
+    {
+     "name": "C04/C10 eight pages (a full room), 40 ms each way, walk into one point and back out: never two closer than D on the server (every pair, every snapshot two of the pages got)",
+     "ok": true,
+     "info": {
+      "min": 35.4,
+      "snapshots": 282
+     }
+    },
+    {
+     "name": "C04/C10 ...they pack round it (all within 80 px) and walk back out home (within 2 px): nobody stuck",
+     "ok": true,
+     "info": {
+      "atPoint": [
+       0.2,
+       34.8,
+       46.3,
+       46.1,
+       47.5,
+       46.1,
+       46,
+       35.3
+      ],
+      "offHome": [
+       0.3,
+       0.7,
+       0.6,
+       0.8,
+       0.6,
+       0.8,
+       1,
+       0.7
+      ]
+     }
+    },
+    {
+     "name": "C04/C10 ...corrections soft only, at most one per 0.3 s per page",
+     "ok": true,
+     "info": [
+      {
+       "n": 1,
+       "soft": 1,
+       "minGapMs": null
+      },
+      {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 360
+      },
+      {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 360
+      },
+      {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 360
+      },
+      {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 360
+      },
+      {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 360
+      },
+      {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 360
+      },
+      {
+       "n": 2,
+       "soft": 2,
+       "minGapMs": 360
+      }
+     ]
+    }
+   ],
+   "server": {
+    "min": {
+     "min": 35.4,
+     "snapshots": 282
+    }
+   },
+   "corrections": [
+    {
+     "n": 1,
+     "soft": 1,
+     "minGapMs": null
+    },
+    {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 360
+    },
+    {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 360
+    },
+    {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 360
+    },
+    {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 360
+    },
+    {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 360
+    },
+    {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 360
+    },
+    {
+     "n": 2,
+     "soft": 2,
+     "minGapMs": 360
+    }
+   ],
+   "distFromPointAfter4s": [
+    0.2,
+    34.8,
+    46.3,
+    46.1,
+    47.5,
+    46.1,
+    46,
+    35.3
+   ],
+   "offHomeAtEnd": [
+    0.3,
+    0.7,
+    0.6,
+    0.8,
+    0.6,
+    0.8,
+    1,
+    0.7
+   ]
+  }
+ },
+ "passed": 26,
+ "total": 26,
+ "ok": true
+}

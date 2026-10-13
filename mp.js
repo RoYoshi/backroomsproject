@@ -28,6 +28,7 @@ const N = window.__net = {
   on: false,
   tick() {                                          // called by the game's fixed-step loop while online
     const A = window.__api;
+    if (blend && A) blendStep(A);
     if (A && me && mseq > handled && !A.G.caught) {
       handled = mseq; A.G.caught = true; A.G.caughtBy = me;
       if (myId) window.__hideBodies.add('r' + myId);         // Stage 3D: the server's copy of our corpse is not shown while we are still dying (ours replaces it)
@@ -89,6 +90,50 @@ function runMenuWords(boom) {
   if (e.dataset.fade === undefined) { e.dataset.fade = e.textContent; i.dataset.fade = i.textContent; }
   e.textContent = boom ? 'YOU BLEW YOURSELF UP' : e.dataset.fade; i.textContent = boom ? 'What is left of you stays where you stood.' : i.dataset.fade;
 }
+/* Stage 3D HQ2 (H2-4): the other living Wanderers are solid.  window.__peerBodies is what move.js steers round: the latest server
+ * positions (the snapshot's own, not the smoothed drawing) of every other player in the world who is alive and not held in a capture
+ * (an entity's cp names its victim).  Empty offline, and while we are not solid ourselves: not in a run, dead, held, out through a glitch,
+ * or out of the world after an approved NEW RUN. */
+window.__peerBodies = [];
+function solidPeers(m) {
+  const pb = window.__peerBodies, A = window.__api; pb.length = 0;
+  if (!A || !A.started || !A.started() || me || cpNow || nrBusy === 2 || exited || (A.G && A.G.caught)) return;
+  const held = new Set(); if (m.e) for (const k of ['h', 'm']) for (const e of m.e[k] || []) if (e && e.cp) held.add(e.cp);
+  for (const p of m.p) if (!p.d && !held.has(p.id)) pb.push([p.x, p.y]);
+}
+/* the soft correction ({t:'tp', x, y, pc:1}: the server stopped us short of another player): blended in over 120 ms instead of a jump -
+ * the offset is added a little each fixed step, and the part of our velocity that runs back against it (into the body the server would
+ * not let us into) is dropped, the sideways part kept.  Further than 96 px is no longer a nudge: a jump, as an ordinary tp */
+let blend = null;
+function softTp(A, x, y) {
+  const dx = x - A.H.x, dy = y - A.H.y, d = Math.hypot(dx, dy); if (!(d <= 96)) return false;
+  blend = { dx, dy, t0: performance.now(), done: 0 }; softN++; return true;
+}
+function blendStep(A) {
+  const b = blend, k = Math.min(1, (performance.now() - b.t0) / 120), s = k - b.done; b.done = k;
+  A.H.x += b.dx * s; A.H.y += b.dy * s;
+  const L = Math.hypot(b.dx, b.dy); if (L > 0) { const ux = b.dx / L, uy = b.dy / L, vn = A.H.vx * ux + A.H.vy * uy; if (vn < 0) { A.H.vx -= vn * ux; A.H.vy -= vn * uy; } }
+  if (k >= 1) blend = null;
+}
+/* the world epoch: an admin world reset ({t:'world', w, x, y}), or the first snapshot of a world a lone player's new run started.
+ * Everything of the old world ends on this screen at once - every replay, our own death (the server has already brought us back, at x, y:
+ * no new spawn, no respawn message), our own local corpse - and with them their wall stains and dying lights; a death, blast or corpse
+ * message naming an older world is ignored from then on (oldWorld). */
+let worldEnds = 0, oldDropped = 0, softN = 0;
+function oldWorld(w) { if (w != null && worldW != null && w < worldW) { oldDropped++; return true; } return false; }
+function worldNew(w, x, y) {
+  if (w == null || (worldW != null && w <= worldW)) return; worldW = w; worldEnds++;
+  for (const f of fxs.splice(0)) killFx(f);
+  const A = window.__api;
+  if (A && A.worldEnd && A.G && A.G.caught) A.worldEnd(Number.isFinite(x) ? x : A.H.x, Number.isFinite(y) ? y : A.H.y);
+  handled = mseq; ownDeath = null; mkAt = null; window.__kill = null; window.__killer = -1; if (myId) window.__hideBodies.delete('r' + myId);
+  if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; }
+  window.__peerLights = (window.__peerLights || []).filter(l => l.pw == null);   // (the old world's dying lights: gone now, not at the next frame)
+  const G = window.__gore; if (G && G.wallStains && G.wallStains.clear) G.wallStains.clear();   // (its wall stains too)
+  blend = null; stainAt = 0; worldAt = Date.now() / 1000;
+}
+let worldAt = null;
+window.__epochDebug = () => ({ w: worldW, ends: worldEnds, at: worldAt, oldDropped, softTp: softN, peers: window.__peerBodies.length });
 const tx = o => { if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); };
 
 function connect() {
@@ -110,7 +155,8 @@ function connect() {
       if (!m.ok) adm.pass = null;
       renderAdmin();
     }
-    else if (m.t === 'tp') { const A = window.__api; A && A.tp(m.x, m.y); }
+    else if (m.t === 'tp') { const A = window.__api; if (A) { if (m.pc && softTp(A, m.x, m.y)) { } else { blend = null; A.tp(m.x, m.y); } } }   // (Stage 3D HQ2: pc - a soft peer correction, blended)
+    else if (m.t === 'world') worldNew(m.w, m.x, m.y);                         // Stage 3D HQ2 (H2-4): an admin world reset - a new world epoch
     else if (m.t === 'revive') { const A = window.__api; A && A.revive(); }
     else if (m.t === 'msg') showMsg(m.text, m.from);
     else if (m.t === 'ares') {                                                // the server's one-line answer to an admin command
@@ -119,8 +165,8 @@ function connect() {
     }
     else if (m.t === 'pong') { const E = EN(); if (E) { const r = performance.now() - (+m.ts || 0); E.dbgX.ping = E.dbgX.ping < 0 ? r : E.dbgX.ping + (r - E.dbgX.ping) * .3; } }
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
-    else if (m.t === 'bodies') { bodiesList = m.b || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null && Array.isArray(b.lf) && b.lf.length === 4 && Number.isFinite(b.ag + b.lf[3])) { relOf(b.de, tb - b.ag + b.lf[3]); pendSt.push(['r', b.de, b.ag, b.lf[3]]); } applyBodies(); }   // (HQ1: when each corpse's light was let go)
-    else if (m.t === 'fx') { if (((m.k === 'death' && m.id !== myId) || m.k === 'boom') && m.de != null) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock; HQ2: a NEW RUN blast too)
+    else if (m.t === 'bodies') { if (oldWorld(m.w)) return; bodiesList = m.b || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null && Array.isArray(b.lf) && b.lf.length === 4 && Number.isFinite(b.ag + b.lf[3])) { relOf(b.de, tb - b.ag + b.lf[3]); pendSt.push(['r', b.de, b.ag, b.lf[3]]); } applyBodies(); }   // (HQ1: when each corpse's light was let go)
+    else if (m.t === 'fx') { if ((m.k === 'death' || m.k === 'boom') && oldWorld(m.w)) return; if (((m.k === 'death' && m.id !== myId) || m.k === 'boom') && m.de != null) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock; HQ2: a NEW RUN blast too)
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'nra') nrAnswer(m);                                       // Stage 3D HQ2: the server's NEW RUN decision
     else if (m.t === 'got') giveItem(m.item);
@@ -133,8 +179,10 @@ function connect() {
         Object.assign(o, p, { tx: p.x, ty: p.y, seen: now }); peers.set(p.id, o);
       }
       for (const [id, o] of peers) if (!seen.has(id)) { dropAvatar(o); peers.delete(id); }
-      peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0; if (m.w != null) worldW = m.w;
-      if (m.mk && m.ms !== killSeq) { killSeq = m.ms; mkAt = { de: m.mk.de, t: performance.now() / 1000 }; if (m.mk.de != null && m.e && typeof m.e.st === 'number') stNote(m.mk.de, 'k', m.e.st); announceKill(m.mk); }   // who killed us, how, and where the wall is (HQ1: and when, on the server's clock)
+      peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0;
+      if (m.w != null) { if (worldW == null) worldW = m.w; else if (m.w > worldW) worldNew(m.w); }   // (Stage 3D HQ2: the first snapshot of a new world also says so: a lone player's new run)
+      solidPeers(m);
+      if (m.mk && m.ms !== killSeq && !oldWorld(m.w)) { killSeq = m.ms; mkAt = { de: m.mk.de, t: performance.now() / 1000 }; if (m.mk.de != null && m.e && typeof m.e.st === 'number') stNote(m.mk.de, 'k', m.e.st); announceKill(m.mk); }   // who killed us, how, and where the wall is (HQ1: and when, on the server's clock)
       if (m.e) { snap = m.e; N.on = true; entitySignals(m.e); netHist(m.e, now); }
       if (m.e && typeof m.e.st === 'number' && pendSt.length) { for (const q of pendSt) stNote(q[1], q[0], q[0] === 'k' ? m.e.st - q[2] : m.e.st - q[2] + q[3]); pendSt.length = 0; }   // (HQ1: a replay or corpse that came just before this snapshot was sent in its pass)
       if (m.dbg && EN()) { EN().setDebug(m.dbg); if (m.dx) EN().setDebugX(m.dx); }
@@ -143,6 +191,7 @@ function connect() {
   };
   ws.onclose = () => {
     nrSent.clear(); nrBusy = 0; worldW = null; clearTimeout(nrWaitT); nrButton('');   // Stage 3D HQ2: a press without its answer is gone with the connection
+    window.__peerBodies.length = 0; blend = null;                                  // (and nobody to bump into offline)
     netReset(); if (myId) window.__hideBodies.delete('r' + myId);                  // Stage 3D: the old connection's corpse is no longer ours to hide
     for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; cpNow = 0; window.__kill = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null); sSlot.fill(null);
     if (EN()) { EN().clearDebug(); EN().dbgCfg.on = false; EN().drawDebug(); EN().setFails([]); }

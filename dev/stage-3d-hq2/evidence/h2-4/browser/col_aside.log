@@ -1,0 +1,25 @@
+{
+ "setupOk": true,
+ "minSeparationServer": 37.1,
+ "minSeparationPages": null,
+ "aliceEnd": {
+  "t": 1791862299.348,
+  "x": 1456,
+  "y": 727.9,
+  "id": 1
+ },
+ "bobEnd": {
+  "t": 1791862299.457,
+  "x": 1012,
+  "y": 690,
+  "id": 3
+ },
+ "alicePastBob": true,
+ "bobMoved": 0
+}
+PASS setup: both alive and placed  {"setup": {"deadAtStart": [], "ok": true}, "placed": {"alice": {"t": 1791862288.969, "x": 862, "y": 720, "id": 1}, "bob": {"t": 1791862289.166, "x": 1012, "y": 690, "id": 3}}}
+PASS C09 the server never lets her closer than D (whole-px snapshots: >= 35.29)  {"min": 37.12, "snapshots": 51}
+PASS C09 her own page predicts it: never closer than D to him on her own screen (35.5 with the 0.1 px sampling), and no correction at all (he stands still)  {"pageMin": 46.48, "corrections": []}
+PASS C09 he stands aside: her page slides her past his shoulder and on (>= 100 px past him)  {"alicePageEnd": {"t": 1791862299.348, "x": 1456, "y": 727.9, "id": 1}, "aliceServerEnd": [1791862299.627, 1456, 728]}
+PASS C09 he is never moved (every snapshot has him where he was placed)  {"samples": 51, "moved": []}
+5/5 checks passed

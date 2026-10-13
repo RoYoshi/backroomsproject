@@ -31,6 +31,15 @@ MUT = {
     # H2-3 / C08: a long hop the walls allow only round them is swept along the straight line instead of its route
     'c08_no_route': {'file': 'server.js', 'old': 'const r = route && route.length', 'new': 'const r = false',
                      'gate': 'C08', 'caughtBy': 'proto_lab.js col_bypass (the burst round the walls)'},
+    # H2-4 / C09: the page does not predict (move.js ignores the other players): the server alone stops it, with corrections
+    'c09_no_predict': {'file': 'move.js', 'old': '  peerProject(H, dt);\n', 'new': '',
+                       'gate': 'C09', 'caughtBy': 'col_browser.py --case head; predict_unit.js P2-P4'},
+    # H2-4 / R01: the page learns of the new world but keeps the old world's replays playing
+    'r01_replays_live_on': {'file': 'mp.js', 'old': '  for (const f of fxs.splice(0)) killFx(f);\n  const A = window.__api;\n  if (A && A.worldEnd',
+                            'new': '  const A = window.__api;\n  if (A && A.worldEnd', 'gate': 'R01/R02', 'caughtBy': 'reset_epoch.py --case death'},
+    # H2-4 / R03: the page takes any message, whatever world it names (a delayed old one replays a death that is gone)
+    'r03_no_old_filter': {'file': 'mp.js', 'old': 'function oldWorld(w) { if (w != null && worldW != null && w < worldW) { oldDropped++; return true; } return false; }',
+                          'new': 'function oldWorld(w) { return false; }', 'gate': 'R03', 'caughtBy': 'reset_epoch.py (the delayed old messages)'},
 }
 
 ap = argparse.ArgumentParser(); ap.add_argument('--from', dest='src'); ap.add_argument('--to'); ap.add_argument('--mutation'); ap.add_argument('--list', action='store_true')

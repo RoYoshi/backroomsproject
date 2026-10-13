@@ -117,3 +117,35 @@ The eight death variants never reach this code: `create`, `stepOnce`, `begin` an
 ### Evidence
 
 `dev/stage-3d-hq2/evidence/h2-2/` (its `SUMMARY.md`).
+
+## H2-4: the world reset (the world epoch)
+
+An admin world reset (WORLD → NEW RUN FOR EVERYONE) is a new world for everyone. Before HQ2, a death or a blast in progress went on playing on every screen afterwards, with its stains, its corpse and its dying light (H2-0's RED R-C; HQ1's light lifecycle check 4).
+
+### The server (`server.js` `worldReset`)
+
+One step:
+1. The world's number goes up and every corpse is cleared (`sim.resetWorld`, as before).
+2. Every death and NEW RUN blast still playing is dropped at once: no corpse will come of it.
+3. Every connection gets `{t:'world', w}`. A player in a run also gets `x, y`, where it now stands. Then every connection gets `{t:'fx', k:'end', id, de, w}` for each dropped event.
+4. Every active player is brought back (`sim.resetWorld` respawns them, the dead too) onto a spot of its own (H2-3's placement), and told by `tp` as before.
+
+The corpse list (`bodies`) now also carries `w`.
+
+**What the reset does not do.** It answers no NEW RUN, explodes nobody and starts nobody's cooldown (R04).
+
+### The page (`mp.js` `worldNew`, the bundle's `__api.worldEnd`)
+
+The page learns of a new world from the `world` message, or from the first snapshot that carries a higher `w`. The second way also covers a lone player's new run, which starts a new world on the server. Everything of the old world then ends on the screen at once:
+- **Every replay.** Deaths and blasts both.
+- **Our own death, if it is playing or we lie dead.** The bundle's new `worldEnd(x, y)` (`Xwr`, a narrow exact-text edit) is the respawn's own clean-up, at the spot the server put us. It picks no new spawn point and sends no `respawn` or `join`: the server has already brought us back. Our old death's local corpse is removed.
+- **The wall stains of the old world.** They go at once: `gore.js` gains `wallStains.clear()` beside its HQ1 stain sync, which would otherwise keep a vanished stain for half a second.
+- **The dying lights.**
+
+From then on, a death or blast replay (`fx`), a corpse list (`bodies`) or a kill record (`mk`) that names an older world is ignored and counted (`window.__epochDebug().oldDropped`). An `end` is always taken.
+
+**After an approved NEW RUN.** A player whose NEW RUN was approved is out of the world. Through a reset, its run menu stays; its blast's replay ends with the rest, and SPAWN then starts its new run as usual.
+
+### Evidence
+
+`dev/stage-3d-hq2/evidence/h2-4/` (its `SUMMARY.md`): `proto/world_msgs` (the wire) and `browser/reset_death`, `browser/reset_boom` (four real pages: R01–R04).

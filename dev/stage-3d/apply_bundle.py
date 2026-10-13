@@ -48,6 +48,15 @@ EDITS = [
     ('HQ2', "the approved NEW RUN: the player is already out of the world (the server took it out): hidden at once, its own light out (H2-2: the blast tore it away; the dropped light is the replay's), a short beat, then the run menu (Nend)",
      'function Nend(){VN=null,',
      'function Xok(){if(!$||hu)return;VN={t0:performance.now()/1e3,dur:.8},window.__hideSelf=!0,au=!1,_u(!1),Q.clear()}\nfunction Nend(){VN=null,'),
+    # Stage 3D HQ2 (H2-4): an admin world reset brings everyone back in a new world.  A player whose own death is playing (or who lies dead)
+    # ends it where the server put it (mp.js worldNew calls __api.worldEnd(x, y)): the respawn's own clean-up without its new spawn point and
+    # without telling the server (it has already brought the player back), and without the old death's local corpse.
+    ('HQ2', "__api.worldEnd(x, y): an admin world reset ends our own death where the server put us (Xwr)",
+     'revive:()=>{G.caught&&xu()},',
+     'revive:()=>{G.caught&&xu()},worldEnd:(x,y)=>Xwr(x,y),'),
+    ('HQ2', "Xwr: the respawn's clean-up (xu) at the server's spot, no respawn message, no new spawn, our old local corpse removed",
+     'function Su(){',
+     'function Xwr(x,y){if(!G.caught)return!1;Pl(),X.resetDeath(),gu=!1,hu=!1,au=Zc.kind!==`camcorder`,Object.assign(H,{x,y,vx:0,vy:0,distance:0,stamina:100,sprinting:!1,exhausted:!1}),window.__mv&&window.__mv.reset(),Z.lastStep=0,cu=0,X.camera={x:H.x,y:H.y},Y(`caught`).hidden=!0,Y(`won`).hidden=!0,document.body.classList.remove(`captured`),_u(!1);for(let t=Yl.length;t--;)!Yl[t].remote&&String(Yl[t].ownerId)===String(H.id)&&Yl.splice(t,1);return!0}function Su(){'),
 ]
 
 

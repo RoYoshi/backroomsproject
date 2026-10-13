@@ -150,6 +150,24 @@ function aftTick(room) {
   }
   room.afts = room.afts.filter(a => !a.body || now - a.at < 60000);
 }
+/* Stage 3D HQ2 (H2-4): an admin world reset is a new world epoch for everyone.  In one step: the world's number goes up (sim.resetWorld,
+ * which also clears every corpse); every death or NEW RUN blast still playing is dropped at once (no corpse will come of it); every
+ * client is told {t:'world', w} - with x, y, where it now stands, if it is in a run - and then an 'end' for each dropped event; every
+ * active player is brought back (sim.resetWorld respawns them, the dead included) onto a free spot, and told by tp as before.  A client
+ * ends everything of the old world on its screen (mp.js worldNew) and ignores any death, blast or corpse message naming an older world.
+ * The reset answers no NEW RUN, explodes nobody and starts nobody's cooldown. */
+function worldReset(room) {
+  const A = room.sim.admin, w0 = room.sim.worldSeq; A.resetWorld();
+  const w = room.sim.worldSeq, ends = [];
+  for (const a of room.afts || []) if (!a.body && a.world === w0) { a.body = true; a.dropped = 'world reset'; a.run = null; ends.push({ t: 'fx', k: 'end', id: a.id, de: a.de, w }); }
+  for (const c of room.clients.values()) {
+    const msg = { t: 'world', w };
+    if (c.player.active) { placeFree(room, c); msg.x = Math.round(c.player.x); msg.y = Math.round(c.player.y); }
+    send(c, msg); for (const e of ends) send(c, e);
+    if (c.player.active) send(c, { t: 'tp', x: msg.x, y: msg.y });
+    mvReset(c);
+  }
+}
 /* Stage 3D: when each corpse was made (server time, kept beside the record, never sent), so every client can be told its age ('ag' in
  * 'bodies'): blood that has dried on one screen is dry on a late joiner's too */
 const bodyAt = new WeakMap();
@@ -277,7 +295,9 @@ function adminCommand(room, me, m) {
     case 'entgoto': { const e = A.entityAt(m.eid), s = e && A.spotNear(e.x, e.y); if (s) { moveTo(room, me, s.x, s.y); log(`goto entity ${m.eid}`); res(true, 'WENT TO ENTITY #' + (m.eid | 0)); } else res(false, 'NO SUCH ENTITY'); break; }
     case 'nav': { const r = room.sim.navCmd(m.eid | 0, String(m.cmd || ''), me.player); log(`nav ${m.cmd} #${m.eid}`); res(!!r, r ? 'ENTITY #' + (m.eid | 0) + ': ' + r : 'NO SUCH ENTITY'); break; }
     case 'entdel': { const ok = A.removeEntity(m.eid); log(`remove entity ${m.eid}`); res(ok, ok ? 'ENTITY #' + (m.eid | 0) + ' REMOVED' : 'NO SUCH ENTITY'); break; }
-    case 'world': log('reset world'); A.resetWorld(); for (const c of room.clients.values()) { if (c.player.active) { placeFree(room, c); send(c, { t: 'tp', x: Math.round(c.player.x), y: Math.round(c.player.y) }); } mvReset(c); } res(true, 'NEW RUN FOR EVERYONE'); break;   // (Stage 3D HQ2: each on a free spot)
+    case 'world': {                                                             // (Stage 3D HQ2: the world epoch - see worldReset)
+      log('reset world'); worldReset(room); res(true, 'NEW RUN FOR EVERYONE'); break;
+    }
     case 'msg': { const text = String(m.text || '').slice(0, 140).trim(); if (text) { log(`broadcast "${text}"`); for (const c of room.clients.values()) send(c, { t: 'msg', text, from: me.name }); res(true, 'SENT'); } break; }
   }
 }
@@ -391,7 +411,7 @@ setInterval(() => {
     }
     let ad = null;
     if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0, st: c.player.st | 0, x: Math.round(c.player.x), y: Math.round(c.player.y) })) });
-    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, b: [...room.sim.bodies.values()].map(r => bodyAt.has(r) ? Object.assign({}, r, { ag: Math.min(999, Math.round((now - bodyAt.get(r)) / 100) / 10) }) : r) });
+    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, w: room.sim.worldSeq, b: [...room.sim.bodies.values()].map(r => bodyAt.has(r) ? Object.assign({}, r, { ag: Math.min(999, Math.round((now - bodyAt.get(r)) / 100) / 10) }) : r) });
     let bm = null;
     for (const c of room.clients.values()) {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }

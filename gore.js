@@ -375,7 +375,8 @@
   const wallStains = { sync: stainSync, faceFor, image: stainImage,
     list: () => [...ST.stains.values()].map(s => ({ de: s.de, x: +s.x.toFixed(1), y: +s.y.toFixed(1), nx: +s.nx.toFixed(3), ny: +s.ny.toFixed(3), status: s.status, id: s.id, surf: s.surf || null, side: s.side || null, u: s.u == null ? null : s.u })),
     stats: () => Object.assign({ stains: ST.stains.size, images: ST.imgs.size }, ST.n, { ms: +ST.n.ms.toFixed(2), maxMs: +ST.n.maxMs.toFixed(2) }),
-    reset: () => { ST.faces = null; } };      // (the receiver's faces are read again: a rebuilt level)
+    reset: () => { ST.faces = null; },      // (the receiver's faces are read again: a rebuilt level)
+    clear: () => { const L = window.__l0v; for (const s of ST.stains.values()) if (s.id != null) { if (L && L.surfaces) L.surfaces.remove(s.id); ST.n.removed++; } ST.stains.clear(); } };   // Stage 3D HQ2: an admin world reset - every stain of the old world goes at once (no half-second grace)
 
   window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear, wallMark, impacts, markSeed, ownsWalls: true, cull, cached, ageOf, wallStains };
 })();

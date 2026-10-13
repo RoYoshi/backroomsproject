@@ -31,8 +31,49 @@ mv.reset = reset;
 mv.event = (c, v = 1) => { if (mv.ev.length < 6) mv.ev.push([c, Math.round(clamp(v, 0, 1) * 100)]); };
 mv.take = () => { const e = mv.ev; mv.ev = []; return e; };
 
+/* ---------------------------------------------------------------- the other living Wanderers (Stage 3D HQ2)
+ * They are solid: two bodies never closer than D = 36 px, centre to centre (the drawn body).  mp.js keeps their latest server positions in
+ * window.__peerBodies - empty offline, and while we are not in the world, dead or held - and the server checks every move we send by the
+ * same rule.  Before the walls, our velocity loses the part that would take us within D of one this step; the part along it is kept, so
+ * we slide round a body instead of stopping dead.  Nobody is pushed: only our own motion is constrained, and standing still nothing
+ * happens.  The 0.75 px margin keeps the whole-pixel position we send from rounding into the server's limit.  With nobody there the step
+ * is exactly the old one. */
+const PEER_D = 36.75;
+function peerProject(H, dt) {
+  const P = window.__peerBodies; if (!P || !P.length || !(dt > 0)) return;
+  let dx = H.vx * dt, dy = H.vy * dt; if (!dx && !dy) return;
+  const ox = dx, oy = dy;
+  for (let it = 0; it < 4; it++) for (let i = 0; i < P.length; i++) {
+    const wx = H.x - P[i][0], wy = H.y - P[i][1], s0 = Math.hypot(wx, wy); if (s0 < 1e-6) continue;    // (stacked exactly: any way out)
+    const nx = wx / s0, ny = wy / s0, room = s0 > PEER_D ? s0 - PEER_D : 0, dn = dx * nx + dy * ny;
+    if (-dn > room) { const k = -dn - room; dx += nx * k; dy += ny * k; }
+  }
+  if (!peerFree(H.x, H.y, H.x + dx, H.y + dy, P)) {                       // wedged between bodies (a crowd's corners): as far along it as is free
+    let lo = 0, hi = 1; for (let i = 0; i < 14; i++) { const m = (lo + hi) / 2; if (peerFree(H.x, H.y, H.x + dx * m, H.y + dy * m, P)) lo = m; else hi = m; }
+    dx *= lo; dy *= lo;
+  }
+  if (dx !== ox || dy !== oy) { H.vx = dx / dt; H.vy = dy / dt; }
+}
+function peerFree(x0, y0, x, y, P) {                                       // never closer to anyone than we already are, nor than D
+  for (const q of P) { const s0 = Math.hypot(x0 - q[0], y0 - q[1]); if (Math.hypot(x - q[0], y - q[1]) < Math.min(s0, PEER_D) - 1e-9) return false; }
+  return true;
+}
+/* a vault over a low obstacle is a fixed path with no collision: it does not start when a living Wanderer is on the landing or in the way
+ * over (closer than D to the path than they already are) - it bumps, like a wall */
+function peerOnPath(x0, y0, x1, y1) {
+  const P = window.__peerBodies; if (!P || !P.length) return false;
+  const dx = x1 - x0, dy = y1 - y0, dd = dx * dx + dy * dy;
+  for (const q of P) {
+    const s0 = Math.hypot(x0 - q[0], y0 - q[1]); if (Math.hypot(x1 - q[0], y1 - q[1]) < PEER_D) return true;
+    let t = dd ? ((q[0] - x0) * dx + (q[1] - y0) * dy) / dd : 0; t = t < 0 ? 0 : t > 1 ? 1 : t;
+    if (Math.hypot(x0 + dx * t - q[0], y0 + dy * t - q[1]) < Math.min(s0, PEER_D) - 1) return true;
+  }
+  return false;
+}
+
 /* ---------------------------------------------------------------- collision (same push-out the game always used, plus props) */
 function collide(H, dt, r, mode) {
+  peerProject(H, dt);
   const a = A(), ox = H.x, oy = H.y;
   W.setMode(mode);
   try {
@@ -89,6 +130,7 @@ function tryVault(H, dirx, diry, speed, wantRun, dt) {
   const ex = p.cross === 'y' ? clamp(H.x, r.x + 4, r.x + r.w - 4) : (nx > 0 ? r.x + r.w + M.radius + 6 : r.x - M.radius - 6);
   const ey = p.cross === 'y' ? (ny > 0 ? r.y + r.h + M.radius + 6 : r.y - M.radius - 6) : clamp(H.y, r.y + 4, r.y + r.h - 4);
   if (!freeAt(ex, ey, M.radius - 1, 'walk', r)) return false;         // nowhere to land
+  if (peerOnPath(sx, sy, ex, ey)) { mv.push = 0; return false; }      // Stage 3D HQ2: somebody on the landing or in the way: a bump, like a wall
   const cfg = q === 2 ? M.vault.fast : q === 1 ? M.vault.normal : M.vault.slow;
   const dur = cfg.t * (crouched ? 1.15 : 1);
   H.stamina = Math.max(0, H.stamina - cfg.cost);
