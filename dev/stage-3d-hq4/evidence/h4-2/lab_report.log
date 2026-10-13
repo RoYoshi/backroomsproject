@@ -1,0 +1,392 @@
+{
+ "lab": "dev/stage-3d-hq4/evidence/h4-2/lab",
+ "variants": [
+  "h41",
+  "h42"
+ ],
+ "before": "h41",
+ "after": "h42",
+ "ellipse": {
+  "h41": [
+   {
+    "heading": 0,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 90,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 180,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 270,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   }
+  ],
+  "h42": [
+   {
+    "heading": 0,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 90,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 180,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 270,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   }
+  ],
+  "cross": [
+   {
+    "heading": 0,
+    "afterVsBefore": {
+     "pixelsDiffer": 27,
+     "outsideTheEllipse": 27,
+     "insideTheBody": 0,
+     "maxDiff": 4
+    }
+   },
+   {
+    "heading": 90,
+    "afterVsBefore": {
+     "pixelsDiffer": 10,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 3,
+     "maxDiff": 9
+    }
+   },
+   {
+    "heading": 180,
+    "afterVsBefore": {
+     "pixelsDiffer": 0,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 0,
+     "maxDiff": 0
+    }
+   },
+   {
+    "heading": 270,
+    "afterVsBefore": {
+     "pixelsDiffer": 10,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 3,
+     "maxDiff": 11
+    }
+   }
+  ]
+ },
+ "rotation": {
+  "h41": {
+   "rows": [
+    {
+     "heading": 0,
+     "light": "L2",
+     "start": 20.738,
+     "root": 12.858,
+     "tip": 70.738,
+     "ext": 50,
+     "ang": 0,
+     "swingStarts": [
+      [
+       23.738
+      ],
+      [
+       22.5
+      ]
+     ],
+     "drawn": {
+      "farEnd": 60.0,
+      "centroid": 32.72,
+      "darkening": 25472
+     }
+    },
+    {
+     "heading": 15,
+     "light": "L2",
+     "start": 22.422,
+     "root": 13.901,
+     "tip": 72.422,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 30,
+     "light": "L2",
+     "start": 24.258,
+     "root": 15.04,
+     "tip": 74.258,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 45,
+     "light": "L2",
+     "start": 24.885,
+     "root": 15.429,
+     "tip": 74.885,
+     "ext": 50,
+     "ang": 0,
+     "drawn": {
+      "farEnd": 62.4,
+      "centroid": 34.66,
+      "darkening": 27977
+     }
+    },
+    {
+     "heading": 60,
+     "light": "L2",
+     "start": 24.258,
+     "root": 15.04,
+     "tip": 74.258,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 75,
+     "light": "L2",
+     "start": 22.422,
+     "root": 13.901,
+     "tip": 72.422,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 90,
+     "light": "L2",
+     "start": 19.5,
+     "root": 12.09,
+     "tip": 69.5,
+     "ext": 50,
+     "ang": 0,
+     "swingStarts": [
+      [
+       19.5
+      ],
+      [
+       19.5
+      ]
+     ],
+     "drawn": {
+      "farEnd": 60.0,
+      "centroid": 31.73,
+      "darkening": 26068
+     }
+    },
+    {
+     "heading": 105,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 120,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 135,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0,
+     "drawn": {
+      "farEnd": 57.6,
+      "centroid": 31.02,
+      "darkening": 24816
+     }
+    },
+    {
+     "heading": 150,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 165,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 180,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0,
+     "swingStarts": [
+      [
+       18
+      ],
+      [
+       18
+      ]
+     ],
+     "drawn": {
+      "farEnd": 57.6,
+      "centroid": 31.02,
+      "darkening": 24816
+     }
+    },
+    {
+     "heading": 195,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 210,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 225,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0,
+     "drawn": {
+      "farEnd": 57.6,
+      "centroid": 31.02,
+      "darkening": 24816
+     }
+    },
+    {
+     "heading": 240,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 255,
+     "light": "L2",
+     "start": 18,
+     "root": 11.16,
+     "tip": 68,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 270,
+     "light": "L2",
+     "start": 19.65,
+     "root": 12.183,
+     "tip": 69.65,
+     "ext": 50,
+     "ang": 0,
+     "swingStarts": [
+      [
+       19.65
+      ],
+      [
+       19.65
+      ]
+     ],
+     "drawn": {
+      "farEnd": 60.0,
+      "centroid": 31.76,
+      "darkening": 26126
+     }
+    },
+    {
+     "heading": 285,
+     "light": "L2",
+     "start": 22.887,
+     "root": 14.19,
+     "tip": 72.887,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 300,
+     "light": "L2",
+     "start": 25.007,
+     "root": 15.504,
+     "tip": 75.007,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+     "heading": 315,
+     "light": "L2",
+     "start": 25.866,
+     "root": 16.037,
+     "tip": 75.866,
+     "ext": 50,
+     "ang": 0,
+     "drawn": {
+      "farEnd": 63.6,
+      "centroid": 35.54,
+      "darkening": 27102
+     }
+    },
+    {
+     "heading": 330,
+     "light": "L2",
+     "start": 25.405,
+     "root": 15.751,
+     "tip": 75.405,
+     "ext": 50,
+     "ang": 0
+    },
+    {
+    

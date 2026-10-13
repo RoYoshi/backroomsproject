@@ -146,7 +146,9 @@ for scene in ('moving', 'carried', 'hound', 'peers', 'perf'):
     if scene in ('moving', 'carried'):
         OUT[scene] = {n: [{'at': r.get('at') or r.get('bob'), 'jobs': [{k: (round(j[k], 3) if isinstance(j[k], float) else j[k]) for k in ('light', 'lightKind', 'dominant', 'ang', 'ext', 'start', 'a')} for j in r['jobs']]} for r in rows] for n, rows in got.items()}
     elif scene == 'hound':
-        OUT[scene] = {n: r['jobs'] for n, r in got.items()}
+        OUT[scene] = {n: [{'at': r['at'], 'rotation': r['rotation'], 'jobs': r['jobs']} for r in rows] if isinstance(rows, list) else rows['jobs'] for n, rows in got.items()}
+        if A_.after in got and A_.before in got and isinstance(got[A_.after], list):
+            OUT[scene]['identical'] = all(json.dumps(a['jobs'], sort_keys=True) == json.dumps(b['jobs'], sort_keys=True) for a, b in zip(got[A_.before], got[A_.after])) and all(r['jobs'] for r in got[A_.before])
     elif scene == 'peers':
         OUT[scene] = {n: {k: {'bob': r[k]['bob'], 'jobs': r[k]['jobs']} for k in r} for n, r in got.items()}
     else:
@@ -175,23 +177,24 @@ if A_.sheets:
                                     'Real captures: the same frozen frame, one fixture, her own light off (wanderer_lab.py, SwiftShader), enlarged 3x.',
                                     os.path.join(A_.sheets, 'ellipse_before_after.png'))
     if 'rotation' in OUT and A_.after in V and 'rotation' in V[A_.after]['scenes']:
-        def castview(var, rec):                                                  # the cast and self-shading alone: actors off minus on, x4, on black
+        def castview(var, rec, guide):                                           # the cast and self-shading alone: actors off minus on, x4, on black
             on, off = img(var, rec['shot']['file']), img(var, rec['profile']['shotOff']['file'])
             d = ImageChops.subtract(off, on).convert('L').point(lambda v: min(255, v * 4)); c = Image.merge('RGB', (d, d, d))
             dr = ImageDraw.Draw(c); cx, cy = c.width / 2, c.height / 2
-            j = [q for q in rec['jobs'] if q['dominant']][0]; sc = scale_of(V[var]['scenes']['ellipse'][0]) * D
-            for t, col in ((j['start'] + j['ext'], (255, 80, 80)),):
-                px, py = cx + math.cos(j['ang']) * t * sc, cy + math.sin(j['ang']) * t * sc; dr.ellipse([px - 4, py - 4, px + 4, py + 4], outline=col, width=2)
-            return c
-        pick = [0, 90, 180, 315]
-        tiles = []
-        for var, tag in ((A_.before, 'BEFORE (HQ3)'), (A_.after, 'AFTER (HQ4)')):
+            j = [q for q in rec['jobs'] if q['dominant']][0]; sc = scale_of(V[var]['scenes']['ellipse'][0]) * D; ux, uy = math.cos(j['ang']), math.sin(j['ang'])
+            gx, gy = cx + ux * guide * sc, cy + uy * guide * sc; dr.line([gx - uy * 30 * sc, gy + ux * 30 * sc, gx + uy * 30 * sc, gy - ux * 30 * sc], fill=(90, 160, 255), width=1)
+            t = j['start'] + j['ext']; px, py = cx + ux * t * sc, cy + uy * t * sc; dr.ellipse([px - 3, py - 3, px + 3, py + 3], outline=(255, 80, 80), width=2)
+            bx, by = cx + ux * 30 * sc, cy + uy * 30 * sc; h = 58 * sc
+            return c.crop((int(bx - h), int(by - h * .62), int(bx + h), int(by + h * .62))).resize((330, int(330 * .62)), Image.NEAREST)
+        pick = [0, 90, 180, 315]; tiles = []
+        g0 = [r for r in V[A_.after]['scenes']['rotation'] if r['heading'] == 180][0]; j0 = [q for q in g0['jobs'] if q['dominant']][0]; guide = j0['start'] + j0['ext']
+        for var, tag in ((A_.before, 'BEFORE'), (A_.after, 'AFTER')):
             for r in V[var]['scenes']['rotation']:
                 if r['heading'] in pick and r.get('profile'):
                     j = [q for q in r['jobs'] if q['dominant']][0]
-                    tiles.append((castview(var, r).resize((300, 300), Image.LANCZOS), f'{tag} +{r["heading"]} deg: start {j["start"]:.1f}, tip {j["start"] + j["ext"]:.1f} px'))
-        OUT['sheetCast'] = sheet(tiles, 4, 'HQ4 fix B - the Wanderer\'s cast under one fixed fixture as she turns (the shadow alone, x4)',
-                                 'Each tile: the same frozen scene with BR-RoLE\'s actor effects off minus on (cast + self-shading), brightened x4; red ring: the tongue\'s tip. Body and fixture never move.',
+                    tiles.append((castview(var, r, guide), f'{tag}, turned {r["heading"]} deg: tip {j["start"] + j["ext"]:.1f} px'))
+        OUT['sheetCast'] = sheet(tiles, 4, "HQ4 fix B - the Wanderer's floor shadow under one fixed light as she turns",
+                                 'The shadow alone (actor effects off minus on, x4). Light at the left, body never moves. Blue line: where the tip is with the body alone; red ring: where BR-RoLE put it.',
                                  os.path.join(A_.sheets, 'cast_rotation.png'))
 
 s = json.dumps(OUT, indent=1)

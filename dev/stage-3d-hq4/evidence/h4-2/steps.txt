@@ -1,0 +1,7 @@
+-- H4-2 on the accepted HQ3 QA1 tree (4934319, exported); both variants with H4-1's bundle (the committed working copy): h41 = HQ3's br-role.js, h42 = the working copy's br-role.js (the H4-2 edit), Tue Oct 13 15:02:31 CDT 2026 --
+wanderer_lab (h41, h42: ellipse, rotation, moving, carried, hound, peers, perf) exit=0 seconds=1150
+lab_report (before h41, after h42) exit=0
+-- again for two scenes the first run could not measure (lab2): carried - Bob's pointer went off his small page for north and south, so he aimed elsewhere (the pointer now stays inside the page); hound - the admin 'near' Hound landed 667 px off in one run and out of sight in the other (now a stand-in Hound for BR-RoLE at a fixed spot), Tue Oct 13 15:24:45 CDT 2026 --
+wanderer_lab (h41, h42: ellipse, carried, hound) exit=0 seconds=422
+lab_report (lab2, before h41, after h42) exit=0
+lab_report (lab, before h41, after h42) exit=0 (run again: the cast sheet as a tight crop with the body-only tip marked)

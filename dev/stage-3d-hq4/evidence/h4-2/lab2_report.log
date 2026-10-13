@@ -1,0 +1,387 @@
+{
+ "lab": "dev/stage-3d-hq4/evidence/h4-2/lab2",
+ "variants": [
+  "h41",
+  "h42"
+ ],
+ "before": "h41",
+ "after": "h42",
+ "ellipse": {
+  "h41": [
+   {
+    "heading": 0,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 90,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 180,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 270,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   }
+  ],
+  "h42": [
+   {
+    "heading": 0,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 90,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 180,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 270,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   }
+  ],
+  "cross": [
+   {
+    "heading": 0,
+    "afterVsBefore": {
+     "pixelsDiffer": 27,
+     "outsideTheEllipse": 27,
+     "insideTheBody": 0,
+     "maxDiff": 4
+    }
+   },
+   {
+    "heading": 90,
+    "afterVsBefore": {
+     "pixelsDiffer": 10,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 3,
+     "maxDiff": 9
+    }
+   },
+   {
+    "heading": 180,
+    "afterVsBefore": {
+     "pixelsDiffer": 0,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 0,
+     "maxDiff": 0
+    }
+   },
+   {
+    "heading": 270,
+    "afterVsBefore": {
+     "pixelsDiffer": 10,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 3,
+     "maxDiff": 11
+    }
+   }
+  ]
+ },
+ "carried": {
+  "h41": [
+   {
+    "at": [
+     723,
+     3792
+    ],
+    "jobs": [
+     {
+      "light": "C1",
+      "lightKind": "carried",
+      "dominant": true,
+      "ang": 2.923,
+      "ext": 47.18,
+      "start": 18,
+      "a": 0.683
+     }
+    ]
+   },
+   {
+    "at": [
+     628,
+     3887
+    ],
+    "jobs": [
+     {
+      "light": "C2",
+      "lightKind": "carried",
+      "dominant": true,
+      "ang": -1.789,
+      "ext": 46.998,
+      "start": 22.003,
+      "a": 0.683
+     }
+    ]
+   },
+   {
+    "at": [
+     533,
+     3792
+    ],
+    "jobs": [
+     {
+      "light": "C3",
+      "lightKind": "carried",
+      "dominant": true,
+      "ang": -0.219,
+      "ext": 46.833,
+      "start": 22.127,
+      "a": 0.684
+     }
+    ]
+   },
+   {
+    "at": [
+     628,
+     3697
+    ],
+    "jobs": [
+     {
+      "light": "C4",
+      "lightKind": "carried",
+      "dominant": true,
+      "ang": 1.352,
+      "ext": 47.107,
+      "start": 18,
+      "a": 0.683
+     }
+    ]
+   }
+  ],
+  "h42": [
+   {
+    "at": [
+     723,
+     3792
+    ],
+    "jobs": [
+     {
+      "light": "C1",
+      "lightKind": "carried",
+      "dominant": true,
+      "ang": 2.914,
+      "ext": 47.161,
+      "start": 18,
+      "a": 0.683
+     }
+    ]
+   },
+   {
+    "at": [
+     628,
+     3887
+    ],
+    "jobs": [
+     {
+      "light": "C2",
+      "lightKind": "carried",
+      "dominant": true,
+      "ang": -1.799,
+      "ext": 47.235,
+      "start": 18,
+      "a": 0.683
+     }
+    ]
+   },
+   {
+    "at": [
+     533,
+     3792
+    ],
+    "jobs": [
+     {
+      "light": "C3",
+      "lightKind": "carried",
+      "dominant": true,
+      "ang": -0.225,
+      "ext": 47.396,
+      "start": 18,
+      "a": 0.682
+     }
+    ]
+   },
+   {
+    "at": [
+     628,
+     3697
+    ],
+    "jobs": [
+     {
+      "light": "C4",
+      "lightKind": "carried",
+      "dominant": true,
+      "ang": 1.345,
+      "ext": 47.059,
+      "start": 18,
+      "a": 0.683
+     }
+    ]
+   }
+  ]
+ },
+ "hound": {
+  "h41": [
+   {
+    "at": [
+     628,
+     3887
+    ],
+    "rotation": 0.0,
+    "jobs": [
+     {
+      "kind": "hound",
+      "light": "L2",
+      "dominant": true,
+      "x": 628,
+      "y": 3887,
+      "ang": 0.7597627548757708,
+      "ext": 68.9655711206686,
+      "start": 22.151238936508655,
+      "across": 25.68422413176979,
+      "a": 0.7034440490060208,
+      "shade": 0.2999982461980352,
+      "sil": 1
+     }
+    ]
+   },
+   {
+    "at": [
+     628,
+     3887
+    ],
+    "rotation": 1.2,
+    "jobs": [
+     {
+      "kind": "hound",
+      "light": "L2",
+      "dominant": true,
+      "x": 628,
+      "y": 3887,
+      "ang": 0.7597627548757708,
+      "ext": 68.9655711206686,
+      "start": 21.59115506883128,
+      "across": 29.74097476431805,
+      "a": 0.7034440490060208,
+      "shade": 0.2999982461980352,
+      "sil": 1
+     }
+    ]
+   },
+   {
+    "at": [
+     568,
+     3872
+    ],
+    "rotation": 2.6,
+    "jobs": [
+     {
+      "kind": "hound",
+      "light": "L2",
+      "dominant": true,
+      "x": 568,
+      "y": 3872,
+      "ang": 1.1071487177940904,
+      "ext": 44.721359549995796,
+      "start": 35.91501475249876,
+      "across": 16.1448595130203,
+      "a": 0.7549626974135838,
+      "shade": 0.2999982461980352,
+      "sil": 1
+     }
+    ]
+   }
+  ],
+  "h42": [
+   {
+    "at": [
+     628,
+     3887
+    ],
+    "rotation": 0.0,
+    "jobs": [
+     {
+      "kind": "hound",
+      "light": "L2",
+      "dominant": true,
+      "x": 628,
+      "y": 3887,
+      "ang": 0.7597627548757708,
+      "ext": 68.9655711206686,
+      "start": 22.151238936508655,
+      "across": 25.68422413176979,
+      "a": 0.7034440490060208,
+      "shade": 0.2999982461980352,
+      "sil": 1
+     }
+    ]
+   },
+   {
+    "at": [
+     628,
+     3887
+    ],
+    "rotation": 1.2,
+    "jobs": [
+     {
+      "kind": "hound",
+      "light": "L2",
+      "dominant": true,
+      "x": 628,
+      "y": 3887,
+      "ang": 0.7597627548757708,
+      "ext": 68.9655711206686,
+      "start": 21.59115506883128,
+      "across": 29.74097476431805,
+      "a": 0.7034440490060208,
+      "shade": 0.2999982461980352,
+      "sil": 1
+     }
+    ]
+   },
+   {
+    "at": [
+     568,
+     3872
+    ],
+    "rotation": 2.6,
+    "jobs": [
+     {
+      "kind": "hound",
+      "light": "L2",
+      "dominant": true,
+      "x": 568,
+      "y": 3872,
+      "ang": 1.1071487177940904,
+      "ext": 44.721359549995796,
+      "start": 35.91501475249876,
+      "across": 16.1448595130203,
+      "a": 0.7549626

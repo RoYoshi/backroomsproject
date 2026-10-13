@@ -22,7 +22,8 @@ Scenes (--scenes, comma separated):
   moving    the light still, the Wanderer at three spots around it: the cast follows (direction, length)
   carried   the fixtures off (solo none), a second page (Bob) with his flashlight on at four places around the Wanderer, aimed at
             her (clock running: a peer moves by the network): the cast points away from Bob each time
-  hound     a Hound placed near (admin), the world frozen: BR-RoLE's Hound jobs
+  hound     a stand-in Hound for BR-RoLE (an empty container flagged __hound, test-only) at a fixed spot in her sight, three ways:
+            BR-RoLE's Hound jobs (its torso path)
   peers     Bob visible beside her, then behind a wall: the Wanderer's page draws a cast for Bob only while she can see him
   perf      clock running, still: BR-RoLE's own frame cost (stats().frameMs) over 6 s
   corpse    a Hound death previewed on her (the real kill path), watched by Bob: on his page her corpse view held still and,
@@ -98,9 +99,9 @@ async def find_spot(P, lamp):
 
 
 async def aim(P, theta):
-    """the game's own mouse aim: the pointer 220 px from the Wanderer on screen, at angle theta (world = screen axes)"""
-    c = await P.evaluate("() => window.__lab.g(0, 0)")
-    await P.mouse.move(c[0] + 220 * math.cos(theta), c[1] + 220 * math.sin(theta)); await frames(P, 4)
+    """the game's own mouse aim: the pointer up to 220 px from the Wanderer on screen (inside the page), at angle theta (world = screen axes)"""
+    c = await P.evaluate("() => window.__lab.g(0, 0)"); vs = P.viewport_size; r = min(220, .42 * min(vs['width'], vs['height']))
+    await P.mouse.move(c[0] + r * math.cos(theta), c[1] + r * math.sin(theta)); await frames(P, 4)
 
 
 async def place(P, x, y, theta, light=False, kind='flashlight'):
@@ -203,15 +204,19 @@ async def run_variant(p, name, bundle, brrole, out):
             await A.evaluate("() => window.__clk.thaw()"); await place(A, spot['x'], spot['y'], away)
             R['scenes']['moving'] = S
         if 'hound' in SCENES:
+            # a stand-in Hound for BR-RoLE: an empty container flagged __hound (what BR-RoLE reads: position, rotation, visible, alpha),
+            # put in the creatures layer at a fixed spot in her sight, facing three ways - test-only; no entity, nothing drawn but its shadow
+            S = []
             await A.evaluate("() => window.__clk.thaw()")
-            await adm(A, {'c': 'freeze', 'on': 0}); await adm(A, {'c': 'near', 'k': 'hound'}); await A.wait_for_timeout(1500); await adm(A, {'c': 'freeze', 'on': 1}); await A.wait_for_timeout(1500)
-            await A.evaluate("() => __brRole.dev.solo(null)"); await frames(A, 10)
-            await hold(A)
-            R['scenes']['hound'] = {'hounds': await A.evaluate("() => (window.__hounds || []).filter(Boolean).map(h => [Math.round(h.x), Math.round(h.y)])"),
-                                    'jobs': await A.evaluate("() => window.__lab.others().filter(j => j.kind === 'hound')"), 'shot': await shot(A, os.path.join(out, 'hound.png'), 220)}
-            await A.evaluate("() => window.__clk.thaw()")
-            for _ in range(6): await adm(A, {'c': 'hounds', 'mode': 'remove', 'n': 10}); await A.wait_for_timeout(300)
-            await A.evaluate("i => __brRole.dev.solo([i])", A_.lamp)
+            for k, (dx, dy, rot) in enumerate(((0, 95, 0.0), (0, 95, 1.2), (-60, 80, 2.6))):
+                await A.evaluate("""([x, y, r]) => { const L = __api.layer(), C = L.constructor; const h = new C(); h.__hound = true; h.__labHound = true; h.position.set(x, y); h.rotation = r; L.addChild(h); }""",
+                                 [spot['x'] + dx, spot['y'] + dy, rot])
+                await frames(A, 40); await hold(A)
+                jobs = await A.evaluate("() => window.__lab.others().filter(j => j.kind === 'hound')")
+                S.append({'at': [spot['x'] + dx, spot['y'] + dy], 'rotation': rot, 'jobs': jobs, 'shot': await shot(A, os.path.join(out, f'hound_{k}.png'), 170)})
+                await A.evaluate("() => window.__clk.thaw()")
+                await A.evaluate("() => { const L = __api.layer(); for (const c of L.children.slice()) if (c.__labHound) { L.removeChild(c); c.destroy(); } }"); await frames(A, 6)
+            R['scenes']['hound'] = S
         if 'carried' in SCENES or 'peers' in SCENES:
             Bp = await page('Bob', 640, 400, 1); await hide_overlays(Bp)
             await A.evaluate("() => window.__clk.thaw()")

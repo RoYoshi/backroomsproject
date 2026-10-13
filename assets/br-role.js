@@ -1081,10 +1081,12 @@
         if (e.kind === 'carried' && e.ang !== undefined) ang = e.ang + Math.atan2(Math.sin(ang - e.ang), Math.cos(ang - e.ang)) * ACT.turn;   // eased: a hand's bob never jitters it
         e.ang = ang;
         const gx = Math.cos(ang), gy = Math.sin(ang), near = clamp((d - 8) / ACT.near, 0, 1), vis = Math.min(1, v.alpha);
-        /* where the cast leaves the silhouette: the farthest point of the body, hands or torso along the light's direction */
+        /* where the cast leaves the silhouette: the farthest point of a player's round body (Stage 3D HQ4: never the hands - a hand
+         * swinging or turning must not slide the whole cast; the hands are still cut out of it and self-shaded) or of a Hound's torso,
+         * along the light's direction */
         let start = 0, across = 0;
         for (const q of sil) { const ph = ang - q.h, cs = Math.cos(ph), sn = Math.sin(ph), sup = Math.sqrt((q.A * cs) ** 2 + (q.B * sn) ** 2), off = (q.x - x) * gx + (q.y - y) * gy;
-          start = Math.max(start, off + sup); if (q === sil[0]) across = Math.sqrt((q.A * sn) ** 2 + (q.B * cs) ** 2); }
+          if (kind !== 'player' || q === sil[0]) start = Math.max(start, off + sup); if (q === sil[0]) across = Math.sqrt((q.A * sn) ** 2 + (q.B * cs) ** 2); }
         const ext = clamp(d * ACT.k[e.kind], 6, Pk.len), a = Pk.a * e.w * near * vis * (1 - ACT.fadeLong * ext / Pk.len), shade = Pk.shade * e.s * near * vis * st.contrast;
         if (!(a > .01) && !(shade > .01)) continue;
         const job = { kind, self, x, y, ang, ext, start: Math.min(start, (kind === 'hound' ? Pk.la : Pk.r) + 10), across, a: a > .01 ? a : 0, shade: shade > .01 ? shade : 0, sil,
