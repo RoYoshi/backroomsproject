@@ -36,7 +36,7 @@ const N = window.__net = {
       window.__killer = me === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
     }
   },
-  join() { nrBusy = 0; exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__hideBodies.delete('r' + myId); window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
+  join() { nrBusy = 0; runMenuWords(false); exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__hideBodies.delete('r' + myId); window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
   respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__hideBodies.delete('r' + myId); tx({ t: 'respawn' }); },
   leave() { tx({ t: 'leave' }); },
   testAuth(pass) { N._auth = pass; tx({ t: 'admin', pass, quiet: 1 }); },     // automated tests: admin authority (for their debug teleports) without opening the admin panel
@@ -79,10 +79,16 @@ function nrButton(text) {                             // the pause dialog's NEW 
 function nrAnswer(m) {
   const ok = nrSent.get(m.q); nrSent.delete(m.q);
   nrLast = { q: m.q, ok: m.ok ? 1 : 0, why: m.why || '', wait: m.wait, de: m.de, at: Date.now() / 1000 };
-  if (m.ok) { nrBusy = 2; nrButton(''); if (ok) ok(m); }                          // the server has taken us out of the world: the bundle's beat, then its run menu
+  if (m.ok) { nrBusy = 2; nrButton(''); runMenuWords(true); if (ok) ok(m); }      // the server has taken us out of the world: the bundle's beat, then its run menu
   else { nrBusy = 0; nrButton(m.why === 'cooldown' ? 'WAIT ' + Math.ceil(+m.wait || 0) + ' S' : 'NOT NOW'); }
 }
 window.__nrDebug = () => ({ q: nrQ, busy: nrBusy, w: worldW, last: nrLast });
+/* Stage 3D HQ2: the run menu after an approved NEW RUN says what happened (the offline fade keeps the menu's own words) */
+function runMenuWords(boom) {
+  const r = document.getElementById('runMenu'), e = r && r.querySelector('.eyebrow'), i = r && r.querySelector('.intro'); if (!e || !i) return;
+  if (e.dataset.fade === undefined) { e.dataset.fade = e.textContent; i.dataset.fade = i.textContent; }
+  e.textContent = boom ? 'YOU BLEW YOURSELF UP' : e.dataset.fade; i.textContent = boom ? 'What is left of you stays where you stood.' : i.dataset.fade;
+}
 const tx = o => { if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); };
 
 function connect() {
@@ -114,7 +120,7 @@ function connect() {
     else if (m.t === 'pong') { const E = EN(); if (E) { const r = performance.now() - (+m.ts || 0); E.dbgX.ping = E.dbgX.ping < 0 ? r : E.dbgX.ping + (r - E.dbgX.ping) * .3; } }
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
     else if (m.t === 'bodies') { bodiesList = m.b || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null && Array.isArray(b.lf) && b.lf.length === 4 && Number.isFinite(b.ag + b.lf[3])) { relOf(b.de, tb - b.ag + b.lf[3]); pendSt.push(['r', b.de, b.ag, b.lf[3]]); } applyBodies(); }   // (HQ1: when each corpse's light was let go)
-    else if (m.t === 'fx') { if (m.k === 'death' && m.de != null && m.id !== myId) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock)
+    else if (m.t === 'fx') { if (((m.k === 'death' && m.id !== myId) || m.k === 'boom') && m.de != null) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock; HQ2: a NEW RUN blast too)
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'nra') nrAnswer(m);                                       // Stage 3D HQ2: the server's NEW RUN decision
     else if (m.t === 'got') giveItem(m.item);
@@ -325,7 +331,7 @@ function killFx(f) {
   window.__hideBodies.delete('r' + f.id);
 }
 function startFx(m) {
-  const A = window.__api, layer = A && A.layer && A.layer(); if (!A || !layer || !A.mkAvatar || !A.Jl || m.id === myId) return;
+  const A = window.__api, layer = A && A.layer && A.layer(); if (!A || !layer || !A.mkAvatar || !A.Jl || (m.id === myId && m.k !== 'boom')) return;   // (Stage 3D HQ2: our own NEW RUN blast plays here too: our short beat shows it)
   if (m.k === 'end') { for (const f of fxs) if (f.id === m.id && (m.de == null || f.de === m.de)) f.end = true; return; }   // Stage 3D: an admin revive undid it
   if (m.de != null && fxs.some(f => f.de === m.de && !f.gone)) return;           // Stage 3D: one death plays once
   for (const f of fxs) if (f.id === m.id) f.end = true;                          // a newer event for the same player replaces the older one
@@ -342,6 +348,13 @@ function startFx(m) {
     let bd = 240; for (const o of hMap.values()) { const d = Math.hypot(o.x - m.sx, o.y - m.sy); if (d < bd) { bd = d; f.kill.h = o.slot; } }
     bd = 240; (A.q || []).forEach((s, i) => { const d = Math.hypot(s.x - m.sx, s.y - m.sy); if (!s.off && d < bd) { bd = d; f.kill.s = i; } });
     if (m.c === 'Smiler') f.kill.h = -1; else f.kill.s = -1;
+    window.__hideBodies.add('r' + m.id);
+  } else if (m.k === 'boom') {                                                     // Stage 3D HQ2: a NEW RUN blast - the server's event, its seed and direction; no attacker
+    const d = +m.d || 0, jl = new A.Jl(); jl.start('Boom', now, { x: m.x - Math.cos(d), y: m.y - Math.sin(d) }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: 0 }, { v: 'A', s: m.s, d });
+    if (!jl.ph) { killFx(f); return; }                                             // (the blast is physics only: never the scripted fallback)
+    f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground, jl.debris);
+    if (!(+m.el > .3) && EN() && EN().boomVoice) EN().boomVoice(m.x, m.y);        // heard once, where it happens (a late joiner does not hear it)
+    f.cause = 'Boom'; f.att = null; f.kill = { h: -1, s: -1 };
     window.__hideBodies.add('r' + m.id);
   }
   fxs.push(f);
@@ -361,8 +374,10 @@ function updateFx(now) {
     const jl = f.jl, done = jl.frame(now), b = jl.body;
     f.av.update(now, false, false, f.src);
     f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24, jl);
-    f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
-    if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60); } else f.att.attackPose(jl.grip, jl.impact, jl.variant, jl);
+    if (f.att) {                                                                   // (a NEW RUN blast has no attacker)
+      f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
+      if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60); } else f.att.attackPose(jl.grip, jl.impact, jl.variant, jl);
+    }
     if (!done) { if (f.kill.h >= 0) window.__fxKill.add(f.kill.h); if (f.kill.s >= 0) window.__fxKillS.add(f.kill.s); }
     else { f.doneAt = f.doneAt || now; const nb = bodiesList.find(x => x.k === f.id); if ((nb && (f.de != null && nb.de != null ? nb.de === f.de : (!f.old || nb.x !== f.old.x || nb.y !== f.old.y || nb.a !== f.old.a))) || now - f.doneAt > 8) { killFx(f); fxs.splice(i, 1); } }   // Stage 3D: the corpse of this very death takes over
   }
@@ -443,7 +458,7 @@ function wallStains(now) {
   const want = [], add = (de, x, y, nx, ny) => want.push({ de, x, y, nx, ny });
   const d = A.death && A.death();
   if (d && d.active && d.ph && ownDeath) for (const m of D.marks(d.ph)) add(ownDeath.de, m.x, m.y, m.nx, m.ny);
-  for (const f of fxs) if (f.k === 'death' && f.jl && f.jl.ph && !f.gone && f.de != null) for (const m of D.marks(f.jl.ph)) add(f.de, m.x, m.y, m.nx, m.ny);
+  for (const f of fxs) if ((f.k === 'death' || f.k === 'boom') && f.jl && f.jl.ph && !f.gone && f.de != null) for (const m of D.marks(f.jl.ph)) add(f.de, m.x, m.y, m.nx, m.ny);
   for (const b of A.bodyList()) {
     if (b.cause === 'Vanish' || !b.blood) continue;
     let de = b.remote ? b.de : null;
@@ -458,7 +473,7 @@ function wallStains(now) {
  * is the camcorder's own (camcorder.js), and corpses never carry one either. */
 function replayLights(p, out) {
   for (const f of fxs) {
-    if (f.k !== 'death' || !f.jl || f.gone || !f.lo || f.gear.kind === 'camcorder') continue;
+    if ((f.k !== 'death' && f.k !== 'boom') || !f.jl || f.gone || !f.lo || f.gear.kind === 'camcorder') continue;
     const T = f.jl.torch; if (!T || Math.hypot(T.x - p.x, T.y - p.y) > 950) continue;
     const r = relRun(f.jl.ph); if (r != null) eqKnown(f.de, r); const pw = powerAt('replay', f.de, f.lf, r == null ? null : relOf(f.de, f.t0 + r), f.gear.kind); if (!(pw > 0)) continue;   // Stage 3D HQ1
     out.push({ x: T.x, y: T.y, angle: T.angle, kind: f.gear.kind, color: f.gear.color, on: true, dead: false, pw });

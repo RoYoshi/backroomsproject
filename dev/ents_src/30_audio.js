@@ -125,6 +125,16 @@ E.deathEvent = function (q, jl, S) {
   else if (q.k === 'eqhit' && q.sp > 40 && S.eq) play(S.eq.x, S.eq.y, clamp(q.sp / 300, .12, .35), .2, (n, v) => noiseLayer(n, 'bandpass', 2000, 4, v * .6, .002, .01, 1400), { far: 900 });
   else if (q.k === 'hat' && S.hat) { const x = S.hat.x, y = S.hat.y; setTimeout(() => play(x, y, .2, .25, (n, v) => noiseLayer(n, 'lowpass', 520, .8, v * .7, .004, .02, 260), { far: 700 }), 120); }
 };
+/* Stage 3D HQ2: a NEW RUN blast, once, placed where it happened (distance, pan, muffled through walls), through the game's own audio
+ * (master volume, sound on/off): a deep thump, a short crack and a dull rumble that dies in about a second - loud near, gone far away */
+E.boomVoice = function (x, y) {
+  play(x, y, .85, 1.25, (n, v) => {
+    toneLayer(n, 'sine', 74, 26, v * .95, .003, .06);
+    noiseLayer(n, 'lowpass', 1400, .7, v * .8, .002, .05, 140);
+    noiseLayer(n, 'bandpass', 2600, 1.2, v * .35, .001, .02, 700);
+    toneLayer(n, 'triangle', 46, 30, v * .35, .02, .25, { f: 13, d: .5 });
+  }, { near: 160, far: 1900 });
+};
 /* a spectator hears the death's own sound (the blows, the victim) from where they stand */
 E.deathVoice = function (kind, x, y, hits) {
   const a = API(); if (!a || !soundOn() || !Zc()) return; const Z = a.audio(); if (!Z || !Z.death) return;

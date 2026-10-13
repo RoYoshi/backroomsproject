@@ -62,4 +62,58 @@ Presses while one waits, after an approval, or within 300 ms of the last do noth
 
 ## H2-2: the explosion
 
-(Added at H2-2.)
+An approved NEW RUN is one explosion, decided and finished by the server like a death's aftermath. It is no attack.
+
+### The event (`server.js` `boomStart`, `death_srv.js` `boomFx` / `boomBegin`)
+
+Approval and the explosion are the same step: in the handler that answers `nra ok`, the server opens the aftermath.
+- **Where:** the position and facing it holds for the player.
+- **Which blast:** its seed and direction come from one hash of the world's number and the event id (`dphys.boomPlan`), never a random draw.
+- **The light:** if the light was a lit emitter (on, and not a camcorder), the HQ1 light profile `lf` is chosen once.
+
+**The replay message**, sent once to every client, including the player's own page:
+
+`{t:'fx', k:'boom', id, de, w, x, y, a, d, s, lk, ek, ec, ep, vx, vy, lo, lf?, el?, srv:1}`
+
+A late joiner gets it with `el`, how far it has run. There are no attacker fields.
+
+**The physics.** The server runs the same 240 Hz physics as every page, from the same numbers. At its end (3.2 s) it places the corpse itself:
+- `bodies` record `c:'Boom'`: the one body, both hands, the light and the hat where they came to rest;
+- the four blood bursts and up to three wall marks;
+- `lf` with the light's release (the blast);
+- the event id.
+
+**One corpse per player:**
+- a later blast or death of the same player replaces it;
+- a world reset drops an explosion still playing and clears every corpse.
+
+**It touches nothing else.** No other player is moved, corrected, stunned or hurt, and no entity is told anything. It has no light of its own. No death message is sent, and no killer is placed (`killerEnd` is now called only for a hound). An admin revive never cancels it.
+
+### The physics (`dphys.js` kind `Boom`, beside the untouched Hound/Smiler variants)
+
+**The blast**, on the first step:
+- the one rounded body is thrown along the blast at 250–420 px/s with a spin of 9–18 rad/s and a hard squash;
+- the two hands fly apart on their springs;
+- the light and the hat are torn away with their own kicks;
+- four blood bursts land 8–30 px around the body, on floor, never inside a solid.
+
+**After the blast**, the same ground friction, wall contacts and settling as every death:
+- a wall struck faster than 80 px/s is a wall mark, so HQ1's wallpaper stain appears on that face;
+- the body's flight leaves a smear;
+- the light's HQ1 clock starts at the blast (a headlamp's too).
+
+The eight death variants never reach this code: `create`, `stepOnce`, `begin` and `prepare` branch off first for `Boom` only.
+
+### The screens (`mp.js`, `ents.js`, the bundle)
+
+**Every page, the player's own included:**
+- plays the blast through the bundle's death class with no attacker;
+- hears it once, placed (distance, pan, muffled through walls; `ents.boomVoice`), unless it joined late;
+- shows the falling light by HQ1's rules (`replayLights`, the corpse's light);
+- stamps HQ1's wallpaper stains (`wallStains`) for a blast as for a death.
+
+**The player** is hidden the moment the approval arrives; its own light goes out with it. The blast shows during the 0.8 s beat. The run menu then says "YOU BLEW YOURSELF UP — What is left of you stays where you stood." The offline fade keeps the menu's own words.
+
+### Evidence
+
+`dev/stage-3d-hq2/evidence/h2-2/` (its `SUMMARY.md`).

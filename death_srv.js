@@ -42,5 +42,18 @@ function corpse(id, kill, info, P) {
     attacker: R.attacker, dur: R.dur };
 }
 const bodyFor = (id, kill, info, sim) => corpse(id, kill, info, begin(kill, info, sim));
-const durOf = kill => (DP.DURS[kill.k === 'Smiler' ? 'Smiler' : 'Hound'] || {})[kill.v] || 4.4;
-module.exports = { fxFor, bodyFor, begin, step, corpse, durOf, DP };
+const durOf = kill => kill.k === 'Boom' ? DP.DURS.Boom.A : (DP.DURS[kill.k === 'Smiler' ? 'Smiler' : 'Hound'] || {})[kill.v] || 4.4;
+/* Stage 3D HQ2: NEW RUN's self-destruction as a server event, beside the deaths.  The record (B): k 'Boom', where the player stood and
+ * faced (x, y, a), the blast's seed and direction (s, d: dphys.boomPlan of the world and the event id) and, for a lit light, the HQ1
+ * light profile (lf).  Its replay message, its run (the same 240 Hz physics every screen runs from the same numbers) and, at its end,
+ * its corpse (corpse() above: cause 'Boom', the body, both hands, the light and the hat where they came to rest, the blood, the wall
+ * marks, the light's release). */
+function boomFx(id, B, info) {
+  return { t: 'fx', k: 'boom', id, x: B.x, y: B.y, a: B.a, d: B.d, s: B.s, lk: info.look, ek: info.ek, ec: info.ec, ep: info.ep, vx: Math.round(info.vx || 0), vy: Math.round(info.vy || 0), srv: 1 };
+}
+function boomBegin(B, info, sim) {
+  const hat = String(info.look || '').split('|')[0] || 'none';
+  return DP.prepare({ kind: 'Boom', victim: { x: B.x, y: B.y, angle: B.a }, dir: B.d, seed: B.s, vx: info.vx, vy: info.vy, eqKind: info.ek, hat,
+    walls: (x, y) => sim.blockersAt(x, y), clear: (x, y, r) => sim.clearAt(x, y, r) });
+}
+module.exports = { fxFor, bodyFor, begin, step, corpse, durOf, DP, boomFx, boomBegin };

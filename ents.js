@@ -386,6 +386,7 @@ E.smilerGlow = function (n, view, sm_, t, pl, k) {
  * change the choreography of the death sequence: how far the body is knocked, whether it is dragged, when the blows land, whether
  * the world blacks out.  Nothing is teleported: every distance is limited by the level's own geometry in the bundle (safeDistance). */
 E.deathPlan = function (jl, kind, K) {
+  if (kind === 'Boom') return { v: 'A', kn: 0, dr: 0, hits: null, kt: [.08, .36], dw: [2.03, 3.12], spin: 1.65, squish: 1, wall: null, black: null, s: K ? K.s : 0, d: K ? +K.d : NaN };   // Stage 3D HQ2: a NEW RUN blast: no knock, no drag, no blows; its seed and direction are the server's
   const v = K && /^[ABCD]$/.test(K.v) ? K.v : 'A';
   const wall = K && K.w && K.w.length === 3 ? { x: K.w[0], y: K.w[1], ang: K.w[2] } : null;
   // the numbers (knock, drag, blows, timing) live in dphys.js: one table for this death class and for the server's fallback aftermath
@@ -574,6 +575,16 @@ E.deathEvent = function (q, jl, S) {
     setTimeout(() => play(x, y, .25, .25, (n, v) => { noiseLayer(n, 'bandpass', hard ? 2200 : 1300, 5, v * .5, .002, .01, 1600); }, { far: 900 }), 175); }
   else if (q.k === 'eqhit' && q.sp > 40 && S.eq) play(S.eq.x, S.eq.y, clamp(q.sp / 300, .12, .35), .2, (n, v) => noiseLayer(n, 'bandpass', 2000, 4, v * .6, .002, .01, 1400), { far: 900 });
   else if (q.k === 'hat' && S.hat) { const x = S.hat.x, y = S.hat.y; setTimeout(() => play(x, y, .2, .25, (n, v) => noiseLayer(n, 'lowpass', 520, .8, v * .7, .004, .02, 260), { far: 700 }), 120); }
+};
+/* Stage 3D HQ2: a NEW RUN blast, once, placed where it happened (distance, pan, muffled through walls), through the game's own audio
+ * (master volume, sound on/off): a deep thump, a short crack and a dull rumble that dies in about a second - loud near, gone far away */
+E.boomVoice = function (x, y) {
+  play(x, y, .85, 1.25, (n, v) => {
+    toneLayer(n, 'sine', 74, 26, v * .95, .003, .06);
+    noiseLayer(n, 'lowpass', 1400, .7, v * .8, .002, .05, 140);
+    noiseLayer(n, 'bandpass', 2600, 1.2, v * .35, .001, .02, 700);
+    toneLayer(n, 'triangle', 46, 30, v * .35, .02, .25, { f: 13, d: .5 });
+  }, { near: 160, far: 1900 });
 };
 /* a spectator hears the death's own sound (the blows, the victim) from where they stand */
 E.deathVoice = function (kind, x, y, hits) {

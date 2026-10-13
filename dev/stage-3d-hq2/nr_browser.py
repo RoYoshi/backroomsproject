@@ -160,6 +160,11 @@ def measure_e02(R):
     W_ = R['watch'] or {'pl': [], 'fx': [], 'bodies': []}
     ack = R.get('ack1') or {}; ta = ack.get('at')
     pressed = {k: t for k, t in (R.get('pressedAt') or [])}
+    # when the server approved: its blast's replay reaching the quiet observer (H2-2 on), else Alice leaving the server's player list, else
+    # her page's own receipt of the answer (a slow page gets it late, so the remaining wait it expects is then a little long)
+    boom = [f['at'] for f in W_['fx'] if f.get('k') == 'boom' and f.get('id') == aid]
+    left = [t for t, pl in W_['pl'] for q in pl if q[0] == aid and q[1] == 0 and ack.get('at') and t > ack['at'] - 3]
+    t_srv = boom[0] if boom else (left[0] if left else ack.get('at'))
     win = lambda rows, t0, t1: [r for r in rows if t0 <= r['t'] < t1]
     srv = lambda t0, t1: [q for t, pl in W_['pl'] if t0 <= t < t1 for q in pl if q[0] == aid]
     C = []
@@ -179,18 +184,18 @@ def measure_e02(R):
     for lab, nxt in (('press at ~10 s', 'press at ~27 s'), ('press at ~27 s', 'press at ~31.5 s')):
         t = pressed.get(lab)
         if not t: check(f'E02 {lab}', False, 'the timer did not fire'); continue
-        want = 30 - (t - ta)
+        want = 30 - (t - t_srv)                                                              # (the server's cooldown runs from its own approval)
         L_ = min(3.0, pressed[nxt] - t - .05) if pressed.get(nxt) else 3.0                    # (until the next press)
         a, b_, s = win(A, t, t + L_), win(B, t, t + L_), srv(t, t + L_)
         ans = next((r['nr']['last'] for r in a if r.get('nr') and r['nr'].get('last') and r['nr']['last'].get('at', 0) >= t - .05), None)
         x0 = next((r for r in reversed(A) if r['t'] < t), None)
         still = bool(a) and all(r['st'] == 1 and not r['rm'] and not r['hs'] and r['vl'] == 0 and x0 and abs(r['x'] - x0['x']) <= 3 and abs(r['y'] - x0['y']) <= 3 for r in a)
         told = any('WAIT' in r['rt'] for r in a)
-        check(f'E02 {lab} after the approval (really {t - ta:.2f} s): refused (cooldown, ~{want:.1f} s left, said on the button), and nothing changes on her screen, on Bob\'s or on the server until the next press (at most 3 s)',
-              want > .3 and ans and ans.get('ok') == 0 and ans.get('why') == 'cooldown' and abs(ans.get('wait', 0) - want) < .7 and still and told
+        check(f'E02 {lab} after the approval (really {t - t_srv:.2f} s after the server approved): refused (cooldown, ~{want:.1f} s left, said on the button), and nothing changes on her screen, on Bob\'s or on the server until the next press (at most 3 s)',
+              want > .3 and ans and ans.get('ok') == 0 and ans.get('why') == 'cooldown' and abs(ans.get('wait', 0) - want) < .5 and still and told
               and b_ and all(r['pl'] for r in b_) and s and all(q[1] == 1 for q in s)
               and not [f for f in W_['fx'] if f.get('id') == aid and t <= f['at'] < t + L_] and not [x for x in W_['bodies'] if t <= x['at'] < t + L_],
-              {'pressedAfter': round(t - ta, 3), 'window': round(L_, 2), 'answer': ans, 'aliceStill': still, 'buttonTold': told, 'bobRows': len(b_), 'bobAlwaysSawHer': bool(b_) and all(r['pl'] for r in b_), 'serverActive': sorted({q[1] for q in s})})
+              {'pressedAfter': round(t - ta, 3), 'afterServerApproval': round(t - t_srv, 3) if t_srv else None, 'window': round(L_, 2), 'answer': ans, 'aliceStill': still, 'buttonTold': told, 'bobRows': len(b_), 'bobAlwaysSawHer': bool(b_) and all(r['pl'] for r in b_), 'serverActive': sorted({q[1] for q in s})})
     t = pressed.get('press at ~31.5 s')
     a = win(A, t, t + 3) if t else []
     ans = next((r['nr']['last'] for r in a if r.get('nr') and r['nr'].get('last') and r['nr']['last'].get('at', 0) >= (t or 0) - .05), None)

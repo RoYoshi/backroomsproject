@@ -4,6 +4,7 @@
  * change the choreography of the death sequence: how far the body is knocked, whether it is dragged, when the blows land, whether
  * the world blacks out.  Nothing is teleported: every distance is limited by the level's own geometry in the bundle (safeDistance). */
 E.deathPlan = function (jl, kind, K) {
+  if (kind === 'Boom') return { v: 'A', kn: 0, dr: 0, hits: null, kt: [.08, .36], dw: [2.03, 3.12], spin: 1.65, squish: 1, wall: null, black: null, s: K ? K.s : 0, d: K ? +K.d : NaN };   // Stage 3D HQ2: a NEW RUN blast: no knock, no drag, no blows; its seed and direction are the server's
   const v = K && /^[ABCD]$/.test(K.v) ? K.v : 'A';
   const wall = K && K.w && K.w.length === 3 ? { x: K.w[0], y: K.w[1], ang: K.w[2] } : null;
   // the numbers (knock, drag, blows, timing) live in dphys.js: one table for this death class and for the server's fallback aftermath

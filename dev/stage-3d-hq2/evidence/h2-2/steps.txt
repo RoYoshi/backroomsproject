@@ -1,0 +1,17 @@
+-- H2-2 on the working tree over d27a2af9d220ae42f5a0ca0b8aa88422a7337f5e (production files as committed next); parent export /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base --
+proto/nr_all exit=1 seconds=88
+death_equiv exit=0 seconds=5
+boom_geo exit=0 seconds=1
+browser/boom_flashlight exit=0 seconds=107
+browser/boom_lantern exit=0 seconds=107
+browser/boom_headlamp exit=0 seconds=107
+browser/boom_light_off exit=0 seconds=111
+browser/nr_e02 exit=1 seconds=81
+existing/phys_matrix exit=0 seconds=42
+existing/gore_geo exit=0 seconds=20
+existing/light_power exit=0 seconds=2
+existing/light_net exit=0 seconds=41
+existing/death_net exit=1 seconds=53
+existing/phys_test exit=0 seconds=4
+-- again: proto/nr_all with E02's spectator check counting the approved NEW RUN's own blast corpse as its own (the first run counted it as traffic from the refused presses: attempts/), and the new nr_boom_again (E07) --
+proto/nr_all exit=0 seconds=134

@@ -45,9 +45,9 @@ EDITS = [
     ('HQ2', "online, NEW RUN only sends its intent (mp.js __net.nr); the approval calls Xok; offline the old local sequence runs as before",
      'function Xnr(){if(!$||G.caught||hu||VN||iu===!1&&!1){Su();return}',
      'function Xnr(){let N=window.__net;if(N&&N.nr&&$&&!hu&&N.nr(Xok))return;if(!$||G.caught||hu||VN||iu===!1&&!1){Su();return}'),
-    ('HQ2', "the approved NEW RUN: the player is already out of the world (the server took it out): hidden at once, a short beat, then the run menu (Nend)",
+    ('HQ2', "the approved NEW RUN: the player is already out of the world (the server took it out): hidden at once, its own light out (H2-2: the blast tore it away; the dropped light is the replay's), a short beat, then the run menu (Nend)",
      'function Nend(){VN=null,',
-     'function Xok(){if(!$||hu)return;VN={t0:performance.now()/1e3,dur:.8},window.__hideSelf=!0,_u(!1),Q.clear()}\nfunction Nend(){VN=null,'),
+     'function Xok(){if(!$||hu)return;VN={t0:performance.now()/1e3,dur:.8},window.__hideSelf=!0,au=!1,_u(!1),Q.clear()}\nfunction Nend(){VN=null,'),
 ]
 
 

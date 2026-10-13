@@ -65,6 +65,9 @@
       C: { va: 0, res: [.1, .5, .8], still: .25, shove: [.28, 60], draw: [1.7, 2.7, 36], eq: 'draw', hat: 'none', stand: 38 },
       D: { va: 0, res: [.1, .5, .8], still: .25, shove: [.32, 90], draw: [1.6, 3.0, 70], eq: 'draw', hat: 'none', stand: 36 },
     },
+    /* Stage 3D HQ2: NEW RUN's self-destruction - one blast at t = 0 (createBoom / stepBoom): the body's speed (px/s), its spin (rad/s), the
+     * hands', the light's and the hat's kicks, how many blood bursts and how far from the body they land */
+    Boom: { res: [0, 1, 0], v0: [250, 420], spin: [9, 18], hand: [260, 460], eq: [120, 260], hat: [140, 280], bursts: 4, rB: [8, 30] },
   };
 
   /* Stage 3D: the level's blocking rects, fetched once per 96 px tile for the life of one death.  The level's own query (Bc) returns the
@@ -89,6 +92,7 @@
   }
 
   function create(ctx) {
+    if (ctx.kind === 'Boom') return createBoom(ctx);                                  // Stage 3D HQ2 (the eight Hound / Smiler variants never go there)
     const hound = ctx.kind === 'Hound', cfg = CFG[hound ? 'Hound' : 'Smiler'][ctx.v] || CFG[hound ? 'Hound' : 'Smiler'].A;
     const r = rng(ctx.seed), walls = ctx.walls ? wallCache(ctx.walls) : (() => []);
     const nz = [noise(r), noise(r), noise(r), noise(r), noise(r), noise(r)];
@@ -141,6 +145,7 @@
   function shock(S, x, y, mag) { const c = S.cam; c.vx += x * mag; c.vy += y * mag; }
 
   function stepOnce(S) {
+    if (S.boom) return stepBoom(S);                                                   // Stage 3D HQ2: NEW RUN's blast has its own step (below)
     if (S.state === 'SLEEPING' && S.frozen) { stepAttacker(S); S.t += DT; S.stepN++; return; }          // Stage 3D: at rest is at rest
     const t = S.t, dt = DT, cfg = S.cfg, b = S.b, at = S.at, hound = S.hound, ux = S.ux, uy = S.uy, W = S.walls, ctx = S.ctx;
     const res = S.res = resist(S, t);
@@ -405,6 +410,103 @@
     if (hyp(o.vx, o.vy) < 3.5 && Math.abs(o.w) < .35) { o.still += dt; o.st = 'SETTLING'; if (o.still > .3) { o.st = 'SLEEPING'; o.vx = o.vy = o.w = 0; } } else { o.still = 0; o.st = 'ACTIVE'; }
   }
 
+  /* ---------- Stage 3D HQ2: NEW RUN's self-destruction ('Boom') ----------
+   * Not a death by a monster: no attacker, no fight.  One abrupt blast at t = 0, chosen by the server (ctx.seed, ctx.dir - never a client's
+   * random): the one rounded body is thrown along the blast with a spin and a hard squash, the two hands fly apart on their springs, the
+   * light and the hat are torn away with their own kicks, four blood bursts land around where it stood.  Then the same contacts, friction
+   * and settling as every death: a wall struck faster than 80 px/s is a wall mark (HQ1's wallpaper stain, dphys.marks), the light fails
+   * on HQ1's profile from the blast (releaseOf: 0), the body's flight leaves a smear (its trail).  It touches nothing else: no player, no
+   * entity, no light of its own. */
+  function createBoom(ctx) {
+    const cfg = CFG.Boom, r = rng(ctx.seed), walls = ctx.walls ? wallCache(ctx.walls) : (() => []);
+    const nz = [noise(r), noise(r), noise(r), noise(r), noise(r), noise(r)];
+    const ux = Math.cos(ctx.dir), uy = Math.sin(ctx.dir), th0 = ctx.victim.angle + PI / 2;
+    const S = {
+      t: 0, cfg, ctx, hound: false, boom: true, exh: 1, ux, uy, walls, dur: ctx.dur, ended: false, state: 'ACTIVE', calm: 0, phase: 'blast', ev: [],
+      b: { x: ctx.victim.x, y: ctx.victim.y, vx: (ctx.victim.vx || 0) * .8, vy: (ctx.victim.vy || 0) * .8, th: th0, om: 0, sq: 0, sqv: 0, nx: ux, ny: uy, cs: 0, csv: 0 },
+      h: [
+        { anc: HAND_L, x: 0, y: 0, vx: 0, vy: 0, off: { x: 0, y: 0 }, k: 90, z: .7, brace: null, slipT: -9, tries: 0 },
+        { anc: HAND_R, x: 0, y: 0, vx: 0, vy: 0, off: { x: 0, y: 0 }, k: 90, z: .7, brace: null, slipT: -9, tries: 0 },
+      ],
+      eq: { has: ctx.eqKind !== 'headlamp', held: true, x: 0, y: 0, vx: 0, vy: 0, rot: 0, w: 0, rho: 0, rhov: 0, st: 'ACTIVE', still: 0, len: LEN[ctx.eqKind] != null ? LEN[ctx.eqKind] : 23 },
+      hat: { has: ctx.hat && ctx.hat !== 'none', on: true, x: 0, y: 0, vx: 0, vy: 0, rot: 0, w: 0, st: 'ACTIVE', still: 0 },
+      at: { x: ctx.victim.x, y: ctx.victim.y, vx: 0, vy: 0, a: ctx.dir, av: 0, contact: false, load: 0, str: 0, bite: 0, lunge: 0, walk: 0 },   // (no attacker; frame() still reads one)
+      cam: { x: 0, y: 0, vx: 0, vy: 0 },
+      rope: null, pull: 0, dragS: 0, dragOn: false, wallHit: null, hitsDone: 0, eqAt: -1, hatAt: -1, firstBlow: -1, trail: [], trace: { b: [], h0: [], h1: [], eq: [], at: [], hit: [] }, tr: 0,
+      res: 0, contactT: -1, released: true, slipCount: 0, pitch: 0, blasted: false,
+    };
+    const b = S.b, c0 = Math.cos(th0), s0 = Math.sin(th0);
+    S.h.forEach(h => { h.x = b.x + h.anc.x * c0 - h.anc.y * s0; h.y = b.y + h.anc.x * s0 + h.anc.y * c0; h.vx = b.vx; h.vy = b.vy; });
+    const hr = S.h[1]; S.eq.x = hr.x; S.eq.y = hr.y; S.eq.vx = b.vx; S.eq.vy = b.vy; S.eq.rot = th0;
+    S.hat.x = b.x; S.hat.y = b.y; S.hat.vx = b.vx; S.hat.vy = b.vy; S.hat.rot = th0;
+    S.nz = nz; S.rr = r; S.dragDir = { x: -ux, y: -uy }; S.stepN = 0;
+    return S;
+  }
+  function stepBoom(S) {
+    if (S.state === 'SLEEPING' && S.frozen) { S.t += DT; S.stepN++; return; }
+    const t = S.t, dt = DT, cfg = S.cfg, b = S.b, W = S.walls, ux = S.ux, uy = S.uy, r = S.rr, pick = q => q[0] + r() * (q[1] - q[0]);
+    if (!S.blasted) {                                                                   // the blast, once, on the first step
+      S.blasted = true; S.firstBlow = 0; S.contactT = 0; S.phase = 'impact';
+      const v = pick(cfg.v0), lat = (r() - .5) * .5, ba = Math.atan2(uy, ux);
+      b.vx += (ux - uy * lat) * v; b.vy += (uy + ux * lat) * v;
+      b.om += (r() < .5 ? -1 : 1) * pick(cfg.spin); b.sqv += 9; b.nx = ux; b.ny = uy;
+      for (let i = 0; i < 2; i++) { const h = S.h[i], a = ba + (i ? 1 : -1) * (PI / 2 + (r() - .5) * .9), m = pick(cfg.hand); h.vx += Math.cos(a) * m + b.vx * .4; h.vy += Math.sin(a) * m + b.vy * .4; }
+      { const a = ba + (r() - .5) * 2.4, m = pick(cfg.eq); release(S, 'eq', 0, { x: Math.cos(a) * m, y: Math.sin(a) * m }); }
+      { const a = ba + (r() - .5) * 3.0, m = pick(cfg.hat); release(S, 'hat', 0, { x: Math.cos(a) * m, y: Math.sin(a) * m }); }
+      const solid = (x, y) => W(x, y).some(q => x > q.x - 3 && x < q.x + q.w + 3 && y > q.y - 3 && y < q.y + q.h + 3);   // (blood lands on the floor: never inside a wall)
+      for (let i = 0; i < cfg.bursts; i++) { const a = i / cfg.bursts * TAU + r() * 1.2, d = pick(cfg.rB); let k = 1; while (k > 0 && solid(b.x + Math.cos(a) * d * k, b.y + Math.sin(a) * d * k)) k -= .25; k = Math.max(0, k); S.ev.push({ t: 0, k: 'hit', i, x: b.x + Math.cos(a) * d * k, y: b.y + Math.sin(a) * d * k }); }
+      S.ev.push({ t: 0, k: 'blast', x: b.x, y: b.y });
+      shock(S, ux, uy, 34);
+    }
+    /* the body skids, tumbles and stops: the same ground friction as every death */
+    const mu = 560, visc = 1.15, sp = hyp(b.vx, b.vy);
+    if (sp > 1e-3) { const dv = Math.min(sp, (mu * dt) * sp / (sp + 10) + (visc + (sp < 14 ? 7 : 0)) * sp * dt); b.vx -= b.vx / sp * dv; b.vy -= b.vy / sp * dv; }
+    b.om -= b.om * 2.1 * dt + Math.sign(b.om) * Math.min(Math.abs(b.om), 5.5 * dt * Math.abs(b.om) / (Math.abs(b.om) + .5));
+    b.x += b.vx * dt; b.y += b.vy * dt; b.th += b.om * dt;
+    b.sqv += (-b.sq * 420 - b.sqv * 26) * dt; b.sq += b.sqv * dt; b.sq = clamp(b.sq, -.12, .30);
+    const bo = { x: b.x, y: b.y, vx: b.vx, vy: b.vy }, hit = collide(W, bo, RB, .2, .5);
+    if (hit) {
+      b.x = bo.x; b.y = bo.y; b.om += clamp(-hit.vt * .05, -2.5, 2.5) * (hit.nx * b.vy - hit.ny * b.vx > 0 ? 1 : -1) * .3;
+      b.vx = bo.vx; b.vy = bo.vy;
+      if (hit.sp > 60) {
+        b.nx = -hit.nx; b.ny = -hit.ny; b.sqv += clamp(hit.sp * .028, 0, 8); shock(S, -hit.nx, -hit.ny, clamp(hit.sp * .05, 0, 26));
+        if (!S.wallHit) S.wallHit = { t, x: hit.x, y: hit.y, sp: hit.sp, nx: hit.nx, ny: hit.ny };
+        S.trace.hit.push([hit.x, hit.y, t]); S.ev.push({ t, k: 'wall', sp: hit.sp, x: hit.x, y: hit.y, nx: hit.nx, ny: hit.ny });
+        S.h.forEach(h => { h.vx += (-hit.nx) * hit.sp * .25; h.vy += (-hit.ny) * hit.sp * .25; });
+        if (S.phase === 'impact') S.phase = 'collision';
+      }
+    }
+    /* the hands: limp springs on the body, thrown out by the blast, swinging back, coming to rest */
+    const cth = Math.cos(b.th), sth = Math.sin(b.th);
+    for (let i = 0; i < 2; i++) {
+      const h = S.h[i], side = i === 0 ? -1 : 1, nzx = S.nz[(i * 2) & 5](t * 1.1 + i * 3), nzy = S.nz[(i * 2 + 1) & 5](t * 1.3 + i * 5), tw = Math.exp(-t * 2.2);
+      const ox = side * 5 + nzx * 3 * tw + side * 11 * Math.exp(-t * 7), oy = 7 + nzy * 3 * tw, k = 90, z = .7;
+      h.off.x = ox; h.off.y = oy; h.k = k; h.z = z;
+      const lx = h.anc.x + ox, ly = h.anc.y + oy, wx = b.x + lx * cth - ly * sth, wy = b.y + lx * sth + ly * cth, bvx = b.vx - b.om * (wy - b.y), bvy = b.vy + b.om * (wx - b.x);
+      const cd = 2 * z * Math.sqrt(k);
+      h.vx += (k * (wx - h.x) - cd * (h.vx - bvx) - 1.1 * h.vx) * dt; h.vy += (k * (wy - h.y) - cd * (h.vy - bvy) - 1.1 * h.vy) * dt;
+      h.x += h.vx * dt; h.y += h.vy * dt;
+      const ddx = h.x - b.x, ddy = h.y - b.y, dd = hyp(ddx, ddy) || 1, mx = 40, mn = 13;
+      if (dd > mx) { const nx = ddx / dd, ny = ddy / dd; h.x = b.x + nx * mx; h.y = b.y + ny * mx; const vn = h.vx * nx + h.vy * ny - (b.vx * nx + b.vy * ny); if (vn > 0) { h.vx -= nx * vn; h.vy -= ny * vn; } }
+      else if (dd < mn) { h.x = b.x + ddx / dd * mn; h.y = b.y + ddy / dd * mn; }
+      collide(W, h, 5, .1, .6);
+    }
+    const eq = S.eq, ha = S.hat;
+    if (eq.has && !eq.held) freeBody(S, eq, 7, .38, 250, 2.3, dt, 'eq');
+    if (ha.has && !ha.on) freeBody(S, ha, 11, .3, 200, 2.6, dt, 'hat');
+    const cm = S.cam; cm.vx += (-cm.x * 260 - cm.vx * 21) * dt; cm.vy += (-cm.y * 260 - cm.vy * 21) * dt; cm.x += cm.vx * dt; cm.y += cm.vy * dt;
+    S.t += dt; S.stepN++;
+    if ((S.stepN & 7) === 0) {
+      const tr = S.trace; if (tr.b.length < 700) { tr.b.push([b.x, b.y]); tr.h0.push([S.h[0].x, S.h[0].y]); tr.h1.push([S.h[1].x, S.h[1].y]); if (eq.has) tr.eq.push([eq.x, eq.y]); }
+      const last = S.trail[S.trail.length - 1];
+      if (hyp(b.vx, b.vy) > 22 && (!last || hyp(last[0] - b.x, last[1] - b.y) > 9)) { S.trail.push([b.x, b.y]); if (S.trail.length > 60) S.trail.shift(); }
+    }
+    const moving = hyp(b.vx, b.vy) > 6 || Math.abs(b.om) > .25 || S.h.some(h => hyp(h.vx - b.vx, h.vy - b.vy) > 14) || (eq.has && eq.st !== 'SLEEPING') || (ha.has && ha.st !== 'SLEEPING') || Math.abs(b.sqv) > .3;
+    if (moving) S.calm = 0; else S.calm += dt;
+    S.state = S.calm > .5 && S.t > 1.2 ? 'SLEEPING' : S.calm > .12 ? 'SETTLING' : 'ACTIVE';
+    if (S.state === 'SLEEPING') { S.frozen = true; S.sleepAt = S.t; for (const o of [b, ...S.h, eq, ha]) { o.vx = 0; o.vy = 0; } b.om = 0; b.sqv = 0; S.ev.push({ t: S.t, k: 'sleep' }); }
+  }
+
   function advance(S, t) { let n = 0; while (S.t + DT <= t + 1e-9 && n < 4000) { stepOnce(S); n++; } return S; }
 
   /* everything the renderer wants, in the frames it wants it (hands in body space: the avatar draws them as children) */
@@ -420,9 +522,10 @@
 
   /* ---------- the death class (in the bundle) hands its frames to this ---------- */
   const hsh = (x, y, c) => { let h = 2166136261; for (const v of [Math.round(x), Math.round(y), c.charCodeAt(0)]) { h ^= v & 0xffff; h = Math.imul(h, 16777619); } return h >>> 0; };
-  const DURS = { Hound: { A: 4.5, B: 4.7, C: 4.3, D: 4.5 }, Smiler: { A: 3.95, B: 3.85, C: 3.95, D: 3.95 } };
+  const DURS = { Hound: { A: 4.5, B: 4.7, C: 4.3, D: 4.5 }, Smiler: { A: 3.95, B: 3.85, C: 3.95, D: 3.95 }, Boom: { A: 3.2 } };   // (Boom: Stage 3D HQ2; 400 blasts all over Level 0 sleep by 2.87 s at the latest: dev/stage-3d-hq2/boom_geo.js)
   /* called from Jl.start: builds the simulation for this death (or returns null and the old scripted death plays) */
   function begin(jl, plan, opt) {
+    if (jl.kind === 'Boom') return beginBoom(jl, plan, opt);                          // Stage 3D HQ2
     try {
       const Bc = window.__api && window.__api.Bc; if (!Bc) return null;
       // Stage 3D: the level's props block according to WORLD.mode (how low the mover is); a death always collides as the server's fallback
@@ -440,6 +543,17 @@
       const S = create({ kind, v, victim: { x: vic.x, y: vic.y, angle: vic.angle, vx: opt.vx || 0, vy: opt.vy || 0 }, src: { x: jl.source.x, y: jl.source.y }, dir: jl.angle,
         hits: jl.hits || [.24, .74, 1.2, 1.7], kn: jl.knock, drag: jl.drag, seed: hsh(vic.x, vic.y, v + kind), exhausted: !!opt.exhausted, eqKind: opt.eqKind || 'flashlight', hat, walls, dur: (DURS[kind] || DURS.Hound)[v] || 4.4 });
       return S;
+    } catch (e) { console.error('dphys', e); return null; }
+  }
+  /* Stage 3D HQ2: a NEW RUN blast on a screen - the replay of the server's own event: its seed and direction come with it (plan.s, plan.d),
+   * the walls are the level's in walk mode, as for every death */
+  function beginBoom(jl, plan, opt) {
+    try {
+      const Bc = window.__api && window.__api.Bc; if (!Bc || !plan || !Number.isFinite(plan.d)) return null;
+      const W0 = window.WORLD, walls = !W0 || !W0.setMode ? Bc : (x, y) => { const m = W0.mode; if (m === 'walk') return Bc(x, y); W0.setMode('walk'); try { return Bc(x, y); } finally { W0.setMode(m); } };
+      const vic = jl.victim; jl.knock = 0; jl.drag = 0;
+      return create({ kind: 'Boom', v: 'A', victim: { x: vic.x, y: vic.y, angle: vic.angle, vx: opt.vx || 0, vy: opt.vy || 0 }, src: { x: jl.source.x, y: jl.source.y }, dir: plan.d,
+        seed: (plan.s >>> 0) || 1, eqKind: opt.eqKind || 'flashlight', hat: opt.hat || 'none', walls, dur: DURS.Boom.A });
     } catch (e) { console.error('dphys', e); return null; }
   }
   /* the numbers of each death variant: how far the body is knocked (kn), dragged (dr), when the blows land (hits) and the bundle's timing knobs.
@@ -462,6 +576,11 @@
    * (the bundle's safeDistance: 4 px steps while a 22 px circle is clear), the same seed.  Used by the server when a victim's own client
    * never reports its corpse (it disconnected): the aftermath is this simulation's last frame, as it would have been on the victim's screen. */
   function prepare(o) {
+    if (o.kind === 'Boom') {                                                          // Stage 3D HQ2: the server's own run of a NEW RUN blast
+      const S = create({ kind: 'Boom', v: 'A', victim: { x: o.victim.x, y: o.victim.y, angle: o.victim.angle, vx: o.vx || 0, vy: o.vy || 0 }, src: { x: o.victim.x, y: o.victim.y }, dir: o.dir,
+        seed: (o.seed >>> 0) || 1, eqKind: o.eqKind || 'flashlight', hat: o.hat || 'none', walls: o.walls, dur: DURS.Boom.A });
+      return { S, kind: 'Boom', v: 'A', angle: o.dir, dur: DURS.Boom.A };
+    }
     const kind = o.kind === 'Smiler' ? 'Smiler' : 'Hound', v = /^[ABCD]$/.test(o.v) ? o.v : 'A', vic = o.victim, src = o.src;
     const wall = o.w && o.w.length === 3 ? { x: o.w[0], y: o.w[1], ang: o.w[2] } : null;
     const P = PLAN(kind, v, wall ? hyp(wall.x - vic.x, wall.y - vic.y) : 40), ang = Math.atan2(vic.y - src.y, vic.x - src.x);
@@ -594,5 +713,12 @@
 
   /* Stage 3D: with reduced motion (the settings' 'rm' class) the death's camera shake is a quarter as strong; the zoom is unchanged */
   window.__dcamK = () => (typeof document !== 'undefined' && document.documentElement.classList.contains('rm') ? .25 : 1);
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN, lightProfile, lightPower, releaseOf };
+  /* Stage 3D HQ2: a NEW RUN blast's seed and direction, chosen once by the server from the world's number and the event id (a hash, never
+   * a random draw), sent with the event; every screen and the server's own run use these two numbers */
+  function boomPlan(world, de) {
+    let h = 0x9747b28c;
+    for (const v of [world | 0, de | 0, 0xb00b]) { h = Math.imul(h ^ (v & 0xffff), 0x01000193) >>> 0; h = Math.imul(h ^ (v >>> 16), 0x01000193) >>> 0; h = (h ^ (h >>> 13)) >>> 0; h = Math.imul(h, 0x5bd1e995) >>> 0; h = (h ^ (h >>> 15)) >>> 0; }
+    return { s: h || 1, d: +(((h >>> 7) % 3600) / 3600 * TAU - PI).toFixed(4) };
+  }
+  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN, lightProfile, lightPower, releaseOf, boomPlan };
 })();

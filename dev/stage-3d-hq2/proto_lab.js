@@ -20,6 +20,14 @@
  *   nr_elig      E05/E08/R04: menu, another world, malformed and repeated press numbers, the dead legacy fx/b channels, a world reset
  *                that is nobody's NEW RUN (no answer, no cooldown, old-world presses refused), a just-killed player
  *   nr_held      E05: a player held in a real hound capture (capture style 'play') is refused (held) and stays held
+ * H2-2 (GREEN):
+ *   nr_boom        E01/E03/E04/E07: one blast event to the initiator, a spectator and a late joiner (with el); at the real position; the
+ *                  light profile; one identical Boom corpse everywhere; nobody else moved, hurt or corrected; no death message; no
+ *                  second blast inside the cooldown
+ *   nr_boom_lights E03: a light that was off, and a camcorder, carry no light profile
+ *   nr_boom_reset  R02 (server part): a world reset 0.6 s into a blast: its corpse never appears
+ *   nr_boom_again  E07: a second blast after the cooldown replaces the first's corpse, her next natural death replaces that, a world
+ *                  reset clears it (about 45 s)
  * Writes the raw observations, a short `measured` block per RED scenario and the `checks` of the GREEN ones. */
 'use strict';
 const fs = require('fs'), path = require('path'), { spawn } = require('child_process'), net = require('net');
@@ -204,7 +212,9 @@ async function nr_e02(port) {
   out.flood = { sent: 100, answers: fl.length, approvals: fl.filter(r => r.ok).length };
   check('E02 a flood of 100 intents inside the cooldown: bounded answers (one per 250 ms), all refused, nothing changes', fl.length <= 4 && !fl.some(r => r.ok) && srvPos(adm, A.id).a === 1 && seen(B, A.id, tf, now()) === 1, out.flood);
   await one(29.9);
-  check('E02 the refused presses sent nothing to the spectator (no fx, no corpse/light record)', B.fx.length === fx0 && B.bodies.length === bv0, { fx: B.fx.length - fx0, bodies: B.bodies.length - bv0 });
+  const aRecs = B.bodies.slice(bv0).flatMap(x => x.b.filter(q => q.k === A.id));
+  check('E02 the refused presses sent nothing to the spectator: no other replay, and no corpse or light record other than the approved NEW RUN\'s own (H2-2: its blast\'s corpse, event ' + (r1 && r1.de) + ')',
+    B.fx.length === fx0 && aRecs.every(q => q.c === 'Boom' && q.de === (r1 && r1.de)), { fx: B.fx.length - fx0, bodiesMessages: B.bodies.length - bv0, aliceRecords: aRecs.map(q => [q.c, q.de]) });
   await at(30.15); const rb = await press(A, ++q);
   out.boundary = rb;
   check('E02 at the 30 s boundary the next press is approved', rb && rb.ok === 1, rb);
@@ -281,6 +291,93 @@ async function nr_held(port) {
   V.close(); O.close(); adm.close(); return out;
 }
 
+/* ---------------------------------------------------------------- H2-2: the explosion as a server event (GREEN checks) */
+const boomsOf = (c, id) => c.fx.filter(f => f.k === 'boom' && f.id === id);
+const corpseOf = (c, id) => { for (let i = c.bodies.length - 1; i >= 0; i--) { const r = c.bodies[i].b.find(b => b.k === id); if (r) return r; } return null; };
+async function nr_boom(port) {
+  const rm = 'h22boom', adm = await room(port, rm), out = { room: rm }, check = checker(out);
+  const A = new Client(port, rm, 'ALICE', true), B = new Client(port, rm, 'BOB', true);
+  await joinAt(A, CORR.x0, CORR.y); await joinAt(B, CORR.x1, CORR.y); await hold([A, B], 600);
+  const bTp0 = B.tp.length, bPos0 = srvPos(adm, B.id);
+  const t0 = now(), r = await press(A, 1);
+  check('setup: approved', r && r.ok === 1, r);
+  await hold([B], 1000);
+  const C = new Client(port, rm, 'CAROL', true); await C.open; await sleep(400);                 // a late joiner, 1.4 s into the blast
+  await hold([B], 2400);
+  const fa = boomsOf(A, A.id), fb = boomsOf(B, A.id), fc = boomsOf(C, A.id);
+  out.fx = { alice: fa, bob: fb, carol: fc };
+  check('E01 one blast event: the initiator, the spectator and the late joiner each get exactly one boom replay, the same event (id, world, seed, direction, place)',
+    fa.length === 1 && fb.length === 1 && fc.length === 1 && [fa[0], fb[0], fc[0]].every(f => f.de === r.de && f.w === r.w && f.s === fa[0].s && f.d === fa[0].d && f.x === fa[0].x && f.y === fa[0].y),
+    { de: r.de, s: fa[0] && fa[0].s, d: fa[0] && fa[0].d, x: fa[0] && fa[0].x, y: fa[0] && fa[0].y });
+  check('E01 at the player\'s real position (where the server held her)', fa[0] && Math.abs(fa[0].x - CORR.x0) <= 1 && Math.abs(fa[0].y - CORR.y) <= 1, fa[0] && [fa[0].x, fa[0].y]);
+  check('E04 the late joiner\'s replay says how far it has run (el ~1.4 s)', fc[0] && fc[0].el > .9 && fc[0].el < 2.5, fc[0] && fc[0].el);
+  check('E03 the light was on: the replay carries the HQ1 light profile (hold 3-7 s, fade 1-2 s)', fa[0] && fa[0].lo === 1 && Array.isArray(fa[0].lf) && fa[0].lf[0] >= 3 && fa[0].lf[0] <= 7 && fa[0].lf[1] >= 1 && fa[0].lf[1] <= 2, fa[0] && fa[0].lf);
+  const ca = corpseOf(A, A.id), cb = corpseOf(B, A.id), cc = corpseOf(C, A.id);
+  out.corpse = { alice: ca, bob: cb, carol: cc };
+  check('E01 one authoritative corpse, cause Boom, the same record on every screen, with the event id and the light\'s failure (lf with its release)',
+    cb && cb.c === 'Boom' && cb.de === r.de && JSON.stringify(ca) === JSON.stringify(cb) && JSON.stringify(cc) === JSON.stringify(cb) && Array.isArray(cb.lf) && cb.lf.length === 4 && cb.lo === 1,
+    { corpse: cb });
+  const bPos1 = srvPos(adm, B.id);
+  check('no effect on anyone else: Bob was not moved, corrected, hurt or killed', B.tp.length === bTp0 && bPos0 && bPos1 && bPos0.x === bPos1.x && bPos0.y === bPos1.y && !bPos1.d && B.peerLog.every(q => !q.me),
+    { before: bPos0, after: bPos1, corrections: B.tp.length - bTp0 });
+  check('no death message for a NEW RUN', !A.fx.concat(B.fx, C.fx).some(f => f.k === 'death'), {});
+  const rr = await press(A, 2);
+  check('E07 inside its cooldown a second NEW RUN is refused and makes no second blast', rr && rr.ok === 0 && boomsOf(B, A.id).length === 1, rr);
+  A.close(); B.close(); C.close(); adm.close(); return out;
+}
+/* E03: a light that was OFF, and a camcorder, leave no light profile (OFF stays dark; a camcorder is not a white light) */
+async function nr_boom_lights(port) {
+  const rm = 'h22lights', adm = await room(port, rm), out = { room: rm }, check = checker(out);
+  const A = new Client(port, rm, 'OFF', true), K = new Client(port, rm, 'CAM', true), B = new Client(port, rm, 'BOB', true);
+  A.pos = function (x, y, a = 0) { this.x = x; this.y = y; this.send({ t: 'p', x: Math.round(x), y: Math.round(y), vx: 0, vy: 0, a, r: 0, l: 0, k: 'flashlight', n: this.name, c: '#ffe7b2', f: -1 }); };
+  K.pos = function (x, y, a = 0) { this.x = x; this.y = y; this.send({ t: 'p', x: Math.round(x), y: Math.round(y), vx: 0, vy: 0, a, r: 0, l: 1, k: 'camcorder', n: this.name, c: '#202020', f: -1 }); };
+  await joinAt(B, CORR.x1, CORR.y); await joinAt(A, CORR.x0, CORR.y); await joinAt(K, CORR.x0 + 200, CORR.y); await hold([A, B, K], 600);
+  const ra = await press(A, 1); await sleep(300); const rk = await press(K, 1);
+  await hold([B], 4000);
+  const fa = boomsOf(B, A.id)[0], fk = boomsOf(B, K.id)[0], ca = corpseOf(B, A.id), ck = corpseOf(B, K.id);
+  out.fx = { off: fa, camcorder: fk }; out.corpse = { off: ca, camcorder: ck };
+  check('E03 light OFF: the blast and the corpse say the light was off and carry no light profile', ra && ra.ok && fa && fa.lo === 0 && !fa.lf && ca && ca.lo === 0 && !ca.lf, { fx: fa && [fa.lo, fa.lf], corpse: ca && [ca.lo, ca.lf] });
+  check('E03 camcorder: no light profile (it is not a white light)', rk && rk.ok && fk && fk.ek === 'camcorder' && !fk.lf && ck && !ck.lf, { fx: fk && [fk.lo, fk.lf, fk.ek], corpse: ck && [ck.lo, ck.lf] });
+  A.close(); K.close(); B.close(); adm.close(); return out;
+}
+/* R02 (server part): an admin world reset while a blast is still playing: its corpse is never placed in the new world */
+async function nr_boom_reset(port) {
+  const rm = 'h22reset', adm = await room(port, rm), out = { room: rm }, check = checker(out);
+  const A = new Client(port, rm, 'ALICE', true), B = new Client(port, rm, 'BOB', true);
+  await joinAt(B, CORR.x1, CORR.y); await joinAt(A, CORR.x0, CORR.y); await hold([A, B], 600);
+  const r = await press(A, 1); await hold([B], 600);
+  adm.send({ t: 'a', c: 'world' }); await hold([B], 3500);
+  check('setup: approved and the blast began', r && r.ok && boomsOf(B, A.id).length === 1, r);
+  check('R02 the world was reset 0.6 s into the blast: no Boom corpse in the new world, on any screen', !corpseOf(B, A.id) && !corpseOf(A, A.id), { bob: corpseOf(B, A.id) });
+  A.close(); B.close(); adm.close(); return out;
+}
+
+/* E07: one corpse per player - a second blast after the cooldown replaces the first's corpse, a natural death replaces the blast's,
+ * a world reset clears it (about 45 s: the real 30 s cooldown) */
+async function nr_boom_again(port) {
+  const rm = 'h22again', adm = await room(port, rm), out = { room: rm }, check = checker(out);
+  const A = new Client(port, rm, 'ALICE', true), B = new Client(port, rm, 'BOB', true);
+  await joinAt(B, CORR.x1, CORR.y); await joinAt(A, CORR.x0, CORR.y); await hold([A, B], 600);
+  const recsOf = () => { const last = B.bodies[B.bodies.length - 1]; return last ? last.b.filter(q => q.k === A.id) : []; };
+  const r1 = await press(A, 1); await hold([B], 3800);
+  const c1 = recsOf();
+  check('setup: the first blast\'s corpse', r1 && r1.ok && c1.length === 1 && c1[0].c === 'Boom' && c1[0].de === r1.de, c1);
+  A.send({ t: 'join' }); await sleep(150); A.pos(CORR.x0, CORR.y); await hold([A, B], 600);
+  while (now() < r1.at + 30200) { A.pos(A.x, A.y); B.pos(B.x, B.y); await sleep(60); }
+  const r2 = await press(A, 2); await hold([B], 3800);
+  const c2 = recsOf();
+  check('E07 a second blast after the cooldown: its corpse replaces the first (one per player, no duplicate)', r2 && r2.ok && r2.de !== r1.de && c2.length === 1 && c2[0].c === 'Boom' && c2[0].de === r2.de, { r2, corpse: c2 });
+  A.send({ t: 'join' }); await sleep(150); A.pos(4200, 3504); await hold([A, B], 600);
+  A.send({ t: 'admin', pass: PASS, quiet: 1 }); await sleep(300);              // (only so the admin's death preview can be played on her)
+  for (let i = 0; i < 6; i++) adm.send({ t: 'a', c: 'hounds', mode: 'remove' }); await sleep(200);
+  A.send({ t: 'a', c: 'preview', k: 'hound', var: 'A' }); await hold([B], 5600);
+  const c3 = recsOf();
+  check('E07 her next natural death replaces the blast\'s corpse (one per player)', c3.length === 1 && c3[0].c === 'Hound', { corpse: c3 });
+  adm.send({ t: 'a', c: 'world' }); await hold([B], 900);
+  check('E07 a world reset clears it', recsOf().length === 0, { corpse: recsOf() });
+  A.close(); B.close(); adm.close(); return out;
+}
+
 (async () => {
   const port = +ARG.port || await freePort(), log = (ARG.out || 'proto_lab.json').replace(/\.json$/, '') + '.server.log';
   const srv = await startServer(port, log);
@@ -296,6 +393,10 @@ async function nr_held(port) {
       else if (s === 'nr_e02') res.scenarios[s] = await nr_e02(port);
       else if (s === 'nr_elig') res.scenarios[s] = await nr_elig(port);
       else if (s === 'nr_held') res.scenarios[s] = await nr_held(port);
+      else if (s === 'nr_boom') res.scenarios[s] = await nr_boom(port);
+      else if (s === 'nr_boom_lights') res.scenarios[s] = await nr_boom_lights(port);
+      else if (s === 'nr_boom_reset') res.scenarios[s] = await nr_boom_reset(port);
+      else if (s === 'nr_boom_again') res.scenarios[s] = await nr_boom_again(port);
       await sleep(400);
     }
   } finally { srv.kill('SIGTERM'); }
