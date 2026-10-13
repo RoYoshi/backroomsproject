@@ -1,0 +1,397 @@
+{
+ "tool": "dev/stage-3d-hq2/contract_hq2.js",
+ "fieldOrder": {
+  "fx": [
+   "t",
+   "k",
+   "id",
+   "c",
+   "x",
+   "y",
+   "a",
+   "sx",
+   "sy",
+   "v",
+   "w",
+   "lk",
+   "ek",
+   "ec",
+   "ep",
+   "vx",
+   "vy",
+   "ex",
+   "srv",
+   "de",
+   "wn",
+   "lo",
+   "lf",
+   "el"
+  ],
+  "s": [
+   "t",
+   "p",
+   "e",
+   "me",
+   "ms",
+   "cp",
+   "w",
+   "mk",
+   "ad",
+   "you",
+   "dbg",
+   "dx"
+  ],
+  "bodies": [
+   "t",
+   "v",
+   "w",
+   "b"
+  ]
+ },
+ "additions": {
+  "fx": [
+   [
+    "de",
+    "death id",
+    "optional"
+   ],
+   [
+    "lo",
+    "the light was on",
+    "optional"
+   ],
+   [
+    "lf",
+    "HQ1: how the light fails",
+    "optional"
+   ],
+   [
+    "el",
+    "seconds already run (late joiner)",
+    "optional"
+   ],
+   [
+    "wn",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "fx:boom": [
+   [
+    "t"
+   ],
+   [
+    "k",
+    "boom"
+   ],
+   [
+    "id"
+   ],
+   [
+    "x"
+   ],
+   [
+    "y"
+   ],
+   [
+    "a"
+   ],
+   [
+    "d",
+    "direction"
+   ],
+   [
+    "s",
+    "seed"
+   ],
+   [
+    "lk"
+   ],
+   [
+    "ek"
+   ],
+   [
+    "ec"
+   ],
+   [
+    "ep"
+   ],
+   [
+    "vx"
+   ],
+   [
+    "vy"
+   ],
+   [
+    "srv"
+   ],
+   [
+    "de"
+   ],
+   [
+    "wn"
+   ],
+   [
+    "lo"
+   ],
+   [
+    "lf",
+    null,
+    "optional"
+   ],
+   [
+    "el",
+    null,
+    "optional"
+   ]
+  ],
+  "fx:end": [
+   [
+    "t",
+    "type"
+   ],
+   [
+    "k",
+    "end"
+   ],
+   [
+    "id",
+    "victim id"
+   ],
+   [
+    "de",
+    "death id"
+   ],
+   [
+    "wn",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "s": [
+   [
+    "w",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "bodies": [
+   [
+    "w",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "tp": [
+   [
+    "pc",
+    "HQ2: a soft peer correction",
+    "optional"
+   ]
+  ],
+  "nra": [
+   [
+    "t"
+   ],
+   [
+    "q"
+   ],
+   [
+    "ok"
+   ],
+   [
+    "why",
+    null,
+    "optional"
+   ],
+   [
+    "wait",
+    null,
+    "optional"
+   ],
+   [
+    "de",
+    null,
+    "optional"
+   ],
+   [
+    "w",
+    null,
+    "optional"
+   ]
+  ],
+  "world": [
+   [
+    "t"
+   ],
+   [
+    "w"
+   ],
+   [
+    "x",
+    null,
+    "optional"
+   ],
+   [
+    "y",
+    null,
+    "optional"
+   ]
+  ],
+  "nr": [
+   [
+    "t"
+   ],
+   [
+    "q"
+   ],
+   [
+    "w"
+   ]
+  ]
+ },
+ "removedClientMessages": [
+  "fx",
+  "b"
+ ],
+ "counts": {
+  "serverToClient": {
+   "hi": 5,
+   "admin": 2,
+   "bodies": 22,
+   "s": 1859,
+   "ares": 87,
+   "tp": 8,
+   "nra": 2,
+   "fx:boom": 4,
+   "fx:death": 8,
+   "world": 5,
+   "fx:end": 5
+  },
+  "clientToServer": {
+   "nr": 2
+  }
+ },
+ "violations": 21,
+ "firstViolations": [
+  {
+   "where": "raw ADMIN",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "raw ADMIN",
+   "why": "required field missing",
+   "t": "fx",
+   "k": "wn"
+  },
+  {
+   "where": "raw ALICE",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "raw ALICE",
+   "why": "required field missing",
+   "t": "fx",
+   "k": "wn"
+  },
+  {
+   "where": "raw BOB",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "raw BOB",
+   "why": "required field missing",
+   "t": "fx",
+   "k": "wn"
+  },
+  {
+   "where": "raw CAROL",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "raw CAROL",
+   "why": "required field missing",
+   "t": "fx",
+   "k": "wn"
+  },
+  {
+   "where": "raw ADMIN",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "raw ALICE",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "raw BOB",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "raw CAROL",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "raw ADMIN",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "raw ALICE",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "raw BOB",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "raw CAROL",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "raw ADMIN",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "raw ALICE",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "raw BOB",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "raw CAROL",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "raw VIC",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  }
+ ],
+ "ok": false
+}

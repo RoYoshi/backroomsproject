@@ -1,0 +1,103 @@
+{
+ "tool": "dev/stage-3d/perf_death_srv.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base",
+ "node": "v22.22.2",
+ "reps": 30,
+ "bodyFor": {
+  "Hound A": {
+   "medianMs": 11.925,
+   "maxMs": 24.193
+  },
+  "Hound B": {
+   "medianMs": 9.185,
+   "maxMs": 18.741
+  },
+  "Hound C": {
+   "medianMs": 7.074,
+   "maxMs": 10.387
+  },
+  "Hound D": {
+   "medianMs": 7.377,
+   "maxMs": 18.274
+  },
+  "Smiler A": {
+   "medianMs": 8.666,
+   "maxMs": 23.275
+  },
+  "Smiler B": {
+   "medianMs": 5.56,
+   "maxMs": 8.591
+  },
+  "Smiler C": {
+   "medianMs": 7.643,
+   "maxMs": 12.968
+  },
+  "Smiler D": {
+   "medianMs": 4.706,
+   "maxMs": 15.664
+  }
+ },
+ "step": {
+  "noCorpses": {
+   "medianMs": 0.0003,
+   "p95Ms": 0.0007
+  },
+  "corpses24": {
+   "medianMs": 0.0003,
+   "p95Ms": 0.0005
+  }
+ },
+ "bodiesMsg": {
+  "corpses": 24,
+  "bytes": 8607,
+  "bytesPerCorpse": 359
+ },
+ "memory": {
+  "heapBeforeMB": 6.41,
+  "heapAfter500MB": 12.9,
+  "bodiesKept": 24,
+  "gcExposed": false
+ },
+ "incremental": {
+  "Hound A": {
+   "largestTickMedianMs": 0.155,
+   "largestTickMaxMs": 0.719,
+   "totalMedianMs": 3.382
+  },
+  "Hound B": {
+   "largestTickMedianMs": 0.229,
+   "largestTickMaxMs": 1.805,
+   "totalMedianMs": 3.284
+  },
+  "Hound C": {
+   "largestTickMedianMs": 0.104,
+   "largestTickMaxMs": 0.717,
+   "totalMedianMs": 2.754
+  },
+  "Hound D": {
+   "largestTickMedianMs": 0.124,
+   "largestTickMaxMs": 0.6,
+   "totalMedianMs": 2.807
+  },
+  "Smiler A": {
+   "largestTickMedianMs": 0.122,
+   "largestTickMaxMs": 0.748,
+   "totalMedianMs": 3.849
+  },
+  "Smiler B": {
+   "largestTickMedianMs": 0.086,
+   "largestTickMaxMs": 0.52,
+   "totalMedianMs": 1.947
+  },
+  "Smiler C": {
+   "largestTickMedianMs": 0.087,
+   "largestTickMaxMs": 0.622,
+   "totalMedianMs": 2.729
+  },
+  "Smiler D": {
+   "largestTickMedianMs": 0.099,
+   "largestTickMaxMs": 1.999,
+   "totalMedianMs": 2.732
+  }
+ }
+}

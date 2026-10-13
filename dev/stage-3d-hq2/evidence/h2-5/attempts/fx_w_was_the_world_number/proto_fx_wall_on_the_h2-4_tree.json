@@ -1,0 +1,97 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/home/claude/backrooms-shadows",
+ "gitHead": "99e15931793b6f8b7f434321d050fc6a2ff7155d",
+ "startedAt": "2026-10-13T06:09:27.198Z",
+ "scenarios": {
+  "fx_wall": {
+   "room": "h25wall",
+   "tries": [
+    {
+     "name": "WALL0",
+     "v": "C",
+     "spot": [
+      3800,
+      3684,
+      5.497787143782138
+     ],
+     "answer": "PLAYING HOUND C",
+     "fx": {
+      "v": "C",
+      "w": 2
+     }
+    },
+    {
+     "name": "OPEN",
+     "v": "A",
+     "spot": [
+      4330,
+      3450,
+      0
+     ],
+     "answer": "PLAYING HOUND A",
+     "fx": {
+      "v": "A",
+      "w": 2
+     }
+    }
+   ],
+   "checks": [
+    {
+     "name": "setup: a Hound C wall death and a Hound A death were played (the admin preview, the real kill path)",
+     "ok": true,
+     "info": [
+      {
+       "name": "WALL0",
+       "v": "C",
+       "spot": [
+        3800,
+        3684,
+        5.497787143782138
+       ],
+       "answer": "PLAYING HOUND C",
+       "fx": {
+        "v": "C",
+        "w": 2
+       }
+      },
+      {
+       "name": "OPEN",
+       "v": "A",
+       "spot": [
+        4330,
+        3450,
+        0
+       ],
+       "answer": "PLAYING HOUND A",
+       "fx": {
+        "v": "A",
+        "w": 2
+       }
+      }
+     ]
+    },
+    {
+     "name": "regression (H2-5): a Hound C replay carries its wall in w ([x, y, angle], as in HQ1) and the world's number in wn",
+     "ok": false,
+     "info": {
+      "v": "C",
+      "w": 2,
+      "world": 2
+     }
+    },
+    {
+     "name": "...and a Hound A replay has w 0 (no wall), and wn",
+     "ok": false,
+     "info": {
+      "v": "A",
+      "w": 2
+     }
+    }
+   ]
+  }
+ },
+ "ok": false,
+ "passed": 1,
+ "total": 3
+}

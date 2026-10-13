@@ -1,0 +1,4 @@
+PASS fx_wall: setup: a Hound C wall death and a Hound A death were played (the admin preview, the real kill path)  [{"name":"WALL0","v":"C","spot":[3800,3684,5.497787143782138],"answer":"PLAYING HOUND C","fx":{"v":"C","w":2}},{"name":"OPEN","v":"A","spot":[4330,3450,0],"answer":"PLAYING HOUND A","fx":{"v":"A","w":2}}]
+FAIL fx_wall: regression (H2-5): a Hound C replay carries its wall in w ([x, y, angle], as in HQ1) and the world's number in wn  {"v":"C","w":2,"world":2}
+FAIL fx_wall: ...and a Hound A replay has w 0 (no wall), and wn  {"v":"A","w":2}
+1/3 checks passed

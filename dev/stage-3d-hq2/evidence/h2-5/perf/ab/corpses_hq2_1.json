@@ -1,0 +1,59 @@
+{
+ "tool": "dev/stage-3d/perf_death.py",
+ "game": ".",
+ "lighting": "default",
+ "rounds": [
+  {
+   "corpses20_onscreen": [
+    {
+     "secs": 5.0,
+     "frames": 8,
+     "fps": 1.6,
+     "frameMedianMs": 733.25,
+     "frameP95Ms": 750,
+     "frameMaxMs": 1833.4,
+     "scriptMsPerSec": 91.8,
+     "taskMsPerSec": 997.3,
+     "heapMB": 66.47
+    },
+    {
+     "secs": 4.93,
+     "frames": 8,
+     "fps": 1.6,
+     "frameMedianMs": 708.35,
+     "frameP95Ms": 733.4,
+     "frameMaxMs": 749.9,
+     "scriptMsPerSec": 105.1,
+     "taskMsPerSec": 997.4,
+     "heapMB": 92.99
+    }
+   ],
+   "corpses20_offscreen": [
+    {
+     "secs": 5.0,
+     "frames": 8,
+     "fps": 1.6,
+     "frameMedianMs": 716.6,
+     "frameP95Ms": 783.4,
+     "frameMaxMs": 850,
+     "scriptMsPerSec": 106.9,
+     "taskMsPerSec": 996.1,
+     "heapMB": 66.2
+    },
+    {
+     "secs": 5.13,
+     "frames": 8,
+     "fps": 1.6,
+     "frameMedianMs": 733.25,
+     "frameP95Ms": 783.3,
+     "frameMaxMs": 883.4,
+     "scriptMsPerSec": 97.1,
+     "taskMsPerSec": 994.7,
+     "heapMB": 66.26
+    }
+   ]
+  }
+ ],
+ "note": "SwiftShader software rendering, 2 CPUs: compare versions on the same machine only",
+ "errors": []
+}

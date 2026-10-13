@@ -8,8 +8,8 @@
  * corrections), and each blasted player joins again.  After every blast's corpse is placed: the server's JS heap after a forced garbage
  * collection (V8 HeapProfiler.collectGarbage, then Runtime.getHeapUsage) and its RSS.  The first eight events warm up; the least-squares
  * slope of the heap over the rest is the leak measure (MB per event).  The gate (STAGE_3D_HQ2_AUDIT.md section 5): <= 0.01 MB per event.
- * Also checked: every press approved, every blast's corpse on the server, one corpse per player at the end (never more), and no
- * per-player collision state left for players who have gone (the server's own counters only). */
+ * Also checked: every press approved, every blast's corpse on the server, one corpse per player at the end (never more), no server error.
+ * (Per-player collision state is not measured here: server/peers.js keeps none, and a player's counters live on its connection.) */
 'use strict';
 const { spawn, execFileSync } = require('child_process');
 const path = require('path'), fs = require('fs'), net = require('net'), http = require('http');

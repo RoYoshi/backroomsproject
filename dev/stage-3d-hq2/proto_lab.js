@@ -48,6 +48,21 @@
  *                connection gets one world message (the next world; with where it now stands if it is in a run, the same as its tp),
  *                then the death's end; the dead one is alive again on its own spot; nothing sent afterwards names the old world (the
  *                corpse list neither); a connection opened afterwards hears nothing of it; nobody's NEW RUN is answered, nothing explodes
+ * H2-5 (GREEN): the races, a crowd of blasts, abuse, a chase
+ *   nr_abort     E04: the connection drops with the intent in flight, right after the approval, 1.5 s into the blast, and a reconnect
+ *                during the blast: each NEW RUN is all or nothing (one blast and one corpse on the spectator's screen, or neither); a
+ *                late joiner after it gets the corpse and no replay; the reconnect (a new player, D4) sees its old blast as a late
+ *                joiner does and has a fresh cooldown
+ *   nr_race      E05: a kill and a NEW RUN in the same server wake, both orders (one event, one corpse); a natural death, then END (to the
+ *                menu) or RESPAWN: no blast, the cooldown untouched, one corpse per player
+ *   nr_many      four NEW RUNs in the same wake (four approvals, four blasts, four corpses everywhere; nobody else moved); the cooldown is
+ *                each player's own; a room next door sees none of it
+ *   abuse        packet abuse: 1,500 hostile messages (every type, wrong field types, huge and non-finite numbers, garbage, oversize
+ *                and binary frames, an ordinary player's admin commands) from one player standing against another; the server keeps
+ *                time, nobody else is touched, nothing explodes, dies or resets, the abuser never gets into a wall or into him
+ *   col_chase    C09: what the AI hears while a player presses into another (the movement the server accepted: still at contact; never
+ *                a sprint); a hound hunting a player who is pressed against another: no wall or body crossed, the other never moved, one death
+ *   fx_wall      a regression found at H2-5: a death replay's w is its wall (the Hound C wall; 0 otherwise), the world's number is wn
  * Writes the raw observations, a short `measured` block per RED scenario and the `checks` of the GREEN ones. */
 'use strict';
 const fs = require('fs'), path = require('path'), { spawn } = require('child_process'), net = require('net');
@@ -83,7 +98,7 @@ class Client {
       else if (m.t === 's') {
         if (m.w != null) this.w = m.w; this.last = m;
         if (this.rec) this.peerLog.push({ t, p: (m.p || []).map(p => ({ id: p.id, x: p.x, y: p.y, d: p.d })), me: m.me || '' });
-        if (m.ad) { this.ad = m.ad; this.adLog.push({ t, pl: m.ad.pl.map(p => ({ id: p.id, a: p.a, d: p.d, x: p.x, y: p.y })) }); }
+        if (m.ad) { this.ad = m.ad; this.adLog.push({ t, pl: m.ad.pl.map(p => ({ id: p.id, a: p.a, d: p.d, x: p.x, y: p.y, st: p.st })) }); }   // (st: H2-5, the gait the AI hears)
       } else if (m.t !== 'pong') this.extra.push(Object.assign({ at: t }, m));
     };
   }
@@ -271,7 +286,7 @@ async function nr_elig(port) {
   const w0 = C.w, na = [A.nra.length, B.nra.length, C.nra.length];
   adm.send({ t: 'a', c: 'world' }); await hold([A, B, C], 1200);
   check('R04 an admin world reset sends no NEW RUN answer to anyone and explodes nobody (no replay; H2-4: only the end of the blast still playing from the approval above)', A.nra.length === na[0] && B.nra.length === na[1] && C.nra.length === na[2] && !C.fx.some(f => f.at > now() - 1500 && f.k !== 'end'),
-    { w0, w1: C.w, fx: C.fx.filter(f => f.at > now() - 1500).map(f => [f.k, f.de, f.w]) });
+    { w0, w1: C.w, fx: C.fx.filter(f => f.at > now() - 1500).map(f => [f.k, f.de, f.wn]) });
   const rc = await press(C, 1);
   check('R04 the reset did not start anyone\'s cooldown: Carol\'s first NEW RUN after it is approved', rc && rc.ok === 1, rc);
   const stale = await press(B, 1, w0);
@@ -329,7 +344,7 @@ async function nr_boom(port) {
   const fa = boomsOf(A, A.id), fb = boomsOf(B, A.id), fc = boomsOf(C, A.id);
   out.fx = { alice: fa, bob: fb, carol: fc };
   check('E01 one blast event: the initiator, the spectator and the late joiner each get exactly one boom replay, the same event (id, world, seed, direction, place)',
-    fa.length === 1 && fb.length === 1 && fc.length === 1 && [fa[0], fb[0], fc[0]].every(f => f.de === r.de && f.w === r.w && f.s === fa[0].s && f.d === fa[0].d && f.x === fa[0].x && f.y === fa[0].y),
+    fa.length === 1 && fb.length === 1 && fc.length === 1 && [fa[0], fb[0], fc[0]].every(f => f.de === r.de && f.wn === r.w && f.s === fa[0].s && f.d === fa[0].d && f.x === fa[0].x && f.y === fa[0].y),
     { de: r.de, s: fa[0] && fa[0].s, d: fa[0] && fa[0].d, x: fa[0] && fa[0].x, y: fa[0] && fa[0].y });
   check('E01 at the player\'s real position (where the server held her)', fa[0] && Math.abs(fa[0].x - CORR.x0) <= 1 && Math.abs(fa[0].y - CORR.y) <= 1, fa[0] && [fa[0].x, fa[0].y]);
   check('E04 the late joiner\'s replay says how far it has run (el ~1.4 s)', fc[0] && fc[0].el > .9 && fc[0].el < 2.5, fc[0] && fc[0].el);
@@ -745,19 +760,249 @@ async function world_msgs(port) {
   check('R01 a player in a run is told where it now stands (x, y), the same spot as its tp; one in the menu is not', wa[0] && Number.isFinite(wa[0].x) && ta.some(q => q.x === wa[0].x && q.y === wa[0].y) && wv[0] && Number.isFinite(wv[0].x) && tv.some(q => q.x === wv[0].x && q.y === wv[0].y) && wm[0] && wm[0].x == null,
     { alice: wa[0], aliceTp: ta, vic: wv[0], vicTp: tv, menu: wm[0] });
   const ea = A.fx.slice(fx0.A).filter(f => f.k === 'end'), em = M.fx.slice(fx0.M).filter(f => f.k === 'end');
-  check('R01 then the end of the death in progress (its id), to the others; with the new world\'s number', deFx && ea.some(f => f.de === deFx.de && f.w === w0 + 1) && em.some(f => f.de === deFx.de), { alice: ea, menu: em });
+  check('R01 then the end of the death in progress (its id), to the others; with the new world\'s number', deFx && ea.some(f => f.de === deFx.de && f.wn === w0 + 1) && em.some(f => f.de === deFx.de), { alice: ea, menu: em });
   const sv = srvPos(adm, V.id);
   check('R01 the dead player is alive again, in a run, on the spot he was told', sv && sv.a === 1 && !sv.d && wv[0] && Math.abs(sv.x - wv[0].x) <= 1 && Math.abs(sv.y - wv[0].y) <= 1, { server: sv, told: wv[0] });
-  const oldAfter = [A, V, M].flatMap(c => c.fx.filter(f => f.at >= tR && f.w != null && f.w <= w0).map(f => [c.name, f.k, f.de, f.w])).concat(A.bodies.slice(b0).filter(b => b.w != null && b.w <= w0).map(b => ['ALICE', 'bodies', b.v, b.w]));
+  const oldAfter = [A, V, M].flatMap(c => c.fx.filter(f => f.at >= tR && f.wn != null && f.wn <= w0).map(f => [c.name, f.k, f.de, f.wn])).concat(A.bodies.slice(b0).filter(b => b.w != null && b.w <= w0).map(b => ['ALICE', 'bodies', b.v, b.w]));
   const bodyAfter = A.bodies.slice(b0);
   check('R01 nothing sent after the reset names the old world: no death or blast replay, and the corpse list says the new world and holds no corpse of Vic', !oldAfter.length && bodyAfter.length >= 1 && bodyAfter.every(b => b.w === w0 + 1 && !b.b.some(r => r.k === V.id)), { old: oldAfter, bodies: bodyAfter.map(b => ({ w: b.w, n: b.b.length })) });
-  check('R03 a connection opened after the reset hears nothing of the old death: no replay, no corpse, nothing naming the old world', !L.fx.some(f => f.k === 'death' || f.k === 'boom') && !L.bodies.some(b => b.w != null && b.w <= w0) && !L.bodies.some(b => b.b.some(r => r.k === V.id)) && L.w === w0 + 1, { fx: L.fx.map(f => [f.k, f.de, f.w]), bodies: L.bodies.map(b => [b.w, b.b.length]), w: L.w });
+  check('R03 a connection opened after the reset hears nothing of the old death: no replay, no corpse, nothing naming the old world', !L.fx.some(f => f.k === 'death' || f.k === 'boom') && !L.bodies.some(b => b.w != null && b.w <= w0) && !L.bodies.some(b => b.b.some(r => r.k === V.id)) && L.w === w0 + 1, { fx: L.fx.map(f => [f.k, f.de, f.wn]), bodies: L.bodies.map(b => [b.w, b.b.length]), w: L.w });
   check('R04 the reset answers nobody\'s NEW RUN and explodes nobody', A.nra.length + V.nra.length + M.nra.length === nra0 && ![A, V, M, L].some(c => c.fx.some(f => f.k === 'boom')), { nra: A.nra.length + V.nra.length + M.nra.length - nra0 });
   A.close(); V.close(); M.close(); L.close(); adm.close(); return out;
 }
 
+/* ---------------------------------------------------------------- H2-5: races, a crowd of blasts, abuse, a chase (GREEN checks) */
+let LOG = null, GEO = null;
+const geo = () => GEO || (GEO = require(path.join(GAME, 'sim.js'))({ seed: 5 }));   // Level 0's walls (the same in every world)
+const wallOk = (x, y) => geo().moveOk(x, y, x, y, 0);                    // the server's own end-point test (sim.moveRoute: clear at radius 4, 'any' mode)
+const deathsOf = (c, id) => c.fx.filter(f => f.k === 'death' && f.id === id);
+const corpsesNow = (c, id) => { const last = c.bodies[c.bodies.length - 1]; return last ? last.b.filter(q => q.k === id).length : 0; };
+const approvedInLog = id => { try { return fs.readFileSync(LOG, 'utf8').split('\n').filter(l => l.includes(`#${id} de=`) && l.includes('approved')).length; } catch (e) { return null; } };
+function mulberry(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+/* E04: the connection drops at every moment of a NEW RUN; a reconnect during the blast */
+async function nr_abort(port) {
+  const rm = 'h25abort', adm = await room(port, rm, true), out = { room: rm, cases: {} }, check = checker(out);
+  const B = new Client(port, rm, 'BOB', true); await joinAt(B, HALL.x + 220, HALL.y); adm.send({ t: 'a', c: 'god', id: B.id }); await hold([B], 300);
+  const spots = { intent: [HALL.x - 140, HALL.y - 70], ack: [HALL.x - 140, HALL.y + 70], mid: [HALL.x, HALL.y - 130], rejoin: [HALL.x, HALL.y + 130] };
+  const label = { intent: 'the connection closes with the intent in flight (no answer ever read)', ack: 'it closes the moment the approval arrives', mid: 'it closes 1.5 s into the blast', rejoin: 'it closes 0.5 s into the blast and reconnects 0.3 s later' };
+  for (const k of ['intent', 'ack', 'mid', 'rejoin']) {
+    const A = new Client(port, rm, 'A_' + k, true); await joinAt(A, spots[k][0], spots[k][1]); await hold([A, B], 500);
+    const id = A.id, t0 = now(), C = {}; let R = null, A2 = null;
+    if (k === 'intent') { A.send({ t: 'nr', q: 1, w: A.w }); A.close(); }
+    else { R = await press(A, 1); if (k === 'ack') A.close(); else { await hold([B], k === 'mid' ? 1500 : 500); A.close(); } }
+    if (k === 'rejoin') { await sleep(300); A2 = new Client(port, rm, 'A_again', true); await A2.open; }
+    await hold([B], 4300);
+    const L = new Client(port, rm, 'LATE_' + k, true); await L.open; await sleep(900);
+    const bb = boomsOf(B, id), bc = corpseOf(B, id), lc = corpseOf(L, id), gone = seen(B, id, t0 + 400, now());
+    Object.assign(C, { answerRead: R, approvedInServerLog: approvedInLog(id), spectator: { booms: bb.map(f => ({ de: f.de, el: f.el })), corpse: bc, sawHerAliveAfter: gone }, late: { booms: boomsOf(L, id).length, corpse: lc } });
+    check(`E04 ${label[k]}: all or nothing - one blast and one Boom corpse of the same event on the spectator's screen (or neither); she is out of the world`,
+      ((bb.length === 1 && bc && bc.c === 'Boom' && bc.de === bb[0].de) || (!bb.length && !bc)) && gone === 0 && (!R || (R.ok === 1 && bb.length === 1 && bb[0].de === R.de)), C);
+    check(`E04 ${label[k]}: a late joiner after the blast gets that corpse (the same record) and no replay`, bc ? !!lc && JSON.stringify(lc) === JSON.stringify(bc) && boomsOf(L, id).length === 0 : !lc, C.late);
+    if (k === 'rejoin') {
+      const ab = boomsOf(A2, id), ac = corpseOf(A2, id);
+      C.reconnect = { booms: ab.map(f => ({ de: f.de, el: f.el })), corpse: ac };
+      check('E04 the reconnect (a new connection while her blast plays) gets that blast once, as a late joiner does (with how far it has run), then the same corpse', ab.length === 1 && ab[0].el > .3 && !!ac && JSON.stringify(ac) === JSON.stringify(bc), C.reconnect);
+      await joinAt(A2, HALL.x + 60, HALL.y + 200); await hold([A2, B], 300); const r2 = await press(A2, 1);
+      C.reconnectPress = { oldId: id, newId: A2.id, answer: r2 };
+      check('E04 / D4 the reconnect is a new player (no accounts): a new id, and its first NEW RUN is approved (a fresh cooldown, as decided at H2-0; recorded for human QA)', A2.id !== id && r2 && r2.ok === 1, C.reconnectPress);
+      await hold([B], 3800); A2.close();
+    }
+    out.cases[k] = C; L.close(); await sleep(300);
+  }
+  B.close(); adm.close(); return out;
+}
+
+/* E05: a kill and a NEW RUN in the same server wake; END and RESPAWN after a natural death */
+async function nr_race(port) {
+  const rm = 'h25race', adm = await room(port, rm, true), out = { room: rm }, check = checker(out);
+  const B = new Client(port, rm, 'BOB', true); await joinAt(B, HALL.x + 220, HALL.y); adm.send({ t: 'a', c: 'god', id: B.id }); await hold([B], 300);
+  const clearM = async () => { for (let i = 0; i < 6; i++) adm.send({ t: 'a', c: 'hounds', mode: 'remove' }); for (let i = 0; i < 8; i++) adm.send({ t: 'a', c: 'smilers', mode: 'remove' }); await sleep(200); };
+  const victim = async (name, x, y) => { const V = new Client(port, rm, name, true); await joinAt(V, x, y); V.send({ t: 'admin', pass: PASS, quiet: 1 }); await sleep(300); await clearM(); await hold([V, B], 300); return V; };   // (admin only so the death preview can be played on it; NEW RUN does not look at admin rights)
+  const V1 = await victim('KILLFIRST', HALL.x - 140, HALL.y - 60);
+  V1.send({ t: 'a', c: 'preview', k: 'hound', var: 'A' }); V1.send({ t: 'nr', q: 1, w: V1.w });
+  const a1 = await until(1500, () => V1.nra[0]); await until(9000, () => corpseOf(B, V1.id)); await hold([B], 500);
+  out.killFirst = { answer: a1, deaths: deathsOf(B, V1.id).map(f => f.de), booms: boomsOf(B, V1.id).length, corpse: corpseOf(B, V1.id), corpses: corpsesNow(B, V1.id) };
+  check('E05 a kill and then a NEW RUN in the same burst: the NEW RUN is refused (dead); one death replay, no blast, one corpse (Hound)',
+    a1 && a1.ok === 0 && a1.why === 'dead' && out.killFirst.deaths.length === 1 && out.killFirst.booms === 0 && out.killFirst.corpse && out.killFirst.corpse.c === 'Hound' && out.killFirst.corpses === 1, out.killFirst);
+  const V2 = await victim('NRFIRST', HALL.x - 140, HALL.y + 60); const x0 = V2.extra.length;
+  V2.send({ t: 'nr', q: 1, w: V2.w }); V2.send({ t: 'a', c: 'preview', k: 'hound', var: 'A' });
+  const a2 = await until(1500, () => V2.nra[0]); await until(6000, () => corpseOf(B, V2.id)); await hold([B], 800);
+  const ares = V2.extra.slice(x0).filter(m => m.t === 'ares');
+  out.nrFirst = { answer: a2, previewAnswer: ares, deaths: deathsOf(B, V2.id).length, booms: boomsOf(B, V2.id).map(f => f.de), corpse: corpseOf(B, V2.id), corpses: corpsesNow(B, V2.id) };
+  check('E05 a NEW RUN and then a kill in the same burst: the NEW RUN is approved and the kill finds nobody in the halls; one blast, no death replay, one corpse (Boom)',
+    a2 && a2.ok === 1 && ares.some(m => m.ok === false) && out.nrFirst.deaths === 0 && out.nrFirst.booms.length === 1 && out.nrFirst.booms[0] === a2.de && out.nrFirst.corpse && out.nrFirst.corpse.c === 'Boom' && out.nrFirst.corpses === 1, out.nrFirst);
+  for (const [name, how, x, y] of [['ENDER', 'leave', HALL.x, HALL.y - 130], ['RESPAWNER', 'respawn', HALL.x, HALL.y + 130]]) {
+    const V = await victim(name, x, y), o = out[name] = {};
+    V.send({ t: 'a', c: 'preview', k: 'hound', var: 'A' }); await until(9000, () => corpseOf(B, V.id)); await hold([B], 300); await clearM();
+    if (how === 'leave') { V.send({ t: 'leave' }); await sleep(300); o.afterEnd = srvPos(adm, V.id); V.send({ t: 'join' }); }
+    else V.send({ t: 'respawn' });
+    await sleep(150); V.pos(x, y); await hold([V, B], 700);
+    const mid = o.beforePress = { booms: boomsOf(B, V.id).length, deaths: deathsOf(B, V.id).length, corpses: corpsesNow(B, V.id), server: srvPos(adm, V.id), nra: V.nra.length };
+    const r = await press(V, 1); await until(5000, () => (corpseOf(B, V.id) || {}).c === 'Boom'); await hold([B], 400);
+    o.press = r; o.after = { booms: boomsOf(B, V.id).length, corpses: corpsesNow(B, V.id), corpse: corpseOf(B, V.id) };
+    check(`E05 a natural death, then ${how === 'leave' ? 'END (to the menu) and a new run' : 'RESPAWN'}: no blast, no NEW RUN answer, one corpse; back in the world`,
+      mid.booms === 0 && mid.deaths === 1 && mid.corpses === 1 && mid.nra === 0 && mid.server && mid.server.a === 1 && !mid.server.d && (how !== 'leave' || (o.afterEnd && o.afterEnd.a === 0)), o);
+    check(`E05 ...the cooldown was untouched: the first NEW RUN afterwards is approved, and its corpse replaces the death's (one per player)`, r && r.ok === 1 && o.after.booms === 1 && o.after.corpses === 1 && o.after.corpse && o.after.corpse.c === 'Boom', o);
+    V.close();
+  }
+  V1.close(); V2.close(); B.close(); adm.close(); return out;
+}
+
+/* four NEW RUNs at once; the cooldown per player; the room next door */
+async function nr_many(port) {
+  const admO = await room(port, 'h25next', true), O = new Client(port, 'h25next', 'NEXTDOOR', true); await joinAt(O, HALL.x - 60, HALL.y); await hold([O], 300);
+  const rm = 'h25many', adm = await room(port, rm, true), out = { room: rm, nextDoor: 'h25next' }, check = checker(out);
+  const B = new Client(port, rm, 'BOB', true); await joinAt(B, HALL.x + 220, HALL.y); adm.send({ t: 'a', c: 'god', id: B.id });
+  const P = []; for (let i = 0; i < 4; i++) { const a = i / 4 * Math.PI * 2, c = new Client(port, rm, 'P' + i, true); await joinAt(c, Math.round(HALL.x - 60 + Math.cos(a) * 90), Math.round(HALL.y + Math.sin(a) * 90)); P.push(c); }
+  await hold(P.concat([B, O]), 500);
+  const b0 = srvPos(adm, B.id), bTp = B.tp.length, at = P.map(c => srvPos(adm, c.id)), w0O = O.w, oFx = O.fx.length, oB = O.bodies.length;
+  for (const c of P) c.send({ t: 'nr', q: 1, w: c.w });                   // four intents in the same instant
+  const ans = await until(2000, () => P.every(c => c.nra.length) ? P.map(c => c.nra[0]) : null);
+  await hold([B, O], 4300);
+  const des = (ans || []).map(a => a && a.de), fxB = P.map(c => boomsOf(B, c.id)), cB = P.map(c => corpseOf(B, c.id)), b1 = srvPos(adm, B.id);
+  out.answers = ans; out.spectator = { booms: fxB.map(f => f.map(q => [q.de, q.x, q.y])), corpses: cB }; out.stood = at;
+  check('four NEW RUNs in the same instant: four approvals, four different events', !!ans && ans.every(a => a.ok === 1) && new Set(des).size === 4, ans);
+  check('...the spectator gets exactly four blasts, one per player and event, each where that player stood', !!ans && fxB.every((f, i) => f.length === 1 && f[0].de === des[i] && Math.abs(f[0].x - at[i].x) <= 1 && Math.abs(f[0].y - at[i].y) <= 1), out.spectator.booms);
+  check('...and four Boom corpses, one per player with its own event, the same records the initiators themselves got', !!ans && cB.every((c, i) => c && c.c === 'Boom' && c.de === des[i] && JSON.stringify(corpseOf(P[i], P[i].id)) === JSON.stringify(c)), cB);
+  check('...nobody else touched: the spectator neither moved nor corrected', B.tp.length === bTp && b1.x === b0.x && b1.y === b0.y && !b1.d, { before: b0, after: b1, corrections: B.tp.length - bTp });
+  out.nextDoorSaw = { fx: O.fx.slice(oFx).map(f => [f.k, f.id]), bodies: O.bodies.slice(oB).map(x => x.b.length), nra: O.nra.length, w: [w0O, O.w] };
+  check('the room next door hears none of it: no blast, no corpse, no NEW RUN answer, the same world', !O.fx.slice(oFx).length && O.bodies.slice(oB).every(x => !x.b.length) && !O.nra.length && O.w === w0O, out.nextDoorSaw);
+  P[0].send({ t: 'join' }); await sleep(150); P[0].pos(at[0].x, at[0].y); await hold([P[0], B], 500);
+  const again = await press(P[0], 2), bob = await press(B, 1); out.cooldown = { again, bob };
+  check('the cooldown is each player\'s own: P0 again is refused (cooldown), Bob\'s first NEW RUN is approved', again && again.ok === 0 && again.why === 'cooldown' && bob && bob.ok === 1, out.cooldown);
+  await hold([O], 3600);
+  P.forEach(c => c.close()); B.close(); O.close(); adm.close(); admO.close(); return out;
+}
+
+/* packet abuse: one player standing against another sends 1,500 hostile messages */
+async function abuse(port) {
+  const rm = 'h25abuse', adm = await room(port, rm, true), out = { room: rm }, check = checker(out);
+  const B = obey(new Client(port, rm, 'BOB', true)), A = obey(new Client(port, rm, 'ABUSER', true));
+  await joinAt(B, CORR.xb, CORR.y); await joinAt(A, CORR.xb - 40, CORR.y); adm.send({ t: 'a', c: 'god', id: B.id }); await hold([A, B], 600);
+  const rnd = mulberry(20251012), pick = a => a[Math.floor(rnd() * a.length)];
+  const T = ['p', 'nr', 'join', 'leave', 'respawn', 'pick', 'fx', 'b', 'a', 'ping', 's', 'hi', 'tp', 'world', 'nra', 'bodies', 'kick', 'revive', '__proto__', 'constructor', 'toString', '', 7, null, true, ['p'], { t: 'p' }];
+  const K = ['x', 'y', 'vx', 'vy', 'a', 'r', 'l', 'k', 'n', 'c', 'f', 'lk', 'lp', 'ir', 'mv', 'q', 'w', 'id', 'mode', 'eid', 'cmd', 'var', 'on', 'ts', 'pass', '__proto__', 'constructor', 'prototype'];
+  const V = () => pick([0, -1, 1, 2, 1.5, -0, 1e308, -1e308, 1e21, 2 ** 53 + 2, 4294967297, 'NaN', 'Infinity', '-Infinity', '1e999', '9', '', 'x'.repeat(40), null, true, false, [], [1, 2], {}, { x: 1 }, { valueOf: 1 },
+    CORR.xb + rnd() * 80 - 40, CORR.y + rnd() * 80 - 40, CORR.xb + 400, -99999, 'world', 'kick', 'hounds', 'add', 'god', 'camcorder', '#ffffff', 'a|b|c|d|e']);
+  const ADMIN_C = ['world', 'kick', 'revive', 'god', 'bring', 'goto', 'freeze', 'hounds', 'smilers', 'near', 'summon', 'preview', 'capmode', 'nav', 'entdel', 'blackout'];
+  const GARBAGE = ['{', '}', '[]', 'null', '"t"', '{"t":"p","x":', '{"t":"p","x":1e999,"y":1e999}', '{"t":"p","x":"1","y":"2"}', 'NaN', '{"__proto__":{"admin":true},"t":"a","c":"world"}',
+    '{"t":"p","constructor":{"prototype":{"admin":1}}}', '\u0000\u0001', '['.repeat(300) + ']'.repeat(300), String.fromCharCode(0xd800), '{"t":"nr","q":1e400,"w":null}'];
+  const sent = { json: 0, adminCommands: 0, garbage: 0, oversize: 0, binary: 0 }, aTrack = [];
+  const t0 = now(), w0 = B.w, b0 = srvPos(adm, B.id), bTp = B.tp.length, fx0 = [A.fx.length, B.fx.length], bd0 = B.bodies.length, s0 = B.peerLog.length, hn0 = adm.ad && adm.ad.hn, sn0 = adm.ad && adm.ad.sn, nra0 = A.nra.length;
+  for (let k = 0; k < 1500;) {
+    for (let j = 0; j < 20 && k < 1500; j++, k++) {
+      const r = rnd();
+      if (r < .62) { const o = { t: pick(T) }, n = Math.floor(rnd() * 6); for (let i = 0; i < n; i++) o[pick(K)] = V();
+        if (o.t === 'nr' && Number.isSafeInteger(o.q) && o.q > 0 && o.w === A.w) o.w = 'x';                       // (never a valid intent: abuse, not a NEW RUN)
+        A.ws.send(JSON.stringify(o)); sent.json++; }
+      else if (r < .72) { A.ws.send(JSON.stringify({ t: 'a', c: pick(ADMIN_C), id: pick([B.id, A.id, 0]), mode: pick(['add', 'remove', 'on', 'off', 'quick']), n: 10, k: 'hound', var: 'A', on: 1, eid: 1, cmd: 'come' })); sent.adminCommands++; }
+      else if (r < .84) { A.ws.send(pick(GARBAGE)); sent.garbage++; }
+      else if (r < .92) { A.ws.send(JSON.stringify({ t: 'p', x: CORR.xb, y: CORR.y, n: 'Z'.repeat(pick([1300, 1500, 5000, 60000])) })); sent.oversize++; }
+      else { const u = new Uint8Array(Math.floor(rnd() * 200) + 1); for (let i = 0; i < u.length; i++) u[i] = Math.floor(rnd() * 256); A.ws.send(u); sent.binary++; }
+    }
+    B.pos(B.x, B.y); await sleep(15);
+    const a = posAt(adm, A.id); if (a) aTrack.push([now(), a.x, a.y, a.d]);
+  }
+  await hold([B], 1500); const t1 = now();
+  // (never a passcode guess: the address lockout after five wrong ones is HQ1's own and would lock this run's quiet admins out)
+  const X = new Client(port, rm, 'HUGEFRAME', false); await X.open; await sleep(200); let xClosed = false; X.ws.onclose = () => { xClosed = true; };
+  X.ws.send('Z'.repeat(70000)); await hold([B], 1200);                     // a 64-bit length: that socket is destroyed (server/ws.js), nobody else's
+  const snaps = B.peerLog.slice(s0).filter(q => q.t >= t0 && q.t <= t1), rate = snaps.length / ((t1 - t0) / 1000);
+  const b1 = srvPos(adm, B.id), a1 = posAt(adm, A.id), sa = adm.ad.pl.find(p => p.id === A.id), sb = adm.ad.pl.find(p => p.id === B.id);
+  const minSep = aTrack.length ? Math.min(...aTrack.map(q => Math.hypot(q[1] - b0.x, q[2] - b0.y))) : null, inWall = aTrack.filter(q => !Number.isFinite(q[1] + q[2]) || !wallOk(q[1], q[2]));
+  const nraA = A.nra.slice(nra0), gaps = nraA.slice(1).map((q, i) => q.at - nraA[i].at);
+  Object.assign(out, { sent, seconds: r1((t1 - t0) / 1000), spectatorSnapshotsPerSecond: r1(rate), bob: { before: b0, after: b1, corrections: B.tp.length - bTp, god: sb && sb.g, admin: sb && sb.ad },
+    abuser: { samples: aTrack.length, closestToBob: minSep == null ? null : r1(minSep), notClear: inWall.slice(0, 5), end: a1, active: sa && sa.a, dead: sa && sa.d, admin: sa && sa.ad, nra: nraA.map(q => [q.ok, q.why]), minAnswerGapMs: gaps.length ? Math.min(...gaps) : null },
+    world: { w: [w0, B.w], hounds: [hn0, adm.ad.hn], smilers: [sn0, adm.ad.sn], frozen: adm.ad.fz, capture: adm.ad.cm, blackout: adm.ad.bo }, fx: [A.fx.slice(fx0[0]).map(f => f.k), B.fx.slice(fx0[1]).map(f => f.k)], bodiesAfter: B.bodies.slice(bd0).map(x => x.b.length), hugeFrameClosed: xClosed });
+  check('abuse: the server kept time through it (the spectator\'s snapshots kept coming at 20 a second)', rate >= 17, { perSecond: r1(rate), seconds: out.seconds, sent });
+  check('abuse: the other player untouched - not moved, not corrected, still alive, still god, not made an admin', b1 && b1.x === b0.x && b1.y === b0.y && !b1.d && B.tp.length === bTp && sb && sb.g === 1 && !sb.ad, out.bob);
+  check('abuse: nothing exploded, died or was reset - no replay of any kind, no corpse, the same world, no monster added, not frozen, capture style untouched', !out.fx[0].length && !out.fx[1].length && out.bodiesAfter.every(n => n === 0) && B.w === w0 && adm.ad.hn === hn0 && adm.ad.sn === sn0 && !adm.ad.fz && adm.ad.cm === 'auto', out.world);
+  check('abuse: the abuser never got into a wall or into him (every server position finite, wall-clear, >= D from him), and is still an ordinary living player', aTrack.length > 50 && !inWall.length && minSep >= DMIN && sa && sa.a === 1 && !sa.d && !sa.ad, out.abuser);
+  check('abuse: no NEW RUN was approved, and answers came at most one per 250 ms', !nraA.some(q => q.ok) && (out.abuser.minAnswerGapMs == null || out.abuser.minAnswerGapMs >= 240), out.abuser.nra);
+  check('abuse: a frame with a 64-bit length closes only its own socket', xClosed && B.ws.readyState === 1 && A.ws.readyState === 1, { hugeFrameClosed: xClosed });
+  const ta = now(); await walk(A, A.x - 80, CORR.y, 170, 50, [B], 1200); await hold([A, B], 400);
+  const a2 = posAt(adm, A.id), F = obey(new Client(port, rm, 'FRESH', true)); await joinAt(F, CORR.x1, CORR.y); await walk(F, CORR.x1 - 60, CORR.y, 170, 50, [], 900); await hold([F], 400); const f2 = posAt(adm, F.id);
+  out.afterwards = { abuser: a2, fresh: f2 };
+  check('abuse: afterwards the abuser still moves normally (80 px away from him), and a fresh player joins and walks', a2 && Math.abs(a2.x - (a1.x - 80)) <= 3 && f2 && Math.abs(f2.x - (CORR.x1 - 60)) <= 3, out.afterwards);
+  A.close(); B.close(); F.close(); X.close(); adm.close(); return out;
+}
+
+/* C09: what the AI hears at contact; a hound hunting a player pressed against another */
+async function col_chase(port) {
+  const rm = 'h25chase', adm = await room(port, rm, true), out = { room: rm }, check = checker(out);
+  const A = obey(new Client(port, rm, 'ALICE', true)), B = obey(new Client(port, rm, 'BOB', true));
+  await joinAt(B, CORR.xb, CORR.y); await joinAt(A, CORR.x0, CORR.y); adm.send({ t: 'a', c: 'god', id: B.id }); await hold([A, B], 600);
+  const gait = (id, t0, t1) => adm.adLog.filter(s => s.t >= t0 && s.t <= t1).map(s => { const p = s.pl.find(q => q.id === id); return p ? p.st : null; }).filter(v => v != null);
+  const tw = now(); await walk(A, CORR.xb + 200, CORR.y, 170, 50, [B], 3800, true); const tw1 = now();
+  const free = gait(A.id, tw + 500, tw + 850), pressed = gait(A.id, tw + 2200, tw1), aEnd = posAt(adm, A.id);
+  await walk(A, CORR.x0 + 40, CORR.y, 170, 50, [B], 1500); await hold([A, B], 600);
+  const tc = now(); await walk(A, A.x, CORR.y - 90, 170, 50, [B], 3200, true); const tc1 = now();
+  const wall = gait(A.id, tc + 1900, tc1);
+  out.gait = { walkingFree: free, pressedIntoBob: pressed, pressedIntoWall: wall, aliceAtContact: aEnd, legend: 'st: 0 still, 3 creeping, 1 walking, 2 sprinting (sim.js gaitFloor, from the movement the server accepted)' };
+  const loud = s => ({ 0: 0, 3: 1, 1: 2, 2: 3 })[s];
+  check('C09 what the AI hears is the movement the server accepted: walking freely she is heard walking; held at contact with Bob (it accepts no movement into him) she is heard as still; never louder than her walk, never a sprint (pressed into a wall, measured alongside: HQ1\'s rule - every packet refused, her last accepted gait kept)',
+    free.length && free.every(s => s === 1) && pressed.length > 5 && pressed.every(s => s === 0) && wall.length > 5 && wall.every(s => loud(s) <= loud(1)) && !free.concat(pressed, wall).includes(2), out.gait);
+  // the chase, on open floor: Bob stands, Alice presses into him from the west, a hound is sent at her (capture style: quick kills)
+  const bx = HALL.x + 40, ax = HALL.x - 20;
+  adm.pos(bx, HALL.y); await sleep(120); adm.send({ t: 'a', c: 'bring', id: B.id }); await sleep(200);
+  adm.pos(ax, HALL.y); await sleep(120); adm.send({ t: 'a', c: 'bring', id: A.id }); await hold([A, B], 500);
+  adm.send({ t: 'a', c: 'capmode', mode: 'quick' }); await sleep(150);
+  const b0 = posAt(adm, B.id), bTp = B.tp.length, aTrack = [], t0 = now(); let dead = null, hound = null;
+  for (let tries = 0; tries < 4 && !dead; tries++) {
+    for (let k = 0; k < 6; k++) adm.send({ t: 'a', c: 'hounds', mode: 'remove' }); await sleep(150);
+    adm.pos(HALL.x - 330, HALL.y); await sleep(120); adm.pos(HALL.x - 330, HALL.y); await sleep(150);
+    adm.send({ t: 'a', c: 'near', k: 'hound' }); await sleep(400);
+    hound = ((adm.ad && adm.ad.es) || []).find(e => e[1] === 0) || null;
+    if (hound) { adm.pos(A.x, A.y); await sleep(150); adm.send({ t: 'a', c: 'nav', eid: hound[0], cmd: 'come' }); }
+    await sleep(200); adm.pos(5100, 3504);
+    const t1 = now();
+    while (now() - t1 < 15000 && !dead) {
+      const dx = b0.x - A.x, dy = b0.y - A.y, d = Math.hypot(dx, dy); if (d > 1) A.pos(A.x + dx / d * 8.5, A.y + dy / d * 8.5); else A.pos(A.x, A.y);   // pressing into him the whole time
+      B.pos(B.x, B.y); await sleep(50);
+      const a = posAt(adm, A.id); if (a) { aTrack.push([now(), a.x, a.y, a.d]); if (a.d) dead = a; }
+    }
+  }
+  await until(9000, () => corpseOf(B, A.id)); await hold([B], 400);
+  const alive = aTrack.filter(q => !q[3]), minSep = alive.length ? Math.min(...alive.map(q => Math.hypot(q[1] - b0.x, q[2] - b0.y))) : null, notClear = alive.filter(q => !wallOk(q[1], q[2]));
+  const b1 = posAt(adm, B.id), dA = deathsOf(B, A.id), cA = corpseOf(B, A.id);
+  out.chase = { hound, killedAfterS: dead ? r1((aTrack.find(q => q[3])[0] - t0) / 1000) : null, samplesAlive: alive.length, closestToBob: minSep == null ? null : r1(minSep), notClear: notClear.slice(0, 5), bob: { before: b0, after: b1, corrections: B.tp.length - bTp }, deaths: dA.map(f => [f.c, f.v, f.de]), corpse: cA };
+  check('setup: the hound reached her and killed her while she pressed into Bob', !!dead && dA.length >= 1, out.chase);
+  check('C09 until her death every server position of hers was wall-clear and >= D from Bob; Bob neither moved nor corrected', alive.length > 20 && !notClear.length && minSep >= DMIN && b1 && b1.x === b0.x && b1.y === b0.y && B.tp.length === bTp, out.chase);
+  check('C09 ...one death (its replay once, cause Hound) and one corpse', dA.length === 1 && dA[0].c === 'Hound' && cA && cA.c === 'Hound' && cA.de === dA[0].de && corpsesNow(B, A.id) === 1, { deaths: out.chase.deaths, corpse: cA });
+  adm.send({ t: 'a', c: 'capmode', mode: 'auto' });
+  A.close(); B.close(); adm.close(); return out;
+}
+
+/* a regression found at H2-5: a death replay's w is its wall (death_srv.fxFor, in the 3H0 contract since before HQ2: [x, y, angle] for
+ * Hound C, 0 otherwise); H2-2 to H2-4 overwrote it with the world's number, so a spectator's Hound C replay lost its wall.  The world's
+ * number on an fx is wn */
+async function fx_wall(port) {
+  const rm = 'h25wall', adm = await room(port, rm, true), out = { room: rm, tries: [] }, check = checker(out);
+  const B = new Client(port, rm, 'BOB', true); await joinAt(B, HALL.x + 220, HALL.y); adm.send({ t: 'a', c: 'god', id: B.id }); await hold([B], 300);
+  const g = geo().engine.geo, spots = [];                                 // a spot with a clean wall 75-100 px behind the victim (ai.js wallBehind: 55-128)
+  for (let x = 3800; x < 5200 && spots.length < 6; x += 16) for (let y = 2900; y < 4000 && spots.length < 6; y += 16) { if (!geo().clearAt(x, y, 26)) continue;
+    for (let k = 0; k < 8; k++) { const f = k * Math.PI / 4, b = f + Math.PI, d = g.ray(x, y, b, 170); if (d < 75 || d > 100 || g.ray(x, y, b + .5, 170) < 70 || g.ray(x, y, b - .5, 170) < 70 || g.ray(x, y, f, 200) < 150) continue; spots.push([x, y, f]); break; } }
+  const die = async (name, v, spot) => {
+    const V = new Client(port, rm, name, true); await joinAt(V, spot[0], spot[1]); V.pos = function (x, y) { this.x = x; this.y = y; this.send({ t: 'p', x: Math.round(x), y: Math.round(y), vx: 0, vy: 0, a: spot[2], r: 0, l: 1, k: 'flashlight', n: this.name, c: '#ffe7b2', f: -1 }); };
+    await hold([V, B], 300); V.send({ t: 'admin', pass: PASS, quiet: 1 }); await sleep(300);
+    for (let i = 0; i < 6; i++) adm.send({ t: 'a', c: 'hounds', mode: 'remove' }); await sleep(200);
+    const x0 = V.extra.length; V.send({ t: 'a', c: 'preview', k: 'hound', var: v }); const f = await until(3000, () => B.fx.find(q => q.k === 'death' && q.id === V.id));
+    const ans = V.extra.slice(x0).find(m => m.t === 'ares'); out.tries.push({ name, v, spot, answer: ans && ans.msg, fx: f ? { v: f.v, w: f.w, wn: f.wn } : null });
+    return { V, f };
+  };
+  let C = null;
+  for (const sp of spots) { const r = await die('WALL' + out.tries.length, 'C', sp); if (r.f) { C = r; break; } r.V.close(); }
+  const A = await die('OPEN', 'A', [HALL.x - 120, HALL.y, 0]);
+  await hold([B], 600);
+  check('setup: a Hound C wall death and a Hound A death were played (the admin preview, the real kill path)', !!(C && C.f) && !!A.f, out.tries);
+  check('regression (H2-5): a Hound C replay carries its wall in w ([x, y, angle], as in HQ1) and the world\'s number in wn', !!(C && C.f) && Array.isArray(C.f.w) && C.f.w.length === 3 && C.f.wn === B.w, C && C.f && { v: C.f.v, w: C.f.w, wn: C.f.wn, world: B.w });
+  check('...and a Hound A replay has w 0 (no wall), and wn', !!A.f && A.f.w === 0 && A.f.wn === B.w, A.f && { v: A.f.v, w: A.f.w, wn: A.f.wn });
+  if (C) C.V.close(); A.V.close(); B.close(); adm.close(); return out;
+}
+
 (async () => {
-  const port = +ARG.port || await freePort(), log = (ARG.out || 'proto_lab.json').replace(/\.json$/, '') + '.server.log';
+  const port = +ARG.port || await freePort(), log = (ARG.out || 'proto_lab.json').replace(/\.json$/, '') + '.server.log'; LOG = log;
   const srv = await startServer(port, log);
   const res = { tool: 'dev/stage-3d-hq2/proto_lab.js', game: GAME, gitHead: null, startedAt: new Date().toISOString(), scenarios: {} };
   try { res.gitHead = require('child_process').execSync('git rev-parse HEAD', { cwd: GAME, stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim(); } catch (e) { res.gitHead = 'not a git checkout (an export)'; }
@@ -776,6 +1021,7 @@ async function world_msgs(port) {
       else if (s === 'nr_boom_reset') res.scenarios[s] = await nr_boom_reset(port);
       else if (s === 'nr_boom_again') res.scenarios[s] = await nr_boom_again(port);
       else if (s === 'world_msgs') res.scenarios[s] = await world_msgs(port);
+      else if (/^(nr_abort|nr_race|nr_many|abuse|col_chase|fx_wall)$/.test(s)) res.scenarios[s] = await ({ nr_abort, nr_race, nr_many, abuse, col_chase, fx_wall })[s](port);
       else if (/^col_(head|wide|two|crowd|spawn|respawn|member|held|rooms|bypass)$/.test(s)) res.scenarios[s] = await ({ col_head, col_wide, col_two, col_crowd, col_spawn, col_respawn, col_member, col_held, col_rooms, col_bypass })[s](port);
       await sleep(400);
     }

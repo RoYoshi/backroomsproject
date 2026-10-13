@@ -1,0 +1,7 @@
+round 0 {"idle": [891.65, 850.0], "contact": [675.0, 683.35], "death_houndC": [716.6, 724.9], "explosion": [733.35, 741.6]}
+round 1 {"idle": [716.6, 716.7], "contact": [733.2, 750.1], "death_houndC": [783.3, 874.95], "explosion": [708.3, 741.6]}
+round 2 {"idle": [916.65, 816.65], "contact": [725.0, 733.3], "death_houndC": [833.3, 866.65], "explosion": [775.0, 766.6]}
+MET explosion_alice: median of round ratios 0.93 against death_houndC (limit 1.1) [1.023, 0.904, 0.93]
+MET explosion_bob: median of round ratios 0.885 against death_houndC (limit 1.1) [1.023, 0.848, 0.885]
+MET contact_alice: median of round ratios 0.791 against idle (limit 1.07) [0.757, 1.023, 0.791]
+MET contact_bob: median of round ratios 0.898 against idle (limit 1.07) [0.804, 1.047, 0.898]

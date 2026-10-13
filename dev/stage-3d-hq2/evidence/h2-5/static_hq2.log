@@ -1,0 +1,22 @@
+hidden /server/peers.js                                     404
+hidden /server/../server/peers.js                           404
+hidden /%73erver/peers.js                                   404
+hidden /dev/stage-3d-hq2/proto_lab.js                       404
+hidden /dev/stage-3d-hq2/mutate.py                          404
+hidden /dev/stage-3d-hq2/evidence/h2-4/SUMMARY.md           404
+hidden /dev/stage-3d-hq2/README.md                          404
+hidden /STAGE_3D_HQ2_AUDIT.md                               404
+hidden /STAGE_3D_HQ2_PLAYER_COLLISION.md                    404
+hidden /STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md                   404
+hidden /STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md       404
+hidden /dev/sim_glue.js                                     404
+hidden /sim.js                                              404
+hidden /server.js                                           404
+hidden /death_srv.js                                        404
+served /mp.js                                               200 text/javascript
+served /move.js                                             200 text/javascript
+served /gore.js                                             200 text/javascript
+served /ents.js                                             200 text/javascript
+served /dphys.js                                            200 text/javascript
+served /assets/index-DKbV5Nv9.js                            200 text/javascript
+STATIC HQ2: nothing of HQ2 that must stay on the server is served; the client files are

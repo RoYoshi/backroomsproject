@@ -1,0 +1,13 @@
+{"i":3,"player":3,"approved":true,"de":4,"corpse":true,"corpses":4,"heapMB":6.425,"rssMB":58.3}
+{"i":7,"player":3,"approved":true,"de":8,"corpse":true,"corpses":4,"heapMB":6.691,"rssMB":59.3}
+{"i":11,"player":3,"approved":true,"de":12,"corpse":true,"corpses":4,"heapMB":6.8,"rssMB":59.2}
+{"i":15,"player":3,"approved":true,"de":16,"corpse":true,"corpses":4,"heapMB":6.806,"rssMB":59.2}
+{"i":19,"player":3,"approved":true,"de":20,"corpse":true,"corpses":4,"heapMB":6.813,"rssMB":59.3}
+{"i":23,"player":3,"approved":true,"de":24,"corpse":true,"corpses":4,"heapMB":6.842,"rssMB":59.7}
+{"i":27,"player":3,"approved":true,"de":28,"corpse":true,"corpses":4,"heapMB":6.854,"rssMB":59.4}
+{"i":31,"player":3,"approved":true,"de":32,"corpse":true,"corpses":4,"heapMB":6.875,"rssMB":59.1}
+PASS every press approved and every blast's corpse placed (32 events)
+PASS one corpse per player at the end, never more (4 players, 4 corpses)
+PASS the forced-GC heap does not grow per NEW RUN event (slope over events 9-32 <= 0.01 MB per event)
+PASS no server errors
+{"heapSlopeMBPerEvent":0.0065,"rssSlopeMBPerEvent":-0.01,"heapFirstLast":[6.802,6.875],"rssFirstLast":[59.3,59.1]}

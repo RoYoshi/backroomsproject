@@ -56,7 +56,9 @@ async def main():
             ca = await b.new_context(viewport={'width': 1280, 'height': 720}); cb = await b.new_context(viewport={'width': 1280, 'height': 720})
             A = await lib3d.join(ca, port, 'perfhq2', 'Alice', errs); await lib3d.admin_open(A)
             B = await lib3d.join(cb, port, 'perfhq2', 'Bob', errs)
-            bid = await B.evaluate("()=>__api.H.id"); await lib3d.admin_cmd(A, {'c': 'god', 'id': bid}); await A.evaluate("()=>{document.getElementById('adminPanel').hidden=true}")
+            bid, aid = await B.evaluate("()=>__api.H.id"), await A.evaluate("()=>__api.H.id")
+            for i in (bid, aid): await lib3d.admin_cmd(A, {'c': 'god', 'id': i})          # (Alice too: a monster coming back during a 30 s cooldown wait must not kill her; the death preview works through god mode, and NEW RUN does not look at it)
+            await A.evaluate("()=>{document.getElementById('adminPanel').hidden=true}")
             pages = [(A, await ca.new_cdp_session(A)), (B, await cb.new_cdp_session(B))]
             for P, cdp in pages: await cdp.send('Performance.enable'); await P.evaluate(FR)
             spots = {k: await A.evaluate(lib3d.SPOTS, k) for k in ('open', 'wall')}
@@ -71,7 +73,7 @@ async def main():
                 await A.wait_for_timeout(2000)
                 await A.keyboard.down('KeyD'); await B.keyboard.down('KeyA'); await A.wait_for_timeout(600)
                 R['contact'] = await window_(pages, secs=4)
-                R['contactSeparation'] = await A.evaluate("(id)=>{ const o=(window.__peerBodies||[]); return { peers:o.length, mine:[Math.round(__api.H.x),Math.round(__api.H.y)], epoch: window.__epochDebug?window.__epochDebug():null } }", bid)
+                R['contactSeparation'] = await A.evaluate("()=>{ const o=(window.__peerBodies||[]); return { peers:o.length, mine:[Math.round(__api.H.x),Math.round(__api.H.y)], nearestPx: o.length?+Math.min(...o.map(q=>Math.hypot(q[0]-__api.H.x,q[1]-__api.H.y))).toFixed(1):null, epoch: window.__epochDebug?window.__epochDebug():null } }")
                 await A.keyboard.up('KeyD'); await B.keyboard.up('KeyA')
                 await lib3d.ensure_alive(A); sp = spots['wall']
                 await A.evaluate("([x,y,a])=>{__api.tp(x,y); __api.H.angle=a}", sp); await B.evaluate(lib3d.WATCH_FROM, sp); await A.wait_for_timeout(3000)
@@ -86,6 +88,7 @@ async def main():
                 await lib3d.until_alive(A, 30); await lib3d.ensure_alive(A)
                 await A.evaluate("([x,y,a])=>{__api.tp(x,y); __api.H.angle=a}", sp); await B.evaluate(lib3d.WATCH_FROM, sp); await A.wait_for_timeout(2500)
                 while time.time() - lastNr < 31: await A.wait_for_timeout(250)
+                await lib3d.ensure_alive(A); await A.evaluate("([x,y,a])=>{__api.tp(x,y); __api.H.angle=a}", sp); await A.wait_for_timeout(1500)
                 q0 = await A.evaluate("()=>window.__nrDebug().q"); await A.evaluate(PRESS); t0 = time.time()
                 while time.time() - t0 < 4 and not await A.evaluate("(q)=>{ const d=window.__nrDebug(); return d.last && d.last.q>q && d.last.ok }", q0): await A.wait_for_timeout(30)
                 lastNr = time.time()
@@ -102,7 +105,7 @@ async def main():
             ratios = [R[win][pi]['frameMedianMs'] / R[base][pi]['frameMedianMs'] for R in res['rounds'] if R.get(win) and R.get(base) and R[base][pi]['frameMedianMs']]
             m = statistics.median(ratios) if ratios else None
             G[f'{win}_{page}'] = {'against': base, 'ratios': [round(x, 3) for x in ratios], 'median': round(m, 3) if m else None, 'limit': lim, 'met': bool(m and m <= lim)}
-    res['ok'] = all(g['met'] for g in G.values()) and all(R.get('explosionApproved') and R['explosionApproved'].get('ok') for R in res['rounds'])
+    res['ok'] = all(g['met'] for g in G.values()) and all(R.get('explosionApproved') and R['explosionApproved'].get('ok') for R in res['rounds'])   # (every round's NEW RUN approved: else its window measured no blast)
     res['errors'] = errs[:20]
     with open(A_.out, 'w') as f: json.dump(res, f, indent=1); f.write('\n')
     for k, g in G.items(): print(('MET ' if g['met'] else 'NOT MET ') + f"{k}: median of round ratios {g['median']} against {g['against']} (limit {g['limit']}) {g['ratios']}")

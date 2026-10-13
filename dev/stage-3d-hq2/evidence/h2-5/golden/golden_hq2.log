@@ -1,0 +1,12 @@
+boot: IDENTICAL
+http_base: IDENTICAL
+http_h0: IDENTICAL
+ws_upgrade: IDENTICAL
+ws_frames: IDENTICAL
+lifecycle: differs from line 1780: lifecycle (D4): HQ1 accepted a client's NEW RUN vanish (sim.vanish); HQ2 no longer reads it  ["/0: 6680 -> 6700","/1: \"sim.vanish\" -> \"fire\"","/2: [\"~player1\",1767225606.68] -> 1","/3: true -> undefined"]  (events differ from #1780: sim.vanish -> fire)
+deaths: differs from line 86: collision (D1-D2): a player's position differs (only x / y in the player lists)  ["/5(json)/p/0/x: 960 -> 1004"]  (events differ from #305: sim.gaitFloor -> frame:tp)
+admin: differs from line 76: collision (D1-D2): a player's position differs (only x / y in the player lists)  ["/5(json)/p/0/x: 960 -> 1004"]  (events differ from #16688: frame:tp -> frame:world)
+schedule: IDENTICAL
+p_fields: IDENTICAL
+exit_glitch: differs from line 45: collision (D1-D2): a player's position differs (only x / y in the player lists)  ["/5(json)/p/0/x: 960 -> 1004"]  (the same events in the same order)
+GOLDEN HQ2: every scenario identical, or differing by a documented HQ2 change

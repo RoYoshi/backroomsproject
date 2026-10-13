@@ -1,0 +1,1077 @@
+{
+ "tool": "dev/stage-3d-hq2/e09_browser.py",
+ "game": "/home/claude/backrooms-shadows",
+ "shots": {},
+ "checks": [
+  {
+   "name": "setup: the blackout is on, every light is off, every page asks for reduced motion, the NEW RUN is approved and every page plays the blast",
+   "ok": true,
+   "info": {
+    "before": {
+     "alice": {
+      "light": false,
+      "reduced": true,
+      "sound": "SOUND ON",
+      "audio": "running",
+      "blackout": true,
+      "id": 1,
+      "at": [
+       3528,
+       1376
+      ]
+     },
+     "bob": {
+      "light": false,
+      "reduced": true,
+      "sound": "SOUND OFF",
+      "audio": "running",
+      "blackout": true,
+      "id": 2,
+      "at": [
+       3388,
+       1210
+      ]
+     },
+     "carol": {
+      "light": false,
+      "reduced": true,
+      "sound": "SOUND ON",
+      "audio": "suspended",
+      "blackout": true,
+      "id": 3,
+      "at": [
+       3528,
+       1572
+      ]
+     }
+    },
+    "approval": {
+     "q": 1,
+     "ok": 1,
+     "why": "",
+     "wait": null,
+     "de": 1,
+     "at": 1791877076.09
+    },
+    "played": {
+     "alice": true,
+     "bob": true,
+     "carol": true
+    }
+   }
+  },
+  {
+   "name": "flash: no light from the blast on the spectator's screen (same room) or on Carol's (behind the wall): no frame during it brighter than the brightest before (mean grey +0.3, lit share +0.2 points); the control - Bob then switches his own light on - is seen by the same measure",
+   "ok": true,
+   "info": {
+    "bob": {
+     "framesBefore": 7,
+     "framesDuring": 8,
+     "beforeMean": [
+      2.7,
+      2.7
+     ],
+     "duringMean": [
+      2.7,
+      2.7
+     ],
+     "beforeP99": [
+      46,
+      46
+     ],
+     "duringP99": [
+      46,
+      46
+     ],
+     "beforeLit": [
+      0.0152,
+      0.0152
+     ],
+     "duringLit": [
+      0.0152,
+      0.0152
+     ],
+     "ok": true
+    },
+    "carol": {
+     "framesBefore": 13,
+     "framesDuring": 22,
+     "beforeMean": [
+      2.7,
+      2.7
+     ],
+     "duringMean": [
+      2.7,
+      2.7
+     ],
+     "beforeP99": [
+      46,
+      46
+     ],
+     "duringP99": [
+      46,
+      46
+     ],
+     "beforeLit": [
+      0.0152,
+      0.0152
+     ],
+     "duringLit": [
+      0.0152,
+      0.0152
+     ],
+     "ok": true
+    },
+    "control": {
+     "bobLightOnFrames": 5,
+     "mean": [
+      2.7,
+      4.153
+     ],
+     "lit": [
+      0.0152,
+      0.04582
+     ],
+     "seen": true
+    }
+   }
+  },
+  {
+   "name": "camera: no camera jump - Bob's and Carol's players never move, no death camera, the zoom stays; Alice stays exactly where she pressed until her run menu, with no death camera",
+   "ok": true,
+   "info": {
+    "bob": {
+     "frames": 23,
+     "moved": 0,
+     "deathCamera": false,
+     "zoom": [
+      1,
+      1
+     ]
+    },
+    "carol": {
+     "frames": 63,
+     "moved": 0,
+     "deathCamera": false,
+     "zoom": [
+      1,
+      1
+     ]
+    },
+    "alice": {
+     "frames": 5,
+     "moved": 0,
+     "deathCamera": false,
+     "menuAfterS": 1.1
+    }
+   }
+  },
+  {
+   "name": "sound: the muted spectator makes no sound for the blast (the blast asks once; 0 audio nodes); Alice's own page does (the control: sound on, audio running)",
+   "ok": true,
+   "info": {
+    "alice": [
+     {
+      "t": 1791877076.105,
+      "nodes": 15,
+      "state": "running",
+      "sound": "SOUND ON",
+      "err": null
+     }
+    ],
+    "bob": [
+     {
+      "t": 1791877075.751,
+      "nodes": 0,
+      "state": "running",
+      "sound": "SOUND OFF",
+      "err": null
+     }
+    ],
+    "carol": [
+     {
+      "t": 1791877075.2,
+      "nodes": 15,
+      "state": "suspended",
+      "sound": "SOUND ON",
+      "err": null
+     }
+    ]
+   }
+  },
+  {
+   "name": "sound: Carol's page, never given permission, plays the blast with its audio not running, and nothing throws",
+   "ok": true,
+   "info": {
+    "carol": [
+     {
+      "t": 1791877075.2,
+      "nodes": 15,
+      "state": "suspended",
+      "sound": "SOUND ON",
+      "err": null
+     }
+    ],
+    "audio": "suspended"
+   }
+  },
+  {
+   "name": "errors: no page error on any page",
+   "ok": true,
+   "info": []
+  }
+ ],
+ "ids": {
+  "alice": 1,
+  "bob": 2,
+  "carol": 3
+ },
+ "spot": {
+  "face": "surf:room:04:wall:N:1440:34",
+  "side": "N",
+  "x": 3528,
+  "y": 1376,
+  "a": -1.5708,
+  "wx": 3528,
+  "wy": 1440,
+  "ox": -0.0,
+  "oy": -1,
+  "lamp": {
+   "x": 3600,
+   "y": 1392,
+   "r": 83
+  }
+ },
+ "view": [
+  3388,
+  1210,
+  0.8702
+ ],
+ "behind": [
+  3528,
+  1572,
+  -1.5708
+ ],
+ "before": {
+  "alice": {
+   "light": false,
+   "reduced": true,
+   "sound": "SOUND ON",
+   "audio": "running",
+   "blackout": true,
+   "id": 1,
+   "at": [
+    3528,
+    1376
+   ]
+  },
+  "bob": {
+   "light": false,
+   "reduced": true,
+   "sound": "SOUND OFF",
+   "audio": "running",
+   "blackout": true,
+   "id": 2,
+   "at": [
+    3388,
+    1210
+   ]
+  },
+  "carol": {
+   "light": false,
+   "reduced": true,
+   "sound": "SOUND ON",
+   "audio": "suspended",
+   "blackout": true,
+   "id": 3,
+   "at": [
+    3528,
+    1572
+   ]
+  }
+ },
+ "approval": {
+  "q": 1,
+  "ok": 1,
+  "why": "",
+  "wait": null,
+  "de": 1,
+  "at": 1791877076.09
+ },
+ "luminance": {
+  "bob": [
+   {
+    "t": 1791877070.644,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877070.838,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877071.366,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877071.953,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877072.382,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877072.922,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877073.504,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877074.178,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877075.094,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877075.774,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877076.386,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877076.936,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877077.665,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877078.625,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877079.429,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877080.295,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "after"
+   },
+   {
+    "t": 1791877080.949,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "after"
+   },
+   {
+    "t": 1791877081.687,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877082.462,
+    "mean": 4.147,
+    "p99": 89,
+    "lit": 0.04562,
+    "phase": "control"
+   },
+   {
+    "t": 1791877083.08,
+    "mean": 4.112,
+    "p99": 89,
+    "lit": 0.04475,
+    "phase": "control"
+   },
+   {
+    "t": 1791877083.917,
+    "mean": 4.116,
+    "p99": 89,
+    "lit": 0.04496,
+    "phase": "control"
+   },
+   {
+    "t": 1791877084.722,
+    "mean": 4.153,
+    "p99": 89,
+    "lit": 0.04582,
+    "phase": "control"
+   }
+  ],
+  "carol": [
+   {
+    "t": 1791877070.945,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877071.366,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877071.391,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877071.678,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877071.866,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877072.127,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877072.354,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877072.598,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877072.923,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877073.038,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877073.231,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877073.418,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877073.746,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "before"
+   },
+   {
+    "t": 1791877073.911,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877074.129,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877074.323,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877074.572,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877074.794,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877075.022,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877075.219,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877075.426,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877075.661,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877075.985,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877076.229,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877076.494,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877076.794,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877077.04,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877077.335,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877077.654,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877077.909,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877078.229,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877078.579,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877078.869,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877079.078,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877079.453,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "during"
+   },
+   {
+    "t": 1791877079.826,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "after"
+   },
+   {
+    "t": 1791877080.025,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "after"
+   },
+   {
+    "t": 1791877080.303,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "after"
+   },
+   {
+    "t": 1791877080.516,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "after"
+   },
+   {
+    "t": 1791877080.822,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "after"
+   },
+   {
+    "t": 1791877081.033,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "after"
+   },
+   {
+    "t": 1791877081.369,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877081.577,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877081.964,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877082.26,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877082.592,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877082.872,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877083.093,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877083.406,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877083.638,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877083.87,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877084.064,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877084.37,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877084.57,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877084.743,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877084.935,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   },
+   {
+    "t": 1791877085.208,
+    "mean": 2.7,
+    "p99": 46,
+    "lit": 0.0152,
+    "phase": "control"
+   }
+  ]
+ },
+ "audio": {
+  "alice": {
+   "nodes": 177,
+   "boom": [
+    {
+     "t": 1791877076.105,
+     "nodes": 15,
+     "state": "running",
+     "sound": "SOUND ON",
+     "err": null
+    }
+   ]
+  },
+  "bob": {
+   "nodes": 335,
+   "boom": [
+    {
+     "t": 1791877075.751,
+     "nodes": 0,
+     "state": "running",
+     "sound": "SOUND OFF",
+     "err": null
+    }
+   ]
+  },
+  "carol": {
+   "nodes": 106,
+   "boom": [
+    {
+     "t": 1791877075.2,
+     "nodes": 15,
+     "state": "suspended",
+     "sound": "SOUND ON",
+     "err": null
+    }
+   ]
+  }
+ },
+ "after": {
+  "alice": {
+   "light": false,
+   "reduced": true,
+   "sound": "SOUND ON",
+   "audio": "running",
+   "blackout": true,
+   "id": 1,
+   "at": [
+    3528,
+    1376
+   ]
+  },
+  "bob": {
+   "light": true,
+   "reduced": true,
+   "sound": "SOUND OFF",
+   "audio": "running",
+   "blackout": true,
+   "id": 2,
+   "at": [
+    3388,
+    1210
+   ]
+  },
+  "carol": {
+   "light": false,
+   "reduced": true,
+   "sound": "SOUND ON",
+   "audio": "suspended",
+   "blackout": true,
+   "id": 3,
+   "at": [
+    3528,
+    1572
+   ]
+  }
+ },
+ "boomsSeen": {
+  "alice": [],
+  "bob": [],
+  "carol": []
+ },
+ "rowCounts": {
+  "alice": 22,
+  "bob": 23,
+  "carol": 63
+ },
+ "flash": {
+  "bob": {
+   "framesBefore": 7,
+   "framesDuring": 8,
+   "beforeMean": [
+    2.7,
+    2.7
+   ],
+   "duringMean": [
+    2.7,
+    2.7
+   ],
+   "beforeP99": [
+    46,
+    46
+   ],
+   "duringP99": [
+    46,
+    46
+   ],
+   "beforeLit": [
+    0.0152,
+    0.0152
+   ],
+   "duringLit": [
+    0.0152,
+    0.0152
+   ],
+   "ok": true
+  },
+  "carol": {
+   "framesBefore": 13,
+   "framesDuring": 22,
+   "beforeMean": [
+    2.7,
+    2.7
+   ],
+   "duringMean": [
+    2.7,
+    2.7
+   ],
+   "beforeP99": [
+    46,
+    46
+   ],
+   "duringP99": [
+    46,
+    46
+   ],
+   "beforeLit": [
+    0.0152,
+    0.0152
+   ],
+   "duringLit": [
+    0.0152,
+    0.0152
+   ],
+   "ok": true
+  },
+  "control": {
+   "bobLightOnFrames": 5,
+   "mean": [
+    2.7,
+    4.153
+   ],
+   "lit": [
+    0.0152,
+    0.04582
+   ],
+   "seen": true
+  }
+ },
+ "camera": {
+  "bob": {
+   "frames": 23,
+   "moved": 0,
+   "deathCamera": false,
+   "zoom": [
+    1,
+    1
+   ]
+  },
+  "carol": {
+   "frames": 63,
+   "moved": 0,
+   "deathCamera": false,
+   "zoom": [
+    1,
+    1
+   ]
+  },
+  "alice": {
+   "frames": 5,
+   "moved": 0,
+   "deathCamera": false,
+   "menuAfterS": 1.1
+  }
+ },
+ "sound": {
+  "alice": [
+   {
+    "t": 1791877076.105,
+    "nodes": 15,
+    "state": "running",
+    "sound": "SOUND ON",
+    "err": null
+   }
+  ],
+  "bob": [
+   {
+    "t": 1791877075.751,
+    "nodes": 0,
+    "state": "running",
+    "sound": "SOUND OFF",
+    "err": null
+   }
+  ],
+  "carol": [
+   {
+    "t": 1791877075.2,
+    "nodes": 15,
+    "state": "suspended",
+    "sound": "SOUND ON",
+    "err": null
+   }
+  ]
+ },
+ "errors": [],
+ "ok": true,
+ "passed": 6,
+ "total": 6
+}

@@ -1,0 +1,564 @@
+{
+ "tool": "dev/stage-3d-hq2/parity_judge.py",
+ "run": "dev/stage-3d-hq2/evidence/h2-5/parity.json",
+ "ref": "dev/stage-3d-hq1/evidence/hq1-3/parity.json",
+ "deaths": [
+  {
+   "v": "Hound A",
+   "victimVsServer": {
+    "body": 0.4,
+    "turn": 0.0,
+    "light": 0.27,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      4,
+      4
+     ],
+     "maxPx": 0.54,
+     "seedsSame": true
+    }
+   },
+   "spectatorVsServer": {
+    "body": 0.4,
+    "turn": 0.0,
+    "light": 0.27,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      4,
+      4
+     ],
+     "maxPx": 0.54,
+     "seedsSame": true
+    }
+   },
+   "victimOk": true,
+   "victimBad": [],
+   "spectatorOk": true,
+   "spectatorBad": [],
+   "hq1": {
+    "victimVsServer": {
+     "body": 0.34,
+     "turn": 0.0004,
+     "light": 0.44,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       4,
+       4
+      ],
+      "maxPx": 0.56,
+      "seedsSame": true
+     }
+    },
+    "spectatorVsServer": {
+     "body": 0.34,
+     "turn": 0.0004,
+     "light": 0.44,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       4,
+       4
+      ],
+      "maxPx": 0.56,
+      "seedsSame": true
+     }
+    }
+   }
+  },
+  {
+   "v": "Hound B",
+   "victimVsServer": {
+    "body": 0.61,
+    "turn": 0.0001,
+    "light": 0.21,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      4,
+      4
+     ],
+     "maxPx": 0.46,
+     "seedsSame": true
+    }
+   },
+   "spectatorVsServer": {
+    "body": 0.61,
+    "turn": 0.0001,
+    "light": 0.21,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      4,
+      4
+     ],
+     "maxPx": 0.46,
+     "seedsSame": true
+    }
+   },
+   "victimOk": true,
+   "victimBad": [],
+   "spectatorOk": true,
+   "spectatorBad": [],
+   "hq1": {
+    "victimVsServer": {
+     "body": 0.33,
+     "turn": 0.0003,
+     "light": 0.42,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       4,
+       4
+      ],
+      "maxPx": 0.47,
+      "seedsSame": true
+     }
+    },
+    "spectatorVsServer": {
+     "body": 0.33,
+     "turn": 0.0003,
+     "light": 0.42,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       4,
+       4
+      ],
+      "maxPx": 0.47,
+      "seedsSame": true
+     }
+    }
+   }
+  },
+  {
+   "v": "Hound C",
+   "victimVsServer": {
+    "body": 0.43,
+    "turn": 0.0002,
+    "light": 0.35,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      5,
+      5
+     ],
+     "maxPx": 0.34,
+     "seedsSame": true
+    }
+   },
+   "spectatorVsServer": {
+    "body": 0.43,
+    "turn": 0.0002,
+    "light": 0.35,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      5,
+      5
+     ],
+     "maxPx": 0.34,
+     "seedsSame": true
+    }
+   },
+   "victimOk": true,
+   "victimBad": [],
+   "spectatorOk": true,
+   "spectatorBad": [],
+   "hq1": {
+    "victimVsServer": {
+     "body": 0.08,
+     "turn": 0.0005,
+     "light": 0.21,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       5,
+       5
+      ],
+      "maxPx": 0.5,
+      "seedsSame": true
+     }
+    },
+    "spectatorVsServer": {
+     "body": 0.08,
+     "turn": 0.0005,
+     "light": 0.21,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       5,
+       5
+      ],
+      "maxPx": 0.5,
+      "seedsSame": true
+     }
+    }
+   }
+  },
+  {
+   "v": "Hound D",
+   "victimVsServer": {
+    "body": 0.22,
+    "turn": 0.0003,
+    "light": 0.49,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      3,
+      3
+     ],
+     "maxPx": 0.47,
+     "seedsSame": true
+    }
+   },
+   "spectatorVsServer": {
+    "body": 0.22,
+    "turn": 0.0003,
+    "light": 0.49,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      3,
+      3
+     ],
+     "maxPx": 0.47,
+     "seedsSame": true
+    }
+   },
+   "victimOk": true,
+   "victimBad": [],
+   "spectatorOk": true,
+   "spectatorBad": [],
+   "hq1": {
+    "victimVsServer": {
+     "body": 0.34,
+     "turn": 0.0,
+     "light": 0.36,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       3,
+       3
+      ],
+      "maxPx": 0.43,
+      "seedsSame": true
+     }
+    },
+    "spectatorVsServer": {
+     "body": 0.34,
+     "turn": 0.0,
+     "light": 0.36,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       3,
+       3
+      ],
+      "maxPx": 0.43,
+      "seedsSame": true
+     }
+    }
+   }
+  },
+  {
+   "v": "Smiler A",
+   "victimVsServer": {
+    "body": 0.43,
+    "turn": 0.0005,
+    "light": 0.55,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      4,
+      4
+     ],
+     "maxPx": 0.34,
+     "seedsSame": true
+    }
+   },
+   "spectatorVsServer": {
+    "body": 0.43,
+    "turn": 0.0005,
+    "light": 0.55,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      4,
+      4
+     ],
+     "maxPx": 0.34,
+     "seedsSame": true
+    }
+   },
+   "victimOk": true,
+   "victimBad": [],
+   "spectatorOk": true,
+   "spectatorBad": [],
+   "hq1": {
+    "victimVsServer": {
+     "body": 0.24,
+     "turn": 0.0004,
+     "light": 0.63,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       4,
+       4
+      ],
+      "maxPx": 0.53,
+      "seedsSame": true
+     }
+    },
+    "spectatorVsServer": {
+     "body": 0.24,
+     "turn": 0.0004,
+     "light": 0.63,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       4,
+       4
+      ],
+      "maxPx": 0.53,
+      "seedsSame": true
+     }
+    }
+   }
+  },
+  {
+   "v": "Smiler B",
+   "victimVsServer": {
+    "body": 0.19,
+    "turn": 0.0001,
+    "light": 0.45,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      3,
+      3
+     ],
+     "maxPx": 0.43,
+     "seedsSame": true
+    }
+   },
+   "spectatorVsServer": {
+    "body": 0.19,
+    "turn": 0.0001,
+    "light": 0.45,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      3,
+      3
+     ],
+     "maxPx": 0.43,
+     "seedsSame": true
+    }
+   },
+   "victimOk": true,
+   "victimBad": [],
+   "spectatorOk": true,
+   "spectatorBad": [],
+   "hq1": {
+    "victimVsServer": {
+     "body": 0.26,
+     "turn": 0.0003,
+     "light": 0.52,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       3,
+       3
+      ],
+      "maxPx": 0.46,
+      "seedsSame": true
+     }
+    },
+    "spectatorVsServer": {
+     "body": 0.26,
+     "turn": 0.0003,
+     "light": 0.52,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       3,
+       3
+      ],
+      "maxPx": 0.46,
+      "seedsSame": true
+     }
+    }
+   }
+  },
+  {
+   "v": "Smiler C",
+   "victimVsServer": {
+    "body": 0.12,
+    "turn": 0.0004,
+    "light": 0.48,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      3,
+      3
+     ],
+     "maxPx": 0.4,
+     "seedsSame": true
+    }
+   },
+   "spectatorVsServer": {
+    "body": 0.12,
+    "turn": 0.0004,
+    "light": 0.48,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      3,
+      3
+     ],
+     "maxPx": 0.4,
+     "seedsSame": true
+    }
+   },
+   "victimOk": true,
+   "victimBad": [],
+   "spectatorOk": true,
+   "spectatorBad": [],
+   "hq1": {
+    "victimVsServer": {
+     "body": 0.01,
+     "turn": 0.0001,
+     "light": 0.19,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       3,
+       3
+      ],
+      "maxPx": 0.44,
+      "seedsSame": true
+     }
+    },
+    "spectatorVsServer": {
+     "body": 0.01,
+     "turn": 0.0001,
+     "light": 0.19,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       3,
+       3
+      ],
+      "maxPx": 0.44,
+      "seedsSame": true
+     }
+    }
+   }
+  },
+  {
+   "v": "Smiler D",
+   "victimVsServer": {
+    "body": 0.15,
+    "turn": 0.0002,
+    "light": 0.42,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      3,
+      3
+     ],
+     "maxPx": 0.33,
+     "seedsSame": true
+    }
+   },
+   "spectatorVsServer": {
+    "body": 0.15,
+    "turn": 0.0002,
+    "light": 0.42,
+    "hat": 0.0,
+    "hands": 0.0,
+    "blood": {
+     "counts": [
+      3,
+      3
+     ],
+     "maxPx": 0.33,
+     "seedsSame": true
+    }
+   },
+   "victimOk": true,
+   "victimBad": [],
+   "spectatorOk": true,
+   "spectatorBad": [],
+   "hq1": {
+    "victimVsServer": {
+     "body": 0.47,
+     "turn": 0.0,
+     "light": 0.51,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       3,
+       3
+      ],
+      "maxPx": 0.42,
+      "seedsSame": true
+     }
+    },
+    "spectatorVsServer": {
+     "body": 0.47,
+     "turn": 0.0,
+     "light": 0.51,
+     "hat": 0.0,
+     "hands": 0.0,
+     "blood": {
+      "counts": [
+       3,
+       3
+      ],
+      "maxPx": 0.42,
+      "seedsSame": true
+     }
+    }
+   }
+  }
+ ],
+ "limits": {
+  "px": 1.0,
+  "turn": 0.01
+ },
+ "ok": true
+}

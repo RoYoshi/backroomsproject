@@ -106,7 +106,7 @@ function solidPeers(m) {
  * not let us into) is dropped, the sideways part kept.  Further than 96 px is no longer a nudge: a jump, as an ordinary tp */
 let blend = null;
 function softTp(A, x, y) {
-  const dx = x - A.H.x, dy = y - A.H.y, d = Math.hypot(dx, dy); if (!(d <= 96)) return false;
+  const dx = x - A.H.x, dy = y - A.H.y, d = Math.hypot(dx, dy); if (!(d <= 600)) return false;   // (H2-5: every correction the server can send - one packet's budget is 568 px - is blended, as D3 says; H2-4 jumped above 96 px, which a 200-300 ms link reaches)
   blend = { dx, dy, t0: performance.now(), done: 0 }; softN++; return true;
 }
 function blendStep(A) {
@@ -166,7 +166,7 @@ function connect() {
     else if (m.t === 'pong') { const E = EN(); if (E) { const r = performance.now() - (+m.ts || 0); E.dbgX.ping = E.dbgX.ping < 0 ? r : E.dbgX.ping + (r - E.dbgX.ping) * .3; } }
     else if (m.t === 'kick') { kicked = true; document.getElementById('kicked').hidden = false; }
     else if (m.t === 'bodies') { if (oldWorld(m.w)) return; bodiesList = m.b || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null && Array.isArray(b.lf) && b.lf.length === 4 && Number.isFinite(b.ag + b.lf[3])) { relOf(b.de, tb - b.ag + b.lf[3]); pendSt.push(['r', b.de, b.ag, b.lf[3]]); } applyBodies(); }   // (HQ1: when each corpse's light was let go)
-    else if (m.t === 'fx') { if ((m.k === 'death' || m.k === 'boom') && oldWorld(m.w)) return; if (((m.k === 'death' && m.id !== myId) || m.k === 'boom') && m.de != null) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock; HQ2: a NEW RUN blast too)
+    else if (m.t === 'fx') { if ((m.k === 'death' || m.k === 'boom') && oldWorld(m.wn)) return; if (((m.k === 'death' && m.id !== myId) || m.k === 'boom') && m.de != null) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock; HQ2: a NEW RUN blast too)
     else if (m.t === 'exit') doExit(m.secs);
     else if (m.t === 'nra') nrAnswer(m);                                       // Stage 3D HQ2: the server's NEW RUN decision
     else if (m.t === 'got') giveItem(m.item);

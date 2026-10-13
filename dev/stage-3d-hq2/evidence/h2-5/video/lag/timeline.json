@@ -1,0 +1,118 @@
+{
+ "tool": "dev/stage-3d-hq2/video_hq2.py",
+ "plan": "lag",
+ "lagMs": 150,
+ "game": "/home/claude/backrooms-shadows",
+ "build": "b178b5d9fbe7",
+ "buildFiles": [
+  "server.js",
+  "server/peers.js",
+  "sim.js",
+  "death_srv.js",
+  "dphys.js",
+  "mp.js",
+  "move.js",
+  "gore.js",
+  "ents.js",
+  "index.html",
+  "assets/index-DKbV5Nv9.js",
+  "assets/net-wire.js"
+ ],
+ "steps": [
+  {
+   "t": 1791893082.3343892,
+   "step": "1  wide-hall side-pass: Bob stands 12 px off her line"
+  },
+  {
+   "t": 1791893099.8114593,
+   "step": "2  lag recovery: both sprint at each other"
+  },
+  {
+   "t": 1791893117.968342,
+   "step": "3  they back away from each other"
+  }
+ ],
+ "pages": {
+  "Alice": 1791893044.2771266,
+  "Bob": 1791893058.106694
+ },
+ "frameMs": {
+  "alice": [
+   316.6000000000058,
+   300,
+   366.6999999999971,
+   333.3000000000029,
+   433.3000000000029,
+   400,
+   366.6999999999971,
+   399.8999999999942,
+   416.70000000001164,
+   383.29999999998836
+  ],
+  "bob": [
+   316.6000000000058,
+   333.3999999999942,
+   333.3000000000029,
+   400,
+   399.8999999999942,
+   383.40000000000873,
+   400,
+   416.59999999999127,
+   350,
+   400
+  ]
+ },
+ "nearest": [
+  {
+   "t": 1791893083.939,
+   "at": "side-pass, beside him",
+   "alice": 60.9,
+   "bob": 61.2,
+   "softCorrections": {
+    "alice": 0,
+    "bob": 0
+   }
+  },
+  {
+   "t": 1791893102.019,
+   "at": "running into each other",
+   "alice": 6.3,
+   "bob": 13.7,
+   "softCorrections": {
+    "alice": 1,
+    "bob": 2
+   }
+  },
+  {
+   "t": 1791893112.494,
+   "at": "standing, settled",
+   "alice": 36,
+   "bob": 36,
+   "softCorrections": {
+    "alice": 11,
+    "bob": 2
+   }
+  },
+  {
+   "t": 1791893121.354,
+   "at": "apart",
+   "alice": 294,
+   "bob": 294,
+   "softCorrections": {
+    "alice": 11,
+    "bob": 2
+   }
+  }
+ ],
+ "end": 1791893126.7348478,
+ "pageErrors": [],
+ "videos": {
+  "Alice": "alice.webm",
+  "Bob": "bob.webm"
+ },
+ "ffmpeg": 0,
+ "alignSeconds": {
+  "Alice": 0.0,
+  "Bob": 13.829567432403564
+ }
+}

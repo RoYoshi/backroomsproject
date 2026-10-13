@@ -1,0 +1,387 @@
+{
+ "tool": "dev/stage-3d/soak_death.py",
+ "game": "/home/claude/backrooms-shadows",
+ "deaths": 16,
+ "rows": [
+  {
+   "i": 0,
+   "death": "hound-A",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 46.85,
+    "nodes": 1507,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 45.74,
+    "nodes": 1369,
+    "listeners": 169
+   },
+   "serverRssMB": 125.5
+  },
+  {
+   "i": 1,
+   "death": "hound-B",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 48.55,
+    "nodes": 1508,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 47.92,
+    "nodes": 1371,
+    "listeners": 169
+   },
+   "serverRssMB": 129.9
+  },
+  {
+   "i": 2,
+   "death": "hound-C",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 50.64,
+    "nodes": 1505,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 50.73,
+    "nodes": 1378,
+    "listeners": 169
+   },
+   "serverRssMB": 130.6
+  },
+  {
+   "i": 3,
+   "death": "hound-D",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 52.78,
+    "nodes": 1510,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.36,
+    "nodes": 1383,
+    "listeners": 170
+   },
+   "serverRssMB": 131.0
+  },
+  {
+   "i": 4,
+   "death": "smiler-A",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.09,
+    "nodes": 1516,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.0,
+    "nodes": 1390,
+    "listeners": 169
+   },
+   "serverRssMB": 152.6
+  },
+  {
+   "i": 5,
+   "death": "smiler-B",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.3,
+    "nodes": 1521,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 52.03,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 153.6
+  },
+  {
+   "i": 6,
+   "death": "smiler-C",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.84,
+    "nodes": 1523,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 52.05,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 153.9
+  },
+  {
+   "i": 7,
+   "death": "smiler-D",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 54.17,
+    "nodes": 1525,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 52.19,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 177.7
+  },
+  {
+   "i": 8,
+   "death": "hound-A",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 54.87,
+    "nodes": 1521,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 54.02,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 177.7
+  },
+  {
+   "i": 9,
+   "death": "hound-B",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 55.93,
+    "nodes": 1523,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.03,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 177.7
+  },
+  {
+   "i": 10,
+   "death": "hound-C",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 57.32,
+    "nodes": 1521,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.02,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 177.7
+  },
+  {
+   "i": 11,
+   "death": "hound-D",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 56.69,
+    "nodes": 1523,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 55.05,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 198.0
+  },
+  {
+   "i": 12,
+   "death": "smiler-A",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 58.16,
+    "nodes": 1531,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 54.15,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 198.0
+  },
+  {
+   "i": 13,
+   "death": "smiler-B",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 57.79,
+    "nodes": 1522,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 55.46,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 198.0
+  },
+  {
+   "i": 14,
+   "death": "smiler-C",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 59.61,
+    "nodes": 1526,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.29,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 198.0
+  },
+  {
+   "i": 15,
+   "death": "smiler-D",
+   "victim": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 57.83,
+    "nodes": 1524,
+    "listeners": 169
+   },
+   "spectator": {
+    "views": 1,
+    "records": 1,
+    "replays": 0,
+    "displayObjects": 1042,
+    "heapMB": 53.52,
+    "nodes": 1395,
+    "listeners": 169
+   },
+   "serverRssMB": 201.5
+  }
+ ],
+ "errors": [],
+ "slopeMBPerDeath": {
+  "victim": 0.593,
+  "spectator": 0.196
+ },
+ "slopeDisplayObjectsPerDeath": {
+  "victim": 0.0,
+  "spectator": 0.0
+ },
+ "serverRssSlopeMBPerDeath": 5.711,
+ "maxReplaysLeft": 0,
+ "maxViews": 1
+}

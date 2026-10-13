@@ -18,9 +18,9 @@ ws.onopen = () => ws.send(JSON.stringify({ t: 'admin', pass: ARG.pass, quiet: 1 
 ws.onmessage = ev => {
   let m; try { m = JSON.parse(ev.data); } catch (e) { return; }
   const t = Date.now() / 1000;
-  if (out.sent && t < out.sent + 3) { if (m.t !== 's' && m.t !== 'pong') out.after3s.push({ at: +(t - out.sent).toFixed(3), t: m.t, k: m.k, id: m.id, de: m.de, w: m.w, x: m.x, y: m.y, n: m.b ? m.b.length : undefined, msg: m.msg }); else if (m.t === 's') out.snapW = Math.max(out.snapW || 0, m.w); }
+  if (out.sent && t < out.sent + 3) { if (m.t !== 's' && m.t !== 'pong') out.after3s.push({ at: +(t - out.sent).toFixed(3), t: m.t, k: m.k, id: m.id, de: m.de, w: m.t === 'fx' ? m.wn : m.w, x: m.x, y: m.y, n: m.b ? m.b.length : undefined, msg: m.msg }); else if (m.t === 's') out.snapW = Math.max(out.snapW || 0, m.w); }
   if (m.t === 'fx' && m.k === out.kind && m.id === out.victim && !out.sawEvent) {
-    out.sawEvent = t; out.de = m.de; out.w0 = m.w;
+    out.sawEvent = t; out.de = m.de; out.w0 = m.wn;   // (H2-5: an fx names its world in wn)
     setTimeout(() => {
       ws.send(JSON.stringify({ t: 'a', c: 'world' })); out.sent = Date.now() / 1000; setTimeout(finish, 3200);
       setTimeout(() => { for (let i = 0; i < 6; i++) ws.send(JSON.stringify({ t: 'a', c: 'hounds', mode: 'remove' })); for (let i = 0; i < 8; i++) ws.send(JSON.stringify({ t: 'a', c: 'smilers', mode: 'remove' })); }, 150);   // (the new world's monsters: none of this test's business)

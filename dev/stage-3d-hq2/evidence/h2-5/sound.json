@@ -1,0 +1,312 @@
+{
+ "tool": "dev/stage-3d/sound_check.py",
+ "game": "/home/claude/backrooms-shadows",
+ "runs": {
+  "houndC": {
+   "quietStartsPer3s": [
+    7,
+    0,
+    0
+   ],
+   "deathStarts": [
+    41,
+    50,
+    3
+   ],
+   "victim": [
+    {
+     "t": 91211.89999999851,
+     "what": "death",
+     "kind": "Hound",
+     "hits": [
+      0.2,
+      0.21,
+      0.8,
+      1.4
+     ],
+     "gain": null,
+     "pan": null,
+     "lp": null
+    },
+    {
+     "t": 91860.30000000447,
+     "what": "event",
+     "k": "wall",
+     "sp": 165
+    },
+    {
+     "t": 91860.30000000447,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    },
+    {
+     "t": 91860.30000000447,
+     "what": "event",
+     "k": "eqhit",
+     "sp": 105
+    }
+   ],
+   "spectator": [
+    {
+     "t": 72723.69999999553,
+     "what": "death",
+     "kind": "Hound",
+     "hits": [
+      0.2,
+      0.21,
+      0.8,
+      1.4
+     ],
+     "gain": 1,
+     "pan": -0.09383103389720951,
+     "lp": 9000
+    },
+    {
+     "t": 73348.79999999702,
+     "what": "event",
+     "k": "wall",
+     "sp": 165
+    },
+    {
+     "t": 73348.79999999702,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    },
+    {
+     "t": 73348.79999999702,
+     "what": "event",
+     "k": "eqhit",
+     "sp": 105
+    }
+   ],
+   "far": [
+    {
+     "t": 55529.89999999851,
+     "what": "event",
+     "k": "wall",
+     "sp": 165
+    },
+    {
+     "t": 55529.89999999851,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    },
+    {
+     "t": 55529.89999999851,
+     "what": "event",
+     "k": "eqhit",
+     "sp": 105
+    }
+   ],
+   "maxShake": 0,
+   "reducedMotion": false,
+   "spectatorSoundOff": false,
+   "started": true
+  },
+  "smilerA": {
+   "quietStartsPer3s": [
+    0,
+    0,
+    0
+   ],
+   "deathStarts": [
+    28,
+    40,
+    0
+   ],
+   "victim": [
+    {
+     "t": 118872.20000000298,
+     "what": "death",
+     "kind": "Smiler",
+     "hits": [
+      0.24,
+      0.74,
+      1.2,
+      1.7
+     ],
+     "gain": null,
+     "pan": null,
+     "lp": null
+    },
+    {
+     "t": 120803.60000000149,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "spectator": [
+    {
+     "t": 101080.29999999702,
+     "what": "death",
+     "kind": "Smiler",
+     "hits": [
+      0.24,
+      0.74,
+      1.2,
+      1.7
+     ],
+     "gain": 1,
+     "pan": -0.1733771434640088,
+     "lp": 9000
+    },
+    {
+     "t": 103013.59999999404,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "far": [
+    {
+     "t": 84540.69999999553,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "maxShake": 0.042,
+   "reducedMotion": false,
+   "spectatorSoundOff": false,
+   "started": true
+  },
+  "houndA_bobSoundOff": {
+   "quietStartsPer3s": [
+    0,
+    0,
+    0
+   ],
+   "deathStarts": [
+    34,
+    0,
+    3
+   ],
+   "victim": [
+    {
+     "t": 146327.1000000015,
+     "what": "death",
+     "kind": "Hound",
+     "hits": [
+      0.2,
+      0.62,
+      1.05,
+      1.55
+     ],
+     "gain": null,
+     "pan": null,
+     "lp": null
+    },
+    {
+     "t": 147593.30000000447,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "spectator": [
+    {
+     "t": 129171.89999999851,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "far": [
+    {
+     "t": 111200.89999999851,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "maxShake": 0.05,
+   "reducedMotion": false,
+   "spectatorSoundOff": true,
+   "started": true
+  },
+  "houndA_reducedMotion": {
+   "quietStartsPer3s": [
+    46,
+    42,
+    0
+   ],
+   "deathStarts": [
+    71,
+    114,
+    8
+   ],
+   "victim": [
+    {
+     "t": 185243.6000000015,
+     "what": "death",
+     "kind": "Hound",
+     "hits": [
+      0.2,
+      0.62,
+      1.05,
+      1.55
+     ],
+     "gain": null,
+     "pan": null,
+     "lp": null
+    },
+    {
+     "t": 186180.20000000298,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "spectator": [
+    {
+     "t": 166849.19999999553,
+     "what": "death",
+     "kind": "Hound",
+     "hits": [
+      0.2,
+      0.62,
+      1.05,
+      1.55
+     ],
+     "gain": 1,
+     "pan": -0.1733771434640088,
+     "lp": 9000
+    },
+    {
+     "t": 167520.79999999702,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "far": [
+    {
+     "t": 149051.6000000015,
+     "what": "event",
+     "k": "eq",
+     "sp": null
+    }
+   ],
+   "maxShake": 0.002,
+   "reducedMotion": true,
+   "spectatorSoundOff": false,
+   "started": true
+  }
+ },
+ "audio": [
+  true,
+  true,
+  true
+ ],
+ "dcamK": {
+  "houndC": 1,
+  "smilerA": 1,
+  "houndA_bobSoundOff": 1,
+  "houndA_reducedMotion": 0.25
+ },
+ "errors": []
+}

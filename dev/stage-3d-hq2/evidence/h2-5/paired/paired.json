@@ -1,0 +1,123 @@
+{
+ "tool": "dev/stage-3d-hq2/paired_shots.py",
+ "old": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base",
+ "new": "/home/claude/backrooms-shadows",
+ "scenes": {
+  "corridor": {
+   "hq1_vs_hq2": {
+    "meanAbsGrey": 0.733,
+    "share24": 0.00471
+   },
+   "hq2_vs_hq2": {
+    "meanAbsGrey": 1.082,
+    "share24": 0.00444
+   },
+   "met": true
+  },
+  "hall": {
+   "hq1_vs_hq2": {
+    "meanAbsGrey": 1.35,
+    "share24": 7e-05
+   },
+   "hq2_vs_hq2": {
+    "meanAbsGrey": 0.966,
+    "share24": 4e-05
+   },
+   "met": true
+  },
+  "wall": {
+   "hq1_vs_hq2": {
+    "meanAbsGrey": 3.555,
+    "share24": 0.00795
+   },
+   "hq2_vs_hq2": {
+    "meanAbsGrey": 2.549,
+    "share24": 0.00127
+   },
+   "met": true
+  },
+  "dark": {
+   "hq1_vs_hq2": {
+    "meanAbsGrey": 0.22,
+    "share24": 7e-05
+   },
+   "hq2_vs_hq2": {
+    "meanAbsGrey": 0.278,
+    "share24": 0.00013
+   },
+   "met": true
+  },
+  "corpses": {
+   "hq1_vs_hq2": {
+    "meanAbsGrey": 0.139,
+    "share24": 6e-05
+   },
+   "hq2_vs_hq2": {
+    "meanAbsGrey": 0.108,
+    "share24": 0.00012
+   },
+   "met": true
+  }
+ },
+ "runs": {
+  "hq1": {
+   "errors": [],
+   "wallSpot": {
+    "face": "surf:room:04:wall:N:1440:34",
+    "side": "N",
+    "x": 3528,
+    "y": 1376,
+    "a": -1.5708,
+    "wx": 3528,
+    "wy": 1440,
+    "ox": -0.0,
+    "oy": -1,
+    "lamp": {
+     "x": 3600,
+     "y": 1392,
+     "r": 83
+    }
+   }
+  },
+  "hq2": {
+   "errors": [],
+   "wallSpot": {
+    "face": "surf:room:04:wall:N:1440:34",
+    "side": "N",
+    "x": 3528,
+    "y": 1376,
+    "a": -1.5708,
+    "wx": 3528,
+    "wy": 1440,
+    "ox": -0.0,
+    "oy": -1,
+    "lamp": {
+     "x": 3600,
+     "y": 1392,
+     "r": 83
+    }
+   }
+  },
+  "hq2b": {
+   "errors": [],
+   "wallSpot": {
+    "face": "surf:room:04:wall:N:1440:34",
+    "side": "N",
+    "x": 3528,
+    "y": 1376,
+    "a": -1.5708,
+    "wx": 3528,
+    "wy": 1440,
+    "ox": -0.0,
+    "oy": -1,
+    "lamp": {
+     "x": 3600,
+     "y": 1392,
+     "r": 83
+    }
+   }
+  }
+ },
+ "errors": 0,
+ "ok": true
+}

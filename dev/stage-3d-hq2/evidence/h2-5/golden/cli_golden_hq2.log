@@ -1,0 +1,10 @@
+PASS load: differs; normalised view identical (removed: old 0, new 0) | vanish claims sent: HQ1 0, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+PASS menu_online: differs; normalised view identical (removed: old 0, new 0) | vanish claims sent: HQ1 0, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+PASS run_online: differs; normalised view identical (removed: old 0, new 0) | vanish claims sent: HQ1 0, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+PASS interp: differs; normalised view identical (removed: old 0, new 0) | vanish claims sent: HQ1 0, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+PASS fx_bodies: differs; normalised view identical (removed: old 0, new 0) | vanish claims sent: HQ1 0, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+PASS facade: differs; normalised view identical (removed: old 4, new 0) | vanish claims sent: HQ1 2, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+PASS admin: differs; normalised view identical (removed: old 0, new 0) | vanish claims sent: HQ1 0, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+PASS reconnect_solo: differs; normalised view identical (removed: old 0, new 0) | vanish claims sent: HQ1 0, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+PASS hum_dread: differs; normalised view identical (removed: old 0, new 0) | vanish claims sent: HQ1 0, HQ2 0 | death claims: HQ1 0, HQ2 0 | new globals: __epochDebug,__nrDebug,__peerBodies
+CLIENT GOLDEN HQ2: every output identical apart from the declared globals, the death claims (3D) and the vanish claims (HQ2)

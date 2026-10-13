@@ -1,0 +1,4 @@
+1  wide-hall side-pass: Bob stands 12 px off her line
+2  lag recovery: both sprint at each other
+3  they back away from each other
+{"build": "b178b5d9fbe7", "ffmpeg": 0, "nearest": [{"t": 1791893083.939, "at": "side-pass, beside him", "alice": 60.9, "bob": 61.2, "softCorrections": {"alice": 0, "bob": 0}}, {"t": 1791893102.019, "at": "running into each other", "alice": 6.3, "bob": 13.7, "softCorrections": {"alice": 1, "bob": 2}}, {"t": 1791893112.494, "at": "standing, settled", "alice": 36, "bob": 36, "softCorrections": {"alice": 11, "bob": 2}}, {"t": 1791893121.354, "at": "apart", "alice": 294, "bob": 294, "softCorrections": {"alice": 11, "bob": 2}}], "errors": []}

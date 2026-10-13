@@ -1,0 +1,47 @@
+{
+ "tool": "dev/stage-3d-hq2/death_equiv.js",
+ "old": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base",
+ "new": ".",
+ "runs": 384,
+ "same": 384,
+ "diffs": [],
+ "perVariant": {
+  "Hound A": {
+   "runs": 48,
+   "same": 48
+  },
+  "Hound B": {
+   "runs": 48,
+   "same": 48
+  },
+  "Hound C": {
+   "runs": 48,
+   "same": 48
+  },
+  "Hound D": {
+   "runs": 48,
+   "same": 48
+  },
+  "Smiler A": {
+   "runs": 48,
+   "same": 48
+  },
+  "Smiler B": {
+   "runs": 48,
+   "same": 48
+  },
+  "Smiler C": {
+   "runs": 48,
+   "same": 48
+  },
+  "Smiler D": {
+   "runs": 48,
+   "same": 48
+  }
+ },
+ "lightProfiles": {
+  "compared": 800,
+  "same": 800
+ },
+ "ok": true
+}

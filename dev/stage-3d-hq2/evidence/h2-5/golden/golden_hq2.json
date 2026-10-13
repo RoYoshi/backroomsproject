@@ -1,0 +1,376 @@
+{
+ "tool": "dev/stage-3d-hq2/golden_hq2.js",
+ "old": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base",
+ "new": "/home/claude/backrooms-shadows",
+ "changedFiles": [
+  "STAGE_3D_HQ2_AUDIT.md",
+  "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+  "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+  "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+  "assets/index-DKbV5Nv9.js",
+  "death_srv.js",
+  "dphys.js",
+  "ents.js",
+  "gore.js",
+  "move.js",
+  "mp.js",
+  "server.js",
+  "server/peers.js",
+  "sim.js"
+ ],
+ "normalised": {
+  "dropped": [
+   "sim.moveOk",
+   "sim.moveRoute",
+   "sim.clearAt",
+   "sim.blockersAt",
+   "sim.spawnOk",
+   "sim.canRespawn",
+   "sim.lifeOf",
+   "sim.nrWhy",
+   "sim.nrWait"
+  ],
+  "fieldsTakenOut": "w in s, bodies, fx"
+ },
+ "scenarios": {
+  "boot": {
+   "harnessOk": true,
+   "rawLines": [
+    19,
+    19
+   ],
+   "comparedLines": [
+    19,
+    19
+   ],
+   "identical": true,
+   "pass": true
+  },
+  "http_base": {
+   "harnessOk": true,
+   "rawLines": [
+    267,
+    267
+   ],
+   "comparedLines": [
+    267,
+    267
+   ],
+   "identical": true,
+   "pass": true
+  },
+  "http_h0": {
+   "harnessOk": true,
+   "rawLines": [
+    72,
+    72
+   ],
+   "comparedLines": [
+    72,
+    72
+   ],
+   "identical": true,
+   "pass": true
+  },
+  "ws_upgrade": {
+   "harnessOk": true,
+   "rawLines": [
+    624,
+    624
+   ],
+   "comparedLines": [
+    624,
+    624
+   ],
+   "identical": true,
+   "pass": true
+  },
+  "ws_frames": {
+   "harnessOk": true,
+   "rawLines": [
+    1120,
+    1120
+   ],
+   "comparedLines": [
+    1120,
+    1120
+   ],
+   "identical": true,
+   "pass": true
+  },
+  "lifecycle": {
+   "harnessOk": true,
+   "rawLines": [
+    11113,
+    11100
+   ],
+   "comparedLines": [
+    11107,
+    11092
+   ],
+   "identical": false,
+   "firstDiff": {
+    "line": 1780,
+    "where": [
+     "/0: 6680 -> 6700",
+     "/1: \"sim.vanish\" -> \"fire\"",
+     "/2: [\"~player1\",1767225606.68] -> 1",
+     "/3: true -> undefined"
+    ],
+    "old": "[6680,\"sim.vanish\",[\"~player1\",1767225606.68],true]",
+    "new": "[6700,\"fire\",1]"
+   },
+   "differingAfter": {
+    "sim.vanish": 3,
+    "frame:fx:vanish": 4,
+    "fire": 1573,
+    "sim.entities": 781,
+    "sim.capInfo": 2319,
+    "frame:s": 2319,
+    "steps": 1560,
+    "sim.debugInfo": 257,
+    "sim.logSince": 257,
+    "sim.admin.info": 195,
+    "client.send": 13,
+    "sim.setBody": 1,
+    "sim.leave": 2,
+    "frame:bodies": 10,
+    "sim.gaitFloor": 3,
+    "sim.join": 3,
+    "frame:tp": 1,
+    "sim.takeItem": 1,
+    "note": 1,
+    "client.close": 4,
+    "net.close": 4,
+    "sim.removePlayer": 4,
+    "upgrade": 1,
+    "createSim": 1,
+    "crypto.randomBytes": 1,
+    "sock.write": 1,
+    "sock.setNoDelay": 1,
+    "sim.addPlayer": 1,
+    "frame:hi": 1,
+    "sock.on": 3,
+    "coverage": 1,
+    "scenario.end": 1
+   },
+   "expected": "lifecycle (D4): HQ1 accepted a client's NEW RUN vanish (sim.vanish); HQ2 no longer reads it",
+   "explanation": {
+    "expected": "lifecycle (D4): HQ1 accepted a client's NEW RUN vanish (sim.vanish); HQ2 no longer reads it",
+    "at": {
+     "old": [
+      6680,
+      "sim.vanish",
+      [
+       "~player1",
+       1767225606.68
+      ],
+      true
+     ],
+     "new": [
+      6700,
+      "fire",
+      1
+     ]
+    }
+   },
+   "sameEventSequence": false,
+   "firstEventDifference": {
+    "index": 1780,
+    "old": "sim.vanish",
+    "new": "fire",
+    "oldLine": "[6680,\"sim.vanish\",[\"~player1\",1767225606.68],true]",
+    "newLine": "[6700,\"fire\",1]"
+   },
+   "pass": true
+  },
+  "deaths": {
+   "harnessOk": true,
+   "rawLines": [
+    15055,
+    15158
+   ],
+   "comparedLines": [
+    14937,
+    14951
+   ],
+   "identical": false,
+   "firstDiff": {
+    "line": 86,
+    "where": [
+     "/5(json)/p/0/x: 960 -> 1004"
+    ],
+    "old": "[150,\"sock.frame\",\"c1\",129,\"~len\",\"{\\\"t\\\":\\\"s\\\",\\\"p\\\":[{\\\"id\\\":2,\\\"x\\\":960,\\\"y\\\":3264,\\\"a\\\":0,\\\"n\\\":\\\"WANDERER\\\",\\\"c\\\":\\\"#ffe7b2\\\",\\\"d\\\":0,\\\"r\\\":0,\\\"k\\\":\\\"flashlight\\\",\\\"l\\\":1,\\\"ir\\\":0,\\\"lk\\\":\\\"none|plain|#e6bb76|#ffcc77|none\\\",\\\"lp\\\":\\\"\\\",\\\"f\\\":-1,\\\"mv\\\":[0,0,100,0]}],\\\"e\\\":{\\\"st\\\":0.15,\\\"h\\\":[{\\\"i\\\":5,\\\"x\\\":8173.1,\\\"y\\\":5871.5,\\\"a\\\":-2.481,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h\\\":0,\\\"lh\\\":0,\\\"l\\\":-1,\\\"tg\\\":0,\\\"cp\\\":0,\\\"k\\\":0},{\\\"i\\\":6,\\\"x\\\":7786.6,\\\"y\\\":1364.7,\\\"a\\\":-2.897,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h",
+    "new": "[150,\"sock.frame\",\"c1\",129,\"~len\",\"{\\\"t\\\":\\\"s\\\",\\\"p\\\":[{\\\"id\\\":2,\\\"x\\\":1004,\\\"y\\\":3264,\\\"a\\\":0,\\\"n\\\":\\\"WANDERER\\\",\\\"c\\\":\\\"#ffe7b2\\\",\\\"d\\\":0,\\\"r\\\":0,\\\"k\\\":\\\"flashlight\\\",\\\"l\\\":1,\\\"ir\\\":0,\\\"lk\\\":\\\"none|plain|#e6bb76|#ffcc77|none\\\",\\\"lp\\\":\\\"\\\",\\\"f\\\":-1,\\\"mv\\\":[0,0,100,0]}],\\\"e\\\":{\\\"st\\\":0.15,\\\"h\\\":[{\\\"i\\\":5,\\\"x\\\":8173.1,\\\"y\\\":5871.5,\\\"a\\\":-2.481,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h\\\":0,\\\"lh\\\":0,\\\"l\\\":-1,\\\"tg\\\":0,\\\"cp\\\":0,\\\"k\\\":0},{\\\"i\\\":6,\\\"x\\\":7786.6,\\\"y\\\":1364.7,\\\"a\\\":-2.897,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\""
+   },
+   "differingAfter": {
+    "frame:s": 3312,
+    "sim.gaitFloor": 441,
+    "client.send": 457,
+    "sim.hearMove": 436,
+    "fire": 2296,
+    "steps": 2288,
+    "sim.entities": 1143,
+    "sim.debugInfo": 328,
+    "sim.capInfo": 3269,
+    "sim.logSince": 328,
+    "sim.admin.info": 286,
+    "note": 6,
+    "sim.admin.previewKill": 5,
+    "console.log": 13,
+    "frame:ares": 6,
+    "frame:fx:death": 14,
+    "sim.setBody": 7,
+    "sim.killerEnd": 6,
+    "frame:bodies": 20,
+    "sim.respawn": 4,
+    "sim.admin.endPreview": 1,
+    "frame:revive": 1,
+    "sim.vanish": 1,
+    "frame:fx:vanish": 2,
+    "client.close": 5,
+    "net.close": 5,
+    "sim.removePlayer": 5,
+    "coverage": 2,
+    "scenario.end": 2
+   },
+   "expected": "collision (D1-D2): a player's position differs (only x / y in the player lists)",
+   "explanation": {
+    "expected": "collision (D1-D2): a player's position differs (only x / y in the player lists)",
+    "where": [
+     "/p/0/x: 960 -> 1004"
+    ]
+   },
+   "sameEventSequence": false,
+   "firstEventDifference": {
+    "index": 305,
+    "old": "sim.gaitFloor",
+    "new": "frame:tp",
+    "oldLine": "[860,\"sim.gaitFloor\",[\"~player2\",true],\"~u\"]",
+    "newLine": "[860,\"sock.frame\",\"c2\",129,\"~len\",\"{\\\"t\\\":\\\"tp\\\",\\\"x\\\":1004,\\\"y\\\":3264}\"]"
+   },
+   "pass": true
+  },
+  "admin": {
+   "harnessOk": true,
+   "rawLines": [
+    17295,
+    17310
+   ],
+   "comparedLines": [
+    17262,
+    17268
+   ],
+   "identical": false,
+   "firstDiff": {
+    "line": 76,
+    "where": [
+     "/5(json)/p/0/x: 960 -> 1004"
+    ],
+    "old": "[150,\"sock.frame\",\"c1\",129,\"~len\",\"{\\\"t\\\":\\\"s\\\",\\\"p\\\":[{\\\"id\\\":2,\\\"x\\\":960,\\\"y\\\":3264,\\\"a\\\":0,\\\"n\\\":\\\"WANDERER\\\",\\\"c\\\":\\\"#ffe7b2\\\",\\\"d\\\":0,\\\"r\\\":0,\\\"k\\\":\\\"flashlight\\\",\\\"l\\\":1,\\\"ir\\\":0,\\\"lk\\\":\\\"none|plain|#e6bb76|#ffcc77|none\\\",\\\"lp\\\":\\\"\\\",\\\"f\\\":-1,\\\"mv\\\":[0,0,100,0]}],\\\"e\\\":{\\\"st\\\":0.15,\\\"h\\\":[{\\\"i\\\":5,\\\"x\\\":8173.1,\\\"y\\\":5871.5,\\\"a\\\":-2.481,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h\\\":0,\\\"lh\\\":0,\\\"l\\\":-1,\\\"tg\\\":0,\\\"cp\\\":0,\\\"k\\\":0},{\\\"i\\\":6,\\\"x\\\":7786.6,\\\"y\\\":1364.7,\\\"a\\\":-2.897,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h",
+    "new": "[150,\"sock.frame\",\"c1\",129,\"~len\",\"{\\\"t\\\":\\\"s\\\",\\\"p\\\":[{\\\"id\\\":2,\\\"x\\\":1004,\\\"y\\\":3264,\\\"a\\\":0,\\\"n\\\":\\\"WANDERER\\\",\\\"c\\\":\\\"#ffe7b2\\\",\\\"d\\\":0,\\\"r\\\":0,\\\"k\\\":\\\"flashlight\\\",\\\"l\\\":1,\\\"ir\\\":0,\\\"lk\\\":\\\"none|plain|#e6bb76|#ffcc77|none\\\",\\\"lp\\\":\\\"\\\",\\\"f\\\":-1,\\\"mv\\\":[0,0,100,0]}],\\\"e\\\":{\\\"st\\\":0.15,\\\"h\\\":[{\\\"i\\\":5,\\\"x\\\":8173.1,\\\"y\\\":5871.5,\\\"a\\\":-2.481,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h\\\":0,\\\"lh\\\":0,\\\"l\\\":-1,\\\"tg\\\":0,\\\"cp\\\":0,\\\"k\\\":0},{\\\"i\\\":6,\\\"x\\\":7786.6,\\\"y\\\":1364.7,\\\"a\\\":-2.897,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\""
+   },
+   "differingAfter": {
+    "frame:s": 541,
+    "frame:tp": 4,
+    "sim.debugInfo": 22,
+    "sim.logSince": 49,
+    "sim.admin.info": 29,
+    "sim.admin.nearestGlitch": 1,
+    "frame:ares": 4,
+    "fire": 105,
+    "sim.entities": 48,
+    "frame:bodies": 3,
+    "sim.capInfo": 131,
+    "steps": 96,
+    "client.send": 10,
+    "console.log": 4,
+    "frame:msg": 6,
+    "frame:kick": 1,
+    "setTimeout": 1,
+    "sock.frame": 1,
+    "sock.end": 1,
+    "net.close": 3,
+    "sim.removePlayer": 3,
+    "client.close": 2,
+    "coverage": 2,
+    "scenario.end": 2
+   },
+   "expected": "collision (D1-D2): a player's position differs (only x / y in the player lists)",
+   "explanation": {
+    "expected": "collision (D1-D2): a player's position differs (only x / y in the player lists)",
+    "where": [
+     "/p/0/x: 960 -> 1004"
+    ]
+   },
+   "sameEventSequence": false,
+   "firstEventDifference": {
+    "index": 16688,
+    "old": "frame:tp",
+    "new": "frame:world",
+    "oldLine": "[72180,\"sock.frame\",\"c1\",129,\"~len\",\"{\\\"t\\\":\\\"tp\\\",\\\"x\\\":960,\\\"y\\\":3264}\"]",
+    "newLine": "[72180,\"sock.frame\",\"c1\",129,\"~len\",\"{\\\"t\\\":\\\"world\\\",\\\"w\\\":3,\\\"x\\\":1004,\\\"y\\\":3264}\"]"
+   },
+   "pass": true
+  },
+  "schedule": {
+   "harnessOk": true,
+   "rawLines": [
+    1165,
+    1165
+   ],
+   "comparedLines": [
+    1164,
+    1164
+   ],
+   "identical": true,
+   "pass": true
+  },
+  "p_fields": {
+   "harnessOk": true,
+   "rawLines": [
+    1026,
+    1026
+   ],
+   "comparedLines": [
+    993,
+    993
+   ],
+   "identical": true,
+   "pass": true
+  },
+  "exit_glitch": {
+   "harnessOk": true,
+   "rawLines": [
+    703,
+    706
+   ],
+   "comparedLines": [
+    702,
+    702
+   ],
+   "identical": false,
+   "firstDiff": {
+    "line": 45,
+    "where": [
+     "/5(json)/p/0/x: 960 -> 1004"
+    ],
+    "old": "[50,\"sock.frame\",\"c1\",129,\"~len\",\"{\\\"t\\\":\\\"s\\\",\\\"p\\\":[{\\\"id\\\":2,\\\"x\\\":960,\\\"y\\\":3264,\\\"a\\\":0,\\\"n\\\":\\\"WANDERER\\\",\\\"c\\\":\\\"#ffe7b2\\\",\\\"d\\\":0,\\\"r\\\":0,\\\"k\\\":\\\"flashlight\\\",\\\"l\\\":1,\\\"ir\\\":0,\\\"lk\\\":\\\"none|plain|#e6bb76|#ffcc77|none\\\",\\\"lp\\\":\\\"\\\",\\\"f\\\":-1,\\\"mv\\\":[0,0,100,0]}],\\\"e\\\":{\\\"st\\\":0.05,\\\"h\\\":[{\\\"i\\\":5,\\\"x\\\":8180.4,\\\"y\\\":5877.2,\\\"a\\\":-2.481,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h\\\":0,\\\"lh\\\":0,\\\"l\\\":-1,\\\"tg\\\":0,\\\"cp\\\":0,\\\"k\\\":0},{\\\"i\\\":6,\\\"x\\\":7795.5,\\\"y\\\":1366.9,\\\"a\\\":-2.897,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h\\",
+    "new": "[50,\"sock.frame\",\"c1\",129,\"~len\",\"{\\\"t\\\":\\\"s\\\",\\\"p\\\":[{\\\"id\\\":2,\\\"x\\\":1004,\\\"y\\\":3264,\\\"a\\\":0,\\\"n\\\":\\\"WANDERER\\\",\\\"c\\\":\\\"#ffe7b2\\\",\\\"d\\\":0,\\\"r\\\":0,\\\"k\\\":\\\"flashlight\\\",\\\"l\\\":1,\\\"ir\\\":0,\\\"lk\\\":\\\"none|plain|#e6bb76|#ffcc77|none\\\",\\\"lp\\\":\\\"\\\",\\\"f\\\":-1,\\\"mv\\\":[0,0,100,0]}],\\\"e\\\":{\\\"st\\\":0.05,\\\"h\\\":[{\\\"i\\\":5,\\\"x\\\":8180.4,\\\"y\\\":5877.2,\\\"a\\\":-2.481,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h\\\":0,\\\"lh\\\":0,\\\"l\\\":-1,\\\"tg\\\":0,\\\"cp\\\":0,\\\"k\\\":0},{\\\"i\\\":6,\\\"x\\\":7795.5,\\\"y\\\":1366.9,\\\"a\\\":-2.897,\\\"s\\\":0,\\\"ac\\\":0,\\\"v\\\":92,\\\"h"
+   },
+   "differingAfter": {
+    "frame:s": 69
+   },
+   "expected": "collision (D1-D2): a player's position differs (only x / y in the player lists)",
+   "explanation": {
+    "expected": "collision (D1-D2): a player's position differs (only x / y in the player lists)",
+    "where": [
+     "/p/0/x: 960 -> 1004"
+    ]
+   },
+   "sameEventSequence": true,
+   "pass": true
+  }
+ },
+ "ok": true
+}

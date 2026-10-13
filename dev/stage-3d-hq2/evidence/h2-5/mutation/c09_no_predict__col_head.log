@@ -1,0 +1,25 @@
+{
+ "setupOk": true,
+ "minSeparationServer": 36.0,
+ "minSeparationPages": null,
+ "aliceEnd": {
+  "t": 1791877930.592,
+  "x": 976,
+  "y": 720,
+  "id": 1
+ },
+ "bobEnd": {
+  "t": 1791877930.716,
+  "x": 1012,
+  "y": 720,
+  "id": 3
+ },
+ "alicePastBob": false,
+ "bobMoved": 0
+}
+PASS setup: both alive and placed  {"setup": {"deadAtStart": [], "ok": true}, "placed": {"alice": {"t": 1791877921.972, "x": 862, "y": 720, "id": 1}, "bob": {"t": 1791877922.131, "x": 1012, "y": 720, "id": 3}}}
+PASS C09 the server never lets her closer than D (whole-px snapshots: >= 35.29)  {"min": 36.0, "snapshots": 43}
+FAIL C09 her own page predicts it: never closer than D to him on her own screen (35.5 with the 0.1 px sampling), and no correction at all (he stands still)  {"pageMin": 6.9, "corrections": [[1791877926.432, 976, 720, 1], [1791877926.721, 976, 720, 1], [1791877927.311, 976, 720, 1], [1791877927.874, 976, 720, 1], [1791877928.401, 976, 720, 1], [1791877929.304, 976, 720, 1], [1791877929.308, 976, 720, 1], [1791877929.531, 976, 720, 1], [1791877930.073, 97
+FAIL C09 head-on: she stops at contact, her page never through him, and her page ends where the server has her (within 2 px)  {"alicePageMaxX": 1073.5, "alicePageEnd": {"t": 1791877930.592, "x": 976, "y": 720, "id": 1}, "aliceServerEnd": [1791877930.937, 976, 720]}
+PASS C09 he is never moved (every snapshot has him where he was placed)  {"samples": 43, "moved": []}
+3/5 checks passed

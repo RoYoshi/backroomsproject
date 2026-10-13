@@ -1,0 +1,103 @@
+{
+ "tool": "dev/stage-3d/perf_death_srv.js",
+ "game": "/home/claude/backrooms-shadows",
+ "node": "v22.22.2",
+ "reps": 30,
+ "bodyFor": {
+  "Hound A": {
+   "medianMs": 9.462,
+   "maxMs": 18.001
+  },
+  "Hound B": {
+   "medianMs": 12.289,
+   "maxMs": 20.653
+  },
+  "Hound C": {
+   "medianMs": 7.329,
+   "maxMs": 16.708
+  },
+  "Hound D": {
+   "medianMs": 8.146,
+   "maxMs": 15.618
+  },
+  "Smiler A": {
+   "medianMs": 8.156,
+   "maxMs": 19.002
+  },
+  "Smiler B": {
+   "medianMs": 5.291,
+   "maxMs": 17.368
+  },
+  "Smiler C": {
+   "medianMs": 7.049,
+   "maxMs": 11.179
+  },
+  "Smiler D": {
+   "medianMs": 2.847,
+   "maxMs": 11.615
+  }
+ },
+ "step": {
+  "noCorpses": {
+   "medianMs": 0.0006,
+   "p95Ms": 0.0007
+  },
+  "corpses24": {
+   "medianMs": 0.0003,
+   "p95Ms": 0.0004
+  }
+ },
+ "bodiesMsg": {
+  "corpses": 24,
+  "bytes": 8607,
+  "bytesPerCorpse": 359
+ },
+ "memory": {
+  "heapBeforeMB": 13.44,
+  "heapAfter500MB": 17.58,
+  "bodiesKept": 24,
+  "gcExposed": false
+ },
+ "incremental": {
+  "Hound A": {
+   "largestTickMedianMs": 0.114,
+   "largestTickMaxMs": 0.512,
+   "totalMedianMs": 2.793
+  },
+  "Hound B": {
+   "largestTickMedianMs": 0.107,
+   "largestTickMaxMs": 0.554,
+   "totalMedianMs": 2.877
+  },
+  "Hound C": {
+   "largestTickMedianMs": 0.122,
+   "largestTickMaxMs": 0.515,
+   "totalMedianMs": 2.764
+  },
+  "Hound D": {
+   "largestTickMedianMs": 0.114,
+   "largestTickMaxMs": 0.466,
+   "totalMedianMs": 2.617
+  },
+  "Smiler A": {
+   "largestTickMedianMs": 0.108,
+   "largestTickMaxMs": 0.495,
+   "totalMedianMs": 2.798
+  },
+  "Smiler B": {
+   "largestTickMedianMs": 0.102,
+   "largestTickMaxMs": 0.489,
+   "totalMedianMs": 2.012
+  },
+  "Smiler C": {
+   "largestTickMedianMs": 0.105,
+   "largestTickMaxMs": 0.48,
+   "totalMedianMs": 2.732
+  },
+  "Smiler D": {
+   "largestTickMedianMs": 0.114,
+   "largestTickMaxMs": 0.556,
+   "totalMedianMs": 2.698
+  }
+ }
+}

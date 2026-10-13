@@ -1,0 +1,292 @@
+{
+ "tool": "dev/stage-3d-hq2/contract_hq2.js",
+ "fieldOrder": {
+  "fx": [
+   "t",
+   "k",
+   "id",
+   "c",
+   "x",
+   "y",
+   "a",
+   "sx",
+   "sy",
+   "v",
+   "w",
+   "lk",
+   "ek",
+   "ec",
+   "ep",
+   "vx",
+   "vy",
+   "ex",
+   "srv",
+   "de",
+   "wn",
+   "lo",
+   "lf",
+   "el"
+  ],
+  "s": [
+   "t",
+   "p",
+   "e",
+   "me",
+   "ms",
+   "cp",
+   "w",
+   "mk",
+   "ad",
+   "you",
+   "dbg",
+   "dx"
+  ],
+  "bodies": [
+   "t",
+   "v",
+   "w",
+   "b"
+  ]
+ },
+ "additions": {
+  "fx": [
+   [
+    "de",
+    "death id",
+    "optional"
+   ],
+   [
+    "lo",
+    "the light was on",
+    "optional"
+   ],
+   [
+    "lf",
+    "HQ1: how the light fails",
+    "optional"
+   ],
+   [
+    "el",
+    "seconds already run (late joiner)",
+    "optional"
+   ],
+   [
+    "wn",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "fx:boom": [
+   [
+    "t"
+   ],
+   [
+    "k",
+    "boom"
+   ],
+   [
+    "id"
+   ],
+   [
+    "x"
+   ],
+   [
+    "y"
+   ],
+   [
+    "a"
+   ],
+   [
+    "d",
+    "direction"
+   ],
+   [
+    "s",
+    "seed"
+   ],
+   [
+    "lk"
+   ],
+   [
+    "ek"
+   ],
+   [
+    "ec"
+   ],
+   [
+    "ep"
+   ],
+   [
+    "vx"
+   ],
+   [
+    "vy"
+   ],
+   [
+    "srv"
+   ],
+   [
+    "de"
+   ],
+   [
+    "wn"
+   ],
+   [
+    "lo"
+   ],
+   [
+    "lf",
+    null,
+    "optional"
+   ],
+   [
+    "el",
+    null,
+    "optional"
+   ]
+  ],
+  "fx:end": [
+   [
+    "t",
+    "type"
+   ],
+   [
+    "k",
+    "end"
+   ],
+   [
+    "id",
+    "victim id"
+   ],
+   [
+    "de",
+    "death id"
+   ],
+   [
+    "wn",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "s": [
+   [
+    "w",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "bodies": [
+   [
+    "w",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "tp": [
+   [
+    "pc",
+    "HQ2: a soft peer correction",
+    "optional"
+   ]
+  ],
+  "nra": [
+   [
+    "t"
+   ],
+   [
+    "q"
+   ],
+   [
+    "ok"
+   ],
+   [
+    "why",
+    null,
+    "optional"
+   ],
+   [
+    "wait",
+    null,
+    "optional"
+   ],
+   [
+    "de",
+    null,
+    "optional"
+   ],
+   [
+    "w",
+    null,
+    "optional"
+   ]
+  ],
+  "world": [
+   [
+    "t"
+   ],
+   [
+    "w"
+   ],
+   [
+    "x",
+    null,
+    "optional"
+   ],
+   [
+    "y",
+    null,
+    "optional"
+   ]
+  ],
+  "nr": [
+   [
+    "t"
+   ],
+   [
+    "q"
+   ],
+   [
+    "w"
+   ]
+  ]
+ },
+ "removedClientMessages": [
+  "fx",
+  "b"
+ ],
+ "counts": {
+  "serverToClient": {
+   "hi": 46,
+   "bodies": 89,
+   "s": 13159,
+   "pong": 14,
+   "admin": 29,
+   "ares": 144,
+   "tp": 41,
+   "got": 1,
+   "fx:death": 24,
+   "world": 8,
+   "fx:end": 8,
+   "msg": 6,
+   "kick": 1,
+   "revive": 1,
+   "exit": 1,
+   "nra": 2,
+   "fx:boom": 4
+  },
+  "clientToServer": {
+   "join": 11,
+   "admin": 9,
+   "p": 819,
+   "a": 60,
+   "ping": 2,
+   "respawn": 2,
+   "leave": 1,
+   "pick": 1,
+   "nr": 2
+  }
+ },
+ "violations": 0,
+ "firstViolations": [],
+ "ok": true
+}

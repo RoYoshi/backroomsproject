@@ -1,0 +1,290 @@
+{
+ "tool": "dev/stage-3d/cli_golden3d.js",
+ "oldRef": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+ "declared3d": [
+  "__dvic",
+  "__deathLight"
+ ],
+ "scenes": [
+  {
+   "scene": "load",
+   "oldEntries": 20,
+   "newEntries": 20,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  },
+  {
+   "scene": "menu_online",
+   "oldEntries": 1785,
+   "newEntries": 1785,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  },
+  {
+   "scene": "run_online",
+   "oldEntries": 7137,
+   "newEntries": 7137,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  },
+  {
+   "scene": "interp",
+   "oldEntries": 11481,
+   "newEntries": 11481,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  },
+  {
+   "scene": "fx_bodies",
+   "oldEntries": 22761,
+   "newEntries": 22761,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  },
+  {
+   "scene": "facade",
+   "oldEntries": 1166,
+   "newEntries": 1162,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  },
+  {
+   "scene": "admin",
+   "oldEntries": 1328,
+   "newEntries": 1328,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  },
+  {
+   "scene": "reconnect_solo",
+   "oldEntries": 737,
+   "newEntries": 737,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  },
+  {
+   "scene": "hum_dread",
+   "oldEntries": 4875,
+   "newEntries": 4875,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "undeclared": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "removed": {
+    "old": 0,
+    "new": 0,
+    "claimsOld": 0,
+    "claimsNew": 0
+   },
+   "nonDeathIdentical": false,
+   "firstNonDeathDiff": {
+    "index": 12,
+    "old": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__sfx\",\"object\"]],\"net\":[[\"on\",\"boolean\"],[\"tick",
+    "new": "[1000,\"loaded\",{\"globals\":[[\"__NET\",\"object\"],[\"__cam\",\"object\"],[\"__ents\",\"object\"],[\"__epochDebug\",\"function\"],[\"__fxKill\",\"set:0\"],[\"__fxKillS\",\"set:0\"],[\"__fxs\",\"array:0\"],[\"__glitchFrame\",\"function\"],[\"__glitchSound\",\"object\"],[\"__hideBodies\",\"~\"],[\"__hounds\",\"array:64\"],[\"__inv\",\"object\"],[\"__mp\",\"function\"],[\"__mv\",\"object\"],[\"__net\",\"object\"],[\"__netPose\",\"function\"],[\"__nrDebug\",\"function"
+   },
+   "ok": false
+  }
+ ],
+ "ok": false
+}

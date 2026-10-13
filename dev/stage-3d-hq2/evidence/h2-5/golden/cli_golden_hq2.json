@@ -1,0 +1,266 @@
+{
+ "tool": "dev/stage-3d-hq2/cli_golden_hq2.js",
+ "oldRef": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+ "declared": [
+  "__dvic",
+  "__deathLight",
+  "__nrDebug",
+  "__epochDebug",
+  "__peerBodies"
+ ],
+ "scenes": [
+  {
+   "scene": "load",
+   "oldEntries": 20,
+   "newEntries": 20,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "menu_online",
+   "oldEntries": 1785,
+   "newEntries": 1785,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "run_online",
+   "oldEntries": 7137,
+   "newEntries": 7137,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "interp",
+   "oldEntries": 11481,
+   "newEntries": 11481,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "fx_bodies",
+   "oldEntries": 22761,
+   "newEntries": 22761,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "facade",
+   "oldEntries": 1166,
+   "newEntries": 1162,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 2,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 4,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "admin",
+   "oldEntries": 1328,
+   "newEntries": 1328,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "reconnect_solo",
+   "oldEntries": 737,
+   "newEntries": 737,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  },
+  {
+   "scene": "hum_dread",
+   "oldEntries": 4875,
+   "newEntries": 4875,
+   "identical": false,
+   "errors": [],
+   "globalsOnlyInNew": [
+    "__epochDebug",
+    "__nrDebug",
+    "__peerBodies"
+   ],
+   "globalsOnlyInOld": [],
+   "vanishClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "deathClaims": {
+    "old": 0,
+    "new": 0
+   },
+   "undeclared": [],
+   "removed": {
+    "old": 0,
+    "new": 0
+   },
+   "viewIdentical": true,
+   "ok": true
+  }
+ ],
+ "ok": true
+}

@@ -1,0 +1,59 @@
+{
+ "tool": "dev/stage-3d/perf_death.py",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base",
+ "lighting": "default",
+ "rounds": [
+  {
+   "corpses20_onscreen": [
+    {
+     "secs": 4.81,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 800,
+     "frameP95Ms": 883.3,
+     "frameMaxMs": 1816.6,
+     "scriptMsPerSec": 76.3,
+     "taskMsPerSec": 997.8,
+     "heapMB": 69.02
+    },
+    {
+     "secs": 4.77,
+     "frames": 7,
+     "fps": 1.5,
+     "frameMedianMs": 766.6,
+     "frameP95Ms": 816.7,
+     "frameMaxMs": 983.2,
+     "scriptMsPerSec": 108.4,
+     "taskMsPerSec": 996.3,
+     "heapMB": 61.46
+    }
+   ],
+   "corpses20_offscreen": [
+    {
+     "secs": 4.53,
+     "frames": 8,
+     "fps": 1.8,
+     "frameMedianMs": 641.7,
+     "frameP95Ms": 699.9,
+     "frameMaxMs": 700,
+     "scriptMsPerSec": 90.0,
+     "taskMsPerSec": 998.7,
+     "heapMB": 80.54
+    },
+    {
+     "secs": 4.61,
+     "frames": 8,
+     "fps": 1.7,
+     "frameMedianMs": 675.0,
+     "frameP95Ms": 699.9,
+     "frameMaxMs": 716.7,
+     "scriptMsPerSec": 86.4,
+     "taskMsPerSec": 998.0,
+     "heapMB": 65.77
+    }
+   ]
+  }
+ ],
+ "note": "SwiftShader software rendering, 2 CPUs: compare versions on the same machine only",
+ "errors": []
+}

@@ -1,0 +1,180 @@
+{
+ "tool": "dev/stage-3d-hq1/wall_rebuild_test.py",
+ "game": "/home/claude/backrooms-shadows",
+ "steps": [
+  {
+   "step": "before",
+   "file": "wall_rebuild_before.png",
+   "band": 195,
+   "stamped": 1,
+   "receiver": 1,
+   "stamps": 1,
+   "removed": 0,
+   "tier": "low",
+   "builds": 1,
+   "bake": {
+    "bakes": 75,
+    "evictions": 52,
+    "resident": 22,
+    "chunks": 350
+   }
+  },
+  {
+   "step": "rebuild",
+   "file": "wall_rebuild_rebuild.png",
+   "band": 193,
+   "stamped": 1,
+   "receiver": 1,
+   "stamps": 1,
+   "removed": 0,
+   "tier": "low",
+   "builds": 2,
+   "bake": {
+    "bakes": 91,
+    "evictions": 52,
+    "resident": 22,
+    "chunks": 350
+   }
+  },
+  {
+   "step": "tier_high",
+   "file": "wall_rebuild_tier_high.png",
+   "band": 196,
+   "stamped": 1,
+   "receiver": 1,
+   "stamps": 1,
+   "removed": 0,
+   "tier": "high",
+   "builds": 3,
+   "bake": {
+    "bakes": 115,
+    "evictions": 70,
+    "resident": 22,
+    "chunks": 350
+   }
+  },
+  {
+   "step": "tier_low",
+   "file": "wall_rebuild_tier_low.png",
+   "band": 192,
+   "stamped": 1,
+   "receiver": 1,
+   "stamps": 1,
+   "removed": 0,
+   "tier": "low",
+   "builds": 4,
+   "bake": {
+    "bakes": 133,
+    "evictions": 88,
+    "resident": 22,
+    "chunks": 350
+   }
+  },
+  {
+   "step": "evict_back",
+   "file": "wall_rebuild_evict_back.png",
+   "band": 196,
+   "stamped": 1,
+   "receiver": 1,
+   "stamps": 1,
+   "removed": 0,
+   "tier": "low",
+   "builds": 4,
+   "bake": {
+    "bakes": 197,
+    "evictions": 156,
+    "resident": 18,
+    "chunks": 350
+   }
+  }
+ ],
+ "checks": [
+  {
+   "name": "the stain stays through a full rebuild, two tier rebuilds and a cache eviction: one stain, one receiver mark, no second stamp, >= 150 blood pixels on the band each time",
+   "ok": true,
+   "info": {
+    "before": [
+     195,
+     1,
+     1,
+     1,
+     "low",
+     52
+    ],
+    "rebuild": [
+     193,
+     1,
+     1,
+     1,
+     "low",
+     52
+    ],
+    "tier_high": [
+     196,
+     1,
+     1,
+     1,
+     "high",
+     70
+    ],
+    "tier_low": [
+     192,
+     1,
+     1,
+     1,
+     "low",
+     88
+    ],
+    "evict_back": [
+     196,
+     1,
+     1,
+     1,
+     "low",
+     156
+    ]
+   }
+  }
+ ],
+ "spot": {
+  "face": "surf:room:05:wall:S:1344:5",
+  "side": "S",
+  "x": 552,
+  "y": 1434,
+  "a": 1.5708,
+  "wx": 552,
+  "wy": 1344,
+  "ox": -0.0,
+  "oy": 1,
+  "lamp": {
+   "x": 624,
+   "y": 1392,
+   "r": 83
+  }
+ },
+ "viewer": [
+  412,
+  1574,
+  -0.7854
+ ],
+ "far": {
+  "bake": {
+   "mode": "bake",
+   "chunk": 384,
+   "density": 0.7396,
+   "chunks": 350,
+   "resident": 38,
+   "visible": 18,
+   "MPx": 3.06,
+   "cache": 12,
+   "bakes": 179,
+   "bakeMs": 232.8,
+   "bakeMaxMs": 28.4,
+   "evictions": 118,
+   "error": ""
+  },
+  "receiver": 1
+ },
+ "errors": [],
+ "ok": true
+}

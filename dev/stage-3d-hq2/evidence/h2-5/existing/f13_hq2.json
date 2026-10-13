@@ -1,0 +1,55 @@
+{
+ "tool": "dev/stage-3d-hq2/f13_hq2.js",
+ "replaces": "dev/tests/s_shared2f.js 2F F13",
+ "cases": [
+  {
+   "how": "death",
+   "before": {
+    "habit": true,
+    "hypotheses": 2
+   },
+   "ok": true
+  },
+  {
+   "how": "respawn",
+   "before": {
+    "habit": true,
+    "hypotheses": 2
+   },
+   "ok": true
+  },
+  {
+   "how": "disconnect",
+   "before": {
+    "habit": true,
+    "hypotheses": 2
+   },
+   "ok": true
+  },
+  {
+   "how": "newrun",
+   "before": {
+    "habit": true,
+    "hypotheses": 2
+   },
+   "ok": true
+  },
+  {
+   "how": "leave",
+   "before": {
+    "habit": true,
+    "hypotheses": 2
+   },
+   "ok": true
+  },
+  {
+   "how": "world",
+   "before": {
+    "habit": true,
+    "hypotheses": 2
+   },
+   "ok": true
+  }
+ ],
+ "ok": true
+}

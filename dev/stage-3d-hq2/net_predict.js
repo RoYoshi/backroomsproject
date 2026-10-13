@@ -13,6 +13,8 @@
  *   c09_pass    the standing one stands aside (30 px off the line); the runner slides past his shoulder, at 0 and 150 ms
  *   c10_two     two pages sprint at each other in the corridor, at 0, 60 and 150 ms each way
  *   c10_crowd8  eight pages (a full room) walk into one point on open floor and back out, 40 ms each way
+ *   c10_rough   (H2-5) a rough link at 100, 200 and 300 ms each way, with jitter and messages held up by retransmission stalls (TCP keeps
+ *               order): head-on into a standing player, and two runners; bounded soft corrections, no lasting rubber band
  * Checks (exit 1 if any fails): never closer than D on the server (whole-px snapshots: >= 35.29); nobody through anybody; a standing
  * player is never corrected and never moved; corrections are soft only, at most one per 0.3 s, and with a standing target none at all;
  * each page ends where the server has it (within 2 px). */
@@ -22,6 +24,8 @@ const ARG = {}; for (let i = 2; i < process.argv.length; i += 2) ARG[process.arg
 const GAME = path.resolve(ARG.game || '.'), PASS = 'd3-synthetic-admin';
 const createSim = require(path.join(GAME, 'sim.js')), WORLD = require(path.join(GAME, 'world.js')), timing = require(path.join(GAME, 'timing_policy.js'));
 const SRC = new vm.Script(fs.readFileSync(path.join(GAME, 'move.js'), 'utf8'), { filename: 'move.js' });
+const BLEND = (() => { const m = /function softTp\(A, x, y\) \{\s*const [^\n]*?if \(!\(d <= (\d+)\)\) return false;/.exec(fs.readFileSync(path.join(GAME, 'mp.js'), 'utf8')); return m ? +m[1] : null; })();   // the game's own mp.js softTp: how far a soft correction is blended (H2-4: 96 px; H2-5: 600)
+if (!BLEND) { console.error('mp.js softTp not found in ' + GAME); process.exit(2); }
 const level = createSim({ seed: 5 });
 const sleep = ms => new Promise(r => setTimeout(r, ms)), now = () => Date.now();
 const DMIN = 36 - Math.SQRT1_2, CORR = { y: 720, x0: 812, xb: 1012 }, HALL = { x: 4450, y: 3450 };
@@ -46,25 +50,25 @@ class Watch {
 }
 /* a page: move.js + mp.js's handling of the wire, with lag */
 class Page {
-  constructor(room, name, lag) {
-    this.name = name; this.lag = lag; this.id = null; this.tps = []; this.view = []; this.track = []; this.peers = []; this.input = () => [0, 0, 0, 0];
+  constructor(room, name, lag, link) {                                     // link (H2-5): a Link instead of a fixed lag
+    this.name = name; this.lag = link ? link.lag : lag; this.link = link || null; this.id = null; this.tps = []; this.view = []; this.track = []; this.peers = []; this.input = () => [0, 0, 0, 0];
     const H = this.H = { x: 0, y: 0, vx: 0, vy: 0, angle: 0, distance: 0, stamina: 100, sprinting: false, exhausted: false, equipment: { kind: 'flashlight' } };
     const api = { H, keys: new Set(), Bc: (x, y) => level.blockersAt(x, y), Oc: level.adapter.rooms };
     this.win = { WORLD, __api: api, __peerBodies: this.peers }; this.clock = 0;
     SRC.runInContext(vm.createContext({ window: this.win, performance: { now: () => this.clock * 1000 }, Math, console, document: { getElementById: () => null } }));
     this.mv = this.win.__mv; this.blend = null; this.solid = false;
     this.ws = new WebSocket(`ws://127.0.0.1:${PORT}/ws?room=${room}`); this.open = new Promise(r => this.ws.onopen = r);
-    this.ws.onmessage = ev => { const d = ev.data; if (this.lag) setTimeout(() => this.rx(d), this.lag); else this.rx(d); };
+    this.ws.onmessage = ev => { const d = ev.data, tw = now(); if (this.link) setTimeout(() => this.rx(d, tw), this.link.delay('down')); else if (this.lag) setTimeout(() => this.rx(d, tw), this.lag); else this.rx(d, tw); };
   }
-  tx(o) { const s = JSON.stringify(o); const go = () => { if (this.ws.readyState === 1) this.ws.send(s); }; if (this.lag) setTimeout(go, this.lag); else go(); }
-  rx(d) {
+  tx(o) { const s = JSON.stringify(o); const go = () => { if (this.ws.readyState === 1) this.ws.send(s); }; if (this.link) setTimeout(go, this.link.delay('up')); else if (this.lag) setTimeout(go, this.lag); else go(); }
+  rx(d, tw) {
     let m; try { m = JSON.parse(d); } catch (e) { return; }
     if (m.t === 'hi') this.id = m.id;
     else if (m.t === 'tp') {
-      this.tps.push({ t: now(), x: m.x, y: m.y, pc: m.pc | 0 });
       const dx = m.x - this.H.x, dy = m.y - this.H.y;
-      if (m.pc && Math.hypot(dx, dy) <= 96) this.blend = { dx, dy, t0: now(), done: 0 };           // (mp.js softTp)
-      else { this.blend = null; this.H.x = m.x; this.H.y = m.y; this.H.vx = this.H.vy = 0; }
+      this.tps.push({ t: now(), tw, x: m.x, y: m.y, pc: m.pc | 0, off: r1(Math.hypot(dx, dy)) });   // (tw: when it came off the wire; off: how far the page was from it)
+      if (m.pc && Math.hypot(dx, dy) <= BLEND) this.blend = { dx, dy, t0: now(), done: 0 };        // (mp.js softTp, read from the game's own mp.js)
+      else { this.blend = null; this.H.x = m.x; this.H.y = m.y; this.H.vx = this.H.vy = 0; if (m.pc) this.tps[this.tps.length - 1].jumped = 1; }
     } else if (m.t === 's') {
       const held = new Set(); if (m.e) for (const k of ['h', 'm']) for (const e of m.e[k] || []) if (e && e.cp) held.add(e.cp);
       this.peers.length = 0; if (this.solid && !m.me && !m.cp) for (const p of m.p) if (!p.d && !held.has(p.id)) this.peers.push([p.x, p.y]);   // (mp.js solidPeers)
@@ -177,16 +181,62 @@ async function c10_crowd8(lag) {
   P.forEach(p => p.close()); return out;
 }
 
+/* ---------------------------------------------------------------- H2-5: C10 on a rough link */
+function mulberry(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+/* a rougher link than a fixed lag: each message waits lag +/- jitter (uniform), and with probability loss a lost segment's retransmission
+ * stall (200 ms) on top of that; the connection is TCP, so nothing overtakes what was sent before it (a stall holds up everything behind it) */
+class Link {
+  constructor(lag, jitter, loss, seed) { this.lag = lag; this.jitter = jitter; this.loss = loss; this.rto = 200; this.at = { up: 0, down: 0 }; this.rnd = mulberry(seed); this.stalls = 0; }
+  delay(dir) { let t = now() + this.lag + (this.rnd() * 2 - 1) * this.jitter; if (this.rnd() < this.loss) { t += this.rto; this.stalls++; } t = Math.max(t, this.at[dir]); this.at[dir] = t; return Math.max(0, t - now()); }
+}
+async function c10_rough([lag, jitter, loss]) {
+  const tag = `${lag}j${jitter}l${Math.round(loss * 100)}`, out = { lag, jitter, loss, rtoMs: 200 }, check = setup(out), name = `${lag} ms +/- ${jitter} each way, ${Math.round(loss * 100)} % of messages held up by a 200 ms retransmission`;
+  {                                                                          // head-on into a standing player
+    const room = 'np_rh' + tag, W = new Watch(room); await W.auth(); await W.clear();
+    const LB = new Link(lag, jitter, loss, 11), LA = new Link(lag, jitter, loss, 12), B = new Page(room, 'BOB', 0, LB), A = new Page(room, 'ALICE', 0, LA);
+    await B.join(CORR.xb, CORR.y); await W.clear(); await A.join(CORR.x0, CORR.y); await W.clear();
+    const t0 = now(); A.tps.length = 0; B.tps.length = 0; A.input = toward(1400, CORR.y, 1);
+    await runPages([A, B], 3500 + 2 * lag); await runPages([A, B], 800 + 2 * lag);
+    const m = minPairs([W.log], [A.id, B.id], t0, now()), a = lastPos(W.log, A.id), b = lastPos(W.log, B.id);
+    out.head = { server: { min: m, alice: a, bob: b }, aliceCorrections: corrInfo(A), bobCorrections: corrInfo(B), stalls: { alice: LA.stalls, bob: LB.stalls },
+      pageMinToBob: r1(Math.min(...A.track.filter(r => r[0] >= t0).map(r => Math.hypot(r[1] - CORR.xb, r[2] - CORR.y)))), alicePage: [r1(A.H.x), r1(A.H.y)] };
+    check(`C10 rough link (${name}): head-on into a standing player - never closer than D on the server or on her own screen; no correction at all; he never moved; she ends where the server has her`,
+      m.min >= DMIN && a && b && a[1] < b[1] && out.head.pageMinToBob >= 36 && A.tps.length === 0 && B.tps.length === 0 && b[1] === CORR.xb && b[2] === CORR.y && Math.hypot(Math.round(A.H.x) - a[1], Math.round(A.H.y) - a[2]) <= 2, out.head);
+    A.close(); B.close(); W.close();
+  }
+  {                                                                          // two pages sprinting at each other
+    const room = 'np_r2' + tag, W = new Watch(room); await W.auth(); await W.clear();
+    const LA = new Link(lag, jitter, loss, 21), LB = new Link(lag, jitter, loss, 22), A = new Page(room, 'ALICE', 0, LA), B = new Page(room, 'BOB', 0, LB);
+    await A.join(CORR.x0, CORR.y); await W.clear(); await B.join(CORR.x0 + 400, CORR.y); await W.clear();
+    const t0 = now(); A.tps.length = 0; B.tps.length = 0; A.input = toward(CORR.x0 + 600, CORR.y, 1); B.input = toward(CORR.x0 - 200, CORR.y, 1);
+    await runPages([A, B], 3000 + 2 * lag); const ts = now(); A.input = B.input = () => [0, 0, 0, 0]; await runPages([A, B], 2200 + 2 * lag);
+    const m = minPairs([W.log], [A.id, B.id], t0, now()), a = lastPos(W.log, A.id), b = lastPos(W.log, B.id);
+    const order = W.log.filter(q => q.t >= t0).every(q => { const x = q.p.find(r => r[0] === A.id), y = q.p.find(r => r[0] === B.id); return !x || !y || x[1] < y[1]; });
+    const quiet = ts + 2 * lag + 2 * jitter + 1000, info = pg => { const g = pg.tps.slice(1).map((q, i) => q.tw - pg.tps[i].tw);
+      return Object.assign(corrInfo(pg), { minWireGapMs: g.length ? Math.min(...g) : null, maxOffPx: pg.tps.length ? Math.max(...pg.tps.map(q => q.off)) : 0, jumps: pg.tps.filter(q => q.jumped).length, afterStanding: pg.tps.filter(q => q.t > quiet).length }); };
+    out.two = { server: { min: m, alwaysInOrder: order, alice: a, bob: b }, corrections: { alice: info(A), bob: info(B) }, stalls: { alice: LA.stalls, bob: LB.stalls }, pages: { alice: [r1(A.H.x), r1(A.H.y)], bob: [r1(B.H.x), r1(B.H.y)] } };
+    const ca = out.two.corrections.alice, cb = out.two.corrections.bob;
+    check(`C10 rough link (${name}): two pages sprinting at each other - never closer than D on the server, and in every snapshot neither past the other`, m.min >= DMIN && order && a && b && a[1] < b[1], out.two.server);
+    check('C10 ...corrections bounded: soft only, each one blended over 120 ms (none a jump), sent at most one per 0.3 s (timed as they came off the wire, before the link held them up); the largest is measured',
+      [ca, cb].every(c => c.soft === c.n && !c.jumps && (c.minWireGapMs == null || c.minWireGapMs >= 290)), out.two.corrections);
+    check('C10 ...no lasting rubber band: once both have stood a second (plus the link\'s worst delay) no correction comes, and each page is where the server has it (within 2 px)',
+      ca.afterStanding === 0 && cb.afterStanding === 0 && Math.hypot(Math.round(A.H.x) - a[1], Math.round(A.H.y) - a[2]) <= 2 && Math.hypot(Math.round(B.H.x) - b[1], Math.round(B.H.y) - b[2]) <= 2, { corrections: out.two.corrections, pages: out.two.pages, server: [a, b] });
+    A.close(); B.close(); W.close();
+  }
+  return out;
+}
+
 (async () => {
   PORT = +ARG.port || await freePort();
   const log = (ARG.out || 'net_predict.json').replace(/\.json$/, '') + '.server.log', srv = await startServer(log);
-  const res = { tool: 'dev/stage-3d-hq2/net_predict.js', game: GAME, scenarios: {} };
+  const res = { tool: 'dev/stage-3d-hq2/net_predict.js', game: GAME, softBlendPx: BLEND, scenarios: {} };
   try {
     for (const s of String(ARG.scenario || 'c09_head,c09_pass,c10_two,c10_crowd8').split(',')) {
       if (s === 'c09_head') for (const l of [0, 60, 150]) res.scenarios[s + '_' + l] = await c09_head(l);
       if (s === 'c09_pass') for (const l of [0, 150]) res.scenarios[s + '_' + l] = await c09_pass(l);
       if (s === 'c10_two') for (const l of [0, 60, 150]) res.scenarios[s + '_' + l] = await c10_two(l);
       if (s === 'c10_crowd8') res.scenarios[s] = await c10_crowd8(40);
+      if (s === 'c10_rough') for (const pr of [[100, 25, .02], [200, 50, .02], [300, 80, .03]]) res.scenarios[s + '_' + pr[0]] = await c10_rough(pr);   // (H2-5)
       await sleep(300);
     }
   } finally { srv.kill('SIGTERM'); }

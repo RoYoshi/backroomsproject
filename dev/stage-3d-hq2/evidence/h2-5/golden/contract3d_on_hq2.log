@@ -1,0 +1,12 @@
+messages checked: server->client 11567, client->server 905
+VIOLATIONS: 11398
+  {"where":"admin.new.jsonl @50","why":"field not in the contract","t":"bodies","k":"w"}
+  {"where":"admin.new.jsonl @50","why":"field not in the contract","t":"s","k":"w"}
+  {"where":"admin.new.jsonl @50","why":"field not in the contract","t":"bodies","k":"w"}
+  {"where":"admin.new.jsonl @50","why":"field not in the contract","t":"s","k":"w"}
+  {"where":"admin.new.jsonl @50","why":"field not in the contract","t":"bodies","k":"w"}
+  {"where":"admin.new.jsonl @50","why":"field not in the contract","t":"s","k":"w"}
+  {"where":"admin.new.jsonl @100","why":"field not in the contract","t":"s","k":"w"}
+  {"where":"admin.new.jsonl @100","why":"field not in the contract","t":"s","k":"w"}
+  {"where":"admin.new.jsonl @100","why":"field not in the contract","t":"s","k":"w"}
+  {"where":"admin.new.jsonl @150","why":"field not in the contract","t":"s","k":"w"}

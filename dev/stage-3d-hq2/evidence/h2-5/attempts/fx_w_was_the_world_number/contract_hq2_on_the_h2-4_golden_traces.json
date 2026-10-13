@@ -1,0 +1,331 @@
+{
+ "tool": "dev/stage-3d-hq2/contract_hq2.js",
+ "fieldOrder": {
+  "fx": [
+   "t",
+   "k",
+   "id",
+   "c",
+   "x",
+   "y",
+   "a",
+   "sx",
+   "sy",
+   "v",
+   "w",
+   "d",
+   "s",
+   "lk",
+   "ek",
+   "ec",
+   "ep",
+   "vx",
+   "vy",
+   "ex",
+   "srv",
+   "de",
+   "wn",
+   "lo",
+   "lf",
+   "el"
+  ],
+  "s": [
+   "t",
+   "p",
+   "e",
+   "me",
+   "ms",
+   "cp",
+   "w",
+   "mk",
+   "ad",
+   "you",
+   "dbg",
+   "dx"
+  ],
+  "bodies": [
+   "t",
+   "v",
+   "w",
+   "b"
+  ]
+ },
+ "additions": {
+  "fx": [
+   [
+    "de",
+    "death id",
+    "optional"
+   ],
+   [
+    "lo",
+    "the light was on",
+    "optional"
+   ],
+   [
+    "lf",
+    "HQ1: how the light fails",
+    "optional"
+   ],
+   [
+    "el",
+    "seconds already run (late joiner)",
+    "optional"
+   ],
+   [
+    "d",
+    "HQ2: the blast's direction",
+    "optional"
+   ],
+   [
+    "s",
+    "HQ2: the blast's seed",
+    "optional"
+   ],
+   [
+    "wn",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "fx:end": [
+   [
+    "t",
+    "type"
+   ],
+   [
+    "k",
+    "end"
+   ],
+   [
+    "id",
+    "victim id"
+   ],
+   [
+    "de",
+    "death id"
+   ],
+   [
+    "wn",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "s": [
+   [
+    "w",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "bodies": [
+   [
+    "w",
+    "HQ2: the world's number",
+    "optional"
+   ]
+  ],
+  "tp": [
+   [
+    "pc",
+    "HQ2: a soft peer correction",
+    "optional"
+   ]
+  ],
+  "nra": [
+   [
+    "t"
+   ],
+   [
+    "q"
+   ],
+   [
+    "ok"
+   ],
+   [
+    "why",
+    null,
+    "optional"
+   ],
+   [
+    "wait",
+    null,
+    "optional"
+   ],
+   [
+    "de",
+    null,
+    "optional"
+   ],
+   [
+    "w",
+    null,
+    "optional"
+   ]
+  ],
+  "world": [
+   [
+    "t"
+   ],
+   [
+    "w"
+   ],
+   [
+    "x",
+    null,
+    "optional"
+   ],
+   [
+    "y",
+    null,
+    "optional"
+   ]
+  ],
+  "nr": [
+   [
+    "t"
+   ],
+   [
+    "q"
+   ],
+   [
+    "w"
+   ]
+  ]
+ },
+ "removedClientMessages": [
+  "fx",
+  "b"
+ ],
+ "counts": {
+  "serverToClient": {
+   "hi": 41,
+   "bodies": 67,
+   "s": 11296,
+   "pong": 14,
+   "admin": 27,
+   "ares": 57,
+   "tp": 33,
+   "got": 1,
+   "fx:death": 16,
+   "world": 3,
+   "fx:end": 3,
+   "msg": 6,
+   "kick": 1,
+   "revive": 1,
+   "exit": 1
+  },
+  "clientToServer": {
+   "join": 11,
+   "admin": 9,
+   "p": 819,
+   "a": 60,
+   "ping": 2,
+   "respawn": 2,
+   "leave": 1,
+   "pick": 1
+  }
+ },
+ "violations": 19,
+ "firstViolations": [
+  {
+   "where": "admin.new.jsonl @70850",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "admin.new.jsonl @70850",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "admin.new.jsonl @72180",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @72180",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @72180",
+   "why": "field not in the contract",
+   "t": "fx",
+   "k": "w"
+  },
+  {
+   "where": "deaths.new.jsonl @1400",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @1400",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @6150",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @6150",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @11250",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @11250",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @14650",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @14650",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @29650",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @29650",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @45250",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @45250",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @49950",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  },
+  {
+   "where": "deaths.new.jsonl @49950",
+   "why": "a death replay whose w is not its wall (0, or [x, y, angle] for Hound C: death_srv.fxFor)",
+   "w": 2
+  }
+ ],
+ "ok": false
+}

@@ -149,3 +149,90 @@ From then on, a death or blast replay (`fx`), a corpse list (`bodies`) or a kill
 ### Evidence
 
 `dev/stage-3d-hq2/evidence/h2-4/` (its `SUMMARY.md`): `proto/world_msgs` (the wire) and `browser/reset_death`, `browser/reset_boom` (four real pages: R01–R04).
+
+## H2-5: the regression, and one repair
+
+### The world's number on an `fx` is `wn` (a repair)
+
+**What was wrong.** A death replay's `w` field is the Hound C wall: `[x, y, angle]`, or `0` for every other death (`death_srv.fxFor`; it has been in 3H0's protocol contract since before HQ2).
+
+From H2-2 on, the server wrote the world's number into that same field (`Object.assign(fxFor(...), { de, w: worldSeq })`). So every death replay told the spectators `w: 2`:
+- a spectator's Hound C replay ran without its wall (`dphys.prepare` takes a wall only from a three-number `w`);
+- its body still landed near the server's corpse, but its dropped light came to rest 17 px away from it, and the wall's blood mark was missing.
+
+Nothing at H2-2 to H2-4 caught it:
+- `golden_hq2.js` took the world's number out of every `fx`, and with it the wall;
+- `parity3d.py`, which shows it, was not run in those checkpoints.
+
+**Measured before the repair**, on H2-4's commit `99e1593`, with the H2-5 tools (`evidence/h2-5/before_fix/`):
+- `proto_lab.js --scenario fx_wall`: a Hound C replay's `w` is `2`, a Hound A replay's is `2` (1/3 checks);
+- `contract_hq2.js` on `wire_capture.js`'s messages: every death replay's `w` is not its wall, and every `fx end` carries an unlisted `w`;
+- `parity3d.py --only hound-C`, judged by `parity_judge.py` against HQ1's own numbers: the spectator's light 17.14 px from the server's corpse (HQ1: 0.21 px), blood marks 4 of 5 (HQ1: 5 of 5), the seeds differ.
+
+**The repair.** On an `fx` the world's number is `wn`; `w` is the wall again, exactly as in HQ1.
+- `server.js`: the death replay (`aftStart`), the blast (`boomStart`) and a world reset's `end` (`worldReset`) carry `wn`.
+- `mp.js`: an `fx` naming an older world is dropped by its `wn` (`oldWorld(m.wn)`).
+- `s`, `bodies`, `world` and `nra` keep `w`. None of them had a `w` before HQ2.
+
+This corrects D5 of the audit, which said "every `fx` carries `w`".
+
+**Measured after**, on the final tree: `fx_wall` 3/3 (the Hound C replay's `w` is `[3740, 3744, 2.356]`, `wn` 2); `contract_hq2.js` finds no violation in 13,578 server messages; the HQ1 battery's `parity3d.py` and `parity_judge.py` (see `STAGE_3D_HQ2_REGRESSION.md`).
+
+### NEW RUN under races, crowds and abuse (`proto_lab.js`, `evidence/h2-5/proto/h25.json`: 36/36)
+
+**E04, the connection drops (`nr_abort`).** Four cases:
+- with the intent in flight (no answer ever read);
+- the moment the approval arrives;
+- 1.5 s into the blast;
+- 0.5 s into the blast, then a reconnect 0.3 s later.
+
+In every case it is all or nothing. The server approved each one (its log), and the spectator got exactly one blast and one Boom corpse of that event. She is out of the world at once. A connection opened after the blast gets that corpse, the same record, and no replay.
+
+The reconnect, made while the blast plays, gets the blast once as any late joiner does (`el` 0.91 s) and then the same corpse.
+
+**E05, races (`nr_race`).**
+- **A kill and a NEW RUN in the same burst**, kill first: the NEW RUN is refused (`dead`). One death replay, no blast, one Hound corpse.
+- **The other order:** the NEW RUN is approved, and the kill finds nobody in the halls. One blast, no death replay, one Boom corpse.
+- **A natural death, then END (to the menu) or RESPAWN:** no blast, no NEW RUN answer, one corpse.
+- **The cooldown is untouched by all of these.** The first NEW RUN afterwards is approved, and its corpse replaces the death's: one per player.
+
+**Four at once (`nr_many`).** Four players press NEW RUN in the same instant:
+- four approvals, four events;
+- the spectator gets four blasts, each where its player stood, and four Boom corpses;
+- the spectator is not moved or corrected.
+
+The cooldown is each player's own: one of the four is refused 25 s later, while the spectator's own first press is approved. A room next door hears nothing: no blast, no corpse, no answer, the same world.
+
+**Packet abuse (`abuse`).** A player standing against another sends 1,500 hostile messages in 2.8 s:
+- 911 of every type, with wrong field types, huge and non-finite numbers, and prototype keys;
+- 160 admin commands, which an ordinary player may not give;
+- 188 garbage strings;
+- 119 oversize frames;
+- 122 binary frames.
+
+The results:
+- The server kept time (the spectator's snapshots at 19.5 a second).
+- The other player was not moved, corrected or hurt; he stayed in god mode and was not made an admin.
+- Nothing exploded, died or was reset. No monster was added, the world was not frozen, and the capture style did not change.
+- The abuser never got into a wall or within D of him (closest 36.4 px). He stayed an ordinary living player, got no NEW RUN approval, and moved normally afterwards.
+- A frame with a 64-bit length closed only its own socket.
+
+The admin passcode itself was not fuzzed. Five wrong guesses lock the address out (HQ1's own rule), which would also lock out this test's quiet admins.
+
+**E09 on real screens (`e09_browser.py`, `evidence/h2-5/browser/e09.json`: 6/6).** The setup:
+- three pages ask for reduced motion;
+- the room is blacked out and every light is off;
+- Alice presses NEW RUN in front of a wall;
+- Bob watches from the side with his sound switched off;
+- Carol stands behind the wall, on a page that never had a user gesture and whose audio may not start.
+
+The results:
+- **No flash.** Every frame Bob's and Carol's screens showed during the blast is identical in brightness to before it: mean grey 2.7, lit share 1.52 %. The control, Bob switching his own light on afterwards, shows at once (lit share 4.58 %).
+- **No camera jump.** Bob's and Carol's players never moved, no death camera started and the zoom stayed at 1. Alice stayed exactly where she pressed until her run menu (1.1 s).
+- **Sound.** The muted spectator's page asked for the blast's sound once and made no audio node. Alice's own page made 15 (the control). Carol's page played the blast with its audio suspended, and nothing threw.
+
+The game itself has no reduced-motion setting. What this shows is that the blast adds no camera motion for anyone.
+
+### Recorded for human QA
+
+**A reconnect is a new player.** There are no accounts, so a reloaded page has a fresh cooldown (D4, unchanged). `nr_abort` measures it: the reconnect's first NEW RUN is approved.

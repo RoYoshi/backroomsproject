@@ -1,0 +1,24 @@
+{
+ "tool": "dev/stage-3d-hq2/boom_geo.js",
+ "game": "/home/claude/backrooms-shadows",
+ "runs": 400,
+ "fails": [],
+ "wallStruck": 94,
+ "marks": 94,
+ "ms": 1.81,
+ "summary": {
+  "runs": 400,
+  "onOpenFloor": 200,
+  "huggingAWall": 200,
+  "failures": 0,
+  "bodyFlightPx": {
+   "min": 1,
+   "median": 64,
+   "max": 107
+  },
+  "wallStruck": 94,
+  "wallMarks": 94,
+  "msPerBlast": 1.81
+ },
+ "ok": true
+}

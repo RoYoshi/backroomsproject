@@ -1,0 +1,232 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/home/claude/backrooms-shadows",
+ "gitHead": "99e15931793b6f8b7f434321d050fc6a2ff7155d",
+ "startedAt": "2026-10-13T07:08:58.487Z",
+ "scenarios": {
+  "world_msgs": {
+   "room": "h24world",
+   "checks": [
+    {
+     "name": "setup: Vic's death is playing (its replay reached Alice)",
+     "ok": true,
+     "info": {
+      "de": 1,
+      "w": 0
+     }
+    },
+    {
+     "name": "R01 every connection gets exactly one world message, the next world",
+     "ok": true,
+     "info": {
+      "alice": [
+       {
+        "at": 1791875343731,
+        "t": "world",
+        "w": 3,
+        "x": 960,
+        "y": 3264
+       }
+      ],
+      "vic": [
+       {
+        "at": 1791875343731,
+        "t": "world",
+        "w": 3,
+        "x": 1004,
+        "y": 3264
+       }
+      ],
+      "menu": [
+       {
+        "at": 1791875343731,
+        "t": "world",
+        "w": 3
+       }
+      ]
+     }
+    },
+    {
+     "name": "R01 a player in a run is told where it now stands (x, y), the same spot as its tp; one in the menu is not",
+     "ok": true,
+     "info": {
+      "alice": {
+       "at": 1791875343731,
+       "t": "world",
+       "w": 3,
+       "x": 960,
+       "y": 3264
+      },
+      "aliceTp": [
+       {
+        "t": 1791875343731,
+        "x": 960,
+        "y": 3264,
+        "pc": 0
+       },
+       {
+        "t": 1791875344691,
+        "x": 960,
+        "y": 3264,
+        "pc": 0
+       }
+      ],
+      "vic": {
+       "at": 1791875343731,
+       "t": "world",
+       "w": 3,
+       "x": 1004,
+       "y": 3264
+      },
+      "vicTp": [
+       {
+        "t": 1791875343731,
+        "x": 1004,
+        "y": 3264,
+        "pc": 0
+       }
+      ],
+      "menu": {
+       "at": 1791875343731,
+       "t": "world",
+       "w": 3
+      }
+     }
+    },
+    {
+     "name": "R01 then the end of the death in progress (its id), to the others; with the new world's number",
+     "ok": true,
+     "info": {
+      "alice": [
+       {
+        "at": 1791875343731,
+        "t": "fx",
+        "k": "end",
+        "id": 2,
+        "de": 1,
+        "wn": 3
+       }
+      ],
+      "menu": [
+       {
+        "at": 1791875343731,
+        "t": "fx",
+        "k": "end",
+        "id": 2,
+        "de": 1,
+        "wn": 3
+       }
+      ]
+     }
+    },
+    {
+     "name": "R01 the dead player is alive again, in a run, on the spot he was told",
+     "ok": true,
+     "info": {
+      "server": {
+       "a": 1,
+       "d": "",
+       "x": 1004,
+       "y": 3264
+      },
+      "told": {
+       "at": 1791875343731,
+       "t": "world",
+       "w": 3,
+       "x": 1004,
+       "y": 3264
+      }
+     }
+    },
+    {
+     "name": "R01 nothing sent after the reset names the old world: no death or blast replay, and the corpse list says the new world and holds no corpse of Vic",
+     "ok": true,
+     "info": {
+      "old": [],
+      "bodies": [
+       {
+        "w": 3,
+        "n": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "R03 a connection opened after the reset hears nothing of the old death: no replay, no corpse, nothing naming the old world",
+     "ok": true,
+     "info": {
+      "fx": [],
+      "bodies": [
+       [
+        3,
+        0
+       ]
+      ],
+      "w": 3
+     }
+    },
+    {
+     "name": "R04 the reset answers nobody's NEW RUN and explodes nobody",
+     "ok": true,
+     "info": {
+      "nra": 0
+     }
+    }
+   ],
+   "world": {
+    "w0": 2,
+    "alice": [
+     {
+      "at": 1791875343731,
+      "t": "world",
+      "w": 3,
+      "x": 960,
+      "y": 3264
+     }
+    ],
+    "vic": [
+     {
+      "at": 1791875343731,
+      "t": "world",
+      "w": 3,
+      "x": 1004,
+      "y": 3264
+     }
+    ],
+    "menu": [
+     {
+      "at": 1791875343731,
+      "t": "world",
+      "w": 3
+     }
+    ],
+    "aliceTp": [
+     {
+      "t": 1791875343731,
+      "x": 960,
+      "y": 3264,
+      "pc": 0
+     },
+     {
+      "t": 1791875344691,
+      "x": 960,
+      "y": 3264,
+      "pc": 0
+     }
+    ],
+    "vicTp": [
+     {
+      "t": 1791875343731,
+      "x": 1004,
+      "y": 3264,
+      "pc": 0
+     }
+    ],
+    "deathDe": 1
+   }
+  }
+ },
+ "ok": true,
+ "passed": 8,
+ "total": 8
+}

@@ -135,6 +135,8 @@ A `tp` with `pc:1` within 96 px is blended in over 120 ms:
 
 A larger one, or any other `tp`, is a jump as before.
 
+*(H2-5 changed this: every soft correction the server can send is blended. See "H2-5" below.)*
+
 ### What the page and the server agree on
 
 | Case | Result |
@@ -146,3 +148,60 @@ A larger one, or any other `tp`, is a jump as before.
 ### Evidence (H2-4)
 
 `dev/stage-3d-hq2/evidence/h2-4/` (its `SUMMARY.md`).
+
+## H2-5: the regression, and one repair
+
+### Every soft correction is blended (a repair)
+
+**What was wrong.** D3 says a soft correction (`tp pc:1`) is blended in over 120 ms instead of snapping. H2-4 blended only those within 96 px and made a larger one a jump.
+
+With 200–300 ms each way, two runners heading at each other run a whole round trip past the point where the server stopped them. Their corrections are then about 100–135 px, so each page jumped back.
+
+**Measured** with H2-5's rough-link scenario (`net_predict.js --scenario c10_rough`):
+- 100, 200 and 300 ms each way;
+- ± 25, 50 and 80 ms of jitter;
+- 2–3 % of messages held up by a 200 ms retransmission, in order, as TCP does.
+
+It was measured on H2-4's commit (`evidence/h2-5/before_fix/c10_rough_h24.json`; the tool reads the soft-correction rule from the tested tree's own `mp.js`: 96 px there). One correction of 132 px at 200 ms and two of 142 and 185 px at 300 ms were jumps (10/12 checks).
+
+**The repair** (`mp.js` `softTp`). Every soft correction up to 600 px is blended over 120 ms. One packet's movement budget on the server is 568 px, so that covers every soft correction the server can send. Every other `tp` is unchanged: walls, teleports, the movement budget, placements.
+
+**Measured after** (`evidence/h2-5/net/c10_rough.json`: 12/12):
+- the server never lets the runners closer than D (36 px at all three lags);
+- neither is ever past the other in a snapshot;
+- every correction is blended, none is a jump (the largest 113 px at 200 ms, 152 and 163 px at 300 ms; 1–4 corrections a page);
+- corrections are sent at most one per 0.3 s (at least 309 ms apart off the wire);
+- once both stand, no further correction comes, and each page is where the server has it.
+
+### C09: a chase, and what the AI hears (`proto_lab.js col_chase`, `evidence/h2-5/proto/h25.json`)
+
+**What the AI hears.** The AI hears the movement the server accepted (`sim.js gaitFloor`):
+- walking freely, she is heard walking;
+- held at contact with Bob, she is heard as still, because the server accepts no movement into him;
+- never louder than her walk, and never a sprint.
+
+Pressed into a wall instead, every packet is refused and her last accepted gait is kept (HQ1's rule, measured alongside: creeping).
+
+**A hound sent at her while she presses into Bob.** It killed her 4.8 s later. Until her death, every server position of hers was clear of the walls and at least D from Bob (closest 36 px). Bob was never moved or corrected. There was one death replay (Hound) and one corpse.
+
+### C10 on a rough link
+
+See the repair above. A standing player is also measured on the rough link: head-on, the runner stops at contact with no correction at all, on the server and on her own screen, because she knows exactly where he is.
+
+### A full room of real pages (`multi_browser.py`, `evidence/h2-5/browser/multi8.json`)
+
+The setup: eight SwiftShader pages on two cores, 480 × 320, the game's low lighting quality, all ordinary players.
+- one page is CPU-throttled four times;
+- one talks through a 100 ms-each-way lag;
+- each page walks by the game's own key state (an autopilot sets W/A/S/D every frame).
+
+The results:
+- **Seven pages crowd one point.** In every snapshot of the server's own player list (339), no two are closer than D (35.69 px, whole px). They pack round the point and all walk back out, all of them within 16.4 s: a page starved of frames moves only when it draws one. Corrections are soft only, 0–4 a page.
+- **Two NEW RUNs at the same moment.** Both are approved, and every page plays both blasts. Nobody else moves. Both Boom corpses appear on every page, the late joiner's included.
+- **Eight players.** Every page sees the seven others. The new spawns are at least 44 px from everyone. All eight walk out and back; the closest any two came was 69 px.
+
+### Recorded for human QA
+
+**On-screen overlap with lag** (H2-4, unchanged). While two players run at each other with lag, each page draws the other where its last snapshot put him, so their bodies can overlap on a screen for a moment. The server never lets them.
+
+**Pushing into each other with lag.** While two players keep pushing into each other, the lagged page gets a small blended correction about every 0.3 s. In the lag film (150 ms each way) it got 10 while both held their keys, then none. It stops as soon as either lets go. While they ran at each other, Alice's screen drew Bob 6 px from her for a moment; standing, both screens show 36 px.

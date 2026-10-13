@@ -1,0 +1,102 @@
+{
+ "tool": "dev/stage-3d-hq2/video_hq2.py",
+ "game": "/home/claude/backrooms-shadows",
+ "build": "b178b5d9fbe7",
+ "buildFiles": [
+  "server.js",
+  "server/peers.js",
+  "sim.js",
+  "death_srv.js",
+  "dphys.js",
+  "mp.js",
+  "move.js",
+  "gore.js",
+  "ents.js",
+  "index.html",
+  "assets/index-DKbV5Nv9.js",
+  "assets/net-wire.js"
+ ],
+ "steps": [
+  {
+   "t": 1791892929.8261938,
+   "step": "1  the narrow-hall stand-off: Alice walks into Bob, who stands still"
+  },
+  {
+   "t": 1791892938.3378887,
+   "step": "2  Bob steps aside: Alice squeezes past his shoulder"
+  },
+  {
+   "t": 1791892948.798346,
+   "step": "3  Alice walks back; NEW RUN: the server's blast"
+  },
+  {
+   "t": 1791892957.9643233,
+   "step": "4  Carol opens the game: a late joiner"
+  },
+  {
+   "t": 1791893014.289612,
+   "step": "5  Alice presses SPAWN: a new run"
+  }
+ ],
+ "pages": {
+  "Alice": 1791892892.0338385,
+  "Bob": 1791892904.1104138,
+  "Carol": 1791892958.4671655
+ },
+ "frameMs": {
+  "alice": [
+   500,
+   1249.8999999999942,
+   466.70000000001164,
+   599.8999999999942,
+   650,
+   500,
+   433.30000000001746,
+   500,
+   466.5999999999767,
+   600
+  ],
+  "bob": [
+   899.8999999999942,
+   849.8999999999942,
+   516.7000000000116,
+   566.6999999999971,
+   583.3000000000029,
+   516.5999999999913,
+   500,
+   483.3000000000029,
+   583.3000000000029,
+   616.5999999999913
+  ],
+  "carol": [
+   983.3000000000029,
+   516.6000000000058,
+   733.2999999999884,
+   583.3000000000029,
+   450,
+   416.6999999999971,
+   483.3000000000029,
+   483.3000000000029,
+   616.6999999999971,
+   649.9000000000087
+  ]
+ },
+ "blastAt": [
+  1658,
+  728
+ ],
+ "spawned": true,
+ "end": 1791893029.4682097,
+ "pageErrors": [],
+ "videos": {
+  "Alice": "alice.webm",
+  "Bob": "bob.webm",
+  "Carol": "carol.webm"
+ },
+ "ffmpeg": 0,
+ "alignSeconds": {
+  "Alice": 0.0,
+  "Bob": 12.07657527923584,
+  "Carol": 66.43332695960999
+ }
+}

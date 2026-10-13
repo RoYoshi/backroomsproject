@@ -1,0 +1,352 @@
+{
+ "tool": "dev/stage-3d-hq2/perf_hq2.py",
+ "game": "/home/claude/backrooms-shadows",
+ "rounds": [
+  {
+   "idle": [
+    {
+     "secs": 4.55,
+     "frames": 6,
+     "frameMedianMs": 891.65,
+     "frameP95Ms": 1033.2,
+     "scriptMsPerSec": 91.1,
+     "taskMsPerSec": 996.5
+    },
+    {
+     "secs": 4.62,
+     "frames": 6,
+     "frameMedianMs": 850.0,
+     "frameP95Ms": 1016.6,
+     "scriptMsPerSec": 73.7,
+     "taskMsPerSec": 996.3
+    }
+   ],
+   "contact": [
+    {
+     "secs": 4.79,
+     "frames": 8,
+     "frameMedianMs": 675.0,
+     "frameP95Ms": 833.3,
+     "scriptMsPerSec": 87.7,
+     "taskMsPerSec": 997.1
+    },
+    {
+     "secs": 4.76,
+     "frames": 8,
+     "frameMedianMs": 683.35,
+     "frameP95Ms": 766.7,
+     "scriptMsPerSec": 112.4,
+     "taskMsPerSec": 997.1
+    }
+   ],
+   "contactSeparation": {
+    "peers": 1,
+    "mine": [
+     5713,
+     920
+    ],
+    "nearestPx": 35.8,
+    "epoch": {
+     "w": 2,
+     "ends": 1,
+     "at": 1791885254.397,
+     "oldDropped": 0,
+     "softTp": 0,
+     "peers": 1
+    }
+   },
+   "death_houndC": [
+    {
+     "secs": 2.18,
+     "frames": 4,
+     "frameMedianMs": 716.6,
+     "frameP95Ms": 716.6,
+     "scriptMsPerSec": 114.1,
+     "taskMsPerSec": 998.3
+    },
+    {
+     "secs": 2.2,
+     "frames": 4,
+     "frameMedianMs": 724.9,
+     "frameP95Ms": 733.2,
+     "scriptMsPerSec": 106.9,
+     "taskMsPerSec": 996.4
+    }
+   ],
+   "explosion": [
+    {
+     "secs": 3.9,
+     "frames": 6,
+     "frameMedianMs": 733.35,
+     "frameP95Ms": 816.6,
+     "scriptMsPerSec": 68.0,
+     "taskMsPerSec": 979.3
+    },
+    {
+     "secs": 3.89,
+     "frames": 6,
+     "frameMedianMs": 741.6,
+     "frameP95Ms": 800,
+     "scriptMsPerSec": 66.4,
+     "taskMsPerSec": 977.9
+    }
+   ],
+   "explosionApproved": {
+    "q": 1,
+    "ok": 1,
+    "why": "",
+    "wait": null,
+    "de": 2,
+    "at": 1791885347.814
+   },
+   "spawned": true
+  },
+  {
+   "idle": [
+    {
+     "secs": 4.7,
+     "frames": 7,
+     "frameMedianMs": 716.6,
+     "frameP95Ms": 833.2,
+     "scriptMsPerSec": 84.4,
+     "taskMsPerSec": 996.9
+    },
+    {
+     "secs": 4.72,
+     "frames": 7,
+     "frameMedianMs": 716.7,
+     "frameP95Ms": 916.6,
+     "scriptMsPerSec": 65.6,
+     "taskMsPerSec": 996.0
+    }
+   ],
+   "contact": [
+    {
+     "secs": 4.69,
+     "frames": 7,
+     "frameMedianMs": 733.2,
+     "frameP95Ms": 800,
+     "scriptMsPerSec": 87.8,
+     "taskMsPerSec": 996.7
+    },
+    {
+     "secs": 4.71,
+     "frames": 7,
+     "frameMedianMs": 750.1,
+     "frameP95Ms": 850,
+     "scriptMsPerSec": 88.1,
+     "taskMsPerSec": 996.6
+    }
+   ],
+   "contactSeparation": {
+    "peers": 1,
+    "mine": [
+     5713,
+     920
+    ],
+    "nearestPx": 35.8,
+    "epoch": {
+     "w": 2,
+     "ends": 1,
+     "at": 1791885254.397,
+     "oldDropped": 0,
+     "softTp": 0,
+     "peers": 1
+    }
+   },
+   "death_houndC": [
+    {
+     "secs": 2.59,
+     "frames": 4,
+     "frameMedianMs": 783.3,
+     "frameP95Ms": 816.7,
+     "scriptMsPerSec": 142.6,
+     "taskMsPerSec": 994.8
+    },
+    {
+     "secs": 2.62,
+     "frames": 4,
+     "frameMedianMs": 874.95,
+     "frameP95Ms": 949.9,
+     "scriptMsPerSec": 105.4,
+     "taskMsPerSec": 998.1
+    }
+   ],
+   "explosion": [
+    {
+     "secs": 3.93,
+     "frames": 6,
+     "frameMedianMs": 708.3,
+     "frameP95Ms": 750,
+     "scriptMsPerSec": 81.6,
+     "taskMsPerSec": 996.4
+    },
+    {
+     "secs": 3.94,
+     "frames": 6,
+     "frameMedianMs": 741.6,
+     "frameP95Ms": 866.6,
+     "scriptMsPerSec": 96.2,
+     "taskMsPerSec": 996.2
+    }
+   ],
+   "explosionApproved": {
+    "q": 2,
+    "ok": 0,
+    "why": "dead",
+    "wait": null,
+    "de": null,
+    "at": 1791885410.744
+   },
+   "spawned": false
+  },
+  {
+   "idle": [
+    {
+     "secs": 4.4,
+     "frames": 6,
+     "frameMedianMs": 916.65,
+     "frameP95Ms": 1000,
+     "scriptMsPerSec": 73.7,
+     "taskMsPerSec": 993.5
+    },
+    {
+     "secs": 4.42,
+     "frames": 6,
+     "frameMedianMs": 816.65,
+     "frameP95Ms": 900,
+     "scriptMsPerSec": 75.8,
+     "taskMsPerSec": 997.2
+    }
+   ],
+   "contact": [
+    {
+     "secs": 4.97,
+     "frames": 8,
+     "frameMedianMs": 725.0,
+     "frameP95Ms": 799.9,
+     "scriptMsPerSec": 85.5,
+     "taskMsPerSec": 998.1
+    },
+    {
+     "secs": 4.94,
+     "frames": 8,
+     "frameMedianMs": 733.3,
+     "frameP95Ms": 783.3,
+     "scriptMsPerSec": 95.5,
+     "taskMsPerSec": 996.3
+    }
+   ],
+   "contactSeparation": {
+    "peers": 1,
+    "mine": [
+     5713,
+     920
+    ],
+    "nearestPx": 35.8,
+    "epoch": {
+     "w": 2,
+     "ends": 1,
+     "at": 1791885254.397,
+     "oldDropped": 0,
+     "softTp": 0,
+     "peers": 1
+    }
+   },
+   "death_houndC": [
+    {
+     "secs": 2.59,
+     "frames": 4,
+     "frameMedianMs": 833.3,
+     "frameP95Ms": 850,
+     "scriptMsPerSec": 134.3,
+     "taskMsPerSec": 992.9
+    },
+    {
+     "secs": 2.51,
+     "frames": 4,
+     "frameMedianMs": 866.65,
+     "frameP95Ms": 916.7,
+     "scriptMsPerSec": 88.2,
+     "taskMsPerSec": 997.5
+    }
+   ],
+   "explosion": [
+    {
+     "secs": 4.06,
+     "frames": 6,
+     "frameMedianMs": 775.0,
+     "frameP95Ms": 900,
+     "scriptMsPerSec": 99.0,
+     "taskMsPerSec": 996.2
+    },
+    {
+     "secs": 4.01,
+     "frames": 6,
+     "frameMedianMs": 766.6,
+     "frameP95Ms": 800,
+     "scriptMsPerSec": 108.3,
+     "taskMsPerSec": 994.8
+    }
+   ],
+   "explosionApproved": {
+    "q": 3,
+    "ok": 1,
+    "why": "",
+    "wait": null,
+    "de": 6,
+    "at": 1791885475.544
+   },
+   "spawned": true
+  }
+ ],
+ "note": "SwiftShader software rendering: windows of one run compared with each other only",
+ "gates": {
+  "explosion_alice": {
+   "against": "death_houndC",
+   "ratios": [
+    1.023,
+    0.904,
+    0.93
+   ],
+   "median": 0.93,
+   "limit": 1.1,
+   "met": true
+  },
+  "explosion_bob": {
+   "against": "death_houndC",
+   "ratios": [
+    1.023,
+    0.848,
+    0.885
+   ],
+   "median": 0.885,
+   "limit": 1.1,
+   "met": true
+  },
+  "contact_alice": {
+   "against": "idle",
+   "ratios": [
+    0.757,
+    1.023,
+    0.791
+   ],
+   "median": 0.791,
+   "limit": 1.07,
+   "met": true
+  },
+  "contact_bob": {
+   "against": "idle",
+   "ratios": [
+    0.804,
+    1.047,
+    0.898
+   ],
+   "median": 0.898,
+   "limit": 1.07,
+   "met": true
+  }
+ },
+ "ok": false,
+ "errors": []
+}

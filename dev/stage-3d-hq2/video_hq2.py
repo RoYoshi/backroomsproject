@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 """Stage 3D HQ2 - a filmed walk-through on real browser pages: two windows and a late joiner, side by side (development only; SwiftShader)
 
-  python3 -I dev/stage-3d-hq2/video_hq2.py --game DIR --out DIR
+  python3 -I dev/stage-3d-hq2/video_hq2.py --game DIR --out DIR [--plan main|lag] [--lag 150]
 
-Three pages, each recorded by the browser itself (Playwright's own video of the page), at 720 x 480:
+--plan main (three pages, each recorded by the browser itself - Playwright's own video of the page - at 720 x 480):
   Alice and Bob (ordinary players, god mode, the monsters removed) meet in Level 0's one-tile corridor:
-    1  Alice holds D into Bob, who stands still: she stops at contact (her page predicts it; the server agrees)
-    2  Bob is moved 30 px aside: Alice holds D again and slides past his shoulder
+    1  the narrow-hall stand-off: Alice holds D into Bob, who stands still: she stops at contact (her page predicts it; the server agrees)
+    2  Bob is moved 30 px aside: Alice holds D again and squeezes past his shoulder
     3  Alice walks back and presses NEW RUN: the server's blast; Bob watches it
     4  Carol opens the game 1.5 s after the blast: she sees what is left (a late joiner)
     5  Alice presses SPAWN: a new run
+--plan lag (two pages; Alice's talks to the server through lag_proxy.js, --lag ms each way):
+    1  the wide-hall side-pass: on open floor Alice holds D towards Bob, who stands 12 px off her line: she slides round him
+    2  lag recovery: Alice (lagged) and Bob sprint at each other; each sees the other a round trip late, the server stops them at contact,
+       its soft corrections blend both pages back; they stand apart
+    3  they back away from each other freely
 Every page shows, in its top left corner, burnt into the film: HQ2, the build hash (sha256 of the production files the server serves and
 runs - the same files at any later commit give the same hash), the page's role, its frame time (the mean of its last 10 frames, from
 requestAnimationFrame) and the wall clock; and the current step.  The three films are aligned on the wall clock and put side by side
@@ -21,7 +26,7 @@ sys.path.insert(0, HERE)
 import hq2lib as Q
 from playwright.async_api import async_playwright
 
-ap = argparse.ArgumentParser(); ap.add_argument('--game', default=Q.REPO); ap.add_argument('--out', required=True)
+ap = argparse.ArgumentParser(); ap.add_argument('--game', default=Q.REPO); ap.add_argument('--out', required=True); ap.add_argument('--plan', default='main'); ap.add_argument('--lag', type=int, default=150)
 A_ = ap.parse_args(); A_.game = os.path.abspath(A_.game)
 W, H = 720, 480
 Y, XA, XB = 720, 862, 1012
@@ -62,21 +67,21 @@ async def main():
             await A.wait_for_timeout(1500)
             for P, a in ((A, 0.0), (B, 3.1416)): await Q.lib3d.aim(P, a, W, H)
             await A.wait_for_timeout(1200)
-            await step('1  Alice walks into Bob, who stands still', (A, B))
+            await step('1  the narrow-hall stand-off: Alice walks into Bob, who stands still', (A, B))
             await A.bring_to_front(); await A.keyboard.down('KeyD'); await A.wait_for_timeout(2600); await A.keyboard.up('KeyD'); await A.wait_for_timeout(1200)
             await A.screenshot(path=os.path.join(A_.out, 'still_1_alice.png')); await B.screenshot(path=os.path.join(A_.out, 'still_1_bob.png'))
-            await step('2  Bob stands aside: Alice slides past his shoulder', (A, B))
+            await step('2  Bob steps aside: Alice squeezes past his shoulder', (A, B))
             Q.place(port, 'h2film', [(bid, XB, Y - 30)], clear=True); await A.wait_for_timeout(1200)
             await A.bring_to_front(); await A.keyboard.down('KeyD'); await A.wait_for_timeout(1800)
             await A.screenshot(path=os.path.join(A_.out, 'still_2_alice.png')); await B.screenshot(path=os.path.join(A_.out, 'still_2_bob.png'))
             await A.wait_for_timeout(600); await A.keyboard.up('KeyD'); await A.wait_for_timeout(800)
             await step('3  Alice walks back; NEW RUN: the server\'s blast', (A, B))
             await A.keyboard.down('KeyA'); await A.wait_for_timeout(1000); await A.keyboard.up('KeyA'); await A.wait_for_timeout(800)
-            await A.evaluate(PRESS); await A.wait_for_timeout(1500)
+            T['blastAt'] = await A.evaluate("()=>[Math.round(__api.H.x),Math.round(__api.H.y)]"); await A.evaluate(PRESS); await A.wait_for_timeout(1500)
             await A.screenshot(path=os.path.join(A_.out, 'still_3_alice.png')); await B.screenshot(path=os.path.join(A_.out, 'still_3_bob.png'))
             await step('4  Carol opens the game: a late joiner', (A, B))
             T['pages']['Carol'] = time.time(); C = await Q.join(ctx['Carol'], port, 'h2film', 'Carol', errs)
-            cid = await C.evaluate("()=>__api.H.id"); Q.place(port, 'h2film', [(cid, XB - 60, Y)], god=(cid,), clear=True)
+            cid = await C.evaluate("()=>__api.H.id"); Q.place(port, 'h2film', [(cid, T['blastAt'][0] - 110, Y)], god=(cid,), clear=True); await Q.lib3d.aim(C, 0.0, W, H)
             await C.evaluate("(s)=>{ if(window.__film) window.__film.step=s }", '4  Carol opens the game: a late joiner')
             await C.wait_for_timeout(2500)
             for nm, P in (('alice', A), ('bob', B), ('carol', C)): await P.screenshot(path=os.path.join(A_.out, f'still_4_{nm}.png'))
@@ -105,4 +110,74 @@ async def main():
     print(json.dumps({'build': BUILD, 'ffmpeg': T['ffmpeg'], 'spawned': T.get('spawned'), 'errors': T.get('pageErrors')}))
 
 
-asyncio.run(main())
+HALL = (4450, 3450)
+SIDE = "() => window.__peerBodies && window.__peerBodies.length ? +Math.min(...window.__peerBodies.map(q => Math.hypot(q[0] - __api.H.x, q[1] - __api.H.y))).toFixed(1) : null"
+
+
+async def main_lag():
+    """--plan lag: the wide-hall side-pass and the lag recovery, two pages, Alice's through lag_proxy.js"""
+    os.makedirs(A_.out, exist_ok=True); vids = os.path.join(A_.out, 'pages'); os.makedirs(vids, exist_ok=True)
+    port = Q.lib3d.free_port(); srv = Q.lib3d.start_server(A_.game, port, os.path.join(A_.out, 'server.log')); errs = []; prox = None
+    T = {'tool': 'dev/stage-3d-hq2/video_hq2.py', 'plan': 'lag', 'lagMs': A_.lag, 'game': A_.game, 'build': BUILD, 'buildFiles': BUILD_FILES, 'steps': [], 'pages': {}, 'frameMs': {}, 'nearest': []}
+    try:
+        aport = Q.lib3d.free_port()
+        prox = subprocess.Popen(['node', os.path.join(HERE, 'lag_proxy.js'), '--listen', str(aport), '--to', str(port), '--ms', str(A_.lag)], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+        prox.stdout.readline()
+        async with async_playwright() as p:
+            b = await p.chromium.launch(args=Q.ARGS)
+            ctx = {}
+            for role, label in (('Alice', f'ALICE ({A_.lag} ms each way)'), ('Bob', 'BOB (no lag)')):
+                c = await b.new_context(viewport={'width': W, 'height': H}, record_video_dir=os.path.join(vids, role.lower()), record_video_size={'width': W, 'height': H})
+                await c.add_init_script(f"({OVERLAY})('{BUILD}', '{label}')"); ctx[role] = c
+            async def step(label, pages):
+                T['steps'].append({'t': time.time(), 'step': label}); print(label, flush=True)
+                for P in pages: await P.evaluate("(s)=>{ if(window.__film) window.__film.step=s }", label)
+            async def near(tag):
+                T['nearest'].append({'t': round(time.time(), 3), 'at': tag, 'alice': await A.evaluate(SIDE), 'bob': await B.evaluate(SIDE),
+                                     'softCorrections': {'alice': await A.evaluate("()=>window.__epochDebug?__epochDebug().softTp:null"), 'bob': await B.evaluate("()=>window.__epochDebug?__epochDebug().softTp:null")}})
+            T['pages']['Alice'] = time.time(); A = await Q.join(ctx['Alice'], aport, 'h2lag', 'Alice', errs); aid = await A.evaluate("()=>__api.H.id")
+            Q.place(port, 'h2lag', (), god=(aid,), clear=True)
+            T['pages']['Bob'] = time.time(); B = await Q.join(ctx['Bob'], port, 'h2lag', 'Bob', errs); bid = await B.evaluate("()=>__api.H.id")
+            Q.place(port, 'h2lag', [(bid, HALL[0] + 60, HALL[1] + 12), (aid, HALL[0] - 120, HALL[1])], god=(aid, bid), clear=True)
+            await A.wait_for_timeout(1500 + 4 * A_.lag)
+            await Q.lib3d.aim(A, 0.0, W, H); await Q.lib3d.aim(B, 3.1416, W, H); await A.wait_for_timeout(1000)
+            await step('1  wide-hall side-pass: Bob stands 12 px off her line', (A, B))
+            await A.keyboard.down('KeyD'); await A.wait_for_timeout(1100); await near('side-pass, beside him')
+            await A.screenshot(path=os.path.join(A_.out, 'still_1_alice.png')); await B.screenshot(path=os.path.join(A_.out, 'still_1_bob.png'))
+            await A.wait_for_timeout(900); await A.keyboard.up('KeyD'); await A.wait_for_timeout(800)
+            Q.place(port, 'h2lag', [(aid, HALL[0] - 130, HALL[1]), (bid, HALL[0] + 130, HALL[1])], clear=True); await A.wait_for_timeout(1500 + 4 * A_.lag)
+            await Q.lib3d.aim(A, 0.0, W, H); await Q.lib3d.aim(B, 3.1416, W, H); await A.wait_for_timeout(600)
+            await step('2  lag recovery: both sprint at each other', (A, B))
+            await A.keyboard.down('ShiftLeft'); await B.keyboard.down('ShiftLeft'); await A.keyboard.down('KeyD'); await B.keyboard.down('KeyA')
+            await A.wait_for_timeout(700); await near('running into each other')
+            await A.screenshot(path=os.path.join(A_.out, 'still_2a_alice.png')); await B.screenshot(path=os.path.join(A_.out, 'still_2a_bob.png'))
+            await A.wait_for_timeout(700)
+            for P in (A, B): await P.keyboard.up('KeyD'); await P.keyboard.up('KeyA'); await P.keyboard.up('ShiftLeft')
+            await A.wait_for_timeout(1500 + 2 * A_.lag); await near('standing, settled')
+            await A.screenshot(path=os.path.join(A_.out, 'still_2b_alice.png')); await B.screenshot(path=os.path.join(A_.out, 'still_2b_bob.png'))
+            await step('3  they back away from each other', (A, B))
+            await A.keyboard.down('KeyA'); await B.keyboard.down('KeyD'); await A.wait_for_timeout(900); await A.keyboard.up('KeyA'); await B.keyboard.up('KeyD'); await A.wait_for_timeout(1200)
+            await near('apart'); await A.screenshot(path=os.path.join(A_.out, 'still_3_alice.png')); await B.screenshot(path=os.path.join(A_.out, 'still_3_bob.png'))
+            T['frameMs'] = {nm: await P.evaluate(FT) for nm, P in (('alice', A), ('bob', B))}
+            T['end'] = time.time(); T['pageErrors'] = errs[:20]
+            paths = {role: await P.video.path() for role, P in (('Alice', A), ('Bob', B))}
+            for c in ctx.values(): await c.close()
+            await b.close()
+            T['videos'] = {}
+            for role, src in paths.items():
+                dst = os.path.join(A_.out, role.lower() + '.webm'); shutil.move(src, dst); T['videos'][role] = os.path.basename(dst)
+            shutil.rmtree(vids, ignore_errors=True)
+    finally:
+        if prox: prox.terminate()
+        Q.lib3d.stop_server(srv)
+    t0 = T['pages']['Alice']; pads = {r: max(0.0, T['pages'][r] - t0) for r in ('Alice', 'Bob')}
+    inp = []
+    for r in ('Alice', 'Bob'): inp += ['-i', os.path.join(A_.out, r.lower() + '.webm')]
+    fl = ';'.join(f"[{i}:v]tpad=start_duration={pads[r]:.2f}:color=black,setpts=PTS-STARTPTS,scale={W}:{H},fps=15[v{i}]" for i, r in enumerate(('Alice', 'Bob'))) + ';[v0][v1]hstack=inputs=2:shortest=0[out]'
+    cmd = ['ffmpeg', '-y', '-loglevel', 'error'] + inp + ['-filter_complex', fl, '-map', '[out]', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '30', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', os.path.join(A_.out, 'film.mp4')]
+    T['ffmpeg'] = subprocess.run(cmd, capture_output=True, text=True).returncode; T['alignSeconds'] = pads
+    with open(os.path.join(A_.out, 'timeline.json'), 'w') as f: json.dump(T, f, indent=1); f.write('\n')
+    print(json.dumps({'build': BUILD, 'ffmpeg': T['ffmpeg'], 'nearest': T['nearest'], 'errors': T.get('pageErrors')}))
+
+
+asyncio.run(main() if A_.plan == 'main' else main_lag())

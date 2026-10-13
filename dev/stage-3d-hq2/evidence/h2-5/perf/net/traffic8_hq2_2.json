@@ -1,0 +1,1132 @@
+{
+ "tool": "dev/stage-3d-hq1/traffic8.js",
+ "game": "/home/claude/backrooms-shadows",
+ "secs": 60,
+ "clients": [
+  {
+   "i": 0,
+   "kind": "flashlight",
+   "light": 1,
+   "bytesPerSec": {
+    "hi": 0,
+    "bodies": 151,
+    "s": 43171,
+    "admin": 0,
+    "ares": 11,
+    "fx": 24
+   },
+   "count": {
+    "hi": 0,
+    "bodies": 6,
+    "s": 1187,
+    "admin": 0,
+    "ares": 12,
+    "fx": 6
+   },
+   "snapshotMeanBytes": 2163,
+   "fx": [
+    {
+     "id": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399
+     ],
+     "bytes": 251
+    },
+    {
+     "id": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772
+     ],
+     "bytes": 249
+    },
+    {
+     "id": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476
+     ],
+     "bytes": 246
+    },
+    {
+     "id": 6,
+     "de": 4,
+     "lf": null,
+     "bytes": 232
+    },
+    {
+     "id": 7,
+     "de": 5,
+     "lf": null,
+     "bytes": 233
+    },
+    {
+     "id": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735
+     ],
+     "bytes": 252
+    }
+   ],
+   "corpses": [
+    {
+     "k": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399,
+      -3.879
+     ],
+     "lo": 1
+    },
+    {
+     "k": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772,
+      -4.7
+     ],
+     "lo": 1
+    },
+    {
+     "k": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476,
+      -4.2
+     ],
+     "lo": 1
+    },
+    {
+     "k": 6,
+     "de": 4,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 7,
+     "de": 5,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735,
+      -2.267
+     ],
+     "lo": 1
+    }
+   ],
+   "dropped": false
+  },
+  {
+   "i": 1,
+   "kind": "lantern",
+   "light": 1,
+   "bytesPerSec": {
+    "hi": 0,
+    "bodies": 151,
+    "s": 33418,
+    "admin": 0,
+    "fx": 24
+   },
+   "count": {
+    "hi": 0,
+    "bodies": 6,
+    "s": 1187,
+    "admin": 0,
+    "fx": 6
+   },
+   "snapshotMeanBytes": 1690,
+   "fx": [
+    {
+     "id": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399
+     ],
+     "bytes": 251
+    },
+    {
+     "id": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772
+     ],
+     "bytes": 249
+    },
+    {
+     "id": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476
+     ],
+     "bytes": 246
+    },
+    {
+     "id": 6,
+     "de": 4,
+     "lf": null,
+     "bytes": 232
+    },
+    {
+     "id": 7,
+     "de": 5,
+     "lf": null,
+     "bytes": 233
+    },
+    {
+     "id": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735
+     ],
+     "bytes": 252
+    }
+   ],
+   "corpses": [
+    {
+     "k": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399,
+      -3.879
+     ],
+     "lo": 1
+    },
+    {
+     "k": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772,
+      -4.7
+     ],
+     "lo": 1
+    },
+    {
+     "k": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476,
+      -4.2
+     ],
+     "lo": 1
+    },
+    {
+     "k": 6,
+     "de": 4,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 7,
+     "de": 5,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735,
+      -2.267
+     ],
+     "lo": 1
+    }
+   ],
+   "dropped": false
+  },
+  {
+   "i": 2,
+   "kind": "flashlight",
+   "light": 1,
+   "bytesPerSec": {
+    "hi": 0,
+    "bodies": 151,
+    "s": 36630,
+    "admin": 0,
+    "ares": 1,
+    "fx": 20
+   },
+   "count": {
+    "hi": 0,
+    "bodies": 6,
+    "s": 1187,
+    "admin": 1,
+    "ares": 1,
+    "fx": 5
+   },
+   "snapshotMeanBytes": 1839,
+   "fx": [
+    {
+     "id": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772
+     ],
+     "bytes": 249
+    },
+    {
+     "id": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476
+     ],
+     "bytes": 246
+    },
+    {
+     "id": 6,
+     "de": 4,
+     "lf": null,
+     "bytes": 232
+    },
+    {
+     "id": 7,
+     "de": 5,
+     "lf": null,
+     "bytes": 233
+    },
+    {
+     "id": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735
+     ],
+     "bytes": 252
+    }
+   ],
+   "corpses": [
+    {
+     "k": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399,
+      -3.879
+     ],
+     "lo": 1
+    },
+    {
+     "k": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772,
+      -4.7
+     ],
+     "lo": 1
+    },
+    {
+     "k": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476,
+      -4.2
+     ],
+     "lo": 1
+    },
+    {
+     "k": 6,
+     "de": 4,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 7,
+     "de": 5,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735,
+      -2.267
+     ],
+     "lo": 1
+    }
+   ],
+   "dropped": false
+  },
+  {
+   "i": 3,
+   "kind": "headlamp",
+   "light": 1,
+   "bytesPerSec": {
+    "hi": 0,
+    "bodies": 151,
+    "s": 35748,
+    "fx": 20,
+    "admin": 0,
+    "ares": 1
+   },
+   "count": {
+    "hi": 0,
+    "bodies": 6,
+    "s": 1187,
+    "fx": 5,
+    "admin": 1,
+    "ares": 1
+   },
+   "snapshotMeanBytes": 1796,
+   "fx": [
+    {
+     "id": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399
+     ],
+     "bytes": 251
+    },
+    {
+     "id": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476
+     ],
+     "bytes": 246
+    },
+    {
+     "id": 6,
+     "de": 4,
+     "lf": null,
+     "bytes": 232
+    },
+    {
+     "id": 7,
+     "de": 5,
+     "lf": null,
+     "bytes": 233
+    },
+    {
+     "id": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735
+     ],
+     "bytes": 252
+    }
+   ],
+   "corpses": [
+    {
+     "k": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399,
+      -3.879
+     ],
+     "lo": 1
+    },
+    {
+     "k": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772,
+      -4.7
+     ],
+     "lo": 1
+    },
+    {
+     "k": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476,
+      -4.2
+     ],
+     "lo": 1
+    },
+    {
+     "k": 6,
+     "de": 4,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 7,
+     "de": 5,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735,
+      -2.267
+     ],
+     "lo": 1
+    }
+   ],
+   "dropped": false
+  },
+  {
+   "i": 4,
+   "kind": "lantern",
+   "light": 1,
+   "bytesPerSec": {
+    "hi": 0,
+    "bodies": 151,
+    "s": 34753,
+    "fx": 20,
+    "admin": 0,
+    "ares": 1
+   },
+   "count": {
+    "hi": 0,
+    "bodies": 6,
+    "s": 1187,
+    "fx": 5,
+    "admin": 1,
+    "ares": 1
+   },
+   "snapshotMeanBytes": 1748,
+   "fx": [
+    {
+     "id": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399
+     ],
+     "bytes": 251
+    },
+    {
+     "id": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772
+     ],
+     "bytes": 249
+    },
+    {
+     "id": 6,
+     "de": 4,
+     "lf": null,
+     "bytes": 232
+    },
+    {
+     "id": 7,
+     "de": 5,
+     "lf": null,
+     "bytes": 233
+    },
+    {
+     "id": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735
+     ],
+     "bytes": 252
+    }
+   ],
+   "corpses": [
+    {
+     "k": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399,
+      -3.879
+     ],
+     "lo": 1
+    },
+    {
+     "k": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772,
+      -4.7
+     ],
+     "lo": 1
+    },
+    {
+     "k": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476,
+      -4.2
+     ],
+     "lo": 1
+    },
+    {
+     "k": 6,
+     "de": 4,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 7,
+     "de": 5,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735,
+      -2.267
+     ],
+     "lo": 1
+    }
+   ],
+   "dropped": false
+  },
+  {
+   "i": 5,
+   "kind": "camcorder",
+   "light": 1,
+   "bytesPerSec": {
+    "hi": 0,
+    "bodies": 151,
+    "s": 33613,
+    "fx": 21,
+    "admin": 0,
+    "ares": 1
+   },
+   "count": {
+    "hi": 0,
+    "bodies": 6,
+    "s": 1187,
+    "fx": 5,
+    "admin": 1,
+    "ares": 1
+   },
+   "snapshotMeanBytes": 1693,
+   "fx": [
+    {
+     "id": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399
+     ],
+     "bytes": 251
+    },
+    {
+     "id": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772
+     ],
+     "bytes": 249
+    },
+    {
+     "id": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476
+     ],
+     "bytes": 246
+    },
+    {
+     "id": 7,
+     "de": 5,
+     "lf": null,
+     "bytes": 233
+    },
+    {
+     "id": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735
+     ],
+     "bytes": 252
+    }
+   ],
+   "corpses": [
+    {
+     "k": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399,
+      -3.879
+     ],
+     "lo": 1
+    },
+    {
+     "k": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772,
+      -4.7
+     ],
+     "lo": 1
+    },
+    {
+     "k": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476,
+      -4.2
+     ],
+     "lo": 1
+    },
+    {
+     "k": 6,
+     "de": 4,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 7,
+     "de": 5,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735,
+      -2.267
+     ],
+     "lo": 1
+    }
+   ],
+   "dropped": false
+  },
+  {
+   "i": 6,
+   "kind": "flashlight",
+   "light": 0,
+   "bytesPerSec": {
+    "hi": 0,
+    "bodies": 151,
+    "s": 32683,
+    "fx": 20,
+    "admin": 0,
+    "ares": 1
+   },
+   "count": {
+    "hi": 0,
+    "bodies": 6,
+    "s": 1187,
+    "fx": 5,
+    "admin": 1,
+    "ares": 1
+   },
+   "snapshotMeanBytes": 1648,
+   "fx": [
+    {
+     "id": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399
+     ],
+     "bytes": 251
+    },
+    {
+     "id": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772
+     ],
+     "bytes": 249
+    },
+    {
+     "id": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476
+     ],
+     "bytes": 246
+    },
+    {
+     "id": 6,
+     "de": 4,
+     "lf": null,
+     "bytes": 232
+    },
+    {
+     "id": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735
+     ],
+     "bytes": 252
+    }
+   ],
+   "corpses": [
+    {
+     "k": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399,
+      -3.879
+     ],
+     "lo": 1
+    },
+    {
+     "k": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772,
+      -4.7
+     ],
+     "lo": 1
+    },
+    {
+     "k": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476,
+      -4.2
+     ],
+     "lo": 1
+    },
+    {
+     "k": 6,
+     "de": 4,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 7,
+     "de": 5,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735,
+      -2.267
+     ],
+     "lo": 1
+    }
+   ],
+   "dropped": false
+  },
+  {
+   "i": 7,
+   "kind": "flashlight",
+   "light": 1,
+   "bytesPerSec": {
+    "hi": 0,
+    "bodies": 151,
+    "s": 31904,
+    "fx": 20,
+    "admin": 0,
+    "ares": 1
+   },
+   "count": {
+    "hi": 0,
+    "bodies": 6,
+    "s": 1187,
+    "fx": 5,
+    "admin": 1,
+    "ares": 1
+   },
+   "snapshotMeanBytes": 1611,
+   "fx": [
+    {
+     "id": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399
+     ],
+     "bytes": 251
+    },
+    {
+     "id": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772
+     ],
+     "bytes": 249
+    },
+    {
+     "id": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476
+     ],
+     "bytes": 246
+    },
+    {
+     "id": 6,
+     "de": 4,
+     "lf": null,
+     "bytes": 232
+    },
+    {
+     "id": 7,
+     "de": 5,
+     "lf": null,
+     "bytes": 233
+    }
+   ],
+   "corpses": [
+    {
+     "k": 3,
+     "de": 1,
+     "lf": [
+      3.1,
+      1.5,
+      399,
+      -3.879
+     ],
+     "lo": 1
+    },
+    {
+     "k": 4,
+     "de": 2,
+     "lf": [
+      4.5,
+      1.5,
+      772,
+      -4.7
+     ],
+     "lo": 1
+    },
+    {
+     "k": 5,
+     "de": 3,
+     "lf": [
+      6.8,
+      2,
+      476,
+      -4.2
+     ],
+     "lo": 1
+    },
+    {
+     "k": 6,
+     "de": 4,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 7,
+     "de": 5,
+     "lf": null,
+     "lo": 0
+    },
+    {
+     "k": 8,
+     "de": 6,
+     "lf": [
+      5.7,
+      1.6,
+      735,
+      -2.267
+     ],
+     "lo": 1
+    }
+   ],
+   "dropped": false
+  }
+ ],
+ "deaths": [
+  {
+   "victim": 2,
+   "id": 3,
+   "kind": "flashlight",
+   "light": true,
+   "what": "hound A",
+   "at": 0.205,
+   "answer": "PLAYING HOUND A"
+  },
+  {
+   "victim": 3,
+   "id": 4,
+   "kind": "headlamp",
+   "light": true,
+   "what": "hound B",
+   "at": 8.409,
+   "answer": "PLAYING HOUND B"
+  },
+  {
+   "victim": 4,
+   "id": 5,
+   "kind": "lantern",
+   "light": true,
+   "what": "hound D",
+   "at": 16.609,
+   "answer": "PLAYING HOUND D"
+  },
+  {
+   "victim": 5,
+   "id": 6,
+   "kind": "camcorder",
+   "light": true,
+   "what": "smiler A",
+   "at": 24.811,
+   "answer": "PLAYING SMILER A"
+  },
+  {
+   "victim": 6,
+   "id": 7,
+   "kind": "flashlight",
+   "light": false,
+   "what": "smiler B",
+   "at": 33.014,
+   "answer": "PLAYING SMILER B"
+  },
+  {
+   "victim": 7,
+   "id": 8,
+   "kind": "flashlight",
+   "light": true,
+   "what": "smiler C",
+   "at": 41.215,
+   "answer": "PLAYING SMILER C"
+  }
+ ],
+ "server": {
+  "pf": {
+   "ms": 0.054,
+   "mx": 0.12,
+   "kb": 1.6,
+   "se": 0,
+   "pa": 0,
+   "pl": 8
+  },
+  "clientCpuMs": 1636,
+  "cpuSec": 3.21,
+  "rssMB": 82.1
+ },
+ "T1": {
+  "ok": true,
+  "bad": []
+ },
+ "T2": {
+  "ok": true,
+  "errors": []
+ },
+ "summary": {
+  "deaths": 6,
+  "bytesPerSecPerClient": {
+   "min": 32076,
+   "max": 43357,
+   "mean": 35414
+  },
+  "snapshotMeanBytes": 1774,
+  "fxBytes": [
+   232,
+   233,
+   246,
+   249,
+   251,
+   252
+  ],
+  "serverTickMs": 0.054,
+  "serverTickMaxMs": 0.12,
+  "serverCpuSec": 3.21,
+  "serverRssMB": 82.1
+ },
+ "ok": true
+}

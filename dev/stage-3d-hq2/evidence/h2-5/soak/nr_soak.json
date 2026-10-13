@@ -1,0 +1,370 @@
+{
+ "tool": "dev/stage-3d-hq2/nr_soak.js",
+ "game": "/home/claude/backrooms-shadows",
+ "events": 32,
+ "rows": [
+  {
+   "i": 0,
+   "player": 0,
+   "approved": true,
+   "de": 1,
+   "corpse": true,
+   "corpses": 1,
+   "heapMB": 6.332,
+   "rssMB": 58
+  },
+  {
+   "i": 1,
+   "player": 1,
+   "approved": true,
+   "de": 2,
+   "corpse": true,
+   "corpses": 2,
+   "heapMB": 6.353,
+   "rssMB": 58.6
+  },
+  {
+   "i": 2,
+   "player": 2,
+   "approved": true,
+   "de": 3,
+   "corpse": true,
+   "corpses": 3,
+   "heapMB": 6.388,
+   "rssMB": 58.7
+  },
+  {
+   "i": 3,
+   "player": 3,
+   "approved": true,
+   "de": 4,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.425,
+   "rssMB": 58.3
+  },
+  {
+   "i": 4,
+   "player": 0,
+   "approved": true,
+   "de": 5,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.589,
+   "rssMB": 58.9
+  },
+  {
+   "i": 5,
+   "player": 1,
+   "approved": true,
+   "de": 6,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.576,
+   "rssMB": 59
+  },
+  {
+   "i": 6,
+   "player": 2,
+   "approved": true,
+   "de": 7,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.618,
+   "rssMB": 59.2
+  },
+  {
+   "i": 7,
+   "player": 3,
+   "approved": true,
+   "de": 8,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.691,
+   "rssMB": 59.3
+  },
+  {
+   "i": 8,
+   "player": 0,
+   "approved": true,
+   "de": 9,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.802,
+   "rssMB": 59.3
+  },
+  {
+   "i": 9,
+   "player": 1,
+   "approved": true,
+   "de": 10,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.71,
+   "rssMB": 58.8
+  },
+  {
+   "i": 10,
+   "player": 2,
+   "approved": true,
+   "de": 11,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.733,
+   "rssMB": 61.7
+  },
+  {
+   "i": 11,
+   "player": 3,
+   "approved": true,
+   "de": 12,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.8,
+   "rssMB": 59.2
+  },
+  {
+   "i": 12,
+   "player": 0,
+   "approved": true,
+   "de": 13,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.865,
+   "rssMB": 59.2
+  },
+  {
+   "i": 13,
+   "player": 1,
+   "approved": true,
+   "de": 14,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.761,
+   "rssMB": 59.4
+  },
+  {
+   "i": 14,
+   "player": 2,
+   "approved": true,
+   "de": 15,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.757,
+   "rssMB": 65.1
+  },
+  {
+   "i": 15,
+   "player": 3,
+   "approved": true,
+   "de": 16,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.806,
+   "rssMB": 59.2
+  },
+  {
+   "i": 16,
+   "player": 0,
+   "approved": true,
+   "de": 17,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.84,
+   "rssMB": 59.3
+  },
+  {
+   "i": 17,
+   "player": 1,
+   "approved": true,
+   "de": 18,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.809,
+   "rssMB": 59.1
+  },
+  {
+   "i": 18,
+   "player": 2,
+   "approved": true,
+   "de": 19,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.814,
+   "rssMB": 59.1
+  },
+  {
+   "i": 19,
+   "player": 3,
+   "approved": true,
+   "de": 20,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.813,
+   "rssMB": 59.3
+  },
+  {
+   "i": 20,
+   "player": 0,
+   "approved": true,
+   "de": 21,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.927,
+   "rssMB": 59.8
+  },
+  {
+   "i": 21,
+   "player": 1,
+   "approved": true,
+   "de": 22,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.875,
+   "rssMB": 59.9
+  },
+  {
+   "i": 22,
+   "player": 2,
+   "approved": true,
+   "de": 23,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.896,
+   "rssMB": 60.1
+  },
+  {
+   "i": 23,
+   "player": 3,
+   "approved": true,
+   "de": 24,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.842,
+   "rssMB": 59.7
+  },
+  {
+   "i": 24,
+   "player": 0,
+   "approved": true,
+   "de": 25,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.937,
+   "rssMB": 60.3
+  },
+  {
+   "i": 25,
+   "player": 1,
+   "approved": true,
+   "de": 26,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.844,
+   "rssMB": 59.1
+  },
+  {
+   "i": 26,
+   "player": 2,
+   "approved": true,
+   "de": 27,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.857,
+   "rssMB": 59.3
+  },
+  {
+   "i": 27,
+   "player": 3,
+   "approved": true,
+   "de": 28,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.854,
+   "rssMB": 59.4
+  },
+  {
+   "i": 28,
+   "player": 0,
+   "approved": true,
+   "de": 29,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.946,
+   "rssMB": 59.7
+  },
+  {
+   "i": 29,
+   "player": 1,
+   "approved": true,
+   "de": 30,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.898,
+   "rssMB": 61.6
+  },
+  {
+   "i": 30,
+   "player": 2,
+   "approved": true,
+   "de": 31,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.884,
+   "rssMB": 59.7
+  },
+  {
+   "i": 31,
+   "player": 3,
+   "approved": true,
+   "de": 32,
+   "corpse": true,
+   "corpses": 4,
+   "heapMB": 6.875,
+   "rssMB": 59.1
+  }
+ ],
+ "heapSlopeMBPerEvent": 0.0065,
+ "rssSlopeMBPerEvent": -0.01,
+ "heapFirstLast": [
+  6.802,
+  6.875
+ ],
+ "rssFirstLast": [
+  59.3,
+  59.1
+ ],
+ "corpsesAtTheEnd": 4,
+ "corpsesPerPlayer": {
+  "2": 1,
+  "3": 1,
+  "4": 1,
+  "5": 1
+ },
+ "correctionsToWalkers": [
+  0,
+  0,
+  0,
+  0
+ ],
+ "serverErrors": [],
+ "checks": [
+  {
+   "name": "every press approved and every blast's corpse placed (32 events)",
+   "ok": true
+  },
+  {
+   "name": "one corpse per player at the end, never more (4 players, 4 corpses)",
+   "ok": true
+  },
+  {
+   "name": "the forced-GC heap does not grow per NEW RUN event (slope over events 9-32 <= 0.01 MB per event)",
+   "ok": true
+  },
+  {
+   "name": "no server errors",
+   "ok": true
+  }
+ ],
+ "ok": true
+}

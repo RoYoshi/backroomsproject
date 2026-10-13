@@ -117,7 +117,7 @@ function aftStart(room, c) {
   const info = { name: c.name, look: c.look, ek: p.equipment.kind, ec: HEX.test(c.color) ? c.color : '#ffe7b2', ep: c.lp || '', vx: Math.round(p.vx || 0), vy: Math.round(p.vy || 0), ex: p.ex || (p.stamina != null && p.stamina < 22) ? 1 : 0, light: p.light };
   const lf = info.light ? deathSrv.DP.lightProfile(room.sim.worldSeq, de, info.ek) : null;      // Stage 3D HQ1: how its light fails (a lit light that is not a camcorder)
   if (p.kill) Object.assign(p.kill, { de, vx: info.vx, vy: info.vy, ex: info.ex }, lf ? { lf } : {});   // the victim's copy of the record ('mk')
-  const kill = Object.assign({}, p.kill), fx = Object.assign(deathSrv.fxFor(c.id, kill, info), { de, w: room.sim.worldSeq, lo: info.light ? 1 : 0 }, lf ? { lf } : {});   // (w: Stage 3D HQ2, the world it happened in)
+  const kill = Object.assign({}, p.kill), fx = Object.assign(deathSrv.fxFor(c.id, kill, info), { de, wn: room.sim.worldSeq, lo: info.light ? 1 : 0 }, lf ? { lf } : {});   // (wn: Stage 3D HQ2, the world it happened in; an fx's w is the Hound C wall)
   let run = null; try { run = deathSrv.begin(kill, info, room.sim); } catch (e) { console.error('[death] begin failed', e && e.message); }
   room.afts.push({ id: c.id, seq: p.dseq, de, at: Date.now(), world: room.sim.worldSeq, kill, fx: true, fxMsg: fx, sent: new Set([c.id]), body: false, info, run });
 }
@@ -159,7 +159,7 @@ function aftTick(room) {
 function worldReset(room) {
   const A = room.sim.admin, w0 = room.sim.worldSeq; A.resetWorld();
   const w = room.sim.worldSeq, ends = [];
-  for (const a of room.afts || []) if (!a.body && a.world === w0) { a.body = true; a.dropped = 'world reset'; a.run = null; ends.push({ t: 'fx', k: 'end', id: a.id, de: a.de, w }); }
+  for (const a of room.afts || []) if (!a.body && a.world === w0) { a.body = true; a.dropped = 'world reset'; a.run = null; ends.push({ t: 'fx', k: 'end', id: a.id, de: a.de, wn: w }); }
   for (const c of room.clients.values()) {
     const msg = { t: 'world', w };
     if (c.player.active) { placeFree(room, c); msg.x = Math.round(c.player.x); msg.y = Math.round(c.player.y); }
@@ -208,7 +208,7 @@ function boomStart(room, c, de) {
   const info = { name: c.name, look: c.look, ek: p.equipment.kind, ec: HEX.test(c.color) ? c.color : '#ffe7b2', ep: c.lp || '', vx: Math.round(p.vx || 0), vy: Math.round(p.vy || 0), ex: 0, light: p.light };
   const lf = info.light ? deathSrv.DP.lightProfile(w, de, info.ek) : null;
   const B = Object.assign({ k: 'Boom', x: Math.round(p.x), y: Math.round(p.y), a: +(+p.angle || 0).toFixed(3), d: plan.d, s: plan.s }, lf ? { lf } : {});
-  const fx = Object.assign(deathSrv.boomFx(c.id, B, info), { de, w, lo: info.light ? 1 : 0 }, lf ? { lf } : {});
+  const fx = Object.assign(deathSrv.boomFx(c.id, B, info), { de, wn: w, lo: info.light ? 1 : 0 }, lf ? { lf } : {});
   let run = null; try { run = deathSrv.boomBegin(B, info, room.sim); } catch (e) { console.error('[newrun] begin failed', e && e.message); }
   room.afts = (room.afts || []).filter(a => a.id !== c.id || a.body);
   room.afts.push({ id: c.id, seq: -1, de, at: Date.now(), world: w, kill: B, fx: true, fxMsg: fx, sent: new Set(), body: false, info, run, boom: true });

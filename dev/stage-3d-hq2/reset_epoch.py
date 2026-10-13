@@ -40,7 +40,7 @@ W, H = 960, 640
 SPY = r"""(()=>{ const W0=window.WebSocket; const S=window.__wsSpy={rx:[],tx:[],last:{}};
   window.WebSocket=function(u,p){ const ws=p===undefined?new W0(u):new W0(u,p); S.ws=ws; const send=ws.send.bind(ws);
     ws.send=d=>{ try{ const m=JSON.parse(d); if(m.t!=='p'&&m.t!=='ping') S.tx.push([+(Date.now()/1000).toFixed(3),m.t]); }catch(e){} return send(d) };
-    ws.addEventListener('message',e=>{ try{ const m=JSON.parse(e.data); if(m.t!=='s'&&m.t!=='pong') S.rx.push([+(Date.now()/1000).toFixed(3),m.t,m.k||'',m.de==null?null:m.de,m.w==null?null:m.w,m.id==null?null:m.id]); if(m.t==='fx'&&(m.k==='death'||m.k==='boom')) S.last.fx=e.data; }catch(err){} }); return ws; };
+    ws.addEventListener('message',e=>{ try{ const m=JSON.parse(e.data); if(m.t!=='s'&&m.t!=='pong') S.rx.push([+(Date.now()/1000).toFixed(3),m.t,m.k||'',m.de==null?null:m.de,(m.t==='fx'?m.wn:m.w)==null?null:(m.t==='fx'?m.wn:m.w),m.id==null?null:m.id]); if(m.t==='fx'&&(m.k==='death'||m.k==='boom')) S.last.fx=e.data; }catch(err){} }); return ws; };
   window.WebSocket.prototype=W0.prototype; Object.assign(window.WebSocket,{CONNECTING:0,OPEN:1,CLOSING:2,CLOSED:3}); })()"""
 SAMPLER = r"""()=>{ if(window.__h2s) return 'already'; const S=window.__h2s={rows:[]};
   const one=()=>{ try{ const A=window.__api, d=A.death&&A.death(), G=window.__gore&&window.__gore.wallStains, Lv=window.__l0v, dl=window.__deathLight;

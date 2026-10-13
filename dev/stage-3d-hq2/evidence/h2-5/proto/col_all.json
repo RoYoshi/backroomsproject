@@ -1,0 +1,1680 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/home/claude/backrooms-shadows",
+ "gitHead": "99e15931793b6f8b7f434321d050fc6a2ff7155d",
+ "startedAt": "2026-10-13T07:04:29.861Z",
+ "scenarios": {
+  "col_head": {
+   "room": "h23head",
+   "checks": [
+    {
+     "name": "C01 head-on into a standing player in the one-tile corridor: never closer than D = 36 px (whole-px snapshots: >= 35.29)",
+     "ok": true,
+     "info": {
+      "min": 36,
+      "snapshots": 77,
+      "at": {
+       "dt": 817,
+       "a": [
+        2,
+        976,
+        720
+       ],
+       "b": [
+        3,
+        1012,
+        720
+       ]
+      }
+     }
+    },
+    {
+     "name": "C01 she stops at contact, on her own side (36-38 px from him, x below his)",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 720,
+       "d": 0
+      },
+      "bob": {
+       "x": 1012,
+       "y": 720,
+       "d": 0
+      }
+     }
+    },
+    {
+     "name": "C01 her page is told with soft corrections only (pc:1), at most one per 0.3 s, and now agrees with the server (within 2 px)",
+     "ok": true,
+     "info": {
+      "n": 8,
+      "allSoft": true,
+      "minGapMs": 302
+     }
+    },
+    {
+     "name": "C01 she backs away freely: the server follows her exactly, no further correction",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 872,
+       "y": 720,
+       "d": 0
+      },
+      "corrections": 0
+     }
+    },
+    {
+     "name": "C01 Bob was never moved by her: every snapshot has him where he stands, and he got no correction",
+     "ok": true,
+     "info": {
+      "samples": 96,
+      "moved": 0,
+      "corrections": 0
+     }
+    },
+    {
+     "name": "setup: Bob steps aside to the corridor's edge (y 690: 30 px off the centre line)",
+     "ok": true,
+     "info": {
+      "x": 1012,
+      "y": 690,
+      "d": 0
+     }
+    },
+    {
+     "name": "C01 once he has stepped aside she squeezes past him (sliding round his shoulder) to the far end, never closer than D",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36.1,
+       "snapshots": 56,
+       "at": {
+        "dt": 576,
+        "a": [
+         2,
+         992,
+         720
+        ],
+        "b": [
+         3,
+         1012,
+         690
+        ]
+       }
+      },
+      "alice": {
+       "x": 1312,
+       "y": 720,
+       "d": 0
+      },
+      "bob": {
+       "x": 1012,
+       "y": 690,
+       "d": 0
+      },
+      "msToGetPast": 877,
+      "corrections": {
+       "n": 0,
+       "allSoft": true,
+       "minGapMs": null
+      }
+     }
+    },
+    {
+     "name": "C01 ...and he is not moved while she passes",
+     "ok": true,
+     "info": {
+      "samples": 56,
+      "moved": 0
+     }
+    }
+   ],
+   "into": {
+    "min": {
+     "min": 36,
+     "snapshots": 77,
+     "at": {
+      "dt": 817,
+      "a": [
+       2,
+       976,
+       720
+      ],
+      "b": [
+       3,
+       1012,
+       720
+      ]
+     }
+    },
+    "alice": {
+     "x": 976,
+     "y": 720,
+     "d": 0
+    },
+    "bob": {
+     "x": 1012,
+     "y": 720,
+     "d": 0
+    },
+    "corrections": [
+     {
+      "t": 1791875074484,
+      "x": 976,
+      "y": 720,
+      "pc": 1
+     },
+     {
+      "t": 1791875074788,
+      "x": 976,
+      "y": 720,
+      "pc": 1
+     },
+     {
+      "t": 1791875075093,
+      "x": 976,
+      "y": 720,
+      "pc": 1
+     },
+     {
+      "t": 1791875075396,
+      "x": 976,
+      "y": 720,
+      "pc": 1
+     },
+     {
+      "t": 1791875075698,
+      "x": 976,
+      "y": 720,
+      "pc": 1
+     },
+     {
+      "t": 1791875076000,
+      "x": 976,
+      "y": 720,
+      "pc": 1
+     },
+     {
+      "t": 1791875076303,
+      "x": 976,
+      "y": 720,
+      "pc": 1
+     },
+     {
+      "t": 1791875076606,
+      "x": 976,
+      "y": 720,
+      "pc": 1
+     }
+    ],
+    "claimNow": [
+     976,
+     720
+    ]
+   },
+   "pass": {
+    "min": {
+     "min": 36.1,
+     "snapshots": 56,
+     "at": {
+      "dt": 576,
+      "a": [
+       2,
+       992,
+       720
+      ],
+      "b": [
+       3,
+       1012,
+       690
+      ]
+     }
+    },
+    "alice": {
+     "x": 1312,
+     "y": 720,
+     "d": 0
+    },
+    "bob": {
+     "x": 1012,
+     "y": 690,
+     "d": 0
+    },
+    "msToGetPast": 877,
+    "corrections": {
+     "n": 0,
+     "allSoft": true,
+     "minGapMs": null
+    }
+   }
+  },
+  "col_wide": {
+   "room": "h23wide",
+   "checks": [
+    {
+     "name": "C02 12 px off his centre line she slides round him (the part of her move into him removed, the rest kept) and reaches the far side",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36.2,
+       "snapshots": 41,
+       "at": {
+        "dt": 653,
+        "a": [
+         5,
+         4418,
+         3467
+        ],
+        "b": [
+         6,
+         4450,
+         3450
+        ]
+       }
+      },
+      "alice": {
+       "x": 4600,
+       "y": 3462,
+       "d": 0
+      },
+      "msToFarSide": 1540,
+      "freeWalkMs": 1500,
+      "widestSideways": 39,
+      "corrections": {
+       "n": 2,
+       "allSoft": true,
+       "minGapMs": 307
+      }
+     }
+    },
+    {
+     "name": "C02 ...never closer than D, and the slide hugs him (never more than D + 8 = 44 px off her line)",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36.2,
+       "snapshots": 41,
+       "at": {
+        "dt": 653,
+        "a": [
+         5,
+         4418,
+         3467
+        ],
+        "b": [
+         6,
+         4450,
+         3450
+        ]
+       }
+      },
+      "widestSideways": 39
+     }
+    },
+    {
+     "name": "C02 ...and he never moves",
+     "ok": true,
+     "info": {
+      "samples": 41,
+      "moved": 0
+     }
+    },
+    {
+     "name": "C02 dead centre: she stops at contact (x below his, 36-38 px) and is never shoved sideways (y stays on the line)",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 72,
+       "at": {
+        "dt": 594,
+        "a": [
+         5,
+         4414,
+         3450
+        ],
+        "b": [
+         6,
+         4450,
+         3450
+        ]
+       }
+      },
+      "alice": {
+       "x": 4414,
+       "y": 3450,
+       "d": 0
+      },
+      "ys": [
+       3450,
+       3450
+      ]
+     }
+    }
+   ],
+   "slide": {
+    "min": {
+     "min": 36.2,
+     "snapshots": 41,
+     "at": {
+      "dt": 653,
+      "a": [
+       5,
+       4418,
+       3467
+      ],
+      "b": [
+       6,
+       4450,
+       3450
+      ]
+     }
+    },
+    "alice": {
+     "x": 4600,
+     "y": 3462,
+     "d": 0
+    },
+    "msToFarSide": 1540,
+    "freeWalkMs": 1500,
+    "widestSideways": 39,
+    "corrections": {
+     "n": 2,
+     "allSoft": true,
+     "minGapMs": 307
+    }
+   },
+   "centre": {
+    "min": {
+     "min": 36,
+     "snapshots": 72,
+     "at": {
+      "dt": 594,
+      "a": [
+       5,
+       4414,
+       3450
+      ],
+      "b": [
+       6,
+       4450,
+       3450
+      ]
+     }
+    },
+    "alice": {
+     "x": 4414,
+     "y": 3450,
+     "d": 0
+    },
+    "ys": [
+     3450,
+     3450
+    ]
+   }
+  },
+  "col_two": {
+   "room": "h23two",
+   "checks": [
+    {
+     "name": "C03 both walking at each other: they meet and stop at contact (36-38 px), neither gets past the other, never closer than D",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 77,
+       "at": {
+        "dt": 938,
+        "a": [
+         8,
+         996,
+         720
+        ],
+        "b": [
+         9,
+         1032,
+         720
+        ]
+       }
+      },
+      "alice": {
+       "x": 996,
+       "y": 720,
+       "d": 0
+      },
+      "bob": {
+       "x": 1032,
+       "y": 720,
+       "d": 0
+      },
+      "aliceCorr": {
+       "n": 8,
+       "allSoft": true,
+       "minGapMs": 302
+      },
+      "bobCorr": {
+       "n": 8,
+       "allSoft": true,
+       "minGapMs": 301
+      }
+     }
+    },
+    {
+     "name": "C03 ...each told with soft corrections only, at most one per 0.3 s",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 77,
+       "at": {
+        "dt": 938,
+        "a": [
+         8,
+         996,
+         720
+        ],
+        "b": [
+         9,
+         1032,
+         720
+        ]
+       }
+      },
+      "alice": {
+       "x": 996,
+       "y": 720,
+       "d": 0
+      },
+      "bob": {
+       "x": 1032,
+       "y": 720,
+       "d": 0
+      },
+      "aliceCorr": {
+       "n": 8,
+       "allSoft": true,
+       "minGapMs": 302
+      },
+      "bobCorr": {
+       "n": 8,
+       "allSoft": true,
+       "minGapMs": 301
+      }
+     }
+    },
+    {
+     "name": "C03 both claim the same point, back to back (the same server wake): whichever arrives first gets it, the other stops at contact; never closer than D",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 18,
+       "at": {
+        "dt": 19,
+        "a": [
+         8,
+         1014,
+         720
+        ],
+        "b": [
+         9,
+         1050,
+         720
+        ]
+       }
+      },
+      "alice": {
+       "x": 1014,
+       "y": 720,
+       "d": 0
+      },
+      "bob": {
+       "x": 1050,
+       "y": 720,
+       "d": 0
+      },
+      "mid": 1014
+     }
+    },
+    {
+     "name": "C03 one burst packet across him (from far behind to 120 px past him, within the lag budget): stopped at contact on her side",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 18,
+       "at": {
+        "dt": 20,
+        "a": [
+         8,
+         1014,
+         720
+        ],
+        "b": [
+         9,
+         1050,
+         720
+        ]
+       }
+      },
+      "alice": {
+       "x": 1014,
+       "y": 720,
+       "d": 0
+      },
+      "bob": {
+       "x": 1050,
+       "y": 720,
+       "d": 0
+      },
+      "claim": 1170
+     }
+    }
+   ],
+   "headOn": {
+    "min": {
+     "min": 36,
+     "snapshots": 77,
+     "at": {
+      "dt": 938,
+      "a": [
+       8,
+       996,
+       720
+      ],
+      "b": [
+       9,
+       1032,
+       720
+      ]
+     }
+    },
+    "alice": {
+     "x": 996,
+     "y": 720,
+     "d": 0
+    },
+    "bob": {
+     "x": 1032,
+     "y": 720,
+     "d": 0
+    },
+    "aliceCorr": {
+     "n": 8,
+     "allSoft": true,
+     "minGapMs": 302
+    },
+    "bobCorr": {
+     "n": 8,
+     "allSoft": true,
+     "minGapMs": 301
+    }
+   },
+   "sameWake": {
+    "min": {
+     "min": 36,
+     "snapshots": 18,
+     "at": {
+      "dt": 19,
+      "a": [
+       8,
+       1014,
+       720
+      ],
+      "b": [
+       9,
+       1050,
+       720
+      ]
+     }
+    },
+    "alice": {
+     "x": 1014,
+     "y": 720,
+     "d": 0
+    },
+    "bob": {
+     "x": 1050,
+     "y": 720,
+     "d": 0
+    },
+    "mid": 1014
+   },
+   "burst": {
+    "min": {
+     "min": 36,
+     "snapshots": 18,
+     "at": {
+      "dt": 20,
+      "a": [
+       8,
+       1014,
+       720
+      ],
+      "b": [
+       9,
+       1050,
+       720
+      ]
+     }
+    },
+    "alice": {
+     "x": 1014,
+     "y": 720,
+     "d": 0
+    },
+    "bob": {
+     "x": 1050,
+     "y": 720,
+     "d": 0
+    },
+    "claim": 1170
+   }
+  },
+  "col_crowd": {
+   "room": "h23crowd",
+   "checks": [
+    {
+     "name": "C04 six walking into one point: never two closer than D (all pairs, every snapshot)",
+     "ok": true,
+     "info": {
+      "min": 36.1,
+      "snapshots": 97,
+      "at": {
+       "dt": 741,
+       "a": [
+        11,
+        4482,
+        3460
+       ],
+       "b": [
+        12,
+        4457,
+        3486
+       ]
+      }
+     }
+    },
+    {
+     "name": "C04 ...they pack round it (everyone within 80 px of the point: nobody held off at a distance)",
+     "ok": true,
+     "info": [
+      33.5,
+      36.7,
+      38.2,
+      33.5,
+      36.7,
+      38.2
+     ]
+    },
+    {
+     "name": "C04 ...soft corrections only, at most one per 0.3 s per player",
+     "ok": true,
+     "info": [
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 301
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 302
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 302
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 302
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 302
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 302
+      }
+     ]
+    },
+    {
+     "name": "C04 ...and walk back out freely: nobody is stuck (everyone home, within 2 px)",
+     "ok": true,
+     "info": {
+      "offHome": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "min": {
+       "min": 43.4,
+       "snapshots": 26,
+       "at": {
+        "dt": 34,
+        "a": [
+         11,
+         4490,
+         3462
+        ],
+        "b": [
+         16,
+         4484,
+         3419
+        ]
+       }
+      }
+     }
+    }
+   ],
+   "in": {
+    "min": {
+     "min": 36.1,
+     "snapshots": 97,
+     "at": {
+      "dt": 741,
+      "a": [
+       11,
+       4482,
+       3460
+      ],
+      "b": [
+       12,
+       4457,
+       3486
+      ]
+     }
+    },
+    "distFromPoint": [
+     33.5,
+     36.7,
+     38.2,
+     33.5,
+     36.7,
+     38.2
+    ],
+    "corrections": [
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 301
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 302
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 302
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 302
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 302
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 302
+     }
+    ]
+   },
+   "out": {
+    "offHome": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "min": {
+     "min": 43.4,
+     "snapshots": 26,
+     "at": {
+      "dt": 34,
+      "a": [
+       11,
+       4490,
+       3462
+      ],
+      "b": [
+       16,
+       4484,
+       3419
+      ]
+     }
+    }
+   }
+  },
+  "col_spawn": {
+   "room": "h23spawn",
+   "checks": [
+    {
+     "name": "C05 a join whose page spawns exactly on a standing player: put on the nearest free spawn spot (>= D + 8 = 44 px from everyone, clear of walls), told with a hard tp",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 4450,
+       "y": 3450,
+       "d": 0
+      },
+      "carol": {
+       "x": 4494,
+       "y": 3450,
+       "d": 0
+      },
+      "carolTp": [
+       {
+        "t": 1791875123607,
+        "x": 4494,
+        "y": 3450,
+        "pc": 0
+       }
+      ],
+      "sep": 44
+     }
+    },
+    {
+     "name": "C05 ...and Alice was not moved",
+     "ok": true,
+     "info": {
+      "x": 4450,
+      "y": 3450,
+      "d": 0
+     }
+    },
+    {
+     "name": "C05 a spawn 22 px from her (two players already about): free spot >= 44 px from all",
+     "ok": true,
+     "info": {
+      "dave": {
+       "x": 4492,
+       "y": 3496,
+       "d": 0
+      },
+      "nearest": 46
+     }
+    },
+    {
+     "name": "C05 admin BRING onto a standing player: brought to a free spot next to her (>= 44 px from everyone, clear), told where",
+     "ok": true,
+     "info": {
+      "bob": {
+       "x": 4406,
+       "y": 3450,
+       "d": 0
+      },
+      "nearest": 44,
+      "tp": [
+       {
+        "t": 1791875126404,
+        "x": 4406,
+        "y": 3450,
+        "pc": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "C05 the admin world reset (everyone to the level's spawn point, as before) puts the four on four spots >= 44 px apart: one on the spawn point itself, the others on free spots round it (clear of walls), each told by tp",
+     "ok": true,
+     "info": {
+      "positions": [
+       {
+        "x": 1004,
+        "y": 3264,
+        "d": 0
+       },
+       {
+        "x": 960,
+        "y": 3264,
+        "d": 0
+       },
+       {
+        "x": 1048,
+        "y": 3264,
+        "d": 0
+       },
+       {
+        "x": 1036,
+        "y": 3308,
+        "d": 0
+       }
+      ],
+      "closestPair": 44,
+      "minOverTime": {
+       "min": 44,
+       "snapshots": 19,
+       "at": {
+        "dt": 1,
+        "a": [
+         18,
+         1004,
+         3264
+        ],
+        "b": [
+         19,
+         1048,
+         3264
+        ]
+       }
+      },
+      "tps": [
+       [
+        {
+         "t": 1791875127036,
+         "x": 1004,
+         "y": 3264,
+         "pc": 0
+        }
+       ],
+       [
+        {
+         "t": 1791875127036,
+         "x": 960,
+         "y": 3264,
+         "pc": 0
+        }
+       ],
+       [
+        {
+         "t": 1791875127036,
+         "x": 1048,
+         "y": 3264,
+         "pc": 0
+        }
+       ],
+       [
+        {
+         "t": 1791875127036,
+         "x": 1036,
+         "y": 3308,
+         "pc": 0
+        }
+       ]
+      ],
+      "spawnPoint": [
+       960,
+       3264
+      ]
+     }
+    },
+    {
+     "name": "C05 an admin's jump (a teleport, >= 120 px) exactly onto a player lands on a free spot beside her instead (>= 44 px), told by tp",
+     "ok": true,
+     "info": {
+      "eve": {
+       "x": 1004,
+       "y": 3220,
+       "d": 0
+      },
+      "nearest": 44,
+      "tp": [
+       {
+        "t": 1791875129432,
+        "x": 1004,
+        "y": 3220,
+        "pc": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "C05 ...and its steps into her (an admin skips the walls, not the players) stop at contact",
+     "ok": true,
+     "info": {
+      "min": 36,
+      "snapshots": 14,
+      "at": {
+       "dt": 344,
+       "a": [
+        18,
+        1004,
+        3264
+       ],
+       "b": [
+        22,
+        1004,
+        3228
+       ]
+      }
+     }
+    }
+   ],
+   "joinOnTop": {
+    "alice": {
+     "x": 4450,
+     "y": 3450,
+     "d": 0
+    },
+    "carol": {
+     "x": 4494,
+     "y": 3450,
+     "d": 0
+    },
+    "carolTp": [
+     {
+      "t": 1791875123607,
+      "x": 4494,
+      "y": 3450,
+      "pc": 0
+     }
+    ],
+    "sep": 44
+   },
+   "world": {
+    "positions": [
+     {
+      "x": 1004,
+      "y": 3264,
+      "d": 0
+     },
+     {
+      "x": 960,
+      "y": 3264,
+      "d": 0
+     },
+     {
+      "x": 1048,
+      "y": 3264,
+      "d": 0
+     },
+     {
+      "x": 1036,
+      "y": 3308,
+      "d": 0
+     }
+    ],
+    "closestPair": 44,
+    "minOverTime": {
+     "min": 44,
+     "snapshots": 19,
+     "at": {
+      "dt": 1,
+      "a": [
+       18,
+       1004,
+       3264
+      ],
+      "b": [
+       19,
+       1048,
+       3264
+      ]
+     }
+    },
+    "tps": [
+     [
+      {
+       "t": 1791875127036,
+       "x": 1004,
+       "y": 3264,
+       "pc": 0
+      }
+     ],
+     [
+      {
+       "t": 1791875127036,
+       "x": 960,
+       "y": 3264,
+       "pc": 0
+      }
+     ],
+     [
+      {
+       "t": 1791875127036,
+       "x": 1048,
+       "y": 3264,
+       "pc": 0
+      }
+     ],
+     [
+      {
+       "t": 1791875127036,
+       "x": 1036,
+       "y": 3308,
+       "pc": 0
+      }
+     ]
+    ],
+    "spawnPoint": [
+     960,
+     3264
+    ]
+   }
+  },
+  "col_respawn": {
+   "room": "h23resp",
+   "checks": [
+    {
+     "name": "setup: a real hound kills Vic (an ordinary player)",
+     "ok": true,
+     "info": {
+      "me": "Hound"
+     }
+    },
+    {
+     "name": "C05 his respawn, on a spot his page chose exactly on a standing player: put on the nearest free spot beside her (44-240 px), told with a hard tp",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 4450,
+       "y": 3450,
+       "d": 0
+      },
+      "vic": {
+       "x": 4494,
+       "y": 3450,
+       "d": 0
+      },
+      "tp": [
+       {
+        "t": 1791875139088,
+        "x": 4494,
+        "y": 3450,
+        "pc": 0
+       }
+      ]
+     }
+    }
+   ],
+   "respawn": {
+    "alice": {
+     "x": 4450,
+     "y": 3450,
+     "d": 0
+    },
+    "vic": {
+     "x": 4494,
+     "y": 3450,
+     "d": 0
+    },
+    "tp": [
+     {
+      "t": 1791875139088,
+      "x": 4494,
+      "y": 3450,
+      "pc": 0
+     }
+    ]
+   }
+  },
+  "col_member": {
+   "room": "h23member",
+   "checks": [
+    {
+     "name": "control: with Alice standing there, Bob is stopped at contact (her side of the line he walks)",
+     "ok": true,
+     "info": {
+      "bob": {
+       "x": 4414,
+       "y": 3450,
+       "d": 0
+      },
+      "closestToSpot": 36,
+      "corrections": 8
+     }
+    },
+    {
+     "name": "C06 a player who has pressed NEW RUN (approved) is out of the world at once: Bob walks straight through where she stood (and through her blast's corpse)",
+     "ok": true,
+     "info": {
+      "nra": {
+       "at": 1791875146963,
+       "t": "nra",
+       "q": 1,
+       "ok": 1,
+       "de": 1,
+       "w": 2
+      },
+      "walk": {
+       "bob": {
+        "x": 4570,
+        "y": 3450,
+        "d": 0
+       },
+       "closestToSpot": 1,
+       "corrections": 0
+      }
+     }
+    },
+    {
+     "name": "C06 a player in the menu (her position packets still coming) blocks nothing",
+     "ok": true,
+     "info": {
+      "bob": {
+       "x": 4330,
+       "y": 3450,
+       "d": 0
+      },
+      "closestToSpot": 1,
+      "corrections": 0
+     }
+    },
+    {
+     "name": "C06 back in a run she is solid again: Bob stopped at contact",
+     "ok": true,
+     "info": {
+      "bob": {
+       "x": 4414,
+       "y": 3450,
+       "d": 0
+      },
+      "closestToSpot": 36,
+      "corrections": 8
+     }
+    },
+    {
+     "name": "C06 a player who has left (connection closed) blocks nothing",
+     "ok": true,
+     "info": {
+      "bob": {
+       "x": 4570,
+       "y": 3450,
+       "d": 0
+      },
+      "closestToSpot": 3,
+      "corrections": 0
+     }
+    },
+    {
+     "name": "C06 a dead player (and his corpse) blocks nothing: Bob walks through where he fell",
+     "ok": true,
+     "info": {
+      "vic": {
+       "x": 4450,
+       "y": 3450,
+       "d": 1
+      },
+      "bob": {
+       "x": 4330,
+       "y": 3450,
+       "d": 0
+      },
+      "closest": 1,
+      "corrections": 0
+     }
+    }
+   ],
+   "control": {
+    "bob": {
+     "x": 4414,
+     "y": 3450,
+     "d": 0
+    },
+    "closestToSpot": 36,
+    "corrections": 8
+   },
+   "afterNewRun": {
+    "bob": {
+     "x": 4570,
+     "y": 3450,
+     "d": 0
+    },
+    "closestToSpot": 1,
+    "corrections": 0
+   },
+   "menu": {
+    "bob": {
+     "x": 4330,
+     "y": 3450,
+     "d": 0
+    },
+    "closestToSpot": 1,
+    "corrections": 0
+   },
+   "rejoined": {
+    "bob": {
+     "x": 4414,
+     "y": 3450,
+     "d": 0
+    },
+    "closestToSpot": 36,
+    "corrections": 8
+   },
+   "disconnected": {
+    "bob": {
+     "x": 4570,
+     "y": 3450,
+     "d": 0
+    },
+    "closestToSpot": 3,
+    "corrections": 0
+   },
+   "dead": {
+    "vic": {
+     "x": 4450,
+     "y": 3450,
+     "d": 1
+    },
+    "bob": {
+     "x": 4330,
+     "y": 3450,
+     "d": 0
+    },
+    "closest": 1,
+    "corrections": 0
+   }
+  },
+  "col_held": {
+   "room": "h23held",
+   "checks": [
+    {
+     "name": "setup: a real hound holds Vic",
+     "ok": true,
+     "info": {
+      "ph": "down",
+      "e": 12,
+      "k": "Hound",
+      "d": 0
+     }
+    },
+    {
+     "name": "C06 a player held in a capture blocks nobody: the observer walks right up to (into) him, no clamp, no peer correction",
+     "ok": true,
+     "info": {
+      "capture": {
+       "ph": "down",
+       "e": 12,
+       "k": "Hound",
+       "d": 0
+      },
+      "closest": 0,
+      "stillHeldWhileTested": true,
+      "corrections": []
+     }
+    }
+   ],
+   "held": {
+    "capture": {
+     "ph": "down",
+     "e": 12,
+     "k": "Hound",
+     "d": 0
+    },
+    "closest": 0,
+    "stillHeldWhileTested": true,
+    "corrections": []
+   }
+  },
+  "col_rooms": {
+   "rooms": [
+    "h23roomA",
+    "h23roomB"
+   ],
+   "checks": [
+    {
+     "name": "C07 a player in another room is never a blocker: Bob walks straight through the spot where Alice stands in hers",
+     "ok": true,
+     "info": {
+      "bob": {
+       "x": 4570,
+       "y": 3450,
+       "d": 0
+      },
+      "closestToAlicesSpot": 1,
+      "corrections": 0
+     }
+    },
+    {
+     "name": "control: in Alice's own room Carol is stopped at contact",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 56,
+       "at": {
+        "dt": 385,
+        "a": [
+         34,
+         4450,
+         3450
+        ],
+        "b": [
+         37,
+         4414,
+         3450
+        ]
+       }
+      },
+      "carol": {
+       "x": 4414,
+       "y": 3450,
+       "d": 0
+      }
+     }
+    }
+   ],
+   "otherRoom": {
+    "bob": {
+     "x": 4570,
+     "y": 3450,
+     "d": 0
+    },
+    "closestToAlicesSpot": 1,
+    "corrections": 0
+   }
+  },
+  "col_bypass": {
+   "room": "h23bypass",
+   "steps": {
+    "tiny1px": {
+     "alice": {
+      "x": 976,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 36
+    },
+    "subpixel": {
+     "alice": {
+      "x": 976,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 36
+    },
+    "burst": {
+     "alice": {
+      "x": 976,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 36
+    },
+    "skim": {
+     "alice": {
+      "x": 976,
+      "y": 746,
+      "d": 0
+     },
+     "sep": 44.4
+    },
+    "routeBurst": {
+     "alice": {
+      "x": 976,
+      "y": 722,
+      "d": 0
+     },
+     "sep": 36.1
+    },
+    "flood": {
+     "alice": {
+      "x": 976,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 36
+    },
+    "malformed": {
+     "alice": {
+      "x": 976,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 36
+    }
+   },
+   "checks": [
+    {
+     "name": "C08 70 steps of 1 px straight at him (each a legal-looking move): stopped at contact - tiny steps never add up through a body",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 36
+     }
+    },
+    {
+     "name": "C08 80 sub-pixel steps of 0.25 px from contact: no creep (not 1 px closer)",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 36
+     }
+    },
+    {
+     "name": "C08 a burst: one packet from 140 px before him to 140 px past him after a long stand (within the lag budget, a legal end point): stopped on her side",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 36
+     }
+    },
+    {
+     "name": "C08 a skim: a claim to a legal point on his far side (44 px from him) whose straight path runs through his body: not let through",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 746,
+       "d": 0
+      },
+      "sep": 44.4
+     }
+    },
+    {
+     "name": "C08 a burst round the walls: one packet to a point (1072, 1100) the walls allow only along a route that runs past him (the server's own route, swept leg by leg): not let through",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 722,
+       "d": 0
+      },
+      "sep": 36.1
+     }
+    },
+    {
+     "name": "C08 a flood of 40 packets stepping 5 px each: stopped on her side",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 36
+     }
+    },
+    {
+     "name": "C08 malformed positions (a number as a string, null, huge, negative, an array, an object, \"NaN\", true, 1e308): none gets her past him",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 36
+     }
+    },
+    {
+     "name": "C08 through all of it: never closer than D, never on his side, and he was never moved",
+     "ok": true,
+     "info": {
+      "min": {
+       "min": 36,
+       "snapshots": 367,
+       "at": {
+        "dt": 923,
+        "a": [
+         39,
+         976,
+         720
+        ],
+        "b": [
+         40,
+         1012,
+         720
+        ]
+       }
+      },
+      "bob": {
+       "samples": 367,
+       "moved": 0
+      }
+     }
+    },
+    {
+     "name": "C08 ...and afterwards she walks away normally (nothing stuck)",
+     "ok": true,
+     "info": {
+      "x": 812,
+      "y": 720,
+      "d": 0
+     }
+    }
+   ],
+   "minOverall": {
+    "min": 36,
+    "snapshots": 367,
+    "at": {
+     "dt": 923,
+     "a": [
+      39,
+      976,
+      720
+     ],
+     "b": [
+      40,
+      1012,
+      720
+     ]
+    }
+   }
+  }
+ },
+ "ok": true,
+ "passed": 48,
+ "total": 48
+}
