@@ -174,5 +174,18 @@ The two H2-5 regressions are each also caught by their own tests run on the real
 - **`wall_rebuild_spectator_noclipped_out/`.** `hq1/wall_rebuild`, HQ1's tool. Its eviction loop teleports the spectator 2,400–3,200 px away and back; here one teleport landed on an exit glitch. The screenshot shows "YOU NO-CLIPPED OUT OF LEVEL 0", so the stain could not be on his screen. The glitches are placed at random in each world. It was run again twice on HQ2 and once on HQ1, and passed all three times.
 - **`perf_hq2_round_without_a_blast/`.** In round 2 of `perf/perf_hq2`, Alice's NEW RUN was refused (`dead`): a monster came back during the 30 s cooldown wait, so that round's "explosion" window held no blast. The tool now keeps her in god mode (the death preview works through it, and NEW RUN does not look at it) and brings her back before the press.
 - **`existing/audit_net2` LC1.** It failed once. A real hound holds the client, and the check expects every way out (respawn, join, vanish, leave → join, a spawn claim) to fail. This time the hound killed it during the sequence, and a join from death is allowed. It was run twice more on HQ2 and once on HQ1 (`audit_net2_again*`, `audit_net2_parent`). LC1 passed every time: 8/11 on HQ2 both times (LC4, MT1, DD2), 10/11 on HQ1 (DD2).
-EOF
-echo written
+
+## 7. H2-6: the last cases, and every step in one list
+
+No production file changed after H2-5. H2-6 measured three details of the gate matrix that no earlier run had measured on real pages (`evidence/h2-6/`):
+
+| Step | Result |
+|---|---|
+| `unit/boom_fps` (E06 at 30–360 FPS, a jittered page, the Death Lab's clock) | 64 blasts, 232,768 frames bit for bit |
+| `mutation/f_step_cap__boom_fps` (the physics capped at 6 steps a frame) | fails, as it must |
+| `browser/life_light` (E03 on a blast: focus lost, a dropped connection, a reload) | 5/5 |
+| `browser/life_lab` (R03 with the Death Lab paused and at 0.25×; the next death) | 8/8 |
+
+`summary_hq2.py` reads every step of H2-5 and H2-6 (by its last run) and checks it against its class (`evidence/h2-6/final_tests.txt`). For an older suite, the failing names must be exactly the inherited ones plus the deltas in section 4, nothing more, and each replacement must pass. The result: 157 steps, every one as its class requires.
+
+`life_hq2.py`'s own first runs, with the harness's faults and what changed, are in `evidence/h2-6/attempts/life_hq2_first_runs/`.

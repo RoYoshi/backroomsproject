@@ -1,0 +1,150 @@
+Stage 3D HQ2 (NEW RUN explosion + player collision): files changed since the accepted HQ1 parent ebb3bd6 (stage-3d-hq1) - working tree
+
+production: 10 files (1 new)
+  assets/index-DKbV5Nv9.js   +   4 -   3  [H2-1 H2-2 H2-4]
+      exact-text edits only, made by dev/stage-3d/apply_bundle.py: H2-1 Xnr sends the intent online, Xok the approved beat; H2-2 Xok puts the player's own light out; H2-4 __api.worldEnd -> Xwr (a world reset ends our own death where the server put us)
+  death_srv.js               +  15 -   2  [H2-2]
+      H2-2 boomFx (the blast's replay message), boomBegin (the server's run of it), its length; the eight deaths untouched
+  dphys.js                   + 128 -   2  [H2-2]
+      H2-2 a separate Boom kind (createBoom, stepBoom, beginBoom, prepare's Boom branch, boomPlan: seed and direction from the world and the event id, 3.2 s); create, stepOnce, begin and prepare branch off for Boom before any of the old code; HQ1's wall marks and light profile reused
+  ents.js                    +  11 -   0  [H2-2]
+      built from dev/ents_src (dev/build_ents.sh). H2-2 deathPlan for a blast (no knock, drag or blows; the server's seed and direction); boomVoice: one placed blast sound on the existing audio bus
+  gore.js                    +   2 -   1  [H2-4]
+      H2-4 wallStains.clear(): an old world's wall stains go at once on a world reset. (H2-0's allowlist named gore.js for the blast's blood; the blast needed no gore.js change, and this world-reset line is the one that was made: recorded as a deviation from the allowlist's stated reason)
+  move.js                    +  42 -   0  [H2-4]
+      H2-4 peerProject: the step loses the part into a living player (36.75 px), keeps the part along him; peerOnPath: a vault does not start into a player. Nothing changes with nobody there
+  mp.js                      + 107 -  18  [H2-1 H2-2 H2-4 H2-5]
+      H2-1 __net.nr: the intent, the answer, the button's refusal text. H2-2 the boom replay (the player's own page too), its light, stains and clock anchor as a death's; the run menu's words. H2-4 __peerBodies (the solid others at their server positions), soft corrections blended, worldNew / oldWorld (the world epoch). H2-5 oldWorld reads an fx's wn; every soft correction up to 600 px blended
+  server.js                  + 151 -  43  [H2-1 H2-2 H2-3 H2-4 H2-5]
+      H2-1 nrIntent: one answer (nra) per NEW RUN press; a client's fx and b no longer read; no Vanish record. H2-2 boomStart: the blast as the server's own aftermath (fx boom to everyone, a late joiner with el; the Boom corpse at its end); killerEnd for a hound only. H2-3 living players solid: mvCheck sweeps the other players after the walls (server/peers.js), free-spot placement for spawns, respawns, admin moves and the world reset, soft corrections (tp pc:1, at most one per 0.3 s), in-flight packets after a placement ignored. H2-4 worldReset: world {w, x, y} to every connection, fx end for each dropped death or blast; s.w and bodies.w. H2-5 an fx names its world in wn (its w is the Hound C wall again)
+  server/peers.js            +  80 -   0  [H2-3]
+      new (H2-3): the peer-collision geometry (the swept floor, the slide, the clamp, routes, freeSpot); server-side only, never served
+  sim.js                     +  27 -  21  [H2-1 H2-3]
+      built from dev/sim_glue.js (dev/build_sim.sh). H2-1 newRun / nrWhy / nrWait: the 30 s cooldown as one decision that takes the player out of the world; the vanish window and its join/leave allowances removed. H2-3 moveRoute: how a long hop is allowed (the route), so the other players can be swept along it
+
+sources of built production files: 3
+  dev/ents_src/25_death.js   +   1 -   0  [H2-2]  a source of ents.js: deathPlan for a blast (see ents.js)
+  dev/ents_src/30_audio.js   +  10 -   0  [H2-2]  a source of ents.js: boomVoice (see ents.js)
+  dev/sim_glue.js            +  27 -  21  [H2-1 H2-3]  the source of sim.js (see sim.js)
+
+Stage 3D tool extended for HQ2: 1
+  dev/stage-3d/apply_bundle.py   + 18 -  1  [H2-1 H2-2 H2-4]  the HQ2 bundle edits (H2-1 Xnr / Xok, H2-2 the light out, H2-4 worldEnd / Xwr), each parent text found exactly once
+
+stage documents: 9
+  STAGE_3D_HQ2_AUDIT.md
+  STAGE_3D_HQ2_CHANGED_FILES.txt
+  STAGE_3D_HQ2_HUMAN_QA.md
+  STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md
+  STAGE_3D_HQ2_PERFORMANCE.md
+  STAGE_3D_HQ2_PLAYER_COLLISION.md
+  STAGE_3D_HQ2_REGRESSION.md
+  STAGE_3D_HQ2_REPORT.md
+  STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md
+
+HQ2 tools and evidence under dev/stage-3d-hq2/: 1494 files
+  dev/stage-3d-hq2/README.md                                         1
+  dev/stage-3d-hq2/aa_gates.py                                       1
+  dev/stage-3d-hq2/boom_browser.py                                   1
+  dev/stage-3d-hq2/boom_fps.js                                       1
+  dev/stage-3d-hq2/boom_geo.js                                       1
+  dev/stage-3d-hq2/boom_ref.js                                       1
+  dev/stage-3d-hq2/changed_files_hq2.py                              1
+  dev/stage-3d-hq2/cli_golden_hq2.js                                 1
+  dev/stage-3d-hq2/col_browser.py                                    1
+  dev/stage-3d-hq2/contract_hq2.js                                   1
+  dev/stage-3d-hq2/corridor_widths.js                                1
+  dev/stage-3d-hq2/death_equiv.js                                    1
+  dev/stage-3d-hq2/e09_browser.py                                    1
+  dev/stage-3d-hq2/evidence/h2-0                                     7
+  dev/stage-3d-hq2/evidence/h2-0/aa                                  99
+  dev/stage-3d-hq2/evidence/h2-0/red                                 47
+  dev/stage-3d-hq2/evidence/h2-1                                     8
+  dev/stage-3d-hq2/evidence/h2-1/attempts                            19
+  dev/stage-3d-hq2/evidence/h2-1/browser                             12
+  dev/stage-3d-hq2/evidence/h2-1/existing                            10
+  dev/stage-3d-hq2/evidence/h2-1/mutation                            15
+  dev/stage-3d-hq2/evidence/h2-1/proto                               3
+  dev/stage-3d-hq2/evidence/h2-2                                     11
+  dev/stage-3d-hq2/evidence/h2-2/attempts                            3
+  dev/stage-3d-hq2/evidence/h2-2/browser                             80
+  dev/stage-3d-hq2/evidence/h2-2/existing                            11
+  dev/stage-3d-hq2/evidence/h2-2/proto                               3
+  dev/stage-3d-hq2/evidence/h2-3                                     11
+  dev/stage-3d-hq2/evidence/h2-3/attempts                            23
+  dev/stage-3d-hq2/evidence/h2-3/browser                             35
+  dev/stage-3d-hq2/evidence/h2-3/existing                            9
+  dev/stage-3d-hq2/evidence/h2-3/mutation                            25
+  dev/stage-3d-hq2/evidence/h2-3/perf                                30
+  dev/stage-3d-hq2/evidence/h2-3/proto                               9
+  dev/stage-3d-hq2/evidence/h2-3/unit                                2
+  dev/stage-3d-hq2/evidence/h2-4                                     11
+  dev/stage-3d-hq2/evidence/h2-4/attempts                            9
+  dev/stage-3d-hq2/evidence/h2-4/browser                             69
+  dev/stage-3d-hq2/evidence/h2-4/existing                            13
+  dev/stage-3d-hq2/evidence/h2-4/mutation                            17
+  dev/stage-3d-hq2/evidence/h2-4/net                                 3
+  dev/stage-3d-hq2/evidence/h2-4/proto                               9
+  dev/stage-3d-hq2/evidence/h2-4/unit                                4
+  dev/stage-3d-hq2/evidence/h2-5                                     40
+  dev/stage-3d-hq2/evidence/h2-5/attempts                            45
+  dev/stage-3d-hq2/evidence/h2-5/before_fix                          16
+  dev/stage-3d-hq2/evidence/h2-5/browser                             116
+  dev/stage-3d-hq2/evidence/h2-5/corpse_houndA                       5
+  dev/stage-3d-hq2/evidence/h2-5/corpse_houndC                       5
+  dev/stage-3d-hq2/evidence/h2-5/existing                            21
+  dev/stage-3d-hq2/evidence/h2-5/film                                9
+  dev/stage-3d-hq2/evidence/h2-5/golden                              18
+  dev/stage-3d-hq2/evidence/h2-5/hq1                                 239
+  dev/stage-3d-hq2/evidence/h2-5/mutation                            47
+  dev/stage-3d-hq2/evidence/h2-5/net                                 6
+  dev/stage-3d-hq2/evidence/h2-5/paired                              24
+  dev/stage-3d-hq2/evidence/h2-5/perf                                93
+  dev/stage-3d-hq2/evidence/h2-5/proto                               12
+  dev/stage-3d-hq2/evidence/h2-5/qa2                                 40
+  dev/stage-3d-hq2/evidence/h2-5/soak                                22
+  dev/stage-3d-hq2/evidence/h2-5/unit                                4
+  dev/stage-3d-hq2/evidence/h2-5/video                               26
+  dev/stage-3d-hq2/evidence/h2-6                                     13
+  dev/stage-3d-hq2/evidence/h2-6/attempts                            20
+  dev/stage-3d-hq2/evidence/h2-6/browser                             17
+  dev/stage-3d-hq2/evidence/h2-6/mutation                            2
+  dev/stage-3d-hq2/evidence/h2-6/unit                                2
+  dev/stage-3d-hq2/f13_hq2.js                                        1
+  dev/stage-3d-hq2/golden_hq2.js                                     1
+  dev/stage-3d-hq2/hq2lib.py                                         1
+  dev/stage-3d-hq2/lag_proxy.js                                      1
+  dev/stage-3d-hq2/life_hq2.py                                       1
+  dev/stage-3d-hq2/multi_browser.py                                  1
+  dev/stage-3d-hq2/mutate.py                                         1
+  dev/stage-3d-hq2/net_predict.js                                    1
+  dev/stage-3d-hq2/nr_browser.py                                     1
+  dev/stage-3d-hq2/nr_soak.js                                        1
+  dev/stage-3d-hq2/old_fixtures.js                                   1
+  dev/stage-3d-hq2/package_hq2.py                                    1
+  dev/stage-3d-hq2/paired_shots.py                                   1
+  dev/stage-3d-hq2/parity_judge.py                                   1
+  dev/stage-3d-hq2/peers_unit.js                                     1
+  dev/stage-3d-hq2/perf_ab_hq2.py                                    1
+  dev/stage-3d-hq2/perf_hq2.py                                       1
+  dev/stage-3d-hq2/predict_unit.js                                   1
+  dev/stage-3d-hq2/preflight_hq2.py                                  1
+  dev/stage-3d-hq2/proto_lab.js                                      1
+  dev/stage-3d-hq2/reset_epoch.py                                    1
+  dev/stage-3d-hq2/scope_hq2.py                                      1
+  dev/stage-3d-hq2/srv_ab.py                                         1
+  dev/stage-3d-hq2/srv_load.js                                       1
+  dev/stage-3d-hq2/static_hq2.js                                     1
+  dev/stage-3d-hq2/summary_hq2.py                                    1
+  dev/stage-3d-hq2/verify_remote_hq2.py                              1
+  dev/stage-3d-hq2/video_hq2.py                                      1
+  dev/stage-3d-hq2/wire_capture.js                                   1
+  dev/stage-3d-hq2/ws_place.js                                       1
+  dev/stage-3d-hq2/ws_reset.js                                       1
+  dev/stage-3d-hq2/ws_watch.js                                       1
+
+anything else: 0
+
+Not changed (byte-identical to HQ1): index.html (no new script, same load order), assets/net-wire.js (no new corpse field was needed),
+light.js, assets/br-role.js, assets/l0-remaster.js, assets/ui.js, assets/net-interp.js, ai.js, world.js, camcorder.js, glitch.js, hud.js, inventory.js,
+camera_policy.js, timing_policy.js, sfx.js, the CSS, the menu, the theme files, sounds/, audio_source/, the deployment workflow, every older test (dev/tests),
+every earlier stage's tools and evidence (dev/stage-3d apart from apply_bundle.py, dev/stage-3d-hq1, dev/stage-3h0, dev/stage-3c*, dev/stage-3b*).

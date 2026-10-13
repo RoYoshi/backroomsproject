@@ -1,0 +1,25 @@
+{
+ "tool": "dev/stage-3d-hq2/boom_fps.js",
+ "game": "/home/claude/backrooms-shadows",
+ "blasts": 64,
+ "schedules": {
+  "fps30": 96,
+  "fps60": 192,
+  "fps120": 384,
+  "fps144": 461,
+  "fps240": 769,
+  "fps360": 1152,
+  "jitter20to200": 185,
+  "deathLab": 398
+ },
+ "compared": 232768,
+ "fails": [],
+ "ms": 1017,
+ "ok": true,
+ "summary": {
+  "blasts": 64,
+  "schedules": 8,
+  "framesCompared": 232768,
+  "failures": 0
+ }
+}

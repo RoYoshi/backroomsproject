@@ -1,0 +1,1649 @@
+{
+ "tool": "dev/stage-3d-hq2/summary_hq2.py",
+ "steps": 156,
+ "byClass": {
+  "before-fix": 4,
+  "data": 3,
+  "gate": 96,
+  "mutation": 13,
+  "replaced": 3,
+  "older-suite": 9,
+  "parent": 27,
+  "superseded": 1
+ },
+ "notAsRequired": [],
+ "rows": [
+  {
+   "step": "before_fix/fx_wall_h24",
+   "class": "before-fix",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "1/3"
+  },
+  {
+   "step": "before_fix/wire_capture_h24",
+   "class": "data",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "before_fix/contract_raw_h24",
+   "class": "before-fix",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": null
+  },
+  {
+   "step": "before_fix/parity_houndC_h24",
+   "class": "data",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "before_fix/c10_rough_h24",
+   "class": "before-fix",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "10/12"
+  },
+  {
+   "step": "unit/peers_unit",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "6/6"
+  },
+  {
+   "step": "unit/predict_unit",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "6/6"
+  },
+  {
+   "step": "proto/col_all",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "48/48"
+  },
+  {
+   "step": "proto/nr_all",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "43/43"
+  },
+  {
+   "step": "proto/world_msgs",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "8/8"
+  },
+  {
+   "step": "proto/h25",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "36/36"
+  },
+  {
+   "step": "net/net_predict",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "26/26"
+  },
+  {
+   "step": "net/c10_rough",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "12/12"
+  },
+  {
+   "step": "old_fixtures",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "6/6"
+  },
+  {
+   "step": "static_hq2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "death_equiv",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "boom_geo",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "browser/col_head",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "5/5"
+  },
+  {
+   "step": "browser/col_aside",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "5/5"
+  },
+  {
+   "step": "browser/col_head_lag150",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "5/5"
+  },
+  {
+   "step": "browser/col_aside_lag150",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "5/5"
+  },
+  {
+   "step": "browser/reset_death",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "10/10"
+  },
+  {
+   "step": "browser/reset_boom",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "10/10"
+  },
+  {
+   "step": "browser/boom_flashlight",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "7/7"
+  },
+  {
+   "step": "browser/boom_lantern",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "7/7"
+  },
+  {
+   "step": "browser/boom_headlamp",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "7/7"
+  },
+  {
+   "step": "browser/boom_light_off",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "7/7"
+  },
+  {
+   "step": "browser/nr_e02",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "browser/e09",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "6/6"
+  },
+  {
+   "step": "browser/multi8",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "10/10"
+  },
+  {
+   "step": "mutation/e02_no_cooldown__nr_e02",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "1/7"
+  },
+  {
+   "step": "mutation/e01_stays_alive__nr_flow",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "3/6"
+  },
+  {
+   "step": "mutation/e02_local_first__nr_browser_e02",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": null
+  },
+  {
+   "step": "mutation/c08_no_peers__col_head",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "4/8"
+  },
+  {
+   "step": "mutation/c08_no_peers__peers_unit",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "4/6"
+  },
+  {
+   "step": "mutation/c08_end_only__col_bypass",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "4/9"
+  },
+  {
+   "step": "mutation/c08_creep__peers_unit",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "2/6"
+  },
+  {
+   "step": "mutation/c08_no_route__col_bypass",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "5/9"
+  },
+  {
+   "step": "mutation/c09_no_predict__predict_unit",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "2/6"
+  },
+  {
+   "step": "mutation/c09_no_predict__col_head",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "3/5"
+  },
+  {
+   "step": "mutation/r01_replays_live_on__reset_death",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "9/10"
+  },
+  {
+   "step": "mutation/r03_no_old_filter__reset_death",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "8/10"
+  },
+  {
+   "step": "golden/golden_hq2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "golden/golden_hq2_aa",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "golden/cli_golden_hq2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "9/9"
+  },
+  {
+   "step": "golden/wire_capture",
+   "class": "data",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "golden/contract_hq2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "golden/golden3d_refuses",
+   "class": "replaced",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 2,
+   "counts": null,
+   "replacement": "golden/golden_hq2",
+   "replacementExit": 0
+  },
+  {
+   "step": "golden/cli_golden3d_on_hq2",
+   "class": "replaced",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "0/9",
+   "replacement": "golden/cli_golden_hq2",
+   "replacementExit": 0
+  },
+  {
+   "step": "golden/contract3d_on_hq2",
+   "class": "replaced",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": null,
+   "replacement": "golden/contract_hq2",
+   "replacementExit": 0
+  },
+  {
+   "step": "golden/static_check",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "existing/interp_test",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "3/3"
+  },
+  {
+   "step": "existing/test_3bn",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "7/7"
+  },
+  {
+   "step": "qa2/camera_fairness",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "qa2/br_role",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "32/32"
+  },
+  {
+   "step": "qa2/theme_assets",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "8/8"
+  },
+  {
+   "step": "existing/phys_test",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "53/53"
+  },
+  {
+   "step": "phys_matrix",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "gore_geo",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "light_power",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "8/8"
+  },
+  {
+   "step": "light_net",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "8/8"
+  },
+  {
+   "step": "existing/humanqa_hotfix",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "5/6",
+   "failing": [
+    "HQA X03"
+   ],
+   "inherited": [
+    "HQA X03"
+   ],
+   "inheritedSource": "existing/humanqa_hotfix_parent",
+   "parentFailing": [
+    "HQA X03"
+   ],
+   "hq2Deltas": {},
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/humanqa_hotfix_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "5/6"
+  },
+  {
+   "step": "hq1/wall_faces_low",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "9/9"
+  },
+  {
+   "step": "hq1/wall_faces_high",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "9/9"
+  },
+  {
+   "step": "hq1/faces_houndC_S",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "hq1/stain_metric",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "hq1/wall_rebuild",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "1/1"
+  },
+  {
+   "step": "hq1/wall_lifecycle",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "8/8"
+  },
+  {
+   "step": "hq1/timeline_flashlight",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "5/5"
+  },
+  {
+   "step": "hq1/timeline_flashlight_legacy",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "5/5"
+  },
+  {
+   "step": "hq1/light_lifecycle",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "6/6"
+  },
+  {
+   "step": "death_net",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "15/16",
+   "failing": [
+    "N9"
+   ],
+   "inherited": [],
+   "inheritedSource": "HQ1-3 record (16/16)",
+   "parentFailing": null,
+   "hq2Deltas": {
+    "N9": [
+     "proto/nr_all"
+    ]
+   },
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/s_audit",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "8/9",
+   "failing": [
+    "L9"
+   ],
+   "inherited": [],
+   "inheritedSource": "existing/s_audit_parent",
+   "parentFailing": [],
+   "hq2Deltas": {
+    "L9": [
+     "proto/nr_all",
+     "browser/nr_e02"
+    ]
+   },
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/s_audit_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "9/9"
+  },
+  {
+   "step": "existing/s_fps_equality",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "10/10"
+  },
+  {
+   "step": "existing/live",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "14/17",
+   "failing": [
+    "L5d",
+    "L5e",
+    "L5f"
+   ],
+   "inherited": [
+    "L5d",
+    "L5e",
+    "L5f"
+   ],
+   "inheritedSource": "HQ1-3 record (14/17)",
+   "parentFailing": null,
+   "hq2Deltas": {},
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/audit_net",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "13/17",
+   "failing": [
+    "A1",
+    "D3",
+    "M4",
+    "R2"
+   ],
+   "inherited": [
+    "D3"
+   ],
+   "inheritedSource": "HQ1-3 record (16/17, D3)",
+   "parentFailing": null,
+   "hq2Deltas": {
+    "A1": [
+     "old_fixtures"
+    ],
+    "M4": [
+     "old_fixtures"
+    ],
+    "R2": [
+     "old_fixtures"
+    ]
+   },
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/audit_net2",
+   "class": "superseded",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "7/11",
+   "by": "existing/audit_net2_again, existing/audit_net2_again_2 (LC1 failed once in the first run: STAGE_3D_HQ2_REGRESSION.md section 6)",
+   "failing": [
+    "DD2",
+    "LC1",
+    "LC4",
+    "MT1"
+   ]
+  },
+  {
+   "step": "existing/ir_net",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "4/4"
+  },
+  {
+   "step": "existing/npm_test",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "149/162",
+   "failing": [
+    "2F F13",
+    "2F F22",
+    "C1",
+    "C18",
+    "C3",
+    "C4",
+    "C5",
+    "C9 / C10",
+    "H07",
+    "L9",
+    "NV09",
+    "P01",
+    "P08"
+   ],
+   "inherited": [
+    "2F F22",
+    "C1",
+    "C18",
+    "C3",
+    "C4",
+    "C5",
+    "C9 / C10",
+    "H07",
+    "NV09",
+    "P01",
+    "P08"
+   ],
+   "inheritedSource": "existing/npm_test_parent",
+   "parentFailing": [
+    "2F F22",
+    "C1",
+    "C18",
+    "C3",
+    "C4",
+    "C5",
+    "C9 / C10",
+    "H07",
+    "NV09",
+    "P01",
+    "P08"
+   ],
+   "hq2Deltas": {
+    "2F F13": [
+     "existing/f13_hq2"
+    ],
+    "L9": [
+     "proto/nr_all",
+     "browser/nr_e02"
+    ]
+   },
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/npm_test_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "151/162"
+  },
+  {
+   "step": "existing/test_shadows",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "43/48",
+   "failing": [
+    "S06",
+    "S16",
+    "V08",
+    "X01",
+    "X02"
+   ],
+   "inherited": [
+    "S06",
+    "S16",
+    "V08",
+    "X01",
+    "X02"
+   ],
+   "inheritedSource": "existing/test_shadows_parent",
+   "parentFailing": [
+    "S06",
+    "S16",
+    "V08",
+    "X01",
+    "X02"
+   ],
+   "hq2Deltas": {},
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/test_shadows_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "43/48"
+  },
+  {
+   "step": "qa2/probe_b1",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "ALL PASS"
+  },
+  {
+   "step": "qa2/probe_b2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "ALL PASS"
+  },
+  {
+   "step": "qa2/probe_b3",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "ALL PASS"
+  },
+  {
+   "step": "parity",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "sound",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "corpse_houndC",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "corpse_houndA",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/hq1_1",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/hq2_1",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/hq1_2",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/hq2_2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/hq1_3",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/hq2_3",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/hq1_4",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/hq2_4",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/corpses_hq1_1",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/corpses_hq2_1",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/corpses_hq1_2",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/corpses_hq2_2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/corpses_hq1_3",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/ab/corpses_hq2_3",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/perf_ab_hq2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/perf_hq2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/high/hq1_high",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/high/hq2_high",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_spread_hq1_1",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_spread_hq2_1",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_crowd_hq1_1",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_crowd_hq2_1",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_spread_hq1_2",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_spread_hq2_2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_crowd_hq1_2",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_crowd_hq2_2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_spread_hq1_3",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_spread_hq2_3",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_crowd_hq1_3",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv/srv_crowd_hq2_3",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/srv_ab",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/net/traffic8_hq1_1",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/net/traffic8_hq2_1",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/net/traffic8_hq1_2",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/net/traffic8_hq2_2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/net_ab",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/perf_death_srv",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "perf/perf_death_srv_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "soak/nr_soak",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "4/4"
+  },
+  {
+   "step": "soak/soak",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "soak/soak_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "soak/soak_gc",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "soak/soak_gc_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "soak/server_soak",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "soak/server_soak_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "soak/server_soak_nogc",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "soak/server_soak_nogc_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "paired",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "film",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "video/video_main",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "video/video_lag",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "before_fix/parity_judge_h24",
+   "class": "before-fix",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "0/1"
+  },
+  {
+   "step": "parity_judge",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "hq1/wall_rebuild_2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "1/1"
+  },
+  {
+   "step": "hq1/wall_rebuild_hq1",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "1/1"
+  },
+  {
+   "step": "existing/f13_hq2",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 0,
+   "counts": "6/6"
+  },
+  {
+   "step": "existing/audit_net2_again",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "8/11",
+   "failing": [
+    "DD2",
+    "LC4",
+    "MT1"
+   ],
+   "inherited": [
+    "DD2"
+   ],
+   "inheritedSource": "existing/audit_net2_parent",
+   "parentFailing": [
+    "DD2"
+   ],
+   "hq2Deltas": {
+    "LC4": [
+     "proto/nr_all",
+     "browser/nr_e02"
+    ],
+    "MT1": [
+     "old_fixtures"
+    ]
+   },
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/audit_net2_again_2",
+   "class": "older-suite",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "8/11",
+   "failing": [
+    "DD2",
+    "LC4",
+    "MT1"
+   ],
+   "inherited": [
+    "DD2"
+   ],
+   "inheritedSource": "existing/audit_net2_parent",
+   "parentFailing": [
+    "DD2"
+   ],
+   "hq2Deltas": {
+    "LC4": [
+     "proto/nr_all",
+     "browser/nr_e02"
+    ],
+    "MT1": [
+     "old_fixtures"
+    ]
+   },
+   "replacementsPass": true,
+   "unexpected": [],
+   "missing": []
+  },
+  {
+   "step": "existing/audit_net2_parent",
+   "class": "parent",
+   "ok": true,
+   "checkpoint": "h2-5",
+   "exit": 1,
+   "counts": "10/11"
+  },
+  {
+   "step": "unit/boom_fps",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-6",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "mutation/f_step_cap__boom_fps",
+   "class": "mutation",
+   "ok": true,
+   "checkpoint": "h2-6",
+   "exit": 1,
+   "counts": null
+  },
+  {
+   "step": "browser/life_light",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-6",
+   "exit": 0,
+   "counts": "5/5"
+  },
+  {
+   "step": "browser/life_lab",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-6",
+   "exit": 0,
+   "counts": "8/8"
+  },
+  {
+   "step": "scope",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-6",
+   "exit": 0,
+   "counts": null
+  },
+  {
+   "step": "changed_files",
+   "class": "gate",
+   "ok": true,
+   "checkpoint": "h2-6",
+   "exit": 0,
+   "counts": null
+  }
+ ],
+ "ok": true,
+ "lines": [
+  "OK  before-fix   before_fix/fx_wall_h24                       exit=1   1/3      ",
+  "OK  data         before_fix/wire_capture_h24                  exit=0            ",
+  "OK  before-fix   before_fix/contract_raw_h24                  exit=1            ",
+  "OK  data         before_fix/parity_houndC_h24                 exit=0            ",
+  "OK  before-fix   before_fix/c10_rough_h24                     exit=1   10/12    ",
+  "OK  gate         unit/peers_unit                              exit=0   6/6      ",
+  "OK  gate         unit/predict_unit                            exit=0   6/6      ",
+  "OK  gate         proto/col_all                                exit=0   48/48    ",
+  "OK  gate         proto/nr_all                                 exit=0   43/43    ",
+  "OK  gate         proto/world_msgs                             exit=0   8/8      ",
+  "OK  gate         proto/h25                                    exit=0   36/36    ",
+  "OK  gate         net/net_predict                              exit=0   26/26    ",
+  "OK  gate         net/c10_rough                                exit=0   12/12    ",
+  "OK  gate         old_fixtures                                 exit=0   6/6      ",
+  "OK  gate         static_hq2                                   exit=0            ",
+  "OK  gate         death_equiv                                  exit=0            ",
+  "OK  gate         boom_geo                                     exit=0            ",
+  "OK  gate         browser/col_head                             exit=0   5/5      ",
+  "OK  gate         browser/col_aside                            exit=0   5/5      ",
+  "OK  gate         browser/col_head_lag150                      exit=0   5/5      ",
+  "OK  gate         browser/col_aside_lag150                     exit=0   5/5      ",
+  "OK  gate         browser/reset_death                          exit=0   10/10    ",
+  "OK  gate         browser/reset_boom                           exit=0   10/10    ",
+  "OK  gate         browser/boom_flashlight                      exit=0   7/7      ",
+  "OK  gate         browser/boom_lantern                         exit=0   7/7      ",
+  "OK  gate         browser/boom_headlamp                        exit=0   7/7      ",
+  "OK  gate         browser/boom_light_off                       exit=0   7/7      ",
+  "OK  gate         browser/nr_e02                               exit=0            ",
+  "OK  gate         browser/e09                                  exit=0   6/6      ",
+  "OK  gate         browser/multi8                               exit=0   10/10    ",
+  "OK  mutation     mutation/e02_no_cooldown__nr_e02             exit=1   1/7      ",
+  "OK  mutation     mutation/e01_stays_alive__nr_flow            exit=1   3/6      ",
+  "OK  mutation     mutation/e02_local_first__nr_browser_e02     exit=1            ",
+  "OK  mutation     mutation/c08_no_peers__col_head              exit=1   4/8      ",
+  "OK  mutation     mutation/c08_no_peers__peers_unit            exit=1   4/6      ",
+  "OK  mutation     mutation/c08_end_only__col_bypass            exit=1   4/9      ",
+  "OK  mutation     mutation/c08_creep__peers_unit               exit=1   2/6      ",
+  "OK  mutation     mutation/c08_no_route__col_bypass            exit=1   5/9      ",
+  "OK  mutation     mutation/c09_no_predict__predict_unit        exit=1   2/6      ",
+  "OK  mutation     mutation/c09_no_predict__col_head            exit=1   3/5      ",
+  "OK  mutation     mutation/r01_replays_live_on__reset_death    exit=1   9/10     ",
+  "OK  mutation     mutation/r03_no_old_filter__reset_death      exit=1   8/10     ",
+  "OK  gate         golden/golden_hq2                            exit=0            ",
+  "OK  gate         golden/golden_hq2_aa                         exit=0            ",
+  "OK  gate         golden/cli_golden_hq2                        exit=0   9/9      ",
+  "OK  data         golden/wire_capture                          exit=0            ",
+  "OK  gate         golden/contract_hq2                          exit=0            ",
+  "OK  replaced     golden/golden3d_refuses                      exit=2              replaced by golden/golden_hq2 (exit 0)",
+  "OK  replaced     golden/cli_golden3d_on_hq2                   exit=1   0/9        replaced by golden/cli_golden_hq2 (exit 0)",
+  "OK  replaced     golden/contract3d_on_hq2                     exit=1              replaced by golden/contract_hq2 (exit 0)",
+  "OK  gate         golden/static_check                          exit=0            ",
+  "OK  gate         existing/interp_test                         exit=0   3/3      ",
+  "OK  gate         existing/test_3bn                            exit=0   7/7      ",
+  "OK  gate         qa2/camera_fairness                          exit=0            ",
+  "OK  gate         qa2/br_role                                  exit=0   32/32    ",
+  "OK  gate         qa2/theme_assets                             exit=0   8/8      ",
+  "OK  gate         existing/phys_test                           exit=0   53/53    ",
+  "OK  gate         phys_matrix                                  exit=0            ",
+  "OK  gate         gore_geo                                     exit=0            ",
+  "OK  gate         light_power                                  exit=0   8/8      ",
+  "OK  gate         light_net                                    exit=0   8/8      ",
+  "OK  older-suite  existing/humanqa_hotfix                      exit=1   5/6        failing HQA X03 = inherited HQA X03 (existing/humanqa_hotfix_parent) + HQ2 deltas -",
+  "OK  parent       existing/humanqa_hotfix_parent               exit=1   5/6      ",
+  "OK  gate         hq1/wall_faces_low                           exit=0   9/9      ",
+  "OK  gate         hq1/wall_faces_high                          exit=0   9/9      ",
+  "OK  gate         hq1/faces_houndC_S                           exit=0            ",
+  "OK  gate         hq1/stain_metric                             exit=0            ",
+  "OK  gate         hq1/wall_rebuild                             exit=0   1/1      ",
+  "OK  gate         hq1/wall_lifecycle                           exit=0   8/8      ",
+  "OK  gate         hq1/timeline_flashlight                      exit=0   5/5      ",
+  "OK  gate         hq1/timeline_flashlight_legacy               exit=0   5/5      ",
+  "OK  gate         hq1/light_lifecycle                          exit=0   6/6      ",
+  "OK  older-suite  death_net                                    exit=1   15/16      failing N9 = inherited - (HQ1-3 record (16/16)) + HQ2 deltas N9 (replaced by proto/nr_all)",
+  "OK  older-suite  existing/s_audit                             exit=1   8/9        failing L9 = inherited - (existing/s_audit_parent) + HQ2 deltas L9 (replaced by proto/nr_all+browser/nr_e02)",
+  "OK  parent       existing/s_audit_parent                      exit=0   9/9      ",
+  "OK  gate         existing/s_fps_equality                      exit=0   10/10    ",
+  "OK  older-suite  existing/live                                exit=1   14/17      failing L5d, L5e, L5f = inherited L5d, L5e, L5f (HQ1-3 record (14/17)) + HQ2 deltas -",
+  "OK  older-suite  existing/audit_net                           exit=1   13/17      failing A1, D3, M4, R2 = inherited D3 (HQ1-3 record (16/17, D3)) + HQ2 deltas A1 (replaced by old_fixtures), M4 (replaced by old_fixtures), R2 (replaced by old_fixtures)",
+  "OK  superseded   existing/audit_net2                          exit=1   7/11       judged by existing/audit_net2_again, existing/audit_net2_again_2 (LC1 failed once in the first run: STAGE_3D_HQ2_REGRESSION.md section 6)",
+  "OK  gate         existing/ir_net                              exit=0   4/4      ",
+  "OK  older-suite  existing/npm_test                            exit=1   149/162    failing 2F F13, 2F F22, C1, C18, C3, C4, C5, C9 / C10, H07, L9, NV09, P01, P08 = inherited 2F F22, C1, C18, C3, C4, C5, C9 / C10, H07, NV09, P01, P08 (existing/npm_test_parent) + HQ2 deltas 2F F13 (replaced by existing/f13_hq2), L9 (replaced by proto/nr_all+browser/nr_e02)",
+  "OK  parent       existing/npm_test_parent                     exit=1   151/162  ",
+  "OK  older-suite  existing/test_shadows                        exit=1   43/48      failing S06, S16, V08, X01, X02 = inherited S06, S16, V08, X01, X02 (existing/test_shadows_parent) + HQ2 deltas -",
+  "OK  parent       existing/test_shadows_parent                 exit=1   43/48    ",
+  "OK  gate         qa2/probe_b1                                 exit=0   ALL PASS ",
+  "OK  gate         qa2/probe_b2                                 exit=0   ALL PASS ",
+  "OK  gate         qa2/probe_b3                                 exit=0   ALL PASS ",
+  "OK  gate         parity                                       exit=0            ",
+  "OK  gate         sound                                        exit=0            ",
+  "OK  gate         corpse_houndC                                exit=0            ",
+  "OK  gate         corpse_houndA                                exit=0            ",
+  "OK  parent       perf/ab/hq1_1                                exit=0            ",
+  "OK  gate         perf/ab/hq2_1                                exit=0            ",
+  "OK  parent       perf/ab/hq1_2                                exit=0            ",
+  "OK  gate         perf/ab/hq2_2                                exit=0            ",
+  "OK  parent       perf/ab/hq1_3                                exit=0            ",
+  "OK  gate         perf/ab/hq2_3                                exit=0            ",
+  "OK  parent       perf/ab/hq1_4                                exit=0            ",
+  "OK  gate         perf/ab/hq2_4                                exit=0            ",
+  "OK  parent       perf/ab/corpses_hq1_1                        exit=0            ",
+  "OK  gate         perf/ab/corpses_hq2_1                        exit=0            ",
+  "OK  parent       perf/ab/corpses_hq1_2                        exit=0            ",
+  "OK  gate         perf/ab/corpses_hq2_2                        exit=0            ",
+  "OK  parent       perf/ab/corpses_hq1_3                        exit=0            ",
+  "OK  gate         perf/ab/corpses_hq2_3                        exit=0            ",
+  "OK  gate         perf/perf_ab_hq2                             exit=0            ",
+  "OK  gate         perf/perf_hq2                                exit=0            ",
+  "OK  parent       perf/high/hq1_high                           exit=0            ",
+  "OK  gate         perf/high/hq2_high                           exit=0            ",
+  "OK  parent       perf/srv/srv_spread_hq1_1                    exit=0            ",
+  "OK  gate         perf/srv/srv_spread_hq2_1                    exit=0            ",
+  "OK  parent       perf/srv/srv_crowd_hq1_1                     exit=0            ",
+  "OK  gate         perf/srv/srv_crowd_hq2_1                     exit=0            ",
+  "OK  parent       perf/srv/srv_spread_hq1_2                    exit=0            ",
+  "OK  gate         perf/srv/srv_spread_hq2_2                    exit=0            ",
+  "OK  parent       perf/srv/srv_crowd_hq1_2                     exit=0            ",
+  "OK  gate         perf/srv/srv_crowd_hq2_2                     exit=0            ",
+  "OK  parent       perf/srv/srv_spread_hq1_3                    exit=0            ",
+  "OK  gate         perf/srv/srv_spread_hq2_3                    exit=0            ",
+  "OK  parent       perf/srv/srv_crowd_hq1_3                     exit=0            ",
+  "OK  gate         perf/srv/srv_crowd_hq2_3                     exit=0            ",
+  "OK  gate         perf/srv_ab                                  exit=0            ",
+  "OK  parent       perf/net/traffic8_hq1_1                      exit=0            ",
+  "OK  gate         perf/net/traffic8_hq2_1                      exit=0            ",
+  "OK  parent       perf/net/traffic8_hq1_2                      exit=0            ",
+  "OK  gate         perf/net/traffic8_hq2_2                      exit=0            ",
+  "OK  gate         perf/net_ab                                  exit=0            ",
+  "OK  gate         perf/perf_death_srv                          exit=0            ",
+  "OK  parent       perf/perf_death_srv_parent                   exit=0            ",
+  "OK  gate         soak/nr_soak                                 exit=0   4/4      ",
+  "OK  gate         soak/soak                                    exit=0            ",
+  "OK  parent       soak/soak_parent                             exit=0            ",
+  "OK  gate         soak/soak_gc                                 exit=0            ",
+  "OK  parent       soak/soak_gc_parent                          exit=0            ",
+  "OK  gate         soak/server_soak                             exit=0            ",
+  "OK  parent       soak/server_soak_parent                      exit=0            ",
+  "OK  gate         soak/server_soak_nogc                        exit=0            ",
+  "OK  parent       soak/server_soak_nogc_parent                 exit=0            ",
+  "OK  gate         paired                                       exit=0            ",
+  "OK  gate         film                                         exit=0            ",
+  "OK  gate         video/video_main                             exit=0            ",
+  "OK  gate         video/video_lag                              exit=0            ",
+  "OK  before-fix   before_fix/parity_judge_h24                  exit=1   0/1      ",
+  "OK  gate         parity_judge                                 exit=0            ",
+  "OK  gate         hq1/wall_rebuild_2                           exit=0   1/1      ",
+  "OK  parent       hq1/wall_rebuild_hq1                         exit=0   1/1      ",
+  "OK  gate         existing/f13_hq2                             exit=0   6/6      ",
+  "OK  older-suite  existing/audit_net2_again                    exit=1   8/11       failing DD2, LC4, MT1 = inherited DD2 (existing/audit_net2_parent) + HQ2 deltas LC4 (replaced by proto/nr_all+browser/nr_e02), MT1 (replaced by old_fixtures)",
+  "OK  older-suite  existing/audit_net2_again_2                  exit=1   8/11       failing DD2, LC4, MT1 = inherited DD2 (existing/audit_net2_parent) + HQ2 deltas LC4 (replaced by proto/nr_all+browser/nr_e02), MT1 (replaced by old_fixtures)",
+  "OK  parent       existing/audit_net2_parent                   exit=1   10/11    ",
+  "OK  gate         unit/boom_fps                                exit=0            ",
+  "OK  mutation     mutation/f_step_cap__boom_fps                exit=1            ",
+  "OK  gate         browser/life_light                           exit=0   5/5      ",
+  "OK  gate         browser/life_lab                             exit=0   8/8      ",
+  "OK  gate         scope                                        exit=0            ",
+  "OK  gate         changed_files                                exit=0            "
+ ]
+}

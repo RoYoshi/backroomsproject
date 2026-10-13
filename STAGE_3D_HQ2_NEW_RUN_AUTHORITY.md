@@ -236,3 +236,20 @@ The game itself has no reduced-motion setting. What this shows is that the blast
 ### Recorded for human QA
 
 **A reconnect is a new player.** There are no accounts, so a reloaded page has a fresh cooldown (D4, unchanged). `nr_abort` measures it: the reconnect's first NEW RUN is approved.
+
+## H2-6: the last lifecycle details, measured
+
+No production change. Three details of the gate matrix that no earlier run had measured on real pages (`dev/stage-3d-hq2/evidence/h2-6/`):
+
+- **E03, a blast's dropped light through focus loss, a dropped connection and a reload** (`life_hq2.py --case light`, 5/5). During a 6.7 s hold:
+  - Bob's connection is dropped and the game reconnects him;
+  - his window is hidden, blurred and resized;
+  - Carol's page is reloaded.
+
+  The results:
+  - every page keeps one timeline: no anchor moves later, the anchors within 51 ms;
+  - full power in the hold and nothing lit after it ends;
+  - Bob's page does not play or sound the blast again;
+  - the reloaded page is silent and shows the one corpse and its stain.
+- **E06 at every render rate** (`boom_fps.js`). The blast advanced as a page at 30–360 FPS, a busy jittered page or the Death Lab's clock would advance it is the reference run bit for bit: 64 blasts, 232,768 frames. A copy with the physics capped per frame fails it.
+- **R03 with the Death Lab paused and slowed** (`life_hq2.py --case lab`, 8/8). A world reset in the middle of a death clears it from the paused and the slowed screens as from the others, and it does not come back when the clocks are restored. The next death behaves as HQ1 accepted.

@@ -1,0 +1,108 @@
+{
+ "tool": "dev/stage-3d-hq2/ws_reset.js",
+ "kind": "death",
+ "victim": 1,
+ "after": 3000,
+ "sawEvent": 1791899567.83,
+ "de": 1,
+ "w0": 2,
+ "sent": 1791899570.831,
+ "answer": "NEW RUN FOR EVERYONE",
+ "after3s": [
+  {
+   "at": 0.076,
+   "t": "world",
+   "w": 3
+  },
+  {
+   "at": 0.076,
+   "t": "fx",
+   "k": "end",
+   "id": 1,
+   "de": 1,
+   "w": 3
+  },
+  {
+   "at": 0.077,
+   "t": "ares",
+   "msg": "NEW RUN FOR EVERYONE"
+  },
+  {
+   "at": 0.101,
+   "t": "bodies",
+   "w": 3,
+   "n": 0
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "1 HOUND REMOVED · 0/64"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "NO HOUNDS TO REMOVE"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 4/64"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 3/64"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 2/64"
+  },
+  {
+   "at": 0.155,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 1/64"
+  },
+  {
+   "at": 0.156,
+   "t": "ares",
+   "msg": "1 SMILER REMOVED · 0/64"
+  },
+  {
+   "at": 0.156,
+   "t": "ares",
+   "msg": "NO SMILERS TO REMOVE"
+  },
+  {
+   "at": 0.156,
+   "t": "ares",
+   "msg": "NO SMILERS TO REMOVE"
+  },
+  {
+   "at": 0.156,
+   "t": "ares",
+   "msg": "NO SMILERS TO REMOVE"
+  }
+ ],
+ "snapW": 3
+}

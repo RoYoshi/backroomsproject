@@ -49,5 +49,10 @@ Collision tools use **ordinary** test players, without the test passcode. An adm
 | `f13_hq2.js` | H2-5: `npm test`'s 2F F13 (encounter identity cleared) with HQ2's lifecycle: the older test calls `sim.vanish`, removed at H2-1 |
 | `parity_judge.py` | H2-5: `dev/stage-3d/parity3d.py`'s numbers (it reports, it does not gate) judged against HQ1's own: every death within 1 px of the server's corpse on the victim's and the spectator's screen |
 | `video_hq2.py` | H2-5: the films, real pages recorded side by side with the build hash and each page's frame time burnt in: `--plan main` (the narrow-hall stand-off, squeezing past, the blast, a late joiner, SPAWN), `--plan lag` (the wide-hall side-pass, lag recovery) |
+| `boom_fps.js` | H2-6: E06 at different render rates - the blast's physics advanced in the pieces a page draws (30-360 FPS, a jittered busy page, the Death Lab's slow, paused and stepped clock) is the one-step-at-a-time reference, bit for bit |
+| `life_hq2.py` | H2-6: `--case light` (E03 on a blast: focus lost, a dropped connection and a reloaded page during the dropped light's hold); `--case lab` (R03: a world reset with the Death Lab paused on one screen and slowed on another, then the next death as HQ1 accepted it) (`--reanalyse`) |
+| `summary_hq2.py` | H2-6: every step of the final regression (H2-5, H2-6) with its exact result, in its class: gate, before-fix, mutation, replaced, an older suite whose failing names must be exactly the inherited ones plus HQ2's documented deltas |
+| `changed_files_hq2.py` | H2-6: writes `STAGE_3D_HQ2_CHANGED_FILES.txt` (every file changed since HQ1, what and why) |
+| `package_hq2.py` | H2-6: the human-QA ZIP of the final commit, its parts and hashes, and the receipt that verifies the ZIP against the commit, GitHub, the scope, the built files, a smoke run of the packaged source and the final regression |
 
 Evidence for each checkpoint is in `evidence/h2-0` and onwards.

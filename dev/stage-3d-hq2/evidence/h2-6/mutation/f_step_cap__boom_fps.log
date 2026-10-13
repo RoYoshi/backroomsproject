@@ -1,0 +1,20 @@
+{"blasts":16,"schedules":8,"framesCompared":58192,"failures":16} [
+  {
+    i: 0,
+    schedule: 'fps30',
+    what: 'F2 the end state differs',
+    info: { end: [Array], ref: [Array] }
+  },
+  {
+    i: 1,
+    schedule: 'fps30',
+    what: 'F2 the end state differs',
+    info: { end: [Array], ref: [Array] }
+  },
+  {
+    i: 2,
+    schedule: 'fps30',
+    what: 'F2 the end state differs',
+    info: { end: [Array], ref: [Array] }
+  }
+]

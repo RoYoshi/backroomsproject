@@ -1,0 +1,14 @@
+-- H2-6 on the working tree over 65a130984243e6d5badd188c599d576b79b464c8 (no production file changed since; git diff below), Tue Oct 13 08:48:58 CDT 2026 --
+unit/boom_fps exit=0 seconds=1
+mutation/f_step_cap__boom_fps exit=1 seconds=0
+browser/life_light exit=0 seconds=139
+browser/life_lab exit=0 seconds=147
+scope exit=0 seconds=0
+changed_files exit=0 seconds=0
+summary exit=0 seconds=0
+-- finished Tue Oct 13 08:53:49 CDT 2026 --
+-- again, Tue Oct 13 08:58:49 CDT 2026: the stage documents were written after the first pass (STAGE_3D_HQ2_REPORT.md, STAGE_3D_HQ2_HUMAN_QA.md, the H2-6 sections of STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md and STAGE_3D_HQ2_REGRESSION.md, this folder's SUMMARY.md, the secret scan; package_hq2.py's smoke run of peers_unit.js uses its default trials: 300 fail U2's coverage line, not a property): the scope, the changed-file list and the summary again over the final working tree (the first pass's in attempts/first_pass) --
+scope exit=0 seconds=0
+changed_files exit=0 seconds=0
+summary exit=0 seconds=0
+-- finished Tue Oct 13 08:58:49 CDT 2026 --
