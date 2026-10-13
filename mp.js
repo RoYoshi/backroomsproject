@@ -376,7 +376,7 @@ window.__hideBodies = new Set(); window.__fxKill = new Set(); window.__fxKillS =
 const sm = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 function killFx(f) {
   f.gone = true;
-  for (const x of [f.av, f.jl && f.jl.blood, f.jl && f.jl.foreground, f.jl && f.jl.debris, f.att]) { if (!x) continue; try { x.parent && x.parent.removeChild(x); x.destroy({ children: true }); } catch { } }
+  for (const x of [f.av, f.jl && f.jl.blood, f.jl && f.jl.foreground, f.jl && f.jl.debris, f.att, f.gib]) { if (!x) continue; try { x.parent && x.parent.removeChild(x); x.destroy({ children: true }); } catch { } }
   window.__hideBodies.delete('r' + f.id);
 }
 function startFx(m) {
@@ -401,7 +401,8 @@ function startFx(m) {
   } else if (m.k === 'boom') {                                                     // Stage 3D HQ2: a NEW RUN blast - the server's event, its seed and direction; no attacker
     const d = +m.d || 0, jl = new A.Jl(); jl.start('Boom', now, { x: m.x - Math.cos(d), y: m.y - Math.sin(d) }, -1, { x: m.x, y: m.y, angle: m.a, equipment: gear, hat: look.hat, vx: m.vx || 0, vy: m.vy || 0, ex: 0 }, { v: 'A', s: m.s, d });
     if (!jl.ph) { killFx(f); return; }                                             // (the blast is physics only: never the scripted fallback)
-    f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground, jl.debris);
+    f.gib = jl.ph.gib && window.__gore && window.__gore.gibs ? new (jl.foreground.constructor)() : null;   // Stage 3D HQ3: the pieces and the hands, drawn from the physics every frame (the whole avatar is never shown)
+    f.jl = jl; A.floor().addChild(jl.blood); layer.addChild(jl.foreground); if (f.gib) { layer.addChild(f.gib); av.visible = false; } layer.addChild(jl.debris);
     if (!(+m.el > .3) && EN() && EN().boomVoice) EN().boomVoice(m.x, m.y);        // heard once, where it happens (a late joiner does not hear it)
     f.cause = 'Boom'; f.att = null; f.kill = { h: -1, s: -1 };
     window.__hideBodies.add('r' + m.id);
@@ -409,6 +410,16 @@ function startFx(m) {
   fxs.push(f);
 }
 function updateFx(now) {
+/* Stage 3D HQ3: a NEW RUN's gibs on this screen - the replay's own physics (the server's seed: the same pieces everywhere), drawn by
+ * gore.js; redrawn only while something moves (once all is at rest the picture is left as it is), darkened toward a corpse's colour
+ * over the blast so the corpse that takes over looks the same */
+function gibFrame(f, jl) {
+  const S = jl.ph, G = window.__gore; if (!S || !S.gib || !G) return;
+  const shapes = f.gibShapes || (f.gibShapes = window.__dphys.gibShapes(S.ctx.seed)), dead = sm(.5, 2.6, jl.elapsed);
+  const key = (S.state === 'SLEEPING' ? 'rest' : S.stepN) + ':' + Math.round(dead * 20); if (f.gibKey === key) return; f.gibKey = key;
+  f.gib.clear();
+  G.gibs(f.gib, S.gib.map((g, i) => ({ x: g.x, y: g.y, rot: g.rot, z: g.z, poly: shapes[i].poly, core: shapes[i].core })), S.h.map(h => ({ x: h.x, y: h.y, rot: h.rot, z: h.z })), f.look, { dead, eqKind: f.gear && f.gear.kind });
+}
   const A = window.__api; window.__fxKill.clear(); window.__fxKillS.clear();
   for (let i = fxs.length - 1; i >= 0; i--) {
     const f = fxs[i], t = now - f.t0;
@@ -422,8 +433,11 @@ function updateFx(now) {
     }
     const jl = f.jl, done = jl.frame(now), b = jl.body;
     f.av.update(now, false, false, f.src);
+    if (f.gib) { f.av.visible = false; gibFrame(f, jl); }                          // Stage 3D HQ3: a gibbed NEW RUN: no whole body from the first frame on
+    else {
     f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24, jl);
     if (f.att) {                                                                   // (a NEW RUN blast has no attacker)
+    }
       f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
       if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60); } else f.att.attackPose(jl.grip, jl.impact, jl.variant, jl);
     }

@@ -38,6 +38,7 @@ function corpse(id, kill, info, P) {
       eq: { kind: info.ek, color: info.ec, parts: info.ep }, bl: m.blood.slice(0, 8).map(q => [Math.round(q.x), Math.round(q.y), (q.seed | 0) % 1000]),
       dr: [Math.round(m.dropped.x), Math.round(m.dropped.y), f(m.dropped.angle)], ht: [Math.round(m.hat.x), Math.round(m.hat.y), f(m.hat.angle)], lo: info.light ? 1 : 0,
       ph: 1, hd: m.hands.flat().map(v => Math.max(-80, Math.min(80, v))), ho: m.hatOn ? 1 : 0, tr: m.trail, srv: 1,
+      ...(m.gibs ? { gs: m.gibs.gs, gb: m.gibs.gb.slice(0, 8), gh: m.gibs.gh } : {}),                    // Stage 3D HQ3: a NEW RUN's gibs (dphys.gibRecord): the breakup's seed, each piece and both hands where they came to rest
       ...(Array.isArray(kill.lf) ? { lf: [kill.lf[0], kill.lf[1], kill.lf[2], f((info.ek === 'headlamp' || !(R.S.eqAt >= 0) ? 0 : R.S.eqAt) - R.dur)] } : {}) },   // Stage 3D HQ1: [hold, fade, seed, release - death length]
     attacker: R.attacker, dur: R.dur };
 }
@@ -47,7 +48,8 @@ const durOf = kill => kill.k === 'Boom' ? DP.DURS.Boom.A : (DP.DURS[kill.k === '
  * faced (x, y, a), the blast's seed and direction (s, d: dphys.boomPlan of the world and the event id) and, for a lit light, the HQ1
  * light profile (lf).  Its replay message, its run (the same 240 Hz physics every screen runs from the same numbers) and, at its end,
  * its corpse (corpse() above: cause 'Boom', the body, both hands, the light and the hat where they came to rest, the blood, the wall
- * marks, the light's release). */
+ * marks, the light's release).  Stage 3D HQ3: the body is gibbed - the record also names the breakup's seed and where every piece and
+ * both hands came to rest (gs, gb, gh), so every screen, a late joiner's and a reloaded one's included, draws the same remains. */
 function boomFx(id, B, info) {
   return { t: 'fx', k: 'boom', id, x: B.x, y: B.y, a: B.a, d: B.d, s: B.s, lk: info.look, ek: info.ek, ec: info.ec, ep: info.ep, vx: Math.round(info.vx || 0), vy: Math.round(info.vy || 0), srv: 1 };
 }

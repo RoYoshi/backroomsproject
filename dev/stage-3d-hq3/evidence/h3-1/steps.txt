@@ -1,0 +1,6 @@
+-- H3-1 on the staged tree (git write-tree 2963b7a60d396ff335de23271d6037bb664dcb65), exported to a scratch folder, Tue Oct 13 12:02:52 CDT 2026 --
+gib_check exit=0 seconds=1
+death_equiv_vs_hq2 exit=0 seconds=5
+gib_browser exit=1 seconds=108
+-- finished Tue Oct 13 12:04:46 CDT 2026 --
+gib_browser_reanalysed exit=0 seconds=0 (the same run reanalysed: check 4's at-rest condition now asks it of Alice's page only - Bob's clock was stepped for the photographs; attempts/gib_browser_bob_stepped_clock_last_sample)

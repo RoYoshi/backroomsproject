@@ -200,7 +200,7 @@
   function corpse(g, rec, floor) {
     const ph = !!rec.hands, age = ageOf(rec), dry = ph ? dryAt(age) : .82, tk = ph ? torsoAt(age) : 1, lim = rec.__lim || (rec.__lim = {});
     g.clear();
-    g.ellipse(rec.x, rec.y + 2, 21, 27).fill({ color: 0x000000, alpha: .09 });                 // contact shadow grounds the body
+    if (!rec.gb) g.ellipse(rec.x, rec.y + 2, 21, 27).fill({ color: 0x000000, alpha: .09 });     // contact shadow grounds the body (Stage 3D HQ3: a gibbed body has none: its pieces have their own)
     const pools = rec.blood.filter(b => !isMark(b.seed)), marks = rec.blood.filter(b => isMark(b.seed));
     for (const b of marks) { const [nx, ny] = markDir(b.seed); wallMark(g, b.x, b.y, nx, ny, 220, Math.round(b.x * 7 + b.y * 13) & 1023, 1 - dry, 1, floor); }
     pools.forEach((b, i) => {
@@ -216,7 +216,51 @@
     // the pool under the torso: it spreads while the body lies in it
     const ts = poolShape(hash(String(rec.id)) % 997); if (lim.t === undefined) lim.t = reach(rec.x, rec.y, ts);
     if (tk > .06) drawPool(g, rec.x, rec.y, (ph ? 15 : 25) * tk, ts, ph ? Math.max(.28, .62 - age / 40) : .28, 1, Math.cos(rec.attackAngle), Math.sin(rec.attackAngle), lim.t);
+    if (rec.gb) gibsOfRecord(g, rec);                                                    // Stage 3D HQ3: a NEW RUN's remains: the pieces and both hands, over their blood
     if (ph && age < DRYING && !drying.has(g)) drying.set(g, { rec, floor, view: null, key: stateKey(rec) });
+  }
+  /* ---------- Stage 3D HQ3: NEW RUN's gibs ----------
+   * The Wanderer's own round body in 5-7 pieces (dphys.gibShapes: the same outlines on every screen) and its two round hands, in its own
+   * colours: each piece its body colour with the dark outline the avatar has on its round edge, the raw cut along its broken edges, a
+   * shadow under it; while a piece is in the air it is drawn a little bigger and its shadow falls further off.  A gibbed headlamp sits
+   * on the biggest piece.  A corpse's pieces are darkened as the game darkens every corpse (the bundle tints a dead avatar 0xc8b1a4);
+   * the replay darkens them toward that over its course (opt.dead 0..1), so the hand-over to the corpse changes nothing. */
+  const DEAD_TINT = 0xc8b1a4, GIB_SCALE = 1.15;                                       // (the pieces are drawn 15 % bigger than the physics' outlines: readable at the game's zoom)
+  const mul = (c, m) => ((((c >> 16) & 255) * ((m >> 16) & 255) / 255) << 16) | ((((c >> 8) & 255) * ((m >> 8) & 255) / 255) << 8) | ((c & 255) * (m & 255) / 255);
+  const hexOf = (s, d) => /^#[0-9a-f]{6}$/i.test(s || '') ? parseInt(s.slice(1), 16) : d;
+  function gibs(g, pieces, hands, look, opt = {}) {
+    const k = clamp(opt.dead == null ? 1 : opt.dead), tone = c => mix(c, mul(c, DEAD_TINT), k);
+    const body = tone(hexOf(look && look.main, 0xffcc77)), skin = tone(hexOf(look && look.hands, 0xe6bb76)), line = tone(0x413c2b), hl = tone(0x494832);
+    const flesh = mix(0x8a1a14, 0x4a0b0a, k * .6), raw = mix(0xc0392b, 0x7a1512, k * .6);
+    for (const h of hands) { const z = h.z || 0; g.circle(h.x + 1.2 + z * .15, h.y + 2.4 + z * .25, 6).fill({ color: 0x000000, alpha: .22 }); }
+    for (const q of pieces) { const z = q.z || 0, s = (1 + z / 110) * GIB_SCALE, c = Math.cos(q.rot), n = Math.sin(q.rot), sh = [];
+      for (const v of q.poly) sh.push(q.x + 1.5 + z * .15 + (v[0] * c - v[1] * n) * s, q.y + 2.5 + z * .25 + (v[0] * n + v[1] * c) * s);
+      g.poly(sh).fill({ color: 0x000000, alpha: .24 }); }
+    for (const q of pieces) {
+      const z = q.z || 0, s = (1 + z / 110) * GIB_SCALE, c = Math.cos(q.rot), n = Math.sin(q.rot), P = q.poly.map(v => [q.x + (v[0] * c - v[1] * n) * s, q.y + (v[0] * n + v[1] * c) * s]), L = P.length;
+      g.poly(P.flat()).fill(body);
+      if (q.core) { g.poly(P.flat()).stroke({ color: flesh, width: 1.8, join: 'round' }); g.circle(q.x, q.y, 1.8 * s).fill({ color: raw, alpha: .55 }); continue; }   // the lump from the middle: raw all round
+      g.moveTo(P[2][0], P[2][1]); for (let j = 3; j <= L - 3; j++) g.lineTo(P[j][0], P[j][1]); g.stroke({ color: line, width: 1.4, cap: 'round', join: 'round' });   // the round edge, as the avatar's
+      g.moveTo(P[L - 3][0], P[L - 3][1]).lineTo(P[L - 2][0], P[L - 2][1]).lineTo(P[L - 1][0], P[L - 1][1]).lineTo(P[0][0], P[0][1]).lineTo(P[1][0], P[1][1]).lineTo(P[2][0], P[2][1])
+        .stroke({ color: flesh, width: 1.8, cap: 'round', join: 'round' });                                                                            // the raw cut
+      g.moveTo(P[L - 1][0], P[L - 1][1]).lineTo(P[0][0], P[0][1]).stroke({ color: raw, width: .9, alpha: .85, cap: 'round' });
+    }
+    if (opt.eqKind === 'headlamp' && pieces[0]) { const q = pieces[0], c = Math.cos(q.rot), n = Math.sin(q.rot);
+      g.circle(q.x + c * 2, q.y + n * 2, 3.4).fill(tone(0x2b2b2b)).circle(q.x + c * 2, q.y + n * 2, 1.6).fill({ color: 0xfff1c4, alpha: .8 }); }
+    for (const h of hands) {
+      const z = h.z || 0, s = 1 + z / 110, a = h.rot || 0;
+      g.circle(h.x, h.y, 6 * s).fill(skin).stroke({ color: hl, width: 1.5 });
+      g.arc(h.x, h.y, 4.3 * s, Math.PI, Math.PI * 1.7).stroke({ color: 0xffffff, alpha: .25, width: 1 });
+      g.arc(h.x, h.y, 4.4 * s, a - .8, a + .8).stroke({ color: flesh, width: 2.4, cap: 'round' });                                                   // where it came off
+    }
+  }
+  /* a corpse record's gibs: the outlines from the breakup's seed, the resting places from the record (on the floor: z 0) */
+  function gibsOfRecord(g, rec) {
+    const D = window.__dphys; if (!D || !D.gibShapes || !rec.gb) return;
+    const sh = rec.__gibShapes || (rec.__gibShapes = D.gibShapes(rec.gs));
+    const pieces = rec.gb.map((q, i) => sh[i] ? { x: q[0], y: q[1], rot: q[2], z: 0, poly: sh[i].poly, core: sh[i].core } : null).filter(Boolean);
+    const hands = rec.gh && rec.gh.length === 4 ? [{ x: rec.gh[0], y: rec.gh[1], rot: 0 }, { x: rec.gh[2], y: rec.gh[3], rot: Math.PI }] : [];
+    gibs(g, pieces, hands, rec.appearance, { dead: 1, eqKind: rec.equipment && rec.equipment.kind });
   }
   /* the drying: four times a second, every corpse younger than DRYING seconds whose look has moved on a step is redrawn (and its texture
    * refreshed) - only while it is on screen: one that is off screen catches up in one redraw when it comes back.  Once a corpse has been
@@ -235,6 +279,7 @@
   const CACHE_RES = () => Math.min(2.5, Math.max(1, (window.devicePixelRatio || 1) * 1.25));
   function cached(view, rec) {
     view.__rec = rec;
+    if (rec.gb) for (const c of view.children) if (c.__cause && c.__key === rec.id) { c.visible = false; c.renderable = false; }   // Stage 3D HQ3: a gibbed body has no whole torso to draw (its pieces are in the blood layer)
     for (const e of drying.values()) if (e.rec === rec) e.view = view;
   }
   /* is this corpse far enough from the camera to skip?  Its reach (blood, gear, hat, trail around the body) is measured once; a view that
@@ -243,6 +288,7 @@
     if (rec.__ext) return rec.__ext; let r = 60;
     const see = (x, y) => { r = Math.max(r, Math.hypot(x - rec.x, y - rec.y)); };
     for (const b of rec.blood) see(b.x, b.y); if (rec.dropped) see(rec.dropped.x, rec.dropped.y); if (rec.hat) see(rec.hat.x, rec.hat.y); for (const q of rec.trail || []) see(q[0], q[1]);
+    for (const q of rec.gb || []) see(q[0], q[1]); if (rec.gh) { see(rec.gh[0], rec.gh[1]); see(rec.gh[2], rec.gh[3]); }   // Stage 3D HQ3: the gibs
     return rec.__ext = r + 110;                                        // + a pool, its spatter and the gear's own size
   }
   function cull(rec, sc) {
@@ -378,5 +424,5 @@
     reset: () => { ST.faces = null; },      // (the receiver's faces are read again: a rebuilt level)
     clear: () => { const L = window.__l0v; for (const s of ST.stains.values()) if (s.id != null) { if (L && L.surfaces) L.surfaces.remove(s.id); ST.n.removed++; } ST.stains.clear(); } };   // Stage 3D HQ2: an admin world reset - every stain of the old world goes at once (no half-second grace)
 
-  window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear, wallMark, impacts, markSeed, ownsWalls: true, cull, cached, ageOf, wallStains };
+  window.__gore = { fx, corpse, wounds, drawPool, poolShape, smear, wallMark, impacts, markSeed, ownsWalls: true, cull, cached, ageOf, wallStains, gibs };
 })();

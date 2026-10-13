@@ -1,0 +1,85 @@
+{
+ "tool": "dev/stage-3d-hq3/gib_check.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h31tree",
+ "runs": 120,
+ "fails": [],
+ "pieces": {
+  "5": 30,
+  "6": 43,
+  "7": 47
+ },
+ "wallStruck": 77,
+ "marks": 108,
+ "ms": 2.51,
+ "frameRates": [
+  {
+   "blast": 0,
+   "schedule": "30 FPS",
+   "same": true
+  },
+  {
+   "blast": 0,
+   "schedule": "144 FPS",
+   "same": true
+  },
+  {
+   "blast": 0,
+   "schedule": "jittered 20-200 FPS",
+   "same": true
+  },
+  {
+   "blast": 1,
+   "schedule": "30 FPS",
+   "same": true
+  },
+  {
+   "blast": 1,
+   "schedule": "144 FPS",
+   "same": true
+  },
+  {
+   "blast": 1,
+   "schedule": "jittered 20-200 FPS",
+   "same": true
+  },
+  {
+   "blast": 119,
+   "schedule": "30 FPS",
+   "same": true
+  },
+  {
+   "blast": 119,
+   "schedule": "144 FPS",
+   "same": true
+  },
+  {
+   "blast": 119,
+   "schedule": "jittered 20-200 FPS",
+   "same": true
+  }
+ ],
+ "summary": {
+  "runs": 120,
+  "piecesPerBlast": {
+   "5": 30,
+   "6": 43,
+   "7": 47
+  },
+  "failures": 0,
+  "pieceFlightPx": {
+   "min": 2,
+   "median": 73,
+   "max": 204
+  },
+  "blastsStrikingAWall": 77,
+  "wallMarks": 108,
+  "recordBytes": {
+   "min": 505,
+   "median": 564,
+   "max": 639
+  },
+  "msPerBlast": 2.51,
+  "frameRatesSame": "9/9"
+ },
+ "ok": true
+}

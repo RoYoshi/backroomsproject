@@ -67,7 +67,9 @@
     },
     /* Stage 3D HQ2: NEW RUN's self-destruction - one blast at t = 0 (createBoom / stepBoom): the body's speed (px/s), its spin (rad/s), the
      * hands', the light's and the hat's kicks, how many blood bursts and how far from the body they land */
-    Boom: { res: [0, 1, 0], v0: [250, 420], spin: [9, 18], hand: [260, 460], eq: [120, 260], hat: [140, 280], bursts: 4, rB: [8, 30] },
+    Boom: { res: [0, 1, 0], v0: [250, 420], spin: [9, 18], hand: [260, 460], eq: [120, 260], hat: [140, 280], bursts: 4, rB: [8, 30],
+      /* Stage 3D HQ3: the gibs - each piece's speed out of the body (px/s), its hop off the floor (px/s up), its spin (rad/s); the hands' */
+      gib: { v: [130, 250], up: [90, 190], spin: [6, 15], hand: [140, 260], handUp: [80, 160] } },
   };
 
   /* Stage 3D: the level's blocking rects, fetched once per 96 px tile for the life of one death.  The level's own query (Bc) returns the
@@ -436,21 +438,65 @@
       res: 0, contactT: -1, released: true, slipCount: 0, pitch: 0, blasted: false,
     };
     const b = S.b, c0 = Math.cos(th0), s0 = Math.sin(th0);
-    S.h.forEach(h => { h.x = b.x + h.anc.x * c0 - h.anc.y * s0; h.y = b.y + h.anc.x * s0 + h.anc.y * c0; h.vx = b.vx; h.vy = b.vy; });
+    S.h.forEach(h => { h.x = b.x + h.anc.x * c0 - h.anc.y * s0; h.y = b.y + h.anc.x * s0 + h.anc.y * c0; h.vx = b.vx; h.vy = b.vy; Object.assign(h, { r: 5, z: 0, vz: 0, rot: th0, w: 0, st: 'ACTIVE', still: 0 }); });
     const hr = S.h[1]; S.eq.x = hr.x; S.eq.y = hr.y; S.eq.vx = b.vx; S.eq.vy = b.vy; S.eq.rot = th0;
     S.hat.x = b.x; S.hat.y = b.y; S.hat.vx = b.vx; S.hat.vy = b.vy; S.hat.rot = th0;
+    /* Stage 3D HQ3: the torso is not one body any more - it is 5-8 pieces (gibShapes: the same breakup on every screen and on the server,
+     * from the blast's own seed), each where it was in the body, each its own free body from the first step on */
+    S.gib = gibShapes(ctx.seed).map(g => { const ox = g.cx * c0 - g.cy * s0, oy = g.cx * s0 + g.cy * c0;
+      return { x: b.x + ox, y: b.y + oy, ox, oy, vx: b.vx, vy: b.vy, z: 0, vz: 0, rot: th0, w: 0, r: g.r, st: 'ACTIVE', still: 0 }; });
+    S.gibWalls = 0;
     S.nz = nz; S.rr = r; S.dragDir = { x: -ux, y: -uy }; S.stepN = 0;
     return S;
   }
+  /* Stage 3D HQ3: how the torso breaks.  A seeded breakup of the avatar's round body (radius RB at (0, 1) in its own frame) into a
+   * lump from its middle and 4-6 chunks of its rim (5-7 pieces): the rim is cut at uneven angles round an off-centre core, every cut has
+   * a notch (shared by the two chunks either side, so they would fit back together), the outer edge is ragged, the lump's outline runs
+   * through the inner ends of the cuts.  Each piece: its centroid in the body's frame (cx, cy), its outline about that centroid (poly),
+   * whether it is the lump (core: all its edges are raw) or a rim chunk (its round edge is poly[2 .. length-3], the rest is raw), its
+   * collision radius and its size.  The biggest piece comes first (its slide leaves the smear; a headlamp stays on it).  Nothing random
+   * but the seed: a corpse record names the seed (gs) and each piece's resting place, and every screen rebuilds the same outlines. */
+  function gibShapes(seed) {
+    const r = rng((((seed >>> 0) ^ 0x6a09e667) >>> 0) || 1), n = 4 + Math.floor(r() * 3), w = []; let sum = 0;
+    for (let i = 0; i < n; i++) { const v = .7 + r() * .6; w.push(v); sum += v; }
+    const cuts = []; let a = r() * TAU; for (let i = 0; i < n; i++) { cuts.push(a); a += w[i] / sum * TAU; }
+    const core = { x: (r() - .5) * 5, y: 1 + (r() - .5) * 5 }, rc = cuts.map(() => 5.5 + r() * 2.5), jag = cuts.map(() => ({ f: .35 + r() * .3, o: (r() - .5) * 4 }));
+    const inner = (c, j) => [core.x + Math.cos(c) * rc[j], core.y + Math.sin(c) * rc[j]];
+    const notch = (c, j) => { const [ix, iy] = inner(c, j), ex = Math.cos(c) * RB, ey = 1 + Math.sin(c) * RB, q = jag[j], mx = ix + (ex - ix) * q.f, my = iy + (ey - iy) * q.f; return [mx - Math.sin(c) * q.o, my + Math.cos(c) * q.o]; };
+    const piece = (i, pts, isCore) => {
+      let A = 0, cx = 0, cy = 0;
+      for (let j = 0; j < pts.length; j++) { const p0 = pts[j], p1 = pts[(j + 1) % pts.length], cr = p0[0] * p1[1] - p1[0] * p0[1]; A += cr; cx += (p0[0] + p1[0]) * cr; cy += (p0[1] + p1[1]) * cr; }
+      A /= 2; cx /= 6 * A; cy /= 6 * A;
+      const poly = pts.map(q => [+(q[0] - cx).toFixed(2), +(q[1] - cy).toFixed(2)]), far = Math.max(...poly.map(q => hyp(q[0], q[1])));
+      return { i, cx, cy, poly, core: isCore ? 1 : 0, area: Math.abs(A), r: clamp(far * .7, 4, 11) };
+    };
+    const out = [];
+    for (let i = 0; i < n; i++) {                                                       // the rim chunks
+      const c0 = cuts[i], c1 = i + 1 < n ? cuts[i + 1] : cuts[0] + TAU, k = Math.max(1, Math.round((c1 - c0) / .45)), j1 = (i + 1) % n, pts = [inner(c0, i), notch(c0, i)];
+      for (let s = 0; s <= k; s++) { const aa = c0 + (c1 - c0) * s / k, rr = RB - (s > 0 && s < k ? r() * 2.4 : 0); pts.push([Math.cos(aa) * rr, 1 + Math.sin(aa) * rr]); }
+      pts.push(notch(c1, j1), inner(c1, j1));
+      out.push(piece(i, pts, false));
+    }
+    out.push(piece(n, cuts.map((c, j) => inner(c, j)), true));                         // the lump from the middle
+    return out.sort((p, q) => q.area - p.area || p.i - q.i);
+  }
   function stepBoom(S) {
     if (S.state === 'SLEEPING' && S.frozen) { S.t += DT; S.stepN++; return; }
-    const t = S.t, dt = DT, cfg = S.cfg, b = S.b, W = S.walls, ux = S.ux, uy = S.uy, r = S.rr, pick = q => q[0] + r() * (q[1] - q[0]);
+    const t = S.t, dt = DT, cfg = S.cfg, gc = cfg.gib, b = S.b, W = S.walls, ux = S.ux, uy = S.uy, r = S.rr, pick = q => q[0] + r() * (q[1] - q[0]);
     if (!S.blasted) {                                                                   // the blast, once, on the first step
       S.blasted = true; S.firstBlow = 0; S.contactT = 0; S.phase = 'impact';
-      const v = pick(cfg.v0), lat = (r() - .5) * .5, ba = Math.atan2(uy, ux);
-      b.vx += (ux - uy * lat) * v; b.vy += (uy + ux * lat) * v;
-      b.om += (r() < .5 ? -1 : 1) * pick(cfg.spin); b.sqv += 9; b.nx = ux; b.ny = uy;
-      for (let i = 0; i < 2; i++) { const h = S.h[i], a = ba + (i ? 1 : -1) * (PI / 2 + (r() - .5) * .9), m = pick(cfg.hand); h.vx += Math.cos(a) * m + b.vx * .4; h.vy += Math.sin(a) * m + b.vy * .4; }
+      const ba = Math.atan2(uy, ux);
+      /* Stage 3D HQ3: POP - the torso is gone at once.  Every piece flies from where it was in the body: outward from the middle and along
+       * the blast, up off the floor (a hop: drawn a little bigger while in the air), spinning; already apart in the very first frame */
+      for (const g of S.gib) {
+        const d = hyp(g.ox, g.oy) || 1, nx = g.ox / d, ny = g.oy / d, v = pick(gc.v), lat = (r() - .5) * .6;
+        g.vx += (nx * .75 + ux * .45 - ny * lat) * v; g.vy += (ny * .75 + uy * .45 + nx * lat) * v;
+        g.vz = pick(gc.up); g.w = (r() < .5 ? -1 : 1) * pick(gc.spin); g.x += nx * 3; g.y += ny * 3;
+      }
+      for (let i = 0; i < 2; i++) {                                                     // the two hands come off and fly on their own
+        const h = S.h[i], a = ba + (i ? 1 : -1) * (PI / 2 + (r() - .5) * .9), m = pick(gc.hand);
+        h.vx += Math.cos(a) * m + ux * 40; h.vy += Math.sin(a) * m + uy * 40; h.vz = pick(gc.handUp); h.w = (r() - .5) * 16;
+      }
       { const a = ba + (r() - .5) * 2.4, m = pick(cfg.eq); release(S, 'eq', 0, { x: Math.cos(a) * m, y: Math.sin(a) * m }); }
       { const a = ba + (r() - .5) * 3.0, m = pick(cfg.hat); release(S, 'hat', 0, { x: Math.cos(a) * m, y: Math.sin(a) * m }); }
       const solid = (x, y) => W(x, y).some(q => x > q.x - 3 && x < q.x + q.w + 3 && y > q.y - 3 && y < q.y + q.h + 3);   // (blood lands on the floor: never inside a wall)
@@ -458,53 +504,51 @@
       S.ev.push({ t: 0, k: 'blast', x: b.x, y: b.y });
       shock(S, ux, uy, 34);
     }
-    /* the body skids, tumbles and stops: the same ground friction as every death */
-    const mu = 560, visc = 1.15, sp = hyp(b.vx, b.vy);
-    if (sp > 1e-3) { const dv = Math.min(sp, (mu * dt) * sp / (sp + 10) + (visc + (sp < 14 ? 7 : 0)) * sp * dt); b.vx -= b.vx / sp * dv; b.vy -= b.vy / sp * dv; }
-    b.om -= b.om * 2.1 * dt + Math.sign(b.om) * Math.min(Math.abs(b.om), 5.5 * dt * Math.abs(b.om) / (Math.abs(b.om) + .5));
-    b.x += b.vx * dt; b.y += b.vy * dt; b.th += b.om * dt;
-    b.sqv += (-b.sq * 420 - b.sqv * 26) * dt; b.sq += b.sqv * dt; b.sq = clamp(b.sq, -.12, .30);
-    const bo = { x: b.x, y: b.y, vx: b.vx, vy: b.vy }, hit = collide(W, bo, RB, .2, .5);
-    if (hit) {
-      b.x = bo.x; b.y = bo.y; b.om += clamp(-hit.vt * .05, -2.5, 2.5) * (hit.nx * b.vy - hit.ny * b.vx > 0 ? 1 : -1) * .3;
-      b.vx = bo.vx; b.vy = bo.vy;
-      if (hit.sp > 60) {
-        b.nx = -hit.nx; b.ny = -hit.ny; b.sqv += clamp(hit.sp * .028, 0, 8); shock(S, -hit.nx, -hit.ny, clamp(hit.sp * .05, 0, 26));
-        if (!S.wallHit) S.wallHit = { t, x: hit.x, y: hit.y, sp: hit.sp, nx: hit.nx, ny: hit.ny };
-        S.trace.hit.push([hit.x, hit.y, t]); S.ev.push({ t, k: 'wall', sp: hit.sp, x: hit.x, y: hit.y, nx: hit.nx, ny: hit.ny });
-        S.h.forEach(h => { h.vx += (-hit.nx) * hit.sp * .25; h.vy += (-hit.ny) * hit.sp * .25; });
-        if (S.phase === 'impact') S.phase = 'collision';
-      }
-    }
-    /* the hands: limp springs on the body, thrown out by the blast, swinging back, coming to rest */
-    const cth = Math.cos(b.th), sth = Math.sin(b.th);
-    for (let i = 0; i < 2; i++) {
-      const h = S.h[i], side = i === 0 ? -1 : 1, nzx = S.nz[(i * 2) & 5](t * 1.1 + i * 3), nzy = S.nz[(i * 2 + 1) & 5](t * 1.3 + i * 5), tw = Math.exp(-t * 2.2);
-      const ox = side * 5 + nzx * 3 * tw + side * 11 * Math.exp(-t * 7), oy = 7 + nzy * 3 * tw, k = 90, z = .7;
-      h.off.x = ox; h.off.y = oy; h.k = k; h.z = z;
-      const lx = h.anc.x + ox, ly = h.anc.y + oy, wx = b.x + lx * cth - ly * sth, wy = b.y + lx * sth + ly * cth, bvx = b.vx - b.om * (wy - b.y), bvy = b.vy + b.om * (wx - b.x);
-      const cd = 2 * z * Math.sqrt(k);
-      h.vx += (k * (wx - h.x) - cd * (h.vx - bvx) - 1.1 * h.vx) * dt; h.vy += (k * (wy - h.y) - cd * (h.vy - bvy) - 1.1 * h.vy) * dt;
-      h.x += h.vx * dt; h.y += h.vy * dt;
-      const ddx = h.x - b.x, ddy = h.y - b.y, dd = hyp(ddx, ddy) || 1, mx = 40, mn = 13;
-      if (dd > mx) { const nx = ddx / dd, ny = ddy / dd; h.x = b.x + nx * mx; h.y = b.y + ny * mx; const vn = h.vx * nx + h.vy * ny - (b.vx * nx + b.vy * ny); if (vn > 0) { h.vx -= nx * vn; h.vy -= ny * vn; } }
-      else if (dd < mn) { h.x = b.x + ddx / dd * mn; h.y = b.y + ddy / dd * mn; }
-      collide(W, h, 5, .1, .6);
-    }
+    /* the pieces and the hands: hop, land (a short bounce), skid, spin, strike walls, rest.  The body itself (S.b) stays where the player
+     * stood: it is only the event's anchor now (the corpse's place, the pool under where the torso was) */
+    for (const g of S.gib) gibBody(S, g, dt, true);
+    for (const h of S.h) gibBody(S, h, dt, false);
     const eq = S.eq, ha = S.hat;
     if (eq.has && !eq.held) freeBody(S, eq, 7, .38, 250, 2.3, dt, 'eq');
     if (ha.has && !ha.on) freeBody(S, ha, 11, .3, 200, 2.6, dt, 'hat');
     const cm = S.cam; cm.vx += (-cm.x * 260 - cm.vx * 21) * dt; cm.vy += (-cm.y * 260 - cm.vy * 21) * dt; cm.x += cm.vx * dt; cm.y += cm.vy * dt;
     S.t += dt; S.stepN++;
+    const g0 = S.gib[0];
     if ((S.stepN & 7) === 0) {
-      const tr = S.trace; if (tr.b.length < 700) { tr.b.push([b.x, b.y]); tr.h0.push([S.h[0].x, S.h[0].y]); tr.h1.push([S.h[1].x, S.h[1].y]); if (eq.has) tr.eq.push([eq.x, eq.y]); }
-      const last = S.trail[S.trail.length - 1];
-      if (hyp(b.vx, b.vy) > 22 && (!last || hyp(last[0] - b.x, last[1] - b.y) > 9)) { S.trail.push([b.x, b.y]); if (S.trail.length > 60) S.trail.shift(); }
+      const tr = S.trace; if (tr.b.length < 700) { tr.b.push([g0.x, g0.y]); tr.h0.push([S.h[0].x, S.h[0].y]); tr.h1.push([S.h[1].x, S.h[1].y]); if (eq.has) tr.eq.push([eq.x, eq.y]); }
+      const last = S.trail[S.trail.length - 1];                                         // the biggest piece's skid leaves the smear
+      if (!(g0.z > 0) && hyp(g0.vx, g0.vy) > 22 && (!last || hyp(last[0] - g0.x, last[1] - g0.y) > 9)) { S.trail.push([g0.x, g0.y]); if (S.trail.length > 60) S.trail.shift(); }
     }
-    const moving = hyp(b.vx, b.vy) > 6 || Math.abs(b.om) > .25 || S.h.some(h => hyp(h.vx - b.vx, h.vy - b.vy) > 14) || (eq.has && eq.st !== 'SLEEPING') || (ha.has && ha.st !== 'SLEEPING') || Math.abs(b.sqv) > .3;
+    const moving = S.gib.some(g => g.st !== 'SLEEPING') || S.h.some(h => h.st !== 'SLEEPING') || (eq.has && eq.st !== 'SLEEPING') || (ha.has && ha.st !== 'SLEEPING');
     if (moving) S.calm = 0; else S.calm += dt;
     S.state = S.calm > .5 && S.t > 1.2 ? 'SLEEPING' : S.calm > .12 ? 'SETTLING' : 'ACTIVE';
-    if (S.state === 'SLEEPING') { S.frozen = true; S.sleepAt = S.t; for (const o of [b, ...S.h, eq, ha]) { o.vx = 0; o.vy = 0; } b.om = 0; b.sqv = 0; S.ev.push({ t: S.t, k: 'sleep' }); }
+    if (S.state === 'SLEEPING') { S.frozen = true; S.sleepAt = S.t; for (const o of [b, ...S.h, ...S.gib, eq, ha]) { o.vx = 0; o.vy = 0; } b.om = 0; b.sqv = 0; S.ev.push({ t: S.t, k: 'sleep' }); }
+  }
+  /* Stage 3D HQ3: one gib (a torso piece, or a hand): up and down again with 2D "gravity" (z: how high, only for how big it is drawn),
+   * a landing bounces back a third of its speed; on the floor the same kind of friction as the dropped light; in the air a little drag;
+   * walls as every death's (collide).  A torso piece striking a wall hard is a wall contact (the first four only: HQ1's wallpaper stain
+   * takes three, dphys.marks); the biggest piece's first landing is a splash of blood where it lands (a floor point: it stands there) */
+  function gibBody(S, o, dt, piece) {
+    if (o.st === 'SLEEPING') return;
+    if (o.z > 0 || o.vz > 0) {
+      o.vz -= 980 * dt; o.z += o.vz * dt;
+      if (o.z <= 0) {
+        o.z = 0;
+        if (o.vz < -60) o.vz = -o.vz * .32; else o.vz = 0;
+        if (piece && o === S.gib[0] && !S.splat) { S.splat = true; S.ev.push({ t: S.t, k: 'hit', i: 4, x: o.x, y: o.y }); }
+      }
+    }
+    const air = o.z > 0, sp = hyp(o.vx, o.vy);
+    if (sp > 1e-3) { const dv = air ? Math.min(sp, .35 * sp * dt) : Math.min(sp, 330 * dt * sp / (sp + 8) + .9 * sp * dt); o.vx -= o.vx / sp * dv; o.vy -= o.vy / sp * dv; }
+    o.w -= o.w * (air ? .4 : 2.6) * dt + (air ? 0 : Math.sign(o.w) * Math.min(Math.abs(o.w), 2.2 * dt));
+    o.x += o.vx * dt; o.y += o.vy * dt; o.rot += o.w * dt;
+    const hit = collide(S.walls, o, o.r, .35, .6);
+    if (hit) {
+      o.w += clamp(hit.vt * .08, -6, 6) * (Math.sign(o.w) || 1) * .5 + (S.rr() - .5) * hit.sp * .02;
+      if (piece && hit.sp > 80 && S.gibWalls < 4) { S.gibWalls++; S.ev.push({ t: S.t, k: 'wall', sp: hit.sp, x: hit.x, y: hit.y, nx: hit.nx, ny: hit.ny }); }
+    }
+    if (!air && hyp(o.vx, o.vy) < 3.5 && Math.abs(o.w) < .35) { o.still += dt; o.st = 'SETTLING'; if (o.still > .25) { o.st = 'SLEEPING'; o.vx = o.vy = o.w = 0; o.z = 0; o.vz = 0; } }
+    else { o.still = 0; o.st = 'ACTIVE'; }
   }
 
   function advance(S, t) { let n = 0; while (S.t + DT <= t + 1e-9 && n < 4000) { stepOnce(S); n++; } return S; }
@@ -619,7 +663,7 @@
     jl.body.alpha = jl.kind === 'Smiler' ? 1 - .65 * sm(cfg.draw ? cfg.draw[0] + .1 : 1.8, cfg.draw ? cfg.draw[1] - .3 : 2.35, t) * (1 - sm(cfg.draw ? cfg.draw[1] + .4 : 2.6, cfg.draw ? cfg.draw[1] + .9 : 3.1, t)) : 1;
     jl.attacker.x = S.at.x; jl.attacker.y = S.at.y; jl.attacker.angle = S.at.a; jl.hands = pz.hands;
     const e = S.eq, hd = S.hat, hl = S.ctx.eqKind === 'headlamp';
-    if (hl) { jl.torch.x = b.x; jl.torch.y = b.y; jl.torch.angle = b.th - PI / 2; }
+    if (hl) { const o = S.boom && S.gib ? S.gib[0] : b, th = S.boom && S.gib ? o.rot : b.th; jl.torch.x = o.x; jl.torch.y = o.y; jl.torch.angle = th - PI / 2; }   // (Stage 3D HQ3: a gibbed headlamp rides the biggest piece)
     else { const bang = e.rot - PI / 2; jl.torch.x = e.x + Math.cos(bang) * e.len; jl.torch.y = e.y + Math.sin(bang) * e.len; jl.torch.angle = bang; }
     if (jl.dEq) { jl.dEq.visible = e.has && !e.held; jl.dEq.position.set(e.x, e.y); jl.dEq.rotation = e.rot; }
     if (jl.dHat) { jl.dHat.visible = hd.has && !hd.on; jl.dHat.position.set(hd.x, hd.y); jl.dHat.rotation = hd.rot; }
@@ -637,6 +681,12 @@
   }
   /* Stage 3D: where the body really struck a wall hard (the physics' own contacts, faster than 80 px/s): at most three, 20 px apart, in
    * the order they happened.  The blood on the wall is drawn there, for every variant, during the death and on the corpse. */
+  /* Stage 3D HQ3: the gibs as a corpse record names them - the breakup's seed (gs: every screen rebuilds the outlines with gibShapes), each
+   * piece's resting place and turn (gb: [x, y, angle], biggest first), the two hands' resting places (gh: [x0, y0, x1, y1]) */
+  function gibRecord(S) {
+    const f = v => +(+v).toFixed(3);
+    return { gs: (S.ctx.seed >>> 0) || 1, gb: S.gib.map(g => [Math.round(g.x), Math.round(g.y), f(g.rot)]), gh: [S.h[0].x, S.h[0].y, S.h[1].x, S.h[1].y].map(v => Math.round(v)) };
+  }
   function marks(S) {
     const out = []; if (!S || !S.ev) return out;
     const solid = (x, y) => S.walls(x, y).some(q => x > q.x && x < q.x + q.w && y > q.y && y < q.y + q.h);
@@ -707,8 +757,10 @@
   function remains(jl) {
     const S = jl.ph; if (!S) return null; const pz = pose(S), e = S.eq, hd = S.hat;
     const blood = (jl.bursts || []).slice(0, 5).map(q => ({ x: q.x, y: q.y, seed: q.seed | 0 })).concat(marks(S).map(m => ({ x: m.x, y: m.y, seed: markSeed(m.nx, m.ny) })));
-    return { blood, hands: pz.hands.map(h => [+h.x.toFixed(1), +h.y.toFixed(1)]), dropped: { x: e.has ? e.x : S.b.x, y: e.has ? e.y : S.b.y, angle: e.has ? e.rot : S.b.th },
-      hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0 };
+    const g0 = S.boom && S.gib ? S.gib[0] : null;                                       // Stage 3D HQ3: a gibbed headlamp rides the biggest piece
+    return { blood, hands: pz.hands.map(h => [+h.x.toFixed(1), +h.y.toFixed(1)]), dropped: { x: e.has ? e.x : g0 ? g0.x : S.b.x, y: e.has ? e.y : g0 ? g0.y : S.b.y, angle: e.has ? e.rot : g0 ? g0.rot : S.b.th },
+      hat: { x: hd.x, y: hd.y, angle: hd.rot }, hatOn: hd.on ? 1 : 0, trail: S.trail.slice(-24).map(p => [Math.round(p[0]), Math.round(p[1])]), held: e.held ? 1 : 0,
+      ...(g0 ? { gibs: gibRecord(S) } : {}) };
   }
 
   /* Stage 3D: with reduced motion (the settings' 'rm' class) the death's camera shake is a quarter as strong; the zoom is unchanged */
@@ -720,5 +772,5 @@
     for (const v of [world | 0, de | 0, 0xb00b]) { h = Math.imul(h ^ (v & 0xffff), 0x01000193) >>> 0; h = Math.imul(h ^ (v >>> 16), 0x01000193) >>> 0; h = (h ^ (h >>> 13)) >>> 0; h = Math.imul(h, 0x5bd1e995) >>> 0; h = (h ^ (h >>> 15)) >>> 0; }
     return { s: h || 1, d: +(((h >>> 7) % 3600) / 3600 * TAU - PI).toFixed(4) };
   }
-  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN, lightProfile, lightPower, releaseOf, boomPlan };
+  window.__dphys = { create, advance, pose, CFG, begin, frame, clock, remains, PLAN, simulate, prepare, finish, DURS, marks, markSeed, MARK, LEN, lightProfile, lightPower, releaseOf, boomPlan, gibShapes, gibRecord };
 })();

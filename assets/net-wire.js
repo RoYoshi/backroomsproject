@@ -3,7 +3,7 @@
  * Stage 3H0: moved out of mp.js without a change, so the wire formats these fields use live in one small file:
  *   look        'hat|texture|hands|main|backpack'  (lookStr: game look -> wire; parseLook: wire -> game look, backpack always 'none')
  *   light parts 'c1,c2,c3[,c4]' in the order of the game's own part table  (partList: equipment -> wire; partObj: wire -> parts)
- *   corpse      the server's body record -> the game's body record  (toRec)
+ *   corpse      the server's body record -> the game's body record  (toRec; Stage 3D HQ3: a NEW RUN's gibs gs / gb / gh, bounded)
  * The functions read window.__api (the game bundle) when they are called, exactly as they did inside mp.js, and keep no state.
  * Loaded by index.html before mp.js (only assets/net-interp.js comes between them), as a classic script; its only global is
  * window.__mpLib.wire, which mp.js reads once at
@@ -21,7 +21,10 @@ function toRec(b) {
     ...(Number.isFinite(b.ag) ? { born: performance.now() / 1000 - b.ag } : {}),        // Stage 3D: how old the corpse is (the server's 'ag'), for its blood's drying
     ...(Number.isFinite(b.de) ? { de: b.de } : {}),                                   // Stage 3D HQ1: the death it came from (its wall stains; its light's timeline)
     ...(Array.isArray(b.lf) && b.lf.length === 4 && b.lf.every(Number.isFinite) ? { lf: b.lf.slice() } : {}),   // Stage 3D HQ1: how its light fails [hold, fade, seed, release - death length]
-    ...(b.ph && Array.isArray(b.hd) && b.hd.length === 4 ? { hands: [[b.hd[0], b.hd[1]], [b.hd[2], b.hd[3]]], hatOn: b.ho ? 1 : 0, trail: Array.isArray(b.tr) ? b.tr : [], ph: 1 } : {}) };
+    ...(b.ph && Array.isArray(b.hd) && b.hd.length === 4 ? { hands: [[b.hd[0], b.hd[1]], [b.hd[2], b.hd[3]]], hatOn: b.ho ? 1 : 0, trail: Array.isArray(b.tr) ? b.tr : [], ph: 1 } : {}),
+    ...(b.c === 'Boom' && Number.isFinite(b.gs) && Array.isArray(b.gb) && b.gb.length >= 1 && b.gb.length <= 8 && b.gb.every(q => Array.isArray(q) && q.length === 3 && q.every(Number.isFinite))
+        && Array.isArray(b.gh) && b.gh.length === 4 && b.gh.every(Number.isFinite) ? { gs: b.gs >>> 0, gb: b.gb.map(q => q.slice()), gh: b.gh.slice() } : {}) };   // Stage 3D HQ3: a NEW RUN's gibs (the breakup's seed, every piece and both hands at rest)
+
 }
 (window.__mpLib = window.__mpLib || {}).wire = Object.freeze({ lookStr, partList, partObj, parseLook, toRec });
 })();
