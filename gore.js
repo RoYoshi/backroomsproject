@@ -250,7 +250,7 @@
     for (const h of hands) {
       const z = h.z || 0, s = 1 + z / 110, a = h.rot || 0;
       g.circle(h.x, h.y, 6 * s).fill(skin).stroke({ color: hl, width: 1.5 });
-      g.arc(h.x, h.y, 4.3 * s, Math.PI, Math.PI * 1.7).stroke({ color: 0xffffff, alpha: .25, width: 1 });
+      g.beginPath().arc(h.x, h.y, 4.3 * s, Math.PI, Math.PI * 1.7).stroke({ color: 0xffffff, alpha: .25, width: 1 });   // (its own path: Pixi would join an arc to the last point drawn - a white streak)
       g.arc(h.x, h.y, 4.4 * s, a - .8, a + .8).stroke({ color: flesh, width: 2.4, cap: 'round' });                                                   // where it came off
     }
   }

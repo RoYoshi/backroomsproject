@@ -10,6 +10,8 @@ PRODUCTION (what the game runs; 7 files)
   assets/net-wire.js  toRec passes gs/gb/gh for Boom records only, validated and bounded (gb 1-8 entries of 3 finite numbers, gh 4 finite numbers).
   gore.js             gibs(): draws the pieces (body colour, dark outer rim, raw flesh edge, shadows, the hands with stumps). A gibbed corpse
                       draws its pieces from the record and hides the bundle's whole avatar for that corpse.
+                      (QA correction 1: the hands' white highlight arc starts its own path, g.beginPath().arc(...); before, Pixi joined
+                      it to the last point drawn, which made a white line from the core lump to the hand.)
   mp.js               The blast replay draws the pieces from its own physics (no whole avatar from the first frame). The admin panel: DEATHS
                       gets YOUR NEW RUN - INSTANT GIB (UNLIMITED NEW RUN toggle shown as the server states it, SERVER SAYS, LAST NEW RUN, help);
                       WORLD's NEW RUN FOR EVERYONE is labelled a whole-room reset that blows nobody up; PLAYERS gets a help line on solid
@@ -36,7 +38,9 @@ DEVELOPMENT ONLY (not served)
   dev/stage-3d-hq3/admin_browser.py         UNLIMITED NEW RUN in the real panel; screenshots
   dev/stage-3d-hq3/nr_free_unit.js          free skips only the cooldown (state, dead, held, epoch); a gibbed corpse replaced by a hound death's
   dev/stage-3d-hq3/package_hq3.py           the human-QA package and its receipt
-  dev/stage-3d-hq3/evidence/                h3-0 (audit, branch heads), h3-1 (gibs), h3-2 (admin), h3-3 (focused checks)
+  dev/stage-3d-hq3/gib_streaks.py           QA correction 1: the same explosions drawn by several gore.js versions; stray pixels; what changed
+  dev/stage-3d-hq3/streak_sheet.py          QA correction 1: the before/after sheet
+  dev/stage-3d-hq3/evidence/                h3-0 (audit, branch heads), h3-1 (gibs), h3-2 (admin), h3-3 (focused checks), h3-qa1 (the white streaks)
 
 DOCUMENTS
   STAGE_3D_HQ3_REPORT.md, STAGE_3D_HQ3_CHANGED_FILES.txt (this file), STAGE_3D_HQ3_HUMAN_QA.md

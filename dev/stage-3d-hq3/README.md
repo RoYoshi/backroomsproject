@@ -16,3 +16,5 @@ The fast-QA pack asks for about ten focused checks. These tools add to HQ2's (`d
 | `nr_free_unit.js` | UNLIMITED NEW RUN skips only the cooldown: the sim's `nrWhy`/`newRun` with and without `free` (menu, out of the world, dead, held, inside and after the 30 s); on a real server ON with an old world number (epoch), ON while dead; a gibbed corpse replaced by an ordinary death's |
 | `contact_sheet.py` | The two labelled contact sheets in `evidence/h3-3/` (crops of the real screenshots) |
 | `package_hq3.py` | The human-QA package: the ZIP of the final commit, its parts and checksums, and the receipt (every file the committed blob, the remote, scope, nothing of the reference audio, the packaged source runs) |
+| `gib_streaks.py` | QA correction 1, the white gib streaks: the same eight explosions drawn by several `gore.js` versions (served to a real game page) at 4x; stray pixels outside everything gibs() means to draw; what differs between versions, and whether it is exactly the stray lines (`--lines`, `--reanalyse`) |
+| `streak_sheet.py` | The before/after sheet in `evidence/h3-qa1/` |

@@ -1,0 +1,10 @@
+shipped: stray pixels   3699 (per explosion [0, 242, 897, 707, 0, 361, 697, 795]); gore.js served 39748 of 39748 bytes; page errors 0
+highlight_off: stray pixels   8750 (per explosion [0, 893, 1984, 1607, 2, 761, 1944, 1559]); gore.js served 39642 of 39642 bytes; page errors 0
+ fixed: stray pixels      0 (per explosion [0, 0, 0, 0, 0, 0, 0, 0]); gore.js served 39845 of 39845 bytes; page errors 0
+both_arcs: stray pixels      0 (per explosion [0, 0, 0, 0, 0, 0, 0, 0]); gore.js served 39772 of 39772 bytes; page errors 0
+shipped vs highlight_off differ  29258 px: inside a hand   7002, outside every hand  22256; off the stray lines  24089
+shipped vs fixed  differ  10454 px: inside a hand   1558, outside every hand   8896; off the stray lines   7346
+shipped vs both_arcs differ  11048 px: inside a hand   2152, outside every hand   8896; off the stray lines   7925
+highlight_off vs fixed  differ  23791 px: inside a hand   5883, outside every hand  17908; off the stray lines  20810
+highlight_off vs both_arcs differ  23359 px: inside a hand   5451, outside every hand  17908; off the stray lines  20418
+ fixed vs both_arcs differ    639 px: inside a hand    639, outside every hand      0; off the stray lines    589

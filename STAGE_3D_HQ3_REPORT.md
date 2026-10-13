@@ -2,6 +2,24 @@
 
 **Status: HUMAN-QA CANDIDATE — WAITING FOR USER.** Only the user can say HUMAN QA PASSED.
 
+## Human-QA correction 1: the white streaks on the gibs
+
+**Reported in human QA.** Small white lines sometimes ran from the flying pieces to a hand.
+
+**The cause, confirmed.** The white highlight `arc` on each detached hand continued the previous path. In this Pixi version, every fill or stroke starts the next path at the last point drawn, and an `arc` joins its start to that point. The result was a white line at 25 % opacity from the core lump to the hand, in flight and on the corpse.
+
+**The fix.** One line of `gore.js`: `g.beginPath()` before that arc.
+- Switching the highlight off is not a fix: the dark-red stump arc then inherits the join and draws thick red lines.
+
+**The checks** (`dev/stage-3d-hq3/evidence/h3-qa1/`):
+- `gib_streaks.py`: eight explosions drawn by the real `gibs()`.
+  - Stray pixels: 3,699 shipped, **0 fixed**.
+  - Every pixel that changed lies on those lines; the pieces, hands, highlight, stumps, colours, sizes and blood are unchanged.
+- `gib_browser.py`, one real blast on two screens and a late joiner: 5/5.
+- Nothing else was re-run.
+
+The checkpoint `486564d` described below is kept as it was; the fix is the next commit on `stage-3d-hq3`.
+
 ## Source and branch
 
 | | |

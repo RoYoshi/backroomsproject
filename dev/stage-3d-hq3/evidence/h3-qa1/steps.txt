@@ -1,0 +1,6 @@
+-- HQ3 QA correction 1 (white gib streaks), Tue Oct 13 13:11:25 CDT 2026: the game = HQ3 486564d with the one-line gore.js fix, exported to a scratch folder; gore.js variants served by the harness (shipped = 486564d's, highlight_off = shipped without the white highlight arc (isolation only), fixed = the committed fix, both_arcs = the fix applied to the stump arc too) --
+gib_streaks exit=0 seconds=76
+gib_browser_fixed exit=0 seconds=100
+-- finished Tue Oct 13 13:14:21 CDT 2026 --
+gib_streaks_lines exit=0 (the same run reanalysed: --lines shipped,fixed; writes shots/diff_shipped_fixed.png)
+streak_sheet exit=0 (streak_fix_before_after.png)
