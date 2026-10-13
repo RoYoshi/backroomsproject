@@ -1,0 +1,138 @@
+{
+ "recordedAt": "2026-10-12T22:50:15Z",
+ "acceptedParent": {
+  "commit": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+  "tree": "d0aaf5c47fcdeec1a449392093cf45cb4f6b8d16",
+  "lsRemote": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+  "localTree": "d0aaf5c47fcdeec1a449392093cf45cb4f6b8d16",
+  "apiBranchHead": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+  "apiBranchTree": "d0aaf5c47fcdeec1a449392093cf45cb4f6b8d16",
+  "apiCommitTree": "d0aaf5c47fcdeec1a449392093cf45cb4f6b8d16",
+  "apiCommitParents": [
+   "bf4894c3e9b6ff39ea8cc00013d7430b5ebdc1fa"
+  ],
+  "receipt": {
+   "file": "STAGE_3D_HQ1_PACKAGE_RECEIPT.txt",
+   "commitLine": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "treeLine": "d0aaf5c47fcdeec1a449392093cf45cb4f6b8d16"
+  }
+ },
+ "ancestry": {
+  "d7_ancestor_of_hq1": true,
+  "stage3h0_ancestor_of_hq1": true,
+  "hq1_ancestor_of_d7": false,
+  "note": "D7 ffe2b53 is an ancestor only; HQ2 branches from the accepted HQ1 commit."
+ },
+ "hq2Branch": {
+  "remoteLsRemote": null,
+  "remoteApiStatus": "absent (404)",
+  "local": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+  "localCommitsBeyondParent": "0"
+ },
+ "workspace": {
+  "branch": "stage-3d-hq2",
+  "head": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+  "uncommitted": [
+   "?? dev/stage-3d-hq2/"
+  ],
+  "stashes": [
+   "stash@{0}: On lighting-shadows-2d: SH8 WIP (deferred; also in scratch sh8_wip.patch)"
+  ],
+  "note": "stash@{0} predates Stage 3D (lighting-shadows-2d SH8 WIP); kept untouched."
+ },
+ "remoteHeads": {
+  "br-role": {
+   "commit": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "tree": "ec318af1d2e1160632feef755bf76ff92d7caa4d"
+  },
+  "lighting-shadows-2d": {
+   "commit": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "tree": "f529607e0f3c43198a71e4670259cca2f319930f"
+  },
+  "main": {
+   "commit": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "tree": "15eee7643ea69c8733e55dacc34981e7276c17e0"
+  },
+  "part-3a": {
+   "commit": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "tree": "c1e0fc5fd84e5fbea412cf3fca7c309243e8de6e"
+  },
+  "part-3b": {
+   "commit": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "tree": "666ad244cf0063bbd807b4a3ad83934e65072fb0"
+  },
+  "stage-3b-l": {
+   "commit": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "tree": "3a1ccbb6ca3bf869b9e4c56722a4bf755ee4e36a"
+  },
+  "stage-3b-l-qa1": {
+   "commit": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "tree": "cffbc3125619170d9a55344b2519042a720a798d"
+  },
+  "stage-3b-l-qa2": {
+   "commit": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "tree": "33ed11b672d3a2a45767accccbb9f04fdd7949c3"
+  },
+  "stage-3b-n": {
+   "commit": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "tree": "f9ca2a0e12270419600d8afe68cf416216bd4ecc"
+  },
+  "stage-3b-n-camera": {
+   "commit": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "tree": "bdef2606b50dc485eac648a70300e33bf7a32723"
+  },
+  "stage-3b-pillar-los": {
+   "commit": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "tree": "6abf8ae6d1dfee8880d164967eb14826fa0ad5fd"
+  },
+  "stage-3b-remaster": {
+   "commit": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "tree": "8a011aa80cba0dd08be9902f3180499ecae3b531"
+  },
+  "stage-3c": {
+   "commit": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "tree": "d8f0949500168294e3856d64ff24df111dc76bd2"
+  },
+  "stage-3c-qa1": {
+   "commit": "5f30e28532200bca52b57a112c6691498a263e92",
+   "tree": "374911e01e2a66706a3938fcd2f7495ee4133a49"
+  },
+  "stage-3c-qa2": {
+   "commit": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "tree": "108d89fa07634ef4816428939fc7dda1e03ec971"
+  },
+  "stage-3d": {
+   "commit": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "tree": "b226afe5cd0461d49947565d7f046d69f560cb9e"
+  },
+  "stage-3d-hq1": {
+   "commit": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "tree": "d0aaf5c47fcdeec1a449392093cf45cb4f6b8d16"
+  },
+  "stage-3h0": {
+   "commit": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "tree": "5adf3f3cde5c1a52775f561c36facda646f3cca8"
+  },
+  "stage-e": {
+   "commit": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "tree": null
+  },
+  "stage-f": {
+   "commit": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "tree": null
+  },
+  "stage-g": {
+   "commit": "7fb4dafef92040571209403358e536ccb1105509",
+   "tree": null
+  },
+  "stage-h": {
+   "commit": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "tree": null
+  },
+  "stage-i": {
+   "commit": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "tree": null
+  }
+ },
+ "ok": true
+}

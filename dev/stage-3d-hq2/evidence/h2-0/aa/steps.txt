@@ -1,0 +1,51 @@
+-- H2-0 A/A on the accepted HQ1 parent: two exports of ebb3bd6 (/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base, /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base_b), interleaved --
+perf_a_1 exit=0 seconds=235
+perf_b_1 exit=0 seconds=169
+perf_a_2 exit=0 seconds=151
+perf_b_2 exit=0 seconds=152
+perf_a_3 exit=0 seconds=150
+perf_b_3 exit=0 seconds=156
+srv_spread_a_1 exit=1 seconds=2
+srv_spread_b_1 exit=1 seconds=2
+srv_crowd_a_1 exit=1 seconds=2
+srv_crowd_b_1 exit=1 seconds=2
+srv_spread_a_2 exit=1 seconds=2
+srv_spread_b_2 exit=1 seconds=2
+srv_crowd_a_2 exit=1 seconds=2
+srv_crowd_b_2 exit=1 seconds=2
+traffic8_a exit=0 seconds=65
+traffic8_b exit=0 seconds=64
+-- the server-load runs again: the first ones (attempt_room_cap/) opened nine connections in a room capped at eight; srv_load.js now runs seven players and the observer --
+srv_spread_a_1 exit=0 seconds=51
+srv_spread_b_1 exit=0 seconds=51
+srv_crowd_a_1 exit=0 seconds=51
+srv_crowd_b_1 exit=0 seconds=51
+srv_spread_a_2 exit=0 seconds=51
+srv_spread_b_2 exit=0 seconds=51
+srv_crowd_a_2 exit=0 seconds=50
+srv_crowd_b_2 exit=0 seconds=51
+-- the browser A/A again, with nothing else running: during the first one (attempt_concurrent_cpu/) two short CPU-heavy commands of mine (corridor_widths.js at 18:17, the sim.js rebuild check at 18:18) ran inside pair 1's second export run --
+perf_a_1 exit=0 seconds=163
+perf_b_1 exit=0 seconds=202
+perf_a_2 exit=0 seconds=156
+perf_b_2 exit=0 seconds=149
+perf_a_3 exit=0 seconds=148
+perf_b_3 exit=0 seconds=146
+-- the server-load runs a third time: in the second ones (attempt_spread_off_floor/) the spread layout's fixed row ran through walls, so five players were corrected back to the spawn point all along; srv_load.js now places both layouts around a checked open centre --
+srv_spread_a_1 exit=0 seconds=51
+srv_spread_b_1 exit=0 seconds=51
+srv_crowd_a_1 exit=0 seconds=51
+srv_crowd_b_1 exit=0 seconds=51
+srv_spread_a_2 exit=0 seconds=51
+srv_spread_b_2 exit=0 seconds=51
+srv_crowd_a_2 exit=0 seconds=51
+srv_crowd_b_2 exit=0 seconds=51
+-- the server-load runs a fourth time: in the third ones (attempt_monsters_back/) the first join made a new world with new monsters; where a hound came within 1,100 px of the spawn spots the server refused them and corrected the players to the spawn point all along (spread b_2: 50 corrections each; crowd a_1: 3 each); srv_load.js now removes the monsters again after the joins --
+srv_spread_a_1 exit=0 seconds=51
+srv_spread_b_1 exit=0 seconds=51
+srv_crowd_a_1 exit=0 seconds=52
+srv_crowd_b_1 exit=0 seconds=51
+srv_spread_a_2 exit=0 seconds=51
+srv_spread_b_2 exit=0 seconds=52
+srv_crowd_a_2 exit=0 seconds=51
+srv_crowd_b_2 exit=0 seconds=51

@@ -1,0 +1,201 @@
+{
+ "NR1": {
+  "alice_localVanishBody": 1,
+  "alice_runMenuShown": true,
+  "alice_hiddenSelf": true,
+  "bob_vanishGhostPlayed": true,
+  "bob_vanishLightRecordAt": [],
+  "server_activeDuringAliceMenu": [],
+  "server_alicePositions": [
+   [
+    5720,
+    920
+   ]
+  ],
+  "bob_drawsAliceLightDuringHerMenu": false,
+  "afterSpawn_alicePositions": [
+   [
+    3432,
+    3480
+   ]
+  ],
+  "afterSpawn_serverAlice": [
+   [
+    5720,
+    920,
+    1
+   ],
+   [
+    5720,
+    920,
+    1
+   ],
+   [
+    5720,
+    920,
+    1
+   ]
+  ],
+  "fxForAlice": [
+   {
+    "at": 1791846643.624,
+    "k": "vanish"
+   }
+  ],
+  "bodiesVersionsInWindow": [
+   {
+    "at": 1791846643.668,
+    "vanish": [
+     [
+      5720,
+      920
+     ]
+    ]
+   }
+  ]
+ },
+ "NR2": {
+  "alice_localVanishBody": 1,
+  "alice_runMenuShown": true,
+  "alice_hiddenSelf": true,
+  "bob_vanishGhostPlayed": false,
+  "bob_vanishLightRecordAt": [],
+  "server_activeDuringAliceMenu": [
+   1
+  ],
+  "server_alicePositions": [
+   [
+    5720,
+    920
+   ]
+  ],
+  "bob_drawsAliceLightDuringHerMenu": true,
+  "afterSpawn_alicePositions": [
+   [
+    5720,
+    920
+   ]
+  ],
+  "afterSpawn_serverAlice": [
+   [
+    5720,
+    920,
+    1
+   ],
+   [
+    5720,
+    920,
+    1
+   ],
+   [
+    5720,
+    920,
+    1
+   ]
+  ],
+  "fxForAlice": [],
+  "bodiesVersionsInWindow": [
+   {
+    "at": 1791846654.463,
+    "vanish": [
+     [
+      5720,
+      920
+     ]
+    ]
+   }
+  ]
+ },
+ "NR3": {
+  "alice_localVanishBody": 1,
+  "alice_runMenuShown": false,
+  "alice_hiddenSelf": false,
+  "bob_vanishGhostPlayed": true,
+  "bob_vanishLightRecordAt": [],
+  "server_activeDuringAliceMenu": [],
+  "server_alicePositions": [
+   [
+    5720,
+    920
+   ],
+   [
+    8328,
+    1800
+   ]
+  ],
+  "bob_drawsAliceLightDuringHerMenu": false,
+  "afterSpawn_alicePositions": [
+   [
+    7128,
+    5208
+   ]
+  ],
+  "afterSpawn_serverAlice": [
+   [
+    7128,
+    5208,
+    1
+   ],
+   [
+    7128,
+    5208,
+    1
+   ],
+   [
+    7128,
+    5208,
+    1
+   ]
+  ],
+  "fxForAlice": [],
+  "bodiesVersionsInWindow": [
+   {
+    "at": 1791846683.558,
+    "vanish": [
+     [
+      5720,
+      920
+     ]
+    ]
+   }
+  ]
+ },
+ "NR3 second press": {
+  "alice_runMenuHiddenAndStartedAgain": [
+   [
+    0.30500006675720215,
+    1,
+    0,
+    0,
+    8328,
+    1800
+   ]
+  ],
+  "server": [
+   [
+    0.031000137329101562,
+    1,
+    8328,
+    1800
+   ],
+   [
+    0.6380000114440918,
+    1,
+    8328,
+    1800
+   ],
+   [
+    1.2420001029968262,
+    1,
+    5720,
+    920
+   ],
+   [
+    1.8510000705718994,
+    1,
+    5720,
+    920
+   ]
+  ]
+ }
+}

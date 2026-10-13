@@ -1,0 +1,89 @@
+{
+ "tool": "dev/stage-3d-hq2/corridor_widths.js",
+ "wallRadius": 15,
+ "grid": 12,
+ "walkableSamples": 196648,
+ "spanHistogram6px": {
+  "60": 1848,
+  "66": 660,
+  "72": 164,
+  "78": 14,
+  "84": 84,
+  "90": 32,
+  "156": 4102,
+  "162": 1078,
+  "168": 372,
+  "174": 120,
+  "180": 735,
+  "186": 1196,
+  "192": 66,
+  "198": 459,
+  "210": 36,
+  "252": 6050,
+  "258": 1216,
+  "264": 133,
+  "276": 1044,
+  "282": 358,
+  "288": 96,
+  "294": 449,
+  "300": 25,
+  "306": 26,
+  "348": 26840,
+  "354": 1660,
+  "360": 182,
+  "372": 768,
+  "378": 698,
+  "384": 64,
+  "390": 1922
+ },
+ "contact": {
+  "30": {
+   "samplesBlockedByACentredStill": 0,
+   "blockingBandAtSpan60": [
+    30,
+    30
+   ],
+   "halfWidthAtSpan60": 0,
+   "halfWidthAtSpan64": 0,
+   "halfWidthAtSpan66": 0
+  },
+  "32": {
+   "samplesBlockedByACentredStill": 1848,
+   "blockingBandAtSpan60": [
+    28,
+    32
+   ],
+   "halfWidthAtSpan60": 2,
+   "halfWidthAtSpan64": 0,
+   "halfWidthAtSpan66": 0
+  },
+  "36": {
+   "samplesBlockedByACentredStill": 2508,
+   "blockingBandAtSpan60": [
+    24,
+    36
+   ],
+   "halfWidthAtSpan60": 6,
+   "halfWidthAtSpan64": 4,
+   "halfWidthAtSpan66": 3
+  },
+  "40": {
+   "samplesBlockedByACentredStill": 2686,
+   "blockingBandAtSpan60": [
+    20,
+    40
+   ],
+   "halfWidthAtSpan60": 10,
+   "halfWidthAtSpan64": 8,
+   "halfWidthAtSpan66": 7
+  }
+ },
+ "narrowestSpanBin": 60,
+ "fixtureCorridor": {
+  "y": 720,
+  "centreSpanAcross": 64,
+  "centreLineFrom": 400,
+  "centreLineTo": 2000,
+  "wallToWall": 94
+ }
+}

@@ -1,0 +1,58 @@
+{
+ "de": 1,
+ "before": {
+  "alice": {
+   "stained": false,
+   "replayOrDeath": false
+  },
+  "bob": {
+   "stained": false,
+   "replayOrDeath": true
+  },
+  "carol": {
+   "stained": true,
+   "replayOrDeath": true
+  }
+ },
+ "from1.5s": {
+  "alice": {
+   "rows": 20,
+   "ownDeathActive": 20,
+   "caught": 20,
+   "replayOfOldDeath": 0,
+   "oldStainStamped": 20,
+   "anyStainStamped": 20,
+   "receiverNonEmpty": 20,
+   "oldCorpseShown": 18,
+   "deadLightsLit": 0,
+   "ownDyingLightLit": 1,
+   "lastAnything": 24.88100004196167
+  },
+  "bob": {
+   "rows": 21,
+   "ownDeathActive": 0,
+   "caught": 0,
+   "replayOfOldDeath": 11,
+   "oldStainStamped": 11,
+   "anyStainStamped": 11,
+   "receiverNonEmpty": 11,
+   "oldCorpseShown": 0,
+   "deadLightsLit": 0,
+   "ownDyingLightLit": 0,
+   "lastAnything": 12.044000148773193
+  },
+  "carol": {
+   "rows": 20,
+   "ownDeathActive": 0,
+   "caught": 0,
+   "replayOfOldDeath": 9,
+   "oldStainStamped": 10,
+   "anyStainStamped": 10,
+   "receiverNonEmpty": 10,
+   "oldCorpseShown": 0,
+   "deadLightsLit": 0,
+   "ownDyingLightLit": 0,
+   "lastAnything": 12.25
+  }
+ }
+}
