@@ -1,0 +1,204 @@
+{
+ "lab": "dev/stage-3d-hq4/evidence/h4-1/lab",
+ "variants": [
+  "h41",
+  "hq3"
+ ],
+ "before": "hq3",
+ "after": "h41",
+ "ellipse": {
+  "h41": [
+   {
+    "heading": 0,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 90,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 180,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   },
+   {
+    "heading": 270,
+    "ellipseChild": {
+     "visible": null,
+     "kids": 7
+    }
+   }
+  ],
+  "hq3": [
+   {
+    "heading": 0,
+    "ellipseChild": {
+     "visible": true,
+     "kids": 8
+    },
+    "hiddenInTheSameFrame": {
+     "pixelsDiffer": 149,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 3,
+     "maxDiff": 24
+    }
+   },
+   {
+    "heading": 90,
+    "ellipseChild": {
+     "visible": true,
+     "kids": 8
+    },
+    "hiddenInTheSameFrame": {
+     "pixelsDiffer": 148,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 2,
+     "maxDiff": 22
+    }
+   },
+   {
+    "heading": 180,
+    "ellipseChild": {
+     "visible": true,
+     "kids": 8
+    },
+    "hiddenInTheSameFrame": {
+     "pixelsDiffer": 142,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 0,
+     "maxDiff": 19
+    }
+   },
+   {
+    "heading": 270,
+    "ellipseChild": {
+     "visible": true,
+     "kids": 8
+    },
+    "hiddenInTheSameFrame": {
+     "pixelsDiffer": 146,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 3,
+     "maxDiff": 22
+    }
+   }
+  ],
+  "cross": [
+   {
+    "heading": 0,
+    "afterVsBefore": {
+     "pixelsDiffer": 149,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 3,
+     "maxDiff": 24
+    },
+    "afterVsBeforeWithTheEllipseHidden": {
+     "pixelsDiffer": 0,
+     "outsideTheEllipse": 0,
+     "insideTheBody": null,
+     "maxDiff": 0
+    }
+   },
+   {
+    "heading": 90,
+    "afterVsBefore": {
+     "pixelsDiffer": 148,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 2,
+     "maxDiff": 22
+    },
+    "afterVsBeforeWithTheEllipseHidden": {
+     "pixelsDiffer": 0,
+     "outsideTheEllipse": 0,
+     "insideTheBody": null,
+     "maxDiff": 0
+    }
+   },
+   {
+    "heading": 180,
+    "afterVsBefore": {
+     "pixelsDiffer": 142,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 0,
+     "maxDiff": 19
+    },
+    "afterVsBeforeWithTheEllipseHidden": {
+     "pixelsDiffer": 0,
+     "outsideTheEllipse": 0,
+     "insideTheBody": null,
+     "maxDiff": 0
+    }
+   },
+   {
+    "heading": 270,
+    "afterVsBefore": {
+     "pixelsDiffer": 146,
+     "outsideTheEllipse": 0,
+     "insideTheBody": 3,
+     "maxDiff": 22
+    },
+    "afterVsBeforeWithTheEllipseHidden": {
+     "pixelsDiffer": 0,
+     "outsideTheEllipse": 0,
+     "insideTheBody": null,
+     "maxDiff": 0
+    }
+   }
+  ]
+ },
+ "corpse": {
+  "h41": {
+   "bodies": [
+    {
+     "x": 655,
+     "y": 3792,
+     "c": "Hound"
+    }
+   ],
+   "shot": {
+    "file": "corpse.png",
+    "clip": {
+     "x": 470,
+     "y": 190,
+     "width": 340,
+     "height": 340
+    },
+    "centre": [
+     640,
+     360
+    ]
+   }
+  },
+  "hq3": {
+   "bodies": [
+    {
+     "x": 655,
+     "y": 3792,
+     "c": "Hound"
+    }
+   ],
+   "shot": {
+    "file": "corpse.png",
+    "clip": {
+     "x": 470,
+     "y": 190,
+     "width": 340,
+     "height": 340
+    },
+    "centre": [
+     640,
+     360
+    ]
+   }
+  }
+ },
+ "sheetEllipse": "dev/stage-3d-hq4/evidence/h4-1/ellipse_before_after.png"
+}

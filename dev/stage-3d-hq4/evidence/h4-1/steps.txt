@@ -1,0 +1,12 @@
+-- H4-1 on the accepted HQ3 QA1 tree (4934319, exported); hq3 = its own bundle and br-role.js, h41 = the working copy's bundle (apply_bundle_hq4.py: HQ3 + the H4-1 edit) with HQ3's br-role.js, Tue Oct 13 14:42:17 CDT 2026 --
+wanderer_lab (hq3, h41: ellipse, corpse) exit=0 seconds=205
+lab_report (before hq3, after h41) exit=0
+-- the corpse capture above was taken on the dead player's own screen (black: her death view); the lab now watches the corpse from a second player's page. That run is kept in attempts/first_run_corpse_from_the_dead_players_own_screen (its ellipse results stand: same numbers as below) --
+-- H4-1 on the accepted HQ3 QA1 tree (4934319, exported); hq3 = its own bundle and br-role.js, h41 = the working copy's bundle (apply_bundle_hq4.py: HQ3 + the H4-1 edit) with HQ3's br-role.js, Tue Oct 13 14:49:28 CDT 2026 --
+wanderer_lab (hq3, h41: ellipse, corpse) exit=0 seconds=275
+lab_report (before hq3, after h41) exit=0
+-- second run: the corpse was captured while the death's replay still played on Bob's page (its Hound over the body, moving between captures: the in-frame A/B is not clean). The lab now waits until the replay has ended. Kept in attempts/second_run_corpse_while_the_replay_still_played (its ellipse results are the same as below) --
+-- H4-1 on the accepted HQ3 QA1 tree (4934319, exported); hq3 = its own bundle and br-role.js, h41 = the working copy's bundle (apply_bundle_hq4.py: HQ3 + the H4-1 edit) with HQ3's br-role.js, Tue Oct 13 14:55:08 CDT 2026 --
+wanderer_lab (hq3, h41: ellipse, corpse) exit=0 seconds=282
+lab_report (before hq3, after h41) exit=0
+lab_report (before hq3, after h41) exit=0 (run again: the ellipse sheet without the corpse tiles - the previewing Hound stays on the corpse and moves, so the corpse captures show no clean A/B; the corpse avatar's children are counted instead)
