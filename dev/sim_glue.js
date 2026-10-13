@@ -134,9 +134,8 @@ function addPlayer(id){
 }
 function removePlayer(p){eng.forgetPlayer(p.id);const i=players.indexOf(p);if(i>=0)players.splice(i,1)}
 function spawn(p){eng.forgetPlayer(p.id);p.life=(p.life||0)+1;Object.assign(p,{x:Ic.x,y:Ic.y,vx:0,vy:0,dead:``,safe:3,exited:false,caught:null,kill:null,st:0,sp:0,stamina:100,ex:0});p.evq.length=0}
-function join(p,now=Date.now()/1000){
-  const L=lifeOf(p);if(L===`held`||(L===`alive`&&!vanished(p,now)))return false;       // no walking out of a capture, no new run without the new-run sequence
-  p.vanishOk=false;                                                    // a vanish opens one new run (its 30 s cooldown still counts)
+function join(p){
+  const L=lifeOf(p);if(L===`held`||L===`alive`)return false;           // no walking out of a capture; a living run ends only through NEW RUN (newRun) or a death
   const others=players.some(o=>o!==p&&o.active&&!o.exited);
   p.active=true;spawn(p);p.t0=runT;
   if(!others)resetWorld();
@@ -147,18 +146,22 @@ function join(p,now=Date.now()/1000){
    would be a free teleport home with full stamina and spawn protection.  Returns whether it happened. */
 function canRespawn(p){return !!(p.active&&(p.dead||p.reviveOk))}
 function respawn(p){if(!canRespawn(p))return false;if(p.pvEnt){eng.remove(p.pvEnt);p.pvEnt=0}p.reviveOk=false;spawn(p);return true}
-/* the rest of the lifecycle (v22.2).  A player is in the MENU (not in the world), ALIVE, HELD (in a capture) or DEAD.
- *   join   (start a run)  from the menu or from death; from ALIVE only as the end of a finished new-run vanish; never while HELD
- *   leave  (to the menu)  from death, or from ALIVE as the end of a finished vanish; never while HELD (the body stays in the capture)
- *   vanish (the client's NEW RUN sequence: 2.7 s on screen, protected, standing still) only while ALIVE, at most once every 30 s
+/* the rest of the lifecycle (v22.2; Stage 3D HQ2).  A player is in the MENU (not in the world), ALIVE, HELD (in a capture) or DEAD.
+ *   join    (start a run)  from the menu or from death; never while ALIVE or HELD
+ *   leave   (to the menu)  from death; never while ALIVE (a living run ends only through NEW RUN) or HELD (the body stays in the capture)
+ *   newRun  NEW RUN, the server's own decision on the player's intent (server.js): only while ALIVE and free, at most once every 30 s
+ *           (NR_CD); it takes the player out of the world at once (to the MENU), so the next join starts the new run.  nrWhy says why
+ *           not ('state': in the menu or out through a glitched wall; 'dead'; 'held'; 'cooldown'), nrWait how long is left.  A world
+ *           reset, a death, END and RESPAWN never touch it.
  *   disconnect while HELD = the capture is forfeited: the holder kills (forfeit), so a reconnect is a new player after a death, not an escape
- * The server passes its clock (seconds); a finished vanish is one started 2 to 20 s ago. */
+ * The server passes its clock (seconds). */
 const lifeOf=p=>!p.active?`menu`:p.dead?`dead`:p.caught?`held`:`alive`;
-const VANISH_MIN=2,VANISH_MAX=20,VANISH_CD=30;
-const vanished=(p,now)=>!!p.vanishOk&&now-p.vanishAt>=VANISH_MIN&&now-p.vanishAt<=VANISH_MAX;       // a finished vanish not used yet
-function vanish(p,now=Date.now()/1000){if(lifeOf(p)!==`alive`)return false;if(p.vanishAt!=null&&now-p.vanishAt<VANISH_CD)return false;p.vanishAt=now;p.vanishOk=true;p.safe=Math.max(p.safe,4);return true}
+const NR_CD=30;
+function nrWhy(p,now){const L=lifeOf(p);if(L===`menu`||p.exited)return`state`;if(L===`dead`)return`dead`;if(L===`held`)return`held`;if(p.nrAt!=null&&now-p.nrAt<NR_CD)return`cooldown`;return``}
+const nrWait=(p,now)=>p.nrAt==null?0:Math.max(0,NR_CD-(now-p.nrAt));
+function newRun(p,now=Date.now()/1000){const why=nrWhy(p,now);if(why)return why;p.nrAt=now;p.active=false;p.dead=``;p.caught=null;p.kill=null;eng.forgetPlayer(p.id);return``}
 function forfeit(p){if(lifeOf(p)!==`held`)return false;const ok=eng.forfeitCapture(p);processEvents();return ok}
-function leave(p,now=Date.now()/1000){const L=lifeOf(p);if(L===`held`||(L===`alive`&&!vanished(p,now)))return false;if(L===`alive`)p.vanishOk=false;p.active=false;p.dead=``;p.caught=null;eng.forgetPlayer(p.id);return true}
+function leave(p){const L=lifeOf(p);if(L===`held`||L===`alive`)return false;p.active=false;p.dead=``;p.caught=null;eng.forgetPlayer(p.id);return true}
 
 /* movement validation (server.js): could a body get from a to b?  Only real walls and full-height furniture count ('any' mode: every
    crawl hole, table and vaultable prop is passable, since the client's own movement handles those).  Short hops are checked along the
@@ -313,7 +316,7 @@ const admin={
     cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
 };
 function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;eng.sound({x:p.x,y:p.y,r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
-resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,vanish,forfeit,gaitFloor,lifeOf,
+resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,newRun,nrWhy,nrWait,NR_CD,forfeit,gaitFloor,lifeOf,
   clearAt:(x,y,r)=>sl(x,y,r),blockersAt:(x,y)=>Bc(x,y),step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},get worldSeq(){return worldSeq},

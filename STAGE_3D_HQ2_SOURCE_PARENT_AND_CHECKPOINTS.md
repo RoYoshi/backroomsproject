@@ -37,4 +37,5 @@ A commit cannot name its own hash. Each checkpoint is therefore listed, with its
 
 | Checkpoint | What it holds | Commit / tree / remote check |
 |---|---|---|
-| H2-0 | audit, RED baselines, frozen gates and allowlist; no production change | recorded at H2-1 |
+| H2-0 | audit, RED baselines, frozen gates and allowlist; no production change | `94900014889df9c955c962370f1106acde0f4aa4` / tree `727a7ada2ab4cca19210b726f28725356946e2d0`, parent `ebb3bd6`; pushed normally; `git ls-remote`, REST commit and branch agree; all 23 other branches unchanged, no new branch (`dev/stage-3d-hq2/evidence/h2-1/remote_h2-0.json`) |
+| H2-1 | NEW RUN as the server's decision (intent → one answer), the 30 s cooldown without a phantom, the old vanish channels removed; no explosion yet | recorded at H2-2 |

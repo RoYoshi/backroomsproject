@@ -36,18 +36,26 @@ const N = window.__net = {
       window.__killer = me === 'Hound' ? b : -1;             // that hound's own model is replaced by the attack animation
     }
   },
-  join() { exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__hideBodies.delete('r' + myId); window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
+  join() { nrBusy = 0; exited = false; graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__hideBodies.delete('r' + myId); window.__glitchSolo = false; if (!N.on) { window.__glitches = []; window.__items = []; } tx({ t: 'join' }); setTimeout(applyBodies, 80); },
   respawn() { handled = Math.max(handled, mseq); graceUntil = performance.now() / 1000 + 4; window.__kill = null; window.__hideBodies.delete('r' + myId); tx({ t: 'respawn' }); },
   leave() { tx({ t: 'leave' }); },
   testAuth(pass) { N._auth = pass; tx({ t: 'admin', pass, quiet: 1 }); },     // automated tests: admin authority (for their debug teleports) without opening the admin panel
   fx: m => startFx(m),
   deathStart() { },                                // Stage 3D: everyone else's replay of our death is sent by the server, from its own kill record
-  vanish(d) { const A = window.__api; if (A) tx(Object.assign(fxBase(A), { t: 'fx', k: 'vanish', x: Math.round(d.x), y: Math.round(d.y), a: +d.a.toFixed(3) })); },
-  bodyMade(t) {                                    // Stage 3D: corpses are the server's; only a NEW RUN vanish reports the light it leaves behind
-    if (t.cause !== 'Vanish') return;
-    tx({ t: 'b', n: t.name, x: Math.round(t.x), y: Math.round(t.y), a: +t.angle.toFixed(3), sx: +t.scaleX.toFixed(3), sy: +t.scaleY.toFixed(3), c: t.cause, aa: +t.attackAngle.toFixed(3),
-      lk: lookStr(t.appearance), ek: t.equipment.kind, ec: t.equipment.color, ep: partList(t.equipment), lo: t.lo ? 1 : 0,
-      bl: t.blood.map(b => [Math.round(b.x), Math.round(b.y), b.seed]), dr: [Math.round(t.dropped.x), Math.round(t.dropped.y), +t.dropped.angle.toFixed(3)], ht: [Math.round(t.hat.x), Math.round(t.hat.y), +t.hat.angle.toFixed(3)], hd: t.hands ? [].concat(...t.hands) : 0, tr: t.trail || 0, ho: t.hatOn ? 1 : 0, ph: t.hands ? 1 : 0, ka: kaOf(t) });
+  vanish() { },                                    // Stage 3D HQ2: the offline NEW RUN fade sends nothing (online, NEW RUN is nr below)
+  bodyMade() { },                                  // Stage 3D HQ2: nothing either for the offline fade's local light record: corpses and their lights are the server's
+  /* Stage 3D HQ2: the NEW RUN button (the bundle's Xnr).  Online, it is only an intent: {t:'nr', q, w}; nothing changes here until the
+   * server answers (nra).  Approved: ok(m) - the bundle's short beat, then its run menu.  Refused: the button says why for a moment and
+   * nothing else happens.  Returns false when offline (the bundle's own local fade then, which shares nothing).  While a press waits for
+   * its answer, or after an approval until the next run, further presses do nothing. */
+  nr(ok) {
+    if (!(N.on && ws && ws.readyState === 1)) return false;
+    const t = performance.now();
+    if (nrBusy === 2 || (nrBusy === 1 && t - nrBusyAt < 2500) || t - nrBusyAt < 300) return true;   // approved already / waiting / a double press (the server drops intents 250 ms apart)
+    nrBusy = 1; nrBusyAt = t; const q = ++nrQ; nrSent.set(q, ok); if (nrSent.size > 8) nrSent.delete(nrSent.keys().next().value);
+    nrButton('…'); tx({ t: 'nr', q, w: worldW });
+    clearTimeout(nrWaitT); nrWaitT = setTimeout(() => { if (nrBusy === 1) { nrBusy = 0; nrButton(''); } }, 2500);   // no answer (a dropped connection): the button comes back
+    return true;
   },
 };
 /* where the kill animation left the attacker (its world position and heading), so the server's hound carries on from there instead of popping back */
@@ -58,8 +66,23 @@ let ownDeath = null, mkAt = null;                    // Stage 3D HQ1: our own la
 window.__dvic = K => { const A = window.__api; ownDeath = { de: K && K.de != null ? K.de : 'L' + Math.round(performance.now()), t0: K && K.de != null && mkAt && mkAt.de === K.de ? mkAt.t : performance.now() / 1000, lf: K && Array.isArray(K.lf) ? K.lf : null, srv: !!(K && K.de != null), rel: null };
   if (!K || K.de == null || !A || !Number.isFinite(K.x) || !Number.isFinite(K.y)) return null;
   return { x: K.x, y: K.y, angle: +K.a || 0, vx: K.vx || 0, vy: K.vy || 0, exhausted: !!K.ex, stamina: undefined, equipment: A.H.equipment }; };
-const kaOf = t => { const D = window.__api && window.__api.death && window.__api.death(); const at = D && D.attacker; return t.cause === 'Hound' && at && Number.isFinite(at.x) ? [Math.round(at.x), Math.round(at.y), +(at.angle || 0).toFixed(3)] : 0; };
-const fxBase = A => ({ lk: lookStr(A.look), ek: A.H.equipment.kind, ec: A.H.equipment.color, ep: partList(A.H.equipment) });
+/* Stage 3D HQ2: NEW RUN's state on this page: the world epoch the server last named (s.w), the press numbers sent and their callbacks,
+ * whether a press is waiting or approved (busy), the last answer (for tests: window.__nrDebug) */
+let worldW = null, nrQ = 0, nrBusy = 0, nrBusyAt = 0, nrLast = null, nrTold = 0, nrWaitT = 0;   // nrBusy: 1 a press waits for its answer, 2 approved (until the next run)
+const nrSent = new Map();
+function nrButton(text) {                             // the pause dialog's NEW RUN button says what is happening, then goes back to itself
+  const b = document.getElementById('reset'); if (!b) return;
+  if (b.dataset.label === undefined) b.dataset.label = b.textContent;
+  clearTimeout(nrTold); b.textContent = text ? b.dataset.label + ' · ' + text : b.dataset.label; b.disabled = text === '…';
+  if (text && text !== '…') nrTold = setTimeout(() => nrButton(''), 2500);
+}
+function nrAnswer(m) {
+  const ok = nrSent.get(m.q); nrSent.delete(m.q);
+  nrLast = { q: m.q, ok: m.ok ? 1 : 0, why: m.why || '', wait: m.wait, de: m.de, at: Date.now() / 1000 };
+  if (m.ok) { nrBusy = 2; nrButton(''); if (ok) ok(m); }                          // the server has taken us out of the world: the bundle's beat, then its run menu
+  else { nrBusy = 0; nrButton(m.why === 'cooldown' ? 'WAIT ' + Math.ceil(+m.wait || 0) + ' S' : 'NOT NOW'); }
+}
+window.__nrDebug = () => ({ q: nrQ, busy: nrBusy, w: worldW, last: nrLast });
 const tx = o => { if (ws && ws.readyState === 1) ws.send(JSON.stringify(o)); };
 
 function connect() {
@@ -93,6 +116,7 @@ function connect() {
     else if (m.t === 'bodies') { bodiesList = m.b || []; const tb = performance.now() / 1000; for (const b of bodiesList) if (b && b.de != null && Array.isArray(b.lf) && b.lf.length === 4 && Number.isFinite(b.ag + b.lf[3])) { relOf(b.de, tb - b.ag + b.lf[3]); pendSt.push(['r', b.de, b.ag, b.lf[3]]); } applyBodies(); }   // (HQ1: when each corpse's light was let go)
     else if (m.t === 'fx') { if (m.k === 'death' && m.de != null && m.id !== myId) pendSt.push(['k', m.de, Math.max(0, +m.el || 0)]); startFx(m); }   // (HQ1: when the death began, on the server's clock)
     else if (m.t === 'exit') doExit(m.secs);
+    else if (m.t === 'nra') nrAnswer(m);                                       // Stage 3D HQ2: the server's NEW RUN decision
     else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {
       const now = performance.now(), seen = new Set();
@@ -103,7 +127,7 @@ function connect() {
         Object.assign(o, p, { tx: p.x, ty: p.y, seen: now }); peers.set(p.id, o);
       }
       for (const [id, o] of peers) if (!seen.has(id)) { dropAvatar(o); peers.delete(id); }
-      peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0;
+      peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0; if (m.w != null) worldW = m.w;
       if (m.mk && m.ms !== killSeq) { killSeq = m.ms; mkAt = { de: m.mk.de, t: performance.now() / 1000 }; if (m.mk.de != null && m.e && typeof m.e.st === 'number') stNote(m.mk.de, 'k', m.e.st); announceKill(m.mk); }   // who killed us, how, and where the wall is (HQ1: and when, on the server's clock)
       if (m.e) { snap = m.e; N.on = true; entitySignals(m.e); netHist(m.e, now); }
       if (m.e && typeof m.e.st === 'number' && pendSt.length) { for (const q of pendSt) stNote(q[1], q[0], q[0] === 'k' ? m.e.st - q[2] : m.e.st - q[2] + q[3]); pendSt.length = 0; }   // (HQ1: a replay or corpse that came just before this snapshot was sent in its pass)
@@ -112,6 +136,7 @@ function connect() {
     }
   };
   ws.onclose = () => {
+    nrSent.clear(); nrBusy = 0; worldW = null; clearTimeout(nrWaitT); nrButton('');   // Stage 3D HQ2: a press without its answer is gone with the connection
     netReset(); if (myId) window.__hideBodies.delete('r' + myId);                  // Stage 3D: the old connection's corpse is no longer ours to hide
     for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; cpNow = 0; window.__kill = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null); sSlot.fill(null);
     if (EN()) { EN().clearDebug(); EN().dbgCfg.on = false; EN().drawDebug(); EN().setFails([]); }

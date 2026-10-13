@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage 3D: the game bundle's death edits, applied as exact text to the accepted parent's bundle (git 06949a8, stage-3h0).
+"""Stage 3D: the game bundle's death edits (D3-D5, HQ1, HQ2), applied as exact text to the accepted parent's bundle (git 06949a8, stage-3h0).
 
   python3 -I dev/stage-3d/apply_bundle.py [--check]      (in the repository; --check: only verify the bundle is exactly this)
 
@@ -40,6 +40,14 @@ EDITS = [
     ('HQ1', "a dead wanderer's failing light (window.__peerLights pw) where the game draws its own lighting (BR-RoLE off); living lights have no pw",
      'if(p.dead||!p.on||f.nv)continue;_(0,Math.PI*2,52,.35);{let e=f.omni?.93+Math.sin(t*17+p.x)*.035+Math.sin(t*31+p.y)*.025:1;if(f.omni)_(0,Math.PI*2,f.range,f.power*e,!0);else{let e=1-(1-f.power)**(1/12);for(let i=0;i<12;i++)_(o.angle,f.arc*(1-i*.063),f.range,e,!0)}}',
      'let HQ=p.pw==null?1:+p.pw;if(p.dead||!p.on||f.nv||!(HQ>0))continue;_(0,Math.PI*2,52,.35*HQ);{let e=f.omni?.93+Math.sin(t*17+p.x)*.035+Math.sin(t*31+p.y)*.025:1;if(f.omni)_(0,Math.PI*2,f.range,f.power*e*HQ,!0);else{let e=1-(1-f.power*HQ)**(1/12);for(let i=0;i<12;i++)_(o.angle,f.arc*(1-i*.063),f.range,e,!0)}}'),
+    # Stage 3D HQ2 (H2-1): NEW RUN is the server's decision.  Online, the button only sends the intent (mp.js window.__net.nr) and nothing
+    # changes until the answer; offline (nr returns false) it is the old local fade, which shares nothing.
+    ('HQ2', "online, NEW RUN only sends its intent (mp.js __net.nr); the approval calls Xok; offline the old local sequence runs as before",
+     'function Xnr(){if(!$||G.caught||hu||VN||iu===!1&&!1){Su();return}',
+     'function Xnr(){let N=window.__net;if(N&&N.nr&&$&&!hu&&N.nr(Xok))return;if(!$||G.caught||hu||VN||iu===!1&&!1){Su();return}'),
+    ('HQ2', "the approved NEW RUN: the player is already out of the world (the server took it out): hidden at once, a short beat, then the run menu (Nend)",
+     'function Nend(){VN=null,',
+     'function Xok(){if(!$||hu)return;VN={t0:performance.now()/1e3,dur:.8},window.__hideSelf=!0,_u(!1),Q.clear()}\nfunction Nend(){VN=null,'),
 ]
 
 

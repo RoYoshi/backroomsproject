@@ -62,8 +62,9 @@ function mvCheck(room, me, x, y) {
  * and the replay message for everyone else (fxFor: the same inputs).  The victim's own client plays the same death from the same record
  * (it reads it in the snapshot's 'mk'), so victim, spectators and the server run one physical death.  Each client gets the replay once
  * (aftSend), with how far it has run if they arrive late.  When the death's length has passed the server makes the corpse itself from
- * that simulation's last frame and places the attacker where the death left it; clients no longer report corpses (only the light a NEW
- * RUN vanish leaves, below).  An admin revive cancels the event; a world reset drops it.  Bodies stay keyed by player id: never two. */
+ * that simulation's last frame and places the attacker where the death left it; clients report no corpse, death or light record at all
+ * (Stage 3D HQ2: the NEW RUN vanish's light record is gone with it).  An admin revive cancels the event; a world reset drops it.  Bodies
+ * stay keyed by player id: never two. */
 function aftStart(room, c) {
   const p = c.player; c.aftSeq = p.dseq;
   room.afts = (room.afts || []).filter(a => a.id !== c.id);
@@ -109,6 +110,31 @@ function aftTick(room) {
 const bodyAt = new WeakMap();
 function putBody(room, id, rec, at) { bodyAt.set(rec, at == null ? Date.now() : Math.min(Date.now(), at)); room.sim.setBody(id, rec); }   // at: Stage 3D HQ1, a death's corpse is as old as its death's end
 function moveTo(me, x, y, tell = true) { Object.assign(me.player, { x, y }); if (tell) send(me, { t: 'tp', x, y }); mvReset(me); }
+/* Stage 3D HQ2: NEW RUN is the server's decision, not the client's.  The client sends only its intent, {t:'nr', q: its press number,
+ * w: the world it is in}, and changes nothing until the answer: {t:'nra', q, ok:1, de, w} - approved: the player is out of the world at
+ * once (sim.newRun: to the menu, so its next join starts the new run) - or {t:'nra', q, ok:0, why, wait?} - refused, nothing changed
+ * ('state': not in a run; 'dead'; 'held': in a capture; 'cooldown': wait seconds left of the 30 s; 'epoch': the press was made in a world
+ * an admin has since reset).  One answer per press: the same q again gets the same answer (no second event); an older q, a malformed one
+ * or an intent within 250 ms of the last gets none (a flood is dropped and counted).  A world reset, a death, END and RESPAWN never come
+ * through here, so none of them explodes anyone or starts anyone's cooldown. */
+const NR_GAP = 250;
+function nrIntent(room, me, m) {
+  const now = Date.now(); if (now - (me.nrT || 0) < NR_GAP) { me.nrDropped = (me.nrDropped | 0) + 1; return; }
+  const q = Number.isSafeInteger(m.q) && m.q > 0 && m.q < 2147483648 ? m.q : 0; if (!q) return;
+  me.nrT = now;
+  if (me.nr) { if (q === me.nr.q) return send(me, me.nr.ans); if (q < me.nr.q) return; }
+  const sim = room.sim, p = me.player, t = now / 1000;
+  let why = m.w !== sim.worldSeq ? 'epoch' : sim.nrWhy(p, t), ans;
+  if (!why) why = sim.newRun(p, t);
+  if (why) { ans = { t: 'nra', q, ok: 0, why }; if (why === 'cooldown') ans.wait = Math.ceil(sim.nrWait(p, t) * 10) / 10; }
+  else {
+    const de = room.deSeq = (room.deSeq | 0) + 1;
+    ans = { t: 'nra', q, ok: 1, de, w: sim.worldSeq };
+    me.spawnNext = false;
+    console.log(`[newrun] room=${room.name} #${me.id} de=${de}: approved`);
+  }
+  me.nr = { q, ans }; send(me, ans);
+}
 
 const { frame, reader } = require('./server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
 const send = (c, obj) => { const f = frame(JSON.stringify(obj)); if (f && !c.sock.destroyed) c.sock.write(f); };
@@ -222,22 +248,14 @@ srv.on('upgrade', (req, sock) => {
       if (HEX.test(m.c)) me.color = m.c;
       me.look = cleanLook(m.lk) || me.look; me.lp = cleanParts(m.lp);
       me.angle = p.angle; me.sprint = m.r ? 1 : 0; me.fall = m.f >= 0 && m.f <= 1 ? +m.f : -1;
-    } else if (m.t === 'join') { if (room.sim.join(player, Date.now() / 1000)) { mvReset(me); me.spawnNext = true; } else send(me, { t: 'tp', x: Math.round(player.x), y: Math.round(player.y) }); }
+    } else if (m.t === 'join') { if (room.sim.join(player)) { mvReset(me); me.spawnNext = true; } else send(me, { t: 'tp', x: Math.round(player.x), y: Math.round(player.y) }); }
     else if (m.t === 'respawn') {                                          // only from a death (or an admin revive): see sim.respawn
       if (room.sim.respawn(player)) { mvReset(me); me.spawnNext = true; }
       else { me.respawnRefused = (me.respawnRefused | 0) + 1; send(me, { t: 'tp', x: Math.round(player.x), y: Math.round(player.y) }); }
     }
-    else if (m.t === 'leave') { if (!room.sim.leave(player, Date.now() / 1000)) me.leaveRefused = (me.leaveRefused | 0) + 1; }      // to the menu: only from death or at the end of a new-run vanish, never while held (sim.js lifecycle)
-    else if (m.t === 'fx') {                                                // replay someone's death / vanishing for everybody else
-      const t = Date.now(), k = m.k === 'death' ? 'death' : m.k === 'vanish' ? 'vanish' : '';
-      if (!k || k === 'death' || !player.active || t - (me.fxAt || 0) < 1500) return;      // Stage 3D: a death's replay is the server's own (aftStart)
-      if (k === 'vanish' && !room.sim.vanish(player, t / 1000)) return;       // the new-run sequence: only while alive and free, once every 30 s (it protects for 4 s)
-      me.fxAt = t;
-      const out = { t: 'fx', k, id, c: m.c === 'Smiler' ? 'Smiler' : 'Hound', x: num(m.x, 0, 9216), y: num(m.y, 0, 6912), a: num(m.a, -20, 20), sx: num(m.sx, 0, 9216), sy: num(m.sy, 0, 6912),
-        v: /^[ABCD]$/.test(m.v) ? m.v : 'A', w: Array.isArray(m.w) && m.w.length === 3 ? [num(m.w[0], 0, 9216), num(m.w[1], 0, 6912), num(m.w[2], -20, 20)] : 0,
-        lk: cleanLook(m.lk) || me.look, ek: kindOf(m.ek), ec: HEX.test(m.ec) ? m.ec : '#ffe7b2', ep: cleanParts(m.ep), vx: num(m.vx, -900, 900), vy: num(m.vy, -900, 900), ex: m.ex ? 1 : 0 };
-      for (const c of room.clients.values()) if (c !== me) send(c, out);
-    }
+    else if (m.t === 'leave') { if (!room.sim.leave(player)) me.leaveRefused = (me.leaveRefused | 0) + 1; }      // to the menu: only from death, never while alive or held (sim.js lifecycle)
+    else if (m.t === 'nr') nrIntent(room, me, m);                            // Stage 3D HQ2: NEW RUN, the server's decision (nrIntent)
+    // (Stage 3D HQ2: a client's 'fx' - the old NEW RUN vanish, or a death - is no longer read at all: every replay is the server's own)
     else if (m.t === 'pick') { if (player.active && !player.dead) { const it = room.sim.takeItem(player); if (it) send(me, { t: 'got', item: it }); } }
     else if (m.t === 'admin') {
       const now = Date.now(), f = fails.get(ip) || { n: 0, until: 0 };
@@ -247,16 +265,7 @@ srv.on('upgrade', (req, sock) => {
     }
     else if (m.t === 'a') { if (me.admin) adminCommand(room, me, m); }
     else if (m.t === 'ping') { const t = Date.now(); if (t - (me.pingAt || 0) > 400) { me.pingAt = t; send(me, { t: 'pong', ts: +m.ts || 0 }); } }
-    else if (m.t === 'b') {                 // Stage 3D: corpses are the server's (aftTick).  A client reports only the light a NEW RUN vanish leaves
-      if (m.c !== 'Vanish' || player.dead || !player.active) return;      // where it stood: alive, once in 5 s, at its own position
-      const t = Date.now(); if (t - (me.vbAt || 0) < 5000) return;
-      const x = num(m.x, 0, 9216), y = num(m.y, 0, 6912), dr = [num(m.dr && m.dr[0], 0, 9216), num(m.dr && m.dr[1], 0, 6912), num(m.dr && m.dr[2], -20, 20)];
-      if (Math.hypot(x - player.x, y - player.y) > 64 || Math.hypot(dr[0] - x, dr[1] - y) > 48) return;
-      me.vbAt = t;
-      putBody(room, id, { k: id, n: String(m.n || me.name).slice(0, 20), x, y, a: 0, sx: 1, sy: 1, c: 'Vanish', aa: 0,      // the light: what the server knows it carries
-        lk: me.look, eq: { kind: player.equipment.kind, color: HEX.test(me.color) ? me.color : '#ffe7b2', parts: me.lp || '' },
-        bl: [], dr, ht: [x, y, 0], lo: player.light ? 1 : 0, ph: 0, hd: 0, ho: 0, tr: [] });
-    }
+    // (Stage 3D HQ2: a client's 'b' - the old NEW RUN vanish's light record - is no longer read: corpses and their lights are the server's)
   }
 
   sock.on('data', reader(sock, onMessage));                                // Stage 3H0: server/ws.js (frames in, pong, close; text under 1,400 bytes to onMessage)
@@ -308,7 +317,7 @@ setInterval(() => {
     for (const c of room.clients.values()) {
       if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }
       if (c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; send(c, bm || (bm = bodyMsg())); }
-      const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player) };
+      const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player), w: room.sim.worldSeq };   // (w: Stage 3D HQ2, the world epoch)
       if (c.player.dead && c.player.kill) msg.mk = c.player.kill;
       if (c.admin && ad) { msg.ad = ad; msg.you = c.id; }
       if (c.admin && c.dbg && dbgList) {

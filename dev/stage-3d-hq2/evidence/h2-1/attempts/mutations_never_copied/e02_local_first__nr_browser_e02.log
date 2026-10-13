@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "/home/claude/backrooms-shadows/dev/stage-3d-hq2/nr_browser.py", line 229, in <module>
+    asyncio.run(main())
+  File "/usr/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/claude/backrooms-shadows/dev/stage-3d-hq2/nr_browser.py", line 51, in main
+    A = await L.join(ca, port, 'h2nr', 'Alice', errs); await L.admin_open(A); await A.evaluate("()=>{document.getElementById('adminPanel').hidden=true}")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/claude/backrooms-shadows/dev/stage-3d-hq1/../stage-3d/lib3d.py", line 64, in join
+    await P.goto(f'http://127.0.0.1:{port}/?room={room}{query}', timeout=90000)                 # query: e.g. '&lighting=high' (BR-RoLE quality)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/playwright/async_api/_generated.py", line 8992, in goto
+    await self._impl_obj.goto(
+  File "/usr/local/lib/python3.11/dist-packages/playwright/_impl/_page.py", line 555, in goto
+    return await self._main_frame.goto(**locals_to_params(locals()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/playwright/_impl/_frame.py", line 153, in goto
+    await self._channel.send(
+  File "/usr/local/lib/python3.11/dist-packages/playwright/_impl/_connection.py", line 69, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/playwright/_impl/_connection.py", line 559, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:34211/?room=h2nr
+Call log:
+  - navigating to "http://127.0.0.1:34211/?room=h2nr", waiting until "load"
+

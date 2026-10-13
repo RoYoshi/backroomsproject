@@ -1,0 +1,104 @@
+{
+ "ok": false,
+ "passed": 3,
+ "total": 7,
+ "checks": [
+  {
+   "name": "E01 the first press is approved by the server",
+   "ok": true,
+   "info": {
+    "q": 1,
+    "ok": 1,
+    "why": "",
+    "wait": null,
+    "de": 1,
+    "at": 1791851708.93
+   }
+  },
+  {
+   "name": "E01 the approved press reaches the run menu promptly (within 2 s of the approval on this SwiftShader page: the 0.8 s beat and its frames)",
+   "ok": true,
+   "info": {
+    "menuShownAfter": 0.903
+   }
+  },
+  {
+   "name": "E01 the spectator stops drawing Alice's living light within 1 s of the approval",
+   "ok": false,
+   "info": {
+    "firstRowWithout": 1.1559998989105225
+   }
+  },
+  {
+   "name": "E02 a press during the approved beat starts nothing: no new run (the run menu comes, not a new run), no second approval before the cooldown ends",
+   "ok": false,
+   "info": {
+    "pressedAfter": 1.387,
+    "approvals": [
+     [
+      1,
+      1791851708.93
+     ],
+     [
+      3,
+      1791851741.386
+     ]
+    ]
+   }
+  },
+  {
+   "name": "E02 press at ~10 s after the approval (really 10.13 s): refused (cooldown, ~19.9 s left, said on the button), and nothing changes on her screen, on Bob's or on the server until the next press (at most 3 s)",
+   "ok": false,
+   "info": {
+    "pressedAfter": 10.128,
+    "window": 3.0,
+    "answer": {
+     "q": 2,
+     "ok": 0,
+     "why": "cooldown",
+     "wait": 19.9,
+     "de": null,
+     "at": 1791851719.063
+    },
+    "aliceStill": false,
+    "buttonTold": true,
+    "bobRows": 5,
+    "bobAlwaysSawHer": true,
+    "serverActive": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "E02 press at ~27 s after the approval (really 27.57 s): refused (cooldown, ~2.4 s left, said on the button), and nothing changes on her screen, on Bob's or on the server until the next press (at most 3 s)",
+   "ok": false,
+   "info": {
+    "pressedAfter": 27.57,
+    "window": 3.0,
+    "answer": null,
+    "aliceStill": false,
+    "buttonTold": false,
+    "bobRows": 4,
+    "bobAlwaysSawHer": false,
+    "serverActive": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "E02 the press after the 30 s cooldown is approved (run menu)",
+   "ok": true,
+   "info": {
+    "pressedAfter": 31.95,
+    "answer": {
+     "q": 3,
+     "ok": 1,
+     "why": "",
+     "wait": null,
+     "de": 2,
+     "at": 1791851741.386
+    }
+   }
+  }
+ ]
+}

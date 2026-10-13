@@ -1,0 +1,697 @@
+{
+ "tool": "dev/stage-3d-hq1/light_net.js",
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "H1 a lit flashlight: the same profile on the kill record, the replay and the corpse; the corpse's release equals the server physics'",
+   "ok": true,
+   "note": "mk [3.1,1.5,399] fx [3.1,1.5,399] corpse [3.1,1.5,399,-3.879] expected release -3.879"
+  },
+  {
+   "name": "H2 a lantern and a headlamp likewise; the headlamp's light starts with the death (release = - the death's length)",
+   "ok": true,
+   "note": "lantern [6.2,1.6,601,-3.879] (expected -3.879); headlamp [5.3,1.1,665,-4.5] (expected -4.5)"
+  },
+  {
+   "name": "H3 a light that was off, and a camcorder: no profile anywhere",
+   "ok": true,
+   "note": "off: mk undefined fx undefined corpse undefined; camcorder: mk undefined corpse undefined"
+  },
+  {
+   "name": "H4 the profile is the server's: a forged replay or corpse with lf changes nothing; the NEW RUN record carries none",
+   "ok": true,
+   "note": "forged replays relayed: 0; NEW RUN record none; bodies before unchanged"
+  },
+  {
+   "name": "H5 one profile per death (every client the same), different deaths different; over 1,000 deaths hold covers 3-7 and fade 1-2 in tenths",
+   "ok": true,
+   "note": "profiles [3.1,1.5,399] [6.2,1.6,601] [5.3,1.1,665]; holds 41 values 3-7, fades 11 values; out of range or not repeatable: 0"
+  },
+  {
+   "name": "H6 sizes: the replay under 400 B; a corpse record with its light profile within D7's 384 B + 32",
+   "ok": true,
+   "note": "replay 241 B; corpse 410 B (no light: 384 B)"
+  },
+  {
+   "name": "H7 corpse ages in tenths of a second",
+   "ok": true,
+   "note": "ages: [0]"
+  },
+  {
+   "name": "H8 no server errors",
+   "ok": true,
+   "note": "none"
+  }
+ ],
+ "deaths": [
+  {
+   "kind": "flashlight",
+   "lit": true,
+   "mk": {
+    "v": "A",
+    "k": "Hound",
+    "e": 5,
+    "ax": 5054,
+    "ay": 3504,
+    "aa": 3.142,
+    "w": 0,
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "why": "preview",
+    "de": 1,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "lf": [
+     3.1,
+     1.5,
+     399
+    ]
+   },
+   "fx": {
+    "at": 1791850948192,
+    "bytes": 241,
+    "t": "fx",
+    "k": "death",
+    "id": 2,
+    "c": "Hound",
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "sx": 5054,
+    "sy": 3504,
+    "v": "A",
+    "w": 0,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "",
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "srv": 1,
+    "de": 1,
+    "lo": 1,
+    "lf": [
+     3.1,
+     1.5,
+     399
+    ]
+   },
+   "body": {
+    "k": 2,
+    "n": "VIC",
+    "x": 4969,
+    "y": 3504,
+    "a": 1.564,
+    "sx": 1,
+    "sy": 1,
+    "c": "Hound",
+    "aa": 3.142,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "eq": {
+     "kind": "flashlight",
+     "color": "#ffe7b2",
+     "parts": ""
+    },
+    "bl": [
+     [
+      5004,
+      3504,
+      0
+     ],
+     [
+      4998,
+      3504,
+      1
+     ],
+     [
+      4992,
+      3504,
+      2
+     ],
+     [
+      4986,
+      3504,
+      3
+     ]
+    ],
+    "dr": [
+     4940,
+     3455,
+     1.493
+    ],
+    "ht": [
+     5000,
+     3504,
+     1.571
+    ],
+    "lo": 1,
+    "ph": 1,
+    "hd": [
+     -18.4,
+     -6,
+     18.3,
+     -6
+    ],
+    "ho": 1,
+    "tr": [
+     [
+      4988,
+      3504
+     ],
+     [
+      4977,
+      3504
+     ]
+    ],
+    "srv": 1,
+    "lf": [
+     3.1,
+     1.5,
+     399,
+     -3.879
+    ],
+    "de": 1,
+    "ag": 0
+   },
+   "corpseBytes": 410,
+   "expectedRel": -3.879,
+   "msgAg": 0
+  },
+  {
+   "kind": "lantern",
+   "lit": true,
+   "mk": {
+    "v": "A",
+    "k": "Hound",
+    "e": 5,
+    "ax": 5054,
+    "ay": 3504,
+    "aa": 3.142,
+    "w": 0,
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "why": "preview",
+    "de": 2,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "lf": [
+     6.2,
+     1.6,
+     601
+    ]
+   },
+   "fx": {
+    "at": 1791850954400,
+    "bytes": 238,
+    "t": "fx",
+    "k": "death",
+    "id": 2,
+    "c": "Hound",
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "sx": 5054,
+    "sy": 3504,
+    "v": "A",
+    "w": 0,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "lantern",
+    "ec": "#ffe7b2",
+    "ep": "",
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "srv": 1,
+    "de": 2,
+    "lo": 1,
+    "lf": [
+     6.2,
+     1.6,
+     601
+    ]
+   },
+   "body": {
+    "k": 2,
+    "n": "VIC",
+    "x": 4969,
+    "y": 3504,
+    "a": 1.564,
+    "sx": 1,
+    "sy": 1,
+    "c": "Hound",
+    "aa": 3.142,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "eq": {
+     "kind": "lantern",
+     "color": "#ffe7b2",
+     "parts": ""
+    },
+    "bl": [
+     [
+      5004,
+      3504,
+      0
+     ],
+     [
+      4998,
+      3504,
+      1
+     ],
+     [
+      4992,
+      3504,
+      2
+     ],
+     [
+      4986,
+      3504,
+      3
+     ]
+    ],
+    "dr": [
+     4940,
+     3455,
+     1.493
+    ],
+    "ht": [
+     5000,
+     3504,
+     1.571
+    ],
+    "lo": 1,
+    "ph": 1,
+    "hd": [
+     -18.4,
+     -6,
+     18.3,
+     -6
+    ],
+    "ho": 1,
+    "tr": [
+     [
+      4988,
+      3504
+     ],
+     [
+      4977,
+      3504
+     ]
+    ],
+    "srv": 1,
+    "lf": [
+     6.2,
+     1.6,
+     601,
+     -3.879
+    ],
+    "de": 2,
+    "ag": 0
+   },
+   "corpseBytes": 407,
+   "expectedRel": -3.879,
+   "msgAg": 0
+  },
+  {
+   "kind": "headlamp",
+   "lit": true,
+   "mk": {
+    "v": "A",
+    "k": "Hound",
+    "e": 5,
+    "ax": 5054,
+    "ay": 3504,
+    "aa": 3.142,
+    "w": 0,
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "why": "preview",
+    "de": 3,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "lf": [
+     5.3,
+     1.1,
+     665
+    ]
+   },
+   "fx": {
+    "at": 1791850960625,
+    "bytes": 239,
+    "t": "fx",
+    "k": "death",
+    "id": 2,
+    "c": "Hound",
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "sx": 5054,
+    "sy": 3504,
+    "v": "A",
+    "w": 0,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "headlamp",
+    "ec": "#ffe7b2",
+    "ep": "",
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "srv": 1,
+    "de": 3,
+    "lo": 1,
+    "lf": [
+     5.3,
+     1.1,
+     665
+    ]
+   },
+   "body": {
+    "k": 2,
+    "n": "VIC",
+    "x": 4969,
+    "y": 3504,
+    "a": 1.553,
+    "sx": 1,
+    "sy": 1,
+    "c": "Hound",
+    "aa": 3.142,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "eq": {
+     "kind": "headlamp",
+     "color": "#ffe7b2",
+     "parts": ""
+    },
+    "bl": [
+     [
+      5004,
+      3504,
+      0
+     ],
+     [
+      4998,
+      3504,
+      1
+     ],
+     [
+      4992,
+      3504,
+      2
+     ],
+     [
+      4986,
+      3504,
+      3
+     ]
+    ],
+    "dr": [
+     4969,
+     3504,
+     1.553
+    ],
+    "ht": [
+     5000,
+     3504,
+     1.571
+    ],
+    "lo": 1,
+    "ph": 1,
+    "hd": [
+     -18.4,
+     -6,
+     18.3,
+     -6
+    ],
+    "ho": 1,
+    "tr": [
+     [
+      4988,
+      3504
+     ],
+     [
+      4977,
+      3504
+     ]
+    ],
+    "srv": 1,
+    "lf": [
+     5.3,
+     1.1,
+     665,
+     -4.5
+    ],
+    "de": 3,
+    "ag": 0
+   },
+   "corpseBytes": 406,
+   "expectedRel": -4.5,
+   "msgAg": 0
+  },
+  {
+   "kind": "flashlight",
+   "lit": false,
+   "mk": {
+    "v": "A",
+    "k": "Hound",
+    "e": 5,
+    "ax": 5054,
+    "ay": 3504,
+    "aa": 3.142,
+    "w": 0,
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "why": "preview",
+    "de": 4,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0
+   },
+   "fx": {
+    "at": 1791850966855,
+    "bytes": 222,
+    "t": "fx",
+    "k": "death",
+    "id": 2,
+    "c": "Hound",
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "sx": 5054,
+    "sy": 3504,
+    "v": "A",
+    "w": 0,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "flashlight",
+    "ec": "#ffe7b2",
+    "ep": "",
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "srv": 1,
+    "de": 4,
+    "lo": 0
+   },
+   "body": {
+    "k": 2,
+    "n": "VIC",
+    "x": 4969,
+    "y": 3504,
+    "a": 1.564,
+    "sx": 1,
+    "sy": 1,
+    "c": "Hound",
+    "aa": 3.142,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "eq": {
+     "kind": "flashlight",
+     "color": "#ffe7b2",
+     "parts": ""
+    },
+    "bl": [
+     [
+      5004,
+      3504,
+      0
+     ],
+     [
+      4998,
+      3504,
+      1
+     ],
+     [
+      4992,
+      3504,
+      2
+     ],
+     [
+      4986,
+      3504,
+      3
+     ]
+    ],
+    "dr": [
+     4940,
+     3455,
+     1.493
+    ],
+    "ht": [
+     5000,
+     3504,
+     1.571
+    ],
+    "lo": 0,
+    "ph": 1,
+    "hd": [
+     -18.4,
+     -6,
+     18.3,
+     -6
+    ],
+    "ho": 1,
+    "tr": [
+     [
+      4988,
+      3504
+     ],
+     [
+      4977,
+      3504
+     ]
+    ],
+    "srv": 1,
+    "de": 4,
+    "ag": 0
+   },
+   "corpseBytes": 384,
+   "expectedRel": null,
+   "msgAg": 0
+  },
+  {
+   "kind": "camcorder",
+   "lit": true,
+   "mk": {
+    "v": "A",
+    "k": "Hound",
+    "e": 5,
+    "ax": 5054,
+    "ay": 3504,
+    "aa": 3.142,
+    "w": 0,
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "why": "preview",
+    "de": 5,
+    "vx": 0,
+    "vy": 0,
+    "ex": 0
+   },
+   "fx": {
+    "at": 1791850973054,
+    "bytes": 221,
+    "t": "fx",
+    "k": "death",
+    "id": 2,
+    "c": "Hound",
+    "x": 5000,
+    "y": 3504,
+    "a": 0,
+    "sx": 5054,
+    "sy": 3504,
+    "v": "A",
+    "w": 0,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "ek": "camcorder",
+    "ec": "#ffe7b2",
+    "ep": "",
+    "vx": 0,
+    "vy": 0,
+    "ex": 0,
+    "srv": 1,
+    "de": 5,
+    "lo": 0
+   },
+   "body": {
+    "k": 2,
+    "n": "VIC",
+    "x": 4969,
+    "y": 3504,
+    "a": 1.564,
+    "sx": 1,
+    "sy": 1,
+    "c": "Hound",
+    "aa": 3.142,
+    "lk": "none|plain|#e6bb76|#ffcc77|none",
+    "eq": {
+     "kind": "camcorder",
+     "color": "#ffe7b2",
+     "parts": ""
+    },
+    "bl": [
+     [
+      5004,
+      3504,
+      0
+     ],
+     [
+      4998,
+      3504,
+      1
+     ],
+     [
+      4992,
+      3504,
+      2
+     ],
+     [
+      4986,
+      3504,
+      3
+     ]
+    ],
+    "dr": [
+     4940,
+     3455,
+     1.493
+    ],
+    "ht": [
+     5000,
+     3504,
+     1.571
+    ],
+    "lo": 0,
+    "ph": 1,
+    "hd": [
+     -18.4,
+     -6,
+     18.3,
+     -6
+    ],
+    "ho": 1,
+    "tr": [
+     [
+      4988,
+      3504
+     ],
+     [
+      4977,
+      3504
+     ]
+    ],
+    "srv": 1,
+    "de": 5,
+    "ag": 0
+   },
+   "corpseBytes": 383,
+   "expectedRel": null,
+   "msgAg": 0
+  }
+ ],
+ "ok": true
+}

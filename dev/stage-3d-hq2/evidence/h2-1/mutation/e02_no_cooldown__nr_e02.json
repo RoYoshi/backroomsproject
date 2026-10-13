@@ -1,0 +1,183 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/mut_e02_no_cooldown",
+ "gitHead": "not a git checkout (an export)",
+ "startedAt": "2026-10-13T00:33:44.839Z",
+ "scenarios": {
+  "nr_e02": {
+   "room": "h21e02",
+   "presses": [
+    {
+     "dt": 1,
+     "answer": {
+      "at": 1791851629633,
+      "t": "nra",
+      "q": 2,
+      "ok": 1,
+      "de": 2,
+      "w": 2
+     },
+     "server": {
+      "a": 0,
+      "d": "",
+      "x": 812,
+      "y": 720
+     },
+     "bobSawHer": 0
+    },
+    {
+     "dt": 10,
+     "answer": {
+      "at": 1791851638633,
+      "t": "nra",
+      "q": 3,
+      "ok": 0,
+      "why": "state"
+     },
+     "server": {
+      "a": 0,
+      "d": "",
+      "x": 812,
+      "y": 720
+     },
+     "bobSawHer": 0
+    },
+    {
+     "dt": 29.9,
+     "answer": {
+      "at": 1791851658533,
+      "t": "nra",
+      "q": 104,
+      "ok": 0,
+      "why": "state"
+     },
+     "server": {
+      "a": 0,
+      "d": "",
+      "x": 812,
+      "y": 720
+     },
+     "bobSawHer": 0
+    }
+   ],
+   "checks": [
+    {
+     "name": "setup: the first NEW RUN is approved",
+     "ok": true,
+     "info": {
+      "at": 1791851628632,
+      "t": "nra",
+      "q": 1,
+      "ok": 1,
+      "de": 1,
+      "w": 2
+     }
+    },
+    {
+     "name": "E02 a press 1 s after the approval is refused (cooldown, wait ~29.0 s) and nothing changes: still active, still seen by Bob",
+     "ok": false,
+     "info": {
+      "answer": {
+       "at": 1791851629633,
+       "t": "nra",
+       "q": 2,
+       "ok": 1,
+       "de": 2,
+       "w": 2
+      },
+      "server": {
+       "a": 0,
+       "d": "",
+       "x": 812,
+       "y": 720
+      },
+      "bobSawHer": 0
+     }
+    },
+    {
+     "name": "E02 a press 10 s after the approval is refused (cooldown, wait ~20.0 s) and nothing changes: still active, still seen by Bob",
+     "ok": false,
+     "info": {
+      "answer": {
+       "at": 1791851638633,
+       "t": "nra",
+       "q": 3,
+       "ok": 0,
+       "why": "state"
+      },
+      "server": {
+       "a": 0,
+       "d": "",
+       "x": 812,
+       "y": 720
+      },
+      "bobSawHer": 0
+     }
+    },
+    {
+     "name": "E02 a flood of 100 intents inside the cooldown: bounded answers (one per 250 ms), all refused, nothing changes",
+     "ok": false,
+     "info": {
+      "sent": 100,
+      "answers": 1,
+      "approvals": 0
+     }
+    },
+    {
+     "name": "E02 a press 29.9 s after the approval is refused (cooldown, wait ~0.1 s) and nothing changes: still active, still seen by Bob",
+     "ok": false,
+     "info": {
+      "answer": {
+       "at": 1791851658533,
+       "t": "nra",
+       "q": 104,
+       "ok": 0,
+       "why": "state"
+      },
+      "server": {
+       "a": 0,
+       "d": "",
+       "x": 812,
+       "y": 720
+      },
+      "bobSawHer": 0
+     }
+    },
+    {
+     "name": "E02 the refused presses sent nothing to the spectator (no fx, no corpse/light record)",
+     "ok": true,
+     "info": {
+      "fx": 0,
+      "bodies": 0
+     }
+    },
+    {
+     "name": "E02 at the 30 s boundary the next press is approved",
+     "ok": false,
+     "info": {
+      "at": 1791851658976,
+      "t": "nra",
+      "q": 105,
+      "ok": 0,
+      "why": "state"
+     }
+    }
+   ],
+   "flood": {
+    "sent": 100,
+    "answers": 1,
+    "approvals": 0
+   },
+   "boundary": {
+    "at": 1791851658976,
+    "t": "nra",
+    "q": 105,
+    "ok": 0,
+    "why": "state"
+   }
+  }
+ },
+ "ok": false,
+ "passed": 2,
+ "total": 7
+}

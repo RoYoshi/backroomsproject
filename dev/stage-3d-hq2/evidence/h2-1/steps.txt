@@ -1,0 +1,19 @@
+-- H2-1 on the working tree over 94900014889df9c955c962370f1106acde0f4aa4 (production files as committed next); parent export /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base --
+proto/nr_green exit=0 seconds=63
+browser/nr_e02 exit=1 seconds=81
+mutation/e02_no_cooldown__nr_e02 exit=0 seconds=10
+mutation/e01_stays_alive__nr_flow exit=0 seconds=10
+mutation/e02_local_first__nr_browser_e02 exit=1 seconds=11
+existing/s_audit exit=1 seconds=2
+existing/s_audit_parent exit=0 seconds=1
+existing/death_net exit=1 seconds=53
+existing/light_net exit=0 seconds=41
+existing/audit_net exit=1 seconds=55
+existing/audit_net_parent exit=1 seconds=55
+existing/audit_net2 exit=1 seconds=221
+existing/audit_net2_parent exit=1 seconds=223
+-- again: the mutation copies (rsync is not installed here: the first copies were never made, so the three mutation runs above tested nothing - kept in attempts/) and the browser E02 plan (the first run's presses, made from the test script, landed seconds late on the slow pages - kept in attempts/; the presses are now timers on Alice's page) --
+browser/nr_e02 exit=1 seconds=78
+mutation/e02_no_cooldown__nr_e02 exit=1 seconds=35
+mutation/e01_stays_alive__nr_flow exit=1 seconds=7
+mutation/e02_local_first__nr_browser_e02 exit=1 seconds=78

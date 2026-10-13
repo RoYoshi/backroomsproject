@@ -1,0 +1,417 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/home/claude/backrooms-shadows",
+ "gitHead": "94900014889df9c955c962370f1106acde0f4aa4",
+ "startedAt": "2026-10-13T00:18:32.663Z",
+ "scenarios": {
+  "nr_flow": {
+   "room": "h21flow",
+   "checks": [
+    {
+     "name": "E01 an eligible intent is approved once (nra ok, an event id, the current world)",
+     "ok": true,
+     "info": {
+      "at": 1791850716460,
+      "t": "nra",
+      "q": 1,
+      "ok": 1,
+      "de": 1,
+      "w": 2
+     }
+    },
+    {
+     "name": "E01 the player is out of the world at once: the spectator's next snapshots have no living Alice",
+     "ok": true,
+     "info": {
+      "msToGone": 21
+     }
+    },
+    {
+     "name": "E01 the server holds her in the menu (not active)",
+     "ok": true,
+     "info": {
+      "a": 0,
+      "d": "",
+      "x": 812,
+      "y": 720
+     }
+    },
+    {
+     "name": "E05 a second intent from the menu is refused (state), no second event",
+     "ok": true,
+     "info": {
+      "at": 1791850717080,
+      "t": "nra",
+      "q": 2,
+      "ok": 0,
+      "why": "state"
+     }
+    },
+    {
+     "name": "E01 her join starts the new run (active, alive, where her client chose to spawn)",
+     "ok": true,
+     "info": {
+      "a": 1,
+      "d": "",
+      "x": 892,
+      "y": 720
+     }
+    },
+    {
+     "name": "E01 no vanish / light record traffic anywhere",
+     "ok": true,
+     "info": {
+      "fx": 0,
+      "bodies": 2
+     }
+    }
+   ],
+   "answer": {
+    "at": 1791850716460,
+    "t": "nra",
+    "q": 1,
+    "ok": 1,
+    "de": 1,
+    "w": 2
+   }
+  },
+  "nr_elig": {
+   "room": "h21elig",
+   "checks": [
+    {
+     "name": "E05 from the menu (never joined): refused (state)",
+     "ok": true,
+     "info": {
+      "at": 1791850719690,
+      "t": "nra",
+      "q": 1,
+      "ok": 0,
+      "why": "state"
+     }
+    },
+    {
+     "name": "E08 the old client channels are dead: fx vanish / fx death / b Vanish / b Hound from a client relay nothing and store nothing",
+     "ok": true,
+     "info": {
+      "fx": 0,
+      "bodies": 0
+     }
+    },
+    {
+     "name": "E05 an intent naming another world is refused (epoch)",
+     "ok": true,
+     "info": {
+      "at": 1791850722843,
+      "t": "nra",
+      "q": 1,
+      "ok": 0,
+      "why": "epoch"
+     }
+    },
+    {
+     "name": "E08 malformed press numbers get no answer",
+     "ok": true,
+     "info": {
+      "answered": []
+     }
+    },
+    {
+     "name": "setup: approved",
+     "ok": true,
+     "info": {
+      "at": 1791850725268,
+      "t": "nra",
+      "q": 5,
+      "ok": 1,
+      "de": 1,
+      "w": 2
+     }
+    },
+    {
+     "name": "E05 the same press again (a resend) gets the same answer and no second event",
+     "ok": true,
+     "info": {
+      "at": 1791850725588,
+      "t": "nra",
+      "q": 5,
+      "ok": 1,
+      "de": 1,
+      "w": 2
+     }
+    },
+    {
+     "name": "E05 an older press number gets no answer",
+     "ok": true,
+     "info": {}
+    },
+    {
+     "name": "R04 an admin world reset sends no NEW RUN answer to anyone and explodes nobody (no fx)",
+     "ok": true,
+     "info": {
+      "w0": 2,
+      "w1": 3
+     }
+    },
+    {
+     "name": "R04 the reset did not start anyone's cooldown: Carol's first NEW RUN after it is approved",
+     "ok": true,
+     "info": {
+      "at": 1791850729633,
+      "t": "nra",
+      "q": 1,
+      "ok": 1,
+      "de": 2,
+      "w": 3
+     }
+    },
+    {
+     "name": "R04 / E05 a press still naming the old world after the reset is refused (epoch)",
+     "ok": true,
+     "info": {
+      "stale": {
+       "at": 1791850729654,
+       "t": "nra",
+       "q": 1,
+       "ok": 0,
+       "why": "epoch"
+      },
+      "w0": 2,
+      "w1": 3
+     }
+    },
+    {
+     "name": "E05 a dead (just killed) player is refused (dead or held), no event",
+     "ok": true,
+     "info": {
+      "at": 1791850731760,
+      "t": "nra",
+      "q": 1,
+      "ok": 0,
+      "why": "dead"
+     }
+    }
+   ]
+  },
+  "nr_held": {
+   "room": "h21held",
+   "checks": [
+    {
+     "name": "setup: a real hound holds the victim",
+     "ok": true,
+     "info": {
+      "ph": "down",
+      "e": 10,
+      "k": "Hound",
+      "d": 0
+     }
+    },
+    {
+     "name": "E05 held in a capture: NEW RUN is refused (held) and the victim stays held (no escape)",
+     "ok": true,
+     "info": {
+      "answer": {
+       "at": 1791850740692,
+       "t": "nra",
+       "q": 1,
+       "ok": 0,
+       "why": "held"
+      },
+      "cp": {
+       "ph": "down",
+       "e": 10,
+       "k": "Hound",
+       "d": 0
+      }
+     }
+    }
+   ],
+   "capture": {
+    "ph": "down",
+    "e": 10,
+    "k": "Hound",
+    "d": 0
+   }
+  },
+  "nr_e02": {
+   "room": "h21e02",
+   "presses": [
+    {
+     "dt": 1,
+     "answer": {
+      "at": 1791850745932,
+      "t": "nra",
+      "q": 2,
+      "ok": 0,
+      "why": "cooldown",
+      "wait": 29
+     },
+     "server": {
+      "a": 1,
+      "d": "",
+      "x": 812,
+      "y": 720
+     },
+     "bobSawHer": 1
+    },
+    {
+     "dt": 10,
+     "answer": {
+      "at": 1791850754932,
+      "t": "nra",
+      "q": 3,
+      "ok": 0,
+      "why": "cooldown",
+      "wait": 20
+     },
+     "server": {
+      "a": 1,
+      "d": "",
+      "x": 812,
+      "y": 720
+     },
+     "bobSawHer": 1
+    },
+    {
+     "dt": 29.9,
+     "answer": {
+      "at": 1791850774831,
+      "t": "nra",
+      "q": 104,
+      "ok": 0,
+      "why": "cooldown",
+      "wait": 0.1
+     },
+     "server": {
+      "a": 1,
+      "d": "",
+      "x": 812,
+      "y": 720
+     },
+     "bobSawHer": 1
+    }
+   ],
+   "checks": [
+    {
+     "name": "setup: the first NEW RUN is approved",
+     "ok": true,
+     "info": {
+      "at": 1791850744931,
+      "t": "nra",
+      "q": 1,
+      "ok": 1,
+      "de": 1,
+      "w": 2
+     }
+    },
+    {
+     "name": "E02 a press 1 s after the approval is refused (cooldown, wait ~29.0 s) and nothing changes: still active, still seen by Bob",
+     "ok": true,
+     "info": {
+      "answer": {
+       "at": 1791850745932,
+       "t": "nra",
+       "q": 2,
+       "ok": 0,
+       "why": "cooldown",
+       "wait": 29
+      },
+      "server": {
+       "a": 1,
+       "d": "",
+       "x": 812,
+       "y": 720
+      },
+      "bobSawHer": 1
+     }
+    },
+    {
+     "name": "E02 a press 10 s after the approval is refused (cooldown, wait ~20.0 s) and nothing changes: still active, still seen by Bob",
+     "ok": true,
+     "info": {
+      "answer": {
+       "at": 1791850754932,
+       "t": "nra",
+       "q": 3,
+       "ok": 0,
+       "why": "cooldown",
+       "wait": 20
+      },
+      "server": {
+       "a": 1,
+       "d": "",
+       "x": 812,
+       "y": 720
+      },
+      "bobSawHer": 1
+     }
+    },
+    {
+     "name": "E02 a flood of 100 intents inside the cooldown: bounded answers (one per 250 ms), all refused, nothing changes",
+     "ok": true,
+     "info": {
+      "sent": 100,
+      "answers": 1,
+      "approvals": 0
+     }
+    },
+    {
+     "name": "E02 a press 29.9 s after the approval is refused (cooldown, wait ~0.1 s) and nothing changes: still active, still seen by Bob",
+     "ok": true,
+     "info": {
+      "answer": {
+       "at": 1791850774831,
+       "t": "nra",
+       "q": 104,
+       "ok": 0,
+       "why": "cooldown",
+       "wait": 0.1
+      },
+      "server": {
+       "a": 1,
+       "d": "",
+       "x": 812,
+       "y": 720
+      },
+      "bobSawHer": 1
+     }
+    },
+    {
+     "name": "E02 the refused presses sent nothing to the spectator (no fx, no corpse/light record)",
+     "ok": true,
+     "info": {
+      "fx": 0,
+      "bodies": 0
+     }
+    },
+    {
+     "name": "E02 at the 30 s boundary the next press is approved",
+     "ok": true,
+     "info": {
+      "at": 1791850775274,
+      "t": "nra",
+      "q": 105,
+      "ok": 1,
+      "de": 2,
+      "w": 2
+     }
+    }
+   ],
+   "flood": {
+    "sent": 100,
+    "answers": 1,
+    "approvals": 0
+   },
+   "boundary": {
+    "at": 1791850775274,
+    "t": "nra",
+    "q": 105,
+    "ok": 1,
+    "de": 2,
+    "w": 2
+   }
+  }
+ },
+ "ok": true,
+ "passed": 26,
+ "total": 26
+}

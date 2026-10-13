@@ -1,0 +1,84 @@
+{
+ "ok": false,
+ "passed": 2,
+ "total": 7,
+ "checks": [
+  {
+   "name": "E01 the first press is approved by the server",
+   "ok": true,
+   "info": {
+    "q": 1,
+    "ok": 1,
+    "why": "",
+    "wait": null,
+    "de": 1,
+    "at": 1791850819.669
+   }
+  },
+  {
+   "name": "E01 the approved press reaches the run menu promptly (within 1.5 s of the approval)",
+   "ok": false,
+   "info": {
+    "firstMenuRow": 1.6050000190734863
+   }
+  },
+  {
+   "name": "E01 the spectator stops drawing Alice's living light within 1 s of the approval",
+   "ok": true,
+   "info": {
+    "firstRowWithout": 0.15600013732910156
+   }
+  },
+  {
+   "name": "E02 presses during the beat and in the run menu start nothing: no new run, the run menu stays, no second approval",
+   "ok": false,
+   "info": {
+    "rows": 8
+   }
+  },
+  {
+   "name": "E02 press at 10 s after the approval: refused (cooldown, ~20.0 s left), and nothing changes on her screen, on Bob's or on the server until the next press (at most 3 s)",
+   "ok": false,
+   "info": {
+    "window": 3.0,
+    "answer": {
+     "q": 2,
+     "ok": 0,
+     "why": "cooldown",
+     "wait": 15.6,
+     "de": null,
+     "at": 1791850834.009
+    },
+    "aliceStill": true,
+    "buttonTold": true,
+    "bobRows": 7,
+    "bobAlwaysSawHer": true,
+    "serverActive": [
+     1
+    ]
+   }
+  },
+  {
+   "name": "E02 press at 29.9 s after the approval: refused (cooldown, ~0.1 s left), and nothing changes on her screen, on Bob's or on the server until the next press (at most 3 s)",
+   "ok": false,
+   "info": {
+    "window": 0.77,
+    "answer": null,
+    "aliceStill": true,
+    "buttonTold": true,
+    "bobRows": 2,
+    "bobAlwaysSawHer": false,
+    "serverActive": [
+     0
+    ]
+   }
+  },
+  {
+   "name": "E02 the press after the 30 s cooldown is approved (run menu)",
+   "ok": false,
+   "info": {
+    "answer": null
+   }
+  }
+ ]
+}

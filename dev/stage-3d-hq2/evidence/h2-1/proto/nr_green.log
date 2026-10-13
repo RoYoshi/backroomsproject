@@ -1,0 +1,27 @@
+PASS nr_flow: E01 an eligible intent is approved once (nra ok, an event id, the current world)  {"at":1791850716460,"t":"nra","q":1,"ok":1,"de":1,"w":2}
+PASS nr_flow: E01 the player is out of the world at once: the spectator's next snapshots have no living Alice  {"msToGone":21}
+PASS nr_flow: E01 the server holds her in the menu (not active)  {"a":0,"d":"","x":812,"y":720}
+PASS nr_flow: E05 a second intent from the menu is refused (state), no second event  {"at":1791850717080,"t":"nra","q":2,"ok":0,"why":"state"}
+PASS nr_flow: E01 her join starts the new run (active, alive, where her client chose to spawn)  {"a":1,"d":"","x":892,"y":720}
+PASS nr_flow: E01 no vanish / light record traffic anywhere  {"fx":0,"bodies":2}
+PASS nr_elig: E05 from the menu (never joined): refused (state)  {"at":1791850719690,"t":"nra","q":1,"ok":0,"why":"state"}
+PASS nr_elig: E08 the old client channels are dead: fx vanish / fx death / b Vanish / b Hound from a client relay nothing and store nothing  {"fx":0,"bodies":0}
+PASS nr_elig: E05 an intent naming another world is refused (epoch)  {"at":1791850722843,"t":"nra","q":1,"ok":0,"why":"epoch"}
+PASS nr_elig: E08 malformed press numbers get no answer  {"answered":[]}
+PASS nr_elig: setup: approved  {"at":1791850725268,"t":"nra","q":5,"ok":1,"de":1,"w":2}
+PASS nr_elig: E05 the same press again (a resend) gets the same answer and no second event  {"at":1791850725588,"t":"nra","q":5,"ok":1,"de":1,"w":2}
+PASS nr_elig: E05 an older press number gets no answer  {}
+PASS nr_elig: R04 an admin world reset sends no NEW RUN answer to anyone and explodes nobody (no fx)  {"w0":2,"w1":3}
+PASS nr_elig: R04 the reset did not start anyone's cooldown: Carol's first NEW RUN after it is approved  {"at":1791850729633,"t":"nra","q":1,"ok":1,"de":2,"w":3}
+PASS nr_elig: R04 / E05 a press still naming the old world after the reset is refused (epoch)  {"stale":{"at":1791850729654,"t":"nra","q":1,"ok":0,"why":"epoch"},"w0":2,"w1":3}
+PASS nr_elig: E05 a dead (just killed) player is refused (dead or held), no event  {"at":1791850731760,"t":"nra","q":1,"ok":0,"why":"dead"}
+PASS nr_held: setup: a real hound holds the victim  {"ph":"down","e":10,"k":"Hound","d":0}
+PASS nr_held: E05 held in a capture: NEW RUN is refused (held) and the victim stays held (no escape)  {"answer":{"at":1791850740692,"t":"nra","q":1,"ok":0,"why":"held"},"cp":{"ph":"down","e":10,"k":"Hound","d":0}}
+PASS nr_e02: setup: the first NEW RUN is approved  {"at":1791850744931,"t":"nra","q":1,"ok":1,"de":1,"w":2}
+PASS nr_e02: E02 a press 1 s after the approval is refused (cooldown, wait ~29.0 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791850745932,"t":"nra","q":2,"ok":0,"why":"cooldown","wait":29},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 a press 10 s after the approval is refused (cooldown, wait ~20.0 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791850754932,"t":"nra","q":3,"ok":0,"why":"cooldown","wait":20},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 a flood of 100 intents inside the cooldown: bounded answers (one per 250 ms), all refused, nothing changes  {"sent":100,"answers":1,"approvals":0}
+PASS nr_e02: E02 a press 29.9 s after the approval is refused (cooldown, wait ~0.1 s) and nothing changes: still active, still seen by Bob  {"answer":{"at":1791850774831,"t":"nra","q":104,"ok":0,"why":"cooldown","wait":0.1},"server":{"a":1,"d":"","x":812,"y":720},"bobSawHer":1}
+PASS nr_e02: E02 the refused presses sent nothing to the spectator (no fx, no corpse/light record)  {"fx":0,"bodies":0}
+PASS nr_e02: E02 at the 30 s boundary the next press is approved  {"at":1791850775274,"t":"nra","q":105,"ok":1,"de":2,"w":2}
+26/26 checks passed

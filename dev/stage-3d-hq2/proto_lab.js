@@ -19,6 +19,7 @@
  *                a flood of 100 is bounded and refused; at 30 s the next press is approved (real time: about 40 s)
  *   nr_elig      E05/E08/R04: menu, another world, malformed and repeated press numbers, the dead legacy fx/b channels, a world reset
  *                that is nobody's NEW RUN (no answer, no cooldown, old-world presses refused), a just-killed player
+ *   nr_held      E05: a player held in a real hound capture (capture style 'play') is refused (held) and stays held
  * Writes the raw observations, a short `measured` block per RED scenario and the `checks` of the GREEN ones. */
 'use strict';
 const fs = require('fs'), path = require('path'), { spawn } = require('child_process'), net = require('net');
@@ -252,6 +253,34 @@ async function nr_elig(port) {
   A.close(); B.close(); C.close(); M.close(); V.close(); adm.close(); return out;
 }
 
+/* E05: a player held in a real capture (the admin's capture style 'play': captures hold instead of killing at once) cannot NEW RUN out of it */
+async function nr_held(port) {
+  const rm = 'h21held', adm = await room(port, rm), out = { room: rm }, check = checker(out);
+  const V = new Client(port, rm, 'VIC', true), O = new Client(port, rm, 'OBS', true);
+  await joinAt(O, 3100, 3504); await joinAt(V, 4200, 3504); await hold([O, V], 400);
+  adm.send({ t: 'a', c: 'god', id: O.id }); adm.send({ t: 'a', c: 'capmode', mode: 'play' }); await sleep(200);
+  let cp = null;
+  for (let tries = 0; tries < 4 && !cp; tries++) {                         // (as dev/tests/audit_net2.js LC1: a hound dropped beside the victim and walked over)
+    for (let k = 0; k < 6; k++) adm.send({ t: 'a', c: 'hounds', mode: 'remove' }); await sleep(150);
+    adm.pos(4200, 3504); await sleep(120); adm.pos(4200, 3504); await sleep(150);
+    adm.send({ t: 'a', c: 'near', k: 'hound' }); await sleep(400);
+    const hh = ((O.last && O.last.e && O.last.e.h) || [])[0];
+    if (hh) { adm.pos(4270, 3504); await sleep(150); adm.send({ t: 'a', c: 'nav', eid: hh.i, cmd: 'come' }); }
+    await sleep(200); adm.pos(5100, 3504);
+    const t0 = now();
+    while (now() - t0 < 20000 && !cp) { V.pos(4200, 3504); O.pos(O.x, O.y); cp = V.last && V.last.cp && V.last.cp.k === 'Hound' ? V.last.cp : null; await sleep(50); }
+  }
+  out.capture = cp;
+  check('setup: a real hound holds the victim', !!cp, cp);
+  if (cp) {
+    const r = await press(V, 1);
+    await hold([V, O], 300);
+    check('E05 held in a capture: NEW RUN is refused (held) and the victim stays held (no escape)', r && r.ok === 0 && r.why === 'held' && V.last && V.last.cp && V.last.cp.k === 'Hound', { answer: r, cp: V.last && V.last.cp });
+  }
+  adm.send({ t: 'a', c: 'capmode', mode: 'auto' });
+  V.close(); O.close(); adm.close(); return out;
+}
+
 (async () => {
   const port = +ARG.port || await freePort(), log = (ARG.out || 'proto_lab.json').replace(/\.json$/, '') + '.server.log';
   const srv = await startServer(port, log);
@@ -266,6 +295,7 @@ async function nr_elig(port) {
       else if (s === 'nr_flow') res.scenarios[s] = await nr_flow(port);
       else if (s === 'nr_e02') res.scenarios[s] = await nr_e02(port);
       else if (s === 'nr_elig') res.scenarios[s] = await nr_elig(port);
+      else if (s === 'nr_held') res.scenarios[s] = await nr_held(port);
       await sleep(400);
     }
   } finally { srv.kill('SIGTERM'); }

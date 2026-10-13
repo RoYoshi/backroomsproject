@@ -1,0 +1,83 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/mut_e01_stays_alive",
+ "gitHead": "not a git checkout (an export)",
+ "startedAt": "2026-10-13T00:34:19.699Z",
+ "scenarios": {
+  "nr_flow": {
+   "room": "h21flow",
+   "checks": [
+    {
+     "name": "E01 an eligible intent is approved once (nra ok, an event id, the current world)",
+     "ok": true,
+     "info": {
+      "at": 1791851663459,
+      "t": "nra",
+      "q": 1,
+      "ok": 1,
+      "de": 1,
+      "w": 2
+     }
+    },
+    {
+     "name": "E01 the player is out of the world at once: the spectator's next snapshots have no living Alice",
+     "ok": false,
+     "info": {
+      "msToGone": null
+     }
+    },
+    {
+     "name": "E01 the server holds her in the menu (not active)",
+     "ok": false,
+     "info": {
+      "a": 1,
+      "d": "",
+      "x": 812,
+      "y": 720
+     }
+    },
+    {
+     "name": "E05 a second intent from the menu is refused (state), no second event",
+     "ok": false,
+     "info": {
+      "at": 1791851665597,
+      "t": "nra",
+      "q": 2,
+      "ok": 0,
+      "why": "cooldown",
+      "wait": 27.9
+     }
+    },
+    {
+     "name": "E01 her join starts the new run (active, alive, where her client chose to spawn)",
+     "ok": true,
+     "info": {
+      "a": 1,
+      "d": "",
+      "x": 892,
+      "y": 720
+     }
+    },
+    {
+     "name": "E01 no vanish / light record traffic anywhere",
+     "ok": true,
+     "info": {
+      "fx": 0,
+      "bodies": 1
+     }
+    }
+   ],
+   "answer": {
+    "at": 1791851663459,
+    "t": "nra",
+    "q": 1,
+    "ok": 1,
+    "de": 1,
+    "w": 2
+   }
+  }
+ },
+ "ok": false,
+ "passed": 3,
+ "total": 6
+}
