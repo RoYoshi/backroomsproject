@@ -25,7 +25,7 @@ Scenes (--scenes, comma separated):
   hound     a stand-in Hound for BR-RoLE (an empty container flagged __hound, test-only) at a fixed spot in her sight, three ways:
             BR-RoLE's Hound jobs (its torso path)
   peers     Bob visible beside her, then behind a wall: the Wanderer's page draws a cast for Bob only while she can see him
-  perf      clock running, still: BR-RoLE's own frame cost (stats().frameMs) over 6 s
+  perf      clock running, still, every fixture: the page's frame intervals over 8 s and BR-RoLE's own frame cost (stats().frameMs)
   corpse    a Hound death previewed on her (the real kill path), watched by Bob: on his page her corpse view held still and,
             where its avatar has the ellipse, hidden in the same frame (what the ellipse adds to a corpse)
 Writes DIR/<variant>/result.json and the captures (PNG; --dpr, default 1: a software renderer draws a scale-2 page about 4x slower)."""
@@ -249,8 +249,9 @@ async def run_variant(p, name, bundle, brrole, out):
             await Bp.context.close()
         if 'perf' in SCENES:
             await A.evaluate("() => window.__clk.thaw()"); await A.evaluate("() => __brRole.dev.solo(null)"); await A.evaluate("() => __brRole.resetStats()")
-            await A.wait_for_timeout(6000)
-            R['scenes']['perf'] = await A.evaluate("() => __brRole.stats().frameMs")
+            page_frames = await A.evaluate("""ms => new Promise(r => { const t = []; let last = null; const t0 = performance.now(); const f = ts => { if (last !== null) t.push(ts - last); last = ts;
+                if (performance.now() - t0 < ms) requestAnimationFrame(f); else { const s = t.slice().sort((a, b) => a - b); r({ frames: t.length, meanMs: +(t.reduce((a, b) => a + b, 0) / t.length).toFixed(2), p95Ms: +s[Math.floor(.95 * (s.length - 1))].toFixed(2) }); } }; requestAnimationFrame(f); })""", 8000)
+            R['scenes']['perf'] = {'brRoleFrameMs': await A.evaluate("() => __brRole.stats().frameMs"), 'pageFrames': page_frames}
             await A.evaluate("i => __brRole.dev.solo([i])", A_.lamp)
         if 'corpse' in SCENES:
             # a spectator (Bob, same screen size) watches a Hound death previewed on Alice; on his page the corpse view is held still

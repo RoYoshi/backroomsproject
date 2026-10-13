@@ -1,0 +1,29 @@
+Stage 3D HQ4 - changed files since the accepted HQ3 QA1 parent 49343193e6948c8323f35a34539ac84db5a89835 (branch stage-3d-hq3)
+
+PRODUCTION (what the game runs; 2 files, 5 lines added, 3 removed)
+  assets/index-DKbV5Nv9.js  H4-1, fix A. The avatar's rebuild() no longer adds the anonymous decorative Graphics
+                            ellipse(1,5,19,19) at 30 % black before the backpack and the body (the dark crescent that turned with the
+                            Wanderer): `this.addChild(new I().ellipse(1,5,19,19).fill({color:0,alpha:.3}),this.pack,this.body);` became
+                            `this.addChild(this.pack,this.body);`. One exact-text edit, made by dev/stage-3d-hq4/apply_bundle_hq4.py on the
+                            accepted HQ3 bundle. The same class draws every Wanderer: you, other players, death replays and corpse views.
+  assets/br-role.js         H4-2, fix B. actorShadows(): for a player, the cast's start is the round body's edge along the light, never
+                            a hand's (`if (kind !== 'player' || q === sil[0]) start = ...`), plus its comment. The hands stay in the
+                            silhouette (cut out of the cast, self-shaded). Hounds keep their path.
+
+UNCHANGED (byte-identical to HQ3 QA1)
+  every other file of the game: index.html, gore.js (with the QA1 white-streak fix), mp.js, server.js, sim.js, death_srv.js, dphys.js,
+  move.js, light.js, ai.js, world.js, sounds, the other assets; every older stage's tools and evidence, including
+  dev/stage-3d/apply_bundle.py (HQ4's bundle step reads its edit list and proves it still rebuilds HQ3 before adding HQ4's edit).
+
+DEVELOPMENT ONLY (not served)
+  dev/stage-3d-hq4/README.md            the tool table
+  dev/stage-3d-hq4/verify_remote_hq4.py after each push: the remote branch, its line from 4934319, every other branch untouched
+  dev/stage-3d-hq4/apply_bundle_hq4.py  the bundle's HQ4 edit on the accepted HQ3 bundle (--check, --out)
+  dev/stage-3d-hq4/wanderer_lab.py      the held, frozen real-page scenes; HQ3's or HQ4's two files served per variant
+  dev/stage-3d-hq4/lab_report.py        the comparisons and the before/after sheets
+  dev/stage-3d-hq4/gameplay_smoke.py    walk, spin, light, frames, NEW RUN gib and SPAWN on two real pages
+  dev/stage-3d-hq4/overlay_hq4.py       the human-QA overlay ZIP and its validation on a clean HQ3 ZIP extraction
+  dev/stage-3d-hq4/evidence/            h4-0 (pre-flight, baseline), h4-1 (fix A), h4-2 (fix B), h4-3 (gates, overlay receipt)
+
+DOCUMENTS
+  STAGE_3D_HQ4_REPORT.md, STAGE_3D_HQ4_CHANGED_FILES.txt (this file), STAGE_3D_HQ4_HUMAN_QA.md

@@ -1,0 +1,20 @@
+HQ4 human-QA overlay - receipt
+written 2026-10-13T20:42:24Z by dev/stage-3d-hq4/overlay_hq4.py
+
+overlay   HQ4_HUMAN_QA_OVERLAY.zip  309129 bytes  sha256 753312cf26b84d4bc7ef84f7c720d004ee41c2cb0a98d2bb32db7b850fd684bd
+source    stage-3d-hq4 5f933db7e2e288b3d0758544711ff124454ad961 (tree c8635e7ae59da7f80b169f8e4ab77cc13d5445f0)
+
+files:
+  694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b  HQ4_OVERLAY/assets/index-DKbV5Nv9.js  (340823 bytes) - HQ4 - fix A: the Wanderer without the decorative dark ellipse
+  a8d75203f86db88b48c0e9ec3f04fa1328a6a2e05d6c2a55aea242b5b65fc954  HQ4_OVERLAY/assets/br-role.js  (125696 bytes) - HQ4 - fix B: the Wanderer's cast starts from the round body, never the hands
+  b557a81e605dea5e9c42d694f1dd8f90761d05b969f2e2faae0bf46d0086e499  HQ4_OVERLAY/gore.js  (39845 bytes) - HQ3 QA1 baseline, UNCHANGED by HQ4 (the white-streak fix; your HQ3 ZIP predates it) - compatibility, not an HQ4 edit
+  d7eb3ac330474879362c6a012307a66afb91c0934b99b468be72802b7fc7de23  REVERT_TO_HQ3_QA1/assets/index-DKbV5Nv9.js  (340875 bytes) - HQ3 QA1 original, to undo the overlay
+  57c7a6c569c161e2fcee1ec07e0b7563112beb25cc8045f764ea3e3adf2e625f  REVERT_TO_HQ3_QA1/assets/br-role.js  (125473 bytes) - HQ3 QA1 original, to undo the overlay
+
+1. HQ3 human-QA ZIP THE_FAR_BACKROOMS_STAGE_3D_HQ3_ADMIN_GIBBING_HUMAN_QA.zip: sha256 61ed1360ffd8327d57ff53e4040c19224aad23deb3cb96e8c436ee7dfdf493e8 - the known one: yes
+2. overlay copied over its clean extraction: 54 runtime files, byte-identical to stage-3d-hq4: yes (files the copy changed: assets/index-DKbV5Nv9.js, assets/br-role.js, gore.js)
+3. overlay copied over an export of stage-3d-hq3 4934319 (HQ3 QA1): byte-identical to stage-3d-hq4: yes
+4. REVERT_TO_HQ3_QA1 copied back: byte-identical to HQ3 QA1 (4934319): yes
+5. the overlaid HQ3 extraction runs: page errors 0; avatar parts 7 (ellipse: False); cast start at 8 headings under one fixture [18, 18, 18, 18, 18, 18, 18, 18]; gore.js QA1 fix yes: yes
+
+OVERLAY CHECK: PASS

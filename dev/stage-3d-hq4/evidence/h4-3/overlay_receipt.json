@@ -1,0 +1,80 @@
+{
+ "overlay": "HQ4_HUMAN_QA_OVERLAY.zip",
+ "sha256": "753312cf26b84d4bc7ef84f7c720d004ee41c2cb0a98d2bb32db7b850fd684bd",
+ "bytes": 309129,
+ "commit": "5f933db7e2e288b3d0758544711ff124454ad961",
+ "tree": "c8635e7ae59da7f80b169f8e4ab77cc13d5445f0",
+ "checks": {
+  "overHq3Zip": {
+   "runtimeFiles": 54,
+   "runtimeInCommit": 54,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "filesChangedByTheOverlay": [
+    "assets/index-DKbV5Nv9.js",
+    "assets/br-role.js",
+    "gore.js"
+   ],
+   "ok": true
+  },
+  "overHq3Qa1Checkout": {
+   "runtimeFiles": 54,
+   "runtimeInCommit": 54,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "ok": true
+  },
+  "revertToHq3Qa1": {
+   "runtimeFiles": 54,
+   "runtimeInCommit": 54,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "ok": true
+  },
+  "runs": {
+   "avatar": {
+    "parts": 7,
+    "ellipse": false
+   },
+   "castStarts": [
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ]
+   ],
+   "pageErrors": [],
+   "goreHasQa1Fix": true,
+   "ok": true
+  }
+ },
+ "hq3Zip": {
+  "file": "THE_FAR_BACKROOMS_STAGE_3D_HQ3_ADMIN_GIBBING_HUMAN_QA.zip",
+  "sha256": "61ed1360ffd8327d57ff53e4040c19224aad23deb3cb96e8c436ee7dfdf493e8",
+  "known": true
+ },
+ "ok": true,
+ "written": "2026-10-13T20:42:24Z"
+}

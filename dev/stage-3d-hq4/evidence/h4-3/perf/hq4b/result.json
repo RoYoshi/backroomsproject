@@ -1,0 +1,44 @@
+{
+ "variant": "hq4b",
+ "bundle": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq4final/assets/index-DKbV5Nv9.js",
+ "brrole": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq4final/assets/br-role.js",
+ "scenes": {
+  "perf": {
+   "brRoleFrameMs": {
+    "mean": 20.883,
+    "p95": 26,
+    "max": 31.8,
+    "frames": 114,
+    "sampled": 35
+   },
+   "pageFrames": {
+    "frames": 33,
+    "meanMs": 244.94,
+    "p95Ms": 266.8
+   }
+  }
+ },
+ "served": [
+  340818,
+  125670
+ ],
+ "servedExpected": [
+  340818,
+  125670
+ ],
+ "spot": {
+  "x": 628,
+  "y": 3792,
+  "lamp": [
+   528,
+   3792
+  ],
+  "d": 100,
+  "a": 0
+ },
+ "placedAt": [
+  628,
+  3792
+ ],
+ "pageErrors": []
+}

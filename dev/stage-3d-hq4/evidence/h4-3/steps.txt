@@ -1,0 +1,10 @@
+-- H4-3 on the H4-2 commit 5f933db (exported; its game files are the final ones), Tue Oct 13 15:34:36 CDT 2026 --
+gameplay_smoke exit=0 seconds=180
+col_browser_head exit=0 seconds=40
+-- finished Tue Oct 13 15:38:16 CDT 2026 --
+-- frame pacing, one page at a time (the two-page smoke above runs at ~3 frames a second on this software renderer, too noisy to compare): HQ3's two files and HQ4's, twice each, alternating, Tue Oct 13 15:38:49 CDT 2026 --
+wanderer_lab (perf: hq3a, hq4a, hq3b, hq4b) exit=0 seconds=140
+-- the human-QA overlay from 5f933db (its game files are the final ones), validated on a clean extraction of the HQ3 human-QA ZIP, Tue Oct 13 15:41:10 CDT 2026 --
+overlay_hq4 exit=0 seconds=74
+-- finished Tue Oct 13 15:42:24 CDT 2026 --
+delivery_sheets exit=0 (HQ4_fix_A_dark_ellipse.png, HQ4_fix_B_floor_shadow.png)
