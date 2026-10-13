@@ -1,0 +1,10 @@
+FAIL col_bypass: C08 70 steps of 1 px straight at him (each a legal-looking move): stopped at contact - tiny steps never add up through a body  {"alice":{"x":1020,"y":720,"d":0},"sep":8}
+FAIL col_bypass: C08 80 sub-pixel steps of 0.25 px from contact: no creep (not 1 px closer)  {"alice":{"x":1040,"y":720,"d":0},"sep":28}
+FAIL col_bypass: C08 a burst: one packet from 140 px before him to 140 px past him after a long stand (within the lag budget, a legal end point): stopped on her side  {"alice":{"x":1152,"y":720,"d":0},"sep":140}
+FAIL col_bypass: C08 a skim: a claim to a legal point on his far side (44 px from him) whose straight path runs through his body: not let through  {"alice":{"x":1048,"y":746,"d":0},"sep":44.4}
+FAIL col_bypass: C08 a burst round the walls: one packet to a point (1072, 1100) the walls allow only along a route that runs past him (the server's own route, swept leg by leg): not let through  {"alice":{"x":978,"y":722,"d":0},"sep":34.1}
+FAIL col_bypass: C08 a flood of 40 packets stepping 5 px each: stopped on her side  {"alice":{"x":977,"y":720,"d":0},"sep":35}
+FAIL col_bypass: C08 malformed positions (a number as a string, null, huge, negative, an array, an object, "NaN", true, 1e308): none gets her past him  {"alice":{"x":979,"y":721,"d":0},"sep":33}
+FAIL col_bypass: C08 through all of it: never closer than D, never on his side, and he was never moved  {"min":{"min":1,"snapshots":434,"at":{"dt":2188,"a":[2,1011,720],"b":[3,1012,720]}},"bob":{"samples":434,"moved":0}}
+PASS col_bypass: C08 ...and afterwards she walks away normally (nothing stuck)  {"x":812,"y":720,"d":0}
+1/9 checks passed

@@ -19,6 +19,18 @@ MUT = {
     'e02_local_first': {'file': 'mp.js', 'old': "nrButton('…'); tx({ t: 'nr', q, w: worldW });",
                         'new': "nrButton('…'); tx({ t: 'nr', q, w: worldW }); if (ok) ok({ ok: 1, q });",
                         'gate': 'E02', 'caughtBy': 'nr_browser.py --plan e02'},
+    # H2-3 / C08: the server lets every claim through the other players (no collision at all)
+    'c08_no_peers': {'file': 'server/peers.js', 'old': "if (!peers.length || legal(x0, y0, x1, y1, peers, D)) return { x: x1, y: y1, how: 'free' };",
+                     'new': "return { x: x1, y: y1, how: 'free' };", 'gate': 'C01/C08', 'caughtBy': 'proto_lab.js col_head, col_bypass; peers_unit.js'},
+    # H2-3 / C08: only end points are checked, the path between is not swept (a burst or a skim jumps over a body)
+    'c08_end_only': {'file': 'server/peers.js', 'old': 'if (dd < 1e-12) continue;', 'new': 'continue;',
+                     'gate': 'C08', 'caughtBy': 'proto_lab.js col_bypass (burst, skim); peers_unit.js U1/U2'},
+    # H2-3 / C08: the 2 px tolerance applied to the end point too (the audit's first wording of D2): tiny steps creep through a body
+    'c08_creep': {'file': 'server/peers.js', 'old': 'if (ex * ex + ey * ey < fl * fl - 1e-6) return false;',
+                  'new': 'if (ex * ex + ey * ey < (fl - TOL) * (fl - TOL) - 1e-6) return false;', 'gate': 'C08', 'caughtBy': 'proto_lab.js col_bypass (1 px and sub-pixel steps); peers_unit.js U3'},
+    # H2-3 / C08: a long hop the walls allow only round them is swept along the straight line instead of its route
+    'c08_no_route': {'file': 'server.js', 'old': 'const r = route && route.length', 'new': 'const r = false',
+                     'gate': 'C08', 'caughtBy': 'proto_lab.js col_bypass (the burst round the walls)'},
 }
 
 ap = argparse.ArgumentParser(); ap.add_argument('--from', dest='src'); ap.add_argument('--to'); ap.add_argument('--mutation'); ap.add_argument('--list', action='store_true')

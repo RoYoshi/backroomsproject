@@ -14,7 +14,7 @@ Collision tools use **ordinary** test players, without the test passcode. An adm
 | `verify_remote_hq2.py` | After each push: the remote branch, its commit and tree, the straight line from HQ1, every other branch untouched |
 | `scope_hq2.py` | The H2-0 file allowlist checked against what changed since the parent; `--manifest` writes the parent's production blobs |
 | `corridor_widths.js` | Level 0's passage widths in walk mode: the evidence for the collision radius (decision D1) |
-| `proto_lab.js` | Protocol scenarios against a real server, with raw WebSocket clients that speak what `mp.js` speaks: H2-0's RED (the NEW RUN cooldown phantom, players walking through each other, stacked spawns); H2-1's NEW RUN decision (`nr_flow`, `nr_elig`, `nr_held`, `nr_e02`); H2-2's blast (`nr_boom`, `nr_boom_lights`, `nr_boom_reset`, `nr_boom_again`) |
+| `proto_lab.js` | Protocol scenarios against a real server, with raw WebSocket clients that speak what `mp.js` speaks: H2-0's RED (the NEW RUN cooldown phantom, players walking through each other, stacked spawns); H2-1's NEW RUN decision (`nr_flow`, `nr_elig`, `nr_held`, `nr_e02`); H2-2's blast (`nr_boom`, `nr_boom_lights`, `nr_boom_reset`, `nr_boom_again`); H2-3's collision on the server (`col_head`, `col_wide`, `col_two`, `col_crowd`, `col_spawn`, `col_respawn`, `col_member`, `col_held`, `col_rooms`, `col_bypass`) |
 | `nr_browser.py` | NEW RUN pressed in a real page, watched by a second page and by the server's own player list (`--plan red`: H2-0; `--plan e02`: the cooldown, GREEN; `--reanalyse`) |
 | `col_browser.py` | Two ordinary players meeting in the narrow corridor, by keyboard |
 | `reset_epoch.py` | An admin world reset in the middle of a death, on three pages (R01; `--reanalyse` recomputes from a saved run) |
@@ -23,7 +23,10 @@ Collision tools use **ordinary** test players, without the test passcode. An adm
 | `ws_place.js` | A quiet admin: monsters removed, god mode, players moved where a test needs them (admin BRING) |
 | `hq2lib.py` | Shared helpers: ordinary players joining, placement, the observer |
 | `aa_gates.py` | H2-0: the performance gates from the A/A run (the formulas fixed before the numbers were read) |
-| `mutate.py` | A copy of the game with one deliberate break (`--list`), to show a test catches what it claims to: E02 (no cooldown; the client starting first), E01 (approved but still in the world) |
+| `mutate.py` | A copy of the game with one deliberate break (`--list`), to show a test catches what it claims to: E02 (no cooldown; the client starting first), E01 (approved but still in the world), C08 (no collision; end points only, no sweep; the 2 px tolerance on the end point, so steps creep; a wall route's hop swept as a straight line) |
+| `peers_unit.js` | `server/peers.js` on its own: the exact properties (floor, sweep, no creep, routes, free spots), a fuzz of 1.2 million moves, and the cost per packet with seven peers (the 5 µs gate) |
+| `old_fixtures.js` | Four older checks whose fixture puts a player on a spot their own admin or observer stands on (`audit_net` A1, M4, R2; `audit_net2` MT1), run with that body out of the way, and once more with it there (the HQ2 rule) |
+| `srv_ab.py` | `srv_load.js` pairs, HQ2 against an export of HQ1, judged by the server gates frozen at H2-0 |
 | `boom_browser.py` | A NEW RUN blast on three pages: the initiator in front of a wall the server's blast will throw her at, a spectator, a late joiner; E01, E06 (against `boom_ref.js`), wall stains, E03 (the page's own light log), the sound; `--kind`, `--light-off` |
 | `boom_ref.js` | The server's own run of a blast after given numbers of 240 Hz steps (E06's reference) |
 | `boom_geo.js` | 400 blasts all over Level 0 (open floor, hugging walls): finite, blood on the floor, at rest out of walls, asleep before the corpse, wall marks only on faces, the light released at the blast |

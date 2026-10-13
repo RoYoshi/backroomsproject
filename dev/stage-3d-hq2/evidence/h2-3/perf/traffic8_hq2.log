@@ -1,0 +1,32 @@
+{
+ "T1": {
+  "ok": true,
+  "bad": []
+ },
+ "T2": {
+  "ok": true,
+  "errors": []
+ },
+ "summary": {
+  "deaths": 6,
+  "bytesPerSecPerClient": {
+   "min": 32109,
+   "max": 43503,
+   "mean": 35464
+  },
+  "snapshotMeanBytes": 1772,
+  "fxBytes": [
+   225,
+   226,
+   239,
+   242,
+   244,
+   245
+  ],
+  "serverTickMs": 0.049,
+  "serverTickMaxMs": 0.09,
+  "serverCpuSec": 3.16,
+  "serverRssMB": 77.5
+ }
+}
+TRAFFIC8 OK

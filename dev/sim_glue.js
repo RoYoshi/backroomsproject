@@ -165,21 +165,24 @@ function leave(p){const L=lifeOf(p);if(L===`held`||L===`alive`)return false;p.ac
 
 /* movement validation (server.js): could a body get from a to b?  Only real walls and full-height furniture count ('any' mode: every
    crawl hole, table and vaultable prop is passable, since the client's own movement handles those).  Short hops are checked along the
-   segment; a long one (packets bunched up after a lag spike) needs a walkable route no longer than the distance budget. */
-function moveOk(x0,y0,x1,y1,budget){
+   segment; a long one (packets bunched up after a lag spike) needs a walkable route no longer than the distance budget.
+   Stage 3D HQ2: moveRoute is the same test, telling how the move is allowed: null (it is not), [] (along the straight line) or the
+   route's points [[x, y], ...] (a long hop allowed only round walls), so the server can sweep the other players along what it allowed. */
+function moveRoute(x0,y0,x1,y1,budget){
   WORLD.setMode(`any`);
   try{
-    if(!sl(x1,y1,4))return false;
-    const d=Math.hypot(x1-x0,y1-y0);if(d<1)return true;
+    if(!sl(x1,y1,4))return null;
+    const d=Math.hypot(x1-x0,y1-y0);if(d<1)return [];
     let clearLine=true;for(let s=8;s<d;s+=8){const k=s/d;if(!sl(x0+(x1-x0)*k,y0+(y1-y0)*k,3)){clearLine=false;break}}
-    if(clearLine)return true;
-    if(d<120)return false;
+    if(clearLine)return [];
+    if(d<120)return null;
     const r=eng.geo.path(x0,y0,x1,y1,{CAN_VAULT:true,CAN_CRAWL:true,CAN_USE_TIGHT_GAPS:true});
-    if(!r||!r.length)return false;
+    if(!r||!r.length)return null;
     let L=0,px=x0,py=y0;for(const w of r){L+=Math.hypot(w.x-px,w.y-py);px=w.x;py=w.y}
-    return L<=budget*1.25+60;
+    return L<=budget*1.25+60?r.map(w=>[w.x,w.y]):null;
   }finally{WORLD.setMode(`walk`)}
 }
+function moveOk(x0,y0,x1,y1,budget){return moveRoute(x0,y0,x1,y1,budget)!==null}
 /* where a client may put itself when it starts a run or respawns: the client picks its own spawn (open floor away from the monsters, the
    bundle's Xrs); the server only checks it is such a spot (with some margin for how far the monsters moved while the packet travelled) */
 function spawnOk(x,y){
@@ -316,7 +319,7 @@ const admin={
     cm:eng.forceCapture||`auto`,es:ents().map(e=>[e.id,e.kind===`hound`?0:1,e.state,Math.round(e.x),Math.round(e.y),e.tier[0],e.cap?1:0])}},
 };
 function takeItem(p){const i=items.findIndex(t=>Math.hypot(t.x-p.x,t.y-p.y)<110);if(i<0)return null;eng.sound({x:p.x,y:p.y,r:200,I:.4,type:`pick`,src:p.id});return items.splice(i,1)[0].id}
-resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,spawnOk,leave,newRun,nrWhy,nrWait,NR_CD,forfeit,gaitFloor,lifeOf,
+resetWorld();return {takeItem,players,addPlayer,removePlayer,join,respawn,canRespawn,moveOk,moveRoute,spawnOk,leave,newRun,nrWhy,nrWait,NR_CD,forfeit,gaitFloor,lifeOf,
   clearAt:(x,y,r)=>sl(x,y,r),blockersAt:(x,y)=>Bc(x,y),step,entities,resetWorld,admin,setBody,killerEnd,navCmd,hearMove,capInfo,
   debugInfo:()=>eng.debugInfo(),logSince:s=>eng.log.filter(l=>l.s>s),get logSeq(){return eng.logSeq},get engStats(){return eng.stats},get debugOn(){return debugOn},engine:eng,adapter,
   get bodies(){return bodies},get bodyVer(){return bodyVer},get glitches(){return glitches},get runT(){return runT},get worldSeq(){return worldSeq},

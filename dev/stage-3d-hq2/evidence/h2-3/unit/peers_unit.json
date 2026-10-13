@@ -1,0 +1,138 @@
+{
+ "tool": "dev/stage-3d-hq2/peers_unit.js",
+ "D": 36,
+ "TOL": 2,
+ "checks": [
+  {
+   "name": "U1 legal: end-point floor exact, no passing through, overlaps only shrink, zero distance / zero length safe, chords round a body within TOL",
+   "ok": true,
+   "info": {}
+  },
+  {
+   "name": "U2 resolve fuzz: every accepted move finite, never closer than the floor, never through a body, never further than claimed, free = the claim, a separated pair stays separated, peers untouched",
+   "ok": true,
+   "info": {
+    "trials": 3000,
+    "moves": 1200000,
+    "free": 932301,
+    "slid": 264336,
+    "clamped": 1875,
+    "stay": 1488,
+    "pairsThatSeparated": 32605
+   }
+  },
+  {
+   "name": "U3 no creep: 100 000 claims of 0.01 px and 2 000 zig-zag 1 px claims straight at a body from contact end no closer than D",
+   "ok": true,
+   "info": {
+    "after100000steps_of_0_01px": 36,
+    "after2000zigzag1pxSteps": 36.001212926685476
+   }
+  },
+  {
+   "name": "U4 sweepPath: every leg up to the accepted point legal from its own start, never closer than the floor, a fully legal route accepted to its end",
+   "ok": true,
+   "info": {
+    "routes": 4000,
+    "free": 3206
+   }
+  },
+  {
+   "name": "U5 freeSpot: deterministic, clear, >= D + 8 from every peer; with every candidate taken, the target itself (crowded)",
+   "ok": true,
+   "info": {
+    "trials": 3000,
+    "moved": 1719,
+    "crowded": 0,
+    "everyCandidateTaken": {
+     "x": 200,
+     "y": 200,
+     "moved": false,
+     "crowded": true
+    }
+   }
+  },
+  {
+   "name": "B the peer sweep costs <= 5 us per packet with seven peers at p99, in every regime (far, into one, a crowd of seven, the slide refused and the bisection)",
+   "ok": true,
+   "info": {
+    "far": 153,
+    "intoOne": 316,
+    "crowd": 300,
+    "bisection": 1710
+   }
+  }
+ ],
+ "fails": [],
+ "fuzz": {
+  "trials": 3000,
+  "moves": 1200000,
+  "free": 932301,
+  "slid": 264336,
+  "clamped": 1875,
+  "stay": 1488,
+  "pairsThatSeparated": 32605
+ },
+ "creep": {
+  "after100000steps_of_0_01px": 36,
+  "after2000zigzag1pxSteps": 36.001212926685476
+ },
+ "sweep": {
+  "routes": 4000,
+  "free": 3206
+ },
+ "freeSpot": {
+  "trials": 3000,
+  "moved": 1719,
+  "crowded": 0,
+  "everyCandidateTaken": {
+   "x": 200,
+   "y": 200,
+   "moved": false,
+   "crowded": true
+  }
+ },
+ "bench": {
+  "callsPerRegime": 200000,
+  "sevenPeers": true,
+  "far": {
+   "p50ns": 91,
+   "p99ns": 153,
+   "maxns": 297182,
+   "sink": true,
+   "how": {
+    "free": 64
+   }
+  },
+  "intoOne": {
+   "p50ns": 253,
+   "p99ns": 316,
+   "maxns": 377734,
+   "sink": true,
+   "how": {
+    "slid": 64
+   }
+  },
+  "crowdOfSeven": {
+   "p50ns": 246,
+   "p99ns": 300,
+   "maxns": 301546,
+   "sink": true,
+   "how": {
+    "slid": 64
+   }
+  },
+  "slideRefusedBisection": {
+   "p50ns": 932,
+   "p99ns": 1710,
+   "maxns": 410611,
+   "sink": true,
+   "how": {
+    "clamped": 64
+   },
+   "note": "the wall check is a stub here: its own cost (sim.moveOk) is the walls' and was paid per packet before HQ2"
+  },
+  "node": "v22.22.2"
+ },
+ "ok": true
+}

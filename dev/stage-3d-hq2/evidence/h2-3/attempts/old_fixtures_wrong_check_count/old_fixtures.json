@@ -1,0 +1,143 @@
+{
+ "tool": "dev/stage-3d-hq2/old_fixtures.js",
+ "game": "/home/claude/backrooms-shadows",
+ "checks": [
+  {
+   "name": "A1h (audit_net A1, the admin out of the world) admin BRING still moves people, exactly to the spot, and they carry on from there",
+   "ok": true,
+   "info": {
+    "tp": {
+     "t": "tp",
+     "x": 4000,
+     "y": 3504
+    },
+    "server": [
+     4000,
+     3504
+    ]
+   }
+  },
+  {
+   "name": "A1b (the HQ2 rule) with a joined admin standing there, BRING puts him beside it: >= 44 px from the admin, told by tp, and he carries on from there",
+   "ok": true,
+   "info": {
+    "admin": [
+     4300,
+     3504
+    ],
+    "him": [
+     4344,
+     3504
+    ],
+    "tp": {
+     "t": "tp",
+     "x": 4344,
+     "y": 3504
+    }
+   }
+  },
+  {
+   "name": "M4h (audit_net M4, the admin out of the world) a short hop through a wall is refused: he stays on his side",
+   "ok": true,
+   "info": {
+    "from": [
+     3576,
+     1560
+    ],
+    "to": [
+     3576,
+     1410
+    ],
+    "before": [
+     3576,
+     1560
+    ],
+    "after": [
+     3576,
+     1560
+    ],
+    "corrections": 0
+   }
+  },
+  {
+   "name": "R2h (audit_net R2, nobody on the spawn point) a dead player can respawn: back at the spawn point, alive, no correction",
+   "ok": true,
+   "info": {
+    "at": [
+     960,
+     3264
+    ],
+    "spawn": [
+     960,
+     3264
+    ],
+    "dead": 0
+   }
+  },
+  {
+   "name": "R2b (the HQ2 rule) someone stands on the spawn point: the respawn lands on the nearest free spot (>= 44 px from them, within 240 px of the spawn point), alive",
+   "ok": true,
+   "info": {
+    "at": [
+     1004,
+     3264
+    ],
+    "stander": [
+     960,
+     3264
+    ],
+    "spawn": [
+     960,
+     3264
+    ]
+   }
+  },
+  {
+   "name": "MT1h (audit_net2 MT1, the admin out of the world) real move.js traces by an ordinary client: no correction, the server ends where the client does",
+   "ok": true,
+   "info": [
+    {
+     "name": "walk, then sprint",
+     "corr": 0,
+     "gap": 0
+    },
+    {
+     "name": "walk, then sprint (lag bursts)",
+     "corr": 0,
+     "gap": 0
+    },
+    {
+     "name": "vault a counter",
+     "corr": 0,
+     "gap": 0
+    },
+    {
+     "name": "vault a counter (lag bursts)",
+     "corr": 0,
+     "gap": 0
+    },
+    {
+     "name": "crouch + crawl through a wall hole",
+     "corr": 0,
+     "gap": 0
+    },
+    {
+     "name": "crouch + crawl through a wall hole (lag bursts)",
+     "corr": 0,
+     "gap": 0
+    },
+    {
+     "name": "sprint + slide",
+     "corr": 0,
+     "gap": 0
+    },
+    {
+     "name": "sprint + slide (lag bursts)",
+     "corr": 0,
+     "gap": 0
+    }
+   ]
+  }
+ ],
+ "ok": false
+}

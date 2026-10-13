@@ -1,0 +1,211 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h23run/m_c08_no_peers",
+ "gitHead": "not a git checkout (an export)",
+ "startedAt": "2026-10-13T02:03:34.686Z",
+ "scenarios": {
+  "col_bypass": {
+   "room": "h23bypass",
+   "steps": {
+    "tiny1px": {
+     "alice": {
+      "x": 1020,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 8
+    },
+    "subpixel": {
+     "alice": {
+      "x": 1020,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 8
+    },
+    "burst": {
+     "alice": {
+      "x": 1152,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 140
+    },
+    "skim": {
+     "alice": {
+      "x": 1048,
+      "y": 746,
+      "d": 0
+     },
+     "sep": 44.4
+    },
+    "routeBurst": {
+     "alice": {
+      "x": 976,
+      "y": 722,
+      "d": 0
+     },
+     "sep": 36.1
+    },
+    "flood": {
+     "alice": {
+      "x": 1172,
+      "y": 720,
+      "d": 0
+     },
+     "sep": 160
+    },
+    "malformed": {
+     "alice": {
+      "x": 1072,
+      "y": 1100,
+      "d": 0
+     },
+     "sep": 384.7
+    }
+   },
+   "checks": [
+    {
+     "name": "C08 70 steps of 1 px straight at him (each a legal-looking move): stopped at contact - tiny steps never add up through a body",
+     "ok": false,
+     "info": {
+      "alice": {
+       "x": 1020,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 8
+     }
+    },
+    {
+     "name": "C08 80 sub-pixel steps of 0.25 px from contact: no creep (not 1 px closer)",
+     "ok": false,
+     "info": {
+      "alice": {
+       "x": 1020,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 8
+     }
+    },
+    {
+     "name": "C08 a burst: one packet from 140 px before him to 140 px past him after a long stand (within the lag budget, a legal end point): stopped on her side",
+     "ok": false,
+     "info": {
+      "alice": {
+       "x": 1152,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 140
+     }
+    },
+    {
+     "name": "C08 a skim: a claim to a legal point on his far side (44 px from him) whose straight path runs through his body: not let through",
+     "ok": false,
+     "info": {
+      "alice": {
+       "x": 1048,
+       "y": 746,
+       "d": 0
+      },
+      "sep": 44.4
+     }
+    },
+    {
+     "name": "C08 a burst round the walls: one packet to a point (1072, 1100) the walls allow only along a route that runs past him (the server's own route, swept leg by leg): not let through",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 976,
+       "y": 722,
+       "d": 0
+      },
+      "sep": 36.1
+     }
+    },
+    {
+     "name": "C08 a flood of 40 packets stepping 5 px each: stopped on her side",
+     "ok": false,
+     "info": {
+      "alice": {
+       "x": 1172,
+       "y": 720,
+       "d": 0
+      },
+      "sep": 160
+     }
+    },
+    {
+     "name": "C08 malformed positions (a number as a string, null, huge, negative, an array, an object, \"NaN\", true, 1e308): none gets her past him",
+     "ok": false,
+     "info": {
+      "alice": {
+       "x": 1072,
+       "y": 1100,
+       "d": 0
+      },
+      "sep": 384.7
+     }
+    },
+    {
+     "name": "C08 through all of it: never closer than D, never on his side, and he was never moved",
+     "ok": false,
+     "info": {
+      "min": {
+       "min": 0,
+       "snapshots": 392,
+       "at": {
+        "dt": 2181,
+        "a": [
+         2,
+         1012,
+         720
+        ],
+        "b": [
+         3,
+         1012,
+         720
+        ]
+       }
+      },
+      "bob": {
+       "samples": 392,
+       "moved": 0
+      }
+     }
+    },
+    {
+     "name": "C08 ...and afterwards she walks away normally (nothing stuck)",
+     "ok": true,
+     "info": {
+      "x": 812,
+      "y": 720,
+      "d": 0
+     }
+    }
+   ],
+   "minOverall": {
+    "min": 0,
+    "snapshots": 392,
+    "at": {
+     "dt": 2181,
+     "a": [
+      2,
+      1012,
+      720
+     ],
+     "b": [
+      3,
+      1012,
+      720
+     ]
+    }
+   }
+  }
+ },
+ "ok": false,
+ "passed": 2,
+ "total": 9
+}

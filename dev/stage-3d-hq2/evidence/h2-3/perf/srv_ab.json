@@ -1,0 +1,189 @@
+{
+ "tool": "dev/stage-3d-hq2/srv_ab.py",
+ "gatesFrom": "dev/stage-3d-hq2/evidence/h2-0/aa/perf_gates.json",
+ "layouts": {
+  "spread": {
+   "pairs": [
+    {
+     "pair": "1",
+     "hq1": {
+      "cpuSec": 1.36,
+      "stepMsMean": 0.046,
+      "pingP99": 2,
+      "corrections": 0,
+      "minSeparationAtEnd": 175.6,
+      "errors": []
+     },
+     "hq2": {
+      "cpuSec": 1.52,
+      "stepMsMean": 0.048,
+      "pingP99": 1,
+      "corrections": 0,
+      "minSeparationAtEnd": 174.6,
+      "errors": []
+     },
+     "cpuPct": 11.8,
+     "stepPct": 4.3,
+     "pingP99Ms": -1
+    },
+    {
+     "pair": "2",
+     "hq1": {
+      "cpuSec": 1.48,
+      "stepMsMean": 0.05,
+      "pingP99": 1,
+      "corrections": 0,
+      "minSeparationAtEnd": 174.6,
+      "errors": []
+     },
+     "hq2": {
+      "cpuSec": 1.49,
+      "stepMsMean": 0.046,
+      "pingP99": 2,
+      "corrections": 0,
+      "minSeparationAtEnd": 176.2,
+      "errors": []
+     },
+     "cpuPct": 0.7,
+     "stepPct": -8.0,
+     "pingP99Ms": 1
+    },
+    {
+     "pair": "3",
+     "hq1": {
+      "cpuSec": 1.41,
+      "stepMsMean": 0.047,
+      "pingP99": 1,
+      "corrections": 0,
+      "minSeparationAtEnd": 175.6,
+      "errors": []
+     },
+     "hq2": {
+      "cpuSec": 1.54,
+      "stepMsMean": 0.052,
+      "pingP99": 1,
+      "corrections": 0,
+      "minSeparationAtEnd": 175.6,
+      "errors": []
+     },
+     "cpuPct": 9.2,
+     "stepPct": 10.6,
+     "pingP99Ms": 0
+    }
+   ],
+   "meanChange": {
+    "cpuPct": 7.23,
+    "stepPct": 2.3,
+    "pingP99Ms": 0
+   },
+   "gate": {
+    "cpuPct": 10,
+    "stepMeanPct": 13.3,
+    "pingP99Ms": 5
+   },
+   "met": {
+    "cpu": true,
+    "stepMean": true,
+    "pingP99": true
+   },
+   "ok": true,
+   "hq1Reference": {
+    "cpuSec": 1.43,
+    "stepMsMean": 0.047,
+    "pingP99": 1.25
+   }
+  },
+  "crowd": {
+   "pairs": [
+    {
+     "pair": "1",
+     "hq1": {
+      "cpuSec": 1.41,
+      "stepMsMean": 0.053,
+      "pingP99": 2,
+      "corrections": 0,
+      "minSeparationAtEnd": 0,
+      "errors": []
+     },
+     "hq2": {
+      "cpuSec": 1.59,
+      "stepMsMean": 0.054,
+      "pingP99": 2,
+      "corrections": 1007,
+      "minSeparationAtEnd": 35.5,
+      "errors": []
+     },
+     "cpuPct": 12.8,
+     "stepPct": 1.9,
+     "pingP99Ms": 0
+    },
+    {
+     "pair": "2",
+     "hq1": {
+      "cpuSec": 1.45,
+      "stepMsMean": 0.052,
+      "pingP99": 2,
+      "corrections": 0,
+      "minSeparationAtEnd": 0,
+      "errors": []
+     },
+     "hq2": {
+      "cpuSec": 1.68,
+      "stepMsMean": 0.054,
+      "pingP99": 3,
+      "corrections": 1010,
+      "minSeparationAtEnd": 35.5,
+      "errors": []
+     },
+     "cpuPct": 15.9,
+     "stepPct": 3.8,
+     "pingP99Ms": 1
+    },
+    {
+     "pair": "3",
+     "hq1": {
+      "cpuSec": 1.57,
+      "stepMsMean": 0.058,
+      "pingP99": 3,
+      "corrections": 0,
+      "minSeparationAtEnd": 0,
+      "errors": []
+     },
+     "hq2": {
+      "cpuSec": 1.6,
+      "stepMsMean": 0.053,
+      "pingP99": 3,
+      "corrections": 1002,
+      "minSeparationAtEnd": 35.5,
+      "errors": []
+     },
+     "cpuPct": 1.9,
+     "stepPct": -8.6,
+     "pingP99Ms": 0
+    }
+   ],
+   "meanChange": {
+    "cpuPct": 10.2,
+    "stepPct": -0.97,
+    "pingP99Ms": 0.33
+   },
+   "gate": {
+    "cpuPct": 15,
+    "stepMeanPct": 15.0,
+    "pingP99Ms": 5
+   },
+   "met": {
+    "cpu": true,
+    "stepMean": true,
+    "pingP99": true
+   },
+   "ok": true,
+   "hq1Reference": {
+    "cpuSec": 1.41,
+    "stepMsMean": 0.0527,
+    "pingP99": 2.25
+   }
+  }
+ },
+ "ok": true
+}

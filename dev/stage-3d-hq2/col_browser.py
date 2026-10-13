@@ -6,7 +6,8 @@
 Alice and Bob are ordinary players (no test passcode: the server checks every step they take), placed by a quiet admin connection in
 the one-tile corridor of Level 0 at y=720 (walk-mode centre span 64 px): Bob stands still at x=1012, Alice starts at x=862 and holds
 D (east) with her own keyboard for 3.5 s.  Both pages sample their own position 20 times a second; a quiet observer (ws_watch.js)
-records the server's positions.  Case `pass` (H2-0): does Alice get through Bob?  `measured`: the smallest separation each screen and
+records the server's positions.  The monsters are removed (and both players put in god mode) as soon as each has joined; a run in
+which either was dead when the test began says so (`setup`).  Case `pass` (H2-0): does Alice get through Bob?  `measured`: the smallest separation each screen and
 the server saw, whether Alice ended past Bob, the server's corrections.  Screenshots of both pages at the closest moment and at the end."""
 import os, sys, asyncio, argparse, json, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -32,8 +33,9 @@ async def main():
         async with async_playwright() as p:
             b = await p.chromium.launch(args=Q.ARGS)
             ca, cb = [await b.new_context(viewport={'width': W, 'height': H}) for _ in range(2)]
-            A = await Q.join(ca, port, 'h2col', 'Alice', errs); B = await Q.join(cb, port, 'h2col', 'Bob', errs)
-            aid, bid = await A.evaluate("()=>__api.H.id"), await B.evaluate("()=>__api.H.id")
+            A = await Q.join(ca, port, 'h2col', 'Alice', errs); aid = await A.evaluate("()=>__api.H.id")
+            Q.place(port, 'h2col', (), god=(aid,), clear=True)              # (at once: a lone player's join makes a new world, with new monsters)
+            B = await Q.join(cb, port, 'h2col', 'Bob', errs); bid = await B.evaluate("()=>__api.H.id")
             R['ids'] = {'alice': aid, 'bob': bid}
             Q.place(port, 'h2col', [(bid, XB, Y), (aid, XA, Y)], god=(aid, bid), clear=True)
             await A.wait_for_timeout(1500)
@@ -80,7 +82,9 @@ async def main():
         a = min(R['rows']['alice'], key=lambda q: abs(q[0] - r[0]), default=None)
         if a and abs(a[0] - r[0]) < .06: pageSep.append(((a[1] - r[1]) ** 2 + (a[2] - r[2]) ** 2) ** .5)
     R['server'] = {'aliceTrack': srvA[::2]}
-    R['measured'] = {'minSeparationServer': round(min(srvSep), 1) if srvSep else None, 'minSeparationPages': round(min(pageSep), 1) if pageSep else None,
+    first = next((pl for t, pl in Wt['pl'] if t >= R['placed']['alice']['t']), [])
+    R['setup'] = {'deadAtStart': [q[0] for q in first if q[0] in (aid, bid) and q[2]], 'ok': bool(first) and not any(q[2] for q in first if q[0] in (aid, bid))}   # (a monster's kill before the test began voids the run)
+    R['measured'] = {'setupOk': R['setup']['ok'], 'minSeparationServer': round(min(srvSep), 1) if srvSep else None, 'minSeparationPages': round(min(pageSep), 1) if pageSep else None,
                      'aliceEnd': R['end']['alice'], 'bobEnd': R['end']['bob'], 'alicePastBob': R['end']['alice']['x'] > R['end']['bob']['x'],
                      'bobMoved': round(abs(R['end']['bob']['x'] - XB), 1)}
     with open(A_.out, 'w') as f: json.dump(R, f, indent=1); f.write('\n')

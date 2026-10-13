@@ -1,0 +1,109 @@
+{
+ "tool": "dev/stage-3d-hq2/srv_load.js",
+ "game": "/home/claude/backrooms-shadows",
+ "layout": "crowd",
+ "secs": 45,
+ "centre": [
+  5592,
+  3400
+ ],
+ "server": {
+  "cpuSec": 1.59,
+  "cpuPct": 3.5,
+  "rssMB": 74.2,
+  "stepMsMean": 0.054,
+  "stepMsWorstRecent": 3.12,
+  "pingMs": {
+   "n": 103,
+   "p50": 1,
+   "p95": 1,
+   "p99": 2,
+   "max": 3
+  },
+  "errors": []
+ },
+ "players": [
+  {
+   "i": 0,
+   "id": 2,
+   "corrections": 144
+  },
+  {
+   "i": 1,
+   "id": 3,
+   "corrections": 144
+  },
+  {
+   "i": 2,
+   "id": 4,
+   "corrections": 144
+  },
+  {
+   "i": 3,
+   "id": 5,
+   "corrections": 144
+  },
+  {
+   "i": 4,
+   "id": 6,
+   "corrections": 144
+  },
+  {
+   "i": 5,
+   "id": 7,
+   "corrections": 144
+  },
+  {
+   "i": 6,
+   "id": 8,
+   "corrections": 143
+  }
+ ],
+ "final": {
+  "positions": [
+   [
+    2,
+    5633,
+    3400,
+    1
+   ],
+   [
+    3,
+    5617,
+    3432,
+    1
+   ],
+   [
+    4,
+    5582,
+    3440,
+    1
+   ],
+   [
+    5,
+    5554,
+    3417,
+    1
+   ],
+   [
+    6,
+    5555,
+    3381,
+    1
+   ],
+   [
+    7,
+    5584,
+    3360,
+    1
+   ],
+   [
+    8,
+    5620,
+    3367,
+    1
+   ]
+  ],
+  "minSeparation": 35.5
+ }
+}

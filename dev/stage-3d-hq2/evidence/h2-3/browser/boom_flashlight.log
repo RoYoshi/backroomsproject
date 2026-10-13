@@ -1,0 +1,18 @@
+{
+ "ok": true,
+ "passed": 7,
+ "total": 7,
+ "de": 1,
+ "lf": [
+  3.1,
+  1.5,
+  399
+ ]
+}
+PASS E01 one blast event, the same on Alice's and Bob's pages (the late joiner, in after it, plays none: it gets the corpse)  {"observer": 1, "pages": {"alice": [1], "bob": [1], "carol": []}}
+PASS E01 Alice's run menu after a short beat (within 2 s on this SwiftShader page)  {"after": 1.606}
+PASS E01 one Boom corpse, from the server, with the event id  {"corpse": {"k": 1, "c": "Boom", "x": 980, "y": 2774, "de": 1, "lo": 1}}
+PASS E06 every sample of every page's replay (body, both hands, light, hat) equals the server's own run of the blast at the same physics time (within 1 px; body angle within 0.01 rad), and the server's corpse is where that run ends  {"samples": 12, "pages": {"alice": 5, "bob": 7, "carol": 0}, "worstPx": 0.0, "missing": 0, "corpse": [980, 2774], "runEnd": [980.26, 2773.7, 5.3578]}
+PASS W the blast threw the body at the wall: a wall mark in every replay, and the HQ1 wallpaper stain on every screen (the late joiner's from the corpse record), on the same face  {"marks": {"alice": 1, "bob": 1, "carol": 0}, "stains": {"alice": [[1, "surf:room:01:wall:E:960:28"]], "bob": [[1, "surf:room:01:wall:E:960:28"]], "carol": [[1, "surf:room:01:wall:E:960:28"]]}, "pick": "surf:room:01:wall:E:960:28"}
+PASS E03 the dropped light, as each page's lighting computed it: full power through its hold, dimming/flickering in its fade, exactly 0 after hold + fade; one timeline (release anchors within 0.25 s)  {"lf": [3.1, 1.5, 399], "anchors": {"alice": 1791858356.827, "bob": 1791858356.825, "carol": 1791858356.826}, "spread": 0.0019998550415039062, "computed": {"alice": 87, "bob": 96, "carol": 22}, "litAfterEnd": {"alice": [], "bob": [], "carol": []}, "dimInHold": {"alice": [], "bob": [], "carol": []}, "fadeSamples": {"alice": 2, "bob": 2, "carol": 0}}
+PASS the blast is heard once on each page that played it (Alice, Bob), where it happened; never by the late joiner  {"alice": [[1791858357.415, 1024, 2760]], "bob": [[1791858357.279, 1024, 2760]], "carol": []}

@@ -1,0 +1,208 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h23run/m_c08_no_peers",
+ "gitHead": "not a git checkout (an export)",
+ "startedAt": "2026-10-13T02:03:20.754Z",
+ "scenarios": {
+  "col_head": {
+   "room": "h23head",
+   "checks": [
+    {
+     "name": "C01 head-on into a standing player in the one-tile corridor: never closer than D = 36 px (whole-px snapshots: >= 35.29)",
+     "ok": false,
+     "info": {
+      "min": 0,
+      "snapshots": 67,
+      "at": {
+       "dt": 969,
+       "a": [
+        2,
+        1012,
+        720
+       ],
+       "b": [
+        3,
+        1012,
+        720
+       ]
+      }
+     }
+    },
+    {
+     "name": "C01 she stops at contact, on her own side (36-38 px from him, x below his)",
+     "ok": false,
+     "info": {
+      "alice": {
+       "x": 1312,
+       "y": 720,
+       "d": 0
+      },
+      "bob": {
+       "x": 1012,
+       "y": 720,
+       "d": 0
+      }
+     }
+    },
+    {
+     "name": "C01 her page is told with soft corrections only (pc:1), at most one per 0.3 s, and now agrees with the server (within 2 px)",
+     "ok": false,
+     "info": {
+      "n": 0,
+      "allSoft": true,
+      "minGapMs": null
+     }
+    },
+    {
+     "name": "C01 she backs away freely: the server follows her exactly, no further correction",
+     "ok": true,
+     "info": {
+      "alice": {
+       "x": 872,
+       "y": 720,
+       "d": 0
+      },
+      "corrections": 0
+     }
+    },
+    {
+     "name": "C01 Bob was never moved by her: every snapshot has him where he stands, and he got no correction",
+     "ok": true,
+     "info": {
+      "samples": 120,
+      "moved": 0,
+      "corrections": 0
+     }
+    },
+    {
+     "name": "setup: Bob steps aside to the corridor's edge (y 690: 30 px off the centre line)",
+     "ok": true,
+     "info": {
+      "x": 1012,
+      "y": 690,
+      "d": 0
+     }
+    },
+    {
+     "name": "C01 once he has stepped aside she squeezes past him (sliding round his shoulder) to the far end, never closer than D",
+     "ok": false,
+     "info": {
+      "min": {
+       "min": 30,
+       "snapshots": 56,
+       "at": {
+        "dt": 696,
+        "a": [
+         2,
+         1012,
+         720
+        ],
+        "b": [
+         3,
+         1012,
+         690
+        ]
+       }
+      },
+      "alice": {
+       "x": 1312,
+       "y": 720,
+       "d": 0
+      },
+      "bob": {
+       "x": 1012,
+       "y": 690,
+       "d": 0
+      },
+      "msToGetPast": 899,
+      "corrections": {
+       "n": 0,
+       "allSoft": true,
+       "minGapMs": null
+      }
+     }
+    },
+    {
+     "name": "C01 ...and he is not moved while she passes",
+     "ok": true,
+     "info": {
+      "samples": 56,
+      "moved": 0
+     }
+    }
+   ],
+   "into": {
+    "min": {
+     "min": 0,
+     "snapshots": 67,
+     "at": {
+      "dt": 969,
+      "a": [
+       2,
+       1012,
+       720
+      ],
+      "b": [
+       3,
+       1012,
+       720
+      ]
+     }
+    },
+    "alice": {
+     "x": 1312,
+     "y": 720,
+     "d": 0
+    },
+    "bob": {
+     "x": 1012,
+     "y": 720,
+     "d": 0
+    },
+    "corrections": [],
+    "claimNow": [
+     1312,
+     720
+    ]
+   },
+   "pass": {
+    "min": {
+     "min": 30,
+     "snapshots": 56,
+     "at": {
+      "dt": 696,
+      "a": [
+       2,
+       1012,
+       720
+      ],
+      "b": [
+       3,
+       1012,
+       690
+      ]
+     }
+    },
+    "alice": {
+     "x": 1312,
+     "y": 720,
+     "d": 0
+    },
+    "bob": {
+     "x": 1012,
+     "y": 690,
+     "d": 0
+    },
+    "msToGetPast": 899,
+    "corrections": {
+     "n": 0,
+     "allSoft": true,
+     "minGapMs": null
+    }
+   }
+  }
+ },
+ "ok": false,
+ "passed": 4,
+ "total": 8
+}

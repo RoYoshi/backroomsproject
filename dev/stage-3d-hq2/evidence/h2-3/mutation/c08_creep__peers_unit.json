@@ -1,0 +1,646 @@
+{
+ "tool": "dev/stage-3d-hq2/peers_unit.js",
+ "D": 36,
+ "TOL": 2,
+ "checks": [
+  {
+   "name": "U1 legal: end-point floor exact, no passing through, overlaps only shrink, zero distance / zero length safe, chords round a body within TOL",
+   "ok": false,
+   "info": {}
+  },
+  {
+   "name": "U2 resolve fuzz: every accepted move finite, never closer than the floor, never through a body, never further than claimed, free = the claim, a separated pair stays separated, peers untouched",
+   "ok": false,
+   "info": {
+    "trials": 3000,
+    "moves": 1200000,
+    "free": 972502,
+    "slid": 226265,
+    "clamped": 786,
+    "stay": 447,
+    "pairsThatSeparated": 32605
+   }
+  },
+  {
+   "name": "U3 no creep: 100 000 claims of 0.01 px and 2 000 zig-zag 1 px claims straight at a body from contact end no closer than D",
+   "ok": false,
+   "info": {
+    "after100000steps_of_0_01px": 0.9999999999820943,
+    "after2000zigzag1pxSteps": 0.8574888607256625
+   }
+  },
+  {
+   "name": "U4 sweepPath: every leg up to the accepted point legal from its own start, never closer than the floor, a fully legal route accepted to its end",
+   "ok": false,
+   "info": {
+    "routes": 4000,
+    "free": 3214
+   }
+  },
+  {
+   "name": "U5 freeSpot: deterministic, clear, >= D + 8 from every peer; with every candidate taken, the target itself (crowded)",
+   "ok": true,
+   "info": {
+    "trials": 3000,
+    "moved": 1719,
+    "crowded": 0,
+    "everyCandidateTaken": {
+     "x": 200,
+     "y": 200,
+     "moved": false,
+     "crowded": true
+    }
+   }
+  },
+  {
+   "name": "B the peer sweep costs <= 5 us per packet with seven peers at p99, in every regime (far, into one, a crowd of seven, the slide refused and the bisection)",
+   "ok": true,
+   "info": {
+    "far": 199,
+    "intoOne": 412,
+    "crowd": 439,
+    "bisection": 3316
+   }
+  }
+ ],
+ "fails": [
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 185.73739537305076,
+    "y0": 265.3118850036114,
+    "x1": 185.18358028135313,
+    "y1": 265.61545206447244,
+    "r": {
+     "x": 185.18358028135313,
+     "y": 265.61545206447244,
+     "how": "free"
+    },
+    "q": [
+     129.8069896020448,
+     489.316232689755
+    ],
+    "s0": 19.770512936914084,
+    "s1": 19.15441156939851
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 122.15133346816332,
+    "y0": 326.82484360843716,
+    "x1": 186.74043742255503,
+    "y1": 346.9055623255151,
+    "r": {
+     "x": 186.74043742255503,
+     "y": 346.9055623255151,
+     "how": "free"
+    },
+    "q": [
+     129.8069896020448,
+     489.316232689755
+    ],
+    "s0": 102.78078854665425,
+    "s1": 35.14213381560845
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.14213381560845
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 228.6147542889436,
+    "y0": 272.0474056992424,
+    "x1": 230.4554324101374,
+    "y1": 272.93866646805554,
+    "r": {
+     "x": 230.4554324101374,
+     "y": 272.93866646805554,
+     "how": "free"
+    },
+    "q": [
+     161.250418672812,
+     427.3960691519499
+    ],
+    "s0": 36.011252551124514,
+    "s1": 34.4166822942317
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.4166822942317
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.827113368445005
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.83077564196938
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 228.08817793338045,
+    "y0": 309.49333552451714,
+    "x1": 227.67854393412077,
+    "y1": 309.70961155934606,
+    "r": {
+     "x": 227.67854393412077,
+     "y": 309.70961155934606,
+     "how": "free"
+    },
+    "q": [
+     129.8069896020448,
+     489.316232689755
+    ],
+    "s0": 36.01877922122464,
+    "s1": 35.555556449125945
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.555556449125945
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 198.1170467925136,
+    "y0": 322.52023647841287,
+    "x1": 198.6734666601565,
+    "y1": 322.8989862994773,
+    "r": {
+     "x": 198.6734666601565,
+     "y": 322.8989862994773,
+     "how": "free"
+    },
+    "q": [
+     161.250418672812,
+     427.3960691519499
+    ],
+    "s0": 36.00160095378426,
+    "s1": 35.992890933212315
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.992890933212315
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 198.6734666601565,
+    "y0": 322.8989862994773,
+    "x1": 199.21376854945666,
+    "y1": 322.1113273358623,
+    "r": {
+     "x": 199.21376854945666,
+     "y": 322.1113273358623,
+     "how": "free"
+    },
+    "q": [
+     161.250418672812,
+     427.3960691519499
+    ],
+    "s0": 35.992890933212315,
+    "s1": 35.03772980829967
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.03772980829967
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 225.00650180639116,
+    "y0": 336.9429385222424,
+    "x1": 225.47274966332276,
+    "y1": 337.1535768965046,
+    "r": {
+     "x": 225.47274966332276,
+     "y": 337.1535768965046,
+     "how": "free"
+    },
+    "q": [
+     165.685922907902,
+     608.1974179940845
+    ],
+    "s0": 36.06994218954828,
+    "s1": 35.559889722666085
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.559889722666085
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 18.482443986888637,
+    "y0": 208.10714518923336,
+    "x1": 18.335169582567538,
+    "y1": 214.35735747544678,
+    "r": {
+     "x": 18.335169582567538,
+     "y": 214.35735747544678,
+     "how": "free"
+    },
+    "q": [
+     165.57158124865924,
+     470.18005040605135
+    ],
+    "s0": 38.962853569877645,
+    "s1": 35.901424679137136
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.901424679137136
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 20.198388419501036,
+    "y0": 210.60466872968797,
+    "x1": 20.983704868846434,
+    "y1": 211.1158477032713,
+    "r": {
+     "x": 20.983704868846434,
+     "y": 211.1158477032713,
+     "how": "free"
+    },
+    "q": [
+     165.57158124865924,
+     470.18005040605135
+    ],
+    "s0": 36.145076445466344,
+    "s1": 35.2080460998285
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.2080460998285
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.429584536879965
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 50.49124203690426,
+    "y0": 230.3229234943264,
+    "x1": 49.81043326097084,
+    "y1": 230.19616291771425,
+    "r": {
+     "x": 49.81043326097084,
+     "y": 230.19616291771425,
+     "how": "free"
+    },
+    "q": [
+     161.250418672812,
+     427.3960691519499
+    ],
+    "s0": 35.429584536879965,
+    "s1": 34.764777098478376
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.764777098478376
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.8614177706055
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.8614177706055
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 17.649350365528893,
+    "y0": 216.7431634020226,
+    "x1": 15.864782385403247,
+    "y1": 232.33644155262823,
+    "r": {
+     "x": 15.864782385403247,
+     "y": 232.33644155262823,
+     "how": "free"
+    },
+    "q": [
+     165.57158124865924,
+     470.18005040605135
+    ],
+    "s0": 34.8614177706055,
+    "s1": 34.01305640487183
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.01305640487183
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 174.42255028263784,
+    "y0": 19.04211045198241,
+    "x1": 172.22887769893364,
+    "y1": 19.686568914006546,
+    "r": {
+     "x": 172.22887769893364,
+     "y": 19.686568914006546,
+     "how": "free"
+    },
+    "q": [
+     882.0873134970137,
+     78.98498467588584
+    ],
+    "s0": 2.521361491268707,
+    "s1": 2.016167618755438
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 174.42255028263784,
+    "y0": 19.04211045198241,
+    "x1": 173.81443126774104,
+    "y1": 19.11151717839243,
+    "r": {
+     "x": 173.81443126774104,
+     "y": 19.11151717839243,
+     "how": "free"
+    },
+    "q": [
+     882.0873134970137,
+     78.98498467588584
+    ],
+    "s0": 2.521361491268707,
+    "s1": 2.269188489773192
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 174.42255028263784,
+    "y0": 19.04211045198241,
+    "x1": 173.81443126774104,
+    "y1": 19.11151717839243,
+    "r": {
+     "x": 173.81443126774104,
+     "y": 19.11151717839243,
+     "how": "free"
+    },
+    "q": [
+     1009.1349880786934,
+     -0.7315704932498104
+    ],
+    "s0": 2.2863783837698373,
+    "s1": 1.686613357646229
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 173.81443126774104,
+    "y0": 19.111517178392425,
+    "x1": 174.08346960526356,
+    "y1": 22.421380749579683,
+    "r": {
+     "x": 174.08346960526356,
+     "y": 22.421380749579683,
+     "how": "free"
+    },
+    "q": [
+     882.0873134970137,
+     78.98498467588584
+    ],
+    "s0": 2.269188489773195,
+    "s1": 1.288674643699265
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 172.22887769893364,
+    "y0": 19.686568914006546,
+    "x1": 172.35160685631973,
+    "y1": 19.73382897141537,
+    "r": {
+     "x": 172.35160685631973,
+     "y": 19.73382897141537,
+     "how": "free"
+    },
+    "q": [
+     499.1547109041699,
+     7.711113818938681
+    ],
+    "s0": 3.304346669920597,
+    "s1": 3.1972305424372234
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 193.99442606472456,
+    "y0": 39.2466792769204,
+    "x1": 196.1076096536805,
+    "y1": 37.274952159511194,
+    "r": {
+     "x": 196.1076096536805,
+     "y": 37.274952159511194,
+     "how": "free"
+    },
+    "q": [
+     1009.1349880786934,
+     -0.7315704932498104
+    ],
+    "s0": 35.99999999999999,
+    "s1": 35.49235026774263
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 35.49235026774263
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 284.2324128684024,
+    "y0": 152.27562289812667,
+    "x1": 290.1725365028682,
+    "y1": 144.98946861832374,
+    "r": {
+     "x": 290.1725365028682,
+     "y": 144.98946861832374,
+     "how": "free"
+    },
+    "q": [
+     882.0873134970137,
+     78.98498467588584
+    ],
+    "s0": 36.02121791728827,
+    "s1": 34.168784119626785
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.168784119626785
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.227243407810306
+   }
+  },
+  {
+   "what": "resolve: closer than the floor",
+   "info": {
+    "x0": 290.1725365028682,
+    "y0": 144.98946861832374,
+    "x1": 290.5711497554427,
+    "y1": 144.29632336422063,
+    "r": {
+     "x": 290.5711497554427,
+     "y": 144.29632336422063,
+     "how": "free"
+    },
+    "q": [
+     882.0873134970137,
+     78.98498467588584
+    ],
+    "s0": 34.227243407810306,
+    "s1": 34.01076892492505
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.01076892492505
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.28077184281624
+   }
+  },
+  {
+   "what": "a pair once apart came closer than D",
+   "info": {
+    "s": 34.43899709878711
+   }
+  }
+ ],
+ "fuzz": {
+  "trials": 3000,
+  "moves": 1200000,
+  "free": 972502,
+  "slid": 226265,
+  "clamped": 786,
+  "stay": 447,
+  "pairsThatSeparated": 32605
+ },
+ "creep": {
+  "after100000steps_of_0_01px": 0.9999999999820943,
+  "after2000zigzag1pxSteps": 0.8574888607256625
+ },
+ "sweep": {
+  "routes": 4000,
+  "free": 3214
+ },
+ "freeSpot": {
+  "trials": 3000,
+  "moved": 1719,
+  "crowded": 0,
+  "everyCandidateTaken": {
+   "x": 200,
+   "y": 200,
+   "moved": false,
+   "crowded": true
+  }
+ },
+ "bench": {
+  "callsPerRegime": 200000,
+  "sevenPeers": true,
+  "far": {
+   "p50ns": 95,
+   "p99ns": 199,
+   "maxns": 899853,
+   "sink": true,
+   "how": {
+    "free": 64
+   }
+  },
+  "intoOne": {
+   "p50ns": 260,
+   "p99ns": 412,
+   "maxns": 513125,
+   "sink": true,
+   "how": {
+    "slid": 64
+   }
+  },
+  "crowdOfSeven": {
+   "p50ns": 244,
+   "p99ns": 439,
+   "maxns": 841979,
+   "sink": true,
+   "how": {
+    "slid": 63,
+    "free": 1
+   }
+  },
+  "slideRefusedBisection": {
+   "p50ns": 1773,
+   "p99ns": 3316,
+   "maxns": 2319523,
+   "sink": true,
+   "how": {
+    "clamped": 64
+   },
+   "note": "the wall check is a stub here: its own cost (sim.moveOk) is the walls' and was paid per packet before HQ2"
+  },
+  "node": "v22.22.2"
+ },
+ "ok": false
+}

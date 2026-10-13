@@ -1,0 +1,9 @@
+FAIL col_head: C01 head-on into a standing player in the one-tile corridor: never closer than D = 36 px (whole-px snapshots: >= 35.29)  {"min":0,"snapshots":67,"at":{"dt":969,"a":[2,1012,720],"b":[3,1012,720]}}
+FAIL col_head: C01 she stops at contact, on her own side (36-38 px from him, x below his)  {"alice":{"x":1312,"y":720,"d":0},"bob":{"x":1012,"y":720,"d":0}}
+FAIL col_head: C01 her page is told with soft corrections only (pc:1), at most one per 0.3 s, and now agrees with the server (within 2 px)  {"n":0,"allSoft":true,"minGapMs":null}
+PASS col_head: C01 she backs away freely: the server follows her exactly, no further correction  {"alice":{"x":872,"y":720,"d":0},"corrections":0}
+PASS col_head: C01 Bob was never moved by her: every snapshot has him where he stands, and he got no correction  {"samples":120,"moved":0,"corrections":0}
+PASS col_head: setup: Bob steps aside to the corridor's edge (y 690: 30 px off the centre line)  {"x":1012,"y":690,"d":0}
+FAIL col_head: C01 once he has stepped aside she squeezes past him (sliding round his shoulder) to the far end, never closer than D  {"min":{"min":30,"snapshots":56,"at":{"dt":696,"a":[2,1012,720],"b":[3,1012,690]}},"alice":{"x":1312,"y":720,"d":0},"bob":{"x":1012,"y":690,"d":0},"msToGetPast":899,"corrections":{"n":0,"allSoft":true,"minGapMs":null}}
+PASS col_head: C01 ...and he is not moved while she passes  {"samples":56,"moved":0}
+4/8 checks passed

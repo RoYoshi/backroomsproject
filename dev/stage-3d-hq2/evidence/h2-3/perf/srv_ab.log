@@ -1,0 +1,2 @@
+spread: pairs [(11.8, 4.3, -1), (0.7, -8.0, 1), (9.2, 10.6, 0)]  mean cpu +7.2 % (gate +10 %), step +2.3 % (gate +13.3 %), ping p99 +0.00 ms (gate +5 ms)  min separation at end hq1 [175.6, 174.6, 175.6] hq2 [174.6, 176.2, 175.6]  MET
+crowd: pairs [(12.8, 1.9, 0), (15.9, 3.8, 1), (1.9, -8.6, 0)]  mean cpu +10.2 % (gate +15 %), step -1.0 % (gate +15.0 %), ping p99 +0.33 ms (gate +5 ms)  min separation at end hq1 [0, 0, 0] hq2 [35.5, 35.5, 35.5]  MET

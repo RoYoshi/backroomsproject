@@ -1,0 +1,503 @@
+{
+ "tool": "dev/stage-3d-hq2/proto_lab.js",
+ "game": "/home/claude/backrooms-shadows",
+ "gitHead": "14cf47ac242eb09ee7f307a54257706911b8842b",
+ "startedAt": "2026-10-13T01:36:46.915Z",
+ "scenarios": {
+  "col_crowd": {
+   "room": "h23crowd",
+   "checks": [
+    {
+     "name": "C04 six walking into one point: never two closer than D (all pairs, every snapshot)",
+     "ok": true,
+     "info": {
+      "min": 36.1,
+      "snapshots": 97,
+      "at": {
+       "dt": 754,
+       "a": [
+        2,
+        4482,
+        3460
+       ],
+       "b": [
+        3,
+        4457,
+        3486
+       ]
+      }
+     }
+    },
+    {
+     "name": "C04 ...they pack round it (everyone within 80 px of the point: nobody held off at a distance)",
+     "ok": true,
+     "info": [
+      33.5,
+      36.7,
+      38.2,
+      33.5,
+      36.7,
+      38.2
+     ]
+    },
+    {
+     "name": "C04 ...soft corrections only, at most one per 0.3 s per player",
+     "ok": true,
+     "info": [
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 300
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 301
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 302
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 301
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 301
+      },
+      {
+       "n": 12,
+       "allSoft": true,
+       "minGapMs": 301
+      }
+     ]
+    },
+    {
+     "name": "C04 ...and walk back out freely: nobody is stuck (everyone home, within 2 px)",
+     "ok": true,
+     "info": {
+      "offHome": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "min": {
+       "min": 36.1,
+       "snapshots": 26,
+       "at": {
+        "dt": 0,
+        "a": [
+         2,
+         4482,
+         3460
+        ],
+        "b": [
+         3,
+         4457,
+         3486
+        ]
+       }
+      }
+     }
+    }
+   ],
+   "in": {
+    "min": {
+     "min": 36.1,
+     "snapshots": 97,
+     "at": {
+      "dt": 754,
+      "a": [
+       2,
+       4482,
+       3460
+      ],
+      "b": [
+       3,
+       4457,
+       3486
+      ]
+     }
+    },
+    "distFromPoint": [
+     33.5,
+     36.7,
+     38.2,
+     33.5,
+     36.7,
+     38.2
+    ],
+    "corrections": [
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 300
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 301
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 302
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 301
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 301
+     },
+     {
+      "n": 12,
+      "allSoft": true,
+      "minGapMs": 301
+     }
+    ]
+   },
+   "out": {
+    "offHome": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "min": {
+     "min": 36.1,
+     "snapshots": 26,
+     "at": {
+      "dt": 0,
+      "a": [
+       2,
+       4482,
+       3460
+      ],
+      "b": [
+       3,
+       4457,
+       3486
+      ]
+     }
+    }
+   }
+  },
+  "col_spawn": {
+   "room": "h23spawn",
+   "checks": [
+    {
+     "name": "C05 a join whose page spawns exactly on a standing player: put on the nearest free spawn spot (>= D + 8 = 44 px from everyone, clear of walls), told with a hard tp",
+     "ok": false,
+     "info": {
+      "alice": {
+       "x": 4450,
+       "y": 3450,
+       "d": 0
+      },
+      "carol": {
+       "x": 4486,
+       "y": 3450,
+       "d": 0
+      },
+      "carolTp": [
+       {
+        "t": 1791855424639,
+        "x": 4494,
+        "y": 3450,
+        "pc": 0
+       },
+       {
+        "t": 1791855425565,
+        "x": 4486,
+        "y": 3450,
+        "pc": 1
+       }
+      ],
+      "sep": 36
+     }
+    },
+    {
+     "name": "C05 ...and Alice was not moved",
+     "ok": true,
+     "info": {
+      "x": 4450,
+      "y": 3450,
+      "d": 0
+     }
+    },
+    {
+     "name": "C05 a spawn 22 px from her (two players already about): free spot >= 44 px from all",
+     "ok": false,
+     "info": {
+      "dave": {
+       "x": 4483,
+       "y": 3487,
+       "d": 0
+      },
+      "nearest": 37.1
+     }
+    },
+    {
+     "name": "C05 admin BRING onto a standing player: brought to a free spot next to her (>= 44 px from everyone, clear), told where",
+     "ok": true,
+     "info": {
+      "bob": {
+       "x": 4406,
+       "y": 3450,
+       "d": 0
+      },
+      "nearest": 44,
+      "tp": [
+       {
+        "t": 1791855427426,
+        "x": 4406,
+        "y": 3450,
+        "pc": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "C05 the admin world reset puts the four on four free spots round the spawn point (>= 44 px apart, clear of walls), each told by tp",
+     "ok": true,
+     "info": {
+      "positions": [
+       {
+        "x": 1004,
+        "y": 3264,
+        "d": 0
+       },
+       {
+        "x": 1004,
+        "y": 3340,
+        "d": 0
+       },
+       {
+        "x": 1048,
+        "y": 3264,
+        "d": 0
+       },
+       {
+        "x": 1036,
+        "y": 3308,
+        "d": 0
+       }
+      ],
+      "closestPair": 44,
+      "minOverTime": {
+       "min": 44,
+       "snapshots": 19,
+       "at": {
+        "dt": 45,
+        "a": [
+         9,
+         1004,
+         3264
+        ],
+        "b": [
+         10,
+         1048,
+         3264
+        ]
+       }
+      },
+      "tps": [
+       [
+        {
+         "t": 1791855428075,
+         "x": 1004,
+         "y": 3264,
+         "pc": 0
+        }
+       ],
+       [
+        {
+         "t": 1791855428075,
+         "x": 1004,
+         "y": 3340,
+         "pc": 0
+        }
+       ],
+       [
+        {
+         "t": 1791855428075,
+         "x": 1048,
+         "y": 3264,
+         "pc": 0
+        }
+       ],
+       [
+        {
+         "t": 1791855428075,
+         "x": 1036,
+         "y": 3308,
+         "pc": 0
+        }
+       ]
+      ]
+     }
+    },
+    {
+     "name": "C05 an admin's jump (a teleport, >= 120 px) exactly onto a player lands on a free spot beside her instead (>= 44 px), told by tp",
+     "ok": true,
+     "info": {
+      "eve": {
+       "x": 1004,
+       "y": 3220,
+       "d": 0
+      },
+      "nearest": 44,
+      "tp": [
+       {
+        "t": 1791855430448,
+        "x": 1004,
+        "y": 3220,
+        "pc": 0
+       }
+      ]
+     }
+    },
+    {
+     "name": "C05 ...and its steps into her (an admin skips the walls, not the players) stop at contact",
+     "ok": true,
+     "info": {
+      "min": 36,
+      "snapshots": 15,
+      "at": {
+       "dt": 332,
+       "a": [
+        9,
+        1004,
+        3264
+       ],
+       "b": [
+        13,
+        1004,
+        3228
+       ]
+      }
+     }
+    }
+   ],
+   "joinOnTop": {
+    "alice": {
+     "x": 4450,
+     "y": 3450,
+     "d": 0
+    },
+    "carol": {
+     "x": 4486,
+     "y": 3450,
+     "d": 0
+    },
+    "carolTp": [
+     {
+      "t": 1791855424639,
+      "x": 4494,
+      "y": 3450,
+      "pc": 0
+     },
+     {
+      "t": 1791855425565,
+      "x": 4486,
+      "y": 3450,
+      "pc": 1
+     }
+    ],
+    "sep": 36
+   },
+   "world": {
+    "positions": [
+     {
+      "x": 1004,
+      "y": 3264,
+      "d": 0
+     },
+     {
+      "x": 1004,
+      "y": 3340,
+      "d": 0
+     },
+     {
+      "x": 1048,
+      "y": 3264,
+      "d": 0
+     },
+     {
+      "x": 1036,
+      "y": 3308,
+      "d": 0
+     }
+    ],
+    "closestPair": 44,
+    "minOverTime": {
+     "min": 44,
+     "snapshots": 19,
+     "at": {
+      "dt": 45,
+      "a": [
+       9,
+       1004,
+       3264
+      ],
+      "b": [
+       10,
+       1048,
+       3264
+      ]
+     }
+    },
+    "tps": [
+     [
+      {
+       "t": 1791855428075,
+       "x": 1004,
+       "y": 3264,
+       "pc": 0
+      }
+     ],
+     [
+      {
+       "t": 1791855428075,
+       "x": 1004,
+       "y": 3340,
+       "pc": 0
+      }
+     ],
+     [
+      {
+       "t": 1791855428075,
+       "x": 1048,
+       "y": 3264,
+       "pc": 0
+      }
+     ],
+     [
+      {
+       "t": 1791855428075,
+       "x": 1036,
+       "y": 3308,
+       "pc": 0
+      }
+     ]
+    ]
+   }
+  }
+ },
+ "ok": false,
+ "passed": 9,
+ "total": 11
+}

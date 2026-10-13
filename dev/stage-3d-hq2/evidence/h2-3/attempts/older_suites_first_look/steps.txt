@@ -1,0 +1,5 @@
+s_audit exit=1 seconds=2
+death_net exit=1 seconds=53
+light_net exit=0 seconds=41
+audit_net exit=1 seconds=55
+audit_net2 exit=1 seconds=222

@@ -1,0 +1,109 @@
+{
+ "tool": "dev/stage-3d-hq2/srv_load.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/hq2base",
+ "layout": "crowd",
+ "secs": 45,
+ "centre": [
+  5592,
+  3400
+ ],
+ "server": {
+  "cpuSec": 1.45,
+  "cpuPct": 3.2,
+  "rssMB": 71.9,
+  "stepMsMean": 0.052,
+  "stepMsWorstRecent": 0.86,
+  "pingMs": {
+   "n": 103,
+   "p50": 0,
+   "p95": 1,
+   "p99": 2,
+   "max": 4
+  },
+  "errors": []
+ },
+ "players": [
+  {
+   "i": 0,
+   "id": 2,
+   "corrections": 0
+  },
+  {
+   "i": 1,
+   "id": 3,
+   "corrections": 0
+  },
+  {
+   "i": 2,
+   "id": 4,
+   "corrections": 0
+  },
+  {
+   "i": 3,
+   "id": 5,
+   "corrections": 0
+  },
+  {
+   "i": 4,
+   "id": 6,
+   "corrections": 0
+  },
+  {
+   "i": 5,
+   "id": 7,
+   "corrections": 0
+  },
+  {
+   "i": 6,
+   "id": 8,
+   "corrections": 0
+  }
+ ],
+ "final": {
+  "positions": [
+   [
+    2,
+    5592,
+    3400,
+    1
+   ],
+   [
+    3,
+    5592,
+    3400,
+    1
+   ],
+   [
+    4,
+    5592,
+    3400,
+    1
+   ],
+   [
+    5,
+    5592,
+    3400,
+    1
+   ],
+   [
+    6,
+    5592,
+    3400,
+    1
+   ],
+   [
+    7,
+    5592,
+    3400,
+    1
+   ],
+   [
+    8,
+    5592,
+    3400,
+    1
+   ]
+  ],
+  "minSeparation": 0
+ }
+}
