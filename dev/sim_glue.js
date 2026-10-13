@@ -151,15 +151,16 @@ function respawn(p){if(!canRespawn(p))return false;if(p.pvEnt){eng.remove(p.pvEn
  *   leave   (to the menu)  from death; never while ALIVE (a living run ends only through NEW RUN) or HELD (the body stays in the capture)
  *   newRun  NEW RUN, the server's own decision on the player's intent (server.js): only while ALIVE and free, at most once every 30 s
  *           (NR_CD); it takes the player out of the world at once (to the MENU), so the next join starts the new run.  nrWhy says why
+ *           (Stage 3D HQ3: with free - the server's flag for an admin's own UNLIMITED NEW RUN - the 30 s does not count; nothing else changes)
  *           not ('state': in the menu or out through a glitched wall; 'dead'; 'held'; 'cooldown'), nrWait how long is left.  A world
  *           reset, a death, END and RESPAWN never touch it.
  *   disconnect while HELD = the capture is forfeited: the holder kills (forfeit), so a reconnect is a new player after a death, not an escape
  * The server passes its clock (seconds). */
 const lifeOf=p=>!p.active?`menu`:p.dead?`dead`:p.caught?`held`:`alive`;
 const NR_CD=30;
-function nrWhy(p,now){const L=lifeOf(p);if(L===`menu`||p.exited)return`state`;if(L===`dead`)return`dead`;if(L===`held`)return`held`;if(p.nrAt!=null&&now-p.nrAt<NR_CD)return`cooldown`;return``}
+function nrWhy(p,now,free){const L=lifeOf(p);if(L===`menu`||p.exited)return`state`;if(L===`dead`)return`dead`;if(L===`held`)return`held`;if(!free&&p.nrAt!=null&&now-p.nrAt<NR_CD)return`cooldown`;return``}   // (Stage 3D HQ3: free - an admin's own UNLIMITED NEW RUN - skips only the cooldown)
 const nrWait=(p,now)=>p.nrAt==null?0:Math.max(0,NR_CD-(now-p.nrAt));
-function newRun(p,now=Date.now()/1000){const why=nrWhy(p,now);if(why)return why;p.nrAt=now;p.active=false;p.dead=``;p.caught=null;p.kill=null;eng.forgetPlayer(p.id);return``}
+function newRun(p,now=Date.now()/1000,free=false){const why=nrWhy(p,now,free);if(why)return why;p.nrAt=now;p.active=false;p.dead=``;p.caught=null;p.kill=null;eng.forgetPlayer(p.id);return``}
 function forfeit(p){if(lifeOf(p)!==`held`)return false;const ok=eng.forfeitCapture(p);processEvents();return ok}
 function leave(p){const L=lifeOf(p);if(L===`held`||L===`alive`)return false;p.active=false;p.dead=``;p.caught=null;eng.forgetPlayer(p.id);return true}
 

@@ -1,0 +1,172 @@
+{
+ "tool": "dev/stage-3d-hq3/admin_browser.py",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h32tree",
+ "steps": [
+  {
+   "what": "panel unlocked",
+   "toggle": {
+    "text": "\u25cb UNLIMITED NEW RUN OFF",
+    "on": false
+   },
+   "sub": "SERVER SAYS: OFF \u00b7 LAST NEW RUN: NOT PRESSED YET ON THIS CONNECTION",
+   "t": 1791911677.918
+  },
+  {
+   "what": "clicked ON",
+   "toggleOnAfterS": 0.8,
+   "toggle": {
+    "text": "\u25cf UNLIMITED NEW RUN ON",
+    "on": true
+   },
+   "sub": "SERVER SAYS: ON \u00b7 LAST NEW RUN: NOT PRESSED YET ON THIS CONNECTION",
+   "status": "UNLIMITED NEW RUN ON \u00b7 YOUR OWN NEW RUN SKIPS THE 30 S WAIT",
+   "t": 1791911683.04
+  },
+  {
+   "what": "NEW RUN 1",
+   "answer": {
+    "q": 1,
+    "ok": 1,
+    "why": "",
+    "wait": null,
+    "de": 1
+   },
+   "t": 1791911687.304
+  },
+  {
+   "what": "SPAWN after NEW RUN 1",
+   "pressed": true,
+   "t": 1791911693.286
+  },
+  {
+   "what": "NEW RUN 2",
+   "answer": {
+    "q": 2,
+    "ok": 1,
+    "why": "",
+    "wait": null,
+    "de": 2
+   },
+   "t": 1791911697.234
+  },
+  {
+   "what": "SPAWN after NEW RUN 2",
+   "pressed": true,
+   "t": 1791911701.966
+  },
+  {
+   "what": "Bob opens the panel",
+   "login": true,
+   "main": false,
+   "toggle": null,
+   "t": 1791911705.195
+  },
+  {
+   "what": "clicked OFF",
+   "panelOpen": true,
+   "toggleOffAfterS": 0.08,
+   "toggle": {
+    "text": "\u25cb UNLIMITED NEW RUN OFF",
+    "on": false
+   },
+   "sub": "SERVER SAYS: OFF \u00b7 LAST NEW RUN: APPROVED (EVENT 2)",
+   "status": "UNLIMITED NEW RUN OFF \u00b7 THE 30 S WAIT IS BACK",
+   "t": 1791911707.028
+  },
+  {
+   "what": "NEW RUN 3 (OFF)",
+   "answer": {
+    "q": 3,
+    "ok": 0,
+    "why": "cooldown",
+    "wait": 18.7,
+    "de": null
+   },
+   "button": "NEW RUN \u00b7 WAIT 19 S",
+   "t": 1791911708.412
+  }
+ ],
+ "pageErrors": [],
+ "shots": {
+  "1_toggle_off": "1_toggle_off_alice.png",
+  "2_toggle_on": "2_toggle_on_alice.png",
+  "3_newrun1_menu": "3_newrun1_menu_alice.png",
+  "3_newrun2_menu": "3_newrun2_menu_alice.png",
+  "4_bob_panel": "4_bob_panel_bob.png",
+  "5_toggle_off_again": "5_toggle_off_again_alice.png",
+  "6_refused_wait": "6_refused_wait_alice.png"
+ },
+ "checks": [
+  {
+   "name": "the panel shows UNLIMITED NEW RUN OFF when unlocked (the server's state), ON after the click once the server answered (status line), OFF again after the second click",
+   "ok": true,
+   "info": {
+    "unlocked": {
+     "text": "\u25cb UNLIMITED NEW RUN OFF",
+     "on": false
+    },
+    "on": {
+     "toggleOnAfterS": 0.8,
+     "sub": "SERVER SAYS: ON \u00b7 LAST NEW RUN: NOT PRESSED YET ON THIS CONNECTION",
+     "status": "UNLIMITED NEW RUN ON \u00b7 YOUR OWN NEW RUN SKIPS THE 30 S WAIT"
+    },
+    "off": {
+     "panelOpen": true,
+     "toggleOffAfterS": 0.08,
+     "sub": "SERVER SAYS: OFF \u00b7 LAST NEW RUN: APPROVED (EVENT 2)",
+     "status": "UNLIMITED NEW RUN OFF \u00b7 THE 30 S WAIT IS BACK"
+    }
+   }
+  },
+  {
+   "name": "ON: two NEW RUNs a few seconds apart (each after SPAWN) both approved, two different events",
+   "ok": true,
+   "info": {
+    "first": {
+     "q": 1,
+     "ok": 1,
+     "why": "",
+     "wait": null,
+     "de": 1
+    },
+    "second": {
+     "q": 2,
+     "ok": 1,
+     "why": "",
+     "wait": null,
+     "de": 2
+    }
+   }
+  },
+  {
+   "name": "OFF: the next NEW RUN is refused with the wait, and the button says so",
+   "ok": true,
+   "info": {
+    "what": "NEW RUN 3 (OFF)",
+    "answer": {
+     "q": 3,
+     "ok": 0,
+     "why": "cooldown",
+     "wait": 18.7,
+     "de": null
+    },
+    "button": "NEW RUN \u00b7 WAIT 19 S",
+    "t": 1791911708.412
+   }
+  },
+  {
+   "name": "an ordinary player's panel is only the passcode prompt: no toggle",
+   "ok": true,
+   "info": {
+    "what": "Bob opens the panel",
+    "login": true,
+    "main": false,
+    "toggle": null,
+    "t": 1791911705.195
+   }
+  }
+ ],
+ "passed": 4,
+ "total": 4,
+ "ok": true
+}

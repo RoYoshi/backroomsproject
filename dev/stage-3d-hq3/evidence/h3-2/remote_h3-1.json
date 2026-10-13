@@ -1,0 +1,161 @@
+{
+ "checkpoint": "H3-1",
+ "verifiedAt": "2026-10-13T17:08:55Z",
+ "branch": "stage-3d-hq3",
+ "local": {
+  "commit": "3692bf750ead6401323dd29146f86695e0bba4d7",
+  "tree": "b915a955662db0316fb8c2d846b18d102f36cc32",
+  "parent": "f542b7cbd90f95148e644e6cba513cf55ddd52c9"
+ },
+ "lsRemote": "3692bf750ead6401323dd29146f86695e0bba4d7",
+ "githubApi": {
+  "commit": "3692bf750ead6401323dd29146f86695e0bba4d7",
+  "tree": "b915a955662db0316fb8c2d846b18d102f36cc32",
+  "parents": [
+   "f542b7cbd90f95148e644e6cba513cf55ddd52c9"
+  ],
+  "message": "Stage 3D HQ3-1: NEW RUN gibs the Wanderer",
+  "branchHead": "3692bf750ead6401323dd29146f86695e0bba4d7",
+  "branchTree": "b915a955662db0316fb8c2d846b18d102f36cc32"
+ },
+ "sinceParent": [
+  {
+   "commit": "3692bf750ead6401323dd29146f86695e0bba4d7",
+   "tree": "b915a955662db0316fb8c2d846b18d102f36cc32",
+   "subject": "Stage 3D HQ3-1: NEW RUN gibs the Wanderer"
+  }
+ ],
+ "merges": [],
+ "acceptedParent": {
+  "commit": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+  "tree": "6730834df06b36917ec9f3b7e56f56c8ee5487de",
+  "apiStage3dHq2": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+  "firstHq3CommitsParent": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+  "ancestorOfHead": true,
+  "hq1Ancestor": true
+ },
+ "untouched": {
+  "br-role": {
+   "expected": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "remote": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "ok": true
+  },
+  "lighting-shadows-2d": {
+   "expected": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "remote": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "ok": true
+  },
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "remote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "part-3a": {
+   "expected": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "remote": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "ok": true
+  },
+  "part-3b": {
+   "expected": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "remote": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "ok": true
+  },
+  "stage-3b-l": {
+   "expected": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "remote": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "ok": true
+  },
+  "stage-3b-l-qa1": {
+   "expected": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "ok": true
+  },
+  "stage-3b-l-qa2": {
+   "expected": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "remote": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "ok": true
+  },
+  "stage-3b-n": {
+   "expected": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "remote": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "ok": true
+  },
+  "stage-3b-n-camera": {
+   "expected": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "ok": true
+  },
+  "stage-3b-pillar-los": {
+   "expected": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "remote": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "ok": true
+  },
+  "stage-3b-remaster": {
+   "expected": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "remote": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "ok": true
+  },
+  "stage-3c": {
+   "expected": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "remote": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "ok": true
+  },
+  "stage-3c-qa1": {
+   "expected": "5f30e28532200bca52b57a112c6691498a263e92",
+   "remote": "5f30e28532200bca52b57a112c6691498a263e92",
+   "ok": true
+  },
+  "stage-3c-qa2": {
+   "expected": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "remote": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "ok": true
+  },
+  "stage-3d": {
+   "expected": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "remote": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "ok": true
+  },
+  "stage-3d-hq1": {
+   "expected": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "remote": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "ok": true
+  },
+  "stage-3d-hq2": {
+   "expected": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "remote": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "ok": true
+  },
+  "stage-3h0": {
+   "expected": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "remote": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "ok": true
+  },
+  "stage-e": {
+   "expected": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "remote": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "ok": true
+  },
+  "stage-f": {
+   "expected": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "remote": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "ok": true
+  },
+  "stage-g": {
+   "expected": "7fb4dafef92040571209403358e536ccb1105509",
+   "remote": "7fb4dafef92040571209403358e536ccb1105509",
+   "ok": true
+  },
+  "stage-h": {
+   "expected": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "remote": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "ok": true
+  },
+  "stage-i": {
+   "expected": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "remote": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "ok": true
+  }
+ },
+ "newRemoteBranches": [],
+ "ok": true
+}

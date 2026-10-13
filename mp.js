@@ -22,7 +22,7 @@ window.__hounds = hSlots;
 let cpNow = 0, killSeq = -1, graceUntil = 0;      // what the server says is holding us / which death we already announced / the spawn grace
 const EN = () => window.__ents;
 if (EN()) EN().onFail = f => EN().smilerVoice(f.x, f.y, 'blackout');      // a lamp going out has a sound of its own
-const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', dbg: false };
+const adm = { unlocked: false, pass: null, open: false, data: null, you: null, err: '', dbg: false, nf: 0 };   // (Stage 3D HQ3: nf - our own UNLIMITED NEW RUN as the SERVER last said it is: never set from a click)
 const peers = new Map();
 const N = window.__net = {
   on: false,
@@ -159,6 +159,7 @@ function connect() {
     else if (m.t === 'world') worldNew(m.w, m.x, m.y);                         // Stage 3D HQ2 (H2-4): an admin world reset - a new world epoch
     else if (m.t === 'revive') { const A = window.__api; A && A.revive(); }
     else if (m.t === 'msg') showMsg(m.text, m.from);
+    else if (m.t === 'nrf') { adm.nf = m.on ? 1 : 0; adm.sig = ''; renderAdminData(); }   // Stage 3D HQ3: the server's answer to UNLIMITED NEW RUN ON / OFF
     else if (m.t === 'ares') {                                                // the server's one-line answer to an admin command
       adm.res = { ok: !!m.ok, msg: String(m.msg || ''), at: performance.now() }; renderStatus();
       if (adm.rv && adm.rv.stage === 0) { if (!m.ok) adm.rv = null; else if (adm.opts.close && /^PLAYING/.test(adm.res.msg)) { adm.open = false; renderAdmin(); } }
@@ -186,7 +187,7 @@ function connect() {
       if (m.e) { snap = m.e; N.on = true; entitySignals(m.e); netHist(m.e, now); }
       if (m.e && typeof m.e.st === 'number' && pendSt.length) { for (const q of pendSt) stNote(q[1], q[0], q[0] === 'k' ? m.e.st - q[2] : m.e.st - q[2] + q[3]); pendSt.length = 0; }   // (HQ1: a replay or corpse that came just before this snapshot was sent in its pass)
       if (m.dbg && EN()) { EN().setDebug(m.dbg); if (m.dx) EN().setDebugX(m.dx); }
-      if (m.ad) { adm.data = m.ad; adm.you = m.you; renderAdminData(); }
+      if (m.ad) { adm.data = m.ad; adm.you = m.you; adm.nf = m.nf ? 1 : 0; renderAdminData(); }   // (nf: Stage 3D HQ3, every admin snapshot says it again)
     }
   };
   ws.onclose = () => {
@@ -197,7 +198,7 @@ function connect() {
     if (EN()) { EN().clearDebug(); EN().dbgCfg.on = false; EN().drawDebug(); EN().setFails([]); }
     if (window.__mv) { window.__mv.down = 0; window.__mv.dragTo = null; }
     net.textContent = everConnected ? 'SOLO · RECONNECTING' : 'SOLO';
-    adm.unlocked = false; adm.dbg = false; renderAdmin();
+    adm.unlocked = false; adm.dbg = false; adm.nf = 0; renderAdmin();          // (Stage 3D HQ3: UNLIMITED NEW RUN is gone with the connection: a new one starts OFF on the server too)
     if (!kicked) setTimeout(connect, Math.min(8000, 1000 * ++retry));
   };
 }
@@ -409,7 +410,6 @@ function startFx(m) {
   }
   fxs.push(f);
 }
-function updateFx(now) {
 /* Stage 3D HQ3: a NEW RUN's gibs on this screen - the replay's own physics (the server's seed: the same pieces everywhere), drawn by
  * gore.js; redrawn only while something moves (once all is at rest the picture is left as it is), darkened toward a corpse's colour
  * over the blast so the corpse that takes over looks the same */
@@ -420,6 +420,7 @@ function gibFrame(f, jl) {
   f.gib.clear();
   G.gibs(f.gib, S.gib.map((g, i) => ({ x: g.x, y: g.y, rot: g.rot, z: g.z, poly: shapes[i].poly, core: shapes[i].core })), S.h.map(h => ({ x: h.x, y: h.y, rot: h.rot, z: h.z })), f.look, { dead, eqKind: f.gear && f.gear.kind });
 }
+function updateFx(now) {
   const A = window.__api; window.__fxKill.clear(); window.__fxKillS.clear();
   for (let i = fxs.length - 1; i >= 0; i--) {
     const f = fxs[i], t = now - f.t0;
@@ -432,12 +433,12 @@ function gibFrame(f, jl) {
       continue;
     }
     const jl = f.jl, done = jl.frame(now), b = jl.body;
-    f.av.update(now, false, false, f.src);
     if (f.gib) { f.av.visible = false; gibFrame(f, jl); }                          // Stage 3D HQ3: a gibbed NEW RUN: no whole body from the first frame on
     else {
+    f.av.update(now, false, false, f.src);
     f.av.position.set(b.x, b.y); f.av.rotation = b.angle; f.av.scale.set(b.scaleX, b.scaleY); f.av.alpha = b.alpha; f.av.deathPose(jl.injury, jl.impact, jl.elapsed > .24, jl);
-    if (f.att) {                                                                   // (a NEW RUN blast has no attacker)
     }
+    if (f.att) {                                                                   // (a NEW RUN blast has no attacker)
       f.att.visible = !done; f.att.position.set(jl.attacker.x, jl.attacker.y); f.att.rotation = jl.attacker.angle + Math.PI / 2; f.att.alpha = 1;
       if (f.cause === 'Smiler') { f.att.scale.set(1 + sm(.3, 1.7, jl.elapsed) * .9); if (EN()) EN().attackSmiler(f.att, now, 1 / 60); } else f.att.attackPose(jl.grip, jl.impact, jl.variant, jl);
     }
@@ -595,8 +596,10 @@ N.peerScreen = () => peers.size && view ? [...peers.values()].map(o => ({ n: o.n
 
 
 /* ---------- admin menu (press ` ) ----------
- * Tabs: PLAYERS · MONSTERS · DEATHS (preview any death on yourself, choose the capture style) · WORLD · DEBUG (debug mode with the AI overlay).
- * Everything the panel does is a command to the server; the server answers each one with a one-line status (ares). */
+ * Tabs: PLAYERS · MONSTERS · DEATHS (preview any death on yourself, choose the capture style; Stage 3D HQ3: your own NEW RUN - the instant
+ * gib - and UNLIMITED NEW RUN for yourself) · WORLD · DEBUG (debug mode with the AI overlay).
+ * Everything the panel does is a command to the server; the server answers each one with a one-line status (ares).  A toggle shows the
+ * state the server says it is in (UNLIMITED NEW RUN: nf in every admin snapshot, nrf after a change), never the state a click hoped for. */
 const esc = v => String(v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const LS = { get(k, d) { try { const v = localStorage.getItem('adm.' + k); return v === null ? d : JSON.parse(v); } catch { return d; } }, set(k, v) { try { localStorage.setItem('adm.' + k, JSON.stringify(v)); } catch { } } };
 const TABS = [['players', 'PLAYERS'], ['monsters', 'MONSTERS'], ['deaths', 'DEATHS'], ['world', 'WORLD'], ['debug', 'DEBUG']];
@@ -649,7 +652,7 @@ function bodyPlayers(d) {
       (you ? '' : btn('BRING', `data-c="bring" data-id="${pl.id}"`) + btn('GO TO', `data-c="goto" data-id="${pl.id}"`)) +
       (pl.d ? btn('REVIVE', `data-c="revive" data-id="${pl.id}"`) : '') + btn('GOD', `data-c="god" data-id="${pl.id}"`, pl.g) +
       (you ? '' : btn('KICK', `data-c="kick" data-id="${pl.id}" data-confirm="Kick ${esc(pl.n)}?"`)) + '</div></div>';
-  }).join('');
+  }).join('') + '<p class="adm-help">Living wanderers are solid to each other: BRING and GO TO put a player on the nearest free spot beside the other, not on top. MENU = not in the halls (never joined, or after their NEW RUN until SPAWN). Corpses and the dead never block anyone.</p>';
 }
 function bodyMonsters(d) {
   const mine = d.pl.find(p => p.id === adm.you), sp = v => btn(v + '×', `data-c="speed" data-v="${v}"`, d.sp === v);
@@ -703,7 +706,11 @@ function bodyDeaths(d) {
     rowW(dl('xray', 'X-RAY ATTACKER', L.xray) + dl('viz', 'SHOW PATHS · FORCES', L.viz) + btn('REPLAY LAST', 'data-a="replay"') + dl('reset', 'RESET CLOCK', false)) +
     sec('PLACE ME FIRST') + rowW(btn('OPEN ROOM', 'data-a="place" data-w="open"') + btn('NEAR A WALL', 'data-a="place" data-w="wall"') + btn('IN A CORNER', 'data-a="place" data-w="corner"')) +
     '<p class="adm-help">The clock, x-ray and overlay only change what YOU see. Set the speed or pause before you press a death button; the panel stays open if CLOSE THE PANEL is off. Green: body path · white: velocity · purple: spin · orange/blue: hands (ring = where the spring wants it, dot = where it is) · yellow: the light · red dashed: attacker · red x: wall hits.</p>';
-  return lab + sec('CAPTURE STYLE (FOR REAL CATCHES)') + rowW(cb('auto', 'AUTO') + cb('quick', 'ALWAYS QUICK') + cb('play', 'ALWAYS PLAY')) +
+  const nf = adm.nf, last = nrLast, lastTxt = !last ? 'NOT PRESSED YET ON THIS CONNECTION' : last.ok ? 'APPROVED (EVENT ' + last.de + ')' : last.why === 'cooldown' ? 'REFUSED · WAIT ' + Math.ceil(+last.wait || 0) + ' S' : 'REFUSED · ' + ({ state: 'NOT IN A RUN (SPAWN FIRST)', dead: 'DEAD', held: 'HELD BY AN ENTITY', epoch: 'THE WORLD WAS JUST RESET' }[last.why] || String(last.why).toUpperCase());
+  const mine = sec('YOUR NEW RUN · INSTANT GIB') + rowW(btn(nf ? '● UNLIMITED NEW RUN ON' : '○ UNLIMITED NEW RUN OFF', `data-c="nrfree" data-on="${nf ? 0 : 1}"`, nf)) +
+    `<div class="adm-sub">SERVER SAYS: ${nf ? 'ON' : 'OFF'} · LAST NEW RUN: ${live('nrlast', lastTxt)}</div>` +
+    '<p class="adm-help">NEW RUN (Esc, then NEW RUN) blows YOUR wanderer into pieces at once: the server decides, everyone sees the same pieces, and they stay as your corpse until your next death or NEW RUN. Normally once every 30 s. UNLIMITED NEW RUN skips that wait for you alone, on this connection only (OFF again after a reconnect); you still have to be alive, free and back in a run (SPAWN) first. WORLD → NEW RUN FOR EVERYONE is a different thing: it resets the whole room and never blows anybody up.</p>';
+  return mine + lab + sec('CAPTURE STYLE (FOR REAL CATCHES)') + rowW(cb('auto', 'AUTO') + cb('quick', 'ALWAYS QUICK') + cb('play', 'ALWAYS PLAY')) +
     '<p class="adm-help">AUTO: each entity decides. QUICK: every catch is an instant kill. PLAY: every catch is a held victim (down, crawl, dragged, maybe let go) for 5-15 s before the kill. Set PLAY, then SUMMON A HOUND, to watch the long version.</p>' +
     sec('PLAY A DEATH ON ME · HOUND') + `<div class="adm-grid">${pv('hound', 'A', 'THROAT', 'lunge from the front, held down')}${pv('hound', 'B', 'DRAGGED', 'pulled down and dragged away')}${pv('hound', 'C', 'WALL SLAM', 'needs a wall 1-2 body lengths off')}${pv('hound', 'D', 'EXHAUSTED', 'goes down in a heap')}</div>` +
     sec('PLAY A DEATH ON ME · SMILER') + `<div class="adm-grid">${pv('smiler', 'A', 'RUSH', 'out of the dark, arms reaching')}${pv('smiler', 'B', 'CORNERED', 'it closes in, everything goes black')}${pv('smiler', 'C', 'LIGHT FAILURE', 'the lamps die, one last dark')}${pv('smiler', 'D', 'PLAYED WITH', 'knocked back, dragged, slow')}</div>` +
@@ -714,7 +721,8 @@ function bodyWorld(d) {
   return sec('LIGHTS') + rowW(['auto', 'on', 'off'].map(m => btn(m === 'auto' ? 'AUTO' : 'BLACKOUT ' + m.toUpperCase(), `data-c="blackout" data-mode="${m}"`, d.bo === m)).join('')) +
     sec(`GLITCHED WALLS · ${d.gw}`) + rowW(btn('GO TO NEAREST', 'data-c="glitch" data-mode="tp"') + btn('MOVE THEM', 'data-c="glitch" data-mode="new"')) +
     sec(`CARTOGRAPH · ${d.it ? 'ON THE FLOOR' : 'TAKEN'}`) + rowW(btn('GO TO IT', 'data-c="item" data-mode="tp"') + btn('MOVE IT', 'data-c="item" data-mode="new"') + btn('GIVE ME ONE', 'data-a="give"')) +
-    sec('RUN') + rowW(btn('NEW RUN FOR EVERYONE', 'data-c="world" data-confirm="Reset the whole world?"'));
+    sec('RUN · THE WHOLE ROOM') + rowW(btn('NEW RUN FOR EVERYONE', 'data-c="world" data-confirm="Reset the whole world for everyone? Every corpse, blood stain and dying light goes; everyone in a run starts again. Nobody is blown up."')) +
+    '<p class="adm-help">A world reset, not anyone\'s own NEW RUN: nobody is blown up and no NEW RUN cooldown starts. Every death, gib, corpse, wall stain and dying light of the old world goes on every screen. Your own instant-gib NEW RUN is in the DEATHS tab.</p>';
 }
 function bodyDebug(d) {
   const L = (k, t) => btn(t, `data-a="lay" data-l="${k}"`, adm.lay[k]);

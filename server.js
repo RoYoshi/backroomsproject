@@ -218,16 +218,16 @@ function nrIntent(room, me, m) {
   const q = Number.isSafeInteger(m.q) && m.q > 0 && m.q < 2147483648 ? m.q : 0; if (!q) return;
   me.nrT = now;
   if (me.nr) { if (q === me.nr.q) return send(me, me.nr.ans); if (q < me.nr.q) return; }
-  const sim = room.sim, p = me.player, t = now / 1000;
-  let why = m.w !== sim.worldSeq ? 'epoch' : sim.nrWhy(p, t), ans;
-  if (!why) why = sim.newRun(p, t);
+  const sim = room.sim, p = me.player, t = now / 1000, free = !!(me.admin && me.nrFree);    // Stage 3D HQ3: an admin's own UNLIMITED NEW RUN (this connection only) skips the 30 s, nothing else
+  let why = m.w !== sim.worldSeq ? 'epoch' : sim.nrWhy(p, t, free), ans;
+  if (!why) why = sim.newRun(p, t, free);
   if (why) { ans = { t: 'nra', q, ok: 0, why }; if (why === 'cooldown') ans.wait = Math.ceil(sim.nrWait(p, t) * 10) / 10; }
   else {
     const de = room.deSeq = (room.deSeq | 0) + 1;
     ans = { t: 'nra', q, ok: 1, de, w: sim.worldSeq };
     me.spawnNext = false;
     boomStart(room, me, de);                                                    // H2-2: the one explosion of this decision
-    console.log(`[newrun] room=${room.name} #${me.id} de=${de}: approved`);
+    console.log(`[newrun] room=${room.name} #${me.id} de=${de}: approved${free ? ' (unlimited: admin)' : ''}`);
   }
   me.nr = { q, ans }; send(me, ans);
 }
@@ -296,7 +296,12 @@ function adminCommand(room, me, m) {
     case 'nav': { const r = room.sim.navCmd(m.eid | 0, String(m.cmd || ''), me.player); log(`nav ${m.cmd} #${m.eid}`); res(!!r, r ? 'ENTITY #' + (m.eid | 0) + ': ' + r : 'NO SUCH ENTITY'); break; }
     case 'entdel': { const ok = A.removeEntity(m.eid); log(`remove entity ${m.eid}`); res(ok, ok ? 'ENTITY #' + (m.eid | 0) + ' REMOVED' : 'NO SUCH ENTITY'); break; }
     case 'world': {                                                             // (Stage 3D HQ2: the world epoch - see worldReset)
-      log('reset world'); worldReset(room); res(true, 'NEW RUN FOR EVERYONE'); break;
+      log('reset world'); worldReset(room); res(true, 'WORLD RESET FOR EVERYONE · NOBODY BLOWN UP · NO COOLDOWNS'); break;
+    }
+    case 'nrfree': {                                                            // Stage 3D HQ3: UNLIMITED NEW RUN - this admin's OWN NEW RUN skips the 30 s wait
+      me.nrFree = !!m.on;                                                       // (on this connection only: off by default, gone with it; never another player's; nrIntent asks me.admin too)
+      log(`unlimited new run ${me.nrFree ? 'on' : 'off'}`); send(me, { t: 'nrf', on: me.nrFree ? 1 : 0 });
+      res(true, me.nrFree ? 'UNLIMITED NEW RUN ON · YOUR OWN NEW RUN SKIPS THE 30 S WAIT' : 'UNLIMITED NEW RUN OFF · THE 30 S WAIT IS BACK'); break;
     }
     case 'msg': { const text = String(m.text || '').slice(0, 140).trim(); if (text) { log(`broadcast "${text}"`); for (const c of room.clients.values()) send(c, { t: 'msg', text, from: me.name }); res(true, 'SENT'); } break; }
   }
@@ -418,7 +423,7 @@ setInterval(() => {
       if (c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; send(c, bm || (bm = bodyMsg())); }
       const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player), w: room.sim.worldSeq };   // (w: Stage 3D HQ2, the world epoch)
       if (c.player.dead && c.player.kill) msg.mk = c.player.kill;
-      if (c.admin && ad) { msg.ad = ad; msg.you = c.id; }
+      if (c.admin && ad) { msg.ad = ad; msg.you = c.id; msg.nf = c.nrFree ? 1 : 0; }   // (Stage 3D HQ3: nf - this admin's own UNLIMITED NEW RUN, as the server holds it)
       if (c.admin && c.dbg && dbgList) {
         msg.dbg = dbgList;
         const lg = room.sim.logSince(c.dbgSeq | 0); if (lg.length) { c.dbgSeq = lg[lg.length - 1].s; }

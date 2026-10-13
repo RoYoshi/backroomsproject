@@ -1,0 +1,4 @@
+-- H3-2 on the staged tree, exported to a scratch folder (the game files as in git write-tree fa63fc4591bc15b18cf21b3695b5e71534e4f5ca; only the test tool admin_browser.py changed after the export), Tue Oct 13 2026 --
+admin_nr exit=0 (8/8)
+admin_browser exit=1 (3/4) - attempts/admin_browser_panel_hidden_by_dom: the test hid the panel by setting its DOM hidden flag, so the panel's own state stayed open, the later Backquote closed it, and the OFF click reached the server (log: "unlimited new run off"; the next NEW RUN refused, cooldown) while the closed panel was not re-rendered
+admin_browser exit=0 (4/4) - the test closes the panel with its own close button and reopens it with Backquote, and checks the panel is open before reading the toggle
