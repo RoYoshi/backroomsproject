@@ -1,0 +1,25 @@
+{
+ "tool": "dev/stage-3e-0-bpp/net_bench.js",
+ "recipients": 7,
+ "snapshotBytesEach": 1273,
+ "entityBytes": 145,
+ "poseBytesEach": 138,
+ "identicalBytes": {
+  "snapshot": true,
+  "pose": true
+ },
+ "usPerTick": {
+  "snapshotNow": 30.93,
+  "snapshotCandidate": 29.37,
+  "poseNow": 5.92,
+  "poseCandidate": 2.45
+ },
+ "savingPerSecondUs": {
+  "snapshot": 31.2,
+  "pose": 69.4
+ },
+ "savingShareOfOneCorePct": {
+  "snapshot": 0.0031,
+  "pose": 0.0069
+ }
+}

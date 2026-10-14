@@ -1,0 +1,141 @@
+{
+ "tool": "dev/stage-3e-0-bpp/net_profile.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/bpp/g0",
+ "players": 7,
+ "caps": true,
+ "fastAnswered": 7,
+ "secs": 15,
+ "serverCpuPct": 6.8,
+ "perPlayer": {
+  "inBytesPerSec": 27772.6,
+  "inMsgsPerSec": 39.7,
+  "outBytesPerSec": 5695.8,
+  "outMsgsPerSec": 30.9
+ },
+ "msgTypesPerSecOfPlayer0": {
+  "hi": 0,
+  "caps": 0,
+  "bodies": 0,
+  "s": 19.9,
+  "q": 19.4,
+  "tp": 0.5
+ },
+ "serverErrors": [],
+ "profile": {
+  "file": "CPU.20261013.232049.2858.0.001.cpuprofile",
+  "sampledMs": 19000.4,
+  "idleProgramGcMs": 18409.3,
+  "underMs": {
+   "poseSend": 13.5,
+   "snapshotSend": 0,
+   "send": 30.8,
+   "stringify": 0,
+   "mvCheck": 27.5,
+   "simStep": 40.7,
+   "reader": 0
+  },
+  "topSelf": [
+   [
+    "fl sim.js:8",
+    73.3
+   ],
+   [
+    "buildStatic ai.js:56",
+    67
+   ],
+   [
+    "(garbage collector) :0",
+    54.2
+   ],
+   [
+    "(program) :0",
+    53.2
+   ],
+   [
+    "(anon) ws.js:19",
+    23.6
+   ],
+   [
+    "onMessage server.js:338",
+    23.3
+   ],
+   [
+    "utf8Slice :0",
+    18.9
+   ],
+   [
+    "(anon) server.js:415",
+    17.6
+   ],
+   [
+    "compileForInternalLoader realm:385",
+    15.5
+   ],
+   [
+    "writeBuffer :0",
+    15.1
+   ],
+   [
+    "Uc sim.js:7",
+    14.9
+   ],
+   [
+    "listOnTimeout timers:526",
+    14.3
+   ],
+   [
+    "mvCheck server.js:79",
+    13.9
+   ],
+   [
+    "nextTick task_queues:111",
+    12.2
+   ],
+   [
+    "(anon) sim.js:8",
+    12
+   ],
+   [
+    "step sim.js:248",
+    11.2
+   ],
+   [
+    "cleanLook fields.js:17",
+    11.1
+   ],
+   [
+    "wrapSafe loader:1595",
+    11
+   ],
+   [
+    "sl sim.js:8",
+    10
+   ],
+   [
+    "Bc sim.js:7",
+    9.1
+   ],
+   [
+    "feed sim.js:225",
+    8
+   ],
+   [
+    "stepOnce dphys.js:151",
+    7.4
+   ],
+   [
+    "eng.setPlayers ai.js:2294",
+    6.8
+   ],
+   [
+    "advance dphys.js:556",
+    6.6
+   ],
+   [
+    "ray sim.js:32",
+    6.4
+   ]
+  ]
+ },
+ "profileNote": "node --cpu-prof of the B++-0 server (whole run, setup included); the raw .cpuprofile is not kept"
+}

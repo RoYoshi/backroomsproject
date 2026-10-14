@@ -1,0 +1,107 @@
+{
+ "tool": "dev/stage-3e-0/two_browser.py",
+ "mode": "bplus",
+ "lag": 0,
+ "expect": "old-client",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/bpp/mix_oldcli",
+ "phases": [
+  {
+   "name": "walk into Bob",
+   "t0": 12961.399999999907,
+   "t1": 16118.59999999986
+  },
+  {
+   "name": "back off, sprint into him, stop dead",
+   "t0": 16192,
+   "t1": 19102.699999999953
+  },
+  {
+   "name": "turn a full circle fast",
+   "t0": 19184.09999999986,
+   "t1": 21189.300000000047
+  },
+  {
+   "name": "crouch, walk back, stand",
+   "t0": 21277.800000000047,
+   "t1": 23120.59999999986
+  },
+  {
+   "name": "run west and slide",
+   "t0": 23205.999999999767,
+   "t1": 25472.90000000014
+  }
+ ],
+ "ids": {
+  "alice": 1,
+  "bob": 3
+ },
+ "bobPeerNet0": null,
+ "beforeReload": {
+  "bobPeerNet": null,
+  "bobSpy": {
+   "n": {
+    "hi": 1,
+    "bodies": 1,
+    "s": 497,
+    "tp": 1
+   },
+   "sent": {
+    "p": 219,
+    "join": 1
+   }
+  },
+  "aliceSpy": {
+   "n": {
+    "hi": 1,
+    "bodies": 2,
+    "s": 634,
+    "tp": 1
+   },
+   "sent": {
+    "p": 323,
+    "join": 1
+   }
+  },
+  "alicePeerNet": null
+ },
+ "afterReload": {
+  "aliceNewId": 5,
+  "bobPeers": null,
+  "bobAvatars": 1
+ },
+ "worldReset": "{\"ok\":true,\"msg\":\"WORLD RESET FOR EVERYONE \u00b7 NOBODY BLOWN UP \u00b7 NO COOLDOWNS\"}",
+ "afterReset": {
+  "bobPeers": null,
+  "bobPeerNet": null,
+  "bobAvatars": 1,
+  "bobEpoch": {
+   "w": 3,
+   "ends": 1,
+   "at": 1791952090.436,
+   "oldDropped": 0,
+   "softTp": 0,
+   "peers": 1
+  }
+ },
+ "frames": 147,
+ "checks": {
+  "framesWithAlice": 147,
+  "avatarIsDrawnPose": 0,
+  "castJobAtAvatar": 147,
+  "contactJobAtAvatar": 124,
+  "lightAtBeam": 147,
+  "bodiesAreServerTarget": 0,
+  "bodiesDifferFromDrawn": 0,
+  "worst": {
+   "av": 0,
+   "job": 0,
+   "light": 0,
+   "pb": 0
+  },
+  "drawnDistanceToBobMin": 37.0,
+  "hookErrors": []
+ },
+ "bobFrameMsMedian": 82.59999999962747,
+ "pageErrors": [],
+ "ok": true
+}

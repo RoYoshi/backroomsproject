@@ -1,0 +1,24 @@
+{
+ "tool": "dev/stage-3e-0-bpp/net_profile.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/e0/bp",
+ "players": 7,
+ "caps": true,
+ "fastAnswered": 7,
+ "secs": 15,
+ "serverCpuPct": 3.8,
+ "perPlayer": {
+  "inBytesPerSec": 27769.1,
+  "inMsgsPerSec": 40.1,
+  "outBytesPerSec": 5684.8,
+  "outMsgsPerSec": 30.8
+ },
+ "msgTypesPerSecOfPlayer0": {
+  "hi": 0,
+  "caps": 0,
+  "bodies": 0,
+  "s": 19.9,
+  "q": 19.7,
+  "tp": 0.7
+ },
+ "serverErrors": []
+}
