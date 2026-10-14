@@ -3,7 +3,7 @@
  "version": 2,
  "derivedFrom": {
   "srv": "dev/stage-3h/evidence/h1/golden/srv_traces,dev/stage-3h/evidence/h2/golden/bpp_traces",
-  "cli": "dev/stage-3h/evidence/h1/golden/cli_traces"
+  "cli": "dev/stage-3h/evidence/h1/golden/cli_traces,dev/stage-3h/evidence/h2/golden/cli_traces"
  },
  "serverToClient": {
   "hi": {
@@ -3242,7 +3242,7 @@
  },
  "clientToServer": {
   "caps": {
-   "seen": 11,
+   "seen": 15,
    "paths": {
     ".": {
      "kinds": [
@@ -3267,7 +3267,7 @@
    }
   },
   "join": {
-   "seen": 11,
+   "seen": 19,
    "paths": {
     ".": {
      "kinds": [
@@ -3640,8 +3640,39 @@
      "keyOrders": []
     }
    }
+  },
+  "nr": {
+   "seen": 14,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,q,w"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".q": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
   }
  },
- "messagesRead": 25933,
+ "messagesRead": 25959,
  "wideObjects": []
 }

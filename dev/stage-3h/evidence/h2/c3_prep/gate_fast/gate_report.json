@@ -1,0 +1,91 @@
+{
+ "tool": "dev/stage-3h/gate/h2_gate.js",
+ "tier": "fast",
+ "allowProd": "server.js,server/newrun.js,server/aftermath.js",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "eb782fda8e99b64e0c0492209fae5b5c958c6d29",
+ "startedAt": "2026-10-14T15:10:42.284Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c3/gate_fast_prep",
+ "steps": {
+  "build": {
+   "ok": true,
+   "cases": 3,
+   "note": "",
+   "exit": 0,
+   "seconds": 0
+  },
+  "scope": {
+   "ok": true,
+   "cases": 189,
+   "note": "changed on purpose: server.js, server/aftermath.js, server/newrun.js",
+   "exit": 0,
+   "seconds": 1
+  },
+  "srv_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "identical to the baseline",
+   "exit": 0,
+   "seconds": 13
+  },
+  "bpp_golden": {
+   "ok": true,
+   "cases": 7,
+   "note": "",
+   "exit": 0,
+   "seconds": 12
+  },
+  "cli_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "B++ client scenes 2",
+   "exit": 0,
+   "seconds": 7
+  },
+  "protocol": {
+   "ok": true,
+   "cases": 51918,
+   "note": "messages checked; selftest PASS",
+   "exit": null,
+   "seconds": 4
+  },
+  "mutants": {
+   "ok": true,
+   "cases": 18,
+   "note": "nr_gap_200@server/newrun.js nr_wait_round@server/newrun.js nr_no_memory@server/newrun.js nr_free_off@server/newrun.js nr_held_free@sim.js aft_el_half@server/aftermath.js aft_every_tick@server/aftermath.js aft_victim_replay@server/aftermath.js aft_one_per_player@server/aftermath.js aft_world_tick@server/aftermath.js aft_killer_end@server/aftermath.js aft_boom_revive@server/aftermath.js",
+   "exit": 0,
+   "seconds": 29
+  },
+  "static": {
+   "ok": true,
+   "cases": 4,
+   "note": "",
+   "exit": 0,
+   "seconds": 1
+  },
+  "raw_live": {
+   "ok": true,
+   "cases": 141,
+   "note": "identical",
+   "exit": 0,
+   "seconds": 23
+  },
+  "quick_suites": {
+   "ok": true,
+   "cases": 23,
+   "note": "s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 9
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-14T15:12:20.141Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "srv_keep",
+  "bpp_keep",
+  "cli_keep",
+  "cli_h2_keep"
+ ]
+}

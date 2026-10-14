@@ -1,0 +1,261 @@
+{
+ "checkpoint": "C-2",
+ "verifiedAt": "2026-10-14T15:04:03Z",
+ "branch": "stage-3h",
+ "local": {
+  "commit": "eb782fda8e99b64e0c0492209fae5b5c958c6d29",
+  "tree": "f0619b6dabe9f373bee4ded7057dbf3376b5c45d",
+  "parent": "122e8f18bb373a2c9b8006ae8276eb253df76427"
+ },
+ "lsRemote": "eb782fda8e99b64e0c0492209fae5b5c958c6d29",
+ "githubApi": {
+  "commit": "eb782fda8e99b64e0c0492209fae5b5c958c6d29",
+  "tree": "f0619b6dabe9f373bee4ded7057dbf3376b5c45d",
+  "parents": [
+   "122e8f18bb373a2c9b8006ae8276eb253df76427"
+  ],
+  "message": "Stage 3H2 C-2: the death aftermath and the NEW RUN blast moved to server/aftermath.js (no behaviour change)",
+  "branchHead": "eb782fda8e99b64e0c0492209fae5b5c958c6d29",
+  "branchTree": "f0619b6dabe9f373bee4ded7057dbf3376b5c45d"
+ },
+ "sinceAcceptedBpp": [
+  {
+   "commit": "4ced2e8f36b0595ff7d415f858b08639b54ecb9f",
+   "tree": "9e0781081b97fa7417f2e1a395f1e39ebde543ac",
+   "subject": "Stage 3H1: development tools for the B++ baseline (no game change)"
+  },
+  {
+   "commit": "08fc3d166f6369ce267b0049c521622cac0ff25d",
+   "tree": "54f69e915abdf7a187e28a041755e59e0829a10f",
+   "subject": "Stage 3H1: the B++ baseline evidence (no game change)"
+  },
+  {
+   "commit": "71aaa6eecca30640af73c0fe58016f333d35c6ba",
+   "tree": "68fe47c8f6b6adeea82272d0fec6c112de735d84",
+   "subject": "Stage 3H1: the inventory also reads index.html's inline scripts (no game change)"
+  },
+  {
+   "commit": "17bfaa5635316178a3b026230797cb24ecd83015",
+   "tree": "355e98d25504c7793b94afbb0da67b5722657beb",
+   "subject": "Stage 3H1: architecture audit, ownership map, framework registry, parity baseline, seams, candidates (no game change)"
+  },
+  {
+   "commit": "b2918a2faecdde5604690272ccc8055cc37c2f5f",
+   "tree": "7b6585a180ea68b3bc61eb60dd4c6d9a08e0c806",
+   "subject": "Stage 3H1: devlog4dev - findings, recommendations, deferred work, performance baseline (no game change)"
+  },
+  {
+   "commit": "f5dcc12bf45773b6a12fe0589b420fcffe35e974",
+   "tree": "8a953570943fe9ae82342ab5c6aa0da7c45aa555",
+   "subject": "Stage 3H1: report, changed files, scope and push receipts - BASELINE/AUDIT COMPLETE, FUTURE REFACTOR NOT AUTHORIZED"
+  },
+  {
+   "commit": "3559e6539dcddb54ad038ec98ee6b848677f65a7",
+   "tree": "9d869dc7e62571e7b83343c0e1515f03876fa5ae",
+   "subject": "Stage 3H2 H2-0: one gate against the original B++, and the comparison tools repaired (no game change)"
+  },
+  {
+   "commit": "91a785f7019c5a01da7ac2916f7b87912de5894e",
+   "tree": "fc6d524d195a64627d192d3b33bce2f87153e9c9",
+   "subject": "Stage 3H2 C-1: NEW RUN's decision moved to server/newrun.js (no behaviour change)"
+  },
+  {
+   "commit": "122e8f18bb373a2c9b8006ae8276eb253df76427",
+   "tree": "ec1a0cc495472317c855513fb8232c93bc8b3de9",
+   "subject": "Stage 3H2 before C-2: the death aftermath pinned in every phase (no game change)"
+  },
+  {
+   "commit": "eb782fda8e99b64e0c0492209fae5b5c958c6d29",
+   "tree": "f0619b6dabe9f373bee4ded7057dbf3376b5c45d",
+   "subject": "Stage 3H2 C-2: the death aftermath and the NEW RUN blast moved to server/aftermath.js (no behaviour change)"
+  }
+ ],
+ "merges": [],
+ "acceptedBpp": {
+  "commit": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+  "tree": "b25c26ec3eedab406a6b93f80a59ba6a1cb7c128",
+  "firstH1CommitsParent": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+  "ancestorOfHead": true
+ },
+ "keyBranchesApi": {
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "api": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "apiTree": "15eee7643ea69c8733e55dacc34981e7276c17e0",
+   "ok": true
+  },
+  "stage-3e-0-bplusplus": {
+   "expected": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "api": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "apiTree": "b25c26ec3eedab406a6b93f80a59ba6a1cb7c128",
+   "ok": true
+  },
+  "stage-3e-0": {
+   "expected": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "api": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "apiTree": "11686a0ab061a5a463bbfbd3bc7c8c42e26febd2",
+   "ok": true
+  },
+  "stage-3d-hq5": {
+   "expected": "ad98475767bcae6794cd01af832de660355da7a2",
+   "api": "ad98475767bcae6794cd01af832de660355da7a2",
+   "apiTree": "9f721d371693656110f58c8e8fb6b6382ded6fa8",
+   "ok": true
+  },
+  "stage-3h0": {
+   "expected": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "api": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "apiTree": "5adf3f3cde5c1a52775f561c36facda646f3cca8",
+   "ok": true
+  }
+ },
+ "untouched": {
+  "br-role": {
+   "expected": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "remote": "b86966b5f59070b0f4c15b000c70a95e5f3b4e00",
+   "ok": true
+  },
+  "lighting-shadows-2d": {
+   "expected": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "remote": "f24a2c434c9b520f9119cdfaeb4a0b4d9487ce35",
+   "ok": true
+  },
+  "main": {
+   "expected": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "remote": "7781e1ac34aa09970df57fae3fc107a873fa2731",
+   "ok": true
+  },
+  "part-3a": {
+   "expected": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "remote": "4d1f17a600a10599b848b6db9d02fa16b4f479f0",
+   "ok": true
+  },
+  "part-3b": {
+   "expected": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "remote": "c392272e34bf26d6770a355e80638e1ac1612ac5",
+   "ok": true
+  },
+  "stage-3b-l": {
+   "expected": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "remote": "b9f3a9b934f40e35d51596f593eae810d077f194",
+   "ok": true
+  },
+  "stage-3b-l-qa1": {
+   "expected": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "remote": "d3ec2269af873dbc381d223ad538a43ba06f5c45",
+   "ok": true
+  },
+  "stage-3b-l-qa2": {
+   "expected": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "remote": "6e6fa46ecab537f716942b94f873776b09049a40",
+   "ok": true
+  },
+  "stage-3b-n": {
+   "expected": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "remote": "118d45c24d99d2cbc1e7b5b76cb76e041ac40d87",
+   "ok": true
+  },
+  "stage-3b-n-camera": {
+   "expected": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "remote": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "ok": true
+  },
+  "stage-3b-pillar-los": {
+   "expected": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "remote": "ecec8026c85c4cd0bc140ac574d1ce7dec8005f8",
+   "ok": true
+  },
+  "stage-3b-remaster": {
+   "expected": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "remote": "69602e7c9e755fcc65402b1563d4d060f5a10066",
+   "ok": true
+  },
+  "stage-3c": {
+   "expected": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "remote": "76bcc4acaa14814f84c2b9ae66acc5ffdfe2cace",
+   "ok": true
+  },
+  "stage-3c-qa1": {
+   "expected": "5f30e28532200bca52b57a112c6691498a263e92",
+   "remote": "5f30e28532200bca52b57a112c6691498a263e92",
+   "ok": true
+  },
+  "stage-3c-qa2": {
+   "expected": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "remote": "edd2af954627caf7721c7614df5ff1c7f20d3f3b",
+   "ok": true
+  },
+  "stage-3d": {
+   "expected": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "remote": "ffe2b53c2e5c6aa76a8db8bd222fd1910c1b0e57",
+   "ok": true
+  },
+  "stage-3d-hq1": {
+   "expected": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "remote": "ebb3bd603e8a2bb4ef00cc40aa6b415bccab9763",
+   "ok": true
+  },
+  "stage-3d-hq2": {
+   "expected": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "remote": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "ok": true
+  },
+  "stage-3d-hq3": {
+   "expected": "49343193e6948c8323f35a34539ac84db5a89835",
+   "remote": "49343193e6948c8323f35a34539ac84db5a89835",
+   "ok": true
+  },
+  "stage-3d-hq4": {
+   "expected": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "remote": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "ok": true
+  },
+  "stage-3d-hq5": {
+   "expected": "ad98475767bcae6794cd01af832de660355da7a2",
+   "remote": "ad98475767bcae6794cd01af832de660355da7a2",
+   "ok": true
+  },
+  "stage-3e-0": {
+   "expected": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "remote": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "ok": true
+  },
+  "stage-3e-0-bplusplus": {
+   "expected": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "remote": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "ok": true
+  },
+  "stage-3h0": {
+   "expected": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "remote": "06949a8a4204a1ce8144b87b2192251b259b21ec",
+   "ok": true
+  },
+  "stage-e": {
+   "expected": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "remote": "da90dbb48ac4702d666d26c638fe074a78478212",
+   "ok": true
+  },
+  "stage-f": {
+   "expected": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "remote": "ba4fd2d63f440aa113722942bcb4861ba665e1f3",
+   "ok": true
+  },
+  "stage-g": {
+   "expected": "7fb4dafef92040571209403358e536ccb1105509",
+   "remote": "7fb4dafef92040571209403358e536ccb1105509",
+   "ok": true
+  },
+  "stage-h": {
+   "expected": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "remote": "692eebd338cc42347d437b0c0a2dcc9d7217ac34",
+   "ok": true
+  },
+  "stage-i": {
+   "expected": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "remote": "106c87015ae8702f452979e0277cbacb5435fa6a",
+   "ok": true
+  }
+ },
+ "newRemoteBranches": [],
+ "ok": true
+}

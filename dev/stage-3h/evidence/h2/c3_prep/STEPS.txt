@@ -1,0 +1,35 @@
+# Stage 3H2, before C-3: NEW RUN's client side pinned (no game change)
+# $SP is the session's scratch folder; B++ = 143b63f; parent checkpoint C-2 = eb782fd
+
+## why a new client golden
+Stage 3H0's client harness page has no NEW RUN button (#reset) and no run menu (#runMenu): mp.js's nrButton and runMenuWords return at
+once there, so none of the nine 3H0 client scenes sees what a player sees of NEW RUN.  The live two-browser run sees it only by
+structure (the refusal's words once, the run menu shown or not).
+
+## the harness (golden/cli_lib_h2.js, golden/cli_scenes_nr.js, golden/cli_golden_h2.js)
+3H0's page and environment (fake clock, fake socket, seeded randomness), with B++'s own NEW RUN button and run menu markup taken from
+143b63f:index.html when the harness starts.  Two scenes:
+  nr_answers    offline press (false); a press refused by the cooldown (WAIT 13 S for 12.34, shown 2.5 s); a double press and a press
+                while waiting (nothing sent); no answer (the button back after 2.5 s), then a late answer; refusals state, dead,
+                epoch, held (NOT NOW); cooldown without wait (WAIT 0 S) and 0.04 (WAIT 1 S); a press 250 ms after an answered one
+                (nothing sent) and 350 ms after (sent); an answer to a press never made; a new world (w in the intent); an approval
+                (the beat called once, the run menu's blast words); a press and the same approval again after it (nothing); join (the
+                menu's own words back); join while a refusal shows
+  nr_reconnect  a press, the connection drops before its answer (the press forgotten), a press while closed (false); a new world
+                after the reconnect; an approval, then a drop; a press with no answer after another reconnect; an approval naming
+                the first connection's forgotten press (no beat)
+  every step records the button (text, disabled, its saved label), the menu's words and saved words, and __nrDebug(); the
+  environment records every send and timer
+node dev/stage-3h/golden/cli_golden_h2.js --repeat 2                                   exit 0  both scenes identical old/new, repeats same
+node dev/stage-3h/golden/cli_golden_h2.js --mutants 1                                  exit 0  11/11 mutants caught (cli_nr_mutants.json)
+  (a first scene set missed two - a double press only matters once the first press is answered, and a forgotten press only shows
+  through an approval naming it - and the scenes gained the steps that catch them; every answer now names the press the client sent)
+node dev/stage-3h/golden/cli_golden_h2.js --new-ref 143b63f --write-baseline           exit 0  baseline from B++ on both sides ->
+  evidence/h2/golden/cli_traces (nr_answers 06a819be..., nr_reconnect b877c987...), cli_golden_h2_report.json
+
+## the protocol contract v2 (gate/protocol_bpp.json), re-derived with these traces: it gains the client's 'nr' {t, q, w} (protocol_v2.js
+   now reads several client trace folders); nothing else changed
+
+## the gate on the C-2 tree with the client NEW RUN golden (its cli_golden step runs cli_golden_h2.js when it exists)
+node dev/stage-3h/gate/h2_gate.js --tier fast --allow-prod server.js,server/newrun.js,server/aftermath.js        exit 0  PASS (gate_fast/)
+  cli_golden 9 + 2 scenes, protocol 51,918 messages

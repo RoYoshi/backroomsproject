@@ -1,8 +1,8 @@
 /* Stage 3H2 (H2-0) - the B++ protocol contract, version 2: derived from the B++ golden traces, then used to check any set of traces
  * (development only; reads traces, writes JSON).
  *
- *   node dev/stage-3h/gate/protocol_v2.js derive --srv DIR[,DIR] --cli DIR --out protocol_bpp.json
- *   node dev/stage-3h/gate/protocol_v2.js check  --srv DIR[,DIR] --cli DIR [--contract protocol_bpp.json] [--out REPORT.json]
+ *   node dev/stage-3h/gate/protocol_v2.js derive --srv DIR[,DIR] --cli DIR[,DIR] --out protocol_bpp.json
+ *   node dev/stage-3h/gate/protocol_v2.js check  --srv DIR[,DIR] --cli DIR[,DIR] [--contract protocol_bpp.json] [--out REPORT.json]
  *
  * Stage 3H0's contract (dev/stage-3h0/protocol_contract.json) describes the QA2 parent and reports 12,483 differences on B++ (3H1 F-003).
  * This one is written from what the accepted B++ code actually sends, in both directions, and is exact: for every message type, every JSON
@@ -22,7 +22,7 @@ const kindOf = v => v === null ? 'null' : Array.isArray(v) ? 'array' : typeof v;
 function* messages() {
   for (const d of String(ARG.srv || '').split(',').filter(Boolean)) for (const f of files(d, /\.jsonl(\.gz)?$/))
     for (const line of read(f).split('\n')) { if (!line.startsWith('[')) continue; const e = JSON.parse(line); if (e[1] === 'sock.frame' && (e[3] & 15) === 1) { let m; try { m = JSON.parse(e[5]); } catch (x) { continue; } yield ['serverToClient', m, path.basename(f)]; } }
-  if (ARG.cli) for (const f of files(ARG.cli, /\.json(\.gz)?$/))
+  for (const d of String(ARG.cli || '').split(',').filter(Boolean)) for (const f of files(d, /\.json(\.gz)?$/))
     for (const e of JSON.parse(read(f))) if (e[1] === 'ws.send') { let m; try { m = JSON.parse(e[3]); } catch (x) { continue; } yield ['clientToServer', m, path.basename(f)]; }
 }
 /* every path of a message: [path, kind, keyOrder|null] */
