@@ -23,7 +23,7 @@ node dev/stage-3h/gate/h2_gate.js --tier full --allow-prod <every production fil
 | scope | only `dev/stage-3h/`, `dev/devlog4dev/` and the declared production files differ | B++ |
 | srv_golden | Stage 3H0's 11 server scenarios (closed world: fake clock, seeded randomness): every socket byte, HTTP response, timer, console line and sim call | B++'s `server.js` run beside it, and the stored B++ baseline `evidence/h1/golden/srv_traces` |
 | bpp_golden | the 7 B++ scenarios: caps/q, the placement guard and its caveats, NEW RUN, NEW RUN while held, the death aftermath in every phase | the stored B++ baseline `evidence/h2/golden/bpp_traces` |
-| cli_golden | Stage 3H0's 9 client scenes: `mp.js` in a real Chromium with a fake clock, every send, DOM change and draw call | B++'s `mp.js`, and `evidence/h1/golden/cli_traces` |
+| cli_golden | Stage 3H0's 9 client scenes (`mp.js` in a real Chromium with a fake clock: every send, DOM change and draw call), and Stage 3H2's 3: NEW RUN's client side (2) and the fluorescent hum's fixtures and crackles (1), in 3H0's page with B++'s NEW RUN button and run menu | B++'s `mp.js`, and `evidence/h1/golden/cli_traces` / `evidence/h2/golden/cli_traces` |
 | protocol | every message in those traces matches the B++ protocol contract v2 (exact JSON paths, value kinds and key orders, both directions); the checker's own selftest | `protocol_bpp.json`, derived from the B++ traces |
 | mutants | 18 one-line server mutants: each must change a B++ golden. The mutated text is found wherever the code now lives, so the goldens are shown to see code moved into `server/*.js` | the unmutated copy |
 | static | real HTTP on a copy of the game: the allowlist, blocked paths, the favicon bytes | B++'s favicon |
@@ -36,6 +36,7 @@ The fast tier, then the real-time checks:
 
 | step | what it proves |
 |---|---|
+| cli_mutants | 22 one-line client mutants (NEW RUN's client code, the fluorescent hum): each must change a client golden, wherever its text now lives |
 | live_wire | two real Chromium players through the game's own buttons (join, NEW RUN approved / refused / admin UNLIMITED, END, a death and RESPAWN, a server restart), compared by structure with the same script on B++ |
 | bpp_checks | B++'s own real-server checks (`proto_check`, `place_replay`, `place_guard_check`), judged against what they measured on B++ in 3H1 |
 | browsers | `two_browser` (B+), the two collision cases, the gameplay smoke |

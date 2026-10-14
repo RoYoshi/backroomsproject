@@ -16,7 +16,7 @@
  "declaredNewGlobals": [
   "__mpLib"
  ],
- "startedAt": "2026-10-14T15:09:46.310Z",
+ "startedAt": "2026-10-14T15:30:03.046Z",
  "scenes": [
   {
    "scene": "nr_answers",
@@ -24,21 +24,21 @@
     "entries": 229,
     "bytes": 16968,
     "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
-    "ms": 179,
+    "ms": 166,
     "errors": []
    },
    "new": {
     "entries": 229,
     "bytes": 16968,
     "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
-    "ms": 128,
+    "ms": 132,
     "errors": []
    },
    "globalsOnlyInNew": [],
    "globalsOnlyInOld": [],
    "equal": true,
    "undeclaredGlobals": [],
-   "nrSteps": 30,
+   "steps": 47,
    "repeats": [
     {
      "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
@@ -53,21 +53,21 @@
     "entries": 96,
     "bytes": 8919,
     "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
-    "ms": 139,
+    "ms": 141,
     "errors": []
    },
    "new": {
     "entries": 96,
     "bytes": 8919,
     "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
-    "ms": 128,
+    "ms": 126,
     "errors": []
    },
    "globalsOnlyInNew": [],
    "globalsOnlyInOld": [],
    "equal": true,
    "undeclaredGlobals": [],
-   "nrSteps": 13,
+   "steps": 18,
    "repeats": [
     {
      "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
@@ -75,8 +75,37 @@
     }
    ],
    "ok": true
+  },
+  {
+   "scene": "hum_fixtures",
+   "old": {
+    "entries": 8788,
+    "bytes": 695719,
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "ms": 205,
+    "errors": []
+   },
+   "new": {
+    "entries": 8788,
+    "bytes": 695719,
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "ms": 202,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 4,
+   "repeats": [
+    {
+     "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+     "equal": true
+    }
+   ],
+   "ok": true
   }
  ],
  "ok": true,
- "finishedAt": "2026-10-14T15:09:47.178Z"
+ "finishedAt": "2026-10-14T15:30:04.567Z"
 }

@@ -1,0 +1,197 @@
+{
+ "tool": "dev/stage-3h/golden/cli_golden_h2.js --mutants",
+ "source": "working tree",
+ "reference": {
+  "hum_dread": "d415d0bf6bbf0bfca5e901b25c00d09caf15a791891cd4b21043bee1bfc6ddad"
+ },
+ "mutants": [
+  {
+   "why": "hum buzz gain 0.21",
+   "find": "buzz.gain.value = .2;",
+   "repl": "buzz.gain.value = .21;",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "hum beating between 60 and 60.5 Hz",
+   "find": "for (const f of [60.0, 60.42])",
+   "repl": "for (const f of [60.0, 60.5])",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "every 12th fixture flickers",
+   "find": "li % 13 === 0",
+   "repl": "li % 12 === 0",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": false
+  },
+  {
+   "why": "blackout hum level 0.03",
+   "find": "let level = bo ? .025 :",
+   "repl": "let level = bo ? .03 :",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "a ballast dip lasts 20 ms longer",
+   "find": "dipEnd = tt + .06 + Math.random() * .12",
+   "repl": "dipEnd = tt + .08 + Math.random() * .12",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the blackout thunk starts at 100 Hz",
+   "find": "o.frequency.setValueAtTime(95, when)",
+   "repl": "o.frequency.setValueAtTime(100, when)",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the starter tink at 1400 Hz",
+   "find": "o.frequency.setValueAtTime(1350, when)",
+   "repl": "o.frequency.setValueAtTime(1400, when)",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the pan follows the fixture more slowly",
+   "find": "(A.lamps[li].x - P.x) / 450)), now, .15);",
+   "repl": "(A.lamps[li].x - P.x) / 450)), now, .2);",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "pops 0.1 s further apart",
+   "find": "1.4 + Math.random() * 5.5",
+   "repl": "1.5 + Math.random() * 5.5",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": false
+  },
+  {
+   "why": "a user hum fades the synth slower",
+   "find": "hum.out.gain.setTargetAtTime(0, now, .05);",
+   "repl": "hum.out.gain.setTargetAtTime(0, now, .06);",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the blackout drop is faster",
+   "find": "g.setTargetAtTime(.02, now, .04);",
+   "repl": "g.setTargetAtTime(.02, now, .03);",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  }
+ ],
+ "ok": false
+}

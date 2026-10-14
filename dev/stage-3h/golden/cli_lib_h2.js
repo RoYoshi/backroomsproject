@@ -4,13 +4,14 @@
  * (nrButton, runMenuWords) find no element there and do nothing, so no 3H0 scene can see them.  This page is 3H0's, with two things
  * added, both copied from the accepted B++ index.html (143b63f) when the harness starts: the dialog's NEW RUN button (#reset) and the
  * run menu (#runMenu, its eyebrow, title, intro and buttons).  It loads, in order: 3H0's env, stubs, world.js, the helper scripts the
- * variant's index.html loads between glitch.js and mp.js, mp.js, 3H0's scenes (their runner and page record), then cli_scenes_nr.js.
+ * variant's index.html loads between glitch.js and mp.js, mp.js, 3H0's scenes (their runner and page record), then cli_scenes_nr.js
+ * and cli_scenes_hum.js (Stage 3H2, before C-4: the fluorescent hum's fixtures and crackles).
  * A variant is 3H0's { mp, helpers } (fromRef / fromTree), optionally with mp or one helper's text replaced (mutants). */
 'use strict';
 const fs = require('fs'), path = require('path');
 const L = require('../../stage-3h0/golden/cli_lib.js');
 const H0 = path.join(L.REPO, 'dev', 'stage-3h0', 'golden');
-const SCENES = ['nr_answers', 'nr_reconnect'];
+const SCENES = ['nr_answers', 'nr_reconnect', 'hum_fixtures'];
 const BPP = '143b63ff42b88c6780c5043e0f61d64100f81f40';
 /* the B++ markup the page needs, taken from the accepted index.html itself (so the page cannot drift from it) */
 function bppMarkup() {
@@ -24,12 +25,12 @@ const MARK = bppMarkup();
 const NEWG = L.NEWG;
 const WORLD = fs.readFileSync(path.join(L.REPO, 'world.js'));
 const FILES = { 'h0/env.js': fs.readFileSync(path.join(H0, 'cli_env.js')), 'h0/stubs.js': fs.readFileSync(path.join(H0, 'cli_stubs.js')), 'h0/scenes.js': fs.readFileSync(path.join(H0, 'cli_scenes.js')),
-  'h2/scenes_nr.js': fs.readFileSync(path.join(__dirname, 'cli_scenes_nr.js')) };
+  'h2/scenes_nr.js': fs.readFileSync(path.join(__dirname, 'cli_scenes_nr.js')), 'h2/scenes_hum.js': fs.readFileSync(path.join(__dirname, 'cli_scenes_hum.js')) };
 function page(v) {
   return `<!doctype html><html><head><meta charset="utf-8"><title>h0</title></head><body><canvas id="mp"></canvas><div id="dread"></div><div id="game"></div><div id="light"></div>` +
     `<div id="dialog"><p class="lore-credit">credit line</p>${MARK.btn}</div>${MARK.rm}<div id="sound">SOUND: ON</div><div id="nameplate">QA-PLAYER</div><div id="wonStats"></div>` +
     `<script>window.__H0_NEW_GLOBALS = ${JSON.stringify(NEWG)};</script><script src="./h0/env.js"></script><script src="./h0/stubs.js"></script><script src="./world.js"></script>` +
-    v.helpers.map(h => `<script src="./${h.f}"></script>`).join('') + `<script src="./mp.js"></script><script src="./h0/scenes.js"></script><script src="./h2/scenes_nr.js"></script></body></html>`;
+    v.helpers.map(h => `<script src="./${h.f}"></script>`).join('') + `<script src="./mp.js"></script><script src="./h0/scenes.js"></script><script src="./h2/scenes_nr.js"></script><script src="./h2/scenes_hum.js"></script></body></html>`;
 }
 async function runScene(browser, v, scene) {
   const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 }, deviceScaleFactor: 1 });

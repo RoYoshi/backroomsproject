@@ -20,7 +20,8 @@
  *                    (raw_live_h2.js)
  *       quick_suites the suites that read server.js's or mp.js's text (s_humanqa_hotfix, s_ir, interp_test) and the quick ones, every
  *                    failure classified against the B++ record (suites.js --only)
- *   --tier full   (the final candidate; about 30 minutes) the fast tier, then the real-time and browser checks:
+ *   --tier full   (the final candidate; about 35 minutes) the fast tier, then the client mutants and the real-time and browser checks:
+ *       cli_mutants  22 one-line client mutants (NEW RUN's client code, the fluorescent hum), each must change a client golden
  *       live_wire    two real Chromium players through the game's own buttons on each game, compared by structure (live_wire_h2.js)
  *       bpp_checks   B++'s own checks: proto_check.js, place_replay.js, place_guard_check.js
  *       browsers     two_browser.py (B+), col_browser.py head and aside, gameplay_smoke.py
@@ -84,6 +85,10 @@ const STEPS = {
   },
   mutants: () => { const r = run('mutants', ['node', 'dev/stage-3h/golden/bpp_mutants.js', '--out', o('mutants.json')]); const j = J(o('mutants.json'));
     const n = j ? j.mutants.length : 0; return { ok: r.exit === 0 && j && j.ok && n >= 18, cases: n, note: j ? j.mutants.map(m => m.id + '@' + (m.file || '?')).filter(x => !/@server\.js$/.test(x)).join(' ') : '', r }; },
+  /* the client goldens' own sensitivity: 22 one-line changes of NEW RUN's client code and of the fluorescent hum, wherever their text now
+   * lives (mp.js or a helper script); each must change a client trace */
+  cli_mutants: () => { const r = run('cli_mutants', ['node', 'dev/stage-3h/golden/cli_golden_h2.js', '--mutants', '1', '--out', o('cli_mutants.json')]); const j = J(o('cli_mutants.json'));
+    const n = j ? j.mutants.length : 0; return { ok: r.exit === 0 && j && j.ok && n >= 22, cases: n, note: j ? j.mutants.filter(m => m.file && m.file !== 'mp.js').map(m => m.file).filter((f, i, a) => a.indexOf(f) === i).map(f => `${j.mutants.filter(m => m.file === f).length} in ${f}`).join(', ') || 'all in mp.js' : '', r }; },
   static: () => { const g = wtGame(); const r = run('static', ['node', 'dev/stage-3e-0/static_check.js', '--game', g, '--ico', path.join(bppGame(), 'favicon.ico'), '--out', o('static.json')]); const j = J(o('static.json'));
     return { ok: r.exit === 0 && j && j.ok, cases: j && j.checks ? Object.keys(j.checks).length : 0, r }; },
   raw_live: () => { const r = run('raw_live', ['node', 'dev/stage-3h/golden/raw_live_h2.js', '--old-ref', BPP, '--new-dir', wtGame(), '--out', o('raw_live.json')]); const j = J(o('raw_live.json'));
@@ -116,23 +121,23 @@ const STEPS = {
   /* the browser checks: two_browser.py always exits 0 (its verdict is the report's ok); the others exit 1 on a failed check */
   browsers: () => {
     const g = wtGame(), res = [];
-    let r = run('two_browser', ['python3', '-I', 'dev/stage-3e-0/two_browser.py', '--game', g, '--mode', 'bplus', '--out', o('two_browser.json')]); let j = J(o('two_browser.json'));
+    let r = run('two_browser', ['python3', '-I', '-B', 'dev/stage-3e-0/two_browser.py', '--game', g, '--mode', 'bplus', '--out', o('two_browser.json')]); let j = J(o('two_browser.json'));
     res.push(['two_browser', r.exit === 0 && j && j.ok === true && j.frames > 0, j ? j.frames || 0 : 0]);
     for (const c of ['head', 'aside']) {
-      r = run('col_' + c, ['python3', '-I', 'dev/stage-3d-hq2/col_browser.py', '--game', g, '--case', c, '--out', o(`col_${c}.json`)]); j = J(o(`col_${c}.json`));
+      r = run('col_' + c, ['python3', '-I', '-B', 'dev/stage-3d-hq2/col_browser.py', '--game', g, '--case', c, '--out', o(`col_${c}.json`)]); j = J(o(`col_${c}.json`));
       res.push(['col_' + c, r.exit === 0 && j && j.ok === true && j.total > 0 && j.passed === j.total, j ? j.total || 0 : 0]);
     }
-    r = run('gameplay_smoke', ['python3', '-I', 'dev/stage-3d-hq4/gameplay_smoke.py', '--game', g, '--variant', `cand=${g}/assets/index-DKbV5Nv9.js,${g}/assets/br-role.js`, '--out', o('smoke')]); j = J(o('smoke', 'cand.json'));
+    r = run('gameplay_smoke', ['python3', '-I', '-B', 'dev/stage-3d-hq4/gameplay_smoke.py', '--game', g, '--variant', `cand=${g}/assets/index-DKbV5Nv9.js,${g}/assets/br-role.js`, '--out', o('smoke')]); j = J(o('smoke', 'cand.json'));
     res.push(['gameplay_smoke', r.exit === 0 && j && j.ok === true && !(j.pageErrors || []).length, j && j.checks ? Object.keys(j.checks).length : 0]);
     return { ok: res.every(x => x[1]), cases: res.every(x => x[2] > 0) ? res.reduce((s, x) => s + x[2], 0) : 0, note: res.map(([n, k, c]) => `${n} ${k ? 'ok' : 'FAIL'} (${c})`).join(', ') };
   },
   contact_lab: () => {
     const scenes = 'geometry,lights,peers', res = [];
     for (const [label, g] of [['bpp', bppGame()], ['cand', wtGame()]]) {
-      const r = run('contact_' + label, ['python3', '-I', 'dev/stage-3d-hq5/contact_lab.py', '--game', g, '--variant', `${label}=${g}/assets/br-role.js`, '--scenes', scenes, '--out', o('contact')]), v = J(o('contact', label, 'result.json'));
+      const r = run('contact_' + label, ['python3', '-I', '-B', 'dev/stage-3d-hq5/contact_lab.py', '--game', g, '--variant', `${label}=${g}/assets/br-role.js`, '--scenes', scenes, '--out', o('contact')]), v = J(o('contact', label, 'result.json'));
       res.push(r.exit === 0 && v && Object.keys(v.scenes || {}).length === 3 && v.served === v.servedExpected && v.brRoleErrors === 0 && !(v.pageErrors || []).length);
     }
-    const r = run('contact_compare', ['python3', '-I', 'dev/stage-3h0/golden/compare_captures.py', o('contact', 'bpp'), o('contact', 'cand'), '--out', o('contact_compare.json')]); const j = J(o('contact_compare.json'));
+    const r = run('contact_compare', ['python3', '-I', '-B', 'dev/stage-3h0/golden/compare_captures.py', o('contact', 'bpp'), o('contact', 'cand'), '--out', o('contact_compare.json')]); const j = J(o('contact_compare.json'));
     const rows = j ? j.rows.filter(x => !x.missing) : [], diff = rows.filter(x => x.changedShare > 0 || x.meanAbs > 0 || x.max > 0);
     return { ok: res.every(Boolean) && rows.length > 0 && !diff.length && !(j.rows || []).some(x => x.missing), cases: rows.length, note: diff.length ? 'DIFFERENT images: ' + diff.map(x => x.image).join(', ') : rows.length + ' images byte-identical in pixels' };
   },
@@ -148,7 +153,7 @@ const STEPS = {
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
 const FAST = ['build', 'scope', 'srv_golden', 'bpp_golden', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
-const FULL = FAST.concat(['live_wire', 'bpp_checks', 'browsers', 'contact_lab', 'suites', 'perf']);
+const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/stage-3h/gate/h2_gate.js', tier: ARG.tier, allowProd: ARG['allow-prod'], base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };
 for (const s of steps) {

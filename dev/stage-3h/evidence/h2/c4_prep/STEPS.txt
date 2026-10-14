@@ -1,0 +1,28 @@
+# Stage 3H2, before C-4: the fluorescent hum pinned where no golden reached it (no game change)
+# $SP is the session's scratch folder; B++ = 143b63f; parent checkpoint C-3 = 3e140ef
+
+## a note on C-3's commit
+The pre-commit scope check of C-3 failed on the working tree (three untracked .pyc files the gate's browser step had written under
+dev/stage-3d*/__pycache__, never staged); the commit itself is in scope: tools/h1_scope_check.py --rev 3e140ef passes
+(evidence/h2/c3/scope_commit_3e140ef.json).  The caches were moved to the session's trash, and the gate now runs every Python tool
+with -B so it writes none.  (The pre-commit chain also piped the check through tail, which hid its exit status: no longer.)
+
+## what Stage 3H0's hum_dread scene could not see (mutants tried on mp.js, run through hum_dread: hum_mutants_first_try.json)
+9 of 11 hum mutants caught; missed: "every 12th fixture flickers" (hum_dread stands by fixture 0, which flickers under any rule) and
+"crackles 0.1 s further apart" (its ordinary hum lasts 1.7 s, shorter than the first gap)
+
+## the scene (golden/cli_scenes_hum.js: hum_fixtures), in cli_lib_h2.js's page
+fixture 1 (ordinary) for 12 s, fixture 13 (flickers) and fixture 12 (ordinary) for 3 s each, fixture 26 through a blackout and back;
+the environment records every audio node, connection, parameter change, start and stop
+node dev/stage-3h/golden/cli_golden_h2.js --repeat 1                                 exit 0  3 scenes identical, repeats same
+node dev/stage-3h/golden/cli_golden_h2.js --mutants 1                                exit 0  22/22 caught (cli_mutants_22.json): the 11
+  NEW RUN ones and the 11 hum ones (the two missed above now caught by hum_fixtures)
+node dev/stage-3h/golden/cli_golden_h2.js --new-ref 143b63f --write-baseline         exit 0  -> evidence/h2/golden/cli_traces: the two
+  NEW RUN traces byte-identical to before, hum_fixtures added (3961c425...)
+gate/protocol_bpp.json re-derived: no new message type or path (more messages read only)
+
+## the gate
+cli_golden_h2.js counts each 3H2 scene's own records (nr.*, hum.*) as its positive evidence; the gate gains a full-tier step,
+cli_mutants (the 22 client mutants)
+node dev/stage-3h/gate/h2_gate.js --tier fast --allow-prod <C-3's six files> --out $SP/h2/c4/gate_fast_prep         exit 0  PASS
+  cli_golden 9 + 3 scenes (gate_fast/)
