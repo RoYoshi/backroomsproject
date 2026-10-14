@@ -1,0 +1,11 @@
+H5-1 steps (SP = the session scratch folder)
+edit assets/br-role.js (CONTACT, contactGain, contactJob, castActors, contactLamp, drawLamp, carried, dev.contact / dev.contacts, VERSION 1.2-candidate)
+node --check assets/br-role.js
+prototypes measured with contact_lab.py --scenes geometry,under (HQ4 against each):
+  v1  the lamp's contact patch at the core buffer's half resolution: its edge reached into her body (up to 7 levels 2 px inside) -> dropped
+  v2  a smooth blend window between the two buffers: up to 5-7 levels round the window -> dropped
+  v3  a hole of whole core-buffer pixels, its full-resolution complement drawn as the core buffer's own 2x composite spreads it: <= 2 levels -> kept
+  lamps whose field merely reaches her (not BR2B's candidates) dropped for the candidates: the same lights that can cast her shadow
+python3 -I dev/stage-3d-hq5/contact_lab.py --game $SP/hq5/hq4game --variant hq4=<HQ4 br-role.js> --variant hq5=<this br-role.js> \
+        --scenes geometry,under,lights,carried,peers,tiers --out $SP/hq5/labB          (hq4 279 s, hq5 337 s; 0 page errors, 0 BR-RoLE errors)
+python3 -I dev/stage-3d-hq5/contact_report.py --lab $SP/hq5/labB --out $SP/hq5/repB    -> lab_report.json and the sheets here; the other sheets in ../h5-2

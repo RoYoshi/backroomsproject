@@ -1,4 +1,4 @@
-/* br-role.js - BR-RoLE 1.1, the Backrooms Rendering of Lighting Engine (presentation only, client only).
+/* br-role.js - BR-RoLE 1.2, the Backrooms Rendering of Lighting Engine (presentation only, client only).
  *
  * THE 2D GAME IS THE GAME.  BR-RoLE is the one visual owner of the light in the world: the darkness, the ceiling lamps,
  * your carried light and the other wanderers' lights, and the shadows walls, pillars, props and actors cast in them.
@@ -46,6 +46,12 @@
  *     the picture.  A sensor channel: never a visible light (no colour, nothing in it without the sensor), never light
  *     truth (the server never has it); nothing is computed while the sensor is off.  The bundle's old infrared fans stand down while BR-RoLE draws it.
  *
+ * 1.2 (Stage 3D HQ5, candidate): GROUND CONTACT.  The floor right round a living Wanderer's body gets a little less of each
+ *   light that reaches her - her body blocks part of the light arriving at its foot - so she stands on the carpet rather than
+ *   over it, most of all right under a lamp, where her cast fades out.  Light removal inside each light's own compositing,
+ *   like her cast: never a drawn shape, never darkness where no light was, never through a wall, never her rotation or her
+ *   hands (CONTACT, contactLamp).  Her cast, her self-shading and everything else are as in 1.1-qa2 (Stage 3D HQ4).
+ *
  * One model, every light on its own:   visible light = Σ fieldᵢ · (1 − shadowᵢ) + Σ bounceᵢ
  *   LIGHT FIELD -> BLOCKER -> CAST SHADOW -> ADD SURVIVING LIGHTS.  Never "light = visibility polygon".
  *   - an offscreen LIGHT BUFFER (a fraction of the CSS viewport per tier; never scaled by devicePixelRatio);
@@ -89,7 +95,7 @@
 (() => {
   'use strict';
   if (window.__brRole) return;
-  const VERSION = 'br-role 1.1-qa2';
+  const VERSION = 'br-role 1.2-candidate';
   const T = 96, CHUNK = 16, VB = 384;                                       // level cell; grounding chunk (cells); edge bucket (px)
   const QUALITIES = ['low', 'medium', 'high'];
   /* per tier: light-buffer scale of the CSS viewport; lamps / other wanderers drawn (nearest that reach the screen); a lamp's
@@ -167,9 +173,10 @@
   const S = { quality: 'medium', legacy: false, disabled: '', attached: false, attachTries: 0, buf: null, bx: null, scr: null, sx: null, tb: null, tx: null, msk: null, mx: null,
     lampCache: new Map(), lampKey: '', lmask: null, pending: new Set(), edges: null, egrid: new Map(), stamp: null, q: 0, blur: false, props: [],
     layers: {}, chunks: [], person: null, last: null, dbgEl: null, act: new WeakMap(), actorsOn: true, actorsLast: [], castCv: null, discCv: null, shadeCv: null, atmp: null, ax: null, propLeft: 0,
-    tpl: null, sightFade: true, skip: {}, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, facesOn: true, solo: null, cbOn: true, cb: null, cbx: null, cbUsed: false, fbDiv: 8, rooms: null, irOn: true };
+    tpl: null, sightFade: true, skip: {}, farJob: null, fb: null, fx: null, etmp: null, ex: null, fmask: null, spillOn: true, facesOn: true, solo: null, cbOn: true, cb: null, cbx: null, cbUsed: false, fbDiv: 8, rooms: null, irOn: true,
+    contact: 1, contactCv: null, contactLast: [], ptmp: null, px: null, mcv: null, mcx: null };   // BR-RoLE 1.2 (HQ5): the ground contact's gain (DEV A/B), texture, last jobs (DEV), lamp patch
   const ST = { frames: 0, ms: new Float32Array(240), n: 0, max: 0, lamps: 0, lampsMax: 0, carried: 0, peers: 0, shadows: 0, shadowsMax: 0, props: 0, propsMax: 0, lampBuilds: 0, lampBuildMs: 0, lampBuildMax: 0, lampEvictions: 0, propDraws: 0, ents: 0, shaded: 0, casts: 0, shadeDraws: 0, buf: [0, 0], legacyFrames: 0, errors: 0,
-    faceDraws: 0, farBuilds: 0, farMs: 0, farStepMax: 0, farPh: [0, 0, 0, 0], emitters: 0, emittersMax: 0, fars: 0, ir: 0 };
+    faceDraws: 0, farBuilds: 0, farMs: 0, farStepMax: 0, farPh: [0, 0, 0, 0], emitters: 0, emittersMax: 0, fars: 0, ir: 0, contacts: 0 };
 
   /* ---------- quality: URL > remembered > device default (touch / small screen -> LOW); ?lighting=legacy is DEV only ---------- */
   function initialQuality() {
@@ -627,7 +634,7 @@
       const cfg = TIERS[S.quality], A = window.__api, sc = cfg.scale, k = F.r * sc;
       ensureBuffers(F.w, F.h, cfg);
       const bx = S.bx, tx = S.tx, bw = S.buf.width, bh = S.buf.height;
-      ST.shadows = 0; ST.casts = 0; ST.shadeDraws = 0; ST.propDraws = 0;
+      ST.shadows = 0; ST.casts = 0; ST.shadeDraws = 0; ST.propDraws = 0; ST.contacts = 0;
       for (const c of [bx, tx]) { c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; c.clearRect(0, 0, bw, bh); }
       bx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); bx.globalCompositeOperation = 'lighter';
       const view = { x0: -F.ox / F.r, y0: -F.oy / F.r, x1: (F.w - F.ox) / F.r, y1: (F.h - F.oy) / F.r };
@@ -674,7 +681,7 @@
           C.used = ST.frames;
           const p = lampPower(i, L, F.t) * LAMP.vis * (m === cfg.lamps - 1 ? clamp((cut - list[m][0]) / 140, 0, 1) : 1) * clamp((ST.frames - C.born) / LAMP.fadeFrames, 0, 1);   // only the last admitted fades (no pop at the cap)
           if (!(p > .002)) continue;
-          lampRecs.push({ i, L, p, C, smp: C.smp, props: C.props, acts: [] });
+          lampRecs.push({ i, L, p, C, smp: C.smp, props: C.props, acts: [], cacts: [] });
         }
         if (canBuild() && S.lampCache.size < cfg.lampCache) {               // spare budget AND room in the cache (QA1: never evict to prefetch, no build / evict churn): the nearest lamp about to come into view
           let best = -1, bd = Infinity;
@@ -812,14 +819,50 @@
      * shadow takes this lamp's core light (the actors stand where a lamp's light is strong; its faint far light is left) */
     if (C.far && !S.skip.far) { const fa = a * clamp((ST.frames - C.farBorn) / LAMP.fadeFrames, 0, 1); if (fa > .001) { const f = C.far, fx = S.fx; fx.globalAlpha = fa; fx.drawImage(f.cv, L.x - f.hx, L.y - f.hy, f.hx * 2, f.hy * 2); fx.globalAlpha = 1; S.fbUsed = true; ST.fars++; grow(S.fbD, S.fbT, L.x - f.hx, L.y - f.hy, L.x + f.hx, L.y + f.hy); } }
     if (S.skip.core || Math.hypot(L.x - S.lastV.x, L.y - S.lastV.y) - Math.hypot(C.hx, C.hy) > SIGHT.r) return;   // its core cannot reach the line of sight's reach
-    if (!r.acts.length) { const tx = S.cbOn && S.cbx ? S.cbx : bx; tx.globalAlpha = a; tx.drawImage(C.cv, L.x - C.hx, L.y - C.hy, C.hx * 2, C.hy * 2); tx.globalAlpha = 1; if (tx !== bx) { S.cbUsed = true; grow(S.cbD, S.cbT, L.x - C.hx, L.y - C.hy, L.x + C.hx, L.y + C.hy); } return; }
+    if (!r.acts.length) {
+      const tx = S.cbOn && S.cbx ? S.cbx : bx;
+      if (!(r.cacts.length && contactLamp(tx, r, a, F, k, sc))) { tx.globalAlpha = a; tx.drawImage(C.cv, L.x - C.hx, L.y - C.hy, C.hx * 2, C.hy * 2); tx.globalAlpha = 1; }   // (HQ5: or with a Wanderer's ground contact)
+      if (tx !== bx) { S.cbUsed = true; grow(S.cbD, S.cbT, L.x - C.hx, L.y - C.hy, L.x + C.hx, L.y + C.hy); } return;
+    }
     const bb = boxAt(L.x, L.y, Math.max(C.hx, C.hy), F, sc); if (!bb) return;
     const sx = S.sx, bw = bb[2] - bb[0], bh = bb[3] - bb[1];
     sx.setTransform(1, 0, 0, 1, 0, 0); sx.globalCompositeOperation = 'source-over'; sx.globalAlpha = 1; sx.clearRect(bb[0], bb[1], bw, bh);
     sx.setTransform(k, 0, 0, k, F.ox * sc, F.oy * sc); sx.globalAlpha = a; sx.drawImage(C.cv, L.x - C.hx, L.y - C.hy, C.hx * 2, C.hy * 2); sx.globalAlpha = 1;
     castActors(sx, r.acts, F, k, sc);
+    if (r.cacts.length) castActors(sx, r.cacts, F, k, sc);                  // BR-RoLE 1.2 (HQ5): the ground contact of Wanderers it casts no shadow for
     sx.setTransform(1, 0, 0, 1, 0, 0);
     bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.drawImage(S.scr, bb[0], bb[1], bw, bh, bb[0], bb[1], bw, bh); bx.restore();
+  }
+  /* BR-RoLE 1.2 (HQ5): a lamp that goes straight into the core buffer (no cast or self-shading job, so no full-resolution
+   * scratch) still loses the light a Wanderer's body blocks - at the light buffer's full resolution, like her cast (the core
+   * buffer's half resolution would reach into her body).  The core buffer gets this lamp as before except in one hole round
+   * those Wanderers (whole pixels of it: four clips with no soft edge); the light buffer gets this lamp x that hole as the core
+   * buffer's own 2x composite spreads it (the same smooth edge), her contact taken out.  The two add up to the lamp as before
+   * everywhere but her contact (to a level of rounding at the hole's edge) */
+  function contactLamp(tx, r, a, F, k, sc) {
+    const L = r.L, C = r.C, js = r.cacts, bx = S.bx, R = ACT.player.r + CONTACT.r + CONTACT.offMax + 4, B = [k, F.ox * sc, F.oy * sc], T = tx === bx ? B : S.cbT, s = tx === bx ? 1 : 2;
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    for (const j of js) { x0 = Math.min(x0, (j.x - R) * T[0] + T[1]); y0 = Math.min(y0, (j.y - R) * T[0] + T[2]); x1 = Math.max(x1, (j.x + R) * T[0] + T[1]); y1 = Math.max(y1, (j.y + R) * T[0] + T[2]); }
+    const W = tx.canvas.width, H = tx.canvas.height; x0 = Math.max(0, Math.floor(x0) - 1); y0 = Math.max(0, Math.floor(y0) - 1); x1 = Math.min(W, Math.ceil(x1) + 1); y1 = Math.min(H, Math.ceil(y1) + 1);
+    if (!(x1 > x0 && y1 > y0)) return false;
+    const w = x1 - x0, h = y1 - y0, field = (c, M, ox, oy) => { c.setTransform(M[0], 0, 0, M[0], M[1] - ox, M[2] - oy); c.globalAlpha = a; c.drawImage(C.cv, L.x - C.hx, L.y - C.hy, C.hx * 2, C.hy * 2); c.globalAlpha = 1; };
+    for (const q of [[0, 0, W, y0], [0, y1, W, H - y1], [0, y0, x0, h], [x1, y0, W - x1, h]]) {    // the core buffer: as before outside the hole
+      if (!(q[2] > 0 && q[3] > 0)) continue;
+      tx.save(); tx.setTransform(1, 0, 0, 1, 0, 0); tx.beginPath(); tx.rect(q[0], q[1], q[2], q[3]); tx.clip(); field(tx, T, 0, 0); tx.restore();
+    }
+    const fx0 = (x0 - 1) * s, fy0 = (y0 - 1) * s, fw = (w + 2) * s, fh = (h + 2) * s;           // the light buffer: the hole's 1 px border included
+    if (!S.ptmp || S.ptmp.width < fw || S.ptmp.height < fh) { S.ptmp = mkCanvas(Math.max(fw, S.ptmp ? S.ptmp.width : 0, 64), Math.max(fh, S.ptmp ? S.ptmp.height : 0, 64)); S.px = S.ptmp.getContext('2d'); }
+    const t = S.px; t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(0, 0, fw, fh); t.imageSmoothingEnabled = true; t.fillStyle = '#fff';
+    if (s === 1) t.fillRect(1, 1, w, h);
+    else {                                                                  // the hole, drawn as the core buffer's composite draws it (2x, smoothed)
+      if (!S.mcv || S.mcv.width < w + 2 || S.mcv.height < h + 2) { S.mcv = mkCanvas(Math.max(w + 2, S.mcv ? S.mcv.width : 0, 32), Math.max(h + 2, S.mcv ? S.mcv.height : 0, 32)); S.mcx = S.mcv.getContext('2d'); }
+      const m = S.mcx; m.clearRect(0, 0, S.mcv.width, S.mcv.height); m.fillStyle = '#fff'; m.fillRect(1, 1, w, h);   // (all of it: a smoothed read may reach past the border)
+      t.drawImage(S.mcv, 0, 0, w + 2, h + 2, 0, 0, fw, fh);
+    }
+    t.globalCompositeOperation = 'source-in'; field(t, B, fx0, fy0); t.globalCompositeOperation = 'source-over';
+    castActors(t, js, F, k, sc, [B[1] - fx0, B[2] - fy0]);
+    bx.save(); bx.setTransform(1, 0, 0, 1, 0, 0); bx.globalCompositeOperation = 'lighter'; bx.globalAlpha = 1; bx.drawImage(S.ptmp, 0, 0, fw, fh, fx0, fy0, fw, fh); bx.restore();
+    return true;
   }
   /* a carried light, before anything is drawn: its strength, source points, beam cone, height and prop casters (yours
    * first, then the other wanderers', within the frame's prop budget) */
@@ -830,7 +873,7 @@
     const props = propsFor(Lc.x, Lc.y, R + 8, cone, Math.min(cfg.props, S.propLeft)); S.propLeft -= props.length; ST.props += props.length;
     const gprops = propsFor(Lc.x, Lc.y, Lc.glowR + 4, null, Math.min(cfg.props, S.propLeft)); S.propLeft -= gprops.length; ST.props += gprops.length;
     return { Lc, x: Lc.x, y: Lc.y, ang: Lc.ang, f, R, arc: f.arc, omni: !!f.omni, power: f.power * CARRY.vis * (f.omni ? Lc.fl : 1) * w, w, cone, sh, props, gprops,
-      smp: sourcePoints(Lc.x, Lc.y, Lc.ang, !!f.omni, cfg.src), own: !!Lc.own, acts: [] };
+      smp: sourcePoints(Lc.x, Lc.y, Lc.ang, !!f.omni, cfg.src), own: !!Lc.own, acts: [], cacts: [] };
   }
   /* one carried light: its natural field (radial falloff x the beam's smooth angular profile), then the shadows walls,
    * pillars and the nearest props cast into it from the hand, then the shadows of the actors it is dominant for; added to
@@ -858,6 +901,7 @@
     /* the shadows walls, pillars and props cast into that field, from the hand (inside the beam only); then the actors' */
     castInto(sx, r.smp, R + 8, r.cone, F, k, sc, bb, { props: r.props, sh: r.sh, kmax: CARRY.kmax });
     if (r.acts.length) castActors(sx, r.acts, F, k, sc);
+    if (r.cacts.length) castActors(sx, r.cacts, F, k, sc);                  // BR-RoLE 1.2 (HQ5): the ground contact of Wanderers it casts no shadow for
     if (!S.ctmp || S.ctmp.width !== S.scr.width || S.ctmp.height !== S.scr.height) { S.ctmp = mkCanvas(S.scr.width, S.scr.height); S.cx = S.ctmp.getContext('2d'); }
     sx.restore(); sx.save(); extrude(sx, S.ctmp, k, F.ox * sc, F.oy * sc, Lc.x, Lc.y, R + 8, bb); sx.restore(); boxClip(sx, bb);   // QA1: the walls and pillars it hits light up (outside the box clip: a face just past the box edge still belongs to this light's box copy)
     /* the light it adds */
@@ -953,7 +997,7 @@
     const fall = u => Math.pow(1 - clamp(u, 0, 1), AO.power), n = AO.steps, q = 48;
     S.tex = { down: canvasTex(2, n, (i, j) => fall((j + .5) / n)), up: canvasTex(2, n, (i, j) => fall((n - j - .5) / n)), right: canvasTex(n, 2, i => fall((i + .5) / n)), left: canvasTex(n, 2, i => fall((n - i - .5) / n)),
       se: canvasTex(q, q, (i, j) => fall(Math.hypot(i + .5, j + .5) / q)), sw: canvasTex(q, q, (i, j) => fall(Math.hypot(q - i - .5, j + .5) / q)), ne: canvasTex(q, q, (i, j) => fall(Math.hypot(i + .5, q - j - .5) / q)), nw: canvasTex(q, q, (i, j) => fall(Math.hypot(q - i - .5, q - j - .5) / q)) };
-    S.castCv = castTexture(); S.discCv = discTexture(); S.shadeCv = shadeTexture();
+    S.castCv = castTexture(); S.discCv = discTexture(); S.shadeCv = shadeTexture(); S.contactCv = contactTexture();
     const root = new S.C(); root.label = 'br-role';
     { const c = new S.C(); c.label = 'br-role-ao'; root.addChild(c); S.layers.ao = c; }   // BR2B: actor shadows are light removal in the compositor, no Pixi layer
     world.addChildAt(root, ci + 1);                                       // right above the carpet: under walls, props, entities
@@ -1008,6 +1052,31 @@
     /* BR2.1B: self-shading follows the light's CONTRAST: full when one light dominates, down to `even` when lights are even
      * (two equal lamps light both sides alike); a carried light's direction is eased (hand bob never jitters a shadow) */
     even: .3, turn: .35 };
+  /* BR-RoLE 1.2 (Stage 3D HQ5): GROUND CONTACT.  The floor right round a LIVING Wanderer's body gets less of each light that
+   * reaches it: her body blocks part of the light arriving at its foot.  It is light removal inside each light's own
+   * compositing, like her cast (one light's contact removes only that light; any other light that reaches the spot fills it):
+   *   - every light that reaches her, whichever is dominant: the lights that could cast her shadow (BR2B's candidates: a lamp
+   *     whose tube she sees past walls, pillars and props; a carried light whose beam reaches her - never her own, nor another
+   *     wanderer's own light on that wanderer: BR2B's exclusion is kept).  Inside that light's own field, so nothing is taken
+   *     where it does not arrive.  No hand glow, far field, bounce light or infrared;
+   *   - one cached soft falloff from her body's edge (a: the share of that light taken at the edge, gone r px out), centred on
+   *     her body in the world: never her rotation, never her hands (they are only cut out of it, as from the cast, so no pixel
+   *     of her changes); nudged off px per px of the cast's length away from the light, at most offMax (right under a light
+   *     it is even all round, where her cast fades out);
+   *   - where that light's cast already darkens the floor, the contact adds only what the cast does not (never both: no dark
+   *     blotch at the cast's root);
+   *   - only a living wanderer standing on the floor (contactGain): never a Hound, a Smiler, a corpse, a death replay, gibs or a
+   *     wanderer the local player cannot see; it fades with her alpha, like her cast; nothing is kept between frames.
+   * Every tier the same rule (only the buffers' sampling differs).  It never adds light and never reaches what a light does not */
+  const CONTACT = { a: .3, r: 9, off: .05, offMax: 3 };
+  /* her contact's gain: 0 for a death replay's or a corpse's avatar (mp.js and the corpse view tag those __cause), a dead
+   * peer's posed avatar (deathPose squashes the body to .82; alive it breathes within 1 ± .012), or one falling in (drawn up
+   * to 2.25x: not on the floor yet) */
+  function contactGain(v) {
+    if (!(S.contact > 0) || '__cause' in v || v.renderable === false || (v.body && v.body.scale && v.body.scale.y < .95)) return 0;
+    const z = v.scale ? (Math.abs(v.scale.x) + Math.abs(v.scale.y)) / 2 : 1;
+    return S.contact * Math.min(1, v.alpha) * clamp(1 - (z - 1) / .15, 0, 1);
+  }
   function seen(V, x, y) { const dx = x - V.x, dy = y - V.y, d = Math.hypot(dx, dy); if (d < 30) return true; if (d > ACT.sight) return false; return window.__api.Uc(V.x, V.y, Math.atan2(dy, dx), d) >= d - 20; }
   /* a light's unblocked contribution at an actor (lamps from three points of their tube: its ends and its middle) */
   function lampAt(r, x, y) {
@@ -1034,7 +1103,7 @@
   }
   let ckey = 0;
   function actorShadows(F, cfg, lampRecs, carRecs) {
-    const out = S.actorsLast = []; ST.ents = 0; ST.shaded = 0;
+    const out = S.actorsLast = []; ST.ents = 0; ST.shaded = 0; S.contactLast = [];
     if (!S.actorsOn) return out;
     const A = window.__api, V = F.viewer, list = [], P = S.person;
     if (P && P.visible && P.parent && !F.death && P.alpha > .01) list.push([P, P.x, P.y, 'player', null, true]);
@@ -1071,6 +1140,7 @@
       const now_ = new Set();
       for (const c of cands) { let e = st.w.get(c.key); if (!e) { e = { w: 0, s: 0, kind: c.kind }; st.w.set(c.key, e); } e.x = c.x; e.y = c.y; e.c = c; now_.add(c.key); }
       const Pk = ACT[kind], sil = silhouette(v, kind, x, y, heading); let drawn = 0, shadedHere = false;
+      const cg = kind === 'player' ? contactGain(v) : 0, lit = cg > 0 ? new Set() : null;   // BR-RoLE 1.2 (HQ5): her ground contact (lit: the lights with a job for her)
       for (const [key, e] of st.w) {
         if (!now_.has(key)) { st.w.delete(key); continue; }               // that light is gone: its shadow goes with it
         const isDom = !!(dom && key === dom.key), target = isDom ? 1 : sec && key === sec.key ? ACT.second.a : 0;
@@ -1092,32 +1162,49 @@
         const job = { kind, self, x, y, ang, ext, start: Math.min(start, (kind === 'hound' ? Pk.la : Pk.r) + 10), across, a: a > .01 ? a : 0, shade: shade > .01 ? shade : 0, sil,
           light: key, lightKind: e.kind, dominant: isDom, score: +e.c.s.toFixed(4) };
         if (job.dominant && st.sw && st.sw.f === ST.frames) job.switched = st.sw;
+        if (lit) { job.contact = CONTACT.a * cg; job.cofs = Math.min(CONTACT.offMax, CONTACT.off * d * ACT.k[e.kind]); lit.add(e.c.r); S.contactLast.push(job); }   // HQ5: with its cast
         e.c.r.acts.push(job); out.push(job); drawn++; if (job.shade) shadedHere = true;
       }
+      if (lit) for (const c of cands) if (!lit.has(c.r)) contactJob(c.r, c.kind, x, y, self, sil, cg);   // BR-RoLE 1.2 (HQ5): every other light that reaches her
       if (drawn) n++; if (shadedHere) ST.shaded++;
     }
     ST.ents = out.filter(j => j.a).length;
     return out;
   }
+  /* BR-RoLE 1.2 (HQ5): a contact-only job (a light that casts nothing of hers): into that light's own list, drawn in its own compositing */
+  function contactJob(r, lightKind, x, y, self, sil, cg) {
+    const lx = lightKind === 'lamp' ? r.L.x : r.x, ly = lightKind === 'lamp' ? r.L.y : r.y, d = Math.hypot(x - lx, y - ly);
+    const j = { kind: 'player', self, x, y, ang: Math.atan2(y - ly, x - lx), a: 0, shade: 0, sil, contact: CONTACT.a * cg, cofs: Math.min(CONTACT.offMax, CONTACT.off * d * ACT.k[lightKind]),
+      light: lightKind === 'lamp' ? 'L' + r.i : r.own ? 'own' : 'carried', lightKind, dominant: false };
+    r.cacts.push(j); S.contactLast.push(j);
+  }
   /* take the actors' shadows and self-shading out of one light's field (c: that light's scratch, buffer pixels) */
-  function castActors(c, acts, F, k, sc) {
-    const ox = F.ox * sc, oy = F.oy * sc;
+  function castActors(c, acts, F, k, sc, o) {
+    const ox = o ? o[0] : F.ox * sc, oy = o ? o[1] : F.oy * sc;              // (o: another buffer's offset - HQ5's core-buffer patch)
     for (const j of acts) {
-      if (j.a) {                                                            // the cast: built in a small pooled canvas, the silhouette cut out of it
+      if (j.a || j.contact) {                                               // the cast (and HQ5's ground contact): built in a small pooled canvas, the silhouette cut out of it
         const cs = Math.cos(j.ang), sn = Math.sin(j.ang), x0 = j.start * .62, x1 = j.start + j.ext, w = j.across * 1.15;
         let bx0 = Infinity, by0 = Infinity, bx1 = -Infinity, by1 = -Infinity;
-        for (const [u, v] of [[x0, -w], [x1, -w], [x1, w], [x0, w]]) { const px = (j.x + cs * u - sn * v) * k + ox, py = (j.y + sn * u + cs * v) * k + oy; bx0 = Math.min(bx0, px); by0 = Math.min(by0, py); bx1 = Math.max(bx1, px); by1 = Math.max(by1, py); }
+        if (j.a) for (const [u, v] of [[x0, -w], [x1, -w], [x1, w], [x0, w]]) { const px = (j.x + cs * u - sn * v) * k + ox, py = (j.y + sn * u + cs * v) * k + oy; bx0 = Math.min(bx0, px); by0 = Math.min(by0, py); bx1 = Math.max(bx1, px); by1 = Math.max(by1, py); }
+        const cR = ACT.player.r + CONTACT.r, cx = j.x + cs * (j.cofs || 0), cy = j.y + sn * (j.cofs || 0);
+        if (j.contact) { bx0 = Math.min(bx0, (cx - cR) * k + ox); by0 = Math.min(by0, (cy - cR) * k + oy); bx1 = Math.max(bx1, (cx + cR) * k + ox); by1 = Math.max(by1, (cy + cR) * k + oy); }
         bx0 = Math.floor(Math.max(0, bx0 - 2)); by0 = Math.floor(Math.max(0, by0 - 2)); bx1 = Math.ceil(Math.min(c.canvas.width, bx1 + 2)); by1 = Math.ceil(Math.min(c.canvas.height, by1 + 2));
         const bw = bx1 - bx0, bh = by1 - by0;
         if (bw > 0 && bh > 0) {
           if (!S.atmp || S.atmp.width < bw || S.atmp.height < bh) { S.atmp = mkCanvas(Math.max(bw, S.atmp ? S.atmp.width : 0, 64), Math.max(bh, S.atmp ? S.atmp.height : 0, 64)); S.ax = S.atmp.getContext('2d'); }
           const t = S.ax; t.setTransform(1, 0, 0, 1, 0, 0); t.globalCompositeOperation = 'source-over'; t.globalAlpha = 1; t.clearRect(0, 0, bw, bh);
-          t.setTransform(cs * k, sn * k, -sn * k, cs * k, j.x * k + ox - bx0, j.y * k + oy - by0); t.globalAlpha = clamp(j.a, 0, 1);
-          t.drawImage(S.castCv, x0, -w, x1 - x0, w * 2);
+          if (j.contact) { t.setTransform(k, 0, 0, k, cx * k + ox - bx0, cy * k + oy - by0); t.globalAlpha = clamp(j.contact, 0, 1); t.drawImage(S.contactCv, -cR, -cR, cR * 2, cR * 2); ST.contacts++; }
+          if (j.a) {
+            t.setTransform(cs * k, sn * k, -sn * k, cs * k, j.x * k + ox - bx0, j.y * k + oy - by0);
+            /* HQ5: where this light's cast darkens the floor the contact keeps only what the cast does not take (never both) */
+            if (j.contact) { t.globalCompositeOperation = 'destination-out'; t.globalAlpha = Math.min(1, j.a / j.contact); t.drawImage(S.castCv, x0, -w, x1 - x0, w * 2); t.globalCompositeOperation = 'source-over'; }
+            t.globalAlpha = clamp(j.a, 0, 1);
+            t.drawImage(S.castCv, x0, -w, x1 - x0, w * 2);
+          }
           t.globalAlpha = 1; t.globalCompositeOperation = 'destination-out';
           for (const q of j.sil) { const ch = Math.cos(q.h) * k, shh = Math.sin(q.h) * k; t.setTransform(ch * (q.A + 1.5), shh * (q.A + 1.5), -shh * (q.B + 1.5), ch * (q.B + 1.5), q.x * k + ox - bx0, q.y * k + oy - by0); t.drawImage(S.discCv, -1, -1, 2, 2); }
           c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.globalCompositeOperation = 'destination-out'; c.globalAlpha = 1; c.drawImage(S.atmp, 0, 0, bw, bh, bx0, by0, bw, bh); c.restore();
-          ST.casts++;
+          if (j.a) ST.casts++;
         }
       }
       if (j.shade) {                                                        // self-shading: one soft gradient per body part, away from the light
@@ -1149,6 +1236,9 @@
     });
   }
   const discTexture = () => alphaTex(64, 64, (u, v) => { const r = Math.hypot(u * 2 - 1, v); return 1 - sstep(.9, 1, r); });
+  /* BR-RoLE 1.2 (HQ5): the ground contact, drawn over ±(body + CONTACT.r): full to the body's edge (cut out with the
+   * silhouette), then (1 - t)² over the CONTACT.r px past it - darkest at the foot of the body, no rim, no edge */
+  const contactTexture = () => alphaTex(96, 96, (u, v) => { const e = ACT.player.r / (ACT.player.r + CONTACT.r), t = clamp((Math.hypot(u * 2 - 1, v) - e) / (1 - e), 0, 1); return (1 - t) * (1 - t); });
   const shadeTexture = () => alphaTex(64, 64, (u, v) => { const x = u * 2 - 1, r = Math.hypot(x, v); return (1 - sstep(.84, .97, r)) * Math.pow(sstep(-.3, 1, x), 1.35); });
 
   /* ---------- settings: a LIGHTING row in SETTINGS > CUSTOMIZE (hud.js is not modified) ---------- */
@@ -1217,7 +1307,7 @@
     stats: () => ({ version: VERSION, quality: S.quality, on: on(), legacy: S.legacy, disabled: S.disabled, attached: S.attached, frames: ST.frames, frameMs: msStats(), buffer: ST.buf.slice(),
       lamps: { last: ST.lamps, max: ST.lampsMax, cap: TIERS[S.quality].lamps, cached: S.lampCache.size, cacheCap: TIERS[S.quality].lampCache, pending: S.pending.size, builds: ST.lampBuilds, buildMs: +ST.lampBuildMs.toFixed(2), buildMaxMs: +ST.lampBuildMax.toFixed(2), evictions: ST.lampEvictions, tube: TIERS[S.quality].tube, blur: S.blur },
       far: { drawn: ST.fars, cached: [...S.lampCache.values()].filter(C => C.far).length, building: S.farJob ? S.farJob.i : null, builds: ST.farBuilds, buildMs: +ST.farMs.toFixed(2), frameMaxMs: +ST.farStepMax.toFixed(2), phaseMaxMs: ST.farPh.slice(), bouncePoints: ST.emitters, bouncePointsMax: ST.emittersMax, spill: S.spillOn, res: TIERS[S.quality].farRes },
-      carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, ir: { on: S.irOn, last: ST.ir }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn, castDraws: ST.casts, actorsShaded: ST.shaded, selfShadeDraws: ST.shadeDraws },
+      carried: { last: ST.carried, peers: ST.peers, peerCap: TIERS[S.quality].peers, sourcePoints: TIERS[S.quality].src }, ir: { on: S.irOn, last: ST.ir }, shadows: { last: ST.shadows, max: ST.shadowsMax }, actorShadows: { last: ST.ents, cap: TIERS[S.quality].ents, secondary: TIERS[S.quality].secondary, on: S.actorsOn, castDraws: ST.casts, actorsShaded: ST.shaded, selfShadeDraws: ST.shadeDraws, contact: S.contact, contactDraws: ST.contacts },
       blockers: { sides: S.nEdges || 0, pillars: S.pillars || 0, props: S.props.length, propKinds: [...new Set(S.props.map(p => p.kind))] },
       props: { last: ST.props, max: ST.propsMax, drawsThisFrame: ST.propDraws, perLight: TIERS[S.quality].props, perFrame: TIERS[S.quality].propFrame }, errors: ST.errors }),
     resetStats: () => { ST.n = 0; ST.max = 0; ST.lampsMax = 0; ST.shadowsMax = 0; ST.propsMax = 0; ST.lampBuilds = 0; ST.lampBuildMs = 0; ST.lampBuildMax = 0; ST.lampEvictions = 0; ST.farBuilds = 0; ST.farMs = 0; ST.farStepMax = 0; ST.farPh = [0, 0, 0, 0]; ST.emittersMax = 0; },
@@ -1228,6 +1318,10 @@
     actors: () => S.actorsLast.map(j => Object.assign({}, j)),
     dev: { legacy: v => { if (v !== undefined) { S.legacy = !!v; if (S.root) S.root.visible = !S.legacy; } return S.legacy; },
       actors: v => { if (v !== undefined) S.actorsOn = !!v; return S.actorsOn; },   // DEV only: actor shadows off (A/B in tests)
+      /* BR-RoLE 1.2 (HQ5), DEV only (A/B, tests): the ground contact's gain (0 off, 1 as shipped, up to 4 to see where it falls);
+       * the contact drawn last frame, light by light */
+      contact: v => { if (v !== undefined) S.contact = v === true ? 1 : clamp(+v || 0, 0, 4); return S.contact; },
+      contacts: () => S.contactLast.map(j => ({ self: j.self, x: j.x, y: j.y, light: j.light, lightKind: j.lightKind, withCast: !!j.a, contact: +j.contact.toFixed(4), cofs: +j.cofs.toFixed(3), ang: +j.ang.toFixed(4) })),
       /* BR-RoLE 1.1, DEV only (tests): the bounce light off / on (the far caches are rebuilt); the light the last frame put at
        * world points (read back from the light buffer: everything added, before the line-of-sight clip); one lamp's cached
        * field at world points (core and far caches, P0 scale); its bounce points; the field function; whether every lamp

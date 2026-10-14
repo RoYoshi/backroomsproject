@@ -1,0 +1,12 @@
+H5-0 steps (commands as run; SP = the session scratch folder, the game exported from Git there)
+git ls-remote --heads origin                        -> remote_heads_before_hq5.json (26 branches, no stage-3d-hq5)
+gh api repos/RoYoshi/backroomsproject/branches/stage-3d-hq4 -> 79e146124a5941c6578ef84dc9ff13176cc7f1f0
+git rev-parse 79e1461^{tree}                        -> 9aee1dba72ad26e7c3c1a8454d652275bfbf9ea6 (parent 5f933db)
+git status --short                                  -> clean
+git checkout -b stage-3d-hq5 79e146124a5941c6578ef84dc9ff13176cc7f1f0
+sha256sum THE_FAR_BACKROOMS_STAGE_3D_HQ5_BR_ROLE_1_2_QA_FIRST_MASTER_PACK.zip -> e907b812...6d5a (as its .sha256); manifest checked
+read: assets/br-role.js (draw, drawLamp, carried, actorShadows, silhouette, castActors, textures, probe, dev); mp.js (peer avatars,
+      death replays: startFx / updateFx); the bundle's deathPose, corpse view and creature layer; sim.js (blackout needs the world running)
+git archive 79e1461 | tar -x -C $SP/hq5/hq4game
+python3 -I dev/stage-3d-hq5/contact_lab.py --game $SP/hq5/hq4game --variant hq4=<HQ4 br-role.js> --scenes geometry,under,lights,carried,peers,tiers --out $SP/hq5/lab0
+  -> baseline/ (HQ4 captures; the lab's blackout switch was fixed after this run: the server applies it only while the world runs)

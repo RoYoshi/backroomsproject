@@ -1,0 +1,3780 @@
+{
+ "base": "hq4",
+ "var": "hq5",
+ "versions": [
+  "br-role 1.1-qa2",
+  "br-role 1.2-candidate"
+ ],
+ "pageErrors": [
+  [],
+  []
+ ],
+ "brRoleErrors": [
+  0,
+  0
+ ],
+ "spot": {
+  "x": 628,
+  "y": 3792,
+  "lamp": [
+   528,
+   3792
+  ],
+  "d": 100,
+  "a": 0
+ },
+ "scenes": {
+  "geometry": [
+   {
+    "tag": "geo_000",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 112,
+      "max": 11
+     },
+     "contact": {
+      "changed": 493,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0039,
+      "mean": 0.0007,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0549,
+      "mean": 0.0067,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.1059,
+      "mean": 0.0407,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.0824,
+      "mean": 0.0369,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0784,
+      "mean": 0.0258,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0471,
+      "mean": 0.0194,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0431,
+      "mean": 0.0113,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0235,
+      "mean": 0.0059,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0039,
+      "mean": 0.001,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 112,
+      "max": 11
+     },
+     "contact": {
+      "changed": 493,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true,
+    "heading": 0,
+    "swing": [
+     {
+      "dy": [
+       3,
+       -3
+      ],
+      "jobsEqual": true,
+      "contacts": [
+       {
+        "self": true,
+        "x": 628,
+        "y": 3792,
+        "light": "L2",
+        "lightKind": "lamp",
+        "withCast": true,
+        "contact": 0.3,
+        "cofs": 2.5,
+        "ang": 0
+       }
+      ],
+      "ringDrop": {
+       "0": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "8": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "14": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "16": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "17": {
+        "max": 0.0039,
+        "mean": 0.0008,
+        "min": 0.0
+       },
+       "18": {
+        "max": 0.0549,
+        "mean": 0.0069,
+        "min": 0.0
+       },
+       "19": {
+        "max": 0.1059,
+        "mean": 0.0408,
+        "min": 0.0
+       },
+       "20": {
+        "max": 0.0902,
+        "mean": 0.0405,
+        "min": 0.0
+       },
+       "21": {
+        "max": 0.0784,
+        "mean": 0.0291,
+        "min": 0.0
+       },
+       "22": {
+        "max": 0.0784,
+        "mean": 0.0229,
+        "min": 0.0
+       },
+       "23": {
+        "max": 0.0431,
+        "mean": 0.0136,
+        "min": 0.0
+       },
+       "24": {
+        "max": 0.0353,
+        "mean": 0.0082,
+        "min": 0.0
+       },
+       "26": {
+        "max": 0.0078,
+        "mean": 0.0011,
+        "min": 0.0
+       },
+       "28": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "30": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "33": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "36": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "40": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "44": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       }
+      }
+     },
+     {
+      "dy": [
+       -3,
+       3
+      ],
+      "jobsEqual": true,
+      "contacts": [
+       {
+        "self": true,
+        "x": 628,
+        "y": 3792,
+        "light": "L2",
+        "lightKind": "lamp",
+        "withCast": true,
+        "contact": 0.3,
+        "cofs": 2.5,
+        "ang": 0
+       }
+      ],
+      "ringDrop": {
+       "0": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "8": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "14": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "16": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "17": {
+        "max": 0.0039,
+        "mean": 0.0007,
+        "min": 0.0
+       },
+       "18": {
+        "max": 0.0549,
+        "mean": 0.0067,
+        "min": 0.0
+       },
+       "19": {
+        "max": 0.1059,
+        "mean": 0.0436,
+        "min": 0.0
+       },
+       "20": {
+        "max": 0.0824,
+        "mean": 0.0369,
+        "min": 0.0
+       },
+       "21": {
+        "max": 0.0784,
+        "mean": 0.0286,
+        "min": 0.0
+       },
+       "22": {
+        "max": 0.0627,
+        "mean": 0.0222,
+        "min": 0.0
+       },
+       "23": {
+        "max": 0.0431,
+        "mean": 0.0129,
+        "min": 0.0
+       },
+       "24": {
+        "max": 0.0353,
+        "mean": 0.0075,
+        "min": 0.0
+       },
+       "26": {
+        "max": 0.0118,
+        "mean": 0.0013,
+        "min": 0.0
+       },
+       "28": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "30": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "33": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "36": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "40": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "44": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       }
+      }
+     }
+    ],
+    "contactWorld": [
+     [
+      628,
+      3792
+     ]
+    ],
+    "diagnostic": {
+     "gain": 3,
+     "shot": {
+      "file": "geo_000_diagnostic_x3.png",
+      "clip": {
+       "x": 530,
+       "y": 250,
+       "width": 220,
+       "height": 220
+      },
+      "centre": [
+       640,
+       360
+      ]
+     }
+    }
+   },
+   {
+    "tag": "geo_090",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 105,
+      "max": 12
+     },
+     "contact": {
+      "changed": 520,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0039,
+      "mean": 0.0005,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0549,
+      "mean": 0.0065,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.1059,
+      "mean": 0.0387,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.1176,
+      "mean": 0.0358,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0784,
+      "mean": 0.0263,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0784,
+      "mean": 0.0199,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0431,
+      "mean": 0.0129,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0353,
+      "mean": 0.0075,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0078,
+      "mean": 0.0015,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 105,
+      "max": 12
+     },
+     "contact": {
+      "changed": 520,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true,
+    "heading": 90,
+    "swing": [
+     {
+      "dy": [
+       3,
+       -3
+      ],
+      "jobsEqual": true,
+      "contacts": [
+       {
+        "self": true,
+        "x": 628,
+        "y": 3792,
+        "light": "L2",
+        "lightKind": "lamp",
+        "withCast": true,
+        "contact": 0.3,
+        "cofs": 2.5,
+        "ang": 0
+       }
+      ],
+      "ringDrop": {
+       "0": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "8": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "14": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "16": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "17": {
+        "max": 0.0039,
+        "mean": 0.0007,
+        "min": 0.0
+       },
+       "18": {
+        "max": 0.0549,
+        "mean": 0.0067,
+        "min": 0.0
+       },
+       "19": {
+        "max": 0.1059,
+        "mean": 0.0435,
+        "min": 0.0
+       },
+       "20": {
+        "max": 0.1176,
+        "mean": 0.0376,
+        "min": 0.0
+       },
+       "21": {
+        "max": 0.0784,
+        "mean": 0.0306,
+        "min": 0.0
+       },
+       "22": {
+        "max": 0.0784,
+        "mean": 0.0242,
+        "min": 0.0
+       },
+       "23": {
+        "max": 0.0431,
+        "mean": 0.0152,
+        "min": 0.0
+       },
+       "24": {
+        "max": 0.0353,
+        "mean": 0.0098,
+        "min": 0.0
+       },
+       "26": {
+        "max": 0.0118,
+        "mean": 0.0016,
+        "min": 0.0
+       },
+       "28": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "30": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "33": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "36": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "40": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "44": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       }
+      }
+     },
+     {
+      "dy": [
+       -3,
+       3
+      ],
+      "jobsEqual": true,
+      "contacts": [
+       {
+        "self": true,
+        "x": 628,
+        "y": 3792,
+        "light": "L2",
+        "lightKind": "lamp",
+        "withCast": true,
+        "contact": 0.3,
+        "cofs": 2.5,
+        "ang": 0
+       }
+      ],
+      "ringDrop": {
+       "0": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "8": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "14": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "16": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "17": {
+        "max": 0.0039,
+        "mean": 0.0005,
+        "min": 0.0
+       },
+       "18": {
+        "max": 0.0549,
+        "mean": 0.0065,
+        "min": 0.0
+       },
+       "19": {
+        "max": 0.1059,
+        "mean": 0.0374,
+        "min": 0.0
+       },
+       "20": {
+        "max": 0.1176,
+        "mean": 0.0358,
+        "min": 0.0
+       },
+       "21": {
+        "max": 0.0784,
+        "mean": 0.0275,
+        "min": 0.0
+       },
+       "22": {
+        "max": 0.0784,
+        "mean": 0.0211,
+        "min": 0.0
+       },
+       "23": {
+        "max": 0.0431,
+        "mean": 0.0136,
+        "min": 0.0
+       },
+       "24": {
+        "max": 0.0353,
+        "mean": 0.0082,
+        "min": 0.0
+       },
+       "26": {
+        "max": 0.0078,
+        "mean": 0.0011,
+        "min": 0.0
+       },
+       "28": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "30": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "33": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "36": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "40": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "44": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       }
+      }
+     }
+    ],
+    "contactWorld": [
+     [
+      628,
+      3792
+     ]
+    ]
+   },
+   {
+    "tag": "geo_180",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 100,
+      "max": 9
+     },
+     "contact": {
+      "changed": 525,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0039,
+      "mean": 0.0003,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0549,
+      "mean": 0.0064,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.1059,
+      "mean": 0.0368,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.1176,
+      "mean": 0.0346,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0784,
+      "mean": 0.0268,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0784,
+      "mean": 0.0204,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0431,
+      "mean": 0.0147,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0353,
+      "mean": 0.0093,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0118,
+      "mean": 0.0016,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 100,
+      "max": 9
+     },
+     "contact": {
+      "changed": 525,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true,
+    "heading": 180,
+    "swing": [
+     {
+      "dy": [
+       3,
+       -3
+      ],
+      "jobsEqual": true,
+      "contacts": [
+       {
+        "self": true,
+        "x": 628,
+        "y": 3792,
+        "light": "L2",
+        "lightKind": "lamp",
+        "withCast": true,
+        "contact": 0.3,
+        "cofs": 2.5,
+        "ang": 0
+       }
+      ],
+      "ringDrop": {
+       "0": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "8": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "14": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "16": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "17": {
+        "max": 0.0039,
+        "mean": 0.0005,
+        "min": 0.0
+       },
+       "18": {
+        "max": 0.0549,
+        "mean": 0.0065,
+        "min": 0.0
+       },
+       "19": {
+        "max": 0.1059,
+        "mean": 0.0374,
+        "min": 0.0
+       },
+       "20": {
+        "max": 0.1176,
+        "mean": 0.0368,
+        "min": 0.0
+       },
+       "21": {
+        "max": 0.0784,
+        "mean": 0.0292,
+        "min": 0.0
+       },
+       "22": {
+        "max": 0.0784,
+        "mean": 0.0229,
+        "min": 0.0
+       },
+       "23": {
+        "max": 0.0431,
+        "mean": 0.0154,
+        "min": 0.0
+       },
+       "24": {
+        "max": 0.0353,
+        "mean": 0.01,
+        "min": 0.0
+       },
+       "26": {
+        "max": 0.0118,
+        "mean": 0.0016,
+        "min": 0.0
+       },
+       "28": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "30": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "33": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "36": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "40": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "44": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       }
+      }
+     },
+     {
+      "dy": [
+       -3,
+       3
+      ],
+      "jobsEqual": true,
+      "contacts": [
+       {
+        "self": true,
+        "x": 628,
+        "y": 3792,
+        "light": "L2",
+        "lightKind": "lamp",
+        "withCast": true,
+        "contact": 0.3,
+        "cofs": 2.5,
+        "ang": 0
+       }
+      ],
+      "ringDrop": {
+       "0": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "8": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "14": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "16": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "17": {
+        "max": 0.0039,
+        "mean": 0.0003,
+        "min": 0.0
+       },
+       "18": {
+        "max": 0.0549,
+        "mean": 0.0064,
+        "min": 0.0
+       },
+       "19": {
+        "max": 0.1059,
+        "mean": 0.0381,
+        "min": 0.0
+       },
+       "20": {
+        "max": 0.1176,
+        "mean": 0.0346,
+        "min": 0.0
+       },
+       "21": {
+        "max": 0.0784,
+        "mean": 0.0286,
+        "min": 0.0
+       },
+       "22": {
+        "max": 0.0784,
+        "mean": 0.0222,
+        "min": 0.0
+       },
+       "23": {
+        "max": 0.0431,
+        "mean": 0.0152,
+        "min": 0.0
+       },
+       "24": {
+        "max": 0.0353,
+        "mean": 0.0098,
+        "min": 0.0
+       },
+       "26": {
+        "max": 0.0118,
+        "mean": 0.0016,
+        "min": 0.0
+       },
+       "28": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "30": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "33": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "36": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "40": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "44": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       }
+      }
+     }
+    ],
+    "contactWorld": [
+     [
+      628,
+      3792
+     ]
+    ]
+   },
+   {
+    "tag": "geo_270",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 105,
+      "max": 13
+     },
+     "contact": {
+      "changed": 503,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0039,
+      "mean": 0.0005,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0549,
+      "mean": 0.0065,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.1059,
+      "mean": 0.0387,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.1176,
+      "mean": 0.0358,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0784,
+      "mean": 0.0263,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0784,
+      "mean": 0.0199,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0431,
+      "mean": 0.0131,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0353,
+      "mean": 0.0077,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0118,
+      "mean": 0.0013,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 105,
+      "max": 13
+     },
+     "contact": {
+      "changed": 503,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true,
+    "heading": 270,
+    "swing": [
+     {
+      "dy": [
+       3,
+       -3
+      ],
+      "jobsEqual": true,
+      "contacts": [
+       {
+        "self": true,
+        "x": 628,
+        "y": 3792,
+        "light": "L2",
+        "lightKind": "lamp",
+        "withCast": true,
+        "contact": 0.3,
+        "cofs": 2.5,
+        "ang": 0
+       }
+      ],
+      "ringDrop": {
+       "0": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "8": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "14": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "16": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "17": {
+        "max": 0.0039,
+        "mean": 0.0005,
+        "min": 0.0
+       },
+       "18": {
+        "max": 0.0549,
+        "mean": 0.0065,
+        "min": 0.0
+       },
+       "19": {
+        "max": 0.1059,
+        "mean": 0.0376,
+        "min": 0.0
+       },
+       "20": {
+        "max": 0.1176,
+        "mean": 0.0361,
+        "min": 0.0
+       },
+       "21": {
+        "max": 0.0784,
+        "mean": 0.0279,
+        "min": 0.0
+       },
+       "22": {
+        "max": 0.0784,
+        "mean": 0.0216,
+        "min": 0.0
+       },
+       "23": {
+        "max": 0.0431,
+        "mean": 0.0137,
+        "min": 0.0
+       },
+       "24": {
+        "max": 0.0353,
+        "mean": 0.0083,
+        "min": 0.0
+       },
+       "26": {
+        "max": 0.0118,
+        "mean": 0.0013,
+        "min": 0.0
+       },
+       "28": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "30": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "33": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "36": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "40": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "44": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       }
+      }
+     },
+     {
+      "dy": [
+       -3,
+       3
+      ],
+      "jobsEqual": true,
+      "contacts": [
+       {
+        "self": true,
+        "x": 628,
+        "y": 3792,
+        "light": "L2",
+        "lightKind": "lamp",
+        "withCast": true,
+        "contact": 0.3,
+        "cofs": 2.5,
+        "ang": 0
+       }
+      ],
+      "ringDrop": {
+       "0": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "8": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "14": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "16": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "17": {
+        "max": 0.0039,
+        "mean": 0.0007,
+        "min": 0.0
+       },
+       "18": {
+        "max": 0.0549,
+        "mean": 0.0067,
+        "min": 0.0
+       },
+       "19": {
+        "max": 0.1059,
+        "mean": 0.0404,
+        "min": 0.0
+       },
+       "20": {
+        "max": 0.1176,
+        "mean": 0.0358,
+        "min": 0.0
+       },
+       "21": {
+        "max": 0.0784,
+        "mean": 0.0292,
+        "min": 0.0
+       },
+       "22": {
+        "max": 0.0784,
+        "mean": 0.0229,
+        "min": 0.0
+       },
+       "23": {
+        "max": 0.0431,
+        "mean": 0.0147,
+        "min": 0.0
+       },
+       "24": {
+        "max": 0.0353,
+        "mean": 0.0093,
+        "min": 0.0
+       },
+       "26": {
+        "max": 0.0118,
+        "mean": 0.0016,
+        "min": 0.0
+       },
+       "28": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "30": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "33": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "36": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "40": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       },
+       "44": {
+        "max": 0.0,
+        "mean": 0.0,
+        "min": 0.0
+       }
+      }
+     }
+    ],
+    "contactWorld": [
+     [
+      628,
+      3792
+     ]
+    ]
+   }
+  ],
+  "under": {
+   "spot": {
+    "x": 528,
+    "y": 3792,
+    "lamp": [
+     528,
+     3792
+    ],
+    "d": 0,
+    "a": 0
+   },
+   "caps": [
+    {
+     "tag": "under_000",
+     "zoom": 0.8333333333333334,
+     "zones": {
+      "body": {
+       "changed": 128,
+       "max": 1
+      },
+      "edge": {
+       "changed": 160,
+       "max": 23
+      },
+      "contact": {
+       "changed": 821,
+       "max": 28
+      },
+      "outside": {
+       "changed": 1412,
+       "max": 2
+      }
+     },
+     "jobsEqual": true,
+     "contacts": [
+      {
+       "self": true,
+       "x": 528,
+       "y": 3792,
+       "light": "L2",
+       "lightKind": "lamp",
+       "withCast": false,
+       "contact": 0.3,
+       "cofs": 0,
+       "ang": 0
+      }
+     ],
+     "ringDrop": {
+      "0": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "8": {
+       "max": 0.0039,
+       "mean": 0.0005,
+       "min": 0.0
+      },
+      "14": {
+       "max": 0.0039,
+       "mean": 0.001,
+       "min": 0.0
+      },
+      "16": {
+       "max": 0.0039,
+       "mean": 0.001,
+       "min": 0.0
+      },
+      "17": {
+       "max": 0.0078,
+       "mean": 0.0018,
+       "min": 0.0
+      },
+      "18": {
+       "max": 0.0706,
+       "mean": 0.0134,
+       "min": 0.0
+      },
+      "19": {
+       "max": 0.1255,
+       "mean": 0.0832,
+       "min": 0.0
+      },
+      "20": {
+       "max": 0.1255,
+       "mean": 0.0773,
+       "min": 0.0
+      },
+      "21": {
+       "max": 0.0902,
+       "mean": 0.0577,
+       "min": 0.0
+      },
+      "22": {
+       "max": 0.0784,
+       "mean": 0.0454,
+       "min": 0.0
+      },
+      "23": {
+       "max": 0.0549,
+       "mean": 0.0292,
+       "min": 0.0
+      },
+      "24": {
+       "max": 0.0314,
+       "mean": 0.0175,
+       "min": 0.0
+      },
+      "26": {
+       "max": 0.0039,
+       "mean": 0.0026,
+       "min": 0.0
+      },
+      "28": {
+       "max": 0.0039,
+       "mean": 0.0016,
+       "min": 0.0
+      },
+      "30": {
+       "max": 0.0039,
+       "mean": 0.0007,
+       "min": 0.0
+      },
+      "33": {
+       "max": 0.0078,
+       "mean": 0.0029,
+       "min": 0.0
+      },
+      "36": {
+       "max": 0.0078,
+       "mean": 0.0026,
+       "min": 0.0
+      },
+      "40": {
+       "max": 0.0039,
+       "mean": 0.0029,
+       "min": 0.0
+      },
+      "44": {
+       "max": 0.0078,
+       "mean": 0.0023,
+       "min": 0.0
+      }
+     },
+     "inPage": {
+      "body": {
+       "changed": 128,
+       "max": 1
+      },
+      "edge": {
+       "changed": 160,
+       "max": 23
+      },
+      "contact": {
+       "changed": 821,
+       "max": 28
+      },
+      "outside": {
+       "changed": 1412,
+       "max": 2
+      }
+     },
+     "contactOffEqualsHq4": true,
+     "contactOffRingEqualsHq4": true,
+     "contactOffJobsEqual": true
+    },
+    {
+     "tag": "under_090",
+     "zoom": 0.8333333333333334,
+     "zones": {
+      "body": {
+       "changed": 129,
+       "max": 1
+      },
+      "edge": {
+       "changed": 156,
+       "max": 23
+      },
+      "contact": {
+       "changed": 805,
+       "max": 28
+      },
+      "outside": {
+       "changed": 1392,
+       "max": 2
+      }
+     },
+     "jobsEqual": true,
+     "contacts": [
+      {
+       "self": true,
+       "x": 528,
+       "y": 3792,
+       "light": "L2",
+       "lightKind": "lamp",
+       "withCast": false,
+       "contact": 0.3,
+       "cofs": 0,
+       "ang": 0
+      }
+     ],
+     "ringDrop": {
+      "0": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "8": {
+       "max": 0.0039,
+       "mean": 0.0005,
+       "min": 0.0
+      },
+      "14": {
+       "max": 0.0039,
+       "mean": 0.001,
+       "min": 0.0
+      },
+      "16": {
+       "max": 0.0039,
+       "mean": 0.001,
+       "min": 0.0
+      },
+      "17": {
+       "max": 0.0078,
+       "mean": 0.0018,
+       "min": 0.0
+      },
+      "18": {
+       "max": 0.0706,
+       "mean": 0.0134,
+       "min": 0.0
+      },
+      "19": {
+       "max": 0.1255,
+       "mean": 0.0832,
+       "min": 0.0
+      },
+      "20": {
+       "max": 0.1255,
+       "mean": 0.0773,
+       "min": 0.0
+      },
+      "21": {
+       "max": 0.0902,
+       "mean": 0.0577,
+       "min": 0.0
+      },
+      "22": {
+       "max": 0.0784,
+       "mean": 0.0454,
+       "min": 0.0
+      },
+      "23": {
+       "max": 0.0549,
+       "mean": 0.0292,
+       "min": 0.0
+      },
+      "24": {
+       "max": 0.0314,
+       "mean": 0.0175,
+       "min": 0.0
+      },
+      "26": {
+       "max": 0.0039,
+       "mean": 0.0026,
+       "min": 0.0
+      },
+      "28": {
+       "max": 0.0039,
+       "mean": 0.0016,
+       "min": 0.0
+      },
+      "30": {
+       "max": 0.0039,
+       "mean": 0.0007,
+       "min": 0.0
+      },
+      "33": {
+       "max": 0.0078,
+       "mean": 0.0029,
+       "min": 0.0
+      },
+      "36": {
+       "max": 0.0078,
+       "mean": 0.0026,
+       "min": 0.0
+      },
+      "40": {
+       "max": 0.0039,
+       "mean": 0.0029,
+       "min": 0.0
+      },
+      "44": {
+       "max": 0.0078,
+       "mean": 0.0023,
+       "min": 0.0
+      }
+     },
+     "inPage": {
+      "body": {
+       "changed": 129,
+       "max": 1
+      },
+      "edge": {
+       "changed": 156,
+       "max": 23
+      },
+      "contact": {
+       "changed": 805,
+       "max": 28
+      },
+      "outside": {
+       "changed": 1392,
+       "max": 2
+      }
+     },
+     "contactOffEqualsHq4": true,
+     "contactOffRingEqualsHq4": true,
+     "contactOffJobsEqual": true
+    }
+   ],
+   "patchExactness": {
+    "maxLevels": 2,
+    "differing": 859,
+    "points": 3721,
+    "contactMaxTaken": 0.1255
+   }
+  },
+  "lights": {
+   "pair": {
+    "j": 91,
+    "x": 672,
+    "y": 3696,
+    "lamps": [
+     [
+      528,
+      3792
+     ],
+     [
+      816,
+      3600
+     ]
+    ]
+   },
+   "blackoutState": [
+    true,
+    true
+   ],
+   "first": {
+    "tag": "lights_first",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 109,
+      "max": 5
+     },
+     "contact": {
+      "changed": 432,
+      "max": 10
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 672,
+      "y": 3696,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": -0.588
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0039,
+      "mean": 0.0003,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0353,
+      "mean": 0.0038,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.0667,
+      "mean": 0.0245,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.0706,
+      "mean": 0.0212,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0471,
+      "mean": 0.0144,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0431,
+      "mean": 0.0108,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0275,
+      "mean": 0.0057,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0235,
+      "mean": 0.0039,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0078,
+      "mean": 0.0011,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0039,
+      "mean": 0.0003,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    }
+   },
+   "second": {
+    "tag": "lights_second",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 68,
+      "max": 2
+     },
+     "contact": {
+      "changed": 254,
+      "max": 4
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 672,
+      "y": 3696,
+      "light": "L91",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": 2.5536
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0118,
+      "mean": 0.001,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.0196,
+      "mean": 0.0067,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.0196,
+      "mean": 0.0062,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0157,
+      "mean": 0.0049,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0157,
+      "mean": 0.0036,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0078,
+      "mean": 0.0018,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0078,
+      "mean": 0.0011,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0039,
+      "mean": 0.0003,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0039,
+      "mean": 0.0002,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    }
+   },
+   "both": {
+    "tag": "lights_both",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 364,
+      "max": 1
+     },
+     "edge": {
+      "changed": 182,
+      "max": 6
+     },
+     "contact": {
+      "changed": 958,
+      "max": 12
+     },
+     "outside": {
+      "changed": 1145,
+      "max": 1
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 672,
+      "y": 3696,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": -0.588
+     },
+     {
+      "self": true,
+      "x": 672,
+      "y": 3696,
+      "light": "L91",
+      "lightKind": "lamp",
+      "withCast": false,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": 2.5536
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0039,
+      "mean": 0.0039,
+      "min": 0.0039
+     },
+     "8": {
+      "max": 0.0039,
+      "mean": 0.0026,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0039,
+      "mean": 0.0029,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0039,
+      "mean": 0.002,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0078,
+      "mean": 0.0025,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0471,
+      "mean": 0.0075,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.0824,
+      "mean": 0.0384,
+      "min": 0.0039
+     },
+     "20": {
+      "max": 0.0824,
+      "mean": 0.0361,
+      "min": 0.0039
+     },
+     "21": {
+      "max": 0.0588,
+      "mean": 0.0271,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.051,
+      "mean": 0.0216,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0314,
+      "mean": 0.0132,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0235,
+      "mean": 0.01,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0118,
+      "mean": 0.0052,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0039,
+      "mean": 0.0029,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0039,
+      "mean": 0.0028,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0039,
+      "mean": 0.0028,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0039,
+      "mean": 0.0028,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0039,
+      "mean": 0.0016,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0039,
+      "mean": 0.0008,
+      "min": -0.0039
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 364,
+      "max": 1
+     },
+     "edge": {
+      "changed": 182,
+      "max": 6
+     },
+     "contact": {
+      "changed": 958,
+      "max": 12
+     },
+     "outside": {
+      "changed": 1145,
+      "max": 1
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true
+   },
+   "allFixtures": {
+    "tag": "lights_allFixtures",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 553,
+      "max": 3
+     },
+     "edge": {
+      "changed": 229,
+      "max": 14
+     },
+     "contact": {
+      "changed": 1285,
+      "max": 20
+     },
+     "outside": {
+      "changed": 2202,
+      "max": 2
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     },
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L92",
+      "lightKind": "lamp",
+      "withCast": false,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": -1.88
+     },
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L91",
+      "lightKind": "lamp",
+      "withCast": false,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": 2.3457
+     },
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L1",
+      "lightKind": "lamp",
+      "withCast": false,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": 1.3654
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0078,
+      "mean": 0.0078,
+      "min": 0.0078
+     },
+     "8": {
+      "max": 0.0118,
+      "mean": 0.0088,
+      "min": 0.0039
+     },
+     "14": {
+      "max": 0.0118,
+      "mean": 0.0083,
+      "min": 0.0039
+     },
+     "16": {
+      "max": 0.0118,
+      "mean": 0.0083,
+      "min": 0.0039
+     },
+     "17": {
+      "max": 0.0157,
+      "mean": 0.0092,
+      "min": 0.0039
+     },
+     "18": {
+      "max": 0.0784,
+      "mean": 0.0172,
+      "min": 0.0039
+     },
+     "19": {
+      "max": 0.1333,
+      "mean": 0.0627,
+      "min": 0.0039
+     },
+     "20": {
+      "max": 0.1176,
+      "mean": 0.0598,
+      "min": 0.0039
+     },
+     "21": {
+      "max": 0.1059,
+      "mean": 0.0471,
+      "min": 0.0039
+     },
+     "22": {
+      "max": 0.0745,
+      "mean": 0.0379,
+      "min": 0.0039
+     },
+     "23": {
+      "max": 0.0588,
+      "mean": 0.0266,
+      "min": 0.0078
+     },
+     "24": {
+      "max": 0.0392,
+      "mean": 0.0198,
+      "min": 0.0078
+     },
+     "26": {
+      "max": 0.0157,
+      "mean": 0.0096,
+      "min": 0.0039
+     },
+     "28": {
+      "max": 0.0118,
+      "mean": 0.0078,
+      "min": 0.0039
+     },
+     "30": {
+      "max": 0.0118,
+      "mean": 0.0075,
+      "min": 0.0039
+     },
+     "33": {
+      "max": 0.0118,
+      "mean": 0.0087,
+      "min": 0.0039
+     },
+     "36": {
+      "max": 0.0118,
+      "mean": 0.0088,
+      "min": 0.0039
+     },
+     "40": {
+      "max": 0.0118,
+      "mean": 0.0056,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0118,
+      "mean": 0.0036,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 553,
+      "max": 3
+     },
+     "edge": {
+      "changed": 229,
+      "max": 14
+     },
+     "contact": {
+      "changed": 1285,
+      "max": 20
+     },
+     "outside": {
+      "changed": 2202,
+      "max": 2
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true
+   },
+   "blackout": {
+    "tag": "lights_blackout",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 0,
+      "max": 0
+     },
+     "contact": {
+      "changed": 0,
+      "max": 0
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [],
+    "ringDrop": {
+     "0": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "8": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "14": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "16": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "17": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "18": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "19": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "20": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "21": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "22": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "23": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "24": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "26": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "28": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "30": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "33": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "36": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "40": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     },
+     "44": {
+      "max": 0,
+      "mean": 0.0,
+      "min": 0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 0,
+      "max": 0
+     },
+     "contact": {
+      "changed": 0,
+      "max": 0
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true
+   },
+   "blackoutMaxLight": 0
+  },
+  "carried": {
+   "bob": [
+    {
+     "tag": "carried_bob_0",
+     "zoom": 0.8333333333333334,
+     "zones": {
+      "body": {
+       "changed": 1,
+       "max": 1
+      },
+      "edge": {
+       "changed": 84,
+       "max": 15
+      },
+      "contact": {
+       "changed": 412,
+       "max": 27
+      },
+      "outside": {
+       "changed": 0,
+       "max": 0
+      }
+     },
+     "jobsEqual": true,
+     "contacts": [
+      {
+       "self": true,
+       "x": 628,
+       "y": 3792,
+       "light": "C1",
+       "lightKind": "carried",
+       "withCast": true,
+       "contact": 0.3,
+       "cofs": 2.366,
+       "ang": 2.9228
+      }
+     ],
+     "ringDrop": {
+      "0": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "8": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "14": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "16": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "17": {
+       "max": 0.0039,
+       "mean": 0.0003,
+       "min": 0.0
+      },
+      "18": {
+       "max": 0.0706,
+       "mean": 0.0044,
+       "min": 0.0
+      },
+      "19": {
+       "max": 0.1843,
+       "mean": 0.0338,
+       "min": 0.0
+      },
+      "20": {
+       "max": 0.1843,
+       "mean": 0.0309,
+       "min": 0.0
+      },
+      "21": {
+       "max": 0.1137,
+       "mean": 0.0235,
+       "min": 0.0
+      },
+      "22": {
+       "max": 0.1137,
+       "mean": 0.0186,
+       "min": 0.0
+      },
+      "23": {
+       "max": 0.0549,
+       "mean": 0.0118,
+       "min": 0.0
+      },
+      "24": {
+       "max": 0.051,
+       "mean": 0.0087,
+       "min": 0.0
+      },
+      "26": {
+       "max": 0.0118,
+       "mean": 0.0015,
+       "min": 0.0
+      },
+      "28": {
+       "max": 0.0039,
+       "mean": 0.0002,
+       "min": 0.0
+      },
+      "30": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "33": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "36": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "40": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "44": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      }
+     },
+     "inPage": {
+      "body": {
+       "changed": 12,
+       "max": 2
+      },
+      "edge": {
+       "changed": 84,
+       "max": 15
+      },
+      "contact": {
+       "changed": 412,
+       "max": 27
+      },
+      "outside": {
+       "changed": 21,
+       "max": 2
+      }
+     },
+     "contactOffEqualsHq4": false,
+     "contactOffRingEqualsHq4": false,
+     "contactOffJobsEqual": true,
+     "bobAt": [
+      723,
+      3792
+     ]
+    },
+    {
+     "tag": "carried_bob_1",
+     "zoom": 0.8333333333333334,
+     "zones": {
+      "body": {
+       "changed": 0,
+       "max": 0
+      },
+      "edge": {
+       "changed": 78,
+       "max": 17
+      },
+      "contact": {
+       "changed": 345,
+       "max": 23
+      },
+      "outside": {
+       "changed": 0,
+       "max": 0
+      }
+     },
+     "jobsEqual": true,
+     "contacts": [
+      {
+       "self": true,
+       "x": 628,
+       "y": 3792,
+       "light": "C2",
+       "lightKind": "carried",
+       "withCast": true,
+       "contact": 0.3,
+       "cofs": 2.367,
+       "ang": -0.2196
+      }
+     ],
+     "ringDrop": {
+      "0": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "8": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "14": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "16": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "17": {
+       "max": 0.0039,
+       "mean": 0.0003,
+       "min": 0.0
+      },
+      "18": {
+       "max": 0.0706,
+       "mean": 0.0046,
+       "min": 0.0
+      },
+      "19": {
+       "max": 0.1451,
+       "mean": 0.0291,
+       "min": 0.0
+      },
+      "20": {
+       "max": 0.1098,
+       "mean": 0.0263,
+       "min": 0.0
+      },
+      "21": {
+       "max": 0.102,
+       "mean": 0.0185,
+       "min": 0.0
+      },
+      "22": {
+       "max": 0.0588,
+       "mean": 0.0132,
+       "min": 0.0
+      },
+      "23": {
+       "max": 0.0549,
+       "mean": 0.0074,
+       "min": 0.0
+      },
+      "24": {
+       "max": 0.0235,
+       "mean": 0.0033,
+       "min": 0.0
+      },
+      "26": {
+       "max": 0.0078,
+       "mean": 0.0008,
+       "min": 0.0
+      },
+      "28": {
+       "max": 0.0039,
+       "mean": 0.0002,
+       "min": 0.0
+      },
+      "30": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "33": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "36": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "40": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      },
+      "44": {
+       "max": 0.0,
+       "mean": 0.0,
+       "min": 0.0
+      }
+     },
+     "inPage": {
+      "body": {
+       "changed": 3,
+       "max": 2
+      },
+      "edge": {
+       "changed": 78,
+       "max": 17
+      },
+      "contact": {
+       "changed": 347,
+       "max": 23
+      },
+      "outside": {
+       "changed": 14,
+       "max": 2
+      }
+     },
+     "contactOffEqualsHq4": false,
+     "contactOffRingEqualsHq4": true,
+     "contactOffJobsEqual": true,
+     "bobAt": [
+      533,
+      3792
+     ]
+    }
+   ],
+   "own": {
+    "tag": "carried_own",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 0,
+      "max": 0
+     },
+     "contact": {
+      "changed": 0,
+      "max": 0
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 0,
+      "max": 0
+     },
+     "contact": {
+      "changed": 0,
+      "max": 0
+     },
+     "outside": {
+      "changed": 15,
+      "max": 1
+     }
+    },
+    "contactOffEqualsHq4": false,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true
+   }
+  },
+  "peers": {
+   "visible": {
+    "bob": [
+     688,
+     3792
+    ],
+    "castJobsHq4": 1,
+    "castJobsHq5": 1,
+    "jobsEqual": true,
+    "contactsForOthers": [
+     {
+      "self": false,
+      "x": 688,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": 0
+     }
+    ],
+    "contactsForHer": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     }
+    ],
+    "pixelsChangedInPage": 1141
+   },
+   "hidden": {
+    "bob": [
+     940,
+     3612
+    ],
+    "castJobsHq4": 0,
+    "castJobsHq5": 0,
+    "jobsEqual": true,
+    "contactsForOthers": [],
+    "contactsForHer": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     },
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L92",
+      "lightKind": "lamp",
+      "withCast": false,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": -1.88
+     },
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L91",
+      "lightKind": "lamp",
+      "withCast": false,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": 2.3457
+     },
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L1",
+      "lightKind": "lamp",
+      "withCast": false,
+      "contact": 0.3,
+      "cofs": 3,
+      "ang": 1.3654
+     }
+    ],
+    "pixelsChangedInPage": 4269
+   }
+  },
+  "tiers": [
+   {
+    "tag": "tier_low",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 4,
+      "max": 1
+     },
+     "edge": {
+      "changed": 151,
+      "max": 7
+     },
+     "contact": {
+      "changed": 527,
+      "max": 13
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0471,
+      "mean": 0.0069,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.051,
+      "mean": 0.0173,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.102,
+      "mean": 0.0258,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.0745,
+      "mean": 0.0286,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0745,
+      "mean": 0.0261,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0667,
+      "mean": 0.0212,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0392,
+      "mean": 0.0121,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0275,
+      "mean": 0.0069,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0039,
+      "mean": 0.0016,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 4,
+      "max": 1
+     },
+     "edge": {
+      "changed": 151,
+      "max": 7
+     },
+     "contact": {
+      "changed": 527,
+      "max": 13
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true,
+    "quality": "low",
+    "buffer": [
+     640,
+     360
+    ]
+   },
+   {
+    "tag": "tier_medium",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 112,
+      "max": 11
+     },
+     "contact": {
+      "changed": 493,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0039,
+      "mean": 0.0007,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0549,
+      "mean": 0.0067,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.1059,
+      "mean": 0.0407,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.0824,
+      "mean": 0.0369,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0784,
+      "mean": 0.0258,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0471,
+      "mean": 0.0194,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0431,
+      "mean": 0.0113,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0235,
+      "mean": 0.0059,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0039,
+      "mean": 0.001,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 112,
+      "max": 11
+     },
+     "contact": {
+      "changed": 493,
+      "max": 15
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true,
+    "quality": "medium",
+    "buffer": [
+     960,
+     540
+    ]
+   },
+   {
+    "tag": "tier_high",
+    "zoom": 0.8333333333333334,
+    "zones": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 75,
+      "max": 11
+     },
+     "contact": {
+      "changed": 440,
+      "max": 17
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "jobsEqual": true,
+    "contacts": [
+     {
+      "self": true,
+      "x": 628,
+      "y": 3792,
+      "light": "L2",
+      "lightKind": "lamp",
+      "withCast": true,
+      "contact": 0.3,
+      "cofs": 2.5,
+      "ang": 0
+     }
+    ],
+    "ringDrop": {
+     "0": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "8": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "14": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "16": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "17": {
+      "max": 0.0078,
+      "mean": 0.001,
+      "min": 0.0
+     },
+     "18": {
+      "max": 0.0667,
+      "mean": 0.0065,
+      "min": 0.0
+     },
+     "19": {
+      "max": 0.1098,
+      "mean": 0.0399,
+      "min": 0.0
+     },
+     "20": {
+      "max": 0.0863,
+      "mean": 0.0371,
+      "min": 0.0
+     },
+     "21": {
+      "max": 0.0824,
+      "mean": 0.0286,
+      "min": 0.0
+     },
+     "22": {
+      "max": 0.0549,
+      "mean": 0.0194,
+      "min": 0.0
+     },
+     "23": {
+      "max": 0.0353,
+      "mean": 0.0098,
+      "min": 0.0
+     },
+     "24": {
+      "max": 0.0235,
+      "mean": 0.0056,
+      "min": 0.0
+     },
+     "26": {
+      "max": 0.0118,
+      "mean": 0.002,
+      "min": 0.0
+     },
+     "28": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "30": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "33": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "36": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "40": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     },
+     "44": {
+      "max": 0.0,
+      "mean": 0.0,
+      "min": 0.0
+     }
+    },
+    "inPage": {
+     "body": {
+      "changed": 0,
+      "max": 0
+     },
+     "edge": {
+      "changed": 75,
+      "max": 11
+     },
+     "contact": {
+      "changed": 440,
+      "max": 17
+     },
+     "outside": {
+      "changed": 0,
+      "max": 0
+     }
+    },
+    "contactOffEqualsHq4": true,
+    "contactOffRingEqualsHq4": true,
+    "contactOffJobsEqual": true,
+    "quality": "high",
+    "buffer": [
+     1280,
+     720
+    ]
+   }
+  ]
+ }
+}
