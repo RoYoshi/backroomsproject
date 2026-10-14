@@ -7,12 +7,13 @@
  *   - anything else is served only when it is inside ROOT and the SERVE allowlist names it, otherwise 404;
  *   - code is never cached, PNG images for a day; everything but PNG is gzipped when the client accepts gzip, and each gzipped copy is
  *     kept for the life of the process.
+ * Stage 3E-0: /favicon.ico, the user's site icon (the folder's own favicon.ico, nothing else of its kind), as image/x-icon.
  * ROOT is the folder server.js lives in, passed in because this file lives one level below it.  Nothing is done at load but defining the
  * constants and the gzip cache.  Never served: SERVE does not reach this folder. */
 const fs = require('fs'), path = require('path'), zlib = require('zlib');
 const gz = new Map();
-const SERVE = /^\/(index\.html|camera_policy\.js|timing_policy\.js|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|light\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js.  Stage 3B-N: camera_policy.js and timing_policy.js are client policies index.html loads (they were missing here, so the client ran on its fallbacks)
-const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png' };
+const SERVE = /^\/(index\.html|favicon\.ico|camera_policy\.js|timing_policy\.js|world\.js|move\.js|ents\.js|mp\.js|hud\.js|gore\.js|dphys\.js|light\.js|glitch\.js|camcorder\.js|inventory\.js|sfx\.js|assets\/[\w.\-]+)$/;   // never serve server.js / sim.js.  Stage 3B-N: camera_policy.js and timing_policy.js are client policies index.html loads (they were missing here, so the client ran on its fallbacks)
+const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.ico': 'image/x-icon' };   // (Stage 3E-0: the site icon, favicon.ico - the one .ico SERVE names)
 
 module.exports = ROOT => (req, res) => {
   let u;

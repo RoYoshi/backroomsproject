@@ -1,0 +1,23 @@
+Stage 3E-0 (B+) - files changed since the accepted parent stage-3d-hq5 ad98475767bcae6794cd01af832de660355da7a2
+
+Game (served or run by the server; these five are the B+ overlay):
+  server.js          B+: 'caps' answered; 'q' (other players' newer accepted poses, [id, x, y, heading]) on the ticks between snapshots,
+                     only to clients that asked and are in a run; 'k' (the tick) in their snapshots; their poses taken every 16 ms
+                     instead of 30, through the unchanged mvCheck.  Nothing for the icon.
+  mp.js              B: the other players eased by elapsed time (1 - 0.7^(60 dt), 1 - 0.65^(60 dt)); a snapshot sets only the target; a jump
+                     over 96 px shown at once.  B+: asks with 'caps'; after the answer sends its own pose every 25 ms instead of 50; uses a
+                     'q' only for this world, newer than everything seen, for known living players; the bodies it steers round follow the
+                     newest server poses.  ?peers=a / ?peers=b: DEV comparison, this page only.  window.__peerNet: DEV counters.
+  index.html         one line: <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  server/static.js   favicon\.ico added to SERVE; '.ico': 'image/x-icon' added to the MIME table; one comment line
+  favicon.ico        NEW: the supplied icon, byte for byte (SHA-256 5489c214c3d50d6a1e08bce814a0234673dcc2094279d081e712f39edd78501b)
+
+Documents (repository root):
+  STAGE_3E0_BPLUS_REPORT.md, STAGE_3E0_BPLUS_HUMAN_QA.md, STAGE_3E0_CHANGED_FILES.txt
+
+Development only (never served):
+  dev/stage-3e-0/    README.md, net_lab.js, b_math.js, proto_check.js, static_check.js, two_browser.py, place_race.py, ws_admin_once.js,
+                     overlay_e0.py, verify_remote_e0.py, evidence/e0-0, evidence/e0-1, evidence/e0-2
+
+Not changed: move.js (the local controller), the bundle (assets/), BR-RoLE 1.2, sim.js, ai.js, death_srv.js, server/peers.js,
+server/ws.js, the PWA manifest, the logo, every earlier stage's tools and evidence.

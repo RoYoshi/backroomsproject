@@ -11,6 +11,17 @@ const cv = document.getElementById('mp'), cx = cv.getContext('2d'), dread = docu
   net = Object.assign(document.createElement('div'), { id: 'net', textContent: 'SOLO' });
 document.body.appendChild(net);
 const room = new URLSearchParams(location.search).get('room') || 'main';
+/* Stage 3E-0: how the other Wanderers are shown.
+ *   'bplus' (the default): B, and the server's fresher accepted poses between its full snapshots ('q', asked for with 'caps' and used
+ *           only once the server answers yes: an older server sends no 'q' and we stay at 50 ms), our own pose every ~33 ms (60 Hz screen)
+ *   'b'     the snapshots alone, as HQ5; the drawn pose eased toward the newest one by ELAPSED TIME (.3 / .35 of the way per 1/60 s) -
+ *           HQ5's own easing never ran: each snapshot set the drawn position outright, so they moved in 20 Hz steps
+ *   'a'     Stage 3D HQ5 exactly.
+ * DEV comparison only: ?peers=a or ?peers=b changes this page alone, never the server or anyone else */
+const PEER_MODE = (() => { const v = new URLSearchParams(location.search).get('peers'); return v === 'a' || v === 'b' ? v : 'bplus'; })();
+const PEER_SNAP = 96;                             // B / B+: a jump of more than this between where one is drawn and its new pose is shown at once (a teleport, a spawn)
+let fastAck = false, lastK = -1;                   // B+: the server said yes to 'caps'; the newest server tick seen ('s' or 'q')
+const PN = { s: 0, q: 0, qApplied: 0, qStale: 0, qUnknown: 0 };   // B+ DEV counters (window.__peerNet)
 
 let ws, retry = 0, myId = null, lastSend = 0, everConnected = false;
 let snap = null, me = '', mseq = 0, handled = 0, peersN = 0, kicked = false, exited = false;
@@ -95,12 +106,33 @@ function runMenuWords(boom) {
  * (an entity's cp names its victim).  Empty offline, and while we are not solid ourselves: not in a run, dead, held, out through a glitch,
  * or out of the world after an approved NEW RUN. */
 window.__peerBodies = [];
+let solidHeld = null;                                // (Stage 3E-0: the last snapshot's held players, for the fresher poses)
+const solidNow = A => !(!A || !A.started || !A.started() || me || cpNow || nrBusy === 2 || exited || (A.G && A.G.caught));
 function solidPeers(m) {
-  const pb = window.__peerBodies, A = window.__api; pb.length = 0;
-  if (!A || !A.started || !A.started() || me || cpNow || nrBusy === 2 || exited || (A.G && A.G.caught)) return;
+  const pb = window.__peerBodies, A = window.__api; pb.length = 0; solidHeld = null;
+  if (!solidNow(A)) return;
   const held = new Set(); if (m.e) for (const k of ['h', 'm']) for (const e of m.e[k] || []) if (e && e.cp) held.add(e.cp);
   for (const p of m.p) if (!p.d && !held.has(p.id)) pb.push([p.x, p.y]);
+  solidHeld = held;
 }
+/* Stage 3E-0 (B+): a 'q' - the newer accepted poses of players the last snapshot listed, between two snapshots.  Only this world's (w), only
+ * newer than every snapshot and 'q' already seen (k), only players we know and who are alive: never a new or a dead one.  It moves their
+ * targets (drawPeers eases toward them) and the bodies we steer round (the server's own positions, never the drawn ones) */
+function peerPoses(m) {
+  PN.q++;
+  if (PEER_MODE !== 'bplus' || m.w == null || m.w !== worldW || !(m.k > lastK) || !Array.isArray(m.p)) { PN.qStale++; return; }
+  lastK = m.k;
+  for (const q of m.p) {
+    const o = Array.isArray(q) ? peers.get(q[0]) : null;
+    if (!o || o.d || !Number.isFinite(q[1] + q[2] + q[3])) { PN.qUnknown++; continue; }
+    if (Math.hypot(q[1] - o.x, q[2] - o.y) > PEER_SNAP) { o.x = q[1]; o.y = q[2]; }
+    o.tx = q[1]; o.ty = q[2]; o.a = q[3]; PN.qApplied++;
+  }
+  const pb = window.__peerBodies, A = window.__api;
+  if (solidHeld && solidNow(A)) { pb.length = 0; for (const [id, o] of peers) if (!o.d && !solidHeld.has(id)) pb.push([o.tx, o.ty]); }   // (as solidPeers, from the newer poses)
+}
+window.__peerNet = () => ({ mode: PEER_MODE, fast: fastAck, sendMs: fastAck ? 25 : 50, lastK, counts: Object.assign({}, PN),   // DEV only (tests): what B+ did
+  peers: [...peers.values()].map(o => ({ id: o.id, x: +o.x.toFixed(2), y: +o.y.toFixed(2), tx: o.tx, ty: o.ty, a: o.a, ang: o.ang === undefined ? null : +o.ang.toFixed(4), d: o.d })) });
 /* the soft correction ({t:'tp', x, y, pc:1}: the server stopped us short of another player): blended in over 120 ms instead of a jump -
  * the offset is added a little each fixed step, and the part of our velocity that runs back against it (into the body the server would
  * not let us into) is dropped, the sideways part kept.  Further than 96 px is no longer a nudge: a jump, as an ordinary tp */
@@ -141,6 +173,7 @@ function connect() {
   try { ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws?room=' + encodeURIComponent(room)); } catch { return; }
   ws.onopen = () => {
     netReset();                                                                // a connection is a new server timeline
+    fastAck = false; lastK = -1; if (PEER_MODE === 'bplus') tx({ t: 'caps', fp: 1 });   // Stage 3E-0 (B+): ask for the fresher player poses
     retry = 0; handled = 0; mseq = 0; me = ''; everConnected = true;
     const A = window.__api; if (A && A.started()) tx({ t: 'join' });      // re-enter the world after a reconnect
     if (adm.pass) tx({ t: 'admin', pass: adm.pass });                         // stay unlocked across reconnects (kept in memory only)
@@ -156,6 +189,8 @@ function connect() {
       renderAdmin();
     }
     else if (m.t === 'tp') { const A = window.__api; if (A) { if (m.pc && softTp(A, m.x, m.y)) { } else { blend = null; A.tp(m.x, m.y); } } }   // (Stage 3D HQ2: pc - a soft peer correction, blended)
+    else if (m.t === 'caps') fastAck = PEER_MODE === 'bplus' && m.fp === 1;   // Stage 3E-0 (B+): the server does it
+    else if (m.t === 'q') peerPoses(m);                                        // Stage 3E-0 (B+): fresher poses of players already known
     else if (m.t === 'world') worldNew(m.w, m.x, m.y);                         // Stage 3D HQ2 (H2-4): an admin world reset - a new world epoch
     else if (m.t === 'revive') { const A = window.__api; A && A.revive(); }
     else if (m.t === 'msg') showMsg(m.text, m.from);
@@ -172,12 +207,14 @@ function connect() {
     else if (m.t === 'nra') nrAnswer(m);                                       // Stage 3D HQ2: the server's NEW RUN decision
     else if (m.t === 'got') giveItem(m.item);
     else if (m.t === 's') {
-      const now = performance.now(), seen = new Set();
+      const now = performance.now(), seen = new Set(); PN.s++; if (m.k != null) lastK = m.k;
       for (const p of m.p) {
         seen.add(p.id);
         const o = peers.get(p.id) || { x: p.x, y: p.y };
         if (Math.hypot(p.x - o.x, p.y - o.y) > 400) { o.x = p.x; o.y = p.y; }      // respawned somewhere else: don't glide across the map
-        Object.assign(o, p, { tx: p.x, ty: p.y, seen: now }); peers.set(p.id, o);
+        if (PEER_MODE === 'a') Object.assign(o, p, { tx: p.x, ty: p.y, seen: now });   // HQ5: the drawn position is set to it outright
+        else { const dx = o.x, dy = o.y; Object.assign(o, p, { tx: p.x, ty: p.y, seen: now }); o.x = dx; o.y = dy; if (Math.hypot(p.x - o.x, p.y - o.y) > PEER_SNAP) { o.x = p.x; o.y = p.y; } }   // B: only the target; drawPeers eases toward it
+        peers.set(p.id, o);
       }
       for (const [id, o] of peers) if (!seen.has(id)) { dropAvatar(o); peers.delete(id); }
       peersN = m.p.length; me = m.me || ''; mseq = m.ms | 0; cpNow = m.cp || 0;
@@ -192,6 +229,7 @@ function connect() {
   };
   ws.onclose = () => {
     nrSent.clear(); nrBusy = 0; worldW = null; clearTimeout(nrWaitT); nrButton('');   // Stage 3D HQ2: a press without its answer is gone with the connection
+    fastAck = false; lastK = -1; solidHeld = null;                               // Stage 3E-0: a new connection asks again
     window.__peerBodies.length = 0; blend = null;                                  // (and nobody to bump into offline)
     netReset(); if (myId) window.__hideBodies.delete('r' + myId);                  // Stage 3D: the old connection's corpse is no longer ours to hide
     for (const f of fxs.splice(0)) killFx(f); N.on = false; snap = null; cpNow = 0; window.__kill = null; window.__glitchSolo = false; window.__glitches = []; window.__items = []; for (const o of peers.values()) dropAvatar(o); peers.clear(); window.__peerLights = []; hMap.clear(); hSlots.fill(null); sSlot.fill(null);
@@ -551,12 +589,14 @@ function drawPeers(p, cam, sc, los, dt, W, H) {
   view = { cam, sc, W, H };
   for (const o of peers.values()) {
     const px = o.x, py = o.y;
-    o.x += (o.tx - o.x) * .3; o.y += (o.ty - o.y) * .3;
+    /* Stage 3E-0 (B): eased by the time that passed (dt: the game's frame time, 0..0.25 s), .3 / .35 of the way per 1/60 s as HQ5 did per frame */
+    const ft = Number.isFinite(dt) ? Math.min(.25, Math.max(0, dt)) : 0, aP = PEER_MODE === 'a' ? .3 : 1 - Math.pow(.7, 60 * ft), aR = PEER_MODE === 'a' ? .35 : 1 - Math.pow(.65, 60 * ft);
+    o.x += (o.tx - o.x) * aP; o.y += (o.ty - o.y) * aP;
     const step = Math.hypot(o.x - px, o.y - py), inv = 1 / Math.max(dt, .001);
     o.vx = (o.vx || 0) + (((o.x - px) * inv) - (o.vx || 0)) * .25;
     o.vy = (o.vy || 0) + (((o.y - py) * inv) - (o.vy || 0)) * .25;
     o.dist = (o.dist || 0) + step;
-    o.ang = o.ang === undefined ? o.a : o.ang + angDiff(o.a, o.ang) * .35;
+    o.ang = o.ang === undefined ? o.a : o.ang + angDiff(o.a, o.ang) * aR;
     if (A && A.mkAvatar && layer) {
       if (!o.av) { o.look = parseLook(o.lk); o.gear = { kind: o.k || 'flashlight', color: o.c || '#ffe7b2', parts: {} }; o.av = A.mkAvatar(o.look, o.gear); layer.addChild(o.av); }
       Object.assign(o.look, parseLook(o.lk)); o.gear.kind = o.k || 'flashlight'; o.gear.color = o.c || '#ffe7b2'; o.gear.parts[o.gear.kind] = partObj(o.gear.kind, o.lp);
@@ -970,7 +1010,7 @@ window.__mp = ({ p, cam, sc, run, started, light: lightOn, G, q, los, t }) => {
 
   /* --- network send --- */
   const now = performance.now();
-  if (ws && ws.readyState === 1 && now - lastSend > (started ? 50 : 250)) {
+  if (ws && ws.readyState === 1 && now - lastSend > (started ? (fastAck ? 25 : 50) : 250)) {   // (Stage 3E-0: 25 once the server takes fresher poses: every 2nd frame at 60 Hz)
     lastSend = now;
     ws.send(JSON.stringify({
       t: 'p', x: Math.round(p.x), y: Math.round(p.y), vx: Math.round(p.vx), vy: Math.round(p.vy),

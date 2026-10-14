@@ -15,6 +15,11 @@ const ADMIN_HASH = sha(ADMIN_PASS);
 const passOk = s => crypto.timingSafeEqual(sha(s), ADMIN_HASH);
 const fails = new Map();                        // ip -> { n, until }  (5 wrong guesses = 60 s lockout)
 const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 Hz, broadcast ~20 Hz
+/* Stage 3E-0 (B+): a client that asks for it ({t:'caps', fp:1}, answered the same way) also gets, on every tick between two full snapshots,
+ * the other players' newly accepted poses alone ('q', poseSend) - 40 Hz of player poses in all, the world still 20 Hz - and may send its
+ * own pose every FAST_GAP ms instead of every 30 (about every 33 ms from a 60 Hz screen).  Every pose still goes through mvCheck as it is;
+ * a client that never asks (an older one) gets exactly what it got before */
+const FAST_GAP = 16;
 
 const srv = http.createServer(require('./server/static.js')(ROOT));   // Stage 3H0: the static file serving (the SERVE allowlist, MIME types, caching, gzip, /sounds).  fs, path and zlib are still required first, as before, though only server/static.js uses them now
 
@@ -328,7 +333,7 @@ srv.on('upgrade', (req, sock) => {
     if (m.t === 'p') {
       const now = Date.now();
       if (m.mv && room.sim.hearMove(player, m.mv)) me.mvAt = now;           // state / stamina / vault + slide noises: processed even if the position is throttled
-      if (now - me.last < 30 || !isFinite(m.x) || !isFinite(m.y)) { room.sim.gaitFloor(player, now - (me.mvAt || 0) < 500); return; }
+      if (now - me.last < (me.fp ? FAST_GAP : 30) || !isFinite(m.x) || !isFinite(m.y)) { room.sim.gaitFloor(player, now - (me.mvAt || 0) < 500); return; }   // (Stage 3E-0: FAST_GAP once it asked for fresher poses)
       me.last = now;
       const p = player;
       if (!p.dead) {                       // a caught player's body stays where it fell
@@ -368,6 +373,7 @@ srv.on('upgrade', (req, sock) => {
       else { if (++f.n >= 5) { f.until = now + 60000; f.n = 0; } fails.set(ip, f); console.log(`[admin] ${me.name}#${id} wrong admin passcode (room ${name})`); send(me, { t: 'admin', ok: false, wait: f.until > now ? 60 : 0 }); }
     }
     else if (m.t === 'a') { if (me.admin) adminCommand(room, me, m); }
+    else if (m.t === 'caps') { me.fp = m.fp === 1; send(me, { t: 'caps', fp: me.fp ? 1 : 0 }); }   // Stage 3E-0 (B+): fresher player poses, only when asked (see FAST_GAP)
     else if (m.t === 'ping') { const t = Date.now(); if (t - (me.pingAt || 0) > 400) { me.pingAt = t; send(me, { t: 'pong', ts: +m.ts || 0 }); } }
     // (Stage 3D HQ2: a client's 'b' - the old NEW RUN vanish's light record - is no longer read: corpses and their lights are the server's)
   }
@@ -383,6 +389,23 @@ srv.on('upgrade', (req, sock) => {
   sock.on('close', bye); sock.on('error', bye);
 });
 
+/* Stage 3E-0 (B+): on a tick between two full snapshots, to every client in a run that asked for it: each OTHER active, living player whose
+ * accepted position or heading changed since the last snapshot said it - its id, x, y, heading and nothing else (no cosmetics, no state:
+ * those stay in the snapshot) - with the world epoch (w) and the tick (k).  Only players the last snapshot listed; nothing new: nothing sent */
+function poseSend(room) {
+  let ch = null;
+  for (const c of room.clients.values()) {
+    const s = c.snap; if (!s || !c.player.active || c.player.dead) continue;
+    const x = Math.round(c.player.x), y = Math.round(c.player.y), a = +c.angle.toFixed(2);
+    if (x !== s[0] || y !== s[1] || a !== s[2]) (ch || (ch = [])).push([c.id, x, y, a]);
+  }
+  if (!ch) return;
+  for (const c of room.clients.values()) {
+    if (!c.fp || !c.player.active) continue;
+    const p = ch.filter(q => q[0] !== c.id); if (p.length) send(c, { t: 'q', w: room.sim.worldSeq, k: room.tick, p });
+  }
+}
+
 setInterval(() => {
   const now = Date.now();
   for (const room of rooms.values()) {
@@ -391,15 +414,17 @@ setInterval(() => {
     let n = 0; const h0 = process.hrtime.bigint();
     while (room.acc >= 1 / 60 && n++ < 15) { room.sim.step(1 / 60); room.acc -= 1 / 60; }
     if (n) { const per = Number(process.hrtime.bigint() - h0) / 1e6 / n; room.pf.ms += (per - room.pf.ms) * .05; room.pf.max = Math.max(per, room.pf.max * .995); }      // milliseconds per 60 Hz step (average / recent worst)
-    if (++room.tick % SNAP_EVERY) continue;
+    if (++room.tick % SNAP_EVERY) { poseSend(room); continue; }                 // (Stage 3E-0: between two snapshots, the fresher player poses)
 
     for (const c of room.clients.values()) if (c.player.dead && c.player.kill && c.aftSeq !== c.player.dseq) aftStart(room, c);
     aftSend(room); aftTick(room);
     const ent = room.sim.entities();
     const peers = [];
     for (const c of room.clients.values()) {
-      if (!c.player.active) continue;
-      peers.push({ id: c.id, x: Math.round(c.player.x), y: Math.round(c.player.y), a: +c.angle.toFixed(2),
+      if (!c.player.active) { c.snap = null; continue; }
+      const x = Math.round(c.player.x), y = Math.round(c.player.y), a = +c.angle.toFixed(2);
+      c.snap = c.player.dead ? null : [x, y, a];                               // (Stage 3E-0: what this snapshot says of it, for poseSend)
+      peers.push({ id: c.id, x, y, a,
         n: c.name, c: c.color, d: c.player.dead ? 1 : 0, r: c.sprint,
         k: c.player.equipment.kind, l: c.raised ?? c.player.light ? 1 : 0, ir: c.ir | 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall,
         mv: [c.player.st | 0, Math.round(c.player.sp || 0), Math.round(c.player.stamina == null ? 100 : c.player.stamina), c.player.ex | 0] });
@@ -423,6 +448,7 @@ setInterval(() => {
       if (c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; send(c, bm || (bm = bodyMsg())); }
       const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player), w: room.sim.worldSeq };   // (w: Stage 3D HQ2, the world epoch)
       if (c.player.dead && c.player.kill) msg.mk = c.player.kill;
+      if (c.fp) msg.k = room.tick;                                            // (Stage 3E-0: this tick, so its 'q' are known to be newer)
       if (c.admin && ad) { msg.ad = ad; msg.you = c.id; msg.nf = c.nrFree ? 1 : 0; }   // (Stage 3D HQ3: nf - this admin's own UNLIMITED NEW RUN, as the server holds it)
       if (c.admin && c.dbg && dbgList) {
         msg.dbg = dbgList;

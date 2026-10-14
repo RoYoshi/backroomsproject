@@ -1,0 +1,8 @@
+E0-0 steps (SP = the session scratch folder)
+sha256sum THE_FAR_BACKROOMS_STAGE_3E0_BPLUSPLUS_FAVICON_TWO_GATE_MASTER_PACK_V3.zip -> 50acdab1...3850; the manifest's 19 entries checked; SUPPLIED/favicon.ico 5489c214...501b
+git ls-remote --heads origin -> remote_heads_before_e0.json (27 branches, no stage-3e-0); gh api .../branches/stage-3d-hq5 -> ad98475, tree 9f721d3
+git checkout -b stage-3e-0 ad98475767bcae6794cd01af832de660355da7a2
+read: server.js (tick loop, 'p' handling, mvCheck, peerCorrect, snapshots), mp.js (send, 's' handling, solidPeers, drawPeers), timing_policy.js (the frame dt),
+      the bundle's avatar update() (what drives the walk cycle), move.js (__pose), server/static.js, server/ws.js, git log -S for the snapshot overwrite
+probe: a two-page HQ5 run (480x320): the remote avatar's x and hands per frame -> probe_hq5_remote_avatar.json
+node dev/stage-3e-0/net_lab.js --game <HQ5 export> --label A60 --fps 60 --send 50 --caps 0 -> ../e0-1/net/A60.json

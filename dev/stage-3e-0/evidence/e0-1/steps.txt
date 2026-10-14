@@ -1,0 +1,35 @@
+E0-1 steps.  SP = the session scratch folder.
+Game folders:
+  $SP/e0/hq5         git archive of ad98475 (HQ5)
+  $SP/e0/bp          HQ5 plus B+'s five game files; byte-identical to the working tree, then to the stage-3e-0 commit
+  $SP/e0/mix_oldsrv  HQ5 with B+'s mp.js (an old server, a new client)
+  $SP/e0/mix_oldcli  B+ with HQ5's mp.js (a new server, an old client)
+
+Gate 2: B math
+  node dev/stage-3e-0/b_math.js --out b_math.json
+
+Gate 3: freshness, bytes, protocol and safety
+  node dev/stage-3e-0/net_lab.js --game $SP/e0/hq5 --label A60 --fps 60 --send 50 --caps 0 --out net/A60.json
+  node dev/stage-3e-0/net_lab.js --game $SP/e0/bp --label BP60 --fps 60 --send 50 --caps 1 --out net/BP60.json
+  the same for:
+    A144 / BP144 / BP30 (--fps 144 / 30);
+    A60_jit / BP60_jit (--lat 40 --jitter 30);
+    mix_ns_oc (bp server, --caps 0) / mix_os_nc (hq5 server, --caps 1: never answered);
+    A_load7 / BP_load7 (--movers 6)
+  net_table.md is made from net/*.json
+  node dev/stage-3e-0/proto_check.js --game $SP/e0/bp --out proto_bp.json
+  node dev/stage-3e-0/static_check.js --game $SP/e0/bp --ico <pack>/SUPPLIED/favicon.ico --out static_bp.json
+  node dev/stage-3e-0/static_check.js --game $SP/e0/hq5 --ico <pack>/SUPPLIED/favicon.ico --out static_hq5.json   (HQ5: 404, as expected)
+
+Gate 4: two browsers (SwiftShader, 480x320)
+  python3 -I dev/stage-3e-0/two_browser.py --game $SP/e0/bp --mode bplus|b|a --out browser/two_<mode>.json
+  python3 -I dev/stage-3e-0/two_browser.py --game $SP/e0/bp --mode bplus --lag 60 --out browser/two_bplus_lag60.json
+  python3 -I dev/stage-3e-0/two_browser.py --game $SP/e0/mix_oldsrv --expect old-server --out browser/two_mix_oldsrv.json
+  python3 -I dev/stage-3e-0/two_browser.py --game $SP/e0/mix_oldcli --expect old-client --out browser/two_mix_oldcli.json
+  python3 -I dev/stage-3d-hq2/col_browser.py --game $SP/e0/bp --case head|aside --out collision/col_<case>.json
+  a series of six aside pairs (bp, then hq5), alternated -> collision/aside_series.txt
+  python3 -I dev/stage-3e-0/place_race.py --game $SP/e0/bp|hq5 --runs 6 --out placement/<game>.json   (see SUMMARY: setup misses)
+  python3 -I dev/stage-3d-hq4/gameplay_smoke.py --game $SP/e0/bp --variant bplus=<bundle>,<br-role.js> --out gameplay_smoke
+
+Gate 5: lean perf
+  the load runs above (7 players); server CPU from /proc in net_lab.js; page frame times from two_browser.py and gameplay_smoke.py
