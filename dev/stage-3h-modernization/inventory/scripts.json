@@ -1,0 +1,310 @@
+{
+ "ref": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+ "note": "classic scripts run in this order as the parser meets them; the type=module bundle is deferred and runs after them",
+ "tags": [
+  {
+   "line": 15,
+   "tag": "script",
+   "src": null,
+   "type": null,
+   "rel": null,
+   "inline": true
+  },
+  {
+   "line": 30,
+   "tag": "link",
+   "src": "./assets/manifest.webmanifest",
+   "type": null,
+   "rel": "manifest",
+   "inline": false
+  },
+  {
+   "line": 31,
+   "tag": "link",
+   "src": "./favicon.ico",
+   "type": "image/x-icon",
+   "rel": "icon",
+   "inline": false
+  },
+  {
+   "line": 33,
+   "tag": "script",
+   "src": "./camera_policy.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 33,
+   "tag": "script",
+   "src": "./timing_policy.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 33,
+   "tag": "script",
+   "src": "./assets/index-DKbV5Nv9.js",
+   "type": "module",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 34,
+   "tag": "link",
+   "src": "./assets/CanvasPool-DecUtJxW.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 35,
+   "tag": "link",
+   "src": "./assets/Filter-DzecrWg_.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 36,
+   "tag": "link",
+   "src": "./assets/canvasUtils-CxYPZET9.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 37,
+   "tag": "link",
+   "src": "./assets/Cache-DDo62lBW.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 38,
+   "tag": "link",
+   "src": "./assets/GCManagedHash-Bz2ZMBJN.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 39,
+   "tag": "link",
+   "src": "./assets/RenderTargetSystem-CgUxHIsn.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 40,
+   "tag": "link",
+   "src": "./assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 41,
+   "tag": "link",
+   "src": "./assets/GraphicsContext-vm7TDg_M.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 42,
+   "tag": "link",
+   "src": "./assets/BufferResource-B-thlpip.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "line": 43,
+   "tag": "link",
+   "src": "./assets/index-D7hdwmUU.css",
+   "type": null,
+   "rel": "stylesheet",
+   "inline": false
+  },
+  {
+   "line": 44,
+   "tag": "link",
+   "src": "./assets/ui.css",
+   "type": null,
+   "rel": "stylesheet",
+   "inline": false
+  },
+  {
+   "line": 207,
+   "tag": "script",
+   "src": "./world.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 208,
+   "tag": "script",
+   "src": "./move.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 209,
+   "tag": "script",
+   "src": "./camcorder.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 210,
+   "tag": "script",
+   "src": "./sfx.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 211,
+   "tag": "script",
+   "src": "./gore.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 212,
+   "tag": "script",
+   "src": "./dphys.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 213,
+   "tag": "script",
+   "src": "./light.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 214,
+   "tag": "script",
+   "src": "./ents.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 215,
+   "tag": "script",
+   "src": "./glitch.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 216,
+   "tag": "script",
+   "src": "./assets/net-newrun.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 217,
+   "tag": "script",
+   "src": "./assets/mp-hum.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 218,
+   "tag": "script",
+   "src": "./assets/net-wire.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 219,
+   "tag": "script",
+   "src": "./assets/net-interp.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 220,
+   "tag": "script",
+   "src": "./mp.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 221,
+   "tag": "script",
+   "src": "./assets/credits_data.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 222,
+   "tag": "script",
+   "src": "./assets/ui.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 223,
+   "tag": "script",
+   "src": "./hud.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 224,
+   "tag": "script",
+   "src": "./inventory.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 225,
+   "tag": "script",
+   "src": "./assets/br-role.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 226,
+   "tag": "script",
+   "src": "./assets/level0_visuals.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  },
+  {
+   "line": 227,
+   "tag": "script",
+   "src": "./assets/l0-remaster.js",
+   "type": null,
+   "rel": null,
+   "inline": false
+  }
+ ]
+}

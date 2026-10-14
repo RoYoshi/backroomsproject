@@ -1,0 +1,1126 @@
+{
+ "ref": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+ "entries": 159,
+ "byKind": {
+  "folder": 6,
+  "report": 126,
+  "launch / config / page": 6,
+  "report image": 2,
+  "runtime script": 19
+ },
+ "root": [
+  {
+   "path": ".github",
+   "type": "tree",
+   "kind": "folder",
+   "blob": "2695a78b128224709c164180ea3c5991b390fec7",
+   "bytes": null
+  },
+  {
+   "path": "2D_SHADOWS_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "2a3fdc8e5bbb111ac90c0a87c10f999cdf432647",
+   "bytes": 34473
+  },
+  {
+   "path": "2D_SHADOWS_GIT_CHECKPOINTS.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "670084d0177b56b748fb87b1160e5f0f97bacaaa",
+   "bytes": 5740
+  },
+  {
+   "path": "2D_SHADOWS_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "8093fd11a03f0327a07049d3d5f5be1a4a2d6d9f",
+   "bytes": 6323
+  },
+  {
+   "path": "2D_SHADOWS_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "57cd397a77c5404dbc2f8a49a7d3bccc483a28e2",
+   "bytes": 22441
+  },
+  {
+   "path": "2D_SHADOWS_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "d40416244766e119e87ee8857b33eddc11b5ee38",
+   "bytes": 13163
+  },
+  {
+   "path": "2D_SHADOWS_TEST_SUMMARY.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "37d7784b7103558cd2bdec4c9b639bb6dda6ad94",
+   "bytes": 30610
+  },
+  {
+   "path": "3H0_ARCHITECTURE_MAP.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "646ffeaf923c6ed8ea13f23e1badf49c39dfae22",
+   "bytes": 11941
+  },
+  {
+   "path": "3H0_DEFERRED_FULL_3H.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "d0b9731e0272ce4beeee948ad8952b1f129398f7",
+   "bytes": 12793
+  },
+  {
+   "path": "3H0_EQUIVALENCE_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "df9997155686158ddc8bda98550718a7b5d1e8d4",
+   "bytes": 28565
+  },
+  {
+   "path": "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "b4310b5a405e202174fa7957544f9c9dd0692935",
+   "bytes": 10607
+  },
+  {
+   "path": "3H0_H0_1_BASELINE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "0daa0530c2e95fd8f652c19adfc1ee90216f9977",
+   "bytes": 21365
+  },
+  {
+   "path": "3H0_MP_API_LOCK.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "5c1577cae5f7719400c0cf1711afa9d6f0de35b1",
+   "bytes": 11932
+  },
+  {
+   "path": "3H0_MP_OWNERSHIP_MAP.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "775286c89903943a271f2e6ba2c9f60fa232151d",
+   "bytes": 10261
+  },
+  {
+   "path": "3H0_PROTOCOL_INVENTORY.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "564e1d4838736dc1135bbdc906b8ce1606ec63ed",
+   "bytes": 20061
+  },
+  {
+   "path": "3H0_Q0_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "3f776dd34e62253b8eeec133d342203d9dd0108f",
+   "bytes": 14740
+  },
+  {
+   "path": "3H0_SERVER_API_LOCK.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "61415da99544f74a4f5987ad73b7a3c579ba61d7",
+   "bytes": 11258
+  },
+  {
+   "path": "3H0_SERVER_OWNERSHIP_MAP.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "2fb5deee85fdade26a96c5f9f58b1ac68e0da5d0",
+   "bytes": 8991
+  },
+  {
+   "path": "BR_ROLE_1_0_ARCHITECTURE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "4d8c33c8a6f3b48297641e2166eafa6a5eb1a1bb",
+   "bytes": 6219
+  },
+  {
+   "path": "BR_ROLE_1_0_CHANGED_FILES.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "c352cb8c9a3a7dd764c5af877a6bcbb43d6ed628",
+   "bytes": 4157
+  },
+  {
+   "path": "BR_ROLE_1_0_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "b41ae685062c5b6a18117b0e6533ac1dca25af7c",
+   "bytes": 5598
+  },
+  {
+   "path": "BR_ROLE_1_0_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "0056156dba3b1f4b59e12d33c764386b2d2c9a15",
+   "bytes": 8665
+  },
+  {
+   "path": "BR_ROLE_1_0_TEST_SUMMARY.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "21e0b63a967a9aa68bad12bc91c162f4a5d0bef7",
+   "bytes": 10521
+  },
+  {
+   "path": "BR_ROLE_BR0_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "c8ade9314e3529123f3b748465a32d89e634ebca",
+   "bytes": 11530
+  },
+  {
+   "path": "BR_ROLE_BR1_1_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "24bc91238a8409764f1361833897fdc9c9dd2643",
+   "bytes": 10070
+  },
+  {
+   "path": "BR_ROLE_BR1_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "5e0b1831ccc9961b87f103b5b4a4e619622ebf78",
+   "bytes": 7510
+  },
+  {
+   "path": "BR_ROLE_BR2_1_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "b0f36d4ebadaf649c2c8612be8164cc1a940265d",
+   "bytes": 7675
+  },
+  {
+   "path": "BR_ROLE_BR2_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "20e2f085e23e0e7d217d65db02763b951c4f962d",
+   "bytes": 12180
+  },
+  {
+   "path": "PART_2_AI01_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "cf88d08ef9a39f6e60ab6a72afda5165f5f2c1e8",
+   "bytes": 580
+  },
+  {
+   "path": "PART_2_AI02_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "59cf5f9b647dc2068409327ad900747d28f9d5af",
+   "bytes": 206
+  },
+  {
+   "path": "PART_2_CAMERA_FIX.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "6c6f429881fb80ae0e762b3b2c56d4ce12de4b96",
+   "bytes": 1378
+  },
+  {
+   "path": "PART_2_ENTITY_LOOK_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "aaaee4048431e99c8be4cb6950c92d98523f4767",
+   "bytes": 5024
+  },
+  {
+   "path": "PART_2_FPS_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "4335967bf2784ac648915a7603277b63b85931e5",
+   "bytes": 640
+  },
+  {
+   "path": "PART_2_FPS_EQUALITY.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "5cac4d8523606d9b58a02a0c832a3ebdc54b03c1",
+   "bytes": 4618
+  },
+  {
+   "path": "PART_2_HQA_AI01_SEARCH_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "9d2109f3e3318ce2d832cd136d1a3a46c0c51051",
+   "bytes": 4007
+  },
+  {
+   "path": "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "e947fd5c0c478d41b9bb28ad574b7b8969a59657",
+   "bytes": 2578
+  },
+  {
+   "path": "PART_2_HQA_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "4fa932e1a1285c7cbd06c949f168d3c9cb85d88a",
+   "bytes": 475
+  },
+  {
+   "path": "PART_2_HQA_HOTFIX_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "f44a026a440ecde0d29e58a7fbead8f3aa501802",
+   "bytes": 6690
+  },
+  {
+   "path": "PART_2_HQA_TEST_SUMMARY.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "016dbf7cd8842d8e18cb5b657e1f6cad476ae7b3",
+   "bytes": 2758
+  },
+  {
+   "path": "PART_2_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "08aa3f97e26a1e9ce682c4b84221142bddfec7fe",
+   "bytes": 5645
+  },
+  {
+   "path": "README.md",
+   "type": "blob",
+   "kind": "launch / config / page",
+   "blob": "c417ae94e8f33d86ea3e820092c15bd24137a9c3",
+   "bytes": 69388
+  },
+  {
+   "path": "STAGE_2E_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "c1ebaef73f906585a68768b0daa382a132726025",
+   "bytes": 22674
+  },
+  {
+   "path": "STAGE_2F_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "3d0e00c8c48d4db1208ba27c484ed436e868377a",
+   "bytes": 24534
+  },
+  {
+   "path": "STAGE_2F_TEST_SUMMARY.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "ec623d5e679d4ae57772ec261c842b90894f3b66",
+   "bytes": 1888
+  },
+  {
+   "path": "STAGE_3B_DONOR_LEDGER.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "97ea40941e1a43225b57fdc945d628336d2e909c",
+   "bytes": 9016
+  },
+  {
+   "path": "STAGE_3B_FINAL_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "2ba19477f603899204710961fb1fdea87d29b3d2",
+   "bytes": 14884
+  },
+  {
+   "path": "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "feb9ce51a4ee379d272a50df3404c8ac56324137",
+   "bytes": 8245
+  },
+  {
+   "path": "STAGE_3B_FINAL_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "d0ea526b4c0792d96612983a91de4bdc7971c5e1",
+   "bytes": 9763
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "3cbaeb964bda59c2d814d7493c888fc3a0d7a011",
+   "bytes": 10767
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "c2366c167774a8899a0f7db45b0e9d37a6c17adf",
+   "bytes": 4687
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "863712cc43b68debb1160a917809013dbb95995a",
+   "bytes": 3752
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "e74c1eb72fa1e3a9cb9bc976cda398d60e7f4d61",
+   "bytes": 4364
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "0e8c428a58cafcf1f4d3dc5cb40951562746b901",
+   "bytes": 3522
+  },
+  {
+   "path": "STAGE_3B_FINAL_PROP_CANON_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "12405362a4209be8b12d73fd1b9f86f1f49c406e",
+   "bytes": 17036
+  },
+  {
+   "path": "STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "7280dd46f877a4eaaa1b52f3bfefed53d27652e3",
+   "bytes": 8960
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "480a87b3c37353ade58a0fdace4c6c4454d3e4d7",
+   "bytes": 16368
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "dcb6e43be549bc67fc632dcb20c4035a25893ff2",
+   "bytes": 7639
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "11d0428a0b55b45ad897cbf4a3d72fc0969d163f",
+   "bytes": 6654
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "62439d6ee9b695cae01dbf04e7c8701367b9cc06",
+   "bytes": 12113
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "61be9dd49ab52fe73154dd237e1eb874b675ca55",
+   "bytes": 25632
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "fe39f397c79f222803a5360a2aa03274605acbd2",
+   "bytes": 4267
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "b3a28887657e00a6c3b454acad201d95fe6a6267",
+   "bytes": 7564
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "0f59ab41566df34e412873412df86e90bffe1b94",
+   "bytes": 5869
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "c23c84dc5fe1b1c0d5bd9966cfd7ab883c1cbc06",
+   "bytes": 7784
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "09797a8af1c6afe4dbc84cca558fa816c876915a",
+   "bytes": 13231
+  },
+  {
+   "path": "STAGE_3B_PROP_CANON_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "972455c744e9acca125cfe554ed253694b89ede7",
+   "bytes": 12538
+  },
+  {
+   "path": "STAGE_3B_QA2_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "10a89bc688f0ec4a8b234cb45a21d68458c4bf2e",
+   "bytes": 12070
+  },
+  {
+   "path": "STAGE_3B_QA2_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "1b68eb6036ceb3241d1231651ffbebc83c6c54cd",
+   "bytes": 10876
+  },
+  {
+   "path": "STAGE_3B_QA2_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "78218227335389b8171240507d9a948776d6c58c",
+   "bytes": 8203
+  },
+  {
+   "path": "STAGE_3B_VISUAL_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "f071543c34883e8faea8d312678e9de247b31df3",
+   "bytes": 9151
+  },
+  {
+   "path": "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "a7a5a14ff86367e3720fb1dcfc8fb2196b7ef277",
+   "bytes": 10626
+  },
+  {
+   "path": "STAGE_3C_C0_UI_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "8d6b0fcbc675fd1543b5778a1e29602e84deb68b",
+   "bytes": 15237
+  },
+  {
+   "path": "STAGE_3C_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "223e808ce051666eca7d24a574b1a67bb5705ee1",
+   "bytes": 4187
+  },
+  {
+   "path": "STAGE_3C_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "d825b0e52f0ba74b3607dff68b788014ec201fa7",
+   "bytes": 7624
+  },
+  {
+   "path": "STAGE_3C_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "fe976559ad88be15045cf8359867f88d66bac836",
+   "bytes": 6635
+  },
+  {
+   "path": "STAGE_3C_QA1_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "2fba7c2e496477ef0ee8c43eecc99cefdcc3ace5",
+   "bytes": 17157
+  },
+  {
+   "path": "STAGE_3C_QA1_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "d1b41a875b064a8992f6b1769299f561bb558308",
+   "bytes": 11510
+  },
+  {
+   "path": "STAGE_3C_QA1_MENU_COMPARISON.jpg",
+   "type": "blob",
+   "kind": "report image",
+   "blob": "4b3e81dd64185957b9e0d9d9e0535d312d9f61e8",
+   "bytes": 364990
+  },
+  {
+   "path": "STAGE_3C_QA1_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "f3ca958cdde083870c7392dbc2294a48bb2e8b1b",
+   "bytes": 7110
+  },
+  {
+   "path": "STAGE_3C_QA1_Q0_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "583ccc9d8e9f2106a77f271efafe9420aff8edfa",
+   "bytes": 11109
+  },
+  {
+   "path": "STAGE_3C_QA1_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "55f7a2384487a04d35c306e1090f70f6c285f363",
+   "bytes": 20544
+  },
+  {
+   "path": "STAGE_3C_QA2_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "81045d89b5cfc19b22308168d5795fcb993c4fed",
+   "bytes": 9848
+  },
+  {
+   "path": "STAGE_3C_QA2_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "07eb1770ce748a782f3a1901692aa08e649f2fc8",
+   "bytes": 8986
+  },
+  {
+   "path": "STAGE_3C_QA2_MENU_COMPARISON.jpg",
+   "type": "blob",
+   "kind": "report image",
+   "blob": "ad9fb8b00cdf6b50bcdde6b315836639d2ec3e58",
+   "bytes": 155667
+  },
+  {
+   "path": "STAGE_3C_QA2_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "22f0d09d3deaca4b1e47f62f2d3315ec857b4d96",
+   "bytes": 6435
+  },
+  {
+   "path": "STAGE_3C_QA2_Q0_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "3d98d19ff91f0238e6550a39972a3a2757c2d0d4",
+   "bytes": 9351
+  },
+  {
+   "path": "STAGE_3C_QA2_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "e7ff45396cbf0105e37e571fbe8a855f752bf73e",
+   "bytes": 14637
+  },
+  {
+   "path": "STAGE_3C_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "81784bb76a836f6c2908c8cbbbdedd748e6b9747",
+   "bytes": 11081
+  },
+  {
+   "path": "STAGE_3D_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "524d534f868d5b9e1641613362f2b31c65fb342d",
+   "bytes": 4752
+  },
+  {
+   "path": "STAGE_3D_D0_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "5e9d7a993142cc06ed7ab736d4ae87545abe9e45",
+   "bytes": 19155
+  },
+  {
+   "path": "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "0da19e817523ccc0f39ff61fce1ed4fa068dc542",
+   "bytes": 9119
+  },
+  {
+   "path": "STAGE_3D_HQ1_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "a92b997fc524bb18948e96d6508a33c6ab9f86c8",
+   "bytes": 13954
+  },
+  {
+   "path": "STAGE_3D_HQ1_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "212d93b896077bd75e81b249dcbe139963af93f6",
+   "bytes": 7067
+  },
+  {
+   "path": "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "ed5745afd643e186a91016aa92c4c3969ec51d62",
+   "bytes": 8794
+  },
+  {
+   "path": "STAGE_3D_HQ1_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "474dc52b0bb2b2e28e0bda4beb48ed1792bc4960",
+   "bytes": 8556
+  },
+  {
+   "path": "STAGE_3D_HQ1_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "8650fa5f2ecc5ef09a0fb998c580213cedc55324",
+   "bytes": 10726
+  },
+  {
+   "path": "STAGE_3D_HQ1_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "fcc3e84132201ce9479ff1fbd404dd66dbb0a82d",
+   "bytes": 23083
+  },
+  {
+   "path": "STAGE_3D_HQ1_VISUAL_EVIDENCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "b3a6e906cb8227877e94ce98482e17c1d8fdd7c5",
+   "bytes": 10233
+  },
+  {
+   "path": "STAGE_3D_HQ2_AUDIT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "fe4c9a82824d254f8557ee00162e65eea5d0fe0f",
+   "bytes": 29936
+  },
+  {
+   "path": "STAGE_3D_HQ2_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "b09e6e0cf6f063371734b2aaaa2fcc17467b34d8",
+   "bytes": 12190
+  },
+  {
+   "path": "STAGE_3D_HQ2_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "87aaeb48a2261d268f371439cda0da051f46769b",
+   "bytes": 10563
+  },
+  {
+   "path": "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "fb9562701fc1243f8e378cfa0c5dd480725ee9d1",
+   "bytes": 17137
+  },
+  {
+   "path": "STAGE_3D_HQ2_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "5db0c492613b98e2c43e881d596a46a32a48ee80",
+   "bytes": 9206
+  },
+  {
+   "path": "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "d94b8ad192d81b2f672efd40083e239d68f33ffc",
+   "bytes": 16775
+  },
+  {
+   "path": "STAGE_3D_HQ2_REGRESSION.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "3613f658a5e1f06922e6329edb6d218c607bec51",
+   "bytes": 16425
+  },
+  {
+   "path": "STAGE_3D_HQ2_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "ff0a1ffb9b06074725a068e2c72b38da80b010df",
+   "bytes": 26597
+  },
+  {
+   "path": "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "acd429d9d5bc6ace8314f12a0f4a203295407e57",
+   "bytes": 4902
+  },
+  {
+   "path": "STAGE_3D_HQ3_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "ff1de62847e3f8ea021374a313ad4606f877c1ee",
+   "bytes": 4802
+  },
+  {
+   "path": "STAGE_3D_HQ3_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "0e959182346fbc79a0056387c0d0bfb8319edba0",
+   "bytes": 5347
+  },
+  {
+   "path": "STAGE_3D_HQ3_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "82a32678cee95d94fedd567dc5d937e6bc8ce04f",
+   "bytes": 12829
+  },
+  {
+   "path": "STAGE_3D_HQ4_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "b5ba8b7eb640e442d69d3502ca9ed6d4e5cb16b8",
+   "bytes": 2618
+  },
+  {
+   "path": "STAGE_3D_HQ4_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "0511f0d8fd0f077041d0be7342f05ad6092315f6",
+   "bytes": 3125
+  },
+  {
+   "path": "STAGE_3D_HQ4_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "38d5b84f927c9d021e84db2f4a30555f3a1bc56b",
+   "bytes": 7466
+  },
+  {
+   "path": "STAGE_3D_HQ5_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "96854457c45e6ebdff3bf090373ced07fa8fda0a",
+   "bytes": 1083
+  },
+  {
+   "path": "STAGE_3D_HQ5_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "6fe669375d6f6824b706349aa41e869984929ae4",
+   "bytes": 2423
+  },
+  {
+   "path": "STAGE_3D_HQ5_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "39d42093f286f11da0ef016f3744e97c17e7d327",
+   "bytes": 9135
+  },
+  {
+   "path": "STAGE_3D_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "0ee248b7957565e3f6d0c60e3190d8d97da3bb1b",
+   "bytes": 9082
+  },
+  {
+   "path": "STAGE_3D_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "ff09e1aa9486e169350cdf5f36a9ca65968c3828",
+   "bytes": 9700
+  },
+  {
+   "path": "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "be0a4c2e5aee345f11ee460127c79699676c0616",
+   "bytes": 9127
+  },
+  {
+   "path": "STAGE_3D_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "b70215e51fea70da9b1aeaa86931753f2b6a19d1",
+   "bytes": 8836
+  },
+  {
+   "path": "STAGE_3D_VARIANT_MATRIX.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "488e43cdb16e8bc0b786496aa79c990b6245209d",
+   "bytes": 6240
+  },
+  {
+   "path": "STAGE_3E0_BPLUSPLUS_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "14c21584331ddde431cb3b68892e4add2528ee05",
+   "bytes": 3101
+  },
+  {
+   "path": "STAGE_3E0_BPLUSPLUS_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "80b6e3455cc20d8df9fd32e460f3bb0c1a8cc4e5",
+   "bytes": 5842
+  },
+  {
+   "path": "STAGE_3E0_BPLUS_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "d9b50bf16c8718c5ddd2369186e1d941e4c59fda",
+   "bytes": 3628
+  },
+  {
+   "path": "STAGE_3E0_BPLUS_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "7bac1f7b8ee9b22630311c3e12ecb4a057932910",
+   "bytes": 7623
+  },
+  {
+   "path": "STAGE_3E0_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "aa8660f749fdc68cf8ee2d3b6daf7ae6670af4e2",
+   "bytes": 2024
+  },
+  {
+   "path": "STAGE_3H0_CHANGED_FILES.txt",
+   "type": "blob",
+   "kind": "report",
+   "blob": "abc6affd426d5c541dced7c0e343d4fdc20c9d1a",
+   "bytes": 11180
+  },
+  {
+   "path": "STAGE_3H0_HUMAN_QA.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "1624189c14262f97b6f44840cd13cbac3ef992b9",
+   "bytes": 8515
+  },
+  {
+   "path": "STAGE_3H0_PERFORMANCE.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "1d2ea4ffe194de944eb4c7f84c2876221ba81338",
+   "bytes": 11079
+  },
+  {
+   "path": "STAGE_3H0_REPORT.md",
+   "type": "blob",
+   "kind": "report",
+   "blob": "289781c421433bfcc41b5ccc533ca8beed7c2f42",
+   "bytes": 19746
+  },
+  {
+   "path": "ai.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "0b76d2b279125e8b0237fd79ccf404bb4339cdae",
+   "bytes": 206697
+  },
+  {
+   "path": "assets",
+   "type": "tree",
+   "kind": "folder",
+   "blob": "1621d22bd9c9af1901c23a7a9a14370a33d75284",
+   "bytes": null
+  },
+  {
+   "path": "audio_source",
+   "type": "tree",
+   "kind": "folder",
+   "blob": "892a72bc12d4835c739fc209e1f4cce7efbad2a6",
+   "bytes": null
+  },
+  {
+   "path": "camcorder.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "70b4c2485f5cf72d7d83d4632973e4a26086f2ae",
+   "bytes": 32494
+  },
+  {
+   "path": "camera_policy.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "b6b2aaa23591e8fe96fe4a7c2d9b2eaac29fd652",
+   "bytes": 2064
+  },
+  {
+   "path": "death_srv.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "aeee285aa8150d4efa6a6eb1ca0740159e89e769",
+   "bytes": 5830
+  },
+  {
+   "path": "dev",
+   "type": "tree",
+   "kind": "folder",
+   "blob": "c0fb3aad1504900666094ce57797d7245f22525d",
+   "bytes": null
+  },
+  {
+   "path": "dphys.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "4ae4e041edea8730d375d78a10b4635767fa741b",
+   "bytes": 66180
+  },
+  {
+   "path": "ents.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "b01d92bce4cd595cda2aec4db85c0190f7fa2683",
+   "bytes": 79335
+  },
+  {
+   "path": "favicon.ico",
+   "type": "blob",
+   "kind": "launch / config / page",
+   "blob": "5101a2542ed46cef752f9e7ae4474fc4bda6ac00",
+   "bytes": 4758
+  },
+  {
+   "path": "glitch.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "5484ca106449903f3f0ce8269034fbba44a0e7ab",
+   "bytes": 9829
+  },
+  {
+   "path": "gore.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "6f71c187141cec96c1d7205fa6ee636d0a452174",
+   "bytes": 39845
+  },
+  {
+   "path": "hud.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "300191ef054f6a7746b059771e7bc005b4a25f63",
+   "bytes": 7692
+  },
+  {
+   "path": "index.html",
+   "type": "blob",
+   "kind": "launch / config / page",
+   "blob": "10547723933f99796b720af03254625158b910bb",
+   "bytes": 24568
+  },
+  {
+   "path": "inventory.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "b38d093f4a2c30e635af0ec155a45e4f5950124f",
+   "bytes": 20901
+  },
+  {
+   "path": "light.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "72584ccddab6ab50a88ad00a4dd7d5c825bac9fe",
+   "bytes": 5984
+  },
+  {
+   "path": "move.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "4c1d531946cb6b5b12b514a6934d4e4ddb8d4c65",
+   "bytes": 25061
+  },
+  {
+   "path": "mp.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "fcc86e1deaeb90b69de352115df05ca2dafe09f0",
+   "bytes": 88802
+  },
+  {
+   "path": "package.json",
+   "type": "blob",
+   "kind": "launch / config / page",
+   "blob": "cc45e7b22c6dcbdb5845337732ade57646adf87a",
+   "bytes": 505
+  },
+  {
+   "path": "redirect.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "ff6404889ff9dd5e33a1aa9f3912aed5ee5f6390",
+   "bytes": 466
+  },
+  {
+   "path": "run_linux.sh",
+   "type": "blob",
+   "kind": "launch / config / page",
+   "blob": "a9204a2f11d6b8cc9c8ae5b629349151f35412fa",
+   "bytes": 218
+  },
+  {
+   "path": "run_windows.bat",
+   "type": "blob",
+   "kind": "launch / config / page",
+   "blob": "245bf231ff587a0cb0bae52c5774d30c1e16e525",
+   "bytes": 137
+  },
+  {
+   "path": "server.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "b1b4f08b44f353c14012b1f1b5c76ddc67738e29",
+   "bytes": 34380
+  },
+  {
+   "path": "server",
+   "type": "tree",
+   "kind": "folder",
+   "blob": "2003055fc700b94ea6f961af0dcbc7a5901b6278",
+   "bytes": null
+  },
+  {
+   "path": "sfx.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "d508f702a94573a6e87ab24a93bf7eae7af08533",
+   "bytes": 3677
+  },
+  {
+   "path": "sim.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "1666b2170e40228ceac9fc50d6577d5091cb8790",
+   "bytes": 29413
+  },
+  {
+   "path": "sounds",
+   "type": "tree",
+   "kind": "folder",
+   "blob": "ed8c561246c9aa0d57bc779f3c4a2b26e0a91c0b",
+   "bytes": null
+  },
+  {
+   "path": "timing_policy.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "c170518a51f4e0fce80a498ec7128bf29f6ac1fa",
+   "bytes": 1634
+  },
+  {
+   "path": "world.js",
+   "type": "blob",
+   "kind": "runtime script",
+   "blob": "ad46ec0d69f8179f3ca737d8665b2bfcacbd2829",
+   "bytes": 24622
+  }
+ ]
+}

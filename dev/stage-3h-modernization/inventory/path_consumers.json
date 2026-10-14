@@ -1,0 +1,4727 @@
+{
+ "ref": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+ "note": "a plain text search for each name; a hit is a file that mentions the name, not necessarily one that opens it by path",
+ "consumers": {
+  "ai.js": {
+   "total": 387,
+   "code": [
+    "assets/br-role.js",
+    "assets/shadows-2d.js",
+    "death_srv.js",
+    "dev/ai_src/00_head.js",
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/build_ai.sh",
+    "dev/build_sim.sh",
+    "dev/ents_src/00_head.js",
+    "dev/ents_src/25_death.js",
+    "dev/harness.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/sim_glue.js",
+    "dev/stage-3b-l-qa1/fixtures_qa1.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b-n/camera_3bn.js",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/proto_lab.js",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq5/overlay_hq5.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/death_net.js",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3e-0-bpp/overlay_bpp.py",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h/golden/bpp_golden.js",
+    "dev/stage-3h/golden/bpp_mutants.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h1_build_check.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/light_test.py",
+    "dev/tests/live.js",
+    "dev/tests/play_server.js",
+    "dev/tests/s_audit.js",
+    "dev/tests/s_capture.js",
+    "dev/tests/s_ir.js",
+    "dev/tests/s_shared2f.js",
+    "ents.js",
+    "light.js",
+    "server.js",
+    "sim.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_IMPLEMENTATION_MAP.md",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h/README.md",
+    "dev/stage-3h/gate/README.md"
+   ],
+   "evidenceCount": 253,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "BR_ROLE_1_0_ARCHITECTURE.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_AI01_CHANGED_FILES.txt",
+    "PART_2_AI02_CHANGED_FILES.txt",
+    "PART_2_ENTITY_LOOK_REPORT.md",
+    "PART_2_HQA_AI01_SEARCH_REPORT.md",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md",
+    "PART_2_HQA_TEST_SUMMARY.md",
+    "STAGE_2E_REPORT.md",
+    "STAGE_2F_REPORT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_HQ5_CHANGED_FILES.txt",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3D_VARIANT_MATRIX.md",
+    "STAGE_3E0_BPLUSPLUS_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "camcorder.js": {
+   "total": 88,
+   "code": [
+    "assets/br-role.js",
+    "assets/ui.js",
+    "dev/br-role/freeze_br.py",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/nv_profile_qa2.js",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3c-qa1/first_candidate/probe_c2.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/regress/probe_c2.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3c/probe_c2.js",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "mp.js"
+   ],
+   "docs": [
+    "README.md",
+    "assets/ui.css",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 25,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "camera_policy.js": {
+   "total": 195,
+   "code": [
+    "dev/br-role/freeze_br.py",
+    "dev/shadows/browser_shadows.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b-n/camera_3bn.js",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/s_camera_fairness.js",
+    "server/static.js"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md",
+    "index.html"
+   ],
+   "evidenceCount": 131,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md",
+    "PART_2_HQA_TEST_SUMMARY.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+    "STAGE_3B_FINAL_PERFORMANCE.md",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_HUMAN_QA.md",
+    "STAGE_3B_QA2_PERFORMANCE.md",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt"
+   ]
+  },
+  "death_srv.js": {
+   "total": 297,
+   "code": [
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/test_shadows.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b-n/camera_3bn.js",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/light_net.js",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq1/summarize_hq1.py",
+    "dev/stage-3d-hq2/boom_fps.js",
+    "dev/stage-3d-hq2/boom_geo.js",
+    "dev/stage-3d-hq2/boom_ref.js",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/death_equiv.js",
+    "dev/stage-3d-hq2/golden_hq2.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/reset_epoch.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/gib_check.js",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq5/overlay_hq5.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/death_net.js",
+    "dev/stage-3d/golden3d.js",
+    "dev/stage-3d/gore_geo_test.js",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/parity3d.py",
+    "dev/stage-3d/perf_death_srv.js",
+    "dev/stage-3d/phys_matrix.js",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3e-0-bpp/overlay_bpp.py",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3h/golden/bpp_golden.js",
+    "dev/stage-3h/golden/bpp_mutants.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_harness.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/fallback_parity.py",
+    "dev/tests/s_audit.js",
+    "server.js",
+    "server/aftermath.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_PRESERVATION.json",
+    "dev/stage-3d/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md"
+   ],
+   "evidenceCount": 189,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "3H0_SERVER_OWNERSHIP_MAP.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_REGRESSION.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_PERFORMANCE.md",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "dphys.js": {
+   "total": 194,
+   "code": [
+    "ai.js",
+    "death_srv.js",
+    "dev/ai_src/40_capture.js",
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/ents_src/10_hound.js",
+    "dev/ents_src/25_death.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/light_power_test.js",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq1/visual_evidence.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/death_equiv.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/apply_bundle.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/golden3d.js",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/phys_matrix.js",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3h/golden/bpp_mutants.js",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/phys_test.js",
+    "dev/tests/s_audit.js",
+    "ents.js",
+    "mp.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3d-hq1/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "index.html"
+   ],
+   "evidenceCount": 97,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_HQ1_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3D_VARIANT_MATRIX.md",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "ents.js": {
+   "total": 228,
+   "code": [
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/build_ents.sh",
+    "dev/ents_src/00_head.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/e09_browser.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h/tools/h1_build_check.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/live.js",
+    "dev/tests/s_smiler.js",
+    "dev/tests/s_smiler2_v22_retired.js",
+    "mp.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h/README.md",
+    "dev/stage-3h/gate/README.md",
+    "index.html"
+   ],
+   "evidenceCount": 144,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_AI02_CHANGED_FILES.txt",
+    "PART_2_ENTITY_LOOK_REPORT.md",
+    "STAGE_2E_REPORT.md",
+    "STAGE_2F_REPORT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "glitch.js": {
+   "total": 94,
+   "code": [
+    "assets/net-newrun.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/look_3b.js",
+    "dev/stage-3b/readability_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/golden/cli_lib_h2.js",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/cli_golden.js",
+    "dev/stage-3h0/golden/cli_lib.js",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/devlog4dev/3H_RECOMMENDATIONS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_CHANGED_FILES.txt",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "index.html"
+   ],
+   "evidenceCount": 41,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "gore.js": {
+   "total": 208,
+   "code": [
+    "dev/ents_src/25_death.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq1/stain_budget.py",
+    "dev/stage-3d-hq1/wall_faces_test.py",
+    "dev/stage-3d-hq1/wall_lifecycle.py",
+    "dev/stage-3d-hq1/wall_rebuild_test.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/reset_epoch.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/gib_streaks.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq3/streak_sheet.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq5/overlay_hq5.py",
+    "dev/stage-3d/apply_bundle.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/corpse_check.py",
+    "dev/stage-3d/gore_geo_test.js",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/live.js",
+    "ents.js",
+    "mp.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3d-hq3/README.md",
+    "dev/stage-3d-hq4/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEFERRED_SEAMS.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 130,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_HQ1_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_PERFORMANCE.md",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_HUMAN_QA.md",
+    "STAGE_3D_HQ4_REPORT.md",
+    "STAGE_3D_HQ5_CHANGED_FILES.txt",
+    "STAGE_3D_HQ5_REPORT.md",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "hud.js": {
+   "total": 75,
+   "code": [
+    "assets/br-role.js",
+    "assets/shadows-2d.js",
+    "assets/ui.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa1/probe_q5.js",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/regress/perf_c3.js",
+    "dev/stage-3c-qa2/regress/probe_q5.js",
+    "dev/stage-3c-qa2/regress/run.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3c/perf_c3.js",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/s_smiler.js",
+    "dev/tests/s_smiler2_v22_retired.js"
+   ],
+   "docs": [
+    "assets/index-D7hdwmUU.css",
+    "assets/ui.css",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 20,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_PERFORMANCE.md",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_PERFORMANCE.md",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_REPORT.md",
+    "STAGE_3C_REPORT.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "inventory.js": {
+   "total": 95,
+   "code": [
+    "assets/ui.js",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa1/probe_q5.js",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/regress/perf_c3.js",
+    "dev/stage-3c-qa2/regress/probe_q5.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3c/perf_c3.js",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "README.md",
+    "assets/ui.css",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_CHANGED_FILES.txt",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/README.md",
+    "index.html"
+   ],
+   "evidenceCount": 37,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_PERFORMANCE.md",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_PERFORMANCE.md",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_REPORT.md",
+    "STAGE_3C_REPORT.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "light.js": {
+   "total": 202,
+   "code": [
+    "assets/br-role.js",
+    "assets/shadows-2d.js",
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/build_ai.sh",
+    "dev/shadows/report/mk_test_summary.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/stage-3b-l-qa1/fixtures_page_qa1.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/light_timeline.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq1/visual_evidence.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/preflight_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/perf_light.js",
+    "world.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_IMPLEMENTATION_MAP.md",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/shadows/README.md",
+    "dev/stage-3d-hq1/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 112,
+   "rootReports": [
+    "2D_SHADOWS_GIT_CHECKPOINTS.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_ARCHITECTURE.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "STAGE_2E_REPORT.md",
+    "STAGE_2F_REPORT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_HQ5_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "move.js": {
+   "total": 311,
+   "code": [
+    "ai.js",
+    "assets/ui.js",
+    "dev/ai_src/90_engine.js",
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/harness.js",
+    "dev/move_model.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/cli_golden_hq2.js",
+    "dev/stage-3d-hq2/mutate.py",
+    "dev/stage-3d-hq2/net_predict.js",
+    "dev/stage-3d-hq2/old_fixtures.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/predict_unit.js",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/audit_net2.js",
+    "dev/tests/live.js",
+    "dev/tests/live_chase.js",
+    "dev/tests/movement_parity2f.js",
+    "dev/tests/perf_hound2e.js",
+    "dev/tests/s_chase.js",
+    "dev/tests/s_fps_equality.js",
+    "dev/tests/s_hound2e.js",
+    "dev/tests/s_shared2f.js",
+    "mp.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_PRESERVATION.json",
+    "dev/STAGE_2F_SPECIFICATION.txt",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3d-hq2/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEFERRED_SEAMS.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/gate/known_failures_bpp.json",
+    "index.html"
+   ],
+   "evidenceCount": 202,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_MP_OWNERSHIP_MAP.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_FPS_EQUALITY.md",
+    "STAGE_2E_REPORT.md",
+    "STAGE_2F_REPORT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+    "STAGE_3D_HQ2_REGRESSION.md",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3E0_BPLUSPLUS_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "mp.js": {
+   "total": 492,
+   "code": [
+    "assets/br-role.js",
+    "assets/mp-hum.js",
+    "assets/net-interp.js",
+    "assets/net-newrun.js",
+    "assets/net-wire.js",
+    "assets/shadows-2d.js",
+    "assets/ui.js",
+    "camcorder.js",
+    "dev/br-role/freeze_br.py",
+    "dev/ents_src/00_head.js",
+    "dev/move_model.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/run_retained.py",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3b/readability_3b.js",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq1/summarize_hq1.py",
+    "dev/stage-3d-hq2/boom_browser.py",
+    "dev/stage-3d-hq2/boom_fps.js",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/cli_golden_hq2.js",
+    "dev/stage-3d-hq2/contract_hq2.js",
+    "dev/stage-3d-hq2/life_hq2.py",
+    "dev/stage-3d-hq2/mutate.py",
+    "dev/stage-3d-hq2/net_predict.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/predict_unit.js",
+    "dev/stage-3d-hq2/proto_lab.js",
+    "dev/stage-3d-hq2/reset_epoch.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq2/wire_capture.js",
+    "dev/stage-3d-hq3/admin_nr.js",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/apply_bundle.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/cli_golden3d.js",
+    "dev/stage-3d/contract_check3d.js",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3d/summarize_d6.py",
+    "dev/stage-3e-0-bpp/net_profile.js",
+    "dev/stage-3e-0-bpp/place_replay.js",
+    "dev/stage-3e-0/b_math.js",
+    "dev/stage-3e-0/net_lab.js",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3e-0/two_browser.py",
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h/golden/cli_golden_h2.js",
+    "dev/stage-3h/golden/cli_lib_h2.js",
+    "dev/stage-3h/golden/cli_scenes_hum.js",
+    "dev/stage-3h/golden/cli_scenes_nr.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h/tools/h1_wire_keys.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/doc_sizes_h0.py",
+    "dev/stage-3h0/golden/cli_env.js",
+    "dev/stage-3h0/golden/cli_golden.js",
+    "dev/stage-3h0/golden/cli_lib.js",
+    "dev/stage-3h0/golden/cli_mutants.js",
+    "dev/stage-3h0/golden/cli_scenes.js",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/contract_check.js",
+    "dev/stage-3h0/golden/fn_equiv.js",
+    "dev/stage-3h0/golden/live_wire.js",
+    "dev/stage-3h0/golden/perf_det.js",
+    "dev/stage-3h0/golden/perf_h0.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/run_checkpoint.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/record_parent_h0.py",
+    "dev/stage-3h0/scope_check.py",
+    "dev/tests/interp_test.js",
+    "dev/tests/live.js",
+    "dev/tests/s_humanqa_hotfix.js",
+    "ents.js",
+    "glitch.js",
+    "gore.js",
+    "light.js",
+    "move.js",
+    "server.js"
+   ],
+   "docs": [
+    "README.md",
+    "assets/ui.css",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_PRESERVATION.json",
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/devlog4dev/3H_PERFORMANCE_BASELINE.md",
+    "dev/devlog4dev/3H_RECOMMENDATIONS.md",
+    "dev/stage-3d-hq2/README.md",
+    "dev/stage-3d/README.md",
+    "dev/stage-3e-0/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEFERRED_SEAMS.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md",
+    "dev/stage-3h/3H2_CHANGED_FILES.txt",
+    "dev/stage-3h/3H2_HUMAN_QA.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h/README.md",
+    "dev/stage-3h/gate/README.md",
+    "dev/stage-3h0/README.md",
+    "dev/stage-3h0/golden/declared_new_globals.json",
+    "index.html"
+   ],
+   "evidenceCount": 299,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_MP_OWNERSHIP_MAP.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md",
+    "PART_2_HQA_TEST_SUMMARY.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_Q0_AUDIT.md",
+    "STAGE_3C_QA2_REPORT.md",
+    "STAGE_3C_REPORT.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+    "STAGE_3D_HQ1_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+    "STAGE_3D_HQ1_PERFORMANCE.md",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+    "STAGE_3D_HQ2_REGRESSION.md",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_HQ5_CHANGED_FILES.txt",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3E0_BPLUSPLUS_REPORT.md",
+    "STAGE_3E0_BPLUS_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md",
+    "STAGE_3H0_PERFORMANCE.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "redirect.js": {
+   "total": 20,
+   "code": [
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md"
+   ],
+   "evidenceCount": 4,
+   "rootReports": [
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "PART_2_AI02_CHANGED_FILES.txt",
+    "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt"
+   ]
+  },
+  "server.js": {
+   "total": 773,
+   "code": [
+    "assets/shadows-2d.js",
+    "camcorder.js",
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/look.js",
+    "dev/br-role/look_br2.js",
+    "dev/br-role/perf_br.js",
+    "dev/br-role/smoke.js",
+    "dev/br-role/soak_br.js",
+    "dev/br-role/test_br_role.js",
+    "dev/paths.js",
+    "dev/shadows/browser_shadows.js",
+    "dev/shadows/build_probe.js",
+    "dev/shadows/canvas_calls_probe.js",
+    "dev/shadows/frame_probe.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/layer_probe.js",
+    "dev/shadows/profile_probe.js",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/report/mk_performance.py",
+    "dev/shadows/report/mk_test_summary.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/scene_bench.js",
+    "dev/shadows/shots.js",
+    "dev/shadows/test_shadows.js",
+    "dev/shadows/tint_probe.js",
+    "dev/sim_glue.js",
+    "dev/stage-3b-l-qa1/falloff_qa1.js",
+    "dev/stage-3b-l-qa1/fixtures_page_qa1.js",
+    "dev/stage-3b-l-qa1/look_qa1.js",
+    "dev/stage-3b-l-qa1/occlusion_qa1.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa1/parity_qa1.js",
+    "dev/stage-3b-l-qa1/perf_qa1.js",
+    "dev/stage-3b-l-qa1/receivers_qa1.js",
+    "dev/stage-3b-l-qa2/occlusion_qa2.js",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l-qa2/perf_hl_qa2.js",
+    "dev/stage-3b-l-qa2/qa2_lib.js",
+    "dev/stage-3b-l/falloff_3bl.js",
+    "dev/stage-3b-l/fieldmap_3bl.js",
+    "dev/stage-3b-l/look_3bl.js",
+    "dev/stage-3b-l/occlusion_3bl.js",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b-l/perf_3bl.js",
+    "dev/stage-3b-n/camera_3bn.js",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3b/levelart_3b.js",
+    "dev/stage-3b/look_3b.js",
+    "dev/stage-3b/overview_3b.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3b/perf_3b.js",
+    "dev/stage-3b/readability_3b.js",
+    "dev/stage-3b/smoke_3b.js",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3b/walk_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/regress/lifecycle_mp.py",
+    "dev/stage-3c-qa2/regress/run.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3c/ui_lib.js",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/light_net.js",
+    "dev/stage-3d-hq1/light_timeline.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq1/traffic8.js",
+    "dev/stage-3d-hq1/ws_observer.js",
+    "dev/stage-3d-hq2/boom_fps.js",
+    "dev/stage-3d-hq2/boom_ref.js",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/golden_hq2.js",
+    "dev/stage-3d-hq2/mutate.py",
+    "dev/stage-3d-hq2/net_predict.js",
+    "dev/stage-3d-hq2/nr_soak.js",
+    "dev/stage-3d-hq2/old_fixtures.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/proto_lab.js",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/srv_load.js",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq2/wire_capture.js",
+    "dev/stage-3d-hq3/admin_nr.js",
+    "dev/stage-3d-hq3/gib_check.js",
+    "dev/stage-3d-hq3/nr_free_unit.js",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq5/overlay_hq5.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/death_net.js",
+    "dev/stage-3d/golden3d.js",
+    "dev/stage-3d/lib3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/secret_scan_3d.py",
+    "dev/stage-3d/server_soak.js",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3e-0-bpp/net_profile.js",
+    "dev/stage-3e-0-bpp/overlay_bpp.py",
+    "dev/stage-3e-0-bpp/place_guard_check.js",
+    "dev/stage-3e-0-bpp/place_replay.js",
+    "dev/stage-3e-0/net_lab.js",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3e-0/proto_check.js",
+    "dev/stage-3e-0/static_check.js",
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h/gate/suites.js",
+    "dev/stage-3h/golden/bpp_golden.js",
+    "dev/stage-3h/golden/bpp_mutants.js",
+    "dev/stage-3h/golden/live_wire_h2.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/golden/srv_scenarios_bpp.js",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h/tools/h1_wav_stall.js",
+    "dev/stage-3h/tools/h2_glitch_on_path.js",
+    "dev/stage-3h/tools/h2_move_proof.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/doc_sizes_h0.py",
+    "dev/stage-3h0/golden/fn_equiv.js",
+    "dev/stage-3h0/golden/live_wire.js",
+    "dev/stage-3h0/golden/perf_det.js",
+    "dev/stage-3h0/golden/perf_h0.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/run_checkpoint.js",
+    "dev/stage-3h0/golden/srv_golden.js",
+    "dev/stage-3h0/golden/srv_harness.js",
+    "dev/stage-3h0/golden/srv_mutants.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/golden/srv_scenarios_summon.js",
+    "dev/stage-3h0/golden/static_mutants.js",
+    "dev/stage-3h0/golden/summon_probe.js",
+    "dev/stage-3h0/golden/summon_seeds.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/record_parent_h0.py",
+    "dev/stage-3h0/scope_check.py",
+    "dev/stage-3h0/secret_scan_h0.py",
+    "dev/stage-3h0/summarize_h05.py",
+    "dev/tests/admin_test.py",
+    "dev/tests/audio_test.py",
+    "dev/tests/audit_net.js",
+    "dev/tests/audit_net2.js",
+    "dev/tests/chase_mp.py",
+    "dev/tests/commit_mp.py",
+    "dev/tests/death_film.py",
+    "dev/tests/death_spectator.py",
+    "dev/tests/fallback_parity.py",
+    "dev/tests/ir_net.js",
+    "dev/tests/ir_test.py",
+    "dev/tests/lifecycle_mp.py",
+    "dev/tests/light_test.py",
+    "dev/tests/live.js",
+    "dev/tests/live_chase.js",
+    "dev/tests/move_test.py",
+    "dev/tests/nav_mp.py",
+    "dev/tests/play_mp.py",
+    "dev/tests/play_server.js",
+    "dev/tests/s_audit.js",
+    "dev/tests/s_humanqa_hotfix.js",
+    "dev/tests/s_ir.js",
+    "dev/tests/smiler2d_view.py",
+    "dev/tests/smiler_view.py",
+    "mp.js",
+    "run_linux.sh",
+    "run_windows.bat",
+    "server/aftermath.js",
+    "server/fields.js",
+    "server/newrun.js",
+    "server/static.js",
+    "server/ws.js",
+    "sim.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/README.md",
+    "dev/STAGE_2E_HUMAN_QA.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_PRESERVATION.json",
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/devlog4dev/3H_PERFORMANCE_BASELINE.md",
+    "dev/devlog4dev/3H_RECOMMENDATIONS.md",
+    "dev/shadows/README.md",
+    "dev/stage-3d-hq1/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEFERRED_SEAMS.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_NEXT_GATE.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md",
+    "dev/stage-3h/3H2_CHANGED_FILES.txt",
+    "dev/stage-3h/3H2_HUMAN_QA.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h/README.md",
+    "dev/stage-3h/gate/README.md",
+    "dev/stage-3h0/README.md",
+    "package.json"
+   ],
+   "evidenceCount": 486,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_HUMAN_QA.md",
+    "2D_SHADOWS_PERFORMANCE.md",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "3H0_SERVER_OWNERSHIP_MAP.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_HUMAN_QA.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md",
+    "PART_2_HQA_TEST_SUMMARY.md",
+    "STAGE_2F_TEST_SUMMARY.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+    "STAGE_3B_FINAL_PERFORMANCE.md",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_HUMAN_QA.md",
+    "STAGE_3B_QA2_PERFORMANCE.md",
+    "STAGE_3B_VISUAL_AUDIT.md",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_HUMAN_QA.md",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_HUMAN_QA.md",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_HUMAN_QA.md",
+    "STAGE_3C_QA2_Q0_AUDIT.md",
+    "STAGE_3C_QA2_REPORT.md",
+    "STAGE_3C_REPORT.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+    "STAGE_3D_HQ1_HUMAN_QA.md",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_HUMAN_QA.md",
+    "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+    "STAGE_3D_HQ2_REGRESSION.md",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_HUMAN_QA.md",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_HUMAN_QA.md",
+    "STAGE_3D_HQ4_REPORT.md",
+    "STAGE_3D_HQ5_CHANGED_FILES.txt",
+    "STAGE_3D_HQ5_REPORT.md",
+    "STAGE_3D_HUMAN_QA.md",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3E0_BPLUSPLUS_HUMAN_QA.md",
+    "STAGE_3E0_BPLUSPLUS_REPORT.md",
+    "STAGE_3E0_BPLUS_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md",
+    "STAGE_3H0_PERFORMANCE.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "sfx.js": {
+   "total": 67,
+   "code": [
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 23,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "sim.js": {
+   "total": 534,
+   "code": [
+    "ai.js",
+    "assets/shadows-2d.js",
+    "death_srv.js",
+    "dev/ai_src/10_geo.js",
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/build_sim.sh",
+    "dev/harness.js",
+    "dev/move_model.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/sim_geo.js",
+    "dev/sim_head.js",
+    "dev/stage-3b-l-qa1/fixtures_page_qa1.js",
+    "dev/stage-3b-l-qa1/fixtures_qa1.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b-n/camera_3bn.js",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/newrun_cooldown.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa1/probe_q2.js",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/regress/probe_q2.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/light_net.js",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/boom_fps.js",
+    "dev/stage-3d-hq2/boom_geo.js",
+    "dev/stage-3d-hq2/boom_ref.js",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/corridor_widths.js",
+    "dev/stage-3d-hq2/death_equiv.js",
+    "dev/stage-3d-hq2/mutate.py",
+    "dev/stage-3d-hq2/net_predict.js",
+    "dev/stage-3d-hq2/old_fixtures.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/predict_unit.js",
+    "dev/stage-3d-hq2/proto_lab.js",
+    "dev/stage-3d-hq2/reset_epoch.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/srv_load.js",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/gib_check.js",
+    "dev/stage-3d-hq3/nr_free_unit.js",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq5/overlay_hq5.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/death_net.js",
+    "dev/stage-3d/golden3d.js",
+    "dev/stage-3d/gore_geo_test.js",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/parity3d.py",
+    "dev/stage-3d/perf_death_srv.js",
+    "dev/stage-3d/phys_matrix.js",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3e-0-bpp/net_profile.js",
+    "dev/stage-3e-0-bpp/overlay_bpp.py",
+    "dev/stage-3e-0/net_lab.js",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3e-0/proto_check.js",
+    "dev/stage-3e-0/static_check.js",
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h/golden/bpp_golden.js",
+    "dev/stage-3h/golden/bpp_mutants.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h1_build_check.js",
+    "dev/stage-3h/tools/h2_glitch_on_path.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_harness.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/record_parent_h0.py",
+    "dev/tests/audit_net.js",
+    "dev/tests/audit_net2.js",
+    "dev/tests/fallback_parity.py",
+    "dev/tests/light_test.py",
+    "dev/tests/live.js",
+    "dev/tests/perf_light.js",
+    "dev/tests/perf_smiler.js",
+    "dev/tests/s_humanqa_hotfix.js",
+    "dev/tests/s_ir.js",
+    "dev/tests/s_system.js",
+    "move.js",
+    "server.js",
+    "server/static.js",
+    "world.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/devlog4dev/3H_RECOMMENDATIONS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h/README.md",
+    "dev/stage-3h/gate/README.md"
+   ],
+   "evidenceCount": 366,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "3H0_SERVER_OWNERSHIP_MAP.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md",
+    "PART_2_HQA_TEST_SUMMARY.md",
+    "STAGE_2F_REPORT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_HQ5_CHANGED_FILES.txt",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3E0_BPLUSPLUS_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "timing_policy.js": {
+   "total": 193,
+   "code": [
+    "dev/br-role/freeze_br.py",
+    "dev/shadows/browser_shadows.js",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b-n/camera_3bn.js",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/net_predict.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/predict_unit.js",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/s_fps_equality.js",
+    "server/static.js"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md",
+    "index.html"
+   ],
+   "evidenceCount": 131,
+   "rootReports": [
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_FPS_CHANGED_FILES.txt",
+    "PART_2_FPS_EQUALITY.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_HUMAN_QA.md",
+    "STAGE_3B_QA2_PERFORMANCE.md",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_PLAYER_COLLISION.md"
+   ]
+  },
+  "world.js": {
+   "total": 294,
+   "code": [
+    "ai.js",
+    "assets/br-role.js",
+    "assets/l0-remaster.js",
+    "assets/level0_visuals.js",
+    "assets/shadows-2d.js",
+    "dev/ai_src/00_head.js",
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/smoke.js",
+    "dev/br-role/test_br_role.js",
+    "dev/chk_world.js",
+    "dev/harness.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/report/mk_test_summary.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/sim_geo.js",
+    "dev/sim_head.js",
+    "dev/stage-3b-l-qa1/falloff_qa1.js",
+    "dev/stage-3b-l-qa1/fixtures_page_qa1.js",
+    "dev/stage-3b-l-qa1/fixtures_qa1.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/los_lib.js",
+    "dev/stage-3b-l-qa2/los_qa2_tests.js",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l-qa2/perf_hl_qa2.js",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/freeze_3b.py",
+    "dev/stage-3b/harness_3b.js",
+    "dev/stage-3b/map_report.js",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/life_hq2.py",
+    "dev/stage-3d-hq2/net_predict.js",
+    "dev/stage-3d-hq2/old_fixtures.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/predict_unit.js",
+    "dev/stage-3d-hq2/reset_epoch.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq5/overlay_hq5.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/phys_matrix.js",
+    "dev/stage-3e-0-bpp/overlay_bpp.py",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3h/golden/bpp_golden.js",
+    "dev/stage-3h/golden/bpp_mutants.js",
+    "dev/stage-3h/golden/cli_lib_h2.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/cli_env.js",
+    "dev/stage-3h0/golden/cli_lib.js",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/audit_net.js",
+    "dev/tests/audit_net2.js",
+    "dev/tests/escape_bench.js",
+    "dev/tests/live.js",
+    "dev/tests/live_chase.js",
+    "dev/tests/nav_bench.js",
+    "dev/tests/s_audit.js",
+    "dev/tests/s_chase.js",
+    "sim.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/shadows/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "index.html"
+   ],
+   "evidenceCount": 169,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "STAGE_3B_DONOR_LEDGER.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_PROP_CANON_AUDIT.md",
+    "STAGE_3B_FINAL_VISUAL_AUDIT.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_AUDIT.md",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "index.html": {
+   "total": 470,
+   "code": [
+    "assets/mp-hum.js",
+    "assets/net-interp.js",
+    "assets/net-newrun.js",
+    "assets/net-wire.js",
+    "assets/ui.js",
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/look.js",
+    "dev/br-role/look_br2.js",
+    "dev/br-role/package_br.py",
+    "dev/br-role/perf_br.js",
+    "dev/br-role/smoke.js",
+    "dev/br-role/soak_br.js",
+    "dev/br-role/test_br_role.js",
+    "dev/shadows/browser_shadows.js",
+    "dev/shadows/build_probe.js",
+    "dev/shadows/canvas_calls_probe.js",
+    "dev/shadows/frame_probe.js",
+    "dev/shadows/freeze.py",
+    "dev/shadows/layer_probe.js",
+    "dev/shadows/profile_probe.js",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/report/mk_test_summary.py",
+    "dev/shadows/report/package.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/scene_bench.js",
+    "dev/shadows/shots.js",
+    "dev/shadows/test_shadows.js",
+    "dev/shadows/tint_probe.js",
+    "dev/stage-3b-l-qa1/falloff_qa1.js",
+    "dev/stage-3b-l-qa1/fixtures_page_qa1.js",
+    "dev/stage-3b-l-qa1/look_qa1.js",
+    "dev/stage-3b-l-qa1/occlusion_qa1.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa1/parity_qa1.js",
+    "dev/stage-3b-l-qa1/perf_qa1.js",
+    "dev/stage-3b-l-qa1/receivers_qa1.js",
+    "dev/stage-3b-l-qa2/occlusion_qa2.js",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l-qa2/perf_hl_qa2.js",
+    "dev/stage-3b-l-qa2/qa2_lib.js",
+    "dev/stage-3b-l/falloff_3bl.js",
+    "dev/stage-3b-l/fieldmap_3bl.js",
+    "dev/stage-3b-l/look_3bl.js",
+    "dev/stage-3b-l/occlusion_3bl.js",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b-l/perf_3bl.js",
+    "dev/stage-3b-n/camera_3bn.js",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3b/freeze_3b.py",
+    "dev/stage-3b/levelart_3b.js",
+    "dev/stage-3b/look_3b.js",
+    "dev/stage-3b/overview_3b.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3b/perf_3b.js",
+    "dev/stage-3b/readability_3b.js",
+    "dev/stage-3b/smoke_3b.js",
+    "dev/stage-3b/walk_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3c/ui_lib.js",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3h/golden/cli_lib_h2.js",
+    "dev/stage-3h/golden/live_wire_h2.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h/tools/h1_wav_stall.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/cli_golden.js",
+    "dev/stage-3h0/golden/cli_lib.js",
+    "dev/stage-3h0/golden/cli_stubs.js",
+    "dev/stage-3h0/golden/live_wire.js",
+    "dev/stage-3h0/golden/perf_h0.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_golden.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/golden/static_mutants.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/record_parent_h0.py",
+    "dev/stage-3h0/scope_check.py",
+    "dev/tests/live.js",
+    "dev/tests/s_camera_fairness.js",
+    "dev/tests/s_fps_equality.js",
+    "server/static.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H2_CHANGED_FILES.txt",
+    "dev/stage-3h/3H2_HUMAN_QA.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h0/README.md"
+   ],
+   "evidenceCount": 306,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_H0_1_BASELINE.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_MP_OWNERSHIP_MAP.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR2_1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "PART_2_FPS_CHANGED_FILES.txt",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_TEST_SUMMARY.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_AUDIT.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_HUMAN_QA.md",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_Q0_AUDIT.md",
+    "STAGE_3C_QA2_REPORT.md",
+    "STAGE_3C_REPORT.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3E0_BPLUSPLUS_REPORT.md",
+    "STAGE_3E0_BPLUS_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "favicon.ico": {
+   "total": 76,
+   "code": [
+    "dev/stage-3e-0-bpp/overlay_bpp.py",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3e-0/static_check.js",
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h1_scope_check.py",
+    "dev/stage-3h0/golden/raw_live.js",
+    "server/static.js"
+   ],
+   "docs": [
+    "dev/stage-3e-0/README.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h/README.md",
+    "index.html"
+   ],
+   "evidenceCount": 54,
+   "rootReports": [
+    "STAGE_3E0_BPLUSPLUS_HUMAN_QA.md",
+    "STAGE_3E0_BPLUSPLUS_REPORT.md",
+    "STAGE_3E0_BPLUS_HUMAN_QA.md",
+    "STAGE_3E0_BPLUS_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt"
+   ]
+  },
+  "package.json": {
+   "total": 205,
+   "code": [
+    "assets/credits_data.js",
+    "dev/stage-3b-n/camera_3bn.js",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq5/overlay_hq5.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3e-0-bpp/overlay_bpp.py",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3e-0/static_check.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/record_parent_h0.py",
+    "dev/tests/live.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md"
+   ],
+   "evidenceCount": 158,
+   "rootReports": [
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "PART_2_AI01_CHANGED_FILES.txt",
+    "PART_2_AI02_CHANGED_FILES.txt",
+    "PART_2_ENTITY_LOOK_REPORT.md",
+    "PART_2_FPS_CHANGED_FILES.txt",
+    "PART_2_HQA_AI01_SEARCH_REPORT.md",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md",
+    "STAGE_2E_REPORT.md",
+    "STAGE_2F_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "assets/BufferResource-B-thlpip.js": {
+   "total": 5,
+   "code": [],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/Cache-DDo62lBW.js": {
+   "total": 5,
+   "code": [],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/CanvasPool-DecUtJxW.js": {
+   "total": 6,
+   "code": [
+    "assets/index-DKbV5Nv9.js"
+   ],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/Filter-DzecrWg_.js": {
+   "total": 6,
+   "code": [
+    "assets/index-DKbV5Nv9.js"
+   ],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/GCManagedHash-Bz2ZMBJN.js": {
+   "total": 5,
+   "code": [],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/GraphicsContext-vm7TDg_M.js": {
+   "total": 5,
+   "code": [],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/RenderTargetSystem-CgUxHIsn.js": {
+   "total": 5,
+   "code": [],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/br-role.js": {
+   "total": 133,
+   "code": [
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/package_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq4/gameplay_smoke.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq4/wanderer_lab.py",
+    "dev/stage-3d-hq5/contact_lab.py",
+    "dev/stage-3d-hq5/overlay_hq5.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3d-hq5/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 61,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_ARCHITECTURE.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "BR_ROLE_BR1_1_HUMAN_QA.md",
+    "BR_ROLE_BR1_HUMAN_QA.md",
+    "BR_ROLE_BR2_HUMAN_QA.md",
+    "STAGE_3B_DONOR_LEDGER.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+    "STAGE_3B_VISUAL_AUDIT.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_REPORT.md",
+    "STAGE_3D_HQ5_CHANGED_FILES.txt",
+    "STAGE_3D_HQ5_HUMAN_QA.md",
+    "STAGE_3D_HQ5_REPORT.md",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "assets/browserAll-B-iwy0YI.js": {
+   "total": 5,
+   "code": [
+    "assets/index-DKbV5Nv9.js"
+   ],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/canvasUtils-CxYPZET9.js": {
+   "total": 6,
+   "code": [
+    "assets/index-DKbV5Nv9.js"
+   ],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/credits_data.js": {
+   "total": 32,
+   "code": [
+    "assets/ui.js",
+    "dev/stage-3c-qa1/first_candidate/probe_c5.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/probe_b1.js",
+    "dev/stage-3c-qa2/regress/probe_c5.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3c/probe_c5.js",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_HUMAN_QA.md",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_HUMAN_QA.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_REPORT.md"
+   ]
+  },
+  "assets/getTextureBatchBindGroup-DBCrgHVb.js": {
+   "total": 5,
+   "code": [],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/index-D7hdwmUU.css": {
+   "total": 13,
+   "code": [
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "index.html"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/index-DKbV5Nv9.js": {
+   "total": 309,
+   "code": [
+    "dev/br-role/freeze_br.py",
+    "dev/br-role/package_br.py",
+    "dev/br-role/test_br_role.js",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/stage-3b-l-qa1/fixtures_qa1.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/apply_hl.py",
+    "dev/stage-3b-l-qa2/los_lib.js",
+    "dev/stage-3b-l-qa2/los_qa2_tests.js",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l-qa2/perf_hl_qa2.js",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b-n/test_3bn.js",
+    "dev/stage-3b/freeze_3b.py",
+    "dev/stage-3b/harness_3b.js",
+    "dev/stage-3b/map_report.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/probe_b1.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d-hq4/apply_bundle_hq4.py",
+    "dev/stage-3d-hq4/gameplay_smoke.py",
+    "dev/stage-3d-hq4/overlay_hq4.py",
+    "dev/stage-3d-hq4/wanderer_lab.py",
+    "dev/stage-3d/apply_bundle.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/tests/live.js",
+    "dev/tests/s_camera_fairness.js",
+    "dev/tests/s_fps_equality.js",
+    "dev/tests/s_humanqa_hotfix.js"
+   ],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "index.html"
+   ],
+   "evidenceCount": 221,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_MP_API_LOCK.md",
+    "BR_ROLE_1_0_ARCHITECTURE.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "PART_2_FPS_CHANGED_FILES.txt",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_AUDIT.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_CHANGED_FILES.txt",
+    "STAGE_3D_HQ4_REPORT.md",
+    "STAGE_3D_HQ5_CHANGED_FILES.txt"
+   ]
+  },
+  "assets/init-Cn1_BCi0.js": {
+   "total": 5,
+   "code": [
+    "assets/index-DKbV5Nv9.js"
+   ],
+   "docs": [
+    "dev/STAGE_2E_PRESERVATION.json"
+   ],
+   "evidenceCount": 3,
+   "rootReports": []
+  },
+  "assets/l0-remaster.js": {
+   "total": 64,
+   "code": [
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/freeze_3b.py",
+    "dev/stage-3b/harness_3b.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 16,
+   "rootReports": [
+    "3H0_MP_API_LOCK.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3B_DONOR_LEDGER.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_PERFORMANCE.md",
+    "STAGE_3B_VISUAL_AUDIT.md",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "assets/level0_visuals.js": {
+   "total": 56,
+   "code": [
+    "assets/l0-remaster.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3b/freeze_3b.py",
+    "dev/stage-3b/harness_3b.js",
+    "dev/stage-3b/package_3b.py",
+    "dev/stage-3b/test_3b.js",
+    "dev/stage-3b/visuals_hash.js",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 15,
+   "rootReports": [
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3B_DONOR_LEDGER.md",
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_PROP_CANON_AUDIT.md",
+    "STAGE_3B_FINAL_VISUAL_AUDIT.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_PROP_CANON_AUDIT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_VISUAL_AUDIT.md",
+    "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "assets/manifest.webmanifest": {
+   "total": 49,
+   "code": [
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa1/probe_q4.js",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/regress/probe_q4.js",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "index.html"
+   ],
+   "evidenceCount": 32,
+   "rootReports": [
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_HUMAN_QA.md",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt"
+   ]
+  },
+  "assets/mp-hum.js": {
+   "total": 32,
+   "code": [
+    "dev/stage-3h/tools/h2_overlay.py",
+    "mp.js"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/stage-3h/3H2_CHANGED_FILES.txt",
+    "dev/stage-3h/3H2_HUMAN_QA.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "index.html"
+   ],
+   "evidenceCount": 25,
+   "rootReports": []
+  },
+  "assets/net-interp.js": {
+   "total": 109,
+   "code": [
+    "assets/net-wire.js",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/fn_equiv.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/scope_check.py",
+    "dev/tests/interp_test.js",
+    "mp.js"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h0/golden/declared_new_globals.json",
+    "index.html"
+   ],
+   "evidenceCount": 71,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_MP_OWNERSHIP_MAP.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "assets/net-newrun.js": {
+   "total": 51,
+   "code": [
+    "dev/stage-3h/tools/h2_overlay.py",
+    "mp.js"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/stage-3h/3H2_CHANGED_FILES.txt",
+    "dev/stage-3h/3H2_HUMAN_QA.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "index.html"
+   ],
+   "evidenceCount": 44,
+   "rootReports": []
+  },
+  "assets/net-wire.js": {
+   "total": 156,
+   "code": [
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/fn_equiv.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/scope_check.py",
+    "mp.js"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h0/golden/declared_new_globals.json",
+    "index.html"
+   ],
+   "evidenceCount": 112,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_MP_OWNERSHIP_MAP.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "assets/shadows-2d.js": {
+   "total": 70,
+   "code": [
+    "dev/br-role/freeze_br.py",
+    "dev/shadows/freeze.py",
+    "dev/shadows/report/mk_changed_files.py",
+    "dev/shadows/report/mk_test_summary.py",
+    "dev/shadows/report/package.py",
+    "dev/shadows/run_retained.py",
+    "dev/shadows/test_shadows.js",
+    "dev/stage-3b-l-qa1/package_qa1.py",
+    "dev/stage-3b-l-qa2/package_qa2.py",
+    "dev/stage-3b-l/package_3bl.py",
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/devlog4dev/3H_RECOMMENDATIONS.md",
+    "dev/shadows/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md"
+   ],
+   "evidenceCount": 32,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_GIT_CHECKPOINTS.md",
+    "2D_SHADOWS_HUMAN_QA.md",
+    "2D_SHADOWS_REPORT.md",
+    "2D_SHADOWS_TEST_SUMMARY.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_Q0_AUDIT.md",
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_BR0_AUDIT.md",
+    "STAGE_3B_DONOR_LEDGER.md",
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_CHANGED_FILES.txt"
+   ]
+  },
+  "assets/ui.css": {
+   "total": 48,
+   "code": [
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/probe_b1.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "index.html"
+   ],
+   "evidenceCount": 26,
+   "rootReports": [
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_REPORT.md",
+    "STAGE_3C_REPORT.md"
+   ]
+  },
+  "assets/ui.js": {
+   "total": 76,
+   "code": [
+    "dev/stage-3c-qa1/package_qa1.py",
+    "dev/stage-3c-qa1/probe_q5.js",
+    "dev/stage-3c-qa1/theme_assets_check.py",
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3c-qa2/package_qa2.py",
+    "dev/stage-3c-qa2/probe_b1.js",
+    "dev/stage-3c-qa2/regress/probe_q5.js",
+    "dev/stage-3c/changed_files.py",
+    "dev/stage-3c/package_c3.py",
+    "dev/stage-3d-hq1/changed_files_hq1.py",
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "hud.js",
+    "inventory.js"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/devlog4dev/3H_PERFORMANCE_BASELINE.md",
+    "dev/devlog4dev/3H_RECOMMENDATIONS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "index.html"
+   ],
+   "evidenceCount": 30,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_MP_API_LOCK.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3C_C0_UI_AUDIT.md",
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_PERFORMANCE.md",
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_PERFORMANCE.md",
+    "STAGE_3C_QA1_Q0_AUDIT.md",
+    "STAGE_3C_QA1_REPORT.md",
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_Q0_AUDIT.md",
+    "STAGE_3C_QA2_REPORT.md",
+    "STAGE_3C_REPORT.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt"
+   ]
+  },
+  "server/aftermath.js": {
+   "total": 86,
+   "code": [
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "server.js"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H2_CHANGED_FILES.txt",
+    "dev/stage-3h/3H2_HUMAN_QA.md",
+    "dev/stage-3h/3H2_REPORT.md"
+   ],
+   "evidenceCount": 76,
+   "rootReports": []
+  },
+  "server/fields.js": {
+   "total": 125,
+   "code": [
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/scope_check.py",
+    "server.js",
+    "server/aftermath.js"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H2_REPORT.md"
+   ],
+   "evidenceCount": 96,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_SERVER_API_LOCK.md",
+    "3H0_SERVER_OWNERSHIP_MAP.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "server/newrun.js": {
+   "total": 114,
+   "code": [
+    "dev/stage-3h/gate/h2_gate.js",
+    "dev/stage-3h/golden/bpp_mutants.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h2_move_proof.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "server.js",
+    "server/aftermath.js"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_DEFERRED_WORK.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_NEXT_GATE.md",
+    "dev/stage-3h/3H1_REPORT.md",
+    "dev/stage-3h/3H2_CHANGED_FILES.txt",
+    "dev/stage-3h/3H2_HUMAN_QA.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h/gate/README.md"
+   ],
+   "evidenceCount": 99,
+   "rootReports": []
+  },
+  "server/peers.js": {
+   "total": 97,
+   "code": [
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/mutate.py",
+    "dev/stage-3d-hq2/nr_soak.js",
+    "dev/stage-3d-hq2/package_hq2.py",
+    "dev/stage-3d-hq2/peers_unit.js",
+    "dev/stage-3d-hq2/predict_unit.js",
+    "dev/stage-3d-hq2/scope_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js",
+    "dev/stage-3d-hq2/video_hq2.py",
+    "dev/stage-3d-hq3/package_hq3.py",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "server.js"
+   ],
+   "docs": [
+    "dev/stage-3d-hq2/README.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md"
+   ],
+   "evidenceCount": 72,
+   "rootReports": [
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+    "STAGE_3D_HQ2_REGRESSION.md",
+    "STAGE_3D_HQ2_REPORT.md",
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3E0_CHANGED_FILES.txt"
+   ]
+  },
+  "server/static.js": {
+   "total": 164,
+   "code": [
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/static_check.js",
+    "dev/stage-3e-0/overlay_e0.py",
+    "dev/stage-3e-0/static_check.js",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h/tools/h1_wav_stall.js",
+    "dev/stage-3h/tools/h2_overlay.py",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/golden/static_mutants.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/scope_check.py",
+    "server.js"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/devlog4dev/3H_PERFORMANCE_BASELINE.md",
+    "dev/devlog4dev/3H_RECOMMENDATIONS.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H2_REPORT.md",
+    "dev/stage-3h/README.md",
+    "dev/stage-3h0/README.md"
+   ],
+   "evidenceCount": 122,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "3H0_SERVER_OWNERSHIP_MAP.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3E0_BPLUSPLUS_REPORT.md",
+    "STAGE_3E0_BPLUS_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "server/ws.js": {
+   "total": 120,
+   "code": [
+    "dev/stage-3d-hq2/proto_lab.js",
+    "dev/stage-3d/changed_files_3d.py",
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3h/golden/raw_live_h2.js",
+    "dev/stage-3h/tools/h1_inventory.js",
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/raw_live.js",
+    "dev/stage-3h0/golden/srv_scenarios.js",
+    "dev/stage-3h0/package_h0.py",
+    "dev/stage-3h0/scope_check.py",
+    "server.js"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/devlog4dev/3H_PERFORMANCE_BASELINE.md",
+    "dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md",
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md",
+    "dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md",
+    "dev/stage-3h/3H2_REPORT.md"
+   ],
+   "evidenceCount": 89,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_SERVER_API_LOCK.md",
+    "3H0_SERVER_OWNERSHIP_MAP.md",
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_AUDIT.md",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3E0_CHANGED_FILES.txt",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "2D_SHADOWS_CHANGED_FILES.txt": {
+   "total": 6,
+   "code": [
+    "dev/shadows/report/mk_changed_files.py"
+   ],
+   "docs": [],
+   "evidenceCount": 5,
+   "rootReports": []
+  },
+  "2D_SHADOWS_GIT_CHECKPOINTS.md": {
+   "total": 7,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 5,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md"
+   ]
+  },
+  "2D_SHADOWS_HUMAN_QA.md": {
+   "total": 9,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 7,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md"
+   ]
+  },
+  "2D_SHADOWS_PERFORMANCE.md": {
+   "total": 8,
+   "code": [
+    "dev/shadows/report/mk_performance.py"
+   ],
+   "docs": [],
+   "evidenceCount": 5,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_REPORT.md"
+   ]
+  },
+  "2D_SHADOWS_REPORT.md": {
+   "total": 8,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 7,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt"
+   ]
+  },
+  "2D_SHADOWS_TEST_SUMMARY.md": {
+   "total": 12,
+   "code": [
+    "dev/shadows/report/mk_test_summary.py"
+   ],
+   "docs": [],
+   "evidenceCount": 7,
+   "rootReports": [
+    "2D_SHADOWS_CHANGED_FILES.txt",
+    "2D_SHADOWS_HUMAN_QA.md",
+    "2D_SHADOWS_REPORT.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md"
+   ]
+  },
+  "3H0_ARCHITECTURE_MAP.md": {
+   "total": 20,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/doc_sizes_h0.py"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md"
+   ],
+   "evidenceCount": 15,
+   "rootReports": [
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_DEFERRED_FULL_3H.md": {
+   "total": 19,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py"
+   ],
+   "docs": [
+    "dev/stage-3h/3H1_DEFERRED_SEAMS.md"
+   ],
+   "evidenceCount": 12,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "3H0_MP_OWNERSHIP_MAP.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_EQUIVALENCE_REPORT.md": {
+   "total": 23,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py"
+   ],
+   "docs": [
+    "dev/stage-3h0/README.md"
+   ],
+   "evidenceCount": 13,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_MP_OWNERSHIP_MAP.md",
+    "3H0_PROTOCOL_INVENTORY.md",
+    "3H0_SERVER_OWNERSHIP_MAP.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md": {
+   "total": 18,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md"
+   ],
+   "evidenceCount": 12,
+   "rootReports": [
+    "3H0_DEFERRED_FULL_3H.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_H0_1_BASELINE.md": {
+   "total": 16,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/golden/live_wire.js",
+    "dev/stage-3h0/golden/perf_h0.js"
+   ],
+   "docs": [],
+   "evidenceCount": 8,
+   "rootReports": [
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_EQUIVALENCE_REPORT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_PERFORMANCE.md",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_MP_API_LOCK.md": {
+   "total": 21,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md"
+   ],
+   "evidenceCount": 13,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_MP_OWNERSHIP_MAP.md",
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_MP_OWNERSHIP_MAP.md": {
+   "total": 16,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/doc_sizes_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 11,
+   "rootReports": [
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_PROTOCOL_INVENTORY.md": {
+   "total": 22,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py"
+   ],
+   "docs": [
+    "dev/devlog4dev/3H_FINDINGS.md",
+    "dev/stage-3h0/protocol_contract.json"
+   ],
+   "evidenceCount": 13,
+   "rootReports": [
+    "3H0_ARCHITECTURE_MAP.md",
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_API_LOCK.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_Q0_AUDIT.md": {
+   "total": 17,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 13,
+   "rootReports": [
+    "3H0_DEFERRED_FULL_3H.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_SERVER_API_LOCK.md": {
+   "total": 19,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 13,
+   "rootReports": [
+    "3H0_DEFERRED_FULL_3H.md",
+    "3H0_Q0_AUDIT.md",
+    "3H0_SERVER_OWNERSHIP_MAP.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "3H0_SERVER_OWNERSHIP_MAP.md": {
+   "total": 21,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/doc_sizes_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 16,
+   "rootReports": [
+    "3H0_Q0_AUDIT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "BR_ROLE_1_0_ARCHITECTURE.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "BR_ROLE_1_0_HUMAN_QA.md"
+   ]
+  },
+  "BR_ROLE_1_0_CHANGED_FILES.md": {
+   "total": 1,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "BR_ROLE_1_0_HUMAN_QA.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "BR_ROLE_BR2_1_HUMAN_QA.md"
+   ]
+  },
+  "BR_ROLE_1_0_PERFORMANCE.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "BR_ROLE_1_0_HUMAN_QA.md",
+    "BR_ROLE_1_0_TEST_SUMMARY.md"
+   ]
+  },
+  "BR_ROLE_1_0_TEST_SUMMARY.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "BR_ROLE_1_0_HUMAN_QA.md"
+   ]
+  },
+  "BR_ROLE_BR0_AUDIT.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "BR_ROLE_1_0_CHANGED_FILES.md"
+   ]
+  },
+  "BR_ROLE_BR1_1_HUMAN_QA.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "BR_ROLE_BR1_HUMAN_QA.md"
+   ]
+  },
+  "BR_ROLE_BR1_HUMAN_QA.md": {
+   "total": 1,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "BR_ROLE_BR2_1_HUMAN_QA.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "BR_ROLE_1_0_CHANGED_FILES.md",
+    "BR_ROLE_BR2_HUMAN_QA.md"
+   ]
+  },
+  "BR_ROLE_BR2_HUMAN_QA.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "BR_ROLE_BR1_1_HUMAN_QA.md"
+   ]
+  },
+  "PART_2_AI01_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": []
+  },
+  "PART_2_AI02_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": []
+  },
+  "PART_2_CAMERA_FIX.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "PART_2_HQA_CHANGED_FILES.txt"
+   ]
+  },
+  "PART_2_ENTITY_LOOK_REPORT.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": []
+  },
+  "PART_2_FPS_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": []
+  },
+  "PART_2_FPS_EQUALITY.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "PART_2_FPS_CHANGED_FILES.txt"
+   ]
+  },
+  "PART_2_HQA_AI01_SEARCH_REPORT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "PART_2_AI01_CHANGED_FILES.txt"
+   ]
+  },
+  "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "PART_2_AI02_CHANGED_FILES.txt"
+   ]
+  },
+  "PART_2_HQA_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": []
+  },
+  "PART_2_HQA_HOTFIX_REPORT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "PART_2_HQA_CHANGED_FILES.txt"
+   ]
+  },
+  "PART_2_HQA_TEST_SUMMARY.md": {
+   "total": 4,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md"
+   ]
+  },
+  "PART_2_HUMAN_QA.md": {
+   "total": 7,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "PART_2_AI01_CHANGED_FILES.txt",
+    "PART_2_AI02_CHANGED_FILES.txt",
+    "PART_2_HQA_AI01_SEARCH_REPORT.md",
+    "PART_2_HQA_CHANGED_FILES.txt",
+    "PART_2_HQA_HOTFIX_REPORT.md"
+   ]
+  },
+  "STAGE_2E_REPORT.md": {
+   "total": 7,
+   "code": [],
+   "docs": [
+    "README.md",
+    "dev/README.md",
+    "dev/STAGE_2E_HUMAN_QA.md",
+    "dev/STAGE_2E_PRESERVATION.json",
+    "dev/STAGE_2F_SPECIFICATION.txt"
+   ],
+   "evidenceCount": 2,
+   "rootReports": []
+  },
+  "STAGE_2F_REPORT.md": {
+   "total": 5,
+   "code": [],
+   "docs": [
+    "README.md",
+    "dev/STAGE_2F_SPECIFICATION.txt"
+   ],
+   "evidenceCount": 2,
+   "rootReports": [
+    "STAGE_2F_TEST_SUMMARY.md"
+   ]
+  },
+  "STAGE_2F_TEST_SUMMARY.md": {
+   "total": 4,
+   "code": [],
+   "docs": [
+    "README.md"
+   ],
+   "evidenceCount": 2,
+   "rootReports": [
+    "STAGE_2F_REPORT.md"
+   ]
+  },
+  "STAGE_3B_DONOR_LEDGER.md": {
+   "total": 3,
+   "code": [
+    "dev/stage-3b/visuals_hash.js"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_QA2_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3B_FINAL_CHANGED_FILES.txt": {
+   "total": 1,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_PERFORMANCE.md"
+   ]
+  },
+  "STAGE_3B_FINAL_PERFORMANCE.md": {
+   "total": 5,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+    "STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md",
+    "STAGE_3B_FINAL_VISUAL_AUDIT.md"
+   ]
+  },
+  "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md": {
+   "total": 1,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md": {
+   "total": 1,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [
+    "dev/stage-3b-l/package_3bl.py"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "STAGE_3B_FINAL_POLISH_HUMAN_QA.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3B_FINAL_POLISH_PERFORMANCE.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_POLISH_HUMAN_QA.md"
+   ]
+  },
+  "STAGE_3B_FINAL_PROP_CANON_AUDIT.md": {
+   "total": 9,
+   "code": [
+    "dev/stage-3b/test_3b.js"
+   ],
+   "docs": [],
+   "evidenceCount": 5,
+   "rootReports": [
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_AUDIT.md"
+   ]
+  },
+  "STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md": {
+   "total": 4,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+    "STAGE_3B_FINAL_VISUAL_AUDIT.md"
+   ]
+  },
+  "STAGE_3B_FINAL_VISUAL_AUDIT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_PERFORMANCE.md"
+   ]
+  },
+  "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md"
+   ]
+  },
+  "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md"
+   ]
+  },
+  "STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+    "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md"
+   ]
+  },
+  "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [
+    "dev/stage-3b-l-qa1/package_qa1.py"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md"
+   ]
+  },
+  "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+    "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md"
+   ]
+  },
+  "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3B_PROP_CANON_AUDIT.md": {
+   "total": 7,
+   "code": [
+    "assets/level0_visuals.js"
+   ],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3B_FINAL_PROP_CANON_AUDIT.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_HUMAN_QA.md"
+   ]
+  },
+  "STAGE_3B_QA2_CHANGED_FILES.txt": {
+   "total": 1,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "STAGE_3B_QA2_HUMAN_QA.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_PERFORMANCE.md"
+   ]
+  },
+  "STAGE_3B_QA2_PERFORMANCE.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_QA2_CHANGED_FILES.txt",
+    "STAGE_3B_QA2_HUMAN_QA.md"
+   ]
+  },
+  "STAGE_3B_VISUAL_AUDIT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_DONOR_LEDGER.md",
+    "STAGE_3B_QA2_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3B_QA2_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3C_C0_UI_AUDIT.md": {
+   "total": 4,
+   "code": [
+    "dev/stage-3c/changed_files.py"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_REPORT.md"
+   ]
+  },
+  "STAGE_3C_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [
+    "dev/stage-3c/changed_files.py"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "STAGE_3C_HUMAN_QA.md": {
+   "total": 3,
+   "code": [
+    "dev/stage-3c/changed_files.py"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3C_PERFORMANCE.md": {
+   "total": 5,
+   "code": [
+    "dev/stage-3c/changed_files.py"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_CHANGED_FILES.txt",
+    "STAGE_3C_HUMAN_QA.md",
+    "STAGE_3C_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA1_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_QA1_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA1_HUMAN_QA.md": {
+   "total": 4,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_PERFORMANCE.md",
+    "STAGE_3C_QA1_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA1_MENU_COMPARISON.jpg": {
+   "total": 6,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_HUMAN_QA.md",
+    "STAGE_3C_QA1_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA1_PERFORMANCE.md": {
+   "total": 4,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_HUMAN_QA.md",
+    "STAGE_3C_QA1_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA1_Q0_AUDIT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_QA1_CHANGED_FILES.txt",
+    "STAGE_3C_QA1_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA1_REPORT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [
+    "index.html"
+   ],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_QA1_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3C_QA2_CHANGED_FILES.txt": {
+   "total": 6,
+   "code": [
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3h0/record_parent_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3C_QA2_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA2_HUMAN_QA.md": {
+   "total": 8,
+   "code": [
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3h0/record_parent_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_REPORT.md",
+    "STAGE_3H0_HUMAN_QA.md"
+   ]
+  },
+  "STAGE_3C_QA2_MENU_COMPARISON.jpg": {
+   "total": 7,
+   "code": [
+    "dev/stage-3c-qa2/changed_files_qa2.py"
+   ],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_HUMAN_QA.md",
+    "STAGE_3C_QA2_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA2_PERFORMANCE.md": {
+   "total": 7,
+   "code": [
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3h0/record_parent_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA2_Q0_AUDIT.md": {
+   "total": 6,
+   "code": [
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3h0/record_parent_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "STAGE_3C_QA2_CHANGED_FILES.txt",
+    "STAGE_3C_QA2_REPORT.md"
+   ]
+  },
+  "STAGE_3C_QA2_REPORT.md": {
+   "total": 6,
+   "code": [
+    "dev/stage-3c-qa2/changed_files_qa2.py",
+    "dev/stage-3h0/record_parent_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3C_QA2_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3C_REPORT.md": {
+   "total": 3,
+   "code": [
+    "dev/stage-3c/changed_files.py"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3C_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3D_CHANGED_FILES.txt": {
+   "total": 6,
+   "code": [
+    "dev/stage-3d/changed_files_3d.py"
+   ],
+   "docs": [
+    "dev/stage-3d/README.md"
+   ],
+   "evidenceCount": 4,
+   "rootReports": []
+  },
+  "STAGE_3D_D0_AUDIT.md": {
+   "total": 24,
+   "code": [
+    "dev/stage-3d/static_check.js"
+   ],
+   "docs": [],
+   "evidenceCount": 19,
+   "rootReports": [
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_PERFORMANCE.md",
+    "STAGE_3D_REPORT.md",
+    "STAGE_3D_VARIANT_MATRIX.md"
+   ]
+  },
+  "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md": {
+   "total": 20,
+   "code": [
+    "dev/stage-3d/contract_check3d.js",
+    "dev/stage-3d/static_check.js"
+   ],
+   "docs": [],
+   "evidenceCount": 15,
+   "rootReports": [
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3D_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ1_AUDIT.md": {
+   "total": 17,
+   "code": [
+    "dev/stage-3d-hq1/light_net.js",
+    "dev/stage-3d-hq1/light_power_test.js",
+    "dev/stage-3d-hq1/stain_metric.py",
+    "dev/stage-3d-hq1/summarize_hq1.py"
+   ],
+   "docs": [],
+   "evidenceCount": 11,
+   "rootReports": [
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ1_CHANGED_FILES.txt": {
+   "total": 5,
+   "code": [
+    "dev/stage-3d-hq1/changed_files_hq1.py"
+   ],
+   "docs": [
+    "dev/stage-3d-hq1/README.md"
+   ],
+   "evidenceCount": 2,
+   "rootReports": [
+    "STAGE_3D_HQ1_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md": {
+   "total": 9,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 7,
+   "rootReports": [
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ1_HUMAN_QA.md": {
+   "total": 4,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ1_PERFORMANCE.md": {
+   "total": 7,
+   "code": [
+    "dev/stage-3d-hq1/package_hq1.py",
+    "dev/stage-3d-hq1/summarize_hq1.py"
+   ],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ1_REPORT.md": {
+   "total": 6,
+   "code": [
+    "dev/stage-3d-hq1/package_hq1.py"
+   ],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_HUMAN_QA.md"
+   ]
+  },
+  "STAGE_3D_HQ1_VISUAL_EVIDENCE.md": {
+   "total": 7,
+   "code": [
+    "dev/stage-3d-hq1/visual_evidence.py"
+   ],
+   "docs": [
+    "dev/stage-3d-hq1/README.md"
+   ],
+   "evidenceCount": 2,
+   "rootReports": [
+    "STAGE_3D_HQ1_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_HUMAN_QA.md",
+    "STAGE_3D_HQ1_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_AUDIT.md": {
+   "total": 24,
+   "code": [
+    "dev/stage-3d-hq2/aa_gates.py",
+    "dev/stage-3d-hq2/contract_hq2.js",
+    "dev/stage-3d-hq2/golden_hq2.js",
+    "dev/stage-3d-hq2/nr_soak.js",
+    "dev/stage-3d-hq2/perf_hq2.py",
+    "dev/stage-3d-hq2/static_hq2.js"
+   ],
+   "docs": [],
+   "evidenceCount": 15,
+   "rootReports": [
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_PERFORMANCE.md",
+    "STAGE_3D_HQ2_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_CHANGED_FILES.txt": {
+   "total": 13,
+   "code": [
+    "dev/stage-3d-hq2/changed_files_hq2.py",
+    "dev/stage-3d-hq2/package_hq2.py"
+   ],
+   "docs": [
+    "dev/stage-3d-hq2/README.md"
+   ],
+   "evidenceCount": 9,
+   "rootReports": [
+    "STAGE_3D_HQ2_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_HUMAN_QA.md": {
+   "total": 11,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 9,
+   "rootReports": [
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md": {
+   "total": 26,
+   "code": [
+    "dev/stage-3d-hq2/static_hq2.js"
+   ],
+   "docs": [],
+   "evidenceCount": 23,
+   "rootReports": [
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_PERFORMANCE.md": {
+   "total": 11,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 8,
+   "rootReports": [
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_REGRESSION.md",
+    "STAGE_3D_HQ2_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_PLAYER_COLLISION.md": {
+   "total": 23,
+   "code": [
+    "dev/stage-3d-hq2/static_hq2.js"
+   ],
+   "docs": [],
+   "evidenceCount": 20,
+   "rootReports": [
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_REGRESSION.md": {
+   "total": 22,
+   "code": [
+    "dev/stage-3d-hq2/summary_hq2.py"
+   ],
+   "docs": [],
+   "evidenceCount": 18,
+   "rootReports": [
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+    "STAGE_3D_HQ2_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_REPORT.md": {
+   "total": 15,
+   "code": [],
+   "docs": [
+    "dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md"
+   ],
+   "evidenceCount": 10,
+   "rootReports": [
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_HUMAN_QA.md",
+    "STAGE_3D_HQ3_REPORT.md",
+    "STAGE_3D_HQ4_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md": {
+   "total": 28,
+   "code": [
+    "dev/stage-3d-hq2/static_hq2.js"
+   ],
+   "docs": [],
+   "evidenceCount": 25,
+   "rootReports": [
+    "STAGE_3D_HQ2_CHANGED_FILES.txt",
+    "STAGE_3D_HQ2_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ3_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3D_HQ3_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ3_HUMAN_QA.md": {
+   "total": 4,
+   "code": [
+    "dev/stage-3d-hq3/package_hq3.py"
+   ],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ3_REPORT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3D_HQ3_CHANGED_FILES.txt",
+    "STAGE_3D_HQ3_HUMAN_QA.md"
+   ]
+  },
+  "STAGE_3D_HQ4_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3D_HQ4_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ4_HUMAN_QA.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3D_HQ4_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3D_HQ4_REPORT.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3D_HQ4_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3D_HQ5_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3D_HQ5_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ5_HUMAN_QA.md": {
+   "total": 5,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 3,
+   "rootReports": [
+    "STAGE_3D_HQ5_CHANGED_FILES.txt",
+    "STAGE_3D_HQ5_REPORT.md"
+   ]
+  },
+  "STAGE_3D_HQ5_REPORT.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3D_HQ5_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3D_HUMAN_QA.md": {
+   "total": 8,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 6,
+   "rootReports": [
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_REPORT.md"
+   ]
+  },
+  "STAGE_3D_PERFORMANCE.md": {
+   "total": 16,
+   "code": [
+    "dev/stage-3d/package_3d.py",
+    "dev/stage-3d/summarize_d6.py"
+   ],
+   "docs": [],
+   "evidenceCount": 9,
+   "rootReports": [
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_PERFORMANCE.md",
+    "STAGE_3D_HUMAN_QA.md",
+    "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+    "STAGE_3D_REPORT.md"
+   ]
+  },
+  "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md": {
+   "total": 8,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 6,
+   "rootReports": [
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_REPORT.md"
+   ]
+  },
+  "STAGE_3D_REPORT.md": {
+   "total": 8,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 5,
+   "rootReports": [
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_HQ1_REPORT.md",
+    "STAGE_3D_HUMAN_QA.md"
+   ]
+  },
+  "STAGE_3D_VARIANT_MATRIX.md": {
+   "total": 8,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 5,
+   "rootReports": [
+    "STAGE_3D_CHANGED_FILES.txt",
+    "STAGE_3D_D0_AUDIT.md",
+    "STAGE_3D_REPORT.md"
+   ]
+  },
+  "STAGE_3E0_BPLUSPLUS_HUMAN_QA.md": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": []
+  },
+  "STAGE_3E0_BPLUSPLUS_REPORT.md": {
+   "total": 2,
+   "code": [],
+   "docs": [
+    "dev/devlog4dev/3H_PERFORMANCE_BASELINE.md"
+   ],
+   "evidenceCount": 1,
+   "rootReports": []
+  },
+  "STAGE_3E0_BPLUS_HUMAN_QA.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 2,
+   "rootReports": [
+    "STAGE_3E0_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3E0_BPLUS_REPORT.md": {
+   "total": 3,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3E0_BPLUS_HUMAN_QA.md",
+    "STAGE_3E0_CHANGED_FILES.txt"
+   ]
+  },
+  "STAGE_3E0_CHANGED_FILES.txt": {
+   "total": 2,
+   "code": [],
+   "docs": [],
+   "evidenceCount": 1,
+   "rootReports": [
+    "STAGE_3E0_BPLUS_REPORT.md"
+   ]
+  },
+  "STAGE_3H0_CHANGED_FILES.txt": {
+   "total": 14,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/doc_sizes_h0.py"
+   ],
+   "docs": [
+    "dev/stage-3h0/README.md"
+   ],
+   "evidenceCount": 10,
+   "rootReports": [
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "STAGE_3H0_HUMAN_QA.md": {
+   "total": 15,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 12,
+   "rootReports": [
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "STAGE_3H0_PERFORMANCE.md": {
+   "total": 17,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/summarize_h05.py"
+   ],
+   "docs": [],
+   "evidenceCount": 12,
+   "rootReports": [
+    "3H0_EQUIVALENCE_REPORT.md",
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_REPORT.md"
+   ]
+  },
+  "STAGE_3H0_REPORT.md": {
+   "total": 19,
+   "code": [
+    "dev/stage-3h0/changed_files_h0.py",
+    "dev/stage-3h0/doc_sizes_h0.py"
+   ],
+   "docs": [],
+   "evidenceCount": 15,
+   "rootReports": [
+    "STAGE_3H0_CHANGED_FILES.txt",
+    "STAGE_3H0_HUMAN_QA.md"
+   ]
+  }
+ }
+}

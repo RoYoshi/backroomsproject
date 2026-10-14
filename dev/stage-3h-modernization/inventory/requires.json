@@ -1,0 +1,47 @@
+{
+ "ref": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+ "requires": {
+  "server.js": [
+   "http",
+   "fs",
+   "path",
+   "crypto",
+   "zlib",
+   "./sim.js",
+   "./server/static.js",
+   "./death_srv.js",
+   "./server/peers.js",
+   "./server/ws.js",
+   "./server/fields.js",
+   "./server/aftermath.js",
+   "./server/newrun.js"
+  ],
+  "sim.js": [
+   "./world.js",
+   "./ai.js",
+   "crypto"
+  ],
+  "ai.js": [
+   "./ai.js",
+   "./world.js"
+  ],
+  "death_srv.js": [
+   "fs",
+   "path"
+  ],
+  "world.js": [],
+  "redirect.js": [
+   "http"
+  ],
+  "server/aftermath.js": [],
+  "server/fields.js": [],
+  "server/newrun.js": [],
+  "server/peers.js": [],
+  "server/static.js": [
+   "fs",
+   "path",
+   "zlib"
+  ],
+  "server/ws.js": []
+ }
+}

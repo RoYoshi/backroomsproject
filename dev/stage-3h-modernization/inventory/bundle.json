@@ -1,0 +1,354 @@
+{
+ "ref": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+ "bundle": "assets/index-DKbV5Nv9.js",
+ "bytes": 340823,
+ "sha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b",
+ "firstCommit": {
+  "commit": "c9bd4da1fe740ea65f02e2513d5103ff847a483a",
+  "date": "2026-09-28",
+  "subject": "fs"
+ },
+ "commitsTouching": 38,
+ "history": [
+  {
+   "commit": "ce6fe63482b9fd043285db0dca261603d9196d76",
+   "date": "2026-10-13",
+   "subject": "Stage 3D HQ4-1: remove the Wanderer's decorative dark ellipse"
+  },
+  {
+   "commit": "99e15931793b6f8b7f434321d050fc6a2ff7155d",
+   "date": "2026-10-12",
+   "subject": "Stage 3D HQ2-4: the browser predicts the other players; the world epoch (an admin reset ends every old-world death and blast on every screen)"
+  },
+  {
+   "commit": "14cf47ac242eb09ee7f307a54257706911b8842b",
+   "date": "2026-10-12",
+   "subject": "Stage 3D HQ2-2: NEW RUN's explosion - one server-made, seeded, physical blast (no player collision yet)"
+  },
+  {
+   "commit": "d27a2af9d220ae42f5a0ca0b8aa88422a7337f5e",
+   "date": "2026-10-12",
+   "subject": "Stage 3D HQ2-1: NEW RUN as the server's decision, the cooldown without a phantom (no explosion yet)"
+  },
+  {
+   "commit": "a1d9cb98f7677cd5439bf731432c5b226e7d4d35",
+   "date": "2026-10-12",
+   "subject": "Stage 3D HQ1-3a: keep BR-RoLE's seam verbatim; the victim's dying light read inside the hook"
+  },
+  {
+   "commit": "1c8e7883cdff95b429b1ee22371f3280b0019dda",
+   "date": "2026-10-12",
+   "subject": "Stage 3D HQ1-2: dying lights hold 3-7 s, flicker and dim 1-2 s, then go out for good"
+  },
+  {
+   "commit": "6bc27a9e0108a3b78c2a7176d5665d85d686af90",
+   "date": "2026-10-11",
+   "subject": "Stage 3D D5: death-only sound for victim and spectators, reduced motion"
+  },
+  {
+   "commit": "ee5b8e64e4d124b2f569d19f62f5327c623f0d4e",
+   "date": "2026-10-11",
+   "subject": "Stage 3D D4: the server owns each death, kill to corpse"
+  },
+  {
+   "commit": "56f87d47632f8eb194e8d23f476de90428f0b929",
+   "date": "2026-10-11",
+   "subject": "Stage 3D D3: settled corpses, equipment light, culling and caching"
+  },
+  {
+   "commit": "3249cbb60aeb699098363a46827201ff047cf298",
+   "date": "2026-10-09",
+   "subject": "Stage 3C (C3): customize in two areas, WANDERER and LOADOUT"
+  },
+  {
+   "commit": "2b585357d9f04a53b68bf52108c63ae1bae8d9e0",
+   "date": "2026-10-08",
+   "subject": "Stage 3B-L QA2 (Q3b): a convex corner seen with both faces is one L"
+  },
+  {
+   "commit": "3b697c3df2ad9c8bab1cd0e29ee30fb300edc3f9",
+   "date": "2026-10-08",
+   "subject": "Stage 3B-L QA2 (Q3a): inner-corner clip meets on the block's diagonal"
+  },
+  {
+   "commit": "c6e5278f7a6fb3879126f0d979cac20ee0299db7",
+   "date": "2026-10-08",
+   "subject": "Stage 3B-L QA2 (Q1): wall-corner receiver polish"
+  },
+  {
+   "commit": "d100e46d73b4ae393930aa505980c93ed7be75b4",
+   "date": "2026-10-07",
+   "subject": "Stage 3B-L QA1 (Q2): far more real fixtures, one shared lamp truth"
+  },
+  {
+   "commit": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+   "date": "2026-10-07",
+   "subject": "Stage 3B-N: camera correction only - serve the camera policy, lock 1.25"
+  },
+  {
+   "commit": "0d65c0c933a42d9411a8a1a4565758eca054469d",
+   "date": "2026-10-06",
+   "subject": "Stage 3B QA1R1: optimize remaster presentation cost"
+  },
+  {
+   "commit": "71f9ef0680b94885b508fc7083b8a755666735f8",
+   "date": "2026-10-06",
+   "subject": "Stage 3B: early preservation checkpoint (3B1 visual slice work in progress)"
+  },
+  {
+   "commit": "f9d67b2204d8f2579b8753df178eab8b03e39b49",
+   "date": "2026-10-05",
+   "subject": "BR-RoLE BR1: unified per-light compositor human-QA candidate"
+  },
+  {
+   "commit": "994fff5b31788a9868e4a97dffe2129988e10e00",
+   "date": "2026-10-01",
+   "subject": "hotdiz"
+  },
+  {
+   "commit": "9fe0cd5e12045c8d2721db3ce185853a92ff2f1e",
+   "date": "2026-10-01",
+   "subject": "hotfix"
+  },
+  {
+   "commit": "d2c277baa0f1dccaf7f208c3d4235ffd0b6d4e5c",
+   "date": "2026-09-30",
+   "subject": "V22.c"
+  },
+  {
+   "commit": "8ac1d41bb7e2da619e9763ca19f74c510e506e67",
+   "date": "2026-09-30",
+   "subject": "v20"
+  },
+  {
+   "commit": "cb6afe41f4e2c46204abc40e55b24657c3bfb4fa",
+   "date": "2026-09-29",
+   "subject": "v19"
+  },
+  {
+   "commit": "ea85abad8fb1e3b371f107d249f0c0a6b8128288",
+   "date": "2026-09-29",
+   "subject": "test"
+  },
+  {
+   "commit": "bd95943949962009a8d94d529680324d217f7230",
+   "date": "2026-09-29",
+   "subject": "v18"
+  },
+  {
+   "commit": "bcc39b3d75d1842dc674f972d1ac0834cc806ab6",
+   "date": "2026-09-29",
+   "subject": "v16.1"
+  },
+  {
+   "commit": "f53d218853942fd3ab8f021fd5c5bbd3f2b36598",
+   "date": "2026-09-29",
+   "subject": "v16"
+  },
+  {
+   "commit": "5bc12b4de89bbbed2beb5db906120fc0bc41d1ce",
+   "date": "2026-09-29",
+   "subject": "EQ"
+  },
+  {
+   "commit": "e68caf5c2cf1992e60a4620e1214aedc5db9c3e0",
+   "date": "2026-09-29",
+   "subject": "V16"
+  },
+  {
+   "commit": "1b631c57fb0e16835f3d3cd02279abec31aa6867",
+   "date": "2026-09-29",
+   "subject": "v14"
+  },
+  {
+   "commit": "f58bad6a958946d84a185776c9ce9628544ff0ba",
+   "date": "2026-09-29",
+   "subject": "V13"
+  },
+  {
+   "commit": "05766728ef6bec1cf5b1cc1f9036156560b9a03b",
+   "date": "2026-09-29",
+   "subject": "v12"
+  },
+  {
+   "commit": "5c9b9a379e916e240d01de9c8b8dc18198838b94",
+   "date": "2026-09-29",
+   "subject": "EEE"
+  },
+  {
+   "commit": "f5263b20c66f84cca8d566ef4a1a22820dcddaa3",
+   "date": "2026-09-29",
+   "subject": "v10"
+  },
+  {
+   "commit": "0f00c6518ce868f35606d79f5d22ada4422d2e53",
+   "date": "2026-09-29",
+   "subject": "FIXED"
+  },
+  {
+   "commit": "ad3ba1ef5072ed06f7895db5d1314d70d2c6a436",
+   "date": "2026-09-28",
+   "subject": "wqe"
+  },
+  {
+   "commit": "405e5c94de18a8f15e304891f7fb812e81a6c189",
+   "date": "2026-09-28",
+   "subject": "fix"
+  },
+  {
+   "commit": "c9bd4da1fe740ea65f02e2513d5103ff847a483a",
+   "date": "2026-09-28",
+   "subject": "fs"
+  }
+ ],
+ "viteMapDeps": [
+  "assets/browserAll-B-iwy0YI.js",
+  "assets/CanvasPool-DecUtJxW.js",
+  "assets/Filter-DzecrWg_.js",
+  "assets/init-Cn1_BCi0.js",
+  "assets/canvasUtils-CxYPZET9.js",
+  "assets/webworkerAll-ByhiNG9W.js"
+ ],
+ "chunks": [
+  {
+   "path": "assets/BufferResource-B-thlpip.js",
+   "bytes": 11068,
+   "sha256": "56f34780fd104d1cb11da624c9fab954f9de88802590170e4522281609164990",
+   "imports": [
+    "CanvasPool-DecUtJxW.js",
+    "RenderTargetSystem-CgUxHIsn.js",
+    "GCManagedHash-Bz2ZMBJN.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/Cache-DDo62lBW.js",
+   "bytes": 1100,
+   "sha256": "94f3d177d09bfecefa8b80e646a55ff894635dd1723d6e7128d802477f3bae3a",
+   "imports": [
+    "CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/CanvasPool-DecUtJxW.js",
+   "bytes": 68480,
+   "sha256": "45335d161156296b274b89eb85b9040a0d08b1870125bfcc5e7100bb937589f1",
+   "imports": [],
+   "dynamic": []
+  },
+  {
+   "path": "assets/Filter-DzecrWg_.js",
+   "bytes": 42012,
+   "sha256": "de855f231760116676843943157cf0b52bf893b5f0781f8d34fc94352e1c3fbd",
+   "imports": [
+    "CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/GCManagedHash-Bz2ZMBJN.js",
+   "bytes": 19356,
+   "sha256": "b634a4602cfa70019626a0e83942f76dfbe49feadf28825410f0b96cb1849ef6",
+   "imports": [
+    "CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/GraphicsContext-vm7TDg_M.js",
+   "bytes": 61700,
+   "sha256": "681ef439c93da35418927d0ff6ba84e4380b1656701756f973ef3df4bdd5aebc",
+   "imports": [
+    "CanvasPool-DecUtJxW.js",
+    "canvasUtils-CxYPZET9.js",
+    "getTextureBatchBindGroup-DBCrgHVb.js",
+    "GCManagedHash-Bz2ZMBJN.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/RenderTargetSystem-CgUxHIsn.js",
+   "bytes": 58779,
+   "sha256": "cc26f4d020bdf55a0346f21b417048a129c071b2b4625463bb269eb899443aa2",
+   "imports": [
+    "CanvasPool-DecUtJxW.js",
+    "Filter-DzecrWg_.js",
+    "GCManagedHash-Bz2ZMBJN.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/browserAll-B-iwy0YI.js",
+   "bytes": 42676,
+   "sha256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6",
+   "imports": [
+    "CanvasPool-DecUtJxW.js",
+    "Filter-DzecrWg_.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/canvasUtils-CxYPZET9.js",
+   "bytes": 6054,
+   "sha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03",
+   "imports": [
+    "CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "bytes": 344,
+   "sha256": "f97cfacaed002298725cd05c62cb5668989473d0bfe5850c4c36dbd773b59766",
+   "imports": [
+    "CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/index-DKbV5Nv9.js",
+   "bytes": 340823,
+   "sha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b",
+   "imports": [
+    "CanvasPool-DecUtJxW.js",
+    "Filter-DzecrWg_.js",
+    "canvasUtils-CxYPZET9.js",
+    "Cache-DDo62lBW.js",
+    "RenderTargetSystem-CgUxHIsn.js",
+    "GraphicsContext-vm7TDg_M.js",
+    "getTextureBatchBindGroup-DBCrgHVb.js",
+    "GCManagedHash-Bz2ZMBJN.js",
+    "BufferResource-B-thlpip.js"
+   ],
+   "dynamic": []
+  },
+  {
+   "path": "assets/init-Cn1_BCi0.js",
+   "bytes": 15753,
+   "sha256": "c6fb810d1c6d8674992f4e85779800fe63394b29eb0dcea71206fc7495714037",
+   "imports": [
+    "CanvasPool-DecUtJxW.js",
+    "Filter-DzecrWg_.js",
+    "canvasUtils-CxYPZET9.js"
+   ],
+   "dynamic": []
+  }
+ ],
+ "namedButMissing": [
+  "assets/webworkerAll-ByhiNG9W.js"
+ ],
+ "pixiVersionStrings": [
+  "8.0.0",
+  "8.11.0",
+  "8.15.0",
+  "8.20.0",
+  "8.21.0",
+  "8.3.4",
+  "8.5.2",
+  "8.6.1",
+  "8.8.0"
+ ],
+ "sourceMaps": [],
+ "sourceMapComments": []
+}

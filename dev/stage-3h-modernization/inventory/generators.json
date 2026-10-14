@@ -1,0 +1,43 @@
+{
+ "ref": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68",
+ "note": "dev/stage-3h/tools/h1_build_check.js proves each rebuilds byte for byte",
+ "generators": {
+  "ai.js": {
+   "script": "dev/build_ai.sh",
+   "parts": [
+    "dev/ai_src/00_head.js",
+    "dev/ai_src/10_geo.js",
+    "dev/ai_src/20_senses.js",
+    "dev/ai_src/22_intelligence.js",
+    "dev/ai_src/25_light.js",
+    "dev/ai_src/30_entity.js",
+    "dev/ai_src/40_capture.js",
+    "dev/ai_src/50_hound.js",
+    "dev/ai_src/60_smiler.js",
+    "dev/ai_src/90_engine.js"
+   ],
+   "sha256": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731"
+  },
+  "ents.js": {
+   "script": "dev/build_ents.sh",
+   "parts": [
+    "dev/ents_src/00_head.js",
+    "dev/ents_src/10_hound.js",
+    "dev/ents_src/20_smiler.js",
+    "dev/ents_src/25_death.js",
+    "dev/ents_src/30_audio.js",
+    "dev/ents_src/40_debug.js"
+   ],
+   "sha256": "5679a30504cf920817b4e6f1f082133628f90d3a92c1da8f44f3cf6180cadf15"
+  },
+  "sim.js": {
+   "script": "dev/build_sim.sh",
+   "parts": [
+    "(header printed by the script)",
+    "dev/sim_head.js after its first 'use strict'; line",
+    "dev/sim_glue.js"
+   ],
+   "sha256": "ac2f83b6a6ac50c1077aab7897d870c423d0ae8a24348e43a7f051170db23c55"
+  }
+ }
+}
