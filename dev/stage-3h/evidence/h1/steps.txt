@@ -1,0 +1,71 @@
+# Stage 3H1 baseline: what ran, in order, with exit codes (scratch paths shortened to $SP)
+# parent 143b63ff42b88c6780c5043e0f61d64100f81f40, tree b25c26ec3eedab406a6b93f80a59ba6a1cb7c128; B++ export = git archive 143b63f into $SP/h1/game
+
+## the batch ($SP/h1/base/run.sh)
+started 2026-10-14T05:00:24Z
+srv_golden exit=0 secs=18
+bpp_golden exit=0 secs=4
+cli_golden exit=0 secs=6
+contract exit=1 secs=0
+raw_live_aa exit=0 secs=15
+perf_det_aa exit=0 secs=60
+proto_check exit=0 secs=13
+place_replay exit=0 secs=118
+place_guard exit=0 secs=16
+live_wire_aa exit=137 secs=773
+two_browser_1 exit=0 secs=49
+two_browser_2 exit=0 secs=54
+col_head exit=0 secs=32
+col_aside exit=0 secs=31
+contact_lab_aa exit=0 secs=570
+gameplay_smoke exit=0 secs=80
+npm_test exit=1 secs=213
+test_shadows exit=1 secs=23
+test_br_role exit=1 secs=26
+interp_test exit=0 secs=0
+test_3bn exit=0 secs=0
+audit_net exit=1 secs=55
+audit_net2 exit=1 secs=224
+ir_net exit=0 secs=5
+finished 2026-10-14T05:40:11Z
+static_check exit=0   (node dev/stage-3e-0/static_check.js on the B++ export, run beside the batch)
+
+## the batch's commands
+step srv_golden node dev/stage-3h0/golden/srv_golden.js --old-ref 143b63f --repeat 1 --out $SP/h1/base/srv --write-baseline --keep $SP/h1/base/srv_keep
+step bpp_golden node dev/stage-3h/golden/bpp_golden.js --old-ref 143b63f --repeat 1 --out $SP/h1/base/bpp --write-baseline
+step cli_golden node dev/stage-3h0/golden/cli_golden.js --old-ref 143b63f --repeat 1 --out $SP/h1/base/cli --write-baseline --keep $SP/h1/base/cli_keep
+step contract node dev/stage-3h0/golden/contract_check.js --srv $SP/h1/base/ct_srv --cli $SP/h1/base/ct_cli --out $SP/h1/base/contract_check.json
+step raw_live_aa node dev/stage-3h0/golden/raw_live.js --old-ref 143b63f --aa --out $SP/h1/base/raw_live_aa.json
+step perf_det_aa node dev/stage-3h0/golden/perf_det.js --old-ref 143b63f --rounds 7 --out $SP/h1/base/perf_det_aa.json
+step proto_check node dev/stage-3e-0/proto_check.js --game $SP/h1/game --out $SP/h1/base/proto_check.json
+step place_replay node dev/stage-3e-0-bpp/place_replay.js --game $SP/h1/game --out $SP/h1/base/place_replay.json
+step place_guard node dev/stage-3e-0-bpp/place_guard_check.js --game $SP/h1/game --out $SP/h1/base/place_guard.json
+step live_wire_aa node dev/stage-3h0/golden/live_wire.js --old-dir $SP/h1/game --out $SP/h1/base/live_wire_aa.json
+step two_browser_1 python3 -I dev/stage-3e-0/two_browser.py --game $SP/h1/game --mode bplus --out $SP/h1/base/two_browser_1.json
+step two_browser_2 python3 -I dev/stage-3e-0/two_browser.py --game $SP/h1/game --mode bplus --out $SP/h1/base/two_browser_2.json
+step col_head python3 -I dev/stage-3d-hq2/col_browser.py --game $SP/h1/game --case head --out $SP/h1/base/col_head.json
+step col_aside python3 -I dev/stage-3d-hq2/col_browser.py --game $SP/h1/game --case aside --out $SP/h1/base/col_aside.json
+step contact_lab_aa python3 -I dev/stage-3d-hq5/contact_lab.py --game $SP/h1/game --variant bpp_a=$SP/h1/game/assets/br-role.js --variant bpp_b=$SP/h1/game/assets/br-role.js --scenes geometry,lights,peers,lifecycle,perf --out $SP/h1/base/contact_lab
+step gameplay_smoke python3 -I dev/stage-3d-hq4/gameplay_smoke.py --game $SP/h1/game --variant bpp=$SP/h1/game/assets/index-DKbV5Nv9.js,$SP/h1/game/assets/br-role.js --out $SP/h1/base/smoke
+step npm_test env ADMIN_PASSCODE=d3-synthetic-admin node dev/tests/run.js
+step test_shadows node dev/shadows/test_shadows.js
+step test_br_role node dev/br-role/test_br_role.js
+step interp_test node dev/tests/interp_test.js
+step test_3bn node dev/stage-3b-n/test_3bn.js
+step audit_net env ADMIN_PASSCODE=d3-synthetic-admin node dev/tests/audit_net.js
+step audit_net2 env ADMIN_PASSCODE=d3-synthetic-admin node dev/tests/audit_net2.js
+step ir_net env ADMIN_PASSCODE=d3-synthetic-admin node dev/tests/ir_net.js
+
+## after the batch
+live_wire_aa: stopped by PID after 773 s waiting at step A_end (exit 137; see harness_drift/NOTE.md)
+s_humanqa_hotfix exit=1 (5/6, X03 as recorded at HQ2): env ADMIN_PASSCODE=d3-synthetic-admin node dev/tests/run.js s_humanqa_hotfix.js
+test_br_role history: each head's own dev/br-role/test_br_role.js on a git archive of hq2 f542b7c, hq3 4934319, hq4 79e1461, hq5 ad98475, B+ 1f2deba (suites/test_br_role_history.json)
+bpp_golden (5 scenarios) exit=0: node dev/stage-3h/golden/bpp_golden.js --old-ref 143b63f --repeat 2 --out $SP/h1/base/bpp --write-baseline   (replaces the batch's 3-scenario run; the 3 traces are byte-identical in both)
+bpp_golden against the stored baseline exit=0: node dev/stage-3h/golden/bpp_golden.js --repeat 0 --baseline $SP/h1/base/bpp/bpp_traces
+bpp_golden B+ vs B++ exit=1 (expected: place_guard and world_guard differ): node dev/stage-3h/golden/bpp_golden.js --old-ref 1f2deba --repeat 0 --out $SP/h1/bpp_sens
+bpp_mutants exit=0 (9/9 caught): node dev/stage-3h/golden/bpp_mutants.js --out $SP/h1/base/bpp_mutants.json
+wire_keys (with the 5 B++ traces): node dev/stage-3h/tools/h1_wire_keys.js --srv SRV,BPP --cli CLI --out wire_keys.json
+contact_lab A/A images: python3 -I dev/stage-3h0/golden/compare_captures.py contact_lab/bpp_a contact_lab/bpp_b --out contact_lab_aa_images.json
+wav_stall x2 exit=0: node dev/stage-3h/tools/h1_wav_stall.js --game $SP/h1/game --port 8631|8632 --out perf/wav_stall_{1,2}.json
+inventory exit=0: node dev/stage-3h/tools/h1_inventory.js --ref 143b63f --out inventory_bpp.json   (re-run after the comment fix)
+build check exit=0: node dev/stage-3h/tools/h1_build_check.js --ref 143b63f --out build_reproducibility.json

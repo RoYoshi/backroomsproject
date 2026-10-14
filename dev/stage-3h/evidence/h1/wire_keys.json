@@ -1,0 +1,256 @@
+{
+ "tool": "dev/stage-3h/tools/h1_wire_keys.js",
+ "sources": {
+  "srv": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h1/base/srv/srv_traces,/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h1/base/bpp/bpp_traces",
+  "cli": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h1/base/cli/cli_traces"
+ },
+ "wire": {
+  "serverToClient": {
+   "hi": {
+    "n": 60,
+    "keyOrders": {
+     "t,id,sim": 60
+    }
+   },
+   "bodies": {
+    "n": 111,
+    "keyOrders": {
+     "t,v,w,b": 111
+    }
+   },
+   "s": {
+    "n": 14626,
+    "keyOrders": {
+     "t,p,e,me,ms,cp,w": 8669,
+     "t,p,e,me,ms,cp,w,ad,you,nf": 675,
+     "t,p,e,me,ms,cp,w,dbg,dx": 329,
+     "t,p,e,me,ms,cp,w,ad,you,nf,dbg,dx": 110,
+     "t,p,e,me,ms,cp,w,mk": 2196,
+     "t,p,e,me,ms,cp,w,mk,dbg,dx": 229,
+     "t,p,e,me,ms,cp,w,mk,ad,you,nf": 386,
+     "t,p,e,me,ms,cp,w,mk,ad,you,nf,dbg,dx": 75,
+     "t,p,e,me,ms,cp,w,k": 1670,
+     "t,p,e,me,ms,cp,w,mk,k": 125,
+     "t,p,e,me,ms,cp,w,mk,k,ad,you,nf": 41,
+     "t,p,e,me,ms,cp,w,k,ad,you,nf": 121
+    },
+    "peerKeyOrders": {
+     "id,x,y,a,n,c,d,r,k,l,ir,lk,lp,f,mv": 18347
+    },
+    "entityKeyOrders": {
+     "st,h,m,b,p,gw,it,lf,sn": 14626
+    }
+   },
+   "pong": {
+    "n": 14,
+    "keyOrders": {
+     "t,ts": 14
+    }
+   },
+   "admin": {
+    "n": 37,
+    "keyOrders": {
+     "t,ok,wait": 9,
+     "t,ok,q": 28
+    }
+   },
+   "ares": {
+    "n": 166,
+    "keyOrders": {
+     "t,ok,msg": 166
+    }
+   },
+   "tp": {
+    "n": 52,
+    "keyOrders": {
+     "t,x,y": 37,
+     "t,x,y,pc": 15
+    }
+   },
+   "got": {
+    "n": 1,
+    "keyOrders": {
+     "t,item": 1
+    }
+   },
+   "fx": {
+    "n": 34,
+    "keyOrders": {
+     "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf": 22,
+     "t,k,id,de,wn": 3,
+     "t,k,id,x,y,a,d,s,lk,ek,ec,ep,vx,vy,srv,de,wn,lo,lf": 9
+    }
+   },
+   "world": {
+    "n": 13,
+    "keyOrders": {
+     "t,w,x,y": 9,
+     "t,w": 4
+    }
+   },
+   "msg": {
+    "n": 6,
+    "keyOrders": {
+     "t,text,from": 6
+    }
+   },
+   "kick": {
+    "n": 1,
+    "keyOrders": {
+     "t": 1
+    }
+   },
+   "revive": {
+    "n": 1,
+    "keyOrders": {
+     "t": 1
+    }
+   },
+   "exit": {
+    "n": 1,
+    "keyOrders": {
+     "t,secs": 1
+    }
+   },
+   "caps": {
+    "n": 14,
+    "keyOrders": {
+     "t,fp": 14
+    }
+   },
+   "q": {
+    "n": 27,
+    "keyOrders": {
+     "t,w,k,p": 27
+    },
+    "entryShapes": {
+     "array4:number/number/number/number": 31
+    }
+   },
+   "nra": {
+    "n": 9,
+    "keyOrders": {
+     "t,q,ok,de,w": 4,
+     "t,q,ok,why": 3,
+     "t,q,ok,why,wait": 2
+    }
+   },
+   "nrf": {
+    "n": 2,
+    "keyOrders": {
+     "t,on": 2
+    }
+   }
+  },
+  "clientToServer": {
+   "caps": {
+    "n": 11,
+    "keyOrders": {
+     "t,fp": 11
+    }
+   },
+   "join": {
+    "n": 11,
+    "keyOrders": {
+     "t": 11
+    }
+   },
+   "admin": {
+    "n": 9,
+    "keyOrders": {
+     "t,pass": 5,
+     "t,pass,quiet": 4
+    }
+   },
+   "p": {
+    "n": 819,
+    "keyOrders": {
+     "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv": 810,
+     "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk": 9
+    }
+   },
+   "a": {
+    "n": 61,
+    "keyOrders": {
+     "t,c,id": 10,
+     "t,c,on": 5,
+     "t,c": 3,
+     "t,c,mode,n": 6,
+     "t,c,k": 2,
+     "t,c,v": 7,
+     "t,c,eid": 6,
+     "t,c,mode": 10,
+     "t,c,k,var": 10,
+     "t,c,text": 2
+    }
+   },
+   "ping": {
+    "n": 2,
+    "keyOrders": {
+     "t,ts": 2
+    }
+   },
+   "respawn": {
+    "n": 2,
+    "keyOrders": {
+     "t": 2
+    }
+   },
+   "leave": {
+    "n": 1,
+    "keyOrders": {
+     "t": 1
+    }
+   },
+   "pick": {
+    "n": 1,
+    "keyOrders": {
+     "t": 1
+    }
+   }
+  }
+ },
+ "vsContract3H0": {
+  "serverToClient": {
+   "typesNotInContract": [
+    "world",
+    "caps",
+    "q",
+    "nra",
+    "nrf"
+   ],
+   "keysNotInContract": {
+    "bodies": [
+     "w"
+    ],
+    "s": [
+     "w",
+     "nf",
+     "k"
+    ],
+    "tp": [
+     "pc"
+    ],
+    "fx": [
+     "de",
+     "wn",
+     "lo",
+     "lf",
+     "d",
+     "s"
+    ]
+   },
+   "contractTypesNotSeen": []
+  },
+  "clientToServer": {
+   "typesNotInContract": [
+    "caps"
+   ],
+   "keysNotInContract": {},
+   "contractTypesNotSeen": [
+    "fx",
+    "b"
+   ]
+  }
+ }
+}

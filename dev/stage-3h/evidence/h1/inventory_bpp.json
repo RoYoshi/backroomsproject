@@ -1,0 +1,2900 @@
+{
+ "tool": "dev/stage-3h/tools/h1_inventory.js",
+ "ref": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "tree": "b25c26ec3eedab406a6b93f80a59ba6a1cb7c128",
+ "serveRegex": "^\\/(index\\.html|favicon\\.ico|camera_policy\\.js|timing_policy\\.js|world\\.js|move\\.js|ents\\.js|mp\\.js|hud\\.js|gore\\.js|dphys\\.js|light\\.js|glitch\\.js|camcorder\\.js|inventory\\.js|sfx\\.js|assets\\/[\\w.\\-]+)$",
+ "roleCount": {
+  "neither": 136,
+  "server": 8,
+  "served": 43,
+  "both": 2
+ },
+ "page": [
+  {
+   "tag": "script",
+   "src": null,
+   "type": "classic",
+   "rel": null,
+   "inline": true
+  },
+  {
+   "tag": "link",
+   "src": "./assets/manifest.webmanifest",
+   "type": null,
+   "rel": "manifest",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./favicon.ico",
+   "type": "image/x-icon",
+   "rel": "icon",
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./camera_policy.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./timing_policy.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./assets/index-DKbV5Nv9.js",
+   "type": "module",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/CanvasPool-DecUtJxW.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/Filter-DzecrWg_.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/canvasUtils-CxYPZET9.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/Cache-DDo62lBW.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/GCManagedHash-Bz2ZMBJN.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/RenderTargetSystem-CgUxHIsn.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/GraphicsContext-vm7TDg_M.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/BufferResource-B-thlpip.js",
+   "type": null,
+   "rel": "modulepreload",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/index-D7hdwmUU.css",
+   "type": null,
+   "rel": "stylesheet",
+   "inline": false
+  },
+  {
+   "tag": "link",
+   "src": "./assets/ui.css",
+   "type": null,
+   "rel": "stylesheet",
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./world.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./move.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./camcorder.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./sfx.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./gore.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./dphys.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./light.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./ents.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./glitch.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./assets/net-wire.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./assets/net-interp.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./mp.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./assets/credits_data.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./assets/ui.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./hud.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./inventory.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./assets/br-role.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./assets/level0_visuals.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  },
+  {
+   "tag": "script",
+   "src": "./assets/l0-remaster.js",
+   "type": "classic",
+   "rel": null,
+   "inline": false
+  }
+ ],
+ "esm": {
+  "assets/BufferResource-B-thlpip.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js",
+    "assets/RenderTargetSystem-CgUxHIsn.js",
+    "assets/GCManagedHash-Bz2ZMBJN.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/Cache-DDo62lBW.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/Filter-DzecrWg_.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/GCManagedHash-Bz2ZMBJN.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/GraphicsContext-vm7TDg_M.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js",
+    "assets/canvasUtils-CxYPZET9.js",
+    "assets/getTextureBatchBindGroup-DBCrgHVb.js",
+    "assets/GCManagedHash-Bz2ZMBJN.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/RenderTargetSystem-CgUxHIsn.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js",
+    "assets/Filter-DzecrWg_.js",
+    "assets/GCManagedHash-Bz2ZMBJN.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/browserAll-B-iwy0YI.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js",
+    "assets/Filter-DzecrWg_.js",
+    "assets/init-Cn1_BCi0.js",
+    "assets/index-DKbV5Nv9.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/canvasUtils-CxYPZET9.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/getTextureBatchBindGroup-DBCrgHVb.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  },
+  "assets/index-DKbV5Nv9.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js",
+    "assets/Filter-DzecrWg_.js",
+    "assets/canvasUtils-CxYPZET9.js",
+    "assets/Cache-DDo62lBW.js",
+    "assets/RenderTargetSystem-CgUxHIsn.js",
+    "assets/GraphicsContext-vm7TDg_M.js",
+    "assets/getTextureBatchBindGroup-DBCrgHVb.js",
+    "assets/GCManagedHash-Bz2ZMBJN.js",
+    "assets/BufferResource-B-thlpip.js"
+   ],
+   "dynamic": [
+    "assets/browserAll-B-iwy0YI.js",
+    "assets/webworkerAll-ByhiNG9W.js"
+   ],
+   "missing": [
+    "assets/webworkerAll-ByhiNG9W.js"
+   ]
+  },
+  "assets/init-Cn1_BCi0.js": {
+   "static": [
+    "assets/CanvasPool-DecUtJxW.js",
+    "assets/Filter-DzecrWg_.js",
+    "assets/canvasUtils-CxYPZET9.js"
+   ],
+   "dynamic": [],
+   "missing": []
+  }
+ },
+ "require": {
+  "server.js": [
+   "sim.js",
+   "server/static.js",
+   "death_srv.js",
+   "server/peers.js",
+   "server/ws.js",
+   "server/fields.js",
+   "node:http",
+   "node:fs",
+   "node:path",
+   "node:crypto",
+   "node:zlib"
+  ],
+  "sim.js": [
+   "world.js",
+   "ai.js",
+   "node:crypto"
+  ],
+  "world.js": [],
+  "ai.js": [
+   "ai.js",
+   "world.js"
+  ],
+  "server/static.js": [
+   "node:fs",
+   "node:path",
+   "node:zlib"
+  ],
+  "death_srv.js": [
+   "node:fs",
+   "node:path",
+   "dphys.js (text, run with new Function)"
+  ],
+  "server/peers.js": [],
+  "server/ws.js": [],
+  "server/fields.js": []
+ },
+ "serverFiles": [
+  "ai.js",
+  "death_srv.js",
+  "dphys.js",
+  "server.js",
+  "server/fields.js",
+  "server/peers.js",
+  "server/static.js",
+  "server/ws.js",
+  "sim.js",
+  "world.js"
+ ],
+ "messages": {
+  "server.js": {
+   "compares": [
+    "a",
+    "admin",
+    "caps",
+    "join",
+    "leave",
+    "nr",
+    "p",
+    "pick",
+    "ping",
+    "respawn"
+   ],
+   "sendsLiterals": [
+    "admin",
+    "ares",
+    "bodies",
+    "caps",
+    "exit",
+    "fx",
+    "got",
+    "hi",
+    "kick",
+    "msg",
+    "nra",
+    "nrf",
+    "pong",
+    "q",
+    "revive",
+    "s",
+    "tp",
+    "world"
+   ]
+  },
+  "mp.js": {
+   "compares": [
+    "admin",
+    "ares",
+    "bodies",
+    "caps",
+    "exit",
+    "fx",
+    "got",
+    "hi",
+    "kick",
+    "msg",
+    "nra",
+    "nrf",
+    "pong",
+    "q",
+    "revive",
+    "s",
+    "tp",
+    "world"
+   ],
+   "sendsLiterals": [
+    "a",
+    "admin",
+    "caps",
+    "join",
+    "leave",
+    "nr",
+    "p",
+    "pick",
+    "ping",
+    "respawn"
+   ]
+  },
+  "death_srv.js": {
+   "sendsLiterals": [
+    "fx"
+   ]
+  },
+  "server/ws.js": {
+   "sendsLiterals": []
+  }
+ },
+ "runtimeBytes": 26197019,
+ "files": [
+  {
+   "path": ".github/workflows/deploy-bloom.yml",
+   "bytes": 1177,
+   "lines": 32,
+   "sha256": "0cdde18246e8026342ce15e4b5f55b7a8f7085d280a65de5262d9c0926a1e7cb",
+   "role": "neither"
+  },
+  {
+   "path": "2D_SHADOWS_CHANGED_FILES.txt",
+   "bytes": 34473,
+   "lines": 397,
+   "sha256": "605b5987b880a440ffc6225307b867b24b791790783965ef69b01890eed3001e",
+   "role": "neither"
+  },
+  {
+   "path": "2D_SHADOWS_GIT_CHECKPOINTS.md",
+   "bytes": 5740,
+   "lines": 47,
+   "sha256": "bd30dba8424c7c5b6f7e6e75f53043ccfdbf5f958fb454451563c29aa5d86edd",
+   "role": "neither"
+  },
+  {
+   "path": "2D_SHADOWS_HUMAN_QA.md",
+   "bytes": 6323,
+   "lines": 85,
+   "sha256": "af9f1c13285aaffaf85a8ed195ec8e5fa4498c59f9a14159c4329e8413229f5d",
+   "role": "neither"
+  },
+  {
+   "path": "2D_SHADOWS_PERFORMANCE.md",
+   "bytes": 22441,
+   "lines": 341,
+   "sha256": "c30c80f072ebfa1e543b9bb035bdf5008d99704f3069366858e65c9130f47649",
+   "role": "neither"
+  },
+  {
+   "path": "2D_SHADOWS_REPORT.md",
+   "bytes": 13163,
+   "lines": 177,
+   "sha256": "0a8b1e8a0a9f34600955e2bd9a5cc62d8897d3bedbfbcb774e21901168738a56",
+   "role": "neither"
+  },
+  {
+   "path": "2D_SHADOWS_TEST_SUMMARY.md",
+   "bytes": 30610,
+   "lines": 246,
+   "sha256": "57d011d792d90ca6a3491d3229825bb9c1f709bc18bdd136b1e88492d447b20b",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_ARCHITECTURE_MAP.md",
+   "bytes": 11941,
+   "lines": 189,
+   "sha256": "bde0652d213ab834c676df8570957e334ea8e2779e0c79f16d5c137fb72aedd1",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_DEFERRED_FULL_3H.md",
+   "bytes": 12793,
+   "lines": 201,
+   "sha256": "383b670d0219fab6f74aa95c701adeadcb5768d54784601ed5973d92b910ef34",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_EQUIVALENCE_REPORT.md",
+   "bytes": 28565,
+   "lines": 258,
+   "sha256": "6b704155a54b37a601d0e2537fb7abe36f4ad45c2fb7ea1a6fff029b840d4f08",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_FUTURE_LEVEL_AUTHORING_SEAMS.md",
+   "bytes": 10607,
+   "lines": 178,
+   "sha256": "d575edb15769c08b5d9025312508c9a7706c0b69640fc7f13dd0b1a892c3bfa6",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_H0_1_BASELINE.md",
+   "bytes": 21365,
+   "lines": 225,
+   "sha256": "17abe89f8dab0ccbad165120ce4cbb05f501df1b434fc138f6550f7869a2cc4b",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_MP_API_LOCK.md",
+   "bytes": 11932,
+   "lines": 156,
+   "sha256": "2d50cb759ca6910554033aaf2fec23e1839b4a97087518179c91c5470e40f17c",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_MP_OWNERSHIP_MAP.md",
+   "bytes": 10261,
+   "lines": 96,
+   "sha256": "568027197a67e5738246d8c242d4e0c4b5224389ce03e6643d30ffa94ebb0a9b",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_PROTOCOL_INVENTORY.md",
+   "bytes": 20061,
+   "lines": 209,
+   "sha256": "066bf63994a3c6c3ac05245f1c8de9f60e6f4e8b86499b217ff92606fb134a0c",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_Q0_AUDIT.md",
+   "bytes": 14740,
+   "lines": 199,
+   "sha256": "508434474392e73b4252f9ae9ffec10c91ea5c2d1050534f6ffac47afa52d1c6",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_SERVER_API_LOCK.md",
+   "bytes": 11258,
+   "lines": 193,
+   "sha256": "a9b4fc7964f4c465e3c30a53b85e9880fce567a0b7b0e71b977fb0488856d529",
+   "role": "neither"
+  },
+  {
+   "path": "3H0_SERVER_OWNERSHIP_MAP.md",
+   "bytes": 8991,
+   "lines": 78,
+   "sha256": "bc479a939f93ebbe828603dd715efc987769e680f0c5a64c3be964be1dbb8f4a",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_1_0_ARCHITECTURE.md",
+   "bytes": 6219,
+   "lines": 103,
+   "sha256": "5c37a420e0cca651297aa2ef84b85c651bfd2478efd1d4f51b319e9852936db1",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_1_0_CHANGED_FILES.md",
+   "bytes": 4157,
+   "lines": 62,
+   "sha256": "f6ac5f4a7aa23e33b8a749298ca6abafcff5a84310d1e761eb5afb967144da34",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_1_0_HUMAN_QA.md",
+   "bytes": 5598,
+   "lines": 95,
+   "sha256": "0d6307c0fb297e0b6cb7dec0c1f5ae7ba35d36a1604821aa5fe127389df303d6",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_1_0_PERFORMANCE.md",
+   "bytes": 8665,
+   "lines": 153,
+   "sha256": "7c23d9f890cc8c49910fc707deaec9f3865c6135e211c424df5fa182d011dbf9",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_1_0_TEST_SUMMARY.md",
+   "bytes": 10521,
+   "lines": 191,
+   "sha256": "c03c3f1120f4e199bb941931337318eadb53e7dbf71e323ea6849ab05b40dfaf",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_BR0_AUDIT.md",
+   "bytes": 11530,
+   "lines": 157,
+   "sha256": "c9ca7eccadf0c4bd92fb55f46b965ff7c0325988e37e16823f2663e136e9af33",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_BR1_1_HUMAN_QA.md",
+   "bytes": 10070,
+   "lines": 134,
+   "sha256": "b8318897451a8c8e6733fe20ec2464125a46ce304ec1b7f29dfc3fabe306ba9b",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_BR1_HUMAN_QA.md",
+   "bytes": 7510,
+   "lines": 114,
+   "sha256": "acef478963055570a40afde2aa76cc305d44834ef67cd13fcff7bba88a3daaaf",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_BR2_1_HUMAN_QA.md",
+   "bytes": 7675,
+   "lines": 97,
+   "sha256": "2f5f0b4312236c23988d4deb9c3c1c1f3b23b0ff354a335f7098b5ae455f6bfa",
+   "role": "neither"
+  },
+  {
+   "path": "BR_ROLE_BR2_HUMAN_QA.md",
+   "bytes": 12180,
+   "lines": 135,
+   "sha256": "83227271dc11b108546980d151e732c46356a1218d5b1a1d172230e55825e75a",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_AI01_CHANGED_FILES.txt",
+   "bytes": 580,
+   "lines": 8,
+   "sha256": "284338db34b6bb338ef01eb75f8e66bd5862b93d5abe0370ccb71825ed50ec8e",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_AI02_CHANGED_FILES.txt",
+   "bytes": 206,
+   "lines": 10,
+   "sha256": "c5432524469e30693ed1f2f1902c09adbbf8661d67c0735a51e860ae062c155c",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_CAMERA_FIX.md",
+   "bytes": 1378,
+   "lines": 36,
+   "sha256": "2e13703530d813a7fda52471f4c0fc08b9f379e7a3d63a5cc528ed8faace19a3",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_ENTITY_LOOK_REPORT.md",
+   "bytes": 5024,
+   "lines": 98,
+   "sha256": "bacb56f5be33e48cad2e734829c94d36e81dc00ce42d30a6ca98f40d31410455",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_FPS_CHANGED_FILES.txt",
+   "bytes": 640,
+   "lines": 7,
+   "sha256": "ef53ae03a9779d9c67af2f72674ca6e808ce4e9ea0bea66bc1ac99e875dc4744",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_FPS_EQUALITY.md",
+   "bytes": 4618,
+   "lines": 116,
+   "sha256": "39c841892d01643264171322c625612f2609f7d5776a675cfa91f75d1fb4492e",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_HQA_AI01_SEARCH_REPORT.md",
+   "bytes": 4007,
+   "lines": 94,
+   "sha256": "6d01cc611112a3f2e51861d34f2fdb83edaad7eae6da9e294b72ea2b0e5b4f41",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_HQA_AI02_SEARCH_POLISH_REPORT.md",
+   "bytes": 2578,
+   "lines": 52,
+   "sha256": "d81692bca3fd82c3d2b7335d413a577a8a1c0271a825f1b599a0e1d371fbe153",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_HQA_CHANGED_FILES.txt",
+   "bytes": 475,
+   "lines": 20,
+   "sha256": "cfedaab1ac4dfab6e6987ae6387b0b96db2674bfdcee32e609b9f5385d149438",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_HQA_HOTFIX_REPORT.md",
+   "bytes": 6690,
+   "lines": 150,
+   "sha256": "89ceac9896904f957b233a6cc67bf659bda51723236369b43c0b570ebe5adf78",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_HQA_TEST_SUMMARY.md",
+   "bytes": 2758,
+   "lines": 48,
+   "sha256": "006430aaf4c98e21f845bf11e2c86fe0e34a7b439d4e13009ca200196a6c870c",
+   "role": "neither"
+  },
+  {
+   "path": "PART_2_HUMAN_QA.md",
+   "bytes": 5645,
+   "lines": 65,
+   "sha256": "a76544b78831b99950947d35de37f44dc626e149c6a94db75968dd81da08acbe",
+   "role": "neither"
+  },
+  {
+   "path": "README.md",
+   "bytes": 69388,
+   "lines": 552,
+   "sha256": "e6ff93c6ae573fc2bdfeb5bbc2fddadd0af7aa5a3e0ff552100833abd906d491",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_2E_REPORT.md",
+   "bytes": 22674,
+   "lines": 226,
+   "sha256": "cf3589bb49cbd12b513d12a4069290a3a65c1f09dbe3dc0fd456b33d9db51d67",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_2F_REPORT.md",
+   "bytes": 24534,
+   "lines": 243,
+   "sha256": "8b9051ffca1e06b20831c3c7b8bf2b4427370223ad09b72780185265d4533be3",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_2F_TEST_SUMMARY.md",
+   "bytes": 1888,
+   "lines": 21,
+   "sha256": "6c872707aeac89516935ad7493323669972f1ff2a61b9926f3324bf9765b2879",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_DONOR_LEDGER.md",
+   "bytes": 9016,
+   "lines": 77,
+   "sha256": "7e662123425ca546340c242259d5f079108c63078be6fc7cf66763910cb4fd31",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_CHANGED_FILES.txt",
+   "bytes": 14884,
+   "lines": 142,
+   "sha256": "8d6a0bd4109bf2a831665153ea1a42a29113e95b9515602defa2edda03b8012e",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_FULLMAP_HUMAN_QA.md",
+   "bytes": 8245,
+   "lines": 102,
+   "sha256": "c2e8c5cad50aa121b66e6b88562f4925b44c7b971a5a4016a27b81b6b2d5b950",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_PERFORMANCE.md",
+   "bytes": 9763,
+   "lines": 155,
+   "sha256": "c7fffc257fb0e113aa4fabb3f860c3ae7502a352fa42b7f8362476a42d8ce65d",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_BR_ROLE_1_1_REPORT.md",
+   "bytes": 10767,
+   "lines": 153,
+   "sha256": "f870cde7666bb1da836b37b1fe1c218dd88ad7f44a23bf8a89a79dbfb2938ed2",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_CAMERA_REPORT.md",
+   "bytes": 4687,
+   "lines": 69,
+   "sha256": "deb0c4bbf04a735f22eb9fad8a5a7f62ca249d81f72dd35dcf45b3dbc8269532",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_CHANGED_FILES.txt",
+   "bytes": 3752,
+   "lines": 40,
+   "sha256": "17d392dd592e136996fd89c629d4cd9de86035031742c9c26252fd79aad3e3f5",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_HUMAN_QA.md",
+   "bytes": 4364,
+   "lines": 71,
+   "sha256": "ad33247d1ff646805457ac87e120f769aa49fccc36172192be5c00e1a494b2aa",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_POLISH_PERFORMANCE.md",
+   "bytes": 3522,
+   "lines": 61,
+   "sha256": "510129e0c98bc0f72ba8bbdcf7e88b0ff87aa9f47477b71f42604c2071e9fd03",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_PROP_CANON_AUDIT.md",
+   "bytes": 17036,
+   "lines": 167,
+   "sha256": "1b8f7eee5d129a705d631c432bd7a8c7f331ba0a922228b9c4a66ae570d931c6",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_RENDERING_OPTIMIZATION.md",
+   "bytes": 8960,
+   "lines": 128,
+   "sha256": "dd5e9be44e73bb88fd5e156dbdf138b586328916424260c9bc4b6466f32e6ca1",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_AUDIT.md",
+   "bytes": 16368,
+   "lines": 219,
+   "sha256": "22fca68a60db33602de8f4dc31e4f2bd65c07115164e98aa831fa9c0fa32e548",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_POLISH_CHANGED_FILES.txt",
+   "bytes": 7639,
+   "lines": 79,
+   "sha256": "b8c449cd69daf284989be31692e5fd34726edd933574f15254900606579c6f55",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_POLISH_HUMAN_QA.md",
+   "bytes": 6654,
+   "lines": 98,
+   "sha256": "39904e81d36a48a4039f93a0b26e7f76b5f4008df0cb1a998308c94cc63671be",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_POLISH_PERFORMANCE.md",
+   "bytes": 12113,
+   "lines": 127,
+   "sha256": "15769165e94eb6083dc90ebd72dea64673bb39de1a143a245b10775a8c197209",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_FINAL_VISUAL_POLISH_REPORT.md",
+   "bytes": 25632,
+   "lines": 266,
+   "sha256": "f5760340a30a6e7542ae0c8863b168faef72e7cb8b396353ed607720d02259aa",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_CHANGED_FILES.txt",
+   "bytes": 4267,
+   "lines": 54,
+   "sha256": "a2abe87694f187a3892bb693ec9b01ff8131ab6153009f2e790deaeac2d43184",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_FIXTURE_DENSITY.md",
+   "bytes": 7564,
+   "lines": 111,
+   "sha256": "8752938556fc3ec78d90bef81b9bfe9e985cd9589d160bbd055d672b516aa5de",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_HUMAN_QA.md",
+   "bytes": 5869,
+   "lines": 91,
+   "sha256": "291d46c5a6bf4e99a0bd4f8e2f839f4941fd62f38ddcb18d52e550c6ad1462b4",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_PERFORMANCE.md",
+   "bytes": 7784,
+   "lines": 95,
+   "sha256": "fb7cf2efcbad212fdcb2525552c1a0c5dde722af5f445308ae3bd80ea35a4ff3",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_LIGHTING_QA_CORRECTION_REPORT.md",
+   "bytes": 13231,
+   "lines": 170,
+   "sha256": "623614da6da71de6673335163a2a02b87f2ba6b2b6029e0264d7369131868f56",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_PROP_CANON_AUDIT.md",
+   "bytes": 12538,
+   "lines": 161,
+   "sha256": "c68222449352846d7010515154d3d4156faf8a613208b1cf860745599a9b59aa",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_QA2_CHANGED_FILES.txt",
+   "bytes": 12070,
+   "lines": 121,
+   "sha256": "b9f7eea5c5d292454e65796adee33428dc0fb10e8e87e5460f178d7394254438",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_QA2_HUMAN_QA.md",
+   "bytes": 10876,
+   "lines": 149,
+   "sha256": "fa192b0b3a84db6d30ff5cda4a80c53f654d3e8beb80d88c9fc8093e411a766b",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_QA2_PERFORMANCE.md",
+   "bytes": 8203,
+   "lines": 144,
+   "sha256": "87dd68ba33f74d414da82ce555718dcbd1655ba72ad44ac08a3a863850903ea9",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_VISUAL_AUDIT.md",
+   "bytes": 9151,
+   "lines": 130,
+   "sha256": "39e6856c328c134138f4541253a3db232993dce97901f0712721ff268c3c70fc",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3B_VISUAL_SLICE_HUMAN_QA.md",
+   "bytes": 10626,
+   "lines": 180,
+   "sha256": "ec4ee34e7411cbfca3213405b2273a9971f63dd5462103fae3b8463e8efa705d",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_C0_UI_AUDIT.md",
+   "bytes": 15237,
+   "lines": 163,
+   "sha256": "d383cf62d7c614110919d488e644125dc5aafcd71409968087fe0090bbe014cf",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_CHANGED_FILES.txt",
+   "bytes": 4187,
+   "lines": 69,
+   "sha256": "079925a743a0236c1ff669e6280390ac12ac2b8201e9c9d5f1c5e5266ea3e2af",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_HUMAN_QA.md",
+   "bytes": 7624,
+   "lines": 104,
+   "sha256": "a3c2dce2180cfe2f725aafa0d236a0a199bbecd2f2ff62dc308b667621f42076",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_PERFORMANCE.md",
+   "bytes": 6635,
+   "lines": 82,
+   "sha256": "90e7dce0cb2865537561c5a58930332bb2e19dc95e7090725d04255203de619a",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA1_CHANGED_FILES.txt",
+   "bytes": 17157,
+   "lines": 239,
+   "sha256": "bea563e3e963254a1ed1c508d2a924417e1d664666505212ba398081a6da9c3e",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA1_HUMAN_QA.md",
+   "bytes": 11510,
+   "lines": 171,
+   "sha256": "1c620b46e48390bbf78c55dbedb7525097d0d24e5ba1b0160303782463bdec13",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA1_MENU_COMPARISON.jpg",
+   "bytes": 364990,
+   "lines": 2360,
+   "sha256": "99886222aa0e6765a87186b61f3dd2163bb60ae536f9e5fe8ab51c2151126139",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA1_PERFORMANCE.md",
+   "bytes": 7110,
+   "lines": 85,
+   "sha256": "2cd042e70ba66a325daf3447c28673679611b4706fce6ca521b71c07f8438474",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA1_Q0_AUDIT.md",
+   "bytes": 11109,
+   "lines": 113,
+   "sha256": "49bb3efe72c89382be5750509b814f6ef9c5c1c4127a291e023586f637f80d72",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA1_REPORT.md",
+   "bytes": 20544,
+   "lines": 189,
+   "sha256": "1de21ace44f535b3c4a821461541be86b7cb4783e1fa47a3b60e9f5108e22985",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA2_CHANGED_FILES.txt",
+   "bytes": 9848,
+   "lines": 105,
+   "sha256": "2185b839434b115f5025c7859facbfb3bd6c2fcb0ea1e1e0073f191bae0f66ec",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA2_HUMAN_QA.md",
+   "bytes": 8986,
+   "lines": 111,
+   "sha256": "e8432ab82298a2c09f669ff47220fa506f2047ff9b3b3c07d8ccda49764d51c7",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA2_MENU_COMPARISON.jpg",
+   "bytes": 155667,
+   "lines": 902,
+   "sha256": "0bb65586b8284695ee351f3ce6ddf1c527c6be14bbea675c60b534226bd3c427",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA2_PERFORMANCE.md",
+   "bytes": 6435,
+   "lines": 72,
+   "sha256": "c8ee4d40e9ee4586546aac4453081c04f2d6513eb2c60122bcf22fda9df2b05d",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA2_Q0_AUDIT.md",
+   "bytes": 9351,
+   "lines": 121,
+   "sha256": "91b5cf17a9619ce4f2f75ed2ad901876c7c3c00d463a131253e617da92c9959f",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_QA2_REPORT.md",
+   "bytes": 14637,
+   "lines": 183,
+   "sha256": "88f074abedfe3e4be0e29075cfe9049c4aeff547e38e1b777b8a0e4ff0410710",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3C_REPORT.md",
+   "bytes": 11081,
+   "lines": 151,
+   "sha256": "628da29f3c0b30445395111256e036fe138a84a4915e57a1a50ac10c76f8aa40",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_CHANGED_FILES.txt",
+   "bytes": 4752,
+   "lines": 68,
+   "sha256": "32fa48ea3213634ac13b202f7f024429918a1b71981405ef19e3dda40522b968",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_D0_AUDIT.md",
+   "bytes": 19155,
+   "lines": 243,
+   "sha256": "c8e24ccca7efe3714f962bc3ded4fb70572ffad7e64c118890436330d3053a45",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_DEATH_AUTHORITY_AND_PROTOCOL.md",
+   "bytes": 9119,
+   "lines": 106,
+   "sha256": "5d5b92dd257b2fbb47cd80081df95b771ad067da20834aa8b4e953f4085cce28",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ1_AUDIT.md",
+   "bytes": 13954,
+   "lines": 162,
+   "sha256": "c2aa1090dd2c57828cd345abe6cd4de524a53713e91064c68c5f48a32bd7b67c",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ1_CHANGED_FILES.txt",
+   "bytes": 7067,
+   "lines": 92,
+   "sha256": "46358b718f897eee08b91367c874251a60abce82974164e5776adc0c00cba36f",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ1_DEATH_LIGHT_PROTOCOL.md",
+   "bytes": 8794,
+   "lines": 128,
+   "sha256": "75ec87e031625af560f5dc75f1e187e348ab15d71044d578d21758e10294c9b3",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ1_HUMAN_QA.md",
+   "bytes": 8556,
+   "lines": 74,
+   "sha256": "1b2b6064c889ffeadd06201560f1c50b62fc673eb3a89f198207001b9fcf6aa0",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ1_PERFORMANCE.md",
+   "bytes": 10726,
+   "lines": 155,
+   "sha256": "abe6ab78a0a0019f10e664f7caade2e76ceb89d6859e87fdbadbade85eed5a49",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ1_REPORT.md",
+   "bytes": 23083,
+   "lines": 225,
+   "sha256": "07840d14885c4a011981bf979e2c966885d70133c024609f457888d2025b2a26",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ1_VISUAL_EVIDENCE.md",
+   "bytes": 10233,
+   "lines": 147,
+   "sha256": "71e8f9e0182bbb356189f88e34bddb7edade403e4518f136eabe9fa1d0f40f23",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_AUDIT.md",
+   "bytes": 29936,
+   "lines": 440,
+   "sha256": "ce6836758381333622301b78bce53b3a97e006c8f7400dbdf22fbf1efb413528",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_CHANGED_FILES.txt",
+   "bytes": 12190,
+   "lines": 150,
+   "sha256": "d7906a58e1dd55358091cfe1c142a2612e1a4650f297fd71cbefbe12a269e6f7",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_HUMAN_QA.md",
+   "bytes": 10563,
+   "lines": 94,
+   "sha256": "cbbfd66203ab40506ed7f3a0acbc0abad34b32f1f9027a51056c530160b6a5d0",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_NEW_RUN_AUTHORITY.md",
+   "bytes": 17137,
+   "lines": 255,
+   "sha256": "95a31c44e834be7fd562a29cb9c3239633923fcdd9983ec21ffb8be997e2626b",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_PERFORMANCE.md",
+   "bytes": 9206,
+   "lines": 110,
+   "sha256": "d56c3cc959b599b487ee645d12fbcd5be8ab2fb512177228f247310ed7bd25cb",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_PLAYER_COLLISION.md",
+   "bytes": 16775,
+   "lines": 207,
+   "sha256": "267ea443609ac9fc7feab6b73beae706c74db7c78b829e91a7f4e4b44379d731",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_REGRESSION.md",
+   "bytes": 16425,
+   "lines": 191,
+   "sha256": "1d2110393fe32f7a410cf23dfb13cbae615769bcb39d0f2aa48e2a4d5c32ecc4",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_REPORT.md",
+   "bytes": 26597,
+   "lines": 321,
+   "sha256": "1f408465aedca8a14b08ac3a61b00eaf0713a6906ab2f02af053c2ecc242018c",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ2_SOURCE_PARENT_AND_CHECKPOINTS.md",
+   "bytes": 4902,
+   "lines": 46,
+   "sha256": "a4c6c5325e4db1ad5a1f17cbddc54895567d121c206c1d11849fdc1a4cb63ccb",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ3_CHANGED_FILES.txt",
+   "bytes": 4802,
+   "lines": 47,
+   "sha256": "573a5b085997505bb256b897191ee6a8f326aa52d3fe1665bc0437fa549609f3",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ3_HUMAN_QA.md",
+   "bytes": 5347,
+   "lines": 35,
+   "sha256": "aad1852bec13f413491290a913b3edf8fe81adca4fc2c904221694092c62a310",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ3_REPORT.md",
+   "bytes": 12829,
+   "lines": 160,
+   "sha256": "93f68b38e85eccdb6c19553c9d4f832edca22302e8bac4d1d91491cf08f4db69",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ4_CHANGED_FILES.txt",
+   "bytes": 2618,
+   "lines": 29,
+   "sha256": "b7f2f101d11654f4201b056783bdafcd7d5528525231947c233f4a4a9c550580",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ4_HUMAN_QA.md",
+   "bytes": 3125,
+   "lines": 37,
+   "sha256": "53cdbe15f8a13805933e145d7732d880027a13cd46a4c36dbb9b85ec059b1031",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ4_REPORT.md",
+   "bytes": 7466,
+   "lines": 86,
+   "sha256": "afb59607c4c5f3b3ac2987b5c317b86fb2e3a6b73e0f706d6650047f119bc77e",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ5_CHANGED_FILES.txt",
+   "bytes": 1083,
+   "lines": 16,
+   "sha256": "c8e1f13ef9209fc4ab0c24959837df6bf81761ec36e37c42792f68ef666a049d",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ5_HUMAN_QA.md",
+   "bytes": 2423,
+   "lines": 42,
+   "sha256": "9048fac7e80e4dcaec2b32baa756f6e881e8438826e8444ec23aaae40730124e",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HQ5_REPORT.md",
+   "bytes": 9135,
+   "lines": 106,
+   "sha256": "9c4ebb38efbf3c4a1839356becca8169d4ab79930c8e6fab7442f05a537fc95d",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_HUMAN_QA.md",
+   "bytes": 9082,
+   "lines": 101,
+   "sha256": "7d51ef19203cd1ce4f57a098cd6b04f8ed45b630a5b5a99c732544794b029457",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_PERFORMANCE.md",
+   "bytes": 9700,
+   "lines": 134,
+   "sha256": "f9c7ffe8ed0bc801a57d341a8f4abf0989feda5e637aebfa8f11acc15a8969f4",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_REGRESSION_AND_EQUIVALENCE.md",
+   "bytes": 9127,
+   "lines": 128,
+   "sha256": "4ca36b5910bf489acf9d0c93801a4fda8b458c3541aa6d4feb54f0568ce9939d",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_REPORT.md",
+   "bytes": 8836,
+   "lines": 94,
+   "sha256": "f22ae686cb41cc80b574d7a87c7acbc02df86616805e4e474a234551534339ff",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3D_VARIANT_MATRIX.md",
+   "bytes": 6240,
+   "lines": 76,
+   "sha256": "b9c737528fdf5b5c30a63e2d0d0307edeae4771e3d52c43f334e3ca62084d8d6",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3E0_BPLUSPLUS_HUMAN_QA.md",
+   "bytes": 3101,
+   "lines": 32,
+   "sha256": "9b1401e5b1877bc079b710ef00e7792093e86eacff5562a03718e3357cfdfe81",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3E0_BPLUSPLUS_REPORT.md",
+   "bytes": 5842,
+   "lines": 95,
+   "sha256": "c92454bdd8fc819d8fb8af73e58d4dc8ef47b9d505a03a1e3a1d6397d91fd454",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3E0_BPLUS_HUMAN_QA.md",
+   "bytes": 3628,
+   "lines": 44,
+   "sha256": "f3b5b2fe6eb5b1d4c379da678b93a1f2ca42106f93b55f19eb0398bab2492cd9",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3E0_BPLUS_REPORT.md",
+   "bytes": 7623,
+   "lines": 122,
+   "sha256": "f2482b3a24eaeb110625c8d40c261bd7871ffe9271221f9705ca97a9d587092c",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3E0_CHANGED_FILES.txt",
+   "bytes": 2024,
+   "lines": 23,
+   "sha256": "096f560bcbedefce1b352206f0f35788db4798c6dba8bbc8737ebcc4f919458d",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3H0_CHANGED_FILES.txt",
+   "bytes": 11180,
+   "lines": 144,
+   "sha256": "92c8b00ceb3f45bfffdbca21bd8390bb7cbe089f38ba23293c724b9cb2884500",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3H0_HUMAN_QA.md",
+   "bytes": 8515,
+   "lines": 137,
+   "sha256": "cf05e68412542c58ad38b3bd8d14bc33f37ac1174c80c7b7aa0993be9f20fe4f",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3H0_PERFORMANCE.md",
+   "bytes": 11079,
+   "lines": 151,
+   "sha256": "f481a3038611afb08232a21ed89959e581c65a8d7fb29ecec8d9f3d728efa018",
+   "role": "neither"
+  },
+  {
+   "path": "STAGE_3H0_REPORT.md",
+   "bytes": 19746,
+   "lines": 226,
+   "sha256": "aa9f3b12c320d0dfb9aa0910a3ec86842c82fca02fe82eb633215c0fd21d4455",
+   "role": "neither"
+  },
+  {
+   "path": "ai.js",
+   "bytes": 206697,
+   "lines": 2594,
+   "sha256": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731",
+   "role": "server",
+   "globals": {
+    "assigned": [
+     "AI"
+    ],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "ai.js - reusable entity AI for The Far Backrooms (v16).  UMD: require('./ai.js') on the server. Everything an entity does is built from the same components:   PERCEPTION (vision with walls / darkness / posture, hearing from a sound bus)  ->  MEMORY (last known position, staleness)   PERSONALITY (tra"
+  },
+  {
+   "path": "assets/BufferResource-B-thlpip.js",
+   "bytes": 11068,
+   "lines": 195,
+   "sha256": "56f34780fd104d1cb11da624c9fab954f9de88802590170e4522281609164990",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/Cache-DDo62lBW.js",
+   "bytes": 1100,
+   "lines": 1,
+   "sha256": "94f3d177d09bfecefa8b80e646a55ff894635dd1723d6e7128d802477f3bae3a",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/CanvasPool-DecUtJxW.js",
+   "bytes": 68480,
+   "lines": 22,
+   "sha256": "45335d161156296b274b89eb85b9040a0d08b1870125bfcc5e7100bb937589f1",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/Filter-DzecrWg_.js",
+   "bytes": 42012,
+   "lines": 1,
+   "sha256": "de855f231760116676843943157cf0b52bf893b5f0781f8d34fc94352e1c3fbd",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 2,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 2,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/GCManagedHash-Bz2ZMBJN.js",
+   "bytes": 19356,
+   "lines": 217,
+   "sha256": "b634a4602cfa70019626a0e83942f76dfbe49feadf28825410f0b96cb1849ef6",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/GraphicsContext-vm7TDg_M.js",
+   "bytes": 61700,
+   "lines": 1,
+   "sha256": "681ef439c93da35418927d0ff6ba84e4380b1656701756f973ef3df4bdd5aebc",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/MAIN_MENU_LOGO_USER_SUPPLIED.png",
+   "bytes": 814957,
+   "lines": 2893,
+   "sha256": "906e19a8f4423bc7b2a7bf924a05201b3b2ba2c13753df3eec6eb6abc9cb9cb9",
+   "role": "served"
+  },
+  {
+   "path": "assets/MainTheme_MenuIntro.wav",
+   "bytes": 8146988,
+   "lines": 81426,
+   "sha256": "64b2124ba6970b36284802e9fdf53b3ba373b665dc6bccce95bd3895a5b6fbd0",
+   "role": "served"
+  },
+  {
+   "path": "assets/MainTheme_MenuLoop.wav",
+   "bytes": 14499884,
+   "lines": 129846,
+   "sha256": "848db3af81c7bd023b3e32e68f39fd83ed835232ecf8fc44278b2c232ca158b9",
+   "role": "served"
+  },
+  {
+   "path": "assets/RenderTargetSystem-CgUxHIsn.js",
+   "bytes": 58779,
+   "lines": 184,
+   "sha256": "cc26f4d020bdf55a0346f21b417048a129c071b2b4625463bb269eb899443aa2",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": [
+     "__PIXI_APP_INIT__",
+     "__PIXI_RENDERER_INIT__"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 6,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/br-role.js",
+   "bytes": 136371,
+   "lines": 1361,
+   "sha256": "eb3410bdf41d7001e5fc8ce66603c47d48a16834d082e52a779f90d09c483daf",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__brRole"
+    ],
+    "mentioned": [
+     "__api",
+     "__brRole",
+     "__cam",
+     "__cause",
+     "__deathLight",
+     "__ents",
+     "__hound",
+     "__peerLights",
+     "__smiler"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 1,
+    "rAF": 0,
+    "addEventListener": 2,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 2,
+    "performanceNow": 1,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "br-role.js - BR-RoLE 1.2, the Backrooms Rendering of Lighting Engine (presentation only, client only).  * THE 2D GAME IS THE GAME.  BR-RoLE is the one visual owner of the light in the world: the darkness, the ceiling lamps, your carried light and the other wanderers' lights, and the shadows walls, p"
+  },
+  {
+   "path": "assets/browserAll-B-iwy0YI.js",
+   "bytes": 42676,
+   "lines": 14,
+   "sha256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 23,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 4,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/canvasUtils-CxYPZET9.js",
+   "bytes": 6054,
+   "lines": 1,
+   "sha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/carpet.png",
+   "bytes": 463327,
+   "lines": 1503,
+   "sha256": "7d72b780d2c67e205429ac4b1f5f1c9d5feeea56b4dd1ec59e7a0ad4c0d77dab",
+   "role": "served"
+  },
+  {
+   "path": "assets/credits_data.js",
+   "bytes": 2170,
+   "lines": 38,
+   "sha256": "6c071316591cbd1f380b6528e5bc3e538beb5686544dee3097c71c6c3d60c80c",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "TFB_CREDITS"
+    ],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   },
+   "header": "THE FAR BACKROOMS - credits.  EDIT THIS FILE to change the Credits page; the layout never needs touching.  * - Each section has a heading and a list of entries. A section with no entries is not shown, so you can keep empty   ones ready and fill them in later. - An entry is { name, note, url }: name "
+  },
+  {
+   "path": "assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "bytes": 344,
+   "lines": 1,
+   "sha256": "f97cfacaed002298725cd05c62cb5668989473d0bfe5850c4c36dbd773b59766",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/index-D7hdwmUU.css",
+   "bytes": 27218,
+   "lines": 165,
+   "sha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a",
+   "role": "served"
+  },
+  {
+   "path": "assets/index-DKbV5Nv9.js",
+   "bytes": 340823,
+   "lines": 346,
+   "sha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__api",
+     "__avatarApp",
+     "__c",
+     "__hideSelf",
+     "__kill",
+     "__lastCause"
+    ],
+    "mentioned": [
+     "__api",
+     "__avatarApp",
+     "__brRole",
+     "__c",
+     "__cam",
+     "__cameraPolicy",
+     "__canvas",
+     "__cause",
+     "__context",
+     "__dcamK",
+     "__deathLight",
+     "__dlab",
+     "__dphys",
+     "__dsndHits",
+     "__dvic",
+     "__ents",
+     "__fs",
+     "__fxKill",
+     "__fxKillS",
+     "__gore",
+     "__hideBodies",
+     "__hideSelf",
+     "__hounds",
+     "__inv",
+     "__key",
+     "__kill",
+     "__killer",
+     "__l0v",
+     "__lab",
+     "__lastCause",
+     "__light",
+     "__loadout",
+     "__lt",
+     "__mp",
+     "__mv",
+     "__net",
+     "__peerLights",
+     "__pose",
+     "__sfx",
+     "__shade",
+     "__smiler",
+     "__tm",
+     "__vol"
+    ]
+   },
+   "signals": {
+    "mathRandom": 9,
+    "setTimeout": 5,
+    "setInterval": 0,
+    "rAF": 3,
+    "addEventListener": 30,
+    "audioContext": 31,
+    "webSocket": 0,
+    "localStorage": 4,
+    "performanceNow": 12,
+    "dateNow": 4,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/init-Cn1_BCi0.js",
+   "bytes": 15753,
+   "lines": 83,
+   "sha256": "c6fb810d1c6d8674992f4e85779800fe63394b29eb0dcea71206fc7495714037",
+   "role": "served",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "assets/l0-remaster.js",
+   "bytes": 189557,
+   "lines": 1760,
+   "sha256": "65da17bf6527b86273e3c6c6f85418e6001fe4f76d3c9581d12d22e976ccc3f5",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__l0v"
+    ],
+    "mentioned": [
+     "__api",
+     "__brRole",
+     "__cameraPolicy",
+     "__l0v"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 1,
+    "setInterval": 0,
+    "rAF": 2,
+    "addEventListener": 1,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 1,
+    "dateNow": 4,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "l0-remaster.js - Stage 3B: the Level 0 visual remaster (presentation only, client only).  3B-F: the whole of Level 0.  * THE LEVEL MAY LOOK NEW.  IT MUST PLAY IN THE SAME PLACES.  This module only paints: it reads the running game (room table, floor mask, sight mask, lamp list, world.js props) and t"
+  },
+  {
+   "path": "assets/level0_visuals.js",
+   "bytes": 30303,
+   "lines": 285,
+   "sha256": "cc86c68ea9e3b6967ac8150e525a4ef97171c27ba606faf866df07091455c136",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "L0_VISUALS"
+    ],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "level0_visuals.js - Stage 3B: the Level 0 presentation authority (visual metadata only). Browser: a classic script (window.L0_VISUALS), loaded before the remaster module.  Dev tools: require().  * OWNS     how existing things LOOK: reusable archetype parts (carpet variants, wall finishes, fixture pr"
+  },
+  {
+   "path": "assets/manifest.webmanifest",
+   "bytes": 405,
+   "lines": 14,
+   "sha256": "537432fe01790cbd1afd0ce22dff73ba8a4c649c08be2b3544bd6001858b8aef",
+   "role": "served"
+  },
+  {
+   "path": "assets/net-interp.js",
+   "bytes": 4163,
+   "lines": 46,
+   "sha256": "fb1e203e44b39693a6fbe654f46a34a53c651df1d52ff3a78f2e1e9e3a98fecc",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__mpLib"
+    ],
+    "mentioned": [
+     "__mpLib"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 1,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "net-interp.js - the snapshot interpolation of the multiplayer layer (mp.js).  * Stage 3H0: moved out of mp.js without a change, so the interpolation policy (the server clock offset, the per-entity pose histories, the ~100 ms delayed drawing, the 150 ms extrapolation limit, the 300 px jump rule and t"
+  },
+  {
+   "path": "assets/net-wire.js",
+   "bytes": 3717,
+   "lines": 30,
+   "sha256": "fa4603f5f9cc3ad74b59f5b44f71c996c90284175de383be55a39fc99f668415",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__mpLib"
+    ],
+    "mentioned": [
+     "__api",
+     "__mpLib"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 1,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "net-wire.js - the look / light / corpse field codec of the multiplayer layer (mp.js).  * Stage 3H0: moved out of mp.js without a change, so the wire formats these fields use live in one small file:   look        'hat|texture|hands|main|backpack'  (lookStr: game look -> wire; parseLook: wire -> game "
+  },
+  {
+   "path": "assets/shadows-2d.js",
+   "bytes": 74094,
+   "lines": 856,
+   "sha256": "3970ce8cf560a40587cd8c2a3938cd75953964ac29050f7962907bad38483849",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__mp",
+     "__shadows"
+    ],
+    "mentioned": [
+     "__api",
+     "__cam",
+     "__ents",
+     "__hound",
+     "__light",
+     "__mp",
+     "__peerLights",
+     "__shadows",
+     "__smiler"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 1,
+    "rAF": 2,
+    "addEventListener": 5,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 2,
+    "performanceNow": 1,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "shadows-2d.js - THE FAR BACKROOMS 2D lighting & shadows (presentation only, client only).  * THE 2D GAME IS THE GAME.  This file only draws soft floor shadows into the existing Pixi world, directly above the carpet and UNDER the level art, the props, every entity and the darkness overlay:   groundin"
+  },
+  {
+   "path": "assets/ui.css",
+   "bytes": 69524,
+   "lines": 798,
+   "sha256": "4c966de1699a06a68159357bdbfc1d9a007486ba96136d422bb7eac5fdf5c11c",
+   "role": "served"
+  },
+  {
+   "path": "assets/ui.js",
+   "bytes": 97475,
+   "lines": 1200,
+   "sha256": "d25e7c4e79659a16fe5b9554da1e2aa50c30c0d26bc99356d0857a85620abbd4",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__hideSelf",
+     "__keys",
+     "__ui",
+     "__uiCustomizeTab"
+    ],
+    "mentioned": [
+     "__api",
+     "__avatarApp",
+     "__boot",
+     "__brRole",
+     "__hideSelf",
+     "__inv",
+     "__keys",
+     "__loadout",
+     "__settings",
+     "__ui",
+     "__uiCustomizeTab",
+     "__vol"
+    ]
+   },
+   "signals": {
+    "mathRandom": 1,
+    "setTimeout": 18,
+    "setInterval": 0,
+    "rAF": 4,
+    "addEventListener": 65,
+    "audioContext": 7,
+    "webSocket": 0,
+    "localStorage": 10,
+    "performanceNow": 11,
+    "dateNow": 10,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "THE FAR BACKROOMS - Stage 3C UI controller (QA1: the main menu rebuilt from the user's rough draft, and its theme; QA2: the black boot gate, the menu and its theme starting together, the black curtain a run starts behind).  * One owner for the game's menus: the main menu (PLAY and its entry / CUSTOM"
+  },
+  {
+   "path": "audio_source/MainTheme.wav",
+   "bytes": 42201548,
+   "lines": 138852,
+   "sha256": "ba087949275af24c7ceb4c927c5b2ba64ede448a850dd6ecd1be968763af4fa8",
+   "role": "neither"
+  },
+  {
+   "path": "camcorder.js",
+   "bytes": 32494,
+   "lines": 434,
+   "sha256": "1deccb79ea7b8298dbe047efb4be4922bfbbf8848dad2d3aa47640273d5320f7",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__cam"
+    ],
+    "mentioned": [
+     "__api",
+     "__brRole",
+     "__cam",
+     "__peerLights"
+    ]
+   },
+   "signals": {
+    "mathRandom": 14,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 6,
+    "audioContext": 8,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 1,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "Night Vision Camcorder + light-source runtime (client only). The bundle owns the lighting / line-of-sight maths; this file owns the *camera side* of the game: raise state feedback, night-vision overheating, zoom, grain / tint overlay, HUD, audio and the per-entity night-vision effect registry. NV is"
+  },
+  {
+   "path": "camera_policy.js",
+   "bytes": 2064,
+   "lines": 61,
+   "sha256": "be5901b95a5669cb51d21306d642ca26d5e839bb3be28e3d711c9690ec9227dc",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__cameraPolicy"
+    ],
+    "mentioned": [
+     "__cameraPolicy"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "The Far Backrooms — fair gameplay camera policy  * Rendering resolution/window size must not increase gameplay awareness. Stage 3B final polish: the 1920x1080 / 1.25 camera is the canonical maximum world view (a 1536 x 864 world-space envelope; the earlier 1.18, 1627 x 915, was not the intended feel"
+  },
+  {
+   "path": "death_srv.js",
+   "bytes": 5830,
+   "lines": 61,
+   "sha256": "61669c4bc437e1e428f80f6938534ae2c21d8a4d4c349c7a735383fa83090b17",
+   "role": "server",
+   "globals": {
+    "assigned": [],
+    "mentioned": [
+     "__dphys"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": true,
+    "iife": false
+   },
+   "header": "death_srv.js - the server's side of a death's aftermath (never served to browsers).  * A death is a world event: the server decides it (ai.js -> sim.js p.kill).  Normally the victim's own client plays the physical death (dphys.js), tells everyone else to replay it ('fx') and, when the body comes to "
+  },
+  {
+   "path": "dphys.js",
+   "bytes": 66180,
+   "lines": 776,
+   "sha256": "c5fb5064b1fadbf09d5f3645b9dfd90351668e0313fa2cd4d7beb184ee320501",
+   "role": "both",
+   "globals": {
+    "assigned": [
+     "__dcamK",
+     "__dphys"
+    ],
+    "mentioned": [
+     "__api",
+     "__dcamK",
+     "__dlab",
+     "__dphys",
+     "__ents",
+     "__lab"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "dphys.js - lightweight procedural physics for the death animations (v18).  * One small simulation per death, shared by the local victim and by every spectator's replay (the bundle's death class calls it; nothing else does). It is deliberately NOT a physics engine: a handful of point masses and sprin"
+  },
+  {
+   "path": "ents.js",
+   "bytes": 79335,
+   "lines": 905,
+   "sha256": "5679a30504cf920817b4e6f1f082133628f90d3a92c1da8f44f3cf6180cadf15",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__dsndHits",
+     "__ents"
+    ],
+    "mentioned": [
+     "__api",
+     "__dlab",
+     "__dphys",
+     "__dsndHits",
+     "__ents",
+     "__g",
+     "__ga",
+     "__gore",
+     "__hound",
+     "__light",
+     "__mv",
+     "__s",
+     "__smiler"
+    ]
+   },
+   "signals": {
+    "mathRandom": 8,
+    "setTimeout": 3,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 8,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 9,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "ents.js - client side of the v16 entities: the redesigned Hound and Smiler (drawn procedurally, articulated), their sounds, and the admin-only AI debug overlay.  The server decides everything they do (ai.js); this file only draws and voices what the snapshots say.  Loaded after the game bundle; mp.j"
+  },
+  {
+   "path": "favicon.ico",
+   "bytes": 4758,
+   "lines": 26,
+   "sha256": "5489c214c3d50d6a1e08bce814a0234673dcc2094279d081e712f39edd78501b",
+   "role": "served"
+  },
+  {
+   "path": "glitch.js",
+   "bytes": 9829,
+   "lines": 121,
+   "sha256": "2c088bad6cc614a2ca10c8ebea4913d30ad5d9e35cd48b0765d7cbe81f1c623c",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__glitchFrame",
+     "__glitchSound"
+    ],
+    "mentioned": [
+     "__api",
+     "__glitchFrame",
+     "__glitchSound",
+     "__glitches",
+     "__items"
+    ]
+   },
+   "signals": {
+    "mathRandom": 10,
+    "setTimeout": 2,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 9,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 2,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "Glitched walls: the way out of Level 0. Draws each glitched wall on its own canvas ABOVE the darkness (so it glows through the dark, but only while it is in line of sight), adds a static-y audio cue that swells as you approach, and a screen tear when you get close. Positions come from mp.js (window."
+  },
+  {
+   "path": "gore.js",
+   "bytes": 39845,
+   "lines": 428,
+   "sha256": "b557a81e605dea5e9c42d694f1dd8f90761d05b969f2e2faae0bf46d0086e499",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__gore"
+    ],
+    "mentioned": [
+     "__api",
+     "__cause",
+     "__dphys",
+     "__ext",
+     "__gibShapes",
+     "__gore",
+     "__goreCache",
+     "__goreNow",
+     "__goreSig",
+     "__key",
+     "__l0v",
+     "__lim",
+     "__out"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 1,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 4,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "Realistic wound / blood rendering for the death animation, corpses and dead peers. Pure Graphics-API helpers (no PIXI import): everything is polygons with layered translucency, irregular organic outlines, wet highlights and slow coagulation colour. Loaded before the game bundle."
+  },
+  {
+   "path": "hud.js",
+   "bytes": 7692,
+   "lines": 96,
+   "sha256": "370adcf105fce4fc46588830e06d234b53f6ea3afdeeef92fc2feaccb0c991a4",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__hud",
+     "__settings",
+     "__vol"
+    ],
+    "mentioned": [
+     "__api",
+     "__hud",
+     "__settings",
+     "__vol"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 3,
+    "setInterval": 1,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 3,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "The settings model and the HUD's own polish. Stage 3C: this file no longer draws a settings dropdown. assets/ui.js draws the Settings page and reads / writes through window.__settings. The saved preferences stay where they always were (localStorage fb_settings_v1, same fields), so nobody's HUD colou"
+  },
+  {
+   "path": "index.html",
+   "bytes": 24478,
+   "lines": 227,
+   "sha256": "ea756260589054f9fd787c8c1037fb1a8123c174059ae660c100f8c5c76b5db6",
+   "role": "served"
+  },
+  {
+   "path": "inventory.js",
+   "bytes": 20901,
+   "lines": 281,
+   "sha256": "34a8486263860c11353a2a64bda1252b2b37ca917d5e2c07f346534443a7aec3",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__inv",
+     "__loadout"
+    ],
+    "mentioned": [
+     "__api",
+     "__inv",
+     "__keys",
+     "__loadout"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 5,
+    "setInterval": 2,
+    "rAF": 2,
+    "addEventListener": 10,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 1,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "Inventory (TAB), light-source loadout + part customisation, and the cartograph item.  * - TAB opens a side drawer: your equipped light (with a live, close-up picture) and what you are carrying.   The game keeps running while it is open; it is not a pause menu. - There is no map by default. The Carto"
+  },
+  {
+   "path": "light.js",
+   "bytes": 5984,
+   "lines": 83,
+   "sha256": "25ed95a05be57408bd73336e50d07c57f9854103ffebaa88db7e6067c80bb7f2",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__light"
+    ],
+    "mentioned": [
+     "__api",
+     "__cam",
+     "__deathLight",
+     "__ents",
+     "__light",
+     "__peerLights"
+    ]
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 1,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "light.js - the shared lighting query (v20, Part 1A).  * LIGHT DATA DESCRIBES LIGHT.  Rendering decides how an entity looks; AI decides what it perceives.  Nothing here sets an alpha.  *   __light.sample(x, y, lightOn, out?)  -> { ambient, lamp, torch, peers, direct, total, dark, dirX, dirY, flicker,"
+  },
+  {
+   "path": "move.js",
+   "bytes": 25061,
+   "lines": 389,
+   "sha256": "bb5d90eb36fbe122d0413f7ed371133b4d3d93ca5feefa9cdb8aa9b7cd938d53",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__mv",
+     "__mvSfx",
+     "__pose"
+    ],
+    "mentioned": [
+     "__api",
+     "__mv",
+     "__mvSfx",
+     "__peerBodies",
+     "__pose"
+    ]
+   },
+   "signals": {
+    "mathRandom": 6,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 4,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 2,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "move.js - survival movement for the wanderer (v16).  * STAND / WALK / RUN / CROUCH / CRAWL / SLIDE / VAULT.  No jumping, no wall-running: this is a chase-and-hide game.   Shift  run (drains stamina)         C  crouch / stand        C while running  slide (keeps your momentum, nothing more)   walk in"
+  },
+  {
+   "path": "mp.js",
+   "bytes": 96283,
+   "lines": 1044,
+   "sha256": "b338e5aa87f37bd3a436d584233a6b9e0b554f118d8d99e316dfe7bee0494653",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__NET",
+     "__deathLight",
+     "__dlab",
+     "__dvic",
+     "__epochDebug",
+     "__fxKill",
+     "__fxKillS",
+     "__fxs",
+     "__glitchSolo",
+     "__glitches",
+     "__hideBodies",
+     "__hounds",
+     "__itemSolo",
+     "__items",
+     "__kill",
+     "__killer",
+     "__mp",
+     "__net",
+     "__netPose",
+     "__nrDebug",
+     "__peerBodies",
+     "__peerLights",
+     "__peerNet"
+    ],
+    "mentioned": [
+     "__NET",
+     "__api",
+     "__cam",
+     "__cause",
+     "__deathLight",
+     "__deathLightNow",
+     "__dlab",
+     "__dphys",
+     "__dvic",
+     "__ents",
+     "__epochDebug",
+     "__fxKill",
+     "__fxKillS",
+     "__fxs",
+     "__glitchFrame",
+     "__glitchSolo",
+     "__glitchSound",
+     "__glitches",
+     "__gore",
+     "__hideBodies",
+     "__hounds",
+     "__inv",
+     "__itemSolo",
+     "__items",
+     "__key",
+     "__kill",
+     "__killer",
+     "__mp",
+     "__mpLib",
+     "__mv",
+     "__net",
+     "__netPose",
+     "__nrDebug",
+     "__peerBodies",
+     "__peerLights",
+     "__peerNet",
+     "__sfx"
+    ]
+   },
+   "signals": {
+    "mathRandom": 24,
+    "setTimeout": 8,
+    "setInterval": 3,
+    "rAF": 0,
+    "addEventListener": 6,
+    "audioContext": 28,
+    "webSocket": 1,
+    "localStorage": 2,
+    "performanceNow": 37,
+    "dateNow": 3,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "Network + dread layer. - Talks to server.js over a WebSocket. When connected, the server owns the Hounds, Smilers,   blackouts, glitched walls and dead bodies; this file mirrors them into the game's own objects every frame. - Falls back to the game's built-in single-player AI when there is no server"
+  },
+  {
+   "path": "package.json",
+   "bytes": 505,
+   "lines": 17,
+   "sha256": "06dbee5d4e731a8b6e2c165043c55cc52f98f92f38035b4c62e1d89ec9b55b22",
+   "role": "neither"
+  },
+  {
+   "path": "redirect.js",
+   "bytes": 466,
+   "lines": 16,
+   "sha256": "12dcf8bfd99ae89d5c57b9adae390279fab7874a0eda72429a48ddcaae157dcf",
+   "role": "neither"
+  },
+  {
+   "path": "run_linux.sh",
+   "bytes": 218,
+   "lines": 5,
+   "sha256": "ba5bc412ecec162e5c331fc104412a0a18afc958b024cd1b56975ff55528f933",
+   "role": "neither"
+  },
+  {
+   "path": "run_windows.bat",
+   "bytes": 137,
+   "lines": 5,
+   "sha256": "802f35956e33d54aa65b3e2d5ba435e45ffa8e6b3c5caaf04565b9d713c38213",
+   "role": "neither"
+  },
+  {
+   "path": "server.js",
+   "bytes": 41751,
+   "lines": 469,
+   "sha256": "0424cbc1942a301a3bca01f681f0618a090479815e131bb2e1ee2ea569d8fb2d",
+   "role": "server",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 1,
+    "setInterval": 1,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 1,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 23,
+    "useStrict": false,
+    "iife": false
+   }
+  },
+  {
+   "path": "server/fields.js",
+   "bytes": 1770,
+   "lines": 22,
+   "sha256": "a27a0ed8fdf3fb03ef3d21887fc50932b7e39625f7dce1fb087af358a944be6e",
+   "role": "server",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   },
+   "header": "server/fields.js - the checks server.js applies to the fields clients send.  * Stage 3H0: moved out of server.js without a change:   num(v, lo, hi)   +v clamped to [lo, hi]; anything that is not a number counts as 0 (before the clamp)   kindOf(k)        a light kind: one of KINDS, an older name mapp"
+  },
+  {
+   "path": "server/peers.js",
+   "bytes": 5823,
+   "lines": 80,
+   "sha256": "447bf167fafe850d6449b4f56f9082e090b2587b2ff12e5335c94f7f28b702dd",
+   "role": "server",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": true,
+    "iife": false
+   },
+   "header": "server/peers.js - Stage 3D HQ2: living Wanderers are solid to each other (server side only; never served).  * Every player is a circle; two living players in the same room never come closer than D = 36 px centre to centre (the drawn body: a circle of radius 18).  Walls keep their own radius (15) and"
+  },
+  {
+   "path": "server/static.js",
+   "bytes": 4096,
+   "lines": 49,
+   "sha256": "696ee13f377e626deda222d16ff2f137a440cf436a00475d4354540caf9455f1",
+   "role": "server",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   },
+   "header": "server/static.js - the static file serving of server.js.  * Stage 3H0: moved out of server.js without a change.  Its export is a function of ROOT that returns the request handler server.js gives http.createServer:   - the path is decoded (a malformed escape or a NUL gives 400), '/' means index.html,"
+  },
+  {
+   "path": "server/ws.js",
+   "bytes": 2170,
+   "lines": 34,
+   "sha256": "7309f91237d5f0267183e8f7f2c7eacf269edbdb471cf304e173fe4820018ed5",
+   "role": "server",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": false
+   },
+   "header": "server/ws.js - the WebSocket framing of server.js.  * Stage 3H0: moved out of server.js without a change, so the frame format lives in one small file:   frame(str)               one unfragmented, unmasked text frame from the server: a 7-bit or 16-bit length.  A payload of 65,536 bytes or            "
+  },
+  {
+   "path": "sfx.js",
+   "bytes": 3677,
+   "lines": 56,
+   "sha256": "790e24e875c799f14aec3a3ab858933cf5e3d948beed3341b5b8553dfa757971",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "__sfx"
+    ],
+    "mentioned": [
+     "__api",
+     "__sfx"
+    ]
+   },
+   "signals": {
+    "mathRandom": 1,
+    "setTimeout": 0,
+    "setInterval": 2,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 4,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "Drop-in custom sounds. Put audio files in ./sounds (mp3 / ogg / wav / m4a / flac) named like: death_hound  death_smiler  death      (played when caught; \"death\" is the fallback for both) collect                                (evidence pickup) step                                   (footsteps, pitch"
+  },
+  {
+   "path": "sim.js",
+   "bytes": 29413,
+   "lines": 338,
+   "sha256": "ac2f83b6a6ac50c1077aab7897d870c423d0ae8a24348e43a7f051170db23c55",
+   "role": "server",
+   "globals": {
+    "assigned": [],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 1,
+    "useStrict": true,
+    "iife": false
+   },
+   "header": "sim.js - server-side Level 0 simulation. The map, collision, ray-cast and light code below is the game's own (extracted from the production bundle assets/index-*.js). The hounds and smilers are driven by ai.js (v16); the 'multiplayer glue' section connects players, bodies, glitched walls and the adm"
+  },
+  {
+   "path": "sounds/README.txt",
+   "bytes": 978,
+   "lines": 17,
+   "sha256": "c408927ce27cbb50c79caa8ae83a9b63599b24d091c9fad960db4cf459f3621b",
+   "role": "neither"
+  },
+  {
+   "path": "sounds/sting copy.mp3",
+   "bytes": 113167,
+   "lines": 483,
+   "sha256": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+   "role": "served"
+  },
+  {
+   "path": "sounds/sting.mp3",
+   "bytes": 113167,
+   "lines": 483,
+   "sha256": "1fb9e12378da45fadabccc8b57b46d45dd3739c93e1ebfd8e6ecb87d11f10406",
+   "role": "served"
+  },
+  {
+   "path": "timing_policy.js",
+   "bytes": 1634,
+   "lines": 41,
+   "sha256": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069",
+   "role": "served",
+   "globals": {
+    "assigned": [
+     "TFB_TIMING"
+    ],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "timing_policy.js - frame-rate independent gameplay scheduling.  * Rendering may run at any refresh rate. Gameplay advances only in fixed 60 Hz simulation steps. A slow rendered frame may execute multiple fixed steps to catch up, but one rendered frame may never advance more than 250 ms of game time "
+  },
+  {
+   "path": "world.js",
+   "bytes": 24622,
+   "lines": 306,
+   "sha256": "240e99ba6dfead9877d2648021cc6534f9beda33b4b22cf40f4470ee10d7fa09",
+   "role": "both",
+   "globals": {
+    "assigned": [
+     "WORLD"
+    ],
+    "mentioned": []
+   },
+   "signals": {
+    "mathRandom": 0,
+    "setTimeout": 0,
+    "setInterval": 0,
+    "rAF": 0,
+    "addEventListener": 0,
+    "audioContext": 0,
+    "webSocket": 0,
+    "localStorage": 0,
+    "performanceNow": 0,
+    "dateNow": 0,
+    "useStrict": false,
+    "iife": true
+   },
+   "header": "world.js - Level 0 props, surfaces and shared movement constants (v16). Loaded by the browser as a classic script (window.WORLD) and by the server with require(). The Level 0 map itself still lives in the game bundle / sim.js; this file only adds the things a survival-movement system needs: a handfu"
+  }
+ ]
+}

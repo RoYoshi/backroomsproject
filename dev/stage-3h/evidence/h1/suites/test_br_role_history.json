@@ -1,0 +1,61 @@
+{
+ "tool": "dev/br-role/test_br_role.js, each head's own copy run against its own files (git archive of the head; the B++ row is the 3H1 baseline run)",
+ "heads": [
+  {
+   "branch": "stage-3d-hq2",
+   "commit": "f542b7cbd90f95148e644e6cba513cf55ddd52c9",
+   "passed": 32,
+   "total": 32,
+   "failed": []
+  },
+  {
+   "branch": "stage-3d-hq3",
+   "commit": "49343193e6948c8323f35a34539ac84db5a89835",
+   "passed": 32,
+   "total": 32,
+   "failed": []
+  },
+  {
+   "branch": "stage-3d-hq4",
+   "commit": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+   "passed": 31,
+   "total": 32,
+   "failed": [
+    "U26"
+   ]
+  },
+  {
+   "branch": "stage-3d-hq5",
+   "commit": "ad98475767bcae6794cd01af832de660355da7a2",
+   "passed": 29,
+   "total": 32,
+   "failed": [
+    "U01",
+    "U02",
+    "U26"
+   ]
+  },
+  {
+   "branch": "stage-3e-0 (B+)",
+   "commit": "1f2deba0fc4a1facd41366fb2da9b88af3bd5a52",
+   "passed": 29,
+   "total": 32,
+   "failed": [
+    "U01",
+    "U02",
+    "U26"
+   ]
+  },
+  {
+   "branch": "stage-3e-0-bplusplus (B++)",
+   "commit": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+   "passed": 29,
+   "total": 32,
+   "failed": [
+    "U01",
+    "U02",
+    "U26"
+   ]
+  }
+ ]
+}

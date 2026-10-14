@@ -1,0 +1,23 @@
+ERROR page.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('#runEnd')[22m
+[2m    - locator resolved to <button id="runEnd" class="secondary">END</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    8 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+[2m    - waiting for element to be visible, enabled and stable[22m
+
+    at /home/claude/backrooms-shadows/dev/stage-3h0/golden/live_wire.js:57:33
+    at step (/home/claude/backrooms-shadows/dev/stage-3h0/golden/live_wire.js:41:72)
+    at variant (/home/claude/backrooms-shadows/dev/stage-3h0/golden/live_wire.js:57:9)
+    at async /home/claude/backrooms-shadows/dev/stage-3h0/golden/live_wire.js:106:38

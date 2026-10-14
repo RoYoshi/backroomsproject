@@ -1,0 +1,88 @@
+{
+ "source": "golden/bpp_traces/bpp_known_limits.jsonl.gz (sha256 35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775), the accepted B++ server; times are the harness fake clock, ms",
+ "how": "read from the trace: the admin's position in every 's' and 'q' the Watcher received, kept when it changes; every 'tp' the admin and the Mover received",
+ "clients": {
+  "adm": 4,
+  "Adm": 2,
+  "Watch": 3,
+  "Mover": 5
+ },
+ "notes": [
+  [
+   1980,
+   "an admin GOTOs the Watcher, 296 px away; its page keeps sending the old spot for 75 ms, then the spot it was sent to"
+  ],
+  [
+   4950,
+   "BRING the Mover 545 px; its connection stalls for 950 ms, then one pose sent before the placement arrives, then the new spot"
+  ]
+ ],
+ "F-019_admin_goto": {
+  "adminTold": [
+   [
+    1980,
+    {
+     "t": "tp",
+     "x": 844,
+     "y": 888
+    }
+   ]
+  ],
+  "watcherSeesAdmin": [
+   {
+    "t": 200,
+    "msg": "s",
+    "x": 504,
+    "y": 888
+   },
+   {
+    "t": 2000,
+    "msg": "s",
+    "x": 844,
+    "y": 888
+   },
+   {
+    "t": 2025,
+    "msg": "q",
+    "x": 504,
+    "y": 888
+   },
+   {
+    "t": 2100,
+    "msg": "s",
+    "x": 844,
+    "y": 888
+   }
+  ],
+  "reading": "GOTO at 1980 ms places the admin at (844, 888); its page keeps sending (504, 888) for 75 ms; the Watcher sees (844, 888) at 2000, (504, 888) from 2025 (q) to the s at 2100, then (844, 888) again"
+ },
+ "F-020_late_pose": {
+  "moverTold": [
+   {
+    "t": 5030,
+    "tp": {
+     "t": "tp",
+     "x": 1012,
+     "y": 690
+    }
+   },
+   {
+    "t": 6030,
+    "tp": {
+     "t": "tp",
+     "x": 504,
+     "y": 888
+    }
+   },
+   {
+    "t": 6930,
+    "tp": {
+     "t": "tp",
+     "x": 504,
+     "y": 888
+    }
+   }
+  ],
+  "reading": "BRING at 5030 ms sends the Mover to (1012, 690); its connection is silent for 950 ms; the pose from before the BRING arrives at 6005 ms, after the 900 ms grace, and is taken; its next pose at the placed spot is refused and the server sends it back to (504, 888) at 6030 ms (the scripted page keeps claiming (1012, 690), hence the second correction at 6930 ms)"
+ }
+}

@@ -1,0 +1,283 @@
+{
+ "tool": "dev/stage-3h0/golden/contract_check.js",
+ "counts": {
+  "serverToClient": {
+   "hi": 41,
+   "bodies": 67,
+   "s": 11296,
+   "pong": 14,
+   "admin": 27,
+   "ares": 57,
+   "tp": 33,
+   "got": 1,
+   "fx": 19,
+   "world": 3,
+   "msg": 6,
+   "kick": 1,
+   "revive": 1,
+   "exit": 1
+  },
+  "clientToServer": {
+   "caps": 11,
+   "join": 11,
+   "admin": 9,
+   "p": 819,
+   "a": 61,
+   "ping": 2,
+   "respawn": 2,
+   "leave": 1,
+   "pick": 1
+  }
+ },
+ "unseenContractTypes": {
+  "serverToClient": [],
+  "clientToServer": [
+   "fx",
+   "b"
+  ]
+ },
+ "violations": 12483,
+ "firstViolations": [
+  {
+   "where": "admin.new.jsonl @50",
+   "why": "field not in the contract",
+   "t": "bodies",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @50",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @50",
+   "why": "field not in the contract",
+   "t": "bodies",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @50",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @50",
+   "why": "field not in the contract",
+   "t": "bodies",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @50",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @100",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @100",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @100",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @150",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @150",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @150",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @200",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @200",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @200",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @250",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @250",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @250",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @300",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @300",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @300",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @350",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @350",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @350",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @400",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @400",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @400",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @450",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @450",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @450",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @500",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @500",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @500",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @550",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @550",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @550",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @600",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @600",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @600",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  },
+  {
+   "where": "admin.new.jsonl @650",
+   "why": "field not in the contract",
+   "t": "s",
+   "k": "w"
+  }
+ ],
+ "ok": false
+}

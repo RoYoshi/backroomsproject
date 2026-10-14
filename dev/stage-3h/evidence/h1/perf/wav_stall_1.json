@@ -1,0 +1,90 @@
+{
+ "tool": "dev/stage-3h/tools/h1_wav_stall.js",
+ "node": "v22.22.2",
+ "snapshotGapsMs": {
+  "idle": {
+   "n": 59,
+   "median": 50.6,
+   "max": 53.5
+  },
+  "first assets/MainTheme_MenuIntro.wav": {
+   "n": 10,
+   "median": 50.6,
+   "max": 270.1
+  },
+  "first assets/MainTheme_MenuLoop.wav": {
+   "n": 11,
+   "median": 50.6,
+   "max": 423.8
+  },
+  "again assets/MainTheme_MenuIntro.wav": {
+   "n": 10,
+   "median": 50.6,
+   "max": 52.8
+  },
+  "again assets/MainTheme_MenuLoop.wav": {
+   "n": 11,
+   "median": 50.5,
+   "max": 54.6
+  },
+  "idle after": {
+   "n": 30,
+   "median": 50.6,
+   "max": 50.9
+  }
+ },
+ "first": [
+  {
+   "path": "assets/MainTheme_MenuIntro.wav",
+   "status": 200,
+   "type": "application/octet-stream",
+   "encoding": "gzip",
+   "cache": "no-store",
+   "bytes": 7866467,
+   "ms": 247.7
+  },
+  {
+   "path": "assets/MainTheme_MenuLoop.wav",
+   "status": 200,
+   "type": "application/octet-stream",
+   "encoding": "gzip",
+   "cache": "no-store",
+   "bytes": 14192258,
+   "ms": 405.4
+  }
+ ],
+ "again": [
+  {
+   "path": "assets/MainTheme_MenuIntro.wav",
+   "status": 200,
+   "type": "application/octet-stream",
+   "encoding": "gzip",
+   "cache": "no-store",
+   "bytes": 7866467,
+   "ms": 21.5
+  },
+  {
+   "path": "assets/MainTheme_MenuLoop.wav",
+   "status": 200,
+   "type": "application/octet-stream",
+   "encoding": "gzip",
+   "cache": "no-store",
+   "bytes": 14192258,
+   "ms": 33.7
+  }
+ ],
+ "localGzipSync": [
+  {
+   "path": "assets/MainTheme_MenuIntro.wav",
+   "bytes": 8146988,
+   "gzBytes": 7866467,
+   "gzipSyncMs": 263.7
+  },
+  {
+   "path": "assets/MainTheme_MenuLoop.wav",
+   "bytes": 14499884,
+   "gzBytes": 14192258,
+   "gzipSyncMs": 478.9
+  }
+ ]
+}
