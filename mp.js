@@ -6,6 +6,7 @@
 (() => {
 const { lookStr, partList, partObj, parseLook, toRec } = window.__mpLib.wire;   // Stage 3H0: the look / light / corpse wire codec (assets/net-wire.js, loaded before this file)
 const { NET, netReset, netHist, netPose } = window.__mpLib.interp;   // Stage 3H0: the snapshot interpolation (assets/net-interp.js, loaded just before this file)
+const { nrButton, runMenuWords } = window.__mpLib.newrun;   // Stage 3H2 (C-3): NEW RUN's button and run-menu words (assets/net-newrun.js, loaded before this file)
 const cv = document.getElementById('mp'), cx = cv.getContext('2d'), dread = document.getElementById('dread'),
   game = document.getElementById('game'), light = document.getElementById('light'),
   net = Object.assign(document.createElement('div'), { id: 'net', textContent: 'SOLO' });
@@ -80,14 +81,10 @@ window.__dvic = K => { const A = window.__api; ownDeath = { de: K && K.de != nul
   return { x: K.x, y: K.y, angle: +K.a || 0, vx: K.vx || 0, vy: K.vy || 0, exhausted: !!K.ex, stamina: undefined, equipment: A.H.equipment }; };
 /* Stage 3D HQ2: NEW RUN's state on this page: the world epoch the server last named (s.w), the press numbers sent and their callbacks,
  * whether a press is waiting or approved (busy), the last answer (for tests: window.__nrDebug) */
-let worldW = null, nrQ = 0, nrBusy = 0, nrBusyAt = 0, nrLast = null, nrTold = 0, nrWaitT = 0;   // nrBusy: 1 a press waits for its answer, 2 approved (until the next run)
+let worldW = null, nrQ = 0, nrBusy = 0, nrBusyAt = 0, nrLast = null, nrWaitT = 0;   // nrBusy: 1 a press waits for its answer, 2 approved (until the next run)
 const nrSent = new Map();
-function nrButton(text) {                             // the pause dialog's NEW RUN button says what is happening, then goes back to itself
-  const b = document.getElementById('reset'); if (!b) return;
-  if (b.dataset.label === undefined) b.dataset.label = b.textContent;
-  clearTimeout(nrTold); b.textContent = text ? b.dataset.label + ' · ' + text : b.dataset.label; b.disabled = text === '…';
-  if (text && text !== '…') nrTold = setTimeout(() => nrButton(''), 2500);
-}
+/* Stage 3H2 (C-3): nrButton (what the pause dialog's NEW RUN button says) and runMenuWords (the run menu's words after a blast) are
+ * assets/net-newrun.js's, with nrButton's own timer; mp.js reads them at start-up (above). */
 function nrAnswer(m) {
   const ok = nrSent.get(m.q); nrSent.delete(m.q);
   nrLast = { q: m.q, ok: m.ok ? 1 : 0, why: m.why || '', wait: m.wait, de: m.de, at: Date.now() / 1000 };
@@ -95,12 +92,6 @@ function nrAnswer(m) {
   else { nrBusy = 0; nrButton(m.why === 'cooldown' ? 'WAIT ' + Math.ceil(+m.wait || 0) + ' S' : 'NOT NOW'); }
 }
 window.__nrDebug = () => ({ q: nrQ, busy: nrBusy, w: worldW, last: nrLast });
-/* Stage 3D HQ2: the run menu after an approved NEW RUN says what happened (the offline fade keeps the menu's own words) */
-function runMenuWords(boom) {
-  const r = document.getElementById('runMenu'), e = r && r.querySelector('.eyebrow'), i = r && r.querySelector('.intro'); if (!e || !i) return;
-  if (e.dataset.fade === undefined) { e.dataset.fade = e.textContent; i.dataset.fade = i.textContent; }
-  e.textContent = boom ? 'YOU BLEW YOURSELF UP' : e.dataset.fade; i.textContent = boom ? 'What is left of you stays where you stood.' : i.dataset.fade;
-}
 /* Stage 3D HQ2 (H2-4): the other living Wanderers are solid.  window.__peerBodies is what move.js steers round: the latest server
  * positions (the snapshot's own, not the smoothed drawing) of every other player in the world who is alive and not held in a capture
  * (an entity's cp names its victim).  Empty offline, and while we are not solid ourselves: not in a run, dead, held, out through a glitch,

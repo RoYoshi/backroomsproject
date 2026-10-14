@@ -4,6 +4,8 @@
  *        (--to / --lines may be given once per module: --to A --lines .. --to B --lines ..; every --lines belongs to the --to before it)
  *        [--relocated 115]   lines of --from that moved within --from (a comment put back beside its code): each must be found in
  *                            --from exactly once, unchanged; they are left out of the order check and listed on their own
+ *        [--edited 83]       lines of --from that were changed in place (e.g. a declaration that lost a variable which moved with its
+ *                            only user): left out of the order check; their B++ text and their text now are listed for review
  *
  * The goldens prove that the server still behaves byte for byte as B++; this proves how: line numbers refer to --from at --base.
  *   1. every listed line of --from at --base appears in its module, unchanged, in the same order, each listed range as one unbroken block
@@ -22,6 +24,7 @@ for (let i = 0; i < argv.length; i += 2) {
   if (k === 'to') ARG.moves.push({ to: v, lines: [] });
   else if (k === 'lines') ARG.moves[ARG.moves.length - 1].lines = v.split(',').map(r => r.split('-').map(Number));
   else if (k === 'relocated') ARG.relocated = v.split(',').map(Number);
+  else if (k === 'edited') ARG.edited = v.split(',').map(Number);
   else ARG[k] = v;
 }
 const show = (ref, f) => execFileSync('git', ['-C', REPO, 'show', `${ref}:${f}`], { maxBuffer: 1 << 28 }).toString('utf8');
@@ -46,19 +49,22 @@ for (const m of ARG.moves) {
   R.moves.push(rec); R.ok = R.ok && rec.ok;
 }
 /* --from now: the base without the moved lines, with insertions only (and the relocated lines, each found once, anywhere) */
-const reloc = new Set(ARG.relocated || []);
-const rest = O.map((l, i) => [i + 1, l]).filter(([n]) => !removed.has(n) && !reloc.has(n));
+const reloc = new Set(ARG.relocated || []), edited = new Set(ARG.edited || []);
+const rest = O.map((l, i) => [i + 1, l]).filter(([n]) => !removed.has(n) && !reloc.has(n) && !edited.has(n));
 let k = 0; let inserted = [];
 for (let i = 0; i < N.length; i++) { if (k < rest.length && N[i] === rest[k][1]) k++; else inserted.push(`${i + 1}: ${N[i]}`); }
 R.relocated = [...reloc].map(n => { const at = N.map((l, i) => l === O[n - 1] ? i + 1 : 0).filter(Boolean); return { line: n, text: O[n - 1].slice(0, 120), nowAt: at, ok: at.length === 1 }; });
 for (const r of R.relocated) if (r.ok) inserted = inserted.filter(x => x !== `${r.nowAt[0]}: ${O[r.line - 1]}`);
+R.edited = [...edited].map(n => ({ line: n, base: O[n - 1] }));                // (its text now is among the inserted lines)
 R.fromLinesBase = O.length; R.fromLinesNow = N.length; R.removedLines = removed.size;
 R.keptInOrder = k === rest.length; R.notKept = k === rest.length ? [] : rest.slice(k, k + 5).map(([n, l]) => `${n}: ${l}`);
 R.insertedInFrom = inserted;
 R.ok = R.ok && R.keptInOrder && removed.size > 0 && R.relocated.every(r => r.ok) && N.length === rest.length + inserted.length + R.relocated.length;
+R.editedCount = R.edited.length;
 if (ARG.out) fs.writeFileSync(ARG.out, JSON.stringify(R, null, 1) + '\n');
 for (const m of R.moves) console.log(`${m.to}: ${m.movedLines} lines moved verbatim (${m.ranges.map(r => r.lines + (r.foundAtModuleLine ? ' at line ' + r.foundAtModuleLine : ' NOT FOUND')).join(', ')}); the module's own lines: ${m.moduleOwnLines.length}`);
 for (const r of R.relocated) console.log(`${ARG.from}: line ${r.line} relocated within the file: now at ${r.nowAt.join(', ') || 'NOWHERE'}${r.ok ? '' : ' (must be found exactly once)'}`);
+for (const e of R.edited) console.log(`${ARG.from}: line ${e.line} changed in place; at ${ARG.base.slice(0, 7)} it was:\n  - ${e.base.slice(0, 200)}`);
 console.log(`${ARG.from}: ${R.removedLines} lines moved out, every other line of ${ARG.base.slice(0, 7)} kept in order: ${R.keptInOrder ? 'yes' : 'NO - first not kept: ' + R.notKept.join(' | ')}; inserted ${inserted.length}:`);
 for (const l of inserted) console.log('  + ' + l.slice(0, 200));
 console.log('MOVE PROOF: ' + (R.ok ? 'PASS' : 'FAIL'));

@@ -1,0 +1,41 @@
+# Stage 3H2, step C-3: NEW RUN's button and run-menu words moved to assets/net-newrun.js
+# $SP is the session's scratch folder; B++ = 143b63f; parent checkpoint: d24b64e (C-2 plus the client NEW RUN golden)
+
+## coverage first (commit d24b64e, evidence/h2/c3_prep/): the client NEW RUN golden, 2 scenes, 11/11 mutants caught
+
+## what moves, and what does not
+moved: nrButton (mp.js 85-90: what the pause dialog's NEW RUN button says) and runMenuWords (98-103, with its comment: the run menu's
+words after a blast), with nrTold, nrButton's own timer (declared at line 83 with NEW RUN's state; used only inside nrButton)
+kept in mp.js, by decision: NEW RUN's state and its decisions (__net.nr, nrAnswer, nrSent, nrBusy, nrQ, worldW).  worldW is the
+world epoch the q handler, oldWorld and worldNew read; nrBusy is read by solidNow, the solidity rule B++ locks; nrLast by the admin
+panel.  Moving them would mean rewriting those readers (accessors or a shared object), not moving lines: not a verbatim move, and it
+would touch locked code.  Deferred, with that reason (dev/devlog4dev/3H_DEFERRED_WORK.md).
+
+## the move (a script in the session scratch: it asserts every line it moves, and that nrTold has no other user)
+assets/net-newrun.js: an IIFE; `let nrTold = 0;`, the 12 lines as they were, then
+  (window.__mpLib = window.__mpLib || {}).newrun = Object.freeze({ nrButton, runMenuWords });   (3H0's pattern for net-wire / net-interp)
+mp.js: `const { nrButton, runMenuWords } = window.__mpLib.newrun;` beside 3H0's two such lines; line 83 without `nrTold = 0, `; a
+  2-line note where nrButton was
+index.html: <script src="./assets/net-newrun.js"></script> right after glitch.js, before net-wire.js - so the load-order sentences
+  in net-wire.js and net-interp.js ("only net-interp.js comes between them [net-wire.js and mp.js]", "immediately before mp.js")
+  stay true; the helper registers two functions and does nothing else at load
+  __mpLib is the namespace 3H0's helpers already declared (dev/stage-3h0/golden/declared_new_globals.json): no new global
+
+node dev/stage-3h/tools/h2_move_proof.js --base 143b63f --from mp.js --to assets/net-newrun.js --lines 85-90,98-103 --edited 83     exit 0  PASS
+  12 lines moved verbatim; line 83 changed in place (only `nrTold = 0, ` gone; both texts listed); every other line of B++'s mp.js
+  kept in order; 4 lines inserted (the require, line 83's new text, the note) (move_proof.json; the tool gained --edited)
+
+## the gate, fast tier, against B++
+node dev/stage-3h/gate/h2_gate.js --tier fast --allow-prod server.js,server/newrun.js,server/aftermath.js,mp.js,index.html,assets/net-newrun.js     exit 0  PASS
+  cli_golden: 3H0's 9 scenes (the new side loads the helper: index.html's scripts between glitch.js and mp.js) identical to B++, and
+  the 2 NEW RUN client scenes identical to their B++ baseline; srv_golden and raw_live list index.html and mp.js as expected content
+  changes (their bytes), nothing else; every other step as before (gate_fast/)
+node dev/stage-3h/golden/cli_golden_h2.js --mutants 1                                  exit 0  11/11 caught; 3 now found in assets/net-newrun.js (cli_nr_mutants.json)
+
+## the real-time and browser checks
+node dev/stage-3h/gate/h2_gate.js --only live_wire,browsers --allow-prod ... --out $SP/h2/c3/gate_live              exit 0  PASS
+  live_wire: structurally identical, the refusal reads "NEW RUN · WAIT N S" on both; the candidate's recording also identical to
+  each of five earlier B++ recordings.  browsers: two_browser (B+), the two collision cases, the gameplay smoke: all ok (gate_live/)
+
+## rollback
+ROLLBACK.md

@@ -1,0 +1,31 @@
+{
+ "tool": "dev/stage-3h/gate/h2_gate.js",
+ "tier": "fast",
+ "allowProd": "server.js,server/newrun.js,server/aftermath.js,mp.js,index.html,assets/net-newrun.js",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "d24b64e39f1c47f07930fcd0001632e4b020abc3",
+ "startedAt": "2026-10-14T15:16:11.957Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c3/gate_live",
+ "steps": {
+  "live_wire": {
+   "ok": true,
+   "cases": 65,
+   "note": "structurally identical, ui {\"menuAfterFirst\":true,\"refusedLabel\":\"NEW RUN · WAIT N S\",\"menuAfterRefused\":false,\"menuAfterAdmin\":true}",
+   "exit": 0,
+   "seconds": 395
+  },
+  "browsers": {
+   "ok": true,
+   "cases": 118,
+   "note": "two_browser ok (103), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5)",
+   "exit": null,
+   "seconds": 217
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-14T15:26:23.851Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate"
+ ]
+}

@@ -1,0 +1,242 @@
+{
+ "tool": "dev/stage-3h/golden/cli_golden_h2.js --mutants",
+ "source": "working tree",
+ "reference": {
+  "nr_answers": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+  "nr_reconnect": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad"
+ },
+ "mutants": [
+  {
+   "why": "the waiting mark is three dots",
+   "find": "nrButton('…'); tx({ t: 'nr', q, w: worldW });",
+   "repl": "nrButton('...'); tx({ t: 'nr', q, w: worldW });",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the cooldown wait rounded, not rounded up",
+   "find": "'WAIT ' + Math.ceil(+m.wait || 0) + ' S'",
+   "repl": "'WAIT ' + Math.round(+m.wait || 0) + ' S'",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "a refusal shows for 2 s",
+   "find": "if (text && text !== '…') nrTold = setTimeout(() => nrButton(''), 2500);",
+   "repl": "if (text && text !== '…') nrTold = setTimeout(() => nrButton(''), 2000);",
+   "foundIn": [
+    "assets/net-newrun.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/net-newrun.js",
+   "caught": true
+  },
+  {
+   "why": "the button stays enabled while waiting",
+   "find": "b.disabled = text === '…';",
+   "repl": "b.disabled = false;",
+   "foundIn": [
+    "assets/net-newrun.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/net-newrun.js",
+   "caught": true
+  },
+  {
+   "why": "a double press within 200 ms",
+   "find": "t - nrBusyAt < 300) return true;",
+   "repl": "t - nrBusyAt < 200) return true;",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "no answer for 3 s before the button comes back",
+   "find": "if (nrBusy === 1) { nrBusy = 0; nrButton(''); } }, 2500);",
+   "repl": "if (nrBusy === 1) { nrBusy = 0; nrButton(''); } }, 3000);",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the run menu says something else after a blast",
+   "find": "e.textContent = boom ? 'YOU BLEW YOURSELF UP' : e.dataset.fade;",
+   "repl": "e.textContent = boom ? 'YOU BLEW UP' : e.dataset.fade;",
+   "foundIn": [
+    "assets/net-newrun.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/net-newrun.js",
+   "caught": true
+  },
+  {
+   "why": "join keeps the blast words",
+   "find": "join() { nrBusy = 0; runMenuWords(false);",
+   "repl": "join() { nrBusy = 0;",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the approval does not call the beat",
+   "find": "runMenuWords(true); if (ok) ok(m); }",
+   "repl": "runMenuWords(true); }",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "a refused press keeps the client busy",
+   "find": "else { nrBusy = 0; nrButton(m.why === 'cooldown'",
+   "repl": "else { nrButton(m.why === 'cooldown'",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "a closed connection keeps the press",
+   "find": "nrSent.clear(); nrBusy = 0; worldW = null; clearTimeout(nrWaitT); nrButton('');",
+   "repl": "nrBusy = 0; worldW = null; clearTimeout(nrWaitT); nrButton('');",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": false,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  }
+ ],
+ "ok": true
+}
