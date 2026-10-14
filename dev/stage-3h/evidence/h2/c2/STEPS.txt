@@ -1,0 +1,40 @@
+# Stage 3H2, step C-2: the death aftermath and the NEW RUN blast moved to server/aftermath.js
+# $SP is the session's scratch folder; B++ = 143b63f; parent checkpoint: 122e8f1 (C-1 91a785f plus the aftermath golden)
+
+## coverage first (commit 122e8f1, evidence/h2/c2_prep/): bpp_aftermath pins every aftermath phase, 8 aftermath mutants caught
+
+## the move (a script in the session scratch: it finds every block by its B++ text, asserts the layout, then cuts and pastes)
+server.js B++ lines 116-163 (the aftermath comment, aftStart, aftOf, aftSend, aftTick), 182-185 (bodyAt, putBody) and 212-226
+(boomStart) -> server/aftermath.js, inside a factory given deathSrv, send and HEX:
+  module.exports = ({ deathSrv, send, HEX }) => { <the 67 lines, not re-indented> return { aftStart, aftOf, aftSend, aftTick, bodyAt, putBody, boomStart }; };
+server.js:
+  - a 4-line note where the block was;
+  - B++ line 115, a comment about moveTo that Stage 3D's insertions had left 70 lines above it (3H1 F-029, R-019: "move it with any
+    authorized step that touches either block"), moved back to just above moveTo, unchanged;
+  - one require after server/fields.js's (send and HEX exist by then), before server/newrun.js's, which is now given the module's
+    boomStart:  const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./server/aftermath.js')({ deathSrv, send, HEX });
+  - the C-1 note and require say where boomStart now is;
+  - require('./death_srv.js') stays where it was (line 28): the harness records the order of the requires server.js had at the 3H0
+    parent, so moving it would change every trace; the module is given deathSrv
+  worldReset and the admin revive stay in server.js and keep reading room.afts in place (the events live on the room)
+
+node dev/stage-3h/tools/h2_move_proof.js --base 143b63f --from server.js --to server/newrun.js --lines 204-211,227-244 --to server/aftermath.js --lines 116-163,182-185,212-226 --relocated 115     exit 0  PASS
+  cumulative since B++: 26 + 67 lines moved verbatim, each range one unbroken block in its module; line 115 found exactly once (now
+  above moveTo); every other line of B++'s server.js kept in order; 9 lines inserted (two notes, two requires) (move_proof.json)
+  (the tool gained --relocated for this)
+
+## the gate, fast tier, against B++
+node dev/stage-3h/gate/h2_gate.js --tier fast --allow-prod server.js,server/newrun.js,server/aftermath.js --out $SP/h2/c2/gate_fast     exit 0  PASS
+  srv_golden 11 identical to the B++ baseline (the structure record lists ./server/aftermath.js beside ./server/newrun.js); bpp_golden
+  7/7 identical to the B++ baseline, bpp_aftermath included; 18 mutants caught, 7 of the aftermath's found in server/aftermath.js (the
+  revive's end stays in server.js); raw_live identical (/server/aftermath.js 404 on both); quick suites as on B++ (gate_fast/)
+
+## the live two-browser check and B++'s own real-server checks
+node dev/stage-3h/gate/h2_gate.js --only live_wire,bpp_checks --allow-prod server.js,server/newrun.js,server/aftermath.js --out $SP/h2/c2/gate_live     exit 0  PASS
+  live_wire: structurally identical in every phase (the admin death preview, its replay to the other page and the corpse; three NEW
+  RUN presses; the server restart); the candidate's recording is also identical to each of the five earlier B++ recordings
+  bpp_checks: proto_check (8 checks, death and disconnect included), place_replay (22 placements) and place_guard (6) as measured on
+  B++ in 3H1 (gate_live/)
+
+## rollback
+ROLLBACK.md (C-2 alone, or C-1 and C-2 together; SHA-256 to check)

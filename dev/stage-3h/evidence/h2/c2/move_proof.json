@@ -1,0 +1,120 @@
+{
+ "tool": "dev/stage-3h/tools/h2_move_proof.js",
+ "base": "143b63f",
+ "from": "server.js",
+ "moves": [
+  {
+   "to": "server/newrun.js",
+   "ranges": [
+    {
+     "lines": "204-211",
+     "count": 8,
+     "foundAtModuleLine": 16
+    },
+    {
+     "lines": "227-244",
+     "count": 18,
+     "foundAtModuleLine": 24
+    }
+   ],
+   "movedLines": 26,
+   "moduleLines": 45,
+   "ok": true,
+   "moduleOwnLines": [
+    "1: /* server/newrun.js - NEW RUN's decision on the server.",
+    "2:  *",
+    "3:  * Stage 3H2 (C-1): moved out of server.js without a change.  Every line between the factory's first line and its return is B++'s own",
+    "4:  * (server.js at 143b63f, lines 204-211 and 227-244), comments and column included: nothing is re-indented, so each line can be",
+    "5:  * compared with B++ as it is (dev/stage-3h/tools/h2_move_proof.js does).",
+    "6:  *   NR_GAP                  250 ms: an intent that close to the last one is dropped (and counted)",
+    "7:  *   nrIntent(room, me, m)   one press's intent {t:'nr', q, w}: one answer {t:'nra', ...} per press number, or none (a flood, an older or a",
+    "8:  *                           malformed press); on approval the player leaves the world at once (sim.newRun) and the one explosion starts",
+    "9:  * What it uses of the server is given, never required (so loading it changes nothing a golden trace records):",
+    "10:  *   send(c, obj)            one message to one client: server.js's send (the WebSocket frame)",
+    "11:  *   boomStart(room, c, de)  the approved NEW RUN's explosion, an aftermath like a death's",
+    "12:  * What it reads and writes is the caller's: the room (room.sim, room.name, room.deSeq - the event id deaths share), the client record",
+    "13:  * (me.id, me.player, me.admin, me.nrFree, me.nrT, me.nrDropped, me.nr, me.spawnNext) and the sim's NEW RUN rules (sim.nrWhy, sim.newRun,",
+    "14:  * sim.nrWait, sim.worldSeq).  No state of its own, no timer.  Never served: the server's allowlist does not reach this folder. */",
+    "15: module.exports = ({ send, boomStart }) => {",
+    "42: ",
+    "43: return { NR_GAP, nrIntent };",
+    "44: };",
+    "45: "
+   ]
+  },
+  {
+   "to": "server/aftermath.js",
+   "ranges": [
+    {
+     "lines": "116-163",
+     "count": 48,
+     "foundAtModuleLine": 19
+    },
+    {
+     "lines": "182-185",
+     "count": 4,
+     "foundAtModuleLine": 67
+    },
+    {
+     "lines": "212-226",
+     "count": 15,
+     "foundAtModuleLine": 71
+    }
+   ],
+   "movedLines": 67,
+   "moduleLines": 89,
+   "ok": true,
+   "moduleOwnLines": [
+    "1: /* server/aftermath.js - the death aftermath on the server, and the NEW RUN blast's: one event per death or blast, decided and finished here.",
+    "2:  *",
+    "3:  * Stage 3H2 (C-2): moved out of server.js without a change.  Every line between the factory's first line and its return is B++'s own",
+    "4:  * (server.js at 143b63f, lines 116-163, 182-185 and 212-226), comments and column included: nothing is re-indented, so each line can be",
+    "5:  * compared with B++ as it is (dev/stage-3h/tools/h2_move_proof.js does).",
+    "6:  *   aftStart(room, c)           a death the sim has committed (its onDeath; or the tick, for one it finds without an event): open it",
+    "7:  *   aftOf(room, id)             player id's death still playing, if any (an admin revive cancels it; a NEW RUN blast is never one)",
+    "8:  *   aftSend(room)               each open event's replay, once, to every client that has not had it (a late joiner with el)",
+    "9:  *   aftTick(room)               each open event: its physics; at its end the corpse (and a Hound's place); from a world gone: dropped",
+    "10:  *   bodyAt                      a WeakMap: when each corpse was made (server time), for the age the snapshot's 'bodies' gives",
+    "11:  *   putBody(room, id, rec, at)  a corpse into the sim, with its time",
+    "12:  *   boomStart(room, c, de)      the approved NEW RUN's blast, an event like a death's (server/newrun.js is given it)",
+    "13:  * What it uses of the server is given, never required (so loading it changes nothing a golden trace records): deathSrv (death_srv.js,",
+    "14:  * which server.js still requires itself, where it always did), send(c, obj) (server.js's: the WebSocket frame) and HEX (server/fields.js's",
+    "15:  * colour test).  The events are the caller's: they live on the room (room.afts; room.deSeq, the event id NEW RUN shares), so server.js's",
+    "16:  * worldReset and its admin revive still end them in place.  bodyAt is the module's: one per server, as it was.  No timer.  Never served:",
+    "17:  * the server's allowlist does not reach this folder. */",
+    "18: module.exports = ({ deathSrv, send, HEX }) => {",
+    "86: ",
+    "87: return { aftStart, aftOf, aftSend, aftTick, bodyAt, putBody, boomStart };",
+    "88: };",
+    "89: "
+   ]
+  }
+ ],
+ "ok": true,
+ "relocated": [
+  {
+   "line": 115,
+   "text": "/* a server-side move of a player (spawn, admin tools): set it, tell the client when asked, and restart the movement che",
+   "nowAt": [
+    137
+   ],
+   "ok": true
+  }
+ ],
+ "fromLinesBase": 470,
+ "fromLinesNow": 386,
+ "removedLines": 93,
+ "keptInOrder": true,
+ "notKept": [],
+ "insertedInFrom": [
+  "115: /* Stage 3H2 (C-2): the death aftermath - aftStart, aftOf, aftSend, aftTick (Stage 3D: one event per death, decided and finished by the",
+  "116:  * server), bodyAt and putBody (a corpse's age) - and the approved NEW RUN's blast (boomStart, Stage 3D HQ2) are server/aftermath.js, moved",
+  "117:  * there as they were.  It is required below, beside the other server modules, once send and HEX exist, and given deathSrv, send and HEX.",
+  "118:  * The events stay on the room (room.afts), so worldReset just below and the admin revive still end them in place. */",
+  "156: /* Stage 3H2 (C-1): NEW RUN's decision - nrIntent (the intent {t:'nr'} and its one answer {t:'nra'}) and NR_GAP (its 250 ms flood gap),",
+  "157:  * Stage 3D HQ2's, with HQ3's UNLIMITED NEW RUN - is server/newrun.js, moved there as it was.  It is required below, beside the other",
+  "158:  * server modules, once send exists, and given send and boomStart (the approved NEW RUN's explosion: server/aftermath.js). */",
+  "163: const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./server/aftermath.js')({ deathSrv, send, HEX });   // Stage 3H2 (C-2): the death aftermath and the NEW RUN blast (see the note above worldReset)",
+  "164: const { nrIntent } = require('./server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see the note after adminMove)"
+ ]
+}
