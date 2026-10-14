@@ -4,9 +4,18 @@
 
 **Where things stand.**
 - **3H1** (audit and baseline) changed no runtime file.
-- **3H2** (continuous implementation, authorized by the user after 3H1): H2-0 built the gate every runtime checkpoint must pass
-  against the original B++ (`gate/`); the extractions follow, each its own commit with its own gate run and rollback. Human QA decides
-  acceptance.
+- **3H2** (continuous implementation, authorized by the user after 3H1) is finished. H2-0 built the gate that every runtime checkpoint
+  must pass against the original B++ (`gate/`). Four extractions followed (C-1 to C-4), each its own commit, with its golden first, its
+  gate run and its rollback.
+- **The candidate: HUMAN QA PENDING.** The user's Human QA decides acceptance (`3H2_HUMAN_QA.md`).
+
+## The 3H2 documents
+
+| File | What it is |
+|---|---|
+| `3H2_REPORT.md` | The result: the candidate, every checkpoint, every production change, the boundaries extracted, parity, smoke, performance, the overlay, limitations, findings |
+| `3H2_HUMAN_QA.md` | The one-page Human QA checklist (also in the overlay ZIP as `HUMAN_QA.md`) |
+| `3H2_CHANGED_FILES.txt` | Every file 3H2 added or modified |
 
 ## The 3H1 documents
 
@@ -45,6 +54,11 @@ All run from the repository root.
 | `gate/protocol_v2.js derive\|check\|selftest` | The B++ protocol contract v2 (`gate/protocol_bpp.json`), exact per message type, both directions |
 | `gate/suites.js derive\|run` | The existing suites, every failure classified against the B++ record (`gate/known_failures_bpp.json`) |
 | `tools/h2_move_proof.js --base R --from F --to M --lines a-b,…` | Proof that an extraction moved lines and changed none |
+| `golden/srv_scenarios_bpp.js` → `bpp_aftermath` | Before C-2: the death aftermath in every phase (late joiners, revive, world reset, disconnects, the NEW RUN blast, replacement, a rejoin's new world, corpse ages) |
+| `golden/cli_golden_h2.js [--scenes a,b] [--new-ref R] [--write-baseline] [--out D]`, or `--mutants 1 [--only texts]` | Before C-3: the client goldens 3H0's page could not reach, compared with B++'s `mp.js` and the stored baseline; and their 22 client mutants |
+| `golden/cli_lib_h2.js`, `golden/cli_scenes_nr.js`, `golden/cli_scenes_hum.js` | Its page (3H0's, plus B++'s own NEW RUN button and run menu) and scenes: NEW RUN's answers and a reconnect, the hum's fixtures and crackles |
+| `tools/h2_overlay.py REPO COMMIT OUT --qa F` | The human-QA overlay ZIP over a B++ folder, validated from the ZIP itself: Git bytes, over a B++ export, the revert, two real pages |
+| `tools/h2_glitch_on_path.js --game D` | Finding F-036: how often a glitched wall lands on `place_replay.js`'s walk, and that case reproduced on the real server |
 
 **What the tools may and may not do:**
 - They read Git or a game export, and write only where `--out` says. None writes to the repository's game files.
@@ -54,13 +68,20 @@ All run from the repository root.
 
 `evidence/h1/` (3H1). Its layout is in `3H1_SOURCE_PARITY_BASELINE.md` §6, and every file is listed in `3H1_CHANGED_FILES.txt`.
 
-`evidence/h2/` (3H2): `golden/` the six-scenario B++ baseline; `h2_0/` the tools' A/A and sensitivity runs and the gate's first run
-(`h2_0/STEPS.txt`); one folder per later checkpoint.
+`evidence/h2/` (3H2), each folder with a `STEPS.txt` (what ran, in order, with the result):
 
-**The golden traces in `evidence/h1/golden/` and `evidence/h2/golden/` are the B++ baseline.** They are locked by SHA-256 and must not be regenerated after a production change without the user's approval (H2-0's sixth scenario was recorded on B++'s own code, before any production change).
+| Folder | What |
+|---|---|
+| `golden/` | The 3H2 B++ baselines: 7 server scenarios (`bpp_traces`) and 3 client scenes (`cli_traces`) |
+| `h2_0/` | The tools' A/A and sensitivity runs and the gate's first run |
+| `c1/`, `c2_prep/`, `c2/`, `c3_prep/`, `c3/`, `c4_prep/`, `c4/` | One folder per checkpoint: coverage first (`*_prep`), then the move, its proof, its gate runs and its `ROLLBACK.md` |
+| `final/` | The final full gate on the candidate, F-036's reproduction, the move proofs and the overlay's receipt |
+| `remote/` | The push receipts |
+
+**The golden traces in `evidence/h1/golden/` and `evidence/h2/golden/` are the B++ baseline.** They are locked by SHA-256 and must not be regenerated after a production change without the user's approval. Every 3H2 baseline was recorded on B++'s own code: H2-0's sixth scenario before any production change, and `bpp_aftermath` and the three client scenes on the B++ export or with `--new-ref 143b63f`.
 
 ## Rules this folder keeps
 
-- **The game must not change.** 3H1 touched no runtime file. 3H2 changes runtime files only by moving code verbatim into modules, each move declared to the gate and proven against the original B++.
+- **The game must not change.** 3H1 touched no runtime file. 3H2 changed runtime files only by moving code verbatim into modules, each move declared to the gate and proven against the original B++.
 - **Earlier stages stay as they are.** Their tools and evidence are left untouched. Old root reports are not moved.
 - **The repository is public.** No passcode, secret, token, production address, exploit detail or personal data is written here.

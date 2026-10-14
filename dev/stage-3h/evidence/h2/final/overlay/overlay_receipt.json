@@ -1,0 +1,250 @@
+{
+ "commit": "859cf07cd60333b81b17a83a1e23bbfc3a8ea02b",
+ "tree": "673e444d7d3f3a5c210c735c0731f457cd6be07c",
+ "bpp": {
+  "commit": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+  "tree": "b25c26ec3eedab406a6b93f80a59ba6a1cb7c128"
+ },
+ "changed": [
+  "assets/mp-hum.js",
+  "assets/net-newrun.js",
+  "index.html",
+  "mp.js",
+  "server.js",
+  "server/aftermath.js",
+  "server/newrun.js"
+ ],
+ "added": [
+  "assets/mp-hum.js",
+  "assets/net-newrun.js",
+  "server/aftermath.js",
+  "server/newrun.js"
+ ],
+ "replaced": [
+  "index.html",
+  "mp.js",
+  "server.js"
+ ],
+ "checks": {
+  "zip": {
+   "crcFirstBad": null,
+   "gameFilesEqualGit": {
+    "STAGE3H_OVERLAY/assets/mp-hum.js": true,
+    "STAGE3H_OVERLAY/assets/net-newrun.js": true,
+    "STAGE3H_OVERLAY/index.html": true,
+    "STAGE3H_OVERLAY/mp.js": true,
+    "STAGE3H_OVERLAY/server.js": true,
+    "STAGE3H_OVERLAY/server/aftermath.js": true,
+    "STAGE3H_OVERLAY/server/newrun.js": true,
+    "REVERT_TO_BPP/index.html": true,
+    "REVERT_TO_BPP/mp.js": true,
+    "REVERT_TO_BPP/server.js": true
+   },
+   "entries": [
+    "HUMAN_QA.md",
+    "OVERLAY_RECEIPT.txt",
+    "REVERT_TO_BPP/index.html",
+    "REVERT_TO_BPP/mp.js",
+    "REVERT_TO_BPP/server.js",
+    "STAGE3H_OVERLAY/assets/mp-hum.js",
+    "STAGE3H_OVERLAY/assets/net-newrun.js",
+    "STAGE3H_OVERLAY/index.html",
+    "STAGE3H_OVERLAY/mp.js",
+    "STAGE3H_OVERLAY/server.js",
+    "STAGE3H_OVERLAY/server/aftermath.js",
+    "STAGE3H_OVERLAY/server/newrun.js",
+    "STAGE3H_SOURCE.diff",
+    "WHERE_TO_COPY.txt"
+   ],
+   "entriesAsExpected": true,
+   "ok": true
+  },
+  "bppIsWhatTheBppOverlayMade": {
+   "bppOverlaySource": "d501afe4c065a555de709bb11f438a47a7b643ba",
+   "runtimeFiles": 55,
+   "different": [],
+   "ok": true
+  },
+  "overBppExport": {
+   "runtimeFiles": 59,
+   "runtimeInCommit": 59,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "bppExportWasBpp": true,
+   "filesChangedByTheOverlay": [
+    "assets/mp-hum.js",
+    "assets/net-newrun.js",
+    "index.html",
+    "mp.js",
+    "server.js",
+    "server/aftermath.js",
+    "server/newrun.js"
+   ],
+   "ok": true
+  },
+  "revertToBpp": {
+   "runtimeFiles": 55,
+   "runtimeInCommit": 55,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "withoutDeletingOnlyTheAddedFilesDiffer": true,
+   "ok": true
+  },
+  "runs": {
+   "served": {
+    "assets/mp-hum.js": {
+     "status": 200,
+     "type": "text/javascript",
+     "sameBytes": true
+    },
+    "assets/net-newrun.js": {
+     "status": 200,
+     "type": "text/javascript",
+     "sameBytes": true
+    },
+    "server/aftermath.js": {
+     "status": 404,
+     "type": null,
+     "sameBytes": null
+    },
+    "server/newrun.js": {
+     "status": 404,
+     "type": null,
+     "sameBytes": null
+    }
+   },
+   "pages": {
+    "version": "br-role 1.2-candidate",
+    "bob": {
+     "mode": "bplus",
+     "fast": true,
+     "counts": {
+      "s": 325,
+      "q": 9,
+      "qApplied": 9,
+      "qStale": 0,
+      "qUnknown": 0
+     }
+    },
+    "alice": {
+     "mode": "bplus",
+     "fast": true
+    },
+    "qBefore": 1,
+    "mpLib": {
+     "keys": [
+      "hum",
+      "interp",
+      "newrun",
+      "wire"
+     ],
+     "frozen": true,
+     "newrun": [
+      "nrButton",
+      "runMenuWords"
+     ],
+     "hum": [
+      "buildHum",
+      "humUpdate"
+     ]
+    },
+    "hum": {
+     "60": -37.7,
+     "120": -30.1,
+     "240": -34.4,
+     "peak": 0.168
+    },
+    "placement": {
+     "bobBefore": [
+      504,
+      888
+     ],
+     "bobPage": [
+      1012,
+      690
+     ],
+     "serverSaysViaAlice": [
+      1012,
+      690
+     ],
+     "kept": true
+    },
+    "newRun": {
+     "approved": {
+      "last": {
+       "q": 1,
+       "ok": 1,
+       "why": "",
+       "wait": null,
+       "de": 1,
+       "at": 1791995514.953
+      },
+      "runMenu": true,
+      "eyebrow": "YOU BLEW YOURSELF UP",
+      "intro": "What is left of you stays where you stood."
+     },
+     "refused": {
+      "last": {
+       "q": 2,
+       "ok": 0,
+       "why": "cooldown",
+       "wait": 16,
+       "de": null,
+       "at": 1791995529.043
+      },
+      "label": "NEW RUN \u00b7 WAIT 16 S",
+      "runMenu": false,
+      "labelN": "NEW RUN \u00b7 WAIT N S"
+     },
+     "ok": true
+    }
+   },
+   "pageErrors": [],
+   "bppPage": {
+    "hum": {
+     "60": -37.7,
+     "120": -30.1,
+     "240": -34.4,
+     "peak": 0.178
+    },
+    "mpLib": [
+     "interp",
+     "wire"
+    ],
+    "pageErrors": []
+   },
+   "humWithin02dBOfBpp": true,
+   "servedAsExpected": true,
+   "ok": true
+  }
+ },
+ "ok": true,
+ "written": "2026-10-14T16:32:15Z",
+ "final": {
+  "crcFirstBad": null,
+  "gameFilesEqualGit": true,
+  "entries": [
+   "HUMAN_QA.md",
+   "OVERLAY_RECEIPT.txt",
+   "REVERT_TO_BPP/index.html",
+   "REVERT_TO_BPP/mp.js",
+   "REVERT_TO_BPP/server.js",
+   "STAGE3H_OVERLAY/assets/mp-hum.js",
+   "STAGE3H_OVERLAY/assets/net-newrun.js",
+   "STAGE3H_OVERLAY/index.html",
+   "STAGE3H_OVERLAY/mp.js",
+   "STAGE3H_OVERLAY/server.js",
+   "STAGE3H_OVERLAY/server/aftermath.js",
+   "STAGE3H_OVERLAY/server/newrun.js",
+   "STAGE3H_SOURCE.diff",
+   "WHERE_TO_COPY.txt"
+  ]
+ },
+ "zip": {
+  "file": "STAGE3H_HUMAN_QA_OVERLAY.zip",
+  "sha256": "265c1e1842d2170a0301e114da7d7789d8aee3338a162e7ab1869f25b6d63265",
+  "bytes": 137405
+ }
+}

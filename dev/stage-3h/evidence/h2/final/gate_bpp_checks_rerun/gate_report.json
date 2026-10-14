@@ -1,0 +1,23 @@
+{
+ "tool": "dev/stage-3h/gate/h2_gate.js",
+ "tier": "fast",
+ "allowProd": "server.js,server/newrun.js,server/aftermath.js,mp.js,index.html,assets/net-newrun.js,assets/mp-hum.js",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "859cf07cd60333b81b17a83a1e23bbfc3a8ea02b",
+ "startedAt": "2026-10-14T16:26:30.865Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/final/gate_bpp_checks_rerun",
+ "steps": {
+  "bpp_checks": {
+   "ok": true,
+   "cases": 36,
+   "note": "proto_check as on B++ (8), place_replay as on B++ (22), place_guard as on B++ (6)",
+   "exit": null,
+   "seconds": 148
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-14T16:28:59.151Z",
+ "removed": [
+  "game_candidate"
+ ]
+}

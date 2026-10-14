@@ -1,0 +1,132 @@
+{
+ "tool": "dev/stage-3h/tools/h2_glitch_on_path.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/final/exp_bpp",
+ "walk": {
+  "x0": 1012,
+  "x1": 1180,
+  "y": 690
+ },
+ "touchPx": 54,
+ "offline": {
+  "worlds": 20000,
+  "withAGlitchedWallOnTheWalk": 89,
+  "share": 0.00445,
+  "spots": {
+   "1200,672,0,-1": 89
+  }
+ },
+ "live": {
+  "worldTheJoinStarted": [
+   [
+    528,
+    6048,
+    0,
+    1
+   ],
+   [
+    4320,
+    5904,
+    1,
+    0
+   ],
+   [
+    5952,
+    3696,
+    -1,
+    0
+   ]
+  ],
+  "redraws": 299,
+  "glitchedWallOnTheWalk": [
+   1200,
+   672,
+   0,
+   -1
+  ],
+  "scenario": "bring545_old_s0 (as in place_replay.js)",
+  "placed": [
+   1012,
+   690
+  ],
+  "staleSent": 0,
+  "walkPoses": 13,
+  "serverEnd": [
+   1143,
+   690
+  ],
+  "pageEnd": [
+   1171,
+   690
+  ],
+  "backAtOldSamples": 0,
+  "correctionsAfter": 0,
+  "keptByPlaceReplaysRule": false,
+  "exit": {
+   "msAfterBring": 596,
+   "pagePos": [
+    1171,
+    690
+   ],
+   "distanceToTheGlitchedWall": 34
+  },
+  "lastTrackMsAfterBring": 545,
+  "track": [
+   [
+    39,
+    1012,
+    690
+   ],
+   [
+    89,
+    1016,
+    690
+   ],
+   [
+    140,
+    1030,
+    690
+   ],
+   [
+    192,
+    1044,
+    690
+   ],
+   [
+    242,
+    1058,
+    690
+   ],
+   [
+    293,
+    1072,
+    690
+   ],
+   [
+    344,
+    1087,
+    690
+   ],
+   [
+    395,
+    1101,
+    690
+   ],
+   [
+    445,
+    1115,
+    690
+   ],
+   [
+    495,
+    1129,
+    690
+   ],
+   [
+    545,
+    1143,
+    690
+   ]
+  ]
+ },
+ "serverErrors": []
+}

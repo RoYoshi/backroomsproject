@@ -15,7 +15,7 @@ node dev/stage-3h/gate/h2_gate.js --tier full --allow-prod <every production fil
   compared nothing is a FAIL**, whatever its exit code. Exit 0 only when every step passes. Everything is written under `--out`
   (`gate_report.json` plus each tool's log and report).
 
-## Fast tier (deterministic; about 4 minutes)
+## Fast tier (deterministic; about 2 minutes on a 2-CPU machine)
 
 | step | what it proves | against |
 |---|---|---|
@@ -30,7 +30,7 @@ node dev/stage-3h/gate/h2_gate.js --tier full --allow-prod <every production fil
 | raw_live | each game as a real server over raw TCP: every HTTP response (status, headers, body) and the WebSocket checks | the B++ export |
 | quick_suites | the suites that read `server.js`'s or `mp.js`'s own text (`s_humanqa_hotfix` X02/X03, `s_ir` I1, `interp_test`) and the quick ones (`test_3bn`, `ir_net`), every failure classified | the B++ record `known_failures_bpp.json` |
 
-## Full tier (the final candidate; about 35 minutes)
+## Full tier (the final candidate; about 37 minutes)
 
 The fast tier, then the real-time checks:
 
@@ -65,5 +65,11 @@ The fast tier, then the real-time checks:
 - Timing in a real browser beyond structure (which message types, key sets, scripted event counts). Pose freshness and smoothing are
   pinned by the deterministic goldens and the B++ checks, not by live timing.
 - Pixels outside the contact lab's frozen scenes. BR-RoLE's code is not touched by Stage 3H; the scope step proves its bytes.
-- The pause dialog's NEW RUN button text and the run menu's words are covered by the live run only (`ui` in its report) until a client
-  NEW RUN golden exists (C-3).
+- Sound. The hum and the dread layer are compared as code (every call they make, in the client goldens) and as an offline spectrum,
+  never heard.
+- B++'s `place_replay.js` can fail one case by chance, in about 7 % of runs: a glitched wall drawn on its walk takes its mover out of
+  the level (3H finding F-036). A `bpp_checks` failure whose case sent no stale pose, got no correction and whose track stops early
+  is that; run the step again.
+
+(The pause dialog's NEW RUN button text and the run menu's words, once covered by the live run only, have been pinned by the client
+NEW RUN golden since `d24b64e`.)

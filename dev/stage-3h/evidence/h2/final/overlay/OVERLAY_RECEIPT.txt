@@ -1,0 +1,33 @@
+Stage 3H human-QA overlay - receipt
+written 2026-10-14T16:32:15Z by dev/stage-3h/tools/h2_overlay.py
+
+source    stage-3h 859cf07cd60333b81b17a83a1e23bbfc3a8ea02b (tree 673e444d7d3f3a5c210c735c0731f457cd6be07c)
+reverts   B++ (accepted) 143b63ff42b88c6780c5043e0f61d64100f81f40 (tree b25c26ec3eedab406a6b93f80a59ba6a1cb7c128)
+game files changed since B++: index.html, mp.js, server.js; added: assets/mp-hum.js, assets/net-newrun.js, server/aftermath.js, server/newrun.js; nothing else, nothing removed
+
+files:
+  7b5ae65f0370bcd39c42c9b7b24a6ffc8a9f82959ab0236fb54f68679906e791  STAGE3H_OVERLAY/assets/mp-hum.js  (8585 bytes) - C-4 (new): the fluorescent light hum - B++ mp.js 887-984, verbatim
+  6775d5a18ae489f518c42a7eb3a698c152d1333da1e463044ae2bdbea23619a4  STAGE3H_OVERLAY/assets/net-newrun.js  (2425 bytes) - C-3 (new): NEW RUN's button and run-menu words - B++ mp.js 85-90, 98-103, verbatim
+  ca02fd163bee6c2f9460f7f4e2af0c9cfa90b01f28c2a3d2db5f427913c428cf  STAGE3H_OVERLAY/index.html  (24568 bytes) - C-3, C-4: loads the two new page scripts, right after glitch.js
+  9243aafb1e17a66d9ca03936c3e10b70341ec99732fafec588a44b0fe3075be4  STAGE3H_OVERLAY/mp.js  (88802 bytes) - C-3, C-4: reads assets/net-newrun.js and assets/mp-hum.js; the lines they hold are gone from here
+  dbabc050ebc2222f97ac073d931a40030809ad9567cce20a8165c664d19edefe  STAGE3H_OVERLAY/server.js  (34380 bytes) - C-1, C-2: loads server/newrun.js and server/aftermath.js; the lines they hold are gone from here; one comment back above moveTo
+  dd9f4555237dd0a1da696fb03bdf433b607ca2eddce767de4a04bb68e27b4586  STAGE3H_OVERLAY/server/aftermath.js  (8611 bytes) - C-2 (new): the death aftermath, corpses and the NEW RUN blast - B++ server.js 116-163, 182-185, 212-226, verbatim
+  356c9e1f4d45d5de26be9510fdcf8df0a574a97f7dcb7206e5be0002195fb53e  STAGE3H_OVERLAY/server/newrun.js  (3667 bytes) - C-1 (new): NEW RUN's decision - B++ server.js 204-211, 227-244, verbatim
+  ea756260589054f9fd787c8c1037fb1a8123c174059ae660c100f8c5c76b5db6  REVERT_TO_BPP/index.html  (24478 bytes) - the accepted B++ file, to undo
+  b338e5aa87f37bd3a436d584233a6b9e0b554f118d8d99e316dfe7bee0494653  REVERT_TO_BPP/mp.js  (96283 bytes) - the accepted B++ file, to undo
+  0424cbc1942a301a3bca01f681f0618a090479815e131bb2e1ee2ea569d8fb2d  REVERT_TO_BPP/server.js  (41751 bytes) - the accepted B++ file, to undo
+  bb72603feaadf64a0607061136306e4168f1dc8bd1911fe836b83e316e0ea868  WHERE_TO_COPY.txt
+  92099fa02ebd409789b006e1f9f5f9b052724a2e70879974af7fba3b99353e75  HUMAN_QA.md
+  e4c546ce124544da76b742b97a7efdc4a8ddaec81c465a089064d27295ceb69e  STAGE3H_SOURCE.diff  (git diff 143b63f 859cf07 of the files above)
+
+1. ZIP CRCs good, its entries as listed, its game files byte-identical to Git: yes
+2. every runtime file of B++ 143b63f byte-identical to the B++ overlay's source d501afe (55 files): yes
+3. STAGE3H_OVERLAY copied over a clean export of B++ 143b63f: 59 runtime files byte-identical to stage-3h 859cf07, the copy changed or added only assets/mp-hum.js, assets/net-newrun.js, index.html, mp.js, server.js, server/aftermath.js, server/newrun.js: yes
+4. REVERT_TO_BPP copied back and the 4 added files deleted: byte-identical to B++ 143b63f; before the deletions only those files differed: yes
+5. the overlaid folder runs: page errors 0; the new page scripts served byte for byte and the new server files not (404): yes; helpers hum, interp, newrun, wire (frozen: yes; a B++ page has interp, wire); offline hum at 60 / 120 / 240 Hz -37.7 / -30.1 / -34.4 dB, a B++ page -37.7 / -30.1 / -34.4 dB: yes; both pages get the fresher poses: yes; Bob's page applied Alice's 'q' while she walked: 8; br-role 1.2-candidate; Bob brought 545 px ([504, 888] -> (1012, 690)): his page [1012, 690], the server as Alice's page has him [1012, 690], kept: yes; NEW RUN approved, the run menu "YOU BLEW YOURSELF UP"; after SPAWN refused (cooldown), the button "NEW RUN · WAIT N S": yes: yes
+
+Human QA has NOT been done: the checks above are automated.  The hum was measured offline, not heard.
+
+OVERLAY CHECK: PASS
+
+the ZIP itself: STAGE3H_HUMAN_QA_OVERLAY.zip  137405 bytes  sha256 265c1e1842d2170a0301e114da7d7789d8aee3338a162e7ab1869f25b6d63265

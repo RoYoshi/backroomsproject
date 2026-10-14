@@ -51,6 +51,12 @@
 | F-028 | No player-facing frame rate or network display | Opportunity | None | P.U.L.S.E. |
 | F-029 | A comment in `server.js` sits above the wrong code | Opportunity | None | S.P.A.C.E. |
 | F-030 | The contact lab's lifecycle scene is not pixel-stable A/A | Limitation | Low for refactoring | S.T.A.G.E. |
+| F-031 | The live two-browser comparison has three B+ timing races | Limitation (tooling) | Low for refactoring | S.T.A.G.E. |
+| F-032 | A page needs `index.html`, `mp.js` and its helper scripts from one build | Limitation | Low | A.T.L.A.S., B++ |
+| F-033 | Three things no golden saw before 3H2: NEW RUN's client words, the hum's flicker rule and crackle cadence, most aftermath phases | Limitation (closed in 3H2) | Medium for refactoring | S.T.A.G.E. |
+| F-034 | A corpse's age rule is invisible to the closed-world goldens | Limitation (tooling) | None | S.T.A.G.E., G.I.B. |
+| F-035 | The page accepts a NEW RUN answer for a press it has forgotten | Confirmed (harness) | None | B++ |
+| F-036 | B++'s placement replay can fail by chance when a glitched wall lies on its walk | Confirmed (reproduced) | Low for refactoring | S.T.A.G.E., S.P.A.C.E. |
 
 ## Architecture and source
 
@@ -518,3 +524,108 @@
 | Risk of acting | none |
 | Disposition | Recorded in the baseline's A/A table |
 | Owner / phase | H2-0 |
+
+## Stage 3H2 (continuous implementation)
+
+Added at 3H2, after H2-0's tooling and the four extractions (C-1 to C-4). As before: **none of these was fixed**. Line numbers are at
+`143b63f` unless a 3H2 file is named.
+
+### Status of earlier findings after 3H2
+
+| Finding | What 3H2 did | Now |
+|---|---|---|
+| F-003 | `dev/stage-3h/gate/protocol_v2.js` and `protocol_bpp.json`: the contract derived from B++'s own traces, exact per type and direction (R-002) | the gate's `protocol` step; 3H0's contract is left as it was |
+| F-021 | `golden/raw_live_h2.js` and `golden/live_wire_h2.js`: 3H copies that run on B++ and fail loudly; each proven by deliberately broken copies (R-003) | gate steps `raw_live` (fast) and `live_wire` (full) |
+| F-023 | the client NEW RUN golden (`cli_golden_h2.js`, 2 scenes), the aftermath golden (`bpp_aftermath`) and the hum scene (`hum_fixtures`) | NEW RUN pressed in a client golden; still not covered: real GPU, real audio output, a real network, phones, long sessions |
+| F-029 | C-2 moved the stranded comment back above `moveTo` (R-019) | done |
+| F-030 | the gate's `contact_lab` step compares only the pixel-stable scenes (geometry, lights, peers) | as recommended |
+
+### F-031: the live two-browser comparison has three B+ timing races
+
+| Field | |
+|---|---|
+| Label | Limitation (tooling) |
+| Where | `dev/stage-3h/golden/live_wire_h2.js` (3H0's structural rule, written before B+) |
+| Evidence | Two runs of the *same* B++ game differed: (1) which phase a `q` (fresher poses) fell in, and whether a page that barely moves saw one at all; (2) `s.k` in snapshots before the caps answer; (3) in the outage phases, whether a page sent a pose while the server stopped (the pages draw about 2 frames a second under software rendering here). Six recordings: `evidence/h2/h2_0/live_wire/`, `evidence/h2/c1/live_wire_rules_recheck.json` |
+| Severity | Low for refactoring |
+| Effect | Without rules for them, the live check fails on noise; with them, it cannot see `q`'s presence or the outage phases' periodic traffic. The deterministic goldens pin all three exactly (`bpp_caps_q`, the protocol contract) |
+| Framework | S.T.A.G.E. |
+| Recommendation | Keep the rules; a broken copy that stops asking for caps is still caught (44 differences) |
+| Risk of acting | none |
+| Disposition | The rules are in the tool, with the evidence |
+| Owner / phase | 3H2 H2-0, C-1 |
+
+### F-032: a page needs `index.html`, `mp.js` and its helper scripts from one build
+
+| Field | |
+|---|---|
+| Label | Limitation |
+| Where | `mp.js` lines 7–10 at the 3H2 candidate read `window.__mpLib.wire`, `.interp` (3H0), `.newrun` and `.hum` (3H2) once at start-up |
+| Evidence | Reading the code. A page that loaded a newer `mp.js` with an older `index.html` would miss a helper, and the multiplayer layer would not start. Code is served `no-store`, so a browser fetches the page and its scripts together |
+| Severity | Low |
+| Effect | None with the server as it is; a CDN or proxy that cached code against `no-store` could mix builds |
+| Framework | A.T.L.A.S., B++ |
+| Recommendation | Keep code `no-store`; deploy `index.html` and `assets/` with `mp.js` |
+| Risk of acting | — |
+| Disposition | Recorded (it already held for 3H0's two helpers) |
+| Owner / phase | delivery |
+
+### F-033: three things no golden saw before 3H2
+
+| Field | |
+|---|---|
+| Label | Limitation (closed in 3H2) |
+| Where | Stage 3H0's client page and scenes; the server goldens |
+| Evidence | (1) 3H0's client page has no `#reset` and no `#runMenu`, so mp.js's NEW RUN words returned at once and no client scene saw them; (2) 3H0's `hum_dread` stands by fixture 0, which flickers under any rule, and hums plainly for 1.7 s - two hum mutants went unseen (`evidence/h2/c4_prep/hum_mutants_first_try.json`); (3) no server golden had a late joiner's `el`, an admin revive cancelling a death in play, a death dropped by the world a rejoin starts, or one aftermath replacing another |
+| Severity | Medium for refactoring |
+| Effect | Before 3H2, a change to any of these could pass every golden |
+| Framework | S.T.A.G.E. |
+| Recommendation | Done: `cli_scenes_nr.js`, `cli_scenes_hum.js`, `bpp_aftermath`; 22 client and 8 aftermath mutants caught |
+| Risk of acting | none |
+| Disposition | Closed, before the code they pin was moved |
+| Owner / phase | 3H2 |
+
+### F-034: a corpse's age rule is invisible to the closed-world goldens
+
+| Field | |
+|---|---|
+| Label | Limitation (tooling) |
+| Where | `server/aftermath.js` (B++ `server.js` 185): `putBody` stores `min(now, the death's end)` |
+| Evidence | The mutant "the age counted from placement" changed no trace: in the harness a death ends on the very snapshot tick that places its corpse, so the two times are equal (`evidence/h2/c2_prep/mutants_aftermath_first_run.json`) |
+| Severity | None |
+| Effect | The rule is pinned only by reading; on a real server the two times differ by under 50 ms, which the `bodies` age (0.1 s steps) rarely shows |
+| Framework | S.T.A.G.E., G.I.B. |
+| Recommendation | Accept; or a scenario whose death length is not a multiple of 50 ms |
+| Risk of acting | none |
+| Disposition | Recorded; the mutant is left out with this reason |
+| Owner / phase | — |
+
+### F-035: the page accepts a NEW RUN answer for a press it has forgotten
+
+| Field | |
+|---|---|
+| Label | Confirmed (harness) |
+| Where | `mp.js` `nrAnswer` (B++ 91–96) with `onclose` (B++ 231) clearing the presses |
+| Evidence | `cli_scenes_nr.js` `nr_reconnect`, last step: after a reconnect, an approval naming the first connection's press shows the blast words and blocks further presses until the next join, without the beat (its callback was forgotten) |
+| Severity | None |
+| Effect | None in play: the server answers each press on the connection it came from (`me.nr`), so the page never receives such an answer |
+| Framework | B++ |
+| Recommendation | None |
+| Risk of acting | — |
+| Disposition | Pinned as it is |
+| Owner / phase | — |
+
+### F-036: B++'s placement replay can fail by chance when a glitched wall lies on its walk
+
+| Field | |
+|---|---|
+| Label | Confirmed (reproduced) |
+| Where | `dev/stage-3e-0-bpp/place_replay.js` (B++'s own check, left as it is); `sim.js` `join` (the first player in a room starts a fresh world) and `step` (a player within 54 px of a glitched wall leaves the level and drops out of the snapshots) |
+| Evidence | The final full gate (`dev/stage-3h/evidence/h2/final/gate_full/`): case `bring545_old_s0` "not kept". It sent no stale pose, got no correction and was never back at the old spot. The server's track simply stops 514 ms into the walk, at x 1127, 42 px short of the page. `dev/stage-3h/tools/h2_glitch_on_path.js`: in 20,000 draws of the glitched walls, 81 (the candidate's `sim.js`) and 89 (B++'s) put one at (1200, 672), within 54 px of the walk, and no other spot ever does. With that wall drawn, the same case on the real server ends the same way on B++ and on the candidate: the mover is sent `exit` about 0.6 s into the walk, and place_replay's own rule says "not kept" (`evidence/h2/final/f036/`). The gate step re-run alone passed (36 cases as on B++). No server file changed after C-2, whose run of the step passed, and place_replay runs no page code |
+| Severity | Low for refactoring |
+| Effect | 18 of place_replay's 22 cases walk past that spot, so about 7 % of runs (one in 14) can fail with nothing changed. Such a failure says nothing about the placement guard |
+| Framework | S.T.A.G.E., S.P.A.C.E. |
+| Recommendation | Keep B++'s tool as it is. A later 3H copy could void a case whose mover was sent `exit` and run it again, or walk where no glitched wall can be drawn (within 2,600 px of the start) |
+| Risk of acting | none |
+| Disposition | Recorded with the reproduction; a gate failure of this exact shape (a case with no stale pose and no correction, whose track stops early) is checked against it before anything else |
+| Owner / phase | S.T.A.G.E. |

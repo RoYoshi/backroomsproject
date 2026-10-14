@@ -1,0 +1,11 @@
+$ node dev/stage-3h0/golden/perf_det.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --rounds 7 --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/final/gate_full/perf_det.json
+server lifecycle: cpu ms old 1336.045 new 1306.016 (-2.25 %, tol 289.243) ok
+server deaths: cpu ms old 1589.152 new 1517.538 (-4.51 %, tol 100.04) ok
+server admin: cpu ms old 1560.129 new 1580.043 (1.28 %, tol 203.478) ok
+server schedule: cpu ms old 443.491 new 456.112 (2.85 %, tol 117.446) ok
+client menu_online: hook ms old 21.5 new 23.1 (7.44 %) ok; handler ms old 2.1 new 2.5 (19.05 %) ok
+client run_online: hook ms old 63 new 61.6 (-2.22 %) ok; handler ms old 7.4 new 6.1 (-17.57 %) ok
+client interp: hook ms old 75.5 new 72.7 (-3.71 %) ok; handler ms old 6.3 new 6.4 (1.59 %) ok
+client fx_bodies: hook ms old 117.7 new 115.4 (-1.95 %) ok; handler ms old 11 new 11.1 (0.91 %) ok
+client hum_dread: hook ms old 43.9 new 45.2 (2.96 %) ok; handler ms old 0.4 new 0.4 (0 %) ok
+deterministic performance: within the predeclared tolerance

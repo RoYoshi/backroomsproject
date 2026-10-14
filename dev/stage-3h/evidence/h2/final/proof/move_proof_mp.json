@@ -1,0 +1,98 @@
+{
+ "tool": "dev/stage-3h/tools/h2_move_proof.js",
+ "base": "143b63f",
+ "from": "mp.js",
+ "moves": [
+  {
+   "to": "assets/net-newrun.js",
+   "ranges": [
+    {
+     "lines": "85-90",
+     "count": 6,
+     "foundAtModuleLine": 15
+    },
+    {
+     "lines": "98-103",
+     "count": 6,
+     "foundAtModuleLine": 21
+    }
+   ],
+   "movedLines": 12,
+   "moduleLines": 29,
+   "ok": true,
+   "moduleOwnLines": [
+    "1: /* net-newrun.js - the NEW RUN button's words and the run menu's, for the multiplayer layer (mp.js).",
+    "2:  *",
+    "3:  * Stage 3H2 (C-3): moved out of mp.js without a change (B++ mp.js lines 85-90 and 98-103, as they were), so what a player reads of NEW RUN",
+    "4:  * lives in one small file:",
+    "5:  *   nrButton(text)      the pause dialog's NEW RUN button (#reset): its own label, or the label and a word - '…' while a press waits (the",
+    "6:  *                       button disabled then), 'WAIT N S' or 'NOT NOW' after a refusal, back to the label alone 2.5 s later",
+    "7:  *   runMenuWords(boom)  the run menu's eyebrow and intro (#runMenu): the blast's words after an approved NEW RUN, its own words otherwise",
+    "8:  * nrTold, the timer that brings the button's label back, came with nrButton, its only user (mp.js declared it with NEW RUN's state).",
+    "9:  * NEW RUN's state and its decisions stay in mp.js (__net.nr, nrAnswer): the world epoch and the solidity rule read them too.",
+    "10:  * The functions read the page when they are called, exactly as they did inside mp.js, and keep no other state.",
+    "11:  * Loaded by index.html right after glitch.js, before net-wire.js and net-interp.js, as a classic script; its only global is",
+    "12:  * window.__mpLib.newrun, which mp.js reads once at start-up.  Never loaded by the server. */",
+    "13: (() => {",
+    "14: let nrTold = 0;",
+    "27: (window.__mpLib = window.__mpLib || {}).newrun = Object.freeze({ nrButton, runMenuWords });",
+    "28: })();",
+    "29: "
+   ]
+  },
+  {
+   "to": "assets/mp-hum.js",
+   "ranges": [
+    {
+     "lines": "887-984",
+     "count": 98,
+     "foundAtModuleLine": 14
+    }
+   ],
+   "movedLines": 98,
+   "moduleLines": 114,
+   "ok": true,
+   "moduleOwnLines": [
+    "1: /* mp-hum.js - the fluorescent light hum of the multiplayer layer (mp.js): a synthesized magnetic ballast on the game's own audio context.",
+    "2:  *",
+    "3:  * Stage 3H2 (C-4): moved out of mp.js without a change (B++ mp.js lines 887-984, as they were):",
+    "4:  *   humUpdate()          called by mp.js's per-frame hook: builds the hum on the game's audio context the first time (again if that",
+    "5:  *                        context changes), then sets its level, pan, flicker, dips, crackles, blackout drop-out and strike-back from",
+    "6:  *                        the player's distance to the nearest fixture; a user-supplied hum file (window.__sfx) replaces it",
+    "7:  *   buildHum(ctx, dest)  the hum's graph on any audio context (mp.js's __net.testHum renders it offline for the tests)",
+    "8:  * Its state - the hum, the blackout it last saw, the next crackle and dip, the flicker's phase - is its own, as it was; it reads",
+    "9:  * window.__api and window.__sfx when it is called, exactly as it did inside mp.js, and draws Math.random in the same order.  Nothing",
+    "10:  * happens at load but defining these.",
+    "11:  * Loaded by index.html after net-newrun.js, before net-wire.js and net-interp.js, as a classic script; its only global is",
+    "12:  * window.__mpLib.hum, which mp.js reads once at start-up.  Never loaded by the server. */",
+    "13: (() => {",
+    "112: (window.__mpLib = window.__mpLib || {}).hum = Object.freeze({ buildHum, humUpdate });",
+    "113: })();",
+    "114: "
+   ]
+  }
+ ],
+ "ok": true,
+ "relocated": [],
+ "edited": [
+  {
+   "line": 83,
+   "base": "let worldW = null, nrQ = 0, nrBusy = 0, nrBusyAt = 0, nrLast = null, nrTold = 0, nrWaitT = 0;   // nrBusy: 1 a press waits for its answer, 2 approved (until the next run)"
+  }
+ ],
+ "fromLinesBase": 1045,
+ "fromLinesNow": 941,
+ "removedLines": 110,
+ "keptInOrder": true,
+ "notKept": [],
+ "insertedInFrom": [
+  "9: const { nrButton, runMenuWords } = window.__mpLib.newrun;   // Stage 3H2 (C-3): NEW RUN's button and run-menu words (assets/net-newrun.js, loaded before this file)",
+  "10: const { buildHum, humUpdate } = window.__mpLib.hum;   // Stage 3H2 (C-4): the fluorescent hum (assets/mp-hum.js, loaded before this file)",
+  "85: let worldW = null, nrQ = 0, nrBusy = 0, nrBusyAt = 0, nrLast = null, nrWaitT = 0;   // nrBusy: 1 a press waits for its answer, 2 approved (until the next run)",
+  "87: /* Stage 3H2 (C-3): nrButton (what the pause dialog's NEW RUN button says) and runMenuWords (the run menu's words after a blast) are",
+  "88:  * assets/net-newrun.js's, with nrButton's own timer; mp.js reads them at start-up (above). */",
+  "879: /* Stage 3H2 (C-4): the fluorescent light hum - buildHum, humUpdate, its crackles, thunk and strike-back, and its state - is",
+  "880:  * assets/mp-hum.js's; mp.js reads it at start-up (above), calls humUpdate() every frame and keeps the offline check below. */"
+ ],
+ "editedCount": 1
+}

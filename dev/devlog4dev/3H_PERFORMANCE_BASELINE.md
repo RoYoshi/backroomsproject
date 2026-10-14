@@ -126,3 +126,11 @@ The 20 Hz snapshot schedule holds to within a few milliseconds when nothing else
 2. **A change passes when its median is within the A/A tolerance.** A step that only moves code should not move any number beyond its A/A spread.
 3. **Never quote a SwiftShader number as a frame rate.** Real-GPU checks belong to the user's Human QA, on their own hardware.
 4. **For a server-only step** (C-1, C-2 in `dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md`), `perf_det.js`'s server half and the snapshot cadence in §2 are the relevant probes.
+
+## 6. Stage 3H2: the candidate against this baseline
+
+The final full gate ran rule 1 and rule 2 above on the candidate (C-4 `859cf07`): `perf_det.js`, B++'s code against the candidate's,
+7 interleaved rounds. All 9 workloads stayed within the tolerance (B++'s own spread between rounds, at least 5 % on the server and
+10 % on the client); the server's four moved between −4.5 % and +2.9 %. No change is claimed in either direction. The numbers are in `dev/stage-3h/3H2_REPORT.md` §7 and
+`dev/stage-3h/evidence/h2/final/gate_full/perf_det.json`. The gameplay smoke's SwiftShader frame times are recorded there too, and,
+by rule 3, they are not frame rates.

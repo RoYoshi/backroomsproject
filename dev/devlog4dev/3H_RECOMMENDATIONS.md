@@ -160,3 +160,14 @@ The user decides on the items reported privately (F-027). Any change to authenti
 - the misplaced comment (`server.js` line 115).
 
 **How.** They cost nothing today. Remove or move one only inside an authorized step that already changes those lines, so no accepted file changes for this alone (F-011, F-012, F-018, F-029).
+
+## Stage 3H2 status
+
+| Recommendation | Status after 3H2 |
+|---|---|
+| R-001 (one development gate) | done: `dev/stage-3h/gate/h2_gate.js`, against the original B++ at every checkpoint. On this 2-CPU machine the fast tier takes about 2 minutes and the full tier about 37 (the final run). One B++ check inside it can fail by chance (F-036) |
+| R-002 (protocol contract v2) | done: `gate/protocol_v2.js`, `gate/protocol_bpp.json` (derived from the B++ traces, both directions) |
+| R-003 (working live harnesses) | done: `golden/raw_live_h2.js`, `golden/live_wire_h2.js`, each proven by broken copies |
+| R-016 (test hygiene) | in part: the suites' known B++ failures are a classification (`gate/known_failures_bpp.json`); the text-reading tests are run in the fast tier; stale expectations still the user's decision |
+| R-019 (dead lines and stray comments only inside a step that touches them) | F-029's comment moved back above `moveTo` in C-2; F-011, F-012, F-018 untouched (no 3H2 step touched those lines) |
+| all others | unchanged |

@@ -1,0 +1,62 @@
+# Stage 3H2, the final candidate: the full gate, one chance failure explained (F-036), the move proofs, the overlay
+# $SP is the session's scratch folder; B++ = 143b63f (tree b25c26e); the candidate's game files = C-4 859cf07 (tree 673e444)
+
+## the full gate on the candidate (gate_full/; 2026-10-14 15:42-16:19 UTC, 37 min, a 2-CPU machine)
+node dev/stage-3h/gate/h2_gate.js --tier full --allow-prod server.js,server/newrun.js,server/aftermath.js,mp.js,index.html,assets/net-newrun.js,assets/mp-hum.js --out $SP/h2/final/gate_full     exit 1  FAIL (one step)
+  PASS build 3 · scope 189 (186 identical, 3 replaced and 4 added, all declared; 7,267 dev files outside 3H unchanged) · srv_golden 11
+       · bpp_golden 7 · cli_golden 12 · protocol 52,740 messages + selftest · mutants 18 · static 4 · raw_live 141 · quick_suites 23
+       · cli_mutants 22 · live_wire 65 phases (structurally identical; the refusal reads "NEW RUN · WAIT N S" on both)
+       · browsers 113 (two_browser 98, col_head 5, col_aside 5, gameplay_smoke 5) · contact_lab 23 images identical in pixels
+       · suites 293 (only the known B++ failures) · perf 9 (every median inside the old side's own tolerance)
+  FAIL bpp_checks: proto_check as on B++ (8), place_guard as on B++ (6), place_replay 21 of 22 as on B++: bring545_old_s0 "not kept"
+  (heavy intermediates removed by the gate; both sides' live recordings kept here gzipped; the contact lab's and the smoke's images
+   are not kept, their result files are)
+
+## the failing case, read
+bring545_old_s0 (an HQ5-style mover, 50 ms poses, no stale pose): staleSent 0, no correction, never back at the old spot; the server's
+track stops 514 ms into the walk at x 1127 while the page walked on to 1169 (gate_full/place_replay.json).  Not the race B++-0 guards:
+no old pose was sent at all.  The code under test: no server file changed after C-2 (eb782fd), whose run of this step passed
+(c2/gate_live/), and place_replay.js runs no page code.  In sim.js, a room's first join starts a fresh world with three glitched walls
+at random spots, and a player within 54 px of one leaves the level and drops out of the snapshots: the track's end fits that.
+
+## the cause, reproduced (f036/; tools/h2_glitch_on_path.js, new)
+node dev/stage-3h/tools/h2_glitch_on_path.js --game <export of 859cf07> --worlds 20000 --out f036/glitch_on_path_c4.json      exit 0
+node dev/stage-3h/tools/h2_glitch_on_path.js --game <export of 143b63f> --worlds 20000 --out f036/glitch_on_path_bpp.json     exit 0
+  offline, the game's own sim.js: 81 (candidate) and 89 (B++) of 20,000 draws put a glitched wall at (1200, 672), facing up, within
+  54 px of the walk; no other spot ever does (0.41 % and 0.45 %)
+  live, the real server: the case run as place_replay.js runs it, with one step added after the join (the admin redraws the glitched
+  walls until one is there): on both, the mover is sent 'exit' about 0.6 s into the walk, the track stops at x 1149 / 1143, and
+  place_replay.js's own rule says "not kept" - the same shape as the gate's case
+  (a first version of the tool redrew before the join and saw no exit: the join's new world had replaced the drawn walls; it now
+   redraws after the join, as described in its header)
+  18 of the 22 cases walk past that spot: about 7 % of place_replay runs can fail so, with nothing changed (3H finding F-036)
+
+## the step again (gate_bpp_checks_rerun/)
+node dev/stage-3h/gate/h2_gate.js --only bpp_checks --allow-prod <the seven> --out $SP/h2/final/gate_bpp_checks_rerun          exit 0  PASS
+  proto_check as on B++ (8), place_replay as on B++ (22: every group kept as in 3H1's B++ record), place_guard as on B++ (6)
+
+## the move proofs at the candidate, cumulative since B++ (proof/)
+node dev/stage-3h/tools/h2_move_proof.js --base 143b63f --from server.js --to server/newrun.js --lines 204-211,227-244 --to server/aftermath.js --lines 116-163,182-185,212-226 --relocated 115     exit 0  PASS
+  93 lines moved verbatim, line 115 relocated, every other line kept in order, 9 inserted
+node dev/stage-3h/tools/h2_move_proof.js --base 143b63f --from mp.js --to assets/net-newrun.js --lines 85-90,98-103 --to assets/mp-hum.js --lines 887-984 --edited 83     exit 0  PASS
+  110 lines moved verbatim, line 83 edited (only `nrTold = 0, ` gone), every other line kept in order, 7 inserted
+
+## the overlay (overlay/; tools/h2_overlay.py, new; the ZIP itself is delivered to the user, not committed)
+python3 -I -B dev/stage-3h/tools/h2_overlay.py <repo> 859cf07cd60333b81b17a83a1e23bbfc3a8ea02b $SP/h2/final/overlay --qa dev/stage-3h/3H2_HUMAN_QA.md     exit 0  OVERLAY CHECK: PASS
+  STAGE3H_HUMAN_QA_OVERLAY.zip 137,405 bytes, sha256 265c1e1842d2170a0301e114da7d7789d8aee3338a162e7ab1869f25b6d63265
+  1 the ZIP's CRCs, entries and game files (Git); 2 B++'s runtime = the B++ overlay's source d501afe (55 files); 3 over a clean B++
+  export: 59 runtime files = the candidate's, only the seven changed; 4 REVERT_TO_BPP back and the 4 new files deleted = B++; 5 the
+  overlaid folder runs: no page error, the helpers served (the server modules 404), the offline hum -37.7 / -30.1 / -34.4 dB at
+  60 / 120 / 240 Hz on the candidate and on a B++ page, the fresher poses, BR-RoLE 1.2-candidate, the 545 px placement kept, NEW RUN
+  approved ("YOU BLEW YOURSELF UP") and, after SPAWN, refused ("NEW RUN · WAIT N S")
+
+## before the commit (the documents, these receipts)
+a scan of the new and changed files (scratch tool: the built-in default passcode read from server.js at run time and never written,
+  the production host read from redirect.js, token and key shapes): 105 files, 0 hits
+python3 -I -B dev/stage-3d/secret_scan_3d.py --extra <a private list outside the repository> --out <scratch>     exit 1 by its own rule,
+  every finding read and none real: 5,471 files; self-test 21 of 21 planted items caught, no false finding; 0 for the passcode, its
+  SHA-256, the private list, tokens and keys, addresses and home folders; 14 "e-mail address" shapes: 13 are the mutant name
+  nr_held_free@sim.js (a mutant and the file that holds it, in the gate's reports since H2-0) and 1 is binary noise in a Stage 3D video
+  (dev/stage-3d-hq2/evidence/h2-5/video/main/film.mp4, the same match 3H1 recorded)
+python3 -I -B dev/stage-3h/tools/h1_scope_check.py --worktree --allow-prod <the seven>                       exit 0  SCOPE CHECK: PASS
+  production: 189 files, the seven declared ones changed and nothing else; the 7,267 other dev/ files unchanged
