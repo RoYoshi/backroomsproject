@@ -12,7 +12,7 @@
  *   page        index.html's <script> / <link> tags in document order (classic scripts run in that order; the module script runs after them)
  *   esm         the static and dynamic ES-module imports among assets/*.js (the game bundle and the PixiJS chunks), and missing targets
  *   require     server.js's require graph
- *   globals     for every served script: the globals it assigns (window.x = / globalThis.x = / a UMD factory's root.x = ...; browser
+ *   globals     for every served script, and for index.html's inline scripts: the globals it assigns (window.x = / globalThis.x = / a UMD factory's root.x = ...; browser
  *               properties such as window.onresize are left out) and every __name it mentions;
  *               a text scan of the code with its comments removed, not an evaluation: it tells where to look, the documents say what was
  *               checked by reading the code
@@ -90,6 +90,11 @@ const files = all.filter(p => !p.startsWith('dev/')).map(p => {
       useStrict: /^\s*(?:\/\*[\s\S]*?\*\/\s*)?['"]use strict['"]/.test(s), iife: /^\s*(?:\/\*[\s\S]*?\*\/\s*)?(?:\(\s*\(\s*\)\s*=>|\(function|!function|;\(\(\)|\(\(\)\s*=>)/.test(s) };
     const head = (raw.match(/^\s*\/\*([\s\S]*?)\*\//) || [])[1];
     if (head) r.header = head.replace(/\s*\n\s*\*?\s?/g, ' ').trim().slice(0, 300);
+  }
+  if (p === 'index.html') {                                  // the page's inline scripts (no src) set globals too (window.__boot)
+    const s = strip([...b.toString().matchAll(/<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]).join('\n'));
+    r.globals = { inlineScripts: true, assigned: [...new Set([...s.matchAll(/\b(?:window|globalThis)\.([A-Za-z_$][\w$]*)\s*(?:=(?!=)|\|\|=|\?\?=)/g)].map(m => m[1]))].filter(g => !SKIP_G.has(g) && !/^(on[a-z]+|location|name|status|innerWidth|innerHeight|devicePixelRatio)$/.test(g)).sort(),
+      mentioned: [...new Set([...s.matchAll(/(?<![\w$])(__[A-Za-z][\w]*)/g)].map(m => m[1]))].filter(g => !SKIP_G.has(g)).sort() };
   }
   return r;
 });

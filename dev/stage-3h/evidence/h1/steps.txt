@@ -1,4 +1,4 @@
-# Stage 3H1 baseline: what ran, in order, with exit codes (scratch paths shortened to $SP)
+# Stage 3H1 baseline: what ran, in order, with exit codes (in this file scratch paths are shortened to $SP; the JSON evidence keeps the session's absolute scratch paths)
 # parent 143b63ff42b88c6780c5043e0f61d64100f81f40, tree b25c26ec3eedab406a6b93f80a59ba6a1cb7c128; B++ export = git archive 143b63f into $SP/h1/game
 
 ## the batch ($SP/h1/base/run.sh)
@@ -67,5 +67,5 @@ bpp_mutants exit=0 (9/9 caught): node dev/stage-3h/golden/bpp_mutants.js --out $
 wire_keys (with the 5 B++ traces): node dev/stage-3h/tools/h1_wire_keys.js --srv SRV,BPP --cli CLI --out wire_keys.json
 contact_lab A/A images: python3 -I dev/stage-3h0/golden/compare_captures.py contact_lab/bpp_a contact_lab/bpp_b --out contact_lab_aa_images.json
 wav_stall x2 exit=0: node dev/stage-3h/tools/h1_wav_stall.js --game $SP/h1/game --port 8631|8632 --out perf/wav_stall_{1,2}.json
-inventory exit=0: node dev/stage-3h/tools/h1_inventory.js --ref 143b63f --out inventory_bpp.json   (re-run after the comment fix)
+inventory exit=0: node dev/stage-3h/tools/h1_inventory.js --ref 143b63f --out inventory_bpp.json   (re-run after the comment and inline-script fixes)
 build check exit=0: node dev/stage-3h/tools/h1_build_check.js --ref 143b63f --out build_reproducibility.json

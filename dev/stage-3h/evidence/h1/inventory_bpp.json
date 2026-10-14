@@ -2410,7 +2410,16 @@
    "bytes": 24478,
    "lines": 227,
    "sha256": "ea756260589054f9fd787c8c1037fb1a8123c174059ae660c100f8c5c76b5db6",
-   "role": "served"
+   "role": "served",
+   "globals": {
+    "inlineScripts": true,
+    "assigned": [
+     "__boot"
+    ],
+    "mentioned": [
+     "__boot"
+    ]
+   }
   },
   {
    "path": "inventory.js",
