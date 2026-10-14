@@ -1,3 +1,9 @@
+/** @part generated/server/ai.js - N.A.N.I.: entities: personality, movement, traversal, navigation records, state plumbing
+ * provides: approach, coarseMove, directOk, directTo, faceToward, follow, goTo, mkEntity, moodTick, moveCollide, navOf, plan,
+ *           randomFloor, setAct, setState, steerTo, stopMoving, tierOf, turnTo
+ * uses: OL, S, SPECIES, TAU, TRAITS, angDiff, clamp, entityStreams, lerp, newMemory
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- entities: personality, movement, traversal, state plumbing */
 function personality(sp, rng) {

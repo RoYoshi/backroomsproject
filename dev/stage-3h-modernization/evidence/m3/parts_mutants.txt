@@ -1,0 +1,8 @@
+ok   untouched         exit 0  PARTS CHECK: PASS (9 outputs, 64 parts)
+ok   provides_missing  exit 1  src/frameworks/gib/client/mp.bodies.js: provides: the header says [hasBody], the code [applyBodies, hasBody] | PARTS CHECK: FAIL (9 outputs, 64 parts)
+ok   uses_extra        exit 1  src/frameworks/gib/client/mp.bodies.js: uses: the header says [room, bodiesList, myId, toRec], the code [bodiesList, myId, toRec] | PARTS CHECK: FAIL (9 outputs, 64 parts)
+ok   writes_missing    exit 1  src/frameworks/overseer/server/sim.admin.js: writes: the header says [debugOn, frozen, glitches, items, runT, speed], the code [bmode, debugOn, frozen, glitches, items, runT, speed] | PARTS CHECK: FAI
+ok   wrong_output      exit 1  src/frameworks/gib/client/mp.bodies.js: its header names public/ents.js, not public/mp.js | PARTS CHECK: FAIL (9 outputs, 64 parts)
+ok   no_header         exit 1  src/frameworks/br-r/client/mp.wanderers.js: no @part header | PARTS CHECK: FAIL (9 outputs, 64 parts)
+ok   statement_cut     exit 1  PROBLEM a statement at character 25474 straddles two parts | PARTS CHECK: FAIL (9 outputs, 64 parts)
+PARTS CHECKER: the untouched copy passes; every wrong header and the cut statement are refused

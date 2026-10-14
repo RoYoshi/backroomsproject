@@ -1,0 +1,12 @@
+{
+ "output": "public/camcorder.js",
+ "split": { "from": "src/frameworks/br-r/client/camcorder.js", "parts": [
+   { "lines": "1-76", "to": "src/frameworks/br-r/client/camcorder.js" },
+   { "lines": "77-118", "to": "src/frameworks/spacious-audio/client/camcorder.audio.js" },
+   { "lines": "119-434", "to": "src/frameworks/br-r/client/camcorder.view.js" } ] },
+ "titles": {
+  "src/frameworks/br-r/client/camcorder.js": "BR-R: the night-vision camcorder (the IIFE opens here): its rules and its state",
+  "src/frameworks/spacious-audio/client/camcorder.audio.js": "Spacious Audio: the camcorder's synthesised sound",
+  "src/frameworks/br-r/client/camcorder.view.js": "BR-R: the camcorder's page elements, drawing, public API and input; the IIFE closes here"
+ }
+}

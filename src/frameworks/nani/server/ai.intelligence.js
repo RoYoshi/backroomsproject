@@ -1,3 +1,9 @@
+/** @part generated/server/ai.js - N.A.N.I.: shared evidence tools: arbitration, identities, habits (Stage 2F); never a species' action brain
+ * provides: INTEL, arbitrateEvidence, cleanHabits, cleanupKnowledge, evidenceCandidates, evidenceModality, forgetIdentity, habitBias,
+ *           habitObserve, identifySound, intelligenceDebug, observationScore
+ * uses: LEAD_MAXAGE, S, SM_DWELL, clamp, hDwell, hMaySwitch, houndTargetScore, memHalfLife, sScore, tgtGone, visualObservation
+ * writes: -
+ */
 /* Stage 2F: shared evidence tools, never a species action brain. Inputs are observations only.
  * See STAGE_2F_DESIGN.md: physical contact, lifecycle and LOD are explicit system boundaries. */
 const INTEL = Object.freeze({ players: 16, sounds: 8, soundTTL: 25, leads: 6, leadTTL: 45, evidence: 4, recordTTL: 120, visited: 128, visitedTTL: 60, habitObs: 6, hypotheses: 3, habitTTL: 30, habitRepeats: 3, habitBias: .12, candidates: 70, debugCandidates: 12 });

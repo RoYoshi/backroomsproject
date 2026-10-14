@@ -1,11 +1,13 @@
-/** @part generated/server/sim.js (after src/core/server/sim.header.js)
- * L.O.S.T. / S.P.A.C.E.: Level 0's map, collision, ray-cast and light code, extracted from the production bundle (3H F-007: the map
- * exists in the bundle too).  This header is not built; it keeps the comment dev/sim_head.js carried above the code:
+/** @part generated/server/sim.js - L.O.S.T. / S.P.A.C.E.: Level 0's map, collision, ray-cast and light code, extracted from the production bundle; createSim opens here
+ * 3H F-007: the map exists in the bundle too.  This header is not built; it keeps the comment dev/sim_head.js carried above the code:
  * | /* sim.js - server-side Level 0 monster simulation.
  * |  * The map, pathfinding, Hound and Smiler AI below are the game's own code, extracted from the
  * |  * production bundle (assets/index-*.js) and generalised from one player to many.
  * |  * The section marked 'multiplayer glue' is new. * /
  * | 'use strict';
+ * provides: Bc, FBH, FBW, Fc, Gc, Hc, Ic, Lc, Oc, Rc, Uc, V, W, al, fl, il, ll, opts, qc, sl, ul, zc
+ * uses: -
+ * writes: -
  */
 const WORLD=require('./world.js');
 module.exports=function createSim(opts){opts=opts||{};

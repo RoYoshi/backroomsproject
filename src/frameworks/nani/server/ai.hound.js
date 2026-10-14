@@ -1,3 +1,10 @@
+/** @part generated/server/ai.js - N.A.N.I.: the Hound (primal: hears everything, fast in straight lines, poor at turning)
+ * provides: HACT, HOUND, beginHunt, beginSearch, hDebug, hDwell, hMaySwitch, houndTargetScore
+ * uses: S, SCODE, TAU, WORLD, angDiff, approach, bestAnonLead, clamp, commitTick, directOk, directTo, dist, estimate, faceToward,
+ *       facedBy, follow, goTo, habitBias, lerp, memAge, moveCollide, pickW, plan, rand, randomFloor, rec, setAct, setState, setTarget,
+ *       steerTo, stopMoving, tgtGone, turnTo
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- HOUND: primal, hears everything, fast in straight lines, poor at turning */
 const HACT = { '': 0, listen: 1, sniff: 2, freeze: 3, wind: 4, lunge: 5, recover: 6, feed: 7, vault: 8, circle: 9, stare: 10, drag: 11, growl: 12, rest: 13, pace: 14, back: 15, guard: 16 };

@@ -1,3 +1,9 @@
+/** @part generated/server/ai.js - N.A.N.I.: perception, memory, leads and social awareness; the evidence law (Part 2, stage 2C)
+ * provides: LEAD_MAXAGE, W_SN, addLead, bestAnonLead, bestLead, decayMemory, estimate, facedBy, hearEvent, memAge, memHalfLife,
+ *           newMemory, noteEv, perc, rec, setTarget, tgtGone, threatsAround, touching, updateVision, visualObservation
+ * uses: INTEL, S, TAU, WORLD, angDiff, clamp, evidenceModality, forgetIdentity, habitObserve, identifySound, lerp, observationScore
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- perception, memory, social awareness */
 const POSTURE_VIS = [1, 1, 1.12, .62, .45, .72, 1, .4];     // stand walk run crouch crawl slide vault down (how visible a body is)

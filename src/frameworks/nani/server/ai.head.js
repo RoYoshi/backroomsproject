@@ -1,3 +1,8 @@
+/** @part generated/server/ai.js - N.A.N.I.: the UMD wrapper (the factory opens here), seeded random streams and hashes, species codes, traits, small math
+ * provides: Hash, S, SCODE, SNAMES, TAU, TRAITS, WORLD, angDiff, clamp, deriveSeed, dist, entityStreams, lerp, mkRng, sm
+ * uses: -
+ * writes: -
+ */
 /* ai.js - reusable entity AI for The Far Backrooms (v16).  UMD: require('./ai.js') on the server.
  * Everything an entity does is built from the same components:
  *   PERCEPTION (vision with walls / darkness / posture, hearing from a sound bus)  ->  MEMORY (last known position, staleness)

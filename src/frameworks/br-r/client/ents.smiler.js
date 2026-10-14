@@ -1,3 +1,8 @@
+/** @part public/ents.js - BR-R: the Smiler (darkness with a face)
+ * provides: -
+ * uses: E, TAU, clamp, sm
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- SMILER: darkness with a face
  * Canon (Entity 3): "reflective eyes and teeth gleaming in the dark", "a long smile with multiple sharp teeth", "white glowing eyes"; the rest of

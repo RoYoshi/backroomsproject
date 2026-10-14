@@ -138,7 +138,9 @@
   {
    "out": "public/camcorder.js",
    "parts": [
-    "src/frameworks/br-r/client/camcorder.js"
+    "src/frameworks/br-r/client/camcorder.js",
+    "src/frameworks/spacious-audio/client/camcorder.audio.js",
+    "src/frameworks/br-r/client/camcorder.view.js"
    ]
   },
   {
@@ -167,7 +169,9 @@
   {
    "out": "public/glitch.js",
    "parts": [
-    "src/frameworks/lost/client/glitch.js"
+    "src/frameworks/lost/client/glitch.js",
+    "src/frameworks/spacious-audio/client/glitch.audio.js",
+    "src/frameworks/lost/client/glitch.draw.js"
    ]
   },
   {
@@ -197,13 +201,30 @@
   {
    "out": "public/move.js",
    "parts": [
-    "src/frameworks/space/client/move.js"
+    "src/frameworks/space/client/move.js",
+    "src/frameworks/br-r/client/move.poses.js",
+    "src/frameworks/spacious-audio/client/move.sound.js"
    ]
   },
   {
    "out": "public/mp.js",
    "parts": [
-    "src/core/client/mp.js"
+    "src/core/client/mp.js",
+    "src/frameworks/bpp/client/mp.net.js",
+    "src/frameworks/gib/client/mp.owndeath.js",
+    "src/frameworks/bpp/client/mp.newrun.js",
+    "src/frameworks/space/client/mp.peers.js",
+    "src/frameworks/bpp/client/mp.transport.js",
+    "src/frameworks/nani/client/mp.monsters.js",
+    "src/frameworks/lost/client/mp.glitch.js",
+    "src/frameworks/pocket/client/mp.cartograph.js",
+    "src/frameworks/gib/client/mp.bodies.js",
+    "src/frameworks/spacious-audio/client/mp.dread.js",
+    "src/frameworks/br-r/client/mp.wanderers.js",
+    "src/frameworks/gib/client/mp.replays.js",
+    "src/frameworks/overseer/client/mp.admin.js",
+    "src/frameworks/overseer/client/mp.deathlab.js",
+    "src/core/client/mp.frame.js"
    ]
   },
   {
@@ -221,7 +242,12 @@
   {
    "out": "public/world.js",
    "parts": [
-    "src/frameworks/space/shared/world.js"
+    "src/frameworks/space/shared/world.js",
+    "src/frameworks/lost/shared/world.lamps.js",
+    "src/frameworks/space/shared/world.crawl.js",
+    "src/frameworks/lost/shared/world.surfaces.js",
+    "src/frameworks/space/shared/world.move.js",
+    "src/frameworks/br-r/shared/world.art.js"
    ]
   },
   {
@@ -250,13 +276,26 @@
    "parts": [
     "src/core/server/sim.header.js",
     "src/frameworks/lost/server/sim.level0.js",
+    "src/frameworks/nani/server/sim.ai.js",
+    "src/frameworks/lost/server/sim.glitches.js",
+    "src/frameworks/gib/server/sim.bodies.js",
+    "src/frameworks/space/server/sim.players.js",
+    "src/frameworks/space/server/sim.movement.js",
+    "src/frameworks/nani/server/sim.feed.js",
+    "src/core/server/sim.step.js",
+    "src/frameworks/overseer/server/sim.admin.js",
     "src/core/server/sim.glue.js"
    ]
   },
   {
    "out": "generated/server/world.js",
    "parts": [
-    "src/frameworks/space/shared/world.js"
+    "src/frameworks/space/shared/world.js",
+    "src/frameworks/lost/shared/world.lamps.js",
+    "src/frameworks/space/shared/world.crawl.js",
+    "src/frameworks/lost/shared/world.surfaces.js",
+    "src/frameworks/space/shared/world.move.js",
+    "src/frameworks/br-r/shared/world.art.js"
    ]
   }
  ]

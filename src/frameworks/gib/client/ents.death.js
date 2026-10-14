@@ -1,3 +1,8 @@
+/** @part public/ents.js - G.I.B.: how a death plays out on screen, four variants per killer
+ * provides: -
+ * uses: API, E, TAU, angDiff, clamp, sm
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- how a death plays out: four variants per killer
  * The server decides which one (ai.js: variant A-D, and the real wall behind the victim for the hound's wall impact).  Here they only

@@ -13,28 +13,28 @@ server/peers.js,whole,src/frameworks/space/server/peers.js,space,server,(require
 server/ws.js,whole,src/frameworks/bpp/server/ws.js,bpp,server,(required directly),module,H3M-1,server goldens + raw_live,
 server/fields.js,whole,src/frameworks/ward/server/fields.js,ward,server,(required directly),module,H3M-1,server goldens + protocol,
 server/static.js,whole,src/frameworks/ward/server/static.js,ward,server,(required directly),module,H3M-1,raw_live + static + negative paths,root becomes public/
-sim.js,dev/sim_head.js (map + level code from the bundle),src/frameworks/lost/server/ + src/frameworks/space/server/,lost; space,server,generated/server/sim.js,part,H3M-1 move; H3M-3 split,build:check bytes,F-007: the map exists twice (bundle + here)
-sim.js,"dev/sim_glue.js sections: AI wiring, director, spawning",src/frameworks/nani/server/sim.*.js,nani,server,generated/server/sim.js,part,H3M-3,build:check bytes,
-sim.js,dev/sim_glue.js: glitched walls,src/frameworks/lost/server/sim.*.js,lost,server,generated/server/sim.js,part,H3M-3,build:check bytes,
-sim.js,dev/sim_glue.js: cartograph item,src/frameworks/pocket/server/sim.*.js,pocket,server,generated/server/sim.js,part,H3M-3,build:check bytes,
-sim.js,dev/sim_glue.js: bodies (corpses),src/frameworks/gib/server/sim.*.js,gib,server,generated/server/sim.js,part,H3M-3,build:check bytes,
-sim.js,"dev/sim_glue.js: player lifecycle, NEW RUN rules",src/frameworks/space/server/ + src/frameworks/gib/server/,space; gib,server,generated/server/sim.js,part,H3M-3,build:check bytes,
-sim.js,dev/sim_glue.js: movement routes (moveOk moveRoute blockersAt),src/frameworks/space/server/sim.*.js,space,server,generated/server/sim.js,part,H3M-3,build:check bytes,
-sim.js,dev/sim_glue.js: admin API,src/frameworks/overseer/server/sim.*.js,overseer,server,generated/server/sim.js,part,H3M-3,build:check bytes,
-sim.js,"dev/sim_glue.js: step, entities, the returned object",src/core/server/sim.*.js,core,server,generated/server/sim.js,part,H3M-3,build:check bytes,the world simulation's own composition
+sim.js,dev/sim_head.js (map + level code from the bundle),src/frameworks/lost/server/sim.level0.js,lost; space,server,generated/server/sim.js,part,H3M-1 move; H3M-3 split,build:check bytes,decided at M3: one part (the bundle's own minified level code: it is not split by hand; F-007: the map exists in the bundle too)
+sim.js,"dev/sim_glue.js sections: AI wiring, director, spawning",src/frameworks/nani/server/sim.ai.js; src/frameworks/nani/server/sim.feed.js,nani,server,generated/server/sim.js,part,H3M-3,build:check bytes,"done at M3: two N.A.N.I. parts (the wiring, director and spawning; the per-step feed and events); the world's shared state is declared in sim.ai.js, as it always was"
+sim.js,dev/sim_glue.js: glitched walls,src/frameworks/lost/server/sim.glitches.js,lost,server,generated/server/sim.js,part,H3M-3,build:check bytes,"done at M3 (P.O.C.K.E.T.'s cartograph placement sits among these lines, noted in the header)"
+sim.js,dev/sim_glue.js: cartograph item,in src/frameworks/lost/server/sim.glitches.js (placement) and src/core/server/sim.glue.js (takeItem),pocket,server,generated/server/sim.js,part,H3M-3,build:check bytes,done at M3: its lines are interleaved with the glitched walls' and the returned object's; each header names them
+sim.js,dev/sim_glue.js: bodies (corpses),src/frameworks/gib/server/sim.bodies.js,gib,server,generated/server/sim.js,part,H3M-3,build:check bytes,"done at M3 (N.A.N.I.'s navCmd and killerEnd sit among these lines, noted in the header)"
+sim.js,"dev/sim_glue.js: player lifecycle, NEW RUN rules",src/frameworks/space/server/sim.players.js,space; gib,server,generated/server/sim.js,part,H3M-3,build:check bytes,done at M3: with the world reset
+sim.js,dev/sim_glue.js: movement routes (moveOk moveRoute blockersAt),src/frameworks/space/server/sim.movement.js,space,server,generated/server/sim.js,part,H3M-3,build:check bytes,"done at M3: with spawnOk, hearMove and gaitFloor"
+sim.js,dev/sim_glue.js: admin API,src/frameworks/overseer/server/sim.admin.js,overseer,server,generated/server/sim.js,part,H3M-3,build:check bytes,done at M3
+sim.js,"dev/sim_glue.js: step, entities, the returned object",src/core/server/sim.step.js; src/core/server/sim.glue.js,core,server,generated/server/sim.js,part,H3M-3,build:check bytes,done at M3: the step and the entities; the returned object (createSim closes there)
 ai.js,dev/ai_src/00..90 (10 parts),src/frameworks/nani/server/ai.*.js,nani,server,generated/server/ai.js,part,H3M-1 move,build:check bytes,already cohesive parts; owner N.A.N.I.
-world.js,whole (props surfaces movement constants drawProp),src/frameworks/space/shared/ + src/frameworks/lost/shared/ (+ br-r for drawProp),space; lost; br-r,shared,public/world.js + generated/server/world.js,part,H3M-1 move; H3M-3 split,build:check bytes,loaded by browser and server
-dphys.js,whole (death physics; NEW RUN boom; dying light),src/frameworks/gib/shared/dphys*.js,gib,shared,public/dphys.js + generated/server/dphys.js,whole or parts,H3M-1 move; H3M-5 split,build:check bytes,loaded by browser and by death_srv.js
-mp.js,"prologue, per-frame hook, epilogue",src/core/client/mp.*.js,core,client,public/mp.js,part,H3M-4,build:check bytes,
-mp.js,"transport: connect, tx, dispatch, B+ caps/q, peers' poses",src/frameworks/bpp/client/mp.*.js,bpp,client,public/mp.js,part,H3M-4,build:check bytes,
-mp.js,"solid peers, soft teleport, world epoch",src/frameworks/space/client/mp.*.js,space,client,public/mp.js,part,H3M-4,build:check bytes,
-mp.js,"entity mirror (server monsters into the game)",src/frameworks/nani/client/mp.*.js or bpp,nani; bpp,client,public/mp.js,part,H3M-4,build:check bytes,presentation adapter of server AI state
-mp.js,"NEW RUN client state and answers",src/frameworks/bpp/client/mp.*.js,bpp,client,public/mp.js,part,H3M-4,build:check bytes,words already in assets/net-newrun.js (F.R.O.N.T.)
-mp.js,"own death, other players' death replays, bodies, death lights, wall stains",src/frameworks/gib/client/mp.*.js,gib,client,public/mp.js,part,H3M-4,build:check bytes,
-mp.js,"glitched walls exit, cartograph",src/frameworks/lost/client/ + src/frameworks/pocket/client/,lost; pocket,client,public/mp.js,part,H3M-4,build:check bytes,
-mp.js,dread audio,src/frameworks/spacious-audio/client/mp.*.js,spacious-audio,client,public/mp.js,part,H3M-4,build:check bytes,listener order unchanged (same bytes)
-mp.js,other wanderers drawn,src/frameworks/br-r/client/mp.*.js,br-r,client,public/mp.js,part,H3M-4,build:check bytes,
-mp.js,admin panel and death lab,src/frameworks/overseer/client/mp.*.js,overseer,client,public/mp.js,part,H3M-4,build:check bytes,
+world.js,whole (props surfaces movement constants drawProp),"src/frameworks/space/shared/world.js, world.crawl.js, world.move.js; src/frameworks/lost/shared/world.lamps.js, world.surfaces.js; src/frameworks/br-r/shared/world.art.js",space; lost; br-r,shared,public/world.js + generated/server/world.js,part,H3M-1 move; H3M-3 split,build:check bytes,"done at M3: six parts, built into public/world.js and generated/server/world.js alike"
+dphys.js,whole (death physics; NEW RUN boom; dying light),whole: src/frameworks/gib/shared/dphys.js,gib,shared,public/dphys.js + generated/server/dphys.js,whole or parts,H3M-1 move; H3M-5 split,build:check bytes,"decided at M3 (H3M-5): one owner, G.I.B.; whole"
+mp.js,"prologue, per-frame hook, epilogue",src/core/client/mp.js; src/core/client/mp.frame.js,core,client,public/mp.js,part,H3M-4,build:check bytes,done at M3
+mp.js,"transport: connect, tx, dispatch, B+ caps/q, peers' poses",src/frameworks/bpp/client/mp.net.js; mp.transport.js,bpp,client,public/mp.js,part,H3M-4,build:check bytes,"done at M3: window.__net and the WebSocket (B+'s peerPoses sits in space/client/mp.peers.js among the solid-peer lines, noted)"
+mp.js,"solid peers, soft teleport, world epoch",src/frameworks/space/client/mp.peers.js,space,client,public/mp.js,part,H3M-4,build:check bytes,done at M3
+mp.js,entity mirror (server monsters into the game),src/frameworks/nani/client/mp.monsters.js,nani; bpp,client,public/mp.js,part,H3M-4,build:check bytes,done at M3
+mp.js,NEW RUN client state and answers,src/frameworks/bpp/client/mp.newrun.js,bpp,client,public/mp.js,part,H3M-4,build:check bytes,done at M3; words already in assets/net-newrun.js (F.R.O.N.T.)
+mp.js,"own death, other players' death replays, bodies, death lights, wall stains",src/frameworks/gib/client/mp.owndeath.js; mp.bodies.js; mp.replays.js,gib,client,public/mp.js,part,H3M-4,build:check bytes,done at M3: three G.I.B. parts (own death; everyone's bodies; the replays of others' deaths and vanishings)
+mp.js,"glitched walls exit, cartograph",src/frameworks/lost/client/mp.glitch.js; src/frameworks/pocket/client/mp.cartograph.js,lost; pocket,client,public/mp.js,part,H3M-4,build:check bytes,done at M3
+mp.js,dread audio,src/frameworks/spacious-audio/client/mp.dread.js,spacious-audio,client,public/mp.js,part,H3M-4,build:check bytes,done at M3: listener order unchanged (same bytes)
+mp.js,other wanderers drawn,src/frameworks/br-r/client/mp.wanderers.js,br-r,client,public/mp.js,part,H3M-4,build:check bytes,done at M3: their drawing is in the per-frame hook (core)
+mp.js,admin panel and death lab,src/frameworks/overseer/client/mp.admin.js; mp.deathlab.js,overseer,client,public/mp.js,part,H3M-4,build:check bytes,done at M3
 assets/net-wire.js,whole,src/frameworks/bpp/client/net-wire.js,bpp,client,public/assets/net-wire.js,whole,H3M-1,build:check bytes,3H0 helper
 assets/net-interp.js,whole,src/frameworks/bpp/client/net-interp.js,bpp,client,public/assets/net-interp.js,whole,H3M-1,build:check bytes,3H0 helper
 assets/net-newrun.js,whole,src/frameworks/front/client/net-newrun.js,front,client,public/assets/net-newrun.js,whole,H3M-1,build:check bytes,3H2 helper
@@ -44,17 +44,17 @@ ents.js,dev/ents_src/10_hound.js 20_smiler.js,src/frameworks/br-r/client/ents.*.
 ents.js,dev/ents_src/25_death.js,src/frameworks/gib/client/ents.*.js,gib,client,public/ents.js,part,H3M-1 move,build:check bytes,
 ents.js,dev/ents_src/30_audio.js,src/frameworks/spacious-audio/client/ents.*.js,spacious-audio,client,public/ents.js,part,H3M-1 move,build:check bytes,
 ents.js,dev/ents_src/40_debug.js,src/frameworks/overseer/client/ents.*.js,overseer,client,public/ents.js,part,H3M-1 move,build:check bytes,
-move.js,"movement, collision, vault, slide, peers' solidity",src/frameworks/space/client/move*.js,space,client,public/move.js,part,H3M-1 move; H3M-4 split,build:check bytes,
-move.js,avatar poses,src/frameworks/br-r/client/move*.js,br-r,client,public/move.js,part,H3M-4,build:check bytes,
-move.js,"footsteps, slides, vaults, breathing",src/frameworks/spacious-audio/client/move*.js,spacious-audio,client,public/move.js,part,H3M-4,build:check bytes,
-camcorder.js,"night vision camera: state, drawing, input",src/frameworks/br-r/client/ (+ hands for input),br-r; hands,client,public/camcorder.js,part,H3M-4,build:check bytes,BR-RoLE owns the light; this is the IR presentation
-camcorder.js,synthesised camera audio,src/frameworks/spacious-audio/client/,spacious-audio,client,public/camcorder.js,part,H3M-4,build:check bytes,
+move.js,"movement, collision, vault, slide, peers' solidity","src/frameworks/space/client/move.js (+ br-r move.poses.js, spacious-audio move.sound.js)",space,client,public/move.js,part,H3M-1 move; H3M-4 split,build:check bytes,done at M3: three parts
+move.js,avatar poses,src/frameworks/br-r/client/move.poses.js,br-r,client,public/move.js,part,H3M-4,build:check bytes,done at M3
+move.js,"footsteps, slides, vaults, breathing",src/frameworks/spacious-audio/client/move.sound.js,spacious-audio,client,public/move.js,part,H3M-4,build:check bytes,done at M3
+camcorder.js,"night vision camera: state, drawing, input",src/frameworks/br-r/client/camcorder.js; camcorder.view.js,br-r; hands,client,public/camcorder.js,part,H3M-4,build:check bytes,"done at M3: input stays with the view (H.A.N.D.S. is a proposed name, not approved)"
+camcorder.js,synthesised camera audio,src/frameworks/spacious-audio/client/camcorder.audio.js,spacious-audio,client,public/camcorder.js,part,H3M-4,build:check bytes,done at M3
 sfx.js,whole,src/frameworks/spacious-audio/client/sfx.js,spacious-audio,client,public/sfx.js,whole,H3M-1,build:check bytes,
-gore.js,"blood, wall marks, corpses, gibs drawing",src/frameworks/gib/client/gore*.js,gib,client,public/gore.js,whole or parts,H3M-1 move; H3M-5,build:check bytes,drawing adapter documented with BR-R
+gore.js,"blood, wall marks, corpses, gibs drawing",whole: src/frameworks/gib/client/gore.js,gib,client,public/gore.js,whole or parts,H3M-1 move; H3M-5,build:check bytes,"decided at M3 (H3M-5): one owner, G.I.B.; whole (the drawing adapter is documented with BR-R)"
 light.js,whole,src/frameworks/br-role/client/light.js,br-role,client,public/light.js,whole,H3M-1,build:check bytes,the shared light query
-glitch.js,"glitched walls: drawing, sound, item drawing",src/frameworks/lost/client/ (+ spacious-audio part),lost; spacious-audio,client,public/glitch.js,part,H3M-1 move; H3M-4 split,build:check bytes,
+glitch.js,"glitched walls: drawing, sound, item drawing","src/frameworks/lost/client/glitch.js, glitch.draw.js; src/frameworks/spacious-audio/client/glitch.audio.js",lost; spacious-audio,client,public/glitch.js,part,H3M-1 move; H3M-4 split,build:check bytes,done at M3
 hud.js,"settings model, HUD polish",src/frameworks/front/client/hud.js,front; vault,client,public/hud.js,whole,H3M-1,build:check bytes,
-inventory.js,"inventory, loadout, cartograph, input",src/frameworks/pocket/client/inventory*.js,pocket; hands,client,public/inventory.js,part,H3M-1 move; H3M-4 split,build:check bytes,
+inventory.js,"inventory, loadout, cartograph, input",whole: src/frameworks/pocket/client/inventory.js,pocket; hands,client,public/inventory.js,part,H3M-1 move; H3M-4 split,build:check bytes,"decided at M3: one owner, P.O.C.K.E.T.; input stays (H.A.N.D.S. is a proposed name, not approved)"
 camera_policy.js,whole,src/frameworks/br-r/client/camera_policy.js,br-r,client,public/camera_policy.js,whole,H3M-1,build:check bytes,
 timing_policy.js,whole,src/frameworks/space/shared/timing_policy.js,space,shared,public/timing_policy.js,whole,H3M-1,build:check bytes,
 assets/br-role.js,whole,src/frameworks/br-role/client/br-role.js,br-role,client,public/assets/br-role.js,whole,H3M-1,build:check bytes,accepted BR-RoLE 1.2; not retuned

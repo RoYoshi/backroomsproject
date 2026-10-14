@@ -133,7 +133,7 @@ function verify() {
   for (const [a, , o] of CLIENT) for (const out of o) if (out.startsWith('public/')) oldOf[out] = a;
   const sha = b => crypto.createHash('sha256').update(b).digest('hex'), res = [];
   for (const o of r.outputs) {
-    const old = oldOf[o.out], now = fs.readFileSync(path.join(REPO, o.out)), was = git('show', `${PARENT}:${old}`);
+    const old = oldOf[o.out] || (o.out.startsWith('public/') ? o.out.slice(7) : null), now = fs.readFileSync(path.join(REPO, o.out)), was = git('show', `${PARENT}:${old}`);   // (a recipe added later, e.g. H3M-6's: its URL path is its old path)
     res.push({ out: o.out, parentFile: old, identical: now.equals(was), sha256: sha(now), parentSha256: sha(was) });
   }
   /* static files: moved, so their blobs must be the parent's */

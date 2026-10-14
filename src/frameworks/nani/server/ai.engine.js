@@ -1,3 +1,12 @@
+/** @part generated/server/ai.js - N.A.N.I.: the engine: species table, sound bus, level of detail, capture loop, snapshots; the factory closes here
+ * provides: SPECIES
+ * uses: Geo, HACT, HOUND, Hash, INTEL, S, SACT, SCODE, SMILER, SNAMES, TRAITS, WORLD, W_SN, angDiff, arbitrateEvidence, beginCapture,
+ *       beginDrawn, beginHidden, beginHunt, beginSearch, beginStalk, bestLead, capStep, cleanHabits, cleanupKnowledge, coarseMove,
+ *       commitEnd, decayMemory, deriveSeed, directOk, directTo, estimate, evidenceCandidates, facedBy, finishCapture, follow,
+ *       forgetIdentity, goTo, hDebug, habitBias, habitObserve, hearEvent, intelligenceDebug, killNow, lightSense, mkEntity, mkRng,
+ *       moodTick, moveCollide, navOf, observationScore, plan, previewKill, rand, randomFloor, rec, setAct, setState, tierOf, updateVision
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- the engine: sound bus, level of detail, capture loop, snapshots */
 const SPECIES = { hound: HOUND, smiler: SMILER };

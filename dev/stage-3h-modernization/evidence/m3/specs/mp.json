@@ -1,0 +1,46 @@
+{
+ "output": "public/mp.js",
+ "split": {
+  "from": "src/core/client/mp.js",
+  "parts": [
+   { "lines": "1-37", "to": "src/core/client/mp.js" },
+   { "lines": "38-74", "to": "src/frameworks/bpp/client/mp.net.js" },
+   { "lines": "75-82", "to": "src/frameworks/gib/client/mp.owndeath.js" },
+   { "lines": "83-95", "to": "src/frameworks/bpp/client/mp.newrun.js" },
+   { "lines": "96-160", "to": "src/frameworks/space/client/mp.peers.js" },
+   { "lines": "161-236", "to": "src/frameworks/bpp/client/mp.transport.js" },
+   { "lines": "237-298", "to": "src/frameworks/nani/client/mp.monsters.js" },
+   { "lines": "299-325", "to": "src/frameworks/lost/client/mp.glitch.js" },
+   { "lines": "326-350", "to": "src/frameworks/pocket/client/mp.cartograph.js" },
+   { "lines": "351-354", "to": "src/frameworks/gib/client/mp.bodies.js" },
+   { "lines": "355-393", "to": "src/frameworks/spacious-audio/client/mp.dread.js" },
+   { "lines": "394-402", "to": "src/frameworks/br-r/client/mp.wanderers.js" },
+   { "lines": "403-629", "to": "src/frameworks/gib/client/mp.replays.js" },
+   { "lines": "630-702", "to": "src/frameworks/overseer/client/mp.admin.js" },
+   { "lines": "703-888", "to": "src/frameworks/overseer/client/mp.deathlab.js" },
+   { "lines": "889-940", "to": "src/core/client/mp.frame.js" }
+  ]
+ },
+ "titles": {
+  "src/core/client/mp.js": "core: the page's network and dread layer opens (the IIFE): its imports, page elements, connection, snapshot and entity-slot state",
+  "src/frameworks/bpp/client/mp.net.js": "B++: window.__net, what the game bundle calls (the fixed-step tick, join, respawn, leave, NEW RUN's press)",
+  "src/frameworks/gib/client/mp.owndeath.js": "G.I.B.: our own death, from the server's kill record (window.__dvic)",
+  "src/frameworks/bpp/client/mp.newrun.js": "B++: NEW RUN's state on this page, and the server's answers (nrAnswer)",
+  "src/frameworks/space/client/mp.peers.js": "S.P.A.C.E.: the other living Wanderers are solid, the soft correction, the world epoch",
+  "src/frameworks/bpp/client/mp.transport.js": "B++: the WebSocket: sending (tx), connecting, and every message the server sends",
+  "src/frameworks/nani/client/mp.monsters.js": "N.A.N.I.: the server's monsters, mirrored into the game",
+  "src/frameworks/lost/client/mp.glitch.js": "L.O.S.T.: the glitched walls: touching one takes you out of Level 0",
+  "src/frameworks/pocket/client/mp.cartograph.js": "P.O.C.K.E.T.: the cartograph, one rare item per world",
+  "src/frameworks/gib/client/mp.bodies.js": "G.I.B.: everyone's bodies, one per player",
+  "src/frameworks/spacious-audio/client/mp.dread.js": "Spacious Audio: the dread's sound (the drone and the heartbeat)",
+  "src/frameworks/br-r/client/mp.wanderers.js": "BR-R: the other Wanderers: their hover names and avatars' clean-up",
+  "src/frameworks/gib/client/mp.replays.js": "G.I.B.: other players' deaths and vanishings, replayed for everybody in line of sight",
+  "src/frameworks/overseer/client/mp.admin.js": "OVERSEER: the admin menu (press `)",
+  "src/frameworks/overseer/client/mp.deathlab.js": "OVERSEER: the death lab (window.__dlab: the clock, the x-ray, the overlay)",
+  "src/core/client/mp.frame.js": "core: the per-frame hook the game calls (the network send, the other Wanderers drawn, the dread); the IIFE closes here"
+ },
+ "notes": {
+  "src/frameworks/bpp/client/mp.net.js": ["OVERSEER's admin state (adm) and the peers map are declared just before it, as they always were."],
+  "src/frameworks/space/client/mp.peers.js": ["B++'s fresher poses (peerPoses, Stage 3E-0 B+) sit between the solid peers and the soft correction, as they always did."]
+ }
+}

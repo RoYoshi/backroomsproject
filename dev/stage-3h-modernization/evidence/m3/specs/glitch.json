@@ -1,0 +1,12 @@
+{
+ "output": "public/glitch.js",
+ "split": { "from": "src/frameworks/lost/client/glitch.js", "parts": [
+   { "lines": "1-11", "to": "src/frameworks/lost/client/glitch.js" },
+   { "lines": "12-47", "to": "src/frameworks/spacious-audio/client/glitch.audio.js" },
+   { "lines": "48-121", "to": "src/frameworks/lost/client/glitch.draw.js" } ] },
+ "titles": {
+  "src/frameworks/lost/client/glitch.js": "L.O.S.T.: the glitched walls on the page (the IIFE opens here): their canvas",
+  "src/frameworks/spacious-audio/client/glitch.audio.js": "Spacious Audio: the glitched walls' sound, crackling digital static",
+  "src/frameworks/lost/client/glitch.draw.js": "L.O.S.T.: the glitched walls drawn; the IIFE closes here"
+ }
+}

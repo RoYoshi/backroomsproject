@@ -1,3 +1,8 @@
+/** @part generated/server/ai.js - N.A.N.I.: geometry, navigation and light, derived once from the level adapter (Geo, the occupancy layer OL)
+ * provides: Geo, OL
+ * uses: WORLD, sm
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- geometry, navigation, light
  * The adapter `a` (built in sim.js) exposes the level's own primitives; everything below is derived from them once per process. */

@@ -1,3 +1,8 @@
+/** @part public/ents.js - BR-R: the entities' client head (the IIFE opens here): the API, the entity table, small math
+ * provides: API, E, TAU, angDiff, clamp, lerp, rnd, sm
+ * uses: -
+ * writes: -
+ */
 /* ents.js - client side of the v16 entities: the redesigned Hound and Smiler (drawn procedurally, articulated),
  * their sounds, and the admin-only AI debug overlay.  The server decides everything they do (ai.js); this file only
  * draws and voices what the snapshots say.  Loaded after the game bundle; mp.js feeds it. */

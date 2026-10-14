@@ -1,3 +1,8 @@
+/** @part public/ents.js - OVERSEER: the admin-only DEBUG overlay (never drawn for ordinary players); the IIFE closes here
+ * provides: -
+ * uses: E, TAU, clamp, sm
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- admin-only DEBUG MODE overlay (never drawn for ordinary players)
  * Layers (each can be switched on its own in the admin panel's DEBUG tab):

@@ -1,0 +1,2 @@
+$ node dev/tools/build/build.js --check
+BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds)

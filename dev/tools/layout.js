@@ -31,8 +31,7 @@ const MAP = {
   'sim.js': 'generated/server/sim.js', 'ai.js': 'generated/server/ai.js', 'death_srv.js': `${F}/gib/server/death_srv.js`,
   'server/newrun.js': `${F}/bpp/server/newrun.js`, 'server/aftermath.js': `${F}/gib/server/aftermath.js`, 'server/peers.js': `${F}/space/server/peers.js`,
   'server/ws.js': `${F}/bpp/server/ws.js`, 'server/fields.js': `${F}/ward/server/fields.js`, 'server/static.js': `${F}/ward/server/static.js`,
-  /* the old development sources of the assembled files -> their canonical parts */
-  'dev/sim_glue.js': 'src/core/server/sim.glue.js',
+  /* the old development sources of the assembled files -> their canonical parts (dev/sim_glue.js has none since H3M-3: it is nine parts, sim.js's recipe) */
   'dev/ents_src/00_head.js': `${F}/br-r/client/ents.head.js`, 'dev/ents_src/10_hound.js': `${F}/br-r/client/ents.hound.js`, 'dev/ents_src/20_smiler.js': `${F}/br-r/client/ents.smiler.js`,
   'dev/ents_src/25_death.js': `${F}/gib/client/ents.death.js`, 'dev/ents_src/30_audio.js': `${F}/spacious-audio/client/ents.audio.js`, 'dev/ents_src/40_debug.js': `${F}/overseer/client/ents.debug.js`,
 };

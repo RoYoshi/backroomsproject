@@ -1,0 +1,48 @@
+# Stage 3H engine modernization, checkpoint M3: H3M-3 to H3M-5, the multi-owner scripts in owned parts
+# $SP is the session's scratch folder. The parent is M2 = 527dc35. No built output changed: only part files, recipes, headers and the
+# build manifest (it records the parts) changed. B++ = 143b63f; frozen 3H2 = 22751bb.
+
+## the checker (dev/tools/checks/parts.js; a new gate step, "parts")
+  Each part of a built output begins with a "/** @part <output> - <owner>: <what it is>" header that the build removes. It lists what the
+  part provides to the other parts of its script, what it uses of theirs, and which of their bindings it writes. The checker assembles each
+  output as the build does, finds the shared closure (the function with the largest body: an IIFE, ai.js's UMD factory, createSim) with
+  TypeScript's parser, gives each statement to the part it lies in (a statement may not straddle two parts), and resolves every name with
+  TypeScript's checker, so a local that shadows a closure name is not counted.
+node dev/stage-3h-modernization/tools/m3_parts_mutants.js --work $SP/em2/work/m3_mut --out parts_mutants.json            exit 0
+  the untouched copy passes; refused: a provides list missing a name, a uses list with an extra one, a writes list missing one, a header
+  naming another output, a part without its header, a statement cut in two by a split (the output's bytes unchanged)
+
+## the splits (dev/stage-3h-modernization/tools/m3_split_parts.js --spec specs/<name>.json --apply)
+  Each split cuts one part by line ranges, in order and without gap: the new parts' bytes are the old part's bytes. The tool writes the
+  headers from what the checker finds, rebuilds (only the manifest may change) and runs build:check and the checker.
+  sim.json       generated/server/sim.js: src/core/server/sim.glue.js -> 9 parts: nani/server/sim.ai.js (1-88), lost/server/sim.glitches.js
+                 (89-108), gib/server/sim.bodies.js (109-121), space/server/sim.players.js (122-166), space/server/sim.movement.js (167-215),
+                 nani/server/sim.feed.js (216-238), core/server/sim.step.js (239-261), overseer/server/sim.admin.js (262-321),
+                 core/server/sim.glue.js (322-330); and the headers of sim.header.js and sim.level0.js (its kept comment, as notes)
+  ai.json        generated/server/ai.js: headers for its 10 N.A.N.I. parts (no split)
+  ents.json      public/ents.js: headers for its 6 parts (no split)
+  mp.json        public/mp.js: src/core/client/mp.js -> 16 parts (core, B++ x3, G.I.B. x3, S.P.A.C.E., N.A.N.I., L.O.S.T., P.O.C.K.E.T.,
+                 Spacious Audio, BR-R, OVERSEER x2, core)
+  move.json      public/move.js -> S.P.A.C.E. (1-311), BR-R poses (312-328), Spacious Audio sound (329-389)
+  camcorder.json public/camcorder.js -> BR-R (1-76), Spacious Audio (77-118), BR-R (119-434)
+  glitch.json    public/glitch.js -> L.O.S.T. (1-11), Spacious Audio (12-47), L.O.S.T. (48-121)
+  world.json     public/world.js and generated/server/world.js (the same parts) -> S.P.A.C.E. (1-77), L.O.S.T. lamps (78-145), S.P.A.C.E.
+                 crawl (146-197), L.O.S.T. surfaces (198-215), S.P.A.C.E. constants (216-230), BR-R art (231-306)
+  Then the writes lists were added to the checker and every header was refreshed from the code (node dev/tools/checks/parts.js --fix all),
+  and one note was corrected by hand (mp.net.js: adm and peers are declared in that part).
+  Kept whole, each with one owner (FINDINGS M-025): dphys.js, gore.js, inventory.js, ui.js, hud.js; sim.level0.js stays one part (the
+  bundle's minified level code).
+
+## the proof (the outputs did not change)
+node dev/tools/build/build.js --check                                     exit 0  BUILD CHECK: PASS (40 outputs) (build_check.txt)
+node dev/tools/checks/parts.js --out parts.json                           exit 0  PARTS CHECK: PASS (9 outputs, 64 parts) (parts.txt)
+node dev/stage-3h-modernization/tools/m1_relocate.js --verify             exit 0  40 of 40 built outputs and 25 of 25 static files byte-identical
+                                                                                  to the frozen 3H2's files (outputs_vs_3h2.json)
+node dev/tests/run.js s_smiler.js (ADMIN_PASSCODE synthetic)              17/17 (SM15 reads ents.debug.js's text, now with its header)
+node dev/tools/gate/gate.js --tier fast --out $SP/em2/work/gate_m3_fast   exit 0  PASS (gate_fast/): build 40, lineage 83, parts 64, scope 198,
+                                                                                  srv_golden 11, bpp_golden 7, cli_golden 12, protocol 52,740,
+                                                                                  mutants 18, static 4, raw_live 173, quick_suites 23
+node dev/tools/gate/gate.js --only browsers --out $SP/em2/work/gate_m3_browsers                exit 0  PASS (smoke_browsers/): two_browser 108,
+                                                                                  col_head 5, col_aside 5, gameplay_smoke 5 (real Chromium pages)
+  dev/stage-3h-modernization/tools/m1_relocate.js: --verify now also covers recipes added after H3M-1 (H3M-6's bundle and chunks), by
+  their URL path; before, it stopped on them.

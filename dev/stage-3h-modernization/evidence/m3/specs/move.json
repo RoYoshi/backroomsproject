@@ -1,0 +1,12 @@
+{
+ "output": "public/move.js",
+ "split": { "from": "src/frameworks/space/client/move.js", "parts": [
+   { "lines": "1-311", "to": "src/frameworks/space/client/move.js" },
+   { "lines": "312-328", "to": "src/frameworks/br-r/client/move.poses.js" },
+   { "lines": "329-389", "to": "src/frameworks/spacious-audio/client/move.sound.js" } ] },
+ "titles": {
+  "src/frameworks/space/client/move.js": "S.P.A.C.E.: the wanderer's survival movement (the IIFE opens here): state, the other living Wanderers, collision, vaulting, sliding, the per-tick step",
+  "src/frameworks/br-r/client/move.poses.js": "BR-R: the avatar poses (window.__pose), for the local player and everybody else",
+  "src/frameworks/spacious-audio/client/move.sound.js": "Spacious Audio: footsteps by state and surface, slides, vaults, breathing; the IIFE closes here"
+ }
+}

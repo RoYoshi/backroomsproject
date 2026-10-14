@@ -1,0 +1,15 @@
+{
+ "output": "generated/server/ai.js",
+ "titles": {
+  "src/frameworks/nani/server/ai.head.js": "N.A.N.I.: the UMD wrapper (the factory opens here), seeded random streams and hashes, species codes, traits, small math",
+  "src/frameworks/nani/server/ai.geo.js": "N.A.N.I.: geometry, navigation and light, derived once from the level adapter (Geo, the occupancy layer OL)",
+  "src/frameworks/nani/server/ai.senses.js": "N.A.N.I.: perception, memory, leads and social awareness; the evidence law (Part 2, stage 2C)",
+  "src/frameworks/nani/server/ai.intelligence.js": "N.A.N.I.: shared evidence tools: arbitration, identities, habits (Stage 2F); never a species' action brain",
+  "src/frameworks/nani/server/ai.light.js": "N.A.N.I.: visible light as evidence (Part 2, stage 2C)",
+  "src/frameworks/nani/server/ai.entity.js": "N.A.N.I.: entities: personality, movement, traversal, navigation records, state plumbing",
+  "src/frameworks/nani/server/ai.capture.js": "N.A.N.I.: captures and the choice of kill",
+  "src/frameworks/nani/server/ai.hound.js": "N.A.N.I.: the Hound (primal: hears everything, fast in straight lines, poor at turning)",
+  "src/frameworks/nani/server/ai.smiler.js": "N.A.N.I.: the canon Smiler (Part 2, stage 2D)",
+  "src/frameworks/nani/server/ai.engine.js": "N.A.N.I.: the engine: species table, sound bus, level of detail, capture loop, snapshots; the factory closes here"
+ }
+}

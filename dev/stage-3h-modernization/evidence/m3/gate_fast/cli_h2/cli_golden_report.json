@@ -1,0 +1,110 @@
+{
+ "tool": "dev/tools/gate/golden/cli_golden_h2.js",
+ "oldRef": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "newSide": "working tree",
+ "chromium": "141.0.7390.37",
+ "helpers": {
+  "old": [
+   "assets/net-wire.js",
+   "assets/net-interp.js"
+  ],
+  "new": [
+   "assets/net-newrun.js",
+   "assets/mp-hum.js",
+   "assets/net-wire.js",
+   "assets/net-interp.js"
+  ]
+ },
+ "declaredNewGlobals": [
+  "__mpLib"
+ ],
+ "startedAt": "2026-10-14T22:35:45.278Z",
+ "scenes": [
+  {
+   "scene": "nr_answers",
+   "old": {
+    "entries": 229,
+    "bytes": 16968,
+    "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+    "ms": 162,
+    "errors": []
+   },
+   "new": {
+    "entries": 229,
+    "bytes": 16968,
+    "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+    "ms": 126,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 47,
+   "repeats": [],
+   "baseline": {
+    "sha256": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "nr_reconnect",
+   "old": {
+    "entries": 96,
+    "bytes": 8919,
+    "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
+    "ms": 122,
+    "errors": []
+   },
+   "new": {
+    "entries": 96,
+    "bytes": 8919,
+    "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
+    "ms": 122,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 18,
+   "repeats": [],
+   "baseline": {
+    "sha256": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
+    "equal": true
+   },
+   "ok": true
+  },
+  {
+   "scene": "hum_fixtures",
+   "old": {
+    "entries": 8788,
+    "bytes": 695719,
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "ms": 213,
+    "errors": []
+   },
+   "new": {
+    "entries": 8788,
+    "bytes": 695719,
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "ms": 246,
+    "errors": []
+   },
+   "globalsOnlyInNew": [],
+   "globalsOnlyInOld": [],
+   "equal": true,
+   "undeclaredGlobals": [],
+   "steps": 4,
+   "repeats": [],
+   "baseline": {
+    "sha256": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+    "equal": true
+   },
+   "ok": true
+  }
+ ],
+ "ok": true,
+ "finishedAt": "2026-10-14T22:35:46.340Z"
+}

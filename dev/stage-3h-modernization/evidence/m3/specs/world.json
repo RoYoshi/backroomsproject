@@ -1,0 +1,21 @@
+{
+ "output": "public/world.js",
+ "split": { "from": "src/frameworks/space/shared/world.js", "parts": [
+   { "lines": "1-77", "to": "src/frameworks/space/shared/world.js" },
+   { "lines": "78-145", "to": "src/frameworks/lost/shared/world.lamps.js" },
+   { "lines": "146-197", "to": "src/frameworks/space/shared/world.crawl.js" },
+   { "lines": "198-215", "to": "src/frameworks/lost/shared/world.surfaces.js" },
+   { "lines": "216-230", "to": "src/frameworks/space/shared/world.move.js" },
+   { "lines": "231-306", "to": "src/frameworks/br-r/shared/world.art.js" } ] },
+ "titles": {
+  "src/frameworks/space/shared/world.js": "S.P.A.C.E.: the shared world module (window.WORLD in the page, require on the server; the factory opens here): Level 0's props and how they block movement",
+  "src/frameworks/lost/shared/world.lamps.js": "L.O.S.T.: Level 0's working ceiling fixtures (W.lamps), for the client and the server alike",
+  "src/frameworks/space/shared/world.crawl.js": "S.P.A.C.E.: props at a point, crawlspaces, concealment",
+  "src/frameworks/lost/shared/world.surfaces.js": "L.O.S.T.: the floor surfaces (carpet, concrete, wet tile)",
+  "src/frameworks/space/shared/world.move.js": "S.P.A.C.E.: the shared movement and noise constants (the client moves, the server listens)",
+  "src/frameworks/br-r/shared/world.art.js": "BR-R: the props' art (drawProp, into the game's static Graphics); the factory closes here"
+ },
+ "notes": {
+  "src/frameworks/space/shared/world.js": ["The props themselves (DEF: where Level 0's counters, shelves, benches, holes and windows are) are L.O.S.T.'s content; they are declared here, as they always were."]
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "output": "generated/server/sim.js",
+ "split": {
+  "from": "src/core/server/sim.glue.js",
+  "parts": [
+   { "lines": "1-88", "to": "src/frameworks/nani/server/sim.ai.js" },
+   { "lines": "89-108", "to": "src/frameworks/lost/server/sim.glitches.js" },
+   { "lines": "109-121", "to": "src/frameworks/gib/server/sim.bodies.js" },
+   { "lines": "122-166", "to": "src/frameworks/space/server/sim.players.js" },
+   { "lines": "167-215", "to": "src/frameworks/space/server/sim.movement.js" },
+   { "lines": "216-238", "to": "src/frameworks/nani/server/sim.feed.js" },
+   { "lines": "239-261", "to": "src/core/server/sim.step.js" },
+   { "lines": "262-321", "to": "src/frameworks/overseer/server/sim.admin.js" },
+   { "lines": "322-330", "to": "src/core/server/sim.glue.js" }
+  ]
+ },
+ "titles": {
+  "src/core/server/sim.header.js": "core: the file's opening comment and its strict mode",
+  "src/frameworks/lost/server/sim.level0.js": "L.O.S.T. / S.P.A.C.E.: Level 0's map, collision, ray-cast and light code, extracted from the production bundle; createSim opens here",
+  "src/frameworks/nani/server/sim.ai.js": "N.A.N.I.: the AI engine's wiring (ai.js, the world's seed, the level as the engine sees it), the director's caps and spawning",
+  "src/frameworks/lost/server/sim.glitches.js": "L.O.S.T.: the glitched walls, the way out of Level 0",
+  "src/frameworks/gib/server/sim.bodies.js": "G.I.B.: everyone's bodies, one per player, and how long they stay",
+  "src/frameworks/space/server/sim.players.js": "S.P.A.C.E.: the world reset and the player lifecycle (join, spawn, respawn, NEW RUN's rules, forfeit, leave)",
+  "src/frameworks/space/server/sim.movement.js": "S.P.A.C.E.: movement as the server checks it (moveRoute, moveOk, spawnOk) and as the AI hears it (hearMove, gaitFloor)",
+  "src/frameworks/nani/server/sim.feed.js": "N.A.N.I.: what the AI reads of the players every step (feed), its events (processEvents), and a capture as the snapshot sends it",
+  "src/core/server/sim.step.js": "core: one simulation step, and the entities as a snapshot sends them",
+  "src/frameworks/overseer/server/sim.admin.js": "OVERSEER: the world side of the admin tools (placeNear, the admin API)",
+  "src/core/server/sim.glue.js": "core: the world's interface, the object createSim returns, which joins the parts; createSim closes here"
+ },
+ "notes": {
+  "src/frameworks/lost/server/sim.level0.js": [
+   "3H F-007: the map exists in the bundle too.  This header is not built; it keeps the comment dev/sim_head.js carried above the code:",
+   "| /* sim.js - server-side Level 0 monster simulation.",
+   "|  * The map, pathfinding, Hound and Smiler AI below are the game's own code, extracted from the",
+   "|  * production bundle (assets/index-*.js) and generalised from one player to many.",
+   "|  * The section marked 'multiplayer glue' is new. * /",
+   "| 'use strict';"],
+  "src/frameworks/nani/server/sim.ai.js": [
+   "The world's shared state is declared here too, at the top of the glue as it always was: players, frozen, speed, bmode, runT, spawnT,",
+   "debugOn and worldSeq."],
+  "src/frameworks/lost/server/sim.glitches.js": [
+   "P.O.C.K.E.T.'s cartograph placement (items, makeItems) sits between the walls' lines, as it always did; its pick-up (takeItem) is in",
+   "src/core/server/sim.glue.js."],
+  "src/frameworks/gib/server/sim.bodies.js": [
+   "N.A.N.I.'s navCmd and killerEnd (the admin's nav command; where a kill left the Hound) sit among these lines, as they always did."],
+  "src/core/server/sim.glue.js": [
+   "P.O.C.K.E.T.'s takeItem (the cartograph's pick-up) sits just before the returned object, as it always did."]
+ }
+}

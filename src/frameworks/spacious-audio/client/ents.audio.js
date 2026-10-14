@@ -1,3 +1,8 @@
+/** @part public/ents.js - Spacious Audio: the entities' sound (procedural, positional, muffled through walls)
+ * provides: -
+ * uses: API, E, clamp, lerp, rnd, sm
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- entity sound (procedural, positional, muffled through walls) */
 let actx = null, aout = null, nbuf = null, lastZ = null;

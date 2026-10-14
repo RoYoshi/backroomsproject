@@ -1,0 +1,11 @@
+{
+ "output": "public/ents.js",
+ "titles": {
+  "src/frameworks/br-r/client/ents.head.js": "BR-R: the entities' client head (the IIFE opens here): the API, the entity table, small math",
+  "src/frameworks/br-r/client/ents.hound.js": "BR-R: the Hound, drawn procedurally (a distorted humanoid on all fours)",
+  "src/frameworks/br-r/client/ents.smiler.js": "BR-R: the Smiler (darkness with a face)",
+  "src/frameworks/gib/client/ents.death.js": "G.I.B.: how a death plays out on screen, four variants per killer",
+  "src/frameworks/spacious-audio/client/ents.audio.js": "Spacious Audio: the entities' sound (procedural, positional, muffled through walls)",
+  "src/frameworks/overseer/client/ents.debug.js": "OVERSEER: the admin-only DEBUG overlay (never drawn for ordinary players); the IIFE closes here"
+ }
+}

@@ -1,3 +1,9 @@
+/** @part generated/server/ai.js - N.A.N.I.: the canon Smiler (Part 2, stage 2D)
+ * provides: SACT, SMILER, SM_DWELL, beginDrawn, beginHidden, beginStalk, sScore
+ * uses: S, SCODE, TAU, angDiff, approach, clamp, directOk, directTo, dist, estimate, faceToward, facedBy, follow, goTo, habitBias, lerp,
+ *       moveCollide, perc, pickW, plan, rand, rec, setAct, setState, setTarget, stopMoving, tgtGone, touching
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- SMILER (Part 2, stage 2D): the canon Smiler.
  * Canon (Backrooms Wikidot, Entity 3, rev. 83 - the approved Canon Lock):

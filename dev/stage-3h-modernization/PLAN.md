@@ -44,8 +44,9 @@ differs from what the sources build.
   - **How a part is written.** Each part is one file in its owner's folder. It begins with a header comment naming its output and
     owner and declaring its interface: what it provides to the other parts, and what it uses from them.
   - **How the build treats it.** The build removes that header and concatenates the parts in recipe order.
-  - **What is proven.** The assembled file is byte-identical to the file it replaces. A checker (`dev/tools/checks/`) parses the
-    assembled output and verifies each declared interface against the code.
+  - **What is proven.** The assembled file is byte-identical to the file it replaces. A checker (`dev/tools/checks/parts.js`, since
+    M3) parses the assembled output with TypeScript and verifies each declared interface against the code: what the part provides
+    to the others, what it uses of theirs, and which of their bindings it writes. A split must fall between statements.
   - **What stays.** Parts still share their closure. That coupling is recorded per file as architecture debt, with the condition
     for turning a part into a module later. It is not called "done".
 - **Whole files** with one owner (`br-role.js`, `camera_policy.js` …) move as they are. They are split into parts only where that
@@ -57,7 +58,7 @@ differs from what the sources build.
 |---|---|---|
 | H3M-1 layout | files move; four path strings change (the web root, the generated server files, `death_srv.js`'s path to `dphys.js`, the server's requires) | every output byte-identical to the parent's file; server and client goldens identical to the B++ baselines; every HTTP response identical to the parent's; negative paths 404; two real browsers |
 | H3M-2 server modules (done at M2) | `server.js` becomes the composition root; its code is regrouped by owner. The WebSocket session, which holds the passcode check and its lockout, stays in `server.js` (M-023) | server goldens byte-identical (traces, timers, sockets, console), protocol, mutants, live real-server checks, two real browsers |
-| H3M-3..5 parts | none: byte-identical outputs | `build:check` (bytes), the parts checker, a smoke run |
+| H3M-3..5 parts (done at M3) | none: byte-identical outputs | `build:check` (bytes), the parts checker, a smoke run |
 | H3M-6 bundle (revised at M1-R, ADR-002; done at M6a) | none: the bundle and stylesheet become build outputs of the v11 output plus the lineage ledger, byte-identical; the PixiJS chunks, copies of the v11 output | `lineage.js verify` (every step's hashes, the replayed files = the shipped ones), `build:check`, the recovered snapshot's blob and tree ids, the `__api` contract ledger |
 | H3M-7 archive and docs | none | hash ledger (before = after), reference audit, root listing |
 | H3M-8 final | none | the full gate against B++ and 3H2; clean-checkout build; package |
@@ -104,4 +105,5 @@ compatibility island with its `__api` ledger, and the final status was to be VER
 1. **M1-R.** This intake, the lineage, the contract and the revised plan, checkpointed. Done.
 2. **H3M-1.** Finish the test and harness migration and the gate. Done at M1.
 3. **H3M-6.** The integration described above. Done at M6a.
-4. **H3M-2** (done at M2, with the session held in `server.js`: M-023), then **H3M-3 to H3M-5, H3M-7, H3M-8,** as planned.
+4. **H3M-2** (done at M2, with the session held in `server.js`: M-023), **H3M-3 to H3M-5** (done at M3), then **H3M-7, H3M-8,** as
+   planned.

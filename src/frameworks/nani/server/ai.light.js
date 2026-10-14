@@ -1,3 +1,8 @@
+/** @part generated/server/ai.js - N.A.N.I.: visible light as evidence (Part 2, stage 2C)
+ * provides: lightSense
+ * uses: TAU, addLead, angDiff, bestAnonLead, clamp, noteEv, observationScore, sm
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- visible light as evidence (Part 2, stage 2C)
  * Player lights are a physical signal.  What a light does is worked out once for everybody (beamsOf: where each visible emitter's light really

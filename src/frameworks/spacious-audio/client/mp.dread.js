@@ -1,0 +1,44 @@
+/** @part public/mp.js - Spacious Audio: the dread's sound (the drone and the heartbeat)
+ * provides: ac, beatT, burst, dg, soundOn, thump
+ * uses: -
+ * writes: -
+ */
+/* ---------- audio ---------- */
+let ac, drone, dg, beatT = 0;
+const soundOn = () => /ON/.test(document.getElementById('sound')?.textContent || 'ON');
+function initAudio() {
+  if (ac) return;
+  try {
+    ac = new AudioContext();
+    drone = ac.createOscillator(); drone.type = 'sawtooth'; drone.frequency.value = 43;
+    const f = ac.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 140;
+    dg = ac.createGain(); dg.gain.value = 0;
+    drone.connect(f).connect(dg).connect(ac.destination); drone.start();
+  } catch {}
+}
+addEventListener('pointerdown', initAudio); addEventListener('keydown', initAudio);
+function thump(v, f) {
+  if (!ac || !soundOn()) return;
+  const o = ac.createOscillator(), g = ac.createGain(), n = ac.currentTime;
+  o.frequency.setValueAtTime(f, n); o.frequency.exponentialRampToValueAtTime(38, n + .16);
+  g.gain.setValueAtTime(v, n); g.gain.exponentialRampToValueAtTime(.001, n + .2);
+  o.connect(g).connect(ac.destination); o.start(n); o.stop(n + .22);
+}
+function burst(len, v) {
+  if (!ac || !soundOn()) return;
+  const b = ac.createBuffer(1, ac.sampleRate * len, ac.sampleRate), d = b.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length) ** 1.5;
+  const s = ac.createBufferSource(), g = ac.createGain(); g.gain.value = v; s.buffer = b; s.connect(g).connect(ac.destination); s.start();
+}
+new MutationObserver(() => { if (document.body.classList.contains('captured')) burst(1.1, .9); })
+  .observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+/* online note on the pause screen */
+const pauseNote = document.querySelector('#dialog .lore-credit');
+if (pauseNote) {
+  const n = document.createElement('p'); n.className = 'lore-credit'; n.id = 'onlineNote'; n.hidden = true;
+  n.textContent = 'Online: pausing does not stop the halls. The monsters keep moving.';
+  pauseNote.before(n);
+}
+
+

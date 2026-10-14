@@ -1,3 +1,8 @@
+/** @part public/ents.js - BR-R: the Hound, drawn procedurally (a distorted humanoid on all fours)
+ * provides: -
+ * uses: E, TAU, clamp, lerp, rnd, sm
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- HOUND: a distorted humanoid on all fours
  * Narrow torso, elongated limbs with real elbows and knees (two-bone IK), hands and feet planted on the floor, a head that

@@ -1,3 +1,8 @@
+/** @part generated/server/ai.js - N.A.N.I.: captures and the choice of kill
+ * provides: beginCapture, capStep, commitEnd, commitTick, finishCapture, killNow, pickW, previewKill, rand
+ * uses: TAU, angDiff, clamp, setAct, stopMoving, threatsAround
+ * writes: -
+ */
 
 /* ---------------------------------------------------------------- capture and kill selection
  * CAUGHT is not DEAD.  When an attack lands the entity looks at the situation (who else is near, how secure the spot is,
