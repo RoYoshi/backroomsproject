@@ -1,22 +1,23 @@
 /* Stage 3H1 - are the three generated runtime files exactly what their development sources build? (development only; reads Git, writes
  * nothing in the repository)
  *
- *   node dev/stage-3h/tools/h1_build_check.js [--ref HEAD] [--out FILE.json]
+ *   node dev/stage-3h/tools/h1_build_check.js [--ref HEAD | --worktree 1] [--out FILE.json]
  *
  * ai.js, ents.js and sim.js are not edited by hand: dev/build_ai.sh, dev/build_ents.sh and dev/build_sim.sh concatenate them from
  * dev/ai_src/*, dev/ents_src/* and dev/sim_head.js + dev/sim_glue.js.  Running those scripts would write over the runtime files, so this
  * tool never runs them: it reads each script's text at REF, takes the part order from its own `cat ... > "$GAME/<file>"` line (and, for
  * sim.js, the header it prints and the `sed` that drops sim_head.js's lines up to its 'use strict'), rebuilds the file in memory from the
  * sources at REF, and compares it byte for byte with the committed runtime file at REF.  If a script's shape is not the one this tool
- * knows, it says so instead of guessing.  Exit 0 only when all three are reproducible. */
+ * knows, it says so instead of guessing.  Exit 0 only when all three are reproducible.
+ * --worktree 1 (Stage 3H2) reads the scripts, the sources and the runtime files from the working tree instead of Git. */
 'use strict';
 const { execFileSync } = require('child_process');
 const crypto = require('crypto'), path = require('path'), fs = require('fs');
 const ARG = { ref: 'HEAD' }; for (let i = 2; i < process.argv.length; i += 2) ARG[process.argv[i].replace(/^--/, '')] = process.argv[i + 1];
 const REPO = path.resolve(__dirname, '..', '..', '..');
 const git = (...a) => execFileSync('git', ['-C', REPO, ...a], { maxBuffer: 1 << 30 });
-const ref = git('rev-parse', ARG.ref).toString().trim();
-const show = p => git('show', `${ref}:${p}`);
+const ref = ARG.worktree ? 'working tree' : git('rev-parse', ARG.ref).toString().trim();
+const show = p => ARG.worktree ? fs.readFileSync(path.join(REPO, p)) : git('show', `${ref}:${p}`);
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');
 const R = { tool: 'dev/stage-3h/tools/h1_build_check.js', ref, files: [], ok: true };
 function catBuild(script, srcDir, target) {

@@ -1,0 +1,275 @@
+{
+ "tool": "dev/stage-3h/golden/bpp_mutants.js",
+ "source": "working tree",
+ "files": [
+  "ai.js",
+  "death_srv.js",
+  "dphys.js",
+  "server.js",
+  "server/fields.js",
+  "server/peers.js",
+  "server/static.js",
+  "server/ws.js",
+  "sim.js",
+  "world.js"
+ ],
+ "node": "v22.22.2",
+ "reference": {
+  "bpp_place_guard": {
+   "ok": true,
+   "sha256": "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8",
+   "lines": 2171,
+   "stderr": "ok bpp_place_guard 2171 lines"
+  },
+  "bpp_world_guard": {
+   "ok": true,
+   "sha256": "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e",
+   "lines": 1170,
+   "stderr": "ok bpp_world_guard 1170 lines"
+  },
+  "bpp_known_limits": {
+   "ok": true,
+   "sha256": "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775",
+   "lines": 2681,
+   "stderr": "ok bpp_known_limits 2681 lines"
+  },
+  "bpp_caps_q": {
+   "ok": true,
+   "sha256": "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7",
+   "lines": 2605,
+   "stderr": "ok bpp_caps_q 2605 lines"
+  },
+  "bpp_new_run": {
+   "ok": true,
+   "sha256": "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d",
+   "lines": 8172,
+   "stderr": "ok bpp_new_run 8172 lines"
+  },
+  "bpp_new_run_held": {
+   "ok": true,
+   "sha256": "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9",
+   "lines": 9310,
+   "stderr": "ok bpp_new_run_held 9310 lines"
+  }
+ },
+ "mutants": [
+  {
+   "id": "guard_off",
+   "why": "B++-0's placement guard removed (B+'s behaviour)",
+   "find": "if (pl && now < v.grace && now - pl[2] < MV.GRACE",
+   "repl": "if (false && pl && now < v.grace && now - pl[2] < MV.GRACE",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_place_guard": {
+     "ok": true,
+     "sha256": "cbfd64130337161332bff789f2318335f7d9d1802336b4c00b0b1a7962e6b891",
+     "lines": 2155,
+     "differs": true,
+     "stderr": ""
+    },
+    "bpp_world_guard": {
+     "ok": true,
+     "sha256": "39312bda39bdad3a814976b1d9d08735d26dda37a0160a176810ef5cc054c714",
+     "lines": 1153,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "grace_1000",
+   "why": "the grace after a placement 100 ms longer",
+   "find": "SNAP: 220, GRACE: 900 }",
+   "repl": "SNAP: 220, GRACE: 1000 }",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_known_limits": {
+     "ok": true,
+     "sha256": "63d01276184cf752fa8701a1a5efba2671c1f40c99ec9bed251b9c7458463839",
+     "lines": 2678,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "admin_checked",
+   "why": "an admin's own poses checked like anyone's",
+   "find": "if (me.admin) { if (!me.mv) mvReset(me, false); adminMove(",
+   "repl": "if (me.admin && false) { if (!me.mv) mvReset(me, false); adminMove(",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_known_limits": {
+     "ok": true,
+     "sha256": "2934265041ea1ba439bcb38f1608cd0585ab8251b24137a854c35e5d9774dece",
+     "lines": 2680,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "fast_gap_30",
+   "why": "B+'s faster pose intake off",
+   "find": "const FAST_GAP = 16;",
+   "repl": "const FAST_GAP = 30;",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_caps_q": {
+     "ok": true,
+     "sha256": "de39c796ef43caed9f6b059cbf8ca14c36828ddab7b4a05947a089afa915219c",
+     "lines": 2565,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "q_self",
+   "why": "'q' also carries the receiver's own pose",
+   "find": "const p = ch.filter(q => q[0] !== c.id);",
+   "repl": "const p = ch;",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_caps_q": {
+     "ok": true,
+     "sha256": "737a5997a389b238f47be46ba64702a2af8c270dd777ac51b7b05f0a416177b0",
+     "lines": 2623,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "nr_gap_200",
+   "why": "NEW RUN's flood gap 50 ms shorter",
+   "find": "const NR_GAP = 250;",
+   "repl": "const NR_GAP = 200;",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_new_run": {
+     "ok": true,
+     "sha256": "32dcfae6a12577c1c2d69bcbf0d91c2d4a85b77db2b40a8c55ddf225cfddb9cf",
+     "lines": 8174,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "nr_wait_round",
+   "why": "the cooldown wait rounded instead of rounded up",
+   "find": "ans.wait = Math.ceil(sim.nrWait(p, t) * 10) / 10;",
+   "repl": "ans.wait = Math.round(sim.nrWait(p, t) * 10) / 10;",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_new_run": {
+     "ok": true,
+     "sha256": "030932030bc4ecda130ab000462391ae431b36d5364fa48f0d9b5ef1b3776cc3",
+     "lines": 8172,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "nr_no_memory",
+   "why": "a repeated press decided again instead of answered again",
+   "find": "me.nr = { q, ans }; send(me, ans);",
+   "repl": "send(me, ans);",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_new_run": {
+     "ok": true,
+     "sha256": "1ec325c6be0ed20d15fbeb3acccaaf0bc37960b29c7e40902622f1c5abaa34c9",
+     "lines": 8175,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "nr_free_off",
+   "why": "an admin's UNLIMITED NEW RUN ignored",
+   "find": "free = !!(me.admin && me.nrFree);",
+   "repl": "free = false;",
+   "foundIn": [
+    "server.js"
+   ],
+   "scenarios": {
+    "bpp_new_run": {
+     "ok": true,
+     "sha256": "7ede126ab204cd16ade430590429596cb36e5dd223c3cc65bcd821ed18f7bcf8",
+     "lines": 8123,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "server.js",
+   "caught": true
+  },
+  {
+   "id": "nr_held_free",
+   "why": "a NEW RUN pressed while held is no longer refused (sim.nrWhy)",
+   "find": "if(L===`held`)return`held`;",
+   "repl": "if(L===`held`)return``;",
+   "foundIn": [
+    "sim.js"
+   ],
+   "scenarios": {
+    "bpp_new_run_held": {
+     "ok": true,
+     "sha256": "e604a40420db4e70091bd72600ffb0013322be4c8e2b9a0b55a8b29eb6216a97",
+     "lines": 9343,
+     "differs": true,
+     "stderr": ""
+    }
+   },
+   "applicable": true,
+   "file": "sim.js",
+   "caught": true
+  }
+ ],
+ "ok": true
+}

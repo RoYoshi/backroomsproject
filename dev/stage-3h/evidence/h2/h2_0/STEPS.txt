@@ -1,0 +1,60 @@
+# Stage 3H2, step H2-0: the B++ comparison tooling repaired and one gate built (no game change)
+# what ran, in order, with the result; $SP is the session's scratch folder (the JSON keeps its absolute path); B++ = 143b63f (tree b25c26e)
+# B++ export = git archive 143b63f (the 3H1 export $SP/h1/game, or the gate's own export of the same commit)
+
+## the held NEW RUN golden (bpp_new_run_held, added to golden/srv_scenarios_bpp.js)
+node dev/stage-3h/golden/bpp_golden.js --old-ref 143b63f --repeat 2 --out $SP/h2/bpp6 --write-baseline        exit 0: 6/6 identical, each repeated twice with the same bytes
+  the five 3H1 traces are byte-identical to evidence/h1/golden/bpp_traces (hashes.json: same five SHA-256); the sixth is new
+  baseline copied to evidence/h2/golden/bpp_traces (report: evidence/h2/golden/bpp_golden_report_6.json)
+  bpp_new_run_held: the Hound holds the Runner after 950 steps of 25 ms; both presses are answered {ok:0, why:'held'}
+
+## raw_live_h2.js (3H copy of 3H0's raw_live.js, which 3H1 found comparing almost nothing: F-021)
+node dev/stage-3h/golden/raw_live_h2.js --aa                                      exit 0  PASS  116 HTTP cases, 25 WebSocket checks, identical
+node dev/stage-3h/golden/raw_live_h2.js --new-dir $SP/h2/mut_static              exit 1  FAIL  (server/static.js: PNG max-age 86400 -> 86401) 4 differences
+node dev/stage-3h/golden/raw_live_h2.js --new-dir $SP/h2/mut_ws                  exit 1  FAIL  (server/ws.js: text limit 1400 -> 1401) 1 difference
+node dev/stage-3h/golden/raw_live_h2.js --new-dir $SP/h2/mut_room                exit 1  FAIL  (server.js: MAX_ROOM 8 -> 9) 5 differences
+  (raw_live/: the reports of the final tool version)
+
+## live_wire_h2.js (3H copy of 3H0's live_wire.js, which hung on B++: F-021)
+run 1 (A/A on the B++ export, while other jobs loaded the 2-CPU machine): the second side's A_new_run_admin phase did not finish in 30 s
+  -> the tool now reports both pages' state and screenshots when a phase fails; the same side alone, unloaded: completed (live_wire_run1_*)
+run 2 (A/A): 9 structural differences, all of two kinds 3H0's rule (written before B+) did not know: which phase a sparse 'q' falls in,
+  and s.k before the caps answer (live_wire_aa_run2_before_the_race_rules.json) -> 'q' compared over the whole run, s.k racy in the
+  phases where caps is asked
+run 3 (A/A, --save-raw): PASS, structurally identical in every phase (live_wire_aa_run3.json)
+two more B++ recordings (r4, r5) and two broken copies, each recorded alone (--variants new --save-raw), then every pair compared offline
+  (--compare-raw): live_wire_aa_and_sensitivity.json
+  - the four B++ recordings: all 6 pairs structurally identical (one of them showed that 'q' to the page that barely moves is a race too:
+    'q' is now compared for both pages together)
+  - mp.js no longer asking for caps: 50 differences against each of the four B++ recordings
+  - server.js's cooldown refusal without its wait: 1 difference (nra's key set) against each of the four
+  - the refusal's button text is now read 800 ms after the press: "NEW RUN · WAIT N S" on every B++ run (3H0 read it after it had gone)
+
+## bpp_mutants.js (relocatable: the server side is copied, a mutant is found in whichever file holds its text)
+node dev/stage-3h/golden/bpp_mutants.js                                          exit 0  10/10 caught (nr_held_free in sim.js: bpp_new_run_held)
+
+## protocol_v2.js and its contract
+node dev/stage-3h/gate/protocol_v2.js derive --srv dev/stage-3h/evidence/h1/golden/srv_traces,dev/stage-3h/evidence/h2/golden/bpp_traces --cli dev/stage-3h/evidence/h1/golden/cli_traces --out dev/stage-3h/gate/protocol_bpp.json
+  17,323 messages; 18 server types, 9 client types (no client scene sends 'nr' yet); no object with more than 40 key orders
+node dev/stage-3h/gate/protocol_v2.js selftest                                   exit 0  a valid 'hi': 0 violations; an extra key and an unknown type: 3
+
+## h1_scope_check.py (fast)
+--worktree on this tree: the 3H1 version (145 s) and the H2-0 version (0.9 s) give the same added / modified / deleted lists, the same
+production manifests (base and side) and the same verdict (scope/worktree_by_3h1_tool.json, scope/worktree_by_h2_tool.json)
+
+## suites.js and known_failures_bpp.json
+node dev/stage-3h/gate/suites.js derive --logs dev/stage-3h/evidence/h1/suites --out dev/stage-3h/gate/known_failures_bpp.json
+  npm_test 13 known failures, s_humanqa_hotfix 1 (X03), s_ir 0 (its I-cases from npm_test.log), test_shadows 5, test_br_role 3,
+  interp_test 0, test_3bn 0, audit_net 4, audit_net2 3 (LC1 flaky), ir_net 0
+
+## the gate
+node dev/stage-3h/gate/h2_gate.js --tier fast --out $SP/h2/gate_fast_aa            exit 0  PASS in 79 s (gate_fast_aa/)
+  build 3, scope 189 files, srv_golden 11, bpp_golden 6, cli_golden 9, protocol 34,646 messages + selftest, mutants 10, static 4,
+  raw_live 141, quick_suites 23 cases (s_humanqa_hotfix 5/6 and nothing else failing: the B++ record)
+the gate's own sensitivity (gate_sensitivity/; the file restored with git checkout after each):
+  server.js NR_GAP 250 -> 200, declared            exit 1  FAIL: bpp_golden (NEW RUN's traces) and mutants (nr_gap_200's text gone)
+  mp.js caps fp 1 -> 2, undeclared                 exit 1  FAIL: scope, cli_golden, raw_live
+    raw_live's FAIL there was partly its own blind spot: 'two requests on one connection' asks for mp.js without a request line the tool
+    could map to the file, so a declared change of mp.js would also have failed there.  Fixed (RAW_FILE), then:
+  mp.js caps fp 1 -> 2, declared (scope, cli_golden, raw_live only)   exit 1  FAIL: cli_golden; raw_live lists mp.js as an expected
+                                                                               content change; scope passes

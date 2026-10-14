@@ -1,0 +1,25 @@
+old: 4369 + 4099 frames in 216630 ms; errors A 0 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN","menuAfterRefused":false,"menuAfterAdmin":true}
+ERROR page.click: Timeout 28000ms exceeded.
+Call log:
+[2m  - waiting for locator('#reset')[22m
+[2m    - locator resolved to <button id="reset" class="secondary" data-label="NEW RUN">NEW RUN</button>[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    5 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not visible[22m
+[2m    - retrying click action[22m
+[2m      - waiting 500ms[22m
+
+    at click (/home/claude/backrooms-shadows/dev/stage-3h/golden/live_wire_h2.js:58:35)
+    at /home/claude/backrooms-shadows/dev/stage-3h/golden/live_wire_h2.js:83:71
+    at async step (/home/claude/backrooms-shadows/dev/stage-3h/golden/live_wire_h2.js:54:15)
+    at async variant (/home/claude/backrooms-shadows/dev/stage-3h/golden/live_wire_h2.js:83:5)
+    at async /home/claude/backrooms-shadows/dev/stage-3h/golden/live_wire_h2.js:135:38
+LIVE WIRE: ERROR

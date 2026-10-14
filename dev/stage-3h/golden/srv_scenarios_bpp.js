@@ -4,8 +4,9 @@
  *   (dev/stage-3h/golden/bpp_golden.js runs them all, old against new, and writes the baseline)
  *
  * Stage 3H0's eleven scenarios were written for the QA2 parent: they never ask 'caps', so they cannot see B+'s fresher poses or B++-0's
- * placement guard, and none of them reaches Stage 3D's NEW RUN decision.  These five do, in the same fake-clock world (seeded randomness, fake timers and sockets, the real sim), so the
- * accepted B++ server's answers are pinned byte for byte:
+ * placement guard, and none of them reaches Stage 3D's NEW RUN decision.  These six do (3H1 wrote five; Stage 3H2's H2-0 added
+ * bpp_new_run_held, which leaves the other five's traces byte for byte as they were), in the same fake-clock world (seeded randomness, fake
+ * timers and sockets, the real sim), so the accepted B++ server's answers are pinned byte for byte:
  *   bpp_caps_q        Fast and Mover ask {t:'caps', fp:1}; Old never asks; Odd asks with fp:0; Away asks in another room.  The Mover walks,
  *                     stops, walks again; a world reset; the Mover dies (an admin preview kill) and is removed from 'q'; Fast leaves.
  *                     Recorded: the caps answers, every 'q' and 's' (with k only for clients that asked), what Old, Odd and Away get
@@ -20,6 +21,10 @@
  *   bpp_new_run       NEW RUN as the server decides it: approved (the blast replay, then the corpse), the same press again, refused from
  *                     the menu (state), a flood, an older and malformed presses (no answer), refused in the cooldown (with the wait), refused
  *                     after an admin world reset (epoch), an admin's UNLIMITED NEW RUN on and off (nrf), refused while dead
+ *   bpp_new_run_held  NEW RUN pressed while an entity holds the player (3H1's audit found no golden reaching sim.nrWhy's 'held'): the
+ *                     Runner, an admin not in god mode, sets the capture style to "play", places a Hound near itself and summons it; once
+ *                     a snapshot says it is held (s.cp), it presses NEW RUN, and again 300 ms later (both refused: held); then the hold
+ *                     plays out to its end
  * Coordinates are the ones B++-0's evidence used on the real server (dev/stage-3e-0-bpp/evidence/p0), chosen with the real sim's geometry.
  * The helpers P, MV and walk are copies of srv_scenarios.js's (that file exports only its scenarios). */
 'use strict';
@@ -164,5 +169,27 @@ module.exports = {
     for (let i = 0; i < 40; i++) { H.advance(25); R.send(P(504, 888, { n: 'Runner', mv: MV(1, 120) })); }
     R.send({ t: 'nr', q: 6, w: world() }); for (let i = 0; i < 240; i++) H.advance(25);
     coverage(H, [Q.A, R, W]);
+  },
+
+  /* Stage 3H H2-0: the one NEW RUN refusal bpp_new_run does not reach - 'held', a press made while an entity holds the player (sim.nrWhy).
+   * The Runner is an admin (quiet) so that its own commands bring the capture to it: always play with the victim (capmode), a Hound
+   * placed near it, then summoned.  It stands still until a snapshot names a capture (cp), presses NEW RUN, and keeps standing */
+  async bpp_new_run_held(H) {
+    const room = 'bpph', Q = quietAdmin(H, room, '203.0.113.110'); Q.clear(); H.advance(100);
+    const R = player(H, room, '203.0.113.111', 'Runner', 504, 888, 1);
+    const still = n => { for (let i = 0; i < n; i++) { H.advance(25); R.send(P(504, 888, { n: 'Runner', mv: MV(0, 0) })); } };
+    const world = () => { const s = R.last('s'); return s ? s.w : 0; };
+    still(20);
+    R.send({ t: 'admin', pass: PASS, quiet: 1 }); H.advance(30);
+    H.note('the Runner (an admin, not in god mode): capture style "play", a Hound near it, summoned');
+    R.send({ t: 'a', c: 'capmode', mode: 'play' }); still(4);
+    R.send({ t: 'a', c: 'near', k: 'hound' }); still(4);
+    R.send({ t: 'a', c: 'summon' });
+    let n = 0; while (n < 2400) { still(1); n++; const s = R.last('s'); if (s && s.cp) break; }
+    H.note('held after ' + n + ' steps of 25 ms: ' + JSON.stringify((R.last('s') || {}).cp || null));
+    R.send({ t: 'nr', q: 1, w: world() }); still(8);
+    H.note('a second press while still held, 300 ms later'); still(4); R.send({ t: 'nr', q: 2, w: world() }); still(8);
+    for (let i = 0; i < 200; i++) still(1);
+    coverage(H, [Q.A, R]);
   },
 };

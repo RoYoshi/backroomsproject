@@ -1,0 +1,3624 @@
+{
+ "tool": "dev/stage-3h/gate/protocol_v2.js",
+ "version": 2,
+ "derivedFrom": {
+  "srv": "dev/stage-3h/evidence/h1/golden/srv_traces,dev/stage-3h/evidence/h2/golden/bpp_traces",
+  "cli": "dev/stage-3h/evidence/h1/golden/cli_traces"
+ },
+ "serverToClient": {
+  "hi": {
+   "seen": 62,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,id,sim"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".id": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".sim": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "bodies": {
+   "seen": 114,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,v,w,b"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".v": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[]": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "k,n,x,y,a,sx,sy,c,aa,lk,eq,bl,dr,ht,lo,ph,hd,ho,tr,srv,gs,gb,gh,lf,de,ag",
+      "k,n,x,y,a,sx,sy,c,aa,lk,eq,bl,dr,ht,lo,ph,hd,ho,tr,srv,lf,de,ag"
+     ]
+    },
+    ".b[].k": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].n": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".b[].x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].sx": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].sy": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].c": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".b[].aa": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].lk": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".b[].eq": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "kind,color,parts"
+     ]
+    },
+    ".b[].eq.kind": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".b[].eq.color": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".b[].eq.parts": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".b[].bl": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].bl[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].bl[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].dr": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].dr[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].ht": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].ht[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].lo": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].ph": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].hd": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].hd[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].ho": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].tr": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].srv": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].lf": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].lf[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].de": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].ag": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].tr[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].tr[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].gs": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].gb": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].gb[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].gb[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".b[].gh": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".b[].gh[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "s": {
+   "seen": 15830,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,p,e,me,ms,cp,w",
+      "t,p,e,me,ms,cp,w,ad,you,nf",
+      "t,p,e,me,ms,cp,w,ad,you,nf,dbg,dx",
+      "t,p,e,me,ms,cp,w,dbg,dx",
+      "t,p,e,me,ms,cp,w,k",
+      "t,p,e,me,ms,cp,w,k,ad,you,nf",
+      "t,p,e,me,ms,cp,w,mk",
+      "t,p,e,me,ms,cp,w,mk,ad,you,nf",
+      "t,p,e,me,ms,cp,w,mk,ad,you,nf,dbg,dx",
+      "t,p,e,me,ms,cp,w,mk,dbg,dx",
+      "t,p,e,me,ms,cp,w,mk,k",
+      "t,p,e,me,ms,cp,w,mk,k,ad,you,nf"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".p": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "st,h,m,b,p,gw,it,lf,sn"
+     ]
+    },
+    ".e.st": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[]": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "i,x,y,a,s,ac,v,h,lh,l,tg,cp,k"
+     ]
+    },
+    ".e.h[].i": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].s": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].ac": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].v": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].h": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].lh": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].l": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].tg": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].cp": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.h[].k": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[]": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "i,x,y,a,s,ac,v,f,h,lh,tg,cp,lt,sp"
+     ]
+    },
+    ".e.m[].i": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].s": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].ac": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].v": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].f": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].h": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].lh": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].tg": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].cp": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].lt": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.m[].sp": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.b": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.p": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.gw": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e.gw[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e.gw[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".e.it": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e.it[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e.it[][]": {
+     "kinds": [
+      "number",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".e.lf": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e.sn": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".me": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ms": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".cp": {
+     "kinds": [
+      "number",
+      "object"
+     ],
+     "keyOrders": [
+      "ph,e,k,d"
+     ]
+    },
+    ".w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[]": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "id,x,y,a,n,c,d,r,k,l,ir,lk,lp,f,mv"
+     ]
+    },
+    ".p[].id": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].n": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".p[].c": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".p[].d": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].r": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].k": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".p[].l": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].ir": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].lk": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".p[].lp": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".p[].f": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p[].mv": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".p[].mv[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "fz,sp,bo,hn,sn,mh,ms,dh,gw,it,pk,hs,dbg,cm,es,pl"
+     ]
+    },
+    ".ad.fz": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.sp": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.bo": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ad.hn": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.sn": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.mh": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.ms": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.dh": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.gw": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.it": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pk": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.hs": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ad.dbg": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.cm": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ad.es": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".ad.es[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".ad.es[][]": {
+     "kinds": [
+      "number",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[]": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "id,n,a,d,g,ad,st,x,y"
+     ]
+    },
+    ".ad.pl[].id": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[].n": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[].a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[].d": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[].g": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[].ad": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[].st": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[].x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ad.pl[].y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".you": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".nf": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[]": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "i,k,x,y,a,s,ac,tier,v,mood,tg,lk,vr,hr,sg,near,cp,cd,path,nv,pu,cc,se,dec,tr,hm,intel",
+      "i,k,x,y,a,s,ac,tier,v,mood,tg,lk,vr,hr,sg,near,cp,cd,path,nv,pu,cc,se,dec,tr,intel",
+      "i,k,x,y,a,s,ac,tier,v,mood,tg,lk,vr,hr,sg,near,cp,cd,path,nv,pu,cc,se,dec,tr,lit,sm,intel",
+      "i,k,x,y,a,s,ac,tier,v,mood,tg,lk,vr,hr,sg,near,cp,cd,path,nv,pu,cc,se,ev,dec,tr,hm,intel",
+      "i,k,x,y,a,s,ac,tier,v,mood,tg,lk,vr,hr,sg,near,cp,cd,path,nv,pu,cc,se,ev,ec,dec,tr,hm,intel",
+      "i,k,x,y,a,s,ac,tier,v,mood,tg,lk,vr,hr,sg,near,cp,cd,path,nv,pu,cc,se,ev,ld,inv,dec,tr,hm,intel",
+      "i,k,x,y,a,s,ac,tier,v,mood,tg,lk,vr,hr,sg,near,cp,cd,path,nv,pu,cc,se,ev,ld,inv,ec,dec,tr,hm,intel",
+      "i,k,x,y,a,s,ac,tier,v,mood,tg,lk,vr,hr,sg,near,cp,cd,path,nv,pu,cc,se,ld,inv,dec,tr,hm,intel"
+     ]
+    },
+    ".dbg[].i": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].k": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].s": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ac": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tier": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].v": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].mood": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].mood[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tg": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].lk": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "x,y,age,c,seen,aw"
+     ]
+    },
+    ".dbg[].vr": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hr": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "x,y,t,I,ty"
+     ]
+    },
+    ".dbg[].sg": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "x,y"
+     ]
+    },
+    ".dbg[].near": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cp": {
+     "kinds": [
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cd": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "mode,danger,iso,deadEnd,approaching,variant,why"
+     ]
+    },
+    ".dbg[].path": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].path[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].path[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "rt,car,want,vx,vy,sp,st,dir,why,goal,rc,r,caps,n,go"
+     ]
+    },
+    ".dbg[].nv.rt": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.rt[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.rt[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.car": {
+     "kinds": [
+      "array",
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.want": {
+     "kinds": [
+      "null",
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.vx": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.vy": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.sp": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.st": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.dir": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.why": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.why[]": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.goal": {
+     "kinds": [
+      "array",
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.goal[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.rc": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.r": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.caps": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.n": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.n[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.go": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].pu": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "x,y",
+      "x,y,blind,ear"
+     ]
+    },
+    ".dbg[].cc": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cc[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "why,ph,legs,t,left,g,est,hd,heard,mem,dis,cz,tried,rq"
+     ]
+    },
+    ".dbg[].dec": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "s,a,why,rt,lt,fl,tq"
+     ]
+    },
+    ".dbg[].dec.s": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].dec.a": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].dec.why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].dec.rt": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].dec.lt": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].dec.fl": {
+     "kinds": [
+      "null",
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].dec.tq": {
+     "kinds": [
+      "null",
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "INTE,SADI,HUNG,PATI,CURI,CAUT,TERR,AGGR,PERS,SOCI,HEAR,VISI,LIGH,MEMO"
+     ]
+    },
+    ".dbg[].tr.INTE": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.SADI": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.HUNG": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.PATI": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.CURI": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.CAUT": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.TERR": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.AGGR": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.PERS": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.SOCI": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.HEAR": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.VISI": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.LIGH": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].tr.MEMO": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "why,transition,listen,dwell,seen,visual,conf,branch,rejected,prediction,investigation,gaze,traits",
+      "why,transition,listen,dwell,seen,visual,conf,rejected,prediction,investigation,gaze,traits"
+     ]
+    },
+    ".dbg[].hm.why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.transition": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "from,to,at,why"
+     ]
+    },
+    ".dbg[].hm.listen": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.dwell": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.seen": {
+     "kinds": [
+      "boolean"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.visual": {
+     "kinds": [
+      "array",
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.conf": {
+     "kinds": [
+      "null",
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.branch": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.rejected": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.prediction": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "x,y",
+      "x,y,blind,ear"
+     ]
+    },
+    ".dbg[].hm.investigation": {
+     "kinds": [
+      "array",
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.gaze": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.traits": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "persistence,curiosity,patience,caution"
+     ]
+    },
+    ".dbg[].hm.traits.persistence": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.traits.curiosity": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.traits.patience": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.traits.caution": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "winner,why,weights,candidates,sound,habits,target,targets,commitment,rejectedHabits,habitExpiry,applied,rng,tags,counts"
+     ]
+    },
+    ".dbg[].intel.winner": {
+     "kinds": [
+      "null",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.weights": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "sight,sound,light"
+     ]
+    },
+    ".dbg[].intel.weights.sight": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.weights.sound": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.weights.light": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.sound": {
+     "kinds": [
+      "null",
+      "object"
+     ],
+     "keyOrders": [
+      "attribution,x,y,type"
+     ]
+    },
+    ".dbg[].intel.habits": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.target": {
+     "kinds": [
+      "null",
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.targets": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.commitment": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "age,dwell"
+     ]
+    },
+    ".dbg[].intel.commitment.age": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.commitment.dwell": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.rejectedHabits": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.habitExpiry": {
+     "kinds": [
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.applied": {
+     "kinds": [
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.rng": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.tags": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.tags[]": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.counts": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "players,sounds,leads,visits,habitObservations,hypotheses"
+     ]
+    },
+    ".dbg[].intel.counts.players": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.counts.sounds": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.counts.leads": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.counts.visits": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.counts.habitObservations": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.counts.hypotheses": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].nv.car[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].lit": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "ag,agw,lit,w,ht,why,ab,rt,pz,ec,cl,dw,st"
+     ]
+    },
+    ".dbg[].sm.ag": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.agw": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.lit": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.ht": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.ab": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.rt": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.pz": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "pat,cur,per,bold"
+     ]
+    },
+    ".dbg[].sm.pz.pat": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.pz.cur": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.pz.per": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.pz.bold": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.ec": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.cl": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.dw": {
+     "kinds": [
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sm.st": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dx": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "lg,pf"
+     ]
+    },
+    ".dx.lg": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dx.lg[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dx.lg[][]": {
+     "kinds": [
+      "number",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dx.pf": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "ms,mx,kb,se,pa,pl"
+     ]
+    },
+    ".dx.pf.ms": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dx.pf.mx": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dx.pf.kb": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dx.pf.se": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dx.pf.pa": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dx.pf.pl": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ld": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ld[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ld[][]": {
+     "kinds": [
+      "number",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].inv": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "l,k,x,y,u,age"
+     ]
+    },
+    ".dbg[].inv.l": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].inv.k": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].inv.x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].inv.y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].inv.u": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].inv.age": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.transition.from": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.transition.to": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.transition.at": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.transition.why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.investigation[]": {
+     "kinds": [
+      "number",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates[]": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "key,attribution,modality,score,c,u,age,expires"
+     ]
+    },
+    ".dbg[].intel.candidates[].key": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates[].attribution": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates[].modality": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates[].score": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates[].c": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates[].u": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates[].age": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.candidates[].expires": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].lk.x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].lk.y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].lk.age": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].lk.c": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].lk.seen": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].lk.aw": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sg.x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].sg.y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.ph": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.legs": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.t": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.left": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.g": {
+     "kinds": [
+      "array",
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.g[]": {
+     "kinds": [
+      "null",
+      "number",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.est": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.est[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.hd": {
+     "kinds": [
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.heard": {
+     "kinds": [
+      "array",
+      "null"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.heard[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.mem": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.dis": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.cz": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.tried": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].se.rq": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.targets[]": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "pid,score,current,seen,why"
+     ]
+    },
+    ".dbg[].intel.targets[].pid": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.targets[].score": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.targets[].current": {
+     "kinds": [
+      "boolean"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.targets[].seen": {
+     "kinds": [
+      "boolean"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.targets[].why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ev": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ev[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ev[][]": {
+     "kinds": [
+      "number",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".e.sn[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".e.sn[][]": {
+     "kinds": [
+      "number",
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].pu.x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].pu.y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.visual[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.prediction.x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.prediction.y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "v,k,e,ax,ay,aa,w,x,y,a,why,de,vx,vy,ex,lf"
+     ]
+    },
+    ".mk.v": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".mk.k": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".mk.e": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.ax": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.ay": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.aa": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".mk.de": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.vx": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.vy": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.ex": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mk.lf": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".mk.lf[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cd.mode": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cd.danger": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cd.iso": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cd.deadEnd": {
+     "kinds": [
+      "boolean"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cd.approaching": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cd.variant": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].cd.why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ec": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ec[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].ec[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].pu.blind": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].pu.ear": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.prediction.blind": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hm.prediction.ear": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hr.x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hr.y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hr.t": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hr.I": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].hr.ty": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.sound.attribution": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.sound.x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.sound.y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".dbg[].intel.sound.type": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".k": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".cp.ph": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".cp.e": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".cp.k": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".cp.d": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "pong": {
+   "seen": 14,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,ts"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ts": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "admin": {
+   "seen": 39,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,ok,q",
+      "t,ok,wait"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ok": {
+     "kinds": [
+      "boolean"
+     ],
+     "keyOrders": []
+    },
+    ".wait": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".q": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "ares": {
+   "seen": 183,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,ok,msg"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ok": {
+     "kinds": [
+      "boolean"
+     ],
+     "keyOrders": []
+    },
+    ".msg": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "tp": {
+   "seen": 52,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,x,y",
+      "t,x,y,pc"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".pc": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "got": {
+   "seen": 1,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,item"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".item": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "fx": {
+   "seen": 34,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf",
+      "t,k,id,de,wn",
+      "t,k,id,x,y,a,d,s,lk,ek,ec,ep,vx,vy,srv,de,wn,lo,lf"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".k": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".id": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".c": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".sx": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".sy": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".v": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".lk": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ek": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ec": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ep": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".vx": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".vy": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ex": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".srv": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".de": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".wn": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".lo": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".lf": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".lf[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".d": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".s": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "world": {
+   "seen": 13,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,w",
+      "t,w,x,y"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "msg": {
+   "seen": 6,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,text,from"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".text": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".from": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "kick": {
+   "seen": 1,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "revive": {
+   "seen": 1,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "exit": {
+   "seen": 1,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,secs"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".secs": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "caps": {
+   "seen": 15,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,fp"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".fp": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "q": {
+   "seen": 27,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,w,k,p"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".k": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".p": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".p[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".p[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "nra": {
+   "seen": 11,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,q,ok,de,w",
+      "t,q,ok,why",
+      "t,q,ok,why,wait"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".q": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ok": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".de": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".w": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".why": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".wait": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "nrf": {
+   "seen": 2,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,on"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".on": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  }
+ },
+ "clientToServer": {
+  "caps": {
+   "seen": 11,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,fp"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".fp": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "join": {
+   "seen": 11,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "admin": {
+   "seen": 9,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,pass",
+      "t,pass,quiet"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".pass": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".quiet": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "p": {
+   "seen": 819,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk",
+      "t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".x": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".y": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".vx": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".vy": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".a": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".r": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".l": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".ir": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".k": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".lp": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".n": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".c": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".f": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".lk": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".mv": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "s,sp,st,ex,ev"
+     ]
+    },
+    ".mv.s": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mv.sp": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mv.st": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mv.ex": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mv.ev": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".mv.ev[]": {
+     "kinds": [
+      "array"
+     ],
+     "keyOrders": []
+    },
+    ".mv.ev[][]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "a": {
+   "seen": 61,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,c",
+      "t,c,eid",
+      "t,c,id",
+      "t,c,k",
+      "t,c,k,var",
+      "t,c,mode",
+      "t,c,mode,n",
+      "t,c,on",
+      "t,c,text",
+      "t,c,v"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".c": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".id": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".on": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".mode": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".n": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".k": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".v": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".eid": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
+    ".var": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".text": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "ping": {
+   "seen": 2,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,ts"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".ts": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "respawn": {
+   "seen": 2,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "leave": {
+   "seen": 1,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
+  "pick": {
+   "seen": 1,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    }
+   }
+  }
+ },
+ "messagesRead": 17323,
+ "wideObjects": []
+}

@@ -1,0 +1,44 @@
+{
+ "tool": "dev/stage-3h/gate/protocol_v2.js",
+ "contract": "dev/stage-3h/gate/protocol_bpp.json",
+ "read": {
+  "serverToClient": 32812,
+  "clientToServer": 1834
+ },
+ "violations": [],
+ "violationCount": 0,
+ "typesSeen": {
+  "serverToClient": {
+   "hi": 124,
+   "bodies": 228,
+   "s": 31660,
+   "pong": 28,
+   "admin": 78,
+   "ares": 366,
+   "tp": 104,
+   "got": 2,
+   "fx": 68,
+   "world": 26,
+   "msg": 12,
+   "kick": 2,
+   "revive": 2,
+   "exit": 2,
+   "caps": 30,
+   "q": 54,
+   "nra": 22,
+   "nrf": 4
+  },
+  "clientToServer": {
+   "caps": 22,
+   "join": 22,
+   "admin": 18,
+   "p": 1638,
+   "a": 122,
+   "ping": 4,
+   "respawn": 4,
+   "leave": 2,
+   "pick": 2
+  }
+ },
+ "ok": true
+}

@@ -1,0 +1,11 @@
+PASS build: 3 compared (0 s)
+FAIL scope: 189 compared; changed on purpose: none (1 s)
+PASS srv_golden: 11 compared; HTTP lines about changed files: mp.js (15 s)
+PASS bpp_golden: 6 compared (8 s)
+FAIL cli_golden: 9 compared (5 s)
+PASS protocol: 34646 compared; messages checked; selftest PASS (3 s)
+PASS mutants: 10 compared; nr_held_free@sim.js (12 s)
+PASS static: 4 compared (1 s)
+FAIL raw_live: 141 compared; responses for changed files: mp.js (23 s)
+PASS quick_suites: 23 compared; s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail) (9 s)
+H2 GATE (fast): FAIL  - report /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/gate_mut_client/gate_report.json

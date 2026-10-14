@@ -1,0 +1,302 @@
+{
+ "tool": "dev/stage-3h/golden/live_wire_h2.js (--save-raw, then --compare-raw for every pair)",
+ "note": "each recording is one side of the live run (two Chromium players through the game's own buttons); B++ A/A: every pair of the four B++ recordings must be structurally identical; sensitivity: each broken copy must differ from every B++ recording. The raw recordings (7 MB each) stay in the session scratch; their SHA-256 are listed.",
+ "recordings": {
+  "aa3/old": {
+   "game": "B++ export (git archive 143b63f)",
+   "frames": {
+    "A": 4067,
+    "B": 3897
+   },
+   "ms": 199046,
+   "ui": {
+    "menuAfterFirst": true,
+    "refusedLabel": "NEW RUN \u00b7 WAIT N S",
+    "menuAfterRefused": false,
+    "menuAfterAdmin": true
+   },
+   "pageErrors": {
+    "A": 0,
+    "B": 0
+   },
+   "rawSha256": "70142948e20bc42b57f43f9b5fa44b44c3d33d279b599a5dabd46dc2925929c5",
+   "rawBytes": 9974665
+  },
+  "aa3/new": {
+   "game": "B++ export (git archive 143b63f)",
+   "frames": {
+    "A": 3749,
+    "B": 3584
+   },
+   "ms": 183104,
+   "ui": {
+    "menuAfterFirst": true,
+    "refusedLabel": "NEW RUN \u00b7 WAIT N S",
+    "menuAfterRefused": false,
+    "menuAfterAdmin": true
+   },
+   "pageErrors": {
+    "A": 0,
+    "B": 0
+   },
+   "rawSha256": "19404909e002176680b6d9f148738d958d954f58df7df253d7e64e9e8afef025",
+   "rawBytes": 8724756
+  },
+  "r4": {
+   "game": "B++ export (git archive 143b63f)",
+   "frames": {
+    "A": 3775,
+    "B": 3573
+   },
+   "ms": 182497,
+   "ui": {
+    "menuAfterFirst": true,
+    "refusedLabel": "NEW RUN \u00b7 WAIT N S",
+    "menuAfterRefused": false,
+    "menuAfterAdmin": true
+   },
+   "pageErrors": {
+    "A": 0,
+    "B": 0
+   },
+   "rawSha256": "53ef4c156bfb83db184352327d65d6913bfe3cfb5d33866341044bd1e2c8b4cd",
+   "rawBytes": 7218350
+  },
+  "r5": {
+   "game": "B++ export (git archive 143b63f)",
+   "frames": {
+    "A": 4130,
+    "B": 3918
+   },
+   "ms": 200631,
+   "ui": {
+    "menuAfterFirst": true,
+    "refusedLabel": "NEW RUN \u00b7 WAIT N S",
+    "menuAfterRefused": false,
+    "menuAfterAdmin": true
+   },
+   "pageErrors": {
+    "A": 0,
+    "B": 0
+   },
+   "rawSha256": "cad8ca9a4e1bf31087902abbcfae1c30bc3b4cfa8344472395b0f8f118fb8f2a",
+   "rawBytes": 9562678
+  },
+  "lw_caps": {
+   "game": "B++ with mp.js no longer asking for caps",
+   "frames": {
+    "A": 3994,
+    "B": 3762
+   },
+   "ms": 194389,
+   "ui": {
+    "menuAfterFirst": true,
+    "refusedLabel": "NEW RUN \u00b7 WAIT N S",
+    "menuAfterRefused": false,
+    "menuAfterAdmin": true
+   },
+   "pageErrors": {
+    "A": 0,
+    "B": 0
+   },
+   "rawSha256": "fbae482c2792103e4fa469358e3691597842d5f702519454c6a0dec9d7be8a8c",
+   "rawBytes": 8583054
+  },
+  "lw_wait": {
+   "game": "B++ with server.js's cooldown answer without its wait",
+   "frames": {
+    "A": 4130,
+    "B": 3905
+   },
+   "ms": 199675,
+   "ui": {
+    "menuAfterFirst": true,
+    "refusedLabel": "NEW RUN \u00b7 WAIT N S",
+    "menuAfterRefused": false,
+    "menuAfterAdmin": true
+   },
+   "pageErrors": {
+    "A": 0,
+    "B": 0
+   },
+   "rawSha256": "6f1bc6fbd2fa4d34789d1c6508b890183da76420976e088cc8f2cfff17b7c3c8",
+   "rawBytes": 8952930
+  }
+ },
+ "pairs": [
+  {
+   "pair": "aa3_new__aa3_old",
+   "ok": true,
+   "structuralDifferences": 0,
+   "firstDifferences": []
+  },
+  {
+   "pair": "aa3_new__lw_caps",
+   "ok": false,
+   "structuralDifferences": 50,
+   "firstDifferences": [
+    {
+     "at": "A_admin_death|A|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_admin_death|B|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_close_pause|A|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_close_pause|B|rx",
+     "field": "keys"
+    }
+   ]
+  },
+  {
+   "pair": "aa3_new__lw_wait",
+   "ok": false,
+   "structuralDifferences": 1,
+   "firstDifferences": [
+    {
+     "at": "A_new_run_again|A|rx",
+     "field": "keys"
+    }
+   ]
+  },
+  {
+   "pair": "aa3_new__r4_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "firstDifferences": []
+  },
+  {
+   "pair": "aa3_new__r5_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "firstDifferences": []
+  },
+  {
+   "pair": "aa3_old__lw_caps",
+   "ok": false,
+   "structuralDifferences": 50,
+   "firstDifferences": [
+    {
+     "at": "A_admin_death|A|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_admin_death|B|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_close_pause|A|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_close_pause|B|rx",
+     "field": "keys"
+    }
+   ]
+  },
+  {
+   "pair": "aa3_old__lw_wait",
+   "ok": false,
+   "structuralDifferences": 1,
+   "firstDifferences": [
+    {
+     "at": "A_new_run_again|A|rx",
+     "field": "keys"
+    }
+   ]
+  },
+  {
+   "pair": "aa3_old__r4_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "firstDifferences": []
+  },
+  {
+   "pair": "aa3_old__r5_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "firstDifferences": []
+  },
+  {
+   "pair": "r4_new__lw_caps",
+   "ok": false,
+   "structuralDifferences": 50,
+   "firstDifferences": [
+    {
+     "at": "A_admin_death|A|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_admin_death|B|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_close_pause|A|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_close_pause|B|rx",
+     "field": "keys"
+    }
+   ]
+  },
+  {
+   "pair": "r4_new__lw_wait",
+   "ok": false,
+   "structuralDifferences": 1,
+   "firstDifferences": [
+    {
+     "at": "A_new_run_again|A|rx",
+     "field": "keys"
+    }
+   ]
+  },
+  {
+   "pair": "r4_new__r5_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "firstDifferences": []
+  },
+  {
+   "pair": "r5_new__lw_caps",
+   "ok": false,
+   "structuralDifferences": 50,
+   "firstDifferences": [
+    {
+     "at": "A_admin_death|A|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_admin_death|B|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_close_pause|A|rx",
+     "field": "keys"
+    },
+    {
+     "at": "A_close_pause|B|rx",
+     "field": "keys"
+    }
+   ]
+  },
+  {
+   "pair": "r5_new__lw_wait",
+   "ok": false,
+   "structuralDifferences": 1,
+   "firstDifferences": [
+    {
+     "at": "A_new_run_again|A|rx",
+     "field": "keys"
+    }
+   ]
+  }
+ ],
+ "aaPairsIdentical": true,
+ "brokenCopiesCaught": true
+}

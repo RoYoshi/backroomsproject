@@ -1,0 +1,153 @@
+{
+ "tool": "dev/stage-3h/golden/bpp_golden.js",
+ "oldRef": "143b63f",
+ "newSide": "working tree",
+ "node": "v22.22.2",
+ "scenarios": [
+  {
+   "scenario": "bpp_caps_q",
+   "old": {
+    "ok": true,
+    "lines": 2605,
+    "sha256": "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7",
+    "ms": 1830,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 2605,
+    "sha256": "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7",
+    "ms": 1349,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [
+    "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7",
+    "72e775b7ead4177188625e85ab209e95f4455d3a410729042a2b782822004de7"
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "bpp_place_guard",
+   "old": {
+    "ok": true,
+    "lines": 2171,
+    "sha256": "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8",
+    "ms": 1252,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 2171,
+    "sha256": "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8",
+    "ms": 821,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [
+    "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8",
+    "896ccf6dbbb18074279021d60fa032fe27567f6d93ff56394c4d92ba9c3a47f8"
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "bpp_world_guard",
+   "old": {
+    "ok": true,
+    "lines": 1170,
+    "sha256": "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e",
+    "ms": 688,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 1170,
+    "sha256": "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e",
+    "ms": 744,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [
+    "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e",
+    "a96718d201f18721517e61b81076dcde2212381bd2afa34087f5275038c2357e"
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "bpp_known_limits",
+   "old": {
+    "ok": true,
+    "lines": 2681,
+    "sha256": "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775",
+    "ms": 1491,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 2681,
+    "sha256": "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775",
+    "ms": 1246,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [
+    "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775",
+    "35bda07236971e938931624220e38d0694b77624b44c7508181f45bf76e59775"
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "bpp_new_run",
+   "old": {
+    "ok": true,
+    "lines": 8172,
+    "sha256": "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d",
+    "ms": 1658,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 8172,
+    "sha256": "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d",
+    "ms": 1605,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [
+    "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d",
+    "a61b01e2cc0bcc0a26c7b5406f4bde35d73a5090dd3e3d9fd8b33a11b7de014d"
+   ],
+   "ok": true
+  },
+  {
+   "scenario": "bpp_new_run_held",
+   "old": {
+    "ok": true,
+    "lines": 9310,
+    "sha256": "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9",
+    "ms": 1603,
+    "stderr": ""
+   },
+   "new": {
+    "ok": true,
+    "lines": 9310,
+    "sha256": "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9",
+    "ms": 1484,
+    "stderr": ""
+   },
+   "identical": true,
+   "deterministic": true,
+   "repeats": [
+    "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9",
+    "a6b7c6dc9f847fe1fb2b038ce29cff213c45a57381f92be083b80df96197d5d9"
+   ],
+   "ok": true
+  }
+ ],
+ "ok": true
+}
