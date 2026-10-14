@@ -1,0 +1,5 @@
+H5-3 steps (SP = the session scratch folder)
+python3 -I dev/stage-3d-hq5/overlay_hq5.py . 18639357117a28c7db930574ac40c6161c532101 $SP/hq5/overlay --qa STAGE_3D_HQ5_HUMAN_QA.md \
+        --hq3zip THE_FAR_BACKROOMS_STAGE_3D_HQ3_ADMIN_GIBBING_HUMAN_QA.zip --hq4overlay HQ4_HUMAN_QA_OVERLAY.zip      -> OVERLAY CHECK: PASS
+the before / after picture: real frames from contact_lab.py's labB run (HQ4 and HQ5 pages), pasted at 1:1 with labels
+after the push: verify_remote_hq5.py; the ZIP's two game files compared with the pushed commit's and 79e1461's blobs

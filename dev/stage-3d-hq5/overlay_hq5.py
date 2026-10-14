@@ -47,8 +47,8 @@ assert diff_rt == CHANGED, f'runtime files changed since HQ4: {diff_rt} - the ov
 game = {f'HQ5_OVERLAY/{p}': blob(commit, p) for p in CHANGED}
 game.update({f'REVERT_TO_HQ4/{p}': blob(HQ4, p) for p in CHANGED})
 ver = lambda b: (re.search(rb"const VERSION = '([^']+)'", b) or [None, b'?'])[1].decode()
-role = {'HQ5_OVERLAY/assets/br-role.js': f'BR-RoLE {ver(game["HQ5_OVERLAY/assets/br-role.js"])} (stage-3d-hq5): the Wanderer\'s ground contact',
-        'REVERT_TO_HQ4/assets/br-role.js': f'BR-RoLE {ver(game["REVERT_TO_HQ4/assets/br-role.js"])}, HQ4\'s own file (stage-3d-hq4 {HQ4[:7]}): copy it back to undo'}
+role = {'HQ5_OVERLAY/assets/br-role.js': f'{ver(game["HQ5_OVERLAY/assets/br-role.js"])} (stage-3d-hq5): the Wanderer\'s ground contact',
+        'REVERT_TO_HQ4/assets/br-role.js': f'{ver(game["REVERT_TO_HQ4/assets/br-role.js"])}, HQ4\'s own file (stage-3d-hq4 {HQ4[:7]}): copy it back to undo'}
 where = f"""HQ5 / BR-RoLE 1.2 HUMAN-QA OVERLAY - where to copy
 
 This overlay turns a clean HQ4 game into the HQ5 candidate (stage-3d-hq5, commit {commit[:7]}).  It changes ONE file: assets/br-role.js.

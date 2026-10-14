@@ -1,0 +1,139 @@
+{
+ "commit": "18639357117a28c7db930574ac40c6161c532101",
+ "tree": "906797fbb1778b3adbed94b59c33d7426ba146fa",
+ "hq4": {
+  "commit": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+  "tree": "9aee1dba72ad26e7c3c1a8454d652275bfbf9ea6"
+ },
+ "runtimeChangedSinceHq4": [
+  "assets/br-role.js"
+ ],
+ "checks": {
+  "zip": {
+   "crcFirstBad": null,
+   "gameFilesEqualGit": {
+    "HQ5_OVERLAY/assets/br-role.js": true,
+    "REVERT_TO_HQ4/assets/br-role.js": true
+   },
+   "ok": true
+  },
+  "overHq4Export": {
+   "runtimeFiles": 54,
+   "runtimeInCommit": 54,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "hq4ExportWasHq4": true,
+   "filesChangedByTheOverlay": [
+    "assets/br-role.js"
+   ],
+   "ok": true
+  },
+  "overHq3ZipPlusHq4Overlay": {
+   "runtimeFiles": 54,
+   "runtimeInCommit": 54,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "hq3Zip": {
+    "sha256": "61ed1360ffd8327d57ff53e4040c19224aad23deb3cb96e8c436ee7dfdf493e8",
+    "known": true
+   },
+   "hq4Overlay": {
+    "sha256": "753312cf26b84d4bc7ef84f7c720d004ee41c2cb0a98d2bb32db7b850fd684bd",
+    "known": true
+   },
+   "wasHq4BeforeHq5": true,
+   "ok": true
+  },
+  "revertToHq4": {
+   "runtimeFiles": 54,
+   "runtimeInCommit": 54,
+   "missing": [],
+   "extra": [],
+   "different": [],
+   "ok": true
+  },
+  "runs": {
+   "page": {
+    "version": "br-role 1.2-candidate",
+    "parts": 7,
+    "ellipse": false
+   },
+   "castStarts": [
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ],
+    [
+     18
+    ]
+   ],
+   "contacts": [
+    [
+     "L2:0.3"
+    ],
+    [
+     "L2:0.3"
+    ],
+    [
+     "L2:0.3"
+    ],
+    [
+     "L2:0.3"
+    ],
+    [
+     "L2:0.3"
+    ],
+    [
+     "L2:0.3"
+    ],
+    [
+     "L2:0.3"
+    ],
+    [
+     "L2:0.3"
+    ]
+   ],
+   "brRoleErrors": 0,
+   "pageErrors": [],
+   "goreHasQa1Fix": true,
+   "ok": true
+  }
+ },
+ "ok": true,
+ "written": "2026-10-14T01:51:20Z",
+ "final": {
+  "crcFirstBad": null,
+  "gameFilesEqualGit": true,
+  "entries": [
+   "HQ5_OVERLAY/assets/br-role.js",
+   "REVERT_TO_HQ4/assets/br-role.js",
+   "WHERE_TO_COPY.txt",
+   "OVERLAY_RECEIPT.txt",
+   "HUMAN_QA.md"
+  ]
+ },
+ "zip": {
+  "file": "HQ5_BR_ROLE_1_2_HUMAN_QA_OVERLAY.zip",
+  "sha256": "7fab41b91a0704926a9883149d351f851e940355718cb2c5c744d45147c3bbda",
+  "bytes": 88397
+ }
+}

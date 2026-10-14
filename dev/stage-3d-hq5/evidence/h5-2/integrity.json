@@ -1,0 +1,26 @@
+{
+ "parent": "79e146124a5941c6578ef84dc9ff13176cc7f1f0",
+ "parentTree": "9aee1dba72ad26e7c3c1a8454d652275bfbf9ea6",
+ "head": "18639357117a28c7db930574ac40c6161c532101",
+ "headTree": "906797fbb1778b3adbed94b59c33d7426ba146fa",
+ "productionFilesChanged": [
+  [
+   "M",
+   "assets/br-role.js"
+  ]
+ ],
+ "brRoleLines": {
+  "added": 112,
+  "removed": 18
+ },
+ "version": {
+  "hq4": "br-role 1.1-qa2",
+  "hq5": "br-role 1.2-candidate"
+ },
+ "bundleUnchanged(avatar, HQ4 fix A)": true,
+ "goreUnchanged": true,
+ "goreHasQa1Fix": true,
+ "hq4FixBGuardPresent": true,
+ "ellipse(1,5,19,19) in bundle": false,
+ "otherRuntimeUnchanged": true
+}

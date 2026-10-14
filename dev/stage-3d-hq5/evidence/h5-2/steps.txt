@@ -1,0 +1,9 @@
+H5-2 steps (SP = the session scratch folder; HQ4GAME = git archive 79e1461; HQ5GAME = HQ4GAME with H5-1's assets/br-role.js)
+integrity.json        git diff --name-status / --numstat 79e1461 1863935; git rev-parse <rev>:<file> for the bundle, gore.js and 13 other runtime files;
+                      VERSION from both br-role.js; HQ4's guard line, gore.js's QA1 arc and the old ellipse searched in the files
+gates 2-3, tiers      contact_lab.py --scenes geometry,under,lights,carried,peers,tiers (labB, see ../h5-1/steps.txt) + contact_report.py
+lifecycle             python3 -I dev/stage-3d-hq5/contact_lab.py --game HQ4GAME --variant hq5=<HQ5 br-role.js> --scenes lifecycle --out $SP/hq5/labL   (68 s, 0 errors)
+gameplay smoke        python3 -I dev/stage-3d-hq4/gameplay_smoke.py --game HQ4GAME --variant hq4=<bundle>,<HQ4 br-role.js> --variant hq5=<bundle>,<HQ5 br-role.js> --out $SP/hq5/smoke
+collision             python3 -I dev/stage-3d-hq2/col_browser.py --game HQ5GAME --case head --out col_browser_head_hq5.json            (5/5)
+frame cost            python3 -I dev/stage-3d-hq5/contact_lab.py --game HQ4GAME --variant hq4a=... --variant hq5a=... --variant hq4b=... --variant hq5b=... --scenes perf --out $SP/hq5/perf
+secret scan           python3 -I dev/stage-3d/secret_scan_3d.py --extra <owner e-mail, kept outside the repository> --out secret_scan.json

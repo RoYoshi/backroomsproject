@@ -1,0 +1,16 @@
+Stage 3D HQ5 / BR-RoLE 1.2 - changed files (against the accepted parent stage-3d-hq4 79e146124a5941c6578ef84dc9ff13176cc7f1f0)
+
+Game (production): ONE file
+  assets/br-role.js            +112 -18  BR-RoLE 1.2 candidate: the light-aware ground contact under living Wanderers
+                                         (CONTACT, contactGain, contactJob, contactLamp, castActors, drawLamp, carried, DEV accessors,
+                                         VERSION 'br-role 1.2-candidate', header note).  Cast, self-shading and every light as in HQ4.
+
+Unchanged: assets/index-DKbV5Nv9.js (the avatar, HQ4 fix A), gore.js (HQ3 QA1 fix), server.js, sim.js, ai.js, mp.js, light.js and every
+other runtime file.
+
+Documents (new)
+  STAGE_3D_HQ5_REPORT.md, STAGE_3D_HQ5_HUMAN_QA.md, STAGE_3D_HQ5_CHANGED_FILES.txt
+
+Development only (new, never served)
+  dev/stage-3d-hq5/README.md, verify_remote_hq5.py, contact_lab.py, contact_report.py, overlay_hq5.py
+  dev/stage-3d-hq5/evidence/h5-0 (audit, HQ4 baseline), h5-1 (prototype, lab report), h5-2 (the five gates), h5-3 (overlay receipt, pictures)

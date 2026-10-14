@@ -1,0 +1,112 @@
+{
+ "variant": "hq5",
+ "checks": {
+  "walk": {
+   "ok": true,
+   "path": [
+    [
+     1848,
+     3768
+    ],
+    [
+     2001,
+     3768
+    ],
+    [
+     2001,
+     3928
+    ],
+    [
+     1838,
+     3929
+    ],
+    [
+     1838,
+     3734
+    ]
+   ],
+   "settled": [
+    1838,
+    3734
+   ],
+   "movedPx": 671
+  },
+  "spin": {
+   "ok": true,
+   "quarters": [
+    0,
+    1,
+    2,
+    3
+   ]
+  },
+  "light": {
+   "ok": true,
+   "states": [
+    true,
+    false,
+    true
+   ],
+   "carriedDrawn": {
+    "lightOn": 1,
+    "lightOff": 0
+   }
+  },
+  "frames": {
+   "ok": true,
+   "still": {
+    "frames": 27,
+    "meanMs": 220.36,
+    "p95Ms": 250,
+    "maxMs": 316.7
+   },
+   "walking": {
+    "frames": 27,
+    "meanMs": 222.83,
+    "p95Ms": 266.7,
+    "maxMs": 283.4
+   },
+   "brRoleFrameMs": {
+    "mean": 19.616,
+    "p95": 31.2,
+    "max": 35.2,
+    "frames": 247,
+    "sampled": 81
+   },
+   "brRoleErrors": 0
+  },
+  "newrun": {
+   "ok": true,
+   "answer": {
+    "ok": 1,
+    "why": "",
+    "de": 1
+   },
+   "runMenu": true,
+   "bobSeesGibs": [
+    {
+     "pieces": 6,
+     "hands": true,
+     "seed": 4157792193
+    }
+   ],
+   "afterSpawn": {
+    "started": true,
+    "caught": false,
+    "menu": false
+   },
+   "walkAfterSpawn": [
+    [
+     8136,
+     5832
+    ],
+    [
+     8136,
+     5939
+    ]
+   ]
+  }
+ },
+ "pageErrors": [],
+ "ok": true
+}

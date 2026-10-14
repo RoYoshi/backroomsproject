@@ -1,0 +1,22 @@
+HQ5 / BR-RoLE 1.2 human-QA overlay - receipt
+written 2026-10-14T01:51:20Z by dev/stage-3d-hq5/overlay_hq5.py
+
+source    stage-3d-hq5 18639357117a28c7db930574ac40c6161c532101 (tree 906797fbb1778b3adbed94b59c33d7426ba146fa)
+reverts   stage-3d-hq4 79e146124a5941c6578ef84dc9ff13176cc7f1f0 (tree 9aee1dba72ad26e7c3c1a8454d652275bfbf9ea6)
+game files changed since HQ4: assets/br-role.js (nothing else)
+
+files:
+  eb3410bdf41d7001e5fc8ce66603c47d48a16834d082e52a779f90d09c483daf  HQ5_OVERLAY/assets/br-role.js  (136371 bytes) - br-role 1.2-candidate (stage-3d-hq5): the Wanderer's ground contact
+  a8d75203f86db88b48c0e9ec3f04fa1328a6a2e05d6c2a55aea242b5b65fc954  REVERT_TO_HQ4/assets/br-role.js  (125696 bytes) - br-role 1.1-qa2, HQ4's own file (stage-3d-hq4 79e1461): copy it back to undo
+  9300d793d1e5da362c80f5850f1b3c5a1839d90d0e180a4e29b7fb46592de791  WHERE_TO_COPY.txt
+  9048fac7e80e4dcaec2b32baa756f6e881e8438826e8444ec23aaae40730124e  HUMAN_QA.md
+
+1. ZIP CRCs good, its two game files byte-identical to Git: yes
+2. HQ5_OVERLAY copied over a clean export of stage-3d-hq4 79e1461: 54 runtime files byte-identical to stage-3d-hq5, the copy changed only assets/br-role.js: yes
+3. the HQ3 human-QA ZIP (known: yes) with HQ4_HUMAN_QA_OVERLAY.zip (known: yes) copied over is HQ4 byte for byte: yes; HQ5_OVERLAY over it: byte-identical to stage-3d-hq5: yes
+4. REVERT_TO_HQ4 copied back: byte-identical to stage-3d-hq4 79e1461: yes
+5. the overlaid HQ4 export runs: page errors 0, BR-RoLE errors 0; br-role 1.2-candidate; avatar parts 7 (ellipse: False); under one fixture at 8 headings: cast start [18, 18, 18, 18, 18, 18, 18, 18], a ground contact from it every time: yes; gore.js QA1 fix yes: yes
+
+OVERLAY CHECK: PASS
+
+the ZIP itself: HQ5_BR_ROLE_1_2_HUMAN_QA_OVERLAY.zip  88397 bytes  sha256 7fab41b91a0704926a9883149d351f851e940355718cb2c5c744d45147c3bbda

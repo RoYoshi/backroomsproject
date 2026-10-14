@@ -1,0 +1,83 @@
+{
+ "order": [
+  "hq4a",
+  "hq5a",
+  "hq4b",
+  "hq5b"
+ ],
+ "scene": "one page, clock running, standing still at the geometry spot, every fixture, MEDIUM, 8 s each, DPR 1",
+ "runs": {
+  "hq4a": {
+   "version": "br-role 1.1-qa2",
+   "pageFrames": {
+    "frames": 55,
+    "meanMs": 146.66,
+    "p95Ms": 166.7
+   },
+   "brRoleFrameMs": {
+    "mean": 9.891,
+    "p95": 13.3,
+    "max": 15.7,
+    "frames": 157,
+    "sampled": 57
+   },
+   "contactJobsLastFrame": 0,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "pageErrors": []
+  },
+  "hq5a": {
+   "version": "br-role 1.2-candidate",
+   "pageFrames": {
+    "frames": 54,
+    "meanMs": 151.23,
+    "p95Ms": 183.4
+   },
+   "brRoleFrameMs": {
+    "mean": 10.282,
+    "p95": 13.4,
+    "max": 17.4,
+    "frames": 156,
+    "sampled": 56
+   },
+   "contactJobsLastFrame": 4,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "pageErrors": []
+  },
+  "hq4b": {
+   "version": "br-role 1.1-qa2",
+   "pageFrames": {
+    "frames": 53,
+    "meanMs": 152.51,
+    "p95Ms": 200
+   },
+   "brRoleFrameMs": {
+    "mean": 10.755,
+    "p95": 14.6,
+    "max": 26.3,
+    "frames": 151,
+    "sampled": 55
+   },
+   "contactJobsLastFrame": 0,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "pageErrors": []
+  },
+  "hq5b": {
+   "version": "br-role 1.2-candidate",
+   "pageFrames": {
+    "frames": 55,
+    "meanMs": 148.18,
+    "p95Ms": 200
+   },
+   "brRoleFrameMs": {
+    "mean": 10.218,
+    "p95": 14,
+    "max": 17.9,
+    "frames": 153,
+    "sampled": 57
+   },
+   "contactJobsLastFrame": 4,
+   "renderer": "ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)",
+   "pageErrors": []
+  }
+ }
+}
