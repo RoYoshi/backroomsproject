@@ -1,0 +1,31 @@
+{
+ "tool": "dev/stage-3h/tools/h1_scope_check.py",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "side": "4ced2e8f36b0595ff7d415f858b08639b54ecb9f",
+ "added": [
+  "dev/stage-3h/golden/bpp_golden.js",
+  "dev/stage-3h/golden/bpp_mutants.js",
+  "dev/stage-3h/golden/srv_scenarios_bpp.js",
+  "dev/stage-3h/tools/h1_build_check.js",
+  "dev/stage-3h/tools/h1_inventory.js",
+  "dev/stage-3h/tools/h1_scope_check.py",
+  "dev/stage-3h/tools/h1_wav_stall.js",
+  "dev/stage-3h/tools/h1_wire_keys.js",
+  "dev/stage-3h/tools/verify_remote_h1.py"
+ ],
+ "modified": [],
+ "deleted": [],
+ "outsideAllowed": [],
+ "production": {
+  "files": 189,
+  "bytes": 70285930,
+  "manifestSha256Base": "fe2f6115027eab8badcbb9fc03126e2f37bf5616f794ac1ab5c2a727acfc40c3",
+  "manifestSha256Side": "fe2f6115027eab8badcbb9fc03126e2f37bf5616f794ac1ab5c2a727acfc40c3",
+  "identical": true
+ },
+ "devOutside3H1": {
+  "files": 7267,
+  "changed": []
+ },
+ "ok": true
+}

@@ -241,7 +241,7 @@ Under `evidence/h1/`. The full list is in `3H1_CHANGED_FILES.txt`.
 
 | What | Where |
 |---|---|
-| Source snapshot | `remote_heads_before_3h1.json`, `inventory_bpp.json`, `build_reproducibility.json`, `scope/` |
+| Source snapshot | `remote_heads_before_3h1.json`, `inventory_bpp.json`, `build_reproducibility.json` |
 | Golden traces and reports | `golden/` |
 | Wire, contract | `wire_keys.json`, `contract_check_3h0.json` |
 | B++ checks | `bpp_checks/` |
@@ -250,3 +250,4 @@ Under `evidence/h1/`. The full list is in `3H1_CHANGED_FILES.txt`.
 | Performance | `perf/` |
 | Harness drift | `harness_drift/` |
 | What ran | `steps.txt`, `versions.txt` |
+| Scope proof per commit, push receipts | `scope/`, `remote/` |

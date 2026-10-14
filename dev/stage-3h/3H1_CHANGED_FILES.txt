@@ -1,0 +1,110 @@
+# Stage 3H1: every file it added on `stage-3h`, relative to the accepted B++ head 143b63f (tree b25c26e).
+# Status A = added. 3H1 modified, renamed or deleted nothing, and no file outside dev/stage-3h/ and dev/devlog4dev/:
+# every production file is byte-identical to B++ (evidence/h1/scope/, tools/h1_scope_check.py). Content hashes are in Git.
+# 100 files
+
+## Documents (15)
+A dev/devlog4dev/3H_DEFERRED_WORK.md
+A dev/devlog4dev/3H_FINDINGS.md
+A dev/devlog4dev/3H_PERFORMANCE_BASELINE.md
+A dev/devlog4dev/3H_RECOMMENDATIONS.md
+A dev/devlog4dev/README.md
+A dev/stage-3h/3H1_ARCHITECTURE_AUDIT.md
+A dev/stage-3h/3H1_CHANGED_FILES.txt
+A dev/stage-3h/3H1_DEFERRED_SEAMS.md
+A dev/stage-3h/3H1_DEPENDENCY_OWNERSHIP_MAP.md
+A dev/stage-3h/3H1_EXTRACTION_CANDIDATES.md
+A dev/stage-3h/3H1_FRAMEWORK_REGISTRY.md
+A dev/stage-3h/3H1_NEXT_GATE.md
+A dev/stage-3h/3H1_REPORT.md
+A dev/stage-3h/3H1_SOURCE_PARITY_BASELINE.md
+A dev/stage-3h/README.md
+
+## Tools and golden scenarios (development only) (9)
+A dev/stage-3h/golden/bpp_golden.js
+A dev/stage-3h/golden/bpp_mutants.js
+A dev/stage-3h/golden/srv_scenarios_bpp.js
+A dev/stage-3h/tools/h1_build_check.js
+A dev/stage-3h/tools/h1_inventory.js
+A dev/stage-3h/tools/h1_scope_check.py
+A dev/stage-3h/tools/h1_wav_stall.js
+A dev/stage-3h/tools/h1_wire_keys.js
+A dev/stage-3h/tools/verify_remote_h1.py
+
+## Evidence (76)
+A dev/stage-3h/evidence/h1/bpp_checks/place_guard.json
+A dev/stage-3h/evidence/h1/bpp_checks/place_replay.json
+A dev/stage-3h/evidence/h1/bpp_checks/proto_check.json
+A dev/stage-3h/evidence/h1/bpp_checks/static_check.json
+A dev/stage-3h/evidence/h1/browser/col_aside.json
+A dev/stage-3h/evidence/h1/browser/col_head.json
+A dev/stage-3h/evidence/h1/browser/contact_lab_aa_a.json
+A dev/stage-3h/evidence/h1/browser/contact_lab_aa_b.json
+A dev/stage-3h/evidence/h1/browser/contact_lab_aa_images.json
+A dev/stage-3h/evidence/h1/browser/gameplay_smoke.json
+A dev/stage-3h/evidence/h1/browser/two_browser_1.json
+A dev/stage-3h/evidence/h1/browser/two_browser_2.json
+A dev/stage-3h/evidence/h1/build_reproducibility.json
+A dev/stage-3h/evidence/h1/contract_check_3h0.json
+A dev/stage-3h/evidence/h1/golden/bpp_golden_report.json
+A dev/stage-3h/evidence/h1/golden/bpp_mutants.json
+A dev/stage-3h/evidence/h1/golden/bpp_traces/bpp_caps_q.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/bpp_traces/bpp_known_limits.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/bpp_traces/bpp_new_run.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/bpp_traces/bpp_place_guard.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/bpp_traces/bpp_world_guard.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/bpp_traces/hashes.json
+A dev/stage-3h/evidence/h1/golden/bpp_vs_bplus_report.json
+A dev/stage-3h/evidence/h1/golden/cli_golden_report.json
+A dev/stage-3h/evidence/h1/golden/cli_traces/admin.json.gz
+A dev/stage-3h/evidence/h1/golden/cli_traces/facade.json.gz
+A dev/stage-3h/evidence/h1/golden/cli_traces/fx_bodies.json.gz
+A dev/stage-3h/evidence/h1/golden/cli_traces/hashes.json
+A dev/stage-3h/evidence/h1/golden/cli_traces/hum_dread.json.gz
+A dev/stage-3h/evidence/h1/golden/cli_traces/interp.json.gz
+A dev/stage-3h/evidence/h1/golden/cli_traces/load.json.gz
+A dev/stage-3h/evidence/h1/golden/cli_traces/menu_online.json.gz
+A dev/stage-3h/evidence/h1/golden/cli_traces/reconnect_solo.json.gz
+A dev/stage-3h/evidence/h1/golden/cli_traces/run_online.json.gz
+A dev/stage-3h/evidence/h1/golden/known_limits_summary.json
+A dev/stage-3h/evidence/h1/golden/srv_golden_report.json
+A dev/stage-3h/evidence/h1/golden/srv_traces/admin.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/boot.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/deaths.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/exit_glitch.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/hashes.json
+A dev/stage-3h/evidence/h1/golden/srv_traces/http_base.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/http_h0.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/lifecycle.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/p_fields.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/schedule.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/ws_frames.jsonl.gz
+A dev/stage-3h/evidence/h1/golden/srv_traces/ws_upgrade.jsonl.gz
+A dev/stage-3h/evidence/h1/harness_drift/NOTE.md
+A dev/stage-3h/evidence/h1/harness_drift/live_wire_aa.log
+A dev/stage-3h/evidence/h1/inventory_bpp.json
+A dev/stage-3h/evidence/h1/perf/perf_det_aa.json
+A dev/stage-3h/evidence/h1/perf/wav_stall_1.json
+A dev/stage-3h/evidence/h1/perf/wav_stall_2.json
+A dev/stage-3h/evidence/h1/remote/verify_push1_08fc3d1.json
+A dev/stage-3h/evidence/h1/remote/verify_push2_b2918a2.json
+A dev/stage-3h/evidence/h1/remote_heads_before_3h1.json
+A dev/stage-3h/evidence/h1/scope/scope_commit1_4ced2e8.json
+A dev/stage-3h/evidence/h1/scope/scope_commit2_08fc3d1.json
+A dev/stage-3h/evidence/h1/scope/scope_commit3_71aaa6e.json
+A dev/stage-3h/evidence/h1/scope/scope_commit4_17bfaa5.json
+A dev/stage-3h/evidence/h1/scope/scope_commit5_b2918a2.json
+A dev/stage-3h/evidence/h1/scope/scope_final_worktree.json
+A dev/stage-3h/evidence/h1/steps.txt
+A dev/stage-3h/evidence/h1/suites/audit_net.log
+A dev/stage-3h/evidence/h1/suites/audit_net2.log
+A dev/stage-3h/evidence/h1/suites/interp_test.log
+A dev/stage-3h/evidence/h1/suites/ir_net.log
+A dev/stage-3h/evidence/h1/suites/npm_test.log
+A dev/stage-3h/evidence/h1/suites/s_humanqa_hotfix.log
+A dev/stage-3h/evidence/h1/suites/test_3bn.log
+A dev/stage-3h/evidence/h1/suites/test_br_role.log
+A dev/stage-3h/evidence/h1/suites/test_br_role_history.json
+A dev/stage-3h/evidence/h1/suites/test_shadows.log
+A dev/stage-3h/evidence/h1/versions.txt
+A dev/stage-3h/evidence/h1/wire_keys.json
