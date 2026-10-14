@@ -1,0 +1,78 @@
+# Stage 3H engine modernization, checkpoint M1: H3M-1 completed (the tests and the gate on the modern layout)
+# $SP is the session's scratch folder. B++ = 143b63f (tree b25c26e); frozen 3H2 = 22751bb (tree d44c4ba).
+# The tree under test is this checkpoint's: M1-R (589681c) plus the H3M-1 test migration and the gate. No game file differs from
+# M1-R; package.json gains four npm scripts. A 2-CPU machine, Node v22.22.2, Chromium from /opt/pw-browsers.
+
+## the layout-aware copies give their originals' results on the frozen layout (copies_equivalence/)
+node dev/stage-3h-modernization/tools/m1_copies_equivalence.js --work $SP/em2/work/equiv --out $SP/em2/work/equiv_report.json     exit 0
+  In a detached worktree of 22751bb (old layout), with this tree's dev/tools/ copied in, each original and its copy ran on the same
+  inputs:
+    SAME srv_golden (11 scenarios), bpp_golden (7), cli_golden (9 scenes), cli_golden_h2 (3), bpp_mutants (18 caught, the same
+    mutants and traces), raw_live (116 shared HTTP exchanges and 25 WebSocket checks; the copy asks 32 more paths)
+  Only the reports and logs are kept here; the traces are the stored B++ baselines'.
+
+## the full gate on this tree (gate_full/; 2026-10-14 19:55-20:32 UTC, 37 min)
+node dev/tools/gate/gate.js --tier full --out $SP/em2/work/gate_m1_full                                                            exit 1  FAIL (one step)
+  PASS build 27 outputs and the manifest are what src/ builds
+       scope 193: runtime 49 identical where the layout put them; changed and declared: death_srv.js, index.html, mp.js,
+             package.json, server.js, server/static.js; added and declared: assets/mp-hum.js, assets/net-newrun.js,
+             server/aftermath.js, server/newrun.js (Stage 3H2's seven, plus H3M-1's); the passcode line unchanged
+       srv_golden 11 · bpp_golden 7 · cli_golden 12 · protocol 52,740 messages + selftest · mutants 18 · static 4 · raw_live 173
+       quick_suites 23 · cli_mutants 22 · live_wire 65 phases (structurally identical) · bpp_checks 36 (proto_check 8,
+       place_replay 22, place_guard 6, all as on B++) · browsers 118 (two_browser 103, col_head 5, col_aside 5, gameplay_smoke 5)
+       contact_lab 23 images identical in pixels
+       suites 293: npm_test 149/162, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3,
+             test_3bn 7/7, audit_net 13/17, audit_net2 8/11, ir_net 4/4 (only the known B++ failures fail)
+  FAIL perf: deaths +6.92 % (old median 1,519.2 ms, new 1,624.4 ms). The tolerance was 76.0 ms, the 5 % floor, because the old side's
+             seven rounds spread only 45.4 ms. lifecycle -2.32 %, admin -0.03 %, schedule -2.04 % and every client scene were inside
+             their tolerance.
+  Kept as Stage 3H2 kept its final gate: every report and log, both sides' live recordings gzipped. The contact lab's and the smoke
+  run's images are not kept; their result files are.
+
+## the failing step, read (perf_paired/)
+  The new side runs the same runtime bytes as the old side; only H3M-1's path strings differ (the scope step above).
+  Exploratory runs (perf_paired/exploratory/: a scratch script as it was at the end, and its outputs; the first four runs used it
+  before the sides C and D and the paired summary were added, with the same measurement). Each is one scenario (deaths),
+  sides interleaved round by round; the time is when the run ended (UTC):
+    20:34  A B, 9 rounds:     A 1,608.0  B 1,748.7  (B +8.7 %)
+    20:35  B A, 9 rounds:     B 1,735.6  A 1,573.5  (B +10.3 %; not an order effect)
+    20:35  A A2, 9 rounds:    1,625.4 against 1,716.7 for two identical sides (+5.6 %)
+    20:35  B B2, 9 rounds:    1,535.8 against 1,569.8
+    20:37  D C A B, 11 rounds: D 1,631.4  C 1,733.8  A 1,634.6  B 1,653.2
+    20:39, 20:40, 20:42  30 rounds each: A/B -2.71 % paired (B slower in 11 of 30); D/C +2.43 % (17 of 30); C/B -1.96 % (13 of 30)
+    (A = the gate's old side: B++'s server.js against this tree's runtime under its old names; B = the gate's new side, this tree;
+     C = 3H2's server.js in the frozen 3H2 tree; D = B++'s server.js in the frozen 3H2 tree)
+node dev/stage-3h-modernization/tools/m1_perf_paired.js --work $SP/em2/work/perf_paired_work --rounds 30 --scenario deaths --out perf_paired_deaths.json    exit 0
+  20:45-20:48 UTC; four sides interleaved, 30 rounds; the frozen tree is a detached worktree of 22751bb, removed at the end:
+    medians D 1,596.2  C 1,639.0  A 1,601.8  B 1,588.9 ms
+    D/C +1.16 % paired (C slower in 18 of 30) · A/B -0.99 % (B slower in 13 of 30) · C/B -2.76 % (B slower in 12 of 30)
+    the gate's 7-round rule fails on 0 of 24 windows for every pair, in both directions
+  Read: no slowdown. The step's single failure fits this machine's noise against a tolerance that fell to its floor. The transient in
+  the first two exploratory runs (B 8.7 % and 10.3 % slower, right after the 37-minute gate) was not explained; the A/A run in the same
+  minutes differed by 5.6 %. Finding M-021.
+
+## the step again (gate_perf_rerun/)
+node dev/tools/gate/gate.js --only perf --out $SP/em2/work/gate_m1_perf_rerun                                                      exit 0  PASS
+  20:42-20:44 UTC: lifecycle -2.78 %, deaths -0.26 %, admin -5.87 %, schedule +0.36 %; every client scene inside its tolerance
+
+## five edited tests no longer carry the default passcode (passcode_tests/; finding M-022)
+  The pre-commit scan (secret_scan.txt, masked) found the server's built-in default admin passcode written in five tests that H3M-1
+  had to edit: dev/tests/audit_net.js, audit_net2.js, live_chase.js, fallback_parity.py and light_test.py. Each now reads the default
+  from the server.js of the server it starts, at run time. ADMIN_PASSCODE still comes first where it did. The value is the same: each
+  reader's result has the default's SHA-256 (checked, never printed). The default has no quote or backslash, so the text the page
+  or the socket receives is unchanged.
+node dev/stage-3h/gate/suites.js run --only audit_net,audit_net2 --out $SP/em2/work/m1_pass_suites                               exit 0  PASS
+  audit_net 13/17, audit_net2 7/11: only the known B++ failures (audit_net2's LC1 is the known flaky case; the full gate's run had it
+  passing). The suites give ADMIN_PASSCODE, so these runs show the files still load and run; the fallback is checked by its hash
+python3 -I -B dev/tests/light_test.py <out>, on this tree and on the frozen 3H2 tree                                           exit 0, exit 0
+  the same PASS and FAIL verdicts on both: 14 PASS, including the admin preview's death animation, and 1 FAIL on both ("...and its
+  shade changes smoothly", 0.098 here, 0.106 on 3H2: the test's own record, not a change)
+python3 -I -B dev/tests/fallback_parity.py <out>, on both trees                                                                 exit 1, exit 1
+  the same on both: no death captured ("deaths": 0). This historical test no longer runs to its end on the frozen 3H2 tree either
+node dev/tests/live_chase.js straight 1 <port>, on both trees                                                                    exit 0, exit 0
+  the same on both: the scripted player logs in as admin, the hound chases, the player escapes (t 24.7 s here, 24.6 s on 3H2)
+
+## the fast gate on the committed tree (gate_fast_final/; 21:15-21:17 UTC, after every file of this checkpoint but this folder's own reports was in place)
+node dev/tools/gate/gate.js --tier fast --out $SP/em2/work/gate_m1_fast_final                                                    exit 0  PASS
+  build 27 · scope 193 (the same declared changes) · srv_golden 11 · bpp_golden 7 · cli_golden 12 · protocol 52,740 + selftest
+  · mutants 18 · static 4 · raw_live 173 · quick_suites 23 (only the known B++ failures fail)

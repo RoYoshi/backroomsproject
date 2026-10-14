@@ -7,14 +7,16 @@
  * DD  a death is recorded when the server commits it: the victim closing at once (or after the acknowledgement) still leaves one replay and
  *     one corpse, which late joiners receive; a connected victim's own replay / corpse are used as before */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const { spawn } = require('child_process');
 const path = require('path');
 const GAME = require('../paths.js');
-const createSim = require(path.join(GAME, 'sim.js'));
+const defaultPass = () => /ADMIN_PASSCODE\s*\|\|\s*'([^']*)'/.exec(require('fs').readFileSync(path.join(GAME, 'server.js'), 'utf8'))[1];   // (Stage 3H modernization) the built-in default passcode of the server this test starts, read from that server.js so that this file does not repeat it
+const createSim = require(LAYOUT.at('sim.js'));
 const PORT = +(process.env.PORT || 9490);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const R = []; const check = (name, ok, note) => { R.push({ name, ok: !!ok }); console.log((ok ? 'PASS ' : 'FAIL ') + name + '\n       ' + note); };
-const PASS = process.env.ADMIN_PASSCODE || 'smoor';
+const PASS = process.env.ADMIN_PASSCODE || defaultPass();
 
 async function client(room, name, o = {}) {
   const ws = new WebSocket(`ws://localhost:${PORT}/ws?room=${room}`), c = { ws, name, id: 0, last: null, tps: [], fx: [], bodies: null, ares: [], closed: false };
@@ -136,7 +138,7 @@ const until = async (ms, fn, step = 50) => { const t0 = Date.now(); while (Date.
       wall ? `wall face at y ${wall.face} (open again at ${wall.far}): ` + res.map(r => `${r.n} steps of ${r.step} px (claimed y ${r.claimed}) -> stopped at y ${r.end}, never above ${r.minY}, inside the wall ${r.inside}, corrections ${r.corr}`).join('; ') : 'no wall found');
 
     /* MT: real move.js traces (the harness runs the shipped move.js) replayed over the wire at the client's 20 Hz by an ordinary client: no false corrections */
-    const { World, DT } = require('./lib.js'), WD = require(path.join(GAME, 'world.js'));
+    const { World, DT } = require('./lib.js'), WD = require(LAYOUT.at('world.js'));
     const rec = (setup, secs) => { const w = World(11), out = []; const pl = setup(w); let t = 0, k = 0; while (t < secs) { w.step(); t += DT; if (++k % 3 === 0) out.push([Math.round(pl.x), Math.round(pl.y), { s: pl.st, st: Math.round(pl.stamina), ex: pl.ex, sp: Math.round(pl.sp), ev: [] }]); } return out; };
     const Lw = WD.LOW.find(q => q.type === 'low'), lr = Lw.rect, acr = lr.h < lr.w, Gp = WD.CRAWL.find(c => c.type === 'gap'), g0 = Gp.exits[0], g1 = Gp.exits[1];
     const traces = {

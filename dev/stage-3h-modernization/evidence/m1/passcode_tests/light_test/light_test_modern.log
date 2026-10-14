@@ -1,0 +1,25 @@
+spots {"bright": {"x": 528, "y": 2832, "lamp": {"x": 528, "y": 2832}}, "partial": {"x": 622.2130161639351, "y": 3074.330162351479}, "dark": {"x": 1692, "y": 4860}}
+bright True {'a': 1, 't': 14935011, 'tot': 0.7380000000000001, 'lamp': 0.43, 'dir': [0, 0], 'x': 528, 'y': 2832}
+partial True {'a': 1, 't': 12698049, 'tot': 0.4236639717044388, 'lamp': 0.23353998231527426, 'dir': [0.9678887087832744, -0.25137909103552286], 'x': 622.2130161639351, 'y': 3074.330162351479}
+dark True {'a': 1, 't': 10066329, 'tot': 0.05, 'lamp': 0, 'dir': [0, 0], 'x': 1692, 'y': 4860}
+smiler dark {'a': 0.12, 't': 16777215, 'tot': 0.05, 'lamp': 0, 'dir': [0, 0], 'x': 1692, 'y': 4860}
+smiler lit {'a': 0.999999999994849, 't': 16777215, 'tot': 0.7380000000000001, 'lamp': 0.43, 'dir': [0, 0], 'x': 528, 'y': 2832}
+mp [[[1, 696, 3960, 216]], [[1, 696, 3960, 216]]]
+DEATHDBG True {'hidden': True, 'caught': True, 'active': True, 'toast': 'PLAYING HOUND A', 'god': False, 'pv': -1, 'tab': 'DEATHS'}
+PASS light module loaded
+PASS hound in bright light is opaque   alpha 1  light total 0.7380000000000001
+PASS hound in partial light is opaque   alpha 1  light total 0.4236639717044388
+PASS hound in dark light is opaque   alpha 1  light total 0.05
+PASS hound brightness follows light (bright > partial > dark shade)   shade bright 0.89 partial 0.76 dark 0.60
+PASS darkness makes the hound dark, not invisible (silhouette kept: shade >= .58)   dark shade 0.60
+PASS hound crossing a light boundary never fades (alpha stays 1 every frame)   21 frames, min alpha 1, light went 0.05 -> 0.74
+FAIL ...and its shade changes smoothly (no per-frame pop)   largest per-frame shade step 0.098
+PASS no NaNs in alpha / tint / light samples
+PASS smiler keeps its species concealment (thin in the dark, solid when readable)   alpha dark 0.12  lit 0.999999999994849
+PASS smiler concealment comes from its own species function
+PASS multiplayer: both clients show the hound opaque, at the same place   [[[1, 696, 3960, 216]], [[1, 696, 3960, 216]]]
+PASS death animation plays through (hound A preview, real kill path)   started True, finished True
+PASS no runtime errors (both clients)   []
+PASS AI never reads render visibility (no alpha / tint / __light in ai.js or sim.js)
+SOME FAILED
+exit 0

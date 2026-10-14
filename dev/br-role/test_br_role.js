@@ -7,8 +7,9 @@
  * recording mock of the 2D canvas (every call, with the compositing state it ran under).  It checks what BR-RoLE draws,
  * not how it looks: the pixels are checked in the browser (dev/br-role/smoke.js). */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const fs = require('fs'), path = require('path'), vm = require('vm'), assert = require('assert');
-const ROOT = path.join(__dirname, '..', '..'), read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
+const ROOT = path.join(__dirname, '..', '..'), read = f => fs.readFileSync(LAYOUT.at(f), 'utf8');
 const results = []; const check = (name, ok, note) => { results.push({ name, ok: !!ok }); console.log((ok ? 'PASS ' : 'FAIL ') + name + (note ? '   ' + note : '')); };
 function run(name, fn) { try { const r = fn(); check(name, r === undefined ? true : r.ok, r && r.note); } catch (e) { check(name, false, 'EXCEPTION ' + String(e.stack || e).split('\n').slice(0, 3).join(' | ')); } }
 
@@ -56,11 +57,11 @@ function mkCanvas(log, name) {
 function makeGame() {
   const B = read('assets/index-DKbV5Nv9.js');
   const cut = (a, b) => { const i = B.indexOf(a), j = B.indexOf(b, i); assert(i >= 0 && j > i, 'bundle marker missing: ' + a); return B.slice(i, j); };
-  const ctx = vm.createContext({ window: { WORLD: require(path.join(ROOT, 'world.js')) }, Math, Uint8Array, Set, Object, Array, Number, console });
+  const ctx = vm.createContext({ window: { WORLD: require(LAYOUT.at('world.js')) }, Math, Uint8Array, Set, Object, Array, Number, console });
   vm.runInContext(cut('var FBW=96', 'var Wc={kind:') + ';\n' + cut('var Gc={flashlight', 'function Jc(') + ';\nthis.__x={FBW,FBH,kc,zc,Hc,Uc,Bc,Fc,Pc,Mc,Gc,qc,Ic,V};', ctx);
   return ctx.__x;
 }
-const GAME = makeGame(); GAME.props = require(path.join(ROOT, 'world.js')).PROPS.filter(p => p.rect).map(p => p.rect);
+const GAME = makeGame(); GAME.props = require(LAYOUT.at('world.js')).PROPS.filter(p => p.rect).map(p => p.rect);
 function makePage(opts = {}) {
   const g = GAME, T = 96, log = [], store = new Map(), intervals = [];
   let ncan = 0;

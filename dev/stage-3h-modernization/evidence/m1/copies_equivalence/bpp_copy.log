@@ -1,0 +1,8 @@
+PASS bpp_caps_q: old 2605 lines 72e775b7ead4 | new 2605 lines 72e775b7ead4 | identical | repeats same | baseline equal
+PASS bpp_place_guard: old 2171 lines 896ccf6dbbb1 | new 2171 lines 896ccf6dbbb1 | identical | repeats same | baseline equal
+PASS bpp_world_guard: old 1170 lines a96718d201f1 | new 1170 lines a96718d201f1 | identical | repeats same | baseline equal
+PASS bpp_known_limits: old 2681 lines 35bda0723697 | new 2681 lines 35bda0723697 | identical | repeats same | baseline equal
+PASS bpp_new_run: old 8172 lines a61b01e2cc0b | new 8172 lines a61b01e2cc0b | identical | repeats same | baseline equal
+PASS bpp_new_run_held: old 9310 lines a6b7c6dc9f84 | new 9310 lines a6b7c6dc9f84 | identical | repeats same | baseline equal
+PASS bpp_aftermath: old 54498 lines 3ba6305b668c | new 54498 lines 3ba6305b668c | identical | repeats same | baseline equal
+B++ golden traces: ALL IDENTICAL

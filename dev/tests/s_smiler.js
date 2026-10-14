@@ -21,6 +21,7 @@
  *   SM17 close-range pressure (v23.1.2): eye contact does not let you walk up to it; standing still / side-stepping is not punished
  *   SM15 presentation: no limbs drawn; the face's glow has its own channel (not the generic alpha); no aggression UI outside debug */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const fs = require('fs'), path = require('path');
 const { World, DT, dist, LONG, geo, over, rate, avg, TAU, pick, tracker } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
@@ -327,7 +328,7 @@ add('SM14 no teleporting: every move is walked (bounded per tick), whatever it i
 });
 
 add('SM15 presentation: no limbs; the face glow is its own channel (not the generic entity alpha); no aggression UI outside debug', () => {
-  const G = require('../paths.js'); const txt = f => fs.readFileSync(path.join(G, f), 'utf8'); const ents = txt('ents.js'), hud = txt('hud.js');
+  const G = require('../paths.js'); const txt = f => fs.readFileSync(LAYOUT.at(f), 'utf8'); const ents = txt('ents.js'), hud = txt('hud.js');
   const sm = ents.slice(ents.indexOf('E.drawSmiler = function'), ents.indexOf('E.smilerGlow = function')), glow = ents.slice(ents.indexOf('E.smilerGlow = function'), ents.indexOf('};', ents.indexOf('E.smilerGlow = function')));
   const noArms = !/quadraticCurveTo\(ex \+ sx \* 8/.test(sm) && /ag\.alpha = 0/.test(sm), noLegs = !/-13, 58, -7, 60/.test(sm), glowOwn = !/view\.alpha/.test(glow);
   const bad = /(rage|suspicion|awareness|aggro|agitation)[ _-]?(bar|meter|icon|indicator)|exclamation|alert icon|detect(ion)? icon/i;

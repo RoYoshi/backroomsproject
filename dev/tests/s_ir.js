@@ -5,6 +5,7 @@
  *     HIGH in the other (written onto the player objects under every name the client uses, as if it had leaked) -> identical decisions
  * I3  a raised camcorder is not a light to the AI in either run (no beams, no light evidence) */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const fs = require('fs'), path = require('path');
 const { World, LONG, over, rate } = require('./lib.js');
 const GAME = require('../paths.js');
@@ -12,8 +13,8 @@ const S = []; const add = (name, fn) => S.push({ name, fn });
 const LY = LONG.y;
 
 add('I1 infrared never reaches the simulation: ai.js / sim.js do not name it; server.js stores it on the connection, not on the player', () => {
-  const code = f => fs.readFileSync(path.join(GAME, f), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`])\/\/[^\n]*/g, '$1');   // code only: the comments may talk about infrared
-  const ai = code('ai.js'), sim = code('sim.js'), srv = fs.readFileSync(path.join(GAME, 'server.js'), 'utf8');
+  const code = f => fs.readFileSync(LAYOUT.at(f), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`])\/\/[^\n]*/g, '$1');   // code only: the comments may talk about infrared
+  const ai = code('ai.js'), sim = code('sim.js'), srv = fs.readFileSync(LAYOUT.at('server.js'), 'utf8');
   const IRWORDS = /\.ir\b|\birNet\b|\binfra|\bnvOn\b|__cam\b|\birLevel\b/;
   const aiHit = (ai.match(new RegExp(IRWORDS.source, 'g')) || []).length, simHit = (sim.match(new RegExp(IRWORDS.source, 'g')) || []).length;
   const onPlayer = /(player|\bp)\.ir\s*=/.test(srv), onConn = /me\.ir\s*=/.test(srv), sent = /ir:\s*c\.ir/.test(srv);

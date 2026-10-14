@@ -4,9 +4,10 @@
  *   node dev/tests/perf_light.js            (this build)       GAMEDIR=/path/to/other/build node dev/tests/perf_light.js   (compare)
  * Guardrails (Stage 2B): average < 0.25 ms, p99 < 2 ms per 1/60 s step in this case.  Exit code 1 if exceeded. */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const path = require('path');
 const GAME = process.env.GAMEDIR || require('../paths.js');
-const createSim = require(path.join(GAME, 'sim.js'));
+const createSim = require(LAYOUT.at('sim.js'));
 const KINDS = ['flashlight', 'flashlight', 'headlamp', 'lantern', 'flashlight', 'headlamp', 'flashlight', 'lantern'];
 
 function run(seed, secs = 90, warm = 5) {

@@ -6,10 +6,12 @@
  * A  admin tools still move people
  * D  a death leaves its aftermath even when the victim disconnects at once; exactly one corpse either way */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const { spawn } = require('child_process');
 const http = require('http'), net = require('net'), path = require('path');
 const GAME = require('../paths.js');
-const createSim = require(path.join(GAME, 'sim.js'));
+const defaultPass = () => /ADMIN_PASSCODE\s*\|\|\s*'([^']*)'/.exec(require('fs').readFileSync(path.join(GAME, 'server.js'), 'utf8'))[1];   // (Stage 3H modernization) the built-in default passcode of the server this test starts, read from that server.js so that this file does not repeat it
+const createSim = require(LAYOUT.at('sim.js'));
 const PORT = +(process.env.PORT || 9480);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const R = []; const check = (name, ok, note) => { R.push({ name, ok: !!ok }); console.log((ok ? 'PASS ' : 'FAIL ') + name + '\n       ' + note); };
@@ -26,7 +28,7 @@ async function client(room, name, admin) {
   c.pos = (x, y, mv, extra) => c.tx(Object.assign({ t: 'p', x: Math.round(x), y: Math.round(y), vx: 0, vy: 0, a: 0, r: 0, l: 1, k: 'flashlight', n: name, c: '#ffe7b2', lk: 'none|plain|#e6bb76|#ffcc77|none', mv: mv || { s: 0, st: 100, ex: 0, sp: 0, ev: [] } }, extra || {}));
   c.peer = id => c.last && (c.last.p || []).find(q => q.id === id);
   await sleep(150); c.tx({ t: 'join' }); await sleep(250);
-  if (admin) { c.tx({ t: 'admin', pass: process.env.ADMIN_PASSCODE || 'smoor' }); await sleep(200); }
+  if (admin) { c.tx({ t: 'admin', pass: process.env.ADMIN_PASSCODE || defaultPass() }); await sleep(200); }
   return c;
 }
 /* walk a client along a straight line at a speed, sending positions at 20 Hz (optionally bunched, as after a lag spike) */

@@ -1,0 +1,140 @@
+{
+ "tool": "dev/tools/gate/gate.js",
+ "tier": "full",
+ "declared": "dev/tools/gate/declared_changes.json",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "589681c48dae58b726fbc9ac0f2be48c9683c66d",
+ "startedAt": "2026-10-14T19:55:05.347Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em2/work/gate_m1_full",
+ "steps": {
+  "build": {
+   "ok": true,
+   "cases": 27,
+   "note": "BUILD CHECK: PASS (27 outputs and the manifest are what src/ builds)",
+   "exit": 0,
+   "seconds": 0
+  },
+  "scope": {
+   "ok": true,
+   "cases": 193,
+   "note": "runtime changed (declared): death_srv.js, index.html, mp.js, package.json, server.js, server/static.js; added: assets/mp-hum.js, assets/net-newrun.js, server/aftermath.js, server/newrun.js",
+   "exit": 0,
+   "seconds": 0
+  },
+  "srv_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "HTTP lines about changed files: index.html, mp.js",
+   "exit": 0,
+   "seconds": 14
+  },
+  "bpp_golden": {
+   "ok": true,
+   "cases": 7,
+   "note": "",
+   "exit": 0,
+   "seconds": 12
+  },
+  "cli_golden": {
+   "ok": true,
+   "cases": 12,
+   "note": "B++ client scenes 3",
+   "exit": 0,
+   "seconds": 7
+  },
+  "protocol": {
+   "ok": true,
+   "cases": 52740,
+   "note": "messages checked; selftest PASS",
+   "exit": null,
+   "seconds": 4
+  },
+  "mutants": {
+   "ok": true,
+   "cases": 18,
+   "note": "nr_gap_200@src/frameworks/bpp/server/newrun.js nr_wait_round@src/frameworks/bpp/server/newrun.js nr_no_memory@src/frameworks/bpp/server/newrun.js nr_free_off@src/frameworks/bpp/server/newrun.js nr_held_free@generated/server/sim.js aft_el_half@src/frameworks/gib/server/aftermath.js aft_every_tick@src/frameworks/gib/server/aftermath.js aft_victim_replay@src/frameworks/gib/server/aftermath.js aft_one_per_player@src/frameworks/gib/server/aftermath.js aft_world_tick@src/frameworks/gib/server/aftermath.js aft_killer_end@src/frameworks/gib/server/aftermath.js aft_boom_revive@src/frameworks/gib/server/aftermath.js",
+   "exit": 0,
+   "seconds": 31
+  },
+  "static": {
+   "ok": true,
+   "cases": 4,
+   "note": "",
+   "exit": 0,
+   "seconds": 1
+  },
+  "raw_live": {
+   "ok": true,
+   "cases": 173,
+   "note": "responses for changed files: index.html, mp.js",
+   "exit": 0,
+   "seconds": 24
+  },
+  "quick_suites": {
+   "ok": true,
+   "cases": 23,
+   "note": "s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 9
+  },
+  "cli_mutants": {
+   "ok": true,
+   "cases": 22,
+   "note": "3 in assets/net-newrun.js, 11 in assets/mp-hum.js",
+   "exit": 0,
+   "seconds": 9
+  },
+  "live_wire": {
+   "ok": true,
+   "cases": 65,
+   "note": "structurally identical, ui {\"menuAfterFirst\":true,\"refusedLabel\":\"NEW RUN · WAIT N S\",\"menuAfterRefused\":false,\"menuAfterAdmin\":true}",
+   "exit": 0,
+   "seconds": 397
+  },
+  "bpp_checks": {
+   "ok": true,
+   "cases": 36,
+   "note": "proto_check as on B++ (8), place_replay as on B++ (22), place_guard as on B++ (6)",
+   "exit": null,
+   "seconds": 148
+  },
+  "browsers": {
+   "ok": true,
+   "cases": 118,
+   "note": "two_browser ok (103), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5)",
+   "exit": null,
+   "seconds": 225
+  },
+  "contact_lab": {
+   "ok": true,
+   "cases": 23,
+   "note": "23 images byte-identical in pixels",
+   "exit": null,
+   "seconds": 637
+  },
+  "suites": {
+   "ok": true,
+   "cases": 293,
+   "note": "npm_test 149/162, s_humanqa_hotfix 5/6, s_ir 3/3, test_shadows 43/48, test_br_role 29/32, interp_test 3, test_3bn 7/7, audit_net 13/17, audit_net2 8/11, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 621
+  },
+  "perf": {
+   "ok": false,
+   "cases": 9,
+   "note": "lifecycle -2.32%, deaths +6.92%, admin -0.03%, schedule -2.04%",
+   "exit": 1,
+   "seconds": 78
+  }
+ },
+ "ok": false,
+ "finishedAt": "2026-10-14T20:32:03.182Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "srv_keep",
+  "bpp_keep",
+  "cli_keep",
+  "cli_h2_keep"
+ ]
+}

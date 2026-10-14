@@ -1,0 +1,131 @@
+/* Stage 3H engine modernization - server golden traces on either layout (development only).  A copy of Stage 3H0's
+ * dev/stage-3h0/golden/srv_golden.js (left as it is for the frozen layout), with these differences:
+ *   - the harness is the layout-aware copy (dev/tools/gate/golden/srv_harness.js);
+ *   - "the same game files" for the old server.js are the working tree's runtime written under their old names into a scratch folder
+ *     (dev/tools/layout.js projectOld: generated/server/sim.js as sim.js, public/mp.js as mp.js, ...), because a pre-modernization
+ *     server.js requires ./sim.js and serves its own folder.  The new server.js runs in the working tree itself.  As before, the two sides
+ *     differ only in server.js's text;
+ *   - "a file the stage changed" (for the baseline's HTTP lines) is decided by content: the old ref's file against the working tree's file
+ *     of the same URL, wherever it now lives;
+ *   - the default --old-ref is the accepted B++ head 143b63f, and the scenarios are still Stage 3H0's srv_scenarios.js.
+ *
+ *   node dev/tools/gate/golden/srv_golden.js [--scenarios a,b] [--old-ref 143b63f] [--repeat 1] [--out DIR] [--write-baseline]
+ *                                            [--baseline DIR] [--keep DIR]
+ *
+ * The original's description follows.
+ *
+ *   --old-ref     the commit whose server.js is "old" (default here: the accepted B++ head 143b63f)
+ *   --repeat      run the new code this many extra times and require identical traces (determinism)
+ *   --out         where to write the report (srv_golden_report.json)
+ *   --write-baseline  also store every trace, gzipped, with its SHA-256, under --out/srv_traces/ (H0-1 baseline)
+ *   --baseline    a stored baseline (srv_traces/hashes.json): the new traces must equal it, except HTTP lines about files whose content the
+ *                 stage itself changed (those are listed, and their new body hashes are checked against the files on disk)
+ *   --keep        keep the raw traces here (default: a temporary directory that is removed)
+ * Exit status 0 only when every comparison holds. */
+'use strict';
+const fs = require('fs'), path = require('path'), os = require('os'), zlib = require('zlib'), crypto = require('crypto');
+const { execFileSync, spawnSync } = require('child_process');
+const HERE = __dirname, REPO = path.resolve(HERE, '..', '..', '..', '..'), LAYOUT = require(path.join(REPO, 'dev', 'tools', 'layout.js'));
+const H0 = path.join(REPO, 'dev', 'stage-3h0', 'golden');
+const ARG = { 'old-ref': '143b63ff42b88c6780c5043e0f61d64100f81f40', repeat: '0' };
+for (let i = 2; i < process.argv.length; i++) { const k = process.argv[i].replace(/^--/, ''); if (['write-baseline'].includes(k)) ARG[k] = true; else ARG[k] = process.argv[++i]; }
+const ALL = Object.keys(require(path.join(H0, 'srv_scenarios.js')));
+const SCEN = ARG.scenarios ? ARG.scenarios.split(',') : ALL;
+const sha = b => crypto.createHash('sha256').update(b).digest('hex');
+const tmp = ARG.keep ? path.resolve(ARG.keep) : fs.mkdtempSync(path.join(os.tmpdir(), 'h0srv-'));
+fs.mkdirSync(tmp, { recursive: true });
+const oldSrc = path.join(tmp, 'old_server.js');
+fs.writeFileSync(oldSrc, execFileSync('git', ['-C', REPO, 'show', ARG['old-ref'] + ':server.js']));
+const newSrc = path.join(REPO, 'server.js');
+const PROJ = path.join(tmp, 'old_layout'); fs.mkdirSync(PROJ, { recursive: true });                 // (this copy) the working tree's runtime under its old names
+const PROJECTED = LAYOUT.projectOld(REPO, PROJ);
+
+function run(src, scen, tag) {
+  const out = path.join(tmp, `${scen}.${tag}.jsonl`), st = path.join(tmp, `${scen}.${tag}.struct.json`);
+  const t0 = Date.now();
+  const dir = src === oldSrc ? PROJ : REPO;                                                        // (this copy) the old server.js runs in the projection
+  const r = spawnSync(process.execPath, [path.join(HERE, 'srv_harness.js'), '--src', src, '--dir', dir, '--scenario', scen, '--out', out, '--struct', st], { encoding: 'utf8', timeout: 900000 });
+  const ms = Date.now() - t0;
+  const buf = fs.existsSync(out) ? fs.readFileSync(out) : Buffer.alloc(0);
+  return { ok: r.status === 0, status: r.status, stdout: (r.stdout || '').trim().slice(-400), stderr: (r.stderr || '').trim().slice(-800), ms, file: out, bytes: buf.length,
+    lines: buf.length ? buf.toString('utf8').split('\n').length - 1 : 0, sha256: sha(buf), struct: fs.existsSync(st) ? JSON.parse(fs.readFileSync(st, 'utf8')) : null, buf };
+}
+function firstDiff(a, b) {
+  const A = a.toString('utf8').split('\n'), B = b.toString('utf8').split('\n');
+  for (let i = 0; i < Math.max(A.length, B.length); i++) if (A[i] !== B[i]) return { line: i + 1, old: (A[i] || '').slice(0, 600), new: (B[i] || '').slice(0, 600) };
+  return null;
+}
+/* (this copy) files whose content differs between the old ref and the working tree, by their old names (the URL path): the old ref's blob
+ * against the working tree's file wherever it now lives (Git blob ids); a file present on one side only counts as changed, as a file that
+ * Git lists as added or deleted did for the original */
+function changedFiles() {
+  const blobs = new Map(execFileSync('git', ['-C', REPO, 'ls-tree', '-r', '-z', ARG['old-ref']], { encoding: 'utf8', maxBuffer: 1 << 26 }).split('\0').filter(Boolean)
+    .map(l => { const [meta, f] = l.split('\t'); return [f, meta.split(' ')[2]]; }).filter(([f]) => !f.startsWith('dev/')));
+  const blobId = b => crypto.createHash('sha1').update('blob ' + b.length + '\0').update(b).digest('hex');
+  const out = new Set();
+  for (const f of new Set([...blobs.keys(), ...PROJECTED])) {
+    const p = path.join(PROJ, f), b = fs.existsSync(p) ? fs.readFileSync(p) : null;
+    if (!blobs.has(f) || !b || blobs.get(f) !== blobId(b)) out.add(f);
+  }
+  return out;
+}
+/* a trace line is "about" a changed file when it is an HTTP line whose URL path maps to one */
+function httpFileOf(line) {
+  try { const e = JSON.parse(line); if (!/^http\./.test(e[1])) return null; let u = e[1] === 'http.req' ? e[3] : e[3]; u = decodeURIComponent(String(u).split('?')[0]); if (u === '/') u = '/index.html'; return u.replace(/^\/+/, ''); } catch (x) { return null; }
+}
+
+const report = { tool: 'dev/tools/gate/golden/srv_golden.js', oldRef: ARG['old-ref'], newSrc: 'server.js (working tree)', dir: REPO, oldDir: 'the working tree\'s runtime under its old names (' + PROJECTED.length + ' files)', node: process.version,
+  startedAt: new Date().toISOString(), scenarios: [], ok: true };
+let baseline = null;
+if (ARG.baseline) baseline = JSON.parse(fs.readFileSync(path.join(path.resolve(ARG.baseline), 'hashes.json'), 'utf8'));
+const changed = baseline ? changedFiles() : null;
+for (const s of SCEN) {
+  const o = run(oldSrc, s, 'old'), n = run(newSrc, s, 'new');
+  const rec = { scenario: s, old: { ok: o.ok, lines: o.lines, bytes: o.bytes, sha256: o.sha256, ms: o.ms }, new: { ok: n.ok, lines: n.lines, bytes: n.bytes, sha256: n.sha256, ms: n.ms },
+    equal: o.ok && n.ok && o.sha256 === n.sha256, structNew: n.struct, structOld: o.struct };
+  if (!o.ok || !n.ok) rec.errors = { old: o.ok ? null : o.stdout + ' ' + o.stderr, new: n.ok ? null : n.stdout + ' ' + n.stderr };
+  if (!rec.equal && o.ok && n.ok) rec.firstDiff = firstDiff(o.buf, n.buf);
+  rec.repeats = [];
+  for (let k = 0; k < +ARG.repeat; k++) { const r = run(newSrc, s, 'rep' + k); rec.repeats.push({ sha256: r.sha256, equal: r.sha256 === n.sha256 }); if (r.sha256 !== n.sha256) rec.repeatDiff = firstDiff(n.buf, r.buf); }
+  if (baseline) {
+    const b = baseline.scenarios[s];
+    rec.baseline = b ? { sha256: b.sha256, equal: b.sha256 === n.sha256 } : { sha256: null, equal: null, note: 'no baseline: a scenario added after H0-1 (compared old code against new code only)' };
+    if (b && !rec.baseline.equal) {
+      const bl = zlib.gunzipSync(fs.readFileSync(path.join(path.resolve(ARG.baseline), b.file))).toString('utf8').split('\n'), nl = n.buf.toString('utf8').split('\n');
+      const exp = [], unexp = [];
+      for (let i = 0; i < Math.max(bl.length, nl.length); i++) {
+        if (bl[i] === nl[i]) continue;
+        const f = httpFileOf(bl[i] || '') || httpFileOf(nl[i] || '');
+        if (f && changed.has(f) && bl.length === nl.length) exp.push({ line: i + 1, file: f }); else { unexp.push({ line: i + 1, baseline: (bl[i] || '').slice(0, 400), now: (nl[i] || '').slice(0, 400) }); if (unexp.length > 5) break; }
+      }
+      rec.baseline.expectedContentChanges = exp; rec.baseline.unexpected = unexp; rec.baseline.equalExceptChangedFiles = !unexp.length && bl.length === nl.length;
+    }
+  }
+  rec.ok = rec.equal && rec.repeats.every(r => r.equal) && (!baseline || rec.baseline.equal !== false || rec.baseline.equalExceptChangedFiles);
+  report.ok = report.ok && rec.ok;
+  report.scenarios.push(rec);
+  console.log(`${rec.ok ? 'PASS' : 'FAIL'} ${s}: old ${o.lines} lines ${o.sha256.slice(0, 12)} (${o.ms} ms) | new ${n.lines} lines ${n.sha256.slice(0, 12)} (${n.ms} ms)` +
+    `${rec.equal ? ' | identical' : ' | DIFFERENT'}${rec.repeats.length ? ' | repeats ' + rec.repeats.map(r => r.equal ? 'same' : 'DIFF').join(',') : ''}` +
+    `${baseline ? ' | baseline ' + (rec.baseline.equal === null ? 'none (new scenario)' : rec.baseline.equal ? 'same' : rec.baseline.equalExceptChangedFiles ? 'same except ' + rec.baseline.expectedContentChanges.length + ' lines about changed files' : 'DIFFERENT') : ''}` +
+    `${n.struct && n.struct.newRequires.length ? ' | new requires: ' + n.struct.newRequires.join(' ') : ''}`);
+  if (!rec.ok && rec.firstDiff) console.log('   first difference at line ' + rec.firstDiff.line + '\n   old: ' + rec.firstDiff.old.slice(0, 300) + '\n   new: ' + rec.firstDiff.new.slice(0, 300));
+  if (rec.errors) console.log('   errors: ' + JSON.stringify(rec.errors).slice(0, 800));
+}
+report.finishedAt = new Date().toISOString();
+if (ARG.out) {
+  const OUT = path.resolve(ARG.out); fs.mkdirSync(OUT, { recursive: true });
+  if (ARG['write-baseline']) {
+    const TD = path.join(OUT, 'srv_traces'); fs.mkdirSync(TD, { recursive: true });
+    const hashes = { oldRef: ARG['old-ref'], node: process.version, scenarios: {} };
+    for (const r of report.scenarios) {
+      const f = `${r.scenario}.jsonl.gz`, raw = fs.readFileSync(path.join(tmp, `${r.scenario}.new.jsonl`));
+      fs.writeFileSync(path.join(TD, f), zlib.gzipSync(raw, { level: 9 }));
+      hashes.scenarios[r.scenario] = { file: f, sha256: r.new.sha256, lines: r.new.lines, bytes: r.new.bytes };
+    }
+    fs.writeFileSync(path.join(TD, 'hashes.json'), JSON.stringify(hashes, null, 1) + '\n');
+  }
+  fs.writeFileSync(path.join(OUT, 'srv_golden_report.json'), JSON.stringify(report, null, 1) + '\n');
+}
+if (!ARG.keep) fs.rmSync(tmp, { recursive: true, force: true });
+console.log(report.ok ? 'server golden traces: ALL IDENTICAL' : 'server golden traces: DIFFERENCES FOUND');
+process.exitCode = report.ok ? 0 : 1;

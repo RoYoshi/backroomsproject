@@ -3,7 +3,7 @@
 const { World, DT, dist, LONG, geo, over, rate, avg, stateNames, WORLD, TAU, pick, tracker } = require('./lib.js');
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const X0 = 5000, Y0 = LONG.y;
-const SPECIES = require(require('../paths.js') + '/ai.js').SPECIES;
+const SPECIES = require(require('../tools/layout.js').at('ai.js')).SPECIES;
 
 /* a victim standing in the long corridor and an entity right at its heels, about to make contact */
 function capWorld(kind, seed, o = {}) {

@@ -63,14 +63,23 @@ differs from what the sources build.
 
 ## 5. Gate and tests
 
-- **The modernization gate** (`dev/tools/gate/`) reuses the 3H2 baselines and steps. Its harness copies know the new layout:
-  - the server harness records the same seven pre-existing requires wherever in the server graph they are made, so traces stay
-    comparable without relaxing them;
-  - the client harness reads `public/`.
-- **The 3H2 tools are left as they are**, for the frozen layout.
-- **Path consumers.** Tests and tools that name runtime files by path read them through one layout map (`dev/tools/layout.js`)
-  instead of hard-coded root paths. Behaviour assertions are never relaxed. A text-reading test (`s_ir` I1, `s_humanqa_hotfix` X02)
-  keeps its assertion and reads the file where the code now lives.
+**As built at H3M-1** (`dev/tools/gate/README.md`):
+- **The modernization gate** (`dev/tools/gate/gate.js`; `npm run gate`, `npm run gate:full`) is Stage 3H2's gate carried onto the new
+  layout. It keeps the same steps, the same B++ baselines and the same rule (a step that compared nothing is a FAIL).
+- **The 3H2 and 3H0 tools are left as they are,** for the frozen layout. Each tool that read a runtime file by path has a layout-aware
+  copy in `dev/tools/gate/golden/` or `checks/`, and each copy says what it changed. Each copy is shown, on the frozen parent's own
+  layout, to give the same results as its original (`tools/m1_copies_equivalence.js`).
+- **The server goldens run old and new sides as 3H0 did.**
+  - Old side: B++'s `server.js` runs against the working tree's runtime under its old names (`dev/tools/layout.js` `projectOld`, a
+    scratch folder).
+  - New side: the working tree's `server.js` runs in the working tree.
+  - The harness records a require that resolves to the sim or the death module under its pre-existing name, so a trace does not depend
+    on where a file lives. Nothing is relaxed: the traces must equal the stored B++ baselines byte for byte.
+- **The scope step asks about content, not paths** (`scope_m.js`). Each runtime file is B++'s file where the layout put it, or a
+  change declared with its reason in `declared_changes.json`.
+- **Path consumers.** The lasting tests (`dev/tests/`, `dev/harness.js`, `dev/move_model.js`, `dev/shadows/`, `dev/br-role/`,
+  `dev/stage-3b-n/test_3bn.js`) read runtime files through `dev/tools/layout.js`. Their assertions are unchanged. The text-reading tests
+  (`s_ir` I1, `s_humanqa_hotfix` X02) read the file where the code now lives.
 
 ## 6. The compiled bundle (revised at M1-R, 2026-10-14; ADR-002)
 

@@ -1,0 +1,49 @@
+{
+ "tool": "dev/stage-3h/gate/suites.js",
+ "known": "dev/stage-3h/gate/known_failures_bpp.json",
+ "suites": {
+  "audit_net": {
+   "ran": 17,
+   "summary": {
+    "passed": 13,
+    "total": 17
+   },
+   "failing": [
+    "A1 admin tools still move people (bring) and the moved player carries on from there",
+    "M4 a short hop through a wall is refused",
+    "D3 a normal death: the victim's own replay and corpse are used - one replay, one corpse, nothing added by the server",
+    "R2 a dead player can respawn (back at the spawn point, alive)"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 54906,
+   "ok": true
+  },
+  "audit_net2": {
+   "ran": 11,
+   "summary": {
+    "passed": 7,
+    "total": 11
+   },
+   "failing": [
+    "LC1 an ordinary client held by a real hound: respawn, join, a vanish, leave -> join and a spawn claim all fail; it never comes back free",
+    "LC4 NEW RUN only through its sequence: a bare join or leave while alive does nothing; vanish (2.7 s on screen) -> leave -> join starts a run at the client's spawn choice; a second vanish within 30 s does not",
+    "MT1 real move.js traces (walk, sprint, vault, crouch, crawl through a hole, slide; plain and in lag bursts) sent by an ordinary client: no correction, the server ends where the client does",
+    "DD2 a connected victim: its own replay and corpse, exactly one of each, nothing added by the server even after the fallback deadline"
+   ],
+   "newFailures": [],
+   "knownFailuresNowPassing": [],
+   "knownFailuresNotRun": [],
+   "empty": false,
+   "timedOut": false,
+   "exit": 1,
+   "ms": 216842,
+   "ok": true
+  }
+ },
+ "ok": true
+}

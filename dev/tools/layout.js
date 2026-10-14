@@ -11,7 +11,7 @@
  *   L.at('server/ws.js')   ... src/frameworks/bpp/server/ws.js
  *   L.at('dev/ents_src/10_hound.js')   ... src/frameworks/br-r/client/ents.hound.js (a part's canonical source)
  *   L.forTree(dir)         the same API for another game folder (an export); detects the old layout and maps names to themselves
- *   L.isModern(dir)        true when dir has the public/ web root
+ *   L.isModern(dir)        true when dir has the public/ web root or the generated/server/ folder
  *   L.webRoot(dir)         the folder the server serves (dir/public, or dir itself on the old layout)
  * A name the map does not know is returned as <root>/<name> (an unmoved file such as server.js or a dev/ path). */
 'use strict';
@@ -36,7 +36,8 @@ const MAP = {
   'dev/ents_src/25_death.js': `${F}/gib/client/ents.death.js`, 'dev/ents_src/30_audio.js': `${F}/spacious-audio/client/ents.audio.js`, 'dev/ents_src/40_debug.js': `${F}/overseer/client/ents.debug.js`,
 };
 for (const n of ['00_head', '10_geo', '20_senses', '22_intelligence', '25_light', '30_entity', '40_capture', '50_hound', '60_smiler', '90_engine']) MAP[`dev/ai_src/${n}.js`] = `${F}/nani/server/ai.${n.slice(3)}.js`;
-const isModern = dir => fs.existsSync(path.join(dir, 'public', 'index.html'));
+/* the modern layout: a public/ web root or a generated/server/ folder (a copy of only the server side has no public/) */
+const isModern = dir => fs.existsSync(path.join(dir, 'public', 'index.html')) || fs.existsSync(path.join(dir, 'generated', 'server'));
 function forTree(dir) {
   dir = path.resolve(dir);
   const modern = isModern(dir);
@@ -51,13 +52,61 @@ function forTree(dir) {
     root: dir, modern, rel,
     at: name => path.join(dir, rel(name)),
     webRoot: () => modern ? path.join(dir, 'public') : dir,
-    /* the server-side runtime files of this tree, relative paths: what a copy of "the server" must contain to run */
+    /* the server-side runtime files of this tree, relative paths: what a copy of "the server" must contain to run.  Modern layout:
+     * server.js, the generated server files, and the src/ modules the server requires (files under a server/ folder that are not parts
+     * of a built output: the parts only reach the server through generated/) */
     serverFiles() {
       if (!modern) return ['server.js', 'sim.js', 'ai.js', 'world.js', 'death_srv.js', 'dphys.js', ...fs.readdirSync(path.join(dir, 'server')).filter(f => f.endsWith('.js')).map(f => 'server/' + f)];
       const walk = d => fs.readdirSync(path.join(dir, d), { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
-      return ['server.js', ...walk('generated'), ...walk('src')].filter(f => /\.(js|json)$/.test(f)).map(f => f.split(path.sep).join('/'));
+      const recipes = JSON.parse(fs.readFileSync(path.join(dir, 'src', 'build-recipes.json'), 'utf8')), parts = new Set(recipes.outputs.flatMap(o => o.parts || []));
+      const gen = walk(path.join('generated', 'server')).map(f => f.split(path.sep).join('/')).filter(f => f.endsWith('.js'));
+      const mods = walk('src').map(f => f.split(path.sep).join('/')).filter(f => /\/server\/[^/]+\.js$/.test(f) && !parts.has(f));
+      return ['server.js', ...gen, ...mods];
     },
   };
 }
+/* The runtime of a tree under its old (root-relative) names: [old name, absolute path] for every file the game serves or the server loads.
+ * Modern layout: every file under public/ (its URL path), the server-side files by the map (sim.js -> generated/server/sim.js, ...), and
+ * server.js and package.json.  Old layout: the same names, where they are.  Dev files, reports and sources are not runtime. */
+function runtimeOf(dir) {
+  const T = forTree(dir), out = new Map();
+  const walk = (base, d = '') => fs.readdirSync(path.join(base, d), { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(base, path.join(d, e.name)) : [path.join(d, e.name).split(path.sep).join('/')]);
+  if (T.modern) for (const f of walk(path.join(T.root, 'public'))) out.set(f, path.join(T.root, 'public', f));
+  else {
+    for (const f of fs.readdirSync(T.root)) if (/\.(js|html|ico)$/.test(f) && fs.statSync(path.join(T.root, f)).isFile() && f !== 'redirect.js') out.set(f, path.join(T.root, f));
+    for (const d of ['assets', 'sounds', 'server']) if (fs.existsSync(path.join(T.root, d))) for (const f of walk(path.join(T.root, d))) out.set(d + '/' + f, path.join(T.root, d, f));
+  }
+  for (const n of ['server.js', 'package.json', 'sim.js', 'ai.js', 'world.js', 'dphys.js', 'death_srv.js', ...Object.keys(MAP).filter(k => k.startsWith('server/'))]) {
+    const p = T.at(n); if (fs.existsSync(p)) out.set(n, p);
+  }
+  return out;
+}
+/* The layout's own path edits (H3M-1): text that names where a file now lives, and the text it replaced.  projectOld writes these files
+ * with the old text back, so that the projection is the old layout; each edit must be found exactly once. */
+const PATH_EDITS = {
+  'death_srv.js': [["path.join(__dirname, '..', '..', '..', '..', 'generated', 'server', 'dphys.js')", "path.join(__dirname, 'dphys.js')"]],
+};
+/* Write a tree's runtime, under its old names, into an empty folder: an old-layout copy of a modern tree, which a pre-modernization
+ * server.js (B++'s, 3H2's) can run as if it were its own folder.  A file with a layout path edit is written with that edit undone
+ * (PATH_EDITS).  Returns the old names written. */
+function projectOld(dir, outDir) {
+  const R = runtimeOf(dir), modern = isModern(path.resolve(dir));
+  for (const [n, p] of R) {
+    const o = path.join(outDir, n); fs.mkdirSync(path.dirname(o), { recursive: true });
+    if (modern && PATH_EDITS[n]) {
+      let t = fs.readFileSync(p, 'utf8');
+      for (const [now, was] of PATH_EDITS[n]) { if (t.split(now).length !== 2) throw new Error(`projectOld: the layout edit in ${n} is not found exactly once`); t = t.replace(now, was); }
+      fs.writeFileSync(o, t);
+    } else fs.copyFileSync(p, o);
+  }
+  return [...R.keys()].sort();
+}
 const self = forTree(path.resolve(__dirname, '..', '..'));
-module.exports = Object.assign({ forTree, isModern, MAP, webRoot: dir => forTree(dir).webRoot() }, { root: self.root, at: self.at, rel: self.rel, modern: self.modern, serverFiles: self.serverFiles });
+module.exports = Object.assign({ forTree, isModern, MAP, PATH_EDITS, runtimeOf, projectOld, webRoot: dir => forTree(dir).webRoot() }, { root: self.root, at: self.at, rel: self.rel, modern: self.modern, serverFiles: self.serverFiles });
+/* command line, for tools in other languages:  node dev/tools/layout.js at <old name> [--dir <tree>]   prints the absolute path */
+if (require.main === module) {
+  const a = process.argv.slice(2), i = a.indexOf('--dir'), T = i >= 0 ? forTree(a[i + 1]) : self;
+  if (a[0] === 'at' && a[1]) process.stdout.write(T.at(a[1]) + '\n');
+  else if (a[0] === 'web-root') process.stdout.write(T.webRoot() + '\n');
+  else { process.stderr.write('usage: layout.js at <name> [--dir <tree>] | web-root [--dir <tree>]\n'); process.exitCode = 2; }
+}

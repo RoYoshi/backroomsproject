@@ -6,12 +6,14 @@
 import os, tempfile, sys, asyncio, subprocess, time, json
 _HERE=os.path.dirname(os.path.abspath(__file__))
 ROOT=next(p for p in (os.path.join(_HERE,'..','..','g'),os.path.join(_HERE,'..','..')) if os.path.exists(os.path.join(p,'server.js')))
+# (Stage 3H modernization) the built-in default passcode of the server this test starts, read from that server.js so that this file does not repeat it
+DEFAULT_PASS=lambda: __import__('re').search(r"ADMIN_PASSCODE\s*\|\|\s*'([^']*)'",open(os.path.join(ROOT,'server.js'),encoding='utf-8').read()).group(1)
 from playwright.async_api import async_playwright
 ARGS=['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist']
 PORT=int(os.environ.get('PORT','9357')); OUT=sys.argv[1] if len(sys.argv)>1 else os.path.join(tempfile.gettempdir(),'fallback_parity'); os.makedirs(OUT,exist_ok=True)
 HOOK="""(()=>{ window.__sent=[]; const S=WebSocket.prototype.send; WebSocket.prototype.send=function(d){ try{ const m=JSON.parse(d); if(m.t==='fx'||m.t==='b') window.__sent.push(m); }catch{} return S.call(this,d); }; })()"""
 NODE=r"""
-const path=require('path'), G=process.argv[1], D=require(path.join(G,'death_srv.js')), sim=require(path.join(G,'sim.js'))({seed:1});
+const path=require('path'), G=process.argv[1], LAYOUT=require(path.join(G,'dev','tools','layout.js')).forTree(G), D=require(LAYOUT.at('death_srv.js')), sim=require(LAYOUT.at('sim.js'))({seed:1});   // (Stage 3H modernization) where the layout puts them
 const pairs=JSON.parse(require('fs').readFileSync(0,'utf8')), out=[];
 for (const {fx,b} of pairs) {
   const kill={k:fx.c,v:fx.v,x:fx.x,y:fx.y,a:fx.a,ax:fx.sx,ay:fx.sy,w:fx.w||0}, info={name:'X',look:fx.lk,ek:fx.ek,ec:fx.ec,ep:fx.ep||'',vx:fx.vx,vy:fx.vy,ex:fx.ex,light:true};
@@ -34,9 +36,9 @@ async def main():
             A.on('pageerror',lambda e:errs.append(str(e)[:300]))
             await A.add_init_script(HOOK)
             await A.goto(f'http://localhost:{PORT}/?room=parity'); await A.wait_for_timeout(2200); await A.fill('#name','Alice')
-            await A.evaluate("document.getElementById('enter').click(); __net.testAuth('smoor')"); await A.wait_for_timeout(4500)
+            await A.evaluate("document.getElementById('enter').click(); __net.testAuth('" + DEFAULT_PASS() + "')"); await A.wait_for_timeout(4500)
             click=lambda sel: A.evaluate("s=>{const e=document.querySelector(s); if(e){e.click(); return true} return false}",sel)
-            await A.keyboard.press('Backquote'); await A.fill('#admPass','smoor'); await A.keyboard.press('Enter'); await A.wait_for_timeout(1200)
+            await A.keyboard.press('Backquote'); await A.fill('#admPass',DEFAULT_PASS()); await A.keyboard.press('Enter'); await A.wait_for_timeout(1200)
             await click('[data-a=tab][data-t=monsters]')
             for i in range(4): await click('[data-c=hounds][data-mode=remove]'); await A.wait_for_timeout(80)
             for i in range(6): await click('[data-c=smilers][data-mode=remove]'); await A.wait_for_timeout(80)

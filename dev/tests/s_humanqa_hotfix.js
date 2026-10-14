@@ -1,7 +1,8 @@
 /* Human-QA hotfix acceptance checks. These are intentionally separate from the locked 2F preservation hash test. */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const ROOT=path.resolve(__dirname,'../..'),createSim=require(path.join(ROOT,'sim.js'));
+const ROOT=path.resolve(__dirname,'../..'),createSim=require(LAYOUT.at('sim.js'));
 const {World,geo}=require('./lib.js');
 const S=[],add=(name,fn)=>S.push({name,fn:()=>({ok:true,note:fn()||'assertions passed'})});
 
@@ -13,7 +14,7 @@ add('HQA X01 admin stress ceiling is truly reachable without changing normal dir
 });
 
 add('HQA X02 client/network presentation has 64 slots for each species and batch stress controls',()=>{
-  const mp=fs.readFileSync(path.join(ROOT,'mp.js'),'utf8'),bundle=fs.readFileSync(path.join(ROOT,'assets/index-DKbV5Nv9.js'),'utf8'),server=fs.readFileSync(path.join(ROOT,'server.js'),'utf8');
+  const mp=fs.readFileSync(LAYOUT.at('mp.js'),'utf8'),bundle=fs.readFileSync(LAYOUT.at('assets/index-DKbV5Nv9.js'),'utf8'),server=fs.readFileSync(LAYOUT.at('server.js'),'utf8');
   assert(mp.includes('const CLIENT_ENTITY_SLOTS = 64'));
   assert(bundle.includes('hv=Array.from({length:64},()=>new Wl)'));
   assert(bundle.includes('for(let e=Ll.length;e<64;e++)Ll.push({...Ll[e%5]})'));
@@ -23,7 +24,7 @@ add('HQA X02 client/network presentation has 64 slots for each species and batch
 });
 
 add('HQA X03 dead hover and switched-off physical-light QOL are present in shipped client',()=>{
-  const mp=fs.readFileSync(path.join(ROOT,'mp.js'),'utf8'),bundle=fs.readFileSync(path.join(ROOT,'assets/index-DKbV5Nv9.js'),'utf8');
+  const mp=fs.readFileSync(LAYOUT.at('mp.js'),'utf8'),bundle=fs.readFileSync(LAYOUT.at('assets/index-DKbV5Nv9.js'),'utf8');
   assert(mp.includes("hover.o.d ? ' · DEAD' : ''"));
   assert(!mp.includes("hover.o.d ? ' · DOWN' : ''"));
   assert(bundle.includes('if(e&&!f.nv){_(0,Math.PI*2,this.death.active?150:52,this.death.active?.73:.35)'));
@@ -82,7 +83,7 @@ add('HQA X06 Hound reassessment looks immediately and resumes search within a sh
   for(let i=0;i<45;i++){const dt=1/60;w.eng.now+=dt;h.t+=dt;h.stateT+=dt;h.actT+=dt;h.sp.tick(w.eng,h,dt,false);}
   assert(h.search && h.search.phase==='go',`reassessment still paused after 0.75s: ${h.search&&h.search.phase}`);
   assert(h.search.goal,'reassessment did not select a next hypothesis');
-  const ents=fs.readFileSync(path.join(ROOT,'dev/ents_src/10_hound.js'),'utf8');
+  const ents=fs.readFileSync(LAYOUT.at('dev/ents_src/10_hound.js'),'utf8');
   assert(ents.includes("P.hr = look * .82"),'sniff presentation is not visually anchored to the hypothesis');
   return `head favored ${hd.toFixed(2)} rad immediately; search resumed with ${h.search.goal.k} by 0.75s`;
 });

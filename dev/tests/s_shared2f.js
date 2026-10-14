@@ -1,6 +1,7 @@
 /* Stage 2F independent assertions. Uses real sim/senses/species unless explicitly
  * marked sensor-only or bounded-memory unit fixture. No percentage gate is lowered. */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const assert=require('node:assert/strict'),{World,LONG,AI,geo}=require('./lib');
 const Y=LONG.y,S=[],add=(name,fn)=>S.push({name,fn:()=>({ok:true,note:fn()||'assertions passed'})});
 function entity(w,kind='hound',still=false){const e=w[kind](5000,Y,{id:41});e.ang=0;e.tierT=1e9;e.rest=1e9;e.act='rest';if(still)e.sp={...e.sp,tick(){}};return e;}
@@ -45,7 +46,7 @@ add('2F F21 hidden HP, inventory and account metadata cannot influence decisions
 add('2F F22 species physical/canon parameter preservation',()=>{const fs=require('fs'),path=require('path'),crypto=require('crypto'),M=require('../STAGE_2F_PRESERVATION.json'),baseline=process.env.STAGE2E_BASELINE;
  const before=baseline?require(path.resolve(baseline,'ai.js')).SPECIES:M.species;
  assert.deepEqual(JSON.parse(JSON.stringify(AI.SPECIES)),JSON.parse(JSON.stringify(before)));
- for(const [f,hash]of Object.entries(M.unchanged_sha256))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.resolve(__dirname,'../..',f))).digest('hex'),hash,f);
+ for(const [f,hash]of Object.entries(M.unchanged_sha256))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(LAYOUT.at(f))).digest('hex'),hash,f);
  return 'all species data properties and '+Object.keys(M.unchanged_sha256).length+' frozen movement/death/nav/network/presentation source hashes';});
 add('2F F23 long-run mixed lifecycle validity',()=>{const w=World(523),es=[entity(w),w.smiler(7100,Y,{id:42}),w.hound(8300,Y,{id:43})],ps=[w.player(5450,Y),w.player(7550,Y)];let ticks=0,respawns=0;w.run(180,()=>{ticks++;for(const p of ps){if(p.dead){assert(w.sim.respawn(p));p.safe=0;p.x=5450+(p.id-100)*2100;p.y=Y;respawns++;}if(ticks%900===0){p.light=!p.light;p.go(p.x<6500?8500:3500,Y,ticks%1800?'run':'crouch');}}for(const e of es){assert([e.x,e.y,e.speed,e.ang].every(Number.isFinite));assert(AI.S[e.state]);assert(!e.target||e.mem.p.has(e.target));assert(e.mem.p.size<=16&&e.mem.sounds.length<=8&&e.mem.leads.length<=6&&e.mem.hypotheses.length<=3&&e.mem.visited.size<=128);}});for(const p of ps){w.sim.removePlayer(p);p.active=false;}for(const e of es)assert.equal(e.mem.p.size,0);
  for(let cycle=0;cycle<4;cycle++){const q=w.player(5450,Y);w.run(2);w.sim.removePlayer(q);q.active=false;for(const e of es){assert(!e.mem.p.has(q.id));assert(!e.mem.habits.has(q.id));assert.notEqual(e.target,q.id);}}return `${ticks} mixed ticks; ${respawns} actual respawns; four disconnect/rejoin cycles with no stale identity`;});

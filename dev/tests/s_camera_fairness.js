@@ -1,8 +1,9 @@
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const assert = require('assert');
 const path = require('path');
 const fs = require('fs');
 
-const policy = require(path.join(__dirname, '..', '..', 'camera_policy.js'));
+const policy = require(LAYOUT.at('camera_policy.js'));
 
 const EPS = 1e-7;
 const maxW = policy.MAX_WORLD_WIDTH;
@@ -56,7 +57,7 @@ assert(near(a.width, b.width, 1e-5) && near(a.height, b.height, 1e-5), '4K gains
 // The shipped page must load the policy before the application module and
 // the application must actually call it in its resize path.
 const root = path.join(__dirname, '..', '..');
-const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const html = fs.readFileSync(LAYOUT.at('index.html'), 'utf8');
 const bundle = fs.readFileSync(path.join(root, 'assets', 'index-DKbV5Nv9.js'), 'utf8');
 assert(html.indexOf('./camera_policy.js') >= 0, 'camera policy script missing from index.html');
 assert(html.indexOf('./camera_policy.js') < html.indexOf('./assets/index-DKbV5Nv9.js'), 'camera policy must load before app module');

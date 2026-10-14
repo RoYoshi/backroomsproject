@@ -19,7 +19,13 @@ PARENT = '22751bbc39c91f3e54e3305638b2ef2c9dd12c68'; PARENT_TREE = 'd44c4bafa3c1
 BPP = '143b63ff42b88c6780c5043e0f61d64100f81f40'; BPP_TREE = 'b25c26ec3eedab406a6b93f80a59ba6a1cb7c128'
 SNAP = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'inventory', 'remote_heads_before.json')
 KEY = ['stage-3h', 'stage-3e-0-bplusplus', 'main', 'stage-3h0']
-run = lambda *a: subprocess.run(a, check=True, capture_output=True, text=True).stdout.strip()
+def run(*a):
+    """A command's output; a GitHub API call is tried up to three times (the proxy can drop one call), anything else once."""
+    for attempt in range(3 if a[0] == 'gh' else 1):
+        r = subprocess.run(a, capture_output=True, text=True)
+        if r.returncode == 0: return r.stdout.strip()
+        if attempt < 2 and a[0] == 'gh': __import__('time').sleep(2 + 3 * attempt)
+    raise subprocess.CalledProcessError(r.returncode, a, r.stdout, r.stderr)
 isanc = lambda a, b: subprocess.run(['git', 'merge-base', '--is-ancestor', a, b]).returncode == 0
 heads_now = lambda: {l.split()[1][len('refs/heads/'):]: l.split()[0] for l in run('git', 'ls-remote', '--heads', 'origin').splitlines()}
 

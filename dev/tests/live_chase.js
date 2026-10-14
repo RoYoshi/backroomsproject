@@ -3,9 +3,11 @@
  * about the live path (stale positions, tick rate, message handling) makes escaping easier than the simulation says.
  *   node tests/live_chase.js [strategy] [runs] [port]       strategies: straight | break-walk | break-hide    (light off after the start, like escape_bench) */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const { spawn } = require('child_process');
 const path = require('path');
 const GAME = require('../paths.js');
+const defaultPass = () => /ADMIN_PASSCODE\s*\|\|\s*'([^']*)'/.exec(require('fs').readFileSync(path.join(GAME, 'server.js'), 'utf8'))[1];   // (Stage 3H modernization) the built-in default passcode of the server this test starts, read from that server.js so that this file does not repeat it
 const { World, geo } = require('./lib.js');
 const TAU = Math.PI * 2;
 const { makeMover } = require('../move_model.js');                    // the bot moves with the game's own move.js (see move_model.js)
@@ -17,7 +19,7 @@ async function one(i, srv) {
   ws.onmessage = ev => { let m; try { m = JSON.parse(ev.data); } catch { return; } if (m.t === 'hello' || m.t === 'welcome') st.id = m.id; if (m.t === 's') { st.snap = m.e; if (m.me) st.dead = true; if (m.cp) st.caught = true; } };
   await new Promise((res, rej) => { ws.onopen = res; ws.onerror = rej; });
   const tx = o => ws.readyState === 1 && ws.send(JSON.stringify(o));
-  tx({ t: 'join' }); await sleep(400); tx({ t: 'admin', pass: 'smoor' }); await sleep(200);
+  tx({ t: 'join' }); await sleep(400); tx({ t: 'admin', pass: defaultPass() }); await sleep(200);
   for (let k = 0; k < 4; k++) tx({ t: 'a', c: 'hounds', mode: 'remove' }); for (let k = 0; k < 6; k++) tx({ t: 'a', c: 'smilers', mode: 'remove' });
   // a start spot and a far goal from the shared level data
   const G = geo(), P = G.cells.filter((_, k) => k % 7 === 0).map(c => ({ x: G.g.cx(c), y: G.g.cy(c) })).filter(q => G.ad.clear(q.x, q.y, 26, 'walk'));
@@ -42,7 +44,7 @@ async function one(i, srv) {
     if (strategy === 'break-walk' && broke >= 0) me.mode = 'walk';
     if (strategy === 'break-hide' && broke >= 0 && !hid) { hid = true; me.mode = 'crouch'; me.route = []; }
     // movement: the game's own move.js (acceleration, stamina / recovery, exhaustion, deep carpet, collision), stepped at 60 Hz like the client
-    if (!me.mover) { me.mover = makeMover(G.w.sim, require(GAME + '/world.js'), () => (Date.now() - t0) / 1000); Object.assign(me.mover.H, { x: me.x, y: me.y, stamina: me.stamina }); }
+    if (!me.mover) { me.mover = makeMover(G.w.sim, require(LAYOUT.at('world.js')), () => (Date.now() - t0) / 1000); Object.assign(me.mover.H, { x: me.x, y: me.y, stamina: me.stamina }); }
     const Hm = me.mover.H;
     while (me.route.length && Math.hypot(me.route[0].x - me.x, me.route[0].y - me.y) < 20) me.route.shift();
     let ix = 0, iy = 0; if (!hid && me.route.length) { ix = me.route[0].x - me.x; iy = me.route[0].y - me.y; }

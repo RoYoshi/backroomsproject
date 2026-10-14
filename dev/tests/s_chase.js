@@ -3,7 +3,7 @@
 'use strict';
 const { World, DT, dist, geo, rate, avg, pick } = require('./lib.js');
 const E = require('./escape_bench.js');
-const W = require(require('../paths.js') + '/world.js');
+const W = require(require('../tools/layout.js').at('world.js'));
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const TAU = Math.PI * 2;
 

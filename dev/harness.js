@@ -1,10 +1,11 @@
 /* Scenario harness: drives the real server simulation (sim.js + ai.js) with scripted players, headless and deterministic.
  * Players move with the game's own move.js (see move_model.js for what is and is not the real client). */
 'use strict';
+const LAYOUT = require('./tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const GAME = require('./paths.js');
-const createSim = require(GAME + '/sim.js');
-const WORLD = require(GAME + '/world.js');
-const AI = require(GAME + '/ai.js');
+const createSim = require(LAYOUT.at('sim.js'));
+const WORLD = require(LAYOUT.at('world.js'));
+const AI = require(LAYOUT.at('ai.js'));
 const { makeMover } = require('./move_model.js');
 const DT = 1 / 60;
 const SP = { stand: 0, walk: 172, run: 285, crouch: 92, crawl: 54, slide: 230 }, ST = { stand: 0, walk: 1, run: 2, crouch: 3, crawl: 4, slide: 5, vault: 6, down: 7 };

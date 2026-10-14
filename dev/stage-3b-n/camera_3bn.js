@@ -18,7 +18,7 @@ const { spawn, execSync } = require('child_process'); const fs = require('fs'), 
 const H = require('../shadows/harness_lib.js'); const { sleep, frames } = H;
 const argv = process.argv.slice(2), opt = k => { const i = argv.indexOf('--' + k); return i >= 0 ? argv[i + 1] : null; };
 const GAME = path.resolve(opt('game') || '.'), PORT = +(opt('port') || 9471), OUT = opt('out');
-const policy = require(path.join(GAME, 'camera_policy.js'));
+const policy = require(require('../tools/layout.js').forTree(GAME).at('camera_policy.js'));
 const fetch1 = p => new Promise(r => http.get({ host: '127.0.0.1', port: PORT, path: p }, q => { let b = ''; q.on('data', d => b += d); q.on('end', () => r({ code: q.statusCode, body: b })); }).on('error', () => r({ code: 0, body: '' })));
 const results = []; const check = (name, ok, note) => { results.push({ name, ok: !!ok, note }); console.log((ok ? 'PASS ' : 'FAIL ') + name + (note ? '   ' + note : '')); };
 /* label, css width, css height, DPR  (CAMERA_FINAL_LOCK: 1920x1080 DPR1 / DPR2, 3840x2160, 16:10, 3440x1440, portrait) */
@@ -36,7 +36,7 @@ const dead = () => !!((__api.death && __api.death() && __api.death().active) || 
   try {
     const cam = await fetch1('/camera_policy.js'), tim = await fetch1('/timing_policy.js');
     const priv = {}; for (const f of ['/server.js', '/sim.js', '/ai.js', '/death_srv.js', '/package.json', '/dev/stage-3b/smoke_3b.js']) priv[f] = (await fetch1(f)).code;
-    const camOk = cam.code === 200 && cam.body === fs.readFileSync(path.join(GAME, 'camera_policy.js'), 'utf8'), timOk = tim.code === 200 && tim.body === fs.readFileSync(path.join(GAME, 'timing_policy.js'), 'utf8');
+    const camOk = cam.code === 200 && cam.body === fs.readFileSync(require('../tools/layout.js').forTree(GAME).at('camera_policy.js'), 'utf8'), timOk = tim.code === 200 && tim.body === fs.readFileSync(require('../tools/layout.js').forTree(GAME).at('timing_policy.js'), 'utf8');
     check('C01 the server serves camera_policy.js and timing_policy.js byte for byte, and still refuses server-only files', camOk && timOk && Object.values(priv).every(c => c === 404),
       `camera_policy.js ${cam.code}${camOk ? ' (exact)' : ''}, timing_policy.js ${tim.code}${timOk ? ' (exact)' : ''}; ${Object.entries(priv).map(([f, c]) => f + ' ' + c).join(', ')}`);
     const browser = await H.pw.chromium.launch({ args: H.ARGS }); const kinds = new Set();

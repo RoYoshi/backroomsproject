@@ -13,7 +13,7 @@ Development only. Nothing here is served or loaded by the game.
 | `FINDINGS.md` | This stage's findings (`M-…`) |
 | `inventory/` | Machine-made inventories at the parent: root, tracked files, page boot order, requires, generators, bundle, path consumers, `ROOT_ARCHIVE_PLAN.csv`, remote heads |
 | `evidence/` | What the checkpoints' commands produced, one folder per checkpoint; `remote/` holds the push receipts |
-| `tools/` | This stage's own tools: `m0_inventory.js` (the inventories), `verify_remote_m.py` (the push check), `m1_relocate.js` (the H3M-1 move: `--dry-run`, `--apply`, `--verify`), `recovery_verify.py` (authenticates the recovery archive, read-only), `lineage_derive.js` (derives the client lineage), `api_contract.js` (the `__api` contract), `lineage_doc.js` (the lineage's generated pages) |
+| `tools/` | This stage's own tools: `m0_inventory.js` (the inventories), `verify_remote_m.py` (the push check), `m1_relocate.js` (the H3M-1 move: `--dry-run`, `--apply`, `--verify`), `m1_copies_equivalence.js` (the gate's layout-aware copies against their originals, on the frozen layout), `m1_perf_paired.js` (is a perf-step failure a slowdown or noise? M-021), `recovery_verify.py` (authenticates the recovery archive, read-only), `lineage_derive.js` (derives the client lineage), `api_contract.js` (the `__api` contract), `lineage_doc.js` (the lineage's generated pages), `secret_scan_m.py` (the pre-commit secret scan) |
 
 Lasting development tools (the build, the checks, the gate, the layout map) live in `dev/tools/`. The developer documentation lives
 in `docs/`.

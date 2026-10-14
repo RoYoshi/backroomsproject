@@ -1,0 +1,161 @@
+{
+ "sides": [
+  "A",
+  "B"
+ ],
+ "rounds": 9,
+ "res": {
+  "A": [
+   {
+    "cpuUserMs": 1450.937,
+    "cpuSysMs": 98.064,
+    "wallMs": 991.176516,
+    "heapUsedMB": 46.23,
+    "rssMB": 144.76
+   },
+   {
+    "cpuUserMs": 1590.448,
+    "cpuSysMs": 117.837,
+    "wallMs": 1099.705213,
+    "heapUsedMB": 44.76,
+    "rssMB": 141.82
+   },
+   {
+    "cpuUserMs": 1472.525,
+    "cpuSysMs": 101.106,
+    "wallMs": 1062.167796,
+    "heapUsedMB": 38.87,
+    "rssMB": 149.08
+   },
+   {
+    "cpuUserMs": 1785.23,
+    "cpuSysMs": 136.352,
+    "wallMs": 1235.868828,
+    "heapUsedMB": 43.81,
+    "rssMB": 164.86
+   },
+   {
+    "cpuUserMs": 1854.116,
+    "cpuSysMs": 111.052,
+    "wallMs": 1278.493172,
+    "heapUsedMB": 39.05,
+    "rssMB": 138.09
+   },
+   {
+    "cpuUserMs": 1493.689,
+    "cpuSysMs": 114.351,
+    "wallMs": 1119.432026,
+    "heapUsedMB": 39.52,
+    "rssMB": 156.29
+   },
+   {
+    "cpuUserMs": 1410.698,
+    "cpuSysMs": 60.605,
+    "wallMs": 1071.665692,
+    "heapUsedMB": 44.94,
+    "rssMB": 146.52
+   },
+   {
+    "cpuUserMs": 1447.783,
+    "cpuSysMs": 78.06,
+    "wallMs": 1036.315339,
+    "heapUsedMB": 46.29,
+    "rssMB": 147.67
+   },
+   {
+    "cpuUserMs": 1968.838,
+    "cpuSysMs": 124.113,
+    "wallMs": 1418.461153,
+    "heapUsedMB": 44.01,
+    "rssMB": 139.34
+   }
+  ],
+  "B": [
+   {
+    "cpuUserMs": 1616.928,
+    "cpuSysMs": 131.821,
+    "wallMs": 1196.584664,
+    "heapUsedMB": 40.76,
+    "rssMB": 136.35
+   },
+   {
+    "cpuUserMs": 1505.238,
+    "cpuSysMs": 90.843,
+    "wallMs": 1056.126844,
+    "heapUsedMB": 40.7,
+    "rssMB": 147.73
+   },
+   {
+    "cpuUserMs": 1567.674,
+    "cpuSysMs": 100.708,
+    "wallMs": 1101.903475,
+    "heapUsedMB": 45.25,
+    "rssMB": 143.47
+   },
+   {
+    "cpuUserMs": 1749.6,
+    "cpuSysMs": 161.337,
+    "wallMs": 1242.085399,
+    "heapUsedMB": 40.36,
+    "rssMB": 148.43
+   },
+   {
+    "cpuUserMs": 1485.201,
+    "cpuSysMs": 114.3,
+    "wallMs": 1017.302757,
+    "heapUsedMB": 45.05,
+    "rssMB": 158.09
+   },
+   {
+    "cpuUserMs": 1646.342,
+    "cpuSysMs": 132.829,
+    "wallMs": 1161.022002,
+    "heapUsedMB": 41.76,
+    "rssMB": 154.29
+   },
+   {
+    "cpuUserMs": 1623.866,
+    "cpuSysMs": 109.869,
+    "wallMs": 1109.662914,
+    "heapUsedMB": 41.72,
+    "rssMB": 137.91
+   },
+   {
+    "cpuUserMs": 1764.204,
+    "cpuSysMs": 87.359,
+    "wallMs": 1243.426101,
+    "heapUsedMB": 43.5,
+    "rssMB": 149.6
+   },
+   {
+    "cpuUserMs": 1728.916,
+    "cpuSysMs": 108.554,
+    "wallMs": 1241.686027,
+    "heapUsedMB": 43.63,
+    "rssMB": 137.95
+   }
+  ]
+ },
+ "sum": {
+  "A": {
+   "cpuMed": 1608,
+   "cpuMin": 1471.3,
+   "cpuMax": 2093,
+   "userMed": 1493.7,
+   "sysMed": 111.1,
+   "wallMed": 1099.7,
+   "heapMed": 44.01,
+   "rssMed": 146.52
+  },
+  "B": {
+   "cpuMed": 1748.7,
+   "cpuMin": 1596.1,
+   "cpuMax": 1910.9,
+   "userMed": 1623.9,
+   "sysMed": 109.9,
+   "wallMed": 1161,
+   "heapMed": 41.76,
+   "rssMed": 147.73
+  }
+ }
+}

@@ -1,10 +1,11 @@
 /* Part 1 audit remediation - the parts that live in the simulation (the wire-level ones are in audit_net.js).
  *   node dev/tests/run.js s_audit.js */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const { World, DT, LONG } = require('./lib.js');
 const GAME = require('../paths.js');
-const SPECIES = require(GAME + '/ai.js').SPECIES;
+const SPECIES = require(LAYOUT.at('ai.js')).SPECIES;
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const X0 = 5000, Y0 = LONG.y;
 
@@ -51,7 +52,7 @@ add('L5 movement check: open floor and short hops pass; through a wall does not;
   let wall = null; for (let y = 600; y < 6600 && !wall; y += 96) for (let x = 600; x < 8900 && !wall; x += 96) for (let k = 110; k <= 250 && !wall; k += 20) if (sim.clearAt(x, y, 22) && sim.clearAt(x, y - k, 22) && !sim.moveOk(x, y, x, y - k, 700)) wall = [x, y, x, y - k];
   const inWall = sim.moveOk(X0, Y0, X0, Y0 - 3000, 1e5);
   // table / wall hole / vault props are passable for the check (the client's own movement deals with them)
-  const W = require(GAME + '/world.js'), c = W.CRAWL.find(q => q.type === 'gap'), x0 = c.exits[0], x1 = c.exits[1], hole = sim.moveOk(x0.x, x0.y, x1.x, x1.y, 500);
+  const W = require(LAYOUT.at('world.js')), c = W.CRAWL.find(q => q.type === 'gap'), x0 = c.exits[0], x1 = c.exits[1], hole = sim.moveOk(x0.x, x0.y, x1.x, x1.y, 500);
   return { ok: open && longOk && !!wall && !inWall && hole, note: `40 px on open floor ${open}; 400 px down the corridor ${longOk}; across a wall with no way round ${wall ? 'refused' : 'NOT FOUND'}; into solid rock ${inWall}; through wall hole ${c.id} ${hole}` };
 });
 add('L6 the death plan numbers are one table: the bundle\'s death class and the server fallback read the same knock / drag / blows as v22 did', () => {
@@ -61,12 +62,12 @@ add('L6 the death plan numbers are one table: the bundle\'s death class and the 
     if (kind === 'Hound') { if (v === 'A') { P.kn = 46; P.dr = 40; P.hits = [.2, .62, 1.05, 1.55]; P.spin = 1.9; } else if (v === 'B') { P.kn = 12; P.dr = 140; P.hits = [.3, .85, 1.5, 2.1]; P.dw = [.9, 2.2]; P.spin = 1.2; } else if (v === 'C') { P.kn = clamp(wd - 17, 0, 110); P.dr = 0; P.kt = [.04, .2]; P.hits = [.2, .21, .8, 1.4]; P.spin = 2.2; } else { P.kn = 24; P.dr = 26; P.hits = [.45, .95, 1.55]; P.spin = .3; P.squish = 1.9; } }
     else { if (v === 'B') { P.kn = 0; P.dr = 0; P.hits = [.7, 1.2, 1.7]; P.spin = 1.4; } else if (v === 'C') { P.kn = 18; P.dr = 36; P.hits = [.55, 1.1, 1.6]; } else if (v === 'D') { P.kn = 26; P.dr = 70; P.hits = [.6, 1.2, 1.8]; P.dw = [1.6, 3.0]; } }
     return P; };
-  const win = {}; vm.runInNewContext(fs.readFileSync(path.join(GAME, 'dphys.js'), 'utf8'), { window: win, Math, console });
+  const win = {}; vm.runInNewContext(fs.readFileSync(LAYOUT.at('dphys.js'), 'utf8'), { window: win, Math, console });
   let diff = 0, n = 0; for (const k of ['Hound', 'Smiler']) for (const v of ['A', 'B', 'C', 'D']) for (const wd of [10, 40, 90, 200]) { n++; const a = OLD(k, v, wd), b = win.__dphys.PLAN(k, v, wd); for (const f of ['kn', 'dr', 'hits', 'kt', 'dw', 'spin', 'squish']) if (JSON.stringify(a[f]) !== JSON.stringify(b[f])) diff++; }
   return { ok: diff === 0 && n === 32, note: `${n} kind / variant / wall-distance combinations, ${diff} differing values` };
 });
 add('L7 the server fallback corpse is the physical death run to rest: deterministic, on open floor, gear and hands present', () => {
-  const D = require(GAME + '/death_srv.js'), w = World(5), sim = w.sim, out = [];
+  const D = require(LAYOUT.at('death_srv.js')), w = World(5), sim = w.sim, out = [];
   for (const v of ['A', 'B', 'C', 'D']) for (const k of ['Hound', 'Smiler']) {
     const kill = { k, v, x: X0, y: Y0, a: 0, ax: X0 - 40, ay: Y0, w: 0 }, info = { name: 'T', look: 'cap|plain|#e6bb76|#ffcc77|none', ek: 'flashlight', ec: '#ffe7b2', ep: '', vx: 120, vy: 0, ex: 0, light: true };
     const a = D.bodyFor(7, kill, info, sim).body, b = D.bodyFor(7, kill, info, sim).body;

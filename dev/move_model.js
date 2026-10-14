@@ -13,9 +13,10 @@
  *  - timing is a fixed 1/60 s step with no frame-rate jitter and no network delay (live_chase.js covers the network path).
  */
 'use strict';
+const LAYOUT = require('./tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const fs = require('fs'), path = require('path'), vm = require('vm');
 const GAME = require('./paths.js');
-const SRC = new vm.Script(fs.readFileSync(path.join(GAME, 'move.js'), 'utf8'), { filename: 'move.js' });
+const SRC = new vm.Script(fs.readFileSync(LAYOUT.at('move.js'), 'utf8'), { filename: 'move.js' });
 
 /* sim: a sim.js instance (for the level geometry).  Returns a mover for one player. */
 function makeMover(sim, WORLD, clock) {

@@ -4,8 +4,9 @@
  *
  * Stage 3B final polish, Phase A (camera correction only); the browser check is camera_3bn.js. */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const { spawn, execSync } = require('child_process'); const fs = require('fs'), path = require('path'), http = require('http');
-const ROOT = path.join(__dirname, '..', '..'), read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
+const ROOT = path.join(__dirname, '..', '..'), read = f => fs.readFileSync(LAYOUT.at(f), 'utf8');
 const argv = process.argv.slice(2), ONLY = argv.includes('--only') ? argv[argv.indexOf('--only') + 1].split(',') : null;
 const results = []; const check = (name, ok, note) => { results.push({ name, ok: !!ok }); console.log((ok ? 'PASS ' : 'FAIL ') + name + (note ? '   ' + note : '')); };
 const sections = [];
@@ -35,7 +36,7 @@ section('N1', async () => {
   const order = [...read('index.html').matchAll(/<script[^>]*src="([^"]+)"/g)].map(m => m[1]);
   check('N1-4 the bundle reads both policies at start-up, and index.html loads them before the bundle (classic scripts run before the deferred module)', usesCam && usesTim && order.indexOf('./camera_policy.js') < order.indexOf('./assets/index-DKbV5Nv9.js') && order.indexOf('./timing_policy.js') < order.indexOf('./assets/index-DKbV5Nv9.js'),
     `camera hook ${usesCam}, timing hook ${usesTim}, order ${order.slice(0, 3).join(' ')}`);
-  const pol = require(path.join(ROOT, 'camera_policy.js')), bad = [];
+  const pol = require(LAYOUT.at('camera_policy.js')), bad = [];
   for (const [w, h] of [[1920, 1080], [1280, 720], [2560, 1440], [3840, 2160], [1920, 1200], [1600, 1200], [2560, 1080], [3440, 1440], [5120, 1440], [1080, 1920], [390, 844], [844, 390]]) {
     const v = pol.visibleWorld(w, h); if (v.width > pol.MAX_WORLD_WIDTH + 1e-6 || v.height > pol.MAX_WORLD_HEIGHT + 1e-6) bad.push(w + 'x' + h); }
   check('N1-5 the policy never shows more than the canonical 1536 x 864 world at any CSS size (DPR is not an input)', !bad.length, bad.length ? 'exceeds: ' + bad.join(', ') : '12 viewports including 32:9, portrait and phones');

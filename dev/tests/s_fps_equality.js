@@ -1,4 +1,5 @@
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 /* Part 2 FPS equality regression.
  * Same inputs + same elapsed real time must produce the same fixed 60 Hz
  * gameplay trace independent of render FPS. This test deliberately drives the
@@ -7,15 +8,15 @@
 const assert = require('assert');
 const path = require('path');
 const GAME = require('../paths');
-const timing = require(path.join(GAME, 'timing_policy.js'));
+const timing = require(LAYOUT.at('timing_policy.js'));
 const { World, WORLD } = require('../harness');
 const { makeMover } = require('../move_model');
 const fs = require('fs');
 
 // Verify the shipped browser loop is actually wired to the policy under test.
 {
-  const html = fs.readFileSync(path.join(GAME, 'index.html'), 'utf8');
-  const bundle = fs.readFileSync(path.join(GAME, 'assets/index-DKbV5Nv9.js'), 'utf8');
+  const html = fs.readFileSync(LAYOUT.at('index.html'), 'utf8');
+  const bundle = fs.readFileSync(LAYOUT.at('assets/index-DKbV5Nv9.js'), 'utf8');
   assert(html.indexOf('./timing_policy.js') >= 0 && html.indexOf('./timing_policy.js') < html.indexOf('./assets/index-DKbV5Nv9.js'), 'timing policy must load before the game module');
   assert(bundle.includes('__tm.frameDelta(e,su)'), 'shipped render loop must use timing_policy frameDelta');
   assert(bundle.includes('__tm.FIXED_DT') && bundle.includes('__tm.MAX_CATCHUP_STEPS'), 'shipped gameplay loop must use fixed-step policy constants');

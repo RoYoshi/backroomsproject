@@ -16,7 +16,7 @@ let PTS = null;
 const ENG = new Set(['HUNTING', 'STALKING']);
 function farTarget(w, p, from, i) { const P = PTS || (PTS = floorPts()); let best = null, bs = -1; for (let k = 0; k < 60; k++) { const q = P[(i * 131 + k * 977) % P.length], d = Math.hypot(q.x - p.x, q.y - p.y), away = Math.hypot(q.x - from.x, q.y - from.y) - d; if (d > 1800 && d < 3600 && away > bs) { const r = w.eng.geo.path(p.x, p.y, q.x, q.y, { CAN_VAULT: false }); if (r) { bs = away; best = q; } } } return best; }
 function seenBy(w, h, p) { return w.eng.geo.los(h.x, h.y, p.x, p.y) && Math.hypot(h.x - p.x, h.y - p.y) < 900; }       // the player can see the hound on screen: in line of sight, close
-function crawlTarget(w, p) { const W0 = require(require('../paths.js') + '/world.js'); let best = null, bd = 1e9; for (const z of W0.PROPS.filter(q => q.type === 'gap' || q.type === 'under')) { const d = Math.hypot(z.cx - p.x, z.cy - p.y); if (d < bd) { bd = d; best = z; } } return best; }
+function crawlTarget(w, p) { const W0 = require(require('../tools/layout.js').at('world.js')); let best = null, bd = 1e9; for (const z of W0.PROPS.filter(q => q.type === 'gap' || q.type === 'under')) { const d = Math.hypot(z.cx - p.x, z.cy - p.y); if (d < bd) { bd = d; best = z; } } return best; }
 
 function run(strategy, i, opt = {}) {
   const P = PTS || (PTS = floorPts()), a = P[(i * 7919 + 13) % P.length];
@@ -29,7 +29,7 @@ function run(strategy, i, opt = {}) {
   h.x = h.spawn.x; h.y = h.spawn.y; h.speed = 0; h.path = []; h.goal = null; h.goalKey = ''; h.pathAge = 99; h.lunge = null; h.recover = 0; h.act = ''; // 2E: restore the documented start distance after perception warm-up
   h.state = 'HUNTING'; h.target = p.id; h.chaseBlind = 0; h.huntStart = w.eng.now; p.lastH = { x: h.x, y: h.y }; if (opt.light === false) p.light = false;   // spotted with the torch on; it goes off as the chase starts
   const tgt = strategy === 'crawl' ? crawlTarget(w, p) : farTarget(w, p, h, i); if (!tgt) return null;
-  if (strategy === 'crawl') { const W0 = require(require('../paths.js') + '/world.js'), cz = W0.CRAWL.find(c => c.id === tgt.id); let ex = null, bd = 1e9; for (const x of cz.exits) { const d = Math.hypot(x.x - p.x, x.y - p.y); if (d < bd && w.ad.clear(x.x, x.y, 16, 'walk')) { bd = d; ex = x; } } if (!ex || !p.pathTo(ex.x, ex.y, 'run')) return null; p.crawlTo = { x: cz.cx, y: cz.cy }; }
+  if (strategy === 'crawl') { const W0 = require(require('../tools/layout.js').at('world.js')), cz = W0.CRAWL.find(c => c.id === tgt.id); let ex = null, bd = 1e9; for (const x of cz.exits) { const d = Math.hypot(x.x - p.x, x.y - p.y); if (d < bd && w.ad.clear(x.x, x.y, 16, 'walk')) { bd = d; ex = x; } } if (!ex || !p.pathTo(ex.x, ex.y, 'run')) return null; p.crawlTo = { x: cz.cx, y: cz.cy }; }
   else p.pathTo(tgt.x, tgt.y, 'run');
   let t = 0, caught = false, lost = -1, out = 0, broke = -1, hid = false, notEng = 0, maxGap = 0;
   const lim = opt.lim || 90;

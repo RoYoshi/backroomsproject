@@ -1,7 +1,7 @@
 /* SYSTEM scenarios: level of detail, performance, snapshot size, stuck entities, turning / snapping, wall clipping, determinism, caps, bodies */
 'use strict';
 const { World, DT, dist, LONG, geo, over, rate, avg, stateNames, WORLD, TAU, pick, tracker, floorNear } = require('./lib.js');
-const createSim = require(require('../paths.js') + '/sim.js');
+const createSim = require(require('../tools/layout.js').at('sim.js'));
 const S = []; const add = (name, fn) => S.push({ name, fn });
 const angD = (a, b) => { let d = (a - b) % TAU; if (d > Math.PI) d -= TAU; else if (d < -Math.PI) d += TAU; return d; };
 

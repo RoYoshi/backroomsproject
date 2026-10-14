@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
+    "build": "node dev/tools/build/build.js",
+    "build:check": "node dev/tools/build/build.js --check",
+    "gate": "node dev/tools/gate/gate.js --tier fast",
+    "gate:full": "node dev/tools/gate/gate.js --tier full",
     "test": "node dev/tests/run.js",
     "test:hound": "node dev/tests/run.js s_hound2e.js",
     "test:shared": "node dev/tests/run.js s_shared2f.js",

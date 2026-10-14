@@ -1,12 +1,13 @@
 /* Snapshot interpolation (Part 1B): the real client code (mp.js: NET / netHist / netPose, extracted verbatim) against a simulated server stream,
  * compared with the previous client behaviour (chase the newest snapshot with an exponential ease).   node tests/interp_test.js */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const fs = require('fs'), path = require('path');
 /* Stage 3H0 H0-3: the interpolation moved, unchanged, from mp.js to assets/net-interp.js.  The test reads it from there when that file
  * exists (else from mp.js, as before) and cuts either text at the same code: from `const NET = {` to the line that publishes it. */
-const GAME = require('../paths.js'), MOD = path.join(GAME, 'assets', 'net-interp.js');
+const GAME = require('../paths.js'), MOD = LAYOUT.at('assets/net-interp.js');
 const cut = code => { const a = code.indexOf('const NET = {'); let b = code.indexOf('window.__netPose'); if (b < a) b = code.indexOf('(window.__mpLib'); return a >= 0 && b > a ? code.slice(a, b) : null; };
-const src = fs.readFileSync(fs.existsSync(MOD) ? MOD : path.join(GAME, 'mp.js'), 'utf8');
+const src = fs.readFileSync(fs.existsSync(MOD) ? MOD : LAYOUT.at('mp.js'), 'utf8');
 if (!cut(src)) { console.log('FAIL: interpolation code not found in ' + (fs.existsSync(MOD) ? 'assets/net-interp.js' : 'mp.js')); process.exit(1); }
 let NOW = 0; const performance = { now: () => NOW }, window = {};
 const mod = new Function('performance', 'window', cut(src) + '\nreturn { NET, netHist, netPose };')(performance, window);

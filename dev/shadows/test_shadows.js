@@ -9,9 +9,10 @@
  *   - a recording mock of the few Pixi classes the module reaches (Container, Graphics, Texture).
  * Nothing here changes any game file. */
 'use strict';
+const LAYOUT = require('../tools/layout.js');   // (Stage 3H modernization) the runtime files where the layout puts them
 const fs = require('fs'), path = require('path'), vm = require('vm'), assert = require('assert');
 const ROOT = path.join(__dirname, '..', '..');
-const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
+const read = f => fs.readFileSync(LAYOUT.at(f), 'utf8');
 const results = []; let cur = '';
 const check = (name, ok, note) => { results.push({ name, ok: !!ok }); console.log((ok ? 'PASS ' : 'FAIL ') + name + (note ? '   ' + note : '')); };
 
@@ -39,7 +40,7 @@ function makeGame() {
   const B = read('assets/index-DKbV5Nv9.js');
   const cut = (a, b) => { const i = B.indexOf(a), j = B.indexOf(b, i); assert(i >= 0 && j > i, 'bundle marker missing: ' + a); return B.slice(i, j); };
   const mapSrc = cut('var FBW=96', 'var Wc={kind:'), lightSrc = cut('var Gc={flashlight', 'function Jc(');
-  const WORLD = require(path.join(ROOT, 'world.js'));
+  const WORLD = require(LAYOUT.at('world.js'));
   const ctx = vm.createContext({ window: { WORLD }, Math, Uint8Array, Set, Object, Array, Number, console });
   vm.runInContext(mapSrc + ';\n' + lightSrc + ';\nthis.__x={FBW,FBH,kc,zc,Hc,Uc,Bc,Fc,Pc,Mc,Gc,qc,Ic,V};', ctx);
   return ctx.__x;
@@ -282,11 +283,11 @@ function checkPenumbrae(g, L, polys, corners, reach = Infinity) {
   return { n, apex, back, dark, long, far: +far.toFixed(1) };
 }
 function settleLamps(p, n = 30) { for (let i = 0; i < n; i++) p.frame(1 / 60); }
-const propL1 = () => require(path.join(ROOT, 'world.js')).PROPS.find(p => p.id === 'L1');
+const propL1 = () => require(LAYOUT.at('world.js')).PROPS.find(p => p.id === 'L1');
 
 run('C01 lamp shadows of props fall away from the lamp (every prop-shadow polygon centroid is on the far side of the prop)', () => {
   // the toppled shelf L2 has two ceiling lamps within range and in line of sight (lamps #17 and #18 on the real map)
-  const p = makePage({ lightOn: false }), pr = require(path.join(ROOT, 'world.js')).PROPS.find(p => p.id === 'L2'), r = pr.rect, cx = r.x + r.w / 2, cy = r.y + r.h / 2;
+  const p = makePage({ lightOn: false }), pr = require(LAYOUT.at('world.js')).PROPS.find(p => p.id === 'L2'), r = pr.rect, cx = r.x + r.w / 2, cy = r.y + r.h / 2;
   at(p, cx, cy + 150); settleLamps(p);
   const lamps = lampLayer(p).children.filter(g => g.visible), out = [];
   for (const g of lamps) {
@@ -382,7 +383,7 @@ run('C11 LOW / MEDIUM / HIGH: fidelity grows with the tier (lamps, samples, penu
   return { ok, note: JSON.stringify(res) };
 });
 run('C12 baked prop shadows are detected: a prop lit from the side of its baked drop shadow gets a thinner dynamic shadow', () => {
-  const W = require(path.join(ROOT, 'world.js')), pr = W.PROPS.find(p => p.id === 'L1'), r = pr.rect, cx = r.x + r.w / 2, cy = r.y + r.h / 2;
+  const W = require(LAYOUT.at('world.js')), pr = W.PROPS.find(p => p.id === 'L1'), r = pr.rect, cx = r.x + r.w / 2, cy = r.y + r.h / 2;
   const sum = (lx, ly) => { const p = makePage(); at(p, lx, ly, Math.atan2(cy - ly, cx - lx)); p.win.__ents.lamp = () => 0; p.frame(1 / 60); p.frame(1 / 60);
     return dynLayer(p).polys.reduce((s, q) => s + effAlpha(q, ...centroid(q)), 0); };
   const fromNW = sum(cx - 70, cy - 90), fromSE = sum(cx + 70, cy + 90);      // the art's baked shadow points down-right (south-east)
@@ -463,7 +464,7 @@ const ovLamp = (p0, d) => { const f = d <= 6 ? 1 : d <= 193 ? 1 - .65 * (d - 6) 
 run('C17 light textures are the overlay\'s own light (sat-mapped): the lamp gradient, each equipment\'s glow + nested arcs, placed at the light and turned with the aim', () => {
   const res = {}; let worst = 0;
   /* lamps: a lamp's prop shadow fill, sampled around the lamp */
-  const p = makePage({ lightOn: false }), L2 = require(path.join(ROOT, 'world.js')).PROPS.find(p => p.id === 'L2').rect; at(p, L2.x + L2.w / 2, L2.y + 150); settleLamps(p);
+  const p = makePage({ lightOn: false }), L2 = require(LAYOUT.at('world.js')).PROPS.find(p => p.id === 'L2').rect; at(p, L2.x + L2.w / 2, L2.y + 150); settleLamps(p);
   const lg = lampLayer(p).children.find(g => g.visible && lampProps(p, g).length), lp = p.g.Fc[lampIdx(lg)], lf = lampProps(p, lg)[0].fill;
   for (const r of [0, 40, 100, 150, 200, 260, 320, 370, 420]) for (const a of [0, 1.3, 2.9, 4.4]) {
     const [cx, cy] = texelCentre(lf, lp.x + Math.cos(a) * r, lp.y + Math.sin(a) * r);
@@ -564,7 +565,7 @@ run('V03 quality changes softness and coverage, not darkness: the same flashligh
 });
 run('V04 lamp shadows are visible in an ordinary lit room: next to the toppled shelf the lamps take away 35-80 % of their light (restrained, never black)', () => {
   const p = makePage({ lightOn: false }); at(p, 3984, 3470, -Math.PI / 2); settleLamps(p, 40);
-  const W = require(path.join(ROOT, 'world.js')), r = W.PROPS.find(q => q.id === 'L2').rect, G = lampGroups(p);
+  const W = require(LAYOUT.at('world.js')), r = W.PROPS.find(q => q.id === 'L2').rect, G = lampGroups(p);
   let mx = 0, n = 0, sum = 0;
   for (let x = r.x - 60; x <= r.x + r.w + 60; x += 4) for (let y = r.y - 60; y <= r.y + r.h + 60; y += 4) { if (x > r.x && x < r.x + r.w && y > r.y && y < r.y + r.h) continue; const v = darkAt(G, x, y); if (v > .05) { n++; sum += v; } mx = Math.max(mx, v); }
   return { ok: mx >= .35 && mx <= CAP && n > 50, note: `strongest ${mx.toFixed(3)}, ${n} samples darker than 5 % (mean ${(sum / Math.max(1, n)).toFixed(3)}), ${G.length} lamps` };
@@ -586,7 +587,7 @@ run('V06 entity shadows are stronger but stay soft and partial: a hound lit by y
   return { ok: h && h.a >= .25 && h.a <= .5 && pl.every(e => e.a <= .45) && sh.length === 0, note: `hound ${h && h.a}, player ${JSON.stringify(pl.map(e => e.a))}, near the smiler ${sh.length}` };
 });
 run('V07 baked-shadow thinning still holds at the new strength: the counter lit from its baked side gets at most ~2/3 of the shadow it gets from the other side', () => {
-  const W = require(path.join(ROOT, 'world.js')), pr = W.PROPS.find(q => q.id === 'L1'), r = pr.rect, cx = r.x + r.w / 2, cy = r.y + r.h / 2;
+  const W = require(LAYOUT.at('world.js')), pr = W.PROPS.find(q => q.id === 'L1'), r = pr.rect, cx = r.x + r.w / 2, cy = r.y + r.h / 2;
   const sum = (lx, ly) => { const p = makePage(); at(p, lx, ly, Math.atan2(cy - ly, cx - lx)); p.win.__ents.lamp = () => 0; for (let i = 0; i < 30; i++) p.frame(1 / 60); return mass(dynLayer(p).polys); };
   const fromNW = sum(cx - 70, cy - 90), fromSE = sum(cx + 70, cy + 90);
   return { ok: fromSE > 0 && fromNW > 0 && fromNW < fromSE * .7, note: `shadow mass lit from the NW (onto the baked side) ${fromNW.toFixed(0)}, from the SE ${fromSE.toFixed(0)} (ratio ${(fromNW / fromSE).toFixed(2)})` };
@@ -673,7 +674,7 @@ run('X04 tier policy: OFF nothing; LOW cheap (fewest casters, 2 bands, one blob 
 });
 
 run('X05 a prop\'s shadows from two lights on the same side stack, never cancel: behind the counter, where both your beam and another wanderer\'s are blocked by it, HIGH stays at least as dark as your shadow alone; a lamp\'s prop shadow is not filled by your beam where the same prop shades you too', () => {
-  const W = require(path.join(ROOT, 'world.js')), r = W.PROPS.find(q => q.id === 'L1').rect, bx = r.x + r.w / 2, by = r.y - 40;     // just beyond the counter, seen from the south
+  const W = require(LAYOUT.at('world.js')), r = W.PROPS.find(q => q.id === 'L1').rect, bx = r.x + r.w / 2, by = r.y - 40;     // just beyond the counter, seen from the south
   const one = (q, peer) => { const p = makePage(); p.S.setQuality(q); p.win.__ents.lamp = () => 0; if (peer) p.win.__peerLights = [{ x: 1896, y: 3420, angle: -2.1, kind: 'flashlight', on: true }];
     at(p, 1776, 3460, -1.721); settleLamps(p, 40); return +darkAt([[dynLayer(p).polys, 1]], bx, by).toFixed(3); };
   const res = { mediumAlone: one('medium', false), mediumBoth: one('medium', true), highAlone: one('high', false), highBoth: one('high', true) };
