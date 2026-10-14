@@ -1,0 +1,4 @@
+import {nearby,spawn} from './world';
+import {DEFAULT_LIGHT} from './equipment';
+export const player={id:'local-wanderer',name:'Wanderer',equipment:{...DEFAULT_LIGHT},...spawn,vx:0,vy:0,angle:0,distance:0};
+export function step(dx:number,dy:number,sprint:boolean,dt:number){const length=Math.hypot(dx,dy);if(length>0){dx/=length;dy/=length;}const speed=sprint?290:175;const rate=1-Math.exp(-18*dt);player.vx+=(dx*speed-player.vx)*rate;player.vy+=(dy*speed-player.vy)*rate;const oldX=player.x,oldY=player.y;for(const axis of ['x','y'] as const){player[axis]+=player[axis==='x'?'vx':'vy']*dt;for(const r of nearby(player.x,player.y)){const cx=Math.max(r.x,Math.min(player.x,r.x+r.w)),cy=Math.max(r.y,Math.min(player.y,r.y+r.h));const ax=player.x-cx,ay=player.y-cy,dist=Math.hypot(ax,ay);if(dist<15){if(dist>0){player.x+=ax/dist*(15-dist);player.y+=ay/dist*(15-dist);}else player[axis]=axis==='x'?oldX:oldY;}}}player.distance+=Math.hypot(player.x-oldX,player.y-oldY);}

@@ -6,6 +6,8 @@
  * baselines (dev/stage-3h/evidence/h1/golden, h2/golden) and the same rule (a step passes only on its own positive evidence; a step that
  * compared nothing is a FAIL).  What differs:
  *   - build: dev/tools/build/build.js --check (every built output is what src/ builds; it replaces the three .sh builds);
+ *   - lineage (added at H3M-6): dev/tools/lineage/lineage.js verify and tree-id (the client lineage replays, blame.json is current, and
+ *     src/core/client/bundle/original-v11/ is the recovered v11 snapshot);
  *   - scope: dev/tools/gate/scope_m.js (every file outside dev/ is B++'s, moved where the layout says, or a declared change listed in
  *     dev/tools/gate/declared_changes.json; it replaces --allow-prod);
  *   - the harnesses that read runtime files by path are the layout-aware copies in dev/tools/gate/golden/ and checks/ (srv_harness,
@@ -15,7 +17,8 @@
  * The tools that never read a runtime file by path (protocol_v2, suites, static_check, live_wire_h2, place_replay, place_guard_check,
  * two_browser, col_browser, gameplay_smoke, contact_lab, compare_captures) are used where they are.
  *
- *   --tier fast   (default, a few minutes) build, scope, srv_golden, bpp_golden, cli_golden, protocol, mutants, static, raw_live, quick_suites
+ *   --tier fast   (default, a few minutes) build, lineage, scope, srv_golden, bpp_golden, cli_golden, protocol, mutants, static, raw_live,
+ *                 quick_suites
  *   --tier full   (the final candidate; about 40 minutes) the fast tier, then cli_mutants, live_wire, bpp_checks, browsers, contact_lab,
  *                 suites, perf
  * Everything is written under --out (default: a scratch folder): gate_report.json plus each tool's log and report.
@@ -84,6 +87,10 @@ function wtGame() {
 const STEPS = {
   build: () => { const r = run('build', ['node', 'dev/tools/build/build.js', '--check']); const m = /(\d+) outputs/.exec(r.text);
     return { ok: r.exit === 0 && /BUILD CHECK: PASS/.test(r.text), cases: m ? +m[1] : 0, note: (r.text.trim().split('\n').pop() || '').slice(0, 160), r }; },
+  lineage: () => {                                                        // (H3M-6) the bundle's lineage replays, blame.json is current, the v11 snapshot is authentic
+    const r = run('lineage', ['node', 'dev/tools/lineage/lineage.js', 'verify', '--out', o('lineage.json')]), t = run('lineage_tree', ['node', 'dev/tools/lineage/lineage.js', 'tree-id']), j = J(o('lineage.json'));
+    const n = j ? Object.values(j.files).reduce((a, f) => a + (f.replayed ? f.steps : 0), 0) : 0, proven = t.exit === 0 && /ORIGINAL V11 TREE: PROVEN/.test(t.text);
+    return { ok: r.exit === 0 && !!j && j.ok && proven, cases: n, note: `steps replayed (bundle, stylesheet, page); blame.json ${j ? j.blame : '?'}; the v11 snapshot's tree ${proven ? 'proven' : 'NOT PROVEN'}`, r }; },
   scope: () => { const r = run('scope', ['node', G('scope_m.js'), '--out', o('scope.json')]); const j = J(o('scope.json'));
     return { ok: r.exit === 0 && j && j.ok, cases: j ? j.counts.runtimeIdentical + j.counts.runtimeChanged + j.counts.runtimeAdded + j.counts.otherIdentical : 0, note: j ? `runtime changed (declared): ${Object.keys(j.runtime.changed).join(', ')}; added: ${Object.keys(j.runtime.added).join(', ')}` : '', r }; },
   srv_golden: () => { const r = run('srv_golden', ['node', G('golden', 'srv_golden.js'), '--old-ref', BPP, '--baseline', path.join(E1, 'srv_traces'), '--out', o('srv'), '--keep', o('srv_keep')]); const j = J(o('srv', 'srv_golden_report.json'));
@@ -177,7 +184,7 @@ const STEPS = {
 };
 const QUICK = ['s_humanqa_hotfix', 's_ir', 'interp_test', 'test_3bn', 'ir_net'];
 function suiteNote(j) { return Object.entries(j.suites).map(([n, x]) => `${n} ${x.summary ? x.summary.passed + '/' + x.summary.total : x.ran}${x.ok ? '' : ' FAIL'}`).join(', ') + ' (only the known B++ failures fail)'; }
-const FAST = ['build', 'scope', 'srv_golden', 'bpp_golden', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
+const FAST = ['build', 'lineage', 'scope', 'srv_golden', 'bpp_golden', 'cli_golden', 'protocol', 'mutants', 'static', 'raw_live', 'quick_suites'];
 const FULL = FAST.concat(['cli_mutants', 'live_wire', 'bpp_checks', 'browsers', 'contact_lab', 'suites', 'perf']);
 const steps = ARG.only ? ARG.only.split(',') : ARG.tier === 'full' ? FULL : FAST;
 const R = { tool: 'dev/tools/gate/gate.js', tier: ARG.tier, declared: 'dev/tools/gate/declared_changes.json', base: BPP, head: execFileSync('git', ['-C', REPO, 'rev-parse', 'HEAD']).toString().trim(), startedAt: new Date().toISOString(), out: OUT, steps: {}, ok: true };

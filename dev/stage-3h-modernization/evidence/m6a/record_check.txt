@@ -1,0 +1,15 @@
+ok   record with nothing changed records nothing
+ok   a hand edit of the bundle fails build:check
+ok   record bundle adds step B41 and rewrites blame.json
+ok   bundle: build.js writes the manifest
+ok   bundle: build.js --check passes
+ok   bundle: lineage.js verify passes (blame.json current)
+ok   bundle: the generated pages are written
+ok   bundle: the build gives the changed file again
+ok   record css adds step C09
+ok   css: build.js writes the manifest
+ok   css: build.js --check passes
+ok   css: lineage.js verify passes (blame.json current)
+ok   css: the generated pages are written
+ok   css: the build gives the changed file again
+RECORD: a recorded change is reproduced by the build and verified; a hand edit is refused

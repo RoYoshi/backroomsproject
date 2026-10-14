@@ -1,7 +1,11 @@
 # ADR-002: The compiled client bundle comes from the recovered TypeScript build plus a verified patch ledger
 
-- **Status:** accepted for Stage 3H. The lineage was recorded at checkpoint M1-R. The build integration lands in H3M-6. The TypeScript
-  port is PLANNED (not started).
+- **Status:** accepted for Stage 3H.
+  - The lineage was recorded at checkpoint M1-R.
+  - Decisions 1 to 3 were carried out at checkpoint M6a (H3M-6): `original-v11/` and its provenance, the replay recipes, the
+    `lineage` step of the gate, and `lineage.js record`. The served files did not change.
+  - The fresh `npm ci && npm run build` of decision 1 is NOT TESTED in this stage (no registry access, M-017).
+  - The TypeScript port is PLANNED (not started).
 - **Supersedes:** `PLAN.md` §6 as written at H3M-0 ("the compiled bundle has no source … a compatibility island").
 - **Evidence:**
   - `dev/stage-3h-modernization/SOURCE_RECOVERY_INTAKE.md`;

@@ -15,7 +15,8 @@ src/                  canonical, human-edited source
   build-recipes.json  every built output: its parts, in order
 public/               THE WEB ROOT, and the only folder the server serves:
                         - static files (index.html, media, CSS, the manifest);
-                        - the legacy compiled bundle and its PixiJS chunks (fixed bytes: a compatibility island);
+                        - the compiled bundle, its stylesheet and PixiJS chunks (built from the recovered v11 output and the
+                          lineage ledger since M6a; the post-v11 edits are a compatibility island with complete lineage);
                         - the scripts the build writes from src/.
 generated/server/     files the build assembles for the server (sim.js, ai.js, world.js, dphys.js); never served
 generated/BUILD_MANIFEST.json   every input and output with its SHA-256
@@ -57,7 +58,7 @@ differs from what the sources build.
 | H3M-1 layout | files move; four path strings change (the web root, the generated server files, `death_srv.js`'s path to `dphys.js`, the server's requires) | every output byte-identical to the parent's file; server and client goldens identical to the B++ baselines; every HTTP response identical to the parent's; negative paths 404; two real browsers |
 | H3M-2 server modules | `server.js` becomes a bootstrap; its code is regrouped by owner | server goldens byte-identical (traces, timers, sockets, console), protocol, mutants, live real-server checks, two real browsers |
 | H3M-3..5 parts | none: byte-identical outputs | `build:check` (bytes), the parts checker, a smoke run |
-| H3M-6 bundle (revised at M1-R, ADR-002) | none: the bundle and stylesheet become build outputs of the v11 output plus the lineage ledger, byte-identical | `lineage.js verify` (every step's hashes, the replayed files = the shipped ones), `build:check`, the recovered snapshot's blob and tree ids, the `__api` contract ledger |
+| H3M-6 bundle (revised at M1-R, ADR-002; done at M6a) | none: the bundle and stylesheet become build outputs of the v11 output plus the lineage ledger, byte-identical; the PixiJS chunks, copies of the v11 output | `lineage.js verify` (every step's hashes, the replayed files = the shipped ones), `build:check`, the recovered snapshot's blob and tree ids, the `__api` contract ledger |
 | H3M-7 archive and docs | none | hash ledger (before = after), reference audit, root listing |
 | H3M-8 final | none | the full gate against B++ and 3H2; clean-checkout build; package |
 
@@ -90,7 +91,7 @@ compatibility island with its `__api` ledger, and the final status was to be VER
 - **The source is authentic.** The v11 Vite + TypeScript project builds the original 304,183-byte bundle exactly.
 - **Every later edit is reconciled.** The shipped bundle is that output plus 40 in-place edits, and the stylesheet plus 8. Both are
   recorded in `src/core/client/bundle/lineage/` as a ledger that replays byte for byte.
-- **H3M-6 integration (after H3M-1 is gated).**
+- **H3M-6 integration (done at M6a, after H3M-1 was gated at M1).**
   - The v11 project goes in as an isolated, independently rebuildable input: `src/core/client/bundle/original-v11/`, without the
     hosting id file (M-018). It is never merged into the root `package.json`.
   - The bundle and the stylesheet become build outputs: the v11 output plus the ledger, byte-identical, checked by `build:check`.
@@ -99,7 +100,7 @@ compatibility island with its `__api` ledger, and the final status was to be VER
 - **No change to the production bundle,** in this stage or by this plan, without the P3 proof and the owner's Human QA.
 
 **The order of work after the resumption** (the owner's order of 2026-10-14):
-1. **M1-R.** This intake, the lineage, the contract and the revised plan, checkpointed.
-2. **H3M-1.** Finish the test and harness migration and the gate.
-3. **H3M-6.** The integration described above.
+1. **M1-R.** This intake, the lineage, the contract and the revised plan, checkpointed. Done.
+2. **H3M-1.** Finish the test and harness migration and the gate. Done at M1.
+3. **H3M-6.** The integration described above. Done at M6a.
 4. **H3M-2, H3M-3 to H3M-5, H3M-7, H3M-8,** as planned.

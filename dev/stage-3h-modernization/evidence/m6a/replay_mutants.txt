@@ -1,0 +1,12 @@
+ok   untouched        exit 0  BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds)
+ok   bundle_byte      exit 1  NOT BUILT: public/assets/index-DKbV5Nv9.js: differs from what its sources build | BUILD CHECK: FAIL (1 of 41)
+ok   stylesheet_byte  exit 1  NOT BUILT: public/assets/index-D7hdwmUU.css: differs from what its sources build | BUILD CHECK: FAIL (1 of 41)
+ok   pixi_chunk_byte  exit 1  NOT BUILT: public/assets/Cache-DDo62lBW.js: differs from what its sources build | BUILD CHECK: FAIL (1 of 41)
+ok   base_byte        exit 1  BUILD CHECK: FAIL (the sources do not build) | BUILD ERROR: public/assets/index-DKbV5Nv9.js: the replay's base src/core/client/bundle/original-v11/dist/assets/index-DKbV5Nv9.js is not the recorded file
+ok   step_text        exit 1  BUILD CHECK: FAIL (the sources do not build) | BUILD ERROR: public/assets/index-DKbV5Nv9.js: step B20 did not give the recorded bytes
+ok   step_offset      exit 1  BUILD CHECK: FAIL (the sources do not build) | BUILD ERROR: public/assets/index-DKbV5Nv9.js: step B05 did not give the recorded bytes
+ok   step_dropped     exit 1  BUILD CHECK: FAIL (the sources do not build) | BUILD ERROR: public/assets/index-DKbV5Nv9.js: step B12 was not made on the version before it
+ok   steps_swapped    exit 1  BUILD CHECK: FAIL (the sources do not build) | BUILD ERROR: public/assets/index-D7hdwmUU.css: step C04 was not made on the version before it
+ok   result_hash      exit 1  BUILD CHECK: FAIL (the sources do not build) | BUILD ERROR: public/assets/index-DKbV5Nv9.js: the replay did not end at the recorded result
+ok   wrong_chain      exit 1  BUILD CHECK: FAIL (the sources do not build) | BUILD ERROR: src/core/client/bundle/lineage/ledger.json: chain "css" is the record of public/assets/index-D7hdwmUU.css, not of public/assets/index-DKbV5Nv9.js
+REPLAY BUILD: the untouched copy builds; every tampering is refused

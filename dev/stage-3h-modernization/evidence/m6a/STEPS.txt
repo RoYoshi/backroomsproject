@@ -1,0 +1,41 @@
+# Stage 3H engine modernization, checkpoint M6a: H3M-6, the recovered v11 project integrated; the bundle built from it
+# $SP is the session's scratch folder. B++ = 143b63f; frozen 3H2 = 22751bb; M1 = 6356d53 (tree 8d00723). No served file changed:
+# public/ is identical to M1-R's and M1's; the build wrote only generated/BUILD_MANIFEST.json.
+
+## the snapshot, copied in (src/core/client/bundle/original-v11/, ORIGINAL_V11_PROVENANCE.json)
+  From the owner's recovery archive (9f4aeac3...), versions/site-v11-49743e94d6f0/: 45 files, byte for byte, without
+  .openai/hosting.json (the old hosting account's project id, M-018). Each file's Git blob id and SHA-256 equal the provenance record's.
+node dev/tools/lineage/lineage.js tree-id                                                                                   exit 0  (tree_id.txt)
+  45 files + 1 recorded omission: tree b80323b0ee9c9124453e2d0a62c5f894c8f41db7 = the v11 commit's tree. PROVEN
+  Cross-check with Git itself (scratch repository, the snapshot plus the omitted file from the archive): git write-tree gives
+  b80323b0ee9c9124453e2d0a62c5f894c8f41db7, and git hash-object of the omitted file gives its recorded blob dc10ebe0e646beea8b832df6ca64213cd790fc45.
+
+## the build (src/build-recipes.json: 13 recipes added, 40 in all; build_list.txt)
+  public/assets/index-DKbV5Nv9.js   replay of the ledger's bundle chain (the v11 output, then B01 to B40)
+  public/assets/index-D7hdwmUU.css  replay of the stylesheet chain (C01 to C08)
+  the 11 PixiJS chunks              the v11 output's own files (all 11 byte-identical to the shipped ones before this change)
+node dev/tools/build/build.js                                                        built 40 outputs (1 file written: the manifest; 40 already up to date)
+node dev/tools/build/build.js --check                                                exit 0  BUILD CHECK: PASS (build_check.txt)
+node dev/tools/lineage/lineage.js verify --out lineage_verify.json                   exit 0  83 of 83 steps replayed; the bundle and the stylesheet
+                                                                                             identical; blame.json is what the ledger gives
+node dev/stage-3h-modernization/tools/m6a_replay_mutants.js --work $SP/em2/work/m6a_mut     exit 0  (replay_mutants.json)
+  the untouched copy builds; each of 10 tamperings fails build:check: a byte of the bundle, the stylesheet or a PixiJS chunk; a byte of
+  the v11 base; a step's text or offset; a step dropped; two steps swapped; the recorded result; a recipe naming the wrong chain
+node dev/stage-3h-modernization/tools/m6a_record_check.js --work $SP/em2/work/m6a_rec      exit 0  (record_check.json)
+  on a copy: `record` with nothing changed records nothing; a hand edit fails build:check; `record bundle` adds B41 and rewrites
+  blame.json, then build, build:check, verify and the generated pages pass and the build gives the changed file; the same for the
+  stylesheet (C09)
+
+## the served files (http_probe.txt; node server.js with a synthetic passcode)
+  /assets/index-DKbV5Nv9.js, index-D7hdwmUU.css, Cache-DDo62lBW.js: 200, the bytes of public/ (bundle SHA-256 694bca01..., as at B++)
+  every path into the snapshot, the manifest and the recipes: 404; /assets/carpet.png is still the placeholder (M-013)
+
+## the fast gate (gate_fast/; 21:27-21:29 UTC; the new lineage step included)
+node dev/tools/gate/gate.js --tier fast --out $SP/em2/work/gate_m6a_fast                                                  exit 0  PASS
+  build 40 · lineage 83 steps (blame.json current; the snapshot's tree proven) · scope 193 (the same declared changes; 186 new source
+  paths) · srv_golden 11 · bpp_golden 7 · cli_golden 12 · protocol 52,740 + selftest · mutants 18 · static 4 · raw_live 173
+  · quick_suites 23 (only the known B++ failures fail)
+
+## not tested here
+  A fresh `npm ci && npm run build` of original-v11/ (in a copy): no npm registry access in this session (M-017). The evidence for the
+  v11 output is the recovery's own rebuild receipt (Node 24.19.0, npm 11.9.0, 17 of 17 dist files identical) and the byte identity above.

@@ -1,6 +1,48 @@
 {
- "note": "Every built output and its parts, in order (dev/tools/build/build.js). public/ is the web root; generated/server/ holds what the server loads that is assembled from parts. Parts are concatenated as they are, less a leading \"/** @part\" header.",
+ "note": "Every built output, in order (dev/tools/build/build.js). public/ is the web root; generated/server/ holds what the server loads that is assembled from parts. Most outputs list their parts: they are concatenated as they are, less a leading \"/** @part\" header. The compiled client bundle and its stylesheet are a replay of the client lineage ledger instead: the original v11 build output, then every recorded step (src/core/client/bundle/README.md). The PixiJS chunks are the v11 build output's own files, unchanged.",
  "outputs": [
+  {
+   "out": "public/assets/BufferResource-B-thlpip.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/BufferResource-B-thlpip.js"
+   ]
+  },
+  {
+   "out": "public/assets/Cache-DDo62lBW.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/Cache-DDo62lBW.js"
+   ]
+  },
+  {
+   "out": "public/assets/CanvasPool-DecUtJxW.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/CanvasPool-DecUtJxW.js"
+   ]
+  },
+  {
+   "out": "public/assets/Filter-DzecrWg_.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/Filter-DzecrWg_.js"
+   ]
+  },
+  {
+   "out": "public/assets/GCManagedHash-Bz2ZMBJN.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/GCManagedHash-Bz2ZMBJN.js"
+   ]
+  },
+  {
+   "out": "public/assets/GraphicsContext-vm7TDg_M.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/GraphicsContext-vm7TDg_M.js"
+   ]
+  },
+  {
+   "out": "public/assets/RenderTargetSystem-CgUxHIsn.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/RenderTargetSystem-CgUxHIsn.js"
+   ]
+  },
   {
    "out": "public/assets/br-role.js",
    "parts": [
@@ -8,9 +50,47 @@
    ]
   },
   {
+   "out": "public/assets/browserAll-B-iwy0YI.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/browserAll-B-iwy0YI.js"
+   ]
+  },
+  {
+   "out": "public/assets/canvasUtils-CxYPZET9.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/canvasUtils-CxYPZET9.js"
+   ]
+  },
+  {
    "out": "public/assets/credits_data.js",
    "parts": [
     "src/frameworks/front/client/credits_data.js"
+   ]
+  },
+  {
+   "out": "public/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/getTextureBatchBindGroup-DBCrgHVb.js"
+   ]
+  },
+  {
+   "out": "public/assets/index-D7hdwmUU.css",
+   "replay": {
+    "ledger": "src/core/client/bundle/lineage/ledger.json",
+    "chain": "css"
+   }
+  },
+  {
+   "out": "public/assets/index-DKbV5Nv9.js",
+   "replay": {
+    "ledger": "src/core/client/bundle/lineage/ledger.json",
+    "chain": "bundle"
+   }
+  },
+  {
+   "out": "public/assets/init-Cn1_BCi0.js",
+   "parts": [
+    "src/core/client/bundle/original-v11/dist/assets/init-Cn1_BCi0.js"
    ]
   },
   {

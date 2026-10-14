@@ -1,0 +1,76 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/m6a_record_check.js",
+ "checks": [
+  {
+   "name": "record with nothing changed records nothing",
+   "ok": true,
+   "said": "public/assets/index-DKbV5Nv9.js is what the ledger builds: nothing to record"
+  },
+  {
+   "name": "a hand edit of the bundle fails build:check",
+   "ok": true,
+   "said": "NOT BUILT: public/assets/index-DKbV5Nv9.js: differs from what its sources build | BUILD CHECK: FAIL (1 of 41)"
+  },
+  {
+   "name": "record bundle adds step B41 and rewrites blame.json",
+   "ok": true,
+   "said": "recorded B41 (1 hunks) for public/assets/index-DKbV5Nv9.js; blame.json rewritten. Next: npm run build (the manifest), npm run build:check, node dev/tools/lineage/lineage.js verify, and the generated pages (node dev/stage-3h-modernization/tools/lineage_doc.js)"
+  },
+  {
+   "name": "bundle: build.js writes the manifest",
+   "ok": true,
+   "said": "wrote generated/BUILD_MANIFEST.json | built 40 outputs (1 files written, 40 already up to date)"
+  },
+  {
+   "name": "bundle: build.js --check passes",
+   "ok": true,
+   "said": "BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds)"
+  },
+  {
+   "name": "bundle: lineage.js verify passes (blame.json current)",
+   "ok": true,
+   "said": "PASS blame: blame.json is what the ledger gives | LINEAGE: PASS"
+  },
+  {
+   "name": "bundle: the generated pages are written",
+   "ok": true,
+   "said": "wrote src/core/client/bundle/lineage/STEPS.md and src/core/client/bundle/API_CONTRACT.md"
+  },
+  {
+   "name": "bundle: the build gives the changed file again",
+   "ok": true,
+   "said": "wrote public/assets/index-DKbV5Nv9.js | built 40 outputs (1 files written, 40 already up to date)"
+  },
+  {
+   "name": "record css adds step C09",
+   "ok": true,
+   "said": "recorded C09 (1 hunks) for public/assets/index-D7hdwmUU.css. Next: npm run build (the manifest), npm run build:check, node dev/tools/lineage/lineage.js verify, and the generated pages (node dev/stage-3h-modernization/tools/lineage_doc.js)"
+  },
+  {
+   "name": "css: build.js writes the manifest",
+   "ok": true,
+   "said": "wrote generated/BUILD_MANIFEST.json | built 40 outputs (1 files written, 40 already up to date)"
+  },
+  {
+   "name": "css: build.js --check passes",
+   "ok": true,
+   "said": "BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds)"
+  },
+  {
+   "name": "css: lineage.js verify passes (blame.json current)",
+   "ok": true,
+   "said": "PASS blame: blame.json is what the ledger gives | LINEAGE: PASS"
+  },
+  {
+   "name": "css: the generated pages are written",
+   "ok": true,
+   "said": "wrote src/core/client/bundle/lineage/STEPS.md and src/core/client/bundle/API_CONTRACT.md"
+  },
+  {
+   "name": "css: the build gives the changed file again",
+   "ok": true,
+   "said": "wrote public/assets/index-D7hdwmUU.css | built 40 outputs (1 files written, 40 already up to date)"
+  }
+ ],
+ "ok": true
+}

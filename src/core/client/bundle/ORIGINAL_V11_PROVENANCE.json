@@ -1,0 +1,346 @@
+{
+ "note": "src/core/client/bundle/original-v11/ is the recovered original Vite + TypeScript project at its last commit (site version 11), copied byte for byte from the owner's recovery archive. Do not edit it: it is the base of the client lineage and the source the bundle's v11 bytes were built from. node dev/tools/lineage/lineage.js tree-id proves it: its files plus the omitted one hash to the commit's tree id.",
+ "recovery": {
+  "archive": "THE_FAR_BACKROOMS_ORIGINAL_SOURCE_RECOVERY(1).zip",
+  "archiveSha256": "9f4aeac34c8205cf4ace7c57d8b3cb4a97f4c5b29b35c44980ab8c08ac7505e7",
+  "snapshot": "versions/site-v11-49743e94d6f0/",
+  "history": "history/original-sites-history.bundle (11 commits, git fsck --full PASS)"
+ },
+ "commit": "49743e94d6f0e5023790a8f2a726140f25fb14aa",
+ "commitTime": "2026-09-29T09:46:53+09:00",
+ "tree": "b80323b0ee9c9124453e2d0a62c5f894c8f41db7",
+ "toolchain": {
+  "build": "tsc --noEmit && vite build",
+  "vite": "8.3.1",
+  "typescript": "7.0.2",
+  "pixi.js": "8.21.0",
+  "lockfile": "package-lock.json (lockfileVersion 3)",
+  "reproducedBy": "the recovery (verification/BUILD_REPRODUCTION.json): Node 24.19.0, npm 11.9.0, npm ci --ignore-scripts && npm run build: 17 of 17 dist files identical"
+ },
+ "files": [
+  {
+   "path": ".gitignore",
+   "mode": "100644",
+   "blob": "0f77fe50d77cf7062379e75f888e0b962305d68a",
+   "bytes": 30,
+   "sha256": "1dda7942c6002a70c97d3f50886605adac3d13ce598b954f7c96f6dc3e475039"
+  },
+  {
+   "path": "README.md",
+   "mode": "100644",
+   "blob": "a34841486185fcdc32b58a651ce8fef9b91d3728",
+   "bytes": 1549,
+   "sha256": "21d2c4c92855da4119b9a22f0f728d4fabbfc808bc070c11a5819efa62a9c2ee"
+  },
+  {
+   "path": "client/appearance.ts",
+   "mode": "100644",
+   "blob": "113ffd1e5e03e8289a2fd3723bf1e506604dcde6",
+   "bytes": 701,
+   "sha256": "64f0f42e0551b2bb73dd561eedc78eff62bfcbfb87415b6ffa1c1dcfd00cca4b"
+  },
+  {
+   "path": "client/audio.ts",
+   "mode": "100644",
+   "blob": "6b5f1e329aae89aec2fe9440afeb78fdbafe5d27",
+   "bytes": 7231,
+   "sha256": "cfbbaf486426217b5c43a4d658006ff63311501e29cafc1f1f0b004f57ff4f1c"
+  },
+  {
+   "path": "client/corpse-view.ts",
+   "mode": "100644",
+   "blob": "fae62975feafd3405fdfa89388b226d1f16b5a13",
+   "bytes": 1852,
+   "sha256": "a878c267d791e0b8ac385811015bb8f87211fa5cd15c03ecb9cdd4ce8bb30927"
+  },
+  {
+   "path": "client/death.ts",
+   "mode": "100644",
+   "blob": "db4978d00ca1882461e95b81e2d3b9962aa8a444",
+   "bytes": 7144,
+   "sha256": "69e843aea2fdbd06d80e7c73f99050f49a90b25d22b7c07975d54e2862091a18"
+  },
+  {
+   "path": "client/entity-view.ts",
+   "mode": "100644",
+   "blob": "a2089d67d464938cf07dde4ba5a12e563524e5ef",
+   "bytes": 5313,
+   "sha256": "f51efe5865260f539872dcc0c836e9efa34e4782ccc5139416dc886f4ae8fc1f"
+  },
+  {
+   "path": "client/loadout.ts",
+   "mode": "100644",
+   "blob": "353a2014ee855b803680293148772ccf0bc98588",
+   "bytes": 350,
+   "sha256": "53efb0c8126b1ef0cbd6d7c8db74c554c08f7d60c028933e324866a880da2bd8"
+  },
+  {
+   "path": "client/main.ts",
+   "mode": "100644",
+   "blob": "692cac620cd70b7ae90a16a0c10df25a7324fe1a",
+   "bytes": 10785,
+   "sha256": "10b7373de6da165a003bce2b874b3f70ed0c8c4381fe2577323269865164d024"
+  },
+  {
+   "path": "client/player-view.ts",
+   "mode": "100644",
+   "blob": "a9b6a885ddeb2ac14b0116cfbcabc50d9e02da5e",
+   "bytes": 5791,
+   "sha256": "6181024a5168728124f526624f6764727f65a0cd91cda91ad1957c60a084e9ab"
+  },
+  {
+   "path": "client/render.ts",
+   "mode": "100644",
+   "blob": "b2f2269f9cb198a094f6fae09bcfb55f039d7bcf",
+   "bytes": 14441,
+   "sha256": "b15a576889f56ca31c1d87811c18a4c7a38c6b65c7ebbc64e509f8d090ca20d2"
+  },
+  {
+   "path": "client/style.css",
+   "mode": "100644",
+   "blob": "ec7fd5d2aad50dc2ebc5cddbd941f2a34759620e",
+   "bytes": 10018,
+   "sha256": "b99d689dbccc2b6810e8a59cbd6cc6f66f81c68929fb53c93d5c12073cbfc71f"
+  },
+  {
+   "path": "client/vite-env.d.ts",
+   "mode": "100644",
+   "blob": "11f02fe2a0061d6e6e1f271b21da95423b448b32",
+   "bytes": 38,
+   "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+  },
+  {
+   "path": "dist/assets/BufferResource-B-thlpip.js",
+   "mode": "100644",
+   "blob": "2d8ffb8337fc9861a5454e328374e3707e2470d8",
+   "bytes": 11068,
+   "sha256": "56f34780fd104d1cb11da624c9fab954f9de88802590170e4522281609164990"
+  },
+  {
+   "path": "dist/assets/Cache-DDo62lBW.js",
+   "mode": "100644",
+   "blob": "ce620526a306e52b3a8d6bfd226bfa1197aa235e",
+   "bytes": 1100,
+   "sha256": "94f3d177d09bfecefa8b80e646a55ff894635dd1723d6e7128d802477f3bae3a"
+  },
+  {
+   "path": "dist/assets/CanvasPool-DecUtJxW.js",
+   "mode": "100644",
+   "blob": "9c4e69ff04e46ea7616c8a98a415e2bc5ef55a2e",
+   "bytes": 68480,
+   "sha256": "45335d161156296b274b89eb85b9040a0d08b1870125bfcc5e7100bb937589f1"
+  },
+  {
+   "path": "dist/assets/Filter-DzecrWg_.js",
+   "mode": "100644",
+   "blob": "efa0a97b08b93abc6c560282ee30f2cb4c359214",
+   "bytes": 42012,
+   "sha256": "de855f231760116676843943157cf0b52bf893b5f0781f8d34fc94352e1c3fbd"
+  },
+  {
+   "path": "dist/assets/GCManagedHash-Bz2ZMBJN.js",
+   "mode": "100644",
+   "blob": "d26b4c79ccb29dbdfe9e9a2c9df7668bbda3f077",
+   "bytes": 19356,
+   "sha256": "b634a4602cfa70019626a0e83942f76dfbe49feadf28825410f0b96cb1849ef6"
+  },
+  {
+   "path": "dist/assets/GraphicsContext-vm7TDg_M.js",
+   "mode": "100644",
+   "blob": "2bb1ce5de19d3c5fa5335ac492e99b6468db099d",
+   "bytes": 61700,
+   "sha256": "681ef439c93da35418927d0ff6ba84e4380b1656701756f973ef3df4bdd5aebc"
+  },
+  {
+   "path": "dist/assets/RenderTargetSystem-CgUxHIsn.js",
+   "mode": "100644",
+   "blob": "bc120dff5abf479c6994b9cf108f921ddb927ed1",
+   "bytes": 58779,
+   "sha256": "cc26f4d020bdf55a0346f21b417048a129c071b2b4625463bb269eb899443aa2"
+  },
+  {
+   "path": "dist/assets/browserAll-B-iwy0YI.js",
+   "mode": "100644",
+   "blob": "2d41bd70ea78211b8a0cfc6603c32087806c4d41",
+   "bytes": 42676,
+   "sha256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6"
+  },
+  {
+   "path": "dist/assets/canvasUtils-CxYPZET9.js",
+   "mode": "100644",
+   "blob": "4cfab69a2a62a99358fa48d8cfd694b5c04c6dfc",
+   "bytes": 6054,
+   "sha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03"
+  },
+  {
+   "path": "dist/assets/carpet.png",
+   "mode": "100644",
+   "blob": "1c6cce16fb8c1727f21aa1f67b5aee0061cca714",
+   "bytes": 3403023,
+   "sha256": "aec104d6680c787f6d265d542d0055ab8b01ecac77020aa24b7cfe09f016f4b3"
+  },
+  {
+   "path": "dist/assets/concrete.webp",
+   "mode": "100644",
+   "blob": "5041e1ebf651affea663dd9300abe4a15eda91fc",
+   "bytes": 101200,
+   "sha256": "11d66854bb2c448e8891180d129e302560557978e2b0b5ce0814b6f41ebe07a1"
+  },
+  {
+   "path": "dist/assets/getTextureBatchBindGroup-DBCrgHVb.js",
+   "mode": "100644",
+   "blob": "b1e29263e72a5c93f084b97fd32fdd50b1e58a52",
+   "bytes": 344,
+   "sha256": "f97cfacaed002298725cd05c62cb5668989473d0bfe5850c4c36dbd773b59766"
+  },
+  {
+   "path": "dist/assets/index-D7hdwmUU.css",
+   "mode": "100644",
+   "blob": "075ffd4cf40fa93801c3c4a34d1fc5fc83d8c8ee",
+   "bytes": 9899,
+   "sha256": "794903d6a8b9a693e2cb7067cd1a28954963c294a7e304ab9b1bbc28c07dacef"
+  },
+  {
+   "path": "dist/assets/index-DKbV5Nv9.js",
+   "mode": "100644",
+   "blob": "cc92a742195f25e1570fac9b558957ed360bdb32",
+   "bytes": 304183,
+   "sha256": "82fb8ff4b25334237f03f57888cfb48dfa84cdba625ffffb7f5eedf03d5bbf5e"
+  },
+  {
+   "path": "dist/assets/init-Cn1_BCi0.js",
+   "mode": "100644",
+   "blob": "dd2c5757929c873dffb7fd5f46585dde99df1328",
+   "bytes": 15753,
+   "sha256": "c6fb810d1c6d8674992f4e85779800fe63394b29eb0dcea71206fc7495714037"
+  },
+  {
+   "path": "dist/assets/webworkerAll-ByhiNG9W.js",
+   "mode": "100644",
+   "blob": "eb455a52b798a5b351d18043617a6aed58dc6f40",
+   "bytes": 55,
+   "sha256": "5b59760556de6f41823269d789f45fc1313fc9a18118cbe70ee7a8091339bb90"
+  },
+  {
+   "path": "dist/index.html",
+   "mode": "100644",
+   "blob": "dcb04137baf6351a2cdcb44ba2ff99981017bfc3",
+   "bytes": 6483,
+   "sha256": "961e954abad83868587b2b3b6044904ad95e37c3f8f6052a064af62c060facab"
+  },
+  {
+   "path": "index.html",
+   "mode": "100644",
+   "blob": "24660dd471a621256063a0d8c152685de2565281",
+   "bytes": 5649,
+   "sha256": "4aacf60d6359d06ca6db6f02633e8846f8638c7cea4b35d0e43edb531598297f"
+  },
+  {
+   "path": "package-lock.json",
+   "mode": "100644",
+   "blob": "56e639b5009d103c04a387cb59057f8f666d7819",
+   "bytes": 41604,
+   "sha256": "329ef9ecea4042130a2c0bf0e90ba3afb289b279be7c6a57aaa148be99a07c27"
+  },
+  {
+   "path": "package.json",
+   "mode": "100644",
+   "blob": "cdca34d7863cf40b339b05e0c64c33b0d17f3724",
+   "bytes": 441,
+   "sha256": "a54679f27bb306acf25170cff2f838798287f25e5a556c3f46252319d0159f1d"
+  },
+  {
+   "path": "public/assets/carpet.png",
+   "mode": "100644",
+   "blob": "1c6cce16fb8c1727f21aa1f67b5aee0061cca714",
+   "bytes": 3403023,
+   "sha256": "aec104d6680c787f6d265d542d0055ab8b01ecac77020aa24b7cfe09f016f4b3"
+  },
+  {
+   "path": "public/assets/concrete.webp",
+   "mode": "100644",
+   "blob": "5041e1ebf651affea663dd9300abe4a15eda91fc",
+   "bytes": 101200,
+   "sha256": "11d66854bb2c448e8891180d129e302560557978e2b0b5ce0814b6f41ebe07a1"
+  },
+  {
+   "path": "shared/avatar.ts",
+   "mode": "100644",
+   "blob": "d748f53d6a6fcc1fa45f14b920b6ff005983a03c",
+   "bytes": 203,
+   "sha256": "26ca166d94ee780bf07c904eb52e2fd39ab7f236e9edfb3c6c836d2a779c6c6c"
+  },
+  {
+   "path": "shared/entity.ts",
+   "mode": "100644",
+   "blob": "5c9c81cb1bf497a786195f3272717e0bdfa9bb2f",
+   "bytes": 10342,
+   "sha256": "769ea3a5846b8ae5bbc0db2b64c800c892a17cb3466a1e7abc07504727ca0582"
+  },
+  {
+   "path": "shared/equipment.ts",
+   "mode": "100644",
+   "blob": "3c48997207f1cdab01df019336bbc51d4c65b2fe",
+   "bytes": 1543,
+   "sha256": "2d550a2d46d1563fe9e0695a851c8e48fb34a6998c5fec179e5ccf436dcc8a92"
+  },
+  {
+   "path": "shared/evidence.ts",
+   "mode": "100644",
+   "blob": "9698f8f007c6a5e42b06d7baee912ae2f27eedd6",
+   "bytes": 932,
+   "sha256": "569d9ce3d1af643a07f647a69775e800ee98479ffc8e2c278472b880ac93a6e8"
+  },
+  {
+   "path": "shared/movement.ts",
+   "mode": "100644",
+   "blob": "afb64611ffd263bab74c8f95546ffbb81e89f84e",
+   "bytes": 966,
+   "sha256": "00a9193cea0ea0e2468ba4621e83dfda9ef136179b61921c748428ef5834505b"
+  },
+  {
+   "path": "shared/navigation.ts",
+   "mode": "100644",
+   "blob": "dd1564f3aa7584443c2ac174887b3ed61d3ed088",
+   "bytes": 2397,
+   "sha256": "ee1196118b72f17e3ca115cc3d013227174604bad31d2d5bacdba8a9bc75174d"
+  },
+  {
+   "path": "shared/remains.ts",
+   "mode": "100644",
+   "blob": "43987da2365f3885f5d3dda4143d78078b74ebc8",
+   "bytes": 849,
+   "sha256": "39c856fecb7b9082a9e39a8cbabe060b43db3eb1caa1af304dbba16f6c60f055"
+  },
+  {
+   "path": "shared/vision.ts",
+   "mode": "100644",
+   "blob": "c4427f6ce385e4489e7bc6362c744238ddd6ce6b",
+   "bytes": 1984,
+   "sha256": "5e46ace174b60a1cec029defe5dc38daba4bf9d469dc2fa830a29c3dc7e7b760"
+  },
+  {
+   "path": "shared/world.ts",
+   "mode": "100644",
+   "blob": "f4d13457abc5c6db4e2781344ee57b0b4d21e84b",
+   "bytes": 5030,
+   "sha256": "58bcc195a4a3382e6d10fb65d761e2728aa55e64828045573630d5a7c7285469"
+  },
+  {
+   "path": "tsconfig.json",
+   "mode": "100644",
+   "blob": "a114d62ad66ae03782278b1d711b374ff8334d12",
+   "bytes": 188,
+   "sha256": "e8653f3b9b093c6ae5e9056199a064858648c7319099d141c2436b69b22f4de1"
+  }
+ ],
+ "omitted": [
+  {
+   "path": ".openai/hosting.json",
+   "mode": "100644",
+   "blob": "dc10ebe0e646beea8b832df6ca64213cd790fc45",
+   "bytes": 105,
+   "why": "the original hosting account's project id (an account identifier, not needed to build); not copied into this public repository (FINDINGS M-018). Its blob id keeps the snapshot's tree id provable"
+  }
+ ]
+}

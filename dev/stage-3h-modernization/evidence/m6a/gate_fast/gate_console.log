@@ -1,0 +1,12 @@
+PASS build: 40 compared; BUILD CHECK: PASS (40 outputs and the manifest are what src/ builds) (0 s)
+PASS lineage: 83 compared; steps replayed (bundle, stylesheet, page); blame.json what the ledger gives; the v11 snapshot's tree proven (0 s)
+PASS scope: 193 compared; runtime changed (declared): death_srv.js, index.html, mp.js, package.json, server.js, server/static.js; added: assets/mp-hum.js, assets/net-newrun.js, server/aftermath.js, server/newrun.js (0 s)
+PASS srv_golden: 11 compared; HTTP lines about changed files: index.html, mp.js (14 s)
+PASS bpp_golden: 7 compared (12 s)
+PASS cli_golden: 12 compared; B++ client scenes 3 (7 s)
+PASS protocol: 52740 compared; messages checked; selftest PASS (4 s)
+PASS mutants: 18 compared; nr_gap_200@src/frameworks/bpp/server/newrun.js nr_wait_round@src/frameworks/bpp/server/newrun.js nr_no_memory@src/frameworks/bpp/server/newrun.js nr_free_off@src/frameworks/bpp/server/newrun.js nr_held_free@generated/server/sim.js aft_el_half@src/frameworks/gib/server/aftermath.js aft_every_tick@src/frameworks/gib/server/aftermath.js aft_victim_replay@src/frameworks/gib/server/aftermath.js aft_one_per_player@src/frameworks/gib/server/aftermath.js aft_world_tick@src/frameworks/gib/server/aftermath.js aft_killer_end@src/frameworks/gib/server/aftermath.js aft_boom_revive@src/frameworks/gib/server/aftermath.js (28 s)
+PASS static: 4 compared (1 s)
+PASS raw_live: 173 compared; responses for changed files: index.html, mp.js (23 s)
+PASS quick_suites: 23 compared; s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail) (9 s)
+MODERNIZATION GATE (fast): PASS  - report /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/em2/work/gate_m6a_fast/gate_report.json
