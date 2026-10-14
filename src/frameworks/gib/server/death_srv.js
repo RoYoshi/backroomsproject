@@ -12,7 +12,7 @@ const fs = require('fs'), path = require('path');
  * numbers, about four times faster once warm, because nothing crosses a context boundary at every wall query.  One short run of each
  * killer at load warms it up, so the first real fallback does not pay for the compiler. */
 const box = {};
-new Function('window', fs.readFileSync(path.join(__dirname, 'dphys.js'), 'utf8') + '\n//# sourceURL=dphys.js')(box);
+new Function('window', fs.readFileSync(path.join(__dirname, '..', '..', '..', '..', 'generated', 'server', 'dphys.js'), 'utf8') + '\n//# sourceURL=dphys.js')(box);
 const DP = box.__dphys;
 for (const kind of ['Hound', 'Smiler']) DP.simulate({ kind, v: 'A', victim: { x: 500, y: 500, angle: 0 }, src: { x: 454, y: 500 }, walls: () => [], clear: () => true });
 

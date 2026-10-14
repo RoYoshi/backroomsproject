@@ -1,0 +1,413 @@
+{
+ "note": "Written by dev/tools/build/build.js. Every built output, its parts in order and their SHA-256. Do not edit: run npm run build.",
+ "recipes": "src/build-recipes.json",
+ "recipesSha256": "a42bc4dcebccb95d7ad65846a1aed0789382d444a02bed9ddb570e3a08daf765",
+ "tool": "dev/tools/build/build.js",
+ "toolSha256": "c66ad3bc2379f1e565d55151c6bc7c9e5e3bda89273cd33810b7039745744e4c",
+ "outputs": [
+  {
+   "out": "public/assets/br-role.js",
+   "bytes": 136371,
+   "sha256": "eb3410bdf41d7001e5fc8ce66603c47d48a16834d082e52a779f90d09c483daf",
+   "parts": [
+    {
+     "path": "src/frameworks/br-role/client/br-role.js",
+     "sha256": "eb3410bdf41d7001e5fc8ce66603c47d48a16834d082e52a779f90d09c483daf",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/credits_data.js",
+   "bytes": 2170,
+   "sha256": "6c071316591cbd1f380b6528e5bc3e538beb5686544dee3097c71c6c3d60c80c",
+   "parts": [
+    {
+     "path": "src/frameworks/front/client/credits_data.js",
+     "sha256": "6c071316591cbd1f380b6528e5bc3e538beb5686544dee3097c71c6c3d60c80c",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/l0-remaster.js",
+   "bytes": 189557,
+   "sha256": "65da17bf6527b86273e3c6c6f85418e6001fe4f76d3c9581d12d22e976ccc3f5",
+   "parts": [
+    {
+     "path": "src/frameworks/br-r/client/l0-remaster.js",
+     "sha256": "65da17bf6527b86273e3c6c6f85418e6001fe4f76d3c9581d12d22e976ccc3f5",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/level0_visuals.js",
+   "bytes": 30303,
+   "sha256": "cc86c68ea9e3b6967ac8150e525a4ef97171c27ba606faf866df07091455c136",
+   "parts": [
+    {
+     "path": "src/frameworks/lost/client/level0_visuals.js",
+     "sha256": "cc86c68ea9e3b6967ac8150e525a4ef97171c27ba606faf866df07091455c136",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/mp-hum.js",
+   "bytes": 8585,
+   "sha256": "7b5ae65f0370bcd39c42c9b7b24a6ffc8a9f82959ab0236fb54f68679906e791",
+   "parts": [
+    {
+     "path": "src/frameworks/spacious-audio/client/mp-hum.js",
+     "sha256": "7b5ae65f0370bcd39c42c9b7b24a6ffc8a9f82959ab0236fb54f68679906e791",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/net-interp.js",
+   "bytes": 4163,
+   "sha256": "fb1e203e44b39693a6fbe654f46a34a53c651df1d52ff3a78f2e1e9e3a98fecc",
+   "parts": [
+    {
+     "path": "src/frameworks/bpp/client/net-interp.js",
+     "sha256": "fb1e203e44b39693a6fbe654f46a34a53c651df1d52ff3a78f2e1e9e3a98fecc",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/net-newrun.js",
+   "bytes": 2425,
+   "sha256": "6775d5a18ae489f518c42a7eb3a698c152d1333da1e463044ae2bdbea23619a4",
+   "parts": [
+    {
+     "path": "src/frameworks/front/client/net-newrun.js",
+     "sha256": "6775d5a18ae489f518c42a7eb3a698c152d1333da1e463044ae2bdbea23619a4",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/net-wire.js",
+   "bytes": 3717,
+   "sha256": "fa4603f5f9cc3ad74b59f5b44f71c996c90284175de383be55a39fc99f668415",
+   "parts": [
+    {
+     "path": "src/frameworks/bpp/client/net-wire.js",
+     "sha256": "fa4603f5f9cc3ad74b59f5b44f71c996c90284175de383be55a39fc99f668415",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/assets/ui.js",
+   "bytes": 97475,
+   "sha256": "d25e7c4e79659a16fe5b9554da1e2aa50c30c0d26bc99356d0857a85620abbd4",
+   "parts": [
+    {
+     "path": "src/frameworks/front/client/ui.js",
+     "sha256": "d25e7c4e79659a16fe5b9554da1e2aa50c30c0d26bc99356d0857a85620abbd4",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/camcorder.js",
+   "bytes": 32494,
+   "sha256": "1deccb79ea7b8298dbe047efb4be4922bfbbf8848dad2d3aa47640273d5320f7",
+   "parts": [
+    {
+     "path": "src/frameworks/br-r/client/camcorder.js",
+     "sha256": "1deccb79ea7b8298dbe047efb4be4922bfbbf8848dad2d3aa47640273d5320f7",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/camera_policy.js",
+   "bytes": 2064,
+   "sha256": "be5901b95a5669cb51d21306d642ca26d5e839bb3be28e3d711c9690ec9227dc",
+   "parts": [
+    {
+     "path": "src/frameworks/br-r/client/camera_policy.js",
+     "sha256": "be5901b95a5669cb51d21306d642ca26d5e839bb3be28e3d711c9690ec9227dc",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/dphys.js",
+   "bytes": 66180,
+   "sha256": "c5fb5064b1fadbf09d5f3645b9dfd90351668e0313fa2cd4d7beb184ee320501",
+   "parts": [
+    {
+     "path": "src/frameworks/gib/shared/dphys.js",
+     "sha256": "c5fb5064b1fadbf09d5f3645b9dfd90351668e0313fa2cd4d7beb184ee320501",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/ents.js",
+   "bytes": 79335,
+   "sha256": "5679a30504cf920817b4e6f1f082133628f90d3a92c1da8f44f3cf6180cadf15",
+   "parts": [
+    {
+     "path": "src/frameworks/br-r/client/ents.head.js",
+     "sha256": "265efc48836703b882d80782de853486f61c48edf4d16a59ef5b559eec8f5dc3",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.hound.js",
+     "sha256": "ba770f68c8a9036e7b7097933942da0120f825e8031ff65a127e2726bf426a45",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/br-r/client/ents.smiler.js",
+     "sha256": "be9d7261e3bcb947bfbc9aed91b03d607459d6ca1d6eaeb69747b1fdb210554e",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/gib/client/ents.death.js",
+     "sha256": "8d7fe82d50a3e1566557295291e27d554c087f42b5ad81d572cccdaac8b3cd21",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/spacious-audio/client/ents.audio.js",
+     "sha256": "a95df46285bae3eea3aa608a0fe83024999cb3078444b204b803b1f316bc6c22",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/overseer/client/ents.debug.js",
+     "sha256": "d06bc41e5aed198a76a4bfe1a4899a09e78f1cb79b131c716a685fd2a98d73a4",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/glitch.js",
+   "bytes": 9829,
+   "sha256": "2c088bad6cc614a2ca10c8ebea4913d30ad5d9e35cd48b0765d7cbe81f1c623c",
+   "parts": [
+    {
+     "path": "src/frameworks/lost/client/glitch.js",
+     "sha256": "2c088bad6cc614a2ca10c8ebea4913d30ad5d9e35cd48b0765d7cbe81f1c623c",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/gore.js",
+   "bytes": 39845,
+   "sha256": "b557a81e605dea5e9c42d694f1dd8f90761d05b969f2e2faae0bf46d0086e499",
+   "parts": [
+    {
+     "path": "src/frameworks/gib/client/gore.js",
+     "sha256": "b557a81e605dea5e9c42d694f1dd8f90761d05b969f2e2faae0bf46d0086e499",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/hud.js",
+   "bytes": 7692,
+   "sha256": "370adcf105fce4fc46588830e06d234b53f6ea3afdeeef92fc2feaccb0c991a4",
+   "parts": [
+    {
+     "path": "src/frameworks/front/client/hud.js",
+     "sha256": "370adcf105fce4fc46588830e06d234b53f6ea3afdeeef92fc2feaccb0c991a4",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/inventory.js",
+   "bytes": 20901,
+   "sha256": "34a8486263860c11353a2a64bda1252b2b37ca917d5e2c07f346534443a7aec3",
+   "parts": [
+    {
+     "path": "src/frameworks/pocket/client/inventory.js",
+     "sha256": "34a8486263860c11353a2a64bda1252b2b37ca917d5e2c07f346534443a7aec3",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/light.js",
+   "bytes": 5984,
+   "sha256": "25ed95a05be57408bd73336e50d07c57f9854103ffebaa88db7e6067c80bb7f2",
+   "parts": [
+    {
+     "path": "src/frameworks/br-role/client/light.js",
+     "sha256": "25ed95a05be57408bd73336e50d07c57f9854103ffebaa88db7e6067c80bb7f2",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/move.js",
+   "bytes": 25061,
+   "sha256": "bb5d90eb36fbe122d0413f7ed371133b4d3d93ca5feefa9cdb8aa9b7cd938d53",
+   "parts": [
+    {
+     "path": "src/frameworks/space/client/move.js",
+     "sha256": "bb5d90eb36fbe122d0413f7ed371133b4d3d93ca5feefa9cdb8aa9b7cd938d53",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/mp.js",
+   "bytes": 88802,
+   "sha256": "9243aafb1e17a66d9ca03936c3e10b70341ec99732fafec588a44b0fe3075be4",
+   "parts": [
+    {
+     "path": "src/core/client/mp.js",
+     "sha256": "9243aafb1e17a66d9ca03936c3e10b70341ec99732fafec588a44b0fe3075be4",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/sfx.js",
+   "bytes": 3677,
+   "sha256": "790e24e875c799f14aec3a3ab858933cf5e3d948beed3341b5b8553dfa757971",
+   "parts": [
+    {
+     "path": "src/frameworks/spacious-audio/client/sfx.js",
+     "sha256": "790e24e875c799f14aec3a3ab858933cf5e3d948beed3341b5b8553dfa757971",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/timing_policy.js",
+   "bytes": 1634,
+   "sha256": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069",
+   "parts": [
+    {
+     "path": "src/frameworks/space/shared/timing_policy.js",
+     "sha256": "f1d1bb25cc6de53e7d4de2ac7103565e023fa10f8dfcfcdef26b22b155471069",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "public/world.js",
+   "bytes": 24622,
+   "sha256": "240e99ba6dfead9877d2648021cc6534f9beda33b4b22cf40f4470ee10d7fa09",
+   "parts": [
+    {
+     "path": "src/frameworks/space/shared/world.js",
+     "sha256": "240e99ba6dfead9877d2648021cc6534f9beda33b4b22cf40f4470ee10d7fa09",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "generated/server/ai.js",
+   "bytes": 206697,
+   "sha256": "3fc194703a09e27e572f015eaf5465e1582a50df197e20ec45ff23bec4ad1731",
+   "parts": [
+    {
+     "path": "src/frameworks/nani/server/ai.head.js",
+     "sha256": "8189a863d88ed64a2ae1928b111772456b49f833dc4a55d2677736c318c9c720",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.geo.js",
+     "sha256": "2881e9871940689f10f6790facc08a50ed24b04c3eddb7e2d56152f3bf7ebf48",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.senses.js",
+     "sha256": "63ea13d5517ba5c3d10d9e44060be1cb287b9a87d7f7566857873ffcbb15578a",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.intelligence.js",
+     "sha256": "f68977416308184867c5d237e83c6e92ce940d2760e8d7bd6679b430bbd17ffe",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.light.js",
+     "sha256": "f2d6503f13be71cece046ecb2eccb1822c284b3930e18e7412e52c73ca11d0db",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.entity.js",
+     "sha256": "1d1d2d7e64d6e81e56750051f302cba230528ccdb220a4febadcbc4b1c9b575d",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.capture.js",
+     "sha256": "823730e8743732d5a91788667325e3036c14249df3df88a1352b7ae1bb7f3166",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.hound.js",
+     "sha256": "d3c870a7e472af75ba8baf0151ca3ebda58ed3c09cccd73c5411e53a3e06d317",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.smiler.js",
+     "sha256": "b94ba4da4dd39e3605629c9e266fc5f531250e0f5061445d66d4646cc2a3a3a2",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/nani/server/ai.engine.js",
+     "sha256": "4cfe2d778fea1eabb4693927ade17239726458171a073bb5e10da51507adabaf",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "generated/server/dphys.js",
+   "bytes": 66180,
+   "sha256": "c5fb5064b1fadbf09d5f3645b9dfd90351668e0313fa2cd4d7beb184ee320501",
+   "parts": [
+    {
+     "path": "src/frameworks/gib/shared/dphys.js",
+     "sha256": "c5fb5064b1fadbf09d5f3645b9dfd90351668e0313fa2cd4d7beb184ee320501",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "generated/server/sim.js",
+   "bytes": 29413,
+   "sha256": "ac2f83b6a6ac50c1077aab7897d870c423d0ae8a24348e43a7f051170db23c55",
+   "parts": [
+    {
+     "path": "src/core/server/sim.header.js",
+     "sha256": "25da9c24243d0c59db38e1cb55b9756a91731c05579f362b23fa0c58882d1b8e",
+     "headerBytes": 0
+    },
+    {
+     "path": "src/frameworks/lost/server/sim.level0.js",
+     "sha256": "045f384c85ae590d631ab7c0d215f59397891cc161822ec293c7244c7838b44d",
+     "headerBytes": 648
+    },
+    {
+     "path": "src/core/server/sim.glue.js",
+     "sha256": "5632792673465e1b4f7f3857f770f5c3d151153dc7dfa4a95d2a0357effe3127",
+     "headerBytes": 0
+    }
+   ]
+  },
+  {
+   "out": "generated/server/world.js",
+   "bytes": 24622,
+   "sha256": "240e99ba6dfead9877d2648021cc6534f9beda33b4b22cf40f4470ee10d7fa09",
+   "parts": [
+    {
+     "path": "src/frameworks/space/shared/world.js",
+     "sha256": "240e99ba6dfead9877d2648021cc6534f9beda33b4b22cf40f4470ee10d7fa09",
+     "headerBytes": 0
+    }
+   ]
+  }
+ ]
+}

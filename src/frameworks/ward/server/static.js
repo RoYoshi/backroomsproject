@@ -8,7 +8,7 @@
  *   - code is never cached, PNG images for a day; everything but PNG is gzipped when the client accepts gzip, and each gzipped copy is
  *     kept for the life of the process.
  * Stage 3E-0: /favicon.ico, the user's site icon (the folder's own favicon.ico, nothing else of its kind), as image/x-icon.
- * ROOT is the folder server.js lives in, passed in because this file lives one level below it.  Nothing is done at load but defining the
+ * ROOT is the web root, public/ next to server.js (Stage 3H modernization; it was the folder server.js lives in), passed in by server.js.  Nothing is done at load but defining the
  * constants and the gzip cache.  Never served: SERVE does not reach this folder. */
 const fs = require('fs'), path = require('path'), zlib = require('zlib');
 const gz = new Map();

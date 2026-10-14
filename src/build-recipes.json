@@ -1,0 +1,183 @@
+{
+ "note": "Every built output and its parts, in order (dev/tools/build/build.js). public/ is the web root; generated/server/ holds what the server loads that is assembled from parts. Parts are concatenated as they are, less a leading \"/** @part\" header.",
+ "outputs": [
+  {
+   "out": "public/assets/br-role.js",
+   "parts": [
+    "src/frameworks/br-role/client/br-role.js"
+   ]
+  },
+  {
+   "out": "public/assets/credits_data.js",
+   "parts": [
+    "src/frameworks/front/client/credits_data.js"
+   ]
+  },
+  {
+   "out": "public/assets/l0-remaster.js",
+   "parts": [
+    "src/frameworks/br-r/client/l0-remaster.js"
+   ]
+  },
+  {
+   "out": "public/assets/level0_visuals.js",
+   "parts": [
+    "src/frameworks/lost/client/level0_visuals.js"
+   ]
+  },
+  {
+   "out": "public/assets/mp-hum.js",
+   "parts": [
+    "src/frameworks/spacious-audio/client/mp-hum.js"
+   ]
+  },
+  {
+   "out": "public/assets/net-interp.js",
+   "parts": [
+    "src/frameworks/bpp/client/net-interp.js"
+   ]
+  },
+  {
+   "out": "public/assets/net-newrun.js",
+   "parts": [
+    "src/frameworks/front/client/net-newrun.js"
+   ]
+  },
+  {
+   "out": "public/assets/net-wire.js",
+   "parts": [
+    "src/frameworks/bpp/client/net-wire.js"
+   ]
+  },
+  {
+   "out": "public/assets/ui.js",
+   "parts": [
+    "src/frameworks/front/client/ui.js"
+   ]
+  },
+  {
+   "out": "public/camcorder.js",
+   "parts": [
+    "src/frameworks/br-r/client/camcorder.js"
+   ]
+  },
+  {
+   "out": "public/camera_policy.js",
+   "parts": [
+    "src/frameworks/br-r/client/camera_policy.js"
+   ]
+  },
+  {
+   "out": "public/dphys.js",
+   "parts": [
+    "src/frameworks/gib/shared/dphys.js"
+   ]
+  },
+  {
+   "out": "public/ents.js",
+   "parts": [
+    "src/frameworks/br-r/client/ents.head.js",
+    "src/frameworks/br-r/client/ents.hound.js",
+    "src/frameworks/br-r/client/ents.smiler.js",
+    "src/frameworks/gib/client/ents.death.js",
+    "src/frameworks/spacious-audio/client/ents.audio.js",
+    "src/frameworks/overseer/client/ents.debug.js"
+   ]
+  },
+  {
+   "out": "public/glitch.js",
+   "parts": [
+    "src/frameworks/lost/client/glitch.js"
+   ]
+  },
+  {
+   "out": "public/gore.js",
+   "parts": [
+    "src/frameworks/gib/client/gore.js"
+   ]
+  },
+  {
+   "out": "public/hud.js",
+   "parts": [
+    "src/frameworks/front/client/hud.js"
+   ]
+  },
+  {
+   "out": "public/inventory.js",
+   "parts": [
+    "src/frameworks/pocket/client/inventory.js"
+   ]
+  },
+  {
+   "out": "public/light.js",
+   "parts": [
+    "src/frameworks/br-role/client/light.js"
+   ]
+  },
+  {
+   "out": "public/move.js",
+   "parts": [
+    "src/frameworks/space/client/move.js"
+   ]
+  },
+  {
+   "out": "public/mp.js",
+   "parts": [
+    "src/core/client/mp.js"
+   ]
+  },
+  {
+   "out": "public/sfx.js",
+   "parts": [
+    "src/frameworks/spacious-audio/client/sfx.js"
+   ]
+  },
+  {
+   "out": "public/timing_policy.js",
+   "parts": [
+    "src/frameworks/space/shared/timing_policy.js"
+   ]
+  },
+  {
+   "out": "public/world.js",
+   "parts": [
+    "src/frameworks/space/shared/world.js"
+   ]
+  },
+  {
+   "out": "generated/server/ai.js",
+   "parts": [
+    "src/frameworks/nani/server/ai.head.js",
+    "src/frameworks/nani/server/ai.geo.js",
+    "src/frameworks/nani/server/ai.senses.js",
+    "src/frameworks/nani/server/ai.intelligence.js",
+    "src/frameworks/nani/server/ai.light.js",
+    "src/frameworks/nani/server/ai.entity.js",
+    "src/frameworks/nani/server/ai.capture.js",
+    "src/frameworks/nani/server/ai.hound.js",
+    "src/frameworks/nani/server/ai.smiler.js",
+    "src/frameworks/nani/server/ai.engine.js"
+   ]
+  },
+  {
+   "out": "generated/server/dphys.js",
+   "parts": [
+    "src/frameworks/gib/shared/dphys.js"
+   ]
+  },
+  {
+   "out": "generated/server/sim.js",
+   "parts": [
+    "src/core/server/sim.header.js",
+    "src/frameworks/lost/server/sim.level0.js",
+    "src/core/server/sim.glue.js"
+   ]
+  },
+  {
+   "out": "generated/server/world.js",
+   "parts": [
+    "src/frameworks/space/shared/world.js"
+   ]
+  }
+ ]
+}

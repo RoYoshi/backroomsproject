@@ -3,9 +3,9 @@
 // blackout timer and shared evidence.  sim.js and ai.js are never served to browsers.
 const http = require('http'), fs = require('fs'), path = require('path'), crypto = require('crypto');
 const zlib = require('zlib');
-const createSim = require('./sim.js');
+const createSim = require('./generated/server/sim.js');   // (built from src/: npm run build)
 
-const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = __dirname, MAX_ROOM = 8;
+const PORT = +process.argv[2] || process.env.PORT || 8000, ROOT = path.join(__dirname, 'public'), MAX_ROOM = 8;   // (Stage 3H modernization: the web root is public/; nothing outside it can be served)
 // Admin passcode. Override on the host with the ADMIN_PASSCODE environment variable (recommended).
 const ADMIN_PASS = process.env.ADMIN_PASSCODE || 'smoor';
 // How long (seconds) a dead player's body stays in the halls. 0 (default) = until the world resets or that player dies again. Override with the BODY_TTL environment variable.
@@ -21,11 +21,11 @@ const TICK_MS = 25, SNAP_EVERY = 2, ADMIN_EVERY = 4;            // simulate ~40 
  * a client that never asks (an older one) gets exactly what it got before */
 const FAST_GAP = 16;
 
-const srv = http.createServer(require('./server/static.js')(ROOT));   // Stage 3H0: the static file serving (the SERVE allowlist, MIME types, caching, gzip, /sounds).  fs, path and zlib are still required first, as before, though only server/static.js uses them now
+const srv = http.createServer(require('./src/frameworks/ward/server/static.js')(ROOT));   // Stage 3H0: the static file serving (the SERVE allowlist, MIME types, caching, gzip, /sounds).  fs, path and zlib are still required first, as before, though only server/static.js uses them now
 
 const rooms = new Map();
 let nextId = 1;
-const deathSrv = require('./death_srv.js');
+const deathSrv = require('./src/frameworks/gib/server/death_srv.js');
 
 /* Movement validation.  Movement stays client-side; the server only refuses what a body cannot do.  Every player has a distance budget
  * that refills at VMAX px/s (the fastest legal motion - a sprint-slide or a fast vault - plus ~20 %) and holds at most BURST seconds of it,
@@ -49,7 +49,7 @@ const MV = { VMAX: 360, VHELD: 130, BURST: 1.5, SLACK: 28, SNAP: 220, GRACE: 900
  * the claim that is silent; the client is told where it really is with a soft correction ({t:'tp', x, y, pc:1}) when its claim is more
  * than 8 px off, or more than 2 px off for 0.3 s, at most every 0.3 s.  In the grace after a server-side placement such a move was sent
  * before it (back towards the old spot) and is ignored, as a refused one is.  The AI keeps hearing only what the server accepted. */
-const PEERS = require('./server/peers.js'), PD = PEERS.D_BODY, NONE = [];
+const PEERS = require('./src/frameworks/space/server/peers.js'), PD = PEERS.D_BODY, NONE = [];
 const solidP = p => !!(p.active && !p.dead && !p.exited && !p.caught);
 function blockers(room, me) {
   if (!solidP(me.player)) return NONE;
@@ -157,11 +157,11 @@ function adminMove(room, me, x, y) {
  * Stage 3D HQ2's, with HQ3's UNLIMITED NEW RUN - is server/newrun.js, moved there as it was.  It is required below, beside the other
  * server modules, once send exists, and given send and boomStart (the approved NEW RUN's explosion: server/aftermath.js). */
 
-const { frame, reader } = require('./server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
+const { frame, reader } = require('./src/frameworks/bpp/server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
 const send = (c, obj) => { const f = frame(JSON.stringify(obj)); if (f && !c.sock.destroyed) c.sock.write(f); };
-const { num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook } = require('./server/fields.js');   // Stage 3H0: the checks applied to what clients send
-const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./server/aftermath.js')({ deathSrv, send, HEX });   // Stage 3H2 (C-2): the death aftermath and the NEW RUN blast (see the note above worldReset)
-const { nrIntent } = require('./server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see the note after adminMove)
+const { num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook } = require('./src/frameworks/ward/server/fields.js');   // Stage 3H0: the checks applied to what clients send
+const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./src/frameworks/gib/server/aftermath.js')({ deathSrv, send, HEX });   // Stage 3H2 (C-2): the death aftermath and the NEW RUN blast (see the note above worldReset)
+const { nrIntent } = require('./src/frameworks/bpp/server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see the note after adminMove)
 
 function getRoom(name) {
   let r = rooms.get(name);
