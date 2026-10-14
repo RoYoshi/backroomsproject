@@ -1,0 +1,1501 @@
+{
+ "tool": "dev/stage-3e-0-bpp/place_replay.js",
+ "game": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/e0/bp",
+ "scenarios": [
+  {
+   "name": "bring545_bp_s0",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": false,
+   "staleMs": 0,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 0,
+   "serverEnd": [
+    1173,
+    690
+   ],
+   "pageEnd": [
+    1173,
+    690
+   ],
+   "backAtOldSamples": 0,
+   "correctionsAfter": [],
+   "walkPoses": 24,
+   "walkFollowPx": 29,
+   "kept": true,
+   "track": [
+    [
+     40,
+     1012,
+     690
+    ],
+    [
+     89,
+     1024,
+     690
+    ],
+    [
+     139,
+     1039,
+     690
+    ],
+    [
+     189,
+     1053,
+     690
+    ],
+    [
+     240,
+     1067,
+     690
+    ],
+    [
+     289,
+     1081,
+     690
+    ],
+    [
+     342,
+     1095,
+     690
+    ],
+    [
+     393,
+     1110,
+     690
+    ],
+    [
+     443,
+     1124,
+     690
+    ],
+    [
+     493,
+     1138,
+     690
+    ],
+    [
+     545,
+     1152,
+     690
+    ],
+    [
+     594,
+     1166,
+     690
+    ],
+    [
+     644,
+     1173,
+     690
+    ],
+    [
+     2657,
+     1173,
+     690
+    ]
+   ]
+  },
+  {
+   "name": "bring545_bp_s30",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": false,
+   "staleMs": 30,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 1,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 53,
+   "correctionsAfter": [
+    [
+     909,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 24,
+   "walkFollowPx": 653.7,
+   "kept": false,
+   "track": [
+    [
+     30,
+     504,
+     888
+    ],
+    [
+     2651,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_bp_s80",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": false,
+   "staleMs": 80,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 3,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 53,
+   "correctionsAfter": [
+    [
+     922,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 25,
+   "walkFollowPx": 667.1,
+   "kept": false,
+   "track": [
+    [
+     24,
+     504,
+     888
+    ],
+    [
+     2634,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_bp_s150",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": false,
+   "staleMs": 150,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 6,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 53,
+   "correctionsAfter": [
+    [
+     920,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 25,
+   "walkFollowPx": 668,
+   "kept": false,
+   "track": [
+    [
+     44,
+     504,
+     888
+    ],
+    [
+     2659,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_bp_jit0",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": true,
+   "staleMs": 10,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 1,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     906,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 24,
+   "walkFollowPx": 654.7,
+   "kept": false,
+   "track": [
+    [
+     64,
+     504,
+     888
+    ],
+    [
+     2625,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_bp_jit1",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": true,
+   "staleMs": 95,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 4,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     922,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 24,
+   "walkFollowPx": 656.6,
+   "kept": false,
+   "track": [
+    [
+     44,
+     504,
+     888
+    ],
+    [
+     2612,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_bp_jit2",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": true,
+   "staleMs": 17,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 1,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     919,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 25,
+   "walkFollowPx": 664.2,
+   "kept": false,
+   "track": [
+    [
+     45,
+     504,
+     888
+    ],
+    [
+     2611,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "world545_bp_s30",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": false,
+   "staleMs": 30,
+   "oldSpot": [
+    1454,
+    3494
+   ],
+   "oldOnServer": [
+    1454,
+    3494
+   ],
+   "placed": [
+    960,
+    3264
+   ],
+   "placedDistance": 545,
+   "staleSent": 1,
+   "serverEnd": [
+    1454,
+    3494
+   ],
+   "pageEnd": [
+    1454,
+    3494
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     924,
+     1454,
+     3494,
+     0
+    ]
+   ],
+   "walkPoses": 25,
+   "walkFollowPx": 542.2,
+   "kept": false,
+   "track": [
+    [
+     52,
+     1454,
+     3494
+    ],
+    [
+     2618,
+     1454,
+     3494
+    ]
+   ]
+  },
+  {
+   "name": "world545_bp_s80",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": false,
+   "staleMs": 80,
+   "oldSpot": [
+    1454,
+    3494
+   ],
+   "oldOnServer": [
+    1454,
+    3494
+   ],
+   "placed": [
+    960,
+    3264
+   ],
+   "placedDistance": 545,
+   "staleSent": 3,
+   "serverEnd": [
+    1454,
+    3494
+   ],
+   "pageEnd": [
+    1454,
+    3494
+   ],
+   "backAtOldSamples": 53,
+   "correctionsAfter": [
+    [
+     920,
+     1454,
+     3494,
+     0
+    ]
+   ],
+   "walkPoses": 25,
+   "walkFollowPx": 542.2,
+   "kept": false,
+   "track": [
+    [
+     42,
+     1454,
+     3494
+    ],
+    [
+     2654,
+     1454,
+     3494
+    ]
+   ]
+  },
+  {
+   "name": "bring60_bp_s80",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": false,
+   "staleMs": 80,
+   "oldSpot": [
+    952,
+    690
+   ],
+   "oldOnServer": [
+    952,
+    690
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 60,
+   "staleSent": 3,
+   "serverEnd": [
+    1177,
+    690
+   ],
+   "pageEnd": [
+    1177,
+    690
+   ],
+   "backAtOldSamples": 0,
+   "correctionsAfter": [],
+   "walkPoses": 25,
+   "walkFollowPx": 29,
+   "kept": true,
+   "track": [
+    [
+     46,
+     952,
+     690
+    ],
+    [
+     97,
+     1012,
+     690
+    ],
+    [
+     147,
+     1021,
+     690
+    ],
+    [
+     197,
+     1036,
+     690
+    ],
+    [
+     248,
+     1050,
+     690
+    ],
+    [
+     298,
+     1064,
+     690
+    ],
+    [
+     348,
+     1078,
+     690
+    ],
+    [
+     398,
+     1092,
+     690
+    ],
+    [
+     448,
+     1106,
+     690
+    ],
+    [
+     498,
+     1121,
+     690
+    ],
+    [
+     549,
+     1135,
+     690
+    ],
+    [
+     599,
+     1149,
+     690
+    ],
+    [
+     649,
+     1163,
+     690
+    ],
+    [
+     700,
+     1177,
+     690
+    ],
+    [
+     2611,
+     1177,
+     690
+    ]
+   ]
+  },
+  {
+   "name": "bringFar_bp_s80",
+   "client": "B+ (caps, 25 ms)",
+   "jitter": false,
+   "staleMs": 80,
+   "oldSpot": [
+    348,
+    2652
+   ],
+   "oldOnServer": [
+    348,
+    2652
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 2071,
+   "staleSent": 3,
+   "serverEnd": [
+    1180,
+    690
+   ],
+   "pageEnd": [
+    1180,
+    690
+   ],
+   "backAtOldSamples": 0,
+   "correctionsAfter": [],
+   "walkPoses": 25,
+   "walkFollowPx": 29,
+   "kept": true,
+   "track": [
+    [
+     21,
+     1012,
+     690
+    ],
+    [
+     172,
+     1025,
+     690
+    ],
+    [
+     222,
+     1039,
+     690
+    ],
+    [
+     272,
+     1053,
+     690
+    ],
+    [
+     323,
+     1067,
+     690
+    ],
+    [
+     373,
+     1081,
+     690
+    ],
+    [
+     423,
+     1095,
+     690
+    ],
+    [
+     473,
+     1109,
+     690
+    ],
+    [
+     524,
+     1123,
+     690
+    ],
+    [
+     574,
+     1138,
+     690
+    ],
+    [
+     625,
+     1152,
+     690
+    ],
+    [
+     675,
+     1166,
+     690
+    ],
+    [
+     726,
+     1180,
+     690
+    ],
+    [
+     2630,
+     1180,
+     690
+    ]
+   ]
+  },
+  {
+   "name": "bring545_old_s0",
+   "client": "HQ5 (50 ms)",
+   "jitter": false,
+   "staleMs": 0,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 0,
+   "serverEnd": [
+    1167,
+    690
+   ],
+   "pageEnd": [
+    1167,
+    690
+   ],
+   "backAtOldSamples": 0,
+   "correctionsAfter": [],
+   "walkPoses": 12,
+   "walkFollowPx": 29,
+   "kept": true,
+   "track": [
+    [
+     60,
+     1012,
+     690
+    ],
+    [
+     110,
+     1025,
+     690
+    ],
+    [
+     161,
+     1039,
+     690
+    ],
+    [
+     211,
+     1053,
+     690
+    ],
+    [
+     260,
+     1067,
+     690
+    ],
+    [
+     311,
+     1081,
+     690
+    ],
+    [
+     361,
+     1096,
+     690
+    ],
+    [
+     411,
+     1110,
+     690
+    ],
+    [
+     461,
+     1124,
+     690
+    ],
+    [
+     511,
+     1139,
+     690
+    ],
+    [
+     561,
+     1153,
+     690
+    ],
+    [
+     611,
+     1167,
+     690
+    ],
+    [
+     2619,
+     1167,
+     690
+    ]
+   ]
+  },
+  {
+   "name": "bring545_old_s30",
+   "client": "HQ5 (50 ms)",
+   "jitter": false,
+   "staleMs": 30,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 0,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     906,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 13,
+   "walkFollowPx": 656.6,
+   "kept": false,
+   "track": [
+    [
+     52,
+     504,
+     888
+    ],
+    [
+     2618,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_old_s80",
+   "client": "HQ5 (50 ms)",
+   "jitter": false,
+   "staleMs": 80,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 2,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     912,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 13,
+   "walkFollowPx": 646.1,
+   "kept": false,
+   "track": [
+    [
+     50,
+     504,
+     888
+    ],
+    [
+     2620,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_old_s150",
+   "client": "HQ5 (50 ms)",
+   "jitter": false,
+   "staleMs": 150,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 3,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     907,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 13,
+   "walkFollowPx": 652.8,
+   "kept": false,
+   "track": [
+    [
+     63,
+     504,
+     888
+    ],
+    [
+     2630,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_old_jit0",
+   "client": "HQ5 (50 ms)",
+   "jitter": true,
+   "staleMs": 89,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 2,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     923,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 13,
+   "walkFollowPx": 651.8,
+   "kept": false,
+   "track": [
+    [
+     52,
+     504,
+     888
+    ],
+    [
+     2632,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_old_jit1",
+   "client": "HQ5 (50 ms)",
+   "jitter": true,
+   "staleMs": 35,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 1,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     941,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 13,
+   "walkFollowPx": 651.8,
+   "kept": false,
+   "track": [
+    [
+     65,
+     504,
+     888
+    ],
+    [
+     2626,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "bring545_old_jit2",
+   "client": "HQ5 (50 ms)",
+   "jitter": true,
+   "staleMs": 96,
+   "oldSpot": [
+    504,
+    888
+   ],
+   "oldOnServer": [
+    504,
+    888
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 545,
+   "staleSent": 2,
+   "serverEnd": [
+    504,
+    888
+   ],
+   "pageEnd": [
+    504,
+    888
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     903,
+     504,
+     888,
+     0
+    ]
+   ],
+   "walkPoses": 11,
+   "walkFollowPx": 648,
+   "kept": false,
+   "track": [
+    [
+     58,
+     504,
+     888
+    ],
+    [
+     2615,
+     504,
+     888
+    ]
+   ]
+  },
+  {
+   "name": "world545_old_s30",
+   "client": "HQ5 (50 ms)",
+   "jitter": false,
+   "staleMs": 30,
+   "oldSpot": [
+    1454,
+    3494
+   ],
+   "oldOnServer": [
+    1454,
+    3494
+   ],
+   "placed": [
+    960,
+    3264
+   ],
+   "placedDistance": 545,
+   "staleSent": 1,
+   "serverEnd": [
+    1454,
+    3494
+   ],
+   "pageEnd": [
+    1454,
+    3494
+   ],
+   "backAtOldSamples": 52,
+   "correctionsAfter": [
+    [
+     912,
+     1454,
+     3494,
+     0
+    ]
+   ],
+   "walkPoses": 13,
+   "walkFollowPx": 544.9,
+   "kept": false,
+   "track": [
+    [
+     45,
+     1454,
+     3494
+    ],
+    [
+     2610,
+     1454,
+     3494
+    ]
+   ]
+  },
+  {
+   "name": "world545_old_s80",
+   "client": "HQ5 (50 ms)",
+   "jitter": false,
+   "staleMs": 80,
+   "oldSpot": [
+    1454,
+    3494
+   ],
+   "oldOnServer": [
+    1454,
+    3494
+   ],
+   "placed": [
+    960,
+    3264
+   ],
+   "placedDistance": 545,
+   "staleSent": 2,
+   "serverEnd": [
+    1454,
+    3494
+   ],
+   "pageEnd": [
+    1454,
+    3494
+   ],
+   "backAtOldSamples": 53,
+   "correctionsAfter": [
+    [
+     931,
+     1454,
+     3494,
+     0
+    ]
+   ],
+   "walkPoses": 13,
+   "walkFollowPx": 544.9,
+   "kept": false,
+   "track": [
+    [
+     36,
+     1454,
+     3494
+    ],
+    [
+     2648,
+     1454,
+     3494
+    ]
+   ]
+  },
+  {
+   "name": "bring60_old_s80",
+   "client": "HQ5 (50 ms)",
+   "jitter": false,
+   "staleMs": 80,
+   "oldSpot": [
+    952,
+    690
+   ],
+   "oldOnServer": [
+    952,
+    690
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 60,
+   "staleSent": 1,
+   "serverEnd": [
+    1173,
+    690
+   ],
+   "pageEnd": [
+    1173,
+    690
+   ],
+   "backAtOldSamples": 0,
+   "correctionsAfter": [],
+   "walkPoses": 13,
+   "walkFollowPx": 28,
+   "kept": true,
+   "track": [
+    [
+     50,
+     952,
+     690
+    ],
+    [
+     150,
+     1012,
+     690
+    ],
+    [
+     201,
+     1018,
+     690
+    ],
+    [
+     252,
+     1032,
+     690
+    ],
+    [
+     302,
+     1060,
+     690
+    ],
+    [
+     353,
+     1074,
+     690
+    ],
+    [
+     403,
+     1088,
+     690
+    ],
+    [
+     503,
+     1102,
+     690
+    ],
+    [
+     553,
+     1130,
+     690
+    ],
+    [
+     654,
+     1158,
+     690
+    ],
+    [
+     704,
+     1173,
+     690
+    ],
+    [
+     2617,
+     1173,
+     690
+    ]
+   ]
+  },
+  {
+   "name": "bringFar_old_s80",
+   "client": "HQ5 (50 ms)",
+   "jitter": false,
+   "staleMs": 80,
+   "oldSpot": [
+    348,
+    2652
+   ],
+   "oldOnServer": [
+    348,
+    2652
+   ],
+   "placed": [
+    1012,
+    690
+   ],
+   "placedDistance": 2071,
+   "staleSent": 1,
+   "serverEnd": [
+    1171,
+    690
+   ],
+   "pageEnd": [
+    1171,
+    690
+   ],
+   "backAtOldSamples": 0,
+   "correctionsAfter": [],
+   "walkPoses": 13,
+   "walkFollowPx": 29,
+   "kept": true,
+   "track": [
+    [
+     70,
+     1012,
+     690
+    ],
+    [
+     170,
+     1016,
+     690
+    ],
+    [
+     220,
+     1030,
+     690
+    ],
+    [
+     271,
+     1044,
+     690
+    ],
+    [
+     321,
+     1058,
+     690
+    ],
+    [
+     371,
+     1072,
+     690
+    ],
+    [
+     421,
+     1086,
+     690
+    ],
+    [
+     473,
+     1101,
+     690
+    ],
+    [
+     523,
+     1115,
+     690
+    ],
+    [
+     574,
+     1129,
+     690
+    ],
+    [
+     624,
+     1143,
+     690
+    ],
+    [
+     674,
+     1157,
+     690
+    ],
+    [
+     724,
+     1171,
+     690
+    ],
+    [
+     2642,
+     1171,
+     690
+    ]
+   ]
+  }
+ ],
+ "serverErrors": [],
+ "summary": {
+  "bring545_bp": {
+   "kept": 1,
+   "of": 7,
+   "maxWalkFollowPx": 668
+  },
+  "bring545_old": {
+   "kept": 1,
+   "of": 7,
+   "maxWalkFollowPx": 656.6
+  },
+  "world545_bp": {
+   "kept": 0,
+   "of": 2,
+   "maxWalkFollowPx": 542.2
+  },
+  "world545_old": {
+   "kept": 0,
+   "of": 2,
+   "maxWalkFollowPx": 544.9
+  },
+  "bring60_bp": {
+   "kept": 1,
+   "of": 1,
+   "maxWalkFollowPx": 29
+  },
+  "bring60_old": {
+   "kept": 1,
+   "of": 1,
+   "maxWalkFollowPx": 28
+  },
+  "bringFar_bp": {
+   "kept": 1,
+   "of": 1,
+   "maxWalkFollowPx": 29
+  },
+  "bringFar_old": {
+   "kept": 1,
+   "of": 1,
+   "maxWalkFollowPx": 29
+  }
+ }
+}

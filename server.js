@@ -33,7 +33,11 @@ const deathSrv = require('./death_srv.js');
  * A refused move leaves the server's position where it was; if the client keeps claiming somewhere else it is sent a correction.
  * Held in a capture the budget is small (the drag and a crawl); dead it is zero.  Server-side moves (spawn, respawn, admin tools) reset
  * it, with a short grace in which in-flight packets from before the move are ignored instead of corrected.  Admins are not checked:
- * their debug tools move them from the client. */
+ * their debug tools move them from the client.
+ * Stage 3E-0 B++-0: in that grace a pose farther from the placed spot than the fastest legal motion (VMAX, + SLACK) could have carried
+ * the player since the placement was sent before its client knew of it, and is ignored too - before, the refilled budget let such a
+ * pose (a spot up to ~570 px back) through as an ordinary move and the placement was undone.  Any pose the client sends after it took
+ * the placement is within that reach, so it is checked exactly as before. */
 const MV = { VMAX: 360, VHELD: 130, BURST: 1.5, SLACK: 28, SNAP: 220, GRACE: 900 };
 /* Stage 3D HQ2: living Wanderers are solid to each other (server/peers.js: D = 36 px, the drawn body).  Solid: in this room (each room
  * has its own clients), in a run, not dead, not out through a glitched wall, not held in a capture (a capture moves its victim; nothing
@@ -64,7 +68,7 @@ function placeFree(room, me) {                                                  
   const f = PEERS.freeSpot(p.x, p.y, ps, (x, y, r) => room.sim.clearAt(x, y, r), PD);
   p.x = f.x; p.y = f.y; return f.moved;
 }
-function mvReset(me, grace = true) { const p = me.player; me.mv = { t: Date.now(), bud: MV.VMAX * MV.BURST, grace: grace ? Date.now() + MV.GRACE : 0, bad: 0, badAt: 0, paths: 0, pathT: 0, hist: [[Date.now(), p.x, p.y]] }; p.obsV = 0; }
+function mvReset(me, grace = true) { const p = me.player; me.mv = { t: Date.now(), bud: MV.VMAX * MV.BURST, grace: grace ? Date.now() + MV.GRACE : 0, bad: 0, badAt: 0, paths: 0, pathT: 0, hist: [[Date.now(), p.x, p.y]], place: grace ? [p.x, p.y, Date.now()] : null }; p.obsV = 0; }   // (place: Stage 3E-0 B++-0, where and when the server put it)
 function mvAccept(me, x, y) {
   const p = me.player, v = me.mv, now = Date.now();
   v.hist.push([now, x, y]); while (v.hist.length > 2 && now - v.hist[1][0] >= 500) v.hist.shift();       // keeps the newest sample that is at least 0.5 s old as the base
@@ -78,6 +82,8 @@ function mvCheck(room, me, x, y) {
   const cap = p.dead ? 0 : p.caught ? MV.VHELD : MV.VMAX;
   v.bud = Math.min(cap * MV.BURST, v.bud + cap * dt);
   const d = Math.hypot(x - p.x, y - p.y);
+  const pl = v.place;                                                       // Stage 3E-0 B++-0: a pose from before a server placement (see MV): ignored, as a refused one in the grace is
+  if (pl && now < v.grace && now - pl[2] < MV.GRACE && Math.hypot(x - pl[0], y - pl[1]) > MV.VMAX * (now - pl[2]) / 1000 + MV.SLACK) { me.mvStale = (me.mvStale | 0) + 1; return false; }
   let ok = d <= v.bud + MV.SLACK;
   if (ok && d > 0) {                                                        // every accepted move keeps collision legality, however small (tiny steps must not add up through a wall)
     let route = null;

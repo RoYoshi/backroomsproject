@@ -1,0 +1,10 @@
+B++-0 steps (SP = the session scratch folder)
+git ls-remote / gh api: stage-3e-0 = 1f2deba0fc4a1facd41366fb2da9b88af3bd5a52 (tree 11686a0), no stage-3e-0-bplusplus -> remote_heads_before_bpp.json
+git checkout -b stage-3e-0-bplusplus 1f2deba0fc4a1facd41366fb2da9b88af3bd5a52
+game folders: $SP/e0/hq5 (ad98475), $SP/e0/bp (B+ 004b43f), $SP/bpp/g0 (B+ with B++-0's server.js)
+node dev/stage-3e-0-bpp/place_replay.js --game <hq5|bp|g0> --out replay/<hq5_before|bplus_before|bpp0_after>.json
+node dev/stage-3e-0-bpp/place_guard_check.js --game <bp|g0> --out guard/<bplus|bpp0>.json
+node dev/stage-3e-0/proto_check.js --game $SP/bpp/g0 --out proto_bpp0.json
+python3 -I dev/stage-3e-0/place_race.py --game $SP/bpp/g0 --runs 6 --near 504:888 --out browser/place_race_near_bpp0.json
+python3 -I dev/stage-3e-0/two_browser.py --game $SP/bpp/g0 --mode bplus --out browser/two_bplus_bpp0.json
+python3 -I dev/stage-3d-hq2/col_browser.py --game $SP/bpp/g0 --case head|aside   -> browser/col_<case>_bpp0.log
