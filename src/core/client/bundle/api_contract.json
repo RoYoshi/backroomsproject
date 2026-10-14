@@ -1,0 +1,1409 @@
+{
+ "note": "The window.__api contract of the compiled bundle (public/assets/index-DKbV5Nv9.js), derived by dev/stage-3h-modernization/tools/api_contract.js from the bundle, the lineage (blame.json, module_map.json) and the scripts in public/. A member read by nobody is still part of the contract until every script is checked by hand (a script may build a member name at run time: \"[computed]\" lists element accesses).",
+ "bundleSha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b",
+ "memberCount": 52,
+ "readers": {
+  "camcorder.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A",
+    "A0"
+   ],
+   "getters": [],
+   "memberCount": 4
+  },
+  "dphys.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [],
+   "getters": [],
+   "memberCount": 2
+  },
+  "ents.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A",
+    "a"
+   ],
+   "getters": [
+    "API"
+   ],
+   "memberCount": 8
+  },
+  "glitch.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [],
+   "getters": [],
+   "memberCount": 1
+  },
+  "gore.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [
+    "API"
+   ],
+   "memberCount": 2
+  },
+  "hud.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [],
+   "getters": [],
+   "memberCount": 1
+  },
+  "inventory.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [],
+   "memberCount": 5
+  },
+  "light.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [
+    "API"
+   ],
+   "memberCount": 7
+  },
+  "move.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "a"
+   ],
+   "getters": [
+    "A"
+   ],
+   "memberCount": 5
+  },
+  "mp.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [],
+   "memberCount": 28
+  },
+  "sfx.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [],
+   "getters": [],
+   "memberCount": 1
+  },
+  "assets/br-role.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [],
+   "memberCount": 10
+  },
+  "assets/l0-remaster.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [
+    "api"
+   ],
+   "memberCount": 5
+  },
+  "assets/mp-hum.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [],
+   "memberCount": 4
+  },
+  "assets/net-wire.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [],
+   "memberCount": 1
+  },
+  "assets/shadows-2d.js": {
+   "loadedByIndexHtml": false,
+   "aliases": [
+    "A"
+   ],
+   "getters": [],
+   "memberCount": 12
+  },
+  "assets/ui.js": {
+   "loadedByIndexHtml": true,
+   "aliases": [
+    "A"
+   ],
+   "getters": [],
+   "memberCount": 6
+  }
+ },
+ "readsOfNamesNotInTheLiteral": {},
+ "members": [
+  {
+   "name": "lightOn",
+   "kind": "function",
+   "text": "lightOn:()=>!!au&&!window.__hideSelf",
+   "memberText": {
+    "writtenBy": "B19",
+    "source": "8ac1d41 v20"
+   },
+   "binds": [
+    {
+     "name": "au",
+     "writtenBy": "v11",
+     "v11Offset": 296918,
+     "module": "client/main.ts",
+     "tsUnit": "flash",
+     "bundleUnit": "au"
+    }
+   ],
+   "readBy": {
+    "ents.js": 2
+   }
+  },
+  {
+   "name": "bodyList",
+   "kind": "function",
+   "text": "bodyList:()=>Yl",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "Yl",
+     "writtenBy": "v11",
+     "v11Offset": 279334,
+     "module": "shared/remains.ts",
+     "tsUnit": "corpses",
+     "bundleUnit": "Yl"
+    }
+   ],
+   "readBy": {
+    "mp.js": 4
+   }
+  },
+  {
+   "name": "death",
+   "kind": "function",
+   "text": "death:()=>X.death",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "X",
+     "writtenBy": "v11",
+     "v11Offset": 296868,
+     "module": "client/main.ts",
+     "tsUnit": "renderer",
+     "bundleUnit": "X"
+    }
+   ],
+   "readBy": {
+    "ents.js": 4,
+    "light.js": 2,
+    "mp.js": 11,
+    "assets/shadows-2d.js": 6
+   }
+  },
+  {
+   "name": "keys",
+   "kind": "value",
+   "text": "keys:Q",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "Q",
+     "writtenBy": "v11",
+     "v11Offset": 296886,
+     "module": "client/main.ts",
+     "tsUnit": "keys",
+     "bundleUnit": "Q"
+    }
+   ],
+   "readBy": {
+    "move.js": 1,
+    "assets/ui.js": 2
+   }
+  },
+  {
+   "name": "Bc",
+   "kind": "binding",
+   "text": "Bc",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "Bc",
+     "writtenBy": "v11",
+     "v11Offset": 253073,
+     "module": "shared/world.ts",
+     "tsUnit": "function nearby",
+     "bundleUnit": "function Bc"
+    }
+   ],
+   "readBy": {
+    "dphys.js": 2,
+    "ents.js": 2,
+    "light.js": 2,
+    "move.js": 2,
+    "assets/br-role.js": 2,
+    "assets/l0-remaster.js": 2,
+    "assets/shadows-2d.js": 2
+   }
+  },
+  {
+   "name": "Uc",
+   "kind": "binding",
+   "text": "Uc",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "Uc",
+     "writtenBy": "v11",
+     "v11Offset": 253405,
+     "module": "shared/world.ts",
+     "tsUnit": "function rayDistance",
+     "bundleUnit": "function Uc"
+    }
+   ],
+   "readBy": {
+    "camcorder.js": 4,
+    "ents.js": 3,
+    "gore.js": 2,
+    "light.js": 3,
+    "mp.js": 2,
+    "assets/br-role.js": 5,
+    "assets/shadows-2d.js": 8
+   }
+  },
+  {
+   "name": "Oc",
+   "kind": "binding",
+   "text": "Oc",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "Oc",
+     "writtenBy": "v11",
+     "v11Offset": 251140,
+     "module": "shared/world.ts",
+     "tsUnit": "rooms",
+     "bundleUnit": "Oc"
+    }
+   ],
+   "readBy": {
+    "move.js": 2,
+    "assets/br-role.js": 2,
+    "assets/l0-remaster.js": 7
+   }
+  },
+  {
+   "name": "Fc",
+   "kind": "binding",
+   "text": "Fc",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "Fc",
+     "writtenBy": "v11",
+     "v11Offset": 252477,
+     "module": "shared/world.ts",
+     "tsUnit": "lights",
+     "bundleUnit": "Fc"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "ll",
+   "kind": "binding",
+   "text": "ll",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "ll",
+     "writtenBy": "v11",
+     "v11Offset": 261643,
+     "module": "shared/navigation.ts",
+     "tsUnit": "passable",
+     "bundleUnit": "ll"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "ul",
+   "kind": "binding",
+   "text": "ul",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "ul",
+     "writtenBy": "v11",
+     "v11Offset": 261806,
+     "module": "shared/navigation.ts",
+     "tsUnit": "center",
+     "bundleUnit": "ul"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "fl",
+   "kind": "binding",
+   "text": "fl",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "fl",
+     "writtenBy": "v11",
+     "v11Offset": 262150,
+     "module": "shared/navigation.ts",
+     "tsUnit": "function findPath",
+     "bundleUnit": "function fl"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "cl",
+   "kind": "binding",
+   "text": "cl",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "cl",
+     "writtenBy": "v11",
+     "v11Offset": 261469,
+     "module": "shared/navigation.ts",
+     "tsUnit": "function clearSegment",
+     "bundleUnit": "function cl"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "dl",
+   "kind": "binding",
+   "text": "dl",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "dl",
+     "writtenBy": "v11",
+     "v11Offset": 261856,
+     "module": "shared/navigation.ts",
+     "tsUnit": "function nearest",
+     "bundleUnit": "function dl"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "pl",
+   "kind": "value",
+   "text": "pl:null",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [],
+   "readBy": {}
+  },
+  {
+   "name": "qc",
+   "kind": "binding",
+   "text": "qc",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "qc",
+     "writtenBy": "v11",
+     "v11Offset": 254690,
+     "module": "shared/equipment.ts",
+     "tsUnit": "function carriedLightAt",
+     "bundleUnit": "function qc"
+    }
+   ],
+   "readBy": {
+    "assets/shadows-2d.js": 1
+   }
+  },
+  {
+   "name": "Ul",
+   "kind": "binding",
+   "text": "Ul",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "Ul",
+     "writtenBy": "v11",
+     "v11Offset": 269713,
+     "module": "shared/vision.ts",
+     "tsUnit": "function exposureAt",
+     "bundleUnit": "function Ul"
+    }
+   ],
+   "readBy": {
+    "light.js": 2
+   }
+  },
+  {
+   "name": "Gc",
+   "kind": "binding",
+   "text": "Gc",
+   "memberText": {
+    "writtenBy": "B14",
+    "source": "f53d218 v16"
+   },
+   "binds": [
+    {
+     "name": "Gc",
+     "writtenBy": "v11",
+     "v11Offset": 254385,
+     "module": "shared/equipment.ts",
+     "tsUnit": "LIGHT_SPECS",
+     "bundleUnit": "Gc"
+    }
+   ],
+   "readBy": {
+    "assets/br-role.js": 1,
+    "assets/shadows-2d.js": 3
+   }
+  },
+  {
+   "name": "beam",
+   "kind": "function",
+   "text": "beam:()=>X.person.beam",
+   "memberText": {
+    "writtenBy": "B10",
+    "source": "f58bad6 V13"
+   },
+   "binds": [
+    {
+     "name": "X",
+     "writtenBy": "v11",
+     "v11Offset": 296868,
+     "module": "client/main.ts",
+     "tsUnit": "renderer",
+     "bundleUnit": "X"
+    }
+   ],
+   "readBy": {
+    "camcorder.js": 4,
+    "assets/shadows-2d.js": 4
+   }
+  },
+  {
+   "name": "map",
+   "kind": "function",
+   "text": "map:()=>vu()",
+   "memberText": {
+    "writtenBy": "B10",
+    "source": "f58bad6 V13"
+   },
+   "binds": [
+    {
+     "name": "vu",
+     "writtenBy": "v11",
+     "v11Offset": 297136,
+     "module": "client/main.ts",
+     "tsUnit": "function toggleMap",
+     "bundleUnit": "function vu"
+    }
+   ],
+   "readBy": {
+    "inventory.js": 2
+   }
+  },
+  {
+   "name": "mapOpen",
+   "kind": "function",
+   "text": "mapOpen:()=>ou",
+   "memberText": {
+    "writtenBy": "B10",
+    "source": "f58bad6 V13"
+   },
+   "binds": [
+    {
+     "name": "ou",
+     "writtenBy": "v11",
+     "v11Offset": 296924,
+     "module": "client/main.ts",
+     "tsUnit": "map",
+     "bundleUnit": "ou"
+    }
+   ],
+   "readBy": {
+    "inventory.js": 2
+   }
+  },
+  {
+   "name": "gear",
+   "kind": "value",
+   "text": "gear:{eq:Zc,save:Qc,defs:PD,parts:Pg,fit:Jc,draw:Gd}",
+   "memberText": {
+    "writtenBy": "B10",
+    "source": "f58bad6 V13"
+   },
+   "binds": [
+    {
+     "name": "Zc",
+     "writtenBy": "v11",
+     "v11Offset": 256260,
+     "module": "client/loadout.ts",
+     "tsUnit": "equipment",
+     "bundleUnit": "Zc"
+    },
+    {
+     "name": "Qc",
+     "writtenBy": "v11",
+     "v11Offset": 256365,
+     "module": "client/loadout.ts",
+     "tsUnit": "function saveEquipment",
+     "bundleUnit": "function Qc"
+    },
+    {
+     "name": "PD",
+     "writtenBy": "B10",
+     "source": "f58bad6 V13"
+    },
+    {
+     "name": "Pg",
+     "writtenBy": "B10",
+     "source": "f58bad6 V13"
+    },
+    {
+     "name": "Jc",
+     "writtenBy": "v11",
+     "v11Offset": 254988,
+     "module": "shared/equipment.ts",
+     "tsUnit": "function validLight",
+     "bundleUnit": "function Jc"
+    },
+    {
+     "name": "Gd",
+     "writtenBy": "B10",
+     "source": "f58bad6 V13"
+    }
+   ],
+   "readBy": {
+    "inventory.js": 19,
+    "assets/net-wire.js": 5,
+    "assets/ui.js": 6
+   }
+  },
+  {
+   "name": "G",
+   "kind": "binding",
+   "text": "G",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "G",
+     "writtenBy": "v11",
+     "v11Offset": 262866,
+     "module": "shared/entity.ts",
+     "tsUnit": "entity",
+     "bundleUnit": "G"
+    }
+   ],
+   "readBy": {
+    "mp.js": 11
+   }
+  },
+  {
+   "name": "q",
+   "kind": "binding",
+   "text": "q",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "q",
+     "writtenBy": "v11",
+     "v11Offset": 266743,
+     "module": "shared/entity.ts",
+     "tsUnit": "smilers",
+     "bundleUnit": "q"
+    }
+   ],
+   "readBy": {
+    "mp.js": 6
+   }
+  },
+  {
+   "name": "V",
+   "kind": "binding",
+   "text": "V",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "V",
+     "writtenBy": "v11",
+     "v11Offset": 252648,
+     "module": "shared/world.ts",
+     "tsUnit": "lighting",
+     "bundleUnit": "V"
+    }
+   ],
+   "readBy": {
+    "ents.js": 2,
+    "light.js": 2,
+    "mp.js": 1,
+    "assets/br-role.js": 2,
+    "assets/mp-hum.js": 1,
+    "assets/shadows-2d.js": 2
+   }
+  },
+  {
+   "name": "el",
+   "kind": "binding",
+   "text": "el",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "el",
+     "writtenBy": "v11",
+     "v11Offset": 260843,
+     "module": "shared/evidence.ts",
+     "tsUnit": "traces",
+     "bundleUnit": "el"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "H",
+   "kind": "binding",
+   "text": "H",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "H",
+     "writtenBy": "v11",
+     "v11Offset": 255214,
+     "module": "shared/movement.ts",
+     "tsUnit": "player",
+     "bundleUnit": "H"
+    }
+   ],
+   "readBy": {
+    "camcorder.js": 4,
+    "ents.js": 7,
+    "light.js": 3,
+    "move.js": 7,
+    "mp.js": 26,
+    "assets/br-role.js": 4,
+    "assets/l0-remaster.js": 1,
+    "assets/mp-hum.js": 1,
+    "assets/shadows-2d.js": 5,
+    "assets/ui.js": 1,
+    "assets/index-DKbV5Nv9.js (the bundle itself)": 3
+   }
+  },
+  {
+   "name": "yu",
+   "kind": "binding",
+   "text": "yu",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "yu",
+     "writtenBy": "v11",
+     "v11Offset": 297187,
+     "module": "client/main.ts",
+     "tsUnit": "function updateEvidence",
+     "bundleUnit": "function yu"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "zc",
+   "kind": "binding",
+   "text": "zc",
+   "memberText": {
+    "writtenBy": "B09",
+    "source": "0576672 v12"
+   },
+   "binds": [
+    {
+     "name": "zc",
+     "writtenBy": "v11",
+     "v11Offset": 253024,
+     "module": "shared/world.ts",
+     "tsUnit": "isFloor",
+     "bundleUnit": "zc"
+    }
+   ],
+   "readBy": {
+    "mp.js": 4,
+    "assets/l0-remaster.js": 4
+   }
+  },
+  {
+   "name": "Hc",
+   "kind": "binding",
+   "text": "Hc",
+   "memberText": {
+    "writtenBy": "B09",
+    "source": "0576672 v12"
+   },
+   "binds": [
+    {
+     "name": "Hc",
+     "writtenBy": "v11",
+     "v11Offset": 253345,
+     "module": "shared/world.ts",
+     "tsUnit": "blocksSight",
+     "bundleUnit": "Hc"
+    }
+   ],
+   "readBy": {
+    "mp.js": 1,
+    "assets/br-role.js": 6,
+    "assets/l0-remaster.js": 4,
+    "assets/shadows-2d.js": 2
+   }
+  },
+  {
+   "name": "sl",
+   "kind": "binding",
+   "text": "sl",
+   "memberText": {
+    "writtenBy": "B09",
+    "source": "0576672 v12"
+   },
+   "binds": [
+    {
+     "name": "sl",
+     "writtenBy": "v11",
+     "v11Offset": 261335,
+     "module": "shared/navigation.ts",
+     "tsUnit": "function clearPoint",
+     "bundleUnit": "function sl"
+    }
+   ],
+   "readBy": {
+    "dphys.js": 1,
+    "ents.js": 5,
+    "gore.js": 2,
+    "mp.js": 6
+   }
+  },
+  {
+   "name": "Ic",
+   "kind": "binding",
+   "text": "Ic",
+   "memberText": {
+    "writtenBy": "B09",
+    "source": "0576672 v12"
+   },
+   "binds": [
+    {
+     "name": "Ic",
+     "writtenBy": "v11",
+     "v11Offset": 252630,
+     "module": "shared/world.ts",
+     "tsUnit": "spawn",
+     "bundleUnit": "Ic"
+    }
+   ],
+   "readBy": {
+    "mp.js": 4
+   }
+  },
+  {
+   "name": "bodyCount",
+   "kind": "function",
+   "text": "bodyCount:()=>Yl.length",
+   "memberText": {
+    "writtenBy": "B09",
+    "source": "0576672 v12"
+   },
+   "binds": [
+    {
+     "name": "Yl",
+     "writtenBy": "v11",
+     "v11Offset": 279334,
+     "module": "shared/remains.ts",
+     "tsUnit": "corpses",
+     "bundleUnit": "Yl"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "bodies",
+   "kind": "function",
+   "text": "bodies:e=>{for(let t=Yl.length;t--;)Yl[t].remote&&Yl.splice(t,1);for(let t of e)Yl.some(n=>!n.remote&&`r`+n.ownerId===t.ownerId)||Yl.push(t)}",
+   "memberText": {
+    "writtenBy": "B09",
+    "source": "0576672 v12"
+   },
+   "binds": [
+    {
+     "name": "Yl",
+     "writtenBy": "v11",
+     "v11Offset": 279334,
+     "module": "shared/remains.ts",
+     "tsUnit": "corpses",
+     "bundleUnit": "Yl"
+    }
+   ],
+   "readBy": {
+    "mp.js": 2
+   }
+  },
+  {
+   "name": "look",
+   "kind": "value",
+   "text": "look:U",
+   "memberText": {
+    "writtenBy": "B06",
+    "source": "0f00c65 FIXED"
+   },
+   "binds": [
+    {
+     "name": "U",
+     "writtenBy": "v11",
+     "v11Offset": 255753,
+     "module": "shared/avatar.ts",
+     "tsUnit": "defaults",
+     "bundleUnit": "U"
+    }
+   ],
+   "readBy": {
+    "mp.js": 1,
+    "assets/ui.js": 1,
+    "assets/index-DKbV5Nv9.js (the bundle itself)": 2
+   }
+  },
+  {
+   "name": "lamps",
+   "kind": "value",
+   "text": "lamps:Fc",
+   "memberText": {
+    "writtenBy": "B06",
+    "source": "0f00c65 FIXED"
+   },
+   "binds": [
+    {
+     "name": "Fc",
+     "writtenBy": "v11",
+     "v11Offset": 252477,
+     "module": "shared/world.ts",
+     "tsUnit": "lights",
+     "bundleUnit": "Fc"
+    }
+   ],
+   "readBy": {
+    "light.js": 2,
+    "mp.js": 1,
+    "assets/br-role.js": 6,
+    "assets/mp-hum.js": 6,
+    "assets/shadows-2d.js": 1
+   }
+  },
+  {
+   "name": "audio",
+   "kind": "function",
+   "text": "audio:()=>Z",
+   "memberText": {
+    "writtenBy": "B06",
+    "source": "0f00c65 FIXED"
+   },
+   "binds": [
+    {
+     "name": "Z",
+     "writtenBy": "v11",
+     "v11Offset": 296877,
+     "module": "client/main.ts",
+     "tsUnit": "audio",
+     "bundleUnit": "Z"
+    }
+   ],
+   "readBy": {
+    "camcorder.js": 2,
+    "ents.js": 3,
+    "glitch.js": 4,
+    "hud.js": 4,
+    "inventory.js": 2,
+    "move.js": 2,
+    "sfx.js": 2,
+    "assets/mp-hum.js": 2
+   }
+  },
+  {
+   "name": "revive",
+   "kind": "function",
+   "text": "revive:()=>{G.caught&&xu()}",
+   "memberText": {
+    "writtenBy": "B06",
+    "source": "0f00c65 FIXED"
+   },
+   "binds": [
+    {
+     "name": "G",
+     "writtenBy": "v11",
+     "v11Offset": 262866,
+     "module": "shared/entity.ts",
+     "tsUnit": "entity",
+     "bundleUnit": "G"
+    },
+    {
+     "name": "xu",
+     "writtenBy": "v11",
+     "v11Offset": 297813,
+     "module": "client/main.ts",
+     "tsUnit": "function respawn",
+     "bundleUnit": "function xu"
+    }
+   ],
+   "readBy": {
+    "mp.js": 1
+   }
+  },
+  {
+   "name": "worldEnd",
+   "kind": "function",
+   "text": "worldEnd:(x,y)=>Xwr(x,y)",
+   "memberText": {
+    "writtenBy": "B39",
+    "source": "99e1593 Stage 3D HQ2-4: the browser predicts the other players; the world epoch (an admin reset ends every old-world death and blast on every screen)"
+   },
+   "binds": [
+    {
+     "name": "Xwr",
+     "writtenBy": "v11",
+     "v11Offset": 298039,
+     "module": "client/main.ts",
+     "tsUnit": "function newRun",
+     "bundleUnit": "function Su"
+    }
+   ],
+   "readBy": {
+    "mp.js": 2
+   }
+  },
+  {
+   "name": "tp",
+   "kind": "function",
+   "text": "tp:(e,t)=>{H.x=e,H.y=t,H.vx=H.vy=0,X.camera={x:e,y:t}}",
+   "memberText": {
+    "writtenBy": "B06",
+    "source": "0f00c65 FIXED"
+   },
+   "binds": [
+    {
+     "name": "H",
+     "writtenBy": "v11",
+     "v11Offset": 255214,
+     "module": "shared/movement.ts",
+     "tsUnit": "player",
+     "bundleUnit": "H"
+    },
+    {
+     "name": "X",
+     "writtenBy": "v11",
+     "v11Offset": 296868,
+     "module": "client/main.ts",
+     "tsUnit": "renderer",
+     "bundleUnit": "X"
+    }
+   ],
+   "readBy": {
+    "mp.js": 3
+   }
+  },
+  {
+   "name": "mkAvatar",
+   "kind": "function",
+   "text": "mkAvatar:(e,t)=>new $c(e,t)",
+   "memberText": {
+    "writtenBy": "B06",
+    "source": "0f00c65 FIXED"
+   },
+   "binds": [
+    {
+     "name": "$c",
+     "writtenBy": "v11",
+     "v11Offset": 256453,
+     "module": "client/player-view.ts",
+     "tsUnit": "PlayerView (class)",
+     "bundleUnit": "$c.look"
+    }
+   ],
+   "readBy": {
+    "mp.js": 4
+   }
+  },
+  {
+   "name": "layer",
+   "kind": "function",
+   "text": "layer:()=>X.creatures",
+   "memberText": {
+    "writtenBy": "B06",
+    "source": "0f00c65 FIXED"
+   },
+   "binds": [
+    {
+     "name": "X",
+     "writtenBy": "v11",
+     "v11Offset": 296868,
+     "module": "client/main.ts",
+     "tsUnit": "renderer",
+     "bundleUnit": "X"
+    }
+   ],
+   "readBy": {
+    "mp.js": 4,
+    "assets/br-role.js": 2,
+    "assets/shadows-2d.js": 2
+   }
+  },
+  {
+   "name": "floor",
+   "kind": "function",
+   "text": "floor:()=>X.corpseLayer",
+   "memberText": {
+    "writtenBy": "B12",
+    "source": "e68caf5 V16"
+   },
+   "binds": [
+    {
+     "name": "X",
+     "writtenBy": "v11",
+     "v11Offset": 296868,
+     "module": "client/main.ts",
+     "tsUnit": "renderer",
+     "bundleUnit": "X"
+    }
+   ],
+   "readBy": {
+    "mp.js": 2,
+    "assets/br-role.js": 2,
+    "assets/shadows-2d.js": 2
+   }
+  },
+  {
+   "name": "Jl",
+   "kind": "binding",
+   "text": "Jl",
+   "memberText": {
+    "writtenBy": "B12",
+    "source": "e68caf5 V16"
+   },
+   "binds": [
+    {
+     "name": "Jl",
+     "writtenBy": "v11",
+     "v11Offset": 273994,
+     "module": "client/death.ts",
+     "tsUnit": "DeathSequence (class)",
+     "bundleUnit": "Jl.blood"
+    }
+   ],
+   "readBy": {
+    "mp.js": 3
+   }
+  },
+  {
+   "name": "Wl",
+   "kind": "binding",
+   "text": "Wl",
+   "memberText": {
+    "writtenBy": "B12",
+    "source": "e68caf5 V16"
+   },
+   "binds": [
+    {
+     "name": "Wl",
+     "writtenBy": "v11",
+     "v11Offset": 269995,
+     "module": "client/entity-view.ts",
+     "tsUnit": "EntityView (class)",
+     "bundleUnit": "Wl.limbs"
+    }
+   ],
+   "readBy": {
+    "mp.js": 1
+   }
+  },
+  {
+   "name": "Gl",
+   "kind": "binding",
+   "text": "Gl",
+   "memberText": {
+    "writtenBy": "B12",
+    "source": "e68caf5 V16"
+   },
+   "binds": [
+    {
+     "name": "Gl",
+     "writtenBy": "v11",
+     "v11Offset": 273108,
+     "module": "client/entity-view.ts",
+     "tsUnit": "SmilerView (class)",
+     "bundleUnit": "Gl.face"
+    }
+   ],
+   "readBy": {
+    "mp.js": 1
+   }
+  },
+  {
+   "name": "J",
+   "kind": "binding",
+   "text": "J",
+   "memberText": {
+    "writtenBy": "B12",
+    "source": "e68caf5 V16"
+   },
+   "binds": [
+    {
+     "name": "J",
+     "writtenBy": "v11",
+     "v11Offset": 269081,
+     "module": "shared/vision.ts",
+     "tsUnit": "smooth",
+     "bundleUnit": "J"
+    }
+   ],
+   "readBy": {}
+  },
+  {
+   "name": "fall",
+   "kind": "function",
+   "text": "fall:()=>FL?Math.min(1,(performance.now()/1e3-FL.t0)/FL.dur):-1",
+   "memberText": {
+    "writtenBy": "B12",
+    "source": "e68caf5 V16"
+   },
+   "binds": [
+    {
+     "name": "FL",
+     "writtenBy": "B12",
+     "source": "e68caf5 V16"
+    }
+   ],
+   "readBy": {
+    "mp.js": 4
+   }
+  },
+  {
+   "name": "started",
+   "kind": "function",
+   "text": "started:()=>$",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "$",
+     "writtenBy": "v11",
+     "v11Offset": 296907,
+     "module": "client/main.ts",
+     "tsUnit": "started",
+     "bundleUnit": "$"
+    }
+   ],
+   "readBy": {
+    "inventory.js": 4,
+    "mp.js": 1,
+    "assets/ui.js": 9
+   }
+  },
+  {
+   "name": "paused",
+   "kind": "function",
+   "text": "paused:()=>iu",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "iu",
+     "writtenBy": "v11",
+     "v11Offset": 296912,
+     "module": "client/main.ts",
+     "tsUnit": "paused",
+     "bundleUnit": "iu"
+    }
+   ],
+   "readBy": {
+    "mp.js": 2,
+    "assets/ui.js": 5
+   }
+  },
+  {
+   "name": "unpause",
+   "kind": "function",
+   "text": "unpause:()=>{iu&&_u(!1)}",
+   "memberText": {
+    "writtenBy": "B18",
+    "source": "cb6afe4 v19"
+   },
+   "binds": [
+    {
+     "name": "iu",
+     "writtenBy": "v11",
+     "v11Offset": 296912,
+     "module": "client/main.ts",
+     "tsUnit": "paused",
+     "bundleUnit": "iu"
+    },
+    {
+     "name": "_u",
+     "writtenBy": "v11",
+     "v11Offset": 297026,
+     "module": "client/main.ts",
+     "tsUnit": "function pause",
+     "bundleUnit": "function _u"
+    }
+   ],
+   "readBy": {
+    "mp.js": 2
+   }
+  },
+  {
+   "name": "win",
+   "kind": "function",
+   "text": "win:()=>{hu||(hu=!0,Q.clear(),cu=0,Y(`won`).hidden=!1)}",
+   "memberText": {
+    "writtenBy": "B05",
+    "source": "ad3ba1e wqe"
+   },
+   "binds": [
+    {
+     "name": "hu",
+     "writtenBy": "v11",
+     "v11Offset": 297014,
+     "module": "client/main.ts",
+     "tsUnit": "won",
+     "bundleUnit": "hu"
+    },
+    {
+     "name": "Q",
+     "writtenBy": "v11",
+     "v11Offset": 296886,
+     "module": "client/main.ts",
+     "tsUnit": "keys",
+     "bundleUnit": "Q"
+    },
+    {
+     "name": "cu",
+     "writtenBy": "v11",
+     "v11Offset": 296951,
+     "module": "client/main.ts",
+     "tsUnit": "accumulator",
+     "bundleUnit": "cu"
+    },
+    {
+     "name": "Y",
+     "writtenBy": "v11",
+     "v11Offset": 296836,
+     "module": "client/main.ts",
+     "tsUnit": "$",
+     "bundleUnit": "Y"
+    }
+   ],
+   "readBy": {
+    "mp.js": 1
+   }
+  },
+  {
+   "name": "unwin",
+   "kind": "function",
+   "text": "unwin:()=>{hu=!1;Y(`won`).hidden=!0}",
+   "memberText": {
+    "writtenBy": "B06",
+    "source": "0f00c65 FIXED"
+   },
+   "binds": [
+    {
+     "name": "hu",
+     "writtenBy": "v11",
+     "v11Offset": 297014,
+     "module": "client/main.ts",
+     "tsUnit": "won",
+     "bundleUnit": "hu"
+    },
+    {
+     "name": "Y",
+     "writtenBy": "v11",
+     "v11Offset": 296836,
+     "module": "client/main.ts",
+     "tsUnit": "$",
+     "bundleUnit": "Y"
+    }
+   ],
+   "readBy": {}
+  }
+ ]
+}

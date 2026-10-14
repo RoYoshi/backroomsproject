@@ -1,0 +1,271 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/recovery_verify.py",
+ "checks": {
+  "archive_sha256": {
+   "ok": true,
+   "sha256": "9f4aeac34c8205cf4ace7c57d8b3cb4a97f4c5b29b35c44980ab8c08ac7505e7",
+   "bytes": 46165853
+  },
+  "archive_members": {
+   "ok": true,
+   "members": 533,
+   "unsafePaths": []
+  },
+  "archive_crc": {
+   "ok": true
+  },
+  "payload_sha256sums": {
+   "ok": true,
+   "lines": 532,
+   "mismatches": []
+  },
+  "history_bundle": {
+   "ok": true,
+   "fsckExit": 0,
+   "commits": 11,
+   "head": "49743e94d6f0e5023790a8f2a726140f25fb14aa",
+   "headTree": "b80323b0ee9c9124453e2d0a62c5f894c8f41db7",
+   "earliest": "c063012e84a65db3508e18bc61f7427e941d1e6e"
+  },
+  "snapshots_equal_git_blobs": {
+   "ok": true,
+   "snapshots": 11,
+   "fileInstances": 434,
+   "problems": []
+  },
+  "v11_bundle": {
+   "ok": true,
+   "bytes": 304183,
+   "sha256": "82fb8ff4b25334237f03f57888cfb48dfa84cdba625ffffb7f5eedf03d5bbf5e",
+   "equalsUploadedCopy": true
+  },
+  "v11_dist_vs_build_receipt": {
+   "ok": true,
+   "files": 17,
+   "receiptRuntime": {
+    "node": "v24.19.0",
+    "npm": "11.9.0",
+    "platform": "Linux x86_64"
+   },
+   "receiptSaysIdentical": true
+  },
+  "v11_dist_vs_served_recorded": {
+   "ok": true,
+   "identical": 11,
+   "different": [
+    "assets/carpet.png",
+    "assets/index-D7hdwmUU.css",
+    "assets/index-DKbV5Nv9.js",
+    "index.html"
+   ],
+   "notServed": [
+    "assets/concrete.webp",
+    "assets/webworkerAll-ByhiNG9W.js"
+   ]
+  }
+ },
+ "ok": true,
+ "snapshots": {
+  "site-v11-49743e94d6f0": {
+   "commit": "49743e94d6f0e5023790a8f2a726140f25fb14aa",
+   "tree": "b80323b0ee9c9124453e2d0a62c5f894c8f41db7",
+   "files": 46,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v10-d6baa2b3ac6c": {
+   "commit": "d6baa2b3ac6c985cc74bf76bf8b4d1bdbc09a39b",
+   "tree": "1f86e07e6e0a7e2ab42e5e5ef433ec76fe3a5f84",
+   "files": 41,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v09-a6be38edf399": {
+   "commit": "a6be38edf399cf8d9b75ffda541e8a44373dfbcf",
+   "tree": "29e1b1bb34f1758200205892eb295014375f9cd5",
+   "files": 40,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v08-13fb8492f7e0": {
+   "commit": "13fb8492f7e0937b1ff6958c35ff7bc9b9bb0382",
+   "tree": "cf381ff14fe925a5b2a6fcc1f7ea3a2f95cbdcdd",
+   "files": 39,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v07-1ca31713866c": {
+   "commit": "1ca31713866c62405f6377ec121b306af93e7cd6",
+   "tree": "ceda1d5d1093f75e356ab94b92489cee9509e171",
+   "files": 72,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v06-73a367d3a809": {
+   "commit": "73a367d3a8095e6ee92edf6ad9777d84188e474d",
+   "tree": "22d7bf28af14c2b3038431e5c2bbce3521762bc4",
+   "files": 53,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v05-fbe76b198abe": {
+   "commit": "fbe76b198abe60a65f7ac46dc7a916557cab6eb1",
+   "tree": "33930e8f8a80ce948883ec09b2fecba7d1ab69e4",
+   "files": 31,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v04-144b4f3c546c": {
+   "commit": "144b4f3c546c7a9c01e24148317f332cb87af781",
+   "tree": "8c3e2b9fcc16255822ff07bcd1581f355de31be9",
+   "files": 30,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v03-2884a87f4bbb": {
+   "commit": "2884a87f4bbb0f8964413e17a5b3609c4ff70358",
+   "tree": "e2dcb4653de46f8cbd30a4e7c5d96877207f1709",
+   "files": 29,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v02-667b94bc599b": {
+   "commit": "667b94bc599b75dc5c253128e2e4560d7d393b1a",
+   "tree": "5db4ed2d5dcaab1dedb3d0e4010e7fe2da3fc2ec",
+   "files": 28,
+   "mismatches": [],
+   "extra": []
+  },
+  "site-v01-c063012e84a6": {
+   "commit": "c063012e84a65db3508e18bc61f7427e941d1e6e",
+   "tree": "05e207197e9e10c9e8247828dcd13697415676ba",
+   "files": 25,
+   "mismatches": [],
+   "extra": []
+  }
+ },
+ "rebuild": {
+  "freshNpmBuildHere": "NOT RUN",
+  "why": "this session cannot reach the npm registry (registry.npmjs.org: CONNECT 403 from the network policy, and no direct DNS); the rebuild evidence is the recovery's own receipt (Node v24.19.0, npm 11.9.0, 17/17 dist files identical) plus the byte identity of the archived dist with the history blobs and the uploaded copy",
+  "command": "npm ci --ignore-scripts && npm run build   (in a copy of versions/site-v11-49743e94d6f0/)"
+ },
+ "v11DistVsServed": {
+  "assets/BufferResource-B-thlpip.js": {
+   "v11Bytes": 11068,
+   "servedBytes": 11068,
+   "same": true,
+   "v11Sha256": "56f34780fd104d1cb11da624c9fab954f9de88802590170e4522281609164990",
+   "servedSha256": "56f34780fd104d1cb11da624c9fab954f9de88802590170e4522281609164990"
+  },
+  "assets/Cache-DDo62lBW.js": {
+   "v11Bytes": 1100,
+   "servedBytes": 1100,
+   "same": true,
+   "v11Sha256": "94f3d177d09bfecefa8b80e646a55ff894635dd1723d6e7128d802477f3bae3a",
+   "servedSha256": "94f3d177d09bfecefa8b80e646a55ff894635dd1723d6e7128d802477f3bae3a"
+  },
+  "assets/CanvasPool-DecUtJxW.js": {
+   "v11Bytes": 68480,
+   "servedBytes": 68480,
+   "same": true,
+   "v11Sha256": "45335d161156296b274b89eb85b9040a0d08b1870125bfcc5e7100bb937589f1",
+   "servedSha256": "45335d161156296b274b89eb85b9040a0d08b1870125bfcc5e7100bb937589f1"
+  },
+  "assets/Filter-DzecrWg_.js": {
+   "v11Bytes": 42012,
+   "servedBytes": 42012,
+   "same": true,
+   "v11Sha256": "de855f231760116676843943157cf0b52bf893b5f0781f8d34fc94352e1c3fbd",
+   "servedSha256": "de855f231760116676843943157cf0b52bf893b5f0781f8d34fc94352e1c3fbd"
+  },
+  "assets/GCManagedHash-Bz2ZMBJN.js": {
+   "v11Bytes": 19356,
+   "servedBytes": 19356,
+   "same": true,
+   "v11Sha256": "b634a4602cfa70019626a0e83942f76dfbe49feadf28825410f0b96cb1849ef6",
+   "servedSha256": "b634a4602cfa70019626a0e83942f76dfbe49feadf28825410f0b96cb1849ef6"
+  },
+  "assets/GraphicsContext-vm7TDg_M.js": {
+   "v11Bytes": 61700,
+   "servedBytes": 61700,
+   "same": true,
+   "v11Sha256": "681ef439c93da35418927d0ff6ba84e4380b1656701756f973ef3df4bdd5aebc",
+   "servedSha256": "681ef439c93da35418927d0ff6ba84e4380b1656701756f973ef3df4bdd5aebc"
+  },
+  "assets/RenderTargetSystem-CgUxHIsn.js": {
+   "v11Bytes": 58779,
+   "servedBytes": 58779,
+   "same": true,
+   "v11Sha256": "cc26f4d020bdf55a0346f21b417048a129c071b2b4625463bb269eb899443aa2",
+   "servedSha256": "cc26f4d020bdf55a0346f21b417048a129c071b2b4625463bb269eb899443aa2"
+  },
+  "assets/browserAll-B-iwy0YI.js": {
+   "v11Bytes": 42676,
+   "servedBytes": 42676,
+   "same": true,
+   "v11Sha256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6",
+   "servedSha256": "773a95bdf0c8fe2d6106f8643c7171111a1b22b9220d546dedafba2a213346e6"
+  },
+  "assets/canvasUtils-CxYPZET9.js": {
+   "v11Bytes": 6054,
+   "servedBytes": 6054,
+   "same": true,
+   "v11Sha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03",
+   "servedSha256": "1e29f32d043bc9342dabb11cb033adf27013606f32f8d363cf3c2ff34bed5b03"
+  },
+  "assets/carpet.png": {
+   "v11Bytes": 3403023,
+   "servedBytes": 463327,
+   "same": false,
+   "v11Sha256": "aec104d6680c787f6d265d542d0055ab8b01ecac77020aa24b7cfe09f016f4b3",
+   "servedSha256": "7d72b780d2c67e205429ac4b1f5f1c9d5feeea56b4dd1ec59e7a0ad4c0d77dab"
+  },
+  "assets/concrete.webp": {
+   "v11Bytes": 101200,
+   "served": null,
+   "same": false,
+   "v11Sha256": "11d66854bb2c448e8891180d129e302560557978e2b0b5ce0814b6f41ebe07a1"
+  },
+  "assets/getTextureBatchBindGroup-DBCrgHVb.js": {
+   "v11Bytes": 344,
+   "servedBytes": 344,
+   "same": true,
+   "v11Sha256": "f97cfacaed002298725cd05c62cb5668989473d0bfe5850c4c36dbd773b59766",
+   "servedSha256": "f97cfacaed002298725cd05c62cb5668989473d0bfe5850c4c36dbd773b59766"
+  },
+  "assets/index-D7hdwmUU.css": {
+   "v11Bytes": 9899,
+   "servedBytes": 27218,
+   "same": false,
+   "v11Sha256": "794903d6a8b9a693e2cb7067cd1a28954963c294a7e304ab9b1bbc28c07dacef",
+   "servedSha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a"
+  },
+  "assets/index-DKbV5Nv9.js": {
+   "v11Bytes": 304183,
+   "servedBytes": 340823,
+   "same": false,
+   "v11Sha256": "82fb8ff4b25334237f03f57888cfb48dfa84cdba625ffffb7f5eedf03d5bbf5e",
+   "servedSha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b"
+  },
+  "assets/init-Cn1_BCi0.js": {
+   "v11Bytes": 15753,
+   "servedBytes": 15753,
+   "same": true,
+   "v11Sha256": "c6fb810d1c6d8674992f4e85779800fe63394b29eb0dcea71206fc7495714037",
+   "servedSha256": "c6fb810d1c6d8674992f4e85779800fe63394b29eb0dcea71206fc7495714037"
+  },
+  "assets/webworkerAll-ByhiNG9W.js": {
+   "v11Bytes": 55,
+   "served": null,
+   "same": false,
+   "v11Sha256": "5b59760556de6f41823269d789f45fc1313fc9a18118cbe70ee7a8091339bb90"
+  },
+  "index.html": {
+   "v11Bytes": 6483,
+   "servedBytes": 24568,
+   "same": false,
+   "v11Sha256": "961e954abad83868587b2b3b6044904ad95e37c3f8f6052a064af62c060facab",
+   "servedSha256": "ca02fd163bee6c2f9460f7f4e2af0c9cfa90b01f28c2a3d2db5f427913c428cf"
+  }
+ }
+}

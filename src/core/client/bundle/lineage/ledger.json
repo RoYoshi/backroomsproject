@@ -1,0 +1,1685 @@
+{
+ "note": "The client lineage ledger: how each file the original v11 Vite build produced became the file the modern game ships. Each step is a patch on the bytes of the previous version, checked by its SHA-256 before and after. Derived by dev/stage-3h-modernization/tools/lineage_derive.js; replayed and verified by dev/tools/lineage/lineage.js.",
+ "provenance": {
+  "recoveryArchiveSha256": "9f4aeac34c8205cf4ace7c57d8b3cb4a97f4c5b29b35c44980ab8c08ac7505e7",
+  "v11Commit": "49743e94d6f0e5023790a8f2a726140f25fb14aa",
+  "v11Tree": "b80323b0ee9c9124453e2d0a62c5f894c8f41db7",
+  "historyRef": "22751bbc39c91f3e54e3305638b2ef2c9dd12c68"
+ },
+ "files": {
+  "bundle": {
+   "file": "public/assets/index-DKbV5Nv9.js",
+   "historicalPath": "assets/index-DKbV5Nv9.js",
+   "base": {
+    "path": "src/core/client/bundle/original-v11/dist/assets/index-DKbV5Nv9.js",
+    "recoveryPath": "versions/site-v11-49743e94d6f0/dist/assets/index-DKbV5Nv9.js",
+    "bytes": 304183,
+    "sha256": "82fb8ff4b25334237f03f57888cfb48dfa84cdba625ffffb7f5eedf03d5bbf5e"
+   },
+   "steps": [
+    {
+     "id": "B01",
+     "source": {
+      "kind": "package",
+      "package": "thefarbackrooms-refined-entity-build.zip",
+      "member": "assets/index-DKbV5Nv9.js",
+      "packageSha256": "8c3c4b7b6453de715fb7da10c6dec26f5bfe0d38f6e7d88c1ebed6e52026f2d4",
+      "created": "2026-09-29T02:04:11Z"
+     },
+     "patch": "bundle/B01.json",
+     "hunks": 17,
+     "deleted": 91,
+     "inserted": 168,
+     "after": {
+      "bytes": 304260,
+      "sha256": "8bcee1b254e14f4360cd18ce0c155b513bf5a2c0335bcba770ed236989c5b876"
+     }
+    },
+    {
+     "id": "B02",
+     "source": {
+      "kind": "package",
+      "package": "thefarbackrooms-level0-refined-v3.zip",
+      "member": "assets/index-DKbV5Nv9.js",
+      "packageSha256": "64e8f7c3f5254297a6d9b928ccf3e9fce2083f9c0de05612ce52490dcd182d48",
+      "created": "2026-09-29T02:23:50Z"
+     },
+     "patch": "bundle/B02.json",
+     "hunks": 336,
+     "deleted": 2626,
+     "inserted": 6501,
+     "after": {
+      "bytes": 308135,
+      "sha256": "3644cfb73d0f4d738f3246308065076b1b22956acbbf8cac433e7d46ddd7fcbe"
+     }
+    },
+    {
+     "id": "B03",
+     "source": {
+      "kind": "commit",
+      "commit": "c9bd4da1fe740ea65f02e2513d5103ff847a483a",
+      "date": "2026-09-28T22:05:03-05:00",
+      "author": "RoYo",
+      "subject": "fs"
+     },
+     "patch": "bundle/B03.json",
+     "hunks": 2,
+     "deleted": 0,
+     "inserted": 97,
+     "after": {
+      "bytes": 308232,
+      "sha256": "0de7d49a8682add5e8554c1dc8d16c805f6bc88bea1eb433b265bce1806ebd82"
+     }
+    },
+    {
+     "id": "B04",
+     "source": {
+      "kind": "commit",
+      "commit": "405e5c94de18a8f15e304891f7fb812e81a6c189",
+      "date": "2026-09-28T22:15:05-05:00",
+      "author": "RoYo",
+      "subject": "fix"
+     },
+     "patch": "bundle/B04.json",
+     "hunks": 4,
+     "deleted": 27,
+     "inserted": 87,
+     "after": {
+      "bytes": 308292,
+      "sha256": "9ea73e5899c3b3ca861370a9d3fc479cb5cb7b8b0878ebb15e5e5bd672c1c135"
+     }
+    },
+    {
+     "id": "B05",
+     "source": {
+      "kind": "commit",
+      "commit": "ad3ba1ef5072ed06f7895db5d1314d70d2c6a436",
+      "date": "2026-09-28T22:41:19-05:00",
+      "author": "RoYo",
+      "subject": "wqe"
+     },
+     "patch": "bundle/B05.json",
+     "hunks": 9,
+     "deleted": 4,
+     "inserted": 366,
+     "after": {
+      "bytes": 308654,
+      "sha256": "64c74235f5087115e2f07c9abb96afc3987a8918ea49359244e324937e0598b2"
+     }
+    },
+    {
+     "id": "B06",
+     "source": {
+      "kind": "commit",
+      "commit": "0f00c6518ce868f35606d79f5d22ada4422d2e53",
+      "date": "2026-09-29T08:18:11-05:00",
+      "author": "RoYo",
+      "subject": "FIXED"
+     },
+     "patch": "bundle/B06.json",
+     "hunks": 12,
+     "deleted": 182,
+     "inserted": 840,
+     "after": {
+      "bytes": 309312,
+      "sha256": "d1ab8a23e3dbe05ad44d125babbf0d85917fc95fcf942ed302c47319a07509c8"
+     }
+    },
+    {
+     "id": "B07",
+     "source": {
+      "kind": "commit",
+      "commit": "f5263b20c66f84cca8d566ef4a1a22820dcddaa3",
+      "date": "2026-09-29T08:37:26-05:00",
+      "author": "RoYo",
+      "subject": "v10"
+     },
+     "patch": "bundle/B07.json",
+     "hunks": 53,
+     "deleted": 750,
+     "inserted": 3992,
+     "after": {
+      "bytes": 312554,
+      "sha256": "38d64d03c6c4d14e831e75f52bea906e7a4c913a5d0ccd373f6514b6473aff96"
+     }
+    },
+    {
+     "id": "B08",
+     "source": {
+      "kind": "commit",
+      "commit": "5c9b9a379e916e240d01de9c8b8dc18198838b94",
+      "date": "2026-09-29T09:05:02-05:00",
+      "author": "RoYo",
+      "subject": "EEE"
+     },
+     "patch": "bundle/B08.json",
+     "hunks": 9,
+     "deleted": 0,
+     "inserted": 640,
+     "after": {
+      "bytes": 313194,
+      "sha256": "aed5ce4f54da61d48818e4c56e02193413f86a6761b3d980304d181235ec662b"
+     }
+    },
+    {
+     "id": "B09",
+     "source": {
+      "kind": "commit",
+      "commit": "05766728ef6bec1cf5b1cc1f9036156560b9a03b",
+      "date": "2026-09-29T10:48:38-05:00",
+      "author": "RoYo",
+      "subject": "v12"
+     },
+     "patch": "bundle/B09.json",
+     "hunks": 33,
+     "deleted": 341,
+     "inserted": 1254,
+     "after": {
+      "bytes": 314107,
+      "sha256": "e5ae82c339641667ae7aaec598c36694bedbb4a9e5565ae612fc2069ff5bd9c2"
+     }
+    },
+    {
+     "id": "B10",
+     "source": {
+      "kind": "commit",
+      "commit": "f58bad6a958946d84a185776c9ce9628544ff0ba",
+      "date": "2026-09-29T11:32:07-05:00",
+      "author": "RoYo",
+      "subject": "V13"
+     },
+     "patch": "bundle/B10.json",
+     "hunks": 46,
+     "deleted": 1107,
+     "inserted": 7844,
+     "after": {
+      "bytes": 320844,
+      "sha256": "f2658610e245bbf4649718eeaa43c640167b4719a65ee1380fe50fab10a25a2b"
+     }
+    },
+    {
+     "id": "B11",
+     "source": {
+      "kind": "commit",
+      "commit": "1b631c57fb0e16835f3d3cd02279abec31aa6867",
+      "date": "2026-09-29T12:00:15-05:00",
+      "author": "RoYo",
+      "subject": "v14"
+     },
+     "patch": "bundle/B11.json",
+     "hunks": 145,
+     "deleted": 1823,
+     "inserted": 5542,
+     "after": {
+      "bytes": 324563,
+      "sha256": "19dffbb1463295f4ef4047af33acb2ab9534fe7893749cf6bd6b66ac4a1b8897"
+     }
+    },
+    {
+     "id": "B12",
+     "source": {
+      "kind": "commit",
+      "commit": "e68caf5c2cf1992e60a4620e1214aedc5db9c3e0",
+      "date": "2026-09-29T12:20:18-05:00",
+      "author": "RoYo",
+      "subject": "V16"
+     },
+     "patch": "bundle/B12.json",
+     "hunks": 25,
+     "deleted": 21,
+     "inserted": 4467,
+     "after": {
+      "bytes": 329009,
+      "sha256": "3a89bc8c812d5e83c05901cb170a455be49b8bfb8e563975017eb0ad9a416c1c"
+     }
+    },
+    {
+     "id": "B13",
+     "source": {
+      "kind": "commit",
+      "commit": "5bc12b4de89bbbed2beb5db906120fc0bc41d1ce",
+      "date": "2026-09-29T17:31:44-05:00",
+      "author": "RoYo",
+      "subject": "EQ"
+     },
+     "patch": "bundle/B13.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 80,
+     "after": {
+      "bytes": 329089,
+      "sha256": "3d6cc1dc3847d8a81bf65ebe627876611e1f33b630b0beb871d96069b6022a7c"
+     }
+    },
+    {
+     "id": "B14",
+     "source": {
+      "kind": "commit",
+      "commit": "f53d218853942fd3ab8f021fd5c5bbd3f2b36598",
+      "date": "2026-09-29T18:33:47-05:00",
+      "author": "RoYo",
+      "subject": "v16"
+     },
+     "patch": "bundle/B14.json",
+     "hunks": 50,
+     "deleted": 3298,
+     "inserted": 2014,
+     "after": {
+      "bytes": 327805,
+      "sha256": "a55ac81adc6666392bb569b551ee279a839b9876493405f55eb99d4e09ee144e"
+     }
+    },
+    {
+     "id": "B15",
+     "source": {
+      "kind": "commit",
+      "commit": "bcc39b3d75d1842dc674f972d1ac0834cc806ab6",
+      "date": "2026-09-29T19:48:16-05:00",
+      "author": "RoYo",
+      "subject": "v16.1"
+     },
+     "patch": "bundle/B15.json",
+     "hunks": 16,
+     "deleted": 0,
+     "inserted": 711,
+     "after": {
+      "bytes": 328516,
+      "sha256": "866eb1de25f049f19a6ae348c8558d0c17c3db4d54a3579be36fb246a41ee43e"
+     }
+    },
+    {
+     "id": "B16",
+     "source": {
+      "kind": "commit",
+      "commit": "bd95943949962009a8d94d529680324d217f7230",
+      "date": "2026-09-29T21:36:15-05:00",
+      "author": "RoYo",
+      "subject": "v18"
+     },
+     "patch": "bundle/B16.json",
+     "hunks": 31,
+     "deleted": 715,
+     "inserted": 1198,
+     "after": {
+      "bytes": 328999,
+      "sha256": "8a6b87e23332078c2bcf707f6a4bff334d60d999a5350957682a52293b7d4d57"
+     }
+    },
+    {
+     "id": "B17",
+     "source": {
+      "kind": "commit",
+      "commit": "ea85abad8fb1e3b371f107d249f0c0a6b8128288",
+      "date": "2026-09-29T21:51:23-05:00",
+      "author": "RoYo",
+      "subject": "test"
+     },
+     "patch": "bundle/B17.json",
+     "hunks": 36,
+     "deleted": 1207,
+     "inserted": 1583,
+     "after": {
+      "bytes": 329375,
+      "sha256": "6d8a7c5d35c1f44e278be5f5eb155193143df68eb1f1e2dd6111179be94b0375"
+     }
+    },
+    {
+     "id": "B18",
+     "source": {
+      "kind": "commit",
+      "commit": "cb6afe41f4e2c46204abc40e55b24657c3bfb4fa",
+      "date": "2026-09-29T22:17:19-05:00",
+      "author": "RoYo",
+      "subject": "v19"
+     },
+     "patch": "bundle/B18.json",
+     "hunks": 36,
+     "deleted": 1583,
+     "inserted": 1207,
+     "after": {
+      "bytes": 328999,
+      "sha256": "8a6b87e23332078c2bcf707f6a4bff334d60d999a5350957682a52293b7d4d57"
+     }
+    },
+    {
+     "id": "B19",
+     "source": {
+      "kind": "commit",
+      "commit": "8ac1d41bb7e2da619e9763ca19f74c510e506e67",
+      "date": "2026-09-30T08:30:09-05:00",
+      "author": "RoYo",
+      "subject": "v20"
+     },
+     "patch": "bundle/B19.json",
+     "hunks": 7,
+     "deleted": 54,
+     "inserted": 407,
+     "after": {
+      "bytes": 329352,
+      "sha256": "f569f1988dffb00bdcd33ee5089c0f382404ded6f66498e474764d50ed09bc63"
+     }
+    },
+    {
+     "id": "B20",
+     "source": {
+      "kind": "commit",
+      "commit": "d2c277baa0f1dccaf7f208c3d4235ffd0b6d4e5c",
+      "date": "2026-09-30T22:22:40-05:00",
+      "author": "RoYo",
+      "subject": "V22.c"
+     },
+     "patch": "bundle/B20.json",
+     "hunks": 7,
+     "deleted": 311,
+     "inserted": 224,
+     "after": {
+      "bytes": 329265,
+      "sha256": "f44b646cf25bcc2d4e1c253c99a5baea90373403edbc8e24fbb327518abc935b"
+     }
+    },
+    {
+     "id": "B21",
+     "source": {
+      "kind": "commit",
+      "commit": "9fe0cd5e12045c8d2721db3ce185853a92ff2f1e",
+      "date": "2026-10-01T20:30:47-05:00",
+      "author": "RoYo",
+      "subject": "hotfix"
+     },
+     "patch": "bundle/B21.json",
+     "hunks": 7,
+     "deleted": 63,
+     "inserted": 118,
+     "after": {
+      "bytes": 329320,
+      "sha256": "b8b8c14ecaa227a66f565f149734bba54c6e4527721aa39922bbb5d9962f35ea"
+     }
+    },
+    {
+     "id": "B22",
+     "source": {
+      "kind": "commit",
+      "commit": "994fff5b31788a9868e4a97dffe2129988e10e00",
+      "date": "2026-10-01T20:59:29-05:00",
+      "author": "RoYo",
+      "subject": "hotdiz"
+     },
+     "patch": "bundle/B22.json",
+     "hunks": 10,
+     "deleted": 56,
+     "inserted": 303,
+     "after": {
+      "bytes": 329567,
+      "sha256": "f9b7d1a525b9b2b9e80d6152d2e45e8f4f2305364a2bcdf11754f8da8dded06f"
+     }
+    },
+    {
+     "id": "B23",
+     "source": {
+      "kind": "commit",
+      "commit": "f9d67b2204d8f2579b8753df178eab8b03e39b49",
+      "date": "2026-10-05T22:21:53-05:00",
+      "author": "Claude",
+      "subject": "BR-RoLE BR1: unified per-light compositor human-QA candidate"
+     },
+     "patch": "bundle/B23.json",
+     "hunks": 7,
+     "deleted": 4,
+     "inserted": 234,
+     "after": {
+      "bytes": 329797,
+      "sha256": "47eee2b1efcbc86835bb107a0ddb504ac815fc32c059fe5461b09c3a6edf28f6"
+     }
+    },
+    {
+     "id": "B24",
+     "source": {
+      "kind": "commit",
+      "commit": "71f9ef0680b94885b508fc7083b8a755666735f8",
+      "date": "2026-10-06T17:55:29-05:00",
+      "author": "Claude",
+      "subject": "Stage 3B: early preservation checkpoint (3B1 visual slice work in progress)"
+     },
+     "patch": "bundle/B24.json",
+     "hunks": 2,
+     "deleted": 0,
+     "inserted": 95,
+     "after": {
+      "bytes": 329892,
+      "sha256": "ff50b6bd04bb2ed113b2bdadc99d082ae10a2bc5ac70bd89044cb454c22bd229"
+     }
+    },
+    {
+     "id": "B25",
+     "source": {
+      "kind": "commit",
+      "commit": "0d65c0c933a42d9411a8a1a4565758eca054469d",
+      "date": "2026-10-06T19:57:29-05:00",
+      "author": "Claude",
+      "subject": "Stage 3B QA1R1: optimize remaster presentation cost"
+     },
+     "patch": "bundle/B25.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 9,
+     "after": {
+      "bytes": 329901,
+      "sha256": "ce16f0fdd8fdb249e7e09cb23cb3c22a230539ddc00b35baf4547d50c3550c07"
+     }
+    },
+    {
+     "id": "B26",
+     "source": {
+      "kind": "commit",
+      "commit": "b2783b34e1185b30002350f5b482dd8c5e10b000",
+      "date": "2026-10-07T17:03:13-05:00",
+      "author": "Claude",
+      "subject": "Stage 3B-N: camera correction only - serve the camera policy, lock 1.25"
+     },
+     "patch": "bundle/B26.json",
+     "hunks": 2,
+     "deleted": 4,
+     "inserted": 4,
+     "after": {
+      "bytes": 329901,
+      "sha256": "50dde1f40c68576e4b308a24af5232396bbdc511359e1a046a49bb34d13f17c8"
+     }
+    },
+    {
+     "id": "B27",
+     "source": {
+      "kind": "commit",
+      "commit": "d100e46d73b4ae393930aa505980c93ed7be75b4",
+      "date": "2026-10-07T23:03:14-05:00",
+      "author": "Claude",
+      "subject": "Stage 3B-L QA1 (Q2): far more real fixtures, one shared lamp truth"
+     },
+     "patch": "bundle/B27.json",
+     "hunks": 2,
+     "deleted": 134,
+     "inserted": 68,
+     "after": {
+      "bytes": 329835,
+      "sha256": "d6220b3d260f0509e101d2ba1a93ab7a6f99cc0bf73447997845686f8de5dbb7"
+     }
+    },
+    {
+     "id": "B28",
+     "source": {
+      "kind": "commit",
+      "commit": "c6e5278f7a6fb3879126f0d979cac20ee0299db7",
+      "date": "2026-10-08T16:26:38-05:00",
+      "author": "Claude",
+      "subject": "Stage 3B-L QA2 (Q1): wall-corner receiver polish"
+     },
+     "patch": "bundle/B28.json",
+     "hunks": 6,
+     "deleted": 98,
+     "inserted": 8019,
+     "after": {
+      "bytes": 337756,
+      "sha256": "323ca1f88e071f5c724d86029730daf3c723d2950bbec6aabc76caf4da0d7c60"
+     }
+    },
+    {
+     "id": "B29",
+     "source": {
+      "kind": "commit",
+      "commit": "3b697c3df2ad9c8bab1cd0e29ee30fb300edc3f9",
+      "date": "2026-10-08T19:41:27-05:00",
+      "author": "Claude",
+      "subject": "Stage 3B-L QA2 (Q3a): inner-corner clip meets on the block's diagonal"
+     },
+     "patch": "bundle/B29.json",
+     "hunks": 10,
+     "deleted": 35,
+     "inserted": 170,
+     "after": {
+      "bytes": 337891,
+      "sha256": "873066c4e9d9c494ba921e9c5eaf53b1100e797ac034a21663374aa50a3c83b5"
+     }
+    },
+    {
+     "id": "B30",
+     "source": {
+      "kind": "commit",
+      "commit": "2b585357d9f04a53b68bf52108c63ae1bae8d9e0",
+      "date": "2026-10-08T21:32:11-05:00",
+      "author": "Claude",
+      "subject": "Stage 3B-L QA2 (Q3b): a convex corner seen with both faces is one L"
+     },
+     "patch": "bundle/B30.json",
+     "hunks": 16,
+     "deleted": 14,
+     "inserted": 1603,
+     "after": {
+      "bytes": 339480,
+      "sha256": "3a7d1a2aea928d8f81078ce16275fdafbd8ff38e1c5f052365b0aa929f75d6fa"
+     }
+    },
+    {
+     "id": "B31",
+     "source": {
+      "kind": "commit",
+      "commit": "3249cbb60aeb699098363a46827201ff047cf298",
+      "date": "2026-10-09T14:57:30-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C (C3): customize in two areas, WANDERER and LOADOUT"
+     },
+     "patch": "bundle/B31.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 22,
+     "after": {
+      "bytes": 339502,
+      "sha256": "55969efa78e391eddf9cf5ef8b6db22921def3e38a210a486f315d5deb7dd045"
+     }
+    },
+    {
+     "id": "B32",
+     "source": {
+      "kind": "commit",
+      "commit": "56f87d47632f8eb194e8d23f476de90428f0b929",
+      "date": "2026-10-11T14:00:57-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D D3: settled corpses, equipment light, culling and caching"
+     },
+     "patch": "bundle/B32.json",
+     "hunks": 2,
+     "deleted": 0,
+     "inserted": 131,
+     "after": {
+      "bytes": 339633,
+      "sha256": "72d0735850272c92fe496c45904819dcdaa6aec5f3959ce708b6c6937c2df57a"
+     }
+    },
+    {
+     "id": "B33",
+     "source": {
+      "kind": "commit",
+      "commit": "ee5b8e64e4d124b2f569d19f62f5327c623f0d4e",
+      "date": "2026-10-11T15:10:08-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D D4: the server owns each death, kill to corpse"
+     },
+     "patch": "bundle/B33.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 33,
+     "after": {
+      "bytes": 339666,
+      "sha256": "4c75cb44cf5e6118da59660af6923ed7ef3ac2d2d09f8b7788b43310d3605df0"
+     }
+    },
+    {
+     "id": "B34",
+     "source": {
+      "kind": "commit",
+      "commit": "6bc27a9e0108a3b78c2a7176d5665d85d686af90",
+      "date": "2026-10-11T15:24:41-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D D5: death-only sound for victim and spectators, reduced motion"
+     },
+     "patch": "bundle/B34.json",
+     "hunks": 8,
+     "deleted": 0,
+     "inserted": 429,
+     "after": {
+      "bytes": 340095,
+      "sha256": "b516fda7cb5049543fb3fd55765fa6ff45121ac12d6ecbf7e7f46999b8d2a417"
+     }
+    },
+    {
+     "id": "B35",
+     "source": {
+      "kind": "commit",
+      "commit": "1c8e7883cdff95b429b1ee22371f3280b0019dda",
+      "date": "2026-10-12T07:42:58-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D HQ1-2: dying lights hold 3-7 s, flicker and dim 1-2 s, then go out for good"
+     },
+     "patch": "bundle/B35.json",
+     "hunks": 11,
+     "deleted": 0,
+     "inserted": 135,
+     "after": {
+      "bytes": 340230,
+      "sha256": "2f1876b32894ff2064b4c4c729d1511125c14900533c09cc2e7c1fcc190a7889"
+     }
+    },
+    {
+     "id": "B36",
+     "source": {
+      "kind": "commit",
+      "commit": "a1d9cb98f7677cd5439bf731432c5b226e7d4d35",
+      "date": "2026-10-12T07:52:24-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D HQ1-3a: keep BR-RoLE's seam verbatim; the victim's dying light read inside the hook"
+     },
+     "patch": "bundle/B36.json",
+     "hunks": 3,
+     "deleted": 15,
+     "inserted": 19,
+     "after": {
+      "bytes": 340234,
+      "sha256": "d7461d4281af2d0c062be8ef973aa33b1ddf7846360ec6b37a1f8e8a6152269a"
+     }
+    },
+    {
+     "id": "B37",
+     "source": {
+      "kind": "commit",
+      "commit": "d27a2af9d220ae42f5a0ca0b8aa88422a7337f5e",
+      "date": "2026-10-12T19:37:58-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D HQ2-1: NEW RUN as the server's decision, the cooldown without a phantom (no explosion yet)"
+     },
+     "patch": "bundle/B37.json",
+     "hunks": 2,
+     "deleted": 0,
+     "inserted": 164,
+     "after": {
+      "bytes": 340398,
+      "sha256": "8dcb0fa0ae0c649046059c7f8257266ab78a70e06185a865f99a6292f871376a"
+     }
+    },
+    {
+     "id": "B38",
+     "source": {
+      "kind": "commit",
+      "commit": "14cf47ac242eb09ee7f307a54257706911b8842b",
+      "date": "2026-10-12T20:15:17-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D HQ2-2: NEW RUN's explosion - one server-made, seeded, physical blast (no player collision yet)"
+     },
+     "patch": "bundle/B38.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 6,
+     "after": {
+      "bytes": 340404,
+      "sha256": "1041d50798b630f24f2aaf81505ae85d211e93f781cefa0130dea069b7ccd780"
+     }
+    },
+    {
+     "id": "B39",
+     "source": {
+      "kind": "commit",
+      "commit": "99e15931793b6f8b7f434321d050fc6a2ff7155d",
+      "date": "2026-10-12T23:12:00-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D HQ2-4: the browser predicts the other players; the world epoch (an admin reset ends every old-world death and blast on every screen)"
+     },
+     "patch": "bundle/B39.json",
+     "hunks": 2,
+     "deleted": 0,
+     "inserted": 471,
+     "after": {
+      "bytes": 340875,
+      "sha256": "d7eb3ac330474879362c6a012307a66afb91c0934b99b468be72802b7fc7de23"
+     }
+    },
+    {
+     "id": "B40",
+     "source": {
+      "kind": "commit",
+      "commit": "ce6fe63482b9fd043285db0dca261603d9196d76",
+      "date": "2026-10-13T15:02:14-05:00",
+      "author": "Claude",
+      "subject": "Stage 3D HQ4-1: remove the Wanderer's decorative dark ellipse"
+     },
+     "patch": "bundle/B40.json",
+     "hunks": 1,
+     "deleted": 52,
+     "inserted": 0,
+     "after": {
+      "bytes": 340823,
+      "sha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b"
+     }
+    }
+   ],
+   "result": {
+    "bytes": 340823,
+    "sha256": "694bca01e75d8e1c70e9ec29ea5382da5bda40d22c6a4f043e6e53b251d7529b"
+   },
+   "corroboration": [
+    {
+     "equals": "v11 original build (versions/site-v11-49743e94d6f0/dist/assets/index-DKbV5Nv9.js)",
+     "package": "thefarbackrooms-recovered-build.zip",
+     "member": "assets/index-DKbV5Nv9.js",
+     "packageSha256": "0756198e43b23736cd6efb95492dcfe34962c76cca82bac2741af0eace489be2",
+     "created": "2026-09-29T01:41:10Z"
+    },
+    {
+     "equals": "commit e68caf5c2cf1992e60a4620e1214aedc5db9c3e0",
+     "package": "thefarbackrooms-level0-refined-v15.zip",
+     "member": "thefarbackrooms-level0/assets/index-DKbV5Nv9.js",
+     "packageSha256": "9c428e4028e0f98e3299303593635db530cfd4dc497d98b26b178fd44b2b8624",
+     "created": "2026-09-29T21:58:46Z"
+    },
+    {
+     "equals": "commit 5bc12b4de89bbbed2beb5db906120fc0bc41d1ce",
+     "package": "thefarbackrooms-level0-refined-v15.1.zip",
+     "member": "thefarbackrooms-level0/assets/index-DKbV5Nv9.js",
+     "packageSha256": "2743b96e6d1e4e7f3993d95bd0a5193196b36b1353f5f3d0ad77ed3fd9f25e70",
+     "created": "2026-09-29T22:29:32Z"
+    },
+    {
+     "equals": "commit f53d218853942fd3ab8f021fd5c5bbd3f2b36598",
+     "package": "thefarbackrooms-level0-refined-v16.zip",
+     "member": "thefarbackrooms-level0/assets/index-DKbV5Nv9.js",
+     "packageSha256": "f45374e73c13ad185c85415f38ddbe960645c29121e625955567bec30ae5a4f8",
+     "created": "2026-09-29T23:34:23Z"
+    }
+   ],
+   "sideVersions": [
+    {
+     "package": "thefarbackrooms-level0-refined-v20.zip",
+     "member": "thefarbackrooms-level0/assets/index-DKbV5Nv9.js",
+     "created": "2026-09-30T06:20:54Z",
+     "bytes": 329248,
+     "sha256": "386eef46c99e6ca0f861fe0009e170535f396fa556f6e7a5fe7cc0e02d849044",
+     "note": "closest to bd95943 v18 (269 bytes of token edits); not on the repository's path"
+    }
+   ]
+  },
+  "css": {
+   "file": "public/assets/index-D7hdwmUU.css",
+   "historicalPath": "assets/index-D7hdwmUU.css",
+   "base": {
+    "path": "src/core/client/bundle/original-v11/dist/assets/index-D7hdwmUU.css",
+    "recoveryPath": "versions/site-v11-49743e94d6f0/dist/assets/index-D7hdwmUU.css",
+    "bytes": 9899,
+    "sha256": "794903d6a8b9a693e2cb7067cd1a28954963c294a7e304ab9b1bbc28c07dacef"
+   },
+   "steps": [
+    {
+     "id": "C01",
+     "source": {
+      "kind": "package",
+      "package": "thefarbackrooms-level0-refined-v3.zip",
+      "member": "assets/index-D7hdwmUU.css",
+      "packageSha256": "64e8f7c3f5254297a6d9b928ccf3e9fce2083f9c0de05612ce52490dcd182d48",
+      "created": "2026-09-29T02:23:50Z"
+     },
+     "patch": "css/C01.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 540,
+     "after": {
+      "bytes": 10439,
+      "sha256": "fc90f98aca7318985b53393718535101b6f0a10b14f767c0b62e042dd92d2532"
+     }
+    },
+    {
+     "id": "C02",
+     "source": {
+      "kind": "commit",
+      "commit": "c9bd4da1fe740ea65f02e2513d5103ff847a483a",
+      "date": "2026-09-28T22:05:03-05:00",
+      "author": "RoYo",
+      "subject": "fs"
+     },
+     "patch": "css/C02.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 490,
+     "after": {
+      "bytes": 10929,
+      "sha256": "62089ccd489870454180b4a7c6c61b7f61e3a14eb0590978189a8d0157064bee"
+     }
+    },
+    {
+     "id": "C03",
+     "source": {
+      "kind": "commit",
+      "commit": "405e5c94de18a8f15e304891f7fb812e81a6c189",
+      "date": "2026-09-28T22:15:05-05:00",
+      "author": "RoYo",
+      "subject": "fix"
+     },
+     "patch": "css/C03.json",
+     "hunks": 1,
+     "deleted": 11,
+     "inserted": 8,
+     "after": {
+      "bytes": 10926,
+      "sha256": "e24dc62f8229349264bab6324597d5205744c469e84669ba28b12436a6167c15"
+     }
+    },
+    {
+     "id": "C04",
+     "source": {
+      "kind": "commit",
+      "commit": "0f00c6518ce868f35606d79f5d22ada4422d2e53",
+      "date": "2026-09-29T08:18:11-05:00",
+      "author": "RoYo",
+      "subject": "FIXED"
+     },
+     "patch": "css/C04.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 1833,
+     "after": {
+      "bytes": 12759,
+      "sha256": "862d54a80e95044f4a2b71beb5110506e9216c3c91dbb5aa69884f6ade2f1548"
+     }
+    },
+    {
+     "id": "C05",
+     "source": {
+      "kind": "commit",
+      "commit": "f5263b20c66f84cca8d566ef4a1a22820dcddaa3",
+      "date": "2026-09-29T08:37:26-05:00",
+      "author": "RoYo",
+      "subject": "v10"
+     },
+     "patch": "css/C05.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 4497,
+     "after": {
+      "bytes": 17256,
+      "sha256": "da99d861d1d69845f32750db5ea5bd9715187c0a3ad22e6170105e6d07aa28d5"
+     }
+    },
+    {
+     "id": "C06",
+     "source": {
+      "kind": "commit",
+      "commit": "5c9b9a379e916e240d01de9c8b8dc18198838b94",
+      "date": "2026-09-29T09:05:02-05:00",
+      "author": "RoYo",
+      "subject": "EEE"
+     },
+     "patch": "css/C06.json",
+     "hunks": 23,
+     "deleted": 617,
+     "inserted": 4634,
+     "after": {
+      "bytes": 21273,
+      "sha256": "cd758d41c6b9c2027508cc2d7e4689f12a141ae55a1685dc35bf765c2642d402"
+     }
+    },
+    {
+     "id": "C07",
+     "source": {
+      "kind": "commit",
+      "commit": "05766728ef6bec1cf5b1cc1f9036156560b9a03b",
+      "date": "2026-09-29T10:48:38-05:00",
+      "author": "RoYo",
+      "subject": "v12"
+     },
+     "patch": "css/C07.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 1078,
+     "after": {
+      "bytes": 22351,
+      "sha256": "e520516bd440e1049b85505825367b16f88f57396d3448a4a59e1bf5237386df"
+     }
+    },
+    {
+     "id": "C08",
+     "source": {
+      "kind": "commit",
+      "commit": "f58bad6a958946d84a185776c9ce9628544ff0ba",
+      "date": "2026-09-29T11:32:07-05:00",
+      "author": "RoYo",
+      "subject": "V13"
+     },
+     "patch": "css/C08.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 4867,
+     "after": {
+      "bytes": 27218,
+      "sha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a"
+     }
+    }
+   ],
+   "result": {
+    "bytes": 27218,
+    "sha256": "02d94e783642b454f9171090cc88d21745a7285bf64dbc143e73c297acaf6c1a"
+   },
+   "corroboration": [
+    {
+     "equals": "v11 original build (versions/site-v11-49743e94d6f0/dist/assets/index-D7hdwmUU.css)",
+     "package": "thefarbackrooms-recovered-build.zip",
+     "member": "assets/index-D7hdwmUU.css",
+     "packageSha256": "0756198e43b23736cd6efb95492dcfe34962c76cca82bac2741af0eace489be2",
+     "created": "2026-09-29T01:41:10Z"
+    },
+    {
+     "equals": "v11 original build (versions/site-v11-49743e94d6f0/dist/assets/index-D7hdwmUU.css)",
+     "package": "thefarbackrooms-refined-entity-build.zip",
+     "member": "assets/index-D7hdwmUU.css",
+     "packageSha256": "8c3c4b7b6453de715fb7da10c6dec26f5bfe0d38f6e7d88c1ebed6e52026f2d4",
+     "created": "2026-09-29T02:04:11Z"
+    },
+    {
+     "equals": "commit f58bad6a958946d84a185776c9ce9628544ff0ba",
+     "package": "thefarbackrooms-level0-refined-v15.zip",
+     "member": "thefarbackrooms-level0/assets/index-D7hdwmUU.css",
+     "packageSha256": "9c428e4028e0f98e3299303593635db530cfd4dc497d98b26b178fd44b2b8624",
+     "created": "2026-09-29T21:58:46Z"
+    },
+    {
+     "equals": "commit f58bad6a958946d84a185776c9ce9628544ff0ba",
+     "package": "thefarbackrooms-level0-refined-v15.1.zip",
+     "member": "thefarbackrooms-level0/assets/index-D7hdwmUU.css",
+     "packageSha256": "2743b96e6d1e4e7f3993d95bd0a5193196b36b1353f5f3d0ad77ed3fd9f25e70",
+     "created": "2026-09-29T22:29:32Z"
+    },
+    {
+     "equals": "commit f58bad6a958946d84a185776c9ce9628544ff0ba",
+     "package": "thefarbackrooms-level0-refined-v16.zip",
+     "member": "thefarbackrooms-level0/assets/index-D7hdwmUU.css",
+     "packageSha256": "f45374e73c13ad185c85415f38ddbe960645c29121e625955567bec30ae5a4f8",
+     "created": "2026-09-29T23:34:23Z"
+    },
+    {
+     "equals": "commit f58bad6a958946d84a185776c9ce9628544ff0ba",
+     "package": "thefarbackrooms-level0-refined-v20.zip",
+     "member": "thefarbackrooms-level0/assets/index-D7hdwmUU.css",
+     "packageSha256": "0f41b710acc689cbe82ef4e4c84ab1d9369b76867ebfa23d4fcdeb0ccd8e7149",
+     "created": "2026-09-30T06:20:54Z"
+    }
+   ],
+   "sideVersions": []
+  },
+  "html": {
+   "file": "public/index.html",
+   "historicalPath": "index.html",
+   "base": {
+    "path": "src/core/client/bundle/original-v11/dist/index.html",
+    "recoveryPath": "versions/site-v11-49743e94d6f0/dist/index.html",
+    "bytes": 6483,
+    "sha256": "961e954abad83868587b2b3b6044904ad95e37c3f8f6052a064af62c060facab"
+   },
+   "steps": [
+    {
+     "id": "H01",
+     "source": {
+      "kind": "package",
+      "package": "thefarbackrooms-level0-refined-v3.zip",
+      "member": "index.html",
+      "packageSha256": "64e8f7c3f5254297a6d9b928ccf3e9fce2083f9c0de05612ce52490dcd182d48",
+      "created": "2026-09-29T02:23:50Z"
+     },
+     "patch": "html/H01.json",
+     "hunks": 16,
+     "deleted": 195,
+     "inserted": 426,
+     "after": {
+      "bytes": 6714,
+      "sha256": "22647022c22d00d5faf3d0a12917bd979b614160ac4e151b509441de36b0670a"
+     }
+    },
+    {
+     "id": "H02",
+     "source": {
+      "kind": "commit",
+      "commit": "d81aabcc11f56664a2457727e6646bc412266aa8",
+      "date": "2026-09-28T21:56:50-05:00",
+      "author": "RoYo",
+      "subject": "stuf"
+     },
+     "patch": "html/H02.json",
+     "hunks": 13,
+     "deleted": 0,
+     "inserted": 89,
+     "after": {
+      "bytes": 6803,
+      "sha256": "aa651d033f6331351a9d756c1cc1c2e9c63f77aa2a8423c3a66af3b6fd634861"
+     }
+    },
+    {
+     "id": "H03",
+     "source": {
+      "kind": "commit",
+      "commit": "f5263b20c66f84cca8d566ef4a1a22820dcddaa3",
+      "date": "2026-09-29T08:37:26-05:00",
+      "author": "RoYo",
+      "subject": "v10"
+     },
+     "patch": "html/H03.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 32,
+     "after": {
+      "bytes": 6835,
+      "sha256": "f568ee0ba2162e6a2d57a3f3030917fc8225ef286e57e49619338f73f2bf911c"
+     }
+    },
+    {
+     "id": "H04",
+     "source": {
+      "kind": "commit",
+      "commit": "5c9b9a379e916e240d01de9c8b8dc18198838b94",
+      "date": "2026-09-29T09:05:02-05:00",
+      "author": "RoYo",
+      "subject": "EEE"
+     },
+     "patch": "html/H04.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 65,
+     "after": {
+      "bytes": 6900,
+      "sha256": "5c1811283806b07b8eed9326292340dcfb0160b6cbe47f34e3f867eb0e49e31d"
+     }
+    },
+    {
+     "id": "H05",
+     "source": {
+      "kind": "commit",
+      "commit": "05766728ef6bec1cf5b1cc1f9036156560b9a03b",
+      "date": "2026-09-29T10:48:38-05:00",
+      "author": "RoYo",
+      "subject": "v12"
+     },
+     "patch": "html/H05.json",
+     "hunks": 8,
+     "deleted": 214,
+     "inserted": 420,
+     "after": {
+      "bytes": 7106,
+      "sha256": "c5f3eecae06aac4ed48ad3fbe89b801041cb05801e50530d57f35797a2adb738"
+     }
+    },
+    {
+     "id": "H06",
+     "source": {
+      "kind": "commit",
+      "commit": "f58bad6a958946d84a185776c9ce9628544ff0ba",
+      "date": "2026-09-29T11:32:07-05:00",
+      "author": "RoYo",
+      "subject": "V13"
+     },
+     "patch": "html/H06.json",
+     "hunks": 10,
+     "deleted": 62,
+     "inserted": 247,
+     "after": {
+      "bytes": 7291,
+      "sha256": "0e068f44d041372ffbd3547a26791c4b34366891678850458c7e7431f7337d9d"
+     }
+    },
+    {
+     "id": "H07",
+     "source": {
+      "kind": "commit",
+      "commit": "1b631c57fb0e16835f3d3cd02279abec31aa6867",
+      "date": "2026-09-29T12:00:15-05:00",
+      "author": "RoYo",
+      "subject": "v14"
+     },
+     "patch": "html/H07.json",
+     "hunks": 7,
+     "deleted": 32,
+     "inserted": 358,
+     "after": {
+      "bytes": 7617,
+      "sha256": "c0f7664c854ce547288496252534e88c894dfdb9f735fdbc38cdf73a6ca2948d"
+     }
+    },
+    {
+     "id": "H08",
+     "source": {
+      "kind": "commit",
+      "commit": "e68caf5c2cf1992e60a4620e1214aedc5db9c3e0",
+      "date": "2026-09-29T12:20:18-05:00",
+      "author": "RoYo",
+      "subject": "V16"
+     },
+     "patch": "html/H08.json",
+     "hunks": 2,
+     "deleted": 0,
+     "inserted": 569,
+     "after": {
+      "bytes": 8186,
+      "sha256": "827b75e421501acf0b4342446b96b80f869e2076924de81c489cee5eb0646c3e"
+     }
+    },
+    {
+     "id": "H09",
+     "source": {
+      "kind": "commit",
+      "commit": "5bc12b4de89bbbed2beb5db906120fc0bc41d1ce",
+      "date": "2026-09-29T17:31:44-05:00",
+      "author": "RoYo",
+      "subject": "EQ"
+     },
+     "patch": "html/H09.json",
+     "hunks": 5,
+     "deleted": 8,
+     "inserted": 91,
+     "after": {
+      "bytes": 8269,
+      "sha256": "55148b2521e6e36f690bad329c5a3aacfb8cd1e189168b41662699d85802713f"
+     }
+    },
+    {
+     "id": "H10",
+     "source": {
+      "kind": "commit",
+      "commit": "f53d218853942fd3ab8f021fd5c5bbd3f2b36598",
+      "date": "2026-09-29T18:33:47-05:00",
+      "author": "RoYo",
+      "subject": "v16"
+     },
+     "patch": "html/H10.json",
+     "hunks": 15,
+     "deleted": 94,
+     "inserted": 622,
+     "after": {
+      "bytes": 8797,
+      "sha256": "189f57da6918c858f487db08f54d394c4bc8544ffa20794c9761a163a33fd070"
+     }
+    },
+    {
+     "id": "H11",
+     "source": {
+      "kind": "commit",
+      "commit": "bcc39b3d75d1842dc674f972d1ac0834cc806ab6",
+      "date": "2026-09-29T19:48:16-05:00",
+      "author": "RoYo",
+      "subject": "v16.1"
+     },
+     "patch": "html/H11.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 41,
+     "after": {
+      "bytes": 8838,
+      "sha256": "4b5ff98d11d370daa4b67cd3b7fc794d07455759cd3cd2e6bba992cada30746e"
+     }
+    },
+    {
+     "id": "H12",
+     "source": {
+      "kind": "commit",
+      "commit": "bd95943949962009a8d94d529680324d217f7230",
+      "date": "2026-09-29T21:36:15-05:00",
+      "author": "RoYo",
+      "subject": "v18"
+     },
+     "patch": "html/H12.json",
+     "hunks": 2,
+     "deleted": 16,
+     "inserted": 9,
+     "after": {
+      "bytes": 8831,
+      "sha256": "3511df4db55a0f7f14f010985fdbfdb665beba0bf79e218ebeeff2f92b8e7b10"
+     }
+    },
+    {
+     "id": "H13",
+     "source": {
+      "kind": "commit",
+      "commit": "ea85abad8fb1e3b371f107d249f0c0a6b8128288",
+      "date": "2026-09-29T21:51:23-05:00",
+      "author": "RoYo",
+      "subject": "test"
+     },
+     "patch": "html/H13.json",
+     "hunks": 8,
+     "deleted": 33,
+     "inserted": 134,
+     "after": {
+      "bytes": 8932,
+      "sha256": "e444916ac232f6c245d32726b609a9f1e3b99154cfc6878981d8ed39091d3756"
+     }
+    },
+    {
+     "id": "H14",
+     "source": {
+      "kind": "commit",
+      "commit": "cb6afe41f4e2c46204abc40e55b24657c3bfb4fa",
+      "date": "2026-09-29T22:17:19-05:00",
+      "author": "RoYo",
+      "subject": "v19"
+     },
+     "patch": "html/H14.json",
+     "hunks": 8,
+     "deleted": 134,
+     "inserted": 33,
+     "after": {
+      "bytes": 8831,
+      "sha256": "3511df4db55a0f7f14f010985fdbfdb665beba0bf79e218ebeeff2f92b8e7b10"
+     }
+    },
+    {
+     "id": "H15",
+     "source": {
+      "kind": "commit",
+      "commit": "8ac1d41bb7e2da619e9763ca19f74c510e506e67",
+      "date": "2026-09-30T08:30:09-05:00",
+      "author": "RoYo",
+      "subject": "v20"
+     },
+     "patch": "html/H15.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 34,
+     "after": {
+      "bytes": 8865,
+      "sha256": "b43fa1eebe19bc3bd59d3cd4f2bdc8aa22489e1e65f680d7ff1ddd7019e68cbe"
+     }
+    },
+    {
+     "id": "H16",
+     "source": {
+      "kind": "commit",
+      "commit": "994fff5b31788a9868e4a97dffe2129988e10e00",
+      "date": "2026-10-01T20:59:29-05:00",
+      "author": "RoYo",
+      "subject": "hotdiz"
+     },
+     "patch": "html/H16.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 84,
+     "after": {
+      "bytes": 8949,
+      "sha256": "62051f3cd6283056f994523f9c28b689768e58175be6a42a31b289c74e12342a"
+     }
+    },
+    {
+     "id": "H17",
+     "source": {
+      "kind": "commit",
+      "commit": "3151062a30e3b824e209ebb8e244c24691d118d9",
+      "date": "2026-10-05T00:34:58-05:00",
+      "author": "Claude",
+      "subject": "2D shadows SH1: static wall grounding and light-directional entity shadows"
+     },
+     "patch": "html/H17.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 46,
+     "after": {
+      "bytes": 8995,
+      "sha256": "a3046ff014f792e20681f20e26faf6f2ecf8c78e7af7a968a1dd78dcbad924bf"
+     }
+    },
+    {
+     "id": "H18",
+     "source": {
+      "kind": "commit",
+      "commit": "f9d67b2204d8f2579b8753df178eab8b03e39b49",
+      "date": "2026-10-05T22:21:53-05:00",
+      "author": "Claude",
+      "subject": "BR-RoLE BR1: unified per-light compositor human-QA candidate"
+     },
+     "patch": "html/H18.json",
+     "hunks": 1,
+     "deleted": 10,
+     "inserted": 7,
+     "after": {
+      "bytes": 8992,
+      "sha256": "da3c90bd2268ec44ac56349b89d41f466c9fbb90ffb841557ce5899157f45786"
+     }
+    },
+    {
+     "id": "H19",
+     "source": {
+      "kind": "commit",
+      "commit": "71f9ef0680b94885b508fc7083b8a755666735f8",
+      "date": "2026-10-06T17:55:29-05:00",
+      "author": "Claude",
+      "subject": "Stage 3B: early preservation checkpoint (3B1 visual slice work in progress)"
+     },
+     "patch": "html/H19.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 97,
+     "after": {
+      "bytes": 9089,
+      "sha256": "f1696ae1751b469259097497e1f272a7a5959a40d9227c6446370b69388684b5"
+     }
+    },
+    {
+     "id": "H20",
+     "source": {
+      "kind": "commit",
+      "commit": "cf3f8b112e3798d911b49afc24b8c8e377f7b8cc",
+      "date": "2026-10-09T13:59:59-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C (C1): the game's main menu"
+     },
+     "patch": "html/H20.json",
+     "hunks": 86,
+     "deleted": 361,
+     "inserted": 2800,
+     "after": {
+      "bytes": 11528,
+      "sha256": "c988a76b0f881a7af2610a00c7241e1150de57111c993a2d52726a7a25688409"
+     }
+    },
+    {
+     "id": "H21",
+     "source": {
+      "kind": "commit",
+      "commit": "ad1f34493e6c6b7d3a4579fb07d760a66e288d05",
+      "date": "2026-10-09T14:37:42-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C (C2): the HUD, pause, run states and touch in one visual system"
+     },
+     "patch": "html/H21.json",
+     "hunks": 15,
+     "deleted": 938,
+     "inserted": 1576,
+     "after": {
+      "bytes": 12166,
+      "sha256": "f2bd3431338cdac26b910e5fa8c3ee7845ad873e05c1ba1e59d613e9fc5208be"
+     }
+    },
+    {
+     "id": "H22",
+     "source": {
+      "kind": "commit",
+      "commit": "3249cbb60aeb699098363a46827201ff047cf298",
+      "date": "2026-10-09T14:57:30-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C (C3): customize in two areas, WANDERER and LOADOUT"
+     },
+     "patch": "html/H22.json",
+     "hunks": 35,
+     "deleted": 658,
+     "inserted": 3139,
+     "after": {
+      "bytes": 14647,
+      "sha256": "6d39bc7a574b088c855da0fe93d2909cb62e582df7748cdf98fee1e121b94b9f"
+     }
+    },
+    {
+     "id": "H23",
+     "source": {
+      "kind": "commit",
+      "commit": "370a3bb432ff41d64d115a3730d3b945a692c541",
+      "date": "2026-10-09T15:11:02-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C (C4): settings, migration and accessibility"
+     },
+     "patch": "html/H23.json",
+     "hunks": 1,
+     "deleted": 8,
+     "inserted": 7,
+     "after": {
+      "bytes": 14646,
+      "sha256": "7992f056778d063f13c2799d5c9235535e8ef333f4cc13c03942d2e8473bfe9a"
+     }
+    },
+    {
+     "id": "H24",
+     "source": {
+      "kind": "commit",
+      "commit": "0f9c82141a4fc8fd5eaf374c4816b2b25662c884",
+      "date": "2026-10-10T00:40:46-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C QA1 (Q1): the main menu from the user's rough draft, and the main-menu theme"
+     },
+     "patch": "html/H24.json",
+     "hunks": 53,
+     "deleted": 936,
+     "inserted": 3724,
+     "after": {
+      "bytes": 17434,
+      "sha256": "35482caad01b183d3583d09272c1bbb0627823eb55f12266c5e4c829b9a74793"
+     }
+    },
+    {
+     "id": "H25",
+     "source": {
+      "kind": "commit",
+      "commit": "d7691c4d758171b3c6bbf784e70064a114bd8b28",
+      "date": "2026-10-10T01:54:48-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C QA1 (Q3): the minimal HUD, location reveals, Controls / keybinds"
+     },
+     "patch": "html/H25.json",
+     "hunks": 4,
+     "deleted": 0,
+     "inserted": 794,
+     "after": {
+      "bytes": 18228,
+      "sha256": "3be4481ef883dd5f1478db640c9697e63ffe40e8cf39e22d4560db737271edda"
+     }
+    },
+    {
+     "id": "H26",
+     "source": {
+      "kind": "commit",
+      "commit": "6428da3c4ccf95575edcac8de4a179b03324d699",
+      "date": "2026-10-10T02:17:43-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C QA1 (Q4): the touch stick, thumb-sized actions, safe areas, the installable app"
+     },
+     "patch": "html/H26.json",
+     "hunks": 3,
+     "deleted": 6,
+     "inserted": 878,
+     "after": {
+      "bytes": 19100,
+      "sha256": "922b17d429f649b93fcee77b9ba8da1a6cb8564d3b9c8d851b7a29eb387c4eba"
+     }
+    },
+    {
+     "id": "H27",
+     "source": {
+      "kind": "commit",
+      "commit": "663bc4891d0c475a4cabff439c4e1cf42f3a817c",
+      "date": "2026-10-10T10:29:00-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C QA2 (QA2-1): the black boot gate - black from the first paint, the menu revealed whole"
+     },
+     "patch": "html/H27.json",
+     "hunks": 3,
+     "deleted": 0,
+     "inserted": 3463,
+     "after": {
+      "bytes": 22563,
+      "sha256": "f95c180bea6d511e937b3136d0f6e31eecb0ed02cf5752b06e59f155d8c3606d"
+     }
+    },
+    {
+     "id": "H28",
+     "source": {
+      "kind": "commit",
+      "commit": "3af362ec2aa5c2c2c4d3f2c1f849fffa28034d2d",
+      "date": "2026-10-10T11:14:32-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C QA2 (QA2-2): the supplied logo on a fully black main menu"
+     },
+     "patch": "html/H28.json",
+     "hunks": 6,
+     "deleted": 52,
+     "inserted": 644,
+     "after": {
+      "bytes": 23155,
+      "sha256": "99be41bbe94ff02ca850b8ffe96ab7eb9d6ee34107d8b264417fa63e9d1eaa5c"
+     }
+    },
+    {
+     "id": "H29",
+     "source": {
+      "kind": "commit",
+      "commit": "a85c51e4606abe491d2855259a39277f333a298c",
+      "date": "2026-10-10T12:13:53-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C QA2 (QA2-3): the menu and its music start together"
+     },
+     "patch": "html/H29.json",
+     "hunks": 9,
+     "deleted": 1,
+     "inserted": 869,
+     "after": {
+      "bytes": 24023,
+      "sha256": "987a77b305d409917d4b14245847700d60d8cf24e49afba77bc8e125e5802aef"
+     }
+    },
+    {
+     "id": "H30",
+     "source": {
+      "kind": "commit",
+      "commit": "06d7ae7a4ba08d0abb9b4b2b616647c2e4ad4a3b",
+      "date": "2026-10-10T15:18:35-05:00",
+      "author": "Claude",
+      "subject": "Stage 3C QA2 R1: logo-first menu entrance and run-return transition"
+     },
+     "patch": "html/H30.json",
+     "hunks": 5,
+     "deleted": 15,
+     "inserted": 317,
+     "after": {
+      "bytes": 24325,
+      "sha256": "de6e44863bef17a639f179368d6513e17aab12a5b98882d56bfd86a12a61f483"
+     }
+    },
+    {
+     "id": "H31",
+     "source": {
+      "kind": "commit",
+      "commit": "a232c50c463bc9d28b3f56072ae96c53cc692e66",
+      "date": "2026-10-10T22:38:14-05:00",
+      "author": "Claude",
+      "subject": "Stage 3H0 H0-2: move the look / light / corpse wire codec out of mp.js (GO)"
+     },
+     "patch": "html/H31.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 45,
+     "after": {
+      "bytes": 24370,
+      "sha256": "7120311754c123743ed8a4da298231d429c16f422b68eca32e7369bf9fddc69f"
+     }
+    },
+    {
+     "id": "H32",
+     "source": {
+      "kind": "commit",
+      "commit": "4a09be7c43b6e9ae343ad3060a75f82415d04b5a",
+      "date": "2026-10-10T22:52:11-05:00",
+      "author": "Claude",
+      "subject": "Stage 3H0 H0-3: move the snapshot interpolation out of mp.js (GO)"
+     },
+     "patch": "html/H32.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 47,
+     "after": {
+      "bytes": 24417,
+      "sha256": "0805a0abb69fa6665f8ad5a740c7617583ea4c2155b9c9edc3b3c99a4fa33181"
+     }
+    },
+    {
+     "id": "H33",
+     "source": {
+      "kind": "commit",
+      "commit": "004b43f751856ff567b87c7e6d3f0bed8939a618",
+      "date": "2026-10-13T22:43:30-05:00",
+      "author": "Claude",
+      "subject": "Stage 3E-0 B+: fresher, time-eased remote Wanderers (opt-in 'caps' / 'q'), the user's favicon"
+     },
+     "patch": "html/H33.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 61,
+     "after": {
+      "bytes": 24478,
+      "sha256": "ea756260589054f9fd787c8c1037fb1a8123c174059ae660c100f8c5c76b5db6"
+     }
+    },
+    {
+     "id": "H34",
+     "source": {
+      "kind": "commit",
+      "commit": "3e140ef4afd58ae3a134071ab6e4d96d89bbaba9",
+      "date": "2026-10-14T10:27:15-05:00",
+      "author": "Claude",
+      "subject": "Stage 3H2 C-3: NEW RUN's button and run-menu words moved to assets/net-newrun.js (no behaviour change)"
+     },
+     "patch": "html/H34.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 47,
+     "after": {
+      "bytes": 24525,
+      "sha256": "5a14ab498f1b7053684dfb2d31fdbaa6a8b03ed3b99369bb3a3304efec2b125b"
+     }
+    },
+    {
+     "id": "H35",
+     "source": {
+      "kind": "commit",
+      "commit": "859cf07cd60333b81b17a83a1e23bbfc3a8ea02b",
+      "date": "2026-10-14T10:42:05-05:00",
+      "author": "Claude",
+      "subject": "Stage 3H2 C-4: the fluorescent hum moved to assets/mp-hum.js (no behaviour change)"
+     },
+     "patch": "html/H35.json",
+     "hunks": 1,
+     "deleted": 0,
+     "inserted": 43,
+     "after": {
+      "bytes": 24568,
+      "sha256": "ca02fd163bee6c2f9460f7f4e2af0c9cfa90b01f28c2a3d2db5f427913c428cf"
+     }
+    }
+   ],
+   "result": {
+    "bytes": 24568,
+    "sha256": "ca02fd163bee6c2f9460f7f4e2af0c9cfa90b01f28c2a3d2db5f427913c428cf"
+   },
+   "corroboration": [
+    {
+     "equals": "v11 original build (versions/site-v11-49743e94d6f0/dist/index.html)",
+     "package": "thefarbackrooms-recovered-build.zip",
+     "member": "index.html",
+     "packageSha256": "0756198e43b23736cd6efb95492dcfe34962c76cca82bac2741af0eace489be2",
+     "created": "2026-09-29T01:41:10Z"
+    },
+    {
+     "equals": "v11 original build (versions/site-v11-49743e94d6f0/dist/index.html)",
+     "package": "thefarbackrooms-refined-entity-build.zip",
+     "member": "index.html",
+     "packageSha256": "8c3c4b7b6453de715fb7da10c6dec26f5bfe0d38f6e7d88c1ebed6e52026f2d4",
+     "created": "2026-09-29T02:04:11Z"
+    },
+    {
+     "equals": "commit e68caf5c2cf1992e60a4620e1214aedc5db9c3e0",
+     "package": "thefarbackrooms-level0-refined-v15.zip",
+     "member": "thefarbackrooms-level0/index.html",
+     "packageSha256": "9c428e4028e0f98e3299303593635db530cfd4dc497d98b26b178fd44b2b8624",
+     "created": "2026-09-29T21:58:46Z"
+    },
+    {
+     "equals": "commit 5bc12b4de89bbbed2beb5db906120fc0bc41d1ce",
+     "package": "thefarbackrooms-level0-refined-v15.1.zip",
+     "member": "thefarbackrooms-level0/index.html",
+     "packageSha256": "2743b96e6d1e4e7f3993d95bd0a5193196b36b1353f5f3d0ad77ed3fd9f25e70",
+     "created": "2026-09-29T22:29:32Z"
+    },
+    {
+     "equals": "commit f53d218853942fd3ab8f021fd5c5bbd3f2b36598",
+     "package": "thefarbackrooms-level0-refined-v16.zip",
+     "member": "thefarbackrooms-level0/index.html",
+     "packageSha256": "f45374e73c13ad185c85415f38ddbe960645c29121e625955567bec30ae5a4f8",
+     "created": "2026-09-29T23:34:23Z"
+    }
+   ],
+   "sideVersions": [
+    {
+     "package": "thefarbackrooms-level0-refined-v20.zip",
+     "member": "thefarbackrooms-level0/index.html",
+     "created": "2026-09-30T06:20:54Z",
+     "bytes": 9773,
+     "sha256": "e8085cde4739fb26477939878136e966982774fbce6e7f2f39324c794a54f878",
+     "note": "closest to bd95943 v18 (942 bytes of token edits); not on the repository's path"
+    }
+   ]
+  }
+ }
+}

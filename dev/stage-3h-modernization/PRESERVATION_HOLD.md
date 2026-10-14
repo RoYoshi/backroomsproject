@@ -1,6 +1,11 @@
 # Stage 3H engine modernization: controlled preservation hold
 
-**Status: PRESERVATION HOLD.** The owner asked to stop on 2026-10-14 because the original Vite/PixiJS source of the compiled client
+> **Resumed on 2026-10-14** (the owner's "controlled resumption with original source recovered"). The hold ended with nothing lost: the
+> branch was at this checkpoint, `a895c07`, with no local changes. The source recovery's intake is in `SOURCE_RECOVERY_INTAKE.md`, the
+> revised plan in `PLAN.md` §6 and ADR-002, and the live status in `CHECKPOINTS.md`. Everything below is the record of the hold as it was
+> written.
+
+**Status at the time: PRESERVATION HOLD.** The owner asked to stop on 2026-10-14 because the original Vite/PixiJS source of the compiled client
 bundle may have been found. Work stopped mid-H3M-1. This checkpoint preserves everything done so far. Stage 3H is not cancelled, and
 nothing is accepted: HUMAN QA PENDING.
 

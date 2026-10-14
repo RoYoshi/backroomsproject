@@ -57,7 +57,7 @@ differs from what the sources build.
 | H3M-1 layout | files move; four path strings change (the web root, the generated server files, `death_srv.js`'s path to `dphys.js`, the server's requires) | every output byte-identical to the parent's file; server and client goldens identical to the B++ baselines; every HTTP response identical to the parent's; negative paths 404; two real browsers |
 | H3M-2 server modules | `server.js` becomes a bootstrap; its code is regrouped by owner | server goldens byte-identical (traces, timers, sockets, console), protocol, mutants, live real-server checks, two real browsers |
 | H3M-3..5 parts | none: byte-identical outputs | `build:check` (bytes), the parts checker, a smoke run |
-| H3M-6 bundle | none | provenance, `__api` ledger, checksums |
+| H3M-6 bundle (revised at M1-R, ADR-002) | none: the bundle and stylesheet become build outputs of the v11 output plus the lineage ledger, byte-identical | `lineage.js verify` (every step's hashes, the replayed files = the shipped ones), `build:check`, the recovered snapshot's blob and tree ids, the `__api` contract ledger |
 | H3M-7 archive and docs | none | hash ledger (before = after), reference audit, root listing |
 | H3M-8 final | none | the full gate against B++ and 3H2; clean-checkout build; package |
 
@@ -72,8 +72,25 @@ differs from what the sources build.
   instead of hard-coded root paths. Behaviour assertions are never relaxed. A text-reading test (`s_ir` I1, `s_humanqa_hotfix` X02)
   keeps its assertion and reads the file where the code now lives.
 
-## 6. What this stage cannot finish
+## 6. The compiled bundle (revised at M1-R, 2026-10-14; ADR-002)
 
-**The compiled bundle has no source** (`FINDINGS.md` M-001). It stays as fixed bytes in `public/assets/`, documented as a
-compatibility island, with its `__api` contract ledger. Unless a faithful source can be proven, the final status is VERIFIED PARTIAL
-for that part of the engine.
+**As decided at H3M-0** (superseded): the compiled bundle had no source (M-001). It was to stay as fixed bytes in `public/assets/`, a
+compatibility island with its `__api` ledger, and the final status was to be VERIFIED PARTIAL for that part of the engine.
+
+**Revised after the owner recovered the original source** (`SOURCE_RECOVERY_INTAKE.md`, M-011, M-012):
+- **The source is authentic.** The v11 Vite + TypeScript project builds the original 304,183-byte bundle exactly.
+- **Every later edit is reconciled.** The shipped bundle is that output plus 40 in-place edits, and the stylesheet plus 8. Both are
+  recorded in `src/core/client/bundle/lineage/` as a ledger that replays byte for byte.
+- **H3M-6 integration (after H3M-1 is gated).**
+  - The v11 project goes in as an isolated, independently rebuildable input: `src/core/client/bundle/original-v11/`, without the
+    hosting id file (M-018). It is never merged into the root `package.json`.
+  - The bundle and the stylesheet become build outputs: the v11 output plus the ledger, byte-identical, checked by `build:check`.
+- **The TypeScript port of the 40 edits** is the condition for "compiled from readable source". It is a separate, gated program
+  (ADR-002 P0 to P4), not started in this stage. Its status in the final report is PARTIAL: a compatibility island with complete lineage.
+- **No change to the production bundle,** in this stage or by this plan, without the P3 proof and the owner's Human QA.
+
+**The order of work after the resumption** (the owner's order of 2026-10-14):
+1. **M1-R.** This intake, the lineage, the contract and the revised plan, checkpointed.
+2. **H3M-1.** Finish the test and harness migration and the gate.
+3. **H3M-6.** The integration described above.
+4. **H3M-2, H3M-3 to H3M-5, H3M-7, H3M-8,** as planned.
