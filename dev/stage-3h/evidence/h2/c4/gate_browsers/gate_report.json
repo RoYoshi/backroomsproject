@@ -1,0 +1,23 @@
+{
+ "tool": "dev/stage-3h/gate/h2_gate.js",
+ "tier": "fast",
+ "allowProd": "server.js,server/newrun.js,server/aftermath.js,mp.js,index.html,assets/net-newrun.js,assets/mp-hum.js",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "d66b891d76b037b6162fc277ac54a127e232806b",
+ "startedAt": "2026-10-14T15:36:38.384Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c4/gate_browsers",
+ "steps": {
+  "browsers": {
+   "ok": true,
+   "cases": 119,
+   "note": "two_browser ok (104), col_head ok (5), col_aside ok (5), gameplay_smoke ok (5)",
+   "exit": null,
+   "seconds": 228
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-14T15:40:26.868Z",
+ "removed": [
+  "game_candidate"
+ ]
+}

@@ -1,0 +1,483 @@
+{
+ "tool": "dev/stage-3h/golden/cli_golden_h2.js --mutants",
+ "source": "working tree",
+ "reference": {
+  "nr_answers": "06a819be3a1df505658f6db43aad174c7bc1e10581adb330e4498d87f624a070",
+  "nr_reconnect": "b877c98793945dd166f862f13ce0034097614a120e172c85d9b3f1c8fc597bad",
+  "hum_fixtures": "3961c4258ee11c8a9f5bc3d4b266ce501a4cc8ebdf8716a50b09baff0d7fa4f8",
+  "hum_dread": "d415d0bf6bbf0bfca5e901b25c00d09caf15a791891cd4b21043bee1bfc6ddad"
+ },
+ "mutants": [
+  {
+   "why": "the waiting mark is three dots",
+   "find": "nrButton('…'); tx({ t: 'nr', q, w: worldW });",
+   "repl": "nrButton('...'); tx({ t: 'nr', q, w: worldW });",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the cooldown wait rounded, not rounded up",
+   "find": "'WAIT ' + Math.ceil(+m.wait || 0) + ' S'",
+   "repl": "'WAIT ' + Math.round(+m.wait || 0) + ' S'",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": false,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "a refusal shows for 2 s",
+   "find": "if (text && text !== '…') nrTold = setTimeout(() => nrButton(''), 2500);",
+   "repl": "if (text && text !== '…') nrTold = setTimeout(() => nrButton(''), 2000);",
+   "foundIn": [
+    "assets/net-newrun.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": false,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/net-newrun.js",
+   "caught": true
+  },
+  {
+   "why": "the button stays enabled while waiting",
+   "find": "b.disabled = text === '…';",
+   "repl": "b.disabled = false;",
+   "foundIn": [
+    "assets/net-newrun.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/net-newrun.js",
+   "caught": true
+  },
+  {
+   "why": "a double press within 200 ms",
+   "find": "t - nrBusyAt < 300) return true;",
+   "repl": "t - nrBusyAt < 200) return true;",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": false,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "no answer for 3 s before the button comes back",
+   "find": "if (nrBusy === 1) { nrBusy = 0; nrButton(''); } }, 2500);",
+   "repl": "if (nrBusy === 1) { nrBusy = 0; nrButton(''); } }, 3000);",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the run menu says something else after a blast",
+   "find": "e.textContent = boom ? 'YOU BLEW YOURSELF UP' : e.dataset.fade;",
+   "repl": "e.textContent = boom ? 'YOU BLEW UP' : e.dataset.fade;",
+   "foundIn": [
+    "assets/net-newrun.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/net-newrun.js",
+   "caught": true
+  },
+  {
+   "why": "join keeps the blast words",
+   "find": "join() { nrBusy = 0; runMenuWords(false);",
+   "repl": "join() { nrBusy = 0;",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "the approval does not call the beat",
+   "find": "runMenuWords(true); if (ok) ok(m); }",
+   "repl": "runMenuWords(true); }",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "a refused press keeps the client busy",
+   "find": "else { nrBusy = 0; nrButton(m.why === 'cooldown'",
+   "repl": "else { nrButton(m.why === 'cooldown'",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": true,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": false,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "a closed connection keeps the press",
+   "find": "nrSent.clear(); nrBusy = 0; worldW = null; clearTimeout(nrWaitT); nrButton('');",
+   "repl": "nrBusy = 0; worldW = null; clearTimeout(nrWaitT); nrButton('');",
+   "foundIn": [
+    "mp.js"
+   ],
+   "scenes": {
+    "nr_answers": {
+     "differs": false,
+     "errors": 0
+    },
+    "nr_reconnect": {
+     "differs": true,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": false,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "mp.js",
+   "caught": true
+  },
+  {
+   "why": "hum buzz gain 0.21",
+   "find": "buzz.gain.value = .2;",
+   "repl": "buzz.gain.value = .21;",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "hum beating between 60 and 60.5 Hz",
+   "find": "for (const f of [60.0, 60.42])",
+   "repl": "for (const f of [60.0, 60.5])",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "every 12th fixture flickers",
+   "find": "li % 13 === 0",
+   "repl": "li % 12 === 0",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": false,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "blackout hum level 0.03",
+   "find": "let level = bo ? .025 :",
+   "repl": "let level = bo ? .03 :",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "a ballast dip lasts 20 ms longer",
+   "find": "dipEnd = tt + .06 + Math.random() * .12",
+   "repl": "dipEnd = tt + .08 + Math.random() * .12",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "the blackout thunk starts at 100 Hz",
+   "find": "o.frequency.setValueAtTime(95, when)",
+   "repl": "o.frequency.setValueAtTime(100, when)",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "the starter tink at 1400 Hz",
+   "find": "o.frequency.setValueAtTime(1350, when)",
+   "repl": "o.frequency.setValueAtTime(1400, when)",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "the pan follows the fixture more slowly",
+   "find": "(A.lamps[li].x - P.x) / 450)), now, .15);",
+   "repl": "(A.lamps[li].x - P.x) / 450)), now, .2);",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "pops 0.1 s further apart",
+   "find": "1.4 + Math.random() * 5.5",
+   "repl": "1.5 + Math.random() * 5.5",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": false,
+     "errors": 0
+    },
+    "hum_fixtures": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "a user hum fades the synth slower",
+   "find": "hum.out.gain.setTargetAtTime(0, now, .05);",
+   "repl": "hum.out.gain.setTargetAtTime(0, now, .06);",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  },
+  {
+   "why": "the blackout drop is faster",
+   "find": "g.setTargetAtTime(.02, now, .04);",
+   "repl": "g.setTargetAtTime(.02, now, .03);",
+   "foundIn": [
+    "assets/mp-hum.js"
+   ],
+   "scenes": {
+    "hum_dread": {
+     "differs": true,
+     "errors": 0
+    }
+   },
+   "applicable": true,
+   "file": "assets/mp-hum.js",
+   "caught": true
+  }
+ ],
+ "ok": true
+}

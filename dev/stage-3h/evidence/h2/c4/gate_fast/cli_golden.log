@@ -1,0 +1,11 @@
+$ node dev/stage-3h0/golden/cli_golden.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --baseline /home/claude/backrooms-shadows/dev/stage-3h/evidence/h1/golden/cli_traces --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c4/gate_fast/cli --keep /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c4/gate_fast/cli_keep
+PASS load: old 20 entries 1dd9e3b9f038 (163 ms) | new 20 entries 1dd9e3b9f038 (141 ms) | identical | baseline same
+PASS menu_online: old 1844 entries 7c17bb5dce53 (171 ms) | new 1844 entries 7c17bb5dce53 (206 ms) | identical | baseline same
+PASS run_online: old 7413 entries d61f90bf0c38 (285 ms) | new 7413 entries d61f90bf0c38 (310 ms) | identical | baseline same
+PASS interp: old 11483 entries 7eb8f6d25d57 (315 ms) | new 11483 entries 7eb8f6d25d57 (330 ms) | identical | baseline same
+PASS fx_bodies: old 22762 entries f41b0dbe275e (377 ms) | new 22762 entries f41b0dbe275e (398 ms) | identical | baseline same
+PASS facade: old 1164 entries 6c709388b64a (156 ms) | new 1164 entries 6c709388b64a (172 ms) | identical | baseline same
+PASS admin: old 1333 entries 90c1239bb505 (305 ms) | new 1333 entries 90c1239bb505 (310 ms) | identical | baseline same
+PASS reconnect_solo: old 739 entries 8c3a6b38b816 (164 ms) | new 739 entries 8c3a6b38b816 (148 ms) | identical | baseline same
+PASS hum_dread: old 4876 entries 116637e7f617 (197 ms) | new 4876 entries 116637e7f617 (219 ms) | identical | baseline same
+client golden traces: ALL IDENTICAL

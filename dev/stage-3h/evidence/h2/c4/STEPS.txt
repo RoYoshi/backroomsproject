@@ -1,0 +1,38 @@
+# Stage 3H2, step C-4: the fluorescent hum moved to assets/mp-hum.js
+# $SP is the session's scratch folder; B++ = 143b63f; parent checkpoint: d66b891 (C-3 plus the hum golden)
+
+## why this seam
+3H1's audit listed "client hum / dread audio -> a helper script" as a candidate.  The hum (B++ mp.js 887-984: a synthesized magnetic
+ballast - buildHum, its crackle / thunk / strike sounds, its state, humUpdate) touches nothing of the network layer: it reads
+window.__api and window.__sfx when the per-frame hook calls it, and mp.js uses only two of its names (humUpdate in the hook; buildHum
+in __net.testHum).  Coverage first (d66b891): Stage 3H0's hum_dread scene plus the new hum_fixtures scene, 11 hum mutants caught.
+The dread audio (initAudio, thump, burst, the drone) stays in mp.js, by decision: it registers its pointerdown / keydown listeners and
+its MutationObserver at load, so moving it into a script loaded before mp.js would change the order of the page's listeners (which a
+golden records, and which decides who runs first); and the dread layer is where 3H1 finding F-008 lives (not to be fixed by Stage 3H).
+
+## the move (a script in the session scratch: it finds the block by its B++ text and checks that, outside it, only testHum names
+## buildHum and only the hook names humUpdate, and that nothing else names the hum or its state)
+assets/mp-hum.js: an IIFE; the 98 lines as they were; (window.__mpLib = window.__mpLib || {}).hum = Object.freeze({ buildHum, humUpdate });
+mp.js: `const { buildHum, humUpdate } = window.__mpLib.hum;` beside the other helpers; a 2-line note where the hum was; __net.testHum
+  and the hook's humUpdate() call stay as they were
+index.html: <script src="./assets/mp-hum.js"></script> right after net-newrun.js (still before net-wire.js, so the three helpers'
+  load-order sentences stay true)
+
+node dev/stage-3h/tools/h2_move_proof.js --base 143b63f --from mp.js --to assets/net-newrun.js --lines 85-90,98-103 --to assets/mp-hum.js --lines 887-984 --edited 83     exit 0  PASS
+  cumulative since B++ (C-3 and C-4): 12 + 98 lines moved verbatim; line 83 edited (C-3); every other line kept in order; 7 inserted
+  (the helper header of mp-hum.js was first written with the C-3 tree's line numbers, 878-975; the proof's B++ numbering caught it
+  and the header says 887-984)
+
+## the gate
+node dev/stage-3h/gate/h2_gate.js --tier fast --allow-prod <C-3's six files>,assets/mp-hum.js --out $SP/h2/c4/gate_fast                 exit 0  PASS
+  cli_golden: 3H0's 9 scenes (hum_dread included) and the 3 Stage 3H2 scenes (hum_fixtures included) identical to B++ (gate_fast/)
+node dev/stage-3h/gate/h2_gate.js --only cli_mutants ...                                                                                  exit 0  PASS
+  22/22 client mutants caught: 11 now found in assets/mp-hum.js, 3 in assets/net-newrun.js (cli_mutants.json)
+node dev/stage-3h/gate/h2_gate.js --only browsers ...                                                                                     exit 0  PASS
+  two_browser, both collision cases, the gameplay smoke (the real page loads the three helpers) (gate_browsers/)
+the offline hum check (__net.testHum([60, 120, 240])) in a real page, B++ and the candidate: a function on both, the same levels at
+  60 / 120 / 240 Hz (-37.7 / -30.1 / -34.4 dB; the peak differs in the third digit: the hiss is the page's own randomness); no page
+  error; window.__mpLib is wire, interp on B++ and newrun, hum, wire, interp on the candidate
+
+## rollback
+ROLLBACK.md
