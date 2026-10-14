@@ -1,0 +1,90 @@
+{
+ "tool": "dev/stage-3h/gate/h2_gate.js",
+ "tier": "fast",
+ "allowProd": "server.js,server/newrun.js",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "3559e6539dcddb54ad038ec98ee6b848677f65a7",
+ "startedAt": "2026-10-14T14:23:12.385Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c1/gate_fast",
+ "steps": {
+  "build": {
+   "ok": true,
+   "cases": 3,
+   "note": "",
+   "exit": 0,
+   "seconds": 0
+  },
+  "scope": {
+   "ok": true,
+   "cases": 189,
+   "note": "changed on purpose: server.js, server/newrun.js",
+   "exit": 0,
+   "seconds": 1
+  },
+  "srv_golden": {
+   "ok": true,
+   "cases": 11,
+   "note": "identical to the baseline",
+   "exit": 0,
+   "seconds": 14
+  },
+  "bpp_golden": {
+   "ok": true,
+   "cases": 6,
+   "note": "",
+   "exit": 0,
+   "seconds": 7
+  },
+  "cli_golden": {
+   "ok": true,
+   "cases": 9,
+   "note": "",
+   "exit": 0,
+   "seconds": 5
+  },
+  "protocol": {
+   "ok": true,
+   "cases": 34646,
+   "note": "messages checked; selftest PASS",
+   "exit": null,
+   "seconds": 2
+  },
+  "mutants": {
+   "ok": true,
+   "cases": 10,
+   "note": "nr_gap_200@server/newrun.js nr_wait_round@server/newrun.js nr_no_memory@server/newrun.js nr_free_off@server/newrun.js nr_held_free@sim.js",
+   "exit": 0,
+   "seconds": 11
+  },
+  "static": {
+   "ok": true,
+   "cases": 4,
+   "note": "",
+   "exit": 0,
+   "seconds": 1
+  },
+  "raw_live": {
+   "ok": true,
+   "cases": 141,
+   "note": "identical",
+   "exit": 0,
+   "seconds": 24
+  },
+  "quick_suites": {
+   "ok": true,
+   "cases": 23,
+   "note": "s_humanqa_hotfix 5/6, s_ir 3/3, interp_test 3, test_3bn 7/7, ir_net 4/4 (only the known B++ failures fail)",
+   "exit": 0,
+   "seconds": 9
+  }
+ },
+ "ok": true,
+ "finishedAt": "2026-10-14T14:24:25.960Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate",
+  "srv_keep",
+  "bpp_keep",
+  "cli_keep"
+ ]
+}

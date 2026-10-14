@@ -1,0 +1,24 @@
+{
+ "tool": "dev/stage-3h/gate/h2_gate.js",
+ "tier": "fast",
+ "allowProd": "server.js,server/newrun.js",
+ "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
+ "head": "3559e6539dcddb54ad038ec98ee6b848677f65a7",
+ "startedAt": "2026-10-14T14:24:48.246Z",
+ "out": "/tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c1/gate_live",
+ "steps": {
+  "live_wire": {
+   "ok": false,
+   "cases": 69,
+   "note": "4 structural differences",
+   "exit": 1,
+   "seconds": 386
+  }
+ },
+ "ok": false,
+ "finishedAt": "2026-10-14T14:31:14.210Z",
+ "removed": [
+  "game_bpp",
+  "game_candidate"
+ ]
+}

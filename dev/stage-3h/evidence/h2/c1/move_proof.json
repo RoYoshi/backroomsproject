@@ -1,0 +1,58 @@
+{
+ "tool": "dev/stage-3h/tools/h2_move_proof.js",
+ "base": "143b63f",
+ "from": "server.js",
+ "moves": [
+  {
+   "to": "server/newrun.js",
+   "ranges": [
+    {
+     "lines": "204-211",
+     "count": 8,
+     "foundAtModuleLine": 16
+    },
+    {
+     "lines": "227-244",
+     "count": 18,
+     "foundAtModuleLine": 24
+    }
+   ],
+   "movedLines": 26,
+   "moduleLines": 45,
+   "ok": true,
+   "moduleOwnLines": [
+    "1: /* server/newrun.js - NEW RUN's decision on the server.",
+    "2:  *",
+    "3:  * Stage 3H2 (C-1): moved out of server.js without a change.  Every line between the factory's first line and its return is B++'s own",
+    "4:  * (server.js at 143b63f, lines 204-211 and 227-244), comments and column included: nothing is re-indented, so each line can be",
+    "5:  * compared with B++ as it is (dev/stage-3h/tools/h2_move_proof.js does).",
+    "6:  *   NR_GAP                  250 ms: an intent that close to the last one is dropped (and counted)",
+    "7:  *   nrIntent(room, me, m)   one press's intent {t:'nr', q, w}: one answer {t:'nra', ...} per press number, or none (a flood, an older or a",
+    "8:  *                           malformed press); on approval the player leaves the world at once (sim.newRun) and the one explosion starts",
+    "9:  * What it uses of the server is given, never required (so loading it changes nothing a golden trace records):",
+    "10:  *   send(c, obj)            one message to one client: server.js's send (the WebSocket frame)",
+    "11:  *   boomStart(room, c, de)  the approved NEW RUN's explosion, an aftermath like a death's",
+    "12:  * What it reads and writes is the caller's: the room (room.sim, room.name, room.deSeq - the event id deaths share), the client record",
+    "13:  * (me.id, me.player, me.admin, me.nrFree, me.nrT, me.nrDropped, me.nr, me.spawnNext) and the sim's NEW RUN rules (sim.nrWhy, sim.newRun,",
+    "14:  * sim.nrWait, sim.worldSeq).  No state of its own, no timer.  Never served: the server's allowlist does not reach this folder. */",
+    "15: module.exports = ({ send, boomStart }) => {",
+    "42: ",
+    "43: return { NR_GAP, nrIntent };",
+    "44: };",
+    "45: "
+   ]
+  }
+ ],
+ "ok": true,
+ "fromLinesBase": 470,
+ "fromLinesNow": 448,
+ "removedLines": 26,
+ "keptInOrder": true,
+ "notKept": [],
+ "insertedInFrom": [
+  "204: /* Stage 3H2 (C-1): NEW RUN's decision - nrIntent (the intent {t:'nr'} and its one answer {t:'nra'}) and NR_GAP (its 250 ms flood gap),",
+  "205:  * Stage 3D HQ2's, with HQ3's UNLIMITED NEW RUN - is server/newrun.js, moved there as it was.  It is required below, beside the other",
+  "206:  * server modules, once send exists, and given send and boomStart (the next function: the approved NEW RUN's explosion). */",
+  "226: const { nrIntent } = require('./server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see the note above boomStart)"
+ ]
+}

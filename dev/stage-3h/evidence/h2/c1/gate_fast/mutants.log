@@ -1,0 +1,12 @@
+$ node dev/stage-3h/golden/bpp_mutants.js --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c1/gate_fast/mutants.json
+CAUGHT  guard_off (server.js): B++-0's placement guard removed (B+'s behaviour) | bpp_place_guard differs, bpp_world_guard differs
+CAUGHT  grace_1000 (server.js): the grace after a placement 100 ms longer | bpp_known_limits differs
+CAUGHT  admin_checked (server.js): an admin's own poses checked like anyone's | bpp_known_limits differs
+CAUGHT  fast_gap_30 (server.js): B+'s faster pose intake off | bpp_caps_q differs
+CAUGHT  q_self (server.js): 'q' also carries the receiver's own pose | bpp_caps_q differs
+CAUGHT  nr_gap_200 (server/newrun.js): NEW RUN's flood gap 50 ms shorter | bpp_new_run differs
+CAUGHT  nr_wait_round (server/newrun.js): the cooldown wait rounded instead of rounded up | bpp_new_run differs
+CAUGHT  nr_no_memory (server/newrun.js): a repeated press decided again instead of answered again | bpp_new_run differs
+CAUGHT  nr_free_off (server/newrun.js): an admin's UNLIMITED NEW RUN ignored | bpp_new_run differs
+CAUGHT  nr_held_free (sim.js): a NEW RUN pressed while held is no longer refused (sim.nrWhy) | bpp_new_run_held differs
+B++ golden mutants: 10/10 caught

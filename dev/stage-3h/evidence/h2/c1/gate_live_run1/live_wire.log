@@ -1,0 +1,17 @@
+$ node dev/stage-3h/golden/live_wire_h2.js --old-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c1/gate_live/game_bpp --new-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c1/gate_live/game_candidate --shots /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c1/gate_live/live_wire_shots --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/c1/gate_live/live_wire.json
+old: 3964 + 3762 frames in 191099 ms; errors A 0 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true}
+new: 3585 + 3341 frames in 171865 ms; errors A 0 B 0; ui {"menuAfterFirst":true,"refusedLabel":"NEW RUN · WAIT N S","menuAfterRefused":false,"menuAfterAdmin":true}
+STRUCTURAL DIFFERENCES: 4
+  server_down|B|tx events
+    old {}
+    new null
+  server_down|B|tx periodic
+    old ["p"]
+    new null
+  server_down|B|tx keys
+    old {"p":["t,x,y,vx,vy,a,r,l,ir,k,lp,n,c,f,lk,mv"]}
+    new null
+  server_down|B|tx peersSeen
+    old []
+    new null
+LIVE WIRE: FAIL

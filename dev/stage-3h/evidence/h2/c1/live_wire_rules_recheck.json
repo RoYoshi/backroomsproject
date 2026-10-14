@@ -1,0 +1,112 @@
+{
+ "tool": "dev/stage-3h/golden/live_wire_h2.js --compare-raw (the same six recordings as evidence/h2/h2_0/live_wire/live_wire_aa_and_sensitivity.json)",
+ "why": "C-1's first live run differed from B++ only in the server_down phase: page B sent no pose while the server stopped (1 or 2 in each of six B++ recordings). The pages draw at about 2 frames a second here, so a pose every 0.5 s: whether one falls between the stop and the page noticing is timing. The outage phases now leave periodic traffic out; and with that, one B++ recording (r4) showed 'q' only after the restart, so 'q' is compared by key set when both runs saw one, never by presence. Every recorded pair re-checked under the new rules:",
+ "pairs": [
+  {
+   "pair": "aa3_new__aa3_old",
+   "ok": true,
+   "structuralDifferences": 0,
+   "fields": []
+  },
+  {
+   "pair": "aa3_new__lw_caps",
+   "ok": false,
+   "structuralDifferences": 44,
+   "fields": [
+    "events",
+    "keys"
+   ]
+  },
+  {
+   "pair": "aa3_new__lw_wait",
+   "ok": false,
+   "structuralDifferences": 1,
+   "fields": [
+    "keys"
+   ]
+  },
+  {
+   "pair": "aa3_new__r4_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "fields": []
+  },
+  {
+   "pair": "aa3_new__r5_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "fields": []
+  },
+  {
+   "pair": "aa3_old__lw_caps",
+   "ok": false,
+   "structuralDifferences": 44,
+   "fields": [
+    "events",
+    "keys"
+   ]
+  },
+  {
+   "pair": "aa3_old__lw_wait",
+   "ok": false,
+   "structuralDifferences": 1,
+   "fields": [
+    "keys"
+   ]
+  },
+  {
+   "pair": "aa3_old__r4_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "fields": []
+  },
+  {
+   "pair": "aa3_old__r5_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "fields": []
+  },
+  {
+   "pair": "r4_new__lw_caps",
+   "ok": false,
+   "structuralDifferences": 44,
+   "fields": [
+    "events",
+    "keys"
+   ]
+  },
+  {
+   "pair": "r4_new__lw_wait",
+   "ok": false,
+   "structuralDifferences": 1,
+   "fields": [
+    "keys"
+   ]
+  },
+  {
+   "pair": "r4_new__r5_new",
+   "ok": true,
+   "structuralDifferences": 0,
+   "fields": []
+  },
+  {
+   "pair": "r5_new__lw_caps",
+   "ok": false,
+   "structuralDifferences": 44,
+   "fields": [
+    "events",
+    "keys"
+   ]
+  },
+  {
+   "pair": "r5_new__lw_wait",
+   "ok": false,
+   "structuralDifferences": 1,
+   "fields": [
+    "keys"
+   ]
+  }
+ ],
+ "aaPairsIdentical": true,
+ "brokenCopiesCaught": true
+}

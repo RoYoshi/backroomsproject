@@ -1,6 +1,6 @@
 /* Stage 3H2 (H2-0) - ONE gate for every Stage 3H runtime checkpoint: the working tree against the accepted B++ game (development only).
  *
- *   node dev/stage-3h/gate/h2_gate.js [--tier fast|full] [--allow-prod P1,P2] [--only step,step] [--out DIR]
+ *   node dev/stage-3h/gate/h2_gate.js [--tier fast|full] [--allow-prod P1,P2] [--only step,step] [--out DIR] [--keep-heavy 1]
  *
  *   --allow-prod  the production files (outside dev/) this checkpoint changes or adds on purpose, cumulative since B++ (e.g.
  *                 server.js,server/newrun.js).  Every other production file must be byte-identical to B++.
@@ -91,7 +91,7 @@ const STEPS = {
   /* real time: a phase that does not finish in 30 s is an ERROR (exit 2: the run proves nothing either way), which is run once more and
    * reported; a structural difference (exit 1) is a FAIL at once */
   live_wire: () => {
-    const go = n => run('live_wire' + n, ['node', 'dev/stage-3h/golden/live_wire_h2.js', '--old-dir', bppGame(), '--new-dir', wtGame(), '--shots', o('live_wire_shots' + n), '--out', o(`live_wire${n}.json`)]);
+    const go = n => run('live_wire' + n, ['node', 'dev/stage-3h/golden/live_wire_h2.js', '--old-dir', bppGame(), '--new-dir', wtGame(), '--shots', o('live_wire_shots' + n), '--save-raw', o('live_wire_raw' + n), '--out', o(`live_wire${n}.json`)]);
     let r = go(''), j = J(o('live_wire.json')), note = '';
     if (r.exit === 2) { note = 'first run ERROR (' + ((j && j.error) || 'see live_wire.log').slice(0, 120) + '), run again; '; r = go('_again'); j = J(o('live_wire_again.json')); }
     return { ok: r.exit === 0 && j && j.ok, cases: j && j.phases ? j.phases.length : 0, note: note + (j && j.ok ? 'structurally identical, ui ' + JSON.stringify(j.new.ui) : j && j.diffs ? j.diffs.length + ' structural differences' : 'no comparison'), r };
@@ -160,6 +160,9 @@ for (const s of steps) {
   console.log(`${res.ok ? 'PASS' : 'FAIL'} ${s}: ${res.cases} compared${res.note ? '; ' + res.note : ''} (${R.steps[s].seconds} s)`);
 }
 R.finishedAt = new Date().toISOString();
+/* the bulky intermediates (two game copies, the kept traces: about 350 MB a run) are removed once every step has used them, unless
+ * --keep-heavy 1; the reports and logs stay */
+if (!ARG['keep-heavy']) { R.removed = []; for (const d of ['game_bpp', 'game_candidate', 'srv_keep', 'bpp_keep', 'cli_keep', 'cli_h2_keep']) { const p = o(d); if (p.startsWith(OUT + path.sep) && fs.existsSync(p)) { fs.rmSync(p, { recursive: true, force: true }); R.removed.push(d); } } }
 fs.writeFileSync(o('gate_report.json'), JSON.stringify(R, null, 1) + '\n');
 console.log(`H2 GATE (${ARG.tier}${ARG.only ? ': ' + ARG.only : ''}): ${R.ok ? 'PASS' : 'FAIL'}  - report ${o('gate_report.json')}`);
 process.exitCode = R.ok ? 0 : 1;

@@ -129,13 +129,20 @@ const EXACT = new Set(['join', 'leave', 'respawn', 'admin', 'a', 'kick', 'revive
 const RACY = { s: ['mk', 'ad', 'you', 'nf', 'dbg', 'dx'], fx: ['el'], tp: ['pc'] };
 /* Stage 3H2: two races of B+ that 3H0's rule (written before B+) did not know, found by this tool's own B++ A/A run (both sides the same
  * game: 9 differences, all of them these two):
- *   - 'q' (B+'s fresher poses) is sent only on a tick where a peer's pose changed, so whether a phase still or already sees one is timing,
- *     and so is whether the page that barely moves (A sees B, who stands still) gets one at all: 'q' is compared over the whole run and
- *     both pages together ('run|*|rx': presence and key sets), not per phase or page;
+ *   - 'q' (B+'s fresher poses) is sent only on a tick between two snapshots on which a peer's pose has changed.  In this script nobody
+ *     walks: a pose changes only at a spawn, a teleport or a rejoin, and each of those falls between snapshots or on one by chance (in
+ *     one B++ recording of six, the only 'q' of the whole run came after the server restart).  So whether 'q' is seen at all is timing:
+ *     its key sets are compared over the whole run and both pages together ('run|*|rx'), when both runs saw one; its presence is not.
+ *     (bpp_caps_q pins 'q' exactly; a client that stops asking for caps is caught here by the caps messages themselves);
  *   - the first snapshots after a (re)connect may come before the caps answer, and only snapshots after it carry k: s.k is a race in
  *     the phases where caps is asked (boot, server_restart).  The goldens pin both exactly (bpp_caps_q, protocol_bpp.json). */
 const SPARSE = new Set(['q']);
 const RACY_IN = { boot: { s: ['k'] }, server_restart: { s: ['k'] } };
+/* 3H0's outage rule (counts never compared while the server stops and restarts) did not go far enough on this machine: the pages draw
+ * at about 2 frames a second under software rendering, so each sends a pose about every 0.5 s, and whether one falls between the
+ * server's stop and the page noticing the closed socket is timing (B sent 1 or 2 poses there in six B++ recordings, none in a seventh).
+ * In the outage phases the periodic traffic ('p', 's', 'q', ping / pong) is left out altogether; the session messages (hi, caps,
+ * join, admin, bodies, ...) are still compared, in presence. */
 const OUTAGE = new Set(['server_down', 'server_restart']);
 function summarize(v) {
   const out = {};
@@ -145,6 +152,7 @@ function summarize(v) {
       const ids = v.phaseIds[ph] || v.ids, label = id => id === ids.A ? 'A' : id === ids.B ? 'B' : id == null ? 'none' : 'other';
       let m; try { m = JSON.parse(data); } catch (e) { m = { t: '~unparsed' }; }
       const t = m.t || '~none';
+      if (OUTAGE.has(ph) && PERIODIC.has(t) && !SPARSE.has(t)) continue;
       const k = SPARSE.has(t) ? `run|*|${dir}` : `${ph}|${who}|${dir}`; const o = out[k] = out[k] || { types: {}, keys: {}, peersSeen: [] };
       o.types[t] = (o.types[t] || 0) + 1;
       const racy = (RACY[t] || []).concat((RACY_IN[ph] || {})[t] || []);
@@ -178,6 +186,7 @@ function summarize(v) {
   const diffs = [];
   for (const k of keys) {
     const a = res.old.summary[k] || null, n = res.new.summary[k] || null;
+    if (k.startsWith('run|')) { if (a && n && JSON.stringify(a.keys) !== JSON.stringify(n.keys)) diffs.push({ at: k, field: 'keys', old: JSON.stringify(a.keys), new: JSON.stringify(n.keys) }); continue; }   // (SPARSE: key sets only, when both saw it)
     for (const f of ['events', 'periodic', 'keys', 'peersSeen']) { const x = JSON.stringify(a && a[f]), y = JSON.stringify(n && n[f]); if (x !== y) diffs.push({ at: k, field: f, old: x, new: y }); }
   }
   if (JSON.stringify(res.old.ui) !== JSON.stringify(res.new.ui)) diffs.push({ at: 'ui', field: 'NEW RUN button and run menu', old: JSON.stringify(res.old.ui), new: JSON.stringify(res.new.ui) });

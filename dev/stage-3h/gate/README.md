@@ -50,8 +50,10 @@ The fast tier, then the real-time checks:
   counts its cases. An A/A run passes; three deliberately broken copies (a cache header, the 1,400-byte frame limit, the room cap) fail.
 - `live_wire_h2.js` (3H copy of `live_wire.js`): the original waited forever for the run menu after a refused NEW RUN (3H1 F-021). The
   copy follows B++'s real flow, limits every phase to 30 s, reports both pages' state when a phase fails, reads the refusal while the
-  button still shows it, and treats two B+ timing races (which phase a sparse `q` falls in; `s.k` before the caps answer) the way its
-  own A/A run showed they need. A client that stops asking for caps, and a server that drops the cooldown's `wait`, both fail it.
+  button still shows it, and knows the timing races its own runs showed: `q` (whether a pose change falls between two snapshots) is
+  compared by key set, not presence; `s.k` before the caps answer; and in the outage phases the periodic traffic is left out (pages
+  draw about 2 frames a second here, so whether a pose is sent while the server stops is chance). Four B++ recordings are pairwise
+  identical (six pairs); a client that stops asking for caps, and a server that drops the cooldown's `wait`, fail against each.
 - `bpp_mutants.js` copies the whole server side, so a mutant follows code into a module.
 - `h1_scope_check.py` runs in about a second (blob ids instead of reading every file) and knows declared production changes.
 - `protocol_v2.js` replaces 3H0's contract (written for the QA2 parent; 12,483 differences on B++, 3H1 F-003) with one derived from B++.

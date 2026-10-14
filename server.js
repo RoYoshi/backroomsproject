@@ -201,14 +201,9 @@ function adminMove(room, me, x, y) {
   const f = PEERS.freeSpot(x, y, ps, (a, b, r) => room.sim.clearAt(a, b, r), PD);
   mvAccept(me, f.x, f.y); if (f.moved) { me.mv.grace = Date.now() + MV.GRACE; send(me, { t: 'tp', x: f.x, y: f.y }); }
 }
-/* Stage 3D HQ2: NEW RUN is the server's decision, not the client's.  The client sends only its intent, {t:'nr', q: its press number,
- * w: the world it is in}, and changes nothing until the answer: {t:'nra', q, ok:1, de, w} - approved: the player is out of the world at
- * once (sim.newRun: to the menu, so its next join starts the new run) - or {t:'nra', q, ok:0, why, wait?} - refused, nothing changed
- * ('state': not in a run; 'dead'; 'held': in a capture; 'cooldown': wait seconds left of the 30 s; 'epoch': the press was made in a world
- * an admin has since reset).  One answer per press: the same q again gets the same answer (no second event); an older q, a malformed one
- * or an intent within 250 ms of the last gets none (a flood is dropped and counted).  A world reset, a death, END and RESPAWN never come
- * through here, so none of them explodes anyone or starts anyone's cooldown. */
-const NR_GAP = 250;
+/* Stage 3H2 (C-1): NEW RUN's decision - nrIntent (the intent {t:'nr'} and its one answer {t:'nra'}) and NR_GAP (its 250 ms flood gap),
+ * Stage 3D HQ2's, with HQ3's UNLIMITED NEW RUN - is server/newrun.js, moved there as it was.  It is required below, beside the other
+ * server modules, once send exists, and given send and boomStart (the next function: the approved NEW RUN's explosion). */
 /* Stage 3D HQ2 (H2-2): the approved NEW RUN's explosion, an aftermath like a death's (aftSend / aftTick): one event, decided here, at the
  * position and facing the server holds for the player, its blast seeded from the world and the event id (dphys.boomPlan), its light's
  * failure chosen once (HQ1's lightProfile) when the light was a lit emitter.  Every client gets the replay once - the player's own
@@ -224,28 +219,11 @@ function boomStart(room, c, de) {
   room.afts = (room.afts || []).filter(a => a.id !== c.id || a.body);
   room.afts.push({ id: c.id, seq: -1, de, at: Date.now(), world: w, kill: B, fx: true, fxMsg: fx, sent: new Set(), body: false, info, run, boom: true });
 }
-function nrIntent(room, me, m) {
-  const now = Date.now(); if (now - (me.nrT || 0) < NR_GAP) { me.nrDropped = (me.nrDropped | 0) + 1; return; }
-  const q = Number.isSafeInteger(m.q) && m.q > 0 && m.q < 2147483648 ? m.q : 0; if (!q) return;
-  me.nrT = now;
-  if (me.nr) { if (q === me.nr.q) return send(me, me.nr.ans); if (q < me.nr.q) return; }
-  const sim = room.sim, p = me.player, t = now / 1000, free = !!(me.admin && me.nrFree);    // Stage 3D HQ3: an admin's own UNLIMITED NEW RUN (this connection only) skips the 30 s, nothing else
-  let why = m.w !== sim.worldSeq ? 'epoch' : sim.nrWhy(p, t, free), ans;
-  if (!why) why = sim.newRun(p, t, free);
-  if (why) { ans = { t: 'nra', q, ok: 0, why }; if (why === 'cooldown') ans.wait = Math.ceil(sim.nrWait(p, t) * 10) / 10; }
-  else {
-    const de = room.deSeq = (room.deSeq | 0) + 1;
-    ans = { t: 'nra', q, ok: 1, de, w: sim.worldSeq };
-    me.spawnNext = false;
-    boomStart(room, me, de);                                                    // H2-2: the one explosion of this decision
-    console.log(`[newrun] room=${room.name} #${me.id} de=${de}: approved${free ? ' (unlimited: admin)' : ''}`);
-  }
-  me.nr = { q, ans }; send(me, ans);
-}
 
 const { frame, reader } = require('./server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
 const send = (c, obj) => { const f = frame(JSON.stringify(obj)); if (f && !c.sock.destroyed) c.sock.write(f); };
 const { num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook } = require('./server/fields.js');   // Stage 3H0: the checks applied to what clients send
+const { nrIntent } = require('./server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see the note above boomStart)
 
 function getRoom(name) {
   let r = rooms.get(name);

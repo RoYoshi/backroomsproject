@@ -1,0 +1,40 @@
+# Stage 3H2, step C-1: NEW RUN's decision moved to server/newrun.js
+# what ran, in order, with the result; $SP is the session's scratch folder; B++ = 143b63f; parent checkpoint H2-0 = 3559e65
+
+## the move (a script in the session scratch: it asserts the blocks are where B++ has them, then cuts and pastes them)
+server.js lines 204-211 (the NEW RUN comment and NR_GAP) and 227-244 (nrIntent) -> server/newrun.js, inside a factory
+  module.exports = ({ send, boomStart }) => { <the 26 lines, not re-indented> return { NR_GAP, nrIntent }; };
+server.js: a 3-line note where the code was, and one line after the other module requires (send exists by then):
+  const { nrIntent } = require('./server/newrun.js')({ send, boomStart });
+  boomStart stays in server.js (it is the NEW RUN's aftermath: C-2's); the module requires nothing (no 'use strict': as server.js)
+
+node dev/stage-3h/tools/h2_move_proof.js --base 143b63f --from server.js --to server/newrun.js --lines 204-211,227-244     exit 0  PASS
+  26 lines moved verbatim (each range one unbroken block in the module); every other line of B++'s server.js kept, in order; 4 lines
+  inserted (the note and the require); the module's own lines: its header comment, the factory's first line, the return, the close
+  (move_proof.json)
+
+## the gate, fast tier, against B++
+node dev/stage-3h/gate/h2_gate.js --tier fast --allow-prod server.js,server/newrun.js --out $SP/h2/c1/gate_fast                exit 0  PASS
+  srv_golden 11 identical to the B++ baseline: the trace is unchanged, and the harness's structure record shows the one new require,
+  ./server/newrun.js (3H0's rule: requires that did not exist at the 3H0 parent are recorded apart, so an extraction is visible and
+  changes no trace); bpp_golden 6/6 identical to the B++ baseline, NEW RUN's two scenarios included; the four NEW RUN mutants now
+  found and caught in server/newrun.js; raw_live identical (/server/newrun.js is 404 on both: never served); quick suites as on B++
+  (gate_fast/)
+
+## the live two-browser check (the NEW RUN flow through the game's own buttons: approved, refused, admin UNLIMITED)
+run 1: node dev/stage-3h/gate/h2_gate.js --only live_wire --allow-prod server.js,server/newrun.js       exit 1  4 structural differences,
+  all in the server_down phase: page B sent no pose while the server stopped; it sent 1 or 2 there in each of six B++ recordings
+  (gate_live_run1/).  The pages here draw about 2 frames a second (software rendering), so a pose leaves about every 0.5 s and
+  whether one falls between the server's stop and the page noticing is timing.  C-1 changes no client code and no timing; the tool's
+  outage rule was too strict.
+  -> live_wire_h2.js: in the outage phases the periodic traffic is left out (session messages still compared); re-checking every
+     recording with that rule, one B++ recording (r4) had seen 'q' only after the restart, so 'q' is compared by key set when both
+     runs saw one, never by presence.  All recorded pairs re-checked (live_wire_rules_recheck.json): the four B++ recordings
+     pairwise identical; the two broken copies caught against each (no caps: 44 differences; cooldown without wait: 1)
+  -> h2_gate.js keeps each side's recording (--save-raw) from now on, so a later rule question can be answered offline
+run 2: the same command                                                                                  exit 0  PASS, structurally
+  identical in every phase; the refusal reads "NEW RUN · WAIT N S" on both (gate_live/; both sides' recordings gzipped there)
+  the candidate's recording is also structurally identical to each of the four earlier B++ recordings, and so is this run's B++ side
+
+## rollback
+ROLLBACK.md (git revert of the C-1 commit, or server.js from 3559e65 and server/newrun.js removed; SHA-256 to check)
