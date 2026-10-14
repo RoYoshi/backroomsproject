@@ -1,0 +1,52 @@
+# Stage 3H engine modernization, checkpoint M2: H3M-2, server.js split into its owners' modules
+# $SP is the session's scratch folder. B++ = 143b63f; frozen 3H2 = 22751bb; the parent is M6a = f2db9d8 (its server.js: blob 4a67e181).
+# Runtime change: server.js (385 lines -> 141) and five new server modules, every moved line verbatim. No client file changed.
+
+## the split (dev/stage-3h-modernization/tools/m2_split_server.py)
+python3 -I -B dev/stage-3h-modernization/tools/m2_split_server.py --apply      split: server.js 385 -> 141 lines
+python3 -I -B dev/stage-3h-modernization/tools/m2_split_server.py --check      exit 0  (split_check.txt): the six files are what the split of
+                                                                                        M6a's server.js gives
+  src/frameworks/space/server/movement.js   S.P.A.C.E.  server.js 30-51, 53-114, 137-155 (the budget, walls, other players, placements)
+  src/core/server/rooms.js                  core        26, 119-136, 166-171 (the rooms, getRoom, the admin world reset)
+  src/frameworks/overseer/server/admin.js   OVERSEER    172-235 (the admin panel's commands)
+  src/frameworks/bpp/server/poses.js        B++         314-330 (the fresher poses between snapshots)
+  src/core/server/loop.js                   core        332-382 (the body of the setInterval callback, now tick())
+  Each module is a factory given what it uses by server.js (never requiring it), as Stage 3H2's aftermath.js and newrun.js are.
+  Kept in server.js: the configuration, the admin passcode line (unchanged; its hash is compared by the scope step), the passcode check
+  and its lockout, the WebSocket session (the upgrade, the messages, the leaving), the requires the server always made in their order.
+  The session is held there because it holds the passcode check and its lockout (finding M-023: the owner's approval).
+
+## the move proof (move_proof.json, move_proof.txt)
+node dev/stage-3h/tools/h2_move_proof.js --base f2db9d8 --from server.js --to .../movement.js --lines 30-51,53-114,137-155
+     --to .../rooms.js --lines 26-26,119-136,166-171 --to .../admin.js --lines 172-235 --to .../poses.js --lines 314-330
+     --to .../loop.js --lines 332-382 --edited 52,118,163,164,331,383                                                       exit 0  PASS
+  260 lines moved verbatim, each range one unbroken block in its module; every other line of server.js kept in order; 6 lines changed in
+  place (52: the PEERS require without PD and NONE; 118, 163, 164: comments that named places that moved; 331, 383: the setInterval's
+  arrow function, now loop.js's tick); 22 lines inserted (the composition note and the wiring), listed for review
+
+## every name accounted for (free_names.json, free_names.txt)
+node dev/stage-3h-modernization/tools/m2_free_names.js                                                                    exit 0
+  TypeScript's checker on server.js before and after, and on each module: no name is used undeclared; each module uses only its factory's
+  parameters, the language's globals and the host's (require, process, console, the timers, Buffer, URL). Self-test: poses.js with its
+  parameter taken away is reported (send).
+
+## the tests that read the server's text
+  s_ir I1 and s_humanqa_hotfix X02 read server.js's text; the code they look for moved (the snapshot's ir, the admin batching). They now
+  read dev/tools/layout.js serverSource(): server.js and every module split out of it. Titles and assertions unchanged: s_ir 3/3,
+  s_humanqa_hotfix 5/6 (X03 is the known B++ failure).
+  dev/tools/layout.js: runtimeOf() lists a server module made after the modernization by its own path, so the scope step sees the five
+  modules as runtime; dev/tools/gate/declared_changes.json declares them (added) and server.js's H3M-2 change.
+
+## the full gate (gate_full/; 2026-10-14 21:44-22:18 UTC, 34 min)
+node dev/tools/gate/gate.js --tier full --out $SP/em2/work/gate_m2_full                                                    exit 0  PASS
+  build 40 · lineage 83 · scope 198 (the five modules added, declared) · srv_golden 11 (identical to the B++ baselines) · bpp_golden 7
+  · cli_golden 12 · protocol 52,740 + selftest · mutants 18 (each applied where its code now lives: guard_off and grace_1000 in
+  movement.js, q_self in poses.js, aft_revive_end in admin.js, admin_checked and fast_gap_30 still in server.js; all caught) · static 4
+  · raw_live 173 · quick_suites 23 · cli_mutants 22 · live_wire 65 phases (structurally identical) · bpp_checks 36 · browsers 127
+  · contact_lab 23 images identical in pixels · suites 293 (only the known B++ failures) · perf 9 (lifecycle +6.9 %, deaths -4.95 %,
+  admin +0.06 %, schedule +1.67 %: inside the predeclared tolerance)
+
+## lifecycle, measured again (perf_paired/perf_paired_lifecycle.json; M-021's tool)
+node dev/stage-3h-modernization/tools/m1_perf_paired.js --work $SP/em2/work/m2_perf_work --rounds 30 --scenario lifecycle    exit 0
+  30 interleaved rounds: A/B +1.6 % paired (this tree slower in 16 of 30), C/B +1.71 % (18 of 30), D/C -1.88 % (13 of 30); the 7-round
+  rule fails on 0 of 24 windows: no slowdown beyond this machine's noise

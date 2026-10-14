@@ -14,7 +14,7 @@ add('HQA X01 admin stress ceiling is truly reachable without changing normal dir
 });
 
 add('HQA X02 client/network presentation has 64 slots for each species and batch stress controls',()=>{
-  const mp=fs.readFileSync(LAYOUT.at('mp.js'),'utf8'),bundle=fs.readFileSync(LAYOUT.at('assets/index-DKbV5Nv9.js'),'utf8'),server=fs.readFileSync(LAYOUT.at('server.js'),'utf8');
+  const mp=fs.readFileSync(LAYOUT.at('mp.js'),'utf8'),bundle=fs.readFileSync(LAYOUT.at('assets/index-DKbV5Nv9.js'),'utf8'),server=LAYOUT.serverSource();   // (Stage 3H modernization, H3M-2: server.js and the modules split out of it)
   assert(mp.includes('const CLIENT_ENTITY_SLOTS = 64'));
   assert(bundle.includes('hv=Array.from({length:64},()=>new Wl)'));
   assert(bundle.includes('for(let e=Ll.length;e<64;e++)Ll.push({...Ll[e%5]})'));

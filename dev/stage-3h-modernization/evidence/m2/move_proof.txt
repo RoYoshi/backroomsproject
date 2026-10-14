@@ -1,0 +1,41 @@
+src/frameworks/space/server/movement.js: 103 lines moved verbatim (30-51 at line 20, 53-114 at line 43, 137-155 at line 105); the module's own lines: 24
+src/core/server/rooms.js: 25 lines moved verbatim (26-26 at line 15, 119-136 at line 16, 166-171 at line 34); the module's own lines: 17
+src/frameworks/overseer/server/admin.js: 64 lines moved verbatim (172-235 at line 12); the module's own lines: 15
+src/frameworks/bpp/server/poses.js: 17 lines moved verbatim (314-330 at line 10); the module's own lines: 12
+src/core/server/loop.js: 51 lines moved verbatim (332-382 at line 14); the module's own lines: 18
+server.js: line 52 changed in place; at f2db9d8 it was:
+  - const PEERS = require('./src/frameworks/space/server/peers.js'), PD = PEERS.D_BODY, NONE = [];
+server.js: line 118 changed in place; at f2db9d8 it was:
+  -  * The events stay on the room (room.afts), so worldReset just below and the admin revive still end them in place. */
+server.js: line 163 changed in place; at f2db9d8 it was:
+  - const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./src/frameworks/gib/server/aftermath.js')({ deathSrv, send, HEX });   // Stage 3H2 (C-2): the death aftermath and the NEW RUN
+server.js: line 164 changed in place; at f2db9d8 it was:
+  - const { nrIntent } = require('./src/frameworks/bpp/server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see the note after adminMove)
+server.js: line 331 changed in place; at f2db9d8 it was:
+  - setInterval(() => {
+server.js: line 383 changed in place; at f2db9d8 it was:
+  - }, TICK_MS);
+server.js: 260 lines moved out, every other line of f2db9d8 kept in order: yes; inserted 22:
+  + 29: /* Stage 3H engine modernization (H3M-2): server.js is the server's composition root.  It keeps the configuration; the admin passcode, its
+  + 30:  * check and its lockout; the WebSocket session below (the upgrade, each client's messages, its leaving); the requires the server always
+  + 31:  * made, in their order; and the wiring.  Each other part lives with its owner, and is given what it uses (never requiring the server):
+  + 32:  *   src/frameworks/space/server/movement.js   S.P.A.C.E.: the movement authority (the budget, the walls, the other players, placements)
+  + 33:  *   src/core/server/rooms.js                  core: the rooms, and the admin world reset (a new world epoch)
+  + 34:  *   src/frameworks/gib/server/aftermath.js    G.I.B.: the death aftermath and the NEW RUN blast (Stage 3H2 C-2)
+  + 35:  *   src/frameworks/bpp/server/newrun.js       B++: NEW RUN's decision (Stage 3H2 C-1)
+  + 36:  *   src/frameworks/overseer/server/admin.js   OVERSEER: the admin panel's commands
+  + 37:  *   src/frameworks/bpp/server/poses.js        B++: the fresher poses between two snapshots (Stage 3E-0 B+)
+  + 38:  *   src/core/server/loop.js                   core: the loop (the 60 Hz steps, the aftermath, the snapshots)
+  + 39:  * The static files, the WebSocket framing and the checks on what clients send (Stage 3H0), and the players' bodies (peers.js), are
+  + 40:  * required where they always were.  The session stays here because it holds the passcode check and its lockout: security code moves
+  + 41:  * only with the owner's approval (dev/stage-3h-modernization/FINDINGS.md M-023). */
+  + 42: const PEERS = require('./src/frameworks/space/server/peers.js');                     // (H3M-2: its PD and NONE are movement.js's)
+  + 46:  * The events stay on the room (room.afts), so worldReset (src/core/server/rooms.js) and the admin revive (admin.js) still end them in place. */
+  + 54: const { MV, PD, blockers, placeFree, mvReset, mvCheck, moveTo, adminMove } = require('./src/frameworks/space/server/movement.js')({ PEERS, send });   // H3M-2: S.P.A.C.E., the movement authority
+  + 55: const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./src/frameworks/gib/server/aftermath.js')({ deathSrv, send, HEX });   // Stage 3H2 (C-2): the death aftermath and the NEW
+  + 56: const { nrIntent } = require('./src/frameworks/bpp/server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see its note above)
+  + 58: const { rooms, getRoom, worldReset } = require('./src/core/server/rooms.js')({ createSim, BODY_TTL, aftStart, placeFree, mvReset, send });   // H3M-2: core, the rooms
+  + 59: const { adminCommand } = require('./src/frameworks/overseer/server/admin.js')({ send, aftOf, moveTo, worldReset });   // H3M-2: OVERSEER, the admin panel's commands
+  + 138: const { poseSend } = require('./src/frameworks/bpp/server/poses.js')({ send });   // H3M-2: B++, the fresher poses between two snapshots
+  + 139: setInterval(require('./src/core/server/loop.js')({ rooms, poseSend, aftStart, aftSend, aftTick, bodyAt, send, SNAP_EVERY, ADMIN_EVERY }).tick, TICK_MS);   // H3M-2: core, the loop
+MOVE PROOF: PASS

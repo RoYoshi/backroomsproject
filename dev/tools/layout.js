@@ -13,6 +13,7 @@
  *   L.forTree(dir)         the same API for another game folder (an export); detects the old layout and maps names to themselves
  *   L.isModern(dir)        true when dir has the public/ web root or the generated/server/ folder
  *   L.webRoot(dir)         the folder the server serves (dir/public, or dir itself on the old layout)
+ *   L.serverFiles()        the server-side runtime files (relative paths); L.serverSource() the server's own code as one text
  * A name the map does not know is returned as <root>/<name> (an unmoved file such as server.js or a dev/ path). */
 'use strict';
 const fs = require('fs'), path = require('path');
@@ -48,21 +49,27 @@ function forTree(dir) {
     if (/^(assets|sounds)\//.test(n)) return 'public/' + n;                 // every assets/ and sounds/ URL is served from public/
     return n;
   };
+  /* the server-side runtime files of this tree, relative paths: what a copy of "the server" must contain to run.  Modern layout:
+   * server.js, the generated server files, and the src/ modules the server requires (files under a server/ folder that are not parts
+   * of a built output: the parts only reach the server through generated/) */
+  const serverFiles = () => {
+    if (!modern) return ['server.js', 'sim.js', 'ai.js', 'world.js', 'death_srv.js', 'dphys.js', ...fs.readdirSync(path.join(dir, 'server')).filter(f => f.endsWith('.js')).map(f => 'server/' + f)];
+    const walk = d => fs.readdirSync(path.join(dir, d), { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
+    const recipes = JSON.parse(fs.readFileSync(path.join(dir, 'src', 'build-recipes.json'), 'utf8')), parts = new Set(recipes.outputs.flatMap(o => o.parts || []));
+    const gen = walk(path.join('generated', 'server')).map(f => f.split(path.sep).join('/')).filter(f => f.endsWith('.js'));
+    const mods = walk('src').map(f => f.split(path.sep).join('/')).filter(f => /\/server\/[^/]+\.js$/.test(f) && !parts.has(f));
+    return ['server.js', ...gen, ...mods];
+  };
+  /* (H3M-2) the server's own code as one text: server.js and every module split out of it (Stage 3H0, 3H2, H3M-2), on either layout, for
+   * the tests that read the server's code (s_ir I1, s_humanqa_hotfix X02).  The built world files (sim.js, ai.js, world.js, dphys.js)
+   * are not server.js's code and are left out. */
+  const serverSource = () => serverFiles().filter(f => !f.startsWith('generated/') && !['sim.js', 'ai.js', 'world.js', 'dphys.js'].includes(f))
+    .sort((a, b) => a === 'server.js' ? -1 : b === 'server.js' ? 1 : a < b ? -1 : a > b ? 1 : 0).map(f => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n');
   return {
     root: dir, modern, rel,
     at: name => path.join(dir, rel(name)),
     webRoot: () => modern ? path.join(dir, 'public') : dir,
-    /* the server-side runtime files of this tree, relative paths: what a copy of "the server" must contain to run.  Modern layout:
-     * server.js, the generated server files, and the src/ modules the server requires (files under a server/ folder that are not parts
-     * of a built output: the parts only reach the server through generated/) */
-    serverFiles() {
-      if (!modern) return ['server.js', 'sim.js', 'ai.js', 'world.js', 'death_srv.js', 'dphys.js', ...fs.readdirSync(path.join(dir, 'server')).filter(f => f.endsWith('.js')).map(f => 'server/' + f)];
-      const walk = d => fs.readdirSync(path.join(dir, d), { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
-      const recipes = JSON.parse(fs.readFileSync(path.join(dir, 'src', 'build-recipes.json'), 'utf8')), parts = new Set(recipes.outputs.flatMap(o => o.parts || []));
-      const gen = walk(path.join('generated', 'server')).map(f => f.split(path.sep).join('/')).filter(f => f.endsWith('.js'));
-      const mods = walk('src').map(f => f.split(path.sep).join('/')).filter(f => /\/server\/[^/]+\.js$/.test(f) && !parts.has(f));
-      return ['server.js', ...gen, ...mods];
-    },
+    serverFiles, serverSource,
   };
 }
 /* The runtime of a tree under its old (root-relative) names: [old name, absolute path] for every file the game serves or the server loads.
@@ -78,6 +85,11 @@ function runtimeOf(dir) {
   }
   for (const n of ['server.js', 'package.json', 'sim.js', 'ai.js', 'world.js', 'dphys.js', 'death_srv.js', ...Object.keys(MAP).filter(k => k.startsWith('server/'))]) {
     const p = T.at(n); if (fs.existsSync(p)) out.set(n, p);
+  }
+  /* (H3M-2) a server module made after the modernization has no old name: it is runtime under its own path (src/...) */
+  if (T.modern) {
+    const named = new Set([...out.values()].map(p => path.relative(T.root, p).split(path.sep).join('/')));
+    for (const f of T.serverFiles()) if (!named.has(f)) out.set(f, path.join(T.root, f));
   }
   return out;
 }
@@ -102,7 +114,7 @@ function projectOld(dir, outDir) {
   return [...R.keys()].sort();
 }
 const self = forTree(path.resolve(__dirname, '..', '..'));
-module.exports = Object.assign({ forTree, isModern, MAP, PATH_EDITS, runtimeOf, projectOld, webRoot: dir => forTree(dir).webRoot() }, { root: self.root, at: self.at, rel: self.rel, modern: self.modern, serverFiles: self.serverFiles });
+module.exports = Object.assign({ forTree, isModern, MAP, PATH_EDITS, runtimeOf, projectOld, webRoot: dir => forTree(dir).webRoot() }, { root: self.root, at: self.at, rel: self.rel, modern: self.modern, serverFiles: self.serverFiles, serverSource: self.serverSource });
 /* command line, for tools in other languages:  node dev/tools/layout.js at <old name> [--dir <tree>]   prints the absolute path */
 if (require.main === module) {
   const a = process.argv.slice(2), i = a.indexOf('--dir'), T = i >= 0 ? forTree(a[i + 1]) : self;

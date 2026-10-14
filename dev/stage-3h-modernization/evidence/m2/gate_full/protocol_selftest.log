@@ -1,0 +1,3 @@
+$ node dev/stage-3h/gate/protocol_v2.js selftest
+selftest: a valid 'hi' gives 0 violations; 'hi' with an extra key and an unknown type give 3
+PROTOCOL V2 SELFTEST: PASS

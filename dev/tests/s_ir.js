@@ -14,7 +14,7 @@ const LY = LONG.y;
 
 add('I1 infrared never reaches the simulation: ai.js / sim.js do not name it; server.js stores it on the connection, not on the player', () => {
   const code = f => fs.readFileSync(LAYOUT.at(f), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`])\/\/[^\n]*/g, '$1');   // code only: the comments may talk about infrared
-  const ai = code('ai.js'), sim = code('sim.js'), srv = fs.readFileSync(LAYOUT.at('server.js'), 'utf8');
+  const ai = code('ai.js'), sim = code('sim.js'), srv = LAYOUT.serverSource();   // (Stage 3H modernization, H3M-2: server.js and the modules split out of it)
   const IRWORDS = /\.ir\b|\birNet\b|\binfra|\bnvOn\b|__cam\b|\birLevel\b/;
   const aiHit = (ai.match(new RegExp(IRWORDS.source, 'g')) || []).length, simHit = (sim.match(new RegExp(IRWORDS.source, 'g')) || []).length;
   const onPlayer = /(player|\bp)\.ir\s*=/.test(srv), onConn = /me\.ir\s*=/.test(srv), sent = /ir:\s*c\.ir/.test(srv);

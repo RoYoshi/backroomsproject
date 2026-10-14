@@ -1,9 +1,9 @@
 {
- "note": "Every production change since the accepted B++ head (143b63f), by the file's old name, with the stage that made it and why. dev/tools/gate/scope_m.js fails on any runtime difference not listed here, and on a listed one that did not happen. Stage 3H2 made the first seven (its report, dev/stage-3h/3H2_REPORT.md); the engine modernization adds its own as it goes.",
+ "note": "Every production change since the accepted B++ head (143b63f), by the file's old name, with the stage that made it and why. dev/tools/gate/scope_m.js fails on any runtime difference not listed here, and on a listed one that did not happen. Stage 3H2 made the first seven (its report, dev/stage-3h/3H2_REPORT.md); the engine modernization adds its own as it goes. A server module made after the modernization has no old name: it is listed by its own path.",
  "base": "143b63ff42b88c6780c5043e0f61d64100f81f40",
  "runtime": {
   "changed": {
-   "server.js": "3H2 C-1 and C-2: NEW RUN's decision and the death aftermath moved to modules (server/newrun.js, server/aftermath.js). H3M-1: the web root is public/; the moved modules and the generated sim.js are required from their new paths",
+   "server.js": "3H2 C-1 and C-2: NEW RUN's decision and the death aftermath moved to modules (server/newrun.js, server/aftermath.js). H3M-1: the web root is public/; the moved modules and the generated sim.js are required from their new paths. H3M-2: the composition root; the movement authority, the rooms and the world reset, the admin panel's commands, the fresher poses and the loop moved to modules as they were (the move proof: dev/stage-3h-modernization/evidence/m2/); the configuration, the passcode, its check and lockout, and the session stay",
    "mp.js": "3H2 C-3 and C-4: NEW RUN's button and run-menu words, and the fluorescent hum, moved to assets/net-newrun.js and assets/mp-hum.js",
    "index.html": "3H2 C-3 and C-4: the two helper scripts are loaded",
    "death_srv.js": "H3M-1: its path to the built dphys.js (generated/server/dphys.js)",
@@ -14,7 +14,12 @@
    "server/newrun.js": "3H2 C-1: NEW RUN's decision, moved out of server.js",
    "server/aftermath.js": "3H2 C-2: the death aftermath and the NEW RUN blast, moved out of server.js",
    "assets/net-newrun.js": "3H2 C-3: NEW RUN's button and run-menu words, moved out of mp.js",
-   "assets/mp-hum.js": "3H2 C-4: the fluorescent hum, moved out of mp.js"
+   "assets/mp-hum.js": "3H2 C-4: the fluorescent hum, moved out of mp.js",
+   "src/frameworks/space/server/movement.js": "H3M-2: S.P.A.C.E., the movement authority (server.js's budget, walls, other players and placements), moved out of server.js as it was",
+   "src/core/server/rooms.js": "H3M-2: core, the rooms and the admin world reset, moved out of server.js as they were",
+   "src/frameworks/overseer/server/admin.js": "H3M-2: OVERSEER, the admin panel's commands, moved out of server.js as they were (the passcode check stays in server.js)",
+   "src/frameworks/bpp/server/poses.js": "H3M-2: B++, the fresher poses between two snapshots (Stage 3E-0 B+), moved out of server.js as it was",
+   "src/core/server/loop.js": "H3M-2: core, the loop's tick (the body of server.js's setInterval callback), moved out of server.js as it was"
   },
   "removed": {}
  },

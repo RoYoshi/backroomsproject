@@ -23,136 +23,27 @@ const FAST_GAP = 16;
 
 const srv = http.createServer(require('./src/frameworks/ward/server/static.js')(ROOT));   // Stage 3H0: the static file serving (the SERVE allowlist, MIME types, caching, gzip, /sounds).  fs, path and zlib are still required first, as before, though only server/static.js uses them now
 
-const rooms = new Map();
 let nextId = 1;
 const deathSrv = require('./src/frameworks/gib/server/death_srv.js');
 
-/* Movement validation.  Movement stays client-side; the server only refuses what a body cannot do.  Every player has a distance budget
- * that refills at VMAX px/s (the fastest legal motion - a sprint-slide or a fast vault - plus ~20 %) and holds at most BURST seconds of it,
- * so packets that arrive bunched after a lag spike still fit.  A move must fit the budget and not pass through walls (sim.moveOk).
- * A refused move leaves the server's position where it was; if the client keeps claiming somewhere else it is sent a correction.
- * Held in a capture the budget is small (the drag and a crawl); dead it is zero.  Server-side moves (spawn, respawn, admin tools) reset
- * it, with a short grace in which in-flight packets from before the move are ignored instead of corrected.  Admins are not checked:
- * their debug tools move them from the client.
- * Stage 3E-0 B++-0: in that grace a pose farther from the placed spot than the fastest legal motion (VMAX, + SLACK) could have carried
- * the player since the placement was sent before its client knew of it, and is ignored too - before, the refilled budget let such a
- * pose (a spot up to ~570 px back) through as an ordinary move and the placement was undone.  Any pose the client sends after it took
- * the placement is within that reach, so it is checked exactly as before. */
-const MV = { VMAX: 360, VHELD: 130, BURST: 1.5, SLACK: 28, SNAP: 220, GRACE: 900 };
-/* Stage 3D HQ2: living Wanderers are solid to each other (server/peers.js: D = 36 px, the drawn body).  Solid: in this room (each room
- * has its own clients), in a run, not dead, not out through a glitched wall, not held in a capture (a capture moves its victim; nothing
- * may block or be blocked by that).  A non-solid mover ignores the others; a solid one is checked against every other solid one, from
- * the server's own positions, on every accepted move - after the walls (walls always win); a long hop the walls allow only along a route
- * round them is swept along that route (sim.moveRoute, peers.sweepPath).  Spawns, respawns, admin teleports and the admin world reset
- * land where they always did unless a player stands on or next to that spot (within D + 8): then on the nearest free spot (peers.freeSpot:
- * clear of walls by 20 px and D + 8 from everyone).  A move the others cut short is accepted as far as it may go (peers.resolve); within 8 px of
- * the claim that is silent; the client is told where it really is with a soft correction ({t:'tp', x, y, pc:1}) when its claim is more
- * than 8 px off, or more than 2 px off for 0.3 s, at most every 0.3 s.  In the grace after a server-side placement such a move was sent
- * before it (back towards the old spot) and is ignored, as a refused one is.  The AI keeps hearing only what the server accepted. */
-const PEERS = require('./src/frameworks/space/server/peers.js'), PD = PEERS.D_BODY, NONE = [];
-const solidP = p => !!(p.active && !p.dead && !p.exited && !p.caught);
-function blockers(room, me) {
-  if (!solidP(me.player)) return NONE;
-  let out = null; for (const c of room.clients.values()) if (c !== me && solidP(c.player)) (out || (out = [])).push([c.player.x, c.player.y]);
-  return out || NONE;
-}
-function peerCorrect(me, miss, now) {
-  const v = me.mv;
-  if (miss <= 2) { v.pcSince = 0; return; }
-  if (!v.pcSince) v.pcSince = now;
-  if ((miss > 8 || now - v.pcSince > 300) && now - (v.pcAt || 0) > 300) { v.pcAt = now; v.pcSince = 0; me.peerCorr = (me.peerCorr | 0) + 1; send(me, { t: 'tp', x: Math.round(me.player.x), y: Math.round(me.player.y), pc: 1 }); }
-}
-function placeFree(room, me) {                                                  // a server-side placement: where it was put, unless someone stands on or next to it
-  const p = me.player, ps = blockers(room, me), need = (PD + 8) * (PD + 8);      // (within D + 8): then the nearest free spot; true if it moved
-  if (ps.every(q => (p.x - q[0]) * (p.x - q[0]) + (p.y - q[1]) * (p.y - q[1]) >= need)) return false;
-  const f = PEERS.freeSpot(p.x, p.y, ps, (x, y, r) => room.sim.clearAt(x, y, r), PD);
-  p.x = f.x; p.y = f.y; return f.moved;
-}
-function mvReset(me, grace = true) { const p = me.player; me.mv = { t: Date.now(), bud: MV.VMAX * MV.BURST, grace: grace ? Date.now() + MV.GRACE : 0, bad: 0, badAt: 0, paths: 0, pathT: 0, hist: [[Date.now(), p.x, p.y]], place: grace ? [p.x, p.y, Date.now()] : null }; p.obsV = 0; }   // (place: Stage 3E-0 B++-0, where and when the server put it)
-function mvAccept(me, x, y) {
-  const p = me.player, v = me.mv, now = Date.now();
-  v.hist.push([now, x, y]); while (v.hist.length > 2 && now - v.hist[1][0] >= 500) v.hist.shift();       // keeps the newest sample that is at least 0.5 s old as the base
-  const h0 = v.hist[0], el = (now - h0[0]) / 1000;
-  if (el >= .5) p.obsV = Math.hypot(x - h0[1], y - h0[2]) / el;            // what the server saw it do over at least 0.5 s (packets bunched by lag average out instead of spiking)
-  p.x = x; p.y = y;
-}
-function mvCheck(room, me, x, y) {
-  const p = me.player; if (!me.mv) mvReset(me, false);
-  const v = me.mv, now = Date.now(), dt = Math.min(MV.BURST, Math.max(0, (now - v.t) / 1000)); v.t = now;
-  const cap = p.dead ? 0 : p.caught ? MV.VHELD : MV.VMAX;
-  v.bud = Math.min(cap * MV.BURST, v.bud + cap * dt);
-  const d = Math.hypot(x - p.x, y - p.y);
-  const pl = v.place;                                                       // Stage 3E-0 B++-0: a pose from before a server placement (see MV): ignored, as a refused one in the grace is
-  if (pl && now < v.grace && now - pl[2] < MV.GRACE && Math.hypot(x - pl[0], y - pl[1]) > MV.VMAX * (now - pl[2]) / 1000 + MV.SLACK) { me.mvStale = (me.mvStale | 0) + 1; return false; }
-  let ok = d <= v.bud + MV.SLACK;
-  if (ok && d > 0) {                                                        // every accepted move keeps collision legality, however small (tiny steps must not add up through a wall)
-    let route = null;
-    if (d >= 120) { if (now - v.pathT > 1000) { v.pathT = now; v.paths = 0; } ok = ++v.paths <= 3 && (route = room.sim.moveRoute(p.x, p.y, x, y, v.bud + MV.SLACK)) !== null; }      // at most 3 route checks a second
-    else ok = room.sim.moveOk(p.x, p.y, x, y, v.bud + MV.SLACK);
-    if (ok) {                                                               // Stage 3D HQ2: then the other living players (server/peers.js)
-      const ps = blockers(room, me);
-      if (ps.length) {
-        const r = route && route.length                                     // a long hop allowed only round walls: swept along that route; else along the line
-          ? PEERS.sweepPath(p.x, p.y, route.concat([[x, y]]), ps, PD)
-          : PEERS.resolve(p.x, p.y, x, y, ps, PD, (ax, ay) => room.sim.moveOk(p.x, p.y, ax, ay, v.bud + MV.SLACK));
-        if (r.how !== 'free') {
-          if (now < v.grace) { me.mvRefused = (me.mvRefused | 0) + 1; return false; }   // just after a server-side placement: a packet sent before it (back towards the old spot) is ignored, as a refused one is
-          me.peerHits = (me.peerHits | 0) + 1;
-          v.bud = Math.max(-MV.SLACK, v.bud - Math.hypot(r.x - p.x, r.y - p.y)); v.bad = 0; mvAccept(me, r.x, r.y);
-          peerCorrect(me, Math.hypot(x - r.x, y - r.y), now);
-          return true;
-        }
-      }
-    }
-  }
-  if (ok) { v.bud = Math.max(-MV.SLACK, v.bud - d); v.bad = 0; v.pcSince = 0; mvAccept(me, x, y); return true; }       // the slack is a debt, not a free allowance per packet
-  me.mvRefused = (me.mvRefused | 0) + 1;
-  if (now < v.grace) return false;                                          // packets sent before a server-side move: ignore them
-  if (!v.bad) v.badAt = now; v.bad++;
-  if (d > MV.SNAP || now - v.badAt > 600) { v.bad = 0; v.grace = now + MV.GRACE; me.mvCorr = (me.mvCorr | 0) + 1; send(me, { t: 'tp', x: Math.round(p.x), y: Math.round(p.y) }); }
-  return false;
-}
+/* Stage 3H engine modernization (H3M-2): server.js is the server's composition root.  It keeps the configuration; the admin passcode, its
+ * check and its lockout; the WebSocket session below (the upgrade, each client's messages, its leaving); the requires the server always
+ * made, in their order; and the wiring.  Each other part lives with its owner, and is given what it uses (never requiring the server):
+ *   src/frameworks/space/server/movement.js   S.P.A.C.E.: the movement authority (the budget, the walls, the other players, placements)
+ *   src/core/server/rooms.js                  core: the rooms, and the admin world reset (a new world epoch)
+ *   src/frameworks/gib/server/aftermath.js    G.I.B.: the death aftermath and the NEW RUN blast (Stage 3H2 C-2)
+ *   src/frameworks/bpp/server/newrun.js       B++: NEW RUN's decision (Stage 3H2 C-1)
+ *   src/frameworks/overseer/server/admin.js   OVERSEER: the admin panel's commands
+ *   src/frameworks/bpp/server/poses.js        B++: the fresher poses between two snapshots (Stage 3E-0 B+)
+ *   src/core/server/loop.js                   core: the loop (the 60 Hz steps, the aftermath, the snapshots)
+ * The static files, the WebSocket framing and the checks on what clients send (Stage 3H0), and the players' bodies (peers.js), are
+ * required where they always were.  The session stays here because it holds the passcode check and its lockout: security code moves
+ * only with the owner's approval (dev/stage-3h-modernization/FINDINGS.md M-023). */
+const PEERS = require('./src/frameworks/space/server/peers.js');                     // (H3M-2: its PD and NONE are movement.js's)
 /* Stage 3H2 (C-2): the death aftermath - aftStart, aftOf, aftSend, aftTick (Stage 3D: one event per death, decided and finished by the
  * server), bodyAt and putBody (a corpse's age) - and the approved NEW RUN's blast (boomStart, Stage 3D HQ2) are server/aftermath.js, moved
  * there as they were.  It is required below, beside the other server modules, once send and HEX exist, and given deathSrv, send and HEX.
- * The events stay on the room (room.afts), so worldReset just below and the admin revive still end them in place. */
-/* Stage 3D HQ2 (H2-4): an admin world reset is a new world epoch for everyone.  In one step: the world's number goes up (sim.resetWorld,
- * which also clears every corpse); every death or NEW RUN blast still playing is dropped at once (no corpse will come of it); every
- * client is told {t:'world', w} - with x, y, where it now stands, if it is in a run - and then an 'end' for each dropped event; every
- * active player is brought back (sim.resetWorld respawns them, the dead included) onto a free spot, and told by tp as before.  A client
- * ends everything of the old world on its screen (mp.js worldNew) and ignores any death, blast or corpse message naming an older world.
- * The reset answers no NEW RUN, explodes nobody and starts nobody's cooldown. */
-function worldReset(room) {
-  const A = room.sim.admin, w0 = room.sim.worldSeq; A.resetWorld();
-  const w = room.sim.worldSeq, ends = [];
-  for (const a of room.afts || []) if (!a.body && a.world === w0) { a.body = true; a.dropped = 'world reset'; a.run = null; ends.push({ t: 'fx', k: 'end', id: a.id, de: a.de, wn: w }); }
-  for (const c of room.clients.values()) {
-    const msg = { t: 'world', w };
-    if (c.player.active) { placeFree(room, c); msg.x = Math.round(c.player.x); msg.y = Math.round(c.player.y); }
-    send(c, msg); for (const e of ends) send(c, e);
-    if (c.player.active) send(c, { t: 'tp', x: msg.x, y: msg.y });
-    mvReset(c);
-  }
-}
-/* a server-side move of a player (spawn, admin tools): set it, tell the client when asked, and restart the movement check from there */
-function moveTo(room, me, x, y, tell = true) {                                // (Stage 3D HQ2: onto a free spot near (x, y): never into another player)
-  Object.assign(me.player, { x, y }); placeFree(room, me); if (tell) send(me, { t: 'tp', x: Math.round(me.player.x), y: Math.round(me.player.y) }); mvReset(me);
-}
-/* Stage 3D HQ2: an admin's own moves skip the walls (its debug tools move it from its client), not the other players: a step is resolved
- * like anyone's; a jump (120 px or more: a teleport) is not swept - it lands where it was aimed unless that is inside a player (closer
- * than D), and then on the nearest free spot */
-function adminMove(room, me, x, y) {
-  const p = me.player, ps = blockers(room, me);
-  if (!ps.length) return mvAccept(me, x, y);
-  if (Math.hypot(x - p.x, y - p.y) < 120) {
-    const r = PEERS.resolve(p.x, p.y, x, y, ps, PD);
-    if (r.how !== 'free' && Date.now() < me.mv.grace) return;              // (as mvCheck: a packet sent before its own jump was moved is ignored)
-    mvAccept(me, r.x, r.y); if (r.how !== 'free') { me.peerHits = (me.peerHits | 0) + 1; peerCorrect(me, Math.hypot(x - r.x, y - r.y), Date.now()); } return;
-  }
-  if (ps.every(q => (x - q[0]) * (x - q[0]) + (y - q[1]) * (y - q[1]) >= PD * PD)) return mvAccept(me, x, y);
-  const f = PEERS.freeSpot(x, y, ps, (a, b, r) => room.sim.clearAt(a, b, r), PD);
-  mvAccept(me, f.x, f.y); if (f.moved) { me.mv.grace = Date.now() + MV.GRACE; send(me, { t: 'tp', x: f.x, y: f.y }); }
-}
+ * The events stay on the room (room.afts), so worldReset (src/core/server/rooms.js) and the admin revive (admin.js) still end them in place. */
 /* Stage 3H2 (C-1): NEW RUN's decision - nrIntent (the intent {t:'nr'} and its one answer {t:'nra'}) and NR_GAP (its 250 ms flood gap),
  * Stage 3D HQ2's, with HQ3's UNLIMITED NEW RUN - is server/newrun.js, moved there as it was.  It is required below, beside the other
  * server modules, once send exists, and given send and boomStart (the approved NEW RUN's explosion: server/aftermath.js). */
@@ -160,79 +51,12 @@ function adminMove(room, me, x, y) {
 const { frame, reader } = require('./src/frameworks/bpp/server/ws.js');   // Stage 3H0: the WebSocket framing (frame: what send() writes; reader: each socket's 'data' handler)
 const send = (c, obj) => { const f = frame(JSON.stringify(obj)); if (f && !c.sock.destroyed) c.sock.write(f); };
 const { num, kindOf, cleanParts, HEX, DEFAULT_LOOK, cleanLook } = require('./src/frameworks/ward/server/fields.js');   // Stage 3H0: the checks applied to what clients send
-const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./src/frameworks/gib/server/aftermath.js')({ deathSrv, send, HEX });   // Stage 3H2 (C-2): the death aftermath and the NEW RUN blast (see the note above worldReset)
-const { nrIntent } = require('./src/frameworks/bpp/server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see the note after adminMove)
+const { MV, PD, blockers, placeFree, mvReset, mvCheck, moveTo, adminMove } = require('./src/frameworks/space/server/movement.js')({ PEERS, send });   // H3M-2: S.P.A.C.E., the movement authority
+const { aftStart, aftOf, aftSend, aftTick, bodyAt, boomStart } = require('./src/frameworks/gib/server/aftermath.js')({ deathSrv, send, HEX });   // Stage 3H2 (C-2): the death aftermath and the NEW RUN blast (see its note above)
+const { nrIntent } = require('./src/frameworks/bpp/server/newrun.js')({ send, boomStart });   // Stage 3H2 (C-1): NEW RUN's decision (see its note above)
 
-function getRoom(name) {
-  let r = rooms.get(name);
-  if (!r) { const room = r = { name, clients: new Map(), sim: createSim({ bodyTtl: BODY_TTL, onDeath: p => { const c = room.clients.get(p.id); if (c) aftStart(room, c); } }), acc: 0, last: Date.now(), tick: 0, pf: { ms: 0, max: 0, snapB: 0, sense: 0, paths: 0, at: Date.now() } }; rooms.set(name, r); }
-  return r;
-}
-
-function adminCommand(room, me, m) {
-  const sim = room.sim, target = room.clients.get(m.id | 0), A = sim.admin;
-  const log = what => console.log(`[admin] room=${room.name} ${me.name}#${me.id}: ${what}`);
-  const res = (ok, msg) => send(me, { t: 'ares', ok: !!ok, msg: String(msg).slice(0, 90) });         // a one-line answer for the panel's status bar
-  const who = c => String(c.name || 'WANDERER').toUpperCase();
-  switch (m.c) {
-    case 'kick':
-      if (target && target !== me) { log(`kick ${target.name}#${target.id}`); res(true, 'KICKED ' + who(target)); send(target, { t: 'kick' }); setTimeout(() => { try { target.sock.write(Buffer.from([0x88, 0])); target.sock.end(); } catch (e) {} }, 150); }
-      break;
-    case 'revive': if (target) {
-      { const a = aftOf(room, target.id); if (a) { a.body = true; a.dropped = 'revived'; for (const c of room.clients.values()) if (c !== target) send(c, { t: 'fx', k: 'end', id: target.id, de: a.de }); } }   // Stage 3D: undone, so no corpse
-      log(`revive ${target.name}`); target.player.dead = ''; target.player.reviveOk = true; target.player.safe = 3; A.endPreview(target.player); send(target, { t: 'revive' }); res(true, 'REVIVED ' + who(target)); } break;
-    case 'god': if (target) { const on = A.god(target.player); log(`god ${target.name} -> ${on}`); res(true, 'GOD MODE ' + (on ? 'ON' : 'OFF') + ' · ' + who(target)); } break;
-    case 'bring': if (target && target !== me) { log(`bring ${target.name}`); const { x, y } = me.player; moveTo(room, target, x, y); res(true, 'BROUGHT ' + who(target)); } break;
-    case 'goto': if (target && target !== me) { log(`goto ${target.name}`); const { x, y } = target.player; moveTo(room, me, x, y); res(true, 'WENT TO ' + who(target)); } break;
-    case 'freeze': log(`freeze ${!!m.on}`); A.freeze(m.on); res(true, m.on ? 'WORLD FROZEN' : 'WORLD RUNNING'); break;
-    case 'speed': log(`speed ${m.v}`); A.speed(m.v); res(true, 'WORLD SPEED ×' + A.info().sp); break;
-    case 'blackout': log(`blackout ${m.mode}`); A.blackout(m.mode); res(true, 'LIGHTS: ' + (m.mode === 'on' ? 'BLACKOUT ON' : m.mode === 'off' ? 'BLACKOUT OFF' : 'AUTO')); break;
-    case 'hounds': {
-      const add = m.mode !== 'remove', want = Math.max(1, Math.min(10, m.n | 0 || 1)); let done = 0;
-      for (; done < want; done++) if (!(add ? A.addHound() : A.removeHound())) break;
-      const inf = A.info(); log(`hound ${add ? 'add' : 'remove'} x${want} -> ${done}`);
-      res(done > 0, done ? `${done} HOUND${done === 1 ? '' : 'S'} ${add ? 'ADDED' : 'REMOVED'} · ${inf.hn}/${inf.mh}` : (add ? `CANNOT ADD: LIMIT ${inf.mh} OR NO SPAWN SPOT` : 'NO HOUNDS TO REMOVE')); break;
-    }
-    case 'smilers': {
-      const add = m.mode !== 'remove', want = Math.max(1, Math.min(10, m.n | 0 || 1)); let done = 0;
-      for (; done < want; done++) if (!(add ? A.addSmiler() : A.removeSmiler())) break;
-      const inf = A.info(); log(`smiler ${add ? 'add' : 'remove'} x${want} -> ${done}`);
-      res(done > 0, done ? `${done} SMILER${done === 1 ? '' : 'S'} ${add ? 'ADDED' : 'REMOVED'} · ${inf.sn}/${inf.ms}` : (add ? `CANNOT ADD: LIMIT ${inf.ms} OR NO SPAWN SPOT` : 'NO SMILERS TO REMOVE')); break;
-    }
-    case 'glitch':
-      log(`glitch ${m.mode}`);
-      if (m.mode === 'new') { A.newGlitches(); res(true, 'GLITCHED WALLS MOVED'); }
-      else { const g = A.nearestGlitch(me.player.x, me.player.y); if (g) { const x = g.x - g.nx * 96, y = g.y - g.ny * 96; moveTo(room, me, x, y); res(true, 'AT THE NEAREST GLITCHED WALL'); } }
-      break;
-    case 'item':
-      log(`item ${m.mode}`);
-      if (m.mode === 'new') { A.newItem(); res(true, 'CARTOGRAPH MOVED'); }
-      else { const g = A.nearestItem(me.player.x, me.player.y); if (g) { const x = g.x + 70, y = g.y; moveTo(room, me, x, y); res(true, 'AT THE CARTOGRAPH'); } else res(false, 'THE CARTOGRAPH HAS BEEN TAKEN'); }
-      break;
-    case 'monsters': log('reset monsters'); A.resetMonsters(); res(true, 'MONSTERS RESPAWNED'); break;
-    case 'debug':
-      me.dbg = !!m.on; if (me.dbg) me.dbgSeq = Math.max(0, sim.logSeq - 14); log(`ai debug ${me.dbg}`); break;
-    case 'near': { const k = m.k === 'smiler' ? 'smiler' : 'hound', ok = A.addNear(k, me.player.x, me.player.y); log(`spawn ${k} near`); res(ok, ok ? k.toUpperCase() + ' PLACED NEAR YOU' : 'LIMIT REACHED OR NO SPOT NEARBY'); break; }
-    case 'summon': { const ok = A.summon(me.player.x, me.player.y, me.player.id); log('summon nearest hound'); res(ok, ok ? 'A HOUND IS COMING FOR YOU' : 'NO FREE HOUND TO SUMMON'); break; }
-    case 'preview': {                                                             // DEATHS tab: one chosen death on the admin, through the real kill path
-      const k = m.k === 'smiler' ? 'smiler' : 'hound', v = /^[ABCD]$/.test(m.var) ? m.var : 'A', r = A.previewKill(me.player, k, v);
-      log(`preview death ${k} ${v}: ${r.ok ? 'ok' : r.why}`); res(r.ok, r.ok ? `PLAYING ${k.toUpperCase()} ${v}` : String(r.why).toUpperCase()); break;
-    }
-    case 'capmode': { const cm = A.captureMode(m.mode); log(`capture style ${cm}`); res(true, 'CAPTURE STYLE: ' + (cm === 'quick' ? 'ALWAYS QUICK KILLS' : cm === 'play' ? 'ALWAYS PLAY WITH THE VICTIM' : 'AUTO (THE ENTITY DECIDES)')); break; }
-    case 'entgoto': { const e = A.entityAt(m.eid), s = e && A.spotNear(e.x, e.y); if (s) { moveTo(room, me, s.x, s.y); log(`goto entity ${m.eid}`); res(true, 'WENT TO ENTITY #' + (m.eid | 0)); } else res(false, 'NO SUCH ENTITY'); break; }
-    case 'nav': { const r = room.sim.navCmd(m.eid | 0, String(m.cmd || ''), me.player); log(`nav ${m.cmd} #${m.eid}`); res(!!r, r ? 'ENTITY #' + (m.eid | 0) + ': ' + r : 'NO SUCH ENTITY'); break; }
-    case 'entdel': { const ok = A.removeEntity(m.eid); log(`remove entity ${m.eid}`); res(ok, ok ? 'ENTITY #' + (m.eid | 0) + ' REMOVED' : 'NO SUCH ENTITY'); break; }
-    case 'world': {                                                             // (Stage 3D HQ2: the world epoch - see worldReset)
-      log('reset world'); worldReset(room); res(true, 'WORLD RESET FOR EVERYONE · NOBODY BLOWN UP · NO COOLDOWNS'); break;
-    }
-    case 'nrfree': {                                                            // Stage 3D HQ3: UNLIMITED NEW RUN - this admin's OWN NEW RUN skips the 30 s wait
-      me.nrFree = !!m.on;                                                       // (on this connection only: off by default, gone with it; never another player's; nrIntent asks me.admin too)
-      log(`unlimited new run ${me.nrFree ? 'on' : 'off'}`); send(me, { t: 'nrf', on: me.nrFree ? 1 : 0 });
-      res(true, me.nrFree ? 'UNLIMITED NEW RUN ON · YOUR OWN NEW RUN SKIPS THE 30 S WAIT' : 'UNLIMITED NEW RUN OFF · THE 30 S WAIT IS BACK'); break;
-    }
-    case 'msg': { const text = String(m.text || '').slice(0, 140).trim(); if (text) { log(`broadcast "${text}"`); for (const c of room.clients.values()) send(c, { t: 'msg', text, from: me.name }); res(true, 'SENT'); } break; }
-  }
-}
+const { rooms, getRoom, worldReset } = require('./src/core/server/rooms.js')({ createSim, BODY_TTL, aftStart, placeFree, mvReset, send });   // H3M-2: core, the rooms
+const { adminCommand } = require('./src/frameworks/overseer/server/admin.js')({ send, aftOf, moveTo, worldReset });   // H3M-2: OVERSEER, the admin panel's commands
 
 srv.on('upgrade', (req, sock) => {
   const url = new URL(req.url, 'http://x');
@@ -311,75 +135,7 @@ srv.on('upgrade', (req, sock) => {
   sock.on('close', bye); sock.on('error', bye);
 });
 
-/* Stage 3E-0 (B+): on a tick between two full snapshots, to every client in a run that asked for it: each OTHER active, living player whose
- * accepted position or heading changed since the last snapshot said it - its id, x, y, heading and nothing else (no cosmetics, no state:
- * those stay in the snapshot) - with the world epoch (w) and the tick (k).  Only players the last snapshot listed; nothing new: nothing sent */
-function poseSend(room) {
-  let ch = null;
-  for (const c of room.clients.values()) {
-    const s = c.snap; if (!s || !c.player.active || c.player.dead) continue;
-    const x = Math.round(c.player.x), y = Math.round(c.player.y), a = +c.angle.toFixed(2);
-    if (x !== s[0] || y !== s[1] || a !== s[2]) (ch || (ch = [])).push([c.id, x, y, a]);
-  }
-  if (!ch) return;
-  for (const c of room.clients.values()) {
-    if (!c.fp || !c.player.active) continue;
-    const p = ch.filter(q => q[0] !== c.id); if (p.length) send(c, { t: 'q', w: room.sim.worldSeq, k: room.tick, p });
-  }
-}
-
-setInterval(() => {
-  const now = Date.now();
-  for (const room of rooms.values()) {
-    const dt = Math.min(0.25, (now - room.last) / 1000); room.last = now;
-    room.acc += dt;
-    let n = 0; const h0 = process.hrtime.bigint();
-    while (room.acc >= 1 / 60 && n++ < 15) { room.sim.step(1 / 60); room.acc -= 1 / 60; }
-    if (n) { const per = Number(process.hrtime.bigint() - h0) / 1e6 / n; room.pf.ms += (per - room.pf.ms) * .05; room.pf.max = Math.max(per, room.pf.max * .995); }      // milliseconds per 60 Hz step (average / recent worst)
-    if (++room.tick % SNAP_EVERY) { poseSend(room); continue; }                 // (Stage 3E-0: between two snapshots, the fresher player poses)
-
-    for (const c of room.clients.values()) if (c.player.dead && c.player.kill && c.aftSeq !== c.player.dseq) aftStart(room, c);
-    aftSend(room); aftTick(room);
-    const ent = room.sim.entities();
-    const peers = [];
-    for (const c of room.clients.values()) {
-      if (!c.player.active) { c.snap = null; continue; }
-      const x = Math.round(c.player.x), y = Math.round(c.player.y), a = +c.angle.toFixed(2);
-      c.snap = c.player.dead ? null : [x, y, a];                               // (Stage 3E-0: what this snapshot says of it, for poseSend)
-      peers.push({ id: c.id, x, y, a,
-        n: c.name, c: c.color, d: c.player.dead ? 1 : 0, r: c.sprint,
-        k: c.player.equipment.kind, l: c.raised ?? c.player.light ? 1 : 0, ir: c.ir | 0, lk: c.look, lp: c.lp || '', f: c.fall === undefined ? -1 : c.fall,
-        mv: [c.player.st | 0, Math.round(c.player.sp || 0), Math.round(c.player.stamina == null ? 100 : c.player.stamina), c.player.ex | 0] });
-    }
-    const sendAd = room.tick % (SNAP_EVERY * ADMIN_EVERY) === 0;
-    const wantDbg = room.tick % (SNAP_EVERY * 3) === 0 && [...room.clients.values()].some(c => c.admin && c.dbg);
-    const dbgList = wantDbg ? room.sim.debugInfo() : null;
-    let dbgPerf = null;
-    if (wantDbg) {
-      const st = room.sim.engStats, nowT = Date.now(), dtp = Math.max(.2, (nowT - room.pf.at) / 1000);
-      room.pf.snapB = JSON.stringify({ p: peers, e: ent }).length;
-      dbgPerf = { ms: +room.pf.ms.toFixed(3), mx: +room.pf.max.toFixed(2), kb: +(room.pf.snapB / 1024).toFixed(2), se: Math.round((st.sense - room.pf.sense) / dtp), pa: Math.round((st.paths - room.pf.paths) / dtp), pl: peers.length };
-      room.pf.sense = st.sense; room.pf.paths = st.paths; room.pf.at = nowT;
-    }
-    let ad = null;
-    if (sendAd) ad = Object.assign(room.sim.admin.info(), { pl: [...room.clients.values()].map(c => ({ id: c.id, n: c.name, a: c.player.active ? 1 : 0, d: c.player.dead, g: c.player.god ? 1 : 0, ad: c.admin ? 1 : 0, st: c.player.st | 0, x: Math.round(c.player.x), y: Math.round(c.player.y) })) });
-    const bodyMsg = () => ({ t: 'bodies', v: room.sim.bodyVer, w: room.sim.worldSeq, b: [...room.sim.bodies.values()].map(r => bodyAt.has(r) ? Object.assign({}, r, { ag: Math.min(999, Math.round((now - bodyAt.get(r)) / 100) / 10) }) : r) });
-    let bm = null;
-    for (const c of room.clients.values()) {
-      if (c.player.exitSeq > c.exitSent) { c.exitSent = c.player.exitSeq; send(c, { t: 'exit', secs: Math.round(c.player.exitT || 0) }); }
-      if (c.bv !== room.sim.bodyVer) { c.bv = room.sim.bodyVer; send(c, bm || (bm = bodyMsg())); }
-      const msg = { t: 's', p: peers.filter(p => p.id !== c.id), e: ent, me: c.player.dead, ms: c.player.dseq, cp: room.sim.capInfo(c.player), w: room.sim.worldSeq };   // (w: Stage 3D HQ2, the world epoch)
-      if (c.player.dead && c.player.kill) msg.mk = c.player.kill;
-      if (c.fp) msg.k = room.tick;                                            // (Stage 3E-0: this tick, so its 'q' are known to be newer)
-      if (c.admin && ad) { msg.ad = ad; msg.you = c.id; msg.nf = c.nrFree ? 1 : 0; }   // (Stage 3D HQ3: nf - this admin's own UNLIMITED NEW RUN, as the server holds it)
-      if (c.admin && c.dbg && dbgList) {
-        msg.dbg = dbgList;
-        const lg = room.sim.logSince(c.dbgSeq | 0); if (lg.length) { c.dbgSeq = lg[lg.length - 1].s; }
-        msg.dx = { lg: lg.map(l => [l.s, l.t, l.x]), pf: dbgPerf };                    // event log (only what is new) + server timings
-      }
-      send(c, msg);
-    }
-  }
-}, TICK_MS);
+const { poseSend } = require('./src/frameworks/bpp/server/poses.js')({ send });   // H3M-2: B++, the fresher poses between two snapshots
+setInterval(require('./src/core/server/loop.js')({ rooms, poseSend, aftStart, aftSend, aftTick, bodyAt, send, SNAP_EVERY, ADMIN_EVERY }).tick, TICK_MS);   // H3M-2: core, the loop
 
 srv.listen(PORT, () => console.log(`The Far Backrooms → http://localhost:${PORT}  (share  ?room=NAME  to group up)`));

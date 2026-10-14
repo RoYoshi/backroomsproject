@@ -1,0 +1,128 @@
+{
+ "tool": "dev/stage-3h-modernization/tools/m2_free_names.js",
+ "base": "f2db9d8070661f810820d79f430429d24b6707ad",
+ "typescript": "6.0.3",
+ "files": {
+  "self-test: poses.js without its parameter": {
+   "undeclared": [
+    "send"
+   ],
+   "hostGlobals": [],
+   "language": [
+    "Math"
+   ],
+   "requiredModules": []
+  },
+  "server.js (at the base)": {
+   "undeclared": [],
+   "hostGlobals": [
+    "Buffer",
+    "URL",
+    "__dirname",
+    "console",
+    "process",
+    "setInterval",
+    "setTimeout"
+   ],
+   "language": [
+    "Date",
+    "JSON",
+    "Map",
+    "Math",
+    "Number",
+    "Object",
+    "String",
+    "isFinite"
+   ],
+   "requiredModules": [
+    "crypto",
+    "fs",
+    "http",
+    "path",
+    "zlib"
+   ]
+  },
+  "server.js": {
+   "undeclared": [],
+   "hostGlobals": [
+    "URL",
+    "__dirname",
+    "console",
+    "process",
+    "setInterval"
+   ],
+   "language": [
+    "Date",
+    "JSON",
+    "Map",
+    "Math",
+    "String",
+    "isFinite"
+   ],
+   "requiredModules": [
+    "crypto",
+    "fs",
+    "http",
+    "path",
+    "zlib"
+   ]
+  },
+  "src/frameworks/space/server/movement.js": {
+   "undeclared": [],
+   "hostGlobals": [],
+   "language": [
+    "Date",
+    "Math",
+    "Object"
+   ],
+   "requiredModules": []
+  },
+  "src/core/server/rooms.js": {
+   "undeclared": [],
+   "hostGlobals": [],
+   "language": [
+    "Date",
+    "Map",
+    "Math"
+   ],
+   "requiredModules": []
+  },
+  "src/frameworks/overseer/server/admin.js": {
+   "undeclared": [],
+   "hostGlobals": [
+    "Buffer",
+    "console",
+    "setTimeout"
+   ],
+   "language": [
+    "Math",
+    "String"
+   ],
+   "requiredModules": []
+  },
+  "src/frameworks/bpp/server/poses.js": {
+   "undeclared": [],
+   "hostGlobals": [],
+   "language": [
+    "Math"
+   ],
+   "requiredModules": []
+  },
+  "src/core/server/loop.js": {
+   "undeclared": [],
+   "hostGlobals": [
+    "process"
+   ],
+   "language": [
+    "Date",
+    "JSON",
+    "Math",
+    "Number",
+    "Object"
+   ],
+   "requiredModules": []
+  }
+ },
+ "ok": true,
+ "selfTest": true
+}
