@@ -9,12 +9,12 @@
  *       scope        only dev/stage-3h/, dev/devlog4dev/ and the allowed production files differ from B++ (tools/h1_scope_check.py)
  *       srv_golden   Stage 3H0's 11 server scenarios: B++'s server.js and the working tree's, byte for byte, and both against the B++
  *                    baseline (evidence/h1/golden/srv_traces); HTTP lines about files the stage changed on purpose are listed
- *       bpp_golden   the 6 B++ scenarios (caps/q, placement guard, its caveats, NEW RUN, NEW RUN while held), the same way, against
- *                    evidence/h2/golden/bpp_traces
+ *       bpp_golden   the 7 B++ scenarios (caps/q, placement guard, its caveats, NEW RUN, NEW RUN while held, the death aftermath), the
+ *                    same way, against evidence/h2/golden/bpp_traces
  *       cli_golden   Stage 3H0's 9 client scenes (mp.js in a real Chromium, fake clock): B++'s client against the working tree's, and
  *                    against evidence/h1/golden/cli_traces (plus, once C-3 is prepared, the B++ client scenes of cli_golden_h2.js)
  *       protocol     every message in those traces against the B++ protocol contract v2 (protocol_bpp.json), and the checker's selftest
- *       mutants      10 one-line server mutants, each must change a B++ golden (bpp_mutants.js): the goldens still see the code where it lives
+ *       mutants      18 one-line server mutants, each must change a B++ golden (bpp_mutants.js): the goldens still see the code where it lives
  *       static       real HTTP on a copy of the working tree's game: allowlist, blocked paths, favicon bytes (dev/stage-3e-0/static_check.js)
  *       raw_live     the B++ game and the working tree's, each a real server over raw TCP: every HTTP response and WebSocket check
  *                    (raw_live_h2.js)
@@ -64,7 +64,7 @@ const STEPS = {
     const n = j ? j.scenarios.length : 0, exp = j ? j.scenarios.flatMap(s => (s.baseline && s.baseline.expectedContentChanges || []).map(x => x.file)) : [];
     return { ok: r.exit === 0 && j && j.ok && n === 11, cases: n, note: exp.length ? 'HTTP lines about changed files: ' + [...new Set(exp)].join(', ') : 'identical to the baseline', r }; },
   bpp_golden: () => { const r = run('bpp_golden', ['node', 'dev/stage-3h/golden/bpp_golden.js', '--old-ref', BPP, '--repeat', '0', '--baseline', path.join(E2, 'bpp_traces'), '--out', o('bpp'), '--keep', o('bpp_keep')]); const j = J(o('bpp', 'bpp_golden_report.json'));
-    const n = j ? j.scenarios.length : 0; return { ok: r.exit === 0 && j && j.ok && n === 6 && j.scenarios.every(s => s.baseline && s.baseline.equal), cases: n, r }; },
+    const n = j ? j.scenarios.length : 0; return { ok: r.exit === 0 && j && j.ok && n === 7 && j.scenarios.every(s => s.baseline && s.baseline.equal), cases: n, r }; },
   cli_golden: () => { const r = run('cli_golden', ['node', 'dev/stage-3h0/golden/cli_golden.js', '--old-ref', BPP, '--baseline', path.join(E1, 'cli_traces'), '--out', o('cli'), '--keep', o('cli_keep')]); const j = J(o('cli', 'cli_golden_report.json'));
     const n = j ? j.scenes.length : 0; let ok = r.exit === 0 && j && j.ok && n === 9, cases = n, note = '';
     if (fs.existsSync(path.join(__dirname, '..', 'golden', 'cli_golden_h2.js'))) {          // the B++ client scenes (Stage 3H2, for C-3)
@@ -83,7 +83,7 @@ const STEPS = {
     return { ok: ok && read > 0, cases: read, note: 'messages checked; selftest ' + (self.exit === 0 ? 'PASS' : 'FAIL') };
   },
   mutants: () => { const r = run('mutants', ['node', 'dev/stage-3h/golden/bpp_mutants.js', '--out', o('mutants.json')]); const j = J(o('mutants.json'));
-    const n = j ? j.mutants.length : 0; return { ok: r.exit === 0 && j && j.ok && n >= 10, cases: n, note: j ? j.mutants.map(m => m.id + '@' + (m.file || '?')).filter(x => !/@server\.js$/.test(x)).join(' ') : '', r }; },
+    const n = j ? j.mutants.length : 0; return { ok: r.exit === 0 && j && j.ok && n >= 18, cases: n, note: j ? j.mutants.map(m => m.id + '@' + (m.file || '?')).filter(x => !/@server\.js$/.test(x)).join(' ') : '', r }; },
   static: () => { const g = wtGame(); const r = run('static', ['node', 'dev/stage-3e-0/static_check.js', '--game', g, '--ico', path.join(bppGame(), 'favicon.ico'), '--out', o('static.json')]); const j = J(o('static.json'));
     return { ok: r.exit === 0 && j && j.ok, cases: j && j.checks ? Object.keys(j.checks).length : 0, r }; },
   raw_live: () => { const r = run('raw_live', ['node', 'dev/stage-3h/golden/raw_live_h2.js', '--old-ref', BPP, '--new-dir', wtGame(), '--out', o('raw_live.json')]); const j = J(o('raw_live.json'));

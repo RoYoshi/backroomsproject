@@ -4,9 +4,10 @@
  *   (dev/stage-3h/golden/bpp_golden.js runs them all, old against new, and writes the baseline)
  *
  * Stage 3H0's eleven scenarios were written for the QA2 parent: they never ask 'caps', so they cannot see B+'s fresher poses or B++-0's
- * placement guard, and none of them reaches Stage 3D's NEW RUN decision.  These six do (3H1 wrote five; Stage 3H2's H2-0 added
- * bpp_new_run_held, which leaves the other five's traces byte for byte as they were), in the same fake-clock world (seeded randomness, fake
- * timers and sockets, the real sim), so the accepted B++ server's answers are pinned byte for byte:
+ * placement guard, and none of them reaches Stage 3D's NEW RUN decision.  These seven do (3H1 wrote five; Stage 3H2 added
+ * bpp_new_run_held at H2-0 and bpp_aftermath before C-2, each leaving the earlier traces byte for byte as they were), in the same
+ * fake-clock world (seeded randomness, fake timers and sockets, the real sim), so the accepted B++ server's answers are pinned byte for
+ * byte:
  *   bpp_caps_q        Fast and Mover ask {t:'caps', fp:1}; Old never asks; Odd asks with fp:0; Away asks in another room.  The Mover walks,
  *                     stops, walks again; a world reset; the Mover dies (an admin preview kill) and is removed from 'q'; Fast leaves.
  *                     Recorded: the caps answers, every 'q' and 's' (with k only for clients that asked), what Old, Odd and Away get
@@ -25,6 +26,9 @@
  *                     Runner, an admin not in god mode, sets the capture style to "play", places a Hound near itself and summons it; once
  *                     a snapshot says it is held (s.cp), it presses NEW RUN, and again 300 ms later (both refused: held); then the hold
  *                     plays out to its end
+ *   bpp_aftermath     the death aftermath in every phase (the comment above the scenario lists them): forfeit, late joiners with and
+ *                     without el, a revive's cancel, a world reset's drop, a victim gone mid-death, a blast a revive does not cancel,
+ *                     one aftermath per player, the drop by a world a rejoin starts, bodies' ages
  * Coordinates are the ones B++-0's evidence used on the real server (dev/stage-3e-0-bpp/evidence/p0), chosen with the real sim's geometry.
  * The helpers P, MV and walk are copies of srv_scenarios.js's (that file exports only its scenarios). */
 'use strict';
@@ -191,5 +195,90 @@ module.exports = {
     H.note('a second press while still held, 300 ms later'); still(4); R.send({ t: 'nr', q: 2, w: world() }); still(8);
     for (let i = 0; i < 200; i++) still(1);
     coverage(H, [Q.A, R]);
+  },
+  /* Stage 3H H2 (before C-2): the death aftermath in every phase (server.js aftStart / aftSend / aftTick / aftOf, putBody / bodyAt,
+   * boomStart's blast, worldReset's drop, the disconnect's forfeit), several of which no earlier golden reaches: a capture walked out of
+   * (forfeit); late joiners at about 0.1 s (no el), 0.35 s and 1.3 s (el); an admin revive cancelling a death that is playing (an end
+   * to everyone else, no corpse); a death dropped by an admin world reset (an end naming the new world), then a late joiner (nothing
+   * replayed); a victim that disconnects while its death plays (the server still places the corpse); a NEW RUN blast an admin revive
+   * does not cancel; a second death of the same player dropping the first (one aftermath per player); a death dropped by the world its
+   * own rejoin starts (no corpse, no end); a late joiner's bodies with their ages */
+  async bpp_aftermath(H) {
+    /* 0: a capture walked out of.  First, in a room of its own, exactly bpp_new_run_held's inputs up to the capture (same fresh harness,
+     * same world, same random stream: the Hound holds the Runner at the same step), then the Runner disconnects while held */
+    {
+      const room = 'bppf', Q = quietAdmin(H, room, '203.0.113.110'); Q.clear(); H.advance(100);
+      const R = player(H, room, '203.0.113.111', 'Runner', 504, 888, 1);
+      const still = n => { for (let i = 0; i < n; i++) { H.advance(25); R.send(P(504, 888, { n: 'Runner', mv: MV(0, 0) })); } };
+      still(20);
+      R.send({ t: 'admin', pass: PASS, quiet: 1 }); H.advance(30);
+      H.note('0: the Runner (an admin, not in god mode): capture style "play", a Hound near it, summoned (bpp_new_run_held\'s inputs)');
+      R.send({ t: 'a', c: 'capmode', mode: 'play' }); still(4);
+      R.send({ t: 'a', c: 'near', k: 'hound' }); still(4);
+      R.send({ t: 'a', c: 'summon' });
+      let n = 0; while (n < 2400) { still(1); n++; const s = R.last('s'); if (s && s.cp) break; }
+      H.note('held after ' + n + ' steps of 25 ms: ' + JSON.stringify((R.last('s') || {}).cp || null));
+      still(8);
+      H.note('the Runner disconnects while held: the capture is forfeited - a death, its aftermath recorded before the client goes; a client connecting 1 s later gets the replay with el; the server places the corpse');
+      R.close(); for (let i = 0; i < 40; i++) H.advance(25);
+      const L = H.connect('/ws?room=' + room, { ip: '203.0.113.112', label: 'Late0' }); for (let i = 0; i < 20; i++) H.advance(25); L.close();
+      for (let i = 0; i < 480; i++) H.advance(25);
+      Q.A.send({ t: 'a', c: 'capmode', mode: 'auto' }); H.advance(30);
+      coverage(H, [Q.A, R, L]); Q.A.close(); H.advance(100);
+    }
+
+    const room = 'bppa', Q = quietAdmin(H, room, '203.0.113.120'); Q.clear(); H.advance(100);
+    const at = new Map(), all = [Q.A], open = new Set();
+    let ipn = 121;
+    const join = (label, x, y) => { const c = player(H, room, '203.0.113.' + (ipn++), label, x, y, 1); at.set(c, [x, y]); open.add(c); all.push(c); return c; };
+    /* every 25 ms, each joined and still connected player sends where it stands (a real page's cadence; the dead too) */
+    const tick = n => { for (let i = 0; i < n; i++) { H.advance(25); for (const c of open) { const [x, y] = at.get(c); c.send(P(x, y, { n: c.cid, mv: MV(0, 0) })); } } };
+    /* a client that connects (in the menu, never joining), stays a moment and leaves: the room holds 8 sockets at most */
+    const late = (label, stay = 20) => { const c = H.connect('/ws?room=' + room, { ip: '203.0.113.' + (ipn++), label }); all.push(c); tick(stay); c.close(); return c; };
+    const close = c => { c.close(); open.delete(c); };
+    const placed = c => { const tp = c.last('tp'); if (tp) at.set(c, [tp.x, tp.y]); };          // after a server-side move (world reset, a moved spawn)
+    const W = join('Watch', 800, 888);
+    const M = H.connect('/ws?room=' + room, { ip: '203.0.113.200', label: 'Menu' }); all.push(M);   // connected all along, never joins: a replay goes to every client
+    Q.god(W.id); H.advance(300);
+    let V = null;
+    /* a victim: an admin (its own death previews) in god mode - no entity left over from an earlier preview can kill it; a preview
+     * still does (sim.previewKill works through god mode) */
+    const victim = label => { V = join(label, 504, 888); V.send({ t: 'admin', pass: PASS, quiet: 1 }); H.advance(30); Q.god(V.id); tick(12); placed(V); return V; };
+    const dead = () => { const s = V.last('s'); return !!(s && s.me); };
+    const waitDead = () => { let n = 0; while (n < 1200 && !dead()) { tick(1); n++; } H.note(V.cid + ' dead after ' + n + ' steps of 25 ms'); };
+    const respawn = () => { V.send({ t: 'respawn' }); H.advance(60); V.send(P(504, 888, { n: V.cid })); at.set(V, [504, 888]); tick(2); placed(V); tick(10); };
+    tick(20);
+
+    victim('V1');
+    H.note('1: V1 dies (an admin preview on itself: hound A); clients connect about 0.1 s (the replay without el), 0.35 s and 1.3 s (with el) after the death is seen; it plays out: the server places the corpse and the hound where the death left it');
+    V.send({ t: 'a', c: 'preview', k: 'hound', var: 'A' }); waitDead();
+    tick(4); late('Late1a', 10); late('Late1b', 10); tick(28); late('Late1c'); tick(440);
+
+    H.note('2: V1 respawns and dies again (preview smiler A); 0.6 s into the death the quiet admin revives it: an end to everyone else, no corpse');
+    respawn(); V.send({ t: 'a', c: 'preview', k: 'smiler', var: 'A' }); waitDead(); tick(24);
+    Q.A.send({ t: 'a', c: 'revive', id: V.id }); tick(8); respawn(); tick(480);
+
+    H.note('3: V1 dies (preview hound B); 0.5 s into it an admin world reset drops it (an end naming the new world); a client connecting after it gets no replay');
+    V.send({ t: 'a', c: 'preview', k: 'hound', var: 'B' }); waitDead(); tick(20);
+    Q.A.send({ t: 'a', c: 'world' }); H.advance(60); for (const c of open) placed(c); tick(8); late('Late3'); tick(300);
+
+    H.note('4: V1 dies (preview smiler B) and disconnects 0.5 s into it; a client connecting 1 s later still gets the replay (el); the server places the corpse');
+    V.send({ t: 'a', c: 'preview', k: 'smiler', var: 'B' }); waitDead(); tick(20); close(V); tick(40); late('Late4'); tick(460);
+
+    H.note('6: the Watcher, an admin with UNLIMITED NEW RUN on, presses NEW RUN: the blast replay to everyone; 0.3 s into it the quiet admin revives the Watcher (a blast is never cancelled); a client connecting 1 s later gets it with el; the Boom corpse.  The Watcher stays in the menu');
+    W.send({ t: 'admin', pass: PASS, quiet: 1 }); H.advance(30); W.send({ t: 'a', c: 'nrfree', on: 1 }); H.advance(30);
+    W.send({ t: 'nr', q: 1, w: (W.last('s') || {}).w || 0 }); tick(12); Q.A.send({ t: 'a', c: 'revive', id: W.id }); tick(28); late('Late6'); tick(300);
+
+    H.note('7: V3 joins (nobody else in a run: its join starts a new world); dies (preview hound A), respawns 1 s into the death and dies again (preview hound C): the first aftermath is dropped for the second (one per player), one corpse');
+    victim('V3'); V.send({ t: 'a', c: 'preview', k: 'hound', var: 'A' }); waitDead(); tick(40);
+    respawn(); V.send({ t: 'a', c: 'preview', k: 'hound', var: 'C' }); waitDead(); tick(480);
+
+    H.note('8: V3, alone in a run, dies (preview smiler A), leaves for the menu 0.5 s into the death and joins again: its join starts a new world, and the tick drops the death still playing (no corpse, no end)');
+    respawn(); V.send({ t: 'a', c: 'preview', k: 'smiler', var: 'A' }); waitDead(); tick(20);
+    V.send({ t: 'leave' }); tick(4); V.send({ t: 'join' }); H.advance(30); V.send(P(504, 888, { n: V.cid, mv: MV(0, 0) })); at.set(V, [504, 888]); tick(2); placed(V); tick(320);
+
+    H.note('9: V3 dies once more and its corpse is made; a last client connects: the bodies, with their ages');
+    V.send({ t: 'a', c: 'preview', k: 'hound', var: 'D' }); waitDead(); tick(480); late('Late9');
+    coverage(H, all);
   },
 };

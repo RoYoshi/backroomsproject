@@ -7,7 +7,7 @@
  },
  "serverToClient": {
   "hi": {
-   "seen": 62,
+   "seen": 77,
    "paths": {
     ".": {
      "kinds": [
@@ -38,7 +38,7 @@
    }
   },
   "bodies": {
-   "seen": 114,
+   "seen": 161,
    "paths": {
     ".": {
      "kinds": [
@@ -326,7 +326,7 @@
    }
   },
   "s": {
-   "seen": 15830,
+   "seen": 24266,
    "paths": {
     ".": {
      "kinds": [
@@ -2366,6 +2366,7 @@
     },
     ".mk.w": {
      "kinds": [
+      "array",
       "number"
      ],
      "keyOrders": []
@@ -2597,6 +2598,12 @@
       "number"
      ],
      "keyOrders": []
+    },
+    ".mk.w[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
     }
    }
   },
@@ -2626,7 +2633,7 @@
    }
   },
   "admin": {
-   "seen": 39,
+   "seen": 45,
    "paths": {
     ".": {
      "kinds": [
@@ -2664,7 +2671,7 @@
    }
   },
   "ares": {
-   "seen": 183,
+   "seen": 230,
    "paths": {
     ".": {
      "kinds": [
@@ -2695,7 +2702,7 @@
    }
   },
   "tp": {
-   "seen": 52,
+   "seen": 54,
    "paths": {
     ".": {
      "kinds": [
@@ -2758,7 +2765,7 @@
    }
   },
   "fx": {
-   "seen": 34,
+   "seen": 75,
    "paths": {
     ".": {
      "kinds": [
@@ -2766,8 +2773,11 @@
      ],
      "keyOrders": [
       "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf",
+      "t,k,id,c,x,y,a,sx,sy,v,w,lk,ek,ec,ep,vx,vy,ex,srv,de,wn,lo,lf,el",
+      "t,k,id,de",
       "t,k,id,de,wn",
-      "t,k,id,x,y,a,d,s,lk,ek,ec,ep,vx,vy,srv,de,wn,lo,lf"
+      "t,k,id,x,y,a,d,s,lk,ek,ec,ep,vx,vy,srv,de,wn,lo,lf",
+      "t,k,id,x,y,a,d,s,lk,ek,ec,ep,vx,vy,srv,de,wn,lo,lf,el"
      ]
     },
     ".t": {
@@ -2832,6 +2842,7 @@
     },
     ".w": {
      "kinds": [
+      "array",
       "number"
      ],
      "keyOrders": []
@@ -2914,6 +2925,12 @@
      ],
      "keyOrders": []
     },
+    ".el": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    },
     ".d": {
      "kinds": [
       "number"
@@ -2925,11 +2942,17 @@
       "number"
      ],
      "keyOrders": []
+    },
+    ".w[]": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
     }
    }
   },
   "world": {
-   "seen": 13,
+   "seen": 17,
    "paths": {
     ".": {
      "kinds": [
@@ -3017,7 +3040,7 @@
    }
   },
   "revive": {
-   "seen": 1,
+   "seen": 3,
    "paths": {
     ".": {
      "kinds": [
@@ -3061,7 +3084,7 @@
    }
   },
   "caps": {
-   "seen": 15,
+   "seen": 19,
    "paths": {
     ".": {
      "kinds": [
@@ -3086,7 +3109,7 @@
    }
   },
   "q": {
-   "seen": 27,
+   "seen": 31,
    "paths": {
     ".": {
      "kinds": [
@@ -3134,8 +3157,33 @@
     }
    }
   },
+  "nrf": {
+   "seen": 3,
+   "paths": {
+    ".": {
+     "kinds": [
+      "object"
+     ],
+     "keyOrders": [
+      "t,on"
+     ]
+    },
+    ".t": {
+     "kinds": [
+      "string"
+     ],
+     "keyOrders": []
+    },
+    ".on": {
+     "kinds": [
+      "number"
+     ],
+     "keyOrders": []
+    }
+   }
+  },
   "nra": {
-   "seen": 11,
+   "seen": 12,
    "paths": {
     ".": {
      "kinds": [
@@ -3184,31 +3232,6 @@
      "keyOrders": []
     },
     ".wait": {
-     "kinds": [
-      "number"
-     ],
-     "keyOrders": []
-    }
-   }
-  },
-  "nrf": {
-   "seen": 2,
-   "paths": {
-    ".": {
-     "kinds": [
-      "object"
-     ],
-     "keyOrders": [
-      "t,on"
-     ]
-    },
-    ".t": {
-     "kinds": [
-      "string"
-     ],
-     "keyOrders": []
-    },
-    ".on": {
      "kinds": [
       "number"
      ],
@@ -3619,6 +3642,6 @@
    }
   }
  },
- "messagesRead": 17323,
+ "messagesRead": 25933,
  "wideObjects": []
 }

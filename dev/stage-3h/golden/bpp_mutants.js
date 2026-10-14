@@ -27,6 +27,17 @@ const MUTANTS = [
   { id: 'nr_no_memory', scenarios: ['bpp_new_run'], find: 'me.nr = { q, ans }; send(me, ans);', repl: 'send(me, ans);', why: 'a repeated press decided again instead of answered again' },
   { id: 'nr_free_off', scenarios: ['bpp_new_run'], find: 'free = !!(me.admin && me.nrFree);', repl: 'free = false;', why: "an admin's UNLIMITED NEW RUN ignored" },
   { id: 'nr_held_free', scenarios: ['bpp_new_run_held'], find: "if(L===`held`)return`held`;", repl: "if(L===`held`)return``;", why: "a NEW RUN pressed while held is no longer refused (sim.nrWhy)" },
+  /* Stage 3H2, before C-2: the death aftermath (bpp_aftermath).  (Not here: putBody's Math.min(Date.now(), at) - a corpse's age from its
+   * death's end rather than from when the tick placed it.  The two differ by under 50 ms, and in the closed world a death's end falls on
+   * the very snapshot tick that places its corpse, so the golden cannot see the difference: the mutant was tried and missed.) */
+  { id: 'aft_el_half', scenarios: ['bpp_aftermath'], find: 'send(c, el > .25 ?', repl: 'send(c, el > .5 ?', why: "a late joiner's replay says how far it has run only after 0.5 s instead of 0.25 s" },
+  { id: 'aft_every_tick', scenarios: ['bpp_aftermath'], find: 'if (!a.sent.has(c.id)) { a.sent.add(c.id); send(c, el', repl: 'if (!a.sent.has(c.id)) { send(c, el', why: 'the replay sent on every snapshot tick instead of once to each client' },
+  { id: 'aft_victim_replay', scenarios: ['bpp_aftermath'], find: 'sent: new Set([c.id]), body: false, info, run });', repl: 'sent: new Set(), body: false, info, run });', why: 'the victim is sent its own death replay too' },
+  { id: 'aft_one_per_player', scenarios: ['bpp_aftermath'], find: 'room.afts = (room.afts || []).filter(a => a.id !== c.id);', repl: 'room.afts = (room.afts || []);', why: "a player's second death no longer drops its first" },
+  { id: 'aft_world_tick', scenarios: ['bpp_aftermath'], find: "if (room.sim.worldSeq !== a.world) { a.body = true; a.dropped = 'world reset'; continue; }", repl: "if (false) { a.body = true; a.dropped = 'world reset'; continue; }", why: 'a death from a world that is gone plays on and leaves a corpse' },
+  { id: 'aft_killer_end', scenarios: ['bpp_aftermath'], find: "if (a.kill.k === 'Hound' && room.sim.killerEnd)", repl: "if (false && a.kill.k === 'Hound' && room.sim.killerEnd)", why: "the Hound is not placed where the death left it" },
+  { id: 'aft_boom_revive', scenarios: ['bpp_aftermath'], find: '(room.afts || []).find(a => a.id === id && !a.body && !a.boom)', repl: '(room.afts || []).find(a => a.id === id && !a.body)', why: 'an admin revive also cancels a NEW RUN blast' },
+  { id: 'aft_revive_end', scenarios: ['bpp_aftermath'], find: "if (c !== target) send(c, { t: 'fx', k: 'end', id: target.id, de: a.de });", repl: "if (false) send(c, { t: 'fx', k: 'end', id: target.id, de: a.de });", why: 'a revived death is not ended on the other screens' },
 ];
 const SERVER_SIDE = ['server.js', 'sim.js', 'ai.js', 'world.js', 'death_srv.js', 'dphys.js'];
 const sha = b => crypto.createHash('sha256').update(b).digest('hex');

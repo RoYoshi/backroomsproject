@@ -1,0 +1,39 @@
+# Stage 3H2, before C-2: the death aftermath pinned in every phase (no game change)
+# $SP is the session's scratch folder; B++ = 143b63f; parent checkpoint C-1 = 91a785f
+
+## coverage before (3H1's audit and the traces themselves): what no golden reached
+the eleven 3H0 traces and six B++ traces were searched for the aftermath's messages: a late joiner's replay with el: none; an admin
+revive's end (an fx end without wn): none (the 3H0 'deaths' scenario revives after the death has ended); a forfeit while held: not
+pinned as such; the drop by a world a rejoin starts, a blast a revive does not cancel, one aftermath per player: none
+
+## the scenario (golden/srv_scenarios_bpp.js: bpp_aftermath), written and run on the B++ export first
+node dev/stage-3h0/golden/srv_harness.js --src $SP/h1/game/server.js --dir $SP/h1/game --scenario bpp_aftermath --scenarios <draft>   x3
+  identical bytes each time (SHA-256 3ba6305b668cf812...); every phase observed in the trace:
+  0 forfeit: held after 950 steps (bpp_new_run_held's inputs, its own room), disconnected while held -> Hound B death, the replay to
+    the room, a client 1 s later gets it with el 1.03, the corpse placed
+  1 late joiners: 0.15 s no el; 0.42 s el 0.42; 1.37 s el 1.37; the corpse and the hound placed
+  2 revive 0.6 s into a death: an end (no wn) to every other client, none to the victim; no corpse
+  3 admin world reset 0.5 s into a death: an end with wn to every client; a client connecting after: no replay
+  4 victim disconnects 0.5 s into its death: a client 1 s later gets the replay (el 1.59); the corpse placed
+  6 NEW RUN blast, an admin revive 0.3 s into it: no end (a blast is never cancelled); a client 1 s later gets it (el 1.03); Boom corpse
+  7 a second death 1.4 s after the first: the first dropped (no corpse), one corpse
+  8 the only player in a run dies, leaves and rejoins: the new world drops the death (no corpse, no end)
+  9 a late joiner's bodies with their ages
+  (the draft's first two versions failed to reach phases 5/7: the room's 8-socket cap refused late joiners, and an entity left over
+  from a preview killed an unprotected victim; late joiners now leave again, victims are in god mode except the forfeit's Runner)
+
+node dev/stage-3h/golden/bpp_golden.js --old-ref 143b63f --repeat 2 --out $SP/h2/bpp7 --write-baseline        exit 0
+  7/7 identical, deterministic; the six earlier traces byte-identical to evidence/h2/golden/bpp_traces; bpp_aftermath's SHA-256 is the
+  one recorded on the B++ export above -> evidence/h2/golden/bpp_traces (hashes.json now 7), bpp_golden_report_7.json
+
+## mutants (golden/bpp_mutants.js): nine aftermath mutants tried (mutants_aftermath_first_run.json)
+caught: aft_el_half, aft_every_tick, aft_victim_replay, aft_one_per_player, aft_world_tick, aft_killer_end, aft_boom_revive,
+aft_revive_end; missed: aft_body_age (a corpse's age from its placement rather than its death's end: under 50 ms, and in the closed
+world a death ends on the very tick that places its corpse) -> left out of the list, with the reason in the tool; 18 mutants in all
+
+## the protocol contract v2, re-derived with the seventh trace (gate/protocol_bpp.json): 17,323 -> 25,933 messages
+new B++ shapes now in the contract: fx with el (a late joiner's replay), fx end without wn (a revive), fx.w and s.mk.w as an array
+(the Hound C wall kill); nothing else changed
+
+## the gate on the C-1 tree, with the seven goldens and 18 mutants
+node dev/stage-3h/gate/h2_gate.js --tier fast --allow-prod server.js,server/newrun.js --out $SP/h2/aft/gate_fast      exit 0  PASS

@@ -22,10 +22,10 @@ node dev/stage-3h/gate/h2_gate.js --tier full --allow-prod <every production fil
 | build | `ai.js`, `ents.js`, `sim.js` rebuild byte for byte from their sources | the working tree's own sources |
 | scope | only `dev/stage-3h/`, `dev/devlog4dev/` and the declared production files differ | B++ |
 | srv_golden | Stage 3H0's 11 server scenarios (closed world: fake clock, seeded randomness): every socket byte, HTTP response, timer, console line and sim call | B++'s `server.js` run beside it, and the stored B++ baseline `evidence/h1/golden/srv_traces` |
-| bpp_golden | the 6 B++ scenarios: caps/q, the placement guard and its caveats, NEW RUN, NEW RUN while held | the stored B++ baseline `evidence/h2/golden/bpp_traces` |
+| bpp_golden | the 7 B++ scenarios: caps/q, the placement guard and its caveats, NEW RUN, NEW RUN while held, the death aftermath in every phase | the stored B++ baseline `evidence/h2/golden/bpp_traces` |
 | cli_golden | Stage 3H0's 9 client scenes: `mp.js` in a real Chromium with a fake clock, every send, DOM change and draw call | B++'s `mp.js`, and `evidence/h1/golden/cli_traces` |
 | protocol | every message in those traces matches the B++ protocol contract v2 (exact JSON paths, value kinds and key orders, both directions); the checker's own selftest | `protocol_bpp.json`, derived from the B++ traces |
-| mutants | 10 one-line server mutants: each must change a B++ golden. The mutated text is found wherever the code now lives, so the goldens are shown to see code moved into `server/*.js` | the unmutated copy |
+| mutants | 18 one-line server mutants: each must change a B++ golden. The mutated text is found wherever the code now lives, so the goldens are shown to see code moved into `server/*.js` | the unmutated copy |
 | static | real HTTP on a copy of the game: the allowlist, blocked paths, the favicon bytes | B++'s favicon |
 | raw_live | each game as a real server over raw TCP: every HTTP response (status, headers, body) and the WebSocket checks | the B++ export |
 | quick_suites | the suites that read `server.js`'s or `mp.js`'s own text (`s_humanqa_hotfix` X02/X03, `s_ir` I1, `interp_test`) and the quick ones (`test_3bn`, `ir_net`), every failure classified | the B++ record `known_failures_bpp.json` |

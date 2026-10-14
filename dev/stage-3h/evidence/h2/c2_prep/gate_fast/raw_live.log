@@ -1,0 +1,4 @@
+$ node dev/stage-3h/golden/raw_live_h2.js --old-ref 143b63ff42b88c6780c5043e0f61d64100f81f40 --new-dir /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/aft/gate_fast/game_candidate --out /tmp/claude-0/-home-claude-backroomsproject/37ab7551-4b4f-57e9-9075-d4ed7a3d3e56/scratchpad/h2/aft/gate_fast/raw_live.json
+HTTP wall time (reported only): old 603 ms, new 543 ms
+raw live (the old ref against a folder): 116 HTTP exchanges, 25 WebSocket checks: identical
+RAW LIVE: PASS
